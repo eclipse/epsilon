@@ -12,13 +12,13 @@
 \usepackage[colorlinks]{hyperref}
 \usepackage{listings}
 \usepackage{setspace}
-\usepackage{pdflscape}
+%\usepackage{pdflscape}
+\usepackage{rotating}
 \usepackage{soul}
 \usepackage{color}
 \usepackage{longtable}
 \usepackage{multirow}
 \usepackage{eso-pic}
-\usepackage{rotating}
 \usepackage{subscript}
 \usepackage{tikz}
 \usepackage{array}
@@ -68,6 +68,10 @@
 \newcommand*{\javaannotation}[1]{\texttt{@#1}}
 \tabulinesep = 0.2cm
 
+%\makeatletter
+%\g@addto@macro{\sidewaysfigure}{\PLS@Rotate{90}}
+%\g@addto@macro{\endsidewaysfigure}{\PLS@Rotate{0}}
+%\makeatother
 \begin{document} 
 
 \pagestyle{empty}

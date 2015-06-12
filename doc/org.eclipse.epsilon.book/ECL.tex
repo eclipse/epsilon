@@ -22,14 +22,14 @@ In ECL, comparison specifications are organized in modules (\emph{EcLModule}). A
 
 \emph{MatchRules} enable users to perform comparison of model elements at a high level of abstraction. Each match-rule declares a name, and two parameters (\emph{leftParameter} and \emph{rightParameter}) that specify the types of elements it can compare. It also optionally defines a number of rules it inherits (\emph{extends}) and if it is \emph{abstract}, \emph{lazy} and/or \emph{greedy}. The semantics of the latter are discussed shortly.
 
-\begin{landscape}
-\begin{figure}
+%\begin{landscape}
+\begin{sidewaysfigure}
 	\centering
 		\includegraphics{images/EclAbstractSyntax.png}
 	\caption{ECL Abstract Syntax}
 	\label{fig:ECL}
-\end{figure}
-\end{landscape}
+\end{sidewaysfigure}
+%\end{landscape}
 
 A match rule has three parts. The \emph{guard} part is an EOL expression or statement block that further limits the applicability of the rule to an even narrower range of elements than that specified by the \emph{left} and \emph{right} parameters. The \emph{compare} part is an EOL expression or statement block that is responsible for comparing a pair of elements and deciding if they match or not. Finally, the \emph{do} part is an EOL expression or block that is executed if the \emph{compare} part returns true to perform any additional actions required.
 

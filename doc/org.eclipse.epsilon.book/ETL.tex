@@ -21,14 +21,14 @@ As illustrated in Figure \ref{fig:EtlAbstractSyntax}, ETL transformations are or
 
 Besides transformation rules, an ETL module can also optionally contain a number of \emph{pre} and \emph{post} named blocks of EOL statements which, as discussed later, are executed before and after the transformation rules respectively. These should not be confused with the pre-/post-condition annotations available for EOL user-defined operations (Section~\ref{sec:prep-cond-user}).
 
-\begin{landscape}
-\begin{figure}
+%\begin{landscape}
+\begin{sidewaysfigure}
 	\centering
 		\includegraphics{images/EtlAbstractSyntax.png}
 	\caption{ETL Abstract Syntax}
 	\label{fig:EtlAbstractSyntax}
-\end{figure}
-\end{landscape}
+\end{sidewaysfigure}
+%\end{landscape}
 
 \section{Concrete Syntax}
 
@@ -80,14 +80,14 @@ When the \emph{equivalents()} operation is applied on a single source element (a
 
 With regard to the ordering of the results of the \emph{equivalents()} operations, the returned elements appear in the respective order of the rules that have created them. An exception to this occurs when one of the rules is declared as \emph{primary}, in which case its results precede the results of all other rules.
 
-\begin{landscape}
-\begin{figure}
+%\begin{landscape}
+\begin{sidewaysfigure}
 	\centering
 		\includegraphics{images/EtlRuntime.png}
 	\caption{ETL Runtime}
 	\label{fig:EtlRuntime}
-\end{figure}
-\end{landscape}
+\end{sidewaysfigure}
+%\end{landscape}
 
 
 ETL also provides the convenience \emph{equivalent()} operation which, when applied to a single element, returns only the first element of the respective result that would have been returned by the \emph{equivalents()} operation discussed above. Also, when applied to a collection the \emph{equivalent()} operation returns a flattened collection (as opposed to the result of \emph{equivalents()} which is a \emph{Bag} of \emph{Bags} in this case). As with the \emph{equivalents()} operation, the \emph{equivalent()} operation can also be invoked with or without parameters.

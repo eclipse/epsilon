@@ -79,14 +79,14 @@ OCL expressions (and therefore OCL constraints) can only be evaluated in the con
 
 In EVL, validation specifications are organized in modules (\emph{EvlModule}). As illustrated in Figure \ref{fig:EvlAbstractSyntax}, \emph{EvlModule} extends \emph{EolLibraryModule} which means that it can contain user-defined operations and import other EOL library modules and EVL modules. Apart from operations, an EVL module also contains a set of invariants grouped by the context they apply to, and a number of \emph{pre} and \emph{post} blocks.
 
-\begin{landscape}
-\begin{figure}
+%\begin{landscape}
+\begin{sidewaysfigure}
 	\centering
 	\includegraphics{images/EvlAbstractSyntax.png}
 	\caption{Abstract Syntax of EVL}
 	\label{fig:EvlAbstractSyntax}
-\end{figure}
-\end{landscape}
+\end{sidewaysfigure}
+%\end{landscape}
 
 \paragraph{Context} A context specifies the kind of instances on which the contained invariants will be evaluated. Each context can optionally define a guard which limits its applicability to a narrower subset of instances of its specified type. Thus, if the guard fails for a specific instance of the type, none of its contained invariants are evaluated.
 

@@ -206,7 +206,7 @@ As is the case for most programming languages, EOL defines a built-in system of 
 \subsection{Primitive Types} 
 
 EOL provides four primitive types: String, Integer, Real and Boolean. The String type represents finite sequences of characters and supports the following operations which can be invoked on its instances.
-
+\clearpage
 \begin{longtabu} {|p{6.5cm}|X|}
 \caption{Operations of type String}
 \label{tab:StringOperations}\\
@@ -281,6 +281,7 @@ The Real type represents real numbers and provides the following operations.
 \end{longtabu}
 
 The Integer type represents natural numbers and negatives and extends the Real primitive type. It also defines the following operations:
+\\
 
 \begin{longtabu} {|p{6.5cm}|X|}
 \caption{Operations of type Integer}
@@ -315,7 +316,7 @@ All collection types inherit from the abstract Collection type. Apart from simpl
     \textbf{Signature} & \textbf{Description} \\\hline
     add(item : Any) : Boolean & Adds an item to the collection. If the collection is a set, addition of duplicate items has no effect. Returns true if the collection increased in size: this is always the case for bags and sequences, and for sets and ordered sets it is true if the element was not part of the collection before. \\\hline
     
-    addAll(col : Collection) & Adds all the items of the \emph{col} argument to the collection. If the collection is a set, it only adds items that do not already exist in the collection\\\hline
+    addAll(col : Collection) : Boolean & Adds all the items of the \emph{col} argument to the collection. If the collection is a set, it only adds items that do not already exist in the collection. Returns true if this collection changed as a result of the call\\\hline
     
     clear() & Empties the collection \\\hline
     
@@ -351,9 +352,10 @@ All collection types inherit from the abstract Collection type. Apart from simpl
     
     random() : Any & Returns a random item from the collection \\\hline
     
-    remove(item : Any) & Removes an \emph{item} from the collection \\\hline
+    remove(item : Any) : Boolean & Removes an \emph{item} from the collection. Returns true if the collection contained the specified element\\\hline
     
-    removeAll(col : Collection) & Removes all the items of \emph{col} from the collection \\\hline
+    removeAll(col : Collection) : Boolean & Removes all the items of \emph{col} from the collection. Returns
+    true if the collection changed as a result of the call \\\hline
     
     size() : Integer & Returns the number of items the collection contains \\\hline
     
@@ -434,6 +436,8 @@ The Map type represents an array of key-value pairs in which the keys are unique
     containsValue(value : Any) : Boolean &  Returns true if this map maps one or more keys to the specified value.\\\hline
     
     get(key : Any) : Any & Returns the value for the specified key\\\hline
+
+    isEmpty() : Boolean & Returns true if the map contains no key-value mappings.\\\hline
     
     keySet() : Set & Returns the keys of the map\\\hline
     

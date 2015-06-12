@@ -3,16 +3,16 @@
 
 This section discusses the design of the Epsilon Model Connectivity (EMC) layer. EMC provides abstraction facilities over concrete modelling technologies such as EMF, XML etc. and enables Epsilon programs to interact with models conforming to these technologies in a uniform manner. A graphical overview of the design is displayed in Figure \ref{fig:EMC}.
 
-\begin{landscape}
+%\begin{landscape}
 
-\begin{figure}
+\begin{sidewaysfigure}
 	\centering
 		\includegraphics{images/EMC.png}
 	\caption{Overview of the Epsilon Model Connectivity layer}
 	\label{fig:EMC}
-\end{figure}
+\end{sidewaysfigure}
 
-\end{landscape}
+%\end{landscape}
 
 To abstract away from diverse model representations and APIs provided by different modelling technologies, EMC defines the \emph{IModel} interface. \emph{IModel} provides a number of methods that enable querying and modifying the model elements it contains at a higher level of abstraction. To enable languages and tools that build atop EMC to manage multiple models simultaneously, the \emph{ModelRepository} class acts as a container that offers fa\c{c}ade services. The following sections discuss these two core concepts in detail.
 
