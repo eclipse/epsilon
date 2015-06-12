@@ -1,5 +1,6 @@
 # binaries
 bin/
+target
 
 # Ignore sym-link to project stored in EpsilonLabs
 /plugins/org.eclipse.epsilon.antlr.dev
