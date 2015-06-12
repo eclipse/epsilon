@@ -106,6 +106,7 @@
     <module>org.eclipse.epsilon.perspective</module>
     <module>org.eclipse.epsilon.profiling</module>
     <module>org.eclipse.epsilon.profiling.dt</module>
+    <module>org.eclipse.epsilon.targetplatform</module>
     <module>org.eclipse.epsilon.updatesite</module>
     <module>org.eclipse.epsilon.updatesite.interim</module>
     <module>org.eclipse.epsilon.workflow</module>
