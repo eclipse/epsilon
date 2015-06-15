@@ -47,9 +47,29 @@
 	  </execution>
 	</executions>
 	<configuration>
+	  <application>org.eclipse.ui.ide.workbench</application>
+	  <useUIThread>true</useUIThread>
+	  <useUIHarness>true</useUIHarness>
 	  <includes>
 	    <include>org/eclipse/epsilon/test/EpsilonPluggedInTestSuite.class</include>
 	  </includes>
+	  <dependencies>
+	    <dependency>
+	      <type>eclipse-plugin</type>
+	      <artifactId>org.eclipse.equinox.event</artifactId>
+	      <version>0.0.0</version>
+	    </dependency>
+	    <dependency>
+	      <type>eclipse-plugin</type>
+	      <artifactId>org.eclipse.osgi.compatibility.state</artifactId>
+	      <version>0.0.0</version>
+	    </dependency>
+	    <dependency>
+	      <type>eclipse-plugin</type>
+	      <artifactId>org.eclipse.jdt.ui</artifactId>
+	      <version>0.0.0</version>
+	    </dependency>
+	  </dependencies>
 	</configuration>
       </plugin>
     </plugins>

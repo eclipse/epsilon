@@ -12,6 +12,10 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <properties>
+    <tycho.scmUrl>scm:git:git://git.eclipse.org/gitroot/epsilon/org.eclipse.epsilon.git</tycho.scmUrl>
+  </properties>
+
   <modules>
     <module>net.sf.cglib.nodep_2.1.3</module>
     <module>org.easymock_2.4</module>
