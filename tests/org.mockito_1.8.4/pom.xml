@@ -7,8 +7,24 @@
     <artifactId>tests</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
+
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.mockito_1.8.4</artifactId>
   <version>1.8.4</version>
   <packaging>eclipse-plugin</packaging>
+
+  <build>
+    <plugins>
+      <!-- Disable compilation for this plugin: we already have all the .class files -->
+      <plugin>
+	<groupId>org.eclipse.tycho</groupId>
+	<artifactId>tycho-compiler-plugin</artifactId>
+	<version>${tycho.version}</version>
+	<configuration>
+	  <excludes><exclude>**/*.java</exclude></excludes>
+	</configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

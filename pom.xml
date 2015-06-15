@@ -27,6 +27,22 @@
 	<extensions>true</extensions>
       </plugin>
       <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <version>${tycho.version}</version>
+	<configuration>
+	  <includes>
+	    <!-- default patterns -->
+	    <include>**/Test*.java</include>
+	    <include>**/*Test.java</include>
+	    <include>**/*TestCase.java</include>
+
+	    <!-- extra patterns common in Epsilon's source code -->
+	    <include>**/*Tests.java</include>
+	  </includes>
+	</configuration>
+      </plugin>
+      <plugin>
 	<groupId>org.eclipse.tycho</groupId>
 	<artifactId>target-platform-configuration</artifactId>
         <version>${tycho.version}</version>
