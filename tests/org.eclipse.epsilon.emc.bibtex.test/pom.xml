@@ -10,5 +10,5 @@
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.emc.bibtex.test</artifactId>
   <version>0.9.1-SNAPSHOT</version>
-  <packaging>eclipse-plugin</packaging>
+  <packaging>eclipse-test-plugin</packaging>
 </project>

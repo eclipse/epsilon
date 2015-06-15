@@ -22,6 +22,9 @@
 	<version>${tycho.version}</version>
 	<configuration>
 	  <excludes><exclude>**/*.java</exclude></excludes>
+          <excludeResources>
+            <exludeResource>target/**</exludeResource>
+          </excludeResources>
 	</configuration>
       </plugin>
     </plugins>

@@ -7,8 +7,27 @@
     <artifactId>tests</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
+
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.hamcrest.matchers_1.2</artifactId>
   <version>1.2.0</version>
   <packaging>eclipse-plugin</packaging>
+
+  <build>
+    <plugins>
+      <!-- Disable compilation for this plugin: we already have all the .class files -->
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-compiler-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+	  <excludes><exclude>**/*.java</exclude></excludes>
+          <excludeResources>
+            <exludeResource>target/**</exludeResource>
+          </excludeResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

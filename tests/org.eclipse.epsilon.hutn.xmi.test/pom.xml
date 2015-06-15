@@ -10,5 +10,5 @@
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.hutn.xmi.test</artifactId>
   <version>0.7.4-SNAPSHOT</version>
-  <packaging>eclipse-plugin</packaging>
+  <packaging>eclipse-test-plugin</packaging>
 </project>

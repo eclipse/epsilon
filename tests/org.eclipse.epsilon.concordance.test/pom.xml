@@ -10,5 +10,5 @@
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.concordance.test</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>eclipse-plugin</packaging>
+  <packaging>eclipse-test-plugin</packaging>
 </project>

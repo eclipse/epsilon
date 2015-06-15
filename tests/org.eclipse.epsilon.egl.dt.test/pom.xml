@@ -10,5 +10,5 @@
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.egl.dt.test</artifactId>
   <version>0.8.4-SNAPSHOT</version>
-  <packaging>eclipse-plugin</packaging>
+  <packaging>eclipse-test-plugin</packaging>
 </project>
