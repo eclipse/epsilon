@@ -7,8 +7,51 @@
     <artifactId>tests</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
+
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.test</artifactId>
   <version>0.8.4-SNAPSHOT</version>
   <packaging>eclipse-test-plugin</packaging>
+
+  <build>
+    <plugins>
+      <!-- For the regular tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.18.1</version>
+	<executions>
+	  <execution>
+	    <id>run-junit</id>
+	    <phase>test</phase>
+	    <goals><goal>test</goal></goals>
+	  </execution>
+	</executions>
+	<configuration>
+	  <includes>
+	    <include>org/eclipse/epsilon/test/EpsilonTestSuite.class</include>
+	  </includes>
+	</configuration>
+      </plugin>
+
+      <!-- For the "plugged in" tests -->
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <version>${tycho.version}</version>
+	<executions>
+	  <execution>
+	    <id>run-plugged</id>
+	    <phase>integration-test</phase>
+	    <goals><goal>test</goal></goals>
+	  </execution>
+	</executions>
+	<configuration>
+	  <includes>
+	    <include>org/eclipse/epsilon/test/EpsilonPluggedInTestSuite.class</include>
+	  </includes>
+	</configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
