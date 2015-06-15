@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Epsilon Target Platform" sequenceNumber="16">
+<?pde version="3.8"?><target name="Epsilon Target Platform" sequenceNumber="17">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.emfatic.feature.group" version="0.8.0.201302100848"/>
@@ -24,6 +24,12 @@
 <unit id="org.eclipse.xsd.mapping.feature.group" version="2.8.0.v20150123-0452"/>
 <unit id="org.eclipse.xsd.feature.group" version="2.10.0.v20150123-0452"/>
 <repository location="http://download.eclipse.org/releases/luna/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.pde.feature.group" version="3.10.1.v20150204-1700"/>
+<unit id="org.eclipse.platform.sdk" version="4.4.2.M20150204-1700"/>
+<unit id="org.eclipse.platform.ide" version="4.4.2.M20150204-1700"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.4"/>
 </location>
 </locations>
 <launcherArgs>
