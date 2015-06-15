@@ -144,7 +144,7 @@ operation String canLocateExternalModelElement() : Boolean {
 	return EmfTool.modelElementExists(self);
 }
 
-operation String toClass() : Metamodel!EClass {
+operation String toClass() {
 	if ('#'.isSubstringOf(self)) {
 		-- External object reference, locate in external model
 
@@ -165,9 +165,21 @@ operation String toClass() : Metamodel!EClass {
 	}
 }
 
-operation ClassObject toClass() : Metamodel!EClass {
+operation ClassObject toClass() {
 	return self.getEClass();
 } 
+
+operation Intermediate!EClass getAllClassObjects() : Collection(ClassObject) {
+	return ClassObject.all.select(c|c.hasEClass() and c.getEClass().name = self.name);
+}
+
+operation Intermediate!EClass getAllFeaturesThatRequireAValue() : OrderedSet(EReference) {
+	return self.eAllStructuralFeatures.select(f|f.lowerBound > 0 and f.changeable and not f.transient);
+}
+
+operation Intermediate!EClass getAllReferencesThatRequireAValue() : OrderedSet(EReference) {
+	return self.eAllReferences.select(f|f.lowerBound > 0 and f.changeable and not f.transient);
+}
 
 operation Metamodel!EClass getAllClassObjects() : Collection(ClassObject) {
 	return ClassObject.all.select(c|c.hasEClass() and c.getEClass().name = self.name);
