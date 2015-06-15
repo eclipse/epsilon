@@ -48,6 +48,7 @@
 	</executions>
 	<configuration>
 	  <application>org.eclipse.ui.ide.workbench</application>
+	  <argLine>-XX:MaxPermSize=256m</argLine>
 	  <useUIThread>true</useUIThread>
 	  <useUIHarness>true</useUIHarness>
 	  <includes>
