@@ -48,11 +48,17 @@
 	</executions>
 	<configuration>
 	  <application>org.eclipse.ui.ide.workbench</application>
+
 	  <argLine>-XX:MaxPermSize=256m</argLine>
+	  <!-- To enable remote debugging, comment the <argLine> above
+	       and uncomment this one: the Eclipse instance will
+	       suspend until a remote debugger is attached -->
+	  <!-- <argLine>-XX:MaxPermSize=256m -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y</argLine> -->
+
 	  <useUIThread>true</useUIThread>
 	  <useUIHarness>true</useUIHarness>
 	  <includes>
-	    <include>org/eclipse/epsilon/test/EpsilonPluggedInTestSuite.class</include>
+	    <include>org/eclipse/epsilon/test/EpsilonHudsonPluggedInTestSuite.class</include>
 	  </includes>
 	  <dependencies>
 	    <dependency>
