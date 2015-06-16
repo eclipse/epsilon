@@ -34,9 +34,6 @@ import org.junit.runners.Suite.SuiteClasses;
                EmfPluggedInTestSuite.class,
                EugeniaTestSuite.class,
                WorkflowPluggedInTestSuite.class,
-               HutnTestSuite.class,
-               HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class,
-               HutnEmcDriverTestSuite.class,
                /*, ConcordancePluggedInTestSuite.class*/})
 public class EpsilonHudsonPluggedInTestSuite{
 
