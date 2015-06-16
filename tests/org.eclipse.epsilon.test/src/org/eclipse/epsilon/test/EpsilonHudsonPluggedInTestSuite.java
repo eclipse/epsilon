@@ -19,6 +19,10 @@ import junit.framework.Test;
 
 import org.eclipse.epsilon.common.dt.test.CommonDevelopmentToolsTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfPluggedInTestSuite;
+import org.eclipse.epsilon.emc.hutn.test.HutnEmcDriverTestSuite;
+import org.eclipse.epsilon.hutn.test.HutnTestSuite;
+import org.eclipse.epsilon.hutn.unparser.HutnUnparserUnitTestSuite;
+import org.eclipse.epsilon.hutn.xmi.test.HutnXmiTestSuite;
 import org.eclipse.epsilon.workflow.tasks.eugenia.EugeniaTestSuite;
 import org.eclipse.epsilon.workflow.test.WorkflowPluggedInTestSuite;
 import org.junit.runner.RunWith;
@@ -29,7 +33,11 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({CommonDevelopmentToolsTestSuite.class,
                EmfPluggedInTestSuite.class,
                EugeniaTestSuite.class,
-               WorkflowPluggedInTestSuite.class/*, ConcordancePluggedInTestSuite.class*/})
+               WorkflowPluggedInTestSuite.class,
+               HutnTestSuite.class,
+               HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class,
+               HutnEmcDriverTestSuite.class,
+               /*, ConcordancePluggedInTestSuite.class*/})
 public class EpsilonHudsonPluggedInTestSuite{
 
 	public static Test suite() {
