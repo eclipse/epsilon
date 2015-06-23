@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="main">
   <target name="main">
-    <jar destfile="jars/epsilon-1.2-core-src.jar">
+    <jar destfile="jars/epsilon-1.3-core-src.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.eol.engine/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.eol.engine/src"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.egl.engine/bin"/>
@@ -40,7 +40,7 @@
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.csv/src"/>
       <fileset dir="../../plugins/org.antlr.runtime_3.1.b1"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-core.jar">
+    <jar destfile="jars/epsilon-1.3-core.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.eol.engine/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.egl.engine/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.egl.traceability.fine/bin"/>
@@ -61,43 +61,43 @@
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.csv/bin"/>
       <fileset dir="../../plugins/org.antlr.runtime_3.1.b1"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-emf-src.jar">
+    <jar destfile="jars/epsilon-1.3-emf-src.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.emf/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.emf/src"/>
     </jar>
-    <zip file="jars/epsilon-1.2-emf-dependencies.zip">
-      <fileset file="${eclipse.home}/plugins/org.eclipse.emf.common_2.10.1.v20150123-0348.jar"/>
-      <fileset file="${eclipse.home}/plugins/org.eclipse.emf.ecore_2.10.2.v20150123-0348.jar"/>
-      <fileset file="${eclipse.home}/plugins/org.eclipse.emf.ecore.xmi_2.10.2.v20150123-0348.jar"/>
-      <fileset file="${eclipse.home}/plugins/org.eclipse.xsd_2.10.0.v20150123-0452.jar"/>
+    <zip file="jars/epsilon-1.3-emf-dependencies.zip">
+      <fileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.emf.common_2.10.1.v20140901-1043.jar"/>
+      <fileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.emf.ecore_2.10.1.v20140901-1043.jar"/>
+      <fileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.emf.ecore.xmi_2.10.1.v20140901-1043.jar"/>
+      <fileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.xsd_2.10.0.v20140519-0339.jar"/>
     </zip>
-    <jar destfile="jars/epsilon-1.2-emf.jar">
+    <jar destfile="jars/epsilon-1.3-emf.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.emf/bin"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-uml-src.jar">
+    <jar destfile="jars/epsilon-1.3-uml-src.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.uml/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.uml/src"/>
     </jar>
-    <zip file="jars/epsilon-1.2-uml-dependencies.zip">
-      <fileset file="${eclipse.home}/plugins/org.eclipse.uml2.uml_5.0.2.v20150202-0947.jar"/>
-      <fileset file="${eclipse.home}/plugins/org.eclipse.uml2.common_2.0.1.v20150202-0947.jar"/>
-      <fileset file="${eclipse.home}/plugins/org.eclipse.emf.mapping.ecore2xml_2.8.0.v20150123-0452.jar"/>
-      <fileset file="${eclipse.home}/plugins/org.eclipse.uml2.types_2.0.0.v20150202-0947.jar"/>
+    <zip file="jars/epsilon-1.3-uml-dependencies.zip">
+      <fileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.uml2.uml_5.0.0.v20140602-0749.jar"/>
+      <fileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.uml2.common_2.0.0.v20140602-0749.jar"/>
+      <fileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.emf.mapping.ecore2xml_2.8.0.v20140901-1055.jar"/>
+      <fileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.uml2.types_2.0.0.v20140602-0749.jar"/>
     </zip>
-    <jar destfile="jars/epsilon-1.2-uml.jar">
+    <jar destfile="jars/epsilon-1.3-uml.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.uml/bin"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-graphml-src.jar">
+    <jar destfile="jars/epsilon-1.3-graphml-src.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.muddle/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.muddle/src"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.graphml/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.graphml/src"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-graphml.jar">
+    <jar destfile="jars/epsilon-1.3-graphml.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.muddle/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.emc.graphml/bin"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-hutn-src.jar">
+    <jar destfile="jars/epsilon-1.3-hutn-src.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.hutn.engine/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.hutn.engine/src"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.hutn.model/bin"/>
@@ -115,7 +115,7 @@
       <fileset dir="../../plugins/org.eclipse.epsilon.antlr.postprocessor.model/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.antlr.postprocessor.model/src"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-hutn.jar">
+    <jar destfile="jars/epsilon-1.3-hutn.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.hutn.engine/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.hutn.model/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.hutn.model.antlrAst/bin"/>
@@ -125,40 +125,40 @@
       <fileset dir="../../plugins/org.eclipse.epsilon.antlr.postprocessor/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.antlr.postprocessor.model/bin"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-workflow-src.jar">
+    <jar destfile="jars/epsilon-1.3-workflow-src.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.workflow/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.workflow/ant"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-workflow.jar">
+    <jar destfile="jars/epsilon-1.3-workflow.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.workflow/bin"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-workflow-emf-src.jar">
+    <jar destfile="jars/epsilon-1.3-workflow-emf-src.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.workflow.emf/bin"/>
       <fileset dir="../../plugins/org.eclipse.epsilon.workflow.emf/src"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-workflow-emf.jar">
+    <jar destfile="jars/epsilon-1.3-workflow-emf.jar">
       <fileset dir="../../plugins/org.eclipse.epsilon.workflow.emf/bin"/>
     </jar>
-    <jar destfile="jars/epsilon-1.2-kitchensink.jar">
-      <zipgroupfileset file="jars/epsilon-1.2-core.jar"/>
-      <zipgroupfileset file="jars/epsilon-1.2-emf.jar"/>
-      <zipgroupfileset file="jars/epsilon-1.2-uml.jar"/>
-      <zipgroupfileset file="jars/epsilon-1.2-graphml.jar"/>
-      <zipgroupfileset file="jars/epsilon-1.2-hutn.jar"/>
-      <zipgroupfileset file="jars/epsilon-1.2-workflow.jar"/>
-      <zipgroupfileset file="jars/epsilon-1.2-workflow-emf.jar"/>
-      <zipgroupfileset file="${eclipse.home}/plugins/org.eclipse.emf.common_2.10.1.v20150123-0348.jar"/>
-      <zipgroupfileset file="${eclipse.home}/plugins/org.eclipse.emf.ecore_2.10.2.v20150123-0348.jar"/>
-      <zipgroupfileset file="${eclipse.home}/plugins/org.eclipse.emf.ecore.xmi_2.10.2.v20150123-0348.jar"/>
-      <zipgroupfileset file="${eclipse.home}/plugins/org.eclipse.xsd_2.10.0.v20150123-0452.jar"/>
-      <zipgroupfileset file="${eclipse.home}/plugins/org.eclipse.uml2.uml_5.0.2.v20150202-0947.jar"/>
-      <zipgroupfileset file="${eclipse.home}/plugins/org.eclipse.uml2.common_2.0.1.v20150202-0947.jar"/>
-      <zipgroupfileset file="${eclipse.home}/plugins/org.eclipse.emf.mapping.ecore2xml_2.8.0.v20150123-0452.jar"/>
-      <zipgroupfileset file="${eclipse.home}/plugins/org.eclipse.uml2.types_2.0.0.v20150202-0947.jar"/>
+    <jar destfile="jars/epsilon-1.3-kitchensink.jar">
+      <zipgroupfileset file="jars/epsilon-1.3-core.jar"/>
+      <zipgroupfileset file="jars/epsilon-1.3-emf.jar"/>
+      <zipgroupfileset file="jars/epsilon-1.3-uml.jar"/>
+      <zipgroupfileset file="jars/epsilon-1.3-graphml.jar"/>
+      <zipgroupfileset file="jars/epsilon-1.3-hutn.jar"/>
+      <zipgroupfileset file="jars/epsilon-1.3-workflow.jar"/>
+      <zipgroupfileset file="jars/epsilon-1.3-workflow-emf.jar"/>
+      <zipgroupfileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.emf.common_2.10.1.v20140901-1043.jar"/>
+      <zipgroupfileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.emf.ecore_2.10.1.v20140901-1043.jar"/>
+      <zipgroupfileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.emf.ecore.xmi_2.10.1.v20140901-1043.jar"/>
+      <zipgroupfileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.xsd_2.10.0.v20140519-0339.jar"/>
+      <zipgroupfileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.uml2.uml_5.0.0.v20140602-0749.jar"/>
+      <zipgroupfileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.uml2.common_2.0.0.v20140602-0749.jar"/>
+      <zipgroupfileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.emf.mapping.ecore2xml_2.8.0.v20140901-1055.jar"/>
+      <zipgroupfileset file="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/plugins/org.eclipse.uml2.types_2.0.0.v20140602-0749.jar"/>
     </jar>
     <exec executable="zip">
       <arg value="-d"/>
-      <arg value="jars/epsilon-1.2-kitchensink.jar"/>
+      <arg value="jars/epsilon-1.3-kitchensink.jar"/>
       <arg value="*.RSA"/>
       <arg value="*.DSA"/>
       <arg value="*.SF"/>
