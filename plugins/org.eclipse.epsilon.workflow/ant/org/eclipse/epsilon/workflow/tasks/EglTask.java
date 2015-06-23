@@ -28,6 +28,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink;
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
@@ -39,11 +40,20 @@ public class EglTask extends ExportableModuleTask {
 	protected Class<? extends EglTemplateFactory> templateFactoryType = EglFileGeneratingTemplateFactory.class;
 	protected List<EglDefaultFormatterNestedElement> defaultFormatterNestedElements = new LinkedList<EglDefaultFormatterNestedElement>();
 	protected Trace trace;
+	protected File outputRoot;
 	
 	@Override
 	protected IEolExecutableModule createModule() throws InstantiationException, IllegalAccessException {
 		final IEolExecutableModule module; 
 		final EglTemplateFactory templateFactory = templateFactoryType.newInstance();
+		
+		if (templateFactory instanceof EglFileGeneratingTemplateFactory && outputRoot != null) {
+			try {
+				((EglFileGeneratingTemplateFactory) templateFactory).setOutputRoot(outputRoot.getAbsolutePath());
+			} catch (EglRuntimeException e) {
+				throw new RuntimeException(e);
+			}
+		}
 		
 		templateFactory.setDefaultFormatters(instantiateDefaultFormatters());
 		
@@ -94,6 +104,14 @@ public class EglTask extends ExportableModuleTask {
 
 	public void setTarget(File output) {
 		this.target = output;
+	}
+	
+	public File getOutputRoot() {
+		return outputRoot;
+	}
+	
+	public void setOutputRoot(File outputRoot) {
+		this.outputRoot = outputRoot;
 	}
 	
 	public Class<? extends EglTemplateFactory> getTemplateFactoryType() {
