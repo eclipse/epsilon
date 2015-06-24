@@ -130,7 +130,6 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	@Override
 	public boolean parse(File file) throws Exception {
 		boolean result = super.parse(file);
-		System.out.println(file.exists());
 		if (result) templateFactory.initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
 		return result;
 	}
@@ -259,7 +258,6 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 
 	@Override
 	public EglResult execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException {
-		System.err.println("EgxModule.execute() invoked");
 		return null;
 	}
 
