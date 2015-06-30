@@ -226,15 +226,15 @@ Model {
 @data input
 operation listHutnModels() {
   return Sequence {
-    -- HUTN fragment, prefix, should be equal to expected files
+    // HUTN fragment, prefix, should be equal to expected files
  
-    --- same directories and same file content
+    //- same directories and same file content
     Sequence { EXPECTED_MODEL, DEFAULT_PREFIX, true },
 
-    --- same directories, different file content
+    //- same directories, different file content
     Sequence { EXPECTED_MODEL, 'foo', false },
 
-    --- different files and/or directories
+    //- different files and/or directories
     Sequence { DIFFERENT_MODEL_MORE_FILES_L1, DEFAULT_PREFIX, false },
     Sequence { DIFFERENT_MODEL_MORE_FILES_L2, DEFAULT_PREFIX, false },
     Sequence { DIFFERENT_MODEL_LESS_FILES_L1, DEFAULT_PREFIX, false },
@@ -260,8 +260,8 @@ operation deleteGeneratedDir() {
 
 @test
 operation shouldPass() {
-  -- NOTE: cannot use input.remove(0) three times, as that'd affect the other tests.
-  -- FIXME separate the tests better, so we can use input.remove(0) safely
+  // NOTE: cannot use input.remove(0) three times, as that'd affect the other tests.
+  // FIXME separate the tests better, so we can use input.remove(0) safely
   var hutnModel   := input.get(0);
   var prefix      := input.get(1);
   var mustBeEqual := input.get(2);
@@ -276,7 +276,7 @@ operation shouldFail() {
   checkResult(not mustBeEqual, hutnModel, prefix);
 }
 
----- utility operations
+//// utility operations
 
 operation checkResult(mustBeEqual : Boolean, hutnModel : String, prefix : String) {
   transform(hutnModel, prefix);

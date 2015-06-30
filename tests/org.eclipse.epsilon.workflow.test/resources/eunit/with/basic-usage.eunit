@@ -20,13 +20,13 @@ operation hasTwoB() {
 $with Map {"" = "B"}
 @test
 operation hasTwoElements() {
-  -- this test should pass (A is still available)
+  // this test should pass (A is still available)
   assertEquals("A has two elements", 2, A!Element.allInstances.size());
 }
 
 $with Map {"" = "A"}
 @test
 operation hasThreeElements() {
-  -- this test should pass (B is still available)
+  // this test should pass (B is still available)
   assertEquals("B has three elements", 3, B!Element.allInstances.size());
 }

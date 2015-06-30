@@ -78,7 +78,7 @@ operation expectedModelGeneratesExpectedFile() {
 operation expectedModelGeneratesExpectedFileFailing() {
   loadHutn("Tree", EXPECTED_MODEL);
   runTarget("tree2text");
-  -- this test must fail
+  // this test must fail
   assertNotEqualFiles(EXPECTED_PATH, GENERATED_PATH);
 }
 
@@ -93,7 +93,7 @@ operation differentModelGeneratesDifferentFile() {
 operation differentModelGeneratesDifferentFileFailing() {
   loadHutn("Tree", DIFFERENT_MODEL);
   runTarget("tree2text");
-  -- this test must fail
+  // this test must fail
   assertEqualFiles(EXPECTED_PATH, GENERATED_PATH);
 }
 
@@ -101,7 +101,7 @@ operation differentModelGeneratesDifferentFileFailing() {
 operation missingExpectedPathFailsTest() {
   loadHutn("Tree", EXPECTED_MODEL);
   runTarget("tree2text");
-  -- this test must fail
+  // this test must fail
   assertEqualFiles("idonotexist", GENERATED_PATH);
 }
 
@@ -109,7 +109,7 @@ operation missingExpectedPathFailsTest() {
 operation missingActualPathFailsTest() {
   loadHutn("Tree", EXPECTED_MODEL);
   runTarget("tree2text");
-  -- this test must fail
+  // this test must fail
   assertNotEqualFiles(EXPECTED_PATH, "idonotexist");
 }
 
@@ -160,7 +160,7 @@ operation assertMatchingLineMatchesEntireLine() {
   loadHutn("Tree", EXPECTED_MODEL);
   runTarget("tree2text");
 
-  -- this should fail, as it won't match the *entire* line
+  // this should fail, as it won't match the *entire* line
   assertMatchingLine(EXPECTED_PATH, "[A-Z]");
 }
 
