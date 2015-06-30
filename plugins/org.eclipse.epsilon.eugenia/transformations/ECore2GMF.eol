@@ -1,16 +1,16 @@
 import 'ECoreUtil.eol';
 import 'Formatting.eol';
 
--- The root EPackage
+// The root EPackage
 var ePackage := ECore!EPackage.all.first();
 
--- Create GmfTool basics
+// Create GmfTool basics
 var toolRegistry := new GmfTool!ToolRegistry;
 var palette := new GmfTool!Palette;
 palette.title := ePackage.name + 'Palette';
 toolRegistry.palette := palette;
 
--- Create Nodes and Links GmfTool tool groups
+// Create Nodes and Links GmfTool tool groups
 var nodesToolGroup := new GmfTool!ToolGroup;
 nodesToolGroup.title := 'Objects';
 nodesToolGroup.collapsible := true;
@@ -22,7 +22,7 @@ linksToolGroup.title := 'Connections';
 linksToolGroup.collapsible := true;
 palette.tools.add(linksToolGroup);
 
--- Greate GmfGraph basics
+// Greate GmfGraph basics
 
 var canvas : new GmfGraph!Canvas;
 canvas.name := ePackage.name;
@@ -31,7 +31,7 @@ var figureGallery : new GmfGraph!FigureGallery;
 figureGallery.name := 'Default';
 canvas.figures.add(figureGallery);
 
--- Create GmfMap basics
+// Create GmfMap basics
 
 var mapping : new GmfMap!Mapping;
 var canvasMapping : new GmfMap!CanvasMapping;
@@ -41,31 +41,31 @@ canvasMapping.domainModel := ePackage;
 canvasMapping.domainMetaElement := getDiagramClass();
 canvasMapping.palette := palette;
 
--- Process Node EClasses
+// Process Node EClasses
 
 for (class in getNodes()) {
 	
-	-- Create GmfTool creation tool
+	// Create GmfTool creation tool
 	var creationTool := createCreationTool(class);
 	nodesToolGroup.tools.add(creationTool);
 	
 	class.~creationTool := creationTool;
 	
-	-- Create GmfGraph figure
+	// Create GmfGraph figure
 	var figureDescriptor := createFigureDescriptor(class.name + 'Figure');
 	class.~figureDescriptor := figureDescriptor;
 	
-	-- Create GmfGraph figure
+	// Create GmfGraph figure
 	var figure := class.createFigure();
 	figureDescriptor.actualFigure := figure;
 	figure.name := figureDescriptor.name;
 	
-	-- Create GmfGraph label
+	// Create GmfGraph label
 	var label := class.createLabel();
 	label.name := class.getLabelName() + 'Figure';
 	
-	-- If the label belongs to a compartment owning node
-	-- limit its vertical size
+	// If the label belongs to a compartment owning node
+	// limit its vertical size
 	if (not class.getCompartmentReferences().isEmpty()) {
 		var maxDimension := new GmfGraph!Dimension;
 		maxDimension.dx := 10000;
@@ -73,13 +73,13 @@ for (class in getNodes()) {
 		label.maximumSize := maxDimension;
 	}
 		
-	-- Create GmfGraph node
+	// Create GmfGraph node
 	var node := new GmfGraph!Node;
 	node.name := class.name;
 	node.figure := figureDescriptor;
 	canvas.nodes.add(node);
 	
-	-- store for use in the compartments
+	// store for use in the compartments
 	class.~diagramNode := node;
 	
 	if (class.getNodeSize().isDefined()) {
@@ -88,14 +88,14 @@ for (class in getNodes()) {
 		defaultSizeFacet.defaultSize := class.getNodeSize();
 	}
 
-	-- Create GmfMap node mapping
+	// Create GmfMap node mapping
 	var nodeMapping : new GmfMap!NodeMapping;
 	nodeMapping.diagramNode := node;
 	nodeMapping.domainMetaElement := class;
 	nodeMapping.tool := creationTool;
 	class.~nodeMapping := nodeMapping;
 	
-	-- Create GmfGraph diagram label
+	// Create GmfGraph diagram label
 	var labelPlacement := class.getLabelPlacement();
     if (labelPlacement <> 'none') {
 		var diagramLabel := new GmfGraph!DiagramLabel;
@@ -106,7 +106,7 @@ for (class in getNodes()) {
 		if (labelPlacement = 'internal') {
 			figure.children.add(label);
 
-			-- Create GmfGraph child access
+			// Create GmfGraph child access
 			var childAccess : new GmfGraph!ChildAccess;
 			childAccess.figure := label;
 			childAccess.accessor := 'getFigure' + class.getLabelName() + 'Figure';
@@ -115,14 +115,14 @@ for (class in getNodes()) {
 			diagramLabel.accessor := childAccess;
 			diagramLabel.figure := figureDescriptor;
 		} else {
-			-- Create GmfGraph label figure
+			// Create GmfGraph label figure
 			var labelFigureDescriptor := createFigureDescriptor(class.name + 'LabelFigure');
 			labelFigureDescriptor.actualFigure := label;
 			diagramLabel.figure := labelFigureDescriptor;
 		}
 		class.~diagramLabel := diagramLabel;
 
-		-- Create GmfMap feature label mapping
+		// Create GmfMap feature label mapping
 		var featureLabelMapping : new GmfMap!FeatureLabelMapping;
 		nodeMapping.labelMappings.add(featureLabelMapping);
 		featureLabelMapping.diagramLabel := diagramLabel;
@@ -133,14 +133,14 @@ for (class in getNodes()) {
 		featureLabelMapping.readOnly := class.getLabelReadOnly();
 	}
 	
-	-- Process EAttributes (gmf.labels)
+	// Process EAttributes (gmf.labels)
 	for (attribute in getLabelledAttributesFor(class)) {
-		-- Create GmfGraph label
+		// Create GmfGraph label
 		var label := new GmfGraph!Label;
 		label.name := attribute.getLabelName() + 'Figure';
 		label.text := attribute.getAnnotationValue('gmf.label', 'label.text');
 		
-		-- Create GmfGraph diagram label
+		// Create GmfGraph diagram label
 		var diagramLabel := new GmfGraph!DiagramLabel;
 		diagramLabel.name := attribute.getLabelName();
 		diagramLabel.elementIcon := false;
@@ -148,7 +148,7 @@ for (class in getNodes()) {
 		
 		figure.children.add(label);
 			
-		-- Create GmfGraph child access
+		// Create GmfGraph child access
 		var childAccess : new GmfGraph!ChildAccess;
 		childAccess.figure := label;
 		childAccess.accessor := 'getFigure' + label.name;
@@ -157,7 +157,7 @@ for (class in getNodes()) {
 		diagramLabel.accessor := childAccess;
 		diagramLabel.figure := figureDescriptor;
 		
-		-- Create GmfMap feature label mapping
+		// Create GmfMap feature label mapping
 		var featureLabelMapping : new GmfMap!FeatureLabelMapping;
 		nodeMapping.labelMappings.add(featureLabelMapping);
 		featureLabelMapping.diagramLabel := diagramLabel;
@@ -173,7 +173,7 @@ for (class in getNodes()) {
 for (containment in getDiagramClass().getContainmentReferences()) {
 	for (class in containment.eType.getConcreteSubtypes().select(c|c.isNode())) {
 	
-		-- Create GmfMap top node reference
+		// Create GmfMap top node reference
 		if (class.~topNodeReference.isUndefined()) {
 			var topNodeReference := new GmfMap!TopNodeReference;
 			mapping.nodes.add(topNodeReference);
@@ -185,7 +185,7 @@ for (containment in getDiagramClass().getContainmentReferences()) {
 	}
 }
 
--- Do phantom nodes
+// Do phantom nodes
 
 for (phantom in getPhantomNodes()) {
 	if (phantom.~topNodeReference.isUndefined()) {
@@ -196,11 +196,11 @@ for (phantom in getPhantomNodes()) {
 	}
 }
 
--- Do affixed references
+// Do affixed references
 for (class in getNodes()) {
 	for (affixed in class.getAffixedReferences()) {
 		for (child in getNodes().select(s|not s.abstract and (s = affixed.eType or s.eAllSuperTypes.includes(affixed.eType)))) {
-			-- Create GmfMap child reference
+			// Create GmfMap child reference
 			
 			var childReference := new GmfMap!ChildReference;
 			class.~nodeMapping.children.add(childReference);
@@ -214,20 +214,20 @@ for (class in getNodes()) {
 				childReference.ownedChild := child.~nodeMapping;
 			}
 			
-			-- Update affixed property
+			// Update affixed property
 			child.~diagramNode.affixedParentSide := GmfGraph!Direction#NORTH;
 		}
 	}
 }
 
--- Do compartment references
+// Do compartment references
 for (class in getNodes()) {
 	
 	for (containment in class.getCompartmentReferences()) {
 		
 		var referenceName := class.name + containment.name.firstToUpperCase();
 		
-		-- Create GmfGraph rectangle
+		// Create GmfGraph rectangle
 		
 		var figureDescriptor := class.~figureDescriptor;
 		var figure := figureDescriptor.actualFigure;
@@ -242,7 +242,7 @@ for (class in getNodes()) {
 		compartmentChildAccess.figure := compartmentRectangle;
 		compartmentChildAccess.accessor := 'get' + compartmentRectangle.name;
 		
-		-- Create GmfGraph compartment
+		// Create GmfGraph compartment
 		
 		var compartment := new GmfGraph!Compartment;
 		compartment.name := referenceName + 'Compartment';
@@ -251,7 +251,7 @@ for (class in getNodes()) {
 		canvas.compartments.add(compartment);
 		compartment.accessor := compartmentChildAccess;
 		
-		-- Create GmfMap compartment mapping
+		// Create GmfMap compartment mapping
 		
 		var compartmentMapping := new GmfMap!CompartmentMapping;
 		compartmentMapping.compartment := compartment;
@@ -260,7 +260,7 @@ for (class in getNodes()) {
 		
 		for (child in getNodes().select(s|not s.abstract and (s = containment.eType or s.eAllSuperTypes.includes(containment.eType)))) {
 		
-			-- Create GmfMap child reference
+			// Create GmfMap child reference
 			
 			var childReference := new GmfMap!ChildReference;
 			class.~nodeMapping.children.add(childReference);
@@ -280,7 +280,7 @@ for (class in getNodes()) {
 
 }
 
--- Delete unused GmfMap node mappings
+// Delete unused GmfMap node mappings
 
 for (nodeMapping in GmfMap!NodeMapping.all.clone()) {
 	if (nodeMapping.~nested.isUndefined() 
@@ -288,30 +288,30 @@ for (nodeMapping in GmfMap!NodeMapping.all.clone()) {
 	 delete nodeMapping;
 }
 
--- Process Link EClasses
+// Process Link EClasses
 
 for (class in getLinks()) {
-	-- Do not create links for classes that cannot be contained
-	-- in the diagram or in the opposite of their sourceFeature
+	// Do not create links for classes that cannot be contained
+	// in the diagram or in the opposite of their sourceFeature
 	
 	if (getAllSuitableContainmentReferences(class).size() == 0) continue;
 	
-	-- Create GmfTool creation tool
+	// Create GmfTool creation tool
 	var creationTool := createCreationTool(class);
 	linksToolGroup.tools.add(creationTool);
 	
-	-- Create GmfGraph figure descriptor
+	// Create GmfGraph figure descriptor
 	var figureDescriptor := new GmfGraph!FigureDescriptor;
 	figureDescriptor.name := class.name + 'Figure';
 	figureGallery.descriptors.add(figureDescriptor);
 	
-	-- Create GmfGraph polyline connection
+	// Create GmfGraph polyline connection
 	var polylineConnection := new GmfGraph!PolylineConnection;
 	figureDescriptor.actualFigure := polylineConnection;
 	polylineConnection.name := figureDescriptor.name;
 	polylineConnection.formatConnection(class);
 
-	-- Create GmfGraph connection
+	// Create GmfGraph connection
 	var connection := new GmfGraph!Connection;
 	connection.name := class.name;
 	connection.figure := figureDescriptor;
@@ -320,7 +320,7 @@ for (class in getLinks()) {
 	var linkMappings : Sequence;
 	
 	for (containmentFeature in getAllSuitableContainmentReferences(class)) {
-		-- Create GmfMap link mapping
+		// Create GmfMap link mapping
 		var linkMapping : new GmfMap!LinkMapping;
 		mapping.links.add(linkMapping);
 		linkMapping.containmentFeature := containmentFeature;
@@ -346,7 +346,7 @@ for (class in getLinks()) {
 		}
 	}
 	
-	-- Create connection label
+	// Create connection label
 	var hasLabel := not class.getLabelAttributes().isEmpty();
 	
 	if (hasLabel) {
@@ -378,35 +378,35 @@ for (class in getLinks()) {
 for (reference in getReferenceLinks()) {
 	var referenceName := reference.getLongName();
 
-	-- Create GmfTool creation tool
+	// Create GmfTool creation tool
 	var creationTool := createCreationTool(reference);
 	linksToolGroup.tools.add(creationTool);
 	
-	-- Create GmfGraph figure descriptor
+	// Create GmfGraph figure descriptor
 	var figureDescriptor := createFigureDescriptor(referenceName + 'Figure');
 	
-	-- Create GmfGraph external label figure descriptor
+	// Create GmfGraph external label figure descriptor
 	var externalLabelFigureDescriptor := createFigureDescriptor(referenceName + 'ExternalLabelFigure');
 	
-	-- Greate GmfGraph external label
+	// Greate GmfGraph external label
 	var externalLabel := new GmfGraph!Label;
 	externalLabel.name := referenceName + 'ExternalLabel';
 	externalLabel.text := reference.getLinkLabel();
 	externalLabelFigureDescriptor.actualFigure := externalLabel;
 	
-	-- Create GmfGraph external label diagram label
+	// Create GmfGraph external label diagram label
 	var externalDiagramLabel := new GmfGraph!DiagramLabel;
 	externalDiagramLabel.figure := externalLabelFigureDescriptor;
 	externalDiagramLabel.name := externalLabel.name;
 	externalDiagramLabel.elementIcon := false;
 	canvas.labels.add(externalDiagramLabel);
 	
-	-- Create GmfGraph polyline connection
+	// Create GmfGraph polyline connection
 	var polylineConnection := new GmfGraph!PolylineConnection;
 	figureDescriptor.actualFigure := polylineConnection;
 	polylineConnection.name := figureDescriptor.name;
 	
-	-- Create GmfGraph connection
+	// Create GmfGraph connection
 	var connection := new GmfGraph!Connection;
 	connection.name := referenceName;
 	connection.figure := figureDescriptor;
@@ -414,21 +414,21 @@ for (reference in getReferenceLinks()) {
 	
 	polylineConnection.formatConnection(reference);
 	
-	-- Create GmfMap link mapping
+	// Create GmfMap link mapping
 	var linkMapping : new GmfMap!LinkMapping;
 	mapping.links.add(linkMapping);
 	linkMapping.diagramLink := connection;
 	linkMapping.linkMetaFeature := reference;
 	linkMapping.tool := creationTool;
 	
-	-- Create GmfMap external label mapping
+	// Create GmfMap external label mapping
 	var externalLabelMapping := new GmfMap!DesignLabelMapping;
 	externalLabelMapping.readOnly := true;
 	externalLabelMapping.diagramLabel := externalDiagramLabel;
 	linkMapping.labelMappings.add(externalLabelMapping);
 }
 
--- Order things in the GmfMap model
+// Order things in the GmfMap model
 
 mapping.nodes := mapping.nodes.asSequence().sortBy(n | -n.ownedChild.domainMetaElement.eAllSuperTypes.size());
 mapping.links := 
@@ -443,14 +443,14 @@ for (compartmentMapping in GmfMap!CompartmentMapping.all) {
 	compartmentMapping.children := compartmentMapping.children.asSequence().sortBy(cr|-cr.getDomainMetaElement().eAllSuperTypes.size());
 }
 
--- Order tools by name
+// Order tools by name
 
 nodesToolGroup.tools := nodesToolGroup.tools.sortBy(t|t.title);
 if (linksToolGroup.isDefined()) {
 	linksToolGroup.tools := linksToolGroup.tools.sortBy(t|t.title);
 }
 
--- Delete empty tool groups
+// Delete empty tool groups
 if (nodesToolGroup.tools.size() = 0) delete nodesToolGroup;
 if (linksToolGroup.tools.size() = 0) delete linksToolGroup;
 
