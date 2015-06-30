@@ -23,6 +23,18 @@ public class AssignmentStatement extends Statement {
 		super.build();
 		targetExpression = (Expression) getFirstChild();
 		valueExpression = (Expression) getSecondChild();
+		if (getText().equals("+=")) {
+			valueExpression = new PlusOperatorExpression(targetExpression, valueExpression);
+		}
+		else if (getText().equals("-=")) {
+			valueExpression = new MinusOperatorExpression(targetExpression, valueExpression);			
+		}
+		else if (getText().equals("/=")) {
+			valueExpression = new DivOperatorExpression(targetExpression, valueExpression);			
+		}
+		else if (getText().equals("*=")) {
+			valueExpression = new TimesOperatorExpression(targetExpression, valueExpression);			
+		}
 	}
 	
 	@Override

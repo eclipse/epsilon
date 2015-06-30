@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2015-01-23 13:47:08
+// $ANTLR 3.1b1 EolLexerRules.g 2015-06-30 23:46:57
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -63,6 +63,7 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int NAME=19;
     public static final int IMPORT=66;
     public static final int T__92=92;
+    public static final int T__147=147;
     public static final int T__90=90;
     public static final int RETURN=37;
     public static final int NewExpression=47;
@@ -101,14 +102,19 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__85=85;
     public static final int T__141=141;
     public static final int T__84=84;
+    public static final int T__142=142;
     public static final int T__87=87;
     public static final int HELPERMETHOD=28;
     public static final int T__86=86;
     public static final int T__140=140;
     public static final int T__89=89;
+    public static final int T__145=145;
     public static final int NAMESPACE=68;
     public static final int T__88=88;
+    public static final int T__146=146;
     public static final int CollectionType=44;
+    public static final int T__143=143;
+    public static final int T__144=144;
     public static final int T__126=126;
     public static final int T__125=125;
     public static final int T__128=128;
@@ -128,12 +134,12 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__133=133;
     public static final int T__78=78;
     public static final int T__134=134;
-    public static final int T__77=77;
     public static final int T__135=135;
+    public static final int T__77=77;
     public static final int SPECIAL_ASSIGNMENT=27;
     public static final int MODELDECLARATIONPARAMETER=72;
-    public static final int KEYVAL=75;
     public static final int PARAMETERS=46;
+    public static final int KEYVAL=75;
     public static final int POINT=9;
     public static final int T__118=118;
     public static final int T__119=119;
@@ -174,7 +180,7 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=142;
+    public static final int Tokens=148;
     public static final int POINT_POINT=10;
     public static final int SpecialNameChar=17;
     public static final int MODELDECLARATIONPARAMETERS=71;

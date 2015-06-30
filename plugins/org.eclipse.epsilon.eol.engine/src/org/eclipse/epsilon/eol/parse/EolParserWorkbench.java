@@ -27,8 +27,10 @@ public class EolParserWorkbench {
 	public static void main(String[] args) throws Exception {
 		
 		EolModule module = new EolModule();
-		module.parse("ext x : Package;");
-		System.out.println(module.getAst().toExtendedStringTree());
+		module.parse("var i : Integer; i = 1; i += 2; i.println();");
+		module.execute();
+		//System.out.println(module.getAst().toExtendedStringTree());
+		
 		
 		//new EolParserWorkbench().work();
 	}

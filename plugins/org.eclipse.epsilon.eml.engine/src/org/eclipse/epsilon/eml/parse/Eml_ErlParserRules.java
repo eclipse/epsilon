@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eml.parse;
 
-// $ANTLR 3.1b1 ErlParserRules.g 2015-01-23 13:44:11
+// $ANTLR 3.1b1 ErlParserRules.g 2015-06-30 23:47:29
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -50,17 +50,23 @@ import org.antlr.runtime.tree.*;
  ******************************************************************************/
 public class Eml_ErlParserRules extends org.eclipse.epsilon.common.parse.EpsilonParser {
     public static final int EXPONENT=6;
+    public static final int T__159=159;
     public static final int WHILE=33;
     public static final int StatementBlock=29;
     public static final int T__158=158;
     public static final int StrangeNameLiteral=15;
     public static final int CASE=35;
     public static final int NEW=49;
+    public static final int T__160=160;
     public static final int FeatureCall=60;
     public static final int EOF=-1;
     public static final int BREAK=38;
+    public static final int T__163=163;
+    public static final int T__164=164;
     public static final int KEYVALLIST=76;
     public static final int TYPE=64;
+    public static final int T__161=161;
+    public static final int T__162=162;
     public static final int T__93=93;
     public static final int T__94=94;
     public static final int T__91=91;
@@ -137,8 +143,8 @@ public class Eml_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int Annotation=23;
     public static final int T__130=130;
     public static final int Letter=16;
-    public static final int T__131=131;
     public static final int EscapeSequence=13;
+    public static final int T__131=131;
     public static final int THROW=53;
     public static final int T__132=132;
     public static final int T__133=133;
@@ -259,7 +265,7 @@ public class Eml_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            p=(Token)match(input,149,FOLLOW_149_in_pre50); if (state.failed) return retval;
+            p=(Token)match(input,155,FOLLOW_155_in_pre50); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             p_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(p);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(p_tree, root_0);
@@ -345,7 +351,7 @@ public class Eml_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            p=(Token)match(input,150,FOLLOW_150_in_post72); if (state.failed) return retval;
+            p=(Token)match(input,156,FOLLOW_156_in_post72); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             p_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(p);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(p_tree, root_0);
@@ -429,7 +435,7 @@ public class Eml_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            g=(Token)match(input,151,FOLLOW_151_in_guard94); if (state.failed) return retval;
+            g=(Token)match(input,157,FOLLOW_157_in_guard94); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             g_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(g);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(g_tree, root_0);
@@ -495,7 +501,7 @@ public class Eml_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            e=(Token)match(input,152,FOLLOW_152_in_extendz113); if (state.failed) return retval;
+            e=(Token)match(input,158,FOLLOW_158_in_extendz113); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             e_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(e);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(e_tree, root_0);
@@ -566,15 +572,15 @@ public class Eml_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
  
 
-    public static final BitSet FOLLOW_149_in_pre50 = new BitSet(new long[]{0x0000000000080000L,0x0000000002000000L});
+    public static final BitSet FOLLOW_155_in_pre50 = new BitSet(new long[]{0x0000000000080000L,0x0000000002000000L});
     public static final BitSet FOLLOW_NAME_in_pre53 = new BitSet(new long[]{0x0000000000080000L,0x0000000002000000L});
     public static final BitSet FOLLOW_statementBlock_in_pre56 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_150_in_post72 = new BitSet(new long[]{0x0000000000080000L,0x0000000002000000L});
+    public static final BitSet FOLLOW_156_in_post72 = new BitSet(new long[]{0x0000000000080000L,0x0000000002000000L});
     public static final BitSet FOLLOW_NAME_in_post75 = new BitSet(new long[]{0x0000000000080000L,0x0000000002000000L});
     public static final BitSet FOLLOW_statementBlock_in_post78 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_151_in_guard94 = new BitSet(new long[]{0x0000000000080000L,0x0000000102000000L});
+    public static final BitSet FOLLOW_157_in_guard94 = new BitSet(new long[]{0x0000000000080000L,0x0000000102000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_guard97 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_152_in_extendz113 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_158_in_extendz113 = new BitSet(new long[]{0x0000000000080000L});
     public static final BitSet FOLLOW_NAME_in_extendz116 = new BitSet(new long[]{0x0000000000000002L,0x0000000000800000L});
     public static final BitSet FOLLOW_87_in_extendz119 = new BitSet(new long[]{0x0000000000080000L});
     public static final BitSet FOLLOW_NAME_in_extendz122 = new BitSet(new long[]{0x0000000000000002L,0x0000000000800000L});

@@ -56,6 +56,12 @@ public class OperatorExpressionFactory {
 		else if (operator.equals("implies")) {
 			return new ImpliesOperatorExpression();
 		}
+		else if (operator.equals("++")) {
+			return new PostfixOperatorExpression(true);
+		}
+		else if (operator.equals("--")) {
+			return new PostfixOperatorExpression(false);
+		}
 		
 		throw new RuntimeException("Unknown operator: " + operator);
 	}

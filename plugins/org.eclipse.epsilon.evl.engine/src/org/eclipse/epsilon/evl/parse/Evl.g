@@ -97,5 +97,5 @@ evlModule
 	;
 
 evlModuleContent
-	:	pre | annotationBlock | context | operationDeclaration | post
+	:	pre | annotationBlock | context | operationDeclaration | constraint | critique | post
 	;

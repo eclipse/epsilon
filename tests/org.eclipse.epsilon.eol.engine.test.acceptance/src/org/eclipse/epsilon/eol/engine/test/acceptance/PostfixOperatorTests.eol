@@ -1,0 +1,43 @@
+@test
+operation testIncrementVariable() {
+	var i : Integer;
+	i++;
+	assertEquals(1, i);
+}
+
+
+@test
+operation testIncrementAndAssignVariable() {
+	var i : Integer;
+	var j = i++;
+	assertEquals(1, j);
+}
+
+@test
+operation testIncrementAndPrint() {
+	var i : Integer;
+	var j = (i++).println();
+	assertEquals(1, j);
+}
+
+@test
+operation testIncrementExtendedProperty() {
+	var i : Integer;
+	i.~a = 1;
+	i.~a++;
+	assertEquals(2, i.~a);
+}
+
+/*
+
+A decrement postfix operator is not supported because
+of a conflict with the old-style OCL comments
+
+@test
+operation testDecrementVariable() {
+	var i : Integer;
+	i := 2;
+	i--;
+	assertEquals(1, i);
+}
+*/

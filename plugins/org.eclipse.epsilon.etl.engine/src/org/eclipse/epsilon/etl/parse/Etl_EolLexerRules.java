@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.etl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2015-01-23 13:44:02
+// $ANTLR 3.1b1 EolLexerRules.g 2015-06-30 23:47:11
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -47,11 +47,14 @@ import java.util.HashMap;
  ******************************************************************************/
 public class Etl_EolLexerRules extends Lexer {
     public static final int EXPONENT=6;
-    public static final int StatementBlock=29;
+    public static final int T__159=159;
     public static final int WHILE=33;
+    public static final int StatementBlock=29;
+    public static final int T__158=158;
     public static final int StrangeNameLiteral=15;
     public static final int CASE=35;
     public static final int NEW=49;
+    public static final int T__160=160;
     public static final int FeatureCall=60;
     public static final int EOF=-1;
     public static final int BREAK=38;
@@ -61,8 +64,8 @@ public class Etl_EolLexerRules extends Lexer {
     public static final int T__94=94;
     public static final int T__91=91;
     public static final int T__92=92;
-    public static final int IMPORT=66;
     public static final int NAME=19;
+    public static final int IMPORT=66;
     public static final int T__148=148;
     public static final int T__147=147;
     public static final int T__90=90;
@@ -75,17 +78,20 @@ public class Etl_EolLexerRules extends Lexer {
     public static final int COMMENT=21;
     public static final int ABORT=43;
     public static final int NativeType=56;
+    public static final int T__155=155;
+    public static final int T__156=156;
+    public static final int T__157=157;
     public static final int T__99=99;
     public static final int T__150=150;
     public static final int T__98=98;
     public static final int ITEMSELECTOR=73;
-    public static final int T__151=151;
     public static final int T__97=97;
-    public static final int T__152=152;
-    public static final int T__96=96;
+    public static final int T__151=151;
     public static final int MultiplicativeExpression=57;
-    public static final int T__153=153;
+    public static final int T__96=96;
+    public static final int T__152=152;
     public static final int T__95=95;
+    public static final int T__153=153;
     public static final int FLOAT_TYPE_SUFFIX=7;
     public static final int T__139=139;
     public static final int T__138=138;
@@ -185,7 +191,7 @@ public class Etl_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=155;
+    public static final int Tokens=161;
     public static final int POINT_POINT=10;
     public static final int SpecialNameChar=17;
     public static final int MODELDECLARATIONPARAMETERS=71;

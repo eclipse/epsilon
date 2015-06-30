@@ -380,7 +380,7 @@ assignmentStatement
 	@after {
 		$tree.getExtraTokens().add($sem);
 	}
-	:	logicalExpression (normal=':='^ {normal.setType(ASSIGNMENT);}|special='::='^ {special.setType(SPECIAL_ASSIGNMENT);}) logicalExpression sem=';'!
+	:	logicalExpression ((normal=':='^|normal='+='^|normal='-='^|normal='*='^|normal='/='^) {normal.setType(ASSIGNMENT);}|special='::='^ {special.setType(SPECIAL_ASSIGNMENT);}) logicalExpression sem=';'!
 		
 	;
 
@@ -413,7 +413,11 @@ multiplicativeExpression
 	;
 
 unaryExpression
-	:	((op='not'^|op='-'^) {$op.setType(OPERATOR);})? postfixExpression
+	:	((op='not'^|op='-'^) {$op.setType(OPERATOR);})? shortcutOperatorExpression
+	;
+	
+shortcutOperatorExpression
+	:	postfixExpression ((op='--'^|op='++'^) {$op.setType(OPERATOR);})?
 	;
 	
 postfixExpression

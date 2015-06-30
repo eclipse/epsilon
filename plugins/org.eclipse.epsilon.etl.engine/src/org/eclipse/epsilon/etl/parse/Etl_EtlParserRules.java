@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.etl.parse;
 
-// $ANTLR 3.1b1 EtlParserRules.g 2015-01-23 13:44:01
+// $ANTLR 3.1b1 EtlParserRules.g 2015-06-30 23:47:10
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -50,11 +50,14 @@ import org.antlr.runtime.tree.*;
  ******************************************************************************/
 public class Etl_EtlParserRules extends org.eclipse.epsilon.common.parse.EpsilonParser {
     public static final int EXPONENT=6;
+    public static final int T__159=159;
     public static final int WHILE=33;
     public static final int StatementBlock=29;
+    public static final int T__158=158;
     public static final int StrangeNameLiteral=15;
     public static final int CASE=35;
     public static final int NEW=49;
+    public static final int T__160=160;
     public static final int FeatureCall=60;
     public static final int EOF=-1;
     public static final int BREAK=38;
@@ -78,7 +81,10 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int ABORT=43;
     public static final int COMMENT=21;
     public static final int T__154=154;
+    public static final int T__155=155;
+    public static final int T__156=156;
     public static final int T__99=99;
+    public static final int T__157=157;
     public static final int ITEMSELECTOR=73;
     public static final int T__98=98;
     public static final int T__150=150;
@@ -133,9 +139,9 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int GUARD=80;
     public static final int Annotation=23;
     public static final int T__130=130;
-    public static final int T__131=131;
-    public static final int EscapeSequence=13;
     public static final int Letter=16;
+    public static final int EscapeSequence=13;
+    public static final int T__131=131;
     public static final int THROW=53;
     public static final int T__132=132;
     public static final int T__133=133;
@@ -271,7 +277,7 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            r=(Token)match(input,152,FOLLOW_152_in_transformationRule46); if (state.failed) return retval;
+            r=(Token)match(input,158,FOLLOW_158_in_transformationRule46); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             r_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(r);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(r_tree, root_0);
@@ -281,14 +287,14 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             rule_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(rule);
             adaptor.addChild(root_0, rule_tree);
             }
-            string_literal1=(Token)match(input,153,FOLLOW_153_in_transformationRule53); if (state.failed) return retval;
+            string_literal1=(Token)match(input,159,FOLLOW_159_in_transformationRule53); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameter_in_transformationRule56);
             formalParameter2=gEtl.formalParameter();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, formalParameter2.getTree());
-            string_literal3=(Token)match(input,154,FOLLOW_154_in_transformationRule58); if (state.failed) return retval;
+            string_literal3=(Token)match(input,160,FOLLOW_160_in_transformationRule58); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameterList_in_transformationRule61);
             formalParameterList4=gEtl.formalParameterList();
 
@@ -299,7 +305,7 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt1=2;
             int LA1_0 = input.LA(1);
 
-            if ( (LA1_0==151) ) {
+            if ( (LA1_0==157) ) {
                 alt1=1;
             }
             switch (alt1) {
@@ -323,7 +329,7 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt2=2;
             int LA2_0 = input.LA(1);
 
-            if ( (LA2_0==150) ) {
+            if ( (LA2_0==156) ) {
                 alt2=1;
             }
             switch (alt2) {
@@ -386,15 +392,15 @@ public class Etl_EtlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
  
 
-    public static final BitSet FOLLOW_152_in_transformationRule46 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_transformationRule51 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000002000000L});
-    public static final BitSet FOLLOW_153_in_transformationRule53 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_formalParameter_in_transformationRule56 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000004000000L});
-    public static final BitSet FOLLOW_154_in_transformationRule58 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_formalParameterList_in_transformationRule61 = new BitSet(new long[]{0x0000000000000000L,0x0000000001000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_158_in_transformationRule46 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_transformationRule51 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000080000000L});
+    public static final BitSet FOLLOW_159_in_transformationRule53 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_formalParameter_in_transformationRule56 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000100000000L});
+    public static final BitSet FOLLOW_160_in_transformationRule58 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_formalParameterList_in_transformationRule61 = new BitSet(new long[]{0x0000000000000000L,0x0000000001000000L,0x0000000020000000L});
     public static final BitSet FOLLOW_extendz_in_transformationRule64 = new BitSet(new long[]{0x0000000000000000L,0x0000000001000000L});
-    public static final BitSet FOLLOW_88_in_transformationRule69 = new BitSet(new long[]{0x0000000000085110L,0x1FF1BFE022000000L,0x00000000004E2400L});
-    public static final BitSet FOLLOW_guard_in_transformationRule72 = new BitSet(new long[]{0x0000000000085110L,0x1FF1BFE022000000L,0x00000000000E2400L});
+    public static final BitSet FOLLOW_88_in_transformationRule69 = new BitSet(new long[]{0x0000000000085110L,0x7FC69FE022000000L,0x0000000013824000L});
+    public static final BitSet FOLLOW_guard_in_transformationRule72 = new BitSet(new long[]{0x0000000000085110L,0x7FC69FE022000000L,0x0000000003824000L});
     public static final BitSet FOLLOW_block_in_transformationRule75 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
     public static final BitSet FOLLOW_89_in_transformationRule79 = new BitSet(new long[]{0x0000000000000002L});
 
