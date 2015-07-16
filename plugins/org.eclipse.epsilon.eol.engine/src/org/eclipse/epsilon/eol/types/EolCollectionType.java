@@ -12,7 +12,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
-import java.beans.Expression;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
