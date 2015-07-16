@@ -313,7 +313,7 @@ All collection types inherit from the abstract Collection type. Apart from simpl
 \label{tab:Collection Operations}\\
 \hline
     \textbf{Signature} & \textbf{Description} \\\hline
-    add(item : Any) & Adds an item to the collection. If the collection is a set, addition of duplicate items has no effect \\\hline
+    add(item : Any) : Boolean & Adds an item to the collection. If the collection is a set, addition of duplicate items has no effect. Returns true if the collection increased in size: this is always the case for bags and sequences, and for sets and ordered sets it is true if the element was not part of the collection before. \\\hline
     
     addAll(col : Collection) & Adds all the items of the \emph{col} argument to the collection. If the collection is a set, it only adds items that do not already exist in the collection\\\hline
     
@@ -581,41 +581,25 @@ operation Any println() : Any {
 
 EOL provides common operators for performing arithmetical computations and comparisons illustrated in Tables \ref{tab:ArithmeticalOperators} and \ref{tab:ComparisonOperators} respectively.
 
-%Figures \ref{fig:EOLArithmeticalOperators} and \ref{fig:EOLComparisonOperators} respectively.
-%
-%\begin{figure}
-%	\centering
-%		\includegraphics{images/EOLArithmeticalOperators}
-%	\caption{Overview of the arithmetical EOL operator expressions}
-%	\label{fig:EOLArithmeticalOperators}
-%\end{figure}
-%
-%\begin{figure}
-%	\centering
-%		\includegraphics{images/EOLComparisonOperators}
-%	\caption{Overview of the comparison EOL operator expressions}
-%	\label{fig:EOLComparisonOperators}
-%\end{figure}
-
 \begin{longtabu} {|p{3.5cm}|X|}
-			
-			\caption{Arithmetical operators}
-			\label{tab:ArithmeticalOperators}\\
-			
-			\hline
-							
-			\textbf{Operator} & \textbf{Description} \\\hline
+  \caption{Arithmetical operators}
+  \label{tab:ArithmeticalOperators}\\
+  
+  \hline
+  
+  \textbf{Operator} & \textbf{Description} \\\hline
 
-				$+$ & Adds reals/integers and concatenates strings \\\hline
-	
-				$-$ & Subtracts reals/integers \\\hline
-				
-				$-$ (unary) & Returns the negative of a real/integer \\\hline
-				
-				$*$ & Multiplies reals/integers \\\hline
-				
-				$/$ & Divides reals/integers \\\hline
-				
+  $+$ & Adds reals/integers and concatenates strings \\\hline
+  $-$ & Subtracts reals/integers \\\hline
+  $-$ (unary) & Returns the negative of a real/integer \\\hline
+  $*$ & Multiplies reals/integers \\\hline
+  $/$ & Divides reals/integers \\\hline
+
+  $+=$ & Adds the r-value to the l-value \\\hline
+  $-=$ & Subtracts the r-value from the l-value \\\hline
+  $*=$ & Multiplies the l-value by the r-value \\\hline
+  $/=$ & Divides the l-value by the r-value \\\hline
+
 \end{longtabu}
 
 \clearpage
