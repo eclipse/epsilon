@@ -32,6 +32,7 @@ import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.dom.Constraints;
 import org.eclipse.epsilon.evl.dom.Fix;
+import org.eclipse.epsilon.evl.dom.GlobalConstraintContext;
 import org.eclipse.epsilon.evl.execute.EvlOperationFactory;
 import org.eclipse.epsilon.evl.execute.context.EvlContext;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
@@ -101,6 +102,20 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	public void buildModel() throws Exception {
 		
 		super.buildModel();
+		
+		GlobalConstraintContext globalConstraintContext = new GlobalConstraintContext();
+		
+		for (AST constraintAst : AstUtil.getChildren(ast, EvlParser.CONSTRAINT)) {
+			globalConstraintContext.getConstraints().addConstraint((Constraint) constraintAst); 
+			((Constraint) constraintAst).setConstraintContext(globalConstraintContext);
+		}
+		
+		for (AST critiqueAst : AstUtil.getChildren(ast, EvlParser.CRITIQUE)) {
+			globalConstraintContext.getConstraints().addConstraint((Constraint) critiqueAst); 
+			((Constraint) critiqueAst).setConstraintContext(globalConstraintContext);
+		}
+		
+		declaredConstraintContexts.add(globalConstraintContext);
 		
 		for (AST constraintContextAst : AstUtil.getChildren(ast, EvlParser.CONTEXT)) {
 			ConstraintContext constraintContext = (ConstraintContext) constraintContextAst;
