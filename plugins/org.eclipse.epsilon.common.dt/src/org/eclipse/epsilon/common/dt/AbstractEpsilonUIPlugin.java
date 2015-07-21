@@ -43,7 +43,7 @@ public abstract class AbstractEpsilonUIPlugin extends AbstractUIPlugin implement
 		ImageDescriptor imageDescriptor = getImageDescriptorRegistry().getDescriptor(path);
 		
 		if (imageDescriptor == null) {
-			URL url = FileLocator.find(getBundle(), new Path(path), Collections.emptyMap());
+			URL url = FileLocator.find(getBundle(), new Path(path), new HashMap<String, String>());
 			if (url != null) {
 				imageDescriptor = ImageDescriptor.createFromURL(url);
 				if (imageDescriptor != null) getImageDescriptorRegistry().put(path, imageDescriptor);
