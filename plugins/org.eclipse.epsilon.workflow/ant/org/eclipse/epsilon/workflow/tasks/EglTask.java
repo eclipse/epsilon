@@ -12,6 +12,7 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.ObjectInputStream.GetField;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -36,7 +37,7 @@ import org.eclipse.epsilon.workflow.tasks.nestedelements.EglDefaultFormatterNest
 
 public class EglTask extends ExportableModuleTask {
 	
-	protected File target;
+	protected String target;
 	protected Class<? extends EglTemplateFactory> templateFactoryType = EglFileGeneratingTemplateFactory.class;
 	protected List<EglDefaultFormatterNestedElement> defaultFormatterNestedElements = new LinkedList<EglDefaultFormatterNestedElement>();
 	protected Trace trace;
@@ -57,7 +58,7 @@ public class EglTask extends ExportableModuleTask {
 		
 		templateFactory.setDefaultFormatters(instantiateDefaultFormatters());
 		
-		if (src.getName().endsWith("egx")) {
+		if (src != null && src.getName().endsWith("egx")) {
 			module = new EgxModule(templateFactory);
 		}
 		else {		
@@ -87,22 +88,29 @@ public class EglTask extends ExportableModuleTask {
 	protected void examine() throws Exception {
 		super.examine();
 		
-		if (target!=null) {
-			FileWriter fw = new FileWriter(target);
-			fw.write(String.valueOf(result));
-			fw.flush();
-			fw.close();
+		if (target == null) return;
+		
+		File baseDir = getProject().getBaseDir();
+		
+		if (outputRoot != null) {
+			baseDir = outputRoot;
 		}
+
+		FileWriter fw = new FileWriter(new File(baseDir, target));
+		fw.write(String.valueOf(result));
+		fw.flush();
+		fw.close();
+		
 	}
 
 	@Override
 	protected void initialize() throws Exception {}
 
-	public File getTarget() {
+	public String getTarget() {
 		return target;
 	}
 
-	public void setTarget(File output) {
+	public void setTarget(String output) {
 		this.target = output;
 	}
 	
