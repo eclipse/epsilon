@@ -312,6 +312,7 @@ Finally, the Boolean type represents true/false states and provides no additiona
 EOL provides four types of collections and a Map type. The Bag type represents non-unique, unordered collections, the Sequence type represents non-unique, ordered collections, the Set type represents unique and unordered collections and the OrderedSet represents unique and ordered collections.
 
 All collection types inherit from the abstract Collection type. Apart from simple operations, EOL also supports first-order logic operations on collections. The following operations apply to all types of collections:
+\newpage
 
 \begin{longtabu} {|p{6.5cm}|X|}
 \caption{Operations of type Collection}
@@ -460,14 +461,13 @@ The Map type represents an array of key-value pairs in which the keys are unique
 
 As discussed earlier, while the purpose of EOL is to provide significant expressive power to enable users to manage models at a high level of abstraction, it is not intended to be a general-purpose programming language. Therefore, there may be cases where users need to implement some functionality that is either not efficiently supported by the EOL runtime (e.g. complex mathematical computations) or that EOL does not support at all (e.g. developing user interfaces, accessing databases). To overcome this problem, EOL enables users to create objects of the underlying programming environment by using \emph{native} types. A native type specifies an $implementation$ property that indicates the unique identifier for an underlying platform type. For instance, in a Java implementation of EOL the user can instantiate and use a Java class via its class identifier. Thus, in Listing \ref{lst:Native} the EOL excerpt creates a Java window (Swing JFrame) and uses its methods to change its title and dimensions and make it visible.
 
+To pass arguments to the constructor of a native type, a parameter list must be added, such as that in Listing~\ref{lst:Native-params}.
 \begin{lstlisting}[float=h, caption=Demonstration of NativeType in EOL, label=lst:Native, language=EOL]
 var frame = new Native("javax.swing.JFrame");
 frame.title = "Opened with EOL";
 frame.setBounds(100,100,300,200);
 frame.visible = true;
 \end{lstlisting}
-
-To pass arguments to the constructor of a native type, a parameter list must be added, such as that in Listing~\ref{lst:Native-params}.
 
 \begin{lstlisting}[float=h, caption=Demonstration of NativeType in EOL, label=lst:Native-params, numbers=left, language=EOL]
 var file = new Native("java.io.File")("myfile.txt");
@@ -610,8 +610,6 @@ EOL provides common operators for performing arithmetical computations and compa
 
 \end{longtabu}
 
-\clearpage
-
 \begin{longtabu} {|p{3.5cm}|X|}
 			
 			\caption{Comparison operators}
@@ -691,7 +689,7 @@ EOL provides the \# operator for accessing enumeration literals. For example, th
 
 A variable declaration statement declares the name and (optionally) the type and initial value of a variable in an EOL program. If no type is explicitly declared, the variable is assumed to be of type Any. For variables of primitive type, declaration automatically creates an instance of the type with the default values presented in Table \ref{tab:DefaultValuesOfPrimitiveTypes}. For non-primitive types the user has to explicitly assign the value of the variable either by using the \emph{new} keyword or by providing an initial value expression. If neither is done the value of the variable is undefined. Variables in EOL are strongly-typed. Therefore a variable can only be assigned values that conform to its type (or a sub-type of it).
 
-\begin{table}[b]
+\begin{table}[h]
   \centering
   \caption{Default values of primitive types}
   \label{tab:DefaultValuesOfPrimitiveTypes}
@@ -729,14 +727,14 @@ The assignment statement is used to update the values of variables and  properti
 When the left hand side of an assignment statement is a variable, the value of the variable is updated to the object to which the right hand side evaluates to. If the type of the right hand side is not compatible (kind-of relationship) with the type of the variable, the assignment is illegal and a runtime error is raised. Assignment to objects of primitive types is performed by value while assignment to instances of non-primitive values is performed by reference. For example, in Listing \ref{lst:VariableAssignmentByReference}, in line 1 the value
 of the a variable is set to a new Class in the Uml model. In line 2, a new untyped variable b is declared and its value is assigned to a. In line 3 the name of the class is updated to Customer and thus, line 4 prints Customer to the standard output stream. On the other hand, in Listing \ref{lst:VariableAssignmentByValue}, in line 1 the a String variable is declared. In line 2 an untyped variable b is declared. In line 3, the value of a is changed to Customer (which is an instance of the primitive \emph{String} type). This has no effect on b and thus line 4 prints an empty string to the standard output stream.
 
-\begin{lstlisting}[float=tbp, caption=Assigning the value of a variable by reference, label=lst:VariableAssignmentByReference, language=EOL]
+\begin{lstlisting}[float=bp, caption=Assigning the value of a variable by reference, label=lst:VariableAssignmentByReference, language=EOL]
 var a : new Uml!Class;
 var b = a;
 a.name = "Customer";
 b.name.println();
 \end{lstlisting}
 
-\begin{lstlisting}[float=tbp, caption=Assigning the value of a variable by value, label=lst:VariableAssignmentByValue, language=EOL]
+\begin{lstlisting}[float=bp, caption=Assigning the value of a variable by value, label=lst:VariableAssignmentByValue, language=EOL]
 var a : String;
 var b = a;
 a = "Customer";
@@ -752,12 +750,12 @@ the language natively supports properties in classes.
 
 When the left hand side of the assignment is a property of a model element, the model that owns the particular model element (accessible using the \emph{ModelRepository.getOwningModel() }operation) is responsible for implementing the semantics of the assignment using its associated \emph{propertyGetter} as discussed in Section \ref{sec:Design.EMC.CRUD}. For example, if x is a model element, the statement \emph{x.y = a} may be interpreted using the Java code of Listing \ref{lst:EmfModelElementPropertyAssignment} if x belongs to an EMF-based model or using the Java code of Listing \ref{lst:MdrModelElementPropertyAssignment} if it belongs to an MDR-based model.
 
-\begin{lstlisting}[float=tbp, caption=Java code that assigns the value of a property of a model element that belongs to an EMF-based model, label=lst:EmfModelElementPropertyAssignment, language=Java]
+\begin{lstlisting}[float=h, caption=Java code that assigns the value of a property of a model element that belongs to an EMF-based model, label=lst:EmfModelElementPropertyAssignment, language=Java]
 EStructuralFeature feature = x.eClass().getEStructuralFeature("y");
 x.eSet(feature, a);
 \end{lstlisting}
 
-\begin{lstlisting}[float=tbp, caption=Java code that assigns the value of a property of a model element that belongs to an MDR-based model, label=lst:MdrModelElementPropertyAssignment, language=Java]
+\begin{lstlisting}[float=h, caption=Java code that assigns the value of a property of a model element that belongs to an MDR-based model, label=lst:MdrModelElementPropertyAssignment, language=Java]
 StructuralFeature feature = findStructuralFeature(x.refClass(), "y");
 x.refSetValue(feature, a);
 \end{lstlisting}
@@ -770,20 +768,20 @@ assignment behaviour. For example, consider the simple model-to-model transforma
 \begin{lstlisting}[float=h, caption=A simple model-to-model transformation
 demonstrating the special assignment statement, label=lst:SpecialAssignmentStatement, language=ETL]
 rule Class2Table
-transform c : OO!Class
-to t : DB!Table {
-
-t.name = c.name;
-}
+    transform c : OO!Class
+    to t : DB!Table {
+    
+        t.name = c.name;
+    }
 
 rule Attribute2Column
-transform a : OO!Attribute
-to c : DB!Column {
-
-c.name = a.name;
-//c.owningTable = c.owningClass;
-c.owningTable ::= c.owningClass;
-}
+    transform a : OO!Attribute
+    to c : DB!Column {
+    
+        c.name = a.name;
+        //c.owningTable = c.owningClass;
+        c.owningTable ::= c.owningClass;
+    }
 
 \end{lstlisting}
 
@@ -859,51 +857,6 @@ for (r : Real in col) {
 
 Inside the body of a \emph{for} statement, two built-in read-only variables are visible: the \emph{loopCount} integer variable (explained in Section~\ref{sec:while-statement}) and the \emph{hasMore} boolean variable. \emph{hasMore} is used to determine if there are more items if the collection for which the loop will be executed. For example, in Listing \ref{lst:ForStatement} the col heterogeneous Sequence is defined that contains two strings (a and b), two integers (1,2) and one real (2.5). The for loop of line 2 only iterates through the items of the collection that are of kind Real and therefore prints 1,2,2.5 to the standard output stream.
 
-\begin{lstlisting}[float=h, caption=Example of a for statement, label=lst:TransactionStatement, language=EOL]
-var system : System.allInstances.first();
-
-for (i in Sequence {1..100}) {
-
-	transaction {
-		
-		var failedProcessors : Set; 
-		
-		while (failedProcessors.size() < 10) {
-			failedProcessors.add(system.processors.random());
-		}
-		
-		for (processor in failedProcessors) {
-			processor.failed = true;
-			processor.moveTasksElsewhere();
-		}
-		
-		system.evaluateAvailability();
-		
-		abort; /*@\label{line:Abort}@*/
-	}
-	
-}
-\end{lstlisting}
-
-\begin{lstlisting}[float=h, caption=Calculating and printing the depth of each Tree, label=lst:NoExtendedProperties, language=EOL]
-var depths = new Map; /*@\label{line:DeclareMap}@*/
-
-for (n in Tree.allInstances.select(t|not t.parent.isDefined())) {
-	n.setDepth(0);
-}
-
-for (n in Tree.allInstances) {
-	(n.name + " " + depths.get(n)).println();
-}
-
-operation Tree setDepth(depth : Integer) {
-	depths.put(self,depth); /*@\label{line:PutDepthInMap}@*/
-	for (c in self.children) {
-		c.setDepth(depth + 1);
-	}
-}
-\end{lstlisting}
-
 \subsection{Break, BreakAll and Continue Statements}
 
 To exit from for and while loops on demand, EOL provides the break and breakAll statements. The break statement exits the innermost loop while the breakAll statement exits all outer loops as well. On the other hand, to skip a particular loop and proceed with the next one, EOL provides the continue statement. For example, the excerpt of Listing \ref{lst:BreakStatement}, prints \textit{2,1 3,1} to the standard output stream.
@@ -933,6 +886,32 @@ throw "Error!";
 
 As discussed in Section \ref{sec:EMC.ModelTransactionSupport}, the underlying EMC layer provides support for transactions in models. To utilize this feature EOL provides the transaction statement. A transaction statement (optionally) defines the models that participate in the transaction. If no models are defined, it is assumed that all the models that are accessible from the enclosing program participate. When the statement is executed, a transaction is started on each participating model. If no errors are raised during the execution of the contained statements, any changes made to model elements are committed. On the other hand, if an error is raised the transaction is rolled back and any changes made to the models in the context of the transaction are undone. The user can also use the abort statement to explicitly exit a transaction and roll-back any changes done in its context. In Listing \ref{lst:TransactionStatement}, an example of using this feature in a simulation problem is illustrated.
 
+\begin{lstlisting}[float=h, caption=Example of a transaction statement, label=lst:TransactionStatement, language=EOL]
+var system : System.allInstances.first();
+
+for (i in Sequence {1..100}) {
+
+    transaction {
+    
+        var failedProcessors : Set; 
+        
+        while (failedProcessors.size() < 10) {
+            failedProcessors.add(system.processors.random());
+        }
+        
+        for (processor in failedProcessors) {
+            processor.failed = true;
+            processor.moveTasksElsewhere();
+        }
+        
+        system.evaluateAvailability();
+        
+        abort; /*@\label{line:Abort}@*/
+    }
+
+}
+\end{lstlisting}
+
 In this problem, a system consists of a number of processors. A processor manages some tasks and can fail at any time. The EOL program in Listing \ref{lst:TransactionStatement} performs 100 simulation steps, in every one of which 10 random processors from the model (lines 7-11) are marked as failed by setting their \emph{failed} property to true (line 14). Then, the tasks that the failed processors manage are moved to other processors (line 15). Finally the availability of the system in this state is evaluated.
 
 After a simulation step, the state of the model has been drastically changed since processors have failed and tasks have been relocated. To be able to restore the model to its original state after every simulation step, each step is executed in the context of a transaction which is explicitly aborted (line \ref{line:Abort}) after evaluating the availability of the system. Therefore after each simulation step the model is restored to its original state for the next step to be executed.
@@ -952,6 +931,25 @@ Quite often, during a model management operation it is necessary to associate mo
 \end{figure}
 
 As the Tree metamodel doesn't support a \emph{depth} property in the Tree metaclass, each Tree has to be associated with its calculated depth (line \ref{line:PutDepthInMap}) using the \emph{depths} map defined in line \ref{line:DeclareMap}. Another approach would be to extend the Tree metamodel to support the desired \emph{depth} property; however, applying this technique every time an additional property is needed for some model management operation would quickly pollute the metamodel with properties of secondary importance.
+
+\begin{lstlisting}[float=h, caption=Calculating and printing the depth of each Tree, label=lst:NoExtendedProperties, language=EOL]
+var depths = new Map; /*@\label{line:DeclareMap}@*/
+
+for (n in Tree.allInstances.select(t|not t.parent.isDefined())) {
+    n.setDepth(0);
+}
+
+for (n in Tree.allInstances) {
+    (n.name + " " + depths.get(n)).println();
+}
+
+operation Tree setDepth(depth : Integer) {
+    depths.put(self,depth); /*@\label{line:PutDepthInMap}@*/
+    for (c in self.children) {
+        c.setDepth(depth + 1);
+}
+}
+\end{lstlisting}
 
 To simplify the code required in such cases, EOL provides the concept of \emph{extended properties}. In terms of concrete syntax, an extended property is a normal property, the name of which starts with the tilde character (\verb|~|). With regards to its execution semantics, the first time the value of an extended property of an object is assigned, the property is created and associated with the object. Then, the property can be accessed as a normal property. If an extended property is accessed before it is assigned, it returns \emph{null}. Listing \ref{lst:ExtendedProperties} demonstrates using a $~$\emph{depth} extended property to eliminate the need for using the \emph{depths} map in Listing \ref{lst:NoExtendedProperties}.
 
