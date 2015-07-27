@@ -258,73 +258,76 @@ EUnit provides several variables and operations which are useful for testing. Th
 \subsubsection{Assertions}
 
 EUnit implements some common assertions for equality and inequality, with special versions for comparing floating-point numbers. EUnit also supports a limited form of exception testing with \eol{assertError}, which checks that the expression inside it throws an exception. Custom assertions can be defined by the user with the \eol{fail} operation, which fails a test with a custom message. The available assertions are shown in Table~\ref{tab:eunit-assertions}. Table~\ref{tab:eunit-comparator-options} lists the available option keys which can be used with the model equality assertions, by comparator.
+\newpage
+
+\newcommand{\parameter}[1]{\newline{}\phantom{- }#1}
+\begin{longtabu}{|p{6.5cm}|X|}
+    \caption{Assertions in EUnit}
+    \label{tab:eunit-assertions} \\\hline
+    
+    \textbf{Signature} & \textbf{Description}  \\\hline
+    
+    assertEqualDirectories(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Fails the test if the contents of the directory in \variable{obtainedFile} differ from those of the directory in \variable{expectedPath}. Directory comparisons are performed on recursive snapshots of both directories.\\\hline
+    
+    assertEqualFiles(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Fails the test if the contents of the file in \variable{obtainedPath} differ from those of the file in \variable{expectedPath}. File comparisons are performed on snapshots of both files.\\\hline
+    
+    assertEqualModels(\parameter{[msg : String,]}\parameter{expectedModel : String},\parameter{obtainedModel : String}\parameter{[, options : Map]}) & Fails the test with the optional message \variable{msg} if the model named \variable{obtainedModel} is not equal to the model named \variable{expectedModel}. Model comparisons are performed on snapshots of the resource sets of both models. During EMF comparisons, XMI identifiers are ignored. Additional comparator-specific options can be specified through \variable{options}.\\\hline
+    
+    assertEquals(\parameter{[msg : String,]}\parameter{expected : Any},\parameter{obtained : Any}) & Fails the test with the optional message \variable{msg} if the values of \variable{expected} and \variable{obtained} are not equal. \\\hline
+    
+    assertEquals(\parameter{[msg : String,]}\parameter{expected : Real},\parameter{obtained : Real},\parameter{ulps : Integer}) & Fails the test with the optional message \variable{msg} if the values of \variable{expected} and \variable{obtained} differ in more than \variable{ulps} units of least precision. See \href{http://download.oracle.com/javase/6/docs/api/java/lang/Math.html\#ulp(double)}{this site} for details.\\\hline
+    
+    assertError(expr : Any) & Fails the test if no exception is thrown during the evaluation of \variable{expr}.\\\hline
+    
+    assertFalse(\parameter{[msg : String,]}\parameter{cond : Boolean}) & Fails the test with the optional message \variable{msg} if \variable{cond} is \eol{true}. It is a negated version of assertTrue. \\\hline
+    
+    assertLineWithMatch(\parameter{[msg : String,]}\parameter{path : String},\parameter{regexp : String}) & Fails the test with the optional message \variable{msg} if the file at \variable{path} does not have a line containing a substring matching the regular expression \variable{regexp}\footnote{See \class{java.util.regex.Pattern} for details about the accepted syntax for regular expressions.}.\\\hline
+    
+    assertMatchingLine(\parameter{[msg : String,]}\parameter{path : String},\parameter{regexp : String}) & Fails the test with the optional message \variable{msg} if the file at \variable{path} does not have a line that matches the regular expression \variable{regexp}\footnote{See footnote for \eol{assertLineWithMatch} for details about the syntax of the regular expressions.} from start to finish.\\\hline
+    
+    assertNotEqualDirectories(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Negated version of assertEqualDirectories.\\\hline
+    
+    assertNotEqualFiles(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Negated version of assertEqualFiles.\\\hline
+    
+    assertNotEqualModels(\parameter{[msg : String,]}\parameter{expectedModel : String},\parameter{obtainedModel : String}) & Negated version of assertNotEqualModels.\\\hline
+    
+    assertNotEquals(\parameter{[msg : String,]}\parameter{expected : Any},\parameter{obtained : Any}) & Negated version of assertEquals([msg : String,] expected : Any, obtained : Any). \\\hline
+    
+    assertNotEquals(\parameter{[msg : String,]}\parameter{expected : Real},\parameter{obtained : Real},\parameter{ulps : Integer}) & Negated version of assertEquals([msg : String,] expected : Real, obtained : Real, ulps : Integer). \\\hline
+    
+    assertTrue(\parameter{[msg : String,]}\parameter{cond : Boolean}) & Fails the test with the optional message \variable{msg} if \variable{cond} is \eol{false}.\\\hline
+    
+    fail(msg : String) & Fails a test with the message \variable{msg}.\\\hline
+\end{longtabu}
+
+\begin{longtabu}{|p{7cm}|X|}
+    \caption{Available options by model comparator}
+    \label{tab:eunit-comparator-options} \\\hline
+    
+    \textbf{Comparator and key} & \textbf{Usage}  \\\hline
+    EMF, ``whitespace'' & When set to ``ignore'', differences in EString attribute values due to whitespace will be ignored.  Disabled by default.\\\hline
+    EMF, ``ignore\-Attribute\-Value\-Changes'' & Can contain a \eol{Sequence} of
+    strings of the form ``package.class.attribute''. Differences in the
+    values for these attributes will be ignored. However, if the
+    attribute is set on one side and not on the other, the difference
+    will be reported as normal. Empty by default. \\\hline
+    EMF, ``unordered\-Moves'' & When set to ``ignore'', differences in the order of the elements within an unordered EReference. Enabled by default. \\\hline
+\end{longtabu}
 
 More importantly, EUnit implements specific assertions for comparing models, files and trees of files. Model comparison is not implemented by the assertions themselves: it is an optional service implemented by some EMC drivers. Currently, EMF models will automatically use EMF Compare as their comparison engine. The rest of the EMC drivers do not support comparison yet.  The main advantage of having an abstraction layer implement model comparison as a service is that the test case definition is decoupled from the concrete model comparison engine used.
+
+
 
 Model, file and directory comparisons take a snapshot of their operands before comparing them, so EUnit can show the differences right at the moment when the comparison was performed. This is especially important when some of the models are generated on the fly by the EUnit test suite, or when a test case for code generation may overwrite the results of the previous one.
 
 Figure~\ref{fig:screenshot-eunit} shows a screenshot of the EUnit graphical user interface. On the left, an Eclipse view shows the results of several EUnit test suites. We can see that the \eol{load-\allowbreak{}models-\allowbreak{}with-\allowbreak{}hutn} suite failed. The Compare button to the right of ``Failure Trace'' can be pressed to show the differences between the expected and obtained models, as shown on the right side. EUnit implements a pluggable architecture where \emph{difference viewers} are automatically selected based on the types of the operands. There are difference viewers for EMF models, file trees and a fallback viewer which converts both operands to strings.
-
-\newcommand{\parameter}[1]{\newline{}\phantom{- }#1}
-\begin{longtabu}{|p{6.5cm}|X|}
-  \caption{Assertions in EUnit}
-  \label{tab:eunit-assertions} \\\hline
-
-  \textbf{Signature} & \textbf{Description}  \\\hline
-
-  assertEqualDirectories(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Fails the test if the contents of the directory in \variable{obtainedFile} differ from those of the directory in \variable{expectedPath}. Directory comparisons are performed on recursive snapshots of both directories.\\\hline
-
-  assertEqualFiles(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Fails the test if the contents of the file in \variable{obtainedPath} differ from those of the file in \variable{expectedPath}. File comparisons are performed on snapshots of both files.\\\hline
-
-  assertEqualModels(\parameter{[msg : String,]}\parameter{expectedModel : String},\parameter{obtainedModel : String}\parameter{[, options : Map]}) & Fails the test with the optional message \variable{msg} if the model named \variable{obtainedModel} is not equal to the model named \variable{expectedModel}. Model comparisons are performed on snapshots of the resource sets of both models. During EMF comparisons, XMI identifiers are ignored. Additional comparator-specific options can be specified through \variable{options}.\\\hline
-
-  assertEquals(\parameter{[msg : String,]}\parameter{expected : Any},\parameter{obtained : Any}) & Fails the test with the optional message \variable{msg} if the values of \variable{expected} and \variable{obtained} are not equal. \\\hline
-
-  assertEquals(\parameter{[msg : String,]}\parameter{expected : Real},\parameter{obtained : Real},\parameter{ulps : Integer}) & Fails the test with the optional message \variable{msg} if the values of \variable{expected} and \variable{obtained} differ in more than \variable{ulps} units of least precision. See \href{http://download.oracle.com/javase/6/docs/api/java/lang/Math.html\#ulp(double)}{this site} for details.\\\hline
-
-  assertError(expr : Any) & Fails the test if no exception is thrown during the evaluation of \variable{expr}.\\\hline
-
-  assertFalse(\parameter{[msg : String,]}\parameter{cond : Boolean}) & Fails the test with the optional message \variable{msg} if \variable{cond} is \eol{true}. It is a negated version of assertTrue. \\\hline
-
-  assertLineWithMatch(\parameter{[msg : String,]}\parameter{path : String},\parameter{regexp : String}) & Fails the test with the optional message \variable{msg} if the file at \variable{path} does not have a line containing a substring matching the regular expression \variable{regexp}\footnote{See \class{java.util.regex.Pattern} for details about the accepted syntax for regular expressions.}.\\\hline
-
-  assertMatchingLine(\parameter{[msg : String,]}\parameter{path : String},\parameter{regexp : String}) & Fails the test with the optional message \variable{msg} if the file at \variable{path} does not have a line that matches the regular expression \variable{regexp}\footnote{See footnote for \eol{assertLineWithMatch} for details about the syntax of the regular expressions.} from start to finish.\\\hline
-
-  assertNotEqualDirectories(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Negated version of assertEqualDirectories.\\\hline
-
-  assertNotEqualFiles(\parameter{expectedPath : String},\parameter{obtainedPath : String}) & Negated version of assertEqualFiles.\\\hline
-
-  assertNotEqualModels(\parameter{[msg : String,]}\parameter{expectedModel : String},\parameter{obtainedModel : String}) & Negated version of assertNotEqualModels.\\\hline
-
-  assertNotEquals(\parameter{[msg : String,]}\parameter{expected : Any},\parameter{obtained : Any}) & Negated version of assertEquals([msg : String,] expected : Any, obtained : Any). \\\hline
-
-  assertNotEquals(\parameter{[msg : String,]}\parameter{expected : Real},\parameter{obtained : Real},\parameter{ulps : Integer}) & Negated version of assertEquals([msg : String,] expected : Real, obtained : Real, ulps : Integer). \\\hline
-
-  assertTrue(\parameter{[msg : String,]}\parameter{cond : Boolean}) & Fails the test with the optional message \variable{msg} if \variable{cond} is \eol{false}.\\\hline
-
-  fail(msg : String) & Fails a test with the message \variable{msg}.\\\hline
-\end{longtabu}
-
-\begin{longtabu}{|p{7cm}|X|}
-  \caption{Available options by model comparator}
-  \label{tab:eunit-comparator-options} \\\hline
-
-  \textbf{Comparator and key} & \textbf{Usage}  \\\hline
-  EMF, ``whitespace'' & When set to ``ignore'', differences in EString attribute values due to whitespace will be ignored.  Disabled by default.\\\hline
-  EMF, ``ignore\-Attribute\-Value\-Changes'' & Can contain a \eol{Sequence} of
-  strings of the form ``package.class.attribute''. Differences in the
-  values for these attributes will be ignored. However, if the
-  attribute is set on one side and not on the other, the difference
-  will be reported as normal. Empty by default. \\\hline
-  EMF, ``unordered\-Moves'' & When set to ``ignore'', differences in the order of the elements within an unordered EReference. Enabled by default. \\\hline
-\end{longtabu}
-
 \begin{sidewaysfigure}
-  \centering
-  \includegraphics[width=\textwidth]{images/EUnitUI}
-  \caption{Screenshot of the EUnit graphical user interface}
-  \label{fig:screenshot-eunit}
+    \centering
+    \includegraphics[width=\textwidth]{images/EUnitUI}
+    \caption{Screenshot of the EUnit graphical user interface}
+    \label{fig:screenshot-eunit}
 \end{sidewaysfigure}
+
 
 \section{Examples}
 \label{sec:eunit-examples}

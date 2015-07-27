@@ -11,17 +11,10 @@ The primary aim of EOL is to provide a reusable set of common model management f
 
 In this section the syntax of EOL is presented in a top-down manner. As displayed in Figure \ref{fig:EOL.Module}, EOL programs are organized in \emph{modules}. Each module defines a \emph{body} and a number of \emph{operations}. The body is a block of statements that are evaluated when the module is executed\footnote{Although the EOL parser permits loose statements (e.g. not contained in operations) between/after operations, these are ignored at runtime.}. Each operation defines the kind of objects on which it is applicable (\emph{context}), a \emph{name}, a set of \emph{parameters} and optionally a \emph{return type}. Modules can also import other modules using \emph{import} statements and access their operations, as shown in Listing~\ref{lst:ExampleImports}.
 
-\begin{sidewaysfigure}
-  \centering
-  \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/EOLModule.png}
-  \caption{EOL Module Structure}
-  \label{fig:EOL.Module}
-\end{sidewaysfigure}
-
-\begin{lstlisting}[float, caption={Example of two related EOL modules}, label=lst:ExampleImports, language=EOL]
+\begin{lstlisting}[float=ht, caption={Example of two related EOL modules}, label=lst:ExampleImports, language=EOL]
 // file imported.eol
 operation hello() {
-  'Hello world!'.println();
+'Hello world!'.println();
 }
 
 // file importer.eol
@@ -33,26 +26,35 @@ hello(); // main body
 // ... more operations could be placed here ...
 \end{lstlisting}
 
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/EOLModule.png}
+  \caption{EOL Module Structure}
+  \label{fig:EOL.Module}
+\end{sidewaysfigure}
+
+
+\newpage
 \section{User-Defined Operations}
 \label{sec:Design.EOL.Operations}
 
 In typical object oriented languages such as Java and C++, operations are defined inside classes and can be invoked on instances of those classes. EOL on the other hand is not object-oriented in the sense that it does not define classes itself, but nevertheless needs to manage objects of types defined externally to it (e.g. in metamodels). By defining the context-type of an operation explicitly, the operation can be called on instances of the type as if it was natively defined by the type. Alternatively, context-less operations could be defined; however the adopted technique significantly improves readability of the concrete syntax.
 
-For example, consider the code excerpts displayed in Listings \ref{lst:OperationsContext} and \ref{lst:OperationsNoContext}. In Listing \ref{lst:OperationsContext}, the operations \emph{add1} and \emph{add2} are defined in the context of the built-in \emph{Integer} type, which is specified before their names. Therefore, they can be invoked in line 1 using the \emph{1.add1().add2()} expression: the context (the integer \emph{1}) will be assigned to the special variable \emph{self}. On the other hand, in Listing \ref{lst:OperationsNoContext} where no context is defined, they have to be invoked in a nested manner which follows an in-to-out direction instead of the left to right direction used by the former excerpt. As complex model queries often involve invoking multiple properties and operations, this technique is particularly beneficial to the overall readability of the code.
-
-\begin{lstlisting}[float=tbp, caption={Context-defining EOL operations}, label=lst:OperationsContext, language=EOL]
+\begin{lstlisting}[float=h, caption={Context-defining EOL operations}, label=lst:OperationsContext, language=EOL]
 1.add1().add2().println();
 
 operation Integer add1() : Integer {
-	return self + 1;
+return self + 1;
 }
 
 operation Integer add2() : Integer {
-	return self + 2;
+return self + 2;
 }
 \end{lstlisting}
 
-\begin{lstlisting}[float=tbp, caption={Context-less EOL operations}, label=lst:OperationsNoContext, language=EOL]
+For example, consider the code excerpts displayed in Listings \ref{lst:OperationsContext} and \ref{lst:OperationsNoContext}. In Listing \ref{lst:OperationsContext}, the operations \emph{add1} and \emph{add2} are defined in the context of the built-in \emph{Integer} type, which is specified before their names. Therefore, they can be invoked in line 1 using the \emph{1.add1().add2()} expression: the context (the integer \emph{1}) will be assigned to the special variable \emph{self}. On the other hand, in Listing \ref{lst:OperationsNoContext} where no context is defined, they have to be invoked in a nested manner which follows an in-to-out direction instead of the left to right direction used by the former excerpt. As complex model queries often involve invoking multiple properties and operations, this technique is particularly beneficial to the overall readability of the code.
+
+\begin{lstlisting}[float=h, caption={Context-less EOL operations}, label=lst:OperationsNoContext, language=EOL]
 add2(add1(1)).println();
 
 operation add1(base : Integer) : Integer {
@@ -66,39 +68,41 @@ operation add2(base : Integer) : Integer {
 
 EOL supports polymorphic operations using a runtime dispatch mechanism. Multiple operations with the same name and parameters can be defined, each defining a distinct context type. For example, in Listing \ref{lst:Polymorphism}, the statement in line 1 invokes the test operation defined in line 4, while the statement in line 2 invokes the test operation defined in line 8.
 
-\begin{lstlisting}[float=tbp, caption=Demonstration of polymorphism in EOL, label=lst:Polymorphism, numbers=left, language=EOL]
+\begin{lstlisting}[float=h, caption=Demonstration of polymorphism in EOL, label=lst:Polymorphism, numbers=left, language=EOL]
 "1".test();
 1.test();
 
 operation String test() {
-	(self + " is a string").println();
+(self + " is a string").println();
 }
 
 operation Integer test() {
-	(self + "is an integer").println();
+(self + "is an integer").println();
 }
-
 \end{lstlisting}
+
 
 \subsection{Annotations}
 \label{sec:Design.EOL.Annotations}
 EOL supports two types of annotations: simple and executable. A simple annotation specifies a name and a set of String values while an executable annotation specifies a name and an expression. The concrete syntaxes of simple and executable annotations are displayed in Listings \ref{lst:SimpleAnnotations} and \ref{lst:ExecutableAnnotations} respectively. Several examples for simple annotations are shown in Listing~\ref{lst:SimpleAnnotationsExamples}. Examples for executable annotations will be given in the following sections.
 
-\begin{lstlisting}[float=tbp, caption=Concrete syntax of simple annotations, label=lst:SimpleAnnotations, language=EOL, escapechar=!]
+In stand-alone EOL, annotations are supported only in the context of operations, however as discussed in the sequel, task-specific languages also make use of annotations in their constructs, each with task-specific semantics. EOL operations support three particular annotations: the \emph{pre} and \emph{post} executable annotations for specifying pre and post-conditions, and the \emph{cached} simple annotation, which are discussed below.
+
+\begin{lstlisting}[float=h, caption=Concrete syntax of simple annotations, label=lst:SimpleAnnotations, language=EOL, escapechar=!]
 !\textbf{@}!name value(,value)*
 \end{lstlisting}
 
-\begin{lstlisting}[float=tbp, caption=Concrete syntax of executable annotations, label=lst:ExecutableAnnotations, language=EOL, escapechar=!]
+\begin{lstlisting}[float=h, caption=Concrete syntax of executable annotations, label=lst:ExecutableAnnotations, language=EOL, escapechar=!]
 !\textbf{\$}!name expression
 \end{lstlisting}
 
-\begin{lstlisting}[float=tbp, caption=Examples of simple annotations, label=lst:SimpleAnnotationsExamples, language=EOL, escapechar=!]
+\begin{lstlisting}[float=h, caption=Examples of simple annotations, label=lst:SimpleAnnotationsExamples, language=EOL, escapechar=!]
 !\textbf{@}!colors red
 !\textbf{@}!colors red, blue
 !\textbf{@}!colors red, blue, green
 \end{lstlisting}
 
-In stand-alone EOL, annotations are supported only in the context of operations, however as discussed in the sequel, task-specific languages also make use of annotations in their constructs, each with task-specific semantics. EOL operations support three particular annotations: the \emph{pre} and \emph{post} executable annotations for specifying pre and post-conditions, and the \emph{cached} simple annotation, which are discussed below.
+
 
 \subsection{Pre/post conditions in user-defined operations}
 \label{sec:prep-cond-user}
@@ -125,7 +129,7 @@ EOL supports caching the results of parameter-less operations using the \emph{@c
 
 It is worth noting that caching works \emph{by reference}, which means that all clients of a cached method for a given context will receive the same returned object. As such, if the first client modifies the returned object in some way (e.g. sets a property in the case of an object or adds an element in the case of the collection), subsequent clients of the method for the same context will receive the modified object/collection.
 
-\begin{lstlisting}[float=tbp, caption=Calculating the Fibonacci number using a cached operation, label=lst:Fibonacci, language=EOL]
+\begin{lstlisting}[float=bp, caption=Calculating the Fibonacci number using a cached operation, label=lst:Fibonacci, language=EOL]
 15.fibonacci().println(); /*@\label{line:FibonnaciCall}@*/
 
 @cached
@@ -500,7 +504,7 @@ In terms of concrete syntax, inspired by ATL, the ! character is used to separat
 
 As an example of the concrete syntax, Listing \ref{lst:ModelElementTypes} retrieves all the instances of the Class type (including instances of its subtypes) defined in the Core package of the UML 1.4 metamodel that are contained in the model named UML14.
 
-\begin{lstlisting}[float=tbp, caption=Demonstration of the concrete syntax for accessing model element types, label=lst:ModelElementTypes, language=EOL]
+\begin{lstlisting}[float=h, caption=Demonstration of the concrete syntax for accessing model element types, label=lst:ModelElementTypes, language=EOL]
 UML14!Core::Foundation::Class.allInstances();
 \end{lstlisting}
 
@@ -761,29 +765,32 @@ x.refSetValue(feature, a);
 \subsection{Special Assignment Statement}
 \label{sec:Design.EOL.SpecialAssignmentStatement}
 In task-specific languages, an assignment operator with task-specific semantics is often required. Therefore, EOL provides an additional assignment operator. In standalone EOL, the operator has the same semantics with the primary assignment operator discussed above, however task-specific languages can redefine its semantics to implement custom
-assignment behaviour. For example, consider the simple model-to-model transformation of Listing \ref{lst:SpecialAssignmentStatement} where a simple object oriented model is transformed to a simple database model using an ETL (see Section \ref{sec:ETL}) transformation. The Class2Table rule transforms a Class of the OO model into
-a Table in the DB model and sets the name of the table to be the same as the name of the class. Rule Atribute2Column transforms an Attribute from the OO model into a column in the DB model. Except for setting its name (line 12), it also needs to define that the column belongs to the table which corresponds to the class that defines the source attribute. The commented-out assignment statement of line 13 cannot
-be used for this purpose since it would illegaly attempt to assign the owningTable feature of the column to a model element of an inappropriate type (OO!Class). However, the special assignment operator in the task-specific language implements the semantics discussed in Section \ref{sec:Design.ETL.SpecialAssignmentOperator}, and thus in line 14 it assigns to the owningTable feature not the class that owns the attribute but its corresponding table (calculated using the Class2Table rule) in the DB model. 
+assignment behaviour. For example, consider the simple model-to-model transformation of Listing \ref{lst:SpecialAssignmentStatement} where a simple object oriented model is transformed to a simple database model using an ETL (see Section \ref{sec:ETL}) transformation.
 
-\begin{lstlisting}[float=tbp, caption=A simple model-to-model transformation
+\begin{lstlisting}[float=h, caption=A simple model-to-model transformation
 demonstrating the special assignment statement, label=lst:SpecialAssignmentStatement, language=ETL]
 rule Class2Table
-  transform c : OO!Class
-  to t : DB!Table {
-  
-  t.name = c.name;
+transform c : OO!Class
+to t : DB!Table {
+
+t.name = c.name;
 }
 
 rule Attribute2Column
-  transform a : OO!Attribute
-  to c : DB!Column {
-  
-  c.name = a.name;
-  //c.owningTable = c.owningClass;
-  c.owningTable ::= c.owningClass;
+transform a : OO!Attribute
+to c : DB!Column {
+
+c.name = a.name;
+//c.owningTable = c.owningClass;
+c.owningTable ::= c.owningClass;
 }
 
 \end{lstlisting}
+
+
+The Class2Table rule transforms a Class of the OO model into a Table in the DB model and sets the name of the table to be the same as the name of the class. Rule Atribute2Column transforms an Attribute from the OO model into a column in the DB model. Except for setting its name (line 12), it also needs to define that the column belongs to the table which corresponds to the class that defines the source attribute. The commented-out assignment statement of line 13 cannot be used for this purpose since it would illegaly attempt to assign the owningTable feature of the column to a model element of an inappropriate type (OO!Class). However, the special assignment operator in the task-specific language implements the semantics discussed in Section \ref{sec:Design.ETL.SpecialAssignmentOperator}, and thus in line 14 it assigns to the owningTable feature not the class that owns the attribute but its corresponding table (calculated using the Class2Table rule) in the DB model. 
+
+
 
 \subsection{If Statement}
 
@@ -1002,14 +1009,14 @@ Model management operations can be executed in a number of runtime environments 
 
 As displayed above, all the methods of the \emph{IUserInput} interface accept a \emph{default} parameter. The purpose of this parameter is dual. First, it enables the designer of the model management program to prompt the user with the most likely value as a default choice and secondly it enables a concrete implementation of the interface (\emph{UnattendedExecutionUserInput}) which returns the default values without prompting the user at all and thus, can be used for unattended execution of interactive Epsilon programs. Figures \ref{fig:EclipseUserInput} and \ref{fig:ConsoleUserInput} demonstrate the interfaces through which input is required by the user when the exemplar \emph{System.user.promptInteger('Please enter a number', 1);} statement is executed using  an Eclipse-based and a command-line-based \emph{IUserInput} implementation respectively.
 
-\begin{figure}[b!]
+\begin{figure}[h]
 	\centering
 		\includegraphics{images/EclipseUserInput.png}
 	\caption{Example of an Eclipse-based IUserInput implementation}
 	\label{fig:EclipseUserInput}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 		\includegraphics{images/ConsoleUserInput.png}
 	\caption{Example of a command-line-based IUserInput implementation}

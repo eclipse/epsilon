@@ -245,7 +245,7 @@ This case study has demonstrated that the additional constructs provided by EVL 
 
 In the previous example, EVL was used to check the internal consistency of a single UML model. By contrast, this example demonstrates using EVL to detect and repair occurrences of incompleteness and contradiction between two different models. In this example the simplified \emph{ProcessLang} metamodel, which captures information about hierarchical processes, is used. To add performance information in a separate aspect \emph{ProcessPerformanceLang} metamodel is also defined. The metamodels are displayed in Figures \ref{fig:Process} and \ref{fig:ProcessPerformance} respectively.
 
-\begin{figure}[b]
+\begin{figure}[h]
 	\centering
 		\includegraphics[width=0.2\textwidth]{images/ProcessPerformance.png}
 	\caption{The ProcessPerformanceLang Metamodel}
@@ -351,23 +351,25 @@ Unlike the \emph{PerformanceIsDefined} constraint, the \emph{PerformanceIsValid}
 
 The check part of the constraint retrieves the \emph{maxAcceptableTime} of the process and that of its children and compares them. As the \emph{Process} itself does not define performance information, retrieval of the value of the \emph{maxAcceptableTime} of the respective \emph{ProcessPerformance} object is implemented using the user-defined \emph{getMaxAcceptableTime()} operation that is defined in line \ref{CaseStudy:getMaxAcceptableTime}. In case the constraint is not satisfied, the user can invoke the \emph{fix} defined in line \ref{CaseStudy:PerformanceIsValid:Fix} to repair the inconsistency by setting the \emph{maxAcceptableTime} of the process to the \emph{sum} calculated in line \ref{CaseStudy:PerformanceIsValid:Sum}. As discussed earlier, the fix parts of EVL invariants do not in any way guarantee that they do fix the problem they target or that in their effort to fix one problem they do not create another problem; this is left to the user. For instance, in this particular example, changing the \emph{maxAcceptableTime} of a process through a \emph{fix} block may render its parent process invalid.
 
-\begin{figure*}
-	\centering
-		\includegraphics{images/ModeLink.png}
-	\caption{Exemplar Process and ProcessPerformance models}
-	\label{fig:ModeLink}
-\end{figure*}
-
-\begin{figure*}
-	\centering
-		\includegraphics{images/Validation.png}
-	\caption{Screenshot of the validation view reporting the identified inconsistencies}
-	\label{fig:Validation}
-\end{figure*}
 
 To demonstrate the evaluation of these constraints two exemplar models that conform to the \emph{ProcessLang} and \emph{ProcessPerformanceLang} metamodels are used. A visual representation of the models is displayed in Figure \ref{fig:ModeLink}.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics{images/ModeLink.png}
+    \caption{Exemplar Process and ProcessPerformance models}
+    \label{fig:ModeLink}
+\end{figure}
+
+
 Evaluating the constraints in the context of those two models reveals two problems which are reported to the user via the view displayed in Figure \ref{fig:Validation}. Indeed by examining the two models of Figure \ref{fig:ModeLink}, it becomes apparent that there is no \emph{ProcessPerformance} linked to the \emph{Verify PIN} process and also that the \emph{maxAcceptableTime} of \emph{Complete Transaction} (5000) is less than the sum of the \emph{maxAcceptableTimes} of its children (2000 + 3500).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{images/Validation.png}
+    \caption{Screenshot of the validation view reporting the identified inconsistencies}
+    \label{fig:Validation}
+\end{figure}
 
 \section{Summary}
 
