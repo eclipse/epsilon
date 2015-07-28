@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.strategy;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -61,7 +62,15 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 			executeTransformations(transformations, context);
 		}
 		
-		return flatTrace.get(source);
+		if (rules == null || rules.isEmpty()) return flatTrace.get(source);
+		
+		Collection<Object> equivalents = new ArrayList<Object>();
+		for (Transformation transformation : context.getTransformationTrace().getTransformations(source)) {
+			if (rules.contains(transformation.getRule().getName())) {
+				equivalents.addAll(transformation.getTargets());
+			}
+		}
+		return equivalents;
 	}
 	
 	public Object getEquivalent(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException {
