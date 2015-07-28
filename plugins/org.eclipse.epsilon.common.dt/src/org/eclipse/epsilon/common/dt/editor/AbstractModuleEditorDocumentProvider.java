@@ -27,7 +27,7 @@ public class AbstractModuleEditorDocumentProvider extends FileDocumentProvider {
 					new AbstractModuleEditorPartitionScanner(),
 					new String[] {
 						AbstractModuleEditorPartitionScanner.COMMENT,
-						AbstractModuleEditorPartitionScanner.STRING
+						//AbstractModuleEditorPartitionScanner.STRING
 						});
 			partitioner.connect(document);
 			document.setDocumentPartitioner(partitioner);
