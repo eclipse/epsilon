@@ -261,7 +261,13 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		@Override
 		public void run() {
 			ArrayList<EPackage> ePackages = new ArrayList<EPackage>();
-			for (Object o : EPackage.Registry.INSTANCE.values()) {
+			
+			//Avoid concurrent modification exceptions that can happen when iterating
+			//directly over INSTANCE.values()
+			ArrayList<Object> ePackageRegistryValues = new ArrayList<Object>();
+			ePackageRegistryValues.addAll(EPackage.Registry.INSTANCE.values());
+			
+			for (Object o : ePackageRegistryValues) {
 				if (o instanceof EPackage) {
 					ePackages.add((EPackage)o);
 				}
