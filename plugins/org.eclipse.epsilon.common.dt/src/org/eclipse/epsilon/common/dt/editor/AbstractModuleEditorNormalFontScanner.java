@@ -17,10 +17,10 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
-public class AbstractModuleEditorCommentScanner extends RuleBasedScanner {
+public class AbstractModuleEditorNormalFontScanner extends RuleBasedScanner {
 	
-	public AbstractModuleEditorCommentScanner(Color commentColor) {
-		setDefaultReturnToken(new Token(new TextAttribute(commentColor, null, SWT.NORMAL)));
+	public AbstractModuleEditorNormalFontScanner(Color color) {
+		setDefaultReturnToken(new Token(new TextAttribute(color, null, SWT.NORMAL)));
 	}
 }
  

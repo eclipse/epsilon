@@ -38,12 +38,14 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 	protected AbstractModuleEditor editor = null;
 	
 	protected AbstractModuleEditorScanner scanner;
-	protected AbstractModuleEditorCommentScanner commentScanner;
+	protected AbstractModuleEditorNormalFontScanner commentScanner;
+	protected AbstractModuleEditorNormalFontScanner stringScanner;
 	
 	public AbstractModuleEditorSourceViewerConfiguration(AbstractModuleEditor editor) {
 		this.editor = editor;
 		scanner = new AbstractModuleEditorScanner(editor);
-		commentScanner = new AbstractModuleEditorCommentScanner(scanner.getCommentColor());
+		commentScanner = new AbstractModuleEditorNormalFontScanner(scanner.getCommentColor());
+		stringScanner = new AbstractModuleEditorNormalFontScanner(scanner.stringColor);
 	}
 	
 	@Override
@@ -57,6 +59,10 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 		final MultilineDamagerRepairer commentDR = new MultilineDamagerRepairer(commentScanner);
 		reconciler.setDamager(commentDR, AbstractModuleEditorPartitionScanner.COMMENT);
 		reconciler.setRepairer(commentDR, AbstractModuleEditorPartitionScanner.COMMENT);
+		
+		final MultilineDamagerRepairer stringDR = new MultilineDamagerRepairer(stringScanner);
+		reconciler.setDamager(stringDR, AbstractModuleEditorPartitionScanner.STRING);
+		reconciler.setRepairer(stringDR, AbstractModuleEditorPartitionScanner.STRING);
 		
 		return reconciler;
 	}
@@ -142,7 +148,7 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 		return scanner;
 	}
 	
-	public AbstractModuleEditorCommentScanner getCommentScanner() {
+	public AbstractModuleEditorNormalFontScanner getCommentScanner() {
 		return commentScanner;
 	}
 }

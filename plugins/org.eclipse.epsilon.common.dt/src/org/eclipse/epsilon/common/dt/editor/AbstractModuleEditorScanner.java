@@ -154,8 +154,8 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 				new MultiLineRule("/*", "*/", new Token(new TextAttribute(commentColor, null, SWT.NORMAL))),
 				new EndOfLineRule("@", new Token(new TextAttribute(annotationColor, null, SWT.NORMAL))),
 				new EndOfLineRule("$", new Token(new TextAttribute(annotationColor, null, SWT.NORMAL))),
-				new SingleLineRule("\"", "\"", new Token(new TextAttribute(stringColor, null, SWT.NORMAL)), '\\'),
-				new SingleLineRule("'", "'", new Token(new TextAttribute(stringColor, null, SWT.NORMAL)), '\\'),
+				new MultiLineRule("\"", "\"", new Token(new TextAttribute(stringColor, null, SWT.NORMAL))),
+				new MultiLineRule("'", "'", new Token(new TextAttribute(stringColor, null, SWT.NORMAL))),
 				new SingleLineRule("`", "`", new Token(new TextAttribute(defaultColor, null, SWT.ITALIC)), '\\'), 
 				keywordsRule, builtinRule, typesRule});
 	}

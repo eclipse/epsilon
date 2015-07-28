@@ -19,13 +19,17 @@ import org.eclipse.jface.text.rules.Token;
 
 public class AbstractModuleEditorPartitionScanner extends RuleBasedPartitionScanner {
 	public final static String COMMENT = "__comment";
-
+	public final static String STRING = "__string";
+	
 	public AbstractModuleEditorPartitionScanner() {
 		final IToken comment = new Token(COMMENT);
+		final IToken str = new Token(STRING);
 
 		IPredicateRule[] rules = new IPredicateRule[] {
 				new MultiLineRule("/*", "*/", comment, (char) 0, true),
 				new MultiLineRule("-*", "*-", comment, (char) 0, true),
+				new MultiLineRule("\"", "\"", str, (char) 0, true),
+				new MultiLineRule("'", "'", str, (char) 0, true)
 		};
 
 		setPredicateRules(rules);
