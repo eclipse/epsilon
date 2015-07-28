@@ -79,7 +79,7 @@ STRING
     ;
 
 StrangeNameLiteral
-    :  '`' ( EscapeSequence | ~('\\'|'`') )* '`'
+    :  '`' ( EscapeSequence | ~('\\'|'`'|'\n'|'\r') )* '`'
     {$type=NAME; setText($text.substring(1,$text.length() - 1));}
     ;
 

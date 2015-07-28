@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ewl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2015-06-30 23:47:41
+// $ANTLR 3.1b1 EolLexerRules.g 2015-07-28 02:58:18
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -827,11 +827,11 @@ public class Ewl_EolLexerRules extends Lexer {
         try {
             int _type = StrangeNameLiteral;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:82:5: ( '`' ( EscapeSequence | ~ ( '\\\\' | '`' ) )* '`' )
-            // EolLexerRules.g:82:8: '`' ( EscapeSequence | ~ ( '\\\\' | '`' ) )* '`'
+            // EolLexerRules.g:82:5: ( '`' ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )* '`' )
+            // EolLexerRules.g:82:8: '`' ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )* '`'
             {
             match('`'); if (state.failed) return ;
-            // EolLexerRules.g:82:12: ( EscapeSequence | ~ ( '\\\\' | '`' ) )*
+            // EolLexerRules.g:82:12: ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )*
             loop13:
             do {
                 int alt13=3;
@@ -840,7 +840,7 @@ public class Ewl_EolLexerRules extends Lexer {
                 if ( (LA13_0=='\\') ) {
                     alt13=1;
                 }
-                else if ( ((LA13_0>='\u0000' && LA13_0<='[')||(LA13_0>=']' && LA13_0<='_')||(LA13_0>='a' && LA13_0<='\uFFFE')) ) {
+                else if ( ((LA13_0>='\u0000' && LA13_0<='\t')||(LA13_0>='\u000B' && LA13_0<='\f')||(LA13_0>='\u000E' && LA13_0<='[')||(LA13_0>=']' && LA13_0<='_')||(LA13_0>='a' && LA13_0<='\uFFFE')) ) {
                     alt13=2;
                 }
 
@@ -854,9 +854,9 @@ public class Ewl_EolLexerRules extends Lexer {
             	    }
             	    break;
             	case 2 :
-            	    // EolLexerRules.g:82:31: ~ ( '\\\\' | '`' )
+            	    // EolLexerRules.g:82:31: ~ ( '\\\\' | '`' | '\\n' | '\\r' )
             	    {
-            	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='_')||(input.LA(1)>='a' && input.LA(1)<='\uFFFE') ) {
+            	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='_')||(input.LA(1)>='a' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
             	    state.failed=false;
             	    }
