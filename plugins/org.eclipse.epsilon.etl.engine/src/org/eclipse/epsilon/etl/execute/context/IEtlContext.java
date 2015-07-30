@@ -19,8 +19,6 @@ public interface IEtlContext extends IEolContext {
 	
 	public TransformationTrace getTransformationTrace();
 	
-	public ITransformationStrategy getTransformationStrategy(Object source);
-	
 	public ITransformationStrategy getTransformationStrategy();
 	
 	public void setTransformationStrategy(ITransformationStrategy transformationStrategy);

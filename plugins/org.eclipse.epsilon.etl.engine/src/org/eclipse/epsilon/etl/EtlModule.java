@@ -113,13 +113,14 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		
 		// Initialize the context
 		prepareContext(context);
-		context.setOperationFactory(new EtlOperationFactory());
 		
-		if (hasLazyRules(context)) {
-			context.setTransformationStrategy(new DefaultTransformationStrategy());
-		}
-		else {
-			context.setTransformationStrategy(new FastTransformationStrategy());
+		if (context.getTransformationStrategy() == null) {
+			if (hasLazyRules(context)) {
+				context.setTransformationStrategy(new DefaultTransformationStrategy());
+			}
+			else {
+				context.setTransformationStrategy(new FastTransformationStrategy());
+			}
 		}
 		
 		context.getFrameStack().put(Variable.createReadOnlyVariable("transTrace", context.getTransformationTrace()));
