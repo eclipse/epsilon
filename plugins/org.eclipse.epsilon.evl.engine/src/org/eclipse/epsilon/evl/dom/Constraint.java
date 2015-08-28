@@ -83,11 +83,14 @@ public class Constraint extends AnnotatableModuleElement {
 		
 		if (!appliesTo(self,context)) return false;
 		
+		UnsatisfiedConstraint unsatisfiedConstraint = new UnsatisfiedConstraint();
+		
 		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, checkBlock.getBody());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("self", self));
+		context.getFrameStack().put(Variable.createReadOnlyVariable("extras", unsatisfiedConstraint.getExtras()));
+		
 		if (!checkBlock.execute(context, false)){
 			
-			UnsatisfiedConstraint unsatisfiedConstraint = new UnsatisfiedConstraint();
 			unsatisfiedConstraint.setInstance(self);
 			unsatisfiedConstraint.setConstraint(this);
 

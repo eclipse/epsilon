@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.evl.execute;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.eclipse.epsilon.evl.dom.Constraint;
 
@@ -21,6 +22,7 @@ public class UnsatisfiedConstraint {
 	protected Object instance;
 	protected ArrayList<FixInstance> fixes = new ArrayList<FixInstance>();
 	protected boolean fixed = false;
+	protected HashMap<String, Object> extras = new HashMap<String, Object>();
 	
 	public boolean isFixed() {
 		return fixed;
@@ -60,6 +62,14 @@ public class UnsatisfiedConstraint {
 	
 	public ArrayList<FixInstance> getFixes() {
 		return fixes;
+	}
+	
+	public HashMap<String, Object> getExtras() {
+		return extras;
+	}
+	
+	public void setExtras(HashMap<String, Object> extras) {
+		this.extras = extras;
 	}
 	
 	@Override

@@ -59,6 +59,7 @@ public class EvlEditor extends EolEditor{
 		ArrayList<String> builtIn = new ArrayList<String>();
 		
 		builtIn.add("constraintTrace");
+		builtIn.add("extras");
 		
 		builtIn.addAll(super.getBuiltinVariables());
 		
