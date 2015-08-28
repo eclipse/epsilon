@@ -115,7 +115,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 			((Constraint) critiqueAst).setConstraintContext(globalConstraintContext);
 		}
 		
-		declaredConstraintContexts.add(globalConstraintContext);
+		if (!globalConstraintContext.getConstraints().values().isEmpty()) declaredConstraintContexts.add(globalConstraintContext);
 		
 		for (AST constraintContextAst : AstUtil.getChildren(ast, EvlParser.CONTEXT)) {
 			ConstraintContext constraintContext = (ConstraintContext) constraintContextAst;

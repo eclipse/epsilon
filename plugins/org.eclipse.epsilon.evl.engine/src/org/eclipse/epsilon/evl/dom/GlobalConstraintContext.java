@@ -32,4 +32,9 @@ public class GlobalConstraintContext extends ConstraintContext {
 		return allOfType;
 	}
 	
+	@Override
+	public String toString() {
+		return "<Global>";
+	}
+	
 }
