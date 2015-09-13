@@ -55,6 +55,9 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	}
 	
 	protected Object executeBlockOrExpressionAst(AST ast, IEolContext context) throws EolRuntimeException {
+		
+		System.out.println(context.getFrameStack());
+		
 		if (ast == null) return null;
 		
 		if (ast instanceof ExecutableBlock<?>) {
@@ -113,7 +116,7 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	}
 	
 	public T execute(IEolContext context, boolean inNewFrame, Variable... variables) throws EolRuntimeException {
-		return execute(context, inNewFrame, FrameType.PROTECTED, variables);
+		return execute(context, inNewFrame, FrameType.UNPROTECTED, variables);
 	}
 	
 	protected Class<?> getExpectedResultClass() {
