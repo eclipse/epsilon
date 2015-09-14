@@ -38,8 +38,8 @@ public class TransformationRule extends ExtensibleNamedRule {
 	
 	protected Parameter sourceParameter;
 	protected List<Parameter> targetParameters = new ArrayList<Parameter>();
-	protected ExecutableBlock<Boolean> guardBlock = null;
-	protected ExecutableBlock<Void> bodyBlock = null;
+	protected ExecutableBlock<Boolean> guard = null;
+	protected ExecutableBlock<Void> body = null;
 	protected IEtlContext context;
 	
 	@Override
@@ -49,6 +49,26 @@ public class TransformationRule extends ExtensibleNamedRule {
 	
 	public Parameter getSourceParameter() {
 		return sourceParameter;
+	}
+	
+	public void setSourceParameter(Parameter sourceParameter) {
+		this.sourceParameter = sourceParameter;
+	}
+	
+	public ExecutableBlock<Void> getBody() {
+		return body;
+	}
+	
+	public void setBody(ExecutableBlock<Void> body) {
+		this.body = body;
+	}
+	
+	public ExecutableBlock<Boolean> getGuard() {
+		return guard;
+	}
+	
+	public void setGuard(ExecutableBlock<Boolean> guard) {
+		this.guard = guard;
 	}
 	
 	public List<Parameter> getTargetParameters() {
@@ -61,8 +81,8 @@ public class TransformationRule extends ExtensibleNamedRule {
 		
 		super.build();
 		
-		this.guardBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EtlParser.GUARD);
-		this.bodyBlock = (ExecutableBlock<Void>) AstUtil.getChild(this, EtlParser.BLOCK);	
+		this.guard = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EtlParser.GUARD);
+		this.body = (ExecutableBlock<Void>) AstUtil.getChild(this, EtlParser.BLOCK);	
 		
 		//Parse the formal parameters
 		sourceParameter = (Parameter) getFirstChild().getNextSibling();;
@@ -104,9 +124,9 @@ public class TransformationRule extends ExtensibleNamedRule {
 		
 		boolean guardSatisfied = true;
 		
-		if (appliesToTypes && guardBlock != null){
+		if (appliesToTypes && guard != null){
 			
-			guardSatisfied = guardBlock.execute(context, 
+			guardSatisfied = guard.execute(context, 
 					Variable.createReadOnlyVariable(sourceParameter.getName(), source), 
 					Variable.createReadOnlyVariable("self", this));	
 		}
@@ -183,7 +203,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 		for (Parameter targetParameter : targetParameters) {
 			variables.add(Variable.createReadOnlyVariable(targetParameter.getName(), targets.get(targetParameters.indexOf(targetParameter))));
 		}
-		bodyBlock.execute(context, variables.toArray(new Variable[]{}));
+		body.execute(context, variables.toArray(new Variable[]{}));
 	}
 	
 	public List<ModuleElement> getModuleElements() {
