@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2012 The University of York, Antonio Garc��a-Dom��nguez
+ * Copyright (c) 2008-2015 The University of York, Antonio Garcia-Dominguez
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Antonio Garc��a-Dom��nguez - cleaning up
+ *     Antonio Garcia-Dominguez - maintenance, add viewer customization extension point
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed;
 
@@ -21,7 +21,12 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -45,6 +50,7 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.dt.exeed.extensions.IViewerCustomizer;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.emf.dt.EmfRegistryManager;
 import org.eclipse.jface.action.MenuManager;
@@ -57,8 +63,13 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
+import org.osgi.framework.FrameworkUtil;
 
 public class ExeedEditor extends EcoreEditor {
+	private static final String VIEWERCUSTOMIZER_CUSTOMIZERCLASS_ATTR = "customizerClass";
+	private static final String VIEWERCUSTOMIZER_RESOURCECLASS_ATTR = "resourceClass";
+	private static final String VIEWERCUSTOMIZER_EXTPOINT = "org.eclipse.epsilon.dt.exeed.viewerCustomizer";
+
 	private static final class RegisteredEPackageResourceFactory implements Resource.Factory {
 		public Resource createResource(URI uri) {
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toString().replace("platform:/resource/", "")));
@@ -167,6 +178,7 @@ public class ExeedEditor extends EcoreEditor {
 
 	// This extra field is necessary, as propertySheetPage does not exist anymore since Kepler (4.2)
 	private ExeedPropertySheetPage exeedPropertySheetPage;
+	private Map<Class<?>, IViewerCustomizer> resourceClassToCustomizerMap;
 
 	@Override
 	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
@@ -188,9 +200,11 @@ public class ExeedEditor extends EcoreEditor {
 	public ExeedEditor() {
 		super();
 
+		loadViewerCustomizers();
+
 		// Clear the adapter factory produced by the superclass and refill it
 		// with our own selection of adapter factories
-		exeedItemProviderAdapterFactory = new ExeedItemProviderAdapterFactory(getPlugin());
+		exeedItemProviderAdapterFactory = new ExeedItemProviderAdapterFactory(getPlugin(), resourceClassToCustomizerMap);
 	    adapterFactory = new ComposedAdapterFactory(/*ComposedAdapterFactory.Descriptor.Registry.INSTANCE*/);
 	    adapterFactory.addAdapterFactory(new SwitchableResourceSetItemProvider());
 		adapterFactory.addAdapterFactory(exeedItemProviderAdapterFactory);
@@ -221,6 +235,22 @@ public class ExeedEditor extends EcoreEditor {
 			}
 		});
 		extensionToFactoryMap.put("registered", new RegisteredEPackageResourceFactory());
+	}
+
+	protected void loadViewerCustomizers() {
+		final String bundleID = FrameworkUtil.getBundle(ExeedEditor.class).getSymbolicName();
+		this.resourceClassToCustomizerMap = new HashMap<Class<?>, IViewerCustomizer>();
+		for (IConfigurationElement elem : Platform.getExtensionRegistry().getConfigurationElementsFor(VIEWERCUSTOMIZER_EXTPOINT)) {
+			try {
+				final Class<?> resourceClass = elem.createExecutableExtension(VIEWERCUSTOMIZER_RESOURCECLASS_ATTR).getClass();
+				final IViewerCustomizer customizer = (IViewerCustomizer)elem.createExecutableExtension(VIEWERCUSTOMIZER_CUSTOMIZERCLASS_ATTR);
+				resourceClassToCustomizerMap.put(resourceClass, customizer);
+			} catch (CoreException ex) {
+				ExeedPlugin.getDefault().getLog().log(
+					new Status(IStatus.ERROR, bundleID, ex.getMessage(), ex)
+				);
+			}
+		}
 	}
 
 	@Override
@@ -257,9 +287,16 @@ public class ExeedEditor extends EcoreEditor {
 	public void createPages() {
 		EmfRegistryManager.getInstance();
 		registerCustomMetamodels();
-		
-		super.createPages();
-		
+
+		createModel();
+		final Resource mainResource = this.getEditingDomain().getResourceSet().getResources().get(0);
+		final IViewerCustomizer customizer = resourceClassToCustomizerMap.get(mainResource.getClass());
+		if (customizer != null) {
+			customizer.createPages(this, getContainer(), adapterFactory);
+		} else {
+			super.createPages();
+		}
+
 		TreeViewer viewer = (TreeViewer) getViewer();
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -267,13 +304,15 @@ public class ExeedEditor extends EcoreEditor {
 			}
 		});
 
-		Resource mainResource = this.getEditingDomain().getResourceSet().getResources().get(0);
 		InMemoryEmfModel model = new InMemoryEmfModel(mainResource);
 		model.setCachingEnabled(false);
 
 		imageTextProvider = new ExeedImageTextProvider(model, getPlugin(), this);
 		exeedItemProviderAdapterFactory.setImageTextProvider(imageTextProvider);
 		((ExeedActionBarContributor) this.getActionBarContributor()).setProvider(imageTextProvider);
+		((ExeedActionBarContributor) this.getActionBarContributor()).setCustomizerMap(resourceClassToCustomizerMap);
+
+		// Allow extenders to customize the tree viewer depending on the Resource implementation
 	}
 
 	public ExeedImageTextProvider getImageTextProvider() {
@@ -302,6 +341,18 @@ public class ExeedEditor extends EcoreEditor {
 
 	public void setShowReferenceNamesInCreateActions(boolean showReferenceNamesInCreateActions) {
 		this.showReferenceNamesInCreateActions = showReferenceNamesInCreateActions;
+	}
+
+	@Override
+	public void createContextMenuFor(StructuredViewer viewer) {
+		// increase visibility for IViewerCustomizer
+		super.createContextMenuFor(viewer);
+	}
+
+	@Override
+	public void setPageText(int pageIndex, String text) {
+		// increase visibility for IViewerCustomizer
+		super.setPageText(pageIndex, text);
 	}
 
 }

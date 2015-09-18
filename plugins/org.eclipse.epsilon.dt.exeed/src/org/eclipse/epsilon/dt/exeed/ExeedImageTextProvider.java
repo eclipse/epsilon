@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2012 The University of York, Antonio Garc��a-Dom��nguez
+ * Copyright (c) 2008-2015 The University of York, Antonio Garcia-Dominguez
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Antonio Garc��a-Dom��nguez - clean up and improve error reporting
+ *     Antonio Garcia-Dominguez - clean up and improve error reporting
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed;
 

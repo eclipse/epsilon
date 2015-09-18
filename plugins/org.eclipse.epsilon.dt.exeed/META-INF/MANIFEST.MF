@@ -13,5 +13,6 @@ Require-Bundle: org.eclipse.epsilon.emc.emf;visibility:=reexport,
  org.jdom_1.0
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.dt.exeed,
+ org.eclipse.epsilon.dt.exeed.extensions,
  org.eclipse.epsilon.dt.exeed.modelink
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -10,14 +10,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.dt.exeed;
 
+import java.util.Map;
+
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+import org.eclipse.epsilon.dt.exeed.extensions.IViewerCustomizer;
 
 public class ExeedItemProviderAdapterFactory extends ReflectiveItemProviderAdapterFactory {
 	protected ExeedImageTextProvider imageTextProvider = null;
 
-	public ExeedItemProviderAdapterFactory(ExeedPlugin plugin) {
+	public ExeedItemProviderAdapterFactory(ExeedPlugin plugin, Map<Class<?>, IViewerCustomizer> resourceClassToCustomizerMap) {
 		super();
-		reflectiveItemProviderAdapter = new ExeedItemProvider(this, plugin);
+		reflectiveItemProviderAdapter = new ExeedItemProvider(this, plugin, resourceClassToCustomizerMap);
 	}
 
 	public void setImageTextProvider(ExeedImageTextProvider imageTextProvider) {

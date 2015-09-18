@@ -16,18 +16,22 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.presentation.EcoreActionBarContributor;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
+import org.eclipse.epsilon.dt.exeed.extensions.IViewerCustomizer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
@@ -46,6 +50,7 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 	protected ShowHideAdditionalResourcesAction showHideAdditionalResourcesAction;
 	protected ShowHideReferenceNamesAction showHideReferenceNamesAction;
 	protected ToggleSortPropertiesAction toggleSortPropertiesAction;
+	private Map<Class<?>, IViewerCustomizer> customizerMap;
 	
 	protected String getMenuTitle() {
 		return "Exeed";
@@ -203,13 +208,30 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 	
 	
 	@Override
-	protected Collection<IAction> generateCreateChildActions(Collection<?> descriptors,
-			ISelection selection) {
-		Collection<IAction> actions = super.generateCreateChildActions(descriptors,
-				selection);
-		inspect(actions);
-		updateImageDescriptors(descriptors, actions);
-		return sortActionCollection(actions);
+	protected Collection<IAction> generateCreateChildActions(Collection<?> descriptors, ISelection selection) {
+		IViewerCustomizer customizer = getCustomizerFromSelection(selection);
+		if (customizer != null) {
+			return customizer.generateCreateChildActions(descriptors, selection);
+		} else {
+			Collection<IAction> actions = super.generateCreateChildActions(descriptors, selection);
+			inspect(actions);
+			updateImageDescriptors(descriptors, actions);
+			return sortActionCollection(actions);
+		}
+	}
+
+	protected IViewerCustomizer getCustomizerFromSelection(ISelection selection) {
+		IViewerCustomizer customizer = null;
+		if (!customizerMap.isEmpty()) {
+			if (selection instanceof IStructuredSelection) {
+				final IStructuredSelection sel = (IStructuredSelection)selection;
+				if (sel.getFirstElement() instanceof EObject) {
+					final EObject first = (EObject)sel.getFirstElement();
+					customizer = customizerMap.get(first.eResource().getClass());
+				}
+			}
+		}
+		return customizer;
 	}
 	
 	protected void inspect(Collection<?> actions) {
@@ -297,6 +319,14 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 
 	public void setProvider(ExeedImageTextProvider provider) {
 		this.provider = provider;
+	}
+
+	public Map<Class<?>, IViewerCustomizer> getCustomizerMap() {
+		return customizerMap;
+	}
+
+	public void setCustomizerMap(Map<Class<?>, IViewerCustomizer> resourceClassToCustomizerMap) {
+		this.customizerMap = resourceClassToCustomizerMap;
 	}
 
 }

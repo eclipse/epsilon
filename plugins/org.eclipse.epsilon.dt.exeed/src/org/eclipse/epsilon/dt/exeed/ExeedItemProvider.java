@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EClass;
@@ -24,19 +25,23 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ReflectiveItemProvider;
+import org.eclipse.epsilon.dt.exeed.extensions.IViewerCustomizer;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 public class ExeedItemProvider extends ReflectiveItemProvider {
 	protected ExeedImageTextProvider imageTextProvider;
 	protected ExeedPlugin plugin = null;
+	protected final Map<Class<?>, IViewerCustomizer> resourceClassToCustomizerMap;
 
-	public ExeedItemProvider(AdapterFactory arg0, ExeedPlugin plugin) {
+	public ExeedItemProvider(AdapterFactory arg0, ExeedPlugin plugin, Map<Class<?>, IViewerCustomizer> resourceClassToCustomizerMap) {
 		super(arg0);
 		this.plugin = plugin;
+		this.resourceClassToCustomizerMap = resourceClassToCustomizerMap;
 	}
 
 	@Override
@@ -84,6 +89,20 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 		}
 
 		return itemPropertyDescriptors;
+	}
+
+
+	@Override
+	protected boolean hasChildren(Object object, boolean optimized) {
+		if (object instanceof EObject) {
+			final EObject eob = (EObject)object;
+			final Resource r = eob.eResource();
+			IViewerCustomizer customizer = resourceClassToCustomizerMap.get(r.getClass());
+			if (customizer != null) {
+				return customizer.hasChildren(r, eob);
+			}
+		}
+		return super.hasChildren(object, optimized);
 	}
 
 	public void setImageTextProvider(ExeedImageTextProvider imageTextProvider) {
