@@ -56,8 +56,6 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	
 	protected Object executeBlockOrExpressionAst(AST ast, IEolContext context) throws EolRuntimeException {
 		
-		System.out.println(context.getFrameStack());
-		
 		if (ast == null) return null;
 		
 		if (ast instanceof ExecutableBlock<?>) {
