@@ -26,7 +26,7 @@ pattern NoBguardReturn
 	b : t_b guard { return false; } {}
 
 pattern Bguard
-	b : t_b guard : true {}
+	b : t_b guard : b.isDefined() {}
 
 pattern BCinactive
 	b : t_b,
