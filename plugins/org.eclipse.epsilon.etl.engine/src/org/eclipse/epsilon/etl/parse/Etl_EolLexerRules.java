@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.etl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2015-07-28 02:57:57
+// $ANTLR 3.1b1 EolLexerRules.g 2015-09-18 13:57:38
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -54,7 +54,6 @@ public class Etl_EolLexerRules extends Lexer {
     public static final int StrangeNameLiteral=15;
     public static final int CASE=35;
     public static final int NEW=49;
-    public static final int T__160=160;
     public static final int FeatureCall=60;
     public static final int EOF=-1;
     public static final int BREAK=38;
@@ -85,8 +84,8 @@ public class Etl_EolLexerRules extends Lexer {
     public static final int T__150=150;
     public static final int T__98=98;
     public static final int ITEMSELECTOR=73;
-    public static final int T__97=97;
     public static final int T__151=151;
+    public static final int T__97=97;
     public static final int MultiplicativeExpression=57;
     public static final int T__96=96;
     public static final int T__152=152;
@@ -136,8 +135,8 @@ public class Etl_EolLexerRules extends Lexer {
     public static final int GUARD=80;
     public static final int Annotation=23;
     public static final int T__130=130;
-    public static final int T__131=131;
     public static final int EscapeSequence=13;
+    public static final int T__131=131;
     public static final int Letter=16;
     public static final int T__132=132;
     public static final int THROW=53;
@@ -191,7 +190,7 @@ public class Etl_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=161;
+    public static final int Tokens=160;
     public static final int POINT_POINT=10;
     public static final int SpecialNameChar=17;
     public static final int MODELDECLARATIONPARAMETERS=71;

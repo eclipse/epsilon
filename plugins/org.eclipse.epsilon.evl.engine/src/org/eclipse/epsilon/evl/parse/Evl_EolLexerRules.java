@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.evl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2015-07-28 02:57:52
+// $ANTLR 3.1b1 EolLexerRules.g 2015-09-18 13:57:23
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -198,8 +198,7 @@ public class Evl_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=173;
-    public static final int T__172=172;
+    public static final int Tokens=172;
     public static final int POINT_POINT=10;
     public static final int SpecialNameChar=17;
     public static final int MODELDECLARATIONPARAMETERS=71;

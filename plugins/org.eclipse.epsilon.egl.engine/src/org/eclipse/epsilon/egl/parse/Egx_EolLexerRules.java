@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.egl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2015-07-28 02:58:35
+// $ANTLR 3.1b1 EolLexerRules.g 2015-09-18 13:58:44
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -59,10 +59,9 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int FeatureCall=60;
     public static final int T__167=167;
     public static final int EOF=-1;
-    public static final int T__168=168;
     public static final int T__165=165;
-    public static final int T__166=166;
     public static final int BREAK=38;
+    public static final int T__166=166;
     public static final int T__163=163;
     public static final int T__164=164;
     public static final int T__161=161;
@@ -84,9 +83,9 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int VAR=48;
     public static final int GENERATE=81;
     public static final int ANNOTATIONBLOCK=50;
+    public static final int COMMENT=21;
     public static final int ABORT=43;
     public static final int NativeType=56;
-    public static final int COMMENT=21;
     public static final int T__154=154;
     public static final int T__155=155;
     public static final int T__156=156;
@@ -198,7 +197,7 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int T__101=101;
     public static final int T__100=100;
     public static final int TARGET=82;
-    public static final int Tokens=169;
+    public static final int Tokens=168;
     public static final int POINT_POINT=10;
     public static final int TEMPLATE=83;
     public static final int SpecialNameChar=17;

@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ewl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2015-07-28 02:58:18
+// $ANTLR 3.1b1 EolLexerRules.g 2015-09-18 13:58:21
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -63,7 +63,6 @@ public class Ewl_EolLexerRules extends Lexer {
     public static final int T__161=161;
     public static final int KEYVALLIST=76;
     public static final int TYPE=64;
-    public static final int T__162=162;
     public static final int T__93=93;
     public static final int T__94=94;
     public static final int T__91=91;
@@ -138,8 +137,8 @@ public class Ewl_EolLexerRules extends Lexer {
     public static final int GUARD=80;
     public static final int Annotation=23;
     public static final int T__130=130;
-    public static final int T__131=131;
     public static final int EscapeSequence=13;
+    public static final int T__131=131;
     public static final int Letter=16;
     public static final int T__132=132;
     public static final int THROW=53;
@@ -192,7 +191,7 @@ public class Ewl_EolLexerRules extends Lexer {
     public static final int T__102=102;
     public static final int T__101=101;
     public static final int T__100=100;
-    public static final int Tokens=163;
+    public static final int Tokens=162;
     public static final int POINT_POINT=10;
     public static final int SpecialNameChar=17;
     public static final int MODELDECLARATIONPARAMETERS=71;
