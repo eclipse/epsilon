@@ -10,7 +10,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Composite;
 
-public interface IViewerCustomizer {
+public interface IExeedCustomizer {
 
 	void createPages(ExeedEditor editor, Composite container, AdapterFactory adapterFactory);
 

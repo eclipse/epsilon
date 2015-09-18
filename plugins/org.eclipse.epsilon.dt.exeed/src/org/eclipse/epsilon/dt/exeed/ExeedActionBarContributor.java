@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.presentation.EcoreActionBarContributor;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
-import org.eclipse.epsilon.dt.exeed.extensions.IViewerCustomizer;
+import org.eclipse.epsilon.dt.exeed.extensions.IExeedCustomizer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
@@ -50,7 +50,7 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 	protected ShowHideAdditionalResourcesAction showHideAdditionalResourcesAction;
 	protected ShowHideReferenceNamesAction showHideReferenceNamesAction;
 	protected ToggleSortPropertiesAction toggleSortPropertiesAction;
-	private Map<Class<?>, IViewerCustomizer> customizerMap;
+	private Map<Class<?>, IExeedCustomizer> customizerMap;
 	
 	protected String getMenuTitle() {
 		return "Exeed";
@@ -209,7 +209,7 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 	
 	@Override
 	protected Collection<IAction> generateCreateChildActions(Collection<?> descriptors, ISelection selection) {
-		IViewerCustomizer customizer = getCustomizerFromSelection(selection);
+		IExeedCustomizer customizer = getCustomizerFromSelection(selection);
 		if (customizer != null) {
 			return customizer.generateCreateChildActions(descriptors, selection);
 		} else {
@@ -220,8 +220,8 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 		}
 	}
 
-	protected IViewerCustomizer getCustomizerFromSelection(ISelection selection) {
-		IViewerCustomizer customizer = null;
+	protected IExeedCustomizer getCustomizerFromSelection(ISelection selection) {
+		IExeedCustomizer customizer = null;
 		if (!customizerMap.isEmpty()) {
 			if (selection instanceof IStructuredSelection) {
 				final IStructuredSelection sel = (IStructuredSelection)selection;
@@ -321,11 +321,11 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 		this.provider = provider;
 	}
 
-	public Map<Class<?>, IViewerCustomizer> getCustomizerMap() {
+	public Map<Class<?>, IExeedCustomizer> getCustomizerMap() {
 		return customizerMap;
 	}
 
-	public void setCustomizerMap(Map<Class<?>, IViewerCustomizer> resourceClassToCustomizerMap) {
+	public void setCustomizerMap(Map<Class<?>, IExeedCustomizer> resourceClassToCustomizerMap) {
 		this.customizerMap = resourceClassToCustomizerMap;
 	}
 

@@ -30,15 +30,15 @@ import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ReflectiveItemProvider;
-import org.eclipse.epsilon.dt.exeed.extensions.IViewerCustomizer;
+import org.eclipse.epsilon.dt.exeed.extensions.IExeedCustomizer;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 public class ExeedItemProvider extends ReflectiveItemProvider {
 	protected ExeedImageTextProvider imageTextProvider;
 	protected ExeedPlugin plugin = null;
-	protected final Map<Class<?>, IViewerCustomizer> resourceClassToCustomizerMap;
+	protected final Map<Class<?>, IExeedCustomizer> resourceClassToCustomizerMap;
 
-	public ExeedItemProvider(AdapterFactory arg0, ExeedPlugin plugin, Map<Class<?>, IViewerCustomizer> resourceClassToCustomizerMap) {
+	public ExeedItemProvider(AdapterFactory arg0, ExeedPlugin plugin, Map<Class<?>, IExeedCustomizer> resourceClassToCustomizerMap) {
 		super(arg0);
 		this.plugin = plugin;
 		this.resourceClassToCustomizerMap = resourceClassToCustomizerMap;
@@ -97,7 +97,7 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 		if (object instanceof EObject) {
 			final EObject eob = (EObject)object;
 			final Resource r = eob.eResource();
-			IViewerCustomizer customizer = resourceClassToCustomizerMap.get(r.getClass());
+			IExeedCustomizer customizer = resourceClassToCustomizerMap.get(r.getClass());
 			if (customizer != null) {
 				return customizer.hasChildren(r, eob);
 			}

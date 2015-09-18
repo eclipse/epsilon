@@ -50,7 +50,7 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.dt.exeed.extensions.IViewerCustomizer;
+import org.eclipse.epsilon.dt.exeed.extensions.IExeedCustomizer;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.emf.dt.EmfRegistryManager;
 import org.eclipse.jface.action.MenuManager;
@@ -68,7 +68,7 @@ import org.osgi.framework.FrameworkUtil;
 public class ExeedEditor extends EcoreEditor {
 	private static final String VIEWERCUSTOMIZER_CUSTOMIZERCLASS_ATTR = "customizerClass";
 	private static final String VIEWERCUSTOMIZER_RESOURCECLASS_ATTR = "resourceClass";
-	private static final String VIEWERCUSTOMIZER_EXTPOINT = "org.eclipse.epsilon.dt.exeed.viewerCustomizer";
+	private static final String VIEWERCUSTOMIZER_EXTPOINT = "org.eclipse.epsilon.dt.exeed.customizer";
 
 	private static final class RegisteredEPackageResourceFactory implements Resource.Factory {
 		public Resource createResource(URI uri) {
@@ -178,7 +178,7 @@ public class ExeedEditor extends EcoreEditor {
 
 	// This extra field is necessary, as propertySheetPage does not exist anymore since Kepler (4.2)
 	private ExeedPropertySheetPage exeedPropertySheetPage;
-	private Map<Class<?>, IViewerCustomizer> resourceClassToCustomizerMap;
+	private Map<Class<?>, IExeedCustomizer> resourceClassToCustomizerMap;
 
 	@Override
 	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
@@ -239,11 +239,11 @@ public class ExeedEditor extends EcoreEditor {
 
 	protected void loadViewerCustomizers() {
 		final String bundleID = FrameworkUtil.getBundle(ExeedEditor.class).getSymbolicName();
-		this.resourceClassToCustomizerMap = new HashMap<Class<?>, IViewerCustomizer>();
+		this.resourceClassToCustomizerMap = new HashMap<Class<?>, IExeedCustomizer>();
 		for (IConfigurationElement elem : Platform.getExtensionRegistry().getConfigurationElementsFor(VIEWERCUSTOMIZER_EXTPOINT)) {
 			try {
 				final Class<?> resourceClass = elem.createExecutableExtension(VIEWERCUSTOMIZER_RESOURCECLASS_ATTR).getClass();
-				final IViewerCustomizer customizer = (IViewerCustomizer)elem.createExecutableExtension(VIEWERCUSTOMIZER_CUSTOMIZERCLASS_ATTR);
+				final IExeedCustomizer customizer = (IExeedCustomizer)elem.createExecutableExtension(VIEWERCUSTOMIZER_CUSTOMIZERCLASS_ATTR);
 				resourceClassToCustomizerMap.put(resourceClass, customizer);
 			} catch (CoreException ex) {
 				ExeedPlugin.getDefault().getLog().log(
@@ -290,7 +290,7 @@ public class ExeedEditor extends EcoreEditor {
 
 		createModel();
 		final Resource mainResource = this.getEditingDomain().getResourceSet().getResources().get(0);
-		final IViewerCustomizer customizer = resourceClassToCustomizerMap.get(mainResource.getClass());
+		final IExeedCustomizer customizer = resourceClassToCustomizerMap.get(mainResource.getClass());
 		if (customizer != null) {
 			customizer.createPages(this, getContainer(), adapterFactory);
 		} else {
