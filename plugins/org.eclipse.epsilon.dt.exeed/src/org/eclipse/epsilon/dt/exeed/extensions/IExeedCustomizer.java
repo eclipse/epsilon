@@ -12,6 +12,11 @@ import org.eclipse.swt.widgets.Composite;
 
 public interface IExeedCustomizer {
 
+	/**
+	 * Returns true if the customizer should be used for this particular instance.
+	 */
+	boolean isEnabledFor(Resource r);
+
 	void createPages(ExeedEditor editor, Composite container, AdapterFactory adapterFactory);
 
 	boolean hasChildren(Resource r, EObject eob);

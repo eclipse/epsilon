@@ -98,7 +98,7 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 			final EObject eob = (EObject)object;
 			final Resource r = eob.eResource();
 			IExeedCustomizer customizer = resourceClassToCustomizerMap.get(r.getClass());
-			if (customizer != null) {
+			if (customizer != null && customizer.isEnabledFor(r)) {
 				return customizer.hasChildren(r, eob);
 			}
 		}

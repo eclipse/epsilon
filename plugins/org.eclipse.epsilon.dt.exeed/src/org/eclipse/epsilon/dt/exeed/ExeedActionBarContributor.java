@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.presentation.EcoreActionBarContributor;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
@@ -221,17 +222,18 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 	}
 
 	protected IExeedCustomizer getCustomizerFromSelection(ISelection selection) {
-		IExeedCustomizer customizer = null;
-		if (!customizerMap.isEmpty()) {
-			if (selection instanceof IStructuredSelection) {
-				final IStructuredSelection sel = (IStructuredSelection)selection;
-				if (sel.getFirstElement() instanceof EObject) {
-					final EObject first = (EObject)sel.getFirstElement();
-					customizer = customizerMap.get(first.eResource().getClass());
+		if (!customizerMap.isEmpty() && selection instanceof IStructuredSelection) {
+			final IStructuredSelection sel = (IStructuredSelection)selection;
+			if (sel.getFirstElement() instanceof EObject) {
+				final EObject first = (EObject)sel.getFirstElement();
+				final Resource resource = first.eResource();
+				IExeedCustomizer customizer = customizerMap.get(resource.getClass());
+				if (customizer.isEnabledFor(resource)) {
+					return customizer;
 				}
 			}
 		}
-		return customizer;
+		return null;
 	}
 	
 	protected void inspect(Collection<?> actions) {

@@ -291,7 +291,7 @@ public class ExeedEditor extends EcoreEditor {
 		createModel();
 		final Resource mainResource = this.getEditingDomain().getResourceSet().getResources().get(0);
 		final IExeedCustomizer customizer = resourceClassToCustomizerMap.get(mainResource.getClass());
-		if (customizer != null) {
+		if (customizer != null && customizer.isEnabledFor(mainResource)) {
 			customizer.createPages(this, getContainer(), adapterFactory);
 		} else {
 			super.createPages();
