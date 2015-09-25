@@ -228,7 +228,7 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 				final EObject first = (EObject)sel.getFirstElement();
 				final Resource resource = first.eResource();
 				IExeedCustomizer customizer = customizerMap.get(resource.getClass());
-				if (customizer.isEnabledFor(resource)) {
+				if (customizer != null && customizer.isEnabledFor(resource)) {
 					return customizer;
 				}
 			}
