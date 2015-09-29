@@ -30,10 +30,12 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.presentation.EcoreEditor;
+import org.eclipse.emf.ecore.presentation.EcoreEditorPlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
@@ -182,6 +184,16 @@ public class ExeedEditor extends EcoreEditor {
 
 	@Override
 	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
+		if (exception != null)
+	    {
+	      return
+	        new BasicDiagnostic
+	          (Diagnostic.ERROR,
+	           "org.eclipse.epsilon.dt.exeed",
+	           0,
+	           EcoreEditorPlugin.INSTANCE.getString("_UI_CreateModelError_message", new Object[]{ resource.getURI() }),
+	           new Object[] { exception });
+	    }
 		return Diagnostic.OK_INSTANCE;
 	}
 
