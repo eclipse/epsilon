@@ -5,23 +5,18 @@
 		<attribute name="extends" default="eol"/>
 	    
         <sequential>
-        	<!--
-        	 Note that workspace_loc is not the same as plugins_loc when using git-svn.
-        	 As some of us use git-svn, it's handy to maintain separate variables even 
-        	 though the variables have the same value for an svn setup.
-        	-->
         	<property name="project_loc" location="../../../../../.."/>
-        	<property name="workspace_loc" location="/Users/dkolovos/Projects/Eclipse/eclipse-modeling-luna/workspace/"/>
-    	    <property name="plugins_loc" location="../../../../../../.."/>
+        	<property name="epsilon-antlr-dev-repo" location="${project_loc}/../../../epsilon-antlr-dev"/>
+        	<property name="plugins_loc" location="../../../../../../../../plugins"/>   	
         	
         	<echo message="Generating @{langUpperCase} parser..."></echo>
         	<java classname="org.eclipse.epsilon.antlr.dev.Tool">
     			
     			<classpath>
-    				<pathelement location="${workspace_loc}/org.eclipse.epsilon.antlr.dev/org.eclipse.epsilon.antlr.dev.jar"/>
-    				<pathelement location="${workspace_loc}/org.eclipse.epsilon.antlr.dev/lib/antlr-3.1b1.jar"/>
-    				<pathelement location="${workspace_loc}/org.eclipse.epsilon.antlr.dev/lib/stringtemplate-3.1.jar"/>
-    				<pathelement location="${workspace_loc}/org.eclipse.epsilon.antlr.dev/lib/antlr-2.7.7.jar"/>
+    				<pathelement location="${epsilon-antlr-dev-repo}/org.eclipse.epsilon.antlr.dev/org.eclipse.epsilon.antlr.dev.jar"/>
+    				<pathelement location="${epsilon-antlr-dev-repo}/org.eclipse.epsilon.antlr.dev/lib/antlr-3.1b1.jar"/>
+    				<pathelement location="${epsilon-antlr-dev-repo}/org.eclipse.epsilon.antlr.dev/lib/stringtemplate-3.1.jar"/>
+    				<pathelement location="${epsilon-antlr-dev-repo}/org.eclipse.epsilon.antlr.dev/lib/antlr-2.7.7.jar"/>
     			</classpath>
     			
     			<arg value="-package"/>
