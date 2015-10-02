@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.edl.parse;
 
-// $ANTLR 3.1b1 EdlParserRules.g 2013-06-20 10:04:21
+// $ANTLR 3.1b1 EdlParserRules.g 2015-10-02 23:15:31
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -54,17 +54,17 @@ public class Edl_EdlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int StrangeNameLiteral=15;
     public static final int CASE=35;
     public static final int NEW=49;
-    public static final int FeatureCall=59;
+    public static final int FeatureCall=60;
     public static final int EOF=-1;
     public static final int BREAK=38;
-    public static final int KEYVALLIST=75;
-    public static final int TYPE=63;
+    public static final int KEYVALLIST=76;
+    public static final int TYPE=64;
     public static final int T__93=93;
     public static final int T__94=94;
     public static final int T__91=91;
-    public static final int IMPORT=65;
-    public static final int T__92=92;
+    public static final int IMPORT=66;
     public static final int NAME=19;
+    public static final int T__92=92;
     public static final int T__148=148;
     public static final int T__90=90;
     public static final int T__147=147;
@@ -76,30 +76,36 @@ public class Edl_EdlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int NativeType=56;
     public static final int ABORT=43;
     public static final int COMMENT=21;
+    public static final int T__154=154;
+    public static final int T__155=155;
+    public static final int T__156=156;
     public static final int T__99=99;
-    public static final int ITEMSELECTOR=72;
+    public static final int T__157=157;
+    public static final int ITEMSELECTOR=73;
     public static final int T__98=98;
     public static final int T__150=150;
     public static final int T__97=97;
+    public static final int T__151=151;
     public static final int MultiplicativeExpression=57;
     public static final int T__96=96;
+    public static final int T__152=152;
     public static final int T__95=95;
+    public static final int T__153=153;
     public static final int FLOAT_TYPE_SUFFIX=7;
     public static final int T__139=139;
     public static final int T__138=138;
     public static final int T__137=137;
     public static final int T__136=136;
-    public static final int T__82=82;
     public static final int T__83=83;
     public static final int LINE_COMMENT=22;
     public static final int BREAKALL=39;
-    public static final int EDLMODULE=81;
+    public static final int EDLMODULE=82;
     public static final int TRANSACTION=41;
     public static final int SWITCH=34;
-    public static final int DRIVER=69;
+    public static final int DRIVER=70;
     public static final int ELSE=32;
-    public static final int EOLMODULE=60;
-    public static final int MODELDECLARATION=66;
+    public static final int EOLMODULE=61;
+    public static final int MODELDECLARATION=67;
     public static final int PARAMLIST=25;
     public static final int INT=8;
     public static final int DELETE=52;
@@ -113,7 +119,7 @@ public class Edl_EdlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__140=140;
     public static final int T__89=89;
     public static final int T__145=145;
-    public static final int NAMESPACE=67;
+    public static final int NAMESPACE=68;
     public static final int T__88=88;
     public static final int T__146=146;
     public static final int CollectionType=44;
@@ -125,22 +131,22 @@ public class Edl_EdlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__127=127;
     public static final int WS=20;
     public static final int T__129=129;
-    public static final int ALIAS=68;
+    public static final int ALIAS=69;
     public static final int JavaIDDigit=18;
-    public static final int GUARD=79;
+    public static final int GUARD=80;
     public static final int Annotation=23;
     public static final int T__130=130;
+    public static final int Letter=16;
     public static final int T__131=131;
     public static final int EscapeSequence=13;
-    public static final int Letter=16;
     public static final int THROW=53;
     public static final int T__132=132;
     public static final int T__133=133;
     public static final int T__134=134;
     public static final int T__135=135;
     public static final int SPECIAL_ASSIGNMENT=27;
-    public static final int MODELDECLARATIONPARAMETER=71;
-    public static final int KEYVAL=74;
+    public static final int MODELDECLARATIONPARAMETER=72;
+    public static final int KEYVAL=75;
     public static final int PARAMETERS=46;
     public static final int POINT=9;
     public static final int T__118=118;
@@ -153,9 +159,9 @@ public class Edl_EdlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__123=123;
     public static final int FOR=30;
     public static final int T__122=122;
-    public static final int ENUMERATION_VALUE=64;
+    public static final int ENUMERATION_VALUE=65;
     public static final int T__121=121;
-    public static final int PRE=76;
+    public static final int PRE=77;
     public static final int T__120=120;
     public static final int FLOAT=4;
     public static final int EXECUTABLEANNOTATION=51;
@@ -185,16 +191,17 @@ public class Edl_EdlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__100=100;
     public static final int POINT_POINT=10;
     public static final int SpecialNameChar=17;
-    public static final int MODELDECLARATIONPARAMETERS=70;
-    public static final int BLOCK=61;
-    public static final int MAP=73;
-    public static final int FEATURECALL=62;
+    public static final int MODELDECLARATIONPARAMETERS=71;
+    public static final int BLOCK=62;
+    public static final int MAP=74;
+    public static final int FEATURECALL=63;
     public static final int FORMAL=24;
-    public static final int POST=77;
+    public static final int POST=78;
     public static final int ARROW=11;
+    public static final int EXPRESSIONINBRACKETS=59;
     public static final int ASSIGNMENT=26;
-    public static final int PROCESS=80;
-    public static final int EXTENDS=78;
+    public static final int PROCESS=81;
+    public static final int EXTENDS=79;
     public static final int STRING=14;
 
     // delegates
@@ -224,7 +231,7 @@ public class Edl_EdlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
 
     public static class processRule_return extends ParserRuleReturnScope {
-        CommonTree tree;
+        org.eclipse.epsilon.common.parse.AST tree;
         public Object getTree() { return tree; }
     };
 
@@ -234,7 +241,7 @@ public class Edl_EdlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         Edl_EdlParserRules.processRule_return retval = new Edl_EdlParserRules.processRule_return();
         retval.start = input.LT(1);
 
-        CommonTree root_0 = null;
+        org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token r=null;
         Edl_EolParserRules.formalParameter_return formalParameter1 = null;
@@ -242,17 +249,17 @@ public class Edl_EdlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         Edl_EolParserRules.statementBlock_return statementBlock2 = null;
 
 
-        CommonTree r_tree=null;
+        org.eclipse.epsilon.common.parse.AST r_tree=null;
 
         try {
             // EdlParserRules.g:46:2: (r= 'process' formalParameter statementBlock )
             // EdlParserRules.g:46:4: r= 'process' formalParameter statementBlock
             {
-            root_0 = (CommonTree)adaptor.nil();
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            r=(Token)match(input,150,FOLLOW_150_in_processRule38); 
-            r_tree = (CommonTree)adaptor.create(r);
-            root_0 = (CommonTree)adaptor.becomeRoot(r_tree, root_0);
+            r=(Token)match(input,157,FOLLOW_157_in_processRule38); 
+            r_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(r);
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(r_tree, root_0);
 
             pushFollow(FOLLOW_formalParameter_in_processRule41);
             formalParameter1=gEdl.formalParameter();
@@ -272,14 +279,14 @@ public class Edl_EdlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
             retval.stop = input.LT(-1);
 
-            retval.tree = (CommonTree)adaptor.rulePostProcessing(root_0);
+            retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.rulePostProcessing(root_0);
             adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
 
         }
         catch (RecognitionException re) {
             reportError(re);
             recover(input,re);
-    	retval.tree = (CommonTree)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+    	retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.errorNode(input, retval.start, input.LT(-1), re);
 
         }
         finally {
@@ -293,7 +300,7 @@ public class Edl_EdlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
  
 
-    public static final BitSet FOLLOW_150_in_processRule38 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_157_in_processRule38 = new BitSet(new long[]{0x0000000000080000L});
     public static final BitSet FOLLOW_formalParameter_in_processRule41 = new BitSet(new long[]{0x0000000000000000L,0x0000000001000000L});
     public static final BitSet FOLLOW_statementBlock_in_processRule43 = new BitSet(new long[]{0x0000000000000002L});
 

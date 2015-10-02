@@ -3,30 +3,31 @@ package org.eclipse.epsilon.edl;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.EolFormalParameter;
+import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 
-public class ProcessRule implements ModuleElement {
+public class ProcessRule extends AnnotatableModuleElement {
 	
-	protected EolFormalParameter parameter;
+	protected Parameter parameter;
 	protected AST body;
-	protected AST ast;
 	
-	public ProcessRule(AST ast) {
-		this.ast = ast;
-		parameter = new EolFormalParameter(ast.getFirstChild());
-		body = ast.getFirstChild().getNextSibling();
+	@Override
+	public void build() {
+		super.build();
+		parameter = (Parameter) getFirstChild();
+		body = getFirstChild().getNextSibling();
 	}
 	
 	protected void execute(IEolContext context) throws EolRuntimeException {
 		
 		EolModelElementType parameterType = (EolModelElementType) parameter.getType(context);
+		
 		for (Object o : parameterType.getAllOfKind()) {
 			context.getFrameStack().enterLocal(FrameType.PROTECTED, body);
 			context.getFrameStack().put(Variable.createReadOnlyVariable(parameter.getName(), o));
@@ -35,11 +36,11 @@ public class ProcessRule implements ModuleElement {
 		}
 	}
 	
-	public EolFormalParameter getParameter() {
+	public Parameter getParameter() {
 		return parameter;
 	}
 	
-	public void setParameter(EolFormalParameter parameter) {
+	public void setParameter(Parameter parameter) {
 		this.parameter = parameter;
 	}
 	
@@ -51,16 +52,6 @@ public class ProcessRule implements ModuleElement {
 		this.body = body;
 	}
 
-	@Override
-	public AST getAst() {
-		return ast;
-	}
-
-	@Override
-	public List<?> getChildren() {
-		return Collections.emptyList();
-	}
-	
 	@Override
 	public String toString() {
 		return getParameter().getTypeName();

@@ -12,16 +12,20 @@ package org.eclipse.epsilon.edl.dt.editor.outline;
 
 import org.eclipse.epsilon.edl.ProcessRule;
 import org.eclipse.epsilon.edl.dt.EdlPlugin;
-import org.eclipse.epsilon.eol.EolLabeledBlock;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
+import org.eclipse.epsilon.erl.dom.Post;
+import org.eclipse.epsilon.erl.dom.Pre;
 import org.eclipse.swt.graphics.Image;
 
-public class EdlModuleElementLabelProvider extends EolModuleElementLabelProvider{
+public class EdlModuleElementLabelProvider extends EolModuleElementLabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof EolLabeledBlock){
-			return EdlPlugin.getDefault().createImage("icons/" + ((EolLabeledBlock) element).getLabel() + ".gif");
+		if (element instanceof Pre){
+			return EdlPlugin.getDefault().createImage("icons/pre.gif");
+		}
+		else if (element instanceof Post){
+			return EdlPlugin.getDefault().createImage("icons/post.gif");
 		}
 		else if (element instanceof ProcessRule) {
 			return EdlPlugin.getDefault().createImage("icons/rule.png");

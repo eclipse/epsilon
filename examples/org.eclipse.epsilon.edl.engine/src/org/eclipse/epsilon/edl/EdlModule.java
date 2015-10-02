@@ -11,8 +11,6 @@
 package org.eclipse.epsilon.edl;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +38,7 @@ public class EdlModule extends ErlModule {
 	protected IEolContext context = null;
 
 	public static void main(String[] args) throws Exception {
+		
 		EdlModule module = new EdlModule();
 		module.parse(new File("resources/test.edl"));
 		if (!module.getParseProblems().isEmpty()) {
@@ -64,14 +63,16 @@ public class EdlModule extends ErlModule {
 	}
 	
 	@Override
-	public Lexer createLexer(InputStream inputStream) {
-		ANTLRInputStream input = null;
-		try {
-			input = new ANTLRInputStream(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
+	public AST adapt(AST cst, AST parentAst) {
+		if (cst.getType() == EdlParser.PROCESS) {
+			return new ProcessRule();
 		}
-		return new EdlLexer(input);
+		return super.adapt(cst, parentAst);
+	}
+	
+	@Override
+	public Lexer createLexer(ANTLRInputStream inputStream) {
+		return new EdlLexer(inputStream);
 	}
 
 	@Override
@@ -90,7 +91,7 @@ public class EdlModule extends ErlModule {
 		super.buildModel();
 		
 		for (AST processRuleAst : AstUtil.getChildren(ast, EdlParser.PROCESS)) {
-			declaredProcessRules.add(new ProcessRule(processRuleAst));
+			declaredProcessRules.add((ProcessRule) processRuleAst);
 		}
 
 	}
@@ -127,9 +128,9 @@ public class EdlModule extends ErlModule {
 	public void setContext(IEolContext context) {
 		this.context = context;
 	}
-
+	
 	@Override
-	public List<ModuleElement> getChildren(){
+	public List<ModuleElement> getModuleElements(){
 		final List<ModuleElement> children = new ArrayList<ModuleElement>();
 		children.addAll(getImports());
 		children.addAll(getDeclaredPre());

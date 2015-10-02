@@ -30,6 +30,8 @@ public class EdlEditor extends EolEditor{
 		
 		List<String> edlKeywords = new ArrayList<String>();
 		
+		edlKeywords.add("pre");
+		edlKeywords.add("post");
 		edlKeywords.add("process");
 
 		edlKeywords.addAll(super.getKeywords());
