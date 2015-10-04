@@ -20,11 +20,14 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 public class WizardsExtensionPreference {
 	
+	static final String EXTRA_PKG_SEPARATOR = ",";
+
 	protected String namespaceURI;
 	protected String wizards;
+	protected String commaSepExtraPackages;
 	protected boolean enabled = true;
 	protected static final String preferenceKey = "wizards.extension.preference";
-	
+
 	public String getNamespaceURI() {
 		return namespaceURI;
 	}
@@ -37,12 +40,21 @@ public class WizardsExtensionPreference {
 	public void setWizards(String wizards) {
 		this.wizards = wizards;
 	}
-	
+	public String[] getExtraPackages() {
+		if (commaSepExtraPackages == null) {
+			return new String[0];
+		}
+		return commaSepExtraPackages.split(EXTRA_PKG_SEPARATOR);
+	}
+	public void setExtraPackages(String extraPackages) {
+		this.commaSepExtraPackages = extraPackages;
+	}
+
 	@Override
 	public String toString() {
-		return namespaceURI + "@" + wizards + "@" + enabled;
+		return namespaceURI + "@" + wizards + "@" + enabled + "@" + commaSepExtraPackages;
 	}
-	
+
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -56,6 +68,7 @@ public class WizardsExtensionPreference {
 		w.setNamespaceURI(parts[0]);
 		if (parts.length > 1) w.setWizards(parts[1]);
 		if (parts.length > 2) w.setEnabled(Boolean.parseBoolean(parts[2]));
+		if (parts.length > 3) w.setExtraPackages(parts[3]);
 		return w;
 	}
 	

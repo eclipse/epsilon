@@ -348,6 +348,14 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 				}
 			}
 		}
+		for (WizardsExtensionPreference preference : WizardsExtensionPreference.getPreferences()) {
+			for (String packageURI : preference.getExtraPackages()) {
+				final EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(packageURI);
+				if (ePackage != null) {
+					ePackages.add(ePackage);
+				}
+			}
+		}
 		return ePackages;
 	}
 }

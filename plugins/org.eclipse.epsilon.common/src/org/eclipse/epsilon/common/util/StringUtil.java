@@ -139,4 +139,18 @@ public class StringUtil {
 	public static String reverse(String text) {
 		return new StringBuilder(text).reverse().toString();
 	}
+
+	public static String concat(String separator, Object[] items) {
+		final StringBuffer sbuf = new StringBuffer();
+		boolean first = true;
+		for (Object o : items) {
+			if (first) {
+				first = false;
+			} else {
+				sbuf.append(separator);
+			}
+			sbuf.append(o + "");
+		}
+		return sbuf.toString();
+	}
 }
