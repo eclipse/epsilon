@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.e4.ui.css.swt.theme.ITheme;
 import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
@@ -35,9 +36,10 @@ public class EclipseUtil {
 	
 	public static boolean isDarkThemeEnabled() {
 		try {
-			IThemeEngine engine = (IThemeEngine)
+			final IThemeEngine engine = (IThemeEngine)
 			    Display.getDefault().getData("org.eclipse.e4.ui.css.swt.theme");
-			return "org.eclipse.e4.ui.css.theme.e4_dark".equals(engine.getActiveTheme().getId());
+			final ITheme activeTheme = engine.getActiveTheme();
+			return activeTheme != null && "org.eclipse.e4.ui.css.theme.e4_dark".equals(activeTheme.getId());
 		}
 		catch (Exception ex) {
 			LogUtil.log(ex);
