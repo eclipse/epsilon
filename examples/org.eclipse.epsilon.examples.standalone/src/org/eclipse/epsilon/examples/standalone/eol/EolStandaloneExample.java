@@ -45,7 +45,7 @@ public class EolStandaloneExample extends EpsilonStandaloneExample {
 
 	@Override
 	public String getSource() throws Exception {
-		return "eol/Return.eol";
+		return "eol/Demo.eol";
 	}
 
 	@Override

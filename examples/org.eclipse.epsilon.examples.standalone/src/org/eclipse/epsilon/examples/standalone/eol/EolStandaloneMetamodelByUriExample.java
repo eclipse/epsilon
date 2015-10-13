@@ -16,8 +16,7 @@ public class EolStandaloneMetamodelByUriExample extends EolStandaloneExample {
 	
 	@Override
 	public List<IModel> getModels() throws Exception {
-		String metamodel = getFile("models/Tree.ecore").getAbsolutePath();
-		EmfUtil.register(URI.createFileURI(metamodel), EPackage.Registry.INSTANCE);
+		EmfUtil.register(URI.createURI(getFileURI("models/Tree.ecore").toString()), EPackage.Registry.INSTANCE);
 		List<IModel> models = new ArrayList<IModel>();
 		models.add(createEmfModelByURI("Model", "models/Tree.xmi", "TreeDsl", true, true));
 		return models;

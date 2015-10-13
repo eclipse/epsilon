@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.examples.standalone;
 
-import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public abstract class EpsilonStandaloneExample {
 	public void execute() throws Exception {
 		
 		module = createModule();
-		module.parse(getFile(getSource()));
+		module.parse(getFileURI(getSource()));
 		
 		if (module.getParseProblems().size() > 0) {
 			System.err.println("Parse errors occured...");
@@ -87,9 +86,9 @@ public abstract class EpsilonStandaloneExample {
 		StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name);
 		properties.put(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI,
-				getFile(metamodel).toURI().toString());
+				getFileURI(metamodel).toString());
 		properties.put(EmfModel.PROPERTY_MODEL_URI, 
-				getFile(model).toURI().toString());
+				getFileURI(model).toString());
 		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, 
 				storeOnDisposal + "");
@@ -105,15 +104,15 @@ public abstract class EpsilonStandaloneExample {
 		properties.put(EmfModel.PROPERTY_NAME, name);
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, metamodel);
 		properties.put(EmfModel.PROPERTY_MODEL_URI, 
-				getFile(model).toURI().toString());
+				getFileURI(model).toString());
 		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, 
 				storeOnDisposal + "");
 		emfModel.load(properties, (IRelativePathResolver) null);
 		return emfModel;
 	}
-	
-	protected File getFile(String fileName) throws URISyntaxException {
+
+	protected URI getFileURI(String fileName) throws URISyntaxException {
 		
 		URI binUri = EpsilonStandaloneExample.class.
 				getResource(fileName).toURI();
@@ -126,7 +125,6 @@ public abstract class EpsilonStandaloneExample {
 			uri = binUri;
 		}
 		
-		return new File(uri);
+		return uri;
 	}
-	
 }
