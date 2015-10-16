@@ -191,7 +191,7 @@ public class ExeedEditor extends EcoreEditor {
 	          (Diagnostic.ERROR,
 	           "org.eclipse.epsilon.dt.exeed",
 	           0,
-	           EcoreEditorPlugin.INSTANCE.getString("_UI_CreateModelError_message", new Object[]{ resource.getURI() }),
+	           EcoreEditorPlugin.INSTANCE.getString("_UI_CreateModelError_message", new Object[]{ resource != null ? resource.getURI() : "(unknown)"}),
 	           new Object[] { exception });
 	    }
 		return Diagnostic.OK_INSTANCE;
