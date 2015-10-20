@@ -342,17 +342,13 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 	@Override
 	public void selectionChangedGen(SelectionChangedEvent event) {
 		super.selectionChangedGen(event);
-		if (customizerManager != null) {
-			depopulateManager(customizerManager, customizerActions);
-			final ISelection selection = event.getSelection();
-			IExeedCustomizer customizer = getCustomizerFromSelection(selection);
-			if (customizer != null) {
-				customizerActions = customizer.generateCustomizerActions(selection);
-			} else {
-				customizerActions = Collections.emptyList();
-			}
-			populateManager(customizerManager, customizerActions, null);
-			customizerManager.update(true);
+
+		final ISelection selection = event.getSelection();
+		IExeedCustomizer customizer = getCustomizerFromSelection(selection);
+		if (customizer != null) {
+			customizerActions = customizer.generateCustomizerActions(selection);
+		} else {
+			customizerActions = Collections.emptyList();
 		}
 	}
 }
