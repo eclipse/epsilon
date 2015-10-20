@@ -33,6 +33,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorPart;
@@ -51,6 +52,8 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 	protected ShowHideReferenceNamesAction showHideReferenceNamesAction;
 	protected ToggleSortPropertiesAction toggleSortPropertiesAction;
 	private Map<Class<?>, IExeedCustomizer> customizerMap;
+	private MenuManager customizerManager;
+	private Collection<? extends IAction> customizerActions;
 	
 	protected String getMenuTitle() {
 		return "Exeed";
@@ -220,6 +223,28 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 		}
 	}
 
+	@Override
+	protected Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors, ISelection selection) {
+		IExeedCustomizer customizer = getCustomizerFromSelection(selection);
+		if (customizer != null) {
+			return customizer.generateCreateSiblingActions(descriptors, selection);
+		} else {
+			Collection<IAction> actions = super.generateCreateSiblingActions(descriptors, selection);
+			inspect(actions);
+			updateImageDescriptors(descriptors, actions);
+			return sortActionCollection(actions);
+		}
+	}
+
+	protected Collection<IAction> generateCustomizerActions(ISelection selection) {
+		IExeedCustomizer customizer = getCustomizerFromSelection(selection);
+		if (customizer != null) {
+			return customizer.generateCustomizerActions(selection);
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
 	protected IExeedCustomizer getCustomizerFromSelection(ISelection selection) {
 		if (!customizerMap.isEmpty() && selection instanceof IStructuredSelection) {
 			final IStructuredSelection sel = (IStructuredSelection)selection;
@@ -249,19 +274,6 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 		}
 	}
 	
-	@Override
-	protected Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors, ISelection selection) {
-		IExeedCustomizer customizer = getCustomizerFromSelection(selection);
-		if (customizer != null) {
-			return customizer.generateCreateSiblingActions(descriptors, selection);
-		} else {
-			Collection<IAction> actions = super.generateCreateSiblingActions(descriptors, selection);
-			inspect(actions);
-			updateImageDescriptors(descriptors, actions);
-			return sortActionCollection(actions);
-		}
-	}
-
 	protected void updateImageDescriptors(Collection<?> descriptors,
 			Collection<IAction> actions) {
 		if (descriptors == null || actions == null || editor == null)
@@ -317,4 +329,30 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 		this.customizerMap = resourceClassToCustomizerMap;
 	}
 
+
+	@Override
+	public void menuAboutToShow(IMenuManager menuManager) {
+		super.menuAboutToShow(menuManager);
+
+		customizerManager = new MenuManager("Custom");
+	    populateManager(customizerManager, customizerActions, null);
+	    menuManager.insertBefore("edit", customizerManager);
+	}
+
+	@Override
+	public void selectionChangedGen(SelectionChangedEvent event) {
+		super.selectionChangedGen(event);
+		if (customizerManager != null) {
+			depopulateManager(customizerManager, customizerActions);
+			final ISelection selection = event.getSelection();
+			IExeedCustomizer customizer = getCustomizerFromSelection(selection);
+			if (customizer != null) {
+				customizerActions = customizer.generateCustomizerActions(selection);
+			} else {
+				customizerActions = Collections.emptyList();
+			}
+			populateManager(customizerManager, customizerActions, null);
+			customizerManager.update(true);
+		}
+	}
 }
