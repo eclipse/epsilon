@@ -23,4 +23,6 @@ public interface IExeedCustomizer {
 
 	Collection<IAction> generateCreateChildActions(Collection<?> descriptors, ISelection selection);
 
+	Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors, ISelection selection);
+
 }

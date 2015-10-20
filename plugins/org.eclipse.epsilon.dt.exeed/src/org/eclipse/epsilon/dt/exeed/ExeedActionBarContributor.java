@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.presentation.EcoreActionBarContributor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.CommandParameter;
-import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.epsilon.dt.exeed.extensions.IExeedCustomizer;
 import org.eclipse.jface.action.Action;
@@ -224,9 +223,16 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 	protected IExeedCustomizer getCustomizerFromSelection(ISelection selection) {
 		if (!customizerMap.isEmpty() && selection instanceof IStructuredSelection) {
 			final IStructuredSelection sel = (IStructuredSelection)selection;
+
+			Resource resource = null;
 			if (sel.getFirstElement() instanceof EObject) {
 				final EObject first = (EObject)sel.getFirstElement();
-				final Resource resource = first.eResource();
+				resource = first.eResource();
+			} else if (sel.getFirstElement() instanceof Resource) {
+				resource = (Resource)sel.getFirstElement();
+			}
+
+			if (resource != null) {
 				IExeedCustomizer customizer = customizerMap.get(resource.getClass());
 				if (customizer != null && customizer.isEnabledFor(resource)) {
 					return customizer;
@@ -239,41 +245,21 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 	protected void inspect(Collection<?> actions) {
 		Iterator<?> it = actions.iterator();
 		while (it.hasNext()) {
-			CreateChildAction a = (CreateChildAction) it.next();
+			it.next();
 		}
 	}
 	
 	@Override
-	protected Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors,
-			ISelection selection) {
-		Collection<IAction> actions = super.generateCreateSiblingActions(descriptors,
-				selection);
-		updateImageDescriptors(descriptors, actions);
-		/*
-		IAction action = new Action() {
-			
-		};
-		action.setText("Category");
-		action.setMenuCreator(new IMenuCreator() {
-
-			public void dispose() {
-				// TODO Auto-generated method stub
-				
-			}
-
-			public Menu getMenu(Control parent) {
-				return new Menu(parent);
-			}
-
-			public Menu getMenu(Menu parent) {
-				return new Menu(parent);
-			}
-			
-		});
-		*/
-		actions = sortActionCollection(actions);
-		//actions.add(action);
-		return actions;
+	protected Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors, ISelection selection) {
+		IExeedCustomizer customizer = getCustomizerFromSelection(selection);
+		if (customizer != null) {
+			return customizer.generateCreateSiblingActions(descriptors, selection);
+		} else {
+			Collection<IAction> actions = super.generateCreateSiblingActions(descriptors, selection);
+			inspect(actions);
+			updateImageDescriptors(descriptors, actions);
+			return sortActionCollection(actions);
+		}
 	}
 
 	protected void updateImageDescriptors(Collection<?> descriptors,
