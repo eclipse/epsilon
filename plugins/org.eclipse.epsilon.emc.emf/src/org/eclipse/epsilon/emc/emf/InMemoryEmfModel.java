@@ -20,36 +20,45 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
 public class InMemoryEmfModel extends EmfModel {
-	
 	public InMemoryEmfModel(String name, Resource modelImpl, EPackage... ePackages) {
-		init(name, modelImpl, Arrays.asList(ePackages));
+		init(name, modelImpl, Arrays.asList(ePackages), true);
 	}
 	
 	public InMemoryEmfModel(String name, Resource modelImpl, String... nsUris) {
-		
 		Collection<EPackage> ePackages = new ArrayList<EPackage>();
-		
 		for (String nsUri : nsUris) {
 			ePackages.add(EPackage.Registry.INSTANCE.getEPackage(nsUri));
 		}
-		init(name, modelImpl, ePackages);
+		init(name, modelImpl, ePackages, true);
 	}
 
 	public InMemoryEmfModel(Resource modelImpl) {
-		init("Model", modelImpl, Collections.<EPackage> emptyList());
+		this(modelImpl, true);
 	}
-	
+
+	public InMemoryEmfModel(Resource modelImpl, boolean isContainerListenerEnabled) {
+		init("Model", modelImpl, Collections.<EPackage> emptyList(), isContainerListenerEnabled);
+	}
+
 	public InMemoryEmfModel(String name, Resource modelImpl) {
-		init(name, modelImpl, Collections.<EPackage> emptyList());
+		this(name, modelImpl, Collections.<EPackage> emptyList(), true);
 	}
 	
+	public InMemoryEmfModel(String name, Resource modelImpl, boolean isContainerListenerEnabled) {
+		init(name, modelImpl, Collections.<EPackage> emptyList(), isContainerListenerEnabled);
+	}
+
 	public InMemoryEmfModel(String name, Resource modelImpl, Collection<EPackage> ePackages) {
-		init(name, modelImpl, ePackages);
+		this(name, modelImpl, ePackages, true);
 	}
 	
+	public InMemoryEmfModel(String name, Resource modelImpl, Collection<EPackage> ePackages, boolean isContainerListenerEnabled) {
+		init(name, modelImpl, ePackages, isContainerListenerEnabled);
+	}
+
 	public boolean getExpand() { return true; }
 	
-	protected void init(String name, Resource modelImpl, Collection<EPackage> ePackages) {
+	protected void init(String name, Resource modelImpl, Collection<EPackage> ePackages, boolean isContainerListenerEnabled) {
 		
 		setName(name);
 		this.modelImpl = modelImpl;
@@ -83,10 +92,12 @@ public class InMemoryEmfModel extends EmfModel {
 				}
 			}
 		}
-		
-		this.setupContainmentChangeListeners();
+
+		if (isContainerListenerEnabled) {
+			this.setupContainmentChangeListeners();
+		}
 	}
-	
+
 	@Override
 	public void loadModel() {
 		// In-memory models should not be loaded

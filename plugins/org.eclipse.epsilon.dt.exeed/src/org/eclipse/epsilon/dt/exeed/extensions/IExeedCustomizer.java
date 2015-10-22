@@ -6,6 +6,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.dt.exeed.ExeedEditor;
+import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Composite;
@@ -26,5 +27,7 @@ public interface IExeedCustomizer {
 	Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors, ISelection selection);
 
 	Collection<IAction> generateCustomizerActions(ISelection selection);
+
+	InMemoryEmfModel createInMemoryEmfModel(Resource mainResource);
 
 }

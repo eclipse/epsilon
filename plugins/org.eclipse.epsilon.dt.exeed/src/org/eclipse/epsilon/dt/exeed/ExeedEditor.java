@@ -316,7 +316,12 @@ public class ExeedEditor extends EcoreEditor {
 			}
 		});
 
-		InMemoryEmfModel model = new InMemoryEmfModel(mainResource);
+		InMemoryEmfModel model;
+		if (customizer != null && customizer.isEnabledFor(mainResource)) {
+			model = customizer.createInMemoryEmfModel(mainResource);
+		} else {
+			model = new InMemoryEmfModel(mainResource);
+		}
 		model.setCachingEnabled(false);
 
 		imageTextProvider = new ExeedImageTextProvider(model, getPlugin(), this);
