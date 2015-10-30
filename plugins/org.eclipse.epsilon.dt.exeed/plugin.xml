@@ -26,7 +26,7 @@
             class="org.eclipse.epsilon.dt.exeed.ExeedEditor"
             contributorClass="org.eclipse.epsilon.dt.exeed.ExeedActionBarContributor"
             default="false"
-            extensions="ecore,xmi,xml"
+            extensions="ecore,xmi,xml,inv"
             icon="icons/emfmodel.gif"
             id="org.eclipse.epsilon.dt.exeed.ExeedEditor"
             name="Exeed Editor">
