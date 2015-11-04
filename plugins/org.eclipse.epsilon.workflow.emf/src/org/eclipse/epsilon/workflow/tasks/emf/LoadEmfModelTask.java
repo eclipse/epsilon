@@ -20,7 +20,6 @@ import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
-import org.eclipse.epsilon.workflow.tasks.ShutdownProjectRepositoryListener;
 
 //TODO: Finish this
 public class LoadEmfModelTask extends EpsilonTask {
@@ -39,7 +38,6 @@ public class LoadEmfModelTask extends EpsilonTask {
 	
 	@Override
 	public void executeImpl() throws BuildException {
-		ShutdownProjectRepositoryListener.activate(getProject(), getProjectRepository());
 		
 		final EmfModel model = createEmfModel();
 		

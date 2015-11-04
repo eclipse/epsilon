@@ -29,8 +29,6 @@ public class LoadXmlModel extends EpsilonTask {
 	
 	@Override
 	public void executeImpl() throws BuildException {
-		ShutdownProjectRepositoryListener.activate(getProject(), getProjectRepository());
-		
 		PlainXmlModel model = new PlainXmlModel();
 		
 		model.setName(name);

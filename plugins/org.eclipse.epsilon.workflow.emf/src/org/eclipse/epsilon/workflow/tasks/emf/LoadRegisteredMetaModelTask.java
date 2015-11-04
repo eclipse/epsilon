@@ -28,8 +28,6 @@ public class LoadRegisteredMetaModelTask extends EpsilonTask {
 	@Override
 	public void executeImpl() throws BuildException {
 		
-		ShutdownProjectRepositoryListener.activate(getProject(), getProjectRepository());
-		
 		EmfMetaModel model = new EmfMetaModel();
 		
 		StringProperties properties = new StringProperties();

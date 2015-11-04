@@ -13,6 +13,7 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
@@ -86,6 +87,7 @@ public abstract class EpsilonTask extends Task {
 		if (repository == null) {
 			repository = new ModelRepository();
 			setProjectRepository(repository);
+			ShutdownProjectRepositoryListener.activate(getProject(), repository);
 		}
 		
 		return repository;

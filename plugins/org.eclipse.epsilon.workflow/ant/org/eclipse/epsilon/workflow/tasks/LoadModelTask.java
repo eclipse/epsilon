@@ -28,9 +28,7 @@ public class LoadModelTask extends EpsilonTask{
 	protected ArrayList<ParameterNestedElement> parameterNestedElements = new ArrayList<ParameterNestedElement>();
 	
 	@Override
-	public void executeImpl() throws BuildException {	
-		ShutdownProjectRepositoryListener.activate(getProject(), getProjectRepository());
-		
+	public void executeImpl() throws BuildException {
 		if (profile) Profiler.INSTANCE.start("Load model : " + name);
 		
 		IModel model = createModel(type);

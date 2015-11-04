@@ -23,7 +23,6 @@ public class LoadXmlModelTask extends EpsilonTask {
 	
 	@Override
 	public void executeImpl() throws BuildException {
-		ShutdownProjectRepositoryListener.activate(getProject(), getProjectRepository());
 		
 		final StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name + "");

@@ -61,8 +61,6 @@ public class LoadCsvModelTask extends EpsilonTask {
 	 */
 	@Override
 	public void executeImpl() throws BuildException {
-		ShutdownProjectRepositoryListener.activate(getProject(), getProjectRepository());
-		
 		final CsvModel model = createCsvModel();
 
 		
