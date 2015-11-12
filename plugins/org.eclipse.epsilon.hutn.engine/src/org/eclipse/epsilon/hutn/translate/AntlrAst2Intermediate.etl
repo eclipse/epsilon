@@ -349,7 +349,7 @@ operation Real toSlot() : Intermediate!Slot {
 }
 
 operation String isReal() : Boolean {
-	return '.'.isSubstringOf(self);
+	return '.'.isSubstringOf(self) or 'e'.isSubstringOf(self) or 'E'.isSubstringOf(self);
 }
 
 operation AntlrAst!NumericValueNode toSlot() : Intermediate!Slot {

@@ -397,6 +397,16 @@ public class TestHutn extends TestCase {
 		assertEquals("testing rule "+"cls_contents", expecting, actual);
 	}
 
+
+	public void testCls_contents26() throws Exception {
+		// test input: "AverageAge   = 2.53e1"
+		Object retval = execParser("cls_contents", "AverageAge   = 2.53e1", false);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = "(AverageAge 2.53e1)";
+
+		assertEquals("testing rule "+"cls_contents", expecting, actual);
+	}
+
 	public void testCls_level_attribute1() throws Exception {
 		// test input: "Family.nuclear = true;"
 		Object retval = execParser("cls_level_attribute", "Family.nuclear = true;", false);

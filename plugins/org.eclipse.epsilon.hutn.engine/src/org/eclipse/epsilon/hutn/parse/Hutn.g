@@ -172,7 +172,7 @@ TEXTUAL_VALUE
     ;
 
 
-NUMERIC_VALUE: ('-'|'+')? DIGIT+ ('.' DIGIT+)?;
+NUMERIC_VALUE: ('-'|'+')? DIGIT+ ('.' DIGIT+)? (('e'|'E') ('+'|'-')? DIGIT+)?;
 ADJECTIVE_PREFIX: '~' | '#';
 
 WS  :  (

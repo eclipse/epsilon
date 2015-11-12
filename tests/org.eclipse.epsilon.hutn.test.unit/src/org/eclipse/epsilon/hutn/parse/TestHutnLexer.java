@@ -92,4 +92,9 @@ public class TestHutnLexer {
 	public void testNoDecimalDigits() throws IOException {
 		invalidNumberTest("1.");
 	}
+
+	@Test
+	public void testScientificNotation() throws IOException {
+		validNumberTest("-15.56739e5");
+	}
 }
