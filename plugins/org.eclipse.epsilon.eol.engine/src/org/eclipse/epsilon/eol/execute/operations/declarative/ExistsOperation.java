@@ -25,7 +25,7 @@ public class ExistsOperation extends SelectBasedOperation {
 
 		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expression, context, true);
 		
-		return selected.size() > 0;
+		return !selected.isEmpty();
 
 	}
 
