@@ -16,6 +16,7 @@
     <module>features</module>
     <module>plugins</module>
     <module>tests</module>
+    <module>standalone/org.eclipse.epsilon.standalone</module>
   </modules>
 
   <build>
@@ -27,7 +28,9 @@
 	<extensions>true</extensions>
       </plugin>
 
-      <!-- Generate source bundles -->
+      <!-- Generate source bundles (exclude target so we don't enter
+           an infinite loop for binary-only plugins, which have itself
+           as the source). -->
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-source-plugin</artifactId>
@@ -38,6 +41,11 @@
             <goals>
               <goal>plugin-source</goal>
             </goals>
+	    <configuration>
+	      <excludes>
+		<exclude>target/**</exclude>
+	      </excludes>
+	    </configuration>
           </execution>
         </executions>
       </plugin>
