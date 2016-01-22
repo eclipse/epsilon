@@ -16,6 +16,7 @@
 
   <build>
     <plugins>
+      <!-- Needed for the kitchensink JAR file -->
       <plugin>
 	<artifactId>maven-dependency-plugin</artifactId>
 	<version>2.10</version>
@@ -26,12 +27,20 @@
 	      <goal>copy-dependencies</goal>
 	    </goals>
 	  </execution>
+	  <execution>
+	    <id>unpack</id>
+	    <goals>
+	      <goal>unpack-dependencies</goal>
+	    </goals>
+	    <configuration>
+	      <includeArtifactIds>org.eclipse.emf.common,org.eclipse.emf.ecore,org.eclipse.emf.ecore.xmi,org.eclipse.xsd,org.eclipse.uml2.uml,org.eclipse.uml2.common,org.eclipse.emf.mapping.ecore2xml,org.eclipse.uml2.types</includeArtifactIds>
+	      <outputDirectory>target/dependency-unpacked</outputDirectory>
+	    </configuration>
+	  </execution>
 	</executions>
       </plugin>
 
-      <!-- Note: this only works from a full reactor build (mvn
-           package from the root directory), due to the use of
-           moduleSets. -->
+      <!-- Note: this requires that everything else has been built already -->
       <plugin>
 	<artifactId>maven-assembly-plugin</artifactId>
 	<version>2.6</version>
@@ -53,6 +62,15 @@
 		<descriptor>assembly/uml.xml</descriptor>
 		<descriptor>assembly/uml-src.xml</descriptor>
 		<descriptor>assembly/uml-deps.xml</descriptor>
+		<descriptor>assembly/graphml.xml</descriptor>
+		<descriptor>assembly/graphml-src.xml</descriptor>
+		<descriptor>assembly/hutn.xml</descriptor>
+		<descriptor>assembly/hutn-src.xml</descriptor>
+		<descriptor>assembly/workflow.xml</descriptor>
+		<descriptor>assembly/workflow-src.xml</descriptor>
+		<descriptor>assembly/workflow-emf.xml</descriptor>
+		<descriptor>assembly/workflow-emf-src.xml</descriptor>
+		<descriptor>assembly/kitchensink.xml</descriptor>
 	      </descriptors>
 	    </configuration>
 	  </execution>

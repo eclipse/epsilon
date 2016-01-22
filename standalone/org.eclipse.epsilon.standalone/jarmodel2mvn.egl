@@ -1,0 +1,105 @@
+[%
+var jars;
+if (type = 'kitchensink') {
+  jars = jar.c_jar;
+} else {
+  jars = Sequence { jar };
+}
+%]
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3 http://maven.apache.org/xsd/assembly-1.1.3.xsd">
+  <id>[%= jar.getAssemblyIdentifier(type) %]</id>
+  <formats>
+    <format>[%= jar.getAssemblyFormat(type) %]</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+[% if (type <> 'dependencies') {
+    for (j in jars) {
+      for (project in j.c_project) { %]
+      <fileSet>
+        <directory>../../plugins/[%=project.a_name%]/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+[%      if (type = 'sources') { %]
+      <fileSet>
+        <directory>../../plugins/[%=project.a_name%]/[%=project.getSource()%]</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+[%      } %]
+[%
+      }
+    }
+}
+
+if (type = 'dependencies') { %]
+    <fileSet>
+      <directory>target/dependency</directory>
+      <outputDirectory></outputDirectory>
+      <includes>
+[%
+  for (j in jars) {
+    for (plugin in j.c_plugin) {
+%]
+        <include>[%= plugin.a_name %]*.jar</include>
+[%
+    }
+  }
+%]
+      </includes>
+    </fileSet>
+[%
+} else if (type = 'kitchensink') {
+%]
+    <fileSet>
+      <directory>target/dependency-unpacked</directory>
+      <outputDirectory></outputDirectory>
+      <excludes>
+        <exclude>*.RSA</exclude>
+        <exclude>*.DS</exclude>
+        <exclude>*.SF</exclude>
+      </excludes>
+    </fileSet>
+[%
+}
+%]
+  </fileSets>
+</assembly>
+[%
+
+operation JarModel!t_jarmodel getAssemblyIdentifier(type: String) : String {
+  return 'kitchensink';
+}
+
+operation JarModel!t_jarmodel getAssemblyFormat(type: String) : String {
+  return 'jar';
+}
+
+operation JarModel!t_jar getAssemblyIdentifier(type: String) : String {
+  if (type = 'dependencies') {
+    return self.a_name + '-dependencies';
+  } else if (type = 'sources') {
+    return self.a_name + '-src';
+  } else {
+    return self.a_name;
+  }
+}
+
+operation JarModel!t_jar getAssemblyFormat(type: String) : String {
+  if (type = 'dependencies') {
+    return 'zip';
+  } else {
+    return 'jar';
+  }
+}
+
+operation JarModel!t_project getSource() : String {
+  if (self.a_src.isDefined()){
+    return self.a_src;
+  } else {
+    return 'src';
+  }
+}
+
+%]

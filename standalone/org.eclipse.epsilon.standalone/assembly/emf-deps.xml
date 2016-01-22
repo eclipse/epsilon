@@ -1,6 +1,6 @@
 <assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3"
-	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3 http://maven.apache.org/xsd/assembly-1.1.3.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3 http://maven.apache.org/xsd/assembly-1.1.3.xsd">
   <id>emf-dependencies</id>
   <formats>
     <format>zip</format>
@@ -9,12 +9,12 @@
   <fileSets>
     <fileSet>
       <directory>target/dependency</directory>
-      <outputDirectory>/</outputDirectory>
+      <outputDirectory></outputDirectory>
       <includes>
-	<include>org.eclipse.emf.common*.jar</include>
-	<include>org.eclipse.emf.ecore*.jar</include>
-	<include>org.eclipse.emf.ecore.xmi*.jar</include>
-	<include>org.eclipse.xsd*.jar</include>
+        <include>org.eclipse.emf.common*.jar</include>
+        <include>org.eclipse.emf.ecore*.jar</include>
+        <include>org.eclipse.emf.ecore.xmi*.jar</include>
+        <include>org.eclipse.xsd*.jar</include>
       </includes>
     </fileSet>
   </fileSets>

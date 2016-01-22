@@ -1,0 +1,36 @@
+rule Jar2BinaryAssembly
+	transform jar : JarModel!t_jar {
+	parameters {
+		return Map {'type' = 'binary'};
+	} 
+	template : 'jarmodel2mvn.egl'
+	target : 'assembly/' + jar.a_name + '.xml'
+}
+
+rule Jar2SourceAssembly
+	transform jar : JarModel!t_jar {
+	parameters {
+		return Map {'type' = 'sources'};
+	}
+	template : 'jarmodel2mvn.egl'
+	target : 'assembly/' + jar.a_name + '-src.xml'
+}
+
+rule Jar2DepsAssembly
+	transform jar : JarModel!t_jar {
+	guard : jar.c_plugin.size() > 0
+	parameters {
+		return Map {'type' = 'dependencies'};
+	}
+	template : 'jarmodel2mvn.egl'
+	target : 'assembly/' + jar.a_name + '-deps.xml'
+}
+
+rule Model2KitchenSink
+	transform jar : JarModel!t_jarmodel {
+	parameters {
+		return Map {'type' = 'kitchensink'};
+	}
+	template : 'jarmodel2mvn.egl'
+	target : 'assembly/kitchensink.xml'
+}

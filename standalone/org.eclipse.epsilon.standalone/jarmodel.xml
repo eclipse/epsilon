@@ -31,6 +31,9 @@
 		Epsilon's EMF driver.
 		</description>
 		<project name="org.eclipse.epsilon.emc.emf"/>
+
+		<!-- Need to be listed in the unpack-dependencies goal
+		     of the pom.xml file as well. -->
 		<plugin name="org.eclipse.emf.common"/>
 		<plugin name="org.eclipse.emf.ecore"/>
 		<plugin name="org.eclipse.emf.ecore.xmi"/>
@@ -42,6 +45,9 @@
 		Epsilon's UML driver.
 		</description>	
 		<project name="org.eclipse.epsilon.emc.uml"/>
+
+		<!-- Need to be listed in the unpack-dependencies goal
+		     of the pom.xml file as well. -->
 		<plugin name="org.eclipse.uml2.uml"/>
 		<plugin name="org.eclipse.uml2.common"/>
 		<plugin name="org.eclipse.emf.mapping.ecore2xml"/>
