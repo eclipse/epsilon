@@ -17,6 +17,22 @@
   <build>
     <plugins>
       <plugin>
+	<artifactId>maven-dependency-plugin</artifactId>
+	<version>2.10</version>
+	<executions>
+	  <execution>
+	    <id>copy</id>
+	    <goals>
+	      <goal>copy-dependencies</goal>
+	    </goals>
+	  </execution>
+	</executions>
+      </plugin>
+
+      <!-- Note: this only works from a full reactor build (mvn
+           package from the root directory), due to the use of
+           moduleSets. -->
+      <plugin>
 	<artifactId>maven-assembly-plugin</artifactId>
 	<version>2.6</version>
 	<executions>
@@ -31,6 +47,12 @@
 	      <descriptors>
 		<descriptor>assembly/core.xml</descriptor>
 		<descriptor>assembly/core-src.xml</descriptor>
+		<descriptor>assembly/emf.xml</descriptor>
+		<descriptor>assembly/emf-src.xml</descriptor>
+		<descriptor>assembly/emf-deps.xml</descriptor>
+		<descriptor>assembly/uml.xml</descriptor>
+		<descriptor>assembly/uml-src.xml</descriptor>
+		<descriptor>assembly/uml-deps.xml</descriptor>
 	      </descriptors>
 	    </configuration>
 	  </execution>

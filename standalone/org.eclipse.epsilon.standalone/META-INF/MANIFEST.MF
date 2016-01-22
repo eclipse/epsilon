@@ -4,4 +4,12 @@ Bundle-Name: Standalone
 Bundle-SymbolicName: org.eclipse.epsilon.standalone
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.apache.ant
+Require-Bundle: org.apache.ant,
+ org.eclipse.emf.common,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.xsd,
+ org.eclipse.uml2.uml,
+ org.eclipse.uml2.common,
+ org.eclipse.emf.mapping.ecore2xml,
+ org.eclipse.uml2.types
