@@ -19,7 +19,12 @@ if (type = 'kitchensink') {
     for (j in jars) {
       for (project in j.c_project) { %]
       <fileSet>
+[% if (project.a_binary = 'true') { %]
+        <directory>../../plugins/[%=project.a_name%]/</directory>
+        <includes><include>**/*.class</include></includes>
+[% } else { %]
         <directory>../../plugins/[%=project.a_name%]/target/classes</directory>
+[% } %]
         <outputDirectory></outputDirectory>
       </fileSet>
 [%      if (type = 'sources') { %]
