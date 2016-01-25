@@ -35,7 +35,11 @@ public class ContributeGmfWizardsAction extends AbstractContributeWizardsAction 
 	}
 	
 	protected EditingDomain getEditingDomain() {
-		return ((DiagramEditor) targetPart).getDiagramEditPart().getEditingDomain();
+		if (targetPart instanceof DiagramEditor) {
+			return ((DiagramEditor) targetPart).getDiagramEditPart().getEditingDomain();
+		} else {
+			return null;
+		}
 	}
 
 	@Override
