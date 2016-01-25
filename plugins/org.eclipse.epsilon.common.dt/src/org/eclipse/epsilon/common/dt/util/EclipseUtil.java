@@ -36,8 +36,13 @@ public class EclipseUtil {
 	
 	public static boolean isDarkThemeEnabled() {
 		try {
+			final Display display = Display.getDefault();
+			if (display == null) {
+				// We're not in a UI thread: return false for now
+				return false;
+			}
 			final IThemeEngine engine = (IThemeEngine)
-			    Display.getDefault().getData("org.eclipse.e4.ui.css.swt.theme");
+			    display.getData("org.eclipse.e4.ui.css.swt.theme");
 			final ITheme activeTheme = engine.getActiveTheme();
 			return activeTheme != null && "org.eclipse.e4.ui.css.theme.e4_dark".equals(activeTheme.getId());
 		}
