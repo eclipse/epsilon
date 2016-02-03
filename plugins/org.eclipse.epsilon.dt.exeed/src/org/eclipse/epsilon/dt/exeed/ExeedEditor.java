@@ -34,6 +34,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.presentation.EcoreEditor;
 import org.eclipse.emf.ecore.presentation.EcoreEditorPlugin;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -300,7 +301,15 @@ public class ExeedEditor extends EcoreEditor {
 		EmfRegistryManager.getInstance();
 		registerCustomMetamodels();
 
-		createModel();
+		/*
+		 * Taken from EcoreEditor#createModel(): we don't use reflective mode,
+		 * and we don't want the last bit that goes through getAllContents() (as
+		 * it'd break customizers that hook Exeed into lazy-loading resources).
+		 */
+		final ResourceSet resourceSet = editingDomain.getResourceSet();
+		resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
+		createModelGen();
+
 		final Resource mainResource = this.getEditingDomain().getResourceSet().getResources().get(0);
 		final IExeedCustomizer customizer = resourceClassToCustomizerMap.get(mainResource.getClass());
 		if (customizer != null && customizer.isEnabledFor(mainResource)) {
