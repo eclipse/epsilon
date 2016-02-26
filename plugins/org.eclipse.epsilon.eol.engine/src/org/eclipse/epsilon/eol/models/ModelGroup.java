@@ -57,13 +57,19 @@ public class ModelGroup extends Model {
 	}
 
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
-		return models.get(0).getEnumerationValue(enumeration,label);
+		for (IModel model : models) {
+			try {
+				return model.getEnumerationValue(enumeration,label);
+			}
+			catch (Exception ex) {}
+		}
+		throw new EolEnumerationValueNotFoundException(enumeration, label, this.getName());
 	}
 
 	public Collection<?> getAllOfType(String metaClass) throws EolModelElementTypeNotFoundException {
 		ArrayList<Object> allOfClass = new ArrayList<Object>();
 		for (IModel model : models) {
-			allOfClass.addAll(model.getAllOfType(metaClass));
+			if (model.hasType(metaClass)) allOfClass.addAll(model.getAllOfType(metaClass));
 		}
 		return allOfClass;
 	}
@@ -71,7 +77,7 @@ public class ModelGroup extends Model {
 	public Collection<?> getAllOfKind(String metaClass) throws EolModelElementTypeNotFoundException {
 		ArrayList<Object> allOfType = new ArrayList<Object>();
 		for (IModel model : models) {
-			allOfType.addAll(model.getAllOfKind(metaClass));
+			if (model.hasType(metaClass)) allOfType.addAll(model.getAllOfKind(metaClass));
 		}
 		return allOfType;
 	}
