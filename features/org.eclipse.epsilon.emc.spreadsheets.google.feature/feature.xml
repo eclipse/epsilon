@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.emc.spreadsheets.google.feature"
       label="EMC Google Spreadsheet Driver"
-      version="1.3.0.qualifier"
+      version="1.4.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
@@ -107,7 +107,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.emc.spreadsheets.google"
          download-size="0"
          install-size="0"
-         version="1.3.0.qualifier"
+         version="1.4.0.qualifier"
          unpack="false"/>
 
 </feature>

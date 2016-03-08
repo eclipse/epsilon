@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Validation Language Engine
 Bundle-SymbolicName: org.eclipse.epsilon.evl.engine
-Bundle-Version: 1.3.0.qualifier
+Bundle-Version: 1.4.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
  org.eclipse.epsilon.erl.engine;visibility:=reexport

@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.emc.spreadsheets.excel.feature"
       label="EMC Microsoft Excel Spreadsheet Driver"
-      version="1.3.0.qualifier"
+      version="1.4.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
@@ -98,16 +98,16 @@ This Agreement is governed by the laws of the State of New York and the intellec
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.eol.engine" version="1.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.epsilon.emc.spreadsheets" version="1.3.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.epsilon.emc.spreadsheets.excel.dependencies" version="1.3.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.epsilon.eol.engine" version="1.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.epsilon.emc.spreadsheets" version="1.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.epsilon.emc.spreadsheets.excel.dependencies" version="1.4.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
          id="org.eclipse.epsilon.emc.spreadsheets.excel"
          download-size="0"
          install-size="0"
-         version="1.3.0.qualifier"
+         version="1.4.0.qualifier"
          unpack="false"/>
 
 </feature>

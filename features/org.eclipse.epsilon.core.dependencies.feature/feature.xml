@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.core.dependencies.feature"
       label="Epsilon Core Dependencies"
-      version="1.3.0.qualifier"
+      version="1.4.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">

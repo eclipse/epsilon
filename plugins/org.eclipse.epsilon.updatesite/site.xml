@@ -4,61 +4,61 @@
    <description name="Epsilon Update Site" url="http://download.eclipse.org/epsilon/updates/site.xml">
       Epsilon is a platform of task-specific languages and tools for model management. Epsilon provides languages for tasks such as model transformation, validation, comparison, merging and code generation. It also includes Eclipse-based development tools for the languages and ANT tasks for executing them in the context of complex workflows. Additional features include support live validation, repairing, and scripting of models in EMF and GMF-based editors.
    </description>
-   <feature url="features/org.eclipse.epsilon.core.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.core.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.core.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.core.feature" version="1.4.0.201503210240">
       <category name="Epsilon Core"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.core.dt.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.core.dt.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.core.dt.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.core.dt.feature" version="1.4.0.201503210240">
       <category name="Epsilon Core Development Tools"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.emf.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.emf.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.emf.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.emf.feature" version="1.4.0.201503210240">
       <category name="Epsilon EMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.ewl.emf.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.ewl.emf.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.ewl.emf.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.ewl.emf.feature" version="1.4.0.201503210240">
       <category name="Epsilon EMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.emf.dt.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.emf.dt.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.emf.dt.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.emf.dt.feature" version="1.4.0.201503210240">
       <category name="Epsilon EMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.evl.emf.validation.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.evl.emf.validation.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.evl.emf.validation.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.evl.emf.validation.feature" version="1.4.0.201503210240">
       <category name="Epsilon EMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.eunit.dt.emf.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.eunit.dt.emf.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.eunit.dt.emf.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.eunit.dt.emf.feature" version="1.4.0.201503210240">
       <category name="Epsilon EMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.uml.dt.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.uml.dt.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.uml.dt.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.uml.dt.feature" version="1.4.0.201503210240">
       <category name="Epsilon UML Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.uml.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.uml.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.uml.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.uml.feature" version="1.4.0.201503210240">
       <category name="Epsilon UML Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.ewl.gmf.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.ewl.gmf.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.ewl.gmf.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.ewl.gmf.feature" version="1.4.0.201503210240">
       <category name="Epsilon GMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.eugenia.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.eugenia.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.eugenia.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.eugenia.feature" version="1.4.0.201503210240">
       <category name="Epsilon GMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.hutn.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.hutn.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.hutn.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.hutn.feature" version="1.4.0.201503210240">
       <category name="Human Usable Textual Notation (HUTN)"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.hutn.dt.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.hutn.dt.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.hutn.dt.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.hutn.dt.feature" version="1.4.0.201503210240">
       <category name="Human Usable Textual Notation (HUTN)"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.concordance.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.concordance.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.concordance.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.concordance.feature" version="1.4.0.201503210240">
       <category name="Model Monitoring"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.emc.graphml.feature_1.3.0.201503210240.jar" id="org.eclipse.epsilon.emc.graphml.feature" version="1.3.0.201503210240">
+   <feature url="features/org.eclipse.epsilon.emc.graphml.feature_1.4.0.201503210240.jar" id="org.eclipse.epsilon.emc.graphml.feature" version="1.4.0.201503210240">
       <category name="Epsilon EMF Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.emc.spreadsheets.google.feature_1.3.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.google.feature" version="1.3.0.qualifier">
+   <feature url="features/org.eclipse.epsilon.emc.spreadsheets.google.feature_1.4.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.google.feature" version="1.4.0.qualifier">
       <category name="Epsilon Spreadsheet Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.emc.spreadsheets.google.dt.feature_1.3.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.google.dt.feature" version="1.3.0.qualifier">
+   <feature url="features/org.eclipse.epsilon.emc.spreadsheets.google.dt.feature_1.4.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.google.dt.feature" version="1.4.0.qualifier">
       <category name="Epsilon Spreadsheet Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.emc.spreadsheets.excel.dt.feature_1.3.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.excel.dt.feature" version="1.3.0.qualifier">
+   <feature url="features/org.eclipse.epsilon.emc.spreadsheets.excel.dt.feature_1.4.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.excel.dt.feature" version="1.4.0.qualifier">
       <category name="Epsilon Spreadsheet Integration"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.emc.spreadsheets.excel.feature_1.3.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.excel.feature" version="1.3.0.qualifier">
+   <feature url="features/org.eclipse.epsilon.emc.spreadsheets.excel.feature_1.4.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.excel.feature" version="1.4.0.qualifier">
       <category name="Epsilon Spreadsheet Integration"/>
    </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">

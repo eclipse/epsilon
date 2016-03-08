@@ -10,7 +10,7 @@
 
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.workflow.emf</artifactId>
-  <version>1.3.0-SNAPSHOT</version>
+  <version>1.4.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 
   <build>

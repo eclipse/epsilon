@@ -59,7 +59,7 @@
             <artifact>
 	      <groupId>${project.groupId}</groupId>
 	      <artifactId>org.eclipse.epsilon.targetplatform</artifactId>
-	      <version>1.3.0-SNAPSHOT</version>
+	      <version>1.4.0-SNAPSHOT</version>
             </artifact>
           </target>
 	  <dependency-resolution>
