@@ -18,6 +18,7 @@ public class EvlOperationFactory extends EolOperationFactory{
 	public EvlOperationFactory() {
 		super();
 		operationCache.put("satisfies", new SatisfiesOperation(true));
+		operationCache.put("satisfiesAll", new SatisfiesOperation(true));
 		operationCache.put("satisfiesOne", new SatisfiesOperation(false));
 	}
 	
