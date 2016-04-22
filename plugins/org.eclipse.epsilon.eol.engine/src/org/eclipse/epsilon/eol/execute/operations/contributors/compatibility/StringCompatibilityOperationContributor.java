@@ -29,5 +29,9 @@ public class StringCompatibilityOperationContributor extends OperationContributo
 	public String replace(String regex, String replacement) {
 		return ((String) target).replaceAll(regex, replacement);
 	}
-	
+
+	/** Java charAt returns a 'char', but EOL does not have that primitive type, so we redefine it to return a String. */
+	public String charAt(int index) {
+		return ((String) target).charAt(index) + "";
+	}
 }

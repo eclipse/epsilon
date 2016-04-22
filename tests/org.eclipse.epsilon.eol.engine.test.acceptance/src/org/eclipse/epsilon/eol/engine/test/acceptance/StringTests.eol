@@ -98,3 +98,9 @@ operation testPad() {
 	assertEquals("foo".pad(5, "*", true), "foo**");
 	assertEquals("foo".pad(5, "*", false), "**foo");
 }
+@test
+operation testCharAt() {
+	assertEquals("fox".charAt(0), "f");
+	assertEquals("fox".charAt(1), "o");
+	assertEquals("fox".charAt(2), "x");
+}
