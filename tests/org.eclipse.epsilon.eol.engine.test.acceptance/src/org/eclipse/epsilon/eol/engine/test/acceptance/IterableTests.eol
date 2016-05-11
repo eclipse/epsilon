@@ -105,3 +105,21 @@ operation average() {
   assertEquals(0, y.average());
   assertEquals(1, x.average());
 }
+
+@test
+operation sum_bigdecimal() {
+  var s : Sequence;
+  s.add(new Native("java.math.BigDecimal")("2.5"));
+  s.add(3);
+  s.add(4.1);
+  assertEquals(9.6, s.sum());
+}
+
+@test
+operation product_bigdecimal() {
+  var s : Sequence;
+  s.add(new Native("java.math.BigDecimal")("2.5"));
+  s.add(3);
+  s.add(4.1);
+  assertEquals(30.75, s.product());
+}

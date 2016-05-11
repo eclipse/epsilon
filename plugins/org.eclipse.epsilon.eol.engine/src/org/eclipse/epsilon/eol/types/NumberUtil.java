@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
+import java.math.BigDecimal;
+
 /*
  * NOTE: this class reimplements JLS sections 5.6.1 (unary numeric promotion)
  * and 5.6.2 (binary numeric promotion) to reduce casts and instanceof checks.
@@ -17,7 +19,10 @@ package org.eclipse.epsilon.eol.types;
 public class NumberUtil {
 	
 	public static Number multiply(Number n1, Number n2) {
-		if (n1 instanceof Double || n2 instanceof Double) {
+		if (n1 instanceof BigDecimal || n2 instanceof BigDecimal) {
+			return map(n1).multiply(map(n2));
+		}
+		else if (n1 instanceof Double || n2 instanceof Double) {
 			return n1.doubleValue() * n2.doubleValue();
 		}
 		else if (n1 instanceof Float || n2 instanceof Float) {
@@ -31,8 +36,19 @@ public class NumberUtil {
 		}
 	}
 
+	private static BigDecimal map(Number n) {
+		if (n instanceof BigDecimal) {
+			return (BigDecimal) n;
+		} else {
+			return new BigDecimal(n.toString());
+		}
+	}
+
 	public static Number add(Number n1, Number n2) {
-		if (n1 instanceof Double || n2 instanceof Double) {
+		if (n1 instanceof BigDecimal || n2 instanceof BigDecimal) {
+			return map(n1).add(map(n2));
+		}
+		else if (n1 instanceof Double || n2 instanceof Double) {
 			return n1.doubleValue() + n2.doubleValue();
 		}
 		else if (n1 instanceof Float || n2 instanceof Float) {
@@ -47,7 +63,10 @@ public class NumberUtil {
 	}
 	
 	public static boolean greaterThan(Number n1, Number n2) {
-		if (n1 instanceof Double || n2 instanceof Double) {
+		if (n1 instanceof BigDecimal || n2 instanceof BigDecimal) {
+			return map(n1).compareTo(map(n2)) > 0;
+		}
+		else if (n1 instanceof Double || n2 instanceof Double) {
 			return n1.doubleValue() > n2.doubleValue();
 		}
 		else if (n1 instanceof Float || n2 instanceof Float) {
@@ -62,7 +81,10 @@ public class NumberUtil {
 	}
 
 	public static Number divide(Number n1, Number n2) {
-		if (n1 instanceof Double || n2 instanceof Double) {
+		if (n1 instanceof BigDecimal || n2 instanceof BigDecimal) {
+			return map(n1).divide(map(n2));
+		}
+		else if (n1 instanceof Double || n2 instanceof Double) {
 			return n1.doubleValue() / n2.doubleValue();
 		}
 		else if (n1 instanceof Float || n2 instanceof Float) {
@@ -77,7 +99,10 @@ public class NumberUtil {
 	}
 
 	public static boolean lessThan(Number n1, Number n2) {
-		if (n1 instanceof Double || n2 instanceof Double) {
+		if (n1 instanceof BigDecimal || n2 instanceof BigDecimal) {
+			return map(n1).compareTo(map(n2)) < 0;
+		}
+		else if (n1 instanceof Double || n2 instanceof Double) {
 			return n1.doubleValue() < n2.doubleValue();
 		}
 		else if (n1 instanceof Float || n2 instanceof Float) {
@@ -92,7 +117,10 @@ public class NumberUtil {
 	}
 
 	public static Number subtract(Number n1, Number n2) {
-		if (n1 instanceof Double || n2 instanceof Double) {
+		if (n1 instanceof BigDecimal || n2 instanceof BigDecimal) {
+			return map(n1).subtract(map(n2));
+		}
+		else if (n1 instanceof Double || n2 instanceof Double) {
 			return n1.doubleValue() - n2.doubleValue();
 		}
 		else if (n1 instanceof Float || n2 instanceof Float) {
@@ -107,7 +135,10 @@ public class NumberUtil {
 	}
 
 	public static Number negative(Number n) {
-		if (n instanceof Double) {
+		if (n instanceof BigDecimal) {
+			return ((BigDecimal)n).negate();
+		}
+		else if (n instanceof Double) {
 			return -n.doubleValue();
 		}
 		else if (n instanceof Float) {
@@ -122,7 +153,10 @@ public class NumberUtil {
 	}
 
 	public static boolean isEqual(Number n1, Number n2) {
-		if (n1 instanceof Double || n2 instanceof Double) {
+		if (n1 instanceof BigDecimal || n2 instanceof BigDecimal) {
+			return map(n1).equals(map(n2));
+		}
+		else if (n1 instanceof Double || n2 instanceof Double) {
 			return n1.doubleValue() == n2.doubleValue();
 		}
 		else if (n1 instanceof Float || n2 instanceof Float) {
