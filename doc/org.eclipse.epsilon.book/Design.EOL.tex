@@ -352,7 +352,19 @@ All collection types inherit from the abstract Collection type. Apart from simpl
     includingAll(col : Collection) : Collection & Returns a new collection that is a union of the two collections. The type of the returned collection (i.e. Bag, Sequence, Set, OrderedSet) is same as the type of the collection on which the operation is invoked \\\hline
     
     isEmpty() : Boolean & Returns true if the collection does not contain any elements and false otherwise \\\hline
-    
+
+    min() : Real & Returns the minimum of all reals/integers in the collection, or 0 if it is empty \\\hline
+
+    min(default : Real) : Real & Returns the minimum of all reals/integers in the collection, or the default value if it is empty \\\hline
+
+    max() : Real & Returns the maximum of all reals/integers in the collection, or 0 if it is empty \\\hline
+
+    max(default : Real) : Real & Returns the maximum of all reals/integers in the collection, or the default value if it is empty \\\hline
+
+    notEmpty() : Boolean & Returns true if the collection contains any elements and false otherwise \\\hline
+
+    powerset() : Set & Returns the set of all subsets of the collection \\\hline
+
     product() : Real & Returns the product of all reals/integers in the collection\\\hline
     
     random() : Any & Returns a random item from the collection \\\hline
