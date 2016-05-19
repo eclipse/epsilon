@@ -84,9 +84,20 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	
 	public void checkAll(IEvlContext context) throws EolRuntimeException {
 		
-		Collection allOfKind = getAllOfSourceKind(context);
-		Iterator it = allOfKind.iterator();
+		//Collection allOfKind = ;
+		//Iterator it = allOfKind.iterator();
 		
+		for (Object object : getAllOfSourceKind(context)) {
+			if (appliesTo(object,context)){
+				for (Constraint constraint : constraints) {
+					if (!constraint.isLazy(context) && constraint.appliesTo(object,context)){
+						constraint.check(object,context);
+					}
+				}
+			}
+		}
+		
+		/*
 		while (it.hasNext()){
 			Object object = it.next();
 			if (appliesTo(object,context)){
@@ -100,7 +111,7 @@ public class ConstraintContext extends AnnotatableModuleElement {
 				}
 				
 			}
-		}
+		}*/
 		
 	}
 	
