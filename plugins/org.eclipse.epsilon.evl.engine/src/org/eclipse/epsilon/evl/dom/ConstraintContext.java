@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2016 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,6 @@ package org.eclipse.epsilon.evl.dom;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
@@ -50,6 +49,7 @@ public class ConstraintContext extends AnnotatableModuleElement {
 		return new ArrayList<ModuleElement>(constraints.values());
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void build() {
 		super.build();
 		this.typeAst = getFirstChild();
@@ -100,14 +100,14 @@ public class ConstraintContext extends AnnotatableModuleElement {
 		return constraints;
 	}
 	
-	public Collection getAllOfSourceType(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
+	public Collection<?> getAllOfSourceType(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
 		if (type == null) {
 			type = new EolModelElementType(typeAst.getText(), context);
 		}
 		return type.getAllOfType();
 	}
 
-	public Collection getAllOfSourceKind(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
+	public Collection<?> getAllOfSourceKind(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
 		if (type == null) {
 			type = new EolModelElementType(typeAst.getText(), context);
 		}
