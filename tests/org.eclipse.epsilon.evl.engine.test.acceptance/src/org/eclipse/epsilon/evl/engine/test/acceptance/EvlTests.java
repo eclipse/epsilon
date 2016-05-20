@@ -9,10 +9,13 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -80,6 +83,42 @@ public class EvlTests {
 			} else {
 				fail("Unexpected constraint " + c.getName());
 			}
+		}
+	}
+
+	@Test
+	public void testOptimizedConstraints() throws Exception {
+		module = new EvlModule();
+		module.parse(new File(EvlTests.class.getResource("optimised.evl").toURI()));
+
+		PlainXmlModel model = new PlainXmlModel();
+		model.setName("M");
+		model.setFile(new File(EvlTests.class.getResource("optimised.xml").toURI()));
+		model.load();
+
+		module.getContext().getModelRepository().addModel(model);
+
+		final ConstraintSelectTransfomer transformer = new ConstraintSelectTransfomer();
+		final Map<String, Constraint> constraintByName = new HashMap<String, Constraint>();
+		for (Constraint c : module.getConstraints()) {
+			constraintByName.put(c.getName(), c);
+		}
+
+		final Map<String, Integer> expectedFound = new HashMap<String, Integer>();
+		expectedFound.put("NoGuardAlwaysTrue", 0);
+		expectedFound.put("NoGuardAlwaysFalse", 4);
+		expectedFound.put("GuardedEmpty", 0);
+		expectedFound.put("GuardedNonEmpty", 1);
+		expectedFound.put("SingleReturnBlockGuard", 1);
+		expectedFound.put("SingleReturnBlockCheck", 1);
+
+		for (Entry<String, Integer> e : expectedFound.entrySet()) {
+			final String constraintName = e.getKey();
+			final int expectedInvalid = e.getValue();
+
+			final ExecutableBlock<?> transformed = transformer.transformIntoSelect(constraintByName.get(constraintName));
+			final List<?> results = (List<?>) transformed.execute(module.getContext());
+			assertEquals("Rule " + constraintName + " should find " + expectedInvalid + " invalid objects", expectedInvalid, results.size());
 		}
 	}
 

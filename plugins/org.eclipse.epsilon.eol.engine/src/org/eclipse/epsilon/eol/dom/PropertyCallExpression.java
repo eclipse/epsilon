@@ -35,7 +35,6 @@ public class PropertyCallExpression extends FeatureCallExpression {
 	}
 	
 	public Object execute(IEolContext context, boolean returnSetter) throws EolRuntimeException {
-		AST targetExpression = getFirstChild();
 		Object source = context.getExecutorFactory().executeAST(targetExpression, context);
 		return execute(source, propertyNameExpression, context, returnSetter);
 	}

@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio Garcia-Dominguez - aggregate into select(...)
  ******************************************************************************/
 package org.eclipse.epsilon.evl.dom;
 

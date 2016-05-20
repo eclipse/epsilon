@@ -24,13 +24,13 @@ context t_b {
     // A guard with a single return statement should be equivalent to just putting an expression
     constraint SingleReturnBlockGuard {
       guard { return self.a_x.asInteger() > 1; }
-      check : self.a_y = 'b' or self.a_y = 'd'
+      check : self.a_y = 'b' or self.a_y = 'x'
     }
 
     // A check with a single return statement should be equivalent to just putting an expression
     constraint SingleReturnBlockCheck {
       guard : self.a_x.asInteger() = 1
-      check { return self.a_y = 'a' or self.a_y = 'c'; }
+      check { return self.a_y = 'a' or self.a_y = 'x'; }
     }
 
     // Note: anything with satisfies, satisfiesAll or satisfiesAny cannot be optimized at the moment,
