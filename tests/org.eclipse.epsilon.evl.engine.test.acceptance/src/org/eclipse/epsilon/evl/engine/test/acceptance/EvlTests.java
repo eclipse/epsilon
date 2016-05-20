@@ -1,16 +1,25 @@
 package org.eclipse.epsilon.evl.engine.test.acceptance;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.evl.EvlModule;
+import org.eclipse.epsilon.evl.dom.Constraint;
+import org.eclipse.epsilon.evl.dom.ConstraintSelectTransfomer;
 import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class EvlTests {
 	
@@ -49,7 +58,31 @@ public class EvlTests {
 		assertEquals("true", blackboard.get("fix-do-executed"));
 		
 	}
-	
+
+	@Test
+	public void testCanBeTransformedEVL() throws Exception {
+		module = new EvlModule();
+		module.parse(new File(EvlTests.class.getResource("optimised.evl").toURI()));
+
+		final Set<String> canBeTransformed = new HashSet<String>(
+				Arrays.asList("NoGuardAlwaysTrue", "NoGuardAlwaysFalse", "GuardedEmpty", "GuardedNonEmpty",
+						"SingleReturnBlockGuard", "SingleReturnBlockCheck"));
+		final Set<String> cannotBeTransformed = new HashSet<String>(
+				Arrays.asList("Satisfies", "SatisfiesAll", "SatisfiesAny", "ComplexBlockGuard", "ComplexBlockCheck"));
+
+		final ConstraintSelectTransfomer transformer = new ConstraintSelectTransfomer();
+		assertEquals(canBeTransformed.size() + cannotBeTransformed.size(), module.getConstraints().values().size());
+		for (Constraint c : module.getConstraints()) {
+			if (canBeTransformed.contains(c.getName())) {
+				assertTrue("Constraint " + c.getName() + " should be optimisable", transformer.canBeTransformed(c));
+			} else if (cannotBeTransformed.contains(c.getName())) {
+				assertFalse("Constraint " + c.getName() + " should not be optimisable", transformer.canBeTransformed(c));
+			} else {
+				fail("Unexpected constraint " + c.getName());
+			}
+		}
+	}
+
 	protected void assertUnsatisfiedConstraints(int number, String context, String constraint) {
 		int matches = 0;
 		for (UnsatisfiedConstraint uc : module.getContext().getUnsatisfiedConstraints()) {

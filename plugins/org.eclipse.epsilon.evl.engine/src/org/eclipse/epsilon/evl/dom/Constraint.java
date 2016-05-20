@@ -157,5 +157,17 @@ public class Constraint extends AnnotatableModuleElement {
 	public void setCritique(boolean isCritique) {
 		this.isCritique = isCritique;
 	}
-	
+
+	protected ExecutableBlock<Boolean> getGuardBlock() {
+		return guardBlock;
+	}
+
+	protected ExecutableBlock<Boolean> getCheckBlock() {
+		return checkBlock;
+	}
+
+	protected ExecutableBlock<String> getMessageBlock() {
+		return messageBlock;
+	}
+
 }
