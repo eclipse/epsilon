@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.antlr.runtime.CommonToken;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.AbstractModule;
 import org.eclipse.epsilon.eol.dom.AndOperatorExpression;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Expression;
@@ -39,8 +38,9 @@ public class ConstraintSelectTransfomer {
 
 	public boolean canBeTransformed(Constraint c) {
 		return c.getConstraintContext() != null
-			&& isOptimisableExpression(c.getGuardBlock())
-			&& isOptimisableExpression(c.getCheckBlock());
+			&& isOptimisableExpression(c.getConstraintContext().guardBlock)
+			&& isOptimisableExpression(c.guardBlock)
+			&& isOptimisableExpression(c.checkBlock);
 	}
 
 	private boolean isOptimisableExpression(ExecutableBlock<Boolean> block) {
@@ -78,7 +78,7 @@ public class ConstraintSelectTransfomer {
 				final String functionName = opCall.getOperationName();
 				if ("satisfies".equals(functionName)
 						|| "satisfiesAll".equals(functionName)
-						|| "satisfiesAny".equals(functionName)) {
+						|| "satisfiesOne".equals(functionName)) {
 
 						// It's one of the functions that declares dependencies between rules and prevents this optimisation from happening
 						return true;
@@ -104,25 +104,25 @@ public class ConstraintSelectTransfomer {
 	public ExecutableBlock<?> transformIntoSelect(Constraint constraint) {
 		assert canBeTransformed(constraint) : "The constraint is optimisable";
 
-		// All instances of 'self' will be replaced to 'e'
-		final String innerVariable = "e";
-		replaceVariable(constraint.getGuardBlock(), "self", innerVariable);
-		replaceVariable(constraint.getCheckBlock(), "self", innerVariable);
-		final Expression guardExpression = getExpressionFromBlock(constraint.getGuardBlock());
-		final Expression checkExpression = getExpressionFromBlock(constraint.getCheckBlock());
+		final Expression contextGuardExpression = getExpressionFromBlock(constraint.getConstraintContext().guardBlock);
+		final Expression constraintGuardExpression = getExpressionFromBlock(constraint.guardBlock);
+		final Expression checkExpression = getExpressionFromBlock(constraint.checkBlock);
 
 		// Join the guard G and check C expressions into 'G and not C'
 		Expression selectExpression = new NotOperatorExpression(checkExpression);
-		if (guardExpression != null) {
-			selectExpression = new AndOperatorExpression(guardExpression, selectExpression);
+		if (constraintGuardExpression != null) {
+			selectExpression = new AndOperatorExpression(constraintGuardExpression, selectExpression);
+		}
+		if (contextGuardExpression != null) {
+			selectExpression = new AndOperatorExpression(contextGuardExpression, selectExpression);
 		}
 
-		// Create the T.all.select(e|...) expression
+		// Create the T.all.select(self | ...) expression - the internal 'self' overrides the outer one
 		final String typeName = constraint.getConstraintContext().getTypeName();
 		final Expression optimisedExpression = new FirstOrderOperationCallExpression(
 			new PropertyCallExpression(new TypeExpression(typeName), new NameExpression("all")),
 			new NameExpression("select"),
-			new Parameter(new NameExpression(innerVariable), new TypeExpression(typeName)),
+			new Parameter(new NameExpression("self"), new TypeExpression(typeName)),
 			selectExpression);
 
 		// Need to do this in order to make it go through addChild (otherwise ANTLR silently drops it)
@@ -149,33 +149,6 @@ public class ConstraintSelectTransfomer {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Modifies an AST, replacing all references of <code>sourceVariable</code>
-	 * to references to <code>targetVariable</code>. Tries to reuse as much of
-	 * the original AST as possible.
-	 *
-	 * Tried doing a copy-on-write approach, but the only way to 'copy' an AST
-	 * with changes seems to be {@link AbstractModule#createAst}, which would
-	 * imply rebuilding the entire DOM. Working at the mutable DOM level is much
-	 * easier.
-	 */
-	private void replaceVariable(AST source, String sourceVariable, String targetVariable) {
-		if (source == null) {
-			return;
-		}
-
-		if (source instanceof NameExpression) {
-			NameExpression nameExpression = (NameExpression)source;
-			if (sourceVariable.equals(source.getText())) {
-				nameExpression.setName(targetVariable);
-			}
-		}
-
-		for (AST child : source.getChildren()) {
-			replaceVariable(child, sourceVariable, targetVariable);
-		}
 	}
 
 }

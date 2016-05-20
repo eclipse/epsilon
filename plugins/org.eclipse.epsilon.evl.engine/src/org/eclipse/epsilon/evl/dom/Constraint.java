@@ -90,33 +90,8 @@ public class Constraint extends AnnotatableModuleElement {
 		context.getFrameStack().put(Variable.createReadOnlyVariable("extras", unsatisfiedConstraint.getExtras()));
 		
 		if (!checkBlock.execute(context, false)){
-			
-			unsatisfiedConstraint.setInstance(self);
-			unsatisfiedConstraint.setConstraint(this);
+			processFailingCheck(self, context, unsatisfiedConstraint);
 
-			for (Fix fix : fixes) {
-				if (!fix.appliesTo(self, context)) continue;
-
-				FixInstance fixInstance = new FixInstance(context);
-				fixInstance.setFix(fix);
-				fixInstance.setSelf(self);
-				unsatisfiedConstraint.getFixes().add(fixInstance);
-			}
-			
-			String messageResult = null;
-			
-			if (messageBlock != null) {
-				messageResult = messageBlock.execute(context, false);
-			}
-			else {
-				messageResult = "Invariant " + this.getName() + " failed for " + 
-					context.getPrettyPrinterManager().toString(self);
-			}
-			
-			unsatisfiedConstraint.setMessage(messageResult);
-			
-			context.getConstraintTrace().addChecked(this,self,false);
-			context.getUnsatisfiedConstraints().add(unsatisfiedConstraint);
 			// We don't dispose the frame we leave because it may be needed for fix parts
 			context.getFrameStack().leaveLocal(checkBlock.getBody(), false);
 			return false;
@@ -127,6 +102,38 @@ public class Constraint extends AnnotatableModuleElement {
 			return true;
 		}
 		
+	}
+
+	/**
+	 * Implements the 'fix' and 'message' parts for failing objects.
+	 */
+	protected void processFailingCheck(Object self, IEvlContext context, UnsatisfiedConstraint unsatisfiedConstraint) throws EolRuntimeException {
+		unsatisfiedConstraint.setInstance(self);
+		unsatisfiedConstraint.setConstraint(this);
+
+		for (Fix fix : fixes) {
+			if (!fix.appliesTo(self, context)) continue;
+
+			FixInstance fixInstance = new FixInstance(context);
+			fixInstance.setFix(fix);
+			fixInstance.setSelf(self);
+			unsatisfiedConstraint.getFixes().add(fixInstance);
+		}
+
+		String messageResult = null;
+		
+		if (messageBlock != null) {
+			messageResult = messageBlock.execute(context, false);
+		}
+		else {
+			messageResult = "Invariant " + this.getName() + " failed for " +
+				context.getPrettyPrinterManager().toString(self);
+		}
+
+		unsatisfiedConstraint.setMessage(messageResult);
+		
+		context.getConstraintTrace().addChecked(this,self,false);
+		context.getUnsatisfiedConstraints().add(unsatisfiedConstraint);
 	}
 
 	public List<?> getModuleElements() {
@@ -156,18 +163,6 @@ public class Constraint extends AnnotatableModuleElement {
 
 	public void setCritique(boolean isCritique) {
 		this.isCritique = isCritique;
-	}
-
-	protected ExecutableBlock<Boolean> getGuardBlock() {
-		return guardBlock;
-	}
-
-	protected ExecutableBlock<Boolean> getCheckBlock() {
-		return checkBlock;
-	}
-
-	protected ExecutableBlock<String> getMessageBlock() {
-		return messageBlock;
 	}
 
 }

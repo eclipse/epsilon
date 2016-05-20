@@ -37,17 +37,17 @@ context t_b {
     // even if it's just an expression.
     constraint Satisfies {
       guard : self.satisfies('NoGuardAlwaysFalse')
-      check : true
+      check : false
     }
 
     constraint SatisfiesAll {
       guard : self.satisfiesAll('NoGuardAlwaysFalse', 'NoGuardAlwaysTrue')
-      check : true
+      check : false
     }
 
-    constraint SatisfiesAny {
-      guard : self.satisfiesAny('NoGuardAlwaysFalse', 'NoGuardAlwaysTrue')
-      check : true
+    constraint SatisfiesOne {
+      guard : self.satisfiesOne('NoGuardAlwaysFalse', 'NoGuardAlwaysTrue')
+      check : false
     }
 
     // Anything with a 'complex' block as a guard cannot be optimized
@@ -56,7 +56,7 @@ context t_b {
         var x = self.a_x.asInteger();
         return x * 2 > 2;
       }
-      check : true
+      check : false
     }
 
     // Anything with a 'complex' block as a check cannot be optimized

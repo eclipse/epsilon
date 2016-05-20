@@ -13,6 +13,7 @@ package org.eclipse.epsilon.evl.dom;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
@@ -25,6 +26,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
@@ -84,17 +86,45 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	}
 	
 	public void checkAll(IEvlContext context) throws EolRuntimeException {
-		
-		for (Object object : getAllOfSourceKind(context)) {
-			if (appliesTo(object,context)){
-				for (Constraint constraint : constraints) {
-					if (!constraint.isLazy(context) && constraint.appliesTo(object,context)){
-						constraint.check(object,context);
+		/*
+		 * TODO: alternate mode that doesn't go through all of source kind if it
+		 * doesn't have to and/or enables this new behaviour?
+		 */
+		final ConstraintSelectTransfomer transformer = new ConstraintSelectTransfomer();
+		final List<Constraint> remainingConstraints = new ArrayList<Constraint>(constraints.values());
+		for (Iterator<Constraint> itConstraint = remainingConstraints.iterator(); itConstraint.hasNext();) {
+			Constraint constraint = itConstraint.next();
+			if (transformer.canBeTransformed(constraint)) {
+				ExecutableBlock<?> transformedConstraint = transformer.transformIntoSelect(constraint);
+				List<?> results = (List<?>) transformedConstraint.execute(context);
+				// Postprocess the invalid objects to support custom messages and fix blocks
+
+				/*
+				 * TODO how do we deal with valid objects in this mode? Do we
+				 * still need trace items for them?
+				 */
+				for (Object self : results) {
+					UnsatisfiedConstraint unsatisfiedConstraint = new UnsatisfiedConstraint();
+					constraint.processFailingCheck(self, context, unsatisfiedConstraint);
+				}
+
+				// Don't try to reexecute this rule later on
+				itConstraint.remove();
+			}
+		}
+
+		if (!remainingConstraints.isEmpty()) {
+			for (Object object : getAllOfSourceKind(context)) {
+				if (appliesTo(object, context)) {
+					for (Constraint constraint : remainingConstraints) {
+						if (!constraint.isLazy(context) && constraint.appliesTo(object, context)) {
+							constraint.check(object, context);
+						}
 					}
 				}
 			}
 		}
-		
+
 	}
 	
 	public Constraints getConstraints() {
