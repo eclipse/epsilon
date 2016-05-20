@@ -24,6 +24,7 @@ import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
@@ -86,10 +87,6 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	}
 	
 	public void checkAll(IEvlContext context) throws EolRuntimeException {
-		/*
-		 * TODO: alternate mode that doesn't go through all of source kind if it
-		 * doesn't have to and/or enables this new behaviour?
-		 */
 		final ConstraintSelectTransfomer transformer = new ConstraintSelectTransfomer();
 		final List<Constraint> remainingConstraints = new ArrayList<Constraint>(constraints.values());
 		for (Iterator<Constraint> itConstraint = remainingConstraints.iterator(); itConstraint.hasNext();) {
@@ -97,15 +94,17 @@ public class ConstraintContext extends AnnotatableModuleElement {
 			if (transformer.canBeTransformed(constraint)) {
 				ExecutableBlock<?> transformedConstraint = transformer.transformIntoSelect(constraint);
 				List<?> results = (List<?>) transformedConstraint.execute(context);
-				// Postprocess the invalid objects to support custom messages and fix blocks
 
 				/*
 				 * TODO how do we deal with valid objects in this mode? Do we
-				 * still need trace items for them?
+				 * still need trace items for them? Should this new behaviour
+				 * need to be explicitly enabled?
 				 */
+				// Postprocess the invalid objects to support custom messages and fix blocks
 				for (Object self : results) {
-					UnsatisfiedConstraint unsatisfiedConstraint = new UnsatisfiedConstraint();
-					constraint.processFailingCheck(self, context, unsatisfiedConstraint);
+					UnsatisfiedConstraint unsatisfiedConstraint = constraint.preprocessCheck(self, context);
+					// We know result = false because we found it with the negated condition
+					constraint.postprocessCheck(self, context, unsatisfiedConstraint, false);
 				}
 
 				// Don't try to reexecute this rule later on

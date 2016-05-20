@@ -75,65 +75,64 @@ public class Constraint extends AnnotatableModuleElement {
 	}
 
 	public boolean check(Object self, IEvlContext context) throws EolRuntimeException {
-		
 		// First look in the trace
 		if (context.getConstraintTrace().isChecked(this,self)){
 			return context.getConstraintTrace().isSatisfied(this,self);
 		}
-		
 		if (!appliesTo(self,context)) return false;
 		
-		UnsatisfiedConstraint unsatisfiedConstraint = new UnsatisfiedConstraint();
-		
-		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, checkBlock.getBody());
-		context.getFrameStack().put(Variable.createReadOnlyVariable("self", self));
-		context.getFrameStack().put(Variable.createReadOnlyVariable("extras", unsatisfiedConstraint.getExtras()));
-		
-		if (!checkBlock.execute(context, false)){
-			processFailingCheck(self, context, unsatisfiedConstraint);
+		final UnsatisfiedConstraint unsatisfiedConstraint = preprocessCheck(self, context);
+		final Boolean result = checkBlock.execute(context, false);
+		return postprocessCheck(self, context, unsatisfiedConstraint, result);
+	}
 
-			// We don't dispose the frame we leave because it may be needed for fix parts
+	protected boolean postprocessCheck(Object self, IEvlContext context, UnsatisfiedConstraint unsatisfiedConstraint,
+			final Boolean result) throws EolRuntimeException {
+		if (!result) {
+			unsatisfiedConstraint.setInstance(self);
+			unsatisfiedConstraint.setConstraint(this);
+
+			for (Fix fix : fixes) {
+				if (!fix.appliesTo(self, context))
+					continue;
+
+				FixInstance fixInstance = new FixInstance(context);
+				fixInstance.setFix(fix);
+				fixInstance.setSelf(self);
+				unsatisfiedConstraint.getFixes().add(fixInstance);
+			}
+
+			String messageResult = null;
+
+			if (messageBlock != null) {
+				messageResult = messageBlock.execute(context, false);
+			} else {
+				messageResult = "Invariant " + this.getName() + " failed for "
+						+ context.getPrettyPrinterManager().toString(self);
+			}
+
+			unsatisfiedConstraint.setMessage(messageResult);
+
+			context.getConstraintTrace().addChecked(this, self, false);
+			context.getUnsatisfiedConstraints().add(unsatisfiedConstraint);
+
+			// We don't dispose the frame we leave because it may be needed for
+			// fix parts
 			context.getFrameStack().leaveLocal(checkBlock.getBody(), false);
 			return false;
-		}
-		else {
-			context.getConstraintTrace().addChecked(this,self,true);
+		} else {
+			context.getConstraintTrace().addChecked(this, self, true);
 			context.getFrameStack().leaveLocal(checkBlock.getBody());
 			return true;
 		}
-		
 	}
 
-	/**
-	 * Implements the 'fix' and 'message' parts for failing objects.
-	 */
-	protected void processFailingCheck(Object self, IEvlContext context, UnsatisfiedConstraint unsatisfiedConstraint) throws EolRuntimeException {
-		unsatisfiedConstraint.setInstance(self);
-		unsatisfiedConstraint.setConstraint(this);
-
-		for (Fix fix : fixes) {
-			if (!fix.appliesTo(self, context)) continue;
-
-			FixInstance fixInstance = new FixInstance(context);
-			fixInstance.setFix(fix);
-			fixInstance.setSelf(self);
-			unsatisfiedConstraint.getFixes().add(fixInstance);
-		}
-
-		String messageResult = null;
-		
-		if (messageBlock != null) {
-			messageResult = messageBlock.execute(context, false);
-		}
-		else {
-			messageResult = "Invariant " + this.getName() + " failed for " +
-				context.getPrettyPrinterManager().toString(self);
-		}
-
-		unsatisfiedConstraint.setMessage(messageResult);
-		
-		context.getConstraintTrace().addChecked(this,self,false);
-		context.getUnsatisfiedConstraints().add(unsatisfiedConstraint);
+	protected UnsatisfiedConstraint preprocessCheck(Object self, IEvlContext context) {
+		UnsatisfiedConstraint unsatisfiedConstraint = new UnsatisfiedConstraint();
+		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, checkBlock.getBody());
+		context.getFrameStack().put(Variable.createReadOnlyVariable("self", self));
+		context.getFrameStack().put(Variable.createReadOnlyVariable("extras", unsatisfiedConstraint.getExtras()));
+		return unsatisfiedConstraint;
 	}
 
 	public List<?> getModuleElements() {
