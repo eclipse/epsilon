@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2016 The University of York.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio Garcia-Dominguez - add isPropertySet
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
@@ -18,6 +19,8 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 public interface IPropertyGetter {
 	
 	public boolean hasProperty(Object object, String property);
+	
+	public boolean isPropertySet(Object object, String property) throws EolRuntimeException;
 	
 	public Object invoke(Object object, String property) throws EolRuntimeException;
 	

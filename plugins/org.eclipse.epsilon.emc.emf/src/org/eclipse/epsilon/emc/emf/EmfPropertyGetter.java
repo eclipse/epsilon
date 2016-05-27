@@ -28,8 +28,22 @@ public class EmfPropertyGetter extends AbstractPropertyGetter{
 		
 		EStructuralFeature sf = EmfUtil.getEStructuralFeature(eObject.eClass(), property);
 		
-		if (sf != null) {	
+		if (sf != null) {
 			return eObject.eGet(sf);
+		}
+		else {
+			throw new EolIllegalPropertyException(object, property, ast, context);
+		}
+	}
+
+	@Override
+	public boolean isPropertySet(Object object, String property) throws EolRuntimeException {
+		EObject eObject = (EObject) object;
+
+		EStructuralFeature sf = EmfUtil.getEStructuralFeature(eObject.eClass(), property);
+
+		if (sf != null) {
+			return eObject.eIsSet(sf);
 		}
 		else {
 			throw new EolIllegalPropertyException(object, property, ast, context);
