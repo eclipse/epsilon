@@ -32,10 +32,10 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
-import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.epsilon.emc.emf.transactions.EmfModelTransactionSupport;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -169,7 +169,15 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	protected boolean knowsAboutProperty(EObject instance, String property) {
 		return EmfUtil.getEStructuralFeature(instance.eClass(), property) != null;
 	}
-	
+
+	@Override
+	public boolean isPropertySet(Object instance, String property) throws EolRuntimeException {
+		if (!owns(instance)) return false;
+		EObject eObject = (EObject) instance;
+		EStructuralFeature sf = EmfUtil.getEStructuralFeature(eObject.eClass(), property);
+		return eObject.eIsSet(sf);
+	}
+
 	//TODO : Throw the exception if size == 0 check the allContents for the class
 	protected Collection<EObject> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
 		final EClass eClass = classForName(type);

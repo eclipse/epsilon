@@ -20,8 +20,6 @@ public interface IPropertyGetter {
 	
 	public boolean hasProperty(Object object, String property);
 	
-	public boolean isPropertySet(Object object, String property) throws EolRuntimeException;
-	
 	public Object invoke(Object object, String property) throws EolRuntimeException;
 	
 	public AST getAst();

@@ -181,6 +181,11 @@ public class ModelReference implements IAdaptableModel, IWrapper, IOperationCont
 		return target.knowsAboutProperty(instance, property);
 	}
 
+	@Override
+	public boolean isPropertySet(Object instance, String property) throws EolRuntimeException {
+		return target.isPropertySet(instance, property);
+	}
+
 	public Object createInstance(String type, Collection<Object> parameters)
 			throws EolModelElementTypeNotFoundException,
 			EolNotInstantiableModelElementTypeException {

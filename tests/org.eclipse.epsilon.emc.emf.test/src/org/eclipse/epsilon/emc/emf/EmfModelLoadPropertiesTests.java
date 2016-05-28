@@ -26,6 +26,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  * These tests check the way in which an {@link EmfModel} can be loaded from
@@ -64,7 +65,7 @@ public class EmfModelLoadPropertiesTests {
 	// TODO fix other clients of load(Properties, String), such as EglServlet and the Ant tasks
 	// TODO ensure only legacy code uses the EmfUtil.createPlatformResourceURI and createFileBasedURI methods, and maybe deprecate them
 	
-	private static final String BUNDLE_ID  = "org.eclipse.epsilon.emc.emf.test";
+	private static final String BUNDLE_ID  = FrameworkUtil.getBundle(EmfModelLoadPropertiesTests.class).getSymbolicName();
 	
 	private static final URI METAMODEL_IN_BUNDLE = URI.createPlatformPluginURI("/" + BUNDLE_ID + "/model/Simple.ecore", true);
 	private static final URI MODEL_IN_BUNDLE     = URI.createPlatformPluginURI("/" + BUNDLE_ID + "/model/Simple.model", true);

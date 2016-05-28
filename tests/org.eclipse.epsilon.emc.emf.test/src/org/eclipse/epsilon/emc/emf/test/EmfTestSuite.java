@@ -17,6 +17,7 @@ import junit.framework.Test;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModelTests;
 import org.eclipse.epsilon.emc.emf.CachedResourceSetTests;
 import org.eclipse.epsilon.emc.emf.EmfModelDeleteTests;
+import org.eclipse.epsilon.emc.emf.EmfModelIsPropertySetTests;
 import org.eclipse.epsilon.emc.emf.EmfModelPackageForNameTests;
 import org.eclipse.epsilon.emc.emf.EmfModelTestSuite;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetterCoerceTests;
@@ -30,7 +31,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({URITest.class, AbstractEmfModelTests.class, EmfModelTestSuite.class, XmlModelTests.class,
                EmfPropertySetterConformsTests.class, EmfPropertySetterCoerceTests.class,
-               EmfModelPackageForNameTests.class, CachedResourceSetTests.class, EmfModelDeleteTests.class})
+               EmfModelPackageForNameTests.class, CachedResourceSetTests.class, EmfModelDeleteTests.class,
+               EmfModelIsPropertySetTests.class})
 public class EmfTestSuite {
 
 	public static Test suite() {

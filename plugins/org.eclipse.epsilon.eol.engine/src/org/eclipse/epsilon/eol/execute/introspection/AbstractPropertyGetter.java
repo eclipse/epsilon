@@ -45,8 +45,5 @@ public abstract class AbstractPropertyGetter implements IPropertyGetter{
 		}
 		
 	}
-
-	public boolean isPropertySet(Object object, String property) throws EolRuntimeException {
-		return invoke(object, property) != null;
-	}
+	
 }

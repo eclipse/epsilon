@@ -104,7 +104,16 @@ public interface IModel {
 	 */
 	public boolean owns(Object instance);
 	
+	/**
+	 * Returns <code>true</code> if this instance could have this property at some point.
+	 */
 	public boolean knowsAboutProperty(Object instance, String property);
+	
+	/**
+	 * Returns <code>true</code> if this instance has an explicit value for this property.
+	 * This would be equivalent to eIsSet in EMF.
+	 */
+	public boolean isPropertySet(Object instance, String property) throws EolRuntimeException;
 	
 	public boolean isInstantiable(String type); 
 	

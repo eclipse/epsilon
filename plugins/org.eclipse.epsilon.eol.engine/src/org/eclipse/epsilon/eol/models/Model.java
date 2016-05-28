@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.compile.m3.Metamodel;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
@@ -143,27 +144,6 @@ public abstract class Model implements IModel{
 		return getTypeNameOf(instance);
 	}
 	
-	/*
-	EolEngine eolEngine = new EolEngine();
-	public Object execute(EolString eol) throws Exception {
-		return eolEngine.process(eol.getValue());
-	}
-	*/
-	
-	//public boolean isAbstract(String metaClass){
-	//	return getAllClasses(true).contains(metaClass);
-	//}
-	
-	/*
-	public void setReadWrite(int readWrite){
-		this.readWrite = readWrite;
-	}
-	
-	public int getReadWrite(){
-		return readWrite;
-	}
-	*/
-	
 	@Override
 	public boolean isModelElement(Object instance) {
 		return owns(instance);
@@ -217,4 +197,11 @@ public abstract class Model implements IModel{
 	public Metamodel getMetamodel(StringProperties properties, IRelativePathResolver resolver) {
 		return null;
 	}
+
+	@Override
+	public boolean isPropertySet(Object instance, String property) throws EolRuntimeException {
+		return getPropertyGetter().invoke(instance, property) != null;
+	}
+	
+	
 }
