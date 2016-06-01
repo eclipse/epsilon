@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 
 public class EolAnyType extends EolType{
 
@@ -30,7 +31,8 @@ public class EolAnyType extends EolType{
 
 	@Override
 	public boolean isKind(Object o) {
-		return true;
+		// For consistency with AnyOperationContributor
+		return !(o instanceof EolNoTypeInstance);
 	}
 
 	@Override
