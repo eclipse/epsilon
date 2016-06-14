@@ -35,6 +35,7 @@ public class GenerateEmfCodeDelegate extends EugeniaActionDelegate {
 		EcoreUtil.resolveAll(resourceSet);
 
 		GenModel genModel = (GenModel) resource.getContents().get(0);
+		genModel.reconcile();
 		genModel.setCanGenerate(true);
 		
 		// generate the code
