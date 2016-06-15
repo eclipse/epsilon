@@ -148,6 +148,20 @@ public class EmfUtil {
 	}
 	
 	public static List<EPackage> register(URI uri, EPackage.Registry registry) throws Exception {
+		return register(uri, registry, true);
+	}
+	
+	/**
+	 * Register all the packages in the metamodel specified by the uri in the registry.  
+	 * 
+	 * @param uri The URI of the metamodel
+	 * @param registry The registry in which the metamodel's packages are registered
+	 * @param useUriForResource If True, the URI of the resource created for the metamodel would be overwritten
+	 * 	with the URI of the [last] EPackage in the metamodel. 
+	 * @return A list of the EPackages registered. 
+	 * @throws Exception If there is an error accessing the resources.  
+	 */
+	public static List<EPackage> register(URI uri, EPackage.Registry registry, boolean useUriForResource) throws Exception {
 		
 		List<EPackage> ePackages = new ArrayList<EPackage>();
 		
@@ -190,7 +204,8 @@ public class EmfUtil {
 				
 				if (p.getNsPrefix() == null) p.setNsPrefix(p.getName());
 				registry.put(p.getNsURI(), p);
-				metamodel.setURI(URI.createURI(p.getNsURI()));
+				if (useUriForResource)
+					metamodel.setURI(URI.createURI(p.getNsURI()));
 				ePackages.add(p);
 			}
 		}

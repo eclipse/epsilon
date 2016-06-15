@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.compile.m3.Metamodel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -409,7 +410,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			try {
 				metamodelPackages = attemptFileBasedMetamodelReuse(metamodelFileUri);
 				if (metamodelPackages == null) {
-					metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry());
+					metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry(), false);
 					saveFileBasedMetamodelForReuse(metamodelFileUri, metamodelPackages);
 				}
 			} catch (Exception e) {
@@ -523,5 +524,22 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	public Metamodel getMetamodel(StringProperties properties,
 			IRelativePathResolver resolver) {
 		return new EmfModelMetamodel(properties, resolver);
+	}
+	
+	@Override
+	public boolean store() {
+		if (modelImpl == null) return false;
+		try {
+			Map<String, Boolean> options = null;
+			if (!metamodelFileUris.isEmpty()) {
+				options = new HashMap<String, Boolean>();
+				options.put(XMLResource.OPTION_SCHEMA_LOCATION, true);
+			}
+			modelImpl.save(options);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
