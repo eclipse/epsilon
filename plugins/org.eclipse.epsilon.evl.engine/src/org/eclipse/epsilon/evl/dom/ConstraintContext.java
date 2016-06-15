@@ -25,6 +25,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
@@ -37,7 +38,6 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	protected Constraints constraints = new Constraints();
 	protected AST typeAst;
 	protected EolModelElementType type = null;
-	protected boolean ofTypeOnly;
 	protected String name;
 	
 	public ConstraintContext() {
@@ -56,7 +56,6 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	public void build() {
 		super.build();
 		this.typeAst = getFirstChild();
-		this.ofTypeOnly = false;
 		this.name = typeAst.getText();
 	
 		guardBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EvlParser.GUARD);
@@ -68,21 +67,25 @@ public class ConstraintContext extends AnnotatableModuleElement {
 		}
 		
 	}
-	
+
+	/**
+	 * Compatibility version of {@link #appliesTo(Object, IEvlContext)} for old clients.
+	 */
 	public boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException {
-		
-		if ((ofTypeOnly && getAllOfSourceType(context).contains(object))||
-				(!ofTypeOnly && getAllOfSourceKind(context).contains(object))) {
-			
-			if (guardBlock != null) {
-				return guardBlock.execute(context, Variable.createReadOnlyVariable("self", object));
-			}
-			else {
-				return true;
-			}
+		return appliesTo(object, context, true);
+	}
+
+	public boolean appliesTo(Object object, IEvlContext context, final boolean checkType) throws EolRuntimeException {
+		final IModel owningModel = context.getModelRepository().getOwningModel(object);
+		if (checkType && !owningModel.isOfType(object, getTypeName())) {
+			return false;
 		}
-		
-		return false;
+
+		if (guardBlock != null) {
+			return guardBlock.execute(context, Variable.createReadOnlyVariable("self", object));
+		} else {
+			return true;
+		}
 	}
 	
 	public void checkAll(IEvlContext context) throws EolRuntimeException {
@@ -113,10 +116,10 @@ public class ConstraintContext extends AnnotatableModuleElement {
 
 		if (!remainingConstraints.isEmpty()) {
 			for (Object object : getAllOfSourceKind(context)) {
-				if (appliesTo(object, context)) {
+				if (appliesTo(object, context, false)) {
 					for (Constraint constraint : remainingConstraints) {
-						if (!constraint.isLazy(context) && constraint.appliesTo(object, context)) {
-							constraint.check(object, context);
+						if (!constraint.isLazy(context) && constraint.appliesTo(object, context, false)) {
+							constraint.check(object, context, false);
 						}
 					}
 				}
@@ -130,17 +133,18 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	}
 	
 	public Collection<?> getAllOfSourceType(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
-		if (type == null) {
-			type = new EolModelElementType(typeAst.getText(), context);
-		}
-		return type.getAllOfType();
+		return getType(context).getAllOfType();
 	}
 
 	public Collection<?> getAllOfSourceKind(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
+		return getType(context).getAllOfKind();
+	}
+
+	protected EolModelElementType getType(IEvlContext context) throws EolModelNotFoundException, EolModelElementTypeNotFoundException {
 		if (type == null) {
 			type = new EolModelElementType(typeAst.getText(), context);
 		}
-		return type.getAllOfKind();
+		return type;
 	}	
 	
 	public String getName() {

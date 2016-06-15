@@ -62,10 +62,18 @@ public class Constraint extends AnnotatableModuleElement {
 	public boolean isLazy(IEvlContext context) throws EolRuntimeException {
 		return getBooleanAnnotationValue("lazy", context);
 	}
-	
-	//FIXME : Currently examines only the local guard
+
+	/**
+	 * Compatibility version of {@link #appliesTo(Object, IEvlContext)} for old clients.
+	 */
 	public boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException{
-		if (!constraintContext.getAllOfSourceKind(context).contains(object)) return false;
+		return appliesTo(object, context, true);
+	}
+
+	// FIXME : Currently examines only the local guard
+	public boolean appliesTo(Object object, IEvlContext context, final boolean checkType) throws EolRuntimeException{
+		if (checkType && !constraintContext.getAllOfSourceKind(context).contains(object)) return false;
+
 		if (guardBlock != null) {
 			return guardBlock.execute(context, Variable.createReadOnlyVariable("self", object));
 		}
@@ -74,12 +82,19 @@ public class Constraint extends AnnotatableModuleElement {
 		}
 	}
 
+	/**
+	 * Compatibility version of {@link #check(Object, IEvlContext, boolean)} for old clients.
+	 */
 	public boolean check(Object self, IEvlContext context) throws EolRuntimeException {
+		return check(self, context, true);
+	}
+
+	public boolean check(Object self, IEvlContext context, final boolean checkType) throws EolRuntimeException {
 		// First look in the trace
 		if (context.getConstraintTrace().isChecked(this,self)){
 			return context.getConstraintTrace().isSatisfied(this,self);
 		}
-		if (!appliesTo(self,context)) return false;
+		if (!appliesTo(self,context, checkType)) return false;
 		
 		final UnsatisfiedConstraint unsatisfiedConstraint = preprocessCheck(self, context);
 		final Boolean result = checkBlock.execute(context, false);
