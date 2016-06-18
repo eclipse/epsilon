@@ -10,16 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 
 public class HutnDocument extends AbstractModuleElement {
-
-	public List<?> getModuleElements() {
-		return Collections.emptyList();
-	}
 	
 	@Override
 	public String toString() {

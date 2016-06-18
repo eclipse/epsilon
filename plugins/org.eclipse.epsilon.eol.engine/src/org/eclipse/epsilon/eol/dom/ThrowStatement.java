@@ -1,5 +1,7 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolUserException;
@@ -16,9 +18,9 @@ public class ThrowStatement extends Statement {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
-		thrown = (Expression) getFirstChild();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		thrown = (Expression) module.createAst(cst.getFirstChild(), this);
 	}
 	
 	@Override

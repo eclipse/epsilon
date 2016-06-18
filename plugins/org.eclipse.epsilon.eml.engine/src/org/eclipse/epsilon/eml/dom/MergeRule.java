@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.CollectionUtil;
@@ -48,19 +49,18 @@ public class MergeRule extends ExtensibleNamedRule {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void build() {
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		
-		super.build();
-		
-		this.guardBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EmlParser.GUARD);
-		this.bodyBlock = (StatementBlock) AstUtil.getChild(this, EmlParser.BLOCK);
+		this.guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EmlParser.GUARD), this);
+		this.bodyBlock = (StatementBlock) module.createAst(AstUtil.getChild(cst, EmlParser.BLOCK), this);
 		
 		//Parse the formal parameters
-		leftParameter = (Parameter) getSecondChild();
-		rightParameter = (Parameter) getThirdChild();
+		leftParameter = (Parameter) module.createAst(cst.getSecondChild(), this);
+		rightParameter = (Parameter) module.createAst(cst.getThirdChild(), this);
 		
-		for (AST mergedParameterAst : getFourthChild().getChildren()) {
-			targetParameters.add((Parameter) mergedParameterAst);
+		for (AST mergedParameterAst : cst.getFourthChild().getChildren()) {
+			targetParameters.add((Parameter) module.createAst(mergedParameterAst, this));
 		}
 		
 	}
@@ -147,7 +147,7 @@ public class MergeRule extends ExtensibleNamedRule {
 		
 	@Override
 	public String toString(){
-		String str = name;
+		String str = getName();
 		str = str + " (";
 		str = str + 
 		leftParameter.getTypeName() + ", " +
@@ -191,8 +191,8 @@ public class MergeRule extends ExtensibleNamedRule {
 	}
 
 	@Override
-	public AST getSuperRulesAst() {
-		return AstUtil.getChild(this, EmlParser.EXTENDS);
+	public AST getSuperRulesAst(AST cst) {
+		return AstUtil.getChild(cst, EmlParser.EXTENDS);
 	}
 
 	public List<?> getModuleElements() {

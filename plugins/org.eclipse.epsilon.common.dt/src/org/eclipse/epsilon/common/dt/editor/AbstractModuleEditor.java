@@ -33,15 +33,16 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.dt.preferences.EpsilonPreferencePage;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.dt.util.ThemeChangeListener;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.IModuleValidator;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
@@ -63,6 +64,7 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.jface.text.templates.Template;
+import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
@@ -122,9 +124,9 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		}
 	}
 	
-	public AST adaptToAST(Object o) {
-		if (o instanceof AST) {
-			return (AST) o;
+	public ModuleElement adaptToAST(Object o) {
+		if (o instanceof ModuleElement) {
+			return (ModuleElement) o;
 		}
 		else return null;
 	}
@@ -193,20 +195,19 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			new ModuleContentOutlinePage(
 					this.getDocumentProvider(), 
 					this, 
-					createModuleElementLabelProvider());
-		
-		/*
-		ModuleContentOutlinePage outline = new AstOutlinePage(this.getDocumentProvider(), this, new AstModuleElementLabelProvider());
-		*/
-		
+					createModuleElementLabelProvider(),
+					createModuleContentProvider());
+				
 		addModuleParsedListener(outline);
 		
 		return outline;
 	}
-
+	
 	public abstract IModule createModule();
 	
 	public abstract ModuleElementLabelProvider createModuleElementLabelProvider();
+	
+	protected abstract ModuleContentProvider createModuleContentProvider();
 	
 	ProjectionSupport projectionSupport;
 
@@ -431,7 +432,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 					if (EpsilonCommonsPlugin.getDefault().getPreferenceStore().getBoolean(EpsilonPreferencePage.ENABLE_STATIC_ANALYSIS)) {
 						if (module instanceof IEolExecutableModule) {
 							EolCompilationContext compilationContext = ((IEolExecutableModule) module).getCompilationContext();
-							compilationContext.setModelFactory(new ModelTypeExtensionFactory());
+							if (compilationContext != null) compilationContext.setModelFactory(new ModelTypeExtensionFactory());
 						}
 						createMarkers(module.compile(), doc, file, AbstractModuleEditor.PROBLEMMARKER);
 					}

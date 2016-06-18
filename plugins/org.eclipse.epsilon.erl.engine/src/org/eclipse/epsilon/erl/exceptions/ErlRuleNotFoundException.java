@@ -10,18 +10,20 @@
  ******************************************************************************/
 package org.eclipse.epsilon.erl.exceptions;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 
 public class ErlRuleNotFoundException extends EolRuntimeException{
 	
-	public ErlRuleNotFoundException(AST ast){
+	public ErlRuleNotFoundException(NameExpression ast){
 		this.ast = ast;
 	}
 	
 	@Override
 	public String getReason(){
-		return "Rule '" + ast.getText() + "' not found";
+		return "Rule '" + ((NameExpression) ast).getName() + "' not found";
 	}
 }

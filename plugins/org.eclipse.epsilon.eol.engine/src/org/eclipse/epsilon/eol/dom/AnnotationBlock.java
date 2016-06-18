@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 
 public class AnnotationBlock extends AbstractModuleElement {
@@ -11,10 +12,10 @@ public class AnnotationBlock extends AbstractModuleElement {
 	protected List<Annotation> annotations = new ArrayList<Annotation>();
 	
 	@Override
-	public void build() {
-		super.build();
-		for (AST ast : getChildren()) {
-			annotations.add((Annotation) ast);
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		for (AST ast : cst.getChildren()) {
+			annotations.add((Annotation) module.createAst(ast, this));
 		}
 	}
 	

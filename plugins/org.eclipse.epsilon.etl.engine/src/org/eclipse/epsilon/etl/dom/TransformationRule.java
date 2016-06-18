@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
@@ -43,8 +44,8 @@ public class TransformationRule extends ExtensibleNamedRule {
 	protected IEtlContext context;
 	
 	@Override
-	public AST getSuperRulesAst() {
-		return AstUtil.getChild(this, EtlParser.EXTENDS);
+	public AST getSuperRulesAst(AST cst) {
+		return AstUtil.getChild(cst, EtlParser.EXTENDS);
 	}
 	
 	public Parameter getSourceParameter() {
@@ -77,21 +78,22 @@ public class TransformationRule extends ExtensibleNamedRule {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void build() {
+	public void build(AST cst, IModule module) {
 		
-		super.build();
+		super.build(cst, module);
 		
-		this.guard = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EtlParser.GUARD);
-		this.body = (ExecutableBlock<Void>) AstUtil.getChild(this, EtlParser.BLOCK);	
+		this.guard = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EtlParser.GUARD), this);
+		this.body = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EtlParser.BLOCK), this);	
 		
 		//Parse the formal parameters
-		sourceParameter = (Parameter) getFirstChild().getNextSibling();;
+		AST sourceParameterAst = cst.getFirstChild().getNextSibling();;
+		sourceParameter = (Parameter) module.createAst(sourceParameterAst, this);
 		
-		AST targetParametersAst = sourceParameter.getNextSibling();
+		AST targetParametersAst = sourceParameterAst.getNextSibling();
 		AST targetParameterAst = targetParametersAst.getFirstChild();
 		
 		while (targetParameterAst != null){
-			targetParameters.add((Parameter) targetParameterAst);
+			targetParameters.add((Parameter) module.createAst(targetParameterAst, this));
 			targetParameterAst = targetParameterAst.getNextSibling();
 		}
 		
@@ -169,7 +171,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 		
 		if (hasTransformed(source)) {
 			TransformationList transformations = transformationTrace.getTransformations(source);
-			return transformations.getTargets(this.name);
+			return transformations.getTargets(getName());
 		}
 		else {
 			transformedElements.add(source);
@@ -223,7 +225,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 			}
 		}
 		
-		return this.name + " (" + sourceParameter.getTypeName() + ") : " + targetTypes;
+		return getName() + " (" + sourceParameter.getTypeName() + ") : " + targetTypes;
 	}
 	
 	protected Boolean isPrimary = null;

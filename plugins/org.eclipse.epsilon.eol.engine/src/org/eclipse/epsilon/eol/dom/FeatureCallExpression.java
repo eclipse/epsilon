@@ -3,6 +3,7 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -22,9 +23,9 @@ public abstract class FeatureCallExpression extends Expression {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
-		this.arrow = getText().equals("->");
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		this.arrow = cst.getText().equals("->");
 	}
 	
 	public Object wrap(Object o) {
@@ -35,7 +36,7 @@ public abstract class FeatureCallExpression extends Expression {
 			return o;
 	}
 	
-	protected AbstractOperation getAbstractOperation(Object target, String name, AST featureCallAst, IModel owningModel, IEolContext context) throws EolIllegalOperationException {
+	protected AbstractOperation getAbstractOperation(Object target, String name, NameExpression featureCallAst, IModel owningModel, IEolContext context) throws EolIllegalOperationException {
 		
 		// Objects implementing the IAbstractOperationContributor interface
 		// can override the default higher-order operation implementations

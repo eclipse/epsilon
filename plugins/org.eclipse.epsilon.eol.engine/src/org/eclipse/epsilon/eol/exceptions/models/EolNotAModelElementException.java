@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions.models;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -19,7 +19,7 @@ public class EolNotAModelElementException extends EolRuntimeException{
 	
 	protected Object instance;
 	
-	public EolNotAModelElementException(AST ast, Object instance, IEolContext context) {
+	public EolNotAModelElementException(ModuleElement ast, Object instance, IEolContext context) {
 		super();
 		this.ast = ast;
 		this.instance = instance;

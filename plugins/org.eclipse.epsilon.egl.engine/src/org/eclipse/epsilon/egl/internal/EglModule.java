@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.Comment;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
@@ -34,6 +35,7 @@ import org.eclipse.epsilon.egl.model.EglMarkerSection;
 import org.eclipse.epsilon.egl.model.EglSection;
 import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
+import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 import org.eclipse.epsilon.eol.EolLibraryModule;
 import org.eclipse.epsilon.eol.dom.OperationList;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -55,8 +57,9 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 	protected IEglContext context = null;
 	protected Reader reader;
 	protected EglPreprocessorModule preprocessorModule = null;
+	protected AST ast;
 	
-	private final List<EglSection> sections = new LinkedList<EglSection>();	
+	private final List<EglMarkerSection> markers = new LinkedList<EglMarkerSection>();	
 	private URI templateRoot;
 
 	public EglModule() {		
@@ -135,14 +138,29 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		return preprocessorModule.preprocess(ast, sourceFile, sourceUri);
 	}
 	
+	@Override
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
+		if (cst == null) return this;
+		if (cst.getType() == TokenType.START_MARKER_TAG.getIdentifier()) return new EglMarkerSection();
+		return null;
+	}
+	
 	public void buildModel() throws Exception {
+		
 		for (AST child : ast.getChildren()) {
-			final EglSection section = EglSection.createFrom(child);
-			
-			if (section != null && section instanceof EglMarkerSection) {
-				sections.add(section);
+			if (child.getType() == TokenType.START_MARKER_TAG.getIdentifier()) {
+				EglMarkerSection section = (EglMarkerSection) createAst(child, this);
+				markers.add(section);
 			}
 		}
+	}
+	
+	public EglPreprocessorModule getPreprocessorModule() {
+		return preprocessorModule;
+	}
+	
+	public List<EglMarkerSection> getMarkers() {
+		return markers;
 	}
 	
 	public EglResult execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException {
@@ -175,7 +193,7 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		final List<String> problems = context.getPartitioningProblems();
 
 		if (problems.size() > 0)
-			throw new EglRuntimeException(problems.get(0), ast);
+			throw new EglRuntimeException(problems.get(0), this);
 	}
 
 	@Override
@@ -201,16 +219,17 @@ public class EglModule extends EolLibraryModule implements IEglModule {
 		return preprocessorModule.getOperations();
 	}
 	
+	/*
 	@Override
-	public AST getAst() {
+	public ModuleElement getAst() {
 		return preprocessorModule.getAst();
-	}
+	}*/
 	
 	public List<ModuleElement> getModuleElements() {
 		final List<ModuleElement> children = new LinkedList<ModuleElement>();
 		
 		children.addAll(preprocessorModule.getImports());
-		children.addAll(sections);
+		//children.addAll(sections);
 		children.addAll(preprocessorModule.getDeclaredOperations());
 		
 		return children;

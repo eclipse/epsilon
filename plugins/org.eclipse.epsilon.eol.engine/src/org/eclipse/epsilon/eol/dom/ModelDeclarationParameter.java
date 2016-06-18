@@ -1,6 +1,8 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 
 public class ModelDeclarationParameter extends AbstractModuleElement {
 	
@@ -8,10 +10,10 @@ public class ModelDeclarationParameter extends AbstractModuleElement {
 	protected String value;
 	
 	@Override
-	public void build() {
-		super.build();
-		this.key = getFirstChild().getText();
-		this.value = getSecondChild().getText();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		this.key = cst.getFirstChild().getText();
+		this.value = cst.getSecondChild().getText();
 	}
 
 	public String getKey() {

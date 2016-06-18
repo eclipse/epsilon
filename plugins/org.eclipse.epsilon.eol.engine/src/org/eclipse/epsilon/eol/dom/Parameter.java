@@ -11,6 +11,8 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -32,10 +34,10 @@ public class Parameter extends AbstractModuleElement implements ICompilableModul
 	}
 	
 	@Override
-	public void build(){
-		super.build();
-		this.nameExpression = (NameExpression) getFirstChild();
-		this.typeExpression = (TypeExpression) getSecondChild();
+	public void build(AST cst, IModule module){
+		super.build(cst, module);
+		this.nameExpression = (NameExpression) module.createAst(cst.getFirstChild(), this);
+		this.typeExpression = (TypeExpression) module.createAst(cst.getSecondChild(), this);
 	}
 
 	public TypeExpression getTypeExpression(){

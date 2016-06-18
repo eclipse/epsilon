@@ -12,11 +12,10 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.io.File;
 import java.net.URI;
-import java.util.Collections;
-import java.util.List;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -27,6 +26,7 @@ public class Import extends AbstractModuleElement {
 	private IModule importedModule;
 	private boolean loaded = false;
 	private boolean found = false;
+	protected StringLiteral pathLiteral;
 	
 	public Import() {}
 	
@@ -36,6 +36,16 @@ public class Import extends AbstractModuleElement {
 	
 	public void setImportedModule(IModule importedModule) {
 		this.importedModule = importedModule;
+	}
+	
+	public IModule getImportedModule() {
+		return importedModule;
+	}
+	
+	@Override
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		pathLiteral = (StringLiteral) module.createAst(cst.getFirstChild(), this);
 	}
 	
 	public void load(URI baseUri) {
@@ -85,15 +95,9 @@ public class Import extends AbstractModuleElement {
 		}
 	}
 	
-	//TODO: Show the helpers under the imports
-	public List<?> getModuleElements() {
-		if (!loaded) return Collections.emptyList();
-		else return importedModule.getModuleElements();
-	}
-	
 	@Override
 	public String toString(){
-		return "import '" + getFirstChild().getText() + "'";
+		return "import '" + getPath() + "'";
 	}
 	
 	public boolean isLoaded() {
@@ -108,8 +112,16 @@ public class Import extends AbstractModuleElement {
 		return importedModule;
 	}
 	
+	public StringLiteral getPathLiteral() {
+		return pathLiteral;
+	}
+	
+	public void setPathLiteral(StringLiteral pathLiteral) {
+		this.pathLiteral = pathLiteral;
+	}
+	
 	public String getPath() {
-		return getFirstChild().getText();
+		return pathLiteral.getValue();
 	}
 	
 	public void setContext(IEolContext context) {

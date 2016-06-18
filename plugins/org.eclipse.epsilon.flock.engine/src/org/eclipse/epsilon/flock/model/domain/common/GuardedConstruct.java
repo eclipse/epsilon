@@ -13,6 +13,9 @@
  */
 package org.eclipse.epsilon.flock.model.domain.common;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
@@ -24,9 +27,9 @@ public abstract class GuardedConstruct extends FlockConstruct {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void build() {
-		super.build();
-		this.guard = (ExecutableBlock<Boolean>)this.getFirstChildWithType(FlockParser.GUARD);
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		this.guard = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, FlockParser.GUARD), this);
 	}
 	
 	protected ExecutableBlock<Boolean> getGuard() {

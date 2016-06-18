@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.antlr.runtime.Token;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
@@ -40,6 +42,7 @@ public class EglPreprocessorModule extends EolModule {
 
 	private final Preprocessor preprocessor = new Preprocessor();
 	private EglPreprocessorContext context = new EglPreprocessorContext(super.context);
+	protected AST ast;
 	
 	@Override
 	public EglPreprocessorContext getContext() {
@@ -52,19 +55,23 @@ public class EglPreprocessorModule extends EolModule {
 		this.context = new EglPreprocessorContext(super.context);
 	}
 	
+	@Override
+	public void build(AST cst, IModule module) {
+		if (cst.getParent() == null) { this.ast = cst; updateASTLocations(cst);}
+		super.build(cst, module);
+	}
+	
 	public boolean preprocess(AST ast, File sourceFile, URI sourceUri) {
 		this.sourceFile = sourceFile;
 		this.sourceUri  = sourceUri;
 		
 		final String eol = preprocessor.convertToEol(ast);
-
+		
 		try {
-			if (parse(eol, sourceFile)) {
-				updateASTLocations(this.ast);
-				return true;
-			}
+			if (parse(eol, sourceFile)) return true;
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			// Ignore - clients are expected to call
 			// getParseProblems in order to check for problems
 		}
@@ -73,6 +80,7 @@ public class EglPreprocessorModule extends EolModule {
 	}
 	
 	protected void updateASTLocations(AST ast) {
+		
 		ast.setColumn(preprocessor.getTrace().getEglColumnNumberFor(ast.getLine(), ast.getColumn()));
 		ast.setLine(preprocessor.getTrace().getEglLineNumberFor(ast.getLine()));
 		
@@ -83,7 +91,9 @@ public class EglPreprocessorModule extends EolModule {
 		}
 		
 		boolean done = updateRegionsOfStaticTextASTs(ast);
-			
+		
+		ast.setRegion(null); // Force ast to recompute its region
+		
 		if (!done) {
 			for (AST child : ast.getChildren()) {
 				updateASTLocations(child);
@@ -92,12 +102,12 @@ public class EglPreprocessorModule extends EolModule {
 	}
 
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		if (cst.getType() == EolParser.HELPERMETHOD && hasAnnotation(cst, "template")) {
 			return new TemplateOperation();
 		}
 		
-		AST ast = super.adapt(cst, parentAst);
+		ModuleElement ast = super.adapt(cst, parentAst);
 		if (ast instanceof TypeExpression) {
 			return new TypeExpression() {
 				@Override

@@ -79,9 +79,8 @@ public class AST extends CommonTree {
 		return module;
 	}
 	
-	public AST setModule(IModule module) {
+	public void setModule(IModule module) {
 		this.module = module;
-		return this;
 	}
 	
 	public void setUri(URI uri) {
@@ -338,9 +337,8 @@ public class AST extends CommonTree {
 		this.region = region;
 	}
 	
-	public AST setImaginary(boolean imaginary) {
+	public void setImaginary(boolean imaginary) {
 		this.imaginary = imaginary;
-		return this;
 	}
 	
 	public boolean isImaginary() {

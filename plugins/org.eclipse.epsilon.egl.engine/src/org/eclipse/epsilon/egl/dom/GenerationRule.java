@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.egl.EglPersistentTemplate;
@@ -52,21 +53,21 @@ public class GenerationRule extends ExtensibleNamedRule {
 	public GenerationRule() {}
 	
 	@SuppressWarnings("unchecked")
-	public void build() {
-		super.build();
-		AST sourceParameterAst = getFirstChild().getNextSibling();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		AST sourceParameterAst = cst.getFirstChild().getNextSibling();
 		if (sourceParameterAst != null && sourceParameterAst.getType() == EolParser.FORMAL) {
-			sourceParameter = (Parameter) sourceParameterAst;
+			sourceParameter = (Parameter) module.createAst(sourceParameterAst, this);
 		}
 		
-		templateBlock = (ExecutableBlock<String>) AstUtil.getChild(this, EgxParser.TEMPLATE);
-		guardBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EgxParser.GUARD);
-		targetBlock = (ExecutableBlock<String>) AstUtil.getChild(this, EgxParser.TARGET);
-		parametersBlock = (ExecutableBlock<EolMap>) AstUtil.getChild(this, EgxParser.PARAMETERS);
-		preBlock = (ExecutableBlock<Void>) AstUtil.getChild(this, EgxParser.PRE);
-		postBlock = (ExecutableBlock<Void>) AstUtil.getChild(this, EgxParser.POST);
-		overwriteBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EgxParser.OVERWRITE);
-		protectRegionsBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EgxParser.PROTECTREGIONS);
+		templateBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TEMPLATE), this);
+		guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.GUARD), this);
+		targetBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TARGET), this);
+		parametersBlock = (ExecutableBlock<EolMap>) module.createAst(AstUtil.getChild(cst, EgxParser.PARAMETERS), this);
+		preBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EgxParser.PRE), this);
+		postBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EgxParser.POST), this);
+		overwriteBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.OVERWRITE), this);
+		protectRegionsBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.PROTECTREGIONS), this);
 	}
 	
 	public boolean isGreedy() throws EolRuntimeException {
@@ -153,7 +154,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 	
 	@Override
 	public String toString() {
-		String label = this.name;
+		String label = getName();
 		if (sourceParameter != null) {
 			label += " (" + sourceParameter.getTypeName() + ")";
 		}
@@ -161,7 +162,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 	}
 
 	@Override
-	public AST getSuperRulesAst() {
+	public AST getSuperRulesAst(AST cst) {
 		return null;
 	}
 	

@@ -13,40 +13,43 @@ package org.eclipse.epsilon.erl.dom;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
+import org.eclipse.epsilon.eol.dom.NameExpression;
 
 public class NamedRule extends AnnotatableModuleElement {
 	
-	protected String name = "";
-	protected AST body = null;
+	protected NameExpression nameExpression;
 	
 	public NamedRule() {}
 	
 	@Override
-	public void build() {
-		super.build();
-		int childrenCount = AstUtil.getChildrenCount(this);
-		if (childrenCount == 2) {
-			this.name = AstUtil.getChildAt(this, 0).getText();
-			this.body = AstUtil.getChildAt(this, 1);
-		}
-		else if (childrenCount == 1) {
-			this.body = AstUtil.getChildAt(this, 0);			
-		}
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		nameExpression = (NameExpression) module.createAst(getNameAst(cst), this);
+	}
+	
+	protected AST getNameAst(AST cst) {
+		return cst.getFirstChild();
 	}
 	
 	public String getName() { 
-		return this.name;
+		if (nameExpression != null) {
+			return nameExpression.getName();
+		}
+		else {
+			return "";
+		}
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public NameExpression getNameExpression() {
+		return nameExpression;
 	}
 	
-	public AST getBody() {
-		return body;
+	public void setNameExpression(NameExpression nameExpression) {
+		this.nameExpression = nameExpression;
 	}
 	
 	public List<?> getModuleElements() {
@@ -55,6 +58,6 @@ public class NamedRule extends AnnotatableModuleElement {
 	
 	@Override
 	public String toString(){
-		return name;
+		return getName();
 	}
 }

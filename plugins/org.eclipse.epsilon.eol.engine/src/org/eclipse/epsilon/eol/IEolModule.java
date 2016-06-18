@@ -11,12 +11,16 @@
 package org.eclipse.epsilon.eol;
 
 import java.io.File;
+import java.util.List;
 
+import org.eclipse.epsilon.eol.dom.Statement;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 
 public interface IEolModule extends IEolExecutableModule{
 	
 	public StatementBlock getMain();
+	
+	public List<Statement> getPostOperationStatements();
 	
 	public boolean parse(String code, File file) throws Exception;
 	

@@ -1,5 +1,7 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -19,20 +21,20 @@ public class AssignmentStatement extends Statement {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
-		targetExpression = (Expression) getFirstChild();
-		valueExpression = (Expression) getSecondChild();
-		if (getText().equals("+=")) {
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		targetExpression = (Expression) module.createAst(cst.getFirstChild(), this);
+		valueExpression = (Expression) module.createAst(cst.getSecondChild(), this);
+		if (cst.getText().equals("+=")) {
 			valueExpression = new PlusOperatorExpression(targetExpression, valueExpression);
 		}
-		else if (getText().equals("-=")) {
+		else if (cst.getText().equals("-=")) {
 			valueExpression = new MinusOperatorExpression(targetExpression, valueExpression);			
 		}
-		else if (getText().equals("/=")) {
+		else if (cst.getText().equals("/=")) {
 			valueExpression = new DivOperatorExpression(targetExpression, valueExpression);			
 		}
-		else if (getText().equals("*=")) {
+		else if (cst.getText().equals("*=")) {
 			valueExpression = new TimesOperatorExpression(targetExpression, valueExpression);			
 		}
 	}
@@ -97,6 +99,22 @@ public class AssignmentStatement extends Statement {
 	public void compile(EolCompilationContext context) {
 		targetExpression.compile(context);
 		valueExpression.compile(context);
+	}
+	
+	public Expression getTargetExpression() {
+		return targetExpression;
+	}
+	
+	public void setTargetExpression(Expression targetExpression) {
+		this.targetExpression = targetExpression;
+	}
+	
+	public Expression getValueExpression() {
+		return valueExpression;
+	}
+	
+	public void setValueExpression(Expression valueExpression) {
+		this.valueExpression = valueExpression;
 	}
 	
 }

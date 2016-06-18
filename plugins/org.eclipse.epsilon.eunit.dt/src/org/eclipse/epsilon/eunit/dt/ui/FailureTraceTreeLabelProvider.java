@@ -14,7 +14,9 @@ import java.io.File;
 import java.net.URI;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -87,23 +89,23 @@ class FailureTraceTreeLabelProvider extends StyledCellLabelProvider  {
 
 	private StyledString getStyledString(Frame frame) {
 		final StyledString str = new StyledString();
-		final AST entryPoint = frame.getEntryPoint();
+		final ModuleElement entryPoint = frame.getEntryPoint();
 		if (entryPoint != null) {
-			if (entryPoint.getType() == EolParser.HELPERMETHOD) {
-				str.append(entryPoint.getFirstChild().toString());
+			if (entryPoint instanceof Operation) {
+				str.append(entryPoint.getChildren().get(0).toString());
 			} else {
 				str.append(entryPoint.toString());
 			}
 
-			final AST currentStmt = frame.getCurrentStatement();
-			final AST point = currentStmt != null ? currentStmt : entryPoint;
+			final ModuleElement currentStmt = frame.getCurrentStatement();
+			final ModuleElement point = currentStmt != null ? currentStmt : entryPoint;
 
 			str.append(" @ ", StyledString.QUALIFIER_STYLER);
 			str.append(getSourcePathForAST(point), StyledString.QUALIFIER_STYLER);
 			str.append(" (", StyledString.QUALIFIER_STYLER);
-			str.append(Integer.toString(point.getLine()), StyledString.QUALIFIER_STYLER);
+			str.append(Integer.toString(point.getRegion().getStart().getLine()), StyledString.QUALIFIER_STYLER);
 			str.append(':', StyledString.QUALIFIER_STYLER);
-			str.append(Integer.toString(point.getColumn()), StyledString.QUALIFIER_STYLER);
+			str.append(Integer.toString(point.getRegion().getStart().getColumn()), StyledString.QUALIFIER_STYLER);
 			str.append(")", StyledString.QUALIFIER_STYLER);
 		}
 		else {
@@ -112,7 +114,7 @@ class FailureTraceTreeLabelProvider extends StyledCellLabelProvider  {
 		return str;
 	}
 
-	private String getSourcePathForAST(AST entryPoint) {
+	private String getSourcePathForAST(ModuleElement entryPoint) {
 		final URI sourceUri = entryPoint.getUri();
 
 		// No URI: Just Say "null"

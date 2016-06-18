@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 
 public class Cardinality extends AbstractModuleElement {
 	
@@ -25,16 +27,16 @@ public class Cardinality extends AbstractModuleElement {
 	public Cardinality() {}
 	
 	@Override
-	public void build() {
-		super.build();
-		if (getChildCount() == 1) {
-			int bound = getBound(getFirstChild().getText());
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		if (cst.getChildCount() == 1) {
+			int bound = getBound(cst.getFirstChild().getText());
 			this.lowerBound = 1;
 			this.upperBound = bound;
 		}
 		else {
-			this.lowerBound = getBound(getFirstChild().getText());
-			this.upperBound = getBound(getFirstChild().getNextSibling().getText());
+			this.lowerBound = getBound(cst.getFirstChild().getText());
+			this.upperBound = getBound(cst.getFirstChild().getNextSibling().getText());
 		}
 	}
 	
@@ -74,11 +76,6 @@ public class Cardinality extends AbstractModuleElement {
 	
 	public boolean isInBounds(int n) {
 		return n>=lowerBound && (upperBound == UNBOUNDED || n<=upperBound);
-	}
-	
-	@Override
-	public List<?> getModuleElements() {
-		return Collections.emptyList();
 	}
 	
 }

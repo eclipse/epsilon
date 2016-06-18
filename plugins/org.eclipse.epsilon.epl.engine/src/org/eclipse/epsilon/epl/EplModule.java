@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.epl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +17,7 @@ import java.util.List;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
@@ -25,10 +25,10 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.parse.AstExplorer;
 import org.eclipse.epsilon.epl.dom.Cardinality;
 import org.eclipse.epsilon.epl.dom.Domain;
 import org.eclipse.epsilon.epl.dom.Pattern;
@@ -84,7 +84,7 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 	}
 	
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch (cst.getType()) {
 			case EplParser.PATTERN: return new Pattern();
 			case EplParser.CARDINALITY: return new Cardinality();
@@ -93,15 +93,24 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 			case EplParser.ROLE: return new Role();
 			case EplParser.ACTIVE: return new ExecutableBlock<Boolean>(Boolean.class);
 			case EplParser.OPTIONAL: return new ExecutableBlock<Boolean>(Boolean.class);
+			case EplParser.ONMATCH: return new ExecutableBlock<Void>(Void.class);
+			case EplParser.NOMATCH: return new ExecutableBlock<Void>(Void.class);
+			case EplParser.DO: return new ExecutableBlock<Void>(Void.class);
+			//case EplParser.NOMATCH: return super.adapt(cst.getFirstChild(), parentAst);
+			case EplParser.MATCH: return new ExecutableBlock<Boolean>(Boolean.class);			
+//			case EplParser.DO: return new StatementBlock();
+//			case EplParser.ONMATCH: return new StatementBlock();
+//			case EplParser.NOMATCH: return new StatementBlock();
+//			case EplParser.MATCH: return new ExecutableBlock<Boolean>(Boolean.class);
 		}
 		return super.adapt(cst, parentAst);
 	}
 	
 	@Override
-	public void buildModel() throws Exception {
-		super.buildModel();
-		for (AST patternAst : AstUtil.getChildren(ast, EplParser.PATTERN)) {
-			declaredPatterns.add((Pattern) patternAst);
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		for (AST patternAst : AstUtil.getChildren(cst, EplParser.PATTERN)) {
+			declaredPatterns.add((Pattern) module.createAst(patternAst, this));
 		}
 	}
 	
@@ -123,17 +132,6 @@ public class EplModule extends ErlModule implements IEolExecutableModule{
 			patterns.addAll(declaredPatterns);
 		}
 		return patterns;
-	}
-	
-	@Override
-	public List<ModuleElement> getModuleElements() {
-		final List<ModuleElement> children = new ArrayList<ModuleElement>();
-		children.addAll(getImports());
-		children.addAll(getDeclaredPre());
-		children.addAll(getDeclaredPatterns());
-		children.addAll(getDeclaredPost());
-		children.addAll(getDeclaredOperations());
-		return children;
 	}
 	
 	@Override

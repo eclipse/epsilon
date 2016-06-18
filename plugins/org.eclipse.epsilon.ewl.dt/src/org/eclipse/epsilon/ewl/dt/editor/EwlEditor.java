@@ -13,10 +13,12 @@ package org.eclipse.epsilon.ewl.dt.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.ewl.EwlModule;
+import org.eclipse.epsilon.ewl.dt.editor.outline.EwlModuleContentProvider;
 import org.eclipse.epsilon.ewl.dt.editor.outline.EwlModuleElementLabelProvider;
 
 public class EwlEditor extends EolEditor{
@@ -43,6 +45,11 @@ public class EwlEditor extends EolEditor{
 	@Override
 	public ModuleElementLabelProvider createModuleElementLabelProvider() {
 		return new EwlModuleElementLabelProvider();
+	}
+	
+	@Override
+	protected ModuleContentProvider createModuleContentProvider() {
+		return new EwlModuleContentProvider();
 	}
 	
 	@Override

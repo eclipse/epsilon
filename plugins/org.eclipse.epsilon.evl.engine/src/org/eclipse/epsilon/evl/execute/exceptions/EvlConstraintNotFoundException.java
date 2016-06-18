@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.execute.exceptions;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 
@@ -18,7 +18,7 @@ public class EvlConstraintNotFoundException extends EolRuntimeException {
 	
 	protected String constraintName;
 	
-	public EvlConstraintNotFoundException(String constraintName, AST ast) {
+	public EvlConstraintNotFoundException(String constraintName, ModuleElement ast) {
 		this.setAst(ast);
 		this.constraintName = constraintName;
 	}

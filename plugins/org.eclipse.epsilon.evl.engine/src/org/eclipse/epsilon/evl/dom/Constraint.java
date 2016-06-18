@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
@@ -21,14 +22,14 @@ import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.erl.dom.NamedRule;
 import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
-public class Constraint extends AnnotatableModuleElement {
+public class Constraint extends NamedRule {
 	
-	protected String name;
 	protected boolean isCritique = false;
 	protected ArrayList<Fix> fixes = new ArrayList<Fix>();
 	protected ConstraintContext constraintContext;
@@ -41,17 +42,16 @@ public class Constraint extends AnnotatableModuleElement {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void build() {
-		super.build();
-		if (getType() == EvlParser.CRITIQUE){
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		if (cst.getType() == EvlParser.CRITIQUE){
 			isCritique = true;
 		}
-		this.name = getText();
-		this.guardBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EvlParser.GUARD);
-		this.checkBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this,EvlParser.CHECK);
-		this.messageBlock = (ExecutableBlock<String>) AstUtil.getChild(this, EvlParser.MESSAGE);
-		for (AST fixAst : AstUtil.getChildren(this, EvlParser.FIX)) {
-			fixes.add((Fix) fixAst);
+		this.guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EvlParser.GUARD), this);
+		this.checkBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst,EvlParser.CHECK), this);
+		this.messageBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EvlParser.MESSAGE), this);
+		for (AST fixAst : AstUtil.getChildren(cst, EvlParser.FIX)) {
+			fixes.add((Fix) module.createAst(fixAst, this));
 		}
 	}
 	
@@ -164,13 +164,9 @@ public class Constraint extends AnnotatableModuleElement {
 	
 	@Override
 	public String toString(){
-		return name;
+		return getName();
 	}
-
-	public String getName() {
-		return name;
-	}
-
+	
 	public boolean isCritique() {
 		return isCritique;
 	}

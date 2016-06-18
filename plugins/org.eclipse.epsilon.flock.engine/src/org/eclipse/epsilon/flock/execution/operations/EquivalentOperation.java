@@ -12,7 +12,7 @@ package org.eclipse.epsilon.flock.execution.operations;
 
 import java.util.List;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 import org.eclipse.epsilon.flock.IFlockContext;
@@ -22,7 +22,7 @@ import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 public class EquivalentOperation extends SimpleOperation {
 	
 	@Override
-	public Object execute(Object originalModelElement, List<?> parameters, IEolContext context, AST ast) throws ConservativeCopyException {
+	public Object execute(Object originalModelElement, List<?> parameters, IEolContext context, ModuleElement ast) throws ConservativeCopyException {
 		return ((IFlockContext)context).getConservativeCopyContext().getEquivalent(originalModelElement);
 	}
 }

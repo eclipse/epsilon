@@ -1,7 +1,9 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -27,10 +29,10 @@ public class WhileStatement extends Statement {
 	}
 
 	@Override
-	public void build() {
-		super.build();
-		conditionExpression = (Expression) getFirstChild();
-		bodyStatementBlock = toStatementBlock(getSecondChild());
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		conditionExpression =  (Expression) module.createAst(cst.getFirstChild(), this);
+		bodyStatementBlock = toStatementBlock(module.createAst(cst.getSecondChild(), this));
 	} 
 
 	@Override

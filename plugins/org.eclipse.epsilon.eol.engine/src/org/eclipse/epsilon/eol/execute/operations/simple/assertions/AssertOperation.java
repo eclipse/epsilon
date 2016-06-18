@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eol.execute.operations.simple.assertions;
 
 import java.util.List;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -22,7 +22,7 @@ public class AssertOperation extends SimpleOperation {
 
 	@Override
 	public Object execute(Object source, List<?> parameters, IEolContext context,
-			AST ast) throws EolRuntimeException {
+			ModuleElement ast) throws EolRuntimeException {
 		
 		if (!context.isAssertionsEnabled()) {return null;}
 		

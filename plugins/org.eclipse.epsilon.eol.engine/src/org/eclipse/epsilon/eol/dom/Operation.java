@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
@@ -33,7 +34,7 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class Operation extends AnnotatableModuleElement implements ICompilableModuleElement {
 	
-	protected String name = "";
+	protected NameExpression nameExpression;
 	protected TypeExpression contextTypeExpression;
 	protected EolType contextType;
 	protected TypeExpression returnTypeExpression;
@@ -52,16 +53,17 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	}
 	
 	@Override
-	public void build() {
-		super.build();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		
 		AST nameAst = null;
-		if (getFirstChild().getType() == EolParser.TYPE) {
-			contextTypeExpression = (TypeExpression) getFirstChild();
-			nameAst = contextTypeExpression.getNextSibling(); 
+		if (cst.getFirstChild().getType() == EolParser.TYPE) {
+			AST contextTypeExpressionAst = cst.getFirstChild();
+			contextTypeExpression = (TypeExpression) module.createAst(contextTypeExpressionAst, this);
+			nameAst = contextTypeExpressionAst.getNextSibling(); 
 		}
 		else {
-			nameAst = getFirstChild();
+			nameAst = cst.getFirstChild();
 		}
 		AST paramListAst = null;
 		AST returnAst = null;
@@ -87,14 +89,14 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 			}
 		}
 		
-		this.body = (StatementBlock) bodyAst;
-		this.name = nameAst.getText();
-		this.returnTypeExpression = (TypeExpression) returnAst;
+		this.nameExpression = (NameExpression) module.createAst(nameAst, this);
+		this.returnTypeExpression = (TypeExpression)  module.createAst(returnAst, this);
 		if (paramListAst != null) {
 			for (AST formalParameterAst : paramListAst.getChildren()) {
-				formalParameters.add((Parameter)formalParameterAst);
+				formalParameters.add((Parameter) module.createAst(formalParameterAst, this));
 			}
 		}
+		this.body = (StatementBlock) module.createAst(bodyAst, this);
 		
 	}
 
@@ -133,13 +135,13 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 		String returnTypeName = "";
 
 		if (contextTypeExpression != null) {
-			contextTypeName = " - " + contextTypeExpression.getText();// + ".";
+			contextTypeName = " - " + contextTypeExpression.getName();// + ".";
 		}
 		if (returnTypeExpression != null) {
-			returnTypeName = " : " + returnTypeExpression.getText();
+			returnTypeName = " : " + returnTypeExpression.getName();
 		}
 		
-		return name + "(" + new IterableOperationContributor(formalParameters).concat(", ") + ")" + returnTypeName + contextTypeName;
+		return getName() + "(" + new IterableOperationContributor(formalParameters).concat(", ") + ")" + returnTypeName + contextTypeName;
 	}
 
 	public synchronized boolean isCached() {
@@ -223,7 +225,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 				returnType = (EolType) context.getExecutorFactory().executeAST(returnTypeExpression, context);
 			}
 			if (!returnType.isKind(result)) {
-				throw new EolRuntimeException(name + " is expected to return a " + returnType.getName() + ", but returned a " + result.getClass().getCanonicalName());
+				throw new EolRuntimeException(getName() + " is expected to return a " + returnType.getName() + ", but returned a " + result.getClass().getCanonicalName());
 			}
 		}
 	}
@@ -278,11 +280,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	}
 	
 	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
+		return nameExpression.getName();
 	}
 	
 	public List<Parameter> getFormalParameters() {
@@ -296,6 +294,14 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	
 	public void setBody(StatementBlock body) {
 		this.body = body;
+	}
+	
+	public NameExpression getNameExpression() {
+		return nameExpression;
+	}
+	
+	public void setNameExpression(NameExpression nameExpression) {
+		this.nameExpression = nameExpression;
 	}
 	
 	public TypeExpression getContextTypeExpression() {

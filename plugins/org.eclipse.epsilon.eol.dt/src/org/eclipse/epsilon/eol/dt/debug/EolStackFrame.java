@@ -25,7 +25,7 @@ import org.eclipse.debug.ui.sourcelookup.ISourceDisplay;
 import org.eclipse.debug.ui.sourcelookup.ISourceLookupResult;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.jface.text.BadLocationException;
@@ -186,7 +186,7 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 
 	public int getLineNumber() throws DebugException {
 		if (frame.getCurrentStatement() != null) {
-			return frame.getCurrentStatement().getLine();
+			return frame.getCurrentStatement().getRegion().getStart().getLine();
 		}
 		return -1;
 	}
@@ -219,12 +219,12 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 		return false;
 	}
 
-	private int getCharStart(final AST ast) throws DebugException {
+	private int getCharStart(final ModuleElement ast) throws DebugException {
 		if (ast != null) {
 			final IDocument doc = getDocument(ast);
 			try {
 				if (doc != null) {
-						return doc.getLineOffset(ast.getLine() - 1);
+						return doc.getLineOffset(ast.getRegion().getStart().getLine() - 1);
 				}
 			} catch (BadLocationException e) {
 				LogUtil.log(e);
@@ -233,12 +233,12 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 		return -1;
 	}
 
-	private int getCharEnd(final AST ast) throws DebugException {
+	private int getCharEnd(final ModuleElement ast) throws DebugException {
 		if (ast != null) {
 			final IDocument doc = getDocument(ast);
 			try {
 				if (doc != null) {
-					return doc.getLineOffset(ast.getLine());
+					return doc.getLineOffset(ast.getRegion().getStart().getLine());
 				}
 			} catch (BadLocationException e) {
 				LogUtil.log(e);
@@ -247,7 +247,7 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 		return -1;
 	}
 
-	private IDocument getDocument(final AST current) {
+	private IDocument getDocument(final ModuleElement current) {
 		final IFile file = EclipseUtil.findIFile(current);
 		try {
 			if (file != null) {

@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 
 public class EolRuntimeExceptionReference extends EolRuntimeException {
@@ -29,7 +30,7 @@ public class EolRuntimeExceptionReference extends EolRuntimeException {
 	}
 	
 	@Override
-	public AST getAst() {
+	public ModuleElement getAst() {
 		// TODO Auto-generated method stub
 		return exception.getAst();
 	}
@@ -59,7 +60,7 @@ public class EolRuntimeExceptionReference extends EolRuntimeException {
 	}
 
 	@Override
-	public void setAst(AST ast) {
+	public void setAst(ModuleElement ast) {
 		// TODO Auto-generated method stub
 		exception.setAst(ast);
 	}

@@ -18,6 +18,7 @@ import java.util.List;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
@@ -76,7 +77,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	}
 	
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch (cst.getType()) {
 			case EvlParser.FIX: return new Fix();
 			case EvlParser.DO: return new ExecutableBlock<Void>(Void.class);
@@ -99,26 +100,29 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	}
 	
 	@Override
-	public void buildModel() throws Exception {
-		
-		super.buildModel();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		
 		GlobalConstraintContext globalConstraintContext = new GlobalConstraintContext();
+		globalConstraintContext.setParent(this);
+		this.getChildren().add(globalConstraintContext);
 		
-		for (AST constraintAst : AstUtil.getChildren(ast, EvlParser.CONSTRAINT)) {
-			globalConstraintContext.getConstraints().addConstraint((Constraint) constraintAst); 
-			((Constraint) constraintAst).setConstraintContext(globalConstraintContext);
+		for (AST constraintAst : AstUtil.getChildren(cst, EvlParser.CONSTRAINT)) {
+			Constraint constraint = (Constraint) module.createAst(constraintAst, globalConstraintContext);
+			globalConstraintContext.getConstraints().addConstraint(constraint); 
+			constraint.setConstraintContext(globalConstraintContext);
 		}
 		
-		for (AST critiqueAst : AstUtil.getChildren(ast, EvlParser.CRITIQUE)) {
-			globalConstraintContext.getConstraints().addConstraint((Constraint) critiqueAst); 
-			((Constraint) critiqueAst).setConstraintContext(globalConstraintContext);
+		for (AST critiqueAst : AstUtil.getChildren(cst, EvlParser.CRITIQUE)) {
+			Constraint critique = (Constraint) module.createAst(critiqueAst, globalConstraintContext);
+			globalConstraintContext.getConstraints().addConstraint(critique); 
+			critique.setConstraintContext(globalConstraintContext);
 		}
 		
 		if (!globalConstraintContext.getConstraints().values().isEmpty()) declaredConstraintContexts.add(globalConstraintContext);
 		
-		for (AST constraintContextAst : AstUtil.getChildren(ast, EvlParser.CONTEXT)) {
-			ConstraintContext constraintContext = (ConstraintContext) constraintContextAst;
+		for (AST constraintContextAst : AstUtil.getChildren(cst, EvlParser.CONTEXT)) {
+			ConstraintContext constraintContext = (ConstraintContext) module.createAst(constraintContextAst, this);
 			declaredConstraintContexts.add(constraintContext);
 		}
 		
@@ -178,17 +182,6 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	
 	public Constraints getConstraints(){ 
 		return constraints;
-	}
-	
-	@Override
-	public List<ModuleElement> getModuleElements(){
-		final List<ModuleElement> children = new ArrayList<ModuleElement>();
-		children.addAll(getImports());
-		children.addAll(getDeclaredPre());
-		children.addAll(getDeclaredConstraintContexts());
-		children.addAll(getDeclaredOperations());
-		children.addAll(getDeclaredPost());
-		return children;
 	}
 	
 	@Override

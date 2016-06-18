@@ -10,14 +10,21 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.internal;
 
+import java.util.List;
+
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.model.EglMarkerSection;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 
 public interface IEglModule extends IEolLibraryModule {
-
+	
+	public EglPreprocessorModule getPreprocessorModule();
+	
+	public List<EglMarkerSection> getMarkers();
+	
 	public IEglContext getContext();
 	
 	public EglResult execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException;

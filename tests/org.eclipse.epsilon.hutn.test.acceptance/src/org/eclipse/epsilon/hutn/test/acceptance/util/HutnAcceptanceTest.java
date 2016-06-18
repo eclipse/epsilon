@@ -47,6 +47,8 @@ public abstract class HutnAcceptanceTest extends HutnTestWithFamiliesMetaModel {
 	}
 
 	private static ModelWithEolAssertions generateModel(IHutnModule module, boolean parsedCorrectly, String outputPath) throws Exception, HutnGenerationException {
+		
+		
 		if (!parsedCorrectly) {
 			for (ParseProblem p : module.getParseProblems()) {
 				System.err.println(p);

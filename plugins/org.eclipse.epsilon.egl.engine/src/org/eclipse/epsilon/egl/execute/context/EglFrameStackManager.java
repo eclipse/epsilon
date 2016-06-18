@@ -10,10 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute.context;
 
+import java.net.URI;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 
@@ -45,7 +48,7 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 public class EglFrameStackManager {
 
 	private final FrameStack frameStack;
-	private final Deque<AST> localMarkers = new ArrayDeque<AST>(), globalMarkers = new ArrayDeque<AST>();
+	private final Deque<ModuleElement> localMarkers = new ArrayDeque<ModuleElement>(), globalMarkers = new ArrayDeque<ModuleElement>();
 	
 	public EglFrameStackManager(FrameStack frameStack) {
 		this.frameStack = frameStack;
@@ -63,13 +66,15 @@ public class EglFrameStackManager {
 	}
 	
 	private void createFrameForTemplateSpecificGlobals() {
-		final AST frameGlobalStackMarker = new AST();
+		final StatementBlock frameGlobalStackMarker = new StatementBlock();
+		//frameGlobalStackMarker.setUri(URI.create("template-specific-globals"));
 		globalMarkers.push(frameGlobalStackMarker);
 		frameStack.enterGlobal(FrameType.UNPROTECTED, frameGlobalStackMarker);
 	}
 	
 	private void createOwnFrameForLocals() {
-		final AST frameLocalStackMarker = new AST();
+		final StatementBlock frameLocalStackMarker = new StatementBlock();
+		//frameLocalStackMarker.setUri(URI.create("locals"));
 		localMarkers.push(frameLocalStackMarker);
 		frameStack.enterLocal(FrameType.PROTECTED, frameLocalStackMarker);
 	}

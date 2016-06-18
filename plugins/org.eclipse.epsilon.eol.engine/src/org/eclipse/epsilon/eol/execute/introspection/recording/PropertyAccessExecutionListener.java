@@ -15,7 +15,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.WeakHashMap;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.AssignmentStatement;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -25,17 +27,17 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 public class PropertyAccessExecutionListener implements IExecutionListener {
 
 	private final Collection<IPropertyAccessRecorder> recorders = new LinkedList<IPropertyAccessRecorder>();
-	private final WeakHashMap<AST, Object> cache = new WeakHashMap<AST, Object>();
+	private final WeakHashMap<ModuleElement, Object> cache = new WeakHashMap<ModuleElement, Object>();
 	
 	public PropertyAccessExecutionListener(IPropertyAccessRecorder... recorders) {
 		this.recorders.addAll(Arrays.asList(recorders));
 	}
 	
 	@Override
-	public void aboutToExecute(AST ast, IEolContext context) {}
+	public void aboutToExecute(ModuleElement ast, IEolContext context) {}
 	
 	@Override
-	public void finishedExecuting(AST ast, Object result, IEolContext context) {
+	public void finishedExecuting(ModuleElement ast, Object result, IEolContext context) {
 		// When the left-hand side of a point expression has been executed, store the object on 
 		// which the point expression was invoked, so that we can pass it to any property access recorders
 		if (isLeftHandSideOfPointExpression(ast)) {
@@ -45,8 +47,10 @@ public class PropertyAccessExecutionListener implements IExecutionListener {
 		// When a property access is executed, notify the recorders
 		if (isPropertyAccessExpression(ast)) {
 			
-			final Object modelElement = cache.get(ast.getFirstChild());
-			final String propertyName = ast.getSecondChild().getText();
+			PropertyCallExpression propertyCallExpression = (PropertyCallExpression) ast;
+			
+			final Object modelElement = cache.get(propertyCallExpression.getTargetExpression());
+			final String propertyName = propertyCallExpression.getPropertyNameExpression().getName();
 			
 			if (isModelBasedProperty(modelElement, propertyName, context)) {
 				for (IPropertyAccessRecorder recorder : this.recorders) {
@@ -57,15 +61,14 @@ public class PropertyAccessExecutionListener implements IExecutionListener {
 	}
 	
 	@Override
-	public void finishedExecutingWithException(AST ast, EolRuntimeException exception, IEolContext context) {}
+	public void finishedExecutingWithException(ModuleElement ast, EolRuntimeException exception, IEolContext context) {}
 	
-	private boolean isLeftHandSideOfPointExpression(AST ast) {
-		return ast.getParent() instanceof PropertyCallExpression && ast.getParent().getFirstChild() == ast;
+	private boolean isLeftHandSideOfPointExpression(ModuleElement ast) {
+		return ast.getParent() instanceof PropertyCallExpression && ((PropertyCallExpression)ast.getParent()).getTargetExpression() == ast;
 	}
 	
-	private boolean isPropertyAccessExpression(AST ast) {
-		return ast.getType() == EolParser.POINT &&          // AST is a point expression  
-		       ast.getSecondChild().getChildCount() == 0 && // AST's right-hand side is not a method call
+	private boolean isPropertyAccessExpression(ModuleElement ast) {
+		return ast instanceof PropertyCallExpression &&          // AST is a point expression 
 		       !isAssignee(ast);                            // AST is not the left-hand side of an assignment
 	}
 	
@@ -75,8 +78,8 @@ public class PropertyAccessExecutionListener implements IExecutionListener {
 	}
 	
 	// Determines whether the specified AST is the left-hand side of an assignment expression
-	private boolean isAssignee(AST ast) {
-		return ast.getParent().getType() == EolParser.ASSIGNMENT &&
-			   ast.getParent().getFirstChild() == ast;
+	private boolean isAssignee(ModuleElement ast) {
+		return ast.getParent() instanceof AssignmentStatement && 
+				((AssignmentStatement) ast.getParent()).getTargetExpression() == ast;
 	}
 }

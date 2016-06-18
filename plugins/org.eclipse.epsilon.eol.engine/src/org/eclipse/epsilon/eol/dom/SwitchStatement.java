@@ -3,6 +3,8 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -11,6 +13,7 @@ import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
+import org.eclipse.epsilon.eol.parse.Eol_EolParserRules.defaultStatement_return;
 
 public class SwitchStatement extends Statement {
 	
@@ -27,17 +30,20 @@ public class SwitchStatement extends Statement {
 	}
 
 	@Override
-	public void build() {
-		super.build();
-		for (AST child : getChildren()) {
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		for (AST child : cst.getChildren()) {
+			
+			ModuleElement moduleElement = module.createAst(child, this);
+			
 			if (child.getType() == EolParser.DEFAULT) {
-				_default = (Case) child;
+				_default = (Case) moduleElement;
 			}
 			else if (child.getType() == EolParser.CASE){
-				cases.add((Case) child);
+				cases.add((Case) moduleElement);
 			}
-			else if (child instanceof Expression){
-				conditionExpression = (Expression) child;
+			else if (moduleElement instanceof Expression){
+				conditionExpression = (Expression) moduleElement;
 			}
 		}
 	}
@@ -61,10 +67,30 @@ public class SwitchStatement extends Statement {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		
-		AST switchValueAst = getFirstChild();
+		Object switchValue = context.getExecutorFactory().executeAST(conditionExpression, context);
 		
-		Object switchValue = context.getExecutorFactory().executeAST(switchValueAst, context);
+		boolean continue_ = false;
 		
+		for (Case c : cases) {
+			Object caseValue = context.getExecutorFactory().executeAST(c.getCondition(), context);
+			
+			if (continue_ || equals(switchValue, caseValue)) {
+				try {
+					Object result = context.getExecutorFactory().executeAST(c.getBody(), context);
+					return null;
+				}
+				catch (EolContinueException ex) {
+					continue_ = true;
+				} 
+			}
+			
+		}
+		
+		if (_default != null) {
+			context.getExecutorFactory().executeAST(_default.getBody(), context);
+		}
+		
+		/*
 		AST nextCase = switchValueAst.getNextSibling();
 		
 		try {
@@ -105,7 +131,7 @@ public class SwitchStatement extends Statement {
 		catch (EolBreakException e) {
 			
 		}
-		
+		*/
 		return null;
 	}
 	

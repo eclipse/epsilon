@@ -10,14 +10,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions.flowcontrol;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
 public class EolContinueException extends EolRuntimeException {
 	
-	public EolContinueException(AST ast, IEolContext context){
+	public EolContinueException(ModuleElement ast, IEolContext context){
 		super("Statement 'continue;' is only valid in loops", ast);
 	}
 

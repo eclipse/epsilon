@@ -13,6 +13,7 @@ package org.eclipse.epsilon.ecl.dom;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
@@ -22,6 +23,7 @@ import org.eclipse.epsilon.ecl.parse.EclParser;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
@@ -43,20 +45,20 @@ public class MatchRule extends ExtensibleNamedRule {
 	public MatchRule(){}
 
 	@Override
-	public AST getSuperRulesAst() {
-		return AstUtil.getChild(this, EclParser.EXTENDS);
+	public AST getSuperRulesAst(AST cst) {
+		return AstUtil.getChild(cst, EclParser.EXTENDS);
 	}
 	
 
 	@SuppressWarnings("unchecked")
-	public void build() {
-		super.build();
-		leftParameter = (Parameter) getSecondChild();
-		rightParameter = (Parameter) getThirdChild();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		leftParameter = (Parameter) module.createAst(cst.getSecondChild(), this);
+		rightParameter = (Parameter) module.createAst(cst.getThirdChild(), this);
 		
-		this.compareBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EclParser.COMPARE);
-		this.doBlock = (ExecutableBlock<Void>) AstUtil.getChild(this, EclParser.DO);
-		this.guardBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EclParser.GUARD);
+		this.compareBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EclParser.COMPARE), this);
+		this.doBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EclParser.DO), this);
+		this.guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EclParser.GUARD), this);
 	}
 	
 	public boolean appliesTo(Object left, Object right, IEclContext context, boolean ofTypeOnly) throws EolRuntimeException{
@@ -223,7 +225,7 @@ public class MatchRule extends ExtensibleNamedRule {
 
 	@Override
 	public String toString(){
-		String str = name;
+		String str = getName();
 		str = str + " (";
 		str = str + 
 		leftParameter.getTypeName() + ", " +

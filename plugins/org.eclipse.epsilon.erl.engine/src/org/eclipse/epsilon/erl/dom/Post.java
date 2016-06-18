@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.erl.dom;
 
-public class Post extends NamedRule {
+public class Post extends NamedStatementBlockRule {
 	
 	@Override
 	public String toString() {
-		return "post " + name;
+		return "post " + getName();
 	}
 	
 }

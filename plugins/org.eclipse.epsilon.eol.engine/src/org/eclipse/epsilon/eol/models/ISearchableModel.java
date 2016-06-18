@@ -12,15 +12,15 @@ package org.eclipse.epsilon.eol.models;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public interface ISearchableModel {
 	
-	public Collection<?> find(Variable iterator, AST ast, IEolContext context) throws EolRuntimeException;
+	public Collection<?> find(Variable iterator, ModuleElement ast, IEolContext context) throws EolRuntimeException;
 	
-	public Object findOne(Variable iterator, AST ast, IEolContext context) throws EolRuntimeException;
+	public Object findOne(Variable iterator, ModuleElement ast, IEolContext context) throws EolRuntimeException;
 
 }

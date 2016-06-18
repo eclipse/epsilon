@@ -18,12 +18,15 @@ import org.junit.Test;
 public class ExcelModelTest
 {
 	private final String PATH_TO_FILE = SharedTestMethods.getBasePath() + "resources/excel/ModelTest.xlsx";
+	private final String PATH_TO_GENERATED_FILE = SharedTestMethods.getBasePath() + "resources/excel/ModelTest.gen.xlsx";
 	private final String PATH_TO_XLS_FILE = SharedTestMethods.getBasePath() + "resources/excel/ModelTest.xls";
 	private final String PATH_TO_CONFIG = SharedTestMethods.getBasePath() + "resources/excel/ModelTestConfig.xml";
 	private final String PATH_TO_INVALID_CONFIG = SharedTestMethods.getBasePath()
 			+ "resources/excel/ModelTestInvalidConfig.xml";
 	private final String PATH_TO_PROTECTED_FILE = SharedTestMethods.getBasePath()
 			+ "resources/excel/ModelTestProtected.xlsx";
+	private final String PATH_TO_GENERATED_PROTECTED_FILE = SharedTestMethods.getBasePath()
+			+ "resources/excel/ModelTestProtected.gen.xlsx";
 	private final String PATH_TO_PROTECTED_XLS_FILE = SharedTestMethods.getBasePath()
 			+ "resources/excel/ModelTestProtected.xls";
 
@@ -231,7 +234,7 @@ public class ExcelModelTest
 		{
 			model.setSpreadsheetFile(this.PATH_TO_FILE);
 			model.load();
-			model.store();
+			model.store(this.PATH_TO_GENERATED_FILE);
 		}
 		catch (Exception e)
 		{
@@ -254,7 +257,7 @@ public class ExcelModelTest
 			module.getContext().getModelRepository().addModel(model);
 			module.execute();
 
-			model.store();
+			model.store(this.PATH_TO_GENERATED_FILE);
 		}
 		catch (Exception e)
 		{
@@ -272,7 +275,7 @@ public class ExcelModelTest
 		{
 			model.setPassword("test");
 			model.load();
-			model.store();
+			model.store(this.PATH_TO_GENERATED_PROTECTED_FILE);
 		}
 		catch (EolModelLoadingException e)
 		{

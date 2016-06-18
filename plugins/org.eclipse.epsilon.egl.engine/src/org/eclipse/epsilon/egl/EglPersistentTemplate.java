@@ -48,7 +48,7 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 			}
 
 		} catch (URISyntaxException e) {
-			throw new EglRuntimeException("Could not resolve path: " + path, e, module.getAst());
+			throw new EglRuntimeException("Could not resolve path: " + path, e, module);
 		}
 	}
 

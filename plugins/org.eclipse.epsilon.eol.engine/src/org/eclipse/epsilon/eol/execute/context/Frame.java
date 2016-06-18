@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eol.execute.context;
 
 import java.util.Map;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 
 public interface Frame {
 
@@ -42,11 +42,11 @@ public interface Frame {
 	
 	void setType(FrameType type);
 	
-	AST getEntryPoint();
+	ModuleElement getEntryPoint();
 	
-	void setEntryPoint(AST entryPoint);
+	void setEntryPoint(ModuleElement entryPoint);
 
-	void setCurrentStatement(AST ast);
+	void setCurrentStatement(ModuleElement ast);
 
-	AST getCurrentStatement();
+	ModuleElement getCurrentStatement();
 }

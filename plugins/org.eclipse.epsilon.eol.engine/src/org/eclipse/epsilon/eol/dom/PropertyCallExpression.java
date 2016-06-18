@@ -2,6 +2,7 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.Collection;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.compile.m3.MetaClass;
@@ -28,10 +29,10 @@ public class PropertyCallExpression extends FeatureCallExpression {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
-		targetExpression = (Expression) getFirstChild();
-		propertyNameExpression = (NameExpression) getSecondChild();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		targetExpression = (Expression) module.createAst(cst.getFirstChild(), this);
+		propertyNameExpression = (NameExpression) module.createAst(cst.getSecondChild(), this);
 	}
 	
 	public Object execute(IEolContext context, boolean returnSetter) throws EolRuntimeException {

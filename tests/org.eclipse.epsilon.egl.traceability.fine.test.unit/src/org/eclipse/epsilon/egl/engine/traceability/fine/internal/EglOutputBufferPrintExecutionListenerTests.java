@@ -18,6 +18,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
@@ -67,8 +68,8 @@ public class EglOutputBufferPrintExecutionListenerTests {
 		private IPropertyAccessRecorder afterExecutingLeftHandSideTest(String code, Object buffer) throws Exception {
 			final IPropertyAccessRecorder recorder = mock(IPropertyAccessRecorder.class);
 			final EglOutputBufferPrintExecutionListener listener = new EglOutputBufferPrintExecutionListener(recorder, null);
-			final AST ast = parse(code);
-			listener.finishedExecuting(ast.getFirstChild(), buffer, null);
+			final ModuleElement ast = parse(code);
+			listener.finishedExecuting(ast.getChildren().get(0), buffer, null);
 			return recorder;
 		}
 	}
@@ -109,10 +110,10 @@ public class EglOutputBufferPrintExecutionListenerTests {
 		
 		private void afterExecutingMethodCallTest(IPropertyAccessRecorder recorder, TracedPropertyAccessLedger ledger, OutputBuffer buffer, IEolContext context) throws Exception {
 			final EglOutputBufferPrintExecutionListener listener = new EglOutputBufferPrintExecutionListener(recorder, ledger);
-			final AST ast = parse("out.print();");
+			final ModuleElement ast = parse("out.print();");
 			
 			// First prime the cache
-			listener.finishedExecuting(ast.getFirstChild(), buffer, context);
+			listener.finishedExecuting(ast.getChildren().get(0), buffer, context);
 			
 			// Now simulate finished execution of point operator
 			listener.finishedExecuting(ast, null, context);
@@ -125,10 +126,10 @@ public class EglOutputBufferPrintExecutionListenerTests {
 		}
 	}
 
-	private static AST parse(String code) throws Exception {
+	private static ModuleElement parse(String code) throws Exception {
 		final EolModule module = new EolModule();
 		module.parse(code);
-		return module.getAst().getFirstChild().getFirstChild();
+		return module.getChildren().get(0).getChildren().get(0).getChildren().get(0);
 	}
 
 }

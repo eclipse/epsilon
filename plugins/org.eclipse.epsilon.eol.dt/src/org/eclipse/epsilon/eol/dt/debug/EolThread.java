@@ -17,10 +17,10 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.SingleFrame;
-import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class EolThread extends EolDebugElement implements IThread {
 
@@ -122,11 +122,11 @@ public class EolThread extends EolDebugElement implements IThread {
 	}
 
 	private String getStackFrameName(int position, Frame frame) {
-		final AST entryPoint = frame.getEntryPoint();
+		final ModuleElement entryPoint = frame.getEntryPoint();
 		if (entryPoint != null) {
 			StringBuilder builder = new StringBuilder();
-			if (entryPoint.getType() == EolParser.HELPERMETHOD) {
-				builder.append(entryPoint.getFirstChild().toString());
+			if (entryPoint instanceof Operation) {
+				builder.append(entryPoint.getChildren().get(0).toString());
 			} else {
 				builder.append(entryPoint.toString());
 			}

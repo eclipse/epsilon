@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 
 public class EolIllegalOperationParametersException extends EolRuntimeException {
 	
@@ -20,7 +20,7 @@ public class EolIllegalOperationParametersException extends EolRuntimeException 
 		this.method = method;
 	}
 	
-	public EolIllegalOperationParametersException(String method, AST ast) {
+	public EolIllegalOperationParametersException(String method, ModuleElement ast) {
 		this.ast = ast;
 		this.method = method;
 	}

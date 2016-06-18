@@ -11,7 +11,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -22,9 +22,9 @@ public interface IPropertyGetter {
 	
 	public Object invoke(Object object, String property) throws EolRuntimeException;
 	
-	public AST getAst();
+	public ModuleElement getAst();
 	
-	public void setAst(AST ast);
+	public void setAst(ModuleElement ast);
 	
 	public void setContext(IEolContext context);
 	

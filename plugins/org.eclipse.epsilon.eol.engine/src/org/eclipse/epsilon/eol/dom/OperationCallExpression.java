@@ -3,6 +3,7 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
@@ -39,23 +40,23 @@ public class OperationCallExpression extends FeatureCallExpression {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		AST parametersAst = null;
 		if (!contextless) {
-			targetExpression = (Expression) getFirstChild();
-			nameExpression = (NameExpression) getSecondChild();
-			parametersAst = getSecondChild().getFirstChild();
+			targetExpression = (Expression) module.createAst(cst.getFirstChild(), this);
+			nameExpression = (NameExpression) module.createAst(cst.getSecondChild(), this);
+			parametersAst = cst.getSecondChild().getFirstChild();
 		}
 		else {
-			nameExpression = new NameExpression(this.getText());
-			nameExpression.setRegion(this.getRegion());
-			nameExpression.setUri(this.getUri());
-			nameExpression.setModule(this.getModule());
-			parametersAst = getFirstChild();
+			nameExpression = new NameExpression(cst.getText());
+			nameExpression.setRegion(cst.getRegion());
+			nameExpression.setUri(cst.getUri());
+			nameExpression.setModule(cst.getModule());
+			parametersAst = cst.getFirstChild();
 		}
 		for (AST parameterAst : parametersAst.getChildren()) {
-			parameterExpressions.add((Expression) parameterAst);
+			parameterExpressions.add((Expression) module.createAst(parameterAst, this));
 		}
 	}
 	
@@ -144,7 +145,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 	}
 	
 	public String getOperationName() {
-		return nameExpression.getText();
+		return nameExpression.getName();
 	}
 	
 	public void setContextless(boolean contextless) {

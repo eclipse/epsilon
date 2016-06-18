@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 
 public class EolUserException extends EolRuntimeException {
 
@@ -20,7 +20,7 @@ public class EolUserException extends EolRuntimeException {
 		this.thrown = thrown;
 	}
 	
-	public EolUserException(Object thrown, AST ast) {
+	public EolUserException(Object thrown, ModuleElement ast) {
 		this.thrown = thrown;
 		this.ast = ast;
 	}

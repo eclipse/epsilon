@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
@@ -34,20 +35,20 @@ public class ModelDeclaration extends AbstractModuleElement implements ICompilab
 	public ModelDeclaration() {}
 	
 	@Override
-	public void build() {
-		super.build();
-		nameExpression = (NameExpression) getFirstChild();
-		driverNameExpression = (NameExpression) AstUtil.getChild(this, EolParser.DRIVER).getFirstChild();
-		AST aliasesAst = AstUtil.getChild(this, EolParser.ALIAS);
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		nameExpression = (NameExpression) module.createAst(cst.getFirstChild(), this);
+		driverNameExpression = (NameExpression) module.createAst(AstUtil.getChild(cst, EolParser.DRIVER).getFirstChild(), this);
+		AST aliasesAst = AstUtil.getChild(cst, EolParser.ALIAS);
 		if (aliasesAst != null) {
 			for (AST aliasAst : aliasesAst.getChildren()) {
-				aliasNameExpressions.add((NameExpression) aliasAst);
+				aliasNameExpressions.add((NameExpression) module.createAst(aliasAst, this));
 			}
 		}
-		AST parametersAst = AstUtil.getChild(this, EolParser.MODELDECLARATIONPARAMETERS);
+		AST parametersAst = AstUtil.getChild(cst, EolParser.MODELDECLARATIONPARAMETERS);
 		if (parametersAst != null) {
 			for (AST parameterAst : parametersAst.getChildren()) {
-				modelDeclarationParameters.add((ModelDeclarationParameter) parameterAst);
+				modelDeclarationParameters.add((ModelDeclarationParameter) module.createAst(parameterAst, this));
 			}
 		}
 	}

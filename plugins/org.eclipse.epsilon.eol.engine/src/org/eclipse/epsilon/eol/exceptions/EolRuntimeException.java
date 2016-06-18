@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -17,7 +18,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class EolRuntimeException extends Exception{
 	
-	protected AST ast = null;
+	protected ModuleElement ast = null;
 	protected String reason = "";
 	protected IEolContext context = null;
 	
@@ -30,18 +31,18 @@ public class EolRuntimeException extends Exception{
 		this.reason = reason;
 	}
 
-	public EolRuntimeException(String reason, AST ast) {
+	public EolRuntimeException(String reason, ModuleElement ast) {
 		super(reason);
 		this.ast = ast;
 		this.reason = reason;
 	}
 	
-	public AST getAst() {
+	public ModuleElement getAst() {
 		return ast;
 	}
 
 	
-	public void setAst(AST ast) {
+	public void setAst(ModuleElement ast) {
 		this.ast = ast;
 	}
 
@@ -54,12 +55,15 @@ public class EolRuntimeException extends Exception{
 	}
 	
 	public int getLine(){
-		if (getAst() != null) return getAst().getLine();
+		if (getAst() != null) {
+			System.out.println(getAst().getParent().getParent());
+			return getAst().getRegion().getStart().getLine();
+		}
 		else return 0;
 	}
 	
 	public int getColumn(){
-		if (getAst() != null) return getAst().getColumn();
+		if (getAst() != null) return getAst().getRegion().getStart().getColumn();
 		else return 0;
 	}
 	

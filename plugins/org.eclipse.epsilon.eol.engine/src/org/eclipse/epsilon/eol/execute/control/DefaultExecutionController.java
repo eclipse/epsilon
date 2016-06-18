@@ -10,13 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.control;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
 public class DefaultExecutionController implements ExecutionController{
 
-	public void control(AST ast, IEolContext context) {}
+	public void control(ModuleElement ast, IEolContext context) {}
 
 	public boolean isTerminated() {
 		return false;
@@ -31,7 +31,7 @@ public class DefaultExecutionController implements ExecutionController{
 	}
 
 	@Override
-	public void done(AST ast, IEolContext context) {
+	public void done(ModuleElement ast, IEolContext context) {
 		// do nothing
 	}
 }

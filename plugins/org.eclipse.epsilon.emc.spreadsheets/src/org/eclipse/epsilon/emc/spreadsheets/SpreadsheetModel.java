@@ -11,8 +11,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetColumnMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetReferenceMetadata;
@@ -26,6 +25,8 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.ISearchableModel;
 import org.eclipse.epsilon.eol.models.Model;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class enables spreadsheets to be viewed as models in Epsilon.
@@ -565,7 +566,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	}
 
 	@Override
-	public Object findOne(final Variable iterator, final AST ast, final IEolContext context) throws EolRuntimeException
+	public Object findOne(final Variable iterator, final ModuleElement ast, final IEolContext context) throws EolRuntimeException
 	{
 		final Collection<SpreadsheetRow> results = this.find(iterator, ast, context);
 		if (CollectionUtils.isNotEmpty(results))
@@ -579,7 +580,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	}
 
 	@Override
-	public abstract Collection<SpreadsheetRow> find(Variable iterator, AST ast, IEolContext context)
+	public abstract Collection<SpreadsheetRow> find(Variable iterator, ModuleElement ast, IEolContext context)
 			throws EolRuntimeException;
 
 	/**

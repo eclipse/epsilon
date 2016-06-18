@@ -10,14 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.model;
 
-import java.util.Collections;
-import java.util.List;
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
-
-public abstract class EglSection implements ModuleElement {
+public abstract class EglSection extends AbstractModuleElement {} /*implements ModuleElement {
 
 	private final AST ast;
 	
@@ -56,4 +51,4 @@ public abstract class EglSection implements ModuleElement {
 		
 		return text;
 	}
-}
+}*/

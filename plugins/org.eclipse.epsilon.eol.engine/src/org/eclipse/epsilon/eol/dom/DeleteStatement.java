@@ -2,6 +2,8 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.Collection;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -14,9 +16,9 @@ public class DeleteStatement extends Statement {
 	protected Expression expression;
 	
 	@Override
-	public void build() {
-		super.build();
-		expression = (Expression) getFirstChild();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		expression = (Expression) module.createAst(cst.getFirstChild(), this);
 	}
 	
 	@Override

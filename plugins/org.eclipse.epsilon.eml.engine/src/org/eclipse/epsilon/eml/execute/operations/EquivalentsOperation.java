@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eml.execute.context.IEmlContext;
 import org.eclipse.epsilon.eml.strategy.IMergingStrategy;
@@ -27,7 +27,7 @@ public class EquivalentsOperation extends SimpleOperation {
 	
 	@Override
 	public Object execute(Object source, List<?> parameters, IEolContext context,
-			AST ast) throws EolRuntimeException {
+			ModuleElement ast) throws EolRuntimeException {
 		
 		if (source == null) return null;
 		

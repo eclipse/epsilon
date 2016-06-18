@@ -19,7 +19,8 @@ import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
 import org.eclipse.epsilon.common.dt.editor.contentassist.TemplateWithImage;
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.epsilon.eol.util.EolParserUtil;
 import org.eclipse.jface.text.templates.Template;
@@ -38,15 +39,15 @@ public class EolEditorPropertyTemplateContributor implements IAbstractModuleEdit
 	public void moduleParsed(AbstractModuleEditor editor, IModule module) {
 		templates.clear();
 		properties.clear();
-		findProperties(module.getAst());
+		findProperties(module);
 		for (String property : properties) {
 			templates.add(new TemplateWithImage(property, "property", "", property, false, propertyImage));
 		}
 	}
 	
-	protected void findProperties(AST root) {
-		if (EolParserUtil.isProperty(root)) { properties.add(root.getText()); }
-		for (AST child : root.getChildren()) {
+	protected void findProperties(ModuleElement root) {
+		if (root instanceof PropertyCallExpression) { properties.add(((PropertyCallExpression) root).getPropertyNameExpression().getName()); }
+		for (ModuleElement child : root.getChildren()) {
 			findProperties(child);
 		}
 		

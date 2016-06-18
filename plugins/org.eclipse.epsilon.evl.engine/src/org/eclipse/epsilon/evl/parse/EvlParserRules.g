@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  * -----------------------------------------------------------------------------
@@ -12,7 +12,7 @@
  * [The "BSD licence"]
  * Copyright (c) 2005-2008 Terence Parr
  * All rights reserved.
- *  
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -53,12 +53,12 @@ context
 	@after {
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
-	} 
-	: 
+	}
+	:
 	c='context'^ typeName ob='{'! guard? contextContent* cb='}'!
 	{$c.setType(CONTEXT);}
 	;
-	
+
 contextContent
 	:	constraint|critique|annotationBlock
 	;
@@ -68,10 +68,10 @@ constraint
 		$tree.getExtraTokens().add($ct);
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
-	} 
-	: 
-	ct='constraint'! c=NAME^ ob='{'! guard? check message? (fix)* cb='}'!
-	{$c.setType(CONSTRAINT);}
+	}
+	:
+	ct='constraint'^ NAME ob='{'! guard? check message? (fix)* cb='}'!
+	{$ct.setType(CONSTRAINT);}
 	;
 
 critique
@@ -79,27 +79,27 @@ critique
 		$tree.getExtraTokens().add($cr);
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
-	} 
-	: 
-	cr='critique'! c=NAME^ ob='{'! guard? check message? (fix)* cb='}'!
-	{$c.setType(CRITIQUE);}
+	}
+	:
+	cr='critique'^ NAME ob='{'! guard? check message? (fix)* cb='}'!
+	{$cr.setType(CRITIQUE);}
 	;
-	
+
 check
 	: c='check'^ expressionOrStatementBlock
 	{$c.setType(CHECK);}
 	;
-	
+
 message
 	: m='message'^ expressionOrStatementBlock
 	{$m.setType(MESSAGE);}
 	;
 
-fix 
+fix
 	@after {
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
-	} 
+	}
 	:	f='fix'^ ob='{'! guard? title fixBody cb='}'!
 	{$f.setType(FIX);}
 	;
@@ -109,7 +109,7 @@ title
 	{$t.setType(TITLE);}
 	;
 
-fixBody 
+fixBody
 	: d='do'^ statementBlock
 	{$d.setType(DO);}
 	;

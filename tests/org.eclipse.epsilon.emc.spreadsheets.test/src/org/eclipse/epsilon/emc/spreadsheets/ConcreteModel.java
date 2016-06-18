@@ -2,11 +2,7 @@ package org.eclipse.epsilon.emc.spreadsheets;
 
 import java.util.Collection;
 
-import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheet;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetWorksheetMetadata;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -44,7 +40,7 @@ public class ConcreteModel extends SpreadsheetModel
 	}
 
 	@Override
-	public Collection<SpreadsheetRow> find(Variable iterator, AST ast, IEolContext context) throws EolRuntimeException
+	public Collection<SpreadsheetRow> find(Variable iterator, ModuleElement ast, IEolContext context) throws EolRuntimeException
 	{
 		// TODO Auto-generated method stub
 		return null;

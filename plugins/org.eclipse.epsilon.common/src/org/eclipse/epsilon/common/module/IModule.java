@@ -20,8 +20,6 @@ import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 
 public interface IModule extends ModuleElement {
 	
-	public AST getAst();
-	
 	boolean parse(File file) throws Exception;
 	
 	boolean parse(URI uri) throws Exception;
@@ -34,10 +32,9 @@ public interface IModule extends ModuleElement {
 	
 	URI getSourceUri();
 
-	void buildModel() throws Exception;
-
 	List<ParseProblem> getParseProblems();
 
 	void reset();
 	
+	ModuleElement createAst(AST cst, ModuleElement parentAst);
 }

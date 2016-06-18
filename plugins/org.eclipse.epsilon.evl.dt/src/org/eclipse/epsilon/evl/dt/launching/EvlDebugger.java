@@ -10,21 +10,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.dt.launching;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
-import org.eclipse.epsilon.evl.parse.EvlParser;
+import org.eclipse.epsilon.evl.dom.Constraint;
+import org.eclipse.epsilon.evl.dom.ConstraintContext;
+import org.eclipse.epsilon.evl.dom.Fix;
 
 public class EvlDebugger extends EolDebugger {
 	
-	public EvlDebugger() {
-		super();
-		expressionOrStatementBlockContainers.add(EvlParser.GUARD);
-		expressionOrStatementBlockContainers.add(EvlParser.TITLE);
-		expressionOrStatementBlockContainers.add(EvlParser.MESSAGE);
-		expressionOrStatementBlockContainers.add(EvlParser.CHECK);
-		expressionOrStatementBlockContainers.add(EvlParser.DO);
-		structuralBlocks.add(EvlParser.CONTEXT);
-		structuralBlocks.add(EvlParser.CONSTRAINT);
-		structuralBlocks.add(EvlParser.CRITIQUE);
-		structuralBlocks.add(EvlParser.FIX);
-	}	
+	@Override
+	protected boolean isStructuralBlock(ModuleElement ast) {
+		return super.isStructuralBlock(ast) || ast instanceof ConstraintContext || ast instanceof Constraint || ast instanceof Fix;
+	}
+	
 }

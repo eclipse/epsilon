@@ -12,7 +12,6 @@ package org.eclipse.epsilon.epl.dom;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
@@ -33,11 +32,6 @@ public class Domain extends ExecutableBlock<Object> {
 	public void setRole(Role role) {
 		this.dynamic = "from".equals(getText());
 		this.role = role;
-	}
-	
-	@Override
-	public List<?> getModuleElements() {
-		return Collections.emptyList();
 	}
 	
 	public DynamicList<Object> getValues(final IEolContext context, final String type) throws EolRuntimeException {

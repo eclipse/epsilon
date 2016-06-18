@@ -89,9 +89,30 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 	protected EolCompilationContext compilationContext = null;
 	
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		checkImports(cst);
+		
+		for (String extension : getImportConfiguration().keySet()) {
+			imports.addAll(getImportsByExtension(cst, extension, getImportConfiguration().get(extension)));
+		}
+		
+		for (AST operationAst : AstUtil.getChildren(cst, EolParser.HELPERMETHOD)) {
+			declaredOperations.add((Operation) createAst(operationAst, this));
+		}
+		
+		for (AST modelDeclarationAst : AstUtil.getChildren(cst, EolParser.MODELDECLARATION)) {
+			declaredModelDeclarations.add((ModelDeclaration) createAst(modelDeclarationAst, this));
+		}
+		
+	}
+	
+	@Override
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		
 		OperatorExpressionFactory operatorExpressionFactory = new OperatorExpressionFactory();
+		
+		if (parentAst == null) return this;
 		
 		switch (cst.getType()) {
 			case EolParser.FOR: return new ForStatement();
@@ -154,7 +175,11 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 			case EolParser.TYPE: return new TypeExpression();
 			case EolParser.IMPORT: return new Import();
 			case EolParser.OPERATOR: {
-				if (cst.getText().equals("=") && (((parentAst instanceof IfStatement || parentAst instanceof ForStatement || parentAst instanceof WhileStatement) && (cst.getParent().getFirstChild() != cst)) || parentAst instanceof StatementBlock || parentAst.getText().equals("BLOCK"))) {
+				if (cst.getText().equals("=") && ((
+										(parentAst instanceof IfStatement || parentAst instanceof ForStatement || parentAst instanceof WhileStatement) 
+										&& (cst.getParent().getFirstChild() != cst)) || 
+										parentAst instanceof StatementBlock /*|| 
+										"BLOCK".equals(parentAst.getText())*/)) {
 					return new AssignmentStatement();
 				}
 				else {
@@ -179,7 +204,7 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 			case EolParser.MODELDECLARATION: return new ModelDeclaration();
 			case EolParser.MODELDECLARATIONPARAMETER: return new ModelDeclarationParameter();
 			
-			default: return super.adapt(cst, parentAst);
+			default: return null;
 		}
 	}
 		
@@ -205,33 +230,6 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 		final HashMap<String, Class<?>> importConfiguration = new HashMap<String, Class<?>>();
 		importConfiguration.put("eol", EolModule.class);
 		return importConfiguration;
-	}
-	
-	@Override
-	public void buildModel() throws Exception {
-		
-		build(ast);
-		checkImports();
-		
-		for (String extension : getImportConfiguration().keySet()) {
-			imports.addAll(getImportsByExtension(extension, getImportConfiguration().get(extension)));
-		}
-		
-		for (AST child : ast.getChildren()) {
-			if (child instanceof Operation) {
-				declaredOperations.add((Operation) child);
-			}
-			else if (child instanceof ModelDeclaration) {
-				declaredModelDeclarations.add((ModelDeclaration) child);
-			}
-		}
-	}
-	
-	protected void build(AST ast) {
-		ast.build();
-		for (AST child : ast.getChildren()) {
-			build(child);
-		}
 	}
 	
 	@Override
@@ -268,19 +266,6 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 		imports.clear();
 		declaredOperations.clear();
 		operations = null;
-	}
-
-	@Override
-	public AST getAst() {
-		return ast;
-	}
-
-	@Override
-	public List<ModuleElement> getModuleElements() {
-		final List<ModuleElement> children = new ArrayList<ModuleElement>();
-		children.addAll(imports);
-		children.addAll(declaredOperations);
-		return children;
 	}
 
 	public File getSourceFile() {
@@ -325,11 +310,11 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 		return operations;
 	}
 	
-	protected Collection<Import> getImportsByExtension(String extension, Class<?> moduleImplClass) {
+	protected Collection<Import> getImportsByExtension(AST cst, String extension, Class<?> moduleImplClass) {
 		
 		final List<Import> imports = new ArrayList<Import>();
 		
-		for (AST importAst : AstUtil.getChildren(ast, EolParser.IMPORT)) {
+		for (AST importAst : AstUtil.getChildren(cst, EolParser.IMPORT)) {
 			IModule module = null;
 			try {
 				module = (IModule) moduleImplClass.newInstance();
@@ -341,7 +326,7 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 				continue;
 			}
 			
-			Import import_ = (Import) importAst;
+			Import import_ = (Import) createAst(importAst, this);
 			
 			if (!import_.getPath().endsWith("." + extension)) continue;
 			
@@ -359,13 +344,13 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 			}
 			if (!import_.isLoaded()){
 				ParseProblem problem = new ParseProblem();
-				problem.setLine(importAst.getLine());
+				problem.setLine(import_.getRegion().getStart().getLine());
 				String reason;
 				if (!import_.isFound()) {
-					reason = "File " + importAst.getFirstChild().getText() + " not found";
+					reason = "File " + import_.getPath() + " not found";
 				}
 				else {
-					reason = "File " + importAst.getFirstChild().getText() + " contains errors: " + import_.getModule().getParseProblems();
+					reason = "File " + import_.getPath() + " contains errors: " + import_.getModule().getParseProblems();
 				}
 				problem.setReason(reason);
 				getParseProblems().add(problem);
@@ -375,8 +360,8 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 		return imports;
 	}
 	
-	protected void checkImports() {
-		for (AST importAst : AstUtil.getChildren(ast, EolParser.IMPORT)){
+	protected void checkImports(AST cst) {
+		for (AST importAst : AstUtil.getChildren(cst, EolParser.IMPORT)){
 			String importedFile = importAst.getFirstChild().getText();
 			boolean validExtension = false;
 			for (String extension : getImportConfiguration().keySet()) {

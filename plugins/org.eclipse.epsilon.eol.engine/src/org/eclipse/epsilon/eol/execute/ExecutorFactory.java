@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eol.execute;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
@@ -28,7 +29,7 @@ public class ExecutorFactory {
 	
 	protected ExecutionController executionController = null;
 	protected HashMap<Integer, AbstractExecutor> executorCache = new HashMap<Integer, AbstractExecutor>();
-	protected AST activeAst = null;
+	protected ModuleElement activeAst = null;
 	protected ArrayList<IExecutionListener> executionListeners = new ArrayList<IExecutionListener>();
 	protected StackTraceManager stackTraceManager = null;
 	
@@ -71,11 +72,7 @@ public class ExecutorFactory {
 		
 	}
 	
-	public AbstractExecutor getExecutorFor(int type){
-		return (AbstractExecutor) executorCache.get(type);
-	}
-	
-	public Object executeAST(AST ast, IEolContext context) throws EolRuntimeException{
+	public Object executeAST(ModuleElement ast, IEolContext context) throws EolRuntimeException{
 		
 		if (ast == null) return null;
 		
@@ -89,15 +86,6 @@ public class ExecutorFactory {
 			catch (Exception ex) { throw new EolInternalException(ex); } 
 		}
 		
-		AbstractExecutor executor = null;
-		if (!(ast instanceof IExecutableModuleElement)) {
-			executor = getExecutorFor(ast.getType());
-			
-			if (executor == null){
-				throw new EolRuntimeException("No executor found for type #" + ast.getType() + "/" + ast.getClass().getCanonicalName(), ast);
-			}
-		}
-		
 		for (IExecutionListener listener : executionListeners) {
 			listener.aboutToExecute(ast, context);
 		}
@@ -108,9 +96,7 @@ public class ExecutorFactory {
 			if (ast instanceof IExecutableModuleElement) {
 				result = ((IExecutableModuleElement) ast).execute(context);
 			}
-			else {
-				result = executor.execute(ast, context);
-			}
+			
 			for (IExecutionListener listener : executionListeners) {
 				listener.finishedExecuting(ast, result, context);
 			}
@@ -142,7 +128,7 @@ public class ExecutorFactory {
 		return result;
 	}
 
-	public AST getActiveAst() {
+	public ModuleElement getActiveAst() {
 		return activeAst;
 	}
 	

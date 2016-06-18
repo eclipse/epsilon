@@ -4,7 +4,8 @@ Bundle-Name: Epsilon Wizard Engine Engine
 Bundle-SymbolicName: org.eclipse.epsilon.ewl.engine
 Bundle-Version: 1.4.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
-Require-Bundle: org.eclipse.epsilon.eol.engine
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.erl.engine
 Export-Package: org.eclipse.epsilon.ewl,
  org.eclipse.epsilon.ewl.dom,
  org.eclipse.epsilon.ewl.execute,

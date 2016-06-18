@@ -3,6 +3,8 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -25,6 +27,7 @@ public class TypeExpression extends Expression {
 	protected EolType type = EolAnyType.Instance;
 	protected String name = null;
 	protected List<TypeExpression> parameterTypeExpressions = new ArrayList<TypeExpression>();
+	protected StringLiteral nativeType;
 	
 	public TypeExpression() {}
 	
@@ -33,12 +36,17 @@ public class TypeExpression extends Expression {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
-		setName(getText());
-		for (AST child : getChildren()) {
-			if (child instanceof TypeExpression) {
-				parameterTypeExpressions.add((TypeExpression) child);
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		setName(cst.getText());
+		for (AST child : cst.getChildren()) {
+			ModuleElement moduleElement = module.createAst(child, this);
+			
+			if (moduleElement instanceof TypeExpression) {
+				parameterTypeExpressions.add((TypeExpression) moduleElement);
+			}
+			else if (name.equals("Native")){
+				nativeType = (StringLiteral) moduleElement;	
 			}
 		}
 	}
@@ -48,7 +56,7 @@ public class TypeExpression extends Expression {
 
 		if (type != null) return type;
 		
-		if (getName().equals("Native")) return new EolNativeType(this.getFirstChild(), context);
+		if (getName().equals("Native")) return new EolNativeType(nativeType, context);
 		
 		try { return new EolModelElementType(name ,context); }
 		catch (EolModelNotFoundException ex){}

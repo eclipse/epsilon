@@ -217,11 +217,12 @@ operation String inferType() : Any {
 		return self.asInteger();
 		
 	-- Real?
-	} else if (self.isReal()) {
-		return self.asFloat();
-	
-	-- String
-	} else {
+	} //else if (self.isReal()) {
+	//	return self.asFloat();
+	//
+	//-- String
+	//} 
+	else {
 		return self;
 	}
 }

@@ -13,7 +13,8 @@ package org.eclipse.epsilon.eol.types;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.StringLiteral;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -25,16 +26,16 @@ public class EolNativeType extends EolAnyType {
 	protected String clazz;
 	protected IToolNativeTypeDelegate delegate;
 	
-	public EolNativeType(AST classAst, IEolContext context) throws EolTypeNotFoundException {
+	public EolNativeType(StringLiteral classAst, IEolContext context) throws EolTypeNotFoundException {
 		for (IToolNativeTypeDelegate delegate : context.getNativeTypeDelegates()) {
-			if (delegate.knowsAbout(classAst.getText())) {
-				this.clazz = classAst.getText();
+			if (delegate.knowsAbout(classAst.getValue())) {
+				this.clazz = classAst.getValue();
 				this.delegate = delegate;
 				this.context = context;
 				return;
 			}
 		}
-		throw new EolTypeNotFoundException(classAst.getText(), classAst);
+		throw new EolTypeNotFoundException(classAst.getValue(), classAst);
 	}
 
 	@Override

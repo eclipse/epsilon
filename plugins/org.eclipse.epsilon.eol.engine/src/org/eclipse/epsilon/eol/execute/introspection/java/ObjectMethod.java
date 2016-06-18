@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eol.execute.introspection.java;
 
 import java.lang.reflect.Method;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
@@ -45,7 +45,7 @@ public class ObjectMethod {
 		this.method = method;
 	}
 	
-	public Object execute(Object[] parameters, AST ast) throws EolRuntimeException {
+	public Object execute(Object[] parameters, ModuleElement ast) throws EolRuntimeException {
 		return ReflectionUtil.executeMethod(object, method, parameters, ast);
 	}
 	

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.types.EolType;
 
 
@@ -19,7 +19,7 @@ public class EolNotApplicableOperationException extends EolRuntimeException {
 	protected EolType expected;
 	protected String operation;
 	
-	public EolNotApplicableOperationException(String operation, EolType expected, AST ast) {
+	public EolNotApplicableOperationException(String operation, EolType expected, ModuleElement ast) {
 		super();
 		this.expected = expected;
 		this.ast = ast;

@@ -14,11 +14,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.WeakHashMap;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
+import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
@@ -30,7 +32,7 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 public class EglOutputBufferPrintExecutionListener implements IExecutionListener {
 
 	private final IPropertyAccessRecorder recorder;
-	private final WeakHashMap<AST, EglOutputBufferPrintExecutionListener.TraceData> cache = new WeakHashMap<AST, EglOutputBufferPrintExecutionListener.TraceData>();
+	private final WeakHashMap<ModuleElement, EglOutputBufferPrintExecutionListener.TraceData> cache = new WeakHashMap<ModuleElement, EglOutputBufferPrintExecutionListener.TraceData>();
 	private final TracedPropertyAccessLedger ledger;
 
 	public EglOutputBufferPrintExecutionListener(IPropertyAccessRecorder recorder, TracedPropertyAccessLedger ledger) {
@@ -39,7 +41,7 @@ public class EglOutputBufferPrintExecutionListener implements IExecutionListener
 	}
 
 	@Override
-	public void finishedExecuting(AST ast, Object result, IEolContext context) {
+	public void finishedExecuting(ModuleElement ast, Object result, IEolContext context) {
 		if (result instanceof OutputBuffer && isCallToPrintMethod(ast.getParent())) {
 			OutputBuffer buffer = (OutputBuffer)result;
 			cache.put(ast.getParent(), new TraceData(buffer, buffer.getOffset()));
@@ -53,14 +55,14 @@ public class EglOutputBufferPrintExecutionListener implements IExecutionListener
 	}
 	
 	@Override
-	public void finishedExecutingWithException(AST ast, EolRuntimeException exception, IEolContext context) {}
+	public void finishedExecutingWithException(ModuleElement ast, EolRuntimeException exception, IEolContext context) {}
 	
-	protected boolean isCallToPrintMethod(AST p) {
+	protected boolean isCallToPrintMethod(ModuleElement p) {
 		final List<String> printMethods = Arrays.asList("printdyn", "println", "print", "prinx");
-		return p.getType() == EolParser.POINT && printMethods.contains(p.getSecondChild().getText());
+		return p instanceof OperationCallExpression && printMethods.contains(((OperationCallExpression) p).getOperationName());
 	}
 	
-	private void associatePropertyAccessesWithRegionInGeneratedText(AST ast, IEglContext context) {
+	private void associatePropertyAccessesWithRegionInGeneratedText(ModuleElement ast, IEglContext context) {
 		final Region region = regionFor(ast);
 		
 		for (IPropertyAccess access : recorder.getPropertyAccesses().all()) {
@@ -68,7 +70,7 @@ public class EglOutputBufferPrintExecutionListener implements IExecutionListener
 		}
 	}
 
-	private Region regionFor(AST ast) {
+	private Region regionFor(ModuleElement ast) {
 		int offset = cache.get(ast).offset;
 		int length = cache.get(ast).buffer.getOffset() - offset;
 
@@ -77,7 +79,7 @@ public class EglOutputBufferPrintExecutionListener implements IExecutionListener
 	}
 
 	@Override
-	public void aboutToExecute(AST ast, IEolContext context) {}
+	public void aboutToExecute(ModuleElement ast, IEolContext context) {}
 	
 	private static class TraceData {
 		public final OutputBuffer buffer;

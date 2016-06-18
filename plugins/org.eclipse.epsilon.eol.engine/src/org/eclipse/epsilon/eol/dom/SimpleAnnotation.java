@@ -1,5 +1,7 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -15,9 +17,9 @@ public class SimpleAnnotation extends Annotation {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
-		String text = getText().substring(1).trim();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		String text = cst.getText().substring(1).trim();
 		if (text.indexOf(" ") > -1) {
 			String[] parts = text.split(" ");
 			name = parts[0];

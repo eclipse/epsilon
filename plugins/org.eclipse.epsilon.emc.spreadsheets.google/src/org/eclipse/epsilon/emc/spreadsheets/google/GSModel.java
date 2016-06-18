@@ -16,6 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata;
@@ -280,9 +281,16 @@ public class GSModel extends SpreadsheetModel
 			throw new RuntimeException("Failed to delete " + worksheet + ": " + e.getMessage());
 		}
 	}
-
+	
 	@Override
-	public Collection<SpreadsheetRow> find(final Variable iterator, final AST ast, final IEolContext context)
+	public Collection<SpreadsheetRow> find(Variable iterator,
+			ModuleElement ast, IEolContext context) throws EolRuntimeException {
+		throw new UnsupportedOperationException();
+	}
+	
+	/*
+	@Override
+	public Collection<SpreadsheetRow> find(final Variable iterator, final ModuleElement ast, final IEolContext context)
 			throws EolRuntimeException
 	{
 		try
@@ -424,6 +432,6 @@ public class GSModel extends SpreadsheetModel
 		{
 			throw new EolRuntimeException(GSModel.FIND_FORMAT_EXCEPTION_MESSAGE);
 		}
-	}
+	}*/
 
 }

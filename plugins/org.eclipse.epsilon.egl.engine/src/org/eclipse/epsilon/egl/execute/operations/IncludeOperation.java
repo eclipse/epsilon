@@ -12,11 +12,11 @@ package org.eclipse.epsilon.egl.execute.operations;
 
 import java.util.List;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.egl.EglTemplate;
+import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
-import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -25,7 +25,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 public class IncludeOperation extends SimpleOperation {
 
 	@Override
-	public Object execute(Object source, List<?> parameters, IEolContext context, AST ast) throws EolRuntimeException {
+	public Object execute(Object source, List<?> parameters, IEolContext context, ModuleElement ast) throws EolRuntimeException {
 				
 		Variable templateFactoryVariable = context.getFrameStack().get("TemplateFactory");
 		EglTemplateFactory templateFactory = (EglTemplateFactory) templateFactoryVariable.getValue();

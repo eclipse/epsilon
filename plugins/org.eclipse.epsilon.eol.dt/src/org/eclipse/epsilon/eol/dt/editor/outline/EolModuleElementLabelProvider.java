@@ -18,7 +18,7 @@ import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.swt.graphics.Image;
 
-public class EolModuleElementLabelProvider extends ModuleElementLabelProvider{
+public class EolModuleElementLabelProvider extends ModuleElementLabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
@@ -32,9 +32,18 @@ public class EolModuleElementLabelProvider extends ModuleElementLabelProvider{
 			return EolPlugin.getDefault().createImage("icons/import.gif");
 		}
 		else if (element instanceof ModelDeclaration){
-			return EolPlugin.getDefault().createImage("icons/import.gif");
+			return EolPlugin.getDefault().createImage("icons/model.gif");
 		}
 		return null;
 	}
-
+	
+	@Override
+	public String getText(Object element) {
+		if (element instanceof ModelDeclaration) {
+			ModelDeclaration modelDeclaration = (ModelDeclaration) element;
+			return modelDeclaration.getNameExpression().getName() + " (" + modelDeclaration.getDriverNameExpression().getName() + ")";
+		}
+		return super.getText(element);
+	}
+	
 }

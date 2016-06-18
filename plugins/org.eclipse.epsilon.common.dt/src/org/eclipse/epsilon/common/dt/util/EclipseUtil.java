@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.ui.css.swt.theme.ITheme;
 import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.jface.text.IDocument;
@@ -64,7 +65,7 @@ public class EclipseUtil {
 		}
 	}
 	
-	public static IFile findIFile(AST ast) {
+	public static IFile findIFile(ModuleElement ast) {
 		if (ast == null) {
 			return null;
 		}
@@ -105,7 +106,7 @@ public class EclipseUtil {
 		}
 	}*/
 	
-	public static void openEditorAt(AST ast) {
+	public static void openEditorAt(ModuleElement ast) {
 		
 		if (ast == null) return;
 		

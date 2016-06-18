@@ -15,11 +15,10 @@ import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -34,21 +33,24 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 	protected IModule module;
 	protected AbstractModuleEditor editor;
 	protected ILabelProvider labelProvider;
+	protected ModuleContentProvider contentProvider;
 	protected Action linkWithEditorAction;
 	
 	public ModuleContentOutlinePage(IDocumentProvider documentProvider,
-			AbstractModuleEditor editor, ILabelProvider labelProvider) {
+			AbstractModuleEditor editor, ILabelProvider labelProvider,
+			ModuleContentProvider contentProvider) {
 		super();
 		this.documentProvider = documentProvider;
 		this.editor = editor;
 		this.labelProvider = labelProvider;
+		this.contentProvider = contentProvider;
 		addSelectionChangedListener(this);
 	}
 
 	@Override
 	public void createControl(Composite parent) {
 		super.createControl(parent);
-		getTreeViewer().setContentProvider(createContentProvider());
+		getTreeViewer().setContentProvider(contentProvider);
 		getTreeViewer().setLabelProvider(labelProvider);
 		getSite().setSelectionProvider(getTreeViewer());
 		
@@ -56,10 +58,6 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
     	toolbarManager.add(new AlphabeticallySortAction());
     	linkWithEditorAction = new LinkWithEditorAction();
     	toolbarManager.add(linkWithEditorAction);
-	}
-	
-	protected IContentProvider createContentProvider() {
-		return new ModuleContentProvider();
 	}
 	
 	public boolean isReady() {
@@ -70,27 +68,21 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 		return getControl() == null || !getControl().isVisible();
 	}
 
-	public AST toAst(Object o) {
-		return (AST) o;
-	}
-
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		
 		if (!linkWithEditorAction.isChecked()) return;
 		
 		try {
-			AST selected = editor.adaptToAST(((IStructuredSelection) event.getSelection()).getFirstElement());
-			if (selected != null) EclipseUtil.openEditorAt(selected);
+			ModuleElement selected = editor.adaptToAST(((IStructuredSelection) event.getSelection()).getFirstElement());
+			
+			if (selected != null) {
+				ModuleElement focused = contentProvider.getFocusedModuleElement(selected);
+				if (focused == null) focused = selected;
+				EclipseUtil.openEditorAt(focused);
+			}
 		}
 		catch (Exception ex) {}
-	}
-	
-	protected EditorSelection getEditorSelection(Object selection) {
-		
-		AST element = (AST) (selection);
-		if (element == null) return null;
-		return new EditorSelection(element.getFile(), element.getLine(), element.getColumn());
 	}
 
 	public IModule getModule() {

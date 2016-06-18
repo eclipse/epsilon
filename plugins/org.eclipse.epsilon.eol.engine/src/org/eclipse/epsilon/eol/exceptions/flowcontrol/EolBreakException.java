@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions.flowcontrol;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 
@@ -18,7 +18,7 @@ public class EolBreakException extends EolRuntimeException{
 	
 	protected boolean breaksAll;
 	
-	public EolBreakException(AST ast, boolean breaksAll){
+	public EolBreakException(ModuleElement ast, boolean breaksAll){
 		this.ast = ast;
 		this.reason = "Break only allowed inside a loop";
 		this.breaksAll = breaksAll;

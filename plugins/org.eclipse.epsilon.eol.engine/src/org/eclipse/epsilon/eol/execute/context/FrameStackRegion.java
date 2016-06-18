@@ -16,7 +16,10 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.ForStatement;
+import org.eclipse.epsilon.eol.dom.WhileStatement;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
 /**
@@ -61,7 +64,7 @@ class FrameStackRegion {
 	 * @param entryPoint
 	 *            The AST from which the entry is performed
 	 */
-	public Frame enter(FrameType type, AST entryPoint, Variable... variables) {
+	public Frame enter(FrameType type, ModuleElement entryPoint, Variable... variables) {
 		frames.push(new SingleFrame(type, entryPoint));
 		put(variables);
 		return top();
@@ -140,7 +143,7 @@ class FrameStackRegion {
 	 * Note that this method also leaves the frame whose entryPoint is the specified
 	 * value. 
 	 */
-	public void leave(AST entryPoint) {
+	public void leave(ModuleElement entryPoint) {
 		leave(entryPoint, true);
 	}
 	
@@ -153,7 +156,7 @@ class FrameStackRegion {
 	 *          if true, then the frame with the specified entryPoint will be left
 	 *          otherwise, the frame with the specified entryPoint will be the topmost frame
 	 */
-	public void leave(AST entryPoint, boolean disposeFrameWithSpecifiedEntryPoint) {
+	public void leave(ModuleElement entryPoint, boolean disposeFrameWithSpecifiedEntryPoint) {
 		if (!isEmpty()) {
 			disposeFramesUntil(entryPoint);
 			if (disposeFrameWithSpecifiedEntryPoint) disposeTopFrame();
@@ -237,11 +240,11 @@ class FrameStackRegion {
 		return frames;
 	}
 
-	protected boolean isLoopAst(AST ast) {
-		return ast != null && (ast.getType() == EolParser.FOR || ast.getType() == EolParser.WHILE);
+	protected boolean isLoopAst(ModuleElement ast) {
+		return ast != null && (ast instanceof ForStatement || ast instanceof WhileStatement);
 	}
 
-	private void disposeFramesUntil(AST entryPoint) {
+	private void disposeFramesUntil(ModuleElement entryPoint) {
 		while (top().getEntryPoint() != entryPoint)
 			disposeTopFrame();
 	}

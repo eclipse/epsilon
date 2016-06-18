@@ -10,14 +10,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.epl.dt.editor.outline;
 
-import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
 import org.eclipse.epsilon.epl.dom.Pattern;
 import org.eclipse.epsilon.epl.dt.EplPlugin;
-import org.eclipse.epsilon.erl.dom.Post;
-import org.eclipse.epsilon.erl.dom.Pre;
+import org.eclipse.epsilon.erl.dt.editor.outline.ErlModuleElementLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-public class EplModuleElementLabelProvider extends EolModuleElementLabelProvider{
+public class EplModuleElementLabelProvider extends ErlModuleElementLabelProvider{
 	
 	Image patternImage = EplPlugin.getDefault().createImage("icons/pattern.gif");
 	
@@ -34,12 +32,6 @@ public class EplModuleElementLabelProvider extends EolModuleElementLabelProvider
 	
 		if (element instanceof Pattern) {
 			return patternImage;
-		}
-		else if (element instanceof Pre){
-			return EplPlugin.getDefault().createImage("icons/pre.gif");
-		}
-		else if (element instanceof Post){
-			return EplPlugin.getDefault().createImage("icons/post.gif");
 		}
 		else {
 			return super.getImage(element);

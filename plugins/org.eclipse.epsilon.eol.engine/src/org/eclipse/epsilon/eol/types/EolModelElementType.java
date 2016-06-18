@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.CollectionUtil.ElementPrinter;
 import org.eclipse.epsilon.eol.compile.m3.MetaClass;
@@ -96,11 +96,11 @@ public class EolModelElementType extends EolType{
 		                                   determineLocation(context.getFrameStack().getCurrentStatement()));
 	}
 
-	private String determineLocation(AST statement) {
+	private String determineLocation(ModuleElement statement) {
 		if (statement == null)
 			return "";
 		else
-			return "(" + statement.getFile() + "@" + statement.getLine() + ":" + statement.getColumn() + ")";
+			return "(" + statement.getFile() + "@" + statement.getRegion().getStart().getLine() + ":" + statement.getRegion().getStart().getColumn() + ")";
 	}
 
 	public String getModelName() {

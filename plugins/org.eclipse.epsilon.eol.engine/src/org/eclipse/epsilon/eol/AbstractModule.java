@@ -37,7 +37,6 @@ import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.common.parse.Position;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
-import org.eclipse.epsilon.eol.dom.ICompilableModuleElement;
 import org.eclipse.epsilon.eol.parse.EolLexer;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
@@ -45,14 +44,10 @@ import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public abstract class AbstractModule extends AbstractModuleElement implements IModule {
 	
-	protected AST ast;
-	
 	protected EpsilonParser parser;
 	
 	protected ArrayList<ParseProblem> parseProblems = new ArrayList<ParseProblem>();
-	
-	public abstract void buildModel() throws Exception;
-	
+		
 	public abstract String getMainRule();
 	
 	protected abstract Lexer createLexer(ANTLRInputStream inputStream);
@@ -71,13 +66,6 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	public URI getSourceUri() {
 		return sourceUri;
 	}
-	
-	@Override
-	public AST getAst() {
-		return ast;
-	}
-
-	public abstract List<ModuleElement> getModuleElements();
 	
 	public List<ParseProblem> getParseProblems() {
 		return parseProblems;
@@ -141,9 +129,10 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		if (getParseProblems().size() == 0){
 			assignAnnotations(cst);
 			assignComments(cst, multilineComments);
-			ast = createAst(cst, null);
-			assignAnnotations(ast);
-			buildModel();
+			//createAst(cst, null);
+			//assignAnnotations(ast);
+			//buildModel();
+			createAst(cst, null);
 			return true;
 		}
 		else {
@@ -151,28 +140,28 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		}
 	}
 	
-	protected AST createAst(AST cst, AST parentAst) {
-		AST ast = adapt(cst, parentAst);
-		ast.setToken(cst.getToken());
-		ast.setUri(cst.getUri());
-		ast.setModule(cst.getModule());
-		
-		ast.setExtraTokens(cst.getExtraTokens());
-		ast.setImaginary(cst.isImaginary());
-		ast.setCommentTokens(cst.getCommentTokens());
-		
-		for (Object childCst : cst.getChildren()) {
-			if (!(childCst instanceof AST)) continue;
-			AST childAst = createAst((AST) childCst, ast);
-			childAst.setParent(ast);
-			ast.addChild(childAst);
+	public ModuleElement createAst(AST cst, ModuleElement parentAst) {
+		if (cst == null) return null;
+		ModuleElement moduleElement = adapt(cst, parentAst);
+		if (moduleElement != null) {
+			moduleElement.setUri(cst.getUri());
+			//moduleElement.setFile(cst.getFile());
+			moduleElement.setModule(cst.getModule());
+			//try {
+			//	moduleElement.setBasename(cst.getBasename());
+			//}
+			//catch (Exception ex) {}
+			moduleElement.setRegion(cst.getRegion());
+			moduleElement.build(cst, this);
+			if (parentAst != null) {
+				moduleElement.setParent(parentAst);
+				parentAst.getChildren().add(moduleElement);
+			}
 		}
-		return ast;
+		return moduleElement;
 	}
 	
-	public AST adapt(AST cst, AST parentAst) {
-		return new AST();
-	}
+	public abstract ModuleElement adapt(AST cst, ModuleElement parentAst);
 	
 	protected List<CommonToken> extractComments(CommonTokenStream stream) {
 		List<CommonToken> comments = new ArrayList<CommonToken>();

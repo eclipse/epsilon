@@ -18,6 +18,8 @@ import static org.mockito.Mockito.when;
 import java.util.Map;
 
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,7 +65,7 @@ public class FrameStackRegionTests {
 		final Variable second = createStringVariable("name", "John Doe");
 		
 		region.put(first);
-		region.enter(FrameType.UNPROTECTED, new AST());
+		region.enter(FrameType.UNPROTECTED, new NameExpression());
 		region.put(second);
 		
 		assertEquals(second, region.get(second.name));
@@ -71,7 +73,7 @@ public class FrameStackRegionTests {
 	
 	@Test
 	public void leaveRestoresPreviousVariables() throws Exception {
-		final AST marker = new AST();
+		final Expression marker = new NameExpression();
 		final Variable first = createStringVariable("name", "Joe Bloggs");
 		final Variable second = createStringVariable("name", "John Doe");
 		
@@ -88,7 +90,7 @@ public class FrameStackRegionTests {
 		final Variable first = createStringVariable("name", "Joe Bloggs");
 		
 		region.put(first);
-		region.enter(FrameType.UNPROTECTED, new AST());
+		region.enter(FrameType.UNPROTECTED, new NameExpression());
 		
 		assertEquals(first, region.get(first.name));
 	}
@@ -98,7 +100,7 @@ public class FrameStackRegionTests {
 		final Variable first = createStringVariable("name", "Joe Bloggs");
 		
 		region.put(first);
-		region.enter(FrameType.PROTECTED, new AST());
+		region.enter(FrameType.PROTECTED, new NameExpression());
 		
 		assertEquals(null, region.get(first.name));
 	}
@@ -109,12 +111,12 @@ public class FrameStackRegionTests {
 		final Variable second = createStringVariable("name", "second");
 		final Variable third = createStringVariable("name", "third");
 		
-		final AST marker = new AST();
+		final Expression marker = new NameExpression();
 		
 		region.put(first);
 		region.enter(FrameType.PROTECTED, marker);
 		region.put(second);
-		region.enter(FrameType.PROTECTED, new AST());
+		region.enter(FrameType.PROTECTED, new NameExpression());
 		region.put(third);
 		
 		region.leave(marker);
@@ -128,12 +130,12 @@ public class FrameStackRegionTests {
 		final Variable second = createStringVariable("name", "second");
 		final Variable third = createStringVariable("name", "third");
 		
-		final AST marker = new AST();
+		final Expression marker = new NameExpression();
 		
 		region.put(first);
 		region.enter(FrameType.PROTECTED, marker);
 		region.put(second);
-		region.enter(FrameType.PROTECTED, new AST());
+		region.enter(FrameType.PROTECTED, new NameExpression());
 		region.put(third);
 		
 		region.leave(marker, false); // false => don't dispose the marked frame

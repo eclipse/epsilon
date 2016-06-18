@@ -13,9 +13,11 @@ package org.eclipse.epsilon.eml.dt.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eml.EmlModule;
+import org.eclipse.epsilon.eml.dt.editor.outline.EmlModuleContentProvider;
 import org.eclipse.epsilon.eml.dt.editor.outline.EmlModuleElementLabelProvider;
 import org.eclipse.epsilon.etl.dt.editor.EtlEditor;
 
@@ -59,6 +61,11 @@ public class EmlEditor extends EtlEditor {
 	public ModuleElementLabelProvider createModuleElementLabelProvider() {
 		return new EmlModuleElementLabelProvider();
 	}
+	
+	@Override
+	protected ModuleContentProvider createModuleContentProvider() {
+		return new EmlModuleContentProvider();
+	} 
 	
 	@Override
 	public IModule createModule(){

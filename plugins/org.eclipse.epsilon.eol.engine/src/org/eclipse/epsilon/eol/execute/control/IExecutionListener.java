@@ -10,19 +10,19 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.control;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IExecutionListener {
 
-	public void aboutToExecute(AST ast, IEolContext context);
+	public void aboutToExecute(ModuleElement ast, IEolContext context);
 	
 	/**
 	 * @param result the result of evaluating ast, calculated during execution
 	 */
-	public void finishedExecuting(AST ast, Object result, IEolContext context);
+	public void finishedExecuting(ModuleElement ast, Object result, IEolContext context);
 	
-	public void finishedExecutingWithException(AST ast, EolRuntimeException exception, IEolContext context);
+	public void finishedExecutingWithException(ModuleElement ast, EolRuntimeException exception, IEolContext context);
 	
 }

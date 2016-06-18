@@ -3,6 +3,8 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -32,11 +34,11 @@ public class ForStatement extends Statement {
 	}
 
 	@Override
-	public void build() {
-		super.build();
-		iteratorParameter = (Parameter) getFirstChild();
-		iteratedExpression = (Expression) getSecondChild();
-		bodyStatementBlock = toStatementBlock(getThirdChild());
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		iteratorParameter = (Parameter) module.createAst(cst.getFirstChild(), this);
+		iteratedExpression = (Expression) module.createAst(cst.getSecondChild(), this);
+		bodyStatementBlock = toStatementBlock(module.createAst(cst.getThirdChild(), this));
 	}
 	
 	@Override

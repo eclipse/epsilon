@@ -10,13 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 
 public class EolUndefinedVariableException extends EolRuntimeException {
 
 	protected String variableName = "";
 	
-	public EolUndefinedVariableException(String variableName, AST ast) {
+	public EolUndefinedVariableException(String variableName, ModuleElement ast) {
 		super();
 		this.variableName = variableName;
 		this.ast = ast;

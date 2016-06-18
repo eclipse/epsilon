@@ -13,6 +13,8 @@
  */
 package org.eclipse.epsilon.flock.model.domain.common;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
@@ -23,10 +25,10 @@ public abstract class PackageTypedConstruct extends GuardedConstruct {
 	private String originalPackage;
 	
 	@Override
-	public void build() {
-		super.build();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 
-		originalPackage = getFirstChild().getText();
+		originalPackage = cst.getFirstChild().getText();
 		if (originalPackage == null)
 			throw new IllegalArgumentException("originalPackage cannot be null");
 	}

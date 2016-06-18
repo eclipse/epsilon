@@ -24,6 +24,8 @@ import org.antlr.runtime.TokenStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.antlr.postprocessor.model.antlrAst.Ast;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
@@ -68,11 +70,14 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 	}
 	
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
+		
+		if (parentAst == null) return this;
+		
 		if (cst.getParent() == null) {
 			return new HutnDocument();
 		}
-		return new AST();
+		return null;
 	}
 	
 	public String getMainRule() {
@@ -117,14 +122,17 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 		return true;
 	}
 
-	
-	public void buildModel() throws Exception {
-		super.buildModel();
-		document = (HutnDocument) ast;
-		translateAst();
+	@Override
+	public void build(AST cst, IModule module) {
+		document = (HutnDocument) module.createAst(cst, this);
+		try {
+			translateAst(cst);
+		} catch (HutnException e) {
+			e.printStackTrace();
+		}
 	}
 
-	protected void translateAst() throws HutnException {
+	protected void translateAst(AST ast) throws HutnException {
 		try {
 			final Ast astModel = new HutnPostProcessor(getParseProblems()).process(ast);
 			
@@ -132,10 +140,8 @@ public class HutnModule extends EolLibraryModule implements IHutnModule {
 			getParseProblems().addAll(translator.validateConfigModel(astModel));
 			
 			hutnIsValid = parsingWasSuccessful();
-			
 			if (hutnIsValid) {
 				spec = translator.createIntermediateModel(astModel, sourceFile);
-					
 				if (spec == null)
 					throw new IllegalArgumentException("Could not generate Intermediate model for specified text.");
 				

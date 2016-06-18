@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.types.EolNativeType;
@@ -158,7 +158,7 @@ public class ReflectionUtil {
 		return null;
 	}
 
-	public static Object executeMethod(Object obj, Method method, Object[] parameters, AST ast) throws EolRuntimeException{
+	public static Object executeMethod(Object obj, Method method, Object[] parameters, ModuleElement ast) throws EolRuntimeException{
 		try {
 			return executeMethod(method, obj, parameters);
 		} catch (Throwable t) {

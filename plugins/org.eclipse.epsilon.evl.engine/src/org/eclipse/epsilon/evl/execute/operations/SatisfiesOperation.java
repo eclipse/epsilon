@@ -12,7 +12,7 @@ package org.eclipse.epsilon.evl.execute.operations;
 
 import java.util.List;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
@@ -40,7 +40,7 @@ public class SatisfiesOperation extends SimpleOperation {
 
 	@Override
 	public Object execute(Object source, List<?> parameters,
-			IEolContext context_, AST ast) throws EolRuntimeException {
+			IEolContext context_, ModuleElement ast) throws EolRuntimeException {
 
 		if (source == null) return false;
 		

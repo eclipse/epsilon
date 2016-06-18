@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions.models;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 
@@ -20,7 +20,7 @@ public class EolInvalidMetaModelException extends EolRuntimeException {
 	protected String metaModelName;
 	protected String actualMetaModelName;
 	
-	public EolInvalidMetaModelException(String modelName, String metaModelName, String actualMetaModelName, AST ast) {
+	public EolInvalidMetaModelException(String modelName, String metaModelName, String actualMetaModelName, ModuleElement ast) {
 		this.modelName = modelName;
 		this.metaModelName = metaModelName;
 		this.actualMetaModelName = actualMetaModelName;

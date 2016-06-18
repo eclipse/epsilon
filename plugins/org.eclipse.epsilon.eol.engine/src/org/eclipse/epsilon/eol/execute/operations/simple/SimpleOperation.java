@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
@@ -64,7 +64,7 @@ public abstract class SimpleOperation extends AbstractOperation{
 		}
 	}
 	
-	public abstract Object execute(Object source, List<?> parameters, IEolContext context, AST ast) throws EolRuntimeException;
+	public abstract Object execute(Object source, List<?> parameters, IEolContext context, ModuleElement ast) throws EolRuntimeException;
 	
 	public boolean getTolerateExceptionInParameter(int parameterIndex) {
 		return false;

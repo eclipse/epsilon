@@ -2,16 +2,14 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.Collection;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.CollectionUtil;
-import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolType;
 
 public class ItemSelectorExpression extends Expression {
@@ -20,10 +18,10 @@ public class ItemSelectorExpression extends Expression {
 	protected Expression indexExpression;
 	
 	@Override
-	public void build() {
-		super.build();
-		targetExpression = (Expression) getFirstChild();
-		indexExpression = (Expression) getSecondChild();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		targetExpression = (Expression) module.createAst(cst.getFirstChild(), module);
+		indexExpression = (Expression) module.createAst(cst.getSecondChild(), module);
 	}
 	
 	public Object execute(IEolContext context) throws EolRuntimeException {

@@ -2,14 +2,18 @@ package org.eclipse.epsilon.common.parse;
 
 public class Region {
 	
-	protected Position start;
-	protected Position end;
+	protected Position start = new Position(0, 0);
+	protected Position end = new Position(0, 0); 
 	
 	public Region() {}
 	
 	public Region(int startLine, int startColumn, int endLine, int endColumn) {
 		this.start = new Position(startLine, startColumn);
 		this.end = new Position(endLine, endColumn);
+	}
+	
+	public Region clone() {
+		return new Region(getStart().getLine(), getStart().getColumn(), getEnd().getLine(), getEnd().getColumn());
 	}
 	
 	public Position getStart() {

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 
 
 public class EolInternalException extends EolRuntimeException{
@@ -28,7 +28,7 @@ public class EolInternalException extends EolRuntimeException{
 		this.internal = internal;
 	}
 	
-	public EolInternalException(Throwable internal, AST ast){
+	public EolInternalException(Throwable internal, ModuleElement ast){
 		setStackTrace(internal.getStackTrace());
 		//internal.printStackTrace();
 		this.internal = internal;

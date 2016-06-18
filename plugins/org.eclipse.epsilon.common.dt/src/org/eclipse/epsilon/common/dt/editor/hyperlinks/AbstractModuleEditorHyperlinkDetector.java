@@ -17,10 +17,12 @@ import java.util.List;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.ArrayUtil;
 import org.eclipse.epsilon.eol.IEolLibraryModule;
 import org.eclipse.epsilon.eol.dom.Operation;
+import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.util.EolParserUtil;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -33,16 +35,16 @@ import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
 public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector, IModuleParseListener {
 
 	protected AbstractModuleEditor editor;
-	protected HashMap<AST, IRegion> astRegions = new HashMap<AST, IRegion>();
+	protected HashMap<OperationCallExpression, IRegion> astRegions = new HashMap<OperationCallExpression, IRegion>();
 	protected IEolLibraryModule module = null;
 	
-	public List<IHyperlink> createHyperlinks(AST ast) {
+	public List<IHyperlink> createHyperlinks(OperationCallExpression ast) {
 		
 		ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 		
 		for (Object op : module.getOperations()) {
 			Operation operation = (Operation) op;
-			if (operation.getName().equals(ast.getText()) && operation.getFormalParameters().size() == ast.getFirstChild().getChildren().size()) {
+			if (operation.getName().equals(ast.getOperationName()) && operation.getFormalParameters().size() == ast.getParameterExpressions().size()) {
 				hyperlinks.add(new ASTHyperlink(astRegions.get(ast), operation, operation.toString()));
 			}
 		}
@@ -51,7 +53,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 			for (Object op : module.getOperations()) {
 				Operation operation = (Operation) op;
 			
-				if (operation.getName().equals(ast.getText())) {
+				if (operation.getName().equals(ast.getOperationName())) {
 					hyperlinks.add(new ASTHyperlink(astRegions.get(ast), operation, operation.toString()));
 				}
 			}	
@@ -63,7 +65,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {
 		
-		for (AST ast : astRegions.keySet()) {
+		for (OperationCallExpression ast : astRegions.keySet()) {
 			IRegion candidateRegion = astRegions.get(ast);
 			
 			if (region.getOffset() <= candidateRegion.getOffset() + candidateRegion.getLength() 
@@ -85,27 +87,26 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 		astRegions.clear();
 		this.editor = editor;
 		this.module = (IEolLibraryModule) module;
-		findInterestingASTs(module.getAst());
+		findInterestingASTs(module);
 	}
 	
-	protected void findInterestingASTs(AST ast) {
+	protected void findInterestingASTs(ModuleElement ast) {
 		
 		if (ast == null) return;
 		
 		IDocument doc = editor.getDocumentProvider().getDocument(
 				editor.getEditorInput());
 		
-		if (EolParserUtil.isOperationCall(ast)) {
+		if (ast instanceof OperationCallExpression) {
 			try {
-				int linkOffset = doc.getLineOffset(ast.getLine()-1) + ast.getColumn();
-				astRegions.put(ast, new Region(linkOffset, ast.getText().length()));
+				OperationCallExpression operationCallExpression = (OperationCallExpression) ast;
+				int linkOffset = doc.getLineOffset(ast.getRegion().getStart().getLine()-1) + ast.getRegion().getStart().getColumn();
+				astRegions.put(operationCallExpression, new Region(linkOffset, operationCallExpression.getOperationName().length()));
 			} catch (BadLocationException e) { }
 		}
 		
-		for (Object child : ast.getChildren()) {
-			if (child instanceof AST) {
-				findInterestingASTs((AST) child);
-			}
+		for (ModuleElement child : ast.getChildren()) {
+			findInterestingASTs(child);
 		}
 	}
 	

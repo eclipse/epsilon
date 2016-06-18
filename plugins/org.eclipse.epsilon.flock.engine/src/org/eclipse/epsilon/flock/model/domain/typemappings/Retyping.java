@@ -13,6 +13,8 @@
  */
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
@@ -27,10 +29,10 @@ public class Retyping extends ClassifierTypedConstruct implements TypeMappingCon
 	private String evolvedType;
 	
 	@Override
-	public void build() {
-		super.build();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		
-		evolvedType = getSecondChild().getText();
+		evolvedType = cst.getSecondChild().getText();
 		if (evolvedType == null) throw new IllegalStateException("evolvedType cannot be null");
 	}
 

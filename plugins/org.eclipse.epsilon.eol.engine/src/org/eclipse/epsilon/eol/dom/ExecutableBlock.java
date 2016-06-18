@@ -1,5 +1,7 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
@@ -13,28 +15,58 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	
-	protected AST body = null;
+	protected IExecutableModuleElement body = null;
 	protected Class<?> expectedResultClass = null;
 	protected String role = "";
+	protected String text = "";
 	
 	public ExecutableBlock(Class<?> expectedResultClass) {
 		this.expectedResultClass = expectedResultClass;
 	}
 	
 	@Override
-	public void build() {
-		super.build();
-		if (this.getType() == EolParser.BLOCK) {
-			body = this;
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		text = cst.getText();
+		if (cst.getType() == EolParser.BLOCK) {
+			StatementBlock statementBlock = new StatementBlock();
+			statementBlock.setParent(this);
+			this.getChildren().add(statementBlock);
+			for (AST childAst : cst.getChildren()) {
+				ModuleElement childModuleElement = module.createAst(childAst, statementBlock);
+				if (childModuleElement instanceof Statement) {
+					statementBlock.getStatements().add((Statement) childModuleElement);
+				}
+				else if (childModuleElement instanceof Expression) {
+					// Turn the expression into an expression statement so that it can be added to the statementBlock
+					ExpressionStatement expressionStatement = new ExpressionStatement((Expression) childModuleElement);
+					expressionStatement.setParent(statementBlock);
+					statementBlock.getChildren().add(expressionStatement);
+					statementBlock.getStatements().add(expressionStatement);
+				}
+			}
+			body = statementBlock;
 		}
 		else {
-			role = getText();
-			body = getFirstChild();
+			role = cst.getText();
+			body = (IExecutableModuleElement) module.createAst(cst.getFirstChild(), this);
 		}
 	}
 	
-	public AST getBody() {
+	public String getText() {
+		return text;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+	public IExecutableModuleElement getBody() {
 		return body;
+	}
+	
+	public void setBody(IExecutableModuleElement body) {
+		this.body = body;
 	}
 	
 	public String getRole() {
@@ -54,23 +86,11 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 		return execute(context, new Variable[]{});
 	}
 	
-	protected Object executeBlockOrExpressionAst(AST ast, IEolContext context) throws EolRuntimeException {
+	protected Object executeBlockOrExpressionAst(IExecutableModuleElement ast, IEolContext context) throws EolRuntimeException {
 		
 		if (ast == null) return null;
 		
-		if (ast instanceof ExecutableBlock<?>) {
-			AST statementAst = ast.getFirstChild();
-			while (statementAst != null){
-				context.getFrameStack().setCurrentStatement(statementAst);
-				Object result = context.getExecutorFactory().executeAST(statementAst, context);
-				if (result instanceof Return) {
-					return result;
-				}
-				statementAst = statementAst.getNextSibling();
-			}
-			return null;
-		}
-		else if (ast instanceof StatementBlock) {
+		if (ast instanceof StatementBlock) {
 			return context.getExecutorFactory().executeAST(ast, context);
 		}
 		else {

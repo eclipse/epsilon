@@ -12,23 +12,15 @@ package org.eclipse.epsilon.ecl.dt.editor.outline;
 
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.ecl.dt.EclPlugin;
-import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
-import org.eclipse.epsilon.erl.dom.Post;
-import org.eclipse.epsilon.erl.dom.Pre;
+import org.eclipse.epsilon.erl.dt.editor.outline.ErlModuleElementLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-public class EclModuleElementLabelProvider extends EolModuleElementLabelProvider{
+public class EclModuleElementLabelProvider extends ErlModuleElementLabelProvider{
 
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof MatchRule) {
 			return EclPlugin.getDefault().createImage("icons/matchrule.gif");
-		} 
-		else if (element instanceof Pre){
-			return EclPlugin.getDefault().createImage("icons/pre.gif");
-		}
-		else if (element instanceof Post){
-			return EclPlugin.getDefault().createImage("icons/post.gif");
 		}
 		else {
 			return super.getImage(element);

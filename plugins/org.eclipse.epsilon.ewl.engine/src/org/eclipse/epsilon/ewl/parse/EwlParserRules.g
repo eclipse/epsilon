@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  * -----------------------------------------------------------------------------
@@ -12,7 +12,7 @@
  * [The "BSD licence"]
  * Copyright (c) 2005-2008 Terence Parr
  * All rights reserved.
- *  
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -50,8 +50,8 @@ wizard
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
 	} 
-	:	wiz='wizard'! w=NAME^ ob='{'! guard? titleBlock? doBlock? cb='}'!
-	{$w.setType(WIZARD);}
+	:	wiz='wizard'^ NAME ob='{'! guard? titleBlock? doBlock? cb='}'!
+	{$wiz.setType(WIZARD);}
 	;
 
 titleBlock

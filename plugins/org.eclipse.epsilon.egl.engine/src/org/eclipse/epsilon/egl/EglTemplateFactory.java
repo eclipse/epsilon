@@ -108,7 +108,7 @@ public class EglTemplateFactory {
 			return UriUtil.resolve(path, root);
 			
 		} catch (URISyntaxException e) {
-			throw new EglRuntimeException("Could not resolve path: "+path, e, context.getModule().getAst());
+			throw new EglRuntimeException("Could not resolve path: "+path, e, context.getModule());
 		}
 	}
 	
@@ -118,7 +118,7 @@ public class EglTemplateFactory {
 			return UriUtil.resolve(path, templateRoot, root);
 			
 		} catch (URISyntaxException e) {
-			throw new EglRuntimeException("Could not resolve path: "+path, e, context.getModule().getAst());
+			throw new EglRuntimeException("Could not resolve path: "+path, e, context.getModule());
 		}
 	}
 	
@@ -236,7 +236,7 @@ public class EglTemplateFactory {
 		if (context.getModule() == null)
 			throw new EglRuntimeException(reason + " '" + name + "'", e);
 		else
-			throw new EglRuntimeException(reason + " '" + name + "'", e, context.getModule().getAst());
+			throw new EglRuntimeException(reason + " '" + name + "'", e, context.getModule());
 	}
 	
 	/**

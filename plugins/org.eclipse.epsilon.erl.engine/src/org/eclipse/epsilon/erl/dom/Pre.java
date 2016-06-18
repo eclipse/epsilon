@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.erl.dom;
 
-public class Pre extends NamedRule {
+public class Pre extends NamedStatementBlockRule {
 	
 	@Override
 	public String toString() {
-		return "pre " + name;
+		return "pre " + getName();
 	}
 	
 }

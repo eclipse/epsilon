@@ -13,7 +13,8 @@ package org.eclipse.epsilon.epl.execute;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
@@ -22,11 +23,11 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.epl.EplModule;
-import org.eclipse.epsilon.epl.combinations.DynamicListCombinationGenerator;
 import org.eclipse.epsilon.epl.combinations.CombinationGenerator;
 import org.eclipse.epsilon.epl.combinations.CombinationGeneratorListener;
 import org.eclipse.epsilon.epl.combinations.CompositeCombinationGenerator;
 import org.eclipse.epsilon.epl.combinations.CompositeCombinationValidator;
+import org.eclipse.epsilon.epl.combinations.DynamicListCombinationGenerator;
 import org.eclipse.epsilon.epl.dom.NoMatch;
 import org.eclipse.epsilon.epl.dom.Pattern;
 import org.eclipse.epsilon.epl.dom.Role;
@@ -59,14 +60,14 @@ public class PatternMatcher {
 			
 			for (PatternMatch match : model.getMatches()) {
 				if (match.getPattern().getLevel() == level) {
-					AST doAst = match.getPattern().getDoAst();
-					if (doAst != null) {
-						context.getFrameStack().enterLocal(FrameType.UNPROTECTED, doAst);
+					ExecutableBlock<Void> do_ = match.getPattern().getDo();
+					if (do_ != null) {
+						context.getFrameStack().enterLocal(FrameType.UNPROTECTED, do_);
 						for (String componentName : match.getRoleBindings().keySet()) {
 							context.getFrameStack().put(Variable.createReadOnlyVariable(componentName, match.getRoleBinding(componentName)));
 						}
-						context.getExecutorFactory().executeAST(doAst, context);
-						context.getFrameStack().leaveLocal(doAst);
+						context.getExecutorFactory().executeAST(do_, context);
+						context.getFrameStack().leaveLocal(do_);
 					}
 				}
 			}
@@ -123,7 +124,7 @@ public class PatternMatcher {
 			
 			frame = context.getFrameStack().enterLocal(FrameType.PROTECTED, pattern);
 			
-			if (pattern.getMatchAst() != null || pattern.getNoMatchAst() != null || pattern.getOnMatchAst() != null) {
+			if (pattern.getMatch() != null || pattern.getNoMatch() != null || pattern.getOnMatch() != null) {
 				int i = 0;
 				for (Role role : pattern.getRoles()) {
 					for (Variable variable : getVariables(candidate.get(i), role)) {
@@ -133,20 +134,20 @@ public class PatternMatcher {
 				}
 			}
 			
-			if (pattern.getMatchAst() != null) {
-				Object result = context.getExecutorFactory().executeAST(pattern.getMatchAst(), context);
+			if (pattern.getMatch() != null) {
+				Object result = context.getExecutorFactory().executeAST(pattern.getMatch(), context);
 				if (result instanceof Return) result = ((Return) result).getValue();
 				if (result instanceof Boolean) {
 					matches = (Boolean) result;
 				}
-				else throw new EolIllegalReturnException("Boolean", result, pattern.getMatchAst(), context);
+				else throw new EolIllegalReturnException("Boolean", result, pattern.getMatch(), context);
 			}
 			
 			if (matches) { 
-				context.getExecutorFactory().executeAST(pattern.getOnMatchAst(), context);
+				context.getExecutorFactory().executeAST(pattern.getOnMatch(), context);
 				patternMatches.add(createPatternMatch(pattern, candidate));
 			}
-			else context.getExecutorFactory().executeAST(pattern.getNoMatchAst(), context);
+			else context.getExecutorFactory().executeAST(pattern.getNoMatch(), context);
 			
 			context.getFrameStack().leaveLocal(pattern);
 			

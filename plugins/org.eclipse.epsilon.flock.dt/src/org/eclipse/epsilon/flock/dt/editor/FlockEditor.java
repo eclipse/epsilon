@@ -13,10 +13,12 @@ package org.eclipse.epsilon.flock.dt.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.flock.FlockModule;
+import org.eclipse.epsilon.flock.dt.editor.outline.FlockModuleContentProvider;
 import org.eclipse.epsilon.flock.dt.editor.outline.FlockModuleElementLabelProvider;
 
 public class FlockEditor extends EolEditor {
@@ -61,6 +63,11 @@ public class FlockEditor extends EolEditor {
 	@Override
 	public ModuleElementLabelProvider createModuleElementLabelProvider() {
 		return new FlockModuleElementLabelProvider();
+	}
+	
+	@Override
+	protected ModuleContentProvider createModuleContentProvider() {
+		return new FlockModuleContentProvider();
 	}
 	
 }

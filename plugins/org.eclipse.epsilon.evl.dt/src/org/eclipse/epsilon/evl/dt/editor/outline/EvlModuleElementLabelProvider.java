@@ -10,15 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.dt.editor.outline;
 
-import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
-import org.eclipse.epsilon.erl.dom.Post;
-import org.eclipse.epsilon.erl.dom.Pre;
+import org.eclipse.epsilon.erl.dt.editor.outline.ErlModuleElementLabelProvider;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.dt.EvlPlugin;
 import org.eclipse.swt.graphics.Image;
 
-public class EvlModuleElementLabelProvider extends EolModuleElementLabelProvider{
+public class EvlModuleElementLabelProvider extends ErlModuleElementLabelProvider{
 
 	@Override
 	public Image getImage(Object element) {
@@ -32,12 +30,6 @@ public class EvlModuleElementLabelProvider extends EolModuleElementLabelProvider
 			else {
 				return EvlPlugin.getDefault().createImage("icons/error.gif");
 			}
-		}
-		else if (element instanceof Pre){
-			return EvlPlugin.getDefault().createImage("icons/pre.gif");
-		}
-		else if (element instanceof Post){
-			return EvlPlugin.getDefault().createImage("icons/post.gif");
 		}
 		else {
 			return super.getImage(element);

@@ -10,9 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.dt.editor.outline;
 
-import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
 import org.eclipse.epsilon.erl.dom.Post;
 import org.eclipse.epsilon.erl.dom.Pre;
+import org.eclipse.epsilon.erl.dt.editor.outline.ErlModuleElementLabelProvider;
 import org.eclipse.epsilon.flock.dt.FlockDevelopmentToolsPlugin;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
 import org.eclipse.epsilon.flock.model.domain.typemappings.Deletion;
@@ -21,7 +21,7 @@ import org.eclipse.epsilon.flock.model.domain.typemappings.PackageRetyping;
 import org.eclipse.epsilon.flock.model.domain.typemappings.Retyping;
 import org.eclipse.swt.graphics.Image;
 
-public class FlockModuleElementLabelProvider extends EolModuleElementLabelProvider{
+public class FlockModuleElementLabelProvider extends ErlModuleElementLabelProvider{
 
 	@Override
 	public Image getImage(Object element) {
@@ -34,12 +34,6 @@ public class FlockModuleElementLabelProvider extends EolModuleElementLabelProvid
 		else if (element instanceof Deletion || element instanceof PackageDeletion) {
 			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/constructs/deletion.gif");
 		} 
-		else if (element instanceof Pre){
-			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/pre.gif");
-		}
-		else if (element instanceof Post){
-			return FlockDevelopmentToolsPlugin.getDefault().createImage("icons/post.gif");
-		}
 		else {
 			return super.getImage(element);
 		}

@@ -8,9 +8,8 @@ public class Comment extends AbstractModuleElement {
 	protected String text;
 	
 	public Comment(Token token) {
-		this.token = token;
-		multiline = getText().startsWith("/*") || getText().startsWith("-*");
-		text = getText();
+		multiline = token.getText().startsWith("/*") || token.getText().startsWith("-*");
+		text = token.getText();
 		if (multiline) {
 			text = text.substring(2, text.length() - 2);
 		}

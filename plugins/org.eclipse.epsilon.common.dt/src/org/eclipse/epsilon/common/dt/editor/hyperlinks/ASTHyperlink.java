@@ -11,17 +11,17 @@
 package org.eclipse.epsilon.common.dt.editor.hyperlinks;
 
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 
 public class ASTHyperlink implements IHyperlink {
 
 	protected IRegion region;
-	protected AST targetAST;
+	protected ModuleElement targetAST;
 	protected String label;
 	
-	public ASTHyperlink(IRegion region, AST targetAST, String label) {
+	public ASTHyperlink(IRegion region, ModuleElement targetAST, String label) {
 		this.region = region;
 		this.targetAST = targetAST;
 		this.label = label;

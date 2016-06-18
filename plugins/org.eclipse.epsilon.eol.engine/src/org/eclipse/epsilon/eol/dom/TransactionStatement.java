@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
@@ -17,15 +18,27 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class TransactionStatement extends Statement {
 	
+	protected List<NameExpression> modelNames = new ArrayList<NameExpression>();
+	protected StatementBlock body = null;
+	
+	@Override
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		for (AST modelNameAst : AstUtil.getChildren(cst, EolParser.NAME)) {
+			modelNames.add((NameExpression) module.createAst(modelNameAst, this));
+		}
+		body = (StatementBlock) module.createAst(AstUtil.getChild(cst, EolParser.BLOCK), this);
+	}
+	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		
-		List<IModel> models = new ArrayList<IModel>();
-		Collection<AST> modelNamesAsts = AstUtil.getChildren(this, EolParser.NAME);
 		
-		if (modelNamesAsts.size() > 0) {
-			for (AST modelNameAst : modelNamesAsts) {
-				IModel model = context.getModelRepository().getModelByName(modelNameAst.getText());
+		List<IModel> models = new ArrayList<IModel>();
+		
+		if (modelNames.size() > 0) {
+			for (NameExpression modelNameAst : modelNames) {
+				IModel model = context.getModelRepository().getModelByName(modelNameAst.getName());
 				models.add(model);
 			}
 		}
@@ -39,7 +52,7 @@ public class TransactionStatement extends Statement {
 		
 		try {
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
-			Object result = context.getExecutorFactory().executeAST(AstUtil.getChild(this, EolParser.BLOCK), context);
+			Object result = context.getExecutorFactory().executeAST(body, context);
 			context.getFrameStack().leaveLocal(this);
 			
 			if (result instanceof Return) {
@@ -68,7 +81,23 @@ public class TransactionStatement extends Statement {
 		
 		return null;
 	}
-
+	
+	public List<NameExpression> getModelNames() {
+		return modelNames;
+	}
+	
+	public void setModelNames(List<NameExpression> modelNames) {
+		this.modelNames = modelNames;
+	}
+	
+	public StatementBlock getBody() {
+		return body;
+	}
+	
+	public void setBody(StatementBlock body) {
+		this.body = body;
+	}
+	
 	@Override
 	public void compile(EolCompilationContext context) {
 		// TODO Auto-generated method stub

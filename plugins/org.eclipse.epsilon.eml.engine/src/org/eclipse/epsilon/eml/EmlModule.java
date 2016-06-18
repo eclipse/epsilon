@@ -17,6 +17,7 @@ import java.util.List;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
@@ -66,16 +67,12 @@ public class EmlModule extends EtlModule {
 	}
 
 	@Override
-	public void buildModel() throws Exception {
-		
-		super.buildModel();
-		
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		// Parse the merge rules
-		for (AST mergeRuleAst : AstUtil.getChildren(ast, EmlParser.MERGE)) {
-			declaredMergeRules.add((MergeRule) mergeRuleAst);
+		for (AST mergeRuleAst : AstUtil.getChildren(cst, EmlParser.MERGE)) {
+			declaredMergeRules.add((MergeRule) module.createAst(mergeRuleAst, this));
 		}
-		
-		getParseProblems().addAll(calculateSuperRules(getMergeRules()));		
 	}
 	
 	@Override
@@ -102,7 +99,7 @@ public class EmlModule extends EtlModule {
 	}
 	
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		if (cst.getType() == EmlParser.MERGE) {
 			return new MergeRule();
 		}
@@ -135,18 +132,6 @@ public class EmlModule extends EtlModule {
 			mergeRules.addAll(declaredMergeRules);
 		}
 		return mergeRules;
-	}
-	
-	@Override
-	public List<ModuleElement> getModuleElements() {
-		final List<ModuleElement> children = new ArrayList<ModuleElement>();
-		children.addAll(getImports());
-		children.addAll(getDeclaredPre());
-		children.addAll(declaredMergeRules);
-		children.addAll(declaredTransformationRules);
-		children.addAll(getDeclaredPost());
-		children.addAll(getDeclaredOperations());
-		return children;
 	}
 
 	@Override

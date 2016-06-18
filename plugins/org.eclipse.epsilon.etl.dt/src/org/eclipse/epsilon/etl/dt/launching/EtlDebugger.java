@@ -10,18 +10,20 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.dt.launching;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
-import org.eclipse.epsilon.etl.parse.EtlParser;
+import org.eclipse.epsilon.etl.dom.TransformationRule;
 
 public class EtlDebugger extends EolDebugger {
 	
-	public EtlDebugger() {
-		super();
-		expressionOrStatementBlockContainers.add(EtlParser.TRANSFORM);
-		expressionOrStatementBlockContainers.add(EtlParser.GUARD);
-		expressionOrStatementBlockContainers.add(EtlParser.PRE);
-		expressionOrStatementBlockContainers.add(EtlParser.POST);
-		structuralBlocks.add(EtlParser.TRANSFORM);
+	@Override
+	protected boolean isExpressionOrStatementBlockContainer(ModuleElement ast) {
+		return super.isExpressionOrStatementBlockContainer(ast) || ast instanceof TransformationRule;
+	}
+	
+	@Override
+	protected boolean isStructuralBlock(ModuleElement ast) {
+		return super.isStructuralBlock(ast) || ast instanceof TransformationRule;
 	}
 	
 }

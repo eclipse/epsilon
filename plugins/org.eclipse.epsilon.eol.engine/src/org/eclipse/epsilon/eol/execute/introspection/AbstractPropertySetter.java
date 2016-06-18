@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
@@ -19,7 +19,7 @@ public abstract class AbstractPropertySetter implements IPropertySetter{
 	protected String property;
 	protected Object object;
 	protected IEolContext context;
-	protected AST ast;
+	protected ModuleElement ast;
 	
 	public IEolContext getContext() {
 		return context;
@@ -29,11 +29,11 @@ public abstract class AbstractPropertySetter implements IPropertySetter{
 		this.context = context;
 	}
 
-	public AST getAst() {
+	public ModuleElement getAst() {
 		return ast;
 	}
 
-	public void setAst(AST ast) {
+	public void setAst(ModuleElement ast) {
 		this.ast = ast;
 	}
  

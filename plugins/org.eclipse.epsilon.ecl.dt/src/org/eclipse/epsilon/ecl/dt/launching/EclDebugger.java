@@ -10,16 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.dt.launching;
 
-import org.eclipse.epsilon.ecl.parse.EclParser;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 
 public class EclDebugger extends EolDebugger {
-	
-	public EclDebugger() {
-		super();
-		expressionOrStatementBlockContainers.add(EclParser.DO);
-		expressionOrStatementBlockContainers.add(EclParser.COMPARE);
-		structuralBlocks.add(EclParser.MATCH);
+
+	@Override
+	protected boolean isStructuralBlock(ModuleElement ast) {
+		return super.isStructuralBlock(ast) || ast instanceof MatchRule;
 	}
 	
 }

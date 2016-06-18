@@ -1,11 +1,11 @@
 package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 
 
 public abstract class Statement extends AbstractExecutableModuleElement {
 	
-	protected StatementBlock toStatementBlock(AST element) {
+	protected StatementBlock toStatementBlock(ModuleElement element) {
 		if (element instanceof StatementBlock) {
 			return (StatementBlock) element;
 		}

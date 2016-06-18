@@ -1,5 +1,7 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -16,21 +18,21 @@ public class RealLiteral extends LiteralExpression {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		
 		String text = "";
 		boolean doublePrecision = false;
-		if (getText().endsWith("f")) {
-			text = getText().substring(0, getText().length() - 1);
+		if (cst.getText().endsWith("f")) {
+			text = cst.getText().substring(0, cst.getText().length() - 1);
 			doublePrecision = false;
 		}
-		else if (getText().endsWith("d")) {
-			text = getText().substring(0, getText().length() - 1);
+		else if (cst.getText().endsWith("d")) {
+			text = cst.getText().substring(0, cst.getText().length() - 1);
 			doublePrecision = true;		
 		}
 		else {
-			text = getText();
+			text = cst.getText();
 			doublePrecision = false;			
 		}
 		

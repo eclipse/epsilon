@@ -10,23 +10,23 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.tools;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.profiling.FileMarker;
 import org.eclipse.epsilon.profiling.Profiler;
-import org.eclipse.epsilon.eol.tools.AbstractTool;
 
 
 public class ProfilerTool extends AbstractTool{
 	
 	public void start(String targetName, Object data) {
 		FileMarker fileMarker = null;
-		AST activeAst = context.getExecutorFactory().getActiveAst();
-		if (activeAst instanceof AST) {
+		ModuleElement activeAst = context.getExecutorFactory().getActiveAst();
+		if (activeAst instanceof ModuleElement) {
 			fileMarker = new FileMarker();
-			AST activeEolAst = (AST) activeAst;
-			fileMarker.setColumn(activeEolAst.getColumn());
-			fileMarker.setLine(activeEolAst.getLine());
+			ModuleElement activeEolAst = (ModuleElement) activeAst;
+			fileMarker.setColumn(activeEolAst.getRegion().getStart().getColumn());
+			fileMarker.setLine(activeEolAst.getRegion().getStart().getLine());
 			fileMarker.setFile(activeEolAst.getFile());
 		}
 		Profiler.INSTANCE.start(targetName, StringUtil.toString(data, ""), fileMarker);

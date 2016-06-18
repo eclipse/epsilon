@@ -20,10 +20,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.Annotation;
 import org.eclipse.epsilon.eol.dom.Operation;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
@@ -270,9 +272,9 @@ public class EUnitModule extends EolModule {
 				// If the node has a data binding, use it while populating this
 				// node's subtree: it may be used in a $with annotation.
 				final FrameStack frameStack = getContext().getFrameStack();
-				final AST operationAST = child.getOperation();
+				final Operation operationAST = child.getOperation();
 				frameStack.enterLocal(FrameType.UNPROTECTED, operationAST);
-				final AST dataBindingAST = applyDataBinding(child);
+				final ModuleElement dataBindingAST = applyDataBinding(child);
 				populateSuiteTree(child, dataIterator);
 				frameStack.leaveGlobal(dataBindingAST);
 				frameStack.leaveLocal(operationAST);
@@ -305,7 +307,7 @@ public class EUnitModule extends EolModule {
 		}
 
 		// Implement data bindings
-		AST dataBindEntryPoint = null;
+		ModuleElement dataBindEntryPoint = null;
 		if (node.getDataVariableName() != null) {
 			// This node has a variable binding: use it
 			dataBindEntryPoint = applyDataBinding(node);
@@ -427,9 +429,9 @@ public class EUnitModule extends EolModule {
 		}
 	}
 
-	private AST applyDataBinding(EUnitTest node) {
+	private ModuleElement applyDataBinding(EUnitTest node) {
 		Variable dataVariable = new Variable(node.getDataVariableName(), node.getDataValue(), EolAnyType.Instance, true);
-		AST dummyEntryPoint = new AST();
+		StatementBlock dummyEntryPoint = new StatementBlock();
 		getContext().getFrameStack().enterGlobal(FrameType.UNPROTECTED, dummyEntryPoint, dataVariable);
 		return dummyEntryPoint;
 	}
@@ -622,7 +624,7 @@ public class EUnitModule extends EolModule {
 	 * It is the basename of the .eunit file, without the extension.
 	 */
 	public String getClassName() {
-		final String filename = getAst().getBasename();
+		final String filename = EUnitModule.getBasename(this);
 		final int lastDot = filename.lastIndexOf('.');
 		return lastDot == -1 ? filename : filename.substring(0, lastDot);
 	}
@@ -647,5 +649,12 @@ public class EUnitModule extends EolModule {
 	public String getQualifiedName() {
 		return getPackage() + "." + getClassName();
 	}
-
+	
+	public static String getBasename(ModuleElement moduleElement) {
+		final String uriPath = moduleElement.getUri().getPath();
+		final int lastSlash = uriPath.lastIndexOf("/");
+		final String filename = lastSlash == -1 ? uriPath : uriPath.substring(lastSlash + 1);
+		return filename;
+	}
+	
 }

@@ -16,11 +16,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
@@ -34,18 +36,17 @@ import org.eclipse.epsilon.evl.parse.EvlParser;
 
 public class ConstraintContext extends AnnotatableModuleElement {
 	
+	protected TypeExpression typeExpression = null;
 	protected ExecutableBlock<Boolean> guardBlock = null;
 	protected Constraints constraints = new Constraints();
-	protected AST typeAst;
 	protected EolModelElementType type = null;
-	protected String name;
 	
 	public ConstraintContext() {
 		super();
 	}
 	
 	public String getTypeName() {
-		return typeAst != null ? typeAst.getText() : null;
+		return typeExpression != null ? typeExpression.getName() : null;
 	}
 	
 	public List<ModuleElement> getModuleElements() {
@@ -53,15 +54,14 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void build() {
-		super.build();
-		this.typeAst = getFirstChild();
-		this.name = typeAst.getText();
-	
-		guardBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EvlParser.GUARD);
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		
-		for (AST constraintAst : AstUtil.getChildren(this, EvlParser.CONSTRAINT, EvlParser.CRITIQUE)) {
-			Constraint constraint = (Constraint) constraintAst;
+		typeExpression = (TypeExpression) module.createAst(cst.getFirstChild(), this);
+		guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EvlParser.GUARD), this);
+		
+		for (AST constraintAst : AstUtil.getChildren(cst, EvlParser.CONSTRAINT, EvlParser.CRITIQUE)) {
+			Constraint constraint = (Constraint) module.createAst(constraintAst, this);
 			constraint.setConstraintContext(this);
 			constraints.addConstraint(constraint);
 		}
@@ -132,6 +132,14 @@ public class ConstraintContext extends AnnotatableModuleElement {
 		return constraints;
 	}
 	
+	public TypeExpression getTypeExpression() {
+		return typeExpression;
+	}
+	
+	public void setTypeExpression(TypeExpression typeExpression) {
+		this.typeExpression = typeExpression;
+	}
+	
 	public Collection<?> getAllOfSourceType(IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
 		return getType(context).getAllOfType();
 	}
@@ -142,21 +150,13 @@ public class ConstraintContext extends AnnotatableModuleElement {
 
 	protected EolModelElementType getType(IEvlContext context) throws EolModelNotFoundException, EolModelElementTypeNotFoundException {
 		if (type == null) {
-			type = new EolModelElementType(typeAst.getText(), context);
+			type = new EolModelElementType(getTypeName(), context);
 		}
 		return type;
 	}	
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	@Override
 	public String toString(){
-		return this.name;
+		return getTypeName();
 	}
 }

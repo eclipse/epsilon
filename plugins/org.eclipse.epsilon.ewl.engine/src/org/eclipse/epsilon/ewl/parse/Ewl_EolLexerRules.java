@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.ewl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2015-09-18 13:58:21
+// $ANTLR 3.1b1 EolLexerRules.g 2016-06-23 11:34:07
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -48,8 +48,8 @@ import java.util.HashMap;
 public class Ewl_EolLexerRules extends Lexer {
     public static final int EXPONENT=6;
     public static final int T__159=159;
-    public static final int WHILE=33;
     public static final int StatementBlock=29;
+    public static final int WHILE=33;
     public static final int T__158=158;
     public static final int StrangeNameLiteral=15;
     public static final int CASE=35;
@@ -60,9 +60,9 @@ public class Ewl_EolLexerRules extends Lexer {
     public static final int FeatureCall=60;
     public static final int EOF=-1;
     public static final int BREAK=38;
-    public static final int T__161=161;
     public static final int KEYVALLIST=76;
     public static final int TYPE=64;
+    public static final int T__161=161;
     public static final int T__93=93;
     public static final int T__94=94;
     public static final int T__91=91;
@@ -85,8 +85,8 @@ public class Ewl_EolLexerRules extends Lexer {
     public static final int T__156=156;
     public static final int T__157=157;
     public static final int T__99=99;
-    public static final int ITEMSELECTOR=73;
     public static final int T__98=98;
+    public static final int ITEMSELECTOR=73;
     public static final int T__150=150;
     public static final int T__97=97;
     public static final int T__151=151;

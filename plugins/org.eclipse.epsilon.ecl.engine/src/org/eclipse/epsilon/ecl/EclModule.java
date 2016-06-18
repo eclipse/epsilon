@@ -17,6 +17,7 @@ import java.util.List;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
@@ -63,20 +64,17 @@ public class EclModule extends ErlModule implements IEclModule {
 	}
 	
 	@Override
-	public void buildModel() throws Exception {
-		
-		super.buildModel();
-		
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		// Parse the match rules
-		for (AST matchRuleAst : AstUtil.getChildren(ast, EclParser.MATCH)) {
-			declaredMatchRules.add((MatchRule) matchRuleAst);
+		for (AST matchRuleAst : AstUtil.getChildren(cst, EclParser.MATCH)) {
+			declaredMatchRules.add((MatchRule) module.createAst(matchRuleAst, this));
 		}
-		
 		getParseProblems().addAll(calculateSuperRules(getMatchRules()));
 	}
 	
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch (cst.getType()) {
 			case EclParser.MATCH: return new MatchRule();
 			case EclParser.GUARD: return new ExecutableBlock<Boolean>(Boolean.class);
@@ -181,17 +179,6 @@ public class EclModule extends ErlModule implements IEclModule {
 	@Override
 	public IEclContext getContext(){
 		return context;
-	}
-	
-	@Override
-	public List<ModuleElement> getModuleElements(){
-		final List<ModuleElement> children = new ArrayList<ModuleElement>();
-		children.addAll(getImports());
-		children.addAll(getDeclaredPre());
-		children.addAll(getDeclaredMatchRules());
-		children.addAll(getDeclaredOperations());
-		children.addAll(getDeclaredPost());
-		return children;
 	}
 	
 	@Override

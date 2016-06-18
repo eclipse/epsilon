@@ -20,7 +20,7 @@ public class EolModuleValidator extends AbstractModuleValidator implements IModu
 		if (!appliesTo(module)) return Collections.emptyList();
 		
 		ArrayList<ModuleMarker> markers = new ArrayList<ModuleMarker>();
-		
+		/*
 		// Fix for bug #393988
 		AST firstHelper = null;
 		
@@ -33,7 +33,7 @@ public class EolModuleValidator extends AbstractModuleValidator implements IModu
 			else if (ast.getType() == EolParser.HELPERMETHOD) {
 				if (firstHelper == null) firstHelper = ast;
 			}
-		}
+		}*/
 		
 		return markers;
 	}

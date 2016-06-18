@@ -90,6 +90,7 @@ public class Exceptions {
 			fail("Expected EglRuntimeException");
 			
 		} catch (EglRuntimeException e) {
+			e.printStackTrace();
 			assertEquals("Preservation of the current region must be stopped before preservation of another region may begin.", e.getReason());
 			assertEquals(5, e.getLine());
 			assertEquals(5, e.getColumn());

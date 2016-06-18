@@ -68,9 +68,9 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 			writeNewContentsIfDifferentFromExistingContents();
 			
 		} catch (URISyntaxException e) {
-			throw new EglRuntimeException("Could not resolve path: " + target, e, module.getAst());
+			throw new EglRuntimeException("Could not resolve path: " + target, e, module);
 		} catch (IOException ex) {
-			throw new EglRuntimeException("Could not generate to: " + target, ex, module.getAst());
+			throw new EglRuntimeException("Could not generate to: " + target, ex, module);
 		}
 	}
 
@@ -85,9 +85,9 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 			writeNewContentsIfDifferentFromExistingContents();
 			
 		} catch (URISyntaxException e) {
-			throw new EglRuntimeException("Could not resolve path: " + target, e, module.getAst());
+			throw new EglRuntimeException("Could not resolve path: " + target, e, module);
 		} catch (IOException ex) {
-			throw new EglRuntimeException("Could not generate to: " + target, ex, module.getAst());
+			throw new EglRuntimeException("Could not generate to: " + target, ex, module);
 		}
 	}
 	

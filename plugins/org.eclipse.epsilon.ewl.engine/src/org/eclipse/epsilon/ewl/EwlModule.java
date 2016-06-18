@@ -17,6 +17,7 @@ import java.util.List;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
@@ -44,7 +45,7 @@ public class EwlModule extends EolLibraryModule implements IEwlModule {
 	}
 	
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch (cst.getType()) {
 			case EwlParser.TITLE: return new ExecutableBlock<String>(String.class);
 			case EwlParser.GUARD: return new ExecutableBlock<Boolean>(Boolean.class);
@@ -70,11 +71,10 @@ public class EwlModule extends EolLibraryModule implements IEwlModule {
 	}
 
 	@Override
-	public void buildModel() throws Exception {
-		
-		super.buildModel();
-		for (AST wizardAst : AstUtil.getChildren(ast,EwlParser.WIZARD)) {
-			wizards.add((Wizard) wizardAst);
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		for (AST wizardAst : AstUtil.getChildren(cst,EwlParser.WIZARD)) {
+			wizards.add((Wizard) module.createAst(wizardAst, this));
 		}
 	}
 	
@@ -106,13 +106,8 @@ public class EwlModule extends EolLibraryModule implements IEwlModule {
 		return context;
 	}
 	
-	@Override
-	public List<ModuleElement> getModuleElements(){
-		final List<ModuleElement> children = new ArrayList<ModuleElement>();
-		children.addAll(getImports());
-		children.addAll(wizards);
-		children.addAll(getDeclaredOperations());
-		return children;
+	public List<Wizard> getWizards() {
+		return wizards;
 	}
 	
 	@Override

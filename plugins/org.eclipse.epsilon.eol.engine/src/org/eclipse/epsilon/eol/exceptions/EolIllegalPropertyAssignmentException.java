@@ -10,13 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 
 public class EolIllegalPropertyAssignmentException extends EolRuntimeException {
 
 	public String property;
 	
-	public EolIllegalPropertyAssignmentException(String property, AST ast) {
+	public EolIllegalPropertyAssignmentException(String property, ModuleElement ast) {
 		super();
 		this.property = property;
 		this.ast = ast;

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.exceptions;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
@@ -30,7 +30,7 @@ public class EglRuntimeException extends EolRuntimeException {
 		
 		reason = ex.getReason();
 		cause  = ex;
-		line   = ex.getAst().getLine();
+		line   = ex.getAst().getRegion().getStart().getLine();
 		column = ex.getColumn();
 		ast    = ex.getAst();
 	}
@@ -42,12 +42,12 @@ public class EglRuntimeException extends EolRuntimeException {
 		
 		reason = internal.getReason();
 		cause  = internal.getCause();
-		line   = ex.getAst().getLine();
+		line   = ex.getLine();
 		column = ex.getColumn();
 		ast    = ex.getAst();
 	}
 	
-	public EglRuntimeException(String reason, AST ast) {
+	public EglRuntimeException(String reason, ModuleElement ast) {
 		this(reason, null, ast);
 	}
 	
@@ -55,11 +55,11 @@ public class EglRuntimeException extends EolRuntimeException {
 		this(reason, cause, 1, 1, null);
 	}
 	
-	public EglRuntimeException(String reason, Throwable cause, AST ast) {
-		this(reason, cause, ast.getLine(), ast.getColumn(), ast);
+	public EglRuntimeException(String reason, Throwable cause, ModuleElement ast) {
+		this(reason, cause, ast.getRegion().getStart().getLine(), ast.getRegion().getStart().getColumn(), ast);
 	}
 	
-	private EglRuntimeException(String reason, Throwable cause, int line, int column, AST ast) {
+	private EglRuntimeException(String reason, Throwable cause, int line, int column, ModuleElement ast) {
 		this.reason = reason;		
 		this.cause  = cause;
 		this.line   = line;

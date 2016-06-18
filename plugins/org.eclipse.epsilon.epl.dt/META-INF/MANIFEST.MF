@@ -5,10 +5,9 @@ Bundle-SymbolicName: org.eclipse.epsilon.epl.dt;singleton:=true
 Bundle-Version: 1.4.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.epl.dt.EplPlugin
 Bundle-Vendor: Eclipse Modeling Project
-Require-Bundle: org.eclipse.epsilon.eol.dt,
- org.eclipse.jface.text,
- org.eclipse.epsilon.common.dt,
- org.eclipse.epsilon.epl.engine
+Require-Bundle: org.eclipse.jface.text,
+ org.eclipse.epsilon.epl.engine,
+ org.eclipse.epsilon.erl.dt
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.epl.dt,
  org.eclipse.epsilon.epl.dt.editor,

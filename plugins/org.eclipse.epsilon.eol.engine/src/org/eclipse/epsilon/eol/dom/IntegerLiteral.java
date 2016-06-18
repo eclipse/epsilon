@@ -1,5 +1,7 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -16,15 +18,15 @@ public class IntegerLiteral extends LiteralExpression {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		String text = "";
-		if (getText().endsWith("l")) {
-			text = getText().substring(0, getText().length() - 1);
+		if (cst.getText().endsWith("l")) {
+			text = cst.getText().substring(0, cst.getText().length() - 1);
 			value = Long.parseLong(text);
 		}
 		else {
-			value = Integer.parseInt(getText());
+			value = Integer.parseInt(cst.getText());
 		}
 	}
 	

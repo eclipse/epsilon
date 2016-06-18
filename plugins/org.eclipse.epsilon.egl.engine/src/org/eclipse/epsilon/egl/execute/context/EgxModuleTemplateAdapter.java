@@ -30,12 +30,12 @@ public class EgxModuleTemplateAdapter extends Template {
 	
 		@Override
 		public String getName() {
-			return module.getAst().getFile().getAbsolutePath();
+			return module.getFile().getAbsolutePath();
 		}
 		
 		@Override
 		public URI getURI() {
-			return module.getAst().getUri();
+			return module.getUri();
 		}
 		
 		@Override

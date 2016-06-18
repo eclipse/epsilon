@@ -13,9 +13,12 @@ package org.eclipse.epsilon.egl.dt.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.EgxModule;
+import org.eclipse.epsilon.egl.dt.editor.outline.EgxModuleContentProvider;
+import org.eclipse.epsilon.egl.dt.editor.outline.EgxModuleElementLabelProvider;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 
 public class EgxEditor extends EolEditor {
@@ -62,6 +65,11 @@ public class EgxEditor extends EolEditor {
 	@Override
 	public ModuleElementLabelProvider createModuleElementLabelProvider() {
 		return new EgxModuleElementLabelProvider();
+	}
+	
+	@Override
+	protected ModuleContentProvider createModuleContentProvider() {
+		return new EgxModuleContentProvider();
 	}
 	
 	@Override

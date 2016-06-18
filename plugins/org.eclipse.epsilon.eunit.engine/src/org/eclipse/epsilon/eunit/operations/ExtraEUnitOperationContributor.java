@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
@@ -153,7 +153,7 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 				}
 			}
 
-			final AST ast = context.getFrameStack().getCurrentStatement();
+			final ModuleElement ast = context.getFrameStack().getCurrentStatement();
 			throw new EolAssertionException(
 					message != null ? message : String.format("No lines matched '%s' from start to finish", regexp),
 					ast, null, null, null);
@@ -206,7 +206,7 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		// Since the assertion has failed, !mustBeEqual shows whether the
 		// trees were equal or not. If they are equal, there is no point
 		// in showing differences in the UI.
-		final AST ast = context.getFrameStack().getCurrentStatement();
+		final ModuleElement ast = context.getFrameStack().getCurrentStatement();
 		throw new EolAssertionException(
 			message, ast, fileExpected, fileActual, null);
 	}

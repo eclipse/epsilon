@@ -14,8 +14,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackageAccess;
@@ -27,7 +25,7 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetWorksheetMetadata;
@@ -41,6 +39,8 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -246,7 +246,16 @@ public class ExcelModel extends SpreadsheetModel
 		final Sheet sheet = this.workbook.createSheet(worksheetMetadata.getName());
 		return new ExcelWorksheet(this, sheet, false);
 	}
-
+		
+	@Override
+	public boolean store(String location) {
+		File spreadsheetFile = this.spreadsheetFile;
+		this.spreadsheetFile = new File(location);
+		boolean result = store();
+		this.spreadsheetFile = spreadsheetFile;
+		return result;
+	}
+	
 	@Override
 	public boolean store()
 	{
@@ -341,7 +350,7 @@ public class ExcelModel extends SpreadsheetModel
 	}
 
 	@Override
-	public Collection<SpreadsheetRow> find(Variable iterator, AST ast, IEolContext context) throws EolRuntimeException
+	public Collection<SpreadsheetRow> find(Variable iterator, ModuleElement ast, IEolContext context) throws EolRuntimeException
 	{
 		throw new UnsupportedOperationException();
 	}

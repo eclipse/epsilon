@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
@@ -55,7 +55,7 @@ public abstract class EObjectImageTextProvider {
 				super.createCache();
 				operationCache.put("label", new SimpleOperation() {
 					@Override
-					public Object execute(Object source, List<?> parameters, IEolContext context, AST ast) throws EolRuntimeException {
+					public Object execute(Object source, List<?> parameters, IEolContext context, ModuleElement ast) throws EolRuntimeException {
 						return getEObjectReferenceLabel(source,getBasicEObjectLabel(source));
 					}
 

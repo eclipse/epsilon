@@ -1,7 +1,6 @@
 package org.eclipse.epsilon.common.dt;
 
 import java.net.URL;
-import java.util.Collections;
 import java.util.HashMap;
 
 import org.eclipse.core.runtime.FileLocator;

@@ -35,16 +35,12 @@ public abstract class AbstractEglTemplate {
 		this.module = module;
 	}
 	
+	public IEglModule getModule() {
+		return module;
+	}
+	
 	public List<ParseProblem> getParseProblems() {
 		return module.getParseProblems();
-	}
-	
-	public AST getAst() {
-		return module.getAst();
-	}
-	
-	public List<?> getChildren() {
-		return module.getModuleElements();
 	}
 
 	public List<ModelDeclaration> getDeclaredModelDefinitions() {

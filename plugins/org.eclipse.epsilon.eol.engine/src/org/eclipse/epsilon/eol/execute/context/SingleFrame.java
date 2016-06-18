@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringUtil;
 
 /**
@@ -26,16 +26,16 @@ public class SingleFrame implements Frame {
 
 	private HashMap<String, Variable> storage = new LinkedHashMap<String, Variable>();
 	private FrameType type;
-	private AST entryPoint;
+	private ModuleElement entryPoint;
 	private String label;
-	private AST currentStatement;
+	private ModuleElement currentStatement;
 
-	public SingleFrame(FrameType type, AST entryPoint){
+	public SingleFrame(FrameType type, ModuleElement entryPoint){
 		this.type = type;
 		this.entryPoint = entryPoint;
 	}
 	
-	public SingleFrame(FrameType type, AST entryPoint, String label){
+	public SingleFrame(FrameType type, ModuleElement entryPoint, String label){
 		this.type = type;
 		this.entryPoint = entryPoint;
 		this.label = label;
@@ -121,12 +121,12 @@ public class SingleFrame implements Frame {
 	}
 	
 	@Override
-	public AST getEntryPoint() {
+	public ModuleElement getEntryPoint() {
 		return entryPoint;
 	}
 
 	@Override
-	public void setEntryPoint(AST entryPoint) {
+	public void setEntryPoint(ModuleElement entryPoint) {
 		this.entryPoint = entryPoint;
 	}
 	
@@ -143,12 +143,12 @@ public class SingleFrame implements Frame {
 	}
 
 	@Override
-	public void setCurrentStatement(AST ast) {
+	public void setCurrentStatement(ModuleElement ast) {
 		this.currentStatement = ast;
 	}
 
 	@Override
-	public AST getCurrentStatement() {
+	public ModuleElement getCurrentStatement() {
 		return currentStatement;
 	}
 }

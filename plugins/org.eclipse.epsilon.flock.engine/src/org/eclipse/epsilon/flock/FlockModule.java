@@ -19,6 +19,7 @@ import java.util.List;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
@@ -33,6 +34,7 @@ import org.eclipse.epsilon.flock.model.domain.typemappings.Deletion;
 import org.eclipse.epsilon.flock.model.domain.typemappings.PackageDeletion;
 import org.eclipse.epsilon.flock.model.domain.typemappings.PackageRetyping;
 import org.eclipse.epsilon.flock.model.domain.typemappings.Retyping;
+import org.eclipse.epsilon.flock.model.domain.typemappings.TypeMappingConstruct;
 import org.eclipse.epsilon.flock.parse.FlockLexer;
 import org.eclipse.epsilon.flock.parse.FlockParser;
 
@@ -57,7 +59,7 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	}
 	
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch(cst.getType()) {
 			case FlockParser.GUARD:
 				return new ExecutableBlock<Boolean>(Boolean.class);
@@ -84,12 +86,25 @@ public class FlockModule extends ErlModule implements IFlockModule {
 		
 		return super.adapt(cst, parentAst);
 	}
-
+	
 	@Override
-	public void buildModel() throws Exception {
-		super.buildModel();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		
-		strategy = new MigrationStrategyLoader(ast).run();
+		strategy = new MigrationStrategy();
+		
+		for (AST childAst : cst.getChildren()) {
+			
+			ModuleElement moduleElement = module.createAst(childAst, module);
+			
+			if (moduleElement instanceof MigrateRule) {
+				strategy.addRule((MigrateRule) moduleElement);
+			}
+			else if (moduleElement instanceof Retyping || moduleElement instanceof PackageRetyping || moduleElement instanceof Deletion || moduleElement instanceof PackageDeletion) {
+				strategy.addTypeMappingConstruct((TypeMappingConstruct) moduleElement);
+			}
+			
+		}
 	}
 
 	public FlockResult execute(IModel original, IModel migrated) throws EolRuntimeException {
@@ -111,19 +126,10 @@ public class FlockModule extends ErlModule implements IFlockModule {
 		return result;
 	}
 	
-	@Override
-	public List<ModuleElement> getModuleElements(){
-		final List<ModuleElement> children = new ArrayList<ModuleElement>();
-		
-		children.addAll(getImports());
-		children.addAll(getDeclaredPre());
-		children.addAll(strategy.getTypeMappingsAndRules());
-		children.addAll(getDeclaredOperations());
-		children.addAll(getDeclaredPost());
-		
-		return children;
+	public MigrationStrategy getStrategy() {
+		return strategy;
 	}
-
+	
 	public IFlockContext getContext() {
 		return context;
 	}

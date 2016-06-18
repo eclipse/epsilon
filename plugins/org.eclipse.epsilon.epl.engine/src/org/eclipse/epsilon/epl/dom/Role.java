@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
@@ -42,38 +43,39 @@ public class Role extends AbstractModuleElement {
 	
 	public Role() {}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public void build() {
-		super.build();
-		for (AST nameAst : AstUtil.getChildren(this, EplParser.NAME)) {
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		for (AST nameAst : AstUtil.getChildren(cst, EplParser.NAME)) {
 			this.names.add(nameAst.getText());
 		}
-		this.typeAst = AstUtil.getChild(this, EplParser.TYPE);
-		AST domainAst = AstUtil.getChild(this, EplParser.DOMAIN);
+		this.typeAst = AstUtil.getChild(cst, EplParser.TYPE);
+		AST domainAst = AstUtil.getChild(cst, EplParser.DOMAIN);
 		if (domainAst != null) {
-			domain = (Domain) domainAst;
+			domain = (Domain) module.createAst(domainAst, this);
 			domain.setRole(this);
 		}
-		AST guardAst = AstUtil.getChild(this, EplParser.GUARD);
+		AST guardAst = AstUtil.getChild(cst, EplParser.GUARD);
 		if (guardAst != null) {
-			guard = (ExecutableBlock<Boolean>) guardAst;
+			guard = (ExecutableBlock<Boolean>) module.createAst(guardAst, this);
 		}
-		AST noAST = AstUtil.getChild(this, EplParser.NO);
+		AST noAST = AstUtil.getChild(cst, EplParser.NO);
 		negative = (noAST != null);
 		
-		AST cardinalityAst = AstUtil.getChild(this, EplParser.CARDINALITY);
+		AST cardinalityAst = AstUtil.getChild(cst, EplParser.CARDINALITY);
 		if (cardinalityAst != null) {
-			cardinality = (Cardinality) cardinalityAst;
+			cardinality = (Cardinality) module.createAst(cardinalityAst, this);
 		}
 		
-		AST optionalAst = AstUtil.getChild(this, EplParser.OPTIONAL);
+		AST optionalAst = AstUtil.getChild(cst, EplParser.OPTIONAL);
 		if (optionalAst != null) {
-			this.optionalAst = (ExecutableBlock<Boolean>) optionalAst;
+			this.optionalAst = (ExecutableBlock<Boolean>) module.createAst(optionalAst, this);
 		}
 		
-		AST activeAst = AstUtil.getChild(this, EplParser.ACTIVE);
+		AST activeAst = AstUtil.getChild(cst, EplParser.ACTIVE);
 		if (activeAst != null) {
-			this.activeAst = (ExecutableBlock<Boolean>) activeAst;
+			this.activeAst = (ExecutableBlock<Boolean>) module.createAst(activeAst, this);
 		}
 	}
 	
@@ -104,11 +106,6 @@ public class Role extends AbstractModuleElement {
 	
 	public List<String> getNames() {
 		return names;
-	}
-	
-	@Override
-	public List<?> getModuleElements() {
-		return Collections.emptyList();
 	}
 	
 	public Domain getDomain() {

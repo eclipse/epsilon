@@ -10,13 +10,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 
 public class EolTypeNotFoundException extends EolRuntimeException{
 	
 	protected String typeName = "";
 	
-	public EolTypeNotFoundException(String typeName, AST ast) {
+	public EolTypeNotFoundException(String typeName, ModuleElement ast) {
 		super();
 		this.typeName = typeName;
 		this.ast = ast;

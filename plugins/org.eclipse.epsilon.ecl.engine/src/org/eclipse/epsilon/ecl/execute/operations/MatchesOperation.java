@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.trace.Match;
@@ -32,7 +32,7 @@ public class MatchesOperation extends SimpleOperation {
 
 	@Override
 	public Object execute(Object source, List<?> parameters,
-			IEolContext context_, AST ast) throws EolRuntimeException {
+			IEolContext context_, ModuleElement ast) throws EolRuntimeException {
 		
 		IEclContext context = (IEclContext) context_;
 		Object parameter = parameters.get(0);

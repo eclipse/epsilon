@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.profiling;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
@@ -18,22 +18,22 @@ import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 public class ProfilingExecutionListener implements IExecutionListener {
 
 	@Override
-	public void aboutToExecute(AST ast, IEolContext context) {
+	public void aboutToExecute(ModuleElement ast, IEolContext context) {
 		//if (AstUtil.getParentType(ast) == EolParser.POINT)
-			Profiler.INSTANCE.start(getLabel(ast), "", new FileMarker(ast.getFile(), ast.getLine(), ast.getColumn()));
+			Profiler.INSTANCE.start(getLabel(ast), "", new FileMarker(ast.getFile(), ast.getRegion().getStart().getLine(), ast.getRegion().getStart().getColumn()));
 	}
 
 	@Override
-	public void finishedExecuting(AST ast, Object evaluatedAst, IEolContext context) {
+	public void finishedExecuting(ModuleElement ast, Object evaluatedAst, IEolContext context) {
 		//if (AstUtil.getParentType(ast) == EolParser.POINT)
 			Profiler.INSTANCE.stop(getLabel(ast));
 	}
 	
 	@Override
-	public void finishedExecutingWithException(AST ast, EolRuntimeException exception, IEolContext context) {}
+	public void finishedExecutingWithException(ModuleElement ast, EolRuntimeException exception, IEolContext context) {}
 	
-	protected String getLabel(AST ast) {
-		return ast.getText() + " (" + ast.getLine() + ":" + ast.getColumn() + ")";
+	protected String getLabel(ModuleElement ast) {
+		return ast.getClass().getSimpleName() + " (" + ast.getRegion().getStart().getLine() + ":" + ast.getRegion().getStart().getColumn() + ")";
 	}
 	
 }

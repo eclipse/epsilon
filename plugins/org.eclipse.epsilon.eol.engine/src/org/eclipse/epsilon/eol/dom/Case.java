@@ -1,6 +1,8 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 
 public class Case extends AbstractModuleElement {
 	
@@ -8,13 +10,13 @@ public class Case extends AbstractModuleElement {
 	protected StatementBlock body;
 	
 	@Override
-	public void build() {
-		super.build();
-		if (getChildCount() == 2) { // regular case
-			condition = (Expression) getFirstChild();
-			body = (StatementBlock) getSecondChild();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		if (cst.getChildCount() == 2) { // regular case
+			condition = (Expression) module.createAst(cst.getFirstChild(), this);
+			body = (StatementBlock) module.createAst(cst.getSecondChild(), this);
 		} else { // default
-			body = (StatementBlock) getFirstChild();
+			body = (StatementBlock) module.createAst(cst.getFirstChild(), this);
 		}
 	}
 	

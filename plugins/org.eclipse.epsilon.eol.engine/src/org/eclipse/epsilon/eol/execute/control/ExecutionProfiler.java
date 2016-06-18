@@ -13,21 +13,22 @@ package org.eclipse.epsilon.eol.execute.control;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
 public class ExecutionProfiler implements ExecutionController {
 	
-	protected HashMap<AST, Long> profile = new HashMap<AST, Long>();
+	protected HashMap<ModuleElement, Long> profile = new HashMap<ModuleElement, Long>();
 	long previousTime = 0;
-	AST previousAst = null;
+	ModuleElement previousAst = null;
 	
 	public ExecutionProfiler() {
 		super();
 	}
 
-	public void control(AST ast, IEolContext context) {
+	public void control(ModuleElement ast, IEolContext context) {
 		long currentTime = 0;
 		
 		if (previousAst != null){
@@ -48,14 +49,14 @@ public class ExecutionProfiler implements ExecutionController {
 		return false;
 	}
 
-	public HashMap<AST, Long> getProfile() {
+	public HashMap<ModuleElement, Long> getProfile() {
 		return profile;
 	}
 
 	public void report(IEolContext context) {
-		Iterator<AST> it = profile.keySet().iterator();
+		Iterator<ModuleElement> it = profile.keySet().iterator();
 		while (it.hasNext()){
-			AST key = it.next();
+			ModuleElement key = it.next();
 			context.getErrorStream().print(key);
 			context.getErrorStream().print("-");
 			context.getErrorStream().println(profile.get(key));
@@ -68,7 +69,7 @@ public class ExecutionProfiler implements ExecutionController {
 	}
 
 	@Override
-	public void done(AST ast, IEolContext context) {
+	public void done(ModuleElement ast, IEolContext context) {
 		// nothing to do
 	}
 	

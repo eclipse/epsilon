@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
@@ -19,7 +19,7 @@ public class EolIllegalReturnException extends EolRuntimeException{
 	private String expectedType = "";
 	private Object returnedValue = null;
 	
-	public EolIllegalReturnException(String expectedType, Object returnedValue, AST ast, IEolContext context){
+	public EolIllegalReturnException(String expectedType, Object returnedValue, ModuleElement ast, IEolContext context){
 		this.expectedType = expectedType;
 		this.returnedValue = returnedValue;
 		this.context = context;

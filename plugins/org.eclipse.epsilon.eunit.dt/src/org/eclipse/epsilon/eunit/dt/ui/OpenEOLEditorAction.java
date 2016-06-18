@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.eunit.dt.ui;
 
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.jface.action.Action;
 
 abstract class OpenEOLEditorAction extends Action {
@@ -19,7 +19,7 @@ abstract class OpenEOLEditorAction extends Action {
 		super("Open in EOL editor");
 	}
 
-	protected void openInEOLEditor(AST astNode) {
+	protected void openInEOLEditor(ModuleElement astNode) {
 		EclipseUtil.openEditorAt(astNode);
 	}
 }

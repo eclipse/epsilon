@@ -63,7 +63,7 @@ public class EdlModule extends ErlModule {
 	}
 	
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, AST parentAst) {
 		if (cst.getType() == EdlParser.PROCESS) {
 			return new ProcessRule();
 		}

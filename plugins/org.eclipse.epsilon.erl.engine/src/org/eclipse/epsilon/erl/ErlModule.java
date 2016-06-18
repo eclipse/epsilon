@@ -11,9 +11,10 @@
 package org.eclipse.epsilon.erl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
@@ -22,8 +23,8 @@ import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
-import org.eclipse.epsilon.erl.dom.NamedRule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
+import org.eclipse.epsilon.erl.dom.NamedStatementBlockRule;
 import org.eclipse.epsilon.erl.dom.Post;
 import org.eclipse.epsilon.erl.dom.Pre;
 import org.eclipse.epsilon.erl.exceptions.ErlCircularRuleInheritanceException;
@@ -37,17 +38,16 @@ public abstract class ErlModule extends EolLibraryModule implements IErlModule {
 	protected NamedRuleList<Post> post = null;
 	
 	@Override
-	public void buildModel() throws Exception {
-		super.buildModel();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		
-		for (AST preBlockAst : AstUtil.getChildren(ast, getPreBlockTokenType())){
-			declaredPre.add((Pre) preBlockAst);
+		for (AST preBlockAst : AstUtil.getChildren(cst, getPreBlockTokenType())){
+			declaredPre.add((Pre) module.createAst(preBlockAst, this));
 		}
 		
-		for (AST postBlockAst : AstUtil.getChildren(ast, getPostBlockTokenType())){
-			declaredPost.add((Post) postBlockAst);
+		for (AST postBlockAst : AstUtil.getChildren(cst, getPostBlockTokenType())){
+			declaredPost.add((Post) module.createAst(postBlockAst, this));
 		}
-		
 	}
 	
 	public List<Post> getPost() {
@@ -80,7 +80,7 @@ public abstract class ErlModule extends EolLibraryModule implements IErlModule {
 	}
 
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		if (cst.getType() == getPreBlockTokenType()) {
 			return new Pre();
 		}
@@ -99,8 +99,8 @@ public abstract class ErlModule extends EolLibraryModule implements IErlModule {
 	}
 	
 	
-	protected void execute(List<? extends NamedRule> namedRules, IEolContext context) throws EolRuntimeException {
-		for (NamedRule namedRule : namedRules) {
+	protected void execute(List<? extends NamedStatementBlockRule> namedRules, IEolContext context) throws EolRuntimeException {
+		for (NamedStatementBlockRule namedRule : namedRules) {
 			context.getExecutorFactory().executeAST(namedRule.getBody(), context);
 		}
 	}
@@ -124,12 +124,12 @@ public abstract class ErlModule extends EolLibraryModule implements IErlModule {
 				rule.calculateSuperRules(allRules);
 			} catch (ErlRuleNotFoundException e) {
 				ParseProblem problem = new ParseProblem();
-				problem.setLine(rule.getLine());
+				problem.setLine(rule.getRegion().getStart().getLine());
 				problem.setReason(e.getReason());
 				parseProblems.add(problem);
 			} catch (ErlCircularRuleInheritanceException e) {
 				ParseProblem problem = new ParseProblem();
-				problem.setLine(rule.getLine());
+				problem.setLine(rule.getRegion().getStart().getLine());
 				problem.setReason(e.getReason());
 				parseProblems.add(problem);
 			}

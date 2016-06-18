@@ -14,10 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleContentProvider;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
+import org.eclipse.jface.viewers.IContentProvider;
 
 public class EolEditor extends AbstractModuleEditor {
 
@@ -105,6 +108,11 @@ public class EolEditor extends AbstractModuleEditor {
 		return new EolModuleElementLabelProvider();
 	}
 
+	@Override
+	protected ModuleContentProvider createModuleContentProvider() {
+		return new EolModuleContentProvider();
+	}
+	
 	@Override
 	protected boolean supportsHyperlinks() {
 		return true;

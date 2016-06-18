@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -22,9 +24,9 @@ public abstract class AnnotatableModuleElement extends AbstractModuleElement {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
-		annotationBlock = (AnnotationBlock) getAnnotationsAst();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		annotationBlock = (AnnotationBlock) module.createAst(cst.getAnnotationsAst(), this);
 	}
 	
 	public boolean hasAnnotation(String name) {

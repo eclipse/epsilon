@@ -3,6 +3,8 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -20,14 +22,18 @@ public class StatementBlock extends AbstractExecutableModuleElement {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
-		for (AST ast : getChildren()) {
-			if (ast instanceof Statement) {
-				statements.add((Statement) ast);
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		for (AST ast : cst.getChildren()) {
+			ModuleElement moduleElement = module.createAst(ast, this);
+			if (moduleElement instanceof Statement) {
+				statements.add((Statement) moduleElement);
 			}
 			else {
-				statements.add(new ExpressionStatement((Expression) ast));
+				ExpressionStatement expressionStatement = new ExpressionStatement((Expression) moduleElement);
+				expressionStatement.setParent(this);
+				this.getChildren().add(expressionStatement);
+				statements.add(expressionStatement);
 			}
 		}
 	}

@@ -352,7 +352,7 @@ public class EUnitTest {
 		}
 
 		// Remove the file extension
-		String filename = getOperation().getBasename();
+		String filename = EUnitModule.getBasename(getOperation());
 		final int lastDot = filename.lastIndexOf('.');
 		if (lastDot != -1) {
 			filename = filename.substring(0, lastDot);

@@ -10,19 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.epl.dt.launching;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
-import org.eclipse.epsilon.epl.parse.EplParser;
+import org.eclipse.epsilon.epl.dom.Pattern;
 
 public class EplDebugger extends EolDebugger {
 	
-	public EplDebugger() {
-		super();
-		expressionOrStatementBlockContainers.add(EplParser.DO);
-		expressionOrStatementBlockContainers.add(EplParser.GUARD);
-		expressionOrStatementBlockContainers.add(EplParser.DOMAIN);
-		expressionOrStatementBlockContainers.add(EplParser.MATCH);
-		expressionOrStatementBlockContainers.add(EplParser.NOMATCH);
-		structuralBlocks.add(EplParser.PATTERN);
+	@Override
+	protected boolean isStructuralBlock(ModuleElement ast) {
+		return super.isStructuralBlock(ast) || ast instanceof Pattern;
 	}
 	
 }

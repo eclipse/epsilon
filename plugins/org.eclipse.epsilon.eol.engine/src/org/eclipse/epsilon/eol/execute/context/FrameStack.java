@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 
 
@@ -119,22 +120,22 @@ public class FrameStack {
 		}
 
 		@Override
-		public AST getEntryPoint() {
+		public ModuleElement getEntryPoint() {
 			return globals.top().getEntryPoint();
 		}
 
 		@Override
-		public void setEntryPoint(AST entryPoint) {
+		public void setEntryPoint(ModuleElement entryPoint) {
 			globals.top().setEntryPoint(entryPoint);
 		}
 
 		@Override
-		public AST getCurrentStatement() {
+		public ModuleElement getCurrentStatement() {
 			return globals.top().getCurrentStatement();
 		}
 
 		@Override
-		public void setCurrentStatement(AST ast) {
+		public void setCurrentStatement(ModuleElement ast) {
 			globals.top().setCurrentStatement(ast);
 		}
 	}
@@ -168,7 +169,7 @@ public class FrameStack {
 	 * @param variables
 	 *            Zero or more variables that will be added to the new frame.
 	 */
-	public Frame enterGlobal(FrameType type, AST entryPoint, Variable... variables) {
+	public Frame enterGlobal(FrameType type, ModuleElement entryPoint, Variable... variables) {
 		return globals.enter(type, entryPoint, variables);
 	}
 	
@@ -185,7 +186,7 @@ public class FrameStack {
 	 *            Zero or more variables that will be added to the new frame.
 	 * @return
 	 */
-	public Frame enterLocal(FrameType type, AST entryPoint, Variable... variables) {
+	public Frame enterLocal(FrameType type, ModuleElement entryPoint, Variable... variables) {
 		return locals.enter(type, entryPoint, variables);
 	}
 	
@@ -195,7 +196,7 @@ public class FrameStack {
 	 * @deprecated Use {@link #enterLocal(FrameType, AST, Variable...)} instead.
 	 *             This method will be removed from a future version of Epsilon.
 	 */
-	public Frame enter(FrameType type, AST entryPoint, Variable... variables) {
+	public Frame enter(FrameType type, ModuleElement entryPoint, Variable... variables) {
 		return enterLocal(type, entryPoint, variables);
 	}
 	
@@ -205,7 +206,7 @@ public class FrameStack {
 	 * stack. This method cannot leave a global stack frame: use
 	 * {@link #leaveGlobal(AST, boolean)} for that.
 	 */
-	public void leaveLocal(AST entryPoint, boolean dispose) {
+	public void leaveLocal(ModuleElement entryPoint, boolean dispose) {
 		locals.leave(entryPoint, dispose);
 	}
 	
@@ -213,7 +214,7 @@ public class FrameStack {
 	 * Convenience method for {@link #leaveLocal(AST, boolean))} which disposes of the stack
 	 * frame that was left.
 	 */
-	public void leaveLocal(AST entryPoint) {
+	public void leaveLocal(ModuleElement entryPoint) {
 		leaveLocal(entryPoint, true);
 	}
 	
@@ -223,7 +224,7 @@ public class FrameStack {
 	 * {@link #leaveLocal(AST, boolean)} for that. This method will not leave the
 	 * last remaining global stack frame.
 	 */
-	public void leaveGlobal(AST entryPoint, boolean dispose) {
+	public void leaveGlobal(ModuleElement entryPoint, boolean dispose) {
 		if (countGlobalFrames() > 1)
 			globals.leave(entryPoint, dispose);
 	}
@@ -232,7 +233,7 @@ public class FrameStack {
 	 * Convenience method for {@link #leaveGlobal(AST, boolean)} which disposes of the
 	 * global stack frame that was left.
 	 */
-	public void leaveGlobal(AST entryPoint) {
+	public void leaveGlobal(ModuleElement entryPoint) {
 		leaveGlobal(entryPoint, true);
 	}
 	
@@ -243,7 +244,7 @@ public class FrameStack {
 	 * @deprecated Use {@link #leaveLocal(AST, boolean)} instead.
 	 *             This method will be removed from a future version of Epsilon.
 	 */
-	public void leave(AST entryPoint, boolean dispose) {
+	public void leave(ModuleElement entryPoint, boolean dispose) {
 		leaveLocal(entryPoint, dispose);
 	}
 	
@@ -254,7 +255,7 @@ public class FrameStack {
 	 * @deprecated Use {@link #leaveLocal(AST)} instead.
 	 *             This method will be removed from a future version of Epsilon.
 	 */
-	public void leave(AST entryPoint) {
+	public void leave(ModuleElement entryPoint) {
 		leaveLocal(entryPoint, true);
 	}
 
@@ -454,11 +455,11 @@ public class FrameStack {
 		return activeGroup().top();
 	}
 	
-	public AST getCurrentStatement() {
+	public ModuleElement getCurrentStatement() {
 		return activeGroup().top().getCurrentStatement();
 	}
 
-	public void setCurrentStatement(AST ast) {
+	public void setCurrentStatement(ModuleElement ast) {
 		activeGroup().top().setCurrentStatement(ast);
 	}
 

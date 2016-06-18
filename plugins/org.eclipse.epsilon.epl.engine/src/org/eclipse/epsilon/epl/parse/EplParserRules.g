@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  * -----------------------------------------------------------------------------
@@ -12,7 +12,7 @@
  * [The "BSD licence"]
  * Copyright (c) 2005-2008 Terence Parr
  * All rights reserved.
- *  
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -66,10 +66,10 @@ pattern
 		$tree.getExtraTokens().add($pt);
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
-	} 
-	: 
-	pt='pattern'! c=NAME^ role (','! role)* (ob='{'! (match | do_ | nomatch | onmatch)* cb='}'!)?
-	{$c.setType(PATTERN);}
+	}
+	:
+	pt='pattern'^ NAME role (','! role)* (ob='{'! (match | do_ | nomatch | onmatch)* cb='}'!)?
+	{$pt.setType(PATTERN);}
 	;
 
 role
@@ -82,7 +82,7 @@ no : n='no' {$n.setType(NO);};
 cardinality
 	@after {
 		$tree.getExtraTokens().add($cb);
-	} 
+	}
 	: c='['^ bound ('..'! bound)? cb=']'!
 	{$c.setType(CARDINALITY);}
 	;
@@ -95,7 +95,7 @@ domain :
 	(c='in'^|c='from'^) expressionOrStatementBlock
 	{$c.setType(DOMAIN);}
 	;
-	
+
 match :
 	c='match'^ expressionOrStatementBlock
 	{$c.setType(MATCH);}
@@ -110,7 +110,7 @@ active :
 	c='active'^ expressionOrStatementBlock
 	{$c.setType(ACTIVE);}
 	;
-		
+
 do_ :
 	c='do'^ expressionOrStatementBlock
 	{$c.setType(DO);}
@@ -120,7 +120,7 @@ onmatch :
 	c='onmatch'^ expressionOrStatementBlock
 	{$c.setType(ONMATCH);}
 	;
-		
+
 nomatch :
 	c='nomatch'^ expressionOrStatementBlock
 	{$c.setType(NOMATCH);}

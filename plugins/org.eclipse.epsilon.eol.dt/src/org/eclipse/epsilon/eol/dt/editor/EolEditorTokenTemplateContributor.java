@@ -19,7 +19,8 @@ import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
 import org.eclipse.epsilon.common.dt.editor.contentassist.TemplateWithImage;
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
 import org.eclipse.epsilon.eol.util.EolParserUtil;
 import org.eclipse.jface.text.templates.Template;
@@ -38,17 +39,17 @@ public class EolEditorTokenTemplateContributor implements IAbstractModuleEditorT
 	public void moduleParsed(AbstractModuleEditor editor, IModule module) {
 		templates.clear();
 		tokens.clear();
-		findTokens(module.getAst());
+		findTokens(module);
 		for (String token : tokens) {
 			templates.add(new TemplateWithImage(token, "token", "", token, false, tokenImage));
 		}
 	}
 	
-	protected void findTokens(AST root) {
-		if (!EolParserUtil.isProperty(root) && root.getText().length() > 2 && Character.isJavaIdentifierStart(root.getText().charAt(0))) { 
-			tokens.add(root.getText()); 
+	protected void findTokens(ModuleElement root) {
+		if (root instanceof NameExpression) { 
+			tokens.add(((NameExpression) root).getName()); 
 		}
-		for (AST child : root.getChildren()) {
+		for (ModuleElement child : root.getChildren()) {
 			findTokens(child);
 		}
 		

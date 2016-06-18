@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -32,9 +33,9 @@ public class AsOperation extends SimpleOperation {
 			List<Expression> expressions, IEolContext context)
 			throws EolRuntimeException {
 		
-		AST varAst = expressions.get(0);
-		if (isNameAst(varAst)) {
-			String varName = varAst.getText();
+		Expression varAst = expressions.get(0);
+		if (varAst instanceof NameExpression) {
+			String varName = ((NameExpression) varAst).getName();
 			Variable var = new Variable(varName, target, EolAnyType.Instance);
 			context.getFrameStack().put(var);
 			return target;
@@ -49,14 +50,15 @@ public class AsOperation extends SimpleOperation {
 		return false;
 	}
 	
+	/*
 	protected boolean isNameAst(AST ast) {
 		return ast!= null && ast.getType() == EolParser.FEATURECALL &&
 			ast.getChildren().isEmpty();
-	}
+	}*/
 
 	@Override
 	public Object execute(Object source, List<?> parameters,
-			IEolContext context, AST ast) throws EolRuntimeException {
+			IEolContext context, ModuleElement ast) throws EolRuntimeException {
 		return null;
 	}
 	

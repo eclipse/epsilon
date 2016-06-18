@@ -13,6 +13,8 @@
  */
 package org.eclipse.epsilon.flock.model.domain.typemappings;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
@@ -28,10 +30,10 @@ public class PackageRetyping extends PackageTypedConstruct implements TypeMappin
 	private String evolvedPackage;
 	
 	@Override
-	public void build() {
-		super.build();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 
-		evolvedPackage = getSecondChild().getText();
+		evolvedPackage = cst.getSecondChild().getText();
 		if (evolvedPackage == null)
 			throw new IllegalArgumentException("evolvedPackage cannot be null");
 	}

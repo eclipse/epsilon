@@ -3,6 +3,8 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
@@ -21,11 +23,11 @@ public abstract class OperatorExpression extends Expression {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
-		this.firstOperand = (Expression) getFirstChild();
-		this.secondOperand = (Expression) getSecondChild();
-		this.operator = getText();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		this.firstOperand = (Expression) module.createAst(cst.getFirstChild(), this);
+		this.secondOperand = (Expression) module.createAst(cst.getSecondChild(), this);
+		this.operator = cst.getText();
 	}
 	
 	

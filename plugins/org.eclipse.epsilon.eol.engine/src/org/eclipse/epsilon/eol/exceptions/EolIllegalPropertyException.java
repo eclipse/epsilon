@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
@@ -20,7 +20,7 @@ public class EolIllegalPropertyException extends EolRuntimeException{
 	protected Object object;
 	
 	
-	public EolIllegalPropertyException(Object object, String property, AST ast, IEolContext context) {
+	public EolIllegalPropertyException(Object object, String property, ModuleElement ast, IEolContext context) {
 		super();
 		this.ast = ast;
 		this.object = object;

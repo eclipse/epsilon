@@ -8,28 +8,20 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.egl.dt.editor;
+package org.eclipse.epsilon.egl.dt.editor.outline;
 
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.dt.EglPlugin;
-import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
-import org.eclipse.epsilon.erl.dom.Post;
-import org.eclipse.epsilon.erl.dom.Pre;
+import org.eclipse.epsilon.erl.dt.editor.outline.ErlModuleElementLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-public class EgxModuleElementLabelProvider extends EolModuleElementLabelProvider {
+public class EgxModuleElementLabelProvider extends ErlModuleElementLabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof GenerationRule) {
 			return EglPlugin.getDefault().createImage("icons/generationrule.gif");
 		} 
-		else if (element instanceof Pre){
-			return EglPlugin.getDefault().createImage("icons/pre.gif");
-		}
-		else if (element instanceof Post){
-			return EglPlugin.getDefault().createImage("icons/post.gif");
-		}
 		else {
 			return super.getImage(element);
 		}

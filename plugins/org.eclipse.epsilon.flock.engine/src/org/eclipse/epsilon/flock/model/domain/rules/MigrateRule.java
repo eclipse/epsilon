@@ -13,7 +13,9 @@
  */
 package org.eclipse.epsilon.flock.model.domain.rules;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
@@ -28,14 +30,11 @@ public class MigrateRule extends ClassifierTypedConstruct {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void build() {
-		super.build();
-		this.body = (ExecutableBlock<Void>)getFirstChildWithType(FlockParser.BLOCK);
-		buildIgnoredProperties();
-	}
-
-	private void buildIgnoredProperties() {
-		final AST ignoring = (AST)getFirstChildWithType(FlockParser.IGNORING);
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		this.body = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst,FlockParser.BLOCK), this);
+		
+		final AST ignoring = AstUtil.getChild(cst,FlockParser.IGNORING);
 		if (ignoring != null) {
 			for (AST ignoredProperty : ignoring.getChildren()) {
 				this.ignoredProperties.add(ignoredProperty.getText());

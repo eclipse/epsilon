@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
@@ -104,8 +105,8 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 	
 	protected void calculateSuperRules(ExtensibleNamedRule rule, List<? extends ExtensibleNamedRule> allRules, List<ExtensibleNamedRule> collectedRules, boolean recursive) throws ErlRuleNotFoundException, ErlCircularRuleInheritanceException {
 		
-		for (AST superRuleAst : rule.superRulesIdentifiers) {
-			String superRuleName = superRuleAst.getText();
+		for (NameExpression superRuleAst : rule.superRulesIdentifiers) {
+			String superRuleName = superRuleAst.getName();
 			ExtensibleNamedRule superRule = (ExtensibleNamedRule) getRuleByName(allRules, superRuleName);
 			if (superRule != null){
 				if (getRuleByName(collectedRules, superRule.getName()) != null){
@@ -134,23 +135,22 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 		return null;
 	}
 	
-	
-	public void build() {
-		super.build();
-		this.name = getFirstChild().getText();
+	@Override
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		
-		AST superRulesAst = getSuperRulesAst();
+		AST superRulesAst = getSuperRulesAst(cst);
 		if (superRulesAst != null){
 			AST superRuleAst = superRulesAst.getFirstChild();
 			while (superRuleAst != null){
-				superRulesIdentifiers.add((NameExpression) superRuleAst);
+				superRulesIdentifiers.add((NameExpression) module.createAst(superRuleAst, this));
 				superRuleAst = superRuleAst.getNextSibling();
 			}
 		}
 		
 	}
 	
-	public abstract AST getSuperRulesAst();
+	public abstract AST getSuperRulesAst(AST cst);
 	
 	public List<ExtensibleNamedRule> getAllSuperRules() {
 		return allSuperRules;

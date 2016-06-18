@@ -20,16 +20,13 @@ import java.util.Map;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EgxContext;
-import org.eclipse.epsilon.egl.formatter.Formatter;
-import org.eclipse.epsilon.egl.internal.EglResult;
-import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.parse.EgxLexer;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.egl.traceability.Content;
@@ -42,7 +39,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
-public class EgxModule extends ErlModule implements IEolExecutableModule, IEglModule {
+public class EgxModule extends ErlModule implements IEolExecutableModule {
 	
 	protected NamedRuleList<GenerationRule> declaredGenerationRules = null;
 	protected NamedRuleList<GenerationRule> generationRules = null;
@@ -83,19 +80,20 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	}
 	
 	@Override
-	public void buildModel() throws Exception {
-		super.buildModel();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		
 		// Parse the transform rules
-		for (AST generationRuleAst : AstUtil.getChildren(ast, EgxParser.GENERATE)) {
-			declaredGenerationRules.add((GenerationRule) generationRuleAst);
+		for (AST generationRuleAst : AstUtil.getChildren(cst, EgxParser.GENERATE)) {
+			declaredGenerationRules.add((GenerationRule) module.createAst(generationRuleAst, this));
 		}
 		
 		getParseProblems().addAll(calculateSuperRules(getGenerationRules()));
 	}
 	
+	
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch (cst.getType()) {
 			case EgxParser.GENERATE: return createGenerationRule(cst);
 			case EgxParser.TEMPLATE: return new ExecutableBlock<String>(String.class);
@@ -105,7 +103,7 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 			case EgxParser.TARGET: return new ExecutableBlock<String>(String.class);
 			case EgxParser.PRE:
 			case EgxParser.POST: {
-				if (parentAst.getType() == EgxParser.GENERATE) {
+				if (parentAst instanceof GenerationRule) {
 					return new ExecutableBlock<Void>(Void.class);
 				}
 			}
@@ -123,7 +121,7 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 		return new GenerationRule();
 	}
 	
-	public List<GenerationRule> getDeclaredTransformRules() {
+	public List<GenerationRule> getDeclaredGenerationRules() {
 		return declaredGenerationRules;
 	}
 	
@@ -165,36 +163,6 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 		
 		return null;
 		
-		/*
-		// Initialize the context
-		prepareContext(context);
-		context.setOperationFactory(new EtlOperationFactory());
-		
-		EtlExecutorFactory etlExecutorFactory = new EtlExecutorFactory();
-		etlExecutorFactory.setExecutionController(context.getExecutorFactory().getExecutionController());
-		context.setExecutorFactory(etlExecutorFactory);
-		
-		if (hasLazyRules(context)) {
-			context.setTransformationStrategy(new DefaultTransformationStrategy());
-		}
-		else {
-			context.setTransformationStrategy(new FastTransformationStrategy());
-		}
-		
-		context.getFrameStack().put(Variable.createReadOnlyVariable("transTrace", context.getTransformationTrace()));
-		context.getFrameStack().put(Variable.createReadOnlyVariable("context", context));
-		context.getFrameStack().put(Variable.createReadOnlyVariable("module", this));
-		
-		execute(getPre(), context);
-		
-		// Execute the transformModel() method of the strategy
-		if (context.getTransformationStrategy() != null){
-			context.getTransformationStrategy().transformModels(context);
-		}
-		
-		execute(getPost(), context);
-		
-		return context.getTransformationTrace();*/
 	}
 	
 	@Override
@@ -211,17 +179,6 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	
 	public void setContext(EgxContext context){
 		this.context = context;
-	}
-	
-	@Override
-	public List<ModuleElement> getModuleElements(){
-		final List<ModuleElement> children = new ArrayList<ModuleElement>();
-		children.addAll(getImports());
-		children.addAll(getDeclaredPre());
-		children.addAll(declaredGenerationRules);
-		children.addAll(getDeclaredPost());
-		children.addAll(getDeclaredOperations());
-		return children;
 	}
 	
 	@Override
@@ -257,15 +214,11 @@ public class EgxModule extends ErlModule implements IEolExecutableModule, IEglMo
 	}
 
 	@Override
-	public EglResult execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException {
-		return null;
-	}
-
-	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof EgxContext) {
 			this.context = (EgxContext) context;
 		}
 	}
+
 	
 }

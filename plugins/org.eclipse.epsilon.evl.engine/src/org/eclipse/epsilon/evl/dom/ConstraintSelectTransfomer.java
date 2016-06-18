@@ -13,11 +13,13 @@ package org.eclipse.epsilon.evl.dom;
 import java.util.List;
 
 import org.antlr.runtime.CommonToken;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.AndOperatorExpression;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.FirstOrderOperationCallExpression;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.NotOperatorExpression;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
@@ -57,7 +59,8 @@ public class ConstraintSelectTransfomer {
 
 		// Either this is not a block (just an expression), or it's
 		// a "simple" block with a single "return EXPRESSION;" statement.
-		AST expressionOrBlock = block.getFirstChild();
+		//AST expressionOrBlock = block.getFirstChild();
+		IExecutableModuleElement expressionOrBlock = block.getBody();
 		if (expressionOrBlock instanceof StatementBlock) {
 			return isSimpleBlock((StatementBlock) expressionOrBlock);
 		} else {
@@ -72,7 +75,7 @@ public class ConstraintSelectTransfomer {
 		return block.getStatements().get(0) instanceof ReturnStatement;
 	}
 
-	private boolean isDependentOnOtherRules(AST node) {
+	private boolean isDependentOnOtherRules(ModuleElement node) {
 		if (node instanceof OperationCallExpression) {
 			OperationCallExpression opCall = (OperationCallExpression)node;
 			if (opCall.getParameterExpressions().size() > 0) {
@@ -87,7 +90,7 @@ public class ConstraintSelectTransfomer {
 			}
 		}
 
-		for (AST child : node.getChildren()) {
+		for (ModuleElement child : node.getChildren()) {
 			if (isDependentOnOtherRules(child)) {
 				return true;
 			}
@@ -127,12 +130,13 @@ public class ConstraintSelectTransfomer {
 			selectExpression);
 
 		// Need to do this in order to make it go through addChild (otherwise ANTLR silently drops it)
-		optimisedExpression.setToken(new CommonToken(Evl_EolParserRules.RETURN));
+		// optimisedExpression.setToken(new CommonToken(Evl_EolParserRules.RETURN));
 
 		// Create the executable block
 		ExecutableBlock<?> newBlock = new ExecutableBlock(List.class);
-		newBlock.addChild(optimisedExpression);
-		newBlock.build();
+		newBlock.setBody(optimisedExpression);
+		//newBlock.addChild(optimisedExpression);
+		//newBlock.build();
 		return newBlock;
 	}
 

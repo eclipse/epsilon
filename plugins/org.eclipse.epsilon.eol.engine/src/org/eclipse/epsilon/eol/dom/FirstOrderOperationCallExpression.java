@@ -3,6 +3,7 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
@@ -38,31 +39,31 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
-		if (getFirstChild().getType() != EolParser.PARAMLIST) { 
-			targetExpression = (Expression) getFirstChild();
-			nameExpression = (NameExpression) getSecondChild();
-			for (AST ast : nameExpression.getFirstChild().getChildren()) {
-				parameters.add((Parameter) ast);
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		if (cst.getFirstChild().getType() != EolParser.PARAMLIST) { 
+			targetExpression = (Expression) module.createAst(cst.getFirstChild(), this);
+			nameExpression = (NameExpression) module.createAst(cst.getSecondChild(), this);
+			for (AST ast : cst.getSecondChild().getFirstChild().getChildren()) {
+				parameters.add((Parameter) module.createAst(ast, this));
 			}
-			for (AST ast : nameExpression.getChildren()) {
-				if (ast != nameExpression.getFirstChild()) {
-					expressions.add((Expression) ast);
+			for (AST ast : cst.getSecondChild().getChildren()) {
+				if (ast != cst.getSecondChild().getFirstChild()) {
+					expressions.add((Expression) module.createAst(ast, this));
 				}
 			}
 		}
 		else {
-			nameExpression = new NameExpression(this.getText());
-			nameExpression.setRegion(this.getRegion());
-			nameExpression.setUri(this.getUri());
-			nameExpression.setModule(this.getModule());
-			for (AST ast : getFirstChild().getChildren()) {
-				parameters.add((Parameter) ast);
+			nameExpression = new NameExpression(cst.getText());
+			nameExpression.setRegion(cst.getRegion());
+			nameExpression.setUri(cst.getUri());
+			nameExpression.setModule(cst.getModule());
+			for (AST ast : cst.getFirstChild().getChildren()) {
+				parameters.add((Parameter) module.createAst(ast, this));
 			}
-			for (AST ast : getChildren()) {
-				if (ast != getFirstChild()) {
-					expressions.add((Expression) ast);
+			for (AST ast : cst.getChildren()) {
+				if (ast != cst.getFirstChild()) {
+					expressions.add((Expression) module.createAst(ast, this));
 				}
 			}
 		}

@@ -7,19 +7,6 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class NamedRuleList<T extends NamedRule> extends ArrayList<T> {
 	
-	public static void main(String[] args) {
-		
-		Post p1 = new Post();
-		p1.setName("P1");
-		Post p2 = new Post();
-		p2.setName("P1");
-		
-		NamedRuleList<Post> rules = new NamedRuleList<Post>();
-		rules.add(p1);
-		rules.add(p2);
-		
-	}
-	
 	@Override
 	public boolean add(T namedRule) {
 		NamedRule toRemove = null;

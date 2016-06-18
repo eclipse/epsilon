@@ -33,11 +33,6 @@ public class MockContext extends EglContext implements IEglContext {
 		public MockModule(IEglContext context) {
 			super(context);
 		}
-
-		@Override
-		public AST getAst() {
-			return new MockAST();
-		}
 		
 		private static class MockAST extends AST {
 

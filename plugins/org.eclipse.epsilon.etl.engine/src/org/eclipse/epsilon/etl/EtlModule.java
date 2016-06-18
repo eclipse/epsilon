@@ -17,6 +17,7 @@ import java.util.List;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
@@ -32,7 +33,6 @@ import org.eclipse.epsilon.etl.dom.EquivalentAssignmentStatement;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.execute.context.EtlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
-import org.eclipse.epsilon.etl.execute.operations.EtlOperationFactory;
 import org.eclipse.epsilon.etl.parse.EtlLexer;
 import org.eclipse.epsilon.etl.parse.EtlParser;
 import org.eclipse.epsilon.etl.strategy.DefaultTransformationStrategy;
@@ -65,7 +65,7 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	}
 	
 	@Override
-	public AST adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		if (cst.getType() == EtlParser.TRANSFORM) {
 			return new TransformationRule();
 		}
@@ -82,13 +82,12 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	}
 	
 	@Override
-	public void buildModel() throws Exception {
-		
-		super.buildModel();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
 		
 		// Parse the transform rules
-		for (AST transformationRuleAst : AstUtil.getChildren(ast, EtlParser.TRANSFORM)) {
-			declaredTransformationRules.add((TransformationRule) transformationRuleAst);
+		for (AST transformationRuleAst : AstUtil.getChildren(cst, EtlParser.TRANSFORM)) {
+			declaredTransformationRules.add((TransformationRule) module.createAst(transformationRuleAst, this));
 		}
 
 		getParseProblems().addAll(calculateSuperRules(getTransformationRules()));
@@ -153,17 +152,6 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	
 	public void setContext(IEtlContext context){
 		this.context = context;
-	}
-	
-	@Override
-	public List<ModuleElement> getModuleElements(){
-		final List<ModuleElement> children = new ArrayList<ModuleElement>();
-		children.addAll(getImports());
-		children.addAll(getDeclaredPre());
-		children.addAll(declaredTransformationRules);
-		children.addAll(getDeclaredPost());
-		children.addAll(getDeclaredOperations());
-		return children;
 	}
 	
 	@Override

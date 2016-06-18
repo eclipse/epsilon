@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -33,10 +35,12 @@ public class Fix extends AbstractModuleElement {
 		super();
 	}
 	
-	public void build() {
-		guardBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EvlParser.GUARD);
-		titleBlock = (ExecutableBlock<String>) AstUtil.getChild(this,EvlParser.TITLE);
-		bodyBlock = (ExecutableBlock<Void>) AstUtil.getChild(this,EvlParser.DO);
+	@SuppressWarnings("unchecked")
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EvlParser.GUARD), this);
+		titleBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst,EvlParser.TITLE), this);
+		bodyBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst,EvlParser.DO), this);
 	}
 	
 	public List<?> getModuleElements() {

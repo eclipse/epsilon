@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -39,15 +41,15 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	}
 
 	@Override
-	public void build() {
-		super.build();
-		this.collectionType = getText();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		this.collectionType = cst.getText();
 		this.range = false;
-		if (getFirstChild() != null) {
-			for (AST parameterAst : getFirstChild().getChildren()) {
-				parameterExpressions.add((Expression) parameterAst);
+		if (cst.getFirstChild() != null) {
+			for (AST parameterAst : cst.getFirstChild().getChildren()) {
+				parameterExpressions.add((Expression) module.createAst(parameterAst, this));
 			}
-			if (getFirstChild().getType() == EolParser.EXPRRANGE) {
+			if (cst.getFirstChild().getType() == EolParser.EXPRRANGE) {
 				range = true;
 			}
 		}

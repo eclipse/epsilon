@@ -169,7 +169,7 @@ public class OutputBuffer implements IOutputBuffer {
 			context.addStatusMessage(new Warning("Cannot set content type to '" + name + "' - content type already specified."));
 		} else {
 			if (!context.usePartitionerFor(name)) {
-				throw new EglRuntimeException("'" + name + "' is not a recognised content type.", context.getModule().getAst());
+				throw new EglRuntimeException("'" + name + "' is not a recognised content type.", context.getModule());
 			}
 			
 			for (CommentBlockPartitioner customPartitioner : customPartitioners) {
@@ -184,10 +184,10 @@ public class OutputBuffer implements IOutputBuffer {
 	public String startPreserve(String id, boolean enabled) throws EglRuntimeException {
 	
 		if (lastLine != null)
-			throw new EglRuntimeException("Preservation of the current region must be stopped before preservation of another region may begin.", context.getModule().getAst());
+			throw new EglRuntimeException("Preservation of the current region must be stopped before preservation of another region may begin.", context.getModule());
 		
 		if (context.getPartitioner().getDefaultPartitioner() == null)
-			throw new EglRuntimeException("A content type must be specified before using startPreserve(id, enabled).", context.getModule().getAst());
+			throw new EglRuntimeException("A content type must be specified before using startPreserve(id, enabled).", context.getModule());
 		
 		lastLine = context.getPartitioner().getDefaultPartitioner().getLastLine(id);
 		
@@ -202,7 +202,7 @@ public class OutputBuffer implements IOutputBuffer {
 	                            boolean enabled) throws EglRuntimeException {
 
 		if (lastLine != null)
-			throw new EglRuntimeException("Preservation of the current region must be stopped before preservation of another region may begin.", context.getModule().getAst());
+			throw new EglRuntimeException("Preservation of the current region must be stopped before preservation of another region may begin.", context.getModule());
 		
 		final CommentBlockPartitioner customPartitioner = new CommentBlockPartitioner(startComment, endComment);
 		lastLine = customPartitioner.getLastLine(id);
@@ -216,7 +216,7 @@ public class OutputBuffer implements IOutputBuffer {
 	@Override
 	public String stopPreserve() throws EglRuntimeException {
 		if (lastLine == null)
-			throw new EglRuntimeException("There is no current region to stop preserving.", context.getModule().getAst());
+			throw new EglRuntimeException("There is no current region to stop preserving.", context.getModule());
 
 		final String result = lastLine;
 		lastLine = null;
@@ -226,7 +226,7 @@ public class OutputBuffer implements IOutputBuffer {
 	
 	@Override
 	public void stop() throws EglStoppedException {
-		throw new EglStoppedException(context.getModule().getAst());
+		throw new EglStoppedException(context.getModule());
 	}
 	
 	@Override

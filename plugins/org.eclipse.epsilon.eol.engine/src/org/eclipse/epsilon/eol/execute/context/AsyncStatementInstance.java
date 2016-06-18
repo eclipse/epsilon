@@ -10,20 +10,20 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.context;
 
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 
 public class AsyncStatementInstance {
 	
-	protected AST ast;
+	protected ModuleElement ast;
 	protected FrameStack localFrameStack;
 	
-	public AST getAst() {
+	public ModuleElement getAst() {
 		return ast;
 	}
 	
-	public void setAst(AST ast) {
+	public void setAst(ModuleElement ast) {
 		this.ast = ast;
 	}
 	

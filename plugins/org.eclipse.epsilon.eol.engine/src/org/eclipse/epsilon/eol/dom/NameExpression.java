@@ -1,5 +1,7 @@
 package org.eclipse.epsilon.eol.dom;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
@@ -25,9 +27,9 @@ public class NameExpression extends Expression {
 	}
 	
 	@Override
-	public void build() {
-		super.build();
-		this.name = getText();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		this.name = cst.getText();
 	}
 	
 	public Object execute(IEolContext context, boolean returnVariable) throws EolRuntimeException {

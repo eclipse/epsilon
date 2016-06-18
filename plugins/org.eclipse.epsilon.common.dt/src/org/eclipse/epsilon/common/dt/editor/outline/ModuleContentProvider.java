@@ -10,40 +10,38 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.editor.outline;
 
-import org.eclipse.epsilon.common.module.IModule;
+import java.util.List;
+
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-public class ModuleContentProvider implements ITreeContentProvider{
-	
-	private IModule module;
+public abstract class ModuleContentProvider implements ITreeContentProvider{
 	
 	public Object[] getChildren(Object parentElement) {
-		return ((ModuleElement) parentElement).getModuleElements().toArray();
+		return getVisibleChildren((ModuleElement) parentElement).toArray();
 	}
 
 	public Object getParent(Object element) {
-		return module;
+		return ((ModuleElement) element).getParent();
 	}
 
 	public boolean hasChildren(Object element) {
-		//return (element == module);
-		return (element instanceof ModuleElement && ((ModuleElement)element).getModuleElements().size() > 0) ;
+		return (element instanceof ModuleElement && getVisibleChildren((ModuleElement)element).size() > 0) ;
 	}
 
 	public Object[] getElements(Object inputElement) {
-		return ((ModuleElement) inputElement).getModuleElements().toArray();
+		return getVisibleChildren((ModuleElement) inputElement).toArray();
 	}
 
-	public void dispose() {
-		// TODO Auto-generated method stub
-	}
+	public void dispose() {}
 
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		module = (IModule) newInput;
+		
 	}
 	
+	public abstract List<ModuleElement> getVisibleChildren(ModuleElement moduleElement);
 	
+	public abstract ModuleElement getFocusedModuleElement(ModuleElement moduleElement);
 	
 }

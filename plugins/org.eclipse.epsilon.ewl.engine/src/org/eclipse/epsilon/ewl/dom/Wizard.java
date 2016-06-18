@@ -13,19 +13,20 @@ package org.eclipse.epsilon.ewl.dom;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
-import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.erl.dom.NamedRule;
 import org.eclipse.epsilon.ewl.parse.EwlParser;
 
 
-public class Wizard extends AnnotatableModuleElement {
+public class Wizard extends NamedRule {
 	
-	protected String name;
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected ExecutableBlock<Void> bodyBlock;
 	protected ExecutableBlock<String> titleBlock;
@@ -35,12 +36,11 @@ public class Wizard extends AnnotatableModuleElement {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void build() {
-		super.build();
-		this.name = this.getText();
-		this.guardBlock = (ExecutableBlock<Boolean>) AstUtil.getChild(this, EwlParser.GUARD);
-		this.bodyBlock = (ExecutableBlock<Void>) AstUtil.getChild(this,EwlParser.DO);
-		this.titleBlock = (ExecutableBlock<String>) AstUtil.getChild(this, EwlParser.TITLE);
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		this.guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EwlParser.GUARD), this);
+		this.bodyBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst,EwlParser.DO), this);
+		this.titleBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EwlParser.TITLE), this);
 	}
 	
 	public boolean appliesTo(Object self, IEolContext context) throws EolRuntimeException{
@@ -67,11 +67,7 @@ public class Wizard extends AnnotatableModuleElement {
 	
 	@Override
 	public String toString(){
-		return name;
-	}
-
-	public String getName() {
-		return name;
+		return getName();
 	}
 	
 }
