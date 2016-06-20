@@ -34,10 +34,16 @@ public class GenerateEmfCodeDelegate extends EugeniaActionDelegate {
 		resource.load(null);
 		EcoreUtil.resolveAll(resourceSet);
 
+		// If the EPackage uses other EPackages and those use other EPackages as well, we'll need
+		// to keep calling reconcile() iteratively until we reach a fixed point - bug 495925
 		GenModel genModel = (GenModel) resource.getContents().get(0);
-		genModel.reconcile();
+		int oldSize;
+		do {
+			oldSize = genModel.getGenPackages().size();
+			genModel.reconcile();
+		} while (genModel.getGenPackages().size() != oldSize);
 		genModel.setCanGenerate(true);
-		
+
 		// generate the code
 		Generator generator = new Generator();
 		generator.setInput(genModel);
