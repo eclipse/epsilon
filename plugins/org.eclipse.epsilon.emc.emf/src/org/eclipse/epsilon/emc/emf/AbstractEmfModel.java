@@ -363,41 +363,15 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return  false;
 		
 	}
-	
-	public abstract boolean store();
-//	{
-//		if (modelImpl == null) return false;
-//	
-//		try {
-//			modelImpl.save(null);
-//			return true;
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			return false;
-//		}
-//	}
 
 	public boolean store(String fileName) {
 		return store(EmfUtil.createPlatformResourceURI(fileName));
 	}
 	
-	// If expand == true, save the other resources in the 
-	// resource set as well
+	// If expand == true, save the other resources in the resource set as well
 	// See how we can run store inside a WorkbenchModificationOperation
 	public boolean store(URI uri) {
-		URI oldUri = modelImpl.getURI();
 		modelImpl.setURI(uri);
-//		try {
-//			modelImpl.setURI(uri);
-//			modelImpl.save(null);
-//		}
-//		catch (Exception e) {
-//			e.printStackTrace();
-//			return false;
-//		}
-//		finally {
-//			modelImpl.setURI(oldUri);
-//		}
 		return store();
 	}
 	
