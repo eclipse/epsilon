@@ -179,7 +179,7 @@ As is the case for most programming languages, EOL defines a built-in system of 
     
     asString() : String & Returns a string representation of the object \\\hline
     
-    err([prefix : String]) : Any & Prints a string representation of the object on which it is invoked to the error stream prefixed with the optional \emph{prefix} string and returns the object on which it was invoked. In this way, the \emph{print} operation can be used for debugging purposes in a non-invasive manner\\\hline
+    err([prefix : String]) : Any & Prints a string representation of the object on which it is invoked to the error stream prefixed with the optional \emph{prefix} string and returns the object on which it was invoked. In this way, the \emph{err} operation can be used for debugging purposes in a non-invasive manner\\\hline
     
     errln([prefix : String]) : Any & Has the same effects as the \emph{err} operation but also produces a new line in the output stream. \\\hline
     
@@ -815,7 +815,7 @@ else { "A is less equal than 0".println(); }
 
 \subsection{Switch Statement}
 
-A switch statement consists of an expression and a set of cases, and can be used to implement multi-branching. Unlike Java/C, switch in EOL doesn't by default fall through to the next case after a successful one. Therefore, it is not necessary to add a \emph{break} statement after each case. To enable falling through to the next case you can use the \emph{continue} statement. Also, unlike Java/C, the switch expression can return anything (not only integers). As an example, when executed, the code in Listing \ref{lst:SwitchStatement1} prints 2 while the code in Listing \ref{lst:SwitchStatement2} prints 2,3,default.
+A switch statement consists of an expression and a set of cases, and can be used to implement multi-branching. Unlike Java/C, switch in EOL doesn't by default fall through to the next case after a successful one. Therefore, it is not necessary to add a \emph{break} statement after each case. To enable falling through to all subsequent cases you can use the \emph{continue} statement. Also, unlike Java/C, the switch expression can return anything (not only integers). As an example, when executed, the code in Listing \ref{lst:SwitchStatement1} prints 2 while the code in Listing \ref{lst:SwitchStatement2} prints 2,3,default.
 
 \begin{lstlisting}[float=h, caption=Example illustrating a switch statement, label=lst:SwitchStatement1, language=EOL]
 var i = "2";
