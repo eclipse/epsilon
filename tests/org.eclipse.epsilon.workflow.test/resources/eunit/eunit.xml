@@ -498,7 +498,7 @@
 	</target>
 
 	<target name="tree2text">
-		<epsilon.egl src="egl/tree2text.egl" target="${basedir}/../../generated/tree.txt">
+		<epsilon.egl src="egl/tree2text.egl" outputRoot="${basedir}/../../generated" target="tree.txt">
 			<model ref="Tree"/>
 		</epsilon.egl>
 	</target>
