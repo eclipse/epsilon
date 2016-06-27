@@ -79,6 +79,7 @@
     <module>org.eclipse.epsilon.eol.tools</module>
     <module>org.eclipse.epsilon.epl.dt</module>
     <module>org.eclipse.epsilon.epl.engine</module>
+    <module>org.eclipse.epsilon.erl.dt</module>
     <module>org.eclipse.epsilon.erl.engine</module>
     <module>org.eclipse.epsilon.etl.dt</module>
     <module>org.eclipse.epsilon.etl.engine</module>
