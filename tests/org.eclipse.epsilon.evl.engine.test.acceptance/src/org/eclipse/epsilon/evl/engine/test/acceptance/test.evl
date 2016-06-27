@@ -71,3 +71,6 @@ context t_b {
 	
 }
 
+constraint Contextless {
+  check : t_a.all.size + t_b.all.size > 2
+}

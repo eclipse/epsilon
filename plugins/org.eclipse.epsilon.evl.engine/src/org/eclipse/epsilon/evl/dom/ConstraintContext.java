@@ -45,7 +45,7 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	}
 	
 	public String getTypeName() {
-		return typeAst.getText();
+		return typeAst != null ? typeAst.getText() : null;
 	}
 	
 	public List<ModuleElement> getModuleElements() {

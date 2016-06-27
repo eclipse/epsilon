@@ -38,6 +38,7 @@ public class ConstraintSelectTransfomer {
 
 	public boolean canBeTransformed(Constraint c) {
 		return c.getConstraintContext() != null
+			&& c.getConstraintContext().getTypeName() != null
 			&& isOptimisableExpression(c.getConstraintContext().guardBlock)
 			&& isOptimisableExpression(c.guardBlock)
 			&& isOptimisableExpression(c.checkBlock);
