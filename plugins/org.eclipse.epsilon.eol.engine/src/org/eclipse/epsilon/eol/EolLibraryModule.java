@@ -9,7 +9,6 @@
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
 package org.eclipse.epsilon.eol;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -55,7 +54,6 @@ import org.eclipse.epsilon.eol.dom.NewInstanceExpression;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.dom.OperationList;
-import org.eclipse.epsilon.eol.dom.OperatorExpression;
 import org.eclipse.epsilon.eol.dom.OperatorExpressionFactory;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
@@ -266,10 +264,6 @@ public abstract class EolLibraryModule extends AbstractModule implements IEolLib
 		imports.clear();
 		declaredOperations.clear();
 		operations = null;
-	}
-
-	public File getSourceFile() {
-		return sourceFile;
 	}
 
 	public List<Import> getImports() {
