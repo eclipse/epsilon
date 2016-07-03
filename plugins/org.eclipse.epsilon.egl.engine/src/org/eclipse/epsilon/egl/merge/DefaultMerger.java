@@ -13,7 +13,8 @@ package org.eclipse.epsilon.egl.merge;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.egl.merge.output.ProtectedRegion;
+import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
+import org.eclipse.epsilon.egl.merge.output.RegionType;
 import org.eclipse.epsilon.egl.merge.partition.Partitioner;
 import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
 
@@ -26,20 +27,56 @@ public class DefaultMerger extends Merger {
 	@Override
 	public String merge() {
 		warnings.clear();
+		
+		boolean hasProtectedRegions = false;
+		boolean hasControlledRegions = false;
+		
+		for (LocatedRegion region : generated.getLocatedRegions()) {
+			if (region.getType() == RegionType.Protected) hasProtectedRegions = true;
+			else if (region.getType() == RegionType.Controlled) hasControlledRegions = true;
+		}
+		
+		if (hasProtectedRegions && hasControlledRegions) {
+			throw new RuntimeException("Templates cannot contain both protected and controlled regions.");
+		}
+		else if (hasControlledRegions) {
+			return mergeControlledRegions();
+		}
+		else {
+			return mergeProtectedRegions();
+		}
+		
+	}
+	
+	public String mergeControlledRegions() {
+		for (LocatedRegion existingRegion : existing.getLocatedRegions()) {
+			final LocatedRegion generatedRegion = generated.getLocatedRegion(existingRegion.getId());
+						
+			if (existingRegion != null && existingRegion.isEnabled() && existingRegion.getType() == RegionType.Controlled) {
+				generatedRegion.setEnabled(true);
+				existingRegion.setContents(generatedRegion.getContents());
+			}
+		}
+		
+		return existing.toString();
+	}
+	
+	public String mergeProtectedRegions() {
+		warnings.clear();
 		final List<String> idsPresentInGenerated = new LinkedList<String>();
 		
-		for (ProtectedRegion generatedRegion : generated.getProtectedRegions()) {
-			final ProtectedRegion existingRegion = existing.getProtectedRegion(generatedRegion.getId());
+		for (LocatedRegion generatedRegion : generated.getLocatedRegions()) {
+			final LocatedRegion existingRegion = existing.getLocatedRegion(generatedRegion.getId());
 			
 			idsPresentInGenerated.add(generatedRegion.getId());
 			
-			if (existingRegion != null && existingRegion.isEnabled()) {
+			if (existingRegion != null && existingRegion.isEnabled() && existingRegion.getType() == RegionType.Protected) {
 				generatedRegion.setEnabled(true);
 				generatedRegion.setContents(existingRegion.getContents());
 			}
 		}
 		
-		for (ProtectedRegion existingRegion : existing.getProtectedRegions()) {
+		for (LocatedRegion existingRegion : existing.getLocatedRegions()) {
 			if (!idsPresentInGenerated.contains(existingRegion.getId())) {
 				warnings.add(new ProtectedRegionWarning(existingRegion.getId()));
 			}
@@ -47,4 +84,5 @@ public class DefaultMerger extends Merger {
 		
 		return generated.toString();
 	}
+	
 }

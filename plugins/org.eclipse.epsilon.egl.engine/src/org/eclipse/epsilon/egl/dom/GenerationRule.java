@@ -47,7 +47,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 	protected ExecutableBlock<Void> preBlock = null;
 	protected ExecutableBlock<Void> postBlock = null;
 	protected ExecutableBlock<Boolean> overwriteBlock = null;
-	protected ExecutableBlock<Boolean> protectRegionsBlock = null;
+	protected ExecutableBlock<Boolean> mergeBlock = null;
 	protected Boolean isGreedy;
 	
 	public GenerationRule() {}
@@ -67,7 +67,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 		preBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EgxParser.PRE), this);
 		postBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EgxParser.POST), this);
 		overwriteBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.OVERWRITE), this);
-		protectRegionsBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.PROTECTREGIONS), this);
+		mergeBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.MERGE), this);
 	}
 	
 	public boolean isGreedy() throws EolRuntimeException {
@@ -105,7 +105,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 			if (preBlock != null) preBlock.execute(context, false);
 			
 			boolean overwrite = (overwriteBlock == null) ? true : overwriteBlock.execute(context, false);
-			boolean protectRegions = (protectRegionsBlock == null) ? true : protectRegionsBlock.execute(context, false);			
+			boolean merge = (mergeBlock == null) ? true : mergeBlock.execute(context, false);			
 			EolMap parameters = (parametersBlock == null) ? new EolMap() : parametersBlock.execute(context, false);
 			String template = (templateBlock == null) ? "" : templateBlock.execute(context, false);
 			
@@ -129,7 +129,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 			
 			File generated = null;
 			if (eglTemplate instanceof EglPersistentTemplate) {
-				generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, protectRegions);
+				generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
 			}
 			
 			module.getInvokedTemplates().add(eglTemplate.getTemplate());

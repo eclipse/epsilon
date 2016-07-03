@@ -11,28 +11,28 @@
 package org.eclipse.epsilon.egl.merge.output;
 
 
-public abstract class ProtectedRegion extends Region {
+public abstract class LocatedRegion extends Region {
 	
 	private final String id;
 	private final int offset;
 	private final String defaultValue;
-	
+	protected RegionType type = RegionType.Regular;
 	private boolean enabled;
 	
-	protected ProtectedRegion(String id,
+	protected LocatedRegion(String id,
 	                          int offset) {
 
 		this(id, offset, true);
 	}
 	
-	protected ProtectedRegion(String id,
+	protected LocatedRegion(String id,
 	                          int offset,
 	                          boolean enabled) {
 
 		this(id, offset, enabled, "");
 	}
 	
-	protected ProtectedRegion(String id,
+	protected LocatedRegion(String id,
 	                          int offset,
 	                          boolean enabled,
 	                          String contents) {
@@ -45,6 +45,8 @@ public abstract class ProtectedRegion extends Region {
 		this.offset = offset;
 		this.enabled = enabled;
 		this.defaultValue = contents;
+		this.type = RegionType.Protected;
+		
 	}
 
 	public boolean isEnabled() {
@@ -74,13 +76,22 @@ public abstract class ProtectedRegion extends Region {
 	@Override
 	public boolean equals(Object o) {
 		if (o==null) return false;
-		if (!(o instanceof ProtectedRegion)) return false;
+		if (!(o instanceof LocatedRegion)) return false;
 		
-		ProtectedRegion that = (ProtectedRegion)o;
+		LocatedRegion that = (LocatedRegion)o;
 		
 		return id.equals(that.id)     &&
 		       offset  == that.offset &&
-		       enabled == that.enabled;
+		       enabled == that.enabled &&
+		       type == that.type;
+	}
+	
+	public RegionType getType() {
+		return type;
+	}
+	
+	public void setType(RegionType type) {
+		this.type = type;
 	}
 	
 	@Override

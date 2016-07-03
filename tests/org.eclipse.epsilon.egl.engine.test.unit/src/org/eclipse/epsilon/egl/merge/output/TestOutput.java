@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.egl.merge.output.Output;
-import org.eclipse.epsilon.egl.merge.output.ProtectedRegion;
+import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
 import org.eclipse.epsilon.egl.merge.output.Region;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class TestOutput {
 	private static final List<Region> noProtectedRegions = new LinkedList<Region>();
 	private static final List<Region> empty              = new LinkedList<Region>();
 
-	private static final List<ProtectedRegion> protectedRegions = new LinkedList<ProtectedRegion>();
+	private static final List<LocatedRegion> protectedRegions = new LinkedList<LocatedRegion>();
 	
 	@BeforeClass
 	public static void setUpOnce() {
@@ -61,39 +61,39 @@ public class TestOutput {
 	
 	@Test
 	public void testGetProtectedRegions() {
-		assertEquals(protectedRegions, new Output(regions).getProtectedRegions());
+		assertEquals(protectedRegions, new Output(regions).getLocatedRegions());
 	}
 	
 	@Test
 	public void testGetProtectedRegionsNone() {
-		final List<ProtectedRegion> expected = new LinkedList<ProtectedRegion>();
+		final List<LocatedRegion> expected = new LinkedList<LocatedRegion>();
 		
-		assertEquals(expected, new Output(noProtectedRegions).getProtectedRegions());
+		assertEquals(expected, new Output(noProtectedRegions).getLocatedRegions());
 	}
 	
 	@Test
 	public void testGetProtectedRegionsEmpty() {
-		final List<ProtectedRegion> expected = new LinkedList<ProtectedRegion>();
+		final List<LocatedRegion> expected = new LinkedList<LocatedRegion>();
 		
-		assertEquals(expected, new Output().getProtectedRegions());
+		assertEquals(expected, new Output().getLocatedRegions());
 	}
 	
 	@Test
 	public void testGetProtectedRegion() {
 		final Output output = new Output(regions);
 		
-		for (ProtectedRegion pr : protectedRegions) {
-			assertEquals(pr, output.getProtectedRegion(pr.getId()));
+		for (LocatedRegion pr : protectedRegions) {
+			assertEquals(pr, output.getLocatedRegion(pr.getId()));
 		}
 	}
 	
 	@Test
 	public void testGetProtectedRegionIncorrectID() {
-		assertNull(new Output(regions).getProtectedRegion("third"));
+		assertNull(new Output(regions).getLocatedRegion("third"));
 	}
 	
 	
-	private static class MockProtectedRegion extends ProtectedRegion {
+	private static class MockProtectedRegion extends LocatedRegion {
 
 		private MockProtectedRegion(String id, boolean enabled, String contents) {
 			super(id, 0, enabled, contents);

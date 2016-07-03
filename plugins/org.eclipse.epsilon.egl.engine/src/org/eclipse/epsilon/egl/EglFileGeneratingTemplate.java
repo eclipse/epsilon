@@ -20,7 +20,7 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
 import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
-import org.eclipse.epsilon.egl.merge.output.ProtectedRegion;
+import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
 import org.eclipse.epsilon.egl.output.Writer;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecificationFactory;
@@ -74,12 +74,12 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 		}
 	}
 
-	protected void doGenerate(File target, String targetName, boolean overwrite, boolean protectRegions) throws EglRuntimeException {
+	protected void doGenerate(File target, String targetName, boolean overwrite, boolean merge) throws EglRuntimeException {
 		try {
 			this.target = target;
 			this.targetName = targetName;			
 			this.existingContents = FileUtil.readIfExists(target);
-			this.outputMode = (protectRegions && target.exists()) ? OutputMode.MERGE : OutputMode.WRITE;
+			this.outputMode = (merge && target.exists()) ? OutputMode.MERGE : OutputMode.WRITE;
 			
 			prepareNewContents();
 			writeNewContentsIfDifferentFromExistingContents();
@@ -132,7 +132,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 		currentOutputFile = template.addOutputFile(targetName, UriUtil.fileToUri(target));
 		
 		if (outputMode == OutputMode.MERGE) {
-			for (ProtectedRegion pr : module.getContext().getPartitioner().partition(newContents).getProtectedRegions()) {
+			for (LocatedRegion pr : module.getContext().getPartitioner().partition(newContents).getLocatedRegions()) {
 				currentOutputFile.addProtectedRegion(pr.getId(), pr.isEnabled(), pr.getOffset());
 			}
 		}

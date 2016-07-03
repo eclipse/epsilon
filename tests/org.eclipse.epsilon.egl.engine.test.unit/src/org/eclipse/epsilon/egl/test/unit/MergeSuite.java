@@ -13,7 +13,8 @@ package org.eclipse.epsilon.egl.test.unit;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
-import org.eclipse.epsilon.egl.merge.TestDefaultMerger;
+import org.eclipse.epsilon.egl.merge.TestControlledRegionMerging;
+import org.eclipse.epsilon.egl.merge.TestProtectedRegionMerging;
 import org.eclipse.epsilon.egl.merge.output.TestOutput;
 import org.eclipse.epsilon.egl.merge.partition.TestCompositePartitioner;
 import org.eclipse.epsilon.egl.merge.partition.TestEndCommentOnlyPartitioner;
@@ -29,7 +30,8 @@ import org.junit.runners.Suite.SuiteClasses;
                TestJavaPartitioner.class,
                TestEndCommentOnlyPartitioner.class,
                TestCompositePartitioner.class,
-	           TestDefaultMerger.class})
+	           TestProtectedRegionMerging.class,
+	           TestControlledRegionMerging.class})
 public class MergeSuite {
 
 	public static Test suite() {

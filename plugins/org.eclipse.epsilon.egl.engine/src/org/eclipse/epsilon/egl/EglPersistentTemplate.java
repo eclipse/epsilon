@@ -107,14 +107,14 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 
 	/**
 	 * Fully parameterised version of generate, usually only used internally.
-	 * Setting overwrite to false implies protectRegions is ignored.
+	 * Setting overwrite to false implies merge is ignored.
 	 * 
 	 * @param path
 	 * @param overwrite
-	 * @param protectRegions
+	 * @param merge
 	 * @throws EglRuntimeException
 	 */
-	public File generate(String path, boolean overwrite, boolean protectRegions) throws EglRuntimeException {
+	public File generate(String path, boolean overwrite, boolean merge) throws EglRuntimeException {
 		final File outputFile = resolveFile(path);
 
 		if (overwrite || !outputFile.exists()) {
@@ -122,7 +122,7 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 				process();
 			}
 
-			doGenerate(outputFile, name(path), overwrite, protectRegions);
+			doGenerate(outputFile, name(path), overwrite, merge);
 			
 			for (ITemplateExecutionListener listener : listeners) {
 				listener.finishedGenerating(this, name(path));
@@ -152,9 +152,9 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 	 * @param path
 	 * @param targetName
 	 * @param overwrite
-	 * @param protectRegions
+	 * @param merge
 	 */
-	protected abstract void doGenerate(File file, String targetName, boolean overwrite, boolean protectRegions) throws EglRuntimeException;
+	protected abstract void doGenerate(File file, String targetName, boolean overwrite, boolean merge) throws EglRuntimeException;
 
 	
 	protected void addMessage(String message) {

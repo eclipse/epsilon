@@ -16,9 +16,10 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
+import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.merge.output.RegionType;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.test.MockContext;
@@ -107,7 +108,7 @@ public class TestOutputBuffer {
 
 	@Test
 	public void testStartPreserve() throws EglRuntimeException {
-		final String expected = partitioner.getFirstLine("id", true);
+		final String expected = partitioner.getFirstLine("id", true, RegionType.Protected);
 		
 		assertEquals(expected, buffer.startPreserve(partitioner.getStartComment(), partitioner.getEndComment(), "id", true));
 		assertEquals(expectedPartitioners, context.getPartitioner());
@@ -121,7 +122,7 @@ public class TestOutputBuffer {
 	
 	@Test
 	public void testStopPreserve() throws EglRuntimeException {
-		final String expected = partitioner.getFirstLine("id", true) + partitioner.getLastLine("id");
+		final String expected = partitioner.getFirstLine("id", true, RegionType.Protected) + partitioner.getLastLine("id", RegionType.Protected);
 		
 		assertEquals(expected, buffer.startPreserve(partitioner.getStartComment(), partitioner.getEndComment(), "id", true) +
 		                       buffer.stopPreserve());
@@ -136,9 +137,9 @@ public class TestOutputBuffer {
 	@Test
 	public void testPreserve() throws EglRuntimeException {
 		final String contents = "This text will be preserved";
-		final String expected = partitioner.getFirstLine("id", true) + NEWLINE +
+		final String expected = partitioner.getFirstLine("id", true, RegionType.Protected) + NEWLINE +
 		                        contents + NEWLINE +
-		                        partitioner.getLastLine("id");
+		                        partitioner.getLastLine("id", RegionType.Protected);
 		
 		assertEquals(expected, buffer.preserve(partitioner.getStartComment(), partitioner.getEndComment(), "id", true, contents));
 		assertEquals(expectedPartitioners, context.getPartitioner());
@@ -166,9 +167,9 @@ public class TestOutputBuffer {
 		final CommentBlockPartitioner partitioner          = expectedPartitioners.getDefaultPartitioner();
 		
 		final String contents = "This text will be preserved";
-		final String expected = partitioner.getFirstLine("id", true) + NEWLINE +
+		final String expected = partitioner.getFirstLine("id", true, RegionType.Protected) + NEWLINE +
                                 contents + NEWLINE +
-                                partitioner.getLastLine("id");
+                                partitioner.getLastLine("id", RegionType.Protected);
 		
 		buffer.setContentType("Java");
 		
@@ -182,9 +183,9 @@ public class TestOutputBuffer {
 		final CommentBlockPartitioner partitioner          = expectedPartitioners.getDefaultPartitioner();
 		
 		final String contents = "This text will be preserved";
-		final String expected = partitioner.getFirstLine("id", true) + NEWLINE +
+		final String expected = partitioner.getFirstLine("id", true, RegionType.Protected) + NEWLINE +
                                 contents + NEWLINE +
-                                partitioner.getLastLine("id");
+                                partitioner.getLastLine("id", RegionType.Protected);
 		
 		buffer.setContentType("Java");
 		assertEquals(0, context.getStatusMessages().size());
@@ -205,8 +206,8 @@ public class TestOutputBuffer {
 		
 		final String htmlContents = "This html will be preserved";
 		final String javaContents = "This java will be preserved";
-		final String expected = partitioner.getFirstLine("html", true)      + NEWLINE + htmlContents + NEWLINE + partitioner.getLastLine("html") +
-		                        javaPartitioner.getFirstLine("java", false) + NEWLINE + javaContents + NEWLINE + javaPartitioner.getLastLine("java");
+		final String expected = partitioner.getFirstLine("html", true, RegionType.Protected)      + NEWLINE + htmlContents + NEWLINE + partitioner.getLastLine("html", RegionType.Protected) +
+		                        javaPartitioner.getFirstLine("java", false, RegionType.Protected) + NEWLINE + javaContents + NEWLINE + javaPartitioner.getLastLine("java", RegionType.Protected);
 		
 		buffer.setContentType("Java");
 		assertEquals(0, context.getStatusMessages().size());
@@ -225,8 +226,8 @@ public class TestOutputBuffer {
 		
 		final String htmlContents = "This html will be preserved";
 		final String javaContents = "This java will be preserved";
-		final String expected = partitioner.getFirstLine("html", true)      + NEWLINE + htmlContents + NEWLINE + partitioner.getLastLine("html") +
-		                        javaPartitioner.getFirstLine("java", false) + NEWLINE + javaContents + NEWLINE + javaPartitioner.getLastLine("java");
+		final String expected = partitioner.getFirstLine("html", true, RegionType.Protected)      + NEWLINE + htmlContents + NEWLINE + partitioner.getLastLine("html", RegionType.Protected) +
+		                        javaPartitioner.getFirstLine("java", false, RegionType.Protected) + NEWLINE + javaContents + NEWLINE + javaPartitioner.getLastLine("java", RegionType.Protected);
 		
 		
 		buffer.print(buffer.preserve(partitioner.getStartComment(), partitioner.getEndComment(), "html", true, htmlContents));

@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.egl.merge.output.Output;
-import org.eclipse.epsilon.egl.merge.output.ProtectedRegion;
+import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
 import org.eclipse.epsilon.egl.merge.output.Region;
 
 public class CompositePartitioner implements Partitioner {
@@ -49,10 +49,10 @@ public class CompositePartitioner implements Partitioner {
 			for (int index = 0; index < regions.size(); index++) {
 				final Region region = regions.get(index);
 				
-				if (!(region instanceof ProtectedRegion)) {
+				if (!(region instanceof LocatedRegion)) {
 					final Output output = partitioner.partition(region.getContents(), currentOffset);
 					
-					if (output.getProtectedRegions().size() > 0) {
+					if (output.getLocatedRegions().size() > 0) {
 						regions.remove(index);
 						regions.addAll(index, output.getRegions());
 						

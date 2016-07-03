@@ -19,8 +19,8 @@ import java.util.List;
 public class Output {
 
 	private final List<Region> regions                      = new LinkedList<Region>();
-	private final List<String> protectedRegionIds           = new LinkedList<String>();
-	private final List<String> duplicatedProtectedRegionIds = new LinkedList<String>();
+	private final List<String> locatedRegionIds           = new LinkedList<String>();
+	private final List<String> duplicatedLocatedRegionIds = new LinkedList<String>();
 	
 	public Output(Region... regions) {
 		this.regions.addAll(Arrays.asList(regions));	
@@ -34,13 +34,13 @@ public class Output {
 	
 	private void processIds() {
 		for (Region r : regions) {
-			if (r instanceof ProtectedRegion) {
-				final ProtectedRegion pr = (ProtectedRegion)r;
+			if (r instanceof LocatedRegion) {
+				final LocatedRegion pr = (LocatedRegion)r;
 				
-				if (protectedRegionIds.contains(pr.getId())) {
-					duplicatedProtectedRegionIds.add(pr.getId());
+				if (locatedRegionIds.contains(pr.getId())) {
+					duplicatedLocatedRegionIds.add(pr.getId());
 				} else {
-					protectedRegionIds.add(pr.getId());
+					locatedRegionIds.add(pr.getId());
 				}
 			}
 		}
@@ -50,23 +50,23 @@ public class Output {
 		return Collections.unmodifiableList(regions);
 	}
 	
-	public List<ProtectedRegion> getProtectedRegions() {
-		List<ProtectedRegion> protectedRegions = new LinkedList<ProtectedRegion>();
+	public List<LocatedRegion> getLocatedRegions() {
+		List<LocatedRegion> locatedRegions = new LinkedList<LocatedRegion>();
 		
 		for (Region region : regions) {
-			if (region instanceof ProtectedRegion)
-				protectedRegions.add((ProtectedRegion)region);
+			if (region instanceof LocatedRegion)
+				locatedRegions.add((LocatedRegion)region);
 		}
 		
-		return Collections.unmodifiableList(protectedRegions);
+		return Collections.unmodifiableList(locatedRegions);
 	}
 	
-	public ProtectedRegion getProtectedRegion(String id) {
+	public LocatedRegion getLocatedRegion(String id) {
 		for (Region region : regions) {
-			if (region instanceof ProtectedRegion) {
-				ProtectedRegion protectedRegion = (ProtectedRegion)region;
-				if (protectedRegion.getId().equals(id)) {
-					return protectedRegion;
+			if (region instanceof LocatedRegion) {
+				LocatedRegion locatedRegion = (LocatedRegion)region;
+				if (locatedRegion.getId().equals(id)) {
+					return locatedRegion;
 				}
 			}
 		}
@@ -77,8 +77,8 @@ public class Output {
 	public List<String> getProblems() {
 		final List<String> problems = new LinkedList<String>();
 		
-		for (String id : duplicatedProtectedRegionIds) {
-			problems.add("Output contains more than one protected region with the identifier '"+id+"'");
+		for (String id : duplicatedLocatedRegionIds) {
+			problems.add("Output contains more than one region with the identifier '"+id+"'");
 		}
 		
 		return Collections.unmodifiableList(problems);

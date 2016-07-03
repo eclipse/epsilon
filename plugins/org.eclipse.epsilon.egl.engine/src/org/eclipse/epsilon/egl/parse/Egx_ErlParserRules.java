@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.egl.parse;
 
-// $ANTLR 3.1b1 ErlParserRules.g 2015-09-18 13:58:41
+// $ANTLR 3.1b1 ErlParserRules.g 2016-07-03 23:12:54
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -62,6 +62,7 @@ public class Egx_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int FeatureCall=60;
     public static final int T__167=167;
     public static final int EOF=-1;
+    public static final int T__168=168;
     public static final int T__165=165;
     public static final int BREAK=38;
     public static final int T__166=166;
@@ -142,7 +143,6 @@ public class Egx_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__129=129;
     public static final int ALIAS=69;
     public static final int JavaIDDigit=18;
-    public static final int PROTECTREGIONS=85;
     public static final int GUARD=80;
     public static final int Annotation=23;
     public static final int T__130=130;
@@ -194,6 +194,7 @@ public class Egx_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int DIGIT=5;
     public static final int EXPRRANGE=55;
     public static final int OPERATOR=58;
+    public static final int MERGE=85;
     public static final int EXPRLIST=54;
     public static final int DEFAULT=36;
     public static final int T__102=102;

@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  * -----------------------------------------------------------------------------
@@ -12,7 +12,7 @@
  * [The "BSD licence"]
  * Copyright (c) 2005-2008 Terence Parr
  * All rights reserved.
- *  
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -44,7 +44,7 @@ tokens {
 	TEMPLATE;
 	PARAMETERS;
 	OVERWRITE;
-	PROTECTREGIONS;
+	MERGE;
 }
 
 generationRule
@@ -53,7 +53,7 @@ generationRule
 		$tree.getExtraTokens().add($cb);
 	}
 	:	r='rule'^ rule=NAME ('transform'! formalParameter)?
-	ob='{'! (guard | target | template | parameters | pre | post | overwrite | protectRegions)* cb='}'!
+	ob='{'! (guard | target | template | parameters | pre | post | overwrite | merge)* cb='}'!
 	{$r.setType(GENERATE);}
 	;
 
@@ -61,7 +61,7 @@ target
 	:	g='target'^ expressionOrStatementBlock
 	{$g.setType(TARGET);}
 	;
-	
+
 template
 	:	g='template'^ expressionOrStatementBlock
 	{$g.setType(TEMPLATE);}
@@ -71,13 +71,13 @@ parameters
 	:	g='parameters'^ expressionOrStatementBlock
 	{$g.setType(PARAMETERS);}
 	;
-	
+
 overwrite
 	:	g='overwrite'^ expressionOrStatementBlock
 	{$g.setType(OVERWRITE);}
 	;
-	
-protectRegions
-	:	g='protectRegions'^ expressionOrStatementBlock
-	{$g.setType(PROTECTREGIONS);}
+
+merge
+	:	(g='merge'|'protectRegions')^ expressionOrStatementBlock
+	{$g.setType(MERGE);}
 	;

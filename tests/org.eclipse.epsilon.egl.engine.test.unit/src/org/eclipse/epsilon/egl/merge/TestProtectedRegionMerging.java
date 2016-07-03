@@ -17,7 +17,7 @@ import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.merge.partition.Partitioner;
 import org.junit.Test;
 
-public class TestDefaultMerger {
+public class TestProtectedRegionMerging {
 	
 	private final Partitioner partitioner = new CommentBlockPartitioner("<!--", "-->");
 	
@@ -86,7 +86,7 @@ public class TestDefaultMerger {
 	@Test
 	public void testAbsentAndOn() {
 		final Merger merger = new DefaultMerger(partitioner, "", existing);
-		
+		System.out.println(existing);
 		assertEquals("", merger.merge());
 		assertEquals(1, merger.getMergeWarnings().size());
 	}

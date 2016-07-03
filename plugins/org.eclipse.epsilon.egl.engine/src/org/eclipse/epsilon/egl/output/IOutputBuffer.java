@@ -119,6 +119,56 @@ public interface IOutputBuffer {
 	public String stopPreserve() throws EglRuntimeException;
 
 	/**
+	 * Appends a controlled region to the buffer.
+	 * 
+	 * @param id - a unique identifier for this protected region
+	 * @param enabled - a flag indicating whether protection of text in this region should be enabled or not
+	 * @param contents - the contents for this protected region
+	 * 
+	 * @throws EglRuntimeException if {@link #setContentType(String)} has not been called.
+	 */
+	public String control(String id, boolean enabled, String contents) throws EglRuntimeException;
+
+	/**
+	 * Appends a controlled region to the buffer.
+	 * 
+	 * @param startComment - the character sequence used to denote the start of a comment for the type of output in the buffer
+	 * @param endComment - the character sequence used to denote the end of a comment for the type of output in the buffer 
+	 * @param id - a unique identifier for this protected region
+	 * @param enabled - a flag indicating whether protection of text in this region should be enabled or not
+	 * @param contents - the contents for this protected region 
+	 */
+	public String control(String startComment, String endComment, String id, boolean enabled, String contents) throws EglRuntimeException;
+
+	/**
+	 * Appends the starting tag for a controlled region to the buffer.
+	 * 
+	 * @param id - a unique identifier for this protected region
+	 * @param enabled - a flag indicating whether protection of text in this region should be enabled or not
+	 * 
+	 * @throws EglRuntimeException if {@link #setContentType(String)} has not been called
+	 */
+	public String startControl(String id, boolean enabled) throws EglRuntimeException;
+
+	/**
+	 * Appends the starting tag for a protected region to the buffer.
+	 * 
+	 * @param startComment - the character sequence used to denote the start of a comment for the type of output in the buffer
+	 * @param endComment - the character sequence used to denote the end of a comment for the type of output in the buffer 
+	 * @param id - a unique identifier for this protected region
+	 * @param enabled - a flag indicating whether protection of text in this region should be enabled or not
+	 */
+	public String startControl(String startComment, String endComment, String id, boolean enabled) throws EglRuntimeException;
+
+	/**
+	 * Appends a closing tag for a protected region to the buffer.
+	 * 
+	 * @throws EglRuntimeException if there is no unclosed protected region in the buffer.
+	 */
+	public String stopControl() throws EglRuntimeException;
+
+	
+	/**
 	 * Halts execution of the current template.
 	 */
 	public void stop() throws EglStoppedException;

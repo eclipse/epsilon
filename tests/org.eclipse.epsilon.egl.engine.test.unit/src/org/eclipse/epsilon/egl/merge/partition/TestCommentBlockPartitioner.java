@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.egl.merge.output.Output;
-import org.eclipse.epsilon.egl.merge.output.ProtectedRegion;
+import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
 import org.eclipse.epsilon.egl.merge.output.Region;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 
@@ -39,7 +39,7 @@ public abstract class TestCommentBlockPartitioner {
 		
 		final List<Region> regions = new LinkedList<Region>();
 		
-		final ProtectedRegion secondPR = partitioner.new CommentedProtectedRegion("second", 0, false, "");
+		final LocatedRegion secondPR = partitioner.new CommentedProtectedRegion("second", 0, false, "");
 		secondPR.setContents("Second protected region" + NEWLINE);
 		
 		regions.add(new Region("Preamble" + NEWLINE));

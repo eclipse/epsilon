@@ -16,13 +16,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.epsilon.egl.merge.output.Output;
-import org.eclipse.epsilon.egl.merge.output.ProtectedRegion;
+import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
 import org.eclipse.epsilon.egl.merge.output.Region;
+import org.eclipse.epsilon.egl.merge.output.RegionType;
 import org.eclipse.epsilon.egl.util.FileUtil;
 
 
 public class CommentBlockPartitioner implements Partitioner {
-
+	
 	private final String startComment;
 	private final String endComment;
 	
@@ -61,7 +62,7 @@ public class CommentBlockPartitioner implements Partitioner {
 		}
 		
 		// The protected region literal
-		regex.append("protected region ");
+		regex.append("(controlled|protected) region ");
 		
 		// The region's id, matched reluctantly and terminated with a space
 		regex.append("(.*?) ");
@@ -95,10 +96,10 @@ public class CommentBlockPartitioner implements Partitioner {
 		}
 		
 		// The protected region literal
-		regex.append("protected region ");
+		regex.append("\\1 region ");
 		
 		// The region's id terminated with a space
-		regex.append("\\1 ");
+		regex.append("\\2 ");
 		
 		// end
 		regex.append("end");
@@ -122,7 +123,7 @@ public class CommentBlockPartitioner implements Partitioner {
 		return endComment;
 	}
 	
-	public String getFirstLine(String id, boolean enabled) {
+	public String getFirstLine(String id, boolean enabled, RegionType regionType) {
 		final StringBuilder builder = new StringBuilder();
 		
 		// Build starting comment
@@ -130,7 +131,7 @@ public class CommentBlockPartitioner implements Partitioner {
 			builder.append(startComment);
 			builder.append(' ');
 		}
-		builder.append("protected region ");
+		builder.append(regionTypeToString(regionType) + " region ");
 		builder.append(id);
 		builder.append(" ");
 		builder.append(enabled ? "on" : "off");
@@ -143,7 +144,17 @@ public class CommentBlockPartitioner implements Partitioner {
 		return builder.toString();
 	}
 
-	public String getLastLine(String id) {
+	protected String regionTypeToString(RegionType regionType) {
+		if (regionType == RegionType.Controlled) return "controlled";
+		else return "protected";
+	}
+	
+	protected RegionType regionTypeFromString(String regionType) {
+		if ("controlled".equals(regionType)) return RegionType.Controlled;
+		else return RegionType.Protected;
+	}
+	
+	public String getLastLine(String id, RegionType regionType) {
 		final StringBuilder builder = new StringBuilder();
 		
 		// Build ending comment
@@ -151,7 +162,7 @@ public class CommentBlockPartitioner implements Partitioner {
 			builder.append(startComment);
 			builder.append(' ');
 		}
-		builder.append("protected region ");
+		builder.append(regionTypeToString(regionType) + " region ");
 		builder.append(id);
 		builder.append(" end");
 		if (endComment.length() > 0) {
@@ -175,15 +186,17 @@ public class CommentBlockPartitioner implements Partitioner {
 		int previousEnd = 0;
 		
 		while (matcher.find()) {
+			
 			if (matcher.start() > previousEnd) {
 				regions.add(new Region(text.substring(previousEnd, matcher.start())));
 			}
 			previousEnd = matcher.end();
 			
-			boolean enabled = matcher.group(2) != null && matcher.group(2).equals("on");
+			boolean enabled = matcher.group(3) != null && matcher.group(3).equals("on");
 			
-			final ProtectedRegion region = new CommentedProtectedRegion(matcher.group(1), matcher.start() + offset, enabled, matcher.group(3));
-	
+			final LocatedRegion region = new CommentedProtectedRegion(matcher.group(2), matcher.start() + offset, enabled, matcher.group(4));
+			region.setType(regionTypeFromString(matcher.group(1)));
+			
 			regions.add(region);
 		}
 		
@@ -222,7 +235,9 @@ public class CommentBlockPartitioner implements Partitioner {
 	}
 	
 	
-	class CommentedProtectedRegion extends ProtectedRegion {
+	class CommentedProtectedRegion extends LocatedRegion {
+		
+		
 		
 		CommentedProtectedRegion(String id, int offset, boolean enabled, String contents) {
 			super(id, offset, enabled, contents);
@@ -232,7 +247,8 @@ public class CommentBlockPartitioner implements Partitioner {
 		public String toString() {
 			final StringBuilder builder = new StringBuilder();
 			
-			builder.append(getFirstLine(getId(), isEnabled()));
+			
+			builder.append(getFirstLine(getId(), isEnabled(), type));
 			
 			builder.append(FileUtil.NEWLINE);
 			
@@ -242,7 +258,7 @@ public class CommentBlockPartitioner implements Partitioner {
 			else
 				builder.append(getDefaultValue());
 			
-			builder.append(getLastLine(getId()));
+			builder.append(getLastLine(getId(), type));
 			
 			return builder.toString();
 		}

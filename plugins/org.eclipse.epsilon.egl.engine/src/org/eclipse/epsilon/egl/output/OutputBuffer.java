@@ -19,6 +19,7 @@ import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorModule;
+import org.eclipse.epsilon.egl.merge.output.RegionType;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.preprocessor.Preprocessor;
 import org.eclipse.epsilon.egl.status.Warning;
@@ -152,6 +153,16 @@ public class OutputBuffer implements IOutputBuffer {
 	}
 	
 	@Override
+	public String control(String id,
+	                       boolean enabled,
+	                       String contents) throws EglRuntimeException {
+
+		return startControl(id, enabled) + FileUtil.NEWLINE +
+		       contents + FileUtil.NEWLINE +
+		       stopPreserve();
+	}
+	
+	@Override
 	public String preserve(String startComment,
 	                       String endComment,
 	                       String id,
@@ -162,6 +173,19 @@ public class OutputBuffer implements IOutputBuffer {
 		       contents + FileUtil.NEWLINE +
 		       stopPreserve();
 	}
+	
+	@Override
+	public String control(String startComment,
+	                       String endComment,
+	                       String id,
+	                       boolean enabled,
+	                       String contents) throws EglRuntimeException {
+		
+		return startControl(startComment, endComment, id, enabled) + FileUtil.NEWLINE +
+		       contents + FileUtil.NEWLINE +
+		       stopPreserve();
+	}
+	
 	
 	@Override
 	public void setContentType(String name) throws EglRuntimeException {
@@ -182,41 +206,69 @@ public class OutputBuffer implements IOutputBuffer {
 	
 	@Override
 	public String startPreserve(String id, boolean enabled) throws EglRuntimeException {
+		return startLocate(id, enabled, RegionType.Protected);
+	}
+	
+	@Override
+	public String startControl(String id, boolean enabled) throws EglRuntimeException {
+		return startLocate(id, enabled, RegionType.Controlled);
+	}
+	
+	public String startLocate(String id, boolean enabled, RegionType regionType) throws EglRuntimeException {
 	
 		if (lastLine != null)
-			throw new EglRuntimeException("Preservation of the current region must be stopped before preservation of another region may begin.", context.getModule());
+			throw new EglRuntimeException("The current region must be stopped before another region may begin.", context.getModule());
 		
 		if (context.getPartitioner().getDefaultPartitioner() == null)
 			throw new EglRuntimeException("A content type must be specified before using startPreserve(id, enabled).", context.getModule());
 		
-		lastLine = context.getPartitioner().getDefaultPartitioner().getLastLine(id);
+		lastLine = context.getPartitioner().getDefaultPartitioner().getLastLine(id, regionType);
 		
-		return context.getPartitioner().getDefaultPartitioner().getFirstLine(id, enabled);	
+		return context.getPartitioner().getDefaultPartitioner().getFirstLine(id, enabled, regionType);	
 	}
 	
+	@Override
+	public String startControl(String startComment, String endComment,
+			String id, boolean enabled) throws EglRuntimeException {
+		return startLocate(startComment, endComment, id, enabled, RegionType.Controlled);
+	}
 	
 	@Override
-	public String startPreserve(String startComment,
+	public String startPreserve(String startComment, String endComment,
+			String id, boolean enabled) throws EglRuntimeException {
+		return startLocate(startComment, endComment, id, enabled, RegionType.Protected);
+	}
+	
+	public String startLocate(String startComment,
 	                            String endComment,
 	                            String id,
-	                            boolean enabled) throws EglRuntimeException {
+	                            boolean enabled, RegionType regionType) throws EglRuntimeException {
 
 		if (lastLine != null)
-			throw new EglRuntimeException("Preservation of the current region must be stopped before preservation of another region may begin.", context.getModule());
+			throw new EglRuntimeException("The current region must be stopped before another region may begin.", context.getModule());
 		
 		final CommentBlockPartitioner customPartitioner = new CommentBlockPartitioner(startComment, endComment);
-		lastLine = customPartitioner.getLastLine(id);
+		lastLine = customPartitioner.getLastLine(id, regionType);
 		
 		context.getPartitioner().addPartitioner(customPartitioner);
 		customPartitioners.add(customPartitioner);
 		
-		return customPartitioner.getFirstLine(id, enabled);	
+		return customPartitioner.getFirstLine(id, enabled, regionType);	
+	}
+	
+	@Override
+	public String stopControl() throws EglRuntimeException {
+		return stopLocate();
 	}
 	
 	@Override
 	public String stopPreserve() throws EglRuntimeException {
+		return stopLocate();
+	}
+	
+	public String stopLocate() throws EglRuntimeException {
 		if (lastLine == null)
-			throw new EglRuntimeException("There is no current region to stop preserving.", context.getModule());
+			throw new EglRuntimeException("There is no current region to stop.", context.getModule());
 
 		final String result = lastLine;
 		lastLine = null;

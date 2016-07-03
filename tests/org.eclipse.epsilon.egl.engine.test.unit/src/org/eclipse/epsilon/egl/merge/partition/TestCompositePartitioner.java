@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.epsilon.egl.merge.output.Output;
-import org.eclipse.epsilon.egl.merge.output.ProtectedRegion;
+import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
 import org.eclipse.epsilon.egl.merge.output.Region;
 import org.junit.Test;
 
@@ -34,7 +34,7 @@ public class TestCompositePartitioner {
 	public TestCompositePartitioner() {		
 		final List<Region> regions = new LinkedList<Region>();
 		
-		final ProtectedRegion secondPR = javaPartitioner.new CommentedProtectedRegion("second", 0, false, "");
+		final LocatedRegion secondPR = javaPartitioner.new CommentedProtectedRegion("second", 0, false, "");
 		secondPR.setContents("Second protected region" + NEWLINE);
 		
 		regions.add(new Region("Preamble" + NEWLINE));
