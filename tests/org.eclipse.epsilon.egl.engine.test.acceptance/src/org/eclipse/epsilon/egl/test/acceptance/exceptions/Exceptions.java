@@ -39,6 +39,7 @@ public class Exceptions {
 	private static File Load;
 	private static File Process;
 	private static File ProcessDeep;
+	private static File ProtectedAndControlled;
 	
 	@BeforeClass
 	public static void setUpOnce() {
@@ -52,6 +53,8 @@ public class Exceptions {
 		Load               = FileUtil.getFile("Load.egl",               Exceptions.class);
 		Process            = FileUtil.getFile("Process.egl",            Exceptions.class);
 		ProcessDeep        = FileUtil.getFile("ProcessDeep.egl",        Exceptions.class);
+		ProtectedAndControlled        = FileUtil.getFile("ProtectedAndControlled.egl",        Exceptions.class);
+
 	}
 	
 	
@@ -95,6 +98,12 @@ public class Exceptions {
 			assertEquals(5, e.getLine());
 			assertEquals(5, e.getColumn());
 		}
+	}
+	
+	@Test(expected=EglRuntimeException.class)
+	public void protectedAndControlled() throws Exception {
+		AcceptanceTestUtil.run(ProtectedAndControlled);
+		fail("Expected EglRuntimeException");
 	}
 	
 	@Test
