@@ -27,15 +27,18 @@ import org.eclipse.epsilon.egl.util.FileUtil;
 
 public class OutputBuffer implements IOutputBuffer {
 	
-	private final StringBuilder buffer = new StringBuilder();
-	private final IEglContext context;
+	protected StringBuilder buffer = new StringBuilder();
+	protected IEglContext context;
 
-	private final LineCounter   lineCounter   = new LineCounter(FileUtil.NEWLINE);
-	private final ColumnCounter columnCounter = new ColumnCounter(FileUtil.NEWLINE);
+	protected LineCounter lineCounter   = new LineCounter(FileUtil.NEWLINE);
+	protected ColumnCounter columnCounter = new ColumnCounter(FileUtil.NEWLINE);
 	
-	private final List<CommentBlockPartitioner> customPartitioners = new LinkedList<CommentBlockPartitioner>();
-	private boolean contentTypeSet = false;
-	private String lastLine = null;
+	protected List<CommentBlockPartitioner> customPartitioners = new LinkedList<CommentBlockPartitioner>();
+	protected boolean contentTypeSet = false;
+	protected String lastLine = null;
+	
+	protected boolean hasProtectedRegions = false;
+	protected boolean hasControlledRegions = false;
 	
 	public OutputBuffer(IEglContext context) {
 		this(context, null);
@@ -95,7 +98,7 @@ public class OutputBuffer implements IOutputBuffer {
 		print(o);
 	}
 
-	private String getLastLineInBuffer() {
+	protected String getLastLineInBuffer() {
 		final int indexOfLastLine = buffer.lastIndexOf("\n");
 		
 		if (indexOfLastLine == -1) {
@@ -106,7 +109,7 @@ public class OutputBuffer implements IOutputBuffer {
 		}
 	}
 	
-	private String calculateIndentationToMatch(String previousLine) {
+	protected String calculateIndentationToMatch(String previousLine) {
 		final StringBuilder builder = new StringBuilder();
 		
 		for (char c : previousLine.toCharArray()) {
@@ -215,7 +218,9 @@ public class OutputBuffer implements IOutputBuffer {
 	}
 	
 	public String startLocate(String id, boolean enabled, RegionType regionType) throws EglRuntimeException {
-	
+		
+		assertNoMixedRegions(regionType);
+		
 		if (lastLine != null)
 			throw new EglRuntimeException("The current region must be stopped before another region may begin.", context.getModule());
 		
@@ -243,7 +248,9 @@ public class OutputBuffer implements IOutputBuffer {
 	                            String endComment,
 	                            String id,
 	                            boolean enabled, RegionType regionType) throws EglRuntimeException {
-
+		
+		assertNoMixedRegions(regionType);
+		
 		if (lastLine != null)
 			throw new EglRuntimeException("The current region must be stopped before another region may begin.", context.getModule());
 		
@@ -254,6 +261,15 @@ public class OutputBuffer implements IOutputBuffer {
 		customPartitioners.add(customPartitioner);
 		
 		return customPartitioner.getFirstLine(id, enabled, regionType);	
+	}
+	
+	protected void assertNoMixedRegions(RegionType regionType) throws EglRuntimeException {
+		if (regionType == RegionType.Controlled) hasControlledRegions = true;
+		else if (regionType == RegionType.Protected) hasProtectedRegions = true;
+		
+		if (hasControlledRegions && hasProtectedRegions) {
+			throw new EglRuntimeException("Templates cannot contain both protected and controlled regions", context.getModule());
+		}
 	}
 	
 	@Override
@@ -301,7 +317,7 @@ public class OutputBuffer implements IOutputBuffer {
 		replaceContentsWith(formatter.format(buffer.toString()));
 	}
 
-	private void replaceContentsWith(String newContents) {
+	protected void replaceContentsWith(String newContents) {
 		buffer.setLength(0);
 		buffer.append(newContents);
 	}

@@ -32,19 +32,25 @@ public class DefaultMerger extends Merger {
 		boolean hasControlledRegions = false;
 		
 		for (LocatedRegion region : generated.getLocatedRegions()) {
-			if (region.getType() == RegionType.Protected) hasProtectedRegions = true;
-			else if (region.getType() == RegionType.Controlled) hasControlledRegions = true;
+			if (region.getType() == RegionType.Protected) {
+				hasProtectedRegions = true;
+				break;
+			}
+			else if (region.getType() == RegionType.Controlled) {
+				hasControlledRegions = true;
+				break;
+			}
 		}
 		
-		if (hasProtectedRegions && hasControlledRegions) {
-			throw new RuntimeException("Templates cannot contain both protected and controlled regions.");
-		}
-		else if (hasControlledRegions) {
+		if (hasControlledRegions) {
 			return mergeControlledRegions();
 		}
-		else {
+		else /*if (hasProtectedRegions)*/ {
 			return mergeProtectedRegions();
 		}
+		/*else {
+			return generated.toString();
+		}*/
 		
 	}
 	
