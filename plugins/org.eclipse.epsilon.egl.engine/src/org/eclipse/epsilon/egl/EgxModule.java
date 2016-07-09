@@ -143,7 +143,7 @@ public class EgxModule extends ErlModule implements IEolExecutableModule {
 	@Override
 	public boolean parse(String code, File file) throws Exception {
 		boolean result = super.parse(code, file);
-		if (result) templateFactory.initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
+		if (result && file != null) templateFactory.initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
 		return result;
 	}
 	
