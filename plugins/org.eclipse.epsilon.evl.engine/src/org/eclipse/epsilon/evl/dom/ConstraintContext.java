@@ -89,11 +89,15 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	}
 	
 	public void checkAll(IEvlContext context) throws EolRuntimeException {
+		if (isLazy(context)) {
+			return;
+		}
+
 		final ConstraintSelectTransfomer transformer = new ConstraintSelectTransfomer();
 		final List<Constraint> remainingConstraints = new ArrayList<Constraint>(constraints.values());
 		for (Iterator<Constraint> itConstraint = remainingConstraints.iterator(); itConstraint.hasNext();) {
 			Constraint constraint = itConstraint.next();
-			if (transformer.canBeTransformed(constraint)) {
+			if (transformer.canBeTransformed(constraint) && !constraint.isLazy(context)) {
 				ExecutableBlock<?> transformedConstraint = transformer.transformIntoSelect(constraint);
 				List<?> results = (List<?>) transformedConstraint.execute(context);
 
@@ -127,7 +131,24 @@ public class ConstraintContext extends AnnotatableModuleElement {
 		}
 
 	}
-	
+
+	/**
+	 * An entire context is lazy if all constraints are lazy, or if it is
+	 * itself marked as lazy.
+	 */
+	public boolean isLazy(IEvlContext context) throws EolRuntimeException {
+		if (getBooleanAnnotationValue("lazy", context)) {
+			return true;
+		}
+
+		for (Constraint c : constraints) {
+			if (!c.isLazy(context)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public Constraints getConstraints() {
 		return constraints;
 	}

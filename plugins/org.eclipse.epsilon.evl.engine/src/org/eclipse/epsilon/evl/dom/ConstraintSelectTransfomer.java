@@ -28,7 +28,9 @@ import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
 import org.eclipse.epsilon.eol.dom.ReturnStatement;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.dom.TypeExpression;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.Evl_EolParserRules;
 
 /**
@@ -38,7 +40,7 @@ import org.eclipse.epsilon.evl.parse.Evl_EolParserRules;
  */
 public class ConstraintSelectTransfomer {
 
-	public boolean canBeTransformed(Constraint c) {
+	public boolean canBeTransformed(Constraint c) throws EolRuntimeException {
 		return c.getConstraintContext() != null
 			&& c.getConstraintContext().getTypeName() != null
 			&& isOptimisableExpression(c.getConstraintContext().guardBlock)
