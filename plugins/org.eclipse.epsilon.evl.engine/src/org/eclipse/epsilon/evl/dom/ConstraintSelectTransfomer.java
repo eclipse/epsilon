@@ -40,7 +40,7 @@ import org.eclipse.epsilon.evl.parse.Evl_EolParserRules;
  */
 public class ConstraintSelectTransfomer {
 
-	public boolean canBeTransformed(Constraint c) throws EolRuntimeException {
+	public boolean canBeTransformed(Constraint c) {
 		return c.getConstraintContext() != null
 			&& c.getConstraintContext().getTypeName() != null
 			&& isOptimisableExpression(c.getConstraintContext().guardBlock)
