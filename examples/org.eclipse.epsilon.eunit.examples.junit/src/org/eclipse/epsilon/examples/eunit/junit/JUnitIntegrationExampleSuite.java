@@ -11,8 +11,8 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.etl.EtlModule;
+import org.eclipse.epsilon.eunit.junit.IEUnitSuite;
 import org.eclipse.epsilon.eunit.junit.dt.EclipseEUnitTestRunner;
-import org.eclipse.epsilon.eunit.junit.dt.IEUnitSuite;
 import org.junit.runner.RunWith;
 
 /**
