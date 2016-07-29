@@ -90,6 +90,7 @@
     <module>org.eclipse.epsilon.eunit.dt.diff.files</module>
     <module>org.eclipse.epsilon.eunit.engine</module>
     <module>org.eclipse.epsilon.eunit.junit</module>
+    <module>org.eclipse.epsilon.eunit.junit.dt</module>
     <module>org.eclipse.epsilon.evl.dt</module>
     <module>org.eclipse.epsilon.evl.emf.validation</module>
     <module>org.eclipse.epsilon.evl.engine</module>

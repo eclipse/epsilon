@@ -80,6 +80,14 @@
         <outputDirectory></outputDirectory>
       </fileSet>
       <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.eunit.junit/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.eunit.junit/src</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
         <directory>../../plugins/org.eclipse.epsilon.erl.engine/target/classes</directory>
         <outputDirectory></outputDirectory>
       </fileSet>

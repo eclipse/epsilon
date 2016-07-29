@@ -8,7 +8,7 @@
  * Contributors:
  *     Antonio Garcia-Dominguez - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eunit.junit;
+package org.eclipse.epsilon.eunit.junit.dt;
 
 import java.net.URI;
 import java.util.List;
@@ -18,7 +18,7 @@ import org.eclipse.epsilon.eol.models.IModel;
 
 /**
  * Base interface that must be implemented by all test suites using the
- * {@link EUnitTestRunner}.
+ * {@link EclipseEUnitTestRunner}.
  */
 public interface IEUnitSuite {
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Antonio Garcia-Dominguez.
+ * Copyright (c) 2012-2016 Antonio Garcia-Dominguez.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,7 +8,7 @@
  * Contributors:
  *     Antonio Garcia-Dominguez - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.eunit.junit;
+package org.eclipse.epsilon.eunit.junit.dt;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,13 +16,10 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
-import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 import org.eclipse.epsilon.eunit.EUnitModule;
 import org.eclipse.epsilon.eunit.EUnitTest;
 import org.eclipse.epsilon.eunit.EUnitTestListener;
@@ -68,7 +65,7 @@ import org.junit.runners.model.InitializationError;
  */
 public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 
-	private final class JUnitEUnitTestListener implements EUnitTestListener {
+	protected class JUnitEUnitTestListener implements EUnitTestListener {
 		private final RunNotifier notifier;
 
 		private JUnitEUnitTestListener(RunNotifier notifier) {
@@ -113,11 +110,12 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 	}
 
 	private Map<EUnitTest, Description> testDescriptions = new IdentityHashMap<EUnitTest, Description>();
-	private EUnitModule module;
-	private IEUnitSuite suiteInstance;
+	protected EUnitModule module;
+	protected IEUnitSuite suiteInstance;
 
 	public EUnitTestRunner(Class<? extends IEUnitSuite> testClass) throws InitializationError {
 		super(testClass);
+
 		try {
 			suiteInstance = testClass.newInstance();
 			module = new EUnitModule();
@@ -126,14 +124,6 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 			final OperationContributor contrib = suiteInstance.getOperationContributor();
 			if (contrib != null) {
 				module.getContext().getOperationContributorRegistry().add(contrib);
-			}
-
-			if (Platform.getExtensionRegistry() != null) {
-				EclipseContextManager.setup(module.getContext());
-
-				// Disable notification through dialogs: it's bad for automated test cases.
-				// Use the console instead.
-				module.getContext().setUserInput(new JavaConsoleUserInput());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -156,7 +146,7 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 		if (testDescriptions.containsKey(child)) {
 			return testDescriptions.get(child);
 		}
-
+	
 		Description desc;
 		if (child.isRootTest()) {
 			desc = Description.createSuiteDescription(this.getTestClass().getJavaClass());
@@ -173,7 +163,7 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 	@Override
 	protected void runChild(final EUnitTest child, final RunNotifier notifier) {
 		final Description thisDesc = describeChild(child);
-
+	
 		// We only need to launch the root EUnitTest from JUnit: EUnit will take
 		// care of the rest
 		if (child.isRootTest()) {
@@ -187,4 +177,5 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 			}
 		}
 	}
+
 }

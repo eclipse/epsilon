@@ -11,8 +11,8 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.etl.EtlModule;
-import org.eclipse.epsilon.eunit.junit.EUnitTestRunner;
-import org.eclipse.epsilon.eunit.junit.IEUnitSuite;
+import org.eclipse.epsilon.eunit.junit.dt.EclipseEUnitTestRunner;
+import org.eclipse.epsilon.eunit.junit.dt.IEUnitSuite;
 import org.junit.runner.RunWith;
 
 /**
@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
  * contributor is required since running an Ant script from a JUnit plug-in test
  * (from Tycho, for instance) is quite difficult to set up.
  */
-@RunWith(EUnitTestRunner.class)
+@RunWith(EclipseEUnitTestRunner.class)
 public class JUnitIntegrationExampleSuite implements IEUnitSuite {
 
 	public static final class ExampleTestOperationContributor extends

@@ -1,17 +1,20 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: JUnit bridge for Epsilon EUnit
+Bundle-Name: JUnit bridge for Epsilon EUnit (plain Java)
 Bundle-SymbolicName: org.eclipse.epsilon.eunit.junit
-Bundle-Version: 1.4.0.qualifier
-Bundle-Vendor: Eclipse Modeling Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: org.eclipse.core.runtime,
- org.junit;version="4.5.0",
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Eclipse.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.eunit.engine;visibility:=reexport
+Import-Package: org.junit;version="4.5.0",
  org.junit.runner;version="4.5.0",
  org.junit.runner.notification;version="4.5.0",
  org.junit.runners;version="4.5.0",
  org.junit.runners.model;version="4.5.0"
-Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.eunit.engine;visibility:=reexport,
- org.eclipse.epsilon.eol.dt
-Export-Package: org.eclipse.epsilon.eunit.junit
+Export-Package: org.eclipse.epsilon.eunit.junit.dt;
+  uses:="org.junit.runners,
+   org.eclipse.epsilon.eol.execute.operations.contributors,
+   org.eclipse.epsilon.eunit,
+   org.junit.runner.notification,
+   org.junit.runner"
