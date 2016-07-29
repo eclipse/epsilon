@@ -13,6 +13,8 @@ package org.eclipse.epsilon.eunit.junit.dt;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
+import org.eclipse.epsilon.eunit.junit.EUnitTestRunner;
+import org.eclipse.epsilon.eunit.junit.IEUnitSuite;
 import org.junit.runners.model.InitializationError;
 
 /**
