@@ -75,19 +75,34 @@ public class SwitchStatement extends Statement {
 			Object caseValue = context.getExecutorFactory().executeAST(c.getCondition(), context);
 			
 			if (continue_ || equals(switchValue, caseValue)) {
+				
 				try {
 					Object result = context.getExecutorFactory().executeAST(c.getBody(), context);
-					return null;
+					if (result instanceof Return) {
+						return result;
+					}
+					else {
+						return null;
+					}
 				}
 				catch (EolContinueException ex) {
 					continue_ = true;
-				} 
+				}
+				
 			}
+			
 			
 		}
 		
 		if (_default != null) {
-			context.getExecutorFactory().executeAST(_default.getBody(), context);
+			Object result = context.getExecutorFactory().executeAST(_default.getBody(), context);
+			
+			if (result instanceof Return) {
+				return result;
+			}
+			else {
+				return null;
+			}
 		}
 		
 		/*
