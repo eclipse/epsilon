@@ -3,6 +3,7 @@ package org.eclipse.epsilon.examples.etl.api;
 import java.io.File;
 import java.util.Collection;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.dom.NewInstanceExpression;
@@ -23,8 +24,8 @@ public class App {
 		
 		EtlModule module = new EtlModule() {
 			@Override
-			public AST adapt(AST cst, AST parentAst) {
-				AST ast = super.adapt(cst, parentAst);
+			public ModuleElement adapt(AST cst, ModuleElement parentAst) {
+				ModuleElement ast = super.adapt(cst, parentAst);
 				if (ast instanceof TransformationRule) {
 					// Return a sub-class of TransformationRule that we control
 					return new CustomTransformationRule();
@@ -57,18 +58,18 @@ public class App {
 		module.getContext().getExecutorFactory().addExecutionListener(new IExecutionListener() {
 			
 			@Override
-			public void finishedExecutingWithException(AST ast,
+			public void finishedExecutingWithException(ModuleElement ast,
 					EolRuntimeException exception, IEolContext context) {}
 			
 			@Override
-			public void finishedExecuting(AST ast, Object result, IEolContext context) {
+			public void finishedExecuting(ModuleElement ast, Object result, IEolContext context) {
 				if (ast instanceof NewInstanceExpression) {
 					System.out.println("Created " + result);
 				}
 			}
 			
 			@Override
-			public void aboutToExecute(AST ast, IEolContext context) {}
+			public void aboutToExecute(ModuleElement ast, IEolContext context) {}
 		});
 		
 		module.execute();
