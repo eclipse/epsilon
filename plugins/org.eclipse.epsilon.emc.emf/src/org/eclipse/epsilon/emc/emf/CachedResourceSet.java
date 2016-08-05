@@ -104,6 +104,12 @@ public class CachedResourceSet extends ResourceSetImpl {
 				toReturn.decrementCheckedOut();
 				if (toReturn.getCheckedOut() == 0) {
 					items.remove(toReturn);
+
+					/*
+					 * Explicitly unload the resource - needed to avoid leaks in
+					 * UML models, which keep their own cache.
+					 */
+					resource.unload();
 				}
 			}
 		}
