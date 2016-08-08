@@ -20,6 +20,7 @@ target
 /doc/org.eclipse.epsilon.book/*.synctex.*
 /doc/org.eclipse.epsilon.book/*.toc
 /doc/org.eclipse.epsilon.book/*.log
+/doc/org.eclipse.epsilon.book/*.fls
 /doc/org.eclipse.epsilon.book/auto
 
 # /examples/org.eclipse.epsilon.workflow.extension.example/

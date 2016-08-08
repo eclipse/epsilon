@@ -30,8 +30,12 @@ public class StringCompatibilityOperationContributor extends OperationContributo
 		return ((String) target).replaceAll(regex, replacement);
 	}
 
-	/** Java charAt returns a 'char', but EOL does not have that primitive type, so we redefine it to return a String. */
-	public String charAt(int index) {
+	/**
+	 * Java charAt returns a 'char': keep it for backwards compatibility (e.g.
+	 * Ecore2Thrift needs it), but also provide a 'characterAt' EOL version since
+	 * EOL does not have that primitive type.
+	 */
+	public String characterAt(int index) {
 		return ((String) target).charAt(index) + "";
 	}
 }
