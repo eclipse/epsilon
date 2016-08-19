@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.dt.views;
 
+import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.IEvlFixer;
 import org.eclipse.epsilon.evl.IEvlModule;
@@ -19,9 +20,22 @@ import org.eclipse.ui.PlatformUI;
 public class ValidationViewFixer implements IEvlFixer {
 	
 	protected boolean done = false;
+	private ILaunchConfiguration configuration;
 	
+	protected ILaunchConfiguration getConfiguration() {
+		return configuration;
+	}
+
 	public ValidationViewFixer() {
 		super();
+	}
+	
+	/** 
+	 * 
+	 * @param configuration
+	 */
+	public ValidationViewFixer(ILaunchConfiguration configuration) {
+		this.configuration = configuration;
 	}
 
 	public void fix(IEvlModule module) throws EolRuntimeException {

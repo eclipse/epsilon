@@ -13,8 +13,15 @@ package org.eclipse.epsilon.evl.dt.views;
 
 import java.util.Collections;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dt.EvlPlugin;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
@@ -25,6 +32,9 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -42,11 +52,14 @@ import org.eclipse.ui.part.ViewPart;
 
 public class ValidationView extends ViewPart {
 	
+	private static final String TRACER_ID = "org.eclipse.epsilon.evl.dt.dblClick";
+	private static final String ATT_CLASS = "class";
 	protected IEvlModule module = null;
 	protected TableViewer viewer;
 	protected Action stopAction;
 	protected Action clearAction;
 	protected ValidationViewFixer fixer;
+	private String modelname;
 	//private Action cancelAction;
 	
 	class UnsatisfiedConstraintLabelProvider extends LabelProvider implements ITableLabelProvider {
@@ -115,6 +128,30 @@ public class ValidationView extends ViewPart {
 		viewer.setContentProvider(new ListContentProvider());
 		viewer.setLabelProvider(new UnsatisfiedConstraintLabelProvider());
 		viewer.setSorter(new NameSorter());
+		IExtensionRegistry reg = Platform.getExtensionRegistry();
+		//IExtensionPoint ep = reg.getExtensionPoint(TRACER_ID);
+		IExtensionPoint ep = reg.getExtensionPoint("org.eclipse.epsilon.evl.dt.dblClick");
+		IExtension[] extensions = ep.getExtensions();
+		// There should only be one contributor
+		IExtension ext = extensions[0];
+		IConfigurationElement[] ce = ext.getConfigurationElements();
+		try {
+			final IConstraintTracer tracer = (IConstraintTracer) ce[0].createExecutableExtension(ATT_CLASS);
+			viewer.addDoubleClickListener(new IDoubleClickListener() {
+				
+				@Override
+				public void doubleClick(DoubleClickEvent event) {
+					assert event.getSelection() instanceof IStructuredSelection;
+					IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+					Object item = selection.getFirstElement();
+					assert item instanceof UnsatisfiedConstraint;
+					tracer.traceConstraint((UnsatisfiedConstraint) item, fixer.getConfiguration());
+				}
+			});
+		} catch (CoreException e) {
+			// FIXME Log!
+			e.printStackTrace();
+		}
 		makeActions();
 		hookContextMenu();
 		contributeToActionBars();

@@ -33,7 +33,7 @@ public class EvlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	@Override
 	protected void preExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {
 		super.preExecute(module);
-		((EvlModule)module).setUnsatisfiedConstraintFixer(new ValidationViewFixer());
+		((EvlModule)module).setUnsatisfiedConstraintFixer(new ValidationViewFixer(configuration));
 	}
 	
 }

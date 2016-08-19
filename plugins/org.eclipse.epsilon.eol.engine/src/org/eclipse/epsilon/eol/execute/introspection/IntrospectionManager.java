@@ -51,7 +51,7 @@ public class IntrospectionManager {
 		if (property.startsWith("~")) {
 			propertyGetter = new ExtendedPropertyGetter(context);
 		
-		} else if (getModelThatKnowsAboutProperty(object, property, context) != null) {		
+		} else if (getModelThatKnowsAboutProperty(object, property, context) != null) {		// FIXME getModelThatKnowsAboutProperty is very inefficient and we call it twice
 			propertyGetter = getModelThatKnowsAboutProperty(object, property, context).getPropertyGetter();
 		
 		} else {
@@ -73,7 +73,6 @@ public class IntrospectionManager {
 				return model;
 			}
 		}
-		
 		return null;
 	}
 
