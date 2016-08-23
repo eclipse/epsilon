@@ -37,9 +37,8 @@ public class IntrospectionManager {
 		} else {	
 			propertySetter = defaultPropertySetter;
 		}
-		
-		propertySetter.setProperty(property);
 		propertySetter.setObject(object);
+		propertySetter.setProperty(property);
 		propertySetter.setContext(context);
 		
 		return propertySetter;
