@@ -105,6 +105,24 @@ public class ModelGroup extends Model {
 		
 		throw new IllegalArgumentException("No grouped model can contain: " + instance + " (" + instance.getClass().getCanonicalName() + ")");
 	}
+	
+	@SuppressWarnings("serial")
+	@Override
+	public Object createInstance(String metaClass, Collection<Object> parameters)
+			throws EolModelElementTypeNotFoundException,
+			EolNotInstantiableModelElementTypeException {
+		if (models.size() == 1) {
+			return models.get(0).createInstance(metaClass, parameters);
+		}
+		else {
+			throw new EolNotInstantiableModelElementTypeException(this.name, metaClass) {
+				@Override
+				public String getReason(){
+					return "Cannot create an instance of " + typeName + " because model group " + name + " has more than one models";
+				}
+			};
+		}
+	}
 
 	@SuppressWarnings("serial")
 	public Object createInstance(String metaClass) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
