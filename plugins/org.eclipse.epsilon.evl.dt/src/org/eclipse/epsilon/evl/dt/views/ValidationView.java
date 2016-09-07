@@ -132,25 +132,27 @@ public class ValidationView extends ViewPart {
 		//IExtensionPoint ep = reg.getExtensionPoint(TRACER_ID);
 		IExtensionPoint ep = reg.getExtensionPoint("org.eclipse.epsilon.evl.dt.dblClick");
 		IExtension[] extensions = ep.getExtensions();
-		// There should only be one contributor
-		IExtension ext = extensions[0];
-		IConfigurationElement[] ce = ext.getConfigurationElements();
-		try {
-			final IConstraintTracer tracer = (IConstraintTracer) ce[0].createExecutableExtension(ATT_CLASS);
-			viewer.addDoubleClickListener(new IDoubleClickListener() {
-				
-				@Override
-				public void doubleClick(DoubleClickEvent event) {
-					assert event.getSelection() instanceof IStructuredSelection;
-					IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-					Object item = selection.getFirstElement();
-					assert item instanceof UnsatisfiedConstraint;
-					tracer.traceConstraint((UnsatisfiedConstraint) item, fixer.getConfiguration());
-				}
-			});
-		} catch (CoreException e) {
-			// FIXME Log!
-			e.printStackTrace();
+		if (extensions.length > 0) {
+			// There should only be one contributor
+			IExtension ext = extensions[0];
+			IConfigurationElement[] ce = ext.getConfigurationElements();
+			try {
+				final IConstraintTracer tracer = (IConstraintTracer) ce[0].createExecutableExtension(ATT_CLASS);
+				viewer.addDoubleClickListener(new IDoubleClickListener() {
+					
+					@Override
+					public void doubleClick(DoubleClickEvent event) {
+						assert event.getSelection() instanceof IStructuredSelection;
+						IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+						Object item = selection.getFirstElement();
+						assert item instanceof UnsatisfiedConstraint;
+						tracer.traceConstraint((UnsatisfiedConstraint) item, fixer.getConfiguration());
+					}
+				});
+			} catch (CoreException e) {
+				// FIXME Log!
+				e.printStackTrace();
+			}
 		}
 		makeActions();
 		hookContextMenu();
