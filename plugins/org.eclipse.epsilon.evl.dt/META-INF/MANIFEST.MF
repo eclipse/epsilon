@@ -8,7 +8,8 @@ Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.evl.engine,
  org.eclipse.jface.text,
  org.eclipse.epsilon.erl.dt,
- org.eclipse.jface
+ org.eclipse.jface,
+ org.eclipse.core.jobs
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.evl.dt,
  org.eclipse.epsilon.evl.dt.editor,

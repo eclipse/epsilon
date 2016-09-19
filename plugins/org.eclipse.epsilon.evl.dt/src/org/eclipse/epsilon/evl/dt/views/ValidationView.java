@@ -18,14 +18,17 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dt.EvlPlugin;
-import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.FixInstance;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -144,9 +147,17 @@ public class ValidationView extends ViewPart {
 					public void doubleClick(DoubleClickEvent event) {
 						assert event.getSelection() instanceof IStructuredSelection;
 						IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-						Object item = selection.getFirstElement();
+						final Object item = selection.getFirstElement();
 						assert item instanceof UnsatisfiedConstraint;
-						tracer.traceConstraint((UnsatisfiedConstraint) item, fixer.getConfiguration());
+						Job job = new Job("Open PTC IM Modeler") {
+					        @Override
+					        protected IStatus run(IProgressMonitor monitor) {
+					        	tracer.traceConstraint((UnsatisfiedConstraint) item, fixer.getConfiguration());
+					            return Status.OK_STATUS;
+					        }
+						};
+						// Start the Job
+						job.schedule();
 					}
 				});
 			} catch (CoreException e) {
