@@ -121,7 +121,13 @@ public class TransformationRule extends ExtensibleNamedRule {
 			appliesToTypes = true;
 		}
 		else {
-			appliesToTypes = getAllInstances(sourceParameter, context, !(isGreedy() || asSuperRule)).contains(source);
+			boolean ofTypeOnly = !(isGreedy() || asSuperRule);
+			if (ofTypeOnly) {
+				appliesToTypes = sourceParameter.getType(context).isType(source);
+			}
+			else {
+				appliesToTypes = sourceParameter.getType(context).isKind(source);	
+			}
 		}
 		
 		boolean guardSatisfied = true;
