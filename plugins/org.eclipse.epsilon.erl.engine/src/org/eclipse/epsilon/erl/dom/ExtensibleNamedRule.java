@@ -86,7 +86,7 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 		return isAbstract;
 	}
 	
-	public boolean isLazy() throws EolRuntimeException {
+	public boolean isLazy(IEolContext context) throws EolRuntimeException {
 		if (isLazy == null) {
 			isLazy = getBooleanAnnotationValue("lazy", null);
 		}

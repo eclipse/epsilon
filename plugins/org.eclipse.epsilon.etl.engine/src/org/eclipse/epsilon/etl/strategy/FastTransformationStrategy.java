@@ -109,7 +109,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
 		
 		for (TransformationRule transformRule : context.getModule().getTransformationRules()) {			
-			if (!transformRule.isLazy() && !transformRule.isAbstract()) {
+			if (!transformRule.isLazy(context) && !transformRule.isAbstract()) {
 				Collection<?> sources = transformRule.getAllInstances(transformRule.getSourceParameter(), context, !transformRule.isGreedy());
 				
 				for (Object instance : sources) {

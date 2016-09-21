@@ -26,7 +26,9 @@ import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
@@ -97,6 +99,11 @@ public class TransformationRule extends ExtensibleNamedRule {
 			targetParameterAst = targetParameterAst.getNextSibling();
 		}
 		
+	}
+	
+	@Override
+	public boolean isLazy(IEolContext context) throws EolRuntimeException {
+		return super.isLazy(context) || !(sourceParameter.getType(context) instanceof EolModelElementType);
 	}
 	
 	public boolean hasTransformed(Object source) {

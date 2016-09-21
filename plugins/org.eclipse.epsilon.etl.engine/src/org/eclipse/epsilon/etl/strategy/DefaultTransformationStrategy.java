@@ -147,7 +147,7 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 	
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
 		for (TransformationRule transformRule : context.getModule().getTransformationRules()) {			
-			if (!transformRule.isLazy() && !transformRule.isAbstract()) {
+			if (!transformRule.isLazy(context) && !transformRule.isAbstract()) {
 				transformRule.transformAll(context, getExcluded());
 			}
 		}

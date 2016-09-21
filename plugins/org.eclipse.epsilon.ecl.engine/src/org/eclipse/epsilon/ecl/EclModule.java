@@ -126,13 +126,13 @@ public class EclModule extends ErlModule implements IEclModule {
 	public void matchModels() throws EolRuntimeException {
 		
 		for (MatchRule matchRule : getMatchRules()) {
-			if (!matchRule.isAbstract() && !matchRule.isLazy()) {
+			if (!matchRule.isAbstract() && !matchRule.isLazy(context)) {
 				matchRule.matchAll(context, true);
 			}
 		}
 		
 		for (MatchRule matchRule : getMatchRules()) {
-			if (!matchRule.isAbstract() && !matchRule.isLazy() && matchRule.isGreedy()) {
+			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && matchRule.isGreedy()) {
 				matchRule.matchAll(context, false);
 			}
 		}

@@ -100,7 +100,7 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	protected boolean hasLazyRules(IEtlContext context) {
 		for (TransformationRule rule : getTransformationRules()) {
 			try {
-				if (rule.isLazy()) {
+				if (rule.isLazy(context)) {
 					return true;
 				}
 			} catch (EolRuntimeException e) {}
