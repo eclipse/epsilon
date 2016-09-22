@@ -60,9 +60,10 @@ public class TestLangModule extends EolModule {
 	protected void runTest(final IEolContext ctx, final Operation op) throws EolRuntimeException {
 		try {
 			op.execute(null, Collections.emptyList(), ctx);
+			getContext().getOutputStream().println("Test " + op.getName() + " PASSED");
 		} catch (EolRuntimeException ex) {
 			if (ex.getCause() instanceof FailedAssertionException) {
-				getContext().getErrorStream().println("Test " + op.getName() + " failed: " + ex.getMessage());
+				getContext().getErrorStream().println("Test " + op.getName() + " FAILED: " + ex.getMessage());
 			} else {
 				throw ex;
 			}
