@@ -16,8 +16,32 @@ import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
+import org.eclipse.epsilon.eol.types.EolNoType;
 
 public class TestLangModule extends EolModule {
+
+	public class TestLangOperationContributor extends OperationContributor {
+		@Override
+		public boolean contributesTo(Object target) {
+			// We only contribute "global" functions
+			return target == EolNoType.NoInstance;
+		}
+
+		public void areEqual(Object a, Object b) throws FailedAssertionException {
+			if (a != b) {
+				if (a == null || b == null || !a.equals(b)) {
+					throw new FailedAssertionException("Expected " + a + ", got " + b);
+				}
+			}
+		}
+	}
+
+	@Override
+	protected void prepareContext(IEolContext context) {
+		super.prepareContext(context);
+		context.getOperationContributorRegistry().add(new TestLangOperationContributor());
+	}
 
 	@Override
 	public Object execute() throws EolRuntimeException {
@@ -26,11 +50,23 @@ public class TestLangModule extends EolModule {
 		final IEolContext ctx = getContext();
 		for (Operation op : getOperations()) {
 			if (op.hasAnnotation("test")) {
-				op.execute(null, Collections.emptyList(), ctx);
+				runTest(ctx, op);
 			}
 		}
 
 		return super.execute();
+	}
+
+	protected void runTest(final IEolContext ctx, final Operation op) throws EolRuntimeException {
+		try {
+			op.execute(null, Collections.emptyList(), ctx);
+		} catch (EolRuntimeException ex) {
+			if (ex.getCause() instanceof FailedAssertionException) {
+				getContext().getErrorStream().println("Test " + op.getName() + " failed: " + ex.getMessage());
+			} else {
+				throw ex;
+			}
+		}
 	}
 
 }
