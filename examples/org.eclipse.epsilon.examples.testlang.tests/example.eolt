@@ -1,0 +1,9 @@
+@test
+operation allInstancesWorks() {
+  areEqual(6, Class.all.size);
+}
+
+@test
+operation failingTest() {
+  areEqual(1, 1 + 1);
+}
