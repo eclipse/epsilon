@@ -1,11 +1,10 @@
 package org.eclipse.epsilon.edl;
 
-import java.util.Collections;
-import java.util.List;
-
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.Parameter;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -15,13 +14,13 @@ import org.eclipse.epsilon.eol.types.EolModelElementType;
 public class ProcessRule extends AnnotatableModuleElement {
 	
 	protected Parameter parameter;
-	protected AST body;
+	protected StatementBlock body;
 	
 	@Override
-	public void build() {
-		super.build();
-		parameter = (Parameter) getFirstChild();
-		body = getFirstChild().getNextSibling();
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		parameter = (Parameter) module.createAst(cst.getFirstChild(), this);
+		body = (StatementBlock) module.createAst(cst.getSecondChild(), this);
 	}
 	
 	protected void execute(IEolContext context) throws EolRuntimeException {
@@ -44,17 +43,12 @@ public class ProcessRule extends AnnotatableModuleElement {
 		this.parameter = parameter;
 	}
 	
-	public AST getBody() {
+	public StatementBlock getBody() {
 		return body;
 	}
 	
-	public void setBody(AST body) {
+	public void setBody(StatementBlock body) {
 		this.body = body;
-	}
-
-	@Override
-	public String toString() {
-		return getParameter().getTypeName();
 	}
 	
 }

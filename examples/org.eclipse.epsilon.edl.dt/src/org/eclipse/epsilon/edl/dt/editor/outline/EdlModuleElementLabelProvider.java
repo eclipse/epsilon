@@ -13,25 +13,26 @@ package org.eclipse.epsilon.edl.dt.editor.outline;
 import org.eclipse.epsilon.edl.ProcessRule;
 import org.eclipse.epsilon.edl.dt.EdlPlugin;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
-import org.eclipse.epsilon.erl.dom.Post;
-import org.eclipse.epsilon.erl.dom.Pre;
 import org.eclipse.swt.graphics.Image;
 
 public class EdlModuleElementLabelProvider extends EolModuleElementLabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof Pre){
-			return EdlPlugin.getDefault().createImage("icons/pre.gif");
-		}
-		else if (element instanceof Post){
-			return EdlPlugin.getDefault().createImage("icons/post.gif");
-		}
-		else if (element instanceof ProcessRule) {
-			return EdlPlugin.getDefault().createImage("icons/rule.png");
+		if (element instanceof ProcessRule) {
+			return EdlPlugin.getDefault().createImage("icons/process-rule.png");
 		} else {
 			return super.getImage(element);
 		}
 	}
-
+	
+	@Override
+	public String getText(Object element) {
+		if (element instanceof ProcessRule) {
+			ProcessRule processRule = (ProcessRule) element;
+			return processRule.getParameter().getName() + " : " + 
+				processRule.getParameter().getTypeName();
+		}
+		return super.getText(element);
+	}
 }

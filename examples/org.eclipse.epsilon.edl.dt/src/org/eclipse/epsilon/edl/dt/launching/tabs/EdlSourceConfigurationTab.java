@@ -23,7 +23,7 @@ public class EdlSourceConfigurationTab extends AbstractSourceConfigurationTab{
 
 	@Override
 	public String getImagePath() {
-		return "icons/ecl.gif";
+		return "icons/edl.png";
 	}
 
 	@Override

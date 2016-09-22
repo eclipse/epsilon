@@ -10,14 +10,19 @@
  ******************************************************************************/
 package org.eclipse.epsilon.edl.dt.launching;
 
-import org.eclipse.epsilon.edl.parse.EdlParser;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.edl.ProcessRule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 
 public class EdlDebugger extends EolDebugger {
 	
 	public EdlDebugger() {
 		super();
-		structuralBlocks.add(EdlParser.PROCESS);
+	}
+	
+	@Override
+	protected boolean isStructuralBlock(ModuleElement ast) {
+		return super.isStructuralBlock(ast) || ast instanceof ProcessRule;
 	}
 	
 }

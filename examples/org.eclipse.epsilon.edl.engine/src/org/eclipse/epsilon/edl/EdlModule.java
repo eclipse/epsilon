@@ -18,6 +18,7 @@ import java.util.List;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
@@ -26,13 +27,14 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.edl.parse.EdlLexer;
 import org.eclipse.epsilon.edl.parse.EdlParser;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
+import org.eclipse.epsilon.eol.EolLibraryModule;
+import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.erl.ErlModule;
 
 
-public class EdlModule extends ErlModule {
+public class EdlModule extends EolLibraryModule implements IEolExecutableModule {
 	
 	protected List<ProcessRule> declaredProcessRules = null;
 	protected IEolContext context = null;
@@ -63,11 +65,20 @@ public class EdlModule extends ErlModule {
 	}
 	
 	@Override
-	public ModuleElement adapt(AST cst, AST parentAst) {
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		if (cst.getType() == EdlParser.PROCESS) {
 			return new ProcessRule();
 		}
 		return super.adapt(cst, parentAst);
+	}
+	
+	@Override
+	public void build(AST cst, IModule module) {
+		super.build(cst, module);
+		
+		for (AST processRuleAst : AstUtil.getChildren(cst, EdlParser.PROCESS)) {
+			declaredProcessRules.add((ProcessRule) module.createAst(processRuleAst, this));
+		}
 	}
 	
 	@Override
@@ -84,17 +95,6 @@ public class EdlModule extends ErlModule {
 	public String getMainRule() {
 		return "edlModule";
 	}
-	
-	@Override
-	public void buildModel() throws Exception {
-		
-		super.buildModel();
-		
-		for (AST processRuleAst : AstUtil.getChildren(ast, EdlParser.PROCESS)) {
-			declaredProcessRules.add((ProcessRule) processRuleAst);
-		}
-
-	}
 
 	@Override
 	public HashMap<String, Class<?>> getImportConfiguration() {
@@ -107,14 +107,10 @@ public class EdlModule extends ErlModule {
 		
 		// Initialize the context
 		prepareContext(context);
-		
-		execute(getPre(), context);
 
 		for (ProcessRule processRule : declaredProcessRules) {
 			processRule.execute(context);
 		}
-		
-		execute(getPost(), context);
 		
 		return null;
 	}
@@ -130,31 +126,10 @@ public class EdlModule extends ErlModule {
 	}
 	
 	@Override
-	public List<ModuleElement> getModuleElements(){
-		final List<ModuleElement> children = new ArrayList<ModuleElement>();
-		children.addAll(getImports());
-		children.addAll(getDeclaredPre());
-		children.addAll(getDeclaredProcessRules());
-		children.addAll(getDeclaredOperations());
-		children.addAll(getDeclaredPost());
-		return children;
-	}
-	
-	@Override
 	public void reset(){
 		super.reset();
 		declaredProcessRules = new ArrayList<ProcessRule>();
 		context = new EolContext();
-	}
-
-	@Override
-	protected int getPostBlockTokenType() {
-		return EdlParser.POST;
-	}
-
-	@Override
-	protected int getPreBlockTokenType() {
-		return EdlParser.PRE;
 	}
 	
 	public List<ProcessRule> getDeclaredProcessRules() {

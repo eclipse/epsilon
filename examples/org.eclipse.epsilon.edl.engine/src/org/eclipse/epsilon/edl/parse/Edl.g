@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  * -----------------------------------------------------------------------------
@@ -12,7 +12,7 @@
  * [The "BSD licence"]
  * Copyright (c) 2005-2008 Terence Parr
  * All rights reserved.
- *  
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -39,10 +39,11 @@ grammar Edl;
 
 options {backtrack=true; output=AST; ASTLabelType='org.eclipse.epsilon.common.parse.AST'; superClass='org.eclipse.epsilon.common.parse.EpsilonParser';}
 
-import EolLexerRules, EolParserRules, ErlParserRules, EdlParserRules;
+import EolLexerRules, EolParserRules;
 
 tokens {
-	EDLMODULE;	
+	EDLMODULE;
+  PROCESS;
 }
 
 @header {
@@ -56,7 +57,7 @@ package org.eclipse.epsilon.edl.parse;
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  * -----------------------------------------------------------------------------
@@ -64,7 +65,7 @@ package org.eclipse.epsilon.edl.parse;
  * [The "BSD licence"]
  * Copyright (c) 2005-2008 Terence Parr
  * All rights reserved.
- *  
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -96,5 +97,10 @@ edlModule
 	;
 
 edlModuleContent
-	:	pre | annotationBlock | processRule | operationDeclaration | post
+	:	processRule | operationDeclaration
 	;
+
+processRule
+  :	r='process'^ formalParameter statementBlock
+  {$r.setType(PROCESS);}
+  ;

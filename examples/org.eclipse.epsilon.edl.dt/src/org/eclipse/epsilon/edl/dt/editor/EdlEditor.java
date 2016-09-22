@@ -13,16 +13,18 @@ package org.eclipse.epsilon.edl.dt.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.edl.EdlModule;
+import org.eclipse.epsilon.edl.dt.editor.outline.EdlModuleContentProvider;
 import org.eclipse.epsilon.edl.dt.editor.outline.EdlModuleElementLabelProvider;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 
 public class EdlEditor extends EolEditor{
 		
 	public EdlEditor() {
-		//addTemplateContributor(new EclEditorStaticTemplateContributor());
+		templateContributors.add(new EdlEditorStaticTemplateContributor());
 	}
 	
 	@Override
@@ -42,6 +44,11 @@ public class EdlEditor extends EolEditor{
 	@Override
 	public ModuleElementLabelProvider createModuleElementLabelProvider() {
 		return new EdlModuleElementLabelProvider();
+	}
+	
+	@Override
+	protected ModuleContentProvider createModuleContentProvider() {
+		return new EdlModuleContentProvider();
 	}
 	
 	@Override
