@@ -296,6 +296,8 @@ The Integer type represents natural numbers and negatives and extends the Real p
 
     iota(end : Integer, step : Integer) : Sequence(Integer) & Returns a sequence of integers up to \emph{end} using the specified step (e.g. 1.iota(10,2) returns Sequence\{1,3,5,7,9\})\\\hline
     
+    mod(divisor : Integer) : Integer & Returns the remainder of dividing the integer by the divisor\\\hline
+
     to(other : Integer) : Sequence(Integer) & Returns a sequence of integers (e.g. 1.to(5) returns Sequence\{1,2,3,4,5\})\\\hline
     
     toBinary() : String & Returns the binary representation of the integer (e.g. 6.toBinary() returns "110")\\\hline
