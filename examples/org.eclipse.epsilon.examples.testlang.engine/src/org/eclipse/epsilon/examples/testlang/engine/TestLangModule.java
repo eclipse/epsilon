@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.examples.testlang.engine;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.Operation;
@@ -59,8 +60,18 @@ public class TestLangModule extends EolModule {
 
 	protected void runTest(final IEolContext ctx, final Operation op) throws EolRuntimeException {
 		try {
-			op.execute(null, Collections.emptyList(), ctx);
-			getContext().getOutputStream().println("Test " + op.getName() + " PASSED");
+			final List<Object> timesValues = op.getAnnotationsValues("times", ctx);
+			final int nTimes = timesValues.isEmpty() ? 1 : (Integer) timesValues.get(0);
+
+			for (int i = 0; i < nTimes; i++) {
+				op.execute(null, Collections.emptyList(), ctx);
+			}
+
+			if (nTimes > 1) {
+				getContext().getOutputStream().println(String.format("Test %s PASSED (ran %d times)", op.getName(), nTimes));
+			} else {
+				getContext().getOutputStream().println(String.format("Test %s PASSED", op.getName(), nTimes));
+			}
 		} catch (EolRuntimeException ex) {
 			if (ex.getCause() instanceof FailedAssertionException) {
 				getContext().getErrorStream().println("Test " + op.getName() + " FAILED: " + ex.getMessage());
