@@ -201,12 +201,12 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 
 	@Override
 	public void executeImpl() throws BuildException {
-		if (src!=null && profile) {
-			Profiler.INSTANCE.start(src.getName(), "", new FileMarker(src,0,0));
-		}
 
 		try {
 			parseModule();
+			if (src!=null && profile) {
+				Profiler.INSTANCE.start(src.getName(), "", module);
+			}
 			configureModule();
 			initialize();
 

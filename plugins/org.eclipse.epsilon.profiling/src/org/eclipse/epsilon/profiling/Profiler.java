@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
+
 
 public class Profiler {
 	
@@ -37,10 +39,10 @@ public class Profiler {
 		return start(targetName, "", null);
 	}
 	
-	public ProfilerTarget start(String targetName, String data, FileMarker fileMarker) {
+	public ProfilerTarget start(String targetName, String data, ModuleElement moduleElement) {
 		stopwatch.pause();
 		activeTarget.pause();
-		ProfilerTarget target = new ProfilerTarget(targetName, stopwatch, data, fileMarker);
+		ProfilerTarget target = new ProfilerTarget(targetName, stopwatch, data, moduleElement);
 		activeTarget.addChild(target);
 		activeTarget = target;
 		if (targets.containsKey(targetName)) {

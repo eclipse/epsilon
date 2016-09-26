@@ -13,6 +13,9 @@ package org.eclipse.epsilon.profiling;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.parse.Region;
+
 
 public class ProfilerTarget {
 	
@@ -25,11 +28,11 @@ public class ProfilerTarget {
 	protected List<ProfilerTarget> children;
 	protected ProfilerTarget parent;
 	protected String data;
-	protected FileMarker fileMarker;
 	protected Stopwatch globalStopwatch;
 	protected Stopwatch internalStopwatch;
+	protected ModuleElement moduleElement;
 	
-	public ProfilerTarget(String name, Stopwatch globalStopwatch, String data, FileMarker fileMarker) {
+	public ProfilerTarget(String name, Stopwatch globalStopwatch, String data, ModuleElement moduleElement) {
 		this.name = name;
 		this.globalStopwatch = globalStopwatch;
 		this.internalStopwatch = new Stopwatch();
@@ -39,7 +42,7 @@ public class ProfilerTarget {
 		this.internalEndTime = -1l;
 		children = new ArrayList<ProfilerTarget>();
 		this.data = data;
-		this.fileMarker = fileMarker;
+		this.moduleElement = moduleElement;
 	}
 	
 	public String getName() {
@@ -102,11 +105,11 @@ public class ProfilerTarget {
 		this.data = data;
 	}
 
-	public FileMarker getFileMarker() {
-		return fileMarker;
+	public ModuleElement getModuleElement() {
+		return moduleElement;
 	}
-
-	public void setFileMarker(FileMarker fileMarker) {
-		this.fileMarker = fileMarker;
+	
+	public void setModuleElement(ModuleElement moduleElement) {
+		this.moduleElement = moduleElement;
 	}
 }

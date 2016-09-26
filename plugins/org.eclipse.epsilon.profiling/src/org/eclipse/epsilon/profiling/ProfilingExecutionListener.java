@@ -20,7 +20,7 @@ public class ProfilingExecutionListener implements IExecutionListener {
 	@Override
 	public void aboutToExecute(ModuleElement ast, IEolContext context) {
 		//if (AstUtil.getParentType(ast) == EolParser.POINT)
-			Profiler.INSTANCE.start(getLabel(ast), "", new FileMarker(ast.getFile(), ast.getRegion().getStart().getLine(), ast.getRegion().getStart().getColumn()));
+			Profiler.INSTANCE.start(getLabel(ast), "", ast);
 	}
 
 	@Override

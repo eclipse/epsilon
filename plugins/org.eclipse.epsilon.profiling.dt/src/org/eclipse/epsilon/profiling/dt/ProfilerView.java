@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.profiling.FileMarker;
 import org.eclipse.epsilon.profiling.IProfilerListener;
 import org.eclipse.epsilon.profiling.Profiler;
@@ -141,10 +142,12 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 			else if (columnIndex == 1) return target.getWorked(showAggregatedWork) + "";
 			else if (columnIndex == 2) return target.getData(); 
 			else {
-				FileMarker fileMarker = target.getFileMarker();
-				if (fileMarker != null && fileMarker.getFile() != null) {
-					String label = fileMarker.getFile().getName();
-					label = label + " (" + fileMarker.getLine() + ", " + fileMarker.getColumn() + ")";
+				ModuleElement moduleElement = target.getModuleElement();
+				if (moduleElement != null && moduleElement.getFile() != null) {
+					String label = moduleElement.getFile().getName();
+					if (moduleElement.getRegion() != null) {
+						label = label + " (" + moduleElement.getRegion().getStart().getLine() + ", " + moduleElement.getRegion().getStart().getColumn() + ")";
+					}
 					return label;
 				}
 				return "";
@@ -276,9 +279,9 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 			public void mouseDoubleClick(MouseEvent e) {
 				ProfilerTarget target = (ProfilerTarget) ((IStructuredSelection) detailsViewer.getSelection()).getFirstElement();
 				if (target != null) {
-					FileMarker marker = target.getFileMarker();
-					if (marker != null) {
-						EclipseUtil.openEditorAt(marker.getFile(), marker.getLine(), marker.getColumn(), false);
+					ModuleElement moduleElement = target.getModuleElement();
+					if (moduleElement != null) {
+						EclipseUtil.openEditorAt(moduleElement);
 					}
 				}
 			}
@@ -332,53 +335,19 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 	    targetsViewer.getTable().setLinesVisible(true);
 	   
 	}
-	
-	/*
-	private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
-		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				ProfilerView.this.fillContextMenu(manager);
-			}
-		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
-	}
-*/
+
 	private void contributeToActionBars() {
 		IActionBars bars = getViewSite().getActionBars();
-		//fillLocalPullDown(bars.getMenuManager());
 		fillLocalToolBar(bars.getToolBarManager());
 	}
 	
-	/*
-	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(new Separator());
-		manager.add(action2);
-	}
-*/
-	/*
-	private void fillContextMenu(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(action2);
-		// Other plug-ins can contribute there actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-	}
-	*/
-	
 	private void fillLocalToolBar(IToolBarManager manager) {
-		//manager.add(action1);
-		//manager.add(action2);
 		manager.add(new RefreshProfilerViewAction(this));
 		manager.add(new ToggleSortChildrenTargetsAction(this));
 		manager.add(new ToggleShowAggregatedWorkAction(this));
 		manager.add(new ToggleAutoRefreshAction(this));
 		manager.add(new ResetProfilerAction(this));
 	}
-
 
 	/**
 	 * Passing the focus request to the viewer's control.
