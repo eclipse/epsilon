@@ -97,20 +97,20 @@ public class EclipseUtil {
 	public static String getWorkspaceFileAbsolutePath(String workspacePath) {
 		return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(workspacePath)).getLocation().toOSString();
 	}
-
-	/*
-	public static void openEditorAt(AST astNode) {
-		final IFile file = findIFile(astNode);
-		if (file != null) {
-			openEditorAt(file, astNode.getLine(), astNode.getColumn(), true);
-		}
-	}*/
 	
 	public static void openEditorAt(ModuleElement ast) {
 		
 		if (ast == null) return;
 		
 		if (ast.getFile() != null) {
+			if (ast.getRegion() != null) {
+				if (ast.getRegion().getStart().getLine() != ast.getRegion().getEnd().getLine()) {
+					openEditorAt(ast.getFile().getAbsolutePath(), new Region(
+							ast.getRegion().getStart().getLine(), ast.getRegion().getStart().getColumn(), 
+							ast.getRegion().getStart().getLine(), ast.getRegion().getStart().getColumn()));
+					return;
+				}
+			}
 			openEditorAt(ast.getFile().getAbsolutePath(), ast.getRegion());
 		}
 		else {
