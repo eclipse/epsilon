@@ -29,9 +29,4 @@ public class NewEdlFileWizard extends AbstractNewFileWizard2 {
 		return "This wizard creates a new EDL demo with *.edl extension.";
 	}
 	
-	/*
-	public ImageDescriptor getImageDescriptor() {
-		return EclPlugin.getImageDescriptor("icons/ecl.gif");
-	}
-	*/
 }

@@ -17,7 +17,7 @@
       <launchConfigurationTypeImage
             configTypeID="org.epsilon.edl.eclipse.dt.launching.EdlLaunchConfigurationDelegate"
             icon="icons/edl.png"
-            id="EDLDemo"/>
+            id="EDL Demo"/>
    </extension>
   
    <extension
