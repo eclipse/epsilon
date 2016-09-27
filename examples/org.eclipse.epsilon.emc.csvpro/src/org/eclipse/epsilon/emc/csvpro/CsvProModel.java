@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -50,10 +49,20 @@ public class CsvProModel extends CachedModel<Integer> {
 	public static final String PROPERTY_HAS_KNOWN_HEADERS = "useheaders";
 
 	public static final String PROPERTY_HAS_VARARGS_HEADERS = "vararg";
+
+	public static final String PROPERTY_USE_TYPE_COLUMN = "usetypecolumn";
+	
+	public static final String PROPERTY_TYPE_COLUMN = "typecolumn";
+
+	public static final String PROPERTY_USE_INDEX_COLUMN = "useindexcolumn";
+
+	public static final String PROPERTY_INDEX_COLUMN = "indexcolumn";
 	
 	private Map<String, List<String>> data;
 	
 	private List<Integer> rows;		// Keep track of rows add/delete
+	
+	private Map<String, List<Integer>> typedElements;
 		
 	private CsvPropertyGetter pg;
 
@@ -66,11 +75,26 @@ public class CsvProModel extends CachedModel<Integer> {
 	private boolean knownHeaders;
 
 	private boolean varargsHeaders;
+	
+	private int typeColum;
+	
+	private String typeColumName;
+	
+	private boolean useTypeColum;
+
+	private int indexColum;
+
+	private boolean useIndexColum;
+	
+	private String indexColumName;
+	
+	private CsvProCollection allContentsCache;
 
 	public CsvProModel() {
 		super();
 		data = new HashMap<String, List<String>>();
 		rows = new ArrayList<Integer>();
+		typedElements = new HashMap<String, List<Integer>>();
 		pg = new CsvPropertyGetter();
 		ps = new CsvPropertySetter();
 	}
@@ -105,10 +129,13 @@ public class CsvProModel extends CachedModel<Integer> {
 	@Override
 	protected Collection<Integer> getAllOfTypeFromModel(String type)
 			throws EolModelElementTypeNotFoundException {
-		if (!"Row".equals(type)) {
+		if (!("Row".equals(type) || typedElements.containsKey(type))) {
 			throw new EolModelElementTypeNotFoundException(this.name, type);
 		}
-		return allContents();
+		if ("Row".equals(type))
+			return allContents();
+		else
+			return typedElements.get(type);
 	}
 
 	@Override
@@ -161,7 +188,7 @@ public class CsvProModel extends CachedModel<Integer> {
 
 	@Override
 	public boolean hasType(String type) {
-		return "Row".equals(type);
+		return "Row".equals(type) || typedElements.containsKey(type);
 	}
 
 	@Override
@@ -176,7 +203,11 @@ public class CsvProModel extends CachedModel<Integer> {
 		this.file = resolver.resolve(properties.getProperty(PROPERTY_FILE));
 		this.fieldSeparator = properties.getProperty(PROPERTY_FIELD_SEPARATOR);
 		this.knownHeaders = properties.getBooleanProperty(PROPERTY_HAS_KNOWN_HEADERS, true);
-		this.varargsHeaders = properties.getBooleanProperty(PROPERTY_HAS_VARARGS_HEADERS, false);	
+		this.varargsHeaders = properties.getBooleanProperty(PROPERTY_HAS_VARARGS_HEADERS, false);
+		this.typeColum = properties.getIntegerProperty(PROPERTY_TYPE_COLUMN, 0);
+		this.useTypeColum = properties.getBooleanProperty(PROPERTY_USE_TYPE_COLUMN, false);
+		this.indexColum = properties.getIntegerProperty(PROPERTY_INDEX_COLUMN, 0);
+		this.useIndexColum = properties.getBooleanProperty(PROPERTY_USE_INDEX_COLUMN, false);
 		load();
 	}
 
@@ -203,7 +234,17 @@ public class CsvProModel extends CachedModel<Integer> {
 						throw new EolModelLoadingException(ex, this);
 					}
 					for (int f=0; f<keys.size(); f++) {
-						List<String> datavals = data.get(keys.get(f)); 
+						List<String> datavals = data.get(keys.get(f));
+						if (useTypeColum) {
+							if (f == typeColum) {
+								List<Integer> typed = typedElements.get(values.get(f));
+								if (typed == null) {
+									typed = new ArrayList<Integer>();
+									typedElements.put(values.get(f), typed);
+								}
+								typed.add(index);
+							}
+						}
 						datavals.add(values.get(f));
 					}
 				}
@@ -233,6 +274,6 @@ public class CsvProModel extends CachedModel<Integer> {
 	public boolean store(String location) {
 		throw new UnsupportedOperationException("Not Implemented");
 	}
-	
+		
 	
 }
