@@ -28,7 +28,7 @@ public class Bibliography {
 		return knownTypes.contains(type.toLowerCase());
 	}
 
-	public Collection<? extends Publication> allOfType(String type) {
+	public Collection<Publication> allOfType(String type) {
 		final LinkedList<Publication> allOfType = new LinkedList<Publication>();
 		
 		for (Publication publication : publications) {

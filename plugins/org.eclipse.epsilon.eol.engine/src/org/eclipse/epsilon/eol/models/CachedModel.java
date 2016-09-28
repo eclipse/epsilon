@@ -32,9 +32,9 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	
 	public static String PROPERTY_CACHED = "cached";
 	
-	protected abstract Collection<? extends ModelElementType> allContentsFromModel();
-	protected abstract Collection<? extends ModelElementType> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException;
-	protected abstract Collection<? extends ModelElementType> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException;
+	protected abstract Collection<ModelElementType> allContentsFromModel();
+	protected abstract Collection<ModelElementType> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException;
+	protected abstract Collection<ModelElementType> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException;
 	protected abstract ModelElementType createInstanceInModel(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException;
 	protected abstract void loadModel() throws EolModelLoadingException;
 	protected abstract void disposeModel();
@@ -82,46 +82,62 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	}
 	
 	public Collection<ModelElementType> allContents() {
-		if (!allContentsAreCached || !isCachingEnabled()) {
-			allContentsCache.clear();
-			allContentsCache.addAll(allContentsFromModel());
-			allContentsAreCached = true;
-		}
 		
-		return allContentsCache;
+		if (isCachingEnabled()) {
+			if (!allContentsAreCached) {
+				allContentsCache = allContentsFromModel();
+				allContentsAreCached = true;				
+			}
+			return allContentsCache;
+		}
+		else {
+			return allContentsFromModel();
+		}
 	}
 	
 	public Collection<ModelElementType> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
 		Object key = getCacheKeyForType(type);
 
-		if (!cachedTypes.contains(key) || !isCachingEnabled()) {
-			typeCache.replaceValues(key, getAllOfTypeFromModel(type));
-			cachedTypes.add(key);
+		if (isCachingEnabled()) {
+			if (!cachedTypes.contains(key)) {
+				typeCache.putAll(key, getAllOfTypeFromModel(type));
+				cachedTypes.add(key);
+			}
+			return typeCache.get(key);
+		}
+		else {
+			return getAllOfTypeFromModel(type);
 		}
 		
-		return typeCache.get(key);
 	}
 	
 	public Collection<ModelElementType> getAllOfKind(String kind) throws EolModelElementTypeNotFoundException {
 		Object key = getCacheKeyForType(kind);
 		
-		if (!cachedKinds.contains(key) || !isCachingEnabled()) {
-			kindCache.replaceValues(key, getAllOfKindFromModel(kind));
-			cachedKinds.add(key);
+		if (isCachingEnabled()) {
+			if (!cachedKinds.contains(key)) {
+				kindCache.putAll(key, getAllOfKindFromModel(kind));
+				cachedKinds.add(key);
+			}
+			return kindCache.get(key);
+		}
+		else {
+			return getAllOfKindFromModel(kind);
 		}
 		
-		return kindCache.get(key);
 	}
 	
 	public ModelElementType createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		ModelElementType instance = createInstanceInModel(type);
 		
-		allContentsCache.add(instance);
-		
-		typeCache.put(getCacheKeyForType(type), instance);
-
-		for (String kind : getAllTypeNamesOf(instance)) {
-			kindCache.put(getCacheKeyForType(kind), instance);
+		if (isCachingEnabled()) {
+			allContentsCache.add(instance);
+			
+			typeCache.put(getCacheKeyForType(type), instance);
+	
+			for (String kind : getAllTypeNamesOf(instance)) {
+				kindCache.put(getCacheKeyForType(kind), instance);
+			}
 		}
 		
 		return instance;
@@ -129,15 +145,20 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	
 	public void deleteElement(Object o) throws EolRuntimeException {
 		if (deleteElementInModel(o)) {
-			@SuppressWarnings("unchecked")
-			ModelElementType instance = (ModelElementType)o;
 			
-			allContentsCache.remove(instance);
+			if (cachingEnabled) {
 			
-			typeCache.remove(getCacheKeyForType(getTypeNameOf(instance)), instance);
-			
-			for (String kind : getAllTypeNamesOf(instance)) {
-				kindCache.remove(getCacheKeyForType(kind), instance);
+				@SuppressWarnings("unchecked")
+				ModelElementType instance = (ModelElementType) o;
+				
+				allContentsCache.remove(instance);
+				
+				typeCache.remove(getCacheKeyForType(getTypeNameOf(instance)), instance);
+				
+				for (String kind : getAllTypeNamesOf(instance)) {
+					kindCache.remove(getCacheKeyForType(kind), instance);
+				}
+				
 			}
 		}
 	}

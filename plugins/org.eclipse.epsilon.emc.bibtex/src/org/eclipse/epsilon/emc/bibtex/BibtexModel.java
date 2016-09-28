@@ -16,7 +16,6 @@ import java.util.LinkedList;
 
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.bibtex.domain.Bibliography;
 import org.eclipse.epsilon.emc.bibtex.domain.Publication;
 import org.eclipse.epsilon.emc.bibtex.parser.BibtexParser;
@@ -75,17 +74,17 @@ public class BibtexModel extends CachedModel<Publication> {
 	}
 	
 	@Override
-	protected Collection<? extends Publication> allContentsFromModel() {
+	protected Collection<Publication> allContentsFromModel() {
 		return new LinkedList<Publication>(bibliography.publications);
 	}
 	
 	@Override
-	protected Collection<? extends Publication> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
+	protected Collection<Publication> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
 		return bibliography.allOfType(type);	
 	}
 	
 	@Override
-	protected Collection<? extends Publication> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException {
+	protected Collection<Publication> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException {
 		return getAllOfType(kind);
 	}
 	

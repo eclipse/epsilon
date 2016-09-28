@@ -105,7 +105,7 @@ public class MultimapTests {
 		
 		@Test
 		public void shouldRemoveTheGivenKeyValuePair() throws Exception {
-			multimap.putAll("students", Arrays.asList("Louis", "James", "Frank"));
+			multimap.putAll("students", new ArrayList<String>(Arrays.asList("Louis", "James", "Frank")));
 			multimap.remove("students", "James");
 			
 			assertThat(multimap.get("students"), contains("Louis", "Frank"));
@@ -187,7 +187,7 @@ public class MultimapTests {
 		@Test
 		public void shouldReplaceExistingValues() throws Exception {
 			multimap.putAll("students", Arrays.asList("Louis", "Nikos"));
-			multimap.replaceValues("students", Arrays.asList("James", "Frank"));
+			multimap.putAll("students", Arrays.asList("James", "Frank"));
 			
 			assertThat(multimap.get("students"), contains("James", "Frank"));
 		}
@@ -195,14 +195,14 @@ public class MultimapTests {
 		@Test
 		public void shouldReplaceExistingValuesWhenThereAreNoValues() throws Exception {
 			multimap.putAll("students", new ArrayList<String>());
-			multimap.replaceValues("students", Arrays.asList("James", "Frank"));
+			multimap.putAll("students", Arrays.asList("James", "Frank"));
 			
 			assertThat(multimap.get("students"), contains("James", "Frank"));
 		}
 		
 		@Test
 		public void shouldReplaceExistingValuesWhenKeyHasNotBeenUsedYet() throws Exception {
-			multimap.replaceValues("students", Arrays.asList("James", "Frank"));
+			multimap.putAll("students", Arrays.asList("James", "Frank"));
 			
 			assertThat(multimap.get("students"), contains("James", "Frank"));
 		}

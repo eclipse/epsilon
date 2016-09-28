@@ -290,10 +290,10 @@ public class CachedModelTests {
 		public void shouldRemoveFromEveryKindCacheForWhichTheDeletedElementIsAMember() throws Exception {
 			final SimpleCachedModel model = spy(new SimpleCachedModel());
 			
-			when(model.getAllOfKindFromModel("Product")).thenReturn(Arrays.asList("FakeWidget"));
-			when(model.getAllOfKindFromModel("NamedElement")).thenReturn(Arrays.asList("FakeWidget"));
+			when(model.getAllOfKindFromModel("Product")).thenReturn(new ArrayList<String>(Arrays.asList("FakeWidget")));
+			when(model.getAllOfKindFromModel("NamedElement")).thenReturn(new ArrayList<String>(Arrays.asList("FakeWidget")));
 
-			when(model.getAllTypeNamesOf("FakeWidget")).thenReturn(Arrays.asList("Widget", "Product", "NamedElement"));
+			when(model.getAllTypeNamesOf("FakeWidget")).thenReturn(new ArrayList<String>(Arrays.asList("Widget", "Product", "NamedElement")));
 			
 			model.getAllOfKind("Widget");
 			model.getAllOfKind("Product");
@@ -423,15 +423,15 @@ public class CachedModelTests {
 	private static class SimpleCachedModel extends CachedModel<String> {
 		
 		protected Collection<String> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
-			return Collections.singleton("Fake" + type);
+			return new ArrayList<String>(Collections.singleton("Fake" + type));
 		}
 
 		public Collection<String> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException {
-			return Collections.singleton("Fake" + kind);
+			return new ArrayList<String>(Collections.singleton("Fake" + kind));
 		}	
 
 		protected Collection<String> allContentsFromModel() {
-			return Arrays.asList("FakeWidget", "FakeSprocket");
+			return new ArrayList<String>(Arrays.asList("FakeWidget", "FakeSprocket"));
 		}
 
 		protected Object getCacheKeyForType(String type) throws EolModelElementTypeNotFoundException {

@@ -286,7 +286,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 * @see org.eclipse.epsilon.eol.models.CachedModel#allContentsFromModel()
 	 */
 	@Override
-	protected Collection<? extends Map<String, Object>> allContentsFromModel() {
+	protected Collection<Map<String, Object>> allContentsFromModel() {
 		return rows;
 	}
 
@@ -294,7 +294,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 * @see org.eclipse.epsilon.eol.models.CachedModel#getAllOfTypeFromModel(java.lang.String)
 	 */
 	@Override
-	protected Collection<? extends Map<String, Object>> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
+	protected Collection<Map<String, Object>> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
 		if (!"Row".equals(type)) {
 			throw new EolModelElementTypeNotFoundException(this.name, type);
 		}
@@ -305,7 +305,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 * @see org.eclipse.epsilon.eol.models.CachedModel#getAllOfKindFromModel(java.lang.String)
 	 */
 	@Override
-	protected Collection<? extends Map<String, Object>> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException {
+	protected Collection<Map<String, Object>> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException {
 		if (!"Row".equals(kind)) {
 			throw new EolModelElementTypeNotFoundException(this.name, kind);
 		}
