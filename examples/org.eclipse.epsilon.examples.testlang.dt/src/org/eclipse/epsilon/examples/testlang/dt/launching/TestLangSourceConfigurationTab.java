@@ -28,12 +28,12 @@ public class TestLangSourceConfigurationTab extends AbstractSourceConfigurationT
 
 	@Override
 	public String getSelectionTitle() {
-		return "eolt";
+		return "Select TestLang Program source";
 	}
 
 	@Override
 	public String getSelectionSubtitle() {
-		return "Select a TestLang script";
+		return "TestLang Programs in Workspace";
 	}
 
 }
