@@ -3,7 +3,10 @@ package org.eclipse.epsilon.eol.execute.context;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.epsilon.eol.util.Cache;
+import com.google.common.base.Supplier;
+import com.google.common.collect.MapMaker;
+import com.google.common.collect.Table;
+import com.google.common.collect.Tables;
 
 public class ExtendedProperties {
 	
@@ -13,39 +16,29 @@ public class ExtendedProperties {
 		System.err.println(e.getPropertyValue(2, "foo"));
 	}
 	
-	protected Cache<Object, HashMap<String, Object>> cache = new Cache<Object, HashMap<String, Object>>();
-	
-	public ExtendedProperties() {
-		
-	}
+	protected Table<Object, String, Object> cache = Tables.newCustomTable(
+			new MapMaker().weakKeys().<Object, Map<String, Object>>makeMap(),
+			new Supplier<Map<String, Object>>() {
+				@Override
+				public Map<String, Object> get() {
+					return new HashMap<String, Object>();
+				}
+			});
 	
 	public Object getPropertyValue(Object o, String property) {
-		return getPropertyValues(o).get(property);
+		return cache.get(o, property);
 	}
 	
 	public void setPropertyValue(Object o, String property, Object value) {
-		getPropertyValues(o, true).put(property, value);
+		cache.put(o, property, value);
 	}
 	
 	public Map<String, Object> getPropertyValues(Object o) {
-		return getPropertyValues(o, false);
-	}
-	
-	protected Map<String, Object> getPropertyValues(Object o, boolean create) {
-		
-		HashMap<String, Object> propertyValues = cache.get(o);
-		
-		if (propertyValues == null) {
-			propertyValues = new HashMap<String, Object>();
-			if (create) cache.put(o, propertyValues);
-		}
-		
-		return propertyValues;
-		
+		return cache.rowMap().get(o);
 	}
 	
 	public void clear() {
-		cache.dispose();
+		cache.clear();
 	}
 	
 }
