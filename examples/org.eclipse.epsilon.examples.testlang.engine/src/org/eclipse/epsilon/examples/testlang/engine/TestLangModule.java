@@ -46,7 +46,7 @@ public class TestLangModule extends EolModule {
 
 	@Override
 	public Object execute() throws EolRuntimeException {
-		super.execute();
+		Object ret = super.execute();
 
 		final IEolContext ctx = getContext();
 		for (Operation op : getOperations()) {
@@ -55,13 +55,20 @@ public class TestLangModule extends EolModule {
 			}
 		}
 
-		return super.execute();
+		return ret;
 	}
 
 	protected void runTest(final IEolContext ctx, final Operation op) throws EolRuntimeException {
 		try {
 			final List<Object> timesValues = op.getAnnotationsValues("times", ctx);
-			final int nTimes = timesValues.isEmpty() ? 1 : (Integer) timesValues.get(0);
+			int nTimes = 1;
+			if (!timesValues.isEmpty()) {
+				if (timesValues.get(0) instanceof Integer) {
+					nTimes = (Integer) timesValues.get(0);
+				} else {
+					throw new EolRuntimeException("$times should receive an integer");
+				}
+			}
 
 			for (int i = 0; i < nTimes; i++) {
 				op.execute(null, Collections.emptyList(), ctx);
