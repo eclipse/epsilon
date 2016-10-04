@@ -22,7 +22,7 @@ import org.eclipse.epsilon.edl.dt.editor.outline.EdlModuleElementLabelProvider;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 
 public class EdlEditor extends EolEditor{
-		
+	
 	public EdlEditor() {
 		templateContributors.add(new EdlEditorStaticTemplateContributor());
 	}
@@ -31,11 +31,7 @@ public class EdlEditor extends EolEditor{
 	public List<String> getKeywords() {
 		
 		List<String> edlKeywords = new ArrayList<String>();
-		
-		edlKeywords.add("pre");
-		edlKeywords.add("post");
 		edlKeywords.add("process");
-
 		edlKeywords.addAll(super.getKeywords());
 		
 		return edlKeywords;
