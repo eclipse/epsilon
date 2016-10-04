@@ -14,26 +14,24 @@ import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 
 public class IdentityBasedWeakReference extends WeakReference<Object> {
-	
+
 	int hashCode = -1;
-	
+
 	public IdentityBasedWeakReference(Object referent, ReferenceQueue<Object> referenceQueue) {
 		super(referent, referenceQueue);
 		hashCode = System.identityHashCode(referent);
-
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) return false;
-		else return this.hashCode() == obj.hashCode();
+		if (!(obj instanceof IdentityBasedWeakReference)) {
+			return false;
+		}
+		return this.get() == ((IdentityBasedWeakReference)obj).get();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return hashCode;
 	}
-	
-	
-	
 }
