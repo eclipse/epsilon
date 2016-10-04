@@ -25,7 +25,6 @@
 		<project name="org.eclipse.epsilon.emc.plainxml"/>
 		<project name="org.eclipse.epsilon.emc.csv"/>
 		<project name="org.antlr.runtime_3.1.b1" binary="true"/>
-		<project name="com.google.guava_18.0" binary="true"/>
 	</jar>
 
 	<jar name="emf" requires="core">

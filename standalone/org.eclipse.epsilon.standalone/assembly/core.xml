@@ -88,10 +88,5 @@
         <includes><include>**/*.class</include></includes>
         <outputDirectory></outputDirectory>
       </fileSet>
-      <fileSet>
-        <directory>../../plugins/com.google.guava_18.0/</directory>
-        <includes><include>**/*.class</include></includes>
-        <outputDirectory></outputDirectory>
-      </fileSet>
   </fileSets>
 </assembly>

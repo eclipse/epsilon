@@ -44,10 +44,6 @@
         <outputDirectory></outputDirectory>
       </fileSet>
       <fileSet>
-        <directory>../../plugins/org.eclipse.epsilon.eunit.junit/target/classes</directory>
-        <outputDirectory></outputDirectory>
-      </fileSet>
-      <fileSet>
         <directory>../../plugins/org.eclipse.epsilon.erl.engine/target/classes</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
@@ -85,11 +81,6 @@
       </fileSet>
       <fileSet>
         <directory>../../plugins/org.antlr.runtime_3.1.b1/</directory>
-        <includes><include>**/*.class</include></includes>
-        <outputDirectory></outputDirectory>
-      </fileSet>
-      <fileSet>
-        <directory>../../plugins/com.google.guava_18.0/</directory>
         <includes><include>**/*.class</include></includes>
         <outputDirectory></outputDirectory>
       </fileSet>

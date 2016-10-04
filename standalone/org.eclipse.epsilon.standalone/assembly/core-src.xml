@@ -168,14 +168,5 @@
         <directory>../../plugins/org.antlr.runtime_3.1.b1/src</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
-      <fileSet>
-        <directory>../../plugins/com.google.guava_18.0/</directory>
-        <includes><include>**/*.class</include></includes>
-        <outputDirectory></outputDirectory>
-      </fileSet>
-      <fileSet>
-        <directory>../../plugins/com.google.guava_18.0/src</directory>
-        <outputDirectory></outputDirectory>
-      </fileSet>
   </fileSets>
 </assembly>
