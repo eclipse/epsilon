@@ -13,9 +13,11 @@ package org.eclipse.epsilon.eol.util;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 
+/**
+ * Weak reference which can be used as a key of an identity-based map.
+ */
 public class IdentityBasedWeakReference extends WeakReference<Object> {
-
-	int hashCode = -1;
+	private final int hashCode;
 
 	public IdentityBasedWeakReference(Object referent, ReferenceQueue<Object> referenceQueue) {
 		super(referent, referenceQueue);
@@ -27,7 +29,8 @@ public class IdentityBasedWeakReference extends WeakReference<Object> {
 		if (!(obj instanceof IdentityBasedWeakReference)) {
 			return false;
 		}
-		return this.get() == ((IdentityBasedWeakReference)obj).get();
+		final IdentityBasedWeakReference other = (IdentityBasedWeakReference)obj;
+		return hashCode == other.hashCode && this.get() == other.get();
 	}
 
 	@Override
