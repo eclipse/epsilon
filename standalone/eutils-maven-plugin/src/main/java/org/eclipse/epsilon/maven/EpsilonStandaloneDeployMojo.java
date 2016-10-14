@@ -70,7 +70,7 @@ public class EpsilonStandaloneDeployMojo extends AbstractMojo {
 	@Parameter(defaultValue = "https://oss.sonatype.org/content/repositories/snapshots")
 	private String url;
 
-	@Parameter(defaultValue = "src/main/assembly")
+	@Parameter(defaultValue = "assembly")
 	private String assemblyPath;
 
 	private static final Pattern PATTERN_SOURCESJAR = Pattern.compile("(epsilon-[0-9.]+-(\\w+))-sources.jar");
