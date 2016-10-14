@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eclipse.epsilon</groupId>
+  <artifactId>epsilon-emf</artifactId>
+  <version>1.4.0-SNAPSHOT</version>  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.epsilon</groupId>
+      <artifactId>epsilon-core</artifactId>
+      <artifactId>1.4.0-SNAPSHOT</artifactId>
+    </dependency>
+   <dependency>
+      <groupId>org.eclipse.emf</groupId>
+      <artifactId>org.eclipse.emf.common</artifactId>
+      <artifactId>2.11.0-v20150805-0538</artifactId>
+   </dependency>
+   <dependency>
+      <groupId>org.eclipse.emf</groupId>
+      <artifactId>org.eclipse.emf.ecore</artifactId>
+      <artifactId>2.11.1-v20150805-0538</artifactId>
+   </dependency>
+   <dependency>
+      <groupId>org.eclipse.emf</groupId>
+      <artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+      <artifactId>2.11.1-v20150805-0538</artifactId>
+   </dependency>
+   <dependency>
+      <groupId>org.eclipse.xsd</groupId>
+      <artifactId>org.eclipse.xsd</artifactId>
+      <artifactId>2.11.0-v20150806-0404</artifactId>
+   </dependency>
+  </dependencies>
+</project>

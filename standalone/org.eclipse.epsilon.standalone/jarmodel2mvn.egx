@@ -3,7 +3,7 @@ rule Jar2BinaryAssembly
 	parameters {
 		return Map {'type' = 'binary'};
 	} 
-	template : 'jarmodel2mvn.egl'
+	template : 'jarmodel2assembly.egl'
 	target : 'assembly/' + jar.a_name + '.xml'
 }
 
@@ -12,7 +12,7 @@ rule Jar2BinaryWithSourcesAssembly
 	parameters {
 		return Map {'type' = 'binary+sources'};
 	}
-	template : 'jarmodel2mvn.egl'
+	template : 'jarmodel2assembly.egl'
 	target : 'assembly/' + jar.a_name + '-src.xml'
 }
 
@@ -21,7 +21,7 @@ rule Jar2SourcesAssembly
 	parameters {
 		return Map {'type' = 'sources'};
 	}
-	template : 'jarmodel2mvn.egl'
+	template : 'jarmodel2assembly.egl'
 	target : 'assembly/' + jar.a_name + '-sources.xml'
 }
 
@@ -31,7 +31,7 @@ rule Jar2DepsAssembly
 	parameters {
 		return Map {'type' = 'dependencies'};
 	}
-	template : 'jarmodel2mvn.egl'
+	template : 'jarmodel2assembly.egl'
 	target : 'assembly/' + jar.a_name + '-deps.xml'
 }
 
@@ -40,6 +40,12 @@ rule Model2KitchenSink
 	parameters {
 		return Map {'type' = 'kitchensink'};
 	}
-	template : 'jarmodel2mvn.egl'
+	template : 'jarmodel2assembly.egl'
 	target : 'assembly/kitchensink.xml'
+}
+
+rule Jar2POM
+	transform jar : JarModel!t_jar {
+	template : 'jarmodel2pom.egl'
+	target : 'assembly/' + jar.a_name + '.pom'
 }

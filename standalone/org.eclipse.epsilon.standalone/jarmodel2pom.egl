@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eclipse.epsilon</groupId>
+  <artifactId>[%=jar.getArtifactId()%]</artifactId>
+  <version>[%=jar.getVersion()%]</version>[%
+if (jar.c_plugin.size() > 0 or jar.a_requires.isDefined()) {
+%]
+  <dependencies>
+[% for (otherjar in jar.getRequires()) { %]
+    <dependency>
+      <groupId>org.eclipse.epsilon</groupId>
+      <artifactId>[%=otherjar.getArtifactId()%]</artifactId>
+      <artifactId>[%=otherjar.getVersion()%]</artifactId>
+    </dependency>
+[% } 
+   for (plugin in jar.c_plugin) { %]
+   <dependency>
+      <groupId>[%=plugin.a_groupId%]</groupId>
+      <artifactId>[%=plugin.a_artifactId%]</artifactId>
+      <artifactId>[%=plugin.a_version%]</artifactId>
+   </dependency>
+[% } %]
+  </dependencies>
+[%
+}
+%]
+</project>
+[%
+
+operation JarModel!t_jar getJar(name: String) {
+  return self.parentNode.c_jar.selectOne(e|e.a_name=name);
+}
+
+operation JarModel!t_jar getRequires() : Sequence(JarModel!t_jar) {
+  var results = Sequence {};
+  if (self.a_requires.isDefined()) {
+    for (require in self.a_requires.split(',')) {
+      require = require.trim();
+      results.add(self.getJar(require));
+    }
+  }
+  return results;
+}
+
+operation JarModel!t_jar getArtifactId() {
+  return 'epsilon-' + self.a_name;
+}
+
+operation JarModel!t_jar getVersion() {
+  var prefix = self.parentNode.a_version + '.0'; 
+  if (self.parentNode.a_interim = 'true') {
+    return prefix + '-SNAPSHOT';
+  } else {
+  	return prefix;
+  }
+}
+
+%]

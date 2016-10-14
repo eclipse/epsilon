@@ -1,4 +1,4 @@
-<jarmodel plugins="../../plugins" projects="../../plugins/" version="1.4" prefix="epsilon" dir="jars">
+<jarmodel plugins="../../plugins" projects="../../plugins/" version="1.4" prefix="epsilon" dir="jars" interim="true">
 
 	<jar name="core">
 		<description>
@@ -35,10 +35,22 @@
 
 		<!-- Need to be listed in the unpack-dependencies goal
 		     of the pom.xml file as well. -->
-		<plugin name="org.eclipse.emf.common"/>
-		<plugin name="org.eclipse.emf.ecore"/>
-		<plugin name="org.eclipse.emf.ecore.xmi"/>
-		<plugin name="org.eclipse.xsd"/>
+		<plugin name="org.eclipse.emf.common"
+			groupId="org.eclipse.emf"
+			artifactId="org.eclipse.emf.common"
+			version="2.11.0-v20150805-0538" />
+		<plugin name="org.eclipse.emf.ecore"
+			groupId="org.eclipse.emf"
+			artifactId="org.eclipse.emf.ecore"
+			version="2.11.1-v20150805-0538"	/>
+		<plugin	name="org.eclipse.emf.ecore.xmi"
+			groupId="org.eclipse.emf"
+			artifactId="org.eclipse.emf.ecore.xmi"
+			version="2.11.1-v20150805-0538" />
+		<plugin name="org.eclipse.xsd"
+  			groupId="org.eclipse.xsd"
+  			artifactId="org.eclipse.xsd"
+  			version="2.11.0-v20150806-0404" />
 	</jar>
 
 	<jar name="uml" requires="emf">
@@ -49,10 +61,22 @@
 
 		<!-- Need to be listed in the unpack-dependencies goal
 		     of the pom.xml file as well. -->
-		<plugin name="org.eclipse.uml2.uml"/>
-		<plugin name="org.eclipse.uml2.common"/>
-		<plugin name="org.eclipse.emf.mapping.ecore2xml"/>
-		<plugin name="org.eclipse.uml2.types"/>
+		<plugin name="org.eclipse.uml2.uml"
+  			groupId="org.eclipse.uml2"
+  			artifactId="uml"
+  			version="5.0.0-v20140602-0749" />
+		<plugin name="org.eclipse.uml2.common"
+			groupId="org.eclipse.uml2"
+  			artifactId="common"
+  			version="2.0.0-v20140602-0749" />
+		<plugin name="org.eclipse.emf.mapping.ecore2xml"
+			groupId="org.eclipse.emf"
+			artifactId="org.eclipse.emf.mapping.ecore2xml"
+			version="2.9.0-v20150806-0404" />
+		<plugin name="org.eclipse.uml2.types"
+	  		groupId="org.eclipse.uml2"
+  			artifactId="types"
+  			version="2.0.0-v20140602-0749" />
 	</jar>
 
 	<jar name="graphml" requires="emf">

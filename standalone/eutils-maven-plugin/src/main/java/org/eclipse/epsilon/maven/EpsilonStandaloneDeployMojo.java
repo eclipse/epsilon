@@ -70,7 +70,7 @@ public class EpsilonStandaloneDeployMojo extends AbstractMojo {
 	@Parameter(defaultValue = "https://oss.sonatype.org/content/repositories/snapshots")
 	private String url;
 
-	private static final Pattern PATTERN_SOURCESJAR = Pattern.compile("(epsilon-[0-9.]+-(\\w+))-sources.jar");
+	private static final Pattern PATTERN_SOURCESJAR = Pattern.compile("(epsilon-[0-9.]+-\\w+)-sources.jar");
 
 	public void execute() throws MojoExecutionException {
 		final String version = mavenProject.getVersion();
@@ -83,9 +83,7 @@ public class EpsilonStandaloneDeployMojo extends AbstractMojo {
 			}
 
 			final String prefix = match.group(1);
-			final String groupId = "org.eclipse.epsilon";
-			final String artifactId = "epsilon-" + match.group(2);
-
+			final File pom = new File(outDir, prefix + ".pom");
 			final File binJar = new File(outDir, prefix + ".jar");
 			final File docJar = new File(outDir, prefix + "-javadoc.jar");
 
@@ -100,11 +98,8 @@ public class EpsilonStandaloneDeployMojo extends AbstractMojo {
 					// target repository
 					element("repositoryId", this.repoId),
 					element("url", this.url),
-					// coordinates
-					element("artifactId", artifactId),
-					element("groupId", groupId),
-					element("version", version),
 					// files
+					element("pomFile", pom.getAbsolutePath()),
 					element("file", binJar.getAbsolutePath()),
 					element("javadoc", docJar.getAbsolutePath()),
 					element("sources", sourcesJar.getAbsolutePath())),
