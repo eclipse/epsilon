@@ -7,13 +7,22 @@ rule Jar2BinaryAssembly
 	target : 'assembly/' + jar.a_name + '.xml'
 }
 
-rule Jar2SourceAssembly
+rule Jar2BinaryWithSourcesAssembly
+	transform jar : JarModel!t_jar {
+	parameters {
+		return Map {'type' = 'binary+sources'};
+	}
+	template : 'jarmodel2mvn.egl'
+	target : 'assembly/' + jar.a_name + '-src.xml'
+}
+
+rule Jar2SourcesAssembly
 	transform jar : JarModel!t_jar {
 	parameters {
 		return Map {'type' = 'sources'};
 	}
 	template : 'jarmodel2mvn.egl'
-	target : 'assembly/' + jar.a_name + '-src.xml'
+	target : 'assembly/' + jar.a_name + '-sources.xml'
 }
 
 rule Jar2DepsAssembly

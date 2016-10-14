@@ -113,11 +113,29 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.10.3</version>
 	<configuration>
-	  <sourceFileIncludes>
-	    <sourceFileInclude>org/eclipse/epsilon/**/*.java</sourceFileInclude>
-	  </sourceFileIncludes>
-	  <doctitle>Epsilon Interim API</doctitle>
+	  <additionalparam>${javadoc.opts}</additionalparam>
 	</configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <reportPlugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <configuration>
+                <additionalparam>${javadoc.opts}</additionalparam>
+		<doctitle>Epsilon Interim API</doctitle>
+		<sourceFileIncludes>
+		  <sourceFileInclude>org/eclipse/epsilon/**/*.java</sourceFileInclude>
+		</sourceFileIncludes>
+              </configuration>
+            </plugin>
+          </reportPlugins>
+        </configuration>
       </plugin>
 
     </plugins>
@@ -147,7 +165,7 @@
 	  <plugin>
 	    <groupId>org.apache.maven.plugins</groupId>
 	    <artifactId>maven-gpg-plugin</artifactId>
-	    <version>1.5</version>
+	    <version>1.6</version>
 	    <executions>
               <execution>
 		<id>sign-artifacts</id>
@@ -160,6 +178,15 @@
 	  </plugin>
 	</plugins>
       </build>
+    </profile>
+    <profile>
+      <id>java8-doclint-disabled</id>
+      <activation>
+	<jdk>[1.8,)</jdk>
+      </activation>
+      <properties>
+	<javadoc.opts>-Xdoclint:none</javadoc.opts>
+      </properties>
     </profile>
   </profiles>
 </project>

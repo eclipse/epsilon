@@ -17,17 +17,19 @@ if (type = 'kitchensink') {
   <fileSets>
 [% if (type <> 'dependencies') {
     for (j in jars) {
-      for (project in j.c_project) { %]
+      for (project in j.c_project) {
+        if (type <> 'sources') { %]
       <fileSet>
-[% if (project.a_binary = 'true') { %]
+[%        if (project.a_binary = 'true') { %]
         <directory>../../plugins/[%=project.a_name%]/</directory>
         <includes><include>**/*.class</include></includes>
-[% } else { %]
+[%        } else { %]
         <directory>../../plugins/[%=project.a_name%]/target/classes</directory>
-[% } %]
+[%        } %]
         <outputDirectory></outputDirectory>
       </fileSet>
-[%      if (type = 'sources') { %]
+[%     }
+       if (type = 'binary+sources' or type = 'sources') { %]
       <fileSet>
         <directory>../../plugins/[%=project.a_name%]/[%=project.getSource()%]</directory>
         <outputDirectory></outputDirectory>
@@ -84,8 +86,10 @@ operation JarModel!t_jarmodel getAssemblyFormat(type: String) : String {
 operation JarModel!t_jar getAssemblyIdentifier(type: String) : String {
   if (type = 'dependencies') {
     return self.a_name + '-dependencies';
-  } else if (type = 'sources') {
+  } else if (type = 'binary+sources') {
     return self.a_name + '-src';
+  } else if (type = 'sources') {
+    return self.a_name + '-sources';
   } else {
     return self.a_name;
   }

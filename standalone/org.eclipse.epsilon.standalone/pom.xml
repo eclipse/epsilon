@@ -56,20 +56,27 @@
 	      <descriptors>
 		<descriptor>assembly/core.xml</descriptor>
 		<descriptor>assembly/core-src.xml</descriptor>
+		<descriptor>assembly/core-sources.xml</descriptor>
 		<descriptor>assembly/emf.xml</descriptor>
 		<descriptor>assembly/emf-src.xml</descriptor>
+		<descriptor>assembly/emf-sources.xml</descriptor>
 		<descriptor>assembly/emf-deps.xml</descriptor>
 		<descriptor>assembly/uml.xml</descriptor>
 		<descriptor>assembly/uml-src.xml</descriptor>
+		<descriptor>assembly/uml-sources.xml</descriptor>
 		<descriptor>assembly/uml-deps.xml</descriptor>
 		<descriptor>assembly/graphml.xml</descriptor>
 		<descriptor>assembly/graphml-src.xml</descriptor>
+		<descriptor>assembly/graphml-sources.xml</descriptor>
 		<descriptor>assembly/hutn.xml</descriptor>
 		<descriptor>assembly/hutn-src.xml</descriptor>
+		<descriptor>assembly/hutn-sources.xml</descriptor>
 		<descriptor>assembly/workflow.xml</descriptor>
 		<descriptor>assembly/workflow-src.xml</descriptor>
+		<descriptor>assembly/workflow-sources.xml</descriptor>
 		<descriptor>assembly/workflow-emf.xml</descriptor>
 		<descriptor>assembly/workflow-emf-src.xml</descriptor>
+		<descriptor>assembly/workflow-emf-sources.xml</descriptor>
 		<descriptor>assembly/kitchensink.xml</descriptor>
 	      </descriptors>
 	    </configuration>
