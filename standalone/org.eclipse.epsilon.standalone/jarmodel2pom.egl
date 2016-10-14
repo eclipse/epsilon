@@ -10,14 +10,14 @@ if (jar.c_plugin.size() > 0 or jar.a_requires.isDefined()) {
     <dependency>
       <groupId>org.eclipse.epsilon</groupId>
       <artifactId>[%=otherjar.getArtifactId()%]</artifactId>
-      <artifactId>[%=otherjar.getVersion()%]</artifactId>
+      <version>[%=otherjar.getVersion()%]</version>
     </dependency>
 [% } 
    for (plugin in jar.c_plugin) { %]
    <dependency>
       <groupId>[%=plugin.a_groupId%]</groupId>
       <artifactId>[%=plugin.a_artifactId%]</artifactId>
-      <artifactId>[%=plugin.a_version%]</artifactId>
+      <version>[%=plugin.a_version%]</version>
    </dependency>
 [% } %]
   </dependencies>
