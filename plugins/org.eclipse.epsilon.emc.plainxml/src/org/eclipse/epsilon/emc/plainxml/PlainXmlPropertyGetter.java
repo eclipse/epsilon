@@ -42,6 +42,20 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 				return e.getTextContent();
 			}
 			
+			if ("name".equals(property)) {
+				int colonIndex = e.getTagName().indexOf(":");
+				if (colonIndex >= 0) {
+					return e.getTagName().substring(colonIndex + 1);
+				}
+				else {
+					return e.getTagName();
+				}
+			}
+			
+			if ("descendants".equals(property)) {
+				return getDescendants(e, new ArrayList<Element>());
+			}
+			
 			if ("parent".equals(property)) {
 				if (e.getParentNode() instanceof Element) {
 					return e.getParentNode();
@@ -117,7 +131,7 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 				
 				// Look for elements with this specific tag name
 				for (Element child : children) {
-					if (child.getTagName().equals(p.getProperty())) {
+					if (model.tagMatches(child, p.getProperty())) {
 						result.add(child);
 					}
 				}
@@ -139,5 +153,13 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 		return super.invoke(object, property);
 		
 	}
-
+	
+	protected List<Element> getDescendants(Element root, List<Element> descendants) {
+		for (Element child : DomUtil.getChildren(root)) {
+			descendants.add(child);
+			getDescendants(child, descendants);
+		}
+		return descendants;
+	}
+	
 }

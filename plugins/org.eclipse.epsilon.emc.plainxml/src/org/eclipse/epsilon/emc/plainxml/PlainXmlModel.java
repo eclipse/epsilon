@@ -254,13 +254,28 @@ public class PlainXmlModel extends CachedModel<Element> {
 				allOfType = new ArrayList<Element>();
 				for (Object o : allContents()) {
 					Element e = (Element) o;
-					if (e.getTagName().equals(plainXmlType.getTagName())) {
+					if (tagMatches(e, plainXmlType.getTagName())) {
 						allOfType.add(e);
 					}
 				}
 			}
 
 			return allOfType;
+		}
+	}
+	
+	public boolean tagMatches(Element element, String name) {
+		if (element.getTagName().equalsIgnoreCase(name)) {
+			return true;
+		}
+		else {
+			int colonIndex = element.getTagName().indexOf(":");
+			if (colonIndex >= 0) {
+				return element.getTagName().substring(colonIndex + 1).equalsIgnoreCase(name);
+			}
+			else {
+				return false;
+			}
 		}
 	}
 	
