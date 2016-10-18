@@ -21,7 +21,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Node"
         eOpposite="#//Node/incoming"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Action" eSuperTypes="#//Node"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Action" eSuperTypes="#//Node">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//ActionType"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Decision" eSuperTypes="#//Node"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="ActionType">
+    <eLiterals name="regular" value="1"/>
+    <eLiterals name="automatic" value="2"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>
 </ecore:EPackage>

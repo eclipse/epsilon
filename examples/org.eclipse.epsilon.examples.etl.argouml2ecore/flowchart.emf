@@ -24,5 +24,10 @@ class Action extends Node {
 class Decision extends Node {
 }
 
+enum ActionType {
+  regular = 0;
+  automatic = 0;
+}
+
 datatype String : java.lang.String;
 

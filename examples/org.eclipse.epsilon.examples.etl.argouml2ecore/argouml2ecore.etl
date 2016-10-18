@@ -21,7 +21,7 @@ rule Attribute2EAttribute
 	to ea : Ecore!EAttribute {
 	
 	ea.name = a.name;
-	ea.eType = a.type.name.createEDataType();
+	ea.eType = a.type.name.getEDataType();
 	ea.lowerBound = a.multiplicity.range[0].lower;
 	ea.upperBound = a.multiplicity.range[0].upper;
 	a.owner.equivalent().eStructuralFeatures.add(ea); 
@@ -54,8 +54,25 @@ rule Generalisation2Extension
 	to nothing : Sequence {
 	
 	g.child.equivalent().eSuperTypes.add(g.parent.equivalent());
-	
 }
+
+rule Enumeration2EEnum
+	transform e : ArgoUML!Enumeration
+	to ee : Ecore!EEnum {
+
+	ee.name = e.name;
+}
+
+rule EnumerationLiteral2EEnumLiteral
+	transform l : ArgoUML!EnumerationLiteral
+	to el : Ecore!EEnumLiteral {
+	
+	el.name = l.name;
+	var eLiterals = l.enumeration.equivalent().eLiterals;
+	eLiterals.add(el);
+	el.value = eLiterals.size();
+}
+
 
 operation ArgoUML!AssociationEnd getOpposite() {
 	return self.association.connection.
@@ -63,10 +80,17 @@ operation ArgoUML!AssociationEnd getOpposite() {
 }
 
 @cached
-operation String createEDataType() {
-	var edt : new Ecore!EDataType;
-	edt.name = self;
-	edt.instanceClassName = "java.lang." + self;
-	Ecore!EPackage.all.first().println().eClassifiers.add(edt);
-	return edt;
+operation String getEDataType() {
+
+	var enumeration = ArgoUML!Enumeration.all.selectOne(e|e.name = self);
+	if (enumeration.isDefined()) {
+		return enumeration.equivalent();
+	}
+	else {
+		var edt = new Ecore!EDataType;
+		edt.name = self;
+		edt.instanceClassName = "java.lang." + self;
+		Ecore!EPackage.all.first().println().eClassifiers.add(edt);
+		return edt;
+	}
 }
