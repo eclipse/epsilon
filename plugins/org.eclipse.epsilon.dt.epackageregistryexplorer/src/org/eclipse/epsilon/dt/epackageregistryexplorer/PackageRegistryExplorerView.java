@@ -53,11 +53,14 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 public class PackageRegistryExplorerView extends ViewPart implements ISelectionProvider{
 	
+	public static final String ID = "org.eclipse.epsilon.dt.epackageregistryexplorer.PackageRegistryExplorerView";
 	protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 	protected boolean backRunning = false;
 	protected TreeViewer classViewer;
@@ -211,6 +214,7 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		IActionBars bars = getViewSite().getActionBars();
 		bars.getToolBarManager().add(new BackAction());
 		bars.getToolBarManager().add(new RefreshAction());
+		bars.getToolBarManager().add(new NewViewInstanceAction());
 	}
 	
 	class ClassViewerSelectionChangedListener implements ISelectionChangedListener {
@@ -228,6 +232,29 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		
 	}
 	
+	class NewViewInstanceAction extends Action {
+		
+		protected boolean running = false;
+		
+		public NewViewInstanceAction() {
+			this.setText("New EPackage Registry View");
+			this.setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/newviewinstance.png"));
+		}
+		
+		@Override
+		public void run() {
+			
+			IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			try {
+				activePage.showView(PackageRegistryExplorerView.ID, Math.random()*1000 +"", IWorkbenchPage.VIEW_ACTIVATE);
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+			
+	}
+
 	class BackAction extends Action {
 		
 		protected boolean running = false;

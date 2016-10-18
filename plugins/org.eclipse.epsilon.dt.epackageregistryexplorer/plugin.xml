@@ -4,6 +4,7 @@
    <extension
          point="org.eclipse.ui.views">
       <view
+            allowMultiple="true"
             category="org.eclipse.epsilon.dt"
             class="org.eclipse.epsilon.dt.epackageregistryexplorer.PackageRegistryExplorerView"
             icon="icons/epackage.png"
