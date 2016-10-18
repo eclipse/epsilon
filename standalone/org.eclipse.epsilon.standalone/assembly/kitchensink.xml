@@ -144,6 +144,18 @@
         <directory>../../plugins/org.eclipse.epsilon.workflow.emf/target/classes</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.emc.spreadsheets/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.emc.spreadsheets.excel/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.emc.spreadsheets.google/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
     <fileSet>
       <directory>target/dependency-unpacked</directory>
       <outputDirectory></outputDirectory>

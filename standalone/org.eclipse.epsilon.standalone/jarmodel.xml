@@ -110,4 +110,43 @@
 		<description>ANT tasks for Epsilon's EMF driver.</description>
 		<project name="org.eclipse.epsilon.workflow.emf"/>
 	</jar>
+
+	<jar name="spreadsheets" requires="core">
+		<description>
+		EMC drivers for Google and Excel spreadsheets.
+		</description>
+
+		<project name="org.eclipse.epsilon.emc.spreadsheets"/>
+		<project name="org.eclipse.epsilon.emc.spreadsheets.excel"/>
+		<project name="org.eclipse.epsilon.emc.spreadsheets.google"/>
+
+		<plugin name="org.apache.commons.collections_3.2.1"
+			groupId="commons-collections"
+			artifactId="commons-collections"
+			version="3.2.1" />
+		<plugin name="org.slf4j.api_1.7.2"
+			groupId="org.slf4j"
+			artifactId="slf4j-api"
+			version="1.7.2" />
+		<plugin name="org.apache.commons.lang3_3.1"
+			groupId="org.apache.commons"
+			artifactId="commons-lang3"
+			version="3.1" />
+		<plugin name="org.apache.poi_3.10.1"
+			groupId="org.apache.poi"
+			artifactId="poi"
+			version="3.10.1" />
+		<plugin name="org.apache.poi.ooxml_3.10.1"
+			groupId="org.apache.poi"
+			artifactId="poi-ooxml"
+			version="3.10.1" />
+		<plugin name="org.apache.poi.ooxml.schemas_3.10.1"
+			groupId="org.apache.poi"
+			artifactId="poi-ooxml-schemas"
+			version="3.10.1" />
+		<plugin name="org.apache.xmlbeans_2.6.0"
+			groupId="org.apache.xmlbeans"
+			artifactId="xmlbeans"
+			version="2.6.0" />
+	</jar>
 </jarmodel>

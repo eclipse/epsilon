@@ -33,7 +33,7 @@
 	      <goal>unpack-dependencies</goal>
 	    </goals>
 	    <configuration>
-	      <includeArtifactIds>org.eclipse.emf.common,org.eclipse.emf.ecore,org.eclipse.emf.ecore.xmi,org.eclipse.xsd,org.eclipse.uml2.uml,org.eclipse.uml2.common,org.eclipse.emf.mapping.ecore2xml,org.eclipse.uml2.types</includeArtifactIds>
+	      <includeArtifactIds>org.eclipse.emf.common,org.eclipse.emf.ecore,org.eclipse.emf.ecore.xmi,org.eclipse.xsd,org.eclipse.uml2.uml,org.eclipse.uml2.common,org.eclipse.emf.mapping.ecore2xml,org.eclipse.uml2.types,org.apache.commons.collections_3.2.1,org.apache.commons.lang3_3.1,org.apache.poi_3.10.1,org.apache.poi.ooxml_3.10.1,org.apache.poi.ooxml.schemas_3.10.1,org.apache.xmlbeans_2.6.0</includeArtifactIds>
 	      <outputDirectory>target/dependency-unpacked</outputDirectory>
 	    </configuration>
 	  </execution>
@@ -71,6 +71,10 @@
 		<descriptor>assembly/hutn.xml</descriptor>
 		<descriptor>assembly/hutn-src.xml</descriptor>
 		<descriptor>assembly/hutn-sources.xml</descriptor>
+		<descriptor>assembly/spreadsheets-deps.xml</descriptor>
+		<descriptor>assembly/spreadsheets-sources.xml</descriptor>
+		<descriptor>assembly/spreadsheets-src.xml</descriptor>
+		<descriptor>assembly/spreadsheets.xml</descriptor>
 		<descriptor>assembly/workflow.xml</descriptor>
 		<descriptor>assembly/workflow-src.xml</descriptor>
 		<descriptor>assembly/workflow-sources.xml</descriptor>
