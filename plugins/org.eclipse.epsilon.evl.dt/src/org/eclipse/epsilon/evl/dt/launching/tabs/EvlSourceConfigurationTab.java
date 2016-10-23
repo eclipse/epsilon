@@ -14,7 +14,11 @@ import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.launching.AbstractSourceConfigurationTab;
 import org.eclipse.epsilon.evl.dt.EvlPlugin;
 
-public class EvlSourceConfigurationTab extends AbstractSourceConfigurationTab{
+/**
+ * Provides the specific details for selecting an EVL file for execution.
+ *
+ */
+public class EvlSourceConfigurationTab extends AbstractSourceConfigurationTab {
 
 	@Override
 	public EpsilonPlugin getPlugin() {

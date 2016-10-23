@@ -13,7 +13,6 @@ package org.eclipse.epsilon.evl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
@@ -41,14 +40,35 @@ import org.eclipse.epsilon.evl.parse.EvlLexer;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
 
+/**
+ * The Class EvlModule.
+ */
 public class EvlModule extends ErlModule implements IEvlModule {
 	
+	/** The fixer. */
 	protected IEvlFixer fixer = null;
+	
+	/** The declared constraint contexts. */
 	protected ArrayList<ConstraintContext> declaredConstraintContexts = new ArrayList<ConstraintContext>();
+	
+	/** The constraint contexts. */
 	protected ArrayList<ConstraintContext> constraintContexts;
+	
+	/** The constraints. */
 	protected Constraints constraints = new Constraints();
+	
+	/** The context. */
 	protected IEvlContext context = null;
 	
+	/** The optimize constraints. */
+	private boolean optimizeConstraints = false;
+
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 * @throws Exception the exception
+	 */
 	public static void main(String[] args) throws Exception {
 		
 		EvlModule module = new EvlModule();
@@ -57,25 +77,40 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		
 	}
 	
+	/**
+	 * Instantiates a new evl module.
+	 */
 	public EvlModule(){
 		reset();
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.eol.EolLibraryModule#createLexer(org.antlr.runtime.ANTLRInputStream)
+	 */
 	@Override
 	protected Lexer createLexer(ANTLRInputStream inputStream) {
 		return new EvlLexer(inputStream);
 	}
  
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.eol.EolLibraryModule#createParser(org.antlr.runtime.TokenStream)
+	 */
 	@Override
 	public EpsilonParser createParser(TokenStream tokenStream) {
 		return new EvlParser(tokenStream);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.eol.EolLibraryModule#getMainRule()
+	 */
 	@Override
 	public String getMainRule() {
 		return "evlModule";
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.erl.ErlModule#adapt(org.eclipse.epsilon.common.parse.AST, org.eclipse.epsilon.common.module.ModuleElement)
+	 */
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch (cst.getType()) {
@@ -92,6 +127,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		return super.adapt(cst, parentAst);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.eol.EolLibraryModule#getImportConfiguration()
+	 */
 	@Override
 	public HashMap<String, Class<?>> getImportConfiguration() {
 		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
@@ -99,6 +137,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		return importConfiguration;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.erl.ErlModule#build(org.eclipse.epsilon.common.parse.AST, org.eclipse.epsilon.common.module.IModule)
+	 */
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
@@ -134,10 +175,16 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.evl.IEvlModule#getDeclaredConstraintContexts()
+	 */
 	public ArrayList<ConstraintContext> getDeclaredConstraintContexts() {
 		return declaredConstraintContexts;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.evl.IEvlModule#getConstraintContexts()
+	 */
 	public ArrayList<ConstraintContext> getConstraintContexts() {
 		if (constraintContexts == null) {
 			constraintContexts = new ArrayList<ConstraintContext>();
@@ -152,6 +199,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		return constraintContexts;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.eol.IEolExecutableModule#execute()
+	 */
 	public Object execute() throws EolRuntimeException {
 		
 		// Initialize the context
@@ -175,15 +225,24 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		return null;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.eol.IEolLibraryModule#getContext()
+	 */
 	@Override
 	public IEvlContext getContext(){
 		return context;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.evl.IEvlModule#getConstraints()
+	 */
 	public Constraints getConstraints(){ 
 		return constraints;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.erl.ErlModule#reset()
+	 */
 	@Override
 	public void reset(){
 		super.reset();
@@ -192,29 +251,62 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		context = new EvlContext();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.evl.IEvlModule#setUnsatisfiedConstraintFixer(org.eclipse.epsilon.evl.IEvlFixer)
+	 */
 	public void setUnsatisfiedConstraintFixer(IEvlFixer fixer) {
 		this.fixer = fixer;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.evl.IEvlModule#getUnsatisfiedConstraintFixer()
+	 */
 	public IEvlFixer getUnsatisfiedConstraintFixer() {
 		return fixer;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.erl.ErlModule#getPostBlockTokenType()
+	 */
 	@Override
 	protected int getPostBlockTokenType() {
 		return EvlParser.POST;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.erl.ErlModule#getPreBlockTokenType()
+	 */
 	@Override
 	protected int getPreBlockTokenType() {
 		return EvlParser.PRE;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.epsilon.eol.IEolLibraryModule#setContext(org.eclipse.epsilon.eol.execute.context.IEolContext)
+	 */
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEvlContext) {
 			this.context = (IEvlContext) context;
 		}
+	}
+	
+	/**
+	 * Checks if is optimize constraints.
+	 *
+	 * @return true, if is optimize constraints
+	 */
+	public boolean isOptimizeConstraints() {
+		return optimizeConstraints;
+	}
+
+	/**
+	 * Sets the optimize constraints.
+	 *
+	 * @param optimizeConstraints the new optimize constraints
+	 */
+	public void setOptimizeConstraints(boolean optimizeConstraints) {
+		this.optimizeConstraints = optimizeConstraints;
 	}
 	
 }
