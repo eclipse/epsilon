@@ -69,6 +69,11 @@ public class StringOperationContributor extends OperationContributor {
 		return value.substring(0,1).toUpperCase() + value.substring(1, value.length());
 	}
 	
+	public String characterAt(int index) {
+		String value = (String) target;
+		return value.charAt(index) + "";
+	}
+	
 	public String firstToLowerCase() {
 		String value = (String) target;
 		return value.substring(0,1).toLowerCase() + value.substring(1, value.length());
