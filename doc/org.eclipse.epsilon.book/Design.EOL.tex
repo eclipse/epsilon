@@ -325,6 +325,14 @@ All collection types inherit from the abstract Collection type. Apart from simpl
     
     addAll(col : Collection) : Boolean & Adds all the items of the \emph{col} argument to the collection. If the collection is a set, it only adds items that do not already exist in the collection. Returns true if this collection changed as a result of the call\\\hline
     
+    asBag() & Returns a Bag that contains the same elements as the collection. \\\hline
+    
+    asOrderedSet() & Returns a duplicate-free OrderedSet that contains the same elements as the collection. \\\hline
+    
+    asSequence() & Returns a Sequence that contains the same elements as the collection. \\\hline
+    
+    asSet() & Returns a duplicate-free Set that contains the same elements as the collection. \\\hline
+    
     clear() & Empties the collection \\\hline
     
     clone() : Collection & Returns a new collection of the same type containing the same items with the original collection \\\hline
