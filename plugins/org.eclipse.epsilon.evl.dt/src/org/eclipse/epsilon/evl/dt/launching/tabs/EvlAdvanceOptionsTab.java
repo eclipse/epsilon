@@ -96,12 +96,12 @@ public class EvlAdvanceOptionsTab extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public String getName() {
-		return "Advance Options";
+		return "Advanced";
 	}
 
 	@Override
 	public Image getImage() {
-		return EvlPlugin.getDefault().createImage("icons/advanced.png");
+		return EvlPlugin.getDefault().createImage("icons/advanced.gif");
 	}
 
 }
