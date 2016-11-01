@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.PlatformUI;
 
-public class EvlAdvanceOptionsTab extends AbstractLaunchConfigurationTab {
+public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 
 	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
 	private Button optimizeConstraintsBtn;
@@ -43,11 +43,7 @@ public class EvlAdvanceOptionsTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private void createOptimizationGroup(Composite control) {
-		final Group group = new Group(control, SWT.SHADOW_ETCHED_IN);
-		group.setLayout(new GridLayout(2, false));
-		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		group.setText("Advanced");
-		optimizeConstraintsBtn = new Button(group, SWT.CHECK);
+		optimizeConstraintsBtn = new Button(control, SWT.CHECK);
 		optimizeConstraintsBtn.setText("Optimize Constraints to Select Operations");
 		optimizeConstraintsBtn.addSelectionListener(new SelectionListener() {
 			
