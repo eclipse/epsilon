@@ -29,6 +29,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
+import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.EvlParser;
@@ -92,32 +93,37 @@ public class ConstraintContext extends AnnotatableModuleElement {
 		if (isLazy(context)) {
 			return;
 		}
+		// Check if constraints shold be optimized
+		final Collection<Constraint> remainingConstraints;
+		if (!((EvlModule)getModule()).isOptimizeConstraints()) {
+			remainingConstraints = constraints.values();
+		}
+		else {
+			final ConstraintSelectTransfomer transformer = new ConstraintSelectTransfomer();
+			remainingConstraints = new ArrayList<Constraint>(constraints.values());
+			for (Iterator<Constraint> itConstraint = remainingConstraints.iterator(); itConstraint.hasNext();) {
+				Constraint constraint = itConstraint.next();
+				if (transformer.canBeTransformed(constraint) && !constraint.isLazy(context)) {
+					ExecutableBlock<?> transformedConstraint = transformer.transformIntoSelect(constraint);
+					List<?> results = (List<?>) transformedConstraint.execute(context);
 
-		final ConstraintSelectTransfomer transformer = new ConstraintSelectTransfomer();
-		final List<Constraint> remainingConstraints = new ArrayList<Constraint>(constraints.values());
-		for (Iterator<Constraint> itConstraint = remainingConstraints.iterator(); itConstraint.hasNext();) {
-			Constraint constraint = itConstraint.next();
-			if (transformer.canBeTransformed(constraint) && !constraint.isLazy(context)) {
-				ExecutableBlock<?> transformedConstraint = transformer.transformIntoSelect(constraint);
-				List<?> results = (List<?>) transformedConstraint.execute(context);
+					// Postprocess the invalid objects to support custom messages and fix blocks
+					for (Object self : results) {
+						UnsatisfiedConstraint unsatisfiedConstraint = constraint.preprocessCheck(self, context);
+						// We know result = false because we found it with the negated condition
+						constraint.postprocessCheck(self, context, unsatisfiedConstraint, false);
+					}
 
-				// Postprocess the invalid objects to support custom messages and fix blocks
-				for (Object self : results) {
-					UnsatisfiedConstraint unsatisfiedConstraint = constraint.preprocessCheck(self, context);
-					// We know result = false because we found it with the negated condition
-					constraint.postprocessCheck(self, context, unsatisfiedConstraint, false);
+					// Mark this constraint as executed in an optimised way: we will only have
+					// explicit trace items for invalid objects, so we'll have to tweak isChecked
+					// and isSatisfied accordingly.
+					context.getConstraintTrace().addCheckedOptimised(constraint);
+
+					// Don't try to reexecute this rule later on
+					itConstraint.remove();
 				}
-
-				// Mark this constraint as executed in an optimised way: we will only have
-				// explicit trace items for invalid objects, so we'll have to tweak isChecked
-				// and isSatisfied accordingly.
-				context.getConstraintTrace().addCheckedOptimised(constraint);
-
-				// Don't try to reexecute this rule later on
-				itConstraint.remove();
 			}
 		}
-
 		if (!remainingConstraints.isEmpty()) {
 			for (Object object : getAllOfSourceKind(context)) {
 				if (appliesTo(object, context, false)) {
