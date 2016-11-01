@@ -10,7 +10,7 @@
             delegate="org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationDelegate"
             id="org.epsilon.egl.eclipse.dt.launching.EglLaunchConfigurationDelegate"
             modes="run,debug"
-            name="EGL Template">
+            name="EGL Generator">
          xxx
       </launchConfigurationType>
    </extension>
@@ -25,7 +25,7 @@
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">
       <launchConfigurationTabGroup
             class="org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationTabGroup"
-            description="Create a configuration to launch an EGL template."
+            description="Create a configuration to launch an EGL generator."
             id="org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationTabGroup"
             type="org.epsilon.egl.eclipse.dt.launching.EglLaunchConfigurationDelegate"/>
    </extension>
