@@ -85,7 +85,7 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 	}
 
 	private void createSourceGroup(Composite control) {
-		final Group sourceGroup = createGroup(control, "Main template:", 2);
+		final Group sourceGroup = createGroup(control, "Source:", 2);
 		
 		GridData filePathData = new GridData(GridData.FILL_HORIZONTAL);
 		filePath = new Text(sourceGroup, SWT.BORDER);
