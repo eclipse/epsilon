@@ -2,4 +2,42 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>epsilon-core</artifactId>
-  <version>1.4.0-SNAPSHOT</version></project>
+  <version>1.4.0-SNAPSHOT</version>
+  <name>Epsilon core component</name>
+  <description>
+               		The execution engines of all Epsilon languages,
+               		as well as the plain XML and CSV drivers.
+               		</description>
+  <url>http://eclipse.org/epsilon</url>
+  <licenses>
+  	<license>
+  		<name>Eclipse Public License 1.0</name>
+  		<url>https://www.eclipse.org/legal/epl-v10.html</url>
+  		<distribution>repo</distribution>
+  	</license>
+  </licenses>
+  <developers>
+  	<developer>
+  		<id>dkolovos</id>
+  		<name>Dimitrios S. Kolovos</name>
+  	</developer>
+  	<developer>
+  		<id>agarciad</id>
+  		<name>Antonio Garcia-Dominguez</name>
+  	</developer>
+  	<developer>
+  		<id>lrose</id>
+  		<name>Louis Rose</name>
+  	</developer>
+  	<developer>
+  		<id>zschaler</id>
+  		<name>Steffen Zschaler</name>
+  	</developer>
+  </developers>
+  <scm>
+  	<connection>scm:git://git.eclipse.org/gitroot/epsilon/org.eclipse.epsilon.git</connection>
+  	<developerConnection>scm:ssh://git.eclipse.org/gitroot/epsilon/org.eclipse.epsilon.git</developerConnection>
+  	<tag>HEAD</tag>
+  	<url>https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/</url>
+  </scm>
+</project>

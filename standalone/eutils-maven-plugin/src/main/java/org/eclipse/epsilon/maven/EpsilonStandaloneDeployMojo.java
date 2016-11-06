@@ -73,7 +73,7 @@ public class EpsilonStandaloneDeployMojo extends AbstractMojo {
 	@Parameter(property = "deploy.assembly", defaultValue = "assembly")
 	private String assemblyPath;
 
-	private static final Pattern PATTERN_SOURCESJAR = Pattern.compile("(epsilon-[0-9.]+-(\\w+))-sources.jar");
+	private static final Pattern PATTERN_SOURCESJAR = Pattern.compile("(epsilon-[0-9.]+-([a-zA-Z-]+))-sources.jar");
 
 	public void execute() throws MojoExecutionException {
 		final File outDir = new File(mavenProject.getBuild().getDirectory());
