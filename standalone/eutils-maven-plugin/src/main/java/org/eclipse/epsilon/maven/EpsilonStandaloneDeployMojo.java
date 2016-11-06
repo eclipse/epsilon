@@ -64,13 +64,13 @@ public class EpsilonStandaloneDeployMojo extends AbstractMojo {
 	@Component
 	private BuildPluginManager pluginManager;
 
-	@Parameter(defaultValue = "ossrh")
+	@Parameter(property = "deploy.repo", defaultValue = "ossrh")
 	private String repoId;
 
-	@Parameter(defaultValue = "https://oss.sonatype.org/content/repositories/snapshots")
+	@Parameter(property = "deploy.url", defaultValue = "https://oss.sonatype.org/content/repositories/snapshots")
 	private String url;
 
-	@Parameter(defaultValue = "assembly")
+	@Parameter(property = "deploy.assembly", defaultValue = "assembly")
 	private String assemblyPath;
 
 	private static final Pattern PATTERN_SOURCESJAR = Pattern.compile("(epsilon-[0-9.]+-(\\w+))-sources.jar");
