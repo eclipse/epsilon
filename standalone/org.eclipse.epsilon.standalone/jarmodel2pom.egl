@@ -81,7 +81,7 @@ operation JarModel!t_jar getArtifactId() {
 }
 
 operation JarModel!t_jar getVersion() {
-  var prefix = self.parentNode.a_version + '.0'; 
+  var prefix = self.parentNode.a_version;
   if (self.parentNode.a_interim = 'true') {
     return prefix + '-SNAPSHOT';
   } else {
