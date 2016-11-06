@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Human Usable Textual Notation Engine
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.engine
-Bundle-Version: 1.4.0.qualifier
+Bundle-Version: 1.5.0.qualifier
 Export-Package: org.eclipse.epsilon.hutn,
  org.eclipse.epsilon.hutn.exceptions,
  org.eclipse.epsilon.hutn.generate,

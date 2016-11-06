@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.emf.dt.feature"
       label="Epsilon Development Tools for EMF"
-      version="1.4.0.qualifier"
+      version="1.5.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
@@ -128,63 +128,63 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.epsilon.dt.epackageregistryexplorer"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.dt.exeed"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.emf.decorator.dt"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.emf.dt"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.egl.dt.traceability.editor"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.egl.dt.traceability.fine.emf"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.flock.dt.emf"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.workflow.emf"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emf.dt"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
 </feature>

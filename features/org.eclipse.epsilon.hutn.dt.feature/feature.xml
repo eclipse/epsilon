@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.hutn.dt.feature"
       label="Human Usable Textual Notation Development Tools"
-      version="1.4.0.qualifier"
+      version="1.5.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
@@ -238,21 +238,21 @@ litigation.
          id="org.eclipse.epsilon.hutn.dt"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.xmi.dt"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.hutn.dt"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
 </feature>
