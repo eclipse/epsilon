@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.emc.emf.EmfModel;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eugenia.operationcontributors.ContextlessOperationContributor;
 import org.eclipse.epsilon.eugenia.operationcontributors.EClassOperationContributor;
@@ -49,7 +49,7 @@ public class AnnotateEcoreDelegate extends EugeniaActionDelegate {
 	}
 	
 	@Override
-	protected void preExecuteCustomisation(IEolExecutableModule module) {
+	protected void preExecuteCustomisation(IEolModule module) {
 		super.preExecuteCustomisation(module);
 		module.getContext().getOperationContributorRegistry().add(new EModelElementOperationContributor());
 		module.getContext().getOperationContributorRegistry().add(new ContextlessOperationContributor());

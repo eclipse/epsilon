@@ -11,8 +11,7 @@
 package org.eclipse.epsilon.eol.exceptions;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
@@ -70,8 +69,8 @@ public class EolRuntimeException extends Exception{
 	@Override
 	public String getMessage() {
 		String str = getReason().replace('(','[').replace(')',']');
-		if (ast != null && ast.getModule() instanceof IEolLibraryModule) {
-			IEolContext context = ((IEolLibraryModule) ast.getModule()).getContext();
+		if (ast != null && ast.getModule() instanceof IEolModule) {
+			IEolContext context = ((IEolModule) ast.getModule()).getContext();
 			if (context != null) {
 				str = str + "\r\n" + context.getExecutorFactory().getStackTraceManager().getStackTraceAsString();
 			}

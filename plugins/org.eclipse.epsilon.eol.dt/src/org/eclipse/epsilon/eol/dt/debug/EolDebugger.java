@@ -27,7 +27,7 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.dom.Statement;
@@ -86,7 +86,7 @@ public class EolDebugger implements ExecutionController {
 		target = null;
 	}
 
-	public Object debug(IEolExecutableModule module) throws EolRuntimeException {
+	public Object debug(IEolModule module) throws EolRuntimeException {
 		final Object result = module.execute();
 		try {
 			target.terminate();

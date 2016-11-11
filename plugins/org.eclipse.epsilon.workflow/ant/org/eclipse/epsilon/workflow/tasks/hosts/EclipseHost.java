@@ -31,7 +31,7 @@ import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.dt.debug.EgxDebugger;
 import org.eclipse.epsilon.eml.EmlModule;
 import org.eclipse.epsilon.eml.dt.launching.EmlDebugger;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
@@ -61,12 +61,12 @@ public class EclipseHost implements Host{
 	}
 
 	@Override
-	public void addNativeTypeDelegates(IEolExecutableModule module) {
+	public void addNativeTypeDelegates(IEolModule module) {
 		module.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
 	}
 
 	@Override
-	public void addStopCapabilities(Project project, IEolExecutableModule module) {
+	public void addStopCapabilities(Project project, IEolModule module) {
 		// Allow the user to stop any E*L task through the stop button in the console
 		IProgressMonitor monitor =
 			(IProgressMonitor) project.getReferences().get(AntCorePlugin.ECLIPSE_PROGRESS_MONITOR);
@@ -88,7 +88,7 @@ public class EclipseHost implements Host{
 	}
 	
 	@Override
-	public Object debug(IEolExecutableModule module, File file) throws Exception {
+	public Object debug(IEolModule module, File file) throws Exception {
 		final EolDebugger debugger = (EolDebugger) createDebugger(module);
 
 		// HACK: we assume the only running launch is the Ant launch. There's no clear way to
@@ -105,7 +105,7 @@ public class EclipseHost implements Host{
 		return target.debug();
 	}
 	
-	private Object createDebugger(IEolExecutableModule module) {
+	private Object createDebugger(IEolModule module) {
 		if (module instanceof EclModule) {
 			return new EclDebugger();
 		} else if (module instanceof EplModule) {
@@ -128,7 +128,7 @@ public class EclipseHost implements Host{
 	}
 
 	@Override
-	public void configureUserInput(IEolExecutableModule module, boolean isGui) {
+	public void configureUserInput(IEolModule module, boolean isGui) {
 		if (isGui) {
 			module.getContext().setUserInput(new JFaceUserInput(module.getContext().getPrettyPrinterManager()));
 		}

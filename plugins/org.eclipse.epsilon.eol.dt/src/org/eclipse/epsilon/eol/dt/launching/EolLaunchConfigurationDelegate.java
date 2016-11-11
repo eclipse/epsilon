@@ -11,12 +11,12 @@
 package org.eclipse.epsilon.eol.dt.launching;
  
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 
 public class EolLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
 	@Override
-	public IEolExecutableModule createModule() {
+	public IEolModule createModule() {
 		return new EolModule();
 	}
 	

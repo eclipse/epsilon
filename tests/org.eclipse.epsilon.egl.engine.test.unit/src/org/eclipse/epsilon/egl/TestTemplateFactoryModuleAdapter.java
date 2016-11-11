@@ -10,14 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl;
 
-import static org.junit.Assert.*;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.epsilon.common.util.FileUtil;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -33,7 +34,7 @@ public class TestTemplateFactoryModuleAdapter {
 	private final static String invalid        = "[%  fr (i in Sequence{1..10}) { %]i is [%=i+2%]" + NEWLINE + "[% } %]";
 	private final static String invalidRuntime = "[% for (i in Sequence{1..10}) { %]i is [%=j+2%]" + NEWLINE + "[% } %]";
 	
-	private final IEolExecutableModule module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
+	private final IEolModule module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
 	
 	
 	@BeforeClass

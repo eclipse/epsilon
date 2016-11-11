@@ -28,7 +28,7 @@ import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -124,11 +124,11 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		return new GmfFileSet(selection.getLocation().toFile().toURI().toString());
 	}
 
-	public IEolExecutableModule createBuiltinModule() throws EolRuntimeException {
+	public IEolModule createBuiltinModule() throws EolRuntimeException {
 		return new EolModule();
 	}
 	
-	public IEolExecutableModule createCustomizationModule() throws EolRuntimeException {
+	public IEolModule createCustomizationModule() throws EolRuntimeException {
 		return new EolModule();
 	}
 	
@@ -146,8 +146,8 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	
 	public void runImpl(IAction action) throws Exception {
 					  
-		IEolExecutableModule builtin = createBuiltinModule();
-		IEolExecutableModule customization = createCustomizationModule();
+		IEolModule builtin = createBuiltinModule();
+		IEolModule customization = createCustomizationModule();
 
 		URI uri = Activator.getDefault().getBundle().getResource(getBuiltinTransformation()).toURI();
 		builtin.parse(uri);
@@ -260,6 +260,6 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		this.extraModels = extraModels;
 	}
 	
-	protected void preExecuteCustomisation(IEolExecutableModule module) {}
+	protected void preExecuteCustomisation(IEolModule module) {}
 	
 }

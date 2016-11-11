@@ -12,11 +12,11 @@ package org.eclipse.epsilon.ewl;
 
 import java.util.List;
 
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.ewl.execute.WizardInstance;
 
-public interface IEwlModule extends IEolLibraryModule{
+public interface IEwlModule extends IEolModule{
 	
 	public List<WizardInstance> getWizardsFor(Object self) throws EolRuntimeException;
 	

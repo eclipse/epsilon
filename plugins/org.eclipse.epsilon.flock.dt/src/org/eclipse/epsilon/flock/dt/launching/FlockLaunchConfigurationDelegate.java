@@ -12,7 +12,7 @@ package org.eclipse.epsilon.flock.dt.launching;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
@@ -26,7 +26,7 @@ import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelExcep
 public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
 	@Override
-	public IEolExecutableModule createModule() {
+	public IEolModule createModule() {
 		return new FlockModule();
 	}
 	
@@ -36,7 +36,7 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 	}
 	
 	@Override
-	protected void preExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {
+	protected void preExecute(IEolModule module) throws CoreException, EolRuntimeException {
 		super.preExecute(module);
 		IFlockContext context = (IFlockContext) module.getContext();
 		try {
@@ -49,7 +49,7 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 	}
 	
 	@Override
-	protected void postExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {
+	protected void postExecute(IEolModule module) throws CoreException, EolRuntimeException {
 		((FlockResult)result).printWarnings(EpsilonConsole.getInstance().getWarningStream());
 	}
 	
@@ -180,7 +180,7 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 	
 	//FIXME: Doesn't work with EpsilonLaunchConfigurationDelegate
 	@Override
-	public IEolExecutableModule createModule() {
+	public IEolModule createModule() {
 		return null;
 	}
 	*/

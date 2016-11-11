@@ -12,7 +12,7 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eml.EmlModule;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class EmlTask extends ExecutableModuleTask {
@@ -47,7 +47,7 @@ public class EmlTask extends ExecutableModuleTask {
 	}
 
 	@Override
-	protected IEolExecutableModule createModule() {
+	protected IEolModule createModule() {
 		return new EmlModule();
 	}
 

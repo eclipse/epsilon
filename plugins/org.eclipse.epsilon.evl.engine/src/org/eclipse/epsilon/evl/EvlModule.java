@@ -72,8 +72,10 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	public static void main(String[] args) throws Exception {
 		
 		EvlModule module = new EvlModule();
-		module.parse(new File("/Users/dimitrioskolovos/Downloads/eclipse-modeling-kepler/workspace/org.eclipse.epsilon.evl.engine/src/org/eclipse/epsilon/evl/test.evl"));
-		System.out.println(module.getOperations());
+		//module.parse(new File("/Users/dimitrioskolovos/Downloads/eclipse-modeling-kepler/workspace/org.eclipse.epsilon.evl.engine/src/org/eclipse/epsilon/evl/test.evl"));
+		//System.out.println(module.getOperations());
+		module.parse("context Foo{}");
+		System.out.println(module.getConstraintContexts().get(0).getModule());
 		
 	}
 	
@@ -145,6 +147,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		super.build(cst, module);
 		
 		GlobalConstraintContext globalConstraintContext = new GlobalConstraintContext();
+		globalConstraintContext.setModule(this);
 		globalConstraintContext.setParent(this);
 		this.getChildren().add(globalConstraintContext);
 		

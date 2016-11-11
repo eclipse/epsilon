@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.epsilon.common.module.Comment;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
@@ -32,11 +31,10 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.model.EglMarkerSection;
-import org.eclipse.epsilon.egl.model.EglSection;
 import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
 import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
-import org.eclipse.epsilon.eol.EolLibraryModule;
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.OperationList;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -50,7 +48,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
  *
  * @author lrose
  */
-public class EglModule extends EolLibraryModule implements IEglModule {
+public class EglModule extends EolModule implements IEglModule {
 
 	protected EglParser parser = null;
 	protected EglLexer lexer = null;

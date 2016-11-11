@@ -27,14 +27,13 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.edl.parse.EdlLexer;
 import org.eclipse.epsilon.edl.parse.EdlParser;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
-import org.eclipse.epsilon.eol.EolLibraryModule;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
-public class EdlModule extends EolLibraryModule implements IEolExecutableModule {
+public class EdlModule extends EolModule {
 	
 	protected List<ProcessRule> declaredProcessRules = null;
 	protected IEolContext context = null;

@@ -21,7 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.antlr.runtime.Token;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.module.ModuleMarker;
@@ -30,16 +29,17 @@ import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.ModelDeclaration;
 import org.eclipse.epsilon.eol.dom.OperationList;
+import org.eclipse.epsilon.eol.dom.Statement;
+import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
+public class EglTemplateFactoryModuleAdapter implements IEolModule {
 		
 	private final EglTemplateFactory factory;
 	private EglTemplate current;
@@ -121,12 +121,12 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 	}
 
 	@Override
-	public IEolLibraryModule getParentModule() {
+	public IEolModule getParentModule() {
 		return null;
 	}
 
 	@Override
-	public void setParentModule(IEolLibraryModule parent) {}
+	public void setParentModule(IEolModule parent) {}
 
 	@Override
 	public URI getSourceUri() {
@@ -194,6 +194,16 @@ public class EglTemplateFactoryModuleAdapter implements IEolExecutableModule {
 	@Override
 	public IModule getModule() {
 		return null;
+	}
+
+	@Override
+	public StatementBlock getMain() {
+		return null;
+	}
+
+	@Override
+	public List<Statement> getPostOperationStatements() {
+		return Collections.emptyList();
 	}
 
 }

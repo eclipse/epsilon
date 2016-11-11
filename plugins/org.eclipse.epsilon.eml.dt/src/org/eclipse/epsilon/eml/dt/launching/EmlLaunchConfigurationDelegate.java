@@ -19,7 +19,7 @@ import org.eclipse.epsilon.ecl.dt.launching.EclDebugger;
 import org.eclipse.epsilon.ecl.dt.launching.EclLaunchConfigurationDelegate;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eml.EmlModule;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.models.ModelRepository;
@@ -30,7 +30,7 @@ public class EmlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	ModelRepository modelRepository = null;
 	
 	@Override
-	public IEolExecutableModule createModule() {
+	public IEolModule createModule() {
 		return null;
 	}
 	
@@ -41,7 +41,7 @@ public class EmlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		
 		EclLaunchConfigurationDelegate eclLaunchConfigurationDelegate = new EclLaunchConfigurationDelegate() {
 			@Override
-			protected void postExecute(IEolExecutableModule module) {
+			protected void postExecute(IEolModule module) {
 				if (module instanceof EclModule) {
 					matchTrace = ((EclModule) module).getContext().getMatchTrace().getReduced();
 					modelRepository = ((EclModule) module).getContext().getModelRepository();
@@ -59,7 +59,7 @@ public class EmlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	}
 	
 	@Override
-	protected void preExecute(IEolExecutableModule module) {
+	protected void preExecute(IEolModule module) {
 		if (module instanceof EmlModule) {
 			((EmlModule) module).getContext().setMatchTrace(matchTrace);
 			((EmlModule) module).getContext().setModelRepository(modelRepository);

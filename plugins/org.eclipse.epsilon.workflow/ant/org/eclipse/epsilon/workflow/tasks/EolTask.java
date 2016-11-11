@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.workflow.tasks;
 
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 
 public class EolTask extends ExecutableModuleTask {
 	
@@ -21,7 +21,7 @@ public class EolTask extends ExecutableModuleTask {
 	}
 
 	@Override
-	protected IEolExecutableModule createModule() {
+	protected IEolModule createModule() {
 		return new EolModule();
 	}
 

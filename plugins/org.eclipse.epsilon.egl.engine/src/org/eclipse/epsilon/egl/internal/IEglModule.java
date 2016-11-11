@@ -17,9 +17,9 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.model.EglMarkerSection;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 
-public interface IEglModule extends IEolLibraryModule {
+public interface IEglModule extends IEolModule {
 	
 	public EglPreprocessorModule getPreprocessorModule();
 	

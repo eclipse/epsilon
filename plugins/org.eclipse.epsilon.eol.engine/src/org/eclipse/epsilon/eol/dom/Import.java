@@ -17,12 +17,12 @@ import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.UriUtil;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class Import extends AbstractModuleElement {
 	
-	private IEolLibraryModule parentModule;
+	private IEolModule parentModule;
 	private IModule importedModule;
 	private boolean loaded = false;
 	private boolean found = false;
@@ -30,7 +30,7 @@ public class Import extends AbstractModuleElement {
 	
 	public Import() {}
 	
-	public void setParentModule(IEolLibraryModule parentModule) {
+	public void setParentModule(IEolModule parentModule) {
 		this.parentModule = parentModule;
 	}
 	
@@ -61,7 +61,7 @@ public class Import extends AbstractModuleElement {
 			}
 			
 			// Detect and handle circular imports gracefully
-			for (IEolLibraryModule ancestor = parentModule;
+			for (IEolModule ancestor = parentModule;
 					ancestor != null && !found;
 					ancestor = ancestor.getParentModule()) {
 				if (ancestor.getSourceUri() != null && ancestor.getSourceUri().equals(uri)) {
@@ -125,8 +125,8 @@ public class Import extends AbstractModuleElement {
 	}
 	
 	public void setContext(IEolContext context) {
-		if (importedModule instanceof IEolLibraryModule) {
-			IEolLibraryModule module = (IEolLibraryModule) importedModule;
+		if (importedModule instanceof IEolModule) {
+			IEolModule module = (IEolModule) importedModule;
 			module.setContext(context);
 			for (Import import_ : module.getImports()) {
 				import_.setContext(context);

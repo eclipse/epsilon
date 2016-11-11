@@ -15,13 +15,13 @@ import java.io.File;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.test.builtins.CanAccessBuiltinsTests;
 
 public class EglCanAccessBuiltinsFromOperationsTests extends CanAccessBuiltinsTests {
 
 	@Override
-	protected IEolLibraryModule createModule() {
+	protected IEolModule createModule() {
 		return new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
 	}
 

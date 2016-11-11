@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.EvlModule;
@@ -33,7 +33,7 @@ public abstract class AbstractEcoreModelValidationDelegate extends EugeniaAction
 	protected abstract String getMarkerType();
 	
 	@Override
-	public IEolExecutableModule createBuiltinModule() {
+	public IEolModule createBuiltinModule() {
 		return new EvlModule() {
 			@Override
 			public Object execute() throws EolRuntimeException {

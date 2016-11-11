@@ -17,10 +17,10 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory;
-import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory.AccessMode;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.flock.FlockModule;
 import org.eclipse.epsilon.flock.IFlockModule;
@@ -29,7 +29,7 @@ import org.eclipse.epsilon.test.builtins.CanAccessBuiltinsTests;
 public class FlockCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
 
 	@Override
-	protected IEolLibraryModule createModule() throws EolModelLoadingException {
+	protected IEolModule createModule() throws EolModelLoadingException {
 		final IFlockModule module = new FlockModule();
 		
 		module.getContext().getModelRepository().addModel(createOriginalModel());

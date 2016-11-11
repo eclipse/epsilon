@@ -46,6 +46,7 @@ public class EvlTests {
 		module.getContext().getModelRepository().addModel(model);
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("frameStack", module.getContext().getFrameStack()));
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("blackboard", blackboard));
+		
 		module.execute();
 		
 		assertUnsatisfiedConstraints(2, "t_b", "AlwaysFalse");

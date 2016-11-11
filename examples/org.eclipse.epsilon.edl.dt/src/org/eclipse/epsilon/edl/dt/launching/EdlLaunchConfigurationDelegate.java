@@ -11,14 +11,14 @@
 package org.eclipse.epsilon.edl.dt.launching;
 
 import org.eclipse.epsilon.edl.EdlModule;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 
 public class EdlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
 	@Override
-	public IEolExecutableModule createModule() {
+	public IEolModule createModule() {
 		return new EdlModule();
 	}
 	

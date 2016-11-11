@@ -33,7 +33,7 @@ import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
-import org.eclipse.epsilon.eol.EolLibraryModule;
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.hutn.exceptions.HutnConfigFileNotFoundException;
 import org.eclipse.epsilon.hutn.exceptions.HutnException;
@@ -50,7 +50,7 @@ import org.eclipse.epsilon.hutn.parse.postprocessor.HutnPostProcessor;
 import org.eclipse.epsilon.hutn.translate.HutnTranslator;
 import org.eclipse.epsilon.hutn.validation.model.HutnValidator;
 
-public class HutnModule extends EolLibraryModule implements IHutnModule {
+public class HutnModule extends EolModule implements IHutnModule {
 
 	protected IHutnContext context;
 	protected HutnDocument document;

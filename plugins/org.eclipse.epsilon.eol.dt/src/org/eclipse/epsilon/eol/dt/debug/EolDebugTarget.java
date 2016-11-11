@@ -19,7 +19,7 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IMemoryBlock;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IThread;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
@@ -30,10 +30,10 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 	protected ILaunch launch;
 	protected IThread[] threads = new IThread[1];
 	protected IProcess process;
-	protected IEolExecutableModule module;
+	protected IEolModule module;
 	protected String name;
 	
-	public EolDebugTarget(ILaunch launch, IEolExecutableModule module, EolDebugger debugger, String name) {
+	public EolDebugTarget(ILaunch launch, IEolModule module, EolDebugger debugger, String name) {
 		super(null);
 		this.launch = launch;
 		threads[0] = new EolThread(this);
@@ -43,7 +43,7 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 		this.name = name;
 	}
 	
-	public IEolExecutableModule getModule() {
+	public IEolModule getModule() {
 		return module;
 	}
 	

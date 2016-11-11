@@ -12,11 +12,11 @@ package org.eclipse.epsilon.erl;
 
 import java.util.List;
 
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.erl.dom.Post;
 import org.eclipse.epsilon.erl.dom.Pre;
 
-public interface IErlModule extends IEolExecutableModule {
+public interface IErlModule extends IEolModule {
 	
 	public List<Pre> getPre();
 	public List<Post> getPost();

@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.TaskContainer;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -169,7 +169,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	}
 
 	@Override
-	public IEolExecutableModule createModule() {
+	public IEolModule createModule() {
 		// We store the created module, so the EUnit view can call this,
 		// register itself as a listener, and then let EUnitTask configure
 		// it as usual

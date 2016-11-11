@@ -14,13 +14,13 @@ import java.io.File;
 
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.ecl.EclModule;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.test.builtins.CanAccessBuiltinsTests;
 
 public class EclCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
 
 	@Override
-	protected IEolLibraryModule createModule() {
+	protected IEolModule createModule() {
 		return new EclModule();
 	}
 

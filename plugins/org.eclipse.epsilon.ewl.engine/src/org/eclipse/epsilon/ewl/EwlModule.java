@@ -22,7 +22,7 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
-import org.eclipse.epsilon.eol.EolLibraryModule;
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -35,7 +35,7 @@ import org.eclipse.epsilon.ewl.parse.EwlLexer;
 import org.eclipse.epsilon.ewl.parse.EwlParser;
 
 
-public class EwlModule extends EolLibraryModule implements IEwlModule {
+public class EwlModule extends EolModule implements IEwlModule {
 	
 	protected List<Wizard> wizards = new ArrayList<Wizard>();
 	protected IEwlContext context = null;

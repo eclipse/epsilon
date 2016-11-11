@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelReference;
@@ -35,7 +35,7 @@ import org.eclipse.epsilon.etl.EtlModule;
 public class Ecore2GenModelDelegate extends GuardedEcoreModelGenerationDelegate {
 	
 	@Override
-	public IEolExecutableModule createBuiltinModule() {
+	public IEolModule createBuiltinModule() {
 		return new EtlModule();
 	}
 	

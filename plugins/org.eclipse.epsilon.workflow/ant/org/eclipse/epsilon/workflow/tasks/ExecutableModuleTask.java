@@ -22,7 +22,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -34,7 +34,6 @@ import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.models.ReflectiveModelReference;
 import org.eclipse.epsilon.eol.tools.EolSystem;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
-import org.eclipse.epsilon.profiling.FileMarker;
 import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.profiling.ProfilingExecutionListener;
 import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
@@ -50,7 +49,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected List<ParameterNestedElement> parameterNestedElements = new ArrayList<ParameterNestedElement>();
 	protected File src;
 	protected String code = "";
-	protected IEolExecutableModule module;
+	protected IEolModule module;
 	protected boolean assertions = true;
 	protected String uri;
 	protected Object result;
@@ -407,6 +406,6 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 
 	protected abstract void examine() throws Exception;
 
-	protected abstract IEolExecutableModule createModule() throws Exception;
+	protected abstract IEolModule createModule() throws Exception;
 		
 }

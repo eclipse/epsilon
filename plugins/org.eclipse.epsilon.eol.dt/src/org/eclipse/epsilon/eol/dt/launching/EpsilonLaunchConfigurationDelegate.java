@@ -31,7 +31,7 @@ import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -56,7 +56,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		launch(configuration, mode, launch, progressMonitor, createModule(), createDebugger(), EolLaunchConfigurationAttributes.SOURCE, true, true);
 	}
 	
-	public boolean launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor, IEolExecutableModule module, EolDebugger debugger, String lauchConfigurationSourceAttribute, boolean setup, boolean disposeModelRepository) throws CoreException {
+	public boolean launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor, IEolModule module, EolDebugger debugger, String lauchConfigurationSourceAttribute, boolean setup, boolean disposeModelRepository) throws CoreException {
 		
 		collectListeners();
 		
@@ -113,7 +113,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		return true;
 	}
 	
-	public abstract IEolExecutableModule createModule() throws CoreException;
+	public abstract IEolModule createModule() throws CoreException;
 	
 	protected void collectListeners() {
 		
@@ -138,7 +138,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	@Override
 	public void aboutToParse(ILaunchConfiguration configuration, String mode, 
 			ILaunch launch, IProgressMonitor progressMonitor,
-			IEolExecutableModule module) throws CoreException {
+			IEolModule module) throws CoreException {
 		
 		preParse(module);
 		for (EpsilonLaunchConfigurationDelegateListener listener : listeners) {
@@ -149,7 +149,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	@Override
 	public void aboutToExecute(ILaunchConfiguration configuration, String mode,
 			ILaunch launch, IProgressMonitor progressMonitor,
-			IEolExecutableModule module) throws Exception {
+			IEolModule module) throws Exception {
 		
 		preExecute(module);
 		for (EpsilonLaunchConfigurationDelegateListener listener : listeners) {
@@ -160,7 +160,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	@Override
 	public void executed(ILaunchConfiguration configuration, String mode,
 			ILaunch launch, IProgressMonitor progressMonitor,
-			IEolExecutableModule module, Object result) throws Exception {
+			IEolModule module, Object result) throws Exception {
 		
 		postExecute(module);
 		for (EpsilonLaunchConfigurationDelegateListener listener : listeners) {
@@ -168,11 +168,11 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		}
 	}
 	
-	protected void preParse(IEolExecutableModule module) {}
+	protected void preParse(IEolModule module) {}
 	
-	protected void preExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {}
+	protected void preExecute(IEolModule module) throws CoreException, EolRuntimeException {}
 	
-	protected void postExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {}
+	protected void postExecute(IEolModule module) throws CoreException, EolRuntimeException {}
 	
 	protected EolDebugger createDebugger() {
 		return new EolDebugger();

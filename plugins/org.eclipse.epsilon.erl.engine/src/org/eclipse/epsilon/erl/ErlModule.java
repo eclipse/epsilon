@@ -18,7 +18,7 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
-import org.eclipse.epsilon.eol.EolLibraryModule;
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -30,7 +30,7 @@ import org.eclipse.epsilon.erl.dom.Pre;
 import org.eclipse.epsilon.erl.exceptions.ErlCircularRuleInheritanceException;
 import org.eclipse.epsilon.erl.exceptions.ErlRuleNotFoundException;
 
-public abstract class ErlModule extends EolLibraryModule implements IErlModule {
+public abstract class ErlModule extends EolModule implements IErlModule {
 	
 	protected NamedRuleList<Pre> declaredPre = new NamedRuleList<Pre>();
 	protected NamedRuleList<Post> declaredPost = new NamedRuleList<Post>();

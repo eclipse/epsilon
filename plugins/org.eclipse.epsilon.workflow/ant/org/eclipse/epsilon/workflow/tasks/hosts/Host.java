@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.models.IModel;
 
 public interface Host {
@@ -24,15 +24,15 @@ public interface Host {
 	
 	public void initialise();
 	
-	public void addNativeTypeDelegates(IEolExecutableModule module);
+	public void addNativeTypeDelegates(IEolModule module);
 	
-	public void addStopCapabilities(Project project, IEolExecutableModule module);
+	public void addStopCapabilities(Project project, IEolModule module);
 
 	public boolean supportsDebugging();
 	
-	public Object debug(IEolExecutableModule module, File file) throws Exception;
+	public Object debug(IEolModule module, File file) throws Exception;
 	
-	public void configureUserInput(IEolExecutableModule module, boolean isGui);
+	public void configureUserInput(IEolModule module, boolean isGui);
 
 	public IModel createModel(String type) throws BuildException;
 

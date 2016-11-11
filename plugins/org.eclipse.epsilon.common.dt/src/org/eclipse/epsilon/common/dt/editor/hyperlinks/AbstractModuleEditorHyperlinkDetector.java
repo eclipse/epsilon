@@ -18,12 +18,10 @@ import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.ArrayUtil;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
-import org.eclipse.epsilon.eol.util.EolParserUtil;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
@@ -36,7 +34,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 
 	protected AbstractModuleEditor editor;
 	protected HashMap<OperationCallExpression, IRegion> astRegions = new HashMap<OperationCallExpression, IRegion>();
-	protected IEolLibraryModule module = null;
+	protected IEolModule module = null;
 	
 	public List<IHyperlink> createHyperlinks(OperationCallExpression ast) {
 		
@@ -86,7 +84,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 	public void moduleParsed(AbstractModuleEditor editor, IModule module) {
 		astRegions.clear();
 		this.editor = editor;
-		this.module = (IEolLibraryModule) module;
+		this.module = (IEolModule) module;
 		findInterestingASTs(module);
 	}
 	

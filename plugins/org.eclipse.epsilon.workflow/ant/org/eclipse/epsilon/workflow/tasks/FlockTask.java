@@ -13,7 +13,7 @@
  */
 package org.eclipse.epsilon.workflow.tasks;
 
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.flock.FlockModule;
 import org.eclipse.epsilon.flock.IFlockModule;
 
@@ -22,7 +22,7 @@ public class FlockTask extends ExecutableModuleTask {
 	private String originalModel, migratedModel;
 	
 	@Override
-	protected IEolExecutableModule createModule() throws Exception {
+	protected IEolModule createModule() throws Exception {
 		return new FlockModule();
 	}
 	

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.examples.standalone.EpsilonStandaloneExample;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -17,7 +17,7 @@ public class EolStandaloneUmlExample extends EpsilonStandaloneExample{
 	}
 	
 	@Override
-	public IEolExecutableModule createModule() {
+	public IEolModule createModule() {
 		return new EolModule();
 	}
 

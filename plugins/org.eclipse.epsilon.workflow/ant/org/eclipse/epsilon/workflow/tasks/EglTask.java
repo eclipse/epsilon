@@ -12,7 +12,6 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.ObjectInputStream.GetField;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -32,7 +31,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.EglDefaultFormatterNestedElement;
 
 public class EglTask extends ExportableModuleTask {
@@ -44,8 +43,8 @@ public class EglTask extends ExportableModuleTask {
 	protected File outputRoot;
 	
 	@Override
-	protected IEolExecutableModule createModule() throws InstantiationException, IllegalAccessException {
-		final IEolExecutableModule module; 
+	protected IEolModule createModule() throws InstantiationException, IllegalAccessException {
+		final IEolModule module; 
 		final EglTemplateFactory templateFactory = templateFactoryType.newInstance();
 		
 		if (templateFactory instanceof EglFileGeneratingTemplateFactory && outputRoot != null) {

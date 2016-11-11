@@ -13,7 +13,7 @@ package org.eclipse.epsilon.examples.standalone.etl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.examples.standalone.EpsilonStandaloneExample;
@@ -31,7 +31,7 @@ public class EtlStandaloneExample extends EpsilonStandaloneExample {
 	}
 	
 	@Override
-	public IEolExecutableModule createModule() {
+	public IEolModule createModule() {
 		return new EtlModule();
 	}
 

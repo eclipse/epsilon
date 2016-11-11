@@ -16,7 +16,7 @@ import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.models.IModel;
 
 public class DefaultHost implements Host{
@@ -27,12 +27,12 @@ public class DefaultHost implements Host{
 	}
 
 	@Override
-	public void addNativeTypeDelegates(IEolExecutableModule module) {
+	public void addNativeTypeDelegates(IEolModule module) {
 		
 	}
 
 	@Override
-	public void addStopCapabilities(Project project, IEolExecutableModule module) {
+	public void addStopCapabilities(Project project, IEolModule module) {
 		
 	}
 
@@ -42,7 +42,7 @@ public class DefaultHost implements Host{
 	}
 
 	@Override
-	public Object debug(IEolExecutableModule module, File file)
+	public Object debug(IEolModule module, File file)
 			throws Exception {
 		return null;
 	}
@@ -53,7 +53,7 @@ public class DefaultHost implements Host{
 	}
 
 	@Override
-	public void configureUserInput(IEolExecutableModule module, boolean isGui) {
+	public void configureUserInput(IEolModule module, boolean isGui) {
 		
 	}
 

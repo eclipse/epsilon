@@ -24,7 +24,7 @@ import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eugenia.EugeniaActionDelegate;
 import org.eclipse.epsilon.eugenia.EugeniaActionDelegateStep;
@@ -96,7 +96,7 @@ public class GeneratePatchesDelegate extends EugeniaActionDelegate {
 	}
 	
 	@Override
-	public IEolExecutableModule createCustomizationModule() throws EglRuntimeException {
+	public IEolModule createCustomizationModule() throws EglRuntimeException {
 		return new EgxModule(createFactory());
 	}
 

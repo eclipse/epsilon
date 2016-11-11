@@ -15,11 +15,10 @@ import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.tools.AbstractTool;
 import org.eclipse.epsilon.eol.types.EolNoType;
 
 public class SchedulerTool extends AbstractTool{
@@ -68,7 +67,7 @@ public class SchedulerTool extends AbstractTool{
 		
 		public JobTask(String operationName, IEolContext context, int period) throws EolRuntimeException {
 			this.period = period;
-			this.operation = ((IEolLibraryModule) context.getModule()).getOperations().getOperation(operationName);
+			this.operation = ((IEolModule) context.getModule()).getOperations().getOperation(operationName);
 			if (operation == null) {
 				throw new EolRuntimeException("Operation " + operationName + " not found");
 			}

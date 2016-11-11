@@ -31,7 +31,6 @@ import org.eclipse.epsilon.egl.parse.EgxLexer;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.egl.traceability.Content;
 import org.eclipse.epsilon.egl.traceability.Template;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -39,7 +38,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
-public class EgxModule extends ErlModule implements IEolExecutableModule {
+public class EgxModule extends ErlModule {
 	
 	protected NamedRuleList<GenerationRule> declaredGenerationRules = null;
 	protected NamedRuleList<GenerationRule> generationRules = null;

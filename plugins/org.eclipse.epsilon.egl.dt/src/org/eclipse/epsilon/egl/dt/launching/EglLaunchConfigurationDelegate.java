@@ -20,7 +20,6 @@ import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttribu
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,7 +49,7 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.status.StatusMessage;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
@@ -65,7 +64,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	protected Trace fineGrainedTrace;
 	
 	@Override
-	public IEolExecutableModule createModule() throws CoreException {
+	public IEolModule createModule() throws CoreException {
 		EglTemplateFactory templateFactory = createTemplateFactoryFromConfiguration();
 		if (isEgx()) {
 			return new EgxModule(templateFactory);
@@ -83,7 +82,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	}
 
 	@Override
-	protected void preParse(IEolExecutableModule module) {
+	protected void preParse(IEolModule module) {
 		// The default formatters must be set when the template is instantiated.
 		// EglTemplateFactoryModuleAdapter#parse instantiates templates.
 		// Therefore, the default formatters must be set before parsing occurs.
@@ -95,7 +94,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		prepareToTrace(module);
 	}
 
-	private void prepareToTrace(IEolExecutableModule module) {
+	private void prepareToTrace(IEolModule module) {
 		try {
 			if (configuration.getAttribute(PRODUCE_TRACE, false)) {
 				fineGrainedTrace = new EglFineGrainedTraceContextAdaptor().adapt((IEglContext)module.getContext());
@@ -106,7 +105,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		}
 	}
 	
-	private void loadDefaultFormatters(IEolExecutableModule module) {
+	private void loadDefaultFormatters(IEolModule module) {
 		try {
 			Collection<Formatter> defaultFormatters = loadDefaultFormattersFromConfiguration();
 			if (isEgx()) {
@@ -133,13 +132,13 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	}
 	
 	@Override
-	protected void preExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {
+	protected void preExecute(IEolModule module) throws CoreException, EolRuntimeException {
 		super.preExecute(module);
 		
 		addEglPrintStream(module);
 	}
 	
-	private void addEglPrintStream(final IEolExecutableModule module) {
+	private void addEglPrintStream(final IEolModule module) {
 		final Display display = PlatformUI.getWorkbench().getDisplay();
 		display.syncExec(new Runnable() {
 
@@ -158,7 +157,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	}
 	
 	@Override
-	protected void postExecute(IEolExecutableModule module) throws CoreException, EolRuntimeException {
+	protected void postExecute(IEolModule module) throws CoreException, EolRuntimeException {
 		super.postExecute(module);
 		
 		final String output = StringUtil.toString(result);

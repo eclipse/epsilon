@@ -13,14 +13,14 @@ package org.eclipse.epsilon.etl.engine.test.acceptance.builtins;
 import java.io.File;
 
 import org.eclipse.epsilon.common.util.FileUtil;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.test.builtins.CanAccessBuiltinsTests;
 
 public class EtlCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
 
 	@Override
-	protected IEolLibraryModule createModule() {
+	protected IEolModule createModule() {
 		return new EtlModule();
 	}
 

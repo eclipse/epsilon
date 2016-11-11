@@ -10,43 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.dt.launching;
 
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.etl.EtlModule;
 
 public class EtlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
-	/*
-	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor) throws CoreException {
-		
-		EpsilonConsole.getInstance().clear();
-		
-		IEtlModule module = new EtlModule();
-		
-		if (!parse(module, EolLaunchConfigurationAttributes.SOURCE, configuration, mode, launch, progressMonitor)) return;
-		
-		try { 
-			String subTask = "Transforming...";
-			progressMonitor.subTask(subTask);
-			progressMonitor.beginTask(subTask, 100);
-			
-			EclipseContextManager.setup(module.getContext(),configuration, progressMonitor, launch);
-			module.execute();
-			progressMonitor.done();
-			
-		} catch (EolRuntimeException e) {
-			module.getContext().getErrorStream().println(e.toString());
-			progressMonitor.setCanceled(true);
-		}
-		finally{
-			EclipseContextManager.teardown(module.getContext(), progressMonitor);
-		}
-		
-	}
-	*/
 	
 	@Override
-	public IEolExecutableModule createModule() {
+	public IEolModule createModule() {
 		return new EtlModule();
 	}
 	

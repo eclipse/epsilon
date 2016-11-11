@@ -16,8 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 
-import org.eclipse.epsilon.eol.IEolExecutableModule;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.Test;
 
@@ -26,7 +25,7 @@ public abstract class CanAccessBuiltinsTests {
 	
 	@Test
 	public void builtinVariableShouldBeAvailable() throws Exception {
-		final IEolLibraryModule module = createModule();
+		final IEolModule module = createModule();
 		module.parse(getProgram());
 		
 		final ByteArrayOutputStream printed = new ByteArrayOutputStream();
@@ -37,13 +36,13 @@ public abstract class CanAccessBuiltinsTests {
 		assertEquals(getExpectedPrintedValue(), printed.toString());
 	}
 	
-	protected abstract IEolLibraryModule createModule() throws Exception;
+	protected abstract IEolModule createModule() throws Exception;
 	protected abstract File getProgram() throws Exception;
 	protected abstract String getExpectedPrintedValue() throws Exception;
 	
-	protected void execute(IEolLibraryModule module) throws EolRuntimeException {
-		if (module instanceof IEolExecutableModule) {
-			((IEolExecutableModule)module).execute();
+	protected void execute(IEolModule module) throws EolRuntimeException {
+		if (module instanceof IEolModule) {
+			((IEolModule)module).execute();
 		
 		} else {
 			throw new IllegalArgumentException("CanAccessBuiltins does not know how to execute the following module. (Please override this method). " + module);

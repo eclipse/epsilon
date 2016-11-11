@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.eol.IEolLibraryModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -107,10 +107,10 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 		
 		// Execute user-defined operation (if isArrow() == false)
-		if (context.getModule() instanceof IEolLibraryModule && !isArrow()){
-			Operation helper = ((IEolLibraryModule) context.getModule()).getOperations().getOperation(targetObject, nameExpression , parameterValues, context);
+		if (context.getModule() instanceof IEolModule && !isArrow()){
+			Operation helper = ((IEolModule) context.getModule()).getOperations().getOperation(targetObject, nameExpression , parameterValues, context);
 			if (helper != null){
-				return ((IEolLibraryModule) context.getModule()).getOperations().execute(targetObject, helper, parameterValues, context);
+				return ((IEolModule) context.getModule()).getOperations().execute(targetObject, helper, parameterValues, context);
 			}
 		}
 		
