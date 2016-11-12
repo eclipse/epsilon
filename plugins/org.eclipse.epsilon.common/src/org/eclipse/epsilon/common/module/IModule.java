@@ -33,8 +33,6 @@ public interface IModule extends ModuleElement {
 	URI getSourceUri();
 
 	List<ParseProblem> getParseProblems();
-
-	void reset();
 	
 	ModuleElement createAst(AST cst, ModuleElement parentAst);
 }

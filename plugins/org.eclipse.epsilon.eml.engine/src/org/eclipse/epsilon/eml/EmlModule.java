@@ -37,12 +37,8 @@ import org.eclipse.epsilon.etl.EtlModule;
 public class EmlModule extends EtlModule {
 	
 	protected EmlContext context = new EmlContext();
-	protected NamedRuleList<MergeRule> declaredMergeRules = null;
+	protected NamedRuleList<MergeRule> declaredMergeRules = new NamedRuleList<MergeRule>();
 	protected NamedRuleList<MergeRule> mergeRules = null;
-	
-	public EmlModule(){
-		reset();
-	}
 	
 	@Override
 	protected Lexer createLexer(ANTLRInputStream inputStream) {
@@ -107,13 +103,6 @@ public class EmlModule extends EtlModule {
 			return new EquivalentAssignmentStatement();
 		}
 		return super.adapt(cst, parentAst);
-	}
-	
-	@Override
-	public void reset(){
-		super.reset();
-		declaredMergeRules = new NamedRuleList<MergeRule>();
-		mergeRules = null;
 	}
 	
 	public List<MergeRule> getDeclaredMergeRules(){

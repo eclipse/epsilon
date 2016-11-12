@@ -41,12 +41,8 @@ import org.eclipse.epsilon.erl.dom.NamedRuleList;
 public class EclModule extends ErlModule implements IEclModule {
 	
 	protected NamedRuleList<MatchRule> matchRules = null;
-	protected NamedRuleList<MatchRule> declaredMatchRules = null;
-	protected IEclContext context = null;
-	
-	public EclModule(){
-		reset();
-	}
+	protected NamedRuleList<MatchRule> declaredMatchRules = new NamedRuleList<MatchRule>();
+	protected IEclContext context = new EclContext();
 	
 	@Override
 	protected Lexer createLexer(ANTLRInputStream inputStream) {
@@ -181,14 +177,6 @@ public class EclModule extends ErlModule implements IEclModule {
 		return context;
 	}
 	
-	@Override
-	public void reset(){
-		super.reset();
-		matchRules = null;
-		declaredMatchRules = new NamedRuleList<MatchRule>();
-		context = new EclContext();
-	}
-
 	public List<MatchRule> getDeclaredMatchRules() {
 		return declaredMatchRules;
 	}

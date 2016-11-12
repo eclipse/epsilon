@@ -49,9 +49,7 @@ public class EglPreprocessorModule extends EolModule {
 		return context;
 	}
 	
-	@Override
-	public void reset() {
-		super.reset();
+	public EglPreprocessorModule() {
 		this.context = new EglPreprocessorContext(super.context);
 	}
 	

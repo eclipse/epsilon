@@ -40,7 +40,6 @@ import org.eclipse.epsilon.erl.ErlModule;
 public class EplModule extends ErlModule {
 	
 	protected List<Pattern> declaredPatterns = new ArrayList<Pattern>();
-	protected IEolContext context;
 	protected boolean repeatWhileMatchesFound = false;
 	protected int maxLoops = INFINITE;
 	protected String patternMatchModelName = "P";
@@ -53,10 +52,6 @@ public class EplModule extends ErlModule {
 		//new AstExplorer(module.getAst(), EplParser.class);
 		module.parse("pre{ System.user.prompt('foo?');}");
 		module.execute();
-	}
-	
-	public EplModule() {
-		reset();
 	}
 	
 	@Override
@@ -133,22 +128,6 @@ public class EplModule extends ErlModule {
 	}
 	
 	@Override
-	public IEolContext getContext() {
-		return context;
-	}
-	
-	public void setContext(EolContext context) {
-		this.context = context;
-	}
-	
-	@Override
-	public void reset() {
-		super.reset();
-		declaredPatterns.clear();
-		context = new EolContext();
-	}
-
-	@Override
 	public Object execute() throws EolRuntimeException {
 		prepareContext(context);
 		execute(getPre(), context);
@@ -219,9 +198,5 @@ public class EplModule extends ErlModule {
 	public void setPatternMatchModelName(String patternMatchModelName) {
 		this.patternMatchModelName = patternMatchModelName;
 	}
-
-	@Override
-	public void setContext(IEolContext context) {
-		this.context = context;
-	}
+	
 }

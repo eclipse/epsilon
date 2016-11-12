@@ -107,15 +107,6 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 	
 	protected abstract int getPreBlockTokenType();
 	protected abstract int getPostBlockTokenType();
-	
-	@Override
-	public void reset() {
-		super.reset();
-		pre = null;
-		post = null;
-		declaredPre.clear();
-		declaredPost.clear();
-	}
 
 	public List<ParseProblem> calculateSuperRules(List<? extends ExtensibleNamedRule> allRules){
 		List<ParseProblem> parseProblems = new ArrayList<ParseProblem>();

@@ -38,11 +38,7 @@ import org.eclipse.epsilon.ewl.parse.EwlParser;
 public class EwlModule extends EolModule implements IEwlModule {
 	
 	protected List<Wizard> wizards = new ArrayList<Wizard>();
-	protected IEwlContext context = null;
-	
-	public EwlModule(){
-		reset();
-	}
+	protected IEwlContext context = new EwlContext();
 	
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
@@ -110,13 +106,6 @@ public class EwlModule extends EolModule implements IEwlModule {
 		return wizards;
 	}
 	
-	@Override
-	public void reset(){
-		super.reset();
-		wizards = new ArrayList<Wizard>();
-		context = new EwlContext();
-	}
-
 	private boolean allApply(Wizard wizard, Collection<Object> self) throws EolRuntimeException {
 		for (Object o : self) {
 			if (!wizard.appliesTo(o, context)) {

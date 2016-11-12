@@ -40,7 +40,7 @@ import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
 public class EgxModule extends ErlModule {
 	
-	protected NamedRuleList<GenerationRule> declaredGenerationRules = null;
+	protected NamedRuleList<GenerationRule> declaredGenerationRules = new NamedRuleList<GenerationRule>();
 	protected NamedRuleList<GenerationRule> generationRules = null;
 	protected EgxContext context = null;
 	protected EglTemplateFactory templateFactory = null;
@@ -52,7 +52,7 @@ public class EgxModule extends ErlModule {
 	
 	public EgxModule(EglTemplateFactory templateFactory) {
 		this.templateFactory = templateFactory;
-		reset();
+		context = new EgxContext(templateFactory);
 	}
 	
 	public EglTemplateFactory getTemplateFactory() {
@@ -180,14 +180,6 @@ public class EgxModule extends ErlModule {
 		this.context = context;
 	}
 	
-	@Override
-	public void reset(){
-		super.reset();
-		generationRules = null;
-		declaredGenerationRules = new NamedRuleList<GenerationRule>();
-		context = new EgxContext(templateFactory);
-	}
-
 	public List<GenerationRule> getGenerationRules() {
 		if (generationRules == null) {
 			generationRules = new NamedRuleList<GenerationRule>();

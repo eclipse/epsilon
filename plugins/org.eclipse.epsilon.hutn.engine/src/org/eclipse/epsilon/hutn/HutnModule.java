@@ -52,7 +52,7 @@ import org.eclipse.epsilon.hutn.validation.model.HutnValidator;
 
 public class HutnModule extends EolModule implements IHutnModule {
 
-	protected IHutnContext context;
+	protected IHutnContext context = new HutnContext(this);
 	protected HutnDocument document;
 	protected Spec spec;
 	protected boolean metaModelIsValid = true;
@@ -88,13 +88,6 @@ public class HutnModule extends EolModule implements IHutnModule {
 		return context;
 	}
 	
-	public void reset(){
-		super.reset();
-		context = new HutnContext(this);
-		metaModelIsValid = true;
-		hutnIsValid = false;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.epsilon.eol.AbstractModule#invokeMainRule()

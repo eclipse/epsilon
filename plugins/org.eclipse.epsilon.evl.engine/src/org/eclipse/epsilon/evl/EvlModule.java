@@ -58,33 +58,10 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	protected Constraints constraints = new Constraints();
 	
 	/** The context. */
-	protected IEvlContext context = null;
+	protected IEvlContext context = new EvlContext();
 	
 	/** The optimize constraints. */
 	private boolean optimizeConstraints = false;
-
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 * @throws Exception the exception
-	 */
-	public static void main(String[] args) throws Exception {
-		
-		EvlModule module = new EvlModule();
-		//module.parse(new File("/Users/dimitrioskolovos/Downloads/eclipse-modeling-kepler/workspace/org.eclipse.epsilon.evl.engine/src/org/eclipse/epsilon/evl/test.evl"));
-		//System.out.println(module.getOperations());
-		module.parse("context Foo{}");
-		System.out.println(module.getConstraintContexts().get(0).getModule());
-		
-	}
-	
-	/**
-	 * Instantiates a new evl module.
-	 */
-	public EvlModule(){
-		reset();
-	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.epsilon.eol.EolLibraryModule#createLexer(org.antlr.runtime.ANTLRInputStream)
@@ -243,17 +220,6 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		return constraints;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.epsilon.erl.ErlModule#reset()
-	 */
-	@Override
-	public void reset(){
-		super.reset();
-		constraintContexts = null;
-		declaredConstraintContexts = new ArrayList<ConstraintContext>();
-		context = new EvlContext();
-	}
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.epsilon.evl.IEvlModule#setUnsatisfiedConstraintFixer(org.eclipse.epsilon.evl.IEvlFixer)
 	 */

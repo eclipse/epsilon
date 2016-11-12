@@ -282,15 +282,6 @@ public class EolModule extends AbstractModule implements IEolModule {
 		context.getFrameStack().putGlobal(Variable.createReadOnlyVariable("null", null));
 		context.getFrameStack().putGlobal(Variable.createReadOnlyVariable("System",system));
 	}
-	
-	@Override
-	public void reset() {
-		imports.clear();
-		declaredOperations.clear();
-		operations = null;
-		main = null;
-		context = createContext();
-	}
 
 	public List<Import> getImports() {
 		return imports;
@@ -414,7 +405,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 	}
 	
 	public EolModule(){
-		context = createContext();
+		context = new EolContext();
 	}
 	
 	public Object execute() throws EolRuntimeException {
@@ -454,10 +445,6 @@ public class EolModule extends AbstractModule implements IEolModule {
 	@Override
 	public void setContext(IEolContext context) {
 		this.context = context;
-	}
-	
-	public IEolContext createContext() {
-		return new EolContext();
 	}
 
 	/**

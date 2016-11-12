@@ -24,11 +24,11 @@ import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 
 public abstract class AbstractEmfModelConstructor {
 	
-	private static final IHutnModule hutnModule = new HutnModule(); 
+	private static IHutnModule hutnModule; 
 	
 	protected static boolean parse(String hutn) {
 		try {
-			hutnModule.reset();
+			hutnModule = new HutnModule();
 			
 			if (hutnModule.parse(hutn)) {
 				return true;	

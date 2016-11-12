@@ -41,13 +41,9 @@ import org.eclipse.epsilon.etl.strategy.FastTransformationStrategy;
 
 public class EtlModule extends ErlModule implements IEtlModule {
 	
-	protected NamedRuleList<TransformationRule> declaredTransformationRules = null;
+	protected NamedRuleList<TransformationRule> declaredTransformationRules = new NamedRuleList<TransformationRule>();
 	protected NamedRuleList<TransformationRule> transformationRules = null;
-	protected IEtlContext context = null;
-	
-	public EtlModule(){
-		reset();
-	}
+	protected IEtlContext context = new EtlContext();
 	
 	@Override
 	protected Lexer createLexer(ANTLRInputStream inputStream) {
@@ -154,16 +150,6 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		this.context = context;
 	}
 	
-	@Override
-	public void reset(){
-		super.reset();
-		//preBlock = null;
-		//postBlock = null;
-		transformationRules = null;
-		declaredTransformationRules = new NamedRuleList<TransformationRule>();
-		context = new EtlContext();
-	}
-
 	public List<TransformationRule> getTransformationRules() {
 		if (transformationRules == null) {
 			transformationRules = new NamedRuleList<TransformationRule>();

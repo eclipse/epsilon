@@ -54,8 +54,6 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	
 	public abstract EpsilonParser createParser(TokenStream tokenStream);
 	
-	public abstract void reset();
-	
 	protected File sourceFile;
 	protected URI sourceUri;
 	

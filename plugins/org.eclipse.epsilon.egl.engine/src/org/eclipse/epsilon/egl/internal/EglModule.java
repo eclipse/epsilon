@@ -54,19 +54,16 @@ public class EglModule extends EolModule implements IEglModule {
 	protected EglLexer lexer = null;
 	protected IEglContext context = null;
 	protected Reader reader;
-	protected EglPreprocessorModule preprocessorModule = null;
+	protected EglPreprocessorModule preprocessorModule = new EglPreprocessorModule();;
 	protected AST ast;
 	
 	private final List<EglMarkerSection> markers = new LinkedList<EglMarkerSection>();	
 	private URI templateRoot;
 
-	public EglModule() {		
-		reset();
-	}
-
+	public EglModule() {}
+	
 	public EglModule(IEglContext context) {
 		this.context = context;
-		reset();
 	}
 
 	public boolean parse(String code) throws Exception {
@@ -192,12 +189,6 @@ public class EglModule extends EolModule implements IEglModule {
 
 		if (problems.size() > 0)
 			throw new EglRuntimeException(problems.get(0), this);
-	}
-
-	@Override
-	public void reset() {
-		super.reset();
-		preprocessorModule = new EglPreprocessorModule();
 	}
 
 	public IEglContext getContext() {

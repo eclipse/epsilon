@@ -29,14 +29,12 @@ import org.eclipse.epsilon.edl.parse.EdlParser;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 
 public class EdlModule extends EolModule {
 	
-	protected List<ProcessRule> declaredProcessRules = null;
-	protected IEolContext context = null;
+	protected List<ProcessRule> declaredProcessRules = new ArrayList<ProcessRule>();
 
 	public static void main(String[] args) throws Exception {
 		
@@ -57,10 +55,6 @@ public class EdlModule extends EolModule {
 		
 		module.getContext().getModelRepository().addModel(model);
 		module.execute();
-	}
-	
-	public EdlModule(){
-		reset();
 	}
 	
 	@Override
@@ -123,14 +117,7 @@ public class EdlModule extends EolModule {
 	public void setContext(IEolContext context) {
 		this.context = context;
 	}
-	
-	@Override
-	public void reset(){
-		super.reset();
-		declaredProcessRules = new ArrayList<ProcessRule>();
-		context = new EolContext();
-	}
-	
+		
 	public List<ProcessRule> getDeclaredProcessRules() {
 		return declaredProcessRules;
 	}

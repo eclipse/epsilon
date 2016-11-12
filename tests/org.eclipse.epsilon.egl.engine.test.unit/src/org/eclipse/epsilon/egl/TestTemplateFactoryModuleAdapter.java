@@ -34,7 +34,7 @@ public class TestTemplateFactoryModuleAdapter {
 	private final static String invalid        = "[%  fr (i in Sequence{1..10}) { %]i is [%=i+2%]" + NEWLINE + "[% } %]";
 	private final static String invalidRuntime = "[% for (i in Sequence{1..10}) { %]i is [%=j+2%]" + NEWLINE + "[% } %]";
 	
-	private final IEolModule module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
+	private IEolModule module;
 	
 	
 	@BeforeClass
@@ -58,7 +58,7 @@ public class TestTemplateFactoryModuleAdapter {
 	
 	@Before
 	public void setUp() {
-		module.reset();
+		module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
 	}
 	
 	@Test
