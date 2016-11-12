@@ -394,7 +394,6 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		code = code.replaceAll("\t", " ");
 		
 		try {
-			module.reset();
 			module.parse(code, new File(file.getLocation().toOSString()));
 		} catch (Exception e) {
 			
