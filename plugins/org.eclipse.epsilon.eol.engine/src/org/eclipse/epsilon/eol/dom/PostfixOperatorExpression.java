@@ -30,8 +30,8 @@ public class PostfixOperatorExpression extends OperatorExpression {
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {		
-		context.getExecutorFactory().executeAST(assignmentStatement, context);
-		return context.getExecutorFactory().executeAST(firstOperand, context);
+		context.getExecutorFactory().execute(assignmentStatement, context);
+		return context.getExecutorFactory().execute(firstOperand, context);
 	}
 
 }

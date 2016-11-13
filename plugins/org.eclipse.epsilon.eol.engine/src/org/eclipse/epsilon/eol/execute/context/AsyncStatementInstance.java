@@ -38,7 +38,7 @@ public class AsyncStatementInstance {
 	public void execute(IEolContext context) throws EolRuntimeException {
 		FrameStack frameStack = context.getFrameStack();
 		context.setFrameStack(this.localFrameStack);
-		context.getExecutorFactory().executeAST(this.ast, context);
+		context.getExecutorFactory().execute(this.ast, context);
 		context.setFrameStack(frameStack);
 		this.localFrameStack.dispose();
 	}

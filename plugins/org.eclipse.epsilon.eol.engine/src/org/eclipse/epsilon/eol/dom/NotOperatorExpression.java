@@ -13,7 +13,7 @@ public class NotOperatorExpression extends OperatorExpression {
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		Object o1 = context.getExecutorFactory().executeAST(firstOperand,context);
+		Object o1 = context.getExecutorFactory().execute(firstOperand,context);
 		if (o1 instanceof Boolean){
 			return !((Boolean) o1);
 		} else {

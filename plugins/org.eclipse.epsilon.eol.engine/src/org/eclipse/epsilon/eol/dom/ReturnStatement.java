@@ -28,7 +28,7 @@ public class ReturnStatement extends Statement {
 	
 		Object result = null;
 		if (returnedExpression != null){
-			result = context.getExecutorFactory().executeAST(returnedExpression, context);
+			result = context.getExecutorFactory().execute(returnedExpression, context);
 		}
 		
 		return new Return(result);

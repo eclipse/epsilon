@@ -46,7 +46,7 @@ public class StatementBlock extends AbstractExecutableModuleElement {
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		for (Statement statement : statements) {
 			context.getFrameStack().setCurrentStatement(statement);
-			Object result = context.getExecutorFactory().executeAST(statement, context);
+			Object result = context.getExecutorFactory().execute(statement, context);
 			if (result instanceof Return) {
 				return result;
 			}

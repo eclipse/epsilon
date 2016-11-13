@@ -29,7 +29,7 @@ public class ExecutorFactory {
 	
 	protected ExecutionController executionController = null;
 	protected HashMap<Integer, AbstractExecutor> executorCache = new HashMap<Integer, AbstractExecutor>();
-	protected ModuleElement activeAst = null;
+	protected ModuleElement activeModuleElement = null;
 	protected ArrayList<IExecutionListener> executionListeners = new ArrayList<IExecutionListener>();
 	protected StackTraceManager stackTraceManager = null;
 	
@@ -72,36 +72,36 @@ public class ExecutorFactory {
 		
 	}
 	
-	public Object executeAST(ModuleElement ast, IEolContext context) throws EolRuntimeException{
+	public Object execute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException{
 		
-		if (ast == null) return null;
+		if (moduleElement == null) return null;
 		
-		activeAst = ast;
+		activeModuleElement = moduleElement;
 		
 		if (executionController != null){
-			if (executionController.isTerminated()) throw new EolTerminationException(ast);
+			if (executionController.isTerminated()) throw new EolTerminationException(moduleElement);
 			try {
-				executionController.control(ast, context);
+				executionController.control(moduleElement, context);
 			}
 			catch (Exception ex) { throw new EolInternalException(ex); } 
 		}
 		
 		for (IExecutionListener listener : executionListeners) {
-			listener.aboutToExecute(ast, context);
+			listener.aboutToExecute(moduleElement, context);
 		}
 		
 		Object result = null;
 		
 		try {
-			if (ast instanceof IExecutableModuleElement) {
-				result = ((IExecutableModuleElement) ast).execute(context);
+			if (moduleElement instanceof IExecutableModuleElement) {
+				result = ((IExecutableModuleElement) moduleElement).execute(context);
 			}
-			else if (ast instanceof EolModule) {
-				result = ((EolModule) ast).executeImpl();
+			else if (moduleElement instanceof EolModule) {
+				result = ((EolModule) moduleElement).executeImpl();
 			}
 			
 			for (IExecutionListener listener : executionListeners) {
-				listener.finishedExecuting(ast, result, context);
+				listener.finishedExecuting(moduleElement, result, context);
 			}
 		}
 		catch (Exception ex){
@@ -109,30 +109,30 @@ public class ExecutorFactory {
 			if (ex instanceof EolRuntimeException){
 				EolRuntimeException eolEx = (EolRuntimeException) ex;
 				if (eolEx.getAst() == null){
-					eolEx.setAst(ast);
+					eolEx.setAst(moduleElement);
 				}
 				exception = eolEx;
 			}
 			else {
-				exception = new EolInternalException(ex, ast);
+				exception = new EolInternalException(ex, moduleElement);
 			}
 			for (IExecutionListener listener : executionListeners) {
-				listener.finishedExecutingWithException(ast, exception, context);
+				listener.finishedExecutingWithException(moduleElement, exception, context);
 			}
 			throw exception;
 		}
 		finally {
 			
 			if (executionController != null) {
-				executionController.done(ast, context);
+				executionController.done(moduleElement, context);
 			}
 		}
 		
 		return result;
 	}
 
-	public ModuleElement getActiveAst() {
-		return activeAst;
+	public ModuleElement getActiveModuleElement() {
+		return activeModuleElement;
 	}
 	
 }

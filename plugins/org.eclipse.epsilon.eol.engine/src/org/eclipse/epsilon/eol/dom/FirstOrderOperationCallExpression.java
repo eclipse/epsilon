@@ -72,7 +72,7 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		Object target = EolNoType.Instance;
 		if (targetExpression != null) {
-			target = context.getExecutorFactory().executeAST(targetExpression, context);
+			target = context.getExecutorFactory().execute(targetExpression, context);
 		}
 		
 		String operationName = nameExpression.getName();

@@ -101,7 +101,7 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 	
 	protected void execute(List<? extends NamedStatementBlockRule> namedRules, IEolContext context) throws EolRuntimeException {
 		for (NamedStatementBlockRule namedRule : namedRules) {
-			context.getExecutorFactory().executeAST(namedRule.getBody(), context);
+			context.getExecutorFactory().execute(namedRule.getBody(), context);
 		}
 	}
 	

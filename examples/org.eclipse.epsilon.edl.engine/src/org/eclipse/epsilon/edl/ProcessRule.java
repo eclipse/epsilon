@@ -30,7 +30,7 @@ public class ProcessRule extends AnnotatableModuleElement {
 		for (Object o : parameterType.getAllOfKind()) {
 			context.getFrameStack().enterLocal(FrameType.PROTECTED, body);
 			context.getFrameStack().put(Variable.createReadOnlyVariable(parameter.getName(), o));
-			context.getExecutorFactory().executeAST(body, context);
+			context.getExecutorFactory().execute(body, context);
 			context.getFrameStack().leaveLocal(body);
 		}
 	}

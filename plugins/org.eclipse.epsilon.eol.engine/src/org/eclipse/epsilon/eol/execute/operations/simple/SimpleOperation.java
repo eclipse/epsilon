@@ -37,7 +37,7 @@ public abstract class SimpleOperation extends AbstractOperation{
 		ListIterator<Expression> it = expressions.listIterator();
 		while (it.hasNext()){
 			try {
-				parameters.add(context.getExecutorFactory().executeAST(it.next(), context));
+				parameters.add(context.getExecutorFactory().execute(it.next(), context));
 			}
 			catch (EolRuntimeException ex) {
 				if (getTolerateExceptionInParameter(parameterIndex)) {

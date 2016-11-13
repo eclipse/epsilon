@@ -184,7 +184,7 @@ public class MergeRule extends ExtensibleNamedRule {
 			Parameter targetParameter = (Parameter) targetParameters.get(i);
 			scope.put(new Variable(targetParameter.getName(), CollectionUtil.asList(targets).get(i),targetParameter.getType(context),true));
 		}
-		context.getExecutorFactory().executeAST(bodyBlock, context);
+		context.getExecutorFactory().execute(bodyBlock, context);
 		
 		scope.leaveLocal(this);
 		

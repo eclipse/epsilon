@@ -91,10 +91,10 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 		if (ast == null) return null;
 		
 		if (ast instanceof StatementBlock) {
-			return context.getExecutorFactory().executeAST(ast, context);
+			return context.getExecutorFactory().execute(ast, context);
 		}
 		else {
-			return new Return(context.getExecutorFactory().executeAST(ast,context));
+			return new Return(context.getExecutorFactory().execute(ast,context));
 		}
 		
 	}

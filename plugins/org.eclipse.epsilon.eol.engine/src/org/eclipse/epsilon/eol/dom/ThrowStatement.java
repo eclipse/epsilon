@@ -27,7 +27,7 @@ public class ThrowStatement extends Statement {
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		Object thrownObject = null;
 		if (thrown != null){
-			thrownObject = context.getExecutorFactory().executeAST(thrown, context);
+			thrownObject = context.getExecutorFactory().execute(thrown, context);
 		}
 		throw new EolUserException(thrownObject, this);	
 	}

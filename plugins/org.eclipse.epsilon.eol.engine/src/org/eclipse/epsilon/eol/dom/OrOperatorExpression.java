@@ -13,7 +13,7 @@ public class OrOperatorExpression extends OperatorExpression {
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		Object o1 = context.getExecutorFactory().executeAST(firstOperand,context);
+		Object o1 = context.getExecutorFactory().execute(firstOperand,context);
 		
 		if (o1 instanceof Boolean) {
 			Boolean b1 = (Boolean) o1;
@@ -21,7 +21,7 @@ public class OrOperatorExpression extends OperatorExpression {
 				return true;
 			}
 			else {
-				Object o2 = context.getExecutorFactory().executeAST(secondOperand,context);
+				Object o2 = context.getExecutorFactory().execute(secondOperand,context);
 				if (o2 instanceof Boolean){
 					return (Boolean) o2;
 				}

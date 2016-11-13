@@ -44,7 +44,7 @@ public class ForStatement extends Statement {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException{
 		
-		Object iteratedObject = context.getExecutorFactory().executeAST(this.iteratedExpression, context);
+		Object iteratedObject = context.getExecutorFactory().execute(this.iteratedExpression, context);
 		
 		Collection<Object> iteratedCol = null;
 		Iterator<Object> it = null;
@@ -87,7 +87,7 @@ public class ForStatement extends Statement {
 			Object result = null; 
 			
 			try {
-				result = context.getExecutorFactory().executeAST(bodyStatementBlock, context);
+				result = context.getExecutorFactory().execute(bodyStatementBlock, context);
 				context.getFrameStack().leaveLocal(this);
 			}
 			catch (EolBreakException ex){

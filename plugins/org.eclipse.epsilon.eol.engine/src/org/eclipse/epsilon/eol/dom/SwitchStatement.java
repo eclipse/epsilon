@@ -67,17 +67,17 @@ public class SwitchStatement extends Statement {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		
-		Object switchValue = context.getExecutorFactory().executeAST(conditionExpression, context);
+		Object switchValue = context.getExecutorFactory().execute(conditionExpression, context);
 		
 		boolean continue_ = false;
 		
 		for (Case c : cases) {
-			Object caseValue = context.getExecutorFactory().executeAST(c.getCondition(), context);
+			Object caseValue = context.getExecutorFactory().execute(c.getCondition(), context);
 			
 			if (continue_ || equals(switchValue, caseValue)) {
 				
 				try {
-					Object result = context.getExecutorFactory().executeAST(c.getBody(), context);
+					Object result = context.getExecutorFactory().execute(c.getBody(), context);
 					if (result instanceof Return) {
 						return result;
 					}
@@ -95,7 +95,7 @@ public class SwitchStatement extends Statement {
 		}
 		
 		if (_default != null) {
-			Object result = context.getExecutorFactory().executeAST(_default.getBody(), context);
+			Object result = context.getExecutorFactory().execute(_default.getBody(), context);
 			
 			if (result instanceof Return) {
 				return result;

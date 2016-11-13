@@ -44,7 +44,7 @@ public class WhileStatement extends Statement {
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
 			
 			loop ++;
-			Object condition = context.getExecutorFactory().executeAST(conditionExpression, context);		
+			Object condition = context.getExecutorFactory().execute(conditionExpression, context);		
 			
 			if (!(condition instanceof Boolean)) {
 				context.getFrameStack().leaveLocal(this);
@@ -57,7 +57,7 @@ public class WhileStatement extends Statement {
 				context.getFrameStack().put(Variable.createReadOnlyVariable("loopCount", loop));
 				
 				try {
-					result = context.getExecutorFactory().executeAST(bodyStatementBlock, context);
+					result = context.getExecutorFactory().execute(bodyStatementBlock, context);
 				}
 				catch (EolBreakException bex){
 					if (bex.isBreaksAll() && context.getFrameStack().isInLoop()){

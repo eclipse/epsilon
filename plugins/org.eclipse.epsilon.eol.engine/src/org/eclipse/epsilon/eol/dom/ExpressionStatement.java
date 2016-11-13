@@ -21,7 +21,7 @@ public class ExpressionStatement extends Statement {
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		return context.getExecutorFactory().executeAST(expression, context);
+		return context.getExecutorFactory().execute(expression, context);
 	}
 	
 	public void setExpression(Expression expression) {

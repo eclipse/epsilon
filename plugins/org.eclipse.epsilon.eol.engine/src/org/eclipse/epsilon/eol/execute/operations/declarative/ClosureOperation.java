@@ -30,7 +30,7 @@ public class ClosureOperation extends FirstOrderOperation {
 			if (iteratorType==null || iteratorType.isKind(listItem)){
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
 				scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
-				Object bodyResult = context.getExecutorFactory().executeAST(expression, context);
+				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				if (bodyResult != null) { // && closure.includes(bodyResult).not().booleanValue()) {
 					for (Object result : CollectionUtil.asCollection(bodyResult)) {
 						if (result != null && !closure.contains(result)) {

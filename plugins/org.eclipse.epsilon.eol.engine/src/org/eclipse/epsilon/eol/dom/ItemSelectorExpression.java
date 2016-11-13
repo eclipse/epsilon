@@ -26,8 +26,8 @@ public class ItemSelectorExpression extends Expression {
 	
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		
-		Object expression = context.getExecutorFactory().executeAST(targetExpression, context);
-		Object index = context.getExecutorFactory().executeAST(indexExpression, context);
+		Object expression = context.getExecutorFactory().execute(targetExpression, context);
+		Object index = context.getExecutorFactory().execute(indexExpression, context);
 		
 		if ((expression instanceof Collection)) {
 			if (!(index instanceof Integer)) 

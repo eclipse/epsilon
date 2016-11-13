@@ -66,7 +66,7 @@ public class PatternMatcher {
 						for (String componentName : match.getRoleBindings().keySet()) {
 							context.getFrameStack().put(Variable.createReadOnlyVariable(componentName, match.getRoleBinding(componentName)));
 						}
-						context.getExecutorFactory().executeAST(do_, context);
+						context.getExecutorFactory().execute(do_, context);
 						context.getFrameStack().leaveLocal(do_);
 					}
 				}
@@ -135,7 +135,7 @@ public class PatternMatcher {
 			}
 			
 			if (pattern.getMatch() != null) {
-				Object result = context.getExecutorFactory().executeAST(pattern.getMatch(), context);
+				Object result = context.getExecutorFactory().execute(pattern.getMatch(), context);
 				if (result instanceof Return) result = ((Return) result).getValue();
 				if (result instanceof Boolean) {
 					matches = (Boolean) result;
@@ -144,10 +144,10 @@ public class PatternMatcher {
 			}
 			
 			if (matches) { 
-				context.getExecutorFactory().executeAST(pattern.getOnMatch(), context);
+				context.getExecutorFactory().execute(pattern.getOnMatch(), context);
 				patternMatches.add(createPatternMatch(pattern, candidate));
 			}
-			else context.getExecutorFactory().executeAST(pattern.getNoMatch(), context);
+			else context.getExecutorFactory().execute(pattern.getNoMatch(), context);
 			
 			context.getFrameStack().leaveLocal(pattern);
 			

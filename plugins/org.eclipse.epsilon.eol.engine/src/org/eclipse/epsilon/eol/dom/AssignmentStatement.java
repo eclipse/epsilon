@@ -55,10 +55,10 @@ public class AssignmentStatement extends Statement {
 			targetExpressionResult = ((NameExpression) targetExpression).execute(context, true);
 		}
 		else {
-			targetExpressionResult = context.getExecutorFactory().executeAST(targetExpression, context);
+			targetExpressionResult = context.getExecutorFactory().execute(targetExpression, context);
 		}
 		
-		Object valueExpressionResult = context.getExecutorFactory().executeAST(valueExpression, context);
+		Object valueExpressionResult = context.getExecutorFactory().execute(valueExpression, context);
 		
 		if (targetExpressionResult instanceof IPropertySetter){
 			IPropertySetter setter = (IPropertySetter) targetExpressionResult;

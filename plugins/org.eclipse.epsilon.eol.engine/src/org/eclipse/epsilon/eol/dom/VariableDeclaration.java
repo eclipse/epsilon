@@ -57,7 +57,7 @@ public class VariableDeclaration extends TypeInitialiser {
 			variableType = EolAnyType.Instance;
 		}
 		else { // Type defined
-			variableType = (EolType) context.getExecutorFactory().executeAST(typeExpression, context);
+			variableType = (EolType) context.getExecutorFactory().execute(typeExpression, context);
 		}
 		
 		if (external) {

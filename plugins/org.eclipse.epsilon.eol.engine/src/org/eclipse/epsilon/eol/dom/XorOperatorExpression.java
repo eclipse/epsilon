@@ -13,8 +13,8 @@ public class XorOperatorExpression extends OperatorExpression {
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		Object o1 = context.getExecutorFactory().executeAST(firstOperand,context);
-		Object o2 = context.getExecutorFactory().executeAST(secondOperand,context);
+		Object o1 = context.getExecutorFactory().execute(firstOperand,context);
+		Object o2 = context.getExecutorFactory().execute(secondOperand,context);
 		if (o1 instanceof Boolean && o2 instanceof Boolean){
 			return ((Boolean) o1) ^ ((Boolean) o2);
 		} else {

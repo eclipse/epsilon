@@ -29,7 +29,7 @@ public abstract class TypeInitialiser extends Expression {
 			if (!parameters.isEmpty()) {
 				ArrayList<Object> parameterValues = new ArrayList<Object>();
 				for (Expression parameter : parameters) {
-					parameterValues.add(context.getExecutorFactory().executeAST(parameter, context));
+					parameterValues.add(context.getExecutorFactory().execute(parameter, context));
 				}
 				return type.createInstance(parameterValues);
 			}

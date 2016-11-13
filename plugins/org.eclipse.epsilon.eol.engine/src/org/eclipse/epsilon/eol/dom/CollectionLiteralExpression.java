@@ -78,8 +78,8 @@ public class CollectionLiteralExpression extends LiteralExpression {
 			Expression rangeStartExpression = parameterExpressions.get(0);
 			Expression rangeEndExpression = parameterExpressions.get(1);
 			
-			Object rangeStart = context.getExecutorFactory().executeAST(rangeStartExpression, context);
-			Object rangeEnd = context.getExecutorFactory().executeAST(rangeEndExpression, context);
+			Object rangeStart = context.getExecutorFactory().execute(rangeStartExpression, context);
+			Object rangeEnd = context.getExecutorFactory().execute(rangeEndExpression, context);
 			
 			if (rangeStart instanceof Integer && rangeEnd instanceof Integer){
 				
@@ -108,7 +108,7 @@ public class CollectionLiteralExpression extends LiteralExpression {
 		}
 		else {
 			for (Expression parameterExpression : parameterExpressions) {
-				collection.add(context.getExecutorFactory().executeAST(parameterExpression, context));
+				collection.add(context.getExecutorFactory().execute(parameterExpression, context));
 			}
 		}
 		

@@ -66,7 +66,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		String operationName = nameExpression.getName();
 		
 		if (!contextless) {
-			targetObject = context.getExecutorFactory().executeAST(targetExpression, context);
+			targetObject = context.getExecutorFactory().execute(targetExpression, context);
 		}
 		else {
 			targetObject = EolNoType.NoInstance;
@@ -103,7 +103,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		ArrayList<Object> parameterValues = new ArrayList<Object>();
 		
 		for (Expression parameter : parameterExpressions) {
-			parameterValues.add(context.getExecutorFactory().executeAST(parameter, context));
+			parameterValues.add(context.getExecutorFactory().execute(parameter, context));
 		}
 		
 		// Execute user-defined operation (if isArrow() == false)

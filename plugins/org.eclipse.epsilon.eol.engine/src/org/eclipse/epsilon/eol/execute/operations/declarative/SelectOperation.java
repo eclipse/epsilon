@@ -40,7 +40,7 @@ public class SelectOperation extends FirstOrderOperation {
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
 				//scope.put(new Variable(iteratorName, listItem, iteratorType, true));
 				scope.put(Variable.createReadOnlyVariable(iterator.getName(),listItem));
-				Object bodyResult = context.getExecutorFactory().executeAST(expression, context);
+				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				if (bodyResult instanceof Boolean && ((Boolean) bodyResult)){
 					result.add(listItem);
 					if (returnOnFirstMatch) {

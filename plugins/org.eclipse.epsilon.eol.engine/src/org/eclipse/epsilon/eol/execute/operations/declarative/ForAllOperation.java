@@ -38,7 +38,7 @@ public class ForAllOperation extends FirstOrderOperation {
 			if (iterator.getType()==null || iterator.getType().isKind(listItem)){
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
 				scope.put(Variable.createReadOnlyVariable(iterator.getName(),listItem));
-				Object bodyResult = context.getExecutorFactory().executeAST(expression, context);
+				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				if (bodyResult instanceof Boolean){
 					if ((Boolean) bodyResult == false) return false;
 				}

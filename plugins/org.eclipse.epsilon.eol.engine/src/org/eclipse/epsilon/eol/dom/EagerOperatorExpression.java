@@ -13,11 +13,11 @@ public abstract class EagerOperatorExpression extends OperatorExpression {
 
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		Object o1 = context.getExecutorFactory().executeAST(firstOperand, context);
+		Object o1 = context.getExecutorFactory().execute(firstOperand, context);
 		Object o2 = null;
 		
 		if (secondOperand != null){
-			o2 = context.getExecutorFactory().executeAST(secondOperand, context);
+			o2 = context.getExecutorFactory().execute(secondOperand, context);
 		}
 		return execute(o1, o2, context);
 	}

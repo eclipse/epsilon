@@ -52,7 +52,7 @@ public class TransactionStatement extends Statement {
 		
 		try {
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
-			Object result = context.getExecutorFactory().executeAST(body, context);
+			Object result = context.getExecutorFactory().execute(body, context);
 			context.getFrameStack().leaveLocal(this);
 			
 			if (result instanceof Return) {

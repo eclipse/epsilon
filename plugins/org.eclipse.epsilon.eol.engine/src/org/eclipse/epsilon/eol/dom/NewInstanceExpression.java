@@ -29,7 +29,7 @@ public class NewInstanceExpression extends TypeInitialiser {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		
-		Object result = context.getExecutorFactory().executeAST(typeExpression, context);
+		Object result = context.getExecutorFactory().execute(typeExpression, context);
 		
 		if (!(result instanceof EolType)) throw new EolRuntimeException("Expected type, found " + result, typeExpression);
 		

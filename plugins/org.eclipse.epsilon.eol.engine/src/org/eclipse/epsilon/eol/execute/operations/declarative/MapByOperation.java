@@ -42,7 +42,7 @@ public class MapByOperation extends FirstOrderOperation {
 			if (iterator.getType()==null || iterator.getType().isKind(listItem)){
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
 				scope.put(new Variable(iterator.getName(), listItem, iterator.getType(), true));
-				Object bodyResult = context.getExecutorFactory().executeAST(expression, context);
+				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				
 				EolSequence<Object> sequence = (EolSequence) result.get(bodyResult);
 				if (sequence == null) sequence = new EolSequence<Object>();

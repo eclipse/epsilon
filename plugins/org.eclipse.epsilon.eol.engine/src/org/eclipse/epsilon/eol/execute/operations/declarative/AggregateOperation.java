@@ -53,18 +53,18 @@ public class AggregateOperation extends FirstOrderOperation {
 			if (iteratorType==null || iteratorType.isKind(listItem)){
 				scope.enterLocal(FrameType.UNPROTECTED, keyExpression);
 				scope.put(Variable.createReadOnlyVariable(iterator.getName(),listItem));
-				Object keyResult = context.getExecutorFactory().executeAST(keyExpression, context);
+				Object keyResult = context.getExecutorFactory().execute(keyExpression, context);
 				Object total = null;
 				
 				if (result.containsKey(keyResult)) {
 					total = result.get(keyResult);
 				}
 				else {
-					total = context.getExecutorFactory().executeAST(initialExpression, context);
+					total = context.getExecutorFactory().execute(initialExpression, context);
 				}
 				
 				scope.put(Variable.createReadOnlyVariable("total", total));
-				Object valueResult = context.getExecutorFactory().executeAST(valueExpression, context);
+				Object valueResult = context.getExecutorFactory().execute(valueExpression, context);
 				result.put(keyResult, valueResult);
 				scope.leaveLocal(keyExpression);
 			}

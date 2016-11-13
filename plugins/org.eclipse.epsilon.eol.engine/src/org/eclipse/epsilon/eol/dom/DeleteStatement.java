@@ -25,7 +25,7 @@ public class DeleteStatement extends Statement {
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		Object target = null;
 		if (expression != null){
-			target = context.getExecutorFactory().executeAST(expression, context);
+			target = context.getExecutorFactory().execute(expression, context);
 		}
 		
 		Collection<?> col = CollectionUtil.asCollection(target);

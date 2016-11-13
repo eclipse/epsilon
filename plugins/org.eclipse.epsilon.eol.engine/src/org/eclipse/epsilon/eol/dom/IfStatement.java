@@ -37,17 +37,17 @@ public class IfStatement extends Statement {
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		
 		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
-		Object condition = context.getExecutorFactory().executeAST(conditionExpression, context);
+		Object condition = context.getExecutorFactory().execute(conditionExpression, context);
 		
 		if (!(condition instanceof Boolean)) throw new EolIllegalReturnException("Boolean", condition, conditionExpression, context);
 		
 		Object result = null;
 		
 		if (((Boolean) condition).booleanValue()){
-			result = context.getExecutorFactory().executeAST(thenStatementBlock, context);
+			result = context.getExecutorFactory().execute(thenStatementBlock, context);
 		}
 		else if (elseStatementBlock != null){
-			result = context.getExecutorFactory().executeAST(elseStatementBlock, context);
+			result = context.getExecutorFactory().execute(elseStatementBlock, context);
 		}
 		
 		context.getFrameStack().leaveLocal(this);

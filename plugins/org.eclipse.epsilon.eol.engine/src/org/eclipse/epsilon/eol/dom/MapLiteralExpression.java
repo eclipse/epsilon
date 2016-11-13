@@ -36,8 +36,8 @@ public class MapLiteralExpression extends Expression {
 		final EolMap map = new EolMap();
 
 		for (KeyValueExpressionPair keyValueExpressionPair : keyValueExpressionPairs) {
-			final Object key = context.getExecutorFactory().executeAST(keyValueExpressionPair.getKey(), context);
-			final Object val = context.getExecutorFactory().executeAST(keyValueExpressionPair.getValuel(), context);
+			final Object key = context.getExecutorFactory().execute(keyValueExpressionPair.getKey(), context);
+			final Object val = context.getExecutorFactory().execute(keyValueExpressionPair.getValuel(), context);
 			map.put(key, val);
 		}
 

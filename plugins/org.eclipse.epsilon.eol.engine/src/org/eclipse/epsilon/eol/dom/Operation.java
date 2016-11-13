@@ -198,7 +198,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	}
 
 	protected Object executeBody(IEolContext context) throws EolRuntimeException {
-		return context.getExecutorFactory().executeAST(this.getBody(), context);
+		return context.getExecutorFactory().execute(this.getBody(), context);
 	}
 	
 	protected void evaluatePreConditions(IEolContext context) throws EolRuntimeException {
@@ -222,7 +222,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 		
 		if (returnTypeExpression != null && result != null) {
 			if (returnType == null) {
-				returnType = (EolType) context.getExecutorFactory().executeAST(returnTypeExpression, context);
+				returnType = (EolType) context.getExecutorFactory().execute(returnTypeExpression, context);
 			}
 			if (!returnType.isKind(result)) {
 				throw new EolRuntimeException(getName() + " is expected to return a " + returnType.getName() + ", but returned a " + result.getClass().getCanonicalName());
@@ -258,7 +258,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	public EolType getReturnType(IEolContext context) throws EolRuntimeException{
 		if (returnType == null){
 			if (returnTypeExpression != null){
-				returnType = (EolType) context.getExecutorFactory().executeAST(returnTypeExpression,context);
+				returnType = (EolType) context.getExecutorFactory().execute(returnTypeExpression,context);
 			}
 			else {
 				returnType = EolAnyType.Instance;
@@ -270,7 +270,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	public EolType getContextType(IEolContext context) throws EolRuntimeException{
 		if (contextType == null){
 			if (contextTypeExpression != null){
-				contextType = (EolType) context.getExecutorFactory().executeAST(contextTypeExpression,context);
+				contextType = (EolType) context.getExecutorFactory().execute(contextTypeExpression,context);
 			}
 			else {
 				contextType = EolNoType.Instance;

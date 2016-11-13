@@ -23,7 +23,7 @@ public class ExecutableAnnotation extends Annotation {
 	}
 	
 	public Object getValue(IEolContext context) throws EolRuntimeException {
-		return context.getExecutorFactory().executeAST(expression, context);
+		return context.getExecutorFactory().execute(expression, context);
 	}
 	
 	public Expression getExpression() {

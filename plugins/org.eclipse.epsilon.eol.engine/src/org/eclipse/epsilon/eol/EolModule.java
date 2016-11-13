@@ -411,11 +411,11 @@ public class EolModule extends AbstractModule implements IEolModule {
 	
 	public Object execute() throws EolRuntimeException {
 		prepareContext(getContext());
-		return getContext().getExecutorFactory().executeAST(this, getContext());
+		return getContext().getExecutorFactory().execute(this, getContext());
 	}
 	
 	public Object executeImpl() throws EolRuntimeException {
-		return Return.getValue(getContext().getExecutorFactory().executeAST(main, getContext()));
+		return Return.getValue(getContext().getExecutorFactory().execute(main, getContext()));
 	}
 	
 	public List<ModuleMarker> compile() {
