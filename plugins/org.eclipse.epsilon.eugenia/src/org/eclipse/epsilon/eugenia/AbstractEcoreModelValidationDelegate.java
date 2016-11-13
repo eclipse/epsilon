@@ -66,7 +66,7 @@ public abstract class AbstractEcoreModelValidationDelegate extends EugeniaAction
 					}
 					else {
 						valid = false;
-						super.execute();
+						super.executeImpl();
 						unsatisfiedConstraints = this.getContext().getUnsatisfiedConstraints();
 						valid = (getErrors().size() == 0);
 						
