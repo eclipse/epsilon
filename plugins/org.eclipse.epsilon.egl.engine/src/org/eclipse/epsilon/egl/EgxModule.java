@@ -35,6 +35,7 @@ import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
@@ -45,6 +46,30 @@ public class EgxModule extends ErlModule {
 	protected EgxContext context = null;
 	protected EglTemplateFactory templateFactory = null;
 	protected List<Content<Template>> invokedTemplates = new ArrayList<Content<Template>>();
+	
+	public static void main(String[] args) throws Exception {
+		final EgxModule module = new EgxModule();
+		module.parse("");
+		module.getContext().getExecutorFactory().addExecutionListener(new IExecutionListener() {
+			
+			@Override
+			public void finishedExecutingWithException(ModuleElement ast,
+					EolRuntimeException exception, IEolContext context) {}
+			
+			@Override
+			public void finishedExecuting(ModuleElement ast, Object result,
+					IEolContext context) {
+				if (ast == module) System.out.println("Finished executing.");
+			}
+			
+			@Override
+			public void aboutToExecute(ModuleElement ast, IEolContext context) {
+				if (ast == module) System.out.println("About to execute ...");
+			}
+		});
+		
+		module.execute();
+	}
 	
 	public EgxModule() {
 		this(new EglTemplateFactory());
@@ -146,10 +171,7 @@ public class EgxModule extends ErlModule {
 		return result;
 	}
 	
-	public Object execute() throws EolRuntimeException {
-		
-		prepareContext(context);
-
+	public Object executeImpl() throws EolRuntimeException {
 		context.copyInto(templateFactory.getContext(), true);
 		
 		execute(getPre(), context);

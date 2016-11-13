@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -104,10 +103,7 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		return false;
 	}
 	
-	public Object execute() throws EolRuntimeException {
-		
-		// Initialize the context
-		prepareContext(context);
+	public Object executeImpl() throws EolRuntimeException {
 		
 		if (context.getTransformationStrategy() == null) {
 			if (hasLazyRules(context)) {

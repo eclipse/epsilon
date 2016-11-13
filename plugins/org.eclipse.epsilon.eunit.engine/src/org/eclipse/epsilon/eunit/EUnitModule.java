@@ -123,7 +123,7 @@ public class EUnitModule extends EolModule {
 	}
 
 	@Override
-	public Object execute() throws EolRuntimeException {
+	public Object executeImpl() throws EolRuntimeException {
 		// Run the tests in the suite now
 		try {
 			runSuite(getSuiteRoot());
@@ -143,7 +143,7 @@ public class EUnitModule extends EolModule {
 		// Run the EUnit script as a regular EOL script first,
 		// so global variables are properly assigned and user
 		// operations are defined
-		super.execute();
+		super.executeImpl();
 
 		if (suiteRoot != null) {
 			return suiteRoot;

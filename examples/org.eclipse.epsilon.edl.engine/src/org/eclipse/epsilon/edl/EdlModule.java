@@ -96,10 +96,7 @@ public class EdlModule extends EolModule {
 		return importConfiguration;
 	}
 	
-	public Object execute() throws EolRuntimeException {
-		
-		// Initialize the context
-		prepareContext(context);
+	public Object executeImpl() throws EolRuntimeException {
 
 		for (ProcessRule processRule : declaredProcessRules) {
 			processRule.execute(context);

@@ -38,11 +38,38 @@ import org.eclipse.epsilon.eol.dom.Statement;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 
 public class EglTemplateFactoryModuleAdapter implements IEolModule {
 		
 	private final EglTemplateFactory factory;
 	private EglTemplate current;
+	
+	public static void main(String[] args) throws Exception {
+		EglTemplateFactoryModuleAdapter module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
+		module.getContext().getExecutorFactory().addExecutionListener(new IExecutionListener() {
+			
+			@Override
+			public void finishedExecutingWithException(ModuleElement ast,
+					EolRuntimeException exception, IEolContext context) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void finishedExecuting(ModuleElement ast, Object result,
+					IEolContext context) {
+				System.out.println("Done");
+			}
+			
+			@Override
+			public void aboutToExecute(ModuleElement ast, IEolContext context) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		module.execute();
+	}
 	
 	public EglTemplateFactoryModuleAdapter(EglTemplateFactory factory) {
 		this.factory = factory;

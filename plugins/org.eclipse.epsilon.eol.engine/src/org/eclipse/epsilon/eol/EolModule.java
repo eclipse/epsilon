@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -112,21 +111,23 @@ public class EolModule extends AbstractModule implements IEolModule {
 			declaredModelDeclarations.add((ModelDeclaration) createAst(modelDeclarationAst, this));
 		}
 		
-		if (AstUtil.getChild(cst, EolParser.BLOCK) != null) main = (StatementBlock) createAst(AstUtil.getChild(cst, EolParser.BLOCK), this);
-		
-		/*
-		for (AST child : cst.getChildren()) {
-			if (child.getType() != EolParser.BLOCK 
-					&& child.getType() != EolParser.ANNOTATIONBLOCK && 
-					child.getType() != EolParser.HELPERMETHOD && 
-					child.getType() != EolParser.MODELDECLARATION &&
-					child.getType() != EolParser.IMPORT) {
-				ExpressionStatement expressionStatement = new ExpressionStatement((Expression) module.createAst(child, this));
-				expressionStatement.setParent(this);
-				this.getChildren().add(expressionStatement);
-				postOperationStatements.add(expressionStatement);
+		if (AstUtil.getChild(cst, EolParser.BLOCK) != null) {
+			main = (StatementBlock) createAst(AstUtil.getChild(cst, EolParser.BLOCK), this);
+			
+			for (AST child : cst.getChildren()) {
+				if (child.getType() != EolParser.BLOCK 
+						&& child.getType() != EolParser.ANNOTATIONBLOCK && 
+						child.getType() != EolParser.HELPERMETHOD && 
+						child.getType() != EolParser.MODELDECLARATION &&
+						child.getType() != EolParser.IMPORT) {
+					ExpressionStatement expressionStatement = new ExpressionStatement((Expression) module.createAst(child, this));
+					expressionStatement.setParent(this);
+					this.getChildren().add(expressionStatement);
+					postOperationStatements.add(expressionStatement);
+				}
 			}
-		}*/
+		}
+		
 	}
 	
 	@Override
@@ -410,6 +411,10 @@ public class EolModule extends AbstractModule implements IEolModule {
 	
 	public Object execute() throws EolRuntimeException {
 		prepareContext(getContext());
+		return getContext().getExecutorFactory().executeAST(this, getContext());
+	}
+	
+	public Object executeImpl() throws EolRuntimeException {
 		return Return.getValue(getContext().getExecutorFactory().executeAST(main, getContext()));
 	}
 	

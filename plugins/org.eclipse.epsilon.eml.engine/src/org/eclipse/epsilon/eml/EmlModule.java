@@ -72,9 +72,7 @@ public class EmlModule extends EtlModule {
 	}
 	
 	@Override
-	public Object execute() throws EolRuntimeException{
-		
-		prepareContext(context);
+	public Object executeImpl() throws EolRuntimeException{
 		
 		context.getFrameStack().put(Variable.createReadOnlyVariable("matchTrace", context.getMatchTrace()));
 		context.getFrameStack().put(Variable.createReadOnlyVariable("mergeTrace", context.getMergeTrace()));

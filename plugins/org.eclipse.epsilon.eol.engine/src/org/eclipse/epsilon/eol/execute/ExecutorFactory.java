@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -95,6 +95,9 @@ public class ExecutorFactory {
 		try {
 			if (ast instanceof IExecutableModuleElement) {
 				result = ((IExecutableModuleElement) ast).execute(context);
+			}
+			else if (ast instanceof EolModule) {
+				result = ((EolModule) ast).executeImpl();
 			}
 			
 			for (IExecutionListener listener : executionListeners) {

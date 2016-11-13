@@ -128,8 +128,7 @@ public class EplModule extends ErlModule {
 	}
 	
 	@Override
-	public Object execute() throws EolRuntimeException {
-		prepareContext(context);
+	public Object executeImpl() throws EolRuntimeException {
 		execute(getPre(), context);
 		
 		PatternMatcher patternMatcher = new PatternMatcher();

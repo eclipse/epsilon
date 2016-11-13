@@ -13,9 +13,6 @@
  */
 package org.eclipse.epsilon.flock;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
@@ -111,13 +108,11 @@ public class FlockModule extends ErlModule implements IFlockModule {
 		context.setOriginalModel(original);
 		context.setMigratedModel(migrated);
 			
-		return execute();
+		return (FlockResult) execute();
 	}
 
-	public FlockResult execute() throws EolRuntimeException {
+	public FlockResult executeImpl() throws EolRuntimeException {
 		FlockResult result = null;
-		
-		prepareContext(context);
 		
 		execute(getPre(), context);
 		result = context.execute(strategy);

@@ -182,10 +182,8 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	/* (non-Javadoc)
 	 * @see org.eclipse.epsilon.eol.IEolExecutableModule#execute()
 	 */
-	public Object execute() throws EolRuntimeException {
+	public Object executeImpl() throws EolRuntimeException {
 		
-		// Initialize the context
-		prepareContext(context);
 		context.setOperationFactory(new EvlOperationFactory());
 		context.getFrameStack().put(Variable.createReadOnlyVariable("constraintTrace", context.getConstraintTrace()));
 		context.getFrameStack().put(Variable.createReadOnlyVariable("thisModule", this));

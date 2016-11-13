@@ -36,7 +36,7 @@ public abstract class AbstractEcoreModelValidationDelegate extends EugeniaAction
 	public IEolModule createBuiltinModule() {
 		return new EvlModule() {
 			@Override
-			public Object execute() throws EolRuntimeException {
+			public Object executeImpl() throws EolRuntimeException {
 				
 				Object result = null;
 				try {

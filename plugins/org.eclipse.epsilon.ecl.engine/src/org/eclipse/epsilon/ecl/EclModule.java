@@ -102,10 +102,8 @@ public class EclModule extends ErlModule implements IEclModule {
 		return matchRules;
 	}
 
-	public Object execute() throws EolRuntimeException {
+	public Object executeImpl() throws EolRuntimeException {
 		
-		// Initialize the context
-		prepareContext(context);
 		context.setOperationFactory(new EclOperationFactory());
 		
 		context.getFrameStack().put(Variable.createReadOnlyVariable("matchTrace", context.getMatchTrace()));
