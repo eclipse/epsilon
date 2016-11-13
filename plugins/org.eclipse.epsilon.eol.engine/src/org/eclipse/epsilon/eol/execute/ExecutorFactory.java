@@ -36,7 +36,6 @@ public class ExecutorFactory {
 	public ExecutorFactory(){
 		executionController = new DefaultExecutionController();
 		setStackTraceManager(new StackTraceManager());
-		cacheExecutors();
 	}
 	
 	public void addExecutionListener(IExecutionListener listener) {
@@ -68,8 +67,12 @@ public class ExecutorFactory {
 		addExecutionListener(stackTraceManager);
 	}
 	
-	protected void cacheExecutors() {
-		
+	/**
+	 * @deprecated Use {@link ExecutorFactory#execute(ModuleElement, IEolContext)} instead.
+	 */
+	@Deprecated
+	public Object executeAST(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException{
+		return execute(moduleElement, context);
 	}
 	
 	public Object execute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException{
