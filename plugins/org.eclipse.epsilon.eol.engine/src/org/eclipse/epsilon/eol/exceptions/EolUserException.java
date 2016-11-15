@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.exceptions;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
 
+@SuppressWarnings("serial")
 public class EolUserException extends EolRuntimeException {
 
 	Object thrown = null;
@@ -28,5 +29,9 @@ public class EolUserException extends EolRuntimeException {
 	@Override
 	public String getReason() {
 		return String.valueOf(thrown);
+	}
+	
+	public Object getThrown() {
+		return thrown;
 	}
 }
