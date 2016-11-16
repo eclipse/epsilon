@@ -4,7 +4,7 @@ Bundle-Name: Uml
 Bundle-SymbolicName: org.eclipse.epsilon.emc.uml
 Bundle-Version: 1.5.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.epsilon.emc.emf,
+Require-Bundle: org.eclipse.epsilon.emc.emf;visibility:=reexport,
  org.eclipse.epsilon.eol.engine,
- org.eclipse.uml2.uml;bundle-version="4.0.0"
+ org.eclipse.uml2.uml;visibility:=reexport
 Export-Package: org.eclipse.epsilon.emc.uml

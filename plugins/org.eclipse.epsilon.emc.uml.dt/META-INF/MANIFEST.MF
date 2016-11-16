@@ -7,7 +7,8 @@ Bundle-Activator: org.eclipse.epsilon.emc.uml.dt.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.epsilon.emc.emf.dt,
  org.eclipse.epsilon.common.dt,
- org.eclipse.epsilon.emc.uml
+ org.eclipse.epsilon.emc.uml,
+ org.eclipse.epsilon.emc.emf
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.epsilon.emc.uml.dt
