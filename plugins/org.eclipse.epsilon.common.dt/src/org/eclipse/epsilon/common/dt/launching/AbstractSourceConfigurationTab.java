@@ -30,6 +30,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
@@ -59,6 +60,16 @@ public abstract class AbstractSourceConfigurationTab
 			GridLayout controlLayout = new GridLayout(3, false);
 			control.setLayout(controlLayout);
 			
+			final Group sourceGroup = createGroup(control, "Source:", 2);
+			
+			GridData filePathData = new GridData(GridData.FILL_HORIZONTAL);
+			filePath = new Text(sourceGroup, SWT.BORDER);
+			filePath.setLayoutData(filePathData);
+			filePath.addModifyListener(this);
+			
+			createBrowseWorkspaceButton(sourceGroup, filePath);
+			
+			/*
 			fileLabel = new Label(control, SWT.NONE);
 			
 			GridData filePathData = new GridData(GridData.FILL_HORIZONTAL);
@@ -71,6 +82,7 @@ public abstract class AbstractSourceConfigurationTab
 			browse.addListener(SWT.Selection, new SelectSourceListener(filePath));
 			
 			fileLabel.setText(getFileLabel() + ": ");
+			*/
 			
 			extras = new Composite(control, SWT.NONE);
 			GridData extrasData = new GridData(GridData.FILL_BOTH);
@@ -84,6 +96,28 @@ public abstract class AbstractSourceConfigurationTab
 			
 			canSave();
 			
+		}
+		
+		protected Button createBrowseWorkspaceButton(Composite parent, Text target) {
+			final Button button = new Button(parent, SWT.NONE);
+			button.setText("Browse Workspace...");
+			button.addListener(SWT.Selection, new SelectSourceListener(target));
+			return button;
+		}
+		
+		protected Group createGroup(Composite control, String name, int numberOfColumns) {
+			final Group group = new Group(control, SWT.SHADOW_ETCHED_IN);
+			group.setLayout(new GridLayout(numberOfColumns, false));
+			group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			group.setText(name);
+			return group;
+		}
+		
+		protected Composite createTwoColumnComposite(Composite parent) {
+			final Composite composite = new Composite(parent, SWT.NONE);
+			composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			composite.setLayout(new GridLayout(2, false));
+			return composite;
 		}
 		
 		public Composite getExtras() {

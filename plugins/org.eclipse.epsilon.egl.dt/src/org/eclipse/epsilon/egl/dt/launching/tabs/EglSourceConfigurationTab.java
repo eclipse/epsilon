@@ -64,35 +64,10 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 	
 	@Override
 	public void createControl(Composite parent) {
-		
-		FillLayout parentLayout = new FillLayout();
-		parent.setLayout(parentLayout);
-
-		Composite control = new Composite(parent, SWT.NONE);
-		setControl(control);
-		
-		control.setLayout(new GridLayout(1, false));
-		
-		createSourceGroup(control);
-		createTargetGroup(control);
-		createTraceGroup(control);
-		
-		control.setBounds(0, 0, 300, 300);
-		control.layout();
-		control.pack();
-		
-		canSave();
-	}
-
-	private void createSourceGroup(Composite control) {
-		final Group sourceGroup = createGroup(control, "Source:", 2);
-		
-		GridData filePathData = new GridData(GridData.FILL_HORIZONTAL);
-		filePath = new Text(sourceGroup, SWT.BORDER);
-		filePath.setLayoutData(filePathData);
-		filePath.addModifyListener(this);
-		
-		createBrowseWorkspaceButton(sourceGroup, filePath);
+		super.createControl(parent);
+		extras.setLayout(new GridLayout(1, true));
+		createTargetGroup(extras);
+		createTraceGroup(extras);
 	}
 
 	private void createTargetGroup(Composite control) {
@@ -159,21 +134,6 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 	private boolean thereAreAnyFineGrainedTracePostprocessors() {
 		return !(new FineGrainedTracePostprocessorSpecificationFactory().loadAllFromExtensionPoints().isEmpty());
 	}
-
-	private Group createGroup(Composite control, String name, int numberOfColumns) {
-		final Group group = new Group(control, SWT.SHADOW_ETCHED_IN);
-		group.setLayout(new GridLayout(numberOfColumns, false));
-		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		group.setText(name);
-		return group;
-	}
-	
-	private Composite createTwoColumnComposite(Composite parent) {
-		final Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		composite.setLayout(new GridLayout(2, false));
-		return composite;
-	}
 	
 	private Text createPathTextBox(Composite parent) {
 		final Text text = new Text(parent, SWT.BORDER);
@@ -185,13 +145,6 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		text.addModifyListener(this);
 		
 		return text;
-	}
-	
-	private Button createBrowseWorkspaceButton(Composite parent, Text target) {
-		final Button button = new Button(parent, SWT.NONE);
-		button.setText("Browse Workspace...");
-		button.addListener(SWT.Selection, new SelectSourceListener(target));
-		return button;
 	}
 	
 	protected void updateEnabledStateOfOutputFileWidgets() {
