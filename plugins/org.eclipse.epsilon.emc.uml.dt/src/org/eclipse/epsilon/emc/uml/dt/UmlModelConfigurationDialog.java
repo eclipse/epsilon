@@ -2,14 +2,12 @@ package org.eclipse.epsilon.emc.uml.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
 import org.eclipse.epsilon.emc.emf.EmfModel;
-import org.eclipse.epsilon.emc.emf.dt.EmfModelConfigurationDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.uml2.uml.UMLPackage;
 
 public class UmlModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
 	
@@ -82,8 +80,6 @@ public class UmlModelConfigurationDialog extends AbstractCachedModelConfiguratio
 		super.storeProperties();
 		properties.put(EmfModel.PROPERTY_MODEL_FILE, modelFileText.getText());
 		properties.put(EmfModel.PROPERTY_EXPAND, expandButton.getSelection() + "");
-		properties.put(EmfModel.PROPERTY_METAMODEL_URI, UMLPackage.eINSTANCE.getNsURI());
 	}
-	
-	
+		
 }
