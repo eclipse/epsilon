@@ -1,8 +1,8 @@
 @namespace(uri="personshouses", prefix="")
 package personshouses;
 
-import "persons";
-import "houses";
+import "http://persons";
+import "http://houses";
 
 class PersonHouseRelationshipGroup {
 	val PersonHouseRelationship[*] personHouseRelationships;

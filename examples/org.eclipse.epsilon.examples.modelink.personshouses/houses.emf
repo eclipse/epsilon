@@ -1,4 +1,4 @@
-@namespace(uri="houses", prefix="")
+@namespace(uri="http://houses", prefix="")
 package houses;
 
 class HousesGroup {
