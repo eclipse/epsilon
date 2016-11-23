@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -190,6 +191,10 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		@Override
 		public void notifyChanged(Notification notification) {
 			super.notifyChanged(notification);
+			EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
+			if (!(feature instanceof EReference) || !((EReference)feature).isContainment()) {
+				return;
+			}
 
 			try {
 				switch (notification.getEventType()) {
