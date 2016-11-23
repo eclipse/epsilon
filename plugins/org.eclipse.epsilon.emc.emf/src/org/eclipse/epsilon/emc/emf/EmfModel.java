@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.URI;
@@ -192,11 +191,17 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		@Override
 		public void notifyChanged(Notification notification) {
 			super.notifyChanged(notification);
-			EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
-			if (!(feature instanceof EReference) || !((EReference) feature).isContainment()) {
-				return;
-			}
+			Object notifier = notification.getNotifier();
+			Object feature = notification.getFeature();
 
+			if (notifier instanceof Resource && notification.getFeatureID(Resource.class) == Resource.RESOURCE__CONTENTS) {
+				handle(notification);
+			} else if (feature instanceof EReference && ((EReference)feature).isContainment()) {
+				handle(notification);
+			}
+		}
+
+		protected void handle(Notification notification) {
 			try {
 				switch (notification.getEventType()) {
 				case Notification.UNSET: {
