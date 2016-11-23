@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.URI;
@@ -192,20 +193,63 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		public void notifyChanged(Notification notification) {
 			super.notifyChanged(notification);
 			EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
-			if (!(feature instanceof EReference) || !((EReference)feature).isContainment()) {
+			if (!(feature instanceof EReference) || !((EReference) feature).isContainment()) {
 				return;
 			}
 
 			try {
 				switch (notification.getEventType()) {
-				case Notification.ADD:
-					EObject added = (EObject) notification.getNewValue();
-					forceAddToCache(added.eClass().getName(), added);
+				case Notification.UNSET: {
+					Object oldValue = notification.getOldValue();
+					if (oldValue != Boolean.TRUE && oldValue != Boolean.FALSE) {
+						if (oldValue != null) {
+							EObject old = (EObject) oldValue;
+							forceRemoveFromCache(old);
+						}
+						EObject newValue = (EObject) notification.getNewValue();
+						if (newValue != null) {
+							forceAddToCache(newValue);
+						}
+					}
 					break;
-				case Notification.REMOVE:
+				}
+				case Notification.SET: {
+					EObject oldValue = (EObject) notification.getOldValue();
+					if (oldValue != null) {
+						forceRemoveFromCache(oldValue);
+					}
+					EObject newValue = (EObject) notification.getNewValue();
+					if (newValue != null) {
+						forceAddToCache(newValue);
+					}
+					break;
+				}
+				case Notification.ADD_MANY: {
+					@SuppressWarnings("unchecked")
+					Collection<EObject> newValues = (Collection<EObject>) notification.getNewValue();
+					for (EObject newValue : newValues) {
+						forceAddToCache(newValue);
+					}
+					break;
+				}
+				case Notification.REMOVE_MANY: {
+					@SuppressWarnings("unchecked")
+					Collection<EObject> oldValues = (Collection<EObject>) notification.getOldValue();
+					for (EObject oldContentValue : oldValues) {
+						forceRemoveFromCache(oldContentValue);
+					}
+					break;
+				}
+				case Notification.ADD: {
+					EObject added = (EObject) notification.getNewValue();
+					forceAddToCache(added);
+					break;
+				}
+				case Notification.REMOVE: {
 					EObject removed = (EObject) notification.getOldValue();
 					forceRemoveFromCache(removed);
 					break;
+				}
 				default:
 					// do nothing
 					break;
@@ -269,8 +313,8 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	 * we leave the overridden method empty and define this one that can be safely
 	 * called from the adapter.
 	 */
-	protected void forceAddToCache(String type, EObject instance) throws EolModelElementTypeNotFoundException {
-		super.addToCache(type, instance);
+	protected void forceAddToCache(EObject instance) throws EolModelElementTypeNotFoundException {
+		super.addToCache(instance.eClass().getName(), instance);
 	}
 
 	/** @see #forceAddToCache(String, EObject) */
