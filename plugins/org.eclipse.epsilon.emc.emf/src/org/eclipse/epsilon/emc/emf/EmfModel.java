@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.URI;
@@ -31,6 +32,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.epsilon.common.util.StringProperties;
@@ -176,6 +178,40 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	}
 
 	/**
+	 * This listener is the one that keeps the cached .allInstances
+	 * and model .allContents() lists up to date, instead of the usual
+	 * createInstance/deleteInstance methods.
+	 *
+	 * This prevents the cache from becoming inconsistent if EcoreUtil
+	 * or any other code outside Epsilon is used to create instances
+	 * within the model.
+	 */
+	protected class CachedContentsAdapter extends EContentAdapter {
+		@Override
+		public void notifyChanged(Notification notification) {
+			super.notifyChanged(notification);
+
+			try {
+				switch (notification.getEventType()) {
+				case Notification.ADD:
+					EObject added = (EObject) notification.getNewValue();
+					forceAddToCache(added.eClass().getName(), added);
+					break;
+				case Notification.REMOVE:
+					EObject removed = (EObject) notification.getOldValue();
+					forceRemoveFromCache(removed);
+					break;
+				default:
+					// do nothing
+					break;
+				}
+			} catch (EolModelElementTypeNotFoundException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	/**
 	 * Used for backwards-compatibility with existing Eclipse launch configurations.
 	 * 
 	 * See #341481
@@ -210,7 +246,32 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			}
 		}
 	}
-	
+
+	@Override
+	protected void addToCache(String type, EObject instance) throws EolModelElementTypeNotFoundException {
+		// do nothing (we want to trigger changes through EMF adapters instead)
+	}
+
+	@Override
+	protected void removeFromCache(EObject instance) throws EolModelElementTypeNotFoundException {
+		// do nothing (we want to trigger changes through EMF adapters instead)
+	}
+
+	/**
+	 * We want to use the overridden method, but not from
+	 * {@link #createInstance(String)}, but rather from the adapter we set up to
+	 * track additions and removals from the contents of a model. For this reason,
+	 * we leave the overridden method empty and define this one that can be safely
+	 * called from the adapter.
+	 */
+	protected void forceAddToCache(String type, EObject instance) throws EolModelElementTypeNotFoundException {
+		super.addToCache(type, instance);
+	}
+
+	/** @see #forceAddToCache(String, EObject) */
+	protected void forceRemoveFromCache(EObject instance) throws EolModelElementTypeNotFoundException {
+		super.removeFromCache(instance);
+	}
 	
 	public void setupContainmentChangeListeners() {
 		// Add a notification adapter to all objects in the model
@@ -269,6 +330,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			}
 		}
 		modelImpl = model;
+		modelImpl.eAdapters().add(new CachedContentsAdapter());
 	}
 
 	public List<String> getMetamodelFiles() {

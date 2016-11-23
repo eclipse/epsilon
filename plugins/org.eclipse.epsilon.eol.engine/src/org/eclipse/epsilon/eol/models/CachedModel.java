@@ -73,6 +73,25 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	
 	protected boolean cachingEnabled = true;
 	
+	protected void addToCache(String type, ModelElementType instance) throws EolModelElementTypeNotFoundException {
+		allContentsCache.add(instance);
+		typeCache.put(getCacheKeyForType(type), instance);
+
+		for (String kind : getAllTypeNamesOf(instance)) {
+			kindCache.put(getCacheKeyForType(kind), instance);
+		}
+	}
+
+	protected void removeFromCache(ModelElementType instance) throws EolModelElementTypeNotFoundException {
+		allContentsCache.remove(instance);
+
+		typeCache.remove(getCacheKeyForType(getTypeNameOf(instance)), instance);
+
+		for (String kind : getAllTypeNamesOf(instance)) {
+			kindCache.remove(getCacheKeyForType(kind), instance);
+		}
+	}
+
 	public void setCachingEnabled(boolean cachingEnabled) {
 		this.cachingEnabled = cachingEnabled;
 	}
@@ -131,38 +150,22 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		ModelElementType instance = createInstanceInModel(type);
 		
 		if (isCachingEnabled()) {
-			allContentsCache.add(instance);
-			
-			typeCache.put(getCacheKeyForType(type), instance);
-	
-			for (String kind : getAllTypeNamesOf(instance)) {
-				kindCache.put(getCacheKeyForType(kind), instance);
-			}
+			addToCache(type, instance);
 		}
 		
 		return instance;
 	}
-	
+
 	public void deleteElement(Object o) throws EolRuntimeException {
 		if (deleteElementInModel(o)) {
-			
-			if (cachingEnabled) {
-			
+			if (isCachingEnabled()) {
 				@SuppressWarnings("unchecked")
 				ModelElementType instance = (ModelElementType) o;
-				
-				allContentsCache.remove(instance);
-				
-				typeCache.remove(getCacheKeyForType(getTypeNameOf(instance)), instance);
-				
-				for (String kind : getAllTypeNamesOf(instance)) {
-					kindCache.remove(getCacheKeyForType(kind), instance);
-				}
-				
+				removeFromCache(instance);
 			}
 		}
 	}
-	
+
 	public void load() throws EolModelLoadingException {
 		clearCache();
 		loadModel();

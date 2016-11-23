@@ -10,14 +10,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.examples.testlang.dt.launching;
 
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationDelegate;
 import org.eclipse.epsilon.examples.testlang.engine.TestLangModule;
 
 public class TestLangLaunchConfigurationDelegate extends EolLaunchConfigurationDelegate {
 
 	@Override
-	public IEolExecutableModule createModule() {
+	public IEolModule createModule() {
 		return new TestLangModule();
 	}
 

@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -91,6 +92,17 @@ public class InMemoryEmfModel extends EmfModel {
 					getPackageRegistry().put(dependency.getNsURI(), dependency);	
 				}
 			}
+		}
+
+		boolean bHasCachedContentsAdapter = false;
+		for (Adapter adapter : modelImpl.eAdapters()) {
+			if (adapter instanceof CachedContentsAdapter) {
+				bHasCachedContentsAdapter = true;
+				break;
+			}
+		}
+		if (!bHasCachedContentsAdapter) {
+			modelImpl.eAdapters().add(new CachedContentsAdapter());
 		}
 
 		if (isContainerListenerEnabled) {
