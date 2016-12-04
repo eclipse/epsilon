@@ -18,6 +18,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
+import org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
 
 public class BrowseWorkspaceUtil {
@@ -50,9 +51,25 @@ public class BrowseWorkspaceUtil {
 		}
 	}
 	
-	public static String browseFilePath(Shell shell, String title, String message, String filter, Image image){
+	public static String browseFilePath(Shell shell, String title, String message, Image image){
 		
-		IFile file = browseFile(shell, title, message, filter, image);
+		IFile file = browseFile(shell, title, message, "", image);
+		if (file != null) {
+			return file.getFullPath().toString();
+		}
+		else {
+			return null;
+		}
+	}
+
+	public static String browseFilePath(Shell shell, String title, String message, String extension, Image image){
+		
+		String pattern = "";
+		if (extension != null & extension.length() > 0) {
+			pattern = "*." + extension;
+		}
+		
+		IFile file = browseFile(shell, title, message, pattern, image);
 		if (file != null) {
 			return file.getFullPath().toString();
 		}
@@ -61,11 +78,13 @@ public class BrowseWorkspaceUtil {
 		}
 	}
 	
-	public static IFile browseFile(Shell shell, String title, String message, String filter, Image image){
+	public static IFile browseFile(Shell shell, String title, String message, String pattern, Image image){
+		FilteredResourcesSelectionDialog dialog = new FilteredResourcesSelectionDialog(shell, false, ResourcesPlugin.getWorkspace().getRoot(), IResource.FILE);
 		
-		ResourceListSelectionDialog dialog = new ResourceListSelectionDialog(shell, ResourcesPlugin.getWorkspace().getRoot(), IResource.DEPTH_INFINITE | IResource.FILE );
+		dialog.setInitialPattern(pattern, FilteredResourcesSelectionDialog.FULL_SELECTION);
 		dialog.setTitle(title);
 		dialog.setMessage(message);
+
 		dialog.open();
 		
 		if (dialog.getReturnCode() == Window.OK){

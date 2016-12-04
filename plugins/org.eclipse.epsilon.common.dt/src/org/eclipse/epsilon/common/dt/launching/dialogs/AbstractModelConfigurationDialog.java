@@ -180,26 +180,11 @@ public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
 		
 		public void handleEvent(Event event) {
 			String file = BrowseWorkspaceUtil.browseFilePath(getShell(), 
-					title, prompt, "", null);
+					title, prompt, null);
 			if (file != null){
 				text.setText(file);
 			}
 		}
 	}
-
-	protected class BrowseWorkspaceForMetaModelsListener implements Listener{
-		private Text text = null;
-		
-		public BrowseWorkspaceForMetaModelsListener(Text text){
-			this.text = text;
-		}
-		
-		public void handleEvent(Event event) {
-			String file = BrowseWorkspaceUtil.browseFilePath(getShell(), 
-					"EMF meta-models in the workspace", "Select an EMF meta-model (ECore)", "ecore", null);
-			if (file != null){
-				text.setText(file);
-			}
-		}
-	}
+	
 }

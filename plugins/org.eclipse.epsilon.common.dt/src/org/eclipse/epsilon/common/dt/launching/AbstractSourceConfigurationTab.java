@@ -107,7 +107,7 @@ public abstract class AbstractSourceConfigurationTab
 				public void handleEvent(Event event) {
 					String selected = 
 						BrowseWorkspaceUtil.browseFilePath(getShell(), getSelectionTitle()
-						,getSelectionSubtitle() ,"", getPlugin().createImage(getImagePath()));
+						,getSelectionSubtitle(), getPlugin().createImage(getImagePath()));
 					
 					if (selected!=null) target.setText(selected);
 				}
