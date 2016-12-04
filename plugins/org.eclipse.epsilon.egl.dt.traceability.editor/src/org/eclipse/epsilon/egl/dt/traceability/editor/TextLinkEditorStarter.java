@@ -76,7 +76,7 @@ public class TextLinkEditorStarter extends EditorPart {
 					                                                           new File(editorInput.getPath().toOSString()),
 					                                                           TextlinkPackage.eINSTANCE);
 					
-					final TextLinkEditorInput convertedInput = new FileEditorInputConverter(new TextLinkModel(textlinkModel, editorInput.getName())).convert();
+					final TextLinkEditorInput convertedInput = new FileEditorInputConverter(new TextLinkModel(textlinkModel, new File(editorInput.getPath().toOSString()))).convert();
 					
 					getSite().getPage().openEditor(convertedInput, "org.eclipse.epsilon.egl.dt.traceability.editor.EglTraceAwareEditor");
 

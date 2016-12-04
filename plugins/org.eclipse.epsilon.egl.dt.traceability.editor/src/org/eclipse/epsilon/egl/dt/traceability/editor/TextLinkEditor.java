@@ -96,7 +96,16 @@ public class TextLinkEditor extends MultiEditor {
 		@Override
 		public Font getFont(Object element, int columnIndex) {
 			if (element instanceof EObject && getTextlinkModel().hasDestinationFor((EObject)element))
-				return registry.getBold(Display.getCurrent().getSystemFont().getFontData()[0].getName());
+				// Replaced registry.getBold with registry.get because bold didn't look nice on Mac OS X
+				// A better way to get a bold variant of the font is 
+				/*
+				Font font = ((TreeViewer) sources.getActiveEditor().getViewer()).getControl().getFont();
+				FontDescriptor boldDescriptor = FontDescriptor.createFrom(font).setStyle(SWT.BOLD);
+				Font bold = boldDescriptor.createFont(Display.getCurrent());
+				 */
+				// TODO: Instead of relying on a different font, use a label next to the tree item with
+				// the number of times it appears in generated files e.g. (5).
+				return registry.get(Display.getCurrent().getSystemFont().getFontData()[0].getName());
 			else
 				return null;
 		}	

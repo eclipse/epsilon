@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.traceability.editor;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -71,7 +72,7 @@ class FileEditorInputConverter {
 	
 	private IFile resourceToFile(String path) {
 		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		return root.getFileForLocation(new Path(path));
+		return root.getFileForLocation(new Path(new File(textlinkModel.getFile().getParentFile(), path).getAbsolutePath()));
 	}
 	
 	private String getModelEditorIdFor(IFile file) {

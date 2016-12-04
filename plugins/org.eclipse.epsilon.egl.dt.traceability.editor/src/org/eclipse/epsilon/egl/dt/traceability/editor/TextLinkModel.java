@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.traceability.editor;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -30,14 +31,20 @@ public class TextLinkModel {
 	
 	private final EmfModel model;
 	private final String fileName;
+	protected File file = null;
 	
-	public TextLinkModel(EmfModel model, String fileName) {
+	public TextLinkModel(EmfModel model, File file) {
 		this.model = model;
-		this.fileName = fileName;
+		this.file = file;
+		this.fileName = file.getName();
 	}
 	
 	public String getFileName() {
 		return fileName;
+	}
+	
+	public File getFile() {
+		return file;
 	}
 	
 	public Collection<TraceLink> getTraceLinks() {
