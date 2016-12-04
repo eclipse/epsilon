@@ -88,8 +88,7 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 				((GridData) egxTargetGroup.getLayoutData()).exclude = !egx;
 				eglTargetGroup.setVisible(!egx);
 				((GridData) eglTargetGroup.getLayoutData()).exclude = egx;
-				traceGroup.setVisible(!egx);
-				((GridData) traceGroup.getLayoutData()).exclude = egx;
+				
 				extras.layout(true, true);
 			}
 		});
