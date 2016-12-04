@@ -93,6 +93,15 @@ public class EclipseUtil {
 	public static String getWorkspacePath()  {
 		return ResourcesPlugin.getWorkspace().getRoot().getRawLocation().toPortableString();
 	}
+
+	public static String getWorkspaceContainerAbsolutePath(String workspacePath) {
+		try {
+			return ResourcesPlugin.getWorkspace().getRoot().getFolder(new Path(workspacePath)).getLocation().toOSString();
+		}
+		catch (Exception ex) {
+			return ResourcesPlugin.getWorkspace().getRoot().getProject(workspacePath.replace("/", "")).getLocation().toOSString();
+		}
+	}
 	
 	public static String getWorkspaceFileAbsolutePath(String workspacePath) {
 		return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(workspacePath)).getLocation().toOSString();

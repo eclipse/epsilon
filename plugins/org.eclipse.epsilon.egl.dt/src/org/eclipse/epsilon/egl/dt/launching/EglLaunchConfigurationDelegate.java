@@ -10,12 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.launching;
 
-import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.APPEND_TO_FILE;
-import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.GENERATE_TO;
-import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.GENERATE_TO_CONSOLE;
-import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.OUTPUT_FILE_PATH;
-import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.PRODUCE_TRACE;
-import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.TRACE_DESTINATION;
+import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.*;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -32,6 +27,7 @@ import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
@@ -92,6 +88,21 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		// listener, and so we need to attach it before any templates are created
 		// (i.e., pre-parse, and not pre-execute).
 		prepareToTrace(module);
+		
+		if (isEgx()) {
+			EgxModule egxModule = (EgxModule) module;
+			if (egxModule.getTemplateFactory() instanceof EglFileGeneratingTemplateFactory) {
+				try {
+					if (configuration.getAttribute(EGX_GENERATE_TO, GENERATE_TO_DEFAULT_DIR) == GENERATE_TO_CUSTOM_DIR) {
+						((EglFileGeneratingTemplateFactory) egxModule.getTemplateFactory()).setOutputRoot(EclipseUtil.getWorkspaceContainerAbsolutePath(configuration.getAttribute(OUTPUT_DIR_PATH, "")));
+					}
+				}
+				catch (Exception e) {
+					LogUtil.log(e);
+				}
+			}
+		}
+		
 	}
 
 	private void prepareToTrace(IEolModule module) {
@@ -119,7 +130,6 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private Collection<Formatter> loadDefaultFormattersFromConfiguration() throws CoreException {
 		final List<Formatter> defaultFormatters = new LinkedList<Formatter>();
 		final Collection<String> identifiers = configuration.getAttribute(EglLaunchConfigurationAttributes.DEFAULT_FORMATTERS, new ArrayList<String>());
@@ -163,7 +173,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		final String output = StringUtil.toString(result);
 		
 		if (output!=null && output.length() > 0 && module instanceof EglTemplateFactoryModuleAdapter) {
-			if (configuration.getAttribute(GENERATE_TO, GENERATE_TO_CONSOLE) == GENERATE_TO_CONSOLE) {
+			if (configuration.getAttribute(EGL_GENERATE_TO, GENERATE_TO_CONSOLE) == GENERATE_TO_CONSOLE) {
 				EpsilonConsole.getInstance().getDebugStream().println(output);
 			} else {
 				storeOutput((EglTemplateFactoryModuleAdapter)module, output);

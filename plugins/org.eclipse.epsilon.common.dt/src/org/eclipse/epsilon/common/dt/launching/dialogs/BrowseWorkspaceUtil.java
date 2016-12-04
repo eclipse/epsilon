@@ -10,21 +10,45 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.launching.dialogs;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
-import org.eclipse.ui.model.BaseWorkbenchContentProvider;
-import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 public class BrowseWorkspaceUtil {
+	
+	public static String browseContainerPath(Shell shell, String title, String message){
+		
+		IPath container = browseContainer(shell, title, message);
+		if (container != null) {
+			return container.toString();
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public static IPath browseContainer(Shell shell, String title, String message){
+		
+		ContainerSelectionDialog dialog = new ContainerSelectionDialog(shell, ResourcesPlugin.getWorkspace().getRoot(), true, message);
+		
+		dialog.setTitle(title);
+		dialog.setMessage(message);
+		dialog.open();
+		
+		if (dialog.getReturnCode() == Window.OK){
+			IPath path = (IPath) dialog.getResult()[0];
+			return path;
+		}
+		else {
+			return null;
+		}
+	}
 	
 	public static String browseFilePath(Shell shell, String title, String message, String filter, Image image){
 		
@@ -36,90 +60,21 @@ public class BrowseWorkspaceUtil {
 			return null;
 		}
 	}
-	/*
+	
 	public static IFile browseFile(Shell shell, String title, String message, String filter, Image image){
-		ElementTreeSelectionDialog elementSelector = new ElementTreeSelectionDialog(shell, new WorkbenchLabelProvider() ,new BaseWorkbenchContentProvider());
-		elementSelector.addFilter(new ExtensionViewerFilter(filter));
-		elementSelector.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		elementSelector.setTitle(title);
-		elementSelector.setMessage(message);
-		elementSelector.setAllowMultiple(false);
-		elementSelector.setImage(image);
-		elementSelector.open();
 		
-		if (elementSelector.getReturnCode() == ElementTreeSelectionDialog.OK){
-			IFile f = (IFile) elementSelector.getFirstResult();
-			//return f.getLocation().toOSString();
+		ResourceListSelectionDialog dialog = new ResourceListSelectionDialog(shell, ResourcesPlugin.getWorkspace().getRoot(), IResource.DEPTH_INFINITE | IResource.FILE );
+		dialog.setTitle(title);
+		dialog.setMessage(message);
+		dialog.open();
+		
+		if (dialog.getReturnCode() == Window.OK){
+			IFile f = (IFile) dialog.getResult()[0];
 			return f;
 		}
 		else {
 			return null;
 		}
-	}
-	*/
-	public static IFile browseFile(Shell shell, String title, String message, String filter, Image image){
-		
-		ResourceListSelectionDialog elementSelector = new ResourceListSelectionDialog(shell, ResourcesPlugin.getWorkspace().getRoot(), IResource.DEPTH_INFINITE | IResource.FILE );
-		//elementSelector.setElements(ResourcesPlugin.getWorkspace().getRoot().get)
-		//elementSelector.addFilter(new ExtensionViewerFilter(filter));
-		//elementSelector.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		elementSelector.setTitle(title);
-		elementSelector.setMessage(message);
-		//elementSelector.setAllowMultiple(false);
-		//elementSelector.setImage(image);
-		elementSelector.open();
-		
-		if (elementSelector.getReturnCode() == Window.OK){
-			IFile f = (IFile) elementSelector.getResult()[0];
-			//return f.getLocation().toOSString();
-			return f;
-		}
-		else {
-			return null;
-		}
-	}
-	
-	
-	public static Object[] browseFiles(Shell shell, String title, String message, String filter, Image image){
-		ElementTreeSelectionDialog elementSelector = new ElementTreeSelectionDialog(shell, new WorkbenchLabelProvider() ,new BaseWorkbenchContentProvider());
-		elementSelector.addFilter(new ExtensionViewerFilter(filter));
-		elementSelector.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		elementSelector.setTitle(title);
-		elementSelector.setMessage(message);
-		elementSelector.setAllowMultiple(true);
-		elementSelector.setImage(image);
-		elementSelector.open();
-		
-		if (elementSelector.getReturnCode() == Window.OK){
-			//IFile f = (IFile) elementSelector.getFirstResult();
-			return elementSelector.getResult();
-			
-		}
-		else {
-			return null;
-		}
-	}
-	
-	static class ExtensionViewerFilter extends ViewerFilter{
-		
-		String filter = "";
-		
-		public ExtensionViewerFilter(String filter){
-			this.filter = filter;
-		}
-		
-		@Override
-		public boolean select(Viewer viewer, Object parentElement, Object element) {
-			if (element instanceof IContainer) return true;
-			if (element instanceof IResource){
-				if (filter.length() > 0)
-					return (((IResource) element).getName().endsWith(filter));
-				else
-					return true;
-			}
-			return false;
-		}
-		
 	}
 	
 }

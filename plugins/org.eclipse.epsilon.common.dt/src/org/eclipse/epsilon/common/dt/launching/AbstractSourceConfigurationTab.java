@@ -67,7 +67,7 @@ public abstract class AbstractSourceConfigurationTab
 			filePath.setLayoutData(filePathData);
 			filePath.addModifyListener(this);
 			
-			createBrowseWorkspaceButton(sourceGroup, filePath);
+			createBrowseWorkspaceForFileButton(sourceGroup, filePath);
 			
 			/*
 			fileLabel = new Label(control, SWT.NONE);
@@ -98,13 +98,39 @@ public abstract class AbstractSourceConfigurationTab
 			
 		}
 		
-		protected Button createBrowseWorkspaceButton(Composite parent, Text target) {
+		protected Button createBrowseWorkspaceForFileButton(Composite parent, final Text target) {
 			final Button button = new Button(parent, SWT.NONE);
 			button.setText("Browse Workspace...");
-			button.addListener(SWT.Selection, new SelectSourceListener(target));
+			button.addListener(SWT.Selection, new Listener() {
+				
+				@Override
+				public void handleEvent(Event event) {
+					String selected = 
+						BrowseWorkspaceUtil.browseFilePath(getShell(), getSelectionTitle()
+						,getSelectionSubtitle() ,"", getPlugin().createImage(getImagePath()));
+					
+					if (selected!=null) target.setText(selected);
+				}
+			});
 			return button;
 		}
 		
+		protected Button createBrowseWorkspaceForContainerButton(Composite parent, final Text target,
+				final String title, final String subtitle) {
+			final Button button = new Button(parent, SWT.NONE);
+			button.setText("Browse Workspace...");
+			button.addListener(SWT.Selection, new Listener() {
+				
+				@Override
+				public void handleEvent(Event event) {
+					String selected = 
+						BrowseWorkspaceUtil.browseContainerPath(getShell(), title, subtitle);
+					
+					if (selected!=null) target.setText(selected);
+				}
+			});
+			return button;
+		}
 		protected Group createGroup(Composite control, String name, int numberOfColumns) {
 			final Group group = new Group(control, SWT.SHADOW_ETCHED_IN);
 			group.setLayout(new GridLayout(numberOfColumns, false));
@@ -245,27 +271,6 @@ public abstract class AbstractSourceConfigurationTab
 				setErrorMessage(null);
 				return true;			
 			}
-		}
-		
-		public class SelectSourceListener implements Listener{
-			
-			Text text;
-			
-			public SelectSourceListener(Text text) {
-				this.text = text;
-			}
-			
-			public void handleEvent(Event event) {
-				String selected = 
-					BrowseWorkspaceUtil.browseFilePath(getShell(),
-					getSelectionTitle()
-					,getSelectionSubtitle()
-					,"" //TODO: Remove this as filters are no longer used
-					,getPlugin().createImage(getImagePath()));
-				
-				if (selected!=null) text.setText(selected);
-			}
-			
 		}
  
 		public void modifyText(ModifyEvent e) {
