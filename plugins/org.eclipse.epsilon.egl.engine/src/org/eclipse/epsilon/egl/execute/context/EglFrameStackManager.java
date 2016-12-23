@@ -61,7 +61,7 @@ public class EglFrameStackManager {
 	}
 
 	public void restoreFrameStackToPreviousState() {
-		frameStack.leaveLocal(localMarkers.pop());
+		frameStack.leaveGlobal(localMarkers.pop());
 		frameStack.leaveGlobal(globalMarkers.pop());
 	}
 	
@@ -76,6 +76,6 @@ public class EglFrameStackManager {
 		final StatementBlock frameLocalStackMarker = new StatementBlock();
 		//frameLocalStackMarker.setUri(URI.create("locals"));
 		localMarkers.push(frameLocalStackMarker);
-		frameStack.enterLocal(FrameType.PROTECTED, frameLocalStackMarker);
+		frameStack.enterGlobal(FrameType.UNPROTECTED, frameLocalStackMarker);
 	}
 }
