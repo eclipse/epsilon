@@ -310,19 +310,11 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 			return false;
 		
 		EObject eObject = (EObject) instance;
-		EcoreUtil.delete(eObject);
-
-		List<EObject> contents = new ArrayList<EObject>();
-		//Iterator<EObject> contentsIterator = eObject.eAllContents();
-		//while (contentsIterator.hasNext()) {
-		//	contents.add(contentsIterator.next());
-		//}
-		contents.addAll(eObject.eContents());
-		for (EObject content : contents) {
+		for (EObject content : new ArrayList<EObject>(eObject.eContents())) {
 			deleteElement(content);
 		}
-		contents.clear();
-		//clearCache();
+		EcoreUtil.delete(eObject);
+
 		return true;
 	}
 
