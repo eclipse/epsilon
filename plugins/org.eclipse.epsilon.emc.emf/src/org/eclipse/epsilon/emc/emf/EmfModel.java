@@ -320,11 +320,17 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	 */
 	protected void forceAddToCache(EObject instance) throws EolModelElementTypeNotFoundException {
 		super.addToCache(instance.eClass().getName(), instance);
+		for (EObject child : instance.eContents()) {
+			forceAddToCache(child);
+		}
 	}
 
 	/** @see #forceAddToCache(String, EObject) */
 	protected void forceRemoveFromCache(EObject instance) throws EolModelElementTypeNotFoundException {
 		super.removeFromCache(instance);
+		for (EObject child : instance.eContents()) {
+			forceRemoveFromCache(child);
+		}
 	}
 	
 	public void setupContainmentChangeListeners() {

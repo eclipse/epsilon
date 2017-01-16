@@ -13,5 +13,5 @@ operation collectMixedCollectionProperties() {
 	var col : Sequence;
 	col.addAll(EClass.all);
 	col.addAll(EPackage.all);
-	assertEquals(col.name.size(), 21);
+	assertEquals(21, col.name.size());
 }
