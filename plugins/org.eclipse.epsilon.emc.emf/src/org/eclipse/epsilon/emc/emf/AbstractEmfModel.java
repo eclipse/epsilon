@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -34,6 +35,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.epsilon.emc.emf.transactions.EmfModelTransactionSupport;
@@ -267,26 +269,6 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 				allInstances.add(it.next());
 			}
 		}
-		
-		/*
-		if (!expand) {
-			Iterator<EObject> it = modelImpl.getAllContents();
-			while (it.hasNext()){
-				allInstances.add(it.next());
-			}
-		
-		} else {
-			final List<Resource> resources;
-			
-			if (modelImpl.getResourceSet() == null) {
-				resources = new ArrayList<Resource>();
-				resources.add(modelImpl);
-			} else {
-				resources = modelImpl.getResourceSet().getResources();
-			}
-				
-			
-		}*/
 			
 		return allInstances;
 	}
@@ -418,16 +400,35 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 
 	protected List<Resource> getResources() {
-		List<Resource> resources = new ArrayList<Resource>();
-		if (expand && modelImpl.getResourceSet() != null) {
-			resources.addAll(modelImpl.getResourceSet().getResources());
+		final List<Resource> resources = new ArrayList<Resource>();
+		final ResourceSet rs = modelImpl.getResourceSet();
+		if (expand && rs != null) {
+			EList<Resource> rawResources = rs.getResources();
+
+			for (Resource rawResource : rawResources) {
+				// Is this model contained within another resource in the same resource set?
+				boolean contained = true;
+
+				for (EObject root : rawResource.getContents()) {
+					EObject container = root.eContainer();
+					if (container == null) {
+						// At least one of the roots is not contained within some other model in the set
+						contained = false;
+						break;
+					}
+				}
+
+				if (!contained) {
+					resources.add(rawResource);
+				}
+			}
 		}
 		else {
 			resources.add(modelImpl);
 		}
 		return resources;
 	}
-	
+
 	public Object getElementById(String id) {
 		for (Resource resource : getResources()) {
 			Object instance = resource.getEObject(id);
