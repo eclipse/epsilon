@@ -112,7 +112,7 @@ For many EGL programs, interacting directly with the \emph{OutputBuffer} is unne
 
 \begin{longtabu} {|p{6.5cm}|X|}
 			
-			\caption{Operations of type Template}
+			\caption{Operations of type OutputBuffer}
 			\label{tab:OutputBufferOperations}\\
 			
 			\hline
@@ -181,9 +181,11 @@ In addition to \texttt{generate}, the Template type defines further operations f
 			populate(name : String, value : Any) & Makes a variable with the specified name and value available during the execution of the template. \\\hline
 			
 			process() : String & Executes the template and returns the text that is generated.  \\\hline
-			
+
 			generate(destination : String) & Executes the template and stores the text to the specified destination. The format of the destination parameter is dictated by the type of template. For example, the default template type (which can generate files on disk) expects a file system path as the destination parameter. Returns a \class{java.io.File} object representing the generated file.\\\hline
-			
+
+      append(destination : String) & Executes the template: if the destination exists, it will add a newline and the generated text at the end of the file. If the file does not exist, it will write the generated text to it (with no newline). Returns a \class{java.io.File} object representing the generated file.\\\hline
+
 			setFormatter(formatter : Formatter) & Changes the formatter for this template to the specified formatter. Subsequent calls to generate or process will produce text that is formatted with the specified formatter. See Section~\ref{sec:formatters}. \\\hline
 			
 			setFormatters(formatters : Sequence(Formatter)) & Changes the formatter for this template to the specified sequence of formatters. Subsequent calls to generate or process will produce text that is formatted with each of the specified formatters in turn. See Section~\ref{sec:formatters}. \\\hline

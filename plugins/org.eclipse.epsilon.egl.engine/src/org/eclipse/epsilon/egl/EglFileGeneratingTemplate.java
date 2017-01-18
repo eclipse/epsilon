@@ -51,7 +51,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 		super(spec, context, outputRoot, outputRootPath);
 	}
 	
-	public void append(String path) throws EglRuntimeException {
+	public File append(String path) throws EglRuntimeException {
 		try {
 			final File target = resolveFile(path);
 
@@ -66,7 +66,8 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 			
 			prepareNewContents();
 			writeNewContentsIfDifferentFromExistingContents();
-			
+
+			return target;
 		} catch (URISyntaxException e) {
 			throw new EglRuntimeException("Could not resolve path: " + target, e, module);
 		} catch (IOException ex) {
@@ -94,7 +95,11 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	private void prepareNewContents() throws EglRuntimeException {
 		switch (outputMode) {
 			case APPEND:
-				newContents = existingContents + FileUtil.NEWLINE + getContents();
+				if (existingContents != null) {
+					newContents = existingContents + FileUtil.NEWLINE + getContents();
+				} else {
+					newContents = getContents();
+				}
 				positiveMessage = "Successfully appended to ";
 				break;
 	
