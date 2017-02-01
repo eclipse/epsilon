@@ -17,12 +17,11 @@ public class CachedResourceSet extends ResourceSetImpl {
 	public static Cache getCache() {
 		return cache;
 	}
-	
 	@Override
-	public Resource createResource(URI uri) {
+	public Resource createResource(URI uri, String contentType) {
 		Resource cachedResource = getCache().checkoutResource(uri);
 		if (cachedResource == null) {
-			cachedResource = createNewResource(uri);
+			cachedResource = createNewResource(uri, contentType);
 			cachedResource.setTrackingModification(false);
 			if (cachedResource instanceof XMLResource) {
 				configure((XMLResource) cachedResource);
@@ -33,8 +32,8 @@ public class CachedResourceSet extends ResourceSetImpl {
 		return cachedResource;
 	}
 	
-	public Resource createNewResource(URI uri) {
-		Resource resource = super.createResource(uri);
+	public Resource createNewResource(URI uri, String contentType) {
+		Resource resource = super.createResource(uri, contentType);
 		if (resource == null) {
 			resource = new XMIResourceFactoryImpl().createResource(uri);
 		}

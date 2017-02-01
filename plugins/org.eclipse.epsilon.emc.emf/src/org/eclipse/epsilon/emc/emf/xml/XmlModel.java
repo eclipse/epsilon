@@ -65,7 +65,7 @@ public class XmlModel extends EmfModel implements IOperationContributorProvider 
 	protected ResourceSet createResourceSet() {
 		return new CachedResourceSet() {
 			@Override
-			public Resource createNewResource(URI uri) {
+			public Resource createNewResource(URI uri, String contentType) {
 				return new GenericXMLResourceFactoryImpl().createResource(uri);
 			}
 		};
