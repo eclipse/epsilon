@@ -40,7 +40,7 @@ import org.junit.Before;
 public class EugeniaTest {
 
 	protected static final String[] CASE_EXTENSIONS = new String[] {
-		"ecore", "emf", "genmodel", "gmfgen", "gmfgraph", "gmfmap", "gmftool"
+		"ecore", "emf", "genmodel", "gmfgraph", "gmfmap", "gmftool"
 	};
 	protected static final String RES_PREFIX = "/eugenia/";
 

@@ -5,8 +5,7 @@ operation data() {
     Sequence { 'http://www.eclipse.org/emf/2002/GenModel', 'genmodel', 'GenModel' },
     Sequence { 'http://www.eclipse.org/gmf/2006/GraphicalDefinition', 'gmfgraph', 'GmfGraph' },
     Sequence { 'http://www.eclipse.org/gmf/2005/ToolDefinition', 'gmftool', 'GmfTool'},
-    Sequence { 'http://www.eclipse.org/gmf/2008/mappings', 'gmfmap', 'GmfMap' },
-    Sequence { 'http://www.eclipse.org/gmf/2009/GenModel', 'gmfgen', 'GmfGen' }
+    Sequence { 'http://www.eclipse.org/gmf/2008/mappings', 'gmfmap', 'GmfMap' }
   };
 }
 
