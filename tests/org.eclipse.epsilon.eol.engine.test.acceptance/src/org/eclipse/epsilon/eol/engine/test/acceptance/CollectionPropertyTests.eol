@@ -1,17 +1,17 @@
 @test
 operation collectEClassNames() {
-	assertEquals(EClass.all.name.size(), 20);
+	assertEquals(ecore::EClass.all.name.size(), 20);
 }
 
 @test
 operation collectEClassUnknownProperties() {
-	assertError(EClass.all.unknownProperty);
+	assertError(ecore::EClass.all.unknownProperty);
 }
 
 @test
 operation collectMixedCollectionProperties() {
 	var col : Sequence;
-	col.addAll(EClass.all);
-	col.addAll(EPackage.all);
+	col.addAll(ecore::EClass.all);
+	col.addAll(ecore::EPackage.all);
 	assertEquals(21, col.name.size());
 }

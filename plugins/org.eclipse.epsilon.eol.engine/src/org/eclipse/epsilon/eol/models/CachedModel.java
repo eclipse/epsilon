@@ -55,7 +55,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	protected abstract Object getCacheKeyForType(String type) throws EolModelElementTypeNotFoundException;
 	
 	/**
-	 * Returns the names of every type to which the 
+	 * Returns the fully qualified names of every type to which the
 	 * given object conforms. The values are used by
 	 * by {@link CachedModel} for the memoization of
 	 * model elements by their kind ({@link #getAllOfKind(String)}).

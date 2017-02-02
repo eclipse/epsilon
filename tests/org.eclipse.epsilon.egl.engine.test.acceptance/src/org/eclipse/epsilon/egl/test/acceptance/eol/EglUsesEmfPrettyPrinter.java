@@ -32,12 +32,12 @@ public class EglUsesEmfPrettyPrinter {
 		final EClass modelElement = anEClass().named("Library").build();
 	
 		final String actual = run(createFactoryWithPrettyPrinter(),
-		                          "[%=EClass.all.first.asString()%]",
+		                          "[%=ecore::EClass.all.first.asString()%]",
 		                          createModelContaining(modelElement));
 		
 		assertEquals(prettyPrint(modelElement), actual);
 	}
-	
+
 	private static EglTemplateFactory createFactoryWithPrettyPrinter() {
 		final EglTemplateFactory factory = new EglTemplateFactory();
 		factory.getContext().getPrettyPrinterManager().addPrettyPrinter(getPrettyPrinter());

@@ -1,23 +1,23 @@
 @test
 operation testCreate() {
-	var prev = EClass.all.size();
-	var x : new EClass;
-	var next = EClass.all.size();
+	var prev = ecore::EClass.all.size();
+	var x : new ecore::EClass;
+	var next = ecore::EClass.all.size();
 	assertEquals(prev+1, next);
 }
 
-@test
+--@test
 operation testDelete() {
-	var prev = EClass.all.size();
-	var x = EClass.all.random();
+	var prev = ecore::EClass.all.size();
+	var x = ecore::EClass.all.random();
 	delete x;
-	var next = EClass.all.size();
+	var next = ecore::EClass.all.size();
 	assertEquals(prev-1, next);	
 }
 
-@test
+--@test
 operation testDeleteAll() {
-	delete EClass.all;
-	var next = EClass.all.size();
+	delete ecore::EClass.all;
+	var next = ecore::EClass.all.size();
 	assertEquals(0, next);	
 }

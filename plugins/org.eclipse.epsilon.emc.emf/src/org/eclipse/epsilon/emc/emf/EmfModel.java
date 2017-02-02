@@ -25,6 +25,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -319,7 +320,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	 * called from the adapter.
 	 */
 	protected void forceAddToCache(EObject instance) throws EolModelElementTypeNotFoundException {
-		super.addToCache(instance.eClass().getName(), instance);
+		super.addToCache(getFullyQualifiedTypeNameOf(instance), instance);
 		for (EObject child : instance.eContents()) {
 			forceAddToCache(child);
 		}

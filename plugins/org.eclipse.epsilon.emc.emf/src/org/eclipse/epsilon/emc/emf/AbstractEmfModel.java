@@ -276,14 +276,14 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	protected EObject createInstanceInModel(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		
 		EClass eClass = classForName(type);
-		//if (eClass == null) throw new EolModelElementTypeNotFoundException(this.getName(), type);
-		if (eClass.isAbstract()) throw new EolNotInstantiableModelElementTypeException(this.name, type);
-		
+		if (eClass.isAbstract()) {
+			throw new EolNotInstantiableModelElementTypeException(this.name, type);
+		}
+
 		EObject instance = eClass.getEPackage().getEFactoryInstance().create(eClass);
 		modelImpl.getContents().add(instance);
 		instance.eAdapters().add(new ContainmentChangeAdapter(instance, modelImpl));
 		return instance;
-		
 	}
 	
 	protected EmfModelTransactionSupport transactionSupport;
@@ -510,14 +510,13 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	public Collection<String> getAllTypeNamesOf(Object instance) {
 		final Collection<String> allTypeNames = new ArrayList<String>();
-		
+
 		if (isModelElement(instance)) {
 			final EClass type = (EClass)getTypeOf(instance);
-			
-			allTypeNames.add(type.getName());
-			
+			allTypeNames.add(getFullyQualifiedName(type));
+
 			for (EClass supertype : type.getEAllSuperTypes()) {
-				allTypeNames.add(supertype.getName());
+				allTypeNames.add(getFullyQualifiedName(supertype));
 			}
 		}
 		
