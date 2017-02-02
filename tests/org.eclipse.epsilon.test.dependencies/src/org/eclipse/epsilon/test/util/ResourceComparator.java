@@ -24,37 +24,6 @@ public class ResourceComparator {
 	protected HashMap<EObject, EObject> matches = new HashMap<EObject, EObject>();
 	protected HashMap<EObject, EObject> tempMatches = new HashMap<EObject, EObject>();
 	
-	public static void main(String[] args) throws Exception {
-		new ResourceComparator().go();
-	}
-	
-	public void go() throws Exception {
-		
-		Resource r1 = createResource();
-		Resource r2 = createResource();
-		
-		InMemoryEmfModel m1 = new InMemoryEmfModel("M1", r1);
-		InMemoryEmfModel m2 = new InMemoryEmfModel("M2", r2);
-		
-		EolModule module = new EolModule();
-		module.parse(new MultilineCommentReader().readNextComment());
-		
-		/*
-		 var c1 = M1!EClass.all.selectOne(c|c.name = "EClass");
-		 c1.eSuperTypes = Sequence{};
-		 
-		 // var c2 = M2!EClass.all.selectOne(c|c.name = "EClass");
-		 // c2.eSuperTypes = Sequence{};
-		 */
-		
-		module.getContext().getModelRepository().addModel(m1);
-		module.getContext().getModelRepository().addModel(m2);
-		module.execute();
-		
-		System.err.println(compare(r1, r2));
-		
-	}
-	
 	protected Resource createResource() {
 		ResourceSet rs = new ResourceSetImpl();
 		rs.getPackageRegistry().put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
