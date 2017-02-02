@@ -143,7 +143,7 @@ public class EUnitRunner extends Runner {
 		ResourceSet rs = new ResourceSetImpl();
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 		Resource r = rs.createResource(URI.createFileURI("foo.xmi"));
-		InMemoryEmfModel ecore = new InMemoryEmfModel("Ecore", r);
+		InMemoryEmfModel ecore = new InMemoryEmfModel("Ecore", r, EcorePackage.eINSTANCE);
 		EObject copy = EcoreUtil.copy(EcorePackage.eINSTANCE.eResource().getContents().get(0));
 		r.getContents().add(copy);
 		rs.getResources().add(r);

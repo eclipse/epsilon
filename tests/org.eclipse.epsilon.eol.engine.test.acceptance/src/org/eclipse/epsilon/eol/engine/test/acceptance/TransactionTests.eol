@@ -1,14 +1,14 @@
 @test
 operation testCommit() {
-	var oldName = ecore::EClass.all.first.name;
+	var oldName = EClass.all.first.name;
 	transaction {
-		ecore::EClass.all.first.name = "foo";
+		EClass.all.first.name = "foo";
 	}
-	assertEquals("foo", ecore::EClass.all.first.name);
+	assertEquals("foo", EClass.all.first.name);
 
 	// We need to reset the name as models
 	// are not re-initialised before every @test
-	ecore::EClass.all.first.name = oldName;
+	EClass.all.first.name = oldName;
 }
 
 @test
@@ -17,9 +17,9 @@ operation testAbort() {
 	oldName.println();
 
 	transaction Ecore {
-		ecore::EClass.all.first.name = "foo";
+		EClass.all.first.name = "foo";
 		abort;
 	}
 
-	assertEquals(oldName, ecore::EClass.all.first.name);
+	assertEquals(oldName, EClass.all.first.name);
 }
