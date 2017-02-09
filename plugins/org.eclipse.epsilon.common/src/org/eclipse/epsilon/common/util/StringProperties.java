@@ -80,19 +80,6 @@ public class StringProperties extends Properties{
 		return super.put(key, StringUtil.toString(value));
 	}
 	
-	public static void main(String[] args){
-		
-		StringProperties sp = new StringProperties();
-		sp.put("Hello2", "World");
-		sp.put("Name", "World");
-		sp.put("Mitsos", "World");
-		System.out.println(sp.toString());
-		//StringProperties sp2 = new StringProperties();
-		//sp2.load(sp.toString());
-		//System.out.println(sp2.get("Name"));
-		
-	}
-	
 	public boolean getBooleanProperty(String key, boolean def) {
 		String property = getProperty(key);
 		if (property.equalsIgnoreCase("true")) return true;
