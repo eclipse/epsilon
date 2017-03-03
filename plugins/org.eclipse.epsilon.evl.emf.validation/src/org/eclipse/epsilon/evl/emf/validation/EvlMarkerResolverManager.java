@@ -28,6 +28,7 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 	
 	private EvlMarkerResolverManager() {
 		delegates.add(new EmfMarkerResolver());
+		delegates.add(new SiriusMarkerResolver());
 		try {
 			Class.forName("org.eclipse.gmf.runtime.notation.View");
 			delegates.add(new GmfMarkerResolver());
@@ -54,7 +55,7 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		}
 		return null;
 	}
-
+	
 	public String getAbsoluteElementId(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {
 			if (delegate.canResolve(marker))
