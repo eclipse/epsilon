@@ -75,7 +75,7 @@ public class NumberOperationContributor extends OperationContributor {
 		return Math.log(getNumber().doubleValue());
 	}
 	
-	public double log10(Number n) {
+	public double log10() {
 		return Math.log10(getNumber().doubleValue());
 	}
 	

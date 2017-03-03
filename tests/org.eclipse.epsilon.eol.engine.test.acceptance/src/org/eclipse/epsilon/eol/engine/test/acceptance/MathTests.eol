@@ -122,3 +122,8 @@ operation testLog() {
 	assertEquals(1.log(), 0);
 	assertEquals(2.log().asString().substring(0,4), "0.69");
 }
+
+@test
+operation testLog10() {
+    assertEquals(10.log10(), 1);
+}
