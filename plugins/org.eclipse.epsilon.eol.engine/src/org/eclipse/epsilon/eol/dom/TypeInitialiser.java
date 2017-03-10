@@ -28,47 +28,43 @@ public abstract class TypeInitialiser extends Expression {
 				EolModelElementType modelElementType = (EolModelElementType) type;
 				throw new EolNotInstantiableModelElementTypeException(modelElementType);
 			}
-			
-			if (type instanceof EolModelElementType) {
-				
-				Object instance = type.createInstance();
-				
-				for (Expression parameter : parameters) {
-					if (parameter instanceof EqualsOperatorExpression) {
-						EqualsOperatorExpression equalsOperatorExpression = (EqualsOperatorExpression) parameter;
-						if (equalsOperatorExpression.getFirstOperand() instanceof NameExpression) {
-							String property = ((NameExpression) equalsOperatorExpression.getFirstOperand()).getName();
-							IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(instance, property, context);
-							if (setter != null) {
-								setter.setAst(parameter);
-								setter.invoke(context.getExecutorFactory().execute(equalsOperatorExpression.getSecondOperand(), context));
-							}
-							else throw new EolIllegalPropertyException(instance, property, equalsOperatorExpression.getFirstOperand(), context);
-						}
-						else {
-							throw new EolRuntimeException("Property name expected", equalsOperatorExpression.getFirstOperand());
-						}
-					}
-					else {
-						throw new EolRuntimeException("Property initialisation expression expected", parameter);
-					}
+							
+			ArrayList<Object> parameterValues = new ArrayList<Object>();
+			for (Expression parameter : parameters) {
+				if (!(parameter.getClass() == EqualsOperatorExpression.class)) {
+					parameterValues.add(context.getExecutorFactory().execute(parameter, context));
 				}
-				
-				return instance;
-				
+			}
+			
+			Object instance = null;
+			
+			if (parameterValues.isEmpty()) {
+				instance = type.createInstance();
 			}
 			else {
-				if (!parameters.isEmpty()) {
-					ArrayList<Object> parameterValues = new ArrayList<Object>();
-					for (Expression parameter : parameters) {
-						parameterValues.add(context.getExecutorFactory().execute(parameter, context));
+				instance = type.createInstance(parameterValues);
+			}
+			
+			for (Expression parameter : parameters) {
+				if (parameter.getClass() == EqualsOperatorExpression.class) {
+					EqualsOperatorExpression equalsOperatorExpression = (EqualsOperatorExpression) parameter;
+					if (equalsOperatorExpression.getFirstOperand() instanceof NameExpression) {
+						String property = ((NameExpression) equalsOperatorExpression.getFirstOperand()).getName();
+						IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(instance, property, context);
+						if (setter != null) {
+							setter.setAst(parameter);
+							setter.invoke(context.getExecutorFactory().execute(equalsOperatorExpression.getSecondOperand(), context));
+						}
+						else throw new EolIllegalPropertyException(instance, property, equalsOperatorExpression.getFirstOperand(), context);
 					}
-					return type.createInstance(parameterValues);
-				}
-				else {
-					return type.createInstance();
+					else {
+						throw new EolRuntimeException("Property name expected", equalsOperatorExpression.getFirstOperand());
+					}
 				}
 			}
+			
+			return instance;
+				
 		}
 		return null;
 	}

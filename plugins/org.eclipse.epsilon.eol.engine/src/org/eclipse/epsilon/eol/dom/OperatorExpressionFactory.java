@@ -6,8 +6,11 @@ public class OperatorExpressionFactory {
 	
 	public OperatorExpression createOperatorExpression(AST ast) {
 		String operator = ast.getText();
-		if (operator.startsWith("=")) {
+		if (operator.equals("=")) {
 			return new EqualsOperatorExpression();
+		}
+		else if (operator.equals("==")) {
+			return new DoubleEqualsOperatorExpression();
 		}
 		else if (operator.equals("<>")) {
 			return new NotEqualsOperatorExpression();
