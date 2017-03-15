@@ -12,18 +12,17 @@ package org.eclipse.epsilon.evl.dt.views;
 
 
 import java.util.Collections;
+import java.util.List;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.epsilon.common.dt.extensions.ClassBasedExtension;
+import org.eclipse.epsilon.common.dt.extensions.IllegalExtensionException;
+import org.eclipse.epsilon.common.dt.locators.IModelElementLocator;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dt.EvlPlugin;
@@ -55,15 +54,11 @@ import org.eclipse.ui.part.ViewPart;
 
 public class ValidationView extends ViewPart {
 	
-	private static final String TRACER_ID = "org.eclipse.epsilon.evl.dt.dblClick";
-	private static final String ATT_CLASS = "class";
 	protected IEvlModule module = null;
 	protected TableViewer viewer;
 	protected Action stopAction;
 	protected Action clearAction;
 	protected ValidationViewFixer fixer;
-	private String modelname;
-	//private Action cancelAction;
 	
 	class UnsatisfiedConstraintLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
@@ -131,40 +126,35 @@ public class ValidationView extends ViewPart {
 		viewer.setContentProvider(new ListContentProvider());
 		viewer.setLabelProvider(new UnsatisfiedConstraintLabelProvider());
 		viewer.setSorter(new NameSorter());
-		IExtensionRegistry reg = Platform.getExtensionRegistry();
-		//IExtensionPoint ep = reg.getExtensionPoint(TRACER_ID);
-		IExtensionPoint ep = reg.getExtensionPoint("org.eclipse.epsilon.evl.dt.dblClick");
-		IExtension[] extensions = ep.getExtensions();
-		if (extensions.length > 0) {
-			// There should only be one contributor
-			IExtension ext = extensions[0];
-			IConfigurationElement[] ce = ext.getConfigurationElements();
-			try {
-				final IConstraintTracer tracer = (IConstraintTracer) ce[0].createExecutableExtension(ATT_CLASS);
-				viewer.addDoubleClickListener(new IDoubleClickListener() {
-					
-					@Override
-					public void doubleClick(DoubleClickEvent event) {
-						assert event.getSelection() instanceof IStructuredSelection;
-						IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-						final Object item = selection.getFirstElement();
-						assert item instanceof UnsatisfiedConstraint;
-						Job job = new Job("Open PTC IM Modeler") {
-					        @Override
-					        protected IStatus run(IProgressMonitor monitor) {
-					        	tracer.traceConstraint((UnsatisfiedConstraint) item, fixer.getConfiguration());
-					            return Status.OK_STATUS;
-					        }
-						};
-						// Start the Job
-						job.schedule();
+		
+		try {
+			final List<IModelElementLocator> modelElementLocators = ClassBasedExtension.getImplementations(IModelElementLocator.EXTENSION_POINT, IModelElementLocator.class);
+		
+			viewer.addDoubleClickListener(new IDoubleClickListener() {
+				
+				@Override
+				public void doubleClick(DoubleClickEvent event) {
+					IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+					final UnsatisfiedConstraint constraint = (UnsatisfiedConstraint) selection.getFirstElement();
+					for (final IModelElementLocator modelElementLocator : modelElementLocators) {
+						if (modelElementLocator.canLocate(constraint.getInstance())) {
+							Job job = new Job("Locating model element") {
+						        @Override
+						        protected IStatus run(IProgressMonitor monitor) {
+						        	modelElementLocator.locate(constraint.getInstance());
+						            return Status.OK_STATUS;
+						        }
+							};
+							// Start the Job
+							job.schedule();
+						}
 					}
-				});
-			} catch (CoreException e) {
-				// FIXME Log!
-				e.printStackTrace();
-			}
+				}
+			});
+		} catch (IllegalExtensionException ex) {
+			LogUtil.log(ex);
 		}
+		
 		makeActions();
 		hookContextMenu();
 		contributeToActionBars();

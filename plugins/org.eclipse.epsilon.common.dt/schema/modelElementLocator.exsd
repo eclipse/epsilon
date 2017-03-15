@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.epsilon.common.dt" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.epsilon.common.dt" id="modelType" name="Model Type"/>
+         <meta.schema plugin="org.eclipse.epsilon.common.dt" id="modelElementLocator" name="Model Element Locator"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="modelType" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="modelElementLocator" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,57 +47,16 @@
       </complexType>
    </element>
 
-   <element name="modelType">
+   <element name="modelElementLocator">
       <complexType>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  The class of the model type
+                  The class of the model element locator
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.epsilon.eol.models.IModel"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.epsilon.common.dt.locators.IModelElementLocator"/>
                </appInfo>
-            </annotation>
-         </attribute>
-         <attribute name="label" type="string" use="required">
-            <annotation>
-               <documentation>
-                  A label for presenting this type of models in the UI
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="icon" type="string" use="required">
-            <annotation>
-               <documentation>
-                  An icon representative to this type of models
-               </documentation>
-               <appInfo>
-                  <meta.attribute kind="resource"/>
-               </appInfo>
-            </annotation>
-         </attribute>
-         <attribute name="dialog" type="string">
-            <annotation>
-               <documentation>
-                  The dialog through which models of this type will be configured (must extend org.eclipse.epsilon.common.launching.dialogs.ModelConfigurationDialog)
-               </documentation>
-               <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.epsilon.common.dt.launching.ModelConfigurationDialog"/>
-               </appInfo>
-            </annotation>
-         </attribute>
-         <attribute name="type" type="string" use="required">
-            <annotation>
-               <documentation>
-                  The type of the models
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="stable" type="boolean">
-            <annotation>
-               <documentation>
-                  If the driver is stable (i.e. not experimental) it should be set to true.
-               </documentation>
             </annotation>
          </attribute>
       </complexType>

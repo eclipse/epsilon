@@ -2,6 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
    <extension-point id="modelType" name="Model Type" schema="schema/modelType.exsd"/>
+   <extension-point id="modelElementLocator" name="Model Element Locator" schema="schema/modelElementLocator.exsd"/>
    <extension-point id="prettyPrinter" name="PrettyPrinter" schema="schema/prettyPrinter.exsd"/>
    <extension-point id="operationContributor" name="OperationContributor" schema="schema/operationContributor.exsd"/>
    <extension-point id="tool" name="Tool" schema="schema/tool.exsd"/>
