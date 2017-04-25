@@ -15,6 +15,7 @@ package org.eclipse.epsilon.hutn.unparser.internal;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
@@ -98,7 +99,12 @@ class SlotUnparser extends Unparser {
 		} else if (value instanceof ClassObject) {
 			unparseValue((ClassObject)value);
 			
-		} else { 
+		} 
+		else if (slot != null && slot.getEStructuralFeature() != null && slot.getEStructuralFeature().getEType() instanceof EDataType){
+			EDataType eDataType = (EDataType) slot.getEStructuralFeature().getEType();
+			unparseValue(eDataType.getEPackage().getEFactoryInstance().convertToString(eDataType, value));
+		}
+		else { 
 			throw new IllegalStateException("Cannot unparse instances of " +
 			                                value.getClass().getCanonicalName() + ": " + 
 			                                value);
