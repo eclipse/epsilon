@@ -45,6 +45,7 @@ tokens {
 	PARAMETERS;
 	OVERWRITE;
 	MERGE;
+	APPEND;
 }
 
 generationRule
@@ -53,7 +54,7 @@ generationRule
 		$tree.getExtraTokens().add($cb);
 	}
 	:	r='rule'^ rule=NAME ('transform'! formalParameter)?
-	ob='{'! (guard | target | template | parameters | pre | post | overwrite | merge)* cb='}'!
+	ob='{'! (guard | target | template | parameters | pre | post | overwrite | merge | append)* cb='}'!
 	{$r.setType(GENERATE);}
 	;
 
@@ -80,4 +81,9 @@ overwrite
 merge
 	:	(g='merge'|'protectRegions')^ expressionOrStatementBlock
 	{$g.setType(MERGE);}
+	;
+
+append
+	:	g='append'^ expressionOrStatementBlock
+	{$g.setType(APPEND);}
 	;

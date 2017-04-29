@@ -124,6 +124,8 @@ public class EgxModule extends ErlModule {
 			case EgxParser.PARAMETERS: return new ExecutableBlock<Map<?, ?>>(Map.class);
 			case EgxParser.OVERWRITE: return new ExecutableBlock<Boolean>(Boolean.class);
 			case EgxParser.GUARD: return new ExecutableBlock<Boolean>(Boolean.class);
+			case EgxParser.MERGE: return new ExecutableBlock<Boolean>(Boolean.class);
+			case EgxParser.APPEND: return new ExecutableBlock<Boolean>(Boolean.class);
 			case EgxParser.TARGET: return new ExecutableBlock<String>(String.class);
 			case EgxParser.PRE:
 			case EgxParser.POST: {

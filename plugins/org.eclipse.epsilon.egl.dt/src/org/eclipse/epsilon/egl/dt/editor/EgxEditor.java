@@ -44,6 +44,7 @@ public class EgxEditor extends EolEditor {
 		keywords.add("overwrite");
 		keywords.add("protectRegions");
 		keywords.add("merge");
+		keywords.add("append");
 
 		keywords.addAll(super.getKeywords());
 		

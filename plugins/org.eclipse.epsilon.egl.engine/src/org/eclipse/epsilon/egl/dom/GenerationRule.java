@@ -22,6 +22,7 @@ import java.util.Map;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
 import org.eclipse.epsilon.egl.EglPersistentTemplate;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
@@ -48,6 +49,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 	protected ExecutableBlock<Void> postBlock = null;
 	protected ExecutableBlock<Boolean> overwriteBlock = null;
 	protected ExecutableBlock<Boolean> mergeBlock = null;
+	protected ExecutableBlock<Boolean> appendBlock = null;
 	protected Boolean isGreedy;
 	
 	public GenerationRule() {}
@@ -68,6 +70,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 		postBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EgxParser.POST), this);
 		overwriteBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.OVERWRITE), this);
 		mergeBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.MERGE), this);
+		appendBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.APPEND), this);
 	}
 	
 	public boolean isGreedy() throws EolRuntimeException {
@@ -105,7 +108,9 @@ public class GenerationRule extends ExtensibleNamedRule {
 			if (preBlock != null) preBlock.execute(context, false);
 			
 			boolean overwrite = (overwriteBlock == null) ? true : overwriteBlock.execute(context, false);
-			boolean merge = (mergeBlock == null) ? true : mergeBlock.execute(context, false);			
+			boolean merge = (mergeBlock == null) ? true : mergeBlock.execute(context, false);
+			boolean append = (appendBlock == null) ? false : appendBlock.execute(context, false);
+			
 			EolMap parameters = (parametersBlock == null) ? new EolMap() : parametersBlock.execute(context, false);
 			String template = (templateBlock == null) ? "" : templateBlock.execute(context, false);
 			
@@ -129,7 +134,14 @@ public class GenerationRule extends ExtensibleNamedRule {
 			
 			File generated = null;
 			if (eglTemplate instanceof EglPersistentTemplate) {
-				generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
+				if (append) {
+					if (eglTemplate instanceof EglFileGeneratingTemplate) {
+						generated = ((EglFileGeneratingTemplate) eglTemplate).append(target);
+					}
+				}
+				else {
+					generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
+				}
 			}
 			
 			module.getInvokedTemplates().add(eglTemplate.getTemplate());
