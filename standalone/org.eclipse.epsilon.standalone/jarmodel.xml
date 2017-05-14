@@ -85,6 +85,11 @@
 		<project name="org.eclipse.epsilon.emc.graphml"/>
 	</jar>
 
+	<jar name="simulink" requires="core">
+		<description>Epsilon's Simulink muddles driver.</description>
+		<project name="org.eclipse.epsilon.emc.simulink"/>
+	</jar>
+	
 	<jar name="hutn" requires="emf">
 		<description>
 		Epsilon's Human Usable Textual Notation implementation.

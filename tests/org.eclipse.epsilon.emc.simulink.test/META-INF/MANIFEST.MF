@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EMC Simulink Tests
+Bundle-SymbolicName: org.eclipse.epsilon.emc.simulink.test
+Bundle-Version: 1.5.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit,
+ org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.emc.simulink
+Export-Package: org.eclipse.epsilon.emc.simulink.test

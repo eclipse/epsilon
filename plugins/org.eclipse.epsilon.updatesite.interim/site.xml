@@ -31,6 +31,12 @@
    <feature url="features/org.eclipse.epsilon.uml.feature_1.5.0.qualifier.jar" id="org.eclipse.epsilon.uml.feature" version="1.5.0.qualifier">
       <category name="Epsilon UML Integration"/>
    </feature>
+   <feature url="features/org.eclipse.epsilon.simulink.dt.feature_1.5.0.qualifier.jar" id="org.eclipse.epsilon.simulink.dt.feature" version="1.5.0.qualifier">
+      <category name="Epsilon Simulink Integration"/>
+   </feature>
+   <feature url="features/org.eclipse.epsilon.simulink.feature_1.5.0.qualifier.jar" id="org.eclipse.epsilon.simulink.feature" version="1.5.0.qualifier">
+      <category name="Epsilon Simulink Integration"/>
+   </feature>   
    <feature url="features/org.eclipse.epsilon.ewl.gmf.feature_1.5.0.qualifier.jar" id="org.eclipse.epsilon.ewl.gmf.feature" version="1.5.0.qualifier">
       <category name="Epsilon GMF Integration"/>
    </feature>
@@ -84,6 +90,11 @@
          Support for managing EMF-based UML models with languages of the Epsilon platform.
       </description>
    </category-def>
+   <category-def name="Epsilon Simulink Integration" label="Epsilon Simulink Integration">
+      <description>
+         Support for managing Simulink models with languages of the Epsilon platform.
+      </description>
+   </category-def>   
    <category-def name="Epsilon GMF Integration" label="Epsilon GMF Integration">
       <description>
          Support for developing GMF-based editors (Eugenia), and for refactoring models in GMF-based editors using the Epsilon Wizard Language.

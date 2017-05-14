@@ -105,6 +105,10 @@
         <outputDirectory></outputDirectory>
       </fileSet>
       <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.emc.simulink/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
         <directory>../../plugins/org.eclipse.epsilon.hutn.engine/target/classes</directory>
         <outputDirectory></outputDirectory>
       </fileSet>

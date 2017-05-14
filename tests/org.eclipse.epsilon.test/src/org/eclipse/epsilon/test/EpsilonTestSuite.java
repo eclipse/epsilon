@@ -14,9 +14,6 @@
  */
 package org.eclipse.epsilon.test;
 
-import junit.framework.JUnit4TestAdapter;
-import junit.framework.Test;
-
 import org.eclipse.epsilon.commons.test.CommonsTestSuite;
 import org.eclipse.epsilon.concordance.test.ConcordanceTestSuite;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestSuite;
@@ -31,6 +28,7 @@ import org.eclipse.epsilon.emc.emf.test.EmfTestSuite;
 import org.eclipse.epsilon.emc.graphml.tests.GraphmlTestSuite;
 import org.eclipse.epsilon.emc.hutn.test.HutnEmcDriverTestSuite;
 import org.eclipse.epsilon.emc.plainxml.test.PlainXmlTestSuite;
+import org.eclipse.epsilon.emc.simulink.test.SimulinkModelTestSuite;
 import org.eclipse.epsilon.emc.spreadsheets.test.SpreadsheetDriverTestSuite;
 import org.eclipse.epsilon.eml.engine.test.acceptance.EmlAcceptanceTestSuite;
 import org.eclipse.epsilon.eol.engine.test.acceptance.EolAcceptanceTestSuite;
@@ -47,6 +45,9 @@ import org.eclipse.epsilon.workflow.test.WorkflowTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+
+import junit.framework.JUnit4TestAdapter;
+import junit.framework.Test;
 
 @RunWith(Suite.class)
 @SuiteClasses({CommonsTestSuite.class,
@@ -74,7 +75,8 @@ import org.junit.runners.Suite.SuiteClasses;
                WorkflowTestSuite.class,
                GraphmlTestSuite.class,
                EmfTestSuite.class,
-               SpreadsheetDriverTestSuite.class})
+               SpreadsheetDriverTestSuite.class,
+               SimulinkModelTestSuite.class})
 public class EpsilonTestSuite{
 
 	public static Test suite() {

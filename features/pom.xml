@@ -40,5 +40,7 @@
     <module>org.eclipse.epsilon.hutn.feature</module>
     <module>org.eclipse.epsilon.uml.dt.feature</module>
     <module>org.eclipse.epsilon.uml.feature</module>
+    <module>org.eclipse.epsilon.simulink.dt.feature</module>
+    <module>org.eclipse.epsilon.simulink.feature</module>
   </modules>
 </project>

@@ -68,6 +68,9 @@
 		<descriptor>assembly/graphml.xml</descriptor>
 		<descriptor>assembly/graphml-src.xml</descriptor>
 		<descriptor>assembly/graphml-sources.xml</descriptor>
+		<descriptor>assembly/simulink.xml</descriptor>
+		<descriptor>assembly/simulink-src.xml</descriptor>
+		<descriptor>assembly/simulink-sources.xml</descriptor>		
 		<descriptor>assembly/hutn.xml</descriptor>
 		<descriptor>assembly/hutn-src.xml</descriptor>
 		<descriptor>assembly/hutn-sources.xml</descriptor>

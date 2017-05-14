@@ -1,0 +1,37 @@
+var reference = new `simulink/Sources/Step`;
+var controller = new `simulink/Ports & Subsystems/Subsystem`;
+var plant = new `simulink/Ports & Subsystems/Subsystem`;
+var sum = new `simulink/Math Operations/Sum`;
+
+reference.name = "Reference";
+controller.name = "Controller";
+plant.name = "Plant";
+
+// Position them on the diagram
+reference.position = "[100 100 130 130]";
+sum.position = "[200 100 230 130]";
+controller.position = "[300 100 400 130]";
+plant.position = "[500 100 600 130]";
+
+// Controller subsystem
+var pidController = new `simulink/Continuous/PID Controller`;
+pidController.name = "PID Controller";
+pidController.parent = controller;
+
+var error = Inport.all.selectOne(ip|ip.parent = controller and ip.name="In1");
+error.name = "Error";
+var control = Outport.all.selectOne(op|op.parent = controller and op.name="Out1");
+control.name = "Control";
+error.unlink(control);
+error.link(pidController);
+pidController.link(control);
+
+// Plant subsystem
+var transferFcn = new `simulink/Continuous/Transfer Fcn`;
+transferFcn.parent = plant;
+// to be continued
+
+reference.link(sum);
+sum.link(controller);
+controller.link(plant);
+plant.linkTo(sum, 2);
