@@ -12,7 +12,6 @@ package org.eclipse.epsilon.epl.dom;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
@@ -20,10 +19,13 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.epl.combinations.DynamicList;
 import org.eclipse.epsilon.epl.execute.RuntimeExceptionThrower;
 import org.eclipse.epsilon.epl.parse.EplParser;
@@ -31,10 +33,10 @@ import org.eclipse.epsilon.epl.parse.EplParser;
 public class Role extends AbstractModuleElement {
 	
 	protected ArrayList<String> names = new ArrayList<String>();
-	protected AST typeAst;
+	protected TypeExpression typeExpression;
 	protected Domain domain = null;
 	protected ExecutableBlock<Boolean> guard = null;
-	protected EolModelElementType type = null;
+	protected EolType type = null;
 	protected boolean negative;
 	protected Cardinality cardinality = new Cardinality(1, 1);
 	protected ExecutableBlock<Boolean> optionalAst = null;
@@ -50,7 +52,7 @@ public class Role extends AbstractModuleElement {
 		for (AST nameAst : AstUtil.getChildren(cst, EplParser.NAME)) {
 			this.names.add(nameAst.getText());
 		}
-		this.typeAst = AstUtil.getChild(cst, EplParser.TYPE);
+		this.typeExpression = (TypeExpression) module.createAst(AstUtil.getChild(cst, EplParser.TYPE), this);
 		AST domainAst = AstUtil.getChild(cst, EplParser.DOMAIN);
 		if (domainAst != null) {
 			domain = (Domain) module.createAst(domainAst, this);
@@ -120,22 +122,24 @@ public class Role extends AbstractModuleElement {
 		
 		DynamicList<Object> instances = null;
 		
+		if (type == null) {
+			type = (EolType) context.getExecutorFactory().execute(typeExpression, context);
+		}
+		
 		if (domain != null) {
-			instances = domain.getValues(context, typeAst.getText());
+			instances = domain.getValues(context, type);
 		}
 		else {
+			
+			if (!(type instanceof EolModelElementType)) throw new EolRuntimeException(type.getName() + " is not a model element type", typeExpression);
 			
 			instances = new DynamicList<Object>() {
 				@Override
 				protected List<Object> getValues() throws Exception {
 					
 					if (!isActive(context, true)) return NoMatch.asList();
-					
-					if (type == null) {
-						type = new EolModelElementType(typeAst.getText(), context);
-					}
 
-					Collection<?> allInstances = type.getAllOfKind();
+					Collection<?> allInstances = ((EolModelElementType)type).getAllOfKind();
 					if (allInstances instanceof List) {
 						return (List) allInstances;
 					}

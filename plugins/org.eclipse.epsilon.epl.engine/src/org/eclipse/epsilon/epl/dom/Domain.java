@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.epl.combinations.DynamicList;
 
 public class Domain extends ExecutableBlock<Object> {
@@ -34,7 +35,7 @@ public class Domain extends ExecutableBlock<Object> {
 		this.role = role;
 	}
 	
-	public DynamicList<Object> getValues(final IEolContext context, final String type) throws EolRuntimeException {
+	public DynamicList<Object> getValues(final IEolContext context, final EolType type) throws EolRuntimeException {
 		
 		DynamicList<Object> r = new DynamicList<Object>() {
 			@Override
@@ -52,8 +53,8 @@ public class Domain extends ExecutableBlock<Object> {
 				
 				ArrayList<Object> filtered = new ArrayList<Object>();
 				for (Object o : (Collection<?>) result) {
-					IModel owningModel = context.getModelRepository().getOwningModel(o);
-					if (owningModel!=null && owningModel.isOfKind(o, type)) {
+					//IModel owningModel = context.getModelRepository().getOwningModel(o);
+					if (type.isKind(o)) {
 						filtered.add(o);
 					}
 				}
