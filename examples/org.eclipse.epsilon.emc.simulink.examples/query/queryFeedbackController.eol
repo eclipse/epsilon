@@ -1,0 +1,5 @@
+var controller = SubSystem.all.first();
+var plant = SybSystem.all.second();
+
+// Navigate from controller to plant
+controller.outports[0].lines[0].destination.println();
