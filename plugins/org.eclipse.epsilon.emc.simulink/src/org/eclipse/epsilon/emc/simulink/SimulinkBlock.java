@@ -1,10 +1,6 @@
 package org.eclipse.epsilon.emc.simulink;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import javax.swing.text.html.HTMLDocument.BlockElement;
 
 public class SimulinkBlock extends SimulinkElement {
 	

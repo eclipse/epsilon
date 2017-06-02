@@ -19,4 +19,16 @@ public class SimulinkLine extends SimulinkElement {
 				+ "handles = get_param(handle, 'SrcBlockHandle');", this.handle);
 		return model.getBlocks(engine.getVariable("handles"), null).get(0);
 	}
+	
+	public SimulinkPort getDestinationPort() {
+		engine.eval("handle = ? \n "
+				+ "handles = get_param(handle, 'DstPortHandle');", this.handle);
+		return model.getPorts(engine.getVariable("handles")).get(0);
+	}
+	
+	public SimulinkPort getSourcePort() {
+		engine.eval("handle = ? \n "
+				+ "handles = get_param(handle, 'SrcPortHandle');", this.handle);
+		return model.getPorts(engine.getVariable("handles")).get(0);
+	}
 }
