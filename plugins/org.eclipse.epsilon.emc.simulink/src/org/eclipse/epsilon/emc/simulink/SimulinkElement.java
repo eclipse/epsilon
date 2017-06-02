@@ -27,4 +27,9 @@ public abstract class SimulinkElement implements IModelElement {
 		return engine.evalWithSetupAndResult("handle = ?", "get_param (handle, '?')", getHandle(), property);
 	}
 	
+	public SimulinkElement inspect() {
+		engine.eval("handle = ?; inspect(handle);", handle);
+		return this;
+	}
+	
 }

@@ -172,7 +172,7 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> {
 	@Override
 	protected Collection<SimulinkBlock> allContentsFromModel() {
 		try {
-			return getElementsForHandles(engine.evalWithResult("find_system(?, 'FindAll', 'on')", this.handle), null);
+			return getBlocks(engine.evalWithResult("find_system(?, 'FindAll', 'on')", this.handle), null);
 		} catch (Exception e) {
 			return Collections.emptyList();
 		}
@@ -182,7 +182,7 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> {
 	protected Collection<SimulinkBlock> getAllOfTypeFromModel(String type)
 			throws EolModelElementTypeNotFoundException {
 		try {
-			return getElementsForHandles(engine.evalWithResult("find_system('?', 'FindAll', 'on', 'BlockType', '?')", getSimulinkModelName(), type), type);
+			return getBlocks(engine.evalWithResult("find_system('?', 'FindAll', 'on', 'BlockType', '?')", getSimulinkModelName(), type), type);
 		} catch (Exception e) {
 			throw new EolModelElementTypeNotFoundException(this.getName(), type);
 		}
@@ -197,7 +197,11 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> {
 		else return getAllOfTypeFromModel(kind);
 	}
 	
-	protected List<SimulinkBlock> getElementsForHandles(Object handles, String type) {
+	protected List<SimulinkBlock> getBlocks(Object handles) {
+		return getBlocks(handles, null);
+	}
+	
+	public List<SimulinkBlock> getBlocks(Object handles, String type) {
 		if (handles instanceof Double) {
 			handles = new Double[]{(Double) handles};
 		}
@@ -218,6 +222,48 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> {
 		return elements;
 	}
 
+	public List<SimulinkLine> getLines(Object handles) {
+		if (handles instanceof Double) {
+			handles = new Double[]{(Double) handles};
+		}
+		
+		List<SimulinkLine> lines = new ArrayList<SimulinkLine>();
+		
+		if (handles instanceof Double[]) {
+			for (Double handle : (Double[]) handles) {
+				lines.add(new SimulinkLine(this, handle, engine));
+			}
+		}
+		else if (handles instanceof double[]) {
+			for (double handle : (double[]) handles) {
+				lines.add(new SimulinkLine(this, handle, engine));
+			}
+		}
+		
+		return lines;
+	}
+	
+	public List<SimulinkPort> getPorts(Object handles) {
+		if (handles instanceof Double) {
+			handles = new Double[]{(Double) handles};
+		}
+		
+		List<SimulinkPort> ports = new ArrayList<SimulinkPort>();
+		
+		if (handles instanceof Double[]) {
+			for (Double handle : (Double[]) handles) {
+				ports.add(new SimulinkPort(this, handle, engine));
+			}
+		}
+		else if (handles instanceof double[]) {
+			for (double handle : (double[]) handles) {
+				ports.add(new SimulinkPort(this, handle, engine));
+			}
+		}
+		
+		return ports;
+	}
+	
 	@Override
 	protected void disposeModel() {
 		MatlabEnginePool.getInstance(libraryPath, engineJarPath).release(engine);

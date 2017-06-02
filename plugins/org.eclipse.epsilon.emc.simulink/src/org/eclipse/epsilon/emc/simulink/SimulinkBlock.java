@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.emc.simulink;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -140,21 +141,17 @@ public class SimulinkBlock extends SimulinkElement {
 		return getPath();
 	}
 	
-	public List<BlockElement> getNext() {
-		
-		try {
-			// engine.eval("handle = ? \n pc = get_param(handle, 'PortConnectivity') \n dstBlock = pc.SrcBlock", this.handle);
-			engine.eval("handle = ? \n ph = get_param(handle, 'PortHandles') \n "
-					+ "line = get_param(ph.Outport(1), 'Line') \n inspect(line)"
-					+ "lc = get_param(line, 'LineChildren')", this.handle);
-			System.out.println("Line:" + engine.getVariable("line"));
-		}
-		catch (Throwable t) {
-			t.printStackTrace();
-		}
-		
-		return Collections.emptyList();
-		
+	public List<SimulinkPort> getOutports() {
+		engine.eval("handle = ? \n ph = get_param(handle, 'PortHandles') \n "
+				+ "handles = ph.Outport;", this.handle);
+		return model.getPorts(engine.getVariable("handles"));
 	}
+
+	public List<SimulinkPort> getInports() {
+		engine.eval("handle = ? \n ph = get_param(handle, 'PortHandles') \n "
+				+ "handles = ph.Inport;", this.handle);
+		return model.getPorts(engine.getVariable("handles"));
+	}
+	
 	
 }
