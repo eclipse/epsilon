@@ -67,7 +67,7 @@ public class ModelRepository {
 		}
 		
 		for (IModel model : models){
-			if (model.getName().equals(modelName)){
+			if (modelName.equals(model.getName())){
 				return model;
 			} 
 		}
