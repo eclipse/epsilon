@@ -149,5 +149,18 @@ public class SimulinkBlock extends SimulinkElement {
 		return model.getPorts(engine.getVariable("handles"));
 	}
 	
+	public void setScript(String script) {
+		System.out.println("CALLED!!!");
+		engine.eval("sf = sfroot();\n" +
+				"block = sf.find('Path','?','-isa','Stateflow.EMChart');\n" +
+				"block.Script = sprintf('?');", getPath(), script);
+	}
+	
+	public String getScript() {
+		engine.eval("sf = sfroot();\n" +
+				"block = sf.find('Path','?','-isa','Stateflow.EMChart');\n" +
+				"script = string(block.Script)", getPath());
+		return engine.getVariable("script") + "";
+	}
 	
 }

@@ -1,6 +1,5 @@
 package org.eclipse.epsilon.emc.simulink;
 
-import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 
@@ -25,7 +24,7 @@ public class SimulinkPropertySetter extends JavaPropertySetter {
 			engine.eval("handle = ? \n set_param (handle, '?', '?')", element.getHandle(), property, value);
 		}
 		catch (Exception ex) {
-			throw new EolInternalException(ex);
+			super.invoke(value);
 		}
 	}
 	

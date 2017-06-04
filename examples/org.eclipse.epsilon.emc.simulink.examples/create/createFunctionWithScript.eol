@@ -1,0 +1,11 @@
+var multiply = new `simulink/User-Defined Functions/MATLAB Function`;
+multiply.name = "Multiply";
+multiply.script = "function y = fcn(x) \\n y = 2 * x;";
+multiply.position = "[100 100 180 160]";
+
+var divide = new `simulink/User-Defined Functions/MATLAB Function`;
+divide.name = "Divide";
+divide.script = "function x = fcn(y) \\n x = y / 2;";
+divide.position = "[250 100 330 160]";
+
+multiply.link(divide);
