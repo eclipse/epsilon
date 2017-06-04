@@ -37,6 +37,14 @@ public class SimulinkModelTests {
 			"assert(s1.parent = null);");
 	}
 	
+	@Test
+	public void createFunctionAndSetScript() {
+		run("var f = new `simulink/User-Defined Functions/MATLAB Function`;" +
+			"var script = 'function y = fcn(x) \\\n y = x;';" +
+			"f.script = script;" +
+			"assert(f.script = script);");
+	}
+	
 	protected void run(String eol) {
 		SimulinkModel model = null;
 		
