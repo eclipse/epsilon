@@ -150,7 +150,6 @@ public class SimulinkBlock extends SimulinkElement {
 	}
 	
 	public void setScript(String script) {
-		System.out.println("CALLED!!!");
 		engine.eval("sf = sfroot();\n" +
 				"block = sf.find('Path','?','-isa','Stateflow.EMChart');\n" +
 				"block.Script = sprintf('?');", getPath(), script);

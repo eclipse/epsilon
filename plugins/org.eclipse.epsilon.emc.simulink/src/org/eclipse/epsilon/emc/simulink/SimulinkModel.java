@@ -272,7 +272,7 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> {
 	@Override
 	protected boolean deleteElementInModel(Object instance) throws EolRuntimeException {
 		try {
-			engine.eval("handle = ? \n delete_block (handle)", ((SimulinkBlock) instance).getHandle());
+			engine.eval("handle = ? \n delete_block (handle)", ((SimulinkElement) instance).getHandle());
 			return true;
 		} catch (Exception e) {
 			throw new EolInternalException(e);
