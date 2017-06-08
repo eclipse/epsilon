@@ -7,7 +7,7 @@ post {
 	var inports = topActivity.ownedNode.select(n|n.isIn());
 	
 	// Create constants for inputs
-	for (i in Sequence{1..inports.size().println()}) {
+	for (i in Sequence{1..inports.size()}) {
 		var constant : new Simulink!`simulink/Sources/Constant`;
 		constant.link(topBlock, 1, i);
 	}
@@ -110,6 +110,7 @@ rule ControlFlow2Link
 }
 
 operation deleteAutoPorts() {
+	// Delete all the auto-generated ports in subsystems
 	delete Simulink!Inport.all.select(p|p.name = "In1").outports.flatten().lines.flatten();
 	delete Simulink!Inport.all.select(p|p.name = "In1");
 	delete Simulink!Outport.all.select(p|p.name = "Out1");
