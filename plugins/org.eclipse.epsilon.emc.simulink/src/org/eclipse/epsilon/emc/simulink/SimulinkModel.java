@@ -118,7 +118,8 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> {
 
 	@Override
 	public String getTypeNameOf(Object instance) {
-		return ((SimulinkBlock) instance).getType();
+		if (instance instanceof SimulinkBlock) return ((SimulinkBlock) instance).getType();
+		else return instance.getClass().getSimpleName().replace("Simulink", "");
 	}
 
 	@Override
@@ -272,7 +273,12 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> {
 	@Override
 	protected boolean deleteElementInModel(Object instance) throws EolRuntimeException {
 		try {
-			engine.eval("handle = ? \n delete_block (handle)", ((SimulinkElement) instance).getHandle());
+			if (instance instanceof SimulinkLine) {
+				engine.eval("handle = ? \n delete_line (handle)", ((SimulinkElement) instance).getHandle());
+			}
+			else {
+				engine.eval("handle = ? \n delete_block (handle)", ((SimulinkElement) instance).getHandle());
+			}
 			return true;
 		} catch (Exception e) {
 			throw new EolInternalException(e);
@@ -286,7 +292,8 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> {
 
 	@Override
 	protected Collection<String> getAllTypeNamesOf(Object instance) {
-		return Arrays.asList("Block", ((SimulinkBlock)instance).getType());
+		if (instance instanceof SimulinkBlock) return Arrays.asList("Block", ((SimulinkBlock)instance).getType());
+		else return Arrays.asList(getTypeNameOf(instance));
 	}
 	
 	@Override
