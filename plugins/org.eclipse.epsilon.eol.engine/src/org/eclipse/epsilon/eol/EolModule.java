@@ -426,7 +426,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 		for (Operation operation : getDeclaredOperations()) {
 			operation.compile(context);
 		}
-		main.compile(context);
+		if (main != null) main.compile(context);
 		return context.getMarkers();
 	}
 	
