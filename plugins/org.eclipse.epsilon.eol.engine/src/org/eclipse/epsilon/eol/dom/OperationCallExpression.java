@@ -81,16 +81,19 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 		
 		// Operation contributor for model elements
-		OperationContributor modelOperationContributor = null;
-		if (owningModel != null && owningModel instanceof IOperationContributorProvider) {
-			modelOperationContributor = ((IOperationContributorProvider) owningModel).getOperationContributor();
+		OperationContributor operationContributor = null;
+		if (targetObject instanceof IOperationContributorProvider) {
+			operationContributor = ((IOperationContributorProvider) targetObject).getOperationContributor();
+		}
+		else if (owningModel != null && owningModel instanceof IOperationContributorProvider) {
+			operationContributor = ((IOperationContributorProvider) owningModel).getOperationContributor();
 		}
 		
 		// Method contributors that use the unevaluated AST
 		ObjectMethod objectMethod = null;
 		
-		if (modelOperationContributor != null) {
-			objectMethod = modelOperationContributor.findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
+		if (operationContributor != null) {
+			objectMethod = operationContributor.findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
 		}
 		if (objectMethod == null) {
 			objectMethod = context.getOperationContributorRegistry().findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
@@ -115,8 +118,8 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 		
 		// Method contributors that use the evaluated parameters
-		if (modelOperationContributor != null) {
-			objectMethod = modelOperationContributor.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context);
+		if (operationContributor != null) {
+			objectMethod = operationContributor.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context);
 		}
 		
 		if (objectMethod == null) {
