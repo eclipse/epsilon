@@ -162,4 +162,8 @@ public class OperationCallExpression extends FeatureCallExpression {
 	public List<Expression> getParameterExpressions() {
 		return parameterExpressions;
 	}
+	
+	public NameExpression getNameExpression() {
+		return nameExpression;
+	}
 }
