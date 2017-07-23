@@ -98,7 +98,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 		if (ast instanceof OperationCallExpression) {
 			try {
 				OperationCallExpression operationCallExpression = (OperationCallExpression) ast;
-				int linkOffset = doc.getLineOffset(ast.getRegion().getStart().getLine()-1) + ast.getRegion().getStart().getColumn();
+				int linkOffset = doc.getLineOffset(operationCallExpression.getNameExpression().getRegion().getStart().getLine()-1) + operationCallExpression.getNameExpression().getRegion().getStart().getColumn();
 				astRegions.put(operationCallExpression, new Region(linkOffset, operationCallExpression.getOperationName().length()));
 			} catch (BadLocationException e) { }
 		}
