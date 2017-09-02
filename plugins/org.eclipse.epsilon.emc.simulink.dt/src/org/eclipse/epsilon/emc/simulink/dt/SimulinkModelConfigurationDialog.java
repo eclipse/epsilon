@@ -52,7 +52,7 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 		
 		browseModelFile = new Button(groupContent, SWT.NONE);
 		browseModelFile.setText("Browse Workspace...");
-		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(fileText, "XML Documents in the workspace", "Select an XML document"));
+		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(fileText, "Simulink models in the workspace", "Select a Simulink model"));
 		
 		groupContent.layout();
 		groupContent.pack();
