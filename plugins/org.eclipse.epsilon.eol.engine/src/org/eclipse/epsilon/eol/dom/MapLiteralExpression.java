@@ -37,7 +37,7 @@ public class MapLiteralExpression extends Expression {
 
 		for (KeyValueExpressionPair keyValueExpressionPair : keyValueExpressionPairs) {
 			final Object key = context.getExecutorFactory().execute(keyValueExpressionPair.getKey(), context);
-			final Object val = context.getExecutorFactory().execute(keyValueExpressionPair.getValuel(), context);
+			final Object val = context.getExecutorFactory().execute(keyValueExpressionPair.getValue(), context);
 			map.put(key, val);
 		}
 
@@ -52,20 +52,20 @@ public class MapLiteralExpression extends Expression {
 	class KeyValueExpressionPair {
 		
 		protected Expression key;
-		protected Expression valuel;
+		protected Expression value;
 		
-		public KeyValueExpressionPair(Expression key, Expression valuel) {
+		public KeyValueExpressionPair(Expression key, Expression value) {
 			super();
 			this.key = key;
-			this.valuel = valuel;
+			this.value = value;
 		}
 
 		public Expression getKey() {
 			return key;
 		}
 		
-		public Expression getValuel() {
-			return valuel;
+		public Expression getValue() {
+			return value;
 		}
 		
 	}
