@@ -18,11 +18,6 @@ public class MatlabEngine {
 		}
 	}
 	
-	public Object evalWithResult(String cmd) throws Exception {
-		eval("result = " + cmd);
-		return getVariable("result");
-	}
-	
 	public Object evalWithSetupAndResult(String setup, String cmd, Object... parameters) {
 		eval(setup + "\n" + "result = " + cmd, parameters);
 		try {
@@ -49,7 +44,7 @@ public class MatlabEngine {
 		
 		cmd = parts[0];
 		for (int i=0; i<parameters.length; i++) {
-			cmd += String.valueOf(parameters[i]).replace("'", "''") + parts[i+1];
+			cmd += String.valueOf(parameters[i]).replace("'", "''").replace("\n", "\\n") + parts[i+1];
 		}
 		cmd = cmd.substring(1, cmd.length()-1);
 		try {
