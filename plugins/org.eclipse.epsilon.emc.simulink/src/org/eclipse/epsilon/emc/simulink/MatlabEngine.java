@@ -18,6 +18,11 @@ public class MatlabEngine {
 		}
 	}
 	
+	public Object evalWithResult(String cmd) throws Exception {
+		eval("result = " + cmd);
+		return getVariable("result");
+	}
+	
 	public Object evalWithSetupAndResult(String setup, String cmd, Object... parameters) {
 		eval(setup + "\n" + "result = " + cmd, parameters);
 		try {
