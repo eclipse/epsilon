@@ -36,6 +36,10 @@ public abstract class OperationContributor {
 	}
 
 	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context) {
+		return findContributedMethodForEvaluatedParameters(target, name, parameters, context, true);
+	}
+	
+	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context, boolean overrideContextOperationContributorRegistry) {
 		Method method = getObjectMethodFor(target, name, parameters, true);
 		return createObjectMethod(target, method, context);
 	}

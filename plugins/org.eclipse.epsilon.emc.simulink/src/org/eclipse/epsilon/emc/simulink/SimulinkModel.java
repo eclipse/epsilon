@@ -16,10 +16,12 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
+import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
-public class SimulinkModel extends CachedModel<SimulinkBlock> {
+public class SimulinkModel extends CachedModel<SimulinkBlock> implements IOperationContributorProvider {
 	
 	protected File file = null;
 	protected MatlabEngine engine;
@@ -28,6 +30,7 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> {
 	protected String libraryPath;
 	protected String engineJarPath;
 	protected double handle = -1;
+	protected SimulinkOperationContributor simulinkOperationContributor;
 	
 	public static String PROPERTY_FILE = "file";
 	public static String PROPERTY_LIBRARY_PATH = "library_path";
@@ -82,6 +85,8 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> {
 	protected void loadModel() throws EolModelLoadingException {
 		try {
 			engine = MatlabEnginePool.getInstance(libraryPath, engineJarPath).getMatlabEngine();
+			simulinkOperationContributor = new SimulinkOperationContributor(engine);
+			
 			if (readOnLoad) {
 				// TODO: Add a flag for using the invisible load_system instead
 				engine.eval("open_system " + file.getAbsolutePath());
@@ -198,7 +203,7 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> {
 		else return getAllOfTypeFromModel(kind);
 	}
 	
-	protected List<SimulinkBlock> getBlocks(Object handles) {
+	public List<SimulinkBlock> getBlocks(Object handles) {
 		return getBlocks(handles, null);
 	}
 	
@@ -341,6 +346,11 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> {
 
 	public void setEngineJarPath(String engineJarPath) {
 		this.engineJarPath = engineJarPath;
+	}
+
+	@Override
+	public OperationContributor getOperationContributor() {
+		return simulinkOperationContributor;
 	}
 	
 	

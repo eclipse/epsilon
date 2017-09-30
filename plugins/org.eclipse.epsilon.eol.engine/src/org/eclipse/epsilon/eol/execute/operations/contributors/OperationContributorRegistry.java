@@ -90,7 +90,7 @@ public class OperationContributorRegistry {
 	 */
 	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context) {
 		for (OperationContributor c : getOperationContributorsFor(target)) {
-			ObjectMethod objectMethod = c.findContributedMethodForEvaluatedParameters(target, name, parameters, context);
+			ObjectMethod objectMethod = c.findContributedMethodForEvaluatedParameters(target, name, parameters, context, false);
 			if (objectMethod != null) return objectMethod;
 		}
 

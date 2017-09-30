@@ -119,12 +119,19 @@ public class OperationCallExpression extends FeatureCallExpression {
 		
 		// Method contributors that use the evaluated parameters
 		if (operationContributor != null) {
-			objectMethod = operationContributor.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context);
+			// Try contributors that override the context's operation contributor registry
+			objectMethod = operationContributor.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context, true);
 		}
 		
 		if (objectMethod == null) {
 			objectMethod = context.getOperationContributorRegistry().findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context);
 		}
+		
+		/*
+		if (operationContributor != null && objectMethod == null) {
+			// Try contributors that do not override the context's operation contributor registry
+			objectMethod = operationContributor.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context, false);
+		}*/
 		
 		if (objectMethod != null) {
 			return wrap(objectMethod.execute(parameterValues.toArray(), nameExpression));
