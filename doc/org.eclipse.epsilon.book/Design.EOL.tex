@@ -428,7 +428,7 @@ Also, EOL collections support the following first-order operations:
 
     aggregate(iterator : Type $|$ keyExpression, valueExpression) : Map & Returns a map containing key-value pairs produced by evaluating the key and value expressions on each item of the collection that is of the specified type \\\hline
     
-    closure(iterator : Type $|$ expression) : Collection & Returns a collection containing the results of evaluating the transitive closure of the results produced by the expression on each item of the collection that is of the specified type \\\hline
+    closure(iterator : Type $|$ expression) : Collection & Returns a collection containing the results of evaluating the transitive closure of the results produced by the expression on each item of the collection that is of the specified type. For example, if \emph{t} is a tree model element, \emph{t.closure(it|it.children)} will return all its descendants \\\hline
     
     collect(iterator : Type $|$ expression) : Collection &  Returns a collection containing the results of evaluating the expression on each item of the collection that is of the specified type \\\hline
     
