@@ -1,4 +1,4 @@
-\chapter{The Epsilon Model Generation Language (EMG)}
+\chapter{The Epsilon Model Generation (EMG)}
 \label{sec:EMG}
 
 \section{Background and Motivation}
@@ -17,8 +17,8 @@ The model generation approaches found in literature provide fully-automated beha
 The Epsilon Model Generation follows a semi-automated generation approach. There are three main tasks in model generation:
 \begin{itemize}
     \item Create instances of types in the metamodel(s).
-    \item Assign values to the instance's attributes (type properties types by primitive types: String, Integer, etc.).
-    \item Create links between instances to assign values to references (type properties typed by complex types: other types in the metamodel). 
+    \item Assign values to the instance's attributes (properties typed by primitive types: String, Integer, etc.).
+    \item Create links between instances to assign values to references (properties typed by complex types: other types in the metamodel). 
 \end{itemize}
 
 In the semi-automated approach, all of these tasks can be configured to execute statically or dynamically (with randomness). Statically, the user must specify every single aspect of the generation. Dynamically, for example, the number of instances to create of a given type can be random, or the value of a given attribute can be set to random values, or the links between elements can be done between random pairs of elements. The combination of random and static definition of the generation tasks allows the user to generate models that can satisfy complex constraints, guarantee additional characteristics and exercise particular aspects of the program under test.  
@@ -30,9 +30,9 @@ This chapter discusses the concrete syntax of EMG as well as its execution seman
 The EMG language does not provide additional syntax. Instead it provides a set of predefined annotations that can be added to EOL operations and EPL patterns in order to perform the model generation. The predefined EOL operation annotations are:
 
 \begin{description}
-    \item[instances] Defines the number of instances to create. This annotation accepts one parameter. The parameter can be an expression that resolves to an Integer (e.g. literal, variable name, etc.)  or a sequence in the form \texttt{Sequence \{min, max\}}). An integer value statically defines how many instances are to be created. A sequence defines a range that is used by the engine to generates a random number of instances \emph{n}, with $min \le n \le max$.
+    \item[instances] Defines the number of instances to create. This annotation accepts one parameter. The parameter can be an expression that resolves to an Integer (e.g. literal, variable name, etc.)  or a sequence in the form \texttt{Sequence \{min, max\}}). An integer value statically defines how many instances are to be created. A sequence defines a range that is used by the engine to generates a random number \emph{n} of instances, with $min \le n \le max$.
     \item[list] Defines an identifier (listID) for a placeholder list for the elements created. This annotation accepts one parameter. The parameter is the identifier (String) that can later be used in operations that accept it as an argument in order to access the elements created by the operation. 
-    \item[parameters] If the instantiated type accepts/needs arguments for instantiation, the parameters annotation can be used to provide them. This annotation accepts one parameter. The parameter must be a Sequence that contains the desired arguments. 
+    \item[parameters] If the instantiated type accepts/needs arguments for instantiation, the parameters annotation can be used to provide them. This annotation accepts one parameter. The parameter must be a Sequence that contains the desired arguments in the order expected by the constructor. 
 \end{description}
 
 All three annotations are executable and hence must be prefixed with a \$ symbol when used. Further, these annotations are only evaluated on \emph{create} operations (see Section \ref{sec:emg.createElements}). 
@@ -40,7 +40,7 @@ All three annotations are executable and hence must be prefixed with a \$ symbol
 The EPL pattern annotations are:
 
 \begin{description}
-    \item[number] This limits the number of times the pattern is match, to constraint the number of links crated between elements. This annotation accepts one parameter. The parameter can be an expression that resolves to an Integer (e.g. literal, variable name, etc.)  or a sequence in the form \texttt{Sequence \{min, max\}}). An integer value statically defines how many instances are to be created. A sequence defines a range that is used by the engine to generates a random number of instances \emph{n}, with $min \le n \le max$.
+    \item[number] This limits the number of times the pattern is matched, to constraint the number of links crated between elements. This annotation accepts one parameter. The parameter can be an expression that resolves to an Integer (e.g. literal, variable name, etc.)  or a sequence in the form \texttt{Sequence \{min, max\}}). An integer value statically defines how many instances are to be created. A sequence defines a range that is used by the engine to generates a random number \emph{n} of instances, with $min \le n \le max$.
     \item[probability] This defines the probability that the body of the pattern will be executed for a matching set of elements. The effect is that not all matching elements are linked. Effectively this also limits the number of times links are created.  
     \item[noRepeat] This forbids previous matched elements to be re-linked. 
 \end{description}
@@ -51,55 +51,66 @@ Additionally the EMG engine provides a set of predefined operations that provide
 
 \subsection{EMG predefined  operations}
 \begin{longtabu} {|p{6.5cm}|X|}
-	\caption{Operations of type Any}
+	\caption{Emg data generation operations}
 	\label{tab:EmgOperations}\\
 	\hline
 	\textbf{Signature} & \textbf{Description} \\\hline
 	
 	nextAddTo(n : Integer, m : Integer): Sequence(Integer)  & Returns a sequence of n integers who's sum is equal to m. \\\hline
+    
+    nextBoolean()	 & Returns the next pseudorandom, uniformly distributed \texttt{boolean} value.\\\hline
+    
+	nextCamelCaseWords(charSet : String, length : Integer, minWordLength : Integer) : String & Generates a string of the given length formatted as CamelCase, with subwords of a minimum length of the minWordLength argument, using characters from the given charSet (see \ref{sec:emg.charsets}).\\\hline
 	
-	nextBinomialValue(numberOfTrials : Integer, probabilityOfSuccess : Double) : Double & Generates a random value from the Binomial Distribution (defined by the given arguments) \\\hline
-
-	nextCamelCaseString(length : Integer, minWordLength : Integer) : String & Generates a random String of the given length formatted as CamelCase, with subwords of a minimum length of the minWordLength argument. Characters are picked from the LETTER set using a uniform distribution (see \ref{sec:emg.charsets}).\\\hline
+	nextCapitalisedWord(charSet : String, length : Integer) : String & Generate a Capitalized string of the given length using characters from the given charSet (see \ref{sec:emg.charsets}).\\\hline
 	
-	nextCapitalisedString(charSet : String, length : Integer) : String & Generate a Capitalized string of the given length using characters from the given charSet (see \ref{sec:emg.charsets}).\\\hline
+	nextFromCollection(c : Sequence) : Any & Returns the next \texttt{object} from the collection, selected pseudoramdomly using the uniform distribution. If the collection is empty, returns null.\\\hline
 	
-	nextDobule(upper : Double) : Double & Returns a pseudorandom, uniformly distributed double value between 0 (inclusive) and the given argument (exclusive).\\\hline
-	
-	nextDobule(lower: Double, upper : Double) : Double & Returns a pseudorandom, uniformly distributed double value between lower and upper (endpoints included). \\\hline
-	
-	nextDobule() : Double & Returns the next pseudorandom, uniformly distributed double value between 0.0 and 1.0. \\\hline
-	
-	nextExponentialValue(mean : Double) : Double & Generates a random value from the exponential distribution with specified mean.\\\hline
-	
-	nextFromCollection(c : Sequence) : Any & Returns a single object selected randomly from the Collection c using a uniform distribution.\\\hline
-	
-	nextFromList(listID : String) : Any & Returns a single objects selected randomly from the list identified by the listID argument using a uniform distribution. The listID can either be a name defined by the @list annotation or a parameter name fro the run configuration.  In the latter case, the parameter value can be either a comma separated string or a file path. If it is a comma separated string, then a list is created by splitting the string, if the value is a path, then the file will be read and each line will be treated as a list element. \\\hline
+	nextFromList(listID : String) : Any & Returns the next \texttt{object} from the list, selected pseudoramdomly using the uniform distribution. If the list is empty, returns null. The \emph{listID} can either be a name defined by the @list annotation or a parameter name from the run configuration.  In the latter case, the parameter value can be either a comma separated string or a file path. If it is a comma separated string, then a list is created by splitting the string, if the value is a path, then the file will be read and each line will be treated as a list element. \\\hline
 	
 	nextFromListAsSample(listID : String) : Any & Same as nextFromList, but in this case the list is treated as a sample without replacement, i.e. each call will return a unique member of the list.\\\hline
 	
 	nextHttpURI(addPort : Boolean, addPath : Boolean, addQuery : Boolean, addFragment : Boolean) : String & Generates a random URI that complies to http:[//host[:port]][/]path [?query][\#fragment]. The path, query and fragment parts are optional and will be added if the respective argument is True.\\\hline
+    
+    nextInt() : Integer & Returns the next pseudorandom, uniformly distributed integer. All $2^{32}$ possible integer values should be produced with (approximately) equal probability.\\\hline
 	
-	nextInteger(upper : Integer) : Integer & Returns a pseudorandom, uniformly distributed integer value between 0 (inclusive) and the given argument (exclusive).\\\hline
+	nextInt(upper : Integer) : Integer & Returns a pseudorandom, uniformly distributed integer value between 0 (inclusive) and \emph{upper} (exclusive). The argument must be positive.\\\hline
 	
-	nextInteger(lower: Integer, upper : Integer) : Integer & Returns a pseudorandom, uniformly distributed integer value between lower and upper (endpoints included).\\\hline
+	nextInt(lower: Integer, upper : Integer) : Integer & Returns a pseudorandom, uniformly distributed integer value between lower and upper (endpoints included). The arguments must be positive and $upper => lower$.\\\hline
+    
+    nextReal() : Real & Returns the next pseudorandom, uniformly distributed \texttt{real} value between $0.0$ and $1.0$.\\\hline
+    
+    nextReal(upper : Real) : Real & Returns the next pseudorandom, uniformly distributed \texttt{real} value between $0.0$ and \emph{upper} (inclusive).\\\hline
+    
+    nextReal(lower: Real, upper : Real) : Real & Returns a pseudorandom, uniformly distributed \texttt{real} value between \emph{lower} and \emph{upper} (endpoints included),.\\\hline
+    
+	nextSample(c : Sequence, k : Integer) : Sequence(Any) & Returns a Sequence of $k$ objects selected randomly from the Sequence $c$ using a uniform distribution.  Sampling from $c$ is without replacement; but if c contains identical objects, the sample may include repeats. If all elements of $c$ are distinct, the resulting object collection represents a Simple Random Sample of size $k$ from the elements of $c$.\\\hline
 	
-	nextSample(c : Sequence, k : Integer) : Sequence(Any) & Returns a Sequence of k objects selected randomly from the Sequence c using a uniform distribution.  Sampling from c is without replacement; but if c contains identical objects, the sample may include repeats. If all elements of c are distinct, the resulting object collection represents a Simple Random Sample of size k from the elements of c.\\\hline
+	nextSample(listID : String, k : Integer) : Sequence(Any) & Same as nextSample but the sequence is referenced by \emph{listID}. The \emph{listID} has the same meanings as for operation \emph{nextFromList}.\\\hline
 	
-	nextSample(listID : String, k : Integer) : Sequence(Any) & Same as nextSample for a Sequence but the sequence is found using the provided listID. The listID has the same meanings as for operation \emph{nextFromList}.\\\hline
+    nextString() : String &  Returns the next string made up from characters of the \texttt{LETTER} character set (see \ref{sec:emg.charsets}), pseudorandomly selected with a uniform distribution. The length of the string is between 4 and 10 characters.\\\hline
+    
+    nextString(length : Integer) : String &  Returns the next String made up from characters of the \texttt{LETTER} character set (see \ref{sec:emg.charsets}), pseudorandomly selected with a uniform distribution. The length of the String is equal to \emph{length}.\\\hline
+    
+	nextString(charSet : String, length : Integer) : String &  Returns the next  String of the given \emph{length} using the specified character set (see \ref{sec:emg.charsets}) , pseudorandomly selected with a uniform distribution.\\\hline
 	
-	nextString(charSet : String, length : Integer) : String &  Generates a random string of the given length using the specified character set (see \ref{sec:emg.charsets}) . Characters are picked from the set using a uniform distribution.\\\hline
+	nextURI() : String & Generates a random URI that complies to: scheme:[//[user:password\@]host[:port]][/]path [?query][\#fragment]. The port, path, query and fragment are added randomly. The scheme is randomly selected from:  http, ssh and ftp. For ssh and ftp, a user and pasword are randomly generated.  The host is generated from a random string and uses a top-level domain. The number of paths and queries are random between 1 and 4.\\\hline
 	
-	nextURI() : String & Generates a random URI. The port, path, query and fragment are added randomly.\\\hline
+	nextURI(addPort : Boolean, addPath : Boolean, addQuery : Boolean, addFragment : Boolean) : String & Same as nextURI, but the given arguments control what additional port, path, query and fragment information is added.\\\hline
+    
+    nextUUID() : String & Returns a type 4 (pseudo randomly generated) UUID. The UUID is generated using a cryptographically strong pseudo random number generator.\\\hline
 	
-	nextURI(addPort : Boolean, addPath : Boolean, addQuery : Boolean, addFragment : Boolean) : String & Generates a random URI that complies to: scheme:[//[user:password\@]host[:port]][/]path [?query][\#fragment]. The port, path, query and fragment parts are optional and will be added if the respective argument is True.\\\hline
-	
-	nextValue() : Double & Returns the next pseudorandom value, picked from the configured distribution (by default the uniform distribution is used).\\\hline	
+	nextValue() : Real & Returns the next pseudorandom value, picked from the configured distribution (by default the uniform distribution is used).\\\hline
+    
+    nextValue(d : String, p : Sequence) : Real & Returns the next pseudorandom, from the provided distribution $d$. The parameters $p$ are used to configure the distribution (if required). The supported distributions are: Binomial, Exponential and Uniform.  For Binomial parameters are: numberOfTrials and probabilityOfSuccess. For Exponential the mean. For Uniform the lower and upper values (lower inclusive).\\\hline
+    
+    setNextValueDistribution(d : String, p : Sequence)  & Define the distribution to use for calls to \emph{nextValue()}. Parameters are the same as for nextValue(d, p). \\\hline
+    
 \end{longtabu}
 
 \subsubsection{Character Sets for String operations}\label{sec:emg.charsets}
 
-For the operations that accept a character set, the supported sets are defines as follows:
+For the operations that accept a character set, the supported sets are defined as follows:
 \begin{longtabu} {|p{6.5cm}|X|}
 \caption{Operations of type Any}
 \label{tab:charsets}\\
@@ -139,18 +150,18 @@ pre {
 $instances 1
 @list net
 operation PetriNet create() {
-    self.name = nextCamelCaseString(15, 10);
+    self.name = nextCamelCaseWords("LETTER_LOWER", 15, 10);
 }
 
 $instances num_p
 operation Place create() {
-    self.name = "P_" + nextString("lower", 15);
+    self.name = "P_" + nextString("LETTER_LOWER", 15);
     nextFromList("net").transitions.add(self);
 }
 
 $instances num_p / 2
 operation Transition create() {
-    self.name = "T_" + nextString("lower", 15);
+    self.name = "T_" + nextString("LETTER_LOWER", 15);
     nextFromList("net").transitions.add(self);
 }
 \end{lstlisting}
@@ -159,7 +170,7 @@ operation Transition create() {
 
 In the previous section, the \emph{places} and \emph{transitions} references of the PetriNet were defined during the creation of the Place and Transition elements. For more complex reference patterns, EMG leverage the use of EPL patterns. For example, Arcs can have complex constraints in order to determine the source and target transition/place, and possibly even having separate rules for each type of Arc.
 
-The EPL pattern in Listing \ref{lst:emg.match} creates two arcs in order to connect a source and a target Place via a Transition. The pattern matches all transitions in a given PetriNet.  The pattern body selects a random Place for the source and a random Place for the target (the while loops are used to pick places that have the lowest incoming/outgoing arcs possible). The weight of the arc is generated randomly from 0 to 10 (\emph{nextInteger(10)}). The pattern has been annotated with the @probability annotation which will effectively only use 70\% of the transitions to create arcs (i.e. of all the possible PetriNet-Transition matches, the code of the pattern will only be executed with a probability of 0.70).
+The EPL pattern in Listing \ref{lst:emg.match} creates two arcs in order to connect a source and a target Place via a Transition. The pattern matches all transitions in a given PetriNet.  The pattern body selects a random Place for the source and a random Place for the target (the while loops are used to pick places that have the lowest incoming/outgoing arcs possible). The weight of the arc is generated randomly from 0 to 10 (\emph{nextInt(10)}). The pattern has been annotated with the @probability annotation which will effectively only use 70\% of the transitions to create arcs (i.e. of all the possible PetriNet-Transition matches, the code of the pattern will only be executed with a probability of 0.70).
 
 \begin{lstlisting}[float=h, caption={EMG create operations}, label=lst:emg.match, language=EPL]
 @probability 0.7
@@ -183,13 +194,13 @@ from: net.transitions {
         var source = nextFromCollection(freeSources);
         var target = nextFromCollection(freeTarget);
         var a1:Arc = new PlaceToTransArc();
-        a1.weight = nextInteger(10);
+        a1.weight = nextInt(10);
         a1.source = source;
         net.places.add(source);
         a1.target = tra;
         net.arcs.add(a1);
         var a2:Arc = new TransToPlaceArc();
-        a1.weight = nextInteger(10);
+        a1.weight = nextInt(10);
         a2.source = tra;
         a2.target = target;
         net.places.add(target);
@@ -216,7 +227,7 @@ operation Place create() {
 If it is a file path, then each line of the file will be loaded as an item to the Collection. Note that the distinction between paths and comma separated values is the assumption that paths don't contain commas.
 
 \subsection{Values as a model}
-A more powerful approach would be to use an existing model to serve as the source for attribute values. Given that there are several websites\footnote{https://www.mockaroo.com/, https://www.generatedata.com/, www.freedatagenerator.com/, etc.} to generate random data in the form of CSV files, we recommend the use of a CSV model to serve as an attribute value source. A CSV file with \emph{name}, \emph{lastName}, and \emph{email} can be easily generated and loaded as a second model the the EMG script. Then, a Row of data can be picked randomly to set an element's attributes Listing \ref{lst:emg.datamode} shows this approach.
+A more powerful approach would be to use an existing model to serve as the source for attribute values. Given that there are several websites\footnote{https://www.mockaroo.com/, https://www.generatedata.com/, www.freedatagenerator.com/, etc.} to generate random data in the form of CSV files, we recommend the use of a CSV model to serve as an attribute value source. A CSV file with \emph{name}, \emph{lastName}, and \emph{email} can be easily generated and loaded as a second model the the EMG script. Then, a Row of data can be picked randomly to set an element's attributes. Listing \ref{lst:emg.datamode} shows this approach.
 
 \begin{lstlisting}[float=h, caption={EMG create operations}, label=lst:emg.datamode, language=EOL]
 $instances num_p
