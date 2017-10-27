@@ -82,6 +82,59 @@ public class PatternMatcher {
 		
 		context.getFrameStack().enterLocal(FrameType.PROTECTED, pattern);
 		
+		CompositeCombinationGenerator<Object> generator = initGenerator(pattern, context);
+		
+		while (generator.hasMore()) {
+			
+			List<List<Object>> candidate = generator.getNext();
+			populateFrame(pattern, context, candidate);
+			boolean matches = getMatchResult(pattern, context);
+			if (matches) { 
+				context.getExecutorFactory().execute(pattern.getOnMatch(), context);
+				patternMatches.add(createPatternMatch(pattern, candidate));
+			}
+			else {
+				context.getExecutorFactory().execute(pattern.getNoMatch(), context);
+			}
+			context.getFrameStack().leaveLocal(pattern);
+			
+		}
+		
+		context.getFrameStack().leaveLocal(pattern);
+		
+		return patternMatches;
+	}
+	
+	/**
+	 * Add the candidate objects to the frame
+	 * 
+	 * @param pattern the pattern being executed
+	 * @param context the context
+	 * @param candidate	the list of candidate objects
+	 */
+	protected void populateFrame(final Pattern pattern, final IEolContext context, List<List<Object>> candidate) {
+		frame = context.getFrameStack().enterLocal(FrameType.PROTECTED, pattern);
+		
+		if (pattern.getMatch() != null || pattern.getNoMatch() != null || pattern.getOnMatch() != null) {
+			int i = 0;
+			for (Role role : pattern.getRoles()) {
+				for (Variable variable : getVariables(candidate.get(i), role)) {
+					frame.put(variable);
+				}
+				i++;
+			}
+		}
+	}
+	
+	/**
+	 * Create a new CompositeCombinationGenerator, add the generator for each role and attach the validator.
+	 * 
+	 * @param pattern the pattern being executed
+	 * @param context the context
+	 * @return the created generator
+	 * @throws EolRuntimeException
+	 */
+	protected CompositeCombinationGenerator<Object> initGenerator(final Pattern pattern, final IEolContext context) throws EolRuntimeException {
 		CompositeCombinationGenerator<Object> generator = new CompositeCombinationGenerator<Object>();
 		
 		for (Role role : pattern.getRoles()) {
@@ -115,48 +168,35 @@ public class PatternMatcher {
 				return result;
 			}
 		});
-		
-		while (generator.hasMore()) {
-			
-			List<List<Object>> candidate = generator.getNext();
-		
-			boolean matches = true;
-			
-			frame = context.getFrameStack().enterLocal(FrameType.PROTECTED, pattern);
-			
-			if (pattern.getMatch() != null || pattern.getNoMatch() != null || pattern.getOnMatch() != null) {
-				int i = 0;
-				for (Role role : pattern.getRoles()) {
-					for (Variable variable : getVariables(candidate.get(i), role)) {
-						frame.put(variable);
-					}
-					i++;
-				}
-			}
-			
-			if (pattern.getMatch() != null) {
-				Object result = context.getExecutorFactory().execute(pattern.getMatch(), context);
-				if (result instanceof Return) result = ((Return) result).getValue();
-				if (result instanceof Boolean) {
-					matches = (Boolean) result;
-				}
-				else throw new EolIllegalReturnException("Boolean", result, pattern.getMatch(), context);
-			}
-			
-			if (matches) { 
-				context.getExecutorFactory().execute(pattern.getOnMatch(), context);
-				patternMatches.add(createPatternMatch(pattern, candidate));
-			}
-			else context.getExecutorFactory().execute(pattern.getNoMatch(), context);
-			
-			context.getFrameStack().leaveLocal(pattern);
-			
-		}
-		
-		context.getFrameStack().leaveLocal(pattern);
-		
-		return patternMatches;
+		return generator;
 	}
+	
+	/**
+	 * the result of executing the match block or <code>true</code>
+	 * if the pattern does not define a match block.
+	 * 
+	 * @param pattern the pattern being executed
+	 * @param context the context
+	 * @return the result of executing the match block or <code>true</code>
+	 * if the pattern does not define a match block.
+	 * @throws EolRuntimeException
+	 */
+	protected boolean getMatchResult(Pattern pattern, IEolContext context) throws EolRuntimeException {
+    	if (pattern.getMatch() != null) {
+            Object result = context.getExecutorFactory().execute(pattern.getMatch(), context);
+            if (result instanceof Return) {
+            	result = ((Return) result).getValue();
+                if (result instanceof Boolean) {
+                    return (Boolean) result;
+                }
+                else {
+                	throw new EolIllegalReturnException("Pattern Match result should be a Boolean.", result, pattern.getMatch(), context);
+                }
+            }
+        }
+		return true;
+	}
+	
 	
 	protected List<Variable> getVariables(List<Object> combination, Role role) {
 		ArrayList<Variable> variables = new ArrayList<Variable>();
