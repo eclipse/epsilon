@@ -1,0 +1,43 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Apache Commons Validator
+Bundle-SymbolicName: org.apache.commons.validator_1.6
+Bundle-Version: 1.6
+Bundle-Vendor: Apache
+Export-Package: org.apache.commons.validator;version="1.6",
+ org.apache.commons.validator.resources;version="1.6",
+ org.apache.commons.validator.routines;version="1.6",
+ org.apache.commons.validator.routines.checkdigit;version="1.6",
+ org.apache.commons.validator.util;version="1.6"
+Bnd-LastModified: 1487257826030
+Specification-Version: 1.6
+Build-Jdk: 1.7.0_79
+Specification-Title: Apache Commons Validator
+Tool: Bnd-3.0.0.201509101326
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-License: https://www.apache.org/licenses/LICENSE-2.0.txt
+Include-Resource: META-INF/LICENSE.txt=LICENSE.txt,
+ META-INF/NOTICE.txt=NOTICE.txt,
+ org/apache/commons/validator/digester-rules.xml=src/main/resources/org/apache/commons/validator/digester-rules.xml,
+ org/apache/commons/validator/resources/validator_1_0.dtd=src/main/resources/org/apache/commons/validator/resources/validator_1_0.dtd,
+ org/apache/commons/validator/resources/validator_1_0_1.dtd=src/main/resources/org/apache/commons/validator/resources/validator_1_0_1.dtd,
+ org/apache/commons/validator/resources/validator_1_1.dtd=src/main/resources/org/apache/commons/validator/resources/validator_1_1.dtd,
+ org/apache/commons/validator/resources/validator_1_1_3.dtd=src/main/resources/org/apache/commons/validator/resources/validator_1_1_3.dtd,
+ org/apache/commons/validator/resources/validator_1_2_0.dtd=src/main/resources/org/apache/commons/validator/resources/validator_1_2_0.dtd,
+ org/apache/commons/validator/resources/validator_1_3_0.dtd=src/main/resources/org/apache/commons/validator/resources/validator_1_3_0.dtd,
+ org/apache/commons/validator/resources/validator_1_4_0.dtd=src/main/resources/org/apache/commons/validator/resources/validator_1_4_0.dtd
+Bundle-Description: Apache Commons Validator provides the building blocks for both client side validation and server side data validation.    It may be used standalone or with a framework like Struts.
+Built-By: sebb
+X-Compile-Source-JDK: 1.6
+Implementation-Build: tags/VALIDATOR_1_6_RC1@r1783233; 2017-02-16 15:10:22+0000
+Bundle-DocURL: http://commons.apache.org/proper/commons-validator/
+Implementation-Vendor: The Apache Software Foundation
+Implementation-Version: 1.6
+Implementation-Vendor-Id: org.apache
+Implementation-URL: http://commons.apache.org/proper/commons-validator/
+Created-By: Apache Maven Bundle Plugin
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"
+X-Compile-Target-JDK: 1.6
+Archiver-Version: Plexus Archiver
+Specification-Vendor: The Apache Software Foundation
+Implementation-Title: Apache Commons Validator
