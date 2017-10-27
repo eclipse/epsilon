@@ -105,23 +105,23 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 			context.getFrameStack().put(variable);
 		}
 		
-		Object result = executeBlockOrExpressionAst(getBody(), context);
+		Object result = executeBody(context);
 		
 		if (inNewFrame) context.getFrameStack().leaveLocal(this);
-		
+		T retVal = null;
 		if (result instanceof Return) {
 			Object value = Return.getValue(result);
 			if (getExpectedResultClass().isInstance(value)) {
-				return (T) value;
+				retVal =  (T) value;
 			}
 			else if (getExpectedResultClass() == String.class && !(value instanceof String)) {
-				return (T) (value + "");
+				retVal =  (T) (value + "");
 			}
 			else if (value == null && getExpectedResultClass() == Void.class) {
-				return null;
+				retVal =  null;
 			}
 			else if (getExpectedResultClass() == null) {
-				return (T) result;
+				retVal =  (T) result;
 			}
 			else {
 				throw new EolIllegalReturnException(getExpectedResultClass().getSimpleName(), value, this, context);
@@ -130,7 +130,25 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 		else if (getExpectedResultClass() != Void.class){
 			throw new EolNoReturnException(getExpectedResultClass().getSimpleName(), this, context);
 		}
-		else return null;		
+		postExecution();
+		return retVal;		
+	}
+	
+	/**
+	 * Any chores to be done after execution
+	 */
+	public void postExecution() {
+		
+	}
+
+	/**
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 */
+	public Object executeBody(IEolContext context) throws EolRuntimeException {
+		Object result = executeBlockOrExpressionAst(getBody(), context);
+		return result;
 	}
 	
 	public T execute(IEolContext context, boolean inNewFrame, Variable... variables) throws EolRuntimeException {
