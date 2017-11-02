@@ -14,6 +14,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.Test;
@@ -46,6 +48,49 @@ public class EmfModelLoadTests {
 		model.load();
 		assertEquals("Contents for cross-file containment should work with expand=true", 2, model.allContents().size());
 		model.dispose();
+	}
+
+	@Test
+	public void expandFalseWithCachingResolvesProxies() throws Exception {
+		EmfModel model = createHControlModel();
+		model.setExpand(false);
+		model.setCachingEnabled(true);
+		model.load();
+
+		// Adding the eAdapter makes EMF go through direct and indirect contents
+		assertEquals(20, countWithoutResolving(model));
+
+		model.dispose();
+	}
+
+	@Test
+	public void expandFalseWithNoCachingLeavesProxiesUnresolved() throws Exception {
+		EmfModel model = createHControlModel();
+		model.setExpand(false);
+		model.setCachingEnabled(false);
+		model.load();
+
+		// HControl1.xmi only has 1 real object and 7 proxies inside it
+		assertEquals(8, countWithoutResolving(model));
+
+		model.dispose();
+	}
+
+	protected int countWithoutResolving(EmfModel model) {
+		int itSize = 0;
+		for (TreeIterator<Object> it = EcoreUtil.getAllContents(model.getResource(), false); it.hasNext(); ) {
+			Object eob = it.next();
+			System.out.println(eob);
+			itSize++;
+		}
+		return itSize;
+	}
+
+	protected EmfModel createHControlModel() {
+		File fEcore = FileUtil.getFile("xml/fragmented/WT_DesignPatterns.ecore", getClass());
+		File fXMI = FileUtil.getFile("xml/fragmented/HControl1/HControl1.xmi", getClass());
+		EmfModel model = EmfModelFactory.getInstance().createEmfModel("Model", fXMI, fEcore);
+		return model;
 	}
 
 	protected EmfModel createFragmentedModel() {

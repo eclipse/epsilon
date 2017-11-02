@@ -24,8 +24,8 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Enumerator;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -391,7 +391,9 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			}
 		}
 		modelImpl = model;
-		modelImpl.eAdapters().add(new CachedContentsAdapter());
+		if (cachingEnabled) {
+			modelImpl.eAdapters().add(new CachedContentsAdapter());
+		}
 	}
 
 	public List<String> getMetamodelFiles() {

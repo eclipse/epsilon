@@ -260,12 +260,12 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return allOfKind;
 	}
 	
-	protected Collection<EObject> allContentsFromModel(){
+	protected Collection<EObject> allContentsFromModel() {
 		final List<EObject> allInstances = new ArrayList<EObject>();
 		
 		for (Resource resource : getResources()) {
-			Iterator<EObject> it = resource.getAllContents();
-			while (it.hasNext()){
+			Iterator<EObject> it = EcoreUtil.getAllContents(resource, expand);
+			while (it.hasNext()) {
 				allInstances.add(it.next());
 			}
 		}
