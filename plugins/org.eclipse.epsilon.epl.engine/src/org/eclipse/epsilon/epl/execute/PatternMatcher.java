@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
-import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
@@ -32,10 +31,21 @@ import org.eclipse.epsilon.epl.dom.NoMatch;
 import org.eclipse.epsilon.epl.dom.Pattern;
 import org.eclipse.epsilon.epl.dom.Role;
 
+/**
+ * The Pattern Matcher iterates over all patterns in an EPL Module and executes the match. 
+ * @author Dimitrios Kolovos 
+ *
+ */
 public class PatternMatcher {
 	
 	protected Frame frame = null;
 	
+	/**
+	 * Match all patterns in the EPL module.
+	 * @param module The EPL Module
+	 * @return The PatternMatchModel with the match information.
+	 * @throws Exception
+	 */
 	public PatternMatchModel match(EplModule module) throws Exception {
 		frame = null;
 		
@@ -76,12 +86,16 @@ public class PatternMatcher {
 		return model;
 	}
 	
+	/**
+	 * Match an EPL pattern in the given context
+	 * @param pattern The pattern
+	 * @param context THe current context
+	 * @return A list of Pattern Matches
+	 * @throws Exception
+	 */
 	public List<PatternMatch> match(final Pattern pattern, final IEolContext context) throws Exception {
 		
 		List<PatternMatch> patternMatches = new ArrayList<PatternMatch>();
-		
-		context.getFrameStack().enterLocal(FrameType.PROTECTED, pattern);
-		
 		CompositeCombinationGenerator<Object> generator = initGenerator(pattern, context);
 		
 		while (generator.hasMore()) {
@@ -99,10 +113,34 @@ public class PatternMatcher {
 			context.getFrameStack().leaveLocal(pattern);
 			
 		}
-		
 		context.getFrameStack().leaveLocal(pattern);
-		
 		return patternMatches;
+	}
+	
+	/**
+	 * The result of executing the match block or <code>true</code>
+	 * if the pattern does not define a match block.
+	 * 
+	 * @param pattern the pattern being executed
+	 * @param context the context
+	 * @return the result of executing the match block or <code>true</code>
+	 * if the pattern does not define a match block.
+	 * @throws EolRuntimeException
+	 */
+	protected boolean getMatchResult(Pattern pattern, IEolContext context) throws EolRuntimeException {
+		if (pattern.getMatch() != null) {
+            Object result = context.getExecutorFactory().execute(pattern.getMatch(), context);
+            if (result instanceof Return) {
+            	result = ((Return) result).getValue();
+            }
+            if (result instanceof Boolean) {
+                return (Boolean) result;
+            }
+            else {
+            	throw new EolIllegalReturnException("Pattern Match result should be a Boolean.", result, pattern.getMatch(), context);
+            }
+        }
+		return true;
 	}
 	
 	/**
@@ -112,9 +150,10 @@ public class PatternMatcher {
 	 * @param context the context
 	 * @param candidate	the list of candidate objects
 	 */
-	protected void populateFrame(final Pattern pattern, final IEolContext context, List<List<Object>> candidate) {
-		frame = context.getFrameStack().enterLocal(FrameType.PROTECTED, pattern);
+	protected void populateFrame(final Pattern pattern, final IEolContext context, 
+			List<List<Object>> candidate) {
 		
+		frame = context.getFrameStack().enterLocal(FrameType.PROTECTED, pattern);
 		if (pattern.getMatch() != null || pattern.getNoMatch() != null || pattern.getOnMatch() != null) {
 			int i = 0;
 			for (Role role : pattern.getRoles()) {
@@ -169,32 +208,6 @@ public class PatternMatcher {
 			}
 		});
 		return generator;
-	}
-	
-	/**
-	 * the result of executing the match block or <code>true</code>
-	 * if the pattern does not define a match block.
-	 * 
-	 * @param pattern the pattern being executed
-	 * @param context the context
-	 * @return the result of executing the match block or <code>true</code>
-	 * if the pattern does not define a match block.
-	 * @throws EolRuntimeException
-	 */
-	protected boolean getMatchResult(Pattern pattern, IEolContext context) throws EolRuntimeException {
-    	if (pattern.getMatch() != null) {
-            Object result = context.getExecutorFactory().execute(pattern.getMatch(), context);
-            if (result instanceof Return) {
-            	result = ((Return) result).getValue();
-                if (result instanceof Boolean) {
-                    return (Boolean) result;
-                }
-                else {
-                	throw new EolIllegalReturnException("Pattern Match result should be a Boolean.", result, pattern.getMatch(), context);
-                }
-            }
-        }
-		return true;
 	}
 	
 	
