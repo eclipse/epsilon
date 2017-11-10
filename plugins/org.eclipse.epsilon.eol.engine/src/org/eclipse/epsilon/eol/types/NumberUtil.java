@@ -94,7 +94,7 @@ public class NumberUtil {
 			return n1.longValue() / n2.longValue();
 		}
 		else {
-			return ((double)n1.intValue()) / n2.intValue();
+			return n1.intValue() / n2.intValue();
 		}
 	}
 
