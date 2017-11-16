@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
@@ -20,6 +21,7 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContrib
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
+import org.eclipse.epsilon.eol.parse.Eol_EolParserRules.returnStatement_return;
 
 public class SimulinkModel extends CachedModel<SimulinkBlock> implements IOperationContributorProvider {
 	
@@ -353,6 +355,25 @@ public class SimulinkModel extends CachedModel<SimulinkBlock> implements IOperat
 		return simulinkOperationContributor;
 	}
 	
+	public void simulate() throws InterruptedException {
+        String name = getFile().getName().substring(0,getFile().getName().lastIndexOf("."));
+        Future<Void> fSim = engine.evalAsync("simOut = sim('" + name + "', []);");
+        while (!fSim.isDone()) {
+            Thread.sleep(1000);
+        }
+	}
 	
-	
+	public Object getArrayWorkspaceVariable(String variableName) {
+		Object value = engine.getVariable(variableName);
+		if (value instanceof int[]) return MatlabEngineUtil.matlabArrayToList((int[]) value);
+		if (value instanceof long[]) return MatlabEngineUtil.matlabArrayToList((long[]) value);
+		if (value instanceof boolean[]) return MatlabEngineUtil.matlabArrayToList((boolean[]) value);
+		if (value instanceof double[]) return MatlabEngineUtil.matlabArrayToList((double[]) value);
+		if (value instanceof float[]) return MatlabEngineUtil.matlabArrayToList((float[]) value);
+		if (value instanceof byte[]) return MatlabEngineUtil.matlabArrayToList((byte[]) value);
+		if (value instanceof short[]) return MatlabEngineUtil.matlabArrayToList((short[]) value);
+		if (value instanceof String[]) return MatlabEngineUtil.matlabArrayToList((String[]) value);
+		if (value instanceof Object[]) return MatlabEngineUtil.matlabArrayToList((Object[]) value);
+		return value;
+	}
 }

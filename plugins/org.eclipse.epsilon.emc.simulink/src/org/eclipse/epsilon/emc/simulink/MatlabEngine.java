@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.emc.simulink;
 
 import java.lang.reflect.Method;
+import java.util.concurrent.Future;
 
 public class MatlabEngine {
 	
@@ -62,6 +63,16 @@ public class MatlabEngine {
 	public void eval(String cmd) {
 		try {
 			evalMethod.invoke(engine, cmd);
+		}
+		catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+	
+	public Future<Void> evalAsync(String cmd) {
+		try {
+			Method evalSyncMethod = engine.getClass().getMethod("evalAsync", String.class);
+			return (Future<Void>) evalSyncMethod.invoke(engine, cmd);
 		}
 		catch (Exception ex) {
 			throw new RuntimeException(ex);
