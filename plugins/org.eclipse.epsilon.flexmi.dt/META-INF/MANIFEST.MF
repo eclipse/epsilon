@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Dt
+Bundle-SymbolicName: org.eclipse.epsilon.flexmi.dt;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ org.eclipse.epsilon.flexmi,
+ org.eclipse.emf.ecore.editor
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipse.epsilon.flexmi.dt

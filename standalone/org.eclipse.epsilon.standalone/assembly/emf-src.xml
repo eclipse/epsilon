@@ -15,5 +15,13 @@
         <directory>../../plugins/org.eclipse.epsilon.emc.emf/src</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.flexmi/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.flexmi/src</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
   </fileSets>
 </assembly>

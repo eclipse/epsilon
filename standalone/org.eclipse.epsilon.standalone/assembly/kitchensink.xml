@@ -93,6 +93,10 @@
         <outputDirectory></outputDirectory>
       </fileSet>
       <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.flexmi/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
         <directory>../../plugins/org.eclipse.epsilon.emc.uml/target/classes</directory>
         <outputDirectory></outputDirectory>
       </fileSet>

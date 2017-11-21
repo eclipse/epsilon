@@ -32,6 +32,7 @@
 		Epsilon's EMF driver.
 		</description>
 		<project name="org.eclipse.epsilon.emc.emf"/>
+		<project name="org.eclipse.epsilon.flexmi"/>
 
 		<!-- Need to be listed in the unpack-dependencies goal
 		     of the pom.xml file as well. -->
