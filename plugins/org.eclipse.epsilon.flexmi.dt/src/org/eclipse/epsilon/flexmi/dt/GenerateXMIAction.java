@@ -80,7 +80,7 @@ public class GenerateXMIAction implements IObjectActionDelegate {
 				eClasses.add(it.next().eClass());
 			}
 			
-			Resource xmiResource = xmiResourceSet.createResource(URI.createPlatformResourceURI(flexmiFile.getFullPath().toOSString().replace(".flexmi", ".xmi")));
+			Resource xmiResource = xmiResourceSet.createResource(URI.createPlatformResourceURI(flexmiFile.getFullPath().toOSString() + ".xmi"));
 			xmiResource.getContents().addAll(EcoreUtil.copyAll(flexmiResource.getContents()));
 			xmiResource.save(null);
 			flexmiFile.getParent().refreshLocal(1, new NullProgressMonitor());
