@@ -11,7 +11,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.csv;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -72,10 +77,12 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	public static final String PROPERTY_FIELD_SEPARATOR = "fieldSeparator";
 
 	/** The Constant PROPERTY_HAS_KNOWN_HEADERS. */
-	public static final String PROPERTY_HAS_KNOWN_HEADERS = "hasKNownHeaders";
+	public static final String PROPERTY_HAS_KNOWN_HEADERS = "hasKnownHeaders";
 	
 	/** The Constant PROPERTY_HAS_VARARGS_HEADERS. */
 	public static final String PROPERTY_HAS_VARARGS_HEADERS = "hasVarargsHeaders";
+
+	private static final String PROPERTY_FILE_ENCODING = "fileEncoding";
 	
 	/** The field separator. */
 	private String fieldSeparator = ",";
@@ -86,13 +93,19 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	/** The has varargs headers. */
 	private boolean varargsHeaders;
 	
-	/** The file. */
+	/** The field that can be used as id */
+	private String idFieldName;			// When using header
+	private int idFieldIndex;			// For no header
+	
+	/** The file path. */
 	private String file;
 	
 	/* Objects in this model are Maps */
 	/** The rows. */
 	private Collection<Map<String, Object>> rows = new LinkedList<Map<String, Object>>();
-
+	
+	/** The file reader */
+	private BufferedReader reader;
 	
 	/**
 	 * Gets the field separator.
@@ -131,21 +144,50 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	}
 
 	/**
-	 * Checks if is varargs headers.
+	 * Checks if using variable args headers.
 	 *
-	 * @return true, if is varargs headers
+	 * @return true, if using variable args headers
 	 */
 	public boolean isVarargsHeaders() {
 		return varargsHeaders;
 	}
 
 	/**
-	 * Sets the varargs headers.
+	 * Sets the variable args headers.
 	 *
-	 * @param varargsHeaders the new varargs headers
+	 * @param varargsHeaders true if using variable args headers.
 	 */
 	public void setVarargsHeaders(boolean varargsHeaders) {
 		this.varargsHeaders = varargsHeaders;
+	}
+	
+
+	/**
+	 * @return the id Field Name
+	 */
+	public String getIdFieldName() {
+		return idFieldName;
+	}
+
+	/**
+	 * @param idFieldName the name of the field to use as id
+	 */
+	public void setIdFieldName(String idFieldName) {
+		this.idFieldName = idFieldName;
+	}
+
+	/**
+	 * @return the id Field Index
+	 */
+	public int getIdFieldIndex() {
+		return idFieldIndex;
+	}
+
+	/**
+	 * @param idFieldIndex the index of the field to use as id
+	 */
+	public void setIdFieldIndex(int idFieldIndex) {
+		this.idFieldIndex = idFieldIndex;
 	}
 
 	/* (non-Javadoc)
@@ -374,19 +416,20 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 */
 	@Override
 	protected void loadModel() throws EolModelLoadingException {
-		LinkedList<String> lines = null;
+		String line;
 		try {
-			lines = new LinkedList<String>(FileUtil.getFileLineContents(new File(file)));
-		} catch (Exception ex) {
-			// TODO Auto-generated catch block
-			throw new EolModelLoadingException(ex, this);
-		} finally {
 			if(this.knownHeaders) {
-				List<String> keys = Arrays.asList(lines.get(0).split(this.fieldSeparator));
+				int i = 0;
+				line = reader.readLine();
+				if (line == null) {
+					throw new EolModelLoadingException(new NullPointerException("No header found in file."), this);
+				}
+				List<String> keys = Arrays.asList(line.split(this.fieldSeparator));
 				List<String> values;
-				for (int i=1; i < lines.size(); i++) {
+				while ((line = reader.readLine()) != null) {
+					i++;
 					LinkedHashMap<String, Object> row = new LinkedHashMap<String, Object>();
-					values = Arrays.asList(lines.get(i).split(this.fieldSeparator));
+					values = Arrays.asList(line.split(this.fieldSeparator));
 					if (!this.varargsHeaders) {
 						if (keys.size() != values.size()) {
 							Exception ex = new Exception("Line " + (i+1) + " contains different number of elements than the header");
@@ -414,11 +457,17 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 					rows.add(row);
 				}
 			} else {
-				for (int i=0; i < lines.size(); i++) {
+				while ((line = reader.readLine()) != null) {
 					LinkedHashMap<String, Object> row = new LinkedHashMap<String, Object>();
-					row.put("field", Arrays.asList(lines.get(i).split(this.fieldSeparator)));
+					row.put("field", Arrays.asList(line.split(this.fieldSeparator)));
 					rows.add(row);
 				}
+			}
+		} catch (IOException e) {
+			throw new EolModelLoadingException(e, this);
+		} finally {
+			if (this.reader != null) {
+				try { reader.close(); } catch (IOException e) { }
 			}
 		}
 	}
@@ -433,7 +482,13 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 		this.file = resolver.resolve(properties.getProperty(PROPERTY_FILE));
 		this.fieldSeparator = properties.getProperty(PROPERTY_FIELD_SEPARATOR);
 		this.knownHeaders = properties.getBooleanProperty(PROPERTY_HAS_KNOWN_HEADERS, true);
-		this.varargsHeaders = properties.getBooleanProperty(PROPERTY_HAS_VARARGS_HEADERS, false);	
+		this.varargsHeaders = properties.getBooleanProperty(PROPERTY_HAS_VARARGS_HEADERS, false);
+		Charset cs = Charset.forName(properties.getProperty(PROPERTY_FILE_ENCODING, "UTF-8"));
+		try {
+			setReader(Files.newBufferedReader(Paths.get(this.file), cs));
+		} catch (IOException e) {
+			throw new EolModelLoadingException(e, this);
+		}
 		load();
 	}
 
@@ -467,6 +522,10 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	@Override
 	protected Collection<String> getAllTypeNamesOf(Object instance) {
 		return Collections.singleton("Row");
+	}
+	
+	protected void setReader(BufferedReader reader) {
+		this.reader = reader;
 	}
 
 }
