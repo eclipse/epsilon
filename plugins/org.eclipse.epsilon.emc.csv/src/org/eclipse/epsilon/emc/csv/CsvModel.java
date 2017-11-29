@@ -18,7 +18,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -26,7 +25,12 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -46,6 +50,7 @@ import org.eclipse.epsilon.eol.models.IRelativePathResolver;
  * <p>
  * Three properties allow configuration of how to read the CSV file:
  * <ul>
+ * 
  * <li>PROPERTY_FIELD_SEPARATOR, by default a comma (','), but you can specify
  * a different separator. In particular, fields are identified using
  * {@link java.lang.String#split(String)}, and as such, PROPERTY_FIELD_SEPARATOR is
@@ -57,13 +62,13 @@ import org.eclipse.epsilon.eol.models.IRelativePathResolver;
  * this property is set to true, model loading will verify that all lines have the
  * same number of fields as the header. When accessing the model elements (rows)
  * each of the header fields can be used to access information on each record.
+ * 
  * <li>PROPERTY_HAS_VARARGS_HEADERS, allows the use of varargs headers. This is
- * a special type of header in which the last filed in the header line is used
- * as a base name for all fields after this one. This allows for lines to have a
- * variable number of fields. During model loading it will be verified that each
- * line has at least the same number of fields as header fields minus one. Fields
- * in a record including and following the last header filed will be assigned the
- * header lastHeader0, lastHeader1, lastHeader2,... and so on an so forth.
+ * a special type of header in which the last filed in the header can have multiple
+ * values, that is, all columns after the last are considered the collection of
+ * values for the last colum field. As a result, the value of the last field will be
+ * a collection of values. If a file has varargs colums but the flag is not set,
+ * additional values are ignored.
  * </ul>
  * 
  * 
@@ -85,7 +90,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	private static final String PROPERTY_FILE_ENCODING = "fileEncoding";
 	
 	/** The field separator. */
-	private String fieldSeparator = ",";
+	private char fieldSeparator = ',';
 	
 	/** The has known headers. */
 	private boolean knownHeaders;
@@ -112,7 +117,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 *
 	 * @return the field separator
 	 */
-	public String getFieldSeparator() {
+	public char getFieldSeparator() {
 		return fieldSeparator;
 	}
 
@@ -121,7 +126,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 *
 	 * @param fieldSeparator the new field separator
 	 */
-	public void setFieldSeparator(String fieldSeparator) {
+	public void setFieldSeparator(char fieldSeparator) {
 		this.fieldSeparator = fieldSeparator;
 	}
 
@@ -417,49 +422,48 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	@Override
 	protected void loadModel() throws EolModelLoadingException {
 		String line;
+		Iterable<CSVRecord> records;
 		try {
-			if(this.knownHeaders) {
-				int i = 0;
-				line = reader.readLine();
-				if (line == null) {
-					throw new EolModelLoadingException(new NullPointerException("No header found in file."), this);
-				}
-				List<String> keys = Arrays.asList(line.split(this.fieldSeparator));
-				List<String> values;
-				while ((line = reader.readLine()) != null) {
-					i++;
+			CSVFormat csvFormat = CSVFormat.RFC4180.withDelimiter(fieldSeparator);
+			if (knownHeaders) {
+				csvFormat = csvFormat.withFirstRecordAsHeader();
+				records = csvFormat.parse(reader);
+				String[] headers = csvFormat.getHeader();
+				for (CSVRecord record : records) {
 					LinkedHashMap<String, Object> row = new LinkedHashMap<String, Object>();
-					values = Arrays.asList(line.split(this.fieldSeparator));
-					if (!this.varargsHeaders) {
-						if (keys.size() != values.size()) {
-							Exception ex = new Exception("Line " + (i+1) + " contains different number of elements than the header");
-							throw new EolModelLoadingException(ex, this);
+					if (!varargsHeaders) {
+						for (Entry<String, String> entry : record.toMap().entrySet()) {
+							row.put(entry.getKey(), entry.getValue());
 						}
-						for (int f=0; f<keys.size(); f++) {
-							row.put(keys.get(f), values.get(f));
-						}
-					} else {
-						if (keys.size()-1 > values.size()) {
-							Exception ex = new Exception("Line " + i + " contains different number of elements than the header");
-							throw new EolModelLoadingException(ex, this);
-						}
-						int numKeys= keys.size();
-						String varargHeader = keys.get(numKeys-1);
-						for (int f=0; f<numKeys-1; f++) {
-								row.put(keys.get(f), values.get(f));
+					}
+					else {
+						Map<String, Integer> hm = ((CSVParser)records).getHeaderMap();
+						Set<String> hmKeys = hm.keySet();
+						Iterator<String> hmKeysIT = hmKeys.iterator();
+						Iterator<String> it = record.iterator();
+						int i = 0;
+						int normalFields = hmKeys.size()-1;
+						while(it.hasNext() && (i < normalFields)) {
+							String value = it.next();
+							row.put(hmKeysIT.next(), value);
+							i++;
 						}
 						List<String> varargsField = new ArrayList<String>();
-						for (int v = numKeys-1; v < values.size(); v++) {
-							varargsField.add( values.get(v));
+						while(it.hasNext()) {
+							varargsField.add(it.next());	
 						}
-						row.put(varargHeader, varargsField);
+						row.put(hmKeysIT.next(), varargsField);
 					}
 					rows.add(row);
 				}
-			} else {
-				while ((line = reader.readLine()) != null) {
+			}
+			else {
+				records = csvFormat.parse(reader);
+				for (CSVRecord record : records) {
+					List<String> values = new ArrayList<>();
+					record.iterator().forEachRemaining(values::add);
 					LinkedHashMap<String, Object> row = new LinkedHashMap<String, Object>();
-					row.put("field", Arrays.asList(line.split(this.fieldSeparator)));
+					row.put("field", values);
 					rows.add(row);
 				}
 			}
@@ -480,7 +484,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 		super.load(properties, resolver);
 		
 		this.file = resolver.resolve(properties.getProperty(PROPERTY_FILE));
-		this.fieldSeparator = properties.getProperty(PROPERTY_FIELD_SEPARATOR);
+		this.fieldSeparator = properties.getProperty(PROPERTY_FIELD_SEPARATOR).charAt(0);
 		this.knownHeaders = properties.getBooleanProperty(PROPERTY_HAS_KNOWN_HEADERS, true);
 		this.varargsHeaders = properties.getBooleanProperty(PROPERTY_HAS_VARARGS_HEADERS, false);
 		Charset cs = Charset.forName(properties.getProperty(PROPERTY_FILE_ENCODING, "UTF-8"));
