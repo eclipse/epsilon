@@ -24,6 +24,7 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.test.unit.EglFineGrained
 import org.eclipse.epsilon.egl.test.EglTestSuite;
 import org.eclipse.epsilon.egx.engine.test.acceptance.EgxAcceptanceTestSuite;
 import org.eclipse.epsilon.emc.bibtex.BibtexModelTestSuite;
+import org.eclipse.epsilon.emc.csv.test.CsvModelTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfTestSuite;
 import org.eclipse.epsilon.emc.graphml.tests.GraphmlTestSuite;
 import org.eclipse.epsilon.emc.hutn.test.HutnEmcDriverTestSuite;
@@ -76,7 +77,8 @@ import junit.framework.Test;
                GraphmlTestSuite.class,
                EmfTestSuite.class,
                SpreadsheetDriverTestSuite.class,
-               SimulinkModelTestSuite.class})
+               SimulinkModelTestSuite.class,
+               CsvModelTestSuite.class})
 public class EpsilonTestSuite{
 
 	public static Test suite() {
