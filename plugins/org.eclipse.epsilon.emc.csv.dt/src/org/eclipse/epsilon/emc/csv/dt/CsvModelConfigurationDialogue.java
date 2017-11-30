@@ -25,6 +25,8 @@ public class CsvModelConfigurationDialogue extends AbstractCachedModelConfigurat
 
 	private Text fileText;
 	private Text fieldSeparatorText;
+	private Text quoteCharacterText;
+	private Text idFieldText;
 	private Button knownHeadersBtn;
 	private Button varargsHeadersBtn;
 	
@@ -62,12 +64,19 @@ public class CsvModelConfigurationDialogue extends AbstractCachedModelConfigurat
 	}
 	
 	protected void createCsvGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "CVS", 4);
+		final Composite groupContent = createGroupContainer(parent, "CSV", 4);
 		
 		final Label modelFieldSeparatorLabel = new Label(groupContent, SWT.NONE);
 		modelFieldSeparatorLabel.setText("Field Separator: ");
 		fieldSeparatorText = new Text(groupContent, SWT.BORDER);
 		fieldSeparatorText.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+		fieldSeparatorText.setTextLimit(2);		// Accept \t for tabs? test this!!!
+		
+		final Label modelQuoteCharacterLabel = new Label(groupContent, SWT.NONE);
+		modelQuoteCharacterLabel.setText("Quote Character: ");
+		quoteCharacterText = new Text(groupContent, SWT.BORDER);
+		quoteCharacterText.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+		quoteCharacterText.setTextLimit(2);
 		
 		knownHeadersBtn = new Button(groupContent, SWT.CHECK);
 		knownHeadersBtn.setText("Known Headers");
@@ -81,6 +90,13 @@ public class CsvModelConfigurationDialogue extends AbstractCachedModelConfigurat
 		});
 		varargsHeadersBtn = new Button(groupContent, SWT.CHECK);
 		varargsHeadersBtn.setText("Varargs Headers");
+		
+		final Label modelIdFieldLabel = new Label(groupContent, SWT.NONE);
+		modelIdFieldLabel.setText("Id Field: ");
+		idFieldText = new Text(groupContent, SWT.BORDER);
+		idFieldText.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+		idFieldText.setToolTipText("This can be used to indicate that a given field/colum can be used as id. If using " +
+								   "headers this should be the field name, if not, it should be the index of the column");
 	}
 	
 	
@@ -90,10 +106,13 @@ public class CsvModelConfigurationDialogue extends AbstractCachedModelConfigurat
 		super.loadProperties();
 		if (properties == null) {
 			fieldSeparatorText.setText(",");
+			quoteCharacterText.setText("\"");
 			knownHeadersBtn.setSelection(true);
 		} else {
 			fileText.setText(properties.getProperty(CsvModel.PROPERTY_FILE));
 			fieldSeparatorText.setText(properties.getProperty(CsvModel.PROPERTY_FIELD_SEPARATOR));
+			quoteCharacterText.setText(properties.getProperty(CsvModel.PROPERTY_QUOTE_CHARACTER));
+			idFieldText.setText(properties.getProperty(CsvModel.PROPERTY_ID_FIELD));
 			knownHeadersBtn.setSelection(properties.getBooleanProperty(CsvModel.PROPERTY_HAS_KNOWN_HEADERS, true));
 			varargsHeadersBtn.setSelection(properties.getBooleanProperty(CsvModel.PROPERTY_HAS_VARARGS_HEADERS, false));
 			varargsHeadersBtn.setEnabled(knownHeadersBtn.getSelection());
@@ -105,6 +124,15 @@ public class CsvModelConfigurationDialogue extends AbstractCachedModelConfigurat
 		super.storeProperties();
 		properties.setProperty(CsvModel.PROPERTY_FILE, fileText.getText());
 		properties.setProperty(CsvModel.PROPERTY_FIELD_SEPARATOR, fieldSeparatorText.getText());
+		properties.setProperty(CsvModel.PROPERTY_QUOTE_CHARACTER, quoteCharacterText.getText());
+		
+		String idFieldValue = idFieldText.getText();
+		if(idFieldValue.isEmpty()) {
+			properties.remove(CsvModel.PROPERTY_ID_FIELD);
+		}
+		else {
+			properties.setProperty(CsvModel.PROPERTY_ID_FIELD, idFieldValue);
+		}
 		properties.setProperty(CsvModel.PROPERTY_HAS_KNOWN_HEADERS, String.valueOf(knownHeadersBtn.getSelection()));
 		properties.setProperty(CsvModel.PROPERTY_HAS_VARARGS_HEADERS, String.valueOf(varargsHeadersBtn.getSelection()));
 	}

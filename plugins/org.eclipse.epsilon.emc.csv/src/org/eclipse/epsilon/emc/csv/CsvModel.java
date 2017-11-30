@@ -87,10 +87,17 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	/** The Constant PROPERTY_HAS_VARARGS_HEADERS. */
 	public static final String PROPERTY_HAS_VARARGS_HEADERS = "hasVarargsHeaders";
 
-	private static final String PROPERTY_FILE_ENCODING = "fileEncoding";
+	public static final String PROPERTY_FILE_ENCODING = "fileEncoding";
+
+	public static final String PROPERTY_QUOTE_CHARACTER = "quoteCharacter";
+	
+	public static final String PROPERTY_ID_FIELD = "idField";
 	
 	/** The field separator. */
 	private char fieldSeparator = ',';
+	
+	/** The quote char. */
+	private char quoteChar = '"';
 	
 	/** The has known headers. */
 	private boolean knownHeaders;
@@ -421,14 +428,12 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 */
 	@Override
 	protected void loadModel() throws EolModelLoadingException {
-		String line;
 		Iterable<CSVRecord> records;
 		try {
-			CSVFormat csvFormat = CSVFormat.RFC4180.withDelimiter(fieldSeparator);
+			CSVFormat csvFormat = CSVFormat.RFC4180.withDelimiter(fieldSeparator).withQuote(quoteChar);
 			if (knownHeaders) {
 				csvFormat = csvFormat.withFirstRecordAsHeader();
 				records = csvFormat.parse(reader);
-				String[] headers = csvFormat.getHeader();
 				for (CSVRecord record : records) {
 					LinkedHashMap<String, Object> row = new LinkedHashMap<String, Object>();
 					if (!varargsHeaders) {
@@ -483,11 +488,22 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
 		
-		this.file = resolver.resolve(properties.getProperty(PROPERTY_FILE));
-		this.fieldSeparator = properties.getProperty(PROPERTY_FIELD_SEPARATOR).charAt(0);
-		this.knownHeaders = properties.getBooleanProperty(PROPERTY_HAS_KNOWN_HEADERS, true);
-		this.varargsHeaders = properties.getBooleanProperty(PROPERTY_HAS_VARARGS_HEADERS, false);
-		Charset cs = Charset.forName(properties.getProperty(PROPERTY_FILE_ENCODING, "UTF-8"));
+		file = resolver.resolve(properties.getProperty(PROPERTY_FILE));
+		fieldSeparator = properties.getProperty(PROPERTY_FIELD_SEPARATOR).charAt(0);
+		quoteChar = properties.getProperty(PROPERTY_QUOTE_CHARACTER).charAt(0);
+		knownHeaders = properties.getBooleanProperty(PROPERTY_HAS_KNOWN_HEADERS, true);
+		varargsHeaders = properties.getBooleanProperty(PROPERTY_HAS_VARARGS_HEADERS, false);
+		if (knownHeaders) {
+			idFieldName = properties.getProperty(PROPERTY_ID_FIELD);
+		}
+		else {
+			
+			int integerProperty = properties.getIntegerProperty(PROPERTY_ID_FIELD, -1);
+			if (integerProperty >= 0) {
+				idFieldIndex = integerProperty;
+			}
+		}
+		Charset cs = Charset.forName((String) properties.getOrDefault(PROPERTY_FILE_ENCODING, "UTF-8"));
 		try {
 			setReader(Files.newBufferedReader(Paths.get(this.file), cs));
 		} catch (IOException e) {

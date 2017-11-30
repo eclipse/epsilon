@@ -18,12 +18,10 @@ import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.csv.CsvModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
-import org.eclipse.epsilon.workflow.tasks.ShutdownProjectRepositoryListener;
 
 /**
- * The Class LoadEmfModelTask.
+ * The Ant task to load Csv Models.
  */
 public class LoadCsvModelTask extends EpsilonTask {
 	
@@ -33,11 +31,17 @@ public class LoadCsvModelTask extends EpsilonTask {
 	/** The field separator. */
 	protected String fieldSeparator = ",";
 	
+	/** The quote char. */
+	private char quoteChar = '"';
+	
 	/** The has known headers. */
 	protected boolean knownHeaders;
 	
 	/** The has varargs headers. */
 	protected boolean varargsHeaders;
+	
+	/** The field that can be used as id */
+	protected String idFieldValue;
 	
 	/** The file. */
 	protected File file;
@@ -54,8 +58,6 @@ public class LoadCsvModelTask extends EpsilonTask {
 	/** The store on disposal. */
 	protected boolean store = false;
 
-	
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.epsilon.workflow.tasks.EpsilonTask#executeImpl()
 	 */
@@ -71,8 +73,10 @@ public class LoadCsvModelTask extends EpsilonTask {
 		properties.put(CsvModel.PROPERTY_READONLOAD, String.valueOf(read));
 		properties.put(CsvModel.PROPERTY_STOREONDISPOSAL, String.valueOf(store));
 		properties.put(CsvModel.PROPERTY_FIELD_SEPARATOR, fieldSeparator);
+		properties.put(CsvModel.PROPERTY_QUOTE_CHARACTER, quoteChar);
 		properties.put(CsvModel.PROPERTY_HAS_KNOWN_HEADERS, String.valueOf(knownHeaders));
 		properties.put(CsvModel.PROPERTY_HAS_VARARGS_HEADERS, String.valueOf(varargsHeaders));
+		properties.put(CsvModel.PROPERTY_ID_FIELD, idFieldValue);
 		
 		if (file != null) {
 			properties.put(CsvModel.PROPERTY_FILE, file.getAbsolutePath());
@@ -258,5 +262,35 @@ public class LoadCsvModelTask extends EpsilonTask {
 	public void setStore(boolean store) {
 		this.store = store;
 	}
+
+	/**
+	 * @return the quoteChar
+	 */
+	public char getQuoteChar() {
+		return quoteChar;
+	}
+
+	/**
+	 * @param quoteChar the quoteChar to set
+	 */
+	public void setQuoteChar(char quoteChar) {
+		this.quoteChar = quoteChar;
+	}
+
+	/**
+	 * @return the idFieldValue
+	 */
+	public String getIdFieldValue() {
+		return idFieldValue;
+	}
+
+	/**
+	 * @param idFieldValue the idFieldValue to set
+	 */
+	public void setIdFieldValue(String idFieldValue) {
+		this.idFieldValue = idFieldValue;
+	}
+	
+	
 
 }
