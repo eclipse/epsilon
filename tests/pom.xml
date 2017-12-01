@@ -37,6 +37,7 @@
     <module>org.eclipse.epsilon.egl.traceability.fine.test.unit</module>
     <module>org.eclipse.epsilon.egx.engine.test.acceptance</module>
     <module>org.eclipse.epsilon.emc.bibtex.test</module>
+    <module>org.eclipse.epsilon.emc.csv.test</module>
     <module>org.eclipse.epsilon.emc.emf.test</module>
     <module>org.eclipse.epsilon.emc.graphml.tests</module>
     <module>org.eclipse.epsilon.emc.hutn.test</module>
