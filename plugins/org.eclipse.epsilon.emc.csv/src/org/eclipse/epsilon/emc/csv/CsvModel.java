@@ -89,7 +89,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	public static final String PROPERTY_ID_FIELD = "idField";
 	
 	/** The field separator. */
-	private String fieldSeparator = ",";
+	private char fieldSeparator = ',';
 	
 	/** The quote char. */
 	private char quoteChar = '"';
@@ -101,8 +101,8 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	private boolean varargsHeaders;
 	
 	/** The field that can be used as id */
-	private String idFieldName;			// When using header
-	private int idFieldIndex;			// For no header
+	private String idFieldName = "";			// When using header
+	private int idFieldIndex = -1;				// For no header
 	
 	/** The file path. */
 	private String file;
@@ -119,7 +119,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 *
 	 * @return the field separator
 	 */
-	public String getFieldSeparator() {
+	public Character getFieldSeparator() {
 		return fieldSeparator;
 	}
 
@@ -128,7 +128,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 *
 	 * @param fieldSeparator the new field separator
 	 */
-	public void setFieldSeparator(String fieldSeparator) {
+	public void setFieldSeparator(Character fieldSeparator) {
 		this.fieldSeparator = fieldSeparator;
 	}
 
@@ -202,7 +202,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 */
 	@Override
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException("CSV Models don't support enumerations.");
 	}
 
 	/* (non-Javadoc)
@@ -210,6 +210,9 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 */
 	@Override
 	public Object getTypeOf(Object instance) {
+		if (!isModelElement(instance)) {
+			throw new IllegalArgumentException("Not a valid CSV model instance");
+		}
 		return LinkedHashMap.class;
 	}
 
@@ -218,6 +221,9 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 */
 	@Override
 	public String getTypeNameOf(Object instance) {
+		if (!isModelElement(instance)) {
+			throw new IllegalArgumentException("Not a valid CSV model instance");
+		}
 		return LinkedHashMap.class.getName();
 	}
 
@@ -226,23 +232,67 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 */
 	@Override
 	public Object getElementById(String id) {
-		throw new UnsupportedOperationException();
+		if (idFieldName.isEmpty() && (idFieldIndex == -1)) {
+			throw new UnsupportedOperationException("The if field has not been set. To use ids, make sure the launch "
+					+ "configuration defines the name or index of the id field.");
+		}
+		if (!idFieldName.isEmpty()) {
+			for (Map<String, Object> row : rows) {
+				if (row.get(idFieldName).equals(id)) {
+					return row;
+				}
+			}
+		}
+		else {
+			for (Map<String, Object> row : rows) {
+				List<Object> fields = (List<Object>) row.get("field");
+				if (fields.get(idFieldIndex).equals(id)) {
+					return row;
+				}
+			}
+
+		}
+		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.epsilon.eol.models.IModel#getElementId(java.lang.Object)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public String getElementId(Object instance) {
-		throw new UnsupportedOperationException();
+		if (idFieldName.isEmpty() && (idFieldIndex == -1)) {
+			throw new UnsupportedOperationException("The if field has not been set. To use ids, make sure the launch "
+					+ "configuration defines the name or index of the id field.");
+		}
+		Map<String, Object> row = (Map<String, Object>) instance;
+		if (!idFieldName.isEmpty()) {
+			return (String) row.get(idFieldName);
+		}
+		else {
+			List<Object> fields = (List<Object>) row.get("field");
+			return (String) fields.get(idFieldIndex);
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.epsilon.eol.models.IModel#setElementId(java.lang.Object, java.lang.String)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setElementId(Object instance, String newId) {
-		throw new UnsupportedOperationException();
+		if (idFieldName.isEmpty() && (idFieldIndex == -1)) {
+			throw new UnsupportedOperationException("The if field has not been set. To use ids, make sure the launch "
+					+ "configuration defines the name or index of the id field.");
+		}
+		Map<String, Object> row = (Map<String, Object>) instance;
+		if (!idFieldName.isEmpty()) {
+			row.put(idFieldName, newId);
+		}
+		else {
+			List<Object> fields = (List<Object>) row.get("field");
+			fields.set(idFieldIndex, newId);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -258,7 +308,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 */
 	@Override
 	public boolean isInstantiable(String type) {
-		return false;
+		return hasType(type);
 	}
 
 	/* (non-Javadoc)
@@ -266,7 +316,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 */
 	@Override
 	public boolean isModelElement(Object instance) {
-		return instance instanceof LinkedHashMap;
+		return (instance instanceof LinkedHashMap) && rows.contains(instance);
 	}
 
 	/* (non-Javadoc)
@@ -401,20 +451,9 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 			throw new EolModelElementTypeNotFoundException(this.name, type);
 		}
 		if (!this.knownHeaders) {
-			return true;
+			return property.equals("field");
 		} else {
-			if (this.varargsHeaders) {
-				if (((LinkedHashMap<String, Object>) ((LinkedList<Map<String, Object>>) rows).getFirst()).keySet().contains(property)) {
-					return true;
-				} else {
-					// It might be the varargs header field
-					String varargsHeader = ((LinkedHashMap<String, Object>) ((LinkedList<Map<String, Object>>) rows).getFirst()).keySet().iterator().next();
-					return varargsHeader.startsWith(property);
-				}
-			} else {
-				return ((LinkedHashMap<String, Object>) ((LinkedList<Map<String, Object>>) rows).getFirst()).keySet().contains(property);
-			}
-			
+			return ((LinkedHashMap<String, Object>) ((LinkedList<Map<String, Object>>) rows).getFirst()).keySet().contains(property);
 		}
 	}
 
@@ -431,12 +470,12 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 				if (line == null) {
 					throw new EolModelLoadingException(new NullPointerException("No header found in file."), this);
 				}
-				List<String> keys = Arrays.asList(line.split(this.fieldSeparator));
+				List<String> keys = Arrays.asList(line.split(String.valueOf(this.fieldSeparator)));
 				List<String> values;
 				while ((line = reader.readLine()) != null) {
 					i++;
 					LinkedHashMap<String, Object> row = new LinkedHashMap<String, Object>();
-					values = Arrays.asList(line.split(this.fieldSeparator));
+					values = Arrays.asList(line.split(String.valueOf(this.fieldSeparator)));
 					if (!this.varargsHeaders) {
 						if (keys.size() != values.size()) {
 							Exception ex = new Exception("Line " + (i+1) + " contains different number of elements than the header");
@@ -466,7 +505,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 			} else {
 				while ((line = reader.readLine()) != null) {
 					LinkedHashMap<String, Object> row = new LinkedHashMap<String, Object>();
-					row.put("field", Arrays.asList(line.split(this.fieldSeparator)));
+					row.put("field", Arrays.asList(line.split(String.valueOf(this.fieldSeparator))));
 					rows.add(row);
 				}
 			}
@@ -486,11 +525,22 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
 		
-		this.file = resolver.resolve(properties.getProperty(PROPERTY_FILE));
-		this.fieldSeparator = properties.getProperty(PROPERTY_FIELD_SEPARATOR);
-		this.knownHeaders = properties.getBooleanProperty(PROPERTY_HAS_KNOWN_HEADERS, true);
-		this.varargsHeaders = properties.getBooleanProperty(PROPERTY_HAS_VARARGS_HEADERS, false);
-		Charset cs = Charset.forName(properties.getProperty(PROPERTY_FILE_ENCODING, "UTF-8"));
+		file = resolver.resolve(properties.getProperty(PROPERTY_FILE)); 
+	    fieldSeparator = properties.getProperty(PROPERTY_FIELD_SEPARATOR).charAt(0); 
+	    quoteChar = properties.getProperty(PROPERTY_QUOTE_CHARACTER).charAt(0); 
+	    knownHeaders = properties.getBooleanProperty(PROPERTY_HAS_KNOWN_HEADERS, true); 
+	    varargsHeaders = properties.getBooleanProperty(PROPERTY_HAS_VARARGS_HEADERS, false); 
+	    if (knownHeaders) { 
+	      idFieldName = properties.getProperty(PROPERTY_ID_FIELD, ""); 
+	    } 
+	    else { 
+	       
+	      int integerProperty = properties.getIntegerProperty(PROPERTY_ID_FIELD, -1); 
+	      if (integerProperty >= 0) { 
+	        idFieldIndex = integerProperty; 
+	      } 
+	    } 
+	    Charset cs = Charset.forName((String) properties.getOrDefault(PROPERTY_FILE_ENCODING, "UTF-8")); 
 		try {
 			setReader(Files.newBufferedReader(Paths.get(this.file), cs));
 		} catch (IOException e) {
@@ -528,6 +578,9 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 */
 	@Override
 	protected Collection<String> getAllTypeNamesOf(Object instance) {
+		if (!isModelElement(instance)) {
+			throw new IllegalArgumentException("Not a valid CSV model instance");
+		}
 		return Collections.singleton("Row");
 	}
 	

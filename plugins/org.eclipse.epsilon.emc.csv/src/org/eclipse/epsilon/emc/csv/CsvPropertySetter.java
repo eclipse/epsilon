@@ -22,6 +22,8 @@ public class CsvPropertySetter extends AbstractPropertySetter implements
 		// In theory all objects that can be serialised to strings can be
 		// stored. This may cause issues is the string contains CSV
 		// delimiters or in the other hand it may be desired.
+		// FIXME If the value is a string and has a "," add the quotes? Or is this something that the
+		// CSV library automatically does?
 		return true;
 	}
 
