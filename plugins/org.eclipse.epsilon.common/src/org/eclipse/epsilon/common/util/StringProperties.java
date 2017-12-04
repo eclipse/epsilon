@@ -66,6 +66,13 @@ public class StringProperties extends Properties{
 		else return zuper;
 	}
 	
+	
+	@Override
+	public String getProperty(String key, String defaultValue) {
+		String value = getProperty(key);
+		return value.isEmpty() ? defaultValue : value;
+	}
+
 	public int getIntegerProperty(String key, int default_) {
 		if (containsKey(key)) {
 			return Integer.parseInt(getProperty(key));

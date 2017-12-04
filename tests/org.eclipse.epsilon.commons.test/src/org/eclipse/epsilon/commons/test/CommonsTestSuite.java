@@ -17,12 +17,14 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 import org.eclipse.epsilon.commons.util.MultimapTests;
+import org.eclipse.epsilon.commons.util.StringPropertiesTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({MultimapTests.class})
+@SuiteClasses({MultimapTests.class,
+				StringPropertiesTests.class})
 public class CommonsTestSuite {
 
 	public static Test suite() {
