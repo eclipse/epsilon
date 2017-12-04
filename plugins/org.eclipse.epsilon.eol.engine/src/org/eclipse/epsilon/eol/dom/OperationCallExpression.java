@@ -130,7 +130,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		if (operationContributor != null && objectMethod == null) {
 			// Try contributors that do not override the context's operation contributor registry
 			objectMethod = operationContributor.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context, false);
-		}
+		} 
 		
 		if (objectMethod != null) {
 			return wrap(objectMethod.execute(parameterValues.toArray(), nameExpression));

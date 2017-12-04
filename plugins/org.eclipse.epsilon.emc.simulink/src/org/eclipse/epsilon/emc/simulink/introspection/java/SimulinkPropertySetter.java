@@ -1,5 +1,8 @@
-package org.eclipse.epsilon.emc.simulink;
+package org.eclipse.epsilon.emc.simulink.introspection.java;
 
+import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
+import org.eclipse.epsilon.emc.simulink.models.SimulinkBlock;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 
@@ -16,16 +19,12 @@ public class SimulinkPropertySetter extends JavaPropertySetter {
 		
 		SimulinkBlock element = (SimulinkBlock) object;
 		
-		if ("parent".equalsIgnoreCase(property)) {
-			element.setParent((SimulinkBlock) value); return;
-		}
-		
 		try {
-			engine.eval("handle = ? \n set_param (handle, '?', '?')", element.getHandle(), property, value);
-		}
-		catch (Exception ex) {
+			element.setProperty(property, value);
+		} catch (EolIllegalPropertyException e) {
 			super.invoke(value);
 		}
+		
 	}
 	
 }

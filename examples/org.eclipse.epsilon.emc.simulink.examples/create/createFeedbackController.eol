@@ -1,3 +1,5 @@
+"starting".println;
+
 var reference = new `simulink/Sources/Step`;
 var controller = new `simulink/Ports & Subsystems/Subsystem`;
 var plant = new `simulink/Ports & Subsystems/Subsystem`;
@@ -35,3 +37,5 @@ reference.link(sum);
 sum.link(controller);
 controller.link(plant);
 plant.linkTo(sum, 2);
+
+"finished".println;

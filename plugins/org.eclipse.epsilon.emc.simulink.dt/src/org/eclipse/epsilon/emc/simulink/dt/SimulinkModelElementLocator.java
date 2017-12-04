@@ -2,9 +2,9 @@ package org.eclipse.epsilon.emc.simulink.dt;
 
 import org.eclipse.epsilon.common.dt.locators.IModelElementLocator;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.emc.simulink.SimulinkBlock;
-import org.eclipse.epsilon.emc.simulink.SimulinkModel;
-import org.eclipse.epsilon.emc.simulink.SimulinkPropertySetter;
+import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertySetter;
+import org.eclipse.epsilon.emc.simulink.models.SimulinkBlock;
+import org.eclipse.epsilon.emc.simulink.models.SimulinkModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class SimulinkModelElementLocator implements IModelElementLocator {

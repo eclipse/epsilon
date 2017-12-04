@@ -1,6 +1,9 @@
-package org.eclipse.epsilon.emc.simulink;
+package org.eclipse.epsilon.emc.simulink.introspection.java;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
+import org.eclipse.epsilon.emc.simulink.models.SimulinkModelElement;
+import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 
@@ -17,15 +20,17 @@ public class SimulinkObjectMethod extends ObjectMethod {
 	
 	@Override
 	public Object execute(Object[] parameters, ModuleElement ast) throws EolRuntimeException {
-		
-		String cmd = "handle = " + ((SimulinkElement) object).getHandle() + "; result = " + name + "(handle";
-		for (Object parameter : parameters) {
-			cmd += ", '" + String.valueOf(parameter).replace("'", "''") + "'";
+		try {
+			String cmd = "";
+			if (object instanceof SimulinkModelElement) 		
+				cmd = SimulinkUtil.handleMethod((SimulinkModelElement) object, name, parameters);
+			engine.eval(cmd);
+			return engine.getVariable("result");
+		} catch (Exception e) {
+			throw new EolRuntimeException(e.getMessage(), ast);
 		}
-		cmd += ")";
-		engine.eval(cmd);
-		return engine.getVariable("result");
 	}
+	
 	
 	
 }

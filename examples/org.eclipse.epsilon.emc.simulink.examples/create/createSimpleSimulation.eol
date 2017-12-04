@@ -1,3 +1,5 @@
+"starting".println;
+
 // Create elements
 var sineWave = new `simulink/Sources/Sine Wave`;
 var gain = new `simulink/Math Operations/Gain`;
@@ -23,3 +25,5 @@ saturation.link(busCreator);
 gain.linkTo(busCreator, 2);
 sineWave.linkTo(busCreator, 3);
 busCreator.link(scope);
+
+"finished".println;

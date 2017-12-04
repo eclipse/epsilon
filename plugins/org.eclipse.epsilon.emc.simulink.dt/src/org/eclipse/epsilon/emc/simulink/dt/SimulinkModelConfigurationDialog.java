@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.emc.simulink.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
-import org.eclipse.epsilon.emc.simulink.SimulinkModel;
+import org.eclipse.epsilon.emc.simulink.models.SimulinkModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
@@ -24,20 +24,21 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 	protected String getModelName() {
 		return "Simulink Model";
 	}
-
 	
 	protected String getModelType() {
 		return "Simulink";
 	}
 	
 	protected Label fileTextLabel;
+	protected Label invisibleLabel;
 	protected Text fileText;
 	protected Button browseModelFile;
-	
+	protected Button hiddenEditorCheckbox;
 	
 	protected void createGroups(Composite control) {
 		super.createGroups(control);
 		createFilesGroup(control);
+		createDisplayGroup(control);
 		createLoadStoreOptionsGroup(control);
 	}
 	
@@ -59,15 +60,33 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 		return groupContent;
 	}
 	
+	protected Composite createDisplayGroup(Composite parent) {
+		final Composite displayGroupContent = createGroupContainer(parent, "Display options", 2);
+		
+		invisibleLabel = new Label(displayGroupContent, SWT.NONE);
+		invisibleLabel.setText("Hide editor: ");
+		
+		hiddenEditorCheckbox = new Button(displayGroupContent, SWT.CHECK);
+		hiddenEditorCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		hiddenEditorCheckbox.setSelection(true);
+		
+		displayGroupContent.layout();
+		displayGroupContent.pack();
+		return displayGroupContent;
+	}
+	
 	protected void loadProperties(){
 		super.loadProperties();
 		if (properties == null) return;
+		if (hiddenEditorCheckbox!=null) hiddenEditorCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_HIDDEN_EDITOR,"true")).booleanValue());
+
 		fileText.setText(properties.getProperty(SimulinkModel.PROPERTY_FILE));
 	}
 	
 	
 	protected void storeProperties(){
 		super.storeProperties();
+		if (hiddenEditorCheckbox!=null) properties.put(SimulinkModel.PROPERTY_HIDDEN_EDITOR, hiddenEditorCheckbox.getSelection() + "");
 		properties.put(SimulinkModel.PROPERTY_FILE, fileText.getText());
 	}
 }

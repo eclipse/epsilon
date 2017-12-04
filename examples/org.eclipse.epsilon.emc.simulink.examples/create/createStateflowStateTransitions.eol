@@ -1,0 +1,60 @@
+"Starting".println;
+
+// Create Stateflow Chart
+var chart = new `sflib/Chart`;  
+chart.name 	= "Chart";
+chart.position = "[200 100 230 130]";
+
+// Create Stateflow State A in Chart
+var sA = new `Stateflow.State`(chart);
+sA.Name  = "A";
+sA.position = "[50 50 310 200]";
+
+// Create Stateflow State A1 (position-wise) inside State A
+var sA1 = new `Stateflow.State`(chart);
+sA1.Name = "A1";
+sA1.position = "[80 120 90 60]";
+
+// Create Stateflow State A2 (position-wise) inside State A
+var sA2 = new `Stateflow.State`(chart);
+sA2.Name = "A2";
+sA2.position = "[240 120 90 60]";
+
+// Create a transition from A1 to A2
+var tA1A2 = new `Stateflow.Transition`(chart);
+tA1A2.source = sA1; 
+tA1A2.destination = sA2; 
+tA1A2.sourceOClock = 3;
+tA1A2.destinationOClock = 9;
+
+tA1A2.labelPosition = "[180 140 0 0]";
+tA1A2.labelString = "E1";
+
+// Create the event E1
+var E1 = new `Stateflow.Event`(chart);
+E1.name = 'E1';
+
+// Move label for transition A1-A2 to the right a bit
+var pos = tA1A2.LabelPosition;
+pos.set(0, pos.at(0) + 5);
+tA1A2.LabelPosition = "[" + pos.concat(" ") + "]";
+
+// Add a default transition to state A
+var dtA = new `Stateflow.Transition`(chart);
+dtA.destination = sA;
+dtA.destinationOClock = 0;
+var xsource = sA.Position.at(0) + sA.Position.at(2)/2;
+var ysource = sA.Position.at(1) - 30;
+dtA.SourceEndPoint = "[" + xsource + " " + ysource +"]";
+dtA.MidPoint = "[" + xsource + " " + ysource + 15 +"]";
+
+// Add a default transition to state A1
+var dtA1 = new `Stateflow.Transition`(chart);
+dtA1.destination = sA1;
+dtA1.destinationOClock = 0;
+var xsource = sA1.Position.at(0) + sA1.Position.at(2)/2;
+var ysource = sA1.Position.at(1) - 30;
+dtA1.sourceEndPoint = "[" + xsource + " " + ysource +"]";
+dtA1.midPoint = "[" + xsource + " " + ysource + 15 +"]";
+
+"Finished".println;

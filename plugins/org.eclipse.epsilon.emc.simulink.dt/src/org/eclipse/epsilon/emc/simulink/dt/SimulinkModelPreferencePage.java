@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
-import org.eclipse.epsilon.emc.simulink.MatlabEnginePool;
-import org.eclipse.epsilon.emc.simulink.SimulinkModel;
+import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
+import org.eclipse.epsilon.emc.simulink.models.SimulinkModel;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FileFieldEditor;
@@ -75,9 +75,7 @@ public class SimulinkModelPreferencePage extends PreferencePage implements IWork
 		return composite;
 	}
 	
-	public void init(IWorkbench workbench) {
-
-	}
+	public void init(IWorkbench workbench) {	}
 
 	@Override
 	public boolean performOk() {
