@@ -71,7 +71,6 @@
     <module>org.eclipse.epsilon.test.dependencies</module>
     <module>org.eclipse.epsilon.test.fixtures.hutn</module>
     <module>org.eclipse.epsilon.workflow.test</module>
-    <module>org.hamcrest.matchers_1.2</module>
     <module>org.mockito_1.8.4</module>
     <module>org.objenesis_1.0</module>
   </modules>
