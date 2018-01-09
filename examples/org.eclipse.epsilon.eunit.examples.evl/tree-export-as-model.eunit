@@ -1,7 +1,7 @@
 operation validateTree(tree, label) {
   tree.label = label;
   runTarget("validate-tree");
-  return EVL!EvlUnsatisfiedConstraint.all;
+  return EVL!UnsatisfiedConstraint.all;
 }
 
 @test
