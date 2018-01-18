@@ -225,12 +225,11 @@ litigation.
       <import plugin="org.eclipse.epsilon.eunit.engine"/>
       <import plugin="org.eclipse.epsilon.eunit.dt"/>
       <import plugin="org.eclipse.compare"/>
-      <import plugin="org.eclipse.emf.compare"/>
-      <import plugin="org.eclipse.emf.compare.ide"/>
-      <import plugin="org.eclipse.emf.compare" version="3.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare.edit" version="3.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare.ide.ui" version="2.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.emf.compare" version="3.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.ide" version="3.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.edit" version="4.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.ide.ui" version="4.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
