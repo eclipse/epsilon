@@ -9,7 +9,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <tycho.version>0.23.0</tycho.version>
+    <tycho.version>1.0.0</tycho.version>
   </properties>
 
   <distributionManagement>
@@ -33,7 +33,12 @@
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-maven-plugin</artifactId>
         <version>${tycho.version}</version>
-	<extensions>true</extensions>
+	      <extensions>true</extensions>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
       </plugin>
 
       <!-- Generate source bundles (exclude target so we don't enter
@@ -62,7 +67,8 @@
 	<groupId>org.eclipse.tycho</groupId>
 	<artifactId>target-platform-configuration</artifactId>
         <version>${tycho.version}</version>
-	<configuration>
+	      <configuration>
+          <executionEnvironment>JavaSE-1.8</executionEnvironment>
           <target>
             <artifact>
 	      <groupId>${project.groupId}</groupId>
