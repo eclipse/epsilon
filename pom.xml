@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.eclipse.epsilon</groupId>
@@ -54,30 +54,30 @@
             <goals>
               <goal>plugin-source</goal>
             </goals>
-	    <configuration>
-	      <excludes>
-		<exclude>target/**</exclude>
-	      </excludes>
-	    </configuration>
+	          <configuration>
+	            <excludes>
+		            <exclude>target/**</exclude>
+	            </excludes>
+	          </configuration>
           </execution>
         </executions>
       </plugin>
 
       <plugin>
-	<groupId>org.eclipse.tycho</groupId>
-	<artifactId>target-platform-configuration</artifactId>
+	      <groupId>org.eclipse.tycho</groupId>
+	      <artifactId>target-platform-configuration</artifactId>
         <version>${tycho.version}</version>
 	      <configuration>
           <executionEnvironment>JavaSE-1.8</executionEnvironment>
           <target>
             <artifact>
-	      <groupId>${project.groupId}</groupId>
-	      <artifactId>org.eclipse.epsilon.targetplatform</artifactId>
-	      <version>1.5.0-SNAPSHOT</version>
+	            <groupId>${project.groupId}</groupId>
+	            <artifactId>org.eclipse.epsilon.targetplatform</artifactId>
+	            <version>1.5.0-SNAPSHOT</version>
             </artifact>
           </target>
-	  <dependency-resolution>
-	    <extraRequirements>
+	        <dependency-resolution>
+	          <extraRequirements>
               <requirement>
                 <type>eclipse-plugin</type>
                 <id>org.hamcrest.core</id>
@@ -85,43 +85,43 @@
               </requirement>
             </extraRequirements>
           </dependency-resolution>
-	  <environments>
-	    <environment>
-	      <os>linux</os>
-	      <ws>gtk</ws>
-	      <arch>x86</arch>
-	    </environment>
-	    <environment>
-	      <os>linux</os>
-	      <ws>gtk</ws>
-	      <arch>x86_64</arch>
-	    </environment>
-	    <environment>
-	      <os>win32</os>
-	      <ws>win32</ws>
-	      <arch>x86</arch>
-	    </environment>
-	    <environment>
-	      <os>win32</os>
-	      <ws>win32</ws>
-	      <arch>x86_64</arch>
-	    </environment>
-	    <environment>
-	      <os>macosx</os>
-	      <ws>cocoa</ws>
-	      <arch>x86_64</arch>
-	    </environment>
-	  </environments>
-	</configuration>
+	        <environments>
+	          <environment>
+	            <os>linux</os>
+	            <ws>gtk</ws>
+	            <arch>x86</arch>
+	          </environment>
+	          <environment>
+	            <os>linux</os>
+	            <ws>gtk</ws>
+	            <arch>x86_64</arch>
+	          </environment>
+	          <environment>
+	            <os>win32</os>
+	            <ws>win32</ws>
+	            <arch>x86</arch>
+	          </environment>
+	          <environment>
+	            <os>win32</os>
+	            <ws>win32</ws>
+	            <arch>x86_64</arch>
+	          </environment>
+	          <environment>
+	            <os>macosx</os>
+	            <ws>cocoa</ws>
+	            <arch>x86_64</arch>
+	          </environment>
+	        </environments>
+	      </configuration>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.10.3</version>
-	<configuration>
-	  <additionalparam>${javadoc.opts}</additionalparam>
-	</configuration>
+	      <configuration>
+	        <additionalparam>${javadoc.opts}</additionalparam>
+	      </configuration>
       </plugin>
 
       <plugin>
@@ -135,10 +135,10 @@
               <artifactId>maven-javadoc-plugin</artifactId>
               <configuration>
                 <additionalparam>${javadoc.opts}</additionalparam>
-		<doctitle>Epsilon Interim API</doctitle>
-		<sourceFileIncludes>
-		  <sourceFileInclude>org/eclipse/epsilon/**/*.java</sourceFileInclude>
-		</sourceFileIncludes>
+		            <doctitle>Epsilon Interim API</doctitle>
+		            <sourceFileIncludes>
+		              <sourceFileInclude>org/eclipse/epsilon/**/*.java</sourceFileInclude>
+		            </sourceFileIncludes>
               </configuration>
             </plugin>
           </reportPlugins>
@@ -152,47 +152,47 @@
     <profile>
       <id>ossrh</id>
       <build>
-	<plugins>
-	  <plugin>
-	    <groupId>org.sonatype.plugins</groupId>
-	    <artifactId>nexus-staging-maven-plugin</artifactId>
-	    <version>1.6.7</version>
-	    <extensions>true</extensions>
-	    <configuration>
+	      <plugins>
+	        <plugin>
+	          <groupId>org.sonatype.plugins</groupId>
+	          <artifactId>nexus-staging-maven-plugin</artifactId>
+	          <version>1.6.7</version>
+	          <extensions>true</extensions>
+	          <configuration>
               <serverId>ossrh</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
 
-	      <!-- We want to check staged releases manually on
-	           Sonatype OSSRH before we propagate to Central. -->
+	            <!-- We want to check staged releases manually on
+	                 Sonatype OSSRH before we propagate to Central. -->
               <autoReleaseAfterClose>false</autoReleaseAfterClose>
-	    </configuration>
-	  </plugin>
+	          </configuration>
+	        </plugin>
 
-	  <!-- Anything that goes to Central must be GPG signed -->
-	  <plugin>
-	    <groupId>org.apache.maven.plugins</groupId>
-	    <artifactId>maven-gpg-plugin</artifactId>
-	    <version>1.6</version>
-	    <executions>
+	        <!-- Anything that goes to Central must be GPG signed -->
+	        <plugin>
+	          <groupId>org.apache.maven.plugins</groupId>
+	          <artifactId>maven-gpg-plugin</artifactId>
+	          <version>1.6</version>
+	          <executions>
               <execution>
-		<id>sign-artifacts</id>
-		<phase>verify</phase>
-		<goals>
-		  <goal>sign</goal>
-		</goals>
+		            <id>sign-artifacts</id>
+		            <phase>verify</phase>
+		            <goals>
+		              <goal>sign</goal>
+		            </goals>
               </execution>
-	    </executions>
-	  </plugin>
-	</plugins>
+	          </executions>
+	        </plugin>
+	      </plugins>
       </build>
     </profile>
     <profile>
       <id>java8-doclint-disabled</id>
       <activation>
-	<jdk>[1.8,)</jdk>
+	      <jdk>[1.8,)</jdk>
       </activation>
       <properties>
-	<javadoc.opts>-Xdoclint:none</javadoc.opts>
+	      <javadoc.opts>-Xdoclint:none</javadoc.opts>
       </properties>
     </profile>
   </profiles>
