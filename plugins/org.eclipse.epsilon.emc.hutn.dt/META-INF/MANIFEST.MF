@@ -4,7 +4,7 @@ Bundle-Name: Development Tools for HUTN EMC Driver
 Bundle-SymbolicName: org.eclipse.epsilon.emc.hutn.dt;singleton:=true
 Bundle-Version: 1.5.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.emc.hutn
 Export-Package: org.eclipse.epsilon.emc.hutn.dt

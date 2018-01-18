@@ -39,4 +39,4 @@ Export-Package: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.common.dt.util,
  org.eclipse.epsilon.common.dt.variables,
  org.eclipse.epsilon.common.dt.wizards
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

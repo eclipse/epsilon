@@ -9,4 +9,4 @@ Require-Bundle: org.eclipse.epsilon.antlr.postprocessor.model;visibility:=reexpo
  org.eclipse.epsilon.common
 Export-Package: org.eclipse.epsilon.antlr.postprocessor
 Bundle-Vendor: Eclipse Modeling Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

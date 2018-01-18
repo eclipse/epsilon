@@ -4,7 +4,7 @@ Bundle-Name: EGL Development Tools: Textlink Editor Tests
 Bundle-SymbolicName: org.eclipse.epsilon.egl.dt.traceability.editor.tests
 Bundle-Version: 0.9.1.qualifier
 Bundle-Vendor: Eclipse.org
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.egl.dt.traceability.editor,
  org.eclipse.jface.text

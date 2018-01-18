@@ -5,4 +5,4 @@ Bundle-SymbolicName: org.eclipse.epsilon.dependencies
 Bundle-Version: 1.5.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.antlr.runtime_3.1.b1;bundle-version="3.1.0";visibility:=reexport
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

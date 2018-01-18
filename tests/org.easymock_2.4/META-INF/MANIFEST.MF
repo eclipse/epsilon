@@ -10,4 +10,4 @@ Bundle-ClassPath: easymock.jar,
 Bundle-Vendor: EasyMock.org
 Export-Package: org.easymock,
  org.easymock.classextension
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

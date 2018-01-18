@@ -4,7 +4,7 @@ Bundle-Name: Objenesis 1.0
 Bundle-SymbolicName: org.objenesis_1.0
 Bundle-Version: 1.0
 Bundle-Vendor: Objenesis Team and all contributors
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .
 Export-Package: org.objenesis,
  org.objenesis.instantiator,

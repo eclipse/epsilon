@@ -4,7 +4,7 @@ Bundle-Name: Example for EUnit-based JUnit plug-in tests
 Bundle-SymbolicName: org.eclipse.epsilon.examples.eunit.junit
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Eclipse.org
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.eunit.junit,
  org.eclipse.epsilon.eunit.junit.dt,
  org.eclipse.epsilon.eol.engine,

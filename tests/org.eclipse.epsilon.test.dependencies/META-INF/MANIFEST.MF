@@ -19,6 +19,6 @@ Export-Package: org.antlr.gunit,
  org.eclipse.epsilon.test.util,
  org.eclipse.epsilon.test.util.builders.emf,
  org.eclipse.epsilon.test.util.hamcrest
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: lib/gunit-1.0.2.jar,
  .

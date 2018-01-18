@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Apache Commons Lang3 3.1
 Bundle-SymbolicName: org.apache.commons.lang3_3.1
 Bundle-Version: 3.1
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: The Apache Software Foundation
 Bundle-ClassPath: .
 Export-Package: org.apache.commons.lang3,

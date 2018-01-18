@@ -14,4 +14,4 @@ Export-Package: org.eclipse.epsilon.ewl.dt,
  org.eclipse.epsilon.ewl.dt.editor,
  org.eclipse.epsilon.ewl.dt.editor.outline,
  org.eclipse.epsilon.ewl.dt.wizards
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

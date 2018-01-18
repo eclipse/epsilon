@@ -7,5 +7,5 @@ Export-Package: org.eclipse.epsilon.egx.engine.test.acceptance
 Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.test.fixtures.hutn,
  org.eclipse.epsilon.hutn.test.dependencies.model
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse.org

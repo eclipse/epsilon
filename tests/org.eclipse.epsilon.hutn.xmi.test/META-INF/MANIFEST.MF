@@ -7,4 +7,4 @@ Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.hutn.xmi.test.unit,
  org.eclipse.epsilon.hutn.xmi.test.integration
 Export-Package: org.eclipse.epsilon.hutn.xmi.test
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

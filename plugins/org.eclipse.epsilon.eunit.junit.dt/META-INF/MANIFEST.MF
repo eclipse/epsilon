@@ -4,7 +4,7 @@ Bundle-Name: JUnit bridge for Epsilon EUnit (Eclipse)
 Bundle-SymbolicName: org.eclipse.epsilon.eunit.junit.dt
 Bundle-Version: 1.5.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.eclipse.core.runtime,
  org.junit;version="4.5.0",
  org.junit.runner;version="4.5.0",

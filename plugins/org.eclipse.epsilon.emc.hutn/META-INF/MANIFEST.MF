@@ -7,5 +7,5 @@ Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.hutn.engine,
  org.eclipse.epsilon.hutn.xmi
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.emc.hutn

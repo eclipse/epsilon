@@ -13,4 +13,4 @@ Export-Package: org.eclipse.epsilon.etl,
  org.eclipse.epsilon.etl.parse,
  org.eclipse.epsilon.etl.strategy,
  org.eclipse.epsilon.etl.trace
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

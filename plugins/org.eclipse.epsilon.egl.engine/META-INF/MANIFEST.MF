@@ -33,4 +33,4 @@ Export-Package: org.eclipse.epsilon.egl,
  org.eclipse.epsilon.egl.traceability,
  org.eclipse.epsilon.egl.types,
  org.eclipse.epsilon.egl.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

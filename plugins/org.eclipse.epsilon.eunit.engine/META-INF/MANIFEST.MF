@@ -4,7 +4,7 @@ Bundle-Name: EUnit Engine
 Bundle-SymbolicName: org.eclipse.epsilon.eunit.engine;singleton:=true
 Bundle-Version: 1.5.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.eunit,
  org.eclipse.epsilon.eunit.extensions,
  org.eclipse.epsilon.eunit.operations,

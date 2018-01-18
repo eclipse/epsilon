@@ -7,7 +7,7 @@ Bundle-ClassPath: .
 Bundle-Activator: friends.provider.FriendsEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: friends.provider
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.epsilon.eugenia.examples.friends;visibility:=reexport,

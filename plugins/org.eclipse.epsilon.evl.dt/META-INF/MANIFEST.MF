@@ -19,4 +19,4 @@ Export-Package: org.eclipse.epsilon.evl.dt,
  org.eclipse.epsilon.evl.dt.launching.tabs,
  org.eclipse.epsilon.evl.dt.views,
  org.eclipse.epsilon.evl.dt.wizards
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

@@ -11,4 +11,4 @@ Export-Package: org.eclipse.epsilon.hutn.model.hutnAntlrAst,
 Require-Bundle: org.eclipse.epsilon.common,
  org.eclipse.epsilon.antlr.postprocessor.model
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

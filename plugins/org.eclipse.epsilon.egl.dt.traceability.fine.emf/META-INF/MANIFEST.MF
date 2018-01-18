@@ -6,7 +6,7 @@ Bundle-Version: 1.5.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse Modeling Project
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.egl.dt.traceability.fine.emf,
  org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink,
  org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl,

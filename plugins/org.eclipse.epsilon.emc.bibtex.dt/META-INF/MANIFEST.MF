@@ -4,7 +4,7 @@ Bundle-Name: Epsilon Bibtex Model Support Development Tools
 Bundle-SymbolicName: org.eclipse.epsilon.emc.bibtex.dt;singleton:=true
 Bundle-Version: 1.5.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.emc.bibtex,
  org.eclipse.epsilon.common.dt
 Export-Package: org.eclipse.epsilon.emc.bibtex.dt

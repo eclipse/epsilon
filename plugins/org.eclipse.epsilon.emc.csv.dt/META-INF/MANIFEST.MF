@@ -5,6 +5,6 @@ Bundle-SymbolicName: org.eclipse.epsilon.emc.csv.dt;singleton:=true
 Bundle-Version: 1.5.0.qualifier
 Export-Package: org.eclipse.epsilon.emc.csv.dt
 Bundle-Vendor: Eclipse Modeling Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.emc.csv,
  org.eclipse.epsilon.common.dt

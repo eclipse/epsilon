@@ -19,4 +19,4 @@ Require-Bundle: org.eclipse.epsilon.common.dt,
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.eugenia,
  org.eclipse.epsilon.eugenia.operationcontributors
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

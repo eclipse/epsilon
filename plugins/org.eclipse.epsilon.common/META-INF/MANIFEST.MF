@@ -9,4 +9,4 @@ Export-Package: org.eclipse.epsilon.common.module,
  org.eclipse.epsilon.common.parse.problem,
  org.eclipse.epsilon.common.util
 Require-Bundle: org.eclipse.epsilon.dependencies
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

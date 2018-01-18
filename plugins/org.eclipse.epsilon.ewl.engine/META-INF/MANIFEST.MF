@@ -11,4 +11,4 @@ Export-Package: org.eclipse.epsilon.ewl,
  org.eclipse.epsilon.ewl.execute,
  org.eclipse.epsilon.ewl.execute.context,
  org.eclipse.epsilon.ewl.parse
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

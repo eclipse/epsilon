@@ -15,5 +15,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.epsilon.eugenia.examples.friends,
  org.eclipse.epsilon.eugenia.examples.friends.diagram,
  org.eclipse.ui.ide
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

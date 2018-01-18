@@ -12,4 +12,4 @@ Bundle-Vendor: Eclipse Modeling Project
 Export-Package: org.eclipse.epsilon.emc.emf.dt
 Bundle-Activator: org.eclipse.epsilon.emc.emf.dt.Activator
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

@@ -15,4 +15,4 @@ Export-Package: org.eclipse.epsilon.evl,
  org.eclipse.epsilon.evl.execute.operations,
  org.eclipse.epsilon.evl.parse,
  org.eclipse.epsilon.evl.trace
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

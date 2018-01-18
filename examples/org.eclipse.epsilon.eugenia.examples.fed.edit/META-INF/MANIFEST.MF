@@ -7,7 +7,7 @@ Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.epsilon.eugenia.examples.fed.provider.FedEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.eugenia.examples.fed.provider
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.epsilon.eugenia.examples.fed;visibility:=reexport,

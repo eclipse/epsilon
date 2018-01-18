@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.epsilon.eugenia.examples.executablestatemachine.text
  org.eclipse.xtext.ui.codetemplates.ui,
  org.eclipse.compare
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.eugenia.examples.executablestatemachine.textual.ui.contentassist,
  org.eclipse.epsilon.eugenia.examples.executablestatemachine.textual.ui.contentassist.antlr,
  org.eclipse.epsilon.eugenia.examples.executablestatemachine.textual.ui.internal

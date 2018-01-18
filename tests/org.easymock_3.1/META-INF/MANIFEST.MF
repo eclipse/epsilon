@@ -4,7 +4,7 @@ Bundle-Name: Easymock 3.1
 Bundle-SymbolicName: org.easymock_3.1
 Bundle-Version: 3.1
 Bundle-Vendor: OFFIS, Tammo Freese, Henri Tremblay
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .
 Export-Package: org.easymock,
  org.easymock.internal,
