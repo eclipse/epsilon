@@ -32,7 +32,7 @@ public class LoadCsvModelTask extends EpsilonTask {
 	protected String fieldSeparator = ",";
 	
 	/** The quote char. */
-	private char quoteChar = '"';
+	protected char quoteChar = '"';
 	
 	/** The has known headers. */
 	protected boolean knownHeaders;

@@ -9,4 +9,6 @@ Export-Package: org.eclipse.epsilon.workflow.tasks.csv
 Require-Bundle: org.apache.ant,
  org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.emc.csv,
+ org.eclipse.epsilon.emc.csv.dt,
+ org.eclipse.ant.core,
  org.eclipse.epsilon.workflow
