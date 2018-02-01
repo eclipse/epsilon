@@ -77,7 +77,15 @@ public class EpsilonStandaloneDeployMojo extends AbstractMojo {
 
 	public void execute() throws MojoExecutionException {
 		final File outDir = new File(mavenProject.getBuild().getDirectory());
+		if (!outDir.exists()) {
+			throw new MojoExecutionException(String.format("Build output directory {} does not exist: please run the build and try again", outDir.getPath()));
+		}
+
 		final File assemblyDir = new File(mavenProject.getBasedir(), assemblyPath);
+		if (!assemblyDir.exists()) {
+			throw new MojoExecutionException(String.format("Assembly directory {} does not exist: please run the build and try again", assemblyDir.getPath())); 
+		}
+
 		for (File sourcesJar : outDir.listFiles()) {
 			final Matcher match = PATTERN_SOURCESJAR.matcher(sourcesJar.getName());
 			if (!match.matches()) {
