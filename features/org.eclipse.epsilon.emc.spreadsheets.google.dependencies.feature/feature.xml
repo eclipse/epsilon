@@ -92,8 +92,8 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </url>
 
    <requires>
-      <import plugin="com.google.gdata_1.47.1"/>
-      <import plugin="com.google.guava_18.0"/>
+      <import plugin="com.google.gdata_1.47.1" version="1.47.1" match="greaterOrEqual"/>
+      <import plugin="com.google.guava" version="18.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -105,13 +105,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="com.google.gdata_1.47.1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.google.guava_18.0"
          download-size="0"
          install-size="0"
          version="0.0.0"

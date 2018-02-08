@@ -7,7 +7,6 @@
     <artifactId>plugins</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.apache.commons.csv_1.5</artifactId>
   <version>1.5.0</version>
   <packaging>eclipse-plugin</packaging>

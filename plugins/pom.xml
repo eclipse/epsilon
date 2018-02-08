@@ -14,16 +14,11 @@
 
   <modules>
     <module>com.google.gdata_1.47.1</module>
-    <module>com.google.guava_18.0</module>
     <module>org.antlr.runtime_3.1.b1</module>
-    <module>org.apache.commons.collections_3.2.1</module>
-    <module>org.apache.commons.lang3_3.1</module>
-    <module>org.apache.log4j_1.2.17</module>
     <module>org.apache.poi.ooxml.schemas_3.10.1</module>
     <module>org.apache.poi.ooxml_3.10.1</module>
     <module>org.apache.poi_3.10.1</module>
     <module>org.apache.xmlbeans_2.6.0</module>
-    <module>org.dom4j_1.6.1</module>
     <module>org.apache.commons.csv_1.5</module>
     <module>org.eclipse.epsilon.antlr.postprocessor</module>
     <module>org.eclipse.epsilon.antlr.postprocessor.model</module>
@@ -128,7 +123,5 @@
     <module>org.eclipse.epsilon.workflow.eugenia</module>
     <module>org.h2_1.1.117</module>
     <module>org.jdom_1.0</module>
-    <module>org.slf4j.impl_1.7.2</module>
-    <module>org.slf4j_1.7.2</module>
   </modules>
 </project>

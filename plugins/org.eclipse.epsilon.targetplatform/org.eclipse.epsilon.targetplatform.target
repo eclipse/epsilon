@@ -1,47 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Epsilon Target Platform" sequenceNumber="45">
+<?pde version="3.8"?><target name="Epsilon Target Platform" sequenceNumber="75">
 <locations>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.emfatic.feature.group" version="0.8.0.201507261242"/>
-<repository location="http://download.eclipse.org/emfatic/update/"/>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.sirius.runtime.feature.group" version="4.1.3.201701271256"/>
+<unit id="org.eclipse.sirius.runtime.ide.ui.feature.group" version="4.1.3.201701271256"/>
+<repository location="http://download.eclipse.org/releases/neon/"/>
 </location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.pde.feature.group" version="3.12.3.v20170301-0400"/>
 <unit id="org.eclipse.platform.ide" version="4.6.3.M20170301-0400"/>
 <unit id="org.eclipse.platform.sdk" version="4.6.3.M20170301-0400"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.6"/>
 </location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.sirius.runtime.feature.group" version="4.1.3.201701271256"/>
-<unit id="org.eclipse.sirius.runtime.ide.ui.feature.group" version="4.1.3.201701271256"/>
-<repository location="http://download.eclipse.org/releases/neon/"/>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.emf.emfatic.feature.group" version="0.8.0.201507261242"/>
+<repository location="http://download.eclipse.org/emfatic/update/"/>
 </location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="com.google.guava" version="15.0.0.v201403281430"/>
-<unit id="com.google.guava.source" version="15.0.0.v201403281430"/>
-<unit id="com.google.inject" version="3.0.0.v201605172100"/>
-<unit id="com.google.inject.source" version="3.0.0.v201605172100"/>
-<unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
-<unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
-<unit id="org.hamcrest.library" version="1.3.0.v201505072020"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.emf.compare.rcp.ui.feature.group" version="3.2.1.201608311750"/>
 <unit id="org.eclipse.emf.compare.rcp.ui.source.feature.group" version="3.2.1.201608311750"/>
 <repository location="http://download.eclipse.org/modeling/emf/compare/updates/milestones/3.2/S201608311750/"/>
 </location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.e4.rcp.feature.group" version="1.5.3.v20170228-0512"/>
-<unit id="org.eclipse.ecf.core.feature.feature.group" version="1.3.0.v20160823-2221"/>
-<unit id="org.eclipse.ecf.filetransfer.feature.feature.group" version="3.13.2.v20160823-2221"/>
-<unit id="org.eclipse.emf.compare.diagram.gmf.feature.group" version="3.2.1.201608311750"/>
-<unit id="org.eclipse.emf.compare.diagram.gmf.source.feature.group" version="3.2.1.201608311750"/>
-<unit id="org.eclipse.emf.compare.feature.group" version="3.2.1.201608311750"/>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+<unit id="com.google.guava" version="21.0.0.v20170206-1425"/>
+<unit id="org.apache.commons.collections" version="3.2.2.v201511171945"/>
+<unit id="org.apache.commons.collections.source" version="3.2.2.v201511171945"/>
+<unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
+<unit id="org.apache.commons.lang3.source" version="3.1.0.v201403281430"/>
+<unit id="org.apache.commons.math3" version="3.5.0.v20160301-1110"/>
+<unit id="org.apache.commons.math3.source" version="3.5.0.v20160301-1110"/>
+<unit id="org.dom4j" version="1.6.1.v201312101416"/>
+<unit id="org.dom4j.source" version="1.6.1.v201312101416"/>
+<unit id="org.hamcrest.core" version="1.3.0.v201303031735"/>
+<unit id="org.hamcrest.core.source" version="1.3.0.v201303031735"/>
+<unit id="org.hamcrest.library" version="1.3.0.v201505072020"/>
+<unit id="org.hamcrest.library.source" version="1.3.0.v201505072020"/>
+<unit id="org.slf4j.api" version="1.7.10.v20170224-1220"/>
+<unit id="org.slf4j.api.source" version="1.7.10.v20170224-1220"/>
+<unit id="org.slf4j.impl.log4j12" version="1.7.2.v20131105-2200"/>
+<unit id="org.slf4j.impl.log4j12.source" version="1.7.2.v20131105-2200"/>
+<unit id="org.slf4j.log4j" version="1.7.2.v20130115-1340"/>
+<unit id="org.slf4j.log4j.source" version="1.7.2.v20130115-1340"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="3.2.1.201608311750"/>
-<unit id="org.eclipse.emf.compare.source.feature.group" version="3.2.1.201608311750"/>
 <unit id="org.eclipse.emf.compare.uml2.feature.group" version="3.2.1.201608311750"/>
-<unit id="org.eclipse.emf.compare.uml2.source.feature.group" version="3.2.1.201608311750"/>
+<unit id="org.eclipse.emf.ecore.xcore.sdk.feature.group" version="1.4.0.v20160526-0606"/>
 <unit id="org.eclipse.emf.mwe.sdk.feature.group" version="1.3.20.v201605261103"/>
 <unit id="org.eclipse.emf.mwe2.language.sdk.feature.group" version="2.9.0.v201605261103"/>
 <unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="2.9.0.v201605261103"/>
@@ -58,18 +63,9 @@
 <unit id="org.eclipse.gmf.tooling.runtime.feature.group" version="3.3.1.201509291144"/>
 <unit id="org.eclipse.jdt.feature.group" version="3.12.3.v20170301-0400"/>
 <unit id="org.eclipse.m2m.qvt.oml.sdk.feature.group" version="3.6.0.v20160606-1156"/>
-<unit id="org.eclipse.ocl.core.sdk.feature.group" version="5.2.0.v20160523-1914"/>
-<unit id="org.eclipse.uml2.codegen.ecore.ui.feature.group" version="2.2.0.v20170227-0935"/>
-<unit id="org.eclipse.uml2.common.edit.feature.group" version="2.1.0.v20170227-0935"/>
-<unit id="org.eclipse.uml2.common.feature.group" version="2.1.0.v20170227-0935"/>
-<unit id="org.eclipse.uml2.feature.group" version="5.2.3.v20170227-0935"/>
-<unit id="org.eclipse.uml2.uml.edit.feature.group" version="5.2.1.v20170227-0935"/>
-<unit id="org.eclipse.uml2.uml.feature.group" version="5.2.3.v20170227-0935"/>
+<unit id="org.eclipse.ocl.all.sdk.feature.group" version="5.2.0.v20160523-1914"/>
+<unit id="org.eclipse.uml2.sdk.feature.group" version="5.2.2.v20161114-0827"/>
 <unit id="org.eclipse.xpand.sdk.feature.group" version="2.2.0.v201605260315"/>
-<unit id="org.eclipse.xsd.ecore.converter.feature.group" version="2.9.0.v20160526-0356"/>
-<unit id="org.eclipse.xsd.edit.feature.group" version="2.9.0.v20160526-0356"/>
-<unit id="org.eclipse.xsd.feature.group" version="2.12.0.v20160526-0356"/>
-<unit id="org.eclipse.xsd.mapping.feature.group" version="2.9.0.v20160526-0356"/>
 <unit id="org.eclipse.xtend.sdk.feature.group" version="2.10.0.v201605250459"/>
 <unit id="org.eclipse.xtext.sdk.feature.group" version="2.10.0.v201605250459"/>
 <repository location="http://download.eclipse.org/releases/neon/"/>

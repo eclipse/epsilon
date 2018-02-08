@@ -5,8 +5,8 @@ Bundle-SymbolicName: org.eclipse.epsilon.emc.spreadsheets.excel.dependencies
 Bundle-Version: 1.5.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse Modeling Project
-Require-Bundle: org.dom4j_1.6.1;bundle-version="1.6.1";visibility:=reexport,
- org.apache.poi_3.10.1;bundle-version="3.10.1";visibility:=reexport,
- org.apache.poi.ooxml_3.10.1;bundle-version="3.10.1";visibility:=reexport,
+Require-Bundle: org.dom4j;bundle-version="1.6.1";visibility:=reexport,
  org.apache.poi.ooxml.schemas_3.10.1;bundle-version="3.10.1";visibility:=reexport,
+ org.apache.poi.ooxml_3.10.1;bundle-version="3.10.1";visibility:=reexport,
+ org.apache.poi_3.10.1;bundle-version="3.10.1";visibility:=reexport,
  org.apache.xmlbeans_2.6.0;bundle-version="2.6.0";visibility:=reexport

@@ -11,7 +11,7 @@
 	</target>
 	
 	<target name="compress">
-		<echo>Pack200ing JARS</echo>
+		<echo>Packing JARS</echo>
 		<p2.process.artifacts
 			pack="true"
 			normalize="true"
