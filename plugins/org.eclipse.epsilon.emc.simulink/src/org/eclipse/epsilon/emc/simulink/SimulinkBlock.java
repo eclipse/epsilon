@@ -106,12 +106,13 @@ public class SimulinkBlock extends SimulinkElement {
 	public SimulinkBlock getParent() {
 		
 		String path = getPath();
-		int lastPathSeparator = path.lastIndexOf("/");
+		String name = ((String) getProperty("name")).replace("/", "//");
 		
-		if (lastPathSeparator > -1) {
-			String parentPath = path.substring(0, lastPathSeparator);
+		if (!path.equalsIgnoreCase(name)) {
 			
-			if (parentPath.indexOf("/") < 0) return null;
+			String parentPath = path.substring(0, path.length() - name.length() - 1);
+			
+			if (parentPath.replace("//","").indexOf("/") < 0) return null;
 			
 			try {
 				Double parentHandle = (Double) engine.evalWithResult("getSimulinkBlockHandle('?')", parentPath);
