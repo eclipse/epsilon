@@ -13,6 +13,7 @@ package org.eclipse.epsilon.emc.emf.dt;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -296,8 +297,8 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 			public void widgetSelected(SelectionEvent e) {
 				final String path = BrowseWorkspaceUtil.browseFilePath(getShell(),
 						"EMF meta-models in the workspace",
-						"Select an EMF meta-model (ECore)",
-						"ecore", null);
+						"Select an EMF meta-model (Ecore or Xcore)",
+						"*.?core<", null);
 				if (path != null && !metamodels.contains(path)) {
 					metamodels.add(path);
 					metamodelList.refresh();
@@ -356,24 +357,37 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 	}
 	
 	private Collection<EPackage> findEPackages(String resourcePath) {
-		Set<EPackage> ePackages = new HashSet<EPackage>();
-		
+		//Set<EPackage> ePackages = new HashSet<EPackage>();
+		List<EPackage> ePackages = null;
 		try {
-			ResourceSet rs = new ResourceSetImpl();
-			Resource r = rs.createResource(URI.createPlatformResourceURI(resourcePath, true));
-			r.load(null);
-			if (expandButton.getSelection()) {
-				EcoreUtil.resolveAll(r);
+//			ResourceSet rs = new ResourceSetImpl();
+//			Resource r = rs.createResource(URI.createPlatformResourceURI(resourcePath, true));
+//			r.load(null);
+//			if (expandButton.getSelection()) {
+//				EcoreUtil.resolveAll(r);
+//			}
+//			for (Resource res : rs.getResources()) {
+//				Iterator<EObject> it = res.getAllContents();
+//				while (it.hasNext()) {
+//					ePackages.add(EmfUtil.getTopEPackage(it.next().eClass().getEPackage()));
+//				}
+//			}
+			// Reuse EmfRegistryManager Approach
+			if (resourcePath.endsWith(".ecore")) {
+				ePackages = EmfUtil.register(URI.createPlatformResourceURI(resourcePath, true), EPackage.Registry.INSTANCE);
 			}
-			for (Resource res : rs.getResources()) {
-				Iterator<EObject> it = res.getAllContents();
-				while (it.hasNext()) {
-					ePackages.add(EmfUtil.getTopEPackage(it.next().eClass().getEPackage()));
-				}
+			else {		// Must be xcore
+				ePackages = EmfUtil.registerXcore(URI.createPlatformResourceURI(resourcePath, true));
+				
 			}
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
+		}
+		finally {
+			if (ePackages == null) {
+				ePackages = Collections.emptyList();
+			}
 		}
 		return ePackages;
 	}

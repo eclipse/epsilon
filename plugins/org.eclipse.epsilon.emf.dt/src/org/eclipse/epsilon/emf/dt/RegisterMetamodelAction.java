@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
-public class RegisterMetamodelAction implements IObjectActionDelegate{
+public class RegisterMetamodelAction implements IObjectActionDelegate {
 	
 	protected ISelection selection;
 	

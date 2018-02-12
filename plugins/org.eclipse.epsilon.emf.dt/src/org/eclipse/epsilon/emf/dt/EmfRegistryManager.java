@@ -134,7 +134,14 @@ public class EmfRegistryManager {
 	}
 	
 	private void registerMetamodel(String fileName) throws Exception{
-		List<EPackage> ePackages = EmfUtil.register(URI.createPlatformResourceURI(fileName, true), EPackage.Registry.INSTANCE);
+		List<EPackage> ePackages;
+		if (fileName.endsWith(".ecore")) {
+			ePackages = EmfUtil.register(URI.createPlatformResourceURI(fileName, true), EPackage.Registry.INSTANCE);
+		}
+		else {		// Must be xcore
+			ePackages = EmfUtil.registerXcore(URI.createPlatformResourceURI(fileName, true));
+			
+		}
 		managedMetamodels.put(fileName, ePackages);
 	}
 	

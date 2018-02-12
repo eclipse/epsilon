@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,6 +30,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -37,8 +39,11 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.common.util.OperatingSystem;
+import org.eclipse.xtext.resource.XtextResourceSet;
 
 public class EmfUtil {
+	
+	private final static URI DEFAULT_URI = URI.createFileURI("foo.ecore");
 		
 	public static EStructuralFeature getEStructuralFeature(EClass eClass, String featureName) {
 		try {
@@ -182,36 +187,38 @@ public class EmfUtil {
 			if (next instanceof EPackage) {
 				EPackage p = (EPackage) next;
 				
-				if (p.getNsURI() == null || p.getNsURI().trim().length() == 0) {
-					if (p.getESuperPackage() == null) {
-						p.setNsURI(p.getName());
-					}
-					else {
-						p.setNsURI(p.getESuperPackage().getNsURI() + "/" + p.getName());
-					}
-				}
-				
-				if (p.getNsPrefix() == null || p.getNsPrefix().trim().length() == 0) {
-					if (p.getESuperPackage() != null) {
-						if (p.getESuperPackage().getNsPrefix()!=null) {
-							p.setNsPrefix(p.getESuperPackage().getNsPrefix() + "." + p.getName());
-						}
-						else {
-							p.setNsPrefix(p.getName());
-						}
-					}
-				}
-				
-				if (p.getNsPrefix() == null) p.setNsPrefix(p.getName());
+				adjustNsAndPrefix(metamodel, p, useUriForResource);
 				registry.put(p.getNsURI(), p);
-				if (useUriForResource)
-					metamodel.setURI(URI.createURI(p.getNsURI()));
 				ePackages.add(p);
 			}
 		}
 		
 		return ePackages;
 		
+	}
+	
+	public static List<EPackage> registerXcore(URI locationURI) throws IOException {
+		return registerXcore(locationURI, true);
+	}
+	
+	public static List<EPackage> registerXcore(URI locationURI, boolean useUriForResource) throws IOException {
+		List<EPackage> ePackages = new ArrayList<EPackage>();
+		ResourceSet resourceSet = new XtextResourceSet();
+	    resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
+		Resource inputResource = resourceSet.createResource(locationURI);
+		inputResource.load(Collections.EMPTY_MAP);
+		
+		EPackage ePackage = (EPackage)EcoreUtil.getObjectByType(inputResource.getContents(), EcorePackage.Literals.EPACKAGE);
+
+        if (ePackage != null)
+        {
+        		adjustNsAndPrefix(inputResource, ePackage, useUriForResource);
+        		inputResource.getContents().remove(ePackage);
+        		EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
+        		ePackages.add(ePackage);
+        }
+		
+		return ePackages;
 	}
 
 	protected static void setDataTypesInstanceClasses(Resource metamodel) {
@@ -271,10 +278,7 @@ public class EmfUtil {
 		
 		return Collections.unmodifiableList(results);
 	}
-	
-	
-	
-	private final static URI DEFAULT_URI = URI.createFileURI("foo.ecore");
+
 	
 	public static Resource createResource() {
 		return createResource(DEFAULT_URI);
@@ -306,4 +310,32 @@ public class EmfUtil {
 		org.eclipse.epsilon.emc.emf.EmfUtil.createResource(cloned);
 		return cloned;
 	}
+	
+	private static void adjustNsAndPrefix(Resource metamodel, EPackage p, boolean useUriForResource) {
+		if (p.getNsURI() == null || p.getNsURI().trim().length() == 0) {
+			if (p.getESuperPackage() == null) {
+				p.setNsURI(p.getName());
+			}
+			else {
+				p.setNsURI(p.getESuperPackage().getNsURI() + "/" + p.getName());
+			}
+		}
+		
+		if (p.getNsPrefix() == null || p.getNsPrefix().trim().length() == 0) {
+			if (p.getESuperPackage() != null) {
+				if (p.getESuperPackage().getNsPrefix()!=null) {
+					p.setNsPrefix(p.getESuperPackage().getNsPrefix() + "." + p.getName());
+				}
+				else {
+					p.setNsPrefix(p.getName());
+				}
+			}
+		}
+		
+		if (p.getNsPrefix() == null) p.setNsPrefix(p.getName());
+		if (useUriForResource)
+			metamodel.setURI(URI.createURI(p.getNsURI()));
+	}
+
+
 }

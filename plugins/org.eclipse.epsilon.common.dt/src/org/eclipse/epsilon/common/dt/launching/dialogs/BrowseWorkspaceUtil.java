@@ -66,7 +66,12 @@ public class BrowseWorkspaceUtil {
 		
 		String pattern = "";
 		if (extension != null & extension.length() > 0) {
-			pattern = "*." + extension;
+			if (extension.startsWith("*")) {
+				pattern = extension;
+			}
+			else {
+				pattern = "*." + extension;
+			}
 		}
 		
 		IFile file = browseFile(shell, title, message, pattern, image);

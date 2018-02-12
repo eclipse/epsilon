@@ -19,7 +19,7 @@
    </extension>
    <extension
          point="org.eclipse.ui.popupMenus">
-      <objectContribution
+      <!--objectContribution
             adaptable="false"
             id="org.eclipse.epsilon.perspective.popups.ecore"
             nameFilter="*.ecore"
@@ -29,7 +29,7 @@
                icon="icons/register.gif"
                id="org.eclipse.epsilon.emf.dt.RegisterMetamodelAction"
                label="Register EPackages"/>
-      </objectContribution>
+      </objectContribution-->
       <objectContribution
             adaptable="false"
             id="org.eclipse.epsilon.perspective.popups.ecore"
@@ -42,6 +42,38 @@
                label="Generate Ecore model">
          </action>
       </objectContribution>
+   </extension>
+      <extension
+         point="org.eclipse.ui.menus">
+         <menuContribution
+               allPopups="false"
+               locationURI="popup:org.eclipse.jdt.ui.PackageExplorer?before=additions">
+            <command
+                  commandId="org.eclipse.epsilon.emf.dt.registerepackage"
+                  id="org.eclipse.epsilon.emf.dt.RegisterMetamodelAction"
+                  icon="icons/register.gif"
+                  label="Register EPackages"
+                  tooltip="Register the EPackages in the metamodel with the Epsilon EMF Registry.">
+               <visibleWhen checkEnabled="false">
+                  <or>
+                     <with variable="activeMenuSelection">
+                        <iterate ifEmpty="false">
+                           <adapt type="org.eclipse.core.resources.IResource">
+                              <test property="org.eclipse.core.resources.extension" value="ecore" />
+                           </adapt>
+                        </iterate>
+                     </with>
+                     <with variable="activeMenuSelection">
+                        <iterate ifEmpty="false">
+                           <adapt type="org.eclipse.core.resources.IResource">
+                              <test property="org.eclipse.core.resources.extension" value="xcore" />
+                           </adapt>
+                        </iterate>
+                     </with>
+                  </or>
+               </visibleWhen>
+            </command>
+         </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
@@ -56,5 +88,12 @@
       <startup
             class="org.eclipse.epsilon.emf.dt.EmfUtilPlugin"></startup>
    </extension>
-
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.eclipse.epsilon.emf.dt.RegisterMetamodelHandler"
+            id="org.eclipse.epsilon.emf.dt.registerepackage"
+            name="Register EPackage">
+      </command>
+   </extension>
 </plugin>

@@ -7,8 +7,7 @@ Bundle-Vendor: Eclipse Modeling Project
 Export-Package: org.eclipse.epsilon.emf.dt
 Require-Bundle: org.eclipse.ui.ide,
  org.eclipse.epsilon.emc.emf,
- org.eclipse.epsilon.common.dt,
- org.eclipse.emf.mapping.xsd2ecore
+ org.eclipse.epsilon.common.dt
 Bundle-Activator: org.eclipse.epsilon.emf.dt.EmfUtilPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
