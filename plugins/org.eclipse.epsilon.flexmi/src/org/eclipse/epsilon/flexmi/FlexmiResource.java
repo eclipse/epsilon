@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.flexmi;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.epsilon.flexmi.AssignmentCalculator.AssignmentScorer;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.flexmi.xml.Location;
 import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser;
 import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser.Handler;
@@ -59,18 +60,24 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	public static void main(String[] args) throws Exception {
 		
-		ResourceSet resourceSet = new ResourceSetImpl();
-		resourceSet.getPackageRegistry().put(EcorePackage.eINSTANCE.getNsURI(), EcorePackage.eINSTANCE);
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
-		//Resource resource = resourceSet.createResource(URI.createURI(FlexmiResource.class.getResource("sample.xml").toString()));
-		Resource resource = resourceSet.createResource(URI.createFileURI("/Users/dkolovos/git/ecmfa16-flexmi/models/generated-1000.flexmi"));
-		resource.load(null);
+		// Load the metamodel
+		ResourceSet metamodelResourceSet = new ResourceSetImpl();
+		metamodelResourceSet.getPackageRegistry().put(EcorePackage.eINSTANCE.getNsURI(), EcorePackage.eINSTANCE);
+		metamodelResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
+		Resource metamodelResource = metamodelResourceSet.createResource(URI.createFileURI(new File("models/messaging.ecore").getAbsolutePath()));
+		metamodelResource.load(null);
 		
-		/*
-		EolModule module = new EolModule();
-		module.parse("EReference.all.first().eType.name.println();");
-		module.getContext().getModelRepository().addModel(new InMemoryEmfModel("M", resource));
-		module.execute();*/
+		EPackage metamodel = (EPackage) metamodelResource.getContents().get(0);
+		
+		// Load the model
+		ResourceSet modelResourceSet = new ResourceSetImpl();
+		modelResourceSet.getPackageRegistry().put(metamodel.getNsURI(), metamodel);
+		modelResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
+		Resource modelResource = modelResourceSet.createResource(URI.createFileURI(new File("models/messaging.flexmi").getAbsolutePath()));
+		modelResource.load(null);
+		
+		System.out.println(modelResource.getContents().get(0));
+		
 	}
 	
 	public FlexmiResource(URI uri) {
