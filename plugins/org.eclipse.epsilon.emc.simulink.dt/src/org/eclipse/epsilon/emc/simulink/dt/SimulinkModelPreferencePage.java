@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
-import org.eclipse.epsilon.emc.simulink.models.SimulinkModel;
+import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FileFieldEditor;

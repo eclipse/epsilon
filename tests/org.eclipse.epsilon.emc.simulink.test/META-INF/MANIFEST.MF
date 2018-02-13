@@ -7,4 +7,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit,
  org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.emc.simulink
-Export-Package: org.eclipse.epsilon.emc.simulink.test
+Export-Package: org.eclipse.epsilon.emc.simulink.test.unit

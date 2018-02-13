@@ -1,0 +1,43 @@
+var sineWave = new `simulink/Sources/Sine Wave`;
+assert(`Sine Wave`.all.size() = 1);
+
+var gain = new `simulink/Math Operations/Gain`;
+assert(Gain.all.size() = 1);
+
+var saturation = new `simulink/Discontinuities/Saturation`;
+assert(Saturation.all.size() = 1);
+
+var busCreator = new `simulink/Signal Routing/Bus Creator`;
+assert(`Bus Creator`.all.size() = 1);
+
+var scope = new `simulink/Sinks/Scope`;
+assert(Scope.all.size() = 1);
+
+sineWave.position = "[100 100 130 130]";
+assert(sineWave.position = "[100 100 130 130]");
+
+gain.position = "[200 100 230 130]";
+assert(gain.position = "[200 100 230 130]");
+
+saturation.position = "[300 100 330 130]";
+assert(saturation.position = "[300 100 330 130]");
+
+busCreator.position = "[400 70 410 300]";
+assert(busCreator.position = "[400 70 410 300]");
+
+scope.position = "[500 175 530 205]";
+assert(scope.position = "[500 175 530 205]");
+
+gain.gain = 2;
+assert(gain.gain = 2);
+
+busCreator.inputs = 3;
+assert(busCreator.inputs = 3);
+
+// TODO TESTS
+sineWave.link(gain);
+gain.link(saturation);
+saturation.link(busCreator);
+gain.linkTo(busCreator, 2);
+sineWave.linkTo(busCreator, 3);
+busCreator.link(scope);

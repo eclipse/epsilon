@@ -1,7 +1,7 @@
 package org.eclipse.epsilon.emc.simulink.dt;
 
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
-import org.eclipse.epsilon.emc.simulink.models.SimulinkModel;
+import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 
 public class SimulinkModelInEclipse extends SimulinkModel {
 	

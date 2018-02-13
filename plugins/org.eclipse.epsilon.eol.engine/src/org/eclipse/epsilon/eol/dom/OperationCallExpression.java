@@ -71,7 +71,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		else {
 			targetObject = EolNoType.NoInstance;
 		}
-		
+				
 		IModel owningModel = context.getModelRepository().getOwningModel(targetObject);
 		
 		// Non-overridable operations

@@ -18,7 +18,8 @@ plant.position = "[500 100 600 130]";
 // Controller subsystem
 var pidController = new `simulink/Continuous/PID Controller`;
 pidController.name = "PID Controller";
-pidController.parent = controller;
+pidController.parent.println;
+pidController.parent = controller; // This breaks "PID 1dof block (mask) parameter 'Parent' is read-only"
 
 var error = Inport.all.selectOne(ip|ip.parent = controller and ip.name="In1");
 error.name = "Error";

@@ -65,7 +65,7 @@ public class MatlabEnginePool {
 		instance = null;
 	}
 	
-	public MatlabEngine getMatlabEngine() {
+	public MatlabEngine getMatlabEngine() throws Exception {
 		if (pool.isEmpty()) {
 			return new MatlabEngine(matlabEngineClass);
 		} else {

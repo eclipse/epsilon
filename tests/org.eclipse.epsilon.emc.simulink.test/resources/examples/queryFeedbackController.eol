@@ -1,0 +1,25 @@
+var a = SubSystem.all;
+assert( a.size() > 0 );
+
+for (subsystem in a) {
+	
+	("Exploring subsystem: " + subsystem.name).println();
+	
+	for (child in subsystem.getChildren()) {
+		if (child.isTypeOf(Inport)) {
+			("Inport: " + child.name).println("\t");
+			("To: " + child.outports[0].lines[0].destination).println("\t\t");
+		}
+		else if (child.isTypeOf(Outport)) {
+			("Outport: " + child.name).println("\t");
+			("From: " + child.inports[0].lines[0].destination).println("\t\t");
+		}
+		else {
+			("Child: " + child.name).println("\t");
+		}
+	}
+}
+
+//operation Any getChildren() {
+//	return Block.all.select(b|b.parent = self);
+//}

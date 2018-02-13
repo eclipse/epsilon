@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.emc.simulink.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
-import org.eclipse.epsilon.emc.simulink.models.SimulinkModel;
+import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
