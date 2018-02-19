@@ -11,9 +11,6 @@
       <directory>target/dependency</directory>
       <outputDirectory></outputDirectory>
       <includes>
-        <include>org.apache.commons.collections_3.2.1*.jar</include>
-        <include>org.slf4j.api_1.7.2*.jar</include>
-        <include>org.apache.commons.lang3_3.1*.jar</include>
         <include>org.apache.poi_3.10.1*.jar</include>
         <include>org.apache.poi.ooxml_3.10.1*.jar</include>
         <include>org.apache.poi.ooxml.schemas_3.10.1*.jar</include>

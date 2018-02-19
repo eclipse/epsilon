@@ -32,14 +32,19 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.Resource.Factory;
+import org.eclipse.emf.ecore.resource.Resource.Factory.Descriptor;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xcore.XcoreRuntimeModule;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.common.util.OperatingSystem;
-import org.eclipse.xtext.resource.XtextResourceSet;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class EmfUtil {
 	
@@ -150,6 +155,29 @@ public class EmfUtil {
 		if (!etfm.containsKey("*")) {
 			etfm.put("*", new XMIResourceFactoryImpl());
 		}
+		if (!etfm.containsKey("xcore")) {
+			Injector injector = Guice.createInjector(new XcoreRuntimeModule());
+			org.eclipse.xtext.resource.IResourceFactory resourceFactory = injector.getInstance(org.eclipse.xtext.resource.IResourceFactory.class);
+			org.eclipse.xtext.resource.IResourceServiceProvider serviceProvider = injector.getInstance(org.eclipse.xtext.resource.IResourceServiceProvider.class);
+			etfm.put("xcore", resourceFactory);
+			org.eclipse.xtext.resource.IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put("xcore", serviceProvider);
+		}
+		else {
+			Object fi = etfm.get("xcore");
+			if (fi instanceof Descriptor) {
+				// Forcing XCore to load correctly. Need to test if in an installation with XCore we are not breaking anything.
+				//  Probably do a try  {fi.createFactory() } and if exception then init.
+				try {
+					((Descriptor)fi).createFactory();
+				} catch (NoClassDefFoundError err) {
+					Injector injector = Guice.createInjector(new XcoreRuntimeModule());
+					org.eclipse.xtext.resource.IResourceFactory resourceFactory = injector.getInstance(org.eclipse.xtext.resource.IResourceFactory.class);
+					org.eclipse.xtext.resource.IResourceServiceProvider serviceProvider = injector.getInstance(org.eclipse.xtext.resource.IResourceServiceProvider.class);
+					etfm.put("xcore", resourceFactory);
+					org.eclipse.xtext.resource.IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put("xcore", serviceProvider);
+				}	
+			}
+		}
 	}
 	
 	public static List<EPackage> register(URI uri, EPackage.Registry registry) throws Exception {
@@ -202,18 +230,24 @@ public class EmfUtil {
 	}
 	
 	public static List<EPackage> registerXcore(URI locationURI, boolean useUriForResource) throws IOException {
-		List<EPackage> ePackages = new ArrayList<EPackage>();
-		ResourceSet resourceSet = new XtextResourceSet();
-	    resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
-		Resource inputResource = resourceSet.createResource(locationURI);
-		inputResource.load(Collections.EMPTY_MAP);
 		
-		EPackage ePackage = (EPackage)EcoreUtil.getObjectByType(inputResource.getContents(), EcorePackage.Literals.EPACKAGE);
+		List<EPackage> ePackages = new ArrayList<EPackage>();
+		
+		initialiseResourceFactoryRegistry();
+		
+		ResourceSet resourceSet = new ResourceSetImpl();
+	    	resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
+		Resource metamodel = resourceSet.createResource(locationURI);
+		metamodel.load(Collections.EMPTY_MAP);
+		
+		setDataTypesInstanceClasses(metamodel);
+		
+		EPackage ePackage = (EPackage)EcoreUtil.getObjectByType(metamodel.getContents(), EcorePackage.Literals.EPACKAGE);
 
         if (ePackage != null)
         {
-        		adjustNsAndPrefix(inputResource, ePackage, useUriForResource);
-        		inputResource.getContents().remove(ePackage);
+        		adjustNsAndPrefix(metamodel, ePackage, useUriForResource);
+        		metamodel.getContents().remove(ePackage);
         		EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
         		ePackages.add(ePackage);
         }
