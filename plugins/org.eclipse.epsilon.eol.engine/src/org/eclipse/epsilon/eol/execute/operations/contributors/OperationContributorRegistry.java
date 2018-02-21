@@ -63,7 +63,8 @@ public class OperationContributorRegistry {
 		                           new IterableOperationContributor(),
 		                           new ScalarOperationContributor(),
 		                           new AnyOperationContributor(),
-		                           new BasicEUnitOperationContributor()));
+		                           new BasicEUnitOperationContributor(),
+		                           new ModelElementOperationContributor()));
 	}
 	
 	/**

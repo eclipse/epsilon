@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 The University of York.
+ * Copyright (c) 2012-2018 The University of York, Aston University.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio Garcia-Dominguez - move id() to ModelElementOperationContributor
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
@@ -15,14 +16,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IUndefined;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
+import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
-import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 
 public class AnyOperationContributor extends OperationContributor {
 	
@@ -64,17 +64,6 @@ public class AnyOperationContributor extends OperationContributor {
 		}
 		
 		return null;
-	}
-	
-	public String id() throws Exception {
-		IModel model = context.getModelRepository().getOwningModel(target);
-		if (model != null) {
-			return model.getElementId(target);
-		}
-		//}
-		else {
-			throw new EolRuntimeException(context.getPrettyPrinterManager().print(target) + " is not a model element");
-		}
 	}
 	
 	public boolean instanceOf(EolType type) {
