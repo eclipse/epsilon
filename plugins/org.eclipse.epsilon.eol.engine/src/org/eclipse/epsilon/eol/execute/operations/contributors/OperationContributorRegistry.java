@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 The University of York.
+ * Copyright (c) 2012-2018 The University of York, Aston University.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio Garcia-Dominguez - provide context for checking if an operation is contributed.
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
@@ -75,7 +76,7 @@ public class OperationContributorRegistry {
 	 * example, EGL's contributor for OutputBuffer's print operations.
 	 */
 	public ObjectMethod findContributedMethodForUnevaluatedParameters(Object target, String name, List<Expression> parameterExpressions, IEolContext context) {
-		for (OperationContributor c : getOperationContributorsFor(target)) {
+		for (OperationContributor c : getOperationContributorsFor(target, context)) {
 			ObjectMethod objectMethod = c.findContributedMethodForUnevaluatedParameters(target, name, parameterExpressions, context);
 			if (objectMethod != null) return objectMethod;
 		}
@@ -90,7 +91,7 @@ public class OperationContributorRegistry {
 	 * evaluated.
 	 */
 	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context) {
-		for (OperationContributor c : getOperationContributorsFor(target)) {
+		for (OperationContributor c : getOperationContributorsFor(target, context)) {
 			ObjectMethod objectMethod = c.findContributedMethodForEvaluatedParameters(target, name, parameters, context, false);
 			if (objectMethod != null) return objectMethod;
 		}
@@ -98,10 +99,11 @@ public class OperationContributorRegistry {
 		return null;
 	}
 	
-	private Collection<OperationContributor> getOperationContributorsFor(Object target) {
+	private Collection<OperationContributor> getOperationContributorsFor(Object target, IEolContext context) {
 		final List<OperationContributor> applicableOperationContributors = new LinkedList<OperationContributor>();
 		
 		for (OperationContributor c : operationContributorsCache) {
+			c.setContext(context);
 			if (c.contributesTo(target)) {
 				applicableOperationContributors.add(c);
 			}
