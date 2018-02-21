@@ -11,13 +11,19 @@
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.ModelRepository;
 
 public class ModelElementOperationContributor extends OperationContributor {
 	
 	@Override
 	public boolean contributesTo(Object target) {
-		IModel model = context.getModelRepository().getOwningModel(target);
-		return model != null;
+		if (context != null) {
+			ModelRepository repository = context.getModelRepository();
+			if (repository != null) {
+				return repository.getOwningModel(target) != null;
+			}
+		}
+		return false;
 	}
 
 	public String id() throws Exception {
