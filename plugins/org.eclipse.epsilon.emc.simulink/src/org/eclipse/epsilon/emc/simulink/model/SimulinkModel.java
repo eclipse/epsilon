@@ -400,5 +400,13 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	public Object parseMatlabEngineVariable(String variableName) throws MatlabException { // OK
 		return MatlabEngineUtil.parseMatlabEngineVariable(engine, variableName);
 	}
+	
+	public void statement(String statement) throws EolRuntimeException {
+		try{
+			engine.eval(statement);
+		} catch (MatlabException e) {
+			throw new EolRuntimeException(e.getMessage());
+		}
+	}
 
 }

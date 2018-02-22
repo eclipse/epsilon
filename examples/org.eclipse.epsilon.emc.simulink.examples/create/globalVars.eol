@@ -1,22 +1,6 @@
-/* MATLAB CODE :
+" >> Global variable a".println;
 
-h=new_system('a')
-add_param('a','a','2')
-open_system('a')
-
-add_block('simulink/User-Defined Functions/MATLAB Function','a/ss')
-add_block('simulink/Signal Routing/Data Store Memory','a/as')
-rt=slroot;
-bl=rt.find('-isa','Stateflow.EMChart','Name','ss')
-
-bl.Script="global bb;"
-
-data_new = Stateflow.Data(bl)
-data_new.Name = 'bb';
-data_new.Scope='Data Store Memory';
-*/
-
-" >> Define matlab function that contains a global variable a".println;
+M.statement("global a;");
 
 " >> Create all necessary objects".println;
 
