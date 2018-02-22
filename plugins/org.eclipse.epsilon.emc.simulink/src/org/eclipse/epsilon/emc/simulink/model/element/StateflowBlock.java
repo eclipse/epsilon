@@ -378,4 +378,13 @@ public class StateflowBlock extends SimulinkModelElement {
 			return null;
 		}
 	}
+	
+	public StateflowBlock add(StateflowBlock block) {
+		try {
+			block.setParent(this);
+		} catch (EolRuntimeException e) {
+			e.printStackTrace();
+		}
+		return this;
+	}
 }
