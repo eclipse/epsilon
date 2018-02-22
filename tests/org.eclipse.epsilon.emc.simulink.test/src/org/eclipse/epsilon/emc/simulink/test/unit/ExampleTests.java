@@ -33,4 +33,9 @@ private static final String ROOT = "examples/";
 		eolResourceFile = ROOT + "queryFeedbackController.eol";
 		modelFile = FileUtils.getModelFile("feedbackController.slx");
 	}
+	
+	@Test
+	public void testRobustTest() { //
+		eolResourceFile = ROOT + "robustTest.eol";
+	}
 }
