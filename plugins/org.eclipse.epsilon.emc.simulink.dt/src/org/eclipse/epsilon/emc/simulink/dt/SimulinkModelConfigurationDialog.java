@@ -68,7 +68,7 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 		
 		hiddenEditorCheckbox = new Button(displayGroupContent, SWT.CHECK);
 		hiddenEditorCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		hiddenEditorCheckbox.setSelection(true);
+		hiddenEditorCheckbox.setSelection(false);
 		
 		displayGroupContent.layout();
 		displayGroupContent.pack();

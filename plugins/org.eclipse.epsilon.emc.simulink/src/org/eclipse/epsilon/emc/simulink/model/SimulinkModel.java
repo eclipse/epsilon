@@ -102,13 +102,14 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	
 	@Override
 	protected void disposeModel() { // OK
-		try {
-			engine.eval(CLOSE_SYSTEM, this.getSimulinkModelName());
-		} catch (MatlabException e) {
-			e.printStackTrace();
-		} finally {
-			MatlabEnginePool.getInstance(libraryPath, engineJarPath).release(engine);
-		}
+		/*if (hiddenEditor) {
+			try {
+				engine.eval(CLOSE_SYSTEM, this.getSimulinkModelName());
+			} catch (MatlabException e) {
+				e.printStackTrace();
+			}
+		}*/
+		MatlabEnginePool.getInstance(libraryPath, engineJarPath).release(engine);
 	}
 	
 	@Override
