@@ -84,17 +84,16 @@ var plantOutport = outports.selectOne(op|op.parent = plant);
 
 errorInport.unlink(controlOutport);
 errorInport.link(pidController);
-//"pidController.link(controlOutport);".println;
-//pidController.link(controlOutport); // FAILS
+pidController.link(controlOutport);
 
 plantInport.unlink(plantOutport);
 plantInport.link(transferFcn);
 transferFcn.link(plantOutport);
 
-reference.link(sum); // TEST
-sum.link(controller); // TEST
-controller.link(plant); // TEST
-plant.linkTo(sum, 2); // TEST
+reference.link(sum); 
+sum.link(controller); 
+controller.link(plant); 
+plant.linkTo(sum, 2);
 
 
 "finished".println;
