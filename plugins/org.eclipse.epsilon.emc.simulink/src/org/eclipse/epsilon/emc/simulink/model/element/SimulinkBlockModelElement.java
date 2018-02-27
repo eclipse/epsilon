@@ -39,11 +39,10 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 
 	public SimulinkBlockModelElement(String path, SimulinkModel model, MatlabEngine engine) {
 		super(model, engine);
-		this.path = path;
-		getHandle();
+		setHandle(path);
 		setType();
 	}
-	
+
 	public SimulinkBlockModelElement(SimulinkModel model, MatlabEngine engine) {
 		super(model, engine);
 	}
@@ -71,14 +70,15 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 
 	@Override
 	public Double getHandle() {
-		if (this.handle == null) {
-			this.handle = SimulinkUtil.getHandle(getPath(), engine);
-		}
 		return this.handle;
+	}
+	
+	private void setHandle(String path) {
+		this.handle = SimulinkUtil.getHandle(path, engine);
 	}
 
 	private void setType(String type) {
-		if (type != null ) {
+		if (type != null) {
 			this.type = type;
 		} else {
 			if (handle != null) {
@@ -90,7 +90,7 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 			}
 		}
 	}
-	
+
 	private void setType() {
 		setType(null);
 	}
@@ -99,12 +99,11 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 	 * @return Identifier (Path)
 	 */
 	public String getPath() {
-		if (path == null) {
-			try {
-				this.path = (String) engine.evalWithResult(GET_FULL_NAME, handle);
-			} catch (MatlabException e) {}
-		} 
-		return path;
+		try {
+			return (String) engine.evalWithResult(GET_FULL_NAME, handle);
+		} catch (MatlabException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -112,7 +111,7 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 		return other instanceof SimulinkBlockModelElement
 				&& ((SimulinkBlockModelElement) other).getHandle().equals(this.getHandle());
 	}
-	
+
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
 		return Arrays.asList(SimulinkModel.BLOCK, SimulinkModel.SIMULINK, getType());

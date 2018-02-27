@@ -9,7 +9,6 @@ public abstract class SimulinkModelElement implements ISimulinkModelElement {
 	protected SimulinkModel model = null;
 	protected MatlabEngine engine;
 	protected String type;
-	protected String path;
 	
 	public SimulinkModelElement(SimulinkModel model, MatlabEngine engine) {
 		this.model = model;

@@ -3,14 +3,14 @@
 var reference = new `simulink/Sources/Step`;
 assert(Step.all.size() = 1);  
 
+var sum = new `simulink/Math Operations/Sum`;
+assert(Sum.all.size() = 1);  
+
 var controller = new `simulink/Ports & Subsystems/Subsystem`;
 assert(SubSystem.all.size() = 1);  
 
 var plant = new `simulink/Ports & Subsystems/Subsystem`;
 assert(SubSystem.all.size() = 2);  
-
-var sum = new `simulink/Math Operations/Sum`;
-assert(Sum.all.size() = 1);  
 
 var pidController = new `simulink/Continuous/PID Controller`; // Controller subsystem
 assert(SubSystem.all.size() = 3);  
@@ -77,24 +77,23 @@ var controlOutport = outports.selectOne(op|op.parent = controller and op.name="O
 controlOutport.name = "Control";
 assert(controlOutport.name = "Control");
 
+var plantInport = inports.selectOne(ip|ip.parent = plant);
+var plantOutport = outports.selectOne(op|op.parent = plant);
+
 "LINKING STARTS".println;
 
-"errorInport.unlink(controlOutport);".println;
 errorInport.unlink(controlOutport);
-"errorInport.link(pidController);".println;
 errorInport.link(pidController);
-/*
-"pidController.link(controlOutport);".println;
-pidController.link(controlOutport); // FAILS
+pidController.link(controlOutport);
 
-"reference.link(sum);".println;
-reference.link(sum); // TEST
-"sum.link(controller);".println;
-sum.link(controller); // TEST
-"controller.link(plant);".println;
-controller.link(plant); // TEST
-"plant.linkTo(sum, 2);".println;
-plant.linkTo(sum, 2); // TEST
-*/
+plantInport.unlink(plantOutport);
+plantInport.link(transferFcn);
+transferFcn.link(plantOutport);
+
+reference.link(sum); 
+sum.link(controller); 
+controller.link(plant); 
+plant.linkTo(sum, 2);
+
 
 "finished".println;
