@@ -80,28 +80,26 @@ public class MatlabEngineUtil {
 	}
 
 	public static Object parseMatlabEngineVariable(Object value) {
-		if (value instanceof int[])
-			return MatlabEngineUtil.matlabArrayToList((int[]) value);
-		if (value instanceof long[])
-			return MatlabEngineUtil.matlabArrayToList((long[]) value);
-		if (value instanceof boolean[])
-			return MatlabEngineUtil.matlabArrayToList((boolean[]) value);
-		if (value instanceof double[])
-			return MatlabEngineUtil.matlabArrayToList((double[]) value);
-		if (value instanceof float[])
-			return MatlabEngineUtil.matlabArrayToList((float[]) value);
 		if (value instanceof byte[])
 			return MatlabEngineUtil.matlabArrayToList((byte[]) value);
 		if (value instanceof short[])
 			return MatlabEngineUtil.matlabArrayToList((short[]) value);
+		if (value instanceof int[])
+			return MatlabEngineUtil.matlabArrayToList((int[]) value);
+		if (value instanceof long[])
+			return MatlabEngineUtil.matlabArrayToList((long[]) value);
+		if (value instanceof float[])
+			return MatlabEngineUtil.matlabArrayToList((float[]) value);
+		if (value instanceof double[])
+			return MatlabEngineUtil.matlabArrayToList((double[]) value);
+		if (value instanceof boolean[])
+			return MatlabEngineUtil.matlabArrayToList((boolean[]) value);
 		if (value instanceof String[])
 			return MatlabEngineUtil.matlabArrayToList((String[]) value);
 		if (value instanceof Object[])
 			return MatlabEngineUtil.matlabArrayToList((Object[]) value);
-		if (value instanceof Character) {
+		if (value instanceof Character) 
 			return String.valueOf(value);
-		}
 		return value;
 	}
-
 }

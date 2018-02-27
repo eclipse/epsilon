@@ -23,9 +23,7 @@ public class SimulinkBlock extends SimulinkBlockModelElement {
 
 	private static final String HANDLE_DELETE_BLOCK_HANDLE = "handle = ?; delete_block(handle);";
 	private static final String INSPECT_HANDLE = "handle = ?; inspect(handle);";
-	private static final String GET_PARAM_BLOCK_TYPE = "get_param(handle, 'BlockType');";
 	private static final String GET_SIMULINK_BLOCK_HANDLE = "getSimulinkBlockHandle('?');";
-	private static final String GET_FULL_NAME = "getfullname(?);";
 	private static final String DELETE = "delete";
 	private static final String CREATE = "add";
 	private static final String DELETE_BLOCK = "handle = ?; delete_block(handle);";
@@ -36,47 +34,18 @@ public class SimulinkBlock extends SimulinkBlockModelElement {
 	 * @throws EolRuntimeException
 	 */
 
-	public SimulinkBlock(SimulinkModel model, MatlabEngine engine, Double handle, String type) {
-		super(model, engine, handle, type);
-	}
-
 	public SimulinkBlock(SimulinkModel model, MatlabEngine engine, Double handle) {
 		super(model, engine, handle);
-		this.type = getType(); // FIXME should be the complete type
+	}
+	
+	public SimulinkBlock(String path, SimulinkModel model, MatlabEngine engine) {
+		super(model, engine);
+		this.path = path;
+		getHandle();
 	}
 
 	public SimulinkBlock(SimulinkModel model, MatlabEngine engine, String type) {
 		super(model, engine, type);
-	}
-
-	/** TYPE */
-	@Override
-	public String getType() {
-		if (type == null && handle != null) {
-			try {
-				type = (String) engine.evalWithSetupAndResult(HANDLE, GET_PARAM_BLOCK_TYPE, handle);
-			} catch (Exception e) { 	}
-		}
-		if (type != null) {
-			return getSimpleType();
-		}
-		return type;
-	}
-	
-	
-	public String getSimpleType() {
-		return SimulinkUtil.getSimpleTypeName(this.type);
-	}
-
-	/**
-	 * @return Identifier (Path)
-	 */
-	public String getPath() {
-		try {
-			return (String) engine.evalWithResult(GET_FULL_NAME, handle);
-		} catch (MatlabException e) {
-			return null;
-		}
 	}
 
 	/** PARENT / CHILDREN **/
@@ -136,12 +105,7 @@ public class SimulinkBlock extends SimulinkBlockModelElement {
 
 	@Override
 	public String toString() {
-		return getPath();
-	}
-	
-	@Override
-	public Collection<String> getAllTypeNamesOf() { // FIXME Try without simple type
-		return Arrays.asList(SimulinkModel.BLOCK, SimulinkModel.SIMULINK, getType(), getSimpleType());
+		return getType() + "[ Path=" + getPath() + ", handle=" + getHandle() + "]";
 	}
 
 	@Override

@@ -8,16 +8,12 @@ public abstract class SimulinkModelElement implements ISimulinkModelElement {
 
 	protected SimulinkModel model = null;
 	protected MatlabEngine engine;
-	public String type;
+	protected String type;
+	protected String path;
 	
 	public SimulinkModelElement(SimulinkModel model, MatlabEngine engine) {
 		this.model = model;
 		this.engine = engine;
-	}
-	
-	public SimulinkModelElement(SimulinkModel model, MatlabEngine engine, String type) {
-		this(model, engine);
-		this.type = type;
 	}
 		
 	@Override
@@ -29,6 +25,7 @@ public abstract class SimulinkModelElement implements ISimulinkModelElement {
 		return engine;
 	}
 	
+	@Override
 	public String getType() {
 		return this.type;
 	}

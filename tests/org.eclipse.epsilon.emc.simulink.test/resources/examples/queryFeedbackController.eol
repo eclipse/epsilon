@@ -6,6 +6,8 @@ for (subsystem in a) {
 	("Exploring subsystem: " + subsystem.name).println();
 	
 	for (child in subsystem.getChildren()) {
+		assert(child.name <> null);
+		assert(child.name.println() <> "");
 		if (child.isTypeOf(Inport)) {
 			("Inport: " + child.name).println("\t");
 			("To: " + child.outports[0].lines[0].destination).println("\t\t");
@@ -15,11 +17,7 @@ for (subsystem in a) {
 			("From: " + child.inports[0].lines[0].destination).println("\t\t");
 		}
 		else {
-			("Child: " + child.name).println("\t");
+			
 		}
 	}
 }
-
-//operation Any getChildren() {
-//	return Block.all.select(b|b.parent = self);
-//}

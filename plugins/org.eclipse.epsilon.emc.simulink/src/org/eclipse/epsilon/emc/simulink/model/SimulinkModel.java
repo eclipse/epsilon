@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,6 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	private static final String OPEN_SYSTEM = "open_system ";
 	private static final String NEW_SYSTEM = "new_system('?', 'Model');";
 	private static final String SAVE_SYSTEM = "save_system('?', '?');";
-	private static final String CLOSE_SYSTEM = "close_system('?', 0)";
 
 	public static final String BLOCK = "Block";
 	public static final String SIMULINK = "Simulink";
@@ -133,10 +133,14 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException { 
 		if (type.toLowerCase().startsWith(STATEFLOW.toLowerCase()) && parameters.size() == 1) {
 			Object parentObject = parameters.toArray()[0];
-			if (parentObject instanceof SimulinkDualBlock) 
-				return new StateflowBlock(this, engine, type, (SimulinkDualBlock) parentObject);
-			if (parentObject instanceof StateflowBlock) 
-				return new StateflowBlock(this, engine, type, (StateflowBlock) parentObject);
+			try {
+				if (parentObject instanceof SimulinkDualBlock)
+						return new StateflowBlock(this, engine, type, (SimulinkDualBlock) parentObject);
+				if (parentObject instanceof StateflowBlock) 
+					return new StateflowBlock(this, engine, type, (StateflowBlock) parentObject);
+			} catch (EolRuntimeException e) {
+				throw new EolModelElementTypeNotFoundException(type, null, e.getMessage());
+			}
 		} 
 		throw new EolModelElementTypeNotFoundException(type, null);
 	}
@@ -154,7 +158,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	
 	@Override
 	protected Object getCacheKeyForType(String type) throws EolModelElementTypeNotFoundException { // OK
-		return SimulinkUtil.getSimpleTypeName(type);
+		return type;
 	}
 	
 	// COLLECTORS 
@@ -172,8 +176,10 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	protected Collection<ISimulinkModelElement> allContentsFromModel() { // OK
 		Collection<ISimulinkModelElement> all = new ArrayList<ISimulinkModelElement>();
 		try {
-			all.addAll(StateflowUtil.getAllStateflowBlocksFromModel(this, engine));
-			all.addAll(SimulinkUtil.getAllSimulinkBlocksFromModel(this, engine));
+			Collection<ISimulinkModelElement> allStateflowBlocksFromModel = StateflowUtil.getAllStateflowBlocksFromModel(this, engine);
+			if (!allStateflowBlocksFromModel.isEmpty()) all.addAll(allStateflowBlocksFromModel);
+			List<ISimulinkModelElement> allSimulinkBlocksFromModel = SimulinkUtil.getAllSimulinkBlocksFromModel(this, engine);
+			if (!allSimulinkBlocksFromModel.isEmpty()) all.addAll(allSimulinkBlocksFromModel);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -184,22 +190,12 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	protected Collection<ISimulinkModelElement> getAllOfTypeFromModel(String type) 
 			throws EolModelElementTypeNotFoundException { // OK
 		try {
-			if (type.contains("/")){
-				return SimulinkUtil.getAllSimulinkBlocksFromModel(this, engine, type)
-						.stream().map(e -> (ISimulinkBlockModelElement) e)
-						.collect(Collectors.toList());
-			}
-			if (type.startsWith(STATEFLOW)) {
-				return StateflowUtil.getAllOfStateflowTypeFromModel(this, engine, type);
-			}
-			else {
-				Collection<ISimulinkModelElement> all = new ArrayList<ISimulinkModelElement>();
-				all.addAll(SimulinkUtil.getAllSimulinkBlocksFromModel(this, engine, type)
-						.stream().map(e -> (ISimulinkBlockModelElement) e)
-						.collect(Collectors.toList()));
-				all.addAll(StateflowUtil.getAllOfStateflowTypeFromModel(this, engine, type));
-				return all;
-			}
+			Collection<ISimulinkModelElement> allOfStateflowTypeFromModel = StateflowUtil.getAllOfStateflowTypeFromModel(this, engine, type);
+			List<ISimulinkModelElement> allSimulinkBlocksFromModel = SimulinkUtil.getAllSimulinkBlocksFromModel(this, engine, type);
+			Collection<ISimulinkModelElement> all = new ArrayList<ISimulinkModelElement>();
+			if (!allSimulinkBlocksFromModel.isEmpty()) all.addAll(allSimulinkBlocksFromModel);
+			if (!allOfStateflowTypeFromModel.isEmpty()) all.addAll(allOfStateflowTypeFromModel);
+			return all;	
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new EolModelElementTypeNotFoundException(this.getName(), type);

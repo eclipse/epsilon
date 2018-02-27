@@ -135,7 +135,7 @@ public abstract class AbstractSimulinkTest {
 		}
 		model.setStoredOnDisposal(false);
 		model.setHiddenEditor(true);
-		model.setCachingEnabled(false);
+		model.setCachingEnabled(activeCaching);
 		model.setLibraryPath(LIBRARY_PATH.path());
 		model.setEngineJarPath(ENGINE_JAR.path());
 		model.load();

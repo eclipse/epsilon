@@ -23,5 +23,7 @@ public interface ISimulinkModelElement extends IModelElement {
 	public boolean deleteElementInModel() throws EolRuntimeException;
 
 	public String getType(); 
+	
+	public String getPath();
 
 }

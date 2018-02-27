@@ -3,6 +3,7 @@ package org.eclipse.epsilon.emc.simulink.model.element;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
@@ -48,7 +49,7 @@ public class SimulinkDualBlock extends SimulinkBlock {
 	
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		return Arrays.asList(SimulinkModel.BLOCK, SimulinkModel.SIMULINK, getType(), getSimpleType());
+		return super.getAllTypeNamesOf();
 	}
 	
 	public SimulinkDualBlock add(StateflowBlock block) {
@@ -60,8 +61,13 @@ public class SimulinkDualBlock extends SimulinkBlock {
 		return this;
 	}
 	
-	public Collection<StateflowBlock> blocks(){
+	public Collection<StateflowBlock> getStateflowBlocks(){
 		return this.stateflowBlock.getChildren();
+	}
+	
+	@Override
+	public List<SimulinkBlock> getChildren() {
+		return super.getChildren();
 	}
 	
 	@Override

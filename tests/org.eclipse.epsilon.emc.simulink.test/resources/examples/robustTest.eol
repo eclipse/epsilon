@@ -1,69 +1,47 @@
-/* MATLAB CODE :
-
-h=new_system('a')
-add_param('a','a','2')
-open_system('a')
-
-add_block('simulink/User-Defined Functions/MATLAB Function','a/ss')
-add_block('simulink/Signal Routing/Data Store Memory','a/as')
-rt=slroot;
-bl=rt.find('-isa','Stateflow.EMChart','Name','ss')
-
-bl.Script="global bb;"
-
-data_new = Stateflow.Data(bl)
-data_new.Name = 'bb';
-data_new.Scope='Data Store Memory';
-*/
-
 " >> Define matlab function that contains a global variable a".println;
+
+M.statement("global e;");
 
 " >> Create all necessary objects".println;
 
 var simufc = new `simulink/User-Defined Functions/MATLAB Function`;
-assert(simufc <> null);
+assert(SubSystem.all.size() = 1);
 
 var store1 = new `simulink/Signal Routing/Data Store Memory`;
-assert(store1 <> null);
+assert(DataStoreMemory.all.size() = 1);
 
-// CHART Version 
-var chart = new `sflib/Chart`; // Temporary FIX 
-assert(chart <> null); 
-
-var data_new = new `Stateflow.Data`;
-chart.add(data_new); // Same as data_new.parent = chart;
-assert(data_new <> null);
-assert(Data.all.first() <> null);
-
-// EMChart Version
 var emChart = EMChart.all.first();
-assert(emChart <> null);
+assert(EMChart.all.size()  = 1);
 
-var data_new_2 = new `Stateflow.Data`;
-//data_new_2.parent = emChart; 
-emChart.add(data_new_2);
+var dataSize = Data.all.size();
+	var data_new = new `Stateflow.Data`;
+	emChart.add(data_new);
+assert(Data.all.size() = (dataSize + 1));
 
 " >> setting properties".println;
 
-simufc.Script="global a;"+"\\n"+"a=a+1;"; // Double '\'
-simufc.Script.println;
+simufc.Script="global a;"+"\\n"+"a=a+1;";
+simufc.script.println;
 
 emChart.Script = "global bb;";
-assert(emChart.Script.println = "global bb;");
+emChart.script.println;
 
 store1.position = "[100 100 130 130]";
-store1.position.println;
+assert(store1.position.at(0) = 100);
+assert(store1.position.at(1) = 100);
+assert(store1.position.at(2) = 130);
+assert(store1.position.at(3) = 130);
 
 store1.name="a";
 assert(store1.name.println = "a");
 
-store1.InitialValue=2;
-store1.InitialValue.println;
+data_new.name = "bb";
+assert(data_new.name.println = "bb");
 
-data_new.Name = 'bb';
-data_new.name.println;
+data_new.Scope="Data Store Memory";
+assert(data_new.Scope.println = "Data Store Memory");
 
-data_new.Scope='Data Store Memory';
-data_new.Scope.println;
+store1.InitialValue = "2";
+assert(store1.InitialValue = "2");
 
 "finished".println;

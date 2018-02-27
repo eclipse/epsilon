@@ -18,7 +18,7 @@ import org.eclipse.epsilon.emc.simulink.model.element.SimulinkPort;
 public class SimulinkUtil {
 
 	private static final String FIND_BLOCKS = "find_system('?', 'BlockType', '?')";
-	private static final String FIND_SYSTEM = "find_system('?', 'FindAll', 'on')";
+	private static final String FIND_SYSTEM = "find_system('?', 'FindAll', 'on', 'Type', 'Block')";
 
 	public static String getSimpleTypeName(String type) { // OK
 		if (type.indexOf("/") > -1) {
@@ -29,6 +29,16 @@ public class SimulinkUtil {
 			String[] parts = type.split("\\.");
 			return parts[parts.length - 1];
 		}
+		return type;
+	}
+	
+	public static String extractTypeFromPath(String path) {
+		int lio = path.lastIndexOf("/");
+		if (lio!=-1) {
+			path = path.substring(lio + 1);
+		}
+		String type = path.replaceAll("\\d","");
+		System.out.println("EXTRACTED TYPE: " + type);
 		return type;
 	}
 	
@@ -86,51 +96,41 @@ public class SimulinkUtil {
 	
 	public static <T extends ISimulinkModelElement> List<T> getTypeList(Class<T> returnType, SimulinkModel model, MatlabEngine engine, Object handles,
 			String type) {
-		if (handles instanceof double[]) {
-			handles = new Double[] { (Double) handles };
-		}
 
 		List<T> list = new ArrayList<T>();
 
-		if (handles instanceof Double[]) {
-			for (Double handle : (Double[]) handles) {
-				list.add(instantiate(returnType, model, engine, handle, null));
-			}
-		} else if (handles instanceof double[]) {
-			for (double handle : (double[]) handles) {
-				list.add(instantiate(returnType, model, engine, handle, null));
-			}
-		} else if (handles instanceof List) {
+		if (handles instanceof List) {
 			try{
 				for (String path : (List<String>) handles) {
-					list.add(instantiate(returnType, model, engine, null, path));
+					T instantiate = instantiate(returnType, model, engine, null, path);
+					if (instantiate!= null) list.add(instantiate);
 				}
 			} catch (Exception e) {
 				try{
 					for (Double handle : (List<Double>) handles) {
-						list.add(instantiate(returnType, model, engine, handle, null));
+						T instantiate = instantiate(returnType, model, engine, handle, null);
+						if (instantiate!= null) list.add(instantiate);
 					}
 				} catch (Exception ex) {}
 			}
 		} else if (handles instanceof String) {
-			list.add(instantiate(returnType, model, engine, null, (String) handles));
-		} 
- 
+			T instantiate = instantiate(returnType, model, engine, null, (String) handles);
+			if (instantiate!= null) list.add(instantiate);
+		}
 		return list;
 	}
 	
-	private static <T> T instantiate(Class<T> aClass, SimulinkModel model, MatlabEngine engine, Double handle,
+	private static <T> T instantiate(Class<T> clazz, SimulinkModel model, MatlabEngine engine, Double handle,
 			String path) {
 		try {
-			if (handle == null && path != null) {
-				handle = getHandle(path, engine);
-			}
 			if (handle != null) {
-				return aClass.getConstructor(SimulinkModel.class, MatlabEngine.class, Double.class).newInstance(model,
+				return clazz.getConstructor(SimulinkModel.class, MatlabEngine.class, Double.class).newInstance(model,
 						engine, handle);
+			} else if (path != null) {
+				return clazz.getConstructor(String.class, SimulinkModel.class, MatlabEngine.class)
+						.newInstance(handle, model, engine);
 			} else {
-				return aClass.getConstructor(SimulinkModel.class, MatlabEngine.class, Double.class, String.class)
-						.newInstance(model, engine, handle);
+				return null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -169,9 +169,14 @@ public class SimulinkUtil {
 	public static List<ISimulinkModelElement> getAllSimulinkBlocksFromModel(SimulinkModel model,
 			MatlabEngine engine, String type) {
 		try {
-			type = getSimpleTypeName(type);
-			return getSimulinkBlocks(model, engine, engine.evalWithResult(FIND_BLOCKS, model.getSimulinkModelName(), type))
+			final String simpleType = type;
+			return getSimulinkBlocks(model, engine, engine.evalWithResult(FIND_BLOCKS, model.getSimulinkModelName(), simpleType))
 					.stream().map(e -> (ISimulinkBlockModelElement) e).collect(Collectors.toList());
+			/*if (list.isEmpty()) {
+				return getAllSimulinkBlocksFromModel(model, engine).stream().filter(e->e.getPath().contains(simpleType)).collect(Collectors.toList());
+			} else {
+				return list;
+			}*/
 		} catch (MatlabException e) {
 			e.printStackTrace();
 			return Collections.emptyList();

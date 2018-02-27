@@ -31,12 +31,11 @@ public class SimulinkPort extends SimulinkBlockModelElement {
 		}
 		if (children != null) {
 			return SimulinkUtil.getSimulinkLines(model, engine, children);
-			//return model.getLines(children);
 		} else {
 			return SimulinkUtil.getSimulinkLines(model, engine, lines);
-			//return model.getLines(lines);
 		}
 	}
+	
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
 		return Arrays.asList(PORT);
