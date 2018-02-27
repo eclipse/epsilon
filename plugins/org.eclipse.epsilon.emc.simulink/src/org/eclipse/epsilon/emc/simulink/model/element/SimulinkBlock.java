@@ -39,9 +39,7 @@ public class SimulinkBlock extends SimulinkBlockModelElement {
 	}
 	
 	public SimulinkBlock(String path, SimulinkModel model, MatlabEngine engine) {
-		super(model, engine);
-		this.path = path;
-		getHandle();
+		super(path, model, engine);
 	}
 
 	public SimulinkBlock(SimulinkModel model, MatlabEngine engine, String type) {
@@ -74,13 +72,14 @@ public class SimulinkBlock extends SimulinkBlockModelElement {
 			String path = getPath();
 			String name = ((String) getProperty("name")).replace("/", "//");
 			if (!path.equalsIgnoreCase(name)) {
-				String parentPath = path.substring(0, path.length() - name.length() - 1);
+				String parentPath = path.substring(0, path.lastIndexOf("/"));
 				if (parentPath.replace("//", "").indexOf("/") < 0)
 					return null;
-				Double parentHandle = SimulinkUtil.getHandle(parentPath, engine);
-				return new SimulinkBlock(model, engine, parentHandle);
+				return new SimulinkBlock(parentPath, model, engine);
 			}
-		} catch (MatlabException e) {}
+		} catch (MatlabException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
@@ -141,48 +140,53 @@ public class SimulinkBlock extends SimulinkBlockModelElement {
 		}
 	}
 	
-	public void link(SimulinkBlock other) {
+	public void link(SimulinkBlock other) throws EolRuntimeException {
 		link(other, 1, 1);
 	}
 
-	public void linkTo(SimulinkBlock other, int inPort) {
+	public void linkTo(SimulinkBlock other, int inPort) throws EolRuntimeException {
 		link(other, 1, inPort);
 	}
 
-	public void linkFrom(SimulinkBlock other, int outPort) {
+	public void linkFrom(SimulinkBlock other, int outPort) throws EolRuntimeException {
 		link(other, outPort, 1);
 	}
 
-	public void link(SimulinkBlock other, int outPort, int inPort) {
+	public void link(SimulinkBlock other, int outPort, int inPort) throws EolRuntimeException {
 		manageLink(other, outPort, inPort, true);
 	}
 
-	public void unlink(SimulinkBlock other) {
+	public void unlink(SimulinkBlock other) throws EolRuntimeException {
 		unlink(other, 1, 1);
 	}
 
-	public void unlinkTo(SimulinkBlock other, int inPort) {
+	public void unlinkTo(SimulinkBlock other, int inPort) throws EolRuntimeException {
 		unlink(other, 1, inPort);
 	}
 
-	public void unlinkFrom(SimulinkBlock other, int outPort) {
+	public void unlinkFrom(SimulinkBlock other, int outPort) throws EolRuntimeException {
 		unlink(other, outPort, 1);
 	}
 
-	public void unlink(SimulinkBlock other, int outPort, int inPort) {
+	public void unlink(SimulinkBlock other, int outPort, int inPort) throws EolRuntimeException {
 		manageLink(other, outPort, inPort, false);
 	}
 
-	public void manageLink(SimulinkBlock other, int outPort, int inPort, boolean create) {
+	public void manageLink(SimulinkBlock other, int outPort, int inPort, boolean create) throws EolRuntimeException {
 		String command = "sourceHandle = ?;" + "targetHandle = ?;"
 				+ "OutPortHandles = get_param(sourceHandle,'PortHandles');"
 				+ "InPortHandles = get_param(targetHandle,'PortHandles');"
 				+ "?_line('?',OutPortHandles.Outport(?),InPortHandles.Inport(?));";
 		try {
-			engine.eval(command, getHandle(), other.getHandle(), create ? CREATE : DELETE, getParentPath(), outPort,
+			engine.eval(command, 
+					getHandle(), 
+					other.getHandle(), 
+					create ? CREATE : DELETE, 
+					getParentPath(), 
+					outPort,
 					inPort);
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
+		} catch (MatlabException ex) {
+			throw new EolRuntimeException(ex.getMessage());
 		}
 	}
 

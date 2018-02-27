@@ -19,7 +19,6 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 	private static final String GET_FULL_NAME = "getfullname(?);";
 
 	protected Double handle = null;
-	protected String blockType = null;
 
 	public SimulinkBlockModelElement(SimulinkModel model, MatlabEngine engine, Double handle) {
 		super(model, engine);
@@ -35,9 +34,16 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		setType(type);
+		setType();
 	}
 
+	public SimulinkBlockModelElement(String path, SimulinkModel model, MatlabEngine engine) {
+		super(model, engine);
+		this.path = path;
+		getHandle();
+		setType();
+	}
+	
 	public SimulinkBlockModelElement(SimulinkModel model, MatlabEngine engine) {
 		super(model, engine);
 	}
@@ -65,35 +71,28 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 
 	@Override
 	public Double getHandle() {
-		if (this.handle == null && this.path != null) {
-			this.handle = SimulinkUtil.getHandle(this.path, engine);
+		if (this.handle == null) {
+			this.handle = SimulinkUtil.getHandle(getPath(), engine);
 		}
 		return this.handle;
 	}
 
 	private void setType(String type) {
 		if (type != null ) {
-			this.type = SimulinkUtil.getSimpleTypeName(type);
+			this.type = type;
 		} else {
-			if (getPath() != null) {
-				this.type = SimulinkUtil.extractTypeFromPath(getPath());
-			} 
+			if (handle != null) {
+				try {
+					this.type = (String) engine.evalWithSetupAndResult(HANDLE, GET_PARAM_BLOCK_TYPE, handle);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
-		setBlockType();
 	}
 	
 	private void setType() {
 		setType(null);
-	}
-
-	private void setBlockType() {
-		if (handle != null) {
-			try {
-				this.blockType = (String) engine.evalWithSetupAndResult(HANDLE, GET_PARAM_BLOCK_TYPE, handle);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	/**
@@ -107,10 +106,6 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 		} 
 		return path;
 	}
-	
-	public String getBlockType() { // FIXME set accessible via EOL. Problem because its declared in superclass
-		return this.blockType;
-	}
 
 	@Override
 	public boolean equals(Object other) {
@@ -120,7 +115,7 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 	
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		return Arrays.asList(SimulinkModel.BLOCK, SimulinkModel.SIMULINK, getType(), getBlockType());
+		return Arrays.asList(SimulinkModel.BLOCK, SimulinkModel.SIMULINK, getType());
 	}
 
 }

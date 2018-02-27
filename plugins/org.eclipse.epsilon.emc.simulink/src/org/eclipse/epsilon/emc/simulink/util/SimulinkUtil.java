@@ -32,16 +32,6 @@ public class SimulinkUtil {
 		return type;
 	}
 	
-	public static String extractTypeFromPath(String path) {
-		int lio = path.lastIndexOf("/");
-		if (lio!=-1) {
-			path = path.substring(lio + 1);
-		}
-		String type = path.replaceAll("\\d","");
-		System.out.println("EXTRACTED TYPE: " + type);
-		return type;
-	}
-	
 	public static String getTypePathInModel(SimulinkModel model, String type) { // OK
 		return model.getSimulinkModelName() + "/" + getSimpleTypeName(type);
 	}
@@ -128,7 +118,7 @@ public class SimulinkUtil {
 						engine, handle);
 			} else if (path != null) {
 				return clazz.getConstructor(String.class, SimulinkModel.class, MatlabEngine.class)
-						.newInstance(handle, model, engine);
+						.newInstance(path, model, engine);
 			} else {
 				return null;
 			}
@@ -170,13 +160,9 @@ public class SimulinkUtil {
 			MatlabEngine engine, String type) {
 		try {
 			final String simpleType = type;
-			return getSimulinkBlocks(model, engine, engine.evalWithResult(FIND_BLOCKS, model.getSimulinkModelName(), simpleType))
+			Object blocks = engine.evalWithResult(FIND_BLOCKS, model.getSimulinkModelName(), simpleType);
+			return getSimulinkBlocks(model, engine, blocks)
 					.stream().map(e -> (ISimulinkBlockModelElement) e).collect(Collectors.toList());
-			/*if (list.isEmpty()) {
-				return getAllSimulinkBlocksFromModel(model, engine).stream().filter(e->e.getPath().contains(simpleType)).collect(Collectors.toList());
-			} else {
-				return list;
-			}*/
 		} catch (MatlabException e) {
 			e.printStackTrace();
 			return Collections.emptyList();
