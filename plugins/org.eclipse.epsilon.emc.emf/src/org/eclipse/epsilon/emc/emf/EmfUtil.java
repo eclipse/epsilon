@@ -30,19 +30,13 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.Resource.Factory;
-import org.eclipse.emf.ecore.resource.Resource.Factory.Descriptor;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
-import org.eclipse.emf.ecore.xcore.XcoreRuntimeModule;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.common.util.OperatingSystem;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 
 public class EmfUtil {
 		
@@ -150,29 +144,6 @@ public class EmfUtil {
 		
 		if (!etfm.containsKey("*")) {
 			etfm.put("*", new XMIResourceFactoryImpl());
-		}
-		if (!etfm.containsKey("xcore")) {
-			Injector injector = Guice.createInjector(new XcoreRuntimeModule());
-			org.eclipse.xtext.resource.IResourceFactory resourceFactory = injector.getInstance(org.eclipse.xtext.resource.IResourceFactory.class);
-			org.eclipse.xtext.resource.IResourceServiceProvider serviceProvider = injector.getInstance(org.eclipse.xtext.resource.IResourceServiceProvider.class);
-			etfm.put("xcore", resourceFactory);
-			org.eclipse.xtext.resource.IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put("xcore", serviceProvider);
-		}
-		else {
-			Object fi = etfm.get("xcore");
-			if (fi instanceof Descriptor) {
-				// Forcing XCore to load correctly. Need to test if in an installation with XCore we are not breaking anything.
-				//  Probably do a try  {fi.createFactory() } and if exception then init.
-				try {
-					((Descriptor)fi).createFactory();
-				} catch (NoClassDefFoundError err) {
-					Injector injector = Guice.createInjector(new XcoreRuntimeModule());
-					org.eclipse.xtext.resource.IResourceFactory resourceFactory = injector.getInstance(org.eclipse.xtext.resource.IResourceFactory.class);
-					org.eclipse.xtext.resource.IResourceServiceProvider serviceProvider = injector.getInstance(org.eclipse.xtext.resource.IResourceServiceProvider.class);
-					etfm.put("xcore", resourceFactory);
-					org.eclipse.xtext.resource.IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put("xcore", serviceProvider);
-				}	
-			}
 		}
 	}
 	

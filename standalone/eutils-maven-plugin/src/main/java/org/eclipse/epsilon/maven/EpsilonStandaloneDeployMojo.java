@@ -50,7 +50,7 @@ import org.apache.maven.project.MavenProject;
  *
  * <code>
  *   mvn org.eclipse.epsilon:eutils-maven-plugin:deploy \
- *     -Ddeploy.url=https://oss.sonatype.org/service/local/staging/deploy/maven2
+ *     -Durl=https://oss.sonatype.org/service/local/staging/deploy/maven2
  * </code>
  */
 @Mojo(name = "deploy", defaultPhase = LifecyclePhase.NONE)

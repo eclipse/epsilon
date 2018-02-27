@@ -16,6 +16,6 @@ for srcjar in target/epsilon-*-sources.jar; do
     pushd tmpjavadoc
     TARGET="../${srcjar%-sources.jar}-javadoc.jar"
     rm -f "$TARGET"
-    find . -mindepth 1 -type d -print0 | xargs -0 zip -r "$TARGET"
+    find -mindepth 1 -type d -print0 | xargs -0 zip -r "$TARGET"
     popd
 done
