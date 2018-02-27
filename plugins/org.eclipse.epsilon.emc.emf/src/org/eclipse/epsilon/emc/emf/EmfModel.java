@@ -535,14 +535,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			try {
 				metamodelPackages = attemptFileBasedMetamodelReuse(metamodelFileUri);
 				if (metamodelPackages == null) {
-					if (metamodelFileUri.fileExtension().equals(".ecore")) {
-						metamodelPackages = EmfUtil.register(metamodelFileUri, EPackage.Registry.INSTANCE);
-					}
-					else {		// Must be xcore
-						metamodelPackages = EmfUtil.registerXcore(metamodelFileUri);
-						
-					}
-					//metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry(), false);
+					metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry(), false);
 					saveFileBasedMetamodelForReuse(metamodelFileUri, metamodelPackages);
 				}
 			} catch (Exception e) {
