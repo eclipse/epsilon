@@ -1,17 +1,20 @@
-var chart = new `sflib/Chart`;
-assert(Chart.all.size() = 1);  
+var simulinkChart = new `sflib/Chart`;
+assert(`Stateflow.Chart`.all.size() = 1);  
+assert(SubSystem.all.size() = 1);
 
-chart.name = "Chart";
-assert(chart.name.println = "Chart");
+simulinkChart.name = "Chart";
+assert(simulinkChart.name.println = "Chart");
 
-chart.position = "[200 100 230 130]";
-assert(chart.position.at(0) = 200);
-assert(chart.position.at(1) = 100);
-assert(chart.position.at(2) = 230);
-assert(chart.position.at(3) = 130);
+simulinkChart.position = "[200 100 230 130]";
+assert(simulinkChart.position.at(0) = 200);
+assert(simulinkChart.position.at(1) = 100);
+assert(simulinkChart.position.at(2) = 230);
+assert(simulinkChart.position.at(3) = 130);
+
+var chart = `Stateflow.Chart`.all.selectOne(ch | ch.name = "Chart");
 
 var sA = new `Stateflow.State`(chart);
-assert(State.all.size() = 1);
+assert(`Stateflow.State`.all.size() = 1);
 
 sA.Name  = "A";
 assert(sA.Name.println  = "A");
@@ -25,7 +28,7 @@ assert(sA.position.at(3) = 200);
 var sA1 = new `Stateflow.State`;
 
 chart.add(sA1);
-assert(State.all.size() = 2);
+assert(`Stateflow.State`.all.size() = 2);
 
 sA1.Name = "A1";
 assert(sA1.Name = "A1");
@@ -37,7 +40,7 @@ assert(sA1.position.at(2) = 90);
 assert(sA1.position.at(3) = 60);
 
 var sA2 = new `Stateflow.State`(chart);
-assert(State.all.size() = 3);
+assert(`Stateflow.State`.all.size() = 3);
 
 sA2.Name = "A2";
 assert(sA2.Name = "A2");
@@ -50,7 +53,7 @@ assert(sA2.position.at(3) = 60);
 
 var tA1A2 = new `Stateflow.Transition`;
 chart.add(tA1A2);
-assert(Transition.all.size() = 1);
+assert(`Stateflow.Transition`.all.size() = 1);
 
 tA1A2.source = sA1; 
 //assert(tA1A2.source.id = sA1.id);
@@ -74,7 +77,7 @@ tA1A2.labelString = "E1";
 assert(tA1A2.labelString = "E1");
 
 var E1 = new `Stateflow.Event`(chart);
-assert(Event.all.size() = 1);
+assert(`Stateflow.Event`.all.size() = 1);
 
 E1.name = 'E1';
 assert(E1.name = 'E1');
@@ -89,7 +92,7 @@ assert(tA1A2.LabelPosition.at(2) = pos.at(2));
 assert(tA1A2.LabelPosition.at(3) = pos.at(3));
 
 var dtA = new `Stateflow.Transition`(chart);
-assert(Transition.all.size() = 2);
+assert(`Stateflow.Transition`.all.size() = 2);
 
 dtA.destination = sA;
 //assert(dtA.destination = sA);
@@ -112,7 +115,7 @@ assert(dtA.MidPoint.at(0) = xsource);
 assert(dtA.MidPoint.at(1) = (ysource + 15));
 
 var dtA1 = new `Stateflow.Transition`(chart);
-assert(Transition.all.size() = 3);
+assert(`Stateflow.Transition`.all.size() = 3);
 
 dtA1.destination = sA1;
 //assert(dtA1.destination = sA1); 

@@ -74,7 +74,7 @@ public class SimulinkUtil {
 		} catch (MatlabException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return -1.0;
 	}
 
 	/** GENERAL COLLECTION */

@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Future;
-import java.util.stream.Collectors;
 
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
@@ -14,10 +13,8 @@ import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertyGetter;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertySetter;
-import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkBlockModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
-import org.eclipse.epsilon.emc.simulink.model.element.SimulinkDualBlock;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
 import org.eclipse.epsilon.emc.simulink.operations.contributors.ModelOperationContributor;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
@@ -73,7 +70,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	protected double handle = -1;
 
 	@Override
-	protected void loadModel() throws EolModelLoadingException { // OK
+	protected void loadModel() throws EolModelLoadingException { 
 		try {
 			engine = MatlabEnginePool.getInstance(libraryPath, engineJarPath).getMatlabEngine();
 			simulinkOperationContributor = new ModelOperationContributor(engine);
@@ -101,26 +98,15 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 	
 	@Override
-	protected void disposeModel() { // OK
-		/*if (hiddenEditor) {
-			try {
-				engine.eval(CLOSE_SYSTEM, this.getSimulinkModelName());
-			} catch (MatlabException e) {
-				e.printStackTrace();
-			}
-		}*/
+	protected void disposeModel() { 
 		MatlabEnginePool.getInstance(libraryPath, engineJarPath).release(engine);
 	}
 	
 	@Override
 	protected ISimulinkModelElement createInstanceInModel(String type)
-			throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException { // OK
+			throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException { 
 		if (type.contains("/")) {
-			if (SimulinkDualBlock.includes(type)) {
-				return new SimulinkDualBlock(this, engine, type);
-			} else {
-				return new SimulinkBlock(this, engine, type);
-			}
+			return new SimulinkBlock(this, engine, type);
 		} else if (type.startsWith(STATEFLOW + ".")) {
 			return new StateflowBlock(this, engine, type);
 		} else {
@@ -129,15 +115,15 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 	
 	@Override
-	public Object createInstance(String type, Collection<Object> parameters) // OK
+	public Object createInstance(String type, Collection<Object> parameters) 
 			throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException { 
-		if (type.toLowerCase().startsWith(STATEFLOW.toLowerCase()) && parameters.size() == 1) {
+		if (type.startsWith(STATEFLOW) && parameters.size() == 1) {
 			Object parentObject = parameters.toArray()[0];
 			try {
-				if (parentObject instanceof SimulinkDualBlock)
-						return new StateflowBlock(this, engine, type, (SimulinkDualBlock) parentObject);
 				if (parentObject instanceof StateflowBlock) 
 					return new StateflowBlock(this, engine, type, (StateflowBlock) parentObject);
+				else 
+					throw new EolModelElementTypeNotFoundException(type, null, "invalid parameters");
 			} catch (EolRuntimeException e) {
 				throw new EolModelElementTypeNotFoundException(type, null, e.getMessage());
 			}
@@ -146,7 +132,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 
 	@Override
-	protected boolean deleteElementInModel(Object instance) throws EolRuntimeException { // OK
+	protected boolean deleteElementInModel(Object instance) throws EolRuntimeException { 
 		try {
 			if (instance instanceof ISimulinkModelElement) 
 				return ((ISimulinkModelElement) instance).deleteElementInModel();
@@ -157,14 +143,14 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 	
 	@Override
-	protected Object getCacheKeyForType(String type) throws EolModelElementTypeNotFoundException { // OK
+	protected Object getCacheKeyForType(String type) throws EolModelElementTypeNotFoundException { 
 		return type;
 	}
 	
 	// COLLECTORS 
 
 	@Override
-	protected Collection<String> getAllTypeNamesOf(Object instance) { // OK
+	protected Collection<String> getAllTypeNamesOf(Object instance) { 
 		if (instance instanceof ISimulinkModelElement) {
 			return ((ISimulinkModelElement) instance).getAllTypeNamesOf();
 		} else {
@@ -173,13 +159,15 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 
 	@Override 
-	protected Collection<ISimulinkModelElement> allContentsFromModel() { // OK
+	protected Collection<ISimulinkModelElement> allContentsFromModel() { 
 		Collection<ISimulinkModelElement> all = new ArrayList<ISimulinkModelElement>();
 		try {
 			Collection<ISimulinkModelElement> allStateflowBlocksFromModel = StateflowUtil.getAllStateflowBlocksFromModel(this, engine);
-			if (!allStateflowBlocksFromModel.isEmpty()) all.addAll(allStateflowBlocksFromModel);
+			if (!allStateflowBlocksFromModel.isEmpty()) 
+				all.addAll(allStateflowBlocksFromModel);
 			List<ISimulinkModelElement> allSimulinkBlocksFromModel = SimulinkUtil.getAllSimulinkBlocksFromModel(this, engine);
-			if (!allSimulinkBlocksFromModel.isEmpty()) all.addAll(allSimulinkBlocksFromModel);
+			if (!allSimulinkBlocksFromModel.isEmpty()) 
+				all.addAll(allSimulinkBlocksFromModel);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -188,22 +176,27 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 
 	@Override // FIXME
 	protected Collection<ISimulinkModelElement> getAllOfTypeFromModel(String type) 
-			throws EolModelElementTypeNotFoundException { // OK
+			throws EolModelElementTypeNotFoundException { 
 		try {
-			Collection<ISimulinkModelElement> allOfStateflowTypeFromModel = StateflowUtil.getAllOfStateflowTypeFromModel(this, engine, type);
-			List<ISimulinkModelElement> allSimulinkBlocksFromModel = SimulinkUtil.getAllSimulinkBlocksFromModel(this, engine, type);
 			Collection<ISimulinkModelElement> all = new ArrayList<ISimulinkModelElement>();
-			if (!allSimulinkBlocksFromModel.isEmpty()) all.addAll(allSimulinkBlocksFromModel);
-			if (!allOfStateflowTypeFromModel.isEmpty()) all.addAll(allOfStateflowTypeFromModel);
+			if (type.startsWith(STATEFLOW)) {
+				Collection<ISimulinkModelElement> allOfStateflowTypeFromModel = StateflowUtil.getAllOfStateflowTypeFromModel(this, engine, type);
+				if (!allOfStateflowTypeFromModel.isEmpty()) 
+					all.addAll(allOfStateflowTypeFromModel);
+				
+			} else {
+				List<ISimulinkModelElement> allSimulinkBlocksFromModel = SimulinkUtil.getAllSimulinkBlocksFromModel(this, engine, type);
+				if (!allSimulinkBlocksFromModel.isEmpty()) 
+					all.addAll(allSimulinkBlocksFromModel);
+			}
 			return all;	
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new EolModelElementTypeNotFoundException(this.getName(), type);
 		}
 	}
 
 	@Override
-	protected Collection<ISimulinkModelElement> getAllOfKindFromModel(String kind) // OK 
+	protected Collection<ISimulinkModelElement> getAllOfKindFromModel(String kind)  
 			throws EolModelElementTypeNotFoundException {
 		try {
 			if (BLOCK.equalsIgnoreCase(kind)) {
@@ -233,7 +226,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		System.out.println(model.getAllOfType("Gain"));
 	}
 
-	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException { // OK
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException { 
 		super.load(properties, resolver);
 
 		String filePath = properties.getProperty(SimulinkModel.PROPERTY_FILE);
@@ -269,7 +262,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 	
 	@Override
-	public String getTypeNameOf(Object instance) { // OK
+	public String getTypeNameOf(Object instance) { 
 		if (instance instanceof ISimulinkModelElement) {
 			return ((ISimulinkModelElement) instance).getType();
 		}
@@ -277,16 +270,16 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 	
 	@Override
-	public Object getElementById(String id) { // OK
+	public Object getElementById(String id) { 
 		return null;
 	}
 
 	@Override
-	public void setElementId(Object instance, String newId) {	 // OK
+	public void setElementId(Object instance, String newId) {	 
 	}
 	
 	@Override
-	public String getElementId(Object instance) { // OK
+	public String getElementId(Object instance) { 
 		try {
 			return (String) propertyGetter.invoke(instance, "id");
 		} catch (EolRuntimeException e) {
@@ -295,14 +288,14 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 
 	@Override
-	public boolean owns(Object instance) { // OK
+	public boolean owns(Object instance) { 
 		return ((instance instanceof ISimulinkModelElement) 
 				&& ((ISimulinkModelElement) instance).getOwningModel() == this ) 
 				|| (instance instanceof SimulinkModel);
 	}
 
 	@Override
-	public boolean store(String location) { // OK
+	public boolean store(String location) { 
 		try {
 			engine.eval(SAVE_SYSTEM, getSimulinkModelName(), location);
 			return true;
@@ -312,22 +305,22 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 	
 	@Override
-	public boolean store() { // OK
+	public boolean store() { 
 		store(file.getAbsolutePath());
 		return true;
 	}
 
 	@Override
-	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException { // OK 
+	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {  
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean isInstantiable(String type) { // OK
+	public boolean isInstantiable(String type) { 
 		return hasType(type);
 	}
 
-	public String getSimulinkModelName() { // OK
+	public String getSimulinkModelName() { 
 		String name = file.getName();
 		int pos = name.lastIndexOf(".");
 		if (pos > 0) {
@@ -337,7 +330,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 	
 	@Override
-	public IPropertySetter getPropertySetter() { // OK
+	public IPropertySetter getPropertySetter() { 
 		if (propertySetter == null) {
 			propertySetter = new SimulinkPropertySetter(engine);
 		}
@@ -345,7 +338,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 
 	@Override
-	public IPropertyGetter getPropertyGetter() { // OK
+	public IPropertyGetter getPropertyGetter() { 
 		if (propertyGetter == null) {
 			propertyGetter = new SimulinkPropertyGetter();
 		}
@@ -353,47 +346,47 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 
 	@Override
-	public OperationContributor getOperationContributor() { // OK
+	public OperationContributor getOperationContributor() { 
 		return simulinkOperationContributor;
 	}
 
-	public File getFile() { // OK
+	public File getFile() { 
 		return file;
 	}
 
-	public void setFile(File file) { // OK
+	public void setFile(File file) { 
 		this.file = file;
 	}
 
-	public MatlabEngine getEngine() { // OK
+	public MatlabEngine getEngine() { 
 		return engine;
 	}
 
-	public double getHandle() { // OK
+	public double getHandle() { 
 		return handle;
 	}
 
-	public String getLibraryPath() { // OK
+	public String getLibraryPath() { 
 		return libraryPath;
 	}
 
-	public void setLibraryPath(String libraryPath) { // OK
+	public void setLibraryPath(String libraryPath) { 
 		this.libraryPath = libraryPath;
 	}
 
-	public String getEngineJarPath() { // OK
+	public String getEngineJarPath() { 
 		return engineJarPath;
 	}
 
-	public void setEngineJarPath(String engineJarPath) { // OK
+	public void setEngineJarPath(String engineJarPath) { 
 		this.engineJarPath = engineJarPath;
 	}
 
-	public void setHiddenEditor(boolean hidden) { // OK
+	public void setHiddenEditor(boolean hidden) { 
 		this.hiddenEditor = hidden;
 	}
 
-	public Object parseMatlabEngineVariable(String variableName) throws MatlabException { // OK
+	public Object parseMatlabEngineVariable(String variableName) throws MatlabException { 
 		return MatlabEngineUtil.parseMatlabEngineVariable(engine, variableName);
 	}
 	

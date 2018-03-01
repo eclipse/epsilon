@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
+import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.emc.simulink.util.StateflowUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -19,7 +20,7 @@ public class StateflowBlock extends SimulinkModelElement {
 	
 	/** CONSTANTS */
 
-	public static final String STATEFLOW_LIB = "sflib/";
+	//public static final String STATEFLOW_LIB = "sflib/";
 	private static final String SIMPLE_TYPE = "?.classhandle.get('Name');";
 	private static final String DELETE_SF = "?.delete;";
 
@@ -35,21 +36,28 @@ public class StateflowBlock extends SimulinkModelElement {
 
 	/** CONSTRUCTORS */
 
-	// SimulinkBlock Chart as StateflowBlock
-	public StateflowBlock(SimulinkDualBlock chart) {
-		super(chart.model, chart.engine);
-		setType(chart.getType());
-		try {
-			buildChart(chart);
-		} catch (MatlabException e) {
-			e.printStackTrace();
+	// SimulinkBlock as StateflowBlock
+	/*public StateflowBlock(SimulinkBlock simulinkBlock) throws EolRuntimeException {
+		super(simulinkBlock.model, simulinkBlock.engine);
+			String stateflowType = SimulinkModel.STATEFLOW + "." + simulinkBlock.getType().replace(" ", "");
+			stateflowType = (stateflowType.endsWith("Chart")) ?  stateflowType : stateflowType + "Chart";
+			System.out.println(stateflowType);
+			setType(stateflowType);
+			try {
+				buildFromSimulink(simulinkBlock);
+			} catch (MatlabException e) {
+				throw new EolRuntimeException(e.getMessage());
+			}	
+		} else {
+			throw new EolRuntimeException("Could not guess stateflow type");
 		}
-	}
+		
+	}*/
 
 	// From SimulinkBlock Chart Parent
-	public StateflowBlock(SimulinkModel model, MatlabEngine engine, String type, SimulinkDualBlock parent) throws EolRuntimeException {
+	/*public StateflowBlock(SimulinkModel model, MatlabEngine engine, String type, SimulinkBlock parent) throws EolRuntimeException {
 		this(model, engine, type, parent.asStateflow());
-	}
+	}*/
 
 	// From StateflowBlock Parent
 	public StateflowBlock(SimulinkModel model, MatlabEngine engine, String type, StateflowBlock parent) throws EolRuntimeException {
@@ -103,12 +111,8 @@ public class StateflowBlock extends SimulinkModelElement {
 
 	private void setType(String type){
 		if (type != null) {
-			if (type.startsWith(SimulinkModel.STATEFLOW)) {
-				this.type = type.substring(SimulinkModel.STATEFLOW.length() + 1);
-				System.out.println("SETTING TYPE : " + this.type);
-			} else if (!type.equals("")){
+			if (type.startsWith(SimulinkModel.STATEFLOW))
 				this.type = type;
-			}
 		} else {
 			setType();
 		}
@@ -118,7 +122,7 @@ public class StateflowBlock extends SimulinkModelElement {
 		if (this.id != null) {
 			try {
 				String handle = StateflowUtil.getBlockHandleFromId(model, engine, this.id);
-				this.type =  (String) engine.evalWithResult(SIMPLE_TYPE, handle);
+				this.type = SimulinkModel.STATEFLOW + ". " + (String) engine.evalWithResult(SIMPLE_TYPE, handle);
 			} catch (MatlabException e) {
 				this.type = null;
 			}
@@ -128,19 +132,6 @@ public class StateflowBlock extends SimulinkModelElement {
 	@Override
 	public String getType() { // RETURNS E.G. "STATE"
 		return this.type;	
-	}
-
-	private static String getStateflowType(SimulinkBlock block) { // RETURNS E.G. "STATEFLOW.STATE"
-		String t = block.getType();
-		assert t.indexOf("/") == -1;
-		return !t.startsWith("Stateflow.") ? "Stateflow." + t : t;
-	}
-	
-	public String getStateflowType() { // RETURNS E.G. "STATEFLOW.STATE"
-		if (this.type != null) {
-			return SimulinkModel.STATEFLOW + "." + this.type;
-		} 
-		return null;
 	}
 
 	/** PROPERTIES **/
@@ -267,16 +258,16 @@ public class StateflowBlock extends SimulinkModelElement {
 	}
 
 	public void setParent(Object parent) throws EolRuntimeException {
-		if (parent instanceof SimulinkDualBlock) {
-			this.setParent((SimulinkDualBlock) parent);
-		} else if (parent instanceof StateflowBlock) {
+		/*if (parent instanceof SimulinkBlock) {
+			this.setParent((SimulinkBlock) parent);
+		} else*/ if (parent instanceof StateflowBlock) {
 			this.setParent((StateflowBlock) parent);
 		}
 	}
 
-	public void setParent(SimulinkDualBlock parent) throws EolRuntimeException {
+	/*public void setParent(SimulinkBlock parent) throws EolRuntimeException {
 		setParent(parent.asStateflow());
-	}
+	}*/
 
 	public void setParent(StateflowBlock parent) throws EolRuntimeException {
 		if (!this.isUnset()) {
@@ -311,19 +302,20 @@ public class StateflowBlock extends SimulinkModelElement {
 
 	/** BUILDERS */
 
-	private void buildChart(SimulinkDualBlock chart) throws MatlabException {
+	/*private void buildFromSimulink(SimulinkBlock chart) throws MatlabException {
 		StateflowUtil.modelHandleAsM(this);
-		this.id = (Double) this.engine.evalWithSetupAndResult("chart = m.find('Path','?', '-isa', '?');", "chart.id;",
-				chart.getPath(), getStateflowType(chart));//, chart.getProperty("Name")); // Relying in the MakeNameUnique Parameter
-		this.path = (String) this.engine.evalWithResult("chart.Path;");
-	}
+		String chartPath = chart.getPath();
+		this.id = (Double) this.engine.evalWithSetupAndResult("sim = m.find('Path','?', '-isa', '?');", "sim.id;",
+				chartPath, this.getType());//, sim.getProperty("Name")); // Relying in the MakeNameUnique Parameter
+		this.path = (String) this.engine.evalWithResult("sim.Path;");
+	}*/
 
 	private void buildFromStateflow(StateflowBlock parent) throws EolRuntimeException {
 		if (!parent.isUnset()) {
 			String parentHandle;
 			try {
 				parentHandle = StateflowUtil.getBlockHandle(parent);
-				engine.eval("block = ?(?);", getStateflowType(), parentHandle);
+				engine.eval("block = ?(?);", getType(), parentHandle);
 				this.id = (Double) engine.evalWithResult("block.id;");
 				this.path = (String) this.engine.evalWithResult("block.path;");
 			} catch (MatlabException e) {
@@ -358,8 +350,7 @@ public class StateflowBlock extends SimulinkModelElement {
 
 	@Override
 	public boolean equals(Object other) { 
-		return ((other instanceof StateflowBlock) && ((StateflowBlock) other).getId().equals(this.getId()))
-				|| ((other instanceof SimulinkDualBlock) && ((SimulinkDualBlock) other).asStateflow().getId().equals(this.getId()));
+		return (other instanceof StateflowBlock) && ((StateflowBlock) other).getId().equals(this.getId());
 	}
 
 	@Override
@@ -369,7 +360,7 @@ public class StateflowBlock extends SimulinkModelElement {
 
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		return Arrays.asList(SimulinkModel.BLOCK, SimulinkModel.STATEFLOW, getType(), getStateflowType());
+		return Arrays.asList(SimulinkModel.BLOCK, SimulinkModel.STATEFLOW, getType());
 	}
 
 	@Override
@@ -382,14 +373,6 @@ public class StateflowBlock extends SimulinkModelElement {
 		}
 	}
 	
-	public SimulinkDualBlock asSimulink() {
-		if (SimulinkDualBlock.includes(this.getType())){
-			return new SimulinkDualBlock(model, engine, this);
-		} else {
-			return null;
-		}
-	}
-	
 	public StateflowBlock add(StateflowBlock block) { 
 		try {
 			block.setParent(this);
@@ -397,5 +380,12 @@ public class StateflowBlock extends SimulinkModelElement {
 			e.printStackTrace();
 		}
 		return this;
+	}
+	
+	public SimulinkBlock asSimulink() throws EolRuntimeException {
+		Double h = SimulinkUtil.getHandle(this.getPath(), this.engine);
+		if (h >= 0) 
+			return new SimulinkBlock(model, engine, h);	
+		throw new EolRuntimeException("This block does not have a simulink Nature");
 	}
 }

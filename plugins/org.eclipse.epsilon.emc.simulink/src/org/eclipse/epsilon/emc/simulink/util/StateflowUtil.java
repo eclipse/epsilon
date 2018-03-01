@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.crypto.NullCipher;
-
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
@@ -42,7 +40,7 @@ public class StateflowUtil {
 		if (block.getId() != null) {
 			block.getEngine().eval(FIND_BY_ID, varName, M, block.getId().intValue());
 		} else if (block.getPath() != null) {
-			block.getEngine().eval(FIND_BY_TYPE_PATH, varName, M, block.getStateflowType(), block.getPath());
+			block.getEngine().eval(FIND_BY_TYPE_PATH, varName, M, block.getType(), block.getPath());
 		}
 	}
 
@@ -138,7 +136,6 @@ public class StateflowUtil {
 			String type) throws MatlabException {
 		try{
 			StateflowUtil.modelHandleAsM(model);
-			type = SimulinkModel.STATEFLOW + "." + type;
 			Object ids = engine.evalWithSetupAndResult(FIND_BLOCK_TYPE, GET_IDS, M, type);
 			return getTypeList(model, engine, ids);
 		} catch (MatlabException e) {

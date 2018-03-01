@@ -5,7 +5,6 @@ import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkObjectMethod;
 import org.eclipse.epsilon.emc.simulink.introspection.java.StateflowObjectMethod;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
-import org.eclipse.epsilon.emc.simulink.model.element.SimulinkDualBlock;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
@@ -22,7 +21,6 @@ public class ModelOperationContributor extends OperationContributor {
 	@Override
 	public boolean contributesTo(Object target) {
 		return (target instanceof SimulinkBlock) 
-				|| (target instanceof SimulinkDualBlock)
 				|| (target instanceof StateflowBlock)
 				|| (target instanceof SimulinkModel);
 	}
@@ -33,7 +31,7 @@ public class ModelOperationContributor extends OperationContributor {
 		if (!overrideContextOperationContributorRegistry) {
 			if (target instanceof StateflowBlock) {
 				return new StateflowObjectMethod(engine, target, name);
-			} else if (target instanceof SimulinkDualBlock || target instanceof SimulinkBlock || target instanceof SimulinkModel) {
+			} else if (target instanceof SimulinkBlock || target instanceof SimulinkModel) {
 				return new SimulinkObjectMethod(engine, target, name);
 			} 
 		}
