@@ -2,7 +2,7 @@
 <launchConfiguration type="org.epsilon.eol.eclipse.dt.launching.EolLaunchConfigurationDelegate">
 <booleanAttribute key="fine_grained_profiling" value="false"/>
 <listAttribute key="models">
-<listEntry value="aliases=&#10;name=M&#10;file=/org.eclipse.epsilon.emc.simulink.examples/create/stateflowStateTransitions.slx&#10;hidden_editor=false&#10;cached=false&#10;type=Simulink&#10;storeOnDisposal=true&#10;readOnLoad=false"/>
+<listEntry value="aliases=&#10;name=M&#10;file=/org.eclipse.epsilon.emc.simulink.examples/create/globalVars.slx&#10;hidden_editor=false&#10;cached=true&#10;type=Simulink&#10;storeOnDisposal=true&#10;readOnLoad=false"/>
 </listAttribute>
 <listAttribute key="parameters"/>
 <booleanAttribute key="profile_model_loading" value="false"/>

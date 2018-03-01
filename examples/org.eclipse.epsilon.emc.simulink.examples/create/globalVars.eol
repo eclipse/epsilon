@@ -10,13 +10,13 @@ assert(SubSystem.all.size() = 1);
 var store1 = new `simulink/Signal Routing/Data Store Memory`;
 assert(DataStoreMemory.all.size() = 1);
 
-var emChart = EMChart.all.first();
-assert(EMChart.all.size()  = 1);
+var emChart = `Stateflow.EMChart`.all.first();
+assert(`Stateflow.EMChart`.all.size()  = 1);
 
-var dataSize = Data.all.size();
+var dataSize = `Stateflow.Data`.all.size();
 	var data_new = new `Stateflow.Data`;
 	emChart.add(data_new);
-assert(Data.all.size() = (dataSize + 1));
+assert(`Stateflow.Data`.all.size() = (dataSize + 1));
 
 " >> setting properties".println;
 
