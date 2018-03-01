@@ -1,10 +1,10 @@
 package org.eclipse.epsilon.emc.simulink.introspection.java;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 
@@ -36,7 +36,7 @@ public class SimulinkPropertyGetter extends JavaPropertyGetter {
 					if (element instanceof SimulinkBlock)
 						return ((SimulinkBlock) element).getProperty(property);
 
-				} catch (MatlabException me) {
+				} catch (EolIllegalPropertyException me) {
 					throw new EolRuntimeException(me.getMessage());
 				}
 			}

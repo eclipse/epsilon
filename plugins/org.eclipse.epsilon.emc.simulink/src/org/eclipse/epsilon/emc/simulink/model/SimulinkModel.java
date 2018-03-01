@@ -108,7 +108,11 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		if (type.contains("/")) {
 			return new SimulinkBlock(this, engine, type);
 		} else if (type.startsWith(STATEFLOW + ".")) {
-			return new StateflowBlock(this, engine, type);
+			try {
+				return new StateflowBlock(this, engine, type);
+			} catch (MatlabException e) {
+				throw new EolNotInstantiableModelElementTypeException(getSimulinkModelName(), type);
+			}
 		} else {
 			throw new EolModelElementTypeNotFoundException(type, null);
 		}
@@ -120,8 +124,12 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		if (type.startsWith(STATEFLOW) && parameters.size() == 1) {
 			Object parentObject = parameters.toArray()[0];
 			try {
-				if (parentObject instanceof StateflowBlock) 
-					return new StateflowBlock(this, engine, type, (StateflowBlock) parentObject);
+				if (parentObject instanceof StateflowBlock)
+					try {
+						return new StateflowBlock(this, engine, type, (StateflowBlock) parentObject);
+					} catch (MatlabException e) {
+						throw new EolModelElementTypeNotFoundException(type, null, e.getMessage());
+					}
 				else 
 					throw new EolModelElementTypeNotFoundException(type, null, "invalid parameters");
 			} catch (EolRuntimeException e) {

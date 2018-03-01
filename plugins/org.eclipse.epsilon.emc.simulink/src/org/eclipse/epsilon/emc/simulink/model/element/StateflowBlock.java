@@ -27,105 +27,64 @@ public class StateflowBlock extends SimulinkModelElement {
 	/** FIELDS */
 
 	private Double id;
-	private Double parentId;
-	
-	private String path;
-	private String parentPath;
-	
 	private HashMap<String, Object> properties = new HashMap<String, Object>();
 
 	/** CONSTRUCTORS */
 
-	// SimulinkBlock as StateflowBlock
-	/*public StateflowBlock(SimulinkBlock simulinkBlock) throws EolRuntimeException {
-		super(simulinkBlock.model, simulinkBlock.engine);
-			String stateflowType = SimulinkModel.STATEFLOW + "." + simulinkBlock.getType().replace(" ", "");
-			stateflowType = (stateflowType.endsWith("Chart")) ?  stateflowType : stateflowType + "Chart";
-			System.out.println(stateflowType);
-			setType(stateflowType);
-			try {
-				buildFromSimulink(simulinkBlock);
-			} catch (MatlabException e) {
-				throw new EolRuntimeException(e.getMessage());
-			}	
-		} else {
-			throw new EolRuntimeException("Could not guess stateflow type");
-		}
-		
-	}*/
-
-	// From SimulinkBlock Chart Parent
-	/*public StateflowBlock(SimulinkModel model, MatlabEngine engine, String type, SimulinkBlock parent) throws EolRuntimeException {
-		this(model, engine, type, parent.asStateflow());
-	}*/
-
 	// From StateflowBlock Parent
-	public StateflowBlock(SimulinkModel model, MatlabEngine engine, String type, StateflowBlock parent) throws EolRuntimeException {
+	public StateflowBlock(SimulinkModel model, MatlabEngine engine, String type, StateflowBlock parent) throws MatlabException, EolRuntimeException {
 		super(model, engine);
 		setType(type);
-		this.parentId = parent.getId();
-		this.parentPath = parent.getPath();
 		buildFromStateflow(parent);
 	}
 
 	/** PARENT-LESS CONSTRUCTORS */
 
-	public StateflowBlock(SimulinkModel model, MatlabEngine engine, String type) {
+	public StateflowBlock(SimulinkModel model, MatlabEngine engine, String type) throws MatlabException {
 		super(model, engine);
 		setType(type);
-		this.parentId = null;
-		this.parentPath = null;
 	}
 	
 	/** FROM ID */
 
 	// From known StateflowBlock Id
-	public StateflowBlock(SimulinkModel model, MatlabEngine engine, Double stateflowId) {
+	public StateflowBlock(SimulinkModel model, MatlabEngine engine, Double stateflowId) throws MatlabException {
 		super(model, engine);
 		this.id = stateflowId;
 		setType();
-		setPath();
-		setParent();
 	}
 
 	// From known StateflowBlock Id as Integer
-	public StateflowBlock(SimulinkModel model, MatlabEngine engine, Integer stateflowId) {
+	public StateflowBlock(SimulinkModel model, MatlabEngine engine, Integer stateflowId) throws MatlabException {
 		this(model, engine, stateflowId.doubleValue());
 	}
 
 	// From known StateflowBlock Id
-	public StateflowBlock(SimulinkModel model, MatlabEngine engine, String type, Double stateflowId) {
+	public StateflowBlock(SimulinkModel model, MatlabEngine engine, String type, Double stateflowId) throws MatlabException {
 		super(model, engine);
 		this.id = stateflowId;
 		setType();
-		setPath();
-		setParent();
 	}
 
 	// From known StateflowBlock Id as Integer
-	public StateflowBlock(SimulinkModel model, MatlabEngine engine, String type, Integer stateflowId) {
+	public StateflowBlock(SimulinkModel model, MatlabEngine engine, String type, Integer stateflowId) throws MatlabException {
 		this(model, engine, type, stateflowId.doubleValue());
 	}
 
 	/** TYPE */
 
-	private void setType(String type){
-		if (type != null) {
-			if (type.startsWith(SimulinkModel.STATEFLOW))
-				this.type = type;
+	private void setType(String type) throws MatlabException {
+		if (type != null && type.startsWith(SimulinkModel.STATEFLOW)) {
+			this.type = type;
 		} else {
 			setType();
 		}
 	}
 	
-	private void setType(){
+	private void setType() throws MatlabException {
 		if (this.id != null) {
-			try {
-				String handle = StateflowUtil.getBlockHandleFromId(model, engine, this.id);
-				this.type = SimulinkModel.STATEFLOW + ". " + (String) engine.evalWithResult(SIMPLE_TYPE, handle);
-			} catch (MatlabException e) {
-				this.type = null;
-			}
+			String handle = StateflowUtil.getBlockHandleFromId(model, engine, this.id);
+			this.type = SimulinkModel.STATEFLOW + ". " + (String) engine.evalWithResult(SIMPLE_TYPE, handle);
 		}
 	}
 	
@@ -141,15 +100,24 @@ public class StateflowBlock extends SimulinkModelElement {
 	}
 
 	@Override
-	public Object getProperty(String property) throws MatlabException { 
+	public Object getProperty(String property) throws EolIllegalPropertyException{ 
 		if (isUnset()) {
 			return properties.get(property.toLowerCase());
 		} else {
 			if (property.equalsIgnoreCase("parent") || property.equalsIgnoreCase("up")) {
-				return getParent();
+				try {
+					return getParent();
+				} catch (EolRuntimeException e) {
+					throw new EolIllegalPropertyException(this, property, null, null);
+				}
 			} else {
-				String h = StateflowUtil.getBlockHandle(this);
-				return engine.evalWithResult("?.?;", h, property);				
+				String h;
+				try {
+					h = StateflowUtil.getBlockHandle(this);
+					return engine.evalWithResult("?.?;", h, property);
+				} catch (MatlabException e) {
+					throw new EolIllegalPropertyException(this, property, null, null);
+				}
 			}
 		}
 	}
@@ -158,10 +126,14 @@ public class StateflowBlock extends SimulinkModelElement {
 	public void setProperty(String property, Object value) throws EolIllegalPropertyException { 
 		try {
 			if (property.equalsIgnoreCase("parent") || property.equalsIgnoreCase("up")) {
-				try {
-					setParent(value);
-				} catch (EolRuntimeException e) {
-					e.printStackTrace();
+				if (value instanceof StateflowBlock) {
+					try {
+						setParent((StateflowBlock)value);
+					} catch (EolRuntimeException e) {
+						e.printStackTrace();
+						throw new EolIllegalPropertyException(this, property, null, null);
+					}
+				} else {
 					throw new EolIllegalPropertyException(this, property, null, null);
 				}
 			} else {
@@ -182,8 +154,7 @@ public class StateflowBlock extends SimulinkModelElement {
 						escaped = "'" + escaped + "'";
 					}
 					String cmd = "?.? = " + escaped + ";";
-					String h = "";
-					h = StateflowUtil.getBlockHandle(this);
+					String h = StateflowUtil.getBlockHandle(this);
 					engine.eval(cmd, h, property, value);					
 				}
 			}
@@ -202,74 +173,34 @@ public class StateflowBlock extends SimulinkModelElement {
 		return this.id;
 	}
 	
-	private void setPath() {
+	public String getPath() {
 		if (this.id != null) {
 			try {
 				String handle = StateflowUtil.getBlockHandleFromId(model, engine, id);
-				this.path = (String) engine.evalWithResult("?.path", handle);
-			} catch (MatlabException e) {
-				this.path = null;
-			}
+				return (String) engine.evalWithResult("?.path", handle);
+			} catch (MatlabException e) {}
 		}
-	}
-	
-	public String getPath() {
-		return path;
+		return null;
 	}
 
 	// PARENT CHILDREN
 
-	public ISimulinkModelElement getParent() {
-		if (this.parentId != null || this.parentPath != null) {
-			//try {
-				//String handle; 
-				if (parentId != null) {
-				//	handle = StateflowUtil.getBlockHandleFromId(model, engine, parentId);
-					return new StateflowBlock(model, engine, parentId);
-				} else if (this.parentPath != null) {
-				//	handle = StateflowUtil.getBlockHandleFromPath(model, engine, parentPath);
-					//return new StateflowBlock(parentPath, model, engine);	
-				}
-				//String parentType = (String) engine.evalWithResult("?.class;", handle);
-				/*if (parentType.toLowerCase().contains("chart")) {
-					return new SimulinkDualBlock(model, engine, sf);
-				} else {
-					return sf;
-				}*/
-			/*} catch (MatlabException e) {
-				e.printStackTrace();
-			}*/
-		}
-		return null;
-	}
-	
-	private void setParent() { // When Id is known
-		if (this.id != null) {
+	public ISimulinkModelElement getParent() throws EolRuntimeException {
+		try {
+			String h = StateflowUtil.getBlockHandle(this);
 			try {
-				String h = StateflowUtil.getBlockHandle(this);
-				this.parentId = (Double) engine.evalWithSetupAndResult("p=?.up;", "p.Id;", h);
-				this.parentPath = (String) engine.evalWithResult("p.Path;");
+				Double parentId = (Double) engine.evalWithResult("?.up.id",h);
+				return new StateflowBlock(model, engine, parentId);
 			} catch (MatlabException e) {
-				System.out.println("Parent is the model");
-				this.parentId = null;
-				this.parentPath = null;
+				String path = (String) engine.evalWithResult("?.path",h);
+				return new SimulinkBlock(path, model, engine);
 			}
+		} catch (MatlabException e1) {
+			throw new EolRuntimeException(e1.getMessage());
 		}
 	}
 
-	public void setParent(Object parent) throws EolRuntimeException {
-		/*if (parent instanceof SimulinkBlock) {
-			this.setParent((SimulinkBlock) parent);
-		} else*/ if (parent instanceof StateflowBlock) {
-			this.setParent((StateflowBlock) parent);
-		}
-	}
-
-	/*public void setParent(SimulinkBlock parent) throws EolRuntimeException {
-		setParent(parent.asStateflow());
-	}*/
-
-	public void setParent(StateflowBlock parent) throws EolRuntimeException {
+	public void setParent(StateflowBlock parent) throws EolRuntimeException, MatlabException {
 		if (!this.isUnset()) {
 			changeParent(parent);
 		} else {
@@ -287,8 +218,8 @@ public class StateflowBlock extends SimulinkModelElement {
 		properties.clear();
 	}
 
-	private void changeParent(StateflowBlock parent) throws RuntimeException { // TODO
-		throw new RuntimeException("Not yet implemented");
+	private void changeParent(StateflowBlock parent) throws EolRuntimeException { // TODO
+		throw new EolRuntimeException("Changing parent is not yet implemented");
 		/*try {
 			String positionProperty = "Position";
 			Object position = getProperty(positionProperty);
@@ -300,28 +231,17 @@ public class StateflowBlock extends SimulinkModelElement {
 		}*/
 	}
 
-	/** BUILDERS */
-
-	/*private void buildFromSimulink(SimulinkBlock chart) throws MatlabException {
-		StateflowUtil.modelHandleAsM(this);
-		String chartPath = chart.getPath();
-		this.id = (Double) this.engine.evalWithSetupAndResult("sim = m.find('Path','?', '-isa', '?');", "sim.id;",
-				chartPath, this.getType());//, sim.getProperty("Name")); // Relying in the MakeNameUnique Parameter
-		this.path = (String) this.engine.evalWithResult("sim.Path;");
-	}*/
+	/** BUILDER */
 
 	private void buildFromStateflow(StateflowBlock parent) throws EolRuntimeException {
 		if (!parent.isUnset()) {
-			String parentHandle;
 			try {
-				parentHandle = StateflowUtil.getBlockHandle(parent);
+				String parentHandle = StateflowUtil.getBlockHandle(parent);
 				engine.eval("block = ?(?);", getType(), parentHandle);
-				this.id = (Double) engine.evalWithResult("block.id;");
-				this.path = (String) this.engine.evalWithResult("block.path;");
+				this.id = (Double) engine.evalWithResult("block.id;");	
 			} catch (MatlabException e) {
-				e.printStackTrace();
 				throw new EolRuntimeException(e.getMessage());
-			}
+			}			
 		} else {
 			throw new EolRuntimeException("Parent was not a valid entity");
 		}
@@ -331,10 +251,9 @@ public class StateflowBlock extends SimulinkModelElement {
 	public Collection<StateflowBlock> getChildren() {
 		try {
 			String handle = StateflowUtil.getBlockHandle(this);
-			List<Double> children = (List<Double>) this.engine.evalWithSetupAndResult("list = ?.find('-depth',1);", "get(list,'Id');", handle);
-			return children.stream().map(e -> new StateflowBlock( model, engine, id)).collect(Collectors.toList());
+			Object children = (Object) this.engine.evalWithSetupAndResult("list = ?.find('-depth',1); list = setdiff(list, ?);", "get(list,'Id')", handle, handle);
+			return StateflowUtil.getStateflowBlocks(model, engine, children);			
 		} catch (MatlabException e) {
-			e.printStackTrace();
 			return Collections.<StateflowBlock>emptyList();
 		}
 	}
@@ -373,10 +292,10 @@ public class StateflowBlock extends SimulinkModelElement {
 		}
 	}
 	
-	public StateflowBlock add(StateflowBlock block) { 
+	public StateflowBlock add(StateflowBlock block) throws EolRuntimeException { 
 		try {
 			block.setParent(this);
-		} catch (EolRuntimeException e) {
+		} catch (MatlabException e) {
 			e.printStackTrace();
 		}
 		return this;

@@ -13,6 +13,7 @@ import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class StateflowUtil {
 
@@ -22,7 +23,7 @@ public class StateflowUtil {
 
 	private static final String FIND_ALL = "list = ?.find('-isa','Stateflow.Object');";
 	private static final String FIND_BLOCK_TYPE = "list = ?.find('-isa','?');"; 
-	private static final String GET_IDS = "get(list, 'Id')";
+	private static final String GET_IDS = "get(list, 'Id');";
 	private static final String FIND_BY_ID = "? = ?.find('Id', ?);";
 	private static final String FIND_BY_PATH = "? = ?.find('Path', '?');";
 	private static final String FIND_BY_TYPE_PATH = "? = ?.find('-isa', '?', 'Path', '?');";
@@ -145,6 +146,10 @@ public class StateflowUtil {
 	}
 	
 	public static  Collection<ISimulinkModelElement> getTypeList(SimulinkModel model, MatlabEngine engine, Object ids) {
+		return getStateflowBlocks(model, engine, ids).stream().map(e-> (ISimulinkModelElement) e).collect(Collectors.toList());
+	}
+	
+	public static  Collection<StateflowBlock> getStateflowBlocks(SimulinkModel model, MatlabEngine engine, Object ids) {
 		if (ids == null) 
 			return Collections.emptyList();
 		
@@ -159,9 +164,13 @@ public class StateflowUtil {
 			}
 		}
 		if (ids instanceof Double) {
-				list.add(new StateflowBlock(model, engine, (Double) ids));
+				try {
+					list.add(new StateflowBlock(model, engine, (Double) ids));
+				} catch (MatlabException e1) {
+					e1.printStackTrace();
+				}
 		}
-		return list.stream().map(e-> (ISimulinkModelElement) e).collect(Collectors.toList());
+		return list;
 	}
 	
 	public static StateflowBlock cast(Object object){ // TODO to cast response to Simulink or Stateflow Block

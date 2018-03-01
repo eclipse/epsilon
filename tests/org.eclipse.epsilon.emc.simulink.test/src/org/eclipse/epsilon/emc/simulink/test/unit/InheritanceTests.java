@@ -9,14 +9,16 @@ public class InheritanceTests extends AbstractSimulinkTest {
 	
 	@Test
 	public void testChartStateflowConstParent() {
-		eol = "var parent = new `sflib/Chart`; "
+		eol = "var parentSim = new `sflib/Chart`; "
+				+ "var parent = `Stateflow.Chart`.all.first(); "
 				+ "var sA = new `Stateflow.State`(parent); "
 				+ "assert(sA.parent = parent);";
 	}
 	
 	@Test
 	public void testChartStateflowAttrParent() {
-		eol = "var parent = new `sflib/Chart`; "
+		eol = "var parentSim = new `sflib/Chart`; "
+				+ "var parent = `Stateflow.Chart`.all.first(); "
 				+ "var sA = new `Stateflow.State`; "
 				+ "sA.parent = parent; "
 				+ "assert(sA.parent = parent);";
@@ -24,7 +26,8 @@ public class InheritanceTests extends AbstractSimulinkTest {
 	
 	@Test
 	public void testChartStateflowAddParent() {
-		eol = "var parent = new `sflib/Chart`; "
+		eol = "var parentSim = new `sflib/Chart`; "
+				+ "var parent = `Stateflow.Chart`.all.first(); "
 				+ "var sA = new `Stateflow.State`; "
 				+ "parent.add(sA); "
 				+ "assert(sA.parent = parent);";
@@ -32,25 +35,37 @@ public class InheritanceTests extends AbstractSimulinkTest {
 	
 	@Test
 	public void testStateflowConstChartChildren() {
-		eol = "var parent = new `sflib/Chart`; "
+		eol = "var parentSim = new `sflib/Chart`; "
+				+ "var parent = `Stateflow.Chart`.all.first(); "
 				+ "var sA = new `Stateflow.State`(parent); "
-				+ "assert(parent.blocks.includes(sA));";
+				+ "assert(parent.getChildren().size() = 1);"
+				+ "assert(parent.children.size() = 1); "
+				+ "assert(parent.children.includes(sA); "
+				+ "assert(parent.getChildren().includes(sA); ";
 	}
 	
 	@Test
 	public void testStateflowAttrChartChildren() {
-		eol = "var parent = new `sflib/Chart`; "
+		eol = "var parentSim = new `sflib/Chart`; "
+				+ "var parent = `Stateflow.Chart`.all.first(); "
 				+ "var sA = new `Stateflow.State`; "
 				+ "sA.parent = parent; "
-				+ "assert(parent.blocks.includes(sA));";
+				+ "assert(parent.getChildren().size() = 1);"
+				+ "assert(parent.children.size() = 1); "
+				+ "assert(parent.children.includes(sA); "
+				+ "assert(parent.getChildren().includes(sA); ";
 	}
 	
 	@Test
 	public void testAddStateflowChartChildren() {
-		eol = "var parent = new `sflib/Chart`; "
+		eol = "var parentSim = new `sflib/Chart`; "
+				+ "var parent = `Stateflow.Chart`.all.first(); "
 				+ "var sA = new `Stateflow.State`; "
 				+ "parent.add(sA); "
-				+ "assert(parent.blocks.includes(sA));";
+				+ "assert(parent.getChildren().size() = 1);"
+				+ "assert(parent.children.size() = 1); "
+				+ "assert(parent.children.includes(sA); "
+				+ "assert(parent.getChildren().includes(sA); ";
 	}
 	
 	// STATEFLOW PARENT
@@ -86,7 +101,10 @@ public class InheritanceTests extends AbstractSimulinkTest {
 		eol = "var function = new `simulink/User-Defined Functions/MATLAB Function`;"
 				+ "var parent = EMChart.all.first(); "
 				+ "var sA = new `Stateflow.State`(parent); "
-				+ "assert(parent.blocks.includes(sA));";
+				+ "assert(parent.getChildren().size() = 1);"
+				+ "assert(parent.children.size() = 1); "
+				+ "assert(parent.children.includes(sA); "
+				+ "assert(parent.getChildren().includes(sA); ";
 	}
 	
 	@Test
@@ -95,7 +113,10 @@ public class InheritanceTests extends AbstractSimulinkTest {
 				+ "var parent = EMChart.all.first(); "
 				+ "var sA = new `Stateflow.State`; "
 				+ "sA.parent = parent; "
-				+ "assert(parent.blocks.includes(sA));";
+				+ "assert(parent.getChildren().size() = 1);"
+				+ "assert(parent.children.size() = 1); "
+				+ "assert(parent.children.includes(sA); "
+				+ "assert(parent.getChildren().includes(sA); ";
 	}
 	
 	@Test
@@ -104,7 +125,10 @@ public class InheritanceTests extends AbstractSimulinkTest {
 				+ "var parent = EMChart.all.first(); "
 				+ "var sA = new `Stateflow.State`; "
 				+ "parent.add(sA); "
-				+ "assert(parent.blocks.includes(sA));";
+				+ "assert(parent.getChildren().size() = 1);"
+				+ "assert(parent.children.size() = 1); "
+				+ "assert(parent.children.includes(sA); "
+				+ "assert(parent.getChildren().includes(sA); ";
 	}
 	
 }

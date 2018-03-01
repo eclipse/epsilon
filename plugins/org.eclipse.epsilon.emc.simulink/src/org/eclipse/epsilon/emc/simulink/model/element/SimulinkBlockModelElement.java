@@ -15,7 +15,7 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 
 	protected static final String ADD_BLOCK_MAKE_NAME_UNIQUE_ON = "add_block('?', '?', 'MakeNameUnique', 'on');";
 	protected static final String HANDLE = "handle = ?;";
-	private static final String GET_PARAM_BLOCK_TYPE = "get_param(handle, 'BlockType')";
+	private static final String GET_PARAM_BLOCK_TYPE = "get_param(handle, 'BlockType');";
 	private static final String GET_FULL_NAME = "getfullname(?);";
 
 	protected Double handle = null;
@@ -47,8 +47,13 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 		super(model, engine);
 	}
 
-	public Object getProperty(String property) throws MatlabException {
-		return engine.evalWithSetupAndResult(HANDLE, GET_HANDLE_PROPERTY, getHandle(), property);
+	public Object getProperty(String property) throws EolIllegalPropertyException {
+		try {
+			return engine.evalWithSetupAndResult(HANDLE, GET_HANDLE_PROPERTY, getHandle(), property);
+		} catch (MatlabException e) {
+			e.printStackTrace();
+			throw new EolIllegalPropertyException(this, property, null, null);
+		}
 	}
 
 	public void setProperty(String property, Object value) throws EolIllegalPropertyException {

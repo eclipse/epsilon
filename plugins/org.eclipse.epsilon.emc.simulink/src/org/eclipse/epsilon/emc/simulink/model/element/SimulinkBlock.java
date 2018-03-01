@@ -77,9 +77,7 @@ public class SimulinkBlock extends SimulinkBlockModelElement {
 					return null;
 				return new SimulinkBlock(parentPath, model, engine);
 			}
-		} catch (MatlabException e) {
-			e.printStackTrace();
-		}
+		} catch (EolIllegalPropertyException e) {}
 		return null;
 	}
 	
@@ -212,24 +210,4 @@ public class SimulinkBlock extends SimulinkBlockModelElement {
 		}
 	}
 	
-	// STATEFLOW NATURE :
-	
-	public SimulinkBlock add(StateflowBlock block) {
-		try {
-			block.setParent(this);
-		} catch (EolRuntimeException e) {
-			e.printStackTrace();
-		}
-		return this;
-	}
-	
-	private StateflowBlock stateflowBlock;
-	
-	/*public StateflowBlock asStateflow() throws EolRuntimeException {
-		if (this.stateflowBlock == null) {
-			this.stateflowBlock = new StateflowBlock(this);
-		}
-		return this.stateflowBlock; 
-	}*/
-
 }
