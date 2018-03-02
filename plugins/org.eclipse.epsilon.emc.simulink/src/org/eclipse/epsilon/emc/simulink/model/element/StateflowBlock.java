@@ -177,7 +177,7 @@ public class StateflowBlock extends SimulinkModelElement {
 		if (this.id != null) {
 			try {
 				String handle = StateflowUtil.getBlockHandleFromId(model, engine, id);
-				return (String) engine.evalWithResult("?.path", handle);
+				return (String) engine.evalWithResult("?.path;", handle);
 			} catch (MatlabException e) {}
 		}
 		return null;
@@ -189,10 +189,10 @@ public class StateflowBlock extends SimulinkModelElement {
 		try {
 			String h = StateflowUtil.getBlockHandle(this);
 			try {
-				Double parentId = (Double) engine.evalWithResult("?.up.id",h);
+				Double parentId = (Double) engine.evalWithResult("?.up.id;",h);
 				return new StateflowBlock(model, engine, parentId);
 			} catch (MatlabException e) {
-				String path = (String) engine.evalWithResult("?.path",h);
+				String path = (String) engine.evalWithResult("?.path;",h);
 				return new SimulinkBlock(path, model, engine);
 			}
 		} catch (MatlabException e1) {
@@ -251,7 +251,7 @@ public class StateflowBlock extends SimulinkModelElement {
 	public Collection<StateflowBlock> getChildren() {
 		try {
 			String handle = StateflowUtil.getBlockHandle(this);
-			Object children = (Object) this.engine.evalWithSetupAndResult("list = ?.find('-depth',1); list = setdiff(list, ?);", "get(list,'Id')", handle, handle);
+			Object children = (Object) this.engine.evalWithSetupAndResult("list = ?.find('-depth',1); list = setdiff(list, ?);", "get(list,'Id');", handle, handle);
 			return StateflowUtil.getStateflowBlocks(model, engine, children);			
 		} catch (MatlabException e) {
 			return Collections.<StateflowBlock>emptyList();

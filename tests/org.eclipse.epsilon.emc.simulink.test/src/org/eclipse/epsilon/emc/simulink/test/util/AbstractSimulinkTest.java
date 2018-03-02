@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
-import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -40,7 +39,6 @@ public abstract class AbstractSimulinkTest {
 
 	@BeforeClass
 	public static void engineLogLevel() {
-		MatlabEngine.log(true);
 	}
 
 	@Before

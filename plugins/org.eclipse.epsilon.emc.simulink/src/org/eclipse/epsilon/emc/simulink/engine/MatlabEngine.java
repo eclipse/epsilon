@@ -20,9 +20,6 @@ public class MatlabEngine {
 	/** ERRORS */
 	private static final String ERROR_INVALID_PARAMETER_NUMBER = "%d parameters were expected but %d were provided";
 
-	/** LOGGER */
-	private static boolean log = true;
-
 	/** VARIABLES */
 	protected Object engine;
 	protected Method evalMethod;
@@ -32,10 +29,6 @@ public class MatlabEngine {
 		engine = matlabEngineClass.getMethod(CONNECT_MATLAB_METHOD).invoke(null);
 		evalMethod = engine.getClass().getMethod(EVAL_METHOD, String.class);
 		getVariableMethod = engine.getClass().getMethod(GET_VARIABLE_METHOD, String.class);
-	}
-
-	public static void log(boolean log) {
-		MatlabEngine.log = log;
 	}
 
 	public Object evalWithSetupAndResult(String setup, String cmd, Object... parameters) throws MatlabException {
@@ -69,9 +62,6 @@ public class MatlabEngine {
 	}
 
 	public void eval(String cmd) throws MatlabException {
-		if (log)
-			System.out.println("Executing: " + cmd);
-
 		try {
 			evalMethod.invoke(engine, cmd);
 		} catch (Exception e) {
@@ -89,9 +79,6 @@ public class MatlabEngine {
 
 	@SuppressWarnings("unchecked")
 	public Future<Void> evalAsync(String cmd) throws MatlabException {
-		if (log)
-			System.out.println("Asynchronously Executing: " + cmd);
-
 		try {
 			Method evalSyncMethod = engine.getClass().getMethod(EVAL_ASYNC_METHOD, String.class);
 			return (Future<Void>) evalSyncMethod.invoke(engine, cmd);

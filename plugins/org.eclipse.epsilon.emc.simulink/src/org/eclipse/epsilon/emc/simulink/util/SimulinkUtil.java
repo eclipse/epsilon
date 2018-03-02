@@ -17,8 +17,9 @@ import org.eclipse.epsilon.emc.simulink.model.element.SimulinkPort;
 
 public class SimulinkUtil {
 
-	private static final String FIND_BLOCKS = "find_system('?', 'BlockType', '?')";
-	private static final String FIND_SYSTEM = "find_system('?', 'FindAll', 'on', 'Type', 'Block')";
+	private static final String GET_BLOCK_HANDLE = "getSimulinkBlockHandle('?');";
+	private static final String FIND_BLOCKS = "find_system('?', 'BlockType', '?');";
+	private static final String FIND_SYSTEM = "find_system('?', 'FindAll', 'on', 'Type', 'Block');";
 
 	public static String getSimpleTypeName(String type) { // OK
 		if (type.indexOf("/") > -1) {
@@ -32,7 +33,7 @@ public class SimulinkUtil {
 		return type;
 	}
 	
-	public static String getTypePathInModel(SimulinkModel model, String type) { // OK
+	public static String getTypePathInModel(SimulinkModel model, String type) { 
 		return model.getSimulinkModelName() + "/" + getSimpleTypeName(type);
 	}
 	
@@ -47,7 +48,7 @@ public class SimulinkUtil {
 	}
 
 	public static String handleMethodWithResult(String methodName, Object... parameters) {
-		return "result = " + handleMethod(methodName, parameters) + ";"; 
+		return "result = " + handleMethod(methodName, parameters); 
 	}
 	
 	public static String handleMethod(String methodName, Object... parameters) {
@@ -63,14 +64,14 @@ public class SimulinkUtil {
 					cmd += parameter;
 				}
 			}
-			cmd += ")";
+			cmd += ");";
 		}
 		return cmd;
 	}
 
 	public static Double getHandle(String path, MatlabEngine engine) {
 		try {
-			return (Double) engine.evalWithResult("getSimulinkBlockHandle('?')", path);
+			return (Double) engine.evalWithResult(GET_BLOCK_HANDLE, path);
 		} catch (MatlabException e) {
 			e.printStackTrace();
 		}
