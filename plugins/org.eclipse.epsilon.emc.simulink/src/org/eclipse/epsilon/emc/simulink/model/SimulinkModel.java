@@ -405,5 +405,15 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			throw new EolRuntimeException(e.getMessage());
 		}
 	}
+	
+	public Object getWorkspaceVariable(String value) {
+		try {
+			return MatlabEngineUtil.parseMatlabEngineVariable(engine,value);
+		} catch (MatlabException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
 
 }
