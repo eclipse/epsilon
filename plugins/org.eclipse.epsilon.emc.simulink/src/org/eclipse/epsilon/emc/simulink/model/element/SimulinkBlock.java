@@ -72,13 +72,13 @@ public class SimulinkBlock extends SimulinkBlockModelElement {
 			String path = getPath();
 			String name = ((String) getProperty("name")).replace("/", "//");
 			if (!path.equalsIgnoreCase(name)) {
-				String parentPath = path.substring(0, path.lastIndexOf("/"));
-				if (parentPath.replace("//", "").indexOf("/") < 0)
-					return null;
-				return new SimulinkBlock(parentPath, model, engine);
+				String parentPath = path.substring(0, path.length() - name.length() - 1);
+			if (parentPath.replace("//", "").indexOf("/") < 0)
+				return null;
+			return new SimulinkBlock(parentPath, model, engine);
 			}
 		} catch (EolIllegalPropertyException e) {}
-		return null;
+			return null;
 	}
 	
 	public List<SimulinkBlock> getChildren() {
