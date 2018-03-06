@@ -20,6 +20,7 @@ public class SimulinkUtil {
 	private static final String GET_BLOCK_HANDLE = "getSimulinkBlockHandle('?');";
 	private static final String FIND_BLOCKS = "find_system('?', 'BlockType', '?');";
 	private static final String FIND_SYSTEM = "find_system('?', 'FindAll', 'on', 'Type', 'Block');";
+	private static final String FIND_DEPTH = "find_system('?', 'SearchDepth', ?, 'Type', 'Block');";
 
 	public static String getSimpleTypeName(String type) { // OK
 		if (type.indexOf("/") > -1) {
@@ -144,6 +145,18 @@ public class SimulinkUtil {
 	public static List<SimulinkPort> getSimulinkPorts(SimulinkModel model,
 			MatlabEngine engine, Object handles) {
 		return SimulinkUtil.getTypeList(SimulinkPort.class, model, engine, handles);
+	}
+	
+	
+	public static List<ISimulinkModelElement> findBlocks(SimulinkModel model,
+			MatlabEngine engine, Integer depth) {
+		try {
+			return getSimulinkBlocks(model, engine, engine.evalWithResult(FIND_DEPTH, model.getSimulinkModelName(), depth))
+					.stream().map(e -> (ISimulinkBlockModelElement) e).collect(Collectors.toList());
+		} catch (MatlabException e) {
+			e.printStackTrace();
+			return Collections.emptyList();
+		} 
 	}
 	
 	public static List<ISimulinkModelElement> getAllSimulinkBlocksFromModel(SimulinkModel model,

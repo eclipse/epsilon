@@ -5,6 +5,24 @@ import org.junit.Test;
 
 public class InheritanceTests extends AbstractSimulinkTest {
 	
+	// MODEL
+	
+	@Test
+	public void testModelChildren() {
+		eol = "var chart = new `sflib/Chart`; "
+				+ "var result = M.children; "
+				+ "assert(result.size() = 1); "
+				+ "assert(result.includes(chart));";
+	}
+	
+	@Test
+	public void testModelFindBlocks() {
+		eol = "var chart = new `sflib/Chart`; "
+				+ "var result = M.findBlocks(); "
+				+ "assert(result.size() = 1); "
+				+ "assert(result.includes(chart)); ";
+	}
+	
 	// CHART PARENT
 	
 	@Test
