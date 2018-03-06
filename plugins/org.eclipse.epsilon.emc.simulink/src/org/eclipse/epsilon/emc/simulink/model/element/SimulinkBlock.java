@@ -83,7 +83,7 @@ public class SimulinkBlock extends SimulinkBlockModelElement {
 	
 	public List<SimulinkBlock> getChildren() {
 		try {
-			Object children = engine.evalWithResult("find_system('?', 'SearchDepth', 1);", getPath());
+			Object children = engine.evalWithResult("find_system('?', 'SearchDepth', 1, 'Type', 'Block');", getPath());
 			return SimulinkUtil.getSimulinkBlocks(model, engine, children);
 		} catch (MatlabException e) {
 			e.printStackTrace();
