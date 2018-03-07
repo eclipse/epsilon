@@ -27,7 +27,7 @@ public class SimulinkObjectMethod extends ObjectMethod {
 			if (object instanceof ISimulinkBlockModelElement) 		
 				cmd = SimulinkUtil.handleMethodWithResult((ISimulinkBlockModelElement) object, name, parameters);
 			if (object instanceof SimulinkModel) 
-				cmd = SimulinkUtil.handleMethodWithResult(name, parameters);
+				cmd = SimulinkUtil.handleMethodWithResult((SimulinkModel) object, name, parameters);
 			
 			engine.eval(cmd);
 			return engine.getVariable("result");
@@ -37,7 +37,7 @@ public class SimulinkObjectMethod extends ObjectMethod {
 					if (object instanceof ISimulinkBlockModelElement) 		
 						cmd = SimulinkUtil.handleMethod((ISimulinkBlockModelElement) object, name, parameters);
 					if (object instanceof SimulinkModel) {
-						cmd = SimulinkUtil.handleMethod(name, parameters);
+						cmd = SimulinkUtil.handleMethod((SimulinkModel) object, name, parameters);
 					}
 					engine.eval(cmd);
 					return null;

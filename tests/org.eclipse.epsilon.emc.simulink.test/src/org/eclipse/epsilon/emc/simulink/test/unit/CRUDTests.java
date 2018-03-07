@@ -13,8 +13,7 @@ public class CRUDTests extends AbstractSimulinkTest {
 		eol = "var gain = new `simulink/Math Operations/Gain`; "
 				+ "assert(Gain.all.size() = 1); "
 				+ "var gain2 = new `simulink/Math Operations/Gain`; "
-				+ "assert(Gain.all.size() = 2); "
-				;
+				+ "assert(Gain.all.size() = 2); ";
 	}
 	
 	@Test
@@ -29,9 +28,8 @@ public class CRUDTests extends AbstractSimulinkTest {
 	@Test
 	public void testDeleteSimulinkChart(){
 		eol = "var chart = new `sflib/Chart`; "
-				+ "var prevSize = Chart.all.size();"
 				+ "delete chart; "
-				+ "assert(Chart.all.size() = (prevSize - 1));";
+				+ "assert(Chart.all.isEmpty());";
 	}
 	
 	/** Stateflow State */
@@ -39,23 +37,26 @@ public class CRUDTests extends AbstractSimulinkTest {
 	@Test
 	public void testCreateStateflowState(){
 		eol = "var chart = new `sflib/Chart`; "
-				+ "var prevSize = State.all.size();"
-				+ "var state = new `Stateflow.State`(chart); "
-				+ "assert(State.all.size() = (prevSize + 1));";
+				+ "var prevSize = `Stateflow.State`.all.size(); "
+				+ "var sfChart = `Stateflow.Chart`.all.first();"
+				+ "var state = new `Stateflow.State`(sfChart); "
+				+ "assert(`Stateflow.State`.all.size() = (prevSize + 1));";
 	}
 	
 	@Test
 	public void testCreateStateflowStateWithEmptyConstructor(){
 		eol = "var state = new `Stateflow.State`; "
 				+ "var chart = new `sflib/Chart`; "
-				+ "chart.add(state); "
-				+ "assert(State.all.size() = 1);";
+				+ "var sfChart = `Stateflow.Chart`.all.first();"
+				+ "sfChart.add(state); "
+				+ "assert(`Stateflow.State`.all.size() = 1);";
 	}
 	
 	@Test
 	public void testReadStateflowId(){
-		eol = "var chart = new `sflib/Chart`; "			
-				+ "var state = new `Stateflow.State`(chart); "
+		eol = "var chart = new `sflib/Chart`; "	
+				+ "var sfChart = `Stateflow.Chart`.all.first();"
+				+ "var state = new `Stateflow.State`(sfChart); "
 				+ "assert(state.id <> null); "
 				+ "assert(state.id.println <> \"\"); ";
 	}
@@ -64,7 +65,8 @@ public class CRUDTests extends AbstractSimulinkTest {
 	public void testReadStateflowIdWithEmptyConstructor(){
 		eol = "var state = new `Stateflow.State`; "
 				+ "var chart = new `sflib/Chart`; "
-				+ "chart.add(state); "
+				+ "var sfChart = `Stateflow.Chart`.all.first;"
+				+ "sfChart.add(state); "
 				+ "assert(state.id <> null); "
 				+ "assert(state.id.println <> \"\"); ";
 	}
@@ -72,7 +74,8 @@ public class CRUDTests extends AbstractSimulinkTest {
 	@Test
 	public void testUpdateStateflowName(){
 		eol = "var chart = new `sflib/Chart`; "			
-				+ "var state = new `Stateflow.State`(chart); "
+				+ "var sfChart = `Stateflow.Chart`.all.first;"
+				+ "var state = new `Stateflow.State`(sfChart); "
 				+ "state.name = 'S1'; "
 				+ "assert(state.name = 'S1');";
 	}
@@ -83,7 +86,8 @@ public class CRUDTests extends AbstractSimulinkTest {
 				+ "state.name = 'S1'; "
 				+ "assert(state.name = 'S1'); "
 				+ "var chart = new `sflib/Chart`; "
-				+ "chart.add(state); "
+				+ "var sfChart = `Stateflow.Chart`.all.first;"
+				+ "sfChart.add(state); "
 				+ "state.name = 'S2'; "
 				+ "assert(state.name = 'S2'); ";
 	}
@@ -92,20 +96,22 @@ public class CRUDTests extends AbstractSimulinkTest {
 	@Test
 	public void testDeleteStateflowState(){
 		eol = "var chart = new `sflib/Chart`; "
-				+ "var state = new `Stateflow.State`(chart); "
-				+ "var prevSize = State.all.size();"
+				+ "var sfChart = `Stateflow.Chart`.all.first;"
+				+ "var state = new `Stateflow.State`(sfChart); "
+				+ "var prevSize = `Stateflow.State`.all.size();"
 				+ "delete state; "
-				+ "assert(State.all.size() = (prevSize - 1));";
+				+ "assert(`Stateflow.State`.all.size() = (prevSize - 1));";
 	}
 	
 	@Test
 	public void testDeleteStateflowStateWithEmptyConstructor(){
 		eol = "var state = new `Stateflow.State`; "
 				+ "var chart = new `sflib/Chart`; "
-				+ "chart.add(state); "
-				+ "assert(State.all.size() = 1);"
+				+ "var sfChart = `Stateflow.Chart`.all.first;"
+				+ "sfChart.add(state); "
+				+ "assert(`Stateflow.State`.all.size() = 1);"
 				+ "delete state; "
-				+ "assert(State.all.size() = 0);";
+				+ "assert(`Stateflow.State`.all.size() = 0);";
 	}
 	
 }

@@ -62,8 +62,7 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 			if (value instanceof ISimulinkBlockModelElement) {
 				ISimulinkBlockModelElement element = (ISimulinkBlockModelElement) value;
 				value = element.getHandle();
-			}
-			if (value instanceof String && (!((String) value).startsWith("[") && !((String) value).endsWith("]"))) {
+			} else {
 				escaped = "'" + escaped + "'";
 			}
 			String cmd = "handle = ?; set_param(handle, '?', " + escaped + ");";

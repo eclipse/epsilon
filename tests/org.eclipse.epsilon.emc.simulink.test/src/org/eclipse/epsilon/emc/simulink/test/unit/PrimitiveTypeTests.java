@@ -8,7 +8,7 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 	@Test
 	public void simulateAndGetWorkspaceVariableDouble() {
 		eol = "var constant1 = new `simulink/Sources/Constant`;" +
-				"constant1.Value = '2';" +
+				"constant1.Value = 2;" +
 				"var out1 = new `simulink/Sinks/To Workspace`;" + 
 				"out1.SaveFormat = \"Array\";" +
 				"var function1 = new `simulink/User-Defined Functions/MATLAB Function`;" + 
@@ -24,10 +24,10 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 	public void simulateAndGetWorkspaceVariableInt() {
 		eol = "var constant1 = new `simulink/Sources/Constant`; " + 
 				"constant1.OutDataTypeStr = \"int32\";" +
-				"constant1.Value = '5';" +
+				"constant1.Value = 5;" +
 				"var constant2 = new `simulink/Sources/Constant`;" +
 				"constant2.OutDataTypeStr = \"int32\";" +
-				"constant2.Value = '1';" +
+				"constant2.Value = 1;" +
 				"var out1 = new `simulink/Sinks/To Workspace`;" +
 				"out1.SaveFormat = \"Array\";" + 
 				"var subtract1 = new `simulink/Math Operations/Subtract`;" +
@@ -43,10 +43,10 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 	public void simulateAndGetWorkspaceVariableFloat() {
 		eol = "var constant1 = new `simulink/Sources/Constant`; " + 
 				"constant1.OutDataTypeStr = \"single\";" +
-				"constant1.Value = '5';" +
+				"constant1.Value = 5;" +
 				"var constant2 = new `simulink/Sources/Constant`;" +
 				"constant2.OutDataTypeStr = \"single\";" +
-				"constant2.Value = '1';" +
+				"constant2.Value = 1;" +
 				"var out1 = new `simulink/Sinks/To Workspace`;" +
 				"out1.SaveFormat = \"Array\";" + 
 				"var subtract1 = new `simulink/Math Operations/Subtract`;" +
@@ -62,10 +62,10 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 	public void simulateAndGetWorkspaceVariableShort() {
 		eol = "var constant1 = new `simulink/Sources/Constant`; " + 
 				"constant1.OutDataTypeStr = \"int16\";" +
-				"constant1.Value = '5';" +
+				"constant1.Value = 5;" +
 				"var constant2 = new `simulink/Sources/Constant`;" +
 				"constant2.OutDataTypeStr = \"int16\";" +
-				"constant2.Value = '1';" +
+				"constant2.Value = 1;" +
 				"var out1 = new `simulink/Sinks/To Workspace`;" +
 				"out1.SaveFormat = \"Array\";" + 
 				"var subtract1 = new `simulink/Math Operations/Subtract`;" +
@@ -81,10 +81,10 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 	public void simulateAndGetWorkspaceVariableByte() {
 		eol = "var constant1 = new `simulink/Sources/Constant`; " + 
 				"constant1.OutDataTypeStr = \"int8\"; " +
-				"constant1.Value = '5'; " +
+				"constant1.Value = 5; " +
 				"var constant2 = new `simulink/Sources/Constant`;" +
 				"constant2.OutDataTypeStr = \"int8\";" +
-				"constant2.Value = '1';" +
+				"constant2.Value = 1;" +
 				"var out1 = new `simulink/Sinks/To Workspace`;" +
 				"out1.SaveFormat = \"Array\";" + 
 				"var subtract1 = new `simulink/Math Operations/Subtract`;" +
@@ -100,7 +100,7 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 	public void simulateAndGetWorkspaceVariableBoolean() {
 		eol = "var constant1 = new `simulink/Sources/Constant`; " + 
 				"constant1.OutDataTypeStr = \"int8\"; " +
-				"constant1.Value = '5'; " +
+				"constant1.Value = 5; " +
 				"var out1 = new `simulink/Sinks/To Workspace`;" +
 				"out1.SaveFormat = \"Array\";" + 
 				"var compare1 = new `simulink/Logic and Bit Operations/Compare To Constant`;" +

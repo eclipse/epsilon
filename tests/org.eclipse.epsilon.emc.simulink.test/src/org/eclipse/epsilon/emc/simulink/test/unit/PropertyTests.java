@@ -16,7 +16,8 @@ public class PropertyTests extends AbstractSimulinkTest {
 	@Test 
 	public void testStateflowTypeProperty() {
 		eol = "var chart = new `sflib/Chart`; "
-			+ "var state = new `Stateflow.State`(chart); "
+			+ "var sfChart = `Stateflow.Chart`.all.first; " 
+			+ "var state = new `Stateflow.State`(sfChart); "
 			+ "assert(state.type = state.getType());";
 	}
 	
@@ -29,16 +30,17 @@ public class PropertyTests extends AbstractSimulinkTest {
 	@Test
 	public void testSimulinkChartTypeProperty() {
 		eol = "var chart = new `sflib/Chart`; "
-			+ "assert(chart.type = 'Chart');";
+			+ "assert(chart.type = 'SubSystem');";
 	}
 	
 	@Test
 	public void testStateflowIdProperty() {
 		eol = "var chart = new `sflib/Chart`; "
-			+ "var state = new `Stateflow.State`(chart); "
-			+ "assert(state.id <> null); "
-			+ "assert(state.id <> ''); "
-			+ "assert(state.id = state.getId());";
+				+ "var sfChart = `Stateflow.Chart`.all.first; " 
+				+ "var state = new `Stateflow.State`(sfChart); "
+				+ "assert(state.id <> null); "
+				+ "assert(state.id <> ''); "
+				+ "assert(state.id = state.getId());";
 	}
 	
 	@Test
@@ -47,7 +49,5 @@ public class PropertyTests extends AbstractSimulinkTest {
 			+ "assert(gain.getHandle() <> null); "
 			+ "assert(gain.getHandle() <> ''); ";
 	}
-	
-	// TODO test invalid properties
-	
+		
 }

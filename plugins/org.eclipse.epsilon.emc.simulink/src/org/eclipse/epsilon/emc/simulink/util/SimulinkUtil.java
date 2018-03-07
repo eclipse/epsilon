@@ -21,6 +21,8 @@ public class SimulinkUtil {
 	private static final String FIND_BLOCKS = "find_system('?', 'BlockType', '?');";
 	private static final String FIND_SYSTEM = "find_system('?', 'FindAll', 'on', 'Type', 'Block');";
 	private static final String FIND_DEPTH = "find_system('?', 'SearchDepth', ?, 'Type', 'Block');";
+	private static final String CHILDREN = "setdiff(find_system('?', 'SearchDepth', 0, 'Type', 'Block'), "
+			+ "find_system('?', 'SearchDepth', 1, 'Type', 'Block'));";
 
 	public static String getSimpleTypeName(String type) { // OK
 		if (type.indexOf("/") > -1) {
@@ -38,32 +40,50 @@ public class SimulinkUtil {
 		return model.getSimulinkModelName() + "/" + getSimpleTypeName(type);
 	}
 	
-	public static String handleMethod(ISimulinkBlockModelElement obj, String methodName, Object... parameters) {
-		Double handle = ((ISimulinkBlockModelElement) obj).getHandle();
-		return "handle = " + handle + "; " + handleMethod(methodName, "handle", parameters);
+	public static String handleMethod(ISimulinkBlockModelElement obj, String methodName, Object[] parameters) {
+		Double handle = obj.getHandle();
+		return handleMethod(handle, methodName, parameters);
 	}
 	
-	public static String handleMethodWithResult(ISimulinkBlockModelElement obj, String methodName, Object... parameters) {
-		Double handle = ((ISimulinkBlockModelElement) obj).getHandle();
-		return "handle = " + handle + "; " + handleMethodWithResult(methodName, "handle", parameters);
+	public static String handleMethod(SimulinkModel obj, String methodName, Object[] parameters) {
+		Double handle = obj.getHandle();
+		return handleMethod(handle, methodName, parameters);
+	}
+	
+	private static String handleMethod(Object objHandle, String methodName, Object[] parameters) {
+		List<Object> list = new ArrayList<Object>();
+		list.add("handle");
+		list.addAll(Arrays.asList(parameters));
+		return "handle = " + objHandle + "; " + handleMethod(methodName, list.toArray());
+	}
+	
+	public static String handleMethodWithResult(ISimulinkBlockModelElement obj, String methodName, Object[] parameters) {
+		Double handle = obj.getHandle();
+		return handleMethodWithResult(handle, methodName, parameters);
+	}
+	
+	public static String handleMethodWithResult(SimulinkModel obj, String methodName, Object[] parameters) {
+		Double handle = obj.getHandle();
+		return handleMethodWithResult(handle, methodName, parameters);
+	}
+	
+	private static String handleMethodWithResult(Object objHandle, String methodName, Object[] parameters) {
+		List<Object> list = new ArrayList<Object>();
+		list.add("handle");
+		list.addAll(Arrays.asList(parameters));
+		return "handle = " + objHandle + "; " + handleMethodWithResult(methodName, list.toArray());
 	}
 
-	public static String handleMethodWithResult(String methodName, Object... parameters) {
+	public static String handleMethodWithResult(String methodName, Object[] parameters) {
 		return "result = " + handleMethod(methodName, parameters); 
 	}
 	
-	public static String handleMethod(String methodName, Object... parameters) {
+	public static String handleMethod(String methodName, Object[] parameters) {
 		String cmd = methodName;
 		if (parameters != null && parameters.length > 0) {
-			cmd += "(";
-			List<Object> list = Arrays.asList(parameters);
-			for (Object parameter : list) {
-				if (list.indexOf(parameter) != 0) cmd += ", ";
-				if (parameter instanceof String) {
-					cmd += "'" + String.valueOf(parameter) + "'";
-				} else {
-					cmd += parameter;
-				}
+			cmd += "(" + parameters[0];
+			for (int i = 1; i < parameters.length; i++) {
+				cmd += ", " + "'" + String.valueOf(parameters[i]) + "'";
 			}
 			cmd += ");";
 		}
@@ -148,13 +168,30 @@ public class SimulinkUtil {
 	}
 	
 	
+	public static List<SimulinkBlock> getChildren(SimulinkModel model,
+			MatlabEngine engine, SimulinkBlock block) {
+		try {
+			return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN, block.getPath(), block.getPath()));
+		} catch (MatlabException e) {
+			return Collections.emptyList();
+		} 
+	}
+	
+	public static List<SimulinkBlock> getChildren(SimulinkModel model,
+			MatlabEngine engine) {
+		try {
+			return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN, model.getSimulinkModelName(), model.getSimulinkModelName()));
+		} catch (MatlabException e) {
+			return Collections.emptyList();
+		} 
+	}
+	
 	public static List<ISimulinkModelElement> findBlocks(SimulinkModel model,
 			MatlabEngine engine, Integer depth) {
 		try {
 			return getSimulinkBlocks(model, engine, engine.evalWithResult(FIND_DEPTH, model.getSimulinkModelName(), depth))
 					.stream().map(e -> (ISimulinkBlockModelElement) e).collect(Collectors.toList());
 		} catch (MatlabException e) {
-			e.printStackTrace();
 			return Collections.emptyList();
 		} 
 	}
@@ -165,7 +202,6 @@ public class SimulinkUtil {
 			return getSimulinkBlocks(model, engine, engine.evalWithResult(FIND_SYSTEM, model.getSimulinkModelName()))
 					.stream().map(e -> (ISimulinkBlockModelElement) e).collect(Collectors.toList());
 		} catch (MatlabException e) {
-			e.printStackTrace();
 			return Collections.emptyList();
 		} 
 	}
@@ -178,7 +214,6 @@ public class SimulinkUtil {
 			return getSimulinkBlocks(model, engine, blocks)
 					.stream().map(e -> (ISimulinkBlockModelElement) e).collect(Collectors.toList());
 		} catch (MatlabException e) {
-			e.printStackTrace();
 			return Collections.emptyList();
 		} 
 	}

@@ -1,0 +1,7 @@
+var all = SubSystem.all;//.select(e|e.LinkStatus == "none");
+"collected all".println;
+for (s in all){
+	"in".println;
+	var data = s.RTWData;
+	//if (data<>null) data.println;
+}

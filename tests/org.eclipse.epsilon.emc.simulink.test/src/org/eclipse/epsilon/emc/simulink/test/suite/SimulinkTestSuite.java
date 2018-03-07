@@ -17,7 +17,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ 
 	org.eclipse.epsilon.emc.simulink.test.unit.AllTests.class,
-	org.eclipse.epsilon.emc.simulink.test.unit.type.AllTests.class
+	//org.eclipse.epsilon.emc.simulink.test.unit.type.AllTests.class
 })
 public class SimulinkTestSuite {
 }
