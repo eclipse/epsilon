@@ -8,11 +8,11 @@ public class InheritanceTests extends AbstractSimulinkTest {
 	// MODEL
 	
 	@Test
-	public void testModelChildren() { // TODO Fails
+	public void testModelChildren() {
 		eol = "var chart = new `sflib/Chart`; "
 				+ "var result = M.children; "
 				+ "assert(result.includes(chart)); "
-				+ "assert(result.size()); ";
+				+ "assert(result.size() = 1); ";
 	}
 	
 	@Test

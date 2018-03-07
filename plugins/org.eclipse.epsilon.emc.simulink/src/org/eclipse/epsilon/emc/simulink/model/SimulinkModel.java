@@ -415,8 +415,8 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		}
 	}
 	
-	public Collection<SimulinkBlock> getChildren() {
-		return SimulinkUtil.getChildren(this, engine);
+	public Collection<ISimulinkModelElement> getChildren() {
+		return SimulinkUtil.findBlocks(this, engine, 1);
 	}
 	
 	public Collection<ISimulinkModelElement> findBlocks(Integer depth){
