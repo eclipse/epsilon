@@ -2,27 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>epsilon-spreadsheets</artifactId>
-  <version>1.5.0-SNAPSHOT</version>  <dependencies>
+  <version>1.5.0-SNAPSHOT</version>
+  <dependencies>
     <dependency>
       <groupId>org.eclipse.epsilon</groupId>
       <artifactId>epsilon-core</artifactId>
       <version>1.5.0-SNAPSHOT</version>
     </dependency>
-   <dependency>
-      <groupId>commons-collections</groupId>
-      <artifactId>commons-collections</artifactId>
-      <version>3.2.1</version>
-   </dependency>
-   <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.2</version>
-   </dependency>
-   <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.1</version>
-   </dependency>
    <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>

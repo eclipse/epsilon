@@ -2,7 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>epsilon-simulink</artifactId>
-  <version>1.5.0-SNAPSHOT</version>  <dependencies>
+  <version>1.5.0-SNAPSHOT</version>
+  <dependencies>
     <dependency>
       <groupId>org.eclipse.epsilon</groupId>
       <artifactId>epsilon-core</artifactId>

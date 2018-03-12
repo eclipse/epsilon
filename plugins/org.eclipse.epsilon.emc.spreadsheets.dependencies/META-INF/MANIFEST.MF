@@ -7,4 +7,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.apache.commons.lang3;bundle-version="3.1.0";visibility:=reexport,
  org.apache.commons.collections;bundle-version="3.2.2";visibility:=reexport,
- org.slf4j.api;bundle-version="1.7.2";visibility:=reexport
+ org.slf4j.api;bundle-version="1.7.2"

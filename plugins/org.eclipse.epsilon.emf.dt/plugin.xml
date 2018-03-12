@@ -33,6 +33,17 @@
       <objectContribution
             adaptable="false"
             id="org.eclipse.epsilon.perspective.popups.ecore"
+            nameFilter="*.xcore"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.epsilon.emf.dt.RegisterMetamodelAction"
+               icon="icons/register.gif"
+               id="org.eclipse.epsilon.emf.dt.RegisterMetamodelAction"
+               label="Register EPackages"/>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.epsilon.perspective.popups.ecore"
             nameFilter="*.xsd"
             objectClass="org.eclipse.core.resources.IFile">
          <action

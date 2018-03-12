@@ -296,8 +296,8 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 			public void widgetSelected(SelectionEvent e) {
 				final String path = BrowseWorkspaceUtil.browseFilePath(getShell(),
 						"EMF meta-models in the workspace",
-						"Select an EMF meta-model (ECore)",
-						"ecore", null);
+						"Select an EMF meta-model (Ecore or Xcore)",
+			            "?core<", null);
 				if (path != null && !metamodels.contains(path)) {
 					metamodels.add(path);
 					metamodelList.refresh();
@@ -358,19 +358,14 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 	private Collection<EPackage> findEPackages(String resourcePath) {
 		Set<EPackage> ePackages = new HashSet<EPackage>();
 		
+		// Reuse EmfRegistryManager Approach
 		try {
-			ResourceSet rs = new ResourceSetImpl();
-			Resource r = rs.createResource(URI.createPlatformResourceURI(resourcePath, true));
-			r.load(null);
-			if (expandButton.getSelection()) {
-				EcoreUtil.resolveAll(r);
-			}
-			for (Resource res : rs.getResources()) {
-				Iterator<EObject> it = res.getAllContents();
-				while (it.hasNext()) {
-					ePackages.add(EmfUtil.getTopEPackage(it.next().eClass().getEPackage()));
-				}
-			}
+		    if (resourcePath.endsWith(".ecore")) {
+		        ePackages.addAll(EmfUtil.register(URI.createPlatformResourceURI(resourcePath, true), EPackage.Registry.INSTANCE));			
+		    }	 
+		    else {    // Must be xcore
+		        ePackages.addAll(EmfUtil.registerXcore(URI.createPlatformResourceURI(resourcePath, true), EPackage.Registry.INSTANCE));
+		    }
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();

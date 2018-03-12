@@ -6,5 +6,8 @@ Bundle-Version: 1.0.0
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.test.dependencies,
- org.eclipse.epsilon.common.dt.test
+ org.eclipse.emf.ecore.xcore,
+ org.eclipse.emf.codegen.ecore,
+ org.eclipse.epsilon.common.dt.test,
+ com.google.inject
 Export-Package: org.eclipse.epsilon.emc.emf.test

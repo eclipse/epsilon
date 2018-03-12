@@ -33,7 +33,30 @@
 	      <goal>unpack-dependencies</goal>
 	    </goals>
 	    <configuration>
-	      <includeArtifactIds>org.eclipse.emf.common,org.eclipse.emf.ecore,org.eclipse.emf.ecore.xmi,org.eclipse.xsd,org.eclipse.uml2.uml,org.eclipse.uml2.common,org.eclipse.emf.mapping.ecore2xml,org.eclipse.uml2.types,org.apache.commons.collections_3.2.1,org.apache.commons.lang3_3.1,org.apache.poi_3.10.1,org.apache.poi.ooxml_3.10.1,org.apache.poi.ooxml.schemas_3.10.1,org.apache.xmlbeans_2.6.0</includeArtifactIds>
+	      <includeArtifactIds><!-- Match MANIFEST.MF -->
+	        org.apache.ant,
+			org.eclipse.emf.common,
+			org.eclipse.emf.ecore,
+			org.eclipse.emf.ecore.xmi,
+			org.eclipse.emf.ecore.xcore,
+			org.eclipse.xtext,
+			org.eclipse.xtext.xbase,
+			org.eclipse.emf.codegen,
+			org.eclipse.emf.codegen.ecore,
+			org.eclipse.emf.codegen.ecore.xtext,
+			org.eclipse.emf.mwe2.runtime,
+			org.eclipse.core.runtime,
+			org.eclipse.xsd,
+			org.eclipse.uml2.uml,
+			org.eclipse.uml2.common,
+			org.eclipse.emf.mapping.ecore2xml,
+			org.eclipse.uml2.types,
+			org.apache.poi.ooxml.schemas_3.10.1,
+			org.apache.poi.ooxml_3.10.1,
+			org.apache.poi_3.10.1,
+			org.apache.commons.collections,
+			org.apache.commons.lang3
+		    </includeArtifactIds>
 	      <outputDirectory>target/dependency-unpacked</outputDirectory>
 	    </configuration>
 	  </execution>

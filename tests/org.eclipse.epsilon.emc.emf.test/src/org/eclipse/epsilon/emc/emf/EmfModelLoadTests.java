@@ -12,12 +12,22 @@ package org.eclipse.epsilon.emc.emf;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.inject.Injector;
 import java.io.File;
+import java.net.URL;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.resource.XtextResourceSet;
 import org.junit.Test;
 
 public class EmfModelLoadTests {
@@ -98,4 +108,11 @@ public class EmfModelLoadTests {
 		File fEcore = FileUtil.getFile("Tree.ecore", EmfModelLoadTests.class);
 		return EmfModelFactory.getInstance().createEmfModel("Tree", fXMI, fEcore);
 	}
+	
+	protected EmfModel createTrainModel() {
+		File fXMI = FileUtil.getFile("railway-batch-1.xmi", EmfModelLoadTests.class);
+		File fXcore = FileUtil.getFile("railway.xcore", EmfModelLoadTests.class);
+		return EmfModelFactory.getInstance().createEmfModel("train", fXMI, fXcore);
+	}
+	
 }

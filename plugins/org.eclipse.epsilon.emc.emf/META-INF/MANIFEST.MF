@@ -9,7 +9,10 @@ Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.ecore.change;visibility:=reexport,
- org.eclipse.emf.mapping.xsd2ecore;resolution:=optional
+ com.google.inject,
+ org.eclipse.xsd,
+ org.eclipse.emf.ecore.xcore;resolution:=optional,
+ org.apache.commons.logging
 Export-Package: org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.emc.emf.m0,
  org.eclipse.epsilon.emc.emf.tools,

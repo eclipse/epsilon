@@ -2,7 +2,35 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>[%=jar.getArtifactId()%]</artifactId>
-  <version>[%=jar.getVersion()%]</version>[%
+  <version>[%=jar.getVersion()%]</version>
+[%
+if (jar.c_repository.size() >0) {
+%]
+  <repositories>
+[% 
+    for (repo in jar.c_repository) { %]
+    <repository>
+      <snapshots><enabled>[%=repo.a_snapshots%]</enabled></snapshots>
+      <releases><enabled>[%=repo.a_releases%]</enabled></releases>
+      <id>[%=repo.a_id%]</id>
+      <name>[%=repo.a_name%]</name>
+      <url>[%=repo.a_url%]</url>
+    </repository>
+[%  }%]
+  </repositories>
+  <pluginRepositories>[% 
+    for (repo in jar.c_repository) { %]    
+   <pluginRepository>
+      <snapshots><enabled>[%=repo.a_snapshots%]</enabled></snapshots>
+      <releases><enabled>[%=repo.a_releases%]</enabled></releases>
+      <id>[%=repo.a_id%]</id>
+      <name>[%=repo.a_name%]-plugins</name>
+      <url>[%=repo.a_url%]</url>
+    </pluginRepository>
+  </pluginRepositories>
+[%
+    }
+}
 if (jar.c_plugin.size() > 0 or jar.a_requires.isDefined()) {
 %]
   <dependencies>

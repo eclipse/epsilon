@@ -2,11 +2,13 @@
 <launchConfiguration type="org.epsilon.egl.eclipse.dt.launching.EglLaunchConfigurationDelegate">
 <booleanAttribute key="appendToFile" value="false"/>
 <listAttribute key="defaultFormatters"/>
+<intAttribute key="egxGenerateTo" value="1"/>
 <booleanAttribute key="fine_grained_profiling" value="false"/>
 <intAttribute key="generateTo" value="1"/>
 <listAttribute key="models">
 <listEntry value="name=JarModel&#10;readOnLoad=true&#10;storeOnDisposal=false&#10;aliases=&#10;uri=&#10;cached=true&#10;file=/org.eclipse.epsilon.standalone/jarmodel.xml&#10;fileBased=true&#10;type=PlainXML"/>
 </listAttribute>
+<stringAttribute key="outputDirPath" value=""/>
 <stringAttribute key="outputFilePath" value=""/>
 <listAttribute key="parameters"/>
 <booleanAttribute key="produceTrace" value="false"/>

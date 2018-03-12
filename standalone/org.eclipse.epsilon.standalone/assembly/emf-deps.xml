@@ -14,6 +14,15 @@
         <include>org.eclipse.emf.common*.jar</include>
         <include>org.eclipse.emf.ecore*.jar</include>
         <include>org.eclipse.emf.ecore.xmi*.jar</include>
+        <include>org.eclipse.emf.ecore.xcore*.jar</include>
+        <include>org.eclipse.xtext*.jar</include>
+        <include>org.eclipse.xtext.xbase*.jar</include>
+        <include>org.eclipse.xtext.ecore*.jar</include>
+        <include>org.eclipse.emf.mwe2.runtime*.jar</include>
+        <include>org.eclipse.emf.codegen*.jar</include>
+        <include>org.eclipse.emf.codegen.ecore*.jar</include>
+        <include>org.eclipse.emf.codegen.ecore.xtext*.jar</include>
+        <include>org.eclipse.core.runtime*.jar</include>
         <include>org.eclipse.xsd*.jar</include>
       </includes>
     </fileSet>

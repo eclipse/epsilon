@@ -32,7 +32,7 @@ public class EmfRegistryManager {
 
 	protected static EmfRegistryManager instance = null;
 	protected HashMap<String, List<EPackage>> managedMetamodels = new HashMap<String, List<EPackage>>();
-	
+
 	public static EmfRegistryManager getInstance() {
 		if (instance == null) {
 			instance = new EmfRegistryManager();
@@ -70,15 +70,12 @@ public class EmfRegistryManager {
 						// only interested in changed resources (not added or
 						// removed)
 						/*
-						 * if (delta.getKind() != IResourceDelta.CHANGED) return
-						 * true; //only interested in content changes if
-						 * ((delta.getFlags() & IResourceDelta.CONTENT) == 0)
-						 * return true; IResource resource =
-						 * delta.getResource(); //only interested in files with
-						 * the "txt" extension if (resource.getType() ==
-						 * IResource.FILE &&
-						 * "txt".equalsIgnoreCase(resource.getFileExtension())) {
-						 * changed.add(resource); }
+						 * if (delta.getKind() != IResourceDelta.CHANGED) return true; //only interested
+						 * in content changes if ((delta.getFlags() & IResourceDelta.CONTENT) == 0)
+						 * return true; IResource resource = delta.getResource(); //only interested in
+						 * files with the "txt" extension if (resource.getType() == IResource.FILE &&
+						 * "txt".equalsIgnoreCase(resource.getFileExtension())) { changed.add(resource);
+						 * }
 						 */
 						changed.add(delta);
 						return true;
@@ -94,7 +91,7 @@ public class EmfRegistryManager {
 					return;
 
 				for (IResourceDelta delta : changed) {
-					
+
 					String metamodel = delta.getResource().getFullPath().toOSString();
 					List<String> metamodels = getMetamodels();
 					if (metamodels.contains(metamodel)) {
@@ -107,12 +104,10 @@ public class EmfRegistryManager {
 									LogUtil.log(e);
 								}
 							}
-						}
-						else {
+						} else {
 							try {
 								registerMetamodel(metamodel);
-							}
-							catch (Exception ex) {
+							} catch (Exception ex) {
 								ex.printStackTrace();
 							}
 						}
@@ -123,7 +118,7 @@ public class EmfRegistryManager {
 		};
 		workspace.addResourceChangeListener(listener);
 	}
-	
+
 	public void addMetamodel(String fileName) throws Exception {
 		registerMetamodel(fileName);
 		List<String> metamodels = getMetamodels();
@@ -132,41 +127,45 @@ public class EmfRegistryManager {
 			setMetamodels(metamodels);
 		}
 	}
-	
-	private void registerMetamodel(String fileName) throws Exception{
-		List<EPackage> ePackages = EmfUtil.register(URI.createPlatformResourceURI(fileName, true), EPackage.Registry.INSTANCE);
+
+	private void registerMetamodel(String fileName) throws Exception {
+		List<EPackage> ePackages;
+		if (fileName.endsWith(".ecore")) {
+			ePackages = EmfUtil.register(URI.createPlatformResourceURI(fileName, true), EPackage.Registry.INSTANCE);
+		} else { // Must be xcore
+			ePackages = EmfUtil.registerXcore(URI.createPlatformResourceURI(fileName, true), EPackage.Registry.INSTANCE, false);
+		}
 		managedMetamodels.put(fileName, ePackages);
 	}
-	
+
 	public void removeMetamodel(String fileName) {
-		
+
 		List<EPackage> ePackages = managedMetamodels.get(fileName);
-		
-		if (ePackages == null) return;
-		
+
+		if (ePackages == null)
+			return;
+
 		for (EPackage ePackage : ePackages) {
 			EPackage.Registry.INSTANCE.remove(ePackage.getNsURI());
 		}
-		
+
 		managedMetamodels.remove(fileName);
 		List<String> metamodels = getMetamodels();
 		metamodels.remove(fileName);
 		setMetamodels(metamodels);
-		
+
 	}
-	
+
 	public List<String> getMetamodels() {
 		List<String> metamodels = new ArrayList<String>();
-		String concat = EmfUtilPlugin.getDefault().getPreferenceStore()
-				.getString("metamodels");
+		String concat = EmfUtilPlugin.getDefault().getPreferenceStore().getString("metamodels");
 		StringTokenizer st = new StringTokenizer(concat, ";");
 		while (st.hasMoreTokens()) {
 			metamodels.add(st.nextToken());
 		}
 		return metamodels;
 	}
-	
-	
+
 	private void setMetamodels(List<String> metamodels) {
 		StringBuffer sb = new StringBuffer();
 		ListIterator<String> li = metamodels.listIterator();
@@ -176,7 +175,6 @@ public class EmfRegistryManager {
 				sb.append(";");
 			}
 		}
-		EmfUtilPlugin.getDefault().getPreferenceStore().setValue("metamodels",
-				sb.toString());
+		EmfUtilPlugin.getDefault().getPreferenceStore().setValue("metamodels", sb.toString());
 	}
 }
