@@ -86,11 +86,15 @@ operation GmfGraph!Figure formatLine(color : String, width : String, style : Str
 operation GmfGraph!Figure formatNode(e : ECore!EModelElement) {
 	
 	var backgroundColor := e.getFormatOption('color');
-	
 	if (backgroundColor.isDefined()) {
 		self.backgroundColor := createColor(backgroundColor);
 	}
-	
+
+	var foregroundColor := e.getFormatOption('label.color');
+	if (foregroundColor.isDefined()) {
+		self.foregroundColor := createColor(foregroundColor);
+	}
+
 	var size := e.getFormatOption('size');
 	
 	if (size.isDefined()) {

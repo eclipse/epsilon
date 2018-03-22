@@ -102,6 +102,13 @@ for (node in getNodes()) {
     		figure_viewmap.attributes.add(resizeconstraint_not_resizable);
 		}
 	}
+
+	/* In order to honour label.color, we must disable editable fonts */
+	if (node.getAnnotationValue('gmf.node', 'label.color').isDefined()) {
+		var typeNodeFacet = GmfGen!TypeModelFacet.all.selectOne(tmf|tmf.metaClass.ecoreClass = node);
+		var styleAttributes = typeNodeFacet.eContainer.viewmap.attributes.first;
+		styleAttributes.fixedFont = true;
+	}
 }
 
 // Add parsers
