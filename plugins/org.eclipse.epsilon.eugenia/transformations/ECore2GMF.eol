@@ -467,6 +467,11 @@ operation ECore!EClass createLabel() {
 		figure.text := self.getLabelText();
 	}
 
+	var color := self.getFormatOption('label.color');
+	if (color.isDefined()) {
+		figure.foregroundColor := createColor(color);
+	}
+
 	return figure;
 }
 

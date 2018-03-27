@@ -89,20 +89,15 @@ operation GmfGraph!Figure formatNode(e : ECore!EModelElement) {
 	if (backgroundColor.isDefined()) {
 		self.backgroundColor := createColor(backgroundColor);
 	}
-
-	var foregroundColor := e.getFormatOption('label.color');
-	if (foregroundColor.isDefined()) {
-		self.foregroundColor := createColor(foregroundColor);
-	}
-
 	var size := e.getFormatOption('size');
 	
 	if (size.isDefined()) {
 		self.preferredSize := createDimension(size);
 	}
 	
-	self.formatLine(e.getFormatOption('border.color'),e.getFormatOption('border.width'),e.getFormatOption('border.style'));
-	
+	self.formatLine(e.getFormatOption('border.color'),
+		e.getFormatOption('border.width'),
+		e.getFormatOption('border.style'));
 }
 
 operation GmfGraph!PolylineConnection formatConnection(e) {
