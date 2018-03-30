@@ -2,7 +2,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -20,8 +19,8 @@ import org.eclipse.epsilon.eol.types.EolNoType;
 
 public class OperationCallExpression extends FeatureCallExpression {
 	
-	protected NameExpression nameExpression = null;
-	protected List<Expression> parameterExpressions = new ArrayList<Expression>();
+	protected final ArrayList<Expression> parameterExpressions = new ArrayList<>(0);
+	protected NameExpression nameExpression;
 	protected boolean contextless;
 	
 	public OperationCallExpression() {}
@@ -30,8 +29,11 @@ public class OperationCallExpression extends FeatureCallExpression {
 		this.targetExpression = targetExpression;
 		this.nameExpression = nameExpression;
 		this.contextless = (targetExpression == null);
-		for (Expression parameterExpression : parameterExpressions) {
-			this.parameterExpressions.add(parameterExpression);
+		if (parameterExpressions != null) {
+			this.parameterExpressions.ensureCapacity(parameterExpressions.length);
+			for (Expression parameterExpression : parameterExpressions) {
+				this.parameterExpressions.add(parameterExpression);
+			}
 		}
 	}
 	
@@ -55,13 +57,17 @@ public class OperationCallExpression extends FeatureCallExpression {
 			nameExpression.setModule(cst.getModule());
 			parametersAst = cst.getFirstChild();
 		}
-		for (AST parameterAst : parametersAst.getChildren()) {
+		
+		List<AST> parametersChildren = parametersAst.getChildren();
+		parameterExpressions.ensureCapacity(parameterExpressions.size()+parametersChildren.size());
+		
+		for (AST parameterAst : parametersChildren) {
 			parameterExpressions.add((Expression) module.createAst(parameterAst, this));
 		}
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException{
+	public Object execute(IEolContext context) throws EolRuntimeException {
 		Object targetObject;
 		String operationName = nameExpression.getName();
 		
@@ -76,7 +82,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		
 		// Non-overridable operations
 		AbstractOperation operation = context.getOperationFactory().getOperationFor(operationName);
-		if (operation != null && (!operation.isOverridable())){
+		if (operation != null && (!operation.isOverridable())) {
 			return operation.execute(targetObject, nameExpression, new ArrayList<Parameter>(), parameterExpressions, context);
 		}
 		
@@ -93,47 +99,56 @@ public class OperationCallExpression extends FeatureCallExpression {
 		ObjectMethod objectMethod = null;
 		
 		if (operationContributor != null) {
-			objectMethod = operationContributor.findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
+			objectMethod = operationContributor
+				.findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
 		}
 		if (objectMethod == null) {
-			objectMethod = context.getOperationContributorRegistry().findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
+			objectMethod = context.getOperationContributorRegistry()
+				.findContributedMethodForUnevaluatedParameters(targetObject, operationName, parameterExpressions, context);
 		}
 		
 		if (objectMethod != null) {
 			return wrap(objectMethod.execute(new Object[]{nameExpression}, nameExpression));
 		}
 		
-		ArrayList<Object> parameterValues = new ArrayList<Object>();
+		ArrayList<Object> parameterValues = new ArrayList<>(parameterExpressions.size());
 		
 		for (Expression parameter : parameterExpressions) {
 			parameterValues.add(context.getExecutorFactory().execute(parameter, context));
 		}
 		
 		// Execute user-defined operation (if isArrow() == false)
-		if (context.getModule() instanceof IEolModule && !isArrow()){
-			Operation helper = ((IEolModule) context.getModule()).getOperations().getOperation(targetObject, nameExpression , parameterValues, context);
-			if (helper != null){
-				return ((IEolModule) context.getModule()).getOperations().execute(targetObject, helper, parameterValues, context);
+		if (context.getModule() instanceof IEolModule && !isArrow()) {
+			OperationList operations = ((IEolModule) context.getModule()).getOperations();
+			Operation helper = operations.getOperation(targetObject, nameExpression , parameterValues, context);
+
+			if (helper != null) {
+				return helper.execute(targetObject, parameterValues, context);
 			}
 		}
+		
+		Object[] parameterValuesArray = parameterValues.toArray();
 		
 		// Method contributors that use the evaluated parameters
 		if (operationContributor != null) {
 			// Try contributors that override the context's operation contributor registry
-			objectMethod = operationContributor.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context, true);
+			objectMethod = operationContributor
+				.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValuesArray, context, true);
 		}
 		
 		if (objectMethod == null) {
-			objectMethod = context.getOperationContributorRegistry().findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context);
+			objectMethod = context.getOperationContributorRegistry()
+				.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValuesArray, context);
 		}
 		
 		if (operationContributor != null && objectMethod == null) {
 			// Try contributors that do not override the context's operation contributor registry
-			objectMethod = operationContributor.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValues.toArray(), context, false);
+			objectMethod = operationContributor
+				.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValuesArray, context, false);
 		} 
 		
 		if (objectMethod != null) {
-			return wrap(objectMethod.execute(parameterValues.toArray(), nameExpression));
+			return wrap(objectMethod.execute(parameterValuesArray, nameExpression));
 		}
 
 		// Execute user-defined operation (if isArrow() == true)
@@ -141,8 +156,8 @@ public class OperationCallExpression extends FeatureCallExpression {
 			return ((SimpleOperation) operation).execute(targetObject, parameterValues, context, nameExpression);
 		}
 
+		// No operation found
 		throw new EolIllegalOperationException(targetObject, operationName, nameExpression, context.getPrettyPrinterManager());
-		
 	}
 	
 	@Override

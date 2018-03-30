@@ -10,11 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.erl.dom;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-
+import java.util.*;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -29,14 +25,14 @@ import org.eclipse.epsilon.erl.exceptions.ErlRuleNotFoundException;
 
 public abstract class ExtensibleNamedRule extends NamedRule {
 	
-	protected ArrayList<NameExpression> superRulesIdentifiers = new ArrayList<NameExpression>();	
-	protected List<ExtensibleNamedRule> superRules = new ArrayList<ExtensibleNamedRule>();
-	protected List<ExtensibleNamedRule> allSuperRules = new ArrayList<ExtensibleNamedRule>();
+	protected List<NameExpression> superRulesIdentifiers = new ArrayList<>();	
+	protected List<ExtensibleNamedRule> superRules = new ArrayList<>();
+	protected List<ExtensibleNamedRule> allSuperRules = new ArrayList<>();
 	protected Boolean isGreedy = null;
 	protected Boolean isAbstract = null;
 	protected Boolean isLazy = null;
-	protected HashMap<Parameter, Collection<?>> ofTypeCache = new HashMap<Parameter, Collection<?>>();
-	protected HashMap<Parameter, Collection<?>> ofKindCache = new HashMap<Parameter, Collection<?>>();
+	protected Map<Parameter, Collection<?>> ofTypeCache = new HashMap<>();
+	protected Map<Parameter, Collection<?>> ofKindCache = new HashMap<>();
 	
 	public Collection<?> getAllOfKind(Parameter parameter, IEolContext context) throws EolRuntimeException {
 		return getAllInstances(parameter, context, false);
@@ -47,7 +43,7 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 	}
 	
 	public Collection<?> getAllInstances(Parameter parameter, IEolContext context, boolean ofTypeOnly) throws EolRuntimeException {
-		HashMap<Parameter, Collection<?>> cache = null;
+		Map<Parameter, Collection<?>> cache = null;
 		if (ofTypeOnly) cache = ofTypeCache;
 		else cache = ofKindCache;
 		
@@ -86,19 +82,23 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 		return isAbstract;
 	}
 	
+	public boolean isLazy() throws EolRuntimeException {
+		return isLazy(null);
+	}
+	
 	public boolean isLazy(IEolContext context) throws EolRuntimeException {
 		if (isLazy == null) {
-			isLazy = getBooleanAnnotationValue("lazy", null);
+			isLazy = getBooleanAnnotationValue("lazy", context);
 		}
 		return isLazy;
 	}
 	
 	public void calculateSuperRules(List<? extends ExtensibleNamedRule> allRules) throws ErlRuleNotFoundException, ErlCircularRuleInheritanceException{
 		
-		superRules = new ArrayList<ExtensibleNamedRule>();
+		superRules = new ArrayList<>();
 		calculateSuperRules(this, allRules, superRules, false);
 		
-		allSuperRules = new ArrayList<ExtensibleNamedRule>();
+		allSuperRules = new ArrayList<>();
 		calculateSuperRules(this, allRules, allSuperRules, true);
 		
 	}
@@ -115,7 +115,7 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 				else {
 					collectedRules.add(superRule);
 				}
-				if (recursive){
+				if (recursive) {
 					calculateSuperRules(superRule, allRules, collectedRules, true);
 				}
 			}
@@ -140,14 +140,13 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 		super.build(cst, module);
 		
 		AST superRulesAst = getSuperRulesAst(cst);
-		if (superRulesAst != null){
+		if (superRulesAst != null) {
 			AST superRuleAst = superRulesAst.getFirstChild();
-			while (superRuleAst != null){
+			while (superRuleAst != null) {
 				superRulesIdentifiers.add((NameExpression) module.createAst(superRuleAst, this));
 				superRuleAst = superRuleAst.getNextSibling();
 			}
 		}
-		
 	}
 	
 	public abstract AST getSuperRulesAst(AST cst);

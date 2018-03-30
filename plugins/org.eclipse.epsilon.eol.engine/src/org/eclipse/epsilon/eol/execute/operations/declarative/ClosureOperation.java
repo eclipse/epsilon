@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
-
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -27,15 +26,18 @@ public class ClosureOperation extends FirstOrderOperation {
 		FrameStack scope = context.getFrameStack();
 		
 		for (Object listItem : source) {
-			if (iteratorType==null || iteratorType.isKind(listItem)){
+			if (iteratorType == null || iteratorType.isKind(listItem)) {
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
-				scope.put(Variable.createReadOnlyVariable(iteratorName,listItem));
+				scope.put(Variable.createReadOnlyVariable(iteratorName, listItem));
+				
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
-				if (bodyResult != null) { // && closure.includes(bodyResult).not().booleanValue()) {
-					for (Object result : CollectionUtil.asCollection(bodyResult)) {
+				
+				if (bodyResult != null) { //&& !closure.contains(bodyResult)) {
+					Collection<?> bodyCollection = CollectionUtil.asCollection(bodyResult);
+					for (Object result : bodyCollection) {
 						if (result != null && !closure.contains(result)) {
 							closure.add(result);
-							closure(CollectionUtil.asCollection(bodyResult),iteratorName,iteratorType,expression,context,closure);
+							closure(bodyCollection, iteratorName, iteratorType, expression, context, closure);
 						}
 					}
 					

@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 @SuppressWarnings("serial")
-public class StringProperties extends Properties{
+public class StringProperties extends Properties {
 	
 	public StringProperties() {
 		

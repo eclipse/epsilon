@@ -10,41 +10,41 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.execute.context;
 
-import java.util.ArrayList;
-
+import java.util.*;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
-public class EvlContext extends EolContext implements IEvlContext{
+public class EvlContext extends EolContext implements IEvlContext, Cloneable {
 
+	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints = new HashSet<>();
+	protected Set<Constraint> constraintsDependedOn = new HashSet<>();
 	protected ConstraintTrace constraintTrace = new ConstraintTrace();
-	protected ArrayList<UnsatisfiedConstraint> unsatisfiedConstraints = new ArrayList<UnsatisfiedConstraint>();
 	
-	public EvlContext() {
-		super();
-	}
-
+	@Override
 	public ConstraintTrace getConstraintTrace() {
 		return constraintTrace;
 	}
 	
-	public ArrayList<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
+	@Override
+	public Set<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
 		return unsatisfiedConstraints;
 	}
 	
-	public boolean hasFixes() {
-		for (UnsatisfiedConstraint unsatisfiedConstraint : getUnsatisfiedConstraints()) {
-			if (unsatisfiedConstraint.getFixes().size() > 0) {
-				return true;
-			}
-		}
-		return false;
+	@Override
+	public IEvlModule getModule() {
+		return (IEvlModule) module;
 	}
 	
 	@Override
-	public IEvlModule getModule(){
-		return (IEvlModule) module;
+	public Set<Constraint> getConstraintsDependedOn() {
+		return constraintsDependedOn;
+	}
+
+	@Override
+	public void setConstraintsDependedOn(Set<Constraint> constraints) {
+		constraintsDependedOn = constraints;
 	}
 }

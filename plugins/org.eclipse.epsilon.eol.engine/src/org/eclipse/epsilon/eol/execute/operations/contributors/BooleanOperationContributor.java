@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
-
 public class BooleanOperationContributor extends OperationContributor {
 
 	@Override
@@ -18,12 +17,12 @@ public class BooleanOperationContributor extends OperationContributor {
 		return target instanceof Boolean;
 	}
 	
-	public boolean or(boolean operand){
+	public boolean or(boolean operand) {
 		boolean value = (Boolean) target;
 		return value || operand;
 	}
 	
-	public boolean and(boolean operand){
+	public boolean and(boolean operand) {
 		boolean value = (Boolean) target;
 		return value && operand;
 	}
@@ -39,5 +38,10 @@ public class BooleanOperationContributor extends OperationContributor {
 	
 	public String asString() {
 		return target + "";
+	}
+	
+	public Object ternary(Object rIfTrue, Object rIfFalse) {
+		boolean value = (Boolean) target;
+		return value ? rIfTrue : rIfFalse;
 	}
 }

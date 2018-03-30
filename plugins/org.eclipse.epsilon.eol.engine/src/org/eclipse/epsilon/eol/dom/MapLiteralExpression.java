@@ -2,7 +2,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
@@ -12,7 +11,7 @@ import org.eclipse.epsilon.eol.types.EolMap;
 
 public class MapLiteralExpression extends Expression {
 	
-	protected List<KeyValueExpressionPair> keyValueExpressionPairs = new ArrayList<MapLiteralExpression.KeyValueExpressionPair>();
+	protected List<KeyValueExpressionPair> keyValueExpressionPairs = new ArrayList<>();
 	
 	@Override
 	public void build(AST cst, IModule module) {
@@ -33,7 +32,7 @@ public class MapLiteralExpression extends Expression {
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		final EolMap map = new EolMap();
+		final EolMap<Object, Object> map = new EolMap<>();
 
 		for (KeyValueExpressionPair keyValueExpressionPair : keyValueExpressionPairs) {
 			final Object key = context.getExecutorFactory().execute(keyValueExpressionPair.getKey(), context);
@@ -50,7 +49,6 @@ public class MapLiteralExpression extends Expression {
 	}
 	
 	class KeyValueExpressionPair {
-		
 		protected Expression key;
 		protected Expression value;
 		
@@ -67,7 +65,5 @@ public class MapLiteralExpression extends Expression {
 		public Expression getValue() {
 			return value;
 		}
-		
 	}
-	
 }

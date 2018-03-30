@@ -23,7 +23,7 @@ public abstract class EListUtil {
 	private EListUtil() {}
 	
 	public static <T> EList<T> asEList(T... array) {
-		final EList<T> list = new BasicEList<T>();
+		final EList<T> list = new BasicEList<>();
 		
 		list.addAll(Arrays.asList(array));
 		
@@ -31,7 +31,7 @@ public abstract class EListUtil {
 	}
 	
 	public static <T> EList<T> singletonEList(T original) {
-		final EList<T> list = new BasicEList<T>();
+		final EList<T> list = new BasicEList<>();
 		
 		list.add(original);
 		
@@ -72,7 +72,7 @@ public abstract class EListUtil {
 	}
 	
 	public static <T> EList<T> castElements(EList<?> list, Class<? extends T> type) {
-		final EList<T> results = new BasicEList<T>();
+		final EList<T> results = new BasicEList<>();
 		
 		for (Object element : list) {
 			results.add(type.cast(element));

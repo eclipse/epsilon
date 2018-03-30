@@ -19,10 +19,8 @@ public class ExtendedPropertyGetter extends AbstractPropertyGetter {
 		this.context = context;
 	}
 	
-	public Object invoke(Object object, String property)
-			throws EolRuntimeException {
-		
+	@Override
+	public Object invoke(Object object, String property) throws EolRuntimeException {
 		return context.getExtendedProperties().getPropertyValue(object, property.substring(1));
 	}
-
 }

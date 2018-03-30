@@ -14,7 +14,6 @@ package org.eclipse.epsilon.eol.types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 public class EolBag<T> implements Collection<T> {
 
@@ -22,59 +21,71 @@ public class EolBag<T> implements Collection<T> {
 		//CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.Bag);
 	}
 	
-	protected List<T> wrapped = new ArrayList<T>();
+	protected Collection<T> wrapped = new ArrayList<>();
 	
+	@Override
 	public boolean add(T e) {
 		return wrapped.add(e);
 	}
 
+	@Override
 	public boolean addAll(Collection<? extends T> c) {
 		return wrapped.addAll(c);
 	}
 
+	@Override
 	public void clear() {
 		wrapped.clear();
 	}
 
+	@Override
 	public boolean contains(Object o) {
 		return wrapped.contains(o);
 	}
 
+	@Override
 	public boolean containsAll(Collection<?> c) {
 		return wrapped.containsAll(c);
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return wrapped.isEmpty();
 	}
 
+	@Override
 	public Iterator<T> iterator() {
 		return wrapped.iterator();
 	}
 
+	@Override
 	public boolean remove(Object o) {
 		return wrapped.remove(o);
 	}
 
+	@Override
 	public boolean removeAll(Collection<?> c) {
 		return wrapped.removeAll(c);
 	}
 
+	@Override
 	public boolean retainAll(Collection<?> c) {
 		return wrapped.retainAll(c);
 	}
 
+	@Override
 	public int size() {
 		return wrapped.size();
 	}
 
+	@Override
 	public Object[] toArray() {
 		return wrapped.toArray();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Object[] toArray(Object[] a) {
 		return wrapped.toArray(a);
 	}
-
 }

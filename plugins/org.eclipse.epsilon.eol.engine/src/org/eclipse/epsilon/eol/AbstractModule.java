@@ -18,35 +18,22 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import org.antlr.runtime.ANTLRInputStream;
-import org.antlr.runtime.CommonToken;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.Lexer;
-import org.antlr.runtime.ParserRuleReturnScope;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.*;
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.parse.EpsilonParseProblemManager;
-import org.eclipse.epsilon.common.parse.EpsilonParser;
-import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
-import org.eclipse.epsilon.common.parse.Position;
+import org.eclipse.epsilon.common.parse.*;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.parse.EolLexer;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
-
 public abstract class AbstractModule extends AbstractModuleElement implements IModule {
 	
 	protected EpsilonParser parser;
 	
-	protected ArrayList<ParseProblem> parseProblems = new ArrayList<ParseProblem>();
+	protected ArrayList<ParseProblem> parseProblems = new ArrayList<>();
 		
 	public abstract String getMainRule();
 	
@@ -61,18 +48,22 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		return sourceFile;
 	}
 	
+	@Override
 	public URI getSourceUri() {
 		return sourceUri;
 	}
 	
+	@Override
 	public List<ParseProblem> getParseProblems() {
 		return parseProblems;
 	}
 	
+	@Override
 	public boolean parse(String code) throws Exception {
 		return parse(code, null);
 	}
 	
+	@Override
 	public boolean parse(String code, File file) throws Exception {
 		this.sourceFile = file;
 		if (file != null) {
@@ -81,10 +72,12 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		return parse(sourceUri, new ByteArrayInputStream(code.getBytes()));
 	}
 
+	@Override
 	public boolean parse(File file) throws Exception {
 		return parse(file.toURI());
 	}
 
+	@Override
 	public boolean parse(URI uri) throws Exception {
 		this.sourceUri = uri;
 
@@ -138,6 +131,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		}
 	}
 	
+	@Override
 	public ModuleElement createAst(AST cst, ModuleElement parentAst) {
 		if (cst == null) return null;
 		ModuleElement moduleElement = adapt(cst, parentAst);
@@ -162,7 +156,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	public abstract ModuleElement adapt(AST cst, ModuleElement parentAst);
 	
 	protected List<CommonToken> extractComments(CommonTokenStream stream) {
-		List<CommonToken> comments = new ArrayList<CommonToken>();
+		List<CommonToken> comments = new ArrayList<>();
 		
 		for (Object t : stream.getTokens()) {
 			CommonToken token = (CommonToken) t;
@@ -175,8 +169,8 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	
 	private boolean parse(URI uri, final InputStream iStream) throws Exception {
 		parseProblems.clear();
-		Scanner s = new java.util.Scanner(iStream);
-		try {
+		
+		try (Scanner s = new java.util.Scanner(iStream)) {
 			// Replace tabs with spaces to get consistent column numbers in ASTs
 			s.useDelimiter("\\A");
 		    String contents = s.hasNext() ? s.next() : "";
@@ -199,9 +193,6 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 			parseProblems.add(new ParseProblem("Exception during parsing: " + ex.getLocalizedMessage(), ParseProblem.ERROR));
 			throw ex;
 		}
-		finally {
-			s.close();
-		}
 	}
 	
 	protected void assignComments(AST root, List<CommonToken> comments) {
@@ -219,7 +210,6 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 			}
 		}
 	}
-	
 	
 	protected void assignAnnotations(AST ast) {
 		List<AST> children = AstUtil.getChildren(ast);
@@ -247,5 +237,4 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 			}
 		}
 	}
-	
 }

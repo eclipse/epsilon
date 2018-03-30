@@ -1,0 +1,76 @@
+@namespace(uri="Cookbooks", prefix="")
+@gmf
+package Cookbooks;
+
+abstract class NamedElement {
+	attr String[1] name;
+}
+
+@gmf.diagram
+class Cookbooks {
+	unique val Cookbook[*] cookbooks;
+	unique val Category[*] categories;
+}
+
+@gmf.node (label="name", label.placement="internal", margin="15", border.width="6", border.color="44,128,8")
+class Cookbook extends NamedElement {
+	attr String description;
+	@gmf.link (label.text="Can be found in", source.decoration="arrow", target.decoration="square")
+	unique ref Recipe[5..*] contents;
+}
+
+@gmf.node (label="name", label.placement="internal", margin="14", border.width="5", border.color="23,65,178")
+class Category extends NamedElement {
+	attr FoodType[1] meta;
+	@gmf.link (label.text = "Contains", source.decoration="filledrhomb", target.decoration="closedarrow")
+	val Recipe[+] recipes;
+}
+
+@gmf.node (label="name", phantom="true", label.placement="internal", figure="rectangle", border.width="3", border.color="167,22,48", border.style="dot")
+class Recipe extends NamedElement {
+	attr String description;
+	@gmf.compartment (layout="list")
+	unique val InstructionSet[1..3] instructions;
+	@gmf.link (label.text="Requires", target.decoration="filledclosedarrow", style="dash")
+	unique ref Recipe[*] dependencies;
+	@gmf.compartment
+	unique val Ingredient[*] ingredients;
+	attr int serves;
+}
+
+@gmf.node (label="name", figure="ellipse", margin="6", border.width="1", border.color="193,97,48")
+class Ingredient extends NamedElement {
+	attr float[1] amount;
+	attr Unit[1] measurement;
+	attr Scale modifier;
+	attr String otherUnit;
+}
+
+@gmf.node (label="name", margin="9", border.width="1", border.color="199,183,10")
+class InstructionSet extends NamedElement {
+	ordered attr String[+] instruction;
+}
+
+enum FoodType {
+	Other = 0;
+	Breakfast = 1;
+	Lunch = 2;
+	Dinner = 3;
+	Pudding = 4;
+	Snack = 5;
+	Beverage = 6;
+}
+
+enum Unit {
+	other = 0;
+	grams = 1;
+	litres = 2;
+	ounces = 3;
+}
+
+enum Scale {
+	none = 0;
+	milli = 1;
+	centi = 2;
+	kilo = 3;
+}

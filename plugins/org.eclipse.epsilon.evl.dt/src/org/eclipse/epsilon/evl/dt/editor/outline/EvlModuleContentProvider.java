@@ -1,7 +1,6 @@
 package org.eclipse.epsilon.evl.dt.editor.outline;
 
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.erl.dt.editor.outline.ErlModuleContentProvider;
 import org.eclipse.epsilon.evl.EvlModule;
@@ -24,7 +23,7 @@ public class EvlModuleContentProvider extends ErlModuleContentProvider {
 		}
 		else if (moduleElement instanceof ConstraintContext) {
 			ConstraintContext context = (ConstraintContext) moduleElement;
-			visible.addAll(context.getConstraints().values());
+			visible.addAll(context.getConstraints());
 		}
 		
 		return visible;

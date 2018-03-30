@@ -42,9 +42,6 @@ package org.eclipse.epsilon.evl.parse;
 
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
 
 public class EvlLexer extends Lexer {
     public static final int EXPONENT=6;

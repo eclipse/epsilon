@@ -29,7 +29,6 @@ import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.eol.models.Model;
 
 public class JavaModel extends Model implements IReflectiveModel {
-	
 
 	protected Collection<Object> objects;
 	protected Collection<Class<?>> classes;
@@ -40,8 +39,8 @@ public class JavaModel extends Model implements IReflectiveModel {
 	}
 	
 	public JavaModel(Collection<? extends Object> objects, Collection<? extends Class<?>> classes) {
-		this.objects = new LinkedList<Object>(objects);
-		this.classes = new LinkedList<Class<?>>(classes);
+		this.objects = new LinkedList<>(objects);
+		this.classes = new LinkedList<>(classes);
 	}
 	
 	// used by tests
@@ -50,7 +49,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 	}
 	
 	private static Collection<Class<?>> classesFor(Collection<Object> objects) {
-		final List<Class<?>> classes = new LinkedList<Class<?>>();
+		final List<Class<?>> classes = new LinkedList<>();
 		
 		for (Object object : objects) {
 			classes.add(object.getClass());
@@ -74,10 +73,10 @@ public class JavaModel extends Model implements IReflectiveModel {
 	
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		Class<?> c = classForName(type);
-		if (c!=null) {
+		if (c != null) {
 			if (isInstantiable(c)) {
 				try {
-					Object newInstance = c.newInstance();
+					Object newInstance = c.getDeclaredConstructor().newInstance();
 					objects.add(newInstance);
 					return newInstance;
 				} catch (Exception e) {
@@ -102,7 +101,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 
 	public Collection<?> getAllOfKind(String type) throws EolModelElementTypeNotFoundException {
 		Class<?> c = classForName(type);
-		Collection<Object> allOfKind = new ArrayList<Object>();
+		Collection<Object> allOfKind = new ArrayList<>();
 		if (c != null) {
 			for (Object o : objects) {
 				if (c.isInstance(o)) {
@@ -118,7 +117,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 
 	public Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
 		Class<?> c = classForName(type);
-		Collection<Object> allOfType = new ArrayList<Object>();
+		Collection<Object> allOfType = new ArrayList<>();
 		if (c != null) {
 			for (Object o : objects) {
 				if (o.getClass() == c) {
@@ -147,7 +146,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 	public Object getElementById(String id) {
 		int hashCode = 0;
 		try {
-			hashCode = new Integer(id).intValue();
+			hashCode = Integer.parseInt(id);
 			for (Object o : objects) {
 				if (o.hashCode() == hashCode) {
 					return o;
@@ -159,7 +158,6 @@ public class JavaModel extends Model implements IReflectiveModel {
 			return null;
 		}
 	}
-
 	
 	public String getElementId(Object instance) {
 		return instance.hashCode() + "";
@@ -174,7 +172,6 @@ public class JavaModel extends Model implements IReflectiveModel {
 			throws EolEnumerationValueNotFoundException {
 		throw new UnsupportedOperationException();
 	}
-
 	
 	public Object getTypeOf(Object instance) {
 		return instance.getClass();
@@ -196,7 +193,6 @@ public class JavaModel extends Model implements IReflectiveModel {
 		return null;
 	}
 
-	
 	public boolean isInstantiable(String type) {
 		return isInstantiable(classForName(type));
 	}
@@ -208,7 +204,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 			throw new EolModelElementTypeNotFoundException(this.name, type);
 		
 		
-		final Collection<String> properties = new LinkedList<String>();
+		final Collection<String> properties = new LinkedList<>();
 				
 		for (Method method : clazz.getMethods()) {
 			if (method.getName().startsWith("set")) {
@@ -257,25 +253,21 @@ public class JavaModel extends Model implements IReflectiveModel {
 	public void load() throws EolModelLoadingException {
 		
 	}
-
 	
 	public boolean owns(Object instance) {
 		return objects.contains(instance);
 	}
 
-	
 	public boolean store(String location) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	
 	public boolean store() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	
 	public void dispose() {
 		objects.clear();
 		classes.clear();

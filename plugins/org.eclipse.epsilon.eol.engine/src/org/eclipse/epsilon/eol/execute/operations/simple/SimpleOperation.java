@@ -22,8 +22,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 
-
-public abstract class SimpleOperation extends AbstractOperation{
+public abstract class SimpleOperation extends AbstractOperation {
 
 	public SimpleOperation() {
 		super();
@@ -31,11 +30,10 @@ public abstract class SimpleOperation extends AbstractOperation{
 	
 	@Override
 	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
-	
-		List<Object> parameters = new ArrayList<Object>();
-		int parameterIndex = 0;
+		List<Object> parameters = new ArrayList<>();
 		ListIterator<Expression> it = expressions.listIterator();
-		while (it.hasNext()){
+		
+		for (int parameterIndex = 0; it.hasNext(); parameterIndex++) {
 			try {
 				parameters.add(context.getExecutorFactory().execute(it.next(), context));
 			}
@@ -50,13 +48,12 @@ public abstract class SimpleOperation extends AbstractOperation{
 			catch (Throwable t) {
 				context.getErrorStream().println("THROWABLE " + t.getClass().getName());
 			}
-			parameterIndex++;
 		}
 
 		try {
 			return execute(target, parameters, context, operationNameExpression);
 		}
-		catch (EolRuntimeException ex){
+		catch (EolRuntimeException ex) {
 			if (ex.getAst() == null) {
 				ex.setAst(operationNameExpression);
 			}
@@ -69,5 +66,4 @@ public abstract class SimpleOperation extends AbstractOperation{
 	public boolean getTolerateExceptionInParameter(int parameterIndex) {
 		return false;
 	}
-	
 }

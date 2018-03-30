@@ -32,7 +32,6 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 	}
 	
 	public void invoke(Object value) throws EolRuntimeException{
-		
 		ObjectMethod objectMethod = getMethodFor(object, property, value);
 		
 		if (objectMethod.getMethod() == null) {
@@ -40,6 +39,7 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 		}
 		
 		try {
+			//TODO: use canAccess(Object)
 			if (!objectMethod.getMethod().isAccessible()) {
 				objectMethod.getMethod().setAccessible(true);
 			}
@@ -48,7 +48,6 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 		catch (Exception ex){
 			throw new EolInternalException(ex);
 		}
-		
 	}
 
 	public Object coerce(Object value) throws EolIllegalPropertyException {
@@ -59,5 +58,4 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 		// TODO implement this method
 		throw new UnsupportedOperationException("Not yet implemented.");
 	}
-
 }

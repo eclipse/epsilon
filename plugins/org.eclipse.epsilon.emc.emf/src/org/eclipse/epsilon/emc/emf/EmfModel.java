@@ -19,12 +19,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Enumerator;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
@@ -118,20 +116,20 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	 */
 	public static final String PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS = "reuseUnmodifiedFileBasedMetamodels";
 
-	protected List<URI> metamodelUris = new ArrayList<URI>();
+	protected List<URI> metamodelUris = new ArrayList<>();
 	protected List<EPackage> packages;
 	protected boolean isMetamodelFileBased;
 	protected URI modelUri = null;
-	protected List<URI> metamodelFileUris = new ArrayList<URI>();
+	protected List<URI> metamodelFileUris = new ArrayList<>();
 	protected boolean useExtendedMetadata = false;
 
 	protected boolean reuseUnmodifiedFileBasedMetamodels = true;
-	protected static Map<String, List<EPackage>> fileBasedMetamodels = new HashMap<String, List<EPackage>>();
-	protected static Map<String, Long> fileBasedMetamodelTimestamps = new HashMap<String, Long>();
+	protected static Map<String, List<EPackage>> fileBasedMetamodels = new HashMap<>();
+	protected static Map<String, Long> fileBasedMetamodelTimestamps = new HashMap<>();
 
 
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
-		final Collection<String> properties = new LinkedList<String>();
+		final Collection<String> properties = new LinkedList<>();
 		
 		for (EStructuralFeature feature : featuresForType(type)) {
 			properties.add(feature.getName());
@@ -397,7 +395,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	}
 
 	public List<String> getMetamodelFiles() {
-		final List<String> files = new ArrayList<String>(metamodelFileUris.size());
+		final List<String> files = new ArrayList<>(metamodelFileUris.size());
 		for (URI metamodelFileUri : this.metamodelFileUris) {
 			files.add(EmfUtil.getFile(metamodelFileUri));
 		}
@@ -426,7 +424,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	}
 
 	public List<String> getMetamodelUris() {
-		final List<String> uris = new ArrayList<String>(metamodelUris.size());
+		final List<String> uris = new ArrayList<>(metamodelUris.size());
 		for (URI metamodelUri : this.metamodelUris) {
 			uris.add(metamodelUri.toString());
 		}
@@ -450,7 +448,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	}
 
 	public void setMetamodelFileUris(List<URI> fileUris) {
-		this.metamodelFileUris = new ArrayList<URI>(fileUris);
+		this.metamodelFileUris = new ArrayList<>(fileUris);
 	}
 
 	public void setMetamodelFileUri(URI uri) {
@@ -528,7 +526,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	}
 
 	protected void determinePackagesFrom(ResourceSet resourceSet) throws EolModelLoadingException {
-		packages = new ArrayList<EPackage>();
+		packages = new ArrayList<>();
 
 		for (URI metamodelFileUri : this.metamodelFileUris) {
 			List<EPackage> metamodelPackages = null;
@@ -617,7 +615,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	}
 
 	private Collection<EPackage> getTopLevelPackages() {
-		final Collection<EPackage> packages = new LinkedList<EPackage>();
+		final Collection<EPackage> packages = new LinkedList<>();
 		for (Object pkg : getPackageRegistry().values()) {
 			if (pkg instanceof EPackage) {
 				packages.add((EPackage)pkg);
@@ -641,7 +639,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	}
 
 	private List<URI> toURIList(final String commaSeparatedList) {
-		final List<URI> list = new ArrayList<URI>();
+		final List<URI> list = new ArrayList<>();
 		for (String s : commaSeparatedList.trim().split("\\s*,\\s*")) {
 			if (s.length() > 0) {
 				list.add(URI.createURI(s));
@@ -662,7 +660,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		try {
 			Map<String, Boolean> options = null;
 			if (!metamodelFileUris.isEmpty()) {
-				options = new HashMap<String, Boolean>();
+				options = new HashMap<>();
 				options.put(XMLResource.OPTION_SCHEMA_LOCATION, true);
 			}
 			modelImpl.save(options);

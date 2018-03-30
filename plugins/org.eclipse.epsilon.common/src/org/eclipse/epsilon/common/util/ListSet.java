@@ -18,8 +18,9 @@ import java.util.Set;
 
 public class ListSet<E> implements Set<E> {
 	
-	protected ArrayList<E> storage = new ArrayList<E>();
+	protected ArrayList<E> storage = new ArrayList<>();
 
+	@Override
 	public boolean add(E e) {
 		if (contains(e)) {
 			return false;
@@ -29,6 +30,7 @@ public class ListSet<E> implements Set<E> {
 		}
 	}
 
+	@Override
 	public boolean addAll(Collection<? extends E> c) {
 		boolean result = c.size() > 0;
 		for (E e : c) {
@@ -37,10 +39,12 @@ public class ListSet<E> implements Set<E> {
 		return result;
 	}
 
+	@Override
 	public void clear() {
 		storage.clear();
 	}
 
+	@Override
 	public boolean contains(Object o) {
 		for (E e : storage) {
 			if (e == o || e.equals(o)) {
@@ -50,6 +54,7 @@ public class ListSet<E> implements Set<E> {
 		return false;
 	}
 
+	@Override
 	public boolean containsAll(Collection<?> c) {
 		boolean result = c.size() > 0;
 		Iterator<E> it = storage.iterator();
@@ -60,34 +65,42 @@ public class ListSet<E> implements Set<E> {
 		return result;
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return storage.isEmpty();
 	}
 
+	@Override
 	public Iterator<E> iterator() {
 		return storage.iterator();
 	}
 
+	@Override
 	public boolean remove(Object o) {
 		return storage.remove(o);
 	}
 
+	@Override
 	public boolean removeAll(Collection<?> c) {
 		return storage.removeAll(c);
 	}
 
+	@Override
 	public boolean retainAll(Collection<?> c) {
 		return storage.retainAll(c);
 	}
 
+	@Override
 	public int size() {
 		return storage.size();
 	}
 
+	@Override
 	public Object[] toArray() {
 		return storage.toArray();
 	}
 
+	@Override
 	public <T> T[] toArray(T[] a) {
 		return storage.toArray(a);
 	}
@@ -95,5 +108,4 @@ public class ListSet<E> implements Set<E> {
 	public List<E> getList() {
 		return storage;
 	}
-	
 }

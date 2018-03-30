@@ -21,7 +21,7 @@ public class ParseProblem {
 	private String reason;
 	private int severity;
 	
-	public ParseProblem(){
+	public ParseProblem() {
 	
 	}
 	
@@ -41,7 +41,7 @@ public class ParseProblem {
 	}
 	
 	/*
-	public ParseProblem(RecognitionException ex, int severity){
+	public ParseProblem(RecognitionException ex, int severity) {
 		this.line = ex.line;
 		this.column = ex.column;
 		this.severity = severity;
@@ -81,14 +81,13 @@ public class ParseProblem {
 	}
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		String str = "";
 		str += "Line: " + getLine() + ",";
-		if (getColumn() > 0){
+		if (getColumn() > 0) {
 			str += " Column: " + getColumn() + ",";
 		}
 		str += " Reason: " + getReason();
 		return str;
 	}
-	
 }

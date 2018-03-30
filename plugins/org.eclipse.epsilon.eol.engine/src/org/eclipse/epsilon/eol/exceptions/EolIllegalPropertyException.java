@@ -13,12 +13,10 @@ package org.eclipse.epsilon.eol.exceptions;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-
-public class EolIllegalPropertyException extends EolRuntimeException{
+public class EolIllegalPropertyException extends EolRuntimeException {
 	
 	protected String property;
 	protected Object object;
-	
 	
 	public EolIllegalPropertyException(Object object, String property, ModuleElement ast, IEolContext context) {
 		super();
@@ -45,9 +43,7 @@ public class EolIllegalPropertyException extends EolRuntimeException{
 	}
 	
 	@Override
-	public String getReason(){
-		//return "Object " + object + " does not support this property: " + property;
+	public String getReason() {
 		return "Property '" + property + "' not found in object " + (context == null ? object : context.getPrettyPrinterManager().toString(object));
 	}
-	
 }

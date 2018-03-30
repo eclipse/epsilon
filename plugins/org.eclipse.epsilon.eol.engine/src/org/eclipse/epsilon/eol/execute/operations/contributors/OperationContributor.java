@@ -13,7 +13,6 @@ package org.eclipse.epsilon.eol.execute.operations.contributors;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Set;
-
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -66,10 +65,8 @@ public abstract class OperationContributor {
 
 	private ObjectMethod createObjectMethod(Object target, Method method, IEolContext context) {
 		if (method != null) {
-			ObjectMethod objectMethod = new ObjectMethod();
+			ObjectMethod objectMethod = new ObjectMethod(getReflectionTarget(target), method);
 			setTarget(target);
-			objectMethod.setMethod(method);
-			objectMethod.setObject(getReflectionTarget(target));
 			setContext(context);
 			return objectMethod;
 		}
@@ -99,5 +96,4 @@ public abstract class OperationContributor {
 	public void setContext(IEolContext context) {
 		this.context = context;
 	}
-	
 }

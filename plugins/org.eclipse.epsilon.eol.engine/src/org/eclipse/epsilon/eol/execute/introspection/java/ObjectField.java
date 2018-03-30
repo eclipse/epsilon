@@ -14,5 +14,4 @@ public class ObjectField {
 	public Object getValue() throws Exception {
 		return field.get(object);
 	}
-	
 }

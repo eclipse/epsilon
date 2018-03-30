@@ -41,16 +41,17 @@ import org.eclipse.epsilon.flock.test.EpsilonFlockEngineTestSuite;
 import org.eclipse.epsilon.hutn.test.HutnTestSuite;
 import org.eclipse.epsilon.hutn.unparser.HutnUnparserUnitTestSuite;
 import org.eclipse.epsilon.hutn.xmi.test.HutnXmiTestSuite;
+import org.eclipse.epsilon.profiling.test.ProfilingTestSuite;
 import org.eclipse.epsilon.workflow.test.WorkflowTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 @RunWith(Suite.class)
 @SuiteClasses({CommonsTestSuite.class,
+			   ProfilingTestSuite.class,
                EolUnitTestSuite.class, 
                EolAcceptanceTestSuite.class,
                EvlAcceptanceTestSuite.class,
@@ -66,7 +67,8 @@ import junit.framework.Test;
                EglFineGrainedTraceabilityUnitTestSuite.class,
                EgxAcceptanceTestSuite.class,
                HutnTestSuite.class,
-               HutnUnparserUnitTestSuite.class, HutnXmiTestSuite.class,
+               HutnUnparserUnitTestSuite.class,
+               HutnXmiTestSuite.class,
                HutnEmcDriverTestSuite.class,
                PlainXmlTestSuite.class,
                BibtexModelTestSuite.class,
@@ -77,8 +79,7 @@ import junit.framework.Test;
                EmfTestSuite.class,
                SpreadsheetDriverTestSuite.class,
                CsvModelTestSuite.class})
-public class EpsilonTestSuite{
-
+public class EpsilonTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(EpsilonTestSuite.class);
 	}

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class LazyIntegerList implements List<Integer>{
+public class LazyIntegerList implements List<Integer> {
 	
 	public static void main(String[] args) {
 		

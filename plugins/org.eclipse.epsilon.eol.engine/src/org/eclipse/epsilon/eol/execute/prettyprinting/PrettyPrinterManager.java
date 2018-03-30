@@ -16,7 +16,7 @@ import java.util.ListIterator;
 
 public class PrettyPrinterManager {
 	
-	protected ArrayList<PrettyPrinter> prettyPrinters = new ArrayList<PrettyPrinter>();
+	protected ArrayList<PrettyPrinter> prettyPrinters = new ArrayList<>();
 	protected DefaultPrettyPrinter defaultPrettyPrinter;
 	//protected EolPrettyPrinter eolPrettyPrinter;
 	//protected IEolContext context;

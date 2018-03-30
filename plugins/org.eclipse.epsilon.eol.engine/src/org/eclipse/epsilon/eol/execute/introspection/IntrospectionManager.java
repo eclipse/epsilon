@@ -17,26 +17,20 @@ import org.eclipse.epsilon.eol.models.IModel;
 
 public class IntrospectionManager {
 	
-	protected IPropertyGetter defaultPropertyGetter = null;
-	protected IPropertySetter defaultPropertySetter = null;
-	
-	public IntrospectionManager(){
-		defaultPropertyGetter = new JavaPropertyGetter();
-		defaultPropertySetter = new JavaPropertySetter();
-	}
+	protected IPropertyGetter defaultPropertyGetter = new JavaPropertyGetter();
+	protected IPropertySetter defaultPropertySetter = new JavaPropertySetter();
 	
 	public IPropertySetter getPropertySetterFor(Object object, String property, IEolContext context) {
 		final IPropertySetter propertySetter;
 		
 		if (property.startsWith("~")) {
 			propertySetter = new ExtendedPropertySetter(context);
-		
-		} else if (getModelThatKnowsAboutProperty(object, property, context) != null) {		
-			propertySetter = getModelThatKnowsAboutProperty(object, property, context).getPropertySetter();
-			
-		} else {	
-			propertySetter = defaultPropertySetter;
 		}
+		else {
+			IModel knowsModel = getModelThatKnowsAboutProperty(object, property, context);
+			propertySetter = knowsModel != null ? knowsModel.getPropertySetter() : defaultPropertySetter;
+		}
+		
 		propertySetter.setObject(object);
 		propertySetter.setProperty(property);
 		propertySetter.setContext(context);
@@ -49,12 +43,10 @@ public class IntrospectionManager {
 		
 		if (property.startsWith("~")) {
 			propertyGetter = new ExtendedPropertyGetter(context);
-		
-		} else if (getModelThatKnowsAboutProperty(object, property, context) != null) {		// FIXME getModelThatKnowsAboutProperty is very inefficient and we call it twice
-			propertyGetter = getModelThatKnowsAboutProperty(object, property, context).getPropertyGetter();
-		
-		} else {
-			propertyGetter = defaultPropertyGetter;
+		}
+		else { 
+			IModel knowsModel = getModelThatKnowsAboutProperty(object, property, context);
+			propertyGetter = knowsModel != null ? knowsModel.getPropertyGetter() : defaultPropertyGetter;
 		}
 		
 		propertyGetter.setContext(context);
@@ -62,17 +54,16 @@ public class IntrospectionManager {
 		return propertyGetter;
 	}
 	
-	public boolean isModelBasedProperty(Object object, String property, IEolContext context){
+	public boolean isModelBasedProperty(Object object, String property, IEolContext context) {
 		return getModelThatKnowsAboutProperty(object, property, context) != null;
 	}
 	
-	private IModel getModelThatKnowsAboutProperty(Object object, String property, IEolContext context) {
-		for (IModel model : context.getModelRepository().getModels()) {
-			if (model.knowsAboutProperty(object, property)) {
-				return model;
-			}
-		}
-		return null;
+	public static IModel getModelThatKnowsAboutProperty(Object object, String property, IEolContext context) {
+		return context.getModelRepository().getModels()
+			.stream()
+			.filter(model -> model.knowsAboutProperty(object, property))
+			.findAny()
+			.orElse(null);
 	}
 
 	public IPropertyGetter getDefaultPropertyGetter() {
@@ -90,34 +81,4 @@ public class IntrospectionManager {
 	public void setDefaultPropertySetter(IPropertySetter defaultPropertySetter) {
 		this.defaultPropertySetter = defaultPropertySetter;
 	}
-	
-	/*
-	public ArrayList<PropertyGetter> getPropertyGetters() {
-		return propertyGetters;
-	}
-
-	public ArrayList<PropertySetter> getPropertySetters() {
-		return propertySetters;
-	}
-	*/
-	
-	
-	/*
-	private Object newInstance(Object object){
-		try {
-			return object.getClass().newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public ArrayList getPropertyGetters() {
-		return propertyGetters;
-	}
-
-	public ArrayList getPropertySetters() {
-		return propertySetters;
-	}
-	*/
 }

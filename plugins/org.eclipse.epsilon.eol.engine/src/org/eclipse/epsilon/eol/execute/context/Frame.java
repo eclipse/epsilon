@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.eol.execute.context;
 
 import java.util.Map;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 
 public interface Frame {
@@ -29,6 +28,11 @@ public interface Frame {
 	void remove(String name);
 	
 	void put(Variable variable);
+	
+	default void put(Variable... variables) {
+		for (Variable variable : variables)
+			put(variable);
+	}
 
 	void putAll(Map<String, Variable> variables);
 	

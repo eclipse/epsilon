@@ -47,7 +47,7 @@ public final class EmfModelFactory {
 			emfModel.setMetamodelUri(((EPackage)metamodel).getNsURI());
 		
 		} else if (metamodel instanceof EPackage[]) {
-			final List<String> nsUris = new LinkedList<String>();
+			final List<String> nsUris = new LinkedList<>();
 			for (EPackage p : (EPackage[])metamodel)
 				nsUris.add(p.getNsURI());
 			

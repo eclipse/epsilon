@@ -36,5 +36,4 @@ public class ExpressionStatement extends Statement {
 	public void compile(EolCompilationContext context) {
 		expression.compile(context);
 	}
-	
 }

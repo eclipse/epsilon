@@ -33,7 +33,7 @@ public class ModelReference implements IAdaptableModel, IWrapper, IOperationCont
 
 	protected IModel target;
 	protected String name;
-	protected List<String> aliases = new ArrayList<String>();
+	protected List<String> aliases = new ArrayList<>();
 	
 	public ModelReference(IModel target) {
 		this.target = target;

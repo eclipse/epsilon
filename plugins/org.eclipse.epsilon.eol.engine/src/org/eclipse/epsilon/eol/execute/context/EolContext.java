@@ -12,8 +12,9 @@ package org.eclipse.epsilon.eol.execute.context;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-
+import java.util.Queue;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.execute.DeprecationInfo;
@@ -39,12 +40,12 @@ public class EolContext implements IEolContext {
 	protected PrettyPrinterManager prettyPrinterManager = new PrettyPrinterManager();
 	protected PrintStream outputStream = System.out;
 	protected PrintStream errorStream = System.err;
-	protected IModule module = null;
+	protected PrintStream warningStream = System.out;
+	protected IModule module;
 	protected boolean profilingEnabled = false;
 	protected boolean assertionsEnabled = true;
 	protected ExtendedProperties extendedProperties = new ExtendedProperties();
-	protected List<AsyncStatementInstance> asyncStatementsQueque = new ArrayList<AsyncStatementInstance>();
-	protected PrintStream warningStream = System.out;
+	protected Queue<AsyncStatementInstance> asyncStatementsQueue = new LinkedList<>();
 	protected OperationContributorRegistry methodContributorRegistry = new OperationContributorRegistry();
 	// The following members are initialised in the constructor
 	protected EolClasspathNativeTypeDelegate classpathNativeTypeDelegate;
@@ -56,149 +57,179 @@ public class EolContext implements IEolContext {
 	
 	protected EolContext(EolClasspathNativeTypeDelegate classpathNativeTypeDelegate) {
 		this.classpathNativeTypeDelegate = classpathNativeTypeDelegate;
-		this.nativeTypeDelegates = new ArrayList<IToolNativeTypeDelegate>(
-				(ArrayList<IToolNativeTypeDelegate>) CollectionUtil
-						.asCollection(classpathNativeTypeDelegate));
+		this.nativeTypeDelegates = new ArrayList<>(CollectionUtil.asCollection(classpathNativeTypeDelegate));
 	}
 
+	@Override
 	public OperationContributorRegistry getOperationContributorRegistry() {
 		return methodContributorRegistry;
 	}
 	
+	@Override
 	public PrintStream getWarningStream() {
 		return warningStream;
 	}
 
+	@Override
 	public void setWarningStream(PrintStream warningStream) {
 		this.warningStream = warningStream;
 	}
 
+	@Override
 	public boolean isAssertionsEnabled() {
 		return assertionsEnabled;
 	}
 
+	@Override
 	public void setAssertionsEnabled(boolean assertionsEnabled) {
 		this.assertionsEnabled = assertionsEnabled;
 	}
 
+	@Override
 	public PrettyPrinterManager getPrettyPrinterManager() {
 		return prettyPrinterManager;
 	}
 	
+	@Override
 	public void setPrettyPrinterManager(PrettyPrinterManager prettyPrinterManager) {
 		this.prettyPrinterManager = prettyPrinterManager;
 	}
 
+	@Override
 	public PrintStream getOutputStream() {
 		return outputStream;
 	}
 
+	@Override
 	public void setOutputStream(PrintStream outputStream) {
 		this.outputStream = outputStream;
 	}
 
+	@Override
 	public EolOperationFactory getOperationFactory() {
 		return operationFactory;
 	}
 
+	@Override
 	public void setOperationFactory(EolOperationFactory operationFactory) {
 		this.operationFactory = operationFactory;
 	}
 
+	@Override
 	public ExecutorFactory getExecutorFactory() {
 		return executorFactory;
 	}
 
+	@Override
 	public void setExecutorFactory(ExecutorFactory executorFactory) {
 		this.executorFactory = executorFactory;
 	}
 	
+	@Override
 	public ModelRepository getModelRepository() {
 		return modelRepository;
 	}
 	
+	@Override
 	public void setModelRepository(ModelRepository modelRepository) {
 		this.modelRepository = modelRepository;
 	}
 	
+	@Override
 	public FrameStack getFrameStack() {
 		return frameStack;
 	}
 	
+	@Override
 	public void setFrameStack(FrameStack frameStack) {
 		this.frameStack = frameStack;
 	}
 
+	@Override
 	public IntrospectionManager getIntrospectionManager() {
 		return introspectionManager;
 	}
 
+	@Override
 	public void setIntrospectionManager(IntrospectionManager introspectionManager) {
 		this.introspectionManager = introspectionManager;
 	}
 
+	@Override
 	public PrintStream getErrorStream() {
 		return errorStream;
 	}
 
+	@Override
 	public void setErrorStream(PrintStream errorStream) {
 		this.errorStream = errorStream;
 	}
 
+	@Override
 	public void setModule(IModule module) {
 		this.module = module;
 	}
 
+	@Override
 	public IModule getModule() {
-		return this.module;
+		return module;
 	}
 	
 	//TODO : Do something with the user input
+	@Override
 	public void setUserInput(IUserInput userInput) {
 		String userInputVarName = "UserInput";
 		this.userInput = userInput;
-		Variable var = frameStack.get(userInputVarName);
-		if (var == null) {
-			var = Variable.createReadOnlyVariable(userInputVarName, userInput);
+		FrameStack fs = getFrameStack();
+		Variable variable = fs.get(userInputVarName);
+		if (variable == null) {
+			variable = Variable.createReadOnlyVariable(userInputVarName, userInput);
 			DeprecationInfo deprecationInfo = new DeprecationInfo();
 			deprecationInfo.setMessage("Variable UserInput is deprecated. Use System.user instead.");
-			var.setDeprecationInfo(deprecationInfo);
-			frameStack.putGlobal(var);
+			variable.setDeprecationInfo(deprecationInfo);
+			fs.putGlobal(variable);
 		}
 		else {
-			var.setValueBruteForce(userInput);
+			variable.setValueBruteForce(userInput);
 		}
 	}
 
+	@Override
 	public IUserInput getUserInput() {
 		return userInput;
 	}
 
+	@Override
 	public List<IToolNativeTypeDelegate> getNativeTypeDelegates() {
 		return nativeTypeDelegates;
 	}
 
+	@Override
 	public void setNativeTypeDelegates(List<IToolNativeTypeDelegate> nativeTypeDelegates) {
 		this.nativeTypeDelegates = nativeTypeDelegates;
 	}
 
+	@Override
 	public boolean isProfilingEnabled() {
 		return profilingEnabled;
 	}
 
+	@Override
 	public void setProfilingEnabled(boolean profilingEnabled) {
 		this.profilingEnabled = profilingEnabled;
 	}
 
+	@Override
 	public ExtendedProperties getExtendedProperties() {
 		return extendedProperties;
 	}
 
-	public void setExtendedProperties(
-			ExtendedProperties extendedProperties) {
+	@Override
+	public void setExtendedProperties(ExtendedProperties extendedProperties) {
 		this.extendedProperties = extendedProperties;
 	}
 	
+	@Override
 	public void dispose() {
 		if (executorFactory.getExecutionController() != null) {
 			executorFactory.getExecutionController().dispose();
@@ -206,7 +237,8 @@ public class EolContext implements IEolContext {
 		extendedProperties.clear();
 	}
 
-	public List<AsyncStatementInstance> getAsyncStatementsQueque() {
-		return asyncStatementsQueque;
+	@Override
+	public Queue<AsyncStatementInstance> getAsyncStatementsQueue() {
+		return asyncStatementsQueue;
 	}
 }

@@ -2,7 +2,7 @@ package org.eclipse.epsilon.eol.execute.context;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.epsilon.eol.util.Cache;
 
 public class ExtendedProperties {
@@ -13,11 +13,7 @@ public class ExtendedProperties {
 		System.err.println(e.getPropertyValue(2, "foo"));
 	}
 	
-	protected Cache<Object, HashMap<String, Object>> cache = new Cache<Object, HashMap<String, Object>>();
-	
-	public ExtendedProperties() {
-		
-	}
+	private final Cache<Object, Map<String, Object>> cache = new Cache<>();
 	
 	public Object getPropertyValue(Object o, String property) {
 		return getPropertyValues(o).get(property);
@@ -32,20 +28,19 @@ public class ExtendedProperties {
 	}
 	
 	protected Map<String, Object> getPropertyValues(Object o, boolean create) {
-		
-		HashMap<String, Object> propertyValues = cache.get(o);
+		Map<String, Object> propertyValues = cache.get(o);
 		
 		if (propertyValues == null) {
-			propertyValues = new HashMap<String, Object>();
-			if (create) cache.put(o, propertyValues);
+			propertyValues = new HashMap<>(4);
+			if (create) {
+				cache.put(o, propertyValues);
+			}
 		}
 		
 		return propertyValues;
-		
 	}
 	
 	public void clear() {
 		cache.dispose();
 	}
-	
 }

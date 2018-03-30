@@ -12,36 +12,31 @@ package org.eclipse.epsilon.eol.util;
 
 import java.lang.ref.ReferenceQueue;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Cache<K, V> {
 	
-	protected ReferenceQueue<Object> referenceQueue = new ReferenceQueue<Object>();
-	protected HashMap<IdentityBasedWeakReference, V> map = new HashMap<IdentityBasedWeakReference, V>();
+	protected ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
+	protected Map<IdentityBasedWeakReference, V> map = new HashMap<>();
 	protected Thread cleanUpThread = null;
 	
-	public Cache() {}
-	
-	public HashMap<IdentityBasedWeakReference, V> getMap() {
+	public Map<IdentityBasedWeakReference, V> getMap() {
 		return map;
 	}
 	
 	protected Thread createCleanUpThread() {
-		
-		return new Thread(){
-			@Override
-			public void run() {
-				try {
-					while (map.size() > 0 && !Thread.currentThread().isInterrupted()) {
-						IdentityBasedWeakReference reference = (IdentityBasedWeakReference) referenceQueue.remove();
-						synchronized(map) {
-							if (reference != null && map.containsKey(reference)) {
-								map.remove(reference);
-							}
+		return new Thread(() -> {
+			try {
+				while (!map.isEmpty() && !Thread.currentThread().isInterrupted()) {
+					IdentityBasedWeakReference reference = (IdentityBasedWeakReference) referenceQueue.remove();
+					if (reference != null) {
+						synchronized (map) {
+							map.remove(reference);
 						}
 					}
-				} catch (InterruptedException e) {}
-			}
-		};
+				}
+			} catch (InterruptedException ie) {}
+		});
 	}
 	
 	public V get(Object key) {
@@ -51,15 +46,15 @@ public class Cache<K, V> {
 	}
 	
 	public V put(K key, V value) {
+		IdentityBasedWeakReference reference = new IdentityBasedWeakReference(key, referenceQueue);
 		synchronized (map) {
-			IdentityBasedWeakReference reference = new IdentityBasedWeakReference(key, referenceQueue);
 			if (!map.containsKey(reference)) {
 				map.put(reference, value);
 				if (map.size() == 1) {
 					try {
-					cleanUpThread = createCleanUpThread();
-					cleanUpThread.setDaemon(true);
-					cleanUpThread.start();
+						cleanUpThread = createCleanUpThread();
+						cleanUpThread.setDaemon(true);
+						cleanUpThread.start();
 					}
 					catch (Exception ex) {}
 				}

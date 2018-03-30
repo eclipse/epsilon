@@ -8,6 +8,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio Garcia-Dominguez - model comparison
+ *     Sina Madani - concurrency support
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf;
 
@@ -16,13 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -38,6 +33,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.emc.emf.transactions.EmfModelTransactionSupport;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -50,13 +46,11 @@ import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
 public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
-	//DONE : Improve support for file-based metamodels
 	//FIXME : If the user wants, they can load it as a local copy
-	//DONE : Re-implement the isTypeOf and isKindOf locally
 	
 	protected Resource modelImpl;
 	protected boolean expand = true;
-	Map<String, EClass> eClassCache = new HashMap<String, EClass>();
+	final Map<String, EClass> eClassCache = ConcurrencyUtils.concurrentMap();
 	
 	protected InputStream getInputStream(String file) throws IOException {
 		
@@ -70,33 +64,25 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		
 	}
 	
-	protected void setDataTypesInstanceClasses(Resource metamodel){
+	protected void setDataTypesInstanceClasses(Resource metamodel) {
 		Iterator<EObject> it = metamodel.getAllContents();
 		while (it.hasNext()) {
 			EObject eObject = it.next();
-			if (eObject instanceof EEnum){
+			if (eObject instanceof EEnum) {
 				//TODO : See if we really need this
 				//((EEnum) eObject).setInstanceClassName("java.lang.Integer");
 			}
-			else if (eObject instanceof EDataType){
+			else if (eObject instanceof EDataType) {
 				EDataType eDataType = (EDataType) eObject;
-				String instanceClass = "";
-				if (eDataType.getName().equals("String")){
-					instanceClass = "java.lang.String";
+				String typeName = eDataType.getName();
+				switch (typeName) {
+					case "String":
+					case "Boolean":
+					case "Integer":
+					case "Double":
+					case "Float":
+						eDataType.setInstanceClassName("java.lang."+typeName);
 				}
-				else if (eDataType.getName().equals("Boolean")){
-					instanceClass = "java.lang.Boolean";
-				}
-				else if (eDataType.getName().equals("Integer")){
-					instanceClass = "java.lang.Integer";
-				}
-				else if (eDataType.getName().equals("Float")){
-					instanceClass = "java.lang.Float";
-				}
-				else if (eDataType.getName().equals("Double")){
-					instanceClass = "java.lang.Double";
-				}
-				eDataType.setInstanceClassName(instanceClass);
 			}
 		}
 	}
@@ -130,6 +116,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return registry;
 	}
 	
+	@Override
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
 		
 		for (Object pkg : getPackageRegistry().values()) {
@@ -181,12 +168,13 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 
 	//TODO : Throw the exception if size == 0 check the allContents for the class
+	@Override
 	protected Collection<EObject> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
 		final EClass eClass = classForName(type);
-		final List<EObject> allOfType = new ArrayList<EObject>();
+		final Collection<EObject> allOfType = new ArrayList<>();
 			
 		for (EObject eObject : allContents()) {
-			if (eObject.eClass() == eClass){
+			if (eObject.eClass() == eClass) {
 				allOfType.add(eObject);
 			}
 		}
@@ -194,6 +182,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return allOfType;
 	}
 	
+	@Override
 	public Object getCacheKeyForType(String type) throws EolModelElementTypeNotFoundException {
 		return classForName(type);
 	}
@@ -247,12 +236,13 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return null;
 	}
 	
+	@Override
 	protected Collection<EObject> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException {
 		final EClass eClass = classForName(kind);
-		final List<EObject> allOfKind = new ArrayList<EObject>();
+		final Collection<EObject> allOfKind = new ArrayList<>();
 		
-		for (EObject eObject : (Collection<EObject>)allContents()) {
-			if (eClass.isInstance(eObject)){
+		for (EObject eObject : allContents()) {
+			if (eClass.isInstance(eObject)) {
 				allOfKind.add(eObject);
 			}
 		}
@@ -260,8 +250,9 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return allOfKind;
 	}
 	
+	@Override
 	protected Collection<EObject> allContentsFromModel() {
-		final List<EObject> allInstances = new ArrayList<EObject>();
+		final Collection<EObject> allInstances = new ArrayList<>();
 		
 		for (Resource resource : getResources()) {
 			Iterator<EObject> it = EcoreUtil.getAllContents(resource, expand);
@@ -269,12 +260,12 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 				allInstances.add(it.next());
 			}
 		}
-			
+		
 		return allInstances;
 	}
 	
+	@Override
 	protected EObject createInstanceInModel(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
-		
 		EClass eClass = classForName(type);
 		if (eClass.isAbstract()) {
 			throw new EolNotInstantiableModelElementTypeException(this.name, type);
@@ -287,6 +278,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 	
 	protected EmfModelTransactionSupport transactionSupport;
+	
 	@Override
 	public IModelTransactionSupport getTransactionSupport() {
 		if (transactionSupport == null) {
@@ -295,16 +287,17 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return transactionSupport;
 	}
 	
-	protected int instancesCount(Resource r){
+	protected int instancesCount(Resource r) {
 		int i = 0;
 		Iterator<EObject> ite = r.getAllContents();
-		while (ite.hasNext()){
+		while (ite.hasNext()) {
 			ite.next();
 			i++;
 		}
 		return i;
 	}
 		
+	@Override
 	protected boolean deleteElementInModel(Object instance) throws EolRuntimeException {		
 		if (!(instance instanceof EObject))
 			return false;
@@ -312,7 +305,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		EObject eObject = (EObject) instance;
 		EcoreUtil.delete(eObject);
 
-		List<EObject> contents = new ArrayList<EObject>();
+		List<EObject> contents = new ArrayList<>();
 		//Iterator<EObject> contentsIterator = eObject.eAllContents();
 		//while (contentsIterator.hasNext()) {
 		//	contents.add(contentsIterator.next());
@@ -326,6 +319,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return true;
 	}
 
+	@Override
 	public boolean owns(Object instance) {
 		
 		if (instance instanceof EObject) {
@@ -346,6 +340,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		
 	}
 
+	@Override
 	public boolean store(String fileName) {
 		return store(EmfUtil.createPlatformResourceURI(fileName));
 	}
@@ -391,6 +386,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	/**
 	 * @deprecated Use getResource() instead
 	 */
+	@Deprecated
 	public Resource getModelImpl() {
 		return modelImpl;
 	}
@@ -400,7 +396,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 
 	protected List<Resource> getResources() {
-		final List<Resource> resources = new ArrayList<Resource>();
+		final List<Resource> resources = new ArrayList<>();
 		final ResourceSet rs = modelImpl.getResourceSet();
 		if (expand && rs != null) {
 			EList<Resource> rawResources = rs.getResources();
@@ -429,6 +425,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return resources;
 	}
 
+	@Override
 	public Object getElementById(String id) {
 		for (Resource resource : getResources()) {
 			Object instance = resource.getEObject(id);
@@ -437,6 +434,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return null;
 	}
 
+	@Override
 	public String getElementId(Object instance) {
 		EObject eObject = (EObject) instance;
 		
@@ -456,6 +454,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		
 	}
 	
+	@Override
 	public void setElementId(Object instance, String newId) {
 		if (newId == null || newId.isEmpty())
 			return;
@@ -490,10 +489,12 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return new EmfPropertySetter();
 	}
 	
+	@Override
 	public Object getTypeOf(Object instance) {
 		return ((EObject) instance).eClass();
 	}
 	
+	@Override
 	public String getTypeNameOf(Object instance) {
 		if (!isModelElement(instance))
 			throw new IllegalArgumentException("Not a valid EMF model element: " + instance + " (" + instance.getClass().getCanonicalName() + ") ");
@@ -501,6 +502,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return ((EClass)getTypeOf(instance)).getName();
 	}
 	
+	@Override
 	public String getFullyQualifiedTypeNameOf(Object instance) {
 		if (!isModelElement(instance))
 			throw new IllegalArgumentException("Not a valid EMF model element: " + instance + " (" + instance.getClass().getCanonicalName() + ") ");
@@ -508,8 +510,9 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return getFullyQualifiedName(((EClass)getTypeOf(instance)));
 	}
 	
+	@Override
 	public Collection<String> getAllTypeNamesOf(Object instance) {
-		final Collection<String> allTypeNames = new ArrayList<String>();
+		final Collection<String> allTypeNames = new ArrayList<>();
 
 		if (isModelElement(instance)) {
 			final EClass type = (EClass)getTypeOf(instance);
@@ -523,6 +526,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return allTypeNames;
 	}
 
+	@Override
 	public boolean isInstantiable(String type) {
 		try {
 			return !classForName(type).isAbstract();
@@ -531,6 +535,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		}
 	}
 	
+	@Override
 	public boolean hasType(String type) {
 		try {
 			// Speed things up
@@ -553,6 +558,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return fullyQualifiedName;
 	}
 
+	@Override
 	public boolean isModelElement(Object instance) {
 		return instance instanceof EObject;
 	}

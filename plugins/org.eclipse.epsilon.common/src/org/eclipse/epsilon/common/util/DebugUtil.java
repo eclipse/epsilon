@@ -35,5 +35,4 @@ public class DebugUtil {
 	public static void showStackTrace() {
 		new Exception().printStackTrace();
 	}
-	
 }

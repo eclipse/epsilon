@@ -10,12 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-
+import java.util.*;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
@@ -28,53 +23,11 @@ import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.ListSet;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
-import org.eclipse.epsilon.eol.dom.AbortStatement;
-import org.eclipse.epsilon.eol.dom.AnnotationBlock;
-import org.eclipse.epsilon.eol.dom.AssignmentStatement;
-import org.eclipse.epsilon.eol.dom.BooleanLiteral;
-import org.eclipse.epsilon.eol.dom.BreakStatement;
-import org.eclipse.epsilon.eol.dom.Case;
-import org.eclipse.epsilon.eol.dom.CollectionLiteralExpression;
-import org.eclipse.epsilon.eol.dom.ContinueStatement;
-import org.eclipse.epsilon.eol.dom.DeleteStatement;
-import org.eclipse.epsilon.eol.dom.EnumerationLiteralExpression;
-import org.eclipse.epsilon.eol.dom.ExecutableAnnotation;
-import org.eclipse.epsilon.eol.dom.Expression;
-import org.eclipse.epsilon.eol.dom.ExpressionInBrackets;
-import org.eclipse.epsilon.eol.dom.ExpressionStatement;
-import org.eclipse.epsilon.eol.dom.FirstOrderOperationCallExpression;
-import org.eclipse.epsilon.eol.dom.ForStatement;
-import org.eclipse.epsilon.eol.dom.IfStatement;
-import org.eclipse.epsilon.eol.dom.Import;
-import org.eclipse.epsilon.eol.dom.IntegerLiteral;
-import org.eclipse.epsilon.eol.dom.ItemSelectorExpression;
-import org.eclipse.epsilon.eol.dom.MapLiteralExpression;
-import org.eclipse.epsilon.eol.dom.ModelDeclaration;
-import org.eclipse.epsilon.eol.dom.ModelDeclarationParameter;
-import org.eclipse.epsilon.eol.dom.NameExpression;
-import org.eclipse.epsilon.eol.dom.NewInstanceExpression;
-import org.eclipse.epsilon.eol.dom.Operation;
-import org.eclipse.epsilon.eol.dom.OperationCallExpression;
-import org.eclipse.epsilon.eol.dom.OperationList;
-import org.eclipse.epsilon.eol.dom.OperatorExpressionFactory;
-import org.eclipse.epsilon.eol.dom.Parameter;
-import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
-import org.eclipse.epsilon.eol.dom.RealLiteral;
-import org.eclipse.epsilon.eol.dom.ReturnStatement;
-import org.eclipse.epsilon.eol.dom.SimpleAnnotation;
-import org.eclipse.epsilon.eol.dom.SpecialAssignmentStatement;
-import org.eclipse.epsilon.eol.dom.Statement;
-import org.eclipse.epsilon.eol.dom.StatementBlock;
-import org.eclipse.epsilon.eol.dom.StringLiteral;
-import org.eclipse.epsilon.eol.dom.SwitchStatement;
-import org.eclipse.epsilon.eol.dom.ThrowStatement;
-import org.eclipse.epsilon.eol.dom.TransactionStatement;
-import org.eclipse.epsilon.eol.dom.TypeExpression;
-import org.eclipse.epsilon.eol.dom.VariableDeclaration;
-import org.eclipse.epsilon.eol.dom.WhileStatement;
+import org.eclipse.epsilon.eol.dom.*;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.EolLexer;
@@ -84,30 +37,34 @@ import org.eclipse.epsilon.eol.tools.EolSystem;
 public class EolModule extends AbstractModule implements IEolModule {
 	
 	protected StatementBlock main;
-	protected IEolContext context;
-	protected List<Statement> postOperationStatements = new ArrayList<Statement>();
+	protected IEolContext context = new EolContext();
+	protected List<Statement> postOperationStatements = new ArrayList<>();
 	protected OperationList declaredOperations = new OperationList();
-	protected List<Import> imports = new ArrayList<Import>();
-	protected OperationList operations = null;
-	protected List<ModelDeclaration> declaredModelDeclarations = new ArrayList<ModelDeclaration>();
-	protected Set<ModelDeclaration> modelDeclarations = null;
+	protected List<Import> imports = new ArrayList<>();
+	protected OperationList operations = new OperationList();
+	protected List<ModelDeclaration> declaredModelDeclarations;
+	protected Set<ModelDeclaration> modelDeclarations;
+	protected EolCompilationContext compilationContext;
 	private IEolModule parent;
-	protected EolCompilationContext compilationContext = null;
+	private boolean prepareContextCalled = false;
 	
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		checkImports(cst);
 		
-		for (String extension : getImportConfiguration().keySet()) {
-			imports.addAll(getImportsByExtension(cst, extension, getImportConfiguration().get(extension)));
+		Map<String, Class<?>> importConfig = getImportConfiguration();
+		for (String extension : importConfig.keySet()) {
+			imports.addAll(getImportsByExtension(cst, extension, importConfig.get(extension)));
 		}
 		
 		for (AST operationAst : AstUtil.getChildren(cst, EolParser.HELPERMETHOD)) {
 			declaredOperations.add((Operation) createAst(operationAst, this));
 		}
 		
-		for (AST modelDeclarationAst : AstUtil.getChildren(cst, EolParser.MODELDECLARATION)) {
+		List<AST> modelDeclarationAsts = AstUtil.getChildren(cst, EolParser.MODELDECLARATION);
+		declaredModelDeclarations = new ArrayList<>(modelDeclarationAsts.size());
+		for (AST modelDeclarationAst : modelDeclarationAsts) {
 			declaredModelDeclarations.add((ModelDeclaration) createAst(modelDeclarationAst, this));
 		}
 		
@@ -128,13 +85,19 @@ public class EolModule extends AbstractModule implements IEolModule {
 			}
 		}
 		
+		operations.addAll(this.getDeclaredOperations());
+		for (Import import_ : imports) {
+			if (import_.isLoaded() && import_.getModule() instanceof IEolModule) {
+				operations.addAll(((IEolModule)import_.getModule()).getOperations());
+			}
+		}
 	}
 	
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		
 		if (cst == null) return null;
-		if (cst.getParent() != null && cst.getParent().getType() == EolParser.EOLMODULE && cst.getType() == EolParser.BLOCK){
+		if (cst.getParent() != null && cst.getParent().getType() == EolParser.EOLMODULE && cst.getType() == EolParser.BLOCK) {
 			return new StatementBlock();
 		}
 		
@@ -235,7 +198,8 @@ public class EolModule extends AbstractModule implements IEolModule {
 			default: return null;
 		}
 	}
-		
+	
+	@Override
 	protected Lexer createLexer(ANTLRInputStream inputStream) {
 		return new EolLexer(inputStream);
 	}
@@ -247,15 +211,18 @@ public class EolModule extends AbstractModule implements IEolModule {
 	
 	@Override
 	public String getMainRule() {
+//		String className = getClass().getSimpleName();
+//		return Character.toLowerCase(className.charAt(0)) + className.substring(1);
 		return "eolModule";
 	}
 	
+	@Override
 	public OperationList getDeclaredOperations() {
 		return declaredOperations;
 	}
 	
-	public HashMap<String, Class<?>> getImportConfiguration() {
-		final HashMap<String, Class<?>> importConfiguration = new HashMap<String, Class<?>>();
+	protected HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = new HashMap<>(8);
 		importConfiguration.put("eol", EolModule.class);
 		return importConfiguration;
 	}
@@ -269,9 +236,16 @@ public class EolModule extends AbstractModule implements IEolModule {
 		compilationContext.setRuntimeContext(getContext());
 		return compilationContext;
 	}
+
+	protected void prepareContext() {
+		prepareContext(getContext());
+	}
 	
 	protected void prepareContext(IEolContext context) {
-		final EolSystem system = new EolSystem();
+		boolean contextIsThis = context == getContext();
+		if (prepareContextCalled && contextIsThis) return;
+		
+		EolSystem system = new EolSystem();
 		system.setContext(context);
 
 		context.setModule(this);
@@ -280,10 +254,15 @@ public class EolModule extends AbstractModule implements IEolModule {
 			import_.setContext(context);
 		}
 		
-		context.getFrameStack().putGlobal(Variable.createReadOnlyVariable("null", null));
-		context.getFrameStack().putGlobal(Variable.createReadOnlyVariable("System",system));
+		FrameStack fs = context.getFrameStack();
+		
+		fs.putGlobal(Variable.createReadOnlyVariable("null", null));
+		fs.putGlobal(Variable.createReadOnlyVariable("System", system));
+		
+		if (contextIsThis) prepareContextCalled = true;
 	}
 
+	@Override
 	public List<Import> getImports() {
 		return imports;
 	}
@@ -296,9 +275,10 @@ public class EolModule extends AbstractModule implements IEolModule {
 		else return super.toString();
 	}
 
+	@Override
 	public Set<ModelDeclaration> getModelDelcarations() {
-		if (modelDeclarations == null){
-			modelDeclarations = new ListSet<ModelDeclaration>();
+		if (modelDeclarations == null) {
+			modelDeclarations = new ListSet<>();
 			for (Import import_ : imports) {
 				if (import_.isLoaded() && import_.getModule() instanceof IEolModule){
 					modelDeclarations.addAll(((IEolModule)import_.getModule()).getModelDelcarations());
@@ -309,27 +289,19 @@ public class EolModule extends AbstractModule implements IEolModule {
 		return modelDeclarations;
 	}
 	
+	@Override
 	public OperationList getOperations() {
-		if (operations == null){
-			operations = new OperationList();
-			operations.addAll(this.getDeclaredOperations());
-			for (Import import_ : imports) {
-				if (import_.isLoaded() && import_.getModule() instanceof IEolModule){
-					operations.addAll(((IEolModule)import_.getModule()).getOperations());
-				}
-			}
-		}
 		return operations;
 	}
 	
 	protected Collection<Import> getImportsByExtension(AST cst, String extension, Class<?> moduleImplClass) {
+		List<AST> importAsts = AstUtil.getChildren(cst, EolParser.IMPORT);
+		List<Import> imports = new ArrayList<>(importAsts.size());
 		
-		final List<Import> imports = new ArrayList<Import>();
-		
-		for (AST importAst : AstUtil.getChildren(cst, EolParser.IMPORT)) {
+		for (AST importAst : importAsts) {
 			IModule module = null;
 			try {
-				module = (IModule) moduleImplClass.newInstance();
+				module = (IModule) moduleImplClass.getDeclaredConstructor().newInstance();
 				if (module instanceof IEolModule) {
 					((IEolModule)module).setParentModule(this);
 				}
@@ -354,7 +326,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 			} else {
 				import_.load(sourceFile.toURI());
 			}
-			if (!import_.isLoaded()){
+			if (!import_.isLoaded()) {
 				ParseProblem problem = new ParseProblem();
 				problem.setLine(import_.getRegion().getStart().getLine());
 				String reason;
@@ -373,7 +345,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 	}
 	
 	protected void checkImports(AST cst) {
-		for (AST importAst : AstUtil.getChildren(cst, EolParser.IMPORT)){
+		for (AST importAst : AstUtil.getChildren(cst, EolParser.IMPORT)) {
 			String importedFile = importAst.getFirstChild().getText();
 			boolean validExtension = false;
 			for (String extension : getImportConfiguration().keySet()) {
@@ -391,6 +363,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 		}		
 	}
 
+	@Override
 	public List<ModelDeclaration> getDeclaredModelDeclarations() {
 		return declaredModelDeclarations;
 	}
@@ -405,19 +378,18 @@ public class EolModule extends AbstractModule implements IEolModule {
 		this.parent = parent;
 	}
 	
-	public EolModule(){
-		context = new EolContext();
-	}
-	
+	@Override
 	public Object execute() throws EolRuntimeException {
-		prepareContext(getContext());
-		return getContext().getExecutorFactory().execute(this, getContext());
+		IEolContext context = getContext();
+		prepareContext(context);
+		return context.getExecutorFactory().execute(this, context);
 	}
 	
 	public Object executeImpl() throws EolRuntimeException {
 		return Return.getValue(getContext().getExecutorFactory().execute(main, getContext()));
 	}
 	
+	@Override
 	public List<ModuleMarker> compile() {
 		EolCompilationContext context = getCompilationContext();
 		for (ModelDeclaration modelDeclaration : getDeclaredModelDeclarations()) {
@@ -426,14 +398,18 @@ public class EolModule extends AbstractModule implements IEolModule {
 		for (Operation operation : getDeclaredOperations()) {
 			operation.compile(context);
 		}
-		if (main != null) main.compile(context);
+		if (main != null) {
+			main.compile(context);
+		}
 		return context.getMarkers();
 	}
 	
+	@Override
 	public List<Statement> getPostOperationStatements() {
 		return postOperationStatements;
 	}
 	
+	@Override
 	public StatementBlock getMain() {
 		return main;
 	}
@@ -463,5 +439,4 @@ public class EolModule extends AbstractModule implements IEolModule {
 		}
 		getContext().getExtendedProperties().clear();
 	}
-
 }

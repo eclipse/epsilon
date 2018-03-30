@@ -1,9 +1,9 @@
 package org.eclipse.epsilon.emc.emf;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
-
+import java.util.concurrent.ConcurrentLinkedQueue;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -51,7 +51,7 @@ public class CachedResourceSet extends ResourceSetImpl {
 
 	public static class Cache {
 		
-		protected ArrayList<CacheItem> items = new ArrayList<CacheItem>();
+		protected Collection<CacheItem> items = new ConcurrentLinkedQueue<>();
 		
 		public void cacheResource(URI uri, Resource resource) {
 			CacheItem item = new CacheItem();
@@ -121,7 +121,7 @@ public class CachedResourceSet extends ResourceSetImpl {
 			return items.size();
 		}
 		
-		public ArrayList<CacheItem> getItems() {
+		public Collection<CacheItem> getItems() {
 			return items;
 		}
 		
@@ -135,7 +135,7 @@ public class CachedResourceSet extends ResourceSetImpl {
 			}
 			
 			public void setResource(Resource resource) {
-				resourceReference = new WeakReference<Resource>(resource);
+				resourceReference = new WeakReference<>(resource);
 			}
 			
 			public void setUri(URI uri) {
@@ -157,7 +157,6 @@ public class CachedResourceSet extends ResourceSetImpl {
 			public int getCheckedOut() {
 				return checkedOut;
 			}
-			
 		}
 	}
 }

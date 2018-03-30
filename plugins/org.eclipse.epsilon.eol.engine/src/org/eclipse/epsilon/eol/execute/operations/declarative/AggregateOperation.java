@@ -45,9 +45,9 @@ public class AggregateOperation extends FirstOrderOperation {
 		Iterator<?> li = source.iterator();
 		FrameStack scope = context.getFrameStack();
 		
-		EolMap result = new EolMap();
+		EolMap<Object, Object> result = new EolMap<>();
 		
-		while (li.hasNext()){
+		while (li.hasNext()) {
 			Object listItem = li.next();
 			
 			if (iteratorType==null || iteratorType.isKind(listItem)){
@@ -71,7 +71,6 @@ public class AggregateOperation extends FirstOrderOperation {
 		}
 		
 		return result;
-		
 	}
 
 	@Override
@@ -79,5 +78,4 @@ public class AggregateOperation extends FirstOrderOperation {
 			IEolContext context) throws EolRuntimeException {
 		return null;
 	}
-
 }

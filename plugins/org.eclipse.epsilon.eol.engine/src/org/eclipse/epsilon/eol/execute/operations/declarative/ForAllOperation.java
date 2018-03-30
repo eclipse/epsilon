@@ -15,10 +15,12 @@ import java.util.Collection;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.types.EolType;
 
 public class ForAllOperation extends FirstOrderOperation {
 	
@@ -30,17 +32,19 @@ public class ForAllOperation extends FirstOrderOperation {
 	public Object execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
-		Collection source = CollectionUtil.asCollection(target);
-		
+		Collection<?> source = CollectionUtil.asCollection(target);
+		ExecutorFactory executorFactory = context.getExecutorFactory();
 		FrameStack scope = context.getFrameStack();
+		String iteratorName = iterator.getName();
+		EolType iteratorType = iterator.getType();
 		
 		for (Object listItem : source) {	
-			if (iterator.getType()==null || iterator.getType().isKind(listItem)){
+			if (iteratorType == null || iteratorType.isKind(listItem)) {
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
-				scope.put(Variable.createReadOnlyVariable(iterator.getName(),listItem));
-				Object bodyResult = context.getExecutorFactory().execute(expression, context);
-				if (bodyResult instanceof Boolean){
-					if ((Boolean) bodyResult == false) return false;
+				scope.put(Variable.createReadOnlyVariable(iteratorName, listItem));
+				Object bodyResult = executorFactory.execute(expression, context);
+				if (bodyResult instanceof Boolean && !(boolean)bodyResult) {
+					return false;
 				}
 				scope.leaveLocal(expression);
 			}

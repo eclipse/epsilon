@@ -1,0 +1,132 @@
+operation InfixExpression operatorIsEquality() : Boolean {
+	return self.operator == InfixExpressionKind#EQUALS or self.operator == InfixExpressionKind#NOT_EQUALS;
+}
+
+operation Modifier isLocal() : Boolean {
+	return self.visibility == VisibilityKind#private or self.visibility == VisibilityKind#none;
+}
+
+context MethodInvocation {
+	constraint doesNotCallExit {
+		guard: self.method.isDefined()
+		check: not (
+			self.method.name = "exit" and
+			self.method.parameters.size() == 1 and
+			self.method.parameters.first().type.type.isTypeOf(PrimitiveTypeInt)
+		)
+	}
+}
+
+context MethodDeclaration {
+	constraint shouldStartWithLowerCase {
+		check: self.name.firstToLowerCase() == self.name
+	}
+}
+
+context AbstractMethodDeclaration {
+	constraint localMethodIsUsed {
+		guard: (self.modifier.isDefined() and self.modifier.isLocal())
+		check: self.usages.notEmpty()
+	}
+}
+
+context Assignment {
+	constraint noRedundantAssignments {
+		guard: self.operator == AssignmentKind#ASSIGN
+		check: self.leftHandSide <> self.rightHandSide
+	}
+}
+
+context VariableDeclaration {
+	constraint variableIsUsed {
+		check: self.usageInVariableAccess.notEmpty()
+	}
+}
+
+context VariableDeclarationStatement {
+	constraint publicVariableIsFinal {
+		guard: self.modifier.visibility == VisibilityKind#public
+		check: self.modifier.inheritance == InheritanceKind#final
+	}
+}
+
+context VariableDeclarationExpression {
+	constraint publicVariableIsFinal {
+		guard: self.modifier.visibility == VisibilityKind#public
+		check: self.modifier.inheritance == InheritanceKind#final
+	}
+}
+
+context CatchClause {
+	constraint exceptionIsUsed {
+		check: self.exception.usageInVariableAccess.notEmpty()
+	}
+}
+
+context Block {
+	constraint emptyBlockIsDocumented {
+		guard: self.statements.isEmpty()
+		check: self.comments.notEmpty()
+	}
+}
+
+context SwitchStatement {
+	constraint moreThan3Cases {
+		check: self.statements.size() > 3
+	}
+}
+
+context SuperConstructorInvocation {
+	constraint noRedundantSuperCall {
+		check: self.arguments.notEmpty()
+	}
+}
+
+context IfStatement {
+	constraint noDeadCode {
+		check: not self.expression.isKindOf(TypeLiteral)
+	}
+}
+
+context ClassDeclaration {
+	constraint noObscuredVariables {
+		check {
+			var fields = self.bodyDeclarations.select(bd | bd.isKindOf(FieldDeclaration));
+			return
+				self.bodyDeclarations
+					.select(bd | bd.isKindOf(AbstractMethodDeclaration))
+					.forAll(md | md.body.isDefined() implies md.body.statements
+						.select(s | s.isKindOf(VariableDeclaration))
+						.forAll(vd | fields.forAll(fd | fd.name <> vd.name))
+					);
+		}
+	}
+}
+
+context CompilationUnit {
+	constraint allImportsAreUsed {
+		check: self.imports.forAll(imp |
+			NamedElement.allInstances().exists(ne | ne.originalCompilationUnit == self)
+		)
+	}
+}
+
+context InfixExpression {
+	constraint equalsNotOnLiterals {
+		guard: self.operatorIsEquality()
+		check: self.leftOperand.type() == self.rightOperand.type() and not (
+				self.leftOperand.isTypeOf(StringLiteral) or
+				self.leftOperand.isTypeOf(NumberLiteral) or
+				self.leftOperand.isTypeOf(CharacterLiteral) or
+				self.leftOperand.isTypeOf(BooleanLiteral) or
+				self.leftOperand.isTypeOf(NullLiteral) or
+				self.leftOperand.isTypeOf(TypeLiteral)
+			)
+	}
+}
+
+context SynchronizedStatement {
+	constraint hasStatements {
+		check: self.body.statements.notEmpty()
+	}
+}

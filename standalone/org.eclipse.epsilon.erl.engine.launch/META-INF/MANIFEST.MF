@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ERL Launch
+Bundle-SymbolicName: org.eclipse.epsilon.erl.engine.launch
+Automatic-Module-Name: org.eclipse.epsilon.erl.engine.launch
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.epsilon.erl.engine.launch
+Require-Bundle: org.eclipse.epsilon.launch;visibility:=reexport,
+ org.eclipse.epsilon.common;visibility:=reexport,
+ org.eclipse.epsilon.erl.engine;visibility:=reexport,
+ org.eclipse.epsilon.eol.engine;visibility:=reexport,
+ org.eclipse.epsilon.emc.emf;visibility:=reexport

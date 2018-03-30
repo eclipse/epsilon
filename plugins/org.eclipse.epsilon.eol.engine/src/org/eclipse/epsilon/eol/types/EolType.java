@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.eol.types;
 
 import java.util.List;
-
+import java.util.Objects;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public abstract class EolType {
@@ -28,5 +28,25 @@ public abstract class EolType {
 	
 	public boolean isNot(EolType type) {
 		return this != type && this != EolAnyType.Instance;
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(getName());
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (this == other) return true;
+		if (this.getClass() != other.getClass()) return false;
+		
+		EolType eolType = (EolType) other;
+		
+		return Objects.equals(this.getName(), eolType.getName());
 	}
 }

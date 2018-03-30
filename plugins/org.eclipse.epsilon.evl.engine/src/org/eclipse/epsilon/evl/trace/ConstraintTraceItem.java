@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.trace;
 
+import java.util.Objects;
 import org.eclipse.epsilon.evl.dom.Constraint;
 
 public class ConstraintTraceItem {
@@ -48,4 +49,30 @@ public class ConstraintTraceItem {
 		this.result = result;
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(instance, constraint, result);
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (this == other) return true;
+		if (!(other instanceof ConstraintTraceItem))
+			return false;
+		
+		ConstraintTraceItem cti = (ConstraintTraceItem) other;
+		return
+				Objects.equals(this.instance, cti.instance) &&
+				Objects.equals(this.constraint, cti.constraint) &&
+				Objects.equals(this.result, cti.result);
+	}
+	
+	@Override
+	public String toString() {
+		return
+			getClass().getSimpleName()+
+			": instance="+Objects.toString(instance)+
+			", constraint="+constraint+
+			", result="+result;
+	}
 }

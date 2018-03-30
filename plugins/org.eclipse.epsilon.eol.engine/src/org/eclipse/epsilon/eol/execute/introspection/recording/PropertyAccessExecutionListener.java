@@ -16,18 +16,16 @@ import java.util.LinkedList;
 import java.util.WeakHashMap;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.AssignmentStatement;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
-import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class PropertyAccessExecutionListener implements IExecutionListener {
 
-	private final Collection<IPropertyAccessRecorder> recorders = new LinkedList<IPropertyAccessRecorder>();
-	private final WeakHashMap<ModuleElement, Object> cache = new WeakHashMap<ModuleElement, Object>();
+	private final Collection<IPropertyAccessRecorder> recorders = new LinkedList<>();
+	private final WeakHashMap<ModuleElement, Object> cache = new WeakHashMap<>();
 	
 	public PropertyAccessExecutionListener(IPropertyAccessRecorder... recorders) {
 		this.recorders.addAll(Arrays.asList(recorders));

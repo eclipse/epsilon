@@ -6,6 +6,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IExecutableModuleElement extends ModuleElement {
 	
-	public Object execute(IEolContext context) throws EolRuntimeException ;
+	Object execute(IEolContext context) throws EolRuntimeException;
 	
 }

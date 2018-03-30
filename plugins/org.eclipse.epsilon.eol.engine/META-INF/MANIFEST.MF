@@ -4,6 +4,7 @@ Bundle-Name: Epsilon Object Language
 Bundle-SymbolicName: org.eclipse.epsilon.eol.engine;singleton:=true
 Bundle-Version: 1.5.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.common;visibility:=reexport,
  org.eclipse.epsilon.dependencies;visibility:=reexport
 Export-Package: org.eclipse.epsilon.eol,
@@ -26,6 +27,7 @@ Export-Package: org.eclipse.epsilon.eol,
  org.eclipse.epsilon.eol.execute.operations.simple,
  org.eclipse.epsilon.eol.execute.operations.simple.assertions,
  org.eclipse.epsilon.eol.execute.prettyprinting,
+ org.eclipse.epsilon.eol.function,
  org.eclipse.epsilon.eol.models,
  org.eclipse.epsilon.eol.models.java,
  org.eclipse.epsilon.eol.models.transactions,
@@ -34,4 +36,4 @@ Export-Package: org.eclipse.epsilon.eol,
  org.eclipse.epsilon.eol.types,
  org.eclipse.epsilon.eol.userinput,
  org.eclipse.epsilon.eol.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.eol.engine

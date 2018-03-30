@@ -14,7 +14,6 @@ import java.util.Arrays;
 
 import org.eclipse.epsilon.eol.types.EolSequence;
 
-
 public class ArrayOperationContributor extends OperationContributor {
 
 	@Override
@@ -23,9 +22,8 @@ public class ArrayOperationContributor extends OperationContributor {
 	}
 	
 	public EolSequence<Object> asSequence() {
-		EolSequence<Object> sequence = new EolSequence<Object>();
+		EolSequence<Object> sequence = new EolSequence<>();
 		sequence.addAll(Arrays.asList(target));
 		return sequence;
 	}
-	
 }

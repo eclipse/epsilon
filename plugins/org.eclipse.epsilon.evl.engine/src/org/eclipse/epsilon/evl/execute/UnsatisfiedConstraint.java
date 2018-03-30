@@ -10,9 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.execute;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import java.util.*;
 import org.eclipse.epsilon.evl.dom.Constraint;
 
 public class UnsatisfiedConstraint {
@@ -20,9 +18,9 @@ public class UnsatisfiedConstraint {
 	protected Constraint constraint;
 	protected String message;
 	protected Object instance;
-	protected ArrayList<FixInstance> fixes = new ArrayList<FixInstance>();
+	protected final Deque<FixInstance> fixes = new LinkedList<>();
 	protected boolean fixed = false;
-	protected HashMap<String, Object> extras = new HashMap<String, Object>();
+	protected Map<String, Object> extras = new HashMap<>();
 	
 	public boolean isFixed() {
 		return fixed;
@@ -30,10 +28,6 @@ public class UnsatisfiedConstraint {
 
 	public void setFixed(boolean fixed) {
 		this.fixed = fixed;
-	}
-
-	public UnsatisfiedConstraint() {
-		super();
 	}
 
 	public Constraint getConstraint() {
@@ -60,20 +54,39 @@ public class UnsatisfiedConstraint {
 		this.instance = result;
 	}
 	
-	public ArrayList<FixInstance> getFixes() {
+	public Deque<FixInstance> getFixes() {
 		return fixes;
 	}
 	
-	public HashMap<String, Object> getExtras() {
+	public Map<String, Object> getExtras() {
 		return extras;
 	}
 	
-	public void setExtras(HashMap<String, Object> extras) {
+	public void setExtras(Map<String, Object> extras) {
 		this.extras = extras;
 	}
 	
 	@Override
 	public String toString() {
 		return getMessage();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(message, instance, constraint, fixed);
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (this == other) return true;
+		if (!(other instanceof UnsatisfiedConstraint))
+			return false;
+		
+		UnsatisfiedConstraint uc = (UnsatisfiedConstraint) other;
+		return
+				Objects.equals(this.message, uc.message) &&
+				Objects.equals(this.instance, uc.instance) &&
+				Objects.equals(this.constraint, uc.constraint) &&
+				Objects.equals(this.fixed, uc.fixed);
 	}
 }

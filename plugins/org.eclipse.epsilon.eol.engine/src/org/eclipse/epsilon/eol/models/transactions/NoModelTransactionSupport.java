@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.models.transactions;
 
-
 public class NoModelTransactionSupport implements IModelTransactionSupport {
 
 	public void commitTransaction() {

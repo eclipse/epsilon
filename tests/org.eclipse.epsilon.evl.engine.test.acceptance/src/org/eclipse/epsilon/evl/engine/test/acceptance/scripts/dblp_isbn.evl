@@ -1,0 +1,74 @@
+import "utils.eol";
+
+context Record {
+	constraint isValidMonth {
+		guard: self.month.isDefined()
+		check: self.month.isValidMonth()
+	}
+	constraint validPageLength {
+		guard: self.fromPage.isDefined() and self.toPage.isDefined()
+		check: self.fromPage <= self.toPage
+	}
+	critique malformedURL {
+		guard: self.url.isDefined() and self.url.length() > 0
+		check: self.url.startsWith("http://dx.doi.org/10.")
+	}
+	critique malformedKey {
+		guard: self.key.isDefined() and self.key.length() > 0
+		check: self.key.startsWith("www/")
+	}
+}
+
+context Book {
+	constraint isValidISBN {
+		guard: self.isbn.isDefined() and self.isbn.length() > 0
+		check {
+			var isbn = self.isbn.replace("-", "").replace(" ", "");
+			var length = isbn.length();
+			
+			if (length <> 10 or length <> 13)
+				return false;
+			
+			if (not isbn.substring(0, length-1).matches("[0-9]+"))
+				return false;
+			
+			var lastCharacter = isbn.substring(length-1, length);
+			
+			var s = 0;
+			var i = 0;
+			
+			if (length == 13) {
+				if (not (isbn.startsWith("978") or isbn.startsWith("979")))
+					return false;
+				if (not lastCharacter.matches("[0-9]"))
+					return false;
+					
+				var flag = false;
+				while (i < 12) {
+					i++;
+					flag = not flag;
+					if (flag)
+						s += isbn.characterAt(i)*1;
+					else
+						s += isbn.characterAt(i)*3;
+				}
+				if (not (10 - s.mod(10)).asString().equals(lastCharacter))
+					return false;
+			}
+			
+			if (length == 10) {
+				if (not (lastCharacter.matches("[0-9]") or lastCharacter.toUpperCase().matches("X")))
+					return false;
+				
+		        while (i < 10) {
+		        	i++;
+		        	s += isbn.characterAt(i);
+		        }
+		        if (not s.isDivisibleBy(11))
+		        	return false;
+			}
+			
+			return true;
+		}
+	}
+}

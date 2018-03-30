@@ -17,20 +17,23 @@ import org.eclipse.epsilon.eol.models.IModel;
 
 public class CompositeModelTransactionSupport implements IModelTransactionSupport {
 	
-	protected List<IModel> models = new ArrayList<IModel>();
+	protected List<IModel> models = new ArrayList<>();
 	
+	@Override
 	public void commitTransaction() {
 		for (IModel model : getModels()) {
 			model.getTransactionSupport().commitTransaction();
 		}
 	}
 
+	@Override
 	public void rollbackTransaction() {
 		for (IModel model : getModels()) {
 			model.getTransactionSupport().rollbackTransaction();
 		}
 	}
 
+	@Override
 	public void startTransaction() {
 		for (IModel model : getModels()) {
 			model.getTransactionSupport().startTransaction();
@@ -40,5 +43,4 @@ public class CompositeModelTransactionSupport implements IModelTransactionSuppor
 	public List<IModel> getModels() {
 		return models;
 	}
-	
 }

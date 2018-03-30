@@ -21,12 +21,13 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
 public class InMemoryEmfModel extends EmfModel {
+	
 	public InMemoryEmfModel(String name, Resource modelImpl, EPackage... ePackages) {
 		init(name, modelImpl, Arrays.asList(ePackages), true);
 	}
 	
 	public InMemoryEmfModel(String name, Resource modelImpl, String... nsUris) {
-		Collection<EPackage> ePackages = new ArrayList<EPackage>();
+		Collection<EPackage> ePackages = new ArrayList<>();
 		for (String nsUri : nsUris) {
 			ePackages.add(EPackage.Registry.INSTANCE.getEPackage(nsUri));
 		}
@@ -86,7 +87,7 @@ public class InMemoryEmfModel extends EmfModel {
 				
 				//Added : Collect dependencies
 				
-				List<EPackage> dependencies =  new ArrayList<EPackage>();
+				List<EPackage> dependencies =  new ArrayList<>();
 				EmfUtil.collectDependencies(ePackage, dependencies);
 				for (EPackage dependency : dependencies) {
 					getPackageRegistry().put(dependency.getNsURI(), dependency);	

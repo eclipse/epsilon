@@ -16,6 +16,11 @@ public abstract class Annotation extends AbstractModuleElement implements ICompi
 		this.name = name;
 	}
 	
+	@Override
+	public String toString() {
+		return name != null ? name : super.toString();
+	}
+
 	public abstract boolean hasValue();
 	
 	public abstract Object getValue(IEolContext context) throws EolRuntimeException;

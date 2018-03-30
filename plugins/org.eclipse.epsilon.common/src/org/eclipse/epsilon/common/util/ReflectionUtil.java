@@ -26,7 +26,7 @@ public class ReflectionUtil {
 	}
 	
 	public static Object invokeMethod(Object source, String method, Collection<Object> arguments) throws Exception {
-		Collection<Class<?>> argumentClasses = new ArrayList<Class<?>>();
+		Collection<Class<?>> argumentClasses = new ArrayList<>();
 		for (Object argument : arguments) {
 			argumentClasses.add(argument.getClass());
 		}
@@ -52,6 +52,4 @@ public class ReflectionUtil {
 		}
 		return null;
 	}
-	
-	
 }

@@ -13,7 +13,6 @@ package org.eclipse.epsilon.eol.execute.context;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-
 public class AsyncStatementInstance {
 	
 	protected ModuleElement ast;
@@ -42,5 +41,4 @@ public class AsyncStatementInstance {
 		context.setFrameStack(frameStack);
 		this.localFrameStack.dispose();
 	}
-	
 }

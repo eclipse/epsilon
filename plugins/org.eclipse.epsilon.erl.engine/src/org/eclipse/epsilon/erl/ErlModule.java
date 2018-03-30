@@ -12,7 +12,6 @@ package org.eclipse.epsilon.erl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
@@ -21,38 +20,41 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
-import org.eclipse.epsilon.erl.dom.NamedRuleList;
-import org.eclipse.epsilon.erl.dom.NamedStatementBlockRule;
-import org.eclipse.epsilon.erl.dom.Post;
-import org.eclipse.epsilon.erl.dom.Pre;
+import org.eclipse.epsilon.erl.dom.*;
 import org.eclipse.epsilon.erl.exceptions.ErlCircularRuleInheritanceException;
 import org.eclipse.epsilon.erl.exceptions.ErlRuleNotFoundException;
 
 public abstract class ErlModule extends EolModule implements IErlModule {
 	
-	protected NamedRuleList<Pre> declaredPre = new NamedRuleList<Pre>();
-	protected NamedRuleList<Post> declaredPost = new NamedRuleList<Post>();
-	protected NamedRuleList<Pre> pre = null;
-	protected NamedRuleList<Post> post = null;
+	protected NamedRuleList<Pre> pre, declaredPre = new NamedRuleList<>();
+	protected NamedRuleList<Post> post, declaredPost = new NamedRuleList<>();
 	
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		
-		for (AST preBlockAst : AstUtil.getChildren(cst, getPreBlockTokenType())){
+		List<AST>
+			preBlockASTs = AstUtil.getChildren(cst, getPreBlockTokenType()),
+			postBlockASTs = AstUtil.getChildren(cst, getPostBlockTokenType());
+		
+		declaredPre.ensureCapacity(preBlockASTs.size());
+		declaredPost.ensureCapacity(preBlockASTs.size());
+		
+		for (AST preBlockAst : preBlockASTs){
 			declaredPre.add((Pre) module.createAst(preBlockAst, this));
 		}
 		
-		for (AST postBlockAst : AstUtil.getChildren(cst, getPostBlockTokenType())){
+		for (AST postBlockAst : postBlockASTs) {
 			declaredPost.add((Post) module.createAst(postBlockAst, this));
 		}
 	}
 	
+	@Override
 	public List<Post> getPost() {
 		if (post == null) {
-			post = new NamedRuleList<Post>();
+			post = new NamedRuleList<>();
 			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof IErlModule)) {
 					IErlModule module = (IErlModule) import_.getModule();
@@ -65,9 +67,10 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 		return post;
 	}
 
+	@Override
 	public List<Pre> getPre() {
 		if (pre == null) {
-			pre = new NamedRuleList<Pre>();
+			pre = new NamedRuleList<>();
 			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof IErlModule)) {
 					IErlModule module = (IErlModule) import_.getModule();
@@ -90,35 +93,46 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 		return super.adapt(cst, parentAst);
 	}
 	
+	@Override
 	public List<Post> getDeclaredPost() {
 		return declaredPost;
 	}
 
+	@Override
 	public List<Pre> getDeclaredPre() {
 		return declaredPre;
 	}
 	
+	protected void prepareExecution() throws EolRuntimeException {
+		prepareContext();
+		execute(getPre(), context);
+	}
+	
+	protected void postExecution() throws EolRuntimeException {
+		execute(getPost(), context);
+	}
+	
+	protected void execute(List<? extends NamedStatementBlockRule> namedRules) throws EolRuntimeException {
+		execute(namedRules, getContext());
+	}
 	
 	protected void execute(List<? extends NamedStatementBlockRule> namedRules, IEolContext context) throws EolRuntimeException {
+		ExecutorFactory executorFactory = context.getExecutorFactory();
 		for (NamedStatementBlockRule namedRule : namedRules) {
-			context.getExecutorFactory().execute(namedRule.getBody(), context);
+			executorFactory.execute(namedRule.getBody(), context);
 		}
 	}
 	
 	protected abstract int getPreBlockTokenType();
 	protected abstract int getPostBlockTokenType();
 
-	public List<ParseProblem> calculateSuperRules(List<? extends ExtensibleNamedRule> allRules){
-		List<ParseProblem> parseProblems = new ArrayList<ParseProblem>();
+	public List<ParseProblem> calculateSuperRules(List<? extends ExtensibleNamedRule> allRules) {
+		List<ParseProblem> parseProblems = new ArrayList<>();
 		for (ExtensibleNamedRule rule : allRules) {
 			try {
 				rule.calculateSuperRules(allRules);
-			} catch (ErlRuleNotFoundException e) {
-				ParseProblem problem = new ParseProblem();
-				problem.setLine(rule.getRegion().getStart().getLine());
-				problem.setReason(e.getReason());
-				parseProblems.add(problem);
-			} catch (ErlCircularRuleInheritanceException e) {
+			}
+			catch (ErlRuleNotFoundException | ErlCircularRuleInheritanceException e) {
 				ParseProblem problem = new ParseProblem();
 				problem.setLine(rule.getRegion().getStart().getLine());
 				problem.setReason(e.getReason());

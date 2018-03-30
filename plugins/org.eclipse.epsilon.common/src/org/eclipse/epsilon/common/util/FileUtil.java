@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -30,12 +32,17 @@ import java.util.List;
 import java.util.Set;
 
 public class FileUtil {
+	private FileUtil() {}
+	
+	public static Path getCurrentDirectory() {
+		return Paths.get(".").toAbsolutePath().normalize();
+	}
 	
 	public static void setFileContents(String str, File file) throws Exception {
-		FileWriter writer = new FileWriter(file);
-		writer.append(str);
-		writer.flush();
-		writer.close();
+		try (FileWriter writer = new FileWriter(file)) {
+			writer.append(str);
+			writer.flush();
+		}
 	}
 	
 	public static String replaceExtension(String filename, String newExtension) {
@@ -54,6 +61,28 @@ public class FileUtil {
 		return filename;
 	}
 	
+	public static String getFileName(String path) {
+		return getFileName(path, true);
+	}
+	
+	public static String getFileName(String path, boolean includeExtension) {
+		String filename = path.substring(path.replace("\\", "/").lastIndexOf('/')+1);
+		if (!includeExtension) {
+			filename = removeExtension(filename);
+		}
+		return filename;
+	}
+	
+	//Copied from @linkplain{https://stackoverflow.com/a/3571239/5870336}
+	public static String getExtension(String filename) {
+		String extension = "";
+		int dotIndex = filename.lastIndexOf('.');
+		if (dotIndex > Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'))) {
+		    extension = filename.substring(dotIndex+1);
+		}
+		return extension;
+	}
+	
 	public static String getFileContents(File file) throws Exception {
 		final StringBuffer buffer = new StringBuffer();
 		final String lineSeparator = System.getProperty("line.separator");
@@ -67,9 +96,8 @@ public class FileUtil {
 	}
 	
 	public static Collection<String> getFileLineContents(File file) throws Exception {
-		final BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-		try {
-			final List<String> lines = new LinkedList<String>();
+		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+			final List<String> lines = new LinkedList<>();
 
 			String line = bufferedReader.readLine();
 
@@ -79,8 +107,6 @@ public class FileUtil {
 			}
 
 			return lines;
-		} finally {
-			bufferedReader.close();
 		}
 	}
 	
@@ -171,8 +197,8 @@ public class FileUtil {
 		}
 	}
 
-	public static HashSet<String> listFilesAsSet(File fileExpected) {
-		return new HashSet<String>(Arrays.asList(fileExpected.list()));
+	public static Set<String> listFilesAsSet(File fileExpected) {
+		return new HashSet<>(Arrays.asList(fileExpected.list()));
 	}
 
 	/**
@@ -211,16 +237,10 @@ public class FileUtil {
 				return false;
 			}
 
-			final FileInputStream isExpected = new FileInputStream(fileExpected);
-			try {
-				final FileInputStream isActual = new FileInputStream(fileActual);
-				try {
+			try (FileInputStream isExpected = new FileInputStream(fileExpected)) {
+				try (FileInputStream isActual = new FileInputStream(fileActual)) {
 					return sameContents(isExpected, isActual);
-				} finally {
-					isActual.close();
 				}
-			} finally {
-				isExpected.close();
 			}
 		}
 	}

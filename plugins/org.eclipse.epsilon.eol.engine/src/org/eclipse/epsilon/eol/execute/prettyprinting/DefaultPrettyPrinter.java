@@ -19,12 +19,12 @@ import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 
-public class DefaultPrettyPrinter implements PrettyPrinter{
+public class DefaultPrettyPrinter implements PrettyPrinter {
 	
 	protected PrettyPrinterManager manager = null;
 	protected int maximumCollectionSize = 100;
 	
-	public DefaultPrettyPrinter(PrettyPrinterManager manager){
+	public DefaultPrettyPrinter(PrettyPrinterManager manager) {
 		this.manager = manager;
 	}
 	
@@ -34,7 +34,7 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 
 	public String print(Object o) {
 		
-		if (o instanceof Collection){
+		if (o instanceof Collection) {
 			
 			Collection<?> c = (Collection<?>) o;
 			String result = EolCollectionType.getTypeName(c) + " {";
@@ -45,10 +45,10 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 			else {
 				Iterator<?> li = c.iterator();
 				
-				while (li.hasNext()){
+				while (li.hasNext()) {
 					Object next = li.next();
 					result = result + manager.print(next);
-					if (li.hasNext()){
+					if (li.hasNext()) {
 						result = result + ", ";
 					}
 				}
@@ -60,13 +60,13 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 		else if (o instanceof EolMap) {
 			String simpleClassName = o.getClass().getSimpleName();
 			String result = simpleClassName.substring(3, simpleClassName.length()) + " {";
-			Iterator<?> li = ((EolMap) o).keySet().iterator();
+			Iterator<?> li = ((EolMap<?, ?>) o).keySet().iterator();
 			
-			while (li.hasNext()){
+			while (li.hasNext()) {
 				Object key = li.next();
-				Object value = ((EolMap) o).get(key);
+				Object value = ((EolMap<?, ?>) o).get(key);
 				result = result + manager.print(key) + "->" + manager.print(value);
-				if (li.hasNext()){
+				if (li.hasNext()) {
 					result = result + ", ";
 				}
 			}
@@ -88,5 +88,4 @@ public class DefaultPrettyPrinter implements PrettyPrinter{
 	public void setMaximumCollectionSize(int maximumCollectionSize) {
 		this.maximumCollectionSize = maximumCollectionSize;
 	}
-	
 }

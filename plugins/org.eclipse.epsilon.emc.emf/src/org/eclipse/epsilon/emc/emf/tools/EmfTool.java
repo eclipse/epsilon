@@ -33,14 +33,14 @@ import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.tools.AbstractTool;
 
-public class EmfTool extends AbstractTool{
+public class EmfTool extends AbstractTool {
 	
 	public EcoreUtil getECoreUtil() {
 		return new EcoreUtil();
 	}
 	
 	public Map<EObject, Collection<EStructuralFeature.Setting>> getCrossReferences(Object eObject) {
-		ArrayList<Object> list = new ArrayList<Object>();
+		ArrayList<Object> list = new ArrayList<>();
 		list.add(eObject);
 		return CrossReferencer.find(list);
 	}

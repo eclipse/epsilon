@@ -34,13 +34,12 @@ public class EolMapType extends EolType {
 
 	@Override
 	public Object createInstance() throws EolRuntimeException {
-		return new EolMap();
+		return new EolMap<>();
 	}
 
 	@Override
-	public Object createInstance(List<Object> parameters)
-			throws EolRuntimeException {
-		return new EolMap();
+	public Object createInstance(List<Object> parameters) throws EolRuntimeException {
+		return new EolMap<>();
 	}
 	
 	public void setKeyType(EolType keyType) {

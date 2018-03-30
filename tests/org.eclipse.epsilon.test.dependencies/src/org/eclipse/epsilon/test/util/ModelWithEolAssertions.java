@@ -145,7 +145,7 @@ public class ModelWithEolAssertions {
 	}
 
 	private Object convertCollection(Object expected) {
-		final Collection<Object> converted  = new LinkedList<Object>();
+		final Collection<Object> converted  = new LinkedList<>();
 		
 		for (Object element : (Collection<?>) ((Collection<?>)expected)) {
 			converted.add(convert(element));

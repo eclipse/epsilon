@@ -5,8 +5,8 @@ import java.util.List;
 
 public class MetaClass extends MetaType {
 	
-	protected List<MetaClass> superTypes = new ArrayList<MetaClass>();
-	protected List<StructuralFeature> structuralFeatures = new ArrayList<StructuralFeature>();
+	protected List<MetaClass> superTypes = new ArrayList<>();
+	protected List<StructuralFeature> structuralFeatures = new ArrayList<>();
 	protected boolean isAbstract;
 	
 	public List<MetaClass> getSuperTypes() {
@@ -18,7 +18,7 @@ public class MetaClass extends MetaType {
 	}
 	
 	public List<StructuralFeature> getAllStructuralFeatures() {
-		List<StructuralFeature> allStructuralFeatures = new ArrayList<StructuralFeature>();
+		List<StructuralFeature> allStructuralFeatures = new ArrayList<>();
 		for (MetaClass superType : superTypes) {
 			allStructuralFeatures.addAll(superType.getAllStructuralFeatures());
 		}

@@ -21,7 +21,7 @@ public abstract class AbstractUserInput implements IUserInput {
 	}
 	
 	public Object chooseMany(String question, Collection<?> choices) {
-		return chooseMany(question, choices, new ArrayList<Object>());
+		return chooseMany(question, choices, new ArrayList<>());
 	}
 	
 	public boolean confirm(String question)
@@ -40,5 +40,4 @@ public abstract class AbstractUserInput implements IUserInput {
 	public double promptReal(String question) {
 		return promptReal(question, 0.0f);
 	}
-
 }

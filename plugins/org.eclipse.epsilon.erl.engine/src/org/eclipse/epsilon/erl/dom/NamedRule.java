@@ -12,19 +12,16 @@ package org.eclipse.epsilon.erl.dom;
 
 import java.util.Collections;
 import java.util.List;
-
+import java.util.Objects;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 
 public class NamedRule extends AnnotatableModuleElement {
 	
 	protected NameExpression nameExpression;
-	
-	public NamedRule() {}
-	
+
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
@@ -39,9 +36,7 @@ public class NamedRule extends AnnotatableModuleElement {
 		if (nameExpression != null) {
 			return nameExpression.getName();
 		}
-		else {
-			return "";
-		}
+		return "";
 	}
 	
 	public NameExpression getNameExpression() {
@@ -57,7 +52,20 @@ public class NamedRule extends AnnotatableModuleElement {
 	}
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		return getName();
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), toString());
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (!super.equals(other))
+			return false;
+		
+		return Objects.equals(this.toString(), other.toString());
 	}
 }

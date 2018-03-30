@@ -12,7 +12,6 @@ package org.eclipse.epsilon.evl.dom;
 
 import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
@@ -24,16 +23,11 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
-
 public class Fix extends AbstractModuleElement {
 
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected ExecutableBlock<String> titleBlock;
 	protected ExecutableBlock<Void> bodyBlock;
-	
-	public Fix() {
-		super();
-	}
 	
 	@SuppressWarnings("unchecked")
 	public void build(AST cst, IModule module) {
@@ -51,7 +45,7 @@ public class Fix extends AbstractModuleElement {
 		return titleBlock.execute(context, true, FrameType.UNPROTECTED);
 	}
 	
-	public void execute(Object self, IEvlContext context) throws EolRuntimeException{
+	public void execute(Object self, IEvlContext context) throws EolRuntimeException {
 		bodyBlock.execute(context, true, FrameType.UNPROTECTED);
 	}
 

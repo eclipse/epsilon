@@ -17,10 +17,9 @@ import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 
 public class EpsilonParseProblemManager {
 	
-	public static EpsilonParseProblemManager INSTANCE = 
-		new EpsilonParseProblemManager();
+	public static EpsilonParseProblemManager INSTANCE = new EpsilonParseProblemManager();
 	
-	List<ParseProblem> parseProblems = new ArrayList<ParseProblem>();
+	List<ParseProblem> parseProblems = new ArrayList<>();
 	
 	public void reset() {
 		parseProblems.clear();
@@ -38,4 +37,3 @@ public class EpsilonParseProblemManager {
 		return parseProblems;
 	}
 }
-

@@ -12,7 +12,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
-import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.types.EolSequence;
 
 public class IntegerOperationContributor extends OperationContributor {
@@ -24,7 +23,7 @@ public class IntegerOperationContributor extends OperationContributor {
 
 	public EolSequence<Integer> to(Integer end) {
 		Integer start = (Integer) target;
-		EolSequence<Integer> result = new EolSequence<Integer>();
+		EolSequence<Integer> result = new EolSequence<>();
 		if (start < end) {
 			for (int i = start; i <= end; i++) {
 				result.add(i);
@@ -38,7 +37,7 @@ public class IntegerOperationContributor extends OperationContributor {
 	}
 
 	public EolSequence<Integer> iota(int i, int step) throws Exception {
-		EolSequence<Integer> result = new EolSequence<Integer>();
+		EolSequence<Integer> result = new EolSequence<>();
 		int x = (Integer) target;
 		if ((step == 0) || (x < i && step < 0) || (x > i && step > 0)) {
 			throw new Exception("Invalid argument(s) to iota(i, step)");

@@ -43,8 +43,8 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 		return objectMethod;
 	}
 	
+	@Override
 	public Object invoke(Object object, String property) throws EolRuntimeException {
-		
 		ObjectMethod objectMethod = getMethodFor(object, property);
 		
 		if (objectMethod.getMethod() == null) {
@@ -52,15 +52,14 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 		}
 		
 		try {
+			//TODO: use canAccess(Object)
 			if (!objectMethod.getMethod().isAccessible()) {
 				objectMethod.getMethod().setAccessible(true);
 			}
 			return objectMethod.getMethod().invoke(objectMethod.getObject(), new Object[]{});
 		}
-		catch (Exception ex){
+		catch (Exception ex) {
 			throw new EolInternalException(ex);
 		}
-		
 	}
-	
 }

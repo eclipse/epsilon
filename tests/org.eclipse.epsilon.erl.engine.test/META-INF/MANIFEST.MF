@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ERL Test
+Bundle-SymbolicName: org.eclipse.epsilon.erl.engine.test
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.epsilon.erl.engine.test.util
+Import-Package: org.junit
+Require-Bundle: org.eclipse.epsilon.erl.engine.launch;visibility:=reexport,
+ org.eclipse.epsilon.test.dependencies;visibility:=reexport

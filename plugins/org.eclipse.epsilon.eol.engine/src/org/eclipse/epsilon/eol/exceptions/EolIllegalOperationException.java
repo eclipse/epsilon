@@ -24,7 +24,6 @@ public class EolIllegalOperationException extends EolRuntimeException {
 	protected PrettyPrinterManager prettyPrintManager;
 	
 	public EolIllegalOperationException(Object object, String methodName, ModuleElement ast, PrettyPrinterManager prettyPrintManger) {
-		super();
 		this.ast = ast;
 		this.methodName = methodName;
 		this.object = object;
@@ -48,7 +47,7 @@ public class EolIllegalOperationException extends EolRuntimeException {
 	}
 	
 	@Override
-	public String getReason(){
+	public String getReason() {
 		if (object == null || object.equals(EolNoType.NoInstance)) {
 			return "Method '" + methodName + "' not found";
 		} else {		

@@ -1,0 +1,213 @@
+import "utils.eol";
+
+pre {
+	foo();
+	var global : new Native("java.lang.Thread");
+	var preVar = "my variable";
+	preVar.printlnIf("sealed".isJavaKeyword());
+}
+
+@cached
+operation t_b foo(expr : Integer) : Boolean {
+	return expr <= 0;
+}
+
+operation t_c foo() : String {
+	return false.asString();
+}
+
+@cached
+operation returnFalse() : Boolean {
+	return false;
+}
+
+constraint EolTest {
+	check: "UndecEmber".isValidMonth()
+}
+
+constraint CanAccessPre {
+	check: global.isDefined()
+}
+
+context t_a {
+
+	constraint SelfVisibleInGuard {
+		guard: self.isDefined()
+		check: true
+	}
+	
+	constraint GuardVariableInvisibleInBlock {
+		guard {
+			var condition = true;
+			return true;
+		}
+		check {
+			return frameStack.get("condition").isUndefined();
+		}
+	}
+	
+	constraint CheckVariableVisibleInMessage {
+		check {
+			if (frameStack.get("condition").isDefined())
+				throw "condition variable has leaked";
+			
+			var msg = "error";
+			return false;
+		}
+		message : msg
+	}
+	
+	constraint CheckVariableVisibleInFix {
+		check {
+			var msg = "error";
+			return false;
+		}
+		fix {
+			title : "Fix " + msg
+			do {
+				blackboard.put("fix-do-executed", "true");
+				msg; // Check that the msg variable from the check part is visible
+				self; // Check that the self variable is visible
+			}
+		}
+	}
+}
+
+context t_a {
+
+	guard: not self.isDefined()
+	
+	constraint NeverChecked {
+		check : false
+	}
+}
+
+context t_b {
+	
+	constraint EolTest2 {
+		guard: '>'.isJavaToken()
+		check: "Optional".isJavaPrimitive(true)
+	}
+	
+	constraint AlwaysFalse { 
+		check: false
+	}
+	
+	constraint AlwaysTrue {
+		check: true
+	}
+	
+	constraint ElementOperationInConstraint {
+		check: self.foo(1 + 2)
+	}
+	
+	constraint NeverChecked {
+		guard: self.isTypeOf(t_c)
+		check: false
+	}
+	
+	constraint RequiresNonLazyConstraint {
+		guard: self.satisfies("AlwaysFalse")
+		check {
+			return 1 > 0;
+		}
+	}
+	
+	@lazy
+	constraint LazyWithGuard {
+		guard: "true".asBoolean()
+		check {
+			return true;
+		}
+	}
+	
+	constraint RequiresLazyConstraint {
+		guard: self.satisfies("LazyWithGuard")
+		check: false
+	}
+	
+	constraint RequiresContextlessLazy {
+		check {return self.satisfies("LazyContextlessCallsLazy");}
+	}
+	
+	constraint InsaneLazyChain {
+		guard {return not self.satisfies("RequiresContextlessLazy");}
+		check: false
+	}
+}
+
+context t_c {
+
+	guard {
+		self.~extendedProperty = self.isTypeOf(t_c);
+		return true;
+	}
+	
+	constraint WrongType {
+		check: self.isTypeOf(t_b)
+	}
+	
+	constraint AlwaysTrueOperation {
+		check: not self.foo().asBoolean()
+	}
+	
+	constraint AlwaysFalseOperation {
+		check: self.foo().asBoolean()
+	}
+	
+	constraint SatisfiesOneLazyAndNonLazy {
+		guard: self.satisfiesOne("LazyAlwaysFalseOperation", "AlwaysTrueOperation", "AlwaysFalseOperation")
+		check: false
+	}
+	
+	constraint SatisfiesAllLazyAndNonLazy {
+		check: self.satisfiesAll("LazyAlwaysFalseOperation", "AlwaysTrueOperation", "AlwaysFalseOperation")
+	}
+	
+	constraint NeverCalledLazyGuard {
+		guard: self.satisfies("LazyAlwaysFalseOperation")
+		check: false
+	}
+	
+	@lazy
+	constraint LazyAlwaysFalseOperation {
+		check: self.foo().asBoolean()
+	}
+	
+	constraint ExtendedPropertyCanBeAccessed {
+		check: self.~extendedProperty
+	}
+}
+
+@lazy
+constraint LazyContextlessNeverCalled {
+	check: returnFalse()
+}
+
+@lazy
+constraint LazyContextlessCallsLazy {
+	check: self.satisfies("LazyContextlessDependedOn")
+}
+
+@lazy
+constraint LazyContextlessDependedOn {
+	guard: true
+	check: false
+}
+
+constraint ImportedOperationWithoutContext {
+	guard: true
+	check: "January".isValidMonth()
+}
+
+constraint Contextless {
+	check: t_a.all.size + t_b.all.size > 2
+}
+
+post {
+	if (not preVar.isDefined() or EOL().isUndefined())
+		throw "preVar is undefined!";
+	printIfDefined(null);
+	if (global.currentThread().getName() == null)
+		throw "No name for thread!";
+}

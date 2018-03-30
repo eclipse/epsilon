@@ -12,13 +12,11 @@ package org.eclipse.epsilon.eol.types;
 
 import java.util.Collections;
 import java.util.List;
-
-import org.eclipse.epsilon.eol.dom.Expression;
+import java.util.Objects;
 import org.eclipse.epsilon.eol.dom.StringLiteral;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolTypeNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-
 
 public class EolNativeType extends EolAnyType {
 	
@@ -67,8 +65,8 @@ public class EolNativeType extends EolAnyType {
 		if (o != null) {
 			Class<?> cls = o.getClass();
 			boolean found = false;
-			while (cls!= null && !found) {
-				if (cls.getCanonicalName().equalsIgnoreCase(clazz)){
+			while (cls != null && !found) {
+				if (cls.getCanonicalName().equalsIgnoreCase(clazz)) {
 					return true;
 				}
 				else {
@@ -85,6 +83,11 @@ public class EolNativeType extends EolAnyType {
 			return o.getClass().getCanonicalName().equalsIgnoreCase(clazz);
 		}
 		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(clazz);
 	}
 	
 	@Override

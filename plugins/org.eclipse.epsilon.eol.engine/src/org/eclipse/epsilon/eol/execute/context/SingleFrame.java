@@ -11,11 +11,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.context;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringUtil;
 
@@ -24,18 +22,18 @@ import org.eclipse.epsilon.common.util.StringUtil;
  */
 public class SingleFrame implements Frame {
 
-	private HashMap<String, Variable> storage = new LinkedHashMap<String, Variable>();
+	private Map<String, Variable> storage = new LinkedHashMap<>(4);
 	private FrameType type;
-	private ModuleElement entryPoint;
 	private String label;
-	private ModuleElement currentStatement;
+	private ModuleElement entryPoint, currentStatement;
 
-	public SingleFrame(FrameType type, ModuleElement entryPoint){
+	
+	public SingleFrame(FrameType type, ModuleElement entryPoint) {
 		this.type = type;
 		this.entryPoint = entryPoint;
 	}
 	
-	public SingleFrame(FrameType type, ModuleElement entryPoint, String label){
+	public SingleFrame(FrameType type, ModuleElement entryPoint, String label) {
 		this.type = type;
 		this.entryPoint = entryPoint;
 		this.label = label;
@@ -47,7 +45,6 @@ public class SingleFrame implements Frame {
 			v.dispose();
 		}
 		this.entryPoint = null;
-		//this.storage = null;
 	}
 	
 	@Override
@@ -56,6 +53,7 @@ public class SingleFrame implements Frame {
 		currentStatement = null;
 	}
 	
+	@Override
 	public SingleFrame clone() {
 		SingleFrame clone = new SingleFrame(type, entryPoint);
 		clone.label = label;
@@ -86,7 +84,7 @@ public class SingleFrame implements Frame {
 	}
 	
 	@Override
-	public void put(Variable variable){
+	public void put(Variable variable) {
 		storage.put(variable.getName(), variable);
 	}
 	
@@ -96,7 +94,7 @@ public class SingleFrame implements Frame {
 	}
 	
 	@Override
-	public Variable get(String key){
+	public Variable get(String key) {
 		return storage.get(key);
 	}
 
@@ -106,7 +104,7 @@ public class SingleFrame implements Frame {
 	}
 
 	@Override
-	public boolean contains(String key){
+	public boolean contains(String key) {
 		return storage.containsKey(key);
 	}
 
@@ -132,14 +130,30 @@ public class SingleFrame implements Frame {
 	
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("------------"+ type +"-------------\r\n");
-		Iterator<String> keyIterator = storage.keySet().iterator();
-		while (keyIterator.hasNext()){
-			Object key = keyIterator.next();
-			buffer.append(key + "     " + StringUtil.toString(storage.get(key), "null") + "\r\n");
+		StringBuilder sb = new StringBuilder("------------"+ type +"-------------\r\n");
+		
+		for (Map.Entry<String, Variable> entry : storage.entrySet()) {
+			String key = entry.getKey();
+			Variable value = entry.getValue();
+			Object variableValue = value.getValue();
+			
+			//Deal with infinite recursion incase one of the variables is this frame
+			if (variableValue instanceof FrameStack) {
+				FrameStack nested = (FrameStack) variableValue;
+				if (nested.getFrames().contains(this))
+					continue;
+			}
+			else if (variableValue instanceof Frame) {
+				Frame nested = (Frame) variableValue;
+				Collection<Variable> nestedVariables = nested.getAll().values();
+				if (nestedVariables.stream().map(Variable::getValue).anyMatch(this::equals))
+					continue;
+			}
+			
+			sb.append(key + "     " + StringUtil.toString(value, "null") + "\r\n");
 		}
-		return buffer.toString();
+		
+		return sb.toString();
 	}
 
 	@Override

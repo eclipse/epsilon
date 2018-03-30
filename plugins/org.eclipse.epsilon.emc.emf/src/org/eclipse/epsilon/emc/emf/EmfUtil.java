@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -36,16 +35,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
-import org.eclipse.emf.ecore.xcore.XcorePackage;
-import org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.common.util.OperatingSystem;
-import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.resource.XtextResourceSet;
-
-import com.google.inject.Injector;
-
 
 public class EmfUtil {
 		
@@ -154,7 +146,6 @@ public class EmfUtil {
 		if (!etfm.containsKey("*")) {
 			etfm.put("*", new XMIResourceFactoryImpl());
 		}
-		
 	}
 	
 	public static List<EPackage> register(URI uri, EPackage.Registry registry) throws Exception {
@@ -173,7 +164,7 @@ public class EmfUtil {
 	 */
 	public static List<EPackage> register(URI uri, EPackage.Registry registry, boolean useUriForResource) throws Exception {
 		
-		List<EPackage> ePackages = new ArrayList<EPackage>();
+		List<EPackage> ePackages = new ArrayList<>();
 		
 		initialiseResourceFactoryRegistry();
 
@@ -208,7 +199,7 @@ public class EmfUtil {
 	
 	public static List<EPackage> registerXcore(URI locationURI, EPackage.Registry registry, boolean useUriForResource) throws IOException {
 		
-		List<EPackage> ePackages = new ArrayList<EPackage>();
+		List<EPackage> ePackages = new ArrayList<>();
 		
 		initialiseResourceFactoryRegistry();
 		
@@ -223,6 +214,35 @@ public class EmfUtil {
         {
         		adjustNsAndPrefix(metamodel, ePackage, useUriForResource);
         		registry.put(ePackage.getNsURI(), ePackage);
+        		ePackages.add(ePackage);
+        }
+		
+		return ePackages;
+	}
+	
+	public static List<EPackage> registerXcore(URI locationURI) throws IOException {
+		return registerXcore(locationURI, true);
+	}
+	
+	public static List<EPackage> registerXcore(URI locationURI, boolean useUriForResource) throws IOException {
+		List<EPackage> ePackages = new ArrayList<>();
+		
+		initialiseResourceFactoryRegistry();
+		
+		ResourceSet resourceSet = new ResourceSetImpl();
+	    	resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
+		Resource metamodel = resourceSet.createResource(locationURI);
+		metamodel.load(Collections.EMPTY_MAP);
+		
+		setDataTypesInstanceClasses(metamodel);
+		
+		EPackage ePackage = (EPackage)EcoreUtil.getObjectByType(metamodel.getContents(), EcorePackage.Literals.EPACKAGE);
+
+        if (ePackage != null)
+        {
+        		adjustNsAndPrefix(metamodel, ePackage, useUriForResource);
+        		metamodel.getContents().remove(ePackage);
+        		EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
         		ePackages.add(ePackage);
         }
 		
@@ -261,7 +281,7 @@ public class EmfUtil {
 	}
 	
 	public static Collection<EClassifier> getAllEClassifiers(EPackage epackage) {
-		Collection<EClassifier> allEClassifiers = new ArrayList<EClassifier>();
+		Collection<EClassifier> allEClassifiers = new ArrayList<>();
 		allEClassifiers.addAll(epackage.getEClassifiers());
 		for (EPackage subpackage : epackage.getESubpackages()) {
 			allEClassifiers.addAll(getAllEClassifiers(subpackage));
@@ -271,7 +291,7 @@ public class EmfUtil {
 	
 	@SuppressWarnings("unchecked")
 	public static <T extends EObject> List<T> getAllModelElementsOfType(EObject modelElement, Class<T> type) {		
-		final List<T> results = new LinkedList<T>();
+		final List<T> results = new LinkedList<>();
 		
 		if (modelElement.eResource() != null) {
 			final TreeIterator<EObject> iterator = modelElement.eResource().getAllContents();

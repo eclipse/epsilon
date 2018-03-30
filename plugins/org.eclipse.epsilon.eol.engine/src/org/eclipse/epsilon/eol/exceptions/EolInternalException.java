@@ -17,18 +17,17 @@ import java.io.PrintStream;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
 
-
-public class EolInternalException extends EolRuntimeException{
+public class EolInternalException extends EolRuntimeException {
 	
 	Throwable internal;
 	
-	public EolInternalException(Throwable internal){
+	public EolInternalException(Throwable internal) {
 		setStackTrace(internal.getStackTrace());
 		//internal.printStackTrace();
 		this.internal = internal;
 	}
 	
-	public EolInternalException(Throwable internal, ModuleElement ast){
+	public EolInternalException(Throwable internal, ModuleElement ast) {
 		setStackTrace(internal.getStackTrace());
 		//internal.printStackTrace();
 		this.internal = internal;
@@ -36,7 +35,7 @@ public class EolInternalException extends EolRuntimeException{
 	}
 	
 	@Override
-	public String getReason(){
+	public String getReason() {
 		//return "Internal error: " + internal.getMessage() + " [" + internal.getClass().getName() + "]";
 		StringOutputStream sos = new StringOutputStream();
 		internal.printStackTrace(new PrintStream(sos));
@@ -66,8 +65,5 @@ public class EolInternalException extends EolRuntimeException{
 			return buffer.toString();
 		}
 	}
-
-
-	
 }
 

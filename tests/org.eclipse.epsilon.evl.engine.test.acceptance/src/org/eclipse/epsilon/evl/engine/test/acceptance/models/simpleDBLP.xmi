@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:DBLP="http://dblp.com">
+  <DBLP:Author
+      name="Loli"
+      records="/5 /6 /9 /12 /14"/>
+  <DBLP:Author
+      name="Antonio"
+      records="/6 /10 /12 /13"/>
+  <DBLP:Author
+      name="Manuel"
+      records="/7 /8 /9 /14"/>
+  <DBLP:Author
+      name="Javi"
+      records="/11 /13"/>
+  <DBLP:Author
+      name="Martin"
+      records="/15 /16"/>
+  <DBLP:InProceedings
+      ee=""
+      authors="/0"
+      title="inproc1"
+      bootitle="ICMT 2005"
+      year="2005"/>
+  <DBLP:InProceedings
+      url=""
+      authors="/0 /1"
+      title="inproc2"
+      bootitle="ICMT 2013"
+      year="2013"/>
+  <DBLP:InProceedings
+      url=""
+      authors="/2"
+      mdate=""
+      title="inproc3"
+      bootitle="ICMT 2000"
+      year="2000"/>
+  <DBLP:InProceedings
+      url=""
+      authors="/2"
+      title="inproc4"
+      bootitle="MODELS"
+      year="2013"/>
+  <DBLP:InProceedings
+      url=""
+      authors="/0 /2"
+      title="inproc2"
+      bootitle="ICSE"
+      year="2014"/>
+  <DBLP:InProceedings
+      authors="/1"
+      title="inproc5"
+      bootitle="TOOLS"
+      year="2006"/>
+  <DBLP:Article
+      authors="/3"
+      title="art1"
+      journal="/17"
+      year="2006"/>
+  <DBLP:Article
+      authors="/0 /1"
+      title="art2"
+      journal="/18"
+      year="2014"/>
+  <DBLP:Article
+      authors="/3 /1"
+      journal="/19"
+      year="2010"/>
+  <DBLP:Article
+      authors="/2 /0"
+      journal="/17"
+      year="2009"/>
+  <DBLP:Article
+      ee=""
+      authors="/4"
+      journal="/17"
+      year="2000"/>
+  <DBLP:Article
+      authors="/4"
+      journal="/19"
+      year="2013"/>
+  <DBLP:Journal
+      name="Information &amp; Software Technology"
+      articles="/11 /15 /14"/>
+  <DBLP:Journal
+      name="Transactions on Software Engineering"
+      articles="/12"/>
+  <DBLP:Journal
+      name="Computer Standards &amp; Interfaces"
+      articles="/13 /16"/>
+</xmi:XMI>

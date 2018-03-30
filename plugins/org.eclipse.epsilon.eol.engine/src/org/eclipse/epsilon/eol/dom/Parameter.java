@@ -70,13 +70,13 @@ public class Parameter extends AbstractModuleElement implements ICompilableModul
 	}
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		return getName() + ":" + getTypeName();
 	}
 	
-	public EolType getType(IEolContext context) throws EolRuntimeException{
+	public EolType getType(IEolContext context) throws EolRuntimeException {
 		if (type == null){
-			if (typeExpression != null){
+			if (typeExpression != null) {
 				type = (EolType) context.getExecutorFactory().execute(typeExpression,context);
 			}
 			else {
@@ -112,5 +112,4 @@ public class Parameter extends AbstractModuleElement implements ICompilableModul
 	public boolean isExplicitlyTyped() {
 		return typeExpression != null;
 	}
-
 }

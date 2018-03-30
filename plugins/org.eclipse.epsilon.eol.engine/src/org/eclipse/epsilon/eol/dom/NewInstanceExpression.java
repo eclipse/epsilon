@@ -13,7 +13,7 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class NewInstanceExpression extends TypeInitialiser {
 
 	protected TypeExpression typeExpression;
-	protected List<Expression> parameterExpressions = new ArrayList<Expression>();
+	protected List<Expression> parameterExpressions = new ArrayList<>();
 	
 	@Override
 	public void build(AST cst, IModule module) {

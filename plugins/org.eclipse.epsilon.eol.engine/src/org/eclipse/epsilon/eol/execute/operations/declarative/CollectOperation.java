@@ -25,10 +25,6 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 
 public class CollectOperation extends FirstOrderOperation {
 
-	public CollectOperation() {
-		super();
-	}
-
 	@Override
 	public Object execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
 
@@ -36,16 +32,16 @@ public class CollectOperation extends FirstOrderOperation {
 		Collection<Object> result = null;
 		
 		if (EolCollectionType.isOrdered(source)) {
-			result = new EolSequence<Object>();
+			result = new EolSequence<>();
 		}
 		else {
-			result = new EolBag<Object>();
+			result = new EolBag<>();
 		}
 		
 		FrameStack scope = context.getFrameStack();
 		
 		for (Object listItem : source) {
-			if (iterator.getType() ==null || iterator.getType().isKind(listItem)){
+			if (iterator.getType() == null || iterator.getType().isKind(listItem)) {
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
 				scope.put(new Variable(iterator.getName(), listItem, iterator.getType(), true));
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
@@ -55,7 +51,5 @@ public class CollectOperation extends FirstOrderOperation {
 		}
 		
 		return result;
-
 	}
-
 }

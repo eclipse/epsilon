@@ -2,7 +2,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
@@ -11,7 +10,6 @@ import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributorProvider;
 import org.eclipse.epsilon.eol.models.IModel;
-
 
 public abstract class FeatureCallExpression extends Expression {
 		
@@ -30,10 +28,9 @@ public abstract class FeatureCallExpression extends Expression {
 	
 	public Object wrap(Object o) {
 		if (o instanceof Object[]) {
-			return new ArrayList<Object>(Arrays.asList((Object[]) o));
+			return new ArrayList<>(Arrays.asList((Object[]) o));
 		}
-		else 
-			return o;
+		else return o;
 	}
 	
 	protected AbstractOperation getAbstractOperation(Object target, String name, NameExpression featureCallAst, IModel owningModel, IEolContext context) throws EolIllegalOperationException {
@@ -47,7 +44,7 @@ public abstract class FeatureCallExpression extends Expression {
 		
 		// Since we don't control the interface of all model elements, models
 		// can also provide IAbstractOperationContributors for their model elements
-		if (owningModel!=null && owningModel instanceof IAbstractOperationContributorProvider) {
+		if (owningModel != null && owningModel instanceof IAbstractOperationContributorProvider) {
 			IAbstractOperationContributor contributor = ((IAbstractOperationContributorProvider) owningModel).getAbstractOperationContributor(target);
 			if (contributor != null) {
 				AbstractOperation operation = contributor.getAbstractOperation(name);
@@ -58,7 +55,6 @@ public abstract class FeatureCallExpression extends Expression {
 		AbstractOperation operation = context.getOperationFactory().getOperationFor(name);
 		if (operation != null) return operation;
 		else throw new EolIllegalOperationException(target, name, featureCallAst, context.getPrettyPrinterManager());				
-
 	}
 	
 	public Expression getTargetExpression() {

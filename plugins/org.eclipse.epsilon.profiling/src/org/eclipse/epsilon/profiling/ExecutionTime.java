@@ -38,5 +38,4 @@ public class ExecutionTime {
 	public void setAggregate(long aggregate) {
 		this.aggregate = aggregate;
 	}
-	
 }

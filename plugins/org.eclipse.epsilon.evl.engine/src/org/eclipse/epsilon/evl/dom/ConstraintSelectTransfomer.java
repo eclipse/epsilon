@@ -12,9 +12,7 @@ package org.eclipse.epsilon.evl.dom;
 
 import java.util.List;
 
-import org.antlr.runtime.CommonToken;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.AndOperatorExpression;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Expression;
@@ -28,10 +26,7 @@ import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
 import org.eclipse.epsilon.eol.dom.ReturnStatement;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.dom.TypeExpression;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.evl.execute.context.IEvlContext;
-import org.eclipse.epsilon.evl.parse.Evl_EolParserRules;
 
 /**
  * Decides if a constraint with context T, guard G and check C can be rephrased
@@ -40,12 +35,13 @@ import org.eclipse.epsilon.evl.parse.Evl_EolParserRules;
  */
 public class ConstraintSelectTransfomer {
 
-	public boolean canBeTransformed(Constraint c) {
-		return c.getConstraintContext() != null
-			&& c.getConstraintContext().getTypeName() != null
-			&& isOptimisableExpression(c.getConstraintContext().guardBlock)
-			&& isOptimisableExpression(c.guardBlock)
-			&& isOptimisableExpression(c.checkBlock);
+	public boolean canBeTransformed(Constraint constraint) {
+		ConstraintContext constraintContext = constraint.getConstraintContext();
+		return constraintContext != null
+			&& constraintContext.getTypeName() != null
+			&& isOptimisableExpression(constraintContext.guardBlock)
+			&& isOptimisableExpression(constraint.guardBlock)
+			&& isOptimisableExpression(constraint.checkBlock);
 	}
 
 	private boolean isOptimisableExpression(ExecutableBlock<Boolean> block) {

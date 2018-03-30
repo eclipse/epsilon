@@ -41,19 +41,20 @@ public class ForStatement extends Statement {
 		bodyStatementBlock = toStatementBlock(module.createAst(cst.getThirdChild(), this));
 	}
 	
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException{
+	public Object execute(IEolContext context) throws EolRuntimeException {
 		
 		Object iteratedObject = context.getExecutorFactory().execute(this.iteratedExpression, context);
 		
 		Collection<Object> iteratedCol = null;
 		Iterator<Object> it = null;
 		
-		if (iteratedObject instanceof Collection<?>){
+		if (iteratedObject instanceof Collection<?>) {
 			iteratedCol = (Collection<Object>) iteratedObject;
 		}
 		//TODO: Reduce duplication between here and EolCollection.asCollection
-		else if (iteratedObject instanceof Iterable){
+		else if (iteratedObject instanceof Iterable) {
 			iteratedCol = CollectionUtil.iterate((Iterable) iteratedObject);
 		}
 		else if (iteratedObject instanceof EolModelElementType) {
@@ -74,7 +75,7 @@ public class ForStatement extends Statement {
 		boolean loopBroken = false;
 		
 		int loop = 1;
-		while (it.hasNext() && !loopBroken){
+		while (it.hasNext() && !loopBroken) {
 			Object next = it.next();
 			
 			if (!iteratorType.isKind(next)) continue;
@@ -90,14 +91,14 @@ public class ForStatement extends Statement {
 				result = context.getExecutorFactory().execute(bodyStatementBlock, context);
 				context.getFrameStack().leaveLocal(this);
 			}
-			catch (EolBreakException ex){
+			catch (EolBreakException ex) {
 				loopBroken = true;
 				context.getFrameStack().leaveLocal(this);
-				if (ex.isBreaksAll() && context.getFrameStack().isInLoop()){
+				if (ex.isBreaksAll() && context.getFrameStack().isInLoop()) {
 					throw ex;
 				}
 			}
-			catch (EolContinueException cex){
+			catch (EolContinueException cex) {
 				context.getFrameStack().leaveLocal(this);
 			}
 			
@@ -108,7 +109,6 @@ public class ForStatement extends Statement {
 		}
 		
 		return null;
-		
 	}
 	
 	@Override

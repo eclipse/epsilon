@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.models;
 
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.compile.m3.Metamodel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -26,21 +25,21 @@ import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
 public interface IModel {
 	
-	public void load(StringProperties properties) throws EolModelLoadingException;
+	void load(StringProperties properties) throws EolModelLoadingException;
 	
-	public void load(StringProperties properties, String basePath) throws EolModelLoadingException;
+	void load(StringProperties properties, String basePath) throws EolModelLoadingException;
 	
-	public void load(StringProperties properties, IRelativePathResolver relativePathResolver) throws EolModelLoadingException;
+	void load(StringProperties properties, IRelativePathResolver relativePathResolver) throws EolModelLoadingException;
 	
-	public void load() throws EolModelLoadingException;
+	void load() throws EolModelLoadingException;
 	
-	public String getName();
+	String getName();
 	
-	public void setName(String name);
+	void setName(String name);
 	
-	public List<String> getAliases();
+	List<String> getAliases();
 	
-	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException;
+	Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException;
 	
 	/**
 	 * Returns a collection containing all of the objects contained in 
@@ -48,13 +47,13 @@ public interface IModel {
 	 * 
 	 * @return all of the objects contained in this model.
 	 */
-	public Collection<?> allContents();
+	Collection<?> allContents();
 	
-	public Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException;
+	Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException;
 	
-	public Collection<?> getAllOfKind(String type) throws EolModelElementTypeNotFoundException;
+	Collection<?> getAllOfKind(String type) throws EolModelElementTypeNotFoundException;
 	
-	public Object getTypeOf(Object instance);
+	Object getTypeOf(Object instance);
 	
 	/**
 	 * Returns a string representing the type of the instance object. The value
@@ -66,7 +65,7 @@ public interface IModel {
 	 * 
 	 * @throws IllegalArgumentException when isModelElement(instance) returns false
 	 */
-	public String getTypeNameOf(Object instance);
+	String getTypeNameOf(Object instance);
 	
 	/**
 	 * Returns a string representing the fully-qualified type of the instance object. The value
@@ -78,23 +77,23 @@ public interface IModel {
 	 * 
 	 * @throws IllegalArgumentException when isModelElement(instance) returns false
 	 */
-	public String getFullyQualifiedTypeNameOf(Object instance);
+	String getFullyQualifiedTypeNameOf(Object instance);
 	
-	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException;
+	Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException;
 	
-	public Object createInstance(String type, Collection<Object> parameters) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException;
+	Object createInstance(String type, Collection<Object> parameters) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException;
 	
-	public Object getElementById(String id);
+	Object getElementById(String id);
 	
-	public String getElementId(Object instance);
+	String getElementId(Object instance);
 	
-	public void setElementId(Object instance, String newId);
+	void setElementId(Object instance, String newId);
 	
-	public void deleteElement(Object instance) throws EolRuntimeException;
+	void deleteElement(Object instance) throws EolRuntimeException;
 	
-	public boolean isOfKind(Object instance, String type) throws EolModelElementTypeNotFoundException;
+	boolean isOfKind(Object instance, String type) throws EolModelElementTypeNotFoundException;
 
-	public boolean isOfType(Object instance, String type) throws EolModelElementTypeNotFoundException;
+	boolean isOfType(Object instance, String type) throws EolModelElementTypeNotFoundException;
 	
 	/**
 	 * Used to test whether an object is contained in this model.
@@ -102,20 +101,20 @@ public interface IModel {
 	 * @param instance the Java object to test.
 	 * @return true if and only if instance is contained by this model.
 	 */
-	public boolean owns(Object instance);
+	boolean owns(Object instance);
 	
 	/**
 	 * Returns <code>true</code> if this instance could have this property at some point.
 	 */
-	public boolean knowsAboutProperty(Object instance, String property);
+	boolean knowsAboutProperty(Object instance, String property);
 	
 	/**
 	 * Returns <code>true</code> if this instance has an explicit value for this property.
 	 * This would be equivalent to eIsSet in EMF.
 	 */
-	public boolean isPropertySet(Object instance, String property) throws EolRuntimeException;
+	boolean isPropertySet(Object instance, String property) throws EolRuntimeException;
 	
-	public boolean isInstantiable(String type); 
+	boolean isInstantiable(String type); 
 	
 	/**
 	 * Used to test whether a Java object can be contained by this model. For example,
@@ -124,30 +123,30 @@ public interface IModel {
 	 * @param instance the Java object to test.
 	 * @return true if and only if instance can be contained by this model.
 	 */
-	public boolean isModelElement(Object instance);
+	boolean isModelElement(Object instance);
 	
-	public boolean hasType(String type);
+	boolean hasType(String type);
 	
-	public boolean store(String location);
+	boolean store(String location);
 	
-	public boolean store();
+	boolean store();
 	
-	public void dispose();
+	void dispose();
 	
-	public IPropertyGetter getPropertyGetter();
+	IPropertyGetter getPropertyGetter();
 	
-	public IPropertySetter getPropertySetter();
+	IPropertySetter getPropertySetter();
 	
-	public boolean isStoredOnDisposal();
+	boolean isStoredOnDisposal();
 	
-	public void setStoredOnDisposal(boolean storedOnDisposal);
+	void setStoredOnDisposal(boolean storedOnDisposal);
 	
-	public boolean isReadOnLoad();
+	boolean isReadOnLoad();
 	
-	public void setReadOnLoad(boolean readOnLoad);
+	void setReadOnLoad(boolean readOnLoad);
 	
-	public IModelTransactionSupport getTransactionSupport();
+	IModelTransactionSupport getTransactionSupport();
 	
-	public Metamodel getMetamodel(StringProperties properties, IRelativePathResolver resolver);
+	Metamodel getMetamodel(StringProperties properties, IRelativePathResolver resolver);
 	
 }

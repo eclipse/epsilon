@@ -37,10 +37,10 @@ public class RealLiteral extends LiteralExpression {
 		}
 		
 		if (doublePrecision) {
-			value = new Double(text);
+			value = Double.valueOf(text);
 		}
 		else {
-			value = new Float(text);
+			value = Float.valueOf(text);
 		}
 	}
 

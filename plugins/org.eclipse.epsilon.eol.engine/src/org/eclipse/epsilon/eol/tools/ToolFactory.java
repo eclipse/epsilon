@@ -20,7 +20,7 @@ public class ToolFactory {
 		Object tool;
 		
 		try {
-			tool = Class.forName(clazz).newInstance();
+			tool = Class.forName(clazz).getDeclaredConstructor().newInstance();
 		} catch (Exception e) {
 			return false;
 		}
@@ -32,5 +32,4 @@ public class ToolFactory {
 		context.getFrameStack().put(Variable.createReadOnlyVariable(name, tool));
 		return true;
 	}
-	
 }

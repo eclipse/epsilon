@@ -12,8 +12,9 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.WeakHashMap;
 import java.util.List;
-
+import java.util.Map;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
@@ -27,28 +28,23 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperationContributor;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.types.EolType;
-
 
 public class Operation extends AnnotatableModuleElement implements ICompilableModuleElement {
 	
 	protected NameExpression nameExpression;
-	protected TypeExpression contextTypeExpression;
-	protected EolType contextType;
-	protected TypeExpression returnTypeExpression;
-	protected EolType returnType;
+	protected TypeExpression contextTypeExpression, returnTypeExpression;
+	protected EolType contextType, returnType;
 	protected StatementBlock body;
-	protected List<Parameter> formalParameters = new ArrayList<Parameter>();
-
-	// This field is lazily initialized by calling isCached(). If this
-	// operation cannot be cached, it will stay null, to save some memory.
-	protected EolMap cache;
+	protected List<Parameter> formalParameters = new ArrayList<>();
+	protected boolean isCached;
+	// If this operation cannot be cached, it will stay null, to save some memory.
+	// Note that this cache needs to be thread-safe!
+	protected Map<Object, Object> cache;
 	
 	//TODO: Add guards to helpers
-	//DONE: Go for context-less helpers
-	public Operation(){
+	public Operation() {
 		
 	}
 	
@@ -69,19 +65,19 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 		AST returnAst = null;
 		AST bodyAst = null;
 		
-		if (nameAst.getNextSibling().getType() == EolParser.PARAMLIST){
+		if (nameAst.getNextSibling().getType() == EolParser.PARAMLIST) {
 			paramListAst = nameAst.getNextSibling();
 		}
 		
 		if (paramListAst != null){ // helper with parameters
-			if (paramListAst.getNextSibling().getType() == EolParser.TYPE){ // with return type
+			if (paramListAst.getNextSibling().getType() == EolParser.TYPE) { // with return type
 				returnAst = paramListAst.getNextSibling();
 				bodyAst = returnAst.getNextSibling();
 			} else { // without return type
 				bodyAst = paramListAst.getNextSibling();
 			}
 		} else { // helper without parameters
-			if (nameAst.getNextSibling().getType() == EolParser.TYPE){ //with return type
+			if (nameAst.getNextSibling().getType() == EolParser.TYPE) { //with return type
 				returnAst = nameAst.getNextSibling();
 				bodyAst = returnAst.getNextSibling();
 			} else { // without return type
@@ -98,6 +94,10 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 		}
 		this.body = (StatementBlock) module.createAst(bodyAst, this);
 		
+		// Assignment intended
+		if (isCached = hasAnnotation("cached") && formalParameters.isEmpty()) {
+			this.cache = Collections.synchronizedMap(new WeakHashMap<>());
+		}
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	}
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		String contextTypeName = "";
 		String returnTypeName = "";
 
@@ -144,26 +144,20 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 		return getName() + "(" + new IterableOperationContributor(formalParameters).concat(", ") + ")" + returnTypeName + contextTypeName;
 	}
 
-	public synchronized boolean isCached() {
-		if (hasAnnotation("cached") && this.formalParameters.isEmpty()) {
-			// The cache only needs to be created if we use it
-			if (cache == null) {
-				// Do not clobber an already existing cache
-				cache = new EolMap();
-			}
-			return true;
-		}
-		return false;
+	public boolean isCached() {
+		return isCached;
 	}
 
-	public Object execute(Object self, List parameterValues, IEolContext context) throws EolRuntimeException{
+	public Object execute(Object self, List<?> parameterValues, IEolContext context) throws EolRuntimeException {
 		return execute(self, parameterValues, context, true);
 	}
 	
-	
-	public Object execute(Object self, List parameterValues, IEolContext context, boolean inNewStackFrame) throws EolRuntimeException{
-		
-		if (isCached() && cache.containsKey(self)) {
+	public Object execute(Object self, List<?> parameterValues, IEolContext context, boolean inNewStackFrame) throws EolRuntimeException {
+		final int paramSize = formalParameters.size();
+		assert paramSize > 0 ? paramSize == parameterValues.size() : true;
+		boolean cacheContainsSelf = isCached && cache.containsKey(self);
+
+		if (cacheContainsSelf) {
 			return cache.get(self);
 		}
 		
@@ -171,12 +165,12 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 		
 		if (inNewStackFrame) {
 			scope.enterLocal(FrameType.PROTECTED, this);
-			scope.put(Variable.createReadOnlyVariable("self",self));
+			scope.put(Variable.createReadOnlyVariable("self", self));
 		}
 		
-		for (int i=0;i<formalParameters.size();i++){
+		for (int i = 0; i < paramSize; i++) {
 			Parameter fp = (Parameter) formalParameters.get(i);
-			scope.put(new Variable(fp.getName(),parameterValues.get(i), fp.getType(context)));
+			scope.put(new Variable(fp.getName(), parameterValues.get(i), fp.getType(context)));
 		}
 		
 		evaluatePreConditions(context);
@@ -190,7 +184,8 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 			scope.leaveLocal(this);
 		}
 		
-		if (isCached() && !cache.containsKey(self)) {
+		// cache.containsKey(self) == false;
+		if (isCached && !cacheContainsSelf) {
 			cache.put(self, result);
 		}
 		
@@ -207,7 +202,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 			
 			Object satisfied = ((ExecutableAnnotation)annotation).getValue(context);
 			if (satisfied instanceof Boolean) {
-				if (!((Boolean) satisfied).booleanValue()) {
+				if (!(boolean) satisfied) {
 					throw new EolRuntimeException("Pre-condition not satisfied", annotation);
 				}
 			}
@@ -217,9 +212,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 		}
 	}
 	
-	protected void checkResultType(Object result, IEolContext context)
-			throws EolRuntimeException {
-		
+	protected void checkResultType(Object result, IEolContext context) throws EolRuntimeException {
 		if (returnTypeExpression != null && result != null) {
 			if (returnType == null) {
 				returnType = (EolType) context.getExecutorFactory().execute(returnTypeExpression, context);
@@ -237,7 +230,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 			
 			Object satisfied = ((ExecutableAnnotation) annotation).getValue(context);
 			if (satisfied instanceof Boolean) {
-				if (!((Boolean) satisfied).booleanValue()) {
+				if (!(boolean) satisfied) {
 						// We can simply use the frame stack here, as we created a frame for the post-condition
 						// in order to isolate the _result variable.
 						throw new EolRuntimeException(
@@ -256,9 +249,9 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	}
 	
 	public EolType getReturnType(IEolContext context) throws EolRuntimeException{
-		if (returnType == null){
-			if (returnTypeExpression != null){
-				returnType = (EolType) context.getExecutorFactory().execute(returnTypeExpression,context);
+		if (returnType == null) {
+			if (returnTypeExpression != null) {
+				returnType = (EolType) context.getExecutorFactory().execute(returnTypeExpression, context);
 			}
 			else {
 				returnType = EolAnyType.Instance;
@@ -267,10 +260,10 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 		return returnType;
 	}
 	
-	public EolType getContextType(IEolContext context) throws EolRuntimeException{
-		if (contextType == null){
-			if (contextTypeExpression != null){
-				contextType = (EolType) context.getExecutorFactory().execute(contextTypeExpression,context);
+	public EolType getContextType(IEolContext context) throws EolRuntimeException {
+		if (contextType == null) {
+			if (contextTypeExpression != null) {
+				contextType = (EolType) context.getExecutorFactory().execute(contextTypeExpression, context);
 			}
 			else {
 				contextType = EolNoType.Instance;
@@ -286,7 +279,6 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	public List<Parameter> getFormalParameters() {
 		return formalParameters;
 	}
-	
 	
 	public StatementBlock getBody() {
 		return body;
@@ -319,6 +311,4 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	public void setReturnTypeExpression(TypeExpression returnTypeExpression) {
 		this.returnTypeExpression = returnTypeExpression;
 	}
-	
 }
-

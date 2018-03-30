@@ -59,7 +59,7 @@ public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelega
 				
 			}
 			else {
-				return c.newInstance();
+				return c.getDeclaredConstructor().newInstance();
 			}
 		} 
 		//catch (NoSuchMethodException mex) {
@@ -81,5 +81,4 @@ public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelega
 		}
 		return types;
 	}
-	
 }

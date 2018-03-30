@@ -28,8 +28,8 @@ import org.eclipse.epsilon.eol.models.Model;
 
 public class JavaObjectModel extends Model {
 	
-	protected Collection<Object> contents = new HashSet<Object>();
-	protected List<String> importedPackages = new ArrayList<String>();
+	protected Collection<Object> contents = new HashSet<>();
+	protected List<String> importedPackages = new ArrayList<>();
 	
 	public JavaObjectModel() {}
 	
@@ -53,7 +53,7 @@ public class JavaObjectModel extends Model {
 		Class<?> clazz = classForName(type);
 		
 		try {
-			Object instance = clazz.newInstance();
+			Object instance = clazz.getDeclaredConstructor().newInstance();
 			contents.add(instance);
 			return instance;
 		}
@@ -96,7 +96,7 @@ public class JavaObjectModel extends Model {
 			throws EolModelElementTypeNotFoundException {
 		
 		Class<?> clazz = classForName(type);
-		ArrayList<Object> all = new ArrayList<Object>();
+		ArrayList<Object> all = new ArrayList<>();
 		
 		for (Object o : contents) {
 			try {
@@ -116,7 +116,7 @@ public class JavaObjectModel extends Model {
 			throws EolModelElementTypeNotFoundException {
 		
 		Class<?> clazz = classForName(type);
-		ArrayList<Object> all = new ArrayList<Object>();
+		ArrayList<Object> all = new ArrayList<>();
 		
 		for (Object o : contents) {
 			if (o.getClass() == clazz) {
@@ -171,7 +171,7 @@ public class JavaObjectModel extends Model {
 			throw new EolModelElementTypeNotFoundException(this.name, type);
 		
 		
-		final Collection<String> properties = new LinkedList<String>();
+		final Collection<String> properties = new LinkedList<>();
 				
 		for (Method method : clazz.getMethods()) {
 			if (method.getName().startsWith("set")) {

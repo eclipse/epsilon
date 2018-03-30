@@ -15,7 +15,6 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-
 public interface IPropertyGetter {
 	
 	public boolean hasProperty(Object object, String property);

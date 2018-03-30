@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class PropertyAccesses implements IPropertyAccesses {
 
-	private final List<IPropertyAccess> storage = new LinkedList<IPropertyAccess>();
+	private final List<IPropertyAccess> storage = new LinkedList<>();
 
 	public PropertyAccesses(IPropertyAccess... propertyAccesses) {
 		storage.addAll(Arrays.asList(propertyAccesses));
@@ -28,12 +28,12 @@ public class PropertyAccesses implements IPropertyAccesses {
 	@Override
 	public Collection<? extends IPropertyAccess> all() {
 		// defensive copy
-		return new LinkedList<IPropertyAccess>(storage);
+		return new LinkedList<>(storage);
 	}
 	
 	@Override
 	public Set<? extends IPropertyAccess> unique() {
-		return new HashSet<IPropertyAccess>(storage);
+		return new HashSet<>(storage);
 	}
 
 	public void add(IPropertyAccess propertyAccess) {

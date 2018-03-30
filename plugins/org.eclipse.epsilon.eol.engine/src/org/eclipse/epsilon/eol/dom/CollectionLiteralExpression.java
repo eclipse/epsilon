@@ -3,9 +3,7 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -20,7 +18,7 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	
 	protected String collectionType;
 	protected boolean range;
-	protected List<Expression> parameterExpressions = new ArrayList<Expression>();
+	protected List<Expression> parameterExpressions = new ArrayList<>();
 	
 	public CollectionLiteralExpression() {}
 	
@@ -61,16 +59,16 @@ public class CollectionLiteralExpression extends LiteralExpression {
 		Collection<Object> collection = null; 
 		
 		if (collectionType.equals("Sequence") || collectionType.equals("List")){
-			collection = new EolSequence<Object>();
+			collection = new EolSequence<>();
 		}
 		else if (collectionType.equals("Set")){
-			collection = new EolSet<Object>();
+			collection = new EolSet<>();
 		}
 		else if (collectionType.equals("OrderedSet")){
-			collection = new EolOrderedSet<Object>();
+			collection = new EolOrderedSet<>();
 		}
 		else {
-			collection = new EolBag<Object>();
+			collection = new EolBag<>();
 		}
 		
 

@@ -23,12 +23,12 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class EolCollectionType extends EolType {
 	
-	protected static Set<IEolCollectionTypeResolver> collectionTypeResolvers = null;
+	protected static Set<IEolCollectionTypeResolver> collectionTypeResolvers;
 	protected EolType contentType = EolAnyType.Instance;
 	
 	public static Set<IEolCollectionTypeResolver> getCollectionTypeResolvers() {
 		if (collectionTypeResolvers == null) {
-			collectionTypeResolvers = new HashSet<IEolCollectionTypeResolver>();
+			collectionTypeResolvers = new HashSet<>();
 		}
 		return collectionTypeResolvers;
 	}
@@ -41,7 +41,7 @@ public class EolCollectionType extends EolType {
 	public static EolCollectionType Set = new EolCollectionType("Set");
 	public static EolCollectionType OrderedSet = new EolCollectionType("OrderedSet");
 	
-	public EolCollectionType(String name){
+	public EolCollectionType(String name) {
 		this.name = name;
 	}
 	
@@ -102,15 +102,15 @@ public class EolCollectionType extends EolType {
 		try {
 			if (this.isCollection()) return null;
 			else if (this.isBag()) {
-				return new EolBag<Object>();
+				return new EolBag<>();
 			}
 			else if (this.isSequence()) {
-				return new EolSequence<Object>();
+				return new EolSequence<>();
 			}
 			else if (this.isOrderedSet()) {
-				return new EolOrderedSet<Object>();
+				return new EolOrderedSet<>();
 			}
-			else return new EolSet<Object>();
+			else return new EolSet<>();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -138,10 +138,10 @@ public class EolCollectionType extends EolType {
 	}
 	
 	public static <T> Collection<T> createSameType(Collection<T> c) {
-		if (Bag.isType(c)) return new EolBag<T>();
-		else if (Sequence.isType(c)) return new EolSequence<T>();
-		else if (OrderedSet.isType(c)) return new EolOrderedSet<T>();
-		else if (Set.isType(c)) return new EolSet<T>();
+		if (Bag.isType(c)) return new EolBag<>();
+		else if (Sequence.isType(c)) return new EolSequence<>();
+		else if (OrderedSet.isType(c)) return new EolOrderedSet<>();
+		else if (Set.isType(c)) return new EolSet<>();
 		else return null;
 	}
 	
@@ -197,6 +197,5 @@ public class EolCollectionType extends EolType {
 	@Override
 	public String toString() {
 		return this.getName() + "<" + this.getContentType() + ">";
-	}
-	
+	}	
 }

@@ -11,43 +11,32 @@
 package org.eclipse.epsilon.evl.dom;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
+import java.util.Optional;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
-public class Constraints implements Iterable<Constraint> {
+@SuppressWarnings("serial")
+public class Constraints extends ArrayList<Constraint> {
 	
-	protected List<Constraint> storage = new ArrayList<Constraint>();
-	
-	//protected HashMap<String, EvlConstraint> storage = new HashMap<String, EvlConstraint>();
-	
-	public Constraints() {
-		super();
+	public Optional<Constraint> getConstraint(String name, Object target, IEvlContext context) throws EolRuntimeException {
+		return getConstraint(name, target, context, false);
 	}
 	
-	public void addConstraint(Constraint constraint){
-		storage.add(constraint);
-	}
-	
-	public Constraint getConstraint(String name, Object target, IEvlContext context) throws EolRuntimeException{
-		for (Constraint constraint : storage) {
-			if (constraint.getName().equals(name) && 
-					constraint.getConstraintContext().getAllOfSourceKind(context).contains(target)) {// && constraint.appliesTo(target, context)) {
-				return constraint;
+	public Optional<Constraint> getConstraint(String name, Object target, IEvlContext context, boolean appliesTo) throws EolRuntimeException {
+		for (Constraint constraint : this) {
+			ConstraintContext constraintContext = constraint.getConstraintContext();
+			if (
+				constraint.getName().equals(name) && 
+				(
+					(constraintContext instanceof GlobalConstraintContext) ||
+					constraintContext.getAllOfSourceKind(context).contains(target)
+				) &&
+				(!appliesTo || constraint.appliesTo(target, context))
+			) {
+				return Optional.of(constraint);
 			}
 		}
-		return null;
+		return Optional.empty();
 	}
 	
-	public Collection<Constraint> values() {
-		return storage;
-	}
-	
-	public Iterator<Constraint> iterator() {
-		return storage.iterator();
-	}
-
 }

@@ -27,7 +27,6 @@ import org.eclipse.epsilon.eol.types.EolNativeType;
 public class ReflectionUtil {
 	
 	public static boolean hasMethods(Object obj, String methodName) {
-		
 		if (obj == null) return false;
 		
 		for (Method method : obj.getClass().getMethods()) {
@@ -39,22 +38,16 @@ public class ReflectionUtil {
 	}
 	
 	public static Set<String> getMethodNames(Object obj, boolean includeInheritedMethods) {
-		
-		HashSet<String> methodNames = new HashSet<String>();
-		
-		if (obj == null) return methodNames;
-		
-		Method[] methods = null;
-		
-		if (includeInheritedMethods) {
-			methods = obj.getClass().getMethods();
-		}
-		else {
-			methods = obj.getClass().getDeclaredMethods();
+		if (obj == null) {
+			return new HashSet<>(0);
 		}
 		
-		for (int i=0;i<methods.length;i++) {
-			methodNames.add(getMethodName(methods[i]));
+		Method[] methods = getMethods(obj, includeInheritedMethods);
+		
+		Set<String> methodNames = new HashSet<>(methods.length);
+		
+		for (Method method : methods) {
+			methodNames.add(getMethodName(method));
 		}
 		
 		return methodNames;
@@ -66,41 +59,37 @@ public class ReflectionUtil {
 		return methodName;
 	}
 	
+	private static Method[] getMethods(Object obj, boolean includeInheritedMethods) {
+		if (includeInheritedMethods) {
+			return obj.getClass().getMethods();
+		}
+		else {
+			return obj.getClass().getDeclaredMethods();
+		}
+	}
+	
 	/**
 	 * @param allowContravariantConversionForParameters
 	 *   when false, parameters will have exactly the same class as the arguments to the returned method
 	 *   when true, parameters may have a type that is more specific than the arguments to the returned method   
 	 */
-	public static Method getMethodFor(Object obj, String methodName, Object[] parameters, boolean includeInheritedMethods, boolean allowContravariantConversionForParameters){
-		
+	public static Method getMethodFor(Object obj, String methodName, Object[] parameters, boolean includeInheritedMethods, boolean allowContravariantConversionForParameters) {
 		if (obj == null)
 			return null;
-		
 		
 		Method instanceMethod = getInstanceMethodFor(obj, methodName, parameters, includeInheritedMethods, allowContravariantConversionForParameters);
 		if (instanceMethod != null)
 			return instanceMethod;
 		
-		
 		Method staticMethod = getStaticMethodFor(obj, methodName, parameters, allowContravariantConversionForParameters);
 		if (staticMethod != null)
 			return staticMethod;
-		
 		
 		return null;
 	}
 
 	private static Method getInstanceMethodFor(Object obj, String methodName, Object[] parameters, boolean includeInheritedMethods, boolean allowContravariantConversionForParameters) {
-		Method[] methods = null;
-		
-		if (includeInheritedMethods) {
-			methods = obj.getClass().getMethods();
-		}
-		else {
-			methods = obj.getClass().getDeclaredMethods();
-		}
-		
-		return searchMethodsFor(methods, methodName, parameters, allowContravariantConversionForParameters);
+		return searchMethodsFor(getMethods(obj, includeInheritedMethods), methodName, parameters, allowContravariantConversionForParameters);
 	}
 	
 	private static Method getStaticMethodFor(Object obj, String methodName, Object[] parameters, boolean allowContravariantConversionForParameters) {
@@ -127,19 +116,19 @@ public class ReflectionUtil {
 		// the second one, autoboxing (like that in our isInstance static method) is used. In the
 		// third one, varargs are used. We should do the same if we want to tell apart remove(Object)
 		// from remove(int) like Java normally would.
-		for (int stage=0; stage < 2; ++stage) {
-			for (int i=0;i<methods.length;i++){
+		for (int stage = 0; stage < 2; ++stage) {
+			for (int i = 0; i < methods.length; i++) {
 				boolean namesMatch = false;
 				namesMatch = getMethodName(methods[i]).equalsIgnoreCase(methodName);
 			
-				if (namesMatch){
+				if (namesMatch) {
 					Method method = methods[i];
 				
 					Class<?>[] parameterTypes = method.getParameterTypes();
 					boolean parametersMatch = parameterTypes.length == parameters.length;
 					if (parametersMatch){
 						//TODO: See why parameter type checking does not work with EolSequence
-						for (int j=0;j<parameterTypes.length && parametersMatch; j++){
+						for (int j = 0; j < parameterTypes.length && parametersMatch; j++) {
 							Class<?> parameterType = parameterTypes[j];
 							Object parameter = parameters[j];
 							if (allowContravariantConversionForParameters) {
@@ -158,7 +147,7 @@ public class ReflectionUtil {
 		return null;
 	}
 
-	public static Object executeMethod(Object obj, Method method, Object[] parameters, ModuleElement ast) throws EolRuntimeException{
+	public static Object executeMethod(Object obj, Method method, Object[] parameters, ModuleElement ast) throws EolRuntimeException {
 		try {
 			return executeMethod(method, obj, parameters);
 		} catch (Throwable t) {
@@ -169,6 +158,7 @@ public class ReflectionUtil {
 	public static Object executeMethod(Object obj, String methodName, Object[] parameters) throws Throwable {
 		Method method = getMethodFor(obj, methodName, parameters, true, true);
 		try {
+			//TODO: replace with canAccess(Object)
 			if (!method.isAccessible()) {
 				method.setAccessible(true);
 			}
@@ -181,6 +171,7 @@ public class ReflectionUtil {
 	
 	public static Object executeMethod(Method method, Object obj, Object[] parameters) throws Throwable {
 		try {
+			//TODO: replace with canAccess(Object)
 			if (!method.isAccessible()) {
 				method.setAccessible(true);
 			}
@@ -200,7 +191,7 @@ public class ReflectionUtil {
 	public static String methodToString(Method method){
 		String str = getMethodName(method);
 		str += "(";
-		for (int i=0;i<method.getParameterTypes().length;i++){
+		for (int i = 0; i < method.getParameterTypes().length; i++) {
 			Class<?> parameterType = method.getParameterTypes()[i];
 			str += parameterType.getName();
 			if (i < method.getParameterTypes().length - 1) {
@@ -217,7 +208,7 @@ public class ReflectionUtil {
 	 * @param fieldName
 	 * @return
 	 */
-	public static Object getFieldValue(Object object, String fieldName){
+	public static Object getFieldValue(Object object, String fieldName) {
 		if (object == null) return null;
 		Field field = getField(object.getClass(), fieldName);
 		if (field == null) return null;
@@ -237,10 +228,10 @@ public class ReflectionUtil {
 	 * @param fieldName
 	 * @return
 	 */
-	public static Field getField(Class<?> clazz, String fieldName){
+	public static Field getField(Class<?> clazz, String fieldName) {
 	
 		Field[] fields = clazz.getDeclaredFields();
-		for (int i=0;i<fields.length;i++){
+		for (int i = 0; i < fields.length; i++){
 			if (fields[i].getName().equals(fieldName))
 				return fields[i];
 		}
@@ -258,7 +249,7 @@ public class ReflectionUtil {
 	 * @param instance
 	 * @return
 	 */
-	public static boolean isInstance(Class<?> clazz, Object instance){
+	public static boolean isInstance(Class<?> clazz, Object instance) {
 		if (instance == null) return true;
 		else if (clazz == int.class) return Integer.class.isInstance(instance);
 		else if (clazz == float.class) return Float.class.isInstance(instance);
@@ -270,7 +261,7 @@ public class ReflectionUtil {
 	}
 
 	public static List<Field> getAllInheritedInstanceFields(Class<?> klazz) {
-		final List<Field> fields = new ArrayList<Field>();
+		final List<Field> fields = new ArrayList<>();
 		for (Field f : klazz.getDeclaredFields()) {
 			if (Modifier.isStatic(f.getModifiers())) {
 				continue;
@@ -282,5 +273,4 @@ public class ReflectionUtil {
 		}
 		return fields;
 	}
-	
 }

@@ -14,14 +14,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-
 public class StringUtil {
 	
 	public static Collection<String> split(String str, String delimiter) {
-		
 		if (str == null) return Collections.emptyList();
 		
-		ArrayList<String> parts = new ArrayList<String>();
+		ArrayList<String> parts = new ArrayList<>();
 		
 		for (String p : str.split(delimiter)) {
 			parts.add(p.trim());
@@ -31,20 +29,20 @@ public class StringUtil {
 	}
 	
 	public static boolean isEmpty(String str)  {
-		return str == null || str.trim().length() == 0;
+		return str == null || str.trim().isEmpty();
 	}
 	
 	public static Object print(Object o) {
 		return o;
 	}
 	
-	public static String firstToUpper(String str){
+	public static String firstToUpper(String str) {
 		String result = str.substring(1, str.length());
 		result = str.substring(0,1).toUpperCase() + result;
 		return result;
 	}
 	
-	public static String firstToLower(String str){
+	public static String firstToLower(String str) {
 		String result = str.substring(1, str.length());
 		result = str.substring(0,1).toLowerCase() + result;
 		return result;
@@ -54,7 +52,7 @@ public class StringUtil {
 		return toString(s1).equalsIgnoreCase(toString(s2));
 	}
 	
-	public static String toString(Object o){
+	public static String toString(Object o) {
 		if (o != null){
 			return o.toString();
 		}
@@ -63,8 +61,8 @@ public class StringUtil {
 		}
 	}
 	
-	public static String toString(Object o, String default_){
-		if (o != null){
+	public static String toString(Object o, String default_) {
+		if (o != null) {
 			return o.toString();
 		}
 		else {
@@ -87,8 +85,7 @@ public class StringUtil {
 	    int len = string.length();
 	    char c;
 
-	    for (int i = 0; i < len; i++)
-	        {
+	    for (int i = 0; i < len; i++) {
 	        c = string.charAt(i);
 	        if (c == ' ') {
 	            // blank gets extra work,
@@ -121,18 +118,19 @@ public class StringUtil {
 	                sb.append("&lt;br/&gt;");
 	            else {
 	                int ci = 0xffff & c;
-	                if (ci < 160 )
+	                if (ci < 160) {
 	                    // nothing special only 7 Bit
 	                    sb.append(c);
+	                }
 	                else {
 	                    // Not 7 Bit use the unicode system
 	                    sb.append("&#");
-	                    sb.append(new Integer(ci).toString());
+	                    sb.append(ci);
 	                    sb.append(';');
-	                    }
 	                }
 	            }
 	        }
+	    }
 	    return sb.toString();
 	}
 
@@ -152,5 +150,12 @@ public class StringUtil {
 			sbuf.append(o + "");
 		}
 		return sbuf.toString();
+	}
+	
+	public static String stripHashCodes(Object obj) {
+		if (obj != null) {
+			return obj.toString().replaceAll("@([0-9a-fA-F]{1,8})", "");
+		}
+		return null;
 	}
 }

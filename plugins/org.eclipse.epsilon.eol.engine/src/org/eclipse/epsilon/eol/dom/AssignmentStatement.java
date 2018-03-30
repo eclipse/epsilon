@@ -10,8 +10,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 
 public class AssignmentStatement extends Statement {
 	
-	protected Expression targetExpression;
-	protected Expression valueExpression;
+	protected Expression targetExpression, valueExpression;
 	
 	public AssignmentStatement() {}
 	
@@ -25,28 +24,30 @@ public class AssignmentStatement extends Statement {
 		super.build(cst, module);
 		targetExpression = (Expression) module.createAst(cst.getFirstChild(), this);
 		valueExpression = (Expression) module.createAst(cst.getSecondChild(), this);
-		if (cst.getText().equals("+=")) {
+		
+		String text = cst.getText();
+		if (text.equals("+=")) {
 			valueExpression = new PlusOperatorExpression(targetExpression, valueExpression);
 		}
-		else if (cst.getText().equals("-=")) {
+		else if (text.equals("-=")) {
 			valueExpression = new MinusOperatorExpression(targetExpression, valueExpression);			
 		}
-		else if (cst.getText().equals("/=")) {
+		else if (text.equals("/=")) {
 			valueExpression = new DivOperatorExpression(targetExpression, valueExpression);			
 		}
-		else if (cst.getText().equals("*=")) {
+		else if (text.equals("*=")) {
 			valueExpression = new TimesOperatorExpression(targetExpression, valueExpression);			
 		}
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException{
+	public Object execute(IEolContext context) throws EolRuntimeException {
 		
 		// Executing the targetExpression can return either a Variable
 		// or a SetterMethod with one argument (set method)
-		// Executing the valueExpression will return an object
+		// Executing the valueExpression will return an Object
 		
-		Object targetExpressionResult = null;
+		Object targetExpressionResult;
 		
 		if (targetExpression instanceof PropertyCallExpression) {
 			targetExpressionResult = ((PropertyCallExpression) targetExpression).execute(context, true);
@@ -60,20 +61,20 @@ public class AssignmentStatement extends Statement {
 		
 		Object valueExpressionResult = context.getExecutorFactory().execute(valueExpression, context);
 		
-		if (targetExpressionResult instanceof IPropertySetter){
+		if (targetExpressionResult instanceof IPropertySetter) {
 			IPropertySetter setter = (IPropertySetter) targetExpressionResult;
 			try {
 				Object value = getValueEquivalent(setter.getObject(), valueExpressionResult, context);
-				
 				setter.invoke(value);
 			}
-			catch (EolRuntimeException ex){
+			catch (EolRuntimeException ex) {
 				if (ex.getAst() == null) {
 					ex.setAst(setter.getAst());
 				}
 				throw ex;
 			}
-		} else if (targetExpressionResult instanceof Variable){
+		}
+		else if (targetExpressionResult instanceof Variable) {
 			Variable variable = (Variable) targetExpressionResult;
 			try {
 				Object value = getValueEquivalent(variable.getValue(), valueExpressionResult, context);
@@ -83,15 +84,15 @@ public class AssignmentStatement extends Statement {
 				ex.setAst(targetExpression);
 				throw ex;
 			}
-		} else {
-			throw new EolRuntimeException("Internall error. Expected either a SetterMethod or a Variable and got an " + targetExpressionResult + "instead", this);
+		}
+		else {
+			throw new EolRuntimeException("Internal error. Expected either a SetterMethod or a Variable and got an " + targetExpressionResult + " instead", this);
 		}
 		
 		return null;
-		
 	}
 	
-	public Object getValueEquivalent(Object source, Object value, IEolContext context) throws EolRuntimeException {
+	protected Object getValueEquivalent(Object source, Object value, IEolContext context) throws EolRuntimeException {
 		return value;
 	}
 	
@@ -116,5 +117,4 @@ public class AssignmentStatement extends Statement {
 	public void setValueExpression(Expression valueExpression) {
 		this.valueExpression = valueExpression;
 	}
-	
 }

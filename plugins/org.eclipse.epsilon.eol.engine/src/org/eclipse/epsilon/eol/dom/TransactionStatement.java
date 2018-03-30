@@ -1,9 +1,7 @@
 package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
@@ -18,7 +16,7 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class TransactionStatement extends Statement {
 	
-	protected List<NameExpression> modelNames = new ArrayList<NameExpression>();
+	protected List<NameExpression> modelNames = new ArrayList<>();
 	protected StatementBlock body = null;
 	
 	@Override
@@ -34,7 +32,7 @@ public class TransactionStatement extends Statement {
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		
 		
-		List<IModel> models = new ArrayList<IModel>();
+		List<IModel> models = new ArrayList<>();
 		
 		if (modelNames.size() > 0) {
 			for (NameExpression modelNameAst : modelNames) {

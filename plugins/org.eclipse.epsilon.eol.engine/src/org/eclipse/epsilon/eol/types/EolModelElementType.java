@@ -13,10 +13,9 @@ package org.eclipse.epsilon.eol.types;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
+import java.util.Objects;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.CollectionUtil;
-import org.eclipse.epsilon.common.util.CollectionUtil.ElementPrinter;
 import org.eclipse.epsilon.eol.compile.m3.MetaClass;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -26,10 +25,9 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository.AmbiguityCheckResult;
 
-public class EolModelElementType extends EolType{
+public class EolModelElementType extends EolType {
 	
-	protected String modelName = "";
-	protected String typeName = "";
+	protected String modelName = "", typeName = "";
 	protected IModel model;
 	protected MetaClass metaClass = null;
 	
@@ -39,7 +37,7 @@ public class EolModelElementType extends EolType{
 	}
 	
 	public EolModelElementType(String modelAndMetaClass) {
-		if (modelAndMetaClass.indexOf("!") > -1){
+		if (modelAndMetaClass.indexOf("!") > -1) {
 			String[] parts = modelAndMetaClass.split("!");
 			modelName = parts[0];
 			typeName = parts[1];
@@ -51,7 +49,6 @@ public class EolModelElementType extends EolType{
 	}
 	
 	public EolModelElementType(String modelAndMetaClass, IEolContext context) throws EolModelNotFoundException, EolModelElementTypeNotFoundException {
-		
 		this(modelAndMetaClass);
 		
 		checkAmbiguityOfType(context);
@@ -66,8 +63,8 @@ public class EolModelElementType extends EolType{
 			}
 		}
 		
-		if (model==null || !model.hasType(typeName)){
-			throw new EolModelElementTypeNotFoundException(modelName,typeName);
+		if (model == null || !model.hasType(typeName)) {
+			throw new EolModelElementTypeNotFoundException(modelName, typeName);
 		}
 	}
 
@@ -82,13 +79,7 @@ public class EolModelElementType extends EolType{
 	}
 
 	private void issueAmbiguousTypeWarning(IEolContext context, AmbiguityCheckResult result) {
-		final String potentialTypes = CollectionUtil.join(result.namesOfOwningModels, " ", new ElementPrinter() {
-			
-			@Override
-			public String print(Object element) {
-				return "'" + element + "!" + typeName + "'";
-			}
-		});
+		final String potentialTypes = CollectionUtil.join(result.namesOfOwningModels, " ", element -> "'" + element + "!" + typeName+"'");
 		
 		context.getWarningStream().println("Warning: The type '" + typeName + "' " + 
 		                                   "is ambiguous and could refer to any of the following: " + potentialTypes + ". " + 
@@ -119,7 +110,7 @@ public class EolModelElementType extends EolType{
 		this.typeName = type;
 	}
 	
-	public Collection<?> getAllOfKind(){
+	public Collection<?> getAllOfKind() {
 		try {
 			return model.getAllOfKind(typeName);
 		}
@@ -129,7 +120,7 @@ public class EolModelElementType extends EolType{
 		}
 	}
 	
-	public Collection<?> getAllOfType(){
+	public Collection<?> getAllOfType() {
 		try {
 			return model.getAllOfType(typeName);
 		}
@@ -147,11 +138,11 @@ public class EolModelElementType extends EolType{
 		return getAllOfKind();
 	}
 	
-	public Collection<?> getAllInstances(){
+	public Collection<?> getAllInstances() {
 		return getAllOfKind();
 	}
 	
-	public Collection<?> allInstances(){
+	public Collection<?> allInstances() {
 		return getAllOfKind();
 	}
 	
@@ -160,7 +151,7 @@ public class EolModelElementType extends EolType{
 	}
 	
 	@Override
-	public boolean isType(Object o){
+	public boolean isType(Object o) {
 		try {
 			return model.isOfType(o,typeName);
 		}
@@ -171,13 +162,12 @@ public class EolModelElementType extends EolType{
 	}
 	
 	@Override
-	public Object createInstance() throws EolRuntimeException{
+	public Object createInstance() throws EolRuntimeException {
 		return model.createInstance(typeName);
 	}
 
 	@Override
-	public Object createInstance(List<Object> parameters)
-			throws EolRuntimeException {
+	public Object createInstance(List<Object> parameters) throws EolRuntimeException {
 		return model.createInstance(typeName, parameters);
 	}
 	
@@ -186,7 +176,7 @@ public class EolModelElementType extends EolType{
 		try {
 			return model.isOfKind(o,typeName);
 		}
-		catch (Exception ex){
+		catch (Exception ex) {
 			ex.printStackTrace();
 			return false;
 		}
@@ -195,7 +185,7 @@ public class EolModelElementType extends EolType{
 	@Override
 	public String getName() {
 		String name = "";
-		if (modelName.length() > 0){
+		if (modelName.length() > 0) {
 			name = modelName + "!";
 		}
 		return name + typeName; 
@@ -216,5 +206,34 @@ public class EolModelElementType extends EolType{
 	@Override
 	public String toString() {
 		return getName();
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), model != null ? model.getName() : model, metaClass != null ? metaClass.getName() : metaClass);
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		boolean eq = super.equals(other);
+		if (!eq) return false;
+		
+		EolModelElementType eme = (EolModelElementType) other;
+		
+		if (!(this.model == null && eme.model == null)) {
+			if (this.model == null || eme.model == null)
+				return false;
+			
+			eq = Objects.equals(this.model.getName(), eme.model.getName());
+		}
+		
+		if (eq && !(this.metaClass == null && eme.metaClass == null)) {
+			if (this.metaClass == null || eme.metaClass == null)
+				return false;
+			
+			eq = Objects.equals(this.metaClass.getName(), eme.metaClass.getName());
+		}
+		
+		return eq;
 	}
 }

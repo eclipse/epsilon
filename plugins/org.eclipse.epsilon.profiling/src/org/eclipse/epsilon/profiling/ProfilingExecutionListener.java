@@ -35,5 +35,4 @@ public class ProfilingExecutionListener implements IExecutionListener {
 	protected String getLabel(ModuleElement ast) {
 		return ast.getClass().getSimpleName() + " (" + ast.getRegion().getStart().getLine() + ":" + ast.getRegion().getStart().getColumn() + ")";
 	}
-	
 }

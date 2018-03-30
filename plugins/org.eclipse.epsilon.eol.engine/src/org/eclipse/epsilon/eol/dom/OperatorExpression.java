@@ -11,8 +11,7 @@ import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public abstract class OperatorExpression extends Expression {
 
-	protected Expression firstOperand;
-	protected Expression secondOperand;
+	protected Expression firstOperand, secondOperand;
 	protected String operator;
 	
 	public OperatorExpression() {}
@@ -29,8 +28,7 @@ public abstract class OperatorExpression extends Expression {
 		this.secondOperand = (Expression) module.createAst(cst.getSecondChild(), this);
 		this.operator = cst.getText();
 	}
-	
-	
+		
 	@Override
 	public void compile(EolCompilationContext context) {
 		firstOperand.compile(context);
@@ -58,18 +56,17 @@ public abstract class OperatorExpression extends Expression {
 		
 		if (StringUtil.isOneOf(operator, "==", "=", "<>", "<", ">", ">=", "<=")) {
 			resolvedType = EolPrimitiveType.Boolean;
-		}
-		
+		}	
 	}
 	
 	public List<Expression> getOperands() {
-		List<Expression> operands = new ArrayList<Expression>();
+		List<Expression> operands = new ArrayList<>();
 		operands.add(firstOperand);
 		if (secondOperand != null) operands.add(secondOperand);
 		return operands;
 	}
 	
-	public boolean isBooleanOperator(String operator){
+	public boolean isBooleanOperator(String operator) {
 		return StringUtil.isOneOf(operator, "and", "or", "xor", "not", "implies");
 	}
 	
@@ -96,5 +93,4 @@ public abstract class OperatorExpression extends Expression {
 	public void setSecondOperand(Expression secondOperand) {
 		this.secondOperand = secondOperand;
 	}
-	
 }

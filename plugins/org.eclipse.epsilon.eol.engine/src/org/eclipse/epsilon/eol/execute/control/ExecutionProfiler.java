@@ -14,13 +14,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-
 
 public class ExecutionProfiler implements ExecutionController {
 	
-	protected HashMap<ModuleElement, Long> profile = new HashMap<ModuleElement, Long>();
+	protected HashMap<ModuleElement, Long> profile = new HashMap<>();
 	long previousTime = 0;
 	ModuleElement previousAst = null;
 	
@@ -31,13 +29,13 @@ public class ExecutionProfiler implements ExecutionController {
 	public void control(ModuleElement ast, IEolContext context) {
 		long currentTime = 0;
 		
-		if (previousAst != null){
+		if (previousAst != null) {
 			Long timeSoFar = (Long) profile.get(previousAst);
-			if (timeSoFar == null){
-				timeSoFar = new Long(0);
+			if (timeSoFar == null) {
+				timeSoFar = 0L;
 			}
 			currentTime = System.currentTimeMillis();
-			timeSoFar = new Long(timeSoFar.longValue() + currentTime - previousTime);
+			timeSoFar += currentTime - previousTime;
 			profile.put(previousAst, timeSoFar);
 		}
 		
@@ -72,5 +70,4 @@ public class ExecutionProfiler implements ExecutionController {
 	public void done(ModuleElement ast, IEolContext context) {
 		// nothing to do
 	}
-	
 }

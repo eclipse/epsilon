@@ -31,8 +31,8 @@ public class AST extends CommonTree {
 	protected Region region;
 	protected AST annotations;
 	protected boolean imaginary;
-	protected List<Token> extraTokens = new ArrayList<Token>();
-	protected List<Token> commentTokens = new ArrayList<Token>();
+	protected List<Token> extraTokens = new ArrayList<>();
+	protected List<Token> commentTokens = new ArrayList<>();
 	protected List<AST> descendants = null;
 	protected IModule module;
 	protected HashMap<String, Object> properties = null;
@@ -98,7 +98,7 @@ public class AST extends CommonTree {
 	
 	public HashMap<String, Object> getProperties() {
 		if (properties == null) {
-			properties = new HashMap<String, Object>();
+			properties = new HashMap<>();
 		}
 		return properties;
 	}
@@ -320,7 +320,7 @@ public class AST extends CommonTree {
 	
 	public List<AST> getDescendants() {
 		if (descendants == null) {
-			descendants = new ArrayList<AST>();
+			descendants = new ArrayList<>();
 			collectDescendants(this, descendants, false);
 		}
 		return descendants;

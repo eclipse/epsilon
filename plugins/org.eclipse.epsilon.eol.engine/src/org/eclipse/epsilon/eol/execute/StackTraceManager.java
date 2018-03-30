@@ -2,11 +2,7 @@ package org.eclipse.epsilon.eol.execute;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
-
+import java.util.*;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -14,7 +10,9 @@ import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 
 public class StackTraceManager implements IExecutionListener {
 	
-	protected Stack<ModuleElement> stackTrace = new Stack<ModuleElement>();
+	//Use Deque instead of Stack to avoid bottlenecks due to synchronisation overhead!
+	//Concurrency should be handled by having a different StackTraceManager for each thread.
+	protected Deque<ModuleElement> stackTrace = new ArrayDeque<>();
 	
 	@Override
 	public void aboutToExecute(ModuleElement ast, IEolContext context) {
@@ -30,10 +28,9 @@ public class StackTraceManager implements IExecutionListener {
 	public void finishedExecutingWithException(ModuleElement ast, EolRuntimeException exception, IEolContext context) {}
 	
 	public List<ModuleElement> getStackTrace() {
-		ArrayList<ModuleElement> stackTrace = new ArrayList<ModuleElement>();
-		stackTrace.addAll(this.stackTrace);
-		Collections.reverse(stackTrace);
-		return stackTrace;
+		ArrayList<ModuleElement> trace = new ArrayList<>(this.stackTrace);
+		Collections.reverse(trace);
+		return trace;
 	}
 	
 	public void printStackTrace(PrintWriter writer) {
@@ -45,16 +42,16 @@ public class StackTraceManager implements IExecutionListener {
 	}
 	
 	public String getStackTraceAsString() {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (ModuleElement ast : getStackTrace()) {
-			buffer.append(toString(ast) + "\r\n");
+			sb.append(toString(ast) + "\r\n");
 		}
-		return buffer.toString();
+		return sb.toString();
 	}
 	
 	protected String toString(ModuleElement ast) {
-		
 		String location = "unknown";
+		
 		if (ast.getFile() != null) {
 			location = ast.getFile().getAbsolutePath();
 		}

@@ -27,6 +27,7 @@ public class SelectOperation extends FirstOrderOperation {
 		return false;
 	}
 	
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public Object execute(Object target, Variable iterator, Expression expression,
 			IEolContext context, boolean returnOnFirstMatch) throws EolRuntimeException {
 		
@@ -36,12 +37,12 @@ public class SelectOperation extends FirstOrderOperation {
 		FrameStack scope = context.getFrameStack();
 		
 		for (Object listItem : source) {	
-			if (iterator.getType()==null || iterator.getType().isKind(listItem)){
+			if (iterator.getType() == null || iterator.getType().isKind(listItem)) {
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
 				//scope.put(new Variable(iteratorName, listItem, iteratorType, true));
 				scope.put(Variable.createReadOnlyVariable(iterator.getName(),listItem));
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
-				if (bodyResult instanceof Boolean && ((Boolean) bodyResult)){
+				if (bodyResult instanceof Boolean && ((Boolean) bodyResult)) {
 					result.add(listItem);
 					if (returnOnFirstMatch) {
 						scope.leaveLocal(expression);
@@ -61,5 +62,4 @@ public class SelectOperation extends FirstOrderOperation {
 		
 		return execute(target, iterator, expression, context, isReturnOnFirstMatch());
 	}
-
 }

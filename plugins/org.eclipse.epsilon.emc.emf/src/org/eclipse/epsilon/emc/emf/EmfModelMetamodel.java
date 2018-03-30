@@ -21,7 +21,7 @@ public class EmfModelMetamodel extends Metamodel {
 	
 	public EmfModelMetamodel(StringProperties properties, IRelativePathResolver resolver) {
 		
-		HashMap<EClass, MetaClass> eClassMetaClassMap = new HashMap<EClass, MetaClass>();
+		HashMap<EClass, MetaClass> eClassMetaClassMap = new HashMap<>();
 		String nsuri = properties.getProperty("nsuri");
 		if (nsuri == null) {
 			getErrors().add("Required property nsuri not found");

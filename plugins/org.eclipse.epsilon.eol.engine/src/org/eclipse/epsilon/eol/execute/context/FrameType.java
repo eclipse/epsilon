@@ -7,25 +7,11 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - refactored to enum
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.context;
 
-public class FrameType {
-	
-	private String title = "";
-	
-	public static final FrameType UNPROTECTED = new FrameType("Unprotected");
-	public static final FrameType PROTECTED = new FrameType("Protected");
-	
-	private FrameType(String title){this.title = title;}
-	
-	public String getTitle(){
-		return title;
-	}
-	
-	@Override
-	public String toString(){
-		return title;
-	}
-	
+public enum FrameType {
+	PROTECTED,
+	UNPROTECTED
 }

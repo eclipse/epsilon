@@ -43,10 +43,10 @@ public class IfStatement extends Statement {
 		
 		Object result = null;
 		
-		if (((Boolean) condition).booleanValue()){
+		if ((boolean) condition) {
 			result = context.getExecutorFactory().execute(thenStatementBlock, context);
 		}
-		else if (elseStatementBlock != null){
+		else if (elseStatementBlock != null) {
 			result = context.getExecutorFactory().execute(elseStatementBlock, context);
 		}
 		

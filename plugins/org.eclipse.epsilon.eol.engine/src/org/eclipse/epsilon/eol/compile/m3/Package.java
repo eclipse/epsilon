@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Package extends NamedElement {
 	
-	protected List<Package> subPackages = new ArrayList<Package>();
-	protected List<MetaType> metaTypes = new ArrayList<MetaType>();
+	protected List<Package> subPackages = new ArrayList<>();
+	protected List<MetaType> metaTypes = new ArrayList<>();
 	
 	public List<Package> getSubPackages() {
 		return subPackages;

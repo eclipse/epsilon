@@ -27,9 +27,9 @@ import org.eclipse.epsilon.eol.parse.EolParser;
 public class ModelDeclaration extends AbstractModuleElement implements ICompilableModuleElement {
 
 	protected NameExpression nameExpression;
-	protected List<NameExpression> aliasNameExpressions = new ArrayList<NameExpression>();
+	protected List<NameExpression> aliasNameExpressions = new ArrayList<>();
 	protected NameExpression driverNameExpression;
-	protected List<ModelDeclarationParameter> modelDeclarationParameters = new ArrayList<ModelDeclarationParameter>();
+	protected List<ModelDeclarationParameter> modelDeclarationParameters = new ArrayList<>();
 	protected Metamodel metamodel = null;
 	
 	public ModelDeclaration() {}

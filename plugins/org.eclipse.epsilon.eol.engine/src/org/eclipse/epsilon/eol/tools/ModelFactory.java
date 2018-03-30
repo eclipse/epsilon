@@ -14,7 +14,7 @@ import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
 
-public class ModelFactory extends AbstractTool{
+public class ModelFactory extends AbstractTool {
 
 	public ModelFactory() {
 		super();
@@ -25,7 +25,7 @@ public class ModelFactory extends AbstractTool{
 
 		try {
 			
-			model = (IModel) Thread.currentThread().getContextClassLoader().loadClass(clazz).newInstance();
+			model = (IModel) Thread.currentThread().getContextClassLoader().loadClass(clazz).getDeclaredConstructor().newInstance();
 			model.setName(name);
 			context.getModelRepository().addModel(model);
 		} 
@@ -35,5 +35,4 @@ public class ModelFactory extends AbstractTool{
 		
 		return model;
 	}
-	
 }

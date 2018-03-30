@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - equals() and hashCode
  ******************************************************************************/
 package org.eclipse.epsilon.common.module;
 
@@ -14,17 +15,16 @@ import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 import org.antlr.runtime.Token;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
 
-
 public abstract class AbstractModuleElement implements ModuleElement {
 	
-	protected List<Comment> comments = new ArrayList<Comment>();
+	protected List<Comment> comments = new ArrayList<>();
 	protected ModuleElement parent;
-	protected List<ModuleElement> children = new ArrayList<ModuleElement>();
+	protected List<ModuleElement> children = new ArrayList<>();
 	protected URI uri;
 	protected IModule module;
 	protected Region region = new Region();
@@ -38,7 +38,12 @@ public abstract class AbstractModuleElement implements ModuleElement {
 	
 	@Override
 	public void build(AST cst, IModule module) {
-		for (Token commentToken : cst.getCommentTokens()) {
+		List<Token> commentTokens = cst.getCommentTokens();
+		
+		if (comments instanceof ArrayList)
+			((ArrayList<Comment>) comments).ensureCapacity(commentTokens.size());
+		
+		for (Token commentToken : commentTokens) {
 			Comment comment = new Comment(commentToken);
 			comment.setUri(cst.getUri());
 			comments.add(comment);
@@ -89,6 +94,7 @@ public abstract class AbstractModuleElement implements ModuleElement {
 		return uri;
 	}
 	
+	@Override
 	public void setRegion(Region region) {
 		this.region = region;
 	}
@@ -101,5 +107,40 @@ public abstract class AbstractModuleElement implements ModuleElement {
 	@Override
 	public ModuleElement getParent() {
 		return parent;
+	}
+
+	@Override
+	public String toString() {
+		String str = getClass().getSimpleName();
+		boolean uriNotNull = uri != null;
+		
+		if (uriNotNull) {
+			str += " ("+uri;
+		}
+		if (region != null) {
+			str += " @ "+region;
+		}
+		if (uriNotNull) {
+			str += ')';
+		}
+		
+		return str;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(uri, region);
+	}
+
+	@Override
+	public boolean equals(Object ame) {
+		if (this == ame) return true;
+		if (ame == null || this.getClass() != ame.getClass())
+			return false;
+		
+		AbstractModuleElement other = (AbstractModuleElement) ame;
+		return
+			Objects.equals(this.uri, other.uri) &&
+			Objects.equals(this.region, other.region);
 	}
 }

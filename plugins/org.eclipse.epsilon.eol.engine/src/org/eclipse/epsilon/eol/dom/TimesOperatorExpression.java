@@ -14,10 +14,9 @@ public class TimesOperatorExpression extends EagerOperatorExpression {
 	
 	@Override
 	public Object execute(Object o1, Object o2, IEolContext context) throws EolRuntimeException {
-		if (o1 instanceof Number && o2 instanceof Number){
+		if (o1 instanceof Number && o2 instanceof Number) {
 			return NumberUtil.multiply((Number) o1, (Number) o2);
 		}
-		return new Integer(0);
+		return 0;
 	}
-	
 }

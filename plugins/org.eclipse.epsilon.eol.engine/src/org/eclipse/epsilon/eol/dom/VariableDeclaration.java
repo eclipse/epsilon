@@ -14,7 +14,7 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class VariableDeclaration extends TypeInitialiser {
 	
-	protected List<Expression> parameterExpressions = new ArrayList<Expression>();
+	protected List<Expression> parameterExpressions = new ArrayList<>();
 	protected NameExpression nameExpression = null;
 	protected boolean instantiate;
 	protected boolean external;
@@ -50,10 +50,9 @@ public class VariableDeclaration extends TypeInitialiser {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException{
-		
+	public Object execute(IEolContext context) throws EolRuntimeException {	
 		EolType variableType = null;
-		if (typeExpression == null){ // No type defined
+		if (typeExpression == null) { // No type defined
 			variableType = EolAnyType.Instance;
 		}
 		else { // Type defined
@@ -62,7 +61,9 @@ public class VariableDeclaration extends TypeInitialiser {
 		
 		if (external) {
 			Variable variable = context.getFrameStack().get(getName());
-			if (variable != null) { return variable; }
+			if (variable != null) {
+				return variable;
+			}
 		}
 		
 		//TODO : Add try-catch and support for EolInstantiationExceptions
@@ -75,10 +76,16 @@ public class VariableDeclaration extends TypeInitialiser {
 	
 	@Override
 	public void compile(EolCompilationContext context) {
-		if (typeExpression != null) typeExpression.compile(context);
-		EolType type = null;
-		if (typeExpression != null) type = typeExpression.getCompilationType();
-		else type = EolAnyType.Instance;
+		EolType type;
+		
+		if (typeExpression != null) {
+			typeExpression.compile(context);
+			type = typeExpression.getCompilationType();
+		}
+		else {
+			type = EolAnyType.Instance;
+		}
+
 		if (context.getFrameStack().getTopFrame().contains(getName())) {
 			context.addErrorMarker(this, "Variable " + getName() + " has already been defined");
 		}

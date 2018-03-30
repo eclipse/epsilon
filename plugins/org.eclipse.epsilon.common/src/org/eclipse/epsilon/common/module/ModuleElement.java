@@ -13,32 +13,31 @@ package org.eclipse.epsilon.common.module;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
-
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
 
 public interface ModuleElement {
 	
-	public File getFile();
+	File getFile();
 	
-	public URI getUri();
+	URI getUri();
 
-	public void setUri(URI uri);
+	void setUri(URI uri);
 
-	public void setModule(IModule module);
+	void setModule(IModule module);
 	
-	public void build(AST cst, IModule module);
+	void build(AST cst, IModule module);
 	
-	public Region getRegion();
+	Region getRegion();
 	
-	public void setRegion(Region region);
+	void setRegion(Region region);
 	
-	public ModuleElement getParent();
+	ModuleElement getParent();
 	
-	public void setParent(ModuleElement moduleElement);
+	void setParent(ModuleElement moduleElement);
 	
-	public List<ModuleElement> getChildren();
+	List<ModuleElement> getChildren();
 	
-	public IModule getModule();
+	IModule getModule();
 	
 }

@@ -41,34 +41,33 @@ public class PropertyCallExpression extends FeatureCallExpression {
 	}
 	
 	public Object execute(Object source, NameExpression propertyNameExpression, IEolContext context, boolean returnSetter) throws EolRuntimeException {
-		
 		String propertyName = propertyNameExpression.getName();
 		if (source == null) throw new EolRuntimeException("Called feature " + propertyName + " on undefined object", propertyNameExpression);
 		
-		if (returnSetter){
+		if (returnSetter) {
 			IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(source, propertyName, context);
 			setter.setAst(propertyNameExpression);
 			return setter;
-		} else{
+		}
+		else {
 			IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(source, propertyName, context);
 			
 			// Added support for properties on collections
 			if (source instanceof Collection<?> && !getter.hasProperty(source, propertyName)) {
-				EolSequence<Object> results = new EolSequence<Object>();
+				EolSequence<Object> results = new EolSequence<>();
 				for (Object content : ((Collection<?>) source)) {
 					results.add(context.getIntrospectionManager().getPropertyGetterFor(content, propertyName, context).invoke(content, propertyName));
 				}
 				return results;
 			}
-			
+
 			getter.setAst(propertyNameExpression);
 			return wrap(getter.invoke(source, propertyName));
 		}
-		
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException{
+	public Object execute(IEolContext context) throws EolRuntimeException {
 		return execute(context, false);
 	}
 	
@@ -81,10 +80,10 @@ public class PropertyCallExpression extends FeatureCallExpression {
 			resolvedType = EolAnyType.Instance;
 		}
 		// e.g. EPackage.all
-		else if (targetExpression instanceof NameExpression && ((NameExpression) targetExpression).isTypeName()){
+		else if (targetExpression instanceof NameExpression && ((NameExpression) targetExpression).isTypeName()) {
 			if (((NameExpression) targetExpression).getResolvedType() instanceof EolModelElementType) {
 				if (propertyNameExpression.getName().equals("all") || propertyNameExpression.getName().equals("allInstances")) {
-					resolvedType = new EolCollectionType("Sequence", ((NameExpression) targetExpression).getResolvedType());
+					resolvedType = new EolCollectionType("Sequence", targetExpression.getResolvedType());
 				}
 			}
 		}
@@ -108,12 +107,16 @@ public class PropertyCallExpression extends FeatureCallExpression {
 					if (structuralFeature.isMany()) {
 						EolCollectionType collectionType = null;
 						if (structuralFeature.isOrdered()) {
-							if (structuralFeature.isUnique()) collectionType = new EolCollectionType("OrderedSet");
-							else collectionType = new EolCollectionType("Sequence");
+							if (structuralFeature.isUnique())
+								collectionType = new EolCollectionType("OrderedSet");
+							else
+								collectionType = new EolCollectionType("Sequence");
 						}
 						else {
-							if (structuralFeature.isUnique()) collectionType = new EolCollectionType("Set");
-							else collectionType = new EolCollectionType("Bag");
+							if (structuralFeature.isUnique())
+								collectionType = new EolCollectionType("Set");
+							else
+								collectionType = new EolCollectionType("Bag");
 						}
 						collectionType.setContentType(structuralFeature.getType());
 						resolvedType = collectionType;
@@ -140,5 +143,4 @@ public class PropertyCallExpression extends FeatureCallExpression {
 	public void setPropertyNameExpression(NameExpression propertyNameExpression) {
 		this.propertyNameExpression = propertyNameExpression;
 	}
-	
 }

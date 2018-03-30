@@ -7,20 +7,27 @@
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
+ *     Sina Madani - concurrency support
  ******************************************************************************/
 package org.eclipse.epsilon.common.util;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 
 public class Multimap<K, V> {
 	
-	private final Map<K, Collection<V>> storage = new HashMap<K, Collection<V>>();
+	protected final Map<K, Collection<V>> storage;
+	
+	public Multimap() {
+		this(false);
+	}
+	
+	public Multimap(boolean concurrent) {
+		storage = concurrent ? ConcurrencyUtils.concurrentMap() : new HashMap<>();
+	}
 	
 	public Collection<V> get(K key) {
-		return valueStoreFor(key);
+		return storage.containsKey(key) ? storage.get(key) : new LinkedList<>();
 	}
 
 	public void put(K key, V value) {
@@ -31,8 +38,9 @@ public class Multimap<K, V> {
 		storage.get(key).add(value);
 	}
 
-	public void remove(K key, V value) {
-		valueStoreFor(key).remove(value);
+	public boolean remove(K key, V value) {
+		Collection<V> col = storage.get(key);
+		return col != null && col.remove(value);
 	}
 
 	public void clear() {
@@ -40,15 +48,12 @@ public class Multimap<K, V> {
 	}
 
 	public boolean containsKey(K key) {
-		return !(valueStoreFor(key).isEmpty());
+		Collection<V> col = storage.get(key);
+		return col != null && !col.isEmpty();
 	}
 	
 	public void putAll(K key, Collection<V> values) {
 		storage.put(key, values);
-	}
-
-	private Collection<V> valueStoreFor(K key) {
-		return storage.containsKey(key) ? storage.get(key) : new LinkedList<V>();
 	}
 	
 	@Override

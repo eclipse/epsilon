@@ -27,33 +27,34 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IEolModule extends IModule {
 	
-	public Object execute() throws EolRuntimeException;
+	Object execute() throws EolRuntimeException;
 	
-	public StatementBlock getMain();
+	StatementBlock getMain();
 	
-	public List<Statement> getPostOperationStatements();
+	List<Statement> getPostOperationStatements();
 	
-	public boolean parse(String code, File file) throws Exception;
+	boolean parse(String code, File file) throws Exception;
 	
-	public OperationList getDeclaredOperations();
+	OperationList getDeclaredOperations();
 	
-	public OperationList getOperations();
+	OperationList getOperations();
 	
-	public List<ModelDeclaration> getDeclaredModelDeclarations();
+	List<ModelDeclaration> getDeclaredModelDeclarations();
 	
-	public Set<ModelDeclaration> getModelDelcarations();
+	Set<ModelDeclaration> getModelDelcarations();
 	
-	public IEolModule getParentModule();
+	IEolModule getParentModule();
 	
-	public void setParentModule(IEolModule parent);
+	void setParentModule(IEolModule parent);
 	
-	public List<Import> getImports();
+	List<Import> getImports();
 	
-	public IEolContext getContext();
+	IEolContext getContext();
 	
-	public void setContext(IEolContext context);
+	void setContext(IEolContext context);
 	
-	public EolCompilationContext getCompilationContext();
+	EolCompilationContext getCompilationContext();
 	
-	public List<ParseProblem> getParseProblems();
+	List<ParseProblem> getParseProblems();
+	
 }

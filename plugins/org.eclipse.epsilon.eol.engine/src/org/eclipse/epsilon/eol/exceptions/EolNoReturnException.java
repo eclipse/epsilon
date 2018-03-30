@@ -13,19 +13,18 @@ package org.eclipse.epsilon.eol.exceptions;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-
-public class EolNoReturnException extends EolRuntimeException{
+public class EolNoReturnException extends EolRuntimeException {
 	
 	protected String expectedType = "";
 	
-	public EolNoReturnException(String expectedType, ModuleElement ast, IEolContext context){
+	public EolNoReturnException(String expectedType, ModuleElement ast, IEolContext context) {
 		this.ast = ast;
 		this.context = context;
 		this.expectedType = expectedType;
 	}
 	
 	@Override
-	public String getReason(){
+	public String getReason() {
 		return "Expected to return '" + expectedType + "'";
 	}
 }

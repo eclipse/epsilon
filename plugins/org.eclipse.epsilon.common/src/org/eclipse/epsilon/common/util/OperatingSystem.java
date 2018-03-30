@@ -25,5 +25,4 @@ public class OperatingSystem {
         return System.getProperty("os.name").indexOf("Windows") > -1
             && System.getProperty("os.name").indexOf("Vista") > -1;
     }
-    
 }

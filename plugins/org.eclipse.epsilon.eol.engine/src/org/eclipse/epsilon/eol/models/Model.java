@@ -27,101 +27,70 @@ import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 import org.eclipse.epsilon.eol.models.transactions.NoModelTransactionSupport;
 
-public abstract class Model implements IModel{
+public abstract class Model implements IModel {
 	
-	public static final String PROPERTY_NAME = "name";
-	public static final String PROPERTY_READONLOAD = "readOnLoad";
-	public static final String PROPERTY_STOREONDISPOSAL = "storeOnDisposal";
-	public static final String PROPERTY_ALIASES = "aliases";
+	public static final String
+		PROPERTY_NAME = "name",
+		PROPERTY_READONLOAD = "readOnLoad",
+		PROPERTY_STOREONDISPOSAL = "storeOnDisposal",
+		PROPERTY_ALIASES = "aliases";
 	
-
 	protected String name;
-	protected List<String> aliases = new ArrayList<String>();
+	protected List<String> aliases = new ArrayList<>();
 	protected boolean storeOnDisposal = false;
 	protected boolean readOnLoad = true;
 	
-	public String getName(){
+	@Override
+	public String getName() {
 		return name;
 	}
 	
-	public void setName(String name){
+	@Override
+	public void setName(String name) {
 		this.name = name;
 	}
 	
+	@Override
 	public List<String> getAliases() {
 		return aliases;
 	}
 	
 	@Override
-	public void load(StringProperties properties, String basePath)
-			throws EolModelLoadingException {
-		
-		final String _basePath = basePath;
-		load(properties, new IRelativePathResolver() {
-			
-			@Override
-			public String resolve(String relativePath) {
-				return _basePath + relativePath;
-			}
-		});
-		
+	public void load(StringProperties properties, String basePath) throws EolModelLoadingException {	
+		load(properties, relativePath -> basePath + relativePath);	
 	}
 	
 	@Override
-	public void load(StringProperties properties)
-			throws EolModelLoadingException {
-		load(properties, new IRelativePathResolver() {
-			
-			@Override
-			public String resolve(String relativePath) {
-				return relativePath;
-			}
-		});
+	public void load(StringProperties properties) throws EolModelLoadingException {
+		load(properties, relativePath -> relativePath);
 	}
 	
+	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		this.name = properties.getProperty(PROPERTY_NAME);
-		this.readOnLoad = new Boolean(properties.getProperty(PROPERTY_READONLOAD)).booleanValue();
-		this.storeOnDisposal = new Boolean(properties.getProperty(PROPERTY_STOREONDISPOSAL)).booleanValue();
+		this.readOnLoad = Boolean.parseBoolean(properties.getProperty(PROPERTY_READONLOAD));
+		this.storeOnDisposal = Boolean.parseBoolean(properties.getProperty(PROPERTY_STOREONDISPOSAL));
 		
-		String[] aliases = properties.getProperty(PROPERTY_ALIASES).split(",");
-		for (int i=0;i<aliases.length;i++){
-			this.aliases.add(aliases[i].trim());
+		for (String alias : properties.getProperty(PROPERTY_ALIASES).split(",")) {
+			this.aliases.add(alias.trim());
 		}
 	}
 	
+	@Override
 	public Object createInstance(String type, Collection<Object> parameters)
 			throws EolModelElementTypeNotFoundException,
 			EolNotInstantiableModelElementTypeException {
 		return createInstance(type);
 	}
 	
-	/*
-	public Collection allInstances() {
-		ArrayList allInstances = new ArrayList();
-		Collection metaClasses = getAllClasses(true);
-		Iterator it = metaClasses.iterator();
-		while (it.hasNext()){
-			String metaClass = it.next().toString();
-			Collection instances = null;
-			try {
-				instances = getAllOfClass(metaClass);
-			} catch (EolMetaClassNotFoundException e) {
-				// Not going to happen
-			}
-			allInstances.addAll(instances);
-		}
-		return allInstances;
-	}
-	*/
-	
 	public Collection<?> allInstances() {
 		return allContents();
 	}
 
-	public boolean isOfKind(Object instance, String metaClass) throws EolModelElementTypeNotFoundException{
+	@Override
+	public boolean isOfKind(Object instance, String metaClass) throws EolModelElementTypeNotFoundException {
 		Collection<?> allOfKind = getAllOfKind(metaClass);
-		if (allOfKind != null && allOfKind.contains(instance)){
+		if (allOfKind != null && allOfKind.contains(instance)) {
 			return true;
 		}
 		else {
@@ -129,9 +98,10 @@ public abstract class Model implements IModel{
 		}
 	}
 
-	public boolean isOfType(Object instance, String metaClass) throws EolModelElementTypeNotFoundException{
+	@Override
+	public boolean isOfType(Object instance, String metaClass) throws EolModelElementTypeNotFoundException {
 		Collection<?> allOfClass = getAllOfType(metaClass);
-		if (allOfClass != null && allOfClass.contains(instance)){
+		if (allOfClass != null && allOfClass.contains(instance)) {
 			return true;
 		}
 		else {
@@ -154,41 +124,50 @@ public abstract class Model implements IModel{
 		return null;
 	}
 	
+	@Override
 	public boolean isReadOnLoad() {
 		return readOnLoad;
 	}
 
+	@Override
 	public boolean isStoredOnDisposal() {
 		return storeOnDisposal;
 	}
 
+	@Override
 	public void setReadOnLoad(boolean readOnLoad) {
 		this.readOnLoad = readOnLoad;
 	}
 
+	@Override
 	public void setStoredOnDisposal(boolean storedOnDisposal) {
 		this.storeOnDisposal = storedOnDisposal;
 	}
 
+	@Override
 	public IPropertyGetter getPropertyGetter() {
 		return new JavaPropertyGetter();
 	}
 
+	@Override
 	public IPropertySetter getPropertySetter() {
 		return new JavaPropertySetter();
 	}
 	
+	@Override
 	public void dispose() {
 		if (this.isStoredOnDisposal()){
 			this.store();
 		}
 	}
 	
+	@Override
 	public boolean knowsAboutProperty(Object instance, String property) {
 		return owns(instance);
 	}
 	
 	NoModelTransactionSupport transactionSupport = new NoModelTransactionSupport();
+	@Override
 	public IModelTransactionSupport getTransactionSupport() {
 		return transactionSupport;
 	}
@@ -202,6 +181,4 @@ public abstract class Model implements IModel{
 	public boolean isPropertySet(Object instance, String property) throws EolRuntimeException {
 		return getPropertyGetter().invoke(instance, property) != null;
 	}
-	
-	
 }

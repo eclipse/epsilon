@@ -30,7 +30,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 
 public class ModelGroup extends Model {
 	
-	protected ArrayList<IModel> models = new ArrayList<IModel>();
+	protected ArrayList<IModel> models = new ArrayList<>();
 	
 	public ModelGroup(ModelRepository repository, String metaModel) throws EolModelNotFoundException {
 		this.name = metaModel;
@@ -67,7 +67,7 @@ public class ModelGroup extends Model {
 	}
 
 	public Collection<?> getAllOfType(String metaClass) throws EolModelElementTypeNotFoundException {
-		ArrayList<Object> allOfClass = new ArrayList<Object>();
+		ArrayList<Object> allOfClass = new ArrayList<>();
 		for (IModel model : models) {
 			if (model.hasType(metaClass)) allOfClass.addAll(model.getAllOfType(metaClass));
 		}
@@ -75,7 +75,7 @@ public class ModelGroup extends Model {
 	}
 
 	public Collection<?> getAllOfKind(String metaClass) throws EolModelElementTypeNotFoundException {
-		ArrayList<Object> allOfType = new ArrayList<Object>();
+		ArrayList<Object> allOfType = new ArrayList<>();
 		for (IModel model : models) {
 			if (model.hasType(metaClass)) allOfType.addAll(model.getAllOfKind(metaClass));
 		}
@@ -83,7 +83,7 @@ public class ModelGroup extends Model {
 	}
 	
 	public Collection<Object> allContents() {
-		final List<Object> allContents = new ArrayList<Object>();
+		final List<Object> allContents = new ArrayList<>();
 		for (IModel model : models) {
 			allContents.addAll(model.allContents());
 		}

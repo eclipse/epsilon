@@ -13,13 +13,7 @@ package org.eclipse.epsilon.common.parse;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.SystemColor;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
@@ -28,7 +22,7 @@ import javax.swing.tree.TreePath;
 import org.antlr.runtime.tree.Tree;
 import org.eclipse.epsilon.common.util.StringUtil;
 
-public class Antlr3TreeViewer extends JFrame{
+public class Antlr3TreeViewer extends JFrame {
 	
 	//StaticFieldNameResolver v2Resolver;
 	StaticFieldNameResolver v3Resolver;
@@ -36,7 +30,7 @@ public class Antlr3TreeViewer extends JFrame{
 	//JTree v2Tree = new JTree();
 	JTree v3Tree = new JTree();
 	
-	public Antlr3TreeViewer(Tree tree, Class<?> v3Parser){
+	public Antlr3TreeViewer(Tree tree, Class<?> v3Parser) {
 		
 		//this.v2Resolver = new StaticFieldNameResolver(v2Parser);
 		this.v3Resolver = new StaticFieldNameResolver(v3Parser);
@@ -60,7 +54,7 @@ public class Antlr3TreeViewer extends JFrame{
 		//TODO: Highlight changes
 		
 		this.setTitle("AST Viewer");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setBounds(100,100,800,800);
 		//expandAll(v2Tree);
 		//expandAll(v3Tree);
@@ -225,7 +219,7 @@ public class Antlr3TreeViewer extends JFrame{
 		}
 	}
 	*/
-	class V3TreeCellRenderer implements TreeCellRenderer{
+	class V3TreeCellRenderer implements TreeCellRenderer {
 
 		public Component getTreeCellRendererComponent(JTree arg0, Object arg1, boolean selected, boolean expanded, boolean leaf, int row, boolean arg6) {
 			JLabel label = new JLabel();
@@ -256,7 +250,7 @@ public class Antlr3TreeViewer extends JFrame{
 			return label;
 		}
 		
-		private String getText(Tree ast){
+		private String getText(Tree ast) {
 			String str = StringUtil.escapeHtml(ast.getText());
 			str = str.replaceAll("\r", "<font color='#336699'>\\\\r</font>");
 			str = str.replaceAll("\n", "<font color='#336699'>\\\\n</font>");
@@ -264,5 +258,4 @@ public class Antlr3TreeViewer extends JFrame{
 			return str;
 		}
 	}
-	
 }

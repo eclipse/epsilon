@@ -14,7 +14,6 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
 
-
 public class NameExpression extends Expression {
 	
 	protected String name;
@@ -33,11 +32,8 @@ public class NameExpression extends Expression {
 	}
 	
 	public Object execute(IEolContext context, boolean returnVariable) throws EolRuntimeException {
-		
-		Variable variable = null;
 		FrameStack scope = context.getFrameStack();
-		
-		variable = scope.get(name);
+		Variable variable = scope.get(name);
 		
 		if (variable != null && variable.getDeprecationInfo() != null) {
 			context.getWarningStream().println("Warning: " + variable.getDeprecationInfo().getMessage());
@@ -46,7 +42,7 @@ public class NameExpression extends Expression {
 		// First look for a model element type
 		// if the name contains a !
 		if (variable == null) {
-			if (name.indexOf("!") > -1){
+			if (name.indexOf("!") > -1) {
 				variable = getModelElementType(name, context);
 			}
 		}
@@ -78,23 +74,21 @@ public class NameExpression extends Expression {
 		
 		if (variable == null) throw new EolUndefinedVariableException(name, this);
 
-		if (returnVariable){
+		if (returnVariable) {
 			return variable;
 		}
 		else {
 			return variable.getValue();
 		}
-
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException{
-		return execute(context,false);
+	public Object execute(IEolContext context) throws EolRuntimeException {
+		return execute(context, false);
 	}
 	
 	@Override
 	public void compile(EolCompilationContext context) {
-		// TODO Auto-generated method stub
 		Variable variable = context.getFrameStack().get(name);
 		if (variable != null) {
 			resolvedType = variable.getType();
@@ -118,7 +112,7 @@ public class NameExpression extends Expression {
 		try {
 			return Variable.createReadOnlyVariable(name, new EolModelElementType(name, context));
 		}
-		catch (EolRuntimeException rex){
+		catch (EolRuntimeException rex) {
 			return null;
 			// Ignore this exception... We just did not
 			// find such a model element type and we can
@@ -140,5 +134,10 @@ public class NameExpression extends Expression {
 	
 	public void setTypeName(boolean isTypeName) {
 		this.isTypeName = isTypeName;
+	}
+	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName()+": name="+name+", isTypeName="+isTypeName;
 	}
 }

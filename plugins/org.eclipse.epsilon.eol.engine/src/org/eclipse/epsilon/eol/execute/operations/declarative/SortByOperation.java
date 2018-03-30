@@ -34,7 +34,7 @@ public class SortByOperation extends CollectOperation {
 		final List<?> source = CollectionUtil.asList(target);
 		final List<?> collected = CollectionUtil.asList(super.execute(target, iterator, expression, context));
 		
-		List<DecoratedObject> decoratedObjects = new ArrayList<DecoratedObject>();
+		List<DecoratedObject> decoratedObjects = new ArrayList<>();
 		
 		// Determine which collected values correspond to which collection elements
 		//final Map<Object, Object> map = new HashMap<Object, Object>();
@@ -47,7 +47,7 @@ public class SortByOperation extends CollectOperation {
 		
 		// Build a new collection of the original collection elements
 		// ordered by the result of sorting the collected items
-		final Collection<Object> result = new EolSequence<Object>(); //EolCollectionType.createSameType(source);
+		final Collection<Object> result = new EolSequence<>(); //EolCollectionType.createSameType(source);
 		
 		for (int index = 0; index < collected.size(); index++)
 			result.add(decoratedObjects.get(index).getObject());
@@ -63,6 +63,8 @@ public class SortByOperation extends CollectOperation {
 			this.p = p;
 		}
 		
+
+		@SuppressWarnings({"unchecked", "rawtypes"})
 		public int compare(DecoratedObject do1, DecoratedObject do2) {
 
 			Object o1 = do1.getDecoration();
@@ -85,7 +87,6 @@ public class SortByOperation extends CollectOperation {
 	}
 	
 	class DecoratedObject {
-		
 		protected Object object;
 		protected Object decoration;
 		
@@ -106,8 +107,5 @@ public class SortByOperation extends CollectOperation {
 		public void setDecoration(Object decoration) {
 			this.decoration = decoration;
 		}
-		
 	}
-
-	
 }

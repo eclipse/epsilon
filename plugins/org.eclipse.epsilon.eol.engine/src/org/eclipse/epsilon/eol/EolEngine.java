@@ -18,7 +18,7 @@ public class EolEngine {
 	protected IEolContext context;
 	protected IEolModule module;
 	
-	public EolEngine(){
+	public EolEngine() {
 		reset();
 	}
 	

@@ -12,22 +12,41 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.trace;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.evl.dom.Constraint;
 
 public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 
-	protected Set<Constraint> storageOptimised = new HashSet<Constraint>();
-	protected Map<Object, Map<Constraint, Boolean>> storage = new HashMap<Object, Map<Constraint, Boolean>>();
-	protected List<ConstraintTraceItem> iterable = new ArrayList<ConstraintTraceItem>();
-
+	protected final Set<Constraint> storageOptimised;
+	//Map of model element instances to their constraints along with results
+	protected final Map<Object, Map<Constraint, Boolean>> storage;
+	protected final Collection<ConstraintTraceItem> iterable;
+	
+	public ConstraintTrace() {
+		this(false);
+	}
+	
+	public ConstraintTrace(boolean concurrent) {
+		storageOptimised = concurrent ? ConcurrencyUtils.concurrentSet() : new HashSet<>();
+		storage = concurrent ? ConcurrencyUtils.concurrentMap() : new HashMap<>();
+		iterable = concurrent ? ConcurrencyUtils.concurrentSet(): new HashSet<>();
+	}
+	
+	public void addAll(Collection<? extends ConstraintTrace> others) {
+		for (ConstraintTrace ct : others) {
+			storageOptimised.addAll(ct.storageOptimised.stream().collect(Collectors.toSet()));
+			storage.putAll(ct.storage);
+			iterable.addAll(ct.iterable.stream().collect(Collectors.toSet()));
+		}
+	}
+	
+	public void addAll(ConstraintTrace... others) {
+		addAll(Arrays.asList(others));
+	}
+	
 	/**
 	 * Indicates that this constraint was checked in an optimised manner, so
 	 * we only have the trace items for the invalid items and anything else
@@ -37,15 +56,16 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 		storageOptimised.add(constraint);
 	}
 
-	public void addChecked(Constraint constraint, Object object, boolean result){
-		Map<Constraint, Boolean> results;
-		results = storage.get(object);
-		if (results == null){
-			results = new HashMap<Constraint, Boolean>();
+	public void addChecked(Constraint constraint, Object object, boolean result) {
+		Map<Constraint, Boolean> results = storage.get(object);
+		if (results == null) {
+			results = new HashMap<>();
 			storage.put(object, results);
 		}
 		results.put(constraint, result);
-		iterable.add(new ConstraintTraceItem(object, constraint, result));
+		
+		ConstraintTraceItem cti = new ConstraintTraceItem(object, constraint, result);
+		iterable.add(cti);
 	}
 
 	public boolean isChecked(Constraint constraint, Object object) {
@@ -58,7 +78,7 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 
 	public boolean isSatisfied(Constraint constraint, Object object) {
 		Map<Constraint, Boolean> results = storage.get(object);
-		if (results == null){
+		if (results == null) {
 			// We could not find any individual trace items - it might
 			// have only been checked by optimised constraints.
 			return storageOptimised.contains(constraint);
@@ -67,12 +87,31 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 			// If we have an individual trace item, use it - otherwise,
 			// see if this constraint was checked in an optimised way.
 			final Boolean result = results.get(constraint);
-			return result != null ? result.booleanValue() : storageOptimised.contains(constraint);
+			return result != null ? result : storageOptimised.contains(constraint);
 		}
 	}
 
+	public Stream<ConstraintTraceItem> stream() {
+		return iterable.stream();
+	}
+	
+	@Override
 	public Iterator<ConstraintTraceItem> iterator() {
 		return iterable.iterator();
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(iterable);
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (this == other) return true;
+		if (!(other instanceof ConstraintTrace))
+			return false;
+		
+		ConstraintTrace ct = (ConstraintTrace) other;
+		return Objects.equals(this.iterable, ct.iterable);
+	}
 }

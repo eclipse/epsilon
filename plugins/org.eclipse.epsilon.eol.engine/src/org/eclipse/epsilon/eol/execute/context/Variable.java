@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.context;
 
+import java.util.Map.Entry;
+import java.util.Objects;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalVariableAssignmentException;
 import org.eclipse.epsilon.eol.exceptions.EolReadOnlyVariableException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -20,40 +22,31 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class Variable {
 	
 	protected String name = "";
-	protected Object value = null;
-	protected EolType type = null;
+	protected Object value;
+	protected EolType type;
 	protected boolean readOnly = false;
 	protected DeprecationInfo deprecationInfo;
 	
-	public DeprecationInfo getDeprecationInfo() {
-		return deprecationInfo;
+	public static Variable createReadOnlyVariable(String name, Object value) {
+		return new Variable(name, value, EolAnyType.Instance, true);
 	}
 
-	public void setDeprecationInfo(DeprecationInfo deprecationInfo) {
-		this.deprecationInfo = deprecationInfo;
+	public static Variable createReadOnlyVariable(Entry<String, ? extends Object> entry) {
+		return createReadOnlyVariable(entry.getKey(), entry.getValue());
 	}
-
-	public Variable(){
+	
+	public Variable() {
 		
 	}
 	
-	public Variable clone() {
-		Variable clone = new Variable();
-		clone.name = name;
-		clone.value = value;
-		clone.type = type;
-		clone.readOnly = readOnly;
-		return clone;
-	}
-	
-	public Variable(String name, Object value, EolType type, boolean readOnly){
+	public Variable(String name, Object value, EolType type, boolean readOnly) {
 		this.name = name;
 		this.type = type;
 		this.value = value;
 		this.readOnly = readOnly;
 	}
 	
-	public void dispose () {
+	public void dispose() {
 		this.type = null;
 		this.value = null;
 	}
@@ -63,19 +56,23 @@ public class Variable {
 		this.type = type;
 	}
 	
-	public Variable(String name, Object value, EolType type){
+	public Variable(String name, Object value, EolType type) {
 		this.name = name;
 		this.type = type;
 		this.value = value;
 	}
 	
-	public Object getValue(){
+	public Object getValue() {
 		return value;
 	}
 	
 	public void setValue(Object newValue, IEolContext context) throws EolRuntimeException {
-		if (this.isReadOnly()) throw new EolReadOnlyVariableException(this);
-		if (newValue!=null && !this.getType().isKind(newValue)) throw new EolIllegalVariableAssignmentException(this, this.getType(), newValue, context);
+		if (this.isReadOnly())
+			throw new EolReadOnlyVariableException(this);
+		
+		if (newValue != null && !this.getType().isKind(newValue))
+			throw new EolIllegalVariableAssignmentException(this, this.getType(), newValue, context);
+		
 		this.value = newValue;
 	}
 	
@@ -83,59 +80,22 @@ public class Variable {
 		this.value = newValue;
 	}
 	
-	public void setType(EolType type){
+	public void setType(EolType type) {
 		this.type = type;
 	}
 	
-	public EolType getType(){
+	public EolType getType() {
 		return type;
 	}
 	
-	public boolean isReadOnly(){
+	public boolean isReadOnly() {
 		return readOnly;
 	}
 	
-	public void setReadOnly(boolean readOnly){
+	public void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof Variable))
-			return false;
-		
-		final Variable other = (Variable)obj;
-		
-		return equals(name,     other.name)  &&
-		       equals(value,    other.value) &&
-		       equals(type,     other.type)  &&
-		       equals(readOnly, other.readOnly);
-	}
-	
-	private boolean equals(Object first, Object second) {
-		return first == null ? second == null : first.equals(second);
-	}
-	
-	@Override
-	public int hashCode() {
-		// equal objects must have same hashcode,
-		// but non-equal objects do not have to have
-		// different hashcodes (although this may improve lookup
-		// times in collections)
-		//   => name is a decent approximation
-		
-		return name == null ? 0 : name.hashCode();
-	}
-	
-	@Override
-	public String toString(){
-		return value + " " + type;
-	}
-	
-	public static Variable createReadOnlyVariable(String name, Object value){
-		return new Variable(name, value, EolAnyType.Instance, true);
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -144,4 +104,40 @@ public class Variable {
 		this.name = name;
 	}
 	
+	public DeprecationInfo getDeprecationInfo() {
+		return deprecationInfo;
+	}
+
+	public void setDeprecationInfo(DeprecationInfo deprecationInfo) {
+		this.deprecationInfo = deprecationInfo;
+	}
+	
+	@Override
+	public Variable clone() {
+		return new Variable(name, value, type, readOnly);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (!(obj instanceof Variable))
+			return false;
+		
+		final Variable other = (Variable) obj;
+		
+		return Objects.equals(name,     other.name)  &&
+			   Objects.equals(value,    other.value) &&
+			   Objects.equals(type,     other.type)  &&
+			   Objects.equals(readOnly, other.readOnly);
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(name);
+	}
+	
+	@Override
+	public String toString() {
+		return value + " " + type;
+	}
 }

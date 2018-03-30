@@ -12,10 +12,7 @@ package org.eclipse.epsilon.profiling;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.Region;
-
 
 public class ProfilerTarget {
 	
@@ -40,7 +37,7 @@ public class ProfilerTarget {
 		this.startTime = globalStopwatch.getElapsed();
 		this.globalEndTime = -1l;
 		this.internalEndTime = -1l;
-		children = new ArrayList<ProfilerTarget>();
+		children = new ArrayList<>();
 		this.data = data;
 		this.moduleElement = moduleElement;
 	}

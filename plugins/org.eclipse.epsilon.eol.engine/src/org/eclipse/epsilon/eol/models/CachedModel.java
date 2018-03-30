@@ -7,14 +7,13 @@
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
+ *     Sina Madani - concurrency support
  ******************************************************************************/
 package org.eclipse.epsilon.eol.models;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -27,12 +26,21 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
  * and getAllOfKind. Subclasses should implement the template
  * methods, which compute real values from the model
  * or provide keys that can be used with a {@link Map}.
+ * 
+ * Although the collections used here are thread-safe, subclasses
+ * should manage their own data structures in a thread-safe manner.
+ * In particular, {@link #allContentsFromModel()} should be
+ * managed appropriately by subclasses.
  */
 public abstract class CachedModel<ModelElementType> extends Model {
 	
-	public static String PROPERTY_CACHED = "cached";
+	public static final String PROPERTY_CACHED = "cached";
 	
+	/*
+	 * Implementations should return a thread-safe collection when appropriate!
+	 */
 	protected abstract Collection<ModelElementType> allContentsFromModel();
+	
 	protected abstract Collection<ModelElementType> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException;
 	protected abstract Collection<ModelElementType> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException;
 	protected abstract ModelElementType createInstanceInModel(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException;
@@ -62,16 +70,21 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	 */
 	protected abstract Collection<String> getAllTypeNamesOf(Object instance);
 	
-	protected Collection<ModelElementType> allContentsCache = new ArrayList<ModelElementType>();
-	protected boolean allContentsAreCached = false;
-
-	protected List<Object> cachedTypes = new ArrayList<Object>();
-	protected Multimap<Object, ModelElementType> typeCache = new Multimap<Object, ModelElementType>();
-
-	protected List<Object> cachedKinds = new ArrayList<Object>();
-	protected Multimap<Object, ModelElementType> kindCache = new Multimap<Object, ModelElementType>();
 	
-	protected boolean cachingEnabled = true;
+	protected Collection<ModelElementType> allContentsCache;
+	protected final Collection<Object> cachedTypes, cachedKinds;
+	protected final Multimap<Object, ModelElementType> typeCache, kindCache;
+	protected boolean cachingEnabled, allContentsAreCached;
+	
+	protected CachedModel() {
+		cachingEnabled = true;
+		allContentsAreCached = false;
+		allContentsCache = new ConcurrentLinkedQueue<>();
+		cachedKinds = ConcurrencyUtils.concurrentSet();
+		kindCache = new Multimap<>(true);
+		cachedTypes = ConcurrencyUtils.concurrentSet();
+		typeCache = new Multimap<>(true);
+	}
 	
 	protected void addToCache(String type, ModelElementType instance) throws EolModelElementTypeNotFoundException {
 		if (allContentsAreCached) {
@@ -117,8 +130,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		return cachingEnabled;
 	}
 	
+	@Override
 	public Collection<ModelElementType> allContents() {
-		
 		if (isCachingEnabled()) {
 			if (!allContentsAreCached) {
 				allContentsCache = allContentsFromModel();
@@ -131,10 +144,10 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		}
 	}
 	
+	@Override
 	public Collection<ModelElementType> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
-		Object key = getCacheKeyForType(type);
-
 		if (isCachingEnabled()) {
+			Object key = getCacheKeyForType(type);
 			if (!cachedTypes.contains(key)) {
 				typeCache.putAll(key, getAllOfTypeFromModel(type));
 				cachedTypes.add(key);
@@ -144,13 +157,12 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		else {
 			return getAllOfTypeFromModel(type);
 		}
-		
 	}
 	
+	@Override
 	public Collection<ModelElementType> getAllOfKind(String kind) throws EolModelElementTypeNotFoundException {
-		Object key = getCacheKeyForType(kind);
-		
 		if (isCachingEnabled()) {
+			Object key = getCacheKeyForType(kind);
 			if (!cachedKinds.contains(key)) {
 				kindCache.putAll(key, getAllOfKindFromModel(kind));
 				cachedKinds.add(key);
@@ -163,6 +175,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		
 	}
 	
+	@Override
 	public ModelElementType createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		ModelElementType instance = createInstanceInModel(type);
 		
@@ -173,6 +186,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		return instance;
 	}
 
+	@Override
 	public void deleteElement(Object o) throws EolRuntimeException {
 		if (deleteElementInModel(o)) {
 			if (isCachingEnabled()) {
@@ -183,6 +197,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		}
 	}
 
+	@Override
 	public void load() throws EolModelLoadingException {
 		clearCache();
 		loadModel();
@@ -191,10 +206,10 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
-		
-		this.setCachingEnabled(new Boolean(properties.getProperty(PROPERTY_CACHED)).booleanValue());
+		this.setCachingEnabled(properties.hasProperty(PROPERTY_CACHED));
 	}
 
+	@Override
 	public void dispose() {
 		super.dispose();
 		clearCache();

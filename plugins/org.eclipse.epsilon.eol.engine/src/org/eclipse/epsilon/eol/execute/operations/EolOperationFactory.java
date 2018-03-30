@@ -12,7 +12,7 @@
 package org.eclipse.epsilon.eol.execute.operations;
 
 import java.util.HashMap;
-
+import java.util.Map;
 import org.eclipse.epsilon.eol.execute.operations.declarative.AggregateOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.AsOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.ClosureOperation;
@@ -30,17 +30,14 @@ import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertErrorO
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertOperation;
 
 public class EolOperationFactory {
-
-	//protected ArrayList lookupPackages = new ArrayList();
 	
-	protected HashMap<String, AbstractOperation> operationCache = new HashMap<String, AbstractOperation>();
+	protected final Map<String, AbstractOperation> operationCache = new HashMap<>(16, 0.9f);
 	
-	public EolOperationFactory(){
+	public EolOperationFactory() {
 		createCache();
 	}
 	
 	protected void createCache() {
-
 		operationCache.put("assert", new AssertOperation());
 		operationCache.put("assertError", new AssertErrorOperation());
 		operationCache.put("collect", new CollectOperation());
@@ -56,11 +53,9 @@ public class EolOperationFactory {
 		operationCache.put("mapBy", new MapByOperation());
 		operationCache.put("as", new AsOperation());
 		operationCache.put("find", new FindOperation());
-		
 	}
 
 	public AbstractOperation getOperationFor(String name) {
 		return operationCache.get(name);
-	}
-	
+	}	
 }

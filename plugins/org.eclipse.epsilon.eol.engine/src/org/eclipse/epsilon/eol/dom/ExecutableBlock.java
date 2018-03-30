@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.eol.dom;
 
+import java.util.Collection;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
@@ -8,6 +9,7 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolNoReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -17,8 +19,7 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	
 	protected IExecutableModuleElement body = null;
 	protected Class<?> expectedResultClass = null;
-	protected String role = "";
-	protected String text = "";
+	protected String role = "", text = "";
 	
 	public ExecutableBlock(Class<?> expectedResultClass) {
 		this.expectedResultClass = expectedResultClass;
@@ -32,17 +33,19 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 			StatementBlock statementBlock = new StatementBlock();
 			statementBlock.setParent(this);
 			this.getChildren().add(statementBlock);
+			Collection<Statement> statements = statementBlock.getStatements();
+			
 			for (AST childAst : cst.getChildren()) {
 				ModuleElement childModuleElement = module.createAst(childAst, statementBlock);
 				if (childModuleElement instanceof Statement) {
-					statementBlock.getStatements().add((Statement) childModuleElement);
+					statements.add((Statement) childModuleElement);
 				}
 				else if (childModuleElement instanceof Expression) {
 					// Turn the expression into an expression statement so that it can be added to the statementBlock
 					ExpressionStatement expressionStatement = new ExpressionStatement((Expression) childModuleElement);
 					expressionStatement.setParent(statementBlock);
 					statementBlock.getChildren().add(expressionStatement);
-					statementBlock.getStatements().add(expressionStatement);
+					statements.add(expressionStatement);
 				}
 			}
 			body = statementBlock;
@@ -87,49 +90,52 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	}
 	
 	protected Object executeBlockOrExpressionAst(IExecutableModuleElement ast, IEolContext context) throws EolRuntimeException {
-		
 		if (ast == null) return null;
 		
+		Object result = context.getExecutorFactory().execute(ast, context);
+		
 		if (ast instanceof StatementBlock) {
-			return context.getExecutorFactory().execute(ast, context);
+			return result;
 		}
 		else {
-			return new Return(context.getExecutorFactory().execute(ast,context));
+			return new Return(result);
 		}
-		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public T execute(IEolContext context, boolean inNewFrame, FrameType frameType, Variable... variables) throws EolRuntimeException {
-		if (inNewFrame) context.getFrameStack().enterLocal(frameType, this);
-		for (Variable variable : variables) {
-			context.getFrameStack().put(variable);
-		}
+		FrameStack frameStack = context.getFrameStack();
+		
+		if (inNewFrame) frameStack.enterLocal(frameType, this);
+		
+		frameStack.put(variables);
 		
 		Object result = executeBody(context);
 		
-		if (inNewFrame) context.getFrameStack().leaveLocal(this);
+		if (inNewFrame) frameStack.leaveLocal(this);
+		
 		T retVal = null;
+		Class<?> expResClass = getExpectedResultClass();
+		
 		if (result instanceof Return) {
 			Object value = Return.getValue(result);
-			if (getExpectedResultClass().isInstance(value)) {
-				retVal =  (T) value;
+			if (expResClass == null) {
+				retVal = (T) result;
 			}
-			else if (getExpectedResultClass() == String.class && !(value instanceof String)) {
-				retVal =  (T) (value + "");
+			else if ((value == null && expResClass == Void.class) || expResClass.isInstance(value)) {
+				retVal = (T) value;
 			}
-			else if (value == null && getExpectedResultClass() == Void.class) {
-				retVal =  null;
-			}
-			else if (getExpectedResultClass() == null) {
-				retVal =  (T) result;
+			else if (expResClass == String.class && !(value instanceof String)) {
+				retVal = (T) (value + "");
 			}
 			else {
-				throw new EolIllegalReturnException(getExpectedResultClass().getSimpleName(), value, this, context);
-			}	
+				throw new EolIllegalReturnException(expResClass.getSimpleName(), value, this, context);
+			}
 		}
-		else if (getExpectedResultClass() != Void.class){
-			throw new EolNoReturnException(getExpectedResultClass().getSimpleName(), this, context);
+		else if (expResClass != Void.class) {
+			throw new EolNoReturnException(expResClass.getSimpleName(), this, context);
 		}
+		
 		postExecution();
 		return retVal;		
 	}
@@ -137,7 +143,7 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	/**
 	 * Any chores to be done after execution
 	 */
-	public void postExecution() {
+	protected void postExecution() {
 		
 	}
 
@@ -147,8 +153,7 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	 * @throws EolRuntimeException
 	 */
 	public Object executeBody(IEolContext context) throws EolRuntimeException {
-		Object result = executeBlockOrExpressionAst(getBody(), context);
-		return result;
+		return executeBlockOrExpressionAst(getBody(), context);
 	}
 	
 	public T execute(IEolContext context, boolean inNewFrame, Variable... variables) throws EolRuntimeException {
@@ -163,5 +168,4 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	public void compile(EolCompilationContext context) {
 		// TODO Auto-generated method stub
 	}
-	
 }

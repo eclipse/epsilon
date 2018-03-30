@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.execute;
 
-import java.util.ListIterator;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.userinput.IUserInput;
 import org.eclipse.epsilon.evl.IEvlFixer;
@@ -22,22 +20,16 @@ public class CommandLineFixer implements IEvlFixer {
 
 	protected boolean fix = false;
 	
-	public CommandLineFixer() {
-		super();
-	}
-	
 	public void fix(IEvlModule module) throws EolRuntimeException {
 		IEvlContext context = module.getContext();
 		IUserInput userInput = context.getUserInput();
-		ListIterator li = context.getUnsatisfiedConstraints().listIterator();
-		while (li.hasNext()){
-			UnsatisfiedConstraint unsatisfiedConstraint = (UnsatisfiedConstraint) li.next();
-			
+		
+		for (UnsatisfiedConstraint unsatisfiedConstraint : context.getUnsatisfiedConstraints()) {
 			context.getOutputStream().println(unsatisfiedConstraint.getMessage());
 			boolean fixIt = fix && (unsatisfiedConstraint.getFixes().size() > 0) && userInput.confirm("Fix error?", true);
 			
 			if (fixIt) {
-				FixInstance fixInstance = (FixInstance) userInput.choose(unsatisfiedConstraint.getMessage(),unsatisfiedConstraint.getFixes(), null);
+				FixInstance fixInstance = (FixInstance) userInput.choose(unsatisfiedConstraint.getMessage(), unsatisfiedConstraint.getFixes(), null);
 				if (fixInstance != null) {
 					fixInstance.perform();
 				}

@@ -74,5 +74,4 @@ public class ReflectiveModelReference extends ModelReference implements IReflect
 	private IReflectiveModel getTypeSafeTarget() {
 		return (IReflectiveModel)target;
 	}
-
 }

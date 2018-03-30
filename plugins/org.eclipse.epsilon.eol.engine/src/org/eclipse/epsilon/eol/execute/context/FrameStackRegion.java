@@ -7,35 +7,47 @@
  * 
  * Contributors:
  *     Louis Rose, Antonio García-Domínguez - initial API and implementation
+ *     Sina Madani - concurrency support
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.context;
 
-import java.util.ArrayDeque;
-import java.util.Collection;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.ForStatement;
 import org.eclipse.epsilon.eol.dom.WhileStatement;
-import org.eclipse.epsilon.eol.parse.EolParser;
 
 /**
- * A region of the FrameStack, which is itself a stack of frames.
+ * A region of the {@link FrameStack}, which is itself a stack of frames.
  * FrameStackRegions are used to distinguish between different parts
  * of the overall FrameStack.
+ * For best performance, concurrency should be handled using different FrameStack for each thread.
+ * Nevertheless, since FrameStacks are inherently not immutable,
+ * delegation of lookups may lead to {@link java.util.ConcurrentModificationException}.
+ * We therefore support concurrent access to the frames in this class through the
+ * {@linkplain FrameStackRegion#setThreadSafe} method. Please note that the default
+ * behaviour of this class is non-concurrent.
  * 
- * @author Louis Rose, Antonio García-Domínguez
+ * @author Louis Rose, Antonio García-Domínguez, Sina Madani
  * @see org.eclipse.epsilon.eol.execute.context.FrameStack
  */
 class FrameStackRegion {
 
-	// We use the newer Deque class rather than a java.util.Stack,
-	// as the latter uses the legacy Vector class
-	private Deque<SingleFrame> frames = new ArrayDeque<SingleFrame>();
-
+	/**
+	 * We use the newer Deque class rather than a java.util.Stack,
+	 * as the latter uses the legacy Vector class and is slower due to synchronization.
+	 */
+	private Deque<SingleFrame> frames;
+	
+	public FrameStackRegion() {
+		this(false);
+	}
+	
+	public FrameStackRegion(boolean concurrent) {
+		frames = concurrent ? new ConcurrentLinkedDeque<>() : new ArrayDeque<>();
+	}
+	
 	/**
 	 * Clears every frame.
 	 */
@@ -63,13 +75,17 @@ class FrameStackRegion {
 	 *            invisible from a {@link FrameType#PROTECTED} frame.
 	 * @param entryPoint
 	 *            The AST from which the entry is performed
+	 * @param variables
+	 * 			  Zero or more variables that will be added to the new frame
+	 * @return
+	 * 			  The new Frame
 	 */
 	public Frame enter(FrameType type, ModuleElement entryPoint, Variable... variables) {
 		frames.push(new SingleFrame(type, entryPoint));
 		put(variables);
 		return top();
 	}
-
+	
 	/**
 	 * Returns the number of frames in this region.
 	 */
@@ -86,12 +102,11 @@ class FrameStackRegion {
 		for (Frame frame : frames) {
 			if (frame.contains(name)) {
 				return frame.get(name);
-			
-			} else if (frame.getType() == FrameType.PROTECTED) {
+			}
+			else if (frame.getType() == FrameType.PROTECTED) {
 				break;
 			}
 		}
-		
 		return null;
 	}
 
@@ -102,11 +117,12 @@ class FrameStackRegion {
 	 * name in a lower frame. 
 	 */
 	public Map<String, Variable> getAll() {
-		final Map<String, Variable> all = new HashMap<String, Variable>();
+		final Map<String, Variable> all = new HashMap<>();
 		for (Frame frame : frames) {
-			for (Map.Entry<String, Variable> e : frame.getAll().entrySet()) {
-				if (!all.containsKey(e.getKey())) {
-					all.put(e.getKey(), e.getValue());
+			for (Map.Entry<String, Variable> entry : frame.getAll().entrySet()) {
+				String key = entry.getKey();
+				if (!all.containsKey(key)) {
+					all.put(key, entry.getValue());
 				}
 			}
 			if (frame.getType() == FrameType.PROTECTED) {
@@ -129,9 +145,10 @@ class FrameStackRegion {
 	 */
 	public boolean isInLoop() {
 		for (SingleFrame frame : frames) {
-			if (isLoopAst(frame.getEntryPoint())){
+			if (isLoopAst(frame.getEntryPoint())) {
 				return true;
-			} else if (frame.getType() == FrameType.PROTECTED){
+			}
+			else if (frame.getType() == FrameType.PROTECTED) {
 				return false;
 			}
 		}
@@ -159,7 +176,8 @@ class FrameStackRegion {
 	public void leave(ModuleElement entryPoint, boolean disposeFrameWithSpecifiedEntryPoint) {
 		if (!isEmpty()) {
 			disposeFramesUntil(entryPoint);
-			if (disposeFrameWithSpecifiedEntryPoint) disposeTopFrame();
+			if (disposeFrameWithSpecifiedEntryPoint)
+				disposeTopFrame();
 		}
 	}
 	
@@ -167,30 +185,39 @@ class FrameStackRegion {
 	 * Adds the specified variable to the topmost frame.
 	 */
 	public void put(String name, Object value) {
-		top().put(name, value);
+		Frame top = top();
+		if (top != null)
+			top.put(name, value);
+	}
+	
+	/**
+	 * Adds the specified variable to the topmost frame.
+	 */
+	public void put(Variable variable) {
+		Frame top = top();
+		if (top != null)
+			top.put(variable);
 	}
 	
 	/**
 	 * Adds the specified variables to the topmost frame.
 	 */
 	public void put(Variable... variables) {
-		for (Variable variable : variables) {
-			put(variable);
+		Frame top = top();
+		if (top != null) {
+			for (Variable variable : variables) {
+				top.put(variable);
+			}
 		}
-	}
-
-	/**
-	 * Adds the specified variable to the topmost frame.
-	 */
-	public void put(Variable variable) {
-		top().put(variable);
 	}
 	
 	/**
 	 * Adds the specified variables to the topmost frame.
 	 */
 	public void putAll(Map<String, Variable> variables) {
-		top().putAll(variables);
+		Frame top = top();
+		if (top != null)
+			top.putAll(variables);
 	}
 	
 	/**
@@ -224,10 +251,29 @@ class FrameStackRegion {
 		
 		return result.toString();
 	}
+	
+	static void mergeFrames(FrameStackRegion from, FrameStackRegion to) {
+		if (from != null && to != null && from.frames != null && !from.frames.isEmpty()) {
+			Deque<SingleFrame> framesToAdd = new ArrayDeque<>(from.frames);
+			
+			framesToAdd.removeIf(frame -> frame.getAll().isEmpty());
+			
+			if (to.frames == null) {
+				to.frames = framesToAdd;
+			}
+			else {
+				to.frames = CollectionUtil.mergeCollectionsUnique(
+					to.frames,
+					framesToAdd,
+					to.isThreadSafe() ? ConcurrentLinkedDeque::new : ArrayDeque::new
+				);
+			}
+		}
+	}
 
 	@Override
 	protected FrameStackRegion clone() {
-		final FrameStackRegion clone = new FrameStackRegion();
+		final FrameStackRegion clone = new FrameStackRegion(isThreadSafe());
 		
 		for (SingleFrame frame : frames) {
 			clone.frames.add(frame.clone());
@@ -235,15 +281,25 @@ class FrameStackRegion {
 		
 		return clone;
 	}
-
+	
+	boolean isThreadSafe() {
+		return frames instanceof ConcurrentLinkedDeque;
+	}
+	
+	void setThreadSafe(boolean concurrent) {
+		if (isThreadSafe() != concurrent) {
+			frames = concurrent ? new ConcurrentLinkedDeque<>(frames) : new ArrayDeque<>(frames);
+		}
+	}
+	
 	protected Collection<SingleFrame> getFrames() {
 		return frames;
 	}
-
-	protected boolean isLoopAst(ModuleElement ast) {
+	
+	protected static boolean isLoopAst(ModuleElement ast) {
 		return ast != null && (ast instanceof ForStatement || ast instanceof WhileStatement);
 	}
-
+	
 	private void disposeFramesUntil(ModuleElement entryPoint) {
 		while (top().getEntryPoint() != entryPoint)
 			disposeTopFrame();

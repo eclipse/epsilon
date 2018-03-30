@@ -22,5 +22,4 @@ public class Comment extends AbstractModuleElement {
 	public String toString() {
 		return text;
 	}
-	
 }

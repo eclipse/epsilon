@@ -2,7 +2,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.StringUtil;
@@ -26,8 +25,8 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	
 	protected NameExpression nameExpression;
-	protected List<Parameter> parameters = new ArrayList<Parameter>();
-	protected List<Expression> expressions = new ArrayList<Expression>();
+	protected List<Parameter> parameters = new ArrayList<>();
+	protected List<Expression> expressions = new ArrayList<>();
 	
 	public FirstOrderOperationCallExpression() {}
 	
@@ -161,5 +160,4 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	public List<Expression> getExpressions() {
 		return expressions;
 	}
-	
 }

@@ -89,10 +89,10 @@ public class StringOperationContributor extends OperationContributor {
 	
 	public void store(String where) throws Exception {
 		String value = (String) target;
-		FileOutputStream fos = new FileOutputStream(where);
-		fos.write(value.getBytes());
-		fos.flush();
-		fos.close();
+		try (FileOutputStream fos = new FileOutputStream(where)) {
+			fos.write(value.getBytes());
+			fos.flush();
+		}
 	}
 	
 	public boolean isSubstringOf(String str) {
@@ -100,10 +100,10 @@ public class StringOperationContributor extends OperationContributor {
 		return (str == null ? false : str.indexOf(value) > -1);
 	}
 	
-	public List<String> toCharSequence(){
+	public List<String> toCharSequence() {
 		String value = (String) target;
 		List<String> charSeq = CollectionUtil.createDefaultList();
-		for (int i=0;i<value.length();i++){
+		for (int i = 0; i< value.length(); i++) {
 			charSeq.add(value.charAt(i)+"");
 		}
 		return charSeq;

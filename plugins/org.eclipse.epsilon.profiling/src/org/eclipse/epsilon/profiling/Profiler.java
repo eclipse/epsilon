@@ -15,13 +15,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
-
 
 public class Profiler {
 	
-	protected Collection<IProfilerListener> listeners = new ArrayList<IProfilerListener>();
+	protected Collection<IProfilerListener> listeners = new ArrayList<>();
 	public static Profiler INSTANCE = new Profiler();
 	protected ProfilerTarget root;
 	protected ProfilerTarget activeTarget;
@@ -143,10 +141,10 @@ public class Profiler {
 	
 	public List<ProfilerTargetSummary> getTargetSummaries() {
 		
-		HashMap<String, ExecutionTime> executionTimes = new HashMap<String, ExecutionTime>();
+		HashMap<String, ExecutionTime> executionTimes = new HashMap<>();
 		collectExecutionTimes(executionTimes, root);
 		
-		ArrayList<ProfilerTargetSummary> summaries = new ArrayList<ProfilerTargetSummary>();
+		ArrayList<ProfilerTargetSummary> summaries = new ArrayList<>();
 		int i = 0;
 		for (String targetName : targetNames) {
 			ProfilerTargetSummary summary = new ProfilerTargetSummary();
@@ -194,8 +192,8 @@ public class Profiler {
 	public void reset() {
 		root.getChildren().clear();
 		activeTarget = root;
-		targets = new HashMap<String, Long>();
-		targetNames = new ArrayList<String>();
+		targets = new HashMap<>();
+		targetNames = new ArrayList<>();
 	}
 	
 	public void addListener(IProfilerListener listener) {
@@ -217,5 +215,4 @@ public class Profiler {
 	public ProfilerTarget getRoot() {
 		return root;
 	}
-	
 }

@@ -11,13 +11,12 @@
 package org.eclipse.epsilon.eol.tools;
 
 import java.io.PrintStream;
-import java.util.List;
-
+import java.util.Queue;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.AsyncStatementInstance;
 import org.eclipse.epsilon.eol.userinput.IUserInput;
 
-public class EolSystem extends AbstractTool{
+public class EolSystem extends AbstractTool {
 	
 	public IUserInput getUser() {
 		return context.getUserInput();
@@ -36,11 +35,9 @@ public class EolSystem extends AbstractTool{
 	}
 	
 	public void execAsync() throws EolRuntimeException {
-		List<AsyncStatementInstance> queque = context.getAsyncStatementsQueque();
-		while (queque.size() > 0) {
-			AsyncStatementInstance statement = queque.get(0);
-			statement.execute(context);
-			queque.remove(statement);
+		Queue<AsyncStatementInstance> queue = context.getAsyncStatementsQueue();
+		while (!queue.isEmpty()) {
+			queue.poll().execute(context);
 		}
 	}
 	

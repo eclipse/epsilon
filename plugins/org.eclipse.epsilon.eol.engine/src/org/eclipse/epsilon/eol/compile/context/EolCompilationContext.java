@@ -16,12 +16,12 @@ import org.eclipse.epsilon.eol.types.EolModelElementType;
 
 public class EolCompilationContext {
 
-	protected List<ModuleMarker> markers = new ArrayList<ModuleMarker>();
+	protected List<ModuleMarker> markers = new ArrayList<>();
 	protected IEolContext runtimeContext = null;
 	protected FrameStack frameStack = new FrameStack();
-	protected IModelFactory modelFactory = null;
-	protected IRelativePathResolver relativePathResolver = null;
-	protected List<ModelDeclaration> modelDeclarations = new ArrayList<ModelDeclaration>();
+	protected IModelFactory modelFactory;
+	protected IRelativePathResolver relativePathResolver;
+	protected List<ModelDeclaration> modelDeclarations = new ArrayList<>();
 	
 	public List<ModuleMarker> getMarkers() {
 		return markers;

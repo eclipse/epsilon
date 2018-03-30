@@ -18,9 +18,10 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 
-public class EmptyModel extends Model{
+public class EmptyModel extends Model {
 
 
+	@Override
 	public void load() throws EolModelLoadingException {
 		
 	}
@@ -29,14 +30,17 @@ public class EmptyModel extends Model{
 		return "";
 	}
 
+	@Override
 	public Object getEnumerationValue(String enumeration, String label) {
 		return null;
 	}
 
+	@Override
 	public Collection<?> getAllOfType(String metaClass) throws EolModelElementTypeNotFoundException {
 		return Collections.emptyList();
 	}
  
+	@Override
 	public Collection<?> getAllOfKind(String metaClass) throws EolModelElementTypeNotFoundException {
 		return Collections.emptyList();
 	}
@@ -53,10 +57,12 @@ public class EmptyModel extends Model{
 		return Collections.emptyList();
 	}
 
+	@Override
 	public Object getTypeOf(Object instance) {
 		return null;
 	}
 	
+	@Override
 	public String getTypeNameOf(Object instance) {
 		throw new UnsupportedOperationException("An empty model contains no elements.");
 	}
@@ -65,22 +71,27 @@ public class EmptyModel extends Model{
 		return Collections.emptyList();
 	}
 
+	@Override
 	public Object createInstance(String metaClass) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		return null;
 	}
 
+	@Override
 	public Object getElementById(String id) {
 		return null;
 	}
 
+	@Override
 	public String getElementId(Object instance) {
 		return null;
 	}
 	
+	@Override
 	public void setElementId(Object instance, String newId) {
 		// do nothing
 	}
 
+	@Override
 	public void deleteElement(Object instance) {
 		
 	}
@@ -89,14 +100,17 @@ public class EmptyModel extends Model{
 		return null;
 	}
 
+	@Override
 	public boolean owns(Object instance) {
 		return false;
 	}
 
+	@Override
 	public boolean store(String fileName) {
 		return false;
 	}
 
+	@Override
 	public boolean store() {
 		return false;
 	}
@@ -106,14 +120,17 @@ public class EmptyModel extends Model{
 		
 	}
 
+	@Override
 	public Collection<?> allContents() {
 		return Collections.emptyList();
 	}
 
+	@Override
 	public boolean isInstantiable(String metaClass) {
 		return false;
 	}
 
+	@Override
 	public boolean hasType(String metaClass) {
 		return true;
 	}
@@ -123,8 +140,8 @@ public class EmptyModel extends Model{
 		
 	}
 
+	@Override
 	public boolean isModelElement(Object instance) {
 		return false;
 	}
-
 }

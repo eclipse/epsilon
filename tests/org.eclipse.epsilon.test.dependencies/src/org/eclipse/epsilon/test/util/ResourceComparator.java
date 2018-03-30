@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -16,13 +15,11 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
-import org.eclipse.epsilon.eol.EolModule;
 
 public class ResourceComparator {
 	
-	protected HashMap<EObject, EObject> matches = new HashMap<EObject, EObject>();
-	protected HashMap<EObject, EObject> tempMatches = new HashMap<EObject, EObject>();
+	protected HashMap<EObject, EObject> matches = new HashMap<>();
+	protected HashMap<EObject, EObject> tempMatches = new HashMap<>();
 	
 	protected Resource createResource() {
 		ResourceSet rs = new ResourceSetImpl();
@@ -96,7 +93,7 @@ public class ResourceComparator {
 	
 	protected List<EObject> getAllContents(Resource r) {
 		
-		ArrayList<EObject> allContents = new ArrayList<EObject>();
+		ArrayList<EObject> allContents = new ArrayList<>();
 		Iterator<EObject> it = r.getAllContents();
 		while (it.hasNext()) {
 			allContents.add(it.next());

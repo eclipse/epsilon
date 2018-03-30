@@ -1,5 +1,7 @@
 package org.eclipse.epsilon.common.parse;
 
+import java.util.Objects;
+
 public class Region {
 	
 	protected Position start = new Position(0, 0);
@@ -37,4 +39,20 @@ public class Region {
 		return start + "-" + end;
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(start, end);
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (this == other) return true;
+		if (!(other instanceof Region))
+			return false;
+		
+		Region region = (Region) other;
+		return
+			Objects.equals(this.start, region.start) &&
+			Objects.equals(this.end, region.end);
+	}
 }

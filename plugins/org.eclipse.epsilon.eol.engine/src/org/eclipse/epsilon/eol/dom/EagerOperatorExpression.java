@@ -16,7 +16,7 @@ public abstract class EagerOperatorExpression extends OperatorExpression {
 		Object o1 = context.getExecutorFactory().execute(firstOperand, context);
 		Object o2 = null;
 		
-		if (secondOperand != null){
+		if (secondOperand != null) {
 			o2 = context.getExecutorFactory().execute(secondOperand, context);
 		}
 		return execute(o1, o2, context);

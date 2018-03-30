@@ -11,13 +11,11 @@
 package org.eclipse.epsilon.eol.execute.operations;
 
 import java.util.List;
-
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-
 
 public abstract class AbstractOperation {
 	
@@ -26,5 +24,4 @@ public abstract class AbstractOperation {
 	public boolean isOverridable() {
 		return true;
 	}
-	
 }

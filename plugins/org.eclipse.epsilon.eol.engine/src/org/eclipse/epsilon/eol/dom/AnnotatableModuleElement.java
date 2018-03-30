@@ -3,7 +3,7 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
@@ -34,20 +34,22 @@ public abstract class AnnotatableModuleElement extends AbstractModuleElement {
 	}
 	
 	protected List<Annotation> getAnnotations(String name) {
-		if (annotationBlock == null) return Collections.emptyList();
+		if (annotationBlock == null)
+			return Collections.emptyList();
 		
-		List<Annotation> annotations = new ArrayList<Annotation>();
-		for (Annotation annotation : annotationBlock.getAnnotations()) {
-			if (annotation.getName().equals(name)) annotations.add(annotation);
-		}
-		return annotations;
+		return annotationBlock.getAnnotations()
+				.stream()
+				.filter(annotation -> annotation.getName().equals(name))
+				.collect(Collectors.toList());
 	}
 	
 	protected Annotation getAnnotation(String name) {
-		if (annotationBlock == null) return null;
+		if (annotationBlock == null)
+			return null;
 		
 		for (Annotation annotation : annotationBlock.getAnnotations()) {
-			if (annotation.getName().equals(name)) return annotation;
+			if (annotation.getName().equals(name))
+				return annotation;
 		}
 		return null;
 	}
@@ -62,11 +64,13 @@ public abstract class AnnotatableModuleElement extends AbstractModuleElement {
 		if (!annotation.hasValue()) return ifNoValue;
 		
 		Object result = null;
-		if (annotation instanceof SimpleAnnotation) result = ((SimpleAnnotation) annotation).getValue();
-		else if (annotation instanceof ExecutableAnnotation) result = ((ExecutableAnnotation) annotation).getValue(context);
+		if (annotation instanceof SimpleAnnotation)
+			result = ((SimpleAnnotation) annotation).getValue();
+		else if (annotation instanceof ExecutableAnnotation)
+			result = ((ExecutableAnnotation) annotation).getValue(context);
 		
 		try {
-			return new Boolean(result.toString());
+			return Boolean.parseBoolean(result.toString());
 		}
 		catch (Exception ex) {
 			throw new EolIllegalReturnException("Boolean", result, annotation, context);
@@ -74,7 +78,7 @@ public abstract class AnnotatableModuleElement extends AbstractModuleElement {
 	}
 	
 	public List<Object> getAnnotationsValues(String name, IEolContext context) throws EolRuntimeException {
-		List<Object> values = new ArrayList<Object>();
+		List<Object> values = new ArrayList<>();
 		for (Annotation annotation : getAnnotations(name)) {
 			values.add(annotation.getValue(context));
 		}

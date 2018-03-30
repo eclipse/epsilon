@@ -8,28 +8,42 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio Garcia-Dominguez - provide context for checking if an operation is contributed.
+ *     Sina Madani - concurrency support
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.eclipse.epsilon.common.concurrent.ConcurrentBaseDelegate;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.contributors.compatibility.StringCompatibilityOperationContributor;
 
-public class OperationContributorRegistry {
+public class OperationContributorRegistry implements ConcurrentBaseDelegate<OperationContributorRegistry> {
 	
-	private final List<OperationContributor> operationContributorsCache = new ArrayList<OperationContributor>();
-
+	private Collection<OperationContributor> operationContributorsCache;
+	private boolean isConcurrent;
+	private final OperationContributorRegistry base;
+	
 	public OperationContributorRegistry() {
-		operationContributorsCache.addAll(getDefaultOperationContributors());
+		this(null);
 	}
 	
+	public OperationContributorRegistry(OperationContributorRegistry parent) {
+		this(parent, false);
+	}
+	
+	public OperationContributorRegistry(OperationContributorRegistry parent, boolean concurrent) {
+		this.base = parent;
+		this.isConcurrent = concurrent;
+		operationContributorsCache = concurrent ?
+			new ConcurrentLinkedQueue<>(getDefaultOperationContributors()) :
+			getDefaultOperationContributors();
+	}
+
 	/**
 	 * <p>Adds the specified {@link OperationContributor} to the list of contributors
 	 * used to discover contributed operations by the registry. Contributors added
@@ -51,21 +65,24 @@ public class OperationContributorRegistry {
 	 * by the registry. 
 	 */
 	protected List<OperationContributor> getDefaultOperationContributors() {
-		return new LinkedList<OperationContributor>(
-		             Arrays.asList(new StringCompatibilityOperationContributor(),
-		                           new ReflectiveOperationContributor(),
-		                           new WrapperOperationContributor(),
-		                           new StringOperationContributor(),
-		                           new IntegerOperationContributor(),
-		                           new NumberOperationContributor(),
-		                           new BooleanOperationContributor(),
-		                           new DateOperationContributor(),
-		                           new ArrayOperationContributor(),
-		                           new IterableOperationContributor(),
-		                           new ScalarOperationContributor(),
-		                           new AnyOperationContributor(),
-		                           new BasicEUnitOperationContributor(),
-		                           new ModelElementOperationContributor()));
+		return new LinkedList<>(
+			Arrays.asList(
+				new StringCompatibilityOperationContributor(),
+                new ReflectiveOperationContributor(),
+                new WrapperOperationContributor(),
+                new StringOperationContributor(),
+                new IntegerOperationContributor(),
+                new NumberOperationContributor(),
+                new BooleanOperationContributor(),
+                new DateOperationContributor(),
+                new ArrayOperationContributor(),
+                new IterableOperationContributor(),
+                new ScalarOperationContributor(),
+                new AnyOperationContributor(),
+                new BasicEUnitOperationContributor(),
+                new ModelElementOperationContributor()
+			)
+		);
 	}
 	
 	/**
@@ -76,12 +93,15 @@ public class OperationContributorRegistry {
 	 * example, EGL's contributor for OutputBuffer's print operations.
 	 */
 	public ObjectMethod findContributedMethodForUnevaluatedParameters(Object target, String name, List<Expression> parameterExpressions, IEolContext context) {
-		for (OperationContributor c : getOperationContributorsFor(target, context)) {
-			ObjectMethod objectMethod = c.findContributedMethodForUnevaluatedParameters(target, name, parameterExpressions, context);
-			if (objectMethod != null) return objectMethod;
-		}
-		
-		return null;
+		return delegateLookup(ocr -> {
+			for (OperationContributor c : ocr.getOperationContributorsFor(target)) {
+				ObjectMethod objectMethod = c.findContributedMethodForUnevaluatedParameters(target, name, parameterExpressions, context);
+				if (objectMethod != null)
+					return objectMethod;
+			}
+			
+			return null;
+		});
 	}
 	
 	/**
@@ -91,24 +111,53 @@ public class OperationContributorRegistry {
 	 * evaluated.
 	 */
 	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context) {
-		for (OperationContributor c : getOperationContributorsFor(target, context)) {
-			ObjectMethod objectMethod = c.findContributedMethodForEvaluatedParameters(target, name, parameters, context, false);
-			if (objectMethod != null) return objectMethod;
-		}
-
-		return null;
+		return delegateLookup(ocr -> {
+			for (OperationContributor c : ocr.getOperationContributorsFor(target)) {
+				ObjectMethod objectMethod = c.findContributedMethodForEvaluatedParameters(target, name, parameters, context, false);
+				if (objectMethod != null)
+					return objectMethod;
+			}
+			return null;
+		});
 	}
 	
-	private Collection<OperationContributor> getOperationContributorsFor(Object target, IEolContext context) {
-		final List<OperationContributor> applicableOperationContributors = new LinkedList<OperationContributor>();
-		
-		for (OperationContributor c : operationContributorsCache) {
-			c.setContext(context);
-			if (c.contributesTo(target)) {
-				applicableOperationContributors.add(c);
-			}
+	protected Collection<OperationContributor> getOperationContributorsFor(Object target) {
+		return operationContributorsCache.stream()
+			.filter(oc -> oc.contributesTo(target))
+			.collect(Collectors.toList());
+	}
+	
+	public Stream<OperationContributor> stream() {
+		return operationContributorsCache.stream();
+	}
+	
+	@Override
+	public OperationContributorRegistry getBase() {
+		return base;
+	}
+
+	@Override
+	public void merge(MergeMode mode) {
+		mergeCollectionsUnique(
+			ocr -> ocr.operationContributorsCache,
+			ConcurrentLinkedQueue::new,
+			LinkedList::new,
+			mode
+		);
+	}
+	
+	@Override
+	public void setThreadSafe(boolean concurrent) {
+		if (this.isConcurrent != concurrent) {
+			this.isConcurrent = concurrent;
+			operationContributorsCache = isConcurrent ?
+				new ConcurrentLinkedQueue<>(operationContributorsCache) :
+				new ArrayList<>(operationContributorsCache);
 		}
-		
-		return applicableOperationContributors;
+	}
+	
+	@Override
+	public boolean isThreadSafe() {
+		return isConcurrent;
 	}
 }

@@ -11,8 +11,8 @@
 package org.eclipse.epsilon.evl.execute;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolReturnException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.models.transactions.ModelRepositoryTransactionSupport;
 import org.eclipse.epsilon.evl.dom.Fix;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
@@ -22,23 +22,20 @@ public class FixInstance {
 	protected Object self;
 	protected IEvlContext context;
 	protected FrameStack scope;
+	protected String title;
+
+	public FixInstance(IEvlContext context, Fix fix) {
+		this.context = context;
+		this.fix = fix;
+		this.scope = context.getFrameStack().clone();
+	}
 	
 	public IEvlContext getContext() {
 		return context;
 	}
 
-	public FixInstance(IEvlContext context) {
-		super();
-		this.context = context;
-		this.scope = context.getFrameStack().clone();
-	}
-
 	public Fix getFix() {
 		return fix;
-	}
-
-	public void setFix(Fix fix) {
-		this.fix = fix;
 	}
 	
 	public Object getSelf() {
@@ -49,15 +46,12 @@ public class FixInstance {
 		this.self = self;
 	}
 	
-	
-	protected String title = null;
 	public String getTitle() throws EolRuntimeException {
-		
 		if (title == null) {
 			try {
 				FrameStack oldScope = context.getFrameStack();
 				context.setFrameStack(this.scope);
-				title = fix.getTitle(self,context);
+				title = fix.getTitle(self, context);
 				context.setFrameStack(oldScope);
 			}
 			catch (EolRuntimeException ex) {
@@ -65,34 +59,34 @@ public class FixInstance {
 				throw ex;
 			}
 		}
-		
 		return title;
 	}
 	
 	public void perform() throws EolRuntimeException {
 		FrameStack oldScope = context.getFrameStack();
 		context.setFrameStack(this.scope);
+		ModelRepositoryTransactionSupport transactionSupport = context.getModelRepository().getTransactionSupport();
 		try {
-			context.getModelRepository().getTransactionSupport().startTransaction();
-			fix.execute(self,context);
-			context.getModelRepository().getTransactionSupport().commitTransaction();
+			transactionSupport.startTransaction();
+			fix.execute(self, context);
+			transactionSupport.commitTransaction();
 		}
-		catch(EolRuntimeException ex) {
-			context.getModelRepository().getTransactionSupport().rollbackTransaction();
+		catch (EolRuntimeException ex) {
+			transactionSupport.rollbackTransaction();
 			throw ex;
 		}
 		finally {
 			context.setFrameStack(oldScope);
 		}
-		
 	}
 	
 	@Override
 	public String toString() {
 		try {
 			return getTitle();
-		} catch (EolRuntimeException e) {
-			context.getErrorStream().println(e.getMessage());
+		}
+		catch (EolRuntimeException erx) {
+			context.getErrorStream().println(erx.getMessage());
 			return "An exception occured while evaluating the title of the fix";
 		}
 	}

@@ -10,14 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
+import java.util.*;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.types.EolBag;
@@ -26,7 +19,6 @@ import org.eclipse.epsilon.eol.types.EolOrderedSet;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolSet;
 import org.eclipse.epsilon.eol.types.NumberUtil;
-import org.eclipse.epsilon.eol.types.ObjectUtil;
 
 public class IterableOperationContributor extends OperationContributor {
 
@@ -34,8 +26,8 @@ public class IterableOperationContributor extends OperationContributor {
 	
 	public static void main(String[] args) {
 		
-		Collection<Object> c = new ArrayList<Object>();
-		for (int i=0;i<100;i++) {
+		Collection<Object> c = new ArrayList<>();
+		for (int i = 0; i < 100; i++) {
 			c.add(i);
 		}
 		IterableOperationContributor ioc = new IterableOperationContributor(c);
@@ -135,25 +127,25 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 
 	public List<Object> asSequence() {
-		EolSequence<Object> copy = new EolSequence<Object>();
+		EolSequence<Object> copy = new EolSequence<>();
 		copy(getIterable(), copy);
 		return copy;
 	}
 	
 	public EolSet<Object> asSet() {
-		EolSet<Object> copy = new EolSet<Object>();
+		EolSet<Object> copy = new EolSet<>();
 		copy(getIterable(), copy);
 		return copy;
 	}
 	
 	public EolBag<Object> asBag() {
-		EolBag<Object> copy = new EolBag<Object>();
+		EolBag<Object> copy = new EolBag<>();
 		copy(getIterable(), copy);
 		return copy;
 	}
 	
 	public EolOrderedSet<Object> asOrderedSet() {
-		EolOrderedSet<Object> copy = new EolOrderedSet<Object>();
+		EolOrderedSet<Object> copy = new EolOrderedSet<>();
 		copy(getIterable(), copy);
 		return copy;
 	}
@@ -213,7 +205,7 @@ public class IterableOperationContributor extends OperationContributor {
 			Iterator<?> it = getIterable().iterator();
 			while (it.hasNext()) {
 				Object o = it.next();
-				if (ObjectUtil.equals(o, key)) {
+				if (Objects.equals(o, key)) {
 					return true;
 				}
 			}
@@ -242,7 +234,7 @@ public class IterableOperationContributor extends OperationContributor {
 	public int count(Object o) {
 		int count = 0;
 		for (Object item : getIterable()) {
-			if (ObjectUtil.equals(item, o)) count ++;
+			if (Objects.equals(item, o)) count ++;
 		}
 		return count;
 	}
@@ -302,7 +294,7 @@ public class IterableOperationContributor extends OperationContributor {
 	
 	public Collection<Object> first(int number) {
 		Iterator<Object> it = getIterable().iterator();
-		ArrayList<Object> result = new ArrayList<Object>();
+		ArrayList<Object> result = new ArrayList<>();
 		int i = 0;
 		while (it.hasNext() && i < number) {
 			result.add(it.next());
@@ -348,7 +340,7 @@ public class IterableOperationContributor extends OperationContributor {
 		else {
 			int counter = 0;
 			for (Object item : getIterable()) {
-				if (ObjectUtil.equals(item, o)) {
+				if (Objects.equals(item, o)) {
 					return counter;
 				}
 				counter++;
@@ -427,7 +419,7 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	public Collection<Object> invert() {
-		EolSequence<Object> sequence = new EolSequence<Object>();
+		EolSequence<Object> sequence = new EolSequence<>();
 		for (Object o : getIterable()) {
 			sequence.add(0, o);
 		}
@@ -438,7 +430,7 @@ public class IterableOperationContributor extends OperationContributor {
 		if (isCollection()) {
 			return EolCollectionType.createSameType(getCollection());
 		} else {
-			return new EolSequence<Object>();
+			return new EolSequence<>();
 		}
 	}
 	
@@ -446,16 +438,16 @@ public class IterableOperationContributor extends OperationContributor {
 		
 		List<Object> originalSet = asSequence();
 		
-		Set<Set<Object>> sets = new HashSet<Set<Object>>();
+		Set<Set<Object>> sets = new HashSet<>();
 	    if (originalSet.isEmpty()) {
-	    	sets.add(new HashSet<Object>());
+	    	sets.add(new HashSet<>());
 	    	return sets;
 	    }
 	    
 	    Object head = originalSet.get(0);
-	    Set<Object> rest = new HashSet<Object>(originalSet.subList(1, originalSet.size())); 
+	    Set<Object> rest = new HashSet<>(originalSet.subList(1, originalSet.size())); 
 	    for (Set<Object> set : new IterableOperationContributor(rest).powerset()) {
-	    	Set<Object> newSet = new HashSet<Object>();
+	    	Set<Object> newSet = new HashSet<>();
 	    	newSet.add(head);
 	    	newSet.addAll(set);
 	    	sets.add(newSet);

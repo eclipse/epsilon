@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Metamodel extends Package {
 
-	protected List<String> warnings = new ArrayList<String>();
-	protected List<String> errors = new ArrayList<String>();
+	protected List<String> warnings = new ArrayList<>();
+	protected List<String> errors = new ArrayList<>();
 	
 	public List<String> getWarnings() {
 		return warnings;

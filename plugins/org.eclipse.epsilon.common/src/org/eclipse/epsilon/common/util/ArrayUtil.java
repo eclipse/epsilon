@@ -24,16 +24,15 @@ public class ArrayUtil<E> {
 		@SuppressWarnings("unchecked")
 		E[] arr = (E[]) Array.newInstance(arrayType, c.size());
 		Iterator<E> it = c.iterator();
-		int i=0;
-		while (it.hasNext()) {
-			arr[i] = it.next(); i++;
+		for (int i = 0; it.hasNext(); i++) {
+			arr[i] = it.next();
 		}
 		return arr;
 	}
 	
 	public List<E> toList(E[] arr) {
 		if (arr == null) return null;
-		ArrayList<E> list = new ArrayList<E>();
+		ArrayList<E> list = new ArrayList<>(arr.length);
 		for (E e : arr) {
 			list.add(e);
 		}

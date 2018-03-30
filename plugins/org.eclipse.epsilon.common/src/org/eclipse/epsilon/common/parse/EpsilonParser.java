@@ -27,8 +27,7 @@ public abstract class EpsilonParser extends Parser {
 		super(tokenstream);
 	}
 
-	public EpsilonParser(TokenStream tokenstream,
-			RecognizerSharedState recognizersharedstate) {
+	public EpsilonParser(TokenStream tokenstream, RecognizerSharedState recognizersharedstate) {
 		super(tokenstream, recognizersharedstate);
 	}
 	
@@ -69,15 +68,12 @@ public abstract class EpsilonParser extends Parser {
 		
 	}
 	
-	
 	public void prepareForGUnit() {
 		printErrors = true;
 	}
 	
 	@Override
-	public void displayRecognitionError(String[] tokenNames,
-	                                    RecognitionException re) {
-		
+	public void displayRecognitionError(String[] tokenNames, RecognitionException re) {
 		EpsilonParseProblemManager.INSTANCE.reportException(
 				re.line, re.charPositionInLine, getErrorMessage(re, getTokenNames())
 		);
@@ -86,5 +82,4 @@ public abstract class EpsilonParser extends Parser {
 			super.displayRecognitionError(tokenNames, re);
 		}
 	}
-	
 }

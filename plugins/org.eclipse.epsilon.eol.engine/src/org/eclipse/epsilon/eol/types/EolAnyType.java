@@ -16,7 +16,7 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 
-public class EolAnyType extends EolType{
+public class EolAnyType extends EolType {
 
 	public static EolAnyType Instance = new EolAnyType();
 	

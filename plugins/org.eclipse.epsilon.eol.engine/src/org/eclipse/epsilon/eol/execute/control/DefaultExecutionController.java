@@ -13,8 +13,7 @@ package org.eclipse.epsilon.eol.execute.control;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-
-public class DefaultExecutionController implements ExecutionController{
+public class DefaultExecutionController implements ExecutionController {
 
 	public void control(ModuleElement ast, IEolContext context) {}
 

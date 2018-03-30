@@ -23,7 +23,7 @@ import org.eclipse.epsilon.eol.models.transactions.ModelRepositoryTransactionSup
 public class ModelRepository {
 	
 	ModelRepositoryTransactionSupport transactionSupport;
-	List<IModel> models = new ArrayList<IModel>();
+	List<IModel> models = new ArrayList<>();
 	
 	public ModelRepositoryTransactionSupport getTransactionSupport() {
 		if (transactionSupport == null) {
@@ -32,16 +32,16 @@ public class ModelRepository {
 		return transactionSupport;
 	}
 	
-	public void addModel(IModel model){
+	public void addModel(IModel model) {
 		
-		if (!models.contains(model)){
+		if (!models.contains(model)) {
 			models.add(model);
 		}
 	}
 	
 	public void removeModel(IModel model) {
 		models.remove(model);
-		cachedModelGroups = new HashMap<String, ModelGroup>();
+		cachedModelGroups = new HashMap<>();
 	}
 	
 	public IModel getModelByNameSafe(String modelName) {
@@ -53,12 +53,12 @@ public class ModelRepository {
 		}
 	}
 	
-	private HashMap<String, ModelGroup> cachedModelGroups = new HashMap<String, ModelGroup>();
+	private HashMap<String, ModelGroup> cachedModelGroups = new HashMap<>();
 	public IModel getModelByName(String modelName) throws EolModelNotFoundException{
 
 		// Note: EUnit's model bindings depend on having "" aliased to the first model.
 		// If you change this, don't forget to change EUnitModule#runSuite!
-		if (modelName.length() == 0){
+		if (modelName.length() == 0) {
 			if (models.size() > 0) {
 			//if (models.size() == 1) {
 				return models.get(0);
@@ -66,7 +66,7 @@ public class ModelRepository {
 			else return null;
 		}
 		
-		for (IModel model : models){
+		for (IModel model : models) {
 			if (modelName.equals(model.getName())){
 				return model;
 			} 
@@ -94,7 +94,7 @@ public class ModelRepository {
 	}
 
 	private List<String> namesOfModelsThatHaveTheType(String typeName) {
-		final List<String> modelNames = new LinkedList<String>();
+		final List<String> modelNames = new LinkedList<>();
 		
 		for (IModel model : getModels()) {
 			if (model.hasType(typeName)) {
@@ -130,7 +130,7 @@ public class ModelRepository {
 		return model.getEnumerationValue(enumeration, label);
 	}
 	
-	public IModel getOwningModel(Object instance){
+	public IModel getOwningModel(Object instance) {
 		
 		if (instance instanceof IModelElement) { return ((IModelElement) instance).getOwningModel(); }
 		
@@ -142,7 +142,7 @@ public class ModelRepository {
 		return null;
 	}
 	
-	protected String getMetaClassName(String modelAndMetaClass){
+	protected String getMetaClassName(String modelAndMetaClass) {
 		if (modelAndMetaClass.indexOf("!") != -1){
 			return modelAndMetaClass.split("!")[1];
 		}
@@ -151,7 +151,7 @@ public class ModelRepository {
 		}
 	}
 	
-	protected String getModelName(String modelAndMetaClass){
+	protected String getModelName(String modelAndMetaClass) {
 		if (modelAndMetaClass.indexOf("!") != -1){
 			return modelAndMetaClass.split("!")[0];
 		}
@@ -160,15 +160,15 @@ public class ModelRepository {
 		}
 	}
 	
-	protected String getEnumeration(String enumerationAndLabel){
+	protected String getEnumeration(String enumerationAndLabel) {
 		return enumerationAndLabel.split("#")[0];
 	}
 	
-	protected String getLabel(String enumerationAndLabel){
+	protected String getLabel(String enumerationAndLabel) {
 		return enumerationAndLabel.split("#")[1];
 	}
 	
-	public void dispose(){
+	public void dispose() {
 		for (IModel model : models) {
 			model.dispose();
 			model = null;
@@ -177,7 +177,7 @@ public class ModelRepository {
 		transactionSupport = null;
 	}
 	
-	public List<IModel> getModels(){
+	public List<IModel> getModels() {
 		return models;
 	}
 
@@ -185,5 +185,4 @@ public class ModelRepository {
 	public String toString() {
 		return "ModelRepository [transactionSupport=" + transactionSupport + ", models=" + models + "]";
 	}
-	
 }

@@ -2,7 +2,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
@@ -13,18 +12,23 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class StatementBlock extends AbstractExecutableModuleElement {
 	
-	protected List<Statement> statements = new ArrayList<Statement>();
+	protected final ArrayList<Statement> statements = new ArrayList<>();
 	
-	public StatementBlock(Statement...statements) {
-		for (Statement statement : statements) {
-			this.statements.add(statement);
+	public StatementBlock(Statement... statements) {
+		if (statements != null) {
+			this.statements.ensureCapacity(statements.length);
+			for (Statement statement : statements) {
+				this.statements.add(statement);
+			}
 		}
 	}
 	
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
-		for (AST ast : cst.getChildren()) {
+		List<AST> children = cst.getChildren();
+		statements.ensureCapacity(statements.size()+children.size());
+		for (AST ast : children) {
 			ModuleElement moduleElement = module.createAst(ast, this);
 			if (moduleElement instanceof Statement) {
 				statements.add((Statement) moduleElement);
@@ -62,7 +66,7 @@ public class StatementBlock extends AbstractExecutableModuleElement {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return "{...}";
 	}
 }

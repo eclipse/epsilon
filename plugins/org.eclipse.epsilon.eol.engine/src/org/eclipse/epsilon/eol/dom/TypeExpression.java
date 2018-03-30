@@ -2,7 +2,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
@@ -21,12 +20,11 @@ import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
 
-
 public class TypeExpression extends Expression {
 	
 	protected EolType type = EolAnyType.Instance;
-	protected String name = null;
-	protected List<TypeExpression> parameterTypeExpressions = new ArrayList<TypeExpression>();
+	protected String name;
+	protected List<TypeExpression> parameterTypeExpressions = new ArrayList<>();
 	protected StringLiteral nativeType;
 	
 	public TypeExpression() {}
@@ -38,6 +36,7 @@ public class TypeExpression extends Expression {
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
+		
 		setName(cst.getText());
 		for (AST child : cst.getChildren()) {
 			ModuleElement moduleElement = module.createAst(child, this);
@@ -45,7 +44,7 @@ public class TypeExpression extends Expression {
 			if (moduleElement instanceof TypeExpression) {
 				parameterTypeExpressions.add((TypeExpression) moduleElement);
 			}
-			else if (name.equals("Native")){
+			else if (name.equals("Native")) {
 				nativeType = (StringLiteral) moduleElement;	
 			}
 		}
@@ -56,13 +55,16 @@ public class TypeExpression extends Expression {
 
 		if (type != null) return type;
 		
-		if (getName().equals("Native")) return new EolNativeType(nativeType, context);
+		if (getName().equals("Native")) {
+			return new EolNativeType(nativeType, context);
+		}
 		
-		try { return new EolModelElementType(name ,context); }
-		catch (EolModelNotFoundException ex){}
-		catch (EolModelElementTypeNotFoundException mex){}
-		
-		throw new EolTypeNotFoundException(getName(), this);
+		try {
+			return new EolModelElementType(name ,context);
+		}
+		catch (EolModelNotFoundException | EolModelElementTypeNotFoundException ex) {
+			throw new EolTypeNotFoundException(getName(), this);
+		}
 	}
 	
 	@Override
@@ -155,4 +157,8 @@ public class TypeExpression extends Expression {
 		return type;
 	}
 	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName()+": "+getName();
+	}
 }

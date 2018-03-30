@@ -15,14 +15,13 @@ import java.util.List;
 
 import org.eclipse.epsilon.common.parse.AST;
 
-
 public class AstUtil {
 	
 	public static int getChildrenCount(AST parent) {
 		int count = 0;
 		if (parent == null) return count;
 		AST child = parent.getFirstChild();
-		while (child != null){
+		while (child != null) {
 			count++;
 			child = child.getNextSibling();
 		}
@@ -45,29 +44,30 @@ public class AstUtil {
 		return null;
 	}
 	
-	public static List<AST> getChildren(AST parent){
+	public static List<AST> getChildren(AST parent) {
 		return getChildren(parent, -1);
 	}
 	
-	public static List<AST> getChildrenBut(AST parent, int type){
-		List<AST> children = new ArrayList<AST>();
+	public static List<AST> getChildrenBut(AST parent, int type) {
+		List<AST> children = new ArrayList<>();
 		AST child = parent.getFirstChild();
 		while (child != null){
-			if (!(child.getType() == type)){
+			if (!(child.getType() == type)) {
 				children.add(child);
 			}
 			child = child.getNextSibling();
 		}
 		return children;
 	}
-	public static List<AST> getChildren(AST parent, int... type){
-		List<AST> children = new ArrayList<AST>();
+	
+	public static List<AST> getChildren(AST parent, int... type) {
+		List<AST> children = new ArrayList<>();
 		
 		if (parent != null) {
 			AST child = parent.getFirstChild();
-			while (child != null){
-				for (int i=0;i<type.length;i++) {
-					if (child.getType() == type[i] || type[i] == -1){
+			while (child != null) {
+				for (int i = 0; i < type.length; i++) {
+					if (child.getType() == type[i] || type[i] == -1) {
 						children.add(child);
 					}
 				}
@@ -78,7 +78,7 @@ public class AstUtil {
 		return children;
 	}
 	
-	public static AST getChild(AST parent, int type){
+	public static AST getChild(AST parent, int type) {
 		if (parent == null) return null;
 		AST child = parent.getFirstChild();
 		while (child != null){
@@ -90,15 +90,15 @@ public class AstUtil {
 		return null;
 	}
 	
-	public static AST getFirstConcreteChild(AST parent){
-		if (parent.getLine() > 0){
+	public static AST getFirstConcreteChild(AST parent) {
+		if (parent.getLine() > 0) {
 			return parent;
 		}
 		else {
 			AST child = parent.getFirstChild();
-			while (child != null){
+			while (child != null) {
 				AST result = getFirstConcreteChild(child);
-				if (result != null){
+				if (result != null) {
 					return result;
 				}
 			}
@@ -110,5 +110,4 @@ public class AstUtil {
 		if (child.getParent() == null) return -1;
 		return child.getParent().getType();
 	}
-	
 }

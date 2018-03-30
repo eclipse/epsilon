@@ -28,24 +28,25 @@ public class MapByOperation extends FirstOrderOperation {
 		super();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
 		Collection<?> source = CollectionUtil.asCollection(target);
 		
-		EolMap result = new EolMap();
+		EolMap<Object, Object> result = new EolMap<>();
 		
 		FrameStack scope = context.getFrameStack();
 		
 		for (Object listItem : source) {
-			if (iterator.getType()==null || iterator.getType().isKind(listItem)){
+			if (iterator.getType() == null || iterator.getType().isKind(listItem)) {
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
 				scope.put(new Variable(iterator.getName(), listItem, iterator.getType(), true));
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				
-				EolSequence<Object> sequence = (EolSequence) result.get(bodyResult);
-				if (sequence == null) sequence = new EolSequence<Object>();
+				EolSequence<Object> sequence = (EolSequence<Object>) result.get(bodyResult);
+				if (sequence == null) sequence = new EolSequence<>();
 				sequence.add(listItem);
 				result.put(bodyResult, sequence);
 				
@@ -55,5 +56,4 @@ public class MapByOperation extends FirstOrderOperation {
 		
 		return result;
 	}
-
 }

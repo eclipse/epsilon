@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eol.execute.context;
 
 import java.io.PrintStream;
 import java.util.List;
-
+import java.util.Queue;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
@@ -25,69 +25,70 @@ import org.eclipse.epsilon.eol.userinput.IUserInput;
 
 public interface IEolContext {
 	
-	public void setUserInput(IUserInput userInput);
+	void setUserInput(IUserInput userInput);
 	
-	public IUserInput getUserInput();
+	IUserInput getUserInput();
 	
-	public PrettyPrinterManager getPrettyPrinterManager();
+	PrettyPrinterManager getPrettyPrinterManager();
 	
-	public void setPrettyPrinterManager(PrettyPrinterManager prettyPrinterManager);
+	void setPrettyPrinterManager(PrettyPrinterManager prettyPrinterManager);
 
-	public PrintStream getOutputStream();
+	PrintStream getOutputStream();
 
-	public void setOutputStream(PrintStream outputStream);
+	void setOutputStream(PrintStream outputStream);
 
-	public PrintStream getWarningStream();
+	PrintStream getWarningStream();
 
-	public void setWarningStream(PrintStream warningStream);
+	void setWarningStream(PrintStream warningStream);
 
-	public EolOperationFactory getOperationFactory();
+	EolOperationFactory getOperationFactory();
 
-	public void setOperationFactory(EolOperationFactory operationFactory);
+	void setOperationFactory(EolOperationFactory operationFactory);
 
-	public ExecutorFactory getExecutorFactory();
+	ExecutorFactory getExecutorFactory();
 
-	public void setExecutorFactory(ExecutorFactory executorFactory);
+	void setExecutorFactory(ExecutorFactory executorFactory);
 	
-	public ModelRepository getModelRepository();
+	ModelRepository getModelRepository();
 	
-	public void setModelRepository(ModelRepository modelRepository);
+	void setModelRepository(ModelRepository modelRepository);
 	
-	public FrameStack getFrameStack();
+	FrameStack getFrameStack();
 	
-	public void setFrameStack(FrameStack scope);
+	void setFrameStack(FrameStack scope);
 
-	public IntrospectionManager getIntrospectionManager();
+	IntrospectionManager getIntrospectionManager();
 
-	public void setIntrospectionManager(IntrospectionManager introspectionManager);
+	void setIntrospectionManager(IntrospectionManager introspectionManager);
 
-	public PrintStream getErrorStream();
+	PrintStream getErrorStream();
 
-	public void setErrorStream(PrintStream defaultErrorStream);
+	void setErrorStream(PrintStream defaultErrorStream);
 	
-	public void setModule(IModule module);
+	void setModule(IModule module);
 	
-	public IModule getModule();
+	IModule getModule();
 
-	public void setNativeTypeDelegates(List<IToolNativeTypeDelegate> nativeTypeDelegates);
+	void setNativeTypeDelegates(List<IToolNativeTypeDelegate> nativeTypeDelegates);
 	
-	public List<IToolNativeTypeDelegate> getNativeTypeDelegates();
+	List<IToolNativeTypeDelegate> getNativeTypeDelegates();
 	
-	public boolean isProfilingEnabled();
+	boolean isProfilingEnabled();
 	
-	public void setProfilingEnabled(boolean profilingEnabled);
+	void setProfilingEnabled(boolean profilingEnabled);
 	
-	public boolean isAssertionsEnabled();
+	boolean isAssertionsEnabled();
 	
-	public void setAssertionsEnabled(boolean assertionsEnabled);
+	void setAssertionsEnabled(boolean assertionsEnabled);
 	
-	public ExtendedProperties getExtendedProperties();
+	ExtendedProperties getExtendedProperties();
 	
-	public void setExtendedProperties(ExtendedProperties properties);
+	void setExtendedProperties(ExtendedProperties properties);
 	
-	public void dispose();
+	void dispose();
 	
-	public List<AsyncStatementInstance> getAsyncStatementsQueque();
+	Queue<AsyncStatementInstance> getAsyncStatementsQueue();
 	
-	public OperationContributorRegistry getOperationContributorRegistry();
+	OperationContributorRegistry getOperationContributorRegistry();
+	
 }

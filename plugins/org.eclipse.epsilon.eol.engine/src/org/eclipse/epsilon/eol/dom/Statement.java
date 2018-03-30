@@ -2,7 +2,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
 
-
 public abstract class Statement extends AbstractExecutableModuleElement {
 	
 	protected StatementBlock toStatementBlock(ModuleElement element) {

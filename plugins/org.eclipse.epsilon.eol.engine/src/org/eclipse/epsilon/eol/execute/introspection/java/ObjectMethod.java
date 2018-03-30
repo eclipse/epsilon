@@ -48,5 +48,4 @@ public class ObjectMethod {
 	public Object execute(Object[] parameters, ModuleElement ast) throws EolRuntimeException {
 		return ReflectionUtil.executeMethod(object, method, parameters, ast);
 	}
-	
 }

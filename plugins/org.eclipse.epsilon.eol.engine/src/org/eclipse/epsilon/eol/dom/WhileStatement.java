@@ -22,7 +22,6 @@ public class WhileStatement extends Statement {
 	
 	public WhileStatement() {}
 	
-	
 	public WhileStatement(Expression conditionExpression, StatementBlock bodyStatementBlock) {
 		this.conditionExpression = conditionExpression;
 		this.bodyStatementBlock = bodyStatementBlock;
@@ -115,6 +114,5 @@ public class WhileStatement extends Statement {
 	
 	public void setBodyStatementBlock(StatementBlock bodyStatementBlock) {
 		this.bodyStatementBlock = bodyStatementBlock;
-	}
-	
+	}	
 }

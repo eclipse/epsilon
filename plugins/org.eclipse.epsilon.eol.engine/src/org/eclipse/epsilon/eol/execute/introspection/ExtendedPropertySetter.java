@@ -19,6 +19,7 @@ public class ExtendedPropertySetter extends AbstractPropertySetter {
 		this.context = context;
 	}
 	
+	@Override
 	public void invoke(Object value) throws EolRuntimeException {
 		
 		context.getExtendedProperties().setPropertyValue(object, property.substring(1), value);
@@ -31,5 +32,4 @@ public class ExtendedPropertySetter extends AbstractPropertySetter {
 		}
 		extendedProperties.put(this.property.substring(1), value);*/
 	}
-
 }

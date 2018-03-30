@@ -11,27 +11,24 @@
 package org.eclipse.epsilon.erl.exceptions;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
-
 
 public class ErlCircularRuleInheritanceException extends EolRuntimeException {
 	
 	protected ExtensibleNamedRule rule;
 	
-	public ErlCircularRuleInheritanceException(ExtensibleNamedRule rule){
+	public ErlCircularRuleInheritanceException(ExtensibleNamedRule rule) {
 		this.rule = rule;
 	}
 	
 	@Override
-	public String getReason(){
+	public String getReason() {
 		return "Circular extension detected in rule '" + rule.getName() + "'"; 
 	}
 	
 	@Override
-	public ModuleElement getAst(){
+	public ModuleElement getAst() {
 		return rule;
 	}
-	
 }

@@ -15,7 +15,7 @@ import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-public class EolModelType extends EolType{
+public class EolModelType extends EolType {
 
 	public EolModelType() {
 		super();
@@ -40,8 +40,7 @@ public class EolModelType extends EolType{
 	}
 
 	@Override
-	public Object createInstance(List<Object> parameters)
-			throws EolRuntimeException {
+	public Object createInstance(List<Object> parameters) throws EolRuntimeException {
 		throw new EolIllegalOperationParametersException("createInstance");
 	}
 	

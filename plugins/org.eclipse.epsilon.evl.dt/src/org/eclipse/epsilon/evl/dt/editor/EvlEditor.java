@@ -29,8 +29,9 @@ public class EvlEditor extends EolEditor{
 	
 	@Override
 	public List<String> getKeywords() {
-		
-		List<String> keywords = new ArrayList<String>();
+		List<String>
+			superKeywords = super.getKeywords(),
+			keywords = new ArrayList<>(superKeywords.size()+16);
 		
 		keywords.add("context");
 		keywords.add("constraint");
@@ -50,7 +51,7 @@ public class EvlEditor extends EolEditor{
 		keywords.add("medium");
 		keywords.add("low");
 
-		keywords.addAll(super.getKeywords());
+		keywords.addAll(superKeywords);
 		
 		return keywords;
 	}
@@ -58,7 +59,7 @@ public class EvlEditor extends EolEditor{
 	@Override
 	public List<String> getBuiltinVariables() {
 		
-		ArrayList<String> builtIn = new ArrayList<String>();
+		ArrayList<String> builtIn = new ArrayList<>();
 		
 		builtIn.add("constraintTrace");
 		builtIn.add("extras");
@@ -79,7 +80,7 @@ public class EvlEditor extends EolEditor{
 	}
 	
 	@Override
-	public IModule createModule(){
+	public IModule createModule() {
 		return new EvlModule();
 	}
 	

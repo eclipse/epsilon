@@ -21,9 +21,9 @@ public class BooleanLiteral extends LiteralExpression {
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		try {
-			value = new Boolean(cst.getText()).booleanValue();
+			value = Boolean.parseBoolean(cst.getText());
 		}
-		catch (Exception ex){
+		catch (Exception ex) {
 			value = false;
 		}
 	}
@@ -45,5 +45,4 @@ public class BooleanLiteral extends LiteralExpression {
 	public void compile(EolCompilationContext context) {
 		resolvedType = EolPrimitiveType.Boolean;
 	}
-	
 }

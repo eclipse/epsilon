@@ -21,5 +21,4 @@ public class DeprecationInfo {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
 }

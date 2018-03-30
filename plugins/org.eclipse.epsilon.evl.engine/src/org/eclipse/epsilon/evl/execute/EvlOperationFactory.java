@@ -13,7 +13,7 @@ package org.eclipse.epsilon.evl.execute;
 import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 import org.eclipse.epsilon.evl.execute.operations.SatisfiesOperation;
 
-public class EvlOperationFactory extends EolOperationFactory{
+public class EvlOperationFactory extends EolOperationFactory {
 	
 	public EvlOperationFactory() {
 		super();

@@ -16,48 +16,73 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+@SuppressWarnings("unchecked")
 public class CollectionUtil {
 	
-	public static Collection<?> asCollection(Object o) {
+	private CollectionUtil() {}
+	
+	@SafeVarargs
+	public static <T> ArrayList<T> composeArrayListFrom(Collection<T>... collections) {
+		int size = 0;
+		for (Collection<T> col : collections) {
+			size += col.size();
+		}
+		ArrayList<T> list = new ArrayList<>(size);
+		for (Collection<T> col : collections) {
+			list.addAll(col);
+		}
+		return list;
+	}
+	
+	public static <T, C extends Collection<T>> C mergeCollectionsUnique(Collection<T> c1, Collection<T> c2, Supplier<? extends C> newCollection) {
+		return Stream.concat(c1.stream(), c2.stream())
+			.distinct()
+			.collect(Collectors.toCollection(newCollection));
+	}
+	
+	public static <T> Collection<T> asCollection(T o) {
 		if (o instanceof Collection) {
-			return (Collection<?>) o;
+			return (Collection<T>) o;
 		}
 		else {
-			ArrayList<Object> list = new ArrayList<Object>();
+			ArrayList<T> list = new ArrayList<>(1);
 			list.add(o);
 			return list;
 		}
 	}
 	
-	public static List<?> asList(Object o) {
+	public static <T> List<T> asList(T o) {
 		if (o instanceof List) {
-			return (List<?>) o;
-		}
-		else if (o instanceof Collection) {
-			List<Object> list = createDefaultList();
-			list.addAll((Collection<?>)o);
-			return list;
+			return (List<T>) o;
 		}
 		else {
-			List<Object> list = createDefaultList();
-			list.add(o);
+			List<T> list = createDefaultList();
+			
+			if (o instanceof Collection)
+				list.addAll((Collection<T>)o);
+			else
+				list.add(o);
+			
 			return list;
 		}
 	}
 	
-	public static Set<?> asSet(Object o) {
+	public static <T> Set<T> asSet(T o) {
 		if (o instanceof Set) {
-			return (Set<?>) o;
-		}
-		else if (o instanceof Collection) {
-			Set<Object> set = createDefaultSet();
-			set.addAll((Collection<?>)o);
-			return set;
+			return (Set<T>) o;
 		}
 		else {
-			Set<Object> set = createDefaultSet();
-			set.add(o);
+			Set<T> set = createDefaultSet();
+			
+			if (o instanceof Collection)
+				set.addAll((Collection<T>)o);
+			else
+				set.add(o);
+
 			return set;
 		}
 	}
@@ -91,31 +116,20 @@ public class CollectionUtil {
 	}
 		
 	public static <T> Set<T> createDefaultSet() {
-		return new LinkedHashSet<T>();
+		return new LinkedHashSet<>();
 	}
 	
 	public static <T> List<T> createDefaultList() {
-		return new ArrayList<T>();
+		return new ArrayList<>();
 	}
 	
 	public static <T> List<T> asList(Collection<T> c) {
-		if (c instanceof List) {
-			return (List<T>) c;
-		}
-		else {
-			ArrayList<T> copy = new ArrayList<T>();
-			copy.addAll(c);
-			return copy;
-		}
+		return c instanceof List ? (List<T>) c : new ArrayList<>(c);
 	}
 	
 	public static <T> Object getFirst(Iterable<T> c) {
-		final Iterator<T> it = c.iterator();
-		if (!it.hasNext()) {
-			return null;
-		} else {
-			return it.next();
-		}
+		Iterator<T> it = c.iterator();
+		return it.hasNext() ? it.next() : null;
 	}
 	
 	public static <T> List<T> iterate(Iterable<T> iterable) {
@@ -128,12 +142,7 @@ public class CollectionUtil {
 	}
 	
 	public static String join(Iterable<?> collection, String delimiter) {
-		return join(collection, delimiter, new ElementPrinter() {
-			@Override
-			public String print(Object element) {
-				return element.toString();
-			}
-		});
+		return join(collection, delimiter, Object::toString);
 	}
 	
 	public static String join(Iterable<?> collection, String delimiter, ElementPrinter printer) {
@@ -150,6 +159,6 @@ public class CollectionUtil {
 	}
 	
 	public static interface ElementPrinter {
-		public String print(Object element);
+		String print(Object element);
 	}
 }
