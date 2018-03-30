@@ -12,59 +12,66 @@ package org.eclipse.epsilon.emc.simulink.engine;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class MatlabEnginePool {
-	
+
 	private static final String JAVA_LIBRARY_PATH = "java.library.path";
 	private static final String MATLAB_ENGINE_CLASS = "com.mathworks.engine.MatlabEngine";
 	private static final String SYS_PATHS = "sys_paths";
-	
+
 	protected static MatlabEnginePool instance;
-	
+
 	protected Set<MatlabEngine> pool = new LinkedHashSet<MatlabEngine>();
 	protected Class<?> matlabEngineClass;
 	protected String libraryPath = "";
 	protected String engineJarPath = "";
-	
+
 	private MatlabEnginePool(String libraryPath, String engineJarPath) {
 
 		this.libraryPath = libraryPath;
 		this.engineJarPath = engineJarPath;
-		
+
 		try {
 			System.setProperty(JAVA_LIBRARY_PATH, libraryPath);
-				
+
 			final Field sysPathsField = ClassLoader.class.getDeclaredField(SYS_PATHS);
-		    
+			final Class[] urlClass = new Class[]{URL.class};
+			Class urlClassLoaderClass = URLClassLoader.class;
+
 			sysPathsField.setAccessible(true);
 			sysPathsField.set(null, null);
 
-			URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File(engineJarPath).toURI().toURL()});
-			matlabEngineClass = classLoader.loadClass(MATLAB_ENGINE_CLASS);
-		}
-		catch (Exception ex) {
-			
+			URL engineJarPathURL = new File(engineJarPath).toURI().toURL();
+
+			URLClassLoader systemURLClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
+
+			Method method = urlClassLoaderClass.getDeclaredMethod("addURL", urlClass);
+			method.setAccessible(true);
+			method.invoke(systemURLClassLoader, engineJarPathURL);
+
+			matlabEngineClass = systemURLClassLoader.loadClass(MATLAB_ENGINE_CLASS);
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
-	
+
 	public static MatlabEnginePool getInstance(String libraryPath, String engineJarPath) {
-		if (instance == null 
-				|| (instance != null && (!libraryPath.equalsIgnoreCase(instance.getLibraryPath()) 
-				|| !engineJarPath.equalsIgnoreCase(instance.getEngineJarPath())))
-		) {
+		if (instance == null || (instance != null && (!libraryPath.equalsIgnoreCase(instance.getLibraryPath())
+				|| !engineJarPath.equalsIgnoreCase(instance.getEngineJarPath())))) {
 			instance = new MatlabEnginePool(libraryPath, engineJarPath);
 		}
 		return instance;
 	}
-	
+
 	public static void reset() {
 		instance = null;
 	}
-	
+
 	public MatlabEngine getMatlabEngine() throws Exception {
 		if (pool.isEmpty()) {
 			return new MatlabEngine(matlabEngineClass);
@@ -74,17 +81,17 @@ public class MatlabEnginePool {
 			return engine;
 		}
 	}
-	
+
 	public void release(MatlabEngine engine) {
 		pool.add(engine);
 	}
-	
+
 	public String getEngineJarPath() {
 		return engineJarPath;
 	}
-	
+
 	public String getLibraryPath() {
 		return libraryPath;
 	}
-	
+
 }

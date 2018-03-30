@@ -300,6 +300,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		return ((instance instanceof ISimulinkModelElement) 
 				&& ((ISimulinkModelElement) instance).getOwningModel() == this ) 
 				|| (instance instanceof SimulinkModel);
+		// || (instance.getClass().getCanonicalName().startsWith("org.eclipse.epsilon.emc.simulink.types"));
 	}
 
 	@Override
