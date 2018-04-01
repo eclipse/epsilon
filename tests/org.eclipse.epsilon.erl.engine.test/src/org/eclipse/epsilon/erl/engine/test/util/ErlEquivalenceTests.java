@@ -50,7 +50,7 @@ import org.junit.runner.RunWith;
  * 
  * 	<br/>
  * 
- * <li> An implementation of #_test0() which simply calls the #beforeTests() method
+ * <li> An implementation of {@linkplain #_test0()} which simply calls the #beforeTests() method
  *
  * 	<br/>
  *

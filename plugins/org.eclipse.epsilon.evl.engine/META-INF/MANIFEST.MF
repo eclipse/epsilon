@@ -1,4 +1,5 @@
 Manifest-Version: 1.2
+Automatic-Module-Name: org.eclipse.epsilon.evl.engine
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Validation Language Engine
 Bundle-SymbolicName: org.eclipse.epsilon.evl.engine
@@ -18,4 +19,3 @@ Export-Package: org.eclipse.epsilon.evl,
  org.eclipse.epsilon.evl.graph,
  org.eclipse.epsilon.evl.parse,
  org.eclipse.epsilon.evl.trace
-Automatic-Module-Name: org.eclipse.epsilon.evl.engine

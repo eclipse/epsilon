@@ -12,6 +12,6 @@ package org.eclipse.epsilon.evl.dt.launching;
 
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
 
-public interface EvlLaunchConfigurationAttributes extends EolLaunchConfigurationAttributes{
+public interface EvlLaunchConfigurationAttributes extends EolLaunchConfigurationAttributes {
 
 }

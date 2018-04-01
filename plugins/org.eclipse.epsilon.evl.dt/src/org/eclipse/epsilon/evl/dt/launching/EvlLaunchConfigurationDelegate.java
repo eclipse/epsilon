@@ -11,11 +11,13 @@
 package org.eclipse.epsilon.evl.dt.launching;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.EvlModule;
+import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.dt.launching.tabs.EvlAdvancedOptionsTab;
 import org.eclipse.epsilon.evl.dt.views.ValidationViewFixer;
 
@@ -23,7 +25,15 @@ public class EvlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	
 	@Override
 	public IEolModule createModule() {
-		return new EvlModule();
+		boolean isParallel = false;
+		try {
+			isParallel = configuration.getAttribute(EvlAdvancedOptionsTab.PARALLEL, isParallel);
+		}
+		catch (CoreException ce) {
+			LogUtil.log(ce);
+		}
+		
+		return isParallel ? EvlModuleParallel.getDefaultImpl() : new EvlModule();
 	}
 	
 	@Override

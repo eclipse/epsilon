@@ -20,7 +20,7 @@ public class ErlThreadFactory implements ThreadFactory {
 		this.executionStatus = status;
 	}
 
-	protected Thread setThreadProperties(Thread thread) {
+	protected <T extends Thread> T setThreadProperties(T thread) {
 		thread.setName(namePrefix+(threadCount.incrementAndGet()));
 		if (executionStatus != null) {
 			thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {

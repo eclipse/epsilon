@@ -20,7 +20,7 @@ public class ErlContextParallel extends EolContext implements IErlContextParalle
 	protected int numThreads;
 	protected boolean isParallel = false;
 	
-	//Data strcutures which will be written to and read from during parallel execution:
+	// Data strcutures which will be written to and read from during parallel execution:
 	protected DelegatePersistentThreadLocal<FrameStack> concurrentFrameStacks;
 	protected DelegatePersistentThreadLocal<OperationContributorRegistry> concurrentMethodContributors;
 	protected DelegatePersistentThreadLocal<ExecutorFactory> concurrentExecutors;
@@ -35,12 +35,12 @@ public class ErlContextParallel extends EolContext implements IErlContextParalle
 	public ErlContextParallel(int parallelism) {
 		numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM;
 		
-		//This will be the "base" of others, so make it thread-safe for concurrent reads
+		// This will be the "base" of others, so make it thread-safe for concurrent reads
 		frameStack = new FrameStack(null, true);
 		methodContributorRegistry = new OperationContributorRegistry(null, true);
 		executorFactory = new ExecutorFactory(null, true);
 		
-		//Initialize thread-local read and write structures with the base
+		// Initialize thread-local read and write structures with the base
 		concurrentFrameStacks = new DelegatePersistentThreadLocal<>(numThreads, () -> new FrameStack(frameStack, false));
 		concurrentMethodContributors = new DelegatePersistentThreadLocal<>(numThreads, () -> new OperationContributorRegistry(methodContributorRegistry, false));
 		concurrentExecutors = new DelegatePersistentThreadLocal<>(numThreads, () -> new ExecutorFactory(executorFactory, false));

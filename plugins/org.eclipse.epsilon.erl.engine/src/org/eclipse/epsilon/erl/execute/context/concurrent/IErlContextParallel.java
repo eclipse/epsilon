@@ -2,6 +2,7 @@ package org.eclipse.epsilon.erl.execute.context.concurrent;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
 import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlThreadPoolExecutor;
@@ -34,8 +35,7 @@ public interface IErlContextParallel extends IEolContext {
 	
 	/**
 	 * This method will typically return true if execution of the associated
-	 * {@link org.eclipse.epsilon.erl.IErlModule} has begun, and will return
-	 * false if execution has ended or not started.
+	 * {@link IErlModule} has begun, and will return false if execution has ended or not started.
 	 * 
 	 * @return whether this Context is currently executing in parallel mode.
 	 */
@@ -49,7 +49,8 @@ public interface IErlContextParallel extends IEolContext {
 	
 	default void handleException(Exception exception, ErlExecutorService executor) {
 		// Cache the Epsilon stack trace
-		exception.getMessage();
+		if (exception instanceof EolRuntimeException)
+			exception.getMessage();
 		
 		if (executor != null) {
 			executor.getExecutionStatus().setException(exception);

@@ -7,7 +7,7 @@ import org.eclipse.epsilon.eol.dom.StatementBlock;
 
 public class NamedStatementBlockRule extends NamedRule {
 	
-	protected StatementBlock body = null;
+	protected StatementBlock body;
 	
 	@Override
 	public void build(AST cst, IModule module) {

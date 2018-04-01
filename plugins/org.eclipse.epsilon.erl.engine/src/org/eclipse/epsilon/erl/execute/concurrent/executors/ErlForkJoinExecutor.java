@@ -17,8 +17,12 @@ public class ErlForkJoinExecutor extends ForkJoinPool implements ErlExecutorServ
 		
 		@Override
 		public ForkJoinWorkerThread newThread(ForkJoinPool pool) {
-			return (ForkJoinWorkerThread) setThreadProperties(new ForkJoinWorkerThread(pool){});
+			return setThreadProperties(new ForkJoinWorkerThread(pool){});
 		}
+	}
+	
+	public ErlForkJoinExecutor() {
+		this(Runtime.getRuntime().availableProcessors());
 	}
 	
 	public ErlForkJoinExecutor(int parallelism) {
