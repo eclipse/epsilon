@@ -3,6 +3,7 @@ package org.eclipse.epsilon.erl.execute.concurrent;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutionStatus;
 
 public class ErlThreadFactory implements ThreadFactory {
 
@@ -19,10 +20,8 @@ public class ErlThreadFactory implements ThreadFactory {
 		this.executionStatus = status;
 	}
 
-	@Override
-	public Thread newThread(Runnable target) {
-		Thread thread = new Thread(target, namePrefix+(threadCount.incrementAndGet()));
-		
+	protected Thread setThreadProperties(Thread thread) {
+		thread.setName(namePrefix+(threadCount.incrementAndGet()));
 		if (executionStatus != null) {
 			thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 				@Override
@@ -36,7 +35,11 @@ public class ErlThreadFactory implements ThreadFactory {
 				}
 			});
 		}
-		
 		return thread;
+	}
+	
+	@Override
+	public Thread newThread(Runnable target) {
+		return setThreadProperties(new Thread(target));
 	}
 }

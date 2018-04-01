@@ -1,7 +1,7 @@
-package org.eclipse.epsilon.erl.execute.concurrent;
+package org.eclipse.epsilon.erl.execute.concurrent.executors;
 
 import java.util.concurrent.*;
-import org.eclipse.epsilon.erl.execute.concurrent.ErlThreadPoolExecutor;
+import org.eclipse.epsilon.erl.execute.concurrent.ErlThreadFactory;
 
 public class ErlThreadPoolExecutor extends ThreadPoolExecutor implements ErlExecutorService {
 

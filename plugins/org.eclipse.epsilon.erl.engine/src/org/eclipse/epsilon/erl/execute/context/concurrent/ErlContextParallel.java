@@ -7,8 +7,8 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.execute.concurrent.DelegatePersistentThreadLocal;
-import org.eclipse.epsilon.erl.execute.concurrent.ErlExecutorService;
-import org.eclipse.epsilon.erl.execute.concurrent.ErlThreadPoolExecutor;
+import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
+import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlThreadPoolExecutor;
 
 /**
  * Skeletal implementation of a parallel IErlContext.
@@ -29,7 +29,7 @@ public class ErlContextParallel extends EolContext implements IErlContextParalle
 		this(0);
 	}
 
-	/*
+	/**
 	 * @param parallelism The number of threads to use.
 	 */
 	public ErlContextParallel(int parallelism) {

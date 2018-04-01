@@ -14,8 +14,8 @@ package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.execute.concurrent.ErlExecutorService;
 import org.eclipse.epsilon.erl.execute.concurrent.ThreadLocalBatchData;
+import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.concurrent.ConstraintAtom;

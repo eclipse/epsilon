@@ -10,6 +10,7 @@ Export-Package: org.eclipse.epsilon.erl,
  org.eclipse.epsilon.erl.dom,
  org.eclipse.epsilon.erl.exceptions,
  org.eclipse.epsilon.erl.execute.concurrent,
+ org.eclipse.epsilon.erl.execute.concurrent.executors,
  org.eclipse.epsilon.erl.execute.context.concurrent,
  org.eclipse.epsilon.erl.strategy
 Automatic-Module-Name: org.eclipse.epsilon.erl.engine

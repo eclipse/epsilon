@@ -1,5 +1,10 @@
-package org.eclipse.epsilon.erl.execute.concurrent;
+package org.eclipse.epsilon.erl.execute.concurrent.executors;
 
+/**
+ * Internal class for tracking the completion status of job batches
+ * submitted to {@link ErlExecutorService}.
+ * A batch may complete successfully or exceptionally.
+ */
 public class ErlExecutionStatus {
 	
 	private boolean success;
@@ -14,7 +19,10 @@ public class ErlExecutionStatus {
 		return exception;
 	}
 	
-	synchronized void completeSuccessfully() {
+	/**
+	 * This method is only intended to be called by {@linkplain ErlExecutorService#awaitCompletion()}.
+	 */
+	public synchronized void completeSuccessfully() {
 		success = true;
 		finished();
 	}
@@ -31,7 +39,7 @@ public class ErlExecutionStatus {
 		notify();
 	}
 	
-	/*
+	/**
 	 * Blocks until an exception is raised or {@linkplain #completeSuccessfully()} is called.
 	 * @return the Exception that was raised which caused this to terminate, or null if successful.
 	 */

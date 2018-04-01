@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.erl.execute.concurrent;
+package org.eclipse.epsilon.erl.execute.concurrent.executors;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -9,6 +9,11 @@ public interface ErlExecutorService extends ExecutorService {
 	
 	ErlExecutionStatus getExecutionStatus();
 	
+	/**
+	 * Blocks until all submitted jobs have completed.
+	 * @throws EolRuntimeException if an exception is thrown from any of the jobs,
+	 * or otherwise any other abnormal completion.
+	 */
 	default void awaitCompletion() throws EolRuntimeException {
 		final ErlExecutionStatus status = getExecutionStatus();
 		

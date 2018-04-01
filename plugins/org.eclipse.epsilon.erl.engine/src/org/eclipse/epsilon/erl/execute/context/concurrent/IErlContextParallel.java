@@ -3,8 +3,8 @@ package org.eclipse.epsilon.erl.execute.context.concurrent;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.erl.execute.concurrent.ErlExecutorService;
-import org.eclipse.epsilon.erl.execute.concurrent.ErlThreadPoolExecutor;
+import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
+import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlThreadPoolExecutor;
 
 public interface IErlContextParallel extends IEolContext {
 	
