@@ -46,7 +46,8 @@ public class EvlAcceptanceTestUtil {
 			"java_findbugs",
 			"java_1Constraint",
 			"java_manyConstraint1Context",
-			"java_manyContext1Constraint"
+			"java_manyContext1Constraint",
+			"java_findbugs_noguard"
 		},
 		
 		thriftMetamodel = "thrift.ecore",

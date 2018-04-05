@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.WeakHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	protected TypeExpression contextTypeExpression, returnTypeExpression;
 	protected EolType contextType, returnType;
 	protected StatementBlock body;
-	protected List<Parameter> formalParameters = new ArrayList<>();
+	protected List<Parameter> formalParameters;
 	protected boolean isCached;
 	// If this operation cannot be cached, it will stay null, to save some memory.
 	// Note that this cache needs to be thread-safe!
@@ -69,7 +70,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 			paramListAst = nameAst.getNextSibling();
 		}
 		
-		if (paramListAst != null){ // helper with parameters
+		if (paramListAst != null) { // helper with parameters
 			if (paramListAst.getNextSibling().getType() == EolParser.TYPE) { // with return type
 				returnAst = paramListAst.getNextSibling();
 				bodyAst = returnAst.getNextSibling();
@@ -87,13 +88,19 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 		
 		this.nameExpression = (NameExpression) module.createAst(nameAst, this);
 		this.returnTypeExpression = (TypeExpression)  module.createAst(returnAst, this);
+		this.body = (StatementBlock) module.createAst(bodyAst, this);
+		
 		if (paramListAst != null) {
+			List<AST> paramListAstChildren = paramListAst.getChildren();
+			formalParameters = new ArrayList<>(paramListAstChildren.size());
 			for (AST formalParameterAst : paramListAst.getChildren()) {
 				formalParameters.add((Parameter) module.createAst(formalParameterAst, this));
 			}
 		}
-		this.body = (StatementBlock) module.createAst(bodyAst, this);
-		
+		else {
+			formalParameters = Collections.emptyList();
+		}
+
 		// Assignment intended
 		if (isCached = hasAnnotation("cached") && formalParameters.isEmpty()) {
 			this.cache = Collections.synchronizedMap(new WeakHashMap<>());
@@ -168,9 +175,9 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 			scope.put(Variable.createReadOnlyVariable("self", self));
 		}
 		
-		for (int i = 0; i < paramSize; i++) {
-			Parameter fp = (Parameter) formalParameters.get(i);
-			scope.put(new Variable(fp.getName(), parameterValues.get(i), fp.getType(context)));
+		Iterator<?> parameterValuesIter = parameterValues.iterator();
+		for (Parameter fp : formalParameters) {
+			scope.put(new Variable(fp.getName(), parameterValuesIter.next(), fp.getType(context)));
 		}
 		
 		evaluatePreConditions(context);
@@ -231,11 +238,11 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 			Object satisfied = ((ExecutableAnnotation) annotation).getValue(context);
 			if (satisfied instanceof Boolean) {
 				if (!(boolean) satisfied) {
-						// We can simply use the frame stack here, as we created a frame for the post-condition
-						// in order to isolate the _result variable.
-						throw new EolRuntimeException(
-							"Post-condition not satisfied: _result was "
-									+ context.getPrettyPrinterManager().print(result));
+					// We can simply use the frame stack here, as we created a frame for the post-condition
+					// in order to isolate the _result variable.
+					throw new EolRuntimeException(
+						"Post-condition not satisfied: _result was "
+								+ context.getPrettyPrinterManager().print(result));
 				}
 			}
 			else {

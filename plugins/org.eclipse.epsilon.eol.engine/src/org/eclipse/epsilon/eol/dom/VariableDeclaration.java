@@ -15,10 +15,10 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class VariableDeclaration extends TypeInitialiser {
 	
 	protected List<Expression> parameterExpressions = new ArrayList<>();
-	protected NameExpression nameExpression = null;
+	protected NameExpression nameExpression;
 	protected boolean instantiate;
 	protected boolean external;
-	protected TypeExpression typeExpression = null;
+	protected TypeExpression typeExpression;
 	
 	public VariableDeclaration() {}
 	

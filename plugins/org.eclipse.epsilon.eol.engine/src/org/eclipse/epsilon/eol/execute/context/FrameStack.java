@@ -272,7 +272,7 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 		leaveLocal(entryPoint, true);
 	}
 
-	public void putAll(Collection<Variable> variables) {
+	public void put(Collection<Variable> variables) {
 		activeGroup().put(variables.toArray(new Variable[variables.size()]));
 	}
 	
@@ -315,6 +315,12 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 	 */
 	public void remove(String variable) {
 		activeGroup().top().remove(variable);
+	}
+	
+	public void remove(Collection<String> variables) {
+		for (String variable : variables) {
+			remove(variable);
+		}
 	}
 	
 	/**

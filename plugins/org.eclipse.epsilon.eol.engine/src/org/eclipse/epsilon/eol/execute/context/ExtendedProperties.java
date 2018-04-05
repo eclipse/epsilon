@@ -2,7 +2,6 @@ package org.eclipse.epsilon.eol.execute.context;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.epsilon.eol.util.Cache;
 
 public class ExtendedProperties {

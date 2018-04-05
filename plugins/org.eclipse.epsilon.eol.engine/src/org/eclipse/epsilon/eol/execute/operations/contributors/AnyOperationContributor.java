@@ -114,9 +114,9 @@ public class AnyOperationContributor extends OperationContributor {
 	
 	public boolean isDefined() {
 		if (target == null || target instanceof IUndefined) {
-			return false ;
+			return false;
 		}
-		else if (target instanceof String && (((String) target).length() == 0)) {
+		else if (target instanceof String && (((String) target).isEmpty())) {
 			return false;
 		}
 		else {

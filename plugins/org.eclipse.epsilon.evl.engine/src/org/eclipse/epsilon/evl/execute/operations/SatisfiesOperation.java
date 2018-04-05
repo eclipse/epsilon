@@ -24,7 +24,7 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
-//TODO: Detect cyclic dependencies and throw @link{EvlCircularAssumptionException}
+//TODO: Detect cyclic dependencies and throw EvlCircularAssumptionException
 public class SatisfiesOperation extends SimpleOperation {
 	
 	protected boolean all = true;
@@ -62,7 +62,7 @@ public class SatisfiesOperation extends SimpleOperation {
 			Constraint constraint = constraints.getConstraint(constraintName, source, context)
 				.orElseThrow(() -> new EvlConstraintNotFoundException(constraintName, ast));
 			
-			//This is to avoid duplication of global constraints
+			// This is to avoid duplication of global constraints
 			if (constraint.getConstraintContext() instanceof GlobalConstraintContext) {
 				source = EolNoType.Instance;
 			}
@@ -73,7 +73,7 @@ public class SatisfiesOperation extends SimpleOperation {
 				valid = constraintTrace.isSatisfied(constraint, source);
 			}
 			else {
-				//Don't call execute() or shouldBeChecked because it might be a lazy constraint, so need to force appliesTo && check.
+				// Don't call execute() or shouldBeChecked because it might be a lazy constraint, so need to force appliesTo && check.
 				if (constraint.appliesTo(source, context, false)) {
 					valid = constraint.check(source, context);
 				}

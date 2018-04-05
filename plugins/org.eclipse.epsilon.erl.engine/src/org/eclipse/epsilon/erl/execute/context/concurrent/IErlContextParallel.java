@@ -51,10 +51,9 @@ public interface IErlContextParallel extends IEolContext {
 		// Cache the Epsilon stack trace
 		if (exception instanceof EolRuntimeException)
 			exception.getMessage();
-		
-		if (executor != null) {
+	
+		if (executor != null)
 			executor.getExecutionStatus().setException(exception);
-		}
 	}
 	
 	default <R> R parallelGet(ThreadLocal<? extends R> threadLocal, Supplier<? extends R> originalValueGetter) {

@@ -29,6 +29,11 @@ public interface Frame {
 	
 	void put(Variable variable);
 	
+	default void put(Iterable<Variable> variables) {
+		for (Variable variable : variables)
+			put(variable);
+	}
+	
 	default void put(Variable... variables) {
 		for (Variable variable : variables)
 			put(variable);

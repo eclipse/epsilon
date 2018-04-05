@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
@@ -26,6 +25,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -44,7 +44,8 @@ import org.eclipse.epsilon.evl.parse.EvlParser;
 public class EvlModule extends ErlModule implements IEvlModule {
 	
 	protected IEvlFixer fixer;
-	protected List<ConstraintContext> constraintContexts, declaredConstraintContexts;
+	protected List<ConstraintContext> constraintContexts;
+	protected final ArrayList<ConstraintContext> declaredConstraintContexts = new ArrayList<>(0);
 	protected final Constraints constraints = new Constraints();
 	private boolean optimizeConstraints = false;
 	
@@ -107,8 +108,10 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		
 		List<AST>
 			constraintASTs = AstUtil.getChildren(cst, EvlParser.CONSTRAINT),
-			critiqueASTs = AstUtil.getChildren(cst, EvlParser.CRITIQUE);
+			critiqueASTs = AstUtil.getChildren(cst, EvlParser.CRITIQUE),
+			constraintContextAsts = AstUtil.getChildren(cst, EvlParser.CONTEXT);
 		
+		declaredConstraintContexts.ensureCapacity(constraintContextAsts.size()+1);
 		globalConstraints.ensureCapacity(constraintASTs.size()+critiqueASTs.size()+globalConstraints.size());
 		
 		for (AST constraintAst : constraintASTs) {
@@ -122,9 +125,6 @@ public class EvlModule extends ErlModule implements IEvlModule {
 			globalConstraints.add(critique); 
 			critique.setConstraintContext(globalConstraintContext);
 		}
-		
-		Collection<AST> constraintContextAsts = AstUtil.getChildren(cst, EvlParser.CONTEXT);
-		declaredConstraintContexts = new ArrayList<>(constraintContextAsts.size());
 		
 		for (AST constraintContextAst : constraintContextAsts) {
 			declaredConstraintContexts.add((ConstraintContext) module.createAst(constraintContextAst, this));
@@ -148,12 +148,13 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	@Override
 	public List<ConstraintContext> getConstraintContexts() {
 		if (constraintContexts == null) {
-			constraintContexts = imports.stream()
-				.filter(imp -> imp.isLoaded() && (imp.getModule() instanceof IEvlModule))
-				.map(imp -> ((IEvlModule)imp.getModule()).getConstraintContexts())
-				.flatMap(List::stream)
-				.collect(Collectors.toList()
-			);
+			constraintContexts = new ArrayList<>();
+			for (Import import_ : imports) {
+				if (import_.isLoaded() && (import_.getModule() instanceof IEvlModule)) {
+					IEvlModule module = (IEvlModule) import_.getModule();
+					constraintContexts.addAll(module.getConstraintContexts());
+				}
+			}
 			constraintContexts.addAll(declaredConstraintContexts);
 		}
 		return constraintContexts;
@@ -186,7 +187,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 					constraint.optimisedCheck(self, context, false);
 				}
 
-				//If we already know the result won't be used, don't bother adding it to the trace!
+				// If we already know the result won't be used, don't bother adding it to the trace!
 				if (dependedOn == null || dependedOn.contains(constraint)) {
 					// Mark this constraint as executed in an optimised way: we will only have
 					// explicit trace items for invalid objects, so we'll have to tweak isChecked
@@ -216,7 +217,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		fs.put(Variable.createReadOnlyVariable("thisModule", this));
 	}
 
-	/*
+	/**
 	 * Invokes the execute() method on all Constraints in all ConstraintContexts.
 	 * If optimizeConstraints, the constraints to be checked are filtered.
 	 */
@@ -228,7 +229,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		}
 	}
 	
-	/*
+	/**
 	 * Clean up, execute fixes and post block.
 	 */
 	@Override

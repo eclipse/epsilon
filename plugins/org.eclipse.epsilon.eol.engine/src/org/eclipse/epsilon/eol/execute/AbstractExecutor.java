@@ -14,7 +14,6 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-
 public abstract class AbstractExecutor {
 	
 	public abstract Object execute(ModuleElement ast, IEolContext context) throws EolRuntimeException;
