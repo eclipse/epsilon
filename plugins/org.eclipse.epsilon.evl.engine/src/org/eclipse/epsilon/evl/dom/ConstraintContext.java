@@ -56,11 +56,6 @@ public class ConstraintContext extends AnnotatableModuleElement {
 		return !isLazy(context) && appliesTo(modelElement, context, false);
 	}
 	
-	public void execute(IEvlContext context) throws EolRuntimeException {
-		if (!isLazy(context))
-			checkAll(context);
-	}
-	
 	public boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException {
 		return appliesTo(object, context, false);
 	}
@@ -73,27 +68,6 @@ public class ConstraintContext extends AnnotatableModuleElement {
 			return guardBlock.execute(context, Variable.createReadOnlyVariable("self", object));
 		
 		return true;
-	}
-	
-	public void checkAll(IEvlContext context) throws EolRuntimeException {
-		checkAll(context, constraints);
-	}
-	
-	public void checkAll(IEvlContext context, Collection<Constraint> constraintsToCheck) throws EolRuntimeException {
-		if (constraintsToCheck != constraints) {
-			for (Constraint constraint : constraintsToCheck) {
-				if (constraint.getConstraintContext() != this)
-					throw new IllegalArgumentException("ConstraintContext '"+getTypeName()+"' is not applicable for Constraint '"+constraint.getName()+"'.");
-			}
-		}
-
-		for (Object object : getAllOfSourceKind(context)) {
-			if (appliesTo(object, context, false)) {
-				for (Constraint constraint : constraintsToCheck) {
-					constraint.execute(object, context);
-				}
-			}
-		}
 	}
 	
 	/**

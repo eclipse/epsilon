@@ -204,7 +204,19 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	}
 	
 	protected Collection<Constraint> preProcessConstraintContext(ConstraintContext constraintContext) throws EolRuntimeException {
-		return optimizeConstraints ? getOptimisedConstraintsFor(constraintContext) : constraintContext.getConstraints();
+		Collection<Constraint> constraintsToCheck;
+		
+		if (optimizeConstraints) {
+			for (Constraint constraint : constraintsToCheck = getOptimisedConstraintsFor(constraintContext)) {
+				if (constraint.getConstraintContext() != constraintContext)
+					throw new IllegalArgumentException("ConstraintContext '"+constraintContext.getTypeName()+"' is not applicable for Constraint '"+constraint.getName()+"'.");
+			}
+		}
+		else {
+			constraintsToCheck = constraintContext.getConstraints();
+		}
+		
+		return constraintsToCheck;
 	}
 	
 	@Override
@@ -225,7 +237,14 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		IEvlContext context = getContext();
 		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
-			constraintContext.checkAll(context, preProcessConstraintContext(constraintContext));
+			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
+			for (Object object : constraintContext.getAllOfSourceKind(context)) {
+				if (constraintContext.appliesTo(object, context, false)) {
+					for (Constraint constraint : constraintsToCheck) {
+						constraint.execute(object, context);
+					}
+				}
+			}
 		}
 	}
 	
