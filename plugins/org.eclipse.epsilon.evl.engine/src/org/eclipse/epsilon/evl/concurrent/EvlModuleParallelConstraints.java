@@ -7,9 +7,9 @@ import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
-/*
- * @deprecated Performance of the similar @link{EvlModuleParallelElements} is
- * at least as good as this, so there is no perceivable benefit of using this!
+/**
+ * @deprecated Performance of the similar {@link EvlModuleParallelElements} is
+ * at least as good, so there is no perceivable benefit of using this!
  */
 @Deprecated
 public class EvlModuleParallelConstraints extends EvlModuleParallel {

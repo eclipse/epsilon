@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.erl.execute.concurrent.PersistentThreadLocal;
+import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
+import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlThreadPoolExecutor;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -43,7 +45,17 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 		super.endParallel();
 		concurrentUnsatisfiedConstraints.getAll().forEach(unsatisfiedConstraints::addAll);
 	}
+	
+	@Override
+	public ErlExecutorService getExecutor() {
+		return ErlThreadPoolExecutor.fixedPoolExecutor(numThreads);
+	}
 
+	@Override
+	public EvlModuleParallel getModule() {
+		return (EvlModuleParallel) module;
+	}
+	
 	@Override
 	public Set<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
 		return parallelGet(concurrentUnsatisfiedConstraints, () -> unsatisfiedConstraints);
@@ -52,11 +64,6 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	@Override
 	public ConstraintTrace getConstraintTrace() {
 		return constraintTrace;
-	}
-	
-	@Override
-	public EvlModuleParallel getModule() {
-		return (EvlModuleParallel) module;
 	}
 	
 	@Override

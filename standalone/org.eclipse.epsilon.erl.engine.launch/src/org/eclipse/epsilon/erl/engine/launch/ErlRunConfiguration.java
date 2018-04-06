@@ -14,7 +14,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.engine.profiling.ProfilableIErlModule;
-import org.eclipse.epsilon.profiling.BenchmarkUtils;
+import org.eclipse.epsilon.profiling.util.BenchmarkUtils;
 import org.eclipse.epsilon.launch.ProfilableRunConfiguration;
 
 /**

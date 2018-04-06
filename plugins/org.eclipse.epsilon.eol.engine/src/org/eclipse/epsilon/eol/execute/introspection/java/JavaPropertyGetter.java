@@ -24,8 +24,6 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 	}
 	
 	protected ObjectMethod getMethodFor(Object object, String property) {
-		ObjectMethod objectMethod = new ObjectMethod();
-		objectMethod.setObject(object);
 		OperationContributorRegistry registry = context.getOperationContributorRegistry();
 		
 		// Look for a getX() method
@@ -40,6 +38,8 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 		om = registry.findContributedMethodForEvaluatedParameters(object, "is" + property, new Object[]{}, context);
 		if (om != null) return om;
 		
+		ObjectMethod objectMethod = new ObjectMethod();
+		objectMethod.setObject(object);
 		return objectMethod;
 	}
 	

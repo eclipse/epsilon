@@ -8,7 +8,7 @@ import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 @Deprecated
-public class EvlModuleParallelContexts extends EvlModuleParallelElements {
+public class EvlModuleParallelContexts extends EvlModuleParallel {
 
 	public EvlModuleParallelContexts() {
 		super();

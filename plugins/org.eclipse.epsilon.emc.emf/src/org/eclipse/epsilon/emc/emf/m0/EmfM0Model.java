@@ -86,23 +86,23 @@ public class EmfM0Model extends EmfModel {
 		eolModule.getContext().getModelRepository().addModel(copy);
 	}
 	
-	public Operation getHelper(String name){
-		for (Operation helper : eolModule.getDeclaredOperations()) {
-			if (helper.getName().equals(name)){
-				return helper;
-			}
-		}
-		return null;
+	public Operation getHelper(String name) {
+		return eolModule.getDeclaredOperations()
+			.stream()
+			.filter(helper -> helper.getName().equals(name))
+			.findAny()
+			.orElse(null);
 	}
 	
 	class EmfM0PropertyGetter extends AbstractPropertyGetter {
 
+		@Override
 		public Object invoke(Object object, String property) throws EolRuntimeException {
-			ArrayList<Object> parameterValues = new ArrayList<Object>();
+			ArrayList<Object> parameterValues = new ArrayList<>();
 			parameterValues.add(property);
-			Operation propertyGetter = eolModule.getDeclaredOperations().getOperation(object,"getProperty",parameterValues,eolModule.getContext());
-			if (propertyGetter != null){
-				return propertyGetter.execute(object,parameterValues,eolModule.getContext());
+			Operation propertyGetter = eolModule.getDeclaredOperations().getOperation(object, "getProperty", parameterValues, eolModule.getContext());
+			if (propertyGetter != null) {
+				return propertyGetter.execute(object,parameterValues, eolModule.getContext());
 			}
 			else {
 				return null;
@@ -112,8 +112,9 @@ public class EmfM0Model extends EmfModel {
 	
 	class EmfM0PropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 
+		@Override
 		public void invoke(Object value) throws EolRuntimeException {
-			ArrayList<Object> parameterValues = new ArrayList<Object>();
+			ArrayList<Object> parameterValues = new ArrayList<>();
 			parameterValues.add(property);
 			parameterValues.add(value);
 			Operation propertySetter = eolModule.getDeclaredOperations().getOperation(object,"setProperty",parameterValues,eolModule.getContext());
@@ -122,10 +123,12 @@ public class EmfM0Model extends EmfModel {
 			}
 		}
 
+		@Override
 		public Object coerce(Object value) throws EolIllegalPropertyException {
 			return value;
 		}
 
+		@Override
 		public boolean conforms(Object value) throws EolIllegalPropertyException {
 			return true;
 		}
@@ -167,7 +170,7 @@ public class EmfM0Model extends EmfModel {
 		Collection<EObject> allOfKind = null;
 		
 		try {
-			allOfKind = (Collection<EObject>) allOfKindHelper.execute(metaClass, new ArrayList<Object>(), eolModule.getContext());
+			allOfKind = (Collection<EObject>) allOfKindHelper.execute(metaClass, new ArrayList<>(), eolModule.getContext());
 		}
 		catch (EolRuntimeException rex){
 			eolModule.getContext().getErrorStream().print(rex);
@@ -181,7 +184,7 @@ public class EmfM0Model extends EmfModel {
 		Operation hasTypeHelper = getHelper("hasType");
 		boolean hasType = false;
 		try {
-			hasType = (Boolean) hasTypeHelper.execute(type, new ArrayList<Object>(), eolModule.getContext());
+			hasType = (Boolean) hasTypeHelper.execute(type, new ArrayList<>(), eolModule.getContext());
 		}
 		catch (EolRuntimeException rex){
 			eolModule.getContext().getErrorStream().print(rex);

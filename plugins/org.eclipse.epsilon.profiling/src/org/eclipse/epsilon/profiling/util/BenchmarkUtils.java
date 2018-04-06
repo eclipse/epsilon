@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.profiling;
+package org.eclipse.epsilon.profiling.util;
 
 import static java.lang.System.nanoTime;
 import java.lang.management.ManagementFactory;
@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.function.*;
-import org.eclipse.epsilon.profiling.ProfileDiagnostic.MemoryUnit;
+import org.eclipse.epsilon.profiling.util.ProfileDiagnostic.MemoryUnit;
 
 /**
  * Utility for performance profiling; mainly for measuring execution times.

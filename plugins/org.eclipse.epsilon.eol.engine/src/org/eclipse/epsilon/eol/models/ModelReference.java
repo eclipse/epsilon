@@ -45,138 +45,172 @@ public class ModelReference implements IAdaptableModel, IWrapper, IOperationCont
 		return target;
 	}
 	
+	@Override
 	public String getName() {
 		return name;
 	}
 	
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public List<String> getAliases() {
 		return aliases;
 	}
 	
+	@Override
 	public Collection<?> allContents() {
 		return target.allContents();
 	}
 
+	@Override
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		return target.createInstance(type);
 	}
 
+	@Override
 	public void deleteElement(Object instance) throws EolRuntimeException {
 		target.deleteElement(instance);
 	}
 
+	@Override
 	public void dispose() {
 		target.dispose();
 	}
 
+	@Override
 	public Collection<?> getAllOfKind(String type) throws EolModelElementTypeNotFoundException {
 		return target.getAllOfKind(type);
 	}
 
+	@Override
 	public Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
 		return target.getAllOfType(type);
 	}
 
+	@Override
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
 		return target.getEnumerationValue(enumeration, label);
 	}
 
+	@Override
 	public Object getElementById(String id) {
 		return target.getElementById(id);
 	}
 
+	@Override
 	public String getElementId(Object instance) {
 		return target.getElementId(instance);
 	}
 	
+	@Override
 	public void setElementId(Object instance, String newId) {
 		target.setElementId(instance, newId);
 	}
 
+	@Override
 	public IPropertyGetter getPropertyGetter() {
 		return target.getPropertyGetter();
 	}
 
+	@Override
 	public IPropertySetter getPropertySetter() {
 		return target.getPropertySetter();
 	}
 
+	@Override
 	public Object getTypeOf(Object instance) {
 		return target.getTypeOf(instance);
 	}
 	
+	@Override
 	public String getTypeNameOf(Object instance) {
 		return target.getTypeNameOf(instance);
 	}
 	
+	@Override
 	public String getFullyQualifiedTypeNameOf(Object instance) {
 		return target.getFullyQualifiedTypeNameOf(instance);
 	}
 
+	@Override
 	public boolean hasType(String type) {
 		return target.hasType(type);
 	}
 
+	@Override
 	public boolean isInstantiable(String type) {
 		return target.isInstantiable(type);
 	}
 
+	@Override
 	public boolean isModelElement(Object instance) {
 		return target.isModelElement(instance);
 	}
 
+	@Override
 	public boolean isOfKind(Object instance, String type) throws EolModelElementTypeNotFoundException {
 		return target.isOfKind(instance,type);
 	}
 
+	@Override
 	public boolean isOfType(Object instance, String type) throws EolModelElementTypeNotFoundException {
 		return target.isOfType(instance, type);
 	}
 
+	@Override
 	public boolean isReadOnLoad() {
 		return target.isReadOnLoad();
 	}
 
+	@Override
 	public boolean isStoredOnDisposal() {
 		return target.isStoredOnDisposal();
 	}
 
+	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		target.load(properties, resolver);
 	}
 
+	@Override
 	public void load() throws EolModelLoadingException {
 		target.load();
 	}
 
+	@Override
 	public boolean owns(Object instance) {
 		return target.owns(instance);
 	}
 
+	@Override
 	public void setReadOnLoad(boolean readOnLoad) {
 		target.setReadOnLoad(readOnLoad);
 	}
 
+	@Override
 	public void setStoredOnDisposal(boolean storedOnDisposal) {
 		target.setStoredOnDisposal(storedOnDisposal);
 	}
 
+	@Override
 	public boolean store(String fileName) {
 		return target.store(fileName);
 	}
 
+	@Override
 	public boolean store() {
 		return target.store();
 	}
 
+	@Override
 	public IModelTransactionSupport getTransactionSupport() {
 		return target.getTransactionSupport();
 	}
 
+	@Override
 	public boolean knowsAboutProperty(Object instance, String property) {
 		return target.knowsAboutProperty(instance, property);
 	}
@@ -186,16 +220,19 @@ public class ModelReference implements IAdaptableModel, IWrapper, IOperationCont
 		return target.isPropertySet(instance, property);
 	}
 
+	@Override
 	public Object createInstance(String type, Collection<Object> parameters)
 			throws EolModelElementTypeNotFoundException,
 			EolNotInstantiableModelElementTypeException {
 		return target.createInstance(type, parameters);
 	}
 
+	@Override
 	public Object getWrapped() {
 		return target;
 	}
 
+	@Override
 	public <T> T adaptTo(Class<T> modelType) {
 		if (modelType.isInstance(target)) {
 			return modelType.cast(target);

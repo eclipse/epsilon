@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
@@ -127,17 +129,24 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	protected static Map<String, List<EPackage>> fileBasedMetamodels = new HashMap<>();
 	protected static Map<String, Long> fileBasedMetamodelTimestamps = new HashMap<>();
 
-
-	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
-		final Collection<String> properties = new LinkedList<>();
-		
-		for (EStructuralFeature feature : featuresForType(type)) {
-			properties.add(feature.getName());
-		}
-		
-		return properties;
+	public EmfModel() {
+		this(DEFAULT_CONCURRENT);
+	}
+	
+	public EmfModel(boolean isConcurrent) {
+		super(isConcurrent);
+		//TODO: see if anything here can cause concurrency issues
 	}
 
+	@Override
+	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
+		return featuresForType(type)
+			.stream()
+			.map(EStructuralFeature::getName)
+			.collect(Collectors.toCollection(LinkedList::new));
+	}
+
+	@Override
 	public boolean preventLoadingOfExternalModelElements() {
 		if (isExpand()) {
 			setExpand(false);
@@ -172,6 +181,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		load();
 	}
 
+	@Override
 	protected void loadModel() throws EolModelLoadingException {
 		loadModelFromUri();
 		setupContainmentChangeListeners();
@@ -344,7 +354,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 						isAdapted = true;
 					}
 				}
-				if (!isAdapted){
+				if (!isAdapted) {
 					eObject.eAdapters().add(new ContainmentChangeAdapter(eObject, eObject.eResource()));
 				}
 			}
@@ -395,11 +405,9 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	}
 
 	public List<String> getMetamodelFiles() {
-		final List<String> files = new ArrayList<>(metamodelFileUris.size());
-		for (URI metamodelFileUri : this.metamodelFileUris) {
-			files.add(EmfUtil.getFile(metamodelFileUri));
-		}
-		return files;
+		return metamodelFileUris.stream()
+			.map(EmfUtil::getFile)
+			.collect(Collectors.toList());
 	}
 
 	/**
@@ -494,14 +502,17 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		return new EmfPropertySetter();
 	}
 
+	@Override
 	public boolean hasProperty(String type, String property) throws EolModelElementTypeNotFoundException {
 		return getPropertiesOf(type).contains(property);
 	}
 	
+	@Override
 	public boolean isEnumerationValue(Object object) {
 		return object instanceof Enumerator;
 	}
 
+	@Override
 	public String getEnumerationTypeOf(Object literal) throws EolNotAnEnumerationValueException {
 		if (!isEnumerationValue(literal))
 			throw new EolNotAnEnumerationValueException(literal);
@@ -513,6 +524,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		}		
 	}
 
+	@Override
 	public String getEnumerationLabelOf(Object literal) throws EolNotAnEnumerationValueException {
 		if (!isEnumerationValue(literal))
 			throw new EolNotAnEnumerationValueException(literal);
@@ -527,7 +539,8 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 
 	protected void determinePackagesFrom(ResourceSet resourceSet) throws EolModelLoadingException {
 		packages = new ArrayList<>();
-
+		ArrayList<EPackage> packagesAsArraylist = (ArrayList<EPackage>) packages;
+		
 		for (URI metamodelFileUri : this.metamodelFileUris) {
 			List<EPackage> metamodelPackages = null;
 			try {
@@ -544,12 +557,16 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			} catch (Exception e) {
 				throw new EolModelLoadingException(e,this);
 			}
+			
+			packagesAsArraylist.ensureCapacity(packages.size()+metamodelPackages.size());
 			for (EPackage metamodelPackage : metamodelPackages) {
 				packages.add(metamodelPackage);
 				EmfUtil.collectDependencies(metamodelPackage, packages);
 			}
 		}
 	
+		packagesAsArraylist.ensureCapacity(packages.size()+this.metamodelUris.size());
+		
 		for (URI metamodelUri : this.metamodelUris) {
 			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelUri.toString());
 			if (ePackage == null) {
@@ -578,7 +595,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		return fileBasedMetamodels.get(path);
 	}
 
-	private void saveFileBasedMetamodelForReuse(URI uri, List<EPackage> packages) {
+	private static void saveFileBasedMetamodelForReuse(URI uri, List<EPackage> packages) {
 		// We always save the previously loaded metamodels, as we might want to force
 		// a reload first in one EmfModel and then reuse the metamodel in the next
 		// EmfModel.
@@ -594,6 +611,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		fileBasedMetamodelTimestamps.put(path, timestamp);
 	}
 
+	@Override
 	public boolean hasPackage(String packageName) {
 		return packageForName(packageName) != null;
 	}
@@ -602,35 +620,32 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		final String[] parts = name.split("::");
 		
 		int partIndex = 0;
-		EPackage current = null;
+		EPackage current;
 		Collection<EPackage> next = getTopLevelPackages();
 		
 		do {
-			current = packageForName(parts[partIndex++], next);
-			if (current != null) next = current.getESubpackages();
-		
-		} while(current!=null && partIndex < parts.length);
+			if ((current = packageForName(parts[partIndex++], next)) != null) {
+				next = current.getESubpackages();
+			}
+		}
+		while (current != null && partIndex < parts.length);
 		
 		return current;
 	}
 
 	private Collection<EPackage> getTopLevelPackages() {
-		final Collection<EPackage> packages = new LinkedList<>();
-		for (Object pkg : getPackageRegistry().values()) {
-			if (pkg instanceof EPackage) {
-				packages.add((EPackage)pkg);
-			}
-		}
-		return packages;
+		return getPackageRegistry().values()
+			.stream()
+			.filter(pkg -> pkg instanceof EPackage)
+			.map(pkg -> (EPackage) pkg)
+			.collect(Collectors.toCollection(LinkedList::new));
 	}
 	
-	private EPackage packageForName(String name, Collection<EPackage> packages) {
-		for (EPackage p : packages) {
-			if (name.equals(p.getName())) {
-				return p;
-			}
-		}
-		return null;
+	private static EPackage packageForName(String name, Collection<EPackage> packages) {
+		return packages.stream()
+			.filter(pkg -> name.equals(pkg.getName()))
+			.findAny()
+			.orElse(null);
 	}
 	
 
@@ -638,19 +653,15 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		return classForName(type).getEAllStructuralFeatures();
 	}
 
-	private List<URI> toURIList(final String commaSeparatedList) {
-		final List<URI> list = new ArrayList<>();
-		for (String s : commaSeparatedList.trim().split("\\s*,\\s*")) {
-			if (s.length() > 0) {
-				list.add(URI.createURI(s));
-			}
-		}
-		return list;
+	private static List<URI> toURIList(final String commaSeparatedList) {
+		return Stream.of(commaSeparatedList.trim().split("\\s*,\\s*"))
+			.filter(s -> !s.isEmpty())
+			.map(URI::createURI)
+			.collect(Collectors.toList());
 	}
 	
 	@Override
-	public Metamodel getMetamodel(StringProperties properties,
-			IRelativePathResolver resolver) {
+	public Metamodel getMetamodel(StringProperties properties, IRelativePathResolver resolver) {
 		return new EmfModelMetamodel(properties, resolver);
 	}
 	

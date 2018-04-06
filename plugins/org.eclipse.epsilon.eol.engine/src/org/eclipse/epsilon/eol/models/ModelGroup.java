@@ -46,6 +46,7 @@ public class ModelGroup extends Model {
 		return models;
 	}
 	
+	@Override
 	public void load() throws EolModelLoadingException {
 		for (IModel model : models) {
 			model.load();
@@ -56,6 +57,7 @@ public class ModelGroup extends Model {
 		return null;
 	}
 
+	@Override
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
 		for (IModel model : models) {
 			try {
@@ -66,6 +68,7 @@ public class ModelGroup extends Model {
 		throw new EolEnumerationValueNotFoundException(enumeration, label, this.getName());
 	}
 
+	@Override
 	public Collection<?> getAllOfType(String metaClass) throws EolModelElementTypeNotFoundException {
 		ArrayList<Object> allOfClass = new ArrayList<>();
 		for (IModel model : models) {
@@ -74,6 +77,7 @@ public class ModelGroup extends Model {
 		return allOfClass;
 	}
 
+	@Override
 	public Collection<?> getAllOfKind(String metaClass) throws EolModelElementTypeNotFoundException {
 		ArrayList<Object> allOfType = new ArrayList<>();
 		for (IModel model : models) {
@@ -82,6 +86,7 @@ public class ModelGroup extends Model {
 		return allOfType;
 	}
 	
+	@Override
 	public Collection<Object> allContents() {
 		final List<Object> allContents = new ArrayList<>();
 		for (IModel model : models) {
@@ -90,6 +95,7 @@ public class ModelGroup extends Model {
 		return allContents;
 	}
 
+	@Override
 	public Object getTypeOf(Object instance) {
 		for (IModel model : models) {
 			if (model.owns(instance)) return model.getTypeOf(instance);
@@ -97,6 +103,7 @@ public class ModelGroup extends Model {
 		return null;
 	}
 
+	@Override
 	public String getTypeNameOf(Object instance) {
 		for (IModel model : models) {
 			if (model.isModelElement(instance))
@@ -124,6 +131,7 @@ public class ModelGroup extends Model {
 		}
 	}
 
+	@Override
 	@SuppressWarnings("serial")
 	public Object createInstance(String metaClass) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		if (models.size() == 1) {
@@ -139,6 +147,7 @@ public class ModelGroup extends Model {
 		}
 	}
 
+	@Override
 	public Object getElementById(String id) {
 		ListIterator<IModel> li = models.listIterator();
 		while (li.hasNext()){
@@ -149,6 +158,7 @@ public class ModelGroup extends Model {
 		return null;
 	}
 
+	@Override
 	public String getElementId(Object instance) {
 		ListIterator<IModel> li = models.listIterator();
 		while (li.hasNext()){
@@ -158,6 +168,7 @@ public class ModelGroup extends Model {
 		return null;
 	}
 	
+	@Override
 	public void setElementId(Object instance, String newId) {
 		ListIterator<IModel> li = models.listIterator();
 		while (li.hasNext()){
@@ -166,6 +177,7 @@ public class ModelGroup extends Model {
 		}
 	}
 
+	@Override
 	public void deleteElement(Object instance) throws EolRuntimeException{
 		ListIterator<IModel> li = models.listIterator();
 		while (li.hasNext()){
@@ -185,6 +197,7 @@ public class ModelGroup extends Model {
 	}
 */	
 	
+	@Override
 	public boolean owns(Object instance) {
 		for (IModel model : models) {
 			if (model.owns(instance)) return true;
@@ -201,10 +214,12 @@ public class ModelGroup extends Model {
 		return false;
 	}
 	
+	@Override
 	public boolean store(String fileName) {
 		return false;
 	}
 
+	@Override
 	public boolean store() {
 		for (IModel model : models) {
 			model.store();
@@ -219,6 +234,7 @@ public class ModelGroup extends Model {
 		}
 	}
 
+	@Override
 	public boolean isInstantiable(String metaClass) {
 		for (IModel model : models) {
 			if (model.hasType(metaClass) && model.isInstantiable(metaClass)) return true;
@@ -226,6 +242,7 @@ public class ModelGroup extends Model {
 		return false;
 	}
 
+	@Override
 	public boolean hasType(String metaClass) {
 		for (IModel model : models) {
 			if (model.hasType(metaClass)) return true;
@@ -238,6 +255,7 @@ public class ModelGroup extends Model {
 		load();
 	}
 
+	@Override
 	public boolean isModelElement(Object instance) {
 		for (IModel model : models) {
 			if (model.isModelElement(instance)) return true;
@@ -257,6 +275,7 @@ public class ModelGroup extends Model {
 	
 	public class DelegatingModelElementPropertyGetter extends AbstractPropertyGetter {
 
+		@Override
 		public Object invoke(Object object, String property)
 				throws EolRuntimeException {
 			
@@ -272,6 +291,7 @@ public class ModelGroup extends Model {
 	
 	public class DelegatingModelElementPropertySetter extends AbstractPropertySetter {
 		
+		@Override
 		public void invoke(Object value) throws EolRuntimeException {
 			
 			for (IModel model : models) {

@@ -3,13 +3,9 @@ package org.eclipse.epsilon.erl.engine.profiling;
 import java.util.Collection;
 import java.util.function.Consumer;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.function.CheckedEolConsumer;
-import org.eclipse.epsilon.eol.function.CheckedEolFunction;
-import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
-import org.eclipse.epsilon.eol.function.CheckedEolSupplier;
+import org.eclipse.epsilon.eol.function.*;
 import org.eclipse.epsilon.erl.IErlModule;
-import org.eclipse.epsilon.profiling.BenchmarkUtils;
-import org.eclipse.epsilon.profiling.ProfileDiagnostic;
+import org.eclipse.epsilon.profiling.util.*;
 
 public interface ProfilableIErlModule extends IErlModule {
 	

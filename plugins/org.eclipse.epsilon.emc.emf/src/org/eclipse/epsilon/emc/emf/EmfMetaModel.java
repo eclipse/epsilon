@@ -68,6 +68,7 @@ public class EmfMetaModel extends AbstractEmfModel {
 		return registry;
 	}*/
 
+	@Override
 	public boolean store() {
 		return false;
 	}

@@ -47,11 +47,6 @@ public class ErlContextParallel extends EolContext implements IErlContextParalle
 	}
 	
 	@Override
-	public ErlExecutorService getExecutor() {
-		return ErlThreadPoolExecutor.fixedPoolExecutor(numThreads);
-	}
-	
-	@Override
 	public void goParallel() {
 		isParallel = true;
 	}

@@ -296,9 +296,10 @@ context InfixExpression {
 	
 	constraint equalsNotOnStrings {
 		guard: self.operatorIsEquality()
-		check: not
-			(self.leftOperand.isTypeOf(StringLiteral) or
-			self.rightOperand.isTypeOf(StringLiteral))
+		check: not (
+			self.leftOperand.isTypeOf(StringLiteral) or
+			self.rightOperand.isTypeOf(StringLiteral)
+		)
 	}
 }
 

@@ -37,8 +37,11 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 		processConstraintCheck(processConstraintGuard(processContextGuard()));
 	}
 	
-	/*
+	/**
 	 * Context applies to element?
+	 * 
+	 * @return ConstraintContext-element pairs for which the guard was satisfied.
+	 * @throws EolRuntimeException
 	 */
 	protected Collection<ConstraintContextAtom> processContextGuard() throws EolRuntimeException {
 		final IEvlContextParallel context = getContext();
@@ -64,11 +67,12 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 		return contextBatch.getBatch();
 	}
 
-	/*
+	/**
 	 * Constraint applies to element?
 	 * 
-	 * @param prioritySplitter an optional function which splits batch jobs into
-	 * a prioritised mapping of sub-batches.
+	 * @param contextJobs output from {@link #processContextGuard()}
+	 * @return Constraint-element pairs for which the guard was satisfied.
+	 * @throws EolRuntimeException
 	 */
 	protected Collection<ConstraintAtom> processConstraintGuard(Collection<ConstraintContextAtom> contextJobs) throws EolRuntimeException {
 		final IEvlContextParallel context = getContext();
@@ -94,11 +98,11 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 		return constraintBatchData.getBatch();
 	}
 
-	/*
+	/**
 	 * Constraint is satisfied?
 	 * 
-	 * @param prioritySplitter an optional function which splits batch jobs into
-	 * a prioritised mapping of sub-batches.
+	 * @param constraintJobs output from {@link #processConstraintGuard(Collection)}
+	 * @throws EolRuntimeException
 	 */
 	protected void processConstraintCheck(Collection<ConstraintAtom> constraintJobs) throws EolRuntimeException {
 		final IEvlContextParallel context = getContext();

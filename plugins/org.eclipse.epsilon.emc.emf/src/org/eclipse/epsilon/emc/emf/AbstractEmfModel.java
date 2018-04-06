@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -50,7 +51,16 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	protected Resource modelImpl;
 	protected boolean expand = true;
-	final Map<String, EClass> eClassCache = ConcurrencyUtils.concurrentMap();
+	final Map<String, EClass> eClassCache;
+	
+	protected AbstractEmfModel() {
+		this(DEFAULT_CONCURRENT);
+	}
+	
+	protected AbstractEmfModel(boolean isConcurrent) {
+		super(isConcurrent);
+		eClassCache = isConcurrent ? ConcurrencyUtils.concurrentMap() : new HashMap<>();
+	}
 	
 	protected InputStream getInputStream(String file) throws IOException {
 		
@@ -65,9 +75,8 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 	
 	protected void setDataTypesInstanceClasses(Resource metamodel) {
-		Iterator<EObject> it = metamodel.getAllContents();
-		while (it.hasNext()) {
-			EObject eObject = it.next();
+		Iterable<EObject> allContents = metamodel::getAllContents;
+		for (EObject eObject : allContents) {
 			if (eObject instanceof EEnum) {
 				//TODO : See if we really need this
 				//((EEnum) eObject).setInstanceClassName("java.lang.Integer");
@@ -189,12 +198,11 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 
 	public EClass classForName(String name) throws EolModelElementTypeNotFoundException {
 		if (name != null) {
-			if (eClassCache.containsKey(name)) {
-				return eClassCache.get(name);
-			}
-
-			EClass eClass = classForName(name, getPackageRegistry());
+			EClass eClass = eClassCache.get(name);
 			if (eClass != null) {
+				return eClass;
+			}
+			else if ((eClass = classForName(name, getPackageRegistry())) != null) {
 				eClassCache.put(name, eClass);
 				return eClass;
 			}
@@ -205,16 +213,14 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	protected EClass classForName(String name, Registry registry) {	
 		boolean absolute = name.indexOf("::") > -1;
-
-		for (Object pkg : registry.values()) {
-			if (pkg instanceof EPackage) {
-				EClass eClass = classForName(name, absolute, pkg);
-				if (eClass != null) {
-					return eClass;
-				}
-			}
-		}
-		return null;
+		
+		return registry.values()
+			.stream()
+			.filter(pkg -> pkg instanceof EPackage)
+			.map(pkg -> classForName(name, absolute, (EPackage) pkg))
+			.filter(eClass -> eClass != null)
+			.findAny()
+			.orElse(null);
 	}
 
 	protected EClass classForName(String name, boolean absolute, Object pkg) {
@@ -239,15 +245,12 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	@Override
 	protected Collection<EObject> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException {
 		final EClass eClass = classForName(kind);
-		final Collection<EObject> allOfKind = new ArrayList<>();
 		
-		for (EObject eObject : allContents()) {
-			if (eClass.isInstance(eObject)) {
-				allOfKind.add(eObject);
-			}
-		}
-		
-		return allOfKind;
+		return allContents()
+			.stream()
+			//.parallel()
+			.filter(eClass::isInstance)
+			.collect(Collectors.toList());
 	}
 	
 	@Override
@@ -289,9 +292,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	protected int instancesCount(Resource r) {
 		int i = 0;
-		Iterator<EObject> ite = r.getAllContents();
-		while (ite.hasNext()) {
-			ite.next();
+		for (Iterator<EObject> ite = r.getAllContents(); ite.hasNext(); ite.next()) {
 			i++;
 		}
 		return i;
@@ -427,11 +428,12 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 
 	@Override
 	public Object getElementById(String id) {
-		for (Resource resource : getResources()) {
-			Object instance = resource.getEObject(id);
-			if (instance != null) return instance;
-		}
-		return null;
+		return getResources()
+			.stream()
+			.map(resource -> resource.getEObject(id))
+			.filter(resource -> resource != null)
+			.findAny()
+			.orElse(null);
 	}
 
 	@Override
@@ -512,13 +514,17 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	@Override
 	public Collection<String> getAllTypeNamesOf(Object instance) {
-		final Collection<String> allTypeNames = new ArrayList<>();
+		ArrayList<String> allTypeNames = new ArrayList<>(0);
 
 		if (isModelElement(instance)) {
-			final EClass type = (EClass)getTypeOf(instance);
+			EClass type = (EClass)getTypeOf(instance);
+			Collection<EClass> superTypes = type.getEAllSuperTypes();
+			
+			allTypeNames.ensureCapacity(1+superTypes.size());
+			
 			allTypeNames.add(getFullyQualifiedName(type));
 
-			for (EClass supertype : type.getEAllSuperTypes()) {
+			for (EClass supertype : superTypes) {
 				allTypeNames.add(getFullyQualifiedName(supertype));
 			}
 		}

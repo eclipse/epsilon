@@ -9,9 +9,8 @@ import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.util.OperatingSystem;
-import org.eclipse.epsilon.profiling.BenchmarkUtils;
-import org.eclipse.epsilon.profiling.ProfileDiagnostic;
-import org.eclipse.epsilon.profiling.ProfileDiagnostic.MemoryUnit;
+import org.eclipse.epsilon.profiling.util.*;
+import org.eclipse.epsilon.profiling.util.ProfileDiagnostic.MemoryUnit;
 
 public abstract class ProfilableRunConfiguration<R> implements Runnable {
 	

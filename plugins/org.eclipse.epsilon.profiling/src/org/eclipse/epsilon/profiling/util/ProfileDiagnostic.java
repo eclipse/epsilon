@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.profiling;
+package org.eclipse.epsilon.profiling.util;
 
 import java.time.Duration;
 

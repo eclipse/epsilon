@@ -2,7 +2,6 @@ package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
@@ -15,14 +14,8 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 	}
 	
 	public EvlModuleParallelElements(int parallelism) {
-		super(parallelism);
-
-		this.context = new EvlContextParallel(parallelism) {
-			{
-				// No need for the base to be thread-safe in this implementation!
-				frameStack = new FrameStack(null, false);
-			}
-		};
+		// No need for the base FrameStack to be thread-safe in this implementation!
+		super(parallelism, false);
 	}
 	
 	@Override
@@ -34,16 +27,18 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
 			
 			for (Object object : constraintContext.getAllOfSourceKind(context)) {
-				executor.execute(() -> {
-					try {
-						if (constraintContext.shouldBeChecked(object, context)) {
-							for (Constraint constraint : constraintsToCheck) {
-								constraint.execute(object, context);
+				executor.execute(new Runnable() {
+					public void run() {
+						try {
+							if (constraintContext.shouldBeChecked(object, context)) {
+								for (Constraint constraint : constraintsToCheck) {
+									constraint.execute(object, context);
+								}
 							}
 						}
-					}
-					catch (EolRuntimeException ex) {
-						context.handleException(ex, executor);
+						catch (EolRuntimeException ex) {
+							context.handleException(ex, executor);
+						}
 					}
 				});
 			}

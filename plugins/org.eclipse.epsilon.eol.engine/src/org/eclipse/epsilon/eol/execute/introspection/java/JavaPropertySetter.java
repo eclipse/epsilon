@@ -20,17 +20,18 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContribu
 public class JavaPropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 	
 	protected ObjectMethod getMethodFor(Object object, String property, Object value) {
-		ObjectMethod objectMethod = new ObjectMethod();
-		objectMethod.setObject(object);
 		OperationContributorRegistry registry = context.getOperationContributorRegistry();
 		
-		// Look for a getX() method
+		// Look for a setX() method
 		ObjectMethod om = registry.findContributedMethodForEvaluatedParameters(object, "set" + property, new Object[]{value}, context);
 		if (om != null) return om;
 		
+		ObjectMethod objectMethod = new ObjectMethod();
+		objectMethod.setObject(object);
 		return objectMethod;
 	}
 	
+	@Override
 	public void invoke(Object value) throws EolRuntimeException{
 		ObjectMethod objectMethod = getMethodFor(object, property, value);
 		
@@ -50,10 +51,12 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 		}
 	}
 
+	@Override
 	public Object coerce(Object value) throws EolIllegalPropertyException {
 		return value;
 	}
 
+	@Override
 	public boolean conforms(Object value) throws EolIllegalPropertyException {
 		// TODO implement this method
 		throw new UnsupportedOperationException("Not yet implemented.");

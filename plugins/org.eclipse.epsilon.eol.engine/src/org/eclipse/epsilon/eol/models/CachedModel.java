@@ -27,16 +27,21 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
  * methods, which compute real values from the model
  * or provide keys that can be used with a {@link Map}.
  * 
- * Although the collections used here are thread-safe, subclasses
- * should manage their own data structures in a thread-safe manner.
- * In particular, {@link #allContentsFromModel()} should be
- * managed appropriately by subclasses.
+ * Although the collections used here are optionally thread-safe,
+ * subclasses should manage their own data structures according to the
+ * isConcurrent flag. In particular, {@link #allContentsFromModel()} should
+ * be managed appropriately by subclasses.
  */
 public abstract class CachedModel<ModelElementType> extends Model {
 	
 	public static final String PROPERTY_CACHED = "cached";
 	
-	/*
+	/**
+	 * Whether to use thread-safe collections by default.
+	 */
+	protected static final boolean DEFAULT_CONCURRENT = true;
+	
+	/**
 	 * Implementations should return a thread-safe collection when appropriate!
 	 */
 	protected abstract Collection<ModelElementType> allContentsFromModel();
@@ -77,13 +82,17 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	protected boolean cachingEnabled, allContentsAreCached;
 	
 	protected CachedModel() {
+		this(DEFAULT_CONCURRENT);
+	}
+	
+	protected CachedModel(boolean isConcurrent) {
 		cachingEnabled = true;
 		allContentsAreCached = false;
-		allContentsCache = new ConcurrentLinkedQueue<>();
-		cachedKinds = ConcurrencyUtils.concurrentSet();
-		kindCache = new Multimap<>(true);
-		cachedTypes = ConcurrencyUtils.concurrentSet();
-		typeCache = new Multimap<>(true);
+		allContentsCache = isConcurrent ? new ConcurrentLinkedQueue<>() : new ArrayList<>();
+		cachedKinds = isConcurrent ?  ConcurrencyUtils.concurrentSet() : new HashSet<>();
+		kindCache = new Multimap<>(isConcurrent);
+		cachedTypes = isConcurrent ? ConcurrencyUtils.concurrentSet() : new HashSet<>();
+		typeCache = new Multimap<>(isConcurrent);
 	}
 	
 	protected void addToCache(String type, ModelElementType instance) throws EolModelElementTypeNotFoundException {
@@ -109,16 +118,12 @@ public abstract class CachedModel<ModelElementType> extends Model {
 			allContentsCache.remove(instance);
 		}
 
-		final Object typeCacheKey = getCacheKeyForType(getTypeNameOf(instance));
-		if (typeCache.containsKey(typeCacheKey)) {
-			typeCache.remove(typeCacheKey, instance);
-		}
+		Object typeCacheKey = getCacheKeyForType(getTypeNameOf(instance));
+		typeCache.remove(typeCacheKey, instance);
 
 		for (String kind : getAllTypeNamesOf(instance)) {
-			final Object kindCacheKey = getCacheKeyForType(kind);
-			if (kindCache.containsKey(kindCacheKey)) {
-				kindCache.remove(kindCacheKey, instance);
-			}
+			Object kindCacheKey = getCacheKeyForType(kind);
+			kindCache.remove(kindCacheKey, instance);
 		}
 	}
 

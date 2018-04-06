@@ -35,7 +35,7 @@ public class EvlAcceptanceTestUtil {
 		scriptsRoot = testsBase+"scripts/",
 		modelsRoot = testsBase+"models/",
 		
-		//Metamodels and scripts
+		// Metamodels and scripts
 		javaMetamodel = "java.ecore",
 		javaModels[] = {
 			"epsilon_profiling_test.xmi",
@@ -47,7 +47,7 @@ public class EvlAcceptanceTestUtil {
 			"java_1Constraint",
 			"java_manyConstraint1Context",
 			"java_manyContext1Constraint",
-			"java_findbugs_noguard"
+			"java_noguard"
 		},
 		
 		thriftMetamodel = "thrift.ecore",
@@ -136,6 +136,7 @@ public class EvlAcceptanceTestUtil {
 		return scenarios;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static Collection<Supplier<? extends IEvlModule>> modules(boolean includeStandard) {
 		return parallelModules(
 			includeStandard ? EvlModule::new : null,

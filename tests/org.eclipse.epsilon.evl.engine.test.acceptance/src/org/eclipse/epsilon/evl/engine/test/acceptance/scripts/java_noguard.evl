@@ -14,7 +14,6 @@ operation AbstractTypeDeclaration implements(type : String) {
 	return self.superInterfaces.exists(si | si.type.name == type);
 }
 
-@cached
 operation AbstractTypeDeclaration getMethods() : Collection {
 	return self.bodyDeclarations.select(bd | bd.isKindOf(MethodDeclaration));
 }
@@ -225,8 +224,9 @@ context ClassDeclaration {
 			method.name == "compareTo" and
 			method.modifier.isDefined() and
 			method.modifier.visibility == VisibilityKind#public and
-			method.returnType.type.isTypeOf(PrimitiveTypeInt) implies
-				self.hasCompareTo()
+			method.returnType.type.isTypeOf(PrimitiveTypeInt)
+		) implies
+			self.hasCompareTo()
 	}
 	
 	constraint equalsAndCompareTo {
@@ -312,7 +312,7 @@ context InfixExpression {
 	
 	constraint equalsNotOnLiterals {
 		//guard: self.operatorIsEquality()
-		check: self.operatorIsEquality() implies
+		check: self.operatorIsEquality() implies (
 			self.leftOperand.type() == self.rightOperand.type() and not (
 					self.leftOperand.isTypeOf(StringLiteral) or
 					self.leftOperand.isTypeOf(NumberLiteral) or
@@ -321,14 +321,16 @@ context InfixExpression {
 					self.leftOperand.isTypeOf(NullLiteral) or
 					self.leftOperand.isTypeOf(TypeLiteral)
 				)
+			)
 	}
 	
 	constraint equalsNotOnStrings {
 		//guard: self.operatorIsEquality()
 		check: self.operatorIsEquality() implies
-			not
-				(self.leftOperand.isTypeOf(StringLiteral) or
-				self.rightOperand.isTypeOf(StringLiteral))
+			not (
+				self.leftOperand.isTypeOf(StringLiteral) or
+				self.rightOperand.isTypeOf(StringLiteral)
+			)
 	}
 }
 

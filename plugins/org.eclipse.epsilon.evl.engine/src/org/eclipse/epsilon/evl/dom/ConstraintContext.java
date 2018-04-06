@@ -65,7 +65,7 @@ public class ConstraintContext extends AnnotatableModuleElement {
 		return appliesTo(object, context, false);
 	}
 
-	public boolean appliesTo(Object object, IEvlContext context, final boolean checkType) throws EolRuntimeException {
+	public boolean appliesTo(Object object, IEvlContext context, boolean checkType) throws EolRuntimeException {
 		if (checkType && !context.getModelRepository().getOwningModel(object).isOfType(object, getTypeName()))
 			return false;
 

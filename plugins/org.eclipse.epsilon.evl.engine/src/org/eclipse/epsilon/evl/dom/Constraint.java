@@ -24,6 +24,7 @@ import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.EvlParser;
+import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
 public class Constraint extends NamedRule {
 	
@@ -90,11 +91,12 @@ public class Constraint extends NamedRule {
 	public boolean check(Object self, IEvlContext context) throws EolRuntimeException {
 		UnsatisfiedConstraint unsatisfiedConstraint = preprocessCheck(self, context);
 		boolean result;
+		ConstraintTrace trace;
 		
 		//Look for a result in the trace first if this constraint is a dependency, otherwise run the check block
-		if (checkTrace && context.getConstraintTrace().isChecked(this, self)) {
+		if (checkTrace && (trace = context.getConstraintTrace()).isChecked(this, self)) {
 			assert context.getConstraintsDependedOn().contains(this);
-			result = context.getConstraintTrace().isSatisfied(this, self);
+			result = trace.isSatisfied(this, self);
 		}
 		else {
 			result = executeCheckBlock(self, context);
