@@ -51,7 +51,7 @@ public class ConcurrencyUtils {
 		else return new ConcurrentHashMap<>(
 			initialCapacity >= 0 ? initialCapacity : DEFAULT_CAPACITY,
 			DEFAULT_LOAD_FACTOR,
-			parallelism > 0 ? parallelism : DEFAULT_PARALLELISM
+			parallelism > 0 ? parallelism : 1+DEFAULT_PARALLELISM/2
 		);
 	}
 }

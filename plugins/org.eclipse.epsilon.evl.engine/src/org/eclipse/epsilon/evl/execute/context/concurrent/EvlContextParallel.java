@@ -3,6 +3,7 @@ package org.eclipse.epsilon.evl.execute.context.concurrent;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.erl.execute.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
 import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlThreadPoolExecutor;
@@ -20,14 +21,18 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	protected Set<Constraint> constraintsDependedOn;
 	
 	public EvlContextParallel() {
-		this(0);
+		this(0, true);
 	}
-
+	
 	/**
 	 * @param parallelism The number of threads to use.
+	 * @param threadSafeBaseFrames whether the base FrameStack should use a thread-safe collection.
+	 * default is <code>true</code>
 	 */
-	public EvlContextParallel(int parallelism) {
+	public EvlContextParallel(int parallelism, boolean threadSafeBaseFrames) {
 		super(parallelism);
+		
+		frameStack = new FrameStack(null, threadSafeBaseFrames);
 		
 		//Make results data structures thread-safe
 		constraintsDependedOn = ConcurrencyUtils.concurrentSet(4, numThreads);

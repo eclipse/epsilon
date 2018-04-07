@@ -44,6 +44,12 @@ public class CollectionUtil {
 			.collect(Collectors.toCollection(newCollection));
 	}
 	
+	public static void addCapacityIfArrayList(Collection<?> collection, int additionalCapacity) {
+		if (collection instanceof ArrayList) {
+			((ArrayList<?>) collection).ensureCapacity(collection.size()+additionalCapacity);
+		}
+	}
+	
 	public static <T> Collection<T> asCollection(T o) {
 		if (o instanceof Collection) {
 			return (Collection<T>) o;

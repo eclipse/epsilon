@@ -1,7 +1,6 @@
 package org.eclipse.epsilon.evl.concurrent;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
@@ -25,15 +24,7 @@ public abstract class EvlModuleParallel extends EvlModule {
 	}
 	
 	EvlModuleParallel(int parallelism, boolean threadSafeBaseFrames) {
-		if (!threadSafeBaseFrames) {
-			context = new EvlContextParallel(parallelism) {
-				{
-					frameStack = new FrameStack(null, false);
-				}
-			};
-		}
-		else
-			context = new EvlContextParallel(parallelism);
+		context = new EvlContextParallel(parallelism, threadSafeBaseFrames);
 	}
 	
 	@Override

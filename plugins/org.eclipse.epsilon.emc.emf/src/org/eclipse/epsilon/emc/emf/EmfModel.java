@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.compile.m3.Metamodel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -465,6 +466,8 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 
 	public void setMetamodelUris(List<String> uris) {
 		this.metamodelUris.clear();
+		CollectionUtil.addCapacityIfArrayList(this.metamodelUris, uris.size());
+		
 		for (String sURI : uris) {
 			this.metamodelUris.add(URI.createURI(sURI));
 		}
@@ -476,6 +479,8 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 
 	public void setMetamodelFiles(List<String> paths) {
 		this.metamodelFileUris.clear();
+		CollectionUtil.addCapacityIfArrayList(this.metamodelFileUris, paths.size());
+		
 		for (String sPath : paths) {
 			this.metamodelFileUris.add(URI.createFileURI(sPath));
 		}
@@ -539,7 +544,6 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 
 	protected void determinePackagesFrom(ResourceSet resourceSet) throws EolModelLoadingException {
 		packages = new ArrayList<>();
-		ArrayList<EPackage> packagesAsArraylist = (ArrayList<EPackage>) packages;
 		
 		for (URI metamodelFileUri : this.metamodelFileUris) {
 			List<EPackage> metamodelPackages = null;
@@ -558,14 +562,14 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 				throw new EolModelLoadingException(e,this);
 			}
 			
-			packagesAsArraylist.ensureCapacity(packages.size()+metamodelPackages.size());
+			CollectionUtil.addCapacityIfArrayList(packages, metamodelPackages.size());
 			for (EPackage metamodelPackage : metamodelPackages) {
 				packages.add(metamodelPackage);
 				EmfUtil.collectDependencies(metamodelPackage, packages);
 			}
 		}
 	
-		packagesAsArraylist.ensureCapacity(packages.size()+this.metamodelUris.size());
+		CollectionUtil.addCapacityIfArrayList(packages, this.metamodelUris.size());
 		
 		for (URI metamodelUri : this.metamodelUris) {
 			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(metamodelUri.toString());
