@@ -12,13 +12,7 @@ package org.eclipse.epsilon.emc.emf;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.emf.common.notify.Adapter;
@@ -140,10 +134,14 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 
 	@Override
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
-		return featuresForType(type)
-			.stream()
-			.map(EStructuralFeature::getName)
-			.collect(Collectors.toCollection(LinkedList::new));
+		Collection<EStructuralFeature> features = featuresForType(type);
+		final Collection<String> properties = new ArrayList<>(features.size());
+		
+		for (EStructuralFeature feature : features) {
+			properties.add(feature.getName());
+		}
+		
+		return properties;
 	}
 
 	@Override
@@ -405,9 +403,11 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	}
 
 	public List<String> getMetamodelFiles() {
-		return metamodelFileUris.stream()
-			.map(EmfUtil::getFile)
-			.collect(Collectors.toList());
+		final List<String> files = new ArrayList<>(metamodelFileUris.size());
+		for (URI metamodelFileUri : this.metamodelFileUris) {
+			files.add(EmfUtil.getFile(metamodelFileUri));
+		}
+		return files;
 	}
 
 	/**
@@ -676,7 +676,8 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			}
 			modelImpl.save(options);
 			return true;
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}

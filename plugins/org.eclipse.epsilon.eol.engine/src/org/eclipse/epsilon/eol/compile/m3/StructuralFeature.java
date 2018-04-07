@@ -5,10 +5,7 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public abstract class StructuralFeature extends NamedElement {
 	
-	protected boolean many;
-	protected boolean unique;
-	protected boolean ordered;
-	protected boolean changeable;
+	protected boolean many, unique, ordered, changeable;
 	protected EolType type = EolAnyType.Instance;
 	
 	public EolType getType() {

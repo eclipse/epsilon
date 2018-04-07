@@ -79,6 +79,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	protected Collection<ModelElementType> allContentsCache;
 	protected final Collection<Object> cachedTypes, cachedKinds;
 	protected final Multimap<Object, ModelElementType> typeCache, kindCache;
+	protected final boolean concurrent;
 	protected boolean cachingEnabled, allContentsAreCached;
 	
 	protected CachedModel() {
@@ -86,6 +87,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	}
 	
 	protected CachedModel(boolean isConcurrent) {
+		this.concurrent = isConcurrent;
 		cachingEnabled = true;
 		allContentsAreCached = false;
 		allContentsCache = isConcurrent ? new ConcurrentLinkedQueue<>() : new ArrayList<>();
@@ -176,18 +178,15 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		}
 		else {
 			return getAllOfKindFromModel(kind);
-		}
-		
+		}	
 	}
 	
 	@Override
 	public ModelElementType createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		ModelElementType instance = createInstanceInModel(type);
-		
 		if (isCachingEnabled()) {
 			addToCache(type, instance);
 		}
-		
 		return instance;
 	}
 

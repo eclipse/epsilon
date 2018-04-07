@@ -38,8 +38,7 @@ public interface BaseDelegate<T extends BaseDelegate<T>> {
 	}
 	
 	default <C> void mergeCollectionsUnique(Function<T, Collection<C>> colPropertyGetter, Function<Collection<C>, ? extends Collection<C>> targetCol, MergeMode mode) {
-		T base = getBase();
-		if (base != null) {
+		if (getBase() != null) {
 			Collection<C>
 				from = colPropertyGetter.apply(getFrom(mode)),
 				to = colPropertyGetter.apply(getTo(mode));

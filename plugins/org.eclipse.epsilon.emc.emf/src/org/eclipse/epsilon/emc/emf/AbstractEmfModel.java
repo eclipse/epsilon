@@ -18,7 +18,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -51,6 +53,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	protected Resource modelImpl;
 	protected boolean expand = true;
+	protected Registry registry = null;
 	final Map<String, EClass> eClassCache;
 	
 	protected AbstractEmfModel() {
@@ -63,7 +66,6 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 	
 	protected InputStream getInputStream(String file) throws IOException {
-		
 		if (file.startsWith("bundleresource:") || file.startsWith("platform:")) {
 			URL url = new URL(file);
 			return url.openConnection().getInputStream();
@@ -71,7 +73,6 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		else {
 			return new FileInputStream(file);
 		}
-		
 	}
 	
 	protected void setDataTypesInstanceClasses(Resource metamodel) {
@@ -99,8 +100,6 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	public void addMetamodelUri(String nsUri) {
 		getPackageRegistry().put(nsUri, EPackage.Registry.INSTANCE.get(nsUri));
 	}
-	
-	protected Registry registry = null;
 
 	/**
 	 * Get the (cached) package registry belonging to the model implementation,
@@ -109,7 +108,6 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	 * @return the (global) package registry
 	 */
 	protected Registry getPackageRegistry() {
-		
 		if (registry == null) {
 			if (modelImpl == null || modelImpl.getResourceSet() == null) {
 				registry = EPackage.Registry.INSTANCE;
@@ -154,7 +152,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 			}
 		}
 		
-		throw new EolEnumerationValueNotFoundException(enumeration,label,this.getName());
+		throw new EolEnumerationValueNotFoundException(enumeration, label, this.getName());
 	}
 	
 	@Override
@@ -176,19 +174,28 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return eObject.eIsSet(sf);
 	}
 
+	Collection<EObject> getAllFromModel(Predicate<EObject> criteria) throws EolModelElementTypeNotFoundException {
+		Collection<EObject> allContents = allContents();
+		
+		return StreamSupport.stream(
+				allContents.spliterator(),
+				allContents.size() > 131_071	//TODO: find optimal parallel threshold
+			)
+			.filter(criteria)
+			.collect(Collectors.toList());
+	}
+	
 	//TODO : Throw the exception if size == 0 check the allContents for the class
 	@Override
 	protected Collection<EObject> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
 		final EClass eClass = classForName(type);
-		final Collection<EObject> allOfType = new ArrayList<>();
-			
-		for (EObject eObject : allContents()) {
-			if (eObject.eClass() == eClass) {
-				allOfType.add(eObject);
-			}
-		}
-
-		return allOfType;
+		return getAllFromModel(eObject -> eObject.eClass() == eClass);
+	}
+	
+	@Override
+	protected Collection<EObject> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException {
+		final EClass eClass = classForName(kind);
+		return getAllFromModel(eClass::isInstance);
 	}
 	
 	@Override
@@ -240,17 +247,6 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 			}
 		}
 		return null;
-	}
-	
-	@Override
-	protected Collection<EObject> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException {
-		final EClass eClass = classForName(kind);
-		
-		return allContents()
-			.stream()
-			//.parallel()
-			.filter(eClass::isInstance)
-			.collect(Collectors.toList());
 	}
 	
 	@Override
@@ -321,8 +317,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 
 	@Override
-	public boolean owns(Object instance) {
-		
+	public boolean owns(Object instance) {	
 		if (instance instanceof EObject) {
 			EObject eObject = (EObject) instance;
 			Resource eObjectResource = eObject.eResource();
@@ -338,7 +333,6 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		}
 		
 		return  false;
-		
 	}
 
 	@Override

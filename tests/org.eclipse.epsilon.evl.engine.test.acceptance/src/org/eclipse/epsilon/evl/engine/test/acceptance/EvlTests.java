@@ -46,7 +46,7 @@ public class EvlTests {
 	
 	@Parameters(name = "{0}")
 	public static Iterable<Supplier<? extends IEvlModule>> modules() {
-		//Shouldn't take long to run, so test everything.
+		// Shouldn't take long to run, so test everything.
 		return EvlAcceptanceTestUtil.modules();
 	}
 	

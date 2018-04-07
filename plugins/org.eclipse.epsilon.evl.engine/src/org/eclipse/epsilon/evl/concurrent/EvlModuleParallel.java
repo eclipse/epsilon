@@ -24,7 +24,7 @@ public abstract class EvlModuleParallel extends EvlModule {
 		this(parallelism, true);
 	}
 	
-	protected EvlModuleParallel(int parallelism, boolean threadSafeBaseFrames) {
+	EvlModuleParallel(int parallelism, boolean threadSafeBaseFrames) {
 		if (!threadSafeBaseFrames) {
 			context = new EvlContextParallel(parallelism) {
 				{
