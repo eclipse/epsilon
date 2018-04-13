@@ -1,7 +1,9 @@
-var all = SubSystem.all;//.select(e|e.LinkStatus == "none");
-"collected all".println;
+var all = SubSystem.all.select(e|e.LinkStatus == "none");
 for (s in all){
-	"in".println;
 	var data = s.RTWData;
-	//if (data<>null) data.println;
+	if (data<>null) {
+		data.println;
+		data.get('ADIGeneratedName').println;
+	}
+	
 }

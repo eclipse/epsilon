@@ -1,7 +1,7 @@
 package org.eclipse.epsilon.emc.simulink.introspection.java;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
-import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
+import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlockModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
@@ -33,8 +33,8 @@ public class SimulinkPropertyGetter extends JavaPropertyGetter {
 					if (element instanceof StateflowBlock)
 						return ((StateflowBlock) element).getProperty(property);
 
-					if (element instanceof SimulinkBlock)
-						return ((SimulinkBlock) element).getProperty(property);
+					if (element instanceof SimulinkBlockModelElement)
+						return ((SimulinkBlockModelElement) element).getProperty(property);
 
 				} catch (EolIllegalPropertyException me) {
 					throw new EolRuntimeException(me.getMessage());
