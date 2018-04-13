@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
@@ -260,7 +261,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	}
 	
 	@Override
-	public Collection<UnsatisfiedConstraint> executeImpl() throws EolRuntimeException {
+	public Set<UnsatisfiedConstraint> executeImpl() throws EolRuntimeException {
 		prepareExecution();
 		checkConstraints();
 		postExecution();

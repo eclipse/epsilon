@@ -50,11 +50,10 @@ public class NameExpression extends Expression {
 		// Then look for a model with that name
 		if (variable == null) {
 			try {
-				
 				IModel model = context.getModelRepository().getModelByName(name);
 			
 				if (model != null)
-				variable = Variable.createReadOnlyVariable(name,model);
+					variable = Variable.createReadOnlyVariable(name, model);
 			}
 			catch (EolModelNotFoundException mex) {
 				// Ignore this exception and go for a 

@@ -18,7 +18,7 @@ public class Cache<K, V> {
 	
 	protected ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
 	protected Map<IdentityBasedWeakReference, V> map = new HashMap<>();
-	protected Thread cleanUpThread = null;
+	protected Thread cleanUpThread;
 	
 	public Map<IdentityBasedWeakReference, V> getMap() {
 		return map;

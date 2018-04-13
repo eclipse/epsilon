@@ -43,7 +43,7 @@ public interface ErlExecutorService extends ExecutorService {
 	 * Hack for allowing execution of methods which throw exceptions! Lambdas will call this instead of the regular execute().
 	 */
 	default void execute(CheckedEolRunnable task) throws EolRuntimeException {
-		//No performance penalty in upcasting!
+		// No performance penalty in upcasting!
 		execute((Runnable)task);
 	}
 }

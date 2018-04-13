@@ -27,7 +27,7 @@ public class ExtendedPropertySetter extends AbstractPropertySetter {
 		/*
 		Map<String, Object> extendedProperties = context.getExtendedProperties().get(object);
 		if (extendedProperties == null) {
-			extendedProperties = new HashMap<String, Object>();
+			extendedProperties = new HashMap<>();
 			context.getExtendedProperties().put(object, extendedProperties);
 		}
 		extendedProperties.put(this.property.substring(1), value);*/

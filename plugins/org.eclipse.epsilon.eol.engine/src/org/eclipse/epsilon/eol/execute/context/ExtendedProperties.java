@@ -26,7 +26,7 @@ public class ExtendedProperties {
 		return getPropertyValues(o, false);
 	}
 	
-	protected Map<String, Object> getPropertyValues(Object o, boolean create) {
+	protected synchronized Map<String, Object> getPropertyValues(Object o, boolean create) {
 		Map<String, Object> propertyValues = cache.get(o);
 		
 		if (propertyValues == null) {
@@ -39,7 +39,7 @@ public class ExtendedProperties {
 		return propertyValues;
 	}
 	
-	public void clear() {
+	public synchronized void clear() {
 		cache.dispose();
 	}
 }

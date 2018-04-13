@@ -1,9 +1,8 @@
 package org.eclipse.epsilon.profiling.test;
 
 import static org.junit.Assert.*;
-import org.eclipse.epsilon.profiling.ProfileDiagnostic;
-import org.eclipse.epsilon.profiling.ProfileDiagnostic.MemoryUnit;
-import static org.eclipse.epsilon.profiling.ProfileDiagnostic.MemoryUnit.*;
+import org.eclipse.epsilon.profiling.util.ProfileDiagnostic.MemoryUnit;
+import static org.eclipse.epsilon.profiling.util.ProfileDiagnostic.MemoryUnit.*;
 import org.junit.Test;
 
 public class ProfileDiagnosticTest {

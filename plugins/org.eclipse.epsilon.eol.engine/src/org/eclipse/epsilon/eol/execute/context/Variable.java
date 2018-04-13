@@ -31,7 +31,7 @@ public class Variable {
 		return new Variable(name, value, EolAnyType.Instance, true);
 	}
 
-	public static Variable createReadOnlyVariable(Entry<String, ? extends Object> entry) {
+	public static Variable createReadOnlyVariable(Entry<String, ?> entry) {
 		return createReadOnlyVariable(entry.getKey(), entry.getValue());
 	}
 	
