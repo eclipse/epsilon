@@ -97,7 +97,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 			cst = (AST)((ParserRuleReturnScope) ReflectionUtil.executeMethod(parser,getMainRule(), new Object[]{})).getTree();
 		}
 		
-		catch (RecognitionException ex){
+		catch (RecognitionException ex) {
 			ParseProblem problem = new ParseProblem();
 			problem.setLine(ex.line);
 			problem.setColumn(ex.charPositionInLine);
@@ -117,7 +117,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		parseProblems.addAll(EpsilonParseProblemManager.INSTANCE.getParseProblems());
 		EpsilonParseProblemManager.INSTANCE.reset();
 		
-		if (getParseProblems().size() == 0){
+		if (getParseProblems().isEmpty()) {
 			assignAnnotations(cst);
 			assignComments(cst, multilineComments);
 			//createAst(cst, null);
@@ -232,7 +232,8 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 					target.setAnnotationsAst(child);
 				}
 				
-			} else {
+			}
+			else {
 				assignAnnotations(child);
 			}
 		}

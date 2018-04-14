@@ -23,8 +23,11 @@ public class ObjectMethod {
 	
 	public ObjectMethod() {}
 	
+	public ObjectMethod(Object object) {
+		this.object = object;
+	}
+	
 	public ObjectMethod(Object object, Method method) {
-		super();
 		this.object = object;
 		this.method = method;
 	}

@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.evl.dt.editor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
@@ -58,13 +59,14 @@ public class EvlEditor extends EolEditor{
 	
 	@Override
 	public List<String> getBuiltinVariables() {
+		Collection<String> superBuiltIns = super.getBuiltinVariables();
 		
-		ArrayList<String> builtIn = new ArrayList<>();
+		ArrayList<String> builtIn = new ArrayList<>(superBuiltIns.size()+2);
 		
 		builtIn.add("constraintTrace");
 		builtIn.add("extras");
 		
-		builtIn.addAll(super.getBuiltinVariables());
+		builtIn.addAll(superBuiltIns);
 		
 		return builtIn;
 	}

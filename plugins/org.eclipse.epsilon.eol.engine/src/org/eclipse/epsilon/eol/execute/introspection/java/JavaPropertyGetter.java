@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection.java;
 
+import java.lang.reflect.Method;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -38,25 +39,24 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 		om = registry.findContributedMethodForEvaluatedParameters(object, "is" + property, new Object[]{}, context);
 		if (om != null) return om;
 		
-		ObjectMethod objectMethod = new ObjectMethod();
-		objectMethod.setObject(object);
-		return objectMethod;
+		return new ObjectMethod(object);
 	}
 	
 	@Override
 	public Object invoke(Object object, String property) throws EolRuntimeException {
 		ObjectMethod objectMethod = getMethodFor(object, property);
+		Method method = objectMethod.getMethod();
 		
-		if (objectMethod.getMethod() == null) {
+		if (method == null) {
 			throw new EolIllegalPropertyException(object, property, ast, context);
 		}
 		
 		try {
 			//TODO: use canAccess(Object)
-			if (!objectMethod.getMethod().isAccessible()) {
-				objectMethod.getMethod().setAccessible(true);
+			if (!method.isAccessible()) {
+				method.setAccessible(true);
 			}
-			return objectMethod.getMethod().invoke(objectMethod.getObject(), new Object[]{});
+			return method.invoke(objectMethod.getObject(), new Object[]{});
 		}
 		catch (Exception ex) {
 			throw new EolInternalException(ex);

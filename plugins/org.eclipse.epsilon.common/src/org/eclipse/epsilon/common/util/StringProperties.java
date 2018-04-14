@@ -26,7 +26,7 @@ public class StringProperties extends Properties {
 		load(properties);
 	}
 	
-	public void load(String properties){
+	public void load(String properties) {
 		try {
 			super.load(new ByteArrayInputStream(properties.getBytes()));
 		} catch (IOException e) {
@@ -35,7 +35,7 @@ public class StringProperties extends Properties {
 	}
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
 			super.store(os,"");
@@ -56,7 +56,8 @@ public class StringProperties extends Properties {
 	}
 	
 	public boolean hasProperty(String key) {
-		return containsKey(key) && !getProperty(key).isEmpty();
+		String property = getProperty(key);
+		return property != null && !property.isEmpty();
 	}
 	
 	@Override

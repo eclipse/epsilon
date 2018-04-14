@@ -83,7 +83,7 @@ public class ErlRunConfiguration<M extends IErlModule> extends ProfilableRunConf
 		this.result = other.result;
 	}
 	
-	/*
+	/**
 	 * Should be overriden by subclasses and return a concrete (i.e. non-abstract) implementation of IErlModule.
 	 */
 	protected M getDefaultModule() {
@@ -101,9 +101,7 @@ public class ErlRunConfiguration<M extends IErlModule> extends ProfilableRunConf
 			parseStartTime = nanoTime();
 		}
 		
-		module.parse(script.toFile());
-		
-		if (model != null) {
+		if (module.parse(script.toFile()) && model != null) {
 			if (!LOADED_MODELS.contains(model)) {
 				if (modelProperties != null) {
 					model.load(modelProperties); 

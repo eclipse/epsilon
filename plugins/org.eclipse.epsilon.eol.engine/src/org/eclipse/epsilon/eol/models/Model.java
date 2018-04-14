@@ -156,7 +156,7 @@ public abstract class Model implements IModel {
 	
 	@Override
 	public void dispose() {
-		if (this.isStoredOnDisposal()){
+		if (this.isStoredOnDisposal()) {
 			this.store();
 		}
 	}

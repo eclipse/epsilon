@@ -19,7 +19,7 @@ import org.eclipse.epsilon.launch.ConfigParser;
  */
 public class ErlConfigParser<M extends IErlModule, R extends ErlRunConfiguration<M>> extends ConfigParser implements Function<String[], R> {
 	
-	//Variables to be parsed
+	// Variables to be parsed
 	public Optional<M> module;
 	public IModel model;
 	public StringProperties properties;

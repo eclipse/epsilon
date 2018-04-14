@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection.java;
 
+import java.lang.reflect.Method;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -26,27 +27,26 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 		ObjectMethod om = registry.findContributedMethodForEvaluatedParameters(object, "set" + property, new Object[]{value}, context);
 		if (om != null) return om;
 		
-		ObjectMethod objectMethod = new ObjectMethod();
-		objectMethod.setObject(object);
-		return objectMethod;
+		return new ObjectMethod(object);
 	}
 	
 	@Override
 	public void invoke(Object value) throws EolRuntimeException{
 		ObjectMethod objectMethod = getMethodFor(object, property, value);
+		Method method = objectMethod.getMethod();
 		
-		if (objectMethod.getMethod() == null) {
+		if (method == null) {
 			throw new EolIllegalPropertyException(object, property, ast, context);
 		}
 		
 		try {
 			//TODO: use canAccess(Object)
-			if (!objectMethod.getMethod().isAccessible()) {
-				objectMethod.getMethod().setAccessible(true);
+			if (!method.isAccessible()) {
+				method.setAccessible(true);
 			}
-			objectMethod.getMethod().invoke(objectMethod.getObject(), new Object[]{value});
+			method.invoke(objectMethod.getObject(), new Object[]{value});
 		}
-		catch (Exception ex){
+		catch (Exception ex) {
 			throw new EolInternalException(ex);
 		}
 	}

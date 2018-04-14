@@ -18,10 +18,11 @@ import org.eclipse.jface.text.templates.Template;
 
 public class EvlEditorStaticTemplateContributor implements IAbstractModuleEditorTemplateContributor {
 	
-	List<Template> templates = null;
+	List<Template> templates;
+	
 	public List<Template> getTemplates() {
 		if (templates == null) {
-			templates = new ArrayList<Template>();
+			templates = new ArrayList<>(3);
 			templates.add(new Template("context", "context", "", 
 					"context ${classname} {\r\n" + 
 					"\t ${cursor}\r\n" + 

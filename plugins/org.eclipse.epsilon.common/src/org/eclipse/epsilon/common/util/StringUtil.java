@@ -53,7 +53,7 @@ public class StringUtil {
 	}
 	
 	public static String toString(Object o) {
-		if (o != null){
+		if (o != null) {
 			return o.toString();
 		}
 		else {

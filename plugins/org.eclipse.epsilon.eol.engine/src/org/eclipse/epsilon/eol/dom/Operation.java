@@ -74,14 +74,17 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 			if (paramListAst.getNextSibling().getType() == EolParser.TYPE) { // with return type
 				returnAst = paramListAst.getNextSibling();
 				bodyAst = returnAst.getNextSibling();
-			} else { // without return type
+			}
+			else { // without return type
 				bodyAst = paramListAst.getNextSibling();
 			}
-		} else { // helper without parameters
+		}
+		else { // helper without parameters
 			if (nameAst.getNextSibling().getType() == EolParser.TYPE) { //with return type
 				returnAst = nameAst.getNextSibling();
 				bodyAst = returnAst.getNextSibling();
-			} else { // without return type
+			}
+			else { // without return type
 				bodyAst = nameAst.getNextSibling();
 			}
 		}
@@ -101,8 +104,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 			formalParameters = Collections.emptyList();
 		}
 
-		// Assignment intended
-		if (isCached = hasAnnotation("cached") && formalParameters.isEmpty()) {
+		if ((isCached = hasAnnotation("cached") && formalParameters.isEmpty()) == true) {
 			this.cache = Collections.synchronizedMap(new WeakHashMap<>());
 		}
 	}
