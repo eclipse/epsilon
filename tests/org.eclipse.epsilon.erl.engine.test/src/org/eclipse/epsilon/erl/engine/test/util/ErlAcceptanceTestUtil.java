@@ -59,14 +59,12 @@ public class ErlAcceptanceTestUtil {
 			for (String[] testInput : testInputs) {
 				Path erlScript = Paths.get(testInput[0]);
 				
-				StringProperties testProperties = ErlRunConfiguration.makeProperties(
+				StringProperties testProperties = ErlConfigParser.makeProperties(
 					testInput[1],				// Model path
-					testInput[2],				// Metamodel path
-					true,						// Cache model
-					true						// Store on disposal
+					testInput[2]				// Metamodel path
 				);
 				
-				IModel model = ErlRunConfiguration.getIModelFromPath(testInput[2]);
+				IModel model = ErlConfigParser.getIModelFromPath(testInput[2]);
 				
 				for (Supplier<? extends M> moduleGetter : moduleGetters) {
 					scenarios.add(ErlConfigParser.instantiate(

@@ -7,6 +7,7 @@ import org.eclipse.epsilon.erl.execute.concurrent.ErlThreadFactory;
 public class ErlForkJoinExecutor extends ForkJoinPool implements ErlExecutorService {
 
 	static class ErlForkJoinThreadFactory extends ErlThreadFactory implements ForkJoinWorkerThreadFactory {
+		
 		public ErlForkJoinThreadFactory() {
 			super(new ErlExecutionStatus());
 		}

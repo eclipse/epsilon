@@ -29,7 +29,7 @@ public class EvlAcceptanceTestUtil {
 	private EvlAcceptanceTestUtil() {}
 	
 	public static final String
-		//Core
+		// Core
 		testsBase = getTestBaseDir(EvlAcceptanceTestSuite.class),
 		metamodelsRoot = testsBase+"metamodels/",
 		scriptsRoot = testsBase+"scripts/",
@@ -105,7 +105,7 @@ public class EvlAcceptanceTestUtil {
 		);
 	}
 	
-	/*
+	/**
 	 * A list of pre-configured Runnables which will call the execute() method on the provided module.
 	 * @param modules A collection of IEvlModules to use in combination with each set of test data.
 	 */
@@ -148,7 +148,7 @@ public class EvlAcceptanceTestUtil {
 		);
 	}
 	
-	//Boilerplate defaults
+	// Boilerplate defaults
 	public static List<String[]> addAllInputs(String[] scripts, String[] models, String metamodel) {
 		return ErlAcceptanceTestUtil.addAllInputs(scripts, models, metamodel, "evl", scriptsRoot, modelsRoot, metamodelsRoot);
 	}

@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.evl.engine.test.acceptance.equivalence;
 
-import static org.junit.Assert.*;
+import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
 import static org.eclipse.epsilon.evl.engine.test.acceptance.EvlAcceptanceTestUtil.*;
 import java.util.*;
 import java.util.function.Function;
@@ -8,9 +8,7 @@ import java.util.stream.Collectors;
 import org.eclipse.epsilon.erl.engine.launch.ErlRunConfiguration;
 import org.eclipse.epsilon.erl.engine.test.util.ErlEquivalenceTests;
 import org.eclipse.epsilon.evl.*;
-import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTraceItem;
-import org.eclipse.epsilon.test.util.EpsilonTestUtil;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -34,7 +32,7 @@ public class EvlModuleEquivalenceTests extends ErlEquivalenceTests<IEvlModule, E
 	 * @return A collection of pre-configured run configurations, each with their own IEvlModule.
 	 * @see EvlAcceptanceTestSuite.getScenarios
 	 */
-	@Parameters(name = "0")	//Don't use this as the Eclipse JUnit view won't show failures!
+	@Parameters//(name = "0")	Don't use this as the Eclipse JUnit view won't show failures!
 	public static Iterable<? extends ErlRunConfiguration<IEvlModule>> configurations() {
 		// Used to specify which module configurations we'd like to test in our scenarios
 		return getScenarios(
@@ -51,30 +49,32 @@ public class EvlModuleEquivalenceTests extends ErlEquivalenceTests<IEvlModule, E
 	
 	@Test
 	public void testUnsatisfiedConstraints() {
-		EpsilonTestUtil.testCollectionsHaveSameElements(
+		onFail(testCollectionsHaveSameElements(
 			expectedModule.getContext().getUnsatisfiedConstraints(),
-			actualModule.getContext().getUnsatisfiedConstraints()
-		);
+			actualModule.getContext().getUnsatisfiedConstraints(),
+			"Unsatisfied constraints"
+		));
 	}
 	
 	@Test
 	public void testConstraintTraces() {
 		// Uses Set instead of List for performance reasons when calling containsAll.
-		Function<IEvlModule, Set<ConstraintTraceItem>> ctContents = module ->
+		Function<IEvlModule, Collection<ConstraintTraceItem>> ctContents = module ->
 			module.getContext().getConstraintTrace().stream().collect(Collectors.toSet());
 			
-		EpsilonTestUtil.testCollectionsHaveSameElements(
+		onFail(testCollectionsHaveSameElements(
 			ctContents.apply(expectedModule),
-			ctContents.apply(actualModule)
-		);
+			ctContents.apply(actualModule),
+			"Constraint traces"
+		));
 	}
 	
 	@Test
 	public void testConstraintsDependedOn() {
-		Set<Constraint>
-			expectedDependents = expectedModule.getContext().getConstraintsDependedOn(),
-			actualDependents = expectedModule.getContext().getConstraintsDependedOn();
-		
-		assertEquals("Same ConstraintsDependedOn", expectedDependents, actualDependents);
+		onFail(testCollectionsHaveSameElements(
+			expectedModule.getContext().getConstraintsDependedOn(),
+			actualModule.getContext().getConstraintsDependedOn(),
+			"Constraints depended on"
+		));
 	}
 }

@@ -5,8 +5,6 @@ import java.util.Set;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.erl.execute.concurrent.PersistentThreadLocal;
-import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
-import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlThreadPoolExecutor;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -34,14 +32,14 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 		
 		frameStack = new FrameStack(null, threadSafeBaseFrames);
 		
-		//Make results data structures thread-safe
+		// Make results data structures thread-safe
 		constraintsDependedOn = ConcurrencyUtils.concurrentSet(4, numThreads);
 		constraintTrace = new ConstraintTrace(true);
 		
-		//No writes will be made to the base UnsatisfiedConstraints until the end, so make it empty
+		// No writes will be made to the base UnsatisfiedConstraints until the end, so make it empty
 		unsatisfiedConstraints = new HashSet<>(0);
 
-		//Since no writes will be made to unsatisfiedConstraints during parallel execution, we don't need a BaseDelegate here.
+		// Since no writes will be made to unsatisfiedConstraints during parallel execution, we don't need a BaseDelegate here.
 		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(numThreads, HashSet::new);
 	}
 	
@@ -49,11 +47,6 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	public void endParallel() {
 		super.endParallel();
 		concurrentUnsatisfiedConstraints.getAll().forEach(unsatisfiedConstraints::addAll);
-	}
-	
-	@Override
-	public ErlExecutorService getExecutor() {
-		return ErlThreadPoolExecutor.fixedPoolExecutor(numThreads);
 	}
 
 	@Override

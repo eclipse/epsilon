@@ -41,7 +41,7 @@ public class ErlExecutionStatus {
 	
 	/**
 	 * Blocks until an exception is raised or {@linkplain #completeSuccessfully()} is called.
-	 * @return the Exception that was raised which caused this to terminate, or null if successful.
+	 * @return the Exception that was raised which caused this to terminate, or <code>null</code> if successful.
 	 */
 	public final synchronized Exception waitForCompletion() {
 		try {

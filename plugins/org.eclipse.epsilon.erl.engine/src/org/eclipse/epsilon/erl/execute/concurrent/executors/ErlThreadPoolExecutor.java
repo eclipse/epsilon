@@ -5,7 +5,7 @@ import org.eclipse.epsilon.erl.execute.concurrent.ErlThreadFactory;
 
 public class ErlThreadPoolExecutor extends ThreadPoolExecutor implements ErlExecutorService {
 
-	protected static final long DEFAULT_KEEP_ALIVE = 1024L;
+	protected static final long DEFAULT_KEEP_ALIVE = 1024;
 	protected static final TimeUnit DEFAULT_TIME_UNIT = TimeUnit.MILLISECONDS;
 	protected static final int
 		DEFAULT_CORE_POOL_SIZE = 1,

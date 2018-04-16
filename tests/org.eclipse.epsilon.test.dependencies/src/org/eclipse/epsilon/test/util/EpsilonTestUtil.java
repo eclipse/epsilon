@@ -4,11 +4,12 @@ import static org.junit.Assert.fail;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Objects;
 
 public class EpsilonTestUtil {
 	private EpsilonTestUtil() {}
 	
-	/*
+	/**
 	 * Convenience hack for handling exceptions when resolving this class's package source directory.
 	 */
 	public static String getTestBaseDir(Class<?> clazz) {
@@ -21,24 +22,47 @@ public class EpsilonTestUtil {
 		}
 	}
 	
-	public static <T> void failIfDifferent(boolean condition, T expected, T actual) {
+	/**
+	 * 
+	 * @param condition
+	 * @param expected
+	 * @param actual
+	 * @param dataLabel
+	 * @return The condition
+	 */
+	public static <T> boolean failIfDifferent(boolean condition, T expected, T actual, String dataLabel) {
 		if (condition) {
-			String datatype = expected.getClass().getSimpleName();
-			System.err.println();
-			System.out.println("Expected "+datatype+": ");
-			System.out.println(expected);
-			System.out.println(); System.err.println();
-			System.out.println("Actual "+datatype+": ");
-			System.out.println(actual);
+			String intermediary, message = "";
 			
-			fail(datatype+"s differ!");
+			System.err.println(intermediary = dataLabel+" differ! ");
+			message += intermediary;
+			System.out.println(intermediary = "Expected "+expected.getClass().getSimpleName()+": ");
+			message += intermediary;
+			System.out.println(intermediary = Objects.toString(expected));
+			message += intermediary+", ";
+			System.out.println(intermediary = "Actual "+actual.getClass().getSimpleName()+": ");
+			message += intermediary;
+			System.out.println(intermediary = Objects.toString(actual));
+			message += intermediary;
+			System.out.println();
+			
+			fail(message);
 		}
+		return condition;
 	}
 	
-	public static void testCollectionsHaveSameElements(Collection<?> expected, Collection<?> actual) {
-		boolean sizesDiffer = actual.size() != expected.size();
-		boolean contentsDiffer = !actual.containsAll(expected);
-		
-		failIfDifferent(sizesDiffer || contentsDiffer, expected, actual);
+	/**
+	 * Tests the two collections for equality, irrespective of ordering.
+	 * @param expected
+	 * @param actual
+	 * @param collectionName
+	 * @return Whether the collections have the same elements.
+	 */
+	public static boolean testCollectionsHaveSameElements(Collection<?> expected, Collection<?> actual, String collectionName) {
+		int actualSize = actual.size(), expectedSize = expected.size();
+		return !(
+			failIfDifferent(actualSize != expectedSize, expectedSize, actualSize, collectionName) &&
+			failIfDifferent(!actual.containsAll(expected), expected, actual, collectionName)
+		);
 	}
 }

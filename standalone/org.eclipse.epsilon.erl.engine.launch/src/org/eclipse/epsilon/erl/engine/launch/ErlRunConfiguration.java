@@ -1,15 +1,9 @@
 package org.eclipse.epsilon.erl.engine.launch;
 
 import static java.lang.System.nanoTime;
-import static org.eclipse.epsilon.emc.emf.EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI;
-import static org.eclipse.epsilon.emc.emf.EmfModel.PROPERTY_MODEL_URI;
-import static org.eclipse.epsilon.eol.models.CachedModel.*;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModule;
@@ -156,56 +150,5 @@ public class ErlRunConfiguration<M extends IErlModule> extends ProfilableRunConf
 		return
 			Objects.equals(this.module, erc.module) &&
 			Objects.equals(this.model, erc.model);
-	}
-	
-	public static IModel getIModelFromPath(String filepath) throws IllegalArgumentException {
-		String ext = FileUtil.getExtension(filepath).toLowerCase();
-		switch (ext) {
-			case "xmi": case "ecore": case "genmodel": case "emf":
-				return new EmfModel();
-			default: throw new IllegalArgumentException("Unknown model type for extension '"+ext+"'");
-		}
-	}
-	
-	public static StringProperties makeProperties(String modelPath) {
-		return makeProperties(modelPath, null);
-	}
-	
-	public static StringProperties makeProperties(String modelPath, String metamodelPath) {
-		return makeProperties(modelPath, metamodelPath, true, true);
-	}
-	
-	public static StringProperties makeProperties(String modelPath, String metamodelPath, boolean cached, boolean storeOnDisposal) {
-		StringProperties properties = new StringProperties();
-		properties.put(PROPERTY_READONLOAD, true);
-		properties.put(PROPERTY_CACHED, cached);
-		properties.put(PROPERTY_STOREONDISPOSAL, storeOnDisposal);
-		
-		try {
-			Path modelFile = Paths.get(modelPath);
-			
-			if (!modelFile.toFile().isFile())
-				throw new IllegalArgumentException("is not a file.");
-			
-			properties.put(PROPERTY_NAME, FileUtil.removeExtension(modelFile.getFileName().toString()));
-			properties.put(PROPERTY_MODEL_URI, modelFile.toUri().toString());
-		}
-		catch (NullPointerException | IllegalArgumentException ex) {
-			System.err.println("Invalid model path '"+modelPath+"': "+ex.getMessage());
-		}
-		
-		try {
-			Path metamodelFile = Paths.get(metamodelPath);
-			
-			if (!metamodelFile.toFile().isFile())
-				throw new IllegalArgumentException("is not a file.");
-			
-			properties.put(PROPERTY_FILE_BASED_METAMODEL_URI, metamodelFile.toUri().toString());
-		}
-		catch (NullPointerException | IllegalArgumentException ex) {
-			System.err.println("Invalid metamodel path '"+metamodelPath+"': "+ex.getMessage());
-		}
-		
-		return properties;
 	}
 }

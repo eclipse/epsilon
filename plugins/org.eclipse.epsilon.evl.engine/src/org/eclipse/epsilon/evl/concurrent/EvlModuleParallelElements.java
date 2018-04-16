@@ -27,18 +27,19 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
 			
 			for (Object object : constraintContext.getAllOfSourceKind(context)) {
-				executor.execute(new Runnable() {
-					public void run() {
-						try {
-							if (constraintContext.shouldBeChecked(object, context)) {
-								for (Constraint constraint : constraintsToCheck) {
-									constraint.execute(object, context);
-								}
+				executor.execute(() -> {
+					// Lambdas are probably faster for this kind of work
+					// @see https://stackoverflow.com/a/24294935/5870336
+					// @see http://www.oracle.com/technetwork/java/jvmls2013kuksen-2014088.pdf
+					try {
+						if (constraintContext.shouldBeChecked(object, context)) {
+							for (Constraint constraint : constraintsToCheck) {
+								constraint.execute(object, context);
 							}
 						}
-						catch (EolRuntimeException ex) {
-							context.handleException(ex, executor);
-						}
+					}
+					catch (EolRuntimeException ex) {
+						context.handleException(ex, executor);
 					}
 				});
 			}

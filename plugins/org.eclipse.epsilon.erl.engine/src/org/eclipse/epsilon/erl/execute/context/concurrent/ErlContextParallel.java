@@ -70,6 +70,11 @@ public class ErlContextParallel extends EolContext implements IErlContextParalle
 	}
 	
 	@Override
+	public ErlExecutorService getExecutor() {
+		return ErlThreadPoolExecutor.fixedPoolExecutor(numThreads);
+	}
+	
+	@Override
 	public FrameStack getFrameStack() {
 		return parallelGet(concurrentFrameStacks, super::getFrameStack);
 	}

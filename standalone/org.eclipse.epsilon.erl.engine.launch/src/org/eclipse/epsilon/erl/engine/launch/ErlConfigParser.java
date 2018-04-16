@@ -1,11 +1,20 @@
 package org.eclipse.epsilon.erl.engine.launch;
 
+import static org.eclipse.epsilon.emc.emf.EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI;
+import static org.eclipse.epsilon.emc.emf.EmfModel.PROPERTY_MODEL_URI;
+import static org.eclipse.epsilon.eol.models.CachedModel.PROPERTY_CACHED;
+import static org.eclipse.epsilon.eol.models.Model.PROPERTY_NAME;
+import static org.eclipse.epsilon.eol.models.Model.PROPERTY_READONLOAD;
+import static org.eclipse.epsilon.eol.models.Model.PROPERTY_STOREONDISPOSAL;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.function.Function;
 import org.apache.commons.cli.Option;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.launch.ConfigParser;
@@ -63,8 +72,8 @@ public class ErlConfigParser<M extends IErlModule, R extends ErlRunConfiguration
 	protected void parseArgs(String[] args) throws Exception {
 		super.parseArgs(args);
 		
-		properties = ErlRunConfiguration.makeProperties(args[1], args[2]);
-		model = ErlRunConfiguration.getIModelFromPath(args[2]);
+		model = getIModelFromPath(args[2]);
+		properties = makeProperties(args[1], args[2]);
 		
 		module = cmdLine.hasOption(moduleOpt) ?
 			Optional.of(parseModule(cmdLine.getOptionValues(moduleOpt))) :
@@ -87,6 +96,49 @@ public class ErlConfigParser<M extends IErlModule, R extends ErlRunConfiguration
 	public final R apply(String[] args) {
 		accept(args);
 		return runConfig;
+	}
+	
+	public static IModel getIModelFromPath(String filepath) throws IllegalArgumentException {
+		String ext = FileUtil.getExtension(filepath).toLowerCase();
+		switch (ext) {
+			case "xmi": case "ecore": case "genmodel": case "emf": case "model":
+				return new EmfModel();
+			default: throw new IllegalArgumentException("Unknown model type for extension '"+ext+"'");
+		}
+	}
+	
+	public static StringProperties makeProperties(String modelPath, String metamodelPath) {
+		StringProperties properties = new StringProperties();
+		properties.put(PROPERTY_READONLOAD, true);
+		properties.put(PROPERTY_CACHED, true);
+		properties.put(PROPERTY_STOREONDISPOSAL, true);
+		
+		try {
+			Path modelFile = Paths.get(modelPath);
+			
+			if (!modelFile.toFile().isFile())
+				throw new IllegalArgumentException("is not a file.");
+			
+			properties.put(PROPERTY_NAME, FileUtil.removeExtension(modelFile.getFileName().toString()));
+			properties.put(PROPERTY_MODEL_URI, modelFile.toUri().toString());
+		}
+		catch (NullPointerException | IllegalArgumentException ex) {
+			System.err.println("Invalid model path '"+modelPath+"': "+ex.getMessage());
+		}
+		
+		try {
+			Path metamodelFile = Paths.get(metamodelPath);
+			
+			if (!metamodelFile.toFile().isFile())
+				throw new IllegalArgumentException("is not a file.");
+			
+			properties.put(PROPERTY_FILE_BASED_METAMODEL_URI, metamodelFile.toUri().toString());
+		}
+		catch (NullPointerException | IllegalArgumentException ex) {
+			System.err.println("Invalid metamodel path '"+metamodelPath+"': "+ex.getMessage());
+		}
+		
+		return properties;
 	}
 	
 	public static <M extends IErlModule, R extends ErlRunConfiguration<M>> R instantiate(

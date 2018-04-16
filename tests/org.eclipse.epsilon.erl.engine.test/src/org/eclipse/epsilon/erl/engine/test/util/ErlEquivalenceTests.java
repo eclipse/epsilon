@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.erl.engine.test.util;
 
-import static org.eclipse.epsilon.test.util.EpsilonTestUtil.failIfDifferent;
+import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import java.util.Collection;
@@ -16,7 +16,6 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContribu
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.engine.launch.ErlRunConfiguration;
-import org.eclipse.epsilon.test.util.EpsilonTestUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -87,9 +86,9 @@ public abstract class ErlEquivalenceTests<M extends IErlModule, C extends ErlRun
 		actualModule = testConfig.module;
 	}
 	
-	/*
+	/**
 	 * This should be called after assigning expectedConfigs in
-	 * setUpBeforeClass().
+	 * <code>setUpBeforeClass()</code>.
 	 */
 	protected static void setUpEquivalenceTest() {
 		expectedConfigIDs = new HashMap<>(expectedConfigs.size());
@@ -101,20 +100,32 @@ public abstract class ErlEquivalenceTests<M extends IErlModule, C extends ErlRun
 	}
 	
 	/**
-	 * Subclasses should simply call #beforeTests() in this method.
+	 * Subclasses should simply call {@link #beforeTests()} in this method.
 	 * Additional setup functionality may also be provided here.
 	 */
 	@Test
 	public abstract void _test0();
 	
 	
-	/*
+	/**
 	 * Pre-requisite for testing.
 	 */
 	protected final void beforeTests() {
 		testModuleCanExecute();
 		testScenariosMatch();
 		assert expectedModule != actualModule;
+	}
+	
+	/**
+	 * Actions to perform if the condition is false.
+	 * Generally useful for printing more detailed diagnostics
+	 * than is provided by the testing framework.
+	 * @param condition
+	 */
+	protected void onFail(boolean condition) {
+		if (!condition) {
+			System.err.println(actualModule.getClass().getSimpleName());
+		}
 	}
 	
 	protected void testModuleCanExecute() {
@@ -154,10 +165,11 @@ public abstract class ErlEquivalenceTests<M extends IErlModule, C extends ErlRun
 			.flatMap(Set::stream)
 			.collect(Collectors.toList());
 		
-		EpsilonTestUtil.testCollectionsHaveSameElements(
+		onFail(testCollectionsHaveSameElements(
 			fsMapper.apply(expectedModule),
-			fsMapper.apply(actualModule)
-		);
+			fsMapper.apply(actualModule),
+			"FrameStacks"
+		));
 	}
 	
 	@Test
@@ -180,6 +192,9 @@ public abstract class ErlEquivalenceTests<M extends IErlModule, C extends ErlRun
 			expectedOCs = contributors.apply(expectedModule),
 			actualOCs = contributors.apply(actualModule);
 
-		failIfDifferent(actualOCs.size() < expectedOCs.size(), expectedOCs, actualOCs);
+		onFail(!failIfDifferent(
+			actualOCs.size() < expectedOCs.size(),
+			expectedOCs, actualOCs, "OperationContributorRegistries")
+		);
 	}
 }
