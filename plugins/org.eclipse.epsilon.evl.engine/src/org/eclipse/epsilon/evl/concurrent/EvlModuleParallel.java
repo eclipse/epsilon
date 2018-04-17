@@ -9,7 +9,7 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 public abstract class EvlModuleParallel extends EvlModule {
 
 	public static final EvlModuleParallel getDefaultImpl() {
-		return new EvlModuleParallelStaged();
+		return new EvlModuleParallelElements();
 	}
 	
 	@Override

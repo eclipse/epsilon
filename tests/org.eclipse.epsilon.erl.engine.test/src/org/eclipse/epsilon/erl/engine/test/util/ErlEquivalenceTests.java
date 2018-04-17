@@ -117,14 +117,20 @@ public abstract class ErlEquivalenceTests<M extends IErlModule, C extends ErlRun
 	}
 	
 	/**
-	 * Actions to perform if the condition is false.
+	 * Actions to perform if the message is null.
 	 * Generally useful for printing more detailed diagnostics
 	 * than is provided by the testing framework.
-	 * @param condition
+	 * @param message The message to fail with.
+	 * If <code>null</code>, no action is taken.
 	 */
-	protected void onFail(boolean condition) {
-		if (!condition) {
-			System.err.println(actualModule.getClass().getSimpleName());
+	protected void onFail(String message) {
+		if (message != null && !message.isEmpty()) {
+			System.err.println(
+				actualModule.getClass().getSimpleName()+
+				", "+testConfig.script.getFileName()+
+				", "+testConfig.model.getName()
+			);
+			fail(message);
 		}
 	}
 	
@@ -192,7 +198,7 @@ public abstract class ErlEquivalenceTests<M extends IErlModule, C extends ErlRun
 			expectedOCs = contributors.apply(expectedModule),
 			actualOCs = contributors.apply(actualModule);
 
-		onFail(!failIfDifferent(
+		onFail(printIfDifferent(
 			actualOCs.size() < expectedOCs.size(),
 			expectedOCs, actualOCs, "OperationContributorRegistries")
 		);
