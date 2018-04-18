@@ -10,6 +10,9 @@
 ******************************************************************************/
 package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import org.eclipse.epsilon.emc.emf.CachedResourceSet.Cache.CacheItem;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -29,12 +32,12 @@ public class CacheItemDialog extends TitleAreaDialog {
 		@Override
 		public String getText(Object element) {
 			StackTraceElement[] stackTrace = (StackTraceElement[]) element;
-			StringBuilder sb = new StringBuilder();
-			for (StackTraceElement elem : stackTrace) { 
-				sb.append(elem.toString());
-				sb.append('\n');
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			for (StackTraceElement elem : stackTrace) {
+				pw.println(elem.toString());
 			}
-			return sb.toString();
+			return sw.toString();
 		}
 	}
 
