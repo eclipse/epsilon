@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.epsilon.emc.emf.CachedResourceSet.Cache;
 import org.eclipse.epsilon.emc.emf.transactions.EmfModelTransactionSupport;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -313,16 +314,11 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		EcoreUtil.delete(eObject);
 
 		List<EObject> contents = new ArrayList<EObject>();
-		//Iterator<EObject> contentsIterator = eObject.eAllContents();
-		//while (contentsIterator.hasNext()) {
-		//	contents.add(contentsIterator.next());
-		//}
 		contents.addAll(eObject.eContents());
 		for (EObject content : contents) {
 			deleteElement(content);
 		}
 		contents.clear();
-		//clearCache();
 		return true;
 	}
 
@@ -373,7 +369,10 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	public void disposeModel() {
 		registry = null;
 		if (modelImpl != null) {
-			CachedResourceSet.getCache().returnResource(modelImpl);
+			Cache cache = CachedResourceSet.getCache();
+			for (Resource r : modelImpl.getResourceSet().getResources()) {
+				cache.returnResource(r);
+			}
 			modelImpl = null;
 		}
 
