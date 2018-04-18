@@ -1,6 +1,5 @@
 package org.eclipse.epsilon.test.util;
 
-import static org.junit.Assert.fail;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -28,27 +27,25 @@ public class EpsilonTestUtil {
 	 * @param expected
 	 * @param actual
 	 * @param dataLabel
-	 * @return The condition
+	 * @return The message that was printed, or <code>null</code> if the condition was false.
 	 */
-	public static <T> boolean failIfDifferent(boolean condition, T expected, T actual, String dataLabel) {
+	public static <T> String printIfDifferent(boolean condition, T expected, T actual, String dataLabel) {
 		if (condition) {
 			String intermediary, message = "";
-			
 			System.err.println(intermediary = dataLabel+" differ! ");
 			message += intermediary;
-			System.out.println(intermediary = "Expected "+expected.getClass().getSimpleName()+": ");
+			System.err.println(intermediary = "Expected "+expected.getClass().getSimpleName()+": ");
 			message += intermediary;
-			System.out.println(intermediary = Objects.toString(expected));
+			System.err.println(intermediary = Objects.toString(expected));
 			message += intermediary+", ";
-			System.out.println(intermediary = "Actual "+actual.getClass().getSimpleName()+": ");
+			System.err.println(intermediary = "Actual "+actual.getClass().getSimpleName()+": ");
 			message += intermediary;
-			System.out.println(intermediary = Objects.toString(actual));
+			System.err.println(intermediary = Objects.toString(actual));
 			message += intermediary;
-			System.out.println();
-			
-			fail(message);
+			System.err.println();
+			return message;
 		}
-		return condition;
+		return null;
 	}
 	
 	/**
@@ -56,13 +53,15 @@ public class EpsilonTestUtil {
 	 * @param expected
 	 * @param actual
 	 * @param collectionName
-	 * @return Whether the collections have the same elements.
+	 * @return The failure message, or <code>null</code> if the collections have the same elements.
 	 */
-	public static boolean testCollectionsHaveSameElements(Collection<?> expected, Collection<?> actual, String collectionName) {
+	public static String testCollectionsHaveSameElements(Collection<?> expected, Collection<?> actual, String collectionName) {
 		int actualSize = actual.size(), expectedSize = expected.size();
-		return !(
-			failIfDifferent(actualSize != expectedSize, expectedSize, actualSize, collectionName) &&
-			failIfDifferent(!actual.containsAll(expected), expected, actual, collectionName)
-		);
+		
+		String sameSize = printIfDifferent(actualSize != expectedSize, expectedSize, actualSize, collectionName+"sizes ");
+		if (sameSize != null)
+			return sameSize;
+		
+		return printIfDifferent(!actual.containsAll(expected), expected, actual, collectionName);
 	}
 }
