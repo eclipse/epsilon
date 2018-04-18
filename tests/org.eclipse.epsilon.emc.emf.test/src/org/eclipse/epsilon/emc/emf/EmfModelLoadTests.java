@@ -35,6 +35,9 @@ public class EmfModelLoadTests {
 
 	@Test
 	public void fragmentedModelSizeWithoutExpand() throws Exception {
+		// Isolate this test from others in terms of caching
+		CachedResourceSet.getCache().clear();
+
 		EmfModel model = createFragmentedModel();
 		model.setExpand(false);
 		model.load();
@@ -45,6 +48,9 @@ public class EmfModelLoadTests {
 
 	@Test
 	public void fragmentedModelSizeWithExpand() throws Exception {
+		// Isolate this test from others in terms of caching
+		CachedResourceSet.getCache().clear();
+
 		EmfModel model = createFragmentedModel();
 		model.setExpand(true);
 		model.load();
