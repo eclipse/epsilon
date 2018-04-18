@@ -155,4 +155,12 @@ public class TypeExpression extends Expression {
 		return type;
 	}
 	
+	public List<TypeExpression> getParameterTypeExpressions() {
+		return parameterTypeExpressions;
+	}
+	
+	public StringLiteral getNativeType() {
+		return nativeType;
+	}
+	
 }
