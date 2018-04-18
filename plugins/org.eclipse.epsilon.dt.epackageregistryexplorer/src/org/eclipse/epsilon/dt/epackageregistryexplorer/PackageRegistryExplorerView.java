@@ -37,6 +37,7 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
@@ -126,7 +127,7 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		classViewer.setContentProvider(new PackageRegistryContentProvider(this));
 		classViewer.setLabelProvider(eCoreLabelProvider);
 		classViewer.addSelectionChangedListener(new ClassViewerSelectionChangedListener());
-		classViewer.setSorter(new AlphabeticalSorter());
+		classViewer.setComparator(new ViewerComparator((o1, o2) -> o1.compareTo(o2)));
 		classViewer.setInput(getViewSite());
 		getSite().setSelectionProvider(this);		
 		
@@ -165,7 +166,7 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		featureViewerForm.setContent(featureViewer.getControl());
 		featureViewer.setContentProvider(new FeatureViewerContentProvider(this));
 		featureViewer.setLabelProvider(eCoreLabelProvider);
-		featureViewer.setSorter(new AlphabeticalSorter());
+		featureViewer.setComparator(new ViewerComparator((o1, o2) -> o1.compareTo(o2)));
 		featureViewer.setInput(null);
 		featureViewer.addDoubleClickListener(new IDoubleClickListener() {
 
