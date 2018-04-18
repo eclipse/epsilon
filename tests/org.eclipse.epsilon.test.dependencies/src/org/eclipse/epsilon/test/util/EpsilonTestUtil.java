@@ -58,7 +58,7 @@ public class EpsilonTestUtil {
 	public static String testCollectionsHaveSameElements(Collection<?> expected, Collection<?> actual, String collectionName) {
 		int actualSize = actual.size(), expectedSize = expected.size();
 		
-		String sameSize = printIfDifferent(actualSize != expectedSize, expectedSize, actualSize, collectionName+"sizes ");
+		String sameSize = printIfDifferent(actualSize != expectedSize, expectedSize, actualSize, collectionName+" sizes");
 		if (sameSize != null)
 			return sameSize;
 		

@@ -47,6 +47,7 @@ public class EvlAcceptanceTestUtil {
 			"java_1Constraint",
 			"java_manyConstraint1Context",
 			"java_manyContext1Constraint",
+			"java_equals",
 			"java_noguard"
 		},
 		
