@@ -16,22 +16,33 @@ import org.eclipse.epsilon.launch.ProfilableRunConfiguration;
  * Currently only EMF models are fully supported.
  * Note that this needn't be subclassed to use it,
  * you can just add the required projects to the classpath
- * and call it with appropriate arguments, but the first argument
- * must be a fully qualified name of a subtype of IErlModule.
+ * and call it with appropriate arguments, but you must provide
+ * a module with the -module option.
  * 
  * @author Sina Madani
  */
-public class ErlRunConfiguration<M extends IErlModule> extends ProfilableRunConfiguration<Object> {
+public abstract class ErlRunConfiguration<M extends IErlModule> extends ProfilableRunConfiguration<Object> {
 
 	/**
 	 * Allows the caller to invoke any subclass of IErlModule.
 	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static void main(String[] args) throws ClassNotFoundException {
+		
+		class InstantiableERC extends ErlRunConfiguration {
+			public InstantiableERC(Path erlFile, StringProperties properties, IModel model,
+					Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<IErlModule> erlModule,
+					Optional<Integer> configID, Optional<Path> scratchFile) {
+				super(erlFile, properties, model, showResults, profileExecution, erlModule, configID, scratchFile);
+				
+			}
+			protected IErlModule getDefaultModule() {
+				throw new IllegalStateException("Must provide -module argument!");
+			}
+		}
+		
 		if (args.length > 0) {
-			new ErlConfigParser(Class.forName(args[0]), ErlRunConfiguration.class)
-				.apply(Arrays.copyOfRange(args, 1, args.length))
-				.run();
+			new ErlConfigParser(IErlModule.class, InstantiableERC.class).apply(args).run();
 		}
 	}
 	
@@ -78,11 +89,9 @@ public class ErlRunConfiguration<M extends IErlModule> extends ProfilableRunConf
 	}
 	
 	/**
-	 * Should be overriden by subclasses and return a concrete (i.e. non-abstract) implementation of IErlModule.
+	 * @return a concrete (i.e. non-abstract) implementation of IErlModule.
 	 */
-	protected M getDefaultModule() {
-		return null;
-	}
+	protected abstract M getDefaultModule();
 	
 	@Override
 	public void preExecute() throws Exception {
