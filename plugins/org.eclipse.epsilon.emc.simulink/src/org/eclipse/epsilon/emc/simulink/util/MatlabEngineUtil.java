@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
+import org.eclipse.epsilon.emc.simulink.types.Struct;
 
 public class MatlabEngineUtil {
 
@@ -100,6 +101,8 @@ public class MatlabEngineUtil {
 			return MatlabEngineUtil.matlabArrayToList((Object[]) value);
 		if (value instanceof Character) 
 			return String.valueOf(value);
+		if (Struct.is(value))
+			return new Struct(value);
 		return value;
 	}
 }

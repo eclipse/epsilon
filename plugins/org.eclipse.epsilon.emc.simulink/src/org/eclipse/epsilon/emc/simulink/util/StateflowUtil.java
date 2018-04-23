@@ -13,7 +13,6 @@ import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class StateflowUtil {
 
