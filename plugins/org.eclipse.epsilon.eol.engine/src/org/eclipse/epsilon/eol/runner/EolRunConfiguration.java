@@ -1,46 +1,40 @@
-package org.eclipse.epsilon.erl.engine.launch;
+package org.eclipse.epsilon.eol.runner;
 
 import static java.lang.System.nanoTime;
 import java.nio.file.Path;
 import java.util.*;
+import org.eclipse.epsilon.common.runner.ProfilableRunConfiguration;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.erl.IErlModule;
-import org.eclipse.epsilon.erl.engine.profiling.ProfilableIErlModule;
 import org.eclipse.epsilon.profiling.util.BenchmarkUtils;
-import org.eclipse.epsilon.launch.ProfilableRunConfiguration;
 
 /**
  * Convenience class for running ERL programs over models.
- * Currently only EMF models are fully supported.
- * Note that this needn't be subclassed to use it,
- * you can just add the required projects to the classpath
- * and call it with appropriate arguments, but you must provide
- * a module with the -module option.
  * 
  * @author Sina Madani
  */
-public abstract class ErlRunConfiguration<M extends IErlModule> extends ProfilableRunConfiguration<Object> {
+public abstract class EolRunConfiguration<M extends IEolModule> extends ProfilableRunConfiguration<Object> {
 	
 	protected static final Set<IModel> LOADED_MODELS = new HashSet<>();
 	public final StringProperties modelProperties;
 	public final IModel model;
 	public final M module;
 	
-	public ErlRunConfiguration(
+	public EolRunConfiguration(
 		Path erlFile,
 		StringProperties properties,
 		IModel model,
 		Optional<Boolean> showResults,
 		Optional<Boolean> profileExecution,
-		Optional<M> erlModule,
+		Optional<M> eolModule,
 		Optional<Integer> configID,
 		Optional<Path> scratchFile) {
 			super(erlFile, showResults, profileExecution, configID, scratchFile);
 			this.modelProperties = properties;
 			this.model = model;
-			this.module = erlModule.orElseGet(this::getDefaultModule);
+			this.module = eolModule.orElseGet(this::getDefaultModule);
 			this.id = configID.orElseGet(() ->
 				Objects.hash(
 					super.id,
@@ -51,7 +45,7 @@ public abstract class ErlRunConfiguration<M extends IErlModule> extends Profilab
 			);
 	}
 
-	public ErlRunConfiguration(ErlRunConfiguration<? extends M> other) {
+	public EolRunConfiguration(EolRunConfiguration<? extends M> other) {
 		this(
 			other.script,
 			other.modelProperties,
@@ -104,8 +98,8 @@ public abstract class ErlRunConfiguration<M extends IErlModule> extends Profilab
 	@Override
 	public Object execute() throws EolRuntimeException {
 		Object execResult;
-		if (profileExecution && module instanceof ProfilableIErlModule) {
-			ProfilableIErlModule profMod = (ProfilableIErlModule) module;
+		if (profileExecution && module instanceof ProfilableIEolModule) {
+			ProfilableIEolModule profMod = (ProfilableIEolModule) module;
 			execResult = profMod.profileExecution();
 			profiledStages.addAll(profMod.getProfiledStages());
 		}
@@ -132,7 +126,7 @@ public abstract class ErlRunConfiguration<M extends IErlModule> extends Profilab
 	public boolean equals(Object other) {
 		if (!super.equals(other)) return false;
 		
-		ErlRunConfiguration erc = (ErlRunConfiguration) other;
+		EolRunConfiguration erc = (EolRunConfiguration) other;
 		return
 			Objects.equals(this.module, erc.module) &&
 			Objects.equals(this.model, erc.model);

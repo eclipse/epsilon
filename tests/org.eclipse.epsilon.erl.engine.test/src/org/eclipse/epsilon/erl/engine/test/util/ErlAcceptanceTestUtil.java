@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.runner.EolRunConfiguration;
 import org.eclipse.epsilon.erl.engine.launch.*;
 import org.eclipse.epsilon.erl.IErlModule;
 
@@ -46,7 +47,7 @@ public class ErlAcceptanceTestUtil {
 	 * A list of pre-configured Runnables which will call the execute() method on the provided module.
 	 * @param modules A collection of IErlModules to use in combination with each set of test data.
 	 */
-	public static <M extends IErlModule, C extends ErlRunConfiguration<M>> Collection<C> getScenarios(
+	public static <M extends IErlModule, C extends EolRunConfiguration<M>> Collection<C> getScenarios(
 		Class<C> clazz,
 		List<String[]> testInputs,
 		Collection<Supplier<? extends M>> moduleGetters,

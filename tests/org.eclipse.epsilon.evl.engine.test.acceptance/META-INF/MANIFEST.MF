@@ -11,4 +11,4 @@ Export-Package: org.eclipse.epsilon.evl.engine.test.acceptance,
  org.eclipse.epsilon.evl.engine.test.acceptance.equivalence
 Import-Package: org.junit
 Require-Bundle: org.eclipse.epsilon.erl.engine.test;visibility:=reexport,
- org.eclipse.epsilon.evl.engine.launch
+ org.eclipse.epsilon.evl.engine;visibility:=reexport
