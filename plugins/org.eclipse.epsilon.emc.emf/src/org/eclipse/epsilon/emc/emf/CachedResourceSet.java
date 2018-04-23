@@ -2,6 +2,8 @@ package org.eclipse.epsilon.emc.emf;
 
 import java.lang.ref.WeakReference;
 import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import org.eclipse.emf.common.util.URI;
@@ -126,9 +128,16 @@ public class CachedResourceSet extends ResourceSetImpl {
 		}
 		
 		public class CacheItem {
-			protected WeakReference<Resource> resourceReference;
-			public URI uri;
-			public int checkedOut = 0;
+			private WeakReference<Resource> resourceReference;
+			private URI uri;
+
+			/**
+			 * Track where increments/decrements were done from, to help developers
+			 * and integrators track leaks.
+			 */
+			private List<StackTraceElement[]> checkedInFrom = new ArrayList<>();
+			private List<StackTraceElement[]> checkedOutFrom = new ArrayList<>();
+			private int checkedOutCount = 0;
 			
 			public Resource getResource() {
 				return resourceReference.get();
@@ -147,15 +156,25 @@ public class CachedResourceSet extends ResourceSetImpl {
 			}
 			
 			public void incrementCheckedOut() {
-				checkedOut ++;
+				checkedInFrom.add(Thread.currentThread().getStackTrace());
+				checkedOutCount++;
 			}
 			
 			public void decrementCheckedOut() {
-				checkedOut--;
+				checkedOutFrom.add(Thread.currentThread().getStackTrace());
+				checkedOutCount--;
 			}
 			
 			public int getCheckedOut() {
-				return checkedOut;
+				return checkedOutCount;
+			}
+
+			public List<StackTraceElement[]> getCheckedInFrom() {
+				return checkedInFrom;
+			}
+			
+			public List<StackTraceElement[]> getCheckedOutFrom() {
+				return checkedOutFrom;
 			}
 		}
 	}

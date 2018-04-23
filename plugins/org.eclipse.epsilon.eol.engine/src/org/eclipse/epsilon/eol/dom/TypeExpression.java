@@ -161,4 +161,12 @@ public class TypeExpression extends Expression {
 	public String toString() {
 		return getClass().getSimpleName()+": "+getName();
 	}
+
+	public List<TypeExpression> getParameterTypeExpressions() {
+		return parameterTypeExpressions;
+	}
+	
+	public StringLiteral getNativeType() {
+		return nativeType;
+	}
 }

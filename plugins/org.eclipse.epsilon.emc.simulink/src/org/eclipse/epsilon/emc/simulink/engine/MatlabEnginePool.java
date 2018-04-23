@@ -37,7 +37,7 @@ public class MatlabEnginePool {
 		this.engineJarPath = engineJarPath;
 
 		try {
-			System.setProperty(JAVA_LIBRARY_PATH, libraryPath);
+            System.setProperty(JAVA_LIBRARY_PATH, libraryPath + ";" + System.getProperty(JAVA_LIBRARY_PATH));
 
 			final Field sysPathsField = ClassLoader.class.getDeclaredField(SYS_PATHS);
 			final Class[] urlClass = new Class[]{URL.class};

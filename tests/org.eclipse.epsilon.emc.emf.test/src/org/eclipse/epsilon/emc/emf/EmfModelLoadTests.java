@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 The University of York.
+ * Copyright (c) 2011-2018 The University of York, Aston University.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,27 +7,18 @@
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
+ *     Antonio Garcia-Dominguez - add tests for fragmented models
  ******************************************************************************/
 package org.eclipse.epsilon.emc.emf;
 
 import static org.junit.Assert.assertEquals;
 
-import com.google.inject.Injector;
 import java.io.File;
-import java.net.URL;
 
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.resource.XtextResourceSet;
 import org.junit.Test;
 
 public class EmfModelLoadTests {
@@ -44,20 +35,28 @@ public class EmfModelLoadTests {
 
 	@Test
 	public void fragmentedModelSizeWithoutExpand() throws Exception {
+		// Isolate this test from others in terms of caching
+		CachedResourceSet.getCache().clear();
+
 		EmfModel model = createFragmentedModel();
 		model.setExpand(false);
 		model.load();
 		assertEquals("Contents for cross-file containment should work with expand=false", 2, model.allContents().size());
 		model.dispose();
+		assertEquals(0, CachedResourceSet.getCache().getItems().size());
 	}
 
 	@Test
 	public void fragmentedModelSizeWithExpand() throws Exception {
+		// Isolate this test from others in terms of caching
+		CachedResourceSet.getCache().clear();
+
 		EmfModel model = createFragmentedModel();
 		model.setExpand(true);
 		model.load();
 		assertEquals("Contents for cross-file containment should work with expand=true", 2, model.allContents().size());
 		model.dispose();
+		assertEquals(0, CachedResourceSet.getCache().getItems().size());
 	}
 
 	@Test
