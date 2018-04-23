@@ -14,4 +14,3 @@ Export-Package: org.eclipse.epsilon.common.concurrent,
  org.eclipse.epsilon.common.util
 Require-Bundle: org.eclipse.epsilon.dependencies
 Automatic-Module-Name: org.eclipse.epsilon.common
-Import-Package: org.slf4j;version="1.7.2"

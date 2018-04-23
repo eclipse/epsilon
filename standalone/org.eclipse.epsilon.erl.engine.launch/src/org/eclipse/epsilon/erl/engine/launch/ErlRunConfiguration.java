@@ -22,6 +22,29 @@ import org.eclipse.epsilon.launch.ProfilableRunConfiguration;
  * @author Sina Madani
  */
 public abstract class ErlRunConfiguration<M extends IErlModule> extends ProfilableRunConfiguration<Object> {
+
+	/**
+	 * Allows the caller to invoke any subclass of IErlModule.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static void main(String[] args) throws ClassNotFoundException {
+		
+		class InstantiableERC extends ErlRunConfiguration {
+			public InstantiableERC(Path erlFile, StringProperties properties, IModel model,
+					Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<IErlModule> erlModule,
+					Optional<Integer> configID, Optional<Path> scratchFile) {
+				super(erlFile, properties, model, showResults, profileExecution, erlModule, configID, scratchFile);
+				
+			}
+			protected IErlModule getDefaultModule() {
+				throw new IllegalStateException("Must provide -module argument!");
+			}
+		}
+		
+		if (args.length > 0) {
+			new ErlConfigParser(IErlModule.class, InstantiableERC.class).apply(args).run();
+		}
+	}
 	
 	protected static final Set<IModel> LOADED_MODELS = new HashSet<>();
 	public final StringProperties modelProperties;

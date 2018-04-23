@@ -11,6 +11,10 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
 public class EvlRunConfiguration extends ErlRunConfiguration<IEvlModule> {
 	
+	public static void main(String[] args) {
+		new ErlConfigParser<>(IEvlModule.class, EvlRunConfiguration.class).apply(args).run();
+	}
+	
 	public EvlRunConfiguration(
 		Path evlFile,
 		StringProperties properties,
