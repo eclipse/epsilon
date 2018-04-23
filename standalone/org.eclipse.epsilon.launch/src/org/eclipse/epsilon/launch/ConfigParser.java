@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.function.Consumer;
 import org.apache.commons.cli.*;
-import org.eclipse.epsilon.common.runner.ProfilableRunConfiguration;
 
 /**
  * Convenience class providing an extensible command-line builder for {@link ProfilableRunConfiguration}.

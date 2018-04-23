@@ -16,7 +16,6 @@ import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eol.runner.EolRunConfiguration;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.launch.ConfigParser;
 
@@ -27,7 +26,7 @@ import org.eclipse.epsilon.launch.ConfigParser;
  * 
  * @author Sina Madani
  */
-public class ErlConfigParser<M extends IErlModule, R extends EolRunConfiguration<M>> extends ConfigParser implements Function<String[], R> {
+public class ErlConfigParser<M extends IErlModule, R extends ErlRunConfiguration<M>> extends ConfigParser implements Function<String[], R> {
 	
 	/**
 	 * Allows the caller to invoke any subclass of IErlModule.
@@ -35,7 +34,7 @@ public class ErlConfigParser<M extends IErlModule, R extends EolRunConfiguration
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static void main(String[] args) throws ClassNotFoundException {
 		
-		class InstantiableERC extends EolRunConfiguration {
+		class InstantiableERC extends ErlRunConfiguration {
 			public InstantiableERC(Path erlFile, StringProperties properties, IModel model,
 					Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<IErlModule> erlModule,
 					Optional<Integer> configID, Optional<Path> scratchFile) {
@@ -165,7 +164,7 @@ public class ErlConfigParser<M extends IErlModule, R extends EolRunConfiguration
 		return properties;
 	}
 	
-	public static <M extends IErlModule, R extends EolRunConfiguration<M>> R instantiate(
+	public static <M extends IErlModule, R extends ErlRunConfiguration<M>> R instantiate(
 			Class<R> subClazz,
 			Path script,
 			StringProperties properties,

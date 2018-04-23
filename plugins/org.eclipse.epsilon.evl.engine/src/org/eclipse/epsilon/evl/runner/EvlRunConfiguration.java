@@ -1,15 +1,15 @@
-package org.eclipse.epsilon.evl.runner;
+package org.eclipse.epsilon.evl.engine.launch;
 
 import java.nio.file.Path;
 import java.util.Optional;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eol.runner.EolRunConfiguration;
+import org.eclipse.epsilon.erl.engine.launch.*;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
-public class EvlRunConfiguration extends EolRunConfiguration<IEvlModule> {
+public class EvlRunConfiguration extends ErlRunConfiguration<IEvlModule> {
 	
 	public EvlRunConfiguration(
 		Path evlFile,

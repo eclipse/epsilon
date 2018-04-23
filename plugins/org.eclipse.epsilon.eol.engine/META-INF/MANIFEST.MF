@@ -7,8 +7,7 @@ Bundle-Version: 1.5.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.common;visibility:=reexport,
- org.eclipse.epsilon.dependencies;visibility:=reexport,
- org.eclipse.epsilon.profiling
+ org.eclipse.epsilon.dependencies;visibility:=reexport
 Export-Package: org.eclipse.epsilon.eol,
  org.eclipse.epsilon.eol.compile.context,
  org.eclipse.epsilon.eol.compile.m3,
@@ -34,7 +33,6 @@ Export-Package: org.eclipse.epsilon.eol,
  org.eclipse.epsilon.eol.models.java,
  org.eclipse.epsilon.eol.models.transactions,
  org.eclipse.epsilon.eol.parse,
- org.eclipse.epsilon.eol.runner,
  org.eclipse.epsilon.eol.tools,
  org.eclipse.epsilon.eol.types,
  org.eclipse.epsilon.eol.userinput,

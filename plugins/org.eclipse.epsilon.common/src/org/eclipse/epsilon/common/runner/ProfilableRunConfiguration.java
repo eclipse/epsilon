@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.common.runner;
+package org.eclipse.epsilon.launch;
 
 import static java.lang.System.nanoTime;
 import java.io.IOException;

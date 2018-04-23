@@ -14,8 +14,8 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eol.runner.EolRunConfiguration;
 import org.eclipse.epsilon.erl.IErlModule;
+import org.eclipse.epsilon.erl.engine.launch.ErlRunConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -63,13 +63,13 @@ import org.junit.runner.RunWith;
  * @author Sina Madani
  */
 @RunWith(org.junit.runners.Parameterized.class)
-public abstract class ErlEquivalenceTests<M extends IErlModule, C extends EolRunConfiguration<M>> {
+public abstract class ErlEquivalenceTests<M extends IErlModule, C extends ErlRunConfiguration<M>> {
 
 	// The oracle configurations
-	protected static Collection<? extends EolRunConfiguration<? extends IErlModule>> expectedConfigs;
+	protected static Collection<? extends ErlRunConfiguration<? extends IErlModule>> expectedConfigs;
 	
 	// Used to identify which scenario to compare our results with.
-	protected static Map<Integer, EolRunConfiguration<?>> expectedConfigIDs;
+	protected static Map<Integer, ErlRunConfiguration<?>> expectedConfigIDs;
 	
 	// The scenario and module combination under test. This is the parameterised test variable.
 	protected final C expectedConfig, testConfig;
@@ -93,7 +93,7 @@ public abstract class ErlEquivalenceTests<M extends IErlModule, C extends EolRun
 	protected static void setUpEquivalenceTest() {
 		expectedConfigIDs = new HashMap<>(expectedConfigs.size());
 		
-		for (EolRunConfiguration<?> expectedConfig : expectedConfigs) {
+		for (ErlRunConfiguration<?> expectedConfig : expectedConfigs) {
 			expectedConfigIDs.put(expectedConfig.getId(), expectedConfig);
 			expectedConfig.run();
 		}
