@@ -299,8 +299,8 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	public boolean owns(Object instance) { 
 		return ((instance instanceof ISimulinkModelElement) 
 				&& ((ISimulinkModelElement) instance).getOwningModel() == this ) 
-				|| (instance instanceof SimulinkModel);
-		// || (instance.getClass().getCanonicalName().startsWith("org.eclipse.epsilon.emc.simulink.types"));
+				|| (instance instanceof SimulinkModel)
+				|| (instance.getClass().getCanonicalName().startsWith("org.eclipse.epsilon.emc.simulink.types"));
 	}
 
 	@Override

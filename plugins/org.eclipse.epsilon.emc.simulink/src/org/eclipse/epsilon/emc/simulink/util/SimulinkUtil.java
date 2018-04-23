@@ -128,6 +128,9 @@ public class SimulinkUtil {
 		} else if (handles instanceof String) {
 			T instantiate = instantiate(returnType, model, engine, null, (String) handles);
 			if (instantiate!= null) list.add(instantiate);
+		} else if (handles instanceof Double) {
+			T instantiate = instantiate(returnType, model, engine, (Double) handles, null);
+			if (instantiate!= null) list.add(instantiate);
 		}
 		return list;
 	}
