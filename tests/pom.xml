@@ -47,6 +47,7 @@
     <module>org.eclipse.epsilon.eol.engine.test.acceptance</module>
     <module>org.eclipse.epsilon.eol.engine.test.unit</module>
     <module>org.eclipse.epsilon.epl.engine.test.acceptance</module>
+    <module>org.eclipse.epsilon.erl.engine.test</module>
     <module>org.eclipse.epsilon.etl.engine.test.acceptance</module>
     <module>org.eclipse.epsilon.evl.engine.test.acceptance</module>
     <module>org.eclipse.epsilon.ewl.engine.test.acceptance</module>
@@ -66,6 +67,7 @@
     <module>org.eclipse.epsilon.hutn.xmi.test.dependencies</module>
     <module>org.eclipse.epsilon.hutn.xmi.test.integration</module>
     <module>org.eclipse.epsilon.hutn.xmi.test.unit</module>
+    <module>org.eclipse.epsilon.profiling.test</module>
     <module>org.eclipse.epsilon.test</module>
     <module>org.eclipse.epsilon.test.dependencies</module>
     <module>org.eclipse.epsilon.test.fixtures.hutn</module>

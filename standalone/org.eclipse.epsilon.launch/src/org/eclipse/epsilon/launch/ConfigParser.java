@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import org.apache.commons.cli.*;
 
-/*
+/**
  * Convenience class providing an extensible command-line builder for {@link ProfilableRunConfiguration}.
  * 
  * @author Sina Madani

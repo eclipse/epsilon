@@ -28,6 +28,29 @@ import org.eclipse.epsilon.launch.ConfigParser;
  */
 public class ErlConfigParser<M extends IErlModule, R extends ErlRunConfiguration<M>> extends ConfigParser implements Function<String[], R> {
 	
+	/**
+	 * Allows the caller to invoke any subclass of IErlModule.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static void main(String[] args) throws ClassNotFoundException {
+		
+		class InstantiableERC extends ErlRunConfiguration {
+			public InstantiableERC(Path erlFile, StringProperties properties, IModel model,
+					Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<IErlModule> erlModule,
+					Optional<Integer> configID, Optional<Path> scratchFile) {
+				super(erlFile, properties, model, showResults, profileExecution, erlModule, configID, scratchFile);
+				
+			}
+			protected IErlModule getDefaultModule() {
+				throw new IllegalStateException("Must provide -module argument!");
+			}
+		}
+		
+		if (args.length > 0) {
+			new ErlConfigParser(IErlModule.class, InstantiableERC.class).apply(args).run();
+		}
+	}
+	
 	// Variables to be parsed
 	public Optional<M> module;
 	public IModel model;
@@ -58,7 +81,7 @@ public class ErlConfigParser<M extends IErlModule, R extends ErlRunConfiguration
 		options.addOption(Option.builder(moduleOpt)
 			.hasArg()
 			.desc("Specify the module and arguments to the "+lang+"Module in key-value pairs. "
-				+ "Please note: the arguments type must be a fully qualified class and the class must have a String constructor"
+				+ "Please note: the arguments type must be a fully qualified class and the class must have a String constructor "
 				+ "which is used to parse the provided argument."
 			)
 			.optionalArg(false)

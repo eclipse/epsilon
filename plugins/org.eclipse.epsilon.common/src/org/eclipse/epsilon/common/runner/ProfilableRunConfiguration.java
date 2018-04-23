@@ -120,7 +120,7 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 		addProfileInfo("execute()", nanos, memory);
 	}
 	
-	/*
+	/**
 	 * @param stage The identifier of executed code (must be unique)
 	 * @param nanos The execution time in nanoseconds
 	 * @param memory The memory consumption in bytes
