@@ -62,26 +62,18 @@ public class Constraint extends NamedRule {
 	}
 	
 	public boolean shouldBeChecked(Object modelElement, IEvlContext context) throws EolRuntimeException {
-		return !isLazy(context) && appliesTo(modelElement, context, false);
+		return !isLazy(context) && appliesTo(modelElement, context);
 	}
 	
 	public boolean execute(Object modelElement, IEvlContext context) throws EolRuntimeException {
 		return shouldBeChecked(modelElement, context) && check(modelElement, context);
 	}
 
-	public boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException {
-		return appliesTo(object, context, false);
-	}
-
 	// FIXME : Currently examines only the local guard
-	public boolean appliesTo(Object object, IEvlContext context, final boolean checkType) throws EolRuntimeException {
-		if (checkType && !constraintContext.getAllOfSourceKind(context).contains(object))
-			return false;
-
-		if (guardBlock != null)
-			return guardBlock.execute(context, Variable.createReadOnlyVariable("self", object));
-		
-		return true;
+	public boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException {
+		return guardBlock != null ?
+			guardBlock.execute(context, Variable.createReadOnlyVariable("self", object)) :
+			true;
 	}
 
 	public boolean optimisedCheck(Object self, IEvlContext context, boolean result) throws EolRuntimeException {

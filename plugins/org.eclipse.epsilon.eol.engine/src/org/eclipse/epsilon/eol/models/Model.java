@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.compile.m3.Metamodel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -68,10 +69,12 @@ public abstract class Model implements IModel {
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		this.name = properties.getProperty(PROPERTY_NAME);
-		this.readOnLoad = Boolean.parseBoolean(properties.getProperty(PROPERTY_READONLOAD));
-		this.storeOnDisposal = Boolean.parseBoolean(properties.getProperty(PROPERTY_STOREONDISPOSAL));
+		this.readOnLoad = Boolean.parseBoolean(properties.getProperty(PROPERTY_READONLOAD, ""+readOnLoad));
+		this.storeOnDisposal = Boolean.parseBoolean(properties.getProperty(PROPERTY_STOREONDISPOSAL, ""+storeOnDisposal));
 		
-		for (String alias : properties.getProperty(PROPERTY_ALIASES).split(",")) {
+		String[] aliases = properties.getProperty(PROPERTY_ALIASES).split(",");
+		CollectionUtil.addCapacityIfArrayList(this.aliases, aliases.length);
+		for (String alias : aliases) {
 			this.aliases.add(alias.trim());
 		}
 	}

@@ -241,7 +241,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 		prepareContext(getContext());
 	}
 	
-	protected void prepareContext(IEolContext context) {
+	private void prepareContext(IEolContext context) {
 		boolean contextIsThis = context == getContext();
 		if (prepareContextCalled && contextIsThis) return;
 		

@@ -74,7 +74,7 @@ public class SatisfiesOperation extends SimpleOperation {
 			}
 			else {
 				// Don't call execute() or shouldBeChecked because it might be a lazy constraint, so need to force appliesTo && check.
-				if (constraint.appliesTo(source, context, false)) {
+				if (constraint.appliesTo(source, context)) {
 					valid = constraint.check(source, context);
 				}
 				else {
