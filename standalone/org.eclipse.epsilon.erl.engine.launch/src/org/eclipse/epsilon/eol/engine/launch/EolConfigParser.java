@@ -9,8 +9,8 @@ import static org.eclipse.epsilon.eol.models.Model.PROPERTY_STOREONDISPOSAL;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import org.apache.commons.cli.Option;
@@ -43,10 +43,10 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 	public static void main(String[] args) throws ClassNotFoundException {
 		
 		class InstantiableEOC extends EolRunConfiguration {
-			public InstantiableEOC(Path eolFile, StringProperties properties, Collection<IModel> models,
+			public InstantiableEOC(Path eolFile, Map<IModel, StringProperties> modelsAndProperties,
 					Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<IEolModule> erlModule,
 					Optional<Integer> configID, Optional<Path> scratchFile) {
-				super(eolFile, properties, models, showResults, profileExecution, erlModule, configID, scratchFile);
+				super(eolFile, modelsAndProperties, showResults, profileExecution, erlModule, configID, scratchFile);
 				
 			}
 			protected IEolModule getDefaultModule() {
@@ -83,8 +83,8 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 		lang = moduleName.substring(1, moduleName.indexOf("Module"));
 		
 		requiredUsage += "  [absolute path to model] "+nL
-					   + "  [absolute path to metamodel] "+nL;
-		optionalUsage += "  [module] [argtype=argvalue]s..."+nL;
+					   + "  [absolute path to metamodel] "+nL
+					   + "  -module [module] [argtype=argvalue]s..."+nL;
 		
 		options.addOption(Option.builder(moduleOpt)
 			.hasArg()
@@ -94,6 +94,7 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 			)
 			.optionalArg(false)
 			.hasArgs()
+			.required()
 			.valueSeparator()
 			.build()
 		);
@@ -186,8 +187,7 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 			try {
 				return subClazz.getConstructor(
 					Path.class,
-					StringProperties.class,
-					Collection.class,
+					Map.class,
 					Optional.class,
 					Optional.class,
 					Optional.class,
@@ -196,8 +196,7 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 				)
 				.newInstance(
 					script,
-					properties,
-					Collections.singleton(model),
+					Collections.singletonMap(model, properties),
 					showResults,
 					profileExecution,
 					module,

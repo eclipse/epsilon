@@ -1,7 +1,7 @@
 package org.eclipse.epsilon.evl.engine.launch;
 
 import java.nio.file.Path;
-import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.engine.launch.*;
@@ -14,8 +14,7 @@ public class EvlRunConfiguration extends EolRunConfiguration<IEvlModule> {
 	
 	public EvlRunConfiguration(
 		Path evlFile,
-		StringProperties properties,
-		Collection<IModel> models,
+		Map<IModel, StringProperties> modelsAndProperties,
 		Optional<Boolean> showResults,
 		Optional<Boolean> profileExecution,
 		Optional<IEvlModule> evlModule,
@@ -23,8 +22,7 @@ public class EvlRunConfiguration extends EolRunConfiguration<IEvlModule> {
 		Optional<Path> scratchFile) {
 			super(
 				evlFile,
-				properties,
-				models,
+				modelsAndProperties,
 				showResults,
 				profileExecution,
 				Optional.ofNullable(evlModule.orElse(null)),
@@ -36,8 +34,7 @@ public class EvlRunConfiguration extends EolRunConfiguration<IEvlModule> {
 	public EvlRunConfiguration(EvlRunConfiguration other) {
 		this(
 			other.script,
-			other.modelProperties,
-			other.models,
+			other.modelsAndProperties,
 			Optional.of(other.showResults),
 			Optional.of(other.profileExecution),
 			Optional.of(other.module),

@@ -128,7 +128,7 @@ public abstract class ErlEquivalenceTests<M extends IErlModule, C extends EolRun
 			System.err.println(
 				actualModule.getClass().getSimpleName()+
 				", "+testConfig.script.getFileName()+
-				", "+testConfig.models
+				", "+testConfig.modelsAndProperties
 			);
 			fail(message);
 		}

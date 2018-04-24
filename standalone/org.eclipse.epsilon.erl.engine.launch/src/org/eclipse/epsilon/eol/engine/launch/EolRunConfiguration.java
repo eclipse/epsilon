@@ -21,28 +21,24 @@ import org.eclipse.epsilon.launch.ProfilableRunConfiguration;
 public abstract class EolRunConfiguration<M extends IEolModule> extends ProfilableRunConfiguration<Object> {
 	
 	protected static final Set<IModel> LOADED_MODELS = new HashSet<>();
-	public final StringProperties modelProperties;
-	public final Collection<IModel> models;
+	public final Map<IModel, StringProperties> modelsAndProperties;
 	public final M module;
 	
 	public EolRunConfiguration(
-		Path erlFile,
-		StringProperties properties,
-		Collection<IModel> models,
+		Path eolFile,
+		Map<IModel, StringProperties> modelsAndProperties,
 		Optional<Boolean> showResults,
 		Optional<Boolean> profileExecution,
 		Optional<M> eolModule,
 		Optional<Integer> configID,
 		Optional<Path> scratchFile) {
-			super(erlFile, showResults, profileExecution, configID, scratchFile);
-			this.modelProperties = properties;
-			this.models = models;
+			super(eolFile, showResults, profileExecution, configID, scratchFile);
+			this.modelsAndProperties = modelsAndProperties;
 			this.module = eolModule.orElseGet(this::getDefaultModule);
 			this.id = configID.orElseGet(() ->
 				Objects.hash(
 					super.id,
-					Objects.toString(this.models),
-					Objects.toString(this.modelProperties),
+					Objects.toString(this.modelsAndProperties),
 					Objects.toString(this.module.getSourceUri())
 				)
 			);
@@ -51,8 +47,7 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 	public EolRunConfiguration(EolRunConfiguration<? extends M> other) {
 		this(
 			other.script,
-			other.modelProperties,
-			other.models,
+			other.modelsAndProperties,
 			Optional.of(other.showResults),
 			Optional.of(other.profileExecution),
 			Optional.of(other.module),
@@ -78,9 +73,11 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 			parseStartTime = nanoTime();
 		}
 		
-		if (module.parse(script.toFile()) && models != null && !models.isEmpty()) {
-			for (IModel model : models) {
+		if (module.parse(script.toFile()) && modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
+			for (Map.Entry<IModel, StringProperties> modelAndProp : modelsAndProperties.entrySet()) {
+				IModel model = modelAndProp.getKey();
 				if (!LOADED_MODELS.contains(model)) {
+					StringProperties modelProperties = modelAndProp.getValue();
 					if (modelProperties != null) {
 						model.load(modelProperties); 
 					}
@@ -118,22 +115,21 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 	public String toString() {
 		return super.toString()+
 		", module="+module+
-		"', models='"+Objects.toString(models)+"'";
+		"', models='"+Objects.toString(modelsAndProperties)+"'";
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), module, models);
+		return Objects.hash(super.hashCode(), module, modelsAndProperties);
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean equals(Object other) {
 		if (!super.equals(other)) return false;
 		
-		EolRunConfiguration eoc = (EolRunConfiguration) other;
+		EolRunConfiguration<?> eoc = (EolRunConfiguration<?>) other;
 		return
 			Objects.equals(this.module, eoc.module) &&
-			CollectionUtil.equalsIgnoreOrder(this.models, eoc.models);
+			CollectionUtil.equalsIgnoreOrder(this.modelsAndProperties.keySet(), eoc.modelsAndProperties.keySet());
 	}
 }

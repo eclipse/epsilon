@@ -122,8 +122,7 @@ public class EvlAcceptanceTestUtil {
 				scenarios.add(
 					new EvlRunConfiguration(
 						EvlTests.getTestScript(evlStd).toPath(),
-						null,
-						Collections.singleton(EvlTests.getTestModel(false)),
+						Collections.singletonMap(EvlTests.getTestModel(false), null),
 						Optional.of(false),
 						Optional.of(false),
 						Optional.of(evlStd),
