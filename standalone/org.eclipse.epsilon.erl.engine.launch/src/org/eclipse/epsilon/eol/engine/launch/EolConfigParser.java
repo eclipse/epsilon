@@ -34,8 +34,8 @@ import org.eclipse.epsilon.launch.ConfigParser;
  * 
  * @author Sina Madani
  */
-public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration<M>> extends ConfigParser implements Function<String[], R> {
-	
+public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration<M>> extends ConfigParser<R> implements Function<String[], R> {
+
 	/**
 	 * Allows the caller to invoke any subclass of IEolModule.
 	 */
@@ -63,7 +63,6 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 	public Optional<M> module;
 	public IModel model;
 	public StringProperties properties;
-	public R runConfig;
 	
 	protected final Class<R> configClass;
 	protected final Class<? extends M> moduleClass;
@@ -122,12 +121,6 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 			id,
 			outputFile
 		);
-	}
-
-	@Override
-	public final R apply(String[] args) {
-		accept(args);
-		return runConfig;
 	}
 	
 	public static IModel getIModelFromPath(String filepath) throws IllegalArgumentException {

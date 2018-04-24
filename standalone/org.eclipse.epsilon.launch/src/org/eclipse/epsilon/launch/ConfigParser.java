@@ -5,20 +5,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import org.apache.commons.cli.*;
 
-/*
+/**
  * Convenience class providing an extensible command-line builder for {@link ProfilableRunConfiguration}.
  * 
  * @author Sina Madani
  */
-public class ConfigParser implements Consumer<String[]> {
+public class ConfigParser<R extends ProfilableRunConfiguration<?>> implements Consumer<String[]>, Function<String[], R> {
 	
 	//The variables to be parsed
 	public Optional<Boolean> profileExecution, showResults;
 	public Path script;
 	public Optional<Path> outputFile;
 	public Optional<Integer> id = Optional.empty();
+	public R runConfig;
 	
 	protected String
 		nL = System.lineSeparator(),
@@ -77,5 +79,12 @@ public class ConfigParser implements Consumer<String[]> {
 		catch (Exception ex) {
 			handleException(ex);
 		}
+	}
+	
+
+	@Override
+	public final R apply(String[] args) {
+		accept(args);
+		return runConfig;
 	}
 }
