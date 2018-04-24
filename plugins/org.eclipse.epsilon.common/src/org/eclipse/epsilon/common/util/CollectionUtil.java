@@ -25,6 +25,12 @@ public class CollectionUtil {
 	
 	private CollectionUtil() {}
 	
+	public static boolean equalsIgnoreOrder(Collection<?> c1, Collection<?> c2) {
+		if (c1 == c2) return true;
+		if (c1 == null || c2 == null) return false;
+		return c1.size() == c2.size() && c1.containsAll(c2);
+	}
+	
 	@SafeVarargs
 	public static <T> ArrayList<T> composeArrayListFrom(Collection<T>... collections) {
 		int size = 0;

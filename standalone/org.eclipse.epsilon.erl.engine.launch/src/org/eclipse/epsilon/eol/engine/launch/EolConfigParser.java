@@ -9,6 +9,8 @@ import static org.eclipse.epsilon.eol.models.Model.PROPERTY_STOREONDISPOSAL;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Function;
 import org.apache.commons.cli.Option;
@@ -23,6 +25,12 @@ import org.eclipse.epsilon.launch.ConfigParser;
  * A default config getter which effectively allows main method inheritance.
  * Uses reflection to find appropriate constructors and module interface to pass to parseModule method.
  * Please note: The constructors of this class must be inherited in R!
+ * <br/>
+ * Currently only EMF models are fully supported.
+ * Note that this needn't be subclassed to use it,
+ * you can just add the required projects to the classpath
+ * and call it with appropriate arguments, but you must provide
+ * a module with the -module option.
  * 
  * @author Sina Madani
  */
@@ -34,11 +42,11 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static void main(String[] args) throws ClassNotFoundException {
 		
-		class InstantiableERC extends EolRunConfiguration {
-			public InstantiableERC(Path erlFile, StringProperties properties, IModel model,
+		class InstantiableEOC extends EolRunConfiguration {
+			public InstantiableEOC(Path eolFile, StringProperties properties, Collection<IModel> models,
 					Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<IEolModule> erlModule,
 					Optional<Integer> configID, Optional<Path> scratchFile) {
-				super(erlFile, properties, model, showResults, profileExecution, erlModule, configID, scratchFile);
+				super(eolFile, properties, models, showResults, profileExecution, erlModule, configID, scratchFile);
 				
 			}
 			protected IEolModule getDefaultModule() {
@@ -47,7 +55,7 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 		}
 		
 		if (args.length > 0) {
-			new EolConfigParser(IEolModule.class, InstantiableERC.class).apply(args).run();
+			new EolConfigParser(IEolModule.class, InstantiableEOC.class).apply(args).run();
 		}
 	}
 	
@@ -179,7 +187,7 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 				return subClazz.getConstructor(
 					Path.class,
 					StringProperties.class,
-					IModel.class,
+					Collection.class,
 					Optional.class,
 					Optional.class,
 					Optional.class,
@@ -189,7 +197,7 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 				.newInstance(
 					script,
 					properties,
-					model,
+					Collections.singleton(model),
 					showResults,
 					profileExecution,
 					module,

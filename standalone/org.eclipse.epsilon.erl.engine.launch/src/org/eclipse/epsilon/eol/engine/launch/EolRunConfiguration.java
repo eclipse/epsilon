@@ -3,6 +3,8 @@ package org.eclipse.epsilon.eol.engine.launch;
 import static java.lang.System.nanoTime;
 import java.nio.file.Path;
 import java.util.*;
+
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -12,12 +14,7 @@ import org.eclipse.epsilon.profiling.util.BenchmarkUtils;
 import org.eclipse.epsilon.launch.ProfilableRunConfiguration;
 
 /**
- * Convenience class for running ERL programs over models.
- * Currently only EMF models are fully supported.
- * Note that this needn't be subclassed to use it,
- * you can just add the required projects to the classpath
- * and call it with appropriate arguments, but you must provide
- * a module with the -module option.
+ * Convenience class for running EOL programs over models.
  * 
  * @author Sina Madani
  */
@@ -25,26 +22,26 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 	
 	protected static final Set<IModel> LOADED_MODELS = new HashSet<>();
 	public final StringProperties modelProperties;
-	public final IModel model;
+	public final Collection<IModel> models;
 	public final M module;
 	
 	public EolRunConfiguration(
 		Path erlFile,
 		StringProperties properties,
-		IModel model,
+		Collection<IModel> models,
 		Optional<Boolean> showResults,
 		Optional<Boolean> profileExecution,
-		Optional<M> erlModule,
+		Optional<M> eolModule,
 		Optional<Integer> configID,
 		Optional<Path> scratchFile) {
 			super(erlFile, showResults, profileExecution, configID, scratchFile);
 			this.modelProperties = properties;
-			this.model = model;
-			this.module = erlModule.orElseGet(this::getDefaultModule);
+			this.models = models;
+			this.module = eolModule.orElseGet(this::getDefaultModule);
 			this.id = configID.orElseGet(() ->
 				Objects.hash(
 					super.id,
-					Objects.toString(this.model),
+					Objects.toString(this.models),
 					Objects.toString(this.modelProperties),
 					Objects.toString(this.module.getSourceUri())
 				)
@@ -55,7 +52,7 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 		this(
 			other.script,
 			other.modelProperties,
-			other.model,
+			other.models,
 			Optional.of(other.showResults),
 			Optional.of(other.profileExecution),
 			Optional.of(other.module),
@@ -81,17 +78,19 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 			parseStartTime = nanoTime();
 		}
 		
-		if (module.parse(script.toFile()) && model != null) {
-			if (!LOADED_MODELS.contains(model)) {
-				if (modelProperties != null) {
-					model.load(modelProperties); 
+		if (module.parse(script.toFile()) && models != null && !models.isEmpty()) {
+			for (IModel model : models) {
+				if (!LOADED_MODELS.contains(model)) {
+					if (modelProperties != null) {
+						model.load(modelProperties); 
+					}
+					else {
+						model.load();
+					}
+					LOADED_MODELS.add(model);
 				}
-				else {
-					model.load();
-				}
-				LOADED_MODELS.add(model);
+				module.getContext().getModelRepository().addModel(model);
 			}
-			module.getContext().getModelRepository().addModel(model);
 		}
 		
 		if (profileExecution) {
@@ -119,12 +118,12 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 	public String toString() {
 		return super.toString()+
 		", module="+module+
-		"', model='"+Objects.toString(model.getName()+"'");
+		"', models='"+Objects.toString(models)+"'";
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), module, model);
+		return Objects.hash(super.hashCode(), module, models);
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -132,9 +131,9 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 	public boolean equals(Object other) {
 		if (!super.equals(other)) return false;
 		
-		EolRunConfiguration erc = (EolRunConfiguration) other;
+		EolRunConfiguration eoc = (EolRunConfiguration) other;
 		return
-			Objects.equals(this.module, erc.module) &&
-			Objects.equals(this.model, erc.model);
+			Objects.equals(this.module, eoc.module) &&
+			CollectionUtil.equalsIgnoreOrder(this.models, eoc.models);
 	}
 }
