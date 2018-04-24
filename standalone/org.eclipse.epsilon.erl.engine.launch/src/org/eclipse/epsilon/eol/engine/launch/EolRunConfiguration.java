@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.erl.engine.launch;
+package org.eclipse.epsilon.eol.engine.launch;
 
 import static java.lang.System.nanoTime;
 import java.nio.file.Path;
@@ -6,8 +6,8 @@ import java.util.*;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.erl.IErlModule;
-import org.eclipse.epsilon.erl.engine.profiling.ProfilableIErlModule;
+import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.erl.engine.profiling.ProfilableIEolModule;
 import org.eclipse.epsilon.profiling.util.BenchmarkUtils;
 import org.eclipse.epsilon.launch.ProfilableRunConfiguration;
 
@@ -21,37 +21,14 @@ import org.eclipse.epsilon.launch.ProfilableRunConfiguration;
  * 
  * @author Sina Madani
  */
-public abstract class ErlRunConfiguration<M extends IErlModule> extends ProfilableRunConfiguration<Object> {
-
-	/**
-	 * Allows the caller to invoke any subclass of IErlModule.
-	 */
-	@SuppressWarnings({"unchecked", "rawtypes"})
-	public static void main(String[] args) throws ClassNotFoundException {
-		
-		class InstantiableERC extends ErlRunConfiguration {
-			public InstantiableERC(Path erlFile, StringProperties properties, IModel model,
-					Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<IErlModule> erlModule,
-					Optional<Integer> configID, Optional<Path> scratchFile) {
-				super(erlFile, properties, model, showResults, profileExecution, erlModule, configID, scratchFile);
-				
-			}
-			protected IErlModule getDefaultModule() {
-				throw new IllegalStateException("Must provide -module argument!");
-			}
-		}
-		
-		if (args.length > 0) {
-			new ErlConfigParser(IErlModule.class, InstantiableERC.class).apply(args).run();
-		}
-	}
+public abstract class EolRunConfiguration<M extends IEolModule> extends ProfilableRunConfiguration<Object> {
 	
 	protected static final Set<IModel> LOADED_MODELS = new HashSet<>();
 	public final StringProperties modelProperties;
 	public final IModel model;
 	public final M module;
 	
-	public ErlRunConfiguration(
+	public EolRunConfiguration(
 		Path erlFile,
 		StringProperties properties,
 		IModel model,
@@ -74,7 +51,7 @@ public abstract class ErlRunConfiguration<M extends IErlModule> extends Profilab
 			);
 	}
 
-	public ErlRunConfiguration(ErlRunConfiguration<? extends M> other) {
+	public EolRunConfiguration(EolRunConfiguration<? extends M> other) {
 		this(
 			other.script,
 			other.modelProperties,
@@ -89,7 +66,7 @@ public abstract class ErlRunConfiguration<M extends IErlModule> extends Profilab
 	}
 	
 	/**
-	 * @return a concrete (i.e. non-abstract) implementation of IErlModule.
+	 * @return a concrete (i.e. non-abstract) implementation of IEolModule.
 	 */
 	protected abstract M getDefaultModule();
 	
@@ -127,8 +104,8 @@ public abstract class ErlRunConfiguration<M extends IErlModule> extends Profilab
 	@Override
 	public Object execute() throws EolRuntimeException {
 		Object execResult;
-		if (profileExecution && module instanceof ProfilableIErlModule) {
-			ProfilableIErlModule profMod = (ProfilableIErlModule) module;
+		if (profileExecution && module instanceof ProfilableIEolModule) {
+			ProfilableIEolModule profMod = (ProfilableIEolModule) module;
 			execResult = profMod.profileExecution();
 			profiledStages.addAll(profMod.getProfiledStages());
 		}
@@ -155,7 +132,7 @@ public abstract class ErlRunConfiguration<M extends IErlModule> extends Profilab
 	public boolean equals(Object other) {
 		if (!super.equals(other)) return false;
 		
-		ErlRunConfiguration erc = (ErlRunConfiguration) other;
+		EolRunConfiguration erc = (EolRunConfiguration) other;
 		return
 			Objects.equals(this.module, erc.module) &&
 			Objects.equals(this.model, erc.model);

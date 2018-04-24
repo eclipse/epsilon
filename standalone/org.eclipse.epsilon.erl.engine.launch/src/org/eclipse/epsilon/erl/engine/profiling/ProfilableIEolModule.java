@@ -2,12 +2,12 @@ package org.eclipse.epsilon.erl.engine.profiling;
 
 import java.util.Collection;
 import java.util.function.Consumer;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.*;
-import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.profiling.util.*;
 
-public interface ProfilableIErlModule extends IErlModule {
+public interface ProfilableIEolModule extends IEolModule {
 	
 	Collection<ProfileDiagnostic> getProfiledStages();
 	

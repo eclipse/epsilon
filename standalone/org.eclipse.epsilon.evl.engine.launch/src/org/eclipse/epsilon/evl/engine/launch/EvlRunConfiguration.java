@@ -3,16 +3,16 @@ package org.eclipse.epsilon.evl.engine.launch;
 import java.nio.file.Path;
 import java.util.Optional;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.eol.engine.launch.*;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.erl.engine.launch.*;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
-public class EvlRunConfiguration extends ErlRunConfiguration<IEvlModule> {
+public class EvlRunConfiguration extends EolRunConfiguration<IEvlModule> {
 	
 	public static void main(String[] args) {
-		new ErlConfigParser<>(IEvlModule.class, EvlRunConfiguration.class).apply(args).run();
+		new EolConfigParser<>(IEvlModule.class, EvlRunConfiguration.class).apply(args).run();
 	}
 	
 	public EvlRunConfiguration(

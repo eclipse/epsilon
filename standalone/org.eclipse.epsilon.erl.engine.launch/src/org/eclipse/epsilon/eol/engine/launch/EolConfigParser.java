@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.erl.engine.launch;
+package org.eclipse.epsilon.eol.engine.launch;
 
 import static org.eclipse.epsilon.emc.emf.EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI;
 import static org.eclipse.epsilon.emc.emf.EmfModel.PROPERTY_MODEL_URI;
@@ -16,7 +16,7 @@ import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.erl.IErlModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.launch.ConfigParser;
 
 /**
@@ -26,7 +26,30 @@ import org.eclipse.epsilon.launch.ConfigParser;
  * 
  * @author Sina Madani
  */
-public class ErlConfigParser<M extends IErlModule, R extends ErlRunConfiguration<M>> extends ConfigParser implements Function<String[], R> {
+public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration<M>> extends ConfigParser implements Function<String[], R> {
+	
+	/**
+	 * Allows the caller to invoke any subclass of IEolModule.
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static void main(String[] args) throws ClassNotFoundException {
+		
+		class InstantiableERC extends EolRunConfiguration {
+			public InstantiableERC(Path erlFile, StringProperties properties, IModel model,
+					Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<IEolModule> erlModule,
+					Optional<Integer> configID, Optional<Path> scratchFile) {
+				super(erlFile, properties, model, showResults, profileExecution, erlModule, configID, scratchFile);
+				
+			}
+			protected IEolModule getDefaultModule() {
+				throw new IllegalStateException("Must provide -module argument!");
+			}
+		}
+		
+		if (args.length > 0) {
+			new EolConfigParser(IEolModule.class, InstantiableERC.class).apply(args).run();
+		}
+	}
 	
 	// Variables to be parsed
 	public Optional<M> module;
@@ -41,9 +64,9 @@ public class ErlConfigParser<M extends IErlModule, R extends ErlRunConfiguration
 	/**
 	 * @param args command-line arguments.
 	 * @param configClass the subclass of ErlRunConfiguration.
-	 * @param moduleClass the interface of the appropriate module (must be a subclass of IErlModule).
+	 * @param moduleClass the interface of the appropriate module (must be a subclass of IEolModule).
 	 */
-	public ErlConfigParser(Class<? extends M> moduleClass, Class<R> configurationClass) {
+	public EolConfigParser(Class<? extends M> moduleClass, Class<R> configurationClass) {
 		super();
 		this.moduleClass = moduleClass;
 		this.configClass = configurationClass;
@@ -141,7 +164,7 @@ public class ErlConfigParser<M extends IErlModule, R extends ErlRunConfiguration
 		return properties;
 	}
 	
-	public static <M extends IErlModule, R extends ErlRunConfiguration<M>> R instantiate(
+	public static <M extends IEolModule, R extends EolRunConfiguration<M>> R instantiate(
 			Class<R> subClazz,
 			Path script,
 			StringProperties properties,
@@ -181,7 +204,7 @@ public class ErlConfigParser<M extends IErlModule, R extends ErlRunConfiguration
 	
 	/**
 	 * Attempts to parse a module from command-line arguments, based on assumptions on Epsilon's conventional naming schemes and package structure.
-	 * The names are based on the class name of the return type; so for example for IErlModule, it will use "ERL" as the language and look
+	 * The names are based on the class name of the return type; so for example for IEolModule, it will use "ERL" as the language and look
 	 * for the appropriate modules and contexts based on this name.
 	 * 
 	 * @param args the name of the module (following org.eclipse.epsilon.) followed by an even-arity array with arguments to provide to the context constructor,
@@ -190,7 +213,7 @@ public class ErlConfigParser<M extends IErlModule, R extends ErlRunConfiguration
 	 * @param profile - whether to look for a profilable module implementation in a subpackage "profiling.Profilable"+[moduleName].
 	 */
 	@SuppressWarnings("unchecked")
-	protected static <R extends IErlModule> R parseModule(String[] args) throws IllegalArgumentException {
+	protected static <R extends IEolModule> R parseModule(String[] args) throws IllegalArgumentException {
 		String basePkg = "org.eclipse.epsilon.";
 		try {
 			if (args.length == 0)

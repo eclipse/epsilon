@@ -8,8 +8,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.eol.engine.launch.*;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.erl.engine.launch.*;
 import org.eclipse.epsilon.erl.IErlModule;
 
 public class ErlAcceptanceTestUtil {
@@ -46,7 +46,7 @@ public class ErlAcceptanceTestUtil {
 	 * A list of pre-configured Runnables which will call the execute() method on the provided module.
 	 * @param modules A collection of IErlModules to use in combination with each set of test data.
 	 */
-	public static <M extends IErlModule, C extends ErlRunConfiguration<M>> Collection<C> getScenarios(
+	public static <M extends IErlModule, C extends EolRunConfiguration<M>> Collection<C> getScenarios(
 		Class<C> clazz,
 		List<String[]> testInputs,
 		Collection<Supplier<? extends M>> moduleGetters,
@@ -59,15 +59,15 @@ public class ErlAcceptanceTestUtil {
 			for (String[] testInput : testInputs) {
 				Path erlScript = Paths.get(testInput[0]);
 				
-				StringProperties testProperties = ErlConfigParser.makeProperties(
+				StringProperties testProperties = EolConfigParser.makeProperties(
 					testInput[1],				// Model path
 					testInput[2]				// Metamodel path
 				);
 				
-				IModel model = ErlConfigParser.getIModelFromPath(testInput[2]);
+				IModel model = EolConfigParser.getIModelFromPath(testInput[2]);
 				
 				for (Supplier<? extends M> moduleGetter : moduleGetters) {
-					scenarios.add(ErlConfigParser.instantiate(
+					scenarios.add(EolConfigParser.instantiate(
 							clazz,										// The ErlRunConfiguration subclass
 							erlScript,									// Path to the script to run
 							testProperties,								// Model and metamodel paths
