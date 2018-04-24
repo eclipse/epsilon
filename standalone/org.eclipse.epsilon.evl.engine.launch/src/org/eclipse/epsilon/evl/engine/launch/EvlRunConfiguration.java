@@ -15,19 +15,19 @@ public class EvlRunConfiguration extends EolRunConfiguration<IEvlModule> {
 	public EvlRunConfiguration(
 		Path evlFile,
 		Map<IModel, StringProperties> modelsAndProperties,
+		Optional<IEvlModule> evlModule,
 		Optional<Map<String, Object>> parameters,
 		Optional<Boolean> showResults,
 		Optional<Boolean> profileExecution,
-		Optional<IEvlModule> evlModule,
 		Optional<Integer> configID,
 		Optional<Path> scratchFile) {
 			super(
 				evlFile,
 				modelsAndProperties,
+				evlModule,
 				parameters,
 				showResults,
 				profileExecution,
-				Optional.ofNullable(evlModule.orElse(null)),
 				configID, scratchFile
 			);
 	}
@@ -36,10 +36,10 @@ public class EvlRunConfiguration extends EolRunConfiguration<IEvlModule> {
 		this(
 			other.script,
 			other.modelsAndProperties,
+			Optional.of(other.module),
 			Optional.of(other.parameters),
 			Optional.of(other.showResults),
 			Optional.of(other.profileExecution),
-			Optional.of(other.module),
 			Optional.of(other.id),
 			Optional.of(other.outputFile)
 		);

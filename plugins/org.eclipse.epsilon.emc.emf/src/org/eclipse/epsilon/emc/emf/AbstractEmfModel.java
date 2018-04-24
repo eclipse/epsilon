@@ -180,7 +180,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		
 		return StreamSupport.stream(
 				allContents.spliterator(),
-				allContents.size() > 131_071	//TODO: find optimal parallel threshold
+				allContents.size() > (2 << 17)	//TODO: find optimal parallel threshold
 			)
 			.filter(criteria)
 			.collect(Collectors.toList());

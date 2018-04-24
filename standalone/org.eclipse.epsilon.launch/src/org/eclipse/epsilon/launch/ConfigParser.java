@@ -24,11 +24,10 @@ public class ConfigParser<R extends ProfilableRunConfiguration<?>> implements Co
 	
 	protected String
 		nL = System.lineSeparator(),
-		lang = "script",
 		profileExecutionOpt = "profile",
 		showResultsOpt = "results",
 		outFileOpt = "outfile",
-		requiredUsage = "  [absolute path to "+lang+" file] "+nL,
+		requiredUsage = "  [absolute path to script] "+nL,
 		optionalUsage = "  [show results] "+nL
 		  + "  [profile execution] "+nL
 		  + "  [output file] "+nL;

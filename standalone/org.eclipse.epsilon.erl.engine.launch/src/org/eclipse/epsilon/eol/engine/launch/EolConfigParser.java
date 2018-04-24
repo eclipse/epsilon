@@ -12,12 +12,12 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import org.apache.commons.cli.Option;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.launch.ConfigParser;
 
@@ -34,28 +34,25 @@ import org.eclipse.epsilon.launch.ConfigParser;
  * 
  * @author Sina Madani
  */
-public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration<M>> extends ConfigParser<R> implements Function<String[], R> {
+public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration<M>> extends ConfigParser<R> {
 
 	/**
 	 * Allows the caller to invoke any subclass of IEolModule.
 	 */
-	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static void main(String[] args) throws ClassNotFoundException {
 		
-		class InstantiableEOC extends EolRunConfiguration {
-			public InstantiableEOC(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, Optional<Map<String, Object>> parameters,
-					Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<IEolModule> erlModule,
-					Optional<Integer> configID, Optional<Path> scratchFile) {
-				super(eolFile, modelsAndProperties, parameters, showResults, profileExecution, erlModule, configID, scratchFile);
-				
+		class InstantiableEOC extends EolRunConfiguration<EolModule> {
+			public InstantiableEOC(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, Optional<EolModule> eolModule, Optional<Map<String, Object>> parameters, Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<Integer> configID, Optional<Path> scratchFile) {
+				super(eolFile, modelsAndProperties, eolModule, parameters, showResults, profileExecution, configID, scratchFile);
 			}
-			protected IEolModule getDefaultModule() {
-				throw new IllegalStateException("Must provide -module argument!");
+			@Override
+			protected EolModule getDefaultModule() {
+				return new EolModule();
 			}
 		}
 		
 		if (args.length > 0) {
-			new EolConfigParser(IEolModule.class, InstantiableEOC.class).apply(args).run();
+			new EolConfigParser<>(InstantiableEOC.class).apply(args).run();
 		}
 	}
 	
@@ -65,21 +62,16 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 	public StringProperties properties;
 	
 	protected final Class<R> configClass;
-	protected final Class<? extends M> moduleClass;
-	protected String moduleName, lang, moduleOpt = "module";
+	private final String moduleOpt = "module";
 	
 	/**
 	 * @param args command-line arguments.
 	 * @param configClass the subclass of ErlRunConfiguration.
 	 * @param moduleClass the interface of the appropriate module (must be a subclass of IEolModule).
 	 */
-	public EolConfigParser(Class<? extends M> moduleClass, Class<R> configurationClass) {
+	public EolConfigParser(Class<R> configurationClass) {
 		super();
-		this.moduleClass = moduleClass;
 		this.configClass = configurationClass;
-		
-		moduleName = moduleClass.getSimpleName();
-		lang = moduleName.substring(1, moduleName.indexOf("Module"));
 		
 		requiredUsage += "  [absolute path to model] "+nL
 					   + "  [absolute path to metamodel] "+nL
@@ -87,7 +79,7 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 		
 		options.addOption(Option.builder(moduleOpt)
 			.hasArg()
-			.desc("Specify the module and arguments to the "+lang+"Module in key-value pairs. "
+			.desc("Specify the module and arguments to the module in key-value pairs. "
 				+ "Please note: the arguments type must be a fully qualified class and the class must have a String constructor"
 				+ "which is used to parse the provided argument."
 			)
@@ -113,11 +105,11 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 		runConfig = instantiate(
 			configClass,
 			script,
+			module,
 			properties,
 			model,
 			showResults,
 			profileExecution,
-			module,
 			id,
 			outputFile
 		);
@@ -169,11 +161,11 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 	public static <M extends IEolModule, R extends EolRunConfiguration<M>> R instantiate(
 			Class<R> subClazz,
 			Path script,
+			Optional<M> module,
 			StringProperties properties,
 			IModel model,
 			Optional<Boolean> showResults,
 			Optional<Boolean> profileExecution,
-			Optional<M> module,
 			Optional<Integer> id,
 			Optional<Path> outputFile
 		) {
@@ -191,15 +183,16 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 				.newInstance(
 					script,
 					Collections.singletonMap(model, properties),
+					module,
 					Optional.empty(),
 					showResults,
 					profileExecution,
-					module,
 					id,
 					outputFile
 				);
 			}
 			catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException ex) {
+				ex.printStackTrace();
 				throw new IllegalArgumentException("Can't instantiate '"+subClazz.getName()+"': "+ex.getMessage());
 			}
 	}

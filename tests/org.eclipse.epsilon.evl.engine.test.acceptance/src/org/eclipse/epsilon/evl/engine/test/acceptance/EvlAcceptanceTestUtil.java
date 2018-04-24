@@ -123,10 +123,10 @@ public class EvlAcceptanceTestUtil {
 					new EvlRunConfiguration(
 						EvlTests.getTestScript(evlStd).toPath(),
 						Collections.singletonMap(EvlTests.getTestModel(false), null),
+						Optional.of(evlStd),
 						Optional.empty(),
 						Optional.of(false),
 						Optional.of(false),
-						Optional.of(evlStd),
 						Optional.of(testInputs.size()+1),
 						Optional.empty()
 					)

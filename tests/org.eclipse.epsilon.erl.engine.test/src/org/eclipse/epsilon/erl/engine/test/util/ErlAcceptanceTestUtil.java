@@ -70,11 +70,11 @@ public class ErlAcceptanceTestUtil {
 					scenarios.add(EolConfigParser.instantiate(
 							clazz,										// The ErlRunConfiguration subclass
 							erlScript,									// Path to the script to run
+							Optional.of(moduleGetter.get()),			// IErlModule
 							testProperties,								// Model and metamodel paths
 							model,										// Model object to use
 							showResults,								// Whether to show results
 							profileExecution,							// Whether to measure execution time
-							Optional.of(moduleGetter.get()),			// IErlModule
 							Optional.of(idCalculator.apply(testInput)),	// Unique identifier for this configuration
 							Optional.empty()							// Output file
 						)

@@ -27,11 +27,12 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 	public EolRunConfiguration(
 		Path eolFile,
 		Map<IModel, StringProperties> modelsAndProperties,
+		Optional<M> eolModule,
 		Optional<Map<String, Object>> parameters,
 		Optional<Boolean> showResults,
 		Optional<Boolean> profileExecution,
-		Optional<M> eolModule,
-		Optional<Integer> configID, Optional<Path> scratchFile) {
+		Optional<Integer> configID,
+		Optional<Path> scratchFile) {
 			super(eolFile, showResults, profileExecution, configID, scratchFile);
 			this.parameters = parameters.orElse(Collections.emptyMap());
 			this.modelsAndProperties = modelsAndProperties;
@@ -49,10 +50,10 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 		this(
 			other.script,
 			other.modelsAndProperties,
+			Optional.of(other.module),
 			Optional.of(other.parameters),
 			Optional.of(other.showResults),
 			Optional.of(other.profileExecution),
-			Optional.of(other.module),
 			Optional.of(other.id), Optional.of(other.outputFile)
 		);
 		this.result = other.result;
