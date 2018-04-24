@@ -3,7 +3,6 @@ package org.eclipse.epsilon.eol.engine.launch;
 import static java.lang.System.nanoTime;
 import java.nio.file.Path;
 import java.util.*;
-
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -23,16 +22,18 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 	protected static final Set<IModel> LOADED_MODELS = new HashSet<>();
 	public final Map<IModel, StringProperties> modelsAndProperties;
 	public final M module;
+	public final Map<String, Object> parameters;
 	
 	public EolRunConfiguration(
 		Path eolFile,
 		Map<IModel, StringProperties> modelsAndProperties,
+		Optional<Map<String, Object>> parameters,
 		Optional<Boolean> showResults,
 		Optional<Boolean> profileExecution,
 		Optional<M> eolModule,
-		Optional<Integer> configID,
-		Optional<Path> scratchFile) {
+		Optional<Integer> configID, Optional<Path> scratchFile) {
 			super(eolFile, showResults, profileExecution, configID, scratchFile);
+			this.parameters = parameters.orElse(Collections.emptyMap());
 			this.modelsAndProperties = modelsAndProperties;
 			this.module = eolModule.orElseGet(this::getDefaultModule);
 			this.id = configID.orElseGet(() ->
@@ -48,11 +49,11 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 		this(
 			other.script,
 			other.modelsAndProperties,
+			Optional.of(other.parameters),
 			Optional.of(other.showResults),
 			Optional.of(other.profileExecution),
 			Optional.of(other.module),
-			Optional.of(other.id),
-			Optional.of(other.outputFile)
+			Optional.of(other.id), Optional.of(other.outputFile)
 		);
 		this.result = other.result;
 	}
@@ -94,6 +95,10 @@ public abstract class EolRunConfiguration<M extends IEolModule> extends Profilab
 			long parseEndTime = nanoTime();
 			long endMemory = BenchmarkUtils.getTotalMemoryUsage();
 			addProfileInfo("Parsing model", parseEndTime-parseStartTime, endMemory-startMemory);
+		}
+		
+		if (!parameters.isEmpty()) {
+			module.getContext().getFrameStack().put(parameters);
 		}
 	}
 	

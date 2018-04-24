@@ -43,10 +43,10 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 	public static void main(String[] args) throws ClassNotFoundException {
 		
 		class InstantiableEOC extends EolRunConfiguration {
-			public InstantiableEOC(Path eolFile, Map<IModel, StringProperties> modelsAndProperties,
+			public InstantiableEOC(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, Optional<Map<String, Object>> parameters,
 					Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<IEolModule> erlModule,
 					Optional<Integer> configID, Optional<Path> scratchFile) {
-				super(eolFile, modelsAndProperties, showResults, profileExecution, erlModule, configID, scratchFile);
+				super(eolFile, modelsAndProperties, parameters, showResults, profileExecution, erlModule, configID, scratchFile);
 				
 			}
 			protected IEolModule getDefaultModule() {
@@ -192,11 +192,13 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 					Optional.class,
 					Optional.class,
 					Optional.class,
+					Optional.class,
 					Optional.class
 				)
 				.newInstance(
 					script,
 					Collections.singletonMap(model, properties),
+					Optional.empty(),
 					showResults,
 					profileExecution,
 					module,

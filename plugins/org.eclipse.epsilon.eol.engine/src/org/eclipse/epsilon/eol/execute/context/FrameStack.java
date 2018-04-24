@@ -272,6 +272,19 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 		leaveLocal(entryPoint, true);
 	}
 
+	/**
+	 * Converts the map into Variables and puts them in the
+	 * topmost frame of the scope.
+	 * @param variables The effective collection of variables.
+	 */
+	public void put(Map<String, ?> variables) {
+		FrameStackRegion activeRegion = activeGroup();
+		variables.entrySet()
+			.stream()
+			.map(Variable::createReadOnlyVariable)
+			.forEach(activeRegion::put);
+	}
+	
 	public void put(Collection<Variable> variables) {
 		activeGroup().put(variables.toArray(new Variable[variables.size()]));
 	}
