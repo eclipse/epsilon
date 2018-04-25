@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EVL CLI
+Bundle-SymbolicName: org.eclipse.epsilon.evl.cli
+Bundle-Version: 1.5.0.qualifier
+Bundle-Vendor: Eclipse Modeling Project
+Automatic-Module-Name: org.eclipse.epsilon.evl.cli
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.epsilon.eol.cli,
+ org.eclipse.epsilon.evl.engine

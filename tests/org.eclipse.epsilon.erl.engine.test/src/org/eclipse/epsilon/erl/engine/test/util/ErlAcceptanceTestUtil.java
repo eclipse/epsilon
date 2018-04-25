@@ -8,7 +8,9 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.eol.engine.launch.*;
+import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.eol.cli.EolConfigParser;
+import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModule;
 
@@ -64,11 +66,11 @@ public class ErlAcceptanceTestUtil {
 					testInput[2]				// Metamodel path
 				);
 				
-				IModel model = EolConfigParser.getIModelFromPath(testInput[2]);
+				IModel model = new EmfModel();
 				
 				for (Supplier<? extends M> moduleGetter : moduleGetters) {
 					scenarios.add(EolConfigParser.instantiate(
-							clazz,										// The ErlRunConfiguration subclass
+							clazz,
 							erlScript,									// Path to the script to run
 							Optional.of(moduleGetter.get()),			// IErlModule
 							testProperties,								// Model and metamodel paths

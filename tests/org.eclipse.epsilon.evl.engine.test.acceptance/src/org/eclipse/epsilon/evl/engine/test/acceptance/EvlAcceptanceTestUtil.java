@@ -23,7 +23,7 @@ import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.erl.engine.test.util.ErlAcceptanceTestUtil;
 import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.concurrent.*;
-import org.eclipse.epsilon.evl.engine.launch.EvlRunConfiguration;
+import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 
 public class EvlAcceptanceTestUtil {
 	private EvlAcceptanceTestUtil() {}

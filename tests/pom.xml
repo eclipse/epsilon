@@ -67,7 +67,6 @@
     <module>org.eclipse.epsilon.hutn.xmi.test.dependencies</module>
     <module>org.eclipse.epsilon.hutn.xmi.test.integration</module>
     <module>org.eclipse.epsilon.hutn.xmi.test.unit</module>
-    <module>org.eclipse.epsilon.profiling.test</module>
     <module>org.eclipse.epsilon.test</module>
     <module>org.eclipse.epsilon.test.dependencies</module>
     <module>org.eclipse.epsilon.test.fixtures.hutn</module>

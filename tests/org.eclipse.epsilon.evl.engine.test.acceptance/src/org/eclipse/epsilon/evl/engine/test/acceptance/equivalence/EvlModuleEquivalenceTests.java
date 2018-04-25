@@ -5,8 +5,7 @@ import static org.eclipse.epsilon.evl.engine.test.acceptance.EvlAcceptanceTestUt
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import org.eclipse.epsilon.eol.engine.launch.EolRunConfiguration;
+import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.eclipse.epsilon.erl.engine.test.util.ErlEquivalenceTests;
 import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.trace.ConstraintTraceItem;
