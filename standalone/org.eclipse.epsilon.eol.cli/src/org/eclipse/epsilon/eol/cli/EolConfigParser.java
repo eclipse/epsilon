@@ -70,8 +70,8 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 		this.configClass = configurationClass;
 		
 		requiredUsage += "  [absolute path to model] "+nL
-					   + "  [absolute path to metamodel] "+nL
-					   + "  -module [module] [argtype=argvalue]s..."+nL;
+					   + "  [absolute path to metamodel] "+nL;
+		optionalUsage += "  -module [module] [argtype=argvalue]s..."+nL;
 		
 		options.addOption(Option.builder(moduleOpt)
 			.hasArg()
@@ -81,7 +81,6 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 			)
 			.optionalArg(false)
 			.hasArgs()
-			.required()
 			.valueSeparator()
 			.build()
 		);

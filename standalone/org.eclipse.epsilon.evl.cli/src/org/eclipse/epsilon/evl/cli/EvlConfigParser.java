@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.evl.engine.launch;
+package org.eclipse.epsilon.evl.cli;
 
 import org.eclipse.epsilon.eol.cli.EolConfigParser;
 import org.eclipse.epsilon.evl.IEvlModule;
