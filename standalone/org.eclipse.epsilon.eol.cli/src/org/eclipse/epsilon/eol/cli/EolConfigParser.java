@@ -15,7 +15,7 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
+import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 
 /**
  * A default config getter which effectively allows main method inheritance.
@@ -30,14 +30,14 @@ import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
  * 
  * @author Sina Madani
  */
-public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration<M>> extends ConfigParser<R> {
+public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguration<M>> extends ConfigParser<R> {
 
 	/**
 	 * Allows the caller to invoke any subclass of IEolModule.
 	 */
 	public static void main(String[] args) throws ClassNotFoundException {
 		
-		class InstantiableEOC extends EolRunConfiguration<EolModule> {
+		class InstantiableEOC extends IEolRunConfiguration<EolModule> {
 			public InstantiableEOC(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, Optional<EolModule> eolModule, Optional<Map<String, Object>> parameters, Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<Integer> configID, Optional<Path> scratchFile) {
 				super(eolFile, modelsAndProperties, eolModule, parameters, showResults, profileExecution, configID, scratchFile);
 			}
@@ -154,7 +154,7 @@ public class EolConfigParser<M extends IEolModule, R extends EolRunConfiguration
 		return properties;
 	}
 	
-	public static <M extends IEolModule, R extends EolRunConfiguration<M>> R instantiate(
+	public static <M extends IEolModule, R extends IEolRunConfiguration<M>> R instantiate(
 			Class<R> subClazz,
 			Path script,
 			Optional<M> module,

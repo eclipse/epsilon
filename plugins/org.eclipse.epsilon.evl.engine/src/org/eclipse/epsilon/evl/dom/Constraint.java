@@ -71,9 +71,10 @@ public class Constraint extends NamedRule {
 
 	// FIXME : Currently examines only the local guard
 	public boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException {
-		return guardBlock != null ?
-			guardBlock.execute(context, Variable.createReadOnlyVariable("self", object)) :
-			true;
+		if (guardBlock != null)
+			return guardBlock.execute(context, Variable.createReadOnlyVariable("self", object));
+		
+		return true;
 	}
 
 	public boolean optimisedCheck(Object self, IEvlContext context, boolean result) throws EolRuntimeException {

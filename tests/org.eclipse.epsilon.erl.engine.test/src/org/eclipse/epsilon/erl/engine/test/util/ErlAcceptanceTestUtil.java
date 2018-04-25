@@ -1,5 +1,7 @@
 package org.eclipse.epsilon.erl.engine.test.util;
 
+import static org.eclipse.epsilon.emc.emf.EmfModel.*;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -7,10 +9,10 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
-import org.eclipse.epsilon.eol.cli.EolConfigParser;
-import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
+import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModule;
 
@@ -48,11 +50,12 @@ public class ErlAcceptanceTestUtil {
 	 * A list of pre-configured Runnables which will call the execute() method on the provided module.
 	 * @param modules A collection of IErlModules to use in combination with each set of test data.
 	 */
-	public static <M extends IErlModule, C extends EolRunConfiguration<M>> Collection<C> getScenarios(
+	public static <M extends IErlModule, C extends IEolRunConfiguration<M>> Collection<C> getScenarios(
 		Class<C> clazz,
 		List<String[]> testInputs,
 		Collection<Supplier<? extends M>> moduleGetters,
 		Function<String[], Integer> idCalculator) {
+		try {
 			if (idCalculator == null) idCalculator = ErlAcceptanceTestUtil::getScenarioID;
 			
 			List<C> scenarios = new ArrayList<>(moduleGetters.size()*(testInputs.size()+2));
@@ -61,30 +64,49 @@ public class ErlAcceptanceTestUtil {
 			for (String[] testInput : testInputs) {
 				Path erlScript = Paths.get(testInput[0]);
 				
-				StringProperties testProperties = EolConfigParser.makeProperties(
-					testInput[1],				// Model path
-					testInput[2]				// Metamodel path
-				);
+				Path modelFile = Paths.get(testInput[1]);
+				Path metamodelFile = Paths.get(testInput[2]);
+				StringProperties properties = new StringProperties();
+				properties.put(PROPERTY_READONLOAD, true);
+				properties.put(PROPERTY_CACHED, true);
+				properties.put(PROPERTY_STOREONDISPOSAL, true);
+				properties.put(PROPERTY_NAME, FileUtil.removeExtension(modelFile.getFileName().toString()));
+				properties.put(PROPERTY_MODEL_URI, modelFile.toUri().toString());
+				properties.put(PROPERTY_FILE_BASED_METAMODEL_URI, metamodelFile.toUri().toString());
 				
 				IModel model = new EmfModel();
 				
 				for (Supplier<? extends M> moduleGetter : moduleGetters) {
-					scenarios.add(EolConfigParser.instantiate(
-							clazz,
-							erlScript,									// Path to the script to run
-							Optional.of(moduleGetter.get()),			// IErlModule
-							testProperties,								// Model and metamodel paths
-							model,										// Model object to use
-							showResults,								// Whether to show results
-							profileExecution,							// Whether to measure execution time
-							Optional.of(idCalculator.apply(testInput)),	// Unique identifier for this configuration
-							Optional.empty()							// Output file
+					scenarios.add(clazz.getConstructor(
+							Path.class,
+							Map.class,
+							Optional.class,
+							Optional.class,
+							Optional.class,
+							Optional.class,
+							Optional.class,
+							Optional.class
+						)
+						.newInstance(
+							erlScript,									 // Path to the script to run
+							Collections.singletonMap(model, properties), // Model and metamodel paths
+							Optional.of(moduleGetter.get()),			 // IErlModule
+							Optional.empty(),							 // Script parameters
+							showResults,								 // Whether to show results
+							profileExecution,							 // Whether to measure execution time
+							Optional.of(idCalculator.apply(testInput)),	 // Unique identifier for this configuration
+							Optional.empty()							 // Output file
 						)
 					);
 				}
 			}
 			
 			return scenarios;
+		}
+		catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException ex) {
+			ex.printStackTrace();
+			throw new RuntimeException(ex);
+		}
 	}
 	
 	public static <M extends IErlModule> Collection<? extends M> unwrapModules(Collection<Supplier<? extends M>> moduleGetters) {

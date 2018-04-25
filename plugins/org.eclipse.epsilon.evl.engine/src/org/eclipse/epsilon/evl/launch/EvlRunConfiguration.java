@@ -4,13 +4,13 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
+import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
-public class EvlRunConfiguration extends EolRunConfiguration<IEvlModule> {
+public class EvlRunConfiguration extends IEolRunConfiguration<IEvlModule> {
 	
 	public EvlRunConfiguration(
 		Path evlFile,
