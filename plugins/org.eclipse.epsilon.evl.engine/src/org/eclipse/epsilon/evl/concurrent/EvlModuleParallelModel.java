@@ -14,7 +14,7 @@ public class EvlModuleParallelModel extends EvlModuleParallel {
 	}
 
 	public EvlModuleParallelModel(int parallelism) {
-		super(parallelism, false);
+		super(parallelism, true);
 	}
 
 	@Override

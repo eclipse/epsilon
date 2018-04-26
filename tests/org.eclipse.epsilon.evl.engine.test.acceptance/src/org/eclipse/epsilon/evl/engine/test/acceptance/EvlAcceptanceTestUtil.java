@@ -143,7 +143,7 @@ public class EvlAcceptanceTestUtil {
 			includeStandard ? EvlModule::new : null,
 			EvlModuleParallelElements::new,
 			EvlModuleParallelStaged::new,
-			EvlModuleParallelModel::new,
+			//EvlModuleParallelModel::new,
 			EvlModuleParallelConstraints::new,
 			EvlModuleParallelContexts::new
 		);

@@ -51,6 +51,7 @@ public class StackTraceManager implements IExecutionListener {
 	
 	protected String toString(ModuleElement ast) {
 		String location = "unknown";
+		if (ast == null) return location;
 		
 		if (ast.getFile() != null) {
 			location = ast.getFile().getAbsolutePath();
