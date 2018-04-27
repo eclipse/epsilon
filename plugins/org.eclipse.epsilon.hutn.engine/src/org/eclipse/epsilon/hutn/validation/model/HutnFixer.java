@@ -46,7 +46,7 @@ class HutnFixer extends AbstractFixer {
 		
 		final List<Slot<?>> originalSlots = defensiveCopy(object.getSlots());
 		
-		((FixInstance)constraint.getFixes().get(0)).perform();
+		((FixInstance)constraint.getFixes().getFirst()).perform();
 		
 		// Return true only if fix caused a change.
 		return !originalSlots.equals(object.getSlots());
