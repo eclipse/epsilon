@@ -35,6 +35,12 @@ private static final String ROOT = "examples/";
 	}
 	
 	@Test
+	public void testCachingSFChart() {
+		activeCache = true;
+		eolResourceFile = ROOT + "caching.eol";
+	}
+	
+	@Test
 	@Ignore
 	public void testQueryFeedbackController() { // FAILS
 		eolResourceFile = ROOT + "queryFeedbackController.eol";

@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Future;
 
+import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
@@ -41,19 +42,28 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	public static final String PROPERTY_ENGINE_JAR_PATH = "engine_jar_path";
 	public static final String PROPERTY_HIDDEN_EDITOR = "hidden_editor";
 
+	public static final String BLOCK = "Block";
+	public static final String SIMULINK = "Simulink";
+	public static final String STATEFLOW = "Stateflow";
+
 	private static final String GET_PARAM = "get_param('?', 'Handle');";
 	private static final String LOAD_SYSTEM = "load_system ";
 	private static final String OPEN_SYSTEM = "open_system ";
 	private static final String NEW_SYSTEM = "new_system('?', 'Model');";
 	private static final String SAVE_SYSTEM = "save_system('?', '?');";
 
-	public static final String BLOCK = "Block";
-	public static final String SIMULINK = "Simulink";
-	public static final String STATEFLOW = "Stateflow";
-	public static final String CHART = "Chart";
-
-	public static final String STATEFLOW_SIMULINK_BLOCK = "sflib/";
-	public static final String STATEFLOW_SIMULINK_BLOCK_DEFAULT = STATEFLOW_SIMULINK_BLOCK + "Chart";
+	//
+	private static final Multimap<String, String> createBlockMap = new Multimap<String, String>();
+	//
+	private static final ArrayList<ArrayList<String>> deleteBlockMap = new ArrayList<ArrayList<String>>();
+	
+	static {
+		createBlockMap.put("sflib/Chart", "Stateflow.Chart");
+		ArrayList<String> chart = new ArrayList<String>();
+		chart.add("SubSystem");
+		chart.add("Stateflow.Chart");
+		deleteBlockMap.add(chart);
+	}
 
 	/** FIELDS */
 
@@ -119,6 +129,66 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 	
 	@Override
+	protected void addToCache(String type, ISimulinkModelElement instance) throws EolModelElementTypeNotFoundException {
+		for (String kind : getAllTypeNamesOf(instance)) {
+			Object kindCacheKey = getCacheKeyForType(kind);
+			if (cachedKinds.contains(kindCacheKey)) {
+				kindCache.put(kindCacheKey, instance);
+			}
+		}
+	}
+
+	@Override
+	protected void removeFromCache(ISimulinkModelElement instance) throws EolModelElementTypeNotFoundException {
+		for (String kind : getAllTypeNamesOf(instance)) {
+			final Object kindCacheKey = getCacheKeyForType(kind);
+			if (cachedKinds.contains(kindCacheKey)) {
+				kindCache.remove(kindCacheKey, instance);
+			}
+		}
+	}
+		
+	@Override
+	public void deleteElement(Object o) throws EolRuntimeException {
+		deleteElementInModel(o);
+		if (isCachingEnabled()) {
+			if (o instanceof ISimulinkModelElement) {
+				removeFromCache((ISimulinkModelElement) o);
+				String type = ((ISimulinkModelElement) o).getType();
+				for (List<String> specialType : deleteBlockMap) {
+					if (specialType.contains(type)) {
+						for (String equivalent : specialType) {
+							if (!equivalent.equals(type) && cachedKinds.contains(equivalent)) {
+								kindCache.get(equivalent).clear();
+								kindCache.putAll(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public ISimulinkModelElement createInstance(String type)
+			throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
+		ISimulinkModelElement instance = createInstanceInModel(type);
+		if (isCachingEnabled()) {
+			addToCache(instance.getType(), instance);
+			if (createBlockMap.containsKey(type)){
+				for (String equivalent : createBlockMap.get(type)){
+					if (cachedKinds.contains(equivalent)) {
+						kindCache.get(equivalent).clear();
+						kindCache.putAll(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
+					}
+					
+				}
+			}
+		}
+		return instance;
+	}
+	
+	@Override
 	public Object createInstance(String type, Collection<Object> parameters) 
 			throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException { 
 		if (type.startsWith(STATEFLOW) && parameters.size() == 1) {
@@ -152,7 +222,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	
 	@Override
 	protected Object getCacheKeyForType(String type) throws EolModelElementTypeNotFoundException { 
-		return type;
+		return type;		
 	}
 	
 	// COLLECTORS 

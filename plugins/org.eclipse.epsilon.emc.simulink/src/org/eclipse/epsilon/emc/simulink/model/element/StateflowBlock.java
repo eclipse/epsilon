@@ -82,7 +82,7 @@ public class StateflowBlock extends SimulinkModelElement {
 	private void setType() throws MatlabException {
 		if (this.id != null) {
 			String handle = StateflowUtil.getBlockHandleFromId(model, engine, this.id);
-			this.type = SimulinkModel.STATEFLOW + ". " + (String) engine.evalWithResult(SIMPLE_TYPE, handle);
+			this.type = SimulinkModel.STATEFLOW + "." + (String) engine.evalWithResult(SIMPLE_TYPE, handle);
 		}
 	}
 	
@@ -245,7 +245,6 @@ public class StateflowBlock extends SimulinkModelElement {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public Collection<StateflowBlock> getChildren() {
 		try {
 			String handle = StateflowUtil.getBlockHandle(this);
