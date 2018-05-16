@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.evl.dt.launching.tabs;
 
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
-import org.eclipse.epsilon.common.dt.launching.AbstractSourceConfigurationTab;
+import org.eclipse.epsilon.common.dt.launching.tabs.AbstractSourceConfigurationTab;
 import org.eclipse.epsilon.evl.dt.EvlPlugin;
 
 /**

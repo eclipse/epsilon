@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eml.dt.launching.tabs;
 
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
-import org.eclipse.epsilon.common.dt.launching.AbstractSourceConfigurationTab;
+import org.eclipse.epsilon.common.dt.launching.tabs.AbstractSourceConfigurationTab;
 import org.eclipse.epsilon.eml.dt.EmlPlugin;
 import org.eclipse.ui.PlatformUI;
 

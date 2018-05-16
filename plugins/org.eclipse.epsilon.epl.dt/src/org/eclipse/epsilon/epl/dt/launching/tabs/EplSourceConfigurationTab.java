@@ -13,7 +13,7 @@ package org.eclipse.epsilon.epl.dt.launching.tabs;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
-import org.eclipse.epsilon.common.dt.launching.AbstractSourceConfigurationTab;
+import org.eclipse.epsilon.common.dt.launching.tabs.AbstractSourceConfigurationTab;
 import org.eclipse.epsilon.common.dt.launching.tabs.LabeledControl;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.epl.EplModule;

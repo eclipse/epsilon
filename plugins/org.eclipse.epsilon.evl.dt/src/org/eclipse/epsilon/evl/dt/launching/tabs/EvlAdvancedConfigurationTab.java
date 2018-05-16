@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.PlatformUI;
 
-public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
+public class EvlAdvancedConfigurationTab extends AbstractLaunchConfigurationTab {
 
 	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
 	private Button optimizeConstraintsBtn;

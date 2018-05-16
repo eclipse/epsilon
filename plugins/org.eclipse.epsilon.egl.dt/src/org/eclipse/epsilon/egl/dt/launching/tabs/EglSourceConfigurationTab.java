@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
-import org.eclipse.epsilon.common.dt.launching.AbstractSourceConfigurationTab;
+import org.eclipse.epsilon.common.dt.launching.tabs.AbstractSourceConfigurationTab;
 import org.eclipse.epsilon.egl.dt.EglPlugin;
 import org.eclipse.epsilon.egl.dt.extensions.fineGrainedTracePostprocessor.FineGrainedTracePostprocessorSpecificationFactory;
 import org.eclipse.swt.SWT;
