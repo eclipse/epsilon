@@ -115,13 +115,12 @@
     <module>org.eclipse.epsilon.profiling</module>
     <module>org.eclipse.epsilon.profiling.dt</module>
     <module>org.eclipse.epsilon.targetplatform</module>
-    <!-- <module>org.eclipse.epsilon.updatesite</module> -->
-    <module>org.eclipse.epsilon.updatesite.interim</module>
     <module>org.eclipse.epsilon.workflow</module>
     <module>org.eclipse.epsilon.workflow.csv</module>
     <module>org.eclipse.epsilon.workflow.emf</module>
     <module>org.eclipse.epsilon.workflow.eugenia</module>
     <module>org.h2_1.1.117</module>
     <module>org.jdom_1.0</module>
+    <!--module>org.eclipse.epsilon.rcp</module-->
   </modules>
 </project>
