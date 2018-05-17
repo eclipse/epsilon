@@ -121,6 +121,5 @@
     <module>org.eclipse.epsilon.workflow.eugenia</module>
     <module>org.h2_1.1.117</module>
     <module>org.jdom_1.0</module>
-    <!--module>org.eclipse.epsilon.rcp</module-->
   </modules>
 </project>
