@@ -3,11 +3,14 @@ package org.eclipse.epsilon.evl.launch;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
 public class EvlRunConfiguration extends IEolRunConfiguration<IEvlModule> {
@@ -48,6 +51,12 @@ public class EvlRunConfiguration extends IEolRunConfiguration<IEvlModule> {
 	@Override
 	protected IEvlModule getDefaultModule() {
 		return new EvlModule();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<UnsatisfiedConstraint> execute() throws EolRuntimeException {
+		return (Set<UnsatisfiedConstraint>) super.execute();
 	}
 	
 	@Override

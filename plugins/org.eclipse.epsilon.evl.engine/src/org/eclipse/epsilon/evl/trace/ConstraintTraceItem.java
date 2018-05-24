@@ -41,7 +41,7 @@ public class ConstraintTraceItem {
 		this.instance = instance;
 	}
 
-	public boolean isResult() {
+	public boolean getResult() {
 		return result;
 	}
 
