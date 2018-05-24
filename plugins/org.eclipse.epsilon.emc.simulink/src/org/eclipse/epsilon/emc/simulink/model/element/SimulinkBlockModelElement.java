@@ -83,7 +83,7 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 
 	private void setType(String type) {
 		if (type != null) {
-			this.type = type;
+			this.type = new String(type);
 		} else {
 			if (handle != null) {
 				try {

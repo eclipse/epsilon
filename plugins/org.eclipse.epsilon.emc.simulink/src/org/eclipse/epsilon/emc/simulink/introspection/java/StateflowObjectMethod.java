@@ -2,7 +2,6 @@ package org.eclipse.epsilon.emc.simulink.introspection.java;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
 import org.eclipse.epsilon.emc.simulink.util.StateflowUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -28,9 +27,6 @@ public class StateflowObjectMethod extends ObjectMethod {
 			}
 			engine.eval(cmd);
 			return engine.getVariable("result");
-		} catch (MatlabException e) {
-			e.printStackTrace();
-			throw new EolRuntimeException(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new EolRuntimeException(e.getMessage());

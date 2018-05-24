@@ -101,6 +101,8 @@ public class MatlabEngineUtil {
 			return MatlabEngineUtil.matlabArrayToList((Object[]) value);
 		if (value instanceof Character) 
 			return String.valueOf(value);
+		if (value instanceof String) 
+			return String.valueOf(value);
 		if (Struct.is(value))
 			return new Struct(value);
 		return value;

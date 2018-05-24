@@ -101,7 +101,7 @@ public class Struct {
 			return (Boolean) containsKeyMethod.invoke(struct, key);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			throw new IllegalStateException(e.getMessage());
 		}
 	}
 	
@@ -110,7 +110,7 @@ public class Struct {
 			return (Boolean) containsValueMethod.invoke(struct, value);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			throw new IllegalStateException(e.getMessage());	
 		}
 	}
 	
@@ -119,7 +119,7 @@ public class Struct {
 			return (boolean) equalsMethod.invoke(struct, obj);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			throw new IllegalStateException(e.getMessage());
 		}
 	}
 	
@@ -128,7 +128,7 @@ public class Struct {
 			return (Object) getMethod.invoke(struct, key);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			throw new IllegalStateException(e.getMessage());
 		}
 	}
 	public Set<?> entrySet() {
@@ -136,7 +136,7 @@ public class Struct {
 			return (Set<?>) entrySetMethod.invoke(struct);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			throw new IllegalStateException(e.getMessage());
 		}
 	}
 	public int hashCode() {
@@ -144,7 +144,7 @@ public class Struct {
 			return (Integer) hashCodeMethod.invoke(struct);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return -1;
+			throw new IllegalStateException(e.getMessage());
 		}
 	}
 	
@@ -153,7 +153,7 @@ public class Struct {
 			return (Boolean) isEmptyMethod.invoke(struct);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			throw new IllegalStateException(e.getMessage());
 		}		
 	}
 	public Set<?> keySet() {
@@ -161,7 +161,7 @@ public class Struct {
 			return (Set<?>) keySetMethod.invoke(struct);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			throw new IllegalStateException(e.getMessage());
 		}
 	}
 	public Integer size() {
@@ -169,7 +169,7 @@ public class Struct {
 			return (Integer) sizeMethod.invoke(struct);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			throw new IllegalStateException(e.getMessage());
 		}
 	}
 	public Set<?> values() {
@@ -177,7 +177,7 @@ public class Struct {
 			return (Set<?>) valuesMethod.invoke(struct);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			throw new IllegalStateException(e.getMessage());
 		}
 	}
 	

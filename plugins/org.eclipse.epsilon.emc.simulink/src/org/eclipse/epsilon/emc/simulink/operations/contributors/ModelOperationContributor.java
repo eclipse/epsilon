@@ -28,14 +28,21 @@ public class ModelOperationContributor extends OperationContributor {
 	@Override
 	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters,
 			IEolContext context, boolean overrideContextOperationContributorRegistry) {
-		if (!overrideContextOperationContributorRegistry) {
+		ObjectMethod objectMethod = null;
+		if (overrideContextOperationContributorRegistry == false 
+				&& context.getOperationFactory().getOperationFor(name) == null) {
 			if (target instanceof StateflowBlock) {
-				return new StateflowObjectMethod(engine, target, name);
+				objectMethod = (ObjectMethod) new StateflowObjectMethod(engine, target, name);
 			} else if (target instanceof SimulinkBlock || target instanceof SimulinkModel) {
-				return new SimulinkObjectMethod(engine, target, name);
-			} 
+				objectMethod = (ObjectMethod) new SimulinkObjectMethod(engine, target, name);
+			}
 		}
-		return null;
+		if (objectMethod == null) { 
+			objectMethod = super.findContributedMethodForEvaluatedParameters(target, name, parameters, context, overrideContextOperationContributorRegistry);
+		}
+		return objectMethod;
 	}
+	
+	
 
 }
