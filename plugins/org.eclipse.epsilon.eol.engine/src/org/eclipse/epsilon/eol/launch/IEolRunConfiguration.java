@@ -16,7 +16,7 @@ import org.eclipse.epsilon.eol.IEolModule;
  * 
  * @author Sina Madani
  */
-public abstract class IEolRunConfiguration<M extends IEolModule> extends ProfilableRunConfiguration<Object> {
+public abstract class IEolRunConfiguration<M extends IEolModule, R> extends ProfilableRunConfiguration<R> {
 	
 	protected static final Set<IModel> LOADED_MODELS = new HashSet<>();
 	public final Map<IModel, StringProperties> modelsAndProperties;
@@ -45,7 +45,7 @@ public abstract class IEolRunConfiguration<M extends IEolModule> extends Profila
 			);
 	}
 	
-	public IEolRunConfiguration(IEolRunConfiguration<? extends M> other) {
+	public IEolRunConfiguration(IEolRunConfiguration<? extends M, ? extends R> other) {
 		this(
 			other.script,
 			other.modelsAndProperties,
@@ -65,7 +65,7 @@ public abstract class IEolRunConfiguration<M extends IEolModule> extends Profila
 	protected abstract M getDefaultModule();
 	
 	@Override
-	public void preExecute() throws Exception {
+	protected void preExecute() throws Exception {
 		super.preExecute();
 		
 		long startMemory = 0, parseStartTime = 0;
@@ -103,8 +103,9 @@ public abstract class IEolRunConfiguration<M extends IEolModule> extends Profila
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public Object execute() throws EolRuntimeException {
+	protected R execute() throws EolRuntimeException {
 		Object execResult;
 		if (profileExecution && module instanceof ProfilableIEolModule) {
 			ProfilableIEolModule profMod = (ProfilableIEolModule) module;
@@ -114,7 +115,7 @@ public abstract class IEolRunConfiguration<M extends IEolModule> extends Profila
 		else {
 			execResult = module.execute();
 		}
-		return execResult;
+		return (R) execResult;
 	}
 	
 	@Override
@@ -133,7 +134,7 @@ public abstract class IEolRunConfiguration<M extends IEolModule> extends Profila
 	public boolean equals(Object other) {
 		if (!super.equals(other)) return false;
 		
-		IEolRunConfiguration<?> eoc = (IEolRunConfiguration<?>) other;
+		IEolRunConfiguration<?, ?> eoc = (IEolRunConfiguration<?, ?>) other;
 		return
 			Objects.equals(this.module, eoc.module) &&
 			CollectionUtil.equalsIgnoreOrder(this.modelsAndProperties.keySet(), eoc.modelsAndProperties.keySet());

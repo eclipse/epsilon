@@ -30,14 +30,14 @@ import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
  * 
  * @author Sina Madani
  */
-public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguration<M>> extends ConfigParser<R> {
+public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguration<M, ?>> extends ConfigParser<R> {
 
 	/**
 	 * Allows the caller to invoke any subclass of IEolModule.
 	 */
 	public static void main(String[] args) throws ClassNotFoundException {
 		
-		class InstantiableEOC extends IEolRunConfiguration<EolModule> {
+		class InstantiableEOC extends IEolRunConfiguration<EolModule, Object> {
 			public InstantiableEOC(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, Optional<EolModule> eolModule, Optional<Map<String, Object>> parameters, Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<Integer> configID, Optional<Path> scratchFile) {
 				super(eolFile, modelsAndProperties, eolModule, parameters, showResults, profileExecution, configID, scratchFile);
 			}
@@ -153,7 +153,7 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 		return properties;
 	}
 	
-	public static <M extends IEolModule, R extends IEolRunConfiguration<M>> R instantiate(
+	public static <M extends IEolModule, R extends IEolRunConfiguration<M, ?>> R instantiate(
 			Class<R> subClazz,
 			Path script,
 			Optional<M> module,

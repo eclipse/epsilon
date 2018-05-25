@@ -50,7 +50,7 @@ public class ErlAcceptanceTestUtil {
 	 * A list of pre-configured Runnables which will call the execute() method on the provided module.
 	 * @param modules A collection of IErlModules to use in combination with each set of test data.
 	 */
-	public static <M extends IErlModule, C extends IEolRunConfiguration<M>> Collection<C> getScenarios(
+	public static <M extends IErlModule, C extends IEolRunConfiguration<M, ?>> Collection<C> getScenarios(
 		Class<C> clazz,
 		List<String[]> testInputs,
 		Collection<Supplier<? extends M>> moduleGetters,

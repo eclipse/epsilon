@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.erl.engine.test.util.ErlEquivalenceTests;
 import org.eclipse.epsilon.evl.*;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTraceItem;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -16,9 +17,9 @@ import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized.Parameters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EvlModuleEquivalenceTests extends ErlEquivalenceTests<IEvlModule, IEolRunConfiguration<IEvlModule>> {
+public class EvlModuleEquivalenceTests extends ErlEquivalenceTests<IEvlModule, IEolRunConfiguration<IEvlModule, Set<UnsatisfiedConstraint>>> {
 	
-	public EvlModuleEquivalenceTests(IEolRunConfiguration<IEvlModule> configUnderTest) {
+	public EvlModuleEquivalenceTests(IEolRunConfiguration<IEvlModule, Set<UnsatisfiedConstraint>> configUnderTest) {
 		super(configUnderTest);
 	}
 	
@@ -33,7 +34,7 @@ public class EvlModuleEquivalenceTests extends ErlEquivalenceTests<IEvlModule, I
 	 * @see EvlAcceptanceTestSuite.getScenarios
 	 */
 	@Parameters//(name = "0")	Don't use this as the Eclipse JUnit view won't show failures!
-	public static Iterable<? extends IEolRunConfiguration<IEvlModule>> configurations() {
+	public static Iterable<? extends IEolRunConfiguration<IEvlModule, Set<UnsatisfiedConstraint>>> configurations() {
 		// Used to specify which module configurations we'd like to test in our scenarios
 		return getScenarios(
 			allInputs,		// All scripts & models

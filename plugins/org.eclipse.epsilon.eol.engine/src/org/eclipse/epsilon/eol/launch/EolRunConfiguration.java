@@ -7,7 +7,7 @@ import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.models.IModel;
 
-public class EolRunConfiguration extends IEolRunConfiguration<EolModule> {
+public class EolRunConfiguration extends IEolRunConfiguration<EolModule, Object> {
 
 	public EolRunConfiguration(
 		Path eolFile,
@@ -21,7 +21,7 @@ public class EolRunConfiguration extends IEolRunConfiguration<EolModule> {
 		super(eolFile, modelsAndProperties, eolModule, parameters, showResults, profileExecution, configID, scratchFile);
 	}
 	
-	public EolRunConfiguration copy(IEolRunConfiguration<? extends EolModule> other) {
+	public EolRunConfiguration copy(IEolRunConfiguration<? extends EolModule, ?> other) {
 		EolRunConfiguration copy = new EolRunConfiguration(
 			other.script,
 			other.modelsAndProperties,
