@@ -15,4 +15,5 @@ public interface EpsilonPlugin {
 	
 	public Image createImage(String path);
 	
+	
 }

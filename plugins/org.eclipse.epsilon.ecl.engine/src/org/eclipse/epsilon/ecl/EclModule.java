@@ -21,6 +21,7 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.ecl.execute.EclOperationFactory;
 import org.eclipse.epsilon.ecl.execute.context.EclContext;
@@ -206,5 +207,10 @@ public class EclModule extends ErlModule implements IEclModule {
 			}
 		}
 		return rules;
+	}
+
+	@Override
+	public void configure(StringProperties properties) {
+		// No extra configuration needed
 	}
 }

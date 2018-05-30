@@ -1,10 +1,5 @@
 package org.eclipse.epsilon.ecl.dt.launching.tabs;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
@@ -26,26 +21,14 @@ public class EclAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 	}
 
 	@Override
-	public void createAdditionalGroups(FillLayout parentLayout) {
+	public void createAdditionalGroups(Composite control) {
 		// TODO Implement AbstractAdvancedConfigurationTab.createAdditionalGroups
 //		throw new UnsupportedOperationException("Unimplemented Method    AbstractAdvancedConfigurationTab.createAdditionalGroups invoked.");
 	}
 
 	@Override
-	public void storeValuesInConfiguration(ILaunchConfiguration configuration) {
-		// TODO Implement AbstractAdvancedConfigurationTab.storeValuesInConfiguration
-//		throw new UnsupportedOperationException("Unimplemented Method    AbstractAdvancedConfigurationTab.storeValuesInConfiguration invoked.");
+	public String getLanguage() {
+		return "ECL";
 	}
-
-	@Override
-	public void populateFromConfiguration(ILaunchConfiguration configuration) throws CoreException {
-		// TODO Implement AbstractAdvancedConfigurationTab.populateFromConfiguration
-//		throw new UnsupportedOperationException("Unimplemented Method    AbstractAdvancedConfigurationTab.populateFromConfiguration invoked.");
-	}
-
-	@Override
-	public List<String> getImplementations() {
-		return Arrays.asList("Ecl");
-	}
-
+	
 }

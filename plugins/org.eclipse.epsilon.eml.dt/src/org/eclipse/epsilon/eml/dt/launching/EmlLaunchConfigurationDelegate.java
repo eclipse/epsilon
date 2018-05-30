@@ -28,10 +28,10 @@ public class EmlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	MatchTrace matchTrace = null;
 	ModelRepository modelRepository = null;
 	
-	@Override
-	public IEolModule createModule() {
-		return null;
-	}
+//	@Override
+//	public IEolModule createModule() {
+//		return null;
+//	}
 	
 	@Override
 	public void launch(ILaunchConfiguration configuration, String mode,

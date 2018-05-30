@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.ModelDeclaration;
@@ -55,4 +56,10 @@ public interface IEolModule extends IModule {
 	public EolCompilationContext getCompilationContext();
 	
 	public List<ParseProblem> getParseProblems();
+	
+	/**
+	 * Configure the IEolModule with the given properties
+	 * @param properties
+	 */
+	public void configure(StringProperties properties);
 }

@@ -27,25 +27,15 @@ public class EplAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 
 
 	@Override
-	public void createAdditionalGroups(FillLayout parentLayout) {
+	public void createAdditionalGroups(Composite control) {
 		// TODO Implement AbstractAdvancedConfigurationTab.createAdditionalGroups
 //		throw new UnsupportedOperationException("Unimplemented Method    AbstractAdvancedConfigurationTab.createAdditionalGroups invoked.");
 	}
 
 	@Override
-	public void storeValuesInConfiguration(ILaunchConfiguration configuration) {
-		// TODO Implement AbstractAdvancedConfigurationTab.storeValuesInConfiguration
-//		throw new UnsupportedOperationException("Unimplemented Method    AbstractAdvancedConfigurationTab.storeValuesInConfiguration invoked.");
+	public String getLanguage() {
+		return "EPL";
 	}
 
-	@Override
-	public void populateFromConfiguration(ILaunchConfiguration configuration) throws CoreException {
-		// TODO Implement AbstractAdvancedConfigurationTab.populateFromConfiguration
-//		throw new UnsupportedOperationException("Unimplemented Method    AbstractAdvancedConfigurationTab.populateFromConfiguration invoked.");
-	}
 	
-	@Override
-	public List<String> getImplementations() {
-		return Arrays.asList("Epl");
-	}
 }

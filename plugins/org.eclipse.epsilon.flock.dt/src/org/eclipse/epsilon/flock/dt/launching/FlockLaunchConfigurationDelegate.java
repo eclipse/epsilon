@@ -24,10 +24,10 @@ import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelExcep
 
 public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
-	@Override
-	public IEolModule createModule() {
-		return new FlockModule();
-	}
+//	@Override
+//	public IEolModule createModule() {
+//		return new FlockModule();
+//	}
 	
 	@Override
 	protected EolDebugger createDebugger() {

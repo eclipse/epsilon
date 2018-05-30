@@ -28,27 +28,17 @@ public class EtlAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 
 
 	@Override
-	public void createAdditionalGroups(FillLayout parentLayout) {
+	public void createAdditionalGroups(Composite control) {
 		// TODO Implement EtlAdvancedConfigurationTab.createAdditionalGroups
 //		throw new UnsupportedOperationException(
 //				"Unimplemented Method    EtlAdvancedConfigurationTab.createAdditionalGroups invoked.");
 	}
 
 	@Override
-	public void storeValuesInConfiguration(ILaunchConfiguration configuration) {
-		// TODO Implement EtlAdvancedConfigurationTab.storeValuesInConfiguration
-//		throw new UnsupportedOperationException(
-//				"Unimplemented Method    EtlAdvancedConfigurationTab.storeValuesInConfiguration invoked.");
+	public String getLanguage() {
+		return "ETL";
 	}
 
-	@Override
-	public void populateFromConfiguration(ILaunchConfiguration configuration) throws CoreException {
-		// TODO Implement EtlAdvancedConfigurationTab.populateFromConfiguration
-	}
-	
-	@Override
-	public List<String> getImplementations() {
-		return Arrays.asList("Etl");
-	}
+
 
 }

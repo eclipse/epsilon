@@ -1,16 +1,29 @@
 package org.eclipse.epsilon.common.dt.launching.tabs;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
+import org.eclipse.epsilon.common.dt.exceptions.EpsilonDtException;
+import org.eclipse.epsilon.common.dt.launching.dialogs.AbtsractModuleConfigurationDialog;
+import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
+import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -18,6 +31,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 
 /**
  * The Advanced configuration tab allows advanced options to be configured.
@@ -35,26 +50,43 @@ import org.eclipse.swt.widgets.Group;
  *
  */
 public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchConfigurationTab implements ModifyListener {
-
+	
+	private Map<String, ModuleImplementationExtension> implementations;
+	private Map<String, String> implConfigs;
+	private String implConfig;
+	private int selectedImpl = -1;
+	private Combo modulesDropDown;
+	
 	@Override
 	public void createControl(Composite parent) {
 		
+		implementations = new HashMap<>();
 		FillLayout parentLayout = new FillLayout();
 		parent.setLayout(parentLayout);
 		Composite control = new Composite(parent, SWT.NONE);
 		setControl(control);
-		GridLayout controlLayout = new GridLayout(2, false);
+		GridLayout controlLayout = new GridLayout(1, false);
 		control.setLayout(controlLayout);
 		
 		final Group implementationGroup = createGroup(control, "Implementation:", 2);
 		createModuleImplementationSelection(implementationGroup);
-		createAdditionalGroups(parentLayout);
+		createAdditionalGroups(control);
 	}
 
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
-			populateFromConfiguration(configuration);
+			implConfig = configuration.getAttribute("implConfig", "");
+			if (implConfig.length() > 0) {
+				StringProperties properties = new StringProperties();
+				properties.load(implConfig);
+				String impl = (String) properties.get("moduleName");
+				int index = modulesDropDown.indexOf(impl);
+				modulesDropDown.select(index);
+			}
+			else {
+				modulesDropDown.select(0);
+			}
 			canSave();
 			updateLaunchConfigurationDialog();
 		} catch (CoreException e) {
@@ -64,9 +96,8 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		storeValuesInConfiguration(configuration);
+		configuration.setAttribute("implConfig", implConfig);
 	}
-
 
 	@Override
 	public String getName() {
@@ -87,44 +118,77 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	public abstract EpsilonPlugin getPlugin();
 	
 	/**
-	 * This method should crate a drop-down list of available implementations. If no alternatinves 
-	 * exist, the parent can be disabled. 
+	 * The language provided by the plugin. It allows other plugins to contribute
+	 * alternate IModule implementation of the language.
+	 * @return
+	 */
+	public abstract String getLanguage();
+	
+	/**
+	 * This method creates a drop-down list of available implementations. If no alternatives 
+	 * exist, the combo (or the parent) can be disabled, but should show the default one. 
 	 * @param control
 	 */
 	public void createModuleImplementationSelection(Composite parent) {
-		Combo comboDropDown = new Combo(parent, SWT.DROP_DOWN | SWT.BORDER);
-		List<String> implementations = getImplementations();
-		implementations.forEach(comboDropDown::add);
-		comboDropDown.select(0);
+		modulesDropDown = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.BORDER);
+		getImplementations().stream().sorted().forEach(modulesDropDown::add);
 		if (implementations.size() == 1) {
+			// This assumes that the default implementation does not need configuration
 			parent.setEnabled(false);
-			comboDropDown.setEnabled(false);
+			modulesDropDown.setEnabled(false);
+		}
+		else {
+			modulesDropDown.addSelectionListener(new SelectionListener() {
+
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					int index = modulesDropDown.getSelectionIndex();
+					String impl = modulesDropDown.getItem(index);
+					if (index != selectedImpl) {
+						implConfig = implConfigs.get(impl);
+						if (implConfig == null) {
+							selectAndConfigImpl(index, impl);
+						}
+					}
+					
+				}
+				
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+					// TODO Implement modulesDropDown.widgetDefaultSelected
+					throw new UnsupportedOperationException(
+							"Unimplemented Method    modulesDropDown.widgetDefaultSelected invoked.");
+				}
+			});
+			final Menu modulesDropDownMenu = new Menu(modulesDropDown);
+			MenuItem configItem = new MenuItem(modulesDropDownMenu, SWT.NONE);
+            configItem.setText("Config...");
+			configItem.addSelectionListener(new SelectionListener() {
+				
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					int index = modulesDropDown.getSelectionIndex();
+					String impl = modulesDropDown.getItem(index);
+					selectAndConfigImpl(index, impl);
+				}
+				
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+					// TODO Implement modulesDropDownMenu.widgetDefaultSelected
+					throw new UnsupportedOperationException(
+							"Unimplemented Method    modulesDropDownMenu.widgetDefaultSelected invoked.");
+				}
+			});
+            modulesDropDown.setMenu(modulesDropDownMenu);
+			
 		}
 	}
 	
-	public abstract List<String> getImplementations();
-	
 	/**
 	 * Each language is allowed to create additional groups to provide specific configuration options.
-	 * This options can be related to the specific implementation so appropiate hooks should be added
-	 * so the become available depending on the selected implementation.
-	 * @param parentLayout
+	 * @param control
 	 */
-	public abstract void createAdditionalGroups(FillLayout parentLayout);
-	
-	/**
-	 * This method should store any advanced settings in the configuration. Since different implementations
-	 * can use different settings, caution must be taken to ensure settings with conflicting names are
-	 * handled correctly (e.g. prepend the implementation name to the config key.
-	 */
-	public abstract void storeValuesInConfiguration(ILaunchConfiguration configuration);
-	
-	/**
-	 * Given that each language provides its own set of settings, this method shouls be used
-	 * to read the stored values from the configuration and populate the tab accordingly.
-	 * @see #storeValuesInConfiguration()
-	 */
-	public abstract void populateFromConfiguration(ILaunchConfiguration configuration) throws CoreException;
+	public abstract void createAdditionalGroups(Composite control);
 	
 	
 	protected Group createGroup(Composite control, String name, int numberOfColumns) {
@@ -133,6 +197,57 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		group.setText(name);
 		return group;
+	}
+	
+	/**
+	 * The available implementations are extracted from the moduleImplementation extension point, based on
+	 * the language provided by the plugin (see {@link #getPlugin()}).
+	 * @return A list of the names of the available module implementations for the language
+	 * @throws CoreException if the configuration dialog of an implementation can not be created
+	 */
+	private Set<String> getImplementations() {
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.moduleImplementation");
+		IConfigurationElement[] configurationElements =  extensionPoint.getConfigurationElements();
+		for (int i=0;i<configurationElements.length; i++){
+			IConfigurationElement configurationElement = configurationElements[i];
+			if (configurationElement.getAttribute("language").equals(getLanguage())) {	
+				ModuleImplementationExtension moduleType = null;
+				moduleType = new ModuleImplementationExtension(configurationElement);
+				implementations.put(moduleType.getName(), moduleType);
+			}
+		}
+		// FIXME Return a list, where the default is the first one.
+		return implementations.keySet();
+	}
+	
+	/**
+	 * @param index
+	 * @param impl
+	 */
+	private void selectAndConfigImpl(int index, String impl) {
+		AbtsractModuleConfigurationDialog moduleConfigDialog = null;
+		try {
+			moduleConfigDialog = implementations.get(impl).createDialog();
+		} catch (EpsilonDtException e) {
+			e.printStackTrace();
+		}
+		if (moduleConfigDialog != null) {
+			moduleConfigDialog.setBlockOnOpen(true);
+			moduleConfigDialog.open();
+			if (moduleConfigDialog.getReturnCode() == Window.OK){
+				implConfig = moduleConfigDialog.getProperties().toString();
+				
+			}
+			else {
+				StringProperties properties = new StringProperties();
+				properties.put("moduleName", impl);
+				implConfig = properties.toString();
+			}
+		}
+		selectedImpl = index;
+		canSave();
+		updateLaunchConfigurationDialog();
 	}
 
 }
