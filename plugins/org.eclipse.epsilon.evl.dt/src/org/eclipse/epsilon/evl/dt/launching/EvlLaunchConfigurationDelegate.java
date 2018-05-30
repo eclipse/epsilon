@@ -21,10 +21,10 @@ import org.eclipse.epsilon.evl.dt.views.ValidationViewFixer;
 
 public class EvlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
-	@Override
-	public IEolModule createModule() {
-		return new EvlModule();
-	}
+//	@Override
+//	public IEolModule createModule() {
+//		return new EvlModule();
+//	}
 	
 	@Override
 	protected EolDebugger createDebugger() {

@@ -10,17 +10,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.dt.launching;
 
-import org.eclipse.epsilon.ecl.EclModule;
-import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 
 public class EclLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
-	@Override
-	public IEolModule createModule() {
-		return new EclModule();
-	}
+//	@Override
+//	public IEolModule createModule() {
+//		return new EclModule();
+//	}
 	
 	@Override
 	protected EolDebugger createDebugger() {

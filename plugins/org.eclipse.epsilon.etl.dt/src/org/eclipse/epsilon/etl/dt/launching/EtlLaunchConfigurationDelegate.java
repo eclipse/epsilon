@@ -17,10 +17,10 @@ import org.eclipse.epsilon.etl.EtlModule;
 
 public class EtlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
-	@Override
-	public IEolModule createModule() {
-		return new EtlModule();
-	}
+//	@Override
+//	public IEolModule createModule() {
+//		return new EtlModule();
+//	}
 	
 	@Override
 	protected EolDebugger createDebugger() {

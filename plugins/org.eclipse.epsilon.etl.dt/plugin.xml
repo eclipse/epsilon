@@ -53,5 +53,14 @@
             id="Default"
             label="Default transformation strategy"/>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.moduleImplementation">
+      <implementation
+            class="org.eclipse.epsilon.etl.EtlModule"
+            default="true"
+            language="ETL"
+            name="Etl">
+      </implementation>
+   </extension>
 
 </plugin>

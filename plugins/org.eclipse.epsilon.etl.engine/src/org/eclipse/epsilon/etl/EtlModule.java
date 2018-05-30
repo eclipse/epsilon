@@ -21,6 +21,7 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -175,6 +176,11 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		if (context instanceof IEtlContext) {
 			this.context = (IEtlContext) context;
 		}
+	}
+
+	@Override
+	public void configure(StringProperties properties) {
+		// Nothing to do
 	}
 		
 }

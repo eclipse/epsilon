@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.epsilon.common.dt" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.epsilon.common.dt" id="moduleValidator" name="ModuleValidator"/>
+         <meta.schema plugin="org.eclipse.epsilon.common.dt" id="moduleValidator" name="Module Validator"/>
       </appInfo>
       <documentation>
          Extension point for validators of Epsilon modules
@@ -62,14 +62,6 @@
       </complexType>
    </element>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="since"/>
-      </appInfo>
-      <documentation>
-         [Enter the first release in which this extension point appears.]
-      </documentation>
-   </annotation>
 
    <annotation>
       <appInfo>

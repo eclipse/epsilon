@@ -106,4 +106,13 @@
             class="org.eclipse.epsilon.eol.dt.editor.EolModuleValidator">
       </moduleValidator>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.moduleImplementation">
+      <implementation
+            class="org.eclipse.epsilon.eol.EolModule"
+            default="true"
+            language="EOL"
+            name="Eol">
+      </implementation>
+   </extension>
 </plugin>

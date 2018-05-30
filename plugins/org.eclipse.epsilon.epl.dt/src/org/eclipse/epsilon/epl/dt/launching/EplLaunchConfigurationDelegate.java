@@ -20,10 +20,10 @@ import org.eclipse.epsilon.epl.EplModule;
 
 public class EplLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
-	@Override
-	public IEolModule createModule() {
-		return new EplModule();
-	}
+//	@Override
+//	public IEolModule createModule() {
+//		return new EplModule();
+//	}
 	
 	@Override
 	protected EolDebugger createDebugger() {

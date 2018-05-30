@@ -27,6 +27,7 @@ import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.ListSet;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.dom.AbortStatement;
 import org.eclipse.epsilon.eol.dom.AnnotationBlock;
@@ -462,6 +463,11 @@ public class EolModule extends AbstractModule implements IEolModule {
 			op.clearCache();
 		}
 		getContext().getExtendedProperties().clear();
+	}
+
+	@Override
+	public void configure(StringProperties properties) {
+		// Nothing to do
 	}
 
 }

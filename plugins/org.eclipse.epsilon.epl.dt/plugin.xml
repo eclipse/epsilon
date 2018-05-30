@@ -44,5 +44,14 @@
             id="org.eclipse.epsilon.epl.dt.wizards.NewEplFileWizard"
             name="EPL Program"/>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.moduleImplementation">
+      <implementation
+            class="org.eclipse.epsilon.epl.EplModule"
+            default="true"
+            language="EPL"
+            name="Epl">
+      </implementation>
+   </extension>
 
 </plugin>

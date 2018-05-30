@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.0"?>
+<?eclipse version="3.4"?>
 <plugin>
    <extension-point id="modelType" name="Model Type" schema="schema/modelType.exsd"/>
    <extension-point id="modelElementLocator" name="Model Element Locator" schema="schema/modelElementLocator.exsd"/>
-   <extension-point id="prettyPrinter" name="PrettyPrinter" schema="schema/prettyPrinter.exsd"/>
-   <extension-point id="operationContributor" name="OperationContributor" schema="schema/operationContributor.exsd"/>
+   <extension-point id="prettyPrinter" name="Pretty Printer" schema="schema/prettyPrinter.exsd"/>
+   <extension-point id="operationContributor" name="Operation Contributor" schema="schema/operationContributor.exsd"/>
    <extension-point id="tool" name="Tool" schema="schema/tool.exsd"/>
-   <extension-point id="moduleValidator" name="ModuleValidator" schema="schema/moduleValidator.exsd"/>
-   <extension
+   <extension-point id="moduleValidator" name="Module Validator" schema="schema/moduleValidator.exsd"/>
+   <extension-point id="moduleImplementation" name="Module Implementation" schema="schema/moduleImplementation.exsd"/>
+   <!--extension
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
       <launchConfigurationTypeImage
             configTypeID="org.eclipse.epsilon.common.dt.launching.chain.ChainLaunchConfigurationDelegate"
             icon="icons/chain.gif"
             id="org.eclipse.epsilon.common.dt.launching.chain.ChainLaunchConfigurationDelegate"/>
-   </extension>
+   </extension-->
    <extension
          point="org.eclipse.core.variables.dynamicVariables">
       <variable
