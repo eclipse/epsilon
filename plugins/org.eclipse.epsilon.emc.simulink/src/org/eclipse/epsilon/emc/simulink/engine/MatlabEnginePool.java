@@ -37,10 +37,8 @@ public class MatlabEnginePool {
 		this.engineJarPath = engineJarPath;
 
 		try {
-			final String SEP = System.getProperty("os.name").contains("win") ? ";" : ":";
-
+			final String SEP = System.getProperty("os.name").toLowerCase().contains("win") ? ";" : ":";
             System.setProperty(JAVA_LIBRARY_PATH, libraryPath + SEP + System.getProperty(JAVA_LIBRARY_PATH));
-
 			final Field sysPathsField = ClassLoader.class.getDeclaredField(SYS_PATHS);
 			final Class[] urlClass = new Class[]{URL.class};
 			Class urlClassLoaderClass = URLClassLoader.class;
