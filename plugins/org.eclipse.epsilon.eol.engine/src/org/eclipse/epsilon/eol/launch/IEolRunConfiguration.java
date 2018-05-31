@@ -21,13 +21,13 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 	protected static final Set<IModel> LOADED_MODELS = new HashSet<>();
 	public final Map<IModel, StringProperties> modelsAndProperties;
 	public final M module;
-	public final Map<String, Object> parameters;
+	public final Map<String, ?> parameters;
 	
 	public IEolRunConfiguration(
 		Path eolFile,
 		Map<IModel, StringProperties> modelsAndProperties,
 		Optional<M> eolModule,
-		Optional<Map<String, Object>> parameters,
+		Optional<Map<String, ?>> parameters,
 		Optional<Boolean> showResults,
 		Optional<Boolean> profileExecution,
 		Optional<Integer> configID,
@@ -54,7 +54,7 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 			Optional.of(other.showResults),
 			Optional.of(other.profileExecution),
 			Optional.of(other.id),
-			Optional.of(other.outputFile)
+			Optional.ofNullable(other.outputFile)
 		);
 		this.result = other.result;
 	}

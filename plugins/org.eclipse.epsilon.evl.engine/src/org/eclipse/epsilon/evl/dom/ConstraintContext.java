@@ -107,7 +107,7 @@ public class ConstraintContext extends AnnotatableModuleElement {
 		return getType(context).getAllOfKind();
 	}
 
-	protected EolModelElementType getType(IEvlContext context) throws EolModelNotFoundException, EolModelElementTypeNotFoundException {
+	public EolModelElementType getType(IEvlContext context) throws EolModelNotFoundException, EolModelElementTypeNotFoundException {
 		if (type == null) {
 			type = new EolModelElementType(getTypeName(), context);
 		}

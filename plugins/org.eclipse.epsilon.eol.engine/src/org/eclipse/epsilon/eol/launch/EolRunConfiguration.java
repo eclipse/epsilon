@@ -13,7 +13,7 @@ public class EolRunConfiguration extends IEolRunConfiguration<EolModule, Object>
 		Path eolFile,
 		Map<IModel, StringProperties> modelsAndProperties,
 		Optional<EolModule> eolModule,
-		Optional<Map<String, Object>> parameters,
+		Optional<Map<String, ?>> parameters,
 		Optional<Boolean> showResults,
 		Optional<Boolean> profileExecution,
 		Optional<Integer> configID,

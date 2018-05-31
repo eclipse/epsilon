@@ -18,7 +18,7 @@ public class EvlRunConfiguration extends IEolRunConfiguration<IEvlModule, Set<Un
 		Path evlFile,
 		Map<IModel, StringProperties> modelsAndProperties,
 		Optional<IEvlModule> evlModule,
-		Optional<Map<String, Object>> parameters,
+		Optional<Map<String, ?>> parameters,
 		Optional<Boolean> showResults,
 		Optional<Boolean> profileExecution,
 		Optional<Integer> configID,
@@ -43,7 +43,7 @@ public class EvlRunConfiguration extends IEolRunConfiguration<IEvlModule, Set<Un
 			Optional.of(other.showResults),
 			Optional.of(other.profileExecution),
 			Optional.of(other.id),
-			Optional.of(other.outputFile)
+			Optional.ofNullable(other.outputFile)
 		);
 	}
 	

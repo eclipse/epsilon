@@ -38,7 +38,7 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 	public static void main(String[] args) throws ClassNotFoundException {
 		
 		class InstantiableEOC extends IEolRunConfiguration<EolModule, Object> {
-			public InstantiableEOC(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, Optional<EolModule> eolModule, Optional<Map<String, Object>> parameters, Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<Integer> configID, Optional<Path> scratchFile) {
+			public InstantiableEOC(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, Optional<EolModule> eolModule, Optional<Map<String, ?>> parameters, Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<Integer> configID, Optional<Path> scratchFile) {
 				super(eolFile, modelsAndProperties, eolModule, parameters, showResults, profileExecution, configID, scratchFile);
 			}
 			@Override

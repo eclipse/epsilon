@@ -16,7 +16,6 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.dom.NamedRule;
@@ -100,12 +99,12 @@ public class Constraint extends NamedRule {
 
 	protected UnsatisfiedConstraint preprocessCheck(Object self, IEvlContext context) {
 		UnsatisfiedConstraint unsatisfiedConstraint = new UnsatisfiedConstraint();
-		FrameStack frameStack = context.getFrameStack();
-		frameStack.enterLocal(FrameType.UNPROTECTED, checkBlock.getBody());
-		frameStack.put(
-			Variable.createReadOnlyVariable("self", self),
-			Variable.createReadOnlyVariable("extras", unsatisfiedConstraint.getExtras())
-		);
+		context.getFrameStack()
+			.enterLocal(FrameType.UNPROTECTED, checkBlock.getBody())
+			.put(
+				Variable.createReadOnlyVariable("self", self),
+				Variable.createReadOnlyVariable("extras", unsatisfiedConstraint.getExtras())
+			);
 		return unsatisfiedConstraint;
 	}
 	
