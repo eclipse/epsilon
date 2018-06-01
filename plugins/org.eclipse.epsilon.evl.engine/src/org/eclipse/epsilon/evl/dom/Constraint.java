@@ -64,8 +64,11 @@ public class Constraint extends NamedRule {
 		return !isLazy(context) && appliesTo(modelElement, context);
 	}
 	
-	public boolean execute(Object modelElement, IEvlContext context) throws EolRuntimeException {
-		return shouldBeChecked(modelElement, context) && check(modelElement, context);
+	public Optional<UnsatisfiedConstraint> execute(Object modelElement, IEvlContext context) throws EolRuntimeException {
+		if (shouldBeChecked(modelElement, context)) {
+			return check(modelElement, context);
+		}
+		return Optional.empty();
 	}
 
 	// FIXME : Currently examines only the local guard
@@ -80,12 +83,12 @@ public class Constraint extends NamedRule {
 		return postprocessCheck(self, context, preprocessCheck(self, context), result);
 	}
 
-	public boolean check(Object self, IEvlContext context) throws EolRuntimeException {
+	public Optional<UnsatisfiedConstraint> check(Object self, IEvlContext context) throws EolRuntimeException {
 		UnsatisfiedConstraint unsatisfiedConstraint = preprocessCheck(self, context);
 		boolean result;
 		ConstraintTrace trace;
 		
-		//Look for a result in the trace first if this constraint is a dependency, otherwise run the check block
+		// Look for a result in the trace first if this constraint is a dependency, otherwise run the check block
 		if (checkTrace && (trace = context.getConstraintTrace()).isChecked(this, self)) {
 			assert context.getConstraintsDependedOn().contains(this);
 			result = trace.isSatisfied(this, self);
@@ -94,7 +97,8 @@ public class Constraint extends NamedRule {
 			result = executeCheckBlock(self, context);
 		}
 		
-		return postprocessCheck(self, context, unsatisfiedConstraint, result);
+		return postprocessCheck(self, context, unsatisfiedConstraint, result)
+			? Optional.of(unsatisfiedConstraint) : Optional.empty();
 	}
 
 	protected UnsatisfiedConstraint preprocessCheck(Object self, IEvlContext context) {
