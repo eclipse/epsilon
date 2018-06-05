@@ -35,6 +35,7 @@ public class Constraint extends NamedRule {
 	protected volatile boolean checkTrace = false;
 	
 	@SuppressWarnings("unchecked")
+	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		if (cst.getType() == EvlParser.CRITIQUE) {
@@ -97,7 +98,7 @@ public class Constraint extends NamedRule {
 			result = executeCheckBlock(self, context);
 		}
 		
-		return postprocessCheck(self, context, unsatisfiedConstraint, result)
+		return !postprocessCheck(self, context, unsatisfiedConstraint, result)
 			? Optional.of(unsatisfiedConstraint) : Optional.empty();
 	}
 
@@ -147,6 +148,7 @@ public class Constraint extends NamedRule {
 		return guardBlock.getText().contains("satisfies");
 	}
 	
+	@Override
 	public List<?> getModuleElements() {
 		return Collections.EMPTY_LIST;
 	}
