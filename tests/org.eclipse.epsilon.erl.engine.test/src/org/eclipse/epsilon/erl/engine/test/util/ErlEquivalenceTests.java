@@ -122,8 +122,10 @@ public abstract class ErlEquivalenceTests<M extends IErlModule, C extends IEolRu
 	 * than is provided by the testing framework.
 	 * @param message The message to fail with.
 	 * If <code>null</code>, no action is taken.
+	 * 
+	 * @return whether the message is null, for convenience.
 	 */
-	protected void onFail(String message) {
+	protected boolean onFail(String message) {
 		if (message != null && !message.isEmpty()) {
 			System.err.println(
 				actualModule.getClass().getSimpleName()+
@@ -131,7 +133,9 @@ public abstract class ErlEquivalenceTests<M extends IErlModule, C extends IEolRu
 				", "+testConfig.modelsAndProperties
 			);
 			fail(message);
+			return true;
 		}
+		return false;
 	}
 	
 	protected void testModuleCanExecute() {
