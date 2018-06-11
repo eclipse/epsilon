@@ -1,17 +1,18 @@
 package org.eclipse.epsilon.eol.cli;
 
-import static org.eclipse.epsilon.emc.emf.EmfModel.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.apache.commons.cli.Option;
 import org.eclipse.epsilon.common.cli.ConfigParser;
-import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -54,11 +55,14 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 	
 	// Variables to be parsed
 	public Optional<M> module;
-	public IModel model;
-	public StringProperties properties;
+	public Map<IModel, StringProperties> modelsAndProperties;
+	public Map<String, String> scriptParameters;
 	
 	protected final Class<R> configClass;
-	private final String moduleOpt = "module";
+	private final String
+		moduleOpt = "module",
+		modelsOpt = "models",
+		scriptParamsOpt = "parameters";
 	
 	/**
 	 * @param args command-line arguments.
@@ -69,8 +73,7 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 		super();
 		this.configClass = configurationClass;
 		
-		requiredUsage += "  [absolute path to model] "+nL
-					   + "  [absolute path to metamodel] "+nL;
+		requiredUsage += "-models [model class]:"+nL;
 		optionalUsage += "  [module] [argtype=argvalue]s..."+nL;
 		
 		options.addOption(Option.builder(moduleOpt)
@@ -84,25 +87,52 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 			.valueSeparator()
 			.build()
 		);
+		
+		options.addOption(Option.builder(modelsOpt)
+			.hasArgs()
+			.desc("Specify the models and properties. The format first specifies the concrete Java class to"
+				+ "be instantiated (fully qualified name after org.eclipse.epsilon.emc.), followed by a colon,"
+				+ "followed by comma-separated key=value properties. For example: "
+				+ "emf.EmfModel{name=modelName,cached=true};emf.EmfModel{name=model2}. "
+				+ "This example specifies two EMF models with their names as properties."
+			)
+			.valueSeparator(';')
+			.build()
+		);
+		
+		options.addOption(Option.builder(scriptParamsOpt)
+			.hasArgs()
+			.desc("Specify parameters to the script in comma-separated key=value pairs. Note that "
+				+ "the type of variable passed will always be a String."
+			)
+			.optionalArg(true)
+			.valueSeparator(',')
+			.build()
+		);
 	}
 	
 	@Override
 	protected void parseArgs(String[] args) throws Exception {
 		super.parseArgs(args);
 		
-		model = getIModelFromPath(args[2]);
-		properties = makeProperties(args[1], args[2]);
-		
 		module = cmdLine.hasOption(moduleOpt) ?
 			Optional.of(parseModule(cmdLine.getOptionValues(moduleOpt))) :
 			Optional.empty();
 			
+		modelsAndProperties = cmdLine.hasOption(modelsOpt) ?
+			getModelsFromString(cmdLine.getOptionValues(modelsOpt)) :
+			Collections.emptyMap();
+		
+		scriptParameters = cmdLine.hasOption(scriptParamsOpt) ?
+			getScriptParametersFromString(cmdLine.getOptionValues(scriptParamsOpt)) :
+			Collections.emptyMap();
+			
 		runConfig = instantiate(
 			configClass,
 			script,
+			modelsAndProperties,
 			module,
-			properties,
-			model,
+			scriptParameters,
 			showResults,
 			profileExecution,
 			id,
@@ -110,55 +140,45 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 		);
 	}
 	
-	public static IModel getIModelFromPath(String filepath) throws IllegalArgumentException {
-		String ext = FileUtil.getExtension(filepath).toLowerCase();
-		switch (ext) {
-			case "xmi": case "ecore": case "genmodel": case "emf": case "model":
-				return new EmfModel();
-			default: throw new IllegalArgumentException("Unknown model type for extension '"+ext+"'");
+	public static Map<IModel, StringProperties> getModelsFromString(String[] arguments) throws Exception {
+		Map<IModel, StringProperties> modelMap = new HashMap<>(arguments.length);
+		
+		for (String arg : arguments) {
+			String[] modelPropertyEntry = arg.split(":");
+			assert modelPropertyEntry.length == 2;
+			
+			IModel model = (IModel) Class.forName("org.eclipse.epsilon.emc."+modelPropertyEntry[0])
+				.getDeclaredConstructor()
+				.newInstance();
+			
+			StringProperties properties = new StringProperties();
+			for (String propertyToken : modelPropertyEntry[1].split(",")) {
+				String[] propEntry = propertyToken.split("=");
+				assert propEntry.length == 2;
+				properties.put(propEntry[0], propEntry[1]);
+			}
+			
+			modelMap.put(model, properties);
 		}
+
+		return modelMap;
 	}
 	
-	public static StringProperties makeProperties(String modelPath, String metamodelPath) {
-		StringProperties properties = new StringProperties();
-		properties.put(PROPERTY_READONLOAD, true);
-		properties.put(PROPERTY_CACHED, true);
-		properties.put(PROPERTY_STOREONDISPOSAL, true);
-		
-		try {
-			Path modelFile = Paths.get(modelPath);
-			
-			if (!modelFile.toFile().isFile())
-				throw new IllegalArgumentException("is not a file.");
-			
-			properties.put(PROPERTY_NAME, FileUtil.removeExtension(modelFile.getFileName().toString()));
-			properties.put(PROPERTY_MODEL_URI, modelFile.toUri().toString());
-		}
-		catch (NullPointerException | IllegalArgumentException ex) {
-			System.err.println("Invalid model path '"+modelPath+"': "+ex.getMessage());
-		}
-		
-		try {
-			Path metamodelFile = Paths.get(metamodelPath);
-			
-			if (!metamodelFile.toFile().isFile())
-				throw new IllegalArgumentException("is not a file.");
-			
-			properties.put(PROPERTY_FILE_BASED_METAMODEL_URI, metamodelFile.toUri().toString());
-		}
-		catch (NullPointerException | IllegalArgumentException ex) {
-			System.err.println("Invalid metamodel path '"+metamodelPath+"': "+ex.getMessage());
-		}
-		
-		return properties;
+	public static Map<String, String> getScriptParametersFromString(String[] arguments) {
+		return Arrays.stream(arguments)
+			.map(param -> {
+				String[] entry = param.split("=");
+				return new AbstractMap.SimpleEntry<>(entry[0], entry[1]);
+			})
+			.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}
 	
 	public static <M extends IEolModule, R extends IEolRunConfiguration<M, ?>> R instantiate(
 			Class<R> subClazz,
 			Path script,
+			Map<IModel, StringProperties> modelsAndProperties,
 			Optional<M> module,
-			StringProperties properties,
-			IModel model,
+			Map<String, ?> scriptParameters,
 			Optional<Boolean> showResults,
 			Optional<Boolean> profileExecution,
 			Optional<Integer> id,
@@ -177,9 +197,9 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 				)
 				.newInstance(
 					script,
-					Collections.singletonMap(model, properties),
+					modelsAndProperties,
 					module,
-					Optional.empty(),
+					Optional.of(scriptParameters),
 					showResults,
 					profileExecution,
 					id,
