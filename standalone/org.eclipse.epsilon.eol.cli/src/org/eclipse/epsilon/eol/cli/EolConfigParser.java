@@ -93,8 +93,8 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 			.desc("Specify the models and properties. The format first specifies the concrete Java class to"
 				+ "be instantiated (fully qualified name after org.eclipse.epsilon.emc.), followed by a colon,"
 				+ "followed by comma-separated key=value properties. For example: "
-				+ "emf.EmfModel{name=modelName,cached=true};emf.EmfModel{name=model2}. "
-				+ "This example specifies two EMF models with their names as properties."
+				+ "emf.EmfModel:name=modelName,cached=true;plainxml.PlainXmlModel:name=model2. "
+				+ "This example specifies an EMF and a PlainXML model with their names as properties."
 			)
 			.valueSeparator(';')
 			.build()
@@ -120,11 +120,11 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 			Optional.empty();
 			
 		modelsAndProperties = cmdLine.hasOption(modelsOpt) ?
-			getModelsFromString(cmdLine.getOptionValues(modelsOpt)) :
+			parseModelParameters(cmdLine.getOptionValues(modelsOpt)) :
 			Collections.emptyMap();
 		
 		scriptParameters = cmdLine.hasOption(scriptParamsOpt) ?
-			getScriptParametersFromString(cmdLine.getOptionValues(scriptParamsOpt)) :
+			parseScriptParameters(cmdLine.getOptionValues(scriptParamsOpt)) :
 			Collections.emptyMap();
 			
 		runConfig = instantiate(
@@ -140,7 +140,7 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 		);
 	}
 	
-	public static Map<IModel, StringProperties> getModelsFromString(String[] arguments) throws Exception {
+	public static Map<IModel, StringProperties> parseModelParameters(String[] arguments) throws Exception {
 		Map<IModel, StringProperties> modelMap = new HashMap<>(arguments.length);
 		
 		for (String arg : arguments) {
@@ -164,7 +164,7 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 		return modelMap;
 	}
 	
-	public static Map<String, String> getScriptParametersFromString(String[] arguments) {
+	public static Map<String, String> parseScriptParameters(String[] arguments) {
 		return Arrays.stream(arguments)
 			.map(param -> {
 				String[] entry = param.split("=");
