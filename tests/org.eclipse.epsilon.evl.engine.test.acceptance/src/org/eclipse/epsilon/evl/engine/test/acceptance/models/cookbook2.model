@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="Cookbooks">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="Cookbooks" xsi:schemaLocation="Cookbooks ../metamodels/cookbook.ecore">
   <Cookbooks>
     <cookbooks name="Easy meals" description="You don't need to be an expert to make these dishes!" contents="/0/@categories.0/@recipes.0 /0/@categories.1/@recipes.0 /0/@categories.3/@recipes.0 /1 /0/@categories.2/@recipes.1"/>
     <categories name="Light lunches" meta="Lunch">

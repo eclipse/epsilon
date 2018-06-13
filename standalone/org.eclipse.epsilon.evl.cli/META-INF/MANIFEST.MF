@@ -6,5 +6,5 @@ Bundle-Version: 1.5.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
 Automatic-Module-Name: org.eclipse.epsilon.evl.cli
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.epsilon.eol.cli,
- org.eclipse.epsilon.evl.engine
+Require-Bundle: org.eclipse.epsilon.eol.cli;visibility:=reexport,
+ org.eclipse.epsilon.evl.engine;visibility:=reexport

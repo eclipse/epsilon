@@ -421,12 +421,11 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 
 	@Override
 	public Object getElementById(String id) {
-		return getResources()
-			.stream()
-			.map(resource -> resource.getEObject(id))
-			.filter(resource -> resource != null)
-			.findAny()
-			.orElse(null);
+		for (Resource resource : getResources()) {
+			Object instance = resource.getEObject(id);
+			if (instance != null) return instance;
+		}
+		return null;
 	}
 
 	@Override

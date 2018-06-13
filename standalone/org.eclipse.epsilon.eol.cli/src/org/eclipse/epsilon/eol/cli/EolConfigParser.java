@@ -73,7 +73,7 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 		super();
 		this.configClass = configurationClass;
 		
-		requiredUsage += "-models [model class]:"+nL;
+		requiredUsage += "-models [model class]#[model properties];"+nL;
 		optionalUsage += "  [module] [argtype=argvalue]s..."+nL;
 		
 		options.addOption(Option.builder(moduleOpt)
@@ -91,9 +91,9 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 		options.addOption(Option.builder(modelsOpt)
 			.hasArgs()
 			.desc("Specify the models and properties. The format first specifies the concrete Java class to"
-				+ "be instantiated (fully qualified name after org.eclipse.epsilon.emc.), followed by a colon,"
+				+ "be instantiated (fully qualified name after org.eclipse.epsilon.emc.), followed by #,"
 				+ "followed by comma-separated key=value properties. For example: "
-				+ "emf.EmfModel:name=modelName,cached=true;plainxml.PlainXmlModel:name=model2. "
+				+ "emf.EmfModel#name=modelName,cached=true;plainxml.PlainXmlModel:name=model2. "
 				+ "This example specifies an EMF and a PlainXML model with their names as properties."
 			)
 			.valueSeparator(';')
@@ -144,8 +144,9 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 		Map<IModel, StringProperties> modelMap = new HashMap<>(arguments.length);
 		
 		for (String arg : arguments) {
-			String[] modelPropertyEntry = arg.split(":");
-			assert modelPropertyEntry.length == 2;
+			String[] modelPropertyEntry = arg.split("#");
+			if (modelPropertyEntry.length != 2)
+				continue;
 			
 			IModel model = (IModel) Class.forName("org.eclipse.epsilon.emc."+modelPropertyEntry[0])
 				.getDeclaredConstructor()
@@ -168,7 +169,16 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 		return Arrays.stream(arguments)
 			.map(param -> {
 				String[] entry = param.split("=");
-				return new AbstractMap.SimpleEntry<>(entry[0], entry[1]);
+				String key, value;
+				
+				if (entry.length != 2) {
+					key = ""; value = "";
+				}
+				else {
+					key = entry[0]; value = entry[1];
+				}
+				
+				return new AbstractMap.SimpleEntry<>(key, value);
 			})
 			.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}

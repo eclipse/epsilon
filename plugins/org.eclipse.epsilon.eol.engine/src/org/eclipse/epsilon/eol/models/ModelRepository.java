@@ -67,7 +67,7 @@ public class ModelRepository {
 		}
 		
 		for (IModel model : models) {
-			if (modelName.equals(model.getName())){
+			if (modelName.equals(model.getName())) {
 				return model;
 			} 
 		}
@@ -75,7 +75,7 @@ public class ModelRepository {
 		ModelGroup modelGroup = (ModelGroup) cachedModelGroups.get(modelName);
 		if (modelGroup == null) {
 			modelGroup = new ModelGroup(this,modelName);
-			cachedModelGroups.put(modelName,modelGroup);
+			cachedModelGroups.put(modelName, modelGroup);
 		}
 		return modelGroup;
 	}
@@ -132,10 +132,12 @@ public class ModelRepository {
 	
 	public IModel getOwningModel(Object instance) {
 		
-		if (instance instanceof IModelElement) { return ((IModelElement) instance).getOwningModel(); }
+		if (instance instanceof IModelElement) {
+			return ((IModelElement) instance).getOwningModel();
+		}
 		
 		for (IModel model : models) {
-			if (model.owns(instance)){
+			if (model.owns(instance)) {
 				return model;
 			}
 		}
