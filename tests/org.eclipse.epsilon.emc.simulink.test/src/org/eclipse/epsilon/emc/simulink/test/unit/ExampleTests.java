@@ -41,6 +41,12 @@ private static final String ROOT = "examples/";
 	}
 	
 	@Test
+	public void testParent() {
+		eolResourceFile = ROOT + "parent.eol";
+		modelFile = FileUtils.getModelFile("parent.slx");
+	}
+	
+	@Test
 	@Ignore
 	public void testQueryFeedbackController() { // FAILS
 		eolResourceFile = ROOT + "queryFeedbackController.eol";
