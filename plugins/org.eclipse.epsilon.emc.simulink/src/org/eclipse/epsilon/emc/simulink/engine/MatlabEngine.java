@@ -5,6 +5,9 @@ import java.util.concurrent.Future;
 
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MatlabEngine {
 
 	/** ENGINE COMMANDS */
@@ -20,6 +23,8 @@ public class MatlabEngine {
 	/** ERRORS */
 	private static final String ERROR_INVALID_PARAMETER_NUMBER = "%d parameters were expected but %d were provided";
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(MatlabEngine.class);
+	
 	/** VARIABLES */
 	protected Object engine;
 	protected Method evalMethod;
@@ -63,8 +68,11 @@ public class MatlabEngine {
 
 	public void eval(String cmd) throws MatlabException {
 		try {
+			LOGGER.debug("EMC-Simulink: " + cmd);
 			evalMethod.invoke(engine, cmd);
 		} catch (Exception e) {
+			LOGGER.error("EMC-Simulink: " + e.getMessage());
+			e.printStackTrace();
 			throw new MatlabException(e);
 		}
 	}
