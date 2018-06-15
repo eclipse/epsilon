@@ -42,6 +42,13 @@ public class ErlThreadPoolExecutor extends ThreadPoolExecutor implements ErlExec
 	}
 	
 	/**
+	 * Starts with 1 thread and grows to maxThreads as needed.
+	 */
+	public static ErlThreadPoolExecutor adaptiveExecutor(int maxThreads) {
+		return new ErlThreadPoolExecutor(1, maxThreads, DEFAULT_KEEP_ALIVE, DEFAULT_TIME_UNIT, new LinkedBlockingQueue<>());
+	}
+	
+	/**
 	 * Custom configuration with default RejectedExecutionHandler.
 	 */
 	public ErlThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {

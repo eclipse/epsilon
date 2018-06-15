@@ -5,9 +5,9 @@ import static org.eclipse.epsilon.evl.engine.test.acceptance.EvlAcceptanceTestUt
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.erl.engine.test.util.ErlEquivalenceTests;
 import org.eclipse.epsilon.evl.*;
+import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 import org.eclipse.epsilon.evl.trace.ConstraintTraceItem;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -16,9 +16,9 @@ import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized.Parameters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EvlModuleEquivalenceTests extends ErlEquivalenceTests<IEvlModule, IEolRunConfiguration<IEvlModule, ?>> {
+public class EvlModuleEquivalenceTests extends ErlEquivalenceTests<IEvlModule, EvlRunConfiguration> {
 	
-	public EvlModuleEquivalenceTests(IEolRunConfiguration<IEvlModule, ?> configUnderTest) {
+	public EvlModuleEquivalenceTests(EvlRunConfiguration configUnderTest) {
 		super(configUnderTest);
 	}
 	
@@ -30,10 +30,9 @@ public class EvlModuleEquivalenceTests extends ErlEquivalenceTests<IEvlModule, I
 	
 	/**
 	 * @return A collection of pre-configured run configurations, each with their own IEvlModule.
-	 * @see EvlAcceptanceTestSuite.getScenarios
 	 */
 	@Parameters//(name = "0")	Don't use this as the Eclipse JUnit view won't show failures!
-	public static Iterable<? extends IEolRunConfiguration<IEvlModule, ?>> configurations() {
+	public static Collection<EvlRunConfiguration> configurations() {
 		// Used to specify which module configurations we'd like to test in our scenarios
 		return getScenarios(
 			allInputs,		// All scripts & models
