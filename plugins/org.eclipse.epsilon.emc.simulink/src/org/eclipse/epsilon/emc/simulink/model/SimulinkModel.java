@@ -97,8 +97,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 					 // Ignore; system already exists	
 				}
 			}
-			
-			String pwd = (workingDir!= null && workingDir.exists()) ? workingDir.getAbsolutePath() : file.getParentFile().getAbsolutePath();
+			String pwd = (workingDir!= null) ? workingDir.getAbsolutePath() : file.getParentFile().getAbsolutePath();
 				try {
 				engine.eval(PWD, pwd);
 				} catch (Exception ex) {
@@ -302,9 +301,12 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 	
 	public static void main(String[] args) throws Exception {
+		File tmpFile = File.createTempFile("foo", ".slx");
+		
 		SimulinkModel model = new SimulinkModel();
 		model.setName("M");
-		model.setFile(File.createTempFile("foo", ".slx"));
+		model.setFile(tmpFile);
+		model.setWorkingDir(tmpFile.getParentFile());
 		model.setReadOnLoad(false);
 		model.setStoredOnDisposal(false);
 		model.setShowInMatlabEditor(true);
@@ -331,9 +333,9 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		if (filePath != null && filePath.trim().length() > 0)
 			file = new File(resolver.resolve(filePath));
 		if (workingDirPath != null && workingDirPath.trim().length() > 0) {
-			workingDir = new File(resolver.resolve(workingDirPath));
+			workingDir = new File(workingDirPath);
 		} else {
-			workingDir = file.getParentFile();
+			workingDir = file.getParentFile();			
 		}			
 
 		load();
@@ -482,6 +484,14 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 
 	public boolean isShowInMatlabEditor() {
 		return showInMatlabEditor;
+	}
+	
+	public File getWorkingDir() {
+		return workingDir;
+	}
+
+	public void setWorkingDir(File workingDir) {
+		this.workingDir = workingDir;
 	}
 	
 	/**
