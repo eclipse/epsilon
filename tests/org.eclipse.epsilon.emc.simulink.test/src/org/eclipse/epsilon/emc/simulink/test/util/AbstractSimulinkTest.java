@@ -132,7 +132,7 @@ public abstract class AbstractSimulinkTest {
 			model.setReadOnLoad(false);
 		}
 		model.setStoredOnDisposal(false);
-		model.setHiddenEditor(true);
+		model.setShowInMatlabEditor(true);
 		model.setCachingEnabled(activeCaching);
 		model.setLibraryPath(LIBRARY_PATH.path());
 		model.setEngineJarPath(ENGINE_JAR.path());
