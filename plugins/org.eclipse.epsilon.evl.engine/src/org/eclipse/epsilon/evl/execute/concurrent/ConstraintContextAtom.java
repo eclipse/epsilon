@@ -1,6 +1,12 @@
 package org.eclipse.epsilon.evl.execute.concurrent;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
 public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
@@ -11,5 +17,27 @@ public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
 	
 	public ConstraintContextAtom(ConstraintContext constraintContext, Object modelElement) {
 		super(constraintContext, modelElement);
+	}
+	
+	public boolean execute(IEvlContext context) throws EolRuntimeException {
+		if (unit.shouldBeChecked(element, context)) {
+			for (Constraint constraint : unit.getConstraints()) {
+				constraint.execute(element, context);
+			}
+			return true;
+		}
+		else return false;
+	}
+	
+	public Collection<UnsatisfiedConstraint> executeWithResults(IEvlContext context) throws EolRuntimeException {
+		if (unit.shouldBeChecked(element, context)) {
+			Collection<Constraint> constraints = unit.getConstraints();
+			ArrayList<UnsatisfiedConstraint> results = new ArrayList<>(constraints.size());
+			for (Constraint constraint : constraints) {
+				constraint.execute(element, context).ifPresent(results::add);
+			}
+			return results;
+		}
+		else return Collections.emptyList();
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
-/*
+/**
  * A single EVL construct (e.g. Constraint or ConstraintContext) and model element combination.
  * This class represents the most atomic (i.e. highest level of granularity) data structure possible.
  */

@@ -41,7 +41,15 @@ public interface IErlContextParallel extends IEolContext {
 	 */
 	boolean isParallel();
 	
-	default ErlExecutorService getExecutor() {
+	/**
+	 * Factory method for creating executors. Implementations may override this
+	 * to provide a more suitable service for the computation tasks. Note that
+	 * typically executors are used once and disposed, rather than persisted for
+	 * repeated re-use.
+	 * 
+	 * @return a new {@linkplain ErlExecutorService}.
+	 */
+	default ErlExecutorService newExecutor() {
 		return ErlThreadPoolExecutor.defaultExecutor(getParallelism());
 	}
 	

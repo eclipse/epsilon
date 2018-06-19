@@ -4,7 +4,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
+import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 
+/**
+ * Convenience interface which allows for easy handling of {@link #awaitTermination(long, TimeUnit)}
+ * under both normal and exceptional completion scenarios.
+ * @author Sina Madani
+ */
 public interface ErlExecutorService extends ExecutorService {
 	
 	ErlExecutionStatus getExecutionStatus();
@@ -42,8 +48,13 @@ public interface ErlExecutorService extends ExecutorService {
 	/**
 	 * Hack for allowing execution of methods which throw exceptions! Lambdas will call this instead of the regular execute().
 	 */
-	default void execute(CheckedEolRunnable task) throws EolRuntimeException {
-		// No performance penalty in upcasting!
-		execute((Runnable)task);
+	default void execute(CheckedEolRunnable task, IErlContextParallel context) {
+		try {
+			// No performance penalty in upcasting!
+			execute((Runnable)task);
+		}
+		catch (Exception exception) {
+			context.handleException(exception, this);
+		}
 	}
 }
