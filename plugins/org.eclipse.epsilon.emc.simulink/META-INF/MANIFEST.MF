@@ -4,11 +4,14 @@ Bundle-Name: Simulink
 Bundle-SymbolicName: org.eclipse.epsilon.emc.simulink
 Bundle-Version: 1.5.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.epsilon.eol.engine
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.slf4j.api
 Export-Package: org.eclipse.epsilon.emc.simulink.engine,
  org.eclipse.epsilon.emc.simulink.introspection.java,
  org.eclipse.epsilon.emc.simulink.model,
  org.eclipse.epsilon.emc.simulink.model.element,
  org.eclipse.epsilon.emc.simulink.operations.contributors,
  org.eclipse.epsilon.emc.simulink.util
-
+Import-Package: org.slf4j,
+ org.slf4j.helpers,
+ org.slf4j.spi

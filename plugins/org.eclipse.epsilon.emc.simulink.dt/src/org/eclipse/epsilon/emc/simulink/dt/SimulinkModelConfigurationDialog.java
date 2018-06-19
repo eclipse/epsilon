@@ -12,6 +12,7 @@ package org.eclipse.epsilon.emc.simulink.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
+import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
@@ -20,73 +21,107 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
-	
+
 	protected String getModelName() {
 		return "Simulink Model";
 	}
-	
+
 	protected String getModelType() {
 		return "Simulink";
 	}
-	
+
 	protected Label fileTextLabel;
-	protected Label invisibleLabel;
 	protected Text fileText;
 	protected Button browseModelFile;
-	protected Button hiddenEditorCheckbox;
+
+	protected DirectoryFieldEditor workingDirBrowser;
 	
+	protected Label showInMatlabEditorLabel;
+	protected Button showInMatlabEditorCheckbox;
+
+	protected Label followLinksLabel;
+	protected Button followLinksCheckbox;
+
 	protected void createGroups(Composite control) {
 		super.createGroups(control);
 		createFilesGroup(control);
 		createDisplayGroup(control);
 		createLoadStoreOptionsGroup(control);
 	}
-	
+
 	protected Composite createFilesGroup(Composite parent) {
 		final Composite groupContent = createGroupContainer(parent, "Files/URIs", 3);
-		
+
 		fileTextLabel = new Label(groupContent, SWT.NONE);
 		fileTextLabel.setText("File: ");
-		
+
 		fileText = new Text(groupContent, SWT.BORDER);
 		fileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
+
 		browseModelFile = new Button(groupContent, SWT.NONE);
 		browseModelFile.setText("Browse Workspace...");
 		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(fileText, "Simulink models in the workspace", "Select a Simulink model"));
-		
+
 		groupContent.layout();
 		groupContent.pack();
 		return groupContent;
 	}
-	
+
 	protected Composite createDisplayGroup(Composite parent) {
-		final Composite displayGroupContent = createGroupContainer(parent, "Display options", 2);
+		final Composite matlabGroupContent = createGroupContainer(parent, "MATLAB options", 3);
+
+		workingDirBrowser = new DirectoryFieldEditor(SimulinkModel.PROPERTY_WORKING_DIR, "Working directory: ", matlabGroupContent);
+
+		showInMatlabEditorLabel = new Label(matlabGroupContent, SWT.NONE);
+		showInMatlabEditorLabel.setText("Force MATLAB to open (?): ");
+		showInMatlabEditorLabel.setToolTipText("If selected, the model will be shown in the MATLAB Editor. "
+				+ "If the model is already loaded, it will not open it again. "
+				+ "If unchecked, the model will not be open in the MATLAB editor, "
+				+ "but won't close an already open model");
+
+		showInMatlabEditorCheckbox = new Button(matlabGroupContent, SWT.CHECK);
+		showInMatlabEditorCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		showInMatlabEditorCheckbox.setSelection(false);
+
+		new Label(matlabGroupContent, SWT.NONE);
 		
-		invisibleLabel = new Label(displayGroupContent, SWT.NONE);
-		invisibleLabel.setText("Hide editor: ");
+		followLinksLabel = new Label(matlabGroupContent, SWT.NONE);
+		followLinksLabel.setText("Follow Block Links (?): ");
+		followLinksLabel.setToolTipText("Set the 'FollowLinks' flag to 'on' of the 'find_system' method "
+				+ "used when calling all elements of a type in Epsilon e.g. ModelType.all;");
 		
-		hiddenEditorCheckbox = new Button(displayGroupContent, SWT.CHECK);
-		hiddenEditorCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		hiddenEditorCheckbox.setSelection(false);
-		
-		displayGroupContent.layout();
-		displayGroupContent.pack();
-		return displayGroupContent;
+		followLinksCheckbox = new Button(matlabGroupContent, SWT.CHECK);
+		followLinksCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		followLinksCheckbox.setSelection(false);
+
+		matlabGroupContent.layout();
+		matlabGroupContent.pack();
+		return matlabGroupContent;
 	}
-	
-	protected void loadProperties(){
+
+	protected void loadProperties() {
 		super.loadProperties();
 		if (properties == null) return;
-		if (hiddenEditorCheckbox!=null) hiddenEditorCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_HIDDEN_EDITOR,"true")).booleanValue());
-
+		if (showInMatlabEditorCheckbox != null) {
+			showInMatlabEditorCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR,"true")).booleanValue());
+		}
+		if (followLinksCheckbox != null) {
+			followLinksCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS,"true")).booleanValue());
+		}
 		fileText.setText(properties.getProperty(SimulinkModel.PROPERTY_FILE));
+		workingDirBrowser.setStringValue(properties.getProperty(SimulinkModel.PROPERTY_WORKING_DIR));
 	}
-	
-	
-	protected void storeProperties(){
+
+	protected void storeProperties() {
 		super.storeProperties();
-		if (hiddenEditorCheckbox!=null) properties.put(SimulinkModel.PROPERTY_HIDDEN_EDITOR, hiddenEditorCheckbox.getSelection() + "");
+		if (showInMatlabEditorCheckbox != null) {
+			properties.put(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR, showInMatlabEditorCheckbox.getSelection() + "");
+		}
+		if (followLinksCheckbox != null) {
+			properties.put(SimulinkModel.PROPERTY_FOLLOW_LINKS, followLinksCheckbox.getSelection() + "");
+		}
 		properties.put(SimulinkModel.PROPERTY_FILE, fileText.getText());
+		properties.put(SimulinkModel.PROPERTY_WORKING_DIR, workingDirBrowser.getStringValue());
 	}
+	
 }

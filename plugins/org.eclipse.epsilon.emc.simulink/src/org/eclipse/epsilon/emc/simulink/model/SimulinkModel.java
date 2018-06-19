@@ -40,15 +40,18 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	public static final String PROPERTY_FILE = "file";
 	public static final String PROPERTY_LIBRARY_PATH = "library_path";
 	public static final String PROPERTY_ENGINE_JAR_PATH = "engine_jar_path";
-	public static final String PROPERTY_HIDDEN_EDITOR = "hidden_editor";
+	public static final String PROPERTY_SHOW_IN_MATLAB_EDITOR = "hidden_editor";
+	public static final String PROPERTY_FOLLOW_LINKS = "follow_links";
+	public static final String PROPERTY_WORKING_DIR = "working_dir";
 
 	public static final String BLOCK = "Block";
 	public static final String SIMULINK = "Simulink";
 	public static final String STATEFLOW = "Stateflow";
 
+	private static final String PWD = "cd ?;";
 	private static final String GET_PARAM = "get_param('?', 'Handle');";
-	private static final String LOAD_SYSTEM = "load_system ";
-	private static final String OPEN_SYSTEM = "open_system ";
+	private static final String LOAD_SYSTEM = "load_system ?";
+	private static final String OPEN_SYSTEM = "open_system ?";
 	private static final String NEW_SYSTEM = "new_system('?', 'Model');";
 	private static final String SAVE_SYSTEM = "save_system('?', '?');";
 
@@ -72,11 +75,13 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	protected SimulinkPropertySetter propertySetter;
 	protected ModelOperationContributor simulinkOperationContributor;
 
+	protected File workingDir = null;
 	protected String libraryPath;
 	protected String engineJarPath;
 	protected MatlabEngine engine;
 
-	protected boolean hiddenEditor = true;
+	protected boolean showInMatlabEditor = false;
+	protected boolean followLinks = true;
 	protected double handle = -1;
 
 	@Override
@@ -85,22 +90,22 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			engine = MatlabEnginePool.getInstance(libraryPath, engineJarPath).getMatlabEngine();
 			simulinkOperationContributor = new ModelOperationContributor(engine);
 
-			String modelToLoad = "";
-			if (readOnLoad) {
-				modelToLoad = file.getAbsolutePath();
-			} else {
+			if (!readOnLoad) {
 				try {
 					engine.eval(NEW_SYSTEM, getSimulinkModelName());
 				} catch (Exception ex) {
-				} // Ignore; system already exists
-				modelToLoad = getSimulinkModelName();
+					 // Ignore; system already exists	
+				}
 			}
-			if (hiddenEditor) {
-				engine.eval(LOAD_SYSTEM + modelToLoad);
-			} else {
-				engine.eval(OPEN_SYSTEM + modelToLoad);
-			}
+			String pwd = (workingDir!= null) ? workingDir.getAbsolutePath() : file.getParentFile().getAbsolutePath();
+				try {
+				engine.eval(PWD, pwd);
+				} catch (Exception ex) {
+					throw new EolModelLoadingException(ex, this);
+				}
 
+			String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
+			engine.eval(cmd, file.getAbsolutePath());
 			this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());
 		} catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
@@ -243,6 +248,10 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			Collection<ISimulinkModelElement> allStateflowBlocksFromModel = StateflowUtil.getAllStateflowBlocksFromModel(this, engine);
 			if (!allStateflowBlocksFromModel.isEmpty()) 
 				all.addAll(allStateflowBlocksFromModel);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
 			List<ISimulinkModelElement> allSimulinkBlocksFromModel = SimulinkUtil.getAllSimulinkBlocksFromModel(this, engine);
 			if (!allSimulinkBlocksFromModel.isEmpty()) 
 				all.addAll(allSimulinkBlocksFromModel);
@@ -292,12 +301,16 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 	
 	public static void main(String[] args) throws Exception {
+		File tmpFile = File.createTempFile("foo", ".slx");
+		
 		SimulinkModel model = new SimulinkModel();
 		model.setName("M");
-		model.setFile(File.createTempFile("foo", ".slx"));
+		model.setFile(tmpFile);
+		model.setWorkingDir(tmpFile.getParentFile());
 		model.setReadOnLoad(false);
 		model.setStoredOnDisposal(false);
-		model.setHiddenEditor(true);
+		model.setShowInMatlabEditor(true);
+		model.setFollowLinks(false);
 		//model.setEngineJarPath(MatlabEngineFilesEnum.ENGINE_JAR.path());
 		//model.setLibraryPath(MatlabEngineFilesEnum.LIBRARY_PATH.path());
 		model.load();
@@ -308,14 +321,22 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		super.load(properties, resolver);
 
 		String filePath = properties.getProperty(SimulinkModel.PROPERTY_FILE);
+		String workingDirPath = properties.getProperty(SimulinkModel.PROPERTY_WORKING_DIR);
 		if (properties.hasProperty(SimulinkModel.PROPERTY_LIBRARY_PATH))
 			libraryPath = properties.getProperty(SimulinkModel.PROPERTY_LIBRARY_PATH);
 		if (properties.hasProperty(SimulinkModel.PROPERTY_ENGINE_JAR_PATH))
 			engineJarPath = properties.getProperty(SimulinkModel.PROPERTY_ENGINE_JAR_PATH);
-		if (properties.hasProperty(SimulinkModel.PROPERTY_HIDDEN_EDITOR))
-			hiddenEditor = new Boolean(properties.getProperty(SimulinkModel.PROPERTY_HIDDEN_EDITOR));
+		if (properties.hasProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR))
+			showInMatlabEditor = new Boolean(properties.getProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR));
+		if (properties.hasProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS))
+			followLinks = new Boolean(properties.getProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS));
 		if (filePath != null && filePath.trim().length() > 0)
 			file = new File(resolver.resolve(filePath));
+		if (workingDirPath != null && workingDirPath.trim().length() > 0) {
+			workingDir = new File(workingDirPath);
+		} else {
+			workingDir = file.getParentFile();			
+		}			
 
 		load();
 	}
@@ -461,8 +482,37 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		this.engineJarPath = engineJarPath;
 	}
 
-	public void setHiddenEditor(boolean hidden) { 
-		this.hiddenEditor = hidden;
+	public boolean isShowInMatlabEditor() {
+		return showInMatlabEditor;
+	}
+	
+	public File getWorkingDir() {
+		return workingDir;
+	}
+
+	public void setWorkingDir(File workingDir) {
+		this.workingDir = workingDir;
+	}
+	
+	/**
+	 * If true, the model will be shown in the MATLAB Editor. 
+	 * If the model is already loaded, it will not open it again. 
+	 * If false, the model will not be open in the MATLAB editor, 
+	 * but won't close an already open model
+	 */
+	public void setShowInMatlabEditor(boolean openMatlabEditor) { 
+		this.showInMatlabEditor = openMatlabEditor;
+	}
+
+	public boolean isFollowLinks() {
+		return followLinks;
+	}
+
+	/**
+	 * If true, adds the 'Follow_Link' parameter to the 'find_system' method in MATLAB 
+	 */
+	public void setFollowLinks(boolean followLinks) {
+		this.followLinks = followLinks;
 	}
 
 	public Object parseMatlabEngineVariable(String variableName) throws MatlabException { 
