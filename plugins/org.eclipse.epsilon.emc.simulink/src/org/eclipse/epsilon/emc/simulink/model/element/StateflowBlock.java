@@ -145,12 +145,13 @@ public class StateflowBlock extends SimulinkModelElement {
 						randomHandle = StateflowUtil.getBlockHandle(((StateflowBlock) value));
 						value = randomHandle;
 					}
-					if (value instanceof String) {
+					if (value instanceof String && !value.equals(randomHandle)) {
 						String valueStr = (String) value;
-						if ((!(valueStr.startsWith("'") && valueStr.endsWith("'")) ||
-							!(valueStr.startsWith("[") && valueStr.endsWith("]")) ) &&
-						    !valueStr.equals(randomHandle)) {
-							
+						if 	( !( 
+								( valueStr.startsWith("'") && valueStr.endsWith("'") ) ||
+								( valueStr.startsWith("[") && valueStr.endsWith("]") ) 
+							)) 
+						{
 							escaped = "'" + escaped + "'";
 						}
 					}

@@ -23,8 +23,7 @@ public class SimulinkUtil {
 	private static final String FIND_SYSTEM_BLOCKS_WITH_REFS = "find_system('?', 'FindAll', 'on', 'FollowLinks', 'on', 'Type', 'Block');";
 	private static final String FIND_SYSTEM_BLOCKS = "find_system('?', 'FindAll', 'on', 'Type', 'Block');";
 	private static final String FIND_BLOCKS_AT_DEPTH = "find_system('?', 'SearchDepth', ?, 'Type', 'Block');";
-	private static final String CHILDREN = "setdiff(find_system('?', 'SearchDepth', 0, 'Type', 'Block'), "
-			+ "find_system('?', 'SearchDepth', 1, 'Type', 'Block'));";
+	private static final String CHILDREN = "find_system('?', 'SearchDepth', 1, 'Type', 'Block');";
 	
 	public static String getSimpleTypeName(String type) { // OK
 		if (type.indexOf("/") > -1) {
@@ -170,7 +169,7 @@ public class SimulinkUtil {
 	public static List<SimulinkBlock> getChildren(SimulinkModel model,
 			MatlabEngine engine, SimulinkBlock block) {
 		try {
-			return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN, block.getPath(), block.getPath()));
+			return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN, block.getPath()));
 		} catch (MatlabException e) {
 			return Collections.emptyList();
 		} 

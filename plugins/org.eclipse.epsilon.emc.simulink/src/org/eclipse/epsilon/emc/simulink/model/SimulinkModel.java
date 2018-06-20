@@ -97,15 +97,19 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 					 // Ignore; system already exists	
 				}
 			}
-			String pwd = (workingDir!= null) ? workingDir.getAbsolutePath() : file.getParentFile().getAbsolutePath();
-				try {
-				engine.eval(PWD, pwd);
-				} catch (Exception ex) {
-					throw new EolModelLoadingException(ex, this);
+			
+			try {
+				String pwd = (workingDir != null) ? workingDir.getAbsolutePath() : file.getParentFile().getAbsolutePath();
+				if (pwd != null) {
+					System.out.println("Setting working directory to " + pwd);
+					engine.eval(PWD, pwd);
 				}
+			} catch (Exception ex) {
+				// couldn't set the the working directory
+			}
 
 			String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
-			engine.eval(cmd, file.getAbsolutePath());
+			engine.eval(cmd, getSimulinkModelName());
 			this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());
 		} catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
@@ -333,7 +337,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		if (filePath != null && filePath.trim().length() > 0)
 			file = new File(resolver.resolve(filePath));
 		if (workingDirPath != null && workingDirPath.trim().length() > 0) {
-			workingDir = new File(workingDirPath);
+			workingDir = new File(resolver.resolve(filePath));
 		} else {
 			workingDir = file.getParentFile();			
 		}			
