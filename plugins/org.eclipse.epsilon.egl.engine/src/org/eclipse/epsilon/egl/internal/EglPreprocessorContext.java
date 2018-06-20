@@ -12,7 +12,7 @@ package org.eclipse.epsilon.egl.internal;
 
 import java.io.PrintStream;
 import java.util.List;
-
+import java.util.Queue;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
@@ -175,11 +175,11 @@ public class EglPreprocessorContext implements IEolContext {
 		delegate.dispose();
 	}
 
-	public List<AsyncStatementInstance> getAsyncStatementsQueque() {
-		return delegate.getAsyncStatementsQueque();
-	}
-
 	public OperationContributorRegistry getOperationContributorRegistry() {
 		return delegate.getOperationContributorRegistry();
+	}
+
+	public Queue<AsyncStatementInstance> getAsyncStatementsQueue() {
+		return delegate.getAsyncStatementsQueue();
 	}		
 }

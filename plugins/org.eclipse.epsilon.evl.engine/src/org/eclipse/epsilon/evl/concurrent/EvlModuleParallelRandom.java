@@ -25,7 +25,7 @@ public class EvlModuleParallelRandom extends EvlModuleParallel {
 		IEvlContextParallel context = getContext();
 		ErlExecutorService executor = context.newExecutor();
 		
-		List<ConstraintAtom> jobs = getConstraintJobs();
+		List<ConstraintAtom> jobs = ConstraintAtom.getConstraintJobs(context);
 		Collections.shuffle(jobs);
 		
 		for (ConstraintAtom job : jobs) {

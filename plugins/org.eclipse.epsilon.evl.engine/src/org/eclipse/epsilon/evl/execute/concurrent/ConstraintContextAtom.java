@@ -40,4 +40,18 @@ public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
 		}
 		else return Collections.emptyList();
 	}
+	
+	public static ArrayList<ConstraintContextAtom> getContextJobs(IEvlContext context) throws EolRuntimeException {
+		ArrayList<ConstraintContextAtom> atoms = new ArrayList<>();
+		
+		for (ConstraintContext constraintContext : context.getModule().getConstraintContexts()) {
+			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
+			atoms.ensureCapacity(atoms.size()+allOfKind.size());
+			for (Object element : allOfKind) {
+				atoms.add(new ConstraintContextAtom(constraintContext, element));
+			}
+		}
+		
+		return atoms;
+	}
 }

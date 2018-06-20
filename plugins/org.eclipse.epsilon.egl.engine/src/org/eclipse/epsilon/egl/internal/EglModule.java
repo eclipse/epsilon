@@ -57,7 +57,7 @@ public class EglModule extends EolModule implements IEglModule {
 	protected EglPreprocessorModule preprocessorModule = new EglPreprocessorModule();;
 	protected AST ast;
 	
-	private final List<EglMarkerSection> markers = new LinkedList<EglMarkerSection>();	
+	private final List<EglMarkerSection> markers = new LinkedList<>();	
 	private URI templateRoot;
 
 	public EglModule() {}
@@ -196,7 +196,7 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 
 	public List<ParseProblem> getParseProblems() {
-		final List<ParseProblem> combinedErrors = new ArrayList<ParseProblem>(parser.getParseProblems());
+		final List<ParseProblem> combinedErrors = new ArrayList<>(parser.getParseProblems());
 
 		combinedErrors.addAll(preprocessorModule.getParseProblems());
 
@@ -215,7 +215,7 @@ public class EglModule extends EolModule implements IEglModule {
 	}*/
 	
 	public List<ModuleElement> getModuleElements() {
-		final List<ModuleElement> children = new LinkedList<ModuleElement>();
+		final List<ModuleElement> children = new LinkedList<>();
 		
 		children.addAll(preprocessorModule.getImports());
 		//children.addAll(sections);

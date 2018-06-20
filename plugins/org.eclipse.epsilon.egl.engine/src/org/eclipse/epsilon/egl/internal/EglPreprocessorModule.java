@@ -244,7 +244,7 @@ public class EglPreprocessorModule extends EolModule {
 		return parseProblems;
 	}
 	
-	private static final HashMap<String, Class<?>> importConfiguration = new HashMap<String, Class<?>>();
+	private static final HashMap<String, Class<?>> importConfiguration = new HashMap<>();
 	static {
 		importConfiguration.put("eol", EolModule.class);
 		importConfiguration.put("egl", EglModule.class);

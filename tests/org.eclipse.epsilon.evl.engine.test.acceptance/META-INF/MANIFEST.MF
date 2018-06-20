@@ -6,7 +6,6 @@ Bundle-SymbolicName: org.eclipse.epsilon.evl.engine.test.acceptance
 Bundle-Version: 0.9.0.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.evl.engine.test.acceptance,
  org.eclipse.epsilon.evl.engine.test.acceptance.equivalence
 Import-Package: org.junit
