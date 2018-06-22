@@ -68,11 +68,10 @@ public class MatlabEngine {
 
 	public void eval(String cmd) throws MatlabException {
 		try {
-			LOGGER.debug("EMC-Simulink: " + cmd);
+			LOGGER.debug(cmd);
 			evalMethod.invoke(engine, cmd);
 		} catch (Exception e) {
-			LOGGER.error("EMC-Simulink: " + e.getMessage());
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 			throw new MatlabException(e);
 		}
 	}

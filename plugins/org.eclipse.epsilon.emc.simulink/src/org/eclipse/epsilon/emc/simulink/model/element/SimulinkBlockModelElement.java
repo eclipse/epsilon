@@ -89,7 +89,7 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 				try {
 					this.type = (String) engine.evalWithSetupAndResult(HANDLE, GET_PARAM_BLOCK_TYPE, handle);
 				} catch (Exception e) {
-					e.printStackTrace();
+					// e.printStackTrace();
 				}
 			}
 		}

@@ -128,7 +128,7 @@ public class StateflowBlock extends SimulinkModelElement {
 					try {
 						setParent((StateflowBlock)value);
 					} catch (EolRuntimeException e) {
-						e.printStackTrace();
+						// e.printStackTrace();
 						throw new EolIllegalPropertyException(this, property, null, null);
 					}
 				} else {
@@ -161,7 +161,7 @@ public class StateflowBlock extends SimulinkModelElement {
 				}
 			}
 		} catch (MatlabException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			throw new EolIllegalPropertyException(this, property, null, null);
 		}
 	}
@@ -170,7 +170,7 @@ public class StateflowBlock extends SimulinkModelElement {
 
 	public Double getId() { 
 		if (this.id == null) { 
-			System.err.println("ID WAS NULL");
+			//System.err.println("ID WAS NULL");
 		}
 		return this.id;
 	}

@@ -391,7 +391,10 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 
 	@Override
-	public boolean owns(Object instance) { 
+	public boolean owns(Object instance) {
+		if (instance == null) {
+			return false;
+		}
 		return ((instance instanceof ISimulinkModelElement) 
 				&& ((ISimulinkModelElement) instance).getOwningModel() == this ) 
 				|| (instance instanceof SimulinkModel)

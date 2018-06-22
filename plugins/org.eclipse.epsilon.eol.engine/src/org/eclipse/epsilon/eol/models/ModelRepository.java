@@ -131,7 +131,10 @@ public class ModelRepository {
 	}
 	
 	public IModel getOwningModel(Object instance){
-		
+		// Fail fast since models should not contain null objects.
+		if (instance == null) {
+			return null;
+		}
 		if (instance instanceof IModelElement) { return ((IModelElement) instance).getOwningModel(); }
 		
 		for (IModel model : models) {
