@@ -360,7 +360,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		
 		if (attributes.getLength() == 0 || eStructuralFeatures.size() == 0) return;
 		
-		
 		if (!(eObject.eClass().getEStructuralFeature("id") instanceof EAttribute)) {
 			if (attributes.getNamedItem("id") != null) {
 				String value = attributes.getNamedItem("id").getNodeValue();
