@@ -369,6 +369,8 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			}
 		}
 		
+		if (attributes.getLength() == 0) return;
+		
 		double[][] inverseSimilarities = new double[attributes.getLength()][eStructuralFeatures.size()];
 		
 		for (int i=0;i<attributes.getLength();i++) {
