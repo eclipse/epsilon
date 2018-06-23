@@ -1,64 +1,37 @@
 package org.eclipse.epsilon.flexmi.xml;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.sax.SAXSource;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.epsilon.flexmi.FlexmiDiagnostic;
+import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 public class PseudoSAXParser {
-
-	public static void main(String[] args) throws Exception {
-		new PseudoSAXParser().parse(new FileInputStream(new File("plugin.xml")), new Handler() {
-			
-			@Override
-			public void startElement(Element element) {
-				System.out.println("Starting " + element.getNodeName() + " -> " + element.getUserData(Location.ID));
-			}
-			
-			@Override
-			public void startDocument(Document document) {
-				
-			}
-			
-			@Override
-			public void processingInstruction(ProcessingInstruction instruction) {
-				System.out.println(instruction.getTarget() + " -> " + ((Node)instruction).getUserData(Location.ID));
-			}
-			
-			@Override
-			public void endElement(Element element) {
-				//System.out.println("Ending " + element.getNodeName());
-			}
-
-			@Override
-			public void endDocument(Document document) {
-				
-			}
-			
-		});
+	
+	protected FlexmiResource resource;
+	protected URI uri;
+	
+	public void parse(FlexmiResource resource, InputStream inputStream, Handler handler) throws Exception {
+		parse(resource, resource.getURI(), inputStream, handler, true);
 	}
-
-	public void parse(InputStream inputStream, Handler handler) throws ParserConfigurationException, SAXException, TransformerException  {
-		//Stopwatch stopwatch = new Stopwatch();
-		//stopwatch.resume();
+	
+	public void parse(FlexmiResource resource, URI uri, InputStream inputStream, Handler handler, boolean processDocument) throws Exception  {
+		
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
@@ -71,20 +44,38 @@ public class PseudoSAXParser {
 		XMLReader xmlReader = saxParser.getXMLReader();
 		
 		transformer.transform(new SAXSource(new LocationRecorder(xmlReader,document), new InputSource(inputStream)), new DOMResult(document));
-		//stopwatch.pause();
-		//System.out.print(stopwatch.getElapsed()+", ");
+		this.resource = resource;
+		this.uri = uri;
 		
-		handler.startDocument(document);
+		if (processDocument) handler.startDocument(document);
 		visit(document, handler);
-		handler.endDocument(document);
+		if (processDocument) handler.endDocument(document);
 	}
 
-	protected void visit(Node node, Handler handler) {
+	protected void visit(Node node, Handler handler) throws Exception {
 		if (node instanceof Element) {
 			handler.startElement((Element) node);
 		}
 		if (node instanceof ProcessingInstruction) {
-			handler.processingInstruction((ProcessingInstruction) node);
+			ProcessingInstruction processingInstruction = (ProcessingInstruction) node;
+			String key = processingInstruction.getTarget();
+			String value = processingInstruction.getData();
+			
+			if (key.equalsIgnoreCase("include")) {
+				try {
+					URI includedURI = URI.createURI(value).resolve(uri);
+					InputStream includedInputStream = resource.getResourceSet().getURIConverter().createInputStream(includedURI);
+					resource.startProcessingFragment(includedURI);
+					new PseudoSAXParser().parse(resource, includedURI, includedInputStream, handler, false);
+					resource.endProcessingFragment();
+				}
+				catch (Exception ex) {
+					resource.getWarnings().add(new FlexmiDiagnostic(ex.getMessage(), uri, resource.getLineNumber(processingInstruction)));
+				}
+			}
+			else {
+				handler.processingInstruction((ProcessingInstruction) node);
+			}
 		}
 		for (int i = 0; i < node.getChildNodes().getLength(); i++) {
 			visit(node.getChildNodes().item(i), handler);
@@ -102,7 +93,7 @@ public class PseudoSAXParser {
 		
 		public void startElement(Element element);
 
-		public void endElement(Element element);
+		public void endElement(Element elemen);
 
 		public void processingInstruction(ProcessingInstruction processingInstruction);
 	}

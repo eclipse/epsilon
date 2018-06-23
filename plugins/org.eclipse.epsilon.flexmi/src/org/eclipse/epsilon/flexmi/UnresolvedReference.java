@@ -2,6 +2,7 @@ package org.eclipse.epsilon.flexmi;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
@@ -12,10 +13,12 @@ public class UnresolvedReference {
 	protected String value;
 	protected int line;
 	protected String attributeName;
+	protected URI uri;
 	
-	public UnresolvedReference(EObject eObject, EReference eReference, String attributeName, String value, int line) {
+	public UnresolvedReference(EObject eObject, URI uri, EReference eReference, String attributeName, String value, int line) {
 		super();
 		this.eObject = eObject;
+		this.uri = uri;
 		this.eReference = eReference;
 		this.value = value;
 		this.line = line;
@@ -60,6 +63,14 @@ public class UnresolvedReference {
 	
 	public void setAttributeName(String attributeName) {
 		this.attributeName = attributeName;
+	}
+	
+	public URI getUri() {
+		return uri;
+	}
+	
+	public void setUri(URI uri) {
+		this.uri = uri;
 	}
 	
 	public boolean resolve(Collection<EObject> candidates) {

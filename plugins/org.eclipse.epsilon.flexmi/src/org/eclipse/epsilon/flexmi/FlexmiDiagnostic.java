@@ -1,19 +1,19 @@
 package org.eclipse.epsilon.flexmi;
 
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 
 public class FlexmiDiagnostic implements Diagnostic {
 
 	protected String message;
 	protected int line;
-	protected Resource resource;
+	protected URI uri;
 	
-	public FlexmiDiagnostic(String message, int line, Resource resource) {
+	public FlexmiDiagnostic(String message, URI uri, int line) {
 		super();
 		this.message = message;
 		this.line = line;
-		this.resource = resource;
+		this.uri = uri;
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class FlexmiDiagnostic implements Diagnostic {
 
 	@Override
 	public String getLocation() {
-		return resource.getURI().toString();
+		return uri.toString();
 	}
 
 	@Override
@@ -35,5 +35,5 @@ public class FlexmiDiagnostic implements Diagnostic {
 	public int getColumn() {
 		return 0;
 	}
-
+	
 }
