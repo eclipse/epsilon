@@ -46,7 +46,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	public static final String OPTION_ORPHANS_AS_TOP_LEVEL = "orphansAsTopLevel";
 	public static final String OPTION_FUZZY_MATCHING_THRESHOLD = "fuzzyMatchingThreshold";
 	
-	protected EObjectIdManager eObjectIdManager = new EObjectIdManager();
 	protected EObjectTraceManager eObjectTraceManager = new EObjectTraceManager();
 	protected List<UnresolvedReference> unresolvedReferences = new ArrayList<UnresolvedReference>();
 	protected Stack<Object> stack = new Stack<Object>();
@@ -142,7 +141,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		scripts.clear();
 		eClassCache.clear();
 		allSubtypesCache.clear();
-		eObjectIdManager = new EObjectIdManager();
+		setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
 		
 		if (options != null) {
 			for (Object key : options.keySet()) {
@@ -357,20 +356,21 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		for (UnresolvedReference reference : unresolvableReferences) {
 			addParseWarning("Could not resolve target " + reference.getValue() + " for reference " + reference.getAttributeName() + " (" + reference.getEReference().getName() + ")", reference.getUri(), reference.getLine());
 		}
-		eObjectIdManager = new EObjectIdManager();
 	}
 	
 	protected boolean resolveReference(UnresolvedReference unresolvedReference) {
-		List<EObject> candidates = eObjectIdManager.getEObjectsById(unresolvedReference.getValue());
+		List<EObject> candidates = Arrays.asList(getIntrinsicIDToEObjectMap().get(unresolvedReference.getValue()));
 		if (!unresolvedReference.resolve(candidates)) {
+			System.out.println("Failed");
 			for (Resource resource : getResourceSet().getResources()) {
 				if (resource != this) {
 					candidates = Arrays.asList(resource.getEObject(unresolvedReference.getValue()));
 					if (unresolvedReference.resolve(candidates)) return true;
 				}
 			}
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	public int getLineNumber(Node node) {
@@ -393,7 +393,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			if (attributes.getNamedItem("id") != null) {
 				String value = attributes.getNamedItem("id").getNodeValue();
 				attributes.removeNamedItem("id");
-				eObjectIdManager.setEObjectId(eObject, value);
+				getIntrinsicIDToEObjectMap().put(value, eObject);
 			}
 		}
 		
@@ -459,7 +459,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			if (eValue == null) return;
 			eObject.eSet(eAttribute, eValue);
 			if (eAttribute.isID() || "name".equalsIgnoreCase(eAttribute.getName())) {
-				if (!eObjectIdManager.hasId(eObject)) eObjectIdManager.setEObjectId(eObject, value);
+				getIntrinsicIDToEObjectMap().put(value, eObject);
 			}
 		}
 	}
