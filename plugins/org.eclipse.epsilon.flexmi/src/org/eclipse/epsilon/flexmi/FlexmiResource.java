@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.flexmi.xml.Location;
 import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser;
@@ -107,11 +106,9 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			doLoadImpl(inputStream, options);
 		}
 		catch (IOException ioException) {
-			ioException.printStackTrace();
 			throw ioException;
 		}
 		catch (Exception ex) {
-			ex.printStackTrace();
 			throw new RuntimeException(ex);
 		}
 	}
@@ -361,7 +358,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected boolean resolveReference(UnresolvedReference unresolvedReference) {
 		List<EObject> candidates = Arrays.asList(getIntrinsicIDToEObjectMap().get(unresolvedReference.getValue()));
 		if (!unresolvedReference.resolve(candidates)) {
-			System.out.println("Failed");
 			for (Resource resource : getResourceSet().getResources()) {
 				if (resource != this) {
 					candidates = Arrays.asList(resource.getEObject(unresolvedReference.getValue()));
