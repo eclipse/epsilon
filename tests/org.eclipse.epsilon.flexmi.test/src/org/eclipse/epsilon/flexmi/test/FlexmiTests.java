@@ -2,8 +2,6 @@ package org.eclipse.epsilon.flexmi.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.ResourceSet;
