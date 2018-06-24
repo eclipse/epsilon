@@ -56,6 +56,7 @@
     <module>org.eclipse.epsilon.flock.engine.test.unit</module>
     <module>org.eclipse.epsilon.hutn.dt.test</module>
     <module>org.eclipse.epsilon.hutn.test</module>
+    <module>org.eclipse.epsilon.flexmi.test</module>
     <module>org.eclipse.epsilon.hutn.test.acceptance</module>
     <module>org.eclipse.epsilon.hutn.test.dependencies</module>
     <module>org.eclipse.epsilon.hutn.test.dependencies.model</module>

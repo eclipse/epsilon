@@ -469,7 +469,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			return eAttribute.getEAttributeType().getEPackage().getEFactoryInstance().createFromString(eAttribute.getEAttributeType(), value);
 		}
 		catch (Exception ex) {
-			ex.printStackTrace();
 			addParseWarning(ex.getMessage() + " in the value of " + attributeName);
 			return null;
 		}
