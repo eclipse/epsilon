@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,6 +28,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.flexmi.xml.Location;
 import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser;
@@ -91,7 +93,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		Resource modelResource = modelResourceSet.createResource(URI.createFileURI(new File("models/messaging.flexmi").getAbsolutePath()));
 		modelResource.load(null);
 		
-		System.out.println(modelResource.getContents().get(0).eContents().size());
+		System.out.println(modelResource.getEObject("tom"));
 		
 	}
 	
@@ -360,7 +362,15 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	protected boolean resolveReference(UnresolvedReference unresolvedReference) {
 		List<EObject> candidates = eObjectIdManager.getEObjectsById(unresolvedReference.getValue());
-		return unresolvedReference.resolve(candidates);
+		if (!unresolvedReference.resolve(candidates)) {
+			for (Resource resource : getResourceSet().getResources()) {
+				if (resource != this) {
+					candidates = Arrays.asList(resource.getEObject(unresolvedReference.getValue()));
+					if (unresolvedReference.resolve(candidates)) return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public int getLineNumber(Node node) {

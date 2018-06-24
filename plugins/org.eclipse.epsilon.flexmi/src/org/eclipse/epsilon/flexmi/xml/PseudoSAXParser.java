@@ -12,6 +12,7 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.sax.SAXSource;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.flexmi.FlexmiDiagnostic;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.w3c.dom.Document;
@@ -71,6 +72,18 @@ public class PseudoSAXParser {
 				}
 				catch (Exception ex) {
 					resource.getWarnings().add(new FlexmiDiagnostic(ex.getMessage(), uri, resource.getLineNumber(processingInstruction)));
+				}
+			}
+			else if (key.equalsIgnoreCase("import")) {
+				try {
+					URI importedURI = URI.createURI(value).resolve(uri);
+					if (resource.getResourceSet().getResource(importedURI, false) == null) {
+						Resource importedResource = resource.getResourceSet().createResource(importedURI);
+						if (!importedResource.isLoaded()) importedResource.load(null);
+					}
+				}
+				catch (Exception ex) {
+					resource.getWarnings().add(new FlexmiDiagnostic(ex.getMessage(), uri, resource.getLineNumber(processingInstruction)));					
 				}
 			}
 			else {
