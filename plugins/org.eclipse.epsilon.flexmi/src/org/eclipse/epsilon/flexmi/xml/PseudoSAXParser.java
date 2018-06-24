@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.flexmi.FlexmiDiagnostic;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
+import org.eclipse.epsilon.flexmi.Template;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -48,6 +49,19 @@ public class PseudoSAXParser {
 		this.resource = resource;
 		this.uri = uri;
 		
+		if (isFlexmiRootNode(document.getDocumentElement())) {
+			for (Element templateElement : Xml.getChildren(document.getDocumentElement(), getTemplateNodeName())) {
+				resource.getTemplates().add(new Template(templateElement));
+				document.getDocumentElement().removeChild(templateElement);
+			}
+		}
+		else {
+			if (isTemplate(document.getDocumentElement())) {
+				resource.getTemplates().add(new Template(document.getDocumentElement()));
+				return;
+			}
+		}
+		
 		if (processDocument) handler.startDocument(document);
 		visit(document, handler);
 		if (processDocument) handler.endDocument(document);
@@ -55,7 +69,19 @@ public class PseudoSAXParser {
 
 	protected void visit(Node node, Handler handler) throws Exception {
 		if (node instanceof Element) {
-			handler.startElement((Element) node);
+			if (!isFlexmiRootNode((Element) node)) {
+				for (Resource resource : this.resource.getResourceSet().getResources()) {
+					if (resource instanceof FlexmiResource) {
+						Template template = ((FlexmiResource) resource).getTemplate(node.getNodeName());
+						if (template != null) {
+							for (Element contentChild : Xml.getChildren(template.getContent())) {
+								visit(contentChild, handler);
+							}
+						}
+					}
+				}
+				handler.startElement((Element) node);
+			}
 		}
 		if (node instanceof ProcessingInstruction) {
 			ProcessingInstruction processingInstruction = (ProcessingInstruction) node;
@@ -94,8 +120,20 @@ public class PseudoSAXParser {
 			visit(node.getChildNodes().item(i), handler);
 		}
 		if (node instanceof Element) {
-			handler.endElement((Element) node);
+			if (!isFlexmiRootNode((Element) node)) handler.endElement((Element) node);
 		}
+	}
+	
+	protected boolean isFlexmiRootNode(Element element) {
+		return element.getNodeName().equals("flexmi") && element.getParentNode() instanceof Document;
+	}
+	
+	protected boolean isTemplate(Element element) {
+		return element.getNodeName().equals(getTemplateNodeName());
+	}
+	
+	protected String getTemplateNodeName() {
+		return "template";
 	}
 	
 	public interface Handler {

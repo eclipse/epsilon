@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<?nsuri http://www.eclipse.org/emf/2002/Ecore?>
+<flexmi>
+	<package name="p1">
+		<t1/>
+	</package>
+	<template name="t1">
+		<parameter name="p1"/>
+		<content>
+			<class name="C1"/>
+		</content>
+	</template>
+</flexmi>

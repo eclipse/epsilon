@@ -55,6 +55,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected StringSimilarityProvider stringSimilarityProvider = new CachedStringSimilarityProvider(new DefaultStringSimilarityProvider());
 	protected Stack<URI> parsedFragmentURIStack = new Stack<URI>();
 	protected Set<URI> parsedFragmentURIs = new HashSet<URI>();
+	protected List<Template> templates = new ArrayList<Template>();
 	
 	protected boolean fuzzyContainmentSlotMatching = true;
 	protected boolean orphansAsTopLevel = true;
@@ -71,6 +72,17 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	public Set<URI> getParsedFragmentURIs() {
 		return parsedFragmentURIs;
+	}
+	
+	public List<Template> getTemplates() {
+		return templates;
+	}
+	
+	public Template getTemplate(String name) {
+		for (Template template : templates) {
+			if (template.getName().equals(name)) return template;
+		}
+		return null;
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -167,7 +179,10 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		EClass eClass = null;
 		
 		// We're at the root or we treat orphan elements as top-level
-		if (stack.isEmpty() || (stack.peek() == null && orphansAsTopLevel)) {
+		if (stack.isEmpty() && "template".equals(element.getNodeName())) {
+			
+		}
+		else if (stack.isEmpty() || (stack.peek() == null && orphansAsTopLevel)) {
 			eClass = eClassForName(name);
 			if (eClass != null) {
 				eObject = eClass.getEPackage().getEFactoryInstance().create(eClass);
@@ -556,5 +571,9 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		
 		return null;
 	}
-
+	
+	protected boolean isTemplateElement(Element element) {
+		return stack.isEmpty() && "template".equals(element.getNodeName());
+	}
+	
 }
