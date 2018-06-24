@@ -8,7 +8,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ 
 	StandaloneTests.class,
 	ImportTests.class,
-	IncludeTests.class
+	IncludeTests.class,
+	IncludeImportTests.class
 })
 public class FlexmiTestSuite {
 
