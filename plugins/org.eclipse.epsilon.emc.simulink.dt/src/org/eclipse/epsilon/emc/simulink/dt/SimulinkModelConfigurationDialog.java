@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.emc.simulink.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
+import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.swt.SWT;
@@ -49,7 +50,7 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 	}
 
 	protected Composite createFilesGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "Files/URIs", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Files/URIs", 3);
 
 		fileTextLabel = new Label(groupContent, SWT.NONE);
 		fileTextLabel.setText("File: ");
@@ -67,7 +68,7 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 	}
 
 	protected Composite createDisplayGroup(Composite parent) {
-		final Composite matlabGroupContent = createGroupContainer(parent, "MATLAB options", 3);
+		final Composite matlabGroupContent = DialogUtil.createGroupContainer(parent, "MATLAB options", 3);
 
 		workingDirBrowser = new DirectoryFieldEditor(SimulinkModel.PROPERTY_WORKING_DIR, "Working directory: ", matlabGroupContent);
 

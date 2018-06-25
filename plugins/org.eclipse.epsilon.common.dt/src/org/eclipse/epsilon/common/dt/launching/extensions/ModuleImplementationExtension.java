@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2018 The University of York.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Horacio Hoyos Rodriguez - initial API and implementation
+ ******************************************************************************/
 package org.eclipse.epsilon.common.dt.launching.extensions;
 
 import org.eclipse.core.runtime.CoreException;
@@ -6,15 +16,14 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.common.dt.exceptions.EpsilonDtException;
-import org.eclipse.epsilon.common.dt.launching.dialogs.AbtsractModuleConfigurationDialog;
+import org.eclipse.epsilon.common.dt.launching.tabs.ModuleConfiguration;
 import org.eclipse.epsilon.common.module.IModule;
 
 /**
  * The Module Implementation Extension stores configuration information about existing module
- * implementations
- * 
- * @author Horacio Hoyos Rodriguez
+ * implementations.
  *
+ * @author Horacio Hoyos Rodriguez
  */
 public class ModuleImplementationExtension {
 	
@@ -39,6 +48,11 @@ public class ModuleImplementationExtension {
 		return null;
 	}
 	
+	/**
+	 * Default implementation.
+	 *
+	 * @return the module implementation extension
+	 */
 	public static ModuleImplementationExtension defaultImplementation() {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.moduleImplementation");
@@ -54,35 +68,82 @@ public class ModuleImplementationExtension {
 	}
 	
 	
+	/** The qualified name of the class that implements the module. */
 	private final String clazz;
+	
+	/** The name of the module. */
 	private final String name;
+	
+	/** The language that the module supports. */
 	private final String language;
+	
+	/** If the implementation is the default one	*/
+	private final boolean default_;
+	
+	/** The configuration element for this extension. */
 	private final IConfigurationElement configurationElement;
+	
+	/** The qualified name of the class that constructs the module configuration composite. 
+	 * The composite will be added to the Implementation selection dialog when this module
+	 * is selected */
 	private final String dialogClazz;
 
+	/**
+	 * Instantiates a new module implementation extension.
+	 *
+	 * @param configurationElement the configuration element
+	 */
 	public ModuleImplementationExtension(IConfigurationElement configurationElement) {
 		super();
 		this.clazz = configurationElement.getAttribute("class");
 		this.name = configurationElement.getAttribute("name");;
 		this.language = configurationElement.getAttribute("language");
 		this.dialogClazz = configurationElement.getAttribute("dialog");
+		this.default_ = Boolean.getBoolean(configurationElement.getAttribute("default"));
 		this.configurationElement = configurationElement;
 	}
 	
+	/**
+	 * Gets the clazz.
+	 *
+	 * @return the clazz
+	 */
 	public String getClazz() {
 		return clazz;
 	}
 	
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 	
+	/**
+	 * Gets the language.
+	 *
+	 * @return the language
+	 */
 	public String getLanguage() {
 		return language;
 	}
 	
+	
+	public boolean isDefault() {
+		return default_;
+	}
+
+	/**
+	 * Creates the dialog.
+	 *
+	 * @param <T> the generic type
+	 * @return the t
+	 * @throws EpsilonDtException the epsilon dt exception
+	 */
 	@SuppressWarnings("unchecked")
-	public <T extends AbtsractModuleConfigurationDialog> T createDialog() throws EpsilonDtException {
+	public <T extends ModuleConfiguration> T createDialog() throws EpsilonDtException {
 		try {
 			return (T) configurationElement.createExecutableExtension("dialog");
 		} catch (CoreException e) {
@@ -90,6 +151,13 @@ public class ModuleImplementationExtension {
 		}
 	}
 	
+	/**
+	 * Creates the module.
+	 *
+	 * @param <T> the generic type
+	 * @return the t
+	 * @throws CoreException the core exception
+	 */
 	@SuppressWarnings("unchecked")
 	public <T extends IModule> T createModule() throws CoreException {
 		return (T) configurationElement.createExecutableExtension("class");

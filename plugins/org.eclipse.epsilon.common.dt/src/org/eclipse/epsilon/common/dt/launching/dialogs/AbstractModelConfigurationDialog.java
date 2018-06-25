@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.launching.dialogs;
 
+import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
@@ -18,27 +19,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
-	
-	protected static Composite createGroupContainer(Composite parent, String text, int columns) {
-		final Group group = new Group(parent, SWT.FILL);
-		
-		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		group.setText(text);
-		group.setLayout(new GridLayout(1,false));
-		
-		final Composite groupContent = new Composite(group, SWT.FILL);
-		groupContent.setLayout(new GridLayout(columns, false));
-		groupContent.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-		return groupContent;
-	}
 	
 	protected StringProperties properties;
 	
@@ -92,7 +78,7 @@ public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
 	}
 	
 	protected void createLoadStoreOptionsGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "Load/Store Options", 2);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Load/Store Options", 2);
 		
 		readOnLoadLabel = new Label(groupContent, SWT.NONE);
 		readOnLoadLabel.setText("Read on load: ");
@@ -114,7 +100,7 @@ public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
 	}
 	
 	protected void createNameAliasGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "Identification", 2);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Identification", 2);
 		
 		nameLabel = new Label(groupContent, SWT.NONE);
 		nameLabel.setText("Name: ");

@@ -11,8 +11,10 @@ package org.eclipse.epsilon.eol;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -26,7 +28,6 @@ import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.ListSet;
-import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.dom.AbortStatement;
 import org.eclipse.epsilon.eol.dom.AnnotationBlock;
@@ -463,10 +464,15 @@ public class EolModule extends AbstractModule implements IEolModule {
 		}
 		getContext().getExtendedProperties().clear();
 	}
+	
+	@Override
+	public void configure(Map<String, Object> properties) {
+		// Nothing to do
+	}
 
 	@Override
-	public void configure(StringProperties properties) {
-		// Nothing to do
+	public Set<String> getConfigurationProperties() {
+		return Collections.emptySet();
 	}
 
 }

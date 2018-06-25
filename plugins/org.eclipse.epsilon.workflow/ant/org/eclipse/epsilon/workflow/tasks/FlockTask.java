@@ -21,7 +21,7 @@ public class FlockTask extends ExecutableModuleTask {
 	private String originalModel, migratedModel;
 	
 	@Override
-	protected IEolModule createModule() throws Exception {
+	protected IEolModule createDefaultModule() throws Exception {
 		return new FlockModule();
 	}
 	

@@ -11,11 +11,11 @@ package org.eclipse.epsilon.eol;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
-import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.dom.ModelDeclaration;
@@ -59,7 +59,14 @@ public interface IEolModule extends IModule {
 	
 	/**
 	 * Configure the IEolModule with the given properties
-	 * @param properties
+	 * @param properties a map of property:value 
 	 */
-	public void configure(StringProperties properties);
+	public void configure(Map<String, Object> properties);
+	
+	/**
+	 * Get the set of property names that should be retrieved from the ILaunchConfiguration in order
+	 * to configure this module.
+	 * @return
+	 */
+	public Set<String> getConfigurationProperties();
 }

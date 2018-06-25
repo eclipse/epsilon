@@ -20,7 +20,7 @@ public class EolTask extends ExecutableModuleTask {
 	}
 
 	@Override
-	protected IEolModule createModule() {
+	protected IEolModule createDefaultModule() throws InstantiationException, IllegalAccessException {
 		return new EolModule();
 	}
 

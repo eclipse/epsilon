@@ -31,7 +31,7 @@ public class EvlTask extends ExportableModuleTask {
 	}
 
 	@Override
-	protected IEolModule createModule() {
+	protected IEolModule createDefaultModule() {
 		return new EvlModule();
 	}
 
