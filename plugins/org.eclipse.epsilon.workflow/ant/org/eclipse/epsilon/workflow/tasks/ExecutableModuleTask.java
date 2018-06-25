@@ -15,13 +15,17 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.StringUtil;
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
@@ -36,12 +40,35 @@ import org.eclipse.epsilon.eol.tools.EolSystem;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.profiling.ProfilingExecutionListener;
+import org.eclipse.epsilon.workflow.tasks.ExecutableModuleTask.EpsilonTaskProperty;
 import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.VariableNestedElement;
 
 public abstract class ExecutableModuleTask extends EpsilonTask {
+	
+	/** 
+	 * Allow Epsilon Tasks to have arbitrary nested property settings
+	 * @author Horacio Hoyos Rodriguez
+	 *
+	 */
+	public class EpsilonTaskProperty {
+		String name;
+		String value;
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getValue() {
+			return value;
+		}
+		public void setValue(String value) {
+			this.value = value;
+		}
+	}
 	
 	protected List<ModelNestedElement> modelNestedElements = new ArrayList<ModelNestedElement>();
 	protected List<VariableNestedElement> usesVariableNestedElements = new ArrayList<VariableNestedElement>();
@@ -56,6 +83,14 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	private boolean isGUI = true, isDebug = false;
 	protected boolean setBeans = false;
 	protected boolean fine;
+	
+	/**
+	 * Provide a specific module implementation at runtime
+	 */
+	protected Class<? extends IEolModule> moduleImplementation;
+	
+	/** Task specific settings */
+	List<EpsilonTaskProperty> properties = new ArrayList<>();
 	
 	static {
 		HostManager.getHost().initialise();
@@ -237,7 +272,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	}
 
 	private void parseModule() throws Exception {
-		module = createModule();
+		module = createDefaultModule();
 		if (src!=null) {
 			module.parse(src);
 		}
@@ -406,6 +441,50 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 
 	protected abstract void examine() throws Exception;
 
-	protected abstract IEolModule createModule() throws Exception;
+	protected abstract IEolModule createDefaultModule() throws Exception;
+	
+	protected IEolModule createModule() throws Exception {
+		if (moduleImplementation == null) {
+			return createDefaultModule();
+		}
+		else {
+			return createAlternativeModule();
+		}
+	}
+	
+	public Class<? extends IEolModule> getModuleImplementation() {
+		return moduleImplementation;
+	}
+
+	public void setModuleImplementation(Class<? extends IEolModule> moduleImplementation) {
+		this.moduleImplementation = moduleImplementation;
+	}
+
+	/** Ant constructor for nested elements */
+    public EpsilonTaskProperty createEpsilonTaskProperty() {                    
+    	EpsilonTaskProperty property = new EpsilonTaskProperty();
+    	properties.add(property);
+        return property;
+    }
+    
+	/**
+	 * @return
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	protected IEolModule createAlternativeModule() throws InstantiationException, IllegalAccessException {
+		IEolModule module = moduleImplementation.newInstance();
+		Set<String> requiredProperties = module.getConfigurationProperties();
+		Map<String, Object> props = new HashMap<>(requiredProperties.size());
+		for (String rp : requiredProperties) {
+			for (EpsilonTaskProperty np : properties) {
+				if (rp.equals(np.name)) {
+					props.put(np.name, np.value);
+				}
+			}
+		}
+		module.configure(props);
+		return module;
+	}
 		
 }

@@ -159,7 +159,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 
 	@Override
 	protected void examine() throws Exception {
-		final EUnitTest test = ((EUnitModule)createModule()).getSuiteRoot();
+		final EUnitTest test = ((EUnitModule)createDefaultModule()).getSuiteRoot();
 		final PrintStream out = module.getContext().getOutputStream();
 
 		out.println("Global result: " + test.getResult());
@@ -169,7 +169,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	}
 
 	@Override
-	public IEolModule createModule() {
+	public IEolModule createDefaultModule() {
 		// We store the created module, so the EUnit view can call this,
 		// register itself as a listener, and then let EUnitTask configure
 		// it as usual

@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.epsilon.common.module.IModule;
@@ -42,7 +43,7 @@ import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 
 public class EglTemplateFactoryModuleAdapter implements IEolModule {
 		
-	private final EglTemplateFactory factory;
+	private EglTemplateFactory factory;
 	private EglTemplate current;
 	
 	public static void main(String[] args) throws Exception {
@@ -71,10 +72,21 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 		module.execute();
 	}
 	
+	public EglTemplateFactoryModuleAdapter() {
+	}
+	
 	public EglTemplateFactoryModuleAdapter(EglTemplateFactory factory) {
 		this.factory = factory;
 	}
 	
+	public EglTemplateFactory getFactory() {
+		return factory;
+	}
+
+	public void setFactory(EglTemplateFactory factory) {
+		this.factory = factory;
+	}
+
 	public EglTemplate getCurrentTemplate() {
 		return current;
 	}
@@ -232,5 +244,17 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 	public List<Statement> getPostOperationStatements() {
 		return Collections.emptyList();
 	}
+	
+	@Override
+	public void configure(Map<String, Object> properties) {
+		// Nothing to do
+	}
+	
+	@Override
+	public Set<String> getConfigurationProperties() {
+		return Collections.emptySet();
+	}
+
+	
 
 }

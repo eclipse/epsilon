@@ -12,6 +12,7 @@ package org.eclipse.epsilon.emc.spreadsheets.excel.dt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
+import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.emc.spreadsheets.excel.ExcelModel;
 import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
@@ -60,7 +61,7 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 
 	protected void createSpreadsheetGroup(final Composite parent)
 	{
-		final Composite groupContent = createGroupContainer(parent, "Spreadsheet Details", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Spreadsheet Details", 3);
 
 		spreadsheetFileTextLabel = new Label(groupContent, SWT.NONE);
 		spreadsheetFileTextLabel.setText("File: ");
@@ -79,7 +80,7 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 
 	protected void createConfigurationFileGroup(final Composite parent)
 	{
-		final Composite groupContent = createGroupContainer(parent, "ORM Meta-data", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "ORM Meta-data", 3);
 
 		configFileTextLabel = new Label(groupContent, SWT.NONE);
 		configFileTextLabel.setText("File: ");
@@ -98,7 +99,7 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 
 	protected void createPasswordGroup(final Composite parent)
 	{
-		final Composite groupContent = createGroupContainer(parent, "Secure Spreadsheet (XLSX only)", 2);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Secure Spreadsheet (XLSX only)", 2);
 
 		passwordLabel = new Label(groupContent, SWT.NONE);
 		passwordLabel.setText("Password: ");

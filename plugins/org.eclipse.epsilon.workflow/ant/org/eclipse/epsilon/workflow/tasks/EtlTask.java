@@ -37,7 +37,7 @@ public class EtlTask extends ExportableModuleTask {
 	protected void initialize() throws Exception {}
 	
 	@Override
-	protected IEtlModule createModule() {
+	protected IEtlModule createDefaultModule() {
 		return new EtlModule();
 	}
 	

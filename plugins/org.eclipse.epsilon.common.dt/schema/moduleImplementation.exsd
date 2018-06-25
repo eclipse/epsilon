@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.epsilon.common.dt" id="moduleImplementation" name="Module Implementation"/>
       </appinfo>
       <documentation>
-         Allow plugins to contribute alternative implementations of Epsilon modules (e.g. incremental or parallel versions).
+         Allow plugins to contribute alternative implementations of Epsilon modules that provided alternative execution flows.
       </documentation>
    </annotation>
 
@@ -52,7 +52,7 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  The class that provides the new module
+                  The class that provides the alternative module implementation
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":org.eclipse.epsilon.common.module.IModule"/>
@@ -69,17 +69,17 @@
          <attribute name="language" type="string" use="required">
             <annotation>
                <documentation>
-                  The Epsilon language that the module implements
+                  The Epsilon language that the module supports
                </documentation>
             </annotation>
          </attribute>
          <attribute name="dialog" type="string">
             <annotation>
                <documentation>
-                  A class that constructs a dialog to configure the module. If the implementation does not need any configuration, then this attribute can be ommited.
+                  The class that constructs the module configuration composite. The composite will be added to the Implementation selection dialog when this module is selected.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModuleConfigurationDialog:"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.epsilon.common.dt.launching.dialogs.AbtsractModuleConfigurationDialog$ModuleConfigurationGruop"/>
                </appinfo>
             </annotation>
          </attribute>

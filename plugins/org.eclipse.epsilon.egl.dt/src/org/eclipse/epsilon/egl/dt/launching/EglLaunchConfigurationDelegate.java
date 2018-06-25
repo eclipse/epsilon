@@ -17,12 +17,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
+import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
+import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringUtil;
@@ -42,6 +49,7 @@ import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
 import org.eclipse.epsilon.egl.engine.traceability.fine.EglFineGrainedTraceContextAdaptor;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.status.StatusMessage;
@@ -59,18 +67,57 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 
 	protected Trace fineGrainedTrace;
 	
-	@Override
-	public IEolModule createModule() throws CoreException {
+//	@Override
+//	public IEolModule createModule() throws CoreException {
+//		EglTemplateFactory templateFactory = createTemplateFactoryFromConfiguration();
+//		if (isEgx()) {
+//			return new EgxModule(templateFactory);
+//		}
+//		else {
+//			return new EglTemplateFactoryModuleAdapter(templateFactory); 
+//		}
+//	}
+	
+	/**
+	 * Need to override, since we need the selected factory, which also comes from the dt.
+	 */
+	public IEolModule createModule(ILaunchConfiguration configuration) throws CoreException {
+		String implName = configuration.getAttribute(AbstractAdvancedConfigurationTab.IMPL_NAME, "");
+		IEolModule module = null;
 		EglTemplateFactory templateFactory = createTemplateFactoryFromConfiguration();
+		if (implName.length() > 0) {
+			module = ModuleImplementationExtension.forImplementation(implName).createModule();
+			Set<String> requiredProperties = module.getConfigurationProperties();
+			Map<String, Object> attr = configuration.getAttributes();
+			requiredProperties.stream()
+		    	.filter(k -> !attr.containsKey(k))
+		    	.forEach(attr::remove);
+			module.configure(attr);
+		}
+		if (module == null) {
+			// Backwards compatibility. For existing configurations, we will use the default module.
+			System.out.println("Configuration does not have specific module implementation information. "
+					+ "Falling back to default module.");
+			module = ModuleImplementationExtension.defaultImplementation().createModule();
+			if (module == null) {
+				IStatus result = new Status(IStatus.ERROR, "org.eclipse.epsilon.eol.dt",
+						"There was no default module found for the target language. Since this is defined "
+						+ "in the Epsilon plugins it is either a bug or your installation may have been "
+						+ "corrupted. Please raise a bug: https://bugs.eclipse.org/bugs/enter_bug.cgi?product=epsilon");
+				throw new CoreException(result);
+			}
+		}
 		if (isEgx()) {
-			return new EgxModule(templateFactory);
+			((EgxModule)module).setTemplateFactory(templateFactory);
+			((EgxModule)module).setContext(new EgxContext(templateFactory));;
 		}
 		else {
-			return new EglTemplateFactoryModuleAdapter(templateFactory); 
+			((EglTemplateFactoryModuleAdapter)module).setFactory(templateFactory); 
 		}
+		return module;		
 	}
-
-	private EglTemplateFactory createTemplateFactoryFromConfiguration() throws CoreException {
+	
+	public EglTemplateFactory createTemplateFactoryFromConfiguration() throws CoreException {
 		final TemplateFactoryTypeSpecificationFactory factory = new TemplateFactoryTypeSpecificationFactory();
 		
 		final String templateFactoryTypeIdentifier = configuration.getAttribute(EglLaunchConfigurationAttributes.TEMPLATE_FACTORY_TYPE, factory.findByIndex(0).getIdentifier());

@@ -84,6 +84,10 @@ public class EgxModule extends ErlModule {
 		return templateFactory;
 	}
 	
+	public void setTemplateFactory(EglTemplateFactory templateFactory) {
+		this.templateFactory = templateFactory;
+	}
+
 	public List<Content<Template>> getInvokedTemplates() {
 		return invokedTemplates;
 	}
@@ -234,6 +238,5 @@ public class EgxModule extends ErlModule {
 			this.context = (EgxContext) context;
 		}
 	}
-
 	
 }

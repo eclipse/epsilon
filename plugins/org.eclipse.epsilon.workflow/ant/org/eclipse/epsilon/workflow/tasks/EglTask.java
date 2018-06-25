@@ -14,8 +14,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
@@ -29,9 +32,11 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.workflow.tasks.ExecutableModuleTask.EpsilonTaskProperty;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.EglDefaultFormatterNestedElement;
 
 public class EglTask extends ExportableModuleTask {
@@ -43,7 +48,7 @@ public class EglTask extends ExportableModuleTask {
 	protected File outputRoot;
 	
 	@Override
-	protected IEolModule createModule() throws InstantiationException, IllegalAccessException {
+	protected IEolModule createDefaultModule() throws InstantiationException, IllegalAccessException {
 		final IEolModule module; 
 		final EglTemplateFactory templateFactory = templateFactoryType.newInstance();
 		
@@ -72,6 +77,51 @@ public class EglTask extends ExportableModuleTask {
 		
 		return module;
 	}
+	
+	/**
+	 * @return
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	protected IEolModule createAlternativeModule() throws InstantiationException, IllegalAccessException {
+		IEolModule module = moduleImplementation.newInstance();
+		final EglTemplateFactory templateFactory = templateFactoryType.newInstance();
+		if (templateFactory instanceof EglFileGeneratingTemplateFactory && outputRoot != null) {
+			try {
+				((EglFileGeneratingTemplateFactory) templateFactory).setOutputRoot(outputRoot.getAbsolutePath());
+			} catch (EglRuntimeException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		templateFactory.setDefaultFormatters(instantiateDefaultFormatters());
+		
+		if (src != null && src.getName().endsWith("egx")) {
+			((EgxModule) module).setTemplateFactory(templateFactory);
+			module.setContext(new EgxContext(templateFactory));
+		}
+		else {		
+			((EglTemplateFactoryModuleAdapter)module).setFactory(templateFactory);
+		}
+		
+		// Turn on fine-grained traceability, and
+		// obtain a reference to the trace so that we can export it later
+		if (shouldExportAsModel()) {
+			trace = new EglFineGrainedTraceContextAdaptor().adapt((IEglContext) module.getContext());
+		}
+		Set<String> requiredProperties = module.getConfigurationProperties();
+		Map<String, Object> props = new HashMap<>(requiredProperties.size());
+		for (String rp : requiredProperties) {
+			for (EpsilonTaskProperty np : properties) {
+				if (rp.equals(np.name)) {
+					props.put(np.name, np.value);
+				}
+			}
+		}
+		module.configure(props);
+		return module;
+	}
+	
 
 	private List<Formatter> instantiateDefaultFormatters() throws InstantiationException, IllegalAccessException {
 		final List<Formatter> defaultFormatters = new LinkedList<Formatter>();

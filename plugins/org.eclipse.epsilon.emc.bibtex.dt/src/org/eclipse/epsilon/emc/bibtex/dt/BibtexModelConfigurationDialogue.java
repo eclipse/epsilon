@@ -12,6 +12,7 @@ package org.eclipse.epsilon.emc.bibtex.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
 import org.eclipse.epsilon.common.dt.launching.dialogs.BrowseWorkspaceUtil;
+import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.emc.bibtex.BibtexModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -44,7 +45,7 @@ public class BibtexModelConfigurationDialogue extends AbstractModelConfiguration
 	}
 	
 	private void createBibtexFileGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "Bibtex Source", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Bibtex Source", 3);
 		
 		final Label bibtexFileLabel = new Label(groupContent, SWT.NONE);
 		bibtexFileLabel.setText("Bibtex file: ");

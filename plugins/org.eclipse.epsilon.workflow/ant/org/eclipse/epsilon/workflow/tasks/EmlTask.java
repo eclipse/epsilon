@@ -47,7 +47,7 @@ public class EmlTask extends ExecutableModuleTask {
 	}
 
 	@Override
-	protected IEolModule createModule() {
+	protected IEolModule createDefaultModule() {
 		return new EmlModule();
 	}
 

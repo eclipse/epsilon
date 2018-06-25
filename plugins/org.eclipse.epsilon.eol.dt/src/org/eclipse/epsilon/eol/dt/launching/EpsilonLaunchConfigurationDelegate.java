@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eol.dt.launching;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -31,10 +32,10 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
+import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
-import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugTarget;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
@@ -118,14 +119,15 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	}
 	
 	public IEolModule createModule(ILaunchConfiguration configuration) throws CoreException {
-		String implConfig = null;
-		implConfig = configuration.getAttribute("implConfig", "");
-		if (implConfig.length() > 0) {
-			StringProperties properties = new StringProperties();
-			properties.load(implConfig);
-			String impl = (String) properties.get("moduleName");
-			IEolModule module = ModuleImplementationExtension.forImplementation(impl).createModule();
-			module.configure(properties);
+		String implName = configuration.getAttribute(AbstractAdvancedConfigurationTab.IMPL_NAME, "");
+		if (implName.length() > 0) {
+			IEolModule module = ModuleImplementationExtension.forImplementation(implName).createModule();
+			Set<String> requiredProperties = module.getConfigurationProperties();
+			Map<String, Object> attr = configuration.getAttributes();
+			requiredProperties.stream()
+		    	.filter(k -> !attr.containsKey(k))
+		    	.forEach(attr::remove);
+			module.configure(attr);
 			return module;
 		}
 		// Backwards compatibility. For existing configurations, we will use the default module.

@@ -12,6 +12,7 @@ package org.eclipse.epsilon.emc.hutn.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
 import org.eclipse.epsilon.common.dt.launching.dialogs.BrowseWorkspaceUtil;
+import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.emc.hutn.HutnModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -44,7 +45,7 @@ public class HutnModelConfigurationDialogue extends AbstractModelConfigurationDi
 	}
 	
 	private void createHutnFileGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "HUTN Source", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "HUTN Source", 3);
 		
 		final Label hutnFileLabel = new Label(groupContent, SWT.NONE);
 		hutnFileLabel.setText("HUTN file: ");

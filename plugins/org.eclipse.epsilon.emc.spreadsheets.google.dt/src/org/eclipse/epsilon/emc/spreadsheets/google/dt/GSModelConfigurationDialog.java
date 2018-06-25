@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.emc.spreadsheets.google.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
+import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.emc.spreadsheets.google.GSModel;
 import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
@@ -51,7 +52,7 @@ public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog
 
 	protected void createConnectionGroup(final Composite parent)
 	{
-		final Composite groupContent = createGroupContainer(parent, "Connection Parameters", 2);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Connection Parameters", 2);
 		usernameLabel = new Label(groupContent, SWT.NONE);
 		usernameLabel.setText("Username: ");
 
@@ -70,7 +71,7 @@ public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog
 
 	protected void createSpreadsheetGroup(final Composite parent)
 	{
-		final Composite groupContent = createGroupContainer(parent, "Spreadsheet Details", 2);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Spreadsheet Details", 2);
 
 		spreadsheetNameLabel = new Label(groupContent, SWT.NONE);
 		spreadsheetNameLabel.setText("Name: ");
@@ -84,7 +85,7 @@ public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog
 
 	protected void createConfigurationFileGroup(final Composite parent)
 	{
-		final Composite groupContent = createGroupContainer(parent, "ORM Meta-data", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "ORM Meta-data", 3);
 
 		configFileTextLabel = new Label(groupContent, SWT.NONE);
 		configFileTextLabel.setText("File: ");
