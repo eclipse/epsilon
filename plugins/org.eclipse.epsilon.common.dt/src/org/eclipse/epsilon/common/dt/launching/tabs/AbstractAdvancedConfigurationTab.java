@@ -89,14 +89,15 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
+		System.out.println("initializeFrom");
 		try {
 			int index = 0;
 			implName = configuration.getAttribute(IMPL_NAME, "");
 			addAvailableImplsToCombo();
 			if (implName.length() > 0) {
+				System.out.println(implName);
 				index = modulesDropDown.indexOf(implName);
 				modulesDropDown.select(index);
-				createConfigComposite();
 				if (moduleConfig != null) {
 					moduleConfig.initializeFrom(configuration);
 				}
@@ -105,6 +106,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 				modulesDropDown.select(0);
 				implName = modulesDropDown.getText();
 			}
+			createConfigComposite();
 			updateLaunchConfigurationDialog();
 		} catch (CoreException e) {
 			//Ignore
@@ -122,7 +124,8 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 
 	@Override
 	public void activated(ILaunchConfigurationWorkingCopy workingCopy) {
-		initializeFrom(workingCopy);
+		System.out.println("Activated");
+		//initializeFrom(workingCopy);
 	}
 
 	@Override
@@ -207,7 +210,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	 * @param impl
 	 */
 	private void createConfigComposite() {
-		
+		System.out.println("createConfigComposite");
 		moduleConfig = null;
 		try {
 			moduleConfig = implementations.get(implName).createDialog();
@@ -215,13 +218,16 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 			// No configuration available
 		}
 		if (moduleConfigGroup != null) {
+			System.out.println("Disposing old group");
+			moduleConfigGroup.setVisible(false);
 			moduleConfigGroup.dispose();
 			moduleConfigGroup = null;
+			mainComposite.layout(true);
 		}
 		if (moduleConfig != null) {
-			
 			moduleConfigGroup = moduleConfig.createModuleConfigurationGroup(mainComposite);
 		}
+		mainComposite.redraw();
 		updateLaunchConfigurationDialog();
 	}
 
