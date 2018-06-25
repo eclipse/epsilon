@@ -79,7 +79,7 @@
                   The class that constructs the module configuration composite. The composite will be added to the Implementation selection dialog when this module is selected.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.epsilon.common.dt.launching.dialogs.AbtsractModuleConfigurationDialog$ModuleConfigurationGruop"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.epsilon.common.dt.launching.tabs.ModuleConfiguration"/>
                </appinfo>
             </annotation>
          </attribute>
