@@ -10,9 +10,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
@@ -45,6 +47,13 @@ import org.eclipse.epsilon.evl.parse.EvlParser;
  */
 public class EvlModule extends ErlModule implements IEvlModule {
 	
+	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
+	
+	private static final Set<String> CONFIG_PROPERTIES = new HashSet<>(1);
+	static {
+		CONFIG_PROPERTIES.add(OPTIMIZE_CONSTRAINTS);
+	}
+
 	/** The fixer. */
 	protected IEvlFixer fixer = null;
 	
@@ -62,7 +71,8 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	
 	/** The optimize constraints. */
 	private boolean optimizeConstraints = false;
-	
+
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.epsilon.eol.EolLibraryModule#createLexer(org.antlr.runtime.ANTLRInputStream)
 	 */
@@ -274,6 +284,20 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	 */
 	public void setOptimizeConstraints(boolean optimizeConstraints) {
 		this.optimizeConstraints = optimizeConstraints;
+	}
+	
+	
+	
+	@Override
+	public void configure(Map<String, Object> properties) {
+		if (properties.containsKey(OPTIMIZE_CONSTRAINTS)) {
+			this.optimizeConstraints = Boolean.valueOf((String)properties.get(OPTIMIZE_CONSTRAINTS));
+		}
+	}
+
+	@Override
+	public Set<String> getConfigurationProperties() {
+		return CONFIG_PROPERTIES;
 	}
 	
 }

@@ -36,7 +36,7 @@ import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.workflow.tasks.ExecutableModuleTask.EpsilonTaskProperty;
+import org.eclipse.epsilon.workflow.tasks.ExecutableModuleTask.ModuleProperty;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.EglDefaultFormatterNestedElement;
 
 public class EglTask extends ExportableModuleTask {
@@ -112,7 +112,7 @@ public class EglTask extends ExportableModuleTask {
 		Set<String> requiredProperties = module.getConfigurationProperties();
 		Map<String, Object> props = new HashMap<>(requiredProperties.size());
 		for (String rp : requiredProperties) {
-			for (EpsilonTaskProperty np : properties) {
+			for (ModuleProperty np : properties) {
 				if (rp.equals(np.name)) {
 					props.put(np.name, np.value);
 				}
