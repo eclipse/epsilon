@@ -14,7 +14,7 @@ import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.IEolModule;
 
-public class EclTask extends ExecutableModuleTask{
+public class EclTask extends ExecutableModuleTask {
 	
 	protected String useMatchTrace = null;
 	protected String exportMatchTrace = null;

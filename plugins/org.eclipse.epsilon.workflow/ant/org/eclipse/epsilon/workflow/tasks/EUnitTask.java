@@ -158,7 +158,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 
 	@Override
 	protected void examine() throws Exception {
-		final EUnitTest test = ((EUnitModule)createDefaultModule()).getSuiteRoot();
+		final EUnitTest test = ((EUnitModule)createModule()).getSuiteRoot();
 		final PrintStream out = module.getContext().getOutputStream();
 
 		out.println("Global result: " + test.getResult());

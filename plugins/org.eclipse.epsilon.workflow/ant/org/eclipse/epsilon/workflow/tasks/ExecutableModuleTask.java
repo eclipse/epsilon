@@ -21,10 +21,8 @@ import java.util.Set;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
@@ -39,7 +37,6 @@ import org.eclipse.epsilon.eol.tools.EolSystem;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.profiling.ProfilingExecutionListener;
-import org.eclipse.epsilon.workflow.tasks.ExecutableModuleTask.EpsilonTaskProperty;
 import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;
@@ -52,7 +49,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	 * @author Horacio Hoyos Rodriguez
 	 *
 	 */
-	public class EpsilonTaskProperty {
+	public class ModuleProperty {
 		String name;
 		String value;
 		public String getName() {
@@ -89,7 +86,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected Class<? extends IEolModule> moduleImplementation;
 	
 	/** Task specific settings */
-	List<EpsilonTaskProperty> properties = new ArrayList<>();
+	List<ModuleProperty> properties = new ArrayList<>();
 	
 	static {
 		HostManager.getHost().initialise();
@@ -119,6 +116,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		return parameterNestedElement;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void configureModule() throws EolModelNotFoundException, BuildException, EolModelLoadingException {
 		// We can only run these if we're inside a real Eclipse instance:
 		// we must avoid these calls if we're running the Ant task inside
@@ -149,7 +147,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		useVariables();
 	}
 	
-	protected void addVariables(IEolContext context, Map<String, ?>... variableMaps) {
+	protected void addVariables(IEolContext context, @SuppressWarnings("unchecked") Map<String, ?>... variableMaps) {
 		for (Map<String, ?> variableMap : variableMaps) {
 			for (String key : variableMap.keySet()) {
 				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(key, variableMap.get(key)));				
@@ -271,7 +269,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	}
 
 	private void parseModule() throws Exception {
-		module = createDefaultModule();
+		module = createModule();
 		if (src!=null) {
 			module.parse(src);
 		}
@@ -289,7 +287,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	}
 
 	public void addText(String msg) {
-		if (msg != null) {
+		if ((msg != null) && (src == null)) {
 			code += getProject().replaceProperties(msg);
 		}
 	}
@@ -443,12 +441,25 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected abstract IEolModule createDefaultModule() throws Exception;
 	
 	protected IEolModule createModule() throws Exception {
+		IEolModule result = null;
 		if (moduleImplementation == null) {
-			return createDefaultModule();
+			result = createDefaultModule();
 		}
 		else {
-			return createAlternativeModule();
+			result =  createAlternativeModule();
 		}
+		Set<String> requiredProperties = result.getConfigurationProperties();
+		Map<String, Object> props = new HashMap<>(requiredProperties.size());
+		for (String rp : requiredProperties) {
+			for (ModuleProperty np : properties) {
+				if (rp.equals(np.name)) {
+					props.put(np.name, np.value);
+				}
+			}
+		}
+		result.configure(props);
+		return result;
+		
 	}
 	
 	public Class<? extends IEolModule> getModuleImplementation() {
@@ -460,8 +471,8 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	}
 
 	/** Ant constructor for nested elements */
-    public EpsilonTaskProperty createEpsilonTaskProperty() {                    
-    	EpsilonTaskProperty property = new EpsilonTaskProperty();
+    public ModuleProperty createModuleProperty() {                    
+    	ModuleProperty property = new ModuleProperty();
     	properties.add(property);
         return property;
     }
@@ -473,16 +484,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	 */
 	protected IEolModule createAlternativeModule() throws InstantiationException, IllegalAccessException {
 		IEolModule module = moduleImplementation.newInstance();
-		Set<String> requiredProperties = module.getConfigurationProperties();
-		Map<String, Object> props = new HashMap<>(requiredProperties.size());
-		for (String rp : requiredProperties) {
-			for (EpsilonTaskProperty np : properties) {
-				if (rp.equals(np.name)) {
-					props.put(np.name, np.value);
-				}
-			}
-		}
-		module.configure(props);
+		
 		return module;
 	}
 		

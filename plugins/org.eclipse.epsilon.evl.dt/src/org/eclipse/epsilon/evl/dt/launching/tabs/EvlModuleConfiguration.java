@@ -5,13 +5,13 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.launching.tabs.ModuleConfiguration;
 import org.eclipse.epsilon.common.dt.util.DialogUtil;
+import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 public class EvlModuleConfiguration implements ModuleConfiguration {
 
-	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
 	private Button optimizeConstraintsBtn;
 
 	@Override
@@ -25,7 +25,7 @@ public class EvlModuleConfiguration implements ModuleConfiguration {
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
-			if (configuration.getAttribute(OPTIMIZE_CONSTRAINTS, false)) {
+			if (configuration.getAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, false)) {
 				optimizeConstraintsBtn.setSelection(true);
 			}
 		} catch (CoreException e) {
@@ -35,7 +35,7 @@ public class EvlModuleConfiguration implements ModuleConfiguration {
 
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		configuration.setAttribute(OPTIMIZE_CONSTRAINTS, optimizeConstraintsBtn.getSelection());
+		configuration.setAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimizeConstraintsBtn.getSelection());
 
 	}
 
