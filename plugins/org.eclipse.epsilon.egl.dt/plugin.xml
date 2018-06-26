@@ -112,6 +112,24 @@
             class="org.eclipse.epsilon.egl.dt.editor.EglModuleValidator">
       </moduleValidator>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.moduleImplementation">
+      <implementation
+            class="org.eclipse.epsilon.egl.EgxModule"
+            default="true"
+            language="EGL"
+            name="Egx">
+      </implementation>
+   </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.moduleImplementation">
+      <implementation
+            class="org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter"
+            default="true"
+            language="EGL"
+            name="Egl">
+      </implementation>
+   </extension>
    <!--extension
          point="org.eclipse.ui.preferencePages">
       <page

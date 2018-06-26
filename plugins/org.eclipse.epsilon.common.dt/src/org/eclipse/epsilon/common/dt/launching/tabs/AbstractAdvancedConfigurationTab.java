@@ -19,6 +19,8 @@ import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.exceptions.EpsilonDtException;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -54,6 +56,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	private Composite mainComposite;
 	private Composite moduleConfigGroup;
 	private ModuleConfiguration moduleConfig;
+	private Composite configComposite;
 	
 	@Override
 	public void createControl(Composite parent) {
@@ -73,7 +76,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 				int index = modulesDropDown.getSelectionIndex();
 				if (index != selectedImpl) {
 					implName = modulesDropDown.getItem(index);
-					createConfigComposite();
+					createConfigComposite(mainComposite);
 					selectedImpl = index;
 				}
 			}
@@ -89,13 +92,11 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
-		System.out.println("initializeFrom");
 		try {
 			int index = 0;
 			implName = configuration.getAttribute(IMPL_NAME, "");
 			addAvailableImplsToCombo();
 			if (implName.length() > 0) {
-				System.out.println(implName);
 				index = modulesDropDown.indexOf(implName);
 				modulesDropDown.select(index);
 				if (moduleConfig != null) {
@@ -106,7 +107,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 				modulesDropDown.select(0);
 				implName = modulesDropDown.getText();
 			}
-			createConfigComposite();
+			createConfigComposite(mainComposite);
 			updateLaunchConfigurationDialog();
 		} catch (CoreException e) {
 			//Ignore
@@ -124,8 +125,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 
 	@Override
 	public void activated(ILaunchConfigurationWorkingCopy workingCopy) {
-		System.out.println("Activated");
-		//initializeFrom(workingCopy);
+
 	}
 
 	@Override
@@ -206,11 +206,11 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	}
 	
 	/**
+	 * @param parent 
 	 * @param index
 	 * @param impl
 	 */
-	private void createConfigComposite() {
-		System.out.println("createConfigComposite");
+	private void createConfigComposite(Composite parent) {
 		moduleConfig = null;
 		try {
 			moduleConfig = implementations.get(implName).createDialog();
@@ -218,16 +218,26 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 			// No configuration available
 		}
 		if (moduleConfigGroup != null) {
-			System.out.println("Disposing old group");
-			moduleConfigGroup.setVisible(false);
-			moduleConfigGroup.dispose();
-			moduleConfigGroup = null;
-			mainComposite.layout(true);
+			configComposite.addDisposeListener(new DisposeListener() {
+				@Override
+				public void widgetDisposed(DisposeEvent e) {
+					if (moduleConfig != null) {
+						configComposite = new Composite(parent, SWT.NONE);
+						GridLayout controlLayout = new GridLayout(1, true);
+						configComposite.setLayout(controlLayout);
+						moduleConfigGroup = moduleConfig.createModuleConfigurationGroup(configComposite);
+					}
+				}
+			});
+			configComposite.dispose();
 		}
-		if (moduleConfig != null) {
-			moduleConfigGroup = moduleConfig.createModuleConfigurationGroup(mainComposite);
+		else {
+			configComposite = new Composite(parent, SWT.NONE);
+			GridLayout controlLayout = new GridLayout(1, true);
+			configComposite.setLayout(controlLayout);
+			moduleConfigGroup = moduleConfig.createModuleConfigurationGroup(configComposite);
+			configComposite.redraw();
 		}
-		mainComposite.redraw();
 		updateLaunchConfigurationDialog();
 	}
 
