@@ -11,6 +11,8 @@ public class Template {
 	protected ArrayList<String> parameters = new ArrayList<String>();
 	protected Element content;
 	
+	public static final String NODE_NAME = "_template";
+	
 	public Template(Element element) {
 		this.name = element.getAttribute("name");
 		for (Element parameterElement : Xml.getChildren(element, "parameter")) {

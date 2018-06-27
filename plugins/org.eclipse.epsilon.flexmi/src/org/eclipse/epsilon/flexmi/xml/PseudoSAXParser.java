@@ -50,7 +50,7 @@ public class PseudoSAXParser {
 		this.uri = uri;
 		
 		if (isFlexmiRootNode(document.getDocumentElement())) {
-			for (Element templateElement : Xml.getChildren(document.getDocumentElement(), getTemplateNodeName())) {
+			for (Element templateElement : Xml.getChildren(document.getDocumentElement(), Template.NODE_NAME)) {
 				resource.getTemplates().add(new Template(templateElement));
 				document.getDocumentElement().removeChild(templateElement);
 			}
@@ -125,15 +125,11 @@ public class PseudoSAXParser {
 	}
 	
 	protected boolean isFlexmiRootNode(Element element) {
-		return element.getNodeName().equals("flexmi") && element.getParentNode() instanceof Document;
+		return element.getNodeName().equals(FlexmiResource.ROOT_NODE_NAME) && element.getParentNode() instanceof Document;
 	}
 	
 	protected boolean isTemplate(Element element) {
-		return element.getNodeName().equals(getTemplateNodeName());
-	}
-	
-	protected String getTemplateNodeName() {
-		return "template";
+		return element.getNodeName().equals(Template.NODE_NAME);
 	}
 	
 	public interface Handler {

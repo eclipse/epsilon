@@ -44,6 +44,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	public static final String OPTION_FUZZY_CONTAINMENT_MATCHING = "fuzzyContainmentMatching";
 	public static final String OPTION_ORPHANS_AS_TOP_LEVEL = "orphansAsTopLevel";
 	public static final String OPTION_FUZZY_MATCHING_THRESHOLD = "fuzzyMatchingThreshold";
+	public static final String ROOT_NODE_NAME = "_";
 	
 	protected EObjectTraceManager eObjectTraceManager = new EObjectTraceManager();
 	protected List<UnresolvedReference> unresolvedReferences = new ArrayList<UnresolvedReference>();
@@ -179,7 +180,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		EClass eClass = null;
 		
 		// We're at the root or we treat orphan elements as top-level
-		if (stack.isEmpty() && "template".equals(element.getNodeName())) {
+		if (stack.isEmpty() && Template.NODE_NAME.equals(element.getNodeName())) {
 			
 		}
 		else if (stack.isEmpty() || (stack.peek() == null && orphansAsTopLevel)) {
@@ -573,7 +574,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	}
 	
 	protected boolean isTemplateElement(Element element) {
-		return stack.isEmpty() && "template".equals(element.getNodeName());
+		return stack.isEmpty() && Template.NODE_NAME.equals(element.getNodeName());
 	}
 	
 }
