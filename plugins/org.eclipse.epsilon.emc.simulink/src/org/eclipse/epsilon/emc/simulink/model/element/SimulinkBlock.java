@@ -211,5 +211,12 @@ public class SimulinkBlock extends SimulinkElement {
 	protected String getSimulinkType() {
 		return String.format(GET_SIMULINK_TYPE, kind.getKind());
 	}
+	
+	@Override
+	public Collection<String> getAllTypeNamesOf() {
+		Collection<String> list = super.getAllTypeNamesOf();
+		list.add(kind.name());
+		return list;
+	}
 
 }
