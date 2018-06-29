@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.emc.simulink.engine;
+package org.eclipse.epsilon.emc.simulink.exception;
 
 public class MatlabException extends Exception {
 

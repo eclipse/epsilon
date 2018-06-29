@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -43,8 +44,8 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	public static final String OPTION_FUZZY_CONTAINMENT_MATCHING = "fuzzyContainmentMatching";
 	public static final String OPTION_ORPHANS_AS_TOP_LEVEL = "orphansAsTopLevel";
 	public static final String OPTION_FUZZY_MATCHING_THRESHOLD = "fuzzyMatchingThreshold";
+	public static final String ROOT_NODE_NAME = "_";
 	
-	protected EObjectIdManager eObjectIdManager = new EObjectIdManager();
 	protected EObjectTraceManager eObjectTraceManager = new EObjectTraceManager();
 	protected List<UnresolvedReference> unresolvedReferences = new ArrayList<UnresolvedReference>();
 	protected Stack<Object> stack = new Stack<Object>();
@@ -53,10 +54,37 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected HashMap<String, EClass> eClassCache = new HashMap<String, EClass>();
 	protected HashMap<EClass, List<EClass>> allSubtypesCache = new HashMap<EClass, List<EClass>>();
 	protected StringSimilarityProvider stringSimilarityProvider = new CachedStringSimilarityProvider(new DefaultStringSimilarityProvider());
+	protected Stack<URI> parsedFragmentURIStack = new Stack<URI>();
+	protected Set<URI> parsedFragmentURIs = new HashSet<URI>();
+	protected List<Template> templates = new ArrayList<Template>();
 	
 	protected boolean fuzzyContainmentSlotMatching = true;
 	protected boolean orphansAsTopLevel = true;
 	protected int fuzzyMatchingThreshold = 0;
+	
+	public void startProcessingFragment(URI uri) {
+		parsedFragmentURIStack.push(uri);
+		parsedFragmentURIs.add(uri);
+	}
+	
+	public void endProcessingFragment() {
+		parsedFragmentURIStack.pop();
+	}
+	
+	public Set<URI> getParsedFragmentURIs() {
+		return parsedFragmentURIs;
+	}
+	
+	public List<Template> getTemplates() {
+		return templates;
+	}
+	
+	public Template getTemplate(String name) {
+		for (Template template : templates) {
+			if (template.getName().equals(name)) return template;
+		}
+		return null;
+	}
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -76,7 +104,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		Resource modelResource = modelResourceSet.createResource(URI.createFileURI(new File("models/messaging.flexmi").getAbsolutePath()));
 		modelResource.load(null);
 		
-		System.out.println(modelResource.getContents().get(0));
+		System.out.println(modelResource.getEObject("tom"));
 		
 	}
 	
@@ -91,11 +119,9 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			doLoadImpl(inputStream, options);
 		}
 		catch (IOException ioException) {
-			ioException.printStackTrace();
 			throw ioException;
 		}
 		catch (Exception ex) {
-			ex.printStackTrace();
 			throw new RuntimeException(ex);
 		}
 	}
@@ -125,7 +151,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		scripts.clear();
 		eClassCache.clear();
 		allSubtypesCache.clear();
-		eObjectIdManager = new EObjectIdManager();
+		setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
 		
 		if (options != null) {
 			for (Object key : options.keySet()) {
@@ -133,7 +159,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			}
 		}
 		
-		new PseudoSAXParser().parse(inputStream, this);
+		new PseudoSAXParser().parse(this, inputStream, this);
 	}
 	
 	@Override
@@ -154,7 +180,10 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		EClass eClass = null;
 		
 		// We're at the root or we treat orphan elements as top-level
-		if (stack.isEmpty() || (stack.peek() == null && orphansAsTopLevel)) {
+		if (stack.isEmpty() && Template.NODE_NAME.equals(element.getNodeName())) {
+			
+		}
+		else if (stack.isEmpty() || (stack.peek() == null && orphansAsTopLevel)) {
 			eClass = eClassForName(name);
 			if (eClass != null) {
 				eObject = eClass.getEPackage().getEFactoryInstance().create(eClass);
@@ -200,7 +229,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 					
 					if (eAttribute != null) {
 						setEAttributeValue(parent, eAttribute, name, element.getTextContent().trim());
-						eObjectTraceManager.trace(parent, getLineNumber(element));
+						eObjectTraceManager.trace(parent, getCurrentURI(), getLineNumber(element));
 						stack.push(null);
 						return;
 					}
@@ -218,7 +247,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 					}
 					if (containment != null) {
 						EReferenceSlot containmentSlot = new EReferenceSlot(containment, parent);
-						eObjectTraceManager.trace(parent, getLineNumber(element));
+						eObjectTraceManager.trace(parent, getCurrentURI(), getLineNumber(element));
 						stack.push(containmentSlot);
 						return;
 					}
@@ -268,7 +297,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		Object object = stack.pop();
 		if (object != null && object instanceof EObject) {
 			EObject eObject = (EObject) object;
-			eObjectTraceManager.trace(eObject, getLineNumber(element));
+			eObjectTraceManager.trace(eObject, getCurrentURI(), getLineNumber(element));
 		}
 	}
 
@@ -304,7 +333,11 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	}
 	
 	protected void addParseWarning(String message, int line) {
-		getWarnings().add(new FlexmiDiagnostic(message, line, this));
+		addParseWarning(message, getCurrentURI(), line);
+	}
+	
+	protected void addParseWarning(String message, URI uri, int line) {
+		getWarnings().add(new FlexmiDiagnostic(message, uri, line));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -334,17 +367,25 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		}
 		
 		for (UnresolvedReference reference : unresolvableReferences) {
-			addParseWarning("Could not resolve target " + reference.getValue() + " for reference " + reference.getAttributeName() + " (" + reference.getEReference().getName() + ")", reference.getLine());
+			addParseWarning("Could not resolve target " + reference.getValue() + " for reference " + reference.getAttributeName() + " (" + reference.getEReference().getName() + ")", reference.getUri(), reference.getLine());
 		}
-		eObjectIdManager = new EObjectIdManager();
 	}
 	
 	protected boolean resolveReference(UnresolvedReference unresolvedReference) {
-		List<EObject> candidates = eObjectIdManager.getEObjectsById(unresolvedReference.getValue());
-		return unresolvedReference.resolve(candidates);
+		List<EObject> candidates = Arrays.asList(getIntrinsicIDToEObjectMap().get(unresolvedReference.getValue()));
+		if (!unresolvedReference.resolve(candidates)) {
+			for (Resource resource : getResourceSet().getResources()) {
+				if (resource != this) {
+					candidates = Arrays.asList(resource.getEObject(unresolvedReference.getValue()));
+					if (unresolvedReference.resolve(candidates)) return true;
+				}
+			}
+			return false;
+		}
+		return true;
 	}
 	
-	protected int getLineNumber(Node node) {
+	public int getLineNumber(Node node) {
 		Location location = (Location) node.getUserData(Location.ID);
 		if (location != null) {
 			return location.getStartLine();
@@ -360,14 +401,15 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		
 		if (attributes.getLength() == 0 || eStructuralFeatures.size() == 0) return;
 		
-		
 		if (!(eObject.eClass().getEStructuralFeature("id") instanceof EAttribute)) {
 			if (attributes.getNamedItem("id") != null) {
 				String value = attributes.getNamedItem("id").getNodeValue();
 				attributes.removeNamedItem("id");
-				eObjectIdManager.setEObjectId(eObject, value);
+				getIntrinsicIDToEObjectMap().put(value, eObject);
 			}
 		}
+		
+		if (attributes.getLength() == 0) return;
 		
 		double[][] inverseSimilarities = new double[attributes.getLength()][eStructuralFeatures.size()];
 		
@@ -400,15 +442,19 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				EReference eReference = (EReference) sf;
 				if (eReference.isMany()) {
 					for (String valuePart : value.split(",")) {
-						unresolvedReferences.add(new UnresolvedReference(eObject, eReference, name, valuePart.trim(), getLineNumber(element)));
+						unresolvedReferences.add(new UnresolvedReference(eObject, getCurrentURI(), eReference, name, valuePart.trim(), getLineNumber(element)));
 					}
 				}
 				else {
-					unresolvedReferences.add(new UnresolvedReference(eObject, eReference, name, value, getLineNumber(element)));
+					unresolvedReferences.add(new UnresolvedReference(eObject, getCurrentURI(), eReference, name, value, getLineNumber(element)));
 				}
 			}
 		}
 		
+	}
+	
+	public URI getCurrentURI() {
+		return parsedFragmentURIStack.isEmpty() ? this.getURI() : parsedFragmentURIStack.peek();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -425,7 +471,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			if (eValue == null) return;
 			eObject.eSet(eAttribute, eValue);
 			if (eAttribute.isID() || "name".equalsIgnoreCase(eAttribute.getName())) {
-				if (!eObjectIdManager.hasId(eObject)) eObjectIdManager.setEObjectId(eObject, value);
+				getIntrinsicIDToEObjectMap().put(value, eObject);
 			}
 		}
 	}
@@ -435,7 +481,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			return eAttribute.getEAttributeType().getEPackage().getEFactoryInstance().createFromString(eAttribute.getEAttributeType(), value);
 		}
 		catch (Exception ex) {
-			ex.printStackTrace();
 			addParseWarning(ex.getMessage() + " in the value of " + attributeName);
 			return null;
 		}
@@ -527,5 +572,9 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		
 		return null;
 	}
-
+	
+	protected boolean isTemplateElement(Element element) {
+		return stack.isEmpty() && Template.NODE_NAME.equals(element.getNodeName());
+	}
+	
 }

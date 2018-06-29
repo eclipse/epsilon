@@ -5,6 +5,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.ui.EclipseUIPlugin;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -18,6 +19,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.DecoratingColumLabelProvider;
 import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
+import org.eclipse.epsilon.flexmi.EObjectLocation;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
@@ -86,15 +88,16 @@ public class FlexmiContentOutlinePage extends ContentOutlinePage {
 		@Override
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 			try {
-			if (selection instanceof TextSelection) {
-				TextSelection textSelection = (TextSelection) selection;
-				EObject eObject = editor.getResource().getEObjectTraceManager().getEObject(textSelection.getStartLine()+1);
-				if (eObject != null) {
-					externalSelectionChange = true;
-					getTreeViewer().setSelection(new StructuredSelection(eObject), true);
-					externalSelectionChange = false;
+				if (selection instanceof TextSelection) {
+					TextSelection textSelection = (TextSelection) selection;
+					EObject eObject = editor.getResource().getEObjectTraceManager().getEObject(URI.createFileURI(editor.getFile().getLocation().toOSString()), textSelection.getStartLine()+1);
+					
+					if (eObject != null) {
+						externalSelectionChange = true;
+						getTreeViewer().setSelection(new StructuredSelection(eObject), true);
+						externalSelectionChange = false;
+					}
 				}
-			}
 			}
 			catch (Exception ex) {}
 		}
@@ -126,12 +129,15 @@ public class FlexmiContentOutlinePage extends ContentOutlinePage {
 				fireSelectionChanged(new StructuredSelection(adaptable));
 				if (externalSelectionChange) return;
 				
-				IFile file = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(new Path(editor.getResource().getURI().toFileString()))[0];
-				final int line = editor.getResource().getEObjectTraceManager().getLine((EObject) selected);
-				
-				// Copied from EclipseUtil
-				
+				IFile file = editor.getFile();
 				if (file == null) return;
+				
+				final EObjectLocation location = editor.getResource().getEObjectTraceManager().getLine((EObject) selected);
+				if (!file.getLocation().toOSString().equals(location.getUri().toFileString())) return;
+				
+				final int line = location.getLine();
+					
+				
 				
 				final FileEditorInput fileinput=new FileEditorInput(file);
 				final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());

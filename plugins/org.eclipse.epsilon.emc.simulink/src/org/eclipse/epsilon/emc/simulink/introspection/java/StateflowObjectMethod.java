@@ -28,7 +28,6 @@ public class StateflowObjectMethod extends ObjectMethod {
 			engine.eval(cmd);
 			return engine.getVariable("result");
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new EolRuntimeException(e.getMessage());
 		}
 		

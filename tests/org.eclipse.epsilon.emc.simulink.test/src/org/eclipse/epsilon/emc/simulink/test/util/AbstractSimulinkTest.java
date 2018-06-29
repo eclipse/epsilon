@@ -28,6 +28,8 @@ public abstract class AbstractSimulinkTest {
 	
 	protected static final String LN = " 'LINE BREAK'.println(); ";
 
+	public static String matlabVersion = "2017b";
+
 	protected String eol;
 	protected String eolResourceFile;
 	protected File modelFile;
@@ -119,7 +121,7 @@ public abstract class AbstractSimulinkTest {
 
 	public static SimulinkModel loadSimulinkModel(File file, boolean activeCaching) throws EolModelLoadingException {
 
-		if (!ENGINE_JAR.file().exists() || !LIBRARY_PATH.file().exists())
+		if (!ENGINE_JAR.file(matlabVersion).exists() || !LIBRARY_PATH.file(matlabVersion).exists())
 			throw new EolModelLoadingException(new Exception(ERROR_CONFIG_FILES_NOT_FOUND), null);
 
 		SimulinkModel model = new SimulinkModel();
@@ -127,15 +129,19 @@ public abstract class AbstractSimulinkTest {
 		if (file != null) {
 			model.setFile(file);
 			model.setReadOnLoad(true);
+			model.setWorkingDir(file.getParentFile());
 		} else {
 			model.setFile(new File("model" + String.valueOf(UUID.randomUUID()).replace("-", "") + ".slx"));
+			model.setWorkingDir(new File(System.getProperty("user.dir")));
 			model.setReadOnLoad(false);
 		}
 		model.setStoredOnDisposal(false);
-		model.setShowInMatlabEditor(true);
+		model.setShowInMatlabEditor(false);
 		model.setCachingEnabled(activeCaching);
+		
 		model.setLibraryPath(LIBRARY_PATH.path());
 		model.setEngineJarPath(ENGINE_JAR.path());
+		model.setFollowLinks(false);
 		model.load();
 
 		return model;

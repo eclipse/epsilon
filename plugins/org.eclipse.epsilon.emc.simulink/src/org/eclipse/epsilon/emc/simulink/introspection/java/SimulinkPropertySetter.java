@@ -27,6 +27,9 @@ public class SimulinkPropertySetter extends JavaPropertySetter {
 				element.setProperty(property, value);
 			}
 		} catch (EolIllegalPropertyException e) {
+			// FIXME In which case can a Simulink object not have a simulink property but a Java one?
+			// IF this is the case, then <element>.setProperty needs to throw a different type of exception when there was an actual Simulink exception,
+			// and this one when it wants to delegate to the Java getter. 
 			super.invoke(value);
 		}
 	}

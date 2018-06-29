@@ -37,6 +37,7 @@ import org.eclipse.epsilon.epl.engine.test.acceptance.EplAcceptanceTestSuite;
 import org.eclipse.epsilon.etl.engine.test.acceptance.EtlAcceptanceTestSuite;
 import org.eclipse.epsilon.evl.engine.test.acceptance.EvlAcceptanceTestSuite;
 import org.eclipse.epsilon.ewl.engine.test.acceptance.EwlAcceptanceTestSuite;
+import org.eclipse.epsilon.flexmi.test.FlexmiTestSuite;
 import org.eclipse.epsilon.flock.test.EpsilonFlockEngineTestSuite;
 import org.eclipse.epsilon.hutn.test.HutnTestSuite;
 import org.eclipse.epsilon.hutn.unparser.HutnUnparserUnitTestSuite;
@@ -76,8 +77,10 @@ import junit.framework.Test;
                GraphmlTestSuite.class,
                EmfTestSuite.class,
                SpreadsheetDriverTestSuite.class,
-               CsvModelTestSuite.class})
-public class EpsilonTestSuite {
+               CsvModelTestSuite.class,
+               FlexmiTestSuite.class})
+
+public class EpsilonTestSuite{
 	public static Test suite() {
 		return new JUnit4TestAdapter(EpsilonTestSuite.class);
 	}

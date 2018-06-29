@@ -11,16 +11,16 @@ import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertyGetter;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertySetter;
+import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
 import org.eclipse.epsilon.emc.simulink.operations.contributors.ModelOperationContributor;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
-import org.eclipse.epsilon.emc.simulink.util.StateflowUtil;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -97,16 +97,22 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 					 // Ignore; system already exists	
 				}
 			}
-			String pwd = (workingDir!= null) ? workingDir.getAbsolutePath() : file.getParentFile().getAbsolutePath();
-				try {
-				engine.eval(PWD, pwd);
-				} catch (Exception ex) {
-					throw new EolModelLoadingException(ex, this);
+			
+			try {
+				String pwd = (workingDir != null) ? workingDir.getAbsolutePath() : file.getParentFile().getAbsolutePath();
+				if (pwd != null) {
+					System.out.println("Setting working directory to " + pwd);
+					engine.eval(PWD, pwd);
 				}
+			} catch (Exception ex) {
+				// couldn't set the the working directory
+			}
 
 			String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
-			engine.eval(cmd, file.getAbsolutePath());
+			engine.eval(cmd, getSimulinkModelName());
 			this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());
+			TypeHelper.init(engine);
+			System.out.println(TypeHelper.getMap());
 		} catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
 		}
@@ -243,56 +249,22 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 
 	@Override 
 	protected Collection<ISimulinkModelElement> allContentsFromModel() { 
-		Collection<ISimulinkModelElement> all = new ArrayList<ISimulinkModelElement>();
-		try {
-			Collection<ISimulinkModelElement> allStateflowBlocksFromModel = StateflowUtil.getAllStateflowBlocksFromModel(this, engine);
-			if (!allStateflowBlocksFromModel.isEmpty()) 
-				all.addAll(allStateflowBlocksFromModel);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-			List<ISimulinkModelElement> allSimulinkBlocksFromModel = SimulinkUtil.getAllSimulinkBlocksFromModel(this, engine);
-			if (!allSimulinkBlocksFromModel.isEmpty()) 
-				all.addAll(allSimulinkBlocksFromModel);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return all;
+		return TypeHelper.getAll(engine, this);
 	}
-
+	
 	@Override // FIXME
 	protected Collection<ISimulinkModelElement> getAllOfTypeFromModel(String type) 
 			throws EolModelElementTypeNotFoundException { 
-		try {
-			Collection<ISimulinkModelElement> all = new ArrayList<ISimulinkModelElement>();
-			if (type.startsWith(STATEFLOW)) {
-				Collection<ISimulinkModelElement> allOfStateflowTypeFromModel = StateflowUtil.getAllOfStateflowTypeFromModel(this, engine, type);
-				if (!allOfStateflowTypeFromModel.isEmpty()) 
-					all.addAll(allOfStateflowTypeFromModel);
-				
-			} else {
-				List<ISimulinkModelElement> allSimulinkBlocksFromModel = SimulinkUtil.getAllSimulinkBlocksFromModel(this, engine, type);
-				if (!allSimulinkBlocksFromModel.isEmpty()) 
-					all.addAll(allSimulinkBlocksFromModel);
-			}
-			return all;	
-		} catch (Exception e) {
-			throw new EolModelElementTypeNotFoundException(this.getName(), type);
-		}
+		return TypeHelper.getAllOfType(this, engine, type);		
 	}
 
 	@Override
 	protected Collection<ISimulinkModelElement> getAllOfKindFromModel(String kind)  
 			throws EolModelElementTypeNotFoundException {
 		try {
-			if (BLOCK.equalsIgnoreCase(kind)) {
-				return allContentsFromModel();
-			} else if (STATEFLOW.equalsIgnoreCase(kind)) {
-				return StateflowUtil.getAllStateflowBlocksFromModel(this, engine);
-			} else if (SIMULINK.equalsIgnoreCase(kind)) {
-				return SimulinkUtil.getAllSimulinkBlocksFromModel(this, engine);
-			} else {
+			try {
+				return Kind.get(kind).getAll(engine, this);
+			} catch (Exception e) {
 				return getAllOfTypeFromModel(kind);
 			}
 		} catch (Exception e) {
@@ -333,7 +305,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		if (filePath != null && filePath.trim().length() > 0)
 			file = new File(resolver.resolve(filePath));
 		if (workingDirPath != null && workingDirPath.trim().length() > 0) {
-			workingDir = new File(workingDirPath);
+			workingDir = new File(resolver.resolve(filePath));
 		} else {
 			workingDir = file.getParentFile();			
 		}			
@@ -345,14 +317,13 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		String name = getFile().getName().substring(0, getFile().getName().lastIndexOf("."));
 		Future<Void> fSim;
 		try {
-			fSim = engine.evalAsync("simOut = sim('" + name + "', []);");
+			fSim = engine.evalAsync("simout = sim('" + name + "', []);");
 			while (!fSim.isDone()) {
 				Thread.sleep(1000);
 			}
 		} catch (MatlabException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -387,7 +358,10 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 
 	@Override
-	public boolean owns(Object instance) { 
+	public boolean owns(Object instance) {
+		if (instance == null) {
+			return false;
+		}
 		return ((instance instanceof ISimulinkModelElement) 
 				&& ((ISimulinkModelElement) instance).getOwningModel() == this ) 
 				|| (instance instanceof SimulinkModel)

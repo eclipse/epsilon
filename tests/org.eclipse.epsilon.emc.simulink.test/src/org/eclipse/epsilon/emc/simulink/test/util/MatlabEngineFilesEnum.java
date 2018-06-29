@@ -7,18 +7,20 @@ public enum MatlabEngineFilesEnum {
 	// Default windows and osx locations for test version R2017a
 	
 	ENGINE_JAR(
-			"C:/Program Files/MATLAB/R2017b/extern/engines/java/jar/engine.jar",
-			"/Applications/MATLAB_R2017b.app/extern/engines/java/jar/engine.jar",
+			"C:/Program Files/MATLAB/%s/extern/engines/java/jar/engine.jar",
+			"/Applications/MATLAB_%s.app/extern/engines/java/jar/engine.jar",
 			""), // TODO
 	
 	LIBRARY_PATH(
-			"C:/Program Files/MATLAB/R2017b/bin/win64", 
-			"/Applications/MATLAB_R2017b.app/bin/maci64",
+			"C:/Program Files/MATLAB/%s/bin/win64", 
+			"/Applications/MATLAB_%s.app/bin/maci64",
 			""); // TODO
 
 	private static final String OS_PROPERTY = "os.name";
 	private static final String WINDOWS = "windows";
 	private static final String MAC = "mac";
+	
+	private static final String VERSION = "R2017b"; // Default value 
 
 	private String win;
 	private String osx;
@@ -33,7 +35,8 @@ public enum MatlabEngineFilesEnum {
 		this.os = System.getProperty(OS_PROPERTY).toLowerCase();
 	}
 
-	public File file(){
+	
+	public File file(String version){
 		if (os.contains(WINDOWS)) {
 			return getWindowsFile();
 		} else if (os.contains(MAC)){
@@ -43,26 +46,34 @@ public enum MatlabEngineFilesEnum {
 		}
 	}
 	
-	public String path(){
+	public String path(String version){
 		if (os.contains(WINDOWS)) {
-			return getWindowsPath();
+			return getWindowsPath(version);
 		} else if (os.contains(MAC)){
-			return getMacOSPath();
+			return getMacOSPath(version);
 		} else {
-			return getLinuxPath();
+			return getLinuxPath(version);
 		}
 	}
-
+	
+	public File file(){
+		return file(VERSION);
+	}
+	
+	public String path(){
+		return path(VERSION);
+	}
+	
 	public String getWindowsPath() {
-		return this.win;
+		return String.format(this.win, VERSION);
 	}
 	
 	public String getMacOSPath() {
-		return this.osx;
+		return String.format(this.osx, VERSION);
 	}
 	
 	public String getLinuxPath() {
-		return this.lin;
+		return String.format(this.lin, VERSION);
 	}
 	
 	public File getWindowsFile() {
@@ -75,6 +86,30 @@ public enum MatlabEngineFilesEnum {
 	
 	public File getLinuxFile() {
 		return new File(getLinuxPath());
+	}
+	
+	public String getWindowsPath(String version) {
+		return String.format(this.win, version);
+	}
+	
+	public String getMacOSPath(String version) {
+		return String.format(this.osx, version);
+	}
+	
+	public String getLinuxPath(String version) {
+		return String.format(this.lin, version);
+	}
+	
+	public File getWindowsFile(String version) {
+		return new File(getWindowsPath(version));
+	}
+
+	public File getMacOSFile(String version) {
+		return new File(getMacOSPath(version));
+	}
+	
+	public File getLinuxFile(String version) {
+		return new File(getLinuxPath(version));
 	}
 	
 }

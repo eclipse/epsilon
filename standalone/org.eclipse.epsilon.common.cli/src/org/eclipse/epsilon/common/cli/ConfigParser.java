@@ -16,10 +16,10 @@ import org.eclipse.epsilon.common.launch.ProfilableRunConfiguration;
  */
 public class ConfigParser<R extends ProfilableRunConfiguration<?>> implements Consumer<String[]>, Function<String[], R> {
 	
-	//The variables to be parsed
+	// The variables to be parsed
 	public Optional<Boolean> profileExecution, showResults;
-	public Path script;
 	public Optional<Path> outputFile;
+	public Path script;
 	public Optional<Integer> id = Optional.empty();
 	public R runConfig;
 	
@@ -53,13 +53,14 @@ public class ConfigParser<R extends ProfilableRunConfiguration<?>> implements Co
 			help.printHelp(formatUsage(), options);
 		}
 		
-		script = Paths.get(args[0]);
 		profileExecution = Optional.of(cmdLine.hasOption(profileExecutionOpt));
 		showResults = Optional.of(cmdLine.hasOption(showResultsOpt));
 		
 		outputFile = cmdLine.hasOption(outFileOpt) ?
 			Optional.of(Paths.get(cmdLine.getOptionValue(outFileOpt))) :
 			Optional.empty();
+		
+		script = Paths.get(args[0]);
 	}
 	
 	protected void handleException(Exception ex) {

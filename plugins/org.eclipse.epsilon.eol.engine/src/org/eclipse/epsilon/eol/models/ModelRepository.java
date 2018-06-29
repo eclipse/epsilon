@@ -130,8 +130,11 @@ public class ModelRepository {
 		return model.getEnumerationValue(enumeration, label);
 	}
 	
-	public IModel getOwningModel(Object instance) {
-		
+	public IModel getOwningModel(Object instance){
+		// Fail fast since models should not contain null objects.
+		if (instance == null) {
+			return null;
+		}
 		if (instance instanceof IModelElement) {
 			return ((IModelElement) instance).getOwningModel();
 		}

@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.flexmi.dt;
 
 import java.io.ByteArrayInputStream;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import javax.xml.transform.TransformerException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -21,7 +23,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
-import org.eclipse.epsilon.flexmi.ParseWarning;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorInput;
@@ -39,6 +40,7 @@ public class FlexmiEditor extends TextEditor {
 	protected Job parseModuleJob = null;
 	protected FlexmiContentOutlinePage outlinePage = null;
 	protected FlexmiResource resource = null;
+	protected IFile file;
 	
 	public FlexmiEditor() {
 		super();
@@ -47,6 +49,10 @@ public class FlexmiEditor extends TextEditor {
 		colorManager = new ColorManager();
 		setSourceViewerConfiguration(new XMLConfiguration(colorManager));
 		setDocumentProvider(new XMLDocumentProvider());
+	}
+	
+	public IFile getFile() {
+		return file;
 	}
 	
 	@Override
@@ -87,7 +93,6 @@ public class FlexmiEditor extends TextEditor {
 	@Override
 	protected void doSetSelection(ISelection selection) {
 		super.doSetSelection(selection);
-		System.out.println(selection);
 	}
 	
 	public void parseModule() {
@@ -96,7 +101,7 @@ public class FlexmiEditor extends TextEditor {
 		if (!(getEditorInput() instanceof FileEditorInput)) return;
 		
 		FileEditorInput fileInputEditor = (FileEditorInput) getEditorInput();
-		IFile file = fileInputEditor.getFile();
+		file = fileInputEditor.getFile();
 		
 		final IDocument doc = this.getDocumentProvider().getDocument(
 				this.getEditorInput());
@@ -134,12 +139,26 @@ public class FlexmiEditor extends TextEditor {
 		// Update problem markers
 		try {
 			file.deleteMarkers(markerType, true, IResource.DEPTH_INFINITE);
+			
+			for (URI uri : resource.getParsedFragmentURIs()) {
+				try {
+					for (IFile parsedFragmentFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(uri.toString()))) {
+						parsedFragmentFile.deleteMarkers(markerType, true, IResource.DEPTH_INFINITE);
+					}
+				}
+				catch (Exception ex) {}
+			}
+			
 			if (parseException != null) {
 				createMarker(parseException.getMessage(), parseException.getLineNumber(), true, file, markerType);
 			}
 			else {
 				for (Diagnostic warning : resource.getWarnings()) {
-					createMarker(warning.getMessage(), warning.getLine(), false, file, markerType);
+					try {
+						for (IFile warningFile : ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(new java.net.URI(warning.getLocation()))) {
+							createMarker(warning.getMessage(), warning.getLine(), false, warningFile, markerType);
+						}
+					} catch (URISyntaxException e) {}
 				}
 				outlinePage.setResourceSet(resourceSet);
 			}

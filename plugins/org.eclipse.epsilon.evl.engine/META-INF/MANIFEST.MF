@@ -1,5 +1,4 @@
 Manifest-Version: 1.0
-Automatic-Module-Name: org.eclipse.epsilon.evl.engine
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Validation Language Engine
 Bundle-SymbolicName: org.eclipse.epsilon.evl.engine

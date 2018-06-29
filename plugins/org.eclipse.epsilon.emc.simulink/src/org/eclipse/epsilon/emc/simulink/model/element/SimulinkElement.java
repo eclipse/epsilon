@@ -6,27 +6,27 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 
-public abstract class SimulinkBlockModelElement extends SimulinkModelElement implements ISimulinkBlockModelElement {
+public abstract class SimulinkElement extends SimulinkModelElement implements ISimulinkElement {
 
 	protected static final String ADD_BLOCK_MAKE_NAME_UNIQUE_ON = "add_block('?', '?', 'MakeNameUnique', 'on');";
 	protected static final String HANDLE = "handle = ?;";
-	private static final String GET_PARAM_BLOCK_TYPE = "get_param(handle, 'BlockType');";
-	private static final String GET_FULL_NAME = "getfullname(?);";
+	protected static final String GET_SIMULINK_TYPE = "get_param(handle, '%sType');";
+	protected static final String GET_FULL_NAME = "getfullname(?);";
 
 	protected Double handle = null;
 
-	public SimulinkBlockModelElement(SimulinkModel model, MatlabEngine engine, Double handle) {
+	public SimulinkElement(SimulinkModel model, MatlabEngine engine, Double handle) {
 		super(model, engine);
 		this.handle = handle;
 		setType();
 	}
 
-	public SimulinkBlockModelElement(SimulinkModel model, MatlabEngine engine, String type) {
+	public SimulinkElement(SimulinkModel model, MatlabEngine engine, String type) {
 		super(model, engine);
 		try {
 			String path = SimulinkUtil.getTypePathInModel(model, type);
@@ -37,13 +37,13 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 		setType();
 	}
 
-	public SimulinkBlockModelElement(String path, SimulinkModel model, MatlabEngine engine) {
+	public SimulinkElement(String path, SimulinkModel model, MatlabEngine engine) {
 		super(model, engine);
 		setHandle(path);
 		setType();
 	}
 
-	public SimulinkBlockModelElement(SimulinkModel model, MatlabEngine engine) {
+	public SimulinkElement(SimulinkModel model, MatlabEngine engine) {
 		super(model, engine);
 	}
 
@@ -59,8 +59,8 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
 		try {
 			String escaped = "?";
-			if (value instanceof ISimulinkBlockModelElement) {
-				ISimulinkBlockModelElement element = (ISimulinkBlockModelElement) value;
+			if (value instanceof ISimulinkElement) {
+				ISimulinkElement element = (ISimulinkElement) value;
 				value = element.getHandle();
 			} else {
 				escaped = "'" + escaped + "'";
@@ -81,15 +81,17 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 		this.handle = SimulinkUtil.getHandle(path, engine);
 	}
 
+	abstract protected String getSimulinkType();
+	
 	private void setType(String type) {
 		if (type != null) {
 			this.type = new String(type);
 		} else {
 			if (handle != null) {
 				try {
-					this.type = (String) engine.evalWithSetupAndResult(HANDLE, GET_PARAM_BLOCK_TYPE, handle);
+					this.type = (String) engine.evalWithSetupAndResult(HANDLE, getSimulinkType(), handle);
 				} catch (Exception e) {
-					e.printStackTrace();
+					// e.printStackTrace();
 				}
 			}
 		}
@@ -112,8 +114,8 @@ public abstract class SimulinkBlockModelElement extends SimulinkModelElement imp
 
 	@Override
 	public boolean equals(Object other) {
-		return other instanceof SimulinkBlockModelElement
-				&& ((SimulinkBlockModelElement) other).getHandle().equals(this.getHandle());
+		return other instanceof SimulinkElement
+				&& ((SimulinkElement) other).getHandle().equals(this.getHandle());
 	}
 
 	@Override
