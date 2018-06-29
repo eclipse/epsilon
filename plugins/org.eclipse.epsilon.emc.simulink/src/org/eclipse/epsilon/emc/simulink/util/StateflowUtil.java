@@ -9,7 +9,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
@@ -118,18 +118,13 @@ public class StateflowUtil {
 
 	/***********/
 	/** TYPES **/
-	/***********/
+	/**
+	 * @throws MatlabException *********/
 
-	public static Collection<ISimulinkModelElement> getAllStateflowBlocksFromModel(SimulinkModel model, MatlabEngine engine)
-			throws MatlabException {
-		try{
-			StateflowUtil.modelHandleAsM(model);
-			Object ids = engine.evalWithSetupAndResult(FIND_ALL, GET_IDS, M);
-			return getTypeList(model, engine, ids);
-		} catch (MatlabException e) {
-			e.printStackTrace();
-			return Collections.emptyList();
-		}
+	public static Collection<ISimulinkModelElement> getAllStateflowBlocksFromModel(SimulinkModel model, MatlabEngine engine) throws MatlabException {
+		StateflowUtil.modelHandleAsM(model);
+		Object ids = engine.evalWithSetupAndResult(FIND_ALL, GET_IDS, M);
+		return getTypeList(model, engine, ids);
 	}
 
 	public static Collection<ISimulinkModelElement> getAllOfStateflowTypeFromModel(SimulinkModel model, MatlabEngine engine,

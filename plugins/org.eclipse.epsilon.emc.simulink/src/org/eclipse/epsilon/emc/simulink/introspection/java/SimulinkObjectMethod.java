@@ -2,9 +2,9 @@ package org.eclipse.epsilon.emc.simulink.introspection.java;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
-import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkBlockModelElement;
+import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkElement;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
@@ -24,8 +24,8 @@ public class SimulinkObjectMethod extends ObjectMethod {
 	public Object execute(Object[] parameters, ModuleElement ast) throws EolRuntimeException {
 		String cmd = "";
 		try {
-			if (object instanceof ISimulinkBlockModelElement) 		
-				cmd = SimulinkUtil.handleMethodWithResult((ISimulinkBlockModelElement) object, name, parameters);
+			if (object instanceof ISimulinkElement) 		
+				cmd = SimulinkUtil.handleMethodWithResult((ISimulinkElement) object, name, parameters);
 			if (object instanceof SimulinkModel) 
 				cmd = SimulinkUtil.handleMethodWithResult((SimulinkModel) object, name, parameters);
 			
@@ -34,8 +34,8 @@ public class SimulinkObjectMethod extends ObjectMethod {
 		} catch (MatlabException e) {
 			if (e.isTooManyOutput()) {
 				try {
-					if (object instanceof ISimulinkBlockModelElement) 		
-						cmd = SimulinkUtil.handleMethod((ISimulinkBlockModelElement) object, name, parameters);
+					if (object instanceof ISimulinkElement) 		
+						cmd = SimulinkUtil.handleMethod((ISimulinkElement) object, name, parameters);
 					if (object instanceof SimulinkModel) {
 						cmd = SimulinkUtil.handleMethod((SimulinkModel) object, name, parameters);
 					}

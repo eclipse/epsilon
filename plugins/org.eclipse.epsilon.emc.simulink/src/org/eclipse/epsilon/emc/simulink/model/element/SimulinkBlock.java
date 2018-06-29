@@ -8,8 +8,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
+import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
@@ -17,9 +18,11 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 @SuppressWarnings("unused")
-public class SimulinkBlock extends SimulinkBlockModelElement {
+public class SimulinkBlock extends SimulinkElement {
 
 	/** CONSTANTS */
+
+	private static final Kind kind = Kind.BLOCK;
 
 	private static final String HANDLE_DELETE_BLOCK_HANDLE = "handle = ?; delete_block(handle);";
 	private static final String INSPECT_HANDLE = "handle = ?; inspect(handle);";
@@ -204,4 +207,9 @@ public class SimulinkBlock extends SimulinkBlockModelElement {
 		}
 	}
 	
+	@Override
+	protected String getSimulinkType() {
+		return String.format(GET_SIMULINK_TYPE, kind.getKind());
+	}
+
 }

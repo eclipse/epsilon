@@ -4,17 +4,17 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
+import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-public class SimulinkLine extends SimulinkBlockModelElement {
-
-	private static final String CACHE_TYPE = "Line";
+public class SimulinkLine extends SimulinkElement {
 
 	private static final String DELETE_LINE = "handle = ?; delete_line(handle);";
-	
+	private static final Kind kind = Kind.LINE;
+
 	private static final String DST_BLOCK_HANDLE = "DstBlockHandle";
 	private static final String SRC_BLOCK_HANDLE = "SrcBlockHandle";
 	private static final String DST_PORT_HANDLE = "DstPortHandle";
@@ -77,7 +77,11 @@ public class SimulinkLine extends SimulinkBlockModelElement {
 
 	@Override
 	public String getType() {
-		return CACHE_TYPE;
+		return Kind.LINE.name();
 	}
 
+	@Override
+	protected String getSimulinkType() {
+		return String.format(GET_SIMULINK_TYPE, kind.getKind());
+	}
 }

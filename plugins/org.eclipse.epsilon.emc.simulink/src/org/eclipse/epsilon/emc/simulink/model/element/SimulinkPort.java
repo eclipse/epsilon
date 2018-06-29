@@ -5,14 +5,15 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
+import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-public class SimulinkPort extends SimulinkBlockModelElement {
+public class SimulinkPort extends SimulinkElement {
 
-	private static final String PORT = "Port";
+	private static final Kind kind = Kind.PORT;
 	
 	public SimulinkPort(SimulinkModel model, MatlabEngine engine, Double handle) {
 		super(model, engine, handle);
@@ -38,9 +39,9 @@ public class SimulinkPort extends SimulinkBlockModelElement {
 	
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		return Arrays.asList(PORT);
+		return Arrays.asList(kind.name());
 	}
-
+	
 	@Override
 	public boolean deleteElementInModel() throws EolRuntimeException {
 		return false;
@@ -48,7 +49,12 @@ public class SimulinkPort extends SimulinkBlockModelElement {
 
 	@Override
 	public String getType() {
-		return PORT; // FIXME Inport/Ouport?
+		return kind.name(); // FIXME Inport/Ouport?
+	}
+
+	@Override
+	protected String getSimulinkType() {
+		return String.format(GET_SIMULINK_TYPE, kind.getKind());
 	}
 
 }

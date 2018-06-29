@@ -6,7 +6,7 @@ import static org.junit.Assert.fail;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.test.util.MatlabEngineFilesEnum;
 import org.junit.BeforeClass;
 import org.junit.Test;
