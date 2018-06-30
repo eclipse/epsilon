@@ -1,6 +1,5 @@
 package org.eclipse.epsilon.emc.simulink.model.element;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
@@ -62,7 +61,9 @@ public class SimulinkLine extends SimulinkElement {
 
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		return Arrays.asList(getType());
+		Collection<String> list = super.getAllTypeNamesOf();
+		list.add(kind.name());
+		return list;
 	}
 
 	@Override
@@ -84,4 +85,5 @@ public class SimulinkLine extends SimulinkElement {
 	protected String getSimulinkType() {
 		return String.format(GET_SIMULINK_TYPE, kind.getKind());
 	}
+	
 }

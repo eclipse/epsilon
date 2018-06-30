@@ -8,6 +8,7 @@ import java.util.Collection;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
+import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 
@@ -120,7 +121,7 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		return Arrays.asList(SimulinkModel.BLOCK, SimulinkModel.SIMULINK, getType());
+		return Arrays.asList(Kind.SIMULINK.name(), getType());
 	}
 
 }

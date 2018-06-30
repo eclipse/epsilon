@@ -1,6 +1,5 @@
 package org.eclipse.epsilon.emc.simulink.model.element;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,17 +38,14 @@ public class SimulinkPort extends SimulinkElement {
 	
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		return Arrays.asList(kind.name());
+		Collection<String> list = super.getAllTypeNamesOf();
+		list.add(kind.name());
+		return list;
 	}
 	
 	@Override
 	public boolean deleteElementInModel() throws EolRuntimeException {
 		return false;
-	}
-
-	@Override
-	public String getType() {
-		return kind.name(); // FIXME Inport/Ouport?
 	}
 
 	@Override
