@@ -1,8 +1,20 @@
 Manifest-Version: 1.0
+Automatic-Module-Name: org.eclipse.epsilon.hutn.engine
 Bundle-ManifestVersion: 2
 Bundle-Name: Human Usable Textual Notation Engine
 Bundle-SymbolicName: org.eclipse.epsilon.hutn.engine
 Bundle-Version: 1.5.0.qualifier
+Bundle-Vendor: Eclipse Modeling Project
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.epsilon.hutn.model;visibility:=reexport,
+ org.eclipse.epsilon.hutn.model.antlrAst;visibility:=reexport,
+ org.eclipse.epsilon.hutn.model.config;visibility:=reexport,
+ org.eclipse.epsilon.emc.emf,
+ org.eclipse.epsilon.eol.engine;visibility:=reexport,
+ org.eclipse.epsilon.etl.engine;visibility:=reexport,
+ org.eclipse.epsilon.egl.engine;visibility:=reexport,
+ org.eclipse.epsilon.evl.engine,
+ org.eclipse.epsilon.antlr.postprocessor;visibility:=reexport
 Export-Package: org.eclipse.epsilon.hutn,
  org.eclipse.epsilon.hutn.exceptions,
  org.eclipse.epsilon.hutn.generate,
@@ -16,14 +28,3 @@ Export-Package: org.eclipse.epsilon.hutn,
  org.eclipse.epsilon.hutn.validation,
  org.eclipse.epsilon.hutn.validation.config,
  org.eclipse.epsilon.hutn.validation.model
-Require-Bundle: org.eclipse.epsilon.hutn.model;visibility:=reexport,
- org.eclipse.epsilon.hutn.model.antlrAst;visibility:=reexport,
- org.eclipse.epsilon.hutn.model.config;visibility:=reexport,
- org.eclipse.epsilon.emc.emf,
- org.eclipse.epsilon.eol.engine;visibility:=reexport,
- org.eclipse.epsilon.etl.engine;visibility:=reexport,
- org.eclipse.epsilon.egl.engine;visibility:=reexport,
- org.eclipse.epsilon.evl.engine,
- org.eclipse.epsilon.antlr.postprocessor;visibility:=reexport
-Bundle-Vendor: Eclipse Modeling Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8

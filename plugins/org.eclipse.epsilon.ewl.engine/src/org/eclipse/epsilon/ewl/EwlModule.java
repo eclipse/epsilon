@@ -34,10 +34,9 @@ import org.eclipse.epsilon.ewl.execute.context.IEwlContext;
 import org.eclipse.epsilon.ewl.parse.EwlLexer;
 import org.eclipse.epsilon.ewl.parse.EwlParser;
 
-
 public class EwlModule extends EolModule implements IEwlModule {
 	
-	protected List<Wizard> wizards = new ArrayList<Wizard>();
+	protected List<Wizard> wizards = new ArrayList<>();
 	protected IEwlContext context = new EwlContext();
 	
 	@Override
@@ -74,13 +73,14 @@ public class EwlModule extends EolModule implements IEwlModule {
 		}
 	}
 	
+	@Override
 	public List<WizardInstance> getWizardsFor(Object self) throws EolRuntimeException {
-		prepareContext(context);
+		prepareContext();
 
-		final List<WizardInstance> applicableWizards = new ArrayList<WizardInstance>();
+		final List<WizardInstance> applicableWizards = new ArrayList<>();
 		
 		for (Wizard wizard : wizards) {
-			if (wizard.appliesTo(self,context)){
+			if (wizard.appliesTo(self, context)){
 				applicableWizards.add(new WizardInstance(wizard, self, context));
 			}
 			else if (self instanceof Collection && !((Collection<?>)self).isEmpty()) {

@@ -24,7 +24,7 @@ public class IterableTests {
 	 * values are not wrapped by the PointExecutor.
 	 */
 	public static class FakeIterable implements Iterable<Integer> {
-		private final List<Integer> list = new ArrayList<Integer>();
+		private final List<Integer> list = new ArrayList<>();
 
 		public FakeIterable create(int nElements) {
 			final FakeIterable iterable = new FakeIterable();
@@ -45,7 +45,6 @@ public class IterableTests {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@ExtraModel
 	public IModel getJavaModel() {
 		final JavaModel jModel = new JavaModel(Arrays.asList(), Arrays.asList(FakeIterable.class));

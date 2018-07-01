@@ -80,10 +80,12 @@ public class HutnModule extends EolModule implements IHutnModule {
 		return null;
 	}
 	
+	@Override
 	public String getMainRule() {
 		return "document";
 	}
 	
+	@Override
 	public IHutnContext getContext(){
 		return context;
 	}
@@ -150,22 +152,26 @@ public class HutnModule extends EolModule implements IHutnModule {
 		}
 	}
 
+	@Override
 	public boolean hasValidHutn() {
 		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
 		
 		return hutnIsValid;
 	}
 	
+	@Override
 	public void setConfigFileDirectory(File configFileDirectory) {
 		this.configFileDirectory = configFileDirectory;
 	}
 	
+	@Override
 	public boolean hasValidMetaModel() {
 		return metaModelIsValid;
 	}
 	
+	@Override
 	public List<String> getNsUris() {
-		final List<String> nsUris = new LinkedList<String>();
+		final List<String> nsUris = new LinkedList<>();
 		
 		if (spec != null) {
 			for (NsUri uri : spec.getNsUris()) {
@@ -176,6 +182,7 @@ public class HutnModule extends EolModule implements IHutnModule {
 		return Collections.unmodifiableList(nsUris);
 	}
 	
+	@Override
 	public String getModelFile() {
 		if (spec != null) {
 			return spec.getModelFile();
@@ -184,6 +191,7 @@ public class HutnModule extends EolModule implements IHutnModule {
 		return null;
 	}
 	
+	@Override
 	public AbstractEmfModel generateEmfModel() throws HutnGenerationException {
 		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
 		if (hasInferredMetaModel()) {
@@ -193,8 +201,9 @@ public class HutnModule extends EolModule implements IHutnModule {
 		}
 	}
 	
+	@Override
 	public List<File> storeEmfModel(File baseDirectory, String defaultModelPath, String inferredMetamodelPath) throws HutnGenerationException {
-		final List<File> generated = new LinkedList<File>();
+		final List<File> generated = new LinkedList<>();
 		
 		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
 		
@@ -238,12 +247,14 @@ public class HutnModule extends EolModule implements IHutnModule {
 	}
 	
 	
+	@Override
 	public Spec getIntermediateModel() {
 		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
 		
 		return spec;
 	}
 	
+	@Override
 	public void storeIntermediateModel(File destination) {
 		if (spec == null) throw new IllegalStateException("No HUTN has been parsed.");
 		
@@ -256,10 +267,12 @@ public class HutnModule extends EolModule implements IHutnModule {
 		model.dispose();
 	}
 	
+	@Override
 	public void storeIntermediateModelTransformation(File destination) throws HutnGenerationException {
 		storeIntermediateModelTransformation(destination, false);
 	}
 	
+	@Override
 	public void storeIntermediateModelTransformationForAllInputModels(File destination) throws HutnGenerationException {
 		storeIntermediateModelTransformation(destination, true);
 	}

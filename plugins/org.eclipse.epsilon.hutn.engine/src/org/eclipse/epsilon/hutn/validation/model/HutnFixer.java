@@ -54,6 +54,6 @@ class HutnFixer extends AbstractFixer {
 	
 	
 	private static <T> List<T> defensiveCopy(List<T> original) {
-		return new LinkedList<T>(original);
+		return new LinkedList<>(original);
 	}
 }

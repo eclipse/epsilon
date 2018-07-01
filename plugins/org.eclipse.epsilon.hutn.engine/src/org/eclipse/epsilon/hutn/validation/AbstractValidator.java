@@ -61,7 +61,7 @@ public abstract class AbstractValidator {
 	}
 
 	private List<ParseProblem> collectParseProblems(final IEvlModule validator) {
-		final List<ParseProblem> problems = new LinkedList<ParseProblem>();
+		final List<ParseProblem> problems = new LinkedList<>();
 		
 		if (validator != null) {
 			for (UnsatisfiedConstraint constraint : validator.getContext().getUnsatisfiedConstraints()) {

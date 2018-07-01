@@ -1,8 +1,9 @@
 package org.eclipse.epsilon.eugenia;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
+import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -19,7 +20,7 @@ import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 public abstract class AbstractEcoreModelValidationDelegate extends EugeniaActionDelegate {
 	
 	protected boolean valid = false;
-	protected List<UnsatisfiedConstraint> unsatisfiedConstraints = null;
+	protected Collection<UnsatisfiedConstraint> unsatisfiedConstraints = null;
 	protected boolean validationEnabled = true;
 	protected IModel ecoreModel = null;
 	protected final String SECONDARY_MARKER_TYPE = "secondary-marker-type";
@@ -36,9 +37,9 @@ public abstract class AbstractEcoreModelValidationDelegate extends EugeniaAction
 	public IEolModule createBuiltinModule() {
 		return new EvlModule() {
 			@Override
-			public Object executeImpl() throws EolRuntimeException {
+			public Set<UnsatisfiedConstraint> executeImpl() throws EolRuntimeException {
 				
-				Object result = null;
+				Set<UnsatisfiedConstraint> result = null;
 				try {
 					
 					// Delete all previous eugenia validation markers
@@ -103,7 +104,7 @@ public abstract class AbstractEcoreModelValidationDelegate extends EugeniaAction
 	
 	@Override
 	public List<IModel> getModels() throws Exception {
-		List<IModel> models = new ArrayList<IModel>();
+		List<IModel> models = new ArrayList<>();
 		ecoreModel = loadModel("ECore", gmfFileSet.getEcorePath(), EcorePackage.eINSTANCE.getNsURI(), true, false, true);
 		models.add(ecoreModel);
 		return models;
@@ -118,12 +119,12 @@ public abstract class AbstractEcoreModelValidationDelegate extends EugeniaAction
 		return valid;
 	}
 	
-	public List<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
+	public Collection<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
 		return unsatisfiedConstraints;
 	}
 	
 	public List<UnsatisfiedConstraint> getUnsatisfiedConstraints(boolean error) {
-		List<UnsatisfiedConstraint> unsatisfiedConstraints = new ArrayList<UnsatisfiedConstraint>();
+		List<UnsatisfiedConstraint> unsatisfiedConstraints = new ArrayList<>();
 		for (UnsatisfiedConstraint unsatisfiedConstraint : getUnsatisfiedConstraints()) {
 			if (!unsatisfiedConstraint.getConstraint().isCritique() == error) {
 				unsatisfiedConstraints.add(unsatisfiedConstraint);

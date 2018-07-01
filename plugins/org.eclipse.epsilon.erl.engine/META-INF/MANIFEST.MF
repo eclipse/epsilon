@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+Automatic-Module-Name: org.eclipse.epsilon.erl.engine
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Rule Language Engine
 Bundle-SymbolicName: org.eclipse.epsilon.erl.engine;singleton:=true
@@ -13,4 +14,3 @@ Export-Package: org.eclipse.epsilon.erl,
  org.eclipse.epsilon.erl.execute.concurrent.executors,
  org.eclipse.epsilon.erl.execute.context.concurrent,
  org.eclipse.epsilon.erl.strategy
-Automatic-Module-Name: org.eclipse.epsilon.erl.engine

@@ -44,7 +44,7 @@ public class EUnitRunner extends Runner {
 	
 	protected Class<?> clazz;
 	protected EUnitModule module;
-	protected HashMap<String, Description> descriptions = new HashMap<String, Description>();
+	protected HashMap<String, Description> descriptions = new HashMap<>();
 	protected Description testSuiteDescription;
 	protected File eolFile;
 	
@@ -152,7 +152,7 @@ public class EUnitRunner extends Runner {
 
 	private void addExtraModels() throws InstantiationException,
 			IllegalAccessException, InvocationTargetException {
-		final List<Method> extraModelMethods = new ArrayList<Method>();
+		final List<Method> extraModelMethods = new ArrayList<>();
 		for (Method m : clazz.getMethods()) {
 			if (m.isAnnotationPresent(ExtraModel.class)) {
 				extraModelMethods.add(m);

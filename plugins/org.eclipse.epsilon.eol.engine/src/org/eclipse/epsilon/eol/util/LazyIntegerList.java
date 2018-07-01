@@ -25,8 +25,7 @@ public class LazyIntegerList implements List<Integer> {
 		
 	}
 	
-	protected int min;
-	protected int max;
+	protected int min, max;
 	
 	public LazyIntegerList(int min, int max) {
 		this.min = min;

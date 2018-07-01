@@ -1,13 +1,12 @@
 Manifest-Version: 1.0
+Automatic-Module-Name: org.eclipse.epsilon.evl.engine
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Validation Language Engine
 Bundle-SymbolicName: org.eclipse.epsilon.evl.engine
 Bundle-Version: 1.5.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse Modeling Project
-Require-Bundle: org.eclipse.epsilon.erl.engine;visibility:=reexport,
- org.eclipse.epsilon.common
-Eclipse-AutoStart: true
+Require-Bundle: org.eclipse.epsilon.erl.engine;visibility:=reexport
 Export-Package: org.eclipse.epsilon.evl,
  org.eclipse.epsilon.evl.concurrent,
  org.eclipse.epsilon.evl.dom,
@@ -21,3 +20,4 @@ Export-Package: org.eclipse.epsilon.evl,
  org.eclipse.epsilon.evl.launch,
  org.eclipse.epsilon.evl.parse,
  org.eclipse.epsilon.evl.trace
+Eclipse-AutoStart: true

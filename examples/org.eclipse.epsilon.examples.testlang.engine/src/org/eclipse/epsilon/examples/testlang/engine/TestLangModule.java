@@ -39,8 +39,8 @@ public class TestLangModule extends EolModule {
 	}
 
 	@Override
-	protected void prepareContext(IEolContext context) {
-		super.prepareContext(context);
+	protected void prepareContext() {
+		super.prepareContext();
 		context.getOperationContributorRegistry().add(new TestLangOperationContributor());
 	}
 

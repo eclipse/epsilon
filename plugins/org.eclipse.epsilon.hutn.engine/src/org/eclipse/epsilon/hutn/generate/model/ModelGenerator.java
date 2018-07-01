@@ -45,8 +45,8 @@ import org.eclipse.epsilon.hutn.util.EpsilonUtil;
 public class ModelGenerator extends AbstractGenerator {
 
 	private final IModel source;
-	private final Collection<IModel> metaModels = new LinkedList<IModel>();	
-	private final List<String> metaModelUris = new LinkedList<String>();
+	private final Collection<IModel> metaModels = new LinkedList<>();	
+	private final List<String> metaModelUris = new LinkedList<>();
 	
 	private boolean generateTransformationForWholeMetamodel = false;
 	
@@ -88,7 +88,7 @@ public class ModelGenerator extends AbstractGenerator {
 	}
 	
 	protected String[] getNsUrisForTargetModel() throws EolModelElementTypeNotFoundException {
-		final List<String> nsUris = new LinkedList<String>();
+		final List<String> nsUris = new LinkedList<>();
 		
 		for (IModel metaModel : metaModels) {
 			for (Object o : metaModel.getAllOfType("EPackage")) {
@@ -164,7 +164,7 @@ public class ModelGenerator extends AbstractGenerator {
 	}
 
 	private Collection<EClass> getOnlyClassesThatAreUsedInSource() throws EolRuntimeException {
-		final Set<EClass> classes = new HashSet<EClass>();
+		final Set<EClass> classes = new HashSet<>();
 	
 		for (Object o : source.getAllOfKind("ClassObject")) {
 			classes.add(((ClassObject)o).getEClass());
@@ -174,7 +174,7 @@ public class ModelGenerator extends AbstractGenerator {
 	}
 
 	private Collection<EClass> getAllClassesFromMetamodel() throws EolRuntimeException {
-		final Set<EClass> classes = new HashSet<EClass>();
+		final Set<EClass> classes = new HashSet<>();
 		
 		for (IModel metaModel : metaModels) {
 			for (Object clazz : metaModel.getAllOfKind("EClass")) {

@@ -26,7 +26,6 @@ import org.eclipse.epsilon.eol.models.java.JavaModel;
 import org.junit.Before;
 import org.junit.Test;
 
-@SuppressWarnings("unchecked")
 public class PropertyAccessRecording {
 
 	private final IEolModule module = new EolModule();

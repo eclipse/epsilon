@@ -39,7 +39,7 @@ public class HutnValidator extends AbstractValidator {
 	
 	public List<ParseProblem> getProblemsForIntermediateModel(Spec hutn) throws HutnValidationException {
 		final IModel model = new InMemoryEmfModel("Intermediate", resourceFor(hutn), HutnPackage.eINSTANCE);
-		final List<IModel> metamodels = new ArrayList<IModel>();
+		final List<IModel> metamodels = new ArrayList<>();
 		
 		for (NsUri uri : hutn.getNsUris()) {
 			try {

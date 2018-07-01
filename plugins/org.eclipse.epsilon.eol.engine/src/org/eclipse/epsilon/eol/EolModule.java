@@ -238,12 +238,8 @@ public class EolModule extends AbstractModule implements IEolModule {
 	}
 
 	protected void prepareContext() {
-		prepareContext(getContext());
-	}
-	
-	private void prepareContext(IEolContext context) {
-		boolean contextIsThis = context == getContext();
-		if (prepareContextCalled && contextIsThis) return;
+		IEolContext context = getContext();
+		if (prepareContextCalled) return;
 		
 		EolSystem system = new EolSystem();
 		system.setContext(context);
@@ -259,7 +255,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 		fs.putGlobal(Variable.createReadOnlyVariable("null", null));
 		fs.putGlobal(Variable.createReadOnlyVariable("System", system));
 		
-		if (contextIsThis) prepareContextCalled = true;
+		prepareContextCalled = true;
 	}
 
 	@Override
@@ -381,12 +377,13 @@ public class EolModule extends AbstractModule implements IEolModule {
 	@Override
 	public Object execute() throws EolRuntimeException {
 		IEolContext context = getContext();
-		prepareContext(context);
+		prepareContext();
 		return context.getExecutorFactory().execute(this, context);
 	}
 	
 	public Object executeImpl() throws EolRuntimeException {
-		return Return.getValue(getContext().getExecutorFactory().execute(main, getContext()));
+		IEolContext context = getContext();
+		return Return.getValue(context.getExecutorFactory().execute(main, context));
 	}
 	
 	@Override

@@ -120,7 +120,7 @@ public class HutnTranslator {
 	}
 	
 	public List<ParseProblem> validateConfigModel(Ast ast) throws HutnValidationException, HutnConfigFileNotFoundException {		
-		final List<ParseProblem> problems = new LinkedList<ParseProblem>();
+		final List<ParseProblem> problems = new LinkedList<>();
 		
 		final MetaModelDetail details = determineMetaModelDetails(ast);
 		

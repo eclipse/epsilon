@@ -28,7 +28,7 @@ public abstract class StringUtil {
 	}
 	
 	public static List<String> getLines(String s) {
-		final List<String> lines = new LinkedList<String>();
+		final List<String> lines = new LinkedList<>();
 		final BufferedReader reader = new BufferedReader(new StringReader(s));
 		
 		String line;
