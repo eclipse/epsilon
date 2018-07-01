@@ -25,10 +25,10 @@ public class ClosureOperation extends FirstOrderOperation {
 	public void closure(Collection<?> source, String iteratorName, EolType iteratorType, Expression expression, IEolContext context, Collection<Object> closure) throws EolRuntimeException {
 		FrameStack scope = context.getFrameStack();
 		
-		for (Object listItem : source) {
-			if (iteratorType == null || iteratorType.isKind(listItem)) {
+		for (Object item : source) {
+			if (iteratorType == null || iteratorType.isKind(item)) {
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
-				scope.put(Variable.createReadOnlyVariable(iteratorName, listItem));
+				scope.put(Variable.createReadOnlyVariable(iteratorName, item));
 				
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				
@@ -48,13 +48,13 @@ public class ClosureOperation extends FirstOrderOperation {
 	}
 
 	@Override
-	public Object execute(Object target, Variable iterator, Expression expression,
+	public Collection<?> execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 
 		Collection<?>      source = CollectionUtil.asCollection(target);
 		Collection<Object> result = CollectionUtil.createDefaultList();
 		
-		closure(source,iterator.getName(),iterator.getType(),expression,context,result);
+		closure(source, iterator.getName(), iterator.getType(), expression, context, result);
 		
 		return result;
 	}

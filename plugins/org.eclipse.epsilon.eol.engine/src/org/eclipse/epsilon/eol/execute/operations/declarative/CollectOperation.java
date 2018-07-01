@@ -26,7 +26,7 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 public class CollectOperation extends FirstOrderOperation {
 
 	@Override
-	public Object execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
+	public Collection<?> execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
 
 		Collection<?>      source = CollectionUtil.asCollection(target);
 		Collection<Object> result = null;

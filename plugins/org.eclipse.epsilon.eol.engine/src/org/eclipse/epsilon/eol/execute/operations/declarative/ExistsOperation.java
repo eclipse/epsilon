@@ -20,7 +20,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 public class ExistsOperation extends SelectBasedOperation {
 
 	@Override
-	public Object execute(Object target, Variable iterator, Expression expression,
+	public Boolean execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 
 		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expression, context, true);

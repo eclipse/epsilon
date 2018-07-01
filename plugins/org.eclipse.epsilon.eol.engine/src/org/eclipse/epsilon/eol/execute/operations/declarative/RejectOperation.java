@@ -22,7 +22,7 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.IterableOperation
 public class RejectOperation extends SelectBasedOperation {
 
 	@Override
-	public Object execute(Object target, Variable iterator, Expression expression,
+	public Collection<?> execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
 		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expression, context);

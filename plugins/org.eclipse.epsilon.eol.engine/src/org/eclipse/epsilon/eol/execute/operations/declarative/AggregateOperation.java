@@ -11,9 +11,7 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -38,21 +36,16 @@ public class AggregateOperation extends FirstOrderOperation {
 		EolType iteratorType = iterator.getType(context);
 		Expression keyExpression = expressions.get(0);
 		Expression valueExpression = expressions.get(1);
-		Expression initialExpression = null;
-		if (expressions.size() > 2) initialExpression = expressions.get(2);
+		Expression initialExpression = expressions.size() > 2 ? expressions.get(2) : null;
 		
 		Collection<?> source = CollectionUtil.asCollection(target);
-		Iterator<?> li = source.iterator();
 		FrameStack scope = context.getFrameStack();
-		
 		EolMap<Object, Object> result = new EolMap<>();
 		
-		while (li.hasNext()) {
-			Object listItem = li.next();
-			
-			if (iteratorType==null || iteratorType.isKind(listItem)){
+		for (Object item : source) {
+			if (iteratorType == null || iteratorType.isKind(item)) {
 				scope.enterLocal(FrameType.UNPROTECTED, keyExpression);
-				scope.put(Variable.createReadOnlyVariable(iterator.getName(),listItem));
+				scope.put(Variable.createReadOnlyVariable(iterator.getName(), item));
 				Object keyResult = context.getExecutorFactory().execute(keyExpression, context);
 				Object total = null;
 				

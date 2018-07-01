@@ -55,7 +55,6 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException{
-		
 		Collection<Object> collection = null; 
 		
 		if (collectionType.equals("Sequence") || collectionType.equals("List")){
@@ -71,7 +70,6 @@ public class CollectionLiteralExpression extends LiteralExpression {
 			collection = new EolBag<>();
 		}
 		
-
 		if (range) {
 			Expression rangeStartExpression = parameterExpressions.get(0);
 			Expression rangeEndExpression = parameterExpressions.get(1);
@@ -79,26 +77,27 @@ public class CollectionLiteralExpression extends LiteralExpression {
 			Object rangeStart = context.getExecutorFactory().execute(rangeStartExpression, context);
 			Object rangeEnd = context.getExecutorFactory().execute(rangeEndExpression, context);
 			
-			if (rangeStart instanceof Integer && rangeEnd instanceof Integer){
+			if (rangeStart instanceof Integer && rangeEnd instanceof Integer) {
 				
 				Integer s = (Integer) rangeStart;
 				Integer e = (Integer) rangeEnd;
 				
 				if (s > e) {
-					for (int i=s.intValue(); i>=e.intValue(); i--){
+					for (int i=s.intValue(); i>=e.intValue(); i--) {
 						collection.add(i);
-					}											}
+					}
+				}
 				else {
-					for (int i=s.intValue(); i<=e.intValue(); i++){
+					for (int i=s.intValue(); i<=e.intValue(); i++) {
 						collection.add(i);
 					}
 				}
 			}
 			else {
-				if (!(rangeStart instanceof Integer)){
+				if (!(rangeStart instanceof Integer)) {
 					throw new EolRuntimeException("The start of a range should be of type Integer", rangeStartExpression);
 				}
-				if (!(rangeEnd instanceof Integer)){
+				if (!(rangeEnd instanceof Integer)) {
 					throw new EolRuntimeException("The end of a range should be of type Integer", rangeEndExpression);
 				}
 				
@@ -109,8 +108,7 @@ public class CollectionLiteralExpression extends LiteralExpression {
 				collection.add(context.getExecutorFactory().execute(parameterExpression, context));
 			}
 		}
-		
-		
+
 		return collection;
 	}
 

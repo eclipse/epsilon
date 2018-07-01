@@ -21,7 +21,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 public class AssertOperation extends SimpleOperation {
 
 	@Override
-	public Object execute(Object source, List<?> parameters, IEolContext context,
+	public Void execute(Object source, List<?> parameters, IEolContext context,
 			ModuleElement ast) throws EolRuntimeException {
 		
 		if (!context.isAssertionsEnabled()) {return null;}

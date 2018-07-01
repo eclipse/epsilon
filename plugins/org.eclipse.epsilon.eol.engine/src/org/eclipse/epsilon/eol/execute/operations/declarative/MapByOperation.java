@@ -24,13 +24,9 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 
 public class MapByOperation extends FirstOrderOperation {
 
-	public MapByOperation() {
-		super();
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object execute(Object target, Variable iterator, Expression expression,
+	public EolMap<Object, Object> execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
 		Collection<?> source = CollectionUtil.asCollection(target);

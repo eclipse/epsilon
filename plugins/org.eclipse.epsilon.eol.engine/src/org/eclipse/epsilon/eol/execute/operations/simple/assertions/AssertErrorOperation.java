@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.execute.operations.simple.assertions;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-
 public class AssertErrorOperation extends AssertOperation {
 
 	@Override

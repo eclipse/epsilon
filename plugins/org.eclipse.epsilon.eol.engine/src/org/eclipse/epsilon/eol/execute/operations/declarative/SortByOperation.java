@@ -25,12 +25,9 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.NumberUtil;
 
 public class SortByOperation extends CollectOperation {
-
-	public SortByOperation() {
-		super();
-	}
 	
-	public Object execute(Object target, org.eclipse.epsilon.eol.execute.context.Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
+	@Override
+	public Collection<?> execute(Object target, org.eclipse.epsilon.eol.execute.context.Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
 		final List<?> source = CollectionUtil.asList(target);
 		final List<?> collected = CollectionUtil.asList(super.execute(target, iterator, expression, context));
 		

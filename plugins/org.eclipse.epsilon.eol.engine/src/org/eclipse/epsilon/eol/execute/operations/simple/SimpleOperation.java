@@ -23,10 +23,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 
 public abstract class SimpleOperation extends AbstractOperation {
-
-	public SimpleOperation() {
-		super();
-	}
 	
 	@Override
 	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {

@@ -40,9 +40,9 @@ public class SelectOperation extends FirstOrderOperation {
 			if (iterator.getType() == null || iterator.getType().isKind(listItem)) {
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
 				//scope.put(new Variable(iteratorName, listItem, iteratorType, true));
-				scope.put(Variable.createReadOnlyVariable(iterator.getName(),listItem));
+				scope.put(Variable.createReadOnlyVariable(iterator.getName(), listItem));
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
-				if (bodyResult instanceof Boolean && ((Boolean) bodyResult)) {
+				if (bodyResult instanceof Boolean && ((boolean) bodyResult)) {
 					result.add(listItem);
 					if (returnOnFirstMatch) {
 						scope.leaveLocal(expression);
@@ -57,7 +57,7 @@ public class SelectOperation extends FirstOrderOperation {
 	}
 	
 	@Override
-	public Object execute(Object target, Variable iterator, Expression expression,
+	public final Object execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
 		return execute(target, iterator, expression, context, isReturnOnFirstMatch());

@@ -11,6 +11,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
 import org.eclipse.epsilon.eol.execute.Return;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -43,12 +44,12 @@ public class ForStatement extends Statement {
 	
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public Return execute(IEolContext context) throws EolRuntimeException {
 		
 		Object iteratedObject = context.getExecutorFactory().execute(this.iteratedExpression, context);
 		
 		Collection<Object> iteratedCol = null;
-		Iterator<Object> it = null;
+		Iterator<?> it = null;
 		
 		if (iteratedObject instanceof Collection<?>) {
 			iteratedCol = (Collection<Object>) iteratedObject;
@@ -75,15 +76,19 @@ public class ForStatement extends Statement {
 		boolean loopBroken = false;
 		
 		int loop = 1;
+		FrameStack frameStack = context.getFrameStack();
+		
 		while (it.hasNext() && !loopBroken) {
 			Object next = it.next();
 			
 			if (!iteratorType.isKind(next)) continue;
-			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
+			frameStack.enterLocal(FrameType.UNPROTECTED, this);
 			
-			context.getFrameStack().put(new Variable(iteratorParameter.getName(), next, iteratorType));
-			context.getFrameStack().put(new Variable("hasMore", it.hasNext(), EolPrimitiveType.Boolean, true));
-			context.getFrameStack().put(new Variable("loopCount", loop++, EolPrimitiveType.Integer, true));
+			frameStack.put(
+				new Variable(iteratorParameter.getName(), next, iteratorType),
+				new Variable("hasMore", it.hasNext(), EolPrimitiveType.Boolean, true),
+				new Variable("loopCount", loop++, EolPrimitiveType.Integer, true)
+			);
 			
 			Object result = null; 
 			
@@ -103,7 +108,7 @@ public class ForStatement extends Statement {
 			}
 			
 			if (result instanceof Return) {
-				return result;
+				return (Return) result;
 			}
 			
 		}
@@ -117,7 +122,8 @@ public class ForStatement extends Statement {
 		iteratedExpression.compile(context);
 		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, bodyStatementBlock, 
 				new Variable("loopCount", EolPrimitiveType.Integer), 
-				new Variable("hasMore", EolPrimitiveType.Boolean));
+				new Variable("hasMore", EolPrimitiveType.Boolean)
+		);
 		
 		iteratorParameter.compile(context);
 		bodyStatementBlock.compile(context);
