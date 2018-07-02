@@ -190,10 +190,11 @@ public class IterableOperationContributor extends OperationContributor {
 		}
 	}
 
+	@Override
 	public Collection<?> clone() {
 		// May require its own contributor
 		if (isCollection()) {
-			return (Collection<?>)EolCollectionType.clone(getCollection());
+			return EolCollectionType.clone(getCollection());
 		}
 		return null;
 	}
@@ -258,7 +259,7 @@ public class IterableOperationContributor extends OperationContributor {
 	 * @return
 	 */
 	public Collection<Object> flatten() {
-		Collection<Object> col = null;
+		Collection<Object> col;
 		if (isCollection()) {
 			col = getCollection();
 		}
@@ -456,7 +457,7 @@ public class IterableOperationContributor extends OperationContributor {
 	    return sets;
 	}
 	
-	private void addAll(final Iterable<Object> elements, Collection<Object> target) {
+	private static void addAll(final Iterable<Object> elements, Collection<Object> target) {
 		if (elements instanceof Collection) {
 			target.addAll((Collection<Object>)elements);
 		}

@@ -24,9 +24,7 @@ public class ExistsOperation extends SelectBasedOperation {
 			IEolContext context) throws EolRuntimeException {
 
 		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expression, context, true);
-		
 		return !selected.isEmpty();
-
 	}
 
 }

@@ -12,9 +12,7 @@ package org.eclipse.epsilon.profiling;
 
 public class Stopwatch {
 	
-	protected long lastPauseTime;
-	protected long startTime;
-	protected long pauseDuration;
+	protected long lastPauseTime, startTime, pauseDuration;
 	protected boolean paused;
 	
 	public Stopwatch() {

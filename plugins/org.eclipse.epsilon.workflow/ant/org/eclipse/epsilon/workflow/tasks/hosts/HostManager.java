@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class HostManager {
 	
 	protected static Host host = null;
-	protected static ArrayList<Host> supportedHosts = new ArrayList<Host>();
+	protected static ArrayList<Host> supportedHosts = new ArrayList<>();
 	
 	public static Host getHost() {
 		if (host == null) {

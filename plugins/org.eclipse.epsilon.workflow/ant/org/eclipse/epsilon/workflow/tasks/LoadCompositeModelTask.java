@@ -21,14 +21,14 @@ import org.eclipse.epsilon.workflow.tasks.nestedelements.ModelNestedElement;
 
 public class LoadCompositeModelTask extends EpsilonTask {
 	
-	protected List<ModelNestedElement> modelNestedElements = new ArrayList<ModelNestedElement>();
+	protected List<ModelNestedElement> modelNestedElements = new ArrayList<>();
 	protected String matchTrace = null;
 	protected String name = null;
 	
 	@Override
 	public void executeImpl() throws BuildException {
 		
-		ArrayList<IModel> models = new ArrayList<IModel>();
+		ArrayList<IModel> models = new ArrayList<>();
 		
 		for (ModelNestedElement modelNestedElement : modelNestedElements) {
 			try {

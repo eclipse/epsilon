@@ -61,22 +61,22 @@ public class PropertyAccessExecutionListener implements IExecutionListener {
 	@Override
 	public void finishedExecutingWithException(ModuleElement ast, EolRuntimeException exception, IEolContext context) {}
 	
-	private boolean isLeftHandSideOfPointExpression(ModuleElement ast) {
+	private static boolean isLeftHandSideOfPointExpression(ModuleElement ast) {
 		return ast.getParent() instanceof PropertyCallExpression && ((PropertyCallExpression)ast.getParent()).getTargetExpression() == ast;
 	}
 	
-	private boolean isPropertyAccessExpression(ModuleElement ast) {
+	private static boolean isPropertyAccessExpression(ModuleElement ast) {
 		return ast instanceof PropertyCallExpression &&          // AST is a point expression 
 		       !isAssignee(ast);                            // AST is not the left-hand side of an assignment
 	}
 	
 	// Determines whether a property access is model-based (and not, for example, for an extended property) 
-	private boolean isModelBasedProperty(Object object, String property, IEolContext context) {
+	private static boolean isModelBasedProperty(Object object, String property, IEolContext context) {
 		return context.getIntrospectionManager().isModelBasedProperty(object, property, context);
 	}
 	
 	// Determines whether the specified AST is the left-hand side of an assignment expression
-	private boolean isAssignee(ModuleElement ast) {
+	private static boolean isAssignee(ModuleElement ast) {
 		return ast.getParent() instanceof AssignmentStatement && 
 				((AssignmentStatement) ast.getParent()).getTargetExpression() == ast;
 	}

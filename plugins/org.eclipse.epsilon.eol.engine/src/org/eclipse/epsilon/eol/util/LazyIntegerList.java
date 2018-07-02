@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 public class LazyIntegerList implements List<Integer> {
 	
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
 		//System.out.println(new ArrayList<Object>().get(5));

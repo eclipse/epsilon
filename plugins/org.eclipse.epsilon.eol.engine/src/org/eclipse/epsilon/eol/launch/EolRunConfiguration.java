@@ -18,7 +18,17 @@ public class EolRunConfiguration extends IEolRunConfiguration<EolModule, Object>
 		Optional<Boolean> profileExecution,
 		Optional<Integer> configID,
 		Optional<Path> scratchFile) {
-		super(eolFile, modelsAndProperties, eolModule, parameters, showResults, profileExecution, configID, scratchFile);
+			super(eolFile, modelsAndProperties, eolModule, parameters, showResults, profileExecution, configID, scratchFile);
+	}
+	
+	public EolRunConfiguration(Path eolFile, Map<IModel, StringProperties> modelsAndProperties) {
+		this(eolFile, modelsAndProperties, null);
+	}
+	
+	public EolRunConfiguration(Path eolFile,
+		Map<IModel, StringProperties> modelsAndProperties,
+		Map<String, ?> parameters) {
+			super(eolFile, modelsAndProperties, null, parameters);
 	}
 	
 	public EolRunConfiguration copy(IEolRunConfiguration<? extends EolModule, ?> other) {

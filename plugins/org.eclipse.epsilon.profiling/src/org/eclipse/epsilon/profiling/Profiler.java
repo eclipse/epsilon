@@ -21,8 +21,7 @@ public class Profiler {
 	
 	protected Collection<IProfilerListener> listeners = new ArrayList<>();
 	public static Profiler INSTANCE = new Profiler();
-	protected ProfilerTarget root;
-	protected ProfilerTarget activeTarget;
+	protected ProfilerTarget root, activeTarget;
 	protected Stopwatch stopwatch;
 	protected Map<String, Long> targets;
 	protected List<String> targetNames;

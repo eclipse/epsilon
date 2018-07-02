@@ -87,7 +87,7 @@ public class EolModelElementType extends EolType {
 		                                   determineLocation(context.getFrameStack().getCurrentStatement()));
 	}
 
-	private String determineLocation(ModuleElement statement) {
+	private static String determineLocation(ModuleElement statement) {
 		if (statement == null)
 			return "";
 		else

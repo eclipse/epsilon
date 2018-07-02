@@ -34,6 +34,18 @@ public class EvlRunConfiguration extends IEolRunConfiguration<IEvlModule, Set<Un
 			);
 	}
 	
+	public EvlRunConfiguration(IEolRunConfiguration<? extends IEvlModule, ? extends Set<UnsatisfiedConstraint>> other) {
+		super(other);
+	}
+
+	public EvlRunConfiguration(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, IEvlModule eolModule, Map<String, ?> parameters) {
+		super(eolFile, modelsAndProperties, eolModule, parameters);
+	}
+
+	public EvlRunConfiguration(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, IEvlModule eolModule) {
+		super(eolFile, modelsAndProperties, eolModule);
+	}
+
 	public EvlRunConfiguration(EvlRunConfiguration other) {
 		this(
 			other.script,

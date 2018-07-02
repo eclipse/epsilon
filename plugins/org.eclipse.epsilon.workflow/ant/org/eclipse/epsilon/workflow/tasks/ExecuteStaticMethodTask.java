@@ -7,8 +7,7 @@ import org.apache.tools.ant.Task;
 
 public class ExecuteStaticMethodTask extends Task {
 	
-	protected String javaClass;
-	protected String method;
+	protected String javaClass, method;
 	
 	public static void foo() {
 		System.out.println("Foo invoked");

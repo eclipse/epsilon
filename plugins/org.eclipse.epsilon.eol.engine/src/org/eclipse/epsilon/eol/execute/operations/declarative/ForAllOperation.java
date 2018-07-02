@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
-
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -34,12 +33,13 @@ public class ForAllOperation extends FirstOrderOperation {
 		String iteratorName = iterator.getName();
 		EolType iteratorType = iterator.getType();
 		
-		for (Object listItem : source) {	
-			if (iteratorType == null || iteratorType.isKind(listItem)) {
-				scope.enterLocal(FrameType.UNPROTECTED, expression);
-				scope.put(Variable.createReadOnlyVariable(iteratorName, listItem));
+		for (Object item : source) {	
+			if (iteratorType == null || iteratorType.isKind(item)) {
+				scope.enterLocal(FrameType.UNPROTECTED, expression,
+					Variable.createReadOnlyVariable(iteratorName, item)
+				);
 				Object bodyResult = executorFactory.execute(expression, context);
-				if (bodyResult instanceof Boolean && !(boolean)bodyResult) {
+				if (bodyResult instanceof Boolean && !(boolean) bodyResult) {
 					return false;
 				}
 				scope.leaveLocal(expression);

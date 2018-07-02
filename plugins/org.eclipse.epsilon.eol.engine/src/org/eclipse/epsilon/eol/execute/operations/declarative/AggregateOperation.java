@@ -27,7 +27,7 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class AggregateOperation extends FirstOrderOperation {
 	
 	@Override
-	public Object execute(Object target,
+	public EolMap<Object, Object> execute(Object target,
 			NameExpression operationNameExpression, List<Parameter> iterators,
 			List<Expression> expressions, IEolContext context)
 			throws EolRuntimeException {

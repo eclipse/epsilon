@@ -19,13 +19,10 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.workflow.tasks.hosts.HostManager;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;
 
-public class LoadModelTask extends EpsilonTask{
+public class LoadModelTask extends EpsilonTask {
 
-	protected String name;
-	protected String type;
-	protected String impl;
-	protected String config;
-	protected ArrayList<ParameterNestedElement> parameterNestedElements = new ArrayList<ParameterNestedElement>();
+	protected String name, type, impl, config;
+	protected ArrayList<ParameterNestedElement> parameterNestedElements = new ArrayList<>();
 	
 	@Override
 	public void executeImpl() throws BuildException {

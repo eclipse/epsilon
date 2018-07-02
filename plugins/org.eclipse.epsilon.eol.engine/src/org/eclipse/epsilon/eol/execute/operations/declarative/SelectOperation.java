@@ -23,27 +23,22 @@ import org.eclipse.epsilon.eol.types.EolCollectionType;
 
 public class SelectOperation extends FirstOrderOperation {
 	
-	public boolean isReturnOnFirstMatch() {
-		return false;
-	}
-	
-	@SuppressWarnings({"rawtypes", "unchecked"})
-	public Object execute(Object target, Variable iterator, Expression expression,
+	public Collection<?> execute(Object target, Variable iterator, Expression expression,
 			IEolContext context, boolean returnOnFirstMatch) throws EolRuntimeException {
 		
-		Collection source = CollectionUtil.asCollection(target);
-		Collection result = EolCollectionType.createSameType(source);
+		Collection<Object> source = CollectionUtil.asCollection(target);
+		Collection<Object> result = EolCollectionType.createSameType(source);
 		
 		FrameStack scope = context.getFrameStack();
 		
-		for (Object listItem : source) {	
-			if (iterator.getType() == null || iterator.getType().isKind(listItem)) {
+		for (Object item : source) {	
+			if (iterator.getType() == null || iterator.getType().isKind(item)) {
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
 				//scope.put(new Variable(iteratorName, listItem, iteratorType, true));
-				scope.put(Variable.createReadOnlyVariable(iterator.getName(), listItem));
+				scope.put(Variable.createReadOnlyVariable(iterator.getName(), item));
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				if (bodyResult instanceof Boolean && ((boolean) bodyResult)) {
-					result.add(listItem);
+					result.add(item);
 					if (returnOnFirstMatch) {
 						scope.leaveLocal(expression);
 						return result;
@@ -60,6 +55,6 @@ public class SelectOperation extends FirstOrderOperation {
 	public final Object execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
-		return execute(target, iterator, expression, context, isReturnOnFirstMatch());
+		return execute(target, iterator, expression, context, false);
 	}
 }

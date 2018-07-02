@@ -43,10 +43,10 @@ import org.eclipse.epsilon.workflow.tasks.nestedelements.VariableNestedElement;
 
 public abstract class ExecutableModuleTask extends EpsilonTask {
 	
-	protected List<ModelNestedElement> modelNestedElements = new ArrayList<ModelNestedElement>();
-	protected List<VariableNestedElement> usesVariableNestedElements = new ArrayList<VariableNestedElement>();
-	protected List<VariableNestedElement> exportsVariableNestedElements = new ArrayList<VariableNestedElement>();
-	protected List<ParameterNestedElement> parameterNestedElements = new ArrayList<ParameterNestedElement>();
+	protected List<ModelNestedElement> modelNestedElements = new ArrayList<>();
+	protected List<VariableNestedElement> usesVariableNestedElements = new ArrayList<>();
+	protected List<VariableNestedElement> exportsVariableNestedElements = new ArrayList<>();
+	protected List<ParameterNestedElement> parameterNestedElements = new ArrayList<>();
 	protected File src;
 	protected String code = "";
 	protected IEolModule module;

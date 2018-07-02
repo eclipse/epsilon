@@ -19,7 +19,7 @@ import org.apache.tools.ant.Project;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.models.IModel;
 
-public class DefaultHost implements Host{
+public class DefaultHost implements Host {
 
 	@Override
 	public boolean isRunning() {
@@ -62,7 +62,6 @@ public class DefaultHost implements Host{
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> getExtensionsOfType(Class<T> klazz) {
 		return Collections.EMPTY_LIST;

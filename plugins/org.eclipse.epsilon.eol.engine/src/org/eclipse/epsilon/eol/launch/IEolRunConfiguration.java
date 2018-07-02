@@ -45,6 +45,30 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 			);
 	}
 	
+	public IEolRunConfiguration(
+		Path eolFile,
+		Map<IModel, StringProperties> modelsAndProperties,
+		M eolModule,
+		Map<String, ?> parameters) {
+			this(
+				eolFile,
+				modelsAndProperties,
+				Optional.ofNullable(eolModule),
+				Optional.ofNullable(parameters),
+				Optional.of(false),
+				Optional.of(false),
+				Optional.empty(),
+				Optional.empty()
+			);
+	}
+	
+	public IEolRunConfiguration(
+		Path eolFile,
+		Map<IModel, StringProperties> modelsAndProperties,
+		M eolModule) {
+			this(eolFile, modelsAndProperties, eolModule, null);
+	}
+	
 	public IEolRunConfiguration(IEolRunConfiguration<? extends M, ? extends R> other) {
 		this(
 			other.script,
