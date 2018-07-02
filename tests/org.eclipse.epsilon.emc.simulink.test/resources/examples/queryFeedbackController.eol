@@ -1,6 +1,16 @@
 var a = SubSystem.all;
 assert( a.size() > 0 );
 
+var inportBlock = Inport.all.println("Inport:").first(); // Block kind Inport Type
+inportBlock.Name.println("name: ");
+var port = Port.all.println("Port:").first(); // Port Kind
+port.Name.println("name: ");
+var input = inport.all.println("Input:").first();  // Port Kind Input Type
+input.Name.println("name: ");
+var lines = Line.all.println("Line:").first();  // Line kind
+lines.Name.println("name: ");
+
+/*
 for (subsystem in a) {
 	
 	("Exploring subsystem: " + subsystem.name).println();
@@ -20,4 +30,4 @@ for (subsystem in a) {
 			
 		}
 	}
-}
+}*/
