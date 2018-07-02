@@ -77,11 +77,6 @@ public class SimulinkLine extends SimulinkElement {
 	}
 
 	@Override
-	public String getType() {
-		return Kind.LINE.name();
-	}
-
-	@Override
 	protected String getSimulinkType() {
 		return String.format(GET_SIMULINK_TYPE, kind.getKind());
 	}

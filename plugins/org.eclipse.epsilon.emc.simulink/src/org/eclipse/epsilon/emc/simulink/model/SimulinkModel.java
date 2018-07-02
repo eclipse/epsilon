@@ -299,9 +299,9 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		if (properties.hasProperty(SimulinkModel.PROPERTY_ENGINE_JAR_PATH))
 			engineJarPath = properties.getProperty(SimulinkModel.PROPERTY_ENGINE_JAR_PATH);
 		if (properties.hasProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR))
-			showInMatlabEditor = new Boolean(properties.getProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR));
+			showInMatlabEditor = properties.getBooleanProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR, false);
 		if (properties.hasProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS))
-			followLinks = new Boolean(properties.getProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS));
+			followLinks = properties.getBooleanProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS, true);
 		if (filePath != null && filePath.trim().length() > 0)
 			file = new File(resolver.resolve(filePath));
 		if (workingDirPath != null && workingDirPath.trim().length() > 0) {

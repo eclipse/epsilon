@@ -7,8 +7,10 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.slf4j.api;bundle-version="1.7.2"
 Export-Package: org.eclipse.epsilon.emc.simulink.engine,
+ org.eclipse.epsilon.emc.simulink.exception,
  org.eclipse.epsilon.emc.simulink.introspection.java,
  org.eclipse.epsilon.emc.simulink.model,
  org.eclipse.epsilon.emc.simulink.model.element,
  org.eclipse.epsilon.emc.simulink.operations.contributors,
+ org.eclipse.epsilon.emc.simulink.types,
  org.eclipse.epsilon.emc.simulink.util

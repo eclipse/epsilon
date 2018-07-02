@@ -5,6 +5,8 @@ import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkObjectMethod;
 import org.eclipse.epsilon.emc.simulink.introspection.java.StateflowObjectMethod;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
+import org.eclipse.epsilon.emc.simulink.model.element.SimulinkElement;
+import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
@@ -20,9 +22,8 @@ public class ModelOperationContributor extends OperationContributor {
 
 	@Override
 	public boolean contributesTo(Object target) {
-		return (target instanceof SimulinkBlock) 
-				|| (target instanceof StateflowBlock)
-				|| (target instanceof SimulinkModel);
+		return (target instanceof SimulinkModelElement
+				|| target instanceof SimulinkModel);
 	}
 
 	@Override
@@ -33,7 +34,7 @@ public class ModelOperationContributor extends OperationContributor {
 				&& context.getOperationFactory().getOperationFor(name) == null) {
 			if (target instanceof StateflowBlock) {
 				objectMethod = (ObjectMethod) new StateflowObjectMethod(engine, target, name);
-			} else if (target instanceof SimulinkBlock || target instanceof SimulinkModel) {
+			} else if (target instanceof SimulinkElement || target instanceof SimulinkModel) {
 				objectMethod = (ObjectMethod) new SimulinkObjectMethod(engine, target, name);
 			}
 		}

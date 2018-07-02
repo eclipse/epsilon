@@ -98,11 +98,6 @@ public class SimulinkBlock extends SimulinkElement {
 	}
 
 	@Override
-	public String toString() {
-		return getType() + "[ Path=" + getPath() + ", handle=" + getHandle() + "]";
-	}
-
-	@Override
 	public boolean deleteElementInModel() throws EolRuntimeException {
 		try {
 			engine.eval(DELETE_BLOCK, getHandle());

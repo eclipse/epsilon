@@ -124,4 +124,8 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 		return Arrays.asList(Kind.SIMULINK.name(), getType());
 	}
 
+	@Override
+	public String toString() {
+		return getType() + "[ Path=" + getPath() + ", handle=" + getHandle() + "]";
+	}
 }

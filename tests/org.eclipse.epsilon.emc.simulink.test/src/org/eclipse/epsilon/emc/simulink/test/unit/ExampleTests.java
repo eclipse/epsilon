@@ -53,7 +53,6 @@ private static final String ROOT = "examples/";
 	}
 	
 	@Test
-	@Ignore
 	public void testQueryFeedbackController() { // FAILS
 		eolResourceFile = ROOT + "queryFeedbackController.eol";
 		modelFile = FileUtils.getModelFile("feedbackController.slx");
