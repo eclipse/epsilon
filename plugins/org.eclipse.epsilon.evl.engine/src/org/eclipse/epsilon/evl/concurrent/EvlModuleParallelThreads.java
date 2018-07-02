@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.ArrayList;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
-import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlThreadPoolExecutor;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.concurrent.ConstraintContextAtom;
@@ -44,7 +44,7 @@ public class EvlModuleParallelThreads extends EvlModuleParallel {
 			throw new EolRuntimeException("This module doesn't support trivially sized problems! Please try an alternative IEvlModule implementation.");
 		}
 		
-		ErlExecutorService executor = ErlThreadPoolExecutor.fixedPoolExecutor(numThreads);
+		EolExecutorService executor = EolThreadPoolExecutor.fixedPoolExecutor(numThreads);
 		
 		for (int batch = 0, sublistStart = 0, sublistEnd = 0; batch < problemBatches; batch++) {
 			if (batch == 0) {

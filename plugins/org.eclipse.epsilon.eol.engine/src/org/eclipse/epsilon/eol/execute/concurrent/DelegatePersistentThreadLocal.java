@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.erl.execute.concurrent;
+package org.eclipse.epsilon.eol.execute.concurrent;
 
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.concurrent.ConcurrentBaseDelegate;

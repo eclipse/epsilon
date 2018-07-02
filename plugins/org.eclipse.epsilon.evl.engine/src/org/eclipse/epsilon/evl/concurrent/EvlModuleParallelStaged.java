@@ -14,8 +14,8 @@ package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.execute.concurrent.ThreadLocalBatchData;
-import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
+import org.eclipse.epsilon.eol.execute.concurrent.ThreadLocalBatchData;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.concurrent.ConstraintAtom;
@@ -46,7 +46,7 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 	protected Collection<ConstraintContextAtom> processContextGuard() throws EolRuntimeException {
 		final IEvlContextParallel context = getContext();
 		final ThreadLocalBatchData<ConstraintContextAtom> contextBatch = new ThreadLocalBatchData<>(context.getParallelism());
-		final ErlExecutorService contextJobExecutor = context.newExecutor();
+		final EolExecutorService contextJobExecutor = context.newExecutor();
 
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
 			for (Object element : constraintContext.getAllOfSourceKind(context)) {
@@ -77,7 +77,7 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 	protected Collection<ConstraintAtom> processConstraintGuard(Collection<ConstraintContextAtom> contextJobs) throws EolRuntimeException {
 		final IEvlContextParallel context = getContext();
 		final ThreadLocalBatchData<ConstraintAtom> constraintBatchData = new ThreadLocalBatchData<>(context.getParallelism());
-		final ErlExecutorService constraintJobExecutor = context.newExecutor();
+		final EolExecutorService constraintJobExecutor = context.newExecutor();
 
 		for (ConstraintContextAtom job : contextJobs) {
 			for (Constraint constraint : preProcessConstraintContext(job.unit)) {
@@ -106,7 +106,7 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 	 */
 	protected void processConstraintCheck(Collection<ConstraintAtom> constraintJobs) throws EolRuntimeException {
 		final IEvlContextParallel context = getContext();
-		final ErlExecutorService checkBlockExecutor = context.newExecutor();
+		final EolExecutorService checkBlockExecutor = context.newExecutor();
 
 		for (ConstraintAtom job : constraintJobs) {
 			checkBlockExecutor.execute(() -> {

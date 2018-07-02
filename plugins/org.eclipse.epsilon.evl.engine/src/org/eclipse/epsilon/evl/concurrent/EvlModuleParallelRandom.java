@@ -3,7 +3,7 @@ package org.eclipse.epsilon.evl.concurrent;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.evl.execute.concurrent.*;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
@@ -23,7 +23,7 @@ public class EvlModuleParallelRandom extends EvlModuleParallel {
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContextParallel context = getContext();
-		ErlExecutorService executor = context.newExecutor();
+		EolExecutorService executor = context.newExecutor();
 		
 		List<ConstraintAtom> jobs = ConstraintAtom.getConstraintJobs(context);
 		Collections.shuffle(jobs);

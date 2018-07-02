@@ -31,7 +31,7 @@ public class SelectOperation extends FirstOrderOperation {
 		
 		FrameStack scope = context.getFrameStack();
 		
-		for (Object item : source) {	
+		for (Object item : source) {
 			if (iterator.getType() == null || iterator.getType().isKind(item)) {
 				scope.enterLocal(FrameType.UNPROTECTED, expression);
 				//scope.put(new Variable(iteratorName, listItem, iteratorType, true));

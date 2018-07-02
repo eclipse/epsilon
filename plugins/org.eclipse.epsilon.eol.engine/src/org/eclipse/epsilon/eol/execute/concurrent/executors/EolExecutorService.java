@@ -1,19 +1,20 @@
-package org.eclipse.epsilon.erl.execute.concurrent.executors;
+package org.eclipse.epsilon.eol.execute.concurrent.executors;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
-import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutionStatus;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
 /**
  * Convenience interface which allows for easy handling of {@link #awaitTermination(long, TimeUnit)}
  * under both normal and exceptional completion scenarios.
  * @author Sina Madani
  */
-public interface ErlExecutorService extends ExecutorService {
+public interface EolExecutorService extends ExecutorService {
 	
-	ErlExecutionStatus getExecutionStatus();
+	EolExecutionStatus getExecutionStatus();
 	
 	/**
 	 * Blocks until all submitted jobs have completed.
@@ -21,7 +22,7 @@ public interface ErlExecutorService extends ExecutorService {
 	 * or otherwise any other abnormal completion.
 	 */
 	default void awaitCompletion() throws EolRuntimeException {
-		final ErlExecutionStatus status = getExecutionStatus();
+		final EolExecutionStatus status = getExecutionStatus();
 		
 		Thread termWait = new Thread(() -> {
 			shutdown();
@@ -48,7 +49,7 @@ public interface ErlExecutorService extends ExecutorService {
 	/**
 	 * Hack for allowing execution of methods which throw exceptions! Lambdas will call this instead of the regular execute().
 	 */
-	default void execute(CheckedEolRunnable task, IErlContextParallel context) {
+	default void execute(CheckedEolRunnable task, IEolContextParallel context) {
 		try {
 			// No performance penalty in upcasting!
 			execute((Runnable)task);

@@ -33,7 +33,7 @@ public class ForAllOperation extends FirstOrderOperation {
 		String iteratorName = iterator.getName();
 		EolType iteratorType = iterator.getType();
 		
-		for (Object item : source) {	
+		for (Object item : source) {
 			if (iteratorType == null || iteratorType.isKind(item)) {
 				scope.enterLocal(FrameType.UNPROTECTED, expression,
 					Variable.createReadOnlyVariable(iteratorName, item)

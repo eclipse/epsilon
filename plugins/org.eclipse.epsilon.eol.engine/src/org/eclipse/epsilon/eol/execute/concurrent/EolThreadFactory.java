@@ -1,21 +1,21 @@
-package org.eclipse.epsilon.erl.execute.concurrent;
+package org.eclipse.epsilon.eol.execute.concurrent;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutionStatus;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutionStatus;
 
-public class ErlThreadFactory implements ThreadFactory {
+public class EolThreadFactory implements ThreadFactory {
 
 	protected final AtomicInteger threadCount = new AtomicInteger();
 	protected final String namePrefix;
-	protected final ErlExecutionStatus executionStatus;
+	protected final EolExecutionStatus executionStatus;
 	
-	public ErlThreadFactory(ErlExecutionStatus status) {
+	public EolThreadFactory(EolExecutionStatus status) {
 		this(status, null);
 	}
 	
-	protected ErlThreadFactory(ErlExecutionStatus status, String threadNamePrefix) {
+	protected EolThreadFactory(EolExecutionStatus status, String threadNamePrefix) {
 		this.namePrefix = threadNamePrefix != null ? threadNamePrefix : "ERL-Worker";
 		this.executionStatus = status;
 	}

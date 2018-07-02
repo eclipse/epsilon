@@ -1,13 +1,13 @@
-package org.eclipse.epsilon.erl.execute.context.concurrent;
+package org.eclipse.epsilon.eol.execute.context.concurrent;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
-import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlThreadPoolExecutor;
 
-public interface IErlContextParallel extends IEolContext {
+public interface IEolContextParallel extends IEolContext {
 	
 	/**
 	 * Indicates the scalability of this Context when more processing nodes are added.
@@ -35,7 +35,7 @@ public interface IErlContextParallel extends IEolContext {
 	
 	/**
 	 * This method will typically return true if execution of the associated
-	 * {@link IErlModule} has begun, and will return false if execution has ended or not started.
+	 * {@link IEolModule} has begun, and will return false if execution has ended or not started.
 	 * 
 	 * @return whether this Context is currently executing in parallel mode.
 	 */
@@ -47,15 +47,15 @@ public interface IErlContextParallel extends IEolContext {
 	 * typically executors are used once and disposed, rather than persisted for
 	 * repeated re-use.
 	 * 
-	 * @return a new {@linkplain ErlExecutorService}.
+	 * @return a new {@linkplain EolExecutorService}.
 	 */
-	default ErlExecutorService newExecutor() {
-		return ErlThreadPoolExecutor.defaultExecutor(getParallelism());
+	default EolExecutorService newExecutor() {
+		return EolThreadPoolExecutor.defaultExecutor(getParallelism());
 	}
 	
 	//Convenience methods
 	
-	default void handleException(Exception exception, ErlExecutorService executor) {
+	default void handleException(Exception exception, EolExecutorService executor) {
 		// Cache the Epsilon stack trace
 		if (exception instanceof EolRuntimeException)
 			exception.getMessage();

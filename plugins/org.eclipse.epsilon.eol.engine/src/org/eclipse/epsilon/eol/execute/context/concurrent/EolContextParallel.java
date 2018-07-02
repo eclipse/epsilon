@@ -1,21 +1,21 @@
-package org.eclipse.epsilon.erl.execute.context.concurrent;
+package org.eclipse.epsilon.eol.execute.context.concurrent;
 
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
-import org.eclipse.epsilon.erl.IErlModule;
-import org.eclipse.epsilon.erl.execute.concurrent.DelegatePersistentThreadLocal;
-import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlExecutorService;
-import org.eclipse.epsilon.erl.execute.concurrent.executors.ErlThreadPoolExecutor;
+import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.execute.concurrent.DelegatePersistentThreadLocal;
 
 /**
- * Skeletal implementation of a parallel IErlContext.
+ * Skeletal implementation of a parallel IEolContext.
  * 
  * @author Sina Madani
  */
-public class ErlContextParallel extends EolContext implements IErlContextParallel {
+public class EolContextParallel extends EolContext implements IEolContextParallel {
 
 	protected int numThreads;
 	protected boolean isParallel = false;
@@ -25,14 +25,14 @@ public class ErlContextParallel extends EolContext implements IErlContextParalle
 	protected DelegatePersistentThreadLocal<OperationContributorRegistry> concurrentMethodContributors;
 	protected DelegatePersistentThreadLocal<ExecutorFactory> concurrentExecutors;
 	
-	public ErlContextParallel() {
+	public EolContextParallel() {
 		this(0);
 	}
 
 	/**
 	 * @param parallelism The number of threads to use.
 	 */
-	public ErlContextParallel(int parallelism) {
+	public EolContextParallel(int parallelism) {
 		numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM;
 		
 		// This will be the "base" of others, so make it thread-safe for concurrent reads
@@ -70,8 +70,8 @@ public class ErlContextParallel extends EolContext implements IErlContextParalle
 	}
 	
 	@Override
-	public ErlExecutorService newExecutor() {
-		return ErlThreadPoolExecutor.fixedPoolExecutor(numThreads);
+	public EolExecutorService newExecutor() {
+		return EolThreadPoolExecutor.fixedPoolExecutor(numThreads);
 	}
 	
 	@Override
@@ -100,8 +100,8 @@ public class ErlContextParallel extends EolContext implements IErlContextParalle
 	}
 	
 	@Override
-	public IErlModule getModule() {
-		return (IErlModule) super.getModule();
+	public IEolModule getModule() {
+		return (IEolModule) super.getModule();
 	}
 	
 	@Override
