@@ -74,7 +74,7 @@ public class MatlabEngine {
 			LOGGER.debug(cmd);
 			evalMethod.invoke(engine, cmd);
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.debug(e.getMessage());
 			throw new MatlabException(e);
 		}
 	}
