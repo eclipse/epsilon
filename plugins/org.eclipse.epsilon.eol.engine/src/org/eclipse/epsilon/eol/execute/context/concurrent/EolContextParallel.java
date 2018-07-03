@@ -6,6 +6,7 @@ import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.concurrent.DelegatePersistentThreadLocal;
@@ -19,7 +20,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 
 	protected int numThreads;
 	protected boolean isParallel = false;
-	private EolExecutorService executor;
+	private EolExecutorService executorService;
 	
 	// Data strcutures which will be written to and read from during parallel execution:
 	protected DelegatePersistentThreadLocal<FrameStack> concurrentFrameStacks;
@@ -34,14 +35,49 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @param parallelism The number of threads to use.
 	 */
 	public EolContextParallel(int parallelism) {
-		numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM;
-		
+		setNumThreads(parallelism);
+		initMainThreadStructures();
+		initThreadLocals();
+	}
+
+	/**
+	 * @see #EolContextParallel(IEolContext, int)
+	 */
+	public EolContextParallel(IEolContext context) {
+		this(context, 0);
+	}
+	
+	/**
+	 * Copy constructor.
+	 * NOTE: The context parameter may be modified.
+	 * 
+	 * @param context The context to copy from. Structures
+	 * in this parameter may be modified to be thread-safe.
+	 * @param parallelism The number of threads to use.
+	 */
+	public EolContextParallel(IEolContext context, int parallelism) {
+		setNumThreads(parallelism);
+		frameStack = context.getFrameStack().clone();
+		frameStack.setThreadSafe(true);
+		methodContributorRegistry = context.getOperationContributorRegistry();
+		methodContributorRegistry.setThreadSafe(true);
+		executorFactory = context.getExecutorFactory();
+		executorFactory.setThreadSafe(true);
+		initThreadLocals();
+	}
+	
+	protected int setNumThreads(int parallelism) {
+		return (numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM);
+	}
+	
+	protected void initMainThreadStructures() {
 		// This will be the "base" of others, so make it thread-safe for concurrent reads
 		frameStack = new FrameStack(null, true);
 		methodContributorRegistry = new OperationContributorRegistry(null, true);
 		executorFactory = new ExecutorFactory(null, true);
-		
-		// Initialize thread-local read and write structures with the base
+	}
+	
+	protected void initThreadLocals() {
 		concurrentFrameStacks = new DelegatePersistentThreadLocal<>(numThreads, () -> new FrameStack(frameStack, false));
 		concurrentMethodContributors = new DelegatePersistentThreadLocal<>(numThreads, () -> new OperationContributorRegistry(methodContributorRegistry, false));
 		concurrentExecutors = new DelegatePersistentThreadLocal<>(numThreads, () -> new ExecutorFactory(executorFactory, false));
@@ -71,17 +107,17 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public EolExecutorService getExecutor() {
-		return executor;
+	public EolExecutorService getExecutorService() {
+		return executorService;
 	}
 	
 	@Override
-	public void setExecutor(EolExecutorService exector) {
-		this.executor = exector;
+	public void setExecutorService(EolExecutorService exector) {
+		this.executorService = exector;
 	}
 	
 	@Override
-	public EolExecutorService newExecutor() {
+	public EolExecutorService newExecutorService() {
 		return EolThreadPoolExecutor.fixedPoolExecutor(numThreads);
 	}
 	

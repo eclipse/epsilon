@@ -20,7 +20,7 @@ public class EvlModuleParallelModel extends EvlModuleParallel {
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContextParallel context = getContext();
-		EolExecutorService executor = context.newExecutor();
+		EolExecutorService executor = context.newExecutorService();
 		
 		for (Constraint constraint : getConstraints()) {
 			executor.execute(() -> {

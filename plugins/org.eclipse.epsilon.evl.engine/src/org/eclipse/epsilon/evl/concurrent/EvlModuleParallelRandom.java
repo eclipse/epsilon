@@ -23,7 +23,7 @@ public class EvlModuleParallelRandom extends EvlModuleParallel {
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContextParallel context = getContext();
-		EolExecutorService executor = context.newExecutor();
+		EolExecutorService executor = context.newExecutorService();
 		
 		List<ConstraintAtom> jobs = ConstraintAtom.getConstraintJobs(context);
 		Collections.shuffle(jobs);

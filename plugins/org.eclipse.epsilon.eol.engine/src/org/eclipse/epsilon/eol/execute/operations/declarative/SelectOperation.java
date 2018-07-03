@@ -32,9 +32,9 @@ public class SelectOperation extends FirstOrderOperation {
 		
 		for (Object item : source) {
 			if (iterator.getType() == null || iterator.getType().isKind(item)) {
-				scope.enterLocal(FrameType.UNPROTECTED, expression);
-				//scope.put(new Variable(iteratorName, listItem, iteratorType, true));
-				scope.put(Variable.createReadOnlyVariable(iterator.getName(), item));
+				scope.enterLocal(FrameType.UNPROTECTED, expression,
+					Variable.createReadOnlyVariable(iterator.getName(), item));
+				
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				if (bodyResult instanceof Boolean && ((boolean) bodyResult)) {
 					result.add(item);
