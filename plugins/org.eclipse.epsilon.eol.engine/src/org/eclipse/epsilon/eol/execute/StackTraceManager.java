@@ -3,6 +3,7 @@ package org.eclipse.epsilon.eol.execute;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -10,9 +11,19 @@ import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 
 public class StackTraceManager implements IExecutionListener {
 	
-	//Use Deque instead of Stack to avoid bottlenecks due to synchronisation overhead!
-	//Concurrency should be handled by having a different StackTraceManager for each thread.
-	protected Deque<ModuleElement> stackTrace = new ArrayDeque<>();
+	/** Use Deque instead of Stack to avoid bottlenecks due to synchronisation overhead!
+	 * Concurrency can be handled by having a different StackTraceManager for each thread,
+	 * or by using a {@linkplain ConcurrentLinkedDeque}
+	 */
+	protected final Deque<ModuleElement> stackTrace;
+	
+	public StackTraceManager() {
+		this(false);
+	}
+	
+	public StackTraceManager(boolean concurrent) {
+		stackTrace = concurrent ? new ConcurrentLinkedDeque<>() : new ArrayDeque<>();
+	}
 	
 	@Override
 	public void aboutToExecute(ModuleElement ast, IEolContext context) {

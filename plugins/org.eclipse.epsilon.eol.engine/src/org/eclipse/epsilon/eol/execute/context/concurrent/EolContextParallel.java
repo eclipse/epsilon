@@ -19,6 +19,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 
 	protected int numThreads;
 	protected boolean isParallel = false;
+	private EolExecutorService executor;
 	
 	// Data strcutures which will be written to and read from during parallel execution:
 	protected DelegatePersistentThreadLocal<FrameStack> concurrentFrameStacks;
@@ -67,6 +68,16 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	@Override
 	public final int getParallelism() {
 		return numThreads;
+	}
+	
+	@Override
+	public EolExecutorService getExecutor() {
+		return executor;
+	}
+	
+	@Override
+	public void setExecutor(EolExecutorService exector) {
+		this.executor = exector;
 	}
 	
 	@Override

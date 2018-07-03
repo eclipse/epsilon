@@ -42,6 +42,25 @@ public interface IEolContextParallel extends IEolContext {
 	boolean isParallel();
 	
 	/**
+	 * Allows for persistence of an ExecutorService.
+	 * Unlike {@linkplain #newExecutor()}, this method returns
+	 * the executor as set by {@linkplain #setExecutor(EolExecutorService)}.
+	 * Note that if no value is set, this method may return <code>null</code>.
+	 * 
+	 * @return A cached ExecutorService.
+	 * @see #setExecutor()
+	 */
+	EolExecutorService getExecutor();
+	
+	/**
+	 * Allows for persistence of an ExecutorService. The value set by
+	 * this method can be retrieved using {@linkplain #getExecutor()}.
+	 * @param exector The executor to save.
+	 * @see #getExecutor()
+	 */
+	void setExecutor(EolExecutorService exector);
+	
+	/**
 	 * Factory method for creating executors. Implementations may override this
 	 * to provide a more suitable service for the computation tasks. Note that
 	 * typically executors are used once and disposed, rather than persisted for
@@ -74,4 +93,5 @@ public interface IEolContextParallel extends IEolContext {
 		else
 			originalValueSetter.accept(value);
 	}
+
 }

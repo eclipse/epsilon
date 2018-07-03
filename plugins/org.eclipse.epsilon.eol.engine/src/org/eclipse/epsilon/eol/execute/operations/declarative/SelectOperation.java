@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
-
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;

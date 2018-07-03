@@ -545,7 +545,8 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 	}
 	
 	/**
-	 * Adds all of this FrameStack's frames into its base FrameStack.
+	 * Adds all of this FrameStack's frames into its base FrameStack, or vice-versa.
+	 * @param mode Whether to merge from base to this, or from this to base.
 	 */
 	@Override
 	public void merge(MergeMode mode) {
