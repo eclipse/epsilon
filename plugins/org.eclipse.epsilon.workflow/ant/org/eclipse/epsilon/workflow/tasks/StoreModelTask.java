@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2018 The University of York, Aston University.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,28 +7,34 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio Garcia-Dominguez - add targetUri (#534149)
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.apache.tools.ant.BuildException;
-import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.profiling.Profiler;
 
 public class StoreModelTask extends EpsilonTask {
 	
 	protected String model;
 	protected File target;
+	protected URI targetUri;
 	
 	@Override
 	public void executeImpl() throws BuildException {
 		if (profile) Profiler.INSTANCE.start("Store model : " + model);
 		try {
 			IModel eolModel = getProjectRepository().getModelByName(model);
-			if (target!=null) {
-				eolModel.store("file:/" + target.getAbsolutePath());
+			if (targetUri != null) {
+				eolModel.store(targetUri.toString());
+			} else if (target != null) {
+				eolModel.store(target.getAbsolutePath());
 			}
 			else {
 				eolModel.store();
@@ -56,5 +62,16 @@ public class StoreModelTask extends EpsilonTask {
 	public void setTarget(File target) {
 		this.target = target;
 	}
-	
+
+	public URI getTargetUri() {
+		return targetUri;
+	}
+
+	public void setTargetUri(URI targetUri) {
+		this.targetUri = targetUri;
+	}
+
+	public void setTargetUri(String targetUri) throws URISyntaxException {
+		this.targetUri = new URI(targetUri);
+	}
 }
