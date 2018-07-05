@@ -31,23 +31,19 @@ import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 
 public class EolContext implements IEolContext {
 	
-	protected IUserInput userInput = new JavaConsoleUserInput();
-	protected FrameStack frameStack = new FrameStack();
-	protected ModelRepository modelRepository = new ModelRepository();
-	protected IntrospectionManager introspectionManager = new IntrospectionManager();
-	protected ExecutorFactory executorFactory = new ExecutorFactory();
-	protected EolOperationFactory operationFactory = new EolOperationFactory();
-	protected PrettyPrinterManager prettyPrinterManager = new PrettyPrinterManager();
-	protected PrintStream outputStream = System.out;
-	protected PrintStream errorStream = System.err;
-	protected PrintStream warningStream = System.out;
+	protected IUserInput userInput;
+	protected FrameStack frameStack;
+	protected ModelRepository modelRepository;
+	protected IntrospectionManager introspectionManager;
+	protected ExecutorFactory executorFactory;
+	protected EolOperationFactory operationFactory;
+	protected PrettyPrinterManager prettyPrinterManager;
+	protected PrintStream outputStream, errorStream, warningStream;
 	protected IModule module;
-	protected boolean profilingEnabled = false;
-	protected boolean assertionsEnabled = true;
-	protected ExtendedProperties extendedProperties = new ExtendedProperties();
-	protected Queue<AsyncStatementInstance> asyncStatementsQueue = new LinkedList<>();
-	protected OperationContributorRegistry methodContributorRegistry = new OperationContributorRegistry();
-	// The following members are initialised in the constructor
+	protected boolean profilingEnabled = false, assertionsEnabled = true;
+	protected ExtendedProperties extendedProperties;
+	protected Queue<AsyncStatementInstance> asyncStatementsQueue;
+	protected OperationContributorRegistry methodContributorRegistry;
 	protected EolClasspathNativeTypeDelegate classpathNativeTypeDelegate;
 	protected List<IToolNativeTypeDelegate> nativeTypeDelegates;
 	
@@ -56,10 +52,45 @@ public class EolContext implements IEolContext {
 	}
 	
 	protected EolContext(EolClasspathNativeTypeDelegate classpathNativeTypeDelegate) {
+		userInput = new JavaConsoleUserInput();
+		frameStack = new FrameStack();
+		modelRepository = new ModelRepository();
+		introspectionManager = new IntrospectionManager();
+		executorFactory = new ExecutorFactory();
+		operationFactory = new EolOperationFactory();
+		prettyPrinterManager = new PrettyPrinterManager();
+		outputStream = System.out;
+		errorStream = System.err;
+		warningStream = System.out;
+		extendedProperties = new ExtendedProperties();
+		asyncStatementsQueue = new LinkedList<>();
+		methodContributorRegistry = new OperationContributorRegistry();
 		this.classpathNativeTypeDelegate = classpathNativeTypeDelegate;
 		this.nativeTypeDelegates = new ArrayList<>(CollectionUtil.asCollection(classpathNativeTypeDelegate));
 	}
 
+	public EolContext(IEolContext other) {
+		userInput = other.getUserInput();
+		frameStack = other.getFrameStack();
+		modelRepository = other.getModelRepository();
+		introspectionManager = other.getIntrospectionManager();
+		executorFactory = other.getExecutorFactory();
+		operationFactory = other.getOperationFactory();
+		prettyPrinterManager = other.getPrettyPrinterManager();
+		outputStream = other.getOutputStream();
+		errorStream = other.getErrorStream();
+		warningStream = other.getWarningStream();
+		module = other.getModule();
+		profilingEnabled = other.isProfilingEnabled();
+		assertionsEnabled = other.isAssertionsEnabled();
+		extendedProperties = other.getExtendedProperties();
+		asyncStatementsQueue = other.getAsyncStatementsQueue();
+		methodContributorRegistry = other.getOperationContributorRegistry();
+		nativeTypeDelegates = other.getNativeTypeDelegates();
+		classpathNativeTypeDelegate = other instanceof EolContext ?
+			((EolContext)other).classpathNativeTypeDelegate : new EolClasspathNativeTypeDelegate();
+	}
+	
 	@Override
 	public OperationContributorRegistry getOperationContributorRegistry() {
 		return methodContributorRegistry;

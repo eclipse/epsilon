@@ -23,7 +23,7 @@ import org.eclipse.epsilon.eol.types.EolCollectionType;
 public class SelectOperation extends FirstOrderOperation {
 	
 	public Collection<?> execute(Object target, Variable iterator, Expression expression,
-			IEolContext context, boolean returnOnFirstMatch) throws EolRuntimeException {
+			IEolContext context, boolean returnOnMatch) throws EolRuntimeException {
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		Collection<Object> result = EolCollectionType.createSameType(source);
@@ -38,7 +38,7 @@ public class SelectOperation extends FirstOrderOperation {
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				if (bodyResult instanceof Boolean && ((boolean) bodyResult)) {
 					result.add(item);
-					if (returnOnFirstMatch) {
+					if (returnOnMatch) {
 						scope.leaveLocal(expression);
 						return result;
 					}

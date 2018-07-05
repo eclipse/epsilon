@@ -3,19 +3,19 @@ package org.eclipse.epsilon.eol.execute.concurrent;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutionStatus;
+import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 
 public class EolThreadFactory implements ThreadFactory {
 
 	protected final AtomicInteger threadCount = new AtomicInteger();
 	protected final String namePrefix;
-	protected final EolExecutionStatus executionStatus;
+	protected final ConcurrentExecutionStatus executionStatus;
 	
-	public EolThreadFactory(EolExecutionStatus status) {
+	public EolThreadFactory(ConcurrentExecutionStatus status) {
 		this(status, null);
 	}
 	
-	protected EolThreadFactory(EolExecutionStatus status, String threadNamePrefix) {
+	protected EolThreadFactory(ConcurrentExecutionStatus status, String threadNamePrefix) {
 		this.namePrefix = threadNamePrefix != null ? threadNamePrefix : "ERL-Worker";
 		this.executionStatus = status;
 	}
@@ -27,7 +27,7 @@ public class EolThreadFactory implements ThreadFactory {
 				@Override
 				public void uncaughtException(Thread t, Throwable e) {
 					if (e instanceof Exception) {
-						executionStatus.setException((Exception) e);
+						executionStatus.completeExceptionally((Exception) e);
 					}
 					else {
 						Thread.getDefaultUncaughtExceptionHandler().uncaughtException(t, e);

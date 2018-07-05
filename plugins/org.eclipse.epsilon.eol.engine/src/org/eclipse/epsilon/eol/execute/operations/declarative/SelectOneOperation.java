@@ -24,7 +24,7 @@ public class SelectOneOperation extends SelectBasedOperation {
 	public Object execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 
-		Collection<?> result = (Collection<?>) selectOperation.execute(target, iterator, expression, context, true);
+		Collection<?> result = selectOperation.execute(target, iterator, expression, context, true);
 		return CollectionUtil.getFirst(result);
 	}
 	

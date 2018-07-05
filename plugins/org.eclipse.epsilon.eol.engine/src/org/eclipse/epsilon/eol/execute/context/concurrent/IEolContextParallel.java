@@ -81,7 +81,7 @@ public interface IEolContextParallel extends IEolContext {
 			exception.getMessage();
 	
 		if (executor != null)
-			executor.getExecutionStatus().setException(exception);
+			executor.getExecutionStatus().completeExceptionally(exception);
 	}
 	
 	default <R> R parallelGet(ThreadLocal<? extends R> threadLocal, Supplier<? extends R> originalValueGetter) {

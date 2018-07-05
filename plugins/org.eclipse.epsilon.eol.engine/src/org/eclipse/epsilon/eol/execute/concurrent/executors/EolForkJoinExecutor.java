@@ -2,8 +2,8 @@ package org.eclipse.epsilon.eol.execute.concurrent.executors;
 
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinWorkerThread;
+import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.execute.concurrent.EolThreadFactory;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutionStatus;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 
 public class EolForkJoinExecutor extends ForkJoinPool implements EolExecutorService {
@@ -11,10 +11,10 @@ public class EolForkJoinExecutor extends ForkJoinPool implements EolExecutorServ
 	static class EolForkJoinThreadFactory extends EolThreadFactory implements ForkJoinWorkerThreadFactory {
 		
 		public EolForkJoinThreadFactory() {
-			super(new EolExecutionStatus());
+			super(new ConcurrentExecutionStatus());
 		}
 
-		EolExecutionStatus getExecStatus() {
+		ConcurrentExecutionStatus getExecStatus() {
 			return this.executionStatus;
 		}
 		
@@ -33,7 +33,7 @@ public class EolForkJoinExecutor extends ForkJoinPool implements EolExecutorServ
 	}
 
 	@Override
-	public EolExecutionStatus getExecutionStatus() {
+	public ConcurrentExecutionStatus getExecutionStatus() {
 		return ((EolForkJoinThreadFactory) getFactory()).getExecStatus();
 	}	
 }

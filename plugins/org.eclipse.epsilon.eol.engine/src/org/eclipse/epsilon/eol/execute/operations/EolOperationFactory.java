@@ -13,21 +13,9 @@ package org.eclipse.epsilon.eol.execute.operations;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.eclipse.epsilon.eol.execute.operations.declarative.AggregateOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.AsOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.ClosureOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.ExistsOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.FindOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.ForAllOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.MapByOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.OneOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.RejectOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOneOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.SortByOperation;
-import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertErrorOperation;
-import org.eclipse.epsilon.eol.execute.operations.simple.assertions.AssertOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.*;
+import org.eclipse.epsilon.eol.execute.operations.simple.assertions.*;
+import org.eclipse.epsilon.eol.execute.operations.declarative.concurrent.*;
 
 public class EolOperationFactory {
 	
@@ -53,6 +41,8 @@ public class EolOperationFactory {
 		operationCache.put("mapBy", new MapByOperation());
 		operationCache.put("as", new AsOperation());
 		operationCache.put("find", new FindOperation());
+		operationCache.put("parallelSelect", new ParallelSelectOperation());
+		operationCache.put("parallelSelectOne", new ParallelSelectOneOperation());
 	}
 
 	public AbstractOperation getOperationFor(String name) {

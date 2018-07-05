@@ -37,33 +37,29 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	public EolContextParallel(int parallelism) {
 		setNumThreads(parallelism);
 		initMainThreadStructures();
-		initThreadLocals();
 	}
 
 	/**
 	 * @see #EolContextParallel(IEolContext, int)
 	 */
-	public EolContextParallel(IEolContext context) {
-		this(context, 0);
+	public EolContextParallel(IEolContext other) {
+		this(other, 0);
 	}
 	
 	/**
 	 * Copy constructor.
 	 * NOTE: The context parameter may be modified.
 	 * 
-	 * @param context The context to copy from. Structures
+	 * @param other The context to copy from. Structures
 	 * in this parameter may be modified to be thread-safe.
 	 * @param parallelism The number of threads to use.
 	 */
-	public EolContextParallel(IEolContext context, int parallelism) {
+	public EolContextParallel(IEolContext other, int parallelism) {
+		super(other);
 		setNumThreads(parallelism);
-		frameStack = context.getFrameStack().clone();
 		frameStack.setThreadSafe(true);
-		methodContributorRegistry = context.getOperationContributorRegistry();
 		methodContributorRegistry.setThreadSafe(true);
-		executorFactory = context.getExecutorFactory();
 		executorFactory.setThreadSafe(true);
-		initThreadLocals();
 	}
 	
 	protected int setNumThreads(int parallelism) {
@@ -85,7 +81,10 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	@Override
 	public void goParallel() {
-		isParallel = true;
+		if (!isParallel) {
+			initThreadLocals();
+			isParallel = true;
+		}
 	}
 	
 	@Override

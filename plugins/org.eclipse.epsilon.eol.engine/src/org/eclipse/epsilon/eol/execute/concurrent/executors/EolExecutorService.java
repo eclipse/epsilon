@@ -6,9 +6,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutionStatus;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
 /**
@@ -18,15 +18,17 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
  */
 public interface EolExecutorService extends ExecutorService {
 	
-	EolExecutionStatus getExecutionStatus();
+	ConcurrentExecutionStatus getExecutionStatus();
 	
 	/**
 	 * Blocks until all submitted jobs have completed.
 	 * @throws EolRuntimeException if an exception is thrown from any of the jobs,
 	 * or otherwise any other abnormal completion.
+	 * 
+	 * @return {@link ConcurrentExecutionStatus#getResult()}.
 	 */
-	default void awaitCompletion() throws EolRuntimeException {
-		final EolExecutionStatus status = getExecutionStatus();
+	default Object awaitCompletion() throws EolRuntimeException {
+		final ConcurrentExecutionStatus status = getExecutionStatus();
 		
 		Thread termWait = new Thread(() -> {
 			shutdown();
@@ -35,19 +37,21 @@ public interface EolExecutorService extends ExecutorService {
 				status.completeSuccessfully();
 			}
 			catch (InterruptedException ie) {
-				status.setException(ie);
+				// If this happens, it means we completed exceptionally,
+				// so exit and let main thread take care of it (see below).
 			}
 		});
 		termWait.setName(getClass().getSimpleName()+"-AwaitTermination");
 		termWait.start();
 
-		Exception exception = status.waitForCompletion();
 		
-		if (exception != null) {
+		if (!status.waitForCompletion()) {
 			termWait.interrupt();
 			shutdownNow();
-			EolRuntimeException.propagateDetailed(exception);
+			EolRuntimeException.propagateDetailed(status.getException());
 		}
+		
+		return status.getResult();
 	}
 	
 	/**
@@ -55,14 +59,16 @@ public interface EolExecutorService extends ExecutorService {
 	 * This method takes care of exception handling semantics.
 	 * 
 	 * @param futures The Futures to wait for.
+	 * @param shutdown Whether to call {@linkplain #shutdown()} on this ExecutorService.
 	 * @return The result of futures.
 	 * @throws EolRuntimeException
 	 */
-	default <R> Collection<R> collectResults(Collection<Future<R>> futures) throws EolRuntimeException {
-		final EolExecutionStatus status = getExecutionStatus();
+	default <R> Collection<R> collectResults(Collection<Future<R>> futures, boolean shutdown) throws EolRuntimeException {
+		final ConcurrentExecutionStatus status = getExecutionStatus();
 		Collection<R> results = new ArrayList<>(futures.size());
 		
 		Thread termWait = new Thread(() -> {
+			if (shutdown) shutdown();
 			try {
 				for (Future<R> future : futures) {
 					results.add(future.get());
@@ -70,25 +76,21 @@ public interface EolExecutorService extends ExecutorService {
 				status.completeSuccessfully();
 			}
 			catch (InterruptedException | ExecutionException ex) {
-				status.setException(ex);
+				status.completeExceptionally(ex);
 			}
 		});
 		termWait.setName(getClass().getSimpleName()+"-AwaitTermination");
 		termWait.start();
 
-		Exception exception = status.waitForCompletion();
-		
-		if (exception != null) {
+		if (!status.waitForCompletion()) {
 			termWait.interrupt();
-			EolRuntimeException.propagateDetailed(exception);
+			if (shutdown) shutdownNow();
+			EolRuntimeException.propagateDetailed(status.getException());
 		}
 		
 		return results;
 	}
-	
-	/**
-	 * Hack for allowing execution of methods which throw exceptions! Lambdas will call this instead of the regular execute().
-	 */
+
 	default void execute(CheckedEolRunnable task, IEolContextParallel context) {
 		try {
 			// No performance penalty in upcasting!
