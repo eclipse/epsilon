@@ -12,7 +12,6 @@ package org.eclipse.epsilon.etl;
 
 import java.util.HashMap;
 import java.util.List;
-
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
@@ -37,10 +36,9 @@ import org.eclipse.epsilon.etl.parse.EtlParser;
 import org.eclipse.epsilon.etl.strategy.DefaultTransformationStrategy;
 import org.eclipse.epsilon.etl.strategy.FastTransformationStrategy;
 
-
 public class EtlModule extends ErlModule implements IEtlModule {
 	
-	protected NamedRuleList<TransformationRule> declaredTransformationRules = new NamedRuleList<TransformationRule>();
+	protected NamedRuleList<TransformationRule> declaredTransformationRules = new NamedRuleList<>();
 	protected NamedRuleList<TransformationRule> transformationRules = null;
 	protected IEtlContext context = new EtlContext();
 	
@@ -88,6 +86,7 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		getParseProblems().addAll(calculateSuperRules(getTransformationRules()));
 	}
 	
+	@Override
 	public List<TransformationRule> getDeclaredTransformationRules() {
 		return declaredTransformationRules;
 	}
@@ -103,6 +102,7 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		return false;
 	}
 	
+	@Override
 	public Object executeImpl() throws EolRuntimeException {
 		
 		if (context.getTransformationStrategy() == null) {
@@ -138,17 +138,19 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	}
 
 	@Override
-	public IEtlContext getContext(){
+	public IEtlContext getContext() {
 		return context;
 	}
 	
-	public void setContext(IEtlContext context){
+	@Override
+	public void setContext(IEtlContext context) {
 		this.context = context;
 	}
 	
+	@Override
 	public List<TransformationRule> getTransformationRules() {
 		if (transformationRules == null) {
-			transformationRules = new NamedRuleList<TransformationRule>();
+			transformationRules = new NamedRuleList<>();
 			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof IEtlModule)) {
 					IEtlModule module = (IEtlModule) import_.getModule();

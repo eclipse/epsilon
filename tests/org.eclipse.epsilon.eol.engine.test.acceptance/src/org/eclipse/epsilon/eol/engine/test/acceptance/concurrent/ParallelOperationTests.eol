@@ -1,0 +1,51 @@
+var testData = Bag{
+	1, 2, 4, 8, 3, 9, 10, 1024, 1024768, 0,
+	-2147483647, "a string", "6", 22, "0.75f", 32.0,
+	12.5, 2.0000000000000000000000001, "66.2", 335d,
+	350f, "a string with a num83R", null, false, 99,
+	"true", "FALSE", "1", "0", "", "-2147483648",
+	999999l, -1l, -2d, 0f, 7, null, 6
+};
+
+@test
+operation testParallelSelect() {
+	var expected = testData.select(t |
+		t <> null and
+		t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") and
+		t.asReal() > 22/7
+	);
+	
+	var actual = testData.parallelSelect(t |
+		t <> null and
+		t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") and
+		t.asReal() > 22/7
+	);
+	
+	assertTrue(actual.containsAll(expected));
+	assertEquals(actual.size(), expected.size());
+}
+
+@test
+operation testParallelSelectOne() {
+	var expected = testData.selectOne(t |
+		t <> null and 
+		t.asString().length() > 3 and
+		(
+			t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") or
+			t.asString().matches("FALSE") or 
+			t.asString().matches("true")
+		) and t.asBoolean()
+	);
+	
+	var actual = testData.parallelSelectOne(t |
+		t <> null and 
+		t.asString().length() > 3 and
+		(
+			t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") or
+			t.asString().matches("FALSE") or 
+			t.asString().matches("true")
+		) and t.asBoolean()
+	);
+	
+	assertEquals(expected, actual);
+}

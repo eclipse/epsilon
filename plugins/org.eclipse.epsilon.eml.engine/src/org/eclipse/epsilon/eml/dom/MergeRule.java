@@ -38,11 +38,10 @@ import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
 
 public class MergeRule extends ExtensibleNamedRule {
 	
-	protected ExecutableBlock<Boolean> guardBlock = null;
-	protected StatementBlock bodyBlock = null;
-	protected Parameter leftParameter;
-	protected Parameter rightParameter;
-	protected List<Parameter> targetParameters = new ArrayList<Parameter>();
+	protected ExecutableBlock<Boolean> guardBlock;
+	protected StatementBlock bodyBlock;
+	protected Parameter leftParameter, rightParameter;
+	protected List<Parameter> targetParameters = new ArrayList<>();
 	protected boolean auto = false;
 	
 	public MergeRule(){ }
@@ -114,7 +113,7 @@ public class MergeRule extends ExtensibleNamedRule {
 		return mergedMatches.contains(match);
 	}
 	
-	HashSet<Match> mergedMatches = new HashSet<Match>();
+	HashSet<Match> mergedMatches = new HashSet<>();
 	
 	public Collection<?> merge(Match match, IEmlContext context) throws EolRuntimeException{
 		
@@ -146,7 +145,7 @@ public class MergeRule extends ExtensibleNamedRule {
 	}
 		
 	@Override
-	public String toString(){
+	public String toString() {
 		String str = getName();
 		str = str + " (";
 		str = str + 
@@ -154,10 +153,10 @@ public class MergeRule extends ExtensibleNamedRule {
 		rightParameter.getTypeName();
 		str = str + ") : ";
 		ListIterator<Parameter> li = targetParameters.listIterator();
-		while (li.hasNext()){
+		while (li.hasNext()) {
 			Parameter targetParameter = (Parameter) li.next();
 			str += targetParameter.getTypeName();
-			if (li.hasNext()){
+			if (li.hasNext()) {
 				str += ", ";
 			}
 		}
@@ -174,13 +173,14 @@ public class MergeRule extends ExtensibleNamedRule {
 		FrameStack scope = context.getFrameStack();
 		
 		scope.enterLocal(FrameType.PROTECTED, this);
-		
-		scope.put(new Variable(leftParameter.getName(), match.getLeft(), leftParameter.getType(context), true));
-		scope.put(new Variable(rightParameter.getName(), match.getRight(), rightParameter.getType(context), true));
+		scope.put(
+			new Variable(leftParameter.getName(), match.getLeft(), leftParameter.getType(context), true),
+			new Variable(rightParameter.getName(), match.getRight(), rightParameter.getType(context), true)
+		);
 		
 		scope.put(Variable.createReadOnlyVariable("self",this));
 		
-		for (int i=0; i<targetParameters.size(); i++){
+		for (int i = 0; i<targetParameters.size(); i++) {
 			Parameter targetParameter = (Parameter) targetParameters.get(i);
 			scope.put(new Variable(targetParameter.getName(), CollectionUtil.asList(targets).get(i),targetParameter.getType(context),true));
 		}
@@ -195,6 +195,7 @@ public class MergeRule extends ExtensibleNamedRule {
 		return AstUtil.getChild(cst, EmlParser.EXTENDS);
 	}
 
+	@Override
 	public List<?> getModuleElements() {
 		return Collections.emptyList();
 	}

@@ -13,7 +13,6 @@ package org.eclipse.epsilon.eml.strategy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eml.dom.MergeRule;
@@ -22,11 +21,11 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.etl.strategy.DefaultTransformationStrategy;
 
-
-public class DefaultMergingStrategy extends DefaultTransformationStrategy implements IMergingStrategy{
+public class DefaultMergingStrategy extends DefaultTransformationStrategy implements IMergingStrategy {
 	
-	protected IEmlContext context = null;
+	protected IEmlContext context;
 	
+	@Override
 	public void mergeModels(IEmlContext context) throws EolRuntimeException {
 		
 		this.context = context;
@@ -45,7 +44,7 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 
 	public List<MergeRule> getRulesFor(Match match, IEmlContext context) throws EolRuntimeException{
 		
-		List<MergeRule> rules = new ArrayList<MergeRule>();
+		List<MergeRule> rules = new ArrayList<>();
 		
 		// First we try to find rules that apply to instance of type only
 		for (MergeRule mergeRule : context.getModule().getMergeRules()){
@@ -59,6 +58,7 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 		return rules;
 	}
 	
+	@Override
 	public Collection<?> getEquivalents(Object source, IEolContext context, List<String> rules) throws EolRuntimeException {
 		
 		if (!getExcluded().contains(source)) {
@@ -74,7 +74,7 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 	private Collection<Object> merge(Object source, IEolContext context_,
 			List<String> rules) throws EolRuntimeException {
 		
-		List<Match> matches = context.getMatchTrace().getMatches(source);
+		Collection<Match> matches = context.getMatchTrace().getMatches(source);
 		
 		List<Object> targets = CollectionUtil.createDefaultList();
 		
@@ -104,9 +104,10 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 	//TODO : Improve performance by turning this into a HashSet?
 	protected List<Object> excluded = null;
 	
+	@Override
 	public List<Object> getExcluded() {
 		if (excluded == null) {
-			excluded = new ArrayList<Object>();
+			excluded = new ArrayList<>();
 			for (Match match : context.getMatchTrace().getMatches()) {
 				excluded.add(match.getLeft());
 				excluded.add(match.getRight());

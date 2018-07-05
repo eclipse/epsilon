@@ -13,7 +13,6 @@ package org.eclipse.epsilon.eml.execute.operations;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eml.execute.context.IEmlContext;
@@ -21,7 +20,6 @@ import org.eclipse.epsilon.eml.strategy.IMergingStrategy;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
-
 
 public class EquivalentsOperation extends SimpleOperation {
 	
@@ -33,7 +31,7 @@ public class EquivalentsOperation extends SimpleOperation {
 		
 		List<String> rules = null;
 		if (parameters.size() > 0) {
-			rules = new ArrayList<String>();
+			rules = new ArrayList<>();
 			for (Object parameter : parameters) {
 				rules.add(StringUtil.toString(parameter));
 			}
@@ -42,7 +40,7 @@ public class EquivalentsOperation extends SimpleOperation {
 		IEmlContext emlContext = (IEmlContext) context;
 		IMergingStrategy strategy = emlContext.getMergingStrategy();
 		
-		if (source instanceof Collection){
+		if (source instanceof Collection) {
 			return strategy.getEquivalents((Collection<?>) source, emlContext, rules);
 		} else {
 			return strategy.getEquivalents(source, emlContext, rules);

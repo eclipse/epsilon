@@ -19,9 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.Annotation;
 import org.eclipse.epsilon.eol.dom.Operation;
@@ -52,7 +50,7 @@ public class EUnitModule extends EolModule {
 	private String packageName = DEFAULT_PACKAGE;
 
 	private static ThreadMXBean THREAD_MXBEAN;
-	private List<EUnitTestListener> testListeners = new ArrayList<EUnitTestListener>();
+	private List<EUnitTestListener> testListeners = new ArrayList<>();
 	private EUnitTest suiteRoot;
 
 	// Destination directory for the JUnit XML report, or null if the report is to be suppressed
@@ -95,7 +93,7 @@ public class EUnitModule extends EolModule {
 	}
 
 	public List<Pair<Operation, String>> getDataVariableNames() {
-		final List<Pair<Operation, String>> results = new ArrayList<Pair<Operation, String>>();
+		final List<Pair<Operation, String>> results = new ArrayList<>();
 		for (Operation op : getOperations()) {
 			if (op.getAnnotationBlock() == null) continue;
 			for (Annotation ann : op.getAnnotationBlock().getAnnotations()) {
@@ -103,7 +101,7 @@ public class EUnitModule extends EolModule {
 				if (!"data".equals(annName) && !"Data".equals(annName)) continue;
 
 				try {
-					results.add(new Pair<Operation, String>(op, (String)ann.getValue(context)));
+					results.add(new Pair<>(op, (String)ann.getValue(context)));
 				} catch (EolRuntimeException e) {
 					// skip annotation and go on
 				}
@@ -204,7 +202,7 @@ public class EUnitModule extends EolModule {
 
 	@SuppressWarnings("unchecked")
 	protected List<ModelBindings> getModelBindings(Operation opTest) throws EolRuntimeException {
-		final List<ModelBindings> results = new ArrayList<ModelBindings>();
+		final List<ModelBindings> results = new ArrayList<>();
 		for (Object withValue : opTest.getAnnotationsValues(MODEL_BINDING_ANNOTATION_NAME, getContext())) {
 			results.add(new ModelBindings((Map<String, String>)withValue, ModelBindings.ExclusiveMode.INCLUDE_OTHERS));
 		}
@@ -467,7 +465,7 @@ public class EUnitModule extends EolModule {
 		}
 
 		// Store the models to be renamed
-		final List<IModel> renamedModels = new ArrayList<IModel>();
+		final List<IModel> renamedModels = new ArrayList<>();
 		for (Map.Entry<String, String> entry : mappings.entrySet()) {
 			if ("".equals(entry.getKey())) {
 				// We already explicitly handled the "" key before
@@ -486,7 +484,7 @@ public class EUnitModule extends EolModule {
 		}
 
 		// Store the rest of the models, and remove them
-		final List<IModel> otherModels = new ArrayList<IModel>(modelRepository.getModels());
+		final List<IModel> otherModels = new ArrayList<>(modelRepository.getModels());
 		for (IModel model : otherModels) {
 			modelRepository.removeModel(model);
 		}
@@ -507,7 +505,7 @@ public class EUnitModule extends EolModule {
 	}
 
 	private ArrayList<Operation> getOperationsAnnotatedWith(String annotationName) {
-		ArrayList<Operation> results = new ArrayList<Operation>();
+		ArrayList<Operation> results = new ArrayList<>();
 		collectOperationsAnnotatedWith(annotationName, results);
 		return results;
 	}

@@ -44,26 +44,19 @@ public class ParallelSelectOneOperation extends FirstOrderOperation {
 					}
 					
 					if (bodyResult instanceof Boolean && ((boolean) bodyResult)) {
-						// "item" will be the result (see below)
+						// "item" will be the result
 						execStatus.completeSuccessfully(item);
 					}
 					
 					scope.leaveLocal(expression);
 				}
 			});
+			
 		}
 		
-		Object result = null;
-		boolean success = execStatus.waitForCompletion();
+		Object result = executor.awaitCompletion();
+		// Prevent unnecessary evaluation of remaining jobs once we have the result
 		executor.shutdownNow();
-		
-		if (success) {
-			// This will be "item" (see above)
-			result = execStatus.getResult();
-		}
-		else {
-			EolRuntimeException.propagate(execStatus.getException());
-		}
 
 		//context.endParallel();
 		return result;

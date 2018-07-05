@@ -13,7 +13,6 @@ package org.eclipse.epsilon.eml.execute.operations;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eml.execute.context.IEmlContext;
@@ -32,7 +31,7 @@ public class EquivalentOperation extends SimpleOperation {
 		
 		List<String> rules = null;
 		if (parameters.size() > 0) {
-			rules = new ArrayList<String>();
+			rules = new ArrayList<>();
 			for (Object parameter : parameters) {
 				rules.add(StringUtil.toString(parameter));
 			}

@@ -10,10 +10,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eml;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
@@ -33,12 +31,11 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 import org.eclipse.epsilon.etl.EtlModule;
 
-
 public class EmlModule extends EtlModule {
 	
 	protected EmlContext context = new EmlContext();
-	protected NamedRuleList<MergeRule> declaredMergeRules = new NamedRuleList<MergeRule>();
-	protected NamedRuleList<MergeRule> mergeRules = null;
+	protected NamedRuleList<MergeRule> declaredMergeRules = new NamedRuleList<>();
+	protected NamedRuleList<MergeRule> mergeRules;
 	
 	@Override
 	protected Lexer createLexer(ANTLRInputStream inputStream) {
@@ -73,12 +70,13 @@ public class EmlModule extends EtlModule {
 	
 	@Override
 	public Object executeImpl() throws EolRuntimeException{
-		
-		context.getFrameStack().put(Variable.createReadOnlyVariable("matchTrace", context.getMatchTrace()));
-		context.getFrameStack().put(Variable.createReadOnlyVariable("mergeTrace", context.getMergeTrace()));
-		context.getFrameStack().put(Variable.createReadOnlyVariable("transTrace", context.getTransformationTrace()));
-		context.getFrameStack().put(Variable.createReadOnlyVariable("context", context));
-		context.getFrameStack().put(Variable.createReadOnlyVariable("thisModule", this));
+		context.getFrameStack().put(
+			Variable.createReadOnlyVariable("matchTrace", context.getMatchTrace()),
+			Variable.createReadOnlyVariable("mergeTrace", context.getMergeTrace()),
+			Variable.createReadOnlyVariable("transTrace", context.getTransformationTrace()),
+			Variable.createReadOnlyVariable("context", context),
+			Variable.createReadOnlyVariable("thisModule", this)
+		);
 		
 		execute(getPre(), context);
 		context.getMergingStrategy().mergeModels(context);
@@ -109,7 +107,7 @@ public class EmlModule extends EtlModule {
 	
 	public List<MergeRule> getMergeRules() {
 		if (mergeRules == null) {
-			mergeRules = new NamedRuleList<MergeRule>();
+			mergeRules = new NamedRuleList<>();
 			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof EmlModule)) {
 					EmlModule module = (EmlModule) import_.getModule();
