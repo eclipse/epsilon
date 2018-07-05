@@ -33,7 +33,12 @@ public class MatlabEngine {
 	protected Method evalAsyncMethod;
 
 	public MatlabEngine(Class<?> matlabEngineClass) throws Exception {
-		engine = matlabEngineClass.getMethod(CONNECT_MATLAB_METHOD).invoke(null);
+		try{
+			engine = matlabEngineClass.getMethod(CONNECT_MATLAB_METHOD).invoke(null);
+		} catch (Exception e) {
+			System.out.println("retrying connection");
+			engine = matlabEngineClass.getMethod(CONNECT_MATLAB_METHOD).invoke(null);
+		}
 		evalMethod = engine.getClass().getMethod(EVAL_METHOD, String.class);
 		getVariableMethod = engine.getClass().getMethod(GET_VARIABLE_METHOD, String.class);
 		evalAsyncMethod = engine.getClass().getMethod(EVAL_ASYNC_METHOD, String.class);
