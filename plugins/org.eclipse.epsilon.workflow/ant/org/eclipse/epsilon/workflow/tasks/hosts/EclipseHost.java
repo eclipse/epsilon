@@ -13,7 +13,6 @@ package org.eclipse.epsilon.workflow.tasks.hosts;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.eclipse.ant.core.AntCorePlugin;
@@ -48,7 +47,7 @@ import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IOConsole;
 
-public class EclipseHost implements Host{
+public class EclipseHost implements Host {
 
 	@Override
 	public boolean isRunning() {

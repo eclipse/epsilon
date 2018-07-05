@@ -98,7 +98,7 @@ public class EUnitBasicTests extends EUnitTestCase {
 		checkOutput(new File(BASE_DIR, "TEST-default.one-failure.xml"),
 				EUnitModule.DEFAULT_PACKAGE,
 				new String[]{"twoElements", "firstElement", "iAmAFailure"},
-				new HashSet<String>(Arrays.asList("iAmAFailure")), new HashSet<String>());
+				new HashSet<>(Arrays.asList("iAmAFailure")), new HashSet<String>());
 	}
 
 	@Test
@@ -114,7 +114,7 @@ public class EUnitBasicTests extends EUnitTestCase {
 				checkOutput(new File(BASE_DIR, "TEST-default.one-failure.xml"),
 						EUnitModule.DEFAULT_PACKAGE,
 						new String[]{"twoElements", "firstElement", "iAmAFailure"},
-						new HashSet<String>(Arrays.asList("iAmAFailure")), new HashSet<String>());
+						new HashSet<>(Arrays.asList("iAmAFailure")), new HashSet<String>());
 			}
 
 	@Test
@@ -123,7 +123,7 @@ public class EUnitBasicTests extends EUnitTestCase {
 		checkOutput(new File(BASE_DIR, "TEST-default.one-error.xml"),
 				EUnitModule.DEFAULT_PACKAGE,
 				new String[]{"twoElements", "firstElement", "iAmError"},
-				new HashSet<String>(), new HashSet<String>(Arrays.asList("iAmError")));
+				new HashSet<String>(), new HashSet<>(Arrays.asList("iAmError")));
 	}
 
 	@Test
@@ -170,7 +170,7 @@ public class EUnitBasicTests extends EUnitTestCase {
 				EUnitModule.DEFAULT_PACKAGE,
 				expectedTestCases,
 				new HashSet<String>(),
-				new HashSet<String>(Arrays.asList(expectedTestCases)));
+				new HashSet<>(Arrays.asList(expectedTestCases)));
 	}
 
 	@Test
@@ -200,7 +200,7 @@ public class EUnitBasicTests extends EUnitTestCase {
 				new String[]{
 					"hasOneA[1]", "hasOneA[2]"
 				},
-				new HashSet<String>(), new HashSet<String>(Arrays.asList("hasOneA[1]", "hasOneA[2]")));
+				new HashSet<String>(), new HashSet<>(Arrays.asList("hasOneA[1]", "hasOneA[2]")));
 	}
 
 	@Test
@@ -224,7 +224,7 @@ public class EUnitBasicTests extends EUnitTestCase {
 				new String[]{
 					"hasOneA[1]", "hasOneA[2]"
 				},
-				new HashSet<String>(), new HashSet<String>(Arrays.asList("hasOneA[2]")));
+				new HashSet<String>(), new HashSet<>(Arrays.asList("hasOneA[2]")));
 	}
 
 	@Test
@@ -238,7 +238,7 @@ public class EUnitBasicTests extends EUnitTestCase {
 					"hasThreeElements_bIsRemoved", "hasThreeElements_aIsRemoved"
 				},
 				new HashSet<String>(),
-				new HashSet<String>(Arrays.asList(
+				new HashSet<>(Arrays.asList(
 					"hasTwoElements_aIsRemoved", "hasThreeElements_bIsRemoved")));
 	}
 

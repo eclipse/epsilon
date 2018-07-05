@@ -25,13 +25,12 @@ import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 public class MatchesOperation extends SimpleOperation {
 	
 	protected boolean matchInstances(Object left, Object right, IEclContext context, boolean forcedMatch) throws EolRuntimeException{
-		
-		Match match = context.getModule().match(left,right, forcedMatch);
+		Match match = context.getModule().match(left, right, forcedMatch);
 		return match.isMatching();
 	}
 
 	@Override
-	public Object execute(Object source, List<?> parameters,
+	public Boolean execute(Object source, List<?> parameters,
 			IEolContext context_, ModuleElement ast) throws EolRuntimeException {
 		
 		IEclContext context = (IEclContext) context_;
@@ -46,16 +45,16 @@ public class MatchesOperation extends SimpleOperation {
 			Collection<?> leftColFlat = CollectionUtil.flatten(leftCol);
 			Collection<?> rightColFlat = CollectionUtil.flatten(rightCol);
 			
-			if (leftColFlat.size() != rightColFlat.size()){
+			if (leftColFlat.size() != rightColFlat.size()) {
 				return false;
 			}
 			
 			Iterator<?> lit = leftColFlat.iterator();
 			Iterator<?> rit = rightColFlat.iterator();
 			
-			Boolean match = true;
+			boolean match = true;
 			
-			while (lit.hasNext() && match){
+			while (lit.hasNext() && match) {
 				match = match && (matchInstances(lit.next(), rit.next(), context, false));
 			}
 			

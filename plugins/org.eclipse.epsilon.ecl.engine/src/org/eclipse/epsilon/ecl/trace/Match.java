@@ -101,7 +101,7 @@ public class Match {
 	}
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		return toString(left) + " <-> " + toString(right);
 	}
 	

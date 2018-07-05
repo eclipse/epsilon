@@ -80,7 +80,7 @@ public class MatchRule extends ExtensibleNamedRule {
 		return getAllInstances(rightParameter, context, ofTypeOnly);
 	}
 	
-	public void matchAll(IEclContext context, boolean ofTypeOnly, Object leftInstance, Object rightInstance) throws EolRuntimeException {
+	public void matchPair(IEclContext context, boolean ofTypeOnly, Object leftInstance, Object rightInstance) throws EolRuntimeException {
 		if (!ofTypeOnly && context.getMatchTrace().getMatch(leftInstance, rightInstance) != null) {
 			return;
 		}
@@ -143,7 +143,7 @@ public class MatchRule extends ExtensibleNamedRule {
 			for (ExtensibleNamedRule rule : superRules) {
 				MatchRule matchRule = (MatchRule) rule;
 				Match superRuleMatch = matchRule.match(left, right, context, true, match.getInfo(), false);
-				matching &= superRuleMatch.isMatching();
+				matching = matching && superRuleMatch.isMatching();
 			}
 			match.setMatching(matching);
 			

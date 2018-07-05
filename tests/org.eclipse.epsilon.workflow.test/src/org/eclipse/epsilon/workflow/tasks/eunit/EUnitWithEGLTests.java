@@ -52,7 +52,7 @@ public class EUnitWithEGLTests extends EUnitTestCase {
 					"nonMatchingPartialMatch",
 					"partialMatchWithInvalidSyntax"
 				},
-				new HashSet<String>(Arrays.asList(
+				new HashSet<>(Arrays.asList(
 					"expectedModelGeneratesExpectedFileFailing",
 					"differentModelGeneratesDifferentFileFailing",
 					"nonMatchingSubstring",
@@ -60,7 +60,7 @@ public class EUnitWithEGLTests extends EUnitTestCase {
 					"assertMatchingLineMatchesEntireLine",
 					"nonMatchingPartialMatch"
 				)),
-				new HashSet<String>(Arrays.asList(
+				new HashSet<>(Arrays.asList(
 					"missingExpectedPathFailsTest",
 					"missingActualPathFailsTest",
 					"regexpWithInvalidSyntax",
@@ -78,7 +78,7 @@ public class EUnitWithEGLTests extends EUnitTestCase {
 		checkOutput(new File(BASE_DIR, "TEST-default.dir-tests.xml"),
 				EUnitModule.DEFAULT_PACKAGE,
 				interlaced,
-				new HashSet<String>(Arrays.asList(failedNames)),
+				new HashSet<>(Arrays.asList(failedNames)),
 				new HashSet<String>());
 	}
 

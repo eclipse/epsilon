@@ -143,7 +143,7 @@ public class EUnitModelComparisonTests extends EUnitTestCase {
 					"transformedIsEqualToExpected",
 					"transformedIsEqualToExpectedFailing"
 				},
-				new HashSet<String>(
+				new HashSet<>(
 					Arrays.asList(
 						"modelsWithDifferentContentAreDifferentFailing",
 						"transformedIsEqualToExpectedFailing")),

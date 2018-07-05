@@ -41,7 +41,7 @@ public class EclModuleParallel extends EclModule {
 					for (Object right : matchRule.getRightInstance(context, ofTypeOnly)) {
 						executor.execute(() -> {
 							try {
-								matchRule.matchAll(context, ofTypeOnly, left, right);
+								matchRule.matchPair(context, ofTypeOnly, left, right);
 							}
 							catch (EolRuntimeException ex) {
 								context.handleException(ex, executor);

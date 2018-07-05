@@ -23,6 +23,11 @@ public class EclContextParallel extends EolContextParallel implements IEclContex
 	}
 
 	@Override
+	public void setMatchTrace(MatchTrace matchTrace) {
+		this.matchTrace = matchTrace;
+	}
+	
+	@Override
 	public MatchTrace getMatchTrace() {
 		return matchTrace;
 	}

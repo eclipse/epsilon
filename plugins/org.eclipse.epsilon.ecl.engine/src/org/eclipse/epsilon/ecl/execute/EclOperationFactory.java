@@ -14,7 +14,7 @@ import org.eclipse.epsilon.ecl.execute.operations.DoMatchOperation;
 import org.eclipse.epsilon.ecl.execute.operations.MatchesOperation;
 import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 
-public class EclOperationFactory extends EolOperationFactory{
+public class EclOperationFactory extends EolOperationFactory {
 	
 	public EclOperationFactory() {
 		super();

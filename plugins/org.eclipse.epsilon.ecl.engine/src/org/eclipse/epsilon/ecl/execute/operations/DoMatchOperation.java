@@ -19,11 +19,10 @@ import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-
-public class DoMatchOperation extends MatchesOperation{
+public class DoMatchOperation extends MatchesOperation {
 
 	@Override
-	public Object execute(Object source, List<?> parameters,
+	public Boolean execute(Object source, List<?> parameters,
 			IEolContext context_, ModuleElement ast) throws EolRuntimeException {
 		
 		IEclContext context = (IEclContext) context_;

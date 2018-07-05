@@ -11,9 +11,7 @@
 package org.eclipse.epsilon.workflow.tasks.emf;
 
 import static org.junit.Assert.assertEquals;
-
 import java.io.File;
-
 import org.apache.tools.ant.Project;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.epsilon.emc.emf.EmfModel;

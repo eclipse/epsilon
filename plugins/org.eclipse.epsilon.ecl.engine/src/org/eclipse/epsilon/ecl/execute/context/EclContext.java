@@ -14,10 +14,15 @@ import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 
-public class EclContext extends EolContext implements IEclContext{
+public class EclContext extends EolContext implements IEclContext {
 	
 	protected MatchTrace matchTrace = new MatchTrace();
 	protected MatchTrace tempMatchTrace = new MatchTrace();
+	
+	@Override
+	public void setMatchTrace(MatchTrace matchTrace) {
+		this.matchTrace = matchTrace;
+	}
 	
 	@Override
 	public MatchTrace getMatchTrace() {
