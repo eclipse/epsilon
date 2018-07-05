@@ -19,22 +19,19 @@ public class EclContext extends EolContext implements IEclContext{
 	protected MatchTrace matchTrace = new MatchTrace();
 	protected MatchTrace tempMatchTrace = new MatchTrace();
 	
+	@Override
 	public MatchTrace getMatchTrace() {
 		return matchTrace;
 	}
 	
-	public void setMatchTrace(MatchTrace matchTrace) {
-		this.matchTrace = matchTrace;
-	}
-
+	@Override
 	public MatchTrace getTempMatchTrace() {
 		return tempMatchTrace;
 	}
 
 	@Override
-	public IEclModule getModule(){
+	public IEclModule getModule() {
 		return (IEclModule) module;
 	}
-	
 	
 }

@@ -17,12 +17,10 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 public class EclNotApplicableSuperRuleException extends EolRuntimeException {
 	
 	protected MatchRule rule;
-	protected Object left;
-	protected Object right;
+	protected Object left, right;
 	protected IEclContext context;
 	
 	public EclNotApplicableSuperRuleException(Object left, Object right, MatchRule rule, IEclContext context) {
-		super();
 		this.rule = rule;
 		this.left = left;
 		this.right = right;

@@ -28,9 +28,7 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 	protected List<NameExpression> superRulesIdentifiers = new ArrayList<>();	
 	protected List<ExtensibleNamedRule> superRules = new ArrayList<>();
 	protected List<ExtensibleNamedRule> allSuperRules = new ArrayList<>();
-	protected Boolean isGreedy = null;
-	protected Boolean isAbstract = null;
-	protected Boolean isLazy = null;
+	protected Boolean isGreedy, isAbstract, isLazy;
 	protected Map<Parameter, Collection<?>> ofTypeCache = new HashMap<>();
 	protected Map<Parameter, Collection<?>> ofKindCache = new HashMap<>();
 	
@@ -49,7 +47,7 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 		
 		Collection<?> instances = cache.get(parameter);
 		
-		if (instances == null){
+		if (instances == null) {
 			try {
 				EolModelElementType parameterType = (EolModelElementType) parameter.getType(context);
 				if (ofTypeOnly) instances = parameterType.getAllOfType();
@@ -93,23 +91,19 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 		return isLazy;
 	}
 	
-	public void calculateSuperRules(List<? extends ExtensibleNamedRule> allRules) throws ErlRuleNotFoundException, ErlCircularRuleInheritanceException{
-		
+	public void calculateSuperRules(List<? extends ExtensibleNamedRule> allRules) throws ErlRuleNotFoundException, ErlCircularRuleInheritanceException {
 		superRules = new ArrayList<>();
 		calculateSuperRules(this, allRules, superRules, false);
-		
 		allSuperRules = new ArrayList<>();
 		calculateSuperRules(this, allRules, allSuperRules, true);
-		
 	}
 	
 	protected void calculateSuperRules(ExtensibleNamedRule rule, List<? extends ExtensibleNamedRule> allRules, List<ExtensibleNamedRule> collectedRules, boolean recursive) throws ErlRuleNotFoundException, ErlCircularRuleInheritanceException {
-		
 		for (NameExpression superRuleAst : rule.superRulesIdentifiers) {
 			String superRuleName = superRuleAst.getName();
 			ExtensibleNamedRule superRule = (ExtensibleNamedRule) getRuleByName(allRules, superRuleName);
-			if (superRule != null){
-				if (getRuleByName(collectedRules, superRule.getName()) != null){
+			if (superRule != null) {
+				if (getRuleByName(collectedRules, superRule.getName()) != null) {
 					throw new ErlCircularRuleInheritanceException(superRule);
 				}
 				else {
@@ -122,8 +116,7 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 			else {
 				throw new ErlRuleNotFoundException(superRuleAst);
 			}
-		}
-		
+		}	
 	}
 	
 	protected NamedRule getRuleByName(List<? extends NamedRule> rules, String name) {

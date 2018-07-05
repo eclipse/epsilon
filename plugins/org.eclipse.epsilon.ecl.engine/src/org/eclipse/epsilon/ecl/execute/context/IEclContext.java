@@ -18,8 +18,6 @@ public interface IEclContext extends IEolContext{
 	
 	public MatchTrace getMatchTrace();
 	
-	public void setMatchTrace(MatchTrace matchTrace);
-	
 	public MatchTrace getTempMatchTrace();
 	
 	//public MatchingStrategy getMatchingStrategy();

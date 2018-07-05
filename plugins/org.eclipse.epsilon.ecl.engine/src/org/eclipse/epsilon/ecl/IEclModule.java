@@ -18,7 +18,7 @@ import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.IErlModule;
 
-public interface IEclModule extends IErlModule{
+public interface IEclModule extends IErlModule {
 		
 	public List<MatchRule> getMatchRules();
 	
@@ -32,6 +32,7 @@ public interface IEclModule extends IErlModule{
 	
 	//public IModel getRightModel();
 	
+	@Override
 	public IEclContext getContext();
 	
 	public void matchModels() throws EolRuntimeException;

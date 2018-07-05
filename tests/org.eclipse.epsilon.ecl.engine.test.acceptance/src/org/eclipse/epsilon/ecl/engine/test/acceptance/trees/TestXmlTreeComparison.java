@@ -2,7 +2,6 @@ package org.eclipse.epsilon.ecl.engine.test.acceptance.trees;
 
 import java.io.File;
 import java.util.HashMap;
-
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -13,14 +12,14 @@ import static org.junit.Assert.*;
 
 public class TestXmlTreeComparison {
 	
-	protected EclModule module = null;
+	protected EclModule module;
 	protected HashMap<String, Object> prepost;
 	
 	@Before
 	public void setup() throws Exception {
 		module = new EclModule();
 		module.parse(getClass().getResource("trees.ecl").toURI());
-		prepost = new HashMap<String, Object>();
+		prepost = new HashMap<>();
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("prepost", prepost));
 		module.getContext().getModelRepository().addModel(loadXmlModel("Left", "left.xml"));
 		module.getContext().getModelRepository().addModel(loadXmlModel("Right", "right.xml"));

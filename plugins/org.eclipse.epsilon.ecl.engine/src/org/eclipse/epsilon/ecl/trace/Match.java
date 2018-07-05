@@ -45,16 +45,17 @@ public class Match {
 	 * Additional info that the user can attach
 	 * in the do part of the match rule
 	 */
-	protected EolMap info = new EolMap();
+	protected EolMap<?, ?> info = new EolMap<>();
 	
 	public Match() {
 		matching = false;
 	}
 	
-	public Match(Object left, Object right, boolean matching){
+	public Match(Object left, Object right, boolean matching, MatchRule rule) {
 		this.left = left;
 		this.right = right;
 		this.matching = matching;
+		this.rule = rule;
 	}
 	
 	public MatchRule getRule() {
@@ -112,18 +113,16 @@ public class Match {
 		this.userSpecified = userSpecified;
 	}
 
-	public String toString(Object o){
+	public String toString(Object o) {
 		if (o != null) return o.toString();
 		else return "";
 	}
 
-	public EolMap getInfo() {
+	public EolMap<?, ?> getInfo() {
 		return info;
 	}
 
-	public void setInfo(EolMap info) {
+	public void setInfo(EolMap<?, ?> info) {
 		this.info = info;
 	}
-	
-	
 }

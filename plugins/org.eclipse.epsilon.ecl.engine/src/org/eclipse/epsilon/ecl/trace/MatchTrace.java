@@ -11,8 +11,8 @@
 package org.eclipse.epsilon.ecl.trace;
 
 import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Collection;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -22,7 +22,20 @@ public class MatchTrace {
 	 * All matches tried during the 
 	 * execution of an ECL module
 	 */
-	protected List<Match> matches = new ArrayList<Match>();
+	protected final Collection<Match> matches;
+	
+	public MatchTrace() {
+		this(false);
+	}
+	
+	public MatchTrace(boolean concurrent) {
+		matches = concurrent ? ConcurrencyUtils.concurrentSet() : new ArrayList<>();
+	}
+	
+	public MatchTrace(MatchTrace copy) {
+		this(copy.matches.getClass().getSimpleName().contains("Concurrent"));
+		this.getMatches().addAll(copy.getMatches());
+	}
 	
 	/**
 	 * Returns only successful matches
@@ -37,25 +50,16 @@ public class MatchTrace {
 		return reduced;
 	}
 	
-	public MatchTrace(){
-		
-	}
-	
-	public MatchTrace(MatchTrace copy){
-		this.getMatches().addAll(copy.getMatches());
-	}
-	
-	public Match add(Object left, Object right, boolean matching, MatchRule rule){
-		Match match = createMatch(left,right,matching);
-		match.setRule(rule);
+	public Match add(Object left, Object right, boolean matching, MatchRule rule) {
+		Match match = new Match(left, right, matching, rule);
 		getMatches().add(match);
 		return match;
 	}
 	
-	public Match getMatch(Object left, Object right){
+	public Match getMatch(Object left, Object right) {
 		for (Match match : this.getMatches()) {
-			if (match.contains(left,right)){
-					return match;
+			if (match.contains(left, right)) {
+				return match;
 			}
 		}
 		return null;
@@ -66,10 +70,10 @@ public class MatchTrace {
 	 * @param object
 	 * @return
 	 */
-	public List<Match> getMatches(Object object){
-		ArrayList<Match> matches = new ArrayList<Match>();
+	public Collection<Match> getMatches(Object object){
+		ArrayList<Match> matches = new ArrayList<>();
 		for (Match match : this.getMatches()) {
-			if (match.contains(object) && match.isMatching()){
+			if (match.contains(object) && match.isMatching()) {
 				matches.add(match);
 			}
 		}
@@ -83,7 +87,7 @@ public class MatchTrace {
 	 */
 	public Match getMatch(Object object){
 		for (Match match : this.getMatches()) {
-			if (match.contains(object) && match.isMatching()){
+			if (match.contains(object) && match.isMatching()) {
 				return match;
 			}
 		}
@@ -99,20 +103,16 @@ public class MatchTrace {
 		return null;
 	}
 	
-	public boolean hasBeenMatched(Object object){
+	public boolean hasBeenMatched(Object object) {
 		for (Match match : this.getMatches()) {
-			if (match.contains(object)){
+			if (match.contains(object)) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public Match createMatch(Object left, Object right, boolean matching) {
-		return new Match(left, right, matching);
-	}
-	
-	public String toString(IEolContext context){
+	public String toString(IEolContext context) {
 		String str = "";
 		
 		for (Match match : this.getMatches()) {
@@ -130,9 +130,7 @@ public class MatchTrace {
 	 * pairs that have been compared but do not match
 	 * @return
 	 */
-	public List<Match> getMatches() {
+	public Collection<Match> getMatches() {
 		return matches;
 	}
-	
-	
 }
