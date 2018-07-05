@@ -1,4 +1,4 @@
-M.clearCache();
+//M.clearCache();
 
 assert(SubSystem.all.size().println("size: ") == 0);
 assert(`Stateflow.Chart`.all.size().println("SF size: ") == 0);

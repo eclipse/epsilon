@@ -9,6 +9,7 @@ import java.util.Iterator;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
+import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.emc.simulink.util.StateflowUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
@@ -280,7 +281,7 @@ public class StateflowBlock extends SimulinkModelElement {
 
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		return Arrays.asList(SimulinkModel.BLOCK, SimulinkModel.STATEFLOW, getType());
+		return Arrays.asList(Kind.STATEFLOW.getKind(), getType());
 	}
 
 	@Override

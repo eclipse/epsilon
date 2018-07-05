@@ -19,14 +19,21 @@ import org.eclipse.epsilon.emc.simulink.model.element.SimulinkPort;
 public class SimulinkUtil {
 
 	private static final String GET_BLOCK_HANDLE = "getSimulinkBlockHandle('?');";
-	private static final String FIND_BLOCKS_OF_TYPE_WITH_REFS = "find_system('?', 'FindAll', 'on', 'FollowLinks', 'on', 'BlockType', '?');";
-	private static final String FIND_BLOCKS_OF_TYPE = "find_system('?', 'FindAll', 'on', 'BlockType', '?');";
-	private static final String FIND_SYSTEM_BLOCKS_WITH_REFS = "find_system('?', 'FindAll', 'on', 'FollowLinks', 'on', 'Type', 'Block');";
-	private static final String FIND_SYSTEM_BLOCKS = "find_system('?', 'FindAll', 'on', 'Type', 'Block');";
-	private static final String FIND_SYSTEM_LINES_WITH_REFS = "find_system('?', 'FindAll', 'on', 'FollowLinks', 'on', 'Type', 'line');";
-	private static final String FIND_SYSTEM_LINES = "find_system('?', 'FindAll', 'on', 'Type', 'line');";
-	private static final String FIND_BLOCKS_AT_DEPTH = "find_system('?', 'SearchDepth', ?, 'Type', 'Block');";
-	private static final String CHILDREN = "find_system('?', 'SearchDepth', 1, 'Type', 'Block');";
+	
+	public static final String FIND = "find_system('?', 'FindAll', 'on', 'LookUnderMasks', 'On'";
+	public static final String FIND_FOLLOW = "find_system('?', 'FindAll', 'on', 'LookUnderMasks', 'On', 'FollowLinks', 'on'";
+	
+	private static final String FIND_BLOCKS_OF_TYPE_WITH_REFS = 	FIND_FOLLOW 		+ ", 'BlockType', '?');";
+	private static final String FIND_BLOCKS_OF_TYPE = 			FIND 			+ ", 'BlockType', '?');";
+	private static final String FIND_SYSTEM_BLOCKS_WITH_REFS = 	FIND_FOLLOW 		+ ", 'Type', 'Block');";
+	private static final String FIND_SYSTEM_BLOCKS = 				FIND 			+ ", 'Type', 'Block');";
+	private static final String FIND_SYSTEM_LINES_WITH_REFS = 	FIND_FOLLOW 		+ ", 'Type', 'line');";
+	private static final String FIND_SYSTEM_LINES = 				FIND 			+ ", 'Type', 'line');";
+	
+	private static final String FIND_BLOCKS_AT_DEPTH = 			FIND 			+ ", 'SearchDepth', ?, 'Type', 'Block');";
+	private static final String FIND_BLOCKS_AT_DEPTH_WITH_REFS = 	FIND_FOLLOW 		+ ", 'SearchDepth', ?, 'Type', 'Block');";
+	private static final String CHILDREN_BLOCKS = 				FIND 			+ ", 'SearchDepth', 1, 'Type', 'Block');";
+	private static final String CHILDREN_BLOCKS_WITH_REFS = 		FIND_FOLLOW 		+ ", 'SearchDepth', 1, 'Type', 'Block');";
 	
 	public static String getSimpleTypeName(String type) { // OK
 		if (type.indexOf("/") > -1) {
@@ -171,7 +178,7 @@ public class SimulinkUtil {
 	public static List<SimulinkBlock> getChildren(SimulinkModel model,
 			MatlabEngine engine, SimulinkBlock block) {
 		try {
-			return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN, block.getPath()));
+			return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN_BLOCKS, block.getPath()));
 		} catch (MatlabException e) {
 			return Collections.emptyList();
 		} 
@@ -180,7 +187,7 @@ public class SimulinkUtil {
 	public static List<SimulinkBlock> getChildren(SimulinkModel model,
 			MatlabEngine engine) {
 		try {
-			return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN, model.getSimulinkModelName(), model.getSimulinkModelName()));
+			return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN_BLOCKS, model.getSimulinkModelName(), model.getSimulinkModelName()));
 		} catch (MatlabException e) {
 			return Collections.emptyList();
 		} 

@@ -2,6 +2,7 @@ package org.eclipse.epsilon.emc.simulink.model.element;
 
 import static org.eclipse.epsilon.emc.simulink.engine.MatlabEngineCommands.SET_PROPERTY_TO_HANDLE;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -209,9 +210,10 @@ public class SimulinkBlock extends SimulinkElement {
 	
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		Collection<String> list = super.getAllTypeNamesOf();
-		list.add(kind.name());
-		return list;
+		ArrayList<String> types = new ArrayList<String>();
+		super.getAllTypeNamesOf().forEach(e -> types.add(e));
+		types.add(kind.getKind());
+		return types;
 	}
 
 }

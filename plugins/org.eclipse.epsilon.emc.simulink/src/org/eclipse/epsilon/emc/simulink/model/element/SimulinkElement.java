@@ -121,7 +121,7 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		return Arrays.asList(Kind.SIMULINK.name(), getType());
+		return Arrays.asList(Kind.SIMULINK.getKind(), getType());
 	}
 
 	@Override

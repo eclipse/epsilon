@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.emc.simulink.model.element;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,9 +39,10 @@ public class SimulinkPort extends SimulinkElement {
 	
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		Collection<String> list = super.getAllTypeNamesOf();
-		list.add(kind.name());
-		return list;
+		ArrayList<String> types = new ArrayList<String>();
+		super.getAllTypeNamesOf().forEach(e -> types.add(e));
+		types.add(kind.getKind());
+		return types;
 	}
 	
 	@Override

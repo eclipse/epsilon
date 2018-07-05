@@ -101,7 +101,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			try {
 				String pwd = (workingDir != null) ? workingDir.getAbsolutePath() : file.getParentFile().getAbsolutePath();
 				if (pwd != null) {
-					System.out.println("Setting working directory to " + pwd);
+					//System.out.println("Setting working directory to " + pwd);
 					engine.eval(PWD, pwd);
 				}
 			} catch (Exception ex) {
@@ -112,7 +112,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			engine.eval(cmd, getSimulinkModelName());
 			this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());
 			TypeHelper.init(engine);
-			System.out.println(TypeHelper.getMap());
+			//System.out.println(TypeHelper.getMap());
 		} catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
 		}

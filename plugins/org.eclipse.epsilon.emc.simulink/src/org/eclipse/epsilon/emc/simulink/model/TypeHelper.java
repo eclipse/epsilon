@@ -1,5 +1,8 @@
 package org.eclipse.epsilon.emc.simulink.model;
 
+import static org.eclipse.epsilon.emc.simulink.util.SimulinkUtil.FIND;
+import static org.eclipse.epsilon.emc.simulink.util.SimulinkUtil.FIND_FOLLOW;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,14 +25,14 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 
 public class TypeHelper {
 
-	private static final String LOAD_SIMULINK = "load_system simulink";
-	private static final String FIND_SYSTEM = "sim = find_system('simulink', 'FindAll', 'on', 'type', '?');";
-	private static final String TYPES = "unique(get_param(sim, '?Type'));";
+	private static final String LOAD_SIMULINK 	= "load_system simulink";
+	private static final String FIND_SYSTEM 		= "sim = find_system('simulink', 'FindAll', 'on', 'LookUnderMasks', 'On', 'type', '?');";
+	private static final String TYPES 			= "unique(get_param(sim, '?Type'));";
 
-	private static final String FIND_KIND_WITH_REFS = "find_system('?', 'FindAll', 'on', 'FollowLinks', 'on', 'type', '%s');";
-	private static final String FIND_KIND = "find_system('?', 'FindAll', 'on', 'Type', '%s');";
-	private static final String FIND_TYPE_WITH_REFS = "find_system('?', 'FindAll', 'on', 'FollowLinks', 'on', '%sType', '?');";
-	private static final String FIND_TYPE = "find_system('?', 'FindAll', 'on', '%sType', '?');";
+	private static final String FIND_KIND_WITH_REFS 	= FIND_FOLLOW 	+ ", 'type', '%s');";
+	private static final String FIND_KIND 			= FIND 			+ ", 'Type', '%s');";
+	private static final String FIND_TYPE_WITH_REFS 	= FIND_FOLLOW 	+ ", '%sType', '?');";
+	private static final String FIND_TYPE 			= FIND 			+ ", '%sType', '?');";
 
 	private static Map<String, Kind> map = null;
 
