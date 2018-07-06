@@ -2,8 +2,6 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
 import java.util.concurrent.Future;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
@@ -15,23 +13,14 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
-import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 
-public class ParallelSelectOperation extends SelectOperation {
+public class ParallelCollectOperation extends CollectOperation {
 
 	@Override
 	public Collection<?> execute(Object target, Variable iterator, Expression expression,
-		IEolContext context_, boolean returnOnMatch, boolean isSelect) throws EolRuntimeException {
-		
-		if (returnOnMatch) {
-			if (isSelect) {
-				return Collections.singleton(
-					new ParallelSelectOneOperation().execute(target, iterator, expression, context_)
-				);
-			}
-			else throw new IllegalArgumentException("Unsupported combination: returnOnMatch && reject");
-		}
+			IEolContext context_) throws EolRuntimeException {
 		
 		IEolContextParallel context = context_ instanceof IEolContextParallel ?
 			(EolContextParallel) context_ : new EolContextParallel(context_);
@@ -40,39 +29,29 @@ public class ParallelSelectOperation extends SelectOperation {
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
 		EolExecutorService executor = context.newExecutorService();
-		Collection<Future<Optional<?>>> futures = new ArrayList<>(source.size());
+		Collection<Future<Object>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
 			futures.add(executor.submit(() -> {
-				Optional<?> intermediateResult = null;
+				Object bodyResult = null;
 				if (iterator.getType() == null || iterator.getType().isKind(item)) {
 					FrameStack scope = context.getFrameStack();
 					scope.enterLocal(FrameType.UNPROTECTED, expression,
-						Variable.createReadOnlyVariable(iterator.getName(), item));
+						new Variable(iterator.getName(), item, iterator.getType(), true)
+					);
 					
-					Object bodyResult = context.getExecutorFactory().execute(expression, context);
-					
-					if (bodyResult instanceof Boolean) {
-						boolean brBool = (boolean) bodyResult;
-						if ((isSelect && brBool) || (!isSelect && !brBool)) {
-							intermediateResult = Optional.ofNullable(item);
-						}
-					}
-					
+					bodyResult = context.getExecutorFactory().execute(expression, context);
 					scope.leaveLocal(expression);
 				}
-				return intermediateResult;
+				return bodyResult;
 			}));
 		}
 		
-		executor.collectResults(futures, true)
-			.stream()
-			.filter(opt -> opt != null)
-			.map(opt -> opt.orElse(null))
-			.forEach(resultsCol::add);
+		resultsCol.addAll(executor.collectResults(futures, true));
 		
 		//context.endParallel();
 		
 		return resultsCol;
 	}
+	
 }

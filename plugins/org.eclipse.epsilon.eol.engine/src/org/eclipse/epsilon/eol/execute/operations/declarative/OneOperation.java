@@ -23,7 +23,7 @@ public class OneOperation extends SelectBasedOperation {
 	public Boolean execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
-		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expression, context);
+		Collection<?> selected = selectOperation.execute(target, iterator, expression, context);
 		return selected.size() == 1;
 	}
 

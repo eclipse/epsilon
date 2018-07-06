@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-import java.util.Collection;
-
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -22,9 +20,8 @@ public class ExistsOperation extends SelectBasedOperation {
 	@Override
 	public Boolean execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
-
-		Collection<?> selected = (Collection<?>) selectOperation.execute(target, iterator, expression, context, true);
-		return !selected.isEmpty();
+		
+		return !selectOperation.execute(target, iterator, expression, context, true, true).isEmpty();
 	}
 
 }

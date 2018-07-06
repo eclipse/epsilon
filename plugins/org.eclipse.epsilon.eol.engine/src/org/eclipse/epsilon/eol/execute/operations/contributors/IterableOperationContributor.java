@@ -282,7 +282,7 @@ public class IterableOperationContributor extends OperationContributor {
 	public Collection<Object> excludingAll(Collection<?> col) {
 		Collection<Object> difference = createCollection();
 		for (Object next : getIterable()) {
-			if (!col.contains(next)){
+			if (!col.contains(next)) {
 				difference.add(next);
 			}
 		}
@@ -295,9 +295,8 @@ public class IterableOperationContributor extends OperationContributor {
 	
 	public Collection<Object> first(int number) {
 		Iterator<Object> it = getIterable().iterator();
-		ArrayList<Object> result = new ArrayList<>();
-		int i = 0;
-		while (it.hasNext() && i < number) {
+		ArrayList<Object> result = new ArrayList<>(number);
+		for (int i = 0; it.hasNext() && i < number;) {
 			result.add(it.next());
 			i++;
 		}

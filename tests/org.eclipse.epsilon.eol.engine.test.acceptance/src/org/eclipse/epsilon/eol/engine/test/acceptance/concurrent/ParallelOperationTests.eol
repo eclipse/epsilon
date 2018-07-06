@@ -8,7 +8,7 @@ var testData = Bag{
 };
 
 @test
-operation testParallelSelect() {
+operation testParallelSelectEquivalence() {
 	var expected = testData.select(t |
 		t <> null and
 		t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") and
@@ -26,7 +26,25 @@ operation testParallelSelect() {
 }
 
 @test
-operation testParallelSelectOne() {
+operation testParallelRejectEquivalence() {
+	var expected = testData.reject(t |
+		t <> null and
+		t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") and
+		t.asReal() > 22/7
+	);
+	
+	var actual = testData.parallelReject(t |
+		t <> null and
+		t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") and
+		t.asReal() > 22/7
+	);
+	
+	assertTrue(actual.containsAll(expected));
+	assertEquals(actual.size(), expected.size());
+}
+
+@test
+operation testParallelSelectOneEquivalence() {
 	var expected = testData.selectOne(t |
 		t <> null and 
 		t.asString().length() > 3 and
@@ -49,3 +67,78 @@ operation testParallelSelectOne() {
 	
 	assertEquals(expected, actual);
 }
+
+@test
+operation testParallelSelect() {
+	var data := Sequence {0..9};
+	var selected = data.parallelSelect(n | (n > 3 and n <= 7) or n == 2);
+	var expected := Sequence {2, 4, 5, 6, 7};
+	assertEquals(expected, selected);
+	selected = data.parallelSelect(n | n > 10);
+	assertEquals(Sequence{}, selected);
+	selected = data.parallelSelect(n | n < 10);
+	assertEquals(data, selected);
+}
+
+@test
+operation testParallelSelectOne() {
+	var data := Sequence {0..9};
+	var selected = data.parallelSelectOne(n | n < 4 and n > 1);
+	assertEquals(2, selected);
+	selected = data.parallelSelectOne(n | n == 8);
+	assertEquals(8, selected);
+	selected = data.parallelSelectOne(n | n > 9);
+	assertEquals(null, selected);
+}
+
+@test
+operation testParallelReject() {
+	var data := Sequence {0..9};
+	var rejected = data.parallelReject(n | n < 1 or n > 6 or n == 5 and n <> 9);
+	var expected := Sequence {1, 2, 3, 4, 6, 9};
+	assertEquals(expected, rejected);
+	rejected = data.parallelReject(n | n > 10);
+	assertEquals(data, rejected);
+	rejected = data.parallelReject(n | n < 10);
+	assertEquals(Sequence{}, rejected);
+}
+
+@test
+operation testParallelExists() {
+	var data := Sequence {0..9};
+	var exists = data.parallelExists(n | n > 3 and n < 8);
+	assertTrue(exists);
+	exists = data.parallelExists(n | n < 0);
+	assertFalse(exists);
+}
+
+@test
+operation testParallelOne() {
+	var data := Sequence {0..9};
+	var one = data.parallelOne(n | n > 3 and n < 10);
+	assertFalse(one);
+	one = data.parallelOne(n | n == 2 or (n > 1 and n < 3));
+	assertTrue(one);
+}
+
+@test
+operation testParallelForAll() {
+	var data := Sequence {0..9};
+	var forAll = data.parallelForAll(n | n > -1 and n <= 10);
+	assertTrue(forAll);
+	forAll = data.parallelForAll(n | n < 9);
+	assertFalse(forAll);
+}
+
+@test
+operation testParallelCollect() {
+	var data := Sequence {0..9};
+	var mapped = data.parallelCollect(n | n * n);
+	var expected := Sequence {0, 1, 4, 9, 16, 25, 36, 49, 64, 81};
+	assertEquals(expected, mapped);
+	data = Sequence {12, 10, null, false, true, "str", 3.14, 8};
+	mapped = data.parallelCollect(n | 10);
+	expected := Sequence {10, 10, 10, 10, 10, 10, 10, 10};
+	assertEquals(expected, mapped);
+}
+

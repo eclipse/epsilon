@@ -31,10 +31,10 @@ public class SortByOperation extends CollectOperation {
 		final List<?> source = CollectionUtil.asList(target);
 		final List<?> collected = CollectionUtil.asList(super.execute(target, iterator, expression, context));
 		
-		List<DecoratedObject> decoratedObjects = new ArrayList<>();
+		List<DecoratedObject> decoratedObjects = new ArrayList<>(collected.size());
 		
 		// Determine which collected values correspond to which collection elements
-		//final Map<Object, Object> map = new HashMap<Object, Object>();
+		//final Map<Object, Object> map = new HashMap<>();
 		
 		for (int index = 0; index < collected.size(); index++) {
 			decoratedObjects.add(new DecoratedObject(source.get(index), collected.get(index)));
@@ -46,8 +46,9 @@ public class SortByOperation extends CollectOperation {
 		// ordered by the result of sorting the collected items
 		final Collection<Object> result = new EolSequence<>(); //EolCollectionType.createSameType(source);
 		
-		for (int index = 0; index < collected.size(); index++)
+		for (int index = 0; index < collected.size(); index++) {
 			result.add(decoratedObjects.get(index).getObject());
+		}
 		
 		return result;
 	};

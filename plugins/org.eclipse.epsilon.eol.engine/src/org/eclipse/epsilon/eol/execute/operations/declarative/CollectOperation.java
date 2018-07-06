@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
-
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -26,24 +25,19 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 public class CollectOperation extends FirstOrderOperation {
 
 	@Override
-	public Collection<?> execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
+	public Collection<?> execute(Object target, Variable iterator, Expression expression,
+			IEolContext context) throws EolRuntimeException {
 
 		Collection<?>      source = CollectionUtil.asCollection(target);
-		Collection<Object> result = null;
-		
-		if (EolCollectionType.isOrdered(source)) {
-			result = new EolSequence<>();
-		}
-		else {
-			result = new EolBag<>();
-		}
+		Collection<Object> result = EolCollectionType.isOrdered(source) ? new EolSequence<>() : new EolBag<>();
 		
 		FrameStack scope = context.getFrameStack();
 		
-		for (Object listItem : source) {
-			if (iterator.getType() == null || iterator.getType().isKind(listItem)) {
-				scope.enterLocal(FrameType.UNPROTECTED, expression);
-				scope.put(new Variable(iterator.getName(), listItem, iterator.getType(), true));
+		for (Object item : source) {
+			if (iterator.getType() == null || iterator.getType().isKind(item)) {
+				scope.enterLocal(FrameType.UNPROTECTED, expression,
+					new Variable(iterator.getName(), item, iterator.getType(), true)
+				);
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				result.add(bodyResult);
 				scope.leaveLocal(expression);

@@ -257,7 +257,6 @@ operation testRemoveByIndexInOrderedSet() {
 	assertEquals(OrderedSet{1,3}, s);
 }
 
-
 @test
 operation testRemove() {
 	var s = Sequence{1,2,3};

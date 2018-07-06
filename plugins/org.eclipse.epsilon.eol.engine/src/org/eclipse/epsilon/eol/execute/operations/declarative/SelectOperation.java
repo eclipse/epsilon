@@ -23,10 +23,14 @@ import org.eclipse.epsilon.eol.types.EolCollectionType;
 public class SelectOperation extends FirstOrderOperation {
 	
 	public Collection<?> execute(Object target, Variable iterator, Expression expression,
-			IEolContext context, boolean returnOnMatch) throws EolRuntimeException {
+			IEolContext context, final boolean returnOnMatch, final boolean isSelect) throws EolRuntimeException {
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		Collection<Object> result = EolCollectionType.createSameType(source);
+		boolean isRejectOne = !isSelect && returnOnMatch;
+		if (isRejectOne) {
+			result.addAll(source);
+		}
 		
 		FrameStack scope = context.getFrameStack();
 		
@@ -36,9 +40,20 @@ public class SelectOperation extends FirstOrderOperation {
 					Variable.createReadOnlyVariable(iterator.getName(), item));
 				
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
-				if (bodyResult instanceof Boolean && ((boolean) bodyResult)) {
-					result.add(item);
-					if (returnOnMatch) {
+				if (bodyResult instanceof Boolean) {
+					boolean brBool = (boolean) bodyResult;
+					boolean leave = false;
+
+					if (isRejectOne && brBool) {
+						result.remove(item);
+						leave = true;
+					}
+					else if (!isRejectOne && ((isSelect && brBool) || (!isSelect && !brBool))) {
+						result.add(item);
+						leave = returnOnMatch;
+					}
+					
+					if (leave) {
 						scope.leaveLocal(expression);
 						return result;
 					}
@@ -51,9 +66,7 @@ public class SelectOperation extends FirstOrderOperation {
 	}
 	
 	@Override
-	public final Object execute(Object target, Variable iterator, Expression expression,
-			IEolContext context) throws EolRuntimeException {
-		
-		return execute(target, iterator, expression, context, false);
+	public final Collection<?> execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
+		return execute(target, iterator, expression, context, false, true);
 	}
 }

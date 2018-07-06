@@ -15,9 +15,21 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.FirstOrderOperation;
 
 public class ParallelSelectOneOperation extends FirstOrderOperation {
-
+	
+	final boolean isSelect;
+	boolean hasResult;
+	
+	public ParallelSelectOneOperation() {
+		isSelect = true;
+	}
+	
+	ParallelSelectOneOperation(boolean select) {
+		this.isSelect = select;
+	}
+	
 	@Override
-	public Object execute(Object target, Variable iterator, Expression expression, IEolContext context_) throws EolRuntimeException {
+	public Object execute(Object target, Variable iterator, Expression expression,
+			IEolContext context_) throws EolRuntimeException {
 		
 		IEolContextParallel context = context_ instanceof IEolContextParallel ?
 			(EolContextParallel) context_ : new EolContextParallel(context_);
@@ -43,9 +55,13 @@ public class ParallelSelectOneOperation extends FirstOrderOperation {
 						context.handleException(ex, executor);
 					}
 					
-					if (bodyResult instanceof Boolean && ((boolean) bodyResult)) {
-						// "item" will be the result
-						execStatus.completeSuccessfully(item);
+					if (bodyResult instanceof Boolean) {
+						boolean brBool = (boolean) bodyResult;
+						if ((brBool && isSelect) || (!brBool && !isSelect)) {
+							hasResult = true;
+							// "item" will be the result
+							execStatus.completeSuccessfully(item);
+						}
 					}
 					
 					scope.leaveLocal(expression);
