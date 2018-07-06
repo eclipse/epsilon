@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 /**
  * Convenience class for storing collections of thread-local data.
+ * 
+ * @author Sina Madani
  */
 public class ThreadLocalBatchData<D> extends PersistentThreadLocal<List<D>> {
 	

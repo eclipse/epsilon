@@ -27,7 +27,7 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class AggregateOperation extends FirstOrderOperation {
 	
 	@Override
-	public EolMap<Object, Object> execute(Object target,
+	public EolMap<?, ?> execute(Object target,
 			NameExpression operationNameExpression, List<Parameter> iterators,
 			List<Expression> expressions, IEolContext context)
 			throws EolRuntimeException {
@@ -44,10 +44,11 @@ public class AggregateOperation extends FirstOrderOperation {
 		
 		for (Object item : source) {
 			if (iteratorType == null || iteratorType.isKind(item)) {
-				scope.enterLocal(FrameType.UNPROTECTED, keyExpression);
-				scope.put(Variable.createReadOnlyVariable(iterator.getName(), item));
-				Object keyResult = context.getExecutorFactory().execute(keyExpression, context);
-				Object total = null;
+				scope.enterLocal(FrameType.UNPROTECTED, keyExpression,
+					Variable.createReadOnlyVariable(iterator.getName(), item)
+				);
+				
+				Object total, keyResult = context.getExecutorFactory().execute(keyExpression, context);
 				
 				if (result.containsKey(keyResult)) {
 					total = result.get(keyResult);

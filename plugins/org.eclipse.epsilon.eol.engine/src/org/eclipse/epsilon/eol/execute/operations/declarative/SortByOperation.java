@@ -20,6 +20,7 @@ import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.NumberUtil;
@@ -27,7 +28,8 @@ import org.eclipse.epsilon.eol.types.NumberUtil;
 public class SortByOperation extends CollectOperation {
 	
 	@Override
-	public Collection<?> execute(Object target, org.eclipse.epsilon.eol.execute.context.Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
+	public Collection<?> execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
+
 		final List<?> source = CollectionUtil.asList(target);
 		final List<?> collected = CollectionUtil.asList(super.execute(target, iterator, expression, context));
 		
@@ -47,7 +49,7 @@ public class SortByOperation extends CollectOperation {
 		final Collection<Object> result = new EolSequence<>(); //EolCollectionType.createSameType(source);
 		
 		for (int index = 0; index < collected.size(); index++) {
-			result.add(decoratedObjects.get(index).getObject());
+			result.add(decoratedObjects.get(index).object);
 		}
 		
 		return result;
@@ -61,12 +63,12 @@ public class SortByOperation extends CollectOperation {
 			this.p = p;
 		}
 		
-
 		@SuppressWarnings({"unchecked", "rawtypes"})
+		@Override
 		public int compare(DecoratedObject do1, DecoratedObject do2) {
 
-			Object o1 = do1.getDecoration();
-			Object o2 = do2.getDecoration();
+			Object o1 = do1.decoration;
+			Object o2 = do2.decoration;
 
 			if (o1 instanceof Number && o2 instanceof Number) {
 				if (NumberUtil.greaterThan((Number) o2, (Number) o1)) return -1;
@@ -77,32 +79,16 @@ public class SortByOperation extends CollectOperation {
 				return ((Comparable) o1).compareTo(o2);
 			}
 			else {
-				String str1 = p.print(o1);
-				String str2 = p.print(o2);
-				return str1.compareTo(str2);
+				return p.print(o1).compareTo(p.print(o2));
 			}
 		}
 	}
 	
 	class DecoratedObject {
-		protected Object object;
-		protected Object decoration;
+		public final Object object, decoration;
 		
 		public DecoratedObject(Object object, Object decoration) {
 			this.object = object;
-			this.decoration = decoration;
-		}
-		
-		public Object getObject() {
-			return object;
-		}
-		public void setObject(Object object) {
-			this.object = object;
-		}
-		public Object getDecoration() {
-			return decoration;
-		}
-		public void setDecoration(Object decoration) {
 			this.decoration = decoration;
 		}
 	}

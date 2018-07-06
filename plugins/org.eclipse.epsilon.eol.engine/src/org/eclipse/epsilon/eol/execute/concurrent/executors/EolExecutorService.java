@@ -14,6 +14,7 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 /**
  * Convenience interface which allows for easy handling of {@link #awaitTermination(long, TimeUnit)}
  * under both normal and exceptional completion scenarios.
+ * 
  * @author Sina Madani
  */
 public interface EolExecutorService extends ExecutorService {

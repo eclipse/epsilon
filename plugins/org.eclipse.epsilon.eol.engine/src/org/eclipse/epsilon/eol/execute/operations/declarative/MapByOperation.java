@@ -26,24 +26,24 @@ public class MapByOperation extends FirstOrderOperation {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public EolMap<Object, Object> execute(Object target, Variable iterator, Expression expression,
+	public EolMap<?, ?> execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
 		Collection<?> source = CollectionUtil.asCollection(target);
-		
 		EolMap<Object, Object> result = new EolMap<>();
-		
 		FrameStack scope = context.getFrameStack();
 		
-		for (Object listItem : source) {
-			if (iterator.getType() == null || iterator.getType().isKind(listItem)) {
-				scope.enterLocal(FrameType.UNPROTECTED, expression);
-				scope.put(new Variable(iterator.getName(), listItem, iterator.getType(), true));
+		for (Object item : source) {
+			if (iterator.getType() == null || iterator.getType().isKind(item)) {
+				scope.enterLocal(FrameType.UNPROTECTED, expression,
+					new Variable(iterator.getName(), item, iterator.getType(), true)
+				);
+				
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				
 				EolSequence<Object> sequence = (EolSequence<Object>) result.get(bodyResult);
 				if (sequence == null) sequence = new EolSequence<>();
-				sequence.add(listItem);
+				sequence.add(item);
 				result.put(bodyResult, sequence);
 				
 				scope.leaveLocal(expression);

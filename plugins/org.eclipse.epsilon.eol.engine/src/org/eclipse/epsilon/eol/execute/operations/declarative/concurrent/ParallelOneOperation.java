@@ -9,7 +9,9 @@ import org.eclipse.epsilon.eol.execute.operations.declarative.OneOperation;
 public class ParallelOneOperation extends OneOperation {
 
 	@Override
-	public Boolean execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
+	public Boolean execute(Object target, Variable iterator, Expression expression,
+			IEolContext context) throws EolRuntimeException {
+		
 		selectOperation = new ParallelSelectOperation();
 		return super.execute(target, iterator, expression, context);
 	}

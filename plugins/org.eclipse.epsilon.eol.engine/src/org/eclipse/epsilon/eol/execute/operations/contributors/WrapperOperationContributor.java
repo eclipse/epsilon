@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
-
 public class WrapperOperationContributor extends OperationContributor {
 
 	@Override

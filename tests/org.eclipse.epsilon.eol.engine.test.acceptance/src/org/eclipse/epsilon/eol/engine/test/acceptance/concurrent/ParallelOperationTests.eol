@@ -69,6 +69,71 @@ operation testParallelSelectOneEquivalence() {
 }
 
 @test
+operation testParallelExistsEquivalence() {
+	var expected = testData.exists(t | t == null);
+	assertTrue(expected);
+	var actual = testData.parallelExists(t | t == null);
+	assertEquals(expected, actual);
+	
+	expected = testData.exists(t | t <> null and not t.getClass().getName().startsWith("java"));
+	assertFalse(expected);
+	actual = testData.parallelExists(t | t <> null and not t.getClass().getName().startsWith("java"));
+	assertEquals(expected, actual);
+}
+
+@test
+operation testParallelOneEquivalence() {
+	var expected = testData.one(t | t <> null and t.asString().isEmpty());
+	assertTrue(expected);
+	var actual = testData.parallelOne(t | t <> null and t.asString().isEmpty());
+	assertEquals(expected, actual);
+		
+	expected = testData.one(t | t <> null and not t.asBoolean());
+	assertFalse(expected);
+	actual = testData.parallelOne(t | t <> null and not t.asBoolean());
+	assertEquals(expected, actual);
+}
+
+@test
+operation testParallelForAllEquivalence() {
+	var expected = testData.forAll(t | t <> null);
+	assertFalse(expected);
+	var actual = testData.parallelForAll(t | t <> null);
+	assertEquals(expected, actual);
+	
+	expected = testData.forAll(t |
+		t == null or
+		t.isKindOf(Real) or
+		t.isKindOf(Integer) or
+		t.asString().matches("-?[0-9]*(\\.[0-9]*(d|f|l)?)?") or
+		t.asBoolean() == true or
+		t.asBoolean() == false
+	);
+	
+	assertTrue(expected);
+	
+	actual = testData.parallelForAll(t |
+		t == null or
+		t.isKindOf(Real) or
+		t.isKindOf(Integer) or
+		t.asString().matches("-?[0-9]*(\\.[0-9]*(d|f|l)?)?") or
+		t.asBoolean() == true or
+		t.asBoolean() == false
+	);
+	assertEquals(expected, actual);
+}
+
+@test
+operation testParallelCollectEquivalence() {
+	var data : new Bag;
+	data.addAll(testData);
+	var expected = data.collect(t | t == null or t.asString().length() >= 5);
+	var actual = data.parallelCollect(t | t == null or t.asString().length() >= 5);
+	assertEquals(expected.size(), actual.size());
+	assertTrue(actual.includesAll(expected));
+}
+
+@test
 operation testParallelSelect() {
 	var data := Sequence {0..9};
 	var selected = data.parallelSelect(n | (n > 3 and n <= 7) or n == 2);

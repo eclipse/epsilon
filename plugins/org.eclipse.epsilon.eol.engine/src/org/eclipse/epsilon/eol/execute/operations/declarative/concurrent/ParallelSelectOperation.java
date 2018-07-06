@@ -46,6 +46,7 @@ public class ParallelSelectOperation extends SelectOperation {
 			futures.add(executor.submit(() -> {
 				Optional<?> intermediateResult = null;
 				if (iterator.getType() == null || iterator.getType().isKind(item)) {
+					
 					FrameStack scope = context.getFrameStack();
 					scope.enterLocal(FrameType.UNPROTECTED, expression,
 						Variable.createReadOnlyVariable(iterator.getName(), item));

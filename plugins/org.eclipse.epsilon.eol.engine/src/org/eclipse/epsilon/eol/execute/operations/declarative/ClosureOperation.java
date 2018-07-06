@@ -22,13 +22,16 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class ClosureOperation extends FirstOrderOperation {
 	
-	public void closure(Collection<?> source, String iteratorName, EolType iteratorType, Expression expression, IEolContext context, Collection<Object> closure) throws EolRuntimeException {
+	public void closure(Collection<?> source, String iteratorName, EolType iteratorType, Expression expression,
+			IEolContext context, Collection<Object> closure) throws EolRuntimeException {
+		
 		FrameStack scope = context.getFrameStack();
 		
 		for (Object item : source) {
 			if (iteratorType == null || iteratorType.isKind(item)) {
-				scope.enterLocal(FrameType.UNPROTECTED, expression);
-				scope.put(Variable.createReadOnlyVariable(iteratorName, item));
+				scope.enterLocal(FrameType.UNPROTECTED, expression,
+					Variable.createReadOnlyVariable(iteratorName, item)
+				);
 				
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				
