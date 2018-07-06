@@ -409,31 +409,13 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			}
 		}
 		
-		if (attributes.getLength() == 0) return;
+		Map<Node, EStructuralFeature> allocation = new AttributeStructuralFeatureAllocator().allocate(attributes, eStructuralFeatures);
 		
-		double[][] inverseSimilarities = new double[attributes.getLength()][eStructuralFeatures.size()];
-		
-		for (int i=0;i<attributes.getLength();i++) {
-			int j=0;
-			String attributeName = attributes.item(i).getNodeName();
-			for (EStructuralFeature sf : eStructuralFeatures) {
-				int similarity = stringSimilarityProvider.getSimilarity(attributeName, sf.getName());
-				double inverseSimilarity = 2;
-				if (similarity != 0) inverseSimilarity = 1/(double)similarity;
-				inverseSimilarities[i][j] = inverseSimilarity;
-				j++;
-			}
-		}
-		
-		int[] assignment = new HungarianAlgorithm(inverseSimilarities).execute();
-				
-		for (int i=0;i<assignment.length;i++) {
-			String name = attributes.item(i).getNodeName();
-			String value = attributes.item(i).getNodeValue();
+		for (Node attribute : allocation.keySet()) {
+			String name = attribute.getNodeName();
+			String value = attribute.getNodeValue();
 			
-			if (assignment[i]>=eStructuralFeatures.size() || assignment[i]<0) continue;
-			
-			EStructuralFeature sf = eStructuralFeatures.get(assignment[i]);
+			EStructuralFeature sf = allocation.get(attribute);
 			
 			if (sf instanceof EAttribute) {
 				setEAttributeValue(eObject, (EAttribute) sf, name, value);
