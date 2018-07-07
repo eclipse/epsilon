@@ -82,3 +82,11 @@ operation testCollect() {
 	expected := Sequence {10, 10, 10, 10, 10, 10, 10, 10};
 	assertEquals(expected, mapped);
 }
+
+@test
+operation testSortBy() {
+	var data = Bag {"a", "aa", "", true, false, "          __a_ ", "---", 333, 1, 22, 666666};
+	var expected = Sequence {"", "a", 1, "aa", 22, "---", 333, true, false, 666666, "          __a_ "};
+	var sorted = data.sortBy(d | d.asString().length());
+	assertEquals(expected, sorted);
+}

@@ -134,6 +134,24 @@ operation testParallelCollectEquivalence() {
 }
 
 @test
+operation testParallelSortByEquivalence() {
+	var data : new Bag;
+	data.add(0);
+	data.add("");
+	var i = 1073741824;
+	while (i > 2) {
+		i /= 2;
+		data.add(i);
+	}
+	data.add("a loooooooooooooooooooong string");
+	data.add(1);
+	data.add(15);
+	var expected = data.sortBy(n | n.asString().length());
+	var actual = data.parallelSortBy(n | n.asString().length());
+	assertEquals(expected, actual);
+}
+
+@test
 operation testParallelSelect() {
 	var data := Sequence {0..9};
 	var selected = data.parallelSelect(n | (n > 3 and n <= 7) or n == 2);
@@ -148,7 +166,7 @@ operation testParallelSelect() {
 @test
 operation testParallelSelectOne() {
 	var data := Sequence {0..9};
-	var selected = data.parallelSelectOne(n | n < 4 and n > 1);
+	var selected = data.parallelSelectOne(n | n < 3 and n > 1);
 	assertEquals(2, selected);
 	selected = data.parallelSelectOne(n | n == 8);
 	assertEquals(8, selected);
@@ -207,3 +225,10 @@ operation testParallelCollect() {
 	assertEquals(expected, mapped);
 }
 
+@test
+operation testParallelSortBy() {
+	var data = Bag {"a", "", true, false, "          __a_ ", "---", 22, 666666};
+	var expected = Sequence {"", "a", 22, "---", true, false, 666666, "          __a_ "};
+	var sorted = data.parallelSortBy(d | d.asString().length());
+	assertEquals(expected, sorted);
+}

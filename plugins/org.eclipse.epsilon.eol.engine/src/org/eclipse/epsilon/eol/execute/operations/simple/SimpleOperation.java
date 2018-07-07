@@ -26,7 +26,7 @@ public abstract class SimpleOperation extends AbstractOperation {
 	
 	@Override
 	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
-		List<Object> parameters = new ArrayList<>();
+		List<Object> parameters = new ArrayList<>(expressions.size());
 		ListIterator<Expression> it = expressions.listIterator();
 		
 		for (int parameterIndex = 0; it.hasNext(); parameterIndex++) {

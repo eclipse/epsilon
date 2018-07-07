@@ -10,12 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
+import java.util.*;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -32,30 +27,32 @@ public class SortByOperation extends CollectOperation {
 
 		final List<?> source = CollectionUtil.asList(target);
 		final List<?> collected = CollectionUtil.asList(super.execute(target, iterator, expression, context));
+		final int colSize = collected.size();
 		
-		List<DecoratedObject> decoratedObjects = new ArrayList<>(collected.size());
+		DecoratedObject[] decoratedObjects = new DecoratedObject[colSize];
 		
 		// Determine which collected values correspond to which collection elements
 		//final Map<Object, Object> map = new HashMap<>();
 		
-		for (int index = 0; index < collected.size(); index++) {
-			decoratedObjects.add(new DecoratedObject(source.get(index), collected.get(index)));
+		int i = 0;
+		for (Iterator<?> sourceIter = source.iterator(), collectedIter = collected.iterator(); i < colSize; i++) {
+			decoratedObjects[i] = new DecoratedObject(sourceIter.next(), collectedIter.next());
 		}
 		
-		Collections.sort(decoratedObjects, new DecoratedObjectComparator(context.getPrettyPrinterManager()));
+		Arrays.sort(decoratedObjects, new DecoratedObjectComparator(context.getPrettyPrinterManager()));
 		
 		// Build a new collection of the original collection elements
 		// ordered by the result of sorting the collected items
-		final Collection<Object> result = new EolSequence<>(); //EolCollectionType.createSameType(source);
+		final Collection<Object> result = new EolSequence<>(decoratedObjects.length);
 		
-		for (int index = 0; index < collected.size(); index++) {
-			result.add(decoratedObjects.get(index).object);
+		for (DecoratedObject decorated : decoratedObjects) {
+			result.add(decorated.object);
 		}
 		
 		return result;
 	};
 	
-	class DecoratedObjectComparator implements Comparator<DecoratedObject> {
+	public static class DecoratedObjectComparator implements Comparator<DecoratedObject> {
 		
 		protected PrettyPrinterManager p;
 		
@@ -84,7 +81,7 @@ public class SortByOperation extends CollectOperation {
 		}
 	}
 	
-	class DecoratedObject {
+	public static class DecoratedObject {
 		public final Object object, decoration;
 		
 		public DecoratedObject(Object object, Object decoration) {
