@@ -107,7 +107,8 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 	 */
 	public String getPath() {
 		try {
-			return (String) engine.evalWithResult(GET_FULL_NAME, handle);
+			String path = (String) engine.evalWithResult(GET_FULL_NAME, handle);
+			return path.replace("\n", " ");
 		} catch (MatlabException e) {
 			return null;
 		}
