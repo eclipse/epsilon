@@ -73,12 +73,10 @@ public class UnresolvedReference {
 		this.uri = uri;
 	}
 	
-	public boolean resolve(Collection<EObject> candidates) {
-		for (EObject candidate : candidates) {
-			if (eReference.getEReferenceType().isInstance(candidate)) {
-				new EReferenceSlot(eReference, getEObject()).newValue(candidate);
-				return true;
-			}
+	public boolean resolve(EObject candidate) {
+		if (eReference.getEReferenceType().isInstance(candidate)) {
+			new EReferenceSlot(eReference, getEObject()).newValue(candidate);
+			return true;
 		}
 		return false;
 	}

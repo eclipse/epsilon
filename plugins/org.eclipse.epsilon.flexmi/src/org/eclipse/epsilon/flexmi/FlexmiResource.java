@@ -39,6 +39,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	public static final String ROOT_NODE_NAME = "_";
@@ -54,6 +57,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected Stack<URI> parsedFragmentURIStack = new Stack<URI>();
 	protected Set<URI> parsedFragmentURIs = new HashSet<URI>();
 	protected List<Template> templates = new ArrayList<Template>();
+	public BiMap<String, EObject> fullyQualifiedIDs = HashBiMap.create();
 	
 	public void startProcessingFragment(URI uri) {
 		parsedFragmentURIStack.push(uri);
@@ -121,6 +125,20 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		}
 	}
 	
+	protected void setEObjectId(EObject eObject, String id) {
+		getIntrinsicIDToEObjectMap().put(id, eObject);
+		EObject containerWithId = eObject.eContainer();
+		while (containerWithId != null && !fullyQualifiedIDs.containsValue(containerWithId)) {
+			containerWithId = containerWithId.eContainer();
+		}
+		if (containerWithId != null) {
+			fullyQualifiedIDs.put(fullyQualifiedIDs.inverse().get(containerWithId) + "." + id, eObject);
+		}
+		else {
+			fullyQualifiedIDs.put(id, eObject);
+		}
+	}
+	
 	public void doLoadImpl(InputStream inputStream, Map<?, ?> options) throws Exception {
 		getContents().clear();
 		unresolvedReferences.clear();
@@ -131,6 +149,15 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
 		
 		new PseudoSAXParser().parse(this, inputStream, this);
+	}
+	
+	@Override
+	public EObject getEObject(String uriFragment) {
+		EObject eObject = super.getEObject(uriFragment);
+		if (eObject == null && uriFragment.indexOf(".") > -1) {
+			return fullyQualifiedIDs.get(uriFragment);
+		}
+		return eObject;
 	}
 	
 	@Override
@@ -338,12 +365,12 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	}
 	
 	protected boolean resolveReference(UnresolvedReference unresolvedReference) {
-		List<EObject> candidates = Arrays.asList(getIntrinsicIDToEObjectMap().get(unresolvedReference.getValue()));
-		if (!unresolvedReference.resolve(candidates)) {
+		EObject candidate = getEObject(unresolvedReference.getValue());
+		if (!unresolvedReference.resolve(candidate)) {
 			for (Resource resource : getResourceSet().getResources()) {
 				if (resource != this) {
-					candidates = Arrays.asList(resource.getEObject(unresolvedReference.getValue()));
-					if (unresolvedReference.resolve(candidates)) return true;
+					candidate = resource.getEObject(unresolvedReference.getValue());
+					if (unresolvedReference.resolve(candidate)) return true;
 				}
 			}
 			return false;
@@ -371,7 +398,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			if (attributes.getNamedItem("id") != null) {
 				String value = attributes.getNamedItem("id").getNodeValue();
 				attributes.removeNamedItem("id");
-				getIntrinsicIDToEObjectMap().put(value, eObject);
+				setEObjectId(eObject, value);
 			}
 		}
 		
@@ -419,7 +446,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			if (eValue == null) return;
 			eObject.eSet(eAttribute, eValue);
 			if (eAttribute.isID() || "name".equalsIgnoreCase(eAttribute.getName())) {
-				getIntrinsicIDToEObjectMap().put(value, eObject);
+				setEObjectId(eObject, value);
 			}
 		}
 	}
