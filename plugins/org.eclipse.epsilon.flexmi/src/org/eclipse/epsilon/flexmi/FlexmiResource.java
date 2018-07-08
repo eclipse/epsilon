@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,6 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.apache.commons.lang3.text.StrLookup;
+import org.apache.commons.lang3.text.StrSubstitutor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -32,6 +33,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.flexmi.xml.Location;
 import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser;
 import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser.Handler;
+import org.eclipse.epsilon.flexmi.xml.Xml;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -48,7 +50,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	protected EObjectTraceManager eObjectTraceManager = new EObjectTraceManager();
 	protected List<UnresolvedReference> unresolvedReferences = new ArrayList<UnresolvedReference>();
-	protected Stack<Object> stack = new Stack<Object>();
+	protected Stack<Object> objectStack = new Stack<Object>();
 	protected Node currentNode = null;
 	protected List<String> scripts = new ArrayList<String>();
 	protected HashMap<String, EClass> eClassCache = new HashMap<String, EClass>();
@@ -57,7 +59,14 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected Stack<URI> parsedFragmentURIStack = new Stack<URI>();
 	protected Set<URI> parsedFragmentURIs = new HashSet<URI>();
 	protected List<Template> templates = new ArrayList<Template>();
-	public BiMap<String, EObject> fullyQualifiedIDs = HashBiMap.create();
+	protected BiMap<String, EObject> fullyQualifiedIDs = HashBiMap.create();
+	protected FrameStack frameStack = new FrameStack();
+	protected StrSubstitutor substitutor = new StrSubstitutor(new StrLookup<String>() {
+		@Override
+		public String lookup(String name) {
+			return fullyQualifiedIDs.inverse().get(frameStack.getVariable(name));
+		}
+	});
 	
 	public void startProcessingFragment(URI uri) {
 		parsedFragmentURIStack.push(uri);
@@ -142,7 +151,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	public void doLoadImpl(InputStream inputStream, Map<?, ?> options) throws Exception {
 		getContents().clear();
 		unresolvedReferences.clear();
-		stack.clear();
+		objectStack.clear();
 		scripts.clear();
 		eClassCache.clear();
 		allSubtypesCache.clear();
@@ -166,6 +175,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void startElement(Element element) {
+		frameStack.pushFrame();
 		currentNode = element;
 		String name = element.getNodeName();
 		
@@ -175,11 +185,18 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			name = name.substring(name.indexOf(":")+1);
 		}
 		
+		
+		
+		//Replace variables in attributes
+		for (Node attribute : Xml.getAttributes(element)) {
+			attribute.setNodeValue(substitutor.replace(attribute.getNodeValue()));
+		}
+		
 		EObject eObject = null;
 		EClass eClass = null;
 		
 		// We're at the root
-		if (stack.isEmpty()) {
+		if (objectStack.isEmpty()) {
 			eClass = eClassForName(name);
 			if (eClass != null) {
 				eObject = eClass.getEPackage().getEFactoryInstance().create(eClass);
@@ -189,14 +206,14 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			else {
 				addParseWarning("Could not map element " + name + " to an EObject");
 			}
-			stack.push(eObject);
+			objectStack.push(eObject);
 		}
 		else {
-			Object peek = stack.peek();
+			Object peek = objectStack.peek();
 			
 			// We find an orphan element
 			if (peek == null) {
-				stack.push(null);
+				objectStack.push(null);
 				addParseWarning("Could not map element " + name + " to an EObject");
 				return;
 			}
@@ -208,11 +225,11 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				if (eClass != null) {
 					eObject = eClass.getEPackage().getEFactoryInstance().create(eClass);
 					containmentSlot.newValue(eObject);
-					stack.push(eObject);
+					objectStack.push(eObject);
 					setAttributes(eObject, element);
 				}
 				else {
-					stack.push(null);
+					objectStack.push(null);
 					addParseWarning("Could not map element " + name + " to an EObject");
 				}
 			}
@@ -226,7 +243,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 					if (eAttribute != null) {
 						setEAttributeValue(parent, eAttribute, name, element.getTextContent().trim());
 						eObjectTraceManager.trace(parent, getCurrentURI(), getLineNumber(element));
-						stack.push(null);
+						objectStack.push(null);
 						return;
 					}
 				}
@@ -240,7 +257,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 					if (containment != null) {
 						EReferenceSlot containmentSlot = new EReferenceSlot(containment, parent);
 						eObjectTraceManager.trace(parent, getCurrentURI(), getLineNumber(element));
-						stack.push(containmentSlot);
+						objectStack.push(containmentSlot);
 						return;
 					}
 				}
@@ -273,11 +290,11 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 						parent.eSet(containment, eObject);
 					}
 					setAttributes(eObject, element);
-					stack.push(eObject);
+					objectStack.push(eObject);
 				}
 				// No luck - add warning
 				else {
-					stack.push(null);
+					objectStack.push(null);
 					addParseWarning("Could not map element " + name + " to an EObject");
 				}
 			}
@@ -286,7 +303,8 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 
 	@Override
 	public void endElement(Element element) {
-		Object object = stack.pop();
+		frameStack.pop();
+		Object object = objectStack.pop();
 		if (object != null && object instanceof EObject) {
 			EObject eObject = (EObject) object;
 			eObjectTraceManager.trace(eObject, getCurrentURI(), getLineNumber(element));
@@ -393,6 +411,13 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		List<EStructuralFeature> eStructuralFeatures = getCandidateStructuralFeaturesForAttribute(eObject.eClass());
 		
 		if (attributes.getLength() == 0 || eStructuralFeatures.size() == 0) return;
+		
+		// Find the _var attribute, create a variable and remove it from the node
+		Node varAttribute = attributes.getNamedItem("_var");
+		if (varAttribute != null) {
+			frameStack.setVariable(varAttribute.getNodeValue(), eObject);
+			attributes.removeNamedItem("_var");
+		}
 		
 		if (!(eObject.eClass().getEStructuralFeature("id") instanceof EAttribute)) {
 			if (attributes.getNamedItem("id") != null) {
@@ -549,7 +574,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	}
 	
 	protected boolean isTemplateElement(Element element) {
-		return stack.isEmpty() && Template.NODE_NAME.equals(element.getNodeName());
+		return objectStack.isEmpty() && Template.NODE_NAME.equals(element.getNodeName());
 	}
 	
 }

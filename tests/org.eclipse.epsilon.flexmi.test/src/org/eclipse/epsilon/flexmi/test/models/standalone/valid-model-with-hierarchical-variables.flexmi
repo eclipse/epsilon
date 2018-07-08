@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<?nsuri http://www.eclipse.org/emf/2002/Ecore?>
+<package name="p1" _var="p1">
+	<class name="C1"/>
+	<package name="p2" _var="p2">
+		<class name="C2"/>
+		<package name="p3">
+			<class name="C3" super="${p2}.C2"/>
+			<class name="C4" super="${p1}.C1"/>
+		</package>
+	</package>
+</package>

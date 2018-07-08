@@ -6,6 +6,7 @@ Bundle-Version: 1.5.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi,
- com.google.guava
+ com.google.guava,
+ org.apache.commons.lang3
 Export-Package: org.eclipse.epsilon.flexmi,
  org.eclipse.epsilon.flexmi.xml

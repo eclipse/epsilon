@@ -9,6 +9,15 @@ import org.w3c.dom.Node;
 
 public class Xml {
 	
+	public static List<Node> getAttributes(Element e) {
+		List<Node> attributes = new ArrayList<Node>();
+		NamedNodeMap nodeMap = e.getAttributes();
+		for (int i = 0; i < nodeMap.getLength(); i++) {
+			attributes.add(nodeMap.item(i));
+		}
+		return attributes;
+	}
+	
 	public static List<String> getAttributeNames(Element e) {
 		List<String> names = new ArrayList<String>();
 		NamedNodeMap attributes = e.getAttributes();
