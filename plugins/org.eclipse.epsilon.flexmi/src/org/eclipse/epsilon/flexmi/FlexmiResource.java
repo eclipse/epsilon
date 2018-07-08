@@ -41,9 +41,6 @@ import org.w3c.dom.Text;
 
 public class FlexmiResource extends ResourceImpl implements Handler {
 	
-	public static final String OPTION_FUZZY_CONTAINMENT_MATCHING = "fuzzyContainmentMatching";
-	public static final String OPTION_ORPHANS_AS_TOP_LEVEL = "orphansAsTopLevel";
-	public static final String OPTION_FUZZY_MATCHING_THRESHOLD = "fuzzyMatchingThreshold";
 	public static final String ROOT_NODE_NAME = "_";
 	
 	protected EObjectTraceManager eObjectTraceManager = new EObjectTraceManager();
@@ -57,10 +54,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected Stack<URI> parsedFragmentURIStack = new Stack<URI>();
 	protected Set<URI> parsedFragmentURIs = new HashSet<URI>();
 	protected List<Template> templates = new ArrayList<Template>();
-	
-	protected boolean fuzzyContainmentSlotMatching = true;
-	protected boolean orphansAsTopLevel = true;
-	protected int fuzzyMatchingThreshold = 0;
 	
 	public void startProcessingFragment(URI uri) {
 		parsedFragmentURIStack.push(uri);
@@ -81,7 +74,9 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	public Template getTemplate(String name) {
 		for (Template template : templates) {
-			if (template.getName().equals(name)) return template;
+			if (template.getName().equals(name)) {
+				return template;
+			}
 		}
 		return null;
 	}
@@ -126,24 +121,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		}
 	}
 	
-	protected void processOption(String key, String value) {
-		try {
-			if (OPTION_FUZZY_CONTAINMENT_MATCHING.equalsIgnoreCase(key)) {
-				fuzzyContainmentSlotMatching = Boolean.parseBoolean(value);
-			}
-			else if (OPTION_ORPHANS_AS_TOP_LEVEL.equalsIgnoreCase(key)) {
-				orphansAsTopLevel = Boolean.parseBoolean(value);
-			}
-			else if (OPTION_FUZZY_MATCHING_THRESHOLD.equalsIgnoreCase(key)) {
-				fuzzyMatchingThreshold = Integer.parseInt(value);
-			}
-			else throw new Exception("Unknown option");
-		}
-		catch (Exception ex) {
-			addParseWarning("Could not process option " + key + ": " + ex.getMessage());
-		}
-	}
-	
 	public void doLoadImpl(InputStream inputStream, Map<?, ?> options) throws Exception {
 		getContents().clear();
 		unresolvedReferences.clear();
@@ -153,18 +130,13 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		allSubtypesCache.clear();
 		setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
 		
-		if (options != null) {
-			for (Object key : options.keySet()) {
-				processOption(key + "", options.get(key) + "");
-			}
-		}
-		
 		new PseudoSAXParser().parse(this, inputStream, this);
 	}
 	
 	@Override
 	public void startDocument(Document document) {}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void startElement(Element element) {
 		currentNode = element;
@@ -179,11 +151,8 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		EObject eObject = null;
 		EClass eClass = null;
 		
-		// We're at the root or we treat orphan elements as top-level
-		if (stack.isEmpty() && Template.NODE_NAME.equals(element.getNodeName())) {
-			
-		}
-		else if (stack.isEmpty() || (stack.peek() == null && orphansAsTopLevel)) {
+		// We're at the root
+		if (stack.isEmpty()) {
 			eClass = eClassForName(name);
 			if (eClass != null) {
 				eObject = eClass.getEPackage().getEFactoryInstance().create(eClass);
@@ -198,7 +167,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		else {
 			Object peek = stack.peek();
 			
-			// We find an orphan element but don't treat it as top-level
+			// We find an orphan element
 			if (peek == null) {
 				stack.push(null);
 				addParseWarning("Could not map element " + name + " to an EObject");
@@ -239,12 +208,8 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				
 				// No attributes -> Check whether there is a containment reference with that name
 				if (element.getAttributes().getLength() == 0) {
-					if (fuzzyContainmentSlotMatching) {
-						containment = (EReference) eNamedElementForName(name, parent.eClass().getEAllContainments());
-					}
-					else {
-						containment = (EReference) eNamedElementForName(name, parent.eClass().getEAllContainments(), false);				
-					}
+					containment = (EReference) eNamedElementForName(name, parent.eClass().getEAllContainments());
+					
 					if (containment != null) {
 						EReferenceSlot containmentSlot = new EReferenceSlot(containment, parent);
 						eObjectTraceManager.trace(parent, getCurrentURI(), getLineNumber(element));
@@ -316,7 +281,9 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		else if ("eol".equalsIgnoreCase(key)) {
 			scripts.add(value);
 		}
-		else processOption(key, value);
+		else {
+			addParseWarning("Unknown processing instruction: " + key);
+		}
 	}
 
 	@Override
@@ -340,7 +307,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		getWarnings().add(new FlexmiDiagnostic(message, uri, line));
 	}
 	
-	@SuppressWarnings("unchecked")
 	protected void resolveReferences() {
 		List<UnresolvedReference> unresolvableReferences = new ArrayList<UnresolvedReference>();
 		

@@ -58,6 +58,7 @@ public class PseudoSAXParser {
 		else {
 			if (isTemplate(document.getDocumentElement())) {
 				resource.getTemplates().add(new Template(document.getDocumentElement()));
+				document.removeChild(document.getDocumentElement());
 				return;
 			}
 		}
@@ -68,19 +69,30 @@ public class PseudoSAXParser {
 	}
 
 	protected void visit(Node node, Handler handler) throws Exception {
+		Template template = null;
+		
 		if (node instanceof Element) {
 			if (!isFlexmiRootNode((Element) node)) {
-				for (Resource resource : this.resource.getResourceSet().getResources()) {
-					if (resource instanceof FlexmiResource) {
-						Template template = ((FlexmiResource) resource).getTemplate(node.getNodeName());
-						if (template != null) {
-							for (Element contentChild : Xml.getChildren(template.getContent())) {
-								visit(contentChild, handler);
+				if (node.getNodeName().startsWith(Template.PREFIX)) {
+					String templateName = node.getNodeName().substring(Template.PREFIX.length());
+					for (Resource resource : this.resource.getResourceSet().getResources()) {
+						if (resource instanceof FlexmiResource) {
+							template = ((FlexmiResource) resource).getTemplate(templateName);
+							if (template != null) {
+								for (Element applicationElement : template.apply(node)) {
+									visit(applicationElement, handler);
+								}
 							}
 						}
 					}
+					if (template == null) {
+						resource.getWarnings().add(new FlexmiDiagnostic("Unknown template " + templateName, uri, resource.getLineNumber(node)));
+						return;
+					}
 				}
-				handler.startElement((Element) node);
+				else {
+					handler.startElement((Element) node);
+				}
 			}
 		}
 		if (node instanceof ProcessingInstruction) {
@@ -116,11 +128,14 @@ public class PseudoSAXParser {
 				handler.processingInstruction((ProcessingInstruction) node);
 			}
 		}
-		for (int i = 0; i < node.getChildNodes().getLength(); i++) {
-			visit(node.getChildNodes().item(i), handler);
-		}
-		if (node instanceof Element) {
-			if (!isFlexmiRootNode((Element) node)) handler.endElement((Element) node);
+		
+		if (template == null) {
+			for (int i = 0; i < node.getChildNodes().getLength(); i++) {
+				visit(node.getChildNodes().item(i), handler);
+			}
+			if (node instanceof Element) {
+				if (!isFlexmiRootNode((Element) node)) handler.endElement((Element) node);
+			}
 		}
 	}
 	
