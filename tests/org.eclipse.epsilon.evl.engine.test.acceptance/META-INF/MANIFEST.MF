@@ -9,5 +9,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.evl.engine.test.acceptance,
  org.eclipse.epsilon.evl.engine.test.acceptance.equivalence
 Import-Package: org.junit
-Require-Bundle: org.eclipse.epsilon.erl.engine.test;visibility:=reexport,
+Require-Bundle: org.eclipse.epsilon.test.dependencies,
+ org.eclipse.epsilon.eol.engine.test.acceptance,
  org.eclipse.epsilon.evl.engine

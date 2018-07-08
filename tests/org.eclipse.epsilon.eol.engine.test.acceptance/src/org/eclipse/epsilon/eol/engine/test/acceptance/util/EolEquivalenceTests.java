@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.erl.engine.test.util;
+package org.eclipse.epsilon.eol.engine.test.acceptance.util;
 
 import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
 import static org.junit.Assert.assertEquals;
@@ -11,20 +11,20 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.erl.IErlModule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * A series of tests which use the standard ErlModule as an oracle and test the concurrent implementations
+ * A series of tests which use the standard EolModule as an oracle and test the concurrent implementations
  * in various configurations (different number of threads) against it to ensure identical results
  * and behavioural equivalence. The tests are carried out in the context of scenarios. A scenario
- * is a given combination of script (ERL file) and model to execute the script on. Since each scenario
- * is independent, it requires its own IErlModule. For this reason, each EvlRunConfiguration has an
+ * is a given combination of script (EOL file) and model to execute the script on. Since each scenario
+ * is independent, it requires its own IEolModule. For this reason, each EolRunConfiguration has an
  * identifier so that each scenario can be uniquely identified and different modules under the same
  * scenario can then be compared.
  * <br/><br/>
@@ -32,7 +32,7 @@ import org.junit.runner.RunWith;
  * (for obvious reasons). Note that since the expected configurations are our oracles, they are assumed
  * to pass and are exempt from testing; hence being executed in setUpBeforeClass().
  * <br/><br/>
- * This test class is intended to be extended by tests for extensions of ERL. For a reference
+ * This test class is intended to be extended by tests for extensions of EOL. For a reference
  * implementation/example, please see EvlModuleEquivalenceTests.
  * A basic implementation would need to provide the following:
  * <br/><ul>
@@ -59,14 +59,14 @@ import org.junit.runner.RunWith;
  * 
  * The last two requirements are a workaround for JUnit's inadequate @Before semantics.
  * 
- * @see ErlAcceptanceTestUtil
+ * @see EolAcceptanceTestUtil
  * @author Sina Madani
  */
 @RunWith(org.junit.runners.Parameterized.class)
-public abstract class ErlEquivalenceTests<M extends IErlModule, C extends IEolRunConfiguration<M, ?>> {
+public abstract class EolEquivalenceTests<M extends IEolModule, C extends IEolRunConfiguration<M, ?>> {
 
 	// The oracle configurations
-	protected static Collection<? extends IEolRunConfiguration<? extends IErlModule, ?>> expectedConfigs;
+	protected static Collection<? extends IEolRunConfiguration<? extends IEolModule, ?>> expectedConfigs;
 	
 	// Used to identify which scenario to compare our results with.
 	protected static Map<Integer, IEolRunConfiguration<?, ?>> expectedConfigIDs;
@@ -79,7 +79,7 @@ public abstract class ErlEquivalenceTests<M extends IErlModule, C extends IEolRu
 	
 	
 	@SuppressWarnings("unchecked")
-	public ErlEquivalenceTests(C configUnderTest) {
+	public EolEquivalenceTests(C configUnderTest) {
 		this.testConfig = configUnderTest;
 		expectedConfig = (C) expectedConfigIDs.get(testConfig.getId());
 		expectedModule = expectedConfig.module;

@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.erl.engine.test.util;
+package org.eclipse.epsilon.eol.engine.test.acceptance.util;
 
 import static org.eclipse.epsilon.emc.emf.EmfModel.*;
 import java.lang.reflect.InvocationTargetException;
@@ -12,12 +12,12 @@ import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.erl.IErlModule;
 
-public class ErlAcceptanceTestUtil {
-	private ErlAcceptanceTestUtil() {}
+public class EolAcceptanceTestUtil {
+	private EolAcceptanceTestUtil() {}
 	
 	public static final int[] THREADS = new int[] {
 		0, 1, 2, 3, 4,
@@ -48,21 +48,21 @@ public class ErlAcceptanceTestUtil {
 	
 	/**
 	 * A list of pre-configured Runnables which will call the execute() method on the provided module.
-	 * @param modules A collection of IErlModules to use in combination with each set of test data.
+	 * @param modules A collection of IEolModules to use in combination with each set of test data.
 	 */
-	public static <M extends IErlModule, C extends IEolRunConfiguration<M, ?>> Collection<C> getScenarios(
+	public static <M extends IEolModule, C extends IEolRunConfiguration<M, ?>> Collection<C> getScenarios(
 		Class<C> clazz,
 		List<String[]> testInputs,
 		Collection<Supplier<? extends M>> moduleGetters,
 		Function<String[], Integer> idCalculator) {
 		try {
-			if (idCalculator == null) idCalculator = ErlAcceptanceTestUtil::getScenarioID;
+			if (idCalculator == null) idCalculator = EolAcceptanceTestUtil::getScenarioID;
 			
 			List<C> scenarios = new ArrayList<>(moduleGetters.size()*(testInputs.size()+2));
 			Optional<Boolean> showResults = Optional.of(false), profileExecution = Optional.of(false);
 			
 			for (String[] testInput : testInputs) {
-				Path erlScript = Paths.get(testInput[0]);
+				Path eolScript = Paths.get(testInput[0]);
 				
 				Path modelFile = Paths.get(testInput[1]);
 				Path metamodelFile = Paths.get(testInput[2]);
@@ -88,9 +88,9 @@ public class ErlAcceptanceTestUtil {
 							Optional.class
 						)
 						.newInstance(
-							erlScript,									 // Path to the script to run
+							eolScript,									 // Path to the script to run
 							Collections.singletonMap(model, properties), // Model and metamodel paths
-							Optional.of(moduleGetter.get()),			 // IErlModule
+							Optional.of(moduleGetter.get()),			 // IEolModule
 							Optional.empty(),							 // Script parameters
 							showResults,								 // Whether to show results
 							profileExecution,							 // Whether to measure execution time
@@ -109,12 +109,12 @@ public class ErlAcceptanceTestUtil {
 		}
 	}
 	
-	public static <M extends IErlModule> Collection<? extends M> unwrapModules(Collection<Supplier<? extends M>> moduleGetters) {
+	public static <M extends IEolModule> Collection<? extends M> unwrapModules(Collection<Supplier<? extends M>> moduleGetters) {
 		return moduleGetters.stream().map(Supplier::get).collect(Collectors.toList());
 	}
 	
 	@SafeVarargs
-	public static <M extends IErlModule> Collection<Supplier<? extends M>> parallelModules(int[] parallelisms, Supplier<M> standardModuleGetter, Function<Integer, M>... parallelModuleConstructors) {
+	public static <M extends IEolModule> Collection<Supplier<? extends M>> parallelModules(int[] parallelisms, Supplier<M> standardModuleGetter, Function<Integer, M>... parallelModuleConstructors) {
 		Collection<Supplier<? extends M>> modules = new ArrayList<>(1+(parallelModuleConstructors.length*parallelisms.length));
 		if (standardModuleGetter != null) {
 			modules.add(standardModuleGetter);
@@ -128,7 +128,7 @@ public class ErlAcceptanceTestUtil {
 	}
 	
 	@SafeVarargs
-	public static <M extends IErlModule> Collection<Supplier<? extends M>> parallelModules(Supplier<M> standardModuleGetter, Function<Integer, M>... moduleConstructors) {
+	public static <M extends IEolModule> Collection<Supplier<? extends M>> parallelModules(Supplier<M> standardModuleGetter, Function<Integer, M>... moduleConstructors) {
 		return parallelModules(THREADS, standardModuleGetter, moduleConstructors);
 	}
 }

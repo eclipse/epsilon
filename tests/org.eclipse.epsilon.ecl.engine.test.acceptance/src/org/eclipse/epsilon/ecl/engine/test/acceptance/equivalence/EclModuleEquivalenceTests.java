@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
+import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
-import org.eclipse.epsilon.erl.engine.test.util.ErlEquivalenceTests;
 import org.eclipse.epsilon.test.util.EpsilonTestUtil;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -15,7 +15,7 @@ import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized.Parameters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EclModuleEquivalenceTests extends ErlEquivalenceTests<IEclModule, IEolRunConfiguration<IEclModule, MatchTrace>> {
+public class EclModuleEquivalenceTests extends EolEquivalenceTests<IEclModule, IEolRunConfiguration<IEclModule, MatchTrace>> {
 
 	public EclModuleEquivalenceTests(IEolRunConfiguration<IEclModule, MatchTrace> configUnderTest) {
 		super(configUnderTest);

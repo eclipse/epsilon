@@ -34,8 +34,7 @@ public class GUnitGenerator {
 		final String testcaseFileName = getTestCaseName(Interp.parse(new ANTLRFileStream(args[1])));
 		
 		final StringBuilder output = new StringBuilder();
-		final BufferedReader reader = new BufferedReader(new FileReader(testcaseFileName));
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(testcaseFileName))) {
 
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -49,15 +48,10 @@ public class GUnitGenerator {
 					output.append(NEWLINE);
 				}
 			}
-		} finally {
-			reader.close();
 		}
 		
-		FileWriter fw = new FileWriter(testcaseFileName);
-		try {
+		try (FileWriter fw = new FileWriter(testcaseFileName)) {
 			fw.append(output.toString());
-		} finally {
-			fw.close();
 		}
 	}
 	

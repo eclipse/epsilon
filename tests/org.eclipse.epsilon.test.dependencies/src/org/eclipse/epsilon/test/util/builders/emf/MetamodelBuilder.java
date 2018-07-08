@@ -18,9 +18,7 @@ package org.eclipse.epsilon.test.util.builders.emf;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.emf.ecore.EPackage;
-
 
 public class MetamodelBuilder {
 	
@@ -28,7 +26,7 @@ public class MetamodelBuilder {
 		return new MetamodelBuilder();
 	}
 
-	private final List<EPackage> ePackages = new LinkedList<EPackage>();
+	private final List<EPackage> ePackages = new LinkedList<>();
 	
 	public MetamodelBuilder with(EPackageBuilder ePackageBuilder) {
 		return with(ePackageBuilder.build());

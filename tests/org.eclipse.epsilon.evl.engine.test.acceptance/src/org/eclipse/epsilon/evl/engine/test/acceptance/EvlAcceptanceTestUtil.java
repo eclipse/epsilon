@@ -14,13 +14,13 @@
  */
 package org.eclipse.epsilon.evl.engine.test.acceptance;
 
+import static org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil.*;
 import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
-import static org.eclipse.epsilon.erl.engine.test.util.ErlAcceptanceTestUtil.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.util.CollectionUtil;
-import org.eclipse.epsilon.erl.engine.test.util.ErlAcceptanceTestUtil;
+import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
 import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.concurrent.*;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
@@ -113,7 +113,7 @@ public class EvlAcceptanceTestUtil {
 	public static Collection<EvlRunConfiguration> getScenarios(List<String[]> testInputs, boolean includeTest, Collection<Supplier<? extends IEvlModule>> moduleGetters, Function<String[], Integer> idCalculator) {
 		if (testInputs == null) testInputs = allInputs;
 		if (moduleGetters == null) moduleGetters = modules();
-		Collection<EvlRunConfiguration> scenarios = ErlAcceptanceTestUtil.getScenarios(EvlRunConfiguration.class, testInputs, moduleGetters, idCalculator);
+		Collection<EvlRunConfiguration> scenarios = EolAcceptanceTestUtil.getScenarios(EvlRunConfiguration.class, testInputs, moduleGetters, idCalculator);
 		
 		if (includeTest) {
 			for (Supplier<? extends IEvlModule> moduleGetter : moduleGetters) {
@@ -152,7 +152,7 @@ public class EvlAcceptanceTestUtil {
 	
 	// Boilerplate defaults
 	public static List<String[]> addAllInputs(String[] scripts, String[] models, String metamodel) {
-		return ErlAcceptanceTestUtil.addAllInputs(scripts, models, metamodel, "evl", scriptsRoot, modelsRoot, metamodelsRoot);
+		return EolAcceptanceTestUtil.addAllInputs(scripts, models, metamodel, "evl", scriptsRoot, modelsRoot, metamodelsRoot);
 	}
 	@SafeVarargs
 	public static Collection<EvlRunConfiguration> getScenarios(Supplier<? extends IEvlModule>... moduleGetters) {

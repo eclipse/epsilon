@@ -47,7 +47,6 @@
     <module>org.eclipse.epsilon.eol.engine.test.acceptance</module>
     <module>org.eclipse.epsilon.eol.engine.test.unit</module>
     <module>org.eclipse.epsilon.epl.engine.test.acceptance</module>
-    <module>org.eclipse.epsilon.erl.engine.test</module>
     <module>org.eclipse.epsilon.etl.engine.test.acceptance</module>
     <module>org.eclipse.epsilon.evl.engine.test.acceptance</module>
     <module>org.eclipse.epsilon.ewl.engine.test.acceptance</module>

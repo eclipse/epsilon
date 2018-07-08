@@ -5,7 +5,7 @@ import static org.eclipse.epsilon.evl.engine.test.acceptance.EvlAcceptanceTestUt
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.eclipse.epsilon.erl.engine.test.util.ErlEquivalenceTests;
+import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
 import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 import org.eclipse.epsilon.evl.trace.ConstraintTraceItem;
@@ -16,7 +16,7 @@ import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized.Parameters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EvlModuleEquivalenceTests extends ErlEquivalenceTests<IEvlModule, EvlRunConfiguration> {
+public class EvlModuleEquivalenceTests extends EolEquivalenceTests<IEvlModule, EvlRunConfiguration> {
 	
 	public EvlModuleEquivalenceTests(EvlRunConfiguration configUnderTest) {
 		super(configUnderTest);

@@ -18,11 +18,9 @@ package org.eclipse.epsilon.test.util.builders.emf;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
-
 
 public class EPackageBuilder {
 	
@@ -34,8 +32,8 @@ public class EPackageBuilder {
 		return new EPackageBuilder();
 	}
 
-	private final List<EPackage> subpackages = new LinkedList<EPackage>();
-	private final List<EClassifier> eClassifiers = new LinkedList<EClassifier>();
+	private final List<EPackage> subpackages = new LinkedList<>();
+	private final List<EClassifier> eClassifiers = new LinkedList<>();
 	private String nsURI, name;
 	
 	public EPackageBuilder withNsURI(String nsURI) {
