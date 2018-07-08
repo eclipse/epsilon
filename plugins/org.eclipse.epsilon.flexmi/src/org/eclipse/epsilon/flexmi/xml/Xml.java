@@ -4,9 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public class Xml {
+	
+	public static List<String> getAttributeNames(Element e) {
+		List<String> names = new ArrayList<String>();
+		NamedNodeMap attributes = e.getAttributes();
+		for (int i = 0; i < attributes.getLength(); i++) {
+			names.add(attributes.item(i).getNodeName());
+		}
+		return names;
+	}
 	
 	public static Element getChild(Element e, String name) {
 		List<Element> children = getChildren(e, name);

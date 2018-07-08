@@ -7,5 +7,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.flexmi,
  org.junit,
  org.eclipse.epsilon.eol.engine,
- org.eclipse.epsilon.emc.emf
+ org.eclipse.epsilon.emc.emf,
+ com.google.guava
 Export-Package: org.eclipse.epsilon.flexmi.test

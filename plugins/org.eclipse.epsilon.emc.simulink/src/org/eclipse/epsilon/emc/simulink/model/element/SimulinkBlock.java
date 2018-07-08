@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
@@ -34,11 +35,12 @@ public class SimulinkBlock extends SimulinkElement {
 
 	/**
 	 * CONSTRUCTORS
+	 * @throws MatlabRuntimeException 
 	 * 
 	 * @throws EolRuntimeException
 	 */
 
-	public SimulinkBlock(SimulinkModel model, MatlabEngine engine, Double handle) {
+	public SimulinkBlock(SimulinkModel model, MatlabEngine engine, Double handle) throws MatlabRuntimeException {
 		super(model, engine, handle);
 	}
 	
@@ -74,7 +76,7 @@ public class SimulinkBlock extends SimulinkElement {
 	public SimulinkBlock getParent() {
 		try {
 			String path = getPath();
-			String name = ((String) getProperty("name")).replace("/", "//");
+			String name = ((String) getProperty("name")).replace("/", "//").replace("\n", " ");
 			if (!path.equalsIgnoreCase(name)) {
 				String parentPath = path.substring(0, path.length() - name.length() - 1);
 			if (parentPath.replace("//", "").indexOf("/") < 0)

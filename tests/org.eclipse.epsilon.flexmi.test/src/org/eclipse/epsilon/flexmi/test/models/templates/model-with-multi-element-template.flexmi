@@ -10,6 +10,8 @@
 			<class name="C1">
 				<attr name="a1"/>
 			</class>
+			<class name="C2">
+			</class>
 		</content>
 	</_template>
 </_>

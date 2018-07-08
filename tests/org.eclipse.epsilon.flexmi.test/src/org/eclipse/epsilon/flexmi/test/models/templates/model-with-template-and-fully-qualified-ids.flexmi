@@ -2,14 +2,12 @@
 <?nsuri http://www.eclipse.org/emf/2002/Ecore?>
 <_>
 	<package name="p1">
-		<_t1/>
+		<_t1 name="C1"/>
+		<_t1 name="C2"/>
 	</package>
 	<_template name="t1">
-		<parameter name="p1"/>
 		<content>
-			<class name="C1">
-				<attr name="a1"/>
-			</class>
+			<class name="C"/>
 		</content>
 	</_template>
 </_>

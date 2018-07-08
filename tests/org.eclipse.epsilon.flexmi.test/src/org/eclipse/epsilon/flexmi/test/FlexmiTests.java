@@ -11,7 +11,7 @@ import org.eclipse.epsilon.eol.EolEvaluator;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 
-public class FlexmiTests {
+public abstract class FlexmiTests {
 	
 	protected FlexmiResource loadResource(String filename) throws Exception {
 		ResourceSet resourceSet = new ResourceSetImpl();

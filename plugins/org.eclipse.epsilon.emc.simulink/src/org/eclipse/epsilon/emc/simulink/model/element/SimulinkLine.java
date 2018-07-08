@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
@@ -20,7 +21,7 @@ public class SimulinkLine extends SimulinkElement {
 	private static final String DST_PORT_HANDLE = "DstPortHandle";
 	private static final String SRC_PORT_HANDLE = "SrcPortHandle";
 		
-	public SimulinkLine(SimulinkModel model, MatlabEngine engine, Double handle) {
+	public SimulinkLine(SimulinkModel model, MatlabEngine engine, Double handle) throws MatlabRuntimeException {
 		super(model, engine, handle);
 	}
 

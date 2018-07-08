@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
@@ -21,9 +22,13 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 
 	protected Double handle = null;
 
-	public SimulinkElement(SimulinkModel model, MatlabEngine engine, Double handle) {
+	public SimulinkElement(SimulinkModel model, MatlabEngine engine, Double handle) throws MatlabRuntimeException{
 		super(model, engine);
-		this.handle = handle;
+		if (handle == -1 ) {
+			throw new MatlabRuntimeException("Bad handle -1");
+		} else {			
+			this.handle = handle;
+		}
 		setType();
 	}
 
@@ -107,7 +112,8 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 	 */
 	public String getPath() {
 		try {
-			return (String) engine.evalWithResult(GET_FULL_NAME, handle);
+			String path = (String) engine.evalWithResult(GET_FULL_NAME, handle);
+			return path.replace("\n", " ");
 		} catch (MatlabException e) {
 			return null;
 		}
