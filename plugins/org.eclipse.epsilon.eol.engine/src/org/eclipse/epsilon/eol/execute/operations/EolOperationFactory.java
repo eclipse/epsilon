@@ -45,6 +45,7 @@ public class EolOperationFactory {
 		operationCache.put("parallelSelect", new ParallelSelectOperation());
 		operationCache.put("parallelSelectOne", new ParallelSelectOneOperation());
 		operationCache.put("parallelReject", new ParallelRejectOperation());
+		operationCache.put("parallelRejectOne", new ParallelRejectOneOperation());
 		operationCache.put("parallelOne", new ParallelOneOperation());
 		operationCache.put("parallelExists", new ParallelExistsOperation());
 		operationCache.put("parallelForAll", new ParallelForAllOperation());

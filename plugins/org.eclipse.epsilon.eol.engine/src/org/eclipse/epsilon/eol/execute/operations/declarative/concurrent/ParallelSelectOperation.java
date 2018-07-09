@@ -15,6 +15,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
+import org.eclipse.epsilon.eol.execute.operations.declarative.FirstOrderOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 
@@ -22,15 +23,16 @@ public class ParallelSelectOperation extends SelectOperation {
 
 	@Override
 	public Collection<?> execute(Object target, Variable iterator, Expression expression,
-		IEolContext context_, boolean returnOnMatch, boolean isSelect) throws EolRuntimeException {
+		IEolContext context_, final boolean returnOnMatch, final boolean isSelect) throws EolRuntimeException {
 		
 		if (returnOnMatch) {
-			if (isSelect) {
-				return Collections.singleton(
-					new ParallelSelectOneOperation().execute(target, iterator, expression, context_)
-				);
-			}
-			else throw new IllegalArgumentException("Unsupported combination: returnOnMatch && reject");
+			FirstOrderOperation delegate = isSelect ? new ParallelSelectOneOperation() : new ParallelRejectOneOperation();	
+			Object result = delegate.execute(target, iterator, expression, context_);
+			
+			if (isSelect && returnOnMatch)
+				return Collections.singleton(result);
+			else
+				return (Collection<?>) result;
 		}
 		
 		IEolContextParallel context = context_ instanceof IEolContextParallel ?

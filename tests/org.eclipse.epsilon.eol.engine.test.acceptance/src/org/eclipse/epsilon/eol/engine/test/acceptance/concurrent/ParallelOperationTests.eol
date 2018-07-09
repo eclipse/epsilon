@@ -7,6 +7,11 @@ var testData = Bag{
 	999999l, -1l, -2d, 0f, 7, null, 6
 };
 
+operation Collection equalsIgnoreOrder(other : Collection) {
+	assertTrue(self.containsAll(other));
+	assertEquals(self.size(), other.size());
+}
+
 @test
 operation testParallelSelectEquivalence() {
 	var expected = testData.select(t |
@@ -21,8 +26,7 @@ operation testParallelSelectEquivalence() {
 		t.asReal() > 22/7
 	);
 	
-	assertTrue(actual.containsAll(expected));
-	assertEquals(actual.size(), expected.size());
+	actual.equalsIgnoreOrder(expected);
 }
 
 @test
@@ -39,8 +43,7 @@ operation testParallelRejectEquivalence() {
 		t.asReal() > 22/7
 	);
 	
-	assertTrue(actual.containsAll(expected));
-	assertEquals(actual.size(), expected.size());
+	actual.equalsIgnoreOrder(expected);
 }
 
 @test
@@ -66,6 +69,17 @@ operation testParallelSelectOneEquivalence() {
 	);
 	
 	assertEquals(expected, actual);
+}
+
+@test
+operation testParallelRejectOneEquivalence() {
+	var expected = testData.rejectOne(t | t <> null and t.asBoolean());
+	var actual = testData.parallelRejectOne(t | t <> null and t.asBoolean());
+	actual.equalsIgnoreOrder(expected);
+	
+	expected = testData.rejectOne(t | t <> null and t.asString().length() > 256);
+	actual = testData.parallelRejectOne(t | t <> null and t.asString().length() > 256);
+	actual.equalsIgnoreOrder(expected);
 }
 
 @test
@@ -129,8 +143,7 @@ operation testParallelCollectEquivalence() {
 	data.addAll(testData);
 	var expected = data.collect(t | t == null or t.asString().length() >= 5);
 	var actual = data.parallelCollect(t | t == null or t.asString().length() >= 5);
-	assertEquals(expected.size(), actual.size());
-	assertTrue(actual.includesAll(expected));
+	actual.equalsIgnoreOrder(expected);
 }
 
 @test
@@ -184,6 +197,17 @@ operation testParallelReject() {
 	assertEquals(data, rejected);
 	rejected = data.parallelReject(n | n < 10);
 	assertEquals(Sequence{}, rejected);
+}
+
+@test
+operation testParallelRejectOne() {
+	var data := Sequence {0..9};
+	var rejected = data.parallelRejectOne(n | n > 3);
+	data.remove(4);
+	assertEquals(data, rejected);
+	data.add(4);
+	rejected = data.parallelRejectOne(n | n > 9);
+	assertEquals(data, rejected);
 }
 
 @test
