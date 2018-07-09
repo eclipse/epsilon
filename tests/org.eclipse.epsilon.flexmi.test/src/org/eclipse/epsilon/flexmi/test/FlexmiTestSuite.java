@@ -12,7 +12,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	IncludeImportTests.class,
 	TemplateTests.class,
 	AllocatorTests.class,
-	IdTests.class
+	IdTests.class,
+	VariableTests.class
 })
 public class FlexmiTestSuite {
 

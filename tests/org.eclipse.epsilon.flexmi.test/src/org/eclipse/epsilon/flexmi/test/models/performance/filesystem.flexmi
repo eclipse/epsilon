@@ -1,0 +1,62 @@
+<?nsuri http://www.eclipse.org/emf/2002/Ecore?>
+<_>
+	<package name="Filesystem">
+		<class name="Filesystem">
+			<_string name="name"/>
+			<_vals name="drives" type="Drive"/>
+		</class>
+		<class name="FilesystemElement">
+			<_string name="name"/>
+		</class>
+		<class name="Folder" super="FilesystemElement">
+			<_strings name="tags"/>
+			<_vals name="contents" type="FilesystemElement"/>
+		</class>
+		<class name="File" super="FilesystemElement">
+			<_string name="content"/>
+		</class>
+		<class name="Shortcut" super="File">
+			<_ref name="target" type="FilesystemElement"/>
+		</class>
+		<class name="Drive" super="Folder"/>
+	</package>
+	
+	<_template name="ref">
+		<content>
+			<reference containment="false"/>
+		</content>
+	</_template>
+
+	<_template name="ref">
+		<content>
+			<reference containment="false" upper="-1"/>
+		</content>
+	</_template>
+		
+	<_template name="val">
+		<content>
+			<reference containment="true"/>
+		</content>
+	</_template>
+
+	<_template name="vals">
+		<content>
+			<reference containment="true" upper="-1"/>
+		</content>
+	</_template>
+	
+	<_template name="string">
+		<content>
+			<attribute type="String"/>
+		</content>
+	</_template>
+	
+	<_template name="strings">
+		<content>
+			<attribute type="String" upper="-1"/>
+		</content>
+	</_template>
+	
+	<datatype name="String"/>
+	<datatype name="Integer"/>
+</_>

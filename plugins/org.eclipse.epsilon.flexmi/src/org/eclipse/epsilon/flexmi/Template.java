@@ -3,6 +3,8 @@ package org.eclipse.epsilon.flexmi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.text.StrLookup;
+import org.apache.commons.lang3.text.StrSubstitutor;
 import org.eclipse.epsilon.flexmi.xml.Xml;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -58,17 +60,17 @@ public class Template {
 	
 	protected void replaceParameters(Element element, Element call) {
 		
-		List<String> parameters = new ArrayList<String>();
-		for (String attributeName : Xml.getAttributeNames(call)) {
-			if (attributeName.startsWith(Template.PREFIX)) parameters.add(attributeName);
-		}
-		
-		for (String attributeName : Xml.getAttributeNames(element)) {
-			String value = element.getAttribute(attributeName);
-			for (String parameter : parameters) {
-				value = value.replace("${" + parameter.substring(Template.PREFIX.length()) + "}", call.getAttribute(parameter));
+		StrSubstitutor substitutor = new StrSubstitutor(new StrLookup<String>() {
+			@Override
+			public String lookup(String name) {
+				return call.getAttribute("_" + name);
 			}
-			element.setAttribute(attributeName, value);
+		});
+		
+		for (Node attribute : Xml.getAttributes(element)) {
+			if (attribute.getNodeValue().indexOf("$") > -1) {
+				attribute.setNodeValue(substitutor.replace(attribute.getNodeValue()));
+			}
 		}
 		
 		for (Element child : Xml.getChildren(element)) {
