@@ -30,7 +30,7 @@ public class EolOperationFactory {
 		operationCache.put("assertError", new AssertErrorOperation());
 		operationCache.put("collect", new CollectOperation());
 		operationCache.put("exists", new ExistsOperation());
-		operationCache.put("one", new OneOperation());
+		operationCache.put("one", new NMatchOperation(1));
 		operationCache.put("forAll", new ForAllOperation());
 		operationCache.put("reject", new RejectOperation());
 		operationCache.put("select", new SelectOperation());
@@ -42,11 +42,13 @@ public class EolOperationFactory {
 		operationCache.put("as", new AsOperation());
 		operationCache.put("find", new FindOperation());
 		operationCache.put("rejectOne", new RejectOneOperation());
+		operationCache.put("none", new NMatchOperation(0));
 		operationCache.put("parallelSelect", new ParallelSelectOperation());
 		operationCache.put("parallelSelectOne", new ParallelSelectOneOperation());
 		operationCache.put("parallelReject", new ParallelRejectOperation());
 		operationCache.put("parallelRejectOne", new ParallelRejectOneOperation());
-		operationCache.put("parallelOne", new ParallelOneOperation());
+		operationCache.put("parallelOne", new ParallelNMatchOperation(1));
+		operationCache.put("parallelNone", new ParallelNMatchOperation(0));
 		operationCache.put("parallelExists", new ParallelExistsOperation());
 		operationCache.put("parallelForAll", new ParallelForAllOperation());
 		operationCache.put("parallelCollect", new ParallelCollectOperation());

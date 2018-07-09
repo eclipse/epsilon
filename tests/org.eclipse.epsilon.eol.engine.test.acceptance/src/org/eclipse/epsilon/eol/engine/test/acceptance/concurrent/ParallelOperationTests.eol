@@ -109,6 +109,19 @@ operation testParallelOneEquivalence() {
 }
 
 @test
+operation testParallelNoneEquivalence() {
+	var expected = testData.none(t | t == null);
+	assertFalse(expected);
+	var actual = testData.parallelNone(t | t == null);
+	assertEquals(expected, actual);
+		
+	expected = testData.none(t | t <> null and not t.getClass().getName().startsWith("java"));
+	assertTrue(expected);
+	actual = testData.parallelNone(t | t <> null and not t.getClass().getName().startsWith("java"));
+	assertEquals(expected, actual);
+}
+
+@test
 operation testParallelForAllEquivalence() {
 	var expected = testData.forAll(t | t <> null);
 	assertFalse(expected);
@@ -226,6 +239,17 @@ operation testParallelOne() {
 	assertFalse(one);
 	one = data.parallelOne(n | n == 2 or (n > 1 and n < 3));
 	assertTrue(one);
+	one = data.parallelOne(n | n < 0);
+	assertFalse(one);
+}
+
+@test
+operation testParallelNone() {
+	var data := Sequence {0..9};
+	var none = data.parallelNone(n | n == null);
+	assertTrue(none);
+	none = data.parallelNone(n | n > 7);
+	assertFalse(none);
 }
 
 @test

@@ -29,10 +29,7 @@ public class ParallelSelectOperation extends SelectOperation {
 			FirstOrderOperation delegate = isSelect ? new ParallelSelectOneOperation() : new ParallelRejectOneOperation();	
 			Object result = delegate.execute(target, iterator, expression, context_);
 			
-			if (isSelect && returnOnMatch)
-				return Collections.singleton(result);
-			else
-				return (Collection<?>) result;
+			return isSelect ? Collections.singleton(result) : (Collection<?>) result;
 		}
 		
 		IEolContextParallel context = context_ instanceof IEolContextParallel ?

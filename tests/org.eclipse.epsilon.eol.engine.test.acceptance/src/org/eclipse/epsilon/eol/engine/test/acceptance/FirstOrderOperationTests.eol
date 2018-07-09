@@ -60,6 +60,17 @@ operation testOne() {
 	assertFalse(one);
 	one = data.one(n | n == 2 or (n > 1 and n < 3));
 	assertTrue(one);
+	one = data.one(n | n < 0);
+	assertFalse(one);
+}
+
+@test
+operation testNone() {
+	var data := Sequence {0..9};
+	var none = data.none(n | n == null);
+	assertTrue(none);
+	none = data.none(n | n > 7);
+	assertFalse(none);
 }
 
 @test

@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
@@ -12,23 +13,16 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
-import org.eclipse.epsilon.eol.execute.operations.declarative.FirstOrderOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.NMatchOperation;
 
-public class ParallelSelectOneOperation extends FirstOrderOperation {
-	
-	final boolean isSelect;
-	boolean hasResult;
-	
-	public ParallelSelectOneOperation() {
-		isSelect = true;
-	}
-	
-	ParallelSelectOneOperation(boolean select) {
-		this.isSelect = select;
+public class ParallelNMatchOperation extends NMatchOperation {
+
+	public ParallelNMatchOperation(int targetMatches) {
+		super(targetMatches);
 	}
 	
 	@Override
-	public Object execute(Object target, Variable iterator, Expression expression,
+	public Boolean execute(Object target, Variable iterator, Expression expression,
 			IEolContext context_) throws EolRuntimeException {
 		
 		IEolContextParallel context = context_ instanceof IEolContextParallel ?
@@ -37,6 +31,7 @@ public class ParallelSelectOneOperation extends FirstOrderOperation {
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		
+		AtomicInteger currentMatches = new AtomicInteger();
 		EolExecutorService executor = context.newExecutorService();
 		ConcurrentExecutionStatus execStatus = executor.getExecutionStatus();
 		
@@ -56,13 +51,10 @@ public class ParallelSelectOneOperation extends FirstOrderOperation {
 						context.handleException(ex, executor);
 					}
 					
-					if (bodyResult instanceof Boolean) {
-						boolean brBool = (boolean) bodyResult;
-						if ((brBool && isSelect) || (!brBool && !isSelect)) {
-							hasResult = true;
-							// "item" will be the result
-							execStatus.completeSuccessfully(item);
-						}
+					if (bodyResult instanceof Boolean && (boolean) bodyResult && 
+							currentMatches.incrementAndGet() > targetMatches) {
+						
+						execStatus.completeSuccessfully();
 					}
 					
 					scope.leaveLocal(expression);
@@ -71,12 +63,11 @@ public class ParallelSelectOneOperation extends FirstOrderOperation {
 			
 		}
 		
-		Object result = executor.awaitCompletion();
+		executor.awaitCompletion();
 		// Prevent unnecessary evaluation of remaining jobs once we have the result
 		executor.shutdownNow();
 
 		//context.endParallel();
-		return result;
+		return currentMatches.get() == targetMatches;
 	}
-
 }
