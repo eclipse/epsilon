@@ -56,7 +56,7 @@ operation testExists() {
 @test
 operation testOne() {
 	var data := Sequence {0..9};
-	var one = data.one(n | n > 3 and n < 10);
+	var one = data.one(n | n > 3 and n < 7);
 	assertFalse(one);
 	one = data.one(n | n == 2 or (n > 1 and n < 3));
 	assertTrue(one);

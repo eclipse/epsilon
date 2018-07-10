@@ -48,7 +48,8 @@ public class ParallelSelectOperation extends SelectOperation {
 					
 					FrameStack scope = context.getFrameStack();
 					scope.enterLocal(FrameType.UNPROTECTED, expression,
-						Variable.createReadOnlyVariable(iterator.getName(), item));
+						Variable.createReadOnlyVariable(iterator.getName(), item)
+					);
 					
 					Object bodyResult = context.getExecutorFactory().execute(expression, context);
 					

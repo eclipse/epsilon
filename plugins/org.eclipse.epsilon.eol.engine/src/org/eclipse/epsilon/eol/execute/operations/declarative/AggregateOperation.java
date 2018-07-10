@@ -68,7 +68,7 @@ public class AggregateOperation extends FirstOrderOperation {
 	}
 
 	@Override
-	public Object execute(Object target, Variable iterator, Expression expression,
+	public final Object execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		return null;
 	}

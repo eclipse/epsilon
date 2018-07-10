@@ -235,7 +235,7 @@ operation testParallelExists() {
 @test
 operation testParallelOne() {
 	var data := Sequence {0..9};
-	var one = data.parallelOne(n | n > 3 and n < 10);
+	var one = data.parallelOne(n | n > 3 and n < 7);
 	assertFalse(one);
 	one = data.parallelOne(n | n == 2 or (n > 1 and n < 3));
 	assertTrue(one);

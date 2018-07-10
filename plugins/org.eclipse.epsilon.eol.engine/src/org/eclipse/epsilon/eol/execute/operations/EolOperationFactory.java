@@ -19,7 +19,7 @@ import org.eclipse.epsilon.eol.execute.operations.declarative.concurrent.*;
 
 public class EolOperationFactory {
 	
-	protected final Map<String, AbstractOperation> operationCache = new HashMap<>(32, 0.9f);
+	protected final Map<String, AbstractOperation> operationCache = new HashMap<>(32, 1f);
 	
 	public EolOperationFactory() {
 		createCache();
@@ -53,6 +53,7 @@ public class EolOperationFactory {
 		operationCache.put("parallelForAll", new ParallelForAllOperation());
 		operationCache.put("parallelCollect", new ParallelCollectOperation());
 		operationCache.put("parallelSortBy", new ParallelSortByOperation());
+		//operationCache.put("parallelAggregate", new ParallelAggregateOperation());
 		operationCache.put("parallelFind", new ParallelFindOperation());
 	}
 
