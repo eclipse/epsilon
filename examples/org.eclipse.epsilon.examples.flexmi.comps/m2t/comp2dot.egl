@@ -26,14 +26,14 @@ operation Component toDot() {
 %]
 	[%=self.name%] [shape=plaintext label=<
 	<table border="0" cellspacing="0" cellpadding="0">
-		<tr><td>&nbsp;</td><td style="rounded" border="1" cellpadding="2" rowspan="[%=self.maxPorts()+2%]">[%=self.name%] [%if(not self.components.isEmpty()){%]&nbsp;(+)[%}%]</td><td>&nbsp;</td></tr>
+		<tr><td>&nbsp;</td><td style="rounded" border="1" cellpadding="2" rowspan="[%=2*self.maxPorts()+1%]">[%=self.name%] [%if(not self.components.isEmpty()){%]&nbsp;(+)[%}%]</td><td>&nbsp;</td></tr>
 		[%for (i in 0.to(self.maxPorts()-1)){%]
 		<tr>
 			[%=getPortCell(self.inPorts, i)%]
 			[%=getPortCell(self.outPorts, i)%]
 		</tr>
-		[%}%]
 		<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+		[%}%]
 	</table>
 	>];
 [%

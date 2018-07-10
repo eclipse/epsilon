@@ -23,7 +23,7 @@
 		</outports>
 	</component>
 	
-	<_binary-operator name="Max" action="result = in1 > in2 : in1 ? in2"/>
+	<_binary_operator name="Max" action="result = in1 > in2 : in1 ? in2"/>
 	
 	<connector from="${this}.location" to="${this}.SpeedLimitDatastore.location"/>
 	<connector from="${this}.SpeedLimitDatastore.speedLimit" to="${this}.Max.in1"/>

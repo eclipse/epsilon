@@ -1,6 +1,6 @@
 <?nsuri comps?>
 <_>
-	<_template name="binary-operator">
+	<_template name="binary_operator">
 		<content>
 			<component>
 				<inports>

@@ -12,7 +12,7 @@
 		 
 		<?include speed-limit-calculator.flexmi?>
 		
-		<_binary-operator name="Comparator" action="result = in1 > in2"/>
+		<_binary_operator name="Comparator" action="result = in1 > in2"/>
 		
 		<connector from="${this}.location" to="${this}.SpeedLimitCalculator.location"/>
 		<connector from="${this}.speed" to="${this}.Comparator.in1"/>
