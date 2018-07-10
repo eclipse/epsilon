@@ -2,11 +2,11 @@
 <_>
 	<_template name="binary_operator">
 		<content>
-			<component>
-				<inport name="in1"/>
-				<inport name="in2"/>
-				<outport name="result"/>
-			</component>
+			<comp>
+				<in name="in1"/>
+				<in name="in2"/>
+				<out name="result"/>
+			</comp>
 		</content>
 	</_template>
 </_>

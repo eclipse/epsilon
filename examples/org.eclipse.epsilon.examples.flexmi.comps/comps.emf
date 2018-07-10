@@ -1,10 +1,6 @@
 @namespace(uri="comps", prefix="comps")
 package comps;
 
-class Model extends Component {
-
-}
-
 class Component {
 	attr String name;
 	val Port[*] inPorts;
