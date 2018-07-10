@@ -1,0 +1,24 @@
+<?nsuri comps?>
+<?import library.flexmi?>
+<_>
+	<model name="SpeedMonitor" _var="this"> 
+		<inports> 
+			<port name="speed"/>
+			<port name="location"/>
+		</inports>
+		<outports>
+			<port name="warning"/>
+		</outports>
+		 
+		<?include speed-limit-calculator.flexmi?>
+		
+		<_binary_operator name="Comparator" action="result = in1 > in2"/>
+		
+		<connector from="${this}.location" to="${this}.SpeedLimitCalculator.location"/>
+		<connector from="${this}.speed" to="${this}.Comparator.in1"/>
+		<connector from="${this}.SpeedLimitCalculator.speedLimit" to="${this}.Comparator.in2"/>
+		<connector from="${this}.Comparator.result" to="${this}.warning"/>
+		
+	</model>
+	
+</_>

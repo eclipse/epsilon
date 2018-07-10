@@ -1,0 +1,15 @@
+<project>
+	
+	<epsilon.emf.loadModel name="M" modelfile="comps.flexmi" 
+		metamodeluri="comps" read="true" store="false"/>
+	
+	<epsilon.egl src="m2t/comps.egx" outputroot="gen">
+		<model ref="M"/>
+	</epsilon.egl>
+	
+	<exec dir="gen/graphviz" executable="/bin/bash">
+		<env key="PATH" path="/usr/local/bin" />
+		<arg value="rundot.sh"/>
+	</exec>
+	
+</project>
