@@ -3,13 +3,9 @@
 	<_template name="binary_operator">
 		<content>
 			<component>
-				<inports>
-					<port name="in1"/>
-					<port name="in2"/>
-				</inports>
-				<outports>
-					<port name="result"/>
-				</outports>
+				<inport name="in1"/>
+				<inport name="in2"/>
+				<outport name="result"/>
 			</component>
 		</content>
 	</_template>
