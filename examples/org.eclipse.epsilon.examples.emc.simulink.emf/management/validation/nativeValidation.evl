@@ -1,0 +1,47 @@
+context Sum {
+	critique PropertyCheckA {
+		check : self.SaturateOnIntegerOverflow == "on"
+	}
+}
+context Inport {	
+ 	critique PropertyCheckB { 
+		check : self.PortDimensions <> -1
+	}
+}
+context Outport { 
+ 	critique PropertyCheckC { 
+		check :	self.Name == self.InputSignalNames
+	}
+}
+context SubSystem {
+	critique TransitiveClosure { 
+		check : self.closure(p|p.getParent()).flatten().size() < 2
+	}
+	critique NavigationAndFilterA {
+		guard : not Inport.all.select(i|i.parent == self).isEmpty()
+		check : Inport.all.select(i|i.parent == self).forAll(i|i.ForegroundColor == "green")
+	}
+	critique NavigationAndFilterB { 
+		check : self.getOutports().collect(o|o.Name).forAll(n|n <> null and n <> "")
+	}
+}
+context Gain {
+	critique LoopAbsence {
+		check : not self.getOutports().collect(o|o.getLines()).flatten().exists(l|l.getDestination() == self) 
+	}
+}
+context Block {
+	critique VertexConnectivityA {
+		check {
+			var connections = self.getOutports().collect(o|o.getLines()).flatten();
+			return (not connections.isEmpty()) and connections.forAll(l|l.getDestination().isKindOf(Block));
+		} 
+	}
+}
+operation SubSystem getParent() : Sequence {
+	if (self.parent == null) {
+		return new Sequence();
+	} else {
+		return Sequence {self.parent};
+	}
+}

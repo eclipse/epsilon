@@ -2,13 +2,9 @@
 <?import library.flexmi?>
 <_>
 	<model name="SpeedMonitor" _var="this"> 
-		<inports> 
-			<port name="speed"/>
-			<port name="location"/>
-		</inports>
-		<outports>
-			<port name="warning"/>
-		</outports>
+		<inport name="speed"/>
+		<inport name="location"/>
+		<outport name="warning"/>
 		 
 		<?include speed-limit-calculator.flexmi?>
 		

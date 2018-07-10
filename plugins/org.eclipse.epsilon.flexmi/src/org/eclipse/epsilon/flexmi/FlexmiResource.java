@@ -262,26 +262,41 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 					}
 				}
 				
-				// No containment references found
-				// Find potential types for the element
-				Set<EClass> candidates = new HashSet<EClass>();
+				// Check for the best class or containment reference
+				Set<ENamedElement> candidates = new HashSet<ENamedElement>();
+				Set<EClass> candidateEClasses = new HashSet<EClass>();
 				for (EReference eReference : parent.eClass().getEAllContainments()) {
-					candidates.addAll(getAllSubtypes(eReference.getEReferenceType()));				
+					candidateEClasses.addAll(getAllSubtypes(eReference.getEReferenceType()));				
 				}
 				
-				// Get the best match and an appropriate containment reference
-				eClass = (EClass) eNamedElementForName(name, candidates);
-				if (eClass != null) {
-					for (EReference eReference : parent.eClass().getEAllContainments()) {
-						if (getAllSubtypes(eReference.getEReferenceType()).contains(eClass)) {
-							containment = eReference;
-							break;
+				candidates.addAll(candidateEClasses);
+				candidates.addAll(parent.eClass().getEAllContainments());
+				
+				// Search for the best match between containment refs and class names
+				ENamedElement topCandidate = eNamedElementForName(name, candidates);
+				
+				if (topCandidate instanceof EClass) {
+					// Get the best match and an appropriate containment reference
+					eClass = (EClass) topCandidate;
+					if (eClass != null) {
+						Set<EReference> candidateEReferences = new HashSet<EReference>();
+						for (EReference eReference : parent.eClass().getEAllContainments()) {
+							if (getAllSubtypes(eReference.getEReferenceType()).contains(eClass)) {
+								candidateEReferences.add(eReference);
+							}
 						}
+						containment = (EReference) eNamedElementForName(name, candidateEReferences);
+					}
+				}
+				else {
+					containment = (EReference) topCandidate;
+					if (containment != null) {
+						eClass = (EClass) eNamedElementForName(name, candidateEClasses);
 					}
 				}
 				
 				// Found an appropriate containment reference
-				if (containment != null) {
+				if (containment != null && eClass != null) {
 					eObject = eClass.getEPackage().getEFactoryInstance().create(eClass);
 					if (containment.isMany()) {
 						((List<EObject>) parent.eGet(containment)).add(eObject);
