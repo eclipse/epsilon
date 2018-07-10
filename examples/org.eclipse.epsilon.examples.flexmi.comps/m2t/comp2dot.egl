@@ -1,0 +1,75 @@
+digraph G {
+	rankdir=LR
+	
+	[%if (r.components.notEmpty()){%]
+	{rank = same [%=r.inPorts.name.concat(" ")%]}
+	{rank = same [%=r.outPorts.name.concat(" ")%]}
+	[%for (p in r.inPorts.includingAll(r.outPorts)){%]
+	[%=p.name%] [shape=rect];
+	[%}%]
+	
+	[%for (c in r.components){%]
+	[%=c.toDot()%]
+	[%}%]
+	
+	[%for (c in Connector.all.select(c|c.belongsToDiagram())){%]
+	[%=c.from.getDotID()%] -> [%=c.to.getDotID()%]
+	[%}%]
+	[%}else{%]
+	[%=r.toDot()%]
+	[%}%]
+}
+
+[%
+@template
+operation Component toDot() {
+%]
+	[%=self.name%] [shape=plaintext label=<
+	<table border="0" cellspacing="0" cellpadding="0">
+		<tr><td>&nbsp;</td><td style="rounded" border="1" cellpadding="2" rowspan="[%=self.maxPorts()+2%]">[%=self.name%] [%if(not self.components.isEmpty()){%]&nbsp;(+)[%}%]</td><td>&nbsp;</td></tr>
+		[%for (i in 0.to(self.maxPorts()-1)){%]
+		<tr>
+			[%=getPortCell(self.inPorts, i)%]
+			[%=getPortCell(self.outPorts, i)%]
+		</tr>
+		[%}%]
+		<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+	</table>
+	>];
+[%
+}
+
+operation Port getDotID(){
+	if (self.eContainer() == r) {
+		return self.name;
+	}
+	else {
+		return self.eContainer().name + ":" + self.name;
+	}
+}
+
+operation getPortCell(ports : Collection, index : Integer) {
+	var cell = "<td cellpadding='2' ";
+	if (ports.size > index) {
+		cell += "border='1' port='" + ports.at(index).name + "'>" + ports.at(index).name;
+	}
+	else {
+		cell += ">";
+	}
+	cell += "</td>";
+	return cell;
+}
+
+operation Component maxPorts() {
+	return Sequence{self.inPorts.size(), self.outPorts.size()}.max();
+}
+
+operation Connector belongsToDiagram() {
+	return Sequence{self.from, self.to}.forAll(p|
+		r.inPorts.includes(p) or 
+		r.outPorts.includes(p) or 
+		r.components.inPorts.flatten().includes(p) or
+		r.components.outPorts.flatten().includes(p));
+}
+
+%]

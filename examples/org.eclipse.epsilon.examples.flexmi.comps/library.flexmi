@@ -1,0 +1,16 @@
+<?nsuri comps?>
+<_>
+	<_template name="binary-operator">
+		<content>
+			<component>
+				<inports>
+					<port name="in1"/>
+					<port name="in2"/>
+				</inports>
+				<outports>
+					<port name="result"/>
+				</outports>
+			</component>
+		</content>
+	</_template>
+</_>
