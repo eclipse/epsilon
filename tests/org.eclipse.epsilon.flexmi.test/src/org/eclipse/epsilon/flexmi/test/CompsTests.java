@@ -20,6 +20,18 @@ public class CompsTests extends FlexmiTests {
 		assertEval("Component.all.first().outPorts.size()", 1, "comps/comp-with-ports.flexmi");
 	}
 	
+	@Test
+	public void testInPortsNamedIn() throws Exception {
+		assertEval("Component.all.first().inPorts.size()", 1, "comps/in-out.flexmi");
+		assertEval("Component.all.first().inPorts.first().eClass().name", "Port", "comps/in-out.flexmi");
+		
+	}
+	
+	@Test
+	public void testOutPortsNamedOut() throws Exception {
+		assertEval("Component.all.first().outPorts.first().eClass().name", "Port", "comps/in-out.flexmi");
+	}
+	
 	@Before
 	public void setup() throws Exception {
 		comps = EmfUtil.register(URI.createURI(

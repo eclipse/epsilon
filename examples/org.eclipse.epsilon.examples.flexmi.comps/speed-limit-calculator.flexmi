@@ -1,23 +1,23 @@
 <?nsuri comps?>
 <?import library.flexmi?>
-<component name="SpeedLimitCalculator" _var="this">
-	<inport name="location"/>
-	<outport name="speedLimit"/>
+<comp name="SpeedLimitCalculator" _var="this">
+	<in name="location"/>
+	<out name="speedLimit"/>
 	
-	<component name="MinimumSpeedLimit">
-		<outport name="speedLimit"/>
-	</component>
+	<comp name="MinimumSpeedLimit">
+		<out name="speedLimit"/>
+	</comp>
 	
-	<component name="SpeedLimitDatastore">
-		<inport name="location"/>
-		<outport name="speedLimit"/>
-	</component>
+	<comp name="SpeedLimitDatastore">
+		<in name="location"/>
+		<out name="speedLimit"/>
+	</comp>
 	
 	<_binary_operator name="Max" action="result = in1 > in2 ? in1 : in2"/>
 	
-	<connector from="${this}.location" to="${this}.SpeedLimitDatastore.location"/>
-	<connector from="${this}.SpeedLimitDatastore.speedLimit" to="${this}.Max.in1"/>
-	<connector from="${this}.MinimumSpeedLimit.speedLimit" to="${this}.Max.in2"/>
-	<connector from="${this}.Max.result" to="${this}.speedLimit"/>
+	<con from="${this}.location" to="${this}.SpeedLimitDatastore.location"/>
+	<con from="${this}.SpeedLimitDatastore.speedLimit" to="${this}.Max.in1"/>
+	<con from="${this}.MinimumSpeedLimit.speedLimit" to="${this}.Max.in2"/>
+	<con from="${this}.Max.result" to="${this}.speedLimit"/>
 	
-</component>
+</comp>

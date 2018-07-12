@@ -264,12 +264,10 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				
 				// Check for the best class or containment reference
 				Set<ENamedElement> candidates = new HashSet<ENamedElement>();
-				Set<EClass> candidateEClasses = new HashSet<EClass>();
 				for (EReference eReference : parent.eClass().getEAllContainments()) {
-					candidateEClasses.addAll(getAllSubtypes(eReference.getEReferenceType()));				
+					candidates.addAll(getAllSubtypes(eReference.getEReferenceType()));				
 				}
 				
-				candidates.addAll(candidateEClasses);
 				candidates.addAll(parent.eClass().getEAllContainments());
 				
 				// Search for the best match between containment refs and class names
@@ -291,7 +289,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				else {
 					containment = (EReference) topCandidate;
 					if (containment != null) {
-						eClass = (EClass) eNamedElementForName(name, candidateEClasses);
+						eClass = (EClass) eNamedElementForName(name, getAllSubtypes(containment.getEReferenceType()));
 					}
 				}
 				

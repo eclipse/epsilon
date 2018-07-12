@@ -81,7 +81,16 @@ public class FlexmiContentOutlinePage extends ContentOutlinePage {
       contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
       contentOutlineViewer.setLabelProvider(
     		  new DecoratingColumLabelProvider(
-    				  new AdapterFactoryLabelProvider(adapterFactory), new DiagnosticDecorator(new ResourceSetImpl(), contentOutlineViewer)));
+    				  new AdapterFactoryLabelProvider(adapterFactory) { 
+    					@Override
+    					public String getText(Object object) {
+    						String text = super.getText(object);
+    						if (object instanceof EObject && ((EObject) object).eContainingFeature() != null) {
+    							text += " (" + ((EObject) object).eContainingFeature().getName() + ")";
+    						}
+    						return text;
+    					}
+    				  }, new DiagnosticDecorator(new ResourceSetImpl(), contentOutlineViewer)));
       contentOutlineViewer.setInput(new ResourceSetImpl());
       getSite().getWorkbenchWindow().getSelectionService().addPostSelectionListener(new ISelectionListener() {
 		  
