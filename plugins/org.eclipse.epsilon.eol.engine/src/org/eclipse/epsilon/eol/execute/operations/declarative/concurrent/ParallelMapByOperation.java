@@ -2,7 +2,10 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map.Entry;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -13,23 +16,23 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
-import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
-import org.eclipse.epsilon.eol.types.EolCollectionType;
+import org.eclipse.epsilon.eol.execute.operations.declarative.MapByOperation;
+import org.eclipse.epsilon.eol.types.EolMap;
+import org.eclipse.epsilon.eol.types.EolSequence;
 
-public class ParallelCollectOperation extends CollectOperation {
+public class ParallelMapByOperation extends MapByOperation {
 
 	@Override
-	public Collection<?> execute(Object target, Variable iterator, Expression expression,
+	public EolMap<?, Collection<Object>> execute(Object target, Variable iterator, Expression expression,
 			IEolContext context_) throws EolRuntimeException {
 		
 		IEolContextParallel context = context_ instanceof IEolContextParallel ?
 			(EolContextParallel) context_ : new EolContextParallel(context_);
 		context.goParallel();
-		
-		Collection<Object> source = CollectionUtil.asCollection(target);
-		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
+
+		Collection<?> source = CollectionUtil.asCollection(target);
 		EolExecutorService executor = context.newExecutorService();
-		Collection<Future<Object>> futures = new ArrayList<>(source.size());
+		Collection<Future<Entry<?, ?>>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
 			if (iterator.getType() == null || iterator.getType().isKind(item)) {
@@ -43,16 +46,27 @@ public class ParallelCollectOperation extends CollectOperation {
 					Object bodyResult = context.getExecutorFactory().execute(expression, context);
 					
 					scope.leaveLocal(expression);
-					return bodyResult;
+					return new SimpleEntry<>(bodyResult, item);
 				}));
 			}
 		}
 		
-		resultsCol.addAll(executor.collectResults(futures, true));
-		
-		//context.endParallel();
-		
-		return resultsCol;
+		return executor.collectResults(futures, true)
+			.stream()
+			.collect(Collectors.toMap(
+					Entry::getKey,
+					entry -> {
+						EolSequence<Object> value = new EolSequence<>();
+						value.add(entry.getValue());
+						return value;
+					},
+					(oldVal, newVal) -> {
+						oldVal.addAll(newVal);
+						return oldVal;
+					},
+					EolMap::new
+				)
+			);
 	}
 	
 }

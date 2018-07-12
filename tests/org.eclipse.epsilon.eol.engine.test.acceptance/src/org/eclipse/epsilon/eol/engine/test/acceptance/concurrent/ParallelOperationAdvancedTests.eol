@@ -1,0 +1,47 @@
+var Thread = Native("java.lang.Thread");
+var shared = "global variable";
+
+operation Any hashAsStr() : String {
+	return self.hashCode().asString();
+}
+
+@cached
+operation Any lengthAsStr() : Integer {
+	return self.toString().length();
+}
+
+@test
+operation testSelectScope() {
+	var testData := Sequence {0..16};
+	var expected = testData.select(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
+	assertEquals(Sequence {10..16}, expected);
+	var actual = testData.parallelSelect(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
+	assertEquals(expected, actual);
+}
+
+@test
+operation testRejectScope() {
+	var testData := Sequence {-9..16};
+	var expected = testData.reject(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
+	assertEquals(Sequence {0..9}, expected);
+	var actual = testData.parallelReject(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
+	assertEquals(expected, actual);
+}
+
+@test
+operation testExistsScope() {
+	var testData := Sequence {-9..16};
+	var expected = testData.exists(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() == 1);
+	assertTrue(expected);
+	var actual = testData.parallelExists(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() == 1);
+	assertEquals(expected, actual);
+}
+
+@test
+operation testForAllScope() {
+	var testData := Sequence {-9..12};
+	var expected = testData.forAll(n | Thread.currentThread().getName() == "main" and n <= 16);
+	assertTrue(expected);
+	var actual = testData.parallelForAll(n | Thread.currentThread().getName() <> "main" and n < shared.lengthAsStr());
+	assertEquals(expected, actual);
+}

@@ -101,3 +101,17 @@ operation testSortBy() {
 	var sorted = data.sortBy(d | d.asString().length());
 	assertEquals(expected, sorted);
 }
+
+@test
+operation testMapBy() {
+	var data = Bag {"", 1, true, false, 98, 3, 55, 0, 4443, 768, 12024, "eol", 640, "four", "null"};
+	var expected : new Map;
+	expected.put(0, Sequence{""});
+	expected.put(1, Sequence{1, 3, 0});
+	expected.put(2, Sequence{98, 55});
+	expected.put(3, Sequence{768, "eol", 640});
+	expected.put(4, Sequence{true, 4443, "four", "null"});
+	expected.put(5, Sequence{false, 12024});
+	var actual = data.mapBy(n | n.toString().length());
+	assertEquals(expected, actual);
+}

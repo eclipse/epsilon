@@ -53,7 +53,8 @@ public class EolOperationFactory {
 		operationCache.put("parallelForAll", new ParallelForAllOperation());
 		operationCache.put("parallelCollect", new ParallelCollectOperation());
 		operationCache.put("parallelSortBy", new ParallelSortByOperation());
-		//operationCache.put("parallelAggregate", new ParallelAggregateOperation());
+		operationCache.put("parallelMapBy", new ParallelMapByOperation());
+		operationCache.put("parallelAggregate", new ParallelAggregateOperation());
 		operationCache.put("parallelFind", new ParallelFindOperation());
 	}
 

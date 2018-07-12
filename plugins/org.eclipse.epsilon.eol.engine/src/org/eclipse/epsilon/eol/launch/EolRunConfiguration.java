@@ -21,6 +21,10 @@ public class EolRunConfiguration extends IEolRunConfiguration<EolModule, Object>
 			super(eolFile, modelsAndProperties, eolModule, parameters, showResults, profileExecution, configID, scratchFile);
 	}
 	
+	public EolRunConfiguration(Path eolFile) {
+		this(eolFile, null);
+	}
+	
 	public EolRunConfiguration(Path eolFile, Map<IModel, StringProperties> modelsAndProperties) {
 		this(eolFile, modelsAndProperties, null);
 	}
@@ -45,7 +49,7 @@ public class EolRunConfiguration extends IEolRunConfiguration<EolModule, Object>
 		copy.result = other.getResult();
 		return copy;
 	}
-
+	
 	@Override
 	protected EolModule getDefaultModule() {
 		return new EolModule();
