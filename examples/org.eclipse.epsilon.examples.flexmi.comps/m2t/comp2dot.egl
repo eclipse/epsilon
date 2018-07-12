@@ -5,7 +5,7 @@ digraph G {
 	{rank = same [%=r.inPorts.name.concat(" ")%]}
 	{rank = same [%=r.outPorts.name.concat(" ")%]}
 	[%for (p in r.inPorts.includingAll(r.outPorts)){%]
-	[%=p.name%] [shape=rect];
+	[%=p.name%] [shape=rect, style=rounded];
 	[%}%]
 	
 	[%for (c in r.components){%]
@@ -26,14 +26,30 @@ operation Component toDot() {
 %]
 	[%=self.name%] [shape=plaintext label=<
 	<table border="0" cellspacing="0" cellpadding="0">
-		<tr><td>&nbsp;</td><td style="rounded" border="1" cellpadding="2" rowspan="[%=2*self.maxPorts()+1%]">[%=self.name%] [%if(not self.components.isEmpty()){%]&nbsp;(+)[%}%]</td><td>&nbsp;</td></tr>
-		[%for (i in 0.to(self.maxPorts()-1)){%]
 		<tr>
-			[%=getPortCell(self.inPorts, i)%]
-			[%=getPortCell(self.outPorts, i)%]
+			<td border="1">
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+					</tr>
+					[%for (i in 0.to(self.maxPorts()-1)){%]
+					<tr>
+						[%=getPortCell(self.inPorts, i)%]
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+						[%=getPortCell(self.outPorts, i)%]
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					[%}%]
+				</table>
+			</td>
 		</tr>
-		<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-		[%}%]
+		<tr>
+			<td cellpadding="5">[%=self.name%]</td>
+		</tr>
 	</table>
 	>];
 [%
@@ -51,7 +67,9 @@ operation Port getDotID(){
 operation getPortCell(ports : Collection, index : Integer) {
 	var cell = "<td cellpadding='2' ";
 	if (ports.size > index) {
-		cell += "border='1' port='" + ports.at(index).name + "'>" + ports.at(index).name;
+		cell += " port='" + ports.at(index).name + 
+			"'><font point-size='12'>" 
+			+ ports.at(index).name + "</font>";
 	}
 	else {
 		cell += ">";
