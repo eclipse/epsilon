@@ -23,7 +23,7 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 public class ParallelMapByOperation extends MapByOperation {
 
 	@Override
-	public EolMap<?, Collection<Object>> execute(Object target, Variable iterator, Expression expression,
+	public EolMap<?, EolSequence<Object>> execute(Object target, Variable iterator, Expression expression,
 			IEolContext context_) throws EolRuntimeException {
 		
 		IEolContextParallel context = context_ instanceof IEolContextParallel ?

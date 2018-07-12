@@ -7,6 +7,8 @@ var testData = Bag{
 	999999l, -1l, -2d, 0f, 7, null, 6
 };
 
+var numberRegex = "-?[0-9]+(\\.[0-9]*)?(d|f|l)?";
+
 operation Collection equalsIgnoreOrder(other : Collection) {
 	assertTrue(self.containsAll(other));
 	assertEquals(self.size(), other.size());
@@ -16,13 +18,13 @@ operation Collection equalsIgnoreOrder(other : Collection) {
 operation testParallelSelectEquivalence() {
 	var expected = testData.select(t |
 		t <> null and
-		t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") and
+		t.asString().matches(numberRegex) and
 		t.asReal() > 22/7
 	);
 	
 	var actual = testData.parallelSelect(t |
 		t <> null and
-		t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") and
+		t.asString().matches(numberRegex) and
 		t.asReal() > 22/7
 	);
 	
@@ -33,13 +35,13 @@ operation testParallelSelectEquivalence() {
 operation testParallelRejectEquivalence() {
 	var expected = testData.reject(t |
 		t <> null and
-		t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") and
+		t.asString().matches(numberRegex) and
 		t.asReal() > 22/7
 	);
 	
 	var actual = testData.parallelReject(t |
 		t <> null and
-		t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") and
+		t.asString().matches(numberRegex) and
 		t.asReal() > 22/7
 	);
 	
@@ -52,7 +54,7 @@ operation testParallelSelectOneEquivalence() {
 		t <> null and 
 		t.asString().length() > 3 and
 		(
-			t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") or
+			t.asString().matches(numberRegex) or
 			t.asString().matches("FALSE") or 
 			t.asString().matches("true")
 		) and t.asBoolean()
@@ -62,7 +64,7 @@ operation testParallelSelectOneEquivalence() {
 		t <> null and 
 		t.asString().length() > 3 and
 		(
-			t.asString().matches("[0-9]+(\\.[0-9]*)?(d|f|l)?") or
+			t.asString().matches(numberRegex) or
 			t.asString().matches("FALSE") or 
 			t.asString().matches("true")
 		) and t.asBoolean()
@@ -132,7 +134,7 @@ operation testParallelForAllEquivalence() {
 		t == null or
 		t.isKindOf(Real) or
 		t.isKindOf(Integer) or
-		t.asString().matches("-?[0-9]*(\\.[0-9]*(d|f|l)?)?") or
+		t.asString().matches(numberRegex) or
 		t.asBoolean() == true or
 		t.asBoolean() == false
 	);
@@ -143,7 +145,7 @@ operation testParallelForAllEquivalence() {
 		t == null or
 		t.isKindOf(Real) or
 		t.isKindOf(Integer) or
-		t.asString().matches("-?[0-9]*(\\.[0-9]*(d|f|l)?)?") or
+		t.asString().matches(numberRegex) or
 		t.asBoolean() == true or
 		t.asBoolean() == false
 	);
@@ -174,5 +176,13 @@ operation testParallelSortByEquivalence() {
 	data.add(15);
 	var expected = data.sortBy(n | n.asString().length());
 	var actual = data.parallelSortBy(n | n.asString().length());
+	assertEquals(expected, actual);
+}
+
+@test
+operation testParallelMapByEquivalence() {
+	var data := Sequence {-127..1024};
+	var expected = data.mapBy(n | n.asString().length());
+	var actual = data.parallelMapBy(n | n.asString().length());
 	assertEquals(expected, actual);
 }

@@ -1,4 +1,5 @@
 var Thread = Native("java.lang.Thread");
+var mainThread = Thread.currentThread();
 var shared = "global variable";
 
 operation Any hashAsStr() : String {
@@ -40,8 +41,8 @@ operation testExistsScope() {
 @test
 operation testForAllScope() {
 	var testData := Sequence {-9..12};
-	var expected = testData.forAll(n | Thread.currentThread().getName() == "main" and n <= 16);
+	var expected = testData.forAll(n | Thread.currentThread() == mainThread and n <= 16);
 	assertTrue(expected);
-	var actual = testData.parallelForAll(n | Thread.currentThread().getName() <> "main" and n < shared.lengthAsStr());
+	var actual = testData.parallelForAll(n | Thread.currentThread() <> mainThread and n < shared.lengthAsStr());
 	assertEquals(expected, actual);
 }

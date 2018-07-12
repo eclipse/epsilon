@@ -25,11 +25,11 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 public class MapByOperation extends FirstOrderOperation {
 
 	@Override
-	public EolMap<?, Collection<Object>> execute(Object target, Variable iterator, Expression expression,
+	public EolMap<?, EolSequence<Object>> execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
 		Collection<?> source = CollectionUtil.asCollection(target);
-		EolMap<Object, Collection<Object>> result = new EolMap<>();
+		EolMap<Object, EolSequence<Object>> result = new EolMap<>();
 		FrameStack scope = context.getFrameStack();
 		
 		for (Object item : source) {
