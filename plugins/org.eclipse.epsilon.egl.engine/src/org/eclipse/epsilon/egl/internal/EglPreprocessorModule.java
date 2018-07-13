@@ -18,7 +18,6 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 import org.antlr.runtime.Token;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
@@ -37,6 +36,7 @@ import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
+import org.eclipse.epsilon.eol.types.EolType;
 
 public class EglPreprocessorModule extends EolModule {
 
