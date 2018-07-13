@@ -15,7 +15,7 @@ public class BreakStatement extends Statement {
 
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		throw new EolBreakException(this,all);
+		throw new EolBreakException(this, all);
 	};
 	
 	@Override

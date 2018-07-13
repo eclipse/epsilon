@@ -22,7 +22,7 @@ public class DeleteStatement extends Statement {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public Void execute(IEolContext context) throws EolRuntimeException {
 		Object target = null;
 		if (expression != null){
 			target = context.getExecutorFactory().execute(expression, context);

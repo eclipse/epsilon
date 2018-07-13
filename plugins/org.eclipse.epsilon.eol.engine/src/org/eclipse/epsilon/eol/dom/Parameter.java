@@ -26,7 +26,7 @@ public class Parameter extends AbstractModuleElement implements ICompilableModul
 	protected TypeExpression typeExpression;
 	protected EolType type;
 	
-	public Parameter(){}
+	public Parameter() {}
 	
 	public Parameter(NameExpression nameExpression, TypeExpression typeExpression) {
 		this.nameExpression = nameExpression;

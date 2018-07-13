@@ -36,10 +36,7 @@ public class ParallelAggregateOperation extends AggregateOperation {
 		Collection<?> source = CollectionUtil.asCollection(target);
 		Map<Object, Object> resultsMap = ConcurrencyUtils.concurrentMap();
 		
-		IEolContextParallel context = context_ instanceof IEolContextParallel ?
-			(EolContextParallel) context_ : new EolContextParallel(context_);
-		context.goParallel();
-		
+		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		EolExecutorService executor = context.newExecutorService();
 
 		for (Object item : source) {

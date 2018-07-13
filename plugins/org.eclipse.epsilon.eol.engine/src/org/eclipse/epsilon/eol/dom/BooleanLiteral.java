@@ -29,7 +29,7 @@ public class BooleanLiteral extends LiteralExpression {
 	}
 
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public Boolean execute(IEolContext context) throws EolRuntimeException {
 		return getValue();
 	}
 	

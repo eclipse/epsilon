@@ -13,7 +13,7 @@ public class TimesOperatorExpression extends EagerOperatorExpression {
 	}
 	
 	@Override
-	public Object execute(Object o1, Object o2, IEolContext context) throws EolRuntimeException {
+	public Number execute(Object o1, Object o2, IEolContext context) throws EolRuntimeException {
 		if (o1 instanceof Number && o2 instanceof Number) {
 			return NumberUtil.multiply((Number) o1, (Number) o2);
 		}

@@ -12,10 +12,10 @@ public class NotOperatorExpression extends OperatorExpression {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public Boolean execute(IEolContext context) throws EolRuntimeException {
 		Object o1 = context.getExecutorFactory().execute(firstOperand,context);
 		if (o1 instanceof Boolean){
-			return !((Boolean) o1);
+			return !((boolean) o1);
 		} else {
 			throw new EolRuntimeException("Operator 'not' applies only to Booleans", this);
 		}

@@ -115,3 +115,11 @@ operation testMapBy() {
 	var actual = data.mapBy(n | n.toString().length());
 	assertEquals(expected, actual);
 }
+
+@test
+operation testAggregate() {
+	var data = Bag {-127, -64, -2, 0, "", 32768};
+	var expected = Map {4 = -127, 3 = -64, 2 = -2, 1 = 0, 0 = "", 5 = 32768};
+	var actual = data.aggregate(n | n.asString().length(), n);
+	assertEquals(expected, actual);
+}

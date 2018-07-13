@@ -22,13 +22,11 @@ public class ParallelCollectOperation extends CollectOperation {
 	public Collection<?> execute(Object target, Variable iterator, Expression expression,
 			IEolContext context_) throws EolRuntimeException {
 		
-		IEolContextParallel context = context_ instanceof IEolContextParallel ?
-			(EolContextParallel) context_ : new EolContextParallel(context_);
-		context.goParallel();
+		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
-		EolExecutorService executor = context.newExecutorService();
+		EolExecutorService executor = context.getAndCacheExecutorService();
 		Collection<Future<Object>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
@@ -48,10 +46,7 @@ public class ParallelCollectOperation extends CollectOperation {
 			}
 		}
 		
-		resultsCol.addAll(executor.collectResults(futures, true));
-		
-		//context.endParallel();
-		
+		resultsCol.addAll(executor.collectResults(futures, false));
 		return resultsCol;
 	}
 	

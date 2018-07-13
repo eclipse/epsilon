@@ -31,7 +31,7 @@ public class MapLiteralExpression extends Expression {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public EolMap<?, ?> execute(IEolContext context) throws EolRuntimeException {
 		final EolMap<Object, Object> map = new EolMap<>();
 
 		for (KeyValueExpressionPair keyValueExpressionPair : keyValueExpressionPairs) {

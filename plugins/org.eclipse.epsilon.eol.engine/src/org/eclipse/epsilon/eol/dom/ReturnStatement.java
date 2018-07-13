@@ -24,7 +24,7 @@ public class ReturnStatement extends Statement {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public Return execute(IEolContext context) throws EolRuntimeException {
 	
 		Object result = null;
 		if (returnedExpression != null){

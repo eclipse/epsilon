@@ -93,6 +93,9 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		concurrentFrameStacks.removeAll();
 		concurrentMethodContributors.removeAll();
 		concurrentExecutors.removeAll();
+		if (executorService != null) {
+			executorService.shutdown();
+		}
 	}
 	
 	@Override
@@ -153,5 +156,13 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	@Override
 	public String toString() {
 		return getClass().getSimpleName()+" [parallelism="+getParallelism()+']';
+	}
+	
+	public static IEolContextParallel convertToParallel(IEolContext context_) {
+		IEolContextParallel context = context_ instanceof IEolContextParallel ?
+			(IEolContextParallel) context_ : new EolContextParallel(context_);
+
+		context.goParallel();
+		return context;
 	}
 }

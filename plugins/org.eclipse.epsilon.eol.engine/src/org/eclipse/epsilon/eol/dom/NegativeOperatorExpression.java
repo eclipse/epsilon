@@ -14,7 +14,7 @@ public class NegativeOperatorExpression extends EagerOperatorExpression {
 	
 	@Override
 	public Object execute(Object o1, Object o2, IEolContext context) throws EolRuntimeException {
-		if (o1 instanceof Number){
+		if (o1 instanceof Number) {
 			return NumberUtil.negative((Number) o1);
 		}
 		return o1;

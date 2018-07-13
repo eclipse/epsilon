@@ -17,7 +17,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class EolContinueException extends EolRuntimeException {
 	
-	public EolContinueException(ModuleElement ast, IEolContext context){
+	public EolContinueException(ModuleElement ast, IEolContext context) {
 		super("Statement 'continue;' is only valid in loops", ast);
 	}
 

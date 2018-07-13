@@ -51,7 +51,7 @@ public class TypeExpression extends Expression {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public EolType execute(IEolContext context) throws EolRuntimeException {
 
 		if (type != null) return type;
 		

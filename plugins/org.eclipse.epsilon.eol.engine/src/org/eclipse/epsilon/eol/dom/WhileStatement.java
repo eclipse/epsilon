@@ -39,7 +39,7 @@ public class WhileStatement extends Statement {
 		//how many times the loop has been executed
 		int loop = 0;
 		
-		while (true){
+		while (true) {
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
 			
 			loop ++;
@@ -52,14 +52,14 @@ public class WhileStatement extends Statement {
 			
 			Object result = null;
 			
-			if (((Boolean) condition).booleanValue()){
+			if ((boolean) condition) {
 				context.getFrameStack().put(Variable.createReadOnlyVariable("loopCount", loop));
 				
 				try {
 					result = context.getExecutorFactory().execute(bodyStatementBlock, context);
 				}
-				catch (EolBreakException bex){
-					if (bex.isBreaksAll() && context.getFrameStack().isInLoop()){
+				catch (EolBreakException bex) {
+					if (bex.isBreaksAll() && context.getFrameStack().isInLoop()) {
 						throw bex;
 					}
 					context.getFrameStack().leaveLocal(this);

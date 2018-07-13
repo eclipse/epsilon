@@ -109,7 +109,7 @@ public class EglPreprocessorModule extends EolModule {
 		if (ast instanceof TypeExpression) {
 			return new TypeExpression() {
 				@Override
-				public Object execute(IEolContext context)
+				public EolType execute(IEolContext context)
 						throws EolRuntimeException {
 					if (getName().equals("Template")){
 						return EglComplexType.Template;

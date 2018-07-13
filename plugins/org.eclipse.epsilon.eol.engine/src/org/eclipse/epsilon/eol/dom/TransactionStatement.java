@@ -31,8 +31,7 @@ public class TransactionStatement extends Statement {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		
-		
-		List<IModel> models = new ArrayList<>();
+		List<IModel> models = new ArrayList<>(modelNames.size());
 		
 		if (modelNames.size() > 0) {
 			for (NameExpression modelNameAst : modelNames) {

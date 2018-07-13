@@ -14,7 +14,7 @@ public class GreaterEqualOperatorExpression extends EagerOperatorExpression {
 	}
 	
 	@Override
-	public Object execute(Object o1, Object o2, IEolContext context) throws EolRuntimeException {
+	public Boolean execute(Object o1, Object o2, IEolContext context) throws EolRuntimeException {
 		return (
 			o1 instanceof Number
 			&& o2 instanceof Number

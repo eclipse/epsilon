@@ -12,11 +12,11 @@ public class XorOperatorExpression extends OperatorExpression {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
-		Object o1 = context.getExecutorFactory().execute(firstOperand,context);
-		Object o2 = context.getExecutorFactory().execute(secondOperand,context);
-		if (o1 instanceof Boolean && o2 instanceof Boolean){
-			return ((Boolean) o1) ^ ((Boolean) o2);
+	public Boolean execute(IEolContext context) throws EolRuntimeException {
+		Object o1 = context.getExecutorFactory().execute(firstOperand, context);
+		Object o2 = context.getExecutorFactory().execute(secondOperand, context);
+		if (o1 instanceof Boolean && o2 instanceof Boolean) {
+			return ((boolean) o1) ^ ((boolean) o2);
 		} else {
 			throw new EolRuntimeException("Operator 'xor' applies only to Booleans", this);
 		}

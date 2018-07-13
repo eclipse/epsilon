@@ -54,10 +54,10 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException{
+	public Collection<Object> execute(IEolContext context) throws EolRuntimeException{
 		Collection<Object> collection = null; 
 		
-		if (collectionType.equals("Sequence") || collectionType.equals("List")){
+		if (collectionType.equals("Sequence") || collectionType.equals("List")) {
 			collection = new EolSequence<>();
 		}
 		else if (collectionType.equals("Set")){
@@ -79,16 +79,15 @@ public class CollectionLiteralExpression extends LiteralExpression {
 			
 			if (rangeStart instanceof Integer && rangeEnd instanceof Integer) {
 				
-				Integer s = (Integer) rangeStart;
-				Integer e = (Integer) rangeEnd;
+				int s = (int) rangeStart, e = (int) rangeEnd;
 				
 				if (s > e) {
-					for (int i=s.intValue(); i>=e.intValue(); i--) {
+					for (int i = s; i >= e; i--) {
 						collection.add(i);
 					}
 				}
 				else {
-					for (int i=s.intValue(); i<=e.intValue(); i++) {
+					for (int i = s; i <= e; i++) {
 						collection.add(i);
 					}
 				}

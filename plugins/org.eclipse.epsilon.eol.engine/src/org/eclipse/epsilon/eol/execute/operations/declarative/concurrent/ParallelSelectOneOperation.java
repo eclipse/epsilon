@@ -31,9 +31,7 @@ public class ParallelSelectOneOperation extends FirstOrderOperation {
 	public Object execute(Object target, Variable iterator, Expression expression,
 			IEolContext context_) throws EolRuntimeException {
 		
-		IEolContextParallel context = context_ instanceof IEolContextParallel ?
-			(EolContextParallel) context_ : new EolContextParallel(context_);
-		context.goParallel();
+		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		

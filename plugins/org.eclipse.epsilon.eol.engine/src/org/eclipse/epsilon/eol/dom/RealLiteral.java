@@ -45,7 +45,7 @@ public class RealLiteral extends LiteralExpression {
 	}
 
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public Number execute(IEolContext context) throws EolRuntimeException {
 		return getValue();
 	}
 	

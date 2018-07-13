@@ -28,8 +28,8 @@ public interface IEolContextParallel extends IEolContext {
 	/**
 	 * This method signals the end of parallel execution. A typical implementation
 	 * should merge all useful data from thread-local structures into the original
-	 * structures, and dispose of any variables and structures used during parallel
-	 * execution.
+	 * structures, dispose of any variables and structures used during parallel
+	 * execution and shutdown the cached EolExecutorService.
 	 */
 	void endParallel();
 	
@@ -93,5 +93,20 @@ public interface IEolContextParallel extends IEolContext {
 			threadLocal.set(value);
 		else
 			originalValueSetter.accept(value);
+	}
+	
+	/**
+	 * Retrieves the {@linkplain EolExecutorService} from {@link #getExecutorService()}.
+	 * If an ExecutorService has not been set, then {@link #setExecutorService(EolExecutorService)}
+	 * is called with the result of {@link #newExecutorService()}.
+	 * 
+	 * @return The cached (or newly created) ExecutorService.
+	 */
+	default EolExecutorService getAndCacheExecutorService() {
+		EolExecutorService executor = getExecutorService();
+		if (executor == null) {
+			setExecutorService(executor = newExecutorService());
+		}
+		return executor;
 	}
 }

@@ -12,12 +12,11 @@ public class AndOperatorExpression extends OperatorExpression {
 	}
 
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public Boolean execute(IEolContext context) throws EolRuntimeException {
 		Object o1 = context.getExecutorFactory().execute(firstOperand, context);
 		
 		if (o1 instanceof Boolean) {
-			boolean b1 = (boolean) o1;
-			if (!b1) {
+			if (!(boolean) o1) {
 				return false;
 			}
 			else {
@@ -25,14 +24,10 @@ public class AndOperatorExpression extends OperatorExpression {
 				if (o2 instanceof Boolean) {
 					return (Boolean) o2;
 				}
-				else {
-					throw new EolRuntimeException("Operator 'and' applies only to operands of type Boolean", this);
-				}
 			}
 		}
-		else {
-			throw new EolRuntimeException("Operator 'and' applies only to operands of type Boolean", this);
-		}
+		
+		throw new EolRuntimeException("Operator 'and' applies only to operands of type Boolean", this);
 	}
 	
 }

@@ -13,7 +13,7 @@ public class GreaterThanOperatorExpression extends EagerOperatorExpression {
 	}
 	
 	@Override
-	public Object execute(Object o1, Object o2, IEolContext context) throws EolRuntimeException {
+	public Boolean execute(Object o1, Object o2, IEolContext context) throws EolRuntimeException {
 		if (o1 instanceof Number && o2 instanceof Number){
 			return NumberUtil.greaterThan((Number) o1, (Number) o2);
 		}

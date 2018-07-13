@@ -38,10 +38,14 @@ public class ForAllOperation extends FirstOrderOperation {
 				scope.enterLocal(FrameType.UNPROTECTED, expression,
 					Variable.createReadOnlyVariable(iteratorName, item)
 				);
+				
 				Object bodyResult = executorFactory.execute(expression, context);
+				
 				if (bodyResult instanceof Boolean && !(boolean) bodyResult) {
+					scope.leaveLocal(expression);
 					return false;
 				}
+				
 				scope.leaveLocal(expression);
 			}
 		}

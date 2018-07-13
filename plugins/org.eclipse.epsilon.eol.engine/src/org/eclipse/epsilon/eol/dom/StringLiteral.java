@@ -32,7 +32,7 @@ public class StringLiteral extends Expression {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public String execute(IEolContext context) throws EolRuntimeException {
 		return getValue();
 	}
 	

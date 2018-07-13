@@ -50,7 +50,7 @@ public class VariableDeclaration extends TypeInitialiser {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {	
+	public Variable execute(IEolContext context) throws EolRuntimeException {	
 		EolType variableType = null;
 		if (typeExpression == null) { // No type defined
 			variableType = EolAnyType.Instance;

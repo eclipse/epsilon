@@ -26,12 +26,10 @@ public class ParallelMapByOperation extends MapByOperation {
 	public EolMap<?, EolSequence<Object>> execute(Object target, Variable iterator, Expression expression,
 			IEolContext context_) throws EolRuntimeException {
 		
-		IEolContextParallel context = context_ instanceof IEolContextParallel ?
-			(EolContextParallel) context_ : new EolContextParallel(context_);
-		context.goParallel();
+		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 
 		Collection<?> source = CollectionUtil.asCollection(target);
-		EolExecutorService executor = context.newExecutorService();
+		EolExecutorService executor = context.getAndCacheExecutorService();
 		Collection<Future<Entry<?, ?>>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
@@ -51,7 +49,7 @@ public class ParallelMapByOperation extends MapByOperation {
 			}
 		}
 		
-		return executor.collectResults(futures, true)
+		return executor.collectResults(futures, false)
 			.stream()
 			.collect(Collectors.toMap(
 					Entry::getKey,

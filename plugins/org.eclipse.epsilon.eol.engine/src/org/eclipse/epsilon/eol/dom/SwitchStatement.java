@@ -36,10 +36,10 @@ public class SwitchStatement extends Statement {
 			if (child.getType() == EolParser.DEFAULT) {
 				_default = (Case) moduleElement;
 			}
-			else if (child.getType() == EolParser.CASE){
+			else if (child.getType() == EolParser.CASE) {
 				cases.add((Case) moduleElement);
 			}
-			else if (moduleElement instanceof Expression){
+			else if (moduleElement instanceof Expression) {
 				conditionExpression = (Expression) moduleElement;
 			}
 		}
@@ -62,7 +62,7 @@ public class SwitchStatement extends Statement {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public Return execute(IEolContext context) throws EolRuntimeException {
 		
 		Object switchValue = context.getExecutorFactory().execute(conditionExpression, context);
 		
@@ -76,7 +76,7 @@ public class SwitchStatement extends Statement {
 				try {
 					Object result = context.getExecutorFactory().execute(c.getBody(), context);
 					if (result instanceof Return) {
-						return result;
+						return (Return) result;
 					}
 					else {
 						return null;
@@ -85,17 +85,14 @@ public class SwitchStatement extends Statement {
 				catch (EolContinueException ex) {
 					continue_ = true;
 				}
-				
 			}
-			
-			
 		}
 		
 		if (_default != null) {
 			Object result = context.getExecutorFactory().execute(_default.getBody(), context);
 			
 			if (result instanceof Return) {
-				return result;
+				return (Return) result;
 			}
 			else {
 				return null;

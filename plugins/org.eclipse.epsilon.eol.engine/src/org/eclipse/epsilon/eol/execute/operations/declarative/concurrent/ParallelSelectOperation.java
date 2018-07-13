@@ -32,13 +32,11 @@ public class ParallelSelectOperation extends SelectOperation {
 			return isSelect ? Collections.singleton(result) : (Collection<?>) result;
 		}
 		
-		IEolContextParallel context = context_ instanceof IEolContextParallel ?
-			(EolContextParallel) context_ : new EolContextParallel(context_);
-		context.goParallel();
+		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
-		EolExecutorService executor = context.newExecutorService();
+		EolExecutorService executor = context.getAndCacheExecutorService();
 		Collection<Future<Optional<?>>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
@@ -66,13 +64,11 @@ public class ParallelSelectOperation extends SelectOperation {
 			}));
 		}
 		
-		executor.collectResults(futures, true)
+		executor.collectResults(futures, false)
 			.stream()
 			.filter(opt -> opt != null)
 			.map(opt -> opt.orElse(null))
 			.forEach(resultsCol::add);
-		
-		//context.endParallel();
 		
 		return resultsCol;
 	}

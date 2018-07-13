@@ -12,27 +12,22 @@ public class ImpliesOperatorExpression extends OperatorExpression {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
-		Object o1 = context.getExecutorFactory().execute(firstOperand,context);
+	public Boolean execute(IEolContext context) throws EolRuntimeException {
+		Object o1 = context.getExecutorFactory().execute(firstOperand, context);
 		
 		if (o1 instanceof Boolean) {
-			Boolean b1 = (Boolean) o1;
-			if (b1.booleanValue() == false) {
+			if (!(boolean) o1) {
 				return true;
 			}
 			else {
-				Object o2 = context.getExecutorFactory().execute(secondOperand,context);
-				if (o2 instanceof Boolean){
-					return ((Boolean) o2) && ((Boolean) o1);
-				}
-				else {
-					throw new EolRuntimeException("Operator 'implies' applies only to operands of type Boolean", this);
+				Object o2 = context.getExecutorFactory().execute(secondOperand, context);
+				if (o2 instanceof Boolean) {
+					return ((boolean) o2) && ((boolean) o1);
 				}
 			}
 		}
-		else {
-			throw new EolRuntimeException("Operator 'implies' applies only to operands of type Boolean", this);
-		}
+		
+		throw new EolRuntimeException("Operator 'implies' applies only to operands of type Boolean", this);
 	}
 	
 }

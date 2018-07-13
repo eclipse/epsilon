@@ -186,3 +186,11 @@ operation testParallelMapByEquivalence() {
 	var actual = data.parallelMapBy(n | n.asString().length());
 	assertEquals(expected, actual);
 }
+
+@test
+operation testParallelAggregateEquivalence() {
+	var data := Sequence {-1024..1024};
+	var expected = data.aggregate(n | n, n.hashCode());
+	var actual = data.parallelAggregate(n | n, n.hashCode());
+	assertEquals(expected, actual);
+}
