@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eclipse.epsilon</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>releng</artifactId>
+  <packaging>pom</packaging>
+
+  <profiles>
+    <profile>
+        <id>stable</id>
+        <properties>
+          <build.stable></build.stable>
+        </properties>
+        <modules>
+          <module>org.eclipse.epsilon.updatesite</module>
+          <module>org.eclipse.epsilon.rcp.application</module>
+          <module>org.eclipse.epsilon.ide.feature</module>
+        </modules>
+    </profile>
+    <profile>
+        <id>interim</id>
+        <activation>
+          <property>
+            <name>!build.stable</name>
+          </property>
+        </activation>
+        <repositories>
+          <repository>
+             <id>eclipse-egit</id>
+             <url>http://download.eclipse.org/egit/updates</url>
+             <layout>p2</layout>
+          </repository>
+        </repositories>
+        <modules>
+          <module>org.eclipse.epsilon.updatesite.interim</module>
+          <module>org.eclipse.epsilon.rcp.application.interim</module>
+          <module>org.eclipse.epsilon.ide.feature</module>
+        </modules>
+    </profile>
+  </profiles>
+</project>
