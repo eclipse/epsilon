@@ -36,7 +36,7 @@ public class ParallelSelectOperation extends SelectOperation {
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
-		EolExecutorService executor = context.getAndCacheExecutorService();
+		EolExecutorService executor = context.newExecutorService();
 		Collection<Future<Optional<?>>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
@@ -64,7 +64,7 @@ public class ParallelSelectOperation extends SelectOperation {
 			}));
 		}
 		
-		executor.collectResults(futures, false)
+		executor.collectResults(futures, true)
 			.stream()
 			.filter(opt -> opt != null)
 			.map(opt -> opt.orElse(null))

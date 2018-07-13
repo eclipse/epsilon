@@ -225,9 +225,10 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		IEvlContext context = getContext();
 		super.prepareContext();
 		context.setOperationFactory(new EvlOperationFactory());
-		FrameStack fs = context.getFrameStack();
-		fs.put(Variable.createReadOnlyVariable("constraintTrace", context.getConstraintTrace()));
-		fs.put(Variable.createReadOnlyVariable("thisModule", this));
+		context.getFrameStack().put(
+			Variable.createReadOnlyVariable("constraintTrace", context.getConstraintTrace()),
+			Variable.createReadOnlyVariable("thisModule", this)
+		);
 	}
 
 	/**

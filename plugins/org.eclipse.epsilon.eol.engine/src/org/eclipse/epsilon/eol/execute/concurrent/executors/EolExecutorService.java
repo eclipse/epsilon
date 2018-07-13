@@ -85,7 +85,7 @@ public interface EolExecutorService extends ExecutorService {
 
 		if (!status.waitForCompletion()) {
 			termWait.interrupt();
-			if (shutdown) shutdownNow();
+			shutdownNow();
 			EolRuntimeException.propagateDetailed(status.getException());
 		}
 		

@@ -57,9 +57,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	public EolContextParallel(IEolContext other, int parallelism) {
 		super(other);
 		setNumThreads(parallelism);
-		frameStack.setThreadSafe(true);
-		methodContributorRegistry.setThreadSafe(true);
-		executorFactory.setThreadSafe(true);
+		setBaseThreadSafety(true);
 	}
 	
 	protected int setNumThreads(int parallelism) {
@@ -77,6 +75,12 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		concurrentFrameStacks = new DelegatePersistentThreadLocal<>(numThreads, () -> new FrameStack(frameStack, false));
 		concurrentMethodContributors = new DelegatePersistentThreadLocal<>(numThreads, () -> new OperationContributorRegistry(methodContributorRegistry, false));
 		concurrentExecutors = new DelegatePersistentThreadLocal<>(numThreads, () -> new ExecutorFactory(executorFactory, false));
+	}
+	
+	protected void setBaseThreadSafety(boolean concurrent) {
+		frameStack.setThreadSafe(concurrent);
+		methodContributorRegistry.setThreadSafe(concurrent);
+		executorFactory.setThreadSafe(concurrent);
 	}
 	
 	@Override

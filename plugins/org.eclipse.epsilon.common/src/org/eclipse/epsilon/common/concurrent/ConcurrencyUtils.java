@@ -54,4 +54,8 @@ public class ConcurrencyUtils {
 			parallelism > 0 ? parallelism : 1+DEFAULT_PARALLELISM/2
 		);
 	}
+
+	public static boolean isMainThread() {
+		return Thread.currentThread().getName().equals("main");
+	}
 }

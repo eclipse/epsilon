@@ -29,16 +29,24 @@ public class EvlContextParallel extends EolContextParallel implements IEvlContex
 	 */
 	public EvlContextParallel(int parallelism, boolean threadSafeBaseFrames) {
 		super(parallelism);
-		
 		frameStack = new FrameStack(null, threadSafeBaseFrames);
-		
+	}
+	
+	@Override
+	protected void initMainThreadStructures() {
+		super.initMainThreadStructures();
+
 		// Make results data structures thread-safe
 		constraintsDependedOn = ConcurrencyUtils.concurrentSet(4, numThreads);
 		constraintTrace = new ConstraintTrace(true);
 		
 		// No writes will be made to the base UnsatisfiedConstraints until the end, so make it empty
 		unsatisfiedConstraints = new HashSet<>(0);
-
+	}
+	
+	@Override
+	protected void initThreadLocals() {
+		super.initThreadLocals();	
 		// Since no writes will be made to unsatisfiedConstraints during parallel execution, we don't need a BaseDelegate here.
 		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(numThreads, HashSet::new);
 	}

@@ -27,7 +27,6 @@ import org.eclipse.epsilon.eol.dom.*;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.EolLexer;
@@ -250,10 +249,10 @@ public class EolModule extends AbstractModule implements IEolModule {
 			import_.setContext(context);
 		}
 		
-		FrameStack fs = context.getFrameStack();
-		
-		fs.putGlobal(Variable.createReadOnlyVariable("null", null));
-		fs.putGlobal(Variable.createReadOnlyVariable("System", system));
+		context.getFrameStack().putGlobal(
+			Variable.createReadOnlyVariable("null", null),
+			Variable.createReadOnlyVariable("System", system)
+		);
 		
 		prepareContextCalled = true;
 	}

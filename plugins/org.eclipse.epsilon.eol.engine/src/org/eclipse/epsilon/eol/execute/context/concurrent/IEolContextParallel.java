@@ -2,6 +2,7 @@ package org.eclipse.epsilon.eol.execute.context.concurrent;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
@@ -85,11 +86,11 @@ public interface IEolContextParallel extends IEolContext {
 	}
 	
 	default <R> R parallelGet(ThreadLocal<? extends R> threadLocal, Supplier<? extends R> originalValueGetter) {
-		return isParallel() ? threadLocal.get() : originalValueGetter.get();
+		return isParallel() && !ConcurrencyUtils.isMainThread() ? threadLocal.get() : originalValueGetter.get();
 	}
 	
 	default <T> void parallelSet(T value, ThreadLocal<? super T> threadLocal, Consumer<? super T> originalValueSetter) {
-		if (isParallel())
+		if (isParallel() && !ConcurrencyUtils.isMainThread())
 			threadLocal.set(value);
 		else
 			originalValueSetter.accept(value);

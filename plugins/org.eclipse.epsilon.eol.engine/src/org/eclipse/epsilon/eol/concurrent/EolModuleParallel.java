@@ -8,7 +8,7 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 public class EolModuleParallel extends EolModule {
 
 	public EolModuleParallel() {
-		this(0);
+		this.context = new EolContextParallel();
 	}
 	
 	public EolModuleParallel(int numThreads) {

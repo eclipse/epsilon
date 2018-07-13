@@ -26,7 +26,7 @@ public class ParallelCollectOperation extends CollectOperation {
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
-		EolExecutorService executor = context.getAndCacheExecutorService();
+		EolExecutorService executor = context.newExecutorService();
 		Collection<Future<Object>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
@@ -46,7 +46,7 @@ public class ParallelCollectOperation extends CollectOperation {
 			}
 		}
 		
-		resultsCol.addAll(executor.collectResults(futures, false));
+		resultsCol.addAll(executor.collectResults(futures, true));
 		return resultsCol;
 	}
 	
