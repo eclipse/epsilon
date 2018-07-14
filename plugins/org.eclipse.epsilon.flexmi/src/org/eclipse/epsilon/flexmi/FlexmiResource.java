@@ -431,14 +431,14 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			frameStack.setVariable(varAttribute.getNodeValue(), eObject);
 			attributes.removeNamedItem("_var");
 		}
-		
+		/*
 		if (!(eObject.eClass().getEStructuralFeature("id") instanceof EAttribute)) {
 			if (attributes.getNamedItem("id") != null) {
 				String value = attributes.getNamedItem("id").getNodeValue();
 				attributes.removeNamedItem("id");
 				setEObjectId(eObject, value);
 			}
-		}
+		}*/
 		
 		Map<Node, EStructuralFeature> allocation = new AttributeStructuralFeatureAllocator().allocate(attributes, eStructuralFeatures);
 		
@@ -483,7 +483,8 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			Object eValue = getEValue(eAttribute, attributeName, value);
 			if (eValue == null) return;
 			eObject.eSet(eAttribute, eValue);
-			if (eAttribute.isID() || "name".equalsIgnoreCase(eAttribute.getName())) {
+			EAttribute idAttribute = eObject.eClass().getEIDAttribute();
+			if (eAttribute == idAttribute || (idAttribute == null && eAttribute.getName().equalsIgnoreCase("name"))) {
 				setEObjectId(eObject, value);
 			}
 		}
