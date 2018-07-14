@@ -28,7 +28,7 @@ public class EvlContextParallel extends EolContextParallel implements IEvlContex
 	 * default is <code>true</code>
 	 */
 	public EvlContextParallel(int parallelism, boolean threadSafeBaseFrames) {
-		super(parallelism);
+		super(parallelism, true);
 		frameStack = new FrameStack(null, threadSafeBaseFrames);
 	}
 	

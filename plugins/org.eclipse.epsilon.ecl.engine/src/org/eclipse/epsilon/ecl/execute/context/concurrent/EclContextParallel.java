@@ -16,12 +16,21 @@ public class EclContextParallel extends EolContextParallel implements IEclContex
 	}
 
 	public EclContextParallel(int parallelism) {
-		super(parallelism);
-		
-		matchTrace = new MatchTrace(true);
-		tempMatchTraces = new PersistentThreadLocal<>(MatchTrace::new);
+		super(parallelism, true);
 	}
 
+	@Override
+	protected void initMainThreadStructures() {
+		super.initMainThreadStructures();
+		matchTrace = new MatchTrace(true);
+	}
+	
+	@Override
+	protected void initThreadLocals() {
+		super.initThreadLocals();
+		tempMatchTraces = new PersistentThreadLocal<>(MatchTrace::new);
+	}
+	
 	@Override
 	public void setMatchTrace(MatchTrace matchTrace) {
 		this.matchTrace = matchTrace;
