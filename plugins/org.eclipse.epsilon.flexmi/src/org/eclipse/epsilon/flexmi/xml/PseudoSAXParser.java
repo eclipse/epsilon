@@ -79,9 +79,11 @@ public class PseudoSAXParser {
 						if (resource instanceof FlexmiResource) {
 							template = ((FlexmiResource) resource).getTemplate(templateName);
 							if (template != null) {
+								// ((FlexmiResource) resource).startProcessingFragment(resource.getURI());
 								for (Element applicationElement : template.apply(node)) {
 									visit(applicationElement, handler);
 								}
+								// ((FlexmiResource) resource).endProcessingFragment();
 							}
 						}
 					}

@@ -81,7 +81,7 @@ public class FlexmiContentOutlinePage extends ContentOutlinePage {
       contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
       contentOutlineViewer.setLabelProvider(
     		  new DecoratingColumLabelProvider(
-    				  new AdapterFactoryLabelProvider(adapterFactory) { 
+    				  new AdapterFactoryLabelProvider(adapterFactory) {   
     					@Override
     					public String getText(Object object) {
     						String text = super.getText(object);
