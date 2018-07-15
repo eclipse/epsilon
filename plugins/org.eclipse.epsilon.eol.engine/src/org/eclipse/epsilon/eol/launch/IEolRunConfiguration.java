@@ -123,7 +123,7 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 		}
 		
 		if (!parameters.isEmpty()) {
-			module.getContext().getFrameStack().put(parameters);
+			module.getContext().getFrameStack().put(parameters, false);
 		}
 	}
 	

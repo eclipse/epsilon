@@ -46,13 +46,13 @@ public final class ConcurrentExecutionStatus {
 		try {
 			if (!finished) {
 				if ((success = state) == true) {
-					successful.signalAll();
+					successful.signal();
 				}
 				else {
-					exceptional.signalAll();
+					exceptional.signal();
 				}
 				finished = true;
-				completed.signalAll();
+				completed.signal();
 			}
 		}
 		finally {
@@ -79,17 +79,18 @@ public final class ConcurrentExecutionStatus {
 	private void waitForCondition(Condition condition, Supplier<Boolean> loop) {
 		lock.lock();
 		
-		while (loop.get()) {
-			try {
+		try {
+			while (loop.get()) {
 				condition.await();
 				break;
 			}
-			catch (InterruptedException ie) {
-				// Interrupt may be desirable - no special action needed.
-			}
-			finally {
-				lock.unlock();
-			}
+		}
+		catch (InterruptedException ie) {
+			ie.printStackTrace();
+			// Interrupt may be desirable - no special action needed.
+		}
+		finally {
+			lock.unlock();
 		}
 	}
 	

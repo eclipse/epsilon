@@ -16,7 +16,7 @@ public class EolThreadFactory implements ThreadFactory {
 	}
 	
 	protected EolThreadFactory(ConcurrentExecutionStatus status, String threadNamePrefix) {
-		this.namePrefix = threadNamePrefix != null ? threadNamePrefix : "ERL-Worker";
+		this.namePrefix = threadNamePrefix != null ? threadNamePrefix : "EOL-Worker";
 		this.executionStatus = status;
 	}
 
@@ -30,7 +30,9 @@ public class EolThreadFactory implements ThreadFactory {
 						executionStatus.completeExceptionally((Exception) e);
 					}
 					else {
-						Thread.getDefaultUncaughtExceptionHandler().uncaughtException(t, e);
+						executionStatus.completeExceptionally(new RuntimeException(
+							e.getClass().getSimpleName()+" in thread "+t.getName(), e
+						));
 					}
 				}
 			});

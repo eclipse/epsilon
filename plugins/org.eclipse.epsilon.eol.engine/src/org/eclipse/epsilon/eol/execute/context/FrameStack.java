@@ -276,12 +276,13 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 	 * Converts the map into Variables and puts them in the
 	 * topmost frame of the scope.
 	 * @param variables The effective collection of variables.
+	 * @param readOnly Whether the Variables should be immutable.
 	 */
-	public void put(Map<String, ?> variables) {
+	public void put(Map<String, ?> variables, final boolean readOnly) {
 		FrameStackRegion activeRegion = activeGroup();
 		variables.entrySet()
 			.stream()
-			.map(Variable::createReadOnlyVariable)
+			.map(entry -> readOnly ? Variable.createReadOnlyVariable(entry) : new Variable(entry))
 			.forEach(activeRegion::put);
 	}
 	

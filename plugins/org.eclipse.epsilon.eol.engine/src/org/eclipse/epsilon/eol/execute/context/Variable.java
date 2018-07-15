@@ -39,6 +39,10 @@ public class Variable {
 		
 	}
 	
+	public Variable(Entry<String, ?> entry) {
+		this(entry.getKey(), entry.getValue(), EolAnyType.Instance, false);
+	}
+	
 	public Variable(String name, Object value, EolType type, boolean readOnly) {
 		this.name = name;
 		this.type = type;
