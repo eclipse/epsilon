@@ -2,6 +2,11 @@ var Thread = Native("java.lang.Thread");
 var mainThread = Thread.currentThread();
 var shared = "global variable";
 
+operation Collection equalsIgnoreOrder(other : Collection) {
+	assertTrue(self.containsAll(other));
+	assertEquals(self.size(), other.size());
+}
+
 operation Any hashAsStr() : String {
 	return self.hashCode().asString();
 }
@@ -16,8 +21,10 @@ operation testSelectScope() {
 	var testData := Sequence {0..16};
 	var expected = testData.select(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
 	assertEquals(Sequence {10..16}, expected);
-	var actual = testData.parallelSelect(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
+	var actual = testData.parallelSelectOrdered(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
 	assertEquals(expected, actual);
+	actual = testData.parallelSelect(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
+	actual.equalsIgnoreOrder(expected);
 }
 
 @test
@@ -25,8 +32,10 @@ operation testRejectScope() {
 	var testData := Sequence {-9..16};
 	var expected = testData.reject(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
 	assertEquals(Sequence {0..9}, expected);
-	var actual = testData.parallelReject(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
+	var actual = testData.parallelRejectOrdered(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
 	assertEquals(expected, actual);
+	actual = testData.parallelReject(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
+	actual.equalsIgnoreOrder(expected);
 }
 
 @test
@@ -45,4 +54,16 @@ operation testForAllScope() {
 	assertTrue(expected);
 	var actual = testData.parallelForAll(n | Thread.currentThread() <> mainThread and n < shared.lengthAsStr());
 	assertEquals(expected, actual);
+}
+
+@test
+operation testCollectScope() {
+	var testData := Sequence {-1..15};
+	var expected = testData.collect(n | Thread.currentThread().getName());
+	var actual = testData.parallelCollect(n | Thread.currentThread().getName());
+	assertEquals(expected.size(), actual.size());
+	assertFalse(expected.exists(t | actual.contains(t)));
+	actual = testData.parallelCollectOrdered(n | Thread.currentThread().getName());
+	assertEquals(expected.size(), actual.size());
+	assertFalse(expected.exists(t | actual.contains(t)));
 }

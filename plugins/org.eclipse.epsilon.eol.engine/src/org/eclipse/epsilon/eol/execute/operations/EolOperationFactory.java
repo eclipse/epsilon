@@ -44,15 +44,19 @@ public class EolOperationFactory {
 		operationCache.put("rejectOne", new RejectOneOperation());
 		operationCache.put("none", new NMatchOperation(0));
 		operationCache.put("parallelSelect", new ParallelSelectOperation());
+		operationCache.put("parallelSelectOrdered", new ParallelSelectOrderedOperation());
 		operationCache.put("parallelSelectOne", new ParallelSelectOneOperation());
 		operationCache.put("parallelReject", new ParallelRejectOperation());
+		operationCache.put("parallelRejectOrdered", new ParallelRejectOrderedOperation());
 		operationCache.put("parallelRejectOne", new ParallelRejectOneOperation());
 		operationCache.put("parallelOne", new ParallelNMatchOperation(1));
 		operationCache.put("parallelNone", new ParallelNMatchOperation(0));
 		operationCache.put("parallelExists", new ParallelExistsOperation());
 		operationCache.put("parallelForAll", new ParallelForAllOperation());
 		operationCache.put("parallelCollect", new ParallelCollectOperation());
+		operationCache.put("parallelCollectOrdered", new ParallelCollectOrderedOperation());
 		operationCache.put("parallelSortBy", new ParallelSortByOperation());
+		operationCache.put("parallelSortByOrdered", new ParallelSortByOrderedOperation());
 		operationCache.put("parallelMapBy", new ParallelMapByOperation());
 		operationCache.put("parallelFind", new ParallelFindOperation());
 	}

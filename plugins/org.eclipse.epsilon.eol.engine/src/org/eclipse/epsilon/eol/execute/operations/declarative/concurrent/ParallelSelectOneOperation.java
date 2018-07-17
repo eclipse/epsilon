@@ -6,7 +6,6 @@ import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -36,7 +35,7 @@ public class ParallelSelectOneOperation extends FirstOrderOperation {
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		
-		EolExecutorService executor = EolThreadPoolExecutor.fixedPoolExecutor(context.getParallelism());
+		EolExecutorService executor = context.newExecutorService();
 		ConcurrentExecutionStatus execStatus = executor.getExecutionStatus();
 		
 		for (Object item : source) {

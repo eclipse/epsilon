@@ -11,7 +11,7 @@ var numberRegex = "-?[0-9]+(\\.[0-9]*)?(d|f|l)?";
 
 operation Collection equalsIgnoreOrder(other : Collection) {
 	assertTrue(self.containsAll(other));
-	assertEquals(self.size(), other.size());
+	assertEquals(other.size(), self.size());
 }
 
 @test
@@ -29,6 +29,23 @@ operation testParallelSelectEquivalence() {
 	);
 	
 	actual.equalsIgnoreOrder(expected);
+}
+
+@test
+operation testParallelSelectOrderedEquivalence() {
+	var expected = testData.select(t |
+		t <> null and
+		t.asString().matches(numberRegex) and
+		t.asReal() > 22/7
+	);
+	
+	var actual = testData.parallelSelectOrdered(t |
+		t <> null and
+		t.asString().matches(numberRegex) and
+		t.asReal() > 22/7
+	);
+	
+	assertEquals(Sequence(expected), Sequence(actual));
 }
 
 @test
@@ -153,6 +170,15 @@ operation testParallelForAllEquivalence() {
 }
 
 @test
+operation testParallelCollectOrderedEquivalence() {
+	var data : new Sequence;
+	data.addAll(testData);
+	var expected = data.collect(t | t == null or t.asString().length() >= 5);
+	var actual = data.parallelCollectOrdered(t | t == null or t.asString().length() >= 5);
+	assertEquals(expected, actual);
+}
+
+@test
 operation testParallelCollectEquivalence() {
 	var data : new Bag;
 	data.addAll(testData);
@@ -176,6 +202,24 @@ operation testParallelSortByEquivalence() {
 	data.add(15);
 	var expected = data.sortBy(n | n.asString().length());
 	var actual = data.parallelSortBy(n | n.asString().length());
+	actual.equalsIgnoreOrder(expected);
+}
+
+@test
+operation testParallelSortByOrderedEquivalence() {
+	var data : new Sequence;
+	data.add(0);
+	data.add("");
+	var i = 1073741824;
+	while (i > 2) {
+		i /= 2;
+		data.add(i);
+	}
+	data.add("a loooooooooooooooooooong string");
+	data.add(1);
+	data.add(15);
+	var expected = data.sortBy(n | n.asString().length());
+	var actual = data.parallelSortByOrdered(n | n.asString().length());
 	assertEquals(expected, actual);
 }
 

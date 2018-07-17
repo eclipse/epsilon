@@ -1,10 +1,11 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.Future;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.ThreadLocalBatchData;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -15,7 +16,7 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 
-public class ParallelCollectOperation extends CollectOperation {
+public class ParallelCollectOrderedOperation extends CollectOperation {
 
 	@Override
 	public Collection<?> execute(Object target, Variable iterator, Expression expression,
@@ -26,32 +27,26 @@ public class ParallelCollectOperation extends CollectOperation {
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
 		EolExecutorService executor = context.newExecutorService();
-		ThreadLocalBatchData<Object> localResults = new ThreadLocalBatchData<>(context.getParallelism());
+		Collection<Future<Object>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
 			if (iterator.getType() == null || iterator.getType().isKind(item)) {
-				executor.execute(() -> {
+				futures.add(executor.submit(() -> {
 					
 					FrameStack scope = context.getFrameStack();
 					scope.enterLocal(FrameType.UNPROTECTED, expression,
 						new Variable(iterator.getName(), item, iterator.getType(), true)
 					);
 					
-					try {
-						localResults.addElement(context.getExecutorFactory().execute(expression, context));
-					}
-					catch (EolRuntimeException exception) {
-						context.handleException(exception, executor);
-					}
+					Object bodyResult = context.getExecutorFactory().execute(expression, context);
 					
 					scope.leaveLocal(expression);
-				});
+					return bodyResult;
+				}));
 			}
 		}
 		
-		executor.awaitCompletion();
-		
-		resultsCol.addAll(localResults.getBatch());
+		resultsCol.addAll(executor.collectResults(futures, true));
 		return resultsCol;
 	}
 	

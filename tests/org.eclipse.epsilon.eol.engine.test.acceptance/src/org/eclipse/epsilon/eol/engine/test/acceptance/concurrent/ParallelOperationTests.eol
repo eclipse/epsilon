@@ -1,12 +1,29 @@
+operation Collection equalsIgnoreOrder(other : Collection) {
+	assertTrue(self.containsAll(other));
+	assertEquals(self.size(), other.size());
+}
+
 @test
 operation testParallelSelect() {
 	var data := Sequence {0..9};
 	var selected = data.parallelSelect(n | (n > 3 and n <= 7) or n == 2);
 	var expected := Sequence {2, 4, 5, 6, 7};
-	assertEquals(expected, selected);
+	selected.equalsIgnoreOrder(expected);
 	selected = data.parallelSelect(n | n > 10);
 	assertEquals(Sequence{}, selected);
 	selected = data.parallelSelect(n | n < 10);
+	selected.equalsIgnoreOrder(data);
+}
+
+@test
+operation testParallelSelectOrdered() {
+	var data := Sequence {0..9};
+	var selected = data.parallelSelectOrdered(n | (n > 3 and n <= 7) or n == 2);
+	var expected := Sequence {2, 4, 5, 6, 7};
+	assertEquals(expected, selected);
+	selected = data.parallelSelectOrdered(n | n > 10);
+	assertEquals(Sequence{}, selected);
+	selected = data.parallelSelectOrdered(n | n < 10);
 	assertEquals(data, selected);
 }
 
@@ -24,12 +41,24 @@ operation testParallelSelectOne() {
 @test
 operation testParallelReject() {
 	var data := Sequence {0..9};
-	var rejected = data.parallelReject(n | n < 1 or n > 6 or n == 5 and n <> 9);
+	var rejected = data.parallelRejectOrdered(n | n < 1 or n > 6 or n == 5 and n <> 9);
+	var expected := Bag {1, 2, 3, 4, 6, 9};
+	rejected.equalsIgnoreOrder(expected);
+	rejected = data.parallelRejectOrdered(n | n > 10);
+	rejected.equalsIgnoreOrder(data);
+	rejected = data.parallelRejectOrdered(n | n < 10);
+	rejected.equalsIgnoreOrder(Sequence{});
+}
+
+@test
+operation testParallelRejectOrdered() {
+	var data := Sequence {0..9};
+	var rejected = data.parallelRejectOrdered(n | n < 1 or n > 6 or n == 5 and n <> 9);
 	var expected := Sequence {1, 2, 3, 4, 6, 9};
 	assertEquals(expected, rejected);
-	rejected = data.parallelReject(n | n > 10);
+	rejected = data.parallelRejectOrdered(n | n > 10);
 	assertEquals(data, rejected);
-	rejected = data.parallelReject(n | n < 10);
+	rejected = data.parallelRejectOrdered(n | n < 10);
 	assertEquals(Sequence{}, rejected);
 }
 
@@ -86,10 +115,22 @@ operation testParallelForAll() {
 operation testParallelCollect() {
 	var data := Sequence {0..9};
 	var mapped = data.parallelCollect(n | n * n);
+	var expected := Bag {0, 1, 4, 9, 16, 25, 36, 49, 64, 81};
+	mapped.equalsIgnoreOrder(expected);
+	data = Sequence {12, 10, null, false, true, "str", 3.14, 8};
+	mapped = data.parallelCollect(n | 10);
+	expected := Bag {10, 10, 10, 10, 10, 10, 10, 10};
+	mapped.equalsIgnoreOrder(expected);
+}
+
+@test
+operation testParallelCollectOrdered() {
+	var data := Sequence {0..9};
+	var mapped = data.parallelCollectOrdered(n | n * n);
 	var expected := Sequence {0, 1, 4, 9, 16, 25, 36, 49, 64, 81};
 	assertEquals(expected, mapped);
 	data = Sequence {12, 10, null, false, true, "str", 3.14, 8};
-	mapped = data.parallelCollect(n | 10);
+	mapped = data.parallelCollectOrdered(n | 10);
 	expected := Sequence {10, 10, 10, 10, 10, 10, 10, 10};
 	assertEquals(expected, mapped);
 }
@@ -99,6 +140,14 @@ operation testParallelSortBy() {
 	var data = Bag {"a", "", true, false, "          __a_ ", "---", 22, 666666};
 	var expected = Sequence {"", "a", 22, "---", true, false, 666666, "          __a_ "};
 	var sorted = data.parallelSortBy(d | d.asString().length());
+	sorted.equalsIgnoreOrder(expected);
+}
+
+@test
+operation testParallelSortByOrdered() {
+	var data = Bag {"a", "", true, false, "          __a_ ", "---", 22, 666666};
+	var expected = Sequence {"", "a", 22, "---", true, false, 666666, "          __a_ "};
+	var sorted = data.parallelSortByOrdered(d | d.asString().length());
 	assertEquals(expected, sorted);
 }
 

@@ -44,16 +44,14 @@ public final class ConcurrentExecutionStatus {
 	private void complete(boolean state) {
 		lock.lock();
 		try {
-			if (!finished) {
-				if ((success = state) == true) {
-					successful.signal();
-				}
-				else {
-					exceptional.signal();
-				}
-				finished = true;
-				completed.signal();
+			if ((success = state) == true) {
+				successful.signal();
 			}
+			else {
+				exceptional.signal();
+			}
+			finished = true;
+			completed.signal();
 		}
 		finally {
 			lock.unlock();
@@ -65,13 +63,17 @@ public final class ConcurrentExecutionStatus {
 	}
 	
 	public void completeSuccessfully(Object result) {
-		this.result = result;
-		complete(true);
+		if (!finished) {
+			this.result = result;
+			complete(true);
+		}
 	}
 	
 	public void completeExceptionally(Exception exception) {
-		this.exception = exception;
-		complete(false);
+		if (!finished) {
+			this.exception = exception;
+			complete(false);
+		}
 	}
 	
 	// WAIT CODE
