@@ -89,15 +89,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		try {
 			engine = MatlabEnginePool.getInstance(libraryPath, engineJarPath).getMatlabEngine();
 			simulinkOperationContributor = new ModelOperationContributor(engine);
-
-			if (!readOnLoad) {
-				try {
-					engine.eval(NEW_SYSTEM, getSimulinkModelName());
-				} catch (Exception ex) {
-					 // Ignore; system already exists	
-				}
-			}
-			
+				
 			try {
 				String pwd = (workingDir != null) ? workingDir.getAbsolutePath() : file.getParentFile().getAbsolutePath();
 				if (pwd != null) {
@@ -107,7 +99,11 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			} catch (Exception ex) {
 				// couldn't set the the working directory
 			}
-
+			try {
+				engine.eval(NEW_SYSTEM, getSimulinkModelName());
+			} catch (Exception ex) {
+				 // Ignore; system already exists	
+			}
 			String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
 			engine.eval(cmd, getSimulinkModelName());
 			this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());

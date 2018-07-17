@@ -73,13 +73,14 @@ public class MatlabEnginePool {
 	}
 
 	public MatlabEngine getMatlabEngine() throws Exception {
+		MatlabEngine engine = null;
 		if (pool.isEmpty()) {
-			return new MatlabEngine(matlabEngineClass);
+			engine = new MatlabEngine(matlabEngineClass);
 		} else {
-			MatlabEngine engine = pool.iterator().next();
+			engine = pool.iterator().next();
 			pool.remove(engine);
-			return engine;
 		}
+		return engine;
 	}
 
 	public void release(MatlabEngine engine) {
