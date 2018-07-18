@@ -71,7 +71,7 @@ public class SiriusMarkerResolver extends EmfMarkerResolver {
 	
 	private View getMarkedView(Session session, IMarker marker) {
         String elementID = marker.getAttribute(org.eclipse.gmf.runtime.common.ui.resources.IMarker.ELEMENT_ID, null);
-        String diagramURI = marker.getAttribute(NavigationMarkerConstants.DIAGRAM_URI, null);
+        String diagramURI = marker.getAttribute("DIAGRAM_DESCRIPTOR_URI", null);
 
         if (diagramURI == null || elementID == null) {
             return null;
