@@ -195,33 +195,6 @@ public class EmfUtil {
 		return ePackages;
 		
 	}
-	
-	public static List<EPackage> registerXcore(URI locationURI, EPackage.Registry registry) throws IOException {
-		return registerXcore(locationURI, registry, true);
-	}
-	
-	public static List<EPackage> registerXcore(URI locationURI, EPackage.Registry registry, boolean useUriForResource) throws IOException {
-		
-		List<EPackage> ePackages = new ArrayList<EPackage>();
-		
-		initialiseResourceFactoryRegistry();
-		
-		ResourceSet resourceSet = new ResourceSetImpl();
-		resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
-		Resource metamodel = resourceSet.getResource(locationURI, true);
-		metamodel.load(Collections.EMPTY_MAP);
-		EcoreUtil.resolveAll(metamodel);
-		EPackage ePackage = (EPackage)EcoreUtil.getObjectByType(metamodel.getContents(), EcorePackage.Literals.EPACKAGE);
-		
-        if (ePackage != null)
-        {
-        		adjustNsAndPrefix(metamodel, ePackage, useUriForResource);
-        		registry.put(ePackage.getNsURI(), ePackage);
-        		ePackages.add(ePackage);
-        }
-		
-		return ePackages;
-	}
 
 	protected static void setDataTypesInstanceClasses(Resource metamodel) {
 		Iterator<EObject> it = metamodel.getAllContents();

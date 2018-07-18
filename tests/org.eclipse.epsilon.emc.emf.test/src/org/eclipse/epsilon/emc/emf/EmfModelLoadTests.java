@@ -108,10 +108,4 @@ public class EmfModelLoadTests {
 		return EmfModelFactory.getInstance().createEmfModel("Tree", fXMI, fEcore);
 	}
 	
-	protected EmfModel createTrainModel() {
-		File fXMI = FileUtil.getFile("railway-batch-1.xmi", EmfModelLoadTests.class);
-		File fXcore = FileUtil.getFile("railway.xcore", EmfModelLoadTests.class);
-		return EmfModelFactory.getInstance().createEmfModel("train", fXMI, fXcore);
-	}
-	
 }

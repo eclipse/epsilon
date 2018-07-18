@@ -48,10 +48,6 @@
 			groupId="org.eclipse.emf"
 			artifactId="org.eclipse.emf.ecore.xmi"
 			version="2.12.0" />
-		<plugin name="org.eclipse.emf.ecore.xcore"
-            groupId="org.eclipse.emf"
-            artifactId="org.eclipse.emf.ecore.xcore"
-            version="1.4.0" />
 		<plugin name="org.eclipse.xtext"
             groupId="org.eclipse.xtext"
             artifactId="org.eclipse.xtext"

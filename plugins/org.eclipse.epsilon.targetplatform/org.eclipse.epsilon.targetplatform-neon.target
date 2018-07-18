@@ -48,7 +48,6 @@
 <unit id="org.eclipse.sdk.ide" version="4.6.3.M20170301-0400"/>
 <unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="3.2.1.201608311750"/>
 <unit id="org.eclipse.emf.compare.uml2.feature.group" version="3.2.1.201608311750"/>
-<unit id="org.eclipse.emf.ecore.xcore.sdk.feature.group" version="1.4.0.v20160526-0606"/>
 <unit id="org.eclipse.emf.sdk.feature.group" version="2.12.0.v20160526-0356"/>
 <unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.10.0.201606071900"/>
 <unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.10.0.201606071713"/>

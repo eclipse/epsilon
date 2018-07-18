@@ -14,7 +14,6 @@
         <include>org.eclipse.emf.common*.jar</include>
         <include>org.eclipse.emf.ecore*.jar</include>
         <include>org.eclipse.emf.ecore.xmi*.jar</include>
-        <include>org.eclipse.emf.ecore.xcore*.jar</include>
         <include>org.eclipse.xtext*.jar</include>
         <include>org.eclipse.xtext.xbase*.jar</include>
         <include>org.eclipse.xtext.ecore*.jar</include>
