@@ -27,10 +27,10 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.EmfModelLocationImpl#getModelElement <em>Model Element</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -23,11 +23,11 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.RegionImpl#getOffset <em>Offset</em>}</li>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.RegionImpl#getLength <em>Length</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -210,7 +210,7 @@ public class RegionImpl extends EObjectImpl implements Region {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (offset: ");
 		result.append(offset);
 		result.append(", length: ");

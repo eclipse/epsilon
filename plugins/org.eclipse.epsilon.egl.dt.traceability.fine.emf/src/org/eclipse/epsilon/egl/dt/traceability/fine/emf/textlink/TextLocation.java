@@ -18,11 +18,11 @@ package org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextLocation#getResource <em>Resource</em>}</li>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextLocation#getRegion <em>Region</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage#getTextLocation()
  * @model

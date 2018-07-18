@@ -21,8 +21,6 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLinkEnd;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Trace Link End</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

@@ -25,11 +25,11 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TextLocationImpl#getResource <em>Resource</em>}</li>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TextLocationImpl#getRegion <em>Region</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -238,7 +238,7 @@ public class TextLocationImpl extends TraceLinkEndImpl implements TextLocation {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (resource: ");
 		result.append(resource);
 		result.append(')');

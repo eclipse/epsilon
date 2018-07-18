@@ -29,10 +29,10 @@ import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TraceLink;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.impl.TraceImpl#getTraceLinks <em>Trace Links</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
