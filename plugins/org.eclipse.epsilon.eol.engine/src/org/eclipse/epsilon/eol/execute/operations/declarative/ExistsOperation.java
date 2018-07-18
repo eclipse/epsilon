@@ -15,13 +15,15 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class ExistsOperation extends SelectBasedOperation {
+public class ExistsOperation extends FirstOrderOperation {
 
 	@Override
 	public Boolean execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
-		return !selectOperation.execute(target, iterator, expression, context, true, true).isEmpty();
+		SelectOneOperation op = new SelectOneOperation();
+		op.execute(target, iterator, expression, context);
+		return op.hasResult;
 	}
 
 }

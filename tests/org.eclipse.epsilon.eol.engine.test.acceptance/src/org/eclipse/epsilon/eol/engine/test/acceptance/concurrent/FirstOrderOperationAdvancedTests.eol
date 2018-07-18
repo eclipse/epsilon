@@ -1,0 +1,54 @@
+var Thread = Native("java.lang.Thread");
+var mainThread = Thread.currentThread();
+var shared = "global variable";
+
+operation Collection equalsIgnoreOrder(other : Collection) {
+	assertTrue(self.containsAll(other));
+	assertEquals(self.size(), other.size());
+}
+
+operation Any hashAsStr() : String {
+	return self.hashCode().asString();
+}
+
+@cached
+operation Any lengthAsStr() : Integer {
+	return self.toString().length();
+}
+
+@test
+operation testSelectScope() {
+	var testData := Sequence {0..16};
+	var expected = Sequence {10..16};
+	var actual = testData.select(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
+	assertEquals(expected, actual);
+}
+
+@test
+operation testRejectScope() {
+	var testData := Sequence {-9..16};
+	var expected = Sequence {0..9};
+	var actual = testData.reject(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
+	assertEquals(expected, actual);
+}
+
+@test
+operation testExistsScope() {
+	var testData := Sequence {-9..16};
+	var actual = testData.exists(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() == 1);
+	assertTrue(actual);
+}
+
+@test
+operation testForAllScope() {
+	var testData := Sequence {-9..12};
+	var actual = testData.forAll(n | Thread.currentThread() <> mainThread and n <= 16);
+	assertTrue(actual);
+}
+
+@test
+operation testCollectScope() {
+	var testData := Sequence {-1..15};
+	var actual = testData.collect(n | Thread.currentThread().getName());
+	assertTrue(actual.forAll(n | n <> null and not testData.contains(n)));
+}

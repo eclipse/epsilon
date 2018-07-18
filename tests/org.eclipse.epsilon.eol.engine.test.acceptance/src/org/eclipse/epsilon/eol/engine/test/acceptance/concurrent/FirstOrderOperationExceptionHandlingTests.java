@@ -7,7 +7,7 @@ import org.eclipse.epsilon.eol.concurrent.EolModuleParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.Test;
 
-public class ExceptionHandlingTests {
+public class FirstOrderOperationExceptionHandlingTests {
 
 	final String
 		testData = "var testData := Sequence{-9..16};\ntestData.",
@@ -20,7 +20,7 @@ public class ExceptionHandlingTests {
 		EolRuntimeException expectedException = execute(expectedModule);
 		
 		EolModuleParallel actualModule = new EolModuleParallel();
-		actualModule.parse(testData+"parallelSelect"+testPredicate+";");
+		actualModule.parse(testData+"select"+testPredicate+";");
 		EolRuntimeException actualException = execute(actualModule);
 		
 		assertNotNull(expectedException);
@@ -28,7 +28,7 @@ public class ExceptionHandlingTests {
 		assertEquals(expectedException.getAst().toString(), actualException.getAst().toString());
 	}
 	
-	EolRuntimeException execute(EolModule module) {
+	static EolRuntimeException execute(EolModule module) {
 		try {
 			module.execute();
 			return null;

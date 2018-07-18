@@ -15,11 +15,10 @@ import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.epsilon.eol.execute.operations.declarative.*;
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.*;
-import org.eclipse.epsilon.eol.execute.operations.declarative.concurrent.*;
 
 public class EolOperationFactory {
 	
-	protected final Map<String, AbstractOperation> operationCache = new HashMap<>(32, 1f);
+	protected final Map<String, AbstractOperation> operationCache = new HashMap<>(16);
 	
 	public EolOperationFactory() {
 		createCache();
@@ -31,34 +30,18 @@ public class EolOperationFactory {
 		operationCache.put("collect", new CollectOperation());
 		operationCache.put("exists", new ExistsOperation());
 		operationCache.put("one", new NMatchOperation(1));
+		operationCache.put("none", new NMatchOperation(0));
 		operationCache.put("forAll", new ForAllOperation());
 		operationCache.put("reject", new RejectOperation());
+		operationCache.put("rejectOne", new RejectOneOperation());
 		operationCache.put("select", new SelectOperation());
-		operationCache.put("aggregate", new AggregateOperation());
 		operationCache.put("selectOne", new SelectOneOperation());
+		operationCache.put("aggregate", new AggregateOperation());
 		operationCache.put("closure", new ClosureOperation());
 		operationCache.put("sortBy", new SortByOperation());
 		operationCache.put("mapBy", new MapByOperation());
 		operationCache.put("as", new AsOperation());
 		operationCache.put("find", new FindOperation());
-		operationCache.put("rejectOne", new RejectOneOperation());
-		operationCache.put("none", new NMatchOperation(0));
-		operationCache.put("parallelSelect", new ParallelSelectOperation());
-		operationCache.put("parallelSelectOrdered", new ParallelSelectOrderedOperation());
-		operationCache.put("parallelSelectOne", new ParallelSelectOneOperation());
-		operationCache.put("parallelReject", new ParallelRejectOperation());
-		operationCache.put("parallelRejectOrdered", new ParallelRejectOrderedOperation());
-		operationCache.put("parallelRejectOne", new ParallelRejectOneOperation());
-		operationCache.put("parallelOne", new ParallelNMatchOperation(1));
-		operationCache.put("parallelNone", new ParallelNMatchOperation(0));
-		operationCache.put("parallelExists", new ParallelExistsOperation());
-		operationCache.put("parallelForAll", new ParallelForAllOperation());
-		operationCache.put("parallelCollect", new ParallelCollectOperation());
-		operationCache.put("parallelCollectOrdered", new ParallelCollectOrderedOperation());
-		operationCache.put("parallelSortBy", new ParallelSortByOperation());
-		operationCache.put("parallelSortByOrdered", new ParallelSortByOrderedOperation());
-		operationCache.put("parallelMapBy", new ParallelMapByOperation());
-		operationCache.put("parallelFind", new ParallelFindOperation());
 	}
 
 	public AbstractOperation getOperationFor(String name) {
