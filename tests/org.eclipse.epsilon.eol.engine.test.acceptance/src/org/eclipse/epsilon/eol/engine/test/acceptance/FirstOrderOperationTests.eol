@@ -119,7 +119,32 @@ operation testMapBy() {
 @test
 operation testAggregate() {
 	var data = Bag {-127, -64, -2, 0, "", 32768};
-	var expected = Map {4 = -127, 3 = -64, 2 = -2, 1 = 0, 0 = "", 5 = 32768};
+	var expected = Map {
+		4 = -127,
+		3 = -64,
+		2 = -2,
+		1 = 0,
+		0 = "",
+		5 = 32768
+	};
 	var actual = data.aggregate(n | n.asString().length(), n);
 	assertEquals(expected, actual);
+	
+	data.addAll(Bag {127, 16, true, 1, "", 9990, false, 111000});
+	expected = Map {
+		4 = "-127;true;9990;",
+		3 = "-64;127;",
+		2 = "-2;16;",
+		1 = "0;1;",
+		0 = ";;",
+		5 = "32768;false;",
+		6 = "111000;"
+	};
+	actual = data.aggregate(n | n.asString().length(), total+n.asString()+";", "");
+	assertEquals(expected, actual);
+}
+
+@test
+operation testClosure() {
+	// TODO: implement
 }

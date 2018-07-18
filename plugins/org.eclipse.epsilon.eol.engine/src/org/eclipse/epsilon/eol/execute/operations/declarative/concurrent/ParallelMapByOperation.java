@@ -29,7 +29,7 @@ public class ParallelMapByOperation extends MapByOperation {
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 
 		Collection<?> source = CollectionUtil.asCollection(target);
-		EolExecutorService executor = context.getAndCacheExecutorService();
+		EolExecutorService executor = context.newExecutorService();
 		Collection<Future<Entry<?, ?>>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
@@ -49,7 +49,7 @@ public class ParallelMapByOperation extends MapByOperation {
 			}
 		}
 		
-		return executor.collectResults(futures, false)
+		return executor.collectResults(futures, true)
 			.stream()
 			.collect(Collectors.toMap(
 					Entry::getKey,
