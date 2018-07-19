@@ -35,12 +35,12 @@ public class PropertyTests extends AbstractSimulinkTest {
 	
 	@Test
 	public void testStateflowIdProperty() {
-		eol = "var chart = new `sflib/Chart`; "
-				+ "var sfChart = `Stateflow.Chart`.all.first; " 
-				+ "var state = new `Stateflow.State`(sfChart); "
-				+ "assert(state.id <> null); "
-				+ "assert(state.id <> ''); "
-				+ "assert(state.id = state.getId());";
+		eol = "var chart = new `sflib/Chart`; \n"
+				+ "var sfChart = `Stateflow.Chart`.all.first; \n" 
+				+ "var state = new `Stateflow.State`(sfChart); \n"
+				+ "assert(state.id <> null); \n"
+				+ "assert(state.id <> ''); \n"
+				+ "assert(state.id = state.getId());\n";
 	}
 	
 	@Test

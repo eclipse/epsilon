@@ -9,6 +9,7 @@ import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
+import org.eclipse.epsilon.emc.simulink.model.TypeHelper;
 import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
@@ -17,11 +18,30 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 
 	protected static final String ADD_BLOCK_MAKE_NAME_UNIQUE_ON = "add_block('?', '?', 'MakeNameUnique', 'on');";
 	protected static final String HANDLE = "handle = ?;";
+	protected static final String GET_SIMULINK_KIND = "get_param(handle, 'Type');";
 	protected static final String GET_SIMULINK_TYPE = "get_param(handle, '%sType');";
 	protected static final String GET_FULL_NAME = "getfullname(?);";
 
 	protected Double handle = null;
 
+	// Used when creating blocks
+	public SimulinkElement(SimulinkModel model, MatlabEngine engine, String type) throws MatlabRuntimeException {
+		super(model, engine);
+		try {
+			String path = SimulinkUtil.getTypePathInModel(model, type);
+			this.handle = (Double) engine.evalWithResult(ADD_BLOCK_MAKE_NAME_UNIQUE_ON, type, path);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new MatlabRuntimeException("Unable to create block element");
+		}
+		try {
+			setType();
+		} catch (MatlabException e) {
+			throw new MatlabRuntimeException("Unable to set up the type");
+		}
+	}
+	
+	// Used when retrieving blocks with find_system
 	public SimulinkElement(SimulinkModel model, MatlabEngine engine, Double handle) throws MatlabRuntimeException{
 		super(model, engine);
 		if (handle == -1 ) {
@@ -29,26 +49,25 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 		} else {			
 			this.handle = handle;
 		}
-		setType();
-	}
-
-	public SimulinkElement(SimulinkModel model, MatlabEngine engine, String type) {
-		super(model, engine);
 		try {
-			String path = SimulinkUtil.getTypePathInModel(model, type);
-			this.handle = (Double) engine.evalWithResult(ADD_BLOCK_MAKE_NAME_UNIQUE_ON, type, path);
-		} catch (Exception e) {
-			e.printStackTrace();
+			setType();
+		} catch (MatlabException e) {
+			throw new MatlabRuntimeException("Unable to set up the type");
 		}
-		setType();
 	}
 
-	public SimulinkElement(String path, SimulinkModel model, MatlabEngine engine) {
+	// Used when retrieving blocks with find_system
+	public SimulinkElement(String path, SimulinkModel model, MatlabEngine engine) throws MatlabRuntimeException {
 		super(model, engine);
 		setHandle(path);
-		setType();
+		try {
+			setType();
+		} catch (MatlabException e) {
+			throw new MatlabRuntimeException("Unable to set up the type");
+		}
 	}
 
+	// FIXME is this being called?
 	public SimulinkElement(SimulinkModel model, MatlabEngine engine) {
 		super(model, engine);
 	}
@@ -86,25 +105,18 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 	private void setHandle(String path) {
 		this.handle = SimulinkUtil.getHandle(path, engine);
 	}
-
-	abstract protected String getSimulinkType();
 	
-	private void setType(String type) {
-		if (type != null) {
-			this.type = new String(type);
-		} else {
-			if (handle != null) {
-				try {
-					this.type = (String) engine.evalWithSetupAndResult(HANDLE, getSimulinkType(), handle);
-				} catch (Exception e) {
-					// e.printStackTrace();
-				}
+	private void setType() throws MatlabException {
+		if (handle != null) {
+			this.superType = (String) engine.evalWithSetupAndResult(HANDLE, GET_SIMULINK_KIND, handle);
+			String typeCmd = String.format(GET_SIMULINK_TYPE, this.superType);
+			this.type = (String) engine.evalWithSetupAndResult(HANDLE, typeCmd, handle);
+			try {
+				TypeHelper.put(type, superType);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-	}
-
-	private void setType() {
-		setType(null);
 	}
 
 	/**
@@ -127,11 +139,12 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		return Arrays.asList(Kind.SIMULINK.getKind(), getType());
+		return Arrays.asList(Kind.SIMULINK.getKind(), getType(), getSuperType());
 	}
 
 	@Override
 	public String toString() {
 		return getType() + "[ Path=" + getPath() + ", handle=" + getHandle() + "]";
 	}
+
 }

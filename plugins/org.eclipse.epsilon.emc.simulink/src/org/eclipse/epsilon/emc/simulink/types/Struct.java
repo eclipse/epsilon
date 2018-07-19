@@ -5,18 +5,18 @@ import java.util.Set;
 
 public class Struct {
 
-	private static final String STRUCT_MATLAB_CLASS = "com.mathworks.matlab.types.Struct";
+	protected static final String STRUCT_MATLAB_CLASS = "com.mathworks.matlab.types.Struct";
 	
-	private static final String CONTAINS_KEY_METHOD = "containsKey";
-	private static final String CONTAINS_VALUE_METHOD = "containsValue";
-	private static final String EQUALS_METHOD = "equals";
-	private static final String GET_METHOD = "get";
-	private static final String ENTRY_SET_METHOD = "entrySet";
-	private static final String HASH_CODE_METHOD = "hashCode";
-	private static final String IS_EMPTY_METHOD = "isEmpty";
-	private static final String KEY_SET_METHOD = "keySet";
-	private static final String SIZE_METHOD = "size";
-	private static final String VALUES_METHOD = "values";
+	protected static final String CONTAINS_KEY_METHOD = "containsKey";
+	protected static final String CONTAINS_VALUE_METHOD = "containsValue";
+	protected static final String EQUALS_METHOD = "equals";
+	protected static final String GET_METHOD = "get";
+	protected static final String ENTRY_SET_METHOD = "entrySet";
+	protected static final String HASH_CODE_METHOD = "hashCode";
+	protected static final String IS_EMPTY_METHOD = "isEmpty";
+	protected static final String KEY_SET_METHOD = "keySet";
+	protected static final String SIZE_METHOD = "size";
+	protected static final String VALUES_METHOD = "values";
 
 	private static Class<?> struct_class;
 
@@ -26,7 +26,7 @@ public class Struct {
 		return (getMatlabClass() == null) ? false : getMatlabClass().isInstance(obj);  
 	}
 	
-	private static Class<?> getMatlabClass() {
+	protected static Class<?> getMatlabClass() {
 		if (struct_class == null) {
 			try {
 				struct_class = ClassLoader.getSystemClassLoader().loadClass(STRUCT_MATLAB_CLASS);

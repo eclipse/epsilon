@@ -175,77 +175,50 @@ public class SimulinkUtil {
 	}
 	
 	public static List<SimulinkBlock> getChildren(SimulinkModel model,
-			MatlabEngine engine, SimulinkBlock block) {
-		try {
-			return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN_BLOCKS, block.getPath()));
-		} catch (MatlabException e) {
-			return Collections.emptyList();
-		} 
+			MatlabEngine engine, SimulinkBlock block) throws MatlabException {
+			return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN_BLOCKS, block.getPath())); 
 	}
 	
 	public static List<SimulinkBlock> getChildren(SimulinkModel model,
-			MatlabEngine engine) {
-		try {
-			return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN_BLOCKS, model.getSimulinkModelName(), model.getSimulinkModelName()));
-		} catch (MatlabException e) {
-			return Collections.emptyList();
-		} 
+			MatlabEngine engine) throws MatlabException {
+		return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN_BLOCKS, model.getSimulinkModelName(), model.getSimulinkModelName()));
 	}
 	
 	public static List<ISimulinkModelElement> findBlocks(SimulinkModel model,
-			MatlabEngine engine, Integer depth) {
-		try {
+			MatlabEngine engine, Integer depth) throws MatlabException {
 			return getSimulinkBlocks(model, engine, engine.evalWithResult(FIND_BLOCKS_AT_DEPTH, model.getSimulinkModelName(), depth))
 					.stream().map(e -> (ISimulinkElement) e).collect(Collectors.toList());
-		} catch (MatlabException e) {
-			return Collections.emptyList();
-		} 
+
 	}
 	
 	public static List<ISimulinkModelElement> getAllSimulinkFromModel(SimulinkModel model,
-			MatlabEngine engine, Kind kind) {
-		try {
+			MatlabEngine engine, Kind kind) throws MatlabException {
 			String cmd = model.isFollowLinks() ? FIND_SYSTEM_BLOCKS_WITH_REFS : FIND_SYSTEM_BLOCKS;
 			return getSimulinkBlocks(model, engine, engine.evalWithResult(cmd, model.getSimulinkModelName()))
-					.stream().map(e -> (ISimulinkElement) e).collect(Collectors.toList());
-		} catch (MatlabException e) {
-			return Collections.emptyList();
-		} 
+					.stream().map(e -> (ISimulinkElement) e).collect(Collectors.toList());	 
 	}
 	
 	public static List<ISimulinkModelElement> getAllSimulinkBlocksFromModel(SimulinkModel model,
-			MatlabEngine engine) {
-		try {
+			MatlabEngine engine) throws MatlabException {
 			String cmd = model.isFollowLinks() ? FIND_SYSTEM_BLOCKS_WITH_REFS : FIND_SYSTEM_BLOCKS;
 			return getSimulinkBlocks(model, engine, engine.evalWithResult(cmd, model.getSimulinkModelName()))
 					.stream().map(e -> (ISimulinkElement) e).collect(Collectors.toList());
-		} catch (MatlabException e) {
-			return Collections.emptyList();
-		} 
 	}
 	
 	public static List<ISimulinkModelElement> getAllSimulinkLinesFromModel(SimulinkModel model,
-			MatlabEngine engine) {
-		try {
+			MatlabEngine engine) throws MatlabException {
 			String cmd = model.isFollowLinks() ? FIND_SYSTEM_LINES_WITH_REFS : FIND_SYSTEM_LINES;
 			return getSimulinkLines(model, engine, engine.evalWithResult(cmd, model.getSimulinkModelName()))
 					.stream().map(e -> (ISimulinkElement) e).collect(Collectors.toList());
-		} catch (MatlabException e) {
-			return Collections.emptyList();
-		} 
 	}
 	
 	public static List<ISimulinkModelElement> getAllSimulinkBlocksFromModel(SimulinkModel model,
-			MatlabEngine engine, String type) {
-		try {
+			MatlabEngine engine, String type) throws MatlabException {
 			final String simpleType = type;
 			String cmd = model.isFollowLinks() ? FIND_BLOCKS_OF_TYPE_WITH_REFS : FIND_BLOCKS_OF_TYPE;
 			Object blocks = engine.evalWithResult(cmd, model.getSimulinkModelName(), simpleType);
 			return getSimulinkBlocks(model, engine, blocks)
 					.stream().map(e -> (ISimulinkElement) e).collect(Collectors.toList());
-		} catch (MatlabException e) {
-			return Collections.emptyList();
-		} 
 	}
 
 }

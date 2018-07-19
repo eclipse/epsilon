@@ -23,9 +23,6 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 public class SimulinkBlock extends SimulinkElement {
 
 	/** CONSTANTS */
-
-	private static final Kind kind = Kind.BLOCK;
-
 	private static final String HANDLE_DELETE_BLOCK_HANDLE = "handle = ?; delete_block(handle);";
 	private static final String INSPECT_HANDLE = "handle = ?; inspect(handle);";
 	private static final String GET_SIMULINK_BLOCK_HANDLE = "getSimulinkBlockHandle('?');";
@@ -35,7 +32,8 @@ public class SimulinkBlock extends SimulinkElement {
 
 	/**
 	 * CONSTRUCTORS
-	 * @throws MatlabRuntimeException 
+	 * 
+	 * @throws MatlabRuntimeException
 	 * 
 	 * @throws EolRuntimeException
 	 */
@@ -43,18 +41,18 @@ public class SimulinkBlock extends SimulinkElement {
 	public SimulinkBlock(SimulinkModel model, MatlabEngine engine, Double handle) throws MatlabRuntimeException {
 		super(model, engine, handle);
 	}
-	
-	public SimulinkBlock(String path, SimulinkModel model, MatlabEngine engine) {
+
+	public SimulinkBlock(String path, SimulinkModel model, MatlabEngine engine) throws MatlabRuntimeException {
 		super(path, model, engine);
 	}
 
-	public SimulinkBlock(SimulinkModel model, MatlabEngine engine, String type) {
+	public SimulinkBlock(SimulinkModel model, MatlabEngine engine, String type) throws MatlabRuntimeException {
 		super(model, engine, type);
 	}
 
-	/** PARENT / CHILDREN **/
+	/** PARENT / CHILDREN */
 
-	protected String getParentPath() {
+	protected String getParentPath() throws MatlabRuntimeException { // FIXME could be simplified
 		SimulinkBlock parent = getParent();
 		return parent == null ? model.getSimulinkModelName() : parent.getPath();
 	}
@@ -73,24 +71,30 @@ public class SimulinkBlock extends SimulinkElement {
 	}
 
 	// Returns null for top-level elements and a SimulinkElement for nested elements
-	public SimulinkBlock getParent() {
+	public SimulinkBlock getParent() throws MatlabRuntimeException { // FIXME could be simplified
 		try {
 			String path = getPath();
 			String name = ((String) getProperty("name")).replace("/", "//").replace("\n", " ");
 			if (!path.equalsIgnoreCase(name)) {
 				String parentPath = path.substring(0, path.length() - name.length() - 1);
-			if (parentPath.replace("//", "").indexOf("/") < 0)
-				return null;
-			return new SimulinkBlock(parentPath, model, engine);
+				if (parentPath.replace("//", "").indexOf("/") < 0) {
+					return null;
+				}
+				try {
+					return new SimulinkBlock(parentPath, model, engine);
+				} catch (MatlabRuntimeException e) {
+					throw new MatlabRuntimeException("Unable to retrieve parent");
+				}
 			}
-		} catch (EolIllegalPropertyException e) {}
-			return null;
+		} catch (EolIllegalPropertyException e) {
+		}
+		return null;
 	}
-	
-	public List<SimulinkBlock> getChildren() {
+
+	public List<SimulinkBlock> getChildren() throws MatlabException {
 		return SimulinkUtil.getChildren(model, engine, this);
 	}
-	
+
 	public SimulinkModelElement inspect() throws EolRuntimeException {
 		try {
 			engine.eval(INSPECT_HANDLE, handle);
@@ -132,7 +136,7 @@ public class SimulinkBlock extends SimulinkElement {
 			return null;
 		}
 	}
-	
+
 	public void link(SimulinkBlock other) throws EolRuntimeException {
 		link(other, 1, 1);
 	}
@@ -171,12 +175,7 @@ public class SimulinkBlock extends SimulinkElement {
 				+ "InPortHandles = get_param(targetHandle,'PortHandles');"
 				+ "?_line('?',OutPortHandles.Outport(?),InPortHandles.Inport(?));";
 		try {
-			engine.eval(command, 
-					getHandle(), 
-					other.getHandle(), 
-					create ? CREATE : DELETE, 
-					getParentPath(), 
-					outPort,
+			engine.eval(command, getHandle(), other.getHandle(), create ? CREATE : DELETE, getParentPath(), outPort,
 					inPort);
 		} catch (MatlabException ex) {
 			throw new EolRuntimeException(ex.getMessage());
@@ -185,7 +184,7 @@ public class SimulinkBlock extends SimulinkElement {
 
 	public List<SimulinkPort> getOutports() {
 		try {
-			Object handles = engine.evalWithSetupAndResult("handle = ?; " + "ph = get_param(handle, 'PortHandles');", 
+			Object handles = engine.evalWithSetupAndResult("handle = ?; " + "ph = get_param(handle, 'PortHandles');",
 					"ph.Outport;", this.handle);
 			return SimulinkUtil.getSimulinkPorts(model, engine, handles);
 		} catch (MatlabException e) {
@@ -196,26 +195,13 @@ public class SimulinkBlock extends SimulinkElement {
 
 	public List<SimulinkPort> getInports() {
 		try {
-			Object handles = engine.evalWithSetupAndResult("handle = ?; " + "ph = get_param(handle, 'PortHandles');", 
+			Object handles = engine.evalWithSetupAndResult("handle = ?; " + "ph = get_param(handle, 'PortHandles');",
 					"ph.Inport;", this.handle);
 			return SimulinkUtil.getSimulinkPorts(model, engine, handles);
 		} catch (MatlabException e) {
 			e.printStackTrace();
 			return null;
 		}
-	}
-	
-	@Override
-	protected String getSimulinkType() {
-		return String.format(GET_SIMULINK_TYPE, kind.getKind());
-	}
-	
-	@Override
-	public Collection<String> getAllTypeNamesOf() {
-		ArrayList<String> types = new ArrayList<String>();
-		super.getAllTypeNamesOf().forEach(e -> types.add(e));
-		types.add(kind.getKind());
-		return types;
 	}
 
 }

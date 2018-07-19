@@ -12,6 +12,7 @@ import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertyGetter;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertySetter;
 import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
@@ -48,12 +49,12 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	public static final String SIMULINK = "Simulink";
 	public static final String STATEFLOW = "Stateflow";
 
-	private static final String PWD = "cd ?;";
-	private static final String GET_PARAM = "get_param('?', 'Handle');";
-	private static final String LOAD_SYSTEM = "load_system ?";
-	private static final String OPEN_SYSTEM = "open_system ?";
-	private static final String NEW_SYSTEM = "new_system('?', 'Model');";
-	private static final String SAVE_SYSTEM = "save_system('?', '?');";
+	public static final String PWD = "cd ?;";
+	public static final String GET_PARAM = "get_param('?', 'Handle');";
+	public static final String LOAD_SYSTEM = "load_system ?";
+	public static final String OPEN_SYSTEM = "open_system ?";
+	public static final String NEW_SYSTEM = "new_system('?', 'Model');";
+	public static final String SAVE_SYSTEM = "save_system('?', '?');";
 
 	//
 	private static final Multimap<String, String> createBlockMap = new Multimap<String, String>();
@@ -99,16 +100,16 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			} catch (Exception ex) {
 				// couldn't set the the working directory
 			}
-			try {
-				engine.eval(NEW_SYSTEM, getSimulinkModelName());
-			} catch (Exception ex) {
-				 // Ignore; system already exists	
+			if (!readOnLoad) {
+				try {
+					engine.eval(NEW_SYSTEM, getSimulinkModelName());
+				} catch (Exception ex) {
+					 // Ignore; system already exists	
+				}
 			}
 			String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
 			engine.eval(cmd, getSimulinkModelName());
 			this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());
-			TypeHelper.init(engine);
-			//System.out.println(TypeHelper.getMap());
 		} catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
 		}
@@ -116,14 +117,22 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	
 	@Override
 	protected void disposeModel() { 
-		MatlabEnginePool.getInstance(libraryPath, engineJarPath).release(engine);
+		try {
+			MatlabEnginePool.getInstance(libraryPath, engineJarPath).release(engine);
+		} catch (MatlabRuntimeException e) {
+			
+		}
 	}
-	
+
 	@Override
 	protected ISimulinkModelElement createInstanceInModel(String type)
 			throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException { 
 		if (type.contains("/")) {
-			return new SimulinkBlock(this, engine, type);
+			try {
+				return new SimulinkBlock(this, engine, type);
+			} catch (MatlabRuntimeException e) {
+				throw new EolNotInstantiableModelElementTypeException(getSimulinkModelName(), type);
+			}
 		} else if (type.startsWith(STATEFLOW + ".")) {
 			try {
 				return new StateflowBlock(this, engine, type);
@@ -201,14 +210,28 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		if (type.startsWith(STATEFLOW) && parameters.size() == 1) {
 			Object parentObject = parameters.toArray()[0];
 			try {
-				if (parentObject instanceof StateflowBlock)
+				if (parentObject instanceof StateflowBlock) {
 					try {
-						return new StateflowBlock(this, engine, type, (StateflowBlock) parentObject);
+						StateflowBlock instance = new StateflowBlock(this, engine, type, (StateflowBlock) parentObject);
+						if (isCachingEnabled()) {
+							addToCache(instance.getType(), instance);
+							if (createBlockMap.containsKey(type)){
+								for (String equivalent : createBlockMap.get(type)){
+									if (cachedKinds.contains(equivalent)) {
+										kindCache.get(equivalent).clear();
+										kindCache.putAll(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
+									}
+									
+								}
+							}
+						}
+						return instance; 
 					} catch (MatlabException e) {
 						throw new EolModelElementTypeNotFoundException(type, null, e.getMessage());
 					}
-				else 
+				} else { 
 					throw new EolModelElementTypeNotFoundException(type, null, "invalid parameters");
+				}
 			} catch (EolRuntimeException e) {
 				throw new EolModelElementTypeNotFoundException(type, null, e.getMessage());
 			}
@@ -506,15 +529,15 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		}
 	}
 	
-	public Collection<ISimulinkModelElement> getChildren() {
+	public Collection<ISimulinkModelElement> getChildren() throws MatlabException {
 		return SimulinkUtil.findBlocks(this, engine, 1);
 	}
 	
-	public Collection<ISimulinkModelElement> findBlocks(Integer depth){
+	public Collection<ISimulinkModelElement> findBlocks(Integer depth) throws MatlabException{
 		return SimulinkUtil.findBlocks(this, engine, depth);
 	}
 	
-	public Collection<ISimulinkModelElement> findBlocks(){
+	public Collection<ISimulinkModelElement> findBlocks() throws MatlabException{
 		return findBlocks(1);
 	}
 
