@@ -1,20 +1,15 @@
 package org.eclipse.epsilon.emc.simulink.model.element;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
-import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class SimulinkLine extends SimulinkElement {
 
 	private static final String DELETE_LINE = "handle = ?; delete_line(handle);";
-	private static final Kind kind = Kind.LINE;
 
 	private static final String DST_BLOCK_HANDLE = "DstBlockHandle";
 	private static final String SRC_BLOCK_HANDLE = "SrcBlockHandle";
@@ -62,14 +57,6 @@ public class SimulinkLine extends SimulinkElement {
 	}
 
 	@Override
-	public Collection<String> getAllTypeNamesOf() {
-		ArrayList<String> types = new ArrayList<String>();
-		super.getAllTypeNamesOf().forEach(e -> types.add(e));
-		types.add(kind.getKind());
-		return types;
-	}
-
-	@Override
 	public boolean deleteElementInModel() throws EolRuntimeException {
 		try {
 			engine.eval(DELETE_LINE, getHandle());
@@ -77,11 +64,6 @@ public class SimulinkLine extends SimulinkElement {
 		} catch (MatlabException e) {
 			return false;
 		} 
-	}
-
-	@Override
-	protected String getSimulinkType() {
-		return String.format(GET_SIMULINK_TYPE, kind.getKind());
-	}
+	}	
 	
 }

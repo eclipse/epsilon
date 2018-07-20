@@ -1,33 +1,35 @@
-var a = SubSystem.all;
-assert( a.size() > 0 );
+var simulinks = Simulink.all;
+assert(simulinks.size().println("size: ") == 88);
 
-var inportBlock = Inport.all.println("Inport:").first(); // Block kind Inport Type
+var blocks = Block.all;
+assert(blocks.size().println("size: ") == 23);
+
+var subsystems = SubSystem.all;
+assert(subsystems.size().println("size: ") == 4);
+var subsystem = SubSystem.all.first.println("subsystem: ");
+subsystem.Name.println("name");
+
+var inportBlocks = Inport.all;
+assert(inportBlocks.size().println("size: ") ==  4);
+var inportBlock = inportBlocks.println("Inport:").first(); // Block kind Inport Type
 inportBlock.Name.println("name: ");
-var port = Port.all.println("Port:").first(); // Port Kind
-port.Name.println("name: ");
-var input = inport.all.println("Input:").first();  // Port Kind Input Type
-input.Name.println("name: ");
-var lines = Line.all.println("Line:").first();  // Line kind
-lines.Name.println("name: ");
 
-/*
-for (subsystem in a) {
-	
-	("Exploring subsystem: " + subsystem.name).println();
-	
-	for (child in subsystem.getChildren()) {
-		assert(child.name <> null);
-		assert(child.name.println() <> "");
-		if (child.isTypeOf(Inport)) {
-			("Inport: " + child.name).println("\t");
-			("To: " + child.outports[0].lines[0].destination).println("\t\t");
-		}
-		else if (child.isTypeOf(Outport)) {
-			("Outport: " + child.name).println("\t");
-			("From: " + child.inports[0].lines[0].destination).println("\t\t");
-		}
-		else {
-			
-		}
-	}
-}*/
+var inports = inport.all;
+assert(inports.size().println("size: ") == 22);
+var inport = inports.println("inport:").first();  // Port Kind Input Type
+inport.Name.println("name: ");
+
+var ports = Port.all;
+assert(ports.size().println("size: ") == 41);
+var port = ports.println("Port:").first(); // Port Kind
+port.Name.println("name: ");
+
+var lines = Line.all;
+assert(lines.size().println("size: ") == 24);
+var line = lines.println("Line:").first();  // Line kind
+line.Name.println("name: ");
+
+var signals = signal.all;
+assert(signals.size().println("size: ") == 24);
+var signal = signals.println("Signal:").first();  // Line kind
+signal.Name.println("name: ");

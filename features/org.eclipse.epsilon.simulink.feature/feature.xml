@@ -95,6 +95,8 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <requires>
       <import plugin="org.eclipse.epsilon.eol.engine"/>
+      <import plugin="org.slf4j.api"/>
+      <import plugin="org.apache.log4j"/>
    </requires>
 
    <plugin
