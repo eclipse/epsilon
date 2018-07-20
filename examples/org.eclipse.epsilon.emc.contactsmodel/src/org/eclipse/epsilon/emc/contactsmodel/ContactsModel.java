@@ -33,14 +33,14 @@ public class ContactsModel extends Model implements ISearchableModel {
 		module.execute();
 	}
 	
-	protected List<Contact> contacts = new ArrayList<Contact>();
-	protected HashMap<String, List<Contact>> contactsByArea = new HashMap<String, List<Contact>>();
+	protected List<Contact> contacts = new ArrayList<>();
+	protected HashMap<String, List<Contact>> contactsByArea = new HashMap<>();
 	
 	public void addContact(Contact contact) {
 		contacts.add(contact);
 		List<Contact> contactsInArea = contactsByArea.get(contact.getArea());
 		if (contactsInArea == null) {
-			contactsInArea = new ArrayList<Contact>();
+			contactsInArea = new ArrayList<>();
 			contactsByArea.put(contact.getArea(), contactsInArea);
 		}
 		contactsInArea.add(contact);
@@ -83,8 +83,9 @@ public class ContactsModel extends Model implements ISearchableModel {
 	@Override
 	public Object findOne(Variable iterator, AST ast, IEolContext context)
 			throws EolRuntimeException {
-		List<?> results = (List<?>) find( iterator,  ast,  context).iterator().next();
-		return results.size() == 0 ? null : results.get(0);
+		
+		List<?> results = (List<?>) find(iterator, ast, context).iterator().next();
+		return results.isEmpty() ? null : results.get(0);
 	}
 
 	@Override
@@ -156,8 +157,6 @@ public class ContactsModel extends Model implements ISearchableModel {
 	public boolean isModelElement(Object instance) {
 		return false;
 	}
-
-	
 
 	@Override
 	public boolean store(String location) {

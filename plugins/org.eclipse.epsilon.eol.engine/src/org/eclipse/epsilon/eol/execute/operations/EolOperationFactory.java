@@ -18,7 +18,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.assertions.*;
 
 public class EolOperationFactory {
 	
-	protected final Map<String, AbstractOperation> operationCache = new HashMap<>(16);
+	protected final Map<String, AbstractOperation> operationCache = new HashMap<>();
 	
 	public EolOperationFactory() {
 		createCache();
@@ -42,6 +42,7 @@ public class EolOperationFactory {
 		operationCache.put("mapBy", new MapByOperation());
 		operationCache.put("as", new AsOperation());
 		operationCache.put("find", new FindOperation());
+		operationCache.put("findOne", new FindOneOperation());
 	}
 
 	public AbstractOperation getOperationFor(String name) {

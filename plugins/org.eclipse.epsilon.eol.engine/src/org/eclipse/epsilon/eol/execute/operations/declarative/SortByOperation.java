@@ -23,25 +23,27 @@ import org.eclipse.epsilon.eol.types.NumberUtil;
 public class SortByOperation extends CollectOperation {
 	
 	@Override
-	public Collection<?> execute(Object target, Variable iterator, Expression expression,
+	public EolSequence<?> execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 
 		final List<?> source = CollectionUtil.asList(target);
 		final List<?> collected = CollectionUtil.asList(super.execute(target, iterator, expression, context));
 		final int colSize = collected.size();
+		assert colSize == source.size();
 		
 		DecoratedObject[] decoratedObjects = new DecoratedObject[colSize];
 		
-		int i = 0;
-		for (Iterator<?> sourceIter = source.iterator(), collectedIter = collected.iterator(); i < colSize; i++) {
+		Iterator<?> sourceIter = source.iterator(), collectedIter = collected.iterator();
+		for (int i = 0; i < colSize; i++) {
 			decoratedObjects[i] = new DecoratedObject(sourceIter.next(), collectedIter.next());
 		}
 		
+		// This will automatically become a sequential sort if array size is small.
 		Arrays.parallelSort(decoratedObjects, new DecoratedObjectComparator(context.getPrettyPrinterManager()));
 		
 		// Build a new collection of the original collection elements
 		// ordered by the result of sorting the collected items
-		final Collection<Object> result = new EolSequence<>(decoratedObjects.length);
+		final EolSequence<Object> result = new EolSequence<>(decoratedObjects.length);
 		
 		for (DecoratedObject decorated : decoratedObjects) {
 			result.add(decorated.object);

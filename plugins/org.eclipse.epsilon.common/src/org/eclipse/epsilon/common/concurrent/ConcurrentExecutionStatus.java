@@ -88,7 +88,6 @@ public final class ConcurrentExecutionStatus {
 			}
 		}
 		catch (InterruptedException ie) {
-			ie.printStackTrace();
 			// Interrupt may be desirable - no special action needed.
 		}
 		finally {

@@ -108,12 +108,11 @@ public class CsvProCollectionSelectOperation extends SelectOperation {
 					+ "\ncannot be evaluated using indexing,\nas the iterator variable of the current select operation ("
 					+ iterator.getName() + ") is not used in this process.\nDefaulting to Epsion's select");
 		}
-		if ((attributevalue != null) && (attributevalue instanceof String)) {
+		if (attributevalue instanceof String) {
 			String id = (String) attributevalue;
-			assert attributevalue instanceof String;
 			Collection<Integer> result = null;
 			if (ast instanceof EqualsOperatorExpression) {
-				result = new ArrayList<Integer>();
+				result = new ArrayList<>(1);
 				Integer obj = target.get(id);
 				if (obj != null) {
 					result.add(obj);
@@ -132,7 +131,7 @@ public class CsvProCollectionSelectOperation extends SelectOperation {
 				result = target.headMap(id, true).values();
 			}
 			else if(ast instanceof NotEqualsOperatorExpression) {
-				result = new ArrayList<Integer>();
+				result = new ArrayList<>();
 				result.addAll(target);
 				result.remove(id);
 			}

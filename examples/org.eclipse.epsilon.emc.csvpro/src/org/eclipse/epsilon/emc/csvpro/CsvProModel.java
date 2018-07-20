@@ -284,7 +284,7 @@ public class CsvProModel extends CachedModel<Integer> {
 	@Override
 	protected Collection<String> getAllTypeNamesOf(Object instance) {
 		if (owns(instance)) {
-			List<String> result = new ArrayList<String>();
+			List<String> result = new ArrayList<>();
 			result.add("Row");
 			if (useTypeColum) {
 				result.add(data.get(typeColumName).get((int) instance));
@@ -403,17 +403,17 @@ public class CsvProModel extends CachedModel<Integer> {
 	protected void loadModel() throws EolModelLoadingException {
 		LinkedList<String> lines = null;
 		try {
-			lines = new LinkedList<String>(FileUtil.getFileLineContents(new File(file)));
+			lines = new LinkedList<>(FileUtil.getFileLineContents(new File(file)));
 		} catch (Exception ex) {
 			throw new EolModelLoadingException(ex, this);
 		} finally {
 			if(this.knownHeaders) {
 				if (useTypeColum) {
-					typedElements = new HashMap<String, CsvProCollection>(lines.size());
+					typedElements = new HashMap<>(lines.size());
 				}
-				rows = new TreeMap<String, Integer>();
+				rows = new TreeMap<>();
 				List<String> keys = Arrays.asList(lines.get(0).split(this.fieldSeparator));
-				data = new HashMap<String, List<String>>(keys.size());
+				data = new HashMap<>(keys.size());
 				if (useTypeColum) {
 					typeColumName = keys.get(typeColum);
 				}

@@ -23,8 +23,8 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	
 	protected NameExpression nameExpression;
-	protected List<Parameter> parameters = new ArrayList<>();
-	protected List<Expression> expressions = new ArrayList<>();
+	protected List<Parameter> parameters = new ArrayList<>(2);
+	protected List<Expression> expressions = new ArrayList<>(3);
 	
 	public FirstOrderOperationCallExpression() {}
 	
@@ -94,6 +94,9 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 		else if (targetExpression.getResolvedType() == EolAnyType.Instance) {
 			contextType = targetExpression.getResolvedType();
 		}
+		
+		String name = nameExpression.getName();
+		
 		if (contextType != null) {
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
 			Parameter parameter = parameters.get(0);
@@ -109,19 +112,19 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 			
 			context.getFrameStack().leaveLocal(this);
 			
-			if (StringUtil.isOneOf(nameExpression.getName(), "select", "reject", "closure", "sortBy")) {
+			if (StringUtil.isOneOf(name, "select", "reject", "rejectOne", "closure", "sortBy")) {
 				resolvedType = new EolCollectionType("Sequence", contextType);
 			}
-			else if (nameExpression.getName().equals("selectOne")) {
+			else if (name.equals("selectOne")) {
 				resolvedType = contextType;
 			}
-			else if (nameExpression.getName().equals("collect")) {
+			else if (name.equals("collect")) {
 				resolvedType = new EolCollectionType("Sequence", expression.getResolvedType());
 			}
-			else if (StringUtil.isOneOf(nameExpression.getName(), "exists", "forAll")) {
+			else if (StringUtil.isOneOf(name, "exists", "forAll", "one", "none")) {
 				resolvedType = EolPrimitiveType.Boolean;
 			}
-			else if (nameExpression.getName().equals("aggregate")) {
+			else if (name.equals("aggregate")) {
 				if (expressions.size() == 2) {
 					Expression valueExpression = expressions.get(1);
 					valueExpression.compile(context);
@@ -131,16 +134,23 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 					context.addErrorMarker(nameExpression, "Aggregate requires a key and a value expression");
 				}
 			}
+			else if (name.equals("mapBy")) {
+				resolvedType = new EolMapType(expression.getResolvedType(), new EolCollectionType("Sequence", contextType));
+			}
+			else if (name.equals("sortBy")) {
+				resolvedType = new EolCollectionType("Sequence", contextType);
+			}
 			
-			if (StringUtil.isOneOf(nameExpression.getName(), "select", "selectOne", "reject", "exists", "one", "forAll", "closure")) {
-				if (expression.getResolvedType().isNot(EolPrimitiveType.Boolean)) {
-					context.addErrorMarker(expression, "Expression should return a Boolean but returns a " + expression.getResolvedType().getName() + " instead");
-				}
+			if (StringUtil.isOneOf(name,
+				"select", "selectOne", "reject", "rejectOne", "exists", "one", "none", "forAll", "closure") &&
+				expression.getResolvedType().isNot(EolPrimitiveType.Boolean)) {
+					
+				context.addErrorMarker(expression, "Expression should return a Boolean but returns a " + expression.getResolvedType().getName() + " instead");
 			}
 			
 		}
 		else {
-			context.addErrorMarker(nameExpression, "Operation " + nameExpression.getName() + " only applies to collections");
+			context.addErrorMarker(nameExpression, "Operation " + name + " only applies to collections");
 		}
 	}
 	

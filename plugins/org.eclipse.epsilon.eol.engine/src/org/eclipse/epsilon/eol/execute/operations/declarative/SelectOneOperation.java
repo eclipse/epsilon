@@ -68,7 +68,9 @@ public class SelectOneOperation extends FirstOrderOperation {
 						if ((brBool && isSelect) || (!brBool && !isSelect)) {
 							hasResult = true;
 							// "item" will be the result
+							scope.leaveLocal(expression);
 							execStatus.completeSuccessfully(item);
+							return;
 						}
 					}
 					
@@ -82,7 +84,6 @@ public class SelectOneOperation extends FirstOrderOperation {
 		// Prevent unnecessary evaluation of remaining jobs once we have the result
 		executor.shutdownNow();
 
-		//context.endParallel();
 		return result;
 	}
 	
