@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.evl.emf.validation;
 
 import org.eclipse.core.resources.IMarker;
@@ -62,7 +71,7 @@ public class SiriusMarkerResolver extends EmfMarkerResolver {
 	
 	private View getMarkedView(Session session, IMarker marker) {
         String elementID = marker.getAttribute(org.eclipse.gmf.runtime.common.ui.resources.IMarker.ELEMENT_ID, null);
-        String diagramURI = marker.getAttribute(NavigationMarkerConstants.DIAGRAM_URI, null);
+        String diagramURI = marker.getAttribute("DIAGRAM_DESCRIPTOR_URI", null);
 
         if (diagramURI == null || elementID == null) {
             return null;

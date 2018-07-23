@@ -38,7 +38,6 @@
 			org.eclipse.emf.common,
 			org.eclipse.emf.ecore,
 			org.eclipse.emf.ecore.xmi,
-			org.eclipse.emf.ecore.xcore,
 			org.eclipse.xtext,
 			org.eclipse.xtext.xbase,
 			org.eclipse.emf.codegen,

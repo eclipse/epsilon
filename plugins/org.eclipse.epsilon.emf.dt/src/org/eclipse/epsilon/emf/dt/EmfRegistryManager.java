@@ -1,9 +1,8 @@
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
@@ -130,11 +129,7 @@ public class EmfRegistryManager {
 
 	private void registerMetamodel(String fileName) throws Exception {
 		List<EPackage> ePackages;
-		if (fileName.endsWith(".ecore")) {
-			ePackages = EmfUtil.register(URI.createPlatformResourceURI(fileName, true), EPackage.Registry.INSTANCE);
-		} else { // Must be xcore
-			ePackages = EmfUtil.registerXcore(URI.createPlatformResourceURI(fileName, true), EPackage.Registry.INSTANCE, false);
-		}
+		ePackages = EmfUtil.register(URI.createPlatformResourceURI(fileName, true), EPackage.Registry.INSTANCE);
 		managedMetamodels.put(fileName, ePackages);
 	}
 

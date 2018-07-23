@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.eol.dom;
 
 import java.util.Collection;
@@ -20,13 +29,14 @@ import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
 
 public class ForStatement extends Statement {
-	
+
 	protected Parameter iteratorParameter;
 	protected Expression iteratedExpression;
 	protected StatementBlock bodyStatementBlock;
-	
-	public ForStatement() {}
-	
+
+	public ForStatement() {
+	}
+
 	public ForStatement(Parameter iteratorParameter, Expression iteratedExpression, StatementBlock bodyStatementBlock) {
 		this.iteratorParameter = iteratorParameter;
 		this.iteratedExpression = iteratedExpression;
@@ -40,114 +50,112 @@ public class ForStatement extends Statement {
 		iteratedExpression = (Expression) module.createAst(cst.getSecondChild(), this);
 		bodyStatementBlock = toStatementBlock(module.createAst(cst.getThirdChild(), this));
 	}
-	
+
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException{
-		
+	public Object execute(IEolContext context) throws EolRuntimeException {
+
 		Object iteratedObject = context.getExecutorFactory().execute(this.iteratedExpression, context);
-		
+
 		Collection<Object> iteratedCol = null;
 		Iterator<Object> it = null;
-		
-		if (iteratedObject instanceof Collection<?>){
+
+		if (iteratedObject instanceof Collection<?>) {
 			iteratedCol = (Collection<Object>) iteratedObject;
 		}
-		//TODO: Reduce duplication between here and EolCollection.asCollection
-		else if (iteratedObject instanceof Iterable){
+		// TODO: Reduce duplication between here and EolCollection.asCollection
+		else if (iteratedObject instanceof Iterable) {
 			iteratedCol = CollectionUtil.iterate((Iterable) iteratedObject);
-		}
-		else if (iteratedObject instanceof EolModelElementType) {
-			iteratedCol = CollectionUtil.createDefaultList(); 
+		} else if (iteratedObject instanceof EolModelElementType) {
+			iteratedCol = CollectionUtil.createDefaultList();
 			iteratedCol.addAll(((EolModelElementType) iteratedObject).all());
-		}
-		else if (iteratedObject instanceof Iterator) {
+		} else if (iteratedObject instanceof Iterator) {
 			it = (Iterator) iteratedObject;
-		}
-		else {
+		} else {
 			iteratedCol = CollectionUtil.createDefaultList();
 			iteratedCol.add(iteratedObject);
 		}
-		
+
 		EolType iteratorType = iteratorParameter.getType(context);
-		if (it == null) it = iteratedCol.iterator();
+		if (it == null)
+			it = iteratedCol.iterator();
 
 		boolean loopBroken = false;
-		
+
 		int loop = 1;
-		while (it.hasNext() && !loopBroken){
+		while (it.hasNext() && !loopBroken) {
 			Object next = it.next();
-			
-			if (!iteratorType.isKind(next)) continue;
+
+			if (!iteratorType.isKind(next))
+				continue;
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
-			
+
 			context.getFrameStack().put(new Variable(iteratorParameter.getName(), next, iteratorType));
 			context.getFrameStack().put(new Variable("hasMore", it.hasNext(), EolPrimitiveType.Boolean, true));
 			context.getFrameStack().put(new Variable("loopCount", loop++, EolPrimitiveType.Integer, true));
-			
-			Object result = null; 
-			
+
+			Object result = null;
+
 			try {
 				result = context.getExecutorFactory().execute(bodyStatementBlock, context);
 				context.getFrameStack().leaveLocal(this);
-			}
-			catch (EolBreakException ex){
+			} catch (EolBreakException ex) {
 				loopBroken = true;
 				context.getFrameStack().leaveLocal(this);
-				if (ex.isBreaksAll() && context.getFrameStack().isInLoop()){
+				if (ex.isBreaksAll() && context.getFrameStack().isInLoop()) {
 					throw ex;
 				}
-			}
-			catch (EolContinueException cex){
+			} catch (EolContinueException cex) {
 				context.getFrameStack().leaveLocal(this);
 			}
-			
+
 			if (result instanceof Return) {
 				return result;
 			}
-			
+
 		}
-		
+
 		return null;
-		
+
 	}
-	
+
 	@Override
 	public void compile(EolCompilationContext context) {
-		//TODO: Fix iterator type
+		// TODO: Fix iterator type
 		iteratedExpression.compile(context);
-		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, bodyStatementBlock, 
-				new Variable("loopCount", EolPrimitiveType.Integer), 
-				new Variable("hasMore", EolPrimitiveType.Boolean));
-		
+		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, bodyStatementBlock,
+				new Variable("loopCount", EolPrimitiveType.Integer), new Variable("hasMore", EolPrimitiveType.Boolean));
+
 		iteratorParameter.compile(context);
 		bodyStatementBlock.compile(context);
 		context.getFrameStack().leaveLocal(bodyStatementBlock);
-		
-		if (iteratedExpression.hasResolvedType() && !(iteratedExpression.getResolvedType() instanceof EolCollectionType)) {
-			context.addErrorMarker(iteratedExpression, "Collection expected instead of " + iteratedExpression.getResolvedType());
+
+		if (iteratedExpression.hasResolvedType()
+				&& !(iteratedExpression.getResolvedType() instanceof EolCollectionType)) {
+			context.addErrorMarker(iteratedExpression,
+					"Collection expected instead of " + iteratedExpression.getResolvedType());
 		}
 	}
-	
+
 	public Expression getIteratedExpression() {
 		return iteratedExpression;
 	}
-	
+
 	public void setIteratedExpression(Expression iteratedExpression) {
 		this.iteratedExpression = iteratedExpression;
 	}
-	
+
 	public Parameter getIteratorParameter() {
 		return iteratorParameter;
 	}
-	
+
 	public void setIteratorParameter(Parameter iteratorParameter) {
 		this.iteratorParameter = iteratorParameter;
 	}
-	
+
 	public StatementBlock getBodyStatementBlock() {
 		return bodyStatementBlock;
 	}
-	
+
 	public void setBodyStatementBlock(StatementBlock bodyStatementBlock) {
 		this.bodyStatementBlock = bodyStatementBlock;
 	}

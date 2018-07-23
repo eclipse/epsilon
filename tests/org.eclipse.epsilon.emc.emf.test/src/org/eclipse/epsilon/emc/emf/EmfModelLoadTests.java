@@ -1,9 +1,8 @@
 /*******************************************************************************
  * Copyright (c) 2011-2018 The University of York, Aston University.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
@@ -106,12 +105,6 @@ public class EmfModelLoadTests {
 		File fXMI = FileUtil.getFile("tree-0.xmi", EmfModelLoadTests.class);
 		File fEcore = FileUtil.getFile("Tree.ecore", EmfModelLoadTests.class);
 		return EmfModelFactory.getInstance().createEmfModel("Tree", fXMI, fEcore);
-	}
-	
-	protected EmfModel createTrainModel() {
-		File fXMI = FileUtil.getFile("railway-batch-1.xmi", EmfModelLoadTests.class);
-		File fXcore = FileUtil.getFile("railway.xcore", EmfModelLoadTests.class);
-		return EmfModelFactory.getInstance().createEmfModel("train", fXMI, fXcore);
 	}
 	
 }
