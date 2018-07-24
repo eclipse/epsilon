@@ -10,7 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.Future;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
@@ -44,11 +46,13 @@ public class SelectOneOperation extends FirstOrderOperation {
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		
-		EolExecutorService executor = context.newExecutorService();
+		EolExecutorService executor = context.getAndCacheExecutorService();
 		ConcurrentExecutionStatus execStatus = executor.getExecutionStatus();
+		Object condition = execStatus.register();
+		Collection<Future<?>> jobs = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
-			executor.execute(() -> {
+			jobs.add(executor.submit(() -> {
 				if (iterator.getType() == null || iterator.getType().isKind(item)) {
 					FrameStack scope = context.getFrameStack();
 					scope.enterLocal(FrameType.UNPROTECTED, expression,
@@ -69,22 +73,19 @@ public class SelectOneOperation extends FirstOrderOperation {
 							hasResult = true;
 							// "item" will be the result
 							scope.leaveLocal(expression);
-							execStatus.completeSuccessfully(item);
+							execStatus.completeSuccessfully(condition, item);
 							return;
 						}
 					}
 					
 					scope.leaveLocal(expression);
 				}
-			});
+			}));
 			
 		}
 		
-		Object result = executor.awaitCompletion();
 		// Prevent unnecessary evaluation of remaining jobs once we have the result
-		executor.shutdownNow();
-
-		return result;
+		return executor.shortCircuitCompletion(jobs, condition);
 	}
 	
 }

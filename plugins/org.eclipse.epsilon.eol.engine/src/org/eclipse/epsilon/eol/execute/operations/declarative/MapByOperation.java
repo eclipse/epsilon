@@ -16,6 +16,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
+import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -38,7 +39,7 @@ public class MapByOperation extends FirstOrderOperation {
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 
 		Collection<?> source = CollectionUtil.asCollection(target);
-		EolExecutorService executor = context.newExecutorService();
+		EolExecutorService executor = context.getAndCacheExecutorService();
 		Collection<Future<Entry<?, ?>>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
@@ -58,7 +59,7 @@ public class MapByOperation extends FirstOrderOperation {
 			}
 		}
 		
-		return executor.collectResults(futures, true)
+		return executor.collectResults(futures)
 			.stream()
 			.collect(Collectors.toMap(
 					Entry::getKey,

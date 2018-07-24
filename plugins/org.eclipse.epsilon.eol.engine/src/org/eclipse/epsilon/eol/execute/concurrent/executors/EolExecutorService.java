@@ -2,18 +2,18 @@ package org.eclipse.epsilon.eol.execute.concurrent.executors;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
-import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
 /**
- * Convenience interface which allows for easy handling of {@link #awaitTermination(long, TimeUnit)}
- * under both normal and exceptional completion scenarios.
+ * Convenience interface which allows for easy handling of waiting for job completions,
+ * under both exceptional and successful conditions as well as short-circuiting jobs.
+ * This class provides utility methods which handle the complex waiting and signalling.
  * 
  * @author Sina Madani
  */
@@ -22,20 +22,22 @@ public interface EolExecutorService extends ExecutorService {
 	ConcurrentExecutionStatus getExecutionStatus();
 	
 	/**
-	 * Blocks until all submitted jobs have completed.
+	 * Blocks until all submitted jobs have completed. Upon completion,
+	 * this ExecutorService will {@linkplain #shutdown()}.
+	 * 
 	 * @throws EolRuntimeException if an exception is thrown from any of the jobs,
 	 * or otherwise any other abnormal completion.
-	 * 
 	 * @return {@link ConcurrentExecutionStatus#getResult()}.
 	 */
 	default Object awaitCompletion() throws EolRuntimeException {
 		final ConcurrentExecutionStatus status = getExecutionStatus();
+		final Object success = status.register();
 		
 		Thread termWait = new Thread(() -> {
 			shutdown();
 			try {
 				awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-				status.completeSuccessfully();
+				status.completeSuccessfully(success);
 			}
 			catch (InterruptedException ie) {
 				// If this happens, it means we completed exceptionally,
@@ -45,14 +47,13 @@ public interface EolExecutorService extends ExecutorService {
 		termWait.setName(getClass().getSimpleName()+"-AwaitTermination");
 		termWait.start();
 
-		
-		if (!status.waitForCompletion()) {
+		if (!status.waitForCompletion(success, this::isTerminated)) {
 			termWait.interrupt();
 			shutdownNow();
 			EolRuntimeException.propagateDetailed(status.getException());
 		}
 		
-		return status.getResult();
+		return status.getResult(success);
 	}
 	
 	/**
@@ -60,31 +61,36 @@ public interface EolExecutorService extends ExecutorService {
 	 * This method takes care of exception handling semantics.
 	 * 
 	 * @param futures The Futures to wait for.
-	 * @param shutdown Whether to call {@linkplain #shutdown()} on this ExecutorService.
 	 * @return The result of futures.
 	 * @throws EolRuntimeException
 	 */
-	default <R> Collection<R> collectResults(Collection<Future<R>> futures, boolean shutdown) throws EolRuntimeException {
+	default <R> Collection<R> collectResults(Collection<Future<R>> futures) throws EolRuntimeException {
 		final ConcurrentExecutionStatus status = getExecutionStatus();
-		Collection<R> results = new ArrayList<>(futures.size());
+		final Object success = status.register();
 		
-		Thread termWait = new Thread(() -> {
-			if (shutdown) shutdown();
+		final Collection<R> results = new ArrayList<>(futures.size());
+		
+		Thread compWait = new Thread(() -> {
 			try {
 				for (Future<R> future : futures) {
 					results.add(future.get());
 				}
-				status.completeSuccessfully();
+				status.completeSuccessfully(success);
 			}
-			catch (InterruptedException | ExecutionException ex) {
+			catch (ExecutionException ex) {
 				status.completeExceptionally(ex);
 			}
+			catch (CancellationException | InterruptedException ice) {
+				// This means we finished early (short-circuit)
+				// or an exception was raised. Either way no action
+				// required here - will be handled below.
+			}
 		});
-		termWait.setName(getClass().getSimpleName()+"-AwaitTermination");
-		termWait.start();
+		compWait.setName(getClass().getSimpleName()+"-AwaitCompletion");
+		compWait.start();
 
-		if (!status.waitForCompletion()) {
-			termWait.interrupt();
+		if (!status.waitForCompletion(success)) {
+			compWait.interrupt();
 			shutdownNow();
 			EolRuntimeException.propagateDetailed(status.getException());
 		}
@@ -92,13 +98,49 @@ public interface EolExecutorService extends ExecutorService {
 		return results;
 	}
 
-	default void execute(CheckedEolRunnable task, IEolContextParallel context) {
-		try {
-			// No performance penalty in upcasting!
-			execute((Runnable)task);
+	/**
+	 * Waits for completion on the provided status. Upon being notified of a result
+	 * (or exceptional completion), all submitted jobs are cancelled to prevent
+	 * unnecessary computations.
+	 * 
+	 * @param jobs The Futures to cancel in the event of early completion.
+	 * @param execStatus The object to wait on.
+	 * @return The result as set by {@linkplain ConcurrentExecutionStatus#completeSuccessfully(Object)}.
+	 * @throws EolRuntimeException If {@linkplain ConcurrentExecutionStatus#completeExceptionally(Exception)}
+	 * was called whilst waiting.
+	 */
+	default Object shortCircuitCompletion(Iterable<Future<?>> jobs, Object lockObj) throws EolRuntimeException {
+		final ConcurrentExecutionStatus status = getExecutionStatus();
+		
+		Thread compWait = new Thread(() -> {
+			try {
+				for (Future<?> future : jobs) {
+					// This is to avoid unnecessary waiting for completion
+					if (status.isInProgress(lockObj))
+						future.get();
+					else
+						future.cancel(true);
+				}
+				status.completeSuccessfully(lockObj);
+			}
+			catch (ExecutionException ex) {
+				status.completeExceptionally(ex);
+			}
+			catch (CancellationException | InterruptedException ice) {
+				// This means we finished early (short-circuit)
+				// No action required.
+			}
+		});
+		compWait.setName(getClass().getSimpleName()+"-AwaitCompletion");
+		compWait.start();
+		
+		if (!status.waitForCompletion(lockObj)) {
+			compWait.interrupt();
+			shutdownNow();
+			EolRuntimeException.propagateDetailed(status.getException());
 		}
-		catch (Exception exception) {
-			context.handleException(exception, this);
-		}
+		
+		return status.getResult(lockObj);
 	}
+	
 }

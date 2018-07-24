@@ -1,8 +1,9 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -31,11 +32,12 @@ public class NMatchOperation extends FirstOrderOperation {
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		
 		AtomicInteger currentMatches = new AtomicInteger();
-		EolExecutorService executor = context.newExecutorService();
-		ConcurrentExecutionStatus execStatus = executor.getExecutionStatus();
+		EolExecutorService executor = context.getAndCacheExecutorService();
+		Object condition = executor.getExecutionStatus().register();
+		Collection<Future<?>> jobs = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
-			executor.execute(() -> {
+			jobs.add(executor.submit(() -> {
 				if (iterator.getType() == null || iterator.getType().isKind(item)) {
 					FrameStack scope = context.getFrameStack();
 					scope.enterLocal(FrameType.UNPROTECTED, expression,
@@ -53,20 +55,18 @@ public class NMatchOperation extends FirstOrderOperation {
 					if (bodyResult instanceof Boolean && (boolean) bodyResult && 
 							currentMatches.incrementAndGet() > targetMatches) {
 						
-						execStatus.completeSuccessfully();
+						executor.getExecutionStatus().completeSuccessfully(condition);
 					}
 					
 					scope.leaveLocal(expression);
 				}
-			});
+			}));
 			
 		}
 		
-		executor.awaitCompletion();
 		// Prevent unnecessary evaluation of remaining jobs once we have the result
-		executor.shutdownNow();
+		executor.shortCircuitCompletion(jobs, condition);
 
-		//context.endParallel();
 		return currentMatches.get() == targetMatches;
 	}
 }

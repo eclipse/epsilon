@@ -8,16 +8,22 @@ import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 public class EolThreadFactory implements ThreadFactory {
 
 	protected final AtomicInteger threadCount = new AtomicInteger();
+	protected final int maxThreads;
 	protected final String namePrefix;
 	protected final ConcurrentExecutionStatus executionStatus;
 	
 	public EolThreadFactory(ConcurrentExecutionStatus status) {
-		this(status, null);
+		this(status, Integer.MAX_VALUE);
 	}
 	
-	protected EolThreadFactory(ConcurrentExecutionStatus status, String threadNamePrefix) {
+	public EolThreadFactory(ConcurrentExecutionStatus status, int threadLimit) {
+		this(status, threadLimit, null);
+	}
+	
+	protected EolThreadFactory(ConcurrentExecutionStatus status, int threadLimit, String threadNamePrefix) {
 		this.namePrefix = threadNamePrefix != null ? threadNamePrefix : "EOL-Worker";
 		this.executionStatus = status;
+		this.maxThreads = threadLimit;
 	}
 
 	protected <T extends Thread> T setThreadProperties(T thread) {
@@ -42,6 +48,9 @@ public class EolThreadFactory implements ThreadFactory {
 	
 	@Override
 	public Thread newThread(Runnable target) {
+		if (threadCount.get() > maxThreads)
+			throw new IllegalStateException("Exceeded maximum number of threads: "+maxThreads);
+		
 		return setThreadProperties(new Thread(target));
 	}
 }

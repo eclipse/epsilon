@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.Collection;
+import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -25,7 +26,7 @@ public class EvlModuleParallelConstraints extends EvlModuleParallel {
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContextParallel context = getContext();
-		EolExecutorService executor = context.newExecutorService();
+		EolExecutorService executor = context.getAndCacheExecutorService();
 		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
 			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);

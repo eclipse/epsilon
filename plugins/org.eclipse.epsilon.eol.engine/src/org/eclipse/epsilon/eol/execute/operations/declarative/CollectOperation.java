@@ -13,6 +13,7 @@ package org.eclipse.epsilon.eol.execute.operations.declarative;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.Future;
+import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -37,7 +38,7 @@ public class CollectOperation extends FirstOrderOperation {
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		Collection<Object> resultsCol = EolCollectionType.isOrdered(source) ? new EolSequence<>() : new EolBag<>();
-		EolExecutorService executor = context.newExecutorService();
+		EolExecutorService executor = context.getAndCacheExecutorService();
 		Collection<Future<Object>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
@@ -57,7 +58,7 @@ public class CollectOperation extends FirstOrderOperation {
 			}
 		}
 		
-		resultsCol.addAll(executor.collectResults(futures, true));
+		resultsCol.addAll(executor.collectResults(futures));
 		return resultsCol;
 	}
 }

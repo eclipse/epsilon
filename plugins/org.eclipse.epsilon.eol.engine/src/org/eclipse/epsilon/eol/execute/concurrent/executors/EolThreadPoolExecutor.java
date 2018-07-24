@@ -56,7 +56,7 @@ public class EolThreadPoolExecutor extends ThreadPoolExecutor implements EolExec
 	 */
 	public EolThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
 		super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
-		setThreadFactory(new EolThreadFactory(getExecutionStatus()));
+		setThreadFactory(new EolThreadFactory(getExecutionStatus(), maximumPoolSize));
 	}
 
 	@Override

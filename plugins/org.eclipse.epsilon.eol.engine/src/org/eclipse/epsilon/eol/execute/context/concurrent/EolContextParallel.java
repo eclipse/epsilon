@@ -160,7 +160,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public void setExecutorService(EolExecutorService exector) {
+	public synchronized void setExecutorService(EolExecutorService exector) {
 		this.executorService = exector;
 	}
 	

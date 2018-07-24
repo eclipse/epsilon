@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.eol.engine.test.acceptance.concurrent;
+package org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

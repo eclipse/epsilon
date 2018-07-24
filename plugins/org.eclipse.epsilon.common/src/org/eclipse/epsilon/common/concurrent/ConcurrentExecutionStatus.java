@@ -1,8 +1,7 @@
 package org.eclipse.epsilon.common.concurrent;
 
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -14,84 +13,67 @@ import java.util.function.Supplier;
 public final class ConcurrentExecutionStatus {
 	
 	private Exception exception;
-	private Object result;
-	private volatile boolean success, finished;
-	private final Lock lock = new ReentrantLock();
-	private final Condition
-		completed = lock.newCondition(),
-		successful = lock.newCondition(),
-		exceptional = lock.newCondition();
-	
-	
-	public boolean hasFinished() {
-		return finished;
-	}
-	
-	public boolean hasFinishedSuccessfully() {
-		return success;
-	}
+	private boolean failed = false;
+	private final Map<Object, Object> results = ConcurrencyUtils.concurrentMap(8, 6);
+	private final Set<Object> inProgress = ConcurrencyUtils.concurrentSet(8, 6);
+	private final Object exceptional = new Object();
 	
 	public Exception getException() {
 		return exception;
 	}
 
-	public Object getResult() {
-		return result;
+	public Object getResult(Object lockObj) {
+		return results.remove(lockObj);
+	}
+	
+	public Object register() {
+		Object lockObj = new Object();
+		inProgress.add(lockObj);
+		return lockObj;
+	}
+	
+	public boolean isInProgress(Object lockObj) {
+		return inProgress.contains(lockObj);
 	}
 	
 	// SIGNAL CODE
 	
-	private void complete(boolean state) {
-		lock.lock();
-		try {
-			if ((success = state) == true) {
-				successful.signal();
-			}
-			else {
-				exceptional.signal();
-			}
-			finished = true;
-			completed.signal();
-		}
-		finally {
-			lock.unlock();
+	private void complete(Object lockObj) {
+		inProgress.remove(lockObj);
+		synchronized (lockObj) {
+			lockObj.notify();
 		}
 	}
 	
-	public void completeSuccessfully() {
-		completeSuccessfully(null);
+	public void completeSuccessfully(Object lockObj) {
+		complete(lockObj);
 	}
 	
-	public void completeSuccessfully(Object result) {
-		if (!finished) {
-			this.result = result;
-			complete(true);
-		}
+	public void completeSuccessfully(Object lockObj, Object result) {
+		if (result != null) results.put(lockObj, result);
+		complete(lockObj);
 	}
 	
 	public void completeExceptionally(Exception exception) {
-		if (!finished) {
-			this.exception = exception;
-			complete(false);
-		}
+		this.exception = exception;
+		failed = true;
+		complete(exceptional);
+		results.keySet().forEach(Object::notify);
 	}
 	
 	// WAIT CODE
 	
-	private void waitForCondition(Condition condition, Supplier<Boolean> loop) {
-		lock.lock();
-		
-		try {
-			while (loop.get()) {
-				condition.await();
-				break;
+	private void waitForCondition(Object lockObj, Supplier<Boolean> targetState) {
+		synchronized (lockObj) {
+			while (isInProgress(lockObj) && !failed && (targetState == null || !targetState.get())) {
+				try {
+					lockObj.wait();
+				}
+				catch (InterruptedException ie) {
+					// Interrupt may be desirable - no special action needed.
+					//break;
+				}
 			}
-		}
-		catch (InterruptedException ie) {
-			// Interrupt may be desirable - no special action needed.
-		}
-		finally {
-			lock.unlock();
 		}
 	}
 	
@@ -100,16 +82,17 @@ public final class ConcurrentExecutionStatus {
 	 * 
 	 * @return Whether the completion was successful (<code>true</code>) or exceptional (<code>false</code>).
 	 */
-	public boolean waitForCompletion() {
-		waitForCondition(completed, () -> !finished);
-		return success;
+	public boolean waitForCompletion(Object lockObj, Supplier<Boolean> targetState) {
+		waitForCondition(lockObj, targetState);
+		return !failed;
 	}
 	
-	public void waitForSuccessfulCompletion() {
-		waitForCondition(successful, () -> success);
+	public boolean waitForCompletion(Object lockObj) {
+		return waitForCompletion(lockObj, null);
 	}
 	
-	public void waitForExceptionalCompletion() {
-		waitForCondition(exceptional, () -> !success);
+	public Exception waitForExceptionalCompletion() {
+		waitForCondition(exceptional, () -> failed);
+		return exception;
 	}
 }

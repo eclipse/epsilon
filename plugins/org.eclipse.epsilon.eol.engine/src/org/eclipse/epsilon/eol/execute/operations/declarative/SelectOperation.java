@@ -46,7 +46,7 @@ public class SelectOperation extends FirstOrderOperation {
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
-		EolExecutorService executor = context.newExecutorService();
+		EolExecutorService executor = context.getAndCacheExecutorService();
 		Collection<Future<Optional<?>>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
@@ -74,7 +74,7 @@ public class SelectOperation extends FirstOrderOperation {
 			}));
 		}
 		
-		executor.collectResults(futures, true)
+		executor.collectResults(futures)
 			.stream()
 			.filter(opt -> opt != null)
 			.map(opt -> opt.orElse(null))

@@ -15,9 +15,9 @@ package org.eclipse.epsilon.eol.engine.test.acceptance;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
-import org.eclipse.epsilon.eol.engine.test.acceptance.concurrent.*;
 import org.eclipse.epsilon.eol.engine.test.acceptance.dom.DomTests;
 import org.eclipse.epsilon.eol.engine.test.acceptance.equalityStatement.EqualityBecomesAssignmentInStatements;
+import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.*;
 import org.eclipse.epsilon.eol.engine.test.acceptance.recording.PropertyAccessRecording;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
