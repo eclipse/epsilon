@@ -1,19 +1,21 @@
 <?nsuri comps?>
+<?import types.flexmi?>
 <?import library.flexmi?>
 <comp name="SpeedLimitCalculator" _var="this">
-	<in name="location"/>
-	<out name="speedLimit"/>
+	<in name="location" type="geo"/>
+	<out name="speedLimit" type="float"/>
 	
 	<comp name="MinimumSpeedLimit">
-		<out name="speedLimit"/>
+		<out name="speedLimit" type="float"/>
 	</comp>
 	
 	<comp name="SpeedLimitDatastore">
-		<in name="location"/>
-		<out name="speedLimit"/>
+		<in name="location" type="geo"/>
+		<out name="speedLimit" type="float"/>
 	</comp>
 	
-	<_binary_operator name="Max" action="result = in1 > in2 ? in1 : in2"/>
+	<_binary_operator name="Max" action="result = in1 > in2 ? in1 : in2" 
+		_in="float" _out="float"/>
 	
 	<con from="${this}.location" to="${this}.SpeedLimitDatastore.location"/>
 	<con from="${this}.SpeedLimitDatastore.speedLimit" to="${this}.Max.in1"/>

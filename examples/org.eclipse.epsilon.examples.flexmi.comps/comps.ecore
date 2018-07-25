@@ -19,9 +19,13 @@
         eType="#//Connector" eOpposite="#//Connector/from"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
         eType="#//Connector" eOpposite="#//Connector/to"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Type"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Connector">
     <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//Port" eOpposite="#//Port/outgoing"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="to" eType="#//Port" eOpposite="#//Port/incoming"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Type">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

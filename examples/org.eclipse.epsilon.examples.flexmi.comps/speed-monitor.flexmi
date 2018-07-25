@@ -1,14 +1,16 @@
 <?nsuri comps?>
+<?import types.flexmi?>
 <?import library.flexmi?>
 <_>
 	<comp name="SpeedMonitor" _var="this"> 
-		<in name="speed"/>
-		<in name="location"/>
-		<out name="warning"/>
+		<in name="speed" type="float"/>
+		<in name="location" type="geo"/>
+		<out name="warning" type="boolean"/>
 		 
 		<?include speed-limit-calculator.flexmi?>
 		
-		<_binary_operator name="Comparator" action="result = in1 > in2"/>
+		<_binary_operator name="Comparator" action="result = in1 > in2"
+			_in="float" _out="boolean"/>
 		
 		<con from="${this}.location" to="${this}.SpeedLimitCalculator.location"/>
 		<con from="${this}.speed" to="${this}.Comparator.in1"/>
