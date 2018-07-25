@@ -7,6 +7,10 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi,
  com.google.guava,
- org.apache.commons.lang3
+ org.apache.commons.lang3,
+ org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.egl.engine,
+ org.eclipse.epsilon.emc.plainxml
 Export-Package: org.eclipse.epsilon.flexmi,
+ org.eclipse.epsilon.flexmi.templates,
  org.eclipse.epsilon.flexmi.xml

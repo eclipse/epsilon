@@ -11,4 +11,20 @@
 			</comp>
 		</content>
 	</_template>
+
+	<_template name="nary_operator">
+		<parameter name="n"/>
+		<parameter name="in"/>
+		<parameter name="out"/>
+		<content language="EGL">
+			<![CDATA[
+			<comp>
+				[%for (i in 1.to(n.asInteger())){%]
+				<in name="in[%=i%]" type="${in}"/>
+				[%}%]
+				<out name="result" type="${out}"/>
+			</comp>
+			]]>
+		</content>
+	</_template>
 </_>

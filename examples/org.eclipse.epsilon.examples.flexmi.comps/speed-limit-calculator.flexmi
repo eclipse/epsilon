@@ -14,8 +14,8 @@
 		<out name="speedLimit" type="float"/>
 	</comp>
 	
-	<_binary_operator name="Max" action="result = in1 > in2 ? in1 : in2" 
-		_in="float" _out="float"/>
+	<_nary_operator name="Max" action="result = in1 > in2 ? in1 : in2" 
+		_in="float" _out="float" _n="2"/>
 	
 	<con from="${this}.location" to="${this}.SpeedLimitDatastore.location"/>
 	<con from="${this}.SpeedLimitDatastore.speedLimit" to="${this}.Max.in1"/>

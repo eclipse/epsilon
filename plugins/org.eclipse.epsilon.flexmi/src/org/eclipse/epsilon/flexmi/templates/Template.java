@@ -7,7 +7,7 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.flexmi;
+package org.eclipse.epsilon.flexmi.templates;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import org.eclipse.epsilon.flexmi.xml.Xml;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class Template {
+public abstract class Template {
 	
 	protected String name;
 	protected ArrayList<String> parameters = new ArrayList<String>();
@@ -47,45 +47,6 @@ public class Template {
 		return content;
 	}
 	
-	public List<Element> apply(Node node) {
-		
-		Element call = (Element) node;
-		List<Element> application = new ArrayList<Element>();
-		for (Element contentChild : Xml.getChildren(content)) {
-			application.add((Element) contentChild.cloneNode(true));
-		}
-		
-		for (Element applicationElement : application) {
-			for (String attributeName : Xml.getAttributeNames(call)) {
-				if (!attributeName.startsWith(Template.PREFIX)) {
-					applicationElement.setAttribute(attributeName, call.getAttribute(attributeName));
-				}
-			}
-			replaceParameters(applicationElement, call);
-		}
-		
-		return application;
-	}
-	
-	protected void replaceParameters(Element element, Element call) {
-		
-		StrSubstitutor substitutor = new StrSubstitutor(new StrLookup<String>() {
-			@Override
-			public String lookup(String name) {
-				return call.getAttribute("_" + name);
-			}
-		});
-		
-		for (Node attribute : Xml.getAttributes(element)) {
-			if (attribute.getNodeValue().indexOf("$") > -1) {
-				attribute.setNodeValue(substitutor.replace(attribute.getNodeValue()));
-			}
-		}
-		
-		for (Element child : Xml.getChildren(element)) {
-			replaceParameters(child, call);
-		}
-		
-	}
+	public abstract List<Element> apply(Element call);
 	
 }
