@@ -92,6 +92,7 @@ public class PseudoSAXParser {
 								for (Element applicationElement : template.apply(node)) {
 									visit(applicationElement, handler);
 								}
+								break;
 								// ((FlexmiResource) resource).endProcessingFragment();
 							}
 						}
