@@ -40,6 +40,7 @@ private static final String ROOT = "examples/";
 	
 	@Test
 	public void testRobustTest() {
+		activeCache = false;
 		eolResourceFile = ROOT + "robustTest.eol";
 	}
 	
@@ -51,18 +52,21 @@ private static final String ROOT = "examples/";
 	
 	@Test
 	public void testParent() {
+		activeCache = false;
 		eolResourceFile = ROOT + "parent.eol";
 		modelFile = FileUtils.getModelFile("parent.slx");
 	}
 	
 	@Test
 	public void testTypeHierarchy() {
+		activeCache = false;
 		eolResourceFile = ROOT + "typesTest.eol";
 		modelFile = FileUtils.getModelFile("feedbackController.slx");
 	}
 	
 	@Test
 	public void testQueryFeedbackController() {
+		activeCache = false;
 		eolResourceFile = ROOT + "queryFeedbackController.eol";
 		modelFile = FileUtils.getModelFile("feedbackController.slx");
 	}
