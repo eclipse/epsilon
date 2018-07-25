@@ -3,7 +3,6 @@
 
 <product name="Eclipse Epsilon" uid="org.eclipse.epsilon.rcp.application.interim" id="org.eclipse.sdk.ide" application="org.eclipse.ui.ide.workbench" version="1.5.0.qualifier" useFeatures="true" includeLaunchers="true">
 
-
    <configIni use="default">
    </configIni>
 
@@ -21,7 +20,6 @@
       startupProgressRect="2,290,448,10"
       startupMessageRect="7,225,320,20"
       startupForegroundColor="FFFFFF" />
-
    <launcher>
       <linux icon="icons/icon.xpm"/>
       <macosx icon="icons/Eclipse.icns"/>
@@ -94,12 +92,12 @@
    </configurations>
 
    <repositories>
-      <repository location="http://download.eclipse.org/eclipse/updates/4.6" enabled="true" />
       <repository location="http://download.eclipse.org/emfatic/update/" enabled="true" />
       <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository" enabled="true" />
-      <repository location="http://download.eclipse.org/releases/neon/" enabled="true" />
       <repository location="http://download.eclipse.org/epsilon/interim/" enabled="true" />
       <repository location="https://dl.bintray.com/epsilonlabs/updates" enabled="true" />
+      <repository location="http://download.eclipse.org/eclipse/updates/4.8" enabled="true" />
+      <repository location="http://download.eclipse.org/releases/photon" enabled="true" />
    </repositories>
 
    <preferencesInfo>

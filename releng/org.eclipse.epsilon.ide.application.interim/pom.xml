@@ -7,13 +7,15 @@
     <artifactId>releng</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>org.eclipse.epsilon.rcp.application.interim</artifactId>
+  <artifactId>org.eclipse.epsilon.ide.application.interim</artifactId>
   <version>1.5.0-SNAPSHOT</version>
 
   <packaging>eclipse-repository</packaging>
 
 
-  <!-- By default no products are built as it can be an expensive operation. Usually, products can be built once and then the created updatesites (org.eclipse.rcp.application.interim/target/repository) used to update any changes you are doing. To build products for a specific platform use the products property, e.g.
+  <!-- By default no products are built as it can be an expensive operation. Usually, products can be built once and then the created updatesites
+       (org.eclipse.rcp.application.interim/target/repository) used to update any changes you are doing. To build products for a specific platform
+       use the products property, e.g.
     mvn clean verify -Dproducts=mac       
     mvn clean verify -Dproducts=win
     mvn clean verify -Dproducts=linux
