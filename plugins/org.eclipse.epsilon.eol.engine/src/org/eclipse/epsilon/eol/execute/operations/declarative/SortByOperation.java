@@ -27,6 +27,8 @@ public class SortByOperation extends CollectOperation {
 			IEolContext context) throws EolRuntimeException {
 
 		final List<?> source = CollectionUtil.asList(target);
+		if (source.isEmpty()) return new EolSequence<>(0);
+		
 		final List<?> collected = CollectionUtil.asList(super.execute(target, iterator, expression, context));
 		final int colSize = collected.size();
 		assert colSize == source.size();

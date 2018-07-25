@@ -47,6 +47,8 @@ public interface IEolContextParallel extends IEolContext {
 	 * Unlike {@linkplain #newExecutorService()}, this method returns
 	 * the executor as set by {@linkplain #setExecutorService(EolExecutorService)}.
 	 * Note that if no value is set, this method may return <code>null</code>.
+	 * Implementations may also cache a {@linkplain #newExecutorService()} and return
+	 * this in future invocations of this method.
 	 * 
 	 * @return A cached ExecutorService.
 	 * @see #setExecutor()
@@ -94,20 +96,5 @@ public interface IEolContextParallel extends IEolContext {
 			threadLocal.set(value);
 		else
 			originalValueSetter.accept(value);
-	}
-	
-	/**
-	 * Retrieves the {@linkplain EolExecutorService} from {@link #getExecutorService()}.
-	 * If an ExecutorService has not been set, then {@link #setExecutorService(EolExecutorService)}
-	 * is called with the result of {@link #newExecutorService()}.
-	 * 
-	 * @return The cached (or newly created) ExecutorService.
-	 */
-	default EolExecutorService getAndCacheExecutorService() {
-		EolExecutorService executor = getExecutorService();
-		if (executor == null) {
-			setExecutorService(executor = newExecutorService());
-		}
-		return executor;
 	}
 }

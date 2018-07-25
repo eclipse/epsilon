@@ -32,9 +32,9 @@ public class EolOperationFactory {
 		operationCache.put("one", new NMatchOperation(1));
 		operationCache.put("none", new NMatchOperation(0));
 		operationCache.put("forAll", new ForAllOperation());
-		operationCache.put("reject", new RejectOperation());
+		operationCache.put("reject", new SelectOperation(false));
 		operationCache.put("rejectOne", new RejectOneOperation());
-		operationCache.put("select", new SelectOperation());
+		operationCache.put("select", new SelectOperation(true));
 		operationCache.put("selectOne", new SelectOneOperation());
 		operationCache.put("aggregate", new AggregateOperation());
 		operationCache.put("closure", new ClosureOperation());

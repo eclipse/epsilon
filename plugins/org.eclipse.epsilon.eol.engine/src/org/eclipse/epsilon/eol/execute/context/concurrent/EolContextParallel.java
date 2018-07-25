@@ -154,8 +154,16 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		return numThreads;
 	}
 	
+	/**
+	 * If no value is set, this method will create a new ExecutorService
+	 * by calling {@linkplain #newExecutorService()} and caching the reuslt
+	 * for future invocations of this method.
+	 */
 	@Override
 	public EolExecutorService getExecutorService() {
+		if (executorService == null) {
+			executorService = newExecutorService();
+		}
 		return executorService;
 	}
 	

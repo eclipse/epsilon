@@ -42,15 +42,16 @@ public class SelectOneOperation extends FirstOrderOperation {
 	public Object execute(Object target, Variable iterator, Expression expression,
 			IEolContext context_) throws EolRuntimeException {
 		
+		Collection<Object> source = CollectionUtil.asCollection(target);
+		if (source.isEmpty()) return null;
+		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		
-		Collection<Object> source = CollectionUtil.asCollection(target);
-		
-		EolExecutorService executor = context.getAndCacheExecutorService();
+		EolExecutorService executor = context.getExecutorService();
 		ConcurrentExecutionStatus execStatus = executor.getExecutionStatus();
 		Object condition = execStatus.register();
 		Collection<Future<?>> jobs = new ArrayList<>(source.size());
-		
+
 		for (Object item : source) {
 			jobs.add(executor.submit(() -> {
 				if (iterator.getType() == null || iterator.getType().isKind(item)) {

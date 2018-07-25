@@ -109,9 +109,9 @@ public interface EolExecutorService extends ExecutorService {
 	 * @throws EolRuntimeException If {@linkplain ConcurrentExecutionStatus#completeExceptionally(Exception)}
 	 * was called whilst waiting.
 	 */
-	default Object shortCircuitCompletion(Iterable<Future<?>> jobs, Object lockObj) throws EolRuntimeException {
+	default Object shortCircuitCompletion(Collection<Future<?>> jobs, Object lockObj) throws EolRuntimeException {
 		final ConcurrentExecutionStatus status = getExecutionStatus();
-		
+
 		Thread compWait = new Thread(() -> {
 			try {
 				for (Future<?> future : jobs) {
@@ -127,8 +127,8 @@ public interface EolExecutorService extends ExecutorService {
 				status.completeExceptionally(ex);
 			}
 			catch (CancellationException | InterruptedException ice) {
-				// This means we finished early (short-circuit)
-				// No action required.
+				// This means we finished early (short-circuit) or exceptionally -
+				// No action required here.
 			}
 		});
 		compWait.setName(getClass().getSimpleName()+"-AwaitCompletion");

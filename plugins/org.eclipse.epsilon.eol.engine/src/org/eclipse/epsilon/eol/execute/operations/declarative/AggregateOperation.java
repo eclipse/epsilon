@@ -32,15 +32,18 @@ public class AggregateOperation extends FirstOrderOperation {
 			List<Expression> expressions, IEolContext context)
 			throws EolRuntimeException {
 
+		Collection<?> source = CollectionUtil.asCollection(target);
+		EolMap<Object, Object> result = new EolMap<>();
+		
+		if (source.isEmpty()) return result;
+		
 		Parameter iterator = iterators.get(0);
 		EolType iteratorType = iterator.getType(context);
 		Expression keyExpression = expressions.get(0);
 		Expression valueExpression = expressions.get(1);
 		Expression initialExpression = expressions.size() > 2 ? expressions.get(2) : null;
 		
-		Collection<?> source = CollectionUtil.asCollection(target);
 		FrameStack scope = context.getFrameStack();
-		EolMap<Object, Object> result = new EolMap<>();
 		
 		for (Object item : source) {
 			if (iteratorType == null || iteratorType.isKind(item)) {

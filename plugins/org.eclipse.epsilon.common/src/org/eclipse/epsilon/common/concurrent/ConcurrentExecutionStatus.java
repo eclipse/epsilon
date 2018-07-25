@@ -67,7 +67,7 @@ public final class ConcurrentExecutionStatus {
 		synchronized (lockObj) {
 			while (isInProgress(lockObj) && !failed && (targetState == null || !targetState.get())) {
 				try {
-					lockObj.wait();
+					lockObj.wait(3000);
 				}
 				catch (InterruptedException ie) {
 					// Interrupt may be desirable - no special action needed.

@@ -42,11 +42,13 @@ public class SelectOperation extends FirstOrderOperation {
 	public Collection<?> execute(Object target, Variable iterator, Expression expression, 
 		IEolContext context_) throws EolRuntimeException {
 		
-		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
-		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
-		EolExecutorService executor = context.getAndCacheExecutorService();
+		
+		if (source.isEmpty()) return resultsCol;
+		
+		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
+		EolExecutorService executor = context.getExecutorService();
 		Collection<Future<Optional<?>>> futures = new ArrayList<>(source.size());
 		
 		for (Object item : source) {

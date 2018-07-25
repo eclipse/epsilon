@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolType;
 
 public class ClosureOperation extends FirstOrderOperation {
@@ -55,6 +56,8 @@ public class ClosureOperation extends FirstOrderOperation {
 			IEolContext context) throws EolRuntimeException {
 
 		Collection<?>      source = CollectionUtil.asCollection(target);
+		if (source.isEmpty()) return new EolSequence<>(0);
+		
 		Collection<Object> result = CollectionUtil.createDefaultList();
 		
 		closure(source, iterator.getName(), iterator.getType(), expression, context, result);

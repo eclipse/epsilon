@@ -27,12 +27,13 @@ public class NMatchOperation extends FirstOrderOperation {
 	public Boolean execute(Object target, Variable iterator, Expression expression,
 			IEolContext context_) throws EolRuntimeException {
 		
-		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
-		
 		Collection<Object> source = CollectionUtil.asCollection(target);
+		if (source.isEmpty()) return targetMatches == 0;
 		
+		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
+
 		AtomicInteger currentMatches = new AtomicInteger();
-		EolExecutorService executor = context.getAndCacheExecutorService();
+		EolExecutorService executor = context.getExecutorService();
 		Object condition = executor.getExecutionStatus().register();
 		Collection<Future<?>> jobs = new ArrayList<>(source.size());
 		

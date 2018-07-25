@@ -13,10 +13,12 @@ public class RejectOneOperation extends FirstOrderOperation {
 	public Collection<?> execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 
+		Collection<Object> source = CollectionUtil.asCollection(target);
+		if (source.isEmpty()) return source;
+		
 		SelectOneOperation delegate = new SelectOneOperation(true);
 		Object result = delegate.execute(target, iterator, expression, context);
 
-		Collection<Object> source = CollectionUtil.asCollection(target);
 		if (delegate.hasResult) {
 			source.remove(result);
 		}

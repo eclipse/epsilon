@@ -33,8 +33,7 @@ public class AsOperation extends SimpleOperation {
 		Expression varAst = expressions.get(0);
 		if (varAst instanceof NameExpression) {
 			String varName = ((NameExpression) varAst).getName();
-			Variable var = new Variable(varName, target, EolAnyType.Instance);
-			context.getFrameStack().put(var);
+			context.getFrameStack().put(new Variable(varName, target, EolAnyType.Instance));
 			return target;
 		}
 		else {

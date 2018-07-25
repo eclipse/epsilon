@@ -21,7 +21,7 @@ public class ExistsOperation extends FirstOrderOperation {
 	public Boolean execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
-		SelectOneOperation op = new SelectOneOperation();
+		SelectOneOperation op = new SelectOneOperation(true);
 		op.execute(target, iterator, expression, context);
 		return op.hasResult;
 	}
