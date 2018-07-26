@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
@@ -98,6 +99,12 @@ public interface EolExecutorService extends ExecutorService {
 		return results;
 	}
 
+	@SuppressWarnings("unchecked")
+	default <T> T shortCircuitCompletionChecked(Collection<Future<T>> jobs, Object lockObj) throws EolRuntimeException {
+		Collection<Future<?>> casted = jobs.stream().map(j -> (Future<?>) j).collect(Collectors.toList());
+		return (T) shortCircuitCompletion(casted, lockObj);
+	}
+	
 	/**
 	 * Waits for completion on the provided status. Upon being notified of a result
 	 * (or exceptional completion), all submitted jobs are cancelled to prevent

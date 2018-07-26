@@ -17,11 +17,16 @@ import java.util.Iterator;
 
 public class EolBag<T> implements Collection<T> {
 
+	protected Collection<T> wrapped;
+	
 	public EolBag() {
+		wrapped = new ArrayList<>();
 		//CollectionAnnotator.getInstance().annotate(this, AnnotatedCollectionType.Bag);
 	}
 	
-	protected Collection<T> wrapped = new ArrayList<>();
+	public EolBag(int initialCapacity) {
+		wrapped = new ArrayList<>(initialCapacity);
+	}
 	
 	@Override
 	public boolean add(T e) {

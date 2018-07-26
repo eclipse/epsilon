@@ -6,13 +6,13 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class RejectOneOperation extends SelectBasedOperation {
+public class RejectOperation extends SelectBasedOperation {
 
 	@Override
-	public Collection<?> execute(Object target, Variable iterator, Expression expression,
-			IEolContext context) throws EolRuntimeException {
+	public Collection<?> execute(Object target, Variable iterator, Expression expression, IEolContext context)
+		throws EolRuntimeException {
 
-		return getSelectOperation().execute(target, iterator, expression, context, false, true);
+		return getSelectOperation().execute(target, iterator, expression, context, false, false);
 	}
 
 }

@@ -19,36 +19,51 @@ operation Any lengthAsStr() : Integer {
 @test
 operation testSelectScope() {
 	var testData := Sequence {0..16};
-	var expected = Sequence {10..16};
-	var actual = testData.select(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
+	var expected = testData.select(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
+	assertEquals(Sequence {10..16}, expected);
+	var actual = testData.parallelSelect(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
 	assertEquals(expected, actual);
+	actual = testData.parallelSelect(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
+	actual.equalsIgnoreOrder(expected);
 }
 
 @test
 operation testRejectScope() {
 	var testData := Sequence {-9..16};
-	var expected = Sequence {0..9};
-	var actual = testData.reject(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
+	var expected = testData.reject(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
+	assertEquals(Sequence {0..9}, expected);
+	var actual = testData.parallelReject(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
 	assertEquals(expected, actual);
+	actual = testData.parallelReject(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
+	actual.equalsIgnoreOrder(expected);
 }
 
 @test
 operation testExistsScope() {
 	var testData := Sequence {-9..16};
-	var actual = testData.exists(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() == 1);
-	assertTrue(actual);
+	var expected = testData.exists(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() == 1);
+	assertTrue(expected);
+	var actual = testData.parallelExists(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() == 1);
+	assertEquals(expected, actual);
 }
 
 @test
 operation testForAllScope() {
 	var testData := Sequence {-9..12};
-	var actual = testData.forAll(n | Thread.currentThread() <> mainThread and n <= 16);
-	assertTrue(actual);
+	var expected = testData.forAll(n | Thread.currentThread() == mainThread and n <= 16);
+	assertTrue(expected);
+	var actual = testData.parallelForAll(n | Thread.currentThread() <> mainThread and n < shared.lengthAsStr());
+	assertEquals(expected, actual);
 }
 
 @test
 operation testCollectScope() {
 	var testData := Sequence {-1..15};
-	var actual = testData.collect(n | Thread.currentThread().getName());
-	assertTrue(actual.forAll(n | n <> null and not testData.contains(n)));
+	var expected = testData.collect(n | Thread.currentThread().getName());
+	var actual = testData.parallelCollect(n | Thread.currentThread().getName());
+	assertEquals(expected.size(), actual.size());
+	assertFalse(expected.exists(t | actual.contains(t)));
+	actual = testData.parallelCollect(n | Thread.currentThread().getName());
+	assertEquals(expected.size(), actual.size());
+	assertFalse(expected.exists(t | actual.contains(t)));
 }

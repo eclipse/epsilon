@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.Collection;
+import java.util.function.Function;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -17,13 +20,16 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class ForAllOperation extends FirstOrderOperation {
 	
+	protected Function<Integer, ? extends NMatchOperation> delegateConstructor = NMatchOperation::new;
+	
 	@Override
 	public Boolean execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
-		SelectOneOperation op = new SelectOneOperation(false);
-		op.execute(target, iterator, expression, context);
-		return !op.hasResult;
+		Collection<Object> source = CollectionUtil.asCollection(target);
+		
+		return delegateConstructor.apply(source.size())
+			.execute(target, iterator, expression, context);
 	}
 
 }

@@ -6,7 +6,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.ISearchableModel;
 
-public class FindOneOperation extends FirstOrderOperation {
+public class FindOneOperation extends SelectBasedOperation {
 
 	@Override
 	public Object execute(Object target, Variable iterator, Expression expression,
@@ -17,7 +17,7 @@ public class FindOneOperation extends FirstOrderOperation {
 			return searchableModel.findOne(iterator, expression, context);
 		}
 		else {
-			return new SelectOneOperation().execute(target, iterator, expression, context);
+			return getSelectOperation().execute(target, iterator, expression, context, true, true);
 		}
 	}
 

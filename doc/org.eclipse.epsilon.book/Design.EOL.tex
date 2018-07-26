@@ -420,7 +420,7 @@ The following operations apply to ordered collection types (i.e. Sequence and Or
     third() : Any & Returns the third item of the collection  \\\hline
 \end{longtabu}
 
-Also, EOL collections support the following first-order operations. Apart from \emph{aggregate} and \emph{closure}, all of these operations execute in parallel. It is therefore assumed that all invocations of these operations are free from side-effects.
+Also, EOL collections support the following first-order operations. Apart from \emph{aggregate} and \emph{closure}, all of these operations have a parallel variant which can take advantage of multiple cores to improve performance. The parallel variant of an operation \emph{x} can be invoked by prepending it with \emph{parallel} and capitalizing the first letter. For example, \emph{select} becomes \emph{parallelSelect}. All computations contained in parallel operations are assumed to be free from side-effects (i.e. mutation of global state). Furthermore, parallel operations cannot be nested, so only the outermost operation can be declared as parallel.
 
 \begin{longtabu} {|p{6.5cm}|X|}
 \caption{First-order logic operations on Collections}

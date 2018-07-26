@@ -27,7 +27,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({AssignmentTests.class, CollectionPropertyTests.class, ComparisonTests.class, CreateDeleteTests.class, EqualityTests.class, CollectionsTests.class, MathTests.class, StringTests.class, AnnotatedOperationTests.class, IsDefinedTests.class, IterableTests.class,
 	           EqualityBecomesAssignmentInStatements.class, ReturnTypeTests.class, BuiltInVariablesTests.class, ModelElementTypeResolutionTests.class, BooleanTests.class, PropertyAccessRecording.class, ScopeTests.class, ContextlessFirstOrderOperationTests.class, DomTests.class,
 	           OperationOrderTests.class, PostfixOperatorTests.class, CompositeAssignmentTests.class, SwitchTests.class, TransactionTests.class, ModelElementConstructorTests.class,
-	           FirstOrderOperationTests.class, FirstOrderOperationAdvancedTests.class, FirstOrderOperationExceptionHandlingTests.class})
+	           FirstOrderOperationTests.class, FirstOrderOperationAdvancedTests.class, FirstOrderOperationExceptionHandlingTests.class, ParallelFirstOrderOperationTests.class, ParallelFirstOrderOperationEquivalenceTests.class})
 public class EolAcceptanceTestSuite {
 
 	public static Test suite() {

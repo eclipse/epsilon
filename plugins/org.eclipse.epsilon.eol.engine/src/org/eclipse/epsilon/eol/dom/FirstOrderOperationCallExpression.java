@@ -11,6 +11,8 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.SelectBasedOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolAnyType;
@@ -77,10 +79,10 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 		IModel owningModel = context.getModelRepository().getOwningModel(target);
 		
 		AbstractOperation operation = getAbstractOperation(target, operationName, nameExpression, owningModel, context);
-		/*if (operation instanceof SelectBasedOperation) {
+		if (operation instanceof SelectBasedOperation) {
 			((SelectBasedOperation) operation).setSelectOperation(
 				(SelectOperation) getAbstractOperation(target, "select", nameExpression, owningModel, context));
-		}*/
+		}
 		return operation.execute(target, nameExpression, parameters, expressions, context);
 	}
 	

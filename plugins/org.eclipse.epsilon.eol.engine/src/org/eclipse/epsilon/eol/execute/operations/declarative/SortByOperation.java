@@ -20,7 +20,7 @@ import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.NumberUtil;
 
-public class SortByOperation extends CollectOperation {
+public class SortByOperation extends CollectBasedOperation {
 	
 	@Override
 	public EolSequence<?> execute(Object target, Variable iterator, Expression expression,
@@ -29,7 +29,7 @@ public class SortByOperation extends CollectOperation {
 		final List<?> source = CollectionUtil.asList(target);
 		if (source.isEmpty()) return new EolSequence<>(0);
 		
-		final List<?> collected = CollectionUtil.asList(super.execute(target, iterator, expression, context));
+		final List<?> collected = CollectionUtil.asList(getCollectOperation().execute(target, iterator, expression, context));
 		final int colSize = collected.size();
 		assert colSize == source.size();
 		
