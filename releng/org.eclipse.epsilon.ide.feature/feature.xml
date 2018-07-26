@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.epsilon.ide"
+      label="Epsilon IDE Feature"
+      version="1.5.0.qualifier"
+      provider-name="Eclipse.org">
+
+   <description>
+      An Eclipse distribution with all Epsilon plugins installed, required dependencies and update sites.
+   </description>
+
+   <copyright>
+      Copyright (c) 2008 The University of York.
+   </copyright>
+
+   <license url="https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt">
+      This program and the accompanying materials are made available under the terms of the Eclipse Public License 2.0 which is available at https://www.eclipse.org/legal/epl-2.0/
+
+SPDX-License-Identifier: EPL-2.0
+   </license>
+
+   <url>
+      <discovery label="Epsilon Website" url="https://eclipse.org/epsilon/"/>
+   </url>
+
+   <requires>
+      <import feature="org.eclipse.sdk" version="4.6.3.v20170301-0400" match="greaterOrEqual"/>
+      <import feature="org.eclipse.egit" version="4.11.0.201803080745-r" match="greaterOrEqual"/>
+      <import feature="org.eclipse.emf.emfatic" version="0.8.0.201507261242" match="perfect"/>
+      <import feature="org.eclipse.emf.sdk" version="2.12.0.v20160526-0356" match="perfect"/>
+      <import feature="org.eclipse.gef.sdk" version="3.11.0.201606061308" match="perfect"/>
+   </requires>
+
+</feature>

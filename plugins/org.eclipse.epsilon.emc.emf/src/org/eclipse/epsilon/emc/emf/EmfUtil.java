@@ -1,9 +1,8 @@
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
@@ -177,8 +176,8 @@ public class EmfUtil {
 		
 		setDataTypesInstanceClasses(metamodel);
 
-		Iterator<EObject> it = metamodel.getAllContents();
-		while (it.hasNext()) {
+		
+		for (Iterator<EObject> it = metamodel.getAllContents(); it.hasNext();) {
 			Object next = it.next();
 			if (next instanceof EPackage) {
 				EPackage p = (EPackage) next;
@@ -192,7 +191,7 @@ public class EmfUtil {
 		return ePackages;
 		
 	}
-	
+
 	public static List<EPackage> registerXcore(URI locationURI, EPackage.Registry registry) throws IOException {
 		return registerXcore(locationURI, registry, true);
 	}
@@ -212,9 +211,9 @@ public class EmfUtil {
 		
         if (ePackage != null)
         {
-        		adjustNsAndPrefix(metamodel, ePackage, useUriForResource);
-        		registry.put(ePackage.getNsURI(), ePackage);
-        		ePackages.add(ePackage);
+    		adjustNsAndPrefix(metamodel, ePackage, useUriForResource);
+    		registry.put(ePackage.getNsURI(), ePackage);
+    		ePackages.add(ePackage);
         }
 		
 		return ePackages;
@@ -240,10 +239,10 @@ public class EmfUtil {
 
         if (ePackage != null)
         {
-        		adjustNsAndPrefix(metamodel, ePackage, useUriForResource);
-        		metamodel.getContents().remove(ePackage);
-        		EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
-        		ePackages.add(ePackage);
+    		adjustNsAndPrefix(metamodel, ePackage, useUriForResource);
+    		metamodel.getContents().remove(ePackage);
+    		EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
+    		ePackages.add(ePackage);
         }
 		
 		return ePackages;

@@ -14,6 +14,7 @@ class Port {
 	attr String name;
 	ref Connector[*]#from outgoing;
 	ref Connector[*]#to incoming;
+	ref Type type;
 }
 
 class Connector {
@@ -21,3 +22,6 @@ class Connector {
 	ref Port#incoming to;
 }
 	
+class Type {
+	attr String name;
+}

@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.emc.simulink.test.unit;
 
 import org.eclipse.epsilon.emc.simulink.test.util.AbstractSimulinkTest;
@@ -31,6 +40,7 @@ private static final String ROOT = "examples/";
 	
 	@Test
 	public void testRobustTest() {
+		activeCache = false;
 		eolResourceFile = ROOT + "robustTest.eol";
 	}
 	
@@ -42,18 +52,21 @@ private static final String ROOT = "examples/";
 	
 	@Test
 	public void testParent() {
+		activeCache = false;
 		eolResourceFile = ROOT + "parent.eol";
 		modelFile = FileUtils.getModelFile("parent.slx");
 	}
 	
 	@Test
 	public void testTypeHierarchy() {
+		activeCache = false;
 		eolResourceFile = ROOT + "typesTest.eol";
 		modelFile = FileUtils.getModelFile("feedbackController.slx");
 	}
 	
 	@Test
 	public void testQueryFeedbackController() {
+		activeCache = false;
 		eolResourceFile = ROOT + "queryFeedbackController.eol";
 		modelFile = FileUtils.getModelFile("feedbackController.slx");
 	}

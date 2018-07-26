@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.junit.launchconfig">
-    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-        <listEntry value="/org.eclipse.epsilon.test/src/org/eclipse/epsilon/test/EpsilonTestSuite.java"/>
-    </listAttribute>
-    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
-        <listEntry value="1"/>
-    </listAttribute>
-    <mapAttribute key="org.eclipse.debug.core.preferred_launchers"/>
-    <stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value=""/>
-    <booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
-    <stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
-    <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
-    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
-    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.epsilon.test.EpsilonTestSuite"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.epsilon.test"/>
+
+	<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+		<listEntry value="/org.eclipse.epsilon.test/src/org/eclipse/epsilon/test/EpsilonTestSuite.java"/>
+	</listAttribute>
+	<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+		<listEntry value="1"/>
+	</listAttribute>
+	<stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value=""/>
+	<booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
+	<stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
+	<stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
+	<booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+	<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.epsilon.test.EpsilonTestSuite"/>
+	<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.epsilon.test"/>
+	<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xms512m -Xmx512m -XX:PermSize=512m -XX:MaxPermSize=512m"/>
+
 </launchConfiguration>

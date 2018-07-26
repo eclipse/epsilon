@@ -1,9 +1,8 @@
 /**
  * Copyright (c) 2011 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *      Louis Rose - initial API and implementation
@@ -19,11 +18,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Region#getOffset <em>Offset</em>}</li>
  *   <li>{@link org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.Region#getLength <em>Length</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkPackage#getRegion()
  * @model

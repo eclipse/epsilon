@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.flexmi.xml;
 
 import java.io.InputStream;
@@ -15,7 +24,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.flexmi.FlexmiDiagnostic;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
-import org.eclipse.epsilon.flexmi.Template;
+import org.eclipse.epsilon.flexmi.templates.Template;
+import org.eclipse.epsilon.flexmi.templates.TemplateFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -51,13 +61,13 @@ public class PseudoSAXParser {
 		
 		if (isFlexmiRootNode(document.getDocumentElement())) {
 			for (Element templateElement : Xml.getChildren(document.getDocumentElement(), Template.NODE_NAME)) {
-				resource.getTemplates().add(new Template(templateElement));
+				resource.getTemplates().add(TemplateFactory.getInstance().createTemplate(templateElement));
 				document.getDocumentElement().removeChild(templateElement);
 			}
 		}
 		else {
 			if (isTemplate(document.getDocumentElement())) {
-				resource.getTemplates().add(new Template(document.getDocumentElement()));
+				resource.getTemplates().add(TemplateFactory.getInstance().createTemplate(document.getDocumentElement()));
 				document.removeChild(document.getDocumentElement());
 				return;
 			}
@@ -72,28 +82,30 @@ public class PseudoSAXParser {
 		Template template = null;
 		
 		if (node instanceof Element) {
-			if (!isFlexmiRootNode((Element) node)) {
-				if (node.getNodeName().startsWith(Template.PREFIX)) {
-					String templateName = node.getNodeName().substring(Template.PREFIX.length());
+			Element element = (Element) node;
+			if (!isFlexmiRootNode(element)) {
+				if (element.getNodeName().startsWith(Template.PREFIX)) {
+					String templateName = element.getNodeName().substring(Template.PREFIX.length());
 					for (Resource resource : this.resource.getResourceSet().getResources()) {
 						if (resource instanceof FlexmiResource) {
 							template = ((FlexmiResource) resource).getTemplate(templateName);
 							if (template != null) {
 								// ((FlexmiResource) resource).startProcessingFragment(resource.getURI());
-								for (Element applicationElement : template.apply(node)) {
+								for (Element applicationElement : template.apply(element)) {
 									visit(applicationElement, handler);
 								}
+								break;
 								// ((FlexmiResource) resource).endProcessingFragment();
 							}
 						}
 					}
 					if (template == null) {
-						resource.getWarnings().add(new FlexmiDiagnostic("Unknown template " + templateName, uri, resource.getLineNumber(node)));
+						resource.getWarnings().add(new FlexmiDiagnostic("Unknown template " + templateName, uri, resource.getLineNumber(element)));
 						return;
 					}
 				}
 				else {
-					handler.startElement((Element) node);
+					handler.startElement(element);
 				}
 			}
 		}

@@ -1,9 +1,8 @@
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
@@ -550,12 +549,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			try {
 				metamodelPackages = attemptFileBasedMetamodelReuse(metamodelFileUri);
 				if (metamodelPackages == null) {
-					if ("ecore".equals(metamodelFileUri.fileExtension())) {
-						metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry(), false);
-					}
-					else {
-						metamodelPackages = EmfUtil.registerXcore(metamodelFileUri, resourceSet.getPackageRegistry(), false);
-					}
+					metamodelPackages = EmfUtil.register(metamodelFileUri, resourceSet.getPackageRegistry(), false);
 					saveFileBasedMetamodelForReuse(metamodelFileUri, metamodelPackages);
 				}
 			} catch (Exception e) {

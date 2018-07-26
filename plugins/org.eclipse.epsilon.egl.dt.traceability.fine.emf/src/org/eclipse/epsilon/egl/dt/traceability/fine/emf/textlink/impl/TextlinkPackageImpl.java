@@ -1,9 +1,8 @@
 /**
  * Copyright (c) 2011 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *      Louis Rose - initial API and implementation
@@ -109,7 +108,7 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link TextlinkPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -123,7 +122,8 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 		if (isInited) return (TextlinkPackage)EPackage.Registry.INSTANCE.getEPackage(TextlinkPackage.eNS_URI);
 
 		// Obtain or create and register package
-		TextlinkPackageImpl theTextlinkPackage = (TextlinkPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof TextlinkPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new TextlinkPackageImpl());
+		Object registeredTextlinkPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		TextlinkPackageImpl theTextlinkPackage = registeredTextlinkPackage instanceof TextlinkPackageImpl ? (TextlinkPackageImpl)registeredTextlinkPackage : new TextlinkPackageImpl();
 
 		isInited = true;
 
@@ -136,7 +136,6 @@ public class TextlinkPackageImpl extends EPackageImpl implements TextlinkPackage
 		// Mark meta-data to indicate it can't be changed
 		theTextlinkPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(TextlinkPackage.eNS_URI, theTextlinkPackage);
 		return theTextlinkPackage;
