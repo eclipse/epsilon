@@ -10,115 +10,156 @@
 package org.eclipse.epsilon.emc.simulink.test.util;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public enum MatlabEngineFilesEnum {
 
-	// Default windows and osx locations for test version R2017a
-	
-	ENGINE_JAR(
-			"C:/Program Files/MATLAB/%s/extern/engines/java/jar/engine.jar",
-			"/Applications/MATLAB_%s.app/extern/engines/java/jar/engine.jar",
-			""), // TODO
-	
-	LIBRARY_PATH(
-			"C:/Program Files/MATLAB/%s/bin/win64", 
-			"/Applications/MATLAB_%s.app/bin/maci64",
-			""); // TODO
+	ENGINE_JAR("C:/Program Files/MATLAB/%s/extern/engines/java/jar/engine.jar",
+			"/Applications/MATLAB_%s.app/extern/engines/java/jar/engine.jar", ""), // TODO
+
+	LIBRARY_PATH("C:/Program Files/MATLAB/%s/bin/win64", "/Applications/MATLAB_%s.app/bin/maci64", ""); // TODO
 
 	private static final String OS_PROPERTY = "os.name";
 	private static final String WINDOWS = "windows";
 	private static final String MAC = "mac";
-	
-	private static final String VERSION = "R2017b"; // Default value 
+
+	// LIST OF SUPPORTED VERSIONS
+	public static final List<String> VERSIONS = Arrays.asList("R2016b", "R2017a", "R2017b", "R2018a", "R2018b"); 
 
 	private String win;
 	private String osx;
 	private String lin;
-	
+
 	private String os;
 
-	MatlabEngineFilesEnum(String win, String osx, String lin){
+	MatlabEngineFilesEnum(String win, String osx, String lin) {
 		this.win = win;
 		this.osx = osx;
 		this.lin = lin;
 		this.os = System.getProperty(OS_PROPERTY).toLowerCase();
 	}
 
-	
-	public File file(String version){
+	public File file(String version) throws Exception {
 		if (os.contains(WINDOWS)) {
-			return getWindowsFile();
-		} else if (os.contains(MAC)){
-			return getMacOSFile();
+			return getWindowsFile(version);
+		} else if (os.contains(MAC)) {
+			return getMacOSFile(version);
 		} else {
-			return getLinuxFile();
+			return getLinuxFile(version);
 		}
 	}
-	
-	public String path(String version){
+
+	public String path(String version) throws Exception {
 		if (os.contains(WINDOWS)) {
 			return getWindowsPath(version);
-		} else if (os.contains(MAC)){
+		} else if (os.contains(MAC)) {
 			return getMacOSPath(version);
 		} else {
 			return getLinuxPath(version);
 		}
 	}
-	
-	public File file(){
-		return file(VERSION);
+
+	public static boolean exists(String version) {
+		try {
+			return (ENGINE_JAR.file(version).exists() && LIBRARY_PATH.file(version).exists());
+		} catch (Exception e) {
+			return false;
+		}
 	}
-	
-	public String path(){
-		return path(VERSION);
+
+	public static List<String> availableVersions() throws Exception {
+		List<String> versions = VERSIONS.stream().filter(v -> exists(v)).collect(Collectors.toList());
+		if (!versions.isEmpty()) {
+			return versions;
+		} else {
+			throw new Exception("No MATLAB version installed");
+		}
 	}
-	
-	public String getWindowsPath() {
-		return String.format(this.win, VERSION);
+
+	public static String availableVersion() throws Exception {
+		return availableVersions().get(0);
 	}
-	
-	public String getMacOSPath() {
-		return String.format(this.osx, VERSION);
+
+	public File file() throws Exception {
+		return file(availableVersion());
 	}
-	
-	public String getLinuxPath() {
-		return String.format(this.lin, VERSION);
+
+	public String path() throws Exception {
+		return path(availableVersion());
 	}
-	
-	public File getWindowsFile() {
+
+	public String getWindowsPath() throws Exception {
+		return String.format(this.win, availableVersion());
+	}
+
+	public String getMacOSPath() throws Exception {
+		return String.format(this.osx, availableVersion());
+	}
+
+	public String getLinuxPath() throws Exception {
+		return String.format(this.lin, availableVersion());
+	}
+
+	public File getWindowsFile() throws Exception {
 		return new File(getWindowsPath());
 	}
 
-	public File getMacOSFile() {
+	public File getMacOSFile() throws Exception {
 		return new File(getMacOSPath());
 	}
-	
-	public File getLinuxFile() {
+
+	public File getLinuxFile() throws Exception {
 		return new File(getLinuxPath());
 	}
-	
-	public String getWindowsPath(String version) {
-		return String.format(this.win, version);
-	}
-	
-	public String getMacOSPath(String version) {
-		return String.format(this.osx, version);
-	}
-	
-	public String getLinuxPath(String version) {
-		return String.format(this.lin, version);
-	}
-	
-	public File getWindowsFile(String version) {
-		return new File(getWindowsPath(version));
+
+	public String getWindowsPath(String version) throws Exception {
+		if (VERSIONS.contains(version)) {
+			return String.format(this.win, version);
+		} else {
+			throw new Exception();
+		}
 	}
 
-	public File getMacOSFile(String version) {
-		return new File(getMacOSPath(version));
+	public String getMacOSPath(String version) throws Exception {
+		if (VERSIONS.contains(version)) {
+			return String.format(this.osx, version);
+		} else {
+			throw new Exception();
+		}
 	}
-	
-	public File getLinuxFile(String version) {
-		return new File(getLinuxPath(version));
+
+	public String getLinuxPath(String version) throws Exception {
+		if (VERSIONS.contains(version)) {
+			return String.format(this.lin, version);
+		} else {
+			throw new Exception();
+		}
 	}
-	
+
+	public File getWindowsFile(String version) throws Exception {
+		if (VERSIONS.contains(version)) {
+			return new File(getWindowsPath(version));
+		} else {
+			throw new Exception();
+		}
+	}
+
+	public File getMacOSFile(String version) throws Exception {
+		if (VERSIONS.contains(version)) {
+			return new File(getMacOSPath(version));
+		} else {
+			throw new Exception();
+		}
+	}
+
+	public File getLinuxFile(String version) throws Exception {
+		if (VERSIONS.contains(version)) {
+			return new File(getLinuxPath(version));
+		} else {
+			throw new Exception();
+		}
+	}
+
 }

@@ -26,18 +26,19 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 
 public abstract class AbstractSimulinkTest {
 
-	private static final String ERROR_CONFIG_FILES_NOT_FOUND = "Could not find Matlab Engine Jar or Library Path";
 	private static final String TEST_TRACES = "=> TEST: %s.%s";
 	private static final String LN_BR = System.getProperty("line.separator");
 	
 	protected static final String LN = " 'LINE BREAK'.println(); ";
 
-	public static String matlabVersion = "2017b";
+	@ClassRule
+	public static AssumeMatlabInstalled installation = new AssumeMatlabInstalled();
 
 	protected String eol;
 	protected String eolResourceFile;
@@ -49,8 +50,7 @@ public abstract class AbstractSimulinkTest {
 	public TestName name = new TestName();
 
 	@BeforeClass
-	public static void engineLogLevel() {
-	}
+	public static void engineLogLevel() {}
 
 	@Before
 	public void logTestName() {
@@ -130,9 +130,6 @@ public abstract class AbstractSimulinkTest {
 
 	public static SimulinkModel loadSimulinkModel(File file, boolean activeCaching) throws EolModelLoadingException {
 
-		if (!ENGINE_JAR.file(matlabVersion).exists() || !LIBRARY_PATH.file(matlabVersion).exists())
-			throw new EolModelLoadingException(new Exception(ERROR_CONFIG_FILES_NOT_FOUND), null);
-
 		SimulinkModel model = new SimulinkModel();
 		model.setName("M");
 		if (file != null) {
@@ -147,9 +144,13 @@ public abstract class AbstractSimulinkTest {
 		model.setStoredOnDisposal(false);
 		model.setShowInMatlabEditor(false);
 		model.setCachingEnabled(activeCaching);
-		
-		model.setLibraryPath(LIBRARY_PATH.path());
-		model.setEngineJarPath(ENGINE_JAR.path());
+		try {			
+			String version = installation.getVersion();
+			model.setLibraryPath(LIBRARY_PATH.path(version));
+			model.setEngineJarPath(ENGINE_JAR.path(version));
+		} catch (Exception e) {
+			throw new EolModelLoadingException(e, model);
+		}
 		model.setFollowLinks(false);
 		model.load();
 
