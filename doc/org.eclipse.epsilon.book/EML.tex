@@ -134,7 +134,7 @@ rule MatchGraphs /*@\label{line:MatchGraphs}@*/
 
 The \emph{MatchNodes} rule in line \ref{line:MatchNodes} defines that two nodes match if they have the same label. The \emph{MatchEdges} rule in line \ref{line:MatchEdges} specifies that two edges match if both their source and target nodes match (regardless of whether the labels of the edges match or not as it is assumed that there can not be two distinct edges between the same nodes). Finally, since only one instance of Graph is expected to be in each model, the \emph{MatchGraphs} rule in line \ref{line:MatchGraphs} returns \emph{true} for any pair of Graphs\footnote{Both assumptions can be checked using EVL before matching/merging takes place but this is out of the scope of this example}.
 
-Having established the necessary correspondences between matching elements of the two models, the EML specification of listing \ref{lst:MergeGraphs}.
+Having established the necessary correspondences between matching elements of the two models, the EML specification of listing \ref{lst:MergeGraphs} performs the merge.
 
 \begin{lstlisting}[label=lst:MergeGraphs, caption=EML module for merging two instances of the Graph metamodel on the correspondences identified in Listing \ref{lst:CompareGraph} , language=EML]
 import "Graphs.etl";

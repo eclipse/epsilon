@@ -21,7 +21,7 @@ Figure \ref{fig:abstractsyntax} depicts the abstract syntax of EGL's core functi
   \label{fig:abstractsyntax}
 \end{figure}
 
-Conceptually, an EGL program comprises one or more \emph{sections}. The contents of static sections are emitted verbatim and appear directly in the generated text. The contents of dynamic sections are executed and are used used to control the text that is generated.
+Conceptually, an EGL program comprises one or more \emph{sections}. The contents of static sections are emitted verbatim and appear directly in the generated text. The contents of dynamic sections are executed and are used to control the text that is generated.
 
 In its dynamic sections, EGL re-uses EOL's mechanisms for structuring program control flow, performing model inspection and navigation, and defining custom operations. In addition, EGL provides an EOL object, \verb|out|, which is used in dynamic sections to perform operations on the generated text, such as appending and removing strings; and specifying the type of text to be generated.
 
@@ -123,7 +123,7 @@ For many EGL programs, interacting directly with the \emph{OutputBuffer} is unne
 			
 			print(object : Any) & Appends a string representation of the specified object to the buffer \\\hline
 			
-			println(object : Any) & Appends a string representation of the specified character and a new line to the buffer \\\hline
+			println(object : Any) & Appends a string representation of the specified object and a new line to the buffer \\\hline
 			
 			println() & Appends a new line to the buffer \\\hline
 			
