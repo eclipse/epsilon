@@ -2,7 +2,7 @@
 \chapter{Orchestration Workflow}
 \label{chp:Workflow}
 
-The previous chapter has provided a detailed discussion on a number of task-specific languages, each one addressing an individual model management task. However, in practice, model management tasks are seldom carried out in isolation; instead, they are often combined together to form complex workflows. Therefore, of similar importance to the existence of individual task-specific management languages is the provision of a mechanism that enables developers to compose modular and reusable tasks into complex automated processes. In a broader context, to facilitate implementation of seamless workflows, an appropriate MDE workflow mechanism should also support mainstream development tasks such as file management, version control management, source code compilation and invocation of external programs and services.
+The previous chapters provided a detailed discussion on a number of task-specific languages, each one addressing an individual model management task. However, in practice, model management tasks are seldom carried out in isolation; instead, they are often combined together to form complex workflows. Therefore, of similar importance to the existence of individual task-specific management languages is the provision of a mechanism that enables developers to compose modular and reusable tasks into complex automated processes. In a broader context, to facilitate implementation of seamless workflows, an appropriate MDE workflow mechanism should also support mainstream development tasks such as file management, version control management, source code compilation and invocation of external programs and services.
 
 \section{Motivation}
 \label{sec:Workflow.Motivation}
@@ -44,7 +44,7 @@ In ANT, each workflow is captured as a \textit{project}. A simplified illustrati
 
 \subsection{Concrete Syntax}
 
-In terms of concrete syntax, ANT provides an XML-based syntax. In Listing \ref{lst:ANTExample}, an exemplar ANT project that compiles a set of Java files is illustrated. The project contains one target (\emph{main}) which is also set to be the \emph{default} target. The \emph{main} target contains one \emph{javac} task that specifies attributes such as \emph{srcdir}, \emph{destdir} and \emph{classpath}, which define that the Java compiler will compile a set of Java files contained into the \emph{src} directory into classes that should be placed in the \emph{buiild} directory using \emph{dependencies.jar} as an external library.
+In terms of concrete syntax, ANT provides an XML-based syntax. In Listing \ref{lst:ANTExample}, an exemplar ANT project that compiles a set of Java files is illustrated. The project contains one target (\emph{main}) which is also set to be the \emph{default} target. The \emph{main} target contains one \emph{javac} task that specifies attributes such as \emph{srcdir}, \emph{destdir} and \emph{classpath}, which define that the Java compiler will compile a set of Java files contained into the \emph{src} directory into classes that should be placed in the \emph{build} directory using \emph{dependencies.jar} as an external library.
 
 \begin{lstlisting}[caption=Compiling Java classes using the javac task, label=lst:ANTExample]
 <project default="main">
@@ -64,7 +64,7 @@ Binding between the XML tags that describe the tasks and the actual implementati
 
 This lightweight and straightforward way of defining tasks has rendered ANT particularly popular in the Java development community and currently there is a large number of tasks contributed by ANT users \cite{AntExternalTasks}, ranging from invoking tools such as code generators and XSLT processors, to emulating logical control flow structures such as \emph{if} conditions and \emph{while} loops. The AMMA platform \cite{AMMA} also provides integration of model driven engineering tools such as TCS \cite{TCS} and ATL \cite{ATL} with ANT.
 
-ANT also supports more advanced features including nested XML elements and \emph{filesets}, however providing a complete discussion is beyond the scope of this paper. For a definitive guide to ANT readers can refer to \cite{AntBook}.
+ANT also supports more advanced features including nested XML elements and \emph{filesets}, however providing a complete discussion is beyond the scope of this chapter. For a definitive guide to ANT readers can refer to \cite{AntBook}.
 
 \section{Integration Challenges}
 \label{sec:Workflow.IntegrationChallenges}
@@ -203,4 +203,4 @@ To implement support for a new task-specific language to the workflow, a new ext
 
 \section{Chapter Summary}
 
-This chapter has presented the detailed design of an ANT-based framework for integrating and orchestrating mainstream software development tasks with model management tasks implemented using model management languages in Epsilon. In Section \ref{sec:Workflow.Framework}, the core framework that provides features such centralized model loading/storing facilities, a shared model repository and a mechanism through which individual tasks can communicate at runtime has been illustrated. Then, Section \ref{sec:Workflow.ModelManagementTasks} has provided a discussion on the integration of the task specific languages with the framework and also provided guidance for adding support for additional languages that are likely to be developed in the future atop Epsilon.
+This chapter has presented the detailed design of an ANT-based framework for integrating and orchestrating mainstream software development tasks with model management tasks implemented using model management languages in Epsilon. In Section \ref{sec:Workflow.Framework}, the core framework that provides features such as centralized model loading/storing facilities, a shared model repository and a mechanism through which individual tasks can communicate at runtime has been illustrated. Then, Section \ref{sec:Workflow.ModelManagementTasks} has provided a discussion on the integration of the task specific languages with the framework and also provided guidance for adding support for additional languages that are likely to be developed in the future atop Epsilon.

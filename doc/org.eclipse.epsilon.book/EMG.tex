@@ -12,7 +12,7 @@ The Epsilon Model Generation Language  addresses the automated generation of com
 
 \subsection{Approaches to Model Generation}
 
-The model generation approaches found in literature provide fully-automated behaviour. In a fully-automated approach, the tool loads the metamodel (and in some cases its constraints) and generates models that conform to the metamodel (and satisfy the constraints, if constraints are supported).  However, the existing solutions can generate invalid models and in the case were constraints are supported, only simple constraints are supported.
+The model generation approaches found in literature provide fully-automated behaviour. In a fully-automated approach, the tool loads the metamodel (and in some cases its constraints) and generates models that conform to the metamodel (and satisfy the constraints, if constraints are supported).  However, the existing solutions can generate invalid models and in the case where constraints are supported, only simple constraints are supported.
 
 The Epsilon Model Generation follows a semi-automated generation approach. There are three main tasks in model generation:
 \begin{itemize}
@@ -40,7 +40,7 @@ All three annotations are executable and hence must be prefixed with a \$ symbol
 The EPL pattern annotations are:
 
 \begin{description}
-    \item[number] This limits the number of times the pattern is matched, to constraint the number of links crated between elements. This annotation accepts one parameter. The parameter can be an expression that resolves to an Integer (e.g. literal, variable name, etc.)  or a sequence in the form \texttt{Sequence \{min, max\}}). An integer value statically defines how many instances are to be created. A sequence defines a range that is used by the engine to generates a random number \emph{n} of instances, with $min \le n \le max$.
+    \item[number] This limits the number of times the pattern is matched, to constraint the number of links created between elements. This annotation accepts one parameter. The parameter can be an expression that resolves to an Integer (e.g. literal, variable name, etc.)  or a sequence in the form \texttt{Sequence \{min, max\}}). An integer value statically defines how many instances are to be created. A sequence defines a range that is used by the engine to generates a random number \emph{n} of instances, with $min \le n \le max$.
     \item[probability] This defines the probability that the body of the pattern will be executed for a matching set of elements. The effect is that not all matching elements are linked. Effectively this also limits the number of times links are created.  
     \item[noRepeat] This forbids previous matched elements to be re-linked. 
 \end{description}
@@ -76,13 +76,13 @@ Additionally the EMG engine provides a set of predefined operations that provide
 	
 	nextInt(upper : Integer) : Integer & Returns a pseudorandom, uniformly distributed integer value between 0 (inclusive) and \emph{upper} (exclusive). The argument must be positive.\\\hline
 	
-	nextInt(lower: Integer, upper : Integer) : Integer & Returns a pseudorandom, uniformly distributed integer value between lower and upper (endpoints included). The arguments must be positive and $upper => lower$.\\\hline
+	nextInt(lower: Integer, upper : Integer) : Integer & Returns a pseudorandom, uniformly distributed integer value between lower and upper (endpoints included). The arguments must be positive and $upper >= lower$.\\\hline
     
     nextReal() : Real & Returns the next pseudorandom, uniformly distributed \texttt{real} value between $0.0$ and $1.0$.\\\hline
     
     nextReal(upper : Real) : Real & Returns the next pseudorandom, uniformly distributed \texttt{real} value between $0.0$ and \emph{upper} (inclusive).\\\hline
     
-    nextReal(lower: Real, upper : Real) : Real & Returns a pseudorandom, uniformly distributed \texttt{real} value between \emph{lower} and \emph{upper} (endpoints included),.\\\hline
+    nextReal(lower: Real, upper : Real) : Real & Returns a pseudorandom, uniformly distributed \texttt{real} value between \emph{lower} and \emph{upper} (endpoints included).\\\hline
     
 	nextSample(c : Sequence, k : Integer) : Sequence(Any) & Returns a Sequence of $k$ objects selected randomly from the Sequence $c$ using a uniform distribution.  Sampling from $c$ is without replacement; but if c contains identical objects, the sample may include repeats. If all elements of $c$ are distinct, the resulting object collection represents a Simple Random Sample of size $k$ from the elements of $c$.\\\hline
 	
@@ -168,7 +168,7 @@ operation Transition create() {
 
 \section{Creating Model Links}\label{sec:emg.createlinks}
 
-In the previous section, the \emph{places} and \emph{transitions} references of the PetriNet were defined during the creation of the Place and Transition elements. For more complex reference patterns, EMG leverage the use of EPL patterns. For example, Arcs can have complex constraints in order to determine the source and target transition/place, and possibly even having separate rules for each type of Arc.
+In the previous section, the \emph{places} and \emph{transitions} references of the PetriNet were defined during the creation of the Place and Transition elements. For more complex reference patterns, EMG leverages the use of EPL patterns. For example, Arcs can have complex constraints in order to determine the source and target transition/place, and possibly even having separate rules for each type of Arc.
 
 The EPL pattern in Listing \ref{lst:emg.match} creates two arcs in order to connect a source and a target Place via a Transition. The pattern matches all transitions in a given PetriNet.  The pattern body selects a random Place for the source and a random Place for the target (the while loops are used to pick places that have the lowest incoming/outgoing arcs possible). The weight of the arc is generated randomly from 0 to 10 (\emph{nextInt(10)}). The pattern has been annotated with the @probability annotation which will effectively only use 70\% of the transitions to create arcs (i.e. of all the possible PetriNet-Transition matches, the code of the pattern will only be executed with a probability of 0.70).
 

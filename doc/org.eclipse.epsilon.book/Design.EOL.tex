@@ -809,8 +809,8 @@ rule Attribute2Column
     to c : DB!Column {
     
         c.name = a.name;
-        //c.owningTable = c.owningClass;
-        c.owningTable ::= c.owningClass;
+        //c.owningTable = a.owningClass;
+        c.owningTable ::= a.owningClass;
     }
 
 \end{lstlisting}
