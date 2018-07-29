@@ -28,6 +28,7 @@ import org.eclipse.epsilon.emc.emf.test.EmfTestSuite;
 import org.eclipse.epsilon.emc.graphml.tests.GraphmlTestSuite;
 import org.eclipse.epsilon.emc.hutn.test.HutnEmcDriverTestSuite;
 import org.eclipse.epsilon.emc.plainxml.test.PlainXmlTestSuite;
+import org.eclipse.epsilon.emc.simulink.test.suite.SimulinkTestSuite;
 import org.eclipse.epsilon.emc.spreadsheets.test.SpreadsheetDriverTestSuite;
 import org.eclipse.epsilon.eml.engine.test.acceptance.EmlAcceptanceTestSuite;
 import org.eclipse.epsilon.eol.engine.test.acceptance.EolAcceptanceTestSuite;
@@ -75,6 +76,7 @@ import junit.framework.Test;
                WorkflowTestSuite.class,
                GraphmlTestSuite.class,
                EmfTestSuite.class,
+               SimulinkTestSuite.class,
                SpreadsheetDriverTestSuite.class,
                CsvModelTestSuite.class,
                FlexmiTestSuite.class})
