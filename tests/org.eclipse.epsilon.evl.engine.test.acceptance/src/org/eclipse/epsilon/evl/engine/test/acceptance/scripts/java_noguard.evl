@@ -186,6 +186,7 @@ context IfStatement {
 	}
 }
 
+@parallel
 context ClassDeclaration {
 	constraint hashCodeAndEquals {
 		check {

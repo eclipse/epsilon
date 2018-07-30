@@ -6,6 +6,7 @@ operation Modifier isLocal() : Boolean {
 	return self.visibility == VisibilityKind#private or self.visibility == VisibilityKind#none;
 }
 
+@parallel
 context MethodInvocation {
 	constraint doesNotCallExit {
 		guard: self.method.isDefined()
@@ -89,6 +90,7 @@ context IfStatement {
 }
 
 context ClassDeclaration {
+	@parallel
 	constraint noObscuredVariables {
 		check {
 			var fields = self.bodyDeclarations.select(bd | bd.isKindOf(FieldDeclaration));

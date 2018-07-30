@@ -54,6 +54,7 @@ operation ClassDeclaration hasCompareTo() : Boolean {
 	);
 }
 
+@parallel
 context MethodInvocation {
 	guard: self.method.isDefined()
 	
@@ -93,6 +94,7 @@ context AbstractMethodDeclaration {
 		check: self.usages.notEmpty()
 	}
 	
+	@parallel
 	constraint parametersEffectivelyFinal {
 		guard: self.body.isDefined() and self.parameters.notEmpty()
 		check: self.body.statements
@@ -179,6 +181,7 @@ context IfStatement {
 }
 
 context ClassDeclaration {
+	@parallel
 	constraint hashCodeAndEquals {
 		check {
 			var hasEquals = self.hasEquals();
@@ -270,6 +273,7 @@ context ClassDeclaration {
 }
 
 context CompilationUnit {
+	@parallel
 	constraint allImportsAreUsed {
 		check: self.imports.forAll(imp |
 			NamedElement.allInstances().exists(ne | ne.originalCompilationUnit == self)

@@ -32,7 +32,7 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	protected TypeExpression typeExpression;
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected EolModelElementType type;
-	protected Boolean isLazy = null;
+	protected Boolean isLazy;
 	
 	@SuppressWarnings("unchecked")
 	public void build(AST cst, IModule module) {
@@ -72,6 +72,7 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	/**
 	 * An entire context is lazy if all constraints are lazy, or if it is
 	 * itself marked as lazy.
+	 * @throws EolRuntimeException
 	 */
 	public boolean isLazy(IEvlContext context) throws EolRuntimeException {
 		if (isLazy == null) {

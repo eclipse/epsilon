@@ -7,10 +7,6 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 public abstract class EvlModuleParallel extends EvlModule {
-
-	public static final EvlModuleParallel getDefaultImpl() {
-		return new EvlModuleParallelElements();
-	}
 	
 	@Override
 	protected abstract void checkConstraints() throws EolRuntimeException;

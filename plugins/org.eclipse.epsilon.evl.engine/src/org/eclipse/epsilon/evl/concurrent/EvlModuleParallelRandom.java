@@ -9,7 +9,10 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
  * Shuffles the constraint-element pairs prior to execution.
+ * 
+ * @author Sina Madani
  */
+@Deprecated
 public class EvlModuleParallelRandom extends EvlModuleParallel {
 
 	public EvlModuleParallelRandom() {

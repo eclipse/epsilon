@@ -87,10 +87,13 @@ public abstract class AnnotatableModuleElement extends AbstractModuleElement {
 	}
 	
 	public List<Object> getAnnotationsValues(String name, IEolContext context) throws EolRuntimeException {
-		List<Object> values = new ArrayList<>();
-		for (Annotation annotation : getAnnotations(name)) {
+		List<Annotation> annotations = getAnnotations(name);
+		List<Object> values = new ArrayList<>(annotations.size());
+		
+		for (Annotation annotation : annotations) {
 			values.add(annotation.getValue(context));
 		}
+		
 		return values;
 	}
 }

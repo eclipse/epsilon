@@ -7,6 +7,12 @@ import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.*;
 
+/**
+ * Provides data-parallelism, executing all applicable constraints for a given
+ * model element in a separate job.
+ * 
+ * @author Sina Madani
+ */
 public class EvlModuleParallelElements extends EvlModuleParallel {
 
 	public EvlModuleParallelElements() {

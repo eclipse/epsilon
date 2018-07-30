@@ -1,7 +1,6 @@
 package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.Collection;
-import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -9,8 +8,13 @@ import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
- * @deprecated Performance of the similar {@link EvlModuleParallelElements} is
+ * Provides data and rule parallelism, executing all constraint-element pairs in
+ * a separate job.
+ * 
+ * @deprecated Performance of the data-parallel {@link EvlModuleParallelElements} is
  * at least as good, so there is no perceivable benefit of using this!
+ * 
+ * @author Sina Madani
  */
 @Deprecated
 public class EvlModuleParallelConstraints extends EvlModuleParallel {

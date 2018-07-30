@@ -1,4 +1,6 @@
+@parallel
 context AbstractMethodDeclaration {
+	@parallel
 	constraint parametersEffectivelyFinal {
 		guard: self.body.isDefined() and self.parameters.notEmpty()
 		check: self.body.statements

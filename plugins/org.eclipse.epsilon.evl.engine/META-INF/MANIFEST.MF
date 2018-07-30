@@ -20,4 +20,3 @@ Export-Package: org.eclipse.epsilon.evl,
  org.eclipse.epsilon.evl.launch,
  org.eclipse.epsilon.evl.parse,
  org.eclipse.epsilon.evl.trace
-Eclipse-AutoStart: true

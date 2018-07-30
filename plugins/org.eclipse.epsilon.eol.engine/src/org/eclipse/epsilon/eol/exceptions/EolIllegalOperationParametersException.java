@@ -25,12 +25,12 @@ public class EolIllegalOperationParametersException extends EolRuntimeException 
 	}
 	
 	@Override
-	public String getReason(){
+	public String getReason() {
 		return "Invalid number (or types) of arguements for operation '" + method + "'";
 	}
 	
 	@Override
-	public void setReason(String reason){
+	public void setReason(String reason) {
 		this.method = reason;
 	}
 }

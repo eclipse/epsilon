@@ -59,6 +59,10 @@ public class Constraint extends NamedRule {
 		return getBooleanAnnotationValue("lazy", context);
 	}
 	
+	public boolean isParallel(IEvlContext context) throws EolRuntimeException {
+		return getBooleanAnnotationValue("parallel", context);
+	}
+	
 	public boolean shouldBeChecked(Object modelElement, IEvlContext context) throws EolRuntimeException {
 		return !isLazy(context) && appliesTo(modelElement, context);
 	}
