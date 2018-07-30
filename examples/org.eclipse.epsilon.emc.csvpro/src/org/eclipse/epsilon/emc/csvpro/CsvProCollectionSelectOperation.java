@@ -39,22 +39,21 @@ public class CsvProCollectionSelectOperation extends SelectOperation {
 	}
 
 	@Override
-	public Object execute(Object target, Variable iterator, Expression ast, IEolContext context,
-			boolean returnOnFirstMatch) throws EolRuntimeException {
+	public Collection<?> execute(Object target, Variable iterator, Expression ast, IEolContext context,
+			boolean returnOnFirstMatch, boolean isSelect) throws EolRuntimeException {
 
 		if (!(target instanceof CsvProCollection)) {
-			return super.execute(target, iterator, ast, context, returnOnFirstMatch);
+			return super.execute(target, iterator, ast, context, returnOnFirstMatch, isSelect);
 		}
 		try {
 			this.context = context;
 			this.iterator = iterator;
 			if (isOptimisable(ast)) {
-				return optimisedExecution((CsvProCollection)target, ast, returnOnFirstMatch);
-			} else {
+				return optimisedExecution((CsvProCollection)target, ast, returnOnFirstMatch, isSelect);
+			}
+			else {
 				// System.err.println("giving to super: "+ast.toStringTree());
-				Object ret = super.execute(target, iterator, (Expression) ast, context, returnOnFirstMatch);
-				// System.err.println("super returns: "+ret.getClass());
-				return (Collection<Object>) ret;
+				return super.execute(target, iterator, (Expression) ast, context, returnOnFirstMatch, isSelect);
 			}
 
 		} catch (Exception e) {
@@ -100,7 +99,7 @@ public class CsvProCollectionSelectOperation extends SelectOperation {
 		return true;
 	}
 	
-	private Object optimisedExecution(CsvProCollection target, Expression ast, boolean returnOnFirstMatch) throws EolRuntimeException {
+	private Collection<?> optimisedExecution(CsvProCollection target, Expression ast, boolean returnOnFirstMatch, boolean isSelect) throws EolRuntimeException {
 		
 		final OperatorExpression opExp = (OperatorExpression) ast;
 		final PropertyCallExpression lOperand = (PropertyCallExpression) opExp.getFirstOperand();
@@ -109,7 +108,8 @@ public class CsvProCollectionSelectOperation extends SelectOperation {
 		Object attributevalue = null;
 		try {
 			attributevalue = context.getExecutorFactory().executeAST(valueAST, context);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			// if the rhs is invalid or tries to use the iterator of the select
 			// (which is outside its scope) -- default to epsilon's select
 			// FIXME Make message more Artisan like
@@ -127,29 +127,27 @@ public class CsvProCollectionSelectOperation extends SelectOperation {
 					result.add(obj);
 				}
 			}
-			else if(ast instanceof GreaterThanOperatorExpression) {
+			else if (ast instanceof GreaterThanOperatorExpression) {
 				result = target.tailMap(id, false).values();
 			}
-			else if(ast instanceof GreaterEqualOperatorExpression) {
+			else if (ast instanceof GreaterEqualOperatorExpression) {
 				result = target.tailMap(id, true).values();
 			}
-			else if(ast instanceof LessThanOperatorExpression) {
+			else if (ast instanceof LessThanOperatorExpression) {
 				result = target.headMap(id, false).values();
 			}
-			else if(ast instanceof LessEqualOperatorExpression) {
+			else if (ast instanceof LessEqualOperatorExpression) {
 				result = target.headMap(id, true).values();
 			}
-			else if(ast instanceof NotEqualsOperatorExpression) {
-				result = new ArrayList<>();
-				result.addAll(target);
+			else if (ast instanceof NotEqualsOperatorExpression) {
+				result = new ArrayList<>(target);
 				result.remove(id);
 			}
 			return result;
-		} else {
-			return (Collection<Object>) super.execute(target, iterator, (Expression) ast, context, returnOnFirstMatch);
+		}
+		else {
+			return super.execute(target, iterator, (Expression) ast, context, returnOnFirstMatch, isSelect);
 		}
 	}
-
 	
-
 }

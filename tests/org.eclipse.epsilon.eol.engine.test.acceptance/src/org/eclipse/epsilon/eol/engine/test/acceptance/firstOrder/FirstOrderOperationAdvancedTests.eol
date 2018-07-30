@@ -57,6 +57,24 @@ operation testForAllScope() {
 }
 
 @test
+operation testOneScope() {
+	var testData := Sequence {-16..9};
+	var expected = testData.one(n | n.asString().length() == 1 and Thread.currentThread() <> mainThread);
+	assertFalse(expected);
+	var actual = testData.parallelOne(n | n.asString().length() == 1 and Thread.currentThread() == mainThread);
+	assertEquals(expected, actual);
+}
+
+@test
+operation testNoneScope() {
+	var testData := Sequence {-9..16};
+	var expected = testData.none(n | Thread.currentThread() <> mainThread or n.asString().length() > 2);
+	assertTrue(expected);
+	var actual = testData.parallelNone(n | Thread.currentThread() == mainThread or n.asString().length() > 2);
+	assertEquals(expected, actual);
+}
+
+@test
 operation testCollectScope() {
 	var testData := Sequence {-1..15};
 	var expected = testData.collect(n | Thread.currentThread().getName());

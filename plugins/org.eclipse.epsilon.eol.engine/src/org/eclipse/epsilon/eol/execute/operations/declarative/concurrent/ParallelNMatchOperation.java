@@ -31,13 +31,14 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 
-		AtomicInteger currentMatches = new AtomicInteger(), currentIndex = new AtomicInteger();
+		AtomicInteger currentMatches = new AtomicInteger(), index = new AtomicInteger();
 		EolExecutorService executor = context.getExecutorService();
 		Object condition = executor.getExecutionStatus().register();
 		Collection<Future<?>> jobs = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
-			currentIndex.incrementAndGet();
+			final int currentIndex = index.incrementAndGet();
+			
 			jobs.add(executor.submit(() -> {
 				if (iterator.getType() == null || iterator.getType().isKind(item)) {
 					FrameStack scope = context.getFrameStack();
@@ -57,10 +58,10 @@ public class ParallelNMatchOperation extends NMatchOperation {
 						int currentMatchesCached = currentMatches.incrementAndGet();
 						if (
 							currentMatchesCached > targetMatches ||
-							currentIndex.get() > targetMatches && (currentMatchesCached < targetMatches)
-						)
-							
+							currentIndex > targetMatches && (currentMatchesCached < targetMatches)
+						) {
 							executor.getExecutionStatus().completeSuccessfully(condition);
+						}
 					}
 					
 					scope.leaveLocal(expression);
