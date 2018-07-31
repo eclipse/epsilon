@@ -26,6 +26,7 @@ import junit.framework.Test;
 		EvlCanAccessBuiltinsTests.class,
 		EvlTests.class,
 		EvlModuleEquivalenceTests.class,
+		EvlParallelOperationsTests.class
 	}
 )
 public class EvlAcceptanceTestSuite {

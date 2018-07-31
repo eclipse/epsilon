@@ -146,7 +146,7 @@ public class EvlAcceptanceTestUtil {
 			EvlModuleParallelAnnotation::new,
 			EvlModuleParallelRandom::new,
 			//EvlModuleParallelModel::new,
-			EvlModuleParallelNot::new,
+			//EvlModuleParallelNot::new,
 			EvlModuleParallelConstraints::new,
 			EvlModuleParallelContexts::new
 		);

@@ -1,6 +1,7 @@
 import "utils.eol";
 
 context Couple {
+	@parallel
 	constraint twoDifferentPeople {
 		guard: self.commonMovies.size() > 5
 		check {
