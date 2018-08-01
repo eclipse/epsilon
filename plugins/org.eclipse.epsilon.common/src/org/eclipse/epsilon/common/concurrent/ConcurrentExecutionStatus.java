@@ -55,10 +55,12 @@ public final class ConcurrentExecutionStatus {
 	}
 	
 	public void completeExceptionally(Exception exception) {
-		this.exception = exception;
-		failed = true;
-		complete(exceptional);
-		results.keySet().forEach(Object::notify);
+		if (!failed) {
+			this.exception = exception;
+			failed = true;
+			complete(exceptional);
+		}
+		//results.keySet().forEach(Object::notify);
 	}
 	
 	// WAIT CODE

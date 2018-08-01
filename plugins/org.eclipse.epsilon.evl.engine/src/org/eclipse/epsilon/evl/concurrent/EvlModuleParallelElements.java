@@ -31,6 +31,7 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
 			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
+			context.enterParallelNest(constraintContext);
 			
 			for (Object object : constraintContext.getAllOfSourceKind(context)) {
 				executor.execute(() -> {
@@ -50,6 +51,8 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 					}
 				});
 			}
+			
+			context.exitParallelNest();
 		}
 		
 		executor.awaitCompletion();

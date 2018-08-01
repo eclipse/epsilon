@@ -27,6 +27,7 @@ import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
 import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.eol.types.EolType;
 
 public class ParallelCollectOperation extends CollectOperation {
 
@@ -36,6 +37,8 @@ public class ParallelCollectOperation extends CollectOperation {
 		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		
+		EolType iteratorType = iterator.getType();
+		String iteratorName = iterator.getName();
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		final int sourceSize = source.size();
 		
@@ -44,14 +47,15 @@ public class ParallelCollectOperation extends CollectOperation {
 		
 		EolExecutorService executor = context.getExecutorService();
 		Collection<Future<Object>> futures = new ArrayList<>(sourceSize);
+		context.enterParallelNest(expression);
 		
 		for (Object item : source) {
-			if (iterator.getType() == null || iterator.getType().isKind(item)) {
+			if (iteratorType == null || iteratorType.isKind(item)) {
 				futures.add(executor.submit(() -> {
 					
 					FrameStack scope = context.getFrameStack();
 					scope.enterLocal(FrameType.UNPROTECTED, expression,
-						new Variable(iterator.getName(), item, iterator.getType(), true)
+						new Variable(iteratorName, item, iteratorType, true)
 					);
 					
 					Object bodyResult = context.getExecutorFactory().execute(expression, context);
@@ -63,6 +67,8 @@ public class ParallelCollectOperation extends CollectOperation {
 		}
 		
 		resultsCol.addAll(executor.collectResults(futures));
+		context.exitParallelNest();
+		
 		return resultsCol;
 	}
 }

@@ -29,6 +29,7 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.MapByOperation;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolSequence;
+import org.eclipse.epsilon.eol.types.EolType;
 
 public class ParallelMapByOperation extends MapByOperation {
 
@@ -39,17 +40,21 @@ public class ParallelMapByOperation extends MapByOperation {
 		Collection<?> source = CollectionUtil.asCollection(target);
 		if (source.isEmpty()) return new EolMap<>();
 		
+		EolType iteratorType = iterator.getType();
+		String iteratorName = iterator.getName();
+		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		EolExecutorService executor = context.getExecutorService();
 		Collection<Future<Entry<?, ?>>> futures = new ArrayList<>(source.size());
+		context.enterParallelNest(expression);
 		
 		for (Object item : source) {
-			if (iterator.getType() == null || iterator.getType().isKind(item)) {
+			if (iteratorType == null || iteratorType.isKind(item)) {
 				futures.add(executor.submit(() -> {
 					
 					FrameStack scope = context.getFrameStack();
 					scope.enterLocal(FrameType.UNPROTECTED, expression,
-						new Variable(iterator.getName(), item, iterator.getType(), true)
+						new Variable(iteratorName, item, iteratorType, true)
 					);
 					
 					Object bodyResult = context.getExecutorFactory().execute(expression, context);
@@ -60,21 +65,24 @@ public class ParallelMapByOperation extends MapByOperation {
 			}
 		}
 		
-		return executor.collectResults(futures)
-			.stream()
+		Collection<Entry<?, ?>> intermediates = executor.collectResults(futures);
+		
+		context.exitParallelNest();
+		
+		return intermediates.stream()
 			.collect(Collectors.toMap(
-					Entry::getKey,
-					entry -> {
-						EolSequence<Object> value = new EolSequence<>();
-						value.add(entry.getValue());
-						return value;
-					},
-					(oldVal, newVal) -> {
-						oldVal.addAll(newVal);
-						return oldVal;
-					},
-					EolMap::new
-				)
-			);
+				Entry::getKey,
+				entry -> {
+					EolSequence<Object> value = new EolSequence<>();
+					value.add(entry.getValue());
+					return value;
+				},
+				(oldVal, newVal) -> {
+					oldVal.addAll(newVal);
+					return oldVal;
+				},
+				EolMap::new
+			)
+		);
 	}
 }

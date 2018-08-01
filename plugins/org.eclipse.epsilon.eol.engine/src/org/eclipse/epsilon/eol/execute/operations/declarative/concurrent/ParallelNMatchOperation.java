@@ -15,6 +15,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.NMatchOperation;
+import org.eclipse.epsilon.eol.types.EolType;
 
 public class ParallelNMatchOperation extends NMatchOperation {
 	
@@ -28,6 +29,9 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
 		if (source.size() < targetMatches) return false;
+
+		EolType iteratorType = iterator.getType();
+		String iteratorName = iterator.getName();
 		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 
@@ -36,14 +40,17 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		Object condition = executor.getExecutionStatus().register();
 		Collection<Future<?>> jobs = new ArrayList<>(source.size());
 		
+		context.enterParallelNest(expression);
+		
 		for (Object item : source) {
 			final int currentIndex = index.incrementAndGet();
 			
-			jobs.add(executor.submit(() -> {
-				if (iterator.getType() == null || iterator.getType().isKind(item)) {
+			if (iteratorType == null || iteratorType.isKind(item)) {
+				jobs.add(executor.submit(() -> {
+					
 					FrameStack scope = context.getFrameStack();
 					scope.enterLocal(FrameType.UNPROTECTED, expression,
-						Variable.createReadOnlyVariable(iterator.getName(), item)
+						new Variable(iteratorName, item, iteratorType, true)
 					);
 					
 					Object bodyResult = null;
@@ -65,14 +72,14 @@ public class ParallelNMatchOperation extends NMatchOperation {
 					}
 					
 					scope.leaveLocal(expression);
-				}
-			}));
-			
+				}));
+			}
 		}
 		
 		// Prevent unnecessary evaluation of remaining jobs once we have the result
 		executor.shortCircuitCompletion(jobs, condition);
-
+		context.exitParallelNest();
+		
 		return currentMatches.get() == targetMatches;
 	}
 }

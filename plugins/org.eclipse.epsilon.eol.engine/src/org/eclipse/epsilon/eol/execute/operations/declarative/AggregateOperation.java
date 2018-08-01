@@ -43,11 +43,12 @@ public class AggregateOperation extends FirstOrderOperation {
 		Expression initialExpression = expressions.size() > 2 ? expressions.get(2) : null;
 		
 		FrameStack scope = context.getFrameStack();
+		String iteratorName = iterator.getName();
 		
 		for (Object item : source) {
 			if (iteratorType == null || iteratorType.isKind(item)) {
 				scope.enterLocal(FrameType.UNPROTECTED, keyExpression,
-					Variable.createReadOnlyVariable(iterator.getName(), item)
+					Variable.createReadOnlyVariable(iteratorName, item)
 				);
 				
 				Object total, keyResult = context.getExecutorFactory().execute(keyExpression, context);

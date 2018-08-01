@@ -1,14 +1,19 @@
 package org.eclipse.epsilon.eol.execute.context.concurrent;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.concurrent.NestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IEolContextParallel extends IEolContext {
+	
+	static final int NEST_THRESHOLD = 1;
 	
 	/**
 	 * Indicates the scalability of this Context when more processing nodes are added.
@@ -43,38 +48,51 @@ public interface IEolContextParallel extends IEolContext {
 	boolean isParallel();
 	
 	/**
-	 * Allows for persistence of an ExecutorService.
-	 * Unlike {@linkplain #newExecutorService()}, this method returns
-	 * the executor as set by {@linkplain #setExecutorService(EolExecutorService)}.
-	 * Note that if no value is set, this method may return <code>null</code>.
-	 * Implementations may also cache a {@linkplain #newExecutorService()} and return
-	 * this in future invocations of this method.
+	 * Allows for recycling of an {@linkplain EolExecutorService},
+	 * as derived from {@link #newExecutorService()}.
 	 * 
-	 * @return A cached ExecutorService.
-	 * @see #setExecutor()
+	 * @return A cached EolExecutorService.
+	 * @see #newExecutorService()
 	 */
 	EolExecutorService getExecutorService();
 	
 	/**
-	 * Allows for persistence of an ExecutorService. The value set by
-	 * this method can be retrieved using {@linkplain #getExecutorService()}.
+	 * Constructs a one-shot EolExecutorService. Unlike {@link #getExecutorService()},
+	 * this method will always return a new instance of {@linkplain EolExecutorService}.
 	 * 
-	 * @param exector The executor to save.
-	 * @see #getExecutorService()
-	 */
-	void setExecutorService(EolExecutorService exector);
-	
-	/**
-	 * Factory method for creating executors. Implementations may override this
-	 * to provide a more suitable service for the computation tasks. Note that
-	 * typically executors are used once and disposed, rather than persisted for
-	 * repeated re-use.
-	 * 
-	 * @return a new {@linkplain EolExecutorService}.
+	 * @return a new EolExecutorService
 	 */
 	default EolExecutorService newExecutorService() {
 		return EolThreadPoolExecutor.defaultExecutor(getParallelism());
 	}
+	
+	/**
+	 * This method is used to signal nesting of parallel jobs. This method records
+	 * the beginning of a nesting level associated with a module element.
+	 * 
+	 * @param entryPoint The module element which started this parallelism nesting.
+	 * @throws NestedParallelismException if the maximum supported nesting level is exceeded.
+	 * @see #exitParallelNest()
+	 */
+	void enterParallelNest(ModuleElement entryPoint) throws NestedParallelismException;
+	
+	/**
+	 * Leaves the parallel nest. Typical implementations will simply
+	 * decrement the nest count as returned by {@link #getNestedParallelism()}.
+	 * 
+	 * @see #enterParallelNest(ModuleElement)
+	 */
+	void exitParallelNest();
+	
+	/**
+	 * Indicates how many layers of nesting is present in this context. This is a convenience
+	 * method for keeping track of the number of times {@linkplain #enterParallelNest(ModuleElement)}
+	 * has been called in a row without subsequent calls to {@linkplain #exitParallelNest(ModuleElement)}.
+	 * 
+	 * @return The maximum number of nested parallel jobs.
+	 * @see #enterParallelNest(ModuleElement)
+	 */
+	int getNestedParallelism();
 	
 	//Convenience methods
 	
@@ -96,5 +114,14 @@ public interface IEolContextParallel extends IEolContext {
 			threadLocal.set(value);
 		else
 			originalValueSetter.accept(value);
+	}
+	
+	@SuppressWarnings("unchecked")
+	static <C extends IEolContext, P extends IEolContextParallel> P convertToParallel(C context_, Class<P> parallelContextClass, Function<C, ? extends P> parallelConstructor) {
+		P context = parallelContextClass.isInstance(context_) ?
+			(P) context_ : parallelConstructor.apply(context_);
+
+		context.goParallel();
+		return context;
 	}
 }

@@ -6,9 +6,11 @@ import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
+import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
 public class EvlContextParallel extends EolContextParallel implements IEvlContextParallel {
@@ -20,6 +22,14 @@ public class EvlContextParallel extends EolContextParallel implements IEvlContex
 	
 	public EvlContextParallel() {
 		this(0, true);
+	}
+	
+	public EvlContextParallel(IEvlContext other) {
+		this(other, 0);
+	}
+	
+	public EvlContextParallel(IEvlContext other, int parallelism) {
+		super(other, parallelism, true);
 	}
 	
 	/**
@@ -80,5 +90,9 @@ public class EvlContextParallel extends EolContextParallel implements IEvlContex
 	@Override
 	public void setConstraintsDependedOn(Set<Constraint> constraints) {
 		constraintsDependedOn = constraints;
+	}
+	
+	public static IEvlContextParallel convertToParallel(IEvlContext context_) {
+		return IEolContextParallel.convertToParallel(context_, EvlContextParallel.class, EvlContextParallel::new);
 	}
 }

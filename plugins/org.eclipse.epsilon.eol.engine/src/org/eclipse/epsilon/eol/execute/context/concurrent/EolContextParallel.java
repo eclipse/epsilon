@@ -3,6 +3,7 @@ package org.eclipse.epsilon.eol.execute.context.concurrent;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.concurrent.ConcurrentBaseDelegate;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
@@ -11,6 +12,8 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.concurrent.NestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.DelegatePersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 
@@ -31,6 +34,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	protected boolean isParallel = false;
 	protected final boolean isPersistent;
 	private EolExecutorService executorService;
+	protected int nestLevel = 0;
 	
 	// Data strcutures which will be written to and read from during parallel execution:
 	protected ThreadLocal<FrameStack> concurrentFrameStacks;
@@ -154,6 +158,31 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		return numThreads;
 	}
 	
+	@Override
+	public void enterParallelNest(ModuleElement entryPoint) throws NestedParallelismException {
+		if (++nestLevel > NEST_THRESHOLD) {
+			try {
+				throw new NestedParallelismException(entryPoint);
+			}
+			finally {
+				if (executorService != null) {
+					executorService.shutdown();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void exitParallelNest() {
+		if (nestLevel > 0)
+			nestLevel--;
+	}
+
+	@Override
+	public int getNestedParallelism() {
+		return nestLevel;
+	}
+	
 	/**
 	 * If no value is set, this method will create a new ExecutorService
 	 * by calling {@linkplain #newExecutorService()} and caching the reuslt
@@ -165,11 +194,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 			executorService = newExecutorService();
 		}
 		return executorService;
-	}
-	
-	@Override
-	public synchronized void setExecutorService(EolExecutorService exector) {
-		this.executorService = exector;
 	}
 	
 	@Override
@@ -213,10 +237,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	public static IEolContextParallel convertToParallel(IEolContext context_) {
-		IEolContextParallel context = context_ instanceof IEolContextParallel ?
-			(IEolContextParallel) context_ : new EolContextParallel(context_);
-
-		context.goParallel();
-		return context;
+		return IEolContextParallel.convertToParallel(context_, EolContextParallel.class, EolContextParallel::new);
 	}
 }

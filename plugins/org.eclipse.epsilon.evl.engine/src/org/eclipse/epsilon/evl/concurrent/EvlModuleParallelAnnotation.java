@@ -34,6 +34,8 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
 			
 			if (constraintContext.getBooleanAnnotationValue("parallel", context)) {
+				context.enterParallelNest(constraintContext);
+				
 				for (Object object : allOfKind) {
 					executor.execute(() -> {
 						try {
@@ -48,12 +50,15 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 						}
 					});
 				}
+				context.exitParallelNest();
 			}
 			else {
 				for (Object object : allOfKind) {
 					if (constraintContext.appliesTo(object, context, false)) {
 						for (Constraint constraint : constraintsToCheck) {
 							if (constraint.getBooleanAnnotationValue("parallel", context)) {
+								context.enterParallelNest(constraint);
+								
 								executor.execute(() -> {
 									try {
 										constraint.execute(object, context);
@@ -62,6 +67,8 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 										context.handleException(exception, executor);
 									}
 								});
+								
+								context.exitParallelNest();
 							}
 							else {
 								constraint.execute(object, context);

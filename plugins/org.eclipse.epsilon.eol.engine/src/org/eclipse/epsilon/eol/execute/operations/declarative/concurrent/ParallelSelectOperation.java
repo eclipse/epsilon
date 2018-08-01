@@ -27,6 +27,7 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
+import org.eclipse.epsilon.eol.types.EolType;
 
 public class ParallelSelectOperation extends SelectOperation {
 	
@@ -39,20 +40,26 @@ public class ParallelSelectOperation extends SelectOperation {
 		
 		if (source.isEmpty()) return resultsCol;
 		
+		EolType iteratorType = iterator.getType();
+		String iteratorName = iterator.getName();
+		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
+		
 		EolExecutorService executor = context.getExecutorService();
 		ConcurrentExecutionStatus execStatus = executor.getExecutionStatus();
 		Object condition = returnOnMatch ? execStatus.register() : null;
 		Collection<Future<Optional<?>>> futures = new ArrayList<>(source.size());
+		context.enterParallelNest(expression);
 		
 		for (Object item : source) {
-			futures.add(executor.submit(() -> {
-				Optional<?> intermediateResult = null;
-				if (iterator.getType() == null || iterator.getType().isKind(item)) {
+			if (iteratorType == null || iteratorType.isKind(item)) {
+				futures.add(executor.submit(() -> {
 					
+					Optional<?> intermediateResult = null;
+						
 					FrameStack scope = context.getFrameStack();
 					scope.enterLocal(FrameType.UNPROTECTED, expression,
-						Variable.createReadOnlyVariable(iterator.getName(), item)
+						new Variable(iteratorName, item, iteratorType, true)
 					);
 					
 					Object bodyResult = context.getExecutorFactory().execute(expression, context);
@@ -73,9 +80,10 @@ public class ParallelSelectOperation extends SelectOperation {
 					}
 					
 					scope.leaveLocal(expression);
-				}
-				return intermediateResult;
-			}));
+						
+					return intermediateResult;
+				}));
+			}
 		}
 		
 		if (returnOnMatch) {
@@ -91,7 +99,9 @@ public class ParallelSelectOperation extends SelectOperation {
 				.map(opt -> opt.orElse(null))
 				.forEach(resultsCol::add);
 		}
-			
+		
+		context.exitParallelNest();
+		
 		return resultsCol;
 	}
 }
