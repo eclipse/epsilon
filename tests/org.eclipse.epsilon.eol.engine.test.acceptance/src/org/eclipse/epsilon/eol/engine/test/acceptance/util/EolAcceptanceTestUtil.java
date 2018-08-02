@@ -126,9 +126,4 @@ public class EolAcceptanceTestUtil {
 		}
 		return modules;
 	}
-	
-	@SafeVarargs
-	public static <M extends IEolModule> Collection<Supplier<? extends M>> parallelModules(Supplier<M> standardModuleGetter, Function<Integer, M>... moduleConstructors) {
-		return parallelModules(THREADS, standardModuleGetter, moduleConstructors);
-	}
 }

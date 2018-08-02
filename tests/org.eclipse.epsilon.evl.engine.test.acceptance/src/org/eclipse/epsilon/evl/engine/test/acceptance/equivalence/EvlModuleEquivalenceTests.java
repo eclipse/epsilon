@@ -42,6 +42,7 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<IEvlModule, E
 	}
 	
 	@Test
+	@Override
 	public void _test0() {
 		super.beforeTests();
 	}

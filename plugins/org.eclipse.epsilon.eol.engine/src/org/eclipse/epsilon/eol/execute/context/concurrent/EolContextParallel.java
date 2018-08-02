@@ -12,8 +12,7 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.concurrent.NestedParallelismException;
+import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.DelegatePersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 
@@ -159,10 +158,10 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public void enterParallelNest(ModuleElement entryPoint) throws NestedParallelismException {
+	public void enterParallelNest(ModuleElement entryPoint) throws EolNestedParallelismException {
 		if (++nestLevel > NEST_THRESHOLD) {
 			try {
-				throw new NestedParallelismException(entryPoint);
+				throw new EolNestedParallelismException(entryPoint);
 			}
 			finally {
 				if (executorService != null) {
@@ -178,7 +177,14 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 			nestLevel--;
 	}
 
-	@Override
+	/**
+	 * Indicates how many layers of nesting is present in this context. This is a convenience
+	 * method for keeping track of the number of times {@linkplain #enterParallelNest(ModuleElement)}
+	 * has been called in a row without subsequent calls to {@linkplain #exitParallelNest(ModuleElement)}.
+	 * 
+	 * @return The maximum number of nested parallel jobs.
+	 * @see #enterParallelNest(ModuleElement)
+	 */
 	public int getNestedParallelism() {
 		return nestLevel;
 	}

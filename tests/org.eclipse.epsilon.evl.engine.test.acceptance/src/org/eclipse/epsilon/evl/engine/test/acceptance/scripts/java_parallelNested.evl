@@ -1,0 +1,44 @@
+@parallel
+context VariableDeclaration {
+	constraint neverUsedTwice {
+		check: self.usageInVariableAccess
+			.collect(u | u.variable)
+			.parallelNone(v | v.usageInVariableAccess.size() == 2)
+	}
+}
+
+@parallel
+context AbstractMethodDeclaration {
+	constraint parametersEffectivelyFinal {
+		guard: self.body.isDefined() and self.parameters.notEmpty()
+		check: self.body.statements
+				.parallelSelect(s |
+					s.isKindOf(ExpressionStatement) and
+					s.expression.isKindOf(Assignment)
+				)
+				.collect(s | s.expression)
+				.select(assignment |
+					assignment.leftHandSide.isKindOf(SingleVariableAccess) and
+					assignment.operator == AssignmentKind#ASSIGN and
+					assignment.leftHandSide.isKindOf(SingleVariableAccess) and
+					self.parameters.excludes(assignment.leftHandSide.variable)
+				)
+				.isEmpty()
+	}
+}
+
+context ClassDeclaration {
+	@parallel
+	constraint noObscuredVariables {
+		check {
+			var fields = self.bodyDeclarations.parallelSelect(bd | bd.isKindOf(FieldDeclaration));
+			return
+				self.bodyDeclarations
+					.parallelSelect(bd | bd.isKindOf(AbstractMethodDeclaration))
+					.parallelForAll(md | md.body.isDefined() implies md.body.statements
+						.select(s | s.isKindOf(VariableDeclaration))
+						.forAll(vd | fields.forAll(fd | fd.name <> vd.name))
+					);
+		}
+	}
+}

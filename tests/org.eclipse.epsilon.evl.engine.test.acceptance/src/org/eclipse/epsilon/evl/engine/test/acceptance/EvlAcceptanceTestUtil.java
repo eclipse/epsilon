@@ -139,7 +139,7 @@ public class EvlAcceptanceTestUtil {
 	
 	@SuppressWarnings("deprecation")
 	public static Collection<Supplier<? extends IEvlModule>> modules(boolean includeStandard) {
-		return parallelModules(
+		return parallelModules(THREADS,
 			includeStandard ? EvlModule::new : null,
 			EvlModuleParallelElements::new,
 			EvlModuleParallelStaged::new,

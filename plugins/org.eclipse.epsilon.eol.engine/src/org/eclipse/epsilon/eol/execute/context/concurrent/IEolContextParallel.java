@@ -6,13 +6,16 @@ import java.util.function.Supplier;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.concurrent.NestedParallelismException;
+import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IEolContextParallel extends IEolContext {
 	
+	/**
+	 * Maximum supported level of parallel nesting.
+	 */
 	static final int NEST_THRESHOLD = 1;
 	
 	/**
@@ -71,10 +74,10 @@ public interface IEolContextParallel extends IEolContext {
 	 * the beginning of a nesting level associated with a module element.
 	 * 
 	 * @param entryPoint The module element which started this parallelism nesting.
-	 * @throws NestedParallelismException if the maximum supported nesting level is exceeded.
+	 * @throws EolNestedParallelismException if the maximum supported nesting level is exceeded.
 	 * @see #exitParallelNest()
 	 */
-	void enterParallelNest(ModuleElement entryPoint) throws NestedParallelismException;
+	void enterParallelNest(ModuleElement entryPoint) throws EolNestedParallelismException;
 	
 	/**
 	 * Leaves the parallel nest. Typical implementations will simply
@@ -83,16 +86,6 @@ public interface IEolContextParallel extends IEolContext {
 	 * @see #enterParallelNest(ModuleElement)
 	 */
 	void exitParallelNest();
-	
-	/**
-	 * Indicates how many layers of nesting is present in this context. This is a convenience
-	 * method for keeping track of the number of times {@linkplain #enterParallelNest(ModuleElement)}
-	 * has been called in a row without subsequent calls to {@linkplain #exitParallelNest(ModuleElement)}.
-	 * 
-	 * @return The maximum number of nested parallel jobs.
-	 * @see #enterParallelNest(ModuleElement)
-	 */
-	int getNestedParallelism();
 	
 	//Convenience methods
 	

@@ -113,10 +113,7 @@ public class EolRuntimeException extends Exception {
 			throw (EolRuntimeException) t;
 		}
 		else {
-			throw new EolRuntimeException(
-				t.getMessage(),
-				EolRuntimeException.findCause(t).getAst()
-			);
+			throw EolRuntimeException.findCause(t);
 		}
 	}
 	
@@ -124,7 +121,7 @@ public class EolRuntimeException extends Exception {
 	 * Traverses the causes of the (usually unchecked) exception to find an EolRuntimeException.
 	 * If not found, it will wrap the root cause into an instance of EolRuntimeException.
 	 * This method accounts for any depth of cyclic causes, so it is guaranteed to terminate;
-	 * unless there is a @linkplain{StackOverflowError}.
+	 * unless there is a {@linkplain StackOverflowError}.
 	 */
 	public static EolRuntimeException findCause(Throwable runtimeEx) {
 		return findCauseImpl(runtimeEx, new HashSet<>());

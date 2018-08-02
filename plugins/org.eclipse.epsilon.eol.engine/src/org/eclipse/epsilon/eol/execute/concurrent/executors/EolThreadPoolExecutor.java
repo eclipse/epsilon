@@ -55,7 +55,7 @@ public class EolThreadPoolExecutor extends ThreadPoolExecutor implements EolExec
 	 * Custom configuration with default RejectedExecutionHandler.
 	 */
 	public EolThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
-		super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
+		super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, rejectionHandler);
 		setThreadFactory(new EolThreadFactory(getExecutionStatus(), maximumPoolSize));
 	}
 

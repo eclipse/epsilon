@@ -3,13 +3,13 @@ package org.eclipse.epsilon.eol.exceptions.concurrent;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-public class NestedParallelismException extends EolRuntimeException {
+public class EolNestedParallelismException extends EolRuntimeException {
 
-	public NestedParallelismException() {
+	public EolNestedParallelismException() {
 		this(null);
 	}
 
-	public NestedParallelismException(ModuleElement ast) {
+	public EolNestedParallelismException(ModuleElement ast) {
 		this.ast = ast;
 		this.reason = "Illegal nesting of parallel operations!";
 	}

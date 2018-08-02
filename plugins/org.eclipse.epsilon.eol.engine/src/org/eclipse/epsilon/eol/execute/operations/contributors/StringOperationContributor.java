@@ -102,7 +102,7 @@ public class StringOperationContributor extends OperationContributor {
 	public List<String> toCharSequence() {
 		String value = (String) target;
 		List<String> charSeq = CollectionUtil.createDefaultList();
-		for (int i = 0; i< value.length(); i++) {
+		for (int i = 0; i < value.length(); i++) {
 			charSeq.add(value.charAt(i)+"");
 		}
 		return charSeq;

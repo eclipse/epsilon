@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.EvlModule;
@@ -64,8 +65,20 @@ public class EvlRunConfiguration extends IEolRunConfiguration<IEvlModule, Set<Un
 		return new EvlModule();
 	}
 	
+	// METHOD VISIBILITY
+	
 	@Override
-	protected void postExecute() throws Exception {
+	public void preExecute() throws Exception {
+		super.preExecute();
+	}
+	
+	@Override
+	public Set<UnsatisfiedConstraint> execute() throws EolRuntimeException {
+		return super.execute();
+	}
+	
+	@Override
+	public void postExecute() throws Exception {
 		super.postExecute();
 		
 		if (showResults || profileExecution) {
