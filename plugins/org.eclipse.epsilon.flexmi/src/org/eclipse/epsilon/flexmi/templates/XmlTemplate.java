@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.flexmi.templates;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +12,8 @@ import org.w3c.dom.Node;
 
 public class XmlTemplate extends Template {
 
-	public XmlTemplate(Element element) {
-		super(element);
+	public XmlTemplate(Element element, URI uri) {
+		super(element, uri);
 	}
 
 	public List<Element> apply(Element call) {

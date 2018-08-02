@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi.templates;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +24,13 @@ public abstract class Template {
 	protected String name;
 	protected ArrayList<String> parameters = new ArrayList<String>();
 	protected Element content;
+	protected URI uri;
 	
 	public static final String NODE_NAME = "_template";
 	public static final String PREFIX = "_";
 	
-	public Template(Element element) {
+	public Template(Element element, URI uri) {
+		this.uri = uri;
 		this.name = element.getAttribute("name");
 		for (Element parameterElement : Xml.getChildren(element, "parameter")) {
 			parameters.add(parameterElement.getAttribute("name"));

@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.flexmi.templates;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,15 +16,15 @@ import org.w3c.dom.Element;
 
 public class EglTemplate extends XmlTemplate {
 
-	public EglTemplate(Element element) {
-		super(element);
+	public EglTemplate(Element element, URI uri) {
+		super(element, uri);
 	}
 
 	@Override
 	public List<Element> getApplication(Element call) {
 		try {
 			EglTemplateFactoryModuleAdapter module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
-			module.parse(content.getTextContent());
+			module.parse(content.getTextContent().trim(), uri);
 			
 			for (String parameter : getParameters()) {
 				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(parameter, call.getAttribute(Template.PREFIX + parameter)));

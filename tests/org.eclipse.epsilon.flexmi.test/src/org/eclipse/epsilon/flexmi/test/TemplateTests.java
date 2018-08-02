@@ -79,5 +79,11 @@ public class TemplateTests extends FlexmiTests {
 		assertEval("EPackage.all.third().eClassifiers.size()", 5, "templates/model-with-egl-templates.flexmi");
 	}
 	
+	@Test
+	public void testModelWithEglTemplateImportingEOL() throws Exception {
+		assertEval("EPackage.all.first().eClassifiers.at(0).name", "C1", "templates/model-with-egl-template-importing-eol.flexmi");
+		assertEval("EPackage.all.second().eClassifiers.at(0).name", "C2", "templates/model-with-egl-template-importing-eol.flexmi");
+
+	}
 	
 }
