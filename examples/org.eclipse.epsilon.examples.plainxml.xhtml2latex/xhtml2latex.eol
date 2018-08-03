@@ -14,7 +14,7 @@ operation XML!t_p toLatex() {
 }
 
 operation XML!t_span toLatex() {
-	var latex = self.textContent;
+	var latex = self.childrenLatex();
 	if (self.a_style.indexOf("text-decoration: line-through") > -1) {
 		latex = "\\sout{" + latex + "}";
 	}
