@@ -16,6 +16,7 @@ import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.EvlModule;
+import org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallelElements;
 import org.eclipse.epsilon.evl.dt.launching.tabs.EvlAdvancedOptionsTab;
 import org.eclipse.epsilon.evl.dt.views.ValidationViewFixer;
@@ -32,7 +33,7 @@ public class EvlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			LogUtil.log(ce);
 		}
 		
-		return isParallel ? new EvlModuleParallelElements() : new EvlModule();
+		return isParallel ? new EvlModuleParallelElements() : new EvlModuleParallelAnnotation();
 	}
 	
 	@Override
