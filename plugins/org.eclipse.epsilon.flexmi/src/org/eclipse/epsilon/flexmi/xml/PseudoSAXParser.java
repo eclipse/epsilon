@@ -61,13 +61,13 @@ public class PseudoSAXParser {
 		
 		if (isFlexmiRootNode(document.getDocumentElement())) {
 			for (Element templateElement : Xml.getChildren(document.getDocumentElement(), Template.NODE_NAME)) {
-				resource.getTemplates().add(TemplateFactory.getInstance().createTemplate(templateElement));
+				resource.getTemplates().add(TemplateFactory.getInstance().createTemplate(templateElement, new java.net.URI(uri.toString())));
 				document.getDocumentElement().removeChild(templateElement);
 			}
 		}
 		else {
 			if (isTemplate(document.getDocumentElement())) {
-				resource.getTemplates().add(TemplateFactory.getInstance().createTemplate(document.getDocumentElement()));
+				resource.getTemplates().add(TemplateFactory.getInstance().createTemplate(document.getDocumentElement(), new java.net.URI(uri.toString())));
 				document.removeChild(document.getDocumentElement());
 				return;
 			}

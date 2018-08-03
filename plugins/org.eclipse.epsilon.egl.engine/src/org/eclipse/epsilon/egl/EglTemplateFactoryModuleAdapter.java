@@ -93,6 +93,11 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 		return getParseProblems().isEmpty();
 	}
 	
+	public boolean parse(String code, URI uri) throws Exception {
+		current = factory.load(code, uri);
+		return current.getParseProblems().isEmpty();
+	}
+	
 	public boolean parse(String code, File file) throws Exception {
 		current = factory.load(code, file);
 		return current.getParseProblems().isEmpty();
