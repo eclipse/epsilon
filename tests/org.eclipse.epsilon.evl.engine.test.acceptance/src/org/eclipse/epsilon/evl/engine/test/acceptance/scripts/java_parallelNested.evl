@@ -1,11 +1,16 @@
 pre {
 	var toParallelise = 1 > 2;
+	var Thread = Native("java.lang.Thread");
+}
+
+operation currentThreadName() {
+	return Thread.currentThread().getName();
 }
 
 $parallel toParallelise or not toParallelise
 // That is the question!
 context VariableDeclaration {
-	guard: Native("java.lang.Thread").currentThread().getName() == "main"
+	guard: currentThreadName() <> "main"
 	constraint neverUsedTwice {
 		check: self.usageInVariableAccess
 			.collect(u | u.variable)
@@ -36,6 +41,7 @@ context AbstractMethodDeclaration {
 context ClassDeclaration {
 	$parallel toParallelise or true
 	constraint noObscuredVariables {
+		guard: currentThreadName() == "main"
 		check {
 			var fields = self.bodyDeclarations.parallelSelect(bd | bd.isKindOf(FieldDeclaration));
 			return
@@ -43,7 +49,7 @@ context ClassDeclaration {
 					.parallelSelect(bd | bd.isKindOf(AbstractMethodDeclaration))
 					.parallelForAll(md | md.body.isDefined() implies md.body.statements
 						.select(s | s.isKindOf(VariableDeclaration))
-						.forAll(vd | fields.forAll(fd | fd.name <> vd.name))
+						.forAll(vd | fields.parallelForAll(fd | fd.name <> vd.name))
 					);
 		}
 	}
