@@ -181,6 +181,7 @@ public class EvlTests {
 
 		final ConstraintSelectTransfomer transformer = new ConstraintSelectTransfomer();
 		assertEquals(canBeTransformed.size() + cannotBeTransformed.size(), module.getConstraints().size());
+		
 		for (Constraint c : module.getConstraints()) {
 			String cName = c.getName();
 			if (canBeTransformed.contains(cName)) {

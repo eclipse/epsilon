@@ -62,6 +62,7 @@ context MethodInvocation {
 		) 
 	}
 	
+	@parallel
 	constraint doesNotCallExit {
 		check: not (
 			self.method.name = "exit" and
@@ -147,7 +148,7 @@ context ClassDeclaration {
 		)
 	}
 	
-	@parallel
+	$parallel true
 	constraint noRedundantInterfaceImpl {
 		guard: self.superInterfaces.isDefined() and
 			self.superClass.isDefined() and

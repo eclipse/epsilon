@@ -51,6 +51,7 @@ operation ClassDeclaration hasCompareTo() : Boolean {
 	);
 }
 
+$parallel self.size() > __THREADS__
 context MethodInvocation {
 	guard: self.method.isDefined()
 	
@@ -113,6 +114,7 @@ context ClassDeclaration {
 		}
 	}
 	
+	$parallel self.getMethods().size() >= 25
 	constraint noCovariantEquals {
 		guard: self.getMethods().exists(method |
 			method.name = "equals" and

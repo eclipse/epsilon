@@ -1,8 +1,12 @@
 package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.Collection;
+import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
+import org.eclipse.epsilon.eol.dom.Annotation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
@@ -33,7 +37,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
 			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
 			
-			if (constraintContext.getBooleanAnnotationValue("parallel", context)) {
+			if (shouldBeParallel(constraintContext, allOfKind)) {
 				context.enterParallelNest(constraintContext);
 				
 				for (Object object : allOfKind) {
@@ -56,7 +60,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 				for (Object object : allOfKind) {
 					if (constraintContext.appliesTo(object, context, false)) {
 						for (Constraint constraint : constraintsToCheck) {
-							if (constraint.getBooleanAnnotationValue("parallel", context)) {
+							if (shouldBeParallel(constraint, object)) {
 								context.enterParallelNest(constraint);
 								
 								executor.execute(() -> {
@@ -82,4 +86,28 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 		executor.awaitCompletion();
 	}
 
+	protected boolean shouldBeParallel(AnnotatableModuleElement ast, Object self) throws EolRuntimeException {
+		Annotation parallelAnnotation = ast.getAnnotation("parallel");
+		
+		if (parallelAnnotation != null) {
+			if (parallelAnnotation.hasValue()) {
+				context.getFrameStack().enterLocal(FrameType.UNPROTECTED, ast,
+					Variable.createReadOnlyVariable("self", self),
+					Variable.createReadOnlyVariable("__THREADS__", getContext().getParallelism())
+				);
+				
+				Object result = parallelAnnotation.getValue(context);
+				
+				context.getFrameStack().leaveLocal(ast);
+				
+				if (result instanceof Boolean) {
+					return (boolean) result;
+				}
+			}
+			else return true;
+		}
+		
+		return false;
+	}
+	
 }

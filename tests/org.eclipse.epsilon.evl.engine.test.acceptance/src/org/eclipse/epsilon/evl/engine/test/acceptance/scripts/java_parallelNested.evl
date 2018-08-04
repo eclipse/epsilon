@@ -1,5 +1,11 @@
-@parallel
+pre {
+	var toParallelise = 1 > 2;
+}
+
+$parallel toParallelise or not toParallelise
+// That is the question!
 context VariableDeclaration {
+	guard: Native("java.lang.Thread").currentThread().getName() == "main"
 	constraint neverUsedTwice {
 		check: self.usageInVariableAccess
 			.collect(u | u.variable)
@@ -28,7 +34,7 @@ context AbstractMethodDeclaration {
 }
 
 context ClassDeclaration {
-	@parallel
+	$parallel toParallelise or true
 	constraint noObscuredVariables {
 		check {
 			var fields = self.bodyDeclarations.parallelSelect(bd | bd.isKindOf(FieldDeclaration));

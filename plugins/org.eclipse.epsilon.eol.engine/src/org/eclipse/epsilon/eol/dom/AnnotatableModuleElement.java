@@ -52,7 +52,7 @@ public abstract class AnnotatableModuleElement extends AbstractModuleElement {
 				.collect(Collectors.toList());
 	}
 	
-	protected Annotation getAnnotation(String name) {
+	public Annotation getAnnotation(String name) {
 		if (annotationBlock == null)
 			return null;
 		

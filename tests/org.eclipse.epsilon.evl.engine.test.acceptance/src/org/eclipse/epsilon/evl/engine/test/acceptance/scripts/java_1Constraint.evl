@@ -1,4 +1,4 @@
-@parallel
+$parallel MethodDeclaration.all.size() >= Native("java.lang.Runtime").getRuntime().availableProcessors()
 context AbstractMethodDeclaration {
 	@parallel
 	constraint parametersEffectivelyFinal {
