@@ -39,7 +39,10 @@ public class ForAllOperation extends FirstOrderOperation {
 				scope.put(Variable.createReadOnlyVariable(iterator.getName(),listItem));
 				Object bodyResult = context.getExecutorFactory().execute(expression, context);
 				if (bodyResult instanceof Boolean){
-					if ((Boolean) bodyResult == false) return false;
+					if ((Boolean) bodyResult == false) {
+						scope.leaveLocal(expression);
+						return false;
+					}
 				}
 				scope.leaveLocal(expression);
 			}
