@@ -112,8 +112,67 @@ public class ConstraintContext extends AnnotatableModuleElement {
 			type = new EolModelElementType(getTypeName(), context);
 		}
 		return type;
-	}	
+	}
 
+	/**
+	 * Executes all constraints for the given model element, provided it is applicable to this
+	 * ConstraintContext and that this ConstraintContext is not lazy.
+	 * @param constraintsToCheck The constraints, which may be a subset of this ConstraintContext's children.
+	 * @param modelElement The model element object.
+	 * @param context The execution context.
+	 * @throws EolRuntimeException
+	 */
+	public void execute(Collection<Constraint> constraintsToCheck, Object modelElement, IEvlContext context) throws EolRuntimeException {
+		if (shouldBeChecked(modelElement, context)) {
+			for (Constraint constraint : constraintsToCheck) {
+				constraint.execute(modelElement, context);
+			}
+		}
+	}
+	
+	/**
+	 * Executes all of the give constraints for all applicable elements of this type.
+	 * @param constraintsToCheck The Constraints, which may be a subset of this ConstraintContext's children.
+	 * @param context The execution context.
+	 * @throws EolRuntimeException
+	 * @see {@link #execute(Collection, Object, IEvlContext)}
+	 */
+	public void execute(Collection<Constraint> constraintsToCheck, IEvlContext context) throws EolRuntimeException {
+		if (!isLazy(context)) {
+			for (Object modelElement : getAllOfSourceKind(context)) {
+				if (appliesTo(modelElement, context, false)) {
+					for (Constraint constraint : constraintsToCheck) {
+						constraint.execute(modelElement, context);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Executes all of this ConstraintContext's constraints for the given element.
+	 * @param modelElement The model element object.
+	 * @param context The execution context.
+	 * @throws EolRuntimeException
+	 * @see {@link #execute(Collection, Object, IEvlContext)}
+	 */
+	public void execute(Object modelElement, IEvlContext context) throws EolRuntimeException {
+		execute(getConstraints(), modelElement, context);
+	}
+	
+	/**
+	 * Checks all of this ConstraintContext's constraints for all applicable elements of this type.
+	 * @param context The execution context.
+	 * @throws EolRuntimeException
+	 * @see {@link #execute(Collection, Object, IEvlContext)}
+	 */
+	public void execute(IEvlContext context) throws EolRuntimeException {
+		Collection<Constraint> constraintsToCheck = getConstraints();		
+		for (Object element : getAllOfSourceKind(context)) {
+			execute(constraintsToCheck, element, context);
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return getTypeName();

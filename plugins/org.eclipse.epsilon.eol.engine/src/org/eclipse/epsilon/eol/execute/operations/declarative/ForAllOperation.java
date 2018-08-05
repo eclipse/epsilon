@@ -27,9 +27,7 @@ public class ForAllOperation extends FirstOrderOperation {
 			IEolContext context) throws EolRuntimeException {
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
-		
-		return delegateConstructor.apply(source.size())
-			.execute(target, iterator, expression, context);
+		return delegateConstructor.apply(source.size()).execute(target, iterator, expression, context);
 	}
 
 }

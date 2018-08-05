@@ -212,6 +212,7 @@ context ClassDeclaration {
 		check: self.hasCompareTo()
 	}
 	
+	@parallel
 	constraint equalsAndCompareTo {
 		guard: self.hasCompareTo()
 		check: self.hasEquals()
@@ -240,6 +241,7 @@ context ClassDeclaration {
 		)
 	}
 	
+	@parallel
 	constraint noRedundantInterfaceImpl {
 		guard: self.superInterfaces.isDefined() and
 			self.superClass.isDefined() and
@@ -258,6 +260,7 @@ context ClassDeclaration {
 		check: self.implements("Serializable")
 	}
 	
+	@parallel
 	constraint noObscuredVariables {
 		check {
 			var fields = self.bodyDeclarations.select(bd | bd.isKindOf(FieldDeclaration));

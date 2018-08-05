@@ -69,7 +69,7 @@ context Movie {
 	}
 }
 
-$parallel self.size() > 1024
+$parallel Person.all.size() > 1024
 context Person {
 	constraint isValidName {
 		check:

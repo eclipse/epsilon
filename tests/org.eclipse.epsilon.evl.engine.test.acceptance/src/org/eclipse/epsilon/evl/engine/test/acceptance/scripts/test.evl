@@ -36,6 +36,7 @@ context t_a {
 		check: true
 	}
 	
+	@parallel
 	constraint GuardVariableInvisibleInBlock {
 		guard {
 			var condition = true;
@@ -73,6 +74,7 @@ context t_a {
 	}
 }
 
+$parallel preVar.length() > 3
 context t_a {
 
 	guard: not self.isDefined()
@@ -84,6 +86,7 @@ context t_a {
 
 context t_b {
 	
+	$parallel t_b.all.size() > 1
 	constraint EolTest2 {
 		guard: '>'.isJavaToken()
 		check: "Optional".isJavaPrimitive(true)

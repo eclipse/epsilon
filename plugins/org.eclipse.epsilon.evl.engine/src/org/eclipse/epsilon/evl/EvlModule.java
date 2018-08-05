@@ -234,17 +234,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	 * If optimizeConstraints, the constraints to be checked are filtered.
 	 */
 	protected void checkConstraints() throws EolRuntimeException {
-		IEvlContext context = getContext();
-		
+		IEvlContext context = getContext();	
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
-			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
-			for (Object object : constraintContext.getAllOfSourceKind(context)) {
-				if (constraintContext.appliesTo(object, context, false)) {
-					for (Constraint constraint : constraintsToCheck) {
-						constraint.execute(object, context);
-					}
-				}
-			}
+			constraintContext.execute(preProcessConstraintContext(constraintContext), context);
 		}
 	}
 	

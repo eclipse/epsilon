@@ -1,8 +1,6 @@
 package org.eclipse.epsilon.evl.concurrent;
 
-import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
@@ -17,27 +15,18 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 public class EvlModuleParallelNot extends EvlModuleParallel {
 
 	public EvlModuleParallelNot() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	public EvlModuleParallelNot(int parallelism) {
 		super(parallelism);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContext context = getContext();
-		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
-			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
-			for (Object object : constraintContext.getAllOfSourceKind(context)) {
-				if (constraintContext.appliesTo(object, context, false)) {
-					for (Constraint constraint : constraintsToCheck) {
-						constraint.execute(object, context);
-					}
-				}
-			}
+			constraintContext.execute(preProcessConstraintContext(constraintContext), context);
 		}
 	}
 

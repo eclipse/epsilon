@@ -40,11 +40,7 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 					// dispatching virtual call.
 					// @see http://www.oracle.com/technetwork/java/jvmls2013kuksen-2014088.pdf
 					try {
-						if (constraintContext.shouldBeChecked(object, context)) {
-							for (Constraint constraint : constraintsToCheck) {
-								constraint.execute(object, context);
-							}
-						}
+						constraintContext.execute(constraintsToCheck, object, context);
 					}
 					catch (EolRuntimeException ex) {
 						context.handleException(ex, executor);

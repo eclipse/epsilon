@@ -1,5 +1,6 @@
 import "utils.eol";
 
+$parallel Record.all.size() > 100000
 context Record {
 	constraint isValidMonth {
 		guard: self.month.isDefined()
@@ -20,6 +21,7 @@ context Record {
 }
 
 context Book {
+	@parallel
 	constraint isValidISBN {
 		guard: self.isbn.isDefined() and self.isbn.length() > 0
 		check {

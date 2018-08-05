@@ -41,7 +41,7 @@ public class GlobalConstraintContext extends ConstraintContext {
 	}
 	
 	@Override
-	public String toString() {
+	public String getTypeName() {
 		return "<Global>";
 	}
 }

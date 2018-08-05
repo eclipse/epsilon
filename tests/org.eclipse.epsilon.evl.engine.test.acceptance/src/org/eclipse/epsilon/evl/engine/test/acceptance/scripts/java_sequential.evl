@@ -51,7 +51,7 @@ operation ClassDeclaration hasCompareTo() : Boolean {
 	);
 }
 
-$parallel self.size() > __THREADS__
+$parallel self.size() > THREADS
 context MethodInvocation {
 	guard: self.method.isDefined()
 	
