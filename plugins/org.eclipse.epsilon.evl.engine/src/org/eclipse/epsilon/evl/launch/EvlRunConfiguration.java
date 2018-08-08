@@ -8,12 +8,13 @@ import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
-public class EvlRunConfiguration extends IEolRunConfiguration<IEvlModule, Set<UnsatisfiedConstraint>> {
+public class EvlRunConfiguration extends IErlRunConfiguration<IEvlModule, Set<UnsatisfiedConstraint>> {
 	
 	public EvlRunConfiguration(
 		Path evlFile,
@@ -93,6 +94,7 @@ public class EvlRunConfiguration extends IEolRunConfiguration<IEvlModule, Set<Un
 			else {
 				writeOut("All constraints have been satisfied.");
 			}
+			
 			writeOut(printMarker);
 		}
 	}

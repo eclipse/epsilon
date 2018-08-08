@@ -16,6 +16,8 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 public class NamedRule extends AnnotatableModuleElement {
 	
@@ -48,6 +50,14 @@ public class NamedRule extends AnnotatableModuleElement {
 	
 	public List<?> getModuleElements() {
 		return Collections.emptyList();
+	}
+	
+	public Object execute(Object self, IErlContext context) throws EolRuntimeException {
+		return context.getExecutorFactory().execute(this, self, context);
+	}
+	
+	public Object executeImpl(Object self, IErlContext context) throws EolRuntimeException {
+		return null;
 	}
 	
 	@Override

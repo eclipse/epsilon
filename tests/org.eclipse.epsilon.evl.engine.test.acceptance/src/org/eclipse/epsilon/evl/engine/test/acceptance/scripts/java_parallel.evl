@@ -178,8 +178,8 @@ context ClassDeclaration {
 
 context CompilationUnit {
 	constraint allImportsAreUsed {
-		check: self.imports.parallelForAll(imp |
-			NamedElement.allInstances().exists(ne | ne.originalCompilationUnit == self)
+		check: self.imports.forAll(imp |
+			NamedElement.allInstances().parallelExists(ne | ne.originalCompilationUnit == self)
 		)
 	}
 }

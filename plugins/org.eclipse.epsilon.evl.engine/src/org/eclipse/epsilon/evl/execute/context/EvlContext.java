@@ -10,13 +10,13 @@
 package org.eclipse.epsilon.evl.execute.context;
 
 import java.util.*;
-import org.eclipse.epsilon.eol.execute.context.EolContext;
+import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
-public class EvlContext extends EolContext implements IEvlContext, Cloneable {
+public class EvlContext extends ErlContext implements IEvlContext, Cloneable {
 
 	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints = new HashSet<>();
 	protected Set<Constraint> constraintsDependedOn = new HashSet<>();

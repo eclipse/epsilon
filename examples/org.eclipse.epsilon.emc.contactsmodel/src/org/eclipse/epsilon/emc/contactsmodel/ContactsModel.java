@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -90,7 +90,7 @@ public class ContactsModel extends Model implements ISearchableModel {
 	}
 	
 	@Override
-	public Object findOne(Variable iterator, AST ast, IEolContext context)
+	public Object findOne(Variable iterator, ModuleElement ast, IEolContext context)
 			throws EolRuntimeException {
 		
 		List<?> results = (List<?>) find(iterator, ast, context).iterator().next();

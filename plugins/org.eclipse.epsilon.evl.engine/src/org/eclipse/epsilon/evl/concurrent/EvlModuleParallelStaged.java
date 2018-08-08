@@ -111,7 +111,7 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 		for (ConstraintAtom job : constraintJobs) {
 			checkBlockExecutor.execute(() -> {
 				try {
-					job.unit.check(job.element, context);
+					job.unit.execute(job.element, context);
 				}
 				catch (EolRuntimeException ex) {
 					context.handleException(ex, checkBlockExecutor);

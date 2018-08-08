@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.dom.NamedRule;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
@@ -33,6 +34,7 @@ public class Constraint extends NamedRule {
 	protected ExecutableBlock<String> messageBlock;
 	protected volatile boolean checkTrace = false;
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
@@ -67,7 +69,15 @@ public class Constraint extends NamedRule {
 		return !isLazy(context) && appliesTo(modelElement, context);
 	}
 	
-	public Optional<UnsatisfiedConstraint> execute(Object modelElement, IEvlContext context) throws EolRuntimeException {
+	@SuppressWarnings("unchecked")
+	@Override
+	public final Optional<UnsatisfiedConstraint> execute(Object self, IErlContext context) throws EolRuntimeException {
+		return (Optional<UnsatisfiedConstraint>) super.execute(self, context);
+	}
+	
+	@Override
+	public final Optional<UnsatisfiedConstraint> executeImpl(Object modelElement, IErlContext context_) throws EolRuntimeException {
+		IEvlContext context = (IEvlContext) context_;
 		if (shouldBeChecked(modelElement, context)) {
 			return check(modelElement, context);
 		}
@@ -150,6 +160,7 @@ public class Constraint extends NamedRule {
 		return guardBlock.getText().contains("satisfies");
 	}
 	
+	@Override
 	public List<?> getModuleElements() {
 		return Collections.EMPTY_LIST;
 	}

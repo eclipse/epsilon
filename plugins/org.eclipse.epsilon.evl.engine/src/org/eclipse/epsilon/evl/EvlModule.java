@@ -259,6 +259,12 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		return getContext().getUnsatisfiedConstraints();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<UnsatisfiedConstraint> execute() throws EolRuntimeException {
+		return (Set<UnsatisfiedConstraint>) super.execute();
+	}
+	
 	@Override
 	public IEvlContext getContext() {
 		return (IEvlContext) context;

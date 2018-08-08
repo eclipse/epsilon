@@ -11,9 +11,12 @@
 package org.eclipse.epsilon.evl;
 
 import java.util.List;
+import java.util.Set;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.dom.Constraints;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
 public interface IEvlModule extends IErlModule {
@@ -26,6 +29,9 @@ public interface IEvlModule extends IErlModule {
 	
 	@Override
 	IEvlContext getContext();
+	
+	@Override
+	Set<UnsatisfiedConstraint> execute() throws EolRuntimeException;
 	
 	void setUnsatisfiedConstraintFixer(IEvlFixer fixer);
 	

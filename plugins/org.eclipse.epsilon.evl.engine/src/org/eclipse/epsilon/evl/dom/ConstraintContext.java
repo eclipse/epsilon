@@ -16,17 +16,19 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
 import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
-public class ConstraintContext extends AnnotatableModuleElement {
+public class ConstraintContext extends AnnotatableModuleElement implements IExecutableModuleElement {
 	
 	protected final Constraints constraints = new Constraints();
 	protected TypeExpression typeExpression;
@@ -156,6 +158,7 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	 * @throws EolRuntimeException
 	 * @see {@link #execute(Collection, Object, IEvlContext)}
 	 */
+
 	public void execute(Object modelElement, IEvlContext context) throws EolRuntimeException {
 		execute(getConstraints(), modelElement, context);
 	}
@@ -164,13 +167,17 @@ public class ConstraintContext extends AnnotatableModuleElement {
 	 * Checks all of this ConstraintContext's constraints for all applicable elements of this type.
 	 * @param context The execution context.
 	 * @throws EolRuntimeException
+	 * @return nothing.
 	 * @see {@link #execute(Collection, Object, IEvlContext)}
 	 */
-	public void execute(IEvlContext context) throws EolRuntimeException {
+	@Override
+	public Void execute(IEolContext context_) throws EolRuntimeException {
+		IEvlContext context = (IEvlContext) context_;
 		Collection<Constraint> constraintsToCheck = getConstraints();		
 		for (Object element : getAllOfSourceKind(context)) {
 			execute(constraintsToCheck, element, context);
 		}
+		return null;
 	}
 	
 	@Override

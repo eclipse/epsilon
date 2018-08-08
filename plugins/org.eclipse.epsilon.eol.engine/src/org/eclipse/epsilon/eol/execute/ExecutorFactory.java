@@ -11,6 +11,7 @@ package org.eclipse.epsilon.eol.execute;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.concurrent.ConcurrentBaseDelegate;
@@ -61,6 +62,10 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		executionListeners.add(listener);
 	}
 	
+	public Collection<IExecutionListener> getExecutionListeners() {
+		return Collections.unmodifiableCollection(executionListeners);
+	}
+	
 	public boolean removeExecutionListener(IExecutionListener listener) {
 		return executionListeners.remove(listener);
 	}
@@ -94,10 +99,7 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		return execute(moduleElement, context);
 	}
 	
-	public Object execute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {
-		
-		if (moduleElement == null) return null;
-		
+	protected void preExecute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {
 		activeModuleElement = moduleElement;
 		
 		if (executionController != null) {
@@ -113,6 +115,43 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		for (IExecutionListener listener : executionListeners) {
 			listener.aboutToExecute(moduleElement, context);
 		}
+	}
+	
+	protected void postExecuteSuccess(ModuleElement moduleElement, Object result, IEolContext context) {
+		for (IExecutionListener listener : executionListeners) {
+			listener.finishedExecuting(moduleElement, result, context);
+		}
+	}
+	
+	protected void postExecuteFailure(ModuleElement moduleElement, Exception ex, IEolContext context) throws EolRuntimeException {
+		EolRuntimeException exception = null;
+		if (ex instanceof EolRuntimeException) {
+			EolRuntimeException eolEx = (EolRuntimeException) ex;
+			if (eolEx.getAst() == null) {
+				eolEx.setAst(moduleElement);
+			}
+			exception = eolEx;
+		}
+		else {
+			exception = new EolInternalException(ex, moduleElement);
+		}
+		for (IExecutionListener listener : executionListeners) {
+			listener.finishedExecutingWithException(moduleElement, exception, context);
+		}
+		throw exception;
+	}
+	
+	protected void postExecuteFinally(ModuleElement moduleElement, IEolContext context) {
+		if (executionController != null) {
+			executionController.done(moduleElement, context);
+		}
+	}
+	
+	public Object execute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {
+		
+		if (moduleElement == null) return null;
+		
+		preExecute(moduleElement, context);
 		
 		Object result = null;
 		
@@ -123,32 +162,13 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 			else if (moduleElement instanceof EolModule) {
 				result = ((EolModule) moduleElement).executeImpl();
 			}
-			
-			for (IExecutionListener listener : executionListeners) {
-				listener.finishedExecuting(moduleElement, result, context);
-			}
+			postExecuteSuccess(moduleElement, result, context);
 		}
 		catch (Exception ex) {
-			EolRuntimeException exception = null;
-			if (ex instanceof EolRuntimeException) {
-				EolRuntimeException eolEx = (EolRuntimeException) ex;
-				if (eolEx.getAst() == null) {
-					eolEx.setAst(moduleElement);
-				}
-				exception = eolEx;
-			}
-			else {
-				exception = new EolInternalException(ex, moduleElement);
-			}
-			for (IExecutionListener listener : executionListeners) {
-				listener.finishedExecutingWithException(moduleElement, exception, context);
-			}
-			throw exception;
+			postExecuteFailure(moduleElement, ex, context);
 		}
 		finally {
-			if (executionController != null) {
-				executionController.done(moduleElement, context);
-			}
+			postExecuteFinally(moduleElement, context);
 		}
 		
 		return result;

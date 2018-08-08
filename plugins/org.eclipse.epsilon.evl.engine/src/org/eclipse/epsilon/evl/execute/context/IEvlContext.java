@@ -14,12 +14,13 @@ package org.eclipse.epsilon.evl.execute.context;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
-public interface IEvlContext extends IEolContext {
+public interface IEvlContext extends IErlContext {
 	
 	Set<UnsatisfiedConstraint> getUnsatisfiedConstraints();
 	
