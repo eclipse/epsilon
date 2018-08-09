@@ -159,11 +159,6 @@ public class GenerationRule extends ExtensibleNamedRule {
 	}
 	
 	@Override
-	public List<?> getModuleElements() {
-		return Collections.emptyList();
-	}
-	
-	@Override
 	public String toString() {
 		String label = getName();
 		if (sourceParameter != null) {

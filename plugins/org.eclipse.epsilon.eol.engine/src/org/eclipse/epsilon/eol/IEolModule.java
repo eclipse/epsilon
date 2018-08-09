@@ -32,6 +32,7 @@ public interface IEolModule extends IModule {
 	
 	List<Statement> getPostOperationStatements();
 	
+	@Override
 	boolean parse(String code, File file) throws Exception;
 	
 	OperationList getDeclaredOperations();
@@ -54,6 +55,7 @@ public interface IEolModule extends IModule {
 	
 	EolCompilationContext getCompilationContext();
 	
+	@Override
 	List<ParseProblem> getParseProblems();
 	
 }

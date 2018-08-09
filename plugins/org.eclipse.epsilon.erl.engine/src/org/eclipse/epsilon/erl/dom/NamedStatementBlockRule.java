@@ -15,9 +15,10 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class NamedStatementBlockRule extends NamedRule implements IExecutableModuleElement {
+public class NamedStatementBlockRule extends NamedRule implements IExecutableModuleElement<Return> {
 	
 	protected StatementBlock body;
 	
@@ -56,7 +57,7 @@ public class NamedStatementBlockRule extends NamedRule implements IExecutableMod
 	}
 
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public Return execute(IEolContext context) throws EolRuntimeException {
 		return context.getExecutorFactory().execute(body, context);
 	}
 	

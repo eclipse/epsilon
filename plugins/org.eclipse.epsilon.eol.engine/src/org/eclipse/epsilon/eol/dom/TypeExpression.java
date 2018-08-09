@@ -29,7 +29,7 @@ import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public class TypeExpression extends Expression {
+public class TypeExpression extends Expression<EolType> {
 	
 	protected EolType type = EolAnyType.Instance;
 	protected String name;

@@ -10,10 +10,7 @@
 package org.eclipse.epsilon.ecl.dom;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.ecl.exceptions.EclNotApplicableSuperRuleException;
@@ -207,10 +204,5 @@ public class MatchRule extends ExtensibleNamedRule {
 		return getName()+ " (" +
 		leftParameter.getTypeName() + ", " +
 		rightParameter.getTypeName() + ")";
-	}
-
-	@Override
-	public List<ModuleElement> getModuleElements() {
-		return Collections.emptyList();
 	}
 }

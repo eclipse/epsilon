@@ -75,7 +75,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 						child.getType() != EolParser.HELPERMETHOD && 
 						child.getType() != EolParser.MODELDECLARATION &&
 						child.getType() != EolParser.IMPORT) {
-					ExpressionStatement expressionStatement = new ExpressionStatement((Expression) module.createAst(child, this));
+					ExpressionStatement expressionStatement = new ExpressionStatement((Expression<?>) module.createAst(child, this));
 					expressionStatement.setParent(this);
 					this.getChildren().add(expressionStatement);
 					postOperationStatements.add(expressionStatement);
@@ -181,7 +181,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 			case EolParser.RETURN: return new ReturnStatement();
 			case EolParser.ENUMERATION_VALUE: return new EnumerationLiteralExpression();
 			case EolParser.Annotation: return new SimpleAnnotation();
-			case EolParser.EXECUTABLEANNOTATION: return new ExecutableAnnotation();
+			case EolParser.EXECUTABLEANNOTATION: return new ExecutableAnnotation<>();
 			case EolParser.ANNOTATIONBLOCK: return new AnnotationBlock();
 			case EolParser.MAP: return new MapLiteralExpression();
 			case EolParser.COLLECTION: return new CollectionLiteralExpression();

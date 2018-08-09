@@ -11,11 +11,9 @@ package org.eclipse.epsilon.eml.dom;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
@@ -43,7 +41,7 @@ public class MergeRule extends ExtensibleNamedRule {
 	protected List<Parameter> targetParameters = new ArrayList<>();
 	protected boolean auto = false;
 	
-	public MergeRule(){ }
+	public MergeRule() { }
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -129,7 +127,7 @@ public class MergeRule extends ExtensibleNamedRule {
 
 		ListIterator<Parameter> li = targetParameters.listIterator();
 		
-		while (li.hasNext()){
+		while (li.hasNext()) {
 
 			Parameter targetParameter = (Parameter) li.next();
 			EolType targetParameterType = (EolType) targetParameter.getType(context);
@@ -174,12 +172,12 @@ public class MergeRule extends ExtensibleNamedRule {
 		scope.enterLocal(FrameType.PROTECTED, this);
 		scope.put(
 			new Variable(leftParameter.getName(), match.getLeft(), leftParameter.getType(context), true),
-			new Variable(rightParameter.getName(), match.getRight(), rightParameter.getType(context), true)
+			new Variable(rightParameter.getName(), match.getRight(), rightParameter.getType(context), true),
+			Variable.createReadOnlyVariable("self", this)
 		);
 		
-		scope.put(Variable.createReadOnlyVariable("self",this));
 		
-		for (int i = 0; i<targetParameters.size(); i++) {
+		for (int i = 0; i < targetParameters.size(); i++) {
 			Parameter targetParameter = (Parameter) targetParameters.get(i);
 			scope.put(new Variable(targetParameter.getName(), CollectionUtil.asList(targets).get(i),targetParameter.getType(context),true));
 		}
@@ -192,11 +190,6 @@ public class MergeRule extends ExtensibleNamedRule {
 	@Override
 	public AST getSuperRulesAst(AST cst) {
 		return AstUtil.getChild(cst, EmlParser.EXTENDS);
-	}
-
-	@Override
-	public List<?> getModuleElements() {
-		return Collections.emptyList();
 	}
 	
 }

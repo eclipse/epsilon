@@ -57,10 +57,11 @@ public class ConstraintSelectTransfomer {
 		// Either this is not a block (just an expression), or it's
 		// a "simple" block with a single "return EXPRESSION;" statement.
 		//AST expressionOrBlock = block.getFirstChild();
-		IExecutableModuleElement expressionOrBlock = block.getBody();
+		IExecutableModuleElement<?> expressionOrBlock = block.getBody();
 		if (expressionOrBlock instanceof StatementBlock) {
 			return isSimpleBlock((StatementBlock) expressionOrBlock);
-		} else {
+		}
+		else {
 			return true;
 		}
 	}
@@ -137,11 +138,12 @@ public class ConstraintSelectTransfomer {
 		return newBlock;
 	}
 
-	private Expression getExpressionFromBlock(ExecutableBlock<Boolean> guardBlock) {
+	private Expression<?> getExpressionFromBlock(ExecutableBlock<Boolean> guardBlock) {
 		if (guardBlock != null) {
 			if (guardBlock.getBody() instanceof Expression) {
-				return (Expression) guardBlock.getBody();
-			} else if (guardBlock.getBody() instanceof StatementBlock) {
+				return (Expression<?>) guardBlock.getBody();
+			}
+			else if (guardBlock.getBody() instanceof StatementBlock) {
 				StatementBlock statementBlock = (StatementBlock) guardBlock.getBody();
 
 				// This only works because of the check in isSimpleBlock(...)
