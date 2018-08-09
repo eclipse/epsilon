@@ -9,8 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.erl.dom;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
@@ -19,7 +17,7 @@ import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
-public class NamedRule extends AnnotatableModuleElement {
+public abstract class NamedRule extends AnnotatableModuleElement {
 	
 	protected NameExpression nameExpression;
 
@@ -46,10 +44,6 @@ public class NamedRule extends AnnotatableModuleElement {
 	
 	public void setNameExpression(NameExpression nameExpression) {
 		this.nameExpression = nameExpression;
-	}
-	
-	public List<?> getModuleElements() {
-		return Collections.emptyList();
 	}
 	
 	public Object execute(Object self, IErlContext context) throws EolRuntimeException {

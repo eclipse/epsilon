@@ -10,11 +10,7 @@ public class RuleExecutorFactory extends ExecutorFactory {
 	protected RuleProfiler ruleProfiler;
 	
 	public RuleExecutorFactory() {
-		this(null);
-	}
-
-	public RuleExecutorFactory(ExecutorFactory parent) {
-		this(parent, false);
+		this(null, false);
 	}
 
 	public RuleExecutorFactory(ExecutorFactory parent, boolean concurrent) {

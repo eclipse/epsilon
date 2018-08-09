@@ -65,11 +65,7 @@ public class EvlAcceptanceTestUtil {
 		
 		imdbMetamodel = "movies.ecore",
 		imdbScripts[] = {"imdb_validator"},
-		imdbModels[] = {"imdb-small.xmi"},
-		
-		dblpMetamodel = "dblp.ecore",
-		dblpScripts[] = {"dblp_isbn"},
-		dblpModels[] = {"simpleDBLP.xmi"};
+		imdbModels[] = {"imdb-small.xmi"};
 	
 	/*Nx3 array where N is number of test inputs;
 	 *  0 is the script path,
@@ -81,7 +77,6 @@ public class EvlAcceptanceTestUtil {
 		javaInputs,
 		thriftInputs,
 		cookbookInputs,
-		dblpInputs,
 		imdbInputs;
 	
 	static {
@@ -95,10 +90,8 @@ public class EvlAcceptanceTestUtil {
 		thriftInputs = addAllInputs(thriftScripts, thriftModels, thriftMetamodel);
 		cookbookInputs = addAllInputs(cookbookScripts, cookbookModels, cookbookMetamodel);
 		imdbInputs = addAllInputs(imdbScripts, imdbModels, imdbMetamodel);
-		dblpInputs = addAllInputs(dblpScripts, dblpModels, dblpMetamodel);
 		
 		allInputs = CollectionUtil.composeArrayListFrom(
-			dblpInputs,
 			imdbInputs,
 			cookbookInputs,
 			javaInputs,

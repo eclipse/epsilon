@@ -24,9 +24,9 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
-public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
+public class ExecutableBlock<T> extends AbstractExecutableModuleElement<T> {
 	
-	protected IExecutableModuleElement body = null;
+	protected IExecutableModuleElement<T> body = null;
 	protected Class<?> expectedResultClass = null;
 	protected String role = "", text = "";
 	

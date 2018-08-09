@@ -11,7 +11,6 @@ package org.eclipse.epsilon.ewl.dom;
 
 import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
@@ -22,7 +21,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.dom.NamedRule;
 import org.eclipse.epsilon.ewl.parse.EwlParser;
-
 
 public class Wizard extends NamedRule {
 	
@@ -53,19 +51,15 @@ public class Wizard extends NamedRule {
 	}
 	
 	public void process(Object self, IEolContext context) throws EolRuntimeException {
-		bodyBlock.execute(context, true, FrameType.UNPROTECTED, Variable.createReadOnlyVariable("self",self));
+		bodyBlock.execute(context, true, FrameType.UNPROTECTED, Variable.createReadOnlyVariable("self", self));
 	}
 	
 	public String getTitle(Object self, IEolContext context) throws EolRuntimeException{
-		return titleBlock.execute(context, true, FrameType.UNPROTECTED, Variable.createReadOnlyVariable("self",self));
-	}
-
-	public List<?> getModuleElements() {
-		return Collections.emptyList();
+		return titleBlock.execute(context, true, FrameType.UNPROTECTED, Variable.createReadOnlyVariable("self", self));
 	}
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		return getName();
 	}
 	

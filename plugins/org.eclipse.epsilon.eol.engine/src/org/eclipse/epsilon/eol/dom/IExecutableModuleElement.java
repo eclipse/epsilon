@@ -13,8 +13,8 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public interface IExecutableModuleElement extends ModuleElement {
+public interface IExecutableModuleElement<R> extends ModuleElement {
 	
-	Object execute(IEolContext context) throws EolRuntimeException;
+	R execute(IEolContext context) throws EolRuntimeException;
 	
 }

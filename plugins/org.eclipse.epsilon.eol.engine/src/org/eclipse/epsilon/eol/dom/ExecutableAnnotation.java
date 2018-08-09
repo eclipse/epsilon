@@ -15,7 +15,7 @@ import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class ExecutableAnnotation extends Annotation {
+public class ExecutableAnnotation extends Annotation implements IExecutableModuleElement {
 	
 	protected Expression expression = null;
 	
@@ -33,6 +33,11 @@ public class ExecutableAnnotation extends Annotation {
 	
 	@Override
 	public Object getValue(IEolContext context) throws EolRuntimeException {
+		return execute(context);
+	}
+	
+	@Override
+	public Object execute(IEolContext context) throws EolRuntimeException {
 		return context.getExecutorFactory().execute(expression, context);
 	}
 	

@@ -252,10 +252,6 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 		}
 	}
 	
-	public List<?> getModuleElements() {
-		return Collections.EMPTY_LIST;
-	}
-	
 	public EolType getReturnType(IEolContext context) throws EolRuntimeException{
 		if (returnType == null) {
 			if (returnTypeExpression != null) {

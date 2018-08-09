@@ -159,11 +159,6 @@ public class Constraint extends NamedRule {
 	public boolean guardBlockUsesSatisfies() {
 		return guardBlock.getText().contains("satisfies");
 	}
-	
-	@Override
-	public List<?> getModuleElements() {
-		return Collections.EMPTY_LIST;
-	}
 
 	public ConstraintContext getConstraintContext() {
 		return constraintContext;
