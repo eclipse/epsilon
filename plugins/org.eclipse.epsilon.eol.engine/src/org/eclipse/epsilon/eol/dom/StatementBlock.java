@@ -19,7 +19,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class StatementBlock extends AbstractExecutableModuleElement<Return> {
+public class StatementBlock extends AbstractExecutableModuleElement {
 	
 	protected final ArrayList<Statement> statements = new ArrayList<>();
 	
@@ -43,7 +43,7 @@ public class StatementBlock extends AbstractExecutableModuleElement<Return> {
 				statements.add((Statement) moduleElement);
 			}
 			else {
-				ExpressionStatement expressionStatement = new ExpressionStatement((Expression<?>) moduleElement);
+				ExpressionStatement expressionStatement = new ExpressionStatement((Expression) moduleElement);
 				expressionStatement.setParent(this);
 				this.getChildren().add(expressionStatement);
 				statements.add(expressionStatement);

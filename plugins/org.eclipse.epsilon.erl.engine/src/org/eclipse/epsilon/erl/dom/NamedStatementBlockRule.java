@@ -18,7 +18,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class NamedStatementBlockRule extends NamedRule implements IExecutableModuleElement<Return> {
+public class NamedStatementBlockRule extends NamedRule implements IExecutableModuleElement {
 	
 	protected StatementBlock body;
 	
@@ -58,7 +58,7 @@ public class NamedStatementBlockRule extends NamedRule implements IExecutableMod
 
 	@Override
 	public Return execute(IEolContext context) throws EolRuntimeException {
-		return context.getExecutorFactory().execute(body, context);
+		return (Return) context.getExecutorFactory().execute(body, context);
 	}
 	
 }

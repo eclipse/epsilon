@@ -147,21 +147,20 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	public <R> R execute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {
+	public Object execute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {
 		
 		if (moduleElement == null) return null;
 		
 		preExecute(moduleElement, context);
 		
-		R result = null;
+		Object result = null;
 		
 		try {
 			if (moduleElement instanceof IExecutableModuleElement) {
-				result = ((IExecutableModuleElement<? extends R>) moduleElement).execute(context);
+				result = ((IExecutableModuleElement) moduleElement).execute(context);
 			}
 			else if (moduleElement instanceof EolModule) {
-				result = (R) ((EolModule) moduleElement).executeImpl();
+				result = ((EolModule) moduleElement).executeImpl();
 			}
 			postExecuteSuccess(moduleElement, result, context);
 		}

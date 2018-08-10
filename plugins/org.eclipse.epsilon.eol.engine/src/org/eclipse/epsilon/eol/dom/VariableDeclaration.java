@@ -23,7 +23,7 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class VariableDeclaration extends TypeInitialiser {
 	
-	protected List<Expression<?>> parameterExpressions = new ArrayList<>();
+	protected List<Expression> parameterExpressions = new ArrayList<>();
 	protected NameExpression nameExpression;
 	protected boolean instantiate;
 	protected boolean external;
@@ -31,11 +31,11 @@ public class VariableDeclaration extends TypeInitialiser {
 	
 	public VariableDeclaration() {}
 	
-	public VariableDeclaration(NameExpression nameExpression, TypeExpression typeExpression, boolean instantiate, Expression<?>... parameterExpressions) {
+	public VariableDeclaration(NameExpression nameExpression, TypeExpression typeExpression, boolean instantiate, Expression... parameterExpressions) {
 		this.nameExpression = nameExpression;
 		this.typeExpression = typeExpression;
 		this.instantiate = instantiate;
-		for (Expression<?> parameterExpression : parameterExpressions) {
+		for (Expression parameterExpression : parameterExpressions) {
 			this.parameterExpressions.add(parameterExpression);
 		}
 	}
@@ -52,7 +52,7 @@ public class VariableDeclaration extends TypeInitialiser {
 			AST parametersAst = typeExpressionAst.getNextSibling();
 			if (parametersAst != null) {
 				for (AST parameterAst : parametersAst.getChildren()) {
-					parameterExpressions.add((Expression<?>) module.createAst(parameterAst, this));
+					parameterExpressions.add((Expression) module.createAst(parameterAst, this));
 				}
 			}
 		}
@@ -139,7 +139,7 @@ public class VariableDeclaration extends TypeInitialiser {
 		this.nameExpression = nameExpression;
 	}
 	
-	public List<Expression<?>> getParameterExpressions() {
+	public List<Expression> getParameterExpressions() {
 		return parameterExpressions;
 	}
 }

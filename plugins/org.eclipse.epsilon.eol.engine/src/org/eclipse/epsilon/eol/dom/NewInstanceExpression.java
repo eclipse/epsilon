@@ -22,7 +22,7 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class NewInstanceExpression extends TypeInitialiser {
 
 	protected TypeExpression typeExpression;
-	protected List<Expression<?>> parameterExpressions = new ArrayList<>();
+	protected List<Expression> parameterExpressions = new ArrayList<>();
 	
 	@Override
 	public void build(AST cst, IModule module) {
@@ -30,7 +30,7 @@ public class NewInstanceExpression extends TypeInitialiser {
 		typeExpression = (TypeExpression) module.createAst(cst.getFirstChild(), this);
 		if (cst.getChildCount() == 2) {
 			for (AST parameterAst : cst.getSecondChild().getChildren()) {
-				parameterExpressions.add((Expression<?>) module.createAst(parameterAst, this));
+				parameterExpressions.add((Expression) module.createAst(parameterAst, this));
 			}
 		}
 	}
@@ -49,7 +49,7 @@ public class NewInstanceExpression extends TypeInitialiser {
 	@Override
 	public void compile(EolCompilationContext context) {
 		typeExpression.compile(context);
-		for (Expression<?> parameterExpression : parameterExpressions) {
+		for (Expression parameterExpression : parameterExpressions) {
 			parameterExpression.compile(context);
 		}
 		resolvedType = typeExpression.getResolvedType();
@@ -63,7 +63,7 @@ public class NewInstanceExpression extends TypeInitialiser {
 		this.typeExpression = typeExpression;
 	}
 	
-	public List<Expression<?>> getParameterExpressions() {
+	public List<Expression> getParameterExpressions() {
 		return parameterExpressions;
 	}
 	

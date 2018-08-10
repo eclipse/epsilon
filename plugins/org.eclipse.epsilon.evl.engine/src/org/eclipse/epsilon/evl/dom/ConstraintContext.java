@@ -28,7 +28,7 @@ import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
-public class ConstraintContext extends AnnotatableModuleElement implements IExecutableModuleElement<Void> {
+public class ConstraintContext extends AnnotatableModuleElement implements IExecutableModuleElement {
 	
 	protected final Constraints constraints = new Constraints();
 	protected TypeExpression typeExpression;

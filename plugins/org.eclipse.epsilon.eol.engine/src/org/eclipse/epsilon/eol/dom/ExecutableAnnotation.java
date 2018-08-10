@@ -15,16 +15,15 @@ import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class ExecutableAnnotation<T> extends Annotation implements IExecutableModuleElement<T> {
+public class ExecutableAnnotation extends Annotation implements IExecutableModuleElement {
 	
-	protected Expression<T> expression = null;
+	protected Expression expression = null;
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		name = cst.getFirstChild().getText();
-		expression = (Expression<T>) module.createAst(cst.getSecondChild(), this);
+		expression = (Expression) module.createAst(cst.getSecondChild(), this);
 	}
 	
 	@Override
@@ -38,15 +37,15 @@ public class ExecutableAnnotation<T> extends Annotation implements IExecutableMo
 	}
 	
 	@Override
-	public T execute(IEolContext context) throws EolRuntimeException {
+	public Object execute(IEolContext context) throws EolRuntimeException {
 		return context.getExecutorFactory().execute(expression, context);
 	}
 	
-	public Expression<T> getExpression() {
+	public Expression getExpression() {
 		return expression;
 	}
 	
-	public void setExpression(Expression<T> expression) {
+	public void setExpression(Expression expression) {
 		this.expression = expression;
 	}
 	

@@ -24,9 +24,9 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
-public class ExecutableBlock<T> extends AbstractExecutableModuleElement<T> {
+public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 	
-	protected IExecutableModuleElement<?> body = null;
+	protected IExecutableModuleElement body = null;
 	protected Class<?> expectedResultClass = null;
 	protected String role = "", text = "";
 	
@@ -51,7 +51,7 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement<T> {
 				}
 				else if (childModuleElement instanceof Expression) {
 					// Turn the expression into an expression statement so that it can be added to the statementBlock
-					ExpressionStatement expressionStatement = new ExpressionStatement((Expression<?>) childModuleElement);
+					ExpressionStatement expressionStatement = new ExpressionStatement((Expression) childModuleElement);
 					expressionStatement.setParent(statementBlock);
 					statementBlock.getChildren().add(expressionStatement);
 					statements.add(expressionStatement);
@@ -61,7 +61,7 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement<T> {
 		}
 		else {
 			role = cst.getText();
-			body = (IExecutableModuleElement<?>) module.createAst(cst.getFirstChild(), this);
+			body = (IExecutableModuleElement) module.createAst(cst.getFirstChild(), this);
 		}
 	}
 	
@@ -73,11 +73,11 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement<T> {
 		this.text = text;
 	}
 	
-	public IExecutableModuleElement<?> getBody() {
+	public IExecutableModuleElement getBody() {
 		return body;
 	}
 	
-	public void setBody(IExecutableModuleElement<T> body) {
+	public void setBody(IExecutableModuleElement body) {
 		this.body = body;
 	}
 	
@@ -98,7 +98,7 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement<T> {
 		return execute(context, new Variable[]{});
 	}
 	
-	protected Object executeBlockOrExpressionAst(IExecutableModuleElement<?> ast, IEolContext context) throws EolRuntimeException {
+	protected Object executeBlockOrExpressionAst(IExecutableModuleElement ast, IEolContext context) throws EolRuntimeException {
 		if (ast == null) return null;
 		
 		Object result = context.getExecutorFactory().execute(ast, context);

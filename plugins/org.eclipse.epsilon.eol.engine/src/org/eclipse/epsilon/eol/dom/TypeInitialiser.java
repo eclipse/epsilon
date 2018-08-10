@@ -24,7 +24,7 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public abstract class TypeInitialiser extends Expression {
 	
-	protected Object initialiseType(EolType type, List<Expression<?>> parameters, IEolContext context, boolean createIfNonPrimitive) throws EolRuntimeException {
+	protected Object initialiseType(EolType type, List<Expression> parameters, IEolContext context, boolean createIfNonPrimitive) throws EolRuntimeException {
 		
 		if (type instanceof EolPrimitiveType || type instanceof EolCollectionType || type instanceof EolMapType) {
 			return type.createInstance();
@@ -37,7 +37,7 @@ public abstract class TypeInitialiser extends Expression {
 			}
 							
 			ArrayList<Object> parameterValues = new ArrayList<>();
-			for (Expression<?> parameter : parameters) {
+			for (Expression parameter : parameters) {
 				if (!(parameter.getClass() == EqualsOperatorExpression.class)) {
 					parameterValues.add(context.getExecutorFactory().execute(parameter, context));
 				}
@@ -52,7 +52,7 @@ public abstract class TypeInitialiser extends Expression {
 				instance = type.createInstance(parameterValues);
 			}
 			
-			for (Expression<?> parameter : parameters) {
+			for (Expression parameter : parameters) {
 				if (parameter.getClass() == EqualsOperatorExpression.class) {
 					EqualsOperatorExpression equalsOperatorExpression = (EqualsOperatorExpression) parameter;
 					if (equalsOperatorExpression.getFirstOperand() instanceof NameExpression) {
