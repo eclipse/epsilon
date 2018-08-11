@@ -1,0 +1,8 @@
+rule Tree2Txt
+	transform t : Tree {
+	
+	template : "tree.egl"
+	
+	target : t.label + ".txt"
+	
+}
