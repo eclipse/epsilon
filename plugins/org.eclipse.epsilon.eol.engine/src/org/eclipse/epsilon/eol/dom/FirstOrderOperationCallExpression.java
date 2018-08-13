@@ -91,12 +91,20 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 		AbstractOperation operation = getAbstractOperation(target, operationName, nameExpression, owningModel, context);
 		
 		if (operation instanceof SelectBasedOperation) {
-			((SelectBasedOperation) operation).setSelectOperation(
-				(SelectOperation) getAbstractOperation(target, "select", nameExpression, owningModel, context));
+			SelectBasedOperation sbo = (SelectBasedOperation) operation;
+			if (sbo.getSelectOperation().getClass().equals(SelectOperation.class)) {
+				sbo.setSelectOperation(
+					(SelectOperation) getAbstractOperation(target, "select", nameExpression, owningModel, context)
+				);
+			}
 		}
 		else if (operation instanceof CollectBasedOperation) {
-			((CollectBasedOperation) operation).setCollectOperation(
-				(CollectOperation) getAbstractOperation(target, "collect", nameExpression, owningModel, context));
+			CollectBasedOperation cbo = (CollectBasedOperation) operation;
+			if (cbo.getClass().equals(CollectOperation.class)) {
+				cbo.setCollectOperation(
+					(CollectOperation) getAbstractOperation(target, "collect", nameExpression, owningModel, context)
+				);
+			}
 		}
 		
 		return operation.execute(target, nameExpression, parameters, expressions, context);

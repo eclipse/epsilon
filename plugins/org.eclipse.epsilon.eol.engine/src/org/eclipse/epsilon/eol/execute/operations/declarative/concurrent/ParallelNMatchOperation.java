@@ -37,7 +37,6 @@ public class ParallelNMatchOperation extends NMatchOperation {
 
 		AtomicInteger currentMatches = new AtomicInteger(), index = new AtomicInteger();
 		EolExecutorService executor = context.getExecutorService();
-		Object condition = executor.getExecutionStatus().register();
 		Collection<Future<?>> jobs = new ArrayList<>(source.size());
 		
 		context.enterParallelNest(expression);
@@ -67,7 +66,7 @@ public class ParallelNMatchOperation extends NMatchOperation {
 							currentMatchesCached > targetMatches ||
 							currentIndex > targetMatches && (currentMatchesCached < targetMatches)
 						) {
-							executor.getExecutionStatus().completeSuccessfully(condition);
+							executor.getExecutionStatus().completeSuccessfully();
 						}
 					}
 					
@@ -77,7 +76,7 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		}
 		
 		// Prevent unnecessary evaluation of remaining jobs once we have the result
-		executor.shortCircuitCompletion(jobs, condition);
+		executor.shortCircuitCompletion(jobs);
 		context.exitParallelNest();
 		
 		return currentMatches.get() == targetMatches;

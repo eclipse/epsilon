@@ -159,7 +159,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	@Override
 	public void enterParallelNest(ModuleElement entryPoint) throws EolNestedParallelismException {
-		if (++nestLevel > NEST_THRESHOLD) {
+		if (++nestLevel > PARALLEL_NEST_THRESHOLD) {
 			try {
 				throw new EolNestedParallelismException(entryPoint);
 			}

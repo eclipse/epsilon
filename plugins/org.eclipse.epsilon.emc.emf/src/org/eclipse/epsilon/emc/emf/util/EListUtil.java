@@ -21,6 +21,7 @@ public abstract class EListUtil {
 
 	private EListUtil() {}
 	
+	@SafeVarargs
 	public static <T> EList<T> asEList(T... array) {
 		final EList<T> list = new BasicEList<>();
 		

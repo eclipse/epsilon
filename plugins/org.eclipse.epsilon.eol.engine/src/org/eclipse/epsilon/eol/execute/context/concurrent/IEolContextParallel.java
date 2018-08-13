@@ -1,9 +1,13 @@
 package org.eclipse.epsilon.eol.execute.context.concurrent;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
+import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
@@ -16,7 +20,7 @@ public interface IEolContextParallel extends IEolContext {
 	/**
 	 * Maximum supported level of parallel nesting.
 	 */
-	static final int NEST_THRESHOLD = 1;
+	static final int PARALLEL_NEST_THRESHOLD = 1;
 	
 	/**
 	 * Indicates the scalability of this Context when more processing nodes are added.
@@ -49,6 +53,30 @@ public interface IEolContextParallel extends IEolContext {
 	 * @return whether this Context is currently executing in parallel mode.
 	 */
 	boolean isParallel();
+
+	default EolExecutorService beginParallelJob(ModuleElement entryPoint) throws EolNestedParallelismException {
+		EolExecutorService executor = getExecutorService();
+		executor.getExecutionStatus().begin();
+		enterParallelNest(entryPoint);
+		return executor;
+	}
+	
+	/**
+	 * Executes all of the tasks in parallel, blocking until they have completed.
+	 * @param jobs The tasks to execute.
+	 * @return The result set in the {@link ConcurrentExecutionStatus}, if any.
+	 * @throws EolRuntimeException If any of the jobs throw an exception.
+	 */
+	default Object executeParallel(Collection<Runnable> jobs) throws EolRuntimeException {
+		EolExecutorService executor = beginParallelJob(getModule());
+		ArrayList<Future<?>> futures = new ArrayList<>(jobs.size());
+		for (Runnable job : jobs) {
+			futures.add(executor.submit(job));
+		}
+		Object result = executor.awaitCompletion(futures);
+		exitParallelNest();
+		return result;
+	}
 	
 	/**
 	 * Allows for recycling of an {@linkplain EolExecutorService},

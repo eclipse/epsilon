@@ -1,20 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2008 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.Future;
-import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -46,8 +35,6 @@ public class ParallelSelectOperation extends SelectOperation {
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		
 		EolExecutorService executor = context.getExecutorService();
-		ConcurrentExecutionStatus execStatus = executor.getExecutionStatus();
-		Object condition = returnOnMatch ? execStatus.register() : null;
 		Collection<Future<Optional<?>>> futures = new ArrayList<>(source.size());
 		context.enterParallelNest(expression);
 		
@@ -73,21 +60,20 @@ public class ParallelSelectOperation extends SelectOperation {
 							if (returnOnMatch) {
 								scope.leaveLocal(expression);
 								// "item" will be the result
-								execStatus.completeSuccessfully(condition, intermediateResult);
+								executor.getExecutionStatus().completeSuccessfully(intermediateResult);
 								return intermediateResult;
 							}
 						}
 					}
 					
 					scope.leaveLocal(expression);
-						
 					return intermediateResult;
 				}));
 			}
 		}
 		
 		if (returnOnMatch) {
-			Optional<?> result = executor.shortCircuitCompletionChecked(futures, condition);
+			Optional<?> result = executor.shortCircuitCompletionTyped(futures);
 			if (result != null) {
 				resultsCol.add(result.orElse(null));
 			}

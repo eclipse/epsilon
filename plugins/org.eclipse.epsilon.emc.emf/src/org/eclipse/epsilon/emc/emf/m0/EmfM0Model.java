@@ -163,6 +163,7 @@ public class EmfM0Model extends EmfModel {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected Collection<EObject> getAllOfKindFromModel(String metaClass) throws EolModelElementTypeNotFoundException {
 		Operation allOfKindHelper = getHelper("allOfKind");
@@ -171,7 +172,7 @@ public class EmfM0Model extends EmfModel {
 		try {
 			allOfKind = (Collection<EObject>) allOfKindHelper.execute(metaClass, new ArrayList<>(), eolModule.getContext());
 		}
-		catch (EolRuntimeException rex){
+		catch (EolRuntimeException rex) {
 			eolModule.getContext().getErrorStream().print(rex);
 		}
 		return allOfKind;
