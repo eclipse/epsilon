@@ -63,14 +63,15 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 	
 	@Before
 	public void assumeLegal() throws Exception {
+		boolean isParallelNestedScript = testConfig.script.getFileName().toString().equals("java_parallelNested.evl");
 		if (testName.getMethodName().startsWith("testIllegalNesting")) {
-			assumeTrue(testConfig.script.getFileName().toString().equals("java_parallelNested.evl"));
+			assumeTrue(isParallelNestedScript);
 			expectedConfig.run();
 			testConfig.preExecute();
 			testScenariosMatch();
 		}
 		else {
-			assumeFalse(testConfig.script.getFileName().toString().equals("java_parallelNested.evl"));
+			assumeFalse(isParallelNestedScript);
 		}
 	}
 	

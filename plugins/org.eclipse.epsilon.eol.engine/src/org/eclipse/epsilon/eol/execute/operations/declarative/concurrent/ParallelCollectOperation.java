@@ -35,9 +35,8 @@ public class ParallelCollectOperation extends CollectOperation {
 		Collection<Object> resultsCol = EolCollectionType.isOrdered(source) ?
 			new EolSequence<>(sourceSize) : new EolBag<>(sourceSize);
 		
-		EolExecutorService executor = context.getExecutorService();
 		Collection<Future<Object>> futures = new ArrayList<>(sourceSize);
-		context.enterParallelNest(expression);
+		EolExecutorService executor = context.beginParallelJob(expression);
 		
 		for (Object item : source) {
 			if (iteratorType == null || iteratorType.isKind(item)) {

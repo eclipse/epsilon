@@ -56,8 +56,8 @@ public interface IEolContextParallel extends IEolContext {
 
 	default EolExecutorService beginParallelJob(ModuleElement entryPoint) throws EolNestedParallelismException {
 		EolExecutorService executor = getExecutorService();
-		executor.getExecutionStatus().begin();
 		enterParallelNest(entryPoint);
+		executor.getExecutionStatus().begin();
 		return executor;
 	}
 	

@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.Collection;
+import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.Annotation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;

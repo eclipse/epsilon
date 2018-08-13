@@ -36,7 +36,7 @@ operation testParallelReject() {
 @test
 operation testParallelRejectOne() {
 	var data := Sequence {0..9};
-	var rejected = data.parallelRejectOne(n | n > 3);
+	var rejected = data.parallelRejectOne(n | n == 4);
 	data.remove(4);
 	assertEquals(data, rejected);
 	data.add(4);

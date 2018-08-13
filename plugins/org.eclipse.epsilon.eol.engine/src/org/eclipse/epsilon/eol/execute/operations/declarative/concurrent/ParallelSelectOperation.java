@@ -29,14 +29,18 @@ public class ParallelSelectOperation extends SelectOperation {
 		
 		if (source.isEmpty()) return resultsCol;
 		
+		boolean isRejectOne = !isSelect && returnOnMatch;
+		if (isRejectOne) {
+			resultsCol.addAll(source);
+		}
+		
 		EolType iteratorType = iterator.getType();
 		String iteratorName = iterator.getName();
 		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		
-		EolExecutorService executor = context.getExecutorService();
 		Collection<Future<Optional<?>>> futures = new ArrayList<>(source.size());
-		context.enterParallelNest(expression);
+		EolExecutorService executor = context.beginParallelJob(expression);
 		
 		for (Object item : source) {
 			if (iteratorType == null || iteratorType.isKind(item)) {
@@ -53,16 +57,18 @@ public class ParallelSelectOperation extends SelectOperation {
 					
 					if (bodyResult instanceof Boolean) {
 						boolean brBool = (boolean) bodyResult;
-						if ((isSelect && brBool) || (!isSelect && !brBool)) {
-							
+						boolean shortCircuit = false;
+						
+						if (isRejectOne && brBool || (!isRejectOne && ((isSelect && brBool) || (!isSelect && !brBool)))) {
 							intermediateResult = Optional.ofNullable(item);
-							
-							if (returnOnMatch) {
-								scope.leaveLocal(expression);
-								// "item" will be the result
-								executor.getExecutionStatus().completeSuccessfully(intermediateResult);
-								return intermediateResult;
-							}
+							shortCircuit = returnOnMatch;
+						}
+						
+						if (shortCircuit) {
+							scope.leaveLocal(expression);
+							// "item" will be the result
+							executor.getExecutionStatus().completeSuccessfully(intermediateResult);
+							return intermediateResult;
 						}
 					}
 					
@@ -74,8 +80,16 @@ public class ParallelSelectOperation extends SelectOperation {
 		
 		if (returnOnMatch) {
 			Optional<?> result = executor.shortCircuitCompletionTyped(futures);
+			
 			if (result != null) {
-				resultsCol.add(result.orElse(null));
+				Object actualResult = result.orElse(null);
+				
+				if (isRejectOne) {
+					resultsCol.remove(actualResult);
+				}
+				else {
+					resultsCol.add(actualResult);
+				}
 			}
 		}
 		else {

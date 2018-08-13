@@ -42,11 +42,10 @@ public class ParallelMapByOperation extends MapByOperation {
 		
 		EolType iteratorType = iterator.getType();
 		String iteratorName = iterator.getName();
-		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
-		EolExecutorService executor = context.getExecutorService();
 		Collection<Future<Entry<?, ?>>> futures = new ArrayList<>(source.size());
-		context.enterParallelNest(expression);
+		
+		EolExecutorService executor = context.beginParallelJob(expression);
 		
 		for (Object item : source) {
 			if (iteratorType == null || iteratorType.isKind(item)) {

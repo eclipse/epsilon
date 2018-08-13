@@ -14,7 +14,7 @@ public final class ConcurrentExecutionStatus {
 	
 	private Exception exception;
 	private boolean failed = false;
-	private boolean inProgress = false;
+	private volatile boolean inProgress = false;
 	private Thread waitingThread;
 	private Object result;
 	private final Object lockObj = new Object();
@@ -38,11 +38,15 @@ public final class ConcurrentExecutionStatus {
 	// SIGNAL CODE
 	
 	private void complete() {
-		inProgress = false;
-		waitingThread.interrupt();
-		/*synchronized (lockObj) {
-			lockObj.notify();
-		}*/
+		if (inProgress) {
+			inProgress = false;
+			if (waitingThread != null) {
+				waitingThread.interrupt();
+			}
+			/*synchronized (lockObj) {
+				lockObj.notify();
+			}*/
+		}
 	}
 	
 	public void completeSuccessfully() {
@@ -50,8 +54,8 @@ public final class ConcurrentExecutionStatus {
 	}
 	
 	public void completeSuccessfully(Object result) {
-		completeSuccessfully();
 		this.result = result;
+		completeSuccessfully();
 	}
 	
 	public void completeExceptionally(Exception exception) {

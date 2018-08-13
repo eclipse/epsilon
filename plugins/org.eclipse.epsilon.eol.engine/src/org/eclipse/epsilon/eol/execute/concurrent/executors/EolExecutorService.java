@@ -81,7 +81,7 @@ public interface EolExecutorService extends ExecutorService {
 		termWait.setName(getClass().getSimpleName()+"-AwaitTermination");
 		termWait.start();
 
-		if (!status.waitForCompletion(this::isTerminated)) {
+		if (!status.waitForCompletion(futures != null ? null : this::isTerminated)) {
 			termWait.interrupt();
 			shutdownNow();
 			EolRuntimeException.propagateDetailed(status.getException());
@@ -100,7 +100,6 @@ public interface EolExecutorService extends ExecutorService {
 	 */
 	default <R> Collection<R> collectResults(Collection<Future<R>> futures) throws EolRuntimeException {
 		ConcurrentExecutionStatus status = getExecutionStatus();
-		status.begin();
 		
 		final Collection<R> results = new ArrayList<>(futures.size());
 		
@@ -162,15 +161,14 @@ public interface EolExecutorService extends ExecutorService {
 		Thread compWait = new Thread(() -> {
 			try {
 				for (Future<?> future : jobs) {
-					// This is to avoid unnecessary waiting for completion
 					if (status.isInProgress())
 						future.get();
-					else
-						future.cancel(true);
+					else return;
 				}
 				status.completeSuccessfully();
 			}
 			catch (ExecutionException ex) {
+				ex.printStackTrace();
 				status.completeExceptionally(ex);
 			}
 			catch (CancellationException | InterruptedException ice) {
@@ -185,6 +183,13 @@ public interface EolExecutorService extends ExecutorService {
 			compWait.interrupt();
 			shutdownNow();
 			EolRuntimeException.propagateDetailed(status.getException());
+		}
+		else {
+			compWait.interrupt();
+			// This is to avoid unnecessary waiting for completion
+			for (Future<?> future : jobs) {
+				future.cancel(true);
+			}
 		}
 		
 		return status.getResult();
