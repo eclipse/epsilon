@@ -55,17 +55,7 @@ public interface IEolContextParallel extends IEolContext {
 	boolean isParallel();
 	
 	/**
-	 * Allows for recycling of an {@linkplain EolExecutorService},
-	 * as derived from {@link #newExecutorService()}.
-	 * 
-	 * @return A cached EolExecutorService.
-	 * @see #newExecutorService()
-	 */
-	EolExecutorService getExecutorService();
-	
-	/**
-	 * Constructs a one-shot EolExecutorService. Unlike {@link #getExecutorService()},
-	 * this method will always return a new instance of {@linkplain EolExecutorService}.
+	 * Constructs a single-use {@linkplain EolExecutorService}.
 	 * 
 	 * @return a new EolExecutorService
 	 */
@@ -100,10 +90,16 @@ public interface IEolContextParallel extends IEolContext {
 	 * @throws EolNestedParallelismException If there was already a parallel job in progress.
 	 */
 	default EolExecutorService beginParallelJob(ModuleElement entryPoint) throws EolNestedParallelismException {
-		EolExecutorService executor = getExecutorService();
+		EolExecutorService executor = newExecutorService();
 		enterParallelNest(entryPoint);
 		executor.getExecutionStatus().begin();
 		return executor;
+	}
+	
+	default Object endParallelJob(EolExecutorService executor, ModuleElement entryPoint) {
+		exitParallelNest();
+		executor.shutdownNow();
+		return executor.getExecutionStatus().getResult();
 	}
 	
 	/**

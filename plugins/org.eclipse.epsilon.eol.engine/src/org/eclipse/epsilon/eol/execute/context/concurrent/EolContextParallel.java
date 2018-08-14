@@ -32,7 +32,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	protected int numThreads;
 	protected boolean isParallel = false;
 	protected final boolean isPersistent;
-	private EolExecutorService executorService;
 	protected int nestLevel = 0;
 	
 	// Data strcutures which will be written to and read from during parallel execution:
@@ -137,10 +136,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		removeAllIfPersistent(concurrentFrameStacks);
 		removeAllIfPersistent(concurrentMethodContributors);
 		removeAllIfPersistent(concurrentExecutors);
-		
-		if (executorService != null) {
-			executorService.shutdown();
-		}
 	}
 	
 	public boolean isPersistent() {
@@ -160,14 +155,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	@Override
 	public void enterParallelNest(ModuleElement entryPoint) throws EolNestedParallelismException {
 		if (++nestLevel > PARALLEL_NEST_THRESHOLD) {
-			try {
-				throw new EolNestedParallelismException(entryPoint);
-			}
-			finally {
-				if (executorService != null) {
-					executorService.shutdown();
-				}
-			}
+			throw new EolNestedParallelismException(entryPoint);
 		}
 	}
 
@@ -187,19 +175,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 */
 	public int getNestedParallelism() {
 		return nestLevel;
-	}
-	
-	/**
-	 * If no value is set, this method will create a new ExecutorService
-	 * by calling {@linkplain #newExecutorService()} and caching the reuslt
-	 * for future invocations of this method.
-	 */
-	@Override
-	public EolExecutorService getExecutorService() {
-		if (executorService == null) {
-			executorService = newExecutorService();
-		}
-		return executorService;
 	}
 	
 	@Override

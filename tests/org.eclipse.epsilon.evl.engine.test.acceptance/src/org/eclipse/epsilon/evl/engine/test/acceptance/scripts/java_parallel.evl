@@ -168,9 +168,9 @@ context ClassDeclaration {
 			return
 				self.bodyDeclarations
 					.parallelSelect(bd | bd.isKindOf(AbstractMethodDeclaration))
-					.parallelForAll(md | md.body.isDefined() implies md.body.statements
-						.select(s | s.isKindOf(VariableDeclaration))
-						.forAll(vd | fields.forAll(fd | fd.name <> vd.name))
+					.forAll(md | md.body.isDefined() implies md.body.statements
+						.parallelSelect(s | s.isKindOf(VariableDeclaration))
+						.parallelForAll(vd | fields.forAll(fd | fd.name <> vd.name))
 					);
 		}
 	}

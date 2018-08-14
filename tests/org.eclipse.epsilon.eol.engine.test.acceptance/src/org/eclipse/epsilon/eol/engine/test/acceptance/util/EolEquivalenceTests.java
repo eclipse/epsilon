@@ -117,7 +117,7 @@ public abstract class EolEquivalenceTests<M extends IEolModule, C extends IEolRu
 	}
 	
 	/**
-	 * Actions to perform if the message is null.
+	 * Actions to perform if the message is <code>null</code>.
 	 * Generally useful for printing more detailed diagnostics
 	 * than is provided by the testing framework.
 	 * @param message The message to fail with.

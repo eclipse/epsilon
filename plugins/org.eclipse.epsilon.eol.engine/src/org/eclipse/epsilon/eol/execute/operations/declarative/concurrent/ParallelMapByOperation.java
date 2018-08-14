@@ -66,7 +66,7 @@ public class ParallelMapByOperation extends MapByOperation {
 		
 		Collection<Entry<?, ?>> intermediates = executor.collectResults(futures);
 		
-		context.exitParallelNest();
+		context.endParallelJob(executor, expression);
 		
 		return intermediates.stream()
 			.collect(Collectors.toMap(

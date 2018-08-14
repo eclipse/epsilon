@@ -59,8 +59,11 @@ public class EpsilonTestUtil {
 		int actualSize = actual.size(), expectedSize = expected.size();
 		
 		String sameSize = printIfDifferent(actualSize != expectedSize, expectedSize, actualSize, collectionName+" sizes");
-		if (sameSize != null)
+		if (sameSize != null) {
+			System.err.println("Expected: \n\t"+expected);
+			System.err.println("Actual: \n\t"+actual);
 			return sameSize;
+		}
 		
 		return printIfDifferent(!actual.containsAll(expected), expected, actual, collectionName);
 	}

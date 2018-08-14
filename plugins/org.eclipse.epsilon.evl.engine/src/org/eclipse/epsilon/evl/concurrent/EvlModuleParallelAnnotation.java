@@ -35,7 +35,8 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContextParallel context = getContext();
-		EolExecutorService executor = context.getExecutorService();
+		EolExecutorService executor = context.newExecutorService();
+		executor.getExecutionStatus().begin();
 		ArrayList<Future<?>> jobs = new ArrayList<>();
 		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
@@ -92,6 +93,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 		}
 		
 		executor.awaitCompletion(jobs);
+		context.exitParallelNest();
 	}
 
 	protected boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model) throws EolRuntimeException {

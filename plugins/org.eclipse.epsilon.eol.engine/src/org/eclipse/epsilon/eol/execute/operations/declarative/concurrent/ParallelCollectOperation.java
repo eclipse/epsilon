@@ -56,7 +56,7 @@ public class ParallelCollectOperation extends CollectOperation {
 		}
 		
 		resultsCol.addAll(executor.collectResults(futures));
-		context.exitParallelNest();
+		context.endParallelJob(executor, expression);
 		
 		return resultsCol;
 	}

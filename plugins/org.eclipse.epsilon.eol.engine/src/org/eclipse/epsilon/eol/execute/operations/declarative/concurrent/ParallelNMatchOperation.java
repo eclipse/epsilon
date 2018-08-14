@@ -64,7 +64,9 @@ public class ParallelNMatchOperation extends NMatchOperation {
 							currentMatchesCached > targetMatches ||
 							currentIndex > targetMatches && (currentMatchesCached < targetMatches)
 						) {
+							scope.leaveLocal(expression);
 							executor.getExecutionStatus().completeSuccessfully();
+							return;
 						}
 					}
 					
@@ -75,7 +77,7 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		
 		// Prevent unnecessary evaluation of remaining jobs once we have the result
 		executor.shortCircuitCompletion(jobs);
-		context.exitParallelNest();
+		context.endParallelJob(executor, expression);
 		
 		return currentMatches.get() == targetMatches;
 	}

@@ -66,7 +66,6 @@ public class ParallelSelectOperation extends SelectOperation {
 						
 						if (shortCircuit) {
 							scope.leaveLocal(expression);
-							// "item" will be the result
 							executor.getExecutionStatus().completeSuccessfully(intermediateResult);
 							return intermediateResult;
 						}
@@ -99,7 +98,7 @@ public class ParallelSelectOperation extends SelectOperation {
 				.forEach(resultsCol::add);
 		}
 		
-		context.exitParallelNest();
+		context.endParallelJob(executor, expression);
 		
 		return resultsCol;
 	}
