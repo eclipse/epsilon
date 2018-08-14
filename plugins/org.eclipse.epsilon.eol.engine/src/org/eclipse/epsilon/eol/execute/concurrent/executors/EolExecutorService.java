@@ -156,7 +156,7 @@ public interface EolExecutorService extends ExecutorService {
 	 */
 	default Object shortCircuitCompletion(Collection<Future<?>> jobs) throws EolRuntimeException {
 		ConcurrentExecutionStatus status = getExecutionStatus();
-		status.begin();
+		//status.begin();
 		
 		Thread compWait = new Thread(() -> {
 			try {

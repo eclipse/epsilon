@@ -53,30 +53,6 @@ public interface IEolContextParallel extends IEolContext {
 	 * @return whether this Context is currently executing in parallel mode.
 	 */
 	boolean isParallel();
-
-	default EolExecutorService beginParallelJob(ModuleElement entryPoint) throws EolNestedParallelismException {
-		EolExecutorService executor = getExecutorService();
-		enterParallelNest(entryPoint);
-		executor.getExecutionStatus().begin();
-		return executor;
-	}
-	
-	/**
-	 * Executes all of the tasks in parallel, blocking until they have completed.
-	 * @param jobs The tasks to execute.
-	 * @return The result set in the {@link ConcurrentExecutionStatus}, if any.
-	 * @throws EolRuntimeException If any of the jobs throw an exception.
-	 */
-	default Object executeParallel(Collection<Runnable> jobs) throws EolRuntimeException {
-		EolExecutorService executor = beginParallelJob(getModule());
-		ArrayList<Future<?>> futures = new ArrayList<>(jobs.size());
-		for (Runnable job : jobs) {
-			futures.add(executor.submit(job));
-		}
-		Object result = executor.awaitCompletion(futures);
-		exitParallelNest();
-		return result;
-	}
 	
 	/**
 	 * Allows for recycling of an {@linkplain EolExecutorService},
@@ -117,6 +93,42 @@ public interface IEolContextParallel extends IEolContext {
 	
 	//Convenience methods
 	
+	/**
+	 * Registers the beginning of parallel job on the default EolExecutorService.
+	 * @param entryPoint The AST to associate with this job.
+	 * @return {@link #getExecutorService()}
+	 * @throws EolNestedParallelismException If there was already a parallel job in progress.
+	 */
+	default EolExecutorService beginParallelJob(ModuleElement entryPoint) throws EolNestedParallelismException {
+		EolExecutorService executor = getExecutorService();
+		enterParallelNest(entryPoint);
+		executor.getExecutionStatus().begin();
+		return executor;
+	}
+	
+	/**
+	 * Executes all of the tasks in parallel, blocking until they have completed.
+	 * @param jobs The tasks to execute.
+	 * @return The result set in the {@link ConcurrentExecutionStatus}, if any.
+	 * @throws EolRuntimeException If any of the jobs throw an exception.
+	 */
+	default Object executeParallel(Collection<Runnable> jobs) throws EolRuntimeException {
+		EolExecutorService executor = beginParallelJob(getModule());
+		ArrayList<Future<?>> futures = new ArrayList<>(jobs.size());
+		for (Runnable job : jobs) {
+			futures.add(executor.submit(job));
+		}
+		Object result = executor.awaitCompletion(futures);
+		exitParallelNest();
+		return result;
+	}
+	
+	/**
+	 * Caches the Epsilon stack trace and informs the EolExecutorService's
+	 * {@linkplain ConcurrentExecutionStatus}.
+	 * @param exception The exception.
+	 * @param executor The ExecutorService which was used to execute the job.
+	 */
 	default void handleException(Exception exception, EolExecutorService executor) {
 		// Cache the Epsilon stack trace
 		if (exception instanceof EolRuntimeException)

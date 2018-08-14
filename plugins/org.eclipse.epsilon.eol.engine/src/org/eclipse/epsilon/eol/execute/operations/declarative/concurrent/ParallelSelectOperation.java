@@ -82,8 +82,7 @@ public class ParallelSelectOperation extends SelectOperation {
 			Optional<?> result = executor.shortCircuitCompletionTyped(futures);
 			
 			if (result != null) {
-				Object actualResult = result.orElse(null);
-				
+				Object actualResult = result.orElse(null);		
 				if (isRejectOne) {
 					resultsCol.remove(actualResult);
 				}

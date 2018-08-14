@@ -7,10 +7,14 @@ import static org.junit.Assume.assumeTrue;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.evl.EvlModule;
-import org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation;
+import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.concurrent.*;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -36,11 +40,28 @@ import org.junit.runners.Parameterized.Parameters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 
-	private static final List<String[]> inputs = addAllInputs(
-		new String[]{"java_parallel", "java_sequential", "java_parallelNested"},
-		javaModels, javaMetamodel
-	);
+	private static final List<String[]>
+		inputsWithNesting = addAllInputs(
+			new String[]{"java_parallel", "java_parallelNested"},
+			javaModels, javaMetamodel
+		),
+		inputsWithoutNesting = addAllInputs(
+			new String[]{"java_sequential"},
+			javaModels, javaMetamodel
+		);
 	
+	static final int[] testThreads = new int[]{2, 3, 8, 57};
+	static final Function<String[], Integer> idCalculator = inputs -> {
+		int scriptHash;
+		if (inputs[0].startsWith("java_parallel") || inputs[0].startsWith("java_sequential")) {
+			scriptHash = "java_sequential".hashCode(); 
+		}
+		else {
+			scriptHash = inputs[0].hashCode();
+		}
+		return Objects.hash(scriptHash, inputs[1], inputs[2]);
+	};
+		
 	public EvlParallelOperationsTests(EvlRunConfiguration configUnderTest) {
 		super(configUnderTest);
 	}
@@ -50,15 +71,38 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		expectedConfigs = getScenarios(inputs, false, Collections.singleton(EvlModule::new));
+		Collection<EvlRunConfiguration> scenarios = getScenarios(inputsWithNesting, false, Collections.singleton(EvlModule::new), idCalculator);
+		scenarios.addAll(getScenarios(inputsWithoutNesting, false, getTestModules(), idCalculator));
+		expectedConfigs = scenarios;
 		setUpEquivalenceTest();
 	}
 	
+	@SuppressWarnings("deprecation")
+	static Collection<Supplier<? extends IEvlModule>> getTestModules() {
+		Collection<Supplier<? extends IEvlModule>> modules = EolAcceptanceTestUtil.parallelModules(
+			testThreads, null,
+			EvlModuleParallelAnnotation::new,
+			EvlModuleParallelElements::new,
+			EvlModuleParallelNot::new,
+			EvlModuleParallelStaged::new,
+			EvlModuleParallelConstraints::new,
+			EvlModuleParallelRandom::new
+		);
+		modules.add(EvlModule::new);
+		return modules;
+	}
+	
+	@SuppressWarnings("deprecation")
 	@Parameters
 	public static Collection<EvlRunConfiguration> configurations() {
-		return getScenarios(inputs, false, EolAcceptanceTestUtil.parallelModules(
-			new int[]{2, 3, 8, 57}, null, EvlModuleParallelAnnotation::new
-		));
+		Collection<EvlRunConfiguration> scenarios = getScenarios(inputsWithNesting, false,
+			EolAcceptanceTestUtil.parallelModules(testThreads, null,
+				EvlModuleParallelAnnotation::new, EvlModuleParallelNot::new
+			),
+			idCalculator
+		);
+		scenarios.addAll(getScenarios(inputsWithoutNesting, false, getTestModules(), idCalculator));
+		return scenarios;
 	}
 	
 	@Before

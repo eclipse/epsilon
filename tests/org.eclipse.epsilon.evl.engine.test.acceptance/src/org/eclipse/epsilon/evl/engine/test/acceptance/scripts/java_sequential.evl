@@ -175,6 +175,7 @@ context ClassDeclaration {
 }
 
 context CompilationUnit {
+	@parallel
 	constraint allImportsAreUsed {
 		check: self.imports.forAll(imp |
 			NamedElement.allInstances().exists(ne | ne.originalCompilationUnit == self)
