@@ -90,8 +90,6 @@ public class ParallelSelectOperation extends SelectOperation {
 		if (returnOnMatch) {
 			Optional<?> result = executor.shortCircuitCompletionTyped(futures);
 			
-			context.getFrameStack().remove(iteratorName);
-			
 			if (result != null) {
 				Object actualResult = result.orElse(null);		
 				if (isRejectOne) {

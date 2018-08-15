@@ -52,14 +52,17 @@ public class ParallelCollectOperation extends CollectOperation {
 				futures.add(executor.submit(() -> {
 					
 					FrameStack scope = context.getFrameStack();
-					scope.enterLocal(FrameType.UNPROTECTED, expression,
-						new Variable(iteratorName, item, iteratorType, true)
-					);
+					try {
+						scope.enterLocal(FrameType.UNPROTECTED, expression,
+							new Variable(iteratorName, item, iteratorType, true)
+						);
+						
+						return context.getExecutorFactory().execute(expression, context);
+					}
+					finally {
+						scope.leaveLocal(expression);
+					}
 					
-					Object bodyResult = context.getExecutorFactory().execute(expression, context);
-					
-					scope.leaveLocal(expression);
-					return bodyResult;
 				}));
 			}
 		}

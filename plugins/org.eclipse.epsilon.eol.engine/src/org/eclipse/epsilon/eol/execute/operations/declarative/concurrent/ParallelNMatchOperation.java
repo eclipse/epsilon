@@ -55,31 +55,31 @@ public class ParallelNMatchOperation extends NMatchOperation {
 				jobs.add(executor.submit(() -> {
 					
 					FrameStack scope = context.getFrameStack();
-					scope.enterLocal(FrameType.UNPROTECTED, expression,
-						new Variable(iteratorName, item, iteratorType, true)
-					);
-					
-					Object bodyResult = null;
 					try {
-						bodyResult = context.getExecutorFactory().execute(expression, context);
+						scope.enterLocal(FrameType.UNPROTECTED, expression,
+							new Variable(iteratorName, item, iteratorType, true)
+						);
+						
+						Object bodyResult = context.getExecutorFactory().execute(expression, context);
+						
+						if (bodyResult instanceof Boolean && (boolean) bodyResult) { 
+							int currentMatchesCached = currentMatches.incrementAndGet();
+							if (
+								currentMatchesCached > targetMatches ||
+								currentIndex > targetMatches && (currentMatchesCached < targetMatches)
+							) {
+								executor.getExecutionStatus().completeSuccessfully();
+							}
+						}
 					}
 					catch (EolRuntimeException ex) {
 						context.handleException(ex, executor);
 					}
-					
-					if (bodyResult instanceof Boolean && (boolean) bodyResult) { 
-						int currentMatchesCached = currentMatches.incrementAndGet();
-						if (
-							currentMatchesCached > targetMatches ||
-							currentIndex > targetMatches && (currentMatchesCached < targetMatches)
-						) {
-							scope.leaveLocal(expression);
-							executor.getExecutionStatus().completeSuccessfully();
-							return;
-						}
+					finally {
+						// The finally block is to ensure we don't leak variables if this job is cancelled
+						scope.leaveLocal(expression);
 					}
 					
-					scope.leaveLocal(expression);
 				}));
 			}
 		}

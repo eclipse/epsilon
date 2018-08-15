@@ -42,6 +42,7 @@ public class NMatchOperation extends FirstOrderOperation {
 		for (Object item : source) {
 			++currentIndex;
 			if (iteratorType == null || iteratorType.isKind(item)) {
+				
 				scope.enterLocal(FrameType.UNPROTECTED, expression,
 					Variable.createReadOnlyVariable(iteratorName, item)
 				);
@@ -53,8 +54,10 @@ public class NMatchOperation extends FirstOrderOperation {
 					if (
 						++currentMatches > targetMatches ||
 						(currentIndex > targetMatches && (currentMatches < targetMatches))
-					)
+					) {
+						scope.leaveLocal(expression);
 						return false;
+					}
 				}
 				
 				scope.leaveLocal(expression);

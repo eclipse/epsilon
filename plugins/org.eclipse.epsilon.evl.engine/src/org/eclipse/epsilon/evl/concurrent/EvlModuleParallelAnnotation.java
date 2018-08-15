@@ -110,7 +110,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 		
 		if (parallelAnnotation != null) {
 			if (parallelAnnotation.hasValue()) {
-				context.getFrameStack().enterLocal(FrameType.UNPROTECTED, ast,
+				context.getFrameStack().enterLocal(FrameType.PROTECTED, ast,
 					Variable.createReadOnlyVariable("self", self),
 					Variable.createReadOnlyVariable("MODEL", model),
 					Variable.createReadOnlyVariable("THREADS", getContext().getParallelism())

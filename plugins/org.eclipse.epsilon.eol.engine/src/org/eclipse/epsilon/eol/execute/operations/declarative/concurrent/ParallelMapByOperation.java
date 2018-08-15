@@ -51,14 +51,18 @@ public class ParallelMapByOperation extends MapByOperation {
 				futures.add(executor.submit(() -> {
 					
 					FrameStack scope = context.getFrameStack();
-					scope.enterLocal(FrameType.UNPROTECTED, expression,
-						new Variable(iteratorName, item, iteratorType, true)
-					);
+					try {
+						scope.enterLocal(FrameType.UNPROTECTED, expression,
+							new Variable(iteratorName, item, iteratorType, true)
+						);
+						
+						Object bodyResult = context.getExecutorFactory().execute(expression, context);
+						return new SimpleEntry<>(bodyResult, item);
+					}
+					finally {
+						scope.leaveLocal(expression);
+					}
 					
-					Object bodyResult = context.getExecutorFactory().execute(expression, context);
-					
-					scope.leaveLocal(expression);
-					return new SimpleEntry<>(bodyResult, item);
 				}));
 			}
 		}
