@@ -56,31 +56,32 @@ public class ParallelSelectOperation extends SelectOperation {
 				futures.add(executor.submit(() -> {
 					
 					Optional<?> intermediateResult = null;
-						
 					FrameStack scope = context.getFrameStack();
-					scope.enterLocal(FrameType.UNPROTECTED, expression,
-						new Variable(iteratorName, item, iteratorType, true)
-					);
 					
-					Object bodyResult = context.getExecutorFactory().execute(expression, context);
-					
-					if (bodyResult instanceof Boolean) {
-						boolean brBool = (boolean) bodyResult;
-						boolean shortCircuit = false;
+					try {
+						scope.enterLocal(FrameType.UNPROTECTED, expression,
+							new Variable(iteratorName, item, iteratorType, true)
+						);
 						
-						if (isRejectOne && brBool || (!isRejectOne && ((isSelect && brBool) || (!isSelect && !brBool)))) {
-							intermediateResult = Optional.ofNullable(item);
-							shortCircuit = returnOnMatch;
-						}
+						Object bodyResult = context.getExecutorFactory().execute(expression, context);
 						
-						if (shortCircuit) {
-							scope.leaveLocal(expression);
-							executor.getExecutionStatus().completeSuccessfully(intermediateResult);
-							return intermediateResult;
+						if (bodyResult instanceof Boolean) {
+							boolean brBool = (boolean) bodyResult;
+							
+							if (isRejectOne && brBool || (!isRejectOne && ((isSelect && brBool) || (!isSelect && !brBool)))) {
+								intermediateResult = Optional.ofNullable(item);
+								
+								if (returnOnMatch) {
+									executor.getExecutionStatus().completeSuccessfully(intermediateResult);
+								}
+							}
 						}
 					}
+					finally {
+						// The finally block is to ensure we don't leak variables if this job is cancelled
+						scope.leaveLocal(expression);
+					}
 					
-					scope.leaveLocal(expression);
 					return intermediateResult;
 				}));
 			}
@@ -88,6 +89,8 @@ public class ParallelSelectOperation extends SelectOperation {
 		
 		if (returnOnMatch) {
 			Optional<?> result = executor.shortCircuitCompletionTyped(futures);
+			
+			context.getFrameStack().remove(iteratorName);
 			
 			if (result != null) {
 				Object actualResult = result.orElse(null);		

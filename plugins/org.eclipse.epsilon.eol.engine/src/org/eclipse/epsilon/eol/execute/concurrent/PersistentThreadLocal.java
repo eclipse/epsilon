@@ -1,5 +1,5 @@
 /*********************************************************************
- * Copyright (c) 2018 The University of York.
+ * Copyright (c) 2017 The University of York.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
