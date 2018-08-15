@@ -130,6 +130,9 @@ public class Constraint extends NamedRule {
 	}
 
 	protected boolean postprocessCheck(Object self, IEvlContext context, UnsatisfiedConstraint unsatisfiedConstraint, boolean result) throws EolRuntimeException {
+		// leaveLocal if constraint is satisfied or there are no possible further uses for it.
+		boolean disposeFrame = result || (fixes.isEmpty() && messageBlock == null);
+		
 		if (!result) {
 			unsatisfiedConstraint.setInstance(self);
 			unsatisfiedConstraint.setConstraint(this);
@@ -145,6 +148,7 @@ public class Constraint extends NamedRule {
 			for (Fix fix : fixes) {
 				if (!fix.appliesTo(self, context)) continue;
 
+				disposeFrame = false;
 				FixInstance fixInstance = new FixInstance(context, fix);
 				fixInstance.setSelf(self);
 				unsatisfiedConstraintFixes.add(fixInstance);
@@ -152,7 +156,7 @@ public class Constraint extends NamedRule {
 		}
 
 		// Don't dispose the frame we leave if unsatisfied because it may be needed for fix parts
-		context.getFrameStack().leaveLocal(checkBlock.getBody(), result);
+		context.getFrameStack().leaveLocal(checkBlock.getBody(), disposeFrame);
 		return result;
 	}
 
