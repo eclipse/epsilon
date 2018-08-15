@@ -1,9 +1,8 @@
 /*******************************************************************************
  * Copyright (c) 2017 The University of York.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
@@ -11,7 +10,15 @@
  *     Sina Madani - Parallel EVL implementation, testing, refactoring
  ******************************************************************************/
 package org.eclipse.epsilon.evl.concurrent;
-
+/*********************************************************************
+ * Copyright (c) 2018 The University of York.
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;

@@ -1,3 +1,12 @@
+/*********************************************************************
+ * Copyright (c) 2018 The University of York.
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.evl.execute.concurrent;
 
 import java.util.ArrayList;
@@ -9,6 +18,11 @@ import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
+/**
+ * A constraint-element pair.
+ * 
+ * @author Sina Madani
+ */
 public class ConstraintAtom extends EvlAtom<Constraint> {
 	
 	public ConstraintAtom(Constraint constraint, Object modelElement, IEvlContext evlContext) {
