@@ -12,11 +12,10 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.concurrent.Future;
+import java.util.concurrent.Callable;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -45,15 +44,12 @@ public class ParallelSelectOperation extends SelectOperation {
 		
 		EolType iteratorType = iterator.getType();
 		String iteratorName = iterator.getName();
-		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
-		
-		Collection<Future<Optional<?>>> futures = new ArrayList<>(source.size());
-		EolExecutorService executor = context.beginParallelJob(expression);
+		Collection<Callable<Optional<?>>> jobs = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
 			if (iteratorType == null || iteratorType.isKind(item)) {
-				futures.add(executor.submit(() -> {
+				jobs.add(() -> {
 					
 					Optional<?> intermediateResult = null;
 					FrameStack scope = context.getFrameStack();
@@ -72,7 +68,7 @@ public class ParallelSelectOperation extends SelectOperation {
 								intermediateResult = Optional.ofNullable(item);
 								
 								if (returnOnMatch) {
-									executor.getExecutionStatus().completeSuccessfully(intermediateResult);
+									context.completeShortCircuit(expression, intermediateResult);
 								}
 							}
 						}
@@ -83,12 +79,12 @@ public class ParallelSelectOperation extends SelectOperation {
 					}
 					
 					return intermediateResult;
-				}));
+				});
 			}
 		}
 		
 		if (returnOnMatch) {
-			Optional<?> result = executor.shortCircuitCompletionTyped(futures);
+			Optional<?> result = context.shortCircuitTyped(expression, jobs);
 			
 			if (result != null) {
 				Object actualResult = result.orElse(null);		
@@ -101,14 +97,12 @@ public class ParallelSelectOperation extends SelectOperation {
 			}
 		}
 		else {
-			executor.collectResults(futures)
+			context.executeParallelTyped(expression, jobs)
 				.stream()
 				.filter(opt -> opt != null)
 				.map(opt -> opt.orElse(null))
 				.forEach(resultsCol::add);
 		}
-		
-		context.endParallelJob(executor, expression);
 		
 		return resultsCol;
 	}

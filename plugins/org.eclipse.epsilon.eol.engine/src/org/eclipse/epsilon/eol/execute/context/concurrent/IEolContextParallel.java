@@ -9,9 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.context.concurrent;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.Future;
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -69,13 +68,18 @@ public interface IEolContextParallel extends IEolContext {
 	boolean isParallel();
 	
 	/**
-	 * Constructs a single-use {@linkplain EolExecutorService}.
-	 * 
-	 * @return a new EolExecutorService
+	 * A single-use ExecutorService.
+	 * @return a new {@link EolExecutorService}.
 	 */
 	default EolExecutorService newExecutorService() {
 		return EolThreadPoolExecutor.defaultExecutor(getParallelism());
 	}
+	
+	/**
+	 * A re-usable ExecutorService.
+	 * @return a cached {@link EolExecutorService}.
+	 */
+	EolExecutorService getExecutorService();
 	
 	/**
 	 * This method is used to signal nesting of parallel jobs. This method records
@@ -93,7 +97,7 @@ public interface IEolContextParallel extends IEolContext {
 	 * 
 	 * @see #enterParallelNest(ModuleElement)
 	 */
-	void exitParallelNest();
+	void exitParallelNest(ModuleElement entryPoint);
 	
 	//Convenience methods
 	
@@ -104,38 +108,68 @@ public interface IEolContextParallel extends IEolContext {
 	 * @throws EolNestedParallelismException If there was already a parallel job in progress.
 	 */
 	default EolExecutorService beginParallelJob(ModuleElement entryPoint) throws EolNestedParallelismException {
-		EolExecutorService executor = newExecutorService();
+		EolExecutorService executor = getExecutorService();
 		enterParallelNest(entryPoint);
-		executor.getExecutionStatus().begin();
+		executor.getExecutionStatus().register(entryPoint);
 		return executor;
 	}
 	
-	default Object endParallelJob(EolExecutorService executor, ModuleElement entryPoint) {
-		exitParallelNest();
-		executor.shutdownNow();
-		return executor.getExecutionStatus().getResult();
+	default Object endParallelJob(ModuleElement entryPoint) {
+		exitParallelNest(entryPoint);
+		ConcurrentExecutionStatus status = getExecutorService().getExecutionStatus();
+		if (status.isInProgress(entryPoint)) {
+			status.completeSuccessfully(entryPoint);
+		}
+		return status.getResult(entryPoint);
 	}
 	
 	/**
 	 * Executes all of the tasks in parallel, blocking until they have completed.
 	 * @param jobs The tasks to execute.
-	 * @return The result set in the {@link ConcurrentExecutionStatus}, if any.
+	 * @return The result set in the {@link SingleConcurrentExecutionStatus}, if any.
 	 * @throws EolRuntimeException If any of the jobs throw an exception.
 	 */
-	default Object executeParallel(Collection<Runnable> jobs) throws EolRuntimeException {
-		EolExecutorService executor = beginParallelJob(getModule());
-		ArrayList<Future<?>> futures = new ArrayList<>(jobs.size());
-		for (Runnable job : jobs) {
-			futures.add(executor.submit(job));
-		}
-		Object result = executor.awaitCompletion(futures);
-		exitParallelNest();
+	default Object executeParallel(ModuleElement entryPoint, Collection<Runnable> jobs) throws EolRuntimeException {
+		EolExecutorService executor = getExecutorService();
+		enterParallelNest(entryPoint);
+		Object result = executor.completeAll(jobs);
+		exitParallelNest(entryPoint);
 		return result;
+	}
+	
+	default <T> Collection<T> executeParallelTyped(ModuleElement entryPoint, Collection<Callable<T>> jobs) throws EolRuntimeException {
+		EolExecutorService executor = getExecutorService();
+		enterParallelNest(entryPoint);
+		Collection<T> results = executor.collectResults(executor.submitAllTyped(jobs));
+		exitParallelNest(entryPoint);
+		return results;
+	}
+	
+	default void completeShortCircuit(ModuleElement entryPoint, Object result) {
+		getExecutorService().getExecutionStatus().completeSuccessfully(entryPoint, result);
+	}
+	
+	default Object shortCircuit(ModuleElement entryPoint, Collection<Runnable> jobs) throws EolRuntimeException {
+		EolExecutorService executor = beginParallelJob(entryPoint);
+		Object result = executor.shortCircuitCompletion(entryPoint, executor.submitAll(jobs));
+		exitParallelNest(entryPoint);
+		return result;
+	}
+	
+	default <T> T shortCircuitTyped(ModuleElement entryPoint, Collection<Callable<T>> jobs) throws EolRuntimeException {
+		EolExecutorService executor = beginParallelJob(entryPoint);
+		T result = executor.shortCircuitCompletionTyped(entryPoint, executor.submitAllTyped(jobs));
+		exitParallelNest(entryPoint);
+		return result;
+	}
+	
+	default void handleException(Exception exception) {
+		handleException(exception, getExecutorService());
 	}
 	
 	/**
 	 * Caches the Epsilon stack trace and informs the EolExecutorService's
-	 * {@linkplain ConcurrentExecutionStatus}.
+	 * {@linkplain SingleConcurrentExecutionStatus}.
 	 * @param exception The exception.
 	 * @param executor The ExecutorService which was used to execute the job.
 	 */
@@ -159,12 +193,12 @@ public interface IEolContextParallel extends IEolContext {
 			originalValueSetter.accept(value);
 	}
 	
-	@SuppressWarnings("unchecked")
-	static <C extends IEolContext, P extends IEolContextParallel> P convertToParallel(C context_, Class<P> parallelContextClass, Function<C, ? extends P> parallelConstructor) {
-		P context = parallelContextClass.isInstance(context_) ?
-			(P) context_ : parallelConstructor.apply(context_);
-
-		context.goParallel();
-		return context;
+	static <C extends IEolContext, P extends IEolContextParallel> P convertToParallel(C context, Function<C, ? extends P> parallelConstructor) {
+		P parallelContext = parallelConstructor.apply(context);
+		if (parallelContext.getClass().isInstance(context)) {
+			return (P) context;
+		}
+		parallelContext.goParallel();
+		return parallelContext;
 	}
 }

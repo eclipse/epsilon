@@ -12,6 +12,7 @@ package org.eclipse.epsilon.evl.concurrent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.Future;
+import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.Annotation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -44,8 +45,8 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContextParallel context = getContext();
-		EolExecutorService executor = context.newExecutorService();
-		executor.getExecutionStatus().begin();
+		EolExecutorService executor = context.getExecutorService();
+		ConcurrentExecutionStatus execStatus = executor.getExecutionStatus();
 		ArrayList<Future<?>> jobs = new ArrayList<>();
 		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
@@ -56,6 +57,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 			
 			if (constraintContext.hasAnnotation("parallel")) {
 				context.enterParallelNest(constraintContext);
+				execStatus.register(constraintContext);
 				
 				for (Object object : allOfKind) {
 					if (shouldBeParallel(constraintContext, object, model)) {
@@ -72,7 +74,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 						constraintContext.execute(constraintsToCheck, object, context);
 					}
 				}
-				context.exitParallelNest();
+				context.exitParallelNest(constraintContext);
 			}
 			else {
 				for (Object object : allOfKind) {
@@ -80,6 +82,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 						for (Constraint constraint : constraintsToCheck) {
 							if (shouldBeParallel(constraint, object, model)) {
 								context.enterParallelNest(constraint);
+								execStatus.register(constraint);
 								
 								jobs.add(executor.submit(() -> {
 									try {
@@ -90,7 +93,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 									}
 								}));
 								
-								context.exitParallelNest();
+								context.exitParallelNest(constraint);
 							}
 							else {
 								constraint.execute(object, context);
@@ -102,7 +105,6 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 		}
 		
 		executor.awaitCompletion(jobs);
-		context.exitParallelNest();
 	}
 
 	protected boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model) throws EolRuntimeException {

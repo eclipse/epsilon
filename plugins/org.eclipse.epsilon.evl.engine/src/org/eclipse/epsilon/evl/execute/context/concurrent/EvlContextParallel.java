@@ -102,6 +102,6 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	}
 	
 	public static IEvlContextParallel convertToParallel(IEvlContext context_) {
-		return IEolContextParallel.convertToParallel(context_, EvlContextParallel.class, EvlContextParallel::new);
+		return IEolContextParallel.convertToParallel(context_, EvlContextParallel::new);
 	}
 }

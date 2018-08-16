@@ -13,12 +13,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
-import java.util.concurrent.Future;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -42,13 +41,11 @@ public class ParallelMapByOperation extends MapByOperation {
 		EolType iteratorType = iterator.getType();
 		String iteratorName = iterator.getName();
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
-		Collection<Future<Entry<?, ?>>> futures = new ArrayList<>(source.size());
-		
-		EolExecutorService executor = context.beginParallelJob(expression);
+		Collection<Callable<Entry<?, ?>>> jobs = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
 			if (iteratorType == null || iteratorType.isKind(item)) {
-				futures.add(executor.submit(() -> {
+				jobs.add(() -> {
 					
 					FrameStack scope = context.getFrameStack();
 					try {
@@ -63,13 +60,11 @@ public class ParallelMapByOperation extends MapByOperation {
 						scope.leaveLocal(expression);
 					}
 					
-				}));
+				});
 			}
 		}
 		
-		Collection<Entry<?, ?>> intermediates = executor.collectResults(futures);
-		
-		context.endParallelJob(executor, expression);
+		Collection<Entry<?, ?>> intermediates = context.executeParallelTyped(expression, jobs);
 		
 		return intermediates.stream()
 			.collect(Collectors.toMap(

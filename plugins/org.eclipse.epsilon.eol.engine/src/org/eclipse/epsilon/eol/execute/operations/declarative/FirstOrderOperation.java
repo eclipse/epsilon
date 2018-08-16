@@ -40,6 +40,6 @@ public abstract class FirstOrderOperation extends AbstractOperation {
 		return execute(target, new Variable(iterator.getName(), null, iteratorType), expressions.get(0), context);
 	}
 	
-	public abstract Object execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException;
+	protected abstract Object execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException;
 	
 }

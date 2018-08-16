@@ -10,15 +10,7 @@
  *     Sina Madani - Parallel EVL implementation, testing, refactoring
  ******************************************************************************/
 package org.eclipse.epsilon.evl.concurrent;
-/*********************************************************************
- * Copyright (c) 2018 The University of York.
- *
- * This program and the accompanying materials are made
- * available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
- *
- * SPDX-License-Identifier: EPL-2.0
-**********************************************************************/
+
 import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
@@ -71,7 +63,7 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 		}
 
 		contextJobExecutor.awaitCompletion();
-		context.exitParallelNest();
+		context.exitParallelNest(this);
 		return contextBatch.getBatch();
 	}
 
@@ -103,7 +95,7 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 		}
 		
 		constraintJobExecutor.awaitCompletion();
-		context.exitParallelNest();
+		context.exitParallelNest(this);
 		return constraintBatchData.getBatch();
 	}
 
@@ -129,6 +121,6 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 		}
 
 		checkBlockExecutor.awaitCompletion();
-		context.exitParallelNest();
+		context.exitParallelNest(this);
 	}
 }

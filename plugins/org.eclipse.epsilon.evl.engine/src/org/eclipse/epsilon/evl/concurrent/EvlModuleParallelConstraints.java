@@ -61,7 +61,7 @@ public class EvlModuleParallelConstraints extends EvlModuleParallel {
 		}
 		
 		executor.awaitCompletion();
-		context.exitParallelNest();
+		context.exitParallelNest(this);
 	}
 
 }

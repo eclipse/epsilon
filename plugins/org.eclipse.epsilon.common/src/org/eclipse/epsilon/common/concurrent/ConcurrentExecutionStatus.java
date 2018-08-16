@@ -12,97 +12,61 @@ package org.eclipse.epsilon.common.concurrent;
 import java.util.function.Supplier;
 
 /**
- * Utility class which allows for co-ordinating concurrent execution with waiting
- * semantics for successful and exceptional completion. This class is only suitable
- * for non-nested parallelism, where at most one thread (typically the main) will
- * invoke this class's methods at any given time.
+ * A status object used in co-ordinating concurrent jobs.
  * 
  * @author Sina Madani
  */
-public final class ConcurrentExecutionStatus {
+public abstract class ConcurrentExecutionStatus {
 	
-	private Exception exception;
-	private boolean failed = false;
-	private volatile boolean inProgress = false;
-	private Thread waitingThread;
-	private Object result;
-	private final Object lockObj = new Object();
-	
+	protected boolean failed;
+	protected Exception exception;
+
 	public Exception getException() {
 		return exception;
 	}
-
-	public Object getResult() {
-		return result;
-	}
 	
-	public void begin() {
-		inProgress = true;
-	}
+	public abstract Object getResult(Object lockObj);
 	
-	public boolean isInProgress() {
-		return inProgress;
-	}
+	public abstract void register(Object lockObj);
 	
-	// SIGNAL CODE
+	public abstract boolean isInProgress(Object lockObj);
 	
-	private void complete() {
-		if (inProgress) {
-			inProgress = false;
-			if (waitingThread != null) {
-				waitingThread.interrupt();
-			}
-			/*synchronized (lockObj) {
-				lockObj.notify();
-			}*/
-		}
-	}
+	public abstract void completeSuccessfully(Object lockObj);
 	
-	public void completeSuccessfully() {
-		complete();
-	}
+	public abstract void completeSuccessfully(Object lockObj, Object result);
 	
-	public void completeSuccessfully(Object result) {
-		this.result = result;
-		completeSuccessfully();
-	}
-	
-	public void completeExceptionally(Exception exception) {
+	protected final boolean completeExceptionallyBase(Exception exception) {
+		boolean failedBefore = failed;
 		if (!failed) {
 			this.exception = exception;
 			failed = true;
-			complete();
 		}
+		return failedBefore;
 	}
 	
-	// WAIT CODE
+	public abstract void completeExceptionally(Exception exception);
+	
+	public synchronized Exception waitForExceptionalCompletion() {
+		while (!failed) {
+			try {
+				wait();
+			}
+			catch (InterruptedException ie) {
+				// May be desirable
+			}
+		}
+		return exception;
+	}
 	
 	/**
 	 * Waits until either exceptional or successful completion conditions are signalled.
 	 * 
 	 * @return Whether the completion was successful (<code>true</code>) or exceptional (<code>false</code>).
 	 */
-	public boolean waitForCompletion(Supplier<Boolean> targetState) {
-		synchronized (lockObj) {
-			waitingThread = Thread.currentThread();
-			while (inProgress && (targetState == null || !targetState.get())) {
-				try {
-					lockObj.wait();
-				}
-				catch (InterruptedException ie) {
-					// Interrupt is desirable - no special action needed.
-				}
-			}
-		}
-		return !failed;
+	public abstract boolean waitForCompletion(Object lockObj, Supplier<Boolean> targetState);
+	
+	public boolean waitForCompletion(Object lockObj) {
+		return waitForCompletion(lockObj, null);
 	}
 	
-	public boolean waitForCompletion() {
-		return waitForCompletion(null);
-	}
-	
-	public Exception waitForExceptionalCompletion() {
-		waitForCompletion(() -> failed);
-		return exception;
-	}
 }

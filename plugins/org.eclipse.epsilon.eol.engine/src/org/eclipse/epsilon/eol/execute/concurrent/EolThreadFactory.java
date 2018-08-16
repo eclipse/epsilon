@@ -21,6 +21,10 @@ public class EolThreadFactory implements ThreadFactory {
 	protected final String namePrefix;
 	protected final ConcurrentExecutionStatus executionStatus;
 	
+	public EolThreadFactory() {
+		this(null);
+	}
+	
 	public EolThreadFactory(ConcurrentExecutionStatus status) {
 		this(status, Integer.MAX_VALUE);
 	}
@@ -34,7 +38,7 @@ public class EolThreadFactory implements ThreadFactory {
 		this.executionStatus = status;
 		this.maxThreads = threadLimit;
 	}
-
+	
 	protected <T extends Thread> T setThreadProperties(T thread) {
 		thread.setName(namePrefix+(threadCount.incrementAndGet()));
 		if (executionStatus != null) {

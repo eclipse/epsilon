@@ -42,6 +42,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	protected boolean isParallel = false;
 	protected final boolean isPersistent;
 	protected int nestLevel = 0;
+	protected EolExecutorService executorService;
 	
 	// Data strcutures which will be written to and read from during parallel execution:
 	protected ThreadLocal<FrameStack> concurrentFrameStacks;
@@ -149,6 +150,10 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	public void endParallel() {
 		isParallel = false;
 		
+		if (executorService != null) {
+			executorService.shutdownNow();
+		}
+		
 		removeAllIfPersistent(concurrentFrameStacks);
 		removeAllIfPersistent(concurrentMethodContributors);
 		removeAllIfPersistent(concurrentExecutors);
@@ -176,7 +181,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 
 	@Override
-	public void exitParallelNest() {
+	public void exitParallelNest(ModuleElement entryPoint) {
 		if (nestLevel > 0)
 			nestLevel--;
 	}
@@ -196,6 +201,14 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	@Override
 	public EolExecutorService newExecutorService() {
 		return EolThreadPoolExecutor.fixedPoolExecutor(numThreads);
+	}
+	
+	@Override
+	public EolExecutorService getExecutorService() {
+		if (executorService == null) {
+			executorService = newExecutorService();
+		}
+		return executorService;
 	}
 	
 	@Override
@@ -234,6 +247,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	public static IEolContextParallel convertToParallel(IEolContext context_) {
-		return IEolContextParallel.convertToParallel(context_, EolContextParallel.class, EolContextParallel::new);
+		return IEolContextParallel.convertToParallel(context_, EolContextParallel::new);
 	}
 }

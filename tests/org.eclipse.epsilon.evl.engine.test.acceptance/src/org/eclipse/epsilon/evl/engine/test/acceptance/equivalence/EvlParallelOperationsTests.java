@@ -90,12 +90,12 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 	static Collection<Supplier<? extends IEvlModule>> getTestModules() {
 		Collection<Supplier<? extends IEvlModule>> modules = EolAcceptanceTestUtil.parallelModules(
 			testThreads, null,
-			EvlModuleParallelAnnotation::new,
-			EvlModuleParallelElements::new,
-			EvlModuleParallelNot::new,
 			EvlModuleParallelStaged::new,
 			EvlModuleParallelConstraints::new,
-			EvlModuleParallelRandom::new
+			EvlModuleParallelNot::new,
+			EvlModuleParallelAnnotation::new,
+			EvlModuleParallelRandom::new,
+			EvlModuleParallelElements::new
 		);
 		modules.add(EvlModule::new);
 		return modules;

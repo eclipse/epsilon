@@ -134,13 +134,12 @@ public class EvlAcceptanceTestUtil {
 	public static Collection<Supplier<? extends IEvlModule>> modules(boolean includeStandard) {
 		return parallelModules(THREADS,
 			includeStandard ? EvlModule::new : null,
-			EvlModuleParallelElements::new,
-			EvlModuleParallelStaged::new,
-			EvlModuleParallelAnnotation::new,
+			EvlModuleParallelNot::new,
+			//EvlModuleParallelConstraints::new,
+			//EvlModuleParallelStaged::new,
 			EvlModuleParallelRandom::new,
-			//EvlModuleParallelNot::new,
-			EvlModuleParallelConstraints::new,
-			EvlModuleParallelContexts::new
+			//EvlModuleParallelAnnotation::new,
+			EvlModuleParallelElements::new
 		);
 	}
 	

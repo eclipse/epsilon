@@ -11,11 +11,10 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.Future;
+import java.util.concurrent.Callable;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -44,12 +43,11 @@ public class ParallelCollectOperation extends CollectOperation {
 		Collection<Object> resultsCol = EolCollectionType.isOrdered(source) ?
 			new EolSequence<>(sourceSize) : new EolBag<>(sourceSize);
 		
-		Collection<Future<Object>> futures = new ArrayList<>(sourceSize);
-		EolExecutorService executor = context.beginParallelJob(expression);
+		Collection<Callable<Object>> jobs = new ArrayList<>(sourceSize);
 		
 		for (Object item : source) {
 			if (iteratorType == null || iteratorType.isKind(item)) {
-				futures.add(executor.submit(() -> {
+				jobs.add(() -> {
 					
 					FrameStack scope = context.getFrameStack();
 					try {
@@ -63,12 +61,11 @@ public class ParallelCollectOperation extends CollectOperation {
 						scope.leaveLocal(expression);
 					}
 					
-				}));
+				});
 			}
 		}
 		
-		resultsCol.addAll(executor.collectResults(futures));
-		context.endParallelJob(executor, expression);
+		resultsCol.addAll(context.executeParallelTyped(expression, jobs));
 		
 		return resultsCol;
 	}

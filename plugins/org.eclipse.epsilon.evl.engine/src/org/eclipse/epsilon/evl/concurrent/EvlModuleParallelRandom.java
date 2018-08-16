@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.concurrent;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -36,24 +37,22 @@ public class EvlModuleParallelRandom extends EvlModuleParallel {
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContextParallel context = getContext();
 		
-		List<ConstraintAtom> jobs = ConstraintAtom.getConstraintJobs(context);
-		Collections.shuffle(jobs);
+		List<ConstraintAtom> originalJobs = ConstraintAtom.getConstraintJobs(context);
+		Collections.shuffle(originalJobs);
+		List<Runnable> executorJobs = new ArrayList<>(originalJobs.size());
 		
-		EolExecutorService executor = context.beginParallelJob(this);
-		
-		for (ConstraintAtom job : jobs) {
-			executor.execute(() -> {
+		for (ConstraintAtom job : originalJobs) {
+			executorJobs.add(() -> {
 				try {
 					job.execute(context);
 				}
 				catch (EolRuntimeException exception) {
-					context.handleException(exception, executor);
+					context.handleException(exception);
 				}
 			});
 		}
 		
-		executor.awaitCompletion();
-		context.exitParallelNest();
+		context.executeParallel(this, executorJobs);
 	}
 	
 }

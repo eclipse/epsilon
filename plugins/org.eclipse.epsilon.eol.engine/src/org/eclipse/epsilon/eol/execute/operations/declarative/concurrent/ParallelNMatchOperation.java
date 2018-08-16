@@ -11,12 +11,10 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -44,15 +42,13 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 
 		AtomicInteger currentMatches = new AtomicInteger(), index = new AtomicInteger();
-		Collection<Future<?>> jobs = new ArrayList<>(source.size());
-		
-		EolExecutorService executor = context.beginParallelJob(expression);
+		Collection<Runnable> jobs = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
 			final int currentIndex = index.incrementAndGet();
 			
 			if (iteratorType == null || iteratorType.isKind(item)) {
-				jobs.add(executor.submit(() -> {
+				jobs.add(() -> {
 					
 					FrameStack scope = context.getFrameStack();
 					try {
@@ -68,25 +64,24 @@ public class ParallelNMatchOperation extends NMatchOperation {
 								currentMatchesCached > targetMatches ||
 								currentIndex > targetMatches && (currentMatchesCached < targetMatches)
 							) {
-								executor.getExecutionStatus().completeSuccessfully();
+								context.completeShortCircuit(expression, null);
 							}
 						}
 					}
 					catch (EolRuntimeException ex) {
-						context.handleException(ex, executor);
+						context.handleException(ex);
 					}
 					finally {
 						// The finally block is to ensure we don't leak variables if this job is cancelled
 						scope.leaveLocal(expression);
 					}
 					
-				}));
+				});
 			}
 		}
 		
 		// Prevent unnecessary evaluation of remaining jobs once we have the result
-		executor.shortCircuitCompletion(jobs);
-		context.endParallelJob(executor, expression);
+		context.shortCircuit(expression, jobs);
 		
 		return currentMatches.get() == targetMatches;
 	}
