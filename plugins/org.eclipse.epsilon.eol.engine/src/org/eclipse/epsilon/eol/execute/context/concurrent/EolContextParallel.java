@@ -38,10 +38,9 @@ import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
  */
 public class EolContextParallel extends EolContext implements IEolContextParallel {
 
-	protected int numThreads;
+	protected int numThreads, nestLevel;
 	protected boolean isParallel = false;
 	protected final boolean isPersistent;
-	protected int nestLevel = 0;
 	protected EolExecutorService executorService;
 	
 	// Data strcutures which will be written to and read from during parallel execution:
@@ -72,11 +71,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @see #EolContextParallel(IEolContext, int)
 	 */
 	public EolContextParallel(IEolContext other) {
-		this(other, 0);
-	}
-	
-	public EolContextParallel(IEolContext other, int parallelism) {
-		this(other, parallelism, false);
+		this(other, false);
 	}
 	
 	/**
@@ -89,11 +84,21 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @param persistThreadLocals Whether to save the state of thread-local values
 	 * (such as variable declarations) so that they can be merged into the main thread later.
 	 */
-	public EolContextParallel(IEolContext other, int parallelism, boolean persistThreadLocals) {
+	public EolContextParallel(IEolContext other, boolean persistThreadLocals) {
 		super(other);
-		setNumThreads(parallelism);
 		setBaseThreadSafety(true);
 		this.isPersistent = persistThreadLocals;
+		
+		IEolContextParallel otherParallel = other instanceof IEolContextParallel ?
+			(IEolContextParallel) other : null;
+		
+		if (otherParallel != null) {
+			setNumThreads(otherParallel.getParallelism());
+			this.nestLevel = otherParallel.getNestedParallelism();
+		}
+		else {
+			setNumThreads(0);
+		}
 	}
 	
 	protected int setNumThreads(int parallelism) {
@@ -186,14 +191,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 			nestLevel--;
 	}
 
-	/**
-	 * Indicates how many layers of nesting is present in this context. This is a convenience
-	 * method for keeping track of the number of times {@linkplain #enterParallelNest(ModuleElement)}
-	 * has been called in a row without subsequent calls to {@linkplain #exitParallelNest(ModuleElement)}.
-	 * 
-	 * @return The maximum number of nested parallel jobs.
-	 * @see #enterParallelNest(ModuleElement)
-	 */
+	@Override
 	public int getNestedParallelism() {
 		return nestLevel;
 	}
@@ -246,7 +244,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		return getClass().getSimpleName()+" [parallelism="+getParallelism()+']';
 	}
 	
-	public static IEolContextParallel convertToParallel(IEolContext context_) {
-		return IEolContextParallel.convertToParallel(context_, EolContextParallel::new);
+	public static IEolContextParallel convertToParallel(IEolContext context_) throws EolNestedParallelismException {
+		return IEolContextParallel.convertToParallel(context_, IEolContextParallel.class, EolContextParallel::new);
 	}
 }

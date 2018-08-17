@@ -36,7 +36,7 @@ public class ReturnStatement extends Statement {
 	public Return execute(IEolContext context) throws EolRuntimeException {
 	
 		Object result = null;
-		if (returnedExpression != null){
+		if (returnedExpression != null) {
 			result = context.getExecutorFactory().execute(returnedExpression, context);
 		}
 		

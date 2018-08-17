@@ -41,13 +41,12 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 		return inProgress;
 	}
 	
-	// SIGNAL CODE
-	
-	protected void complete() {
+	private void complete() {
 		if (inProgress) {
 			inProgress = false;
 			if (waitingThread != null) {
 				waitingThread.interrupt();
+				waitingThread = null;
 			}
 		}
 	}
@@ -60,7 +59,7 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 	@Override
 	public void completeSuccessfully(Object lockObj, Object result) {
 		this.result = result;
-		completeSuccessfully(lockObj);
+		complete();
 	}
 	
 	@Override
@@ -69,8 +68,6 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 			complete();
 		}
 	}
-	
-	// WAIT CODE
 	
 	/**
 	 * Waits until either exceptional or successful completion conditions are signalled.
@@ -81,6 +78,7 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 	public boolean waitForCompletion(Object lockObj, Supplier<Boolean> targetState) {
 		synchronized (lockObj) {
 			waitingThread = Thread.currentThread();
+			
 			while (inProgress && (targetState == null || !targetState.get())) {
 				try {
 					lockObj.wait();

@@ -99,6 +99,16 @@ public interface IEolContextParallel extends IEolContext {
 	 */
 	void exitParallelNest(ModuleElement entryPoint);
 	
+	/**
+	 * Indicates how many layers of nesting is present in this context. This is a convenience
+	 * method for keeping track of the number of times {@linkplain #enterParallelNest(ModuleElement)}
+	 * has been called in a row without subsequent calls to {@linkplain #exitParallelNest(ModuleElement)}.
+	 * 
+	 * @return The maximum number of nested parallel jobs.
+	 * @see #enterParallelNest(ModuleElement)
+	 */
+	int getNestedParallelism();
+	
 	//Convenience methods
 	
 	/**
@@ -193,11 +203,14 @@ public interface IEolContextParallel extends IEolContext {
 			originalValueSetter.accept(value);
 	}
 	
-	static <C extends IEolContext, P extends IEolContextParallel> P convertToParallel(C context, Function<C, ? extends P> parallelConstructor) {
-		P parallelContext = parallelConstructor.apply(context);
-		if (parallelContext.getClass().isInstance(context)) {
+	@SuppressWarnings("unchecked")
+	static <C extends IEolContext, P extends IEolContextParallel> P convertToParallel(
+		C context, Class<? extends P> parallelClass, Function<C, ? extends P> parallelConstructor) throws EolNestedParallelismException {
+			
+		if (parallelClass.isInstance(context)) {
 			return (P) context;
 		}
+		P parallelContext = parallelConstructor.apply(context);
 		parallelContext.goParallel();
 		return parallelContext;
 	}

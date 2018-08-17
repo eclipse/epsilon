@@ -43,7 +43,7 @@ public final class MultiConcurrentExecutionStatus extends ConcurrentExecutionSta
 	
 	// SIGNAL CODE
 	
-	protected void complete(Object lockObj) {
+	private void complete(Object lockObj) {
 		Thread waitingThread = inProgress.remove(lockObj);
 		if (waitingThread != null) {
 			waitingThread.interrupt();

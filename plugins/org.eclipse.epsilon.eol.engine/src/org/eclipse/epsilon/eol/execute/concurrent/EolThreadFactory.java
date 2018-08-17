@@ -41,6 +41,8 @@ public class EolThreadFactory implements ThreadFactory {
 	
 	protected <T extends Thread> T setThreadProperties(T thread) {
 		thread.setName(namePrefix+(threadCount.incrementAndGet()));
+		thread.setDaemon(true);
+		
 		if (executionStatus != null) {
 			thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 				@Override
@@ -56,6 +58,7 @@ public class EolThreadFactory implements ThreadFactory {
 				}
 			});
 		}
+		
 		return thread;
 	}
 	

@@ -29,13 +29,6 @@ public interface EolExecutorService extends ExecutorService {
 		// Do nothing
 	};
 	
-	/**
-	 * This is to allow for convenient co-ordination of concurrent jobs. Typically,
-	 * this method will be invoked whenever parallel execution begins, followed by
-	 * an invocation of the {@linkplain SingleConcurrentExecutionStatus#begin()} method.
-	 * 
-	 * @return The {@link SingleConcurrentExecutionStatus} for this ExecutorService.
-	 */
 	ConcurrentExecutionStatus getExecutionStatus();
 	
 	/**
@@ -202,14 +195,32 @@ public interface EolExecutorService extends ExecutorService {
 		return status.getResult(lock);
 	}
 
+	/**
+	 * Submits all jobs to this ExecutorService (non-blocking).
+	 * 
+	 * @param jobs The tasks to execute.
+	 * @return The Futures, so that they can be waited on for completion.
+	 */
 	default Collection<Future<?>> submitAll(Collection<Runnable> jobs) {
 		return jobs.stream().map(this::submit).collect(Collectors.toList());
 	}
 	
+	/**
+	 * Submits all jobs to this ExecutorService (non-blocking).
+	 * 
+	 * @param jobs The tasks to execute.
+	 * @return The Future results of the jobs.
+	 */
 	default <T> Collection<Future<T>> submitAllTyped(Collection<Callable<T>> jobs) {
 		return jobs.stream().map(this::submit).collect(Collectors.toList());
 	}
 	
+	/**
+	 * Submits and waits for the jobs to complete.
+	 * @param jobs The tasks to execute.
+	 * @return {@link ConcurrentExecutionStatus#getResult(Object)}
+	 * @throws EolRuntimeException If any of the jobs fail.
+	 */
 	default Object completeAll(Collection<Runnable> jobs) throws EolRuntimeException {
 		return awaitCompletion(submitAll(jobs));
 	}

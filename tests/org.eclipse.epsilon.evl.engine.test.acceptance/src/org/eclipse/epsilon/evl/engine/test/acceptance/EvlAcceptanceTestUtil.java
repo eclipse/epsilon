@@ -135,10 +135,10 @@ public class EvlAcceptanceTestUtil {
 		return parallelModules(THREADS,
 			includeStandard ? EvlModule::new : null,
 			EvlModuleParallelNot::new,
-			//EvlModuleParallelConstraints::new,
-			//EvlModuleParallelStaged::new,
+			EvlModuleParallelConstraints::new,
+			EvlModuleParallelStaged::new,
 			EvlModuleParallelRandom::new,
-			//EvlModuleParallelAnnotation::new,
+			EvlModuleParallelAnnotation::new,
 			EvlModuleParallelElements::new
 		);
 	}

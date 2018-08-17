@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
@@ -34,11 +35,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	}
 	
 	public EvlContextParallel(IEvlContext other) {
-		this(other, 0);
-	}
-	
-	public EvlContextParallel(IEvlContext other, int parallelism) {
-		super(other, parallelism, true);
+		super(other, true);
 	}
 	
 	/**
@@ -101,7 +98,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 		constraintsDependedOn = constraints;
 	}
 	
-	public static IEvlContextParallel convertToParallel(IEvlContext context_) {
-		return IEolContextParallel.convertToParallel(context_, EvlContextParallel::new);
+	public static IEvlContextParallel convertToParallel(IEvlContext context_) throws EolNestedParallelismException {
+		return IEolContextParallel.convertToParallel(context_, IEvlContextParallel.class, EvlContextParallel::new);
 	}
 }

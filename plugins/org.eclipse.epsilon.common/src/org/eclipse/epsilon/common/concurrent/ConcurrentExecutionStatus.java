@@ -36,12 +36,12 @@ public abstract class ConcurrentExecutionStatus {
 	public abstract void completeSuccessfully(Object lockObj, Object result);
 	
 	protected final boolean completeExceptionallyBase(Exception exception) {
-		boolean failedBefore = failed;
-		if (!failed) {
+		boolean firstFail = !failed;
+		if (firstFail) {
 			this.exception = exception;
 			failed = true;
 		}
-		return failedBefore;
+		return firstFail;
 	}
 	
 	public abstract void completeExceptionally(Exception exception);
