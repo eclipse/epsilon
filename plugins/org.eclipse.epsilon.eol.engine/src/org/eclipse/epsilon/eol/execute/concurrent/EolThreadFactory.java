@@ -47,14 +47,15 @@ public class EolThreadFactory implements ThreadFactory {
 			thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 				@Override
 				public void uncaughtException(Thread t, Throwable e) {
+					Exception exception;
 					if (e instanceof Exception) {
-						executionStatus.completeExceptionally((Exception) e);
+						exception = (Exception) e;
 					}
 					else {
-						executionStatus.completeExceptionally(new RuntimeException(
-							e.getClass().getSimpleName()+" in thread "+t.getName(), e
-						));
+						exception = new RuntimeException(e.getClass().getSimpleName()+" in thread "+t.getName(), e);
 					}
+					
+					executionStatus.completeExceptionally(exception);
 				}
 			});
 		}

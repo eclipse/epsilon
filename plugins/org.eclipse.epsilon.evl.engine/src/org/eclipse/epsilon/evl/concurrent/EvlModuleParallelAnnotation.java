@@ -11,12 +11,9 @@ package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.Future;
-import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.Annotation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -45,9 +42,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContextParallel context = getContext();
-		EolExecutorService executor = context.getExecutorService();
-		ConcurrentExecutionStatus execStatus = executor.getExecutionStatus();
-		ArrayList<Future<?>> jobs = new ArrayList<>();
+		
 		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
 			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
@@ -56,55 +51,53 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 				null : constraintContext.getType(context).getModel();
 			
 			if (constraintContext.hasAnnotation("parallel")) {
-				context.enterParallelNest(constraintContext);
-				execStatus.register(constraintContext);
+				ArrayList<Runnable> jobs = new ArrayList<>();
 				
 				for (Object object : allOfKind) {
 					if (shouldBeParallel(constraintContext, object, model)) {
-						jobs.add(executor.submit(() -> {
+						jobs.add(() -> {
 							try {
 								constraintContext.execute(constraintsToCheck, object, context);
 							}
 							catch (EolRuntimeException exception) {
-								context.handleException(exception, executor);
+								context.handleException(exception);
 							}
-						}));
+						});
 					}
 					else {
 						constraintContext.execute(constraintsToCheck, object, context);
 					}
 				}
-				context.exitParallelNest(constraintContext);
+				
+				context.executeParallel(constraintContext, jobs);
 			}
+			
 			else {
-				for (Object object : allOfKind) {
-					if (constraintContext.appliesTo(object, context, false)) {
-						for (Constraint constraint : constraintsToCheck) {
+				for (Constraint constraint : constraintsToCheck) {
+					ArrayList<Runnable> jobs = new ArrayList<>();
+					
+					for (Object object : allOfKind) {
+						if (constraintContext.appliesTo(object, context, false)) {
 							if (shouldBeParallel(constraint, object, model)) {
-								context.enterParallelNest(constraint);
-								execStatus.register(constraint);
-								
-								jobs.add(executor.submit(() -> {
+								jobs.add(() -> {
 									try {
 										constraint.execute(object, context);
 									}
 									catch (EolRuntimeException exception) {
-										context.handleException(exception, executor);
+										context.handleException(exception);
 									}
-								}));
-								
-								context.exitParallelNest(constraint);
+								});
 							}
 							else {
 								constraint.execute(object, context);
 							}
 						}
 					}
+					
+					context.executeParallel(constraint, jobs);
 				}
 			}
 		}
-		
-		executor.awaitCompletion(jobs);
 	}
 
 	protected boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model) throws EolRuntimeException {

@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.ecl.concurrent;
 
+import java.util.ArrayList;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.EclContextParallel;
@@ -42,25 +43,26 @@ public class EclModuleParallel extends EclModule {
 	protected void matchAllRules(boolean greedy) throws EolRuntimeException {
 		boolean ofTypeOnly = !greedy;
 		EclContextParallel context = getContext();
-		EolExecutorService executor = context.newExecutorService();
+		ArrayList<Runnable> jobs = new ArrayList<>();
 		
 		for (MatchRule matchRule : getMatchRules()) {
 			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (ofTypeOnly || matchRule.isGreedy())) {
 				for (Object left : matchRule.getLeftInstance(context, ofTypeOnly)) {
 					for (Object right : matchRule.getRightInstance(context, ofTypeOnly)) {
-						executor.execute(() -> {
+						jobs.add(() -> {
 							try {
 								matchRule.matchPair(context, ofTypeOnly, left, right);
 							}
 							catch (EolRuntimeException ex) {
-								context.handleException(ex, executor);
+								context.handleException(ex);
 							}
 						});
 					}
 				}
 			}
 		}
-		executor.awaitCompletion();
+		
+		context.executeParallel(this, jobs);
 	}
 
 	@Override

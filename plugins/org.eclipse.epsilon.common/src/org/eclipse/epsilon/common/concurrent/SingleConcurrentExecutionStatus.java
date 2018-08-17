@@ -46,7 +46,6 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 			inProgress = false;
 			if (waitingThread != null) {
 				waitingThread.interrupt();
-				waitingThread = null;
 			}
 		}
 	}
@@ -87,7 +86,10 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 					// Interrupt is desirable - no special action needed.
 				}
 			}
+			
+			waitingThread = null;
 		}
+		
 		return !failed;
 	}
 	

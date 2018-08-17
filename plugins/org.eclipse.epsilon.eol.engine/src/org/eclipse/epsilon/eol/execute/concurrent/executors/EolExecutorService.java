@@ -11,6 +11,7 @@ package org.eclipse.epsilon.eol.execute.concurrent.executors;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
@@ -51,13 +52,17 @@ public interface EolExecutorService extends ExecutorService {
 	 * @return {@link ConcurrentExecutionStatus#getResult()}.
 	 */
 	default Object awaitCompletion(Collection<Future<?>> futures) throws EolRuntimeException {
+		final boolean keepAlive = futures != null;
+		if (keepAlive && futures.isEmpty())
+			return null;
+		
 		ConcurrentExecutionStatus status = getExecutionStatus();
 		Object lock = new Object();
 		status.register(lock);
 		
 		Thread termWait = new Thread(() -> {
 			try {
-				if (futures != null) {
+				if (keepAlive) {
 					for (Future<?> future : futures) {
 						future.get();
 					}
@@ -97,6 +102,9 @@ public interface EolExecutorService extends ExecutorService {
 	 * @throws EolRuntimeException
 	 */
 	default <R> Collection<R> collectResults(Collection<Future<R>> futures) throws EolRuntimeException {
+		if (futures.isEmpty())
+			return Collections.emptyList();
+		
 		ConcurrentExecutionStatus status = getExecutionStatus();
 		Object lock = new Object();
 		status.register(lock);
@@ -155,6 +163,9 @@ public interface EolExecutorService extends ExecutorService {
 	 * was called whilst waiting.
 	 */
 	default Object shortCircuitCompletion(Object lock, Collection<Future<?>> jobs) throws EolRuntimeException {
+		if (jobs.isEmpty())
+			return Collections.emptyList();
+		
 		ConcurrentExecutionStatus status = getExecutionStatus();
 		
 		Thread compWait = new Thread(() -> {

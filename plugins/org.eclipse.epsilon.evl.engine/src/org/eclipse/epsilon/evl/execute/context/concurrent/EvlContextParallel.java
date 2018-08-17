@@ -99,6 +99,6 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	}
 	
 	public static IEvlContextParallel convertToParallel(IEvlContext context_) throws EolNestedParallelismException {
-		return IEolContextParallel.convertToParallel(context_, IEvlContextParallel.class, EvlContextParallel::new);
+		return IEolContextParallel.copyToParallel(context_, EvlContextParallel::new);
 	}
 }

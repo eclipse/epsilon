@@ -136,15 +136,13 @@ public interface IEolContextParallel extends IEolContext {
 	/**
 	 * Executes all of the tasks in parallel, blocking until they have completed.
 	 * @param jobs The tasks to execute.
-	 * @return The result set in the {@link SingleConcurrentExecutionStatus}, if any.
 	 * @throws EolRuntimeException If any of the jobs throw an exception.
 	 */
-	default Object executeParallel(ModuleElement entryPoint, Collection<Runnable> jobs) throws EolRuntimeException {
+	default void executeParallel(ModuleElement entryPoint, Collection<Runnable> jobs) throws EolRuntimeException {
 		EolExecutorService executor = getExecutorService();
 		enterParallelNest(entryPoint);
-		Object result = executor.completeAll(jobs);
+		executor.completeAll(jobs);
 		exitParallelNest(entryPoint);
-		return result;
 	}
 	
 	default <T> Collection<T> executeParallelTyped(ModuleElement entryPoint, Collection<Callable<T>> jobs) throws EolRuntimeException {
@@ -203,13 +201,10 @@ public interface IEolContextParallel extends IEolContext {
 			originalValueSetter.accept(value);
 	}
 	
-	@SuppressWarnings("unchecked")
-	static <C extends IEolContext, P extends IEolContextParallel> P convertToParallel(
-		C context, Class<? extends P> parallelClass, Function<C, ? extends P> parallelConstructor) throws EolNestedParallelismException {
-			
-		if (parallelClass.isInstance(context)) {
-			return (P) context;
-		}
+	static <C extends IEolContext, P extends IEolContextParallel> P copyToParallel(
+			C context, Function<C, ? extends P> parallelConstructor)
+			throws EolNestedParallelismException {
+
 		P parallelContext = parallelConstructor.apply(context);
 		parallelContext.goParallel();
 		return parallelContext;

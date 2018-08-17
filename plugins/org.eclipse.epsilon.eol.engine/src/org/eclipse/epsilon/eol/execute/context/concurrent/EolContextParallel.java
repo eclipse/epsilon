@@ -67,9 +67,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		this.isPersistent = persistThreadLocals;
 	}
 
-	/**
-	 * @see #EolContextParallel(IEolContext, int)
-	 */
+
 	public EolContextParallel(IEolContext other) {
 		this(other, false);
 	}
@@ -244,7 +242,8 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		return getClass().getSimpleName()+" [parallelism="+getParallelism()+']';
 	}
 	
-	public static IEolContextParallel convertToParallel(IEolContext context_) throws EolNestedParallelismException {
-		return IEolContextParallel.convertToParallel(context_, IEolContextParallel.class, EolContextParallel::new);
+	public static IEolContextParallel convertToParallel(IEolContext context) throws EolNestedParallelismException {
+		//if (context instanceof IEolContextParallel) return (IEolContextParallel) context;
+		return IEolContextParallel.copyToParallel(context, EolContextParallel::new);
 	}
 }

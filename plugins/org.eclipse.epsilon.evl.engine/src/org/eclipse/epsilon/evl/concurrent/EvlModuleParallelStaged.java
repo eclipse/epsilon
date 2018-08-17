@@ -44,8 +44,9 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 	 */
 	protected Collection<ConstraintContextAtom> processContextGuard() throws EolRuntimeException {
 		final IEvlContextParallel context = getContext();
+		context.enterParallelNest(this);
 		final ThreadLocalBatchData<ConstraintContextAtom> contextBatch = new ThreadLocalBatchData<>(context.getParallelism());
-		final EolExecutorService contextJobExecutor = context.beginParallelJob(this);
+		final EolExecutorService contextJobExecutor = context.newExecutorService();
 
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
 			for (Object element : constraintContext.getAllOfSourceKind(context)) {
@@ -76,8 +77,9 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 	 */
 	protected Collection<ConstraintAtom> processConstraintGuard(Collection<ConstraintContextAtom> contextJobs) throws EolRuntimeException {
 		final IEvlContextParallel context = getContext();
+		context.enterParallelNest(this);
 		final ThreadLocalBatchData<ConstraintAtom> constraintBatchData = new ThreadLocalBatchData<>(context.getParallelism());
-		final EolExecutorService constraintJobExecutor = context.beginParallelJob(this);
+		final EolExecutorService constraintJobExecutor = context.newExecutorService();
 
 		for (ConstraintContextAtom job : contextJobs) {
 			for (Constraint constraint : preProcessConstraintContext(job.unit)) {
@@ -107,7 +109,8 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 	 */
 	protected void processConstraintCheck(Collection<ConstraintAtom> constraintJobs) throws EolRuntimeException {
 		final IEvlContextParallel context = getContext();
-		final EolExecutorService checkBlockExecutor = context.beginParallelJob(this);
+		context.enterParallelNest(this);
+		final EolExecutorService checkBlockExecutor = context.newExecutorService();
 
 		for (ConstraintAtom job : constraintJobs) {
 			checkBlockExecutor.execute(() -> {

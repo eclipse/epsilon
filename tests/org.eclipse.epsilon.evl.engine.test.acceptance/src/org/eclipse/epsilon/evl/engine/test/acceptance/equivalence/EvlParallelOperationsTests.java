@@ -59,7 +59,7 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 			javaModels, javaMetamodel
 		);
 	
-	static final int[] testThreads = new int[]{2, 3, 8, 57};
+	static final int[] testThreads = new int[]{2, 6, 57};
 	static final Function<String[], Integer> idCalculator = inputs -> {
 		int scriptHash;
 		if (inputs[0].startsWith("java_parallel") || inputs[0].startsWith("java_sequential")) {
@@ -80,7 +80,9 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		Collection<EvlRunConfiguration> scenarios = getScenarios(inputsWithNesting, false, Collections.singleton(EvlModule::new), idCalculator);
+		Collection<EvlRunConfiguration> scenarios = getScenarios(
+			inputsWithNesting, false, Collections.singleton(EvlModule::new), idCalculator
+		);
 		scenarios.addAll(getScenarios(inputsWithoutNesting, false, getTestModules(), idCalculator));
 		expectedConfigs = scenarios;
 		setUpEquivalenceTest();
@@ -141,7 +143,7 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 		
 		fail(
 			"Expected "+EolNestedParallelismException.class.getSimpleName()+": "
-			+ actualModule.getContext()
+			+ actualModule.getClass().getSimpleName()+" "+actualModule.getContext()
 		);
 	}
 }
