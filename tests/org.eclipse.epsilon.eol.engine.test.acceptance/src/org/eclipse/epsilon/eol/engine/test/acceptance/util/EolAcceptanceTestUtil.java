@@ -29,11 +29,9 @@ public class EolAcceptanceTestUtil {
 	private EolAcceptanceTestUtil() {}
 	
 	public static final int[] THREADS = new int[] {
-		0, 1, 2, 3, 6, Byte.MAX_VALUE,
+		0, 1, 2, 3, 10, Byte.MAX_VALUE,
 		(ConcurrencyUtils.DEFAULT_PARALLELISM/2)+1,
-		(ConcurrencyUtils.DEFAULT_PARALLELISM*2)-1,
-		//0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-		//Short.MAX_VALUE/8
+		(ConcurrencyUtils.DEFAULT_PARALLELISM*2)-1
 	};
 	
 	public static List<String[]> addAllInputs(String[] scripts, String[] models, String metamodel, String scriptExt, String scriptRoot, String modelRoot, String metamodelRoot) {

@@ -176,10 +176,19 @@ context ClassDeclaration {
 	}
 }
 
+$parallel self == null
 context CompilationUnit {
+	$parallel THREADS < 1
 	constraint allImportsAreUsed {
 		check: self.imports.forAll(imp |
 			NamedElement.allInstances().parallelExists(ne | ne.originalCompilationUnit == self)
 		)
+	}
+}
+
+$parallel NUM_ELEMENTS > 131072
+context NamedElement {
+	constraint notVar {
+		check: self.name <> "var"
 	}
 }

@@ -4,6 +4,7 @@ operation AbstractTypeDeclaration getPublicMethods() : Collection {
         bd.modifier.isDefined() and bd.modifier.visibility == VisibilityKind#public);
 }
 
+$parallel self.getPublicMethods().size() > 5
 context ClassDeclaration {
 	constraint hasEquals {
 		guard : self.satisfies("hasHashCode")

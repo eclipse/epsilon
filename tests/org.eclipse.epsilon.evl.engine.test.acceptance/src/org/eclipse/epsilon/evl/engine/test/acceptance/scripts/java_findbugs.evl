@@ -55,6 +55,13 @@ operation ClassDeclaration hasCompareTo() : Boolean {
 }
 
 @parallel
+context NamedElement {
+	constraint notVar {
+		check: self.name <> "var"
+	}
+}
+
+@parallel
 context MethodInvocation {
 	guard: self.method.isDefined()
 	

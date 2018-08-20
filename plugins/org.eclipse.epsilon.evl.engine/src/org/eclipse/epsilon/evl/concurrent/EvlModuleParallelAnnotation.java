@@ -41,20 +41,20 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
-		IEvlContextParallel context = getContext();
-		
+		final IEvlContextParallel context = getContext();
 		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
-			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
-			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
-			IModel model = constraintContext instanceof GlobalConstraintContext ?
+			final Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
+			final Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
+			final int numElements = allOfKind.size();
+			final IModel model = constraintContext instanceof GlobalConstraintContext ?
 				null : constraintContext.getType(context).getModel();
 			
 			if (constraintContext.hasAnnotation("parallel")) {
 				ArrayList<Runnable> jobs = new ArrayList<>();
 				
 				for (Object object : allOfKind) {
-					if (shouldBeParallel(constraintContext, object, model)) {
+					if (shouldBeParallel(constraintContext, object, model, numElements)) {
 						jobs.add(() -> {
 							try {
 								constraintContext.execute(constraintsToCheck, object, context);
@@ -78,7 +78,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 					
 					for (Object object : allOfKind) {
 						if (constraintContext.appliesTo(object, context, false)) {
-							if (shouldBeParallel(constraint, object, model)) {
+							if (shouldBeParallel(constraint, object, model, numElements)) {
 								jobs.add(() -> {
 									try {
 										constraint.execute(object, context);
@@ -100,13 +100,14 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 		}
 	}
 
-	protected boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model) throws EolRuntimeException {
+	protected boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model, int numElements) throws EolRuntimeException {
 		Annotation parallelAnnotation = ast.getAnnotation("parallel");
 		
 		if (parallelAnnotation != null) {
 			if (parallelAnnotation.hasValue()) {
 				context.getFrameStack().enterLocal(FrameType.PROTECTED, ast,
 					Variable.createReadOnlyVariable("self", self),
+					Variable.createReadOnlyVariable("NUM_ELEMENTS", numElements),
 					Variable.createReadOnlyVariable("MODEL", model),
 					Variable.createReadOnlyVariable("THREADS", getContext().getParallelism())
 				);
