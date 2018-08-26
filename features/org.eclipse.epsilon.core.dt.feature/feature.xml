@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.core.dt.feature"
       label="Epsilon Core Development Tools"
-      version="1.5.0.qualifier"
+      version="1.6.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">

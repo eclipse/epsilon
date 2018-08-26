@@ -9,6 +9,6 @@
   </parent>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.concordance.core.hashing.test</artifactId>
-  <version>0.7.7-SNAPSHOT</version>
+  <version>1.6.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>

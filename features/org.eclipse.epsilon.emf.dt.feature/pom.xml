@@ -9,6 +9,6 @@
   </parent>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.emf.dt.feature</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.6.0-SNAPSHOT</version>
   <packaging>eclipse-feature</packaging>
 </project>

@@ -1,0 +1,24 @@
+<project default="main">
+	<property name="newversion" value="1.6.0"/>
+	<target name="main">
+		<!--Replace <version>*.0-SNAPSHOT</version> in pom.xml files-->
+		<replaceregexp match="&lt;version&gt;.*?&lt;/version&gt;(?=\s*&lt;packaging&gt;)"
+			replace="&lt;version&gt;${newversion}-SNAPSHOT&lt;/version&gt;">
+			<fileset dir="../.." includes="**/org.eclipse.epsilon*/**/pom.xml"/>
+		</replaceregexp>
+		
+		<!--Replace first Bundle-Version: * in MANIFEST.MF files-->
+		<replaceregexp match="Bundle-Version: .*"
+			replace="Bundle-Version: ${newversion}.qualifier">
+			<fileset dir="../../plugins" includes="**/org.eclipse.epsilon*/META-INF/MANIFEST.MF"/>
+			<fileset dir="../../tests" includes="**/org.eclipse.epsilon*/META-INF/MANIFEST.MF"/>
+		</replaceregexp>
+		
+		<!--Replace version="*.qualifier" in feature.xml files-->
+		<replaceregexp match="version=&quot;.*?\.qualifier&quot;"
+			replace="version=&quot;${newversion}.qualifier&quot;">
+			<fileset dir="../../features" includes="**/org.eclipse.epsilon*/feature.xml"/>
+		</replaceregexp>
+		
+	</target>
+</project>

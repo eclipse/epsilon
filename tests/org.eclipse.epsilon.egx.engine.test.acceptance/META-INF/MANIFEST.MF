@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EGX Acceptance Tests
 Bundle-SymbolicName: org.eclipse.epsilon.egx.engine.test.acceptance
-Bundle-Version: 0.0.1
+Bundle-Version: 1.6.0.qualifier
 Export-Package: org.eclipse.epsilon.egx.engine.test.acceptance
 Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.test.fixtures.hutn,
