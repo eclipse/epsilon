@@ -310,7 +310,7 @@ version(s), and exceptions or additional permissions here}.&quot;
          id="org.eclipse.epsilon.ewl.emf"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>

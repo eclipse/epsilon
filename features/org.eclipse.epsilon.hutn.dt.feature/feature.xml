@@ -319,21 +319,21 @@ version(s), and exceptions or additional permissions here}.&quot;
          id="org.eclipse.epsilon.hutn.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.hutn.xmi.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.hutn.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
