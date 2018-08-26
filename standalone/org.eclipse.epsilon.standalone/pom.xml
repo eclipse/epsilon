@@ -74,7 +74,7 @@
 	      <goal>single</goal>
 	    </goals>
 	    <configuration>
-	      <finalName>epsilon-1.5</finalName>
+	      <finalName>epsilon-1.6</finalName>
 	      <descriptors>
 		<descriptor>assembly/core.xml</descriptor>
 		<descriptor>assembly/core-src.xml</descriptor>
