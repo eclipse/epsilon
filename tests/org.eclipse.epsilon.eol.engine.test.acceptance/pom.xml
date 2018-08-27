@@ -9,6 +9,6 @@
   </parent>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.eol.engine.test.acceptance</artifactId>
-  <version>0.8.4-SNAPSHOT</version>
+  <version>1.6.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>

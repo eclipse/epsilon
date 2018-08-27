@@ -18,7 +18,7 @@ import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
-public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelegate{
+public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelegate {
 
 	private ClassLoader fClassLoader;
 
@@ -30,6 +30,7 @@ public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelega
 		fClassLoader = classLoader;
 	}
 
+	@Override
 	public boolean knowsAbout(String clazz) {
 		try {
 			fClassLoader.loadClass(clazz);
@@ -39,6 +40,7 @@ public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelega
 		return true;
 	}
 
+	@Override
 	public Object createInstance(String clazz, List<Object> parameters) throws EolRuntimeException {
 		try {
 			Class<?> c = fClassLoader.loadClass(clazz);
@@ -46,7 +48,7 @@ public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelega
 				for (Constructor<?> con : c.getConstructors()) {
 					if (con.getParameterTypes().length != parameters.size()) continue;
 					boolean parameterTypesMatch = true;
-					for (int i=0;i<parameters.size();i++) {
+					for (int i = 0; i< parameters.size(); i++) {
 						parameterTypesMatch = parameterTypesMatch && 
 							ReflectionUtil.isInstance(con.getParameterTypes()[i], parameters.get(i));
 					}

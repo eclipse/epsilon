@@ -212,7 +212,7 @@ public interface EolExecutorService extends ExecutorService {
 	 * @param jobs The tasks to execute.
 	 * @return The Futures, so that they can be waited on for completion.
 	 */
-	default Collection<Future<?>> submitAll(Collection<Runnable> jobs) {
+	default Collection<Future<?>> submitAll(Collection<? extends Runnable> jobs) {
 		return jobs.stream().map(this::submit).collect(Collectors.toList());
 	}
 	
@@ -232,7 +232,7 @@ public interface EolExecutorService extends ExecutorService {
 	 * @return {@link ConcurrentExecutionStatus#getResult(Object)}
 	 * @throws EolRuntimeException If any of the jobs fail.
 	 */
-	default Object completeAll(Collection<Runnable> jobs) throws EolRuntimeException {
+	default Object completeAll(Collection<? extends Runnable> jobs) throws EolRuntimeException {
 		return awaitCompletion(submitAll(jobs));
 	}
 	

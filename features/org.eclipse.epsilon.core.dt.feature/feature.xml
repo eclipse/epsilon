@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.core.dt.feature"
       label="Epsilon Core Development Tools"
-      version="1.5.0.qualifier"
+      version="1.6.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
@@ -336,154 +336,154 @@ version(s), and exceptions or additional permissions here}.&quot;
          id="org.eclipse.epsilon.ecl.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.common.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.egl.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eml.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eol.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eol.dt.tools"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.etl.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.evl.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.ecl.dt.tools"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.ewl.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.profiling.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.help"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.plainxml.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.flock.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.bibtex.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.csv.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.epl.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.perspective"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.workflow"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eunit.dt"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.eunit.dt.diff.files"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.common.dt.examples"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin

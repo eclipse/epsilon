@@ -138,7 +138,7 @@ public interface IEolContextParallel extends IEolContext {
 	 * @param jobs The tasks to execute.
 	 * @throws EolRuntimeException If any of the jobs throw an exception.
 	 */
-	default void executeParallel(ModuleElement entryPoint, Collection<Runnable> jobs) throws EolRuntimeException {
+	default void executeParallel(ModuleElement entryPoint, Collection<? extends Runnable> jobs) throws EolRuntimeException {
 		EolExecutorService executor = getExecutorService();
 		enterParallelNest(entryPoint);
 		executor.completeAll(jobs);
@@ -157,7 +157,7 @@ public interface IEolContextParallel extends IEolContext {
 		getExecutorService().getExecutionStatus().completeSuccessfully(entryPoint, result);
 	}
 	
-	default Object shortCircuit(ModuleElement entryPoint, Collection<Runnable> jobs) throws EolRuntimeException {
+	default Object shortCircuit(ModuleElement entryPoint, Collection<? extends Runnable> jobs) throws EolRuntimeException {
 		EolExecutorService executor = beginParallelJob(entryPoint);
 		Object result = executor.shortCircuitCompletion(entryPoint, executor.submitAll(jobs));
 		exitParallelNest(entryPoint);

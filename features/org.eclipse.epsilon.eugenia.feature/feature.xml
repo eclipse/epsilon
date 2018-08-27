@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.eugenia.feature"
       label="Eugenia"
-      version="1.5.0.qualifier"
+      version="1.6.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
@@ -323,14 +323,14 @@ version(s), and exceptions or additional permissions here}.&quot;
          id="org.eclipse.epsilon.eugenia"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.workflow.eugenia"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>

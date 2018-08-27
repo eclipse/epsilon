@@ -1,0 +1,13 @@
+<project default="main">
+	<property name="newversion" value="1.6.0"/>
+	<target name="main">
+
+		
+		<!--Replace version="*.qualifier" in feature.xml files-->
+		<replaceregexp match="version=&quot;1.5.0.qualifier&quot;"
+			replace="version=&quot;0.0.0&quot;" byline="true">
+			<fileset dir="../../features" includes="**/org.eclipse.epsilon*/feature.xml"/>
+		</replaceregexp>
+		
+	</target>
+</project>

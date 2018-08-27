@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Epsilon Flock Test Dependencies (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.flock.engine.test.dependencies
-Bundle-Version: 0.0.1.qualifier
+Bundle-Version: 1.6.0.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.flock.engine;visibility:=reexport,
  org.eclipse.epsilon.test.dependencies;visibility:=reexport,

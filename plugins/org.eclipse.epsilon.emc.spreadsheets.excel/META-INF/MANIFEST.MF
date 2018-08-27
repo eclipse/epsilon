@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Excel Spreadsheets Driver for EMC
 Bundle-SymbolicName: org.eclipse.epsilon.emc.spreadsheets.excel
-Bundle-Version: 1.5.0.qualifier
+Bundle-Version: 1.6.0.qualifier
 Export-Package: org.eclipse.epsilon.emc.spreadsheets.excel
 Bundle-Vendor: Eclipse Modeling Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
