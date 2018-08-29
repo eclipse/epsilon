@@ -113,8 +113,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	protected void initThreadLocals() {
 		concurrentFrameStacks = initDelegateThreadLocal(() -> new FrameStack(frameStack, false));
 		concurrentMethodContributors = initDelegateThreadLocal(() -> new OperationContributorRegistry(methodContributorRegistry, false));
-		// No need to merge the ExecutorFactories when endParallel() is called
-		concurrentExecutors = initThreadLocal(() -> new ExecutorFactory(executorFactory, false));
+		concurrentExecutors = initDelegateThreadLocal(() -> new ExecutorFactory(executorFactory, false));
 	}
 	
 	protected <T extends ConcurrentBaseDelegate<T>> ThreadLocal<T> initDelegateThreadLocal(Supplier<? extends T> constructor) {

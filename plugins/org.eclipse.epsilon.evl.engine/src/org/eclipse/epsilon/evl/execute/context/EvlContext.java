@@ -16,7 +16,7 @@ import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
-public class EvlContext extends ErlContext implements IEvlContext, Cloneable {
+public class EvlContext extends ErlContext implements IEvlContext {
 
 	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints = new HashSet<>();
 	protected Set<Constraint> constraintsDependedOn = new HashSet<>();

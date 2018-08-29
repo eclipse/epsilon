@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.evl.execute.concurrent.*;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 

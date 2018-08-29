@@ -20,14 +20,14 @@ import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelegate {
 
-	private ClassLoader fClassLoader;
+	private final ClassLoader fClassLoader;
 
 	public EolClasspathNativeTypeDelegate() {
 		this(EolClasspathNativeTypeDelegate.class.getClassLoader());
 	}
 
 	public EolClasspathNativeTypeDelegate(ClassLoader classLoader) {
-		fClassLoader = classLoader;
+		fClassLoader = classLoader != null ? classLoader : ClassLoader.getSystemClassLoader();
 	}
 
 	@Override

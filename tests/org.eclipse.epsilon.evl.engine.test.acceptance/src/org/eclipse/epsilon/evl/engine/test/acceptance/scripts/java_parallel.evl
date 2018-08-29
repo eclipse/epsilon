@@ -188,7 +188,11 @@ context CompilationUnit {
 
 $parallel NUM_ELEMENTS > 131072
 context NamedElement {
-	constraint notVar {
-		check: self.name <> "var"
+	constraint notReservedWord {
+		check: self.name <> "var" and
+			self.name <> "_" and
+			self.name <> "strictfp" and
+			self.name <> "assert" and
+			self.name <> "enum"
 	}
 }

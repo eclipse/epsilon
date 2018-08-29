@@ -50,7 +50,7 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 	@Override
 	protected void initThreadLocals() {
 		super.initThreadLocals();
-		concurrentExecutors = initThreadLocal(() -> new RuleExecutorFactory(executorFactory, false));
+		concurrentExecutors = initDelegateThreadLocal(() -> new RuleExecutorFactory(executorFactory, false));
 	}
 	
 	@Override
