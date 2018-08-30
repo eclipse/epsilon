@@ -17,7 +17,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
@@ -30,8 +29,8 @@ public class EolAcceptanceTestUtil {
 	
 	public static final int[] THREADS = new int[] {
 		0, 1, 2, 3, 10, Byte.MAX_VALUE,
-		(ConcurrencyUtils.DEFAULT_PARALLELISM/2)+1,
-		(ConcurrencyUtils.DEFAULT_PARALLELISM*2)-1
+		//(ConcurrencyUtils.DEFAULT_PARALLELISM/2)+1,
+		//(ConcurrencyUtils.DEFAULT_PARALLELISM*2)-1
 	};
 	
 	public static List<String[]> addAllInputs(String[] scripts, String[] models, String metamodel, String scriptExt, String scriptRoot, String modelRoot, String metamodelRoot) {

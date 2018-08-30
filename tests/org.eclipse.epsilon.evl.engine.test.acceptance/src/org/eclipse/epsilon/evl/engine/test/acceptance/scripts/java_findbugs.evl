@@ -144,6 +144,11 @@ context MethodDeclaration {
 }
 
 context AbstractMethodDeclaration {
+	constraint canBeLocal {
+		guard: self.modifier.isDefined() and not self.modifier.isLocal()
+		check: self.usages.exists(m | m.originalClassFile <> self.originalClassFile)
+	}
+	
 	constraint localMethodIsUsed {
 		guard: self.modifier.isDefined() and self.modifier.isLocal()
 		check: self.usages.notEmpty()

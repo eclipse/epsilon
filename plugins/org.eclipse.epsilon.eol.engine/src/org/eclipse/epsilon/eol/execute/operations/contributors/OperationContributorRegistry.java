@@ -7,41 +7,20 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio Garcia-Dominguez - provide context for checking if an operation is contributed.
- *     Sina Madani - concurrency support
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.eclipse.epsilon.common.concurrent.ConcurrentBaseDelegate;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.contributors.compatibility.StringCompatibilityOperationContributor;
 
-public class OperationContributorRegistry implements ConcurrentBaseDelegate<OperationContributorRegistry> {
+public class OperationContributorRegistry {
 	
-	private Collection<OperationContributor> operationContributorsCache;
-	private boolean isConcurrent;
-	private final OperationContributorRegistry base;
-	
-	public OperationContributorRegistry() {
-		this(null);
-	}
-	
-	public OperationContributorRegistry(OperationContributorRegistry parent) {
-		this(parent, false);
-	}
-	
-	public OperationContributorRegistry(OperationContributorRegistry parent, boolean concurrent) {
-		this.base = parent;
-		this.isConcurrent = concurrent;
-		operationContributorsCache = concurrent ?
-			new ConcurrentLinkedQueue<>(getDefaultOperationContributors()) :
-			getDefaultOperationContributors();
-	}
+	private final Collection<OperationContributor> operationContributorsCache = getDefaultOperationContributors();
 
 	/**
 	 * <p>Adds the specified {@link OperationContributor} to the list of contributors
@@ -92,15 +71,12 @@ public class OperationContributorRegistry implements ConcurrentBaseDelegate<Oper
 	 * example, EGL's contributor for OutputBuffer's print operations.
 	 */
 	public ObjectMethod findContributedMethodForUnevaluatedParameters(Object target, String name, List<Expression> parameterExpressions, IEolContext context) {
-		return delegateLookup(ocr -> {
-			for (OperationContributor c : ocr.getOperationContributorsFor(target)) {
-				ObjectMethod objectMethod = c.findContributedMethodForUnevaluatedParameters(target, name, parameterExpressions, context);
-				if (objectMethod != null)
-					return objectMethod;
-			}
-			
-			return null;
-		});
+		for (OperationContributor c : getOperationContributorsFor(target)) {
+			ObjectMethod objectMethod = c.findContributedMethodForUnevaluatedParameters(target, name, parameterExpressions, context);
+			if (objectMethod != null)
+				return objectMethod;
+		}
+		return null;
 	}
 	
 	/**
@@ -110,14 +86,12 @@ public class OperationContributorRegistry implements ConcurrentBaseDelegate<Oper
 	 * evaluated.
 	 */
 	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context) {
-		return delegateLookup(ocr -> {
-			for (OperationContributor c : ocr.getOperationContributorsFor(target)) {
-				ObjectMethod objectMethod = c.findContributedMethodForEvaluatedParameters(target, name, parameters, context, false);
-				if (objectMethod != null)
-					return objectMethod;
-			}
-			return null;
-		});
+		for (OperationContributor c : getOperationContributorsFor(target)) {
+			ObjectMethod objectMethod = c.findContributedMethodForEvaluatedParameters(target, name, parameters, context, false);
+			if (objectMethod != null)
+				return objectMethod;
+		}
+		return null;
 	}
 	
 	protected Collection<OperationContributor> getOperationContributorsFor(Object target) {
@@ -130,33 +104,4 @@ public class OperationContributorRegistry implements ConcurrentBaseDelegate<Oper
 		return operationContributorsCache.stream();
 	}
 	
-	@Override
-	public OperationContributorRegistry getBase() {
-		return base;
-	}
-
-	@Override
-	public void merge(MergeMode mode) {
-		mergeCollectionsUnique(
-			ocr -> ocr.operationContributorsCache,
-			ConcurrentLinkedQueue::new,
-			LinkedList::new,
-			mode
-		);
-	}
-	
-	@Override
-	public void setThreadSafe(boolean concurrent) {
-		if (this.isConcurrent != concurrent) {
-			this.isConcurrent = concurrent;
-			operationContributorsCache = isConcurrent ?
-				new ConcurrentLinkedQueue<>(operationContributorsCache) :
-				new ArrayList<>(operationContributorsCache);
-		}
-	}
-	
-	@Override
-	public boolean isThreadSafe() {
-		return isConcurrent;
-	}
 }

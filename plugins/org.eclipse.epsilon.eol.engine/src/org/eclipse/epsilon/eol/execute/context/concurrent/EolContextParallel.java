@@ -106,13 +106,12 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	protected void initMainThreadStructures() {
 		// This will be the "base" of others, so make it thread-safe for concurrent reads
 		frameStack = new FrameStack(null, true);
-		methodContributorRegistry = new OperationContributorRegistry(null, true);
 		executorFactory = new ExecutorFactory(null, true);
 	}
 	
 	protected void initThreadLocals() {
 		concurrentFrameStacks = initDelegateThreadLocal(() -> new FrameStack(frameStack, false));
-		concurrentMethodContributors = initDelegateThreadLocal(() -> new OperationContributorRegistry(methodContributorRegistry, false));
+		concurrentMethodContributors = initThreadLocal(OperationContributorRegistry::new);
 		concurrentExecutors = initDelegateThreadLocal(() -> new ExecutorFactory(executorFactory, false));
 	}
 	
@@ -130,7 +129,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	protected void setBaseThreadSafety(boolean concurrent) {
 		frameStack.setThreadSafe(concurrent);
-		methodContributorRegistry.setThreadSafe(concurrent);
 		executorFactory.setThreadSafe(concurrent);
 	}
 	
@@ -154,11 +152,15 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		
 		if (executorService != null) {
 			executorService.shutdownNow();
+			executorService = null;
 		}
 		
 		removeAllIfPersistent(concurrentFrameStacks);
-		removeAllIfPersistent(concurrentMethodContributors);
 		removeAllIfPersistent(concurrentExecutors);
+		
+		concurrentFrameStacks = null;
+		concurrentMethodContributors = null;
+		concurrentExecutors = null;
 	}
 	
 	public boolean isPersistent() {
