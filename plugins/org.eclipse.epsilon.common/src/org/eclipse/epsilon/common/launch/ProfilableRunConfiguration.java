@@ -72,7 +72,7 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 				result = execute();
 				endTime = nanoTime();
 				endMemory = BenchmarkUtils.getTotalMemoryUsage();
-				recordExecution(endTime-startTime, endMemory-startMemory);
+				addProfileInfo("execute()", endTime-startTime, endMemory-startMemory);
 			}
 			else {
 				result = execute();
@@ -123,10 +123,6 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 		if (showResults) {
 			writeOut("Result: ", "", result, printMarker);
 		}
-	}
-	
-	protected void recordExecution(long nanos, long memory) {
-		addProfileInfo("execute()", nanos, memory);
 	}
 	
 	/**

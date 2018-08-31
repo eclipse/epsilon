@@ -20,7 +20,6 @@ import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
-import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.DelegatePersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
@@ -66,7 +65,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		initMainThreadStructures();
 		this.isPersistent = persistThreadLocals;
 	}
-
 
 	public EolContextParallel(IEolContext other) {
 		this(other, false);
@@ -139,6 +137,14 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
+	protected void finalize() {
+		if (executorService != null) {
+			executorService.shutdownNow();
+			executorService = null;
+		}
+	}
+	
+	@Override
 	public void goParallel() {
 		if (!isParallel) {
 			initThreadLocals();
@@ -150,16 +156,13 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	public void endParallel() {
 		isParallel = false;
 		
-		if (executorService != null) {
-			executorService.shutdownNow();
-			executorService = null;
-		}
+		finalize();
 		
 		removeAllIfPersistent(concurrentFrameStacks);
-		removeAllIfPersistent(concurrentExecutors);
-		
 		concurrentFrameStacks = null;
+		removeAllIfPersistent(concurrentMethodContributors);
 		concurrentMethodContributors = null;
+		removeAllIfPersistent(concurrentExecutors);
 		concurrentExecutors = null;
 	}
 	
@@ -231,11 +234,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	@Override
 	public OperationContributorRegistry getOperationContributorRegistry() {
 		return parallelGet(concurrentMethodContributors, super::getOperationContributorRegistry);
-	}
-	
-	@Override
-	public IEolModule getModule() {
-		return (IEolModule) super.getModule();
 	}
 	
 	@Override

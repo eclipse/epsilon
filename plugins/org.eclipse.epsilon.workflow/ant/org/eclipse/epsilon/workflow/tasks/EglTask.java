@@ -37,7 +37,7 @@ public class EglTask extends ExportableModuleTask {
 	
 	protected String target;
 	protected Class<? extends EglTemplateFactory> templateFactoryType = EglFileGeneratingTemplateFactory.class;
-	protected List<EglDefaultFormatterNestedElement> defaultFormatterNestedElements = new LinkedList<EglDefaultFormatterNestedElement>();
+	protected List<EglDefaultFormatterNestedElement> defaultFormatterNestedElements = new LinkedList<>();
 	protected Trace trace;
 	protected File outputRoot;
 	
@@ -73,7 +73,7 @@ public class EglTask extends ExportableModuleTask {
 	}
 
 	private List<Formatter> instantiateDefaultFormatters() throws InstantiationException, IllegalAccessException {
-		final List<Formatter> defaultFormatters = new LinkedList<Formatter>();
+		final List<Formatter> defaultFormatters = new LinkedList<>();
 		
 		for (EglDefaultFormatterNestedElement defaultFormatterNestedElement : defaultFormatterNestedElements) {
 			defaultFormatters.add(defaultFormatterNestedElement.getImplementation().newInstance());

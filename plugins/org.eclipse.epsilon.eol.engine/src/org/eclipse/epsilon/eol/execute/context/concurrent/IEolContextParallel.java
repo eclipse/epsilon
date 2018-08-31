@@ -112,19 +112,24 @@ public interface IEolContextParallel extends IEolContext {
 	//Convenience methods
 	
 	/**
-	 * Registers the beginning of parallel job on the default EolExecutorService.
-	 * @param entryPoint The AST to associate with this job.
+	 * Registers the beginning of parallel task on the default EolExecutorService.
+	 * @param entryPoint The AST to associate with this task.
 	 * @return {@link #getExecutorService()}
-	 * @throws EolNestedParallelismException If there was already a parallel job in progress.
+	 * @throws EolNestedParallelismException If there was already a parallel task in progress.
 	 */
-	default EolExecutorService beginParallelJob(ModuleElement entryPoint) throws EolNestedParallelismException {
+	default EolExecutorService beginParallelTask(ModuleElement entryPoint) throws EolNestedParallelismException {
 		EolExecutorService executor = getExecutorService();
 		enterParallelNest(entryPoint);
 		executor.getExecutionStatus().register(entryPoint);
 		return executor;
 	}
 	
-	default Object endParallelJob(ModuleElement entryPoint) {
+	/**
+	 * Completes the parallel task associated with the provided identifier.
+	 * @param entryPoint The identifier for this parallel task.
+	 * @return The result of the task, if any.
+	 */
+	default Object endParallelTask(ModuleElement entryPoint) {
 		exitParallelNest(entryPoint);
 		ConcurrentExecutionStatus status = getExecutorService().getExecutionStatus();
 		if (status.isInProgress(entryPoint)) {
@@ -135,8 +140,9 @@ public interface IEolContextParallel extends IEolContext {
 	
 	/**
 	 * Executes all of the tasks in parallel, blocking until they have completed.
-	 * @param jobs The tasks to execute.
-	 * @throws EolRuntimeException If any of the jobs throw an exception.
+	 * @param jobs The jobs to execute.
+	 * @param entryPoint The identifier for this parallel task.
+	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
 	 */
 	default void executeParallel(ModuleElement entryPoint, Collection<? extends Runnable> jobs) throws EolRuntimeException {
 		EolExecutorService executor = getExecutorService();
@@ -145,6 +151,14 @@ public interface IEolContextParallel extends IEolContext {
 		exitParallelNest(entryPoint);
 	}
 	
+	/**
+	 * Executes all of the tasks in parallel, blocking until they have completed.
+	 * @param <T> The return type for each job.
+	 * @param entryPoint The identifier for this parallel task.
+	 * @param jobs The transformations to perform.
+	 * @return The result of the jobs.
+	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
+	 */
 	default <T> Collection<T> executeParallelTyped(ModuleElement entryPoint, Collection<Callable<T>> jobs) throws EolRuntimeException {
 		EolExecutorService executor = getExecutorService();
 		enterParallelNest(entryPoint);
@@ -153,24 +167,52 @@ public interface IEolContextParallel extends IEolContext {
 		return results;
 	}
 	
+	/**
+	 * Signals the completion of a short-circuitable task.
+	 * @param entryPoint The identifier used to initiate the parallel task.
+	 * @param result The result of the task, if any.
+	 */
 	default void completeShortCircuit(ModuleElement entryPoint, Object result) {
 		getExecutorService().getExecutionStatus().completeSuccessfully(entryPoint, result);
 	}
 	
+	/**
+	 * Submits all jobs and waits until either all jobs have completed, or 
+	 * {@link #completeShortCircuit(ModuleElement, Object)} is called.
+	 * 
+	 * @param entryPoint The identifier for this parallel task.
+	 * @param jobs The jobs to execute.
+	 * @return The result of this task, as set by {@linkplain #completeShortCircuit(ModuleElement, Object)}, if any.
+	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
+	 */
 	default Object shortCircuit(ModuleElement entryPoint, Collection<? extends Runnable> jobs) throws EolRuntimeException {
-		EolExecutorService executor = beginParallelJob(entryPoint);
+		EolExecutorService executor = beginParallelTask(entryPoint);
 		Object result = executor.shortCircuitCompletion(entryPoint, executor.submitAll(jobs));
 		exitParallelNest(entryPoint);
 		return result;
 	}
 	
+	/**
+	 * Submits all jobs and waits until either all jobs have completed, or 
+	 * {@link #completeShortCircuit(ModuleElement, Object)} is called.
+	 * 
+	 * @param <T> The return type of each job.
+	 * @param entryPoint The identifier for this parallel task.
+	 * @param jobs The jobs to execute.
+	 * @return The result of this task, as set by {@linkplain #completeShortCircuit(ModuleElement, Object)}, if any.
+	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
+	 */
 	default <T> T shortCircuitTyped(ModuleElement entryPoint, Collection<Callable<T>> jobs) throws EolRuntimeException {
-		EolExecutorService executor = beginParallelJob(entryPoint);
+		EolExecutorService executor = beginParallelTask(entryPoint);
 		T result = executor.shortCircuitCompletionTyped(entryPoint, executor.submitAllTyped(jobs));
 		exitParallelNest(entryPoint);
 		return result;
 	}
 	
+	/**
+	 * Utility method for dealing with exceptions in lambda expressions / parallel jobs.
+	 * @param exception The exception to handle.
+	 */
 	default void handleException(Exception exception) {
 		handleException(exception, getExecutorService());
 	}
@@ -190,10 +232,24 @@ public interface IEolContextParallel extends IEolContext {
 			executor.getExecutionStatus().completeExceptionally(exception);
 	}
 	
+	/**
+	 * Utility method used to appropriately return either a thread-local or the original value,
+	 * depending on whether this context {@linkplain #isParallel()}.
+	 * @param threadLocal The ThreadLocal value (returned if parallel).
+	 * @param originalValueGetter The non-thread-local value (returned if not parallel).
+	 * @return The appropriate value for the current thread.
+	 */
 	default <R> R parallelGet(ThreadLocal<? extends R> threadLocal, Supplier<? extends R> originalValueGetter) {
 		return isParallel() && !ConcurrencyUtils.isMainThread() ? threadLocal.get() : originalValueGetter.get();
 	}
 	
+	/**
+	 * Utility method used to appropriately set either a thread-local or the original value,
+	 * depending on whether this context {@linkplain #isParallel()}.
+	 * @param value The value to set.
+	 * @param threadLocal The ThreadLocal value (will be set if parallel).
+	 * @param originalValueSetter The non-thread-local value (will be set if not parallel).
+	 */
 	default <T> void parallelSet(T value, ThreadLocal<? super T> threadLocal, Consumer<? super T> originalValueSetter) {
 		if (isParallel() && !ConcurrencyUtils.isMainThread())
 			threadLocal.set(value);
@@ -201,6 +257,13 @@ public interface IEolContextParallel extends IEolContext {
 			originalValueSetter.accept(value);
 	}
 	
+	/**
+	 * Copies the state of the given context into a new context and calls {@linkplain #goParallel()}.
+	 * @param context The source context to copy from.
+	 * @param parallelConstructor The copy constructor for the new context.
+	 * @return The newly created context.
+	 * @throws EolNestedParallelismException
+	 */
 	static <C extends IEolContext, P extends IEolContextParallel> P copyToParallel(
 			C context, Function<C, ? extends P> parallelConstructor)
 			throws EolNestedParallelismException {

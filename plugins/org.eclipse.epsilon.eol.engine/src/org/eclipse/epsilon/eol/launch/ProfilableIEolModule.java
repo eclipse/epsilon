@@ -34,7 +34,7 @@ public interface ProfilableIEolModule extends IEolModule {
 	}
 	
 	default Object profileExecution() throws EolRuntimeException {
-		return BenchmarkUtils.profileExecutionStage(getProfiledStages(), "execute()", this::execute);
+		return BenchmarkUtils.profileExecutionStage(getProfiledStages(), "executeImpl", this::execute);
 	}
 	
 	default <T, R> R profileExecutionStage(String description, CheckedEolFunction<T, R> code, T argument) throws EolRuntimeException {

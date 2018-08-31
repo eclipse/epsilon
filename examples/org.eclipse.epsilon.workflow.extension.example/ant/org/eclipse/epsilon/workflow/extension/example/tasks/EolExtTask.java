@@ -12,7 +12,7 @@ package org.eclipse.epsilon.workflow.extension.example.tasks;
 
 import org.eclipse.epsilon.workflow.tasks.EolTask; 
  
-public class EolExtTask extends EolTask{
+public class EolExtTask extends EolTask {
 	
 	@Override
 	protected void initialize() {

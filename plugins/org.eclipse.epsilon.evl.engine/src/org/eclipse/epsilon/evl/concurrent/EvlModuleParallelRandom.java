@@ -10,20 +10,25 @@
 package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.launch.ProfilableIEolModule;
 import org.eclipse.epsilon.evl.execute.concurrent.*;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
  * Shuffles the constraint-element pairs prior to execution.
+ * Also performs profiling.
  * 
  * @author Sina Madani
  */
-@Deprecated
-public class EvlModuleParallelRandom extends EvlModuleParallel {
+public final class EvlModuleParallelRandom extends EvlModuleParallel implements ProfilableIEolModule {
 
+	private final Collection<ProfileDiagnostic> profiledStages = new ArrayList<>(5);
+	
 	public EvlModuleParallelRandom() {
 		super();
 	}
@@ -33,25 +38,34 @@ public class EvlModuleParallelRandom extends EvlModuleParallel {
 	}
 
 	@Override
+	public Collection<ProfileDiagnostic> getProfiledStages() {
+		return profiledStages;
+	}
+	
+	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContextParallel context = getContext();
 		
-		List<ConstraintAtom> originalJobs = ConstraintAtom.getConstraintJobs(context);
-		Collections.shuffle(originalJobs);
-		List<Runnable> executorJobs = new ArrayList<>(originalJobs.size());
+		List<ConstraintAtom> originalJobs = profileExecutionStage("create jobs", () -> ConstraintAtom.getConstraintJobs(context));
+
+		profileExecutionStage("shuffle jobs", () -> Collections.shuffle(originalJobs));
 		
-		for (ConstraintAtom job : originalJobs) {
-			executorJobs.add(() -> {
-				try {
-					job.execute(context);
-				}
-				catch (EolRuntimeException exception) {
-					context.handleException(exception);
-				}
-			});
-		}
+		Collection<Runnable> executorJobs = new ArrayList<>(originalJobs.size());
 		
-		context.executeParallel(this, executorJobs);
+		profileExecutionStage("submit jobs", () -> {
+			for (ConstraintAtom job : originalJobs) {
+				executorJobs.add(() -> {
+					try {
+						job.execute(context);
+					}
+					catch (EolRuntimeException exception) {
+						context.handleException(exception);
+					}
+				});
+			}
+		});
+		
+		profileExecutionStage("execute jobs", () -> context.executeParallel(this, executorJobs));
 	}
 	
 }

@@ -98,8 +98,10 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		EolSystem system = new EolSystem();
 		system.setContext(module.getContext());
 		module.getContext().setAssertionsEnabled(assertions);
-		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("System", system));
-		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("null", null));
+		module.getContext().getFrameStack().put(
+			Variable.createReadOnlyVariable("System", system),
+			Variable.createReadOnlyVariable("null", null)
+		);
 		
 		if (setBeans) {
 			Project project = getProject();
@@ -202,7 +204,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 
 		try {
 			parseModule();
-			if (src!=null && profile) {
+			if (src != null && profile) {
 				Profiler.INSTANCE.start(src.getName(), "", module);
 			}
 			configureModule();
@@ -219,7 +221,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 			}
 
 			useResults();
-			if (src!=null && profile) Profiler.INSTANCE.stop(src.getName());
+			if (src != null && profile) Profiler.INSTANCE.stop(src.getName());
 		}
 		catch (Throwable t) {
 			if (profile) Profiler.INSTANCE.stop(src.getName());

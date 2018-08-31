@@ -9,11 +9,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
-
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
@@ -60,11 +58,8 @@ public class EtlTask extends ExportableModuleTask {
 
 	@Override
 	protected Collection<Class<?>> getClassesForExportedModel() {
-		Collection<Class<?>> classes = new ArrayList<Class<?>>();
-		classes.add(TransformationTrace.class);
-		classes.add(TransformationList.class);
-		classes.add(Transformation.class);
-		classes.add(TransformationRule.class);
-		return classes;
+		return Arrays.asList(
+			TransformationTrace.class, TransformationList.class, Transformation.class, TransformationRule.class
+		);
 	}
 }

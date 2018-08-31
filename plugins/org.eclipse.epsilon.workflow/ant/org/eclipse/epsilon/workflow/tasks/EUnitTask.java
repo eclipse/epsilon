@@ -47,7 +47,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	 * Class for a nested element which simply contains tasks.
 	 */
 	public class TaskCollection implements TaskContainer {
-		private List<Task> tasks = new ArrayList<Task>();
+		private List<Task> tasks = new ArrayList<>();
 
 		public void addTask(Task task) {
 			tasks.add(task);

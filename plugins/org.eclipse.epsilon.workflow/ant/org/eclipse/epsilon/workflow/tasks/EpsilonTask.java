@@ -103,7 +103,7 @@ public abstract class EpsilonTask extends Task {
 			(List<NamedTransactionSupport>) getProject().getReference(EpsilonTask.EPSILON_ACTIVETRANSACTIONS);
 		
 		if (activeTransactions == null) {
-			activeTransactions = new ArrayList<NamedTransactionSupport>();
+			activeTransactions = new ArrayList<>();
 			getProject().addReference(EpsilonTask.EPSILON_ACTIVETRANSACTIONS, activeTransactions);
 		}
 		

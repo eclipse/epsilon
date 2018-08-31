@@ -11,7 +11,7 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
+import java.util.Collections;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
@@ -31,7 +31,7 @@ public class EvlTask extends ExportableModuleTask {
 	}
 
 	@Override
-	protected IEolModule createModule() {
+	protected IEvlModule createModule() {
 		return new EvlModule();
 	}
 
@@ -78,13 +78,11 @@ public class EvlTask extends ExportableModuleTask {
 
 	@Override
 	protected Collection<Class<?>> getClassesForExportedModel() {
-		Collection<Class<?>> classes = new ArrayList<Class<?>>();
-		classes.add(UnsatisfiedConstraint.class);
-		return classes;
+		return Collections.singleton(UnsatisfiedConstraint.class);
 	}
 
 	@Override
-	protected ArrayList<Object> getObjectsForExportedModel() {
-		return new ArrayList<Object>(((EvlModule)module).getContext().getUnsatisfiedConstraints());
+	protected Collection<UnsatisfiedConstraint> getObjectsForExportedModel() {
+		return new ArrayList<>(((EvlModule)module).getContext().getUnsatisfiedConstraints());
 	}
 }

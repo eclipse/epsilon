@@ -91,6 +91,15 @@ operation MethodDeclaration isCompareTo() : Boolean {
 		self.modifier.visibility == VisibilityKind#public;
 }
 
+// WARNING: Very demanding!
+context CompilationUnit {
+	@parallel
+	constraint allImportsAreUsed {
+		check: self.imports.forAll(imp |
+			NamedElement.allInstances().exists(ne | ne.originalCompilationUnit == self)
+		)
+	}
+}
 
 @parallel
 context NamedElement {
@@ -335,15 +344,6 @@ context ClassDeclaration {
 						.forAll(vd | fields.forAll(fd | fd.name <> vd.name))
 					);
 		}
-	}
-}
-
-context CompilationUnit {
-	@parallel
-	constraint allImportsAreUsed {
-		check: self.imports.forAll(imp |
-			NamedElement.allInstances().exists(ne | ne.originalCompilationUnit == self)
-		)
 	}
 }
 

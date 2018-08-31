@@ -12,6 +12,7 @@ package org.eclipse.epsilon.evl.execute.context.concurrent;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
+import org.eclipse.epsilon.common.util.profiling.BenchmarkUtils;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;

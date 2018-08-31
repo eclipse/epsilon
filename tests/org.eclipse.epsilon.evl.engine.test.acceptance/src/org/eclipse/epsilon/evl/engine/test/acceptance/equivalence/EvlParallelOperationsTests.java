@@ -140,6 +140,9 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 		catch (EolNestedParallelismException px) {
 			return;
 		}
+		finally {
+			testConfig.postExecute();
+		}
 		
 		fail(
 			"Expected "+EolNestedParallelismException.class.getSimpleName()+": "

@@ -35,7 +35,7 @@ public class EclTask extends ExecutableModuleTask {
 	}
 
 	@Override
-	protected IEolModule createModule() {
+	protected IEclModule createModule() {
 		return new EclModule();
 	}
 
