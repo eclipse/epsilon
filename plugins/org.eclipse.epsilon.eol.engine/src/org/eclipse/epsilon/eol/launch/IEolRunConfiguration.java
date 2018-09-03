@@ -9,14 +9,14 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.launch;
 
-import static java.lang.System.nanoTime;
 import java.nio.file.Path;
 import java.util.*;
 import org.eclipse.epsilon.common.launch.ProfilableRunConfiguration;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.common.util.profiling.*;
+import static org.eclipse.epsilon.common.util.profiling.BenchmarkUtils.profileExecutionStage;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.IEolModule;
 
@@ -101,14 +101,22 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 	protected void preExecute() throws Exception {
 		super.preExecute();
 		
-		long startMemory = 0, parseStartTime = 0;
-		
 		if (profileExecution) {
-			startMemory = BenchmarkUtils.getTotalMemoryUsage();
-			parseStartTime = nanoTime();
+			profileExecutionStage(profiledStages, "Parsing script", () -> module.parse(script.toFile()));
+			profileExecutionStage(profiledStages, "Parsing model", this::parseModels);
+		}
+		else {
+			module.parse(script.toFile());
+			this.parseModels();
 		}
 		
-		if (module.parse(script.toFile()) && modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
+		if (!parameters.isEmpty()) {
+			module.getContext().getFrameStack().put(parameters, false);
+		}
+	}
+	
+	protected void parseModels() throws EolModelLoadingException {
+		if (modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
 			for (Map.Entry<IModel, StringProperties> modelAndProp : modelsAndProperties.entrySet()) {
 				IModel model = modelAndProp.getKey();
 				if (!LOADED_MODELS.contains(model)) {
@@ -124,30 +132,27 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 				module.getContext().getModelRepository().addModel(model);
 			}
 		}
-		
-		if (profileExecution) {
-			long parseEndTime = nanoTime();
-			long endMemory = BenchmarkUtils.getTotalMemoryUsage();
-			addProfileInfo("Parsing model", parseEndTime-parseStartTime, endMemory-startMemory);
-		}
-		
-		if (!parameters.isEmpty()) {
-			module.getContext().getFrameStack().put(parameters, false);
-		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	protected R execute() throws EolRuntimeException {
 		Object execResult;
-		if (profileExecution && module instanceof ProfilableIEolModule) {
-			ProfilableIEolModule profMod = (ProfilableIEolModule) module;
-			execResult = profMod.profileExecution();
-			profiledStages.addAll(profMod.getProfiledStages());
+		
+		if (profileExecution) {
+			if (module instanceof ProfilableIEolModule) {
+				ProfilableIEolModule profMod = (ProfilableIEolModule) module;
+				execResult = profMod.profileExecution();
+				profiledStages.addAll(profMod.getProfiledStages());
+			}
+			else {
+				execResult = profileExecutionStage(profiledStages, "execute()", module::execute);
+			}
 		}
 		else {
 			execResult = module.execute();
 		}
+		
 		return (R) execResult;
 	}
 	

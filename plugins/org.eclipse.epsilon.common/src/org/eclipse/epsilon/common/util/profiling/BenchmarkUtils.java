@@ -234,6 +234,13 @@ public final class BenchmarkUtils {
 		return measureTimeNanos(checkedEquivalent, argument);
 	}
 	
+	public static void printExecutionTime(String stageTag, Runnable code) {
+		System.out.print(stageTag+" "+formatExecutionTime(measureTimeNanos(code)));
+	}
+	
+	public static <E extends Exception> void printExecutionTime(String stageTag, CheckedRunnable<E> code) throws E {
+		System.out.print(stageTag+" "+formatExecutionTime(measureTimeNanos(code)));
+	}
 	
 	//Format utils
 	

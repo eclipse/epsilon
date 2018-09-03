@@ -261,7 +261,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<UnsatisfiedConstraint> execute() throws EolRuntimeException {
+	public final Set<UnsatisfiedConstraint> execute() throws EolRuntimeException {
 		return (Set<UnsatisfiedConstraint>) super.execute();
 	}
 	

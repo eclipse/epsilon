@@ -27,7 +27,7 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  */
 public final class EvlModuleParallelRandom extends EvlModuleParallel implements ProfilableIEolModule {
 
-	private final Collection<ProfileDiagnostic> profiledStages = new ArrayList<>(5);
+	private final Collection<ProfileDiagnostic> profiledStages = new ArrayList<>(8);
 	
 	public EvlModuleParallelRandom() {
 		super();
@@ -40,6 +40,16 @@ public final class EvlModuleParallelRandom extends EvlModuleParallel implements 
 	@Override
 	public Collection<ProfileDiagnostic> getProfiledStages() {
 		return profiledStages;
+	}
+	
+	@Override
+	protected void prepareExecution() throws EolRuntimeException {
+		profileExecutionStage("prepareExecution()", super::prepareExecution);
+	}
+	
+	@Override
+	protected void postExecution() throws EolRuntimeException {
+		profileExecutionStage("postExecution()", super::postExecution);
 	}
 	
 	@Override

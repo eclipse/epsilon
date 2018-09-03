@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.common.launch;
 
-import static java.lang.System.nanoTime;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,7 +17,8 @@ import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.util.OperatingSystem;
-import org.eclipse.epsilon.common.util.profiling.*;
+import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic;
+import static org.eclipse.epsilon.common.util.profiling.BenchmarkUtils.*;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic.MemoryUnit;
 
 public abstract class ProfilableRunConfiguration<R> implements Runnable {
@@ -61,23 +61,10 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 	}
 	
 	@Override
-	public void run() {
+	public final void run() {
 		try {
 			preExecute();
-			
-			if (profileExecution) {
-				long endTime, endMemory,
-				startMemory = BenchmarkUtils.getTotalMemoryUsage(),
-				startTime = nanoTime();
-				result = execute();
-				endTime = nanoTime();
-				endMemory = BenchmarkUtils.getTotalMemoryUsage();
-				addProfileInfo("execute()", endTime-startTime, endMemory-startMemory);
-			}
-			else {
-				result = execute();
-			}
-			
+			result = execute();
 			postExecute();
 		}
 		catch (Exception ex) {
@@ -100,10 +87,10 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 		if (profileExecution) {
 			writeOut(
 				OperatingSystem.getCpuName(),
-				"Logical processors: "+BenchmarkUtils.getNumberOfHardwareThreads(),
-				"Xms: "+BenchmarkUtils.getAvailableMemory(MemoryUnit.MB),
-				"Xmx: "+BenchmarkUtils.getMaxMemory(MemoryUnit.MB),
-				"Starting execution at "+BenchmarkUtils.getTime(),
+				"Logical processors: "+getNumberOfHardwareThreads(),
+				"Xms: "+getAvailableMemory(MemoryUnit.MB),
+				"Xmx: "+getMaxMemory(MemoryUnit.MB),
+				"Starting execution at "+getTime(),
 				printMarker
 			);
 		}
@@ -115,8 +102,8 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 		if (profileExecution) {
 			writeOut("",
 				"Profiled processes:",
-				BenchmarkUtils.formatExecutionStages(profiledStages),
-				"Finished at "+BenchmarkUtils.getTime(),
+				formatExecutionStages(profiledStages),
+				"Finished at "+getTime(),
 				printMarker
 			);
 		}
@@ -125,20 +112,11 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 		}
 	}
 	
-	/**
-	 * @param stage The identifier of executed code (must be unique)
-	 * @param nanos The execution time in nanoseconds
-	 * @param memory The memory consumption in bytes
-	 */
-	protected void addProfileInfo(String stage, long nanos, long memory) {
-		BenchmarkUtils.addProfileInfo(profiledStages, stage, nanos, memory);
-	}
-	
 	public Duration getExecutionTime() {
 		if (!hasRun) {
 			throw new IllegalStateException("Not yet run!");
 		}
-		return BenchmarkUtils.getTotalExecutionTimeFrom(profiledStages);
+		return getTotalExecutionTimeFrom(profiledStages);
 	}
 	
 	public R getResult() {
