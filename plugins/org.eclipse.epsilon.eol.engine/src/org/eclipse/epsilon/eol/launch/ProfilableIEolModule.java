@@ -11,6 +11,8 @@ package org.eclipse.epsilon.eol.launch;
 
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.*;
@@ -36,6 +38,23 @@ public interface ProfilableIEolModule extends IEolModule {
 	default Object profileExecution() throws EolRuntimeException {
 		return BenchmarkUtils.profileExecutionStage(getProfiledStages(), "executeImpl", this::execute);
 	}
+	
+	// UNCHECKED
+	
+	default <T, R> R profileExecutionStage(String description, Function<T, R> code, T argument) {
+		return BenchmarkUtils.profileExecutionStage(getProfiledStages(), description, code, argument);
+	}
+	default <R> R profileExecutionStage(String description, Supplier<R> code) {
+		return BenchmarkUtils.profileExecutionStage(getProfiledStages(), description, code);
+	}
+	default <T> void profileExecutionStage(String description, Consumer<T> code, T argument) {
+		BenchmarkUtils.profileExecutionStage(getProfiledStages(), description, code, argument);
+	}
+	default void profileExecutionStage(String description, Runnable code) {
+		BenchmarkUtils.profileExecutionStage(getProfiledStages(), description, code);
+	}
+	
+	// CHECKED
 	
 	default <T, R> R profileExecutionStage(String description, CheckedEolFunction<T, R> code, T argument) throws EolRuntimeException {
 		return BenchmarkUtils.profileExecutionStage(getProfiledStages(), description, code, argument);

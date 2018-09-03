@@ -133,7 +133,6 @@ public class EvlAcceptanceTestUtil {
 			EvlModuleParallelNot::new,
 			EvlModuleParallelConstraints::new,
 			EvlModuleParallelStaged::new,
-			EvlModuleParallelRandom::new,
 			EvlModuleParallelAnnotation::new,
 			EvlModuleParallelElements::new
 		);

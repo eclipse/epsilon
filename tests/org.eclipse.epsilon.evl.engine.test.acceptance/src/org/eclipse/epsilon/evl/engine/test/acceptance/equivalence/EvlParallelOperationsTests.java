@@ -96,7 +96,6 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 			EvlModuleParallelConstraints::new,
 			EvlModuleParallelNot::new,
 			EvlModuleParallelAnnotation::new,
-			EvlModuleParallelRandom::new,
 			EvlModuleParallelElements::new
 		);
 		modules.add(EvlModule::new);
