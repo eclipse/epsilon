@@ -37,7 +37,8 @@ import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
  */
 public class EolContextParallel extends EolContext implements IEolContextParallel {
 
-	protected int numThreads, nestLevel;
+	protected final int numThreads;
+	protected int nestLevel;
 	protected boolean isParallel = false;
 	protected final boolean isPersistent;
 	protected EolExecutorService executorService;
@@ -61,7 +62,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * (such as variable declarations) so that they can be merged into the main thread later.
 	 */
 	public EolContextParallel(int parallelism, boolean persistThreadLocals) {
-		setNumThreads(parallelism);
+		numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM;
 		initMainThreadStructures();
 		this.isPersistent = persistThreadLocals;
 	}
@@ -89,16 +90,12 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 			(IEolContextParallel) other : null;
 		
 		if (otherParallel != null) {
-			setNumThreads(otherParallel.getParallelism());
+			numThreads = otherParallel.getParallelism();
 			this.nestLevel = otherParallel.getNestedParallelism();
 		}
 		else {
-			setNumThreads(0);
+			numThreads = ConcurrencyUtils.DEFAULT_PARALLELISM;
 		}
-	}
-	
-	protected int setNumThreads(int parallelism) {
-		return (numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM);
 	}
 	
 	protected void initMainThreadStructures() {
@@ -109,7 +106,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	protected void initThreadLocals() {
 		concurrentFrameStacks = initDelegateThreadLocal(() -> new FrameStack(frameStack, false));
-		concurrentMethodContributors = initThreadLocal(OperationContributorRegistry::new);
+		concurrentMethodContributors = ThreadLocal.withInitial(OperationContributorRegistry::new);
 		concurrentExecutors = initDelegateThreadLocal(() -> new ExecutorFactory(executorFactory, false));
 	}
 	
