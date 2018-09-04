@@ -109,8 +109,13 @@ public final class BenchmarkUtils {
 			.sum();
 	}
 	
+	/**
+	 * <a href="https://cruftex.net/2017/03/28/The-6-Memory-Metrics-You-Should-Track-in-Your-Java-Benchmarks.html#metric-used-memory-after-forced-gc">See this</a>
+	 */
 	public static long getCurrentMemoryUsage() {
-		return RT.totalMemory() - RT.freeMemory();
+		return  ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed() +
+		    ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage().getUsed();
+		    //RT.totalMemory() - RT.freeMemory();
 	}
 	
 	public static String getTime() {
@@ -151,7 +156,7 @@ public final class BenchmarkUtils {
 	//Profile utils
 	
 	public static <T, R, E extends Exception> R profileExecutionStage(Collection<ProfileDiagnostic> profileInfo, String description, CheckedFunction<T, R, E> code, T argument) throws E {
-		System.gc();
+		//RT.gc();
 		final long
 			endTime, endMemory,
 			startMemory = getCurrentMemoryUsage(),
@@ -160,7 +165,7 @@ public final class BenchmarkUtils {
 		R result = code.applyThrows(argument);
 		
 		endTime = nanoTime();
-		System.gc();
+		//RT.gc();
 		endMemory = getCurrentMemoryUsage();
 		
 		addProfileInfo(profileInfo, description, endTime-startTime, endMemory-startMemory);

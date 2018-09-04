@@ -2,11 +2,13 @@ package org.eclipse.epsilon.evl.concurrent.profiling;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 import org.eclipse.epsilon.eol.launch.ProfilableIEolModule;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 
 public abstract class ProfilableEvlModuleParallel extends EvlModuleParallel implements ProfilableIEolModule {
 
@@ -23,10 +25,16 @@ public abstract class ProfilableEvlModuleParallel extends EvlModuleParallel impl
 	public ProfilableEvlModuleParallel() {
 		super();
 	}
-
+	
 	@Override
 	public Collection<ProfileDiagnostic> getProfiledStages() {
 		return profiledStages;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<UnsatisfiedConstraint> profileExecution() throws EolRuntimeException {
+		return (Set<UnsatisfiedConstraint>) ProfilableIEolModule.super.profileExecution();
 	}
 	
 	@Override

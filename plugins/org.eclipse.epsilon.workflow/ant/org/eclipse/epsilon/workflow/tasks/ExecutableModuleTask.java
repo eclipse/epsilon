@@ -239,7 +239,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 
 	private void parseModule() throws Exception {
 		module = createModule();
-		if (src!=null) {
+		if (src != null) {
 			module.parse(src);
 		}
 		else if (uri != null) {
