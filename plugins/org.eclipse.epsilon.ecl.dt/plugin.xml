@@ -50,6 +50,7 @@
       <implementation
             class="org.eclipse.epsilon.ecl.EclModule"
             default="true"
+            dialog="org.eclipse.epsilon.eol.dt.launching.EclModuleConfiguration"
             language="ECL"
             name="Ecl">
       </implementation>

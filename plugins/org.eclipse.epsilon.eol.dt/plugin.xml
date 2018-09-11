@@ -111,6 +111,7 @@
       <implementation
             class="org.eclipse.epsilon.eol.EolModule"
             default="true"
+            dialog="org.eclipse.epsilon.eol.dt.launching.EolModuleConfiguration"
             language="EOL"
             name="Eol">
       </implementation>

@@ -58,7 +58,6 @@
       <implementation
             class="org.eclipse.epsilon.evl.EvlModule"
             default="true"
-            dialgog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleConfiguration"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleConfiguration"
             language="EVL"
             name="Evl">
