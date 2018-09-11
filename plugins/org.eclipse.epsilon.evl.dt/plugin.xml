@@ -57,11 +57,31 @@
          point="org.eclipse.epsilon.common.dt.moduleImplementation">
       <implementation
             class="org.eclipse.epsilon.evl.EvlModule"
-            default="true"
-            dialgog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleConfiguration"
+            default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleConfiguration"
             language="EVL"
-            name="Evl">
+            name="Sequential">
+      </implementation>
+      <implementation
+            class="org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation"
+            default="true"
+            dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
+            language="EVL"
+            name="Parallel (Annotation-based)">
+      </implementation>
+      <implementation
+            class="org.eclipse.epsilon.evl.concurrent.EvlModuleParallelElements"
+            default="true"
+            dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
+            language="EVL"
+            name="Parallel (Elements-based)">
+      </implementation>
+      <implementation
+            class="org.eclipse.epsilon.evl.concurrent.EvlModuleParallelStaged"
+            default="true"
+            dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
+            language="EVL"
+            name="Parallel (Stage-based)">
       </implementation>
    </extension>
 

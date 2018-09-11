@@ -19,18 +19,6 @@ import org.eclipse.epsilon.evl.dt.views.ValidationViewFixer;
 
 public class EvlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
-	/*public IEvlModule createModule() {
-		boolean isParallel = false;
-		try {
-			isParallel = configuration.getAttribute(EvlAdvancedOptionsTab.PARALLEL, isParallel);
-		}
-		catch (CoreException ce) {
-			LogUtil.log(ce);
-		}
-		
-		return isParallel ? new EvlModuleParallelElements() : new EvlModuleParallelAnnotation();
-	}*/
-	
 	@Override
 	protected EvlDebugger createDebugger() {
 		return new EvlDebugger();

@@ -48,7 +48,7 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 	protected List<String> models = new StringList();
 	private TableViewer modelsViewer;
 	
-	private final List<Button> modelControls = new LinkedList<Button>();
+	private final List<Button> modelControls = new LinkedList<>();
 
 	public void createControl(Composite parent) {
 		

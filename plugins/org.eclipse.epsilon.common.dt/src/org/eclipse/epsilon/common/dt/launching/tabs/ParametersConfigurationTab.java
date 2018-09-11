@@ -46,10 +46,10 @@ import org.eclipse.swt.widgets.TableItem;
 
 public class ParametersConfigurationTab extends AbstractLaunchConfigurationTab{
 	
-	protected List<ParameterConfiguration> parameters = new ArrayList<ParameterConfiguration>();
+	protected List<ParameterConfiguration> parameters = new ArrayList<>();
 	private TableViewer parametersViewer;
 	
-	private final List<Button> modelControls = new LinkedList<Button>();
+	private final List<Button> modelControls = new LinkedList<>();
 
 	public void createControl(Composite parent) {
 		
@@ -161,7 +161,7 @@ public class ParametersConfigurationTab extends AbstractLaunchConfigurationTab{
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		
 		
-		List<String> parametersList = new ArrayList<String>();
+		List<String> parametersList = new ArrayList<>();
 		for (ParameterConfiguration parameter : parameters) {
 			parametersList.add(parameter.toStringProperties().toString());
 		}

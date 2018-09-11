@@ -25,11 +25,22 @@ public abstract class EvlModuleParallel extends EvlModule {
 	}
 	
 	public EvlModuleParallel(int parallelism) {
-		this(parallelism, true);
+		context = new EvlContextParallel(parallelism, true);
 	}
 	
 	protected EvlModuleParallel(int parallelism, boolean threadSafeBaseFrames) {
 		context = new EvlContextParallel(parallelism, threadSafeBaseFrames);
+	}
+	
+	/**
+	 * This method should only be called by dt plugins, as it replaces
+	 * the context since the parallelism is immutable.
+	 * @param parallelism The number of threads to use.
+	 * @throws IllegalArgumentException if the parallelism is less than 1.
+	 */
+	public void setParallelism(int parallelism) throws IllegalArgumentException {
+		if (parallelism < 1) throw new IllegalArgumentException("Parallelism must be at least 1!");
+		context = new EvlContextParallel(parallelism, true);
 	}
 	
 	@Override

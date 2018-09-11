@@ -41,13 +41,14 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
 public abstract class AbstractSourceConfigurationTab
-	extends AbstractLaunchConfigurationTab implements ModifyListener{
+	extends AbstractLaunchConfigurationTab implements ModifyListener {
 		
 		protected Label fileLabel;
 		protected Text filePath;
 		protected Button browse;
 		protected Composite extras;
 		
+		@Override
 		public void createControl(Composite parent) {
 			
 			FillLayout parentLayout = new FillLayout();
@@ -192,6 +193,7 @@ public abstract class AbstractSourceConfigurationTab
 			return getPlugin().createImage(getImagePath());
 		}
 
+		@Override
 		public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 			String activeEditorName = getActiveEditorName();
 			if (activeEditorName.length() > 0){
@@ -209,7 +211,7 @@ public abstract class AbstractSourceConfigurationTab
 			if (!launchConfigurationExists(fileName)) return fileName;
 			
 			int i = 1;
-			while (true){
+			while (true) {
 				String configurationName = fileName + " (" + i + ")";
 				if (!launchConfigurationExists(configurationName)) return configurationName;
 				i++;
@@ -224,15 +226,16 @@ public abstract class AbstractSourceConfigurationTab
 			catch (CoreException ex){
 				ex.printStackTrace();
 			}
-			for (int i=0;i<cs.length;i++){
+			for (int i = 0; i < cs.length; i++) {
 				ILaunchConfiguration c = cs[i];
-				if (c.getName().equals(name)){
+				if (c.getName().equals(name)) {
 					return true;
 				}
 			}
 			return false;
 		}
 		
+		@Override
 		public void initializeFrom(ILaunchConfiguration configuration) {
 			try {
 				filePath.setText(configuration.getAttribute(getSourceAttributeName(), ""));
@@ -243,16 +246,18 @@ public abstract class AbstractSourceConfigurationTab
 			}
 		}
 
+		@Override
 		public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 			configuration.setAttribute(getSourceAttributeName(), filePath.getText());
 		}
 
+		@Override
 		public String getName() {
 			return getTitle();
 		}
 		
 		@Override
-		public boolean canSave(){
+		public boolean canSave() {
 			
 			IFile file = null;
 			
@@ -263,7 +268,7 @@ public abstract class AbstractSourceConfigurationTab
 				// do nothing
 			}
 			
-			if (file == null || !file.exists()){
+			if (file == null || !file.exists()) {
 				setErrorMessage("Selected file " + filePath.getText() + " does not exist");
 				return false;
 			}
@@ -273,6 +278,7 @@ public abstract class AbstractSourceConfigurationTab
 			}
 		}
  
+		@Override
 		public void modifyText(ModifyEvent e) {
 			canSave();
 			updateLaunchConfigurationDialog();
@@ -286,6 +292,7 @@ public abstract class AbstractSourceConfigurationTab
 		 * @deprecated We don't care about file extensions any more
 		 * @return
 		 */
+		@Deprecated
 		public String getFileExtension() {return "";}
 		
 		public abstract String getSelectionTitle();

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
@@ -332,7 +333,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	@Override
 	public void configure(Map<String, Object> properties) {
 		if (properties.containsKey(OPTIMIZE_CONSTRAINTS)) {
-			this.optimizeConstraints = Boolean.valueOf((String)properties.get(OPTIMIZE_CONSTRAINTS));
+			this.optimizeConstraints = Boolean.valueOf(Objects.toString(properties.get(OPTIMIZE_CONSTRAINTS)));
 		}
 	}
 

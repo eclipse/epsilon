@@ -27,9 +27,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 
-	public static final String
-		OPTIMIZE_CONSTRAINTS = "optimizeConstraints",
-		PARALLEL = "parallel";
+	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
 	
 	private Button optimizeConstraintsBtn, parallelBtn;
 
@@ -87,7 +85,6 @@ public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
 			optimizeConstraintsBtn.setSelection(configuration.getAttribute(OPTIMIZE_CONSTRAINTS, false));
-			parallelBtn.setSelection(configuration.getAttribute(PARALLEL, false));
 		}
 		catch (CoreException e) {
 			LogUtil.log("Error encountered whilst attempting to restore selection of default formatters from launch configuration", e);
@@ -97,7 +94,6 @@ public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(OPTIMIZE_CONSTRAINTS, optimizeConstraintsBtn.getSelection());
-		configuration.setAttribute(PARALLEL, parallelBtn.getSelection());
 	}
 
 	@Override
