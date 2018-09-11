@@ -34,6 +34,7 @@ public abstract class EpsilonLaunchConfigurationTabGroup extends AbstractLaunchC
 			
 			tabList.add(new ModelsConfigurationTab());
 			tabList.add(new ParametersConfigurationTab());
+			tabList.add(getAdvancedConfigurationTab());
 			
 			for (ILaunchConfigurationTab tab : getOtherConfigurationTabs()) {
 				tabList.add(tab);
@@ -66,6 +67,12 @@ public abstract class EpsilonLaunchConfigurationTabGroup extends AbstractLaunchC
 		
 		public ILaunchConfigurationTab[] getSourceConfigurationTabs() {
 			return new ILaunchConfigurationTab[]{getSourceConfigurationTab()};
+		}
+		
+		public abstract ILaunchConfigurationTab getAdvancedConfigurationTab();
+		
+		public ILaunchConfigurationTab[] getAdvancedConfigurationTabs() {
+			return new ILaunchConfigurationTab[]{getAdvancedConfigurationTab()};
 		}
 		
 		public ILaunchConfigurationTab[] getOtherConfigurationTabs() {

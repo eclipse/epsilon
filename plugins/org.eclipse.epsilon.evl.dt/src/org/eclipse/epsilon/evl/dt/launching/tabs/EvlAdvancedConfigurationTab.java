@@ -1,12 +1,3 @@
-/*********************************************************************
-* Copyright (c) 2008 The University of York.
-*
-* This program and the accompanying materials are made
-* available under the terms of the Eclipse Public License 2.0
-* which is available at https://www.eclipse.org/legal/epl-2.0/
-*
-* SPDX-License-Identifier: EPL-2.0
-**********************************************************************/
 package org.eclipse.epsilon.evl.dt.launching.tabs;
 
 import org.eclipse.core.runtime.CoreException;
@@ -27,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.PlatformUI;
 
-public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
+public class EvlAdvancedConfigurationTab extends AbstractLaunchConfigurationTab {
 
 	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
 	private Button optimizeConstraintsBtn;
