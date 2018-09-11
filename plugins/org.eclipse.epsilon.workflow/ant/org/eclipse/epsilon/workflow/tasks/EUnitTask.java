@@ -168,7 +168,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 	}
 
 	@Override
-	public IEolModule createModule() {
+	public IEolModule createDefaultModule() {
 		// We store the created module, so the EUnit view can call this,
 		// register itself as a listener, and then let EUnitTask configure
 		// it as usual

@@ -7,7 +7,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.common.dt.launching;
+package org.eclipse.epsilon.common.dt.launching.tabs;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -130,6 +130,7 @@ public abstract class AbstractSourceConfigurationTab
 			});
 			return button;
 		}
+		
 		protected Group createGroup(Composite control, String name, int numberOfColumns) {
 			final Group group = new Group(control, SWT.SHADOW_ETCHED_IN);
 			group.setLayout(new GridLayout(numberOfColumns, false));

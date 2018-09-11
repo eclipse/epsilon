@@ -12,7 +12,6 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.execute.CommandLineFixer;
@@ -31,7 +30,7 @@ public class EvlTask extends ExportableModuleTask {
 	}
 
 	@Override
-	protected IEvlModule createModule() {
+	protected IEvlModule createDefaultModule() {
 		return new EvlModule();
 	}
 

@@ -20,7 +20,11 @@
         </properties>
         <modules>
           <module>org.eclipse.epsilon.updatesite</module>
+<<<<<<< HEAD
           <module>org.eclipse.epsilon.ide.application</module>
+=======
+          <module>org.eclipse.epsilon.rcp.application</module>
+>>>>>>> origin/hhoyos/advancedDT
           <module>org.eclipse.epsilon.ide.feature</module>
         </modules>
     </profile>
@@ -37,6 +41,7 @@
              <url>http://download.eclipse.org/egit/updates</url>
              <layout>p2</layout>
           </repository>
+<<<<<<< HEAD
           <repository>
              <id>eclipse-neon</id>
              <url>http://download.eclipse.org/releases/neon/</url>
@@ -46,6 +51,12 @@
         <modules>
           <module>org.eclipse.epsilon.updatesite.interim</module>
           <module>org.eclipse.epsilon.ide.application.interim</module>
+=======
+        </repositories>
+        <modules>
+          <module>org.eclipse.epsilon.updatesite.interim</module>
+          <module>org.eclipse.epsilon.rcp.application.interim</module>
+>>>>>>> origin/hhoyos/advancedDT
           <module>org.eclipse.epsilon.ide.feature</module>
         </modules>
     </profile>

@@ -14,9 +14,5 @@ import org.eclipse.epsilon.eol.IEolModule;
 
 public class EolLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
-	@Override
-	public IEolModule createModule() {
-		return new EolModule();
-	}
-	
+
 }

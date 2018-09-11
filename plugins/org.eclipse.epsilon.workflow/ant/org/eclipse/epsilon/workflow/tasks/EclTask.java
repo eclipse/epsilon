@@ -12,7 +12,6 @@ package org.eclipse.epsilon.workflow.tasks;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
-import org.eclipse.epsilon.eol.IEolModule;
 
 public class EclTask extends ExecutableModuleTask {
 	
@@ -35,7 +34,7 @@ public class EclTask extends ExecutableModuleTask {
 	}
 
 	@Override
-	protected IEclModule createModule() {
+	protected IEclModule createDefaultModule() {
 		return new EclModule();
 	}
 

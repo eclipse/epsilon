@@ -10,7 +10,9 @@
 package org.eclipse.epsilon.eol;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.epsilon.common.module.IModule;
@@ -57,5 +59,21 @@ public interface IEolModule extends IModule {
 	
 	@Override
 	List<ParseProblem> getParseProblems();
+
+	/**
+	 * Configure the IEolModule with the given properties
+	 * @param properties a map of property:value 
+	 */
+	default void configure(Map<String, Object> properties) {
+		
+	}
 	
+	/**
+	 * Get the set of property names that should be retrieved from the ILaunchConfiguration in order
+	 * to configure this module.
+	 * @return
+	 */
+	default Set<String> getConfigurationProperties() {
+		return Collections.emptySet();
+	}
 }

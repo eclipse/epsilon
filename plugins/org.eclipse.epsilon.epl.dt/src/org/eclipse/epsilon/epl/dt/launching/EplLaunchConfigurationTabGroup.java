@@ -11,6 +11,7 @@ package org.eclipse.epsilon.epl.dt.launching;
 
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.launching.tabs.EpsilonLaunchConfigurationTabGroup;
+import org.eclipse.epsilon.epl.dt.launching.tabs.EplAdvancedConfigurationTab;
 import org.eclipse.epsilon.epl.dt.launching.tabs.EplSourceConfigurationTab;
 
 public class EplLaunchConfigurationTabGroup extends EpsilonLaunchConfigurationTabGroup{
@@ -18,6 +19,11 @@ public class EplLaunchConfigurationTabGroup extends EpsilonLaunchConfigurationTa
 	@Override
 	public ILaunchConfigurationTab getSourceConfigurationTab() {
 		return new EplSourceConfigurationTab();
+	}
+	
+	@Override
+	public ILaunchConfigurationTab getAdvancedConfigurationTab() {
+		return new EplAdvancedConfigurationTab();
 	}
 
 }

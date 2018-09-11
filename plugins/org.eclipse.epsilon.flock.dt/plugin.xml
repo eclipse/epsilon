@@ -45,4 +45,13 @@
             id="org.eclipse.epsilon.flock.dt.wizards.NewMigrationFileWizard"
             name="Epsilon Flock Migration Strategy"/>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.moduleImplementation">
+      <implementation
+            class="org.eclipse.epsilon.flock.FlockModule"
+            default="true"
+            language="FLOCK"
+            name="Flock">
+      </implementation>
+   </extension>
 </plugin>

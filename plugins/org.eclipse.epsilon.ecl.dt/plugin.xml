@@ -45,5 +45,14 @@
             id="org.eclipse.epsilon.ecl.dt.wizards.NewEclFileWizard"
             name="ECL Comparison"/>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.moduleImplementation">
+      <implementation
+            class="org.eclipse.epsilon.ecl.EclModule"
+            default="true"
+            language="ECL"
+            name="Ecl">
+      </implementation>
+   </extension>
 
 </plugin>

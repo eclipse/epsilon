@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.launching.dialogs;
 
+import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -25,7 +26,7 @@ public abstract class AbstractCachedModelConfigurationDialog extends AbstractMod
 	}
 	
 	protected void createPerformanceGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "Performance", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Performance", 3);
 		
 		isCachedButton = new Button(groupContent, SWT.CHECK);
 		isCachedButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

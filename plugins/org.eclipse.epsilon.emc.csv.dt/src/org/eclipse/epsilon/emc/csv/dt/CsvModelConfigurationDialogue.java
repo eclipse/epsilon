@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.emc.csv.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
+import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.emc.csv.CsvModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -48,7 +49,7 @@ public class CsvModelConfigurationDialogue extends AbstractCachedModelConfigurat
 	}
 
 	private void createFileGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "Files", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Files", 3);
 		
 		final Label modelFileLabel = new Label(groupContent, SWT.NONE);
 		modelFileLabel.setText("Model file: ");
@@ -63,7 +64,7 @@ public class CsvModelConfigurationDialogue extends AbstractCachedModelConfigurat
 	}
 	
 	protected void createCsvGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "CSV", 4);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "CSV", 4);
 		
 		final Label modelFieldSeparatorLabel = new Label(groupContent, SWT.NONE);
 		modelFieldSeparatorLabel.setText("Field Separator: ");

@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
@@ -50,6 +52,13 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	
 	public EvlModule() {
 		this.context = new EvlContext();
+	}
+
+	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
+	
+	private static final Set<String> CONFIG_PROPERTIES = new HashSet<>(1);
+	static {
+		CONFIG_PROPERTIES.add(OPTIMIZE_CONSTRAINTS);
 	}
 	
 	@Override
@@ -319,4 +328,17 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	public void setOptimizeConstraints(boolean optimizeConstraints) {
 		this.optimizeConstraints = optimizeConstraints;
 	}
+
+	@Override
+	public void configure(Map<String, Object> properties) {
+		if (properties.containsKey(OPTIMIZE_CONSTRAINTS)) {
+			this.optimizeConstraints = Boolean.valueOf((String)properties.get(OPTIMIZE_CONSTRAINTS));
+		}
+	}
+
+	@Override
+	public Set<String> getConfigurationProperties() {
+		return CONFIG_PROPERTIES;
+	}
+	
 }

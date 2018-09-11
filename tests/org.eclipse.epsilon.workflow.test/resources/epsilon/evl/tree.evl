@@ -1,0 +1,5 @@
+context T1!Tree {
+    constraint isParentNode {
+        guard: not self.children.isEmpty()
+        check: self.parent.isUndefined()
+    }

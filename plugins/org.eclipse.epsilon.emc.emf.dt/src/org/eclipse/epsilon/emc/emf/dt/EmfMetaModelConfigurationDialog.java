@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.emc.emf.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
+import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emf.dt.BrowseEPackagesListener;
 import org.eclipse.swt.SWT;
@@ -48,7 +49,7 @@ public class EmfMetaModelConfigurationDialog extends AbstractCachedModelConfigur
 	}
 	
 	protected Composite createFilesGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "Files/URIs", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Files/URIs", 3);
 		
 		metaModelUriLabel = new Label(groupContent, SWT.NONE);
 		metaModelUriLabel.setText("Meta-model URI: ");

@@ -24,7 +24,7 @@ import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.workflow.tasks.transactions.NamedTransactionSupport;
 
 public abstract class EpsilonTask extends Task {
-	
+
 	static final String EPSILON_REPOSITORY = "epsilon.modelRepository";
 	static final String EPSILON_EXTENDEDPROPERTIES = "epsilon.extendedProperties";
 	static final String EPSILON_FRAME = "epsilon.frame";
@@ -32,7 +32,8 @@ public abstract class EpsilonTask extends Task {
 	protected boolean profile;
 	protected boolean failOnErrors = true;
 	protected boolean failOnWarnings = false;
-	
+
+
 	@Override
 	public final void execute() throws BuildException {
 		try {
@@ -159,4 +160,5 @@ public abstract class EpsilonTask extends Task {
 	public void setFailOnWarnings(boolean failOnWarnings) {
 		this.failOnWarnings = failOnWarnings;
 	}
+
 }

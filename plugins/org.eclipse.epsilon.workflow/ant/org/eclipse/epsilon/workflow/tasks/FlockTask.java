@@ -20,7 +20,7 @@ public class FlockTask extends ExecutableModuleTask {
 	private String originalModel, migratedModel;
 	
 	@Override
-	protected IFlockModule createModule() throws Exception {
+	protected IFlockModule createDefaultModule() throws Exception {
 		return new FlockModule();
 	}
 	

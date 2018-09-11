@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.dt.launching;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -21,12 +22,16 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
+import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
+import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
@@ -52,7 +57,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor) throws CoreException {
 		this.configuration = configuration;
-		launch(configuration, mode, launch, progressMonitor, createModule(), createDebugger(), EolLaunchConfigurationAttributes.SOURCE, true, true);
+		launch(configuration, mode, launch, progressMonitor, createModule(configuration), createDebugger(), EolLaunchConfigurationAttributes.SOURCE, true, true);
 	}
 	
 	public boolean launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor, IEolModule module, EolDebugger debugger, String lauchConfigurationSourceAttribute, boolean setup, boolean disposeModelRepository) throws CoreException {
@@ -112,7 +117,36 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		return true;
 	}
 	
-	public abstract IEolModule createModule() throws CoreException;
+	public IEolModule createModule(ILaunchConfiguration configuration) throws CoreException {
+		String implName = configuration.getAttribute(AbstractAdvancedConfigurationTab.IMPL_NAME, "");
+		if (implName.length() > 0) {
+			IEolModule module = ModuleImplementationExtension.forImplementation(implName).createModule();
+			Set<String> requiredProperties = module.getConfigurationProperties();
+			Map<String, Object> attr = configuration.getAttributes();
+			requiredProperties.stream()
+		    	.filter(k -> !attr.containsKey(k))
+		    	.forEach(attr::remove);
+			module.configure(attr);
+			return module;
+		}
+		// Backwards compatibility. For existing configurations, we will use the default module.
+		System.out.println("Configuration does not have specific module implementation information. "
+				+ "Falling back to default module.");
+		IEolModule module = ModuleImplementationExtension.defaultImplementation().createModule();
+		if (module == null) {
+			IStatus result = new Status(IStatus.ERROR, "org.eclipse.epsilon.eol.dt",
+					"There was no default module found for the target language. Since this is defined "
+					+ "in the Epsilon plugins it is either a bug or your installation may have been "
+					+ "corrupted. Please raise a bug: https://bugs.eclipse.org/bugs/enter_bug.cgi?product=epsilon");
+			throw new CoreException(result);
+		}
+		return module;
+//		IStatus result = new Status(IStatus.ERROR, "org.eclipse.epsilon.eol.dt.launching",
+//				"Configuration does not have specific module implementation information. "
+//				+ "Please use the 'Advanced' configuration tab to select a module implementation.");
+//		throw new CoreException(result);
+		
+	}
 	
 	protected void collectListeners() {
 		

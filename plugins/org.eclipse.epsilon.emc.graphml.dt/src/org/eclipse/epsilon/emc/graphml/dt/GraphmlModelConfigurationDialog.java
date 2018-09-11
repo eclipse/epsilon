@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.emc.graphml.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
+import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.emc.graphml.GraphmlModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -66,7 +67,7 @@ public class GraphmlModelConfigurationDialog extends AbstractCachedModelConfigur
 	}
 	
 	protected Composite createFilesGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "Files/URIs", 3);		
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Files/URIs", 3);		
 		
 		filebasedButton = new Button(groupContent, SWT.CHECK);
 		GridData filebasedButtonGridData = new GridData(GridData.FILL_HORIZONTAL);

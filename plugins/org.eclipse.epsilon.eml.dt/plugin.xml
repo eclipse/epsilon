@@ -59,5 +59,14 @@
             label="No merging strategy"
             id="Default"/>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.moduleImplementation">
+      <implementation
+            class="org.eclipse.epsilon.etl.EtlModule"
+            default="true"
+            language="EML"
+            name="Eml">
+      </implementation>
+   </extension>
 
 </plugin>

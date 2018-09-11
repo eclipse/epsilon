@@ -14,8 +14,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -42,6 +44,28 @@ import org.eclipse.epsilon.workflow.tasks.nestedelements.VariableNestedElement;
 
 public abstract class ExecutableModuleTask extends EpsilonTask {
 	
+	/** 
+	 * Allow Epsilon Tasks to have arbitrary nested property settings
+	 * @author Horacio Hoyos Rodriguez
+	 *
+	 */
+	public class ModuleProperty {
+		String name;
+		String value;
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getValue() {
+			return value;
+		}
+		public void setValue(String value) {
+			this.value = value;
+		}
+	}
+	
 	protected List<ModelNestedElement> modelNestedElements = new ArrayList<>();
 	protected List<VariableNestedElement> usesVariableNestedElements = new ArrayList<>();
 	protected List<VariableNestedElement> exportsVariableNestedElements = new ArrayList<>();
@@ -55,6 +79,14 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	private boolean isGUI = true, isDebug = false;
 	protected boolean setBeans = false;
 	protected boolean fine;
+	
+	/**
+	 * Provide a specific module implementation at runtime
+	 */
+	protected Class<? extends IEolModule> moduleImplementation;
+	
+	/** Task specific settings */
+	List<ModuleProperty> properties = new ArrayList<>();
 	
 	static {
 		HostManager.getHost().initialise();
@@ -84,6 +116,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		return parameterNestedElement;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void configureModule() throws EolModelNotFoundException, BuildException, EolModelLoadingException {
 		// We can only run these if we're inside a real Eclipse instance:
 		// we must avoid these calls if we're running the Ant task inside
@@ -116,7 +149,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		useVariables();
 	}
 	
-	protected void addVariables(IEolContext context, Map<String, ?>... variableMaps) {
+	protected void addVariables(IEolContext context, @SuppressWarnings("unchecked") Map<String, ?>... variableMaps) {
 		for (Map<String, ?> variableMap : variableMaps) {
 			for (String key : variableMap.keySet()) {
 				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(key, variableMap.get(key)));				
@@ -256,7 +289,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	}
 
 	public void addText(String msg) {
-		if (msg != null) {
+		if ((msg != null) && (src == null)) {
 			code += getProject().replaceProperties(msg);
 		}
 	}
@@ -407,6 +440,54 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 
 	protected abstract void examine() throws Exception;
 
-	protected abstract IEolModule createModule() throws Exception;
+	protected abstract IEolModule createDefaultModule() throws Exception;
+	
+	protected IEolModule createModule() throws Exception {
+		IEolModule result = null;
+		if (moduleImplementation == null) {
+			result = createDefaultModule();
+		}
+		else {
+			result =  createAlternativeModule();
+		}
+		Set<String> requiredProperties = result.getConfigurationProperties();
+		Map<String, Object> props = new HashMap<>(requiredProperties.size());
+		for (String rp : requiredProperties) {
+			for (ModuleProperty np : properties) {
+				if (rp.equals(np.name)) {
+					props.put(np.name, np.value);
+				}
+			}
+		}
+		result.configure(props);
+		return result;
+		
+	}
+	
+	public Class<? extends IEolModule> getModuleImplementation() {
+		return moduleImplementation;
+	}
+
+	public void setModuleImplementation(Class<? extends IEolModule> moduleImplementation) {
+		this.moduleImplementation = moduleImplementation;
+	}
+
+	/** Ant constructor for nested elements */
+    public ModuleProperty createModuleProperty() {                    
+    	ModuleProperty property = new ModuleProperty();
+    	properties.add(property);
+        return property;
+    }
+    
+	/**
+	 * @return
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	protected IEolModule createAlternativeModule() throws InstantiationException, IllegalAccessException {
+		IEolModule module = moduleImplementation.newInstance();
+		
+		return module;
+	}
 		
 }

@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.ecl.dt.launching.tabs;
 
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
-import org.eclipse.epsilon.common.dt.launching.AbstractSourceConfigurationTab;
+import org.eclipse.epsilon.common.dt.launching.tabs.AbstractSourceConfigurationTab;
 import org.eclipse.epsilon.ecl.dt.EclPlugin;
 
 public class EclSourceConfigurationTab extends AbstractSourceConfigurationTab{

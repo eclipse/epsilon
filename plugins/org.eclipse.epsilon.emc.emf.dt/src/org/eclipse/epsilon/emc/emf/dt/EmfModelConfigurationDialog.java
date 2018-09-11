@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
 import org.eclipse.epsilon.common.dt.launching.dialogs.BrowseWorkspaceUtil;
+import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emf.dt.BrowseEPackagesListener;
@@ -216,7 +217,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 	}
 
 	protected void createEmfGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "EMF", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "EMF", 3);
 	
 		expandButton = new Button(groupContent, SWT.CHECK);
 		expandButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -241,7 +242,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 	}
 
 	protected Composite createFilesGroup(Composite parent) {
-		final Composite groupContent = createGroupContainer(parent, "Files/URIs", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Files/URIs", 3);
 		((GridData)groupContent.getParent().getLayoutData()).grabExcessVerticalSpace = true;
 
 		final Label modelFileLabel = new Label(groupContent, SWT.NONE);
