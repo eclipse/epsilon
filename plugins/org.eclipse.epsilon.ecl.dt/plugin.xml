@@ -50,10 +50,6 @@
       <implementation
             class="org.eclipse.epsilon.ecl.EclModule"
             default="true"
-<<<<<<< HEAD
-=======
-            dialog="org.eclipse.epsilon.eol.dt.launching.EclModuleConfiguration"
->>>>>>> origin/master
             language="ECL"
             name="Ecl">
       </implementation>

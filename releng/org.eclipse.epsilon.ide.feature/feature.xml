@@ -2,7 +2,6 @@
 <feature
       id="org.eclipse.epsilon.ide"
       label="Epsilon IDE Feature"
-<<<<<<< HEAD
       version="1.6.0.qualifier"
       provider-name="Eclipse.org">
 
@@ -18,21 +17,6 @@
       This program and the accompanying materials are made available under the terms of the Eclipse Public License 2.0 which is available at https://www.eclipse.org/legal/epl-2.0/
 
 SPDX-License-Identifier: EPL-2.0
-=======
-      version="1.5.0.qualifier"
-      provider-name="Eclipse.org">
-
-   <description url="http://www.example.com/description">
-      A Neon Eclipse distribution with all Epsilon plugins installed, plus modelling components.
-   </description>
-
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
-   </copyright>
-
-   <license url="https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt">
-      [Enter License Description here.]
->>>>>>> origin/hhoyos/advancedDT
    </license>
 
    <url>

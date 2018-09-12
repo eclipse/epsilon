@@ -49,10 +49,7 @@
       <implementation
             class="org.eclipse.epsilon.epl.EplModule"
             default="true"
-<<<<<<< HEAD
-=======
             dialog="org.eclipse.epsilon.eol.dt.launching.EplModuleConfiguration"
->>>>>>> origin/master
             language="EPL"
             name="Epl">
       </implementation>
