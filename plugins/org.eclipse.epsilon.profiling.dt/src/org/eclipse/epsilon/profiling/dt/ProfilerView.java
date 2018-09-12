@@ -9,15 +9,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.profiling.dt;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.profiling.FileMarker;
 import org.eclipse.epsilon.profiling.IProfilerListener;
 import org.eclipse.epsilon.profiling.Profiler;
 import org.eclipse.epsilon.profiling.ProfilerTarget;
@@ -63,14 +60,17 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 	protected Image completed = Activator.getImageDescriptor("icons/completed.gif").createImage();
 	protected boolean sortChildrenTargetsByTime = false;
 	protected boolean showAggregatedWork = true;
-	protected List<ProfilerTargetSummary> targetSummaries = new ArrayList<ProfilerTargetSummary>();
-	protected List<ProfilerTarget> rootTargets = new ArrayList<ProfilerTarget>();
+	protected List<ProfilerTargetSummary> targetSummaries = new ArrayList<>();
+	protected List<ProfilerTarget> rootTargets = new ArrayList<>();
 	
 	class ViewContentProvider implements IStructuredContentProvider {
+		@Override
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 		}
+		@Override
 		public void dispose() {
 		}
+		@Override
 		public Object[] getElements(Object parent) {
 			return targetSummaries.toArray();
 		}
@@ -78,27 +78,32 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 	
 	class DetailsViewerContentProvider implements ITreeContentProvider {
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			return rootTargets.toArray();
 		}
 
+		@Override
 		public void dispose() {
 			
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			// TODO Auto-generated method stub
 			
 		}
 
+		@Override
 		public Object[] getChildren(Object parentElement) {
 			List<ProfilerTarget> children = ((ProfilerTarget) parentElement).getChildren();
 			if (sortChildrenTargetsByTime) {
 				List<ProfilerTarget> temp = children;
-				children = new ArrayList<ProfilerTarget>();
+				children = new ArrayList<>();
 				children.addAll(temp);
 				Collections.sort(children, new Comparator<ProfilerTarget>() {
 
+					@Override
 					public int compare(ProfilerTarget o1, ProfilerTarget o2) {
 						if (o1.getWorked(showAggregatedWork) > o2.getWorked(showAggregatedWork)) {
 							return -1;
@@ -116,10 +121,12 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 			return children.toArray();
 		}
 
+		@Override
 		public Object getParent(Object element) {
 			return ((ProfilerTarget) element).getParent();
 		}
 
+		@Override
 		public boolean hasChildren(Object element) {
 			return ((ProfilerTarget) element).getChildren().size() > 0;
 		}
@@ -128,6 +135,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 	
 	class DetailsViewerLabelProvider extends LabelProvider implements ITableLabelProvider{
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			if (columnIndex == 0) {
 				return completed;
@@ -135,6 +143,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 			return null;
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			ProfilerTarget target = ((ProfilerTarget) element);
 			if (columnIndex == 0) return target.getName();
@@ -157,6 +166,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 	
 	class TargetsViewerLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+		@Override
 		public String getColumnText(Object obj, int index) {
 			
 			ProfilerTargetSummary summary = (ProfilerTargetSummary) obj;
@@ -189,6 +199,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 				return ""; //CollectionUtil.toString(Profiler.INSTANCE.getTargetHistory(obj.toString()));
 			}
 		}
+		@Override
 		public Image getColumnImage(Object obj, int index) {
 			Image image = null;
 			if (index == ORDER_COLUMN) {
@@ -275,6 +286,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		
 		detailsViewer.getTree().addMouseListener(new MouseListener() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				ProfilerTarget target = (ProfilerTarget) ((IStructuredSelection) detailsViewer.getSelection()).getFirstElement();
 				if (target != null) {
@@ -285,11 +297,13 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 				}
 			}
 
+			@Override
 			public void mouseDown(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
 
+			@Override
 			public void mouseUp(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
@@ -356,14 +370,17 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		targetsViewer.getControl().setFocus();
 	}
 
+	@Override
 	public void targetStarted(String task) {
 		if (autoRefresh) refresh();
 	}
 
+	@Override
 	public void targetStopped(String task) {
 		if (autoRefresh) refresh();
 	}
 	
+	@Override
 	public void refresh() {
 		
 		targetSummaries = Profiler.INSTANCE.getTargetSummaries();
@@ -371,6 +388,7 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				
 				long total = 0;

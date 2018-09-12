@@ -13,22 +13,35 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
 public class EvlModuleParallelConfiguration extends EvlModuleConfiguration {
 
-	protected Spinner numThreads;
+	protected Spinner numThreadsSelector;
+	protected Label numThreadsLabel;
 	
 	@Override
 	public Composite createModuleConfigurationGroup(Composite parent) {
 		final Composite group = super.createModuleConfigurationGroup(parent);
-		numThreads = new Spinner(group, SWT.BORDER);
-		numThreads.setMinimum(1);
+		
+		final Composite container = new Composite(group, SWT.FILL);
+		container.setLayout(new GridLayout(2, false));
+		container.setLayoutData(new GridData(GridData.FILL_VERTICAL));
+		
+		numThreadsLabel = new Label(container, SWT.WRAP);
+		numThreadsLabel.setText("Number of threads: ");
+		
+		numThreadsSelector = new Spinner(container, SWT.BORDER);
+		numThreadsSelector.setMinimum(1);
 		final int initialThreads = ConcurrencyUtils.DEFAULT_PARALLELISM;
-		numThreads.setSelection(initialThreads);
-		numThreads.setIncrement(initialThreads % 2 == 0 ? 2 : (initialThreads % 3 == 0 ? 3 : 1));
-		numThreads.setToolTipText("Number of threads");
+		numThreadsSelector.setSelection(initialThreads);
+		numThreadsSelector.setIncrement(initialThreads % 2 == 0 ? 2 : (initialThreads % 3 == 0 ? 3 : 1));
+		numThreadsSelector.setToolTipText("Parallelism");
+		
 		return group;
 	}
 

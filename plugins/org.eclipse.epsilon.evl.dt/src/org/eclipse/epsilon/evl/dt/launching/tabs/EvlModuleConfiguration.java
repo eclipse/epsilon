@@ -25,7 +25,7 @@ public class EvlModuleConfiguration implements ModuleConfiguration {
 
 	@Override
 	public Composite createModuleConfigurationGroup(Composite parent) {
-		final Composite group = DialogUtil.createGroupContainer(parent, "Module Configuration", 2);
+		final Composite group = DialogUtil.createGroupContainer(parent, "Module Configuration", 1);
 		optimizeConstraintsBtn = new Button(group, SWT.CHECK);
 		optimizeConstraintsBtn.setText("Optimize Constraints to Select Operations");
 		return group;

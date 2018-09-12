@@ -24,13 +24,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
+public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab {
 	
 	private Button enableProfilerButton = null;
 	private Button resetProfilerButton = null;
 	private Button fineGrainedProfilingButton = null;
 	private Button profileModelLoadingButton = null;
 	
+	@Override
 	public void createControl(Composite parent) {
 		
 		FillLayout parentLayout = new FillLayout();
@@ -56,10 +57,12 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 	}
 
 	
+	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		
 	}
 	
+	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
 			boolean profilerEnabled = configuration.getAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, false);
@@ -82,6 +85,7 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 		}
 	}
 	
+	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.PROFILING_ENABLED, enableProfilerButton.getSelection());
 		configuration.setAttribute(ProfilingLaunchConfigurationAttributes.RESET_PROFILER, resetProfilerButton.getSelection());
@@ -91,6 +95,7 @@ public class ProfilingConfigurationTab extends AbstractLaunchConfigurationTab{
 		
 	}
 
+	@Override
 	public String getName() {
 		return "Profiling";
 	}
