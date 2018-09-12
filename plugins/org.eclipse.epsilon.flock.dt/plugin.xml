@@ -50,6 +50,7 @@
       <implementation
             class="org.eclipse.epsilon.flock.FlockModule"
             default="true"
+            dialog="org.eclipse.epsilon.eol.dt.launching.FlockModuleConfiguration"
             language="FLOCK"
             name="Flock">
       </implementation>

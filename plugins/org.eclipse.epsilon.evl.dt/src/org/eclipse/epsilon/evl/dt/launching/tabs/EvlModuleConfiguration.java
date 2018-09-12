@@ -47,5 +47,4 @@ public class EvlModuleConfiguration implements ModuleConfiguration {
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimizeConstraintsBtn.getSelection());
 	}
-
 }

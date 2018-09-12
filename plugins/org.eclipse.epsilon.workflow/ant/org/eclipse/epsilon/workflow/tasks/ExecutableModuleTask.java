@@ -43,15 +43,14 @@ import org.eclipse.epsilon.workflow.tasks.nestedelements.ParameterNestedElement;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.VariableNestedElement;
 
 public abstract class ExecutableModuleTask extends EpsilonTask {
-	
+
 	/** 
 	 * Allow Epsilon Tasks to have arbitrary nested property settings
 	 * @author Horacio Hoyos Rodriguez
 	 *
 	 */
 	public class ModuleProperty {
-		String name;
-		String value;
+		String name, value;
 		public String getName() {
 			return name;
 		}

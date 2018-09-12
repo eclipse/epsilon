@@ -40,3 +40,4 @@ Export-Package: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.common.dt.variables,
  org.eclipse.epsilon.common.dt.wizards
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.common.dt

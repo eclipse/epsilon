@@ -6,19 +6,11 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Sina Madani - concurrency support
+ *     Sina Madani - concurrency support, refactoring, optimisation
  ******************************************************************************/
 package org.eclipse.epsilon.evl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;

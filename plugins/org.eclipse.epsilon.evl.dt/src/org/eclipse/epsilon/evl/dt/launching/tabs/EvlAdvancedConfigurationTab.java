@@ -16,12 +16,11 @@ import org.eclipse.epsilon.evl.dt.EvlPlugin;
 
 public class EvlAdvancedConfigurationTab extends AbstractAdvancedConfigurationTab {
 
-
 	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 
 	}
-
+	
 	@Override
 	public EpsilonPlugin getPlugin() {
 		return EvlPlugin.getDefault();

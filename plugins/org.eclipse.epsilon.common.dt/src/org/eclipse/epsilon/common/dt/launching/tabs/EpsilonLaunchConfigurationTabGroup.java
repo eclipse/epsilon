@@ -23,8 +23,9 @@ import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 
-public abstract class EpsilonLaunchConfigurationTabGroup extends AbstractLaunchConfigurationTabGroup{
+public abstract class EpsilonLaunchConfigurationTabGroup extends AbstractLaunchConfigurationTabGroup {
 		
+		@Override
 		public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
 			
 			ArrayList<ILaunchConfigurationTab> tabList = new ArrayList<>();

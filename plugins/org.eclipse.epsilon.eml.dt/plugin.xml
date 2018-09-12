@@ -62,8 +62,9 @@
    <extension
          point="org.eclipse.epsilon.common.dt.moduleImplementation">
       <implementation
-            class="org.eclipse.epsilon.etl.EtlModule"
+            class="org.eclipse.epsilon.etl.EmlModule"
             default="true"
+            dialog="org.eclipse.epsilon.eol.dt.launching.EmlModuleConfiguration"
             language="EML"
             name="Eml">
       </implementation>
