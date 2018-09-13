@@ -1,13 +1,4 @@
-/*********************************************************************
- * Copyright (c) 2018 The University of York.
- *
- * This program and the accompanying materials are made
- * available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
- *
- * SPDX-License-Identifier: EPL-2.0
-**********************************************************************/
-package org.eclipse.epsilon.evl.dt.launching.tabs;
+package org.eclipse.epsilon.ecl.dt.launching;
 
 import static org.eclipse.epsilon.common.dt.launching.tabs.ModuleConfiguration.*;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -16,7 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
-public class EvlModuleParallelConfiguration extends EvlModuleConfiguration {
+public class EclModuleParallelConfiguration extends EclModuleConfiguration {
 
 	protected Spinner numThreadsSelector;
 	protected Label numThreadsLabel;
@@ -41,5 +32,5 @@ public class EvlModuleParallelConfiguration extends EvlModuleConfiguration {
 		super.performApply(configuration);
 		performApplyThreadsForConfiguration(configuration, numThreadsSelector);
 	}
-
+	
 }

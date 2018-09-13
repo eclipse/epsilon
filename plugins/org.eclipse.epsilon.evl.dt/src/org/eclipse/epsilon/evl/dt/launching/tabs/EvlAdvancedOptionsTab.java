@@ -29,7 +29,7 @@ public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 
 	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
 	
-	private Button optimizeConstraintsBtn, parallelBtn;
+	private Button optimizeConstraintsBtn;
 
 	private final SelectionListener selectionListener = new SelectionListener() {
 		
@@ -57,7 +57,6 @@ public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(control, "org.eclipse.epsilon.help.egl_generated_text_tab");
 		
 		createOptimizationGroup(control);
-		createParallelGroup(control);
 		
 		control.setBounds(0, 0, 300, 300);
 		control.layout();
@@ -68,12 +67,6 @@ public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 		optimizeConstraintsBtn = new Button(control, SWT.CHECK);
 		optimizeConstraintsBtn.setText("Optimize Constraints to Select Operations");
 		optimizeConstraintsBtn.addSelectionListener(selectionListener);
-	}
-
-	private void createParallelGroup(Composite control) {
-		parallelBtn = new Button(control, SWT.CHECK);
-		parallelBtn.setText("Use multi-threaded implementation");
-		parallelBtn.addSelectionListener(selectionListener);
 	}
 
 	@Override

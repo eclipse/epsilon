@@ -15,7 +15,7 @@ import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 public class EclLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
 //	@Override
-//	public IEolModule createModule() {
+//	public IEclModule createModule() {
 //		return new EclModule();
 //	}
 	

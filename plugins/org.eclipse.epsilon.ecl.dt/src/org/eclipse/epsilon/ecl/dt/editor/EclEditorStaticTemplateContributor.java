@@ -17,10 +17,12 @@ import org.eclipse.jface.text.templates.Template;
 
 public class EclEditorStaticTemplateContributor implements IAbstractModuleEditorTemplateContributor {
 	
-	List<Template> templates = null;
+	List<Template> templates;
+	
+	@Override
 	public List<Template> getTemplates() {
 		if (templates == null) {
-			templates = new ArrayList<Template>();
+			templates = new ArrayList<>(6);
 			templates.add(new Template("matches", "check if two objects match", "", "matches(${cursor})",false));
 			templates.add(new Template("match", "match rule", "", "rule ${rulename} \r\n\tmatch l : ${leftmodel}!${lefttype}\r\n\twith r : ${rightmodel}!${righttype} {\r\n\tcompare : ${cursor}\r\n}",false));
 			templates.add(new Template("common match", "match rule", "", "rule ${name} \r\n\tmatch l : Left!${name}\r\n\twith r : Right!${name} {\r\n\r\n\tcompare : ${cursor}\r\n}",false));
