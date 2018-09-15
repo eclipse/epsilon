@@ -36,6 +36,11 @@ public interface IEolContextParallel extends IEolContext {
 	static final int PARALLEL_NEST_THRESHOLD = 1;
 	
 	/**
+	 * The key used for configuring the parallelism in dt plugins.
+	 */
+	static final String NUM_THREADS_CONFIG = "parallelism";
+	
+	/**
 	 * Indicates the scalability of this Context when more processing nodes are added.
 	 * 
 	 * @return the number of threads.

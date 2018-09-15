@@ -14,6 +14,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dt.EvlPlugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -26,8 +27,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
-
-	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
 	
 	private Button optimizeConstraintsBtn;
 
@@ -77,7 +76,7 @@ public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
-			optimizeConstraintsBtn.setSelection(configuration.getAttribute(OPTIMIZE_CONSTRAINTS, false));
+			optimizeConstraintsBtn.setSelection(configuration.getAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, false));
 		}
 		catch (CoreException e) {
 			LogUtil.log("Error encountered whilst attempting to restore selection of default formatters from launch configuration", e);
@@ -86,7 +85,7 @@ public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 	
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		configuration.setAttribute(OPTIMIZE_CONSTRAINTS, optimizeConstraintsBtn.getSelection());
+		configuration.setAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimizeConstraintsBtn.getSelection());
 	}
 
 	@Override

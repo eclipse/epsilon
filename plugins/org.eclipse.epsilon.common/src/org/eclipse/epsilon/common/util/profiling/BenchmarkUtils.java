@@ -18,6 +18,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -28,7 +30,7 @@ import org.eclipse.epsilon.common.function.*;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic.MemoryUnit;
 
 /**
- * Utility for performance profiling; mainly for measuring execution times.
+ * Utility class for performance profiling; mainly for measuring execution times.
  * All long temporal values are assumed to be nanoseconds if not otherwise specified.
  * Similarly, all long memory values are assumed to be in bytes if not otherwise specified.
  * 
@@ -38,10 +40,14 @@ public final class BenchmarkUtils {
 	
 	private BenchmarkUtils() {}
 	
+	public static final String GC_PROFILE_STAGE = "GARBAGE_COLLECTION";
 	public static final MemoryUnit DEFAULT_MEMORY_UNITS = MemoryUnit.MB;
+	public static final TemporalUnit DEFAULT_TIME_UNITS = ChronoUnit.NANOS;
 	static final Runtime RT = Runtime.getRuntime();
 	
 	/**
+	 * Convenience method for formatting a collection of profile stages into a string.
+	 * 
 	 * @param profileInfo the stages profiled.
 	 * @param includeTime whether to include execution times.
 	 * @param conversionFactor - this parameter has two uses: if it is null, memory won't be included in the results.
@@ -50,7 +56,7 @@ public final class BenchmarkUtils {
 	 * 
 	 * @return the formatted and raw execution time concerted to milliseconds and memory consumption.
 	 * That is, a line-separated String in the form
-	 * "<Stage name>: <Execution time in HH:mm:ss.000> (<milliseconds> ms), <Memory consumption> <MemoryUnits>".
+	 * "[Stage name]: [Execution time in HH:mm:ss.000] ([milliseconds] ms), [Memory consumption] [MemoryUnits]".
 	 */
 	static String formatExecutionStages(Iterable<ProfileDiagnostic> profileInfo, boolean includeTime, Optional<MemoryUnit> conversionFactor) {
 		StringBuilder formatted = new StringBuilder();
@@ -87,6 +93,12 @@ public final class BenchmarkUtils {
         return LocalTime.MIDNIGHT.plus(duration).format(DateTimeFormatter.ofPattern(pattern));
     }
 	
+	/**
+	 * Sums the execution times of the execution stages.
+	 * @param profiledStages The profiled stages.
+	 * @return The total duration of {@link ProfileDiagnostic#executionTime} for
+	 * the given profiled stages.
+	 */
 	public static Duration getTotalExecutionTimeFrom(Collection<ProfileDiagnostic> profiledStages) {
 		return Duration.ofNanos(profiledStages
 			.stream()
@@ -118,6 +130,9 @@ public final class BenchmarkUtils {
 		    //RT.totalMemory() - RT.freeMemory();
 	}
 	
+	/**
+	 * @return The current time as a String.
+	 */
 	public static String getTime() {
 		return LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
 	}
@@ -149,14 +164,86 @@ public final class BenchmarkUtils {
 	
 	//CPU utils
 	
+	/**
+	 * Delegates to {@link Runtime#availableProcessors()}.
+	 * @return The number of logical cores available to the JVM.
+	 */
 	public static int getNumberOfHardwareThreads() {
 		return RT.availableProcessors();
 	}
 	
 	//Profile utils
 	
+	/**
+	 * Finds the stage for the given name.
+	 * @param profileInfo The profiled stages.
+	 * @param stageName The stage name.
+	 * @return The prifle stage, or <code>null</code> if there wasn't one.
+	 */
+	public static ProfileDiagnostic getProfileStageByName(Collection<ProfileDiagnostic> profileInfo, String stageName) {
+		return profileInfo.stream().filter(pd -> pd.stageName.equals(stageName)).findAny().orElse(null);
+	}
+	
+	/**
+	 * Performs a {@link Runtime#gc()}, takes into account the time taken to do so
+	 * and subtracts it from the given stage, identified by its name.
+	 * @param profileInfo The profiled stages.
+	 * @param stageName The stage identifier to subtract garbage collection time from.
+	 * @return The updated stage, for convenience.
+	 */
+	public static ProfileDiagnostic removeGCTimeFromStage(Collection<ProfileDiagnostic> profileInfo, String stageName) {
+		ProfileDiagnostic
+			gc = getProfileStageByName(profileInfo, GC_PROFILE_STAGE),
+			target = getProfileStageByName(profileInfo, stageName);
+		
+		if (gc == null || target == null) return target;
+		
+		ProfileDiagnostic updated = new ProfileDiagnostic(
+			stageName,
+			target.executionTime.minus(gc.executionTime),
+			target.memoryUsage,
+			target.memoryUnits
+		);
+		
+		profileInfo.remove(target);
+		profileInfo.add(updated);
+		return updated;
+	}
+	
+	/**
+	 * Calls {@link Runtime#gc()}, measuring the time and accumulating it
+	 * in the provided profiled stages using the {@link #GC_PROFILE_STAGE} key.
+	 * 
+	 * @param profileInfo The profiled stages to update.
+	 * @return The time taken to perform the GC invocation.
+	 */
+	public static long measureAndAddGCTime(Collection<ProfileDiagnostic> profileInfo) {
+		ProfileDiagnostic existingGCStage = getProfileStageByName(profileInfo, GC_PROFILE_STAGE);
+		
+		long gcTime = measureTimeNanos(RT::gc);
+		
+		if (existingGCStage != null) {
+			gcTime += existingGCStage.executionTime.toNanos();
+			profileInfo.remove(existingGCStage);
+		}
+		
+		profileInfo.add(new ProfileDiagnostic(GC_PROFILE_STAGE, gcTime, 0));
+		return gcTime;
+	}
+	
+	/**
+	 * Creates a new {@linkplain ProfileDiagnostic} and adds it to the collection of
+	 * profiled stages, measuring execution time and memory consumption.
+	 * 
+	 * @param profileInfo The execution stages to write to.
+	 * @param description The name of the execution stage.
+	 * @param code The transformation to profile.
+	 * @param argument The argument to the transformation code.
+	 * @return The result of the transformation code.
+	 * @throws E Any exception thrown from the transformation code.
+	 */
 	public static <T, R, E extends Exception> R profileExecutionStage(Collection<ProfileDiagnostic> profileInfo, String description, CheckedFunction<T, R, E> code, T argument) throws E {
-		//RT.gc();
+		measureAndAddGCTime(profileInfo);
 		final long
 			endTime, endMemory,
 			startMemory = getCurrentMemoryUsage(),
@@ -165,7 +252,7 @@ public final class BenchmarkUtils {
 		R result = code.applyThrows(argument);
 		
 		endTime = nanoTime();
-		//RT.gc();
+		measureAndAddGCTime(profileInfo);
 		endMemory = getCurrentMemoryUsage();
 		
 		addProfileInfo(profileInfo, description, endTime-startTime, endMemory-startMemory);
@@ -292,4 +379,5 @@ public final class BenchmarkUtils {
 	public static long nanosToMillis(long nanos) {
 		return Duration.ofNanos(nanos).toMillis();
 	}
+	
 }

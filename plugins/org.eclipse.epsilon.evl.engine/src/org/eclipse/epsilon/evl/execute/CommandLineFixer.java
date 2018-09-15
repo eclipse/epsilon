@@ -19,6 +19,7 @@ public class CommandLineFixer implements IEvlFixer {
 
 	protected boolean fix = false;
 	
+	@Override
 	public void fix(IEvlModule module) throws EolRuntimeException {
 		IEvlContext context = module.getContext();
 		IUserInput userInput = context.getUserInput();

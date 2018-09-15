@@ -27,6 +27,14 @@ public interface IEvlModule extends IErlModule {
 	
 	List<ConstraintContext> getConstraintContexts();
 	
+	default ConstraintContext getConstraintContext(String name) {
+		return getConstraintContexts()
+			.stream()
+			.filter(cc -> cc.getTypeName().equals(name))
+			.findAny()
+			.orElse(null);
+	}
+	
 	@Override
 	IEvlContext getContext();
 	

@@ -4,6 +4,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -33,7 +34,6 @@ public interface ModuleConfiguration {
 	void performApply(ILaunchConfigurationWorkingCopy configuration);
 	
 	
-	public static final String NUM_THREADS = "parallelism";
 	public static final int INITIAL_THREADS = ConcurrencyUtils.DEFAULT_PARALLELISM;
 
 	public static Composite createParallelContainer(Composite group) {
@@ -61,7 +61,7 @@ public interface ModuleConfiguration {
 	
 	public static void initializeThreadsFromConfiguration(ILaunchConfiguration configuration, Spinner numThreadsSelector) {
 		try {
-			numThreadsSelector.setSelection(configuration.getAttribute(NUM_THREADS, INITIAL_THREADS));
+			numThreadsSelector.setSelection(configuration.getAttribute(IEolContextParallel.NUM_THREADS_CONFIG, INITIAL_THREADS));
 		}
 		catch (CoreException cx) {
 			// TODO Auto-generated catch block
@@ -69,6 +69,6 @@ public interface ModuleConfiguration {
 	}
 	
 	public static void performApplyThreadsForConfiguration(ILaunchConfigurationWorkingCopy configuration, Spinner numThreadsSelector) {
-		configuration.setAttribute(NUM_THREADS, numThreadsSelector.getSelection());
+		configuration.setAttribute(IEolContextParallel.NUM_THREADS_CONFIG, numThreadsSelector.getSelection());
 	}
 }

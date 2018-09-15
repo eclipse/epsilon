@@ -14,7 +14,6 @@ import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.EvlModule;
-import org.eclipse.epsilon.evl.dt.launching.tabs.EvlAdvancedOptionsTab;
 import org.eclipse.epsilon.evl.dt.views.ValidationViewFixer;
 
 public class EvlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
@@ -30,7 +29,7 @@ public class EvlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		EvlModule evlModule = (EvlModule) module;
 		
 		evlModule.setUnsatisfiedConstraintFixer(new ValidationViewFixer(configuration));
-		evlModule.setOptimizeConstraints(configuration.getAttribute(EvlAdvancedOptionsTab.OPTIMIZE_CONSTRAINTS, false));
+		evlModule.setOptimizeConstraints(configuration.getAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, false));
 	}
 	
 }

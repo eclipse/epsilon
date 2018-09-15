@@ -12,12 +12,10 @@ package org.eclipse.epsilon.evl;
 
 import java.util.*;
 import org.antlr.runtime.ANTLRInputStream;
-import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
@@ -49,18 +47,18 @@ public class EvlModule extends ErlModule implements IEvlModule {
 
 	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
 	
-	private static final Set<String> CONFIG_PROPERTIES = new HashSet<>(1);
+	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
 	static {
 		CONFIG_PROPERTIES.add(OPTIMIZE_CONSTRAINTS);
 	}
 	
 	@Override
-	protected Lexer createLexer(ANTLRInputStream inputStream) {
+	protected EvlLexer createLexer(ANTLRInputStream inputStream) {
 		return new EvlLexer(inputStream);
 	}
  
 	@Override
-	public EpsilonParser createParser(TokenStream tokenStream) {
+	public EvlParser createParser(TokenStream tokenStream) {
 		return new EvlParser(tokenStream);
 	}
 

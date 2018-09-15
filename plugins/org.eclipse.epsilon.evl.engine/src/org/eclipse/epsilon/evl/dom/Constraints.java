@@ -18,17 +18,17 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 public class Constraints extends ArrayList<Constraint> {
 	
 	public Optional<Constraint> getConstraint(String name, Object target, IEvlContext context) throws EolRuntimeException {
-		return getConstraint(name, target, context, false);
+		return getConstraint(name, null, target, context, false);
 	}
 	
-	public Optional<Constraint> getConstraint(String name, Object target, IEvlContext context, boolean appliesTo) throws EolRuntimeException {
+	public Optional<Constraint> getConstraint(String name, ConstraintContext constraintContext, Object target, IEvlContext context, boolean appliesTo) throws EolRuntimeException {
 		for (Constraint constraint : this) {
-			ConstraintContext constraintContext = constraint.getConstraintContext();
+			ConstraintContext cc = constraintContext == null ? constraint.getConstraintContext() : constraintContext;
 			if (
 				constraint.getName().equals(name) && 
 				(
-					(constraintContext instanceof GlobalConstraintContext) ||
-					constraintContext.getAllOfSourceKind(context).contains(target)
+					(cc instanceof GlobalConstraintContext) ||
+					cc.getAllOfSourceKind(context).contains(target)
 				) &&
 				(!appliesTo || constraint.appliesTo(target, context))
 			) {

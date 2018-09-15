@@ -20,6 +20,8 @@ import org.eclipse.epsilon.common.util.profiling.*;
 
 public interface ProfilableIEolModule extends IEolModule {
 	
+	public static final String DEFAULT_EXECUTE_STAGE = "executeImpl";
+	
 	Collection<ProfileDiagnostic> getProfiledStages();
 	
 	default void profileExecution(Consumer<EolRuntimeException> exceptionHandler) {
@@ -36,7 +38,9 @@ public interface ProfilableIEolModule extends IEolModule {
 	}
 	
 	default Object profileExecution() throws EolRuntimeException {
-		return profileExecutionStage("executeImpl", this::execute);
+		Object result = profileExecutionStage(DEFAULT_EXECUTE_STAGE, this::execute);
+		BenchmarkUtils.removeGCTimeFromStage(getProfiledStages(), DEFAULT_EXECUTE_STAGE);
+		return result;
 	}
 	
 	// UNCHECKED
