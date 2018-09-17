@@ -65,22 +65,34 @@ import org.eclipse.ui.console.IOConsoleOutputStream;
 public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 
 	protected Trace fineGrainedTrace;
-	
-//	@Override
-//	public IEolModule createModule() throws CoreException {
-//		EglTemplateFactory templateFactory = createTemplateFactoryFromConfiguration();
-//		if (isEgx()) {
-//			return new EgxModule(templateFactory);
-//		}
-//		else {
-//			return new EglTemplateFactoryModuleAdapter(templateFactory); 
-//		}
-//	}
-	
+		
 	/**
-	 * Need to override, since we need the selected factory, which also comes from the dt.
+	 * The language provided by the plugin. It allows other plugins to contribute
+	 * alternate IModule implementation of the language.
+	 * @since 1.6
+	 * @param configuration 	The Eclipse configuration that has the source file information.
 	 */
-	public IEolModule createModule(ILaunchConfiguration configuration) throws CoreException {
+	public static String getLanguageFromSource(ILaunchConfiguration configuration) {
+		String result = "EVL";	// USe EVL by default
+		String source = null;
+		try {
+			source = configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "");
+		} catch (CoreException e) {
+		
+		}
+		if (source != null) {
+			int extPoint = source.lastIndexOf('.');
+			if (extPoint > 0) {
+				String fileExtension = source.substring(extPoint+1);
+				result = fileExtension.toUpperCase();
+			}
+		}
+		return result;
+	}
+	
+
+	@Override
+	public IEolModule createModule() throws CoreException {
 		String implName = configuration.getAttribute(AbstractAdvancedConfigurationTab.IMPL_NAME, "");
 		IEolModule module = null;
 		EglTemplateFactory templateFactory = createTemplateFactoryFromConfiguration();
@@ -97,7 +109,8 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			// Backwards compatibility. For existing configurations, we will use the default module.
 			System.out.println("Configuration does not have specific module implementation information. "
 					+ "Falling back to default module.");
-			module = ModuleImplementationExtension.defaultImplementation().createModule();
+			//IEolModule module = ModuleImplementationExtension.defaultImplementation().createModule();
+			module = getDefaultModule(configuration);
 			if (module == null) {
 				IStatus result = new Status(IStatus.ERROR, "org.eclipse.epsilon.eol.dt",
 						"There was no default module found for the target language. Since this is defined "
@@ -302,6 +315,16 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		else {
 			return super.createDebugger();
 		}
+	}
+
+
+	@Override
+	public IEolModule getDefaultModule(ILaunchConfiguration configuration) {
+		try {
+			return ModuleImplementationExtension.defaultImplementation(getLanguageFromSource(configuration)).createModule();
+		} catch (CoreException e) {
+		}
+		return null;
 	}
 }
 

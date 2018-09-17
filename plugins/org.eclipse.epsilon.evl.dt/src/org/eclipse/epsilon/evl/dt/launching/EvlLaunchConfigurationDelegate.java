@@ -10,6 +10,8 @@
 package org.eclipse.epsilon.evl.dt.launching;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
@@ -19,6 +21,16 @@ import org.eclipse.epsilon.evl.dt.views.ValidationViewFixer;
 
 public class EvlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
+	
+	/**
+	 * The language provided by the plugin. It allows other plugins to contribute
+	 * alternate IModule implementation of the language.
+	 * @since 1.6
+	 */
+	public static String getLanguage() {
+		return "EVL";
+	}
+
 	@Override
 	protected EolDebugger createDebugger() {
 		return new EvlDebugger();
@@ -29,6 +41,15 @@ public class EvlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		super.preExecute(module);
 		((EvlModule)module).setUnsatisfiedConstraintFixer(new ValidationViewFixer(configuration));
 		((EvlModule)module).setOptimizeConstraints(configuration.getAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, false));
+	}
+	
+	@Override
+	public IEolModule getDefaultModule(ILaunchConfiguration configuration) {
+		try {
+			return ModuleImplementationExtension.defaultImplementation(getLanguage()).createModule();
+		} catch (CoreException e) {
+		}
+		return null;
 	}
 	
 }

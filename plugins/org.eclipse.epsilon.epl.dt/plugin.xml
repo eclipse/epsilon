@@ -49,7 +49,7 @@
       <implementation
             class="org.eclipse.epsilon.epl.EplModule"
             default="true"
-            dialog="org.eclipse.epsilon.eol.dt.launching.EplModuleConfiguration"
+            dialog="org.eclipse.epsilon.epl.dt.launching.EplModuleConfiguration"
             language="EPL"
             name="Epl">
       </implementation>

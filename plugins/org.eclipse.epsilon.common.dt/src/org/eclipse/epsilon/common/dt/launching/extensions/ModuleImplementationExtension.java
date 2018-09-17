@@ -30,15 +30,15 @@ public class ModuleImplementationExtension {
 	/**
 	 * Get the ModuleImplementationExtension for a specific implementation. ModuleImplementationExtensions
 	 * created via this method also provide
-	 * @param impl the name of the implementation
+	 * @param implName the name of the implementation
 	 * @return the ModuleImplementationExtension or null if not found in the extension registry
 	 */
-	public static ModuleImplementationExtension forImplementation(String impl) {
+	public static ModuleImplementationExtension forImplementation(String implName) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.moduleImplementation");
 		IConfigurationElement[] configurationElements =  extensionPoint.getConfigurationElements();
 		for (IConfigurationElement configurationElement : configurationElements){
-			if (configurationElement.getAttribute("name").equals(impl)) {	
+			if (configurationElement.getAttribute("name").equals(implName)) {	
 				ModuleImplementationExtension moduleType = null;
 				moduleType = new ModuleImplementationExtension(configurationElement);
 				return moduleType;
@@ -50,15 +50,16 @@ public class ModuleImplementationExtension {
 	
 	/**
 	 * Default implementation.
+	 * @param languageName 
 	 *
 	 * @return the module implementation extension
 	 */
-	public static ModuleImplementationExtension defaultImplementation() {
+	public static ModuleImplementationExtension defaultImplementation(String languageName) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.moduleImplementation");
 		IConfigurationElement[] configurationElements =  extensionPoint.getConfigurationElements();
 		for (IConfigurationElement configurationElement : configurationElements){
-			if (Boolean.parseBoolean(configurationElement.getAttribute("default"))) {	
+			if (configurationElement.getAttribute("language").equals(languageName) && Boolean.parseBoolean(configurationElement.getAttribute("default"))) {	
 				ModuleImplementationExtension moduleType = null;
 				moduleType = new ModuleImplementationExtension(configurationElement);
 				return moduleType;

@@ -47,6 +47,13 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	protected ILaunchConfiguration configuration = null;
 	protected ArrayList<EpsilonLaunchConfigurationDelegateListener> listeners = null;
 	
+	
+	/**
+	 * Get the module default module implementation.
+	 * @since 1.6
+	 */
+	public abstract IEolModule getDefaultModule(ILaunchConfiguration configuration);
+	
 	@Override
 	public boolean preLaunchCheck(ILaunchConfiguration configuration, String mode, IProgressMonitor monitor) throws CoreException {
 		if (!super.saveBeforeLaunch(configuration, mode, monitor)) {
@@ -57,7 +64,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor) throws CoreException {
 		this.configuration = configuration;
-		launch(configuration, mode, launch, progressMonitor, createModule(configuration), createDebugger(), EolLaunchConfigurationAttributes.SOURCE, true, true);
+		launch(configuration, mode, launch, progressMonitor, createModule(), createDebugger(), EolLaunchConfigurationAttributes.SOURCE, true, true);
 	}
 	
 	public boolean launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor, IEolModule module, EolDebugger debugger, String lauchConfigurationSourceAttribute, boolean setup, boolean disposeModelRepository) throws CoreException {
@@ -117,35 +124,40 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		return true;
 	}
 	
-	public IEolModule createModule(ILaunchConfiguration configuration) throws CoreException {
+	/**
+	 * Create the new module based on the configuration.
+	 * @sinv 1.6
+	 * @return an ExL module for the specific langauge being executed
+	 * @throws CoreException
+	 */
+	public IEolModule createModule() throws CoreException {
 		String implName = configuration.getAttribute(AbstractAdvancedConfigurationTab.IMPL_NAME, "");
+		IEolModule module ;
 		if (implName.length() > 0) {
-			IEolModule module = ModuleImplementationExtension.forImplementation(implName).createModule();
+			module = ModuleImplementationExtension.forImplementation(implName).createModule();
 			Set<String> requiredProperties = module.getConfigurationProperties();
 			Map<String, Object> attr = configuration.getAttributes();
 			requiredProperties.stream()
 		    	.filter(k -> !attr.containsKey(k))
 		    	.forEach(attr::remove);
 			module.configure(attr);
-			return module;
 		}
-		// Backwards compatibility. For existing configurations, we will use the default module.
-		System.out.println("Configuration does not have specific module implementation information. "
-				+ "Falling back to default module.");
-		IEolModule module = ModuleImplementationExtension.defaultImplementation().createModule();
-		if (module == null) {
-			IStatus result = new Status(IStatus.ERROR, "org.eclipse.epsilon.eol.dt",
-					"There was no default module found for the target language. Since this is defined "
-					+ "in the Epsilon plugins it is either a bug or your installation may have been "
-					+ "corrupted. Please raise a bug: https://bugs.eclipse.org/bugs/enter_bug.cgi?product=epsilon");
-			throw new CoreException(result);
+		else {
+			// Backwards compatibility. For existing configurations, we will use the default module.
+			System.out.println("Configuration does not have specific module implementation information. "
+					+ "Falling back to default module.");
+			//IEolModule module = ModuleImplementationExtension.defaultImplementation().createModule();
+			module = getDefaultModule(configuration);
+			if (module == null) {
+				IStatus result = new Status(IStatus.ERROR, "org.eclipse.epsilon.eol.dt",
+						"There was no default module found for the target language. Since this is defined "
+						+ "in the Epsilon plugins it is either a bug or your installation may have been "
+						+ "corrupted. Please raise a bug: https://bugs.eclipse.org/bugs/enter_bug.cgi?product=epsilon");
+				throw new CoreException(result);
+			}
+			
 		}
-		return module;
-//		IStatus result = new Status(IStatus.ERROR, "org.eclipse.epsilon.eol.dt.launching",
-//				"Configuration does not have specific module implementation information. "
-//				+ "Please use the 'Advanced' configuration tab to select a module implementation.");
-//		throw new CoreException(result);
-		
+		return module;		
 	}
 	
 	protected void collectListeners() {
