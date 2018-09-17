@@ -73,7 +73,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	 * @param configuration 	The Eclipse configuration that has the source file information.
 	 */
 	public static String getLanguageFromSource(ILaunchConfiguration configuration) {
-		String result = "EVL";	// USe EVL by default
+		String result = "EGL";	// USe EGL by default
 		String source = null;
 		try {
 			source = configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "");

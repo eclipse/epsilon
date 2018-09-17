@@ -26,7 +26,6 @@ import org.eclipse.epsilon.evl.dt.EvlPlugin;
 import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
@@ -53,14 +52,15 @@ public class ValidationView extends ViewPart {
 	
 	protected IEvlModule module = null;
 	protected TableViewer viewer;
-	protected Action stopAction;
-	protected Action clearAction;
+	protected Action stopAction, clearAction;
 	protected ValidationViewFixer fixer;
 	
 	class UnsatisfiedConstraintLabelProvider extends LabelProvider implements ITableLabelProvider {
+		@Override
 		public String getColumnText(Object obj, int index) {
 			return ((UnsatisfiedConstraint) obj).getMessage();
 		}
+		@Override
 		public Image getColumnImage(Object obj, int index) {
 			UnsatisfiedConstraint unsatisfiedConstraint = (UnsatisfiedConstraint) obj;
 			if (unsatisfiedConstraint.isFixed()) {
@@ -80,13 +80,6 @@ public class ValidationView extends ViewPart {
 	
 	class NameSorter extends ViewerSorter {
 	}
-
-	/**
-	 * The constructor.
-	 */
-	public ValidationView() {
-	
-	}
 	
 	protected boolean existUnsatisfiedConstraintsToFix() {
 		for (UnsatisfiedConstraint constraint : module.getContext().getUnsatisfiedConstraints()) {
@@ -105,11 +98,9 @@ public class ValidationView extends ViewPart {
 		
 		this.fixer = fixer;
 		this.module = module;
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				viewer.setInput(module.getContext().getUnsatisfiedConstraints());
-				setDone(!existUnsatisfiedConstraintsToFix());
-			}
+		PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
+			viewer.setInput(module.getContext().getUnsatisfiedConstraints());
+			setDone(!existUnsatisfiedConstraintsToFix());
 		});
 	}
 	
@@ -148,7 +139,8 @@ public class ValidationView extends ViewPart {
 					}
 				}
 			});
-		} catch (IllegalExtensionException ex) {
+		}
+		catch (IllegalExtensionException ex) {
 			LogUtil.log(ex);
 		}
 		
@@ -160,11 +152,7 @@ public class ValidationView extends ViewPart {
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				ValidationView.this.fillContextMenu(manager);
-			}
-		});
+		menuMgr.addMenuListener(ValidationView.this::fillContextMenu);
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(menuMgr, viewer);
@@ -205,7 +193,8 @@ public class ValidationView extends ViewPart {
 			this.setImageDescriptor(EvlPlugin.getDefault().getImageDescriptor("icons/fix.gif"));
 			try {
 				this.setText(fixInstance.getTitle());
-			} catch (EolRuntimeException e) {
+			}
+			catch (EolRuntimeException e) {
 				module.getContext().getErrorStream().println(e.toString());
 				this.setText("An exception occured while evaluating the title of the fix");
 			}
@@ -214,19 +203,15 @@ public class ValidationView extends ViewPart {
 		@Override
 		public void run() {
 			
-			//PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-
-			//	public void run() {
-					try {
-						fixInstance.perform();
-						unsatisfiedConstraint.setFixed(true);
-						setDone(!existUnsatisfiedConstraintsToFix());
-						viewer.refresh();
-					} catch (Exception e) {
-						module.getContext().getErrorStream().println(e.toString());
-					}
-			//}
-				
+			//PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
+				try {
+					fixInstance.perform();
+					unsatisfiedConstraint.setFixed(true);
+					setDone(!existUnsatisfiedConstraintsToFix());
+					viewer.refresh();
+				} catch (Exception e) {
+					module.getContext().getErrorStream().println(e.toString());
+				}
 			//});
 			
 		}
@@ -252,13 +237,9 @@ public class ValidationView extends ViewPart {
 		clearAction = new Action() {
 			@Override
 			public void run() {
-				Display.getDefault().asyncExec(new Runnable() {
-
-					public void run() {
-						setDone(true);
-						viewer.setInput(Collections.emptyList());
-					}
-					
+				Display.getDefault().asyncExec(() -> {
+					setDone(true);
+					viewer.setInput(Collections.emptyList());
 				});
 			}
 		};
@@ -282,6 +263,6 @@ public class ValidationView extends ViewPart {
 	
 	protected void setDone(boolean done) {
 		stopAction.setEnabled(!done);
-		if (fixer != null) fixer.setDone(done);;
+		if (fixer != null) fixer.setDone(done);
 	}
 }

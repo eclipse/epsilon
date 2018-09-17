@@ -62,6 +62,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		return super.preLaunchCheck(configuration, mode, monitor);
 	}
 	
+	@Override
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor) throws CoreException {
 		this.configuration = configuration;
 		launch(configuration, mode, launch, progressMonitor, createModule(), createDebugger(), EolLaunchConfigurationAttributes.SOURCE, true, true);
@@ -162,7 +163,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	
 	protected void collectListeners() {
 		
-		listeners = new ArrayList<EpsilonLaunchConfigurationDelegateListener>();
+		listeners = new ArrayList<>();
 		
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.eol.dt.launchConfigurationExtension");
