@@ -321,7 +321,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	}
 
 	@Override
-	public void configure(Map<String, Object> properties) {
+	public void configure(Map<String, ?> properties) {
 		if (properties.containsKey(OPTIMIZE_CONSTRAINTS)) {
 			this.optimizeConstraints = Boolean.valueOf(Objects.toString(properties.get(OPTIMIZE_CONSTRAINTS)));
 		}

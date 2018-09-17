@@ -64,7 +64,7 @@ public interface IEolModule extends IModule {
 	 * Configure the IEolModule with the given properties
 	 * @param properties a map of property:value 
 	 */
-	default void configure(Map<String, Object> properties) {
+	default void configure(Map<String, ?> properties) {
 		
 	}
 	

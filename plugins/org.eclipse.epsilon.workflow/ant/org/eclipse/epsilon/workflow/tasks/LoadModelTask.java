@@ -32,7 +32,7 @@ public class LoadModelTask extends EpsilonTask {
 		if (model == null) {
 			if (impl != null) {
 				try {
-					model = (IModel) Class.forName(impl).newInstance();
+					model = (IModel) Class.forName(impl).getConstructor().newInstance();
 				}
 				catch (Exception ex) {
 					throw new BuildException(ex);

@@ -9,16 +9,22 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.dt.launching.tabs;
 
+import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
 import org.eclipse.epsilon.evl.dt.EvlPlugin;
+import org.eclipse.epsilon.evl.dt.launching.EvlLaunchConfigurationDelegate;
 
+/**
+ * The Class EvlAdvancedConfigurationTab.
+ * @since 1.6
+ * @author Horacio Hoyos Rodriguez
+ */
 public class EvlAdvancedConfigurationTab extends AbstractAdvancedConfigurationTab {
 
 	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
-
 	}
 	
 	@Override
@@ -27,7 +33,7 @@ public class EvlAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 	}
 
 	@Override
-	public String getLanguage() {
-		return "EVL";
+	public String getLanguage(ILaunchConfiguration configuration) {
+		return EvlLaunchConfigurationDelegate.getLanguage();
 	}
 }

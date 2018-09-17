@@ -9,9 +9,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.epl.dt.launching;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
@@ -19,10 +21,14 @@ import org.eclipse.epsilon.epl.EplModule;
 
 public class EplLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
-//	@Override
-//	public IEolModule createModule() {
-//		return new EplModule();
-//	}
+	/**
+	 * The language provided by the plugin. It allows other plugins to contribute
+	 * alternate IModule implementation of the language.
+	 * @since 1.6
+	 */
+	public static String getLanguage() {
+		return "EPL";
+	}
 	
 	@Override
 	protected EolDebugger createDebugger() {
@@ -48,6 +54,15 @@ public class EplLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		// TODO Auto-generated method stub
 		super.executed(configuration, mode, launch, progressMonitor, module, result);
 		this.result = null;
+	}
+	
+	@Override
+	public IEolModule getDefaultModule(ILaunchConfiguration configuration) {
+		try {
+			return ModuleImplementationExtension.defaultImplementation(getLanguage()).createModule();
+		} catch (CoreException e) {
+		}
+		return null;
 	}
 }
 

@@ -42,13 +42,14 @@ import org.eclipse.swt.widgets.Composite;
  * Each alternative module implementation can further provide additional options (e.g. number
  * of cores for parallel execution or db type/connection for incremental).
  * 
- * 
+ * @since 1.6
  * @author Horacio Hoyos Rodriguez
  *
  */
 public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchConfigurationTab implements ModifyListener {
 	
-	public static final String IMPL_NAME = "implName";
+	public static final String IMPL_NAME = "implementation_name";
+	
 	private Map<String, ModuleImplementationExtension> implementations;
 	protected String implName;
 	private int selectedImpl = -1;
@@ -95,7 +96,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 		try {
 			int index = 0;
 			implName = configuration.getAttribute(IMPL_NAME, "");
-			addAvailableImplsToCombo();
+			addAvailableImplsToCombo(configuration);
 			if (implName.length() > 0) {
 				index = modulesDropDown.indexOf(implName);
 				modulesDropDown.select(index);
@@ -148,19 +149,23 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	public abstract EpsilonPlugin getPlugin();
 	
 	/**
-	 * The language provided by the plugin. It allows other plugins to contribute
-	 * alternate IModule implementation of the language.
-	 * @return
+	 * Get the name of the language being configured
+	 * @since 1.6
+	 * @param configuration the eclipse launch configuration
+	 * 
 	 */
-	public abstract String getLanguage();
+	public abstract String getLanguage(ILaunchConfiguration configuration);
+	
+
 	
 	/**
 	 * This method creates a drop-down list of available implementations. If no alternatives 
 	 * exist, the combo (or the parent) can be disabled, but should show the default one. 
+	 * @param configuration the eclpse launch configuration
 	 * @param control
 	 */
-	private void addAvailableImplsToCombo() {
-		getImplementations().stream().sorted().forEach(modulesDropDown::add);
+	private void addAvailableImplsToCombo(ILaunchConfiguration configuration) {
+		getImplementations(configuration).stream().forEach(modulesDropDown::add);
 		if (implementations.size() == 1) {
 			modulesDropDown.setEnabled(false);
 		}
@@ -173,16 +178,19 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	/**
 	 * The available implementations are extracted from the moduleImplementation extension point, based on
 	 * the language provided by the plugin (see {@link #getPlugin()}).
+	 * @param configuration the eclipse launch configuration
 	 * @return A list of the names of the available module implementations for the language
 	 * @throws CoreException if the configuration dialog of an implementation can not be created
 	 */
-	private List<String> getImplementations() {
+	private List<String> getImplementations(ILaunchConfiguration configuration) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.moduleImplementation");
 		IConfigurationElement[] configurationElements =  extensionPoint.getConfigurationElements();
+		String language = getLanguage(configuration);
 		for (int i=0;i<configurationElements.length; i++){
 			IConfigurationElement configurationElement = configurationElements[i];
-			if (configurationElement.getAttribute("language").equals(getLanguage())) {	
+			String configLanguage = configurationElement.getAttribute("language");
+			if (configLanguage.equals(language)) {	
 				ModuleImplementationExtension moduleType = null;
 				moduleType = new ModuleImplementationExtension(configurationElement);
 				implementations.put(moduleType.getName(), moduleType);
@@ -236,6 +244,9 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 			GridLayout controlLayout = new GridLayout(1, true);
 			configComposite.setLayout(controlLayout);
 			moduleConfigGroup = moduleConfig.createModuleConfigurationGroup(configComposite);
+			if (moduleConfigGroup.getChildren().length == 0) {
+				moduleConfigGroup.setVisible(false);
+			}
 			configComposite.redraw();
 		}
 		updateLaunchConfigurationDialog();

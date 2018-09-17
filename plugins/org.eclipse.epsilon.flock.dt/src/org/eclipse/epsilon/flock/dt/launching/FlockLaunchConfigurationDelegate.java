@@ -10,13 +10,14 @@
 package org.eclipse.epsilon.flock.dt.launching;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
+import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.flock.FlockModule;
 import org.eclipse.epsilon.flock.FlockResult;
 import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.dt.FlockDebugger;
@@ -24,10 +25,14 @@ import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelExcep
 
 public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
-//	@Override
-//	public IEolModule createModule() {
-//		return new FlockModule();
-//	}
+	/**
+	 * The language provided by the plugin. It allows other plugins to contribute
+	 * alternate IModule implementation of the language.
+	 * @since 1.6
+	 */
+	public static String getLanguage() {
+		return "FLOCK";
+	}
 	
 	@Override
 	protected EolDebugger createDebugger() {
@@ -50,6 +55,15 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 	@Override
 	protected void postExecute(IEolModule module) throws CoreException, EolRuntimeException {
 		((FlockResult)result).printWarnings(EpsilonConsole.getInstance().getWarningStream());
+	}
+	
+	@Override
+	public IEolModule getDefaultModule(ILaunchConfiguration configuration) {
+		try {
+			return ModuleImplementationExtension.defaultImplementation(getLanguage()).createModule();
+		} catch (CoreException e) {
+		}
+		return null;
 	}
 	
 	/*

@@ -49,7 +49,7 @@ public class EvlTask extends ExportableModuleTask {
 		IEvlModule evlModule = (IEvlModule) module;
 		int errors = 0;
 		int warnings = 0;
-		for (UnsatisfiedConstraint unsatisfiedConstraint : evlModule.getContext().getUnsatisfiedConstraints()){
+		for (UnsatisfiedConstraint unsatisfiedConstraint : evlModule.getContext().getUnsatisfiedConstraints()) {
 			if (unsatisfiedConstraint.getConstraint().isCritique()) {
 				if (!unsatisfiedConstraint.getConstraint().isInfo()) {
 					warnings ++;

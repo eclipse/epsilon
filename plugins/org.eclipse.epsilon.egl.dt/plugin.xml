@@ -117,8 +117,8 @@
       <implementation
             class="org.eclipse.epsilon.egl.EgxModule"
             default="true"
-            dialog="org.eclipse.epsilon.eol.dt.launching.EgxModuleConfiguration"
-            language="EGL"
+            dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleConfiguration"
+            language="EGX"
             name="Egx">
       </implementation>
    </extension>
@@ -127,7 +127,7 @@
       <implementation
             class="org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter"
             default="true"
-            dialog="org.eclipse.epsilon.eol.dt.launching.EglModuleConfiguration"
+            dialog="org.eclipse.epsilon.egl.dt.launching.EglModuleConfiguration"
             language="EGL"
             name="Egl">
       </implementation>

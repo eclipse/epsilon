@@ -8,11 +8,31 @@
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
 package org.eclipse.epsilon.eol.dt.launching;
- 
-import org.eclipse.epsilon.eol.EolModule;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
 import org.eclipse.epsilon.eol.IEolModule;
 
 public class EolLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
+	
+	/**
+	 * The language provided by the plugin. It allows other plugins to contribute
+	 * alternate IModule implementation of the language.
+	 * @since 1.6
+	 */
+	public static String getLanguage() {
+		return "EOL";
+	}
+	
+	@Override
+	public IEolModule getDefaultModule(ILaunchConfiguration configuration) {
+		try {
+			return ModuleImplementationExtension.defaultImplementation(getLanguage()).createModule();
+		} catch (CoreException e) {
+		}
+		return null;
+	}
 	
 
 }

@@ -68,7 +68,7 @@ public abstract class EvlModuleParallel extends EvlModule {
 	 * as the context will be reset!
 	 */
 	@Override
-	public void configure(Map<String, Object> properties) throws IllegalArgumentException {
+	public void configure(Map<String, ?> properties) throws IllegalArgumentException {
 		super.configure(properties);
 		
 		if (properties.containsKey(IEolContextParallel.NUM_THREADS_CONFIG)) {

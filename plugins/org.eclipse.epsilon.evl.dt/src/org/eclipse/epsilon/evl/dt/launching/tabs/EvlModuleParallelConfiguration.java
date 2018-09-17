@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.dt.launching.tabs;
 
-import static org.eclipse.epsilon.common.dt.launching.tabs.ModuleConfiguration.*;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.swt.widgets.Composite;

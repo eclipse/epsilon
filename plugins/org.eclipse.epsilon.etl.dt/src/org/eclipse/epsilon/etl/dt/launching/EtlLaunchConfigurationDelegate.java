@@ -9,21 +9,36 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.dt.launching;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
-import org.eclipse.epsilon.etl.EtlModule;
 
 public class EtlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
-//	@Override
-//	public IEolModule createModule() {
-//		return new EtlModule();
-//	}
+	/**
+	 * The language provided by the plugin. It allows other plugins to contribute
+	 * alternate IModule implementation of the language.
+	 * @since 1.6
+	 */
+	public static String getLanguage() {
+		return "ETL";
+	}
 	
 	@Override
 	protected EolDebugger createDebugger() {
 		return new EtlDebugger();
+	}
+	
+	@Override
+	public IEolModule getDefaultModule(ILaunchConfiguration configuration) {
+		try {
+			return ModuleImplementationExtension.defaultImplementation(getLanguage()).createModule();
+		} catch (CoreException e) {
+		}
+		return null;
 	}
 	
 }

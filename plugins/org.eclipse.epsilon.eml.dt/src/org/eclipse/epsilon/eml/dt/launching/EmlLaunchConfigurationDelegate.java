@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.dt.launching.EclDebugger;
 import org.eclipse.epsilon.ecl.dt.launching.EclLaunchConfigurationDelegate;
@@ -28,10 +29,14 @@ public class EmlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	MatchTrace matchTrace = null;
 	ModelRepository modelRepository = null;
 	
-//	@Override
-//	public IEolModule createModule() {
-//		return null;
-//	}
+	/**
+	 * The language provided by the plugin. It allows other plugins to contribute
+	 * alternate IModule implementation of the language.
+	 * @since 1.6
+	 */
+	public static String getLanguage() {
+		return "EML";
+	}
 	
 	@Override
 	public void launch(ILaunchConfiguration configuration, String mode,
@@ -63,6 +68,15 @@ public class EmlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			((EmlModule) module).getContext().setMatchTrace(matchTrace);
 			((EmlModule) module).getContext().setModelRepository(modelRepository);
 		}
+	}
+	
+	@Override
+	public IEolModule getDefaultModule(ILaunchConfiguration configuration) {
+		try {
+			return ModuleImplementationExtension.defaultImplementation(getLanguage()).createModule();
+		} catch (CoreException e) {
+		}
+		return null;
 	}
 	
 }

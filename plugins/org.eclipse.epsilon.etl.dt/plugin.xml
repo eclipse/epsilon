@@ -58,7 +58,7 @@
       <implementation
             class="org.eclipse.epsilon.etl.EtlModule"
             default="true"
-            dialog="org.eclipse.epsilon.eol.dt.launching.EtlModuleConfiguration"
+            dialog="org.eclipse.epsilon.etl.dt.launching.EtlModuleConfiguration"
             language="ETL"
             name="Etl">
       </implementation>

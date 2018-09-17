@@ -8,21 +8,20 @@
 * Contributors:
 *     Horacio Hoyos - initial API and implementation
 **********************************************************************/
-package org.eclipse.epsilon.etl.dt.launching.tabs;
+package org.eclipse.epsilon.flock.dt.launching.tabs;
 
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
-import org.eclipse.epsilon.etl.dt.EtlPlugin;
-import org.eclipse.epsilon.etl.dt.launching.EtlLaunchConfigurationDelegate;
+import org.eclipse.epsilon.flock.dt.FlockDevelopmentToolsPlugin;
 
 /**
- * The Class EtlAdvancedConfigurationTab.
+ * The Class FlockAdvancedConfigurationTab.
  * @since 1.6
  * @author Horacio Hoyos Rodriguez
  */
-public class EtlAdvancedConfigurationTab extends AbstractAdvancedConfigurationTab {
+public class FlockAdvancedConfigurationTab extends AbstractAdvancedConfigurationTab {
 
 	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
@@ -30,12 +29,12 @@ public class EtlAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 
 	@Override
 	public EpsilonPlugin getPlugin() {
-		return EtlPlugin.getDefault();
+		return FlockDevelopmentToolsPlugin.getDefault();
 	}
 
 	@Override
 	public String getLanguage(ILaunchConfiguration configuration) {
-		return EtlLaunchConfigurationDelegate.getLanguage();
+		return "FLOCK";
 	}
 
 }
