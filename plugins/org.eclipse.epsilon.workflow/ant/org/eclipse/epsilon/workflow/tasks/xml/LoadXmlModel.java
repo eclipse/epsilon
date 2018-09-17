@@ -10,11 +10,9 @@
 package org.eclipse.epsilon.workflow.tasks.xml;
 
 import java.io.File;
-
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
-import org.eclipse.epsilon.workflow.tasks.ShutdownProjectRepositoryListener;
 
 public class LoadXmlModel extends EpsilonTask {
 	

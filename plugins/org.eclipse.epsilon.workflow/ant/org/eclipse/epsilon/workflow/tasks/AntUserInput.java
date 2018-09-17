@@ -24,34 +24,40 @@ public class AntUserInput extends AbstractUserInput{
 		this.inputHandler = inputHandler;
 	}
 	
+	@Override
 	public Object choose(String question, Collection<?> choices, Object default_) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public boolean confirm(String question, boolean default_)
 			throws EolUserException {
 		// TODO Auto-generated method stub
 		return false;
 	}
  
+	@Override
 	public String prompt(String question, String default_) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public int promptInteger(String question, int default_) {
 		IntegerInputRequest request = new IntegerInputRequest(question);
 		request.setDefaultValue(default_ + "");
 		inputHandler.handleInput(request);
-		return new Integer(request.getInput()).intValue();
+		return Integer.valueOf(request.getInput());
 	}
 
+	@Override
 	public float promptReal(String question, float default_) {
 		// For backwards compatibility
 		return 0;
 	}
 
+	@Override
 	public double promptReal(String question, double default_) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -66,7 +72,7 @@ public class AntUserInput extends AbstractUserInput{
 		@Override
 		public boolean isInputValid() {
 			try {
-				new Integer(this.getInput());
+				Integer.parseInt(this.getInput());
 				return true;
 			}
 			catch (Exception ex) {
@@ -76,10 +82,12 @@ public class AntUserInput extends AbstractUserInput{
 		
 	}
 
+	@Override
 	public void inform(String message) {
 
 	}
 
+	@Override
 	public Object chooseMany(String question, Collection<?> choices,
 			Collection<?> default_) {
 		// TODO Auto-generated method stub

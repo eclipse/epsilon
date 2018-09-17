@@ -478,20 +478,11 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
     	properties.add(property);
         return property;
     }
-    
-	/**
-	 * @return
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws SecurityException 
-	 * @throws NoSuchMethodException 
-	 * @throws InvocationTargetException 
-	 * @throws IllegalArgumentException 
-	 */
+
 	protected IEolModule createAlternativeModule() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		IEolModule module = moduleImplementation.getConstructor().newInstance();
 		module.configure(ModuleProperty.toMap(properties));
 		return module;
 	}
-		
+	
 }

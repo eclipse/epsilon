@@ -248,17 +248,5 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 	public List<Statement> getPostOperationStatements() {
 		return Collections.emptyList();
 	}
-	
-	@Override
-	public void configure(Map<String, Object> properties) {
-		// Nothing to do
-	}
-	
-	@Override
-	public Set<String> getConfigurationProperties() {
-		return Collections.emptySet();
-	}
-
-	
 
 }

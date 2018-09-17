@@ -21,14 +21,17 @@ public class AbstractTool implements ITool {
 		super();
 	}
 
+	@Override
 	public void setContext(IEolContext context) {
 		this.context = context;
 	}
 
+	@Override
 	public IEolContext getContext() {
 		return context;
 	}
 
+	@Override
 	public void initialize(List<Object> parameters) {
 		
 	}
