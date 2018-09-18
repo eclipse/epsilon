@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.dt.views;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -52,7 +53,8 @@ public class ValidationView extends ViewPart {
 	
 	protected IEvlModule module = null;
 	protected TableViewer viewer;
-	protected Action stopAction, clearAction;
+	protected Action stopAction;
+	protected Action clearAction;
 	protected ValidationViewFixer fixer;
 	
 	class UnsatisfiedConstraintLabelProvider extends LabelProvider implements ITableLabelProvider {
@@ -99,7 +101,8 @@ public class ValidationView extends ViewPart {
 		this.fixer = fixer;
 		this.module = module;
 		PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
-			viewer.setInput(module.getContext().getUnsatisfiedConstraints());
+			// Needs to be a list, otherwise validation view won't get populated!
+			viewer.setInput(new ArrayList<>(module.getContext().getUnsatisfiedConstraints()));
 			setDone(!existUnsatisfiedConstraintsToFix());
 		});
 	}

@@ -19,6 +19,8 @@ public interface IErlContext extends IEolContext {
 	RuleExecutorFactory getExecutorFactory();
 	
 	@Override
-	IErlModule getModule();
+	default IErlModule getModule() {
+		return (IErlModule) ((IEolContext)this).getModule();
+	}
 	
 }

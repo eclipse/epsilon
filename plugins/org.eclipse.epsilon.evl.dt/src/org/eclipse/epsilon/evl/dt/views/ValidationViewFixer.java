@@ -37,6 +37,7 @@ public class ValidationViewFixer implements IEvlFixer {
 		this.configuration = configuration;
 	}
 
+	@Override
 	public void fix(IEvlModule module) throws EolRuntimeException {
 		try {
 			fixImpl(module);
@@ -54,6 +55,7 @@ public class ValidationViewFixer implements IEvlFixer {
 	protected ValidationView getValidationView() {
 		final ValidationViewWrapper validationViewWrapper = new ValidationViewWrapper();
 		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					validationViewWrapper.validationView = (ValidationView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.epsilon.evl.dt.views.ValidationView");

@@ -23,7 +23,8 @@ import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 public class IfStatement extends Statement {
 	
 	protected Expression conditionExpression;
-	protected StatementBlock thenStatementBlock, elseStatementBlock;
+	protected StatementBlock thenStatementBlock;
+	protected StatementBlock elseStatementBlock;
 	
 	public IfStatement() {}
 	

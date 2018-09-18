@@ -29,11 +29,10 @@ import org.eclipse.epsilon.eol.models.transactions.NoModelTransactionSupport;
 
 public abstract class Model implements IModel {
 	
-	public static final String
-		PROPERTY_NAME = "name",
-		PROPERTY_READONLOAD = "readOnLoad",
-		PROPERTY_STOREONDISPOSAL = "storeOnDisposal",
-		PROPERTY_ALIASES = "aliases";
+	public static final String PROPERTY_NAME = "name";
+	public static final String PROPERTY_READONLOAD = "readOnLoad";
+	public static final String PROPERTY_STOREONDISPOSAL = "storeOnDisposal";
+	public static final String PROPERTY_ALIASES = "aliases";
 	
 	protected String name;
 	protected List<String> aliases = new ArrayList<>();

@@ -147,7 +147,17 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		}
 	}
 	
-	public Object execute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {
+	protected Object executeImpl(ModuleElement moduleElement, IEolContext context) throws Exception {
+		if (moduleElement instanceof IExecutableModuleElement) {
+			return ((IExecutableModuleElement) moduleElement).execute(context);
+		}
+		else if (moduleElement instanceof EolModule) {
+			return ((EolModule) moduleElement).executeImpl();
+		}
+		else return null;
+	}
+	
+	public final Object execute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {
 		
 		if (moduleElement == null) return null;
 		
@@ -156,12 +166,7 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		Object result = null;
 		
 		try {
-			if (moduleElement instanceof IExecutableModuleElement) {
-				result = ((IExecutableModuleElement) moduleElement).execute(context);
-			}
-			else if (moduleElement instanceof EolModule) {
-				result = ((EolModule) moduleElement).executeImpl();
-			}
+			result = executeImpl(moduleElement, context);
 			postExecuteSuccess(moduleElement, result, context);
 		}
 		catch (Exception ex) {

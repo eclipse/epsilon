@@ -52,15 +52,15 @@
             default="true"
             dialog="org.eclipse.epsilon.ecl.dt.launching.EclModuleConfiguration"
             language="ECL"
-            name="Ecl">
+            name="Default">
       </implementation>
-      <implementation
-            class="org.eclipse.epsilon.ecl.EclModule"
-            default="true"
+      <!--implementation
+            class="org.eclipse.epsilon.ecl.concurrent.EclModuleParallel"
+            default="false"
             dialog="org.eclipse.epsilon.ecl.dt.launching.EclModuleParallelConfiguration"
             language="ECL"
             name="Parallel">
-      </implementation>
+      </implementation-->
    </extension>
 
 </plugin>

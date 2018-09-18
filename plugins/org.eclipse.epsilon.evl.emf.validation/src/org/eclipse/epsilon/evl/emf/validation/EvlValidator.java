@@ -54,16 +54,16 @@ public class EvlValidator implements EValidator {
 	protected EmfPrettyPrinter printer = new EmfPrettyPrinter();
 	protected Resource currentResource = null;
 	protected ValidationResults results = new ValidationResults();;
-	protected Collection<EObject> history = new ArrayList<EObject>();
+	protected Collection<EObject> history = new ArrayList<>();
 	protected String modelName;
 	protected String ePackageUri;
 	protected String bundleId;
 	protected boolean showErrorDialog = true;
 	protected boolean logErrors = true;
-	protected List<ValidationProblemListener> problemListeners = new ArrayList<ValidationProblemListener>();
+	protected List<ValidationProblemListener> problemListeners = new ArrayList<>();
 
 	/** Collection of all packages that are available to this validator */
-	protected Collection<EPackage> ePackages = new ArrayList<EPackage>();
+	protected Collection<EPackage> ePackages = new ArrayList<>();
 	
 	public static final String DEFAULT_MODEL_NAME = "_Model";
 
@@ -116,7 +116,7 @@ public class EvlValidator implements EValidator {
 	 */
 	public void addDiagnosticianVariable(String name) {
 		if(diagnosticVariables == null) {
-			diagnosticVariables = new HashSet<String>();
+			diagnosticVariables = new HashSet<>();
 		}
 		diagnosticVariables.add(name);
 	}
@@ -134,11 +134,13 @@ public class EvlValidator implements EValidator {
 		}
 	}
 	
+	@Override
 	public boolean validate(EObject object, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
 		return true;
 	}
 
+	@Override
 	public boolean validate(EClass eClass, EObject eObject,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
 		
@@ -171,6 +173,7 @@ public class EvlValidator implements EValidator {
 		return results.size() == 0;
 	}
 
+	@Override
 	public boolean validate(EDataType dataType, Object value,
 			DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return true;
@@ -250,6 +253,7 @@ public class EvlValidator implements EValidator {
 		try {
 			module.execute();
 			module.setUnsatisfiedConstraintFixer(new IEvlFixer() {
+				@Override
 				public void fix(IEvlModule module) throws EolRuntimeException {
 					// Do nothing
 				}

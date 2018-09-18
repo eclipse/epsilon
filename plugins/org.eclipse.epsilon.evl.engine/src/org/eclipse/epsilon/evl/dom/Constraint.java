@@ -31,7 +31,8 @@ public class Constraint extends NamedRule {
 	protected boolean isCritique = false;
 	protected List<Fix> fixes;
 	protected ConstraintContext constraintContext;
-	protected ExecutableBlock<Boolean> guardBlock, checkBlock;
+	protected ExecutableBlock<Boolean> guardBlock;
+	protected ExecutableBlock<Boolean> checkBlock;
 	protected ExecutableBlock<String> messageBlock;
 	protected volatile boolean checkTrace = false;
 	

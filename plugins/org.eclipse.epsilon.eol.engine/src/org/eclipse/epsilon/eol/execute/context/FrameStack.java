@@ -140,7 +140,8 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 		}
 	}
 
-	protected FrameStackRegion globals, locals;
+	protected FrameStackRegion globals;
+	protected FrameStackRegion locals;
 	protected Map<String, Variable> builtInVariables;
 	protected final FrameStack base;
 	protected boolean isConcurrent;

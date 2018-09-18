@@ -158,7 +158,6 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @throws EolRuntimeException
 	 * @see {@link #execute(Collection, Object, IEvlContext)}
 	 */
-
 	public void execute(Object modelElement, IEvlContext context) throws EolRuntimeException {
 		execute(getConstraints(), modelElement, context);
 	}

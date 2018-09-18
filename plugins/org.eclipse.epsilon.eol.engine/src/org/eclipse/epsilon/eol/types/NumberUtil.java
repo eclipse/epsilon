@@ -11,7 +11,7 @@ package org.eclipse.epsilon.eol.types;
 
 import java.math.BigDecimal;
 
-/*
+/**
  * NOTE: this class reimplements JLS sections 5.6.1 (unary numeric promotion)
  * and 5.6.2 (binary numeric promotion) to reduce casts and instanceof checks.
  */

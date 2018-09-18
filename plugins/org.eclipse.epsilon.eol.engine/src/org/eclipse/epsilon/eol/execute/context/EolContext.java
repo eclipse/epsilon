@@ -39,7 +39,8 @@ public class EolContext implements IEolContext {
 	protected PrettyPrinterManager prettyPrinterManager;
 	protected PrintStream outputStream, errorStream, warningStream;
 	protected IModule module;
-	protected boolean profilingEnabled = false, assertionsEnabled = true;
+	protected boolean profilingEnabled = false;
+	protected boolean assertionsEnabled = true;
 	protected ExtendedProperties extendedProperties;
 	protected Queue<AsyncStatementInstance> asyncStatementsQueue;
 	protected OperationContributorRegistry methodContributorRegistry;

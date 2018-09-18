@@ -20,7 +20,8 @@ import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 
 public abstract class OperatorExpression extends Expression {
 
-	protected Expression firstOperand, secondOperand;
+	protected Expression firstOperand;
+	protected Expression secondOperand;
 	protected String operator;
 	
 	public OperatorExpression() {}
