@@ -236,7 +236,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 					// Need to redraw in case the implementation changed.
 					if (moduleConfig != null) {
 						configComposite = new Composite(parent, SWT.NONE);
-						GridLayout controlLayout = new GridLayout(1, true);
+						GridLayout controlLayout = new GridLayout(2, true);
 						configComposite.setLayout(controlLayout);
 						moduleConfig.createModuleConfigurationWidgets(moduleConfigGroup);
 						if (moduleConfigGroup.getChildren().length == 0) {
@@ -249,7 +249,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 		}
 		else {
 			configComposite = new Composite(parent, SWT.NONE);
-			GridLayout controlLayout = new GridLayout(1, true);
+			GridLayout controlLayout = new GridLayout(2, true);
 			configComposite.setLayout(controlLayout);
 			moduleConfigGroup = DialogUtil.createGroupContainer(parent, "Options", 1);
 			moduleConfig.createModuleConfigurationWidgets(moduleConfigGroup);
