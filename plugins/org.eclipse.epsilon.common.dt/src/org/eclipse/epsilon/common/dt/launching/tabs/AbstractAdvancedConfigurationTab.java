@@ -18,6 +18,7 @@ import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.exceptions.EpsilonDtException;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
+import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -30,6 +31,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 
 /**
  * The Advanced configuration tab allows advanced options to be configured.
@@ -62,13 +64,15 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	@Override
 	public void createControl(Composite parent) {
 		
-		implementations = new HashMap<>();
+		setImplementations(new HashMap<>());
 		FillLayout parentLayout = new FillLayout();
 		parent.setLayout(parentLayout);
 		mainComposite = new Composite(parent, SWT.NONE);
 		setControl(mainComposite);
 		GridLayout controlLayout = new GridLayout(1, false);
 		mainComposite.setLayout(controlLayout);
+		Label modulesLabel = new Label(mainComposite, SWT.NONE);
+		modulesLabel.setText("Execution engine:");
 		modulesDropDown = new Combo(mainComposite, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.BORDER);
 		modulesDropDown.addSelectionListener(new SelectionListener() {
 
@@ -166,7 +170,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	 */
 	private void addAvailableImplsToCombo(ILaunchConfiguration configuration) {
 		getImplementations(configuration).stream().forEach(modulesDropDown::add);
-		if (implementations.size() == 1) {
+		if (getImplementations().size() == 1) {
 			modulesDropDown.setEnabled(false);
 		}
 		else {
@@ -182,7 +186,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	 * @return A list of the names of the available module implementations for the language
 	 * @throws CoreException if the configuration dialog of an implementation can not be created
 	 */
-	private List<String> getImplementations(ILaunchConfiguration configuration) {
+	public List<String> getImplementations(ILaunchConfiguration configuration) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.moduleImplementation");
 		IConfigurationElement[] configurationElements =  extensionPoint.getConfigurationElements();
@@ -221,7 +225,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	private void createConfigComposite(Composite parent) {
 		moduleConfig = null;
 		try {
-			moduleConfig = implementations.get(implName).createDialog();
+			moduleConfig = getImplementations().get(implName).createDialog();
 		} catch (EpsilonDtException e) {
 			// No configuration available
 		}
@@ -229,11 +233,15 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 			configComposite.addDisposeListener(new DisposeListener() {
 				@Override
 				public void widgetDisposed(DisposeEvent e) {
+					// Need to redraw in case the implementation changed.
 					if (moduleConfig != null) {
 						configComposite = new Composite(parent, SWT.NONE);
 						GridLayout controlLayout = new GridLayout(1, true);
 						configComposite.setLayout(controlLayout);
-						moduleConfigGroup = moduleConfig.createModuleConfigurationGroup(configComposite);
+						moduleConfig.createModuleConfigurationWidgets(moduleConfigGroup);
+						if (moduleConfigGroup.getChildren().length == 0) {
+							moduleConfigGroup.setVisible(false);
+						}
 					}
 				}
 			});
@@ -243,13 +251,22 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 			configComposite = new Composite(parent, SWT.NONE);
 			GridLayout controlLayout = new GridLayout(1, true);
 			configComposite.setLayout(controlLayout);
-			moduleConfigGroup = moduleConfig.createModuleConfigurationGroup(configComposite);
+			moduleConfigGroup = DialogUtil.createGroupContainer(parent, "Options", 1);
+			moduleConfig.createModuleConfigurationWidgets(moduleConfigGroup);
 			if (moduleConfigGroup.getChildren().length == 0) {
 				moduleConfigGroup.setVisible(false);
 			}
 			configComposite.redraw();
 		}
 		updateLaunchConfigurationDialog();
+	}
+
+	public Map<String, ModuleImplementationExtension> getImplementations() {
+		return implementations;
+	}
+
+	public void setImplementations(Map<String, ModuleImplementationExtension> implementations) {
+		this.implementations = implementations;
 	}
 
 }

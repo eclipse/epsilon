@@ -4,7 +4,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
-import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -14,22 +13,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
 public class AbstractModuleConfiguration implements ModuleConfiguration {
-
-	@Override
-	public Composite createModuleConfigurationGroup(Composite parent) {
-		final Composite group = DialogUtil.createGroupContainer(parent, "", 2);
-		return group;
-	}
-
-	@Override
-	public void initializeFrom(ILaunchConfiguration configuration) {
-		// Nothing to do
-	}
-
-	@Override
-	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		// Nothing to store
-	}
 
 	public static final int INITIAL_THREADS = ConcurrencyUtils.DEFAULT_PARALLELISM;
 
@@ -67,5 +50,19 @@ public class AbstractModuleConfiguration implements ModuleConfiguration {
 	
 	public static void performApplyThreadsForConfiguration(ILaunchConfigurationWorkingCopy configuration, Spinner numThreadsSelector) {
 		configuration.setAttribute(IEolContextParallel.NUM_THREADS_CONFIG, numThreadsSelector.getSelection());
+	}
+	
+	@Override
+	public void initializeFrom(ILaunchConfiguration configuration) {
+		// Nothing to do
+	}
+
+	@Override
+	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
+		// Nothing to store
+	}
+
+	@Override
+	public void createModuleConfigurationWidgets(Composite group) {
 	}
 }

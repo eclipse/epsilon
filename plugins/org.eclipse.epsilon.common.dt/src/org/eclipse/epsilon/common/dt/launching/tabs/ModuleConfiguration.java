@@ -8,10 +8,10 @@ public interface ModuleConfiguration {
 	
 	/**
 	 * Create the composite that contains the module configuration options
-	 * @param parent
-	 * @return
+	 * @param group		a SWT Composite that can be used to place swt widgets required
+	 * 					for configuring the module. 
 	 */
-	Composite createModuleConfigurationGroup(Composite parent);
+	void createModuleConfigurationWidgets(Composite group);
 	
 	/**
 	 * Initialise the composite for this module with the configuration values

@@ -51,7 +51,7 @@
             default="true"
             dialog="org.eclipse.epsilon.epl.dt.launching.EplModuleConfiguration"
             language="EPL"
-            name="Epl">
+            name="Default">
       </implementation>
    </extension>
 

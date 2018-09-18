@@ -60,7 +60,7 @@
             default="true"
             dialog="org.eclipse.epsilon.etl.dt.launching.EtlModuleConfiguration"
             language="ETL"
-            name="Etl">
+            name="Default">
       </implementation>
    </extension>
 

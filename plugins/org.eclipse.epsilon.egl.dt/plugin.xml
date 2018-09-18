@@ -119,7 +119,7 @@
             default="true"
             dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleConfiguration"
             language="EGX"
-            name="Egx">
+            name="Default(Egx)">
       </implementation>
    </extension>
    <extension
@@ -129,7 +129,7 @@
             default="true"
             dialog="org.eclipse.epsilon.egl.dt.launching.EglModuleConfiguration"
             language="EGL"
-            name="Egl">
+            name="Default(Egl)">
       </implementation>
    </extension>
    <!--extension

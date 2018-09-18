@@ -52,7 +52,7 @@
             default="true"
             dialog="org.eclipse.epsilon.flock.dt.launching.FlockModuleConfiguration"
             language="FLOCK"
-            name="Flock">
+            name="Default">
       </implementation>
    </extension>
 </plugin>

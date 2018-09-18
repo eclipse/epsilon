@@ -21,12 +21,10 @@ public class EvlModuleParallelConfiguration extends EvlModuleConfiguration {
 	protected Label numThreadsLabel;
 	
 	@Override
-	public Composite createModuleConfigurationGroup(Composite parent) {
-		Composite group = super.createModuleConfigurationGroup(parent);
+	public void createModuleConfigurationWidgets(Composite group) {
 		Composite container = createParallelContainer(group);
 		numThreadsLabel = createThreadsLabel(container);
 		numThreadsSelector = createThreadsSelector(container);
-		return group;
 	}
 
 	@Override

@@ -12,7 +12,6 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
@@ -49,7 +49,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	/** 
 	 * Allow Epsilon Tasks to have arbitrary nested property settings
 	 * @author Horacio Hoyos Rodriguez
-	 *
+	 * @since 1.6
 	 */
 	protected static class ModuleProperty {
 		String name, value;
@@ -88,11 +88,14 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected boolean setBeans = false, fine;
 	
 	/**
-	 * Provide a specific module implementation at runtime
+	 * Provide a specific module class implementation at runtime
+	 * @since 1.6
 	 */
-	protected Class<? extends IEolModule> moduleImplementation;
+	protected String moduleImplementationClass;
 	
-	/** Task specific settings */
+	/** Module specific settings
+	 * @since 1.6
+	 */
 	List<ModuleProperty> properties = new ArrayList<>();
 	
 	static {
@@ -450,7 +453,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected abstract IEolModule createDefaultModule() throws Exception;
 	
 	protected IEolModule createModule() throws Exception {
-		IEolModule result = moduleImplementation == null ? createDefaultModule() : createAlternativeModule();
+		IEolModule result = moduleImplementationClass == null ? createDefaultModule() : createAlternativeModule();
 		Set<String> requiredProperties = result.getConfigurationProperties();
 		Map<String, Object> props = new HashMap<>(requiredProperties.size());
 		for (String rp : requiredProperties) {
@@ -464,12 +467,12 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		return result;
 	}
 	
-	public Class<? extends IEolModule> getModuleImplementation() {
-		return moduleImplementation;
+	public String getModuleImplementation() {
+		return moduleImplementationClass;
 	}
 
-	public void setModuleImplementation(Class<? extends IEolModule> moduleImplementation) {
-		this.moduleImplementation = moduleImplementation;
+	public void setModuleImplementation(String moduleImplementation) {
+		this.moduleImplementationClass = moduleImplementation;
 	}
 
 	/** Ant constructor for nested elements */
@@ -479,8 +482,16 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
         return property;
     }
 
-	protected IEolModule createAlternativeModule() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		IEolModule module = moduleImplementation.getConstructor().newInstance();
+    /**
+     * Create an alternative module instance from the provided qualified name of the module class
+     * @since 1.6
+     * @return 				The instantiated and configured IEolModule.
+     * @throws Exception	If there is an error instantiating the module class and/or configuring the module
+     */
+	protected IEolModule createAlternativeModule() throws Exception {
+		@SuppressWarnings("unchecked")
+		Class<IEolModule> clazz = (Class<IEolModule>) Class.forName(moduleImplementationClass);
+		IEolModule module = clazz.getConstructor().newInstance();
 		module.configure(ModuleProperty.toMap(properties));
 		return module;
 	}

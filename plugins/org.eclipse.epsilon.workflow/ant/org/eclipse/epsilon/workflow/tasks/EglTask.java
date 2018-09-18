@@ -35,7 +35,6 @@ import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.workflow.tasks.ExecutableModuleTask.ModuleProperty;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.EglDefaultFormatterNestedElement;
 
 public class EglTask extends ExportableModuleTask {
@@ -81,9 +80,12 @@ public class EglTask extends ExportableModuleTask {
 	 * @return
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
+	 * @throws ClassNotFoundException 
 	 */
-	protected IEolModule createAlternativeModule() throws InstantiationException, IllegalAccessException {
-		IEolModule module = moduleImplementation.newInstance();
+	protected IEolModule createAlternativeModule() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		@SuppressWarnings("unchecked")
+		Class<IEolModule> clazz = (Class<IEolModule>) Class.forName(moduleImplementationClass);
+		IEolModule module = clazz.newInstance();
 		final EglTemplateFactory templateFactory = templateFactoryType.newInstance();
 		if (templateFactory instanceof EglFileGeneratingTemplateFactory && outputRoot != null) {
 			try {
@@ -189,7 +191,6 @@ public class EglTask extends ExportableModuleTask {
 		return nestedElement;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	protected Collection<? extends Class<?>> getClassesForExportedModel() {
 		return Arrays.asList(Trace.class, TraceLink.class, TextLocation.class, ModelLocation.class, Region.class);

@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
@@ -73,7 +74,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	 * @param configuration 	The Eclipse configuration that has the source file information.
 	 */
 	public static String getLanguageFromSource(ILaunchConfiguration configuration) {
-		String result = "EGL";	// USe EGL by default
+		String result = "EGL";	// Use EGL by default
 		String source = null;
 		try {
 			source = configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "");
@@ -84,10 +85,23 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			int extPoint = source.lastIndexOf('.');
 			if (extPoint > 0) {
 				String fileExtension = source.substring(extPoint+1);
-				result = fileExtension.toUpperCase();
+				switch(fileExtension) {
+				case "egl":
+					result = "EGL";
+					break;
+				case "egx":
+					result = "EGX";
+					break;
+				default:
+					result="";
+				}
 			}
 		}
 		return result;
+	}
+	
+	public static String getImplementationFromSource(ILaunchConfigurationWorkingCopy configuration) throws CoreException {
+		return configuration.getAttribute(AbstractAdvancedConfigurationTab.IMPL_NAME, "");
 	}
 	
 
@@ -326,5 +340,6 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		}
 		return null;
 	}
+
 }
 

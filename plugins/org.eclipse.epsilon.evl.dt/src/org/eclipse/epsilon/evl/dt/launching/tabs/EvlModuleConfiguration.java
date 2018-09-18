@@ -13,7 +13,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractModuleConfiguration;
-import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
@@ -24,11 +23,9 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 	private Button optimizeConstraintsBtn;
 
 	@Override
-	public Composite createModuleConfigurationGroup(Composite parent) {
-		final Composite group = DialogUtil.createGroupContainer(parent, "Module Configuration", 1);
+	public void createModuleConfigurationWidgets(Composite group) {
 		optimizeConstraintsBtn = new Button(group, SWT.CHECK);
 		optimizeConstraintsBtn.setText("Optimize Constraints to Select Operations");
-		return group;
 	}
 
 	@Override

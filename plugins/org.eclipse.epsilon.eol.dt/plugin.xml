@@ -112,7 +112,7 @@
             class="org.eclipse.epsilon.eol.EolModule"
             default="true"
             language="EOL"
-            name="Eol">
+            name="Default">
       </implementation>
    </extension>
 </plugin>
