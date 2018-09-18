@@ -23,7 +23,7 @@ import org.osgi.framework.BundleContext;
 
 public abstract class AbstractEpsilonUIPlugin extends AbstractUIPlugin implements EpsilonPlugin {
 	
-	protected static HashMap<Class<?>, AbstractEpsilonUIPlugin> plugins = new HashMap<Class<?>, AbstractEpsilonUIPlugin>();
+	protected static HashMap<Class<?>, AbstractEpsilonUIPlugin> plugins = new HashMap<>();
 	protected ImageRegistry imageDescriptorRegistry;
 	
 	@Override
@@ -61,6 +61,7 @@ public abstract class AbstractEpsilonUIPlugin extends AbstractUIPlugin implement
 		return imageDescriptor;
 	}
 	
+	@Override
 	public Image createImage(String path) {
 		
 		Image image = getImageRegistry().get(path);

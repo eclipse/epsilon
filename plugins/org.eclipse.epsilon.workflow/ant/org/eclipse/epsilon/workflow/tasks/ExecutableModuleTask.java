@@ -84,8 +84,10 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	protected boolean assertions = true;
 	protected String uri;
 	protected Object result;
-	private boolean isGUI = true, isDebug = false;
-	protected boolean setBeans = false, fine;
+	private boolean isGUI = true;
+	private boolean isDebug = false;
+	protected boolean setBeans = false;
+	protected boolean fine;
 	
 	/**
 	 * Provide a specific module class implementation at runtime
@@ -490,7 +492,7 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
      */
 	protected IEolModule createAlternativeModule() throws Exception {
 		@SuppressWarnings("unchecked")
-		Class<IEolModule> clazz = (Class<IEolModule>) Class.forName(moduleImplementationClass);
+		Class<? extends IEolModule> clazz = (Class<? extends IEolModule>) Class.forName(moduleImplementationClass);
 		IEolModule module = clazz.getConstructor().newInstance();
 		module.configure(ModuleProperty.toMap(properties));
 		return module;

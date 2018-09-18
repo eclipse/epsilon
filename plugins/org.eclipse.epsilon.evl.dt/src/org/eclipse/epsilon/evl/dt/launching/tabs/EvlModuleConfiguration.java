@@ -42,6 +42,7 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		configuration.setAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimizeConstraintsBtn.getSelection());
+		boolean optimiseConstraints = optimizeConstraintsBtn != null ? optimizeConstraintsBtn.getSelection() : false;
+		configuration.setAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimiseConstraints);
 	}
 }

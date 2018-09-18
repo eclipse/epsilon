@@ -33,6 +33,7 @@ public class AbstractModuleConfiguration implements ModuleConfiguration {
 		Spinner numThreadsSelector = new Spinner(container, SWT.BORDER);
 		numThreadsSelector.setMinimum(1);
 		numThreadsSelector.setSelection(INITIAL_THREADS);
+		// Increments by 2 if even, 3 if divisible by 3, 1 otherwise
 		numThreadsSelector.setIncrement(INITIAL_THREADS % 2 == 0 ? 2 : (INITIAL_THREADS % 3 == 0 ? 3 : 1));
 		numThreadsSelector.setMaximum(INITIAL_THREADS*4);
 		numThreadsSelector.setToolTipText("Parallelism");
@@ -49,7 +50,8 @@ public class AbstractModuleConfiguration implements ModuleConfiguration {
 	}
 	
 	public static void performApplyThreadsForConfiguration(ILaunchConfigurationWorkingCopy configuration, Spinner numThreadsSelector) {
-		configuration.setAttribute(IEolContextParallel.NUM_THREADS_CONFIG, numThreadsSelector.getSelection());
+		int numThreads = numThreadsSelector != null ? numThreadsSelector.getSelection() : INITIAL_THREADS;
+		configuration.setAttribute(IEolContextParallel.NUM_THREADS_CONFIG, numThreads);
 	}
 	
 	@Override

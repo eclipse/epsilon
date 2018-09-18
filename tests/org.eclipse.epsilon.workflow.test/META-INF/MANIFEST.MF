@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+Automatic-Module-Name: org.eclipse.epsilon.workflow.test
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests for the Ant tasks (Incubation)
 Bundle-SymbolicName: org.eclipse.epsilon.workflow.test

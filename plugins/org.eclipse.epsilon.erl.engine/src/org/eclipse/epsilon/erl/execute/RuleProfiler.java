@@ -50,11 +50,11 @@ public class RuleProfiler implements IExecutionListener {
 	public void finishedExecuting(ModuleElement ast, Object result, IEolContext context) {
 		if (ast == currentRule) {
 			long execTimeNanos = System.nanoTime() - currentStartNanos;
-			Duration current = executionTimes.get(ast);
+			Duration currentDuration = executionTimes.get(ast);
 			
 			executionTimes.put(
-				(NamedRule) ast, 
-				current != null ? current.plusNanos(execTimeNanos) : Duration.ofNanos(execTimeNanos)
+				currentRule, 
+				currentDuration != null ? currentDuration.plusNanos(execTimeNanos) : Duration.ofNanos(execTimeNanos)
 			);
 			
 			currentRule = null;

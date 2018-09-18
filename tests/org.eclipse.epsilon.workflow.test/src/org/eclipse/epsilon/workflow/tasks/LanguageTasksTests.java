@@ -115,8 +115,10 @@ public class LanguageTasksTests {
 		final String initTask = createTaskDefTarget("Evl");
 		final StringBuilder mainBuilder = new StringBuilder();
 		mainBuilder.append("<target name=\"main\" depends=\"evl.init, loadModels\">");
-		mainBuilder.append(String.format("  <epsilon.evl id=\"evl\" src=\"%s\">", evlFile.getAbsolutePath()));	// Use id so its not disposed
+		mainBuilder.append(String.format("  <epsilon.evl id=\"evl\" src=\"%s\" ", evlFile.getAbsolutePath()));	// Use id so its not disposed
+		mainBuilder.append("moduleimplementation=\"org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation\">");
 		mainBuilder.append("  <moduleProperty name=\"optimizeConstraints\" value=\"true\"/>");
+		mainBuilder.append("  <moduleproperty name=\"parallelism\" value=\"6\"/>");
 		mainBuilder.append("  <model ref=\"T1\"/>");
 		mainBuilder.append("</epsilon.evl>");
 		mainBuilder.append("</target>");
@@ -134,6 +136,9 @@ public class LanguageTasksTests {
         ModuleProperty oc = evlTask.properties.get(0);
         assertThat(oc.name, is("optimizeConstraints"));
         assertThat(oc.value, is("true"));
+        ModuleProperty parallelism = evlTask.properties.get(1);
+        assertThat(parallelism.name, is("parallelism"));
+        assertThat(parallelism.value, is("6"));
         buildFile.delete();
 	}
 
