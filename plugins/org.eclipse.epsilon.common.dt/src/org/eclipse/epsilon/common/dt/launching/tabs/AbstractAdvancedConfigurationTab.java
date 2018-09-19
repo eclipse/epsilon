@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.common.dt.launching.tabs;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
 /**
@@ -217,11 +219,6 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 				.collect(Collectors.toList());
 	}
 	
-	/**
-	 * @param parent 
-	 * @param index
-	 * @param impl
-	 */
 	private void createConfigComposite(Composite parent) {
 		moduleConfig = null;
 		try {
@@ -230,34 +227,19 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 			// No configuration available
 		}
 		if (moduleConfigGroup != null) {
-			configComposite.addDisposeListener(new DisposeListener() {
-				@Override
-				public void widgetDisposed(DisposeEvent e) {
-					// Need to redraw in case the implementation changed.
-					if (moduleConfig != null) {
-						configComposite = new Composite(parent, SWT.NONE);
-						GridLayout controlLayout = new GridLayout(2, true);
-						configComposite.setLayout(controlLayout);
-						moduleConfig.createModuleConfigurationWidgets(moduleConfigGroup);
-						if (moduleConfigGroup.getChildren().length == 0) {
-							moduleConfigGroup.setVisible(false);
-						}
-					}
-				}
-			});
+			//Arrays.stream(moduleConfigGroup.getChildren()).forEach(Control::dispose);
+			moduleConfigGroup.dispose();
 			configComposite.dispose();
 		}
-		else {
-			configComposite = new Composite(parent, SWT.NONE);
-			GridLayout controlLayout = new GridLayout(2, true);
-			configComposite.setLayout(controlLayout);
-			moduleConfigGroup = DialogUtil.createGroupContainer(parent, "Options", 1);
-			moduleConfig.createModuleConfigurationWidgets(moduleConfigGroup);
-			if (moduleConfigGroup.getChildren().length == 0) {
-				moduleConfigGroup.setVisible(false);
-			}
-			configComposite.redraw();
+		configComposite = new Composite(parent, SWT.NONE);
+		GridLayout controlLayout = new GridLayout(2, true);
+		configComposite.setLayout(controlLayout);
+		moduleConfigGroup = DialogUtil.createGroupContainer(configComposite, "Options", 1);
+		moduleConfig.createModuleConfigurationWidgets(moduleConfigGroup);
+		if (moduleConfigGroup.getChildren().length == 0) {
+			configComposite.setVisible(false);
 		}
+		configComposite.redraw();
 		updateLaunchConfigurationDialog();
 	}
 

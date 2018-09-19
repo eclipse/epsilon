@@ -100,7 +100,7 @@ public class ModuleImplementationExtension {
 		this.name = configurationElement.getAttribute("name");;
 		this.language = configurationElement.getAttribute("language");
 		this.dialogClazz = configurationElement.getAttribute("dialog");
-		this.default_ = Boolean.getBoolean(configurationElement.getAttribute("default"));
+		this.default_ = Boolean.valueOf(configurationElement.getAttribute("default"));
 		this.configurationElement = configurationElement;
 	}
 	
