@@ -2,6 +2,7 @@ package org.eclipse.epsilon.ecl.dt.launching;
 
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
@@ -12,7 +13,8 @@ public class EclModuleParallelConfiguration extends EclModuleConfiguration {
 	protected Label numThreadsLabel;
 	
 	@Override
-	public void createModuleConfigurationWidgets(Composite group) {
+	public void createModuleConfigurationWidgets(Composite group, AbstractAdvancedConfigurationTab tab) {
+		super.createModuleConfigurationWidgets(group, tab);
 		Composite container = createParallelContainer(group);
 		numThreadsLabel = createThreadsLabel(container);
 		numThreadsSelector = createThreadsSelector(container);

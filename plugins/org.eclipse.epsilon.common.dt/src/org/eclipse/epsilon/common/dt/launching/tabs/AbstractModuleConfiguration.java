@@ -65,6 +65,6 @@ public class AbstractModuleConfiguration implements ModuleConfiguration {
 	}
 
 	@Override
-	public void createModuleConfigurationWidgets(Composite group) {
+	public void createModuleConfigurationWidgets(Composite group, AbstractAdvancedConfigurationTab tab) {
 	}
 }

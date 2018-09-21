@@ -1,6 +1,5 @@
 package org.eclipse.epsilon.common.dt.launching.tabs;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -21,10 +20,6 @@ import org.eclipse.epsilon.common.dt.exceptions.EpsilonDtException;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
 import org.eclipse.epsilon.common.dt.util.DialogUtil;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -32,7 +27,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
 /**
@@ -50,7 +44,7 @@ import org.eclipse.swt.widgets.Label;
  * @author Horacio Hoyos Rodriguez
  *
  */
-public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchConfigurationTab implements ModifyListener {
+public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchConfigurationTab {
 	
 	public static final String IMPL_NAME = "implementation_name";
 	
@@ -85,14 +79,12 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 					implName = modulesDropDown.getItem(index);
 					createConfigComposite(mainComposite);
 					selectedImpl = index;
+					enableApply();
 				}
 			}
 			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Implement modulesDropDown.widgetDefaultSelected
-				throw new UnsupportedOperationException(
-						"Unimplemented Method    modulesDropDown.widgetDefaultSelected invoked.");
 			}
 		});
 	}
@@ -106,6 +98,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 			if (implName.length() > 0) {
 				index = modulesDropDown.indexOf(implName);
 				modulesDropDown.select(index);
+				createConfigComposite(mainComposite);
 				if (moduleConfig != null) {
 					moduleConfig.initializeFrom(configuration);
 				}
@@ -113,9 +106,8 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 			else {
 				modulesDropDown.select(0);
 				implName = modulesDropDown.getText();
+				createConfigComposite(mainComposite);
 			}
-			createConfigComposite(mainComposite);
-			updateLaunchConfigurationDialog();
 		} catch (CoreException e) {
 			//Ignore
 		}
@@ -123,8 +115,10 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
+		System.out.println("advanced performApply ");
 		configuration.setAttribute(IMPL_NAME, modulesDropDown.getText());
 		if (moduleConfig != null) {
+			System.out.println("moduleConfig performApply ");
 			moduleConfig.performApply(configuration);
 		}
 	}
@@ -138,12 +132,6 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	@Override
 	public String getName() {
 		return "Advanced";
-	}
-
-	@Override
-	public void modifyText(ModifyEvent e) {
-		canSave();
-		updateLaunchConfigurationDialog();
 	}
 	
 	@Override
@@ -171,12 +159,14 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	 * @param control
 	 */
 	private void addAvailableImplsToCombo(ILaunchConfiguration configuration) {
-		getImplementations(configuration).stream().forEach(modulesDropDown::add);
-		if (getImplementations().size() == 1) {
-			modulesDropDown.setEnabled(false);
-		}
-		else {
-			modulesDropDown.setEnabled(true);
+		if (modulesDropDown.getItemCount() == 0) {
+			getImplementations(configuration).stream().forEach(modulesDropDown::add);
+			if (getImplementations().size() == 1) {
+				modulesDropDown.setEnabled(false);
+			}
+			else {
+				modulesDropDown.setEnabled(true);
+			}
 		}
 	}
 
@@ -235,12 +225,11 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 		GridLayout controlLayout = new GridLayout(2, true);
 		configComposite.setLayout(controlLayout);
 		moduleConfigGroup = DialogUtil.createGroupContainer(configComposite, "Options", 1);
-		moduleConfig.createModuleConfigurationWidgets(moduleConfigGroup);
+		moduleConfig.createModuleConfigurationWidgets(moduleConfigGroup, this);
 		if (moduleConfigGroup.getChildren().length == 0) {
 			configComposite.setVisible(false);
 		}
 		configComposite.redraw();
-		updateLaunchConfigurationDialog();
 	}
 
 	public Map<String, ModuleImplementationExtension> getImplementations() {
@@ -249,6 +238,12 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 
 	public void setImplementations(Map<String, ModuleImplementationExtension> implementations) {
 		this.implementations = implementations;
+	}
+	
+	public void enableApply() {
+		setDirty(true);
+		System.out.println("advanced can save " + isDirty());
+		updateLaunchConfigurationDialog();
 	}
 
 }
