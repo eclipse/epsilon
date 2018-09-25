@@ -41,11 +41,12 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		String iteratorName = iterator.getName();
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 
-		AtomicInteger currentMatches = new AtomicInteger(), index = new AtomicInteger();
+		AtomicInteger currentMatches = new AtomicInteger();
+		int i = 0;
 		Collection<Runnable> jobs = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
-			final int currentIndex = index.incrementAndGet();
+			final int currentIndex = ++i;
 			
 			if (iteratorType == null || iteratorType.isKind(item)) {
 				jobs.add(() -> {

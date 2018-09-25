@@ -29,9 +29,10 @@ import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
 
 public class MatchRule extends ExtensibleNamedRule {
 	
-	protected ExecutableBlock<Boolean> compareBlock, guardBlock;
-	protected Parameter leftParameter, rightParameter;
+	protected ExecutableBlock<Boolean> compareBlock;
+	protected ExecutableBlock<Boolean> guardBlock;
 	protected ExecutableBlock<Void> doBlock;
+	protected Parameter leftParameter, rightParameter;
 
 	@Override
 	public AST getSuperRulesAst(AST cst) {

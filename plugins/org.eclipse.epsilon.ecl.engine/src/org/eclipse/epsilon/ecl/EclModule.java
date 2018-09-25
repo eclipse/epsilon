@@ -39,7 +39,8 @@ import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
 public class EclModule extends ErlModule implements IEclModule {
 	
-	protected NamedRuleList<MatchRule> matchRules, declaredMatchRules = new NamedRuleList<>();
+	protected NamedRuleList<MatchRule> matchRules;
+	protected final NamedRuleList<MatchRule> declaredMatchRules = new NamedRuleList<>();
 	
 	public EclModule() {
 		this.context = new EclContext();
@@ -110,8 +111,8 @@ public class EclModule extends ErlModule implements IEclModule {
 	}
 
 	@Override
-	protected void prepareExecution() throws EolRuntimeException {
-		super.prepareExecution();
+	protected void prepareContext() {
+		super.prepareContext();
 		IEclContext context = getContext();
 		context.setOperationFactory(new EclOperationFactory());
 		context.getFrameStack().put(
@@ -119,6 +120,11 @@ public class EclModule extends ErlModule implements IEclModule {
 			Variable.createReadOnlyVariable("context", context),
 			Variable.createReadOnlyVariable("self", this)
 		);
+	}
+	
+	@Override
+	public final MatchTrace execute() throws EolRuntimeException {
+		return (MatchTrace) super.execute();
 	}
 	
 	@Override
@@ -188,6 +194,7 @@ public class EclModule extends ErlModule implements IEclModule {
 		return (IEclContext) context;
 	}
 	
+	@Override
 	public List<MatchRule> getDeclaredMatchRules() {
 		return declaredMatchRules;
 	}
