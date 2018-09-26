@@ -13,9 +13,9 @@ import static org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestUt
 import static org.junit.Assert.assertEquals;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.IEclModule;
+import org.eclipse.epsilon.ecl.launch.EclRunConfiguration;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
-import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.test.util.EpsilonTestUtil;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -24,9 +24,9 @@ import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized.Parameters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EclModuleEquivalenceTests extends EolEquivalenceTests<IEclModule, IEolRunConfiguration<IEclModule, MatchTrace>> {
+public class EclModuleEquivalenceTests extends EolEquivalenceTests<IEclModule, EclRunConfiguration> {
 
-	public EclModuleEquivalenceTests(IEolRunConfiguration<IEclModule, MatchTrace> configUnderTest) {
+	public EclModuleEquivalenceTests(EclRunConfiguration configUnderTest) {
 		super(configUnderTest);
 	}
 
@@ -34,7 +34,7 @@ public class EclModuleEquivalenceTests extends EolEquivalenceTests<IEclModule, I
 	 * @return A collection of pre-configured run configurations, each with their own IEclModule.
 	 */
 	@Parameters//(name = "0")	Don't use this as the Eclipse JUnit view won't show failures!
-	public static Iterable<? extends IEolRunConfiguration<IEclModule, ?>> configurations() {
+	public static Iterable<? extends EclRunConfiguration> configurations() {
 		// Used to specify which module configurations we'd like to test in our scenarios
 		//TODO implement
 		return null;

@@ -14,19 +14,34 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 public class EolIllegalOperationParametersException extends EolRuntimeException {
 	
 	private String method = "";
+	private String expected;
 	
 	public EolIllegalOperationParametersException(String method) {
 		this.method = method;
 	}
 	
 	public EolIllegalOperationParametersException(String method, ModuleElement ast) {
+		this(method);
 		this.ast = ast;
-		this.method = method;
+	}
+	
+	public EolIllegalOperationParametersException(String method, String expected) {
+		this(method);
+		this.expected = expected;
+	}
+	
+	public EolIllegalOperationParametersException(String method, String expected, ModuleElement ast) {
+		this(method, ast);
+		this.expected = expected;
 	}
 	
 	@Override
 	public String getReason() {
-		return "Invalid number (or types) of arguements for operation '" + method + "'";
+		String reason = "Invalid number (or types) of arguments for operation '" + method + "'";
+		if (expected != null && !expected.isEmpty()) {
+			reason += ": expected '"+expected+"'";
+		}
+		return reason;
 	}
 	
 	@Override

@@ -74,6 +74,21 @@ operation testParallelNone() {
 }
 
 @test
+operation testParallelNMatch() {
+	var data := Sequence {1..11};
+	var three = data.parallelNMatch(n | n.mod(3) == 0, 3);
+	assertTrue(three);
+	three = data.parallelNMatch(n | n.mod(2) == 0, 3);
+	assertFalse(three);
+	var twelve = data.parallelNMatch(n | n > 1, 12);
+	assertFalse(twelve);
+	var two = data.parallelNMatch(n | n == 5 or n == 11, 2);
+	assertTrue(two);
+	two = data.parallelNMatch(n | n == 0 or n == 10, 2);
+	assertFalse(two);
+}
+
+@test
 operation testParallelForAll() {
 	var data := Sequence {0..9};
 	var forAll = data.parallelForAll(n | n > -1 and n <= 10);

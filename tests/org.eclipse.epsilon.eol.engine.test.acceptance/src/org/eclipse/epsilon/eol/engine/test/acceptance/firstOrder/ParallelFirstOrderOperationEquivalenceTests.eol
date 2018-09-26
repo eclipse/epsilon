@@ -1,4 +1,4 @@
-var testData = Bag{
+var testData = Bag {
 	1, 2, 4, 8, 3, 9, 10, 1024, 1024768, 0,
 	-2147483647, "a string", "6", 22, "0.75f", 32.0,
 	12.5, 2.0000000000000000000000001, "66.2", 335d,
@@ -120,6 +120,19 @@ operation testParallelNoneEquivalence() {
 	expected = testData.none(t | t <> null and not t.getClass().getName().startsWith("java"));
 	assertTrue(expected);
 	actual = testData.parallelNone(t | t <> null and not t.getClass().getName().startsWith("java"));
+	assertEquals(expected, actual);
+}
+
+@test
+operation testParallelNMatchEquivalence() {
+	var expected = testData.nMatch(t | t == null, 2);
+	assertTrue(expected);
+	var actual = testData.parallelNMatch(t | t == null, 2);
+	assertEquals(expected, actual);
+	
+	expected = testData.nMatch(t | t <> null and t.asString().length() == 1, 15);
+	assertFalse(expected);
+	actual = testData.parallelNMatch(t | t <> null and t.asString().length() == 1, 15);
 	assertEquals(expected, actual);
 }
 

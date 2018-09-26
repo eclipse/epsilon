@@ -102,7 +102,7 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 			.desc("Specify the models and properties. The format first specifies the concrete Java class to"
 				+ "be instantiated (fully qualified name after org.eclipse.epsilon.emc.), followed by #,"
 				+ "followed by comma-separated key=value properties. For example: "
-				+ "emf.EmfModel#name=modelName,cached=true;plainxml.PlainXmlModel:name=model2. "
+				+ "emf.EmfModel#name=modelName,cached=true;plainxml.PlainXmlModel#name=model2. "
 				+ "This example specifies an EMF and a PlainXML model with their names as properties."
 			)
 			.valueSeparator(';')

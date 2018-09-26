@@ -137,8 +137,8 @@ public class EclModule extends ErlModule implements IEclModule {
 	
 	@Override
 	public void matchModels() throws EolRuntimeException {
-		matchAllRules(true);
 		matchAllRules(false);
+		matchAllRules(true);
 	}
 
 	protected void matchAllRules(boolean greedy) throws EolRuntimeException {
@@ -146,7 +146,7 @@ public class EclModule extends ErlModule implements IEclModule {
 		IEclContext context = getContext();
 		
 		for (MatchRule matchRule : getMatchRules()) {
-			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (ofTypeOnly || matchRule.isGreedy())) {
+			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (!greedy || matchRule.isGreedy())) {
 				for (Object left : matchRule.getLeftInstance(context, ofTypeOnly)) {
 					for (Object right : matchRule.getRightInstance(context, ofTypeOnly)) {
 						matchRule.matchPair(context, ofTypeOnly, left, right);

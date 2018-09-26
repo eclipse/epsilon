@@ -23,4 +23,9 @@ public abstract class AbstractOperation {
 	public boolean isOverridable() {
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName();
+	}
 }

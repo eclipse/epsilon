@@ -26,28 +26,31 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class ParallelNMatchOperation extends NMatchOperation {
 	
-	public ParallelNMatchOperation(int targetMatches) {
-		super(targetMatches);
+	public ParallelNMatchOperation(int n) {
+		super(n);
+	}
+	
+	public ParallelNMatchOperation() {
+		super();
 	}
 	
 	@Override
-	public Boolean execute(Object target, Variable iterator, Expression expression,
-			IEolContext context_) throws EolRuntimeException {
+	protected boolean execute(Object target, Variable iterator, Expression expression,
+			final int targetMatches, IEolContext context_) throws EolRuntimeException {
 		
 		Collection<Object> source = CollectionUtil.asCollection(target);
-		if (source.size() < targetMatches) return false;
+		final int sourceSize = source.size();
+		if (sourceSize < targetMatches) return false;
 
 		EolType iteratorType = iterator.getType();
 		String iteratorName = iterator.getName();
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 
 		AtomicInteger currentMatches = new AtomicInteger();
-		int i = 0;
+		AtomicInteger evaluated = new AtomicInteger();
 		Collection<Runnable> jobs = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
-			final int currentIndex = ++i;
-			
 			if (iteratorType == null || iteratorType.isKind(item)) {
 				jobs.add(() -> {
 					
@@ -58,15 +61,16 @@ public class ParallelNMatchOperation extends NMatchOperation {
 						);
 						
 						Object bodyResult = context.getExecutorFactory().execute(expression, context);
+						boolean leave = false;
 						
 						if (bodyResult instanceof Boolean && (boolean) bodyResult) { 
-							int currentMatchesCached = currentMatches.incrementAndGet();
-							if (
-								currentMatchesCached > targetMatches ||
-								currentIndex > targetMatches && (currentMatchesCached < targetMatches)
-							) {
-								context.completeShortCircuit(expression, null);
-							}
+							leave = currentMatches.incrementAndGet() > targetMatches;
+						}
+						
+						leave |= (sourceSize - evaluated.incrementAndGet()) < (targetMatches - currentMatches.get());
+						
+						if (leave) {
+							context.completeShortCircuit(expression, null);
 						}
 					}
 					catch (EolRuntimeException ex) {

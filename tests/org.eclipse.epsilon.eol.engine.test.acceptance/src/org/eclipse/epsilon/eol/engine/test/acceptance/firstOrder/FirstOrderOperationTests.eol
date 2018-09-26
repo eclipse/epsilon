@@ -55,7 +55,7 @@ operation testExists() {
 
 @test
 operation testOne() {
-	var data := Sequence {0..9};
+	var data := Sequence {0..10};
 	var one = data.one(n | n > 3 and n < 7);
 	assertFalse(one);
 	one = data.one(n | n == 2 or (n > 1 and n < 3));
@@ -66,7 +66,7 @@ operation testOne() {
 
 @test
 operation testNone() {
-	var data := Sequence {0..9};
+	var data := Sequence {0..10};
 	var none = data.none(n | n == null);
 	assertTrue(none);
 	none = data.none(n | n > 7);
@@ -74,8 +74,23 @@ operation testNone() {
 }
 
 @test
+operation testNMatch() {
+	var data := Sequence {1..11};
+	var three = data.nMatch(n | n.mod(3) == 0, 3);
+	assertTrue(three);
+	three = data.nMatch(n | n.mod(2) == 0, 3);
+	assertFalse(three);
+	var twelve = data.nMatch(n | n > 1, 12);
+	assertFalse(twelve);
+	var two = data.nMatch(n | n == 5 or n == 11, 2);
+	assertTrue(two);
+	two = data.nMatch(n | n == 0 or n == 10, 2);
+	assertFalse(two);
+}
+
+@test
 operation testForAll() {
-	var data := Sequence {0..9};
+	var data := Sequence {0..10};
 	var forAll = data.forAll(n | n > -1 and n <= 10);
 	assertTrue(forAll);
 	forAll = data.forAll(n | n < 9);
