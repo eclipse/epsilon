@@ -135,7 +135,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		String implName = configuration.getAttribute(AbstractAdvancedConfigurationTab.IMPL_NAME, "");
 		IEolModule module ;
 		if (implName.length() > 0) {
-			module = ModuleImplementationExtension.forImplementation(implName).createModule();
+			module = ModuleImplementationExtension.forImplementation(getLanguage(), implName).createModule();
 			Set<String> requiredProperties = module.getConfigurationProperties();
 			Map<String, Object> attr = configuration.getAttributes();
 			requiredProperties.stream()
@@ -161,6 +161,8 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		return module;		
 	}
 	
+	protected abstract String getLanguage();
+
 	protected void collectListeners() {
 		
 		listeners = new ArrayList<>();

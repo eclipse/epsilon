@@ -111,7 +111,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		IEolModule module = null;
 		EglTemplateFactory templateFactory = createTemplateFactoryFromConfiguration();
 		if (implName.length() > 0) {
-			module = ModuleImplementationExtension.forImplementation(implName).createModule();
+			module = ModuleImplementationExtension.forImplementation(getLanguageFromSource(configuration), implName).createModule();
 			Set<String> requiredProperties = module.getConfigurationProperties();
 			Map<String, Object> attr = configuration.getAttributes();
 			requiredProperties.stream()
@@ -338,6 +338,12 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			return ModuleImplementationExtension.defaultImplementation(getLanguageFromSource(configuration)).createModule();
 		} catch (CoreException e) {
 		}
+		return null;
+	}
+
+	@Override
+	protected String getLanguage() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

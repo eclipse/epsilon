@@ -33,12 +33,13 @@ public class ModuleImplementationExtension {
 	 * @param implName the name of the implementation
 	 * @return the ModuleImplementationExtension or null if not found in the extension registry
 	 */
-	public static ModuleImplementationExtension forImplementation(String implName) {
+	public static ModuleImplementationExtension forImplementation(String languageName, String implName) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.moduleImplementation");
 		IConfigurationElement[] configurationElements =  extensionPoint.getConfigurationElements();
 		for (IConfigurationElement configurationElement : configurationElements){
-			if (configurationElement.getAttribute("name").equals(implName)) {	
+			if (configurationElement.getAttribute("language").equals(languageName) 
+					&& configurationElement.getAttribute("name").equals(implName)) {	
 				ModuleImplementationExtension moduleType = null;
 				moduleType = new ModuleImplementationExtension(configurationElement);
 				return moduleType;

@@ -15,7 +15,6 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
 import org.eclipse.epsilon.etl.dt.EtlPlugin;
-import org.eclipse.epsilon.etl.dt.launching.EtlLaunchConfigurationDelegate;
 
 /**
  * The Class EtlAdvancedConfigurationTab.
@@ -35,7 +34,16 @@ public class EtlAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 
 	@Override
 	public String getLanguage(ILaunchConfiguration configuration) {
-		return EtlLaunchConfigurationDelegate.getLanguage();
+		return getLanguage();
+	}
+	
+	/**
+	 * The language provided by the plugin. It allows other plugins to contribute
+	 * alternate IModule implementation of the language.
+	 * @since 1.6
+	 */
+	public String getLanguage() {
+		return "ETL";
 	}
 
 }

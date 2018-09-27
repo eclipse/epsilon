@@ -23,7 +23,7 @@ public class EclLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	 * alternate IModule implementation of the language.
 	 * @since 1.6
 	 */
-	public static String getLanguage() {
+	public String getLanguage() {
 		return "ECL";
 	}
 	

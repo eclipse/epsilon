@@ -24,7 +24,7 @@ import org.eclipse.epsilon.ecl.dt.launching.EclLaunchConfigurationDelegate;
  * @author Horacio Hoyos Rodriguez
  */
 public class EclAdvancedConfigurationTab extends AbstractAdvancedConfigurationTab {
-
+	
 	@Override
 	public EpsilonPlugin getPlugin() {
 		return EclPlugin.getDefault();
@@ -36,7 +36,16 @@ public class EclAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 
 	@Override
 	public String getLanguage(ILaunchConfiguration configuration) {
-		return EclLaunchConfigurationDelegate.getLanguage();
+		return getLanguage();
+	}
+	
+	/**
+	 * The language provided by the plugin. It allows other plugins to contribute
+	 * alternate IModule implementation of the language.
+	 * @since 1.6
+	 */
+	public String getLanguage() {
+		return "ECL";
 	}
 
 }

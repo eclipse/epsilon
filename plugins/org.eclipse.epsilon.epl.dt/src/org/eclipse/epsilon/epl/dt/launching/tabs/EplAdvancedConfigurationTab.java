@@ -15,7 +15,6 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
 import org.eclipse.epsilon.epl.dt.EplPlugin;
-import org.eclipse.epsilon.epl.dt.launching.EplLaunchConfigurationDelegate;
 
 /**
  * The Class EplAdvancedConfigurationTab.
@@ -35,7 +34,16 @@ public class EplAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 
 	@Override
 	public String getLanguage(ILaunchConfiguration configuration) {
-		return EplLaunchConfigurationDelegate.getLanguage();
+		return getLanguage();
+	}
+	
+	/**
+	 * The language provided by the plugin. It allows other plugins to contribute
+	 * alternate IModule implementation of the language.
+	 * @since 1.6
+	 */
+	public String getLanguage() {
+		return "EPL";
 	}
 	
 }

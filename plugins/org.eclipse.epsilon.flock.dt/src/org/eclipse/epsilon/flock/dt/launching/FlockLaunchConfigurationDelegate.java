@@ -30,7 +30,7 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 	 * alternate IModule implementation of the language.
 	 * @since 1.6
 	 */
-	public static String getLanguage() {
+	public String getLanguage() {
 		return "FLOCK";
 	}
 	

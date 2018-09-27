@@ -15,7 +15,6 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
-import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationDelegate;
 
 /**
  * The Class EolAdvancedConfigurationTab.
@@ -37,7 +36,16 @@ public class EolAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 
 	@Override
 	public String getLanguage(ILaunchConfiguration configuration) {
-		return EolLaunchConfigurationDelegate.getLanguage();
+		return getLanguage();
+	}
+	
+	/**
+	 * The language provided by the plugin. It allows other plugins to contribute
+	 * alternate IModule implementation of the language.
+	 * @since 1.6
+	 */
+	public String getLanguage() {
+		return "EOL";
 	}
 
 
