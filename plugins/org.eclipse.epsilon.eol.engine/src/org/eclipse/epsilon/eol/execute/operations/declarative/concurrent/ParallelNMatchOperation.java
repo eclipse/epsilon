@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
@@ -35,17 +34,11 @@ public class ParallelNMatchOperation extends NMatchOperation {
 	}
 	
 	@Override
-	protected boolean execute(Object target, Variable iterator, Expression expression,
-			final int targetMatches, IEolContext context_) throws EolRuntimeException {
+	protected boolean execute(final Collection<?> source, final int sourceSize, EolType iteratorType,
+			String iteratorName, Expression expression, final int targetMatches, IEolContext context_)
+			throws EolRuntimeException {
 		
-		Collection<Object> source = CollectionUtil.asCollection(target);
-		final int sourceSize = source.size();
-		if (sourceSize < targetMatches) return false;
-
-		EolType iteratorType = iterator.getType();
-		String iteratorName = iterator.getName();
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
-
 		AtomicInteger currentMatches = new AtomicInteger();
 		AtomicInteger evaluated = new AtomicInteger();
 		Collection<Runnable> jobs = new ArrayList<>(source.size());
@@ -67,7 +60,8 @@ public class ParallelNMatchOperation extends NMatchOperation {
 							leave = currentMatches.incrementAndGet() > targetMatches;
 						}
 						
-						leave |= (sourceSize - evaluated.incrementAndGet()) < (targetMatches - currentMatches.get());
+						int evaluatedInt = evaluated.incrementAndGet();
+						leave = leave || (sourceSize - evaluatedInt) < (targetMatches - currentMatches.get());
 						
 						if (leave) {
 							context.completeShortCircuit(expression, null);

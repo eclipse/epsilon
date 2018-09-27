@@ -19,7 +19,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.assertions.*;
 
 public class EolOperationFactory {
 	
-	protected final Map<String, AbstractOperation> operationCache = new HashMap<>(32, 0.9f);
+	protected final Map<String, AbstractOperation> operationCache = new HashMap<>(64, 0.64f);
 	
 	public EolOperationFactory() {
 		createCache();

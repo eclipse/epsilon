@@ -27,18 +27,30 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class NMatchOperation extends FirstOrderOperation {
 
+	/**
+	 * Negative signifies that no initial value is specified
+	 */
 	private int n = -1;
 	
+	/**
+	 * nMatch operation where target matches is specified on a per-invocation basis.
+	 */
 	public NMatchOperation() {
 		
 	}
 	
-	public NMatchOperation(int n) {
+	/**
+	 * nMatch operation with the target matches pre-specified.
+	 * @param n The number of target matches.
+	 * @throws IllegalArgumentException If n is less than zero.
+	 */
+	public NMatchOperation(int n) throws IllegalArgumentException {
+		if (n < 0) throw new IllegalArgumentException("Target matches can't be negative!");
 		this.n = n;
 	}
 	
 	@Override
-	public Object execute(Object target,
+	public Boolean execute(Object target,
 			NameExpression operationNameExpression, List<Parameter> iterators,
 			List<Expression> expressions, IEolContext context)
 			throws EolRuntimeException {
@@ -50,8 +62,11 @@ public class NMatchOperation extends FirstOrderOperation {
 			target = ((EolModelElementType) iteratorType).getAllOfKind();
 		}
 		
-		int targetMatches = n;
-		if (expressions.size() > 1) {
+		int targetMatches;
+		if (n >= 0) {
+			targetMatches = n;
+		}
+		else if (expressions.size() > 1) {
 			Object userDefinedN = expressions.get(1).execute(context);
 			if (userDefinedN instanceof Integer) {
 				targetMatches = (int) userDefinedN;
@@ -60,23 +75,26 @@ public class NMatchOperation extends FirstOrderOperation {
 				throw new EolIllegalOperationParametersException("nMatch", "Integer", expressions.get(1));
 			}
 		}
-		if (targetMatches < 0) {
+		else {
 			throw new EolIllegalOperationParametersException("nMatch");
 		}
 		
-		return execute(target, new Variable(iterator.getName(), null, iteratorType), expressions.get(0), targetMatches, context);
+		Collection<?> targetCol = CollectionUtil.asCollection(target);
+		int targetColSize = targetCol.size();
+		if (targetColSize < targetMatches) return false;
+		
+		return execute(
+			targetCol, targetColSize,
+			iteratorType, iterator.getName(),
+			expressions.get(0), targetMatches, context
+		);
 	}
 	
-	protected boolean execute(Object target, Variable iterator, Expression expression,
-			final int targetMatches, IEolContext context) throws EolRuntimeException {
-		
-		Collection<Object> source = CollectionUtil.asCollection(target);
-		final int sourceSize = source.size();
-		if (sourceSize < targetMatches) return false;
+	protected boolean execute(final Collection<?> source, final int sourceSize, EolType iteratorType,
+			String iteratorName, Expression expression, final int targetMatches, IEolContext context)
+			throws EolRuntimeException {
 
 		int currentIndex = 0, currentMatches = 0;
-		EolType iteratorType = iterator.getType();
-		String iteratorName = iterator.getName();
 		FrameStack scope = context.getFrameStack();
 		
 		for (Object item : source) {
@@ -93,8 +111,8 @@ public class NMatchOperation extends FirstOrderOperation {
 				if (bodyResult instanceof Boolean && (boolean) bodyResult) {
 					leave = ++currentMatches > targetMatches;
 				}
-				//         # of remaining elements  vs   # of remaining matches
-				leave |= (sourceSize - currentIndex) < (targetMatches - currentMatches);
+							    // # of remaining elements  vs   # of remaining matches
+				leave = leave || (sourceSize - currentIndex) < (targetMatches - currentMatches);
 				
 				// Short-circuit if we exceeded the number OR already failed to meet threshold
 				if (leave) {
@@ -108,9 +126,13 @@ public class NMatchOperation extends FirstOrderOperation {
 	}
 	
 	@Override
-	public Boolean execute(Object target, Variable iterator, Expression expression,
+	public final Boolean execute(Object target, Variable iterator, Expression expression,
 			IEolContext context) throws EolRuntimeException {
 		
-		return execute(target, iterator, expression, n, context);
+		Collection<?> targetCol = CollectionUtil.asCollection(target);
+		int targetColSize = targetCol.size();
+		if (targetColSize < n) return false;
+		
+		return execute(targetCol, targetColSize, iterator.getType(), iterator.getName(), expression, n, context);
 	}
 }
