@@ -58,6 +58,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	public static final String ROOT_NODE_NAME = "_";
 	
+	protected List<ProcessingInstruction> processingInstructions = new ArrayList<ProcessingInstruction>();
 	protected EObjectTraceManager eObjectTraceManager = new EObjectTraceManager();
 	protected List<UnresolvedReference> unresolvedReferences = new ArrayList<UnresolvedReference>();
 	protected Stack<Object> objectStack = new Stack<Object>();
@@ -340,6 +341,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		
 		String key = processingInstruction.getTarget();
 		String value = processingInstruction.getData();
+		processingInstructions.add(processingInstruction);
 		
 		if ("nsuri".equalsIgnoreCase(key)) {
 			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(value);
@@ -349,11 +351,13 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		else if ("eol".equalsIgnoreCase(key)) {
 			scripts.add(value);
 		}
-		else {
-			addParseWarning("Unknown processing instruction: " + key);
-		}
+		
 	}
-
+	
+	public List<ProcessingInstruction> getProcessingInstructions() {
+		return processingInstructions;
+	}
+	
 	@Override
 	public void endDocument(Document document) {
 		resolveReferences();
