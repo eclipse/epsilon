@@ -48,9 +48,7 @@ public class StackTraceManager implements IExecutionListener {
 	public void finishedExecutingWithException(ModuleElement ast, EolRuntimeException exception, IEolContext context) {}
 	
 	public List<ModuleElement> getStackTrace() {
-		ArrayList<ModuleElement> trace = new ArrayList<>(this.stackTrace);
-		Collections.reverse(trace);
-		return trace;
+		return new ArrayList<>(this.stackTrace);
 	}
 	
 	public void printStackTrace(PrintWriter writer) {
