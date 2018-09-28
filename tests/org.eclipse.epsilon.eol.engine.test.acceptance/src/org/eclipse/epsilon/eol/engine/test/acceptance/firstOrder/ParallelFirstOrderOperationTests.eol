@@ -55,22 +55,32 @@ operation testParallelExists() {
 
 @test
 operation testParallelOne() {
-	var data := Sequence {0..9};
+	var data := Sequence {0..10};
 	var one = data.parallelOne(n | n > 3 and n < 7);
 	assertFalse(one);
 	one = data.parallelOne(n | n == 2 or (n > 1 and n < 3));
 	assertTrue(one);
 	one = data.parallelOne(n | n < 0);
 	assertFalse(one);
+	one = data.parallelOne(n | n < 5, 5);
+	assertFalse(one);
+	one = data.parallelOne(n | n == 8, 0);
+	assertTrue(one);
 }
 
 @test
 operation testParallelNone() {
-	var data := Sequence {0..9};
+	var data := Sequence {0..10};
 	var none = data.parallelNone(n | n == null);
 	assertTrue(none);
 	none = data.parallelNone(n | n > 7);
 	assertFalse(none);
+	none = data.parallelNone(n | n < 0, 10);
+	assertTrue(none);
+	none = data.parallelNone(n | n == 5, 1);
+	assertFalse(none);
+	none = data.parallelNone(n | n == null, 0);
+	assertTrue(none);
 }
 
 @test
@@ -86,15 +96,21 @@ operation testParallelNMatch() {
 	assertTrue(two);
 	two = data.parallelNMatch(n | n == 0 or n == 10, 2);
 	assertFalse(two);
+	var twenty = data.parallelNMatch(n | n < 12, 20);
+	assertFalse(twenty);
 }
 
 @test
 operation testParallelForAll() {
-	var data := Sequence {0..9};
+	var data := Sequence {0..10};
 	var forAll = data.parallelForAll(n | n > -1 and n <= 10);
 	assertTrue(forAll);
 	forAll = data.parallelForAll(n | n < 9);
 	assertFalse(forAll);
+	forAll = data.parallelForAll(n | n == 6, 1);
+	assertFalse(forAll);
+	forAll = data.parallelForAll(n | n <> null and n.asString().length() <= 2, 17);
+	assertTrue(forAll);
 }
 
 @test

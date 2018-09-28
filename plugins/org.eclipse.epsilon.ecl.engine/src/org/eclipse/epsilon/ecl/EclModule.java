@@ -147,8 +147,8 @@ public class EclModule extends ErlModule implements IEclModule {
 		
 		for (MatchRule matchRule : getMatchRules()) {
 			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (!greedy || matchRule.isGreedy())) {
-				for (Object left : matchRule.getLeftInstance(context, ofTypeOnly)) {
-					for (Object right : matchRule.getRightInstance(context, ofTypeOnly)) {
+				for (Object left : matchRule.getLeftInstances(context, ofTypeOnly)) {
+					for (Object right : matchRule.getRightInstances(context, ofTypeOnly)) {
 						matchRule.matchPair(context, ofTypeOnly, left, right);
 					}
 				}

@@ -46,8 +46,8 @@ public class EclModuleParallel extends EclModule {
 		
 		for (MatchRule matchRule : getMatchRules()) {
 			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (ofTypeOnly || matchRule.isGreedy())) {
-				for (Object left : matchRule.getLeftInstance(context, ofTypeOnly)) {
-					for (Object right : matchRule.getRightInstance(context, ofTypeOnly)) {
+				for (Object left : matchRule.getLeftInstances(context, ofTypeOnly)) {
+					for (Object right : matchRule.getRightInstances(context, ofTypeOnly)) {
 						jobs.add(() -> {
 							try {
 								matchRule.matchPair(context, ofTypeOnly, left, right);

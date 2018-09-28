@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.trace;
 
+import java.util.Objects;
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.eol.types.EolMap;
 
@@ -89,13 +90,11 @@ public class Match {
 		this.right = right;
 	}
 	
-	public boolean contains(Object left, Object right){
-		//boolean contains = (this.left == left && this.right == right) || (this.left == right && this.right == left);
-		//return contains;
+	public boolean contains(Object left, Object right) {
 		return this.left == left && this.right == right;
 	}
 	
-	public boolean contains(Object object){
+	public boolean contains(Object object) {
 		return (this.left == object || this.right == object);
 	}
 	
@@ -123,5 +122,24 @@ public class Match {
 
 	public void setInfo(EolMap<?, ?> info) {
 		this.info = info;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(matching, userSpecified, rule, left, right);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (!(obj instanceof Match)) return false;
+		Match other = (Match) obj;
+		
+		return
+			Objects.equals(this.matching, other.matching) &&
+			Objects.equals(this.userSpecified, other.userSpecified) &&
+			Objects.equals(this.rule, other.rule) &&
+			Objects.equals(this.left, other.left) &&
+			Objects.equals(this.right, other.right);
 	}
 }

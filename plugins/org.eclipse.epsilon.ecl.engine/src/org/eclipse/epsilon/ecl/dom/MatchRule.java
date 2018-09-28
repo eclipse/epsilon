@@ -69,11 +69,11 @@ public class MatchRule extends ExtensibleNamedRule {
 		return appliesToTypes && guardSatisfied;
 	}
 	
-	public Collection<?> getLeftInstance(IEclContext context, boolean ofTypeOnly) throws EolRuntimeException {
+	public Collection<?> getLeftInstances(IEclContext context, boolean ofTypeOnly) throws EolRuntimeException {
 		return getAllInstances(leftParameter, context, ofTypeOnly);
 	}
 	
-	public Collection<?> getRightInstance(IEclContext context, boolean ofTypeOnly) throws EolRuntimeException {
+	public Collection<?> getRightInstances(IEclContext context, boolean ofTypeOnly) throws EolRuntimeException {
 		return getAllInstances(rightParameter, context, ofTypeOnly);
 	}
 	
@@ -99,6 +99,7 @@ public class MatchRule extends ExtensibleNamedRule {
 	 * @param right The right object
 	 * @param context The context in which the ECL program is running
 	 * @param asSuperRule Shows if the rule is executed as a super-rule of another rule
+	 * @param forcedMatch Whether to add the match to the trace (?)
 	 * @return
 	 * @throws EolRuntimeException
 	 */
@@ -130,9 +131,8 @@ public class MatchRule extends ExtensibleNamedRule {
 		else if (!appliesTo(left, right, context, false)) {
 			throw new EclNotApplicableSuperRuleException(left, right, this, context);
 		}
-		
 		// If they have not been matched, construct their Match
-		match = new Match(left, right, true, this);
+		match = /*tempMatch != null ? tempMatch :*/ new Match(left, right, true, this);
 		
 		// Execute all the super-rules
 		if (!superRules.isEmpty()) {
@@ -192,11 +192,10 @@ public class MatchRule extends ExtensibleNamedRule {
 		// Execute the do part of the rule
 		if (doBlock != null && match.isMatching()) {
 			doBlock.execute(context, false);
-			//context.getExecutorFactory().executeBlockOrExpressionAst(doAst.getFirstChild(), context);
 		}
 		
 		scope.leaveLocal(this);
-		
+
 		return match;
 	}
 

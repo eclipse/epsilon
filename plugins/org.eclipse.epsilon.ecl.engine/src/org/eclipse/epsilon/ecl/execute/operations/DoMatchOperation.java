@@ -31,13 +31,16 @@ public class DoMatchOperation extends MatchesOperation {
 		Collection<?> leftCol = CollectionUtil.flatten(CollectionUtil.asCollection(source));
 		Collection<?> rightCol = CollectionUtil.flatten(CollectionUtil.asCollection(parameter));
 		
+		boolean matches = true;
+		
 		for (Object left : leftCol) {
 			for (Object right : rightCol) {
-				matchInstances(left, right, context, true);
+				// Note the bitwise operator - we don't want to short-circuit!
+				matches &= matchInstances(left, right, context, true);
 			}
 		}
 
-		return null;
+		return matches;
 	}
 	
 }

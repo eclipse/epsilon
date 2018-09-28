@@ -23,7 +23,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 
 public class MatchesOperation extends SimpleOperation {
 	
-	protected boolean matchInstances(Object left, Object right, IEclContext context, boolean forcedMatch) throws EolRuntimeException{
+	protected boolean matchInstances(Object left, Object right, IEclContext context, boolean forcedMatch) throws EolRuntimeException {
 		Match match = context.getModule().match(left, right, forcedMatch);
 		return match.isMatching();
 	}
@@ -36,7 +36,7 @@ public class MatchesOperation extends SimpleOperation {
 		Object parameter = parameters.get(0);
 		if (source == null && parameter == null) return true;
 		
-		if (source instanceof Collection && parameter instanceof Collection){
+		if (source instanceof Collection && parameter instanceof Collection) {
 			
 			Collection<?> leftCol = (Collection<?>) source;
 			Collection<?> rightCol = (Collection<?>) parameter;

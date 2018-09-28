@@ -62,6 +62,10 @@ operation testOne() {
 	assertTrue(one);
 	one = data.one(n | n < 0);
 	assertFalse(one);
+	one = data.one(n | n < 5, 5);
+	assertFalse(one);
+	one = data.one(n | n == 8, 0);
+	assertTrue(one);
 }
 
 @test
@@ -71,6 +75,12 @@ operation testNone() {
 	assertTrue(none);
 	none = data.none(n | n > 7);
 	assertFalse(none);
+	none = data.none(n | n < 0, 10);
+	assertTrue(none);
+	none = data.none(n | n == 5, 1);
+	assertFalse(none);
+	none = data.none(n | n == null, 0);
+	assertTrue(none);
 }
 
 @test
@@ -86,6 +96,8 @@ operation testNMatch() {
 	assertTrue(two);
 	two = data.nMatch(n | n == 0 or n == 10, 2);
 	assertFalse(two);
+	var twenty = data.nMatch(n | n < 12, 20);
+	assertFalse(twenty);
 }
 
 @test
@@ -95,6 +107,10 @@ operation testForAll() {
 	assertTrue(forAll);
 	forAll = data.forAll(n | n < 9);
 	assertFalse(forAll);
+	forAll = data.forAll(n | n == 6, 1);
+	assertFalse(forAll);
+	forAll = data.forAll(n | n <> null and n.asString().length() <= 2, 17);
+	assertTrue(forAll);
 }
 
 @test

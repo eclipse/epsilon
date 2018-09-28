@@ -11,6 +11,7 @@ package org.eclipse.epsilon.ecl.trace;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Stream;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -84,7 +85,7 @@ public class MatchTrace {
 	 * @param object
 	 * @return
 	 */
-	public Match getMatch(Object object){
+	public Match getMatch(Object object) {
 		for (Match match : this.getMatches()) {
 			if (match.contains(object) && match.isMatching()) {
 				return match;
@@ -131,5 +132,25 @@ public class MatchTrace {
 	 */
 	public Collection<Match> getMatches() {
 		return matches;
+	}
+	
+	public Stream<Match> stream() {
+		return matches.stream();
+	}
+	
+	@Override
+	public int hashCode() {
+		return matches.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (!(obj instanceof MatchTrace)) return false;
+		MatchTrace other = (MatchTrace) obj;
+		
+		return
+			this.matches.size() == other.matches.size() &&
+			this.matches.containsAll(other.matches);
 	}
 }
