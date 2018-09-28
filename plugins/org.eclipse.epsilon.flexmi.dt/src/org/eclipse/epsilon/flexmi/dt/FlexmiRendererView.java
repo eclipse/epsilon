@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
@@ -122,7 +123,9 @@ public class FlexmiRendererView extends ViewPart {
 					
 					Files.write(Paths.get(temp.toURI()), (module.execute() + "").getBytes());
 					
-					ProcessBuilder pb = new ProcessBuilder(new String[] {"/usr/local/bin/" + program, "-Tpng", temp.getAbsolutePath(), "-o", png.getAbsolutePath()});
+					if (!OperatingSystem.isWindows()) program = "/usr/local/bin/" + program;
+					
+					ProcessBuilder pb = new ProcessBuilder(new String[] {program, "-Tpng", temp.getAbsolutePath(), "-o", png.getAbsolutePath()});
 					pb.redirectError(log);
 					Process p = pb.start();
 					p.waitFor();
