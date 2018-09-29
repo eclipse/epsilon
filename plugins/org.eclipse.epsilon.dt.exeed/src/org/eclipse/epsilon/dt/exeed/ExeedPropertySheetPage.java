@@ -48,7 +48,6 @@ public class ExeedPropertySheetPage extends ExtendedPropertySheetPage {
 
     
 	public void updateSorting() {
-
 		super.setSorter(new PropertySheetSorter() {
 
 			@Override
@@ -64,8 +63,11 @@ public class ExeedPropertySheetPage extends ExtendedPropertySheetPage {
 			}
 			
 		});
-		
-		super.refresh();
+
+		// Only refresh if the view is out, otherwise we may have an NPE in 2018-09 (#539644)
+		if (getControl() != null) {
+			super.refresh();
+		}
 	}
 
 	public boolean isAlphabeticallySorted() {
