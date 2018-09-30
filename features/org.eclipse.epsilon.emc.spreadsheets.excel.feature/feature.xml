@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.epsilon.emc.spreadsheets.excel.feature"
       label="EMC Microsoft Excel Spreadsheet Driver"
-      version="1.5.0.qualifier"
+      version="1.5.1.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
@@ -309,16 +309,16 @@ version(s), and exceptions or additional permissions here}.&quot;
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.eol.engine" version="1.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.epsilon.emc.spreadsheets" version="1.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.epsilon.emc.spreadsheets.excel.dependencies" version="1.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.epsilon.eol.engine" version="1.5.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.epsilon.emc.spreadsheets" version="1.5.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.epsilon.emc.spreadsheets.excel.dependencies" version="1.5.1" match="greaterOrEqual"/>
    </requires>
 
    <plugin
          id="org.eclipse.epsilon.emc.spreadsheets.excel"
          download-size="0"
          install-size="0"
-         version="1.5.0.qualifier"
+         version="1.5.1.qualifier"
          unpack="false"/>
 
 </feature>
