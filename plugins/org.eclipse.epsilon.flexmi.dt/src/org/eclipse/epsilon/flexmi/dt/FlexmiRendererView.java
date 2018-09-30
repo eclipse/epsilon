@@ -118,20 +118,20 @@ public class FlexmiRendererView extends ViewPart {
 					String program = format.substring("graphviz-".length());
 					
 					File temp = File.createTempFile("flexmi-renderer", ".dot");
-					File png = new File(temp.getAbsolutePath() + ".png");
+					File svg = new File(temp.getAbsolutePath() + ".svg");
 					File log = new File(temp.getAbsolutePath() + ".log" );
 					
 					Files.write(Paths.get(temp.toURI()), (module.execute() + "").getBytes());
 					
 					if (!OperatingSystem.isWindows()) program = "/usr/local/bin/" + program;
 					
-					ProcessBuilder pb = new ProcessBuilder(new String[] {program, "-Tpng", temp.getAbsolutePath(), "-o", png.getAbsolutePath()});
+					ProcessBuilder pb = new ProcessBuilder(new String[] {program, "-Tsvg", temp.getAbsolutePath(), "-o", svg.getAbsolutePath()});
 					pb.redirectError(log);
 					Process p = pb.start();
 					p.waitFor();
 					
-					if (png.exists()) {
-						browser.setUrl(URI.createFileURI(png.getAbsolutePath()).toString());
+					if (svg.exists()) {
+						browser.setUrl(URI.createFileURI(svg.getAbsolutePath()).toString());
 					}
 					else if (log.exists()) {
 						browser.setUrl(URI.createFileURI(log.getAbsolutePath()).toString());
