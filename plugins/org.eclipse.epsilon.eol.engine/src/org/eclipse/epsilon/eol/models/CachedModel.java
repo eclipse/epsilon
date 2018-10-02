@@ -34,11 +34,17 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 public abstract class CachedModel<ModelElementType> extends Model {
 	
 	public static final String PROPERTY_CACHED = "cached";
+	public static final String PROPERTY_CONCURRENT = "concurrent";
 	
 	/**
 	 * Whether to use thread-safe collections by default.
 	 */
 	protected static final boolean DEFAULT_CONCURRENT = true;
+	
+	/**
+	 * Whether to cache allOf* calls by default. False for compatibility.
+	 */
+	protected static final boolean DEFAULT_CACHED = false;
 	
 	/**
 	 * Implementations should return a thread-safe collection when appropriate!
@@ -76,24 +82,47 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	
 	
 	protected Collection<ModelElementType> allContentsCache;
-	protected final Collection<Object> cachedTypes, cachedKinds;
-	protected final Multimap<Object, ModelElementType> typeCache, kindCache;
-	protected final boolean concurrent;
-	protected boolean cachingEnabled, allContentsAreCached;
+	protected Collection<Object> cachedTypes;
+	protected Collection<Object> cachedKinds;
+	protected Multimap<Object, ModelElementType> typeCache;
+	protected Multimap<Object, ModelElementType> kindCache;
+	protected boolean concurrent;
+	protected boolean cachingEnabled;
+	protected boolean allContentsAreCached;
 	
 	protected CachedModel() {
-		this(DEFAULT_CONCURRENT);
+		setConcurrent(DEFAULT_CONCURRENT);
+		setCachingEnabled(DEFAULT_CACHED);
 	}
 	
-	protected CachedModel(boolean isConcurrent) {
-		this.concurrent = isConcurrent;
-		cachingEnabled = true;
-		allContentsAreCached = false;
-		allContentsCache = isConcurrent ? new ConcurrentLinkedQueue<>() : new ArrayList<>();
-		cachedKinds = isConcurrent ?  ConcurrencyUtils.concurrentSet() : new HashSet<>();
-		kindCache = new Multimap<>(isConcurrent);
-		cachedTypes = isConcurrent ? ConcurrencyUtils.concurrentSet() : new HashSet<>();
-		typeCache = new Multimap<>(isConcurrent);
+	public boolean isConcurrent() {
+		return concurrent;
+	}
+	
+	public void setConcurrent(boolean concurrent) {
+		this.concurrent = concurrent;
+		
+		typeCache = typeCache != null ?
+			new Multimap<>(concurrent, typeCache) : new Multimap<>(concurrent);	
+		kindCache = kindCache != null ?
+			new Multimap<>(concurrent, kindCache) : new Multimap<>(concurrent);
+		
+		if (concurrent) {
+			allContentsCache = allContentsCache != null ?
+				new ConcurrentLinkedQueue<>(allContentsCache) : new ConcurrentLinkedQueue<>();
+			cachedKinds = cachedKinds != null ? 
+				ConcurrencyUtils.concurrentSet(cachedKinds) : ConcurrencyUtils.concurrentSet();
+			cachedTypes = cachedTypes != null ?
+				ConcurrencyUtils.concurrentSet(cachedTypes) : ConcurrencyUtils.concurrentSet();
+		}
+		else {
+			allContentsCache = allContentsCache != null ?
+				new ArrayList<>(allContentsCache) : new ArrayList<>();
+			cachedKinds = cachedKinds != null ?
+				new HashSet<>(cachedKinds) : new HashSet<>();
+			cachedTypes = cachedTypes != null ?
+				new HashSet<>(cachedTypes) : new HashSet<>();
+		}
 	}
 	
 	protected void addToCache(String type, ModelElementType instance) throws EolModelElementTypeNotFoundException {
@@ -209,7 +238,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
-		this.setCachingEnabled(properties.hasProperty(PROPERTY_CACHED));
+		this.setCachingEnabled(properties.getBooleanProperty(PROPERTY_CACHED, DEFAULT_CACHED));
+		this.setConcurrent(properties.getBooleanProperty(PROPERTY_CONCURRENT, DEFAULT_CONCURRENT));
 	}
 
 	@Override

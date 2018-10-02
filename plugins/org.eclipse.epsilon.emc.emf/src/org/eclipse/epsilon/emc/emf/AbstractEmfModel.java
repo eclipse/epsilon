@@ -54,15 +54,23 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	protected Resource modelImpl;
 	protected boolean expand = true;
 	protected Registry registry = null;
-	final Map<String, EClass> eClassCache;
+	Map<String, EClass> eClassCache;
 	
 	protected AbstractEmfModel() {
-		this(DEFAULT_CONCURRENT);
+		super();
 	}
 	
-	protected AbstractEmfModel(boolean isConcurrent) {
-		super(isConcurrent);
-		eClassCache = isConcurrent ? ConcurrencyUtils.concurrentMap() : new HashMap<>();
+	@Override
+	public void setConcurrent(boolean concurrent) {
+		super.setConcurrent(concurrent);
+		if (concurrent) {
+			eClassCache = eClassCache != null ?
+				ConcurrencyUtils.concurrentMap(eClassCache) : ConcurrencyUtils.concurrentMap();
+		}
+		else {
+			eClassCache = eClassCache != null ?
+				new HashMap<>(eClassCache) : new HashMap<>();
+		}
 	}
 	
 	protected InputStream getInputStream(String file) throws IOException {

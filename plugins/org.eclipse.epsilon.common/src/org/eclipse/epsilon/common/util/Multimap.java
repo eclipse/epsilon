@@ -25,6 +25,10 @@ public class Multimap<K, V> {
 		storage = concurrent ? ConcurrencyUtils.concurrentMap() : new HashMap<>();
 	}
 	
+	public Multimap(boolean concurrent, Multimap<K, V> other) {
+		storage = concurrent ? ConcurrencyUtils.concurrentMap(other.storage) : new HashMap<>(other.storage);
+	}
+	
 	public Collection<V> get(K key) {
 		return storage.containsKey(key) ? storage.get(key) : new LinkedList<>();
 	}

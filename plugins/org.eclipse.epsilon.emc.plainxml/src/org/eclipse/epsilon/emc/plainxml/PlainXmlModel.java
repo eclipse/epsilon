@@ -15,9 +15,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -27,7 +25,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -65,8 +62,8 @@ public class PlainXmlModel extends CachedModel<Element> {
 	protected File file;
 	protected String xml;
 
-	protected ArrayList<Element> createdElements = new ArrayList<Element>();
-	protected ArrayList<Binding> bindings = new ArrayList<Binding>();
+	protected ArrayList<Element> createdElements = new ArrayList<>();
+	protected ArrayList<Binding> bindings = new ArrayList<>();
 	protected static String ELEMENT_TYPE = "Element";
 	protected static String DEFAULT_NEW_TAG_NAME = "element";
 	
@@ -85,7 +82,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	
 	@Override
 	protected Collection<Element> allContentsFromModel() {
-		ArrayList<Element> elements = new ArrayList<Element>();
+		ArrayList<Element> elements = new ArrayList<>();
 		collectAllElements(document, elements);
 		for (Element created : createdElements) {
 			if (!elements.contains(created) && created.getParentNode() == null) {
@@ -158,6 +155,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 	
 	
+	@Override
 	public Element createInstance(String type, Collection<Object> parameters) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		String tagName = null;
 		boolean root = false;
@@ -250,7 +248,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 			}
 			
 			if (allOfType == null){
-				allOfType = new ArrayList<Element>();
+				allOfType = new ArrayList<>();
 				for (Object o : allContents()) {
 					Element e = (Element) o;
 					if (tagMatches(e, plainXmlType.getTagName())) {
@@ -281,10 +279,12 @@ public class PlainXmlModel extends CachedModel<Element> {
 	@Override
 	protected void disposeModel() {}
 
+	@Override
 	public Object getElementById(String id) {
 		return null;
 	}
 	
+	@Override
 	public String getElementId(Object instance) {
 		if (instance instanceof Element) {
 			Element element = (Element) instance;
@@ -295,6 +295,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 		return null;
 	}
 	
+	@Override
 	public void setElementId(Object instance, String newId) {
 		// do nothing
 	}
@@ -307,12 +308,14 @@ public class PlainXmlModel extends CachedModel<Element> {
 		return idAttributeName;
 	}
 	
+	@Override
 	public Object getEnumerationValue(String enumeration, String label)
 			throws EolEnumerationValueNotFoundException {
 		return null;
 	}
 
 	
+	@Override
 	public String getTypeNameOf(Object instance) {
 		if (instance instanceof Element) {
 			return "t_" + ((Element) instance).getTagName();
@@ -333,21 +336,25 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 
 	
+	@Override
 	public Object getTypeOf(Object instance) {
 		return instance.getClass();
 	}
 
 	
+	@Override
 	public boolean hasType(String type) {
 		return ELEMENT_TYPE.equals(type) || (PlainXmlType.parse(type) != null);
 	}
 
 	
+	@Override
 	public boolean isInstantiable(String type) {
 		return hasType(type);
 	}
 
 	
+	@Override
 	public boolean isModelElement(Object instance) {
 		return (instance instanceof Element);
 	}
@@ -379,6 +386,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 
 	
+	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver)
 			throws EolModelLoadingException {
 		
@@ -397,6 +405,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 	
 	
+	@Override
 	public boolean owns(Object instance) {
 		if (instance instanceof Element) {
 			Element e = (Element) instance;
@@ -418,6 +427,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 
 	
+	@Override
 	public boolean store(String location) {
 		
 		try {
@@ -443,6 +453,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 
 	
+	@Override
 	public boolean store() {
 		if (file != null) {
 			return store(file.getAbsolutePath());
@@ -453,11 +464,13 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 
 	
+	@Override
 	public IPropertyGetter getPropertyGetter() {
 		return new PlainXmlPropertyGetter(this);
 	}
 	
 	
+	@Override
 	public IPropertySetter getPropertySetter() {
 		return new PlainXmlPropertySetter(this);
 	}

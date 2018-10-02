@@ -34,7 +34,7 @@ public class Constraint extends NamedRule {
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected ExecutableBlock<Boolean> checkBlock;
 	protected ExecutableBlock<String> messageBlock;
-	protected volatile boolean checkTrace = false;
+	protected /*volatile*/ boolean checkTrace = false;
 	
 	@Override
 	@SuppressWarnings("unchecked")
@@ -61,10 +61,6 @@ public class Constraint extends NamedRule {
 	
 	public boolean isLazy(IEvlContext context) throws EolRuntimeException {
 		return getBooleanAnnotationValue("lazy", context);
-	}
-	
-	public boolean isParallel(IEvlContext context) throws EolRuntimeException {
-		return getBooleanAnnotationValue("parallel", context);
 	}
 	
 	public boolean shouldBeChecked(Object modelElement, IEvlContext context) throws EolRuntimeException {

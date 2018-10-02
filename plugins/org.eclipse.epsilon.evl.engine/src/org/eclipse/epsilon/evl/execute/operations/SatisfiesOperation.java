@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2018 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - optimisation / refactoring
  ******************************************************************************/
 package org.eclipse.epsilon.evl.execute.operations;
 
@@ -42,7 +43,7 @@ public class SatisfiesOperation extends SimpleOperation {
 	}
 
 	@Override
-	public Object execute(Object source, List<?> parameters, IEolContext context_, ModuleElement ast) throws EolRuntimeException {
+	public Boolean execute(Object source, List<?> parameters, IEolContext context_, ModuleElement ast) throws EolRuntimeException {
 		if (source == null)
 			return false;
 		

@@ -122,15 +122,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	protected boolean reuseUnmodifiedFileBasedMetamodels = true;
 	protected static Map<String, List<EPackage>> fileBasedMetamodels = new HashMap<>();
 	protected static Map<String, Long> fileBasedMetamodelTimestamps = new HashMap<>();
-
-	public EmfModel() {
-		this(DEFAULT_CONCURRENT);
-	}
 	
-	public EmfModel(boolean isConcurrent) {
-		super(isConcurrent);
-		//TODO: see if anything here can cause concurrency issues
-	}
 
 	@Override
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
