@@ -43,6 +43,8 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContrib
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements IOperationContributorProvider {
 
@@ -60,11 +62,13 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 
 	public static final String PWD = "cd ?;";
 	public static final String GET_PARAM = "get_param('?', 'Handle');";
-	public static final String LOAD_SYSTEM = "load_system ?";
-	public static final String OPEN_SYSTEM = "open_system ?";
+	public static final String LOAD_SYSTEM = "load_system(?)";
+	public static final String OPEN_SYSTEM = "open_system(?)";
 	public static final String NEW_SYSTEM = "new_system('?', 'Model');";
 	public static final String SAVE_SYSTEM = "save_system('?', '?');";
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(SimulinkModel.class);
+	
 	//
 	private static final Multimap<String, String> createBlockMap = new Multimap<String, String>();
 	//
@@ -100,24 +104,27 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			engine = MatlabEnginePool.getInstance(libraryPath, engineJarPath).getMatlabEngine();
 			simulinkOperationContributor = new ModelOperationContributor(engine);
 				
-			try {
-				String pwd = (workingDir != null) ? workingDir.getAbsolutePath() : file.getParentFile().getAbsolutePath();
-				if (pwd != null) {
-					//System.out.println("Setting working directory to " + pwd);
-					engine.eval(PWD, pwd);
+			if (workingDir != null) {
+				try {
+					engine.eval(PWD, workingDir);
+				} catch (Exception ex) {
+					LOGGER.info(ex.getMessage());
 				}
-			} catch (Exception ex) {
-				// couldn't set the the working directory
 			}
+			String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
+			boolean useNew = false;
 			if (!readOnLoad) {
 				try {
 					engine.eval(NEW_SYSTEM, getSimulinkModelName());
 				} catch (Exception ex) {
-					 // Ignore; system already exists	
-				}
+					useNew = true;// System already exists	
+				}					
 			}
-			String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
-			engine.eval(cmd, getSimulinkModelName());
+			if (useNew) {				
+				engine.eval(cmd, getSimulinkModelName());
+			} else {
+				engine.eval(cmd, "'" + file.getAbsolutePath() + "'");
+			}
 			this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());
 		} catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
@@ -334,8 +341,6 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			file = new File(resolver.resolve(filePath));
 		if (workingDirPath != null && workingDirPath.trim().length() > 0) {
 			workingDir = new File(resolver.resolve(filePath));
-		} else {
-			workingDir = file.getParentFile();			
 		}			
 
 		load();
