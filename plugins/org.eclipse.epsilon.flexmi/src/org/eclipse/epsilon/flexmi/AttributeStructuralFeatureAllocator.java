@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -26,13 +25,14 @@ public class AttributeStructuralFeatureAllocator {
 	protected StringSimilarityProvider stringSimilarityProvider = new CachedStringSimilarityProvider(new DefaultStringSimilarityProvider());
 	
 	public static void main(String[] args) {
-		Map<String, String> allocation = new AttributeStructuralFeatureAllocator().allocate(Arrays.asList("b", "c", "name"),  Arrays.asList("a", "b", "nc"));
+		Map<String, String> allocation = new AttributeStructuralFeatureAllocator().allocate(new ArrayList<String>(Arrays.asList("department", "end", "name", "number", "reason", "start", "workorder")),  new ArrayList<String>(Arrays.asList("name", "department", "number", "reason", "startDate", "endDate", "date", "workorder")));
 		for (String key : allocation.keySet()) {
 			System.out.println(key + "->" + allocation.get(key));
 		}
 	}
 	
 	public Map<Node, EStructuralFeature> allocate(NamedNodeMap attributes, List<EStructuralFeature> structuralFeatures) {
+		
 		
 		List<String> attributeNames = new ArrayList<String>();
 		for (int i=0;i<attributes.getLength();i++) {
@@ -45,6 +45,8 @@ public class AttributeStructuralFeatureAllocator {
 		}
 		
 		Map<String, String> nameAllocation = allocate(attributeNames, structuralFeatureNames);
+		
+		
 		
 		HashMap<Node, EStructuralFeature> allocation = new HashMap<Node, EStructuralFeature>();
 		
@@ -65,8 +67,20 @@ public class AttributeStructuralFeatureAllocator {
 	}
 	
 	public Map<String, String> allocate(List<String> values, List<String> slots) {
+		
+		HashMap<String, String> result = new HashMap<String, String>();
+		for (String value : new ArrayList<String>(values)) {
+			String slot = slots.stream().filter(s -> s.equalsIgnoreCase(value)).findFirst().orElse(null);
+			if (slot != null) {
+				values.remove(value);
+				slots.remove(slot);
+				result.put(value, slot);
+			}
+		}
+		
 		AllocationTree tree = new AllocationTree();
 		tree.allocate(values, slots);
+		
 		int bestSimilarity = -1;
 		AllocationTree bestAllocation = null;
 		for (AllocationTree leaf : tree.getLeafs()) {
@@ -80,7 +94,7 @@ public class AttributeStructuralFeatureAllocator {
 			}
 		}
 		
-		HashMap<String, String> result = new HashMap<String, String>();
+		
 		if (bestAllocation != null) {
 			for (Allocation allocation : bestAllocation.getAllAllocations()) {
 				result.put(allocation.getValue(), allocation.getSlot());
@@ -107,6 +121,8 @@ public class AttributeStructuralFeatureAllocator {
 		}
 		
 		public void allocate(List<String> values, List<String> slots) {
+			
+			
 			for (String value : values) {
 				for (String slot : slots) {
 					AllocationTree child = new AllocationTree(this);
@@ -117,6 +133,7 @@ public class AttributeStructuralFeatureAllocator {
 			for (AllocationTree childTree : getChildren()) {
 				List<String> newSlots = new ArrayList<String>(slots);
 				newSlots.remove(childTree.getAllocation().getSlot());
+				
 				List<String> newValues = new ArrayList<String>(values);
 				newValues.remove(childTree.getAllocation().getValue());
 				childTree.allocate(newValues, newSlots);
