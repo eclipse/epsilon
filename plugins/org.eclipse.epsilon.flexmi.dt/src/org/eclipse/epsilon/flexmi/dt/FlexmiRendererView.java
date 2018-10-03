@@ -13,13 +13,17 @@ import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
+import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPropertyListener;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.w3c.dom.ProcessingInstruction;
 
@@ -33,6 +37,11 @@ public class FlexmiRendererView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		
+		IActionBars bars = getViewSite().getActionBars();
+		bars.getToolBarManager().add(new PrintAction());
+		bars.getToolBarManager().add(new SyncAction());
+		
 		browser = new Browser(parent, SWT.NONE);
 		
 		IEditorPart activeEditor = getSite().getPage().getActiveEditor();
@@ -177,5 +186,28 @@ public class FlexmiRendererView extends ViewPart {
 			}
 		}
 	}
-
+	
+	class PrintAction extends Action {
+		public PrintAction() {
+			setText("Print");
+			setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_ETOOL_PRINT_EDIT));
+		}
+		
+		@Override
+		public void run() {
+			browser.execute("javascript:window.print();");
+		}
+	}
+	
+	class SyncAction extends Action {
+		public SyncAction() {
+			setText("Sync");
+			setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_ELCL_SYNCED));
+		}
+		
+		@Override
+		public void run() {
+			render(editor);
+		}
+	}
 }
