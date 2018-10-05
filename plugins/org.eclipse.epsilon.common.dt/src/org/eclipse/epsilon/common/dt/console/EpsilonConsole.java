@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.common.dt.console;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 
@@ -175,10 +176,14 @@ public class EpsilonConsole {
 	public void enableTee(String outputFile, boolean append) {
 		
 		ConsoleLogFileHyperlink hyperlink = new ConsoleLogFileHyperlink(outputFile);
-		String outputMessage = String.format("[Console output redirected to file:%s]", outputFile);
+		String outputMessage = String.format("[Console output redirected to file:%s]\n", outputFile);
 		int offset = outputMessage.indexOf(":")+1;
 		int length = outputFile.length();
-		infoPrintStream.println(outputMessage);
+		try {
+			infoOutputStream.write(outputMessage);
+		} catch (IOException e1) {
+			System.err.println("Unable to print redirection info message. " + e1.getMessage());
+		}
 		ioConsole.addPatternMatchListener(new IPatternMatchListener() {
 			
 			@Override
@@ -214,7 +219,6 @@ public class EpsilonConsole {
 				return 0;
 			}
 		});
-			
 		infoPrintStream.enableTee(outputFile, append);
 		errorPrintStream.enableTee(outputFile, append);
 		debugPrintStream.enableTee(outputFile, append);
