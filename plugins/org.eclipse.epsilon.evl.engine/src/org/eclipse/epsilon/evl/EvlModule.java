@@ -47,8 +47,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 
 	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
 	
-	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
+	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(4);
 	static {
+		CONFIG_PROPERTIES.add(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE);
 		CONFIG_PROPERTIES.add(OPTIMIZE_CONSTRAINTS);
 	}
 	
@@ -324,6 +325,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	public void configure(Map<String, ?> properties) {
 		if (properties.containsKey(OPTIMIZE_CONSTRAINTS)) {
 			this.optimizeConstraints = Boolean.valueOf(Objects.toString(properties.get(OPTIMIZE_CONSTRAINTS)));
+		}
+		if (properties.containsKey(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE)) {
+			getContext().setOptimizeConstraintTrace(Boolean.valueOf(Objects.toString(properties.get(OPTIMIZE_CONSTRAINTS))));
 		}
 	}
 

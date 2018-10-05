@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.execute.operations;
 
-import java.util.Collection;
 import java.util.List;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -48,11 +47,8 @@ public class SatisfiesOperation extends SimpleOperation {
 			return false;
 		
 		IEvlContext context = (IEvlContext) context_;
-		Collection<Constraint> constraintsDependedOn = context.getConstraintsDependedOn();
 		ConstraintTrace constraintTrace = context.getConstraintTrace();
-		
 		assert constraintTrace != null;
-		assert constraintsDependedOn != null;
 		
 		Constraints constraints = context.getModule().getConstraints();
 		
@@ -69,7 +65,7 @@ public class SatisfiesOperation extends SimpleOperation {
 			
 			boolean valid;	//Check the trace first
 			
-			if (constraintsDependedOn.contains(constraint) && constraintTrace.isChecked(constraint, source)) {
+			if (constraint.isDependedOn() && constraintTrace.isChecked(constraint, source)) {
 				valid = constraintTrace.isSatisfied(constraint, source);
 			}
 			else {
@@ -81,9 +77,11 @@ public class SatisfiesOperation extends SimpleOperation {
 					valid = false;
 				}
 				
-				constraintTrace.addChecked(constraint, source, valid);
-				constraintsDependedOn.add(constraint);
-				constraint.setCheckTrace(true);
+				if (context.isOptimizeConstraintTrace()) {
+					constraintTrace.addChecked(constraint, source, valid);
+				}
+
+				constraint.setAsDependency();
 			}
 			
 			if (all && !valid)

@@ -15,6 +15,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractModuleConfiguration;
 import org.eclipse.epsilon.evl.EvlModule;
+import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -24,13 +25,11 @@ import org.eclipse.swt.widgets.Composite;
 public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 
 	private Button optimizeConstraintsBtn;
-
+	private Button optimizeConstraintCacheBtn;
+	
 	@Override
 	public void createModuleConfigurationWidgets(Composite group, AbstractAdvancedConfigurationTab tab) {
-		optimizeConstraintsBtn = new Button(group, SWT.CHECK);
-		optimizeConstraintsBtn.setText("Optimize Constraints to Select Operations");
-		optimizeConstraintsBtn.addSelectionListener(new SelectionListener() {
-			
+		SelectionListener selectionListener = new SelectionListener() {		
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				tab.enableApply();
@@ -40,7 +39,15 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				
 			}
-		});
+		};
+		
+		optimizeConstraintsBtn = new Button(group, SWT.CHECK);
+		optimizeConstraintsBtn.setText("Optimize Constraints to Select Operations");
+		optimizeConstraintsBtn.addSelectionListener(selectionListener);
+		
+		optimizeConstraintCacheBtn = new Button(group, SWT.CHECK);
+		optimizeConstraintCacheBtn.setText("Optimize constraint trace");
+		optimizeConstraintCacheBtn.addSelectionListener(selectionListener);
 	}
 
 	@Override
@@ -48,6 +55,9 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 		try {
 			if (configuration.getAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, false)) {
 				optimizeConstraintsBtn.setSelection(true);
+			}
+			if (configuration.getAttribute(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE, false)) {
+				optimizeConstraintCacheBtn.setSelection(true);
 			}
 		}
 		catch (CoreException e) {
@@ -57,7 +67,9 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		boolean optimiseConstraints = optimizeConstraintsBtn != null ? optimizeConstraintsBtn.getSelection() : false;
-		configuration.setAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimiseConstraints);
+		boolean optimizeConstraints = optimizeConstraintsBtn != null ? optimizeConstraintsBtn.getSelection() : false;
+		boolean optimizeConstraintTrace = optimizeConstraintCacheBtn != null ? optimizeConstraintCacheBtn.getSelection() : false;
+		configuration.setAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimizeConstraints);
+		configuration.setAttribute(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE, optimizeConstraintTrace);
 	}
 }

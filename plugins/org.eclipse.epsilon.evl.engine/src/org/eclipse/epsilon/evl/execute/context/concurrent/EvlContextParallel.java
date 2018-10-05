@@ -11,7 +11,6 @@ package org.eclipse.epsilon.evl.execute.context.concurrent;
 
 import java.util.HashSet;
 import java.util.Set;
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
@@ -29,6 +28,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints;
 	protected ConstraintTrace constraintTrace;
 	protected Set<Constraint> constraintsDependedOn;
+	protected boolean optimizeConstraintTrace = false;
 	
 	public EvlContextParallel() {
 		this(0, true);
@@ -53,7 +53,6 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 		super.initMainThreadStructures();
 
 		// Make results data structures thread-safe
-		constraintsDependedOn = ConcurrencyUtils.concurrentSet(4, numThreads);
 		constraintTrace = new ConstraintTrace(true);
 		
 		// No writes will be made to the base UnsatisfiedConstraints until the end, so make it empty
@@ -88,17 +87,30 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 		return constraintTrace;
 	}
 	
-	@Override
-	public Set<Constraint> getConstraintsDependedOn() {
-		return constraintsDependedOn;
+	public static IEvlContextParallel convertToParallel(IEvlContext context_) throws EolNestedParallelismException {
+		return IEolContextParallel.copyToParallel(context_, EvlContextParallel::new);
 	}
 
 	@Override
-	public void setConstraintsDependedOn(Set<Constraint> constraints) {
-		constraintsDependedOn = constraints;
+	public void setOptimizeConstraintTrace(boolean optimize) {
+		this.optimizeConstraintTrace = optimize;
+	}
+
+	@Override
+	public boolean isOptimizeConstraintTrace() {
+		return optimizeConstraintTrace;
+	}
+
+	@Override
+	public Set<Constraint> getConstraintsDependedOn() {
+		if (constraintsDependedOn == null) {
+			constraintsDependedOn = IEvlContextParallel.super.getConstraintsDependedOn();
+		}
+		return constraintsDependedOn;
 	}
 	
-	public static IEvlContextParallel convertToParallel(IEvlContext context_) throws EolNestedParallelismException {
-		return IEolContextParallel.copyToParallel(context_, EvlContextParallel::new);
+	@Override
+	public void setConstraintsDependedOn(Set<Constraint> dependencies) {
+		this.constraintsDependedOn = dependencies;
 	}
 }

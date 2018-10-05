@@ -8,6 +8,8 @@ import java.io.File;
 import org.apache.tools.ant.BuildFileRule;
 import org.apache.tools.ant.Task;
 import org.eclipse.epsilon.common.util.FileUtil;
+import org.eclipse.epsilon.evl.EvlModule;
+import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.workflow.tasks.ExecutableModuleTask.ModuleProperty;
 import org.junit.Rule;
 import org.junit.Test;
@@ -117,7 +119,8 @@ public class LanguageTasksTests {
 		mainBuilder.append("<target name=\"main\" depends=\"evl.init, loadModels\">");
 		mainBuilder.append(String.format("  <epsilon.evl id=\"evl\" src=\"%s\" ", evlFile.getAbsolutePath()));	// Use id so its not disposed
 		mainBuilder.append("moduleimplementation=\"org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation\">");
-		mainBuilder.append("  <moduleProperty name=\"optimizeConstraints\" value=\"true\"/>");
+		mainBuilder.append("  <moduleProperty name=\""+EvlModule.OPTIMIZE_CONSTRAINTS+"\" value=\"true\"/>");
+		mainBuilder.append("  <moduleProperty name=\""+IEvlContext.OPTIMIZE_CONSTRAINT_TRACE+"\" value=\"true\"/>");
 		mainBuilder.append("  <moduleproperty name=\"parallelism\" value=\"6\"/>");
 		mainBuilder.append("  <model ref=\"T1\"/>");
 		mainBuilder.append("</epsilon.evl>");

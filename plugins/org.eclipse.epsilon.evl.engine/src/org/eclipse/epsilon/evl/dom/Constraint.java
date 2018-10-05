@@ -23,8 +23,8 @@ import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
+import org.eclipse.epsilon.evl.execute.operations.SatisfiesOperation;
 import org.eclipse.epsilon.evl.parse.EvlParser;
-import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
 public class Constraint extends NamedRule {
 	
@@ -34,7 +34,11 @@ public class Constraint extends NamedRule {
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected ExecutableBlock<Boolean> checkBlock;
 	protected ExecutableBlock<String> messageBlock;
-	protected /*volatile*/ boolean checkTrace = false;
+	
+	/**
+	 * This will be set to <code>true</code> by {@link SatisfiesOperation}.
+	 */
+	protected boolean isDependedOn = false;
 	
 	@Override
 	@SuppressWarnings("unchecked")
@@ -97,15 +101,16 @@ public class Constraint extends NamedRule {
 	public Optional<UnsatisfiedConstraint> check(Object self, IEvlContext context) throws EolRuntimeException {
 		UnsatisfiedConstraint unsatisfiedConstraint = preprocessCheck(self, context);
 		boolean result;
-		ConstraintTrace trace;
 		
 		// Look for a result in the trace first if this constraint is a dependency, otherwise run the check block
-		if (checkTrace && (trace = context.getConstraintTrace()).isChecked(this, self)) {
-			assert context.getConstraintsDependedOn().contains(this);
-			result = trace.isSatisfied(this, self);
+		if (isDependedOn && context.getConstraintTrace().isChecked(this, self)) {
+			result = context.getConstraintTrace().isSatisfied(this, self);
 		}
 		else {
 			result = executeCheckBlock(self, context);
+			if (!context.isOptimizeConstraintTrace()) {
+				context.getConstraintTrace().addChecked(this, self, result);
+			}
 		}
 		
 		return !postprocessCheck(self, context, unsatisfiedConstraint, result)
@@ -128,9 +133,6 @@ public class Constraint extends NamedRule {
 	}
 
 	protected boolean postprocessCheck(Object self, IEvlContext context, UnsatisfiedConstraint unsatisfiedConstraint, boolean result) throws EolRuntimeException {
-		// leaveLocal if constraint is satisfied or there are no possible further uses for it.
-		boolean disposeFrame = result || (fixes.isEmpty() && messageBlock == null);
-		
 		if (!result) {
 			unsatisfiedConstraint.setInstance(self);
 			unsatisfiedConstraint.setConstraint(this);
@@ -152,8 +154,9 @@ public class Constraint extends NamedRule {
 			}
 		}
 
-		// Don't dispose the frame we leave if unsatisfied because it may be needed for fix parts
-		context.getFrameStack().leaveLocal(checkBlock.getBody(), disposeFrame);
+		// Don't dispose the frame we leave if unsatisfied because it may be needed for fix parts,
+		// otherwise leaveLocal if constraint is satisfied or there are no possible further uses for it.
+		context.getFrameStack().leaveLocal(checkBlock.getBody(), result || (fixes.isEmpty() && messageBlock == null));
 		return result;
 	}
 
@@ -177,8 +180,18 @@ public class Constraint extends NamedRule {
 		this.isCritique = isCritique;
 	}
 
-	public void setCheckTrace(boolean check) {
-		this.checkTrace = check;
+	/**
+	 * @return Whether this constraint is the target of a dependency.
+	 */
+	public boolean isDependedOn() {
+		return isDependedOn;
+	}
+	
+	/**
+	 * Used to flag this constraint as the target of a dependency.
+	 */
+	public void setAsDependency() {
+		this.isDependedOn = true;
 	}
 	
 	@Override

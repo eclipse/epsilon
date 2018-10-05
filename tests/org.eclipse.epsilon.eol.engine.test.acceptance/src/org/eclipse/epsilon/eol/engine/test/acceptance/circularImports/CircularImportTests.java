@@ -40,7 +40,7 @@ public class CircularImportTests {
 		parse("three-a.eol");
 	}
 
-	private void parse(final String script) throws Exception {
+	private static void parse(final String script) throws Exception {
 		EolModule module = new EolModule();
 		final URI eolURI = CircularImportTests.class.getResource(script).toURI();
 		module.parse(new File(eolURI.getPath()));

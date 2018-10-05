@@ -24,11 +24,26 @@ public interface IEvlContext extends IErlContext {
 	
 	Set<UnsatisfiedConstraint> getUnsatisfiedConstraints();
 	
-	Set<Constraint> getConstraintsDependedOn();
-	
-	void setConstraintsDependedOn(Set<Constraint> constraints);
-	
 	ConstraintTrace getConstraintTrace();
+
+	public static final String OPTIMIZE_CONSTRAINT_TRACE = "optimizeConstraintTrace";
+	
+	/**
+	 * Return true if the constraint results cache is optimized. When optimized, constraint results
+	 * will only be cached during satisfies operation executions, that is, results will only be
+	 * cached if required. If false, constraint results will always be cached.
+	 * <p>
+	 * The default value is false;
+	 * @return
+	 */
+	boolean isOptimizeConstraintTrace();
+
+	/**
+	 * Set the flag for using optimized contraint result caching.
+	 * @see #isOptimizeConstraintTrace()
+	 * @param use	Set to true to use optimzied contraint caching.
+	 */
+	void setOptimizeConstraintTrace(boolean optimized);
 	
 	default boolean hasFixes() {
 		return getUnsatisfiedConstraints()
@@ -62,6 +77,15 @@ public interface IEvlContext extends IErlContext {
 			.collect(Collectors.toMap(
 				Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, LinkedHashMap::new)
 			);
+	}
+	
+	void setConstraintsDependedOn(Set<Constraint> dependencies);
+	
+	default Set<Constraint> getConstraintsDependedOn() {
+		return getModule().getConstraints()
+			.stream()
+			.filter(Constraint::isDependedOn)
+			.collect(Collectors.toSet());
 	}
 	
 	/**

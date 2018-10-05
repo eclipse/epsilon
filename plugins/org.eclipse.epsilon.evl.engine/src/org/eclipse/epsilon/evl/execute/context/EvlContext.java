@@ -19,8 +19,9 @@ import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 public class EvlContext extends ErlContext implements IEvlContext {
 
 	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints = new HashSet<>();
-	protected Set<Constraint> constraintsDependedOn = new HashSet<>();
 	protected ConstraintTrace constraintTrace = new ConstraintTrace();
+	protected boolean optimizeConstraintTrace = false;
+	protected Set<Constraint> constraintDependedOn;
 	
 	@Override
 	public ConstraintTrace getConstraintTrace() {
@@ -36,14 +37,27 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	public IEvlModule getModule() {
 		return (IEvlModule) module;
 	}
-	
+
 	@Override
-	public Set<Constraint> getConstraintsDependedOn() {
-		return constraintsDependedOn;
+	public void setOptimizeConstraintTrace(boolean optimize) {
+		this.optimizeConstraintTrace = optimize;
 	}
 
 	@Override
-	public void setConstraintsDependedOn(Set<Constraint> constraints) {
-		constraintsDependedOn = constraints;
+	public boolean isOptimizeConstraintTrace() {
+		return optimizeConstraintTrace;
+	}
+
+	@Override
+	public Set<Constraint> getConstraintsDependedOn() {
+		if (constraintDependedOn == null) {
+			constraintDependedOn = IEvlContext.super.getConstraintsDependedOn();
+		}
+		return constraintDependedOn;
+	}
+	
+	@Override
+	public void setConstraintsDependedOn(Set<Constraint> dependencies) {
+		this.constraintDependedOn = dependencies;
 	}
 }

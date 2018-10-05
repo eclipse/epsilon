@@ -150,7 +150,7 @@ public class EUnitRunner extends Runner {
 	}
 
 	private void addExtraModels() throws InstantiationException,
-			IllegalAccessException, InvocationTargetException {
+			IllegalAccessException, InvocationTargetException, IllegalArgumentException, NoSuchMethodException, SecurityException {
 		final List<Method> extraModelMethods = new ArrayList<>();
 		for (Method m : clazz.getMethods()) {
 			if (m.isAnnotationPresent(ExtraModel.class)) {
@@ -158,7 +158,7 @@ public class EUnitRunner extends Runner {
 			}
 		}
 		if (!extraModelMethods.isEmpty()) {
-			final Object oClazz = clazz.newInstance();
+			final Object oClazz = clazz.getConstructor().newInstance();
 			for (Method m : extraModelMethods) {
 				final IModel model = (IModel)m.invoke(oClazz);
 				module.getContext().getModelRepository().addModel(model);
