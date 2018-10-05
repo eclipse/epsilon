@@ -103,7 +103,7 @@ public class EvlGraph {
 				.flatMap(List::stream)
 				.map(OperationCallExpression::getParameterExpressions)
 				.flatMap(List::stream)
-				.map((CheckedEolFunction<Expression, String>) expr -> (String) expr.execute(context))
+				.map((CheckedEolFunction<Expression, String>) expr -> (String) context.getExecutorFactory().execute(expr, context))
 				.collect(Collectors.toSet());
 			
 			dependenciesCache.put(ast, dependencies);
@@ -182,7 +182,7 @@ public class EvlGraph {
 		addContextsCalled = true;
 	}
 	
-	/*
+	/**
 	 * Returns a List of Constraints ordered by dependencies, such that constraints with the least dependencies appear before those with most dependencies.
 	 */
 	public List<Constraint> getConstraintSequence() {
@@ -223,7 +223,7 @@ public class EvlGraph {
 		return result;
 	}
 
-	/*
+	/**
 	 * Maps each Constraint to a priority level based on their dependencies.
 	 * @param descendingPriority - if true, the higher priority items will have a lower number (and vice-versa)
 	 * @param startNumber - the base priorityto begin counting from
@@ -235,12 +235,14 @@ public class EvlGraph {
 		if (constraintPriorities.isEmpty() || refreshConstraintPriorities) {
 			int priority = startNumber;
 			if (descendingPriority) {
-				for (Constraint constraint : getConstraintSequence())
+				for (Constraint constraint : getConstraintSequence()) {
 					constraintPriorities.put(constraint, priority++);
+				}
 			}
 			else {
-				for (Constraint constraint : getConstraintSequence())
+				for (Constraint constraint : getConstraintSequence()) {
 					constraintPriorities.put(constraint, priority--);
+				}
 			}
 			refreshConstraintPriorities = false;
 		}

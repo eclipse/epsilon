@@ -63,7 +63,7 @@ public class SatisfiesOperation extends SimpleOperation {
 				source = EolNoType.Instance;
 			}
 			
-			boolean valid;	//Check the trace first
+			boolean valid;	// Check the trace first
 			
 			if (constraint.isDependedOn() && constraintTrace.isChecked(constraint, source)) {
 				valid = constraintTrace.isSatisfied(constraint, source);

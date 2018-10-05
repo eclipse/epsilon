@@ -1,5 +1,6 @@
 package org.eclipse.epsilon.common.dt.launching.tabs;
 
+import java.util.stream.IntStream;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -33,9 +34,33 @@ public class AbstractModuleConfiguration implements ModuleConfiguration {
 	// Parallel module utils
 	
 	protected static final int THREAD_INITIAL = ConcurrencyUtils.DEFAULT_PARALLELISM;
-	protected static final int THREAD_INCREMENTS = (int) Math.round(Math.sqrt(THREAD_INITIAL));
+	/**
+	 * Example mapping of initial -> increment:</br>
+	 * 	64 -> 8,</br>
+	 * 	56 -> 7,</br>
+	 * 	48 -> 6,</br>
+	 * 	32 -> 4,</br>
+	 * 	24 -> 4,</br>
+	 * 	16 -> 4,</br>
+	 * 	12 -> 3,</br>
+	 * 	8 -> 2,</br>
+	 * 	6 -> 2,</br>
+	 * 	4 -> 2,</br>
+	 * 	2 -> 1
+	 */
+	protected static final int THREAD_INCREMENTS = calculateThreadIncrementFromInitial(THREAD_INITIAL);
 	protected static final int THREAD_MAXIMUM = THREAD_INITIAL*THREAD_INCREMENTS;
-
+	
+	
+	protected static int calculateThreadIncrementFromInitial(int initial) {
+		final int maxIncrement = (int) Math.round(Math.sqrt(initial));
+		return IntStream.rangeClosed(1, maxIncrement)
+			.map(i -> maxIncrement + 1 - i)
+			.filter(i -> i > 0 && THREAD_INITIAL % i == 0)
+			.findFirst()
+			.orElse((int) Math.sqrt(initial));
+	}
+	
 	protected static Composite createParallelContainer(Composite group) {
 		final Composite container = new Composite(group, SWT.FILL);
 		container.setLayout(new GridLayout(2, false));
@@ -61,7 +86,10 @@ public class AbstractModuleConfiguration implements ModuleConfiguration {
 	
 	protected static void initializeThreadsFromConfiguration(ILaunchConfiguration configuration, Spinner numThreadsSelector) {
 		try {
-			numThreadsSelector.setSelection(configuration.getAttribute(IEolContextParallel.NUM_THREADS_CONFIG, THREAD_INITIAL));
+			int numThreads = configuration.getAttribute(IEolContextParallel.NUM_THREADS_CONFIG, THREAD_INITIAL);
+			numThreadsSelector.setSelection(numThreads);
+			numThreadsSelector.setIncrement(calculateThreadIncrementFromInitial(numThreads));
+			numThreadsSelector.setMaximum(THREAD_MAXIMUM);
 		}
 		catch (CoreException cx) {
 			// TODO Auto-generated catch block
@@ -71,5 +99,8 @@ public class AbstractModuleConfiguration implements ModuleConfiguration {
 	protected static void performApplyThreadsForConfiguration(ILaunchConfigurationWorkingCopy configuration, Spinner numThreadsSelector) {
 		int numThreads = numThreadsSelector != null ? numThreadsSelector.getSelection() : THREAD_INITIAL;
 		configuration.setAttribute(IEolContextParallel.NUM_THREADS_CONFIG, numThreads);
+		if (numThreadsSelector != null) {
+			numThreadsSelector.setIncrement(calculateThreadIncrementFromInitial(numThreads));
+		}
 	}
 }

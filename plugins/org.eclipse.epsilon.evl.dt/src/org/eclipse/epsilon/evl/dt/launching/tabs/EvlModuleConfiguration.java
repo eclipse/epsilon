@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Composite;
 public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 
 	private Button optimizeConstraintsBtn;
-	private Button optimizeConstraintCacheBtn;
+	private Button optimizeConstraintTraceBtn;
 	
 	@Override
 	public void createModuleConfigurationWidgets(Composite group, AbstractAdvancedConfigurationTab tab) {
@@ -45,9 +45,12 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 		optimizeConstraintsBtn.setText("Optimize Constraints to Select Operations");
 		optimizeConstraintsBtn.addSelectionListener(selectionListener);
 		
-		optimizeConstraintCacheBtn = new Button(group, SWT.CHECK);
-		optimizeConstraintCacheBtn.setText("Optimize constraint trace");
-		optimizeConstraintCacheBtn.addSelectionListener(selectionListener);
+		optimizeConstraintTraceBtn = new Button(group, SWT.CHECK);
+		optimizeConstraintTraceBtn.setText("Optimize constraint trace");
+		optimizeConstraintTraceBtn.setToolTipText(
+			"Only add results to the constraint trace if they are invoked by a satisfies operation."
+		);
+		optimizeConstraintTraceBtn.addSelectionListener(selectionListener);
 	}
 
 	@Override
@@ -57,7 +60,7 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 				optimizeConstraintsBtn.setSelection(true);
 			}
 			if (configuration.getAttribute(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE, false)) {
-				optimizeConstraintCacheBtn.setSelection(true);
+				optimizeConstraintTraceBtn.setSelection(true);
 			}
 		}
 		catch (CoreException e) {
@@ -68,7 +71,7 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		boolean optimizeConstraints = optimizeConstraintsBtn != null ? optimizeConstraintsBtn.getSelection() : false;
-		boolean optimizeConstraintTrace = optimizeConstraintCacheBtn != null ? optimizeConstraintCacheBtn.getSelection() : false;
+		boolean optimizeConstraintTrace = optimizeConstraintTraceBtn != null ? optimizeConstraintTraceBtn.getSelection() : false;
 		configuration.setAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimizeConstraints);
 		configuration.setAttribute(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE, optimizeConstraintTrace);
 	}

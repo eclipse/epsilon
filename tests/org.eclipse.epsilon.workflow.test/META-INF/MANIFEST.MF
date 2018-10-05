@@ -17,5 +17,4 @@ Export-Package: org.eclipse.epsilon.workflow.tasks.eugenia,
  org.eclipse.epsilon.workflow.tasks.eunit,
  org.eclipse.epsilon.workflow.test
 Import-Package: org.eclipse.epsilon.evl,
- org.eclipse.epsilon.evl.concurrent,
  org.eclipse.epsilon.evl.execute.context
