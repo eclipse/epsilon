@@ -29,6 +29,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
+import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
@@ -68,11 +69,30 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 		launch(configuration, mode, launch, progressMonitor, createModule(), createDebugger(), EolLaunchConfigurationAttributes.SOURCE, true, true);
 	}
 	
-	public boolean launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor progressMonitor, IEolModule module, EolDebugger debugger, String lauchConfigurationSourceAttribute, boolean setup, boolean disposeModelRepository) throws CoreException {
+	public boolean launch(
+		ILaunchConfiguration configuration,
+		String mode,
+		ILaunch launch,
+		IProgressMonitor progressMonitor,
+		IEolModule module,
+		EolDebugger debugger,
+		String lauchConfigurationSourceAttribute,
+		boolean setup,
+		boolean disposeModelRepository) throws CoreException {
 		
 		collectListeners();
 		
-		if (setup) EpsilonConsole.getInstance().clear();
+		if (setup) {
+			EpsilonConsole console = EpsilonConsole.getInstance();
+			console.clear();
+			String outputFile = configuration.getAttribute(IDebugUIConstants.ATTR_CAPTURE_IN_FILE, "");
+			if (outputFile != null) {
+				console.enableTee(outputFile, configuration.getAttribute(IDebugUIConstants.ATTR_APPEND_TO_FILE, false));
+			}
+			else {
+				console.disableTee();
+			}
+		}
 		
 		aboutToParse(configuration, mode, launch, progressMonitor, module);
 		

@@ -31,10 +31,10 @@ public class EpsilonConsole {
 	
 	private IOConsole ioConsole = null;
 	private static EpsilonConsole instance = null;
-	private PrintStream infoPrintStream;
-	private PrintStream debugPrintStream;
-	private PrintStream errorPrintStream;
-	private PrintStream warningPrintStream;
+	private TeePrintStream infoPrintStream;
+	private TeePrintStream debugPrintStream;
+	private TeePrintStream errorPrintStream;
+	private TeePrintStream warningPrintStream;
 	private InputStream inputStream;
 	
 	private IOConsoleOutputStream debugOutputStream = null;
@@ -54,10 +54,10 @@ public class EpsilonConsole {
 		warningOutputStream = createConsoleOutputStream();
 		errorOutputStream = createConsoleOutputStream();
 		
-		debugPrintStream = new PrintStream(debugOutputStream);
-		errorPrintStream = new PrintStream(errorOutputStream);
-		warningPrintStream = new PrintStream(warningOutputStream);
-		infoPrintStream = new PrintStream(infoOutputStream);
+		debugPrintStream = new TeePrintStream(debugOutputStream);
+		errorPrintStream = new TeePrintStream(errorOutputStream);
+		warningPrintStream = new TeePrintStream(warningOutputStream);
+		infoPrintStream = new TeePrintStream(infoOutputStream);
 		inputStream = ioConsole.getInputStream();				
 		
 		PlatformUI.getWorkbench().getThemeManager().addPropertyChangeListener(new ThemeChangeListener() {
@@ -143,6 +143,23 @@ public class EpsilonConsole {
 		return warningPrintStream;
 	}
 	
+	/**
+	 * Enable tee in all output streams of the console
+	 * @param outputFile			The file to which the output will be teed.
+	 * @since 1.6
+	 */
+	public void enableTee(String outputFile, boolean append) {
+		infoPrintStream.enableTee(outputFile, append);
+		errorPrintStream.enableTee(outputFile, append);
+		debugPrintStream.enableTee(outputFile, append);
+		warningPrintStream.enableTee(outputFile, append);
+	}
 	
-	
+	public void disableTee() {
+		infoPrintStream.disableTee();
+		errorPrintStream.disableTee();
+		debugPrintStream.disableTee();
+		warningPrintStream.disableTee();
+	}
+
 }
