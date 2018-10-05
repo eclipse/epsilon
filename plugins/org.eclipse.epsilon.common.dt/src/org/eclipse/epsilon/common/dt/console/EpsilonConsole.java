@@ -9,23 +9,47 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.console;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IStorage;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.PlatformObject;
+import org.eclipse.debug.core.sourcelookup.containers.LocalFileStorage;
+import org.eclipse.debug.internal.ui.DebugUIPlugin;
+import org.eclipse.debug.ui.console.FileLink;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.ThemeChangeListener;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IPersistableElement;
+import org.eclipse.ui.IStorageEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IHyperlink;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
+import org.eclipse.ui.console.IPatternMatchListener;
+import org.eclipse.ui.console.PatternMatchEvent;
+import org.eclipse.ui.console.TextConsole;
+import org.eclipse.ui.editors.text.EditorsUI;
+import org.eclipse.ui.part.FileEditorInput;
 
 public class EpsilonConsole {
 	
@@ -71,7 +95,6 @@ public class EpsilonConsole {
 		
 		ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[]{ioConsole});
 		ioConsole.addPatternMatchListener(new EolRuntimeExceptionHyperlinkListener(ioConsole));
-		
 	}
 	
 	public static EpsilonConsole getInstance(){
@@ -146,20 +169,154 @@ public class EpsilonConsole {
 	/**
 	 * Enable tee in all output streams of the console
 	 * @param outputFile			The file to which the output will be teed.
+	 * @see #disableTee()
 	 * @since 1.6
 	 */
 	public void enableTee(String outputFile, boolean append) {
+		
+		ConsoleLogFileHyperlink hyperlink = new ConsoleLogFileHyperlink(outputFile);
+		String outputMessage = String.format("[Console output redirected to file:%s]", outputFile);
+		int offset = outputMessage.indexOf(":")+1;
+		int length = outputFile.length();
+		infoPrintStream.println(outputMessage);
+		ioConsole.addPatternMatchListener(new IPatternMatchListener() {
+			
+			@Override
+			public void matchFound(PatternMatchEvent event) {
+				try {
+					ioConsole.addHyperlink(hyperlink, offset, length);
+				} catch (BadLocationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void disconnect() {
+			}
+			
+			@Override
+			public void connect(TextConsole console) {
+			}
+			
+			@Override
+			public String getPattern() {
+				return "\\[Console output redirected to file:[^\\]]*\\]";
+			}
+			
+			@Override
+			public String getLineQualifier() {
+				return "\\[.*";
+			}
+			
+			@Override
+			public int getCompilerFlags() {
+				return 0;
+			}
+		});
+			
 		infoPrintStream.enableTee(outputFile, append);
 		errorPrintStream.enableTee(outputFile, append);
 		debugPrintStream.enableTee(outputFile, append);
 		warningPrintStream.enableTee(outputFile, append);
 	}
 	
+	/**
+	 * Disable tee in all outputstreams
+	 * @see #enableTee(String, boolean)
+	 * @since 1.6
+	 */
 	public void disableTee() {
 		infoPrintStream.disableTee();
 		errorPrintStream.disableTee();
 		debugPrintStream.disableTee();
 		warningPrintStream.disableTee();
 	}
+	
+	private class ConsoleLogFileHyperlink implements IHyperlink {
+        String fFilePath;
+        ConsoleLogFileHyperlink(String filePath) {
+            fFilePath = filePath;
+        }
 
+        @Override
+		public void linkActivated() {
+            IEditorInput input;
+            Path path = new Path(fFilePath);
+            IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+            IFile ifile = root.getFileForLocation(path);
+            if (ifile == null) { // The file is not in the workspace
+                File file = new File(fFilePath);
+                LocalFileStorage lfs = new LocalFileStorage(file);
+                input = new StorageEditorInput(lfs, file);
+
+            } else {
+                input = new FileEditorInput(ifile);
+            }
+
+            IWorkbenchPage activePage = DebugUIPlugin.getActiveWorkbenchWindow().getActivePage();
+            try {
+                activePage.openEditor(input, EditorsUI.DEFAULT_TEXT_EDITOR_ID, true);
+            } catch (PartInitException e) {
+            }
+        }
+        @Override
+		public void linkEntered() {
+        }
+        @Override
+		public void linkExited() {
+        }
+    }
+	
+	private class StorageEditorInput extends PlatformObject implements IStorageEditorInput {
+        private File fFile;
+        private IStorage fStorage;
+
+        public StorageEditorInput(IStorage storage, File file) {
+            fStorage = storage;
+            fFile = file;
+        }
+
+        @Override
+		public IStorage getStorage() {
+            return fStorage;
+        }
+
+        @Override
+		public ImageDescriptor getImageDescriptor() {
+            return null;
+        }
+
+        @Override
+		public String getName() {
+            return getStorage().getName();
+        }
+
+        @Override
+		public IPersistableElement getPersistable() {
+            return null;
+        }
+
+        @Override
+		public String getToolTipText() {
+            return getStorage().getFullPath().toOSString();
+        }
+
+        @Override
+		public boolean equals(Object object) {
+            return object instanceof StorageEditorInput &&
+             getStorage().equals(((StorageEditorInput)object).getStorage());
+        }
+
+        @Override
+		public int hashCode() {
+            return getStorage().hashCode();
+        }
+
+        @Override
+		public boolean exists() {
+            return fFile.exists();
+        }
+    }
+	
 }
