@@ -37,9 +37,9 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	public static final String PROPERTY_CONCURRENT = "concurrent";
 	
 	/**
-	 * Whether to use thread-safe collections by default.
+	 * Whether to use thread-safe collections by default. False for compatibility.
 	 */
-	protected static final boolean DEFAULT_CONCURRENT = true;
+	protected static final boolean DEFAULT_CONCURRENT = false;
 	
 	/**
 	 * Whether to cache allOf* calls by default. False for compatibility.

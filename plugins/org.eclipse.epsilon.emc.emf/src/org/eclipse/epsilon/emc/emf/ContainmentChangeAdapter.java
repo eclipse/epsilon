@@ -30,14 +30,17 @@ public class ContainmentChangeAdapter implements Adapter {
 		this.resource = resource;
 	}
 	
+	@Override
 	public Notifier getTarget() {
 		return null;
 	}
 
+	@Override
 	public boolean isAdapterForType(Object arg0) {
 		return false;
 	}
 
+	@Override
 	public void notifyChanged(Notification notification) {
 		
 		if (!(notification instanceof ENotificationImpl)) return;
@@ -77,6 +80,7 @@ public class ContainmentChangeAdapter implements Adapter {
 		}
 	}
 
+	@Override
 	public void setTarget(Notifier arg0) {
 		
 	}

@@ -28,6 +28,7 @@ public class CachedResourceSet extends ResourceSetImpl {
 	public static Cache getCache() {
 		return cache;
 	}
+	
 	@Override
 	public Resource createResource(URI uri, String contentType) {
 		Resource cachedResource = getCache().checkoutResource(uri);

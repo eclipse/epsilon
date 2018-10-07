@@ -57,6 +57,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 		return classes;
 	}
 	
+	@Override
 	public Collection<Object> allContents() {
 		return objects;
 	}
@@ -70,6 +71,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 		return null;
 	}
 	
+	@Override
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		Class<?> c = classForName(type);
 		if (c != null) {
@@ -94,10 +96,12 @@ public class JavaModel extends Model implements IReflectiveModel {
 	}
 	
 	
+	@Override
 	public void deleteElement(Object instance) throws EolRuntimeException {
 		objects.remove(instance);
 	}
 
+	@Override
 	public Collection<?> getAllOfKind(String type) throws EolModelElementTypeNotFoundException {
 		Class<?> c = classForName(type);
 		Collection<Object> allOfKind = new ArrayList<>();
@@ -114,6 +118,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 		}
 	}
 
+	@Override
 	public Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
 		Class<?> c = classForName(type);
 		Collection<Object> allOfType = new ArrayList<>();
@@ -142,6 +147,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 		return instance.getClass() == c;
 	}
 
+	@Override
 	public Object getElementById(String id) {
 		int hashCode = 0;
 		try {
@@ -158,44 +164,54 @@ public class JavaModel extends Model implements IReflectiveModel {
 		}
 	}
 	
+	@Override
 	public String getElementId(Object instance) {
 		return instance.hashCode() + "";
 	}
 	
+	@Override
 	public void setElementId(Object instance, String newId) {
 		// do nothing
 	}
 
 	
+	@Override
 	public Object getEnumerationValue(String enumeration, String label)
 			throws EolEnumerationValueNotFoundException {
 		throw new UnsupportedOperationException();
 	}
 	
+	@Override
 	public Object getTypeOf(Object instance) {
 		return instance.getClass();
 	}
 
+	@Override
 	public String getTypeNameOf(Object instance) {
 		return instance.getClass().getCanonicalName();
 	}
 	
+	@Override
 	public boolean hasType(String type) {
 		return classForName(type) != null;
 	}
 	
+	@Override
 	public boolean hasPackage(String packageName) {
 		return false;
 	}
 	
+	@Override
 	public Object getContainerOf(Object object) {
 		return null;
 	}
 
+	@Override
 	public boolean isInstantiable(String type) {
 		return isInstantiable(classForName(type));
 	}
 
+	@Override
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
 		final Class<?> clazz = classForName(type);
 		
@@ -220,6 +236,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 		return properties;
 	}
 	
+	@Override
 	public boolean hasProperty(String type, String property) throws EolModelElementTypeNotFoundException {
 		return getPropertiesOf(type).contains(property);
 	}
@@ -229,44 +246,54 @@ public class JavaModel extends Model implements IReflectiveModel {
 		return new JavaPropertySetter();
 	}
 	
+	@Override
 	public boolean isModelElement(Object instance) {
 		return true;
 	}
 	
+	@Override
 	public boolean isEnumerationValue(Object object) {
 		return false;
 	}
 
+	@Override
 	public String getEnumerationTypeOf(Object literal) throws EolNotAnEnumerationValueException {
 		throw new EolNotAnEnumerationValueException(literal);
 	}
 
+	@Override
 	public String getEnumerationLabelOf(Object literal) throws EolNotAnEnumerationValueException {
 		throw new EolNotAnEnumerationValueException(literal);
 	}
 
+	@Override
 	public boolean preventLoadingOfExternalModelElements() {
 		return false;
 	}
 	
+	@Override
 	public void load() throws EolModelLoadingException {
 		
 	}
 	
+	@Override
 	public boolean owns(Object instance) {
 		return objects.contains(instance);
 	}
 
+	@Override
 	public boolean store(String location) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean store() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void dispose() {
 		objects.clear();
 		classes.clear();

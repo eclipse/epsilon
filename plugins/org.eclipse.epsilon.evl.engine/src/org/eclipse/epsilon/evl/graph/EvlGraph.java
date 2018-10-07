@@ -19,6 +19,7 @@ import org.eclipse.epsilon.eol.function.CheckedEolFunction;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
+import org.eclipse.epsilon.evl.dom.Constraints;
 import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException;
 
 /**
@@ -250,9 +251,12 @@ public class EvlGraph {
 		return constraintPriorities;
 	}
 	
-	
-	public Set<Constraint> getAllConstraintsDependedOn() {
+	public Set<Constraint> getConstraintsDependedOn() {
 		return allConstraintsDependedOn;
+	}
+	
+	public void setAllConstraintsDependedOn() {
+		this.allConstraintsDependedOn.forEach(Constraint::setAsDependency);
 	}
 	
 	public void reset() {

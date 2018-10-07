@@ -13,6 +13,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyAssignmentException;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
@@ -22,6 +23,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 
 public class EmfPropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 
+	@Override
 	public Object coerce(Object value) throws EolIllegalPropertyException {
 		if (getEStructuralFeature().isMany() && !(value instanceof Collection)) {
 			return CollectionUtil.asList(value);
@@ -30,6 +32,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 		return value;
 	}
 	
+	@Override
 	public boolean conforms(Object value) throws EolIllegalPropertyException {
 		if (propertyIsFixed())
 			return false;
@@ -46,6 +49,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 		}
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public void invoke(Object value) throws EolRuntimeException {
 		EStructuralFeature sf = getEStructuralFeature();
@@ -107,7 +111,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 	private int upperbound() throws EolIllegalPropertyException {
 		final int upperbound = getEStructuralFeature().getUpperBound();
 		
-		return upperbound == EStructuralFeature.UNBOUNDED_MULTIPLICITY ? Integer.MAX_VALUE : upperbound;
+		return upperbound == ETypedElement.UNBOUNDED_MULTIPLICITY ? Integer.MAX_VALUE : upperbound;
 	}
 	
 	private int lowerbound() throws EolIllegalPropertyException {

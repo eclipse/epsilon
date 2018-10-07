@@ -18,10 +18,12 @@ import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 
 public class EmfPrettyPrinter implements PrettyPrinter{
 
+	@Override
 	public boolean appliesTo(Object o) {
 		return o instanceof EObject;
 	}
 
+	@Override
 	public String print(Object o) {
 		
 		if (o == null) return "";

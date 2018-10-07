@@ -54,7 +54,7 @@ public class EvlGraphTests {
 	@Test
 	public void testConstraintsDependedOn() {
 		Set<String>
-			actualDependencies = graph.getAllConstraintsDependedOn().stream().map(Constraint::toString).collect(Collectors.toSet()),
+			actualDependencies = graph.getConstraintsDependedOn().stream().map(Constraint::toString).collect(Collectors.toSet()),
 			expectedDependencies = new HashSet<>(Arrays.asList(
 				"LazyAlwaysFalseOperation",
 				"AlwaysTrueOperation",

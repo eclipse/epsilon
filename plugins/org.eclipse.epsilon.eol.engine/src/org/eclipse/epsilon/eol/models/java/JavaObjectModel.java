@@ -37,6 +37,7 @@ public class JavaObjectModel extends Model {
 		this.importedPackages = Arrays.asList(importedPackages);
 	}
 	
+	@Override
 	public Collection<Object> allContents() {
 		return contents;
 	}
@@ -45,6 +46,7 @@ public class JavaObjectModel extends Model {
 		return importedPackages;
 	}
 
+	@Override
 	public Object createInstance(String type)
 			throws EolModelElementTypeNotFoundException,
 			EolNotInstantiableModelElementTypeException {
@@ -87,10 +89,12 @@ public class JavaObjectModel extends Model {
 		}
 	}
 	
+	@Override
 	public void deleteElement(Object instance) throws EolRuntimeException {
 		contents.remove(instance);
 	}
 
+	@Override
 	public Collection<?> getAllOfKind(String type)
 			throws EolModelElementTypeNotFoundException {
 		
@@ -111,6 +115,7 @@ public class JavaObjectModel extends Model {
 		
 	}
 
+	@Override
 	public Collection<?> getAllOfType(String type)
 			throws EolModelElementTypeNotFoundException {
 		
@@ -127,33 +132,40 @@ public class JavaObjectModel extends Model {
 		
 	}
 
+	@Override
 	public Object getElementById(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String getElementId(Object instance) {
 		return instance.hashCode() + "";
 	}
 	
+	@Override
 	public void setElementId(Object instance, String newId) {
 		// do nothing
 	}
 
+	@Override
 	public Object getEnumerationValue(String enumeration, String label)
 			throws EolEnumerationValueNotFoundException {
 		
 		return null;
 	}
 
+	@Override
 	public Object getTypeOf(Object instance) {
 		return instance.getClass();
 	}
 	
+	@Override
 	public String getTypeNameOf(Object instance) {
 		return instance.getClass().getCanonicalName();
 	}
 
+	@Override
 	public boolean hasType(String type) {
 		try {
 			classForName(type);
@@ -187,27 +199,33 @@ public class JavaObjectModel extends Model {
 		return properties;
 	}
 	
+	@Override
 	public boolean isInstantiable(String type) {
 		return true;
 	}
 
+	@Override
 	public boolean isModelElement(Object instance) {
 		return true;
 	}
 
+	@Override
 	public void load() throws EolModelLoadingException {
 		
 	}
 
+	@Override
 	public boolean owns(Object instance) {
 		return contents.contains(instance);
 	}
 
+	@Override
 	public boolean store(String location) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean store() {
 		// TODO Auto-generated method stub
 		return false;

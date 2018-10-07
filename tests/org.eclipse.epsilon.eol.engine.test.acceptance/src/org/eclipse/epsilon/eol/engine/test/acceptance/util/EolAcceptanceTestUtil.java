@@ -74,6 +74,7 @@ public class EolAcceptanceTestUtil {
 				StringProperties properties = new StringProperties();
 				properties.put(PROPERTY_READONLOAD, true);
 				properties.put(PROPERTY_CACHED, true);
+				properties.put(PROPERTY_CONCURRENT, true);
 				properties.put(PROPERTY_STOREONDISPOSAL, true);
 				properties.put(PROPERTY_NAME, FileUtil.removeExtension(modelFile.getFileName().toString()));
 				properties.put(PROPERTY_MODEL_URI, modelFile.toUri().toString());

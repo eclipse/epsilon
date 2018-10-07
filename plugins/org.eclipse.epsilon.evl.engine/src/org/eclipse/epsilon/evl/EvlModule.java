@@ -164,7 +164,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		IEvlContext context = getContext();
 		EvlGraph graph = new EvlGraph(context);
 		graph.addConstraintContexts(getConstraintContexts());
-		context.setConstraintsDependedOn(graph.getAllConstraintsDependedOn());
+		graph.setAllConstraintsDependedOn();
 		return graph.getConstraintSequence();
 	}
 	

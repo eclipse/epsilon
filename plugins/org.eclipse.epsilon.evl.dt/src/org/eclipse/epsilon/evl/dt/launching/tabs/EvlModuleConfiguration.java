@@ -17,7 +17,6 @@ import org.eclipse.epsilon.common.dt.launching.tabs.AbstractModuleConfiguration;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -29,17 +28,7 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 	
 	@Override
 	public void createModuleConfigurationWidgets(Composite group, AbstractAdvancedConfigurationTab tab) {
-		SelectionListener selectionListener = new SelectionListener() {		
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				tab.enableApply();
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				
-			}
-		};
+		SelectionListener selectionListener = new ConfigurationTabSelectionListener(tab);
 		
 		optimizeConstraintsBtn = new Button(group, SWT.CHECK);
 		optimizeConstraintsBtn.setText("Optimize Constraints to Select Operations");

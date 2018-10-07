@@ -21,7 +21,6 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints = new HashSet<>();
 	protected ConstraintTrace constraintTrace = new ConstraintTrace();
 	protected boolean optimizeConstraintTrace = false;
-	protected Set<Constraint> constraintDependedOn;
 	
 	@Override
 	public ConstraintTrace getConstraintTrace() {
@@ -46,18 +45,5 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	@Override
 	public boolean isOptimizeConstraintTrace() {
 		return optimizeConstraintTrace;
-	}
-
-	@Override
-	public Set<Constraint> getConstraintsDependedOn() {
-		if (constraintDependedOn == null) {
-			constraintDependedOn = IEvlContext.super.getConstraintsDependedOn();
-		}
-		return constraintDependedOn;
-	}
-	
-	@Override
-	public void setConstraintsDependedOn(Set<Constraint> dependencies) {
-		this.constraintDependedOn = dependencies;
 	}
 }

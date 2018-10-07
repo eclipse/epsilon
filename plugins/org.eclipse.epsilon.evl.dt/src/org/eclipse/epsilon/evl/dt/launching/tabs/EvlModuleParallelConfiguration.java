@@ -26,7 +26,7 @@ public class EvlModuleParallelConfiguration extends EvlModuleConfiguration {
 		super.createModuleConfigurationWidgets(group, tab);
 		Composite container = createParallelContainer(group);
 		numThreadsLabel = createThreadsLabel(container);
-		numThreadsSelector = createThreadsSelector(container);
+		numThreadsSelector = createThreadsSelector(container, tab);
 	}
 
 	@Override

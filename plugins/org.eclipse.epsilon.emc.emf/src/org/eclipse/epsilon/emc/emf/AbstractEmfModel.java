@@ -182,12 +182,12 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return eObject.eIsSet(sf);
 	}
 
-	Collection<EObject> getAllFromModel(Predicate<EObject> criteria) throws EolModelElementTypeNotFoundException {
+	Collection<EObject> getAllFromModel(Predicate<EObject> criteria, int parallel) throws EolModelElementTypeNotFoundException {
 		Collection<EObject> allContents = allContents();
 		
 		return StreamSupport.stream(
 				allContents.spliterator(),
-				allContents.size() > (2 << 17)	//TODO: find optimal parallel threshold
+				allContents.size() > parallel
 			)
 			.filter(criteria)
 			.collect(Collectors.toList());
@@ -197,13 +197,13 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	@Override
 	protected Collection<EObject> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
 		final EClass eClass = classForName(type);
-		return getAllFromModel(eObject -> eObject.eClass() == eClass);
+		return getAllFromModel(eObject -> eObject.eClass() == eClass, 2 << 20);
 	}
 	
 	@Override
 	protected Collection<EObject> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException {
 		final EClass eClass = classForName(kind);
-		return getAllFromModel(eClass::isInstance);
+		return getAllFromModel(eClass::isInstance, 2 << 18);
 	}
 	
 	@Override

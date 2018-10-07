@@ -79,8 +79,6 @@ public interface IEvlContext extends IErlContext {
 			);
 	}
 	
-	void setConstraintsDependedOn(Set<Constraint> dependencies);
-	
 	default Set<Constraint> getConstraintsDependedOn() {
 		return getModule().getConstraints()
 			.stream()

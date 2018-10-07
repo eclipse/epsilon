@@ -100,17 +100,4 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	public boolean isOptimizeConstraintTrace() {
 		return optimizeConstraintTrace;
 	}
-
-	@Override
-	public Set<Constraint> getConstraintsDependedOn() {
-		if (constraintsDependedOn == null) {
-			constraintsDependedOn = IEvlContextParallel.super.getConstraintsDependedOn();
-		}
-		return constraintsDependedOn;
-	}
-	
-	@Override
-	public void setConstraintsDependedOn(Set<Constraint> dependencies) {
-		this.constraintsDependedOn = dependencies;
-	}
 }

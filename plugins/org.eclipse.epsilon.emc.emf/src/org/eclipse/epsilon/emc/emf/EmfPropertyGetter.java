@@ -22,6 +22,7 @@ public class EmfPropertyGetter extends AbstractPropertyGetter{
 		EolCollectionType.getCollectionTypeResolvers().add(new EmfCollectionTypeResolver());
 	}
 	
+	@Override
 	public Object invoke(Object object, String property) throws EolRuntimeException {
 		EObject eObject = (EObject) object;
 		

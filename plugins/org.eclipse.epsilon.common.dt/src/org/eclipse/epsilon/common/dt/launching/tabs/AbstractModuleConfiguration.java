@@ -1,12 +1,13 @@
 package org.eclipse.epsilon.common.dt.launching.tabs;
 
-import java.util.stream.IntStream;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -30,6 +31,23 @@ public class AbstractModuleConfiguration implements ModuleConfiguration {
 		// Nothing to create
 	}
 	
+	protected static class ConfigurationTabSelectionListener implements SelectionListener {
+		final AbstractAdvancedConfigurationTab advancedTab;
+		
+		public ConfigurationTabSelectionListener(AbstractAdvancedConfigurationTab tab) {
+			this.advancedTab = tab;
+		}
+		
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			advancedTab.enableApply();
+		}
+		
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+			
+		}
+	}
 	
 	// Parallel module utils
 	
@@ -53,12 +71,11 @@ public class AbstractModuleConfiguration implements ModuleConfiguration {
 	
 	
 	protected static int calculateThreadIncrementFromInitial(int initial) {
-		final int maxIncrement = (int) Math.round(Math.sqrt(initial));
-		return IntStream.rangeClosed(1, maxIncrement)
-			.map(i -> maxIncrement + 1 - i)
-			.filter(i -> i > 0 && THREAD_INITIAL % i == 0)
-			.findFirst()
-			.orElse((int) Math.sqrt(initial));
+		for (int i = (int) Math.round(Math.sqrt(initial)); i > 0; i--) {
+			if (initial % i == 0)
+				return i;
+		}
+		return (int) Math.sqrt(initial);
 	}
 	
 	protected static Composite createParallelContainer(Composite group) {
@@ -74,13 +91,14 @@ public class AbstractModuleConfiguration implements ModuleConfiguration {
 		return numThreadsLabel;
 	}
 
-	protected static Spinner createThreadsSelector(Composite container) {
+	protected static Spinner createThreadsSelector(Composite container, AbstractAdvancedConfigurationTab tab) {
 		Spinner numThreadsSelector = new Spinner(container, SWT.BORDER);
 		numThreadsSelector.setMinimum(1);
 		numThreadsSelector.setSelection(THREAD_INITIAL);
 		numThreadsSelector.setIncrement(THREAD_INCREMENTS);
 		numThreadsSelector.setMaximum(THREAD_MAXIMUM);
 		numThreadsSelector.setToolTipText("Parallelism");
+		numThreadsSelector.addSelectionListener(new ConfigurationTabSelectionListener(tab));
 		return numThreadsSelector;
 	}
 	
