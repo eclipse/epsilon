@@ -18,22 +18,17 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.PlatformObject;
 import org.eclipse.debug.core.sourcelookup.containers.LocalFileStorage;
 import org.eclipse.debug.internal.ui.DebugUIPlugin;
-import org.eclipse.debug.ui.console.FileLink;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.ThemeChangeListener;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
@@ -56,10 +51,10 @@ public class EpsilonConsole {
 	
 	private IOConsole ioConsole = null;
 	private static EpsilonConsole instance = null;
-	private TeePrintStream infoPrintStream;
-	private TeePrintStream debugPrintStream;
-	private TeePrintStream errorPrintStream;
-	private TeePrintStream warningPrintStream;
+	private MirrorPrintStream infoPrintStream;
+	private MirrorPrintStream debugPrintStream;
+	private MirrorPrintStream errorPrintStream;
+	private MirrorPrintStream warningPrintStream;
 	private InputStream inputStream;
 	
 	private IOConsoleOutputStream debugOutputStream = null;
@@ -79,10 +74,10 @@ public class EpsilonConsole {
 		warningOutputStream = createConsoleOutputStream();
 		errorOutputStream = createConsoleOutputStream();
 		
-		debugPrintStream = new TeePrintStream(debugOutputStream);
-		errorPrintStream = new TeePrintStream(errorOutputStream);
-		warningPrintStream = new TeePrintStream(warningOutputStream);
-		infoPrintStream = new TeePrintStream(infoOutputStream);
+		debugPrintStream = new MirrorPrintStream(debugOutputStream);
+		errorPrintStream = new MirrorPrintStream(errorOutputStream);
+		warningPrintStream = new MirrorPrintStream(warningOutputStream);
+		infoPrintStream = new MirrorPrintStream(infoOutputStream);
 		inputStream = ioConsole.getInputStream();				
 		
 		PlatformUI.getWorkbench().getThemeManager().addPropertyChangeListener(new ThemeChangeListener() {
@@ -168,12 +163,12 @@ public class EpsilonConsole {
 	}
 	
 	/**
-	 * Enable tee in all output streams of the console
-	 * @param outputFile			The file to which the output will be teed.
-	 * @see #disableTee()
+	 * Enable mirroring in all output streams of the console
+	 * @param outputFile			The file to which the output will be mirrored.
+	 * @see #disableMirroring()
 	 * @since 1.6
 	 */
-	public void enableTee(String outputFile, boolean append) {
+	public void enableMirroring(String outputFile, boolean append) {
 		
 		ConsoleLogFileHyperlink hyperlink = new ConsoleLogFileHyperlink(outputFile);
 		String outputMessage = String.format("[Console output redirected to file:%s]\n", outputFile);
@@ -191,8 +186,7 @@ public class EpsilonConsole {
 				try {
 					ioConsole.addHyperlink(hyperlink, offset, length);
 				} catch (BadLocationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					// No harm done
 				}
 			}
 			
@@ -219,22 +213,22 @@ public class EpsilonConsole {
 				return 0;
 			}
 		});
-		infoPrintStream.enableTee(outputFile, append);
-		errorPrintStream.enableTee(outputFile, append);
-		debugPrintStream.enableTee(outputFile, append);
-		warningPrintStream.enableTee(outputFile, append);
+		infoPrintStream.mirrorToFile(outputFile, append);
+		errorPrintStream.mirrorToFile(outputFile, append);
+		debugPrintStream.mirrorToFile(outputFile, append);
+		warningPrintStream.mirrorToFile(outputFile, append);
 	}
 	
 	/**
-	 * Disable tee in all outputstreams
-	 * @see #enableTee(String, boolean)
+	 * Disable mirroring in all outputstreams
+	 * @see #enableMirroring(String, boolean)
 	 * @since 1.6
 	 */
-	public void disableTee() {
-		infoPrintStream.disableTee();
-		errorPrintStream.disableTee();
-		debugPrintStream.disableTee();
-		warningPrintStream.disableTee();
+	public void disableMirroring() {
+		infoPrintStream.disableMirror();
+		errorPrintStream.disableMirror();
+		debugPrintStream.disableMirror();
+		warningPrintStream.disableMirror();
 	}
 	
 	private class ConsoleLogFileHyperlink implements IHyperlink {

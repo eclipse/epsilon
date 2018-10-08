@@ -87,10 +87,10 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 			console.clear();
 			String outputFile = configuration.getAttribute(IDebugUIConstants.ATTR_CAPTURE_IN_FILE, "");
 			if (outputFile != null) {
-				console.enableTee(outputFile, configuration.getAttribute(IDebugUIConstants.ATTR_APPEND_TO_FILE, false));
+				console.enableMirroring(outputFile, configuration.getAttribute(IDebugUIConstants.ATTR_APPEND_TO_FILE, false));
 			}
 			else {
-				console.disableTee();
+				console.disableMirroring();
 			}
 		}
 		
