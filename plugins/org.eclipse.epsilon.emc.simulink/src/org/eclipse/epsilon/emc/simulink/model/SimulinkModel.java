@@ -63,7 +63,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	public static final String PWD = "cd ?;";
 	public static final String GET_PARAM = "get_param('?', 'Handle');";
 	public static final String LOAD_SYSTEM = "load_system(?)";
-	public static final String OPEN_SYSTEM = "open_system(?)";
+	public static final String OPEN_SYSTEM = "open_system('?')";
 	public static final String NEW_SYSTEM = "new_system('?', 'Model');";
 	public static final String SAVE_SYSTEM = "save_system('?', '?');";
 
@@ -123,7 +123,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			if (useNew) {				
 				engine.eval(cmd, getSimulinkModelName());
 			} else {
-				engine.eval(cmd, "'" + file.getAbsolutePath() + "'");
+				engine.eval(cmd, "" + file.getAbsolutePath() + "");
 			}
 			this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());
 		} catch (Exception e) {
