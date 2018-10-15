@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.etl;
 
 import java.util.List;
-
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
@@ -21,7 +21,13 @@ public interface IEtlModule extends IErlModule {
 	
 	public List<TransformationRule> getTransformationRules();
 	
-	public IEtlContext getContext();
+	@Override
+	public default IEtlContext getContext() {
+		return (IEtlContext) ((IErlModule)this).getContext();
+	}
 	
-	public void setContext(IEtlContext context);
+	// TODO: do we really need this?
+	default void setContext(IEtlContext context) {
+		setContext((IEolContext) context);
+	}
 }

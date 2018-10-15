@@ -17,20 +17,23 @@ import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 
 public interface IEmlContext extends IEtlContext {
 
-	public abstract IMergingStrategy getMergingStrategy();
+	public IMergingStrategy getMergingStrategy();
 
-	public abstract void setMergingStrategy(IMergingStrategy mergingStrategy);
+	public void setMergingStrategy(IMergingStrategy mergingStrategy);
 
-	public abstract MatchTrace getMatchTrace();
+	public MatchTrace getMatchTrace();
 
-	public abstract MergeTrace getMergeTrace();
+	public MergeTrace getMergeTrace();
 
-	public abstract EmlModule getModule();
+	@Override
+	public default EmlModule getModule() {
+		return (EmlModule) ((IEtlContext)this).getModule();
+	}
 
-	public abstract void setModule(EmlModule module);
+	public void setModule(EmlModule module);
 
-	public abstract void setMatchTrace(MatchTrace matchTrace);
+	public void setMatchTrace(MatchTrace matchTrace);
 
-	public abstract void setMergeTrace(MergeTrace mergeTrace);
+	public void setMergeTrace(MergeTrace mergeTrace);
 
 }

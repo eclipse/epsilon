@@ -36,7 +36,9 @@ public interface IEvlModule extends IErlModule {
 	}
 	
 	@Override
-	IEvlContext getContext();
+	default IEvlContext getContext() {
+		return (IEvlContext) ((IErlModule)this).getContext();
+	}
 	
 	@Override
 	Set<UnsatisfiedConstraint> execute() throws EolRuntimeException;

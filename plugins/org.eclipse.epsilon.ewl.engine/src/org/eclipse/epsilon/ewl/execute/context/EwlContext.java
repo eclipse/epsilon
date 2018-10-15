@@ -10,11 +10,12 @@
 package org.eclipse.epsilon.ewl.execute.context;
 
 import org.eclipse.epsilon.eol.execute.context.EolContext;
+import org.eclipse.epsilon.ewl.IEwlModule;
 
-public class EwlContext extends EolContext implements IEwlContext{
+public class EwlContext extends EolContext implements IEwlContext {
 	
-	public EwlContext() {
-		super();
+	@Override
+	public IEwlModule getModule() {
+		return (IEwlModule) module;
 	}
-	
 }

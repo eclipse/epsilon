@@ -10,13 +10,18 @@
 package org.eclipse.epsilon.ewl;
 
 import java.util.List;
-
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.ewl.execute.WizardInstance;
+import org.eclipse.epsilon.ewl.execute.context.IEwlContext;
 
-public interface IEwlModule extends IEolModule{
+public interface IEwlModule extends IEolModule {
 	
 	public List<WizardInstance> getWizardsFor(Object self) throws EolRuntimeException;
+	
+	@Override
+	default IEwlContext getContext() {
+		return (IEwlContext) ((IEolModule)this).getContext();
+	}
 	
 }

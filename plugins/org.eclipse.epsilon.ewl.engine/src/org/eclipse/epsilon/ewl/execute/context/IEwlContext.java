@@ -10,7 +10,13 @@
 package org.eclipse.epsilon.ewl.execute.context;
 
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.ewl.IEwlModule;
 
 public interface IEwlContext extends IEolContext {
 
+	@Override
+	default IEwlModule getModule() {
+		return (IEwlModule) ((IEolContext)this).getModule();
+	}
+	
 }

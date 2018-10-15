@@ -28,7 +28,6 @@ import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 import org.eclipse.epsilon.etl.dom.EquivalentAssignmentStatement;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
-import org.eclipse.epsilon.etl.execute.context.EtlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.parse.EtlLexer;
 import org.eclipse.epsilon.etl.parse.EtlParser;
@@ -38,8 +37,7 @@ import org.eclipse.epsilon.etl.strategy.FastTransformationStrategy;
 public class EtlModule extends ErlModule implements IEtlModule {
 	
 	protected NamedRuleList<TransformationRule> declaredTransformationRules = new NamedRuleList<>();
-	protected NamedRuleList<TransformationRule> transformationRules = null;
-	protected IEtlContext context = new EtlContext();
+	protected NamedRuleList<TransformationRule> transformationRules;
 	
 	@Override
 	protected Lexer createLexer(ANTLRInputStream inputStream) {
@@ -77,8 +75,11 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		
+		List<AST> transformationChildrenAsts = AstUtil.getChildren(cst, EtlParser.TRANSFORM);
+		declaredTransformationRules.ensureCapacity(transformationChildrenAsts.size());
+		
 		// Parse the transform rules
-		for (AST transformationRuleAst : AstUtil.getChildren(cst, EtlParser.TRANSFORM)) {
+		for (AST transformationRuleAst : transformationChildrenAsts) {
 			declaredTransformationRules.add((TransformationRule) module.createAst(transformationRuleAst, this));
 		}
 
@@ -90,19 +91,18 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		return declaredTransformationRules;
 	}
 
-	protected boolean hasLazyRules(IEtlContext context) {
+	protected boolean hasLazyRules(IEtlContext context) throws EolRuntimeException {
 		for (TransformationRule rule : getTransformationRules()) {
-			try {
-				if (rule.isLazy(context)) {
-					return true;
-				}
-			} catch (EolRuntimeException e) {}
+			if (rule.isLazy(context)) {
+				return true;
+			}
 		}
 		return false;
 	}
 	
 	@Override
 	public Object executeImpl() throws EolRuntimeException {
+		IEtlContext context = getContext();
 		
 		if (context.getTransformationStrategy() == null) {
 			if (hasLazyRules(context)) {
@@ -113,9 +113,11 @@ public class EtlModule extends ErlModule implements IEtlModule {
 			}
 		}
 		
-		context.getFrameStack().put(Variable.createReadOnlyVariable("transTrace", context.getTransformationTrace()));
-		context.getFrameStack().put(Variable.createReadOnlyVariable("context", context));
-		context.getFrameStack().put(Variable.createReadOnlyVariable("module", this));
+		context.getFrameStack().put(
+			Variable.createReadOnlyVariable("transTrace", context.getTransformationTrace()),
+			Variable.createReadOnlyVariable("context", context),
+			Variable.createReadOnlyVariable("module", this)
+		);
 		
 		execute(getPre(), context);
 		
@@ -138,12 +140,14 @@ public class EtlModule extends ErlModule implements IEtlModule {
 
 	@Override
 	public IEtlContext getContext() {
-		return context;
+		return (IEtlContext) context;
 	}
 	
 	@Override
-	public void setContext(IEtlContext context) {
-		this.context = context;
+	public void setContext(IEolContext context) {
+		if (context instanceof IEtlContext) {
+			this.context = (IEtlContext) context;
+		}
 	}
 	
 	@Override
@@ -170,12 +174,4 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	protected int getPreBlockTokenType() {
 		return EtlParser.PRE;
 	}
-
-	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IEtlContext) {
-			this.context = (IEtlContext) context;
-		}
-	}
-		
 }

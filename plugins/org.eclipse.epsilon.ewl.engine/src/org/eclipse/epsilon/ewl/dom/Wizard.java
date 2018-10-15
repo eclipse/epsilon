@@ -9,8 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ewl.dom;
 
-import java.util.Collections;
-import java.util.List;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;

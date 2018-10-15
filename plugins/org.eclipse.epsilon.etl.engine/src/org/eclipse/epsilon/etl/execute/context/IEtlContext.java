@@ -22,7 +22,10 @@ public interface IEtlContext extends IEolContext {
 	
 	public void setTransformationStrategy(ITransformationStrategy transformationStrategy);
 	
-	public IEtlModule getModule();
+	@Override
+	public default IEtlModule getModule() {
+		return (IEtlModule) ((IEolContext)this).getModule();
+	}
 	
 	public void setModule(IEtlModule module);
 	

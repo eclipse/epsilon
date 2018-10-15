@@ -300,6 +300,15 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 	}
 
 	/**
+	 * Puts a read-only variable into the topmost frame of the scope
+	 * @param name The variable name.
+	 * @param value The variable value.
+	 */
+	public void put(String name, Object value) {
+		activeGroup().put(name, value);
+	}
+	
+	/**
 	 * Puts a new variable in the topmost frame of the scope.
 	 * Note that the topmost frame can be either a local or a global frame,
 	 * depending on the current state of the FrameStack.

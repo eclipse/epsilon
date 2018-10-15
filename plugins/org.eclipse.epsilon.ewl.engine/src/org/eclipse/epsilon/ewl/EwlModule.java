@@ -28,7 +28,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.ewl.dom.Wizard;
 import org.eclipse.epsilon.ewl.execute.WizardInstance;
 import org.eclipse.epsilon.ewl.execute.WizardLoopInstance;
-import org.eclipse.epsilon.ewl.execute.context.EwlContext;
 import org.eclipse.epsilon.ewl.execute.context.IEwlContext;
 import org.eclipse.epsilon.ewl.parse.EwlLexer;
 import org.eclipse.epsilon.ewl.parse.EwlParser;
@@ -36,7 +35,6 @@ import org.eclipse.epsilon.ewl.parse.EwlParser;
 public class EwlModule extends EolModule implements IEwlModule {
 	
 	protected List<Wizard> wizards = new ArrayList<>();
-	protected IEwlContext context = new EwlContext();
 	
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
@@ -75,11 +73,12 @@ public class EwlModule extends EolModule implements IEwlModule {
 	@Override
 	public List<WizardInstance> getWizardsFor(Object self) throws EolRuntimeException {
 		prepareContext();
-
+		IEwlContext context = getContext();
+		
 		final List<WizardInstance> applicableWizards = new ArrayList<>();
 		
 		for (Wizard wizard : wizards) {
-			if (wizard.appliesTo(self, context)){
+			if (wizard.appliesTo(self, context)) {
 				applicableWizards.add(new WizardInstance(wizard, self, context));
 			}
 			else if (self instanceof Collection && !((Collection<?>)self).isEmpty()) {
@@ -97,8 +96,8 @@ public class EwlModule extends EolModule implements IEwlModule {
 	}
 
 	@Override
-	public IEwlContext getContext(){
-		return context;
+	public IEwlContext getContext() {
+		return (IEwlContext) context;
 	}
 	
 	public List<Wizard> getWizards() {
@@ -117,7 +116,7 @@ public class EwlModule extends EolModule implements IEwlModule {
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEwlContext) {
-			this.context = (IEwlContext) context;
+			this.context = context;
 		}
 	}
 

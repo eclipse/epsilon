@@ -9,21 +9,18 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eml.engine.test.acceptance.builtins;
 
-
 import java.io.File;
-
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eml.EmlModule;
-import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.test.builtins.CanAccessBuiltinsTests;
 
 public class EmlCanAccessBuiltinsTests extends CanAccessBuiltinsTests {
-
+	
 	@Override
-	protected IEolModule createModule() {
+	protected EmlModule createModule() throws Exception {
 		return new EmlModule();
 	}
-
+	
 	@Override
 	protected File getProgram() {
 		return FileUtil.getFile(("System.eml"), EmlCanAccessBuiltinsTests.class);

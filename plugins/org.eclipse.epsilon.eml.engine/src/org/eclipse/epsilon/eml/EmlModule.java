@@ -21,18 +21,18 @@ import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eml.dom.MergeRule;
 import org.eclipse.epsilon.eml.dom.EquivalentAssignmentStatement;
-import org.eclipse.epsilon.eml.execute.context.EmlContext;
+import org.eclipse.epsilon.eml.execute.context.IEmlContext;
 import org.eclipse.epsilon.eml.parse.EmlLexer;
 import org.eclipse.epsilon.eml.parse.EmlParser;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 import org.eclipse.epsilon.etl.EtlModule;
 
 public class EmlModule extends EtlModule {
 	
-	protected EmlContext context = new EmlContext();
 	protected NamedRuleList<MergeRule> declaredMergeRules = new NamedRuleList<>();
 	protected NamedRuleList<MergeRule> mergeRules;
 	
@@ -68,7 +68,9 @@ public class EmlModule extends EtlModule {
 	}
 	
 	@Override
-	public Object executeImpl() throws EolRuntimeException{
+	public Object executeImpl() throws EolRuntimeException {
+		IEmlContext context = getContext();
+		
 		context.getFrameStack().put(
 			Variable.createReadOnlyVariable("matchTrace", context.getMatchTrace()),
 			Variable.createReadOnlyVariable("mergeTrace", context.getMergeTrace()),
@@ -85,8 +87,15 @@ public class EmlModule extends EtlModule {
 	}
 	
 	@Override
-	public EmlContext getContext() {
-		return context;
+	public void setContext(IEolContext context) {
+		if (context instanceof IEmlContext) {
+			this.context = (IEmlContext) context;
+		}
+	}
+	
+	@Override
+	public IEmlContext getContext() {
+		return (IEmlContext) context;
 	}
 	
 	@Override
