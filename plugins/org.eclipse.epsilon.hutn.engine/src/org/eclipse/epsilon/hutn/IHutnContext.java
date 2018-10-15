@@ -13,4 +13,9 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IHutnContext extends IEolContext {
 
+	@Override
+	default IHutnModule getModule() {
+		return (IHutnModule) ((IEolContext)this).getModule();
+	}
+	
 }

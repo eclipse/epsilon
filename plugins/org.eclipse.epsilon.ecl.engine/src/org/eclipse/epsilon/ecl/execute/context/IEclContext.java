@@ -11,9 +11,9 @@ package org.eclipse.epsilon.ecl.execute.context;
 
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
-public interface IEclContext extends IEolContext {
+public interface IEclContext extends IErlContext {
 	
 	void setMatchTrace(MatchTrace matchTrace);
 	
@@ -26,6 +26,8 @@ public interface IEclContext extends IEolContext {
 	// void setMatchingStrategy(MatchingStrategy matchingStrategy);
 	
 	@Override
-	IEclModule getModule();
+	default IEclModule getModule() {
+		return (IEclModule) ((IErlContext)this).getModule();
+	}
 
 }

@@ -51,12 +51,15 @@ import org.eclipse.epsilon.hutn.validation.model.HutnValidator;
 
 public class HutnModule extends EolModule implements IHutnModule {
 
-	protected IHutnContext context = new HutnContext(this);
 	protected HutnDocument document;
 	protected Spec spec;
 	protected boolean metaModelIsValid = true;
 	protected File configFileDirectory;
 	protected boolean hutnIsValid = false;
+	
+	public HutnModule() {
+		this.context = new HutnContext(this);
+	}
 	
 	@Override
 	protected Lexer createLexer(ANTLRInputStream inputStream) {
@@ -86,7 +89,7 @@ public class HutnModule extends EolModule implements IHutnModule {
 	
 	@Override
 	public IHutnContext getContext(){
-		return context;
+		return (IHutnContext) context;
 	}
 	
 	/*
@@ -297,4 +300,5 @@ public class HutnModule extends EolModule implements IHutnModule {
 			this.context = (IHutnContext) context;
 		}
 	}
+	
 }

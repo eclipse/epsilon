@@ -40,11 +40,10 @@ import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
 public class EgxModule extends ErlModule {
 	
-	protected NamedRuleList<GenerationRule> declaredGenerationRules = new NamedRuleList<GenerationRule>();
+	protected NamedRuleList<GenerationRule> declaredGenerationRules = new NamedRuleList<>();
 	protected NamedRuleList<GenerationRule> generationRules = null;
-	protected EgxContext context = null;
 	protected EglTemplateFactory templateFactory = null;
-	protected List<Content<Template>> invokedTemplates = new ArrayList<Content<Template>>();
+	protected List<Content<Template>> invokedTemplates = new ArrayList<>();
 	
 	public static void main(String[] args) throws Exception {
 		final EgxModule module = new EgxModule();
@@ -177,6 +176,7 @@ public class EgxModule extends ErlModule {
 	}
 	
 	public Object executeImpl() throws EolRuntimeException {
+		EgxContext context = getContext();
 		context.copyInto(templateFactory.getContext(), true);
 		
 		execute(getPre(), context);
@@ -199,8 +199,8 @@ public class EgxModule extends ErlModule {
 	}
 
 	@Override
-	public EgxContext getContext(){
-		return context;
+	public EgxContext getContext() {
+		return (EgxContext) context;
 	}
 	
 	public void setContext(EgxContext context){
@@ -209,7 +209,7 @@ public class EgxModule extends ErlModule {
 	
 	public List<GenerationRule> getGenerationRules() {
 		if (generationRules == null) {
-			generationRules = new NamedRuleList<GenerationRule>();
+			generationRules = new NamedRuleList<>();
 			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof EgxModule)) {
 					EgxModule module = (EgxModule) import_.getModule();

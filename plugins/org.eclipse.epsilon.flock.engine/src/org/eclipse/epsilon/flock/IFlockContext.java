@@ -12,8 +12,8 @@
  */
 package org.eclipse.epsilon.flock;
 
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
@@ -21,7 +21,7 @@ import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 
-public interface IFlockContext extends IEolContext {
+public interface IFlockContext extends IErlContext {
 	
 	public void setOriginalModel(IModel model) throws FlockUnsupportedModelException;
 	public void setMigratedModel(IModel model) throws FlockUnsupportedModelException;

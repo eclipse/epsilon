@@ -37,7 +37,10 @@ import org.eclipse.epsilon.flock.parse.FlockParser;
 public class FlockModule extends ErlModule implements IFlockModule {
 	
 	private MigrationStrategy strategy;
-	protected IFlockContext context = new FlockContext();
+	
+	public FlockModule() {
+		this.context = new FlockContext();
+	}
 	
 	@Override
 	protected Lexer createLexer(ANTLRInputStream inputStream) {
@@ -103,20 +106,21 @@ public class FlockModule extends ErlModule implements IFlockModule {
 		}
 	}
 
+	@Override
 	public FlockResult execute(IModel original, IModel migrated) throws EolRuntimeException {
+		IFlockContext context = getContext();
+		
 		context.setOriginalModel(original);
 		context.setMigratedModel(migrated);
 			
 		return (FlockResult) execute();
 	}
 
+	@Override
 	public FlockResult executeImpl() throws EolRuntimeException {
-		FlockResult result = null;
-		
-		execute(getPre(), context);
-		result = context.execute(strategy);
-		execute(getPost(), context);
-		
+		prepareExecution();
+		FlockResult result = getContext().execute(strategy);
+		postExecution();
 		return result;
 	}
 	
@@ -124,8 +128,9 @@ public class FlockModule extends ErlModule implements IFlockModule {
 		return strategy;
 	}
 	
+	@Override
 	public IFlockContext getContext() {
-		return context;
+		return (IFlockContext) context;
 	}
 	
 	@Override
@@ -141,7 +146,7 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IFlockContext) {
-			this.context = (IFlockContext) context;
+			this.context = context;
 		}
 	}
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.erl.dom.Post;
 import org.eclipse.epsilon.erl.dom.Pre;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 public interface IErlModule extends IEolModule {
 	
@@ -23,4 +24,9 @@ public interface IErlModule extends IEolModule {
 	List<Pre> getDeclaredPre();
 	
 	List<Post> getDeclaredPost();
+	
+	@Override
+	default IErlContext getContext() {
+		return (IErlContext) ((IEolModule)this).getContext();
+	}
 }

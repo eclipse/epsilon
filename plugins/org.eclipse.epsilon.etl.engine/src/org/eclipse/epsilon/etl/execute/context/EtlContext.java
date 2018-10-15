@@ -9,13 +9,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.execute.context;
 
-import org.eclipse.epsilon.eol.execute.context.EolContext;
+import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.execute.operations.EtlOperationFactory;
 import org.eclipse.epsilon.etl.strategy.ITransformationStrategy;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
-public class EtlContext extends EolContext implements IEtlContext {
+public class EtlContext extends ErlContext implements IEtlContext {
 	
 	protected TransformationTrace transformationTrace = new TransformationTrace();
 	protected ITransformationStrategy transformationStrategy;
@@ -40,7 +40,7 @@ public class EtlContext extends EolContext implements IEtlContext {
 	}
 	
 	@Override
-	public IEtlModule getModule(){
+	public IEtlModule getModule() {
 		return (IEtlModule) module;
 	}
 	

@@ -28,6 +28,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.ewl.dom.Wizard;
 import org.eclipse.epsilon.ewl.execute.WizardInstance;
 import org.eclipse.epsilon.ewl.execute.WizardLoopInstance;
+import org.eclipse.epsilon.ewl.execute.context.EwlContext;
 import org.eclipse.epsilon.ewl.execute.context.IEwlContext;
 import org.eclipse.epsilon.ewl.parse.EwlLexer;
 import org.eclipse.epsilon.ewl.parse.EwlParser;
@@ -35,6 +36,10 @@ import org.eclipse.epsilon.ewl.parse.EwlParser;
 public class EwlModule extends EolModule implements IEwlModule {
 	
 	protected List<Wizard> wizards = new ArrayList<>();
+	
+	public EwlModule() {
+		this.context = new EwlContext();
+	}
 	
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {

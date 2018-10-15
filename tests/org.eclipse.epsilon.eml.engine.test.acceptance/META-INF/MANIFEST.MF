@@ -8,5 +8,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies,
  org.eclipse.epsilon.eml.engine,
  org.eclipse.epsilon.ecl.engine,
+ org.eclipse.epsilon.etl.engine,
  org.eclipse.epsilon.emc.plainxml
 Export-Package: org.eclipse.epsilon.eml.engine.test.acceptance

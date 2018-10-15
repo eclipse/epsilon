@@ -13,9 +13,9 @@ import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
-import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
+import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 
-public class EclContextParallel extends EolContextParallel implements IEclContext {
+public class EclContextParallel extends ErlContextParallel implements IEclContext {
 
 	protected PersistentThreadLocal<MatchTrace> tempMatchTraces;
 	protected MatchTrace matchTrace;

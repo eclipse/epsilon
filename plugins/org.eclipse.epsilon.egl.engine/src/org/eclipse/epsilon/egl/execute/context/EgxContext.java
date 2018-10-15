@@ -12,13 +12,16 @@ package org.eclipse.epsilon.egl.execute.context;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.traceability.Template;
+import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
-public class EgxContext extends EglContext {
+public class EgxContext extends EglContext implements IErlContext {
 	
 	protected Template baseTemplate = null;
 	
 	public EgxContext(EglTemplateFactory templateFactory) {
 		super(templateFactory);
+		executorFactory = new RuleExecutorFactory();
 	}
 	
 	@Override
@@ -33,4 +36,13 @@ public class EgxContext extends EglContext {
 		this.baseTemplate = baseTemplate;
 	}
 	
+	@Override
+	public EgxModule getModule() {
+		return (EgxModule) super.getModule();
+	}
+	
+	@Override
+	public RuleExecutorFactory getExecutorFactory() {
+		return (RuleExecutorFactory) executorFactory;
+	}
 }

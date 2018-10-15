@@ -12,10 +12,9 @@
  */
 package org.eclipse.epsilon.flock;
 
-
-import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
+import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
@@ -25,7 +24,7 @@ import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelExcep
 import org.eclipse.epsilon.flock.execution.operations.FlockOperationFactory;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 
-public class FlockContext extends EolContext implements IFlockContext {
+public class FlockContext extends ErlContext implements IFlockContext {
 
 	private Model originalModel;
 	private Model migratedModel;
@@ -34,10 +33,12 @@ public class FlockContext extends EolContext implements IFlockContext {
 		setOperationFactory(new FlockOperationFactory());
 	}
 	
+	@Override
 	public void setOriginalModel(IModel originalModel) throws FlockUnsupportedModelException {
 		this.originalModel = addAndWrapModel(originalModel);
 	}
 	
+	@Override
 	public void setMigratedModel(IModel migratedModel) throws FlockUnsupportedModelException {
 		this.migratedModel = addAndWrapModel(migratedModel);
 	}
@@ -62,10 +63,12 @@ public class FlockContext extends EolContext implements IFlockContext {
 			throw new FlockUnsupportedModelException("Flock can only be used with models that implement IReflectiveModel. " + model.getName() + " does not.");
 	}
 	
+	@Override
 	public void setOriginalModel(int indexInRepository) throws FlockUnsupportedModelException {
 		this.originalModel = getModelFromRepositoryByIndex(indexInRepository);
 	}
 	
+	@Override
 	public void setMigratedModel(int indexInRepository) throws FlockUnsupportedModelException {
 		this.migratedModel = getModelFromRepositoryByIndex(indexInRepository);
 	}
@@ -76,6 +79,7 @@ public class FlockContext extends EolContext implements IFlockContext {
 	
 	private FlockExecution execution;
 	
+	@Override
 	public FlockResult execute(MigrationStrategy strategy) throws FlockRuntimeException {
 		ensureRolesAreAssignedToModels();
 		
@@ -89,14 +93,17 @@ public class FlockContext extends EolContext implements IFlockContext {
 	}
 	
 	
+	@Override
 	public EquivalenceEstablishmentContext getEquivalenceEstablishmentContext() {
 		return new EquivalenceEstablishmentContext(originalModel, migratedModel, this, execution);
 	}
 
+	@Override
 	public MigrationStrategyCheckingContext getMigrationStrategyCheckingContext() {
 		return new MigrationStrategyCheckingContext(originalModel, execution);
 	}
 	
+	@Override
 	public ConservativeCopyContext getConservativeCopyContext() {
 		return new ConservativeCopyContext(originalModel, migratedModel, execution);
 	}

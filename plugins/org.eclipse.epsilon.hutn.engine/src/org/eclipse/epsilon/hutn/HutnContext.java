@@ -16,4 +16,9 @@ public class HutnContext extends EolContext implements IHutnContext {
 	public HutnContext(IHutnModule module) {
 		setModule(module);
 	}
+	
+	@Override
+	public IHutnModule getModule() {
+		return (IHutnModule) module;
+	}
 }

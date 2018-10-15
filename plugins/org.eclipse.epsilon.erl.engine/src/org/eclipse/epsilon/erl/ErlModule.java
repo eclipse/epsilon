@@ -24,6 +24,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.dom.*;
 import org.eclipse.epsilon.erl.exceptions.ErlCircularRuleInheritanceException;
 import org.eclipse.epsilon.erl.exceptions.ErlRuleNotFoundException;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 public abstract class ErlModule extends EolModule implements IErlModule {
 	
@@ -141,5 +142,10 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 			}
 		}
 		return parseProblems;
+	}
+	
+	@Override
+	public IErlContext getContext() {
+		return (IErlContext) context;
 	}
 }

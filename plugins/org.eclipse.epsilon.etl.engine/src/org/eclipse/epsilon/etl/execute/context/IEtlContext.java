@@ -9,12 +9,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.execute.context;
 
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.strategy.ITransformationStrategy;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
-public interface IEtlContext extends IEolContext {
+public interface IEtlContext extends IErlContext {
 	
 	public TransformationTrace getTransformationTrace();
 	
@@ -24,7 +24,7 @@ public interface IEtlContext extends IEolContext {
 	
 	@Override
 	public default IEtlModule getModule() {
-		return (IEtlModule) ((IEolContext)this).getModule();
+		return (IEtlModule) ((IErlContext)this).getModule();
 	}
 	
 	public void setModule(IEtlModule module);

@@ -28,6 +28,7 @@ import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 import org.eclipse.epsilon.etl.dom.EquivalentAssignmentStatement;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
+import org.eclipse.epsilon.etl.execute.context.EtlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.parse.EtlLexer;
 import org.eclipse.epsilon.etl.parse.EtlParser;
@@ -38,6 +39,10 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	
 	protected NamedRuleList<TransformationRule> declaredTransformationRules = new NamedRuleList<>();
 	protected NamedRuleList<TransformationRule> transformationRules;
+	
+	public EtlModule() {
+		this.context = new EtlContext();
+	}
 	
 	@Override
 	protected Lexer createLexer(ANTLRInputStream inputStream) {
@@ -102,6 +107,31 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	
 	@Override
 	public Object executeImpl() throws EolRuntimeException {
+		prepareExecution();
+		IEtlContext context = getContext();
+		
+		// Execute the transformModel() method of the strategy
+		if (context.getTransformationStrategy() != null) {
+			context.getTransformationStrategy().transformModels(context);
+		}
+		
+		postExecution();
+		return context.getTransformationTrace();
+	}
+	
+	@Override
+	protected void prepareContext() {
+		super.prepareContext();
+		IEtlContext context = getContext();
+		context.getFrameStack().put(
+			Variable.createReadOnlyVariable("transTrace", context.getTransformationTrace()),
+			Variable.createReadOnlyVariable("context", context),
+			Variable.createReadOnlyVariable("module", this)
+		);
+	}
+	
+	@Override
+	protected void prepareExecution() throws EolRuntimeException {
 		IEtlContext context = getContext();
 		
 		if (context.getTransformationStrategy() == null) {
@@ -113,22 +143,7 @@ public class EtlModule extends ErlModule implements IEtlModule {
 			}
 		}
 		
-		context.getFrameStack().put(
-			Variable.createReadOnlyVariable("transTrace", context.getTransformationTrace()),
-			Variable.createReadOnlyVariable("context", context),
-			Variable.createReadOnlyVariable("module", this)
-		);
-		
-		execute(getPre(), context);
-		
-		// Execute the transformModel() method of the strategy
-		if (context.getTransformationStrategy() != null){
-			context.getTransformationStrategy().transformModels(context);
-		}
-		
-		execute(getPost(), context);
-		
-		return context.getTransformationTrace();
+		super.prepareExecution();
 	}
 	
 	@Override

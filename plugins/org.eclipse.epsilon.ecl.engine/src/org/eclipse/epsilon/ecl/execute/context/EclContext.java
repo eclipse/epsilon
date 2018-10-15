@@ -11,9 +11,9 @@ package org.eclipse.epsilon.ecl.execute.context;
 
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
-import org.eclipse.epsilon.eol.execute.context.EolContext;
+import org.eclipse.epsilon.erl.execute.context.ErlContext;
 
-public class EclContext extends EolContext implements IEclContext {
+public class EclContext extends ErlContext implements IEclContext {
 	
 	protected MatchTrace matchTrace = new MatchTrace();
 	protected MatchTrace tempMatchTrace = new MatchTrace();

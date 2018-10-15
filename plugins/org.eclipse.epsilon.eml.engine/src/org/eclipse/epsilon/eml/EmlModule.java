@@ -21,6 +21,7 @@ import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eml.dom.MergeRule;
 import org.eclipse.epsilon.eml.dom.EquivalentAssignmentStatement;
+import org.eclipse.epsilon.eml.execute.context.EmlContext;
 import org.eclipse.epsilon.eml.execute.context.IEmlContext;
 import org.eclipse.epsilon.eml.parse.EmlLexer;
 import org.eclipse.epsilon.eml.parse.EmlParser;
@@ -35,6 +36,10 @@ public class EmlModule extends EtlModule {
 	
 	protected NamedRuleList<MergeRule> declaredMergeRules = new NamedRuleList<>();
 	protected NamedRuleList<MergeRule> mergeRules;
+	
+	public EmlModule() {
+		this.context = new EmlContext();
+	}
 	
 	@Override
 	protected Lexer createLexer(ANTLRInputStream inputStream) {
