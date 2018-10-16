@@ -20,7 +20,7 @@ import org.eclipse.epsilon.common.interfaces.BaseDelegate.MergeMode;
  * @author Sina Madani
  * @param <T> The type of the thread-local value.
  */
-public class DelegatePersistentThreadLocal<T extends ConcurrentBaseDelegate<T>> extends PersistentThreadLocal<T> {
+public class DelegatePersistentThreadLocal<T extends ConcurrentBaseDelegate<? extends T>> extends PersistentThreadLocal<T> {
 
 	public DelegatePersistentThreadLocal(int numThreads, Supplier<? extends T> initialValue) {
 		super(numThreads, initialValue);

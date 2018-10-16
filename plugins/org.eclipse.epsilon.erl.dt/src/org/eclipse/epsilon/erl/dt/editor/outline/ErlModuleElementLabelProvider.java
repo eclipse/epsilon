@@ -15,7 +15,7 @@ import org.eclipse.epsilon.erl.dom.Pre;
 import org.eclipse.epsilon.erl.dt.ErlPlugin;
 import org.eclipse.swt.graphics.Image;
 
-public class ErlModuleElementLabelProvider extends EolModuleElementLabelProvider{
+public class ErlModuleElementLabelProvider extends EolModuleElementLabelProvider {
 
 	@Override
 	public Image getImage(Object element) {

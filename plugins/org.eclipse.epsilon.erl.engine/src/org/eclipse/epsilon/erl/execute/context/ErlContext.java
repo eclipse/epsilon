@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.execute.context;
 
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
@@ -24,6 +25,16 @@ public class ErlContext extends EolContext implements IErlContext {
 		executorFactory = new RuleExecutorFactory();
 	}
 
+	@Override
+	public void setExecutorFactory(ExecutorFactory executorFactory) {
+		if (executorFactory instanceof RuleExecutorFactory) {
+			this.executorFactory = executorFactory;
+		}
+		else {
+			this.executorFactory = new RuleExecutorFactory(executorFactory);
+		}
+	}
+	
 	@Override
 	public RuleExecutorFactory getExecutorFactory() {
 		return (RuleExecutorFactory) executorFactory;

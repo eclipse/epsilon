@@ -9,8 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.dt.editor.outline;
 
-import org.eclipse.epsilon.erl.dom.Post;
-import org.eclipse.epsilon.erl.dom.Pre;
 import org.eclipse.epsilon.erl.dt.editor.outline.ErlModuleElementLabelProvider;
 import org.eclipse.epsilon.flock.dt.FlockDevelopmentToolsPlugin;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
@@ -20,7 +18,7 @@ import org.eclipse.epsilon.flock.model.domain.typemappings.PackageRetyping;
 import org.eclipse.epsilon.flock.model.domain.typemappings.Retyping;
 import org.eclipse.swt.graphics.Image;
 
-public class FlockModuleElementLabelProvider extends ErlModuleElementLabelProvider{
+public class FlockModuleElementLabelProvider extends ErlModuleElementLabelProvider {
 
 	@Override
 	public Image getImage(Object element) {

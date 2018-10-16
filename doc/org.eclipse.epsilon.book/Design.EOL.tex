@@ -187,7 +187,7 @@ As is the case for most programming languages, EOL defines a built-in system of 
     
     errln([prefix : String]) : Any & Has the same effects as the \emph{err} operation but also produces a new line in the output stream. \\\hline
     
-    format([pattern : String]) : String & Uses the provided pattern to form a String representation of the object on which the method is invoked. The pattern argument must conform to the format string syntax defined by Java\footnote{\url{http://download.oracle.com/javase/6/docs/api/java/util/Formatter.html\#syntax}}. \\\hline
+    format([pattern : String]) : String & Uses the provided pattern to form a String representation of the object on which the method is invoked. The pattern argument must conform to the format string syntax defined by Java\footnote{\url{http://download.oracle.com/javase/8/docs/api/java/util/Formatter.html\#syntax}}. \\\hline
     
     hasProperty(name : String) : Boolean & Returns true if the object has a property with the specified name or false otherwise \\\hline
     
@@ -213,7 +213,7 @@ As is the case for most programming languages, EOL defines a built-in system of 
 
 \subsection{Primitive Types} 
 
-EOL provides four primitive types: String, Integer, Real and Boolean. The String type represents finite sequences of characters and supports the following operations which can be invoked on its instances.
+EOL provides four primitive types: String, Integer, Real and Boolean. The String type represents a finite sequence of characters and supports the following operations which can be invoked on its instances.
 \clearpage
 \begin{longtabu} {|p{6.5cm}|X|}
 \caption{Operations of type String}
@@ -613,6 +613,12 @@ In terms of concrete syntax, `.' is used as a uniform operator to access a prope
 operation Any println() : Any {
 	("Printing : " + self)->println();
 }
+\end{lstlisting}
+
+It should be noted that due to the variable nature of (meta-)models and the various domain-specific languages of Epsilon (including EOL itself), feature navigation calls may clash with reserved keywords, leading to a parsing error. The backtick operator is used to circumvent this. For example, if a model element contains a feature called “operation”, then this can be navigated as shown in \ref{lst:NavigationBackticks}.
+
+\begin{lstlisting}[float=tbp, caption=Escaping reserved words=lst:NavigationBackticks, language=EOL]
+var op = modelElement.`operation`;
 \end{lstlisting}
 
 \subsection{Arithmetical and Comparison Operators}

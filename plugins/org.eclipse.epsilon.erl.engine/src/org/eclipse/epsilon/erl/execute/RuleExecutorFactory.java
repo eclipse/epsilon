@@ -22,6 +22,10 @@ public class RuleExecutorFactory extends ExecutorFactory {
 		this(null, false);
 	}
 
+	public RuleExecutorFactory(ExecutorFactory parent) {
+		this(parent, parent != null ? parent.isThreadSafe() : false);
+	}
+	
 	public RuleExecutorFactory(ExecutorFactory parent, boolean concurrent) {
 		super(parent, concurrent);
 		setRuleProfiler(new RuleProfiler());
