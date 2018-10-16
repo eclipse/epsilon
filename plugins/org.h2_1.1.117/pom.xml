@@ -9,6 +9,6 @@
   </parent>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.h2_1.1.117</artifactId>
-  <version>1.1.117</version>
+  <version>1.1.117-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>

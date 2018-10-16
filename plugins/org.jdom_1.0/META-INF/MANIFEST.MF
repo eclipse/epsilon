@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JDOM
 Bundle-SymbolicName: org.jdom_1.0
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Jason Hunter & Brett McLaughlin
 Export-Package: org.jdom,

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: H2 Database
 Bundle-SymbolicName: org.h2_1.1.117
-Bundle-Version: 1.1.117
+Bundle-Version: 1.1.117.qualifier
 Bundle-Vendor: H2 Group
 Export-Package: org.h2,
  org.h2.api,

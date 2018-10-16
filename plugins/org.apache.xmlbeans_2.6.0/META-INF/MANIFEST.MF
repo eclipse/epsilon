@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache XMLBeans 2.6.0
 Bundle-SymbolicName: org.apache.xmlbeans_2.6.0
-Bundle-Version: 2.6.0
+Bundle-Version: 2.6.0.qualifier
 Bundle-ClassPath: .
 Export-Package: org.apache.xmlbeans,
  org.apache.xmlbeans.impl.common,

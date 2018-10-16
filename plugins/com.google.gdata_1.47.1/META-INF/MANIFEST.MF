@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Google Data Java Client Library 1.47.1
 Bundle-SymbolicName: com.google.gdata_1.47.1
-Bundle-Version: 1.47.1
+Bundle-Version: 1.47.1.qualifier
 Bundle-Vendor: Google Inc.
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .

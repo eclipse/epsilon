@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache Commons CSV
 Bundle-SymbolicName: org.apache.commons.csv_1.5
-Bundle-Version: 1.5.0
+Bundle-Version: 1.5.0.qualifier
 Bundle-Vendor: The Apache Software Foundation
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.apache.commons.csv
