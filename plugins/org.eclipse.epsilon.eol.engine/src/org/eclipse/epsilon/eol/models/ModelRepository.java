@@ -31,8 +31,12 @@ public class ModelRepository {
 		return transactionSupport;
 	}
 	
+	public void addModels(IModel... models) {
+		for (IModel model : models)
+			addModel(model);
+	}
+	
 	public void addModel(IModel model) {
-		
 		if (!models.contains(model)) {
 			models.add(model);
 		}

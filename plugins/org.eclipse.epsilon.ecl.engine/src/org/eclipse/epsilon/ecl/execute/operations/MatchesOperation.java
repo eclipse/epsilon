@@ -12,7 +12,7 @@ package org.eclipse.epsilon.ecl.execute.operations;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.Set;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
@@ -20,7 +20,10 @@ import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
+import org.eclipse.epsilon.eol.types.EolBag;
+import org.eclipse.epsilon.eol.types.EolOrderedSet;
 
+//TODO: parallel implementation
 public class MatchesOperation extends SimpleOperation {
 	
 	protected boolean matchInstances(Object left, Object right, IEclContext context, boolean forcedMatch) throws EolRuntimeException {
@@ -37,6 +40,8 @@ public class MatchesOperation extends SimpleOperation {
 		if (source == null && parameter == null) return true;
 		
 		if (source instanceof Collection && parameter instanceof Collection) {
+			// This implementation finds proof by counter-example.
+			// "Innocent until proven guilty"
 			
 			Collection<?> leftCol = (Collection<?>) source;
 			Collection<?> rightCol = (Collection<?>) parameter;
@@ -44,19 +49,36 @@ public class MatchesOperation extends SimpleOperation {
 			Collection<?> leftColFlat = CollectionUtil.flatten(leftCol);
 			Collection<?> rightColFlat = CollectionUtil.flatten(rightCol);
 			
-			if (leftColFlat.size() != rightColFlat.size()) {
-				return false;
-			}
-			
-			Iterator<?> lit = leftColFlat.iterator();
-			Iterator<?> rit = rightColFlat.iterator();
-			
 			boolean match = true;
 			
-			while (lit.hasNext() && match) {
-				match = match && (matchInstances(lit.next(), rit.next(), context, false));
+			if (leftColFlat.size() != rightColFlat.size()) {
+				match = false;
 			}
-			
+			// Unordered collection
+			else if (leftCol instanceof Set || leftCol instanceof EolBag && !(leftCol instanceof EolOrderedSet) &&
+				rightCol instanceof Set || rightCol instanceof EolBag && !(rightCol instanceof EolOrderedSet)) {
+
+				for (Object left : leftColFlat) {
+					match = false;
+					for (Object right : rightColFlat) {
+						if (matchInstances(left, right, context, false)) {
+							match = true;
+							break;
+						}
+					}
+					if (!match) break;
+				}
+				
+			}
+			// Respect ordering
+			else {
+				Iterator<?> lit = leftColFlat.iterator();
+				Iterator<?> rit = rightColFlat.iterator();
+				
+				while (lit.hasNext() && (match = matchInstances(lit.next(), rit.next(), context, false)) == true) {
+					continue;
+				}
+			}
 			return match;
 		}
 		else if (source instanceof Collection ^ parameter instanceof Collection) {
