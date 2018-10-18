@@ -25,7 +25,7 @@ import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
 
 public class EolAcceptanceTestUtil {
-	private EolAcceptanceTestUtil() {}
+	protected EolAcceptanceTestUtil() {}
 	
 	public static final int[] THREADS = new int[] {
 		0, 1, 2, 3, 10, Byte.MAX_VALUE

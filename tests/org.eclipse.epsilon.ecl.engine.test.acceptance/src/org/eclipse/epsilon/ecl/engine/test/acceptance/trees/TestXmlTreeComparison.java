@@ -11,27 +11,41 @@ package org.eclipse.epsilon.ecl.engine.test.acceptance.trees;
 
 import java.io.File;
 import java.util.HashMap;
-import org.eclipse.epsilon.ecl.EclModule;
+import java.util.function.Supplier;
+import org.eclipse.epsilon.ecl.IEclModule;
+import org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestUtil;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 import static org.junit.Assert.*;
 
+@RunWith(Parameterized.class)
 public class TestXmlTreeComparison {
 	
-	protected EclModule module;
+	protected IEclModule module;
 	protected HashMap<String, Object> prepost;
+	
+	@Parameter
+	public Supplier<? extends IEclModule> moduleGetter;
+	
+	@Parameters(name = "{0}")
+	public static Iterable<Supplier<? extends IEclModule>> modules() {
+		return EclAcceptanceTestUtil.modules();
+	}
 	
 	@Before
 	public void setup() throws Exception {
-		module = new EclModule();
+		module = moduleGetter.get();
 		module.parse(getClass().getResource("trees.ecl").toURI());
 		prepost = new HashMap<>();
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("prepost", prepost));
-		module.getContext().getModelRepository().addModel(loadXmlModel("Left", "left.xml"));
-		module.getContext().getModelRepository().addModel(loadXmlModel("Right", "right.xml"));
+		loadXmlModel("Left", "left.xml");
+		loadXmlModel("Right", "right.xml");
 		module.execute();
 	}
 	
@@ -56,6 +70,7 @@ public class TestXmlTreeComparison {
 		model.setName(name);
 		model.setFile(new File(getClass().getResource(fileName).toURI()));
 		model.load();
+		module.getContext().getModelRepository().addModel(model);
 		return model;
 	}
 	

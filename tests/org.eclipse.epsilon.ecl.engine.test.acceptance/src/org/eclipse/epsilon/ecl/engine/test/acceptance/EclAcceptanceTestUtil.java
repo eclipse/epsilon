@@ -12,16 +12,26 @@ package org.eclipse.epsilon.ecl.engine.test.acceptance;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Supplier;
+import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.IEclModule;
+import org.eclipse.epsilon.ecl.concurrent.EclModuleParallel;
 import org.eclipse.epsilon.ecl.launch.EclRunConfiguration;
+import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
 
-public class EclAcceptanceTestUtil {
-	private EclAcceptanceTestUtil() {}
+public class EclAcceptanceTestUtil extends EolAcceptanceTestUtil {
+	protected EclAcceptanceTestUtil() {}
 	
 	@SafeVarargs
 	public static Collection<EclRunConfiguration> getScenarios(Supplier<? extends IEclModule>... moduleGetters) {
 		ArrayList<EclRunConfiguration> scenarios = new ArrayList<>();
 		//TODO implement
 		return scenarios;
+	}
+	
+	public static Collection<Supplier<? extends IEclModule>> modules() {
+		Collection<Supplier<? extends IEclModule>> modules = new ArrayList<>();
+		modules.add(EclModule::new);
+		modules.addAll(parallelModules(THREADS, EclModuleParallel::new));
+		return modules;
 	}
 }

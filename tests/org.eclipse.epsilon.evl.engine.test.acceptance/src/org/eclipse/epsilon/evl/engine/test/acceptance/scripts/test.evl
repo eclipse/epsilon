@@ -208,9 +208,7 @@ constraint Contextless {
 }
 
 post {
-	if (not preVar.isDefined() or EOL().isUndefined())
-		throw "preVar is undefined!";
+	assert(not preVar.isDefined() or EOL().isUndefined(), "preVar is undefined!");
 	printIfDefined(null);
-	if (global.currentThread().getName() == null)
-		throw "No name for thread!";
+	assert(global.currentThread().getName() == null, "No name for thread!");
 }

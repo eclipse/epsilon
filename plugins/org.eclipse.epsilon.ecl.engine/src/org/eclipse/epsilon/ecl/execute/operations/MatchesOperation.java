@@ -23,7 +23,6 @@ import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolOrderedSet;
 
-//TODO: parallel implementation
 public class MatchesOperation extends SimpleOperation {
 	
 	protected boolean matchInstances(Object left, Object right, IEclContext context, boolean forcedMatch) throws EolRuntimeException {
@@ -37,17 +36,20 @@ public class MatchesOperation extends SimpleOperation {
 		
 		IEclContext context = (IEclContext) context_;
 		Object parameter = parameters.get(0);
-		if (source == null && parameter == null) return true;
+		
+		if (source == parameter) return true;
 		
 		if (source instanceof Collection && parameter instanceof Collection) {
 			// This implementation finds proof by counter-example.
 			// "Innocent until proven guilty"
 			
 			Collection<?> leftCol = (Collection<?>) source;
-			Collection<?> rightCol = (Collection<?>) parameter;
-
+			Collection<?> rightCol = (Collection<?>) parameter;		
+			if (leftCol.equals(rightCol)) return true;
+			
 			Collection<?> leftColFlat = CollectionUtil.flatten(leftCol);
-			Collection<?> rightColFlat = CollectionUtil.flatten(rightCol);
+			Collection<?> rightColFlat = CollectionUtil.flatten(rightCol);	
+			if (leftColFlat.equals(rightColFlat)) return true;
 			
 			boolean match = true;
 			
@@ -61,8 +63,7 @@ public class MatchesOperation extends SimpleOperation {
 				for (Object left : leftColFlat) {
 					match = false;
 					for (Object right : rightColFlat) {
-						if (matchInstances(left, right, context, false)) {
-							match = true;
+						if (match = matchInstances(left, right, context, false)) {
 							break;
 						}
 					}
@@ -75,7 +76,7 @@ public class MatchesOperation extends SimpleOperation {
 				Iterator<?> lit = leftColFlat.iterator();
 				Iterator<?> rit = rightColFlat.iterator();
 				
-				while (lit.hasNext() && (match = matchInstances(lit.next(), rit.next(), context, false)) == true) {
+				while (lit.hasNext() && (match = matchInstances(lit.next(), rit.next(), context, false))) {
 					continue;
 				}
 			}

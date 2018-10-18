@@ -14,7 +14,6 @@
  */
 package org.eclipse.epsilon.evl.engine.test.acceptance;
 
-import static org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil.*;
 import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
 import java.util.*;
 import java.util.function.Function;
@@ -25,8 +24,8 @@ import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.concurrent.*;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 
-public class EvlAcceptanceTestUtil {
-	private EvlAcceptanceTestUtil() {}
+public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
+	protected EvlAcceptanceTestUtil() {}
 	
 	public static final String
 		// Core
