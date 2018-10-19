@@ -165,8 +165,7 @@ public interface IEolContextParallel extends IEolContext {
 	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
 	 */
 	default <T> Collection<T> executeParallelTyped(ModuleElement entryPoint, Collection<Callable<T>> jobs) throws EolRuntimeException {
-		EolExecutorService executor = getExecutorService();
-		enterParallelNest(entryPoint);
+		EolExecutorService executor = beginParallelTask(entryPoint);
 		Collection<T> results = executor.collectResults(executor.submitAllTyped(jobs));
 		exitParallelNest(entryPoint);
 		return results;

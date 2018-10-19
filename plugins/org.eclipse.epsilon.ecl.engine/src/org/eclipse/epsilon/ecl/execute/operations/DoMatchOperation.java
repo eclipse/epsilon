@@ -20,9 +20,25 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class DoMatchOperation extends MatchesOperation {
 
+	public DoMatchOperation() {
+		forcedMatch = true;
+	}
+	
+	protected boolean matchAll(Collection<?> leftColFlat, Collection<?> rightColFlat, IEclContext context) throws EolRuntimeException {
+		boolean match = true;
+		
+		for (Object left : leftColFlat) {
+			for (Object right : rightColFlat) {
+				// Note the bitwise operator - we don't want to short-circuit!
+				match &= matchInstances(left, right, context, forcedMatch);
+			}
+		}
+
+		return match;
+	}
+	
 	@Override
-	public Boolean execute(Object source, List<?> parameters,
-			IEolContext context_, ModuleElement ast) throws EolRuntimeException {
+	public Boolean execute(Object source, List<?> parameters, IEolContext context_, ModuleElement ast) throws EolRuntimeException {
 		
 		IEclContext context = (IEclContext) context_;
 		Object parameter = parameters.get(0);
@@ -31,16 +47,7 @@ public class DoMatchOperation extends MatchesOperation {
 		Collection<?> leftCol = CollectionUtil.flatten(CollectionUtil.asCollection(source));
 		Collection<?> rightCol = CollectionUtil.flatten(CollectionUtil.asCollection(parameter));
 		
-		boolean matches = true;
-		
-		for (Object left : leftCol) {
-			for (Object right : rightCol) {
-				// Note the bitwise operator - we don't want to short-circuit!
-				matches &= matchInstances(left, right, context, true);
-			}
-		}
-
-		return matches;
+		return matchAll(leftCol, rightCol, context);
 	}
 	
 }

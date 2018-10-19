@@ -9,8 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.execute;
 
-import org.eclipse.epsilon.ecl.execute.operations.DoMatchOperation;
-import org.eclipse.epsilon.ecl.execute.operations.MatchesOperation;
+import org.eclipse.epsilon.ecl.execute.operations.*;
+import org.eclipse.epsilon.ecl.execute.operations.concurrent.*;
 import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 
 public class EclOperationFactory extends EolOperationFactory {
@@ -19,6 +19,8 @@ public class EclOperationFactory extends EolOperationFactory {
 		super();
 		operationCache.put("matches", new MatchesOperation());
 		operationCache.put("doMatch", new DoMatchOperation());
+		operationCache.put("parallelMatches", new ParallelMatchesOperation());
+		operationCache.put("parallelDoMatch", new ParallelDoMatchOperation());
 	}
 	
 }

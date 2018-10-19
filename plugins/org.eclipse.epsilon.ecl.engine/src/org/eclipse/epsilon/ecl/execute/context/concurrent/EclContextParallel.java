@@ -12,10 +12,12 @@ package org.eclipse.epsilon.ecl.execute.context.concurrent;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
+import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 
-public class EclContextParallel extends ErlContextParallel implements IEclContext {
+public class EclContextParallel extends ErlContextParallel implements IEclContextParallel {
 
 	protected PersistentThreadLocal<MatchTrace> tempMatchTraces;
 	protected MatchTrace matchTrace;
@@ -28,6 +30,11 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 		super(parallelism, true);
 	}
 
+	public EclContextParallel(IEclContext other) {
+		super(other, true);
+		this.matchTrace = new MatchTrace(other.getMatchTrace());
+	}
+	
 	@Override
 	protected void initMainThreadStructures() {
 		super.initMainThreadStructures();
@@ -58,5 +65,9 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 	@Override
 	public IEclModule getModule() {
 		return (IEclModule) module;
+	}
+	
+	public static IEclContextParallel convertToParallel(IEclContext context_) throws EolNestedParallelismException {
+		return IEolContextParallel.copyToParallel(context_, EclContextParallel::new);
 	}
 }
