@@ -24,6 +24,9 @@ public class TemplateFactory {
 		if ("EGL".contentEquals(Xml.getChild(element, "content").getAttribute("language"))) {
 			return new EglTemplate(element, uri);
 		}
+		else if ("EOL".contentEquals(Xml.getChild(element, "content").getAttribute("language"))) {
+			return new EolTemplate(element, uri);
+		}
 		return new XmlTemplate(element, uri);
 	}
 	
