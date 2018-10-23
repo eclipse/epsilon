@@ -95,12 +95,12 @@ public class Match {
 	}
 	
 	public boolean contains(Object object) {
-		return (this.left == object || this.right == object);
+		return this.left == object || this.right == object;
 	}
 	
 	@Override
 	public String toString() {
-		return toString(left) + " <-> " + toString(right);
+		return Objects.toString(left, "") + " <-> " + Objects.toString(right, "");
 	}
 	
 	public boolean isUserSpecified() {
@@ -109,11 +109,6 @@ public class Match {
 
 	public void setUserSpecified(boolean userSpecified) {
 		this.userSpecified = userSpecified;
-	}
-
-	public String toString(Object o) {
-		if (o != null) return o.toString();
-		else return "";
 	}
 
 	public EolMap<?, ?> getInfo() {

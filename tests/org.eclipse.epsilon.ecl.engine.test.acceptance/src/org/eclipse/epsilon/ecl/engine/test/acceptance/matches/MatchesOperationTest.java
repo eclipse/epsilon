@@ -45,8 +45,7 @@ public class MatchesOperationTest {
 	
 	@Test
 	public void testCorrectNumberOfMatches() throws Exception {
-		//TODO: fix failure
-		//assertEquals(1, module.getContext().getMatchTrace().getMatches().size());
+		assertEquals(1, module.getContext().getMatchTrace().getMatches().size());
 	}
 	
 	private EmfModel loadEmfModel(String modelName) throws Exception {

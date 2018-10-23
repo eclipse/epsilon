@@ -132,7 +132,7 @@ public class MatchRule extends ExtensibleNamedRule {
 			throw new EclNotApplicableSuperRuleException(left, right, this, context);
 		}
 		// If they have not been matched, construct their Match
-		match = /*tempMatch != null ? tempMatch :*/ new Match(left, right, true, this);
+		match = new Match(left, right, true, this);
 		
 		// Execute all the super-rules
 		if (!superRules.isEmpty()) {

@@ -17,12 +17,16 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class SelectOneOperation extends SelectBasedOperation {
 
+	private boolean hasResult;
+	
 	@Override
-	public Object execute(Object target, Variable iterator, Expression expression, IEolContext context)
-		throws EolRuntimeException {
-
+	public Object execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
 		Collection<?> result = getSelectOperation().execute(target, iterator, expression, context, true, true);
-		return result.isEmpty() ? null : result.iterator().next();
+		return (hasResult = !result.isEmpty()) ? result.iterator().next() : null;
 	}
 
+	public boolean hasResult() {
+		return hasResult;
+	}
+	
 }

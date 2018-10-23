@@ -41,7 +41,7 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 		matchTrace = new MatchTrace(true);
 		tempMatchTrace = new MatchTrace(true);
 	}
-	
+
 	@Override
 	public void setMatchTrace(MatchTrace matchTrace) {
 		this.matchTrace = matchTrace;
