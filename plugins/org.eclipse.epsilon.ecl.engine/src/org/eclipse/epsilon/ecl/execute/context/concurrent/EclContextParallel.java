@@ -13,13 +13,12 @@ import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
-import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 
 public class EclContextParallel extends ErlContextParallel implements IEclContextParallel {
 
-	protected PersistentThreadLocal<MatchTrace> tempMatchTraces;
+	protected MatchTrace tempMatchTrace;
 	protected MatchTrace matchTrace;
 	
 	public EclContextParallel() {
@@ -33,18 +32,14 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 	public EclContextParallel(IEclContext other) {
 		super(other, true);
 		this.matchTrace = new MatchTrace(other.getMatchTrace());
+		this.tempMatchTrace = new MatchTrace(other.getTempMatchTrace());
 	}
 	
 	@Override
 	protected void initMainThreadStructures() {
 		super.initMainThreadStructures();
 		matchTrace = new MatchTrace(true);
-	}
-	
-	@Override
-	protected void initThreadLocals() {
-		super.initThreadLocals();
-		tempMatchTraces = new PersistentThreadLocal<>(MatchTrace::new);
+		tempMatchTrace = new MatchTrace(true);
 	}
 	
 	@Override
@@ -59,7 +54,7 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 
 	@Override
 	public MatchTrace getTempMatchTrace() {
-		return parallelGet(tempMatchTraces, () -> null);
+		return tempMatchTrace;
 	}
 
 	@Override
@@ -67,7 +62,8 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 		return (IEclModule) module;
 	}
 	
-	public static IEclContextParallel convertToParallel(IEclContext context_) throws EolNestedParallelismException {
-		return IEolContextParallel.copyToParallel(context_, EclContextParallel::new);
+	public static IEclContextParallel convertToParallel(IEclContext context) throws EolNestedParallelismException {
+		if (context instanceof IEclContextParallel) return (IEclContextParallel) context;
+		return IEolContextParallel.copyToParallel(context, EclContextParallel::new);
 	}
 }

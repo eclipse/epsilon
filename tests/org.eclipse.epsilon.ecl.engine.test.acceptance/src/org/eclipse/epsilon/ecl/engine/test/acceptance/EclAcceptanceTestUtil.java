@@ -12,9 +12,8 @@ package org.eclipse.epsilon.ecl.engine.test.acceptance;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Supplier;
-import org.eclipse.epsilon.ecl.EclModule;
-import org.eclipse.epsilon.ecl.IEclModule;
-import org.eclipse.epsilon.ecl.concurrent.EclModuleParallel;
+import org.eclipse.epsilon.ecl.*;
+import org.eclipse.epsilon.ecl.concurrent.*;
 import org.eclipse.epsilon.ecl.launch.EclRunConfiguration;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
 
@@ -31,7 +30,7 @@ public class EclAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	public static Collection<Supplier<? extends IEclModule>> modules() {
 		Collection<Supplier<? extends IEclModule>> modules = new ArrayList<>();
 		modules.add(EclModule::new);
-		modules.addAll(parallelModules(THREADS, EclModuleParallel::new));
+		modules.addAll(parallelModules(THREADS, EclModuleParallel::new/*, EclModuleParallelRules::new*/));
 		return modules;
 	}
 }

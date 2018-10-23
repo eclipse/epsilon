@@ -25,7 +25,7 @@ public class ParallelMatchesOperation extends MatchesOperation {
 	protected boolean matchCollectionOrdered(Collection<?> leftColFlat, Collection<?> rightColFlat, IEclContext context_) throws EolRuntimeException {
 		
 		IEclContextParallel context = EclContextParallel.convertToParallel(context_);
-		ArrayList<Runnable> jobs = new ArrayList<>(leftColFlat.size());
+		Collection<Runnable> jobs = new ArrayList<>(leftColFlat.size());
 		
 		for (Iterator<?> lit = leftColFlat.iterator(), rit = rightColFlat.iterator(); lit.hasNext();) {
 			final Object left = lit.next(), right = rit.next();
@@ -50,12 +50,12 @@ public class ParallelMatchesOperation extends MatchesOperation {
 	protected boolean matchCollectionUnordered(Collection<?> leftColFlat, Collection<?> rightColFlat, IEclContext context_) throws EolRuntimeException {
 		IEclContextParallel context = EclContextParallel.convertToParallel(context_);
 			
-		for (Object outer : leftColFlat) {
+		for (Object left : leftColFlat) {
 			Collection<Callable<Boolean>> jobs = new ArrayList<>(rightColFlat.size());
 			
 			jobs.add(() -> {
-				for (Object inner : rightColFlat) {
-					if (matchInstances(outer, inner, context, forcedMatch)) {
+				for (Object right : rightColFlat) {
+					if (matchInstances(left, right, context, forcedMatch)) {
 						return true;
 					}
 				}

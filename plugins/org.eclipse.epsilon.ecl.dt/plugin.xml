@@ -55,11 +55,18 @@
             name="Default">
       </implementation>
       <!--implementation
+            class="org.eclipse.epsilon.ecl.concurrent.EclModuleParallelRules"
+            default="false"
+            dialog="org.eclipse.epsilon.ecl.dt.launching.EclModuleParallelConfiguration"
+            language="ECL"
+            name="Parallel (Rules)">
+      </implementation>
+      <implementation
             class="org.eclipse.epsilon.ecl.concurrent.EclModuleParallel"
             default="false"
             dialog="org.eclipse.epsilon.ecl.dt.launching.EclModuleParallelConfiguration"
             language="ECL"
-            name="Parallel">
+            name="Parallel (Matches)">
       </implementation-->
    </extension>
 

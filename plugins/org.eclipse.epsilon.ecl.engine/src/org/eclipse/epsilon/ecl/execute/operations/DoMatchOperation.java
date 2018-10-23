@@ -44,10 +44,10 @@ public class DoMatchOperation extends MatchesOperation {
 		Object parameter = parameters.get(0);
 		if (source == null && parameter == null) return null;
 		
-		Collection<?> leftCol = CollectionUtil.flatten(CollectionUtil.asCollection(source));
-		Collection<?> rightCol = CollectionUtil.flatten(CollectionUtil.asCollection(parameter));
+		Collection<?> leftColFlat = CollectionUtil.flatten(CollectionUtil.asCollection(source));
+		Collection<?> rightColFlat = CollectionUtil.flatten(CollectionUtil.asCollection(parameter));
 		
-		return matchAll(leftCol, rightCol, context);
+		return matchAll(leftColFlat, rightColFlat, context);
 	}
 	
 }

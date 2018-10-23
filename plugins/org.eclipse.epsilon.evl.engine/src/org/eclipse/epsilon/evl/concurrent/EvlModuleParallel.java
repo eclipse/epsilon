@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.Map;
-import java.util.Objects;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
@@ -70,11 +69,10 @@ public abstract class EvlModuleParallel extends EvlModule {
 	@Override
 	public void configure(Map<String, ?> properties) throws IllegalArgumentException {
 		super.configure(properties);
-		
-		if (properties.containsKey(IEolContextParallel.NUM_THREADS_CONFIG)) {
-			int parallelism = Integer.valueOf(Objects.toString((properties.get(IEolContextParallel.NUM_THREADS_CONFIG))));
-			if (parallelism < 1) throw new IllegalArgumentException("Parallelism must be at least 1!");
-			context = new EvlContextParallel(parallelism, true);
-		}
+		context = IEolContextParallel.configureContext(
+			properties,
+			threads -> new EvlContextParallel(threads, context.getFrameStack().isThreadSafe()),
+			getContext()
+		);
 	}
 }

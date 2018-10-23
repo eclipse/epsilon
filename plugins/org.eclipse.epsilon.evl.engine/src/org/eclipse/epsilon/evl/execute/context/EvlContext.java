@@ -9,10 +9,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.execute.context;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.evl.IEvlModule;
-import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 

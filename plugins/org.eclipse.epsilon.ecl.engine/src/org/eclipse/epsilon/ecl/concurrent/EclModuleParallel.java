@@ -9,15 +9,28 @@
 **********************************************************************/
 package org.eclipse.epsilon.ecl.concurrent;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.epsilon.ecl.EclModule;
-import org.eclipse.epsilon.ecl.dom.MatchRule;
-import org.eclipse.epsilon.ecl.execute.context.concurrent.EclContextParallel;
+import org.eclipse.epsilon.ecl.execute.context.concurrent.*;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
+/**
+ * A no-op parallel module, useful only for extending and setting
+ * threads in parallelMatches.
+ * 
+ * @author Sina Madani
+ */
 public class EclModuleParallel extends EclModule {
 
+	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
+	static {
+		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
+	}
+	
 	public EclModuleParallel() {
 		this(0);
 	}
@@ -39,40 +52,29 @@ public class EclModuleParallel extends EclModule {
 	}
 	
 	@Override
-	protected void matchAllRules(boolean greedy) throws EolRuntimeException {
-		boolean ofTypeOnly = !greedy;
-		EclContextParallel context = getContext();
-		ArrayList<Runnable> jobs = new ArrayList<>();
-		
-		for (MatchRule matchRule : getMatchRules()) {
-			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (ofTypeOnly || matchRule.isGreedy())) {
-				for (Object left : matchRule.getLeftInstances(context, ofTypeOnly)) {
-					for (Object right : matchRule.getRightInstances(context, ofTypeOnly)) {
-						jobs.add(() -> {
-							try {
-								matchRule.matchPair(context, ofTypeOnly, left, right);
-							}
-							catch (EolRuntimeException ex) {
-								context.handleException(ex);
-							}
-						});
-					}
-				}
-			}
-		}
-		
-		context.executeParallel(this, jobs);
-	}
-
-	@Override
-	public EclContextParallel getContext() {
-		return (EclContextParallel) context;
+	public IEclContextParallel getContext() {
+		return (IEclContextParallel) context;
 	}
 	
 	@Override
 	public void setContext(IEolContext context) {
-		if (context instanceof EclContextParallel) {
+		if (context instanceof IEclContextParallel) {
 			super.setContext(context);
 		}
+	}
+	
+	@Override
+	public Set<String> getConfigurationProperties() {
+		return CONFIG_PROPERTIES;
+	}
+	
+	/**
+	 * WARNING: This method should only be called by the DT plugin for initialization purposes,
+	 * as the context will be reset!
+	 */
+	@Override
+	public void configure(Map<String, ?> properties) throws IllegalArgumentException {
+		super.configure(properties);
+		context = IEolContextParallel.configureContext(properties, EclContextParallel::new, getContext());
 	}
 }

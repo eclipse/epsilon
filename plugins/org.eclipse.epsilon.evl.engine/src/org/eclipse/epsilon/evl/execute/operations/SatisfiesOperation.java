@@ -20,7 +20,6 @@ import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.Constraints;
 import org.eclipse.epsilon.evl.dom.GlobalConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
-import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
 //TODO: Detect cyclic dependencies and throw EvlCircularAssumptionException
@@ -55,8 +54,7 @@ public class SatisfiesOperation extends SimpleOperation {
 		for (Object parameter : parameters) {
 			String constraintName = context.getPrettyPrinterManager().toString(parameter);
 
-			Constraint constraint = constraints.getConstraint(constraintName, source, context)
-				.orElseThrow(() -> new EvlConstraintNotFoundException(constraintName, ast));
+			Constraint constraint = constraints.getConstraint(constraintName, source, context, ast);
 			
 			// This is to avoid duplication of global constraints
 			if (constraint.getConstraintContext() instanceof GlobalConstraintContext) {

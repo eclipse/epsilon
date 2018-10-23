@@ -8,12 +8,13 @@ Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.erl.engine;visibility:=reexport
 Export-Package: org.eclipse.epsilon.ecl,
  org.eclipse.epsilon.ecl.concurrent,
- org.eclipse.epsilon.ecl.launch,
  org.eclipse.epsilon.ecl.dom,
  org.eclipse.epsilon.ecl.exceptions,
  org.eclipse.epsilon.ecl.execute,
  org.eclipse.epsilon.ecl.execute.context,
  org.eclipse.epsilon.ecl.execute.operations,
+ org.eclipse.epsilon.ecl.execute.operations.concurrent,
+ org.eclipse.epsilon.ecl.launch,
  org.eclipse.epsilon.ecl.parse,
  org.eclipse.epsilon.ecl.trace
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

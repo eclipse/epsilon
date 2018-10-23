@@ -1,3 +1,8 @@
+pre {
+	var Thread = Native("java.lang.Thread");
+	var mainThread = Thread.currentThread();
+}
+
 rule TLN 
 	match l : Left!TLN with r : Right!TLN extends TAnyLN {
 	compare : l.text = r.text
@@ -7,18 +12,18 @@ rule TLN
 @abstract
 rule TAnyLN 
 	match l : Left!TAnyLN with r : Right!TAnyLN {
-	compare : l.text1 = r.text1 and l.dOI.asBag().matches(r.dOI.asBag())
+	compare : l.text1 = r.text1
 	do {
 		assert(
-			l.dOI.asBag().matches(r.dOI.asBag()) and r.dOI.asBag().matches(l.dOI.asBag()),
+			l.dOI.asBag().parallelMatches(r.dOI.asBag()) and r.dOI.asBag().parallelMatches(l.dOI.asBag()),
 			"[TAnyLN] Expected match on unordered collection."
 		);
 		assert(
-			not (l.dOI.asSequence().matches(r.dOI.asSequence()) or r.dOI.asSequence().matches(l.dOI.asSequence())),
+			not (l.dOI.asSequence().parallelMatches(r.dOI.asSequence()) or r.dOI.asSequence().parallelMatches(l.dOI.asSequence())),
 			"[TAnyLN] Didn't expect match on ordered collection."
 		);
 		assert(
-			l.dOI.matches(l.dOI) and (r.dOI.matches(r.dOI)),
+			l.dOI.parallelMatches(l.dOI) and (r.dOI.parallelMatches(r.dOI)),
 			"[TAnyLN] Expected match on idempotent collection."
 		);
 	}
@@ -27,6 +32,7 @@ rule TAnyLN
 @lazy
 rule TDOI_lr
 	match l : Left!TDOI with r : Right!TDOI {
+	guard : Thread.currentThread() <> mainThread
 	compare : l.access = r.access
 	do {
 		assertTrue(l.accessControl.isDefined());//print(" # TDOI-l:");
@@ -37,6 +43,7 @@ rule TDOI_lr
 @lazy
 rule TDOI_rl
 	match r : Right!TDOI with l : Left!TDOI {
+	guard : Thread.currentThread() <> mainThread
 	compare : r.access = l.access
 	do {
 		assertTrue(r.accessControl.isDefined());//print(" # TDOI-r:");
@@ -45,6 +52,7 @@ rule TDOI_rl
 }
 
 post {
+	assert(Thread.currentThread() == mainThread);
 	for (m in System.context.matchTrace.getMatches()) {
 		assertTrue(("Match:" + m.matching + " - Info:" + m.Info + " - " + m.left + " <-> " + m.right).isDefined());
 	}

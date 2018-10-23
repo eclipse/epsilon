@@ -11,14 +11,20 @@ package org.eclipse.epsilon.evl.dom;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
+import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException;
 
 @SuppressWarnings("serial")
 public class Constraints extends ArrayList<Constraint> {
 	
-	public Optional<Constraint> getConstraint(String name, Object target, IEvlContext context) throws EolRuntimeException {
-		return getConstraint(name, null, target, context, false);
+	public Constraint getConstraint(String name, Object target, IEvlContext context, ModuleElement ast) throws EolRuntimeException {
+		Optional<Constraint> constraint = getConstraint(name, null, target, context, false);
+		if (!constraint.isPresent()) {
+			constraint = this.stream().filter(c -> c.getName().equals(name)).findFirst();
+		}
+		return constraint.orElseThrow(() -> new EvlConstraintNotFoundException(name, ast));
 	}
 	
 	public Optional<Constraint> getConstraint(String name, ConstraintContext constraintContext, Object target, IEvlContext context, boolean appliesTo) throws EolRuntimeException {

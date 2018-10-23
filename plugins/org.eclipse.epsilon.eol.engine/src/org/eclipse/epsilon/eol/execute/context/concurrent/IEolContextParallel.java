@@ -10,6 +10,8 @@
 package org.eclipse.epsilon.eol.execute.context.concurrent;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -165,7 +167,8 @@ public interface IEolContextParallel extends IEolContext {
 	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
 	 */
 	default <T> Collection<T> executeParallelTyped(ModuleElement entryPoint, Collection<Callable<T>> jobs) throws EolRuntimeException {
-		EolExecutorService executor = beginParallelTask(entryPoint);
+		EolExecutorService executor = getExecutorService();
+		enterParallelNest(entryPoint);
 		Collection<T> results = executor.collectResults(executor.submitAllTyped(jobs));
 		exitParallelNest(entryPoint);
 		return results;
@@ -275,5 +278,22 @@ public interface IEolContextParallel extends IEolContext {
 		P parallelContext = parallelConstructor.apply(context);
 		parallelContext.goParallel();
 		return parallelContext;
+	}
+	
+	/**
+	 * Convenience method for setting the parallelism on a context.
+	 * @param properties The parameter passed to the configure method of the module.
+	 * @param contextConstructor The function which creates a parallel context from a given number of threads.
+	 * @param currentContext The existing context to return, if no changes are made.
+	 * @return The new context if {@link #NUM_THREADS_CONFIG} is present in the properties, otherwise currentContext.
+	 * @throws IllegalArgumentException If the value of {@link #NUM_THREADS_CONFIG} property is invalid.
+	 */
+	static <C extends IEolContextParallel> C configureContext(Map<String, ?> properties, Function<Integer, ? extends C> contextConstructor, C currentContext) throws IllegalArgumentException {
+		if (properties.containsKey(NUM_THREADS_CONFIG)) {
+			int parallelism = Integer.valueOf(Objects.toString((properties.get(NUM_THREADS_CONFIG))));
+			if (parallelism < 1) throw new IllegalArgumentException("Parallelism must be at least 1!");
+			return contextConstructor.apply(parallelism);
+		}
+		return currentContext;
 	}
 }

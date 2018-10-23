@@ -26,16 +26,18 @@ public class EmlContext extends EtlContext implements IEmlContext {
 	private IMergingStrategy mergingStrategy = null;
 	//private MatchingStrategy matchingStrategy = null;
 	
-	public EmlContext(){
+	public EmlContext() {
 		this.setOperationFactory(new EmlOperationFactory());
 		this.mergingStrategy = new DefaultMergingStrategy();
 		//this.matchingStrategy = new DefaultMatchingStrategy();
 	}
 	
+	@Override
 	public IMergingStrategy getMergingStrategy() {
 		return mergingStrategy;
 	}
 
+	@Override
 	public void setMergingStrategy(IMergingStrategy mergingStrategy) {
 		this.mergingStrategy = mergingStrategy;
 	}
@@ -52,10 +54,12 @@ public class EmlContext extends EtlContext implements IEmlContext {
 	//	return tempMatchTrace;
 	//}
 
+	@Override
 	public MatchTrace getMatchTrace(){
 		return matchTrace;
 	}
 
+	@Override
 	public MergeTrace getMergeTrace(){
 		return mergeTrace;
 	}
@@ -65,14 +69,17 @@ public class EmlContext extends EtlContext implements IEmlContext {
 		return (EmlModule) module;
 	}
 	
+	@Override
 	public void setModule(EmlModule module){
 		this.module = module;
 	}
 
+	@Override
 	public void setMatchTrace(MatchTrace matchTrace) {
 		this.matchTrace = matchTrace;
 	}
 
+	@Override
 	public void setMergeTrace(MergeTrace mergeTrace) {
 		this.mergeTrace = mergeTrace;
 	}

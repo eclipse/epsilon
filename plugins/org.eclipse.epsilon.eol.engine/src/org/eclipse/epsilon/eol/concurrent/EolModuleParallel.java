@@ -9,6 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.concurrent;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -17,6 +20,11 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
 public class EolModuleParallel extends EolModule {
 
+	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
+	static {
+		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
+	}
+	
 	public EolModuleParallel() {
 		this.context = new EolContextParallel();
 	}
@@ -48,5 +56,15 @@ public class EolModuleParallel extends EolModule {
 	@Override
 	public IEolContextParallel getContext() {
 		return (IEolContextParallel) context;
+	}
+	
+	/**
+	 * WARNING: This method should only be called by the DT plugin for initialization purposes,
+	 * as the context will be reset!
+	 */
+	@Override
+	public void configure(Map<String, ?> properties) throws IllegalArgumentException {
+		super.configure(properties);
+		context = IEolContextParallel.configureContext(properties, EolContextParallel::new, getContext());
 	}
 }

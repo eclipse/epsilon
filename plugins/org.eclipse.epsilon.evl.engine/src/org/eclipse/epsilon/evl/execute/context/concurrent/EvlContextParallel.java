@@ -38,6 +38,10 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 		super(other, true);
 	}
 	
+	public EvlContextParallel(int parallelism) {
+		this(parallelism, true);
+	}
+	
 	/**
 	 * @param parallelism The number of threads to use.
 	 * @param threadSafeBaseFrames whether the base FrameStack should use a thread-safe collection.
@@ -87,8 +91,9 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 		return constraintTrace;
 	}
 	
-	public static IEvlContextParallel convertToParallel(IEvlContext context_) throws EolNestedParallelismException {
-		return IEolContextParallel.copyToParallel(context_, EvlContextParallel::new);
+	public static IEvlContextParallel convertToParallel(IEvlContext context) throws EolNestedParallelismException {
+		if (context instanceof IEvlContextParallel) return (IEvlContextParallel) context;
+		return IEolContextParallel.copyToParallel(context, EvlContextParallel::new);
 	}
 
 	@Override

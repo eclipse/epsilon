@@ -115,5 +115,12 @@
             language="EOL"
             name="Default">
       </implementation>
+      <implementation
+            class="org.eclipse.epsilon.eol.concurrent.EolModuleParallel"
+            default="false"
+            dialog="org.eclipse.epsilon.eol.dt.launching.EolModuleParallelConfiguration"
+            language="EOL"
+            name="Parallel">
+      </implementation>
    </extension>
 </plugin>

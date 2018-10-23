@@ -2,7 +2,7 @@ import "utils.eol";
 
 pre {
 	foo();
-	var global : new Native("java.lang.Thread");
+	var Thread : new Native("java.lang.Thread");
 	var preVar = "my variable";
 	preVar.printlnIf("sealed".isJavaKeyword());
 }
@@ -26,7 +26,7 @@ constraint EolTest {
 }
 
 constraint CanAccessPre {
-	check: global.isDefined()
+	check: Thread.isDefined()
 }
 
 context t_a {
@@ -208,7 +208,7 @@ constraint Contextless {
 }
 
 post {
-	assert(not preVar.isDefined() or EOL().isUndefined(), "preVar is undefined!");
+	assert(preVar.isDefined() or EOL().isUndefined(), "preVar is undefined!");
 	printIfDefined(null);
-	assert(global.currentThread().getName() == null, "No name for thread!");
+	assert(Thread.currentThread().getName().isDefined(), "No name for thread!");
 }
