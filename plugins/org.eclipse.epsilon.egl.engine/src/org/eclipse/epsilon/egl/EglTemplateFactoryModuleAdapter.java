@@ -18,9 +18,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.module.ModuleMarker;
@@ -111,6 +109,11 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 	@Override
 	public boolean parse(String code, File file) throws Exception {
 		current = factory.load(code, file);
+		return current.getParseProblems().isEmpty();
+	}
+	
+	public boolean parse(String code, URI uri) throws Exception {
+		current = factory.load(code, uri);
 		return current.getParseProblems().isEmpty();
 	}
 	
