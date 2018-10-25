@@ -27,3 +27,4 @@ Export-Package: org.eclipse.epsilon.egl.dt,
  org.eclipse.epsilon.egl.dt.widgets;x-friends:="org.eclipse.epsilon.egl.dt.test",
  org.eclipse.epsilon.egl.dt.wizards
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.egl.dt

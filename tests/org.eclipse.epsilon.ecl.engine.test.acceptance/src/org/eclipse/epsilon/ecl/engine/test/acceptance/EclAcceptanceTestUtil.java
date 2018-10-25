@@ -28,9 +28,6 @@ public class EclAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	}
 	
 	public static Collection<Supplier<? extends IEclModule>> modules() {
-		Collection<Supplier<? extends IEclModule>> modules = new ArrayList<>();
-		modules.add(EclModule::new);
-		modules.addAll(parallelModules(THREADS, EclModuleParallel::new/*, EclModuleParallelRules::new*/));
-		return modules;
+		return parallelModules(THREADS, EclModule::new, EclModuleParallel::new/*, EclModuleParallelRules::new*/);
 	}
 }

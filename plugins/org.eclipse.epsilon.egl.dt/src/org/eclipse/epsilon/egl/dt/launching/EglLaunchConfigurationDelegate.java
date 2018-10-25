@@ -10,21 +10,11 @@
 package org.eclipse.epsilon.egl.dt.launching;
 
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.*;
-
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import java.util.*;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.*;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
@@ -33,12 +23,7 @@ import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfiguratio
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
-import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
-import org.eclipse.epsilon.egl.EglTemplate;
-import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
-import org.eclipse.epsilon.egl.EgxModule;
+import org.eclipse.epsilon.egl.*;
 import org.eclipse.epsilon.egl.dt.debug.EgxDebugger;
 import org.eclipse.epsilon.egl.dt.extensions.fineGrainedTracePostprocessor.FineGrainedTracePostprocessorSpecification;
 import org.eclipse.epsilon.egl.dt.extensions.fineGrainedTracePostprocessor.FineGrainedTracePostprocessorSpecificationFactory;
@@ -49,8 +34,7 @@ import org.eclipse.epsilon.egl.dt.views.CurrentTemplate;
 import org.eclipse.epsilon.egl.engine.traceability.fine.EglFineGrainedTraceContextAdaptor;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.egl.execute.context.EgxContext;
-import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.execute.context.*;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -134,8 +118,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			}
 		}
 		if (isEgx()) {
-			((EgxModule)module).setTemplateFactory(templateFactory);
-			((EgxModule)module).setContext(new EgxContext(templateFactory));;
+			((IEgxModule)module).setContext(new EgxContext(templateFactory));
 		}
 		else {
 			((EglTemplateFactoryModuleAdapter)module).setFactory(templateFactory); 
@@ -163,7 +146,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		prepareToTrace(module);
 		
 		if (isEgx()) {
-			EgxModule egxModule = (EgxModule) module;
+			IEgxModule egxModule = (IEgxModule) module;
 			if (egxModule.getTemplateFactory() instanceof EglFileGeneratingTemplateFactory) {
 				try {
 					if (configuration.getAttribute(EGX_GENERATE_TO, GENERATE_TO_DEFAULT_DIR) == GENERATE_TO_CUSTOM_DIR) {
@@ -193,7 +176,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		try {
 			Collection<Formatter> defaultFormatters = loadDefaultFormattersFromConfiguration();
 			if (isEgx()) {
-				((EgxModule) module).getTemplateFactory().setDefaultFormatters(defaultFormatters);
+				((IEgxModule) module).getTemplateFactory().setDefaultFormatters(defaultFormatters);
 			}
 			else {
 				((EglTemplateFactoryModuleAdapter)module).setDefaultFormatters(defaultFormatters);
@@ -204,7 +187,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	}
 
 	private Collection<Formatter> loadDefaultFormattersFromConfiguration() throws CoreException {
-		final List<Formatter> defaultFormatters = new LinkedList<Formatter>();
+		final List<Formatter> defaultFormatters = new LinkedList<>();
 		final Collection<String> identifiers = configuration.getAttribute(EglLaunchConfigurationAttributes.DEFAULT_FORMATTERS, new ArrayList<String>());
 		
 		for (FormatterSpecification spec : new FormatterSpecificationFactory().findByIdentifiers(identifiers)) {
@@ -245,7 +228,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		
 		final String output = StringUtil.toString(result);
 		
-		if (output!=null && output.length() > 0 && module instanceof EglTemplateFactoryModuleAdapter) {
+		if (output != null && output.length() > 0 && module instanceof EglTemplateFactoryModuleAdapter) {
 			if (configuration.getAttribute(EGL_GENERATE_TO, GENERATE_TO_CONSOLE) == GENERATE_TO_CONSOLE) {
 				EpsilonConsole.getInstance().getDebugStream().println(output);
 			} else {

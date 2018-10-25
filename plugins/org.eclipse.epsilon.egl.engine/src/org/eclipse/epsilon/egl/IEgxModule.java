@@ -29,4 +29,8 @@ public interface IEgxModule extends IErlModule {
 	List<GenerationRule> getDeclaredGenerationRules();
 	
 	List<GenerationRule> getGenerationRules();
+	
+	default EglTemplateFactory getTemplateFactory() {
+		return getContext().getTemplateFactory();
+	}
 }

@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.ecl.dt.launching;
+package org.eclipse.epsilon.egl.dt.launching;
 
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
-public class EclModuleParallelConfiguration extends EclModuleConfiguration {
+public class EgxModuleParallelConfiguration extends EgxModuleConfiguration {
 
 	protected Spinner numThreadsSelector;
 	protected Label numThreadsLabel;
@@ -27,6 +27,7 @@ public class EclModuleParallelConfiguration extends EclModuleConfiguration {
 		Composite container = createParallelContainer(group);
 		numThreadsLabel = createThreadsLabel(container);
 		numThreadsSelector = createThreadsSelector(container, tab);
+		numThreadsSelector.setMaximum(numThreadsSelector.getMaximum()*2);
 	}
 
 	@Override
