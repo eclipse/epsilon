@@ -11,6 +11,7 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -46,9 +47,9 @@ public class EglTask extends ExportableModuleTask {
 	protected File outputRoot;
 	
 	@Override
-	protected IEolModule createDefaultModule() throws InstantiationException, IllegalAccessException {
+	protected IEolModule createDefaultModule() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		final IEolModule module; 
-		final EglTemplateFactory templateFactory = templateFactoryType.newInstance();
+		final EglTemplateFactory templateFactory = templateFactoryType.getDeclaredConstructor().newInstance();
 		
 		if (templateFactory instanceof EglFileGeneratingTemplateFactory && outputRoot != null) {
 			try {
@@ -61,7 +62,7 @@ public class EglTask extends ExportableModuleTask {
 		templateFactory.setDefaultFormatters(instantiateDefaultFormatters());
 		
 		if (src != null && src.getName().endsWith("egx")) {
-			module = new EgxModule(templateFactory);
+			module = new EgxModule(new EgxContext(templateFactory));
 		}
 		else {		
 			module = new EglTemplateFactoryModuleAdapter(templateFactory);
@@ -76,17 +77,12 @@ public class EglTask extends ExportableModuleTask {
 		return module;
 	}
 	
-	/**
-	 * @return
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws ClassNotFoundException 
-	 */
-	protected IEolModule createAlternativeModule() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+	@Override
+	protected IEolModule createAlternativeModule() throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		@SuppressWarnings("unchecked")
 		Class<IEolModule> clazz = (Class<IEolModule>) Class.forName(moduleImplementationClass);
-		IEolModule module = clazz.newInstance();
-		final EglTemplateFactory templateFactory = templateFactoryType.newInstance();
+		IEolModule module = clazz.getDeclaredConstructor().newInstance();
+		final EglTemplateFactory templateFactory = templateFactoryType.getDeclaredConstructor().newInstance();
 		if (templateFactory instanceof EglFileGeneratingTemplateFactory && outputRoot != null) {
 			try {
 				((EglFileGeneratingTemplateFactory) templateFactory).setOutputRoot(outputRoot.getAbsolutePath());
@@ -124,11 +120,11 @@ public class EglTask extends ExportableModuleTask {
 	}
 	
 
-	private List<Formatter> instantiateDefaultFormatters() throws InstantiationException, IllegalAccessException {
+	private List<Formatter> instantiateDefaultFormatters() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		final List<Formatter> defaultFormatters = new LinkedList<>();
 		
 		for (EglDefaultFormatterNestedElement defaultFormatterNestedElement : defaultFormatterNestedElements) {
-			defaultFormatters.add(defaultFormatterNestedElement.getImplementation().newInstance());
+			defaultFormatters.add(defaultFormatterNestedElement.getImplementation().getDeclaredConstructor().newInstance());
 		}
 		
 		return defaultFormatters;
@@ -146,11 +142,9 @@ public class EglTask extends ExportableModuleTask {
 			baseDir = outputRoot;
 		}
 
-		FileWriter fw = new FileWriter(new File(baseDir, target));
-		fw.write(String.valueOf(result));
-		fw.flush();
-		fw.close();
-		
+		try (FileWriter fw = new FileWriter(new File(baseDir, target))) {
+			fw.write(String.valueOf(result));
+		}
 	}
 
 	@Override

@@ -118,6 +118,9 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			}
 		}
 		if (isEgx()) {
+			if (module instanceof EgxModule) {
+				((EgxModule)module).setTemplateFactory(templateFactory);
+			}
 			((IEgxModule)module).setContext(new EgxContext(templateFactory));
 		}
 		else {

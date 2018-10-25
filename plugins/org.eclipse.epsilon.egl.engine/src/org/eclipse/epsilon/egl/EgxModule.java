@@ -69,6 +69,10 @@ public class EgxModule extends ErlModule implements IEgxModule {
 		this(new EgxContext());
 	}
 	
+	public EgxModule(EglTemplateFactory templateFactory) {
+		this(new EgxContext(templateFactory));
+	}
+	
 	public EgxModule(IEgxContext egxContext) {
 		this.context = egxContext;
 	}
