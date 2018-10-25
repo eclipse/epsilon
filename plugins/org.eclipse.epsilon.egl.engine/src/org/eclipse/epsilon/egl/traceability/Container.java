@@ -10,9 +10,7 @@
 package org.eclipse.epsilon.egl.traceability;
 
 import java.net.URI;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @SuppressWarnings("rawtypes")
 public abstract class Container<E extends Content> extends Content<Template> {
@@ -20,7 +18,7 @@ public abstract class Container<E extends Content> extends Content<Template> {
 	private final String name;
 	private final URI    uri;
 	
-	protected final List<E> contents = new LinkedList<E>(); 
+	protected final List<E> contents = new LinkedList<>(); 
 	
 	protected Container(Template parent, String name, URI uri) {
 		super(parent);
@@ -50,7 +48,7 @@ public abstract class Container<E extends Content> extends Content<Template> {
 		contents.add(child);
 	}
 	
-	public List<E> getChildren() {
+	public Collection<E> getChildren() {
 		return Collections.unmodifiableList(contents);
 	}
 	
@@ -60,13 +58,14 @@ public abstract class Container<E extends Content> extends Content<Template> {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o == null) return false;
+		if (this == o) return true;
 		if (!(o instanceof Container)) return false;
 		
 		final Container<?> that = (Container<?>)o;
-		return name.equals(that.name) &&
-		       (uri == null ? that.uri == null : uri.equals(that.uri)) &&
-		       contents.equals(that.contents);
+		return
+			Objects.equals(this.name, that.name) &&
+			Objects.equals(this.uri, that.uri) &&
+			Objects.equals(this.contents, that.contents);
 	}
 	
 	@Override
@@ -74,7 +73,7 @@ public abstract class Container<E extends Content> extends Content<Template> {
 		int result = 17;
 		
 		result += 37 * name.hashCode();
-		result += 37 * result + (uri == null ? 0 : uri.hashCode());
+		result += 37 * result + Objects.hashCode(uri);
 		result += 37 * contents.hashCode();
 		
 		return result;

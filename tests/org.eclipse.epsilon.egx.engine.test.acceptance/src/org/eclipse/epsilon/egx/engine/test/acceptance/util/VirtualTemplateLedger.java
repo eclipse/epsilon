@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class VirtualTemplateLedger {
 
-	private final Map<String, String> output = new HashMap<String, String>();
+	private final Map<String, String> output = new HashMap<>();
 	
 	public void add(String path, String contents) {
 		output.put(path, contents);

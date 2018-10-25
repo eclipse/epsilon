@@ -43,7 +43,7 @@ public class ProtectedRegion extends Content<OutputFile> {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o == null) return false;
+		if (this == o) return true;
 		if (!(o instanceof ProtectedRegion)) return false;
 		
 		final ProtectedRegion that = (ProtectedRegion)o;

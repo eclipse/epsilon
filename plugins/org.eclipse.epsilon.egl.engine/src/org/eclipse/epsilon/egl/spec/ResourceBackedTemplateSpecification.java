@@ -11,13 +11,11 @@ package org.eclipse.epsilon.egl.spec;
 
 import java.net.URI;
 import java.util.Collection;
-
 import org.eclipse.epsilon.egl.execute.control.ITemplateExecutionListener;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.traceability.Template;
-
 
 class ResourceBackedTemplateSpecification extends EglTemplateSpecification {
 
@@ -29,14 +27,17 @@ class ResourceBackedTemplateSpecification extends EglTemplateSpecification {
 		this.resource = resource;
 	}
 
+	@Override
 	public Template createTemplate() {
 		return new Template(getName(), resource);
 	}
 	
+	@Override
 	public void parseInto(IEglModule module) throws Exception {
 		module.parse(resource);
 	}
 	
+	@Override
 	public URI getURI() {
 		return resource;
 	}

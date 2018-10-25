@@ -90,35 +90,36 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 		return current;
 	}
 	
+	@Override
 	public boolean parse(File file) throws Exception {
 		current = factory.load(file);
 		return getParseProblems().isEmpty();
 	}
 	
+	@Override
 	public boolean parse(URI uri) throws Exception {
 		current = factory.load(uri);
 		return getParseProblems().isEmpty();
 	}
 	
+	@Override
 	public boolean parse(String code) throws Exception {
 		current = factory.prepare(code);
 		return getParseProblems().isEmpty();
 	}
 	
-	public boolean parse(String code, URI uri) throws Exception {
-		current = factory.load(code, uri);
-		return current.getParseProblems().isEmpty();
-	}
-	
+	@Override
 	public boolean parse(String code, File file) throws Exception {
 		current = factory.load(code, file);
 		return current.getParseProblems().isEmpty();
 	}
 	
+	@Override
 	public List<ParseProblem> getParseProblems() {
-		return current == null ? new LinkedList<ParseProblem>() : current.getParseProblems();
+		return current == null ? new LinkedList<>() : current.getParseProblems();
 	}
 
+	@Override
 	public Object execute() throws EolRuntimeException {
 		return current == null ? null : current.process();
 	}
@@ -134,28 +135,33 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 
 	public void buildModel() throws Exception {}
 
+	@Override
 	public IEglContext getContext() {
 		return factory.getContext();
 	}
 
+	@Override
 	public List<ModelDeclaration> getDeclaredModelDeclarations() {
 		return current.getModule().getPreprocessorModule().getDeclaredModelDeclarations();
 	}
 
+	@Override
 	public OperationList getDeclaredOperations() {
 		return current.getModule().getPreprocessorModule().getDeclaredOperations();
 	}
 
+	@Override
 	public List<Import> getImports() {
 		return current.getModule().getPreprocessorModule().getImports();
 	}
 
+	@Override
 	public Set<ModelDeclaration> getModelDelcarations() {
 		return current.getModule().getPreprocessorModule().getModelDelcarations();
 	}
 
+	@Override
 	public OperationList getOperations() {
-		
 		return current.getModule().getPreprocessorModule().getOperations();
 	}
 

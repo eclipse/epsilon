@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egx.engine.test.acceptance.rules;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-
 import org.eclipse.epsilon.egx.engine.test.acceptance.util.EgxAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;

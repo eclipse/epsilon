@@ -11,31 +11,23 @@ package org.eclipse.epsilon.egl.merge.partition;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.eclipse.epsilon.egl.merge.output.Output;
 import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
 import org.eclipse.epsilon.egl.merge.output.Region;
 import org.eclipse.epsilon.egl.merge.output.RegionType;
 import org.eclipse.epsilon.egl.util.FileUtil;
 
-
 public class CommentBlockPartitioner implements Partitioner {
 	
-	private final String startComment;
-	private final String endComment;
-	
-	private String firstLine;
+	private final String startComment, endComment;
+	private String firstLine, lastLine;
 	private String contents = "(.*^[\\s]*)";
-	private String lastLine;
 	
 	private static String escape(String text) {
-		String escaped;
-		
-		escaped = text.replaceAll("\\*", "\\\\*");
-		
-		return escaped;
+		return text.replaceAll("\\*", "\\\\*");
 	}
 	
 	public CommentBlockPartitioner(String startComment, String endComment) {
@@ -127,17 +119,17 @@ public class CommentBlockPartitioner implements Partitioner {
 		
 		// Build starting comment
 		if (startComment.length() > 0) {
-			builder.append(startComment);
-			builder.append(' ');
+			builder.append(startComment).append(' ');
 		}
-		builder.append(regionTypeToString(regionType) + " region ");
-		builder.append(id);
-		builder.append(" ");
-		builder.append(enabled ? "on" : "off");
-		builder.append(" begin");
+		
+		builder.append(regionTypeToString(regionType) + " region ")
+			.append(id)
+			.append(" ")
+			.append(enabled ? "on" : "off")
+			.append(" begin");
+		
 		if (endComment.length() > 0) {
-			builder.append(' ');
-			builder.append(endComment);
+			builder.append(' ').append(endComment);
 		}
 		
 		return builder.toString();
@@ -158,15 +150,15 @@ public class CommentBlockPartitioner implements Partitioner {
 		
 		// Build ending comment
 		if (startComment.length() > 0) {
-			builder.append(startComment);
-			builder.append(' ');
+			builder.append(startComment).append(' ');
 		}
-		builder.append(regionTypeToString(regionType) + " region ");
-		builder.append(id);
-		builder.append(" end");
+		
+		builder.append(regionTypeToString(regionType) + " region ")
+			.append(id)
+			.append(" end");
+		
 		if (endComment.length() > 0) {
-			builder.append(' ');
-			builder.append(endComment);
+			builder.append(' ').append(endComment);
 		}
 		
 		return builder.toString();
@@ -177,7 +169,7 @@ public class CommentBlockPartitioner implements Partitioner {
 	}
 	
 	public Output partition(String text, int offset) {
-		final List<Region> regions = new LinkedList<Region>();
+		final List<Region> regions = new LinkedList<>();
 		
 		final Pattern pattern = Pattern.compile(firstLine + contents + lastLine, Pattern.MULTILINE | Pattern.DOTALL);
 		final Matcher matcher = pattern.matcher(text);
@@ -214,53 +206,34 @@ public class CommentBlockPartitioner implements Partitioner {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o == null) return false;
-		if (!(o instanceof CommentBlockPartitioner)) return false;
+		if (!(o instanceof CommentBlockPartitioner))
+			return false;
 		
 		final CommentBlockPartitioner that = (CommentBlockPartitioner)o;
 		
-		return startComment.equals(that.startComment) &&
-		       endComment.equals(that.endComment);
+		return Objects.equals(this.startComment, that.startComment) &&
+		       Objects.equals(this.endComment, that.endComment);
 	}
 	
 	@Override
 	public int hashCode() {
-		int result = 17;
-		
-		result += 37 * (startComment.hashCode());
-		result += 37 * (endComment.hashCode());
-		
-		return result;
+		return Objects.hash(startComment, endComment);
 	}
 	
 	
 	class CommentedProtectedRegion extends LocatedRegion {
-		
-		
-		
+
 		CommentedProtectedRegion(String id, int offset, boolean enabled, String contents) {
 			super(id, offset, enabled, contents);
 		}
 
 		@Override
 		public String toString() {
-			final StringBuilder builder = new StringBuilder();
-			
-			
-			builder.append(getFirstLine(getId(), isEnabled(), type));
-			
-			builder.append(FileUtil.NEWLINE);
-			
-			if (isEnabled())
-				builder.append(getContents());
-			
-			else
-				builder.append(getDefaultValue());
-			
-			builder.append(getLastLine(getId(), type));
-			
-			return builder.toString();
+			String result = getFirstLine(getId(), isEnabled(), type) + FileUtil.NEWLINE;
+			result += isEnabled() ? getContents() : getDefaultValue();
+			result += getLastLine(getId(), type);
+			return result;
 		}
-		
 	}
+	
 }

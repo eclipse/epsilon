@@ -10,15 +10,13 @@
 package org.eclipse.epsilon.egl.formatter.linebyline;
 
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class LineByLineNavigator<T extends Line> {
 	
-	private final List<T> lines = new LinkedList<T>();
+	private final List<T> lines = new LinkedList<>();
 	
 	private int lineIndex = 0;
 	

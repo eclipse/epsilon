@@ -23,7 +23,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 public class TemplateOperation extends Operation {
 
 	@Override
-	protected Object executeBody(IEolContext context) throws EolRuntimeException {
+	protected Return executeBody(IEolContext context) throws EolRuntimeException {
 		final IEglContext parentContext = ((EglPreprocessorContext)context).getEglContext();
 		final IOutputBuffer out = new OutputBuffer(parentContext);
 		context.getFrameStack().put(Variable.createReadOnlyVariable("out", out));

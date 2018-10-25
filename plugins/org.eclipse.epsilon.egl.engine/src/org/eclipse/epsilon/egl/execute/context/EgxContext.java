@@ -10,14 +10,16 @@
 package org.eclipse.epsilon.egl.execute.context;
 
 import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.EgxModule;
-import org.eclipse.epsilon.egl.traceability.Template;
+import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
-public class EgxContext extends EglContext implements IErlContext {
+public class EgxContext extends EglContext implements IEgxContext {
 	
-	protected Template baseTemplate = null;
+	protected EgxModuleTemplateAdapter baseTemplate;
+	
+	public EgxContext() {
+		this(null);
+	}
 	
 	public EgxContext(EglTemplateFactory templateFactory) {
 		super(templateFactory);
@@ -25,20 +27,21 @@ public class EgxContext extends EglContext implements IErlContext {
 	}
 	
 	@Override
-	public Template getTrace() {
+	public EgxModuleTemplateAdapter getTrace() {
 		if (baseTemplate == null) {
-			baseTemplate = new EgxModuleTemplateAdapter((EgxModule) module);
+			baseTemplate = new EgxModuleTemplateAdapter(getModule());
 		}
 		return baseTemplate;
 	}
 	
-	public void setBaseTemplate(Template baseTemplate) {
+	@Override
+	public void setBaseTemplate(EgxModuleTemplateAdapter baseTemplate) {
 		this.baseTemplate = baseTemplate;
 	}
 	
 	@Override
-	public EgxModule getModule() {
-		return (EgxModule) super.getModule();
+	public IEgxModule getModule() {
+		return (IEgxModule) module;
 	}
 	
 	@Override

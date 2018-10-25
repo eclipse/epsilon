@@ -14,7 +14,7 @@ public class Region {
 	protected String contents = "";
 	
 	public Region(String contents) {
-		if (contents==null)
+		if (contents == null)
 			throw new NullPointerException("contents cannot be null");
 		
 		this.contents = contents;
@@ -35,10 +35,10 @@ public class Region {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o == null) return false;
+		if (this == o) return true;
 		if (!(o instanceof Region)) return false;
 		
-		final Region that = (Region)o;
+		final Region that = (Region) o;
 		
 		return contents.equals(that.contents);
 	}

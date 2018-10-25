@@ -1,0 +1,633 @@
+[% import "java-helper-functions.egl";
+if (not isInner) printFileHead(author, package, comment, date); %]
+public [%=isInner.ternary("static ", "")%]class [%=identifier%][%=isException.ternary(" extends TException", "")%] implements org.apache.thrift.TBase<[%=identifier%], [%=identifier%]._Fields>, java.io.Serializable, Cloneable, Comparable<[%=identifier%]> {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("[%=identifier%]");
+
+  [% printTFieldDeclarations(fields, "  "); %]
+
+  private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+  static {
+    schemes.put(StandardScheme.class, new [%=identifier%]StandardSchemeFactory());
+    schemes.put(TupleScheme.class, new [%=identifier%]TupleSchemeFactory());
+  }
+
+  [% for (field in fields) {
+  	field.printComment("  "); %]
+  [%=field.getDeclaration("public", true)%]
+  [%}%]
+
+  [% printFieldsEnum(fields); %]
+
+  // isset id assignments
+  [% var counter : Integer = -1;
+  for (primitive in fields.select(field | field.isPrimitive())) {%]
+  private static final int __[%=primitive.identifier.toUpperCase()%]_ISSET_ID = [%=counter++%];
+  [%}
+  var optionals = fields.select(field | field.isOptional());
+  var arrStr : String;
+  if (optionals.size() > 0) {
+  	for (optional : Field in optionals) {
+  		arrStr += "_Fields."+optional.~capsIdentifier+',';
+  	}
+  	arrStr = arrStr.substring(0, arrStr.length()-1);
+  }
+  %]
+  [%
+  var issetType : String = struct.issetType(true);
+  if (not issetType.matches("NONE")) {
+  	if (issetType.matches("BITSET")) {%]
+  private BitSet __isset_bit_vector = new BitSet("[%=optionals.size()%]");
+[%  } else {%]
+  private [%=issetType%] __isset_bitfield = 0;
+[%	}
+  }
+  if (arrStr.isDefined() and arrStr.length() > 0) {%]
+  private static final _Fields optionals[] = {[%=arrStr%]};
+  [%}
+  printMetadataMap(fields, identifier); %]
+
+[% struct.printConstructors(); %]
+
+  /**
+   * Performs a deep copy on <i>other</i>.
+   */
+  public [%=identifier%]([%=identifier%] other) {
+    [% if (issetType <> "NONE") {
+    	out.print("    __isset_bit");
+    	if (issetType == "BITSET") {
+    		out.println("_vector.clear();");
+    		out.println("    __isset_bit_vector.or(other.__isset_bit_vector);");
+    	}
+    	else {
+    		out.println("field = other.__isset_bitfield;");
+    	}
+    }
+    for (field in fields) {
+        field.printDeepCopy("    ");
+	}%]
+  }
+
+  public [%=identifier%] deepCopy() {
+    return new [%=identifier%](this);
+  }
+
+  @Override
+  public void clear() {
+[% for (field in fields) {
+	if (field.isPrimitive()) {%]
+    set[%=field.~accessorName%]IsSet(false);
+[%		if (field.javaType().startsWith("bool")) {%]
+    this.[%=field.identifier%] = false;
+[%		}
+		else {%]
+    this.[%=field.identifier%] = 0;
+[%		}
+	}
+	else {%]
+    this.[%=field.identifier%] = null;
+[%	}
+}%]
+  }
+
+[% struct.printBoilerplate(); %]
+  public void setFieldValue(_Fields field, Object value) {
+    switch (field) {
+    [% for (field in fields) {%]
+    case [%=field.~capsIdentifier%]:
+      if (value == null) {
+        unset[%=field.~accessorName%]();
+      } else {
+        set[%=field.~accessorName%](([%=field.javaType(true)%])value);
+      }
+      break;
+
+    [%}%]
+    }
+  }
+
+  public Object getFieldValue(_Fields field) {
+    switch (field) {
+    [% for (field in fields) {%]
+    case [%=field.~capsIdentifier%]:
+      return [%="get".changeIf(field.fieldType.isBool(), "is")+field.~accessorName%]();
+
+    [%}%]
+    }
+    throw new IllegalStateException();
+  }
+
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+  public boolean isSet(_Fields field) {
+    if (field == null) {
+      throw new IllegalArgumentException();
+    }
+
+    switch (field) {
+    [% for (field in fields) {%]
+    case [%=field.~capsIdentifier%]:
+      return isSet[%=field.~accessorName%]();
+    [%}%]
+    }
+    throw new IllegalStateException();
+  }
+
+  @Override
+  public boolean equals(Object that) {
+    if (that == null)
+      return false;
+    if (that instanceof [%=identifier%])
+      return this.equals(([%=identifier%])that);
+    return false;
+  }
+
+  public boolean equals([%=identifier%] that) {
+    if (that == null)
+      return false;
+
+    [% for (field in fields) {
+    var unequal : String = "this."+field.identifier+" != that."+field.identifier;
+    if (field.fieldType.isBinary() or not field.isPrimitive()) {
+    	unequal = "!this."+field.identifier+".equals(that."+field.identifier+')';
+    }
+    %]
+    boolean this_present_[%=field.identifier%] = true[%="".changeIf(field.isOptional() or not field.isPrimitive(), " && this.isSet"+field.~accessorName+"()")%];
+    boolean that_present_[%=field.identifier%] = true[%="".changeIf(field.isOptional() or not field.isPrimitive(), " && that.isSet"+field.~accessorName+"()")%];
+    if (this_present_[%=field.identifier%] || that_present_[%=field.identifier%]) {
+      if (!(this_present_[%=field.identifier%] && that_present_[%=field.identifier%]))
+        return false;
+      if ([%=unequal%])
+        return false;
+    }
+
+    [%}%]
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    List<Object> list = new ArrayList<Object>();
+
+    [% for (field in fields) {%]
+    boolean present_[%=field.identifier%] = true[%="".changeIf(field.isOptional() or not field.isPrimitive(), " && (isSet"+field.~accessorName+"())")%];
+    list.add(present_[%=field.identifier%]);
+    if (present_[%=field.identifier%])
+      list.add([%=field.identifier+("".changeIf(field.isEnum(), ".getValue()"))%]);
+
+    [%}%]
+    return list.hashCode();
+  }
+
+  @Override
+  public int compareTo([%=identifier%] other) {
+    if (!getClass().equals(other.getClass())) {
+      return getClass().getName().compareTo(other.getClass().getName());
+    }
+
+    int lastComparison = 0;
+
+    [% for (field in fields) {%]
+    lastComparison = Boolean.valueOf(isSet[%=field.~accessorName%]()).compareTo(other.isSet[%=field.~accessorName%]());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSet[%=field.~accessorName%]()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.[%=field.identifier%], other.[%=field.identifier%]);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    [%}%]
+    return 0;
+  }
+
+  public _Fields fieldForId(int fieldId) {
+    return _Fields.findByThriftId(fieldId);
+  }
+
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+  }
+
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+    schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+  }
+
+  [% struct.printToString(); %]
+
+  public void validate() throws org.apache.thrift.TException {
+    // check for required fields
+    // check for sub-struct validity
+    [% for (substruct in fields.select(field | field.isStruct())) {%]
+    if ([%=substruct.identifier%] != null) {
+      [%=substruct.identifier%].validate();
+    }
+    [%}%]
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      [% if (issetType <> "NONE") {%]
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      [% 	if (issetType == "BITSET") {%]
+      __isset_bit_vector = new BitSet(1);
+      [%	} else {%]
+      __isset_bitfield = 0;
+      [%	}
+      }%]
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  [% struct.printStandardScheme(); %]
+
+  [% struct.printTupleScheme(); %]
+
+}
+
+[%
+@cached
+operation Struct issetType() : String {
+	return self.issetType(false);
+}
+
+operation Struct issetType(requestType : Boolean) : String {
+	var primitives : Integer = self.fields.select(field | field.isPrimitive()).size();
+	if (primitives <= 0) return "NONE";
+	else if (primitives <= 64) {
+		if (requestType) {
+			if (primitives <= 8)
+				return "byte";
+			else if (primitives <= 16)
+				return "short";
+			else if (primitives <= 32)
+				return "int";
+			else if (primitives <= 64)
+				return "long";
+		}
+		return "PRIMITIVE";
+	}
+	return "BITSET";
+}
+
+operation Struct printConstructors() {%]
+  public [%=self.identifier%]() {
+  }
+
+  public [%=self.identifier%](
+    [% var mandatoryFields = self.fields.reject(f | f.isOptional());
+    var mandatoryFieldsCount = mandatoryFields.size();
+    if (mandatoryFieldsCount > 0) {
+    	for (i : Integer in Sequence{0..mandatoryFieldsCount-1}) {
+    		out.print("    "+mandatoryFields.at(i).getDeclaration());
+    		out.println(",".changeIf(i == mandatoryFieldsCount-1, ")"));
+    	}
+    }%]
+  {
+    this();
+    [% for (field in mandatoryFields) {
+    	if (field.fieldType.isBinary()) {%]
+    this.[%=field.identifier%] = org.apache.thrift.TBaseHelper.copyBinary([%=field.identifier%]);
+    [%} else {%]
+    this.[%=field.identifier%] = [%=field.identifier%];
+	[%} if (field.isPrimitive()) {%]
+    set[%=field.~accessorName%]IsSet(true);
+		[%}
+    }%]
+  }
+[%}
+
+operation Struct printToString() {%]
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[%=self.identifier%](");
+    boolean first = true;
+
+	[% var first : Boolean = true;
+	for (field in self.fields) {
+		var padding : String = "    ";
+		if (field.isOptional()) {
+			out.println(padding+"if (isSet"+field.~accessorName+"()) {");
+			padding += "  ";
+		}
+		if (not first) {
+			out.println(padding+"if (!first) sb.append(\", \");");
+		}
+		out.println(padding+"sb.append(\""+field.identifier+":\");");
+		if (not field.isPrimitive()) {
+			out.println(padding+"if (this."+field.identifier+" == null) {");
+			out.println(padding+"  sb.append(\"null\");");
+			out.println(padding+"} else {");
+			if (field.fieldType.isBinary() or (field.fieldType.isContainer() and not field.fieldType.isMap() and field.fieldType.defType.container.fieldType.isBinary())) {
+				out.println(padding+"  org.apache.thrift.TBaseHelper.toString(this."+field.identifier+", sb);");
+			}
+			else {
+				out.println(padding+"  sb.append(this."+field.identifier+");");
+			}
+			out.println(padding+'}');
+		}
+		else {
+			out.println(padding+"sb.append(this."+field.identifier+");");
+		}
+		out.println(padding+"first = false;");
+		if (field.isOptional()) {
+			out.println(padding.substring(2)+'}');
+		}
+		first = false;
+	}%]
+    sb.append(")");
+    return sb.toString();
+  }
+[%}
+
+operation Struct printStandardScheme() {%]
+  private static class [%=self.identifier%]StandardSchemeFactory implements SchemeFactory {
+    public [%=self.identifier%]StandardScheme getScheme() {
+      return new [%=self.identifier%]StandardScheme();
+    }
+  }
+
+  private static class [%=self.identifier%]StandardScheme extends StandardScheme<[%=self.identifier%]> {
+
+	[% self.printStandardReader(); %]
+
+	[% self.printStandardWriter(self.~isResult.isDefined() and self.~isResult); %]
+
+  }
+[%}
+
+operation Struct printStandardReader() {%]
+    public void read(org.apache.thrift.protocol.TProtocol iprot, [%=self.identifier%] struct) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField schemeField;
+      iprot.readStructBegin();
+      while (true)
+      {
+        schemeField = iprot.readFieldBegin();
+        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+          break;
+        }
+        switch (schemeField.id) {
+        [% for (field in self.fields) {%]
+          case [%=field.fieldID%]: // [%=field.~capsIdentifier%]
+            if (schemeField.type == [%=field.getTtype()%]) {
+            [% field.printDeserialize("struct.", true, "              "); %]
+              struct.set[%=field.~accessorName%]IsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+        [%}%]
+          default:
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      // check for required fields of primitive type, which can't be checked in the validate method
+      [% for (field in self.fields.select(f | f.isPrimitive() and f.isRequired())) {%]
+      if (!struct.isSet[%=field.~accessorName%]) {
+          throw new org.apache.thrift.protocol.TProtocolException("Required field '[%=field.identifier%]' was not found in serialized data! Struct: " + toString());
+      }
+      [%}%]
+      struct.validate();
+    }
+[%}
+
+operation Struct printStandardWriter(isResult : Boolean) {
+	var padding : String = "      "; %]
+    public void write(org.apache.thrift.protocol.TProtocol oprot, [%=self.identifier%] struct) throws org.apache.thrift.TException {
+      struct.validate();
+
+      oprot.writeStructBegin(STRUCT_DESC);
+	[% for (field in self.fields) {
+		var optional : Boolean = field.isOptional() or (isResult and field.isPrimitive());
+		if (not field.isPrimitive()) {
+			out.println(padding+"if (struct."+(field.identifier+" != null").changeIf(field.isPrimitive(), "isSet"+field.~accessorName+"()")+") {");
+			padding += "  ";
+		}
+		if (optional) {
+			out.println(padding+"if (struct.isSet"+field.~accessorName+"()) {");
+			padding += "  ";
+		}
+		out.println(padding+"oprot.writeFieldBegin("+field.~capsIdentifier+"_FIELD_DESC);");
+		field.printSerialize("struct.", true, padding);
+		out.println(padding+"oprot.writeFieldEnd();");
+		if (optional) {
+			padding = padding.substring(2);
+      		out.println(padding+'}');
+      	}
+      	if (not field.isPrimitive()) {
+      		padding = padding.substring(2);
+      		out.println(padding+'}');
+      	}
+    }%]
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+[%}
+
+operation Struct printTupleScheme() {%]
+  private static class [%=self.identifier%]TupleSchemeFactory implements SchemeFactory {
+    public [%=self.identifier%]TupleScheme getScheme() {
+      return new [%=self.identifier%]TupleScheme();
+    }
+  }
+
+  private static class [%=self.identifier%]TupleScheme extends TupleScheme<[%=self.identifier%]> {
+
+	[% self.printTupleWriter(); %]
+
+	[% self.printTupleReader(); %]
+  }
+[%}
+
+operation Struct printTupleWriter() {%]
+    @Override
+    public void write(org.apache.thrift.protocol.TProtocol prot, [%=self.identifier%] struct) throws org.apache.thrift.TException {
+      TTupleProtocol oprot = (TTupleProtocol) prot;
+	[% for (reqField in self.fields.select(f | f.isRequired())) {
+		reqField.printSerialize("struct.", false, "      ");
+	}
+	var optionals = self.fields.select(f | not f.isRequired());
+	var optionalCount = optionals.size();
+	if (optionalCount > 0) {%]
+      BitSet optionals = new BitSet();
+	[% 	for (i : Integer in Sequence{0..optionalCount-1}) {%]
+      if (struct.isSet[%=optionals.at(i).~accessorName%]()) {
+        optionals.set([%=i%]);
+      }
+		[%}%]
+      oprot.writeBitSet(optionals, [%=optionalCount%]);
+    [% 	for (i : Integer in Sequence{0..optionalCount-1}) {%]
+      if (struct.isSet[%=optionals.at(i).~accessorName%]()) {
+      [% optionals.at(i).printSerialize("struct.", false, "        "); %]
+      }
+		[%}
+	}%]
+    }
+[%}
+
+operation Struct printTupleReader() {%]
+    @Override
+    public void read(org.apache.thrift.protocol.TProtocol prot, [%=self.identifier%] struct) throws org.apache.thrift.TException {
+      TTupleProtocol iprot = (TTupleProtocol) prot;
+	[% for (reqField in self.fields.select(f | f.isRequired())) {
+		reqField.printDeserialize("struct.", false, "        "); %]
+      struct.set[%=reqField.~accessorName%]IsSet(true);
+	[%}
+	var optionals = self.fields.select(f | not f.isRequired());
+	var optionalCount = optionals.size();
+	if (optionalCount > 0) {%]
+      BitSet incoming = iprot.readBitSet([%=optionalCount%]);
+    [% 	for (i : Integer in Sequence{0..optionalCount-1}) {%]
+      if (incoming.get([%=i%])) {
+      [% optionals.at(i).printDeserialize("struct.", false, "        "); %]
+        struct.set[%=optionals.at(i).~accessorName%]IsSet(true);
+      }
+		[%}
+	}%]
+    }
+[%}
+
+operation Struct printBoilerplate() {
+	var structName : String = self.identifier;
+	var issetPrimitive : Boolean = self.issetType() == "PRIMITIVE";
+	for (field in self.fields) {
+		var type : FieldType = field.fieldType;
+		var javaType : String = field.javaType();
+		var acName : String = field.~accessorName;
+		var fieldName : String = field.identifier;
+		var concrete : String = type.concreteJavaType();
+		var contents : String;
+	
+	if (type.isSet() or type.isList()) {
+		contents = javaType.getInnerType(); %]
+  public int get[%=acName%]Size() {
+    return (this.[%=fieldName%] == null) ? 0 : this.[%=fieldName%].size();
+  }
+
+  public java.util.Iterator<[%=contents%]> get[%=acName%]Iterator() {
+    return (this.[%=fieldName%] == null) ? null : this.[%=fieldName%].iterator();
+  }
+
+  public void addTo[%=acName%]([%=contents.convertToPrimitive()%] elem) {
+    if (this.[%=fieldName%] == null) {
+      this.[%=fieldName%] = new [%=concrete%]();
+    }
+    this.[%=fieldName%].add(elem);
+  }
+
+[%} else if (type.isMap()) {
+		var key : String = javaType.getMapKey();
+		var val : String = javaType.getMapValue();
+		contents = key+','+val;
+		var keyType : FieldType = type.defType.container.keyType;
+		var valType : FieldType = type.defType.container.valType; %]
+  public int get[%=acName%]Size() {
+    return (this.[%=fieldName%] == null) ? 0 : this.[%=fieldName%].size();
+  }
+
+  public void putTo[%=acName%]([%=key.convertToPrimitive()%] key, [%=val.convertToPrimitive()%] val) {
+    if (this.[%=fieldName%] == null) {
+      this.[%=fieldName%] = new [%=concrete%]();
+    }
+    this.[%=fieldName%].put(key, val);
+  }
+
+[%} else if (type.isBinary()) {%]
+  public byte[] get[%=acName%]() {
+    set[%=acName%](org.apache.thrift.TBaseHelper.rightSize([%=fieldName%]));
+    return [%=fieldName%] == null ? null : [%=fieldName%].array();
+  }
+
+  public ByteBuffer bufferFor[%=acName%]() {
+    return org.apache.thrift.TBaseHelper.copyBinary([%=fieldName%]);
+  }
+
+  public [%=structName%] set[%=acName%](byte[] [%=fieldName%]) {
+    this.[%=fieldName%] = [%=fieldName%] == null ? (ByteBuffer)null : ByteBuffer.wrap(Arrays.copyOf([%=fieldName%], [%=fieldName%].length));
+    return this;
+  }
+
+  public [%=structName%] set[%=acName%](ByteBuffer [%=fieldName%]) {
+    this.[%=fieldName%] = org.apache.thrift.TBaseHelper.copyBinary([%=fieldName%]);
+    return this;
+  }
+
+[%} else if (type.isPrimitive()) {
+		var issetField : String = "__"+fieldName.toUpperCase()+"_ISSET_ID";
+	%]
+  public [%=javaType%] [%="get".changeIf(type.isBool(), "is")%][%=acName%]() {
+    return this.[%=fieldName%];
+  }
+
+  public [%=structName%] set[%=acName%]([%=javaType%] [%=fieldName%]) {
+    this.[%=fieldName%] = [%=fieldName%];
+    set[%=acName%]IsSet(true);
+    return this;
+  }
+
+  public void unset[%=acName%]() {
+    [%="__isset_bit_vector.clear(".changeIf(issetPrimitive, "__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, ")+issetField%]);
+  }
+
+  /** Returns true if field [%=fieldName%] is set (has been assigned a value) and false otherwise */
+  public boolean isSet[%=acName%]() {
+    return [%="__isset_bit_vector.get(".changeIf(issetPrimitive, "EncodingUtils.testBit(__isset_bitfield, ")+issetField%]);
+  }
+
+  public void set[%=acName%]IsSet(boolean value) {
+    __isset_bit[%="_vector.set(".changeIf(issetPrimitive, "field = EncodingUtils.setBit(__isset_bitfield, ")+issetField%], value);
+  }
+
+[%} else {
+  field.printComment("  "); %]
+  public [%=type.identifier%] get[%=acName%]() {
+    return this.[%=fieldName%];
+  }
+
+  [% field.printComment("  "); %]
+  public [%=structName%] set[%=acName%]([%=type.identifier%] [%=fieldName%]) {
+    this.[%=fieldName%] = [%=fieldName%];
+    return this;
+  }
+
+[%} if (type.isContainer()) {%]
+  public [%=javaType%] get[%=acName%]() {
+    return this.[%=fieldName%];
+  }
+
+  public [%=structName%] set[%=acName%]([%=javaType%] [%=fieldName%]) {
+    this.[%=fieldName%] = [%=fieldName%];
+    return this;
+  }
+
+[%} if (not type.isPrimitive()) {%]
+  public void unset[%=acName%]() {
+    this.[%=fieldName%] = null;
+  }
+
+  /** Returns true if field [%=fieldName%] is set (has been assigned a value) and false otherwise */
+  public boolean isSet[%=acName%]() {
+    return this.[%=fieldName%] != null;
+  }
+
+  public void set[%=acName%]IsSet(boolean value) {
+    if (!value) {
+      this.[%=fieldName%] = null;
+    }
+  }
+
+  [%}
+  }
+}%]

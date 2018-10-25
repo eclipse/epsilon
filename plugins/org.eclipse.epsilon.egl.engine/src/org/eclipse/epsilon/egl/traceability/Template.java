@@ -13,13 +13,12 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
-
+import java.util.concurrent.ConcurrentLinkedQueue;
 import org.eclipse.epsilon.common.util.UriUtil;
 
 public class Template extends Container<Content<Template>> {
 	
-	private final List<Variable> variables = new LinkedList<Variable>();
+	private final Collection<Variable> variables = new ConcurrentLinkedQueue<>();
 	
 	public Template() {
 		this(null, "", null);
@@ -79,7 +78,7 @@ public class Template extends Container<Content<Template>> {
 	}
 	
 	public Collection<OutputFile> getOutputFiles() {
-		final Collection<OutputFile> outputFiles = new LinkedList<OutputFile>();
+		final Collection<OutputFile> outputFiles = new LinkedList<>();
 		
 		for (Content<Template> child : contents) {
 			if (child instanceof OutputFile) {

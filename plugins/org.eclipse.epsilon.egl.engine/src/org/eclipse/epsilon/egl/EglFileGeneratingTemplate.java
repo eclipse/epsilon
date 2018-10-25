@@ -74,6 +74,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 		}
 	}
 
+	@Override
 	protected void doGenerate(File target, String targetName, boolean overwrite, boolean merge) throws EglRuntimeException {
 		try {
 			this.target = target;

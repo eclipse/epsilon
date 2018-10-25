@@ -10,9 +10,8 @@
 package org.eclipse.epsilon.egl.config;
 
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
-
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 
@@ -20,7 +19,7 @@ public class XMLContentTypeRepository implements ContentTypeRepository {
 
 	private final ConfigFileReader reader = new XMLConfigFileReader();
 	
-	private Map<String, CompositePartitioner> partitioners = new HashMap<String, CompositePartitioner>();
+	private Map<String, CompositePartitioner> partitioners = Collections.emptyMap();
 	
 	
 	public XMLContentTypeRepository(IEglContext context) {
@@ -39,10 +38,12 @@ public class XMLContentTypeRepository implements ContentTypeRepository {
 		load(config);
 	}
 	
+	@Override
 	public void load(InputStream path) throws PersistenceException {
 		partitioners = reader.read(path);
 	}
 	
+	@Override
 	public CompositePartitioner partitionerFor(String contentType) {
 		return partitioners.get(contentType);
 	}

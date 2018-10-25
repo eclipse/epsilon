@@ -9,6 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.traceability;
 
+import java.util.Objects;
+
 public class Variable extends Content<Template> {
 
 	private final String name;
@@ -34,13 +36,13 @@ public class Variable extends Content<Template> {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o == null) return false;
+		if (this == o) return true;
 		if (!(o instanceof Variable)) return false;
 		
-		final Variable that = (Variable)o;
-		
-		return name.equals(that.name)  &&
-		       value == null ? that.value == null : value.equals(that.value);
+		final Variable that = (Variable) o;
+		return
+			Objects.equals(this.name, that.name) &&
+			Objects.equals(this.value, that.value);
 	}
 	
 	@Override
@@ -48,14 +50,13 @@ public class Variable extends Content<Template> {
 		int result = 17;
 		
 		result += 37 * result + name.hashCode();
-		result += 37 * result + (value == null ? 0 : value.hashCode());
-		
+		result += 37 * result + Objects.hashCode(value);
 		return result;
 	}
 	
 	@Override
 	public String toString() {
-		return name + "=" + (value == null ? "null" : value.toString());
+		return name + "=" + Objects.toString(value);
 	}
 
 }

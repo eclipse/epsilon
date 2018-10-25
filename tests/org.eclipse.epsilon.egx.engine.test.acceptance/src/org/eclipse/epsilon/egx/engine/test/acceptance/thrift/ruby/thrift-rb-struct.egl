@@ -1,0 +1,33 @@
+[% import "rb-helper-functions.egl";
+
+printRubyDoc(comment); %]
+class [%=struct.~accessorName+(isException.ternary(" < ::Thrift::Exception", ""))%]
+  include ::Thrift::Struct, ::Thrift::Struct_Union
+  [% if (isException and fields.size() == 1) {
+  	var fname : String = fields.first().identifier; %]
+  def initialize(message=nil)
+    super()
+    self.[%=fname%] = message
+  end
+
+  [% if (fname <> "message") {%]
+  def message; [%=fname%] end
+
+
+  [%}
+  }
+printFields(fields); %]
+  def validate
+  [% for (field in fields.select(fd | fd.isRequired())) {%]
+    raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field [%=field.identifier%] is unset!')
+    [%=field.fieldType.isBool().ternary(" if @"+field.identifier+".nil?", " unless @"+field.identifier)%]
+  [%}
+  for (field in fields.select(fd | fd.isEnum())) {%]
+    unless @[%=field.identifier%].nil? || [%=field.fieldType.fullName()%]::VALID_VALUES.include?(@[%=field.identifier%])
+      raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Invalid value of field [%=field.identifier%]!')
+    end
+  [%}%]
+  end
+
+  ::Thrift::Struct.generate_accessors self
+end

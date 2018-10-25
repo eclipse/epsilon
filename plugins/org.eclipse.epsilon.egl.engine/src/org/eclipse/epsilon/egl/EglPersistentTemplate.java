@@ -137,7 +137,8 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 	protected String name(String path) {
 		if (outputRootPath == null) {
 			return path;
-		} else {
+		}
+		else {
 			return new File(outputRootPath).getPath() + FileUtil.FILE_SEP + path;
 		}
 	}

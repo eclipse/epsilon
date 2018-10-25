@@ -1,0 +1,99 @@
+import "../thrift-helper-functions.eol";
+
+pre {
+	var fileName = getThriftFileName();	//This is typically parameterized!
+	var date : String = getDate();
+	doSetup();
+	var extension : String = ".java";
+	var javaName : String = fileName.makeValidName();
+	var constsName : String = javaName+"Constants";
+	var structEGL : String = "thrift-java-struct.egl";
+	var pkgId : String = getNamespaceFor("java");
+	var author : String = "Thrift Compiler (0.9.3)";
+	var outDir : String = getOutputDir(pkgId);
+}
+
+rule Enums transform enumeration : Enum {
+	parameters {
+		var params : new Map;
+		params.put("enumeration", enumeration);
+		params.put("kvp", enumeration.pairs);
+		params.put("identifier", enumeration.identifier);
+		params.put("package", pkgId);
+		params.put("comment", enumeration.comment);
+		params.put("date", date);
+		params.put("author", author);
+		return params;
+	}
+	template: "thrift-java-enum.egl"
+	target: outDir+enumeration.identifier+extension
+}
+
+rule Structs transform struct : Struct {
+	parameters {
+		struct.~isInner = false;
+		struct.~isResult = false;
+		var params : new Map;
+		params.put("struct", struct);
+		params.put("isException", struct.isException);
+		params.put("isInner", false);
+		params.put("identifier", struct.identifier);
+		params.put("fields", struct.fields);
+		params.put("package", pkgId);
+		params.put("comment", struct.comment);
+		params.put("date", date);
+		params.put("author", author);
+		return params;
+	}
+	template: structEGL
+	target: outDir+struct.identifier+extension
+}
+
+rule Unions transform union : Union {
+	parameters {
+		var params : new Map;
+		params.put("union", union);
+		params.put("identifier", union.identifier);
+		params.put("fields", union.fields);
+		params.put("package", pkgId);
+		params.put("comment", union.comment);
+		params.put("date", date);
+		params.put("author", author);
+		return params;
+	}
+	template: "thrift-java-union.egl"
+	target: outDir+union.identifier+extension
+}
+
+rule Constants {
+	guard: Const.allInstances().size() > 0
+	parameters {
+		var params : new Map;
+		params.put("constants", Const.allInstances());
+		params.put("className", constsName);
+		params.put("package", pkgId);
+		params.put("author", author);
+		return params;
+	}
+	template: "thrift-java-constants.egl"
+	target: outDir+constsName+extension
+}
+
+rule Services transform service : Service {
+	parameters {
+		var params : new Map;
+		params.put("service", service);
+		params.put("identifier", service.identifier);
+		params.put("supers", service.supers);
+		params.put("functions", service.functions);
+		params.put("structEGL", structEGL);
+		params.put("outputFile", outDir+service.identifier+extension);
+		params.put("package", pkgId);
+		params.put("comment", service.comment);
+		params.put("date", date);
+		params.put("author", author);
+		return params;
+	}
+	template: "thrift-java-service.egl"
+	target: outDir+service.identifier+extension
+}

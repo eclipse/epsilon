@@ -43,7 +43,7 @@ public class ExecutableTemplateSpecification {
 		}
 	}
 
-	private org.eclipse.epsilon.eol.execute.context.Variable createEolVariable(String name, Object value) {
+	private static org.eclipse.epsilon.eol.execute.context.Variable createEolVariable(String name, Object value) {
 		return org.eclipse.epsilon.eol.execute.context.Variable.createReadOnlyVariable(name, value);
 	}
 	

@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 
-
 public class CompositeFormatter implements Formatter {
 
 	private final Collection<Formatter> formatters;
@@ -23,7 +22,7 @@ public class CompositeFormatter implements Formatter {
 	}
 	
 	public CompositeFormatter(Collection<Formatter> formatters) {
-		this.formatters = new LinkedList<Formatter>(formatters);
+		this.formatters = new LinkedList<>(formatters);
 	}
 	
 	@Override

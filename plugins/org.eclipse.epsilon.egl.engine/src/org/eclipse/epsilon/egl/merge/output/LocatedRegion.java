@@ -74,7 +74,7 @@ public abstract class LocatedRegion extends Region {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o==null) return false;
+		if (this == o) return true;
 		if (!(o instanceof LocatedRegion)) return false;
 		
 		LocatedRegion that = (LocatedRegion)o;

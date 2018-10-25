@@ -21,7 +21,7 @@ import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 
 public class VirtualTemplateFactory extends EglFileGeneratingTemplateFactory {
 
-	private final Map<String, String> virtualTemplates = new HashMap<String, String>();
+	private final Map<String, String> virtualTemplates = new HashMap<>();
 	private final VirtualTemplateLedger ledger = new VirtualTemplateLedger();
 	
 	public void addVirtualTemplate(String path, String code) {
@@ -51,6 +51,4 @@ public class VirtualTemplateFactory extends EglFileGeneratingTemplateFactory {
 	public Object getContentFor(String path) {
 		return ledger.getContentFor(path);
 	}
-	
-	
 }

@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.spec;
 
-
 import java.net.URI;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -49,7 +48,7 @@ public abstract class EglTemplateSpecification {
 	
 	public Collection<ITemplateExecutionListener> getTemplateExecutionListeners() {
 		// Return a defensive copy, which can be safely modified for only this template
-		return new LinkedList<ITemplateExecutionListener>(listeners);
+		return new LinkedList<>(listeners);
 	}
 
 	public abstract Template createTemplate();

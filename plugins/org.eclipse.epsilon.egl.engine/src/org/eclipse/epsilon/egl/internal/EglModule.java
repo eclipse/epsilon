@@ -27,6 +27,7 @@ import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.model.EglMarkerSection;
@@ -36,7 +37,6 @@ import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.OperationList;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-
 
 /**
  * Used internally by {@link EglTemplateFactory} and {@link EglTemplate}
@@ -49,22 +49,24 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
  */
 public class EglModule extends EolModule implements IEglModule {
 
-	protected EglParser parser = null;
-	protected EglLexer lexer = null;
-	protected IEglContext context = null;
+	protected EglParser parser;
+	protected EglLexer lexer;
 	protected Reader reader;
-	protected EglPreprocessorModule preprocessorModule = new EglPreprocessorModule();;
+	protected EglPreprocessorModule preprocessorModule = new EglPreprocessorModule();
 	protected AST ast;
-	
+
 	private final List<EglMarkerSection> markers = new LinkedList<>();	
 	private URI templateRoot;
 
-	public EglModule() {}
+	public EglModule() {
+		this(null);
+	}
 	
 	public EglModule(IEglContext context) {
-		this.context = context;
+		this.context = context != null ? context : new EglContext();
 	}
 
+	@Override
 	public boolean parse(String code) throws Exception {
 		return parse(code, null);
 	}
@@ -74,6 +76,7 @@ public class EglModule extends EolModule implements IEglModule {
 		return parseFromLexer(new EglLexer(code), file);
 	}
 	
+	@Override
 	public boolean parse(File file) throws Exception {
 		return parse(file.toURI());
 	}
@@ -92,6 +95,7 @@ public class EglModule extends EolModule implements IEglModule {
 		return parseAndPreprocess(lexer, file);
 	}
 	
+	@Override
 	public boolean parse(URI uri) throws Exception {
 		if (uri == null)
 			throw new IllegalArgumentException("URI cannot be null");
@@ -106,8 +110,9 @@ public class EglModule extends EolModule implements IEglModule {
 
 			reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
 			return parseAndPreprocess(new EglLexer(reader), this.sourceFile);
-		} finally {
-			if (reader!=null) reader.close();
+		}
+		finally {
+			if (reader != null) reader.close();
 		}
 	}
 	
@@ -149,15 +154,20 @@ public class EglModule extends EolModule implements IEglModule {
 		}
 	}
 	
+	@Override
 	public EglPreprocessorModule getPreprocessorModule() {
 		return preprocessorModule;
 	}
 	
+	@Override
 	public List<EglMarkerSection> getMarkers() {
 		return markers;
 	}
 	
+	@Override
 	public EglResult execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException {
+		IEglContext context = getContext();
+		
 		context.enter(template);
 		
 		final String generatedText = execute(postprocessor);
@@ -168,6 +178,8 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 
 	private String execute(Formatter postprocessor) throws EglRuntimeException {
+		IEglContext context = getContext();
+		
 		context.setModule(this);
 		context.getTemplateFactory().initialiseRoot(templateRoot);
 
@@ -184,25 +196,29 @@ public class EglModule extends EolModule implements IEglModule {
 
 
 	private void checkOutput() throws EglRuntimeException {
+		IEglContext context = getContext();
+		
 		final List<String> problems = context.getPartitioningProblems();
 
 		if (problems.size() > 0)
 			throw new EglRuntimeException(problems.get(0), this);
 	}
 
+	@Override
 	public IEglContext getContext() {
-		return context;
+		return (IEglContext) context;
 	}
 
+	@Override
 	public List<ParseProblem> getParseProblems() {
 		final List<ParseProblem> combinedErrors = new ArrayList<>(parser.getParseProblems());
 
 		combinedErrors.addAll(preprocessorModule.getParseProblems());
 
 		return combinedErrors;
-
 	}
 	
+	@Override
 	public OperationList getOperations() {
 		return preprocessorModule.getOperations();
 	}
@@ -226,7 +242,7 @@ public class EglModule extends EolModule implements IEglModule {
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEglContext) {
-			this.context = (IEglContext) context;
+			this.context = context;
 		}
 	}
 }

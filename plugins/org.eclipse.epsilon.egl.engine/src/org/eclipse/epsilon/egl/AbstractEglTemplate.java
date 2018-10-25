@@ -14,8 +14,6 @@ package org.eclipse.epsilon.egl;
 
 import java.util.List;
 import java.util.Set;
-
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.eol.dom.Import;

@@ -33,11 +33,12 @@ public class XMLConfigFileReader extends DefaultHandler implements ConfigFileRea
 	private final String DTD_URL       = "http://www.epsilon.org/egl/ContentTypes.dtd";
 	private final String ROOT_ELEMENT  = "ContentTypes";
 	
-	private final Map<String, CompositePartitioner> contentTypes = new HashMap<String, CompositePartitioner>();
+	private final Map<String, CompositePartitioner> contentTypes = new HashMap<>();
 	
 	private boolean correctRootFound = false;
 	private String currentContentType;
 	
+	@Override
 	public Map<String, CompositePartitioner> read(InputStream stream) throws PersistenceException {		
 		try {
 			correctRootFound = false;
@@ -52,6 +53,7 @@ public class XMLConfigFileReader extends DefaultHandler implements ConfigFileRea
 			// Utilise an entity resolver that always uses the local DTD
 			parser.getXMLReader().setEntityResolver(new EntityResolver() {
 
+				@Override
 				public InputSource resolveEntity(String publicId,
 				                                 String systemId)
 				throws SAXException, IOException {

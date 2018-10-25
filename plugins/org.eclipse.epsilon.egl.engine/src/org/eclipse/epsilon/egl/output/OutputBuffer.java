@@ -26,13 +26,13 @@ import org.eclipse.epsilon.egl.util.FileUtil;
 
 public class OutputBuffer implements IOutputBuffer {
 	
-	protected StringBuilder buffer = new StringBuilder();
+	protected StringBuffer buffer = new StringBuffer();
 	protected IEglContext context;
 
 	protected LineCounter lineCounter   = new LineCounter(FileUtil.NEWLINE);
 	protected ColumnCounter columnCounter = new ColumnCounter(FileUtil.NEWLINE);
 	
-	protected List<CommentBlockPartitioner> customPartitioners = new LinkedList<CommentBlockPartitioner>();
+	protected List<CommentBlockPartitioner> customPartitioners = new LinkedList<>();
 	protected boolean contentTypeSet = false;
 	protected String lastLine = null;
 	
@@ -54,9 +54,9 @@ public class OutputBuffer implements IOutputBuffer {
 	}
 	
 	@Override
-	public void chop(int chars){
+	public void chop(int chars) {
 		int limit = Math.min(chars, buffer.length());
-		for (int i=0;i<limit;i++){
+		for (int i = 0; i < limit; i++) {
 			buffer.deleteCharAt(buffer.length()-1);
 		}
 	}
@@ -71,7 +71,7 @@ public class OutputBuffer implements IOutputBuffer {
 		final String indentation = calculateIndentationToMatch(getLastLineInBuffer());
 		final String[] lines = StringUtil.toString(o).split(FileUtil.NEWLINE);
 		
-		for (int i=0;i<lines.length;i++) {
+		for (int i = 0; i < lines.length; i++) {
 			if (i == 0) {
 				// Any text before the first newline character should not be
 				// placed on a newline nor indented  
@@ -127,14 +127,14 @@ public class OutputBuffer implements IOutputBuffer {
 	@Override
 	public String getSpaces(int howMany) {
 		String str = "";
-		for (int i=0;i<howMany;i++) {
+		for (int i = 0; i < howMany; i++) {
 			str += " ";
 		}
 		return str;
 	}
 	
 	@Override
-	public void println(){
+	public void println() {
 		buffer.append(FileUtil.NEWLINE);
 	}
 	
@@ -322,7 +322,7 @@ public class OutputBuffer implements IOutputBuffer {
 	}
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		return buffer.toString();
 	}
 }

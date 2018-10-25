@@ -9,13 +9,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute.context;
 
-import java.util.Stack;
+import java.util.LinkedList;
 
 public class EglExecutionManager {
 
 	private final EglFrameStackManager frameStackManager;
 	private final ExecutableTemplateSpecificationStack specs = new ExecutableTemplateSpecificationStack();
-		
+	
 	public EglExecutionManager(EglFrameStackManager frameStackManager) {
 		this.frameStackManager = frameStackManager;
 	}
@@ -48,8 +48,8 @@ public class EglExecutionManager {
 	
 	
 	private static class ExecutableTemplateSpecificationStack {
-		
-		private final Stack<ExecutableTemplateSpecification> specs = new Stack<ExecutableTemplateSpecification>();
+	
+		private final LinkedList<ExecutableTemplateSpecification> specs = new LinkedList<>();
 		private ExecutableTemplateSpecification firstSpec;
 		
 		public void push(ExecutableTemplateSpecification template) {
@@ -75,14 +75,13 @@ public class EglExecutionManager {
 		 *         that is one below the top() of the stack.
 		 */
 		public ExecutableTemplateSpecification second() {
-			return specs.elementAt(specs.size()-2);
+			return specs.get(specs.size()-2);
 		}
 		
 		public ExecutableTemplateSpecification bottom() {
 			return firstSpec;
 		}
 		
-
 		public int size() {
 			return specs.size();
 		}

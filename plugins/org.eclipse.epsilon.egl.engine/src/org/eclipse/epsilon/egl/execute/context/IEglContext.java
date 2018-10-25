@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.egl.execute.context;
 
 import java.util.List;
-
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
@@ -28,7 +27,9 @@ public interface IEglContext extends IEolContext {
 	
 	public EglTemplateFactory getTemplateFactory();
 	
-	public void copyInto(IEolContext context);
+	public default void copyInto(IEolContext context) {
+		copyInto(context, false);
+	}
 
 	public void copyInto(IEolContext context, boolean preserveFrameStack);
 	

@@ -19,8 +19,7 @@ import org.eclipse.epsilon.egl.util.StringUtil;
 
 public abstract class LanguageFormatter implements Formatter {
 
-	private final Pattern increasePattern;
-	private final Pattern decreasePattern;
+	private final Pattern increasePattern, decreasePattern;
 	
 	protected LanguageFormatter(String increasePattern, String decreasePattern) {
 		this.increasePattern = Pattern.compile(increasePattern);
@@ -58,14 +57,15 @@ public abstract class LanguageFormatter implements Formatter {
 		return sb.toString();
 	}
 	
+	@Override
 	public String format(String text) {
 		final String cleaned = clean(text);
 		
 		final Matcher increaseMatcher = increasePattern.matcher(cleaned);
 		final Matcher decreaseMatcher = decreasePattern.matcher(cleaned);
 		
-		final Queue<Integer> increaseIndentationAt = new LinkedList<Integer>();
-		final Queue<Integer> decreaseIndentationAt = new LinkedList<Integer>();
+		final Queue<Integer> increaseIndentationAt = new LinkedList<>();
+		final Queue<Integer> decreaseIndentationAt = new LinkedList<>();
 		
 		// Determine the positions at which indentation should be increased
 		while (increaseMatcher.find()) {

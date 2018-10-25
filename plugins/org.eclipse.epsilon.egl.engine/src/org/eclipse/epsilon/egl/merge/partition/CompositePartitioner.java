@@ -18,7 +18,7 @@ import org.eclipse.epsilon.egl.merge.output.Region;
 
 public class CompositePartitioner implements Partitioner {
 
-	private List<CommentBlockPartitioner> partitioners = new LinkedList<CommentBlockPartitioner>();
+	private final List<CommentBlockPartitioner> partitioners = new LinkedList<>();
 	
 	public CompositePartitioner(CommentBlockPartitioner... partitioners) {
 		for (CommentBlockPartitioner partitioner : partitioners) {
@@ -33,12 +33,14 @@ public class CompositePartitioner implements Partitioner {
 		if (!partitioners.contains(partitioner)) partitioners.add(partitioner);
 	}
 
+	@Override
 	public Output partition(String text) {
 		return partition(text, 0);
 	}
 	
+	@Override
 	public Output partition(String text, int offset) {
-		final List<Region> regions = new LinkedList<Region>();
+		final List<Region> regions = new LinkedList<>();
 		
 		regions.add(new Region(text));
 		
@@ -84,7 +86,6 @@ public class CompositePartitioner implements Partitioner {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o == null) return false;
 		if (!(o instanceof CompositePartitioner)) return false;
 		
 		final CompositePartitioner that = (CompositePartitioner)o;

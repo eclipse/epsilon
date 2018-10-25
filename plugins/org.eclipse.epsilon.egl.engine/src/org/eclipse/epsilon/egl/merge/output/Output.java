@@ -14,12 +14,11 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class Output {
 
-	private final List<Region> regions                      = new LinkedList<Region>();
-	private final List<String> locatedRegionIds           = new LinkedList<String>();
-	private final List<String> duplicatedLocatedRegionIds = new LinkedList<String>();
+	private final List<Region> regions                    = new LinkedList<>();
+	private final List<String> locatedRegionIds           = new LinkedList<>();
+	private final List<String> duplicatedLocatedRegionIds = new LinkedList<>();
 	
 	public Output(Region... regions) {
 		this.regions.addAll(Arrays.asList(regions));	
@@ -50,7 +49,7 @@ public class Output {
 	}
 	
 	public List<LocatedRegion> getLocatedRegions() {
-		List<LocatedRegion> locatedRegions = new LinkedList<LocatedRegion>();
+		List<LocatedRegion> locatedRegions = new LinkedList<>();
 		
 		for (Region region : regions) {
 			if (region instanceof LocatedRegion)
@@ -74,7 +73,7 @@ public class Output {
 	}
 	
 	public List<String> getProblems() {
-		final List<String> problems = new LinkedList<String>();
+		final List<String> problems = new LinkedList<>();
 		
 		for (String id : duplicatedLocatedRegionIds) {
 			problems.add("Output contains more than one region with the identifier '"+id+"'");
@@ -96,10 +95,10 @@ public class Output {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o == null) return false;
+		if (this == o) return true;
 		if (!(o instanceof Output)) return false;
 		
-		final Output that = (Output)o;
+		final Output that = (Output) o;
 		
 		return regions.equals(that.regions);
 	}

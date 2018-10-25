@@ -33,15 +33,13 @@ import org.eclipse.epsilon.egl.util.FileUtil;
 public class EglTemplateFactory {
 
 	protected IEglContext context;
-	
 	protected URI root;
-	
 	private URI    templateRoot;
 	private String templateRootPath;
 	
 	private Formatter defaultFormatter = new NullFormatter();
 	private IncrementalitySettings defaultIncrementalitySettings = new IncrementalitySettings();
-	private final Collection<ITemplateExecutionListener> listeners = new LinkedList<ITemplateExecutionListener>();
+	private final Collection<ITemplateExecutionListener> listeners = new LinkedList<>();
 	
 	
 	public EglTemplateFactory() {
@@ -52,6 +50,13 @@ public class EglTemplateFactory {
 		this.context = context;
 	}
 	
+	public EglTemplateFactory(EglTemplateFactory other) {
+		this.context = other.context;
+		this.root = other.root;
+		this.templateRoot = other.templateRoot;
+		this.templateRootPath = other.templateRootPath;
+	}
+
 	public Collection<ITemplateExecutionListener> getTemplateExecutionListeners() {
 		return this.listeners;
 	}
@@ -212,9 +217,9 @@ public class EglTemplateFactory {
 	 * 
 	 * Subclasses should override {@link #createTemplate(String, URI)}, rather
 	 * than this method, unless they wish to alter the way in which IOExceptions
-	 * are handled.
+	 * are handled, in which case they should override {@link #handleFailedLoad(String, Exception)}.
 	 */
-	protected EglTemplate load(EglTemplateSpecification spec) throws EglRuntimeException {
+	protected final EglTemplate load(EglTemplateSpecification spec) throws EglRuntimeException {
 		try {
 			initialiseRoot(spec.getURI());
 			return createTemplate(spec);
@@ -224,7 +229,7 @@ public class EglTemplateFactory {
 		}
 	}
 	
-	private EglTemplate handleFailedLoad(final String name, Exception e) throws EglRuntimeException {
+	protected EglTemplate handleFailedLoad(final String name, Exception e) throws EglRuntimeException {
 		final String reason;
 		
 		if (e instanceof FileNotFoundException)
@@ -245,7 +250,7 @@ public class EglTemplateFactory {
 	 * as this method may, in the future, acquire additional
 	 * responsibilities, such as exception handling.
 	 */
-	public EglTemplate prepare(String code) throws Exception {
+	public final EglTemplate prepare(String code) throws Exception {
 		return createTemplate(createTemplateSpecificationFactory().fromCode(code));
 	}
 

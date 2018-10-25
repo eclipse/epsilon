@@ -19,31 +19,25 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 import org.eclipse.epsilon.egl.util.FileUtil;
 
-
-
 public class Preprocessor {
 	
 	private StringBuffer eol = new StringBuffer();
-	private final Map<Integer, Integer> colNumber = new TreeMap<Integer, Integer>();
+	private final Map<Integer, Integer> colNumber = new TreeMap<>();
 	private PreprocessorTrace trace = new PreprocessorTrace();
 	private AST child = null;
 	
 	
-	private static String escape(String s){
-		String escaped = s;
-		
-		escaped = escaped.replaceAll("\\\\","\\\\\\\\");
-		escaped = escaped.replaceAll("\r","\\\\r");
-		escaped = escaped.replaceAll("\n","\\\\n");
-		escaped = escaped.replaceAll("\t","\\\\t");
-		escaped = escaped.replaceAll("\b","\\\\b");
-		escaped = escaped.replaceAll("\f","\\\\f");
-		escaped = escaped.replace("'", "\\'");
-		escaped = escaped.replace("\"", "\\\"");
-		
-		return escaped;
+	private static String escape(String s) {
+		return s
+			.replaceAll("\\\\","\\\\\\\\")
+			.replaceAll("\r","\\\\r")
+			.replaceAll("\n","\\\\n")
+			.replaceAll("\t","\\\\t")
+			.replaceAll("\b","\\\\b")
+			.replaceAll("\f","\\\\f")
+			.replace("'", "\\'")
+			.replace("\"", "\\\"");
 	}
-	
 	
 	private int getOffset(int lineNumber) {
 		if (colNumber.containsKey(lineNumber))
@@ -93,7 +87,7 @@ public class Preprocessor {
 		
 		child = ast.getFirstChild();
 		
-		while (child != null){
+		while (child != null) {
 			switch (TokenType.typeOf(child.getType())) {
 				case START_COMMENT_TAG:
 					int commentLength = child.getText().length();
@@ -206,12 +200,12 @@ public class Preprocessor {
 	 * environment in which it is currently executing.
 	 */
 	private String normaliseNewLines(String text) {
-		// First normalise newlines to \n
-		text = text.replaceAll("\\r\\n", "\n");
-		text = text.replaceAll("\\r", "\n");
-		
-		// Now replace with current newline
-		return text.replaceAll("\\n", FileUtil.NEWLINE);
+		return text
+			// First normalise newlines to \n
+			.replaceAll("\\r\\n", "\n")
+			.replaceAll("\\r", "\n")
+			// Now replace with current newline
+			.replaceAll("\\n", FileUtil.NEWLINE);
 	}
 
 
@@ -224,7 +218,7 @@ public class Preprocessor {
 		}
 	}
 	
-	public PreprocessorTrace getTrace(){
+	public PreprocessorTrace getTrace() {
 		return trace;
 	}	
 }

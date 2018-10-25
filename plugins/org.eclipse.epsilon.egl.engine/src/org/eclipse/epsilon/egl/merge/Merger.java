@@ -20,10 +20,9 @@ import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
 public abstract class Merger {
 
 	protected final Partitioner partitioner;
-	protected final Output generated;
-	protected final Output existing;
+	protected final Output generated, existing;
 	
-	protected final List<ProtectedRegionWarning> warnings = new LinkedList<ProtectedRegionWarning>();
+	protected final List<ProtectedRegionWarning> warnings = new LinkedList<>();
 	
 	protected Merger(Partitioner partitioner, String generated, String existing) {
 		this.partitioner = partitioner;

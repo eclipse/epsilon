@@ -1,0 +1,68 @@
+import "../thrift-helper-functions.eol";
+
+pre {
+	var fileName = getThriftFileName();	//This is typically parameterized!
+	var date : String = getDate();
+	doSetup();
+	var extension : String = ".rb";
+	var rbName : String = fileName.camelToUnderscore().toLowerCase();
+	var typesName : String = rbName+"_types";
+	var constsName : String = rbName+"_constants";
+	var structEGL : String = "thrift-rb-struct.egl";
+	var pkgId : String = getNamespaceFor("rb");
+	var author : String = "Thrift Compiler (0.9.3)";
+	var outDir : String = getOutputDir(pkgId);
+}
+
+rule Types {
+	parameters {
+		var params : new Map;
+		params.put("enums", Enum.allInstances());
+		params.put("structs", Struct.allInstances());
+		params.put("unions", Union.allInstances());
+		params.put("structEGL", structEGL);
+		params.put("outputFile", outDir+typesName+extension);
+		params.put("package", pkgId);
+		params.put("date", date);
+		params.put("author", author);
+		return params;
+	}
+	template: "thrift-rb-types.egl"
+	target: outDir+typesName+extension
+}
+
+rule Constants {
+	parameters {
+		var params : new Map;
+		params.put("constants", Const.allInstances());
+		params.put("types", typesName);
+		params.put("className", constsName);
+		params.put("package", pkgId);
+		params.put("date", date);
+		params.put("author", author);
+		return params;
+	}
+	template: "thrift-rb-constants.egl"
+	target: outDir+constsName+extension
+}
+
+rule Services transform service : Service {
+	parameters {
+		var params : new Map;
+		params.put("service", service);
+		params.put("identifier", service.identifier);
+		params.put("hasSuper", service.hasSuper());
+		params.put("supers", service.supers);
+		params.put("functions", service.functions);
+		params.put("types", typesName);
+		params.put("structEGL", structEGL);
+		params.put("outputFile", outDir+service.identifier+extension);
+		params.put("comment", service.comment);
+		params.put("package", pkgId);
+		params.put("date", date);
+		params.put("author", author);
+		return params;
+	}
+	template: "thrift-rb-service.egl"
+	target: outDir+service.identifier.toLowerCase()+extension
+}

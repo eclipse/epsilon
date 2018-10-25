@@ -16,8 +16,8 @@ import org.eclipse.epsilon.egl.util.FileUtil;
 
 public class PreprocessorTrace {
 
-	private Map<Integer, Integer> lineNumberMapping = new TreeMap<Integer, Integer>();
-	private Map<Integer, Integer> columnCorrections = new TreeMap<Integer, Integer>();
+	private Map<Integer, Integer> lineNumberMapping = new TreeMap<>();
+	private Map<Integer, Integer> columnCorrections = new TreeMap<>();
 	
 	private int currentEolLine = 1;
 	private int maximumEglLineNumber = 1;

@@ -11,26 +11,23 @@ package org.eclipse.epsilon.egl.dom;
 
 import java.io.File;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
-import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
 import org.eclipse.epsilon.egl.EglPersistentTemplate;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.EgxModule;
+import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.EolParser;
@@ -39,19 +36,11 @@ import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
 
 public class GenerationRule extends ExtensibleNamedRule {
 	
-	protected Parameter sourceParameter = null;
-	protected ExecutableBlock<String> targetBlock = null;
-	protected ExecutableBlock<Boolean> guardBlock = null;
-	protected ExecutableBlock<String> templateBlock = null;
-	protected ExecutableBlock<EolMap> parametersBlock = null;
-	protected ExecutableBlock<Void> preBlock = null;
-	protected ExecutableBlock<Void> postBlock = null;
-	protected ExecutableBlock<Boolean> overwriteBlock = null;
-	protected ExecutableBlock<Boolean> mergeBlock = null;
-	protected ExecutableBlock<Boolean> appendBlock = null;
-	protected Boolean isGreedy;
-	
-	public GenerationRule() {}
+	protected Parameter sourceParameter;
+	protected ExecutableBlock<String> targetBlock, templateBlock;
+	protected ExecutableBlock<Boolean> guardBlock, overwriteBlock, mergeBlock;
+	protected ExecutableBlock<Void> preBlock, postBlock;
+	protected ExecutableBlock<EolMap<String, ?>> parametersBlock;
 	
 	@SuppressWarnings("unchecked")
 	public void build(AST cst, IModule module) {
@@ -64,100 +53,87 @@ public class GenerationRule extends ExtensibleNamedRule {
 		templateBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TEMPLATE), this);
 		guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.GUARD), this);
 		targetBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TARGET), this);
-		parametersBlock = (ExecutableBlock<EolMap>) module.createAst(AstUtil.getChild(cst, EgxParser.PARAMETERS), this);
+		parametersBlock = (ExecutableBlock<EolMap<String, ?>>) module.createAst(AstUtil.getChild(cst, EgxParser.PARAMETERS), this);
 		preBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EgxParser.PRE), this);
 		postBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EgxParser.POST), this);
 		overwriteBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.OVERWRITE), this);
 		mergeBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.MERGE), this);
-		appendBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.APPEND), this);
 	}
-	
-	public boolean isGreedy() throws EolRuntimeException {
-		if (isGreedy == null) {
-			isGreedy = getBooleanAnnotationValue("greedy", null);
-		}
-		return isGreedy;
-	}
-	
-	public void generateAll(IEglContext context, EglTemplateFactory templateFactory, EgxModule module) throws EolRuntimeException {
-		
-		Collection<?> all = new ArrayList<Object>();
-		
+
+	public Collection<?> getAllElements(IEglContext context) throws EolRuntimeException {
 		if (sourceParameter != null) {
-			all = getAllInstances(sourceParameter, context, !isGreedy());
+			return getAllInstances(sourceParameter, context, !isGreedy());
 		}
 		else {
-			all.add(null);
+			return Collections.singleton(null);
 		}
-		
-		Map<URI, EglTemplate> templateCache = new HashMap<URI, EglTemplate>();
-		
-		for (Object o : all) {
-			
-			if (sourceParameter != null) {
-				context.getFrameStack().enterLocal(FrameType.PROTECTED, this, Variable.createReadOnlyVariable(sourceParameter.getName(), o));
-			}
-			else {
-				context.getFrameStack().enterLocal(FrameType.PROTECTED, this);
-			}
-			
-			boolean guard = (guardBlock == null) ? true : guardBlock.execute(context, false);
-			if (!guard) continue;
-			
-			if (preBlock != null) preBlock.execute(context, false);
-			
-			boolean overwrite = (overwriteBlock == null) ? true : overwriteBlock.execute(context, false);
-			boolean merge = (mergeBlock == null) ? true : mergeBlock.execute(context, false);
-			boolean append = (appendBlock == null) ? false : appendBlock.execute(context, false);
-			
-			EolMap parameters = (parametersBlock == null) ? new EolMap() : parametersBlock.execute(context, false);
-			String template = (templateBlock == null) ? "" : templateBlock.execute(context, false);
-			
-			String target = targetBlock.execute(context, false);
-			
-			URI templateUri = templateFactory.resolveTemplate(template);
-			
-			if (!templateCache.containsKey(templateUri)) {
-				templateCache.put(templateUri, templateFactory.load(templateUri));
-			}
-			
-			EglTemplate eglTemplate = templateCache.get(templateUri);
-			
-			if (sourceParameter != null) {
-				eglTemplate.populate(sourceParameter.getName(), o);
-			}
-			
-			for (Object key : parameters.keySet()) {
-				eglTemplate.populate(key + "", parameters.get(key));
-			}
-			
-			File generated = null;
-			if (eglTemplate instanceof EglPersistentTemplate) {
-				if (append) {
-					if (eglTemplate instanceof EglFileGeneratingTemplate) {
-						generated = ((EglFileGeneratingTemplate) eglTemplate).append(target);
-					}
-				}
-				else {
-					generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
-				}
-			}
-			
-			module.getInvokedTemplates().add(eglTemplate.getTemplate());
-			
-			if (postBlock != null) {
-				context.getFrameStack().enterLocal(FrameType.UNPROTECTED, postBlock, Variable.createReadOnlyVariable("generated", generated));
-				postBlock.execute(context, false);
-				context.getFrameStack().leaveLocal(postBlock);
-			}
-			
-			context.getFrameStack().leaveLocal(this);
-			
-			eglTemplate.reset();
-		}
-			
 	}
 	
+	public void generate(IEglContext context, EglTemplateFactory templateFactory, IEgxModule module, Object element, Map<URI, EglTemplate> templateCache) throws EolRuntimeException {
+		FrameStack frameStack = context.getFrameStack();
+		
+		if (sourceParameter != null) {
+			frameStack.enterLocal(FrameType.PROTECTED, this, Variable.createReadOnlyVariable(sourceParameter.getName(), element));
+		}
+		else {
+			frameStack.enterLocal(FrameType.PROTECTED, this);
+		}
+		
+		if (guardBlock != null && !guardBlock.execute(context, false))
+			return;
+		
+		if (preBlock != null) {
+			preBlock.execute(context, false);
+		}
+		
+		final boolean overwrite = (overwriteBlock == null) ? true : overwriteBlock.execute(context, false);
+		final boolean merge = (mergeBlock == null) ? true : mergeBlock.execute(context, false);			
+		final String templateName = (templateBlock == null) ? "" : templateBlock.execute(context, false);
+		final String target = targetBlock.execute(context, false);
+		
+		URI templateUri = templateFactory.resolveTemplate(templateName);
+		
+		EglTemplate eglTemplate = templateCache.get(templateUri);
+		
+		if (eglTemplate == null) {
+			templateCache.put(templateUri, eglTemplate = templateFactory.load(templateUri));
+		}
+		
+		if (sourceParameter != null) {
+			eglTemplate.populate(sourceParameter.getName(), element);
+		}
+		
+		if (parametersBlock != null) {
+			for (Map.Entry<String, ?> entry : parametersBlock.execute(context, false).entrySet()) {
+				eglTemplate.populate(entry.getKey(), entry.getValue());
+			}
+		}
+		
+		File generated = null;
+		if (eglTemplate instanceof EglPersistentTemplate) {
+			generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
+		}
+		
+		module.getInvokedTemplates().add(eglTemplate.getTemplate());
+		
+		if (postBlock != null) {
+			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, postBlock, Variable.createReadOnlyVariable("generated", generated));
+			postBlock.execute(context, false);
+			frameStack.leaveLocal(postBlock);
+		}
+		
+		frameStack.leaveLocal(this);
+		eglTemplate.reset();
+	}
+	
+	public void generateAll(IEglContext context, EglTemplateFactory templateFactory, IEgxModule module) throws EolRuntimeException {
+		Map<URI, EglTemplate> templateCache = new HashMap<>();
+		
+		for (Object element : getAllElements(context)) {
+			generate(context, templateFactory, module, element, templateCache);
+		}
+	}
+
 	@Override
 	public String toString() {
 		String label = getName();
@@ -171,5 +147,4 @@ public class GenerationRule extends ExtensibleNamedRule {
 	public AST getSuperRulesAst(AST cst) {
 		return null;
 	}
-	
 }

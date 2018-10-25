@@ -22,7 +22,7 @@ public abstract class FileUtil {
 
 	public final static String FILE_SEP = System.getProperty("file.separator");
 	public final static String NEWLINE  = System.getProperty("line.separator");
-	public final static String ESCAPED_NEWLINE  = NEWLINE.replaceAll("\r", "\\\\r").replaceAll("\n", "\\\\n");
+	public final static String ESCAPED_NEWLINE  = NEWLINE.replaceAll("\\r", "\\\\r").replaceAll("\\n", "\\\\n");
 	
 	/**
 	 * Returns the absolute path for the given path. The given path may 
@@ -61,16 +61,12 @@ public abstract class FileUtil {
 	}
 	
 	public static String read(File file) throws IOException {
-		BufferedReader reader = null;
-		
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 			final StringBuilder contents = new StringBuilder();
-			
-			reader = new BufferedReader(new FileReader(file));
 			
 			int c;
 
-			while((c = reader.read()) != -1) {
+			while ((c = reader.read()) != -1) {
 				if ((char)c == '\r' && (char)reader.read() == '\n')
 					contents.append(NEWLINE);
 				
@@ -83,8 +79,6 @@ public abstract class FileUtil {
 		
 			return contents.toString();
 			
-		} finally {
-			if (reader!=null) reader.close();
 		}
 	}
 	
@@ -105,18 +99,11 @@ public abstract class FileUtil {
 			file.getAbsoluteFile().getParentFile().mkdirs();
 		}
 		
-		FileWriter writer = null;
+		if (!file.exists()) file.createNewFile();
 		
-		try {
-			if (!file.exists()) file.createNewFile();
-			
-			writer = new FileWriter(file, append);
-			
+		try (FileWriter writer = new FileWriter(file, append)) {
 			writer.write(contents);
 			writer.flush();
-		
-		} finally {
-			if (writer!=null) writer.close();
 		}
 	}
 }

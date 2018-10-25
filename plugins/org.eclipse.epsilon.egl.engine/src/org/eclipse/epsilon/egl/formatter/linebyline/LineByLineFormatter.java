@@ -17,7 +17,7 @@ public abstract class LineByLineFormatter<T extends Line> implements Formatter {
 	
 	@Override
 	public final String format(String text) {
-		navigator = new LineByLineNavigator<T>(text, createLineFactory());
+		navigator = new LineByLineNavigator<>(text, createLineFactory());
 
 		while (navigator.hasMoreLines()) {
 			

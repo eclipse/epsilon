@@ -16,14 +16,14 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.types.EolType;
 
-public class EglComplexType extends EolType{
+public class EglComplexType extends EolType {
 
 	private Class<?> clazz;
 	private String name;
 	
 	public static EglComplexType Template = new EglComplexType(EglTemplate.class, "Template");
 	
-	private EglComplexType(Class<?> clazz, String name){
+	private EglComplexType(Class<?> clazz, String name) {
 		this.clazz = clazz;
 		this.name = name;
 	}
@@ -42,7 +42,7 @@ public class EglComplexType extends EolType{
 	@Override
 	public Object createInstance() {
 		try {
-			return clazz.newInstance();
+			return clazz.getDeclaredConstructor().newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

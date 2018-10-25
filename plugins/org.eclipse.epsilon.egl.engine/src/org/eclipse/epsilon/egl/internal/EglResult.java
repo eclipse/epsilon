@@ -9,11 +9,33 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.internal;
 
+import java.util.Objects;
+
 public class EglResult {
 
 	public final String generatedText;
 	
 	public EglResult(String generatedText) {
 		this.generatedText = generatedText;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(generatedText);
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (this == other) return true;
+		if (!(other instanceof EglResult))
+			return false;
+		
+		EglResult er = (EglResult) other;
+		return Objects.equals(this.generatedText, er.generatedText);
+	}
+	
+	@Override
+	public String toString() {
+		return generatedText;
 	}
 }

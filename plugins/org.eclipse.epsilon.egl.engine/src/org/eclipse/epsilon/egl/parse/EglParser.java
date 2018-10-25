@@ -21,7 +21,7 @@ import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 public class EglParser {
 	
 	private final EglLexer lexer;
-	private final List<ParseProblem> problems = new LinkedList<ParseProblem>();
+	private final List<ParseProblem> problems = new LinkedList<>();
 	
 	private final EpsilonTreeAdaptor astFactory;
 	
@@ -140,7 +140,7 @@ public class EglParser {
 		
 		// Create a data structure to hold all of the text sections
 		// that this tagged section contains
-		final List<AST> textAsts = new LinkedList<AST>();
+		final List<AST> textAsts = new LinkedList<>();
 		
 		// Parse as many text tokens as possible
 		AST next = null;

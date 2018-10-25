@@ -9,12 +9,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute.context;
 
-import java.net.URI;
 import java.util.ArrayDeque;
 import java.util.Deque;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -47,7 +44,8 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 public class EglFrameStackManager {
 
 	private final FrameStack frameStack;
-	private final Deque<ModuleElement> localMarkers = new ArrayDeque<ModuleElement>(), globalMarkers = new ArrayDeque<ModuleElement>();
+	private final Deque<ModuleElement> localMarkers = new ArrayDeque<>();
+	private final Deque<ModuleElement> globalMarkers = new ArrayDeque<>();
 	
 	public EglFrameStackManager(FrameStack frameStack) {
 		this.frameStack = frameStack;

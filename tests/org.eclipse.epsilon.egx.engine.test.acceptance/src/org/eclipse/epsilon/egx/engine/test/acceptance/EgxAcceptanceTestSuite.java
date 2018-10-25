@@ -9,14 +9,20 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egx.engine.test.acceptance;
 
+import org.eclipse.epsilon.egx.engine.test.acceptance.equivalence.EgxModuleEquivalenceTests;
 import org.eclipse.epsilon.egx.engine.test.acceptance.rules.Rule;
 import org.eclipse.epsilon.egx.engine.test.acceptance.rules.RulesAreTyped;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import junit.framework.JUnit4TestAdapter;
+import junit.framework.Test;
 
 @RunWith(Suite.class)
-@SuiteClasses({Rule.class, RulesAreTyped.class})
+@SuiteClasses({Rule.class, RulesAreTyped.class, EgxModuleEquivalenceTests.class})
 public class EgxAcceptanceTestSuite {
 
+	public static Test suite() {
+		return new JUnit4TestAdapter(EgxAcceptanceTestSuite.class);
+	}
 }

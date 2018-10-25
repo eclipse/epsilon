@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egl;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.execute.control.ITemplateExecutionListener;
@@ -64,7 +63,7 @@ public class EglTemplate extends AbstractEglTemplate {
 	public String getName() {
 		return name;
 	}
-
+	
 	public void populate(String name, Object value) {
 		template.addVariable(name, value);
 	}

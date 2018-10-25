@@ -166,7 +166,6 @@ public interface IOutputBuffer {
 	 */
 	public String stopControl() throws EglRuntimeException;
 
-	
 	/**
 	 * Halts execution of the current template.
 	 */

@@ -11,11 +11,7 @@ package org.eclipse.epsilon.egl;
 
 import java.io.File;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
@@ -26,6 +22,7 @@ import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.execute.context.EgxContext;
+import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.parse.EgxLexer;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.egl.traceability.Content;
@@ -38,12 +35,11 @@ import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
-public class EgxModule extends ErlModule {
-	
+public class EgxModule extends ErlModule implements IEgxModule {
+
+	protected NamedRuleList<GenerationRule> generationRules;
 	protected NamedRuleList<GenerationRule> declaredGenerationRules = new NamedRuleList<>();
-	protected NamedRuleList<GenerationRule> generationRules = null;
-	protected EglTemplateFactory templateFactory = null;
-	protected List<Content<Template>> invokedTemplates = new ArrayList<>();
+	protected Collection<Content<Template>> invokedTemplates = new ArrayList<>();
 	
 	public static void main(String[] args) throws Exception {
 		final EgxModule module = new EgxModule();
@@ -70,23 +66,23 @@ public class EgxModule extends ErlModule {
 	}
 	
 	public EgxModule() {
-		this(new EglTemplateFactory());
+		this(new EgxContext());
 	}
 	
-	public EgxModule(EglTemplateFactory templateFactory) {
-		this.templateFactory = templateFactory;
-		context = new EgxContext(templateFactory);
+	public EgxModule(IEgxContext egxContext) {
+		this.context = egxContext;
 	}
 	
 	public EglTemplateFactory getTemplateFactory() {
-		return templateFactory;
+		return getContext().getTemplateFactory();
 	}
 	
 	public void setTemplateFactory(EglTemplateFactory templateFactory) {
-		this.templateFactory = templateFactory;
+		getContext().setTemplateFactory(templateFactory);
 	}
-
-	public List<Content<Template>> getInvokedTemplates() {
+	
+	@Override
+	public Collection<Content<Template>> getInvokedTemplates() {
 		return invokedTemplates;
 	}
 	
@@ -109,26 +105,28 @@ public class EgxModule extends ErlModule {
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		
+		List<AST> generationRuleChildren = AstUtil.getChildren(cst, EgxParser.GENERATE);
+		declaredGenerationRules.ensureCapacity(generationRuleChildren.size());
 		// Parse the transform rules
-		for (AST generationRuleAst : AstUtil.getChildren(cst, EgxParser.GENERATE)) {
+		for (AST generationRuleAst : generationRuleChildren) {
 			declaredGenerationRules.add((GenerationRule) module.createAst(generationRuleAst, this));
 		}
 		
 		getParseProblems().addAll(calculateSuperRules(getGenerationRules()));
 	}
 	
-	
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch (cst.getType()) {
 			case EgxParser.GENERATE: return createGenerationRule(cst);
-			case EgxParser.TEMPLATE: return new ExecutableBlock<String>(String.class);
 			case EgxParser.PARAMETERS: return new ExecutableBlock<Map<?, ?>>(Map.class);
-			case EgxParser.OVERWRITE: return new ExecutableBlock<Boolean>(Boolean.class);
-			case EgxParser.GUARD: return new ExecutableBlock<Boolean>(Boolean.class);
-			case EgxParser.MERGE: return new ExecutableBlock<Boolean>(Boolean.class);
-			case EgxParser.APPEND: return new ExecutableBlock<Boolean>(Boolean.class);
-			case EgxParser.TARGET: return new ExecutableBlock<String>(String.class);
+			case EgxParser.TARGET:
+			case EgxParser.TEMPLATE:
+				return new ExecutableBlock<String>(String.class);
+			case EgxParser.OVERWRITE:
+			case EgxParser.GUARD:
+			case EgxParser.MERGE:
+				return new ExecutableBlock<Boolean>(Boolean.class);
 			case EgxParser.PRE:
 			case EgxParser.POST: {
 				if (parentAst instanceof GenerationRule) {
@@ -149,6 +147,7 @@ public class EgxModule extends ErlModule {
 		return new GenerationRule();
 	}
 	
+	@Override
 	public List<GenerationRule> getDeclaredGenerationRules() {
 		return declaredGenerationRules;
 	}
@@ -156,39 +155,45 @@ public class EgxModule extends ErlModule {
 	@Override
 	public boolean parse(File file) throws Exception {
 		boolean result = super.parse(file);
-		if (result) templateFactory.initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
+		if (result) getTemplateFactory().initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
 		return result;
 	}
-	
 	
 	@Override
 	public boolean parse(URI uri) throws Exception {
 		boolean result = super.parse(uri);
-		if (result) templateFactory.initialiseRoot(uri);
+		if (result) getTemplateFactory().initialiseRoot(uri);
 		return result;
 	}
 	
 	@Override
 	public boolean parse(String code, File file) throws Exception {
 		boolean result = super.parse(code, file);
-		if (result && file != null) templateFactory.initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
+		if (result && file != null) getTemplateFactory().initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
 		return result;
 	}
 	
+	@Override
+	protected void prepareContext() {
+		super.prepareContext();
+		getContext().copyInto(getContext().getTemplateFactory().getContext(), true);
+	}
+	
+	@Override
 	public Object executeImpl() throws EolRuntimeException {
-		EgxContext context = getContext();
-		context.copyInto(templateFactory.getContext(), true);
-		
-		execute(getPre(), context);
+		prepareExecution();
+		generateRules();
+		postExecution();
+		return null;
+	}
+	
+	protected void generateRules() throws EolRuntimeException {
+		IEgxContext context = getContext();
+		EglTemplateFactory templateFactory = context.getTemplateFactory();
 		
 		for (GenerationRule rule : getGenerationRules()) {
 			rule.generateAll(context, templateFactory, this);
 		}
-		
-		execute(getPost(), context);
-		
-		return null;
-		
 	}
 	
 	@Override
@@ -199,20 +204,21 @@ public class EgxModule extends ErlModule {
 	}
 
 	@Override
-	public EgxContext getContext() {
-		return (EgxContext) context;
+	public IEgxContext getContext() {
+		return (IEgxContext) context;
 	}
 	
-	public void setContext(EgxContext context){
+	public void setContext(IEgxContext context) {
 		this.context = context;
 	}
 	
+	@Override
 	public List<GenerationRule> getGenerationRules() {
 		if (generationRules == null) {
 			generationRules = new NamedRuleList<>();
 			for (Import import_ : imports) {
-				if (import_.isLoaded() && (import_.getModule() instanceof EgxModule)) {
-					EgxModule module = (EgxModule) import_.getModule();
+				if (import_.isLoaded() && (import_.getModule() instanceof IEgxModule)) {
+					IEgxModule module = (IEgxModule) import_.getModule();
 					generationRules.addAll(module.getGenerationRules());
 				}
 			}
@@ -233,9 +239,8 @@ public class EgxModule extends ErlModule {
 
 	@Override
 	public void setContext(IEolContext context) {
-		if (context instanceof EgxContext) {
-			this.context = (EgxContext) context;
+		if (context instanceof IEgxContext) {
+			this.context = (IEgxContext) context;
 		}
 	}
-	
 }

@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.egx.engine.test.acceptance.rules;
 
 import static org.junit.Assert.assertEquals;
-
 import org.eclipse.epsilon.egx.engine.test.acceptance.util.EgxAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;

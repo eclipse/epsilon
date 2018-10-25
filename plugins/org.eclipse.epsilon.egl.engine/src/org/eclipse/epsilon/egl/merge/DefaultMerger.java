@@ -27,12 +27,12 @@ public class DefaultMerger extends Merger {
 	public String merge() {
 		warnings.clear();
 		
-		boolean hasProtectedRegions = false;
+		//boolean hasProtectedRegions = false;
 		boolean hasControlledRegions = false;
 		
 		for (LocatedRegion region : generated.getLocatedRegions()) {
 			if (region.getType() == RegionType.Protected) {
-				hasProtectedRegions = true;
+				//hasProtectedRegions = true;
 				break;
 			}
 			else if (region.getType() == RegionType.Controlled) {
@@ -55,11 +55,13 @@ public class DefaultMerger extends Merger {
 	
 	public String mergeControlledRegions() {
 		for (LocatedRegion existingRegion : existing.getLocatedRegions()) {
-			final LocatedRegion generatedRegion = generated.getLocatedRegion(existingRegion.getId());
-						
-			if (existingRegion != null && existingRegion.isEnabled() && existingRegion.getType() == RegionType.Controlled) {
-				generatedRegion.setEnabled(true);
-				existingRegion.setContents(generatedRegion.getContents());
+			if (existingRegion != null) {
+				final LocatedRegion generatedRegion = generated.getLocatedRegion(existingRegion.getId());
+							
+				if (existingRegion.isEnabled() && existingRegion.getType() == RegionType.Controlled) {
+					generatedRegion.setEnabled(true);
+					existingRegion.setContents(generatedRegion.getContents());
+				}
 			}
 		}
 		
@@ -68,7 +70,7 @@ public class DefaultMerger extends Merger {
 	
 	public String mergeProtectedRegions() {
 		warnings.clear();
-		final List<String> idsPresentInGenerated = new LinkedList<String>();
+		final List<String> idsPresentInGenerated = new LinkedList<>();
 		
 		for (LocatedRegion generatedRegion : generated.getLocatedRegions()) {
 			final LocatedRegion existingRegion = existing.getLocatedRegion(generatedRegion.getId());

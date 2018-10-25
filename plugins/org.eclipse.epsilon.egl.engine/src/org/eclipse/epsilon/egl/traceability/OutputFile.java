@@ -16,10 +16,10 @@ public class OutputFile extends Container<ProtectedRegion> {
 	protected OutputFile(Template template, String name, URI uri) {
 		super(template, name, uri);
 		
-		if (template==null)
+		if (template == null)
 			throw new NullPointerException("template cannot be null.");
 		
-		if (uri==null)
+		if (uri == null)
 			throw new NullPointerException("uri cannot be null.");
 	}
 

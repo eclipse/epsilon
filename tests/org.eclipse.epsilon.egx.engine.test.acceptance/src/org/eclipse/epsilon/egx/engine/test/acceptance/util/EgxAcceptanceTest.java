@@ -14,6 +14,7 @@ import java.io.File;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EgxModule;
+import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 
@@ -24,7 +25,7 @@ public class EgxAcceptanceTest extends HutnTestWithFamiliesMetaModel {
 	public static void runEgx(String source, String hutnModel, Template... templates) throws Exception {
 		File egxFile = setupFactory(source, templates);
 		
-		EgxModule module = new EgxModule(factory);
+		EgxModule module = new EgxModule(new EgxContext(factory));
 		module.getContext().getModelRepository().addModel(hutnToFamilyModel(hutnModel));
 		module.parse(source, egxFile);
 		
