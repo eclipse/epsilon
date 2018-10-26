@@ -25,7 +25,7 @@ public class EglPreferencePage extends PreferencePage implements IWorkbenchPrefe
 	
 	public static final String USE_LEGACY_COLOUR_SCHEME = "useLegacyColourScheme";
 	
-	protected List<FieldEditor> fieldEditors = new ArrayList<FieldEditor>();
+	protected List<FieldEditor> fieldEditors = new ArrayList<>();
 	
 	@Override
 	protected Control createContents(Composite parent) {

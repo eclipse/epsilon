@@ -1,57 +1,78 @@
+/*********************************************************************
+ * Copyright (c) 2018 The University of York.
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.egx.engine.test.acceptance;
 
-import static org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil.*;
 import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
-import org.eclipse.epsilon.common.util.CollectionUtil;
+import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
+import org.eclipse.epsilon.egl.concurrent.*;
+import org.eclipse.epsilon.egl.launch.EgxRunConfiguration;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
-import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 
-public class EgxAcceptanceTestUtil {
+public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	private EgxAcceptanceTestUtil() {}
 	
 	public static final String
-		//Core
 		testsBase = getTestBaseDir(EgxAcceptanceTestSuite.class),
-		metamodelsRoot = testsBase+"metamodels/",
-		scriptsRoot = testsBase+"scripts/",
-		modelsRoot = testsBase+"models/",
-	
-	//Metamodels and scripts
-	thriftMetamodel = "thrift.ecore",
-	thriftModels[] = {"ThriftTest.xmi", "fb303.xmi"},
-	thriftScripts[] = {"thrift-java", "thrift-rb"};
+		thriftBase = testsBase+"thrift/",
+		thriftMetamodel = "thrift.ecore",
+		thriftModels[] = {"ThriftTest.xmi", "fb303.xmi"},
+		thriftScripts[] = {"thrift-java", "thrift-rb"};
 		
-	public static final List<String[]>
-		thriftInputs,
-		allInputs;
+	public static final List<String[]> thriftInputs;
 	
 	static {
-		thriftInputs = addAllInputs(thriftScripts, thriftModels, thriftMetamodel);
-		allInputs = CollectionUtil.composeArrayListFrom(thriftInputs);
+		thriftInputs = addAllInputs(
+			new String[]{thriftScripts[0]},
+			thriftModels, thriftMetamodel, "egx",
+			thriftBase+"java/", thriftBase, thriftBase
+		);
+		thriftInputs.addAll(addAllInputs(
+			new String[]{thriftScripts[1]},
+			thriftModels, thriftMetamodel, "egx",
+			thriftBase+"ruby/", thriftBase, thriftBase
+		));
 	}
 	
 	public static Collection<Supplier<? extends IEgxModule>> modules(boolean includeStandard) {
-		//TODO
-		return null;
+		return parallelModules(THREADS, includeStandard ? EgxModule::new : null, EgxModuleParallel::new);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public static Collection<IEolRunConfiguration<IEgxModule, ?>> getScenarios(
+	public static Collection<EgxRunConfiguration> getScenarios(
 		List<String[]> testInputs,
-		boolean includeTest,
-		Collection<Supplier<? extends IEgxModule>> moduleGetters
-		) {
-			Collection<IEolRunConfiguration<IEgxModule, ?>> scenarios = EolAcceptanceTestUtil
-				.getScenarios(IEolRunConfiguration.class, testInputs, moduleGetters, null);
-			//TODO
-			return scenarios;
+		Collection<Supplier<? extends IEgxModule>> moduleGetters) {
+			return getScenarios(EgxRunConfiguration.class, testInputs, moduleGetters, null);
 	}
 	
-	public static List<String[]> addAllInputs(String[] scripts, String[] models, String metamodel) {
-		return EolAcceptanceTestUtil.addAllInputs(scripts, models, metamodel, "egx", scriptsRoot, modelsRoot, metamodelsRoot);
+	public static void deleteOutputDirectories() throws IOException {
+		deleteOutputDirectory(thriftBase+"java");
+		deleteOutputDirectory(thriftBase+"ruby");
+	}
+	
+	/**
+	 * WARNIING: Use with caution!
+	 * @param dir
+	 * @throws IOException
+	 */
+	static void deleteOutputDirectory(String dir) throws IOException {
+		Files.walk(Paths.get(dir+"/output/"))
+	        .map(Path::toFile)
+	        .sorted((o1, o2) -> -o1.compareTo(o2))
+	        .forEach(File::delete);
 	}
 }

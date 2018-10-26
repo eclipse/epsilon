@@ -12,7 +12,9 @@ package org.eclipse.epsilon.egl.concurrent;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.egl.EglTemplate;
@@ -23,9 +25,15 @@ import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
 public class EgxModuleParallel extends EgxModule {
 
+	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
+	static {
+		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
+	}
+	
 	public EgxModuleParallel() {
 		this(new EgxContextParallel());
 	}
@@ -86,5 +94,24 @@ public class EgxModuleParallel extends EgxModule {
 		if (context instanceof IEgxContextParallel) {
 			super.setContext(context);
 		}
+	}
+	
+	/**
+	 * WARNING: This method should only be called by the DT plugin for initialization purposes,
+	 * as the context will be reset!
+	 */
+	@Override
+	public void configure(Map<String, ?> properties) throws IllegalArgumentException {
+		super.configure(properties);
+		context = IEolContextParallel.configureContext(
+			properties,
+			threads -> new EgxContextParallel(getContext().getTemplateFactory(), threads),
+			getContext()
+		);
+	}
+	
+	@Override
+	public Set<String> getConfigurationProperties() {
+		return CONFIG_PROPERTIES;
 	}
 }

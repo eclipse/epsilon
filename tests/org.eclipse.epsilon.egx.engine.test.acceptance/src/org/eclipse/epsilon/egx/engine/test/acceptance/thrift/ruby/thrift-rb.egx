@@ -15,53 +15,47 @@ pre {
 }
 
 rule Types {
-	parameters {
-		var params : new Map;
-		params.put("enums", Enum.allInstances());
-		params.put("structs", Struct.allInstances());
-		params.put("unions", Union.allInstances());
-		params.put("structEGL", structEGL);
-		params.put("outputFile", outDir+typesName+extension);
-		params.put("package", pkgId);
-		params.put("date", date);
-		params.put("author", author);
-		return params;
+	parameters : Map {
+		"enums" = Enum.allInstances(),
+		"structs" = Struct.allInstances(),
+		"unions" = Union.allInstances(),
+		"structEGL" = structEGL,
+		"outputFile" = outDir+typesName+extension,
+		"package" = pkgId,
+		"date" = date,
+		"author" = author
 	}
 	template: "thrift-rb-types.egl"
 	target: outDir+typesName+extension
 }
 
 rule Constants {
-	parameters {
-		var params : new Map;
-		params.put("constants", Const.allInstances());
-		params.put("types", typesName);
-		params.put("className", constsName);
-		params.put("package", pkgId);
-		params.put("date", date);
-		params.put("author", author);
-		return params;
+	parameters : Map {
+		"constants" = Const.allInstances(),
+		"types" = typesName,
+		"className" = constsName,
+		"package" = pkgId,
+		"date" = date,
+		"author" = author
 	}
 	template: "thrift-rb-constants.egl"
 	target: outDir+constsName+extension
 }
 
 rule Services transform service : Service {
-	parameters {
-		var params : new Map;
-		params.put("service", service);
-		params.put("identifier", service.identifier);
-		params.put("hasSuper", service.hasSuper());
-		params.put("supers", service.supers);
-		params.put("functions", service.functions);
-		params.put("types", typesName);
-		params.put("structEGL", structEGL);
-		params.put("outputFile", outDir+service.identifier+extension);
-		params.put("comment", service.comment);
-		params.put("package", pkgId);
-		params.put("date", date);
-		params.put("author", author);
-		return params;
+	parameters : Map {
+		"service" = service,
+		"identifier" = service.identifier,
+		"hasSuper" = service.hasSuper(),
+		"supers" = service.supers,
+		"functions" = service.functions,
+		"types" = typesName,
+		"structEGL" = structEGL,
+		"outputFile" = outDir+service.identifier+extension,
+		"comment" = service.comment,
+		"package" = pkgId,
+		"date" = date,
+		"author" = author
 	}
 	template: "thrift-rb-service.egl"
 	target: outDir+service.identifier.toLowerCase()+extension

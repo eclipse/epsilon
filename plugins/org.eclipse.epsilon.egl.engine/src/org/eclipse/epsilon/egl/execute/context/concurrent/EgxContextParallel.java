@@ -36,13 +36,17 @@ public class EgxContextParallel extends EgxContext implements IEgxContextParalle
 	protected ThreadLocal<EglExecutionManager> concurrentExecutionManagers;
 	
 	public EgxContextParallel() {
-		this(null, 0);
+		this(0);
 	}
 	
 	public EgxContextParallel(EglTemplateFactory templateFactory) {
 		this(templateFactory, 0);
 	}
 
+	public EgxContextParallel(int parallelism) {
+		this(null, parallelism);
+	}
+	
 	public EgxContextParallel(EglTemplateFactory templateFactory, int parallelism) {
 		super(templateFactory);
 		numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM;

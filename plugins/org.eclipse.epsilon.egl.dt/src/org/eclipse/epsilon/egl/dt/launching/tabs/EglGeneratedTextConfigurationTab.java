@@ -11,13 +11,10 @@ package org.eclipse.epsilon.egl.dt.launching.tabs;
 
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.DEFAULT_FORMATTERS;
 import static org.eclipse.epsilon.egl.dt.launching.EglLaunchConfigurationAttributes.TEMPLATE_FACTORY_TYPE;
-
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -84,7 +81,7 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 		tableData.verticalAlignment = SWT.FILL;
 		tableData.grabExcessHorizontalSpace = true;
 		
-		defaultFormattersTable = new ListWithControls<FormatterSpecification>(group, SWT.NONE);
+		defaultFormattersTable = new ListWithControls<>(group, SWT.NONE);
 	    defaultFormattersTable.setSize(500, 200);
 	    defaultFormattersTable.setLayoutData(tableData);
 	    	    
@@ -134,7 +131,7 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 		final Group group = createGroup(control, "Type of Template Factory: ");
 		
 		final Collection<TemplateFactoryTypeSpecification> specs = new TemplateFactoryTypeSpecificationFactory().loadAllFromExtensionPoints();
-		final Collection<String> templateFactoryTypeNames = new LinkedList<String>();
+		final Collection<String> templateFactoryTypeNames = new LinkedList<>();
 		
 		for (TemplateFactoryTypeSpecification spec : specs) {
 			templateFactoryTypeNames.add(spec.getName());
@@ -181,7 +178,6 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 		
 	}
 
-	@SuppressWarnings("unchecked")
 	private void initializeDefaultFormattersFrom(ILaunchConfiguration configuration) throws CoreException {
 		final Collection<String> defaultFormatterIdentifiers = configuration.getAttribute(DEFAULT_FORMATTERS, new ArrayList<String>());
 		defaultFormattersTable.setItems(new FormatterSpecificationFactory().findByIdentifiers(defaultFormatterIdentifiers));
@@ -201,7 +197,7 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 	}
 
 	private void saveDefaultFormattersTo(ILaunchConfigurationWorkingCopy configuration) {
-		final List<String> defaultFormatterIdentifiers = new LinkedList<String>();
+		final List<String> defaultFormatterIdentifiers = new LinkedList<>();
 		
 		for (FormatterSpecification spec : defaultFormattersTable.getItems()) {
 			defaultFormatterIdentifiers.add(spec.getIdentifier());
