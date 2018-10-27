@@ -10,14 +10,11 @@
 package org.eclipse.epsilon.egx.engine.test.acceptance;
 
 import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.concurrent.*;
@@ -60,19 +57,7 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	}
 	
 	public static void deleteOutputDirectories() throws IOException {
-		deleteOutputDirectory(thriftBase+"java");
-		deleteOutputDirectory(thriftBase+"ruby");
-	}
-	
-	/**
-	 * WARNIING: Use with caution!
-	 * @param dir
-	 * @throws IOException
-	 */
-	static void deleteOutputDirectory(String dir) throws IOException {
-		Files.walk(Paths.get(dir+"/output/"))
-	        .map(Path::toFile)
-	        .sorted((o1, o2) -> -o1.compareTo(o2))
-	        .forEach(File::delete);
+		FileUtil.deleteOutputDirectory(thriftBase+"java/output");
+		FileUtil.deleteOutputDirectory(thriftBase+"ruby/output");
 	}
 }

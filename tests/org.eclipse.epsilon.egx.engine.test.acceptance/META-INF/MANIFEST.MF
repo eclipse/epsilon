@@ -11,4 +11,3 @@ Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.test.fixtures.hutn,
  org.eclipse.epsilon.hutn.test.dependencies.model
 Automatic-Module-Name: org.eclipse.epsilon.egx.engine.test.acceptance
-Import-Package: com.google.gdata.model

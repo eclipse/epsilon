@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -254,5 +255,18 @@ public class FileUtil {
 		while (chExpected == chActual && chExpected > 0 && chActual > 0);
 	
 		return chExpected == chActual;
+	}
+	
+	/**
+	 * WARNIING: Use with caution! Deletes all contents and sub-directories of the specified path.
+	 * @param dir The absolute path to the directory.
+	 * @throws IOException
+	 * @since 1.6
+	 */
+	public static void deleteOutputDirectory(String dir) throws IOException {
+		Files.walk(Paths.get(dir))
+	        .map(Path::toFile)
+	        .sorted((o1, o2) -> -o1.compareTo(o2))
+	        .forEach(File::delete);
 	}
 }

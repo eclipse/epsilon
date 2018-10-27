@@ -21,7 +21,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.apache.commons.cli.Option;
 import org.eclipse.epsilon.common.cli.ConfigParser;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -45,22 +47,22 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 	/**
 	 * Allows the caller to invoke any subclass of IEolModule.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void main(String[] args) throws ClassNotFoundException {
-		
-		class InstantiableEOC extends IEolRunConfiguration<EolModule, Object> {
-			public InstantiableEOC(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, Optional<EolModule> eolModule, Optional<Map<String, ?>> parameters, Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<Integer> configID, Optional<Path> scratchFile) {
-				super(eolFile, modelsAndProperties, eolModule, parameters, showResults, profileExecution, configID, scratchFile);
-			}
-			@Override
-			protected EolModule getDefaultModule() {
-				return new EolModule();
-			}
-		}
-		
 		if (args.length > 0) {
-			new EolConfigParser<>(InstantiableEOC.class).apply(args).run();
+			
+			if (args[0].toUpperCase().startsWith("CONFIG")) {
+				Class<?> configClass = Class.forName(args[0].substring("CONFIG:".length()));
+				String[] adjustedArgs = Arrays.copyOfRange(args, 1, args.length);
+				new EolConfigParser(configClass).apply(adjustedArgs).run();
+			}
+			else {
+				new EolConfigParser(getRunConfigurationForScript(args[0])).apply(args).run();
+			}
+			
 		}
 	}
+	
 	
 	// Variables to be parsed
 	public Optional<M> module;
@@ -274,6 +276,31 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 		}
 		catch (Exception ex) {
 			throw new IllegalArgumentException("Could not find or instantiate the module: "+ex.getMessage());
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	static Class<? extends IEolRunConfiguration<?, ?>> getRunConfigurationForScript(String scriptPath) {
+		String ext = FileUtil.getExtension(scriptPath).toLowerCase();
+		String pkg = ext.equals("egx") ? "egl" : ext;
+		String className = "org.eclipse.epsilon."+pkg+".launch."+StringUtil.firstToUpper(ext)+"RunConfiguration";
+		
+		try {
+			return (Class<? extends IEolRunConfiguration<?, ?>>) Class.forName(className);
+		}
+		catch (ClassNotFoundException cnfx) {
+			
+			class InstantiableEOC extends IEolRunConfiguration<EolModule, Object> {
+				public InstantiableEOC(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, Optional<EolModule> eolModule, Optional<Map<String, ?>> parameters, Optional<Boolean> showResults, Optional<Boolean> profileExecution, Optional<Integer> configID, Optional<Path> scratchFile) {
+					super(eolFile, modelsAndProperties, eolModule, parameters, showResults, profileExecution, configID, scratchFile);
+				}
+				@Override
+				protected EolModule getDefaultModule() {
+					return new EolModule();
+				}
+			}
+			
+			return InstantiableEOC.class;
 		}
 	}
 	

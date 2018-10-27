@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:thriftIDL="http://www.apache.org/thrift/Thrift" xsi:schemaLocation="http://www.apache.org/thrift/Thrift ../../../../../../../../../../org.eclipse.epsilon.egx.engine.test.acceptance/src/org/eclipse/epsilon/egx/engine/test/acceptance/thrift/thrift.ecore">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:thriftIDL="http://www.apache.org/thrift/Thrift" xsi:schemaLocation="http://www.apache.org/thrift/Thrift thrift.ecore">
   <thriftIDL:Document>
     <headers xsi:type="thriftIDL:Namespace" comment="/*&#xA; * Licensed to the Apache Software Foundation (ASF) under one&#xA; * or more contributor license agreements. See the NOTICE file&#xA; * distributed with this work for additional information&#xA; * regarding copyright ownership. The ASF licenses this file&#xA; * to you under the Apache License, Version 2.0 (the&#xA; * &quot;License&quot;); you may not use this file except in compliance&#xA; * with the License. You may obtain a copy of the License at&#xA; *&#xA; *   http://www.apache.org/licenses/LICENSE-2.0&#xA; *&#xA; * Unless required by applicable law or agreed to in writing,&#xA; * software distributed under the License is distributed on an&#xA; * &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY&#xA; * KIND, either express or implied. See the License for the&#xA; * specific language governing permissions and limitations&#xA; * under the License.&#xA; *&#xA; * Contains some contributions under the Thrift Software License.&#xA; * Please see doc/old-thrift-license.txt in the Thrift distribution for&#xA; * details.&#xA; */" scope="c_glib" identifier="TTest"/>
     <headers xsi:type="thriftIDL:Namespace" scope="java" identifier="thrift.test"/>
@@ -1267,5 +1267,31 @@
       <fieldType identifier="StructA"/>
       <xsdFieldOpt/>
     </fields>
+  </thriftIDL:Struct>
+  <thriftIDL:Struct identifier="testVoid_args"/>
+  <thriftIDL:Struct identifier="testString_args"/>
+  <thriftIDL:Struct identifier="testBool_args"/>
+  <thriftIDL:Struct identifier="testByte_args"/>
+  <thriftIDL:Struct identifier="testI32_args"/>
+  <thriftIDL:Struct identifier="testI64_args"/>
+  <thriftIDL:Struct identifier="testDouble_args"/>
+  <thriftIDL:Struct identifier="testBinary_args"/>
+  <thriftIDL:Struct identifier="testStruct_args"/>
+  <thriftIDL:Struct identifier="testNest_args"/>
+  <thriftIDL:Struct identifier="testMap_args"/>
+  <thriftIDL:Struct identifier="testStringMap_args"/>
+  <thriftIDL:Struct identifier="testSet_args"/>
+  <thriftIDL:Struct identifier="testList_args"/>
+  <thriftIDL:Struct identifier="testEnum_args"/>
+  <thriftIDL:Struct identifier="testTypedef_args"/>
+  <thriftIDL:Struct identifier="testMapMap_args"/>
+  <thriftIDL:Struct identifier="testInsanity_args"/>
+  <thriftIDL:Struct identifier="testMulti_args"/>
+  <thriftIDL:Struct identifier="testException_args"/>
+  <thriftIDL:Struct identifier="testMultiException_args"/>
+  <thriftIDL:Struct identifier="testOneway_args"/>
+  <thriftIDL:Struct identifier="testVoid_result"/>
+  <thriftIDL:Struct identifier="testString_result">
+    <fields fieldID="2" identifier="success"/>
   </thriftIDL:Struct>
 </xmi:XMI>

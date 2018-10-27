@@ -49,7 +49,7 @@ public class EclRunConfiguration extends IEolRunConfiguration<IEclModule, MatchT
 	
 	@Override
 	protected void postExecute() throws Exception {
-		// TODO Auto-generated method stub
+		result.toString(module.getContext());
 		super.postExecute();
 	}
 }

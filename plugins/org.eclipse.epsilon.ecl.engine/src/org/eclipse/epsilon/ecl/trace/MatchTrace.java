@@ -25,6 +25,8 @@ public class MatchTrace {
 	 */
 	protected final Collection<Match> matches;
 	
+	protected String toStringCached;
+	
 	public MatchTrace() {
 		this(false);
 	}
@@ -118,9 +120,9 @@ public class MatchTrace {
 			str += context.getPrettyPrinterManager().toString(match.getLeft());
 			str += "\n ->" + context.getPrettyPrinterManager().toString(match.getRight());
 		}
-		str += "-------------------------------------------";
+		str += "\n-------------------------------------------";
 		
-		return str;
+		return toStringCached = str;
 	}
 
 	/**
@@ -134,6 +136,11 @@ public class MatchTrace {
 	
 	public Stream<Match> stream() {
 		return matches.stream();
+	}
+	
+	@Override
+	public String toString() {
+		return toStringCached != null ? toStringCached : super.toString();
 	}
 	
 	@Override
