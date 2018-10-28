@@ -29,6 +29,11 @@ import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolType;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class ParallelMapByOperation extends MapByOperation {
 
 	@Override

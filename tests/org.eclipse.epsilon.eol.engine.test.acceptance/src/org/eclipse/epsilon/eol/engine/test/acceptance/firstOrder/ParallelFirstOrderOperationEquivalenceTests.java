@@ -12,6 +12,11 @@ package org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder;
 import org.eclipse.epsilon.eol.engine.test.acceptance.eunit.EUnitRunner;
 import org.junit.runner.RunWith;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @RunWith(EUnitRunner.class)
 public class ParallelFirstOrderOperationEquivalenceTests {
 

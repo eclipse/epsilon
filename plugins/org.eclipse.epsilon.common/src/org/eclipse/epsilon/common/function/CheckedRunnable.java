@@ -9,6 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.common.function;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @FunctionalInterface
 public interface CheckedRunnable<E extends Exception> extends Runnable {
 	

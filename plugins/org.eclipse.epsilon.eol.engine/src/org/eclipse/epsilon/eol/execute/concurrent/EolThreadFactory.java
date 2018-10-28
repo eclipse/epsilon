@@ -14,6 +14,11 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EolThreadFactory implements ThreadFactory {
 
 	protected final AtomicInteger threadCount = new AtomicInteger();

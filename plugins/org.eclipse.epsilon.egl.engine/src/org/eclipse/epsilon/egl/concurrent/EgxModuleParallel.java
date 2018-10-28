@@ -27,6 +27,11 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EgxModuleParallel extends EgxModule {
 
 	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);

@@ -16,6 +16,11 @@ import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class ProfilableEvlModuleParallelElements extends ProfilableEvlModuleParallel {
 
 	public ProfilableEvlModuleParallelElements(int parallelism) {

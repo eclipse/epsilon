@@ -20,6 +20,7 @@ import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
  * @see https://stackoverflow.com/questions/2795447/is-there-no-way-to-iterate-over-or-copy-all-the-values-of-a-java-threadlocal
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class PersistentThreadLocal<T> extends ThreadLocal<T> {
 

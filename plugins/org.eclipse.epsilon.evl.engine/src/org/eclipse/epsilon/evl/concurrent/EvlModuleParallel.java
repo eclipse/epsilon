@@ -17,6 +17,11 @@ import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public abstract class EvlModuleParallel extends EvlModule {
 	
 	static {

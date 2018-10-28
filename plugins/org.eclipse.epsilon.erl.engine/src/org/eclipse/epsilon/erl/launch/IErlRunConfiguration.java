@@ -18,6 +18,11 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public abstract class IErlRunConfiguration<M extends IErlModule, R> extends IEolRunConfiguration<M, R> {
 
 	public IErlRunConfiguration(IEolRunConfiguration<? extends M, ? extends R> other) {

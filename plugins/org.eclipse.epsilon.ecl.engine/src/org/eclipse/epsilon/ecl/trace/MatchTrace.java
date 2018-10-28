@@ -134,10 +134,18 @@ public class MatchTrace {
 		return matches;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
 	public Stream<Match> stream() {
 		return matches.stream();
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public String toString() {
 		return toStringCached != null ? toStringCached : super.toString();

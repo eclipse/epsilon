@@ -19,6 +19,11 @@ import org.eclipse.epsilon.eol.launch.ProfilableIEolModule;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public abstract class ProfilableEvlModuleParallel extends EvlModuleParallel implements ProfilableIEolModule {
 
 	protected final Collection<ProfileDiagnostic> profiledStages = new ArrayList<>();

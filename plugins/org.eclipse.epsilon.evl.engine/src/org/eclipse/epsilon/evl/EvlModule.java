@@ -160,6 +160,12 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		return constraintContexts;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @throws EvlConstraintNotFoundException
+	 * @since 1.6
+	 */
 	protected List<Constraint> computeConstraintSequence() throws EvlConstraintNotFoundException {
 		IEvlContext context = getContext();
 		EvlGraph graph = new EvlGraph(context);
@@ -168,6 +174,13 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		return graph.getConstraintSequence();
 	}
 	
+	/**
+	 * 
+	 * @param constraintContext
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	protected Collection<Constraint> getOptimisedConstraintsFor(ConstraintContext constraintContext) throws EolRuntimeException {
 		IEvlContext context = getContext();
 		Collection<Constraint>
@@ -203,6 +216,13 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		return remainingConstraints;
 	}
 	
+	/**
+	 * 
+	 * @param constraintContext
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	protected Collection<Constraint> preProcessConstraintContext(ConstraintContext constraintContext) throws EolRuntimeException {
 		Collection<Constraint> constraintsToCheck;
 		
@@ -233,6 +253,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	/**
 	 * Invokes the execute() method on all Constraints in all ConstraintContexts.
 	 * If optimizeConstraints, the constraints to be checked are filtered.
+	 * @since 1.6
 	 */
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContext context = getContext();	
@@ -243,6 +264,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	
 	/**
 	 * Clean up, execute fixes and post block.
+	 * @since 1.6
 	 */
 	@Override
 	protected void postExecution() throws EolRuntimeException {
@@ -252,6 +274,10 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		super.postExecution();
 	}
 	
+	/**
+	 * 
+	 * @since 1.6
+	 */
 	@Override
 	public Set<UnsatisfiedConstraint> executeImpl() throws EolRuntimeException {
 		prepareExecution();
@@ -260,6 +286,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		return getContext().getUnsatisfiedConstraints();
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public final Set<UnsatisfiedConstraint> execute() throws EolRuntimeException {
@@ -321,6 +350,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		this.optimizeConstraints = optimizeConstraints;
 	}
 
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public void configure(Map<String, ?> properties) {
 		if (properties.containsKey(OPTIMIZE_CONSTRAINTS)) {
@@ -331,6 +363,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		}
 	}
 
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public Set<String> getConfigurationProperties() {
 		return CONFIG_PROPERTIES;

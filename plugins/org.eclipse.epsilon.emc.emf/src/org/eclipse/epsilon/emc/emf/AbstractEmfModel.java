@@ -60,6 +60,9 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		super();
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public void setConcurrent(boolean concurrent) {
 		super.setConcurrent(concurrent);
@@ -182,6 +185,14 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return eObject.eIsSet(sf);
 	}
 
+	/**
+	 * 
+	 * @param criteria
+	 * @param parallel
+	 * @return
+	 * @throws EolModelElementTypeNotFoundException
+	 * @since 1.6
+	 */
 	Collection<EObject> getAllFromModel(Predicate<EObject> criteria, int parallel) throws EolModelElementTypeNotFoundException {
 		Collection<EObject> allContents = allContents();
 		

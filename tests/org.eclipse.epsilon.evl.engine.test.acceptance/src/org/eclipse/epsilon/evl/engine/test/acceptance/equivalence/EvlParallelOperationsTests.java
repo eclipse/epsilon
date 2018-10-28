@@ -45,6 +45,7 @@ import org.junit.runners.Parameterized.Parameters;
  * @see java_parallel.evl
  * @see java_sequential.evl
  * @author Sina Madani
+ * @since 1.6
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {

@@ -19,6 +19,11 @@ import org.eclipse.epsilon.ecl.execute.context.concurrent.IEclContextParallel;
 import org.eclipse.epsilon.ecl.execute.operations.MatchesOperation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class ParallelMatchesOperation extends MatchesOperation {
 	
 	@Override

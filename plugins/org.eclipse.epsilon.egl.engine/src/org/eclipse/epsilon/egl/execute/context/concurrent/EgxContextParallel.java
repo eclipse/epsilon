@@ -24,6 +24,11 @@ import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 import org.eclipse.epsilon.eol.execute.concurrent.DelegatePersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EgxContextParallel extends EgxContext implements IEgxContextParallel {
 
 	protected final int numThreads;

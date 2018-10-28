@@ -16,6 +16,11 @@ import org.eclipse.epsilon.eol.execute.concurrent.EolThreadFactory;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EolThreadPoolExecutor extends ThreadPoolExecutor implements EolExecutorService {
 
 	protected static final long DEFAULT_KEEP_ALIVE = 1024;

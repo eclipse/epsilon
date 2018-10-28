@@ -28,6 +28,7 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * <code>@parallel</code> annotation where desired.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 

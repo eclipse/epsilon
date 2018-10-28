@@ -35,6 +35,7 @@ import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic.MemoryUnit;
  * Similarly, all long memory values are assumed to be in bytes if not otherwise specified.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public final class BenchmarkUtils {
 	

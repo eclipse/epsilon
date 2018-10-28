@@ -23,6 +23,7 @@ public class StackTraceManager implements IExecutionListener {
 	/** Use Deque instead of Stack to avoid bottlenecks due to synchronisation overhead!
 	 * Concurrency can be handled by having a different StackTraceManager for each thread,
 	 * or by using a {@linkplain ConcurrentLinkedDeque}
+	 * @since 1.6
 	 */
 	protected final Deque<ModuleElement> stackTrace;
 	
@@ -30,6 +31,11 @@ public class StackTraceManager implements IExecutionListener {
 		this(false);
 	}
 	
+	/**
+	 * 
+	 * @param concurrent
+	 * @since 1.6
+	 */
 	public StackTraceManager(boolean concurrent) {
 		stackTrace = concurrent ? new ConcurrentLinkedDeque<>() : new ArrayDeque<>();
 	}

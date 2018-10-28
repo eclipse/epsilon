@@ -15,6 +15,11 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
+/**
+ * Returns a new Collection containing one less element for which the predicate is not satisfied.
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class RejectOneOperation extends SelectBasedOperation {
 
 	@Override

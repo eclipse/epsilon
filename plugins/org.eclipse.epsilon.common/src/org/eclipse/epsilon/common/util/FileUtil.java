@@ -73,7 +73,12 @@ public class FileUtil {
 		return filename;
 	}
 	
-	//Copied from @linkplain{https://stackoverflow.com/a/3571239/5870336}
+	/**
+	 * Copied from @linkplain{https://stackoverflow.com/a/3571239/5870336}
+	 * @param filename
+	 * @return
+	 * @since 1.6
+	 */
 	public static String getExtension(String filename) {
 		String extension = "";
 		int dotIndex = filename.lastIndexOf('.');

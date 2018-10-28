@@ -11,6 +11,11 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
 import org.eclipse.epsilon.eol.execute.operations.declarative.RejectOneOperation;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class ParallelRejectOneOperation extends RejectOneOperation {
 
 	public ParallelRejectOneOperation() {

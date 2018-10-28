@@ -17,6 +17,11 @@ import org.eclipse.epsilon.ecl.execute.context.concurrent.IEclContextParallel;
 import org.eclipse.epsilon.ecl.execute.operations.DoMatchOperation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class ParallelDoMatchOperation extends DoMatchOperation {
 
 	@Override

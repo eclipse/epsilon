@@ -31,6 +31,7 @@ import org.eclipse.epsilon.common.util.profiling.BenchmarkUtils;
  * which have a dedicated {@linkplain ExecutorFactory} per thread.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class RuleProfiler implements IExecutionListener {
 

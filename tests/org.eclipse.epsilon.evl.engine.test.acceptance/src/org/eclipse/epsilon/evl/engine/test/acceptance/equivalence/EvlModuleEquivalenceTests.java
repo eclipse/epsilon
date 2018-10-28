@@ -24,6 +24,11 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized.Parameters;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EvlModuleEquivalenceTests extends EolEquivalenceTests<IEvlModule, EvlRunConfiguration> {
 	

@@ -34,6 +34,9 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	protected TypeExpression typeExpression;
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected EolModelElementType type;
+	/**
+	 * @since 1.6
+	 */
 	protected Boolean isLazy;
 	
 	@SuppressWarnings("unchecked")
@@ -53,6 +56,14 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 		}
 	}
 
+	/**
+	 * 
+	 * @param modelElement
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	public boolean shouldBeChecked(Object modelElement, IEvlContext context) throws EolRuntimeException {
 		return !isLazy(context) && appliesTo(modelElement, context, false);
 	}
@@ -123,6 +134,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @param modelElement The model element object.
 	 * @param context The execution context.
 	 * @throws EolRuntimeException
+	 * @since 1.6
 	 */
 	public void execute(Collection<Constraint> constraintsToCheck, Object modelElement, IEvlContext context) throws EolRuntimeException {
 		if (shouldBeChecked(modelElement, context)) {
@@ -138,6 +150,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @param context The execution context.
 	 * @throws EolRuntimeException
 	 * @see {@link #execute(Collection, Object, IEvlContext)}
+	 * @since 1.6
 	 */
 	public void execute(Collection<Constraint> constraintsToCheck, IEvlContext context) throws EolRuntimeException {
 		if (!isLazy(context)) {
@@ -157,6 +170,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @param context The execution context.
 	 * @throws EolRuntimeException
 	 * @see {@link #execute(Collection, Object, IEvlContext)}
+	 * @since 1.6
 	 */
 	public void execute(Object modelElement, IEvlContext context) throws EolRuntimeException {
 		execute(getConstraints(), modelElement, context);
@@ -168,6 +182,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @throws EolRuntimeException
 	 * @return nothing.
 	 * @see {@link #execute(Collection, Object, IEvlContext)}
+	 * @since 1.6
 	 */
 	@Override
 	public Void execute(IEolContext context_) throws EolRuntimeException {
@@ -184,11 +199,17 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 		return getTypeName();
 	}
 
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), getTypeName(), constraints.size());
 	}
 
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if (!super.equals(other))

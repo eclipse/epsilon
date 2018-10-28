@@ -22,7 +22,7 @@ public class SelectOneOperation extends SelectBasedOperation {
 	@Override
 	public Object execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
 		Collection<?> result = getSelectOperation().execute(target, iterator, expression, context, true, true);
-		return (hasResult = !result.isEmpty()) ? result.iterator().next() : null;
+		return ((hasResult = !result.isEmpty()) == true) ? result.iterator().next() : null;
 	}
 
 	public boolean hasResult() {

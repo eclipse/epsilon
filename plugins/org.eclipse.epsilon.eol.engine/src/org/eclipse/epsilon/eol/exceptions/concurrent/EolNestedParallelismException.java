@@ -12,6 +12,11 @@ package org.eclipse.epsilon.eol.exceptions.concurrent;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EolNestedParallelismException extends EolRuntimeException {
 
 	public EolNestedParallelismException() {

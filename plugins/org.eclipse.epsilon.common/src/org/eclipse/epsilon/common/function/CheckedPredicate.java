@@ -11,6 +11,11 @@ package org.eclipse.epsilon.common.function;
 
 import java.util.function.Predicate;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @FunctionalInterface
 public interface CheckedPredicate<E extends Exception, T> extends Predicate<T> {
 	

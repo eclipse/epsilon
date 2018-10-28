@@ -150,10 +150,21 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 		this(null);
 	}
 	
+	/**
+	 * 
+	 * @param parent
+	 * @since 1.6
+	 */
 	public FrameStack(FrameStack parent) {
 		this(parent, false);
 	}
 	
+	/**
+	 * 
+	 * @param parent
+	 * @param concurrent
+	 * @since 1.6
+	 */
 	public FrameStack(FrameStack parent, boolean concurrent) {
 		this.base = parent;
 		this.isConcurrent = concurrent;
@@ -277,8 +288,9 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 	 * topmost frame of the scope.
 	 * @param variables The effective collection of variables.
 	 * @param readOnly Whether the Variables should be immutable.
+	 * @since 1.6
 	 */
-	public void put(Map<String, ?> variables, final boolean readOnly) {
+	public void put(final Map<String, ?> variables, final boolean readOnly) {
 		FrameStackRegion activeRegion = activeGroup();
 		variables.entrySet()
 			.stream()
@@ -303,6 +315,7 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 	 * Puts a read-only variable into the topmost frame of the scope
 	 * @param name The variable name.
 	 * @param value The variable value.
+	 * @since 1.6
 	 */
 	public void put(String name, Object value) {
 		activeGroup().put(name, value);
@@ -340,6 +353,11 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 		activeGroup().top().remove(variable);
 	}
 	
+	/**
+	 * Removes the variables from the topmost frame of the scope.
+	 * @param variablesThe variables to remove.
+	 * @since 1.6
+	 */
 	public void remove(Collection<String> variables) {
 		for (String variable : variables) {
 			remove(variable);
@@ -475,6 +493,12 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 		return getFrames(false);
 	}
 	
+	/**
+	 * 
+	 * @param includeBase
+	 * @return
+	 * @since 1.6
+	 */
 	public List<SingleFrame> getFrames(boolean includeBase) {
 		final List<SingleFrame> frames = new ArrayList<>();
 		frames.addAll(locals.getFrames());
@@ -532,6 +556,12 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 		return base;
 	}
 	
+	/**
+	 * 
+	 * @param includeBase
+	 * @return
+	 * @since 1.6
+	 */
 	public int size(boolean includeBase) {
 		return getFrames(includeBase).size();
 	}

@@ -25,6 +25,12 @@ import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.types.EolType;
 
+/**
+ * Returns true if exactly <i>n</i> elements match the predicate.
+ * This is therefore a short-circuiting operation.
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class NMatchOperation extends FirstOrderOperation {
 
 	/**

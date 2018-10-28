@@ -69,6 +69,11 @@ public class EolContext implements IEolContext {
 		this.nativeTypeDelegates = new ArrayList<>(CollectionUtil.asCollection(classpathNativeTypeDelegate));
 	}
 
+	/**
+	 * Copy constructor
+	 * @param other
+	 * @since 1.6
+	 */
 	public EolContext(IEolContext other) {
 		userInput = other.getUserInput();
 		frameStack = other.getFrameStack();

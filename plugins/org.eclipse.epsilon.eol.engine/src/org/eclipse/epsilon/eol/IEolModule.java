@@ -63,6 +63,7 @@ public interface IEolModule extends IModule {
 	/**
 	 * Configure the IEolModule with the given properties
 	 * @param properties a map of property:value 
+	 * @since 1.6
 	 */
 	default void configure(Map<String, ?> properties) {
 		
@@ -72,6 +73,7 @@ public interface IEolModule extends IModule {
 	 * Get the set of property names that should be retrieved from the ILaunchConfiguration in order
 	 * to configure this module.
 	 * @return
+	 * @since 1.6
 	 */
 	default Set<String> getConfigurationProperties() {
 		return Collections.emptySet();

@@ -15,6 +15,7 @@ import java.time.Duration;
  * Convenience data class for storing profiling information.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class ProfileDiagnostic {
 	

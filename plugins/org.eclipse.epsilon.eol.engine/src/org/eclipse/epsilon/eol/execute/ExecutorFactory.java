@@ -39,10 +39,21 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		this(null);
 	}
 	
+	/**
+	 * 
+	 * @param parent
+	 * @since 1.6
+	 */
 	public ExecutorFactory(ExecutorFactory parent) {
 		this(parent, false);
 	}
 	
+	/**
+	 * 
+	 * @param parent
+	 * @param concurrent
+	 * @since 1.6
+	 */
 	public ExecutorFactory(ExecutorFactory parent, boolean concurrent) {
 		this.base = parent;
 		this.isConcurrent = concurrent;
@@ -99,6 +110,13 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		return execute(moduleElement, context);
 	}
 	
+	/**
+	 * 
+	 * @param moduleElement
+	 * @param context
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	protected void preExecute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {
 		activeModuleElement = moduleElement;
 		
@@ -117,12 +135,27 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		}
 	}
 	
+	/**
+	 * 
+	 * @param moduleElement
+	 * @param result
+	 * @param context
+	 * @since 1.6
+	 */
 	protected void postExecuteSuccess(ModuleElement moduleElement, Object result, IEolContext context) {
 		for (IExecutionListener listener : executionListeners) {
 			listener.finishedExecuting(moduleElement, result, context);
 		}
 	}
 	
+	/**
+	 * 
+	 * @param moduleElement
+	 * @param ex
+	 * @param context
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	protected void postExecuteFailure(ModuleElement moduleElement, Exception ex, IEolContext context) throws EolRuntimeException {
 		EolRuntimeException exception = null;
 		if (ex instanceof EolRuntimeException) {
@@ -141,12 +174,26 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		throw exception;
 	}
 	
+	/**
+	 * 
+	 * @param moduleElement
+	 * @param context
+	 * @since 1.6
+	 */
 	protected void postExecuteFinally(ModuleElement moduleElement, IEolContext context) {
 		if (executionController != null) {
 			executionController.done(moduleElement, context);
 		}
 	}
 	
+	/**
+	 * 
+	 * @param moduleElement
+	 * @param context
+	 * @return
+	 * @throws Exception
+	 * @since 1.6
+	 */
 	protected Object executeImpl(ModuleElement moduleElement, IEolContext context) throws Exception {
 		if (moduleElement instanceof IExecutableModuleElement) {
 			return ((IExecutableModuleElement) moduleElement).execute(context);
@@ -183,16 +230,25 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		return activeModuleElement;
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public ExecutorFactory getBase() {
 		return base;
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean isThreadSafe() {
 		return isConcurrent;
 	}
 
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public void setThreadSafe(boolean concurrent) {
 		if (concurrent != this.isConcurrent) {
@@ -204,6 +260,9 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		}
 	}
 
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public void merge(MergeMode mode) {
 		mergeCollectionsUnique(

@@ -24,6 +24,7 @@ import org.eclipse.epsilon.common.util.CollectionUtil;
  * a synchronized version of delegate methods are provided.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 @SuppressWarnings("unchecked")
 public interface BaseDelegate<T extends BaseDelegate<T>> {

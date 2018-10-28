@@ -37,6 +37,7 @@ public class Constraint extends NamedRule {
 	
 	/**
 	 * This will be set to <code>true</code> by {@link SatisfiesOperation}.
+	 * @since 1.6
 	 */
 	protected boolean isDependedOn = false;
 	
@@ -77,6 +78,9 @@ public class Constraint extends NamedRule {
 		return (Optional<UnsatisfiedConstraint>) super.execute(self, context);
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public final Optional<UnsatisfiedConstraint> executeImpl(Object modelElement, IErlContext context_) throws EolRuntimeException {
 		IEvlContext context = (IEvlContext) context_;
@@ -94,10 +98,27 @@ public class Constraint extends NamedRule {
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param self
+	 * @param context
+	 * @param result
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	public boolean optimisedCheck(Object self, IEvlContext context, boolean result) throws EolRuntimeException {
 		return postprocessCheck(self, context, preprocessCheck(self, context), result);
 	}
 
+	/**
+	 *
+	 * @param self
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	public Optional<UnsatisfiedConstraint> check(Object self, IEvlContext context) throws EolRuntimeException {
 		UnsatisfiedConstraint unsatisfiedConstraint = preprocessCheck(self, context);
 		boolean result;
@@ -128,6 +149,14 @@ public class Constraint extends NamedRule {
 		return unsatisfiedConstraint;
 	}
 	
+	/**
+	 * 
+	 * @param self
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	protected boolean executeCheckBlock(Object self, IEvlContext context) throws EolRuntimeException {
 		return checkBlock.execute(context, false);
 	}
@@ -182,6 +211,7 @@ public class Constraint extends NamedRule {
 
 	/**
 	 * @return Whether this constraint is the target of a dependency.
+	 * @since 1.6
 	 */
 	public boolean isDependedOn() {
 		return isDependedOn;
@@ -189,16 +219,23 @@ public class Constraint extends NamedRule {
 	
 	/**
 	 * Used to flag this constraint as the target of a dependency.
+	 * @since 1.6
 	 */
 	public void setAsDependency() {
 		this.isDependedOn = true;
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), constraintContext, isCritique);
 	}
 
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if (!super.equals(other))

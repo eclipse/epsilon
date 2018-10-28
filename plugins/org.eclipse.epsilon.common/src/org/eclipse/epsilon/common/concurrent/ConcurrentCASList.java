@@ -27,6 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * FOR POORLY DESIGNED / OVERSPECIFIED APIs WITH NO REGARDS FOR CONCURRENCY.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class ConcurrentCASList<E> implements List<E> {
 

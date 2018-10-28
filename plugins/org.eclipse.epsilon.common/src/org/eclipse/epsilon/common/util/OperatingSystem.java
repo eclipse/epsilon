@@ -40,15 +40,22 @@ public class OperatingSystem {
 		public static OSFamily getOSFamily() {
 			switch (System.getProperty("os.name").substring(0, 3).toLowerCase()) {
 				case "win": return WINDOWS;
-				case "lin": case "deb": case "cen": case "fed": case "ubu": case "and": return LINUX;
+				case "lin": case "deb": case "cen": case "fed": case "ubu": case "and": case "arc": return LINUX;
 				case "uni": return UNIX;
-				case "mac": case "ios": return MAC;
+				case "mac": case "ios": case "dar": return MAC;
 				case "sun": case "sol": return SOLARIS;
 				default: return OTHER;
 			}
 		}
 	}
 	
+	/**
+	 * Executes the given command(s) natively.
+	 * @param args The commands.
+	 * @return The output.
+	 * @throws IOException
+	 * @since 1.6
+	 */
 	public static String execCmd(String... args) throws IOException {
 		Process process = new ProcessBuilder(args).redirectErrorStream(true).start();
 		StringBuilder processOutput = new StringBuilder();
@@ -69,6 +76,11 @@ public class OperatingSystem {
         return processOutput.toString().trim();
 	}
 	
+	/**
+	 * Convenience method for getting the CPU model.
+	 * @return The CPU model as reported by the operating system.
+	 * @since 1.6
+	 */
 	public static String getCpuName() {
 		try {
 			return execCmd(OSFamily.getOSFamily().equals(OSFamily.WINDOWS) ?

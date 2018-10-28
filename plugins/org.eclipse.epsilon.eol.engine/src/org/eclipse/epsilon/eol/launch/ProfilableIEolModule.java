@@ -18,6 +18,11 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.*;
 import org.eclipse.epsilon.common.util.profiling.*;
 
+/**
+ * Convenience interface for profiling methods in an {@linkplain IEolModule}.
+ * @author Sina Madani
+ * @since 1.6
+ */
 public interface ProfilableIEolModule extends IEolModule {
 	
 	public static final String DEFAULT_EXECUTE_STAGE = "executeImpl";

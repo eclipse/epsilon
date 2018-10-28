@@ -27,6 +27,11 @@ public interface IEglContext extends IEolContext {
 	
 	public EglTemplateFactory getTemplateFactory();
 	
+	/**
+	 * 
+	 * @param context
+	 * @since 1.6
+	 */
 	public default void copyInto(IEolContext context) {
 		copyInto(context, false);
 	}

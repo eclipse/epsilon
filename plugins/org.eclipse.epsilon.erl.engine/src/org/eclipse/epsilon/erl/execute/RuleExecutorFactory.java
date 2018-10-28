@@ -14,6 +14,11 @@ import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.erl.dom.NamedRule;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class RuleExecutorFactory extends ExecutorFactory {
 
 	protected RuleProfiler ruleProfiler;

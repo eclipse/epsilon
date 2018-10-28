@@ -70,11 +70,17 @@ public class UnsatisfiedConstraint {
 		return getMessage();
 	}
 
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(message, instance, constraint, fixed);
 	}
 
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) return true;

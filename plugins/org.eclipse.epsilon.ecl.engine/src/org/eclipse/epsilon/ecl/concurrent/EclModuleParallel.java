@@ -23,6 +23,7 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
  * threads in parallelMatches.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class EclModuleParallel extends EclModule {
 

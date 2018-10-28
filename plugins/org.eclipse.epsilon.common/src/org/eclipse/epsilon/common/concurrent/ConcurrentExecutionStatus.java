@@ -15,6 +15,7 @@ import java.util.function.Supplier;
  * A status object used in co-ordinating concurrent jobs.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public abstract class ConcurrentExecutionStatus {
 	

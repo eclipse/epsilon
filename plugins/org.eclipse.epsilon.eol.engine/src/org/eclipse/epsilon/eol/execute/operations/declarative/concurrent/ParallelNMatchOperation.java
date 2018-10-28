@@ -23,6 +23,11 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.NMatchOperation;
 import org.eclipse.epsilon.eol.types.EolType;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class ParallelNMatchOperation extends NMatchOperation {
 	
 	public ParallelNMatchOperation(int n) {

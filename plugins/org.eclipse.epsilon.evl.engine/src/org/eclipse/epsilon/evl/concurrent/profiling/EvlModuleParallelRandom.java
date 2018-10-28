@@ -21,6 +21,7 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * Shuffles the constraint-element pairs prior to execution.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public final class EvlModuleParallelRandom extends ProfilableEvlModuleParallel {
 	

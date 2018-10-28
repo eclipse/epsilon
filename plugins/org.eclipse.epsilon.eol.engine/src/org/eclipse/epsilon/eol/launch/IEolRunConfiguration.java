@@ -24,6 +24,7 @@ import org.eclipse.epsilon.eol.IEolModule;
  * Convenience class for running EOL programs over models.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public abstract class IEolRunConfiguration<M extends IEolModule, R> extends ProfilableRunConfiguration<R> {
 	

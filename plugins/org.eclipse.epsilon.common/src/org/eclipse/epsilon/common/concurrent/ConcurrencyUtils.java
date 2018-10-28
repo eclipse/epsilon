@@ -15,6 +15,11 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class ConcurrencyUtils {
 	
 	/**

@@ -13,6 +13,11 @@ import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public interface IEgxContext extends IEglContext, IErlContext {
 
 	public void setBaseTemplate(EgxModuleTemplateAdapter baseTemplate);

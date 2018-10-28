@@ -80,6 +80,9 @@ public class EvlTask extends ExportableModuleTask {
 		return Collections.singleton(UnsatisfiedConstraint.class);
 	}
 
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	protected Collection<UnsatisfiedConstraint> getObjectsForExportedModel() {
 		return new ArrayList<>(((EvlModule)module).getContext().getUnsatisfiedConstraints());

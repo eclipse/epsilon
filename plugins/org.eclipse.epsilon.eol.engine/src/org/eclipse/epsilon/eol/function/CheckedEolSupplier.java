@@ -12,6 +12,11 @@ package org.eclipse.epsilon.eol.function;
 import org.eclipse.epsilon.common.function.CheckedSupplier;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @FunctionalInterface
 public interface CheckedEolSupplier<R> extends CheckedSupplier<R, EolRuntimeException> {
 	

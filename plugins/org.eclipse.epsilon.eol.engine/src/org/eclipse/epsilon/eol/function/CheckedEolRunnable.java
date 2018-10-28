@@ -12,6 +12,11 @@ package org.eclipse.epsilon.eol.function;
 import org.eclipse.epsilon.common.function.CheckedRunnable;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @FunctionalInterface
 public interface CheckedEolRunnable extends CheckedRunnable<EolRuntimeException> {
 	

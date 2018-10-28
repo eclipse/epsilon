@@ -19,6 +19,16 @@ import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException
 @SuppressWarnings("serial")
 public class Constraints extends ArrayList<Constraint> {
 	
+	/**
+	 * 
+	 * @param name
+	 * @param target
+	 * @param context
+	 * @param ast
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	public Constraint getConstraint(String name, Object target, IEvlContext context, ModuleElement ast) throws EolRuntimeException {
 		Optional<Constraint> constraint = getConstraint(name, null, target, context, false);
 		if (!constraint.isPresent()) {

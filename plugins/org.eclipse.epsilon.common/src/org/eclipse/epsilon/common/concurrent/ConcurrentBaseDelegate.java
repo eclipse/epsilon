@@ -13,6 +13,11 @@ import java.util.Collection;
 import java.util.function.Function;
 import org.eclipse.epsilon.common.interfaces.BaseDelegate;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public interface ConcurrentBaseDelegate<T extends ConcurrentBaseDelegate<T>> extends BaseDelegate<T> {
 	
 	boolean isThreadSafe();

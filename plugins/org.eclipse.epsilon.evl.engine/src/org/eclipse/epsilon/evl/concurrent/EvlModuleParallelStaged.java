@@ -21,6 +21,11 @@ import org.eclipse.epsilon.evl.execute.concurrent.ConstraintAtom;
 import org.eclipse.epsilon.evl.execute.concurrent.ConstraintContextAtom;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EvlModuleParallelStaged extends EvlModuleParallel {
 	
 	public EvlModuleParallelStaged() {

@@ -34,13 +34,13 @@ import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
  * Uses reflection to find appropriate constructors and module interface to pass to parseModule method.
  * Please note: The constructors of this class must be inherited in R!
  * <br/>
- * Currently only EMF models are fully supported.
  * Note that this needn't be subclassed to use it,
  * you can just add the required projects to the classpath
  * and call it with appropriate arguments, but you must provide
  * a module with the -module option.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguration<M, ?>> extends ConfigParser<R> {
 

@@ -16,6 +16,11 @@ import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.models.IModel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EolRunConfiguration extends IEolRunConfiguration<EolModule, Object> {
 
 	public EolRunConfiguration(

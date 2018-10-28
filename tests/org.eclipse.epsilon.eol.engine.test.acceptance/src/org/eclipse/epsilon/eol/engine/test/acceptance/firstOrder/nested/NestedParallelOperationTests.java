@@ -16,6 +16,11 @@ import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismExcepti
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class NestedParallelOperationTests {
 
 	IEolModule module;

@@ -28,12 +28,21 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 		this(false);
 	}
 	
+	/**
+	 * @since 1.6
+	 * @param concurrent
+	 */
 	public ConstraintTrace(boolean concurrent) {
 		storageOptimised = concurrent ? ConcurrencyUtils.concurrentSet() : new HashSet<>();
 		storage = concurrent ? ConcurrencyUtils.concurrentMap() : new HashMap<>();
 		iterable = concurrent ? ConcurrencyUtils.concurrentSet(): new HashSet<>();
 	}
 	
+	/**
+	 * 
+	 * @param others
+	 * @since 1.6
+	 */
 	public void addAll(Collection<? extends ConstraintTrace> others) {
 		for (ConstraintTrace ct : others) {
 			storageOptimised.addAll(ct.storageOptimised.stream().collect(Collectors.toSet()));
@@ -42,6 +51,10 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 		}
 	}
 	
+	/**
+	 * @param others
+	 * @since 1.6
+	 */
 	public void addAll(ConstraintTrace... others) {
 		addAll(Arrays.asList(others));
 	}
@@ -90,6 +103,11 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
 	public Stream<ConstraintTraceItem> stream() {
 		return iterable.stream();
 	}
@@ -99,11 +117,17 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 		return iterable.iterator();
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(iterable);
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) return true;

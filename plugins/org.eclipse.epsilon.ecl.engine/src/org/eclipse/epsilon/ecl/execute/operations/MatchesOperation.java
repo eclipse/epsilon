@@ -30,6 +30,15 @@ public class MatchesOperation extends SimpleOperation {
 		return context.getModule().match(left, right, forcedMatch).isMatching();
 	}
 
+	/**
+	 * 
+	 * @param leftColFlat
+	 * @param rightColFlat
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	protected boolean matchCollectionOrdered(Collection<?> leftColFlat, Collection<?> rightColFlat, IEclContext context) throws EolRuntimeException {
 		Iterator<?> lit = leftColFlat.iterator();
 		Iterator<?> rit = rightColFlat.iterator();
@@ -42,13 +51,22 @@ public class MatchesOperation extends SimpleOperation {
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @param leftColFlat
+	 * @param rightColFlat
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	protected boolean matchCollectionUnordered(Collection<?> leftColFlat, Collection<?> rightColFlat, IEclContext context) throws EolRuntimeException {
 		boolean match = true;
 		
 		for (Object left : leftColFlat) {
 			match = false;
 			for (Object right : rightColFlat) {
-				if (match = matchInstances(left, right, context, forcedMatch)) {
+				if ((match = matchInstances(left, right, context, forcedMatch)) == true) {
 					break;
 				}
 			}

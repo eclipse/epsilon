@@ -19,6 +19,11 @@ import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EclRunConfiguration extends IEolRunConfiguration<IEclModule, MatchTrace> {
 
 	public EclRunConfiguration(

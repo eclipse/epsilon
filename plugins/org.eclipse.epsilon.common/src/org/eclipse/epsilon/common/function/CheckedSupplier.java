@@ -11,6 +11,11 @@ package org.eclipse.epsilon.common.function;
 
 import java.util.function.Supplier;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @FunctionalInterface
 public interface CheckedSupplier<R, E extends Exception> extends Supplier<R> {
 	

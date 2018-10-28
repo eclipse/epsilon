@@ -23,6 +23,11 @@ import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EvlRunConfiguration extends IErlRunConfiguration<IEvlModule, Set<UnsatisfiedConstraint>> {
 	
 	public EvlRunConfiguration(

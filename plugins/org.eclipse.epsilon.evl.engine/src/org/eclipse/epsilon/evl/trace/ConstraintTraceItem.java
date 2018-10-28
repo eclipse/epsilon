@@ -48,11 +48,17 @@ public class ConstraintTraceItem {
 		this.result = result;
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(instance, constraint, result);
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) return true;
@@ -66,6 +72,9 @@ public class ConstraintTraceItem {
 				Objects.equals(this.result, cti.result);
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public String toString() {
 		return

@@ -43,6 +43,11 @@ class FrameStackRegion {
 		this(false);
 	}
 	
+	/**
+	 * 
+	 * @param concurrent
+	 * @since 1.6
+	 */
 	public FrameStackRegion(boolean concurrent) {
 		frames = concurrent ? new ConcurrentLinkedDeque<>() : new ArrayDeque<>();
 	}
@@ -251,6 +256,12 @@ class FrameStackRegion {
 		return result.toString();
 	}
 	
+	/**
+	 * 
+	 * @param from
+	 * @param to
+	 * @since 1.6
+	 */
 	static void mergeFrames(FrameStackRegion from, FrameStackRegion to) {
 		if (from != null && to != null && from.frames != null && !from.frames.isEmpty()) {
 			Deque<SingleFrame> framesToAdd = new ArrayDeque<>(from.frames);
@@ -281,10 +292,20 @@ class FrameStackRegion {
 		return clone;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
 	boolean isThreadSafe() {
 		return frames instanceof ConcurrentLinkedDeque;
 	}
 	
+	/**
+	 * 
+	 * @param concurrent
+	 * @since 1.6
+	 */
 	void setThreadSafe(boolean concurrent) {
 		if (isThreadSafe() != concurrent) {
 			frames = concurrent ? new ConcurrentLinkedDeque<>(frames) : new ArrayDeque<>(frames);

@@ -16,6 +16,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EvlModuleParallelConfiguration extends EvlModuleConfiguration {
 
 	protected Spinner numThreadsSelector;

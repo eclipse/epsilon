@@ -126,11 +126,17 @@ public abstract class AbstractModuleElement implements ModuleElement {
 		return str;
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(uri, region);
 	}
 
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean equals(Object ame) {
 		if (this == ame) return true;

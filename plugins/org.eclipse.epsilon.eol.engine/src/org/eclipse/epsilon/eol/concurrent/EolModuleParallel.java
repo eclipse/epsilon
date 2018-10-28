@@ -18,6 +18,11 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EolModuleParallel extends EolModule {
 
 	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);

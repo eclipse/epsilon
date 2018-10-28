@@ -16,6 +16,11 @@ import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public interface IEgxContextParallel extends IEgxContext, IErlContextParallel {
 
 	default EglTemplateFactory newTemplateFactory() throws EglRuntimeException {

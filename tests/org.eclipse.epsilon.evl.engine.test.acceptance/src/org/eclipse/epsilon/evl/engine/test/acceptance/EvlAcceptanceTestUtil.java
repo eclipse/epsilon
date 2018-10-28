@@ -24,6 +24,11 @@ import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.concurrent.*;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	protected EvlAcceptanceTestUtil() {}
 	

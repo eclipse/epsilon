@@ -23,6 +23,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
  * This class provides utility methods which handle the complex waiting and signalling.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public interface EolExecutorService extends ExecutorService {
 	

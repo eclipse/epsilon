@@ -40,6 +40,9 @@ public class SatisfiesOperation extends SimpleOperation {
 		this.all = all;
 	}
 
+	/**
+	 * @since 1.6 (modified)
+	 */
 	@Override
 	public Boolean execute(Object source, List<?> parameters, IEolContext context_, ModuleElement ast) throws EolRuntimeException {
 		if (source == null)

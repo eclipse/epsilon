@@ -11,6 +11,11 @@ package org.eclipse.epsilon.common.function;
 
 import java.util.function.Function;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @FunctionalInterface
 public interface CheckedFunction<T, R, E extends Exception> extends Function<T, R> {
 	

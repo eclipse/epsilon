@@ -11,6 +11,11 @@ package org.eclipse.epsilon.common.function;
 
 import java.util.function.Consumer;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @FunctionalInterface
 public interface CheckedConsumer<T, E extends Exception> extends Consumer<T> {
 	

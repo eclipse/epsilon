@@ -22,6 +22,11 @@ import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EgxRunConfiguration extends IEolRunConfiguration<IEgxModule, Object> {
 
 	public EgxRunConfiguration(IEolRunConfiguration<? extends IEgxModule, ?> other) {

@@ -27,6 +27,12 @@ public interface IEvlModule extends IErlModule {
 	
 	List<ConstraintContext> getConstraintContexts();
 	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 * @since 1.6
+	 */
 	default ConstraintContext getConstraintContext(String name) {
 		return getConstraintContexts()
 			.stream()
@@ -40,6 +46,9 @@ public interface IEvlModule extends IErlModule {
 		return (IEvlContext) ((IErlModule)this).getContext();
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	Set<UnsatisfiedConstraint> execute() throws EolRuntimeException;
 	

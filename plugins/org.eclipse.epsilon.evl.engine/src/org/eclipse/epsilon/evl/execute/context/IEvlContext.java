@@ -26,6 +26,9 @@ public interface IEvlContext extends IErlContext {
 	
 	ConstraintTrace getConstraintTrace();
 
+	/**
+	 * @since 1.6
+	 */
 	public static final String OPTIMIZE_CONSTRAINT_TRACE = "optimizeConstraintTrace";
 	
 	/**
@@ -45,6 +48,10 @@ public interface IEvlContext extends IErlContext {
 	 */
 	void setOptimizeConstraintTrace(boolean optimized);
 	
+	/**
+	 * @since 1.6
+	 * @return
+	 */
 	default boolean hasFixes() {
 		return getUnsatisfiedConstraints()
 			.stream()
@@ -54,6 +61,7 @@ public interface IEvlContext extends IErlContext {
 	
 	/**
 	 * @return A mapping from a Constraint to all of its unsatisfied instances.
+	 * @since 1.6
 	 */
 	default Map<Constraint, Set<Object>> sortUnsatisfiedConstraints() {
 		return getUnsatisfiedConstraints()
@@ -67,6 +75,7 @@ public interface IEvlContext extends IErlContext {
 	
 	/**
 	 * @return A sorted entry of Constraints with the number of unsatisfied instances, in descending order.
+	 * @since 1.6
 	 */
 	default Map<Constraint, Integer> getUnsatisfiedConstraintsBySize() {
 		return sortUnsatisfiedConstraints()
@@ -79,6 +88,11 @@ public interface IEvlContext extends IErlContext {
 			);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
 	default Set<Constraint> getConstraintsDependedOn() {
 		return getModule().getConstraints()
 			.stream()
@@ -89,6 +103,7 @@ public interface IEvlContext extends IErlContext {
 	/**
 	 * Casts the IModule to IEvlModule
 	 * @see org.eclipse.epsilon.eol.execute.context.IEolContext#getModule()
+	 * @since 1.6
 	 */
 	@Override
 	default IEvlModule getModule() {

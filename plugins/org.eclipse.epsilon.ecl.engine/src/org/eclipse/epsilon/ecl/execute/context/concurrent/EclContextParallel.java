@@ -16,6 +16,11 @@ import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismExcepti
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EclContextParallel extends ErlContextParallel implements IEclContextParallel {
 
 	protected MatchTrace tempMatchTrace;

@@ -19,6 +19,7 @@ import java.util.function.Supplier;
  * or {@link MultiConcurrentExecutionStatus}.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 	

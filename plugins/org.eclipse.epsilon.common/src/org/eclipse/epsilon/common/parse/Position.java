@@ -52,11 +52,17 @@ public class Position {
 		return line + ":" + column;
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(line, column);
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) return true;

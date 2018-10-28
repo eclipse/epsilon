@@ -20,6 +20,11 @@ import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.concurrent.ConstraintContextAtom;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @Deprecated
 public class EvlModuleParallelThreads extends EvlModuleParallel {
 

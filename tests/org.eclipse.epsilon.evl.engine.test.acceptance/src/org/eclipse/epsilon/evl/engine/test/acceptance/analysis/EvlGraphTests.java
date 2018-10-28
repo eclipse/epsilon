@@ -27,6 +27,11 @@ import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.engine.test.acceptance.EvlTests;
 import org.eclipse.epsilon.evl.graph.EvlGraph;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @RunWith(Parameterized.class)
 public class EvlGraphTests {
 

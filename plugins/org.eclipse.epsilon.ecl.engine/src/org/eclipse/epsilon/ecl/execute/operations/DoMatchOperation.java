@@ -24,6 +24,15 @@ public class DoMatchOperation extends MatchesOperation {
 		forcedMatch = true;
 	}
 	
+	/**
+	 * 
+	 * @param leftColFlat
+	 * @param rightColFlat
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	protected boolean matchAll(Collection<?> leftColFlat, Collection<?> rightColFlat, IEclContext context) throws EolRuntimeException {
 		boolean match = true;
 		

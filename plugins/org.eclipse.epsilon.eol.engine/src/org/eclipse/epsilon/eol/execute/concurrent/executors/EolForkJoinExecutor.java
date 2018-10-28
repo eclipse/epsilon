@@ -16,6 +16,11 @@ import org.eclipse.epsilon.common.concurrent.SingleConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.execute.concurrent.EolThreadFactory;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EolForkJoinExecutor extends ForkJoinPool implements EolExecutorService {
 
 	static class EolForkJoinThreadFactory extends EolThreadFactory implements ForkJoinWorkerThreadFactory {

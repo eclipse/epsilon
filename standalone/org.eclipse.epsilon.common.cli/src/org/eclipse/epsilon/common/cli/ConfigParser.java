@@ -22,6 +22,7 @@ import org.eclipse.epsilon.common.launch.ProfilableRunConfiguration;
  * Convenience class providing an extensible command-line builder for {@link ProfilableRunConfiguration}.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class ConfigParser<R extends ProfilableRunConfiguration<?>> implements Consumer<String[]>, Function<String[], R> {
 	

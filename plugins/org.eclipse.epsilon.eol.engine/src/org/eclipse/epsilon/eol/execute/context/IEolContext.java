@@ -86,6 +86,11 @@ public interface IEolContext {
 	
 	void dispose();
 	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
 	Queue<AsyncStatementInstance> getAsyncStatementsQueue();
 	
 	OperationContributorRegistry getOperationContributorRegistry();

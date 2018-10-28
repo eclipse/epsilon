@@ -17,6 +17,11 @@ import org.eclipse.epsilon.eol.concurrent.EolModuleParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.Test;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class FirstOrderOperationExceptionHandlingTests {
 
 	final String

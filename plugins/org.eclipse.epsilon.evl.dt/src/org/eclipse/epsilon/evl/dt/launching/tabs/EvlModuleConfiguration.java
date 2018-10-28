@@ -21,6 +21,12 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+/**
+ * 
+ * @author Sina Madani
+ * @author Horacio Hoyos
+ * @since 1.6
+ */
 public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 
 	private Button optimizeConstraintsBtn;

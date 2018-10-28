@@ -17,6 +17,11 @@ import org.eclipse.epsilon.egl.traceability.Content;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.erl.IErlModule;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public interface IEgxModule extends IErlModule {
 	
 	@Override

@@ -19,7 +19,6 @@ import org.eclipse.epsilon.eol.function.CheckedEolFunction;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
-import org.eclipse.epsilon.evl.dom.Constraints;
 import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException;
 
 /**
@@ -27,6 +26,7 @@ import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException
  * 
  * @author Matt Smith - initial implementation
  * @author Sina Madani - refactoring
+ * @since 1.6
  */
 public class EvlGraph {
 	

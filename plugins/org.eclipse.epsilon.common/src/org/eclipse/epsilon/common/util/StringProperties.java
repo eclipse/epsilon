@@ -94,6 +94,7 @@ public class StringProperties extends Properties {
 		else return def;
 	}
 	
+	@Override
 	public StringProperties clone() {
 		StringProperties clone = new StringProperties();
 		clone.load(this.toString());

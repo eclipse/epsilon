@@ -9,6 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.common.interfaces;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @FunctionalInterface
 public interface ExceptionHandler<E extends Exception> {
 	

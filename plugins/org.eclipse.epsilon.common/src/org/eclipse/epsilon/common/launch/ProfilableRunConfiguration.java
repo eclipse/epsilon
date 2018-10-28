@@ -21,6 +21,11 @@ import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic;
 import static org.eclipse.epsilon.common.util.profiling.BenchmarkUtils.*;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic.MemoryUnit;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public abstract class ProfilableRunConfiguration<R> implements Runnable {
 	
 	protected String printMarker = "-----------------------------------------------------";

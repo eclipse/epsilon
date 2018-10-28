@@ -13,6 +13,11 @@ import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public interface IEvlContextParallel extends IEvlContext, IErlContextParallel {
 
 	@Override

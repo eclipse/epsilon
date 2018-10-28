@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
  * Matches each pair of elements in parallel.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class EclModuleParallelRules extends EclModuleParallel {
 

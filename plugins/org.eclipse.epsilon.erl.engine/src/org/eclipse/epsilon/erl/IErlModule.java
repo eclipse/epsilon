@@ -25,6 +25,9 @@ public interface IErlModule extends IEolModule {
 	
 	List<Post> getDeclaredPost();
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	default IErlContext getContext() {
 		return (IErlContext) ((IEolModule)this).getContext();

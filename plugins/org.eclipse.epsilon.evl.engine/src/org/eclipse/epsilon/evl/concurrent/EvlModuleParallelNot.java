@@ -19,6 +19,7 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  * 
  * @author Sina Madani
  * @deprecated Provided for testing purposes only.
+ * @since 1.6
  */
 public class EvlModuleParallelNot extends EvlModuleParallel {
 

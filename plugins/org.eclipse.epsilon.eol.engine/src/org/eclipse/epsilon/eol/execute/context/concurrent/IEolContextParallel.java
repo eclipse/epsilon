@@ -29,6 +29,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
  * Thread-safe IEolContext, offering utilities for parallel execution.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public interface IEolContextParallel extends IEolContext {
 	
@@ -126,6 +127,7 @@ public interface IEolContextParallel extends IEolContext {
 	 */
 	default EolExecutorService beginParallelTask(ModuleElement entryPoint) throws EolNestedParallelismException {
 		EolExecutorService executor = getExecutorService();
+		if (entryPoint == null) entryPoint = getModule();
 		enterParallelNest(entryPoint);
 		executor.getExecutionStatus().register(entryPoint);
 		return executor;
@@ -137,6 +139,7 @@ public interface IEolContextParallel extends IEolContext {
 	 * @return The result of the task, if any.
 	 */
 	default Object endParallelTask(ModuleElement entryPoint) {
+		if (entryPoint == null) entryPoint = getModule();
 		exitParallelNest(entryPoint);
 		ConcurrentExecutionStatus status = getExecutorService().getExecutionStatus();
 		if (status.isInProgress(entryPoint)) {
@@ -168,6 +171,7 @@ public interface IEolContextParallel extends IEolContext {
 	 */
 	default <T> Collection<T> executeParallelTyped(ModuleElement entryPoint, Collection<Callable<T>> jobs) throws EolRuntimeException {
 		EolExecutorService executor = getExecutorService();
+		if (entryPoint == null) entryPoint = getModule();
 		enterParallelNest(entryPoint);
 		Collection<T> results = executor.collectResults(executor.submitAllTyped(jobs));
 		exitParallelNest(entryPoint);

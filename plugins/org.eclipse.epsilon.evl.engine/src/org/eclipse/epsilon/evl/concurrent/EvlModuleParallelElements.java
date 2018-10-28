@@ -21,6 +21,7 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.*;
  * model element in a separate job.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class EvlModuleParallelElements extends EvlModuleParallel {
 

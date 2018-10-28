@@ -30,6 +30,12 @@ public class CollectionUtil {
 		return c1.size() == c2.size() && c1.containsAll(c2);
 	}
 	
+	/**
+	 * 
+	 * @param collections
+	 * @return
+	 * @since 1.6
+	 */
 	@SafeVarargs
 	public static <T> ArrayList<T> composeArrayListFrom(Collection<T>... collections) {
 		int size = 0;
@@ -43,6 +49,14 @@ public class CollectionUtil {
 		return list;
 	}
 	
+	/**
+	 * 
+	 * @param c1
+	 * @param c2
+	 * @param newCollection
+	 * @return
+	 * @since 1.6
+	 */
 	public static <T, C extends Collection<T>> C mergeCollectionsUnique(Collection<T> c1, Collection<T> c2, Supplier<? extends C> newCollection) {
 		return Stream.concat(c1.stream(), c2.stream())
 			.distinct()

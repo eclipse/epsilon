@@ -24,6 +24,7 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * at least as good, so there is no perceivable benefit of using this!
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 @Deprecated
 public class EvlModuleParallelConstraints extends EvlModuleParallel {

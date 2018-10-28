@@ -30,6 +30,12 @@ public class Variable {
 		return new Variable(name, value, EolAnyType.Instance, true);
 	}
 
+	/**
+	 * 
+	 * @param entry
+	 * @return
+	 * @since 1.6
+	 */
 	public static Variable createReadOnlyVariable(Entry<String, ?> entry) {
 		return createReadOnlyVariable(entry.getKey(), entry.getValue());
 	}
@@ -38,6 +44,11 @@ public class Variable {
 		
 	}
 	
+	/**
+	 * 
+	 * @param entry
+	 * @since 1.6
+	 */
 	public Variable(Entry<String, ?> entry) {
 		this(entry.getKey(), entry.getValue(), EolAnyType.Instance, false);
 	}

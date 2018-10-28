@@ -34,6 +34,7 @@ import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
  * to NOT persist thread-local values to improve performance and save memory.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class EolContextParallel extends EolContext implements IEolContextParallel {
 

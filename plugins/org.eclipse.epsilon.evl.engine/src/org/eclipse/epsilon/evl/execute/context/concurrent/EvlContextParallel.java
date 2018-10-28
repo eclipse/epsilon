@@ -22,6 +22,11 @@ import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EvlContextParallel extends ErlContextParallel implements IEvlContextParallel {
 
 	protected PersistentThreadLocal<Set<UnsatisfiedConstraint>> concurrentUnsatisfiedConstraints;

@@ -34,15 +34,20 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 public abstract class CachedModel<ModelElementType> extends Model {
 	
 	public static final String PROPERTY_CACHED = "cached";
+	/**
+	 * @since 1.6
+	 */
 	public static final String PROPERTY_CONCURRENT = "concurrent";
 	
 	/**
 	 * Whether to use thread-safe collections by default. False for compatibility.
+	 * @since 1.6
 	 */
 	protected static final boolean DEFAULT_CONCURRENT = false;
 	
 	/**
 	 * Whether to cache allOf* calls by default. False for compatibility.
+	 * @since 1.6
 	 */
 	protected static final boolean DEFAULT_CACHED = false;
 	
@@ -90,15 +95,28 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	protected boolean cachingEnabled;
 	protected boolean allContentsAreCached;
 	
+	/**
+	 * @since 1.6
+	 */
 	protected CachedModel() {
 		setConcurrent(DEFAULT_CONCURRENT);
 		setCachingEnabled(DEFAULT_CACHED);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
 	public boolean isConcurrent() {
 		return concurrent;
 	}
 	
+	/**
+	 * 
+	 * @param concurrent
+	 * @since 1.6
+	 */
 	public void setConcurrent(boolean concurrent) {
 		this.concurrent = concurrent;
 		
