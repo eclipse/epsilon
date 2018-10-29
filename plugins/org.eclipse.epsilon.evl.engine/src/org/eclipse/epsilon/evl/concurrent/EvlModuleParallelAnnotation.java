@@ -12,11 +12,10 @@ package org.eclipse.epsilon.evl.concurrent;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
-import org.eclipse.epsilon.eol.dom.Annotation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAnnotation;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.dom.GlobalConstraintContext;
@@ -30,7 +29,7 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EvlModuleParallelAnnotation extends EvlModuleParallel {
+public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IErlModuleParallelAnnotation {
 
 	public EvlModuleParallelAnnotation() {
 		super();
@@ -39,7 +38,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 	public EvlModuleParallelAnnotation(int parallelism) {
 		super(parallelism);
 	}
-
+	
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		final IEvlContextParallel context = getContext();
@@ -51,7 +50,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 			final IModel model = constraintContext instanceof GlobalConstraintContext ?
 				null : constraintContext.getType(context).getModel();
 			
-			if (constraintContext.hasAnnotation("parallel")) {
+			if (constraintContext.hasAnnotation(PARALLEL_ANNOTATION_NAME)) {
 				ArrayList<Runnable> jobs = new ArrayList<>();
 				
 				for (Object object : allOfKind) {
@@ -99,32 +98,6 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 				}
 			}
 		}
-	}
-
-	protected boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model, int numElements) throws EolRuntimeException {
-		Annotation parallelAnnotation = ast.getAnnotation("parallel");
-		
-		if (parallelAnnotation != null) {
-			if (parallelAnnotation.hasValue()) {
-				context.getFrameStack().enterLocal(FrameType.PROTECTED, ast,
-					Variable.createReadOnlyVariable("self", self),
-					Variable.createReadOnlyVariable("NUM_ELEMENTS", numElements),
-					Variable.createReadOnlyVariable("MODEL", model),
-					Variable.createReadOnlyVariable("THREADS", getContext().getParallelism())
-				);
-				
-				Object result = parallelAnnotation.getValue(context);
-				
-				context.getFrameStack().leaveLocal(ast);
-				
-				if (result instanceof Boolean) {
-					return (boolean) result;
-				}
-			}
-			else return true;
-		}
-		
-		return false;
 	}
 	
 }

@@ -15,7 +15,7 @@ import org.eclipse.epsilon.ecl.execute.context.concurrent.IEclContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 /**
- * Matches each pair of elements in parallel.
+ * Matches each pair of elements in parallel for all rules.
  * 
  * @author Sina Madani
  * @since 1.6

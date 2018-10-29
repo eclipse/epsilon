@@ -241,7 +241,6 @@ public class EolConfigParser<M extends IEolModule, R extends IEolRunConfiguratio
 	 * @param args the name of the module (following org.eclipse.epsilon.) followed by an even-arity array with arguments to provide to the context constructor,
 	 * where every even numbered argument (including 0) is the class (type) and every odd numbered argument is the value.
 	 * Note: only types with a String constructor are valid.
-	 * @param profile - whether to look for a profilable module implementation in a subpackage "profiling.Profilable"+[moduleName].
 	 */
 	@SuppressWarnings("unchecked")
 	protected static <R extends IEolModule> R parseModule(String[] args) throws IllegalArgumentException {

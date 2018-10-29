@@ -91,6 +91,32 @@ class FrameStackRegion {
 	}
 	
 	/**
+	 * Same as {@link #enter(FrameType, ModuleElement, Variable...)}
+	 * @param type
+	 * @param entryPoint
+	 * @param variables The Variables in Map format.
+	 * @return
+	 * @see #enter(FrameType, ModuleElement, Variable...)
+	 * @since 1.6
+	 */
+	public Frame enter(FrameType type, ModuleElement entryPoint, Map<String, ?> variables) {
+		return enter(type, entryPoint, variableMapToArray(variables));
+	}
+	
+	/**
+	 * Converts the map into an array of Variables.
+	 * @param variablesMap
+	 * @return
+	 * @since 1.6
+	 */
+	protected static Variable[] variableMapToArray(Map<String, ?> variablesMap) {
+		return variablesMap == null ? new Variable[0] :
+			variablesMap.entrySet().stream()
+			.map(Variable::createReadOnlyVariable)
+			.toArray(Variable[]::new);
+	}
+	
+	/**
 	 * Returns the number of frames in this region.
 	 */
 	public int frameCount() {

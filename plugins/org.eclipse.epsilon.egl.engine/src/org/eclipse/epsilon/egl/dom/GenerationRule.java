@@ -29,9 +29,13 @@ import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolMap;
+import org.eclipse.epsilon.eol.types.EolModelElementType;
+import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
 
 public class GenerationRule extends ExtensibleNamedRule {
@@ -134,6 +138,22 @@ public class GenerationRule extends ExtensibleNamedRule {
 		}
 	}
 
+	/**
+	 * Gets the model which the "transform" parameter type expression belongs to.
+	 * @param context
+	 * @return The model for the parameter.
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	public IModel getOwningModelForType(IEolContext context) throws EolRuntimeException {
+		if (sourceParameter == null) return null;
+		EolType parameterType = sourceParameter.getType(context);
+		if (parameterType instanceof EolModelElementType) 
+			return ((EolModelElementType)parameterType).getModel();
+		else
+			return null;
+	}
+	
 	@Override
 	public String toString() {
 		String label = getName();

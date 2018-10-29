@@ -9,18 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.concurrent;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
-import org.eclipse.epsilon.egl.EglTemplate;
-import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
-import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -28,6 +21,8 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
 /**
+ * A no-op parallel module, useful only for extending or setting number of threads used in
+ * parallel operations.
  * 
  * @author Sina Madani
  * @since 1.6
@@ -50,31 +45,6 @@ public class EgxModuleParallel extends EgxModule {
 	public EgxModuleParallel(IEgxContextParallel egxContext) {
 		this.context = egxContext;
 		this.invokedTemplates = new ConcurrentLinkedQueue<>();
-	}
-	
-	@Override
-	protected void generateRules() throws EolRuntimeException {
-		IEgxContextParallel context = getContext();
-		EglTemplateFactory templateFactory = context.newTemplateFactory();
-		Map<URI, EglTemplate> templateCache = ConcurrencyUtils.concurrentMap();
-		
-		for (GenerationRule rule : getGenerationRules()) {
-			Collection<?> allElements = rule.getAllElements(context);
-			ArrayList<Runnable> genJobs = new ArrayList<>(allElements.size());
-			
-			for (Object element : allElements) {
-				genJobs.add(() -> {
-					try {
-						rule.generate(context, templateFactory, this, element, templateCache);
-					}
-					catch (EolRuntimeException exception) {
-						context.handleException(exception);
-					}
-				});
-			}
-			
-			context.executeParallel(rule, genJobs);
-		}
 	}
 	
 	@Override

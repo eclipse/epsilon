@@ -14,6 +14,11 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EpsilonTestUtil {
 	private EpsilonTestUtil() {}
 	

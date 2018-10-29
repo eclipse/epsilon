@@ -216,6 +216,32 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 	}
 	
 	/**
+	 * Same as {@link #enterGlobal(FrameType, ModuleElement, Variable...)}
+	 * @param type
+	 * @param entryPoint
+	 * @param variables
+	 * @return
+	 * @see #enterGlobal(FrameType, ModuleElement, Variable...)
+	 * @since 1.6
+	 */
+	public Frame enterGlobal(FrameType type, ModuleElement entryPoint, Map<String, ?> variables) {
+		return globals.enter(type, entryPoint, variables);
+	}
+	
+	/**
+	 * Same as {@link #enterLocal(FrameType, ModuleElement, Variable...)}
+	 * @param type
+	 * @param entryPoint
+	 * @param variables
+	 * @return
+	 * @see #enterLocal(FrameType, ModuleElement, Variable...)
+	 * @since 1.6
+	 */
+	public Frame enterLocal(FrameType type, ModuleElement entryPoint, Map<String, ?> variables) {
+		return locals.enter(type, entryPoint, variables);
+	}
+	
+	/**
 	 * Enters a new local frame.
 	 *
 	 * @deprecated Use {@link #enterLocal(FrameType, AST, Variable...)} instead.

@@ -9,22 +9,19 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.util;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class StringUtil {
 	
 	public static Collection<String> split(String str, String delimiter) {
 		if (str == null) return Collections.emptyList();
 		
-		ArrayList<String> parts = new ArrayList<>();
-		
-		for (String p : str.split(delimiter)) {
-			parts.add(p.trim());
-		}
-		
-		return parts;
+		return Stream.of(str.split(delimiter))
+			.map(String::trim)
+			.collect(Collectors.toList());
 	}
 	
 	public static boolean isEmpty(String str)  {
@@ -151,6 +148,12 @@ public class StringUtil {
 		return sbuf.toString();
 	}
 	
+	/**
+	 * 
+	 * @param obj
+	 * @return
+	 * @since 1.6
+	 */
 	public static String stripHashCodes(Object obj) {
 		if (obj != null) {
 			return obj.toString().replaceAll("@([0-9a-fA-F]{1,8})", "");
