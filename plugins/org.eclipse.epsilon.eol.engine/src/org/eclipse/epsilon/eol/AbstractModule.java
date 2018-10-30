@@ -146,7 +146,6 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 			moduleElement.build(cst, this);
 			if (parentAst != null) {
 				moduleElement.setParent(parentAst);
-				parentAst.getChildren().add(moduleElement);
 			}
 		}
 		return moduleElement;

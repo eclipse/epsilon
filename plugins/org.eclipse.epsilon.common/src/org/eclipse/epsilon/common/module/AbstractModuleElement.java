@@ -28,13 +28,6 @@ public abstract class AbstractModuleElement implements ModuleElement {
 	protected IModule module;
 	protected Region region = new Region();
 	
-	public AbstractModuleElement() {}
-	
-	public AbstractModuleElement(ModuleElement parent) {
-		parent.getChildren().add(this);
-		this.parent = parent;
-	}
-	
 	@Override
 	public void build(AST cst, IModule module) {
 		List<Token> commentTokens = cst.getCommentTokens();
@@ -53,7 +46,9 @@ public abstract class AbstractModuleElement implements ModuleElement {
 		return comments;
 	}
 	
-	public String getDebugInfo() { return ""; }
+	public String getDebugInfo() {
+		return "";
+	}
 	
 	@Override
 	public List<ModuleElement> getChildren() {
@@ -100,7 +95,7 @@ public abstract class AbstractModuleElement implements ModuleElement {
 	
 	@Override
 	public void setParent(ModuleElement parent) {
-		this.parent = parent;
+		(this.parent = parent).getChildren().add(this);
 	}
 	
 	@Override

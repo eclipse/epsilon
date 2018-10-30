@@ -77,7 +77,6 @@ public class EolModule extends AbstractModule implements IEolModule {
 						child.getType() != EolParser.IMPORT) {
 					ExpressionStatement expressionStatement = new ExpressionStatement((Expression) module.createAst(child, this));
 					expressionStatement.setParent(this);
-					this.getChildren().add(expressionStatement);
 					postOperationStatements.add(expressionStatement);
 				}
 			}

@@ -102,7 +102,6 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		ConstraintContext globalConstraintContext = new GlobalConstraintContext();
 		globalConstraintContext.setModule(this);
 		globalConstraintContext.setParent(this);
-		this.getChildren().add(globalConstraintContext);
 		
 		Constraints globalConstraints = globalConstraintContext.getConstraints();
 		

@@ -23,7 +23,6 @@ public class ExpressionStatement extends Statement {
 		this.setExpression(expression);
 		if (expression.getParent() != null) expression.getParent().getChildren().remove(expression);
 		expression.setParent(this);
-		this.getChildren().add(expression);
 		this.setUri(expression.getUri());
 		this.setRegion(expression.getRegion());
 	}

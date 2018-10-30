@@ -42,7 +42,6 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 		if (cst.getType() == EolParser.BLOCK) {
 			StatementBlock statementBlock = new StatementBlock();
 			statementBlock.setParent(this);
-			this.getChildren().add(statementBlock);
 			Collection<Statement> statements = statementBlock.getStatements();
 			
 			for (AST childAst : cst.getChildren()) {
@@ -54,7 +53,6 @@ public class ExecutableBlock<T> extends AbstractExecutableModuleElement {
 					// Turn the expression into an expression statement so that it can be added to the statementBlock
 					ExpressionStatement expressionStatement = new ExpressionStatement((Expression) childModuleElement);
 					expressionStatement.setParent(statementBlock);
-					statementBlock.getChildren().add(expressionStatement);
 					statements.add(expressionStatement);
 				}
 			}
