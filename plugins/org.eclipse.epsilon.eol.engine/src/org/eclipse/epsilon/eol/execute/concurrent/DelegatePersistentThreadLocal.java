@@ -11,7 +11,7 @@ package org.eclipse.epsilon.eol.execute.concurrent;
 
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.concurrent.ConcurrentBaseDelegate;
-import org.eclipse.epsilon.common.interfaces.BaseDelegate.MergeMode;
+import org.eclipse.epsilon.common.function.BaseDelegate.MergeMode;
 
 /**
  * A {@link PersistentThreadLocal} which merges its values into the base (its delegate)

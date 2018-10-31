@@ -11,7 +11,7 @@ package org.eclipse.epsilon.common.concurrent;
 
 import java.util.Collection;
 import java.util.function.Function;
-import org.eclipse.epsilon.common.interfaces.BaseDelegate;
+import org.eclipse.epsilon.common.function.BaseDelegate;
 
 /**
  * 

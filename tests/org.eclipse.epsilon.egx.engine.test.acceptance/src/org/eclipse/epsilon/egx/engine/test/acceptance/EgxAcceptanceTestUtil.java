@@ -11,8 +11,10 @@ package org.eclipse.epsilon.egx.engine.test.acceptance;
 
 import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EgxModule;
@@ -47,7 +49,8 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	}
 	
 	public static Collection<Supplier<? extends IEgxModule>> modules(boolean includeStandard) {
-		return parallelModules(THREADS, includeStandard ? EgxModule::new : null, EgxModuleParallel::new);
+		return parallelModules(THREADS, includeStandard ? EgxModule::new : null,
+			EgxModuleParallel::new, EgxModuleParallelAnnotation::new, EgxModuleParallelRules::new);
 	}
 	
 	public static Collection<EgxRunConfiguration> getScenarios(
@@ -57,7 +60,13 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	}
 	
 	public static void deleteOutputDirectories() throws IOException {
-		FileUtil.deleteOutputDirectory(thriftBase+"java/output");
-		FileUtil.deleteOutputDirectory(thriftBase+"ruby/output");
+		FileUtil.deleteDirectory(thriftBase+"java/output");
+		FileUtil.deleteDirectory(thriftBase+"ruby/output");
+	}
+	
+	public static Map<Path, String> getOutputFiles() throws IOException {
+		Map<Path, String> outputs = FileUtil.readDirectory(thriftBase+"java/output");
+		outputs.putAll(FileUtil.readDirectory(thriftBase+"ruby/output"));
+		return outputs;
 	}
 }

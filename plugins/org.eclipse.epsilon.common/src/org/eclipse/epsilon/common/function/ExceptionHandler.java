@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.common.interfaces;
+package org.eclipse.epsilon.common.function;
 
 /**
  * 

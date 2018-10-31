@@ -10,6 +10,8 @@
 package org.eclipse.epsilon.egx.engine.test.acceptance.equivalence;
 
 import static org.eclipse.epsilon.egx.engine.test.acceptance.EgxAcceptanceTestUtil.*;
+import static org.junit.Assert.assertEquals;
+import java.nio.file.Path;
 import java.util.*;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
@@ -31,6 +33,8 @@ import org.junit.runners.Parameterized.Parameters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EgxModuleEquivalenceTests extends EolEquivalenceTests<IEgxModule, EgxRunConfiguration> {
 
+	static Map<Path, String> expectedOutput;
+	
 	public EgxModuleEquivalenceTests(EgxRunConfiguration configUnderTest) {
 		super(configUnderTest);
 	}
@@ -39,23 +43,16 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<IEgxModule, E
 	public static void setUpBeforeClass() throws Exception {
 		expectedConfigs = getScenarios(thriftInputs, Collections.singleton(EgxModule::new));
 		setUpEquivalenceTest();
+		expectedOutput = getOutputFiles();
 	}
-	
-	/**
-	 * Deletes output files.
-	 */
+
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		deleteOutputDirectories();
 	}
-	
-	/**
-	 * @return A collection of pre-configured run configurations, each with their own IEgxModule.
-	 * @see EgxAcceptanceTestSuite.getScenarios
-	 */
-	@Parameters(name = "0")	//Don't use this as the Eclipse JUnit view won't show failures!
+
+	@Parameters//(name = "0")	//Don't use this as the Eclipse JUnit view won't show failures!
 	public static Iterable<? extends IEolRunConfiguration<IEgxModule, ?>> configurations() {
-		// Used to specify which module configurations we'd like to test in our scenarios
 		return getScenarios(thriftInputs, modules(false));
 	}
 	
@@ -65,7 +62,7 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<IEgxModule, E
 	}
 	
 	@Test
-	public void testEquivalentOutput() {
-		//TODO implement
+	public void testEquivalentOutput() throws Exception {
+		assertEquals(expectedOutput.values(), getOutputFiles().values());
 	}
 }

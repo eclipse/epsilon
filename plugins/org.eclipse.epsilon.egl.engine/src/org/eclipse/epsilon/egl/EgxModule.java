@@ -177,6 +177,10 @@ public class EgxModule extends ErlModule implements IEgxModule {
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @since 1.6
+	 */
 	@Override
 	protected void prepareContext() {
 		super.prepareContext();
@@ -191,6 +195,11 @@ public class EgxModule extends ErlModule implements IEgxModule {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	protected void generateRules() throws EolRuntimeException {
 		IEgxContext context = getContext();
 		EglTemplateFactory templateFactory = context.getTemplateFactory();

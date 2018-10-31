@@ -24,12 +24,9 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import org.eclipse.epsilon.common.function.ExceptionContainer;
 
 public class FileUtil {
 	private FileUtil() {}
@@ -268,10 +265,38 @@ public class FileUtil {
 	 * @throws IOException
 	 * @since 1.6
 	 */
-	public static void deleteOutputDirectory(String dir) throws IOException {
+	public static void deleteDirectory(String dir) throws IOException {
 		Files.walk(Paths.get(dir))
 	        .map(Path::toFile)
 	        .sorted((o1, o2) -> -o1.compareTo(o2))
 	        .forEach(File::delete);
+	}
+	
+	/**
+	 * Reads entire directory recursively, mapping the contents of each file
+	 * as a string to its path.
+	 * 
+	 * @param dir The root directory.
+	 * @return The contents of each file in the directory and its subdirectories.
+	 * @throws IOException
+	 * @since 1.6
+	 */
+	public static Map<Path, String> readDirectory(String dir) throws IOException {		
+		ExceptionContainer<IOException> exceptionContainer = new ExceptionContainer<>();
+		
+		Map<Path, String> contents = Files.walk(Paths.get(dir))
+			.collect(Collectors.toMap(path -> path, path -> {
+				try {
+					return new String(Files.readAllBytes(path));
+				}
+				catch (IOException iox) {
+					exceptionContainer.setException(iox);
+					return "";
+				}
+			}));
+		
+		exceptionContainer.throwIfPresent();
+		
+		return contents;
 	}
 }
