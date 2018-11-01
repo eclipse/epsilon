@@ -1,15 +1,18 @@
 package org.eclipse.epsilon.flexmi.dt;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
@@ -51,7 +54,7 @@ public class FlexmiRendererView extends ViewPart {
 			render(null);
 		}
 
-		this.getSite().getPage().addPartListener(new PartListener() {
+		final PartListener partListener = new PartListener() {
 			@Override
 			public void partActivated(IWorkbenchPartReference partRef) {
 				if (partRef.getPart(false) instanceof FlexmiEditor) {
@@ -61,11 +64,16 @@ public class FlexmiRendererView extends ViewPart {
 
 			@Override
 			public void partClosed(IWorkbenchPartReference partRef) {
-				if (partRef.getPart(false) instanceof FlexmiEditor) {
+				if (partRef.getPart(false) == FlexmiRendererView.this) {
+					getSite().getPage().removePartListener(this);
+				}
+				else if (partRef.getPart(false) instanceof FlexmiEditor) {
 					render(null);
 				}
 			}
-		});
+		};
+		
+		this.getSite().getPage().addPartListener(partListener);
 
 	}
 
@@ -113,7 +121,11 @@ public class FlexmiRendererView extends ViewPart {
 				EglTemplateFactoryModuleAdapter module = new EglTemplateFactoryModuleAdapter(
 						new EglFileGeneratingTemplateFactory());
 				module.parse(new File(flexmiFile.getParentFile(), renderProcessingInstruction.getData().trim()));
-	
+				IEglContext context = module.getContext();
+				context.setOutputStream(EpsilonConsole.getInstance().getDebugStream());
+				context.setErrorStream(EpsilonConsole.getInstance().getErrorStream());
+				context.setWarningStream(EpsilonConsole.getInstance().getWarningStream());		
+				
 				InMemoryEmfModel model = new InMemoryEmfModel(resource);
 				model.setName("M");
 				module.getContext().getModelRepository().addModel(model);
@@ -127,20 +139,20 @@ public class FlexmiRendererView extends ViewPart {
 					String program = format.substring("graphviz-".length());
 					
 					File temp = File.createTempFile("flexmi-renderer", ".dot");
-					File svg = new File(temp.getAbsolutePath() + ".svg");
+					File png = new File(temp.getAbsolutePath() + ".png");
 					File log = new File(temp.getAbsolutePath() + ".log" );
 					
 					Files.write(Paths.get(temp.toURI()), (module.execute() + "").getBytes());
 					
 					if (!OperatingSystem.isWindows()) program = "/usr/local/bin/" + program;
 					
-					ProcessBuilder pb = new ProcessBuilder(new String[] {program, "-Tsvg", temp.getAbsolutePath(), "-o", svg.getAbsolutePath()});
+					ProcessBuilder pb = new ProcessBuilder(new String[] {program, "-Tpng", temp.getAbsolutePath(), "-o", png.getAbsolutePath()});
 					pb.redirectError(log);
 					Process p = pb.start();
 					p.waitFor();
 					
-					if (svg.exists()) {
-						browser.setUrl(URI.createFileURI(svg.getAbsolutePath()).toString());
+					if (png.exists()) {
+						browser.setText("<html><img src='" + png.getAbsolutePath() + "'></img></html>");
 					}
 					else if (log.exists()) {
 						browser.setUrl(URI.createFileURI(log.getAbsolutePath()).toString());
