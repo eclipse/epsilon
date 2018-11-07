@@ -61,5 +61,5 @@ public class EolOperationFactory {
 
 	public AbstractOperation getOperationFor(String name) {
 		return operationCache.get(name);
-	}	
+	}
 }

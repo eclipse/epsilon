@@ -13,6 +13,11 @@ import java.util.function.Supplier;
 import org.eclipse.epsilon.ecl.*;
 import org.eclipse.epsilon.ecl.concurrent.EclModuleParallel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class ParallelMatchesOperationTest extends MatchesOperationTest {
 
 	public ParallelMatchesOperationTest(Supplier<? extends IEclModule> moduleGetter) {

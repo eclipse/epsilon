@@ -454,8 +454,9 @@ declarativeFeatureCall
 	@after {
 		$tree.getExtraTokens().add($op);
 		$tree.getExtraTokens().add($cp);
+		$tree.getExtraTokens().add($lambda);
 	}
-	:	NAME^ op='('! formalParameterList '|'! logicalExpression (','! logicalExpression)* cp=')'!
+	:	n=NAME^ op='('! formalParameterList? (lambda='|'! | lambda='=>'!) logicalExpression (','! logicalExpression)* cp=')'!
 	;
 
 newExpression

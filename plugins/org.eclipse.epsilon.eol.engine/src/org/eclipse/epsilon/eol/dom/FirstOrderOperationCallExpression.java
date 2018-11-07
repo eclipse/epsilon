@@ -51,30 +51,32 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
+		
+		final AST paramsContainer, exprAst;
+		
 		if (cst.getFirstChild().getType() != EolParser.PARAMLIST) { 
 			targetExpression = (Expression) module.createAst(cst.getFirstChild(), this);
 			nameExpression = (NameExpression) module.createAst(cst.getSecondChild(), this);
-			for (AST ast : cst.getSecondChild().getFirstChild().getChildren()) {
-				parameters.add((Parameter) module.createAst(ast, this));
-			}
-			for (AST ast : cst.getSecondChild().getChildren()) {
-				if (ast != cst.getSecondChild().getFirstChild()) {
-					expressions.add((Expression) module.createAst(ast, this));
-				}
-			}
+			exprAst = cst.getSecondChild();
+			paramsContainer = exprAst.getFirstChild();
 		}
 		else {
 			nameExpression = new NameExpression(cst.getText());
 			nameExpression.setRegion(cst.getRegion());
 			nameExpression.setUri(cst.getUri());
 			nameExpression.setModule(cst.getModule());
-			for (AST ast : cst.getFirstChild().getChildren()) {
+			paramsContainer = cst.getFirstChild();
+			exprAst = cst;
+		}
+		
+		if (paramsContainer.getType() == EolParser.PARAMLIST) {
+			for (AST ast : paramsContainer.getChildren()) {
 				parameters.add((Parameter) module.createAst(ast, this));
 			}
-			for (AST ast : cst.getChildren()) {
-				if (ast != cst.getFirstChild()) {
-					expressions.add((Expression) module.createAst(ast, this));
-				}
+		}
+		for (AST ast : exprAst.getChildren()) {
+			if (parameters.isEmpty() || ast != paramsContainer) {
+				expressions.add((Expression) module.createAst(ast, this));
 			}
 		}
 	}
@@ -82,6 +84,7 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		Object target = EolNoType.Instance;
+		
 		if (targetExpression != null) {
 			target = context.getExecutorFactory().execute(targetExpression, context);
 		}

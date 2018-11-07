@@ -14,11 +14,12 @@ package org.eclipse.epsilon.eol.engine.test.acceptance;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
-import org.eclipse.epsilon.eol.engine.test.acceptance.dom.DomTests;
-import org.eclipse.epsilon.eol.engine.test.acceptance.equalityStatement.EqualityBecomesAssignmentInStatements;
+import org.eclipse.epsilon.eol.engine.test.acceptance.dom.*;
+import org.eclipse.epsilon.eol.engine.test.acceptance.equalityStatement.*;
 import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.*;
-import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.nested.NestedParallelOperationTests;
-import org.eclipse.epsilon.eol.engine.test.acceptance.recording.PropertyAccessRecording;
+import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.lambda.*;
+import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.nested.*;
+import org.eclipse.epsilon.eol.engine.test.acceptance.recording.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -27,7 +28,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({AssignmentTests.class, CollectionPropertyTests.class, ComparisonTests.class, CreateDeleteTests.class, EqualityTests.class, CollectionsTests.class, MathTests.class, StringTests.class, AnnotatedOperationTests.class, IsDefinedTests.class, IterableTests.class,
 	           EqualityBecomesAssignmentInStatements.class, ReturnTypeTests.class, BuiltInVariablesTests.class, ModelElementTypeResolutionTests.class, BooleanTests.class, PropertyAccessRecording.class, ScopeTests.class, ContextlessFirstOrderOperationTests.class, DomTests.class,
 	           OperationOrderTests.class, PostfixOperatorTests.class, CompositeAssignmentTests.class, SwitchTests.class, TransactionTests.class, ModelElementConstructorTests.class,
-	           FirstOrderOperationTests.class, ParallelFirstOrderOperationTests.class, ParallelFirstOrderOperationEquivalenceTests.class, FirstOrderOperationAdvancedTests.class, FirstOrderOperationExceptionHandlingTests.class, NestedParallelOperationTests.class})
+	           FirstOrderOperationTests.class, ParallelFirstOrderOperationTests.class, ParallelFirstOrderOperationEquivalenceTests.class, FirstOrderOperationAdvancedTests.class, FirstOrderOperationExceptionHandlingTests.class, NestedParallelOperationTests.class,
+	           LambdaExpressionTests.class, LambdaExpressionExceptionTest.class, ParallelStreamTests.class})
 public class EolAcceptanceTestSuite {
 
 	public static Test suite() {

@@ -7,15 +7,17 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.erl.execute.context.concurrent;
+package org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.lambda;
 
-import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
-import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
+import org.eclipse.epsilon.eol.engine.test.acceptance.eunit.EUnitRunner;
+import org.junit.runner.RunWith;
 
-public interface IErlContextParallel extends IErlContext, IEolContextParallel {
-	
-	@Override
-	RuleExecutorFactory getExecutorFactory();
-	
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
+@RunWith(EUnitRunner.class)
+public class LambdaExpressionTests {
+
 }

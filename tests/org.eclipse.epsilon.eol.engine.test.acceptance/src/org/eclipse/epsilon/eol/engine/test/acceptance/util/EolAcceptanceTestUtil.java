@@ -10,6 +10,8 @@
 package org.eclipse.epsilon.eol.engine.test.acceptance.util;
 
 import static org.eclipse.epsilon.emc.emf.EmfModel.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,12 +22,43 @@ import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.concurrent.EolModuleParallel;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EolAcceptanceTestUtil {
 	protected EolAcceptanceTestUtil() {}
+	
+	public static void testExceptionEquivalenceBetweenModules(String code) throws Exception {
+		EolRuntimeException expectedException = executeReturnException(code, new EolModule());
+		EolRuntimeException actualException = executeReturnException(code, new EolModuleParallel());
+		testExceptionEquivalence(expectedException, actualException);
+	}
+	
+	public static EolRuntimeException executeReturnException(String code, IEolModule module) throws Exception {
+		try {
+			module.parse(code);
+			module.execute();
+			return null;
+		}
+		catch (EolRuntimeException ex) {
+			return ex;
+		}
+	}
+	
+	public static void testExceptionEquivalence(EolRuntimeException expected, EolRuntimeException actual) {
+		assertNotNull(expected);
+		assertNotNull(expected);
+		assertEquals(expected.getAst().toString(), actual.getAst().toString());
+	}
 	
 	public static final int[] THREADS = new int[] {
 		0, 1, 2, 3, 10, Byte.MAX_VALUE

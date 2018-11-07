@@ -20,6 +20,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @RunWith(Parameterized.class)
 public class MatchesOperationTest {
 

@@ -56,7 +56,7 @@ public class SimpleAnnotation extends Annotation {
 	}
 	
 	@Override
-	public Object getValue(IEolContext context) throws EolRuntimeException {
+	public String getValue(IEolContext context) throws EolRuntimeException {
 		return getValue();
 	}
 	

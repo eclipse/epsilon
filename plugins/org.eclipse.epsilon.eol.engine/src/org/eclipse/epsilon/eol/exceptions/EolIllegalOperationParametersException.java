@@ -10,11 +10,12 @@
 package org.eclipse.epsilon.eol.exceptions;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.util.StringUtil;
 
 public class EolIllegalOperationParametersException extends EolRuntimeException {
 	
 	private String method = "";
-	private String expected;
+	private String expected, actual;
 	
 	public EolIllegalOperationParametersException(String method) {
 		this.method = method;
@@ -25,21 +26,39 @@ public class EolIllegalOperationParametersException extends EolRuntimeException 
 		this.ast = ast;
 	}
 	
-	public EolIllegalOperationParametersException(String method, String expected) {
-		this(method);
-		this.expected = expected;
-	}
-	
+	/**
+	 * 
+	 * @param method
+	 * @param expected
+	 * @param ast
+	 * @since 1.6
+	 */
 	public EolIllegalOperationParametersException(String method, String expected, ModuleElement ast) {
 		this(method, ast);
 		this.expected = expected;
 	}
 	
+	/**
+	 * 
+	 * @param method
+	 * @param expected
+	 * @param actual
+	 * @param ast
+	 * @since 1.6
+	 */
+	public EolIllegalOperationParametersException(String method, String expected, String actual, ModuleElement ast) {
+		this(method, expected, ast);
+		this.actual = actual;
+	}
+	
 	@Override
 	public String getReason() {
 		String reason = "Invalid number (or types) of arguments for operation '" + method + "'";
-		if (expected != null && !expected.isEmpty()) {
+		if (!StringUtil.isEmpty(expected)) {
 			reason += ": expected '"+expected+"'";
+		}
+		if (!StringUtil.isEmpty(actual)) {
+			reason += " but got '"+actual+"'";
 		}
 		return reason;
 	}

@@ -51,9 +51,8 @@ public class EolModule extends AbstractModule implements IEolModule {
 		super.build(cst, module);
 		checkImports(cst);
 		
-		Map<String, Class<?>> importConfig = getImportConfiguration();
-		for (String extension : importConfig.keySet()) {
-			imports.addAll(getImportsByExtension(cst, extension, importConfig.get(extension)));
+		for (Map.Entry<String, Class<?>> entry : getImportConfiguration().entrySet()) {
+			imports.addAll(getImportsByExtension(cst, entry.getKey(), entry.getValue()));
 		}
 		
 		for (AST operationAst : AstUtil.getChildren(cst, EolParser.HELPERMETHOD)) {
@@ -70,15 +69,18 @@ public class EolModule extends AbstractModule implements IEolModule {
 			main = (StatementBlock) createAst(AstUtil.getChild(cst, EolParser.BLOCK), this);
 			
 			for (AST child : cst.getChildren()) {
-				if (child.getType() != EolParser.BLOCK 
-						&& child.getType() != EolParser.ANNOTATIONBLOCK && 
-						child.getType() != EolParser.HELPERMETHOD && 
-						child.getType() != EolParser.MODELDECLARATION &&
-						child.getType() != EolParser.IMPORT) {
-					ExpressionStatement expressionStatement = new ExpressionStatement((Expression) module.createAst(child, this));
-					expressionStatement.setParent(this);
-					postOperationStatements.add(expressionStatement);
+				int type = child.getType();
+				if (type == EolParser.BLOCK ||
+					type == EolParser.ANNOTATIONBLOCK ||
+					type == EolParser.HELPERMETHOD ||
+					type == EolParser.MODELDECLARATION ||
+					type == EolParser.IMPORT) {
+						continue;
 				}
+				
+				ExpressionStatement expressionStatement = new ExpressionStatement((Expression) module.createAst(child, this));
+				expressionStatement.setParent(this);
+				postOperationStatements.add(expressionStatement);
 			}
 		}
 		
@@ -112,16 +114,15 @@ public class EolModule extends AbstractModule implements IEolModule {
 			case EolParser.ITEMSELECTOR: return new ItemSelectorExpression();
 			case EolParser.ARROW:
 			case EolParser.POINT: {
-				if (cst.getSecondChild().getChildren().size() == 0) {
+				AST secondChild = cst.getSecondChild();
+				if (!secondChild.hasChildren()) {
 					return new PropertyCallExpression();
 				}
+				else if (secondChild.getExtraTokens().size() == 3) {
+					return new FirstOrderOperationCallExpression();
+				}
 				else {
-					if (cst.getSecondChild().getFirstChild().getType() == EolParser.PARAMLIST) {
-						return new FirstOrderOperationCallExpression();
-					}
-					else {
-						return new OperationCallExpression();
-					}
+					return new OperationCallExpression();
 				}
 			}
 			case EolParser.NAME: {

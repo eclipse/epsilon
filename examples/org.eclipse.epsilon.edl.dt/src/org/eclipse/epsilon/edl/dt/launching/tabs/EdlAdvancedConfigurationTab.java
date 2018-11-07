@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.edl.dt.launching.tabs;
 
+import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
@@ -27,7 +28,7 @@ public class EdlAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 	}
 
 	@Override
-	public String getLanguage() {
+	public String getLanguage(ILaunchConfiguration configuration) {
 		return "EDL";
 	}
 }

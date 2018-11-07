@@ -19,7 +19,8 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 
 public class AssignmentStatement extends Statement {
 	
-	protected Expression targetExpression, valueExpression;
+	protected Expression targetExpression;
+	protected Expression valueExpression;
 	
 	public AssignmentStatement() {}
 	
@@ -34,18 +35,19 @@ public class AssignmentStatement extends Statement {
 		targetExpression = (Expression) module.createAst(cst.getFirstChild(), this);
 		valueExpression = (Expression) module.createAst(cst.getSecondChild(), this);
 		
-		String text = cst.getText();
-		if (text.equals("+=")) {
-			valueExpression = new PlusOperatorExpression(targetExpression, valueExpression);
-		}
-		else if (text.equals("-=")) {
-			valueExpression = new MinusOperatorExpression(targetExpression, valueExpression);			
-		}
-		else if (text.equals("/=")) {
-			valueExpression = new DivOperatorExpression(targetExpression, valueExpression);			
-		}
-		else if (text.equals("*=")) {
-			valueExpression = new TimesOperatorExpression(targetExpression, valueExpression);			
+		switch (cst.getText()) {
+			case "+=":
+				valueExpression = new PlusOperatorExpression(targetExpression, valueExpression);
+				break;
+			case "-=":
+				valueExpression = new MinusOperatorExpression(targetExpression, valueExpression);
+				break;
+			case "/=":
+				valueExpression = new DivOperatorExpression(targetExpression, valueExpression);
+				break;
+			case "*=":
+				valueExpression = new TimesOperatorExpression(targetExpression, valueExpression);
+				break;
 		}
 	}
 	
@@ -89,7 +91,7 @@ public class AssignmentStatement extends Statement {
 				Object value = getValueEquivalent(variable.getValue(), valueExpressionResult, context);
 				variable.setValue(value, context);
 			}
-			catch (EolRuntimeException ex){
+			catch (EolRuntimeException ex) {
 				ex.setAst(targetExpression);
 				throw ex;
 			}
@@ -98,7 +100,7 @@ public class AssignmentStatement extends Statement {
 			throw new EolRuntimeException("Internal error. Expected either a SetterMethod or a Variable and got an " + targetExpressionResult + " instead", this);
 		}
 		
-		return null;
+		return valueExpressionResult;
 	}
 	
 	protected Object getValueEquivalent(Object source, Object value, IEolContext context) throws EolRuntimeException {

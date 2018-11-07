@@ -9,7 +9,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.edl.dt.launching;
 
+import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.epsilon.edl.EdlModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 
@@ -22,6 +24,16 @@ public class EdlLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	@Override
 	protected EolDebugger createDebugger() {
 		return new EdlDebugger();
+	}
+
+	@Override
+	public IEolModule getDefaultModule(ILaunchConfiguration configuration) {
+		return new EdlModule();
+	}
+
+	@Override
+	protected String getLanguage() {
+		return "EDL";
 	}
 	
 }

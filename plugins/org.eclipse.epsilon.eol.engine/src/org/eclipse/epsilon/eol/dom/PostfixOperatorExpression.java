@@ -19,7 +19,7 @@ public class PostfixOperatorExpression extends OperatorExpression {
 	protected boolean increase;
 	protected AssignmentStatement assignmentStatement;
 	
-	public PostfixOperatorExpression(boolean increase){
+	public PostfixOperatorExpression(boolean increase) {
 		this.increase = increase;
 	}
 	

@@ -13,6 +13,7 @@ import static org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestUt
 import static org.junit.Assert.assertEquals;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.IEclModule;
+import org.eclipse.epsilon.ecl.concurrent.*;
 import org.eclipse.epsilon.ecl.launch.EclRunConfiguration;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
@@ -23,6 +24,11 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized.Parameters;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EclModuleEquivalenceTests extends EolEquivalenceTests<IEclModule, EclRunConfiguration> {
 
@@ -35,9 +41,7 @@ public class EclModuleEquivalenceTests extends EolEquivalenceTests<IEclModule, E
 	 */
 	@Parameters//(name = "0")	Don't use this as the Eclipse JUnit view won't show failures!
 	public static Iterable<? extends EclRunConfiguration> configurations() {
-		// Used to specify which module configurations we'd like to test in our scenarios
-		//TODO implement
-		return null;
+		return getScenarios(EclModuleParallelRules::new, EclModuleParallelAnnotation::new, EclModuleParallel::new);
 	}
 	
 	@BeforeClass

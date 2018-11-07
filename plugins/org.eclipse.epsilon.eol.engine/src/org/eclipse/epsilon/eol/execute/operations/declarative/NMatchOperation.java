@@ -78,7 +78,8 @@ public class NMatchOperation extends FirstOrderOperation {
 				targetMatches = (int) userDefinedN;
 			}
 			else {
-				throw new EolIllegalOperationParametersException("nMatch", "Integer", expressions.get(1));
+				String actualType = userDefinedN != null ? userDefinedN.getClass().getTypeName() : "null";
+				throw new EolIllegalOperationParametersException("nMatch", "Integer", actualType, expressions.get(1));
 			}
 		}
 		else {

@@ -9,12 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.concurrent.EolModuleParallel;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import static org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil.testExceptionEquivalenceBetweenModules;
 import org.junit.Test;
 
 /**
@@ -30,35 +25,11 @@ public class FirstOrderOperationExceptionHandlingTests {
 	
 	@Test
 	public void testExceptionIsThrown() throws Exception {
-		String code = testData+"select("+testPredicate+");";
-		EolRuntimeException expectedException = execute(code, new EolModule());
-		EolRuntimeException actualException = execute(code, new EolModuleParallel());
-		testExceptionEquivalence(expectedException, actualException);
+		testExceptionEquivalenceBetweenModules(testData+"select("+testPredicate+");");
 	}
 	
 	@Test
 	public void testInvalidNMatch() throws Exception {
-		String code = testData+"nMatch(n | n > 0);";
-		EolRuntimeException expectedException = execute(code, new EolModule());
-		EolRuntimeException actualException = execute(code, new EolModuleParallel());
-		testExceptionEquivalence(expectedException, actualException);
+		testExceptionEquivalenceBetweenModules(testData+"nMatch(n | n > 0);");
 	}
-	
-	static void testExceptionEquivalence(EolRuntimeException expected, EolRuntimeException actual) {
-		assertNotNull(expected);
-		assertNotNull(expected);
-		assertEquals(expected.getAst().toString(), actual.getAst().toString());
-	}
-	
-	static EolRuntimeException execute(String code, IEolModule module) throws Exception {
-		try {
-			module.parse(code);
-			module.execute();
-			return null;
-		}
-		catch (EolRuntimeException ex) {
-			return ex;
-		}
-	}
-	
 }

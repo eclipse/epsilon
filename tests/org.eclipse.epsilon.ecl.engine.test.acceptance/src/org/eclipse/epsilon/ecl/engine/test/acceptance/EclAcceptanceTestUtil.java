@@ -17,6 +17,11 @@ import org.eclipse.epsilon.ecl.concurrent.*;
 import org.eclipse.epsilon.ecl.launch.EclRunConfiguration;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EclAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	protected EclAcceptanceTestUtil() {}
 	

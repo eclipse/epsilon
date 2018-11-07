@@ -16,6 +16,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.DynamicOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributorProvider;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -43,11 +44,11 @@ public abstract class FeatureCallExpression extends Expression {
 	}
 	
 	protected AbstractOperation getAbstractOperation(Object target, String name, NameExpression featureCallAst, IModel owningModel, IEolContext context) throws EolIllegalOperationException {
-		
+		AbstractOperation operation = null;
 		// Objects implementing the IAbstractOperationContributor interface
 		// can override the default higher-order operation implementations
 		if (target instanceof IAbstractOperationContributor) {
-			AbstractOperation operation = ((IAbstractOperationContributor) target).getAbstractOperation(name);
+			operation = ((IAbstractOperationContributor) target).getAbstractOperation(name);
 			if (operation != null) return operation;
 		}
 		
@@ -56,14 +57,18 @@ public abstract class FeatureCallExpression extends Expression {
 		if (owningModel != null && owningModel instanceof IAbstractOperationContributorProvider) {
 			IAbstractOperationContributor contributor = ((IAbstractOperationContributorProvider) owningModel).getAbstractOperationContributor(target);
 			if (contributor != null) {
-				AbstractOperation operation = contributor.getAbstractOperation(name);
+				operation = contributor.getAbstractOperation(name);
 				if (operation != null) return operation;					
 			}
 		}
 		
-		AbstractOperation operation = context.getOperationFactory().getOperationFor(name);
-		if (operation != null) return operation;
-		else throw new EolIllegalOperationException(target, name, featureCallAst, context.getPrettyPrinterManager());				
+		operation = context.getOperationFactory().getOperationFor(name);
+		
+		if (operation == null) {
+			operation = new DynamicOperation(featureCallAst);
+		}
+		
+		return operation;
 	}
 	
 	public Expression getTargetExpression() {

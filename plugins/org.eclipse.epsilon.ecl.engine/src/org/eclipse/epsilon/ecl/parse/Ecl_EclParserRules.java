@@ -1,15 +1,6 @@
-/*********************************************************************
-* Copyright (c) 2008 The University of York.
-*
-* This program and the accompanying materials are made
-* available under the terms of the Eclipse Public License 2.0
-* which is available at https://www.eclipse.org/legal/epl-2.0/
-*
-* SPDX-License-Identifier: EPL-2.0
-**********************************************************************/
 package org.eclipse.epsilon.ecl.parse;
 
-// $ANTLR 3.1b1 EclParserRules.g 2015-09-18 13:57:53
+// $ANTLR 3.1b1 EclParserRules.g 2018-11-07 16:58:26
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -22,9 +13,10 @@ import org.antlr.runtime.tree.*;
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
- * This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
@@ -57,167 +49,168 @@ import org.antlr.runtime.tree.*;
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.EpsilonParser {
-    public static final int EXPONENT=6;
-    public static final int T__159=159;
-    public static final int WHILE=33;
-    public static final int StatementBlock=29;
-    public static final int T__158=158;
-    public static final int StrangeNameLiteral=15;
-    public static final int CASE=35;
-    public static final int NEW=49;
-    public static final int T__160=160;
-    public static final int DO=83;
-    public static final int FeatureCall=60;
-    public static final int EOF=-1;
-    public static final int BREAK=38;
-    public static final int T__163=163;
-    public static final int KEYVALLIST=76;
-    public static final int TYPE=64;
-    public static final int T__161=161;
-    public static final int T__162=162;
-    public static final int T__93=93;
-    public static final int T__94=94;
-    public static final int T__91=91;
-    public static final int IMPORT=66;
-    public static final int NAME=19;
-    public static final int T__92=92;
-    public static final int T__148=148;
-    public static final int T__90=90;
-    public static final int T__147=147;
-    public static final int T__149=149;
-    public static final int RETURN=37;
-    public static final int NewExpression=47;
+    public static final int T__144=144;
+    public static final int T__143=143;
+    public static final int T__146=146;
+    public static final int MODELDECLARATIONPARAMETER=72;
+    public static final int T__145=145;
+    public static final int BREAKALL=39;
+    public static final int T__140=140;
+    public static final int T__142=142;
     public static final int VAR=48;
-    public static final int ANNOTATIONBLOCK=50;
-    public static final int NativeType=56;
-    public static final int ABORT=43;
-    public static final int COMMENT=21;
-    public static final int T__154=154;
-    public static final int T__155=155;
-    public static final int T__156=156;
-    public static final int T__99=99;
-    public static final int T__157=157;
-    public static final int ITEMSELECTOR=73;
-    public static final int T__98=98;
-    public static final int T__150=150;
-    public static final int T__97=97;
-    public static final int T__151=151;
-    public static final int MultiplicativeExpression=57;
-    public static final int T__96=96;
-    public static final int T__152=152;
-    public static final int T__95=95;
-    public static final int T__153=153;
-    public static final int FLOAT_TYPE_SUFFIX=7;
-    public static final int T__139=139;
-    public static final int T__138=138;
+    public static final int MODELDECLARATIONPARAMETERS=71;
+    public static final int T__141=141;
+    public static final int THROW=53;
+    public static final int PARAMLIST=25;
+    public static final int EXPRLIST=54;
+    public static final int EXPRRANGE=55;
+    public static final int BREAK=38;
+    public static final int ELSE=32;
     public static final int T__137=137;
     public static final int T__136=136;
+    public static final int FORMAL=24;
+    public static final int IF=31;
+    public static final int MultiplicativeExpression=57;
+    public static final int TYPE=64;
+    public static final int T__139=139;
+    public static final int T__138=138;
+    public static final int T__133=133;
+    public static final int T__132=132;
+    public static final int T__135=135;
+    public static final int T__134=134;
+    public static final int T__131=131;
+    public static final int NewExpression=47;
+    public static final int T__130=130;
+    public static final int CASE=35;
+    public static final int Letter=16;
     public static final int LINE_COMMENT=22;
-    public static final int BREAKALL=39;
-    public static final int TRANSACTION=41;
-    public static final int SWITCH=34;
-    public static final int DRIVER=70;
-    public static final int ELSE=32;
-    public static final int EOLMODULE=61;
-    public static final int MODELDECLARATION=67;
-    public static final int PARAMLIST=25;
-    public static final int MATCH=81;
-    public static final int INT=8;
-    public static final int DELETE=52;
-    public static final int ECLMODULE=84;
-    public static final int T__85=85;
-    public static final int T__141=141;
-    public static final int T__142=142;
-    public static final int T__87=87;
-    public static final int HELPERMETHOD=28;
-    public static final int T__86=86;
-    public static final int T__140=140;
-    public static final int T__89=89;
-    public static final int T__145=145;
-    public static final int NAMESPACE=68;
-    public static final int T__88=88;
-    public static final int T__146=146;
-    public static final int CollectionType=44;
-    public static final int T__143=143;
-    public static final int T__144=144;
+    public static final int T__129=129;
     public static final int T__126=126;
+    public static final int JavaIDDigit=18;
     public static final int T__125=125;
+    public static final int MAP=74;
     public static final int T__128=128;
     public static final int T__127=127;
-    public static final int WS=20;
-    public static final int T__129=129;
-    public static final int ALIAS=69;
-    public static final int JavaIDDigit=18;
-    public static final int GUARD=80;
-    public static final int Annotation=23;
-    public static final int T__130=130;
-    public static final int Letter=16;
-    public static final int EscapeSequence=13;
-    public static final int T__131=131;
-    public static final int THROW=53;
-    public static final int T__132=132;
-    public static final int T__133=133;
-    public static final int T__134=134;
-    public static final int T__135=135;
-    public static final int SPECIAL_ASSIGNMENT=27;
-    public static final int MODELDECLARATIONPARAMETER=72;
-    public static final int KEYVAL=75;
-    public static final int PARAMETERS=46;
-    public static final int POINT=9;
-    public static final int T__118=118;
-    public static final int T__119=119;
-    public static final int T__116=116;
-    public static final int T__117=117;
-    public static final int T__114=114;
-    public static final int T__115=115;
-    public static final int T__124=124;
-    public static final int T__123=123;
-    public static final int FOR=30;
-    public static final int T__122=122;
-    public static final int ENUMERATION_VALUE=65;
-    public static final int T__121=121;
-    public static final int PRE=77;
-    public static final int T__120=120;
-    public static final int FLOAT=4;
-    public static final int EXECUTABLEANNOTATION=51;
-    public static final int IF=31;
+    public static final int T__162=162;
+    public static final int T__161=161;
+    public static final int T__164=164;
+    public static final int MODELDECLARATION=67;
+    public static final int T__163=163;
+    public static final int EXPRESSIONINBRACKETS=59;
+    public static final int T__160=160;
+    public static final int TRANSACTION=41;
+    public static final int FLOAT_TYPE_SUFFIX=7;
+    public static final int ITEMSELECTOR=73;
+    public static final int COMMENT=21;
     public static final int ModelElementType=45;
-    public static final int BOOLEAN=12;
+    public static final int IMPORT=66;
+    public static final int DELETE=52;
+    public static final int ARROW=11;
+    public static final int T__159=159;
+    public static final int T__158=158;
+    public static final int T__155=155;
+    public static final int SPECIAL_ASSIGNMENT=27;
+    public static final int T__154=154;
+    public static final int T__157=157;
+    public static final int T__156=156;
+    public static final int T__151=151;
+    public static final int T__150=150;
+    public static final int T__153=153;
+    public static final int T__152=152;
+    public static final int Annotation=23;
     public static final int CONTINUE=40;
-    public static final int T__107=107;
-    public static final int T__108=108;
-    public static final int T__109=109;
-    public static final int T__103=103;
-    public static final int T__104=104;
-    public static final int T__105=105;
-    public static final int T__106=106;
+    public static final int ENUMERATION_VALUE=65;
+    public static final int OPERATOR=58;
+    public static final int EXPONENT=6;
+    public static final int STRING=14;
+    public static final int T__148=148;
+    public static final int T__147=147;
+    public static final int T__149=149;
+    public static final int T__91=91;
+    public static final int T__100=100;
+    public static final int NAMESPACE=68;
+    public static final int T__92=92;
+    public static final int COLLECTION=42;
+    public static final int NEW=49;
+    public static final int EXTENDS=79;
+    public static final int T__93=93;
+    public static final int T__102=102;
+    public static final int PRE=77;
+    public static final int T__94=94;
+    public static final int T__101=101;
+    public static final int POST=78;
+    public static final int T__90=90;
+    public static final int ALIAS=69;
+    public static final int DRIVER=70;
+    public static final int DO=83;
+    public static final int KEYVAL=75;
+    public static final int POINT_POINT=10;
+    public static final int GUARD=80;
+    public static final int T__99=99;
+    public static final int T__95=95;
+    public static final int HELPERMETHOD=28;
+    public static final int T__96=96;
+    public static final int T__97=97;
+    public static final int StatementBlock=29;
+    public static final int T__98=98;
+    public static final int ABORT=43;
+    public static final int StrangeNameLiteral=15;
+    public static final int FOR=30;
+    public static final int BLOCK=62;
+    public static final int PARAMETERS=46;
+    public static final int SpecialNameChar=17;
+    public static final int BOOLEAN=12;
+    public static final int NAME=19;
     public static final int COMPARE=82;
+    public static final int SWITCH=34;
+    public static final int FeatureCall=60;
+    public static final int T__122=122;
+    public static final int T__121=121;
+    public static final int T__124=124;
+    public static final int FLOAT=4;
+    public static final int ECLMODULE=84;
+    public static final int T__123=123;
+    public static final int T__120=120;
+    public static final int NativeType=56;
+    public static final int INT=8;
+    public static final int ANNOTATIONBLOCK=50;
+    public static final int RETURN=37;
+    public static final int KEYVALLIST=76;
+    public static final int FEATURECALL=63;
+    public static final int CollectionType=44;
+    public static final int T__119=119;
+    public static final int ASSIGNMENT=26;
+    public static final int T__118=118;
+    public static final int T__115=115;
+    public static final int WS=20;
+    public static final int EOF=-1;
+    public static final int T__114=114;
+    public static final int T__117=117;
+    public static final int T__116=116;
     public static final int T__111=111;
     public static final int T__110=110;
     public static final int T__113=113;
     public static final int T__112=112;
-    public static final int COLLECTION=42;
+    public static final int EscapeSequence=13;
+    public static final int EOLMODULE=61;
     public static final int DIGIT=5;
-    public static final int EXPRRANGE=55;
-    public static final int OPERATOR=58;
-    public static final int EXPRLIST=54;
+    public static final int EXECUTABLEANNOTATION=51;
+    public static final int T__88=88;
+    public static final int T__108=108;
+    public static final int T__89=89;
+    public static final int T__107=107;
+    public static final int WHILE=33;
+    public static final int T__109=109;
+    public static final int T__104=104;
+    public static final int POINT=9;
+    public static final int T__85=85;
+    public static final int T__103=103;
+    public static final int T__86=86;
+    public static final int T__106=106;
     public static final int DEFAULT=36;
-    public static final int T__102=102;
-    public static final int T__101=101;
-    public static final int T__100=100;
-    public static final int POINT_POINT=10;
-    public static final int SpecialNameChar=17;
-    public static final int MODELDECLARATIONPARAMETERS=71;
-    public static final int BLOCK=62;
-    public static final int MAP=74;
-    public static final int FEATURECALL=63;
-    public static final int FORMAL=24;
-    public static final int POST=78;
-    public static final int ARROW=11;
-    public static final int EXPRESSIONINBRACKETS=59;
-    public static final int ASSIGNMENT=26;
-    public static final int EXTENDS=79;
-    public static final int STRING=14;
+    public static final int MATCH=81;
+    public static final int T__87=87;
+    public static final int T__105=105;
 
     // delegates
     // delegators
@@ -290,7 +283,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            r=(Token)match(input,159,FOLLOW_159_in_matchRule53); if (state.failed) return retval;
+            r=(Token)match(input,160,FOLLOW_160_in_matchRule53); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             r_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(r);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(r_tree, root_0);
@@ -300,14 +293,14 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             rule_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(rule);
             adaptor.addChild(root_0, rule_tree);
             }
-            string_literal1=(Token)match(input,160,FOLLOW_160_in_matchRule60); if (state.failed) return retval;
+            string_literal1=(Token)match(input,161,FOLLOW_161_in_matchRule60); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameter_in_matchRule63);
             formalParameter2=gEcl.formalParameter();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, formalParameter2.getTree());
-            string_literal3=(Token)match(input,161,FOLLOW_161_in_matchRule65); if (state.failed) return retval;
+            string_literal3=(Token)match(input,162,FOLLOW_162_in_matchRule65); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameter_in_matchRule68);
             formalParameter4=gEcl.formalParameter();
 
@@ -318,7 +311,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt1=2;
             int LA1_0 = input.LA(1);
 
-            if ( (LA1_0==158) ) {
+            if ( (LA1_0==159) ) {
                 alt1=1;
             }
             switch (alt1) {
@@ -342,7 +335,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt2=2;
             int LA2_0 = input.LA(1);
 
-            if ( (LA2_0==157) ) {
+            if ( (LA2_0==158) ) {
                 alt2=1;
             }
             switch (alt2) {
@@ -365,7 +358,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt3=2;
             int LA3_0 = input.LA(1);
 
-            if ( (LA3_0==162) ) {
+            if ( (LA3_0==163) ) {
                 alt3=1;
             }
             switch (alt3) {
@@ -388,7 +381,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt4=2;
             int LA4_0 = input.LA(1);
 
-            if ( (LA4_0==163) ) {
+            if ( (LA4_0==164) ) {
                 alt4=1;
             }
             switch (alt4) {
@@ -465,7 +458,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,162,FOLLOW_162_in_compareBlock107); if (state.failed) return retval;
+            c=(Token)match(input,163,FOLLOW_163_in_compareBlock107); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -527,7 +520,7 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            d=(Token)match(input,163,FOLLOW_163_in_doBlock126); if (state.failed) return retval;
+            d=(Token)match(input,164,FOLLOW_164_in_doBlock126); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             d_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(d);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(d_tree, root_0);
@@ -569,21 +562,21 @@ public class Ecl_EclParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
  
 
-    public static final BitSet FOLLOW_159_in_matchRule53 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_matchRule58 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000100000000L});
-    public static final BitSet FOLLOW_160_in_matchRule60 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_formalParameter_in_matchRule63 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000200000000L});
-    public static final BitSet FOLLOW_161_in_matchRule65 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_formalParameter_in_matchRule68 = new BitSet(new long[]{0x0000000000000000L,0x0000000004000000L,0x0000000040000000L});
+    public static final BitSet FOLLOW_160_in_matchRule53 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_matchRule58 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000200000000L});
+    public static final BitSet FOLLOW_161_in_matchRule60 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_formalParameter_in_matchRule63 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000400000000L});
+    public static final BitSet FOLLOW_162_in_matchRule65 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_formalParameter_in_matchRule68 = new BitSet(new long[]{0x0000000000000000L,0x0000000004000000L,0x0000000080000000L});
     public static final BitSet FOLLOW_extendz_in_matchRule71 = new BitSet(new long[]{0x0000000000000000L,0x0000000004000000L});
-    public static final BitSet FOLLOW_90_in_matchRule76 = new BitSet(new long[]{0x0000000000000000L,0x0000000008000000L,0x0000000C20000000L});
-    public static final BitSet FOLLOW_guard_in_matchRule79 = new BitSet(new long[]{0x0000000000000000L,0x0000000008000000L,0x0000000C00000000L});
-    public static final BitSet FOLLOW_compareBlock_in_matchRule82 = new BitSet(new long[]{0x0000000000000000L,0x0000000008000000L,0x0000000800000000L});
+    public static final BitSet FOLLOW_90_in_matchRule76 = new BitSet(new long[]{0x0000000000000000L,0x0000000008000000L,0x0000001840000000L});
+    public static final BitSet FOLLOW_guard_in_matchRule79 = new BitSet(new long[]{0x0000000000000000L,0x0000000008000000L,0x0000001800000000L});
+    public static final BitSet FOLLOW_compareBlock_in_matchRule82 = new BitSet(new long[]{0x0000000000000000L,0x0000000008000000L,0x0000001000000000L});
     public static final BitSet FOLLOW_doBlock_in_matchRule85 = new BitSet(new long[]{0x0000000000000000L,0x0000000008000000L});
     public static final BitSet FOLLOW_91_in_matchRule90 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_162_in_compareBlock107 = new BitSet(new long[]{0x0000000000000000L,0x0000000204000000L});
+    public static final BitSet FOLLOW_163_in_compareBlock107 = new BitSet(new long[]{0x0000000000000000L,0x0000000204000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_compareBlock110 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_163_in_doBlock126 = new BitSet(new long[]{0x0000000000000000L,0x0000000204000000L});
+    public static final BitSet FOLLOW_164_in_doBlock126 = new BitSet(new long[]{0x0000000000000000L,0x0000000204000000L});
     public static final BitSet FOLLOW_statementBlock_in_doBlock129 = new BitSet(new long[]{0x0000000000000002L});
 
 }

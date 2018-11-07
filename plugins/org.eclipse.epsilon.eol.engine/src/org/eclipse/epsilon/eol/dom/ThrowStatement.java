@@ -33,7 +33,7 @@ public class ThrowStatement extends Statement {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
+	public Void execute(IEolContext context) throws EolRuntimeException {
 		Object thrownObject = null;
 		if (thrown != null) {
 			thrownObject = context.getExecutorFactory().execute(thrown, context);

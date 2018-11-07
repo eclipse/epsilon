@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import java.util.stream.Stream;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -41,7 +41,7 @@ public class ReflectionUtil {
 			return new HashSet<>(0);
 		}
 		
-		Method[] methods = getMethods(obj, includeInheritedMethods);
+		Method[] methods = getMethods(obj, includeInheritedMethods, false);
 		
 		Set<String> methodNames = new HashSet<>(methods.length);
 		
@@ -58,12 +58,42 @@ public class ReflectionUtil {
 		return methodName;
 	}
 	
-	private static Method[] getMethods(Object obj, boolean includeInheritedMethods) {
-		if (includeInheritedMethods) {
-			return obj.getClass().getMethods();
+	/**
+	 * 
+	 * @param obj
+	 * @param methodName
+	 * @return
+	 * @since 1.6
+	 */
+	public static Method[] getMethodsForName(Object obj, String methodName) {
+		return Stream.of(getMethods(obj, true, true))
+			.filter(method -> method.getName().equals(methodName))
+			.toArray(Method[]::new);
+	}
+	
+	/**
+	 * 
+	 * @param obj
+	 * @param includeInheritedMethods
+	 * @param punchThroughNative
+	 * @return
+	 * @since 1.6 (added punchThroughNative parameter)
+	 */
+	private static Method[] getMethods(Object obj, boolean includeInheritedMethods, boolean punchThroughNative) {
+		Class<?> clazz;
+		
+		if (punchThroughNative && obj instanceof EolNativeType) {
+			clazz = ((EolNativeType)obj).getJavaClass();
 		}
 		else {
-			return obj.getClass().getDeclaredMethods();
+			clazz = obj.getClass();
+		}
+		
+		if (includeInheritedMethods) {
+			return clazz.getMethods();
+		}
+		else {
+			return clazz.getDeclaredMethods();
 		}
 	}
 	
@@ -88,7 +118,7 @@ public class ReflectionUtil {
 	}
 
 	private static Method getInstanceMethodFor(Object obj, String methodName, Object[] parameters, boolean includeInheritedMethods, boolean allowContravariantConversionForParameters) {
-		return searchMethodsFor(getMethods(obj, includeInheritedMethods), methodName, parameters, allowContravariantConversionForParameters);
+		return searchMethodsFor(getMethods(obj, includeInheritedMethods, false), methodName, parameters, allowContravariantConversionForParameters);
 	}
 	
 	private static Method getStaticMethodFor(Object obj, String methodName, Object[] parameters, boolean allowContravariantConversionForParameters) {

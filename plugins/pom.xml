@@ -14,7 +14,6 @@
 
   <modules>
     <module>com.google.gdata_1.47.1</module>
-    <module>org.antlr.runtime_3.1.b1</module>
     <module>org.apache.poi.ooxml.schemas_3.10.1</module>
     <module>org.apache.poi.ooxml_3.10.1</module>
     <module>org.apache.poi_3.10.1</module>

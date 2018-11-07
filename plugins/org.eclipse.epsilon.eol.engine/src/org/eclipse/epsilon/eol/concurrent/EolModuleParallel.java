@@ -45,8 +45,8 @@ public class EolModuleParallel extends EolModule {
 	}
 	
 	@Override
-	public Object execute() throws EolRuntimeException {
-		Object result = super.execute();
+	public Object executeImpl() throws EolRuntimeException {
+		Object result = super.executeImpl();
 		getContext().endParallel();
 		return result;
 	}

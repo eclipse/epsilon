@@ -42,9 +42,9 @@ public abstract class OperatorExpression extends Expression {
 	@Override
 	public void compile(EolCompilationContext context) {
 		firstOperand.compile(context);
-		if (secondOperand != null) { secondOperand.compile(context); }
+		if (secondOperand != null) secondOperand.compile(context);
 		
-		if (isBooleanOperator(operator)) {
+		if (StringUtil.isOneOf(operator, "and", "or", "xor", "not", "implies")) {
 			for (Expression operand : getOperands()) {
 				if (operand.hasResolvedType() && operand.getResolvedType() != EolPrimitiveType.Boolean) {
 					context.addErrorMarker(operand, "Boolean expected instead of " + operand.getResolvedType());
@@ -70,14 +70,10 @@ public abstract class OperatorExpression extends Expression {
 	}
 	
 	public List<Expression> getOperands() {
-		List<Expression> operands = new ArrayList<>();
+		List<Expression> operands = new ArrayList<>(2);
 		operands.add(firstOperand);
 		if (secondOperand != null) operands.add(secondOperand);
 		return operands;
-	}
-	
-	public boolean isBooleanOperator(String operator) {
-		return StringUtil.isOneOf(operator, "and", "or", "xor", "not", "implies");
 	}
 	
 	public String getOperator() {
