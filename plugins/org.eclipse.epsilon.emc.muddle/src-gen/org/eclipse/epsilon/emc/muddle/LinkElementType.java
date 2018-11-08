@@ -19,13 +19,13 @@ package org.eclipse.epsilon.emc.muddle;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.LinkElementType#getSourceFeature <em>Source Feature</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.LinkElementType#getTargetFeature <em>Target Feature</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.LinkElementType#getRoleInSourceFeature <em>Role In Source Feature</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.LinkElementType#getRoleInTargetFeature <em>Role In Target Feature</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.epsilon.emc.muddle.MuddlePackage#getLinkElementType()
  * @model

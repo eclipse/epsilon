@@ -37,11 +37,11 @@ import org.eclipse.epsilon.emc.muddle.Type;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.MuddleImpl#getTypes <em>Types</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.MuddleImpl#getElements <em>Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

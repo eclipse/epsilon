@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.epsilon.emc.muddle.Muddle;
 import org.eclipse.epsilon.emc.muddle.MuddleElement;
+import org.eclipse.epsilon.emc.muddle.MuddleElementStyle;
 import org.eclipse.epsilon.emc.muddle.MuddleElementType;
 import org.eclipse.epsilon.emc.muddle.MuddlePackage;
 import org.eclipse.epsilon.emc.muddle.Slot;
@@ -40,13 +41,14 @@ import org.eclipse.epsilon.emc.muddle.Slot;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.MuddleElementImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.MuddleElementImpl#getSlots <em>Slots</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.MuddleElementImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.MuddleElementImpl#getMuddle <em>Muddle</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.MuddleElementImpl#getStyle <em>Style</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -90,6 +92,16 @@ public class MuddleElementImpl extends MinimalEObjectImpl.Container implements M
 	 * @ordered
 	 */
 	protected MuddleElementType type;
+
+	/**
+	 * The cached value of the '{@link #getStyle() <em>Style</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStyle()
+	 * @generated
+	 * @ordered
+	 */
+	protected MuddleElementStyle style;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -249,6 +261,49 @@ public class MuddleElementImpl extends MinimalEObjectImpl.Container implements M
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public MuddleElementStyle getStyle() {
+		return style;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetStyle(MuddleElementStyle newStyle, NotificationChain msgs) {
+		MuddleElementStyle oldStyle = style;
+		style = newStyle;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MuddlePackage.MUDDLE_ELEMENT__STYLE, oldStyle, newStyle);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStyle(MuddleElementStyle newStyle) {
+		if (newStyle != style) {
+			NotificationChain msgs = null;
+			if (style != null)
+				msgs = ((InternalEObject)style).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MuddlePackage.MUDDLE_ELEMENT__STYLE, null, msgs);
+			if (newStyle != null)
+				msgs = ((InternalEObject)newStyle).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MuddlePackage.MUDDLE_ELEMENT__STYLE, null, msgs);
+			msgs = basicSetStyle(newStyle, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MuddlePackage.MUDDLE_ELEMENT__STYLE, newStyle, newStyle));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -281,6 +336,8 @@ public class MuddleElementImpl extends MinimalEObjectImpl.Container implements M
 				return basicSetType(null, msgs);
 			case MuddlePackage.MUDDLE_ELEMENT__MUDDLE:
 				return basicSetMuddle(null, msgs);
+			case MuddlePackage.MUDDLE_ELEMENT__STYLE:
+				return basicSetStyle(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -316,6 +373,8 @@ public class MuddleElementImpl extends MinimalEObjectImpl.Container implements M
 				return basicGetType();
 			case MuddlePackage.MUDDLE_ELEMENT__MUDDLE:
 				return getMuddle();
+			case MuddlePackage.MUDDLE_ELEMENT__STYLE:
+				return getStyle();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -342,6 +401,9 @@ public class MuddleElementImpl extends MinimalEObjectImpl.Container implements M
 			case MuddlePackage.MUDDLE_ELEMENT__MUDDLE:
 				setMuddle((Muddle)newValue);
 				return;
+			case MuddlePackage.MUDDLE_ELEMENT__STYLE:
+				setStyle((MuddleElementStyle)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -366,6 +428,9 @@ public class MuddleElementImpl extends MinimalEObjectImpl.Container implements M
 			case MuddlePackage.MUDDLE_ELEMENT__MUDDLE:
 				setMuddle((Muddle)null);
 				return;
+			case MuddlePackage.MUDDLE_ELEMENT__STYLE:
+				setStyle((MuddleElementStyle)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -386,6 +451,8 @@ public class MuddleElementImpl extends MinimalEObjectImpl.Container implements M
 				return type != null;
 			case MuddlePackage.MUDDLE_ELEMENT__MUDDLE:
 				return getMuddle() != null;
+			case MuddlePackage.MUDDLE_ELEMENT__STYLE:
+				return style != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -399,7 +466,7 @@ public class MuddleElementImpl extends MinimalEObjectImpl.Container implements M
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (id: ");
 		result.append(id);
 		result.append(')');

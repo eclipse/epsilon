@@ -22,6 +22,7 @@ import org.eclipse.epsilon.emc.muddle.IntegerType;
 import org.eclipse.epsilon.emc.muddle.LinkElementType;
 import org.eclipse.epsilon.emc.muddle.Muddle;
 import org.eclipse.epsilon.emc.muddle.MuddleElement;
+import org.eclipse.epsilon.emc.muddle.MuddleElementStyle;
 import org.eclipse.epsilon.emc.muddle.MuddleElementType;
 import org.eclipse.epsilon.emc.muddle.MuddleFactory;
 import org.eclipse.epsilon.emc.muddle.RealType;
@@ -88,6 +89,26 @@ public class GraphmlImporter {
 			// Create nodes only for typed node elements
 			MuddleElement node = MuddleFactory.eINSTANCE.createMuddleElement();
 			node.setId(nodeElement.getAttributeValue("id"));
+			
+			// Tags yEd uses to store color, shape, border, etc.
+			String colorTag = "Fill";
+			String shapeTag = "Shape";
+			String geometryTag = "Geometry";
+			String borderTag = "BorderStyle";
+			String labelFontSizeTag = "NodeLabel";
+			
+			// Create style, populate with value from graphml file and attach it to the node
+			MuddleElementStyle style = MuddleFactory.eINSTANCE.createMuddleElementStyle();
+			style.setColor(getDescendants(nodeElement, colorTag).get(0).getAttributeValue("color"));
+			style.setHeight(Double.parseDouble(getDescendants(nodeElement, geometryTag).get(0).getAttributeValue("height")));
+			style.setWidth(Double.parseDouble(getDescendants(nodeElement, geometryTag).get(0).getAttributeValue("width")));
+			style.setX(Double.parseDouble(getDescendants(nodeElement, geometryTag).get(0).getAttributeValue("x")));
+			style.setY(Double.parseDouble(getDescendants(nodeElement, geometryTag).get(0).getAttributeValue("y")));
+			style.setShape(getDescendants(nodeElement, shapeTag).get(0).getAttributeValue("type"));
+			style.setBorderWidth(Double.parseDouble(getDescendants(nodeElement, borderTag).get(0).getAttributeValue("width")));
+			style.setLabelFontSize(Integer.parseInt(getDescendants(nodeElement, labelFontSizeTag).get(0).getAttributeValue("fontSize")));
+			node.setStyle(style);
+			
 			nodeMap.put(node.getId(), node);
 			nodeElementMap.put(node, nodeElement);
 			

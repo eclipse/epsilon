@@ -12,6 +12,18 @@ class MuddleElement {
 	val Slot[*]#owningElement slots;
 	ref MuddleElementType#instances type;
 	ref Muddle#elements muddle;
+	val MuddleElementStyle[0..1] style;
+}
+
+class MuddleElementStyle {
+	attr String color;
+	attr String shape;
+	attr double width;
+	attr double height;
+	attr double borderWidth;
+	attr int labelFontSize;
+	attr double x;
+	attr double y;
 }
 
 class Slot {

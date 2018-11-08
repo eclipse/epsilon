@@ -18,7 +18,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({EdgeFeatureLabelParserTests.class,
-               ValuedFeatureLabelParserTests.class})
+               ValuedFeatureLabelParserTests.class, 
+               StyleAttributesGetterTests.class})
 public class GraphmlTestSuite {
 
 	public static Test suite() {

@@ -67,6 +67,7 @@ public class MuddleFactoryImpl extends EFactoryImpl implements MuddleFactory {
 		switch (eClass.getClassifierID()) {
 			case MuddlePackage.MUDDLE: return createMuddle();
 			case MuddlePackage.MUDDLE_ELEMENT: return createMuddleElement();
+			case MuddlePackage.MUDDLE_ELEMENT_STYLE: return createMuddleElementStyle();
 			case MuddlePackage.SLOT: return createSlot();
 			case MuddlePackage.FEATURE: return createFeature();
 			case MuddlePackage.MUDDLE_ELEMENT_TYPE: return createMuddleElementType();
@@ -98,6 +99,16 @@ public class MuddleFactoryImpl extends EFactoryImpl implements MuddleFactory {
 	public MuddleElement createMuddleElement() {
 		MuddleElementImpl muddleElement = new MuddleElementImpl();
 		return muddleElement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MuddleElementStyle createMuddleElementStyle() {
+		MuddleElementStyleImpl muddleElementStyle = new MuddleElementStyleImpl();
+		return muddleElementStyle;
 	}
 
 	/**

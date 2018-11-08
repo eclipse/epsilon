@@ -85,6 +85,10 @@ public class MuddleAdapterFactory extends AdapterFactoryImpl {
 				return createMuddleElementAdapter();
 			}
 			@Override
+			public Adapter caseMuddleElementStyle(MuddleElementStyle object) {
+				return createMuddleElementStyleAdapter();
+			}
+			@Override
 			public Adapter caseSlot(Slot object) {
 				return createSlotAdapter();
 			}
@@ -169,6 +173,20 @@ public class MuddleAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMuddleElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.epsilon.emc.muddle.MuddleElementStyle <em>Element Style</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.epsilon.emc.muddle.MuddleElementStyle
+	 * @generated
+	 */
+	public Adapter createMuddleElementStyleAdapter() {
 		return null;
 	}
 

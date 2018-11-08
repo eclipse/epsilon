@@ -22,11 +22,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.Muddle#getTypes <em>Types</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.Muddle#getElements <em>Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.epsilon.emc.muddle.MuddlePackage#getMuddle()
  * @model

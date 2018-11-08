@@ -159,13 +159,22 @@ public interface MuddlePackage extends EPackage {
 	int MUDDLE_ELEMENT__MUDDLE = 3;
 
 	/**
+	 * The feature id for the '<em><b>Style</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUDDLE_ELEMENT__STYLE = 4;
+
+	/**
 	 * The number of structural features of the '<em>Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MUDDLE_ELEMENT_FEATURE_COUNT = 4;
+	int MUDDLE_ELEMENT_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Element</em>' class.
@@ -177,6 +186,106 @@ public interface MuddlePackage extends EPackage {
 	int MUDDLE_ELEMENT_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.epsilon.emc.muddle.impl.MuddleElementStyleImpl <em>Element Style</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.epsilon.emc.muddle.impl.MuddleElementStyleImpl
+	 * @see org.eclipse.epsilon.emc.muddle.impl.MuddlePackageImpl#getMuddleElementStyle()
+	 * @generated
+	 */
+	int MUDDLE_ELEMENT_STYLE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUDDLE_ELEMENT_STYLE__COLOR = 0;
+
+	/**
+	 * The feature id for the '<em><b>Shape</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUDDLE_ELEMENT_STYLE__SHAPE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUDDLE_ELEMENT_STYLE__WIDTH = 2;
+
+	/**
+	 * The feature id for the '<em><b>Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUDDLE_ELEMENT_STYLE__HEIGHT = 3;
+
+	/**
+	 * The feature id for the '<em><b>Border Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUDDLE_ELEMENT_STYLE__BORDER_WIDTH = 4;
+
+	/**
+	 * The feature id for the '<em><b>Label Font Size</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUDDLE_ELEMENT_STYLE__LABEL_FONT_SIZE = 5;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUDDLE_ELEMENT_STYLE__X = 6;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUDDLE_ELEMENT_STYLE__Y = 7;
+
+	/**
+	 * The number of structural features of the '<em>Element Style</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUDDLE_ELEMENT_STYLE_FEATURE_COUNT = 8;
+
+	/**
+	 * The number of operations of the '<em>Element Style</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MUDDLE_ELEMENT_STYLE_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.emc.muddle.impl.SlotImpl <em>Slot</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -184,7 +293,7 @@ public interface MuddlePackage extends EPackage {
 	 * @see org.eclipse.epsilon.emc.muddle.impl.MuddlePackageImpl#getSlot()
 	 * @generated
 	 */
-	int SLOT = 2;
+	int SLOT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute list.
@@ -239,7 +348,7 @@ public interface MuddlePackage extends EPackage {
 	 * @see org.eclipse.epsilon.emc.muddle.impl.MuddlePackageImpl#getType()
 	 * @generated
 	 */
-	int TYPE = 3;
+	int TYPE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -276,7 +385,7 @@ public interface MuddlePackage extends EPackage {
 	 * @see org.eclipse.epsilon.emc.muddle.impl.MuddlePackageImpl#getFeature()
 	 * @generated
 	 */
-	int FEATURE = 4;
+	int FEATURE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -367,7 +476,7 @@ public interface MuddlePackage extends EPackage {
 	 * @see org.eclipse.epsilon.emc.muddle.impl.MuddlePackageImpl#getMuddleElementType()
 	 * @generated
 	 */
-	int MUDDLE_ELEMENT_TYPE = 5;
+	int MUDDLE_ELEMENT_TYPE = 6;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -440,7 +549,7 @@ public interface MuddlePackage extends EPackage {
 	 * @see org.eclipse.epsilon.emc.muddle.impl.MuddlePackageImpl#getLinkElementType()
 	 * @generated
 	 */
-	int LINK_ELEMENT_TYPE = 6;
+	int LINK_ELEMENT_TYPE = 7;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -549,7 +658,7 @@ public interface MuddlePackage extends EPackage {
 	 * @see org.eclipse.epsilon.emc.muddle.impl.MuddlePackageImpl#getPrimitiveType()
 	 * @generated
 	 */
-	int PRIMITIVE_TYPE = 7;
+	int PRIMITIVE_TYPE = 8;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -586,7 +695,7 @@ public interface MuddlePackage extends EPackage {
 	 * @see org.eclipse.epsilon.emc.muddle.impl.MuddlePackageImpl#getIntegerType()
 	 * @generated
 	 */
-	int INTEGER_TYPE = 8;
+	int INTEGER_TYPE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -623,7 +732,7 @@ public interface MuddlePackage extends EPackage {
 	 * @see org.eclipse.epsilon.emc.muddle.impl.MuddlePackageImpl#getStringType()
 	 * @generated
 	 */
-	int STRING_TYPE = 9;
+	int STRING_TYPE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -660,7 +769,7 @@ public interface MuddlePackage extends EPackage {
 	 * @see org.eclipse.epsilon.emc.muddle.impl.MuddlePackageImpl#getBooleanType()
 	 * @generated
 	 */
-	int BOOLEAN_TYPE = 10;
+	int BOOLEAN_TYPE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -697,7 +806,7 @@ public interface MuddlePackage extends EPackage {
 	 * @see org.eclipse.epsilon.emc.muddle.impl.MuddlePackageImpl#getRealType()
 	 * @generated
 	 */
-	int REAL_TYPE = 11;
+	int REAL_TYPE = 12;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -812,6 +921,115 @@ public interface MuddlePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getMuddleElement_Muddle();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.epsilon.emc.muddle.MuddleElement#getStyle <em>Style</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Style</em>'.
+	 * @see org.eclipse.epsilon.emc.muddle.MuddleElement#getStyle()
+	 * @see #getMuddleElement()
+	 * @generated
+	 */
+	EReference getMuddleElement_Style();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.epsilon.emc.muddle.MuddleElementStyle <em>Element Style</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Element Style</em>'.
+	 * @see org.eclipse.epsilon.emc.muddle.MuddleElementStyle
+	 * @generated
+	 */
+	EClass getMuddleElementStyle();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getColor <em>Color</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Color</em>'.
+	 * @see org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getColor()
+	 * @see #getMuddleElementStyle()
+	 * @generated
+	 */
+	EAttribute getMuddleElementStyle_Color();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getShape <em>Shape</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Shape</em>'.
+	 * @see org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getShape()
+	 * @see #getMuddleElementStyle()
+	 * @generated
+	 */
+	EAttribute getMuddleElementStyle_Shape();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getWidth <em>Width</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Width</em>'.
+	 * @see org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getWidth()
+	 * @see #getMuddleElementStyle()
+	 * @generated
+	 */
+	EAttribute getMuddleElementStyle_Width();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getHeight <em>Height</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Height</em>'.
+	 * @see org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getHeight()
+	 * @see #getMuddleElementStyle()
+	 * @generated
+	 */
+	EAttribute getMuddleElementStyle_Height();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getBorderWidth <em>Border Width</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Border Width</em>'.
+	 * @see org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getBorderWidth()
+	 * @see #getMuddleElementStyle()
+	 * @generated
+	 */
+	EAttribute getMuddleElementStyle_BorderWidth();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getLabelFontSize <em>Label Font Size</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Label Font Size</em>'.
+	 * @see org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getLabelFontSize()
+	 * @see #getMuddleElementStyle()
+	 * @generated
+	 */
+	EAttribute getMuddleElementStyle_LabelFontSize();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getX <em>X</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>X</em>'.
+	 * @see org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getX()
+	 * @see #getMuddleElementStyle()
+	 * @generated
+	 */
+	EAttribute getMuddleElementStyle_X();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getY <em>Y</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Y</em>'.
+	 * @see org.eclipse.epsilon.emc.muddle.MuddleElementStyle#getY()
+	 * @see #getMuddleElementStyle()
+	 * @generated
+	 */
+	EAttribute getMuddleElementStyle_Y();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.epsilon.emc.muddle.Slot <em>Slot</em>}'.
@@ -1212,6 +1430,88 @@ public interface MuddlePackage extends EPackage {
 		 * @generated
 		 */
 		EReference MUDDLE_ELEMENT__MUDDLE = eINSTANCE.getMuddleElement_Muddle();
+
+		/**
+		 * The meta object literal for the '<em><b>Style</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MUDDLE_ELEMENT__STYLE = eINSTANCE.getMuddleElement_Style();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.epsilon.emc.muddle.impl.MuddleElementStyleImpl <em>Element Style</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.epsilon.emc.muddle.impl.MuddleElementStyleImpl
+		 * @see org.eclipse.epsilon.emc.muddle.impl.MuddlePackageImpl#getMuddleElementStyle()
+		 * @generated
+		 */
+		EClass MUDDLE_ELEMENT_STYLE = eINSTANCE.getMuddleElementStyle();
+
+		/**
+		 * The meta object literal for the '<em><b>Color</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MUDDLE_ELEMENT_STYLE__COLOR = eINSTANCE.getMuddleElementStyle_Color();
+
+		/**
+		 * The meta object literal for the '<em><b>Shape</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MUDDLE_ELEMENT_STYLE__SHAPE = eINSTANCE.getMuddleElementStyle_Shape();
+
+		/**
+		 * The meta object literal for the '<em><b>Width</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MUDDLE_ELEMENT_STYLE__WIDTH = eINSTANCE.getMuddleElementStyle_Width();
+
+		/**
+		 * The meta object literal for the '<em><b>Height</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MUDDLE_ELEMENT_STYLE__HEIGHT = eINSTANCE.getMuddleElementStyle_Height();
+
+		/**
+		 * The meta object literal for the '<em><b>Border Width</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MUDDLE_ELEMENT_STYLE__BORDER_WIDTH = eINSTANCE.getMuddleElementStyle_BorderWidth();
+
+		/**
+		 * The meta object literal for the '<em><b>Label Font Size</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MUDDLE_ELEMENT_STYLE__LABEL_FONT_SIZE = eINSTANCE.getMuddleElementStyle_LabelFontSize();
+
+		/**
+		 * The meta object literal for the '<em><b>X</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MUDDLE_ELEMENT_STYLE__X = eINSTANCE.getMuddleElementStyle_X();
+
+		/**
+		 * The meta object literal for the '<em><b>Y</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MUDDLE_ELEMENT_STYLE__Y = eINSTANCE.getMuddleElementStyle_Y();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.emc.muddle.impl.SlotImpl <em>Slot</em>}' class.

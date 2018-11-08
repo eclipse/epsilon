@@ -22,13 +22,14 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.MuddleElement#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.MuddleElement#getSlots <em>Slots</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.MuddleElement#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.MuddleElement#getMuddle <em>Muddle</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.emc.muddle.MuddleElement#getStyle <em>Style</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.epsilon.emc.muddle.MuddlePackage#getMuddleElement()
  * @model
@@ -134,5 +135,31 @@ public interface MuddleElement extends EObject {
 	 * @generated
 	 */
 	void setMuddle(Muddle value);
+
+	/**
+	 * Returns the value of the '<em><b>Style</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Style</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Style</em>' containment reference.
+	 * @see #setStyle(MuddleElementStyle)
+	 * @see org.eclipse.epsilon.emc.muddle.MuddlePackage#getMuddleElement_Style()
+	 * @model containment="true"
+	 * @generated
+	 */
+	MuddleElementStyle getStyle();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.epsilon.emc.muddle.MuddleElement#getStyle <em>Style</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Style</em>' containment reference.
+	 * @see #getStyle()
+	 * @generated
+	 */
+	void setStyle(MuddleElementStyle value);
 
 } // MuddleElement

@@ -20,10 +20,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.Type#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.epsilon.emc.muddle.MuddlePackage#getType()
  * @model abstract="true"

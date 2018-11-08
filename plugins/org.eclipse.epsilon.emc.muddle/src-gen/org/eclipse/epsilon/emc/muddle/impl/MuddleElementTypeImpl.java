@@ -35,13 +35,13 @@ import org.eclipse.epsilon.emc.muddle.MuddlePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.MuddleElementTypeImpl#getInstances <em>Instances</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.MuddleElementTypeImpl#getFeatures <em>Features</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.MuddleElementTypeImpl#getSuperTypes <em>Super Types</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.MuddleElementTypeImpl#getSubTypes <em>Sub Types</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -29,13 +29,13 @@ import org.eclipse.epsilon.emc.muddle.MuddlePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.LinkElementTypeImpl#getSourceFeature <em>Source Feature</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.LinkElementTypeImpl#getTargetFeature <em>Target Feature</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.LinkElementTypeImpl#getRoleInSourceFeature <em>Role In Source Feature</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.LinkElementTypeImpl#getRoleInTargetFeature <em>Role In Target Feature</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -20,8 +20,6 @@ import org.eclipse.epsilon.emc.muddle.MuddlePackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Integer Type</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

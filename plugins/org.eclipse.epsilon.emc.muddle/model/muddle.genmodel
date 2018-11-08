@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Copyright (c) 2014 Dimitris Kolovos.
-  All rights reserved. This program and the accompanying materials
-  are made available under the terms of the Eclipse Public License v1.0
-  which accompanies this distribution, and is available at
-  http://www.eclipse.org/legal/epl-v10.html
-  
-  Contributors:
-      Dimitris Kolovos - initial API and implementation
--->
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.epsilon.emc.muddle/src-gen" modelPluginID="org.eclipse.epsilon.emc.muddle"
     modelName="Muddle" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
@@ -26,6 +16,17 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference muddle.ecore#//MuddleElement/slots"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference muddle.ecore#//MuddleElement/type"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference muddle.ecore#//MuddleElement/muddle"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference muddle.ecore#//MuddleElement/style"/>
+    </genClasses>
+    <genClasses ecoreClass="muddle.ecore#//MuddleElementStyle">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute muddle.ecore#//MuddleElementStyle/color"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute muddle.ecore#//MuddleElementStyle/shape"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute muddle.ecore#//MuddleElementStyle/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute muddle.ecore#//MuddleElementStyle/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute muddle.ecore#//MuddleElementStyle/borderWidth"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute muddle.ecore#//MuddleElementStyle/labelFontSize"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute muddle.ecore#//MuddleElementStyle/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute muddle.ecore#//MuddleElementStyle/y"/>
     </genClasses>
     <genClasses ecoreClass="muddle.ecore#//Slot">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute muddle.ecore#//Slot/values"/>

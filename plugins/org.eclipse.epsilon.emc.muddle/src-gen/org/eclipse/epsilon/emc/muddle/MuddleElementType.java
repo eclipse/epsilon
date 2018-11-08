@@ -20,13 +20,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.MuddleElementType#getInstances <em>Instances</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.MuddleElementType#getFeatures <em>Features</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.MuddleElementType#getSuperTypes <em>Super Types</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.MuddleElementType#getSubTypes <em>Sub Types</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.epsilon.emc.muddle.MuddlePackage#getMuddleElementType()
  * @model

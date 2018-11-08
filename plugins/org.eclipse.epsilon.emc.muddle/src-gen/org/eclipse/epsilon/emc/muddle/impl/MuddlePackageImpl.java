@@ -24,6 +24,7 @@ import org.eclipse.epsilon.emc.muddle.IntegerType;
 import org.eclipse.epsilon.emc.muddle.LinkElementType;
 import org.eclipse.epsilon.emc.muddle.Muddle;
 import org.eclipse.epsilon.emc.muddle.MuddleElement;
+import org.eclipse.epsilon.emc.muddle.MuddleElementStyle;
 import org.eclipse.epsilon.emc.muddle.MuddleElementType;
 import org.eclipse.epsilon.emc.muddle.MuddleFactory;
 import org.eclipse.epsilon.emc.muddle.MuddlePackage;
@@ -53,6 +54,13 @@ public class MuddlePackageImpl extends EPackageImpl implements MuddlePackage {
 	 * @generated
 	 */
 	private EClass muddleElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass muddleElementStyleEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -152,7 +160,7 @@ public class MuddlePackageImpl extends EPackageImpl implements MuddlePackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link MuddlePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -166,7 +174,8 @@ public class MuddlePackageImpl extends EPackageImpl implements MuddlePackage {
 		if (isInited) return (MuddlePackage)EPackage.Registry.INSTANCE.getEPackage(MuddlePackage.eNS_URI);
 
 		// Obtain or create and register package
-		MuddlePackageImpl theMuddlePackage = (MuddlePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof MuddlePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new MuddlePackageImpl());
+		Object registeredMuddlePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		MuddlePackageImpl theMuddlePackage = registeredMuddlePackage instanceof MuddlePackageImpl ? (MuddlePackageImpl)registeredMuddlePackage : new MuddlePackageImpl();
 
 		isInited = true;
 
@@ -179,7 +188,6 @@ public class MuddlePackageImpl extends EPackageImpl implements MuddlePackage {
 		// Mark meta-data to indicate it can't be changed
 		theMuddlePackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(MuddlePackage.eNS_URI, theMuddlePackage);
 		return theMuddlePackage;
@@ -255,6 +263,96 @@ public class MuddlePackageImpl extends EPackageImpl implements MuddlePackage {
 	 */
 	public EReference getMuddleElement_Muddle() {
 		return (EReference)muddleElementEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMuddleElement_Style() {
+		return (EReference)muddleElementEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMuddleElementStyle() {
+		return muddleElementStyleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMuddleElementStyle_Color() {
+		return (EAttribute)muddleElementStyleEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMuddleElementStyle_Shape() {
+		return (EAttribute)muddleElementStyleEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMuddleElementStyle_Width() {
+		return (EAttribute)muddleElementStyleEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMuddleElementStyle_Height() {
+		return (EAttribute)muddleElementStyleEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMuddleElementStyle_BorderWidth() {
+		return (EAttribute)muddleElementStyleEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMuddleElementStyle_LabelFontSize() {
+		return (EAttribute)muddleElementStyleEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMuddleElementStyle_X() {
+		return (EAttribute)muddleElementStyleEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMuddleElementStyle_Y() {
+		return (EAttribute)muddleElementStyleEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -555,6 +653,17 @@ public class MuddlePackageImpl extends EPackageImpl implements MuddlePackage {
 		createEReference(muddleElementEClass, MUDDLE_ELEMENT__SLOTS);
 		createEReference(muddleElementEClass, MUDDLE_ELEMENT__TYPE);
 		createEReference(muddleElementEClass, MUDDLE_ELEMENT__MUDDLE);
+		createEReference(muddleElementEClass, MUDDLE_ELEMENT__STYLE);
+
+		muddleElementStyleEClass = createEClass(MUDDLE_ELEMENT_STYLE);
+		createEAttribute(muddleElementStyleEClass, MUDDLE_ELEMENT_STYLE__COLOR);
+		createEAttribute(muddleElementStyleEClass, MUDDLE_ELEMENT_STYLE__SHAPE);
+		createEAttribute(muddleElementStyleEClass, MUDDLE_ELEMENT_STYLE__WIDTH);
+		createEAttribute(muddleElementStyleEClass, MUDDLE_ELEMENT_STYLE__HEIGHT);
+		createEAttribute(muddleElementStyleEClass, MUDDLE_ELEMENT_STYLE__BORDER_WIDTH);
+		createEAttribute(muddleElementStyleEClass, MUDDLE_ELEMENT_STYLE__LABEL_FONT_SIZE);
+		createEAttribute(muddleElementStyleEClass, MUDDLE_ELEMENT_STYLE__X);
+		createEAttribute(muddleElementStyleEClass, MUDDLE_ELEMENT_STYLE__Y);
 
 		slotEClass = createEClass(SLOT);
 		createEAttribute(slotEClass, SLOT__VALUES);
@@ -642,6 +751,17 @@ public class MuddlePackageImpl extends EPackageImpl implements MuddlePackage {
 		initEReference(getMuddleElement_Slots(), this.getSlot(), this.getSlot_OwningElement(), "slots", null, 0, -1, MuddleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMuddleElement_Type(), this.getMuddleElementType(), this.getMuddleElementType_Instances(), "type", null, 0, 1, MuddleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMuddleElement_Muddle(), this.getMuddle(), this.getMuddle_Elements(), "muddle", null, 0, 1, MuddleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMuddleElement_Style(), this.getMuddleElementStyle(), null, "style", null, 0, 1, MuddleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(muddleElementStyleEClass, MuddleElementStyle.class, "MuddleElementStyle", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMuddleElementStyle_Color(), ecorePackage.getEString(), "color", null, 0, 1, MuddleElementStyle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMuddleElementStyle_Shape(), ecorePackage.getEString(), "shape", null, 0, 1, MuddleElementStyle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMuddleElementStyle_Width(), ecorePackage.getEDouble(), "width", null, 0, 1, MuddleElementStyle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMuddleElementStyle_Height(), ecorePackage.getEDouble(), "height", null, 0, 1, MuddleElementStyle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMuddleElementStyle_BorderWidth(), ecorePackage.getEDouble(), "borderWidth", null, 0, 1, MuddleElementStyle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMuddleElementStyle_LabelFontSize(), ecorePackage.getEInt(), "labelFontSize", null, 0, 1, MuddleElementStyle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMuddleElementStyle_X(), ecorePackage.getEDouble(), "x", null, 0, 1, MuddleElementStyle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMuddleElementStyle_Y(), ecorePackage.getEDouble(), "y", null, 0, 1, MuddleElementStyle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(slotEClass, Slot.class, "Slot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSlot_Values(), ecorePackage.getEJavaObject(), "values", null, 0, -1, Slot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -697,13 +817,13 @@ public class MuddlePackageImpl extends EPackageImpl implements MuddlePackage {
 	 * @generated
 	 */
 	protected void createEmfAnnotations() {
-		String source = "emf.gen";		
+		String source = "emf.gen";
 		addAnnotation
-		  (this, 
-		   source, 
+		  (this,
+		   source,
 		   new String[] {
-			 "basePackage", "org.eclipse.epsilon.emc",
-			 "modelDirectory", "/org.eclipse.epsilon.emc.muddle/src-gen"
+			   "basePackage", "org.eclipse.epsilon.emc",
+			   "modelDirectory", "/org.eclipse.epsilon.emc.muddle/src-gen"
 		   });
 	}
 

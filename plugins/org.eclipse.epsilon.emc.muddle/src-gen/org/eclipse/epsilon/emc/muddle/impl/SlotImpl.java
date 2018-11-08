@@ -38,12 +38,12 @@ import org.eclipse.epsilon.emc.muddle.Slot;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.SlotImpl#getValues <em>Values</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.SlotImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.SlotImpl#getOwningElement <em>Owning Element</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -340,7 +340,7 @@ public class SlotImpl extends MinimalEObjectImpl.Container implements Slot {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (values: ");
 		result.append(values);
 		result.append(')');

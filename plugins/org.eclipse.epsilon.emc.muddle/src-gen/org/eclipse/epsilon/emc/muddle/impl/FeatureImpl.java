@@ -40,6 +40,7 @@ import org.eclipse.epsilon.emc.muddle.Type;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.FeatureImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.FeatureImpl#isMany <em>Many</em>}</li>
@@ -49,7 +50,6 @@ import org.eclipse.epsilon.emc.muddle.Type;
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.FeatureImpl#getOwningType <em>Owning Type</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.impl.FeatureImpl#getSlots <em>Slots</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -527,7 +527,7 @@ public class FeatureImpl extends MinimalEObjectImpl.Container implements Feature
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(", many: ");

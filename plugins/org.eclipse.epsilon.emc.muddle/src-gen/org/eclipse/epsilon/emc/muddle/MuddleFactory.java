@@ -49,6 +49,15 @@ public interface MuddleFactory extends EFactory {
 	MuddleElement createMuddleElement();
 
 	/**
+	 * Returns a new object of class '<em>Element Style</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Element Style</em>'.
+	 * @generated
+	 */
+	MuddleElementStyle createMuddleElementStyle();
+
+	/**
 	 * Returns a new object of class '<em>Slot</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

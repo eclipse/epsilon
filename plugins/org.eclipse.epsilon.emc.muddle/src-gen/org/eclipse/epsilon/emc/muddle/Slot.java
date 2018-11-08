@@ -22,12 +22,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.Slot#getValues <em>Values</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.Slot#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.epsilon.emc.muddle.Slot#getOwningElement <em>Owning Element</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.epsilon.emc.muddle.MuddlePackage#getSlot()
  * @model

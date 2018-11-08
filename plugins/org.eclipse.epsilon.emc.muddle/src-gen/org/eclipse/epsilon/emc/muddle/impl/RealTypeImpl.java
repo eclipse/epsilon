@@ -20,8 +20,6 @@ import org.eclipse.epsilon.emc.muddle.RealType;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Real Type</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

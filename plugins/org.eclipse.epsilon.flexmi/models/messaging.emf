@@ -1,4 +1,4 @@
-@namespace(uri="http://messaging", prefix="")
+x@namespace(uri="http://messaging", prefix="")
 package messaging;
 
 class System {
