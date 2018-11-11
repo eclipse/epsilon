@@ -421,6 +421,10 @@ public class CachedModelTests {
 	
 	private static class SimpleCachedModel extends CachedModel<String> {
 		
+		SimpleCachedModel() {
+			this.cachingEnabled = true;
+		}
+		
 		protected Collection<String> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
 			return new ArrayList<>(Collections.singleton("Fake" + type));
 		}
