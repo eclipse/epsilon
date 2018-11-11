@@ -70,13 +70,13 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	private static final Logger LOGGER = LoggerFactory.getLogger(SimulinkModel.class);
 	
 	//
-	private static final Multimap<String, String> createBlockMap = new Multimap<String, String>();
+	private static final Multimap<String, String> createBlockMap = new Multimap<>();
 	//
-	private static final ArrayList<ArrayList<String>> deleteBlockMap = new ArrayList<ArrayList<String>>();
+	private static final ArrayList<ArrayList<String>> deleteBlockMap = new ArrayList<>();
 	
 	static {
 		createBlockMap.put("sflib/Chart", "Stateflow.Chart");
-		ArrayList<String> chart = new ArrayList<String>();
+		ArrayList<String> chart = new ArrayList<>();
 		chart.add("SubSystem");
 		chart.add("Stateflow.Chart");
 		deleteBlockMap.add(chart);
@@ -164,7 +164,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	protected void addToCache(String type, ISimulinkModelElement instance) throws EolModelElementTypeNotFoundException {
 		for (String kind : getAllTypeNamesOf(instance)) {
 			Object kindCacheKey = getCacheKeyForType(kind);
-			if (cachedKinds.contains(kindCacheKey)) {
+			if (kindCache.containsKey(kindCacheKey, true)) {
 				kindCache.put(kindCacheKey, instance);
 			}
 		}
@@ -174,7 +174,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	protected void removeFromCache(ISimulinkModelElement instance) throws EolModelElementTypeNotFoundException {
 		for (String kind : getAllTypeNamesOf(instance)) {
 			final Object kindCacheKey = getCacheKeyForType(kind);
-			if (cachedKinds.contains(kindCacheKey)) {
+			if (kindCache.containsKey(kindCacheKey, true)) {
 				kindCache.remove(kindCacheKey, instance);
 			}
 		}
@@ -190,7 +190,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 				for (List<String> specialType : deleteBlockMap) {
 					if (specialType.contains(type)) {
 						for (String equivalent : specialType) {
-							if (!equivalent.equals(type) && cachedKinds.contains(equivalent)) {
+							if (!equivalent.equals(type) && kindCache.containsKey(equivalent, true)) {
 								kindCache.get(equivalent).clear();
 								kindCache.putAll(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
 							}
@@ -209,7 +209,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			addToCache(instance.getType(), instance);
 			if (createBlockMap.containsKey(type)){
 				for (String equivalent : createBlockMap.get(type)){
-					if (cachedKinds.contains(equivalent)) {
+					if (kindCache.containsKey(equivalent, true)) {
 						kindCache.get(equivalent).clear();
 						kindCache.putAll(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
 					}
@@ -233,7 +233,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 							addToCache(instance.getType(), instance);
 							if (createBlockMap.containsKey(type)){
 								for (String equivalent : createBlockMap.get(type)){
-									if (cachedKinds.contains(equivalent)) {
+									if (kindCache.containsKey(equivalent, true)) {
 										kindCache.get(equivalent).clear();
 										kindCache.putAll(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
 									}

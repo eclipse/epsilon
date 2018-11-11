@@ -138,13 +138,13 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		}
 
 		Object typeCacheKey = getCacheKeyForType(type);
-		if (typeCache.containsKey(typeCacheKey)) {
+		if (typeCache.containsKey(typeCacheKey, true)) {
 			typeCache.put(typeCacheKey, instance);
 		}
 
 		for (String kind : getAllTypeNamesOf(instance)) {
 			Object kindCacheKey = getCacheKeyForType(kind);
-			if (kindCache.containsKey(kindCacheKey)) {
+			if (kindCache.containsKey(kindCacheKey, true)) {
 				kindCache.put(kindCacheKey, instance);
 			}
 		}
@@ -190,7 +190,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	public Collection<ModelElementType> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
 		if (isCachingEnabled()) {
 			Object key = getCacheKeyForType(type);
-			if (!typeCache.containsKey(key)) {
+			if (!typeCache.containsKey(key, true)) {
 				typeCache.putAll(key, getAllOfTypeFromModel(type));
 			}
 			return typeCache.get(key);
@@ -204,7 +204,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	public Collection<ModelElementType> getAllOfKind(String kind) throws EolModelElementTypeNotFoundException {
 		if (isCachingEnabled()) {
 			Object key = getCacheKeyForType(kind);
-			if (!kindCache.containsKey(key)) {
+			if (!kindCache.containsKey(key, true)) {
 				kindCache.putAll(key, getAllOfKindFromModel(kind));
 			}
 			return kindCache.get(key);

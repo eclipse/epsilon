@@ -51,8 +51,19 @@ public class Multimap<K, V> {
 	}
 
 	public boolean containsKey(K key) {
+		return containsKey(key, false);
+	}
+	
+	/**
+	 * 
+	 * @param key
+	 * @param includeEmpty Ignores whether the collection is empty if set to <codeE>true</code>.
+	 * @return
+	 * @since 1.6
+	 */
+	public boolean containsKey(K key, boolean includeEmpty) {
 		Collection<V> col = storage.get(key);
-		return col != null && !col.isEmpty();
+		return col != null && (includeEmpty || !col.isEmpty());
 	}
 	
 	public void putAll(K key, Collection<V> values) {
