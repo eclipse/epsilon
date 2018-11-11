@@ -18,6 +18,11 @@ import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
 	
 	public ConstraintContextAtom(ConstraintContext constraintContext, Object modelElement, IEvlContext evlContext) {

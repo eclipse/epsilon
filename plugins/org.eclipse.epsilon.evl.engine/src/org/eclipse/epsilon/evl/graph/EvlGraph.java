@@ -24,8 +24,7 @@ import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException
 /**
  * A class used for computing dependencies between Constraints and ConstraintContexts.
  * 
- * @author Matt Smith - initial implementation
- * @author Sina Madani - refactoring
+ * @author Sina Madani
  * @since 1.6
  */
 public class EvlGraph {

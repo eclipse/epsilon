@@ -14,6 +14,11 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class ErlContextParallel extends EolContextParallel implements IErlContextParallel {
 
 	public ErlContextParallel() {

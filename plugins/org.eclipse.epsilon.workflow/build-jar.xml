@@ -23,7 +23,6 @@
 			<fileset dir="../org.eclipse.epsilon.emc.composite/bin"/>
 			<fileset dir="../org.eclipse.epsilon.emc.plainxml/bin"/>
 			<fileset dir="../org.eclipse.epsilon.workflow/bin"/>
-			<fileset dir="../org.antlr.runtime_3.1.b1"/>
 		</jar>
 		
 	</target>

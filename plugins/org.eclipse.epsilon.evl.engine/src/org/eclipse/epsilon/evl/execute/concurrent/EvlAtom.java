@@ -17,6 +17,9 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 /**
  * A single EVL construct (e.g. Constraint or ConstraintContext) and model element combination.
  * This class represents the most atomic (i.e. highest level of granularity) data structure possible.
+ * 
+ * @author Sina Madani
+ * @since 1.6
  */
 abstract class EvlAtom<T extends ModuleElement> {
 

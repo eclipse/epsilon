@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.models;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -87,8 +86,6 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	
 	
 	protected Collection<ModelElementType> allContentsCache;
-	protected Collection<Object> cachedTypes;
-	protected Collection<Object> cachedKinds;
 	protected Multimap<Object, ModelElementType> typeCache;
 	protected Multimap<Object, ModelElementType> kindCache;
 	protected boolean concurrent;
@@ -128,18 +125,10 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		if (concurrent) {
 			allContentsCache = allContentsCache != null ?
 				new ConcurrentLinkedQueue<>(allContentsCache) : new ConcurrentLinkedQueue<>();
-			cachedKinds = cachedKinds != null ? 
-				ConcurrencyUtils.concurrentSet(cachedKinds) : ConcurrencyUtils.concurrentSet();
-			cachedTypes = cachedTypes != null ?
-				ConcurrencyUtils.concurrentSet(cachedTypes) : ConcurrencyUtils.concurrentSet();
 		}
 		else {
 			allContentsCache = allContentsCache != null ?
 				new ArrayList<>(allContentsCache) : new ArrayList<>();
-			cachedKinds = cachedKinds != null ?
-				new HashSet<>(cachedKinds) : new HashSet<>();
-			cachedTypes = cachedTypes != null ?
-				new HashSet<>(cachedTypes) : new HashSet<>();
 		}
 	}
 	
@@ -188,7 +177,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		if (isCachingEnabled()) {
 			if (!allContentsAreCached) {
 				allContentsCache = allContentsFromModel();
-				allContentsAreCached = true;				
+				allContentsAreCached = true;		
 			}
 			return allContentsCache;
 		}
@@ -201,9 +190,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	public Collection<ModelElementType> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
 		if (isCachingEnabled()) {
 			Object key = getCacheKeyForType(type);
-			if (!cachedTypes.contains(key)) {
+			if (!typeCache.containsKey(key)) {
 				typeCache.putAll(key, getAllOfTypeFromModel(type));
-				cachedTypes.add(key);
 			}
 			return typeCache.get(key);
 		}
@@ -216,9 +204,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	public Collection<ModelElementType> getAllOfKind(String kind) throws EolModelElementTypeNotFoundException {
 		if (isCachingEnabled()) {
 			Object key = getCacheKeyForType(kind);
-			if (!cachedKinds.contains(key)) {
+			if (!kindCache.containsKey(key)) {
 				kindCache.putAll(key, getAllOfKindFromModel(kind));
-				cachedKinds.add(key);
 			}
 			return kindCache.get(key);
 		}
@@ -270,11 +257,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	public void clearCache() {
 		allContentsCache.clear();
 		allContentsAreCached = false;
-		
 		typeCache.clear();
-		cachedTypes.clear();
-		
 		kindCache.clear();
-		cachedKinds.clear();
 	}
 }

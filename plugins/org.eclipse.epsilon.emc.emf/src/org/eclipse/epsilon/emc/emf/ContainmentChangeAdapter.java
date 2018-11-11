@@ -10,8 +10,6 @@
 package org.eclipse.epsilon.emc.emf;
 
 import java.util.Collection;
-import java.util.Iterator;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -49,29 +47,27 @@ public class ContainmentChangeAdapter implements Adapter {
 		
 		if (notificationImpl.getFeature() instanceof EReference) {
 			EReference reference = (EReference) notification.getFeature();
+			Collection<EObject> resContents = resource.getContents();
 			
 			if (reference.isContainer()) {
-				if (instance.eContainer() != null && resource != null && resource.getContents().contains(instance)){
-					resource.getContents().remove(instance);
+				if (instance.eContainer() != null && resource != null && resContents.contains(instance)) {
+					resContents.remove(instance);
 				}
 			}
 			else if (reference.isContainment()) {
 				Object value = instance.eGet(reference);
 				if (value instanceof EObject) {
 					EObject eObject = (EObject) value;
-					if (resource!= null && resource.getContents().contains(eObject)) {
-						resource.getContents().remove(eObject);
+					if (resource!= null && resContents.contains(eObject)) {
+						resContents.remove(eObject);
 					}
 				}
 				else if (value instanceof Collection) {
-					Collection<?> col = (Collection<?>) value;
-					Iterator<?> it = col.iterator();
-					while (it.hasNext()){
-						Object next = it.next();
+					for (Object next : (Collection<?>) value) {
 						if (next instanceof EObject) {
 							EObject eObject = (EObject) next;
-							if (resource!=null && resource.getContents().contains(eObject)) {
-								resource.getContents().remove(eObject);
+							if (resource != null && resContents.contains(eObject)) {
+								resContents.remove(eObject);
 							}
 						}
 					}

@@ -13,6 +13,11 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public interface IErlContextParallel extends IErlContext, IEolContextParallel {
 	
 	@Override

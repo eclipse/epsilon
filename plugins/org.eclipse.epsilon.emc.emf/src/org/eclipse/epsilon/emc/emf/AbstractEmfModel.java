@@ -53,12 +53,8 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	protected Resource modelImpl;
 	protected boolean expand = true;
-	protected Registry registry = null;
+	protected Registry registry;
 	Map<String, EClass> eClassCache;
-	
-	protected AbstractEmfModel() {
-		super();
-	}
 	
 	/**
 	 * @since 1.6
@@ -87,8 +83,8 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 	
 	protected void setDataTypesInstanceClasses(Resource metamodel) {
-		Iterable<EObject> allContents = metamodel::getAllContents;
-		for (EObject eObject : allContents) {
+		for (Iterator<EObject> iterator = metamodel.getAllContents(); iterator.hasNext();) {
+			EObject eObject = iterator.next();
 			if (eObject instanceof EEnum) {
 				//TODO : See if we really need this
 				//((EEnum) eObject).setInstanceClassName("java.lang.Integer");
@@ -307,8 +303,11 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	protected int instancesCount(Resource r) {
 		int i = 0;
-		for (Iterator<EObject> ite = r.getAllContents(); ite.hasNext(); ite.next()) {
-			i++;
+		Iterator<EObject> ite = r.getAllContents();
+		
+		while (ite.hasNext()) {
+			ite.next();
+			++i;
 		}
 		return i;
 	}

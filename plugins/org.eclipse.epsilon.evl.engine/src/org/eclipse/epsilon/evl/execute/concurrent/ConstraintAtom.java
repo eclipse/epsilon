@@ -22,6 +22,7 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  * A constraint-element pair.
  * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class ConstraintAtom extends EvlAtom<Constraint> {
 	
