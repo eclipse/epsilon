@@ -6,12 +6,13 @@
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
- *     Sina Madani - concurrency support
+ *     Sina Madani - concurrency support, refactoring, additional methods
  ******************************************************************************/
 package org.eclipse.epsilon.common.util;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Stream;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 
 public class Multimap<K, V> {
@@ -63,24 +64,38 @@ public class Multimap<K, V> {
 		return col != null && col.remove(value);
 	}
 
+	/**
+	 * Removes all values associated with the key.
+	 * @param key
+	 * @return All values associated with the key, or <code>null</code> if the key was not present.
+	 * @since 1.6
+	 */
+	public Collection<V> removeAll(K key) {
+		return storage.remove(key);
+	}
+	
 	public void clear() {
 		storage.clear();
 	}
 
-	public boolean containsKey(K key) {
-		return containsKey(key, false);
-	}
-	
 	/**
 	 * 
 	 * @param key
-	 * @param includeEmpty Ignores whether the collection is empty if set to <codeE>true</code>.
-	 * @return
+	 * @return Whether the given key has one or more values associated with it.
+	 */
+	public boolean containsKey(K key) {
+		Collection<V> col = storage.get(key);
+		return col != null && !col.isEmpty();
+	}
+	
+	/**
+	 *
+	 * @param key
+	 * @return Whether the key is present in they keySet.
 	 * @since 1.6
 	 */
-	public boolean containsKey(K key, boolean includeEmpty) {
-		Collection<V> col = storage.get(key);
-		return col != null && (includeEmpty || !col.isEmpty());
+	public boolean hasKey(K key) {
+		return storage.containsKey(key);
 	}
 	
 	public void putAll(K key, Collection<V> values) {
@@ -94,6 +109,17 @@ public class Multimap<K, V> {
 	 */
 	public boolean isThreadSafe() {
 		return isConcurrent;
+	}
+	
+	/**
+	 * Streams the values for the given key.
+	 * @param key
+	 * @return The stream of values for the key, or an empty stream if the key is not present.
+	 * @since 1.6
+	 */
+	public Stream<V> stream(K key) {
+		Collection<V> colForKey = storage.get(key);
+		return colForKey != null ? colForKey.stream() : Stream.empty();
 	}
 	
 	/**
