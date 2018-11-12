@@ -186,32 +186,38 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		}
 	}
 	
-	@Override
-	public Collection<ModelElementType> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
+	/**
+	 * 
+	 * @param isKind
+	 * @param modelElementType
+	 * @return
+	 * @throws EolModelElementTypeNotFoundException
+	 * @since 1.6
+	 */
+	protected Collection<ModelElementType> getAllOfKindOrType(boolean isKind, String modelElementType) throws EolModelElementTypeNotFoundException {
 		if (isCachingEnabled()) {
-			Object key = getCacheKeyForType(type);
-			if (!typeCache.hasKey(key)) {
-				typeCache.putAll(key, getAllOfTypeFromModel(type));
+			Object key = getCacheKeyForType(modelElementType);
+			Multimap<Object, ModelElementType> cache = isKind ? kindCache : typeCache;
+			Collection<ModelElementType> values = cache.getNullable(key);
+			if (values == null) {
+				values = isKind ? getAllOfKindFromModel(modelElementType) : getAllOfTypeFromModel(modelElementType);
+				cache.putAll(key, values);
 			}
-			return typeCache.get(key);
+			return values;
 		}
 		else {
-			return getAllOfTypeFromModel(type);
+			return isKind ? getAllOfKindFromModel(modelElementType) : getAllOfTypeFromModel(modelElementType);
 		}
 	}
 	
 	@Override
+	public Collection<ModelElementType> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
+		return getAllOfKindOrType(false, type);
+	}
+	
+	@Override
 	public Collection<ModelElementType> getAllOfKind(String kind) throws EolModelElementTypeNotFoundException {
-		if (isCachingEnabled()) {
-			Object key = getCacheKeyForType(kind);
-			if (!kindCache.hasKey(key)) {
-				kindCache.putAll(key, getAllOfKindFromModel(kind));
-			}
-			return kindCache.get(key);
-		}
-		else {
-			return getAllOfKindFromModel(kind);
-		}	
+		return getAllOfKindOrType(true, kind);
 	}
 	
 	@Override

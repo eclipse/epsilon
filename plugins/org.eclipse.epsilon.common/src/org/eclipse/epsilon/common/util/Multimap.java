@@ -15,11 +15,19 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Stream;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 
+/**
+ * A {@linkplain Map} which allows each to be associated with multiple values.
+ * @param <K> The key type.
+ * @param <V> The type of values.
+ */
 public class Multimap<K, V> {
 	
 	protected final Map<K, Collection<V>> storage;
 	protected final boolean isConcurrent;
 	
+	/**
+	 * Creates a non-concurrent Multimap.
+	 */
 	public Multimap() {
 		this(false);
 	}
@@ -45,35 +53,94 @@ public class Multimap<K, V> {
 			ConcurrencyUtils.concurrentMap(other.storage) : new HashMap<>(other.storage);
 	}
 	
+	/**
+	 * Returns all values associated with the key.
+	 * @param key
+	 * @return The associated values, or an empty collection if the key was not present.
+	 */
 	public Collection<V> get(K key) {
-		return storage.containsKey(key) ? storage.get(key) : new LinkedList<>();
+		return storage.containsKey(key) ? storage.get(key) : Collections.emptyList();
+	}
+	
+	/**
+	 * Returns all values associated with the key.
+	 * @param key
+	 * @return An empty Optional if no mapping was present.
+	 * @since 1.6
+	 */
+	public Optional<Collection<V>> getOptional(K key) {
+		return Optional.ofNullable(storage.get(key));
+	}
+	
+	/**
+	 * Returns all values associated with the key.
+	 * @param key
+	 * @return A collection of the associated values, or <code>null</code> if no mapping was present.
+	 * @since 1.6
+	 */
+	public Collection<V> getNullable(K key) {
+		return storage.get(key);
 	}
 
-	public void put(K key, V value) {
-		Collection<V> colForKey = storage.get(key);
+	/**
+	 * Adds the given value to the associations for the key.
+	 * @param key
+	 * @param value
+	 * @return Whether a mapping existed for the key.
+	 */
+	public boolean put(K key, V value) {
+		Collection<V> values = storage.get(key);
+		boolean wasPresent = true;
 		
-		if (colForKey == null) {
-			storage.put(key, colForKey = isConcurrent ? new ConcurrentLinkedQueue<>() : new LinkedList<>());
+		if (values == null) {
+			wasPresent = false;
+			storage.put(key, values = isConcurrent ? new ConcurrentLinkedQueue<>() : new LinkedList<>());
 		}
 		
-		colForKey.add(value);
+		values.add(value);
+		return wasPresent;
 	}
 
+	/**
+	 * Removes the specified value associated with the given key.
+	 * @param key
+	 * @param value
+	 * @return Whether the key was present and the associated collection of values was changed.
+	 */
 	public boolean remove(K key, V value) {
 		Collection<V> col = storage.get(key);
 		return col != null && col.remove(value);
 	}
 
 	/**
-	 * Removes all values associated with the key.
+	 * Removes all values associated with the key, leaving the key itself in place,
+	 * by calling {@link Collection#clear()} if the mapping is present.
 	 * @param key
-	 * @return All values associated with the key, or <code>null</code> if the key was not present.
+	 * @return Whether the key was present and the collection changed as a result.
 	 * @since 1.6
 	 */
-	public Collection<V> removeAll(K key) {
+	public boolean removeAll(K key) {
+		Collection<V> values = storage.get(key);
+		boolean changed = false;
+		if (values != null) {
+			changed = !values.isEmpty();
+			values.clear();
+		}
+		return changed;
+	}
+	
+	/**
+	 * Deletes the specified key from this map.
+	 * @param key
+	 * @return The values associated with the key, or <code>null</code> if no mapping was present.
+	 */
+	public Collection<V> removeKey(K key) {
 		return storage.remove(key);
 	}
 	
+	/**
+	 * Removes all mappings.
+	 */
 	public void clear() {
 		storage.clear();
 	}
@@ -98,8 +165,18 @@ public class Multimap<K, V> {
 		return storage.containsKey(key);
 	}
 	
-	public void putAll(K key, Collection<V> values) {
-		storage.put(key, values);
+	/**
+	 * Associates all of the specified values for the given key.
+	 * @param key
+	 * @param values The additional values to associate with the key.
+	 * @return Whether the key was present.
+	 */
+	public boolean putAll(K key, Collection<V> values) {
+		boolean wasPresent = storage.containsKey(key) && storage.get(key).addAll(values);
+		if (!wasPresent) {
+			storage.put(key, values);
+		}
+		return wasPresent;
 	}
 	
 	/**
@@ -132,9 +209,7 @@ public class Multimap<K, V> {
 		
 		Multimap<?, ?> other = (Multimap<?, ?>) obj;
 		
-		return
-			this.isConcurrent == other.isConcurrent &&
-			Objects.equals(this.storage, other.storage);
+		return this.storage.equals(other.storage);
 	}
 	
 	/**
@@ -142,7 +217,7 @@ public class Multimap<K, V> {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(isConcurrent, storage);
+		return Objects.hashCode(storage);
 	}
 	
 	@Override
