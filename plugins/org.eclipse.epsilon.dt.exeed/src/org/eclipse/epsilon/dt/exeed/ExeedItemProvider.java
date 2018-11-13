@@ -140,7 +140,7 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 	@Override
 	protected void gatherMetaData(EModelElement eModelElement) {
 		initializeCache();
-		super.gatherMetaData(eModelElement);
+		try { super.gatherMetaData(eModelElement); } catch (Exception ex) {}
 	}
 
 	protected Object getImageForEType(EClassifier eType) {
