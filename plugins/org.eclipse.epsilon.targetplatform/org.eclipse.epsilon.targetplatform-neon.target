@@ -37,6 +37,7 @@
 <unit id="org.slf4j.api.source" version="1.7.2.v20121108-1250"/>
 <unit id="org.slf4j.log4j" version="1.7.2.v20130115-1340"/>
 <unit id="org.slf4j.log4j.source" version="1.7.2.v20130115-1340"/>
+<unit id="org.antlr.runtime" version="3.2.0.v201101311130"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
