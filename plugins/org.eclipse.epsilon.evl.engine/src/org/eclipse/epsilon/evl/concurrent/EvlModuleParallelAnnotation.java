@@ -11,9 +11,7 @@ package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAnnotation;
 import org.eclipse.epsilon.evl.dom.Constraint;

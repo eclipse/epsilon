@@ -16,11 +16,19 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolNativeType;
 
 public class ReflectionUtil {
@@ -56,6 +64,53 @@ public class ReflectionUtil {
 		String methodName = method.getName();
 		if (methodName.startsWith("_")) methodName = methodName.substring(1);
 		return methodName;
+	}
+	
+	/**
+	 * Searches for a method matching the name and criteria for the given object,
+	 * including all super methods and super-interfaces recursively.
+	 * 
+	 * @param obj The target object to look for methods on.
+	 * @param methodName The name of the method to find.
+	 * @param criteria Function which limits the search scope of methods.
+	 * @return A method (chosen non-deterministically) which matches the criteria.
+	 * @throws EolRuntimeException If no method matching the criteria can be found.
+	 * @since 1.6
+	 */
+	public static Method findApplicableMethodOrThrow(Object obj, String methodName, Predicate<Method> criteria, Stream<?> parameters, ModuleElement ast, PrettyPrinterManager ppm) throws EolRuntimeException {
+		final Method[] candidates = getMethodsForName(obj, methodName);
+		
+		Supplier<? extends EolRuntimeException> exceptionGetter = () -> {
+			Collector<CharSequence, ?, String> paramJoiner = Collectors.joining(", ");
+			
+			if (candidates.length > 0) {
+				String expectedParams = Stream.of(candidates[0].getParameterTypes())
+					.map(Class::getTypeName)
+					.collect(paramJoiner);
+				
+				String actualParams = parameters
+					.map(expr -> expr.getClass().getTypeName())
+					.collect(paramJoiner);
+				
+				return new EolIllegalOperationParametersException(methodName, expectedParams, actualParams, ast);
+			}
+			else return new EolIllegalOperationException(obj, methodName, ast, ppm);
+		};
+		
+		Optional<Method> candidate = Stream.of(candidates).filter(criteria).findAny();
+		
+		for (Class<?> clazzToCheck = obj.getClass(); !candidate.isPresent(); clazzToCheck = clazzToCheck.getSuperclass()) {
+			if (clazzToCheck == null) break;
+			
+			candidate = Stream.concat(
+					Stream.of(getMethods(clazzToCheck, true, true)),
+					Stream.of(clazzToCheck.getInterfaces()).flatMap(clazz -> Stream.of(clazz.getMethods()))
+				)
+				.filter(criteria.and(method -> method.getName().equals(methodName)))
+				.findAny();
+		}
+		
+		return candidate.orElseThrow(exceptionGetter);
 	}
 	
 	/**

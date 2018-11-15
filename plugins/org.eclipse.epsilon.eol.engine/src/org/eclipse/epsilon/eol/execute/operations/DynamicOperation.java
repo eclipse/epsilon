@@ -17,16 +17,13 @@ import java.lang.reflect.Proxy;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -60,42 +57,27 @@ public class DynamicOperation extends AbstractOperation {
 		else
 			iteratorParams = iterators;
 		
-		Method[] candidates = ReflectionUtil.getMethodsForName(target, methodName);
+		Predicate<Method> criteria = method ->
+			//method.isAccessible() && TODO: get this working for Java 9+
+			method.getParameterCount() == expressions.size() &&
+			Stream.of(method.getParameterTypes())
+				.filter(Class::isInterface)
+				.map(Class::getMethods)
+				.flatMap(Stream::of)
+				.filter(targetParamMethod ->
+					Modifier.isAbstract(targetParamMethod.getModifiers()) &&
+					targetParamMethod.getParameterCount() == iteratorParams.size()
+				)
+				.count() == 1;
 		
-		final Method candidate = Stream.of(candidates)
-			.filter(method -> method.getParameterCount() == expressions.size())
-			.filter(method -> Stream.of(method.getParameterTypes())
-					.filter(Class::isInterface)
-					.map(Class::getMethods)
-					.flatMap(Stream::of)
-					.filter(targetParamMethod ->
-						Modifier.isAbstract(targetParamMethod.getModifiers()) &&
-						targetParamMethod.getParameterCount() == iteratorParams.size()
-					)
-					.count() == 1
-			)
-			.findAny()
-			.<EolRuntimeException> orElseThrow(() -> {
-				Collector<CharSequence, ?, String> paramJoiner = Collectors.joining(", ");
-				
-				if (candidates.length > 0) {
-					String expectedParams = Stream.of(candidates[0].getParameterTypes())
-						.map(Class::getTypeName)
-						.collect(paramJoiner);
-					
-					String actualParams = expressions.stream()
-						.map(expr -> expr.getClass().getTypeName())
-						.collect(paramJoiner);
-					
-					return new EolIllegalOperationParametersException(methodName, expectedParams, actualParams, ast);
-				}
-				else return new EolIllegalOperationException(target, methodName, ast, context.getPrettyPrinterManager());
-			});
+		final Method resolvedMethod = ReflectionUtil.findApplicableMethodOrThrow(
+			target, methodName, criteria, expressions.stream(), ast, context.getPrettyPrinterManager()
+		);
 		
-		final int candidateParamCount = candidate.getParameterCount();
+		final int candidateParamCount = resolvedMethod.getParameterCount();
 		assert candidateParamCount == expressions.size();
 		final Object[] candidateParameterValues = new Object[candidateParamCount];
-		final java.lang.reflect.Parameter[] candidateParameterTypes = candidate.getParameters();
+		final java.lang.reflect.Parameter[] candidateParameterTypes = resolvedMethod.getParameters();
 		
 		for (int i = 0; i < candidateParamCount; i++) {
 			Class<?> targetType = candidateParameterTypes[i].getType();
@@ -126,8 +108,8 @@ public class DynamicOperation extends AbstractOperation {
 		
 		
 		try {
-			candidate.setAccessible(true);
-			return candidate.invoke(target, candidateParameterValues);
+			resolvedMethod.setAccessible(true);	// TODO: Illegal reflective access from Java 9+
+			return resolvedMethod.invoke(target, candidateParameterValues);
 		}
 		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
 			throw new EolRuntimeException(ex);

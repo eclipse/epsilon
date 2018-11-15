@@ -11,6 +11,7 @@ package org.eclipse.epsilon.erl.concurrent;
 
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.Annotation;
+import org.eclipse.epsilon.eol.dom.ExecutableAnnotation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -31,7 +32,7 @@ public interface IErlModuleParallelAnnotation extends IErlModule {
 		Annotation parallelAnnotation = ast.getAnnotation(PARALLEL_ANNOTATION_NAME);
 		
 		if (parallelAnnotation != null) {
-			if (parallelAnnotation.hasValue()) {
+			if (parallelAnnotation instanceof ExecutableAnnotation && parallelAnnotation.hasValue()) {
 				getContext().getFrameStack().enterLocal(FrameType.PROTECTED, ast, variables);
 				
 				Object result = parallelAnnotation.getValue(getContext());
