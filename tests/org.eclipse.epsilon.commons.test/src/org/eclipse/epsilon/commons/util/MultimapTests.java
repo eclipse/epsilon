@@ -13,13 +13,14 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.Collections;
 import org.eclipse.epsilon.common.util.Multimap;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +41,7 @@ public class MultimapTests {
 		
 		@Before
 		public void setup() {
-			multimap = new Multimap<String, String>();
+			multimap = new Multimap<>();
 		}
 		
 		@Test
@@ -86,11 +87,14 @@ public class MultimapTests {
 	public static class PutAllTests {
 		@Test
 		public void shouldPutValuesInCollection() {
-			final Multimap<String, String> multimap = new Multimap<String, String>();
+			final Multimap<String, String> multimap = new Multimap<>();
 			multimap.putAll("students", Arrays.asList("Louis", "James", "Frank"));
 			
 			assertThat(multimap.get("students"), contains("Louis", "James", "Frank"));
 			assertThat(multimap.get("students"), hasSize(3));
+			
+			multimap.putAll("students", Collections.singleton("Betty"));
+			assertThat(multimap.get("students"), hasSize(4));
 		}
 	}
 	
@@ -99,12 +103,21 @@ public class MultimapTests {
 		
 		@Before
 		public void setup() {
-			multimap = new Multimap<String, String>();
+			multimap = new Multimap<>();
 		}
 		
 		@Test
 		public void shouldRemoveTheGivenKeyValuePair() throws Exception {
-			multimap.putAll("students", new ArrayList<String>(Arrays.asList("Louis", "James", "Frank")));
+			multimap.putAll("students", new ArrayList<>(Arrays.asList("Louis", "James", "Frank")));
+			multimap.remove("students", "James");
+			
+			assertThat(multimap.get("students"), contains("Louis", "Frank"));
+			assertThat(multimap.get("students"), hasSize(2));
+		}
+		
+		@Test
+		public void shouldRemoveEvenWhenInitialisedWithImmutable() {
+			multimap.putAll("students", Collections.unmodifiableCollection(Arrays.asList("Louis", "James", "Frank")));
 			multimap.remove("students", "James");
 			
 			assertThat(multimap.get("students"), contains("Louis", "Frank"));
@@ -117,6 +130,36 @@ public class MultimapTests {
 			
 			assertThat(multimap.get("students"), hasSize(0));
 		}
+		
+		@Test
+		public void removeAllShouldKeepKey() {
+			multimap.putAll("students", Arrays.asList("Louis", "James", "Frank"));
+			assertTrue(multimap.removeAll("students", Arrays.asList("Louis", "James", "Frank")));
+			
+			assertTrue(multimap.hasKey("students"));
+			assertThat(multimap.get("students"), hasSize(0));
+			
+			multimap.putAll("students", Arrays.asList("Louis", "James", "Frank"));
+			assertTrue(multimap.removeAll("students"));
+			
+			assertTrue(multimap.hasKey("students"));
+			
+			multimap.putAll("students", Arrays.asList("Louis", "James", "Frank"));
+			assertTrue(multimap.removeAll("students", Collections.singleton("James")));
+			assertTrue(multimap.containsKey("students"));
+		}
+		
+		@Test
+		public void removeKeyShouldRemoveKey() {
+			multimap.putAll("students", Arrays.asList("Louis", "James", "Frank"));
+			assertEquals(multimap.removeKey("students"), Arrays.asList("Louis", "James", "Frank"));
+			
+			assertFalse(multimap.containsKey("students"));
+			
+			multimap.put("students", "aStudent");
+			multimap.removeKey("students");
+			assertFalse(multimap.containsKey("students"));
+		}
 	}
 	
 	public static class ClearTests {
@@ -124,7 +167,7 @@ public class MultimapTests {
 		
 		@Before
 		public void setup() {
-			multimap = new Multimap<String, String>();
+			multimap = new Multimap<>();
 		}
 		
 		@Test
@@ -144,7 +187,7 @@ public class MultimapTests {
 		
 		@Before
 		public void setup() {
-			multimap = new Multimap<String, String>();
+			multimap = new Multimap<>();
 		}
 		
 		@Test
@@ -169,9 +212,16 @@ public class MultimapTests {
 		
 		@Test
 		public void shouldBeFalseForKeyWhenEmptyCollectionIsPut() throws Exception {
-			multimap.putAll("students", new ArrayList<String>());
+			multimap.putAll("students", new ArrayList<>());
 			
 			assertFalse(multimap.containsKey("students"));
+		}
+		
+		@Test
+		public void emptyCollectionshouldBeTrueForHasKey() {
+			multimap.putAll("students", Collections.emptyList());
+			
+			assertTrue(multimap.hasKey("students"));
 		}
 	}
 	
@@ -180,15 +230,19 @@ public class MultimapTests {
 		
 		@Before
 		public void setup() {
-			multimap = new Multimap<String, String>();
+			multimap = new Multimap<>();
 		}
 		
 		@Test
 		public void shouldReplaceExistingValues() throws Exception {
 			multimap.putAll("students", Arrays.asList("Louis", "Nikos"));
-			multimap.putAll("students", Arrays.asList("James", "Frank"));
+			multimap.replaceValues("students", Arrays.asList("James", "Frank"));
 			
 			assertThat(multimap.get("students"), contains("James", "Frank"));
+			assertTrue(multimap.get("students").size() == 2);
+			
+			multimap.put("students", Arrays.asList("Louis", "Nikos"));
+			assertTrue(multimap.get("students").size() == 2);
 		}
 		
 		@Test

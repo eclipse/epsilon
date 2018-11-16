@@ -54,12 +54,31 @@ public class Multimap<K, V> {
 	}
 	
 	/**
+	 * Convenience method for creating new values for entries.
+	 * @return A suitable collection based on the thread-safety of this Multimap.
+	 * @since 1.6
+	 */
+	protected Collection<V> newCollection() {
+		return isConcurrent ? new ConcurrentLinkedQueue<>() : new LinkedList<>();
+	}
+	
+	/**
+	 * Convenience method for creating new values for entries.
+	 * @param values The items to add to the returned collection.
+	 * @return A suitable collection based on the thread-safety of this Multimap.
+	 * @since 1.6
+	 */
+	protected Collection<V> newCollection(Collection<V> values) {
+		return isConcurrent ? new ConcurrentLinkedQueue<>(values) : new LinkedList<>(values);
+	} 
+	
+	/**
 	 * Returns all values associated with the key.
 	 * @param key
 	 * @return The associated values, or an empty collection if the key was not present.
 	 */
 	public Collection<V> get(K key) {
-		return storage.containsKey(key) ? storage.get(key) : Collections.emptyList();
+		return storage.containsKey(key) ? storage.get(key) : newCollection();
 	}
 	
 	/**
@@ -94,7 +113,7 @@ public class Multimap<K, V> {
 		
 		if (values == null) {
 			wasPresent = false;
-			storage.put(key, values = isConcurrent ? new ConcurrentLinkedQueue<>() : new LinkedList<>());
+			storage.put(key, values = newCollection());
 		}
 		
 		values.add(value);
@@ -127,6 +146,22 @@ public class Multimap<K, V> {
 			values.clear();
 		}
 		return changed;
+	}
+	
+	/**
+	 * Removes all of the specified values associated with the key. Note that
+	 * if the collection contains all values associated with the key, the key itself
+	 * will not be removed.
+	 * 
+	 * @param key
+	 * @param values The values to remove.
+	 * @return Whether the key was present and the associated collection of
+	 * values was changed as a result of this call.
+	 * @since 1.6
+	 */
+	public boolean removeAll(K key, Collection<V> values) {
+		Collection<V> oldValues = storage.get(key);
+		return oldValues != null && oldValues.removeAll(values);
 	}
 	
 	/**
@@ -170,13 +205,75 @@ public class Multimap<K, V> {
 	 * @param key
 	 * @param values The additional values to associate with the key.
 	 * @return Whether the key was present.
+	 * @since 1.6 Values are wrapped into the appropriate collection, and existing values are appended to rather than replaced.
 	 */
 	public boolean putAll(K key, Collection<V> values) {
 		boolean wasPresent = storage.containsKey(key) && storage.get(key).addAll(values);
+		
 		if (!wasPresent) {
-			storage.put(key, values);
+			storage.put(key, newCollection(values));
 		}
 		return wasPresent;
+	}
+	
+	/**
+	 * Replaces the values associated with the key with the values from
+	 * the specified collection. The Collection associated with the key itself
+	 * will not be replaced; only its values will be.
+	 * Note that unlike putAll, a new entry will not be created if a mapping for
+	 * the key doesn't exist.
+	 * 
+	 * @param key
+	 * @param values The collection of values to copy from.
+	 * @return Whether the collection was changed as a result of 
+	 * @since 1.6
+	 */
+	public boolean replaceValues(K key, Collection<V> values) {
+		return putAll(key, values, false, true, true);
+	}
+	
+	/**
+	 * Associates the key with the given values, overwriting the entry if
+	 * the key is present. Note that the associated collection will not
+	 * be the same object as the parameter.
+	 * 
+	 * @param key
+	 * @param values The values to copy from.
+	 * @return The previously associated values, or <code>null</code> if no
+	 * mapping was present.
+	 * @since 1.6
+	 */
+	public Collection<V> put(K key, Collection<V> values) {
+		return storage.put(key, newCollection(values));
+	}
+	
+	/**
+	 * Replaces the entry in this Multimap with the specified values.
+	 * @param key
+	 * @param values The values to associate with the key.
+	 * @param create Creates a new entry with the values if one doesn't exist.
+	 * @param replace Whether to append or replace existing values.
+	 * @param wrap Whether to wrap the values into a known data structure.
+	 * @since 1.6
+	 * @return Whether the operation had an effect on this Multimap.
+	 */
+	public boolean putAll(K key, Collection<V> values, boolean create, boolean replace, boolean wrap) {
+		Collection<V> existingValues = storage.get(key);
+		final boolean containsKey = existingValues != null;
+		
+		if (!containsKey && !create) {
+			return false;
+		}
+		else if ((containsKey && replace) || (!containsKey && create)) {
+			storage.put(key, wrap ? newCollection(values) : values);
+			return true;
+		}
+		else if (containsKey && !replace) {
+			return existingValues.addAll(values);
+		}
+		else {
+			return false;
+		}
 	}
 	
 	/**
@@ -197,6 +294,37 @@ public class Multimap<K, V> {
 	public Stream<V> stream(K key) {
 		Collection<V> colForKey = storage.get(key);
 		return colForKey != null ? colForKey.stream() : Stream.empty();
+	}
+	
+	/**
+	 * 
+	 * @return An immutable KeySetView of this Multimap.
+	 * @since 1.6
+	 */
+	public Set<Map.Entry<K, Collection<V>>> entrySet() {
+		return Collections.unmodifiableSet(storage.entrySet());
+	}
+	
+	/**
+	 * 
+	 * @return The number of keys.
+	 * @since 1.6
+	 */
+	public int size() {
+		return storage.size();
+	}
+	
+	/**
+	 * Returns the number of values associated with the key.
+	 * 
+	 * @param key
+	 * @return The number of associated values, or <code>-1</code> if
+	 * the key was not present.
+	 * @since 1.6
+	 */
+	public int size(K key) {
+		Collection<V> values = storage.get(key);
+		return values != null ? values.size() : -1;
 	}
 	
 	/**
