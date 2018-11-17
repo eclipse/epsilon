@@ -9,8 +9,10 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.launch;
 
-import java.nio.file.Path;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.stream.Stream;
 import org.eclipse.epsilon.common.launch.ProfilableRunConfiguration;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
@@ -31,66 +33,27 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 	protected static final Set<IModel> LOADED_MODELS = new HashSet<>();
 	public final Map<IModel, StringProperties> modelsAndProperties;
 	public final M module;
-	public final Map<String, ?> parameters;
+	public final Map<String, Object> parameters;
 	
-	public IEolRunConfiguration(
-		Path eolFile,
-		Map<IModel, StringProperties> modelsAndProperties,
-		Optional<M> eolModule,
-		Optional<Map<String, ?>> parameters,
-		Optional<Boolean> showResults,
-		Optional<Boolean> profileExecution,
-		Optional<Integer> configID,
-		Optional<Path> scratchFile) {
-			super(eolFile, showResults, profileExecution, configID, scratchFile);
-			this.parameters = parameters.orElse(Collections.emptyMap());
-			this.modelsAndProperties = modelsAndProperties;
-			this.module = eolModule.orElseGet(this::getDefaultModule);
-			this.id = configID.orElseGet(() ->
-				Objects.hash(
-					super.id,
-					Objects.toString(this.modelsAndProperties),
-					Objects.toString(this.module.getSourceUri())
-				)
-			);
-	}
-	
-	public IEolRunConfiguration(
-		Path eolFile,
-		Map<IModel, StringProperties> modelsAndProperties,
-		M eolModule,
-		Map<String, ?> parameters) {
-			this(
-				eolFile,
-				modelsAndProperties,
-				Optional.ofNullable(eolModule),
-				Optional.ofNullable(parameters),
-				Optional.of(false),
-				Optional.of(false),
-				Optional.empty(),
-				Optional.empty()
-			);
-	}
-	
-	public IEolRunConfiguration(
-		Path eolFile,
-		Map<IModel, StringProperties> modelsAndProperties,
-		M eolModule) {
-			this(eolFile, modelsAndProperties, eolModule, null);
+	public IEolRunConfiguration(Builder<M, ? extends IEolRunConfiguration<M, R>> builder) {
+		super(builder);
+		this.parameters = builder.parameters;
+		this.modelsAndProperties = builder.modelsAndProperties;
+		this.module = Optional.ofNullable(builder.module).orElseGet(this::getDefaultModule);
+		this.id = Optional.ofNullable(builder.id).orElseGet(() ->
+			Objects.hash(
+				super.id,
+				Objects.toString(this.modelsAndProperties),
+				Objects.toString(this.module.getSourceUri())
+			)
+		);
 	}
 	
 	public IEolRunConfiguration(IEolRunConfiguration<? extends M, ? extends R> other) {
-		this(
-			other.script,
-			other.modelsAndProperties,
-			Optional.of(other.module),
-			Optional.of(other.parameters),
-			Optional.of(other.showResults),
-			Optional.of(other.profileExecution),
-			Optional.of(other.id),
-			Optional.ofNullable(other.outputFile)
-		);
-		this.result = other.result;
+		super(other);
+		this.modelsAndProperties = other.modelsAndProperties;
+		this.module = other.module;
+		this.parameters = other.parameters;
 	}
 	
 	/**
@@ -177,5 +140,82 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 		return
 			Objects.equals(this.module, eoc.module) &&
 			CollectionUtil.equalsIgnoreOrder(this.modelsAndProperties.keySet(), eoc.modelsAndProperties.keySet());
+	}
+	
+	
+	// WARNING: Nasty stuff!
+	@SuppressWarnings("unchecked")
+	public static class Builder<M extends IEolModule, C extends IEolRunConfiguration<M, ?>> extends ProfilableRunConfiguration.Builder<C, IEolRunConfiguration.Builder<M, C>> {
+		protected Class<C> configClass;
+		public Builder() {
+			this(null);
+		}
+		public Builder(Class<C> runConfigClass) {
+			setConfigClass(runConfigClass);
+		}
+		private void setConfigClass(Class<C> runConfigClass) {
+			this.configClass = runConfigClass != null ? runConfigClass :
+				(Class<C>) getClass().getDeclaringClass();
+		}
+		
+		@Override
+		public C build() {
+			try {
+				if (Modifier.isAbstract(this.configClass.getModifiers())) {
+					class InstantiableEOC extends IEolRunConfiguration<M, Object> {
+						public InstantiableEOC(Builder<M, ? extends IEolRunConfiguration<M, Object>> builder) {
+							super(builder);
+						}
+						@Override
+						protected M getDefaultModule() {
+							throw new UnsupportedOperationException();
+						}
+					};
+					
+					return (C) new InstantiableEOC((Builder<M, ? extends IEolRunConfiguration<M, Object>>) this);
+				}
+				
+				return (C) Stream.of(configClass.getConstructors())
+					.filter(constructor -> constructor.getParameterCount() == 1)
+					.filter(constructor -> Stream.of(constructor.getParameterTypes())
+						.filter(clazz -> clazz.getName().contains("Builder"))
+						.findAny().isPresent()
+					)
+					.findAny()
+					.orElseThrow(() -> new NoSuchMethodException("Couldn't find builder constructor for class '"+configClass.getName()+"'."))
+				.newInstance(this);
+			}
+			catch (NullPointerException | InvocationTargetException | InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException ex) {
+				throw new IllegalStateException(ex);
+			}
+		}
+		
+		public M module;
+		public Map<IModel, StringProperties> modelsAndProperties = new HashMap<>(4);
+		public Map<String, Object> parameters = new HashMap<>(4);
+
+		public Builder<M, C> withModule(M module) {
+			this.module = module;
+			return this;
+		}
+		public Builder<M, C> withModel(IModel model) {
+			return withModel(model, new StringProperties());
+		}
+		public Builder<M, C> withModel(IModel model, StringProperties properties) {
+			this.modelsAndProperties.put(model, properties);
+			return this;
+		}
+		public Builder<M, C> withModels(Map<IModel, StringProperties> modelsAndProps) {
+			this.modelsAndProperties.putAll(modelsAndProps);
+			return this;
+		}
+		public Builder<M, C> withParameter(String name, Object value) {
+			this.parameters.put(name, value);
+			return this;
+		}
+		public Builder<M, C> withParameters(Map<String, Object> params) {
+			this.parameters.putAll(params);
+			return this;
+		}
 	}
 }

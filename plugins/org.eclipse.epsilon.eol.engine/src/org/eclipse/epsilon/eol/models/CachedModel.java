@@ -194,7 +194,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		if (isCachingEnabled()) {
 			Object key = getCacheKeyForType(modelElementType);
 			Multimap<Object, ModelElementType> cache = isKind ? kindCache : typeCache;
-			Collection<ModelElementType> values = cache.getNullable(key);
+			Collection<ModelElementType> values = cache.getMutable(key);
 			if (values == null) {
 				values = isKind ? getAllOfKindFromModel(modelElementType) : getAllOfTypeFromModel(modelElementType);
 				cache.putAll(key, values);

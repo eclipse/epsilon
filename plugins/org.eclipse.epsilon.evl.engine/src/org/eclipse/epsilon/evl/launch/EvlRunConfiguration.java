@@ -9,14 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.launch;
 
-import java.nio.file.Path;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
@@ -30,49 +25,12 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  */
 public class EvlRunConfiguration extends IErlRunConfiguration<IEvlModule, Set<UnsatisfiedConstraint>> {
 	
-	public EvlRunConfiguration(
-		Path evlFile,
-		Map<IModel, StringProperties> modelsAndProperties,
-		Optional<IEvlModule> evlModule,
-		Optional<Map<String, ?>> parameters,
-		Optional<Boolean> showResults,
-		Optional<Boolean> profileExecution,
-		Optional<Integer> configID,
-		Optional<Path> scratchFile) {
-			super(
-				evlFile,
-				modelsAndProperties,
-				evlModule,
-				parameters,
-				showResults,
-				profileExecution,
-				configID, scratchFile
-			);
+	public EvlRunConfiguration(IEolRunConfiguration.Builder<IEvlModule, ? extends IErlRunConfiguration<IEvlModule, Set<UnsatisfiedConstraint>>> builder) {
+		super(builder);
 	}
 	
 	public EvlRunConfiguration(IEolRunConfiguration<? extends IEvlModule, ? extends Set<UnsatisfiedConstraint>> other) {
 		super(other);
-	}
-
-	public EvlRunConfiguration(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, IEvlModule eolModule, Map<String, ?> parameters) {
-		super(eolFile, modelsAndProperties, eolModule, parameters);
-	}
-
-	public EvlRunConfiguration(Path eolFile, Map<IModel, StringProperties> modelsAndProperties, IEvlModule eolModule) {
-		super(eolFile, modelsAndProperties, eolModule);
-	}
-
-	public EvlRunConfiguration(EvlRunConfiguration other) {
-		this(
-			other.script,
-			other.modelsAndProperties,
-			Optional.of(other.module),
-			Optional.of(other.parameters),
-			Optional.of(other.showResults),
-			Optional.of(other.profileExecution),
-			Optional.of(other.id),
-			Optional.ofNullable(other.outputFile)
-		);
 	}
 	
 	@Override

@@ -20,6 +20,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
+import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.concurrent.*;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
@@ -113,15 +114,14 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 				IEvlModule evlStd = moduleGetter.get();
 				
 				scenarios.add(
-					new EvlRunConfiguration(
-						EvlTests.getTestScript(evlStd).toPath(),
-						Collections.singletonMap(EvlTests.getTestModel(false), null),
-						Optional.of(evlStd),
-						Optional.empty(),
-						Optional.of(false),
-						Optional.of(false),
-						Optional.of(testInputs.size()+1),
-						Optional.empty()
+					new EvlRunConfiguration(new IEolRunConfiguration.Builder<IEvlModule, EvlRunConfiguration>()
+						.withScript(EvlTests.getTestScript(evlStd).toPath())
+						.withModel(EvlTests.getTestModel(false))
+						.withModule(evlStd)
+						.profileExecution(false)
+						.showResults(false)
+						.withId(testInputs.size()+1)
+						.build()
 					)
 				);
 			}

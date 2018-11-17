@@ -9,13 +9,21 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.engine.test.acceptance.util;
 
-import static org.eclipse.epsilon.emc.emf.EmfModel.*;
+import static org.eclipse.epsilon.emc.emf.EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI;
+import static org.eclipse.epsilon.emc.emf.EmfModel.PROPERTY_MODEL_URI;
+import static org.eclipse.epsilon.eol.models.CachedModel.PROPERTY_CACHED;
+import static org.eclipse.epsilon.eol.models.CachedModel.PROPERTY_CONCURRENT;
+import static org.eclipse.epsilon.eol.models.Model.PROPERTY_NAME;
+import static org.eclipse.epsilon.eol.models.Model.PROPERTY_READONLOAD;
+import static org.eclipse.epsilon.eol.models.Model.PROPERTY_STOREONDISPOSAL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -88,7 +96,7 @@ public class EolAcceptanceTestUtil {
 	 * A list of pre-configured Runnables which will call the execute() method on the provided module.
 	 * @param modules A collection of IEolModules to use in combination with each set of test data.
 	 */
-	public static <M extends IEolModule, C extends IEolRunConfiguration<M, ?>> Collection<C> getScenarios(
+	public static <M extends IEolModule, R, C extends IEolRunConfiguration<M, R>> Collection<C> getScenarios(
 		Class<C> clazz,
 		List<String[]> testInputs,
 		Collection<Supplier<? extends M>> moduleGetters,
@@ -97,7 +105,6 @@ public class EolAcceptanceTestUtil {
 			if (idCalculator == null) idCalculator = EolAcceptanceTestUtil::getScenarioID;
 			
 			List<C> scenarios = new ArrayList<>(moduleGetters.size()*(testInputs.size()+2));
-			Optional<Boolean> showResults = Optional.of(false), profileExecution = Optional.of(false);
 			
 			for (String[] testInput : testInputs) {
 				Path eolScript = Paths.get(testInput[0]);
@@ -116,33 +123,19 @@ public class EolAcceptanceTestUtil {
 				IModel model = new EmfModel();
 				
 				for (Supplier<? extends M> moduleGetter : moduleGetters) {
-					scenarios.add(clazz.getConstructor(
-							Path.class,
-							Map.class,
-							Optional.class,
-							Optional.class,
-							Optional.class,
-							Optional.class,
-							Optional.class,
-							Optional.class
-						)
-						.newInstance(
-							eolScript,									 // Path to the script to run
-							Collections.singletonMap(model, properties), // Model and metamodel paths
-							Optional.of(moduleGetter.get()),			 // IEolModule
-							Optional.empty(),							 // Script parameters
-							showResults,								 // Whether to show results
-							profileExecution,							 // Whether to measure execution time
-							Optional.of(idCalculator.apply(testInput)),	 // Unique identifier for this configuration
-							Optional.empty()							 // Output file
-						)
-					);
+					scenarios.add((C) new IEolRunConfiguration.Builder<>(clazz)
+							.withScript(eolScript)
+							.withModel(model, properties)
+							.withModule(moduleGetter.get())
+							.withId(idCalculator.apply(testInput))
+							.build()
+						);
 				}
 			}
 			
 			return scenarios;
 		}
-		catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException ex) {
+		catch (SecurityException | IllegalArgumentException ex) {
 			ex.printStackTrace();
 			throw new RuntimeException(ex);
 		}

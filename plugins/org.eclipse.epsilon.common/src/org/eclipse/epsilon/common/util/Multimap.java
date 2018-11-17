@@ -83,22 +83,14 @@ public class Multimap<K, V> {
 	}
 	
 	/**
-	 * Returns all values associated with the key.
-	 * @param key
-	 * @return An empty Optional if no mapping was present.
-	 * @since 1.6
-	 */
-	public Optional<Collection<V>> getOptional(K key) {
-		return Optional.ofNullable(storage.get(key));
-	}
-	
-	/**
-	 * Returns all values associated with the key.
+	 * Returns all values associated with the key. The returned collection is the collection used
+	 * internally to associate the key with its values.
+	 * 
 	 * @param key
 	 * @return A collection of the associated values, or <code>null</code> if no mapping was present.
 	 * @since 1.6
 	 */
-	public Collection<V> getNullable(K key) {
+	public Collection<V> getMutable(K key) {
 		return storage.get(key);
 	}
 

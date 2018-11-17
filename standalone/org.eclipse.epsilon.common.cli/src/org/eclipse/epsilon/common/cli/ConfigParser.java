@@ -10,9 +10,7 @@
 package org.eclipse.epsilon.common.cli;
 
 import java.io.PrintWriter;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import org.apache.commons.cli.*;
@@ -24,14 +22,14 @@ import org.eclipse.epsilon.common.launch.ProfilableRunConfiguration;
  * @author Sina Madani
  * @since 1.6
  */
-public class ConfigParser<R extends ProfilableRunConfiguration<?>> implements Consumer<String[]>, Function<String[], R> {
+public class ConfigParser<C extends ProfilableRunConfiguration<?>, B extends ProfilableRunConfiguration.Builder<C, B>> implements Consumer<String[]>, Function<String[], C> {
 	
-	// The variables to be parsed
-	public Optional<Boolean> profileExecution, showResults;
-	public Optional<Path> outputFile;
-	public Path script;
-	public Optional<Integer> id = Optional.empty();
-	public R runConfig;
+	protected B builder;
+	protected C runConfig;
+	
+	protected ConfigParser(B builder) {
+		this.builder = builder;
+	}
 	
 	protected String
 		nL = System.lineSeparator(),
@@ -63,14 +61,14 @@ public class ConfigParser<R extends ProfilableRunConfiguration<?>> implements Co
 			help.printHelp(formatUsage(), options);
 		}
 		
-		profileExecution = Optional.of(cmdLine.hasOption(profileExecutionOpt));
-		showResults = Optional.of(cmdLine.hasOption(showResultsOpt));
+		builder.profileExecution = cmdLine.hasOption(profileExecutionOpt);
+		builder.showResults = cmdLine.hasOption(showResultsOpt);
 		
-		outputFile = cmdLine.hasOption(outFileOpt) ?
-			Optional.of(Paths.get(cmdLine.getOptionValue(outFileOpt))) :
-			Optional.empty();
+		if (cmdLine.hasOption(outFileOpt)) {
+			builder.outputFile = Paths.get(cmdLine.getOptionValue(outFileOpt));
+		}
 		
-		script = Paths.get(args[0]);
+		builder.script = Paths.get(args[0]);
 	}
 	
 	protected void handleException(Exception ex) {
@@ -94,7 +92,7 @@ public class ConfigParser<R extends ProfilableRunConfiguration<?>> implements Co
 	
 
 	@Override
-	public final R apply(String[] args) {
+	public final C apply(String[] args) {
 		accept(args);
 		return runConfig;
 	}

@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic;
@@ -36,33 +37,75 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 	protected boolean hasRun = false;
 	protected R result;
 	
-	protected ProfilableRunConfiguration(
-		Path scriptFile,
-		Optional<Boolean> showResults,
-		Optional<Boolean> profileExecution,
-		Optional<Integer> configID,
-		Optional<Path> scratchFile) {
-			this.script = scriptFile;
-			this.showResults = showResults.orElse(false);
-			this.profileExecution = profileExecution.orElse(true);
-			this.outputFile = scratchFile.orElse(null);
-			this.profiledStages = new LinkedList<>();
-			this.id = configID.orElseGet(() ->
-				Objects.hash(
-					Objects.toString(scriptFile)
-				)
-			);
+	@SuppressWarnings("unchecked")
+	public abstract static class Builder<C extends ProfilableRunConfiguration<?>, B extends Builder<C, B>> {
+		public Integer id;
+		public boolean showResults, profileExecution;
+		public Path script, outputFile;
+		
+		public abstract C build() throws IllegalArgumentException, IllegalStateException;
+		
+		  public B with(Consumer<B> builderFunction) {
+			  builderFunction.accept((B) this);
+			  return (B) this;
+		  }
+		
+		public B withScript(Path script) {
+			this.script = script;
+			return (B) this;
+		}
+		
+		public B withOutputFile(Path output) {
+			this.outputFile = output;
+			return (B) this;
+		}
+		
+		public B withId(int id) {
+			this.id = id;
+			return (B) this;
+		}
+		
+		public B withResults() {
+			return showResults(true);
+		}
+		public B showResults() {
+			return showResults(true);
+		}
+		public B showResults(boolean show) {
+			this.showResults = show;
+			return (B) this;
+		}
+		
+		public B withProfiling() {
+			return profileExecution(true);
+		}
+		public B profileExecution() {
+			return profileExecution(true);
+		}
+		public B profileExecution(boolean profile) {
+			this.profileExecution = profile;
+			return (B) this;
+		}
+	}
+	
+	protected ProfilableRunConfiguration(Builder<?, ?> builder) {
+		if (builder == null) throw new IllegalArgumentException("Builder shouldn't be null!");
+		this.script = builder.script;
+		this.profileExecution = builder.profileExecution;
+		this.showResults = builder.showResults;
+		this.outputFile = builder.outputFile;
+		this.profiledStages = new LinkedList<>();
+		this.id = Optional.ofNullable(builder.id).orElseGet(() -> Objects.hash(Objects.toString(script)));
 	}
 	
 	protected ProfilableRunConfiguration(ProfilableRunConfiguration<? extends R> other) {
-		this(
-			other.script,
-			Optional.of(other.showResults),
-			Optional.of(other.profileExecution),
-			Optional.of(other.id),
-			Optional.ofNullable(other.outputFile)
-		);
+		this.script = other.script;
+		this.showResults = other.showResults;
+		this.profileExecution = other.profileExecution;
+		this.id = other.id;
+		this.outputFile = other.outputFile;
 		this.result = other.result;
+		this.profiledStages = other.profiledStages;
 	}
 	
 	@Override
