@@ -138,15 +138,11 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		}
 
 		Object typeCacheKey = getCacheKeyForType(type);
-		if (typeCache.hasKey(typeCacheKey)) {
-			typeCache.put(typeCacheKey, instance);
-		}
+		typeCache.putIfPresent(typeCacheKey, instance);
 
 		for (String kind : getAllTypeNamesOf(instance)) {
 			Object kindCacheKey = getCacheKeyForType(kind);
-			if (kindCache.hasKey(kindCacheKey)) {
-				kindCache.put(kindCacheKey, instance);
-			}
+			kindCache.putIfPresent(kindCacheKey, instance);
 		}
 	}
 

@@ -73,12 +73,13 @@ public class Multimap<K, V> {
 	} 
 	
 	/**
-	 * Returns all values associated with the key.
+	 * Returns all values associated with the key. The returned collection is immutable.
 	 * @param key
 	 * @return The associated values, or an empty collection if the key was not present.
 	 */
 	public Collection<V> get(K key) {
-		return storage.containsKey(key) ? storage.get(key) : newCollection();
+		Collection<V> values = storage.get(key);
+		return values != null ? Collections.unmodifiableCollection(values) : Collections.emptyList();
 	}
 	
 	/**
@@ -120,6 +121,33 @@ public class Multimap<K, V> {
 		return wasPresent;
 	}
 
+	/**
+	 * Associates the value with the key if the key already exists.
+	 * Note that this operation will succeed even if the key has
+	 * no values associated with it; only if the key is present.
+	 * 
+	 * @param key
+	 * @param value
+	 * @return Whether the key was present and value was added.
+	 * @since 1.6
+	 */
+	public boolean putIfPresent(K key, V value) {
+		Collection<V> values = storage.get(key);
+		return values != null && values.add(value);
+	}
+	
+	/**
+	 * Adds all of the specified values to the collection associated with
+	 * the key if a mapping for the key exists in this Multimap.
+	 * @param key
+	 * @param values The additional values to associate with the key.
+	 * @return Whether the key was present and the values were added.
+	 * @since 1.6
+	 */
+	public boolean putAllIfPresent(K key, Collection<V> values) {
+		return putAll(key, values, false, false, true);
+	}
+	
 	/**
 	 * Removes the specified value associated with the given key.
 	 * @param key
@@ -201,7 +229,8 @@ public class Multimap<K, V> {
 	}
 	
 	/**
-	 * Associates all of the specified values for the given key.
+	 * Associates all of the specified values for the given key. Previously associated
+	 * values will not be removed.
 	 * @param key
 	 * @param values The additional values to associate with the key.
 	 * @return Whether the key was present.
@@ -257,7 +286,7 @@ public class Multimap<K, V> {
 	 * @since 1.6
 	 * @return Whether the operation had an effect on this Multimap.
 	 */
-	public boolean putAll(K key, Collection<V> values, boolean create, boolean replace, boolean wrap) {
+	protected boolean putAll(K key, Collection<V> values, boolean create, boolean replace, boolean wrap) {
 		Collection<V> existingValues = storage.get(key);
 		final boolean containsKey = existingValues != null;
 		
@@ -294,6 +323,15 @@ public class Multimap<K, V> {
 	public Stream<V> stream(K key) {
 		Collection<V> colForKey = storage.get(key);
 		return colForKey != null ? colForKey.stream() : Stream.empty();
+	}
+	
+	/**
+	 * 
+	 * @return A flattened Stream of all values in this Multimap.
+	 * @since 1.6
+	 */
+	public Stream<V> streamAll() {
+		return storage.values().stream().flatMap(Collection::stream);
 	}
 	
 	/**

@@ -164,9 +164,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	protected void addToCache(String type, ISimulinkModelElement instance) throws EolModelElementTypeNotFoundException {
 		for (String kind : getAllTypeNamesOf(instance)) {
 			Object kindCacheKey = getCacheKeyForType(kind);
-			if (kindCache.hasKey(kindCacheKey)) {
-				kindCache.put(kindCacheKey, instance);
-			}
+			kindCache.putIfPresent(kindCacheKey, instance);
 		}
 	}
 
@@ -188,9 +186,8 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 				for (List<String> specialType : deleteBlockMap) {
 					if (specialType.contains(type)) {
 						for (String equivalent : specialType) {
-							if (!equivalent.equals(type) && kindCache.hasKey(equivalent)) {
-								kindCache.get(equivalent).clear();
-								kindCache.putAll(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
+							if (!equivalent.equals(type)) {
+								kindCache.replaceValues(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
 							}
 						}
 					}
@@ -207,11 +204,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			addToCache(instance.getType(), instance);
 			if (createBlockMap.containsKey(type)){
 				for (String equivalent : createBlockMap.get(type)){
-					if (kindCache.hasKey(equivalent)) {
-						kindCache.get(equivalent).clear();
-						kindCache.putAll(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
-					}
-					
+					kindCache.replaceValues(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
 				}
 			}
 		}
@@ -231,11 +224,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 							addToCache(instance.getType(), instance);
 							if (createBlockMap.containsKey(type)){
 								for (String equivalent : createBlockMap.get(type)){
-									if (kindCache.hasKey(equivalent)) {
-										kindCache.get(equivalent).clear();
-										kindCache.putAll(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
-									}
-									
+									kindCache.replaceValues(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
 								}
 							}
 						}
