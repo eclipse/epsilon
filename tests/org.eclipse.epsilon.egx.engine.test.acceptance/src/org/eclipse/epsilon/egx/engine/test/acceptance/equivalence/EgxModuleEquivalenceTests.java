@@ -52,7 +52,7 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<IEgxModule, E
 	}
 
 	@Parameters//(name = "0")	//Don't use this as the Eclipse JUnit view won't show failures!
-	public static Iterable<? extends IEolRunConfiguration<IEgxModule, ?>> configurations() {
+	public static Iterable<? extends IEolRunConfiguration<IEgxModule>> configurations() {
 		return getScenarios(thriftInputs, modules(false));
 	}
 	
