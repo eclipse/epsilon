@@ -151,7 +151,7 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 		return modelMap;
 	}
 	
-	public static Map<String, String> parseScriptParameters(String[] arguments) {
+	public static Map<String, Object> parseScriptParameters(String[] arguments) {
 		return Arrays.stream(arguments)
 			.map(param -> {
 				String[] entry = param.split("=");

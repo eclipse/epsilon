@@ -186,7 +186,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 				return (C) Stream.of(configClass.getConstructors())
 					.filter(constructor -> constructor.getParameterCount() == 1)
 					.filter(constructor -> Stream.of(constructor.getParameterTypes())
-						.filter(clazz -> clazz.getName().contains("Builder"))
+						.filter(clazz -> clazz.getName().contains(getClass().getSimpleName()))
 						.findAny().isPresent()
 					)
 					.findAny()
@@ -215,6 +215,16 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		}
 		public Builder<C, B> withModels(Map<IModel, StringProperties> modelsAndProps) {
 			this.modelsAndProperties.putAll(modelsAndProps);
+			return this;
+		}
+		public Builder<C, B> withModels(IModel... models) {
+			for (IModel model : models) {
+				withModel(model);
+			}
+			return this;
+		}
+		public Builder<C, B> withProperties(StringProperties properties) {
+			modelsAndProperties.values().forEach(prop -> prop.putAll(properties));
 			return this;
 		}
 		public Builder<C, B> withParameter(String name, Object value) {

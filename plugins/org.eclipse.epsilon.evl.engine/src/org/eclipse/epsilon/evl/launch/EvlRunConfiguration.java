@@ -11,7 +11,6 @@ package org.eclipse.epsilon.evl.launch;
 
 import java.util.Set;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
@@ -25,11 +24,11 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  */
 public class EvlRunConfiguration extends IErlRunConfiguration {
 	
-	public EvlRunConfiguration(IEolRunConfiguration.Builder<? extends IErlRunConfiguration, ?> builder) {
+	public EvlRunConfiguration(Builder<? extends EvlRunConfiguration, ?> builder) {
 		super(builder);
 	}
 	
-	public EvlRunConfiguration(IErlRunConfiguration other) {
+	public EvlRunConfiguration(EvlRunConfiguration other) {
 		super(other);
 	}
 	

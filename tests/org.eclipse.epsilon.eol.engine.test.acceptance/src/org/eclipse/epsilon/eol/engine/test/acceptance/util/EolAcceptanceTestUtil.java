@@ -124,12 +124,12 @@ public class EolAcceptanceTestUtil {
 				
 				for (Supplier<? extends M> moduleGetter : moduleGetters) {
 					scenarios.add(IEolRunConfiguration.Builder(clazz)
-							.withScript(eolScript)
-							.withModel(model, properties)
-							.withModule(moduleGetter.get())
-							.withId(idCalculator.apply(testInput))
-							.build()
-						);
+						.withScript(eolScript)
+						.withModel(model, properties)
+						.withModule(moduleGetter.get())
+						.withId(idCalculator.apply(testInput))
+						.build()
+					);
 				}
 			}
 			
