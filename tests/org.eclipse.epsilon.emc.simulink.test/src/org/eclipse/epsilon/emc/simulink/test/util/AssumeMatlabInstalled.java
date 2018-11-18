@@ -32,7 +32,7 @@ public class AssumeMatlabInstalled implements TestRule {
 		} catch (Exception e) {}
 	}
 
-	public static String getVersion() {
+	public String getVersion() {
 		return version;
 	}
 

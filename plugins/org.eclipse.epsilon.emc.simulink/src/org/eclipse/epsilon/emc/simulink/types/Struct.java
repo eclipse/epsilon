@@ -10,7 +10,14 @@
 package org.eclipse.epsilon.emc.simulink.types;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 
 public class Struct {
 
@@ -134,7 +141,8 @@ public class Struct {
 	
 	public Object get(Object key) {
 		try {
-			return (Object) getMethod.invoke(struct, key);
+			Object val = getMethod.invoke(struct, key);
+			return MatlabEngineUtil.parseMatlabEngineVariable(val);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
@@ -167,7 +175,9 @@ public class Struct {
 	}
 	public Set<?> keySet() {
 		try {
-			return (Set<?>) keySetMethod.invoke(struct);
+			Set<?> set = (Set<?>) keySetMethod.invoke(struct);
+			return set.stream().map(e -> MatlabEngineUtil.parseMatlabEngineVariable(e)).collect(Collectors.toSet());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
@@ -181,9 +191,13 @@ public class Struct {
 			throw new IllegalStateException(e.getMessage());
 		}
 	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Set<?> values() {
 		try {
-			return (Set<?>) valuesMethod.invoke(struct);
+			
+			Set<?> set = new HashSet((Collection) valuesMethod.invoke(struct));
+			return set.stream().map(e -> MatlabEngineUtil.parseMatlabEngineVariable(e)).collect(Collectors.toSet());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
@@ -192,7 +206,7 @@ public class Struct {
 	
 	@Override
 	public String toString() {
-		return "Struct: [" +  entrySet().toString() + "]";
+		return "Struct: [" +  keySet().toString() + "]";
 	}
 
 }

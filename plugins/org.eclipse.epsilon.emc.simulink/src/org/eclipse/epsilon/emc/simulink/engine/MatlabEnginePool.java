@@ -26,12 +26,13 @@ public class MatlabEnginePool {
 	private static final String SYS_PATHS = "sys_paths";
 
 	protected static MatlabEnginePool instance;
+	protected static URLClassLoader systemURLClassLoader;
+	protected static String libraryPath;
+	protected static String engineJarPath;
 
 	protected Set<MatlabEngine> pool = new LinkedHashSet<MatlabEngine>();
 	protected Class<?> matlabEngineClass;
-	protected String libraryPath = "";
-	protected String engineJarPath = "";
-
+	
 	private MatlabEnginePool(String libraryPath, String engineJarPath) throws MatlabRuntimeException {
 
 		this.libraryPath = libraryPath;
@@ -49,7 +50,7 @@ public class MatlabEnginePool {
 
 			URL engineJarPathURL = new File(engineJarPath).toURI().toURL();
 
-			URLClassLoader systemURLClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
+			systemURLClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
 
 			Method method = urlClassLoaderClass.getDeclaredMethod("addURL", urlClass);
 			method.setAccessible(true);
@@ -60,7 +61,7 @@ public class MatlabEnginePool {
 			throw new MatlabRuntimeException("Make sure to properly configure the library path and MATLAB engine Jar in Epsilon/Simulink preferences");
 		}
 	}
-
+	
 	public static MatlabEnginePool getInstance(String libraryPath, String engineJarPath) throws MatlabRuntimeException {
 		if (instance == null || (instance != null && (!libraryPath.equalsIgnoreCase(instance.getLibraryPath())
 				|| !engineJarPath.equalsIgnoreCase(instance.getEngineJarPath())))) {

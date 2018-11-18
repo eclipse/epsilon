@@ -14,6 +14,9 @@ import java.util.List;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
+import org.eclipse.epsilon.emc.simulink.types.CellStr;
+import org.eclipse.epsilon.emc.simulink.types.Complex;
+import org.eclipse.epsilon.emc.simulink.types.HandleObject;
 import org.eclipse.epsilon.emc.simulink.types.Struct;
 
 public class MatlabEngineUtil {
@@ -90,6 +93,10 @@ public class MatlabEngineUtil {
 	}
 
 	public static Object parseMatlabEngineVariable(Object value) {
+		if (value == null)
+			return null;
+		if (HandleObject.is(value))
+			return new HandleObject(value);
 		if (value instanceof byte[])
 			return MatlabEngineUtil.matlabArrayToList((byte[]) value);
 		if (value instanceof short[])
@@ -112,8 +119,13 @@ public class MatlabEngineUtil {
 			return String.valueOf(value);
 		if (value instanceof String) 
 			return String.valueOf(value);
+		
 		if (Struct.is(value))
 			return new Struct(value);
+		if (Complex.is(value))
+			return new Complex(value);
+		if (CellStr.is(value))
+			return new CellStr(value);
 		return value;
 	}
 }

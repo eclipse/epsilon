@@ -60,9 +60,9 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	public static final String SIMULINK = "Simulink";
 	public static final String STATEFLOW = "Stateflow";
 
-	public static final String PWD = "cd ?;";
+	public static final String PWD = "cd '?';";
 	public static final String GET_PARAM = "get_param('?', 'Handle');";
-	public static final String LOAD_SYSTEM = "load_system(?)";
+	public static final String LOAD_SYSTEM = "load_system('?')";
 	public static final String OPEN_SYSTEM = "open_system('?')";
 	public static final String NEW_SYSTEM = "new_system('?', 'Model');";
 	public static final String SAVE_SYSTEM = "save_system('?', '?');";
@@ -104,27 +104,33 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			engine = MatlabEnginePool.getInstance(libraryPath, engineJarPath).getMatlabEngine();
 			simulinkOperationContributor = new ModelOperationContributor(engine);
 				
-			if (workingDir != null) {
+			if ((workingDir != null && workingDir.exists())) {
 				try {
 					engine.eval(PWD, workingDir);
 				} catch (Exception ex) {
 					LOGGER.info(ex.getMessage());
 				}
 			}
-			String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
-			boolean useNew = false;
-			if (!readOnLoad) {
+			
+			if (readOnLoad) {
+				String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
+				try{
+					engine.eval(cmd, file.getAbsolutePath());				
+				} catch (Exception e) {
+					try {
+						engine.eval(NEW_SYSTEM, getSimulinkModelName());
+					} catch (Exception ex) {
+						// Ignore; system already exists
+					}
+				}
+			} else {
 				try {
 					engine.eval(NEW_SYSTEM, getSimulinkModelName());
 				} catch (Exception ex) {
-					useNew = true;// System already exists	
-				}					
+					// Ignore; system already exists
+				}
 			}
-			if (useNew) {				
-				engine.eval(cmd, getSimulinkModelName());
-			} else {
-				engine.eval(cmd, "" + file.getAbsolutePath() + "");
-			}
+			
 			this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());
 		} catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
@@ -300,7 +306,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		SimulinkModel model = new SimulinkModel();
 		model.setName("M");
 		model.setFile(tmpFile);
-		model.setWorkingDir(tmpFile.getParentFile());
+		model.setWorkingDir(null);
 		model.setReadOnLoad(false);
 		model.setStoredOnDisposal(false);
 		model.setShowInMatlabEditor(true);
@@ -516,6 +522,14 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	public void statement(String statement) throws EolRuntimeException {
 		try{
 			engine.eval(statement);
+		} catch (MatlabException e) {
+			throw new EolRuntimeException(e.getMessage());
+		}
+	}
+	
+	public Object statementWithResult(String statement) throws EolRuntimeException {
+		try{
+			return engine.evalWithResult(statement);
 		} catch (MatlabException e) {
 			throw new EolRuntimeException(e.getMessage());
 		}

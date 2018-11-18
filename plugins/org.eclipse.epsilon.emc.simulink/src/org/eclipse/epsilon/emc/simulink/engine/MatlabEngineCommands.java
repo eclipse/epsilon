@@ -33,41 +33,4 @@ public class MatlabEngineCommands {
 	public static final String GET_PROPERTY_FROM_HANDLE = HANDLE + GET_HANDLE_PROPERTY;
 	public static final String SET_PROPERTY_TO_HANDLE = HANDLE + SET_HANDLE_PROPERTY;
 	
-	private static final int SILENT = 0;
-	private static final int DEBUG = 1;
-	
-	protected static String chain(String[] commands, int mode) {
-		StringBuilder builder = new StringBuilder();
-		for(String s : commands) {
-			String sep = " ";
-			switch (mode) {
-			case SILENT:
-				// Does not print command result
-				sep = COMMAND_END; 
-			case DEBUG:
-				// Prints command result at end of line
-				sep = LINE_BREAK; 
-			}
-		    builder.append(s + sep);
-		}
-		return builder.toString();
-	}
-	
-	public static String simulinkHandle(String cmd, String handle, Object...params) {
-		if (handle == null || handle.isEmpty()) {
-			handle = "handle";
-		}
-		String c = cmd + "(" + handle;
-		for (Object parameter : params) 
-			c += ", '" + String.valueOf(parameter).replace("'", "''") + "'";
-		return c + ")";
-	}
-	public static String simulink(String cmd, Object...params) {
-		return simulinkHandle(cmd, "handle", params);
-	}
-	
-	public static String cmd(String cmd, Object... args) {
-		return String.format(cmd, args);
-	}
-	
 }
