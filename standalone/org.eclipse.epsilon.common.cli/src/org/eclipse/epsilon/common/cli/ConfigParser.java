@@ -84,6 +84,7 @@ public class ConfigParser<C extends ProfilableRunConfiguration, B extends Profil
 	public final void accept(String[] args) {
 		try {
 			parseArgs(args);
+			runConfig = builder.build();
 		}
 		catch (Exception ex) {
 			handleException(ex);
@@ -95,5 +96,9 @@ public class ConfigParser<C extends ProfilableRunConfiguration, B extends Profil
 	public final C apply(String[] args) {
 		accept(args);
 		return runConfig;
+	}
+	
+	public final void parseAndRun(String[] args) {
+		apply(args).run();
 	}
 }

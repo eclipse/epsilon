@@ -122,8 +122,6 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 		if (cmdLine.hasOption(scriptParamsOpt)) {
 			builder.parameters.putAll(parseScriptParameters(cmdLine.getOptionValues(scriptParamsOpt)));
 		}
-		
-		runConfig = (C) builder.build();
 	}
 	
 	public static Map<IModel, StringProperties> parseModelParameters(String[] arguments) throws Exception {

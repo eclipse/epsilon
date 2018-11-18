@@ -9,20 +9,37 @@
 **********************************************************************/
 package org.eclipse.epsilon.common.launch;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic;
 import static org.eclipse.epsilon.common.util.profiling.BenchmarkUtils.*;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic.MemoryUnit;
 
 /**
+ * Generic utility class for building standalone applications with support for:
+ * - Multi-stage profiling <br/>
+ * - Writing to output files <br/>
+ * - Identifying and comparing configurations <br/>
+ * - Displaying results <br/>
+ * - Building configurations using an elegant builder syntax <br/>
+ * ... and more <br/>
+ * <br/>
+ * The intention is that this class is used as a base for building more complex
+ * standalone run configurations which can be built and invoked easily (at least,
+ * from the client's perspective!).
  * 
  * @author Sina Madani
  * @since 1.6
@@ -39,20 +56,66 @@ public abstract class ProfilableRunConfiguration implements Runnable {
 	
 	@SuppressWarnings("unchecked")
 	public abstract static class Builder<C extends ProfilableRunConfiguration, B extends Builder<C, B>> {
+		protected Class<C> configClass;
+		
 		public Integer id;
 		public boolean showResults, profileExecution;
 		public Path script, outputFile;
 		
+		public Builder() {
+			this(null);
+		}
+		public Builder(Class<C> runConfigClass) {
+			setConfigClass(runConfigClass);
+		}
+		private void setConfigClass(Class<C> runConfigClass) {
+			this.configClass = runConfigClass != null ? runConfigClass :
+				(Class<C>) getClass().getDeclaringClass();
+		}
+
 		public abstract C build() throws IllegalArgumentException, IllegalStateException;
+		
+		protected C buildReflective(Supplier<? extends C> alternative) throws IllegalStateException {
+			if (Modifier.isAbstract(this.configClass.getModifiers())) {
+				if (alternative == null) {
+					throw new IllegalStateException(
+						"Impossible build for class '"+configClass.getName()+"' and no concrete implementation!"
+					);
+				}
+				return alternative.get();
+			}
+			
+			try {
+				return (C) Stream.of(configClass.getConstructors())
+					.filter(constructor -> constructor.getParameterCount() == 1)
+					.filter(constructor -> Stream.of(constructor.getParameterTypes())
+						.filter(clazz -> clazz.getName().contains(getClass().getSimpleName()))
+						.findAny().isPresent()
+					)
+					.findAny()
+					.orElseThrow(() -> new NoSuchMethodException("Couldn't find builder constructor for class '"+configClass.getName()+"'."))
+				.newInstance(this);
+			}
+			catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex) {
+				if (alternative != null) return alternative.get();
+				else throw new IllegalStateException(ex);
+			}
+		}
 		
 		  public B with(Consumer<B> builderFunction) {
 			  builderFunction.accept((B) this);
 			  return (B) this;
 		  }
 		
-		public B withScript(Path script) {
-			this.script = script;
+		public B withScript(Path scriptPath) {
+			this.script = scriptPath;
 			return (B) this;
+		}
+		public B withScript(File file) {
+			return withScript(file.toPath());
+		}
+		public B withScript(String path) {
+			return withScript(Paths.get(path));
 		}
 		
 		public B withOutputFile(Path output) {

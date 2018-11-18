@@ -9,10 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.launch;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.util.*;
-import java.util.stream.Stream;
 import org.eclipse.epsilon.common.launch.ProfilableRunConfiguration;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
@@ -151,51 +148,30 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	}
 	
 	
-	// WARNING: Nasty stuff!
 	@SuppressWarnings("unchecked")
 	public static class Builder<C extends IEolRunConfiguration, B extends Builder<C, B>> extends ProfilableRunConfiguration.Builder<C, B> {
-		protected Class<C> configClass;
 		public Builder() {
-			this(null);
+			super();
 		}
 		public Builder(Class<C> runConfigClass) {
-			setConfigClass(runConfigClass);
-		}
-		private void setConfigClass(Class<C> runConfigClass) {
-			this.configClass = runConfigClass != null ? runConfigClass :
-				(Class<C>) getClass().getDeclaringClass();
+			super(runConfigClass);
 		}
 		
 		@Override
 		public C build() {
-			try {
-				if (Modifier.isAbstract(this.configClass.getModifiers())) {
-					class InstantiableEOC extends IEolRunConfiguration {
-						public InstantiableEOC(Builder<C, B> builder) {
-							super(builder);
-						}
-						@Override
-						protected IEolModule getDefaultModule() {
-							throw new UnsupportedOperationException();
-						}
-					};
-					
-					return (C) new InstantiableEOC((Builder<C, B>) this);
-				}
+			return buildReflective(() -> {
+				class InstantiableEOC extends IEolRunConfiguration {
+					public InstantiableEOC(Builder<C, B> builder) {
+						super(builder);
+					}
+					@Override
+					protected IEolModule getDefaultModule() {
+						throw new UnsupportedOperationException();
+					}
+				};
 				
-				return (C) Stream.of(configClass.getConstructors())
-					.filter(constructor -> constructor.getParameterCount() == 1)
-					.filter(constructor -> Stream.of(constructor.getParameterTypes())
-						.filter(clazz -> clazz.getName().contains(getClass().getSimpleName()))
-						.findAny().isPresent()
-					)
-					.findAny()
-					.orElseThrow(() -> new NoSuchMethodException("Couldn't find builder constructor for class '"+configClass.getName()+"'."))
-				.newInstance(this);
-			}
-			catch (NullPointerException | InvocationTargetException | InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException ex) {
-				throw new IllegalStateException(ex);
-			}
+				return (C) new InstantiableEOC((Builder<C, B>) this);
+			});
 		}
 		
 		public IEolModule module;
