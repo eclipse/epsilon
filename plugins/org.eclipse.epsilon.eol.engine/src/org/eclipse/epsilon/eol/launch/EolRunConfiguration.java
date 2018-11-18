@@ -16,14 +16,19 @@ import org.eclipse.epsilon.eol.EolModule;
  * @author Sina Madani
  * @since 1.6
  */
-public class EolRunConfiguration extends IEolRunConfiguration<EolModule> {
+public class EolRunConfiguration extends IEolRunConfiguration {
 	
-	public EolRunConfiguration(Builder<EolModule, ? extends EolRunConfiguration, ?> builder) {
+	public EolRunConfiguration(Builder<? extends EolRunConfiguration, ?> builder) {
 		super(builder);
 	}
 	
-	public EolRunConfiguration(IEolRunConfiguration<? extends EolModule> other) {
+	public EolRunConfiguration(EolRunConfiguration other) {
 		super(other);
+	}
+	
+	@Override
+	public EolModule getModule() {
+		return (EolModule) super.getModule();
 	}
 	
 	@Override

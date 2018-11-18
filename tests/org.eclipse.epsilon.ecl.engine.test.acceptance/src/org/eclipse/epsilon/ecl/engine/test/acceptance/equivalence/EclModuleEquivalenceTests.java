@@ -10,9 +10,7 @@
 package org.eclipse.epsilon.ecl.engine.test.acceptance.equivalence;
 
 import static org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestUtil.*;
-import static org.junit.Assert.assertEquals;
 import org.eclipse.epsilon.ecl.EclModule;
-import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.concurrent.*;
 import org.eclipse.epsilon.ecl.launch.EclRunConfiguration;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
@@ -30,7 +28,7 @@ import org.junit.runners.Parameterized.Parameters;
  * @since 1.6
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EclModuleEquivalenceTests extends EolEquivalenceTests<IEclModule, EclRunConfiguration> {
+public class EclModuleEquivalenceTests extends EolEquivalenceTests<EclRunConfiguration> {
 
 	public EclModuleEquivalenceTests(EclRunConfiguration configUnderTest) {
 		super(configUnderTest);

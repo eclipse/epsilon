@@ -33,7 +33,9 @@ public interface IEclModule extends IErlModule {
 	//public IModel getRightModel();
 	
 	@Override
-	public IEclContext getContext();
+	default IEclContext getContext() {
+		return (IEclContext) IErlModule.super.getContext();
+	}
 	
 	@Override
 	public MatchTrace execute() throws EolRuntimeException;

@@ -15,7 +15,6 @@ import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 
 /**
@@ -23,13 +22,13 @@ import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
  * @author Sina Madani
  * @since 1.6
  */
-public class EgxRunConfiguration extends IErlRunConfiguration<IEgxModule> {
+public class EgxRunConfiguration extends IErlRunConfiguration {
 
-	public EgxRunConfiguration(Builder<IEgxModule, ? extends IErlRunConfiguration<IEgxModule>, ?> builder) {
+	public EgxRunConfiguration(Builder<? extends IErlRunConfiguration, ?> builder) {
 		super(builder);
 	}
 	
-	public EgxRunConfiguration(IErlRunConfiguration<? extends IEgxModule> other) {
+	public EgxRunConfiguration(IErlRunConfiguration other) {
 		super(other);
 	}
 
@@ -46,13 +45,18 @@ public class EgxRunConfiguration extends IErlRunConfiguration<IEgxModule> {
 	}
 	
 	@Override
+	public IEgxModule getModule() {
+		return (IEgxModule) super.getModule();
+	}
+	
+	@Override
 	protected IEgxModule getDefaultModule() {
 		return new EgxModule();
 	}
 	
 	@Override
 	public void preExecute() throws Exception {
-		((EglContext) module.getContext()).setTemplateFactory(getDefaultTemplateFactory());
+		getModule().getContext().setTemplateFactory(getDefaultTemplateFactory());
 		super.preExecute();
 	}
 	

@@ -30,7 +30,7 @@ import org.junit.runners.Parameterized.Parameters;
  * @since 1.6
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EvlModuleEquivalenceTests extends EolEquivalenceTests<IEvlModule, EvlRunConfiguration> {
+public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfiguration> {
 	
 	public EvlModuleEquivalenceTests(EvlRunConfiguration configUnderTest) {
 		super(configUnderTest);
@@ -64,8 +64,8 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<IEvlModule, E
 	@Test
 	public void testUnsatisfiedConstraints() {
 		onFail(testCollectionsHaveSameElements(
-			expectedModule.getContext().getUnsatisfiedConstraints(),
-			actualModule.getContext().getUnsatisfiedConstraints(),
+			expectedConfig.getModule().getContext().getUnsatisfiedConstraints(),
+			testConfig.getModule().getContext().getUnsatisfiedConstraints(),
 			"Unsatisfied constraints"
 		));
 	}
@@ -73,12 +73,12 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<IEvlModule, E
 	@Test
 	public void testConstraintTraces() {
 		// Uses Set instead of List for performance reasons when calling containsAll.
-		Function<IEvlModule, Collection<ConstraintTraceItem>> ctContents = module ->
-			module.getContext().getConstraintTrace().stream().collect(Collectors.toSet());
+		Function<EvlRunConfiguration, Collection<ConstraintTraceItem>> ctContents = cfg ->
+			cfg.getModule().getContext().getConstraintTrace().stream().collect(Collectors.toSet());
 			
 		onFail(testCollectionsHaveSameElements(
-			ctContents.apply(expectedModule),
-			ctContents.apply(actualModule),
+			ctContents.apply(expectedConfig),
+			ctContents.apply(testConfig),
 			"Constraint traces"
 		));
 	}
@@ -86,8 +86,8 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<IEvlModule, E
 	@Test
 	public void testConstraintsDependedOn() {
 		onFail(testCollectionsHaveSameElements(
-			expectedModule.getContext().getConstraintsDependedOn(),
-			actualModule.getContext().getConstraintsDependedOn(),
+			expectedConfig.getModule().getContext().getConstraintsDependedOn(),
+			testConfig.getModule().getContext().getConstraintsDependedOn(),
 			"Constraints depended on"
 		));
 	}

@@ -96,7 +96,7 @@ public class EolAcceptanceTestUtil {
 	 * A list of pre-configured Runnables which will call the execute() method on the provided module.
 	 * @param modules A collection of IEolModules to use in combination with each set of test data.
 	 */
-	public static <M extends IEolModule, C extends IEolRunConfiguration<M>> Collection<C> getScenarios(
+	public static <M extends IEolModule, C extends IEolRunConfiguration> Collection<C> getScenarios(
 		Class<C> clazz,
 		List<String[]> testInputs,
 		Collection<Supplier<? extends M>> moduleGetters,

@@ -20,7 +20,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
@@ -72,27 +71,21 @@ import org.junit.runner.RunWith;
  * @author Sina Madani
  */
 @RunWith(org.junit.runners.Parameterized.class)
-public abstract class EolEquivalenceTests<M extends IEolModule, C extends IEolRunConfiguration<M>> {
+public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 
 	// The oracle configurations
-	protected static Collection<? extends IEolRunConfiguration<? extends IEolModule>> expectedConfigs;
+	protected static Collection<? extends IEolRunConfiguration> expectedConfigs;
 	
 	// Used to identify which scenario to compare our results with.
-	protected static Map<Integer, IEolRunConfiguration<?>> expectedConfigIDs;
+	protected static Map<Integer, IEolRunConfiguration> expectedConfigIDs;
 	
 	// The scenario and module combination under test. This is the parameterised test variable.
 	protected final C expectedConfig, testConfig;
-	
-	// Convenience variables for the tests
-	protected final M expectedModule, actualModule;
-	
 	
 	@SuppressWarnings("unchecked")
 	public EolEquivalenceTests(C configUnderTest) {
 		this.testConfig = configUnderTest;
 		expectedConfig = (C) expectedConfigIDs.get(testConfig.getId());
-		expectedModule = expectedConfig.module;
-		actualModule = testConfig.module;
 	}
 	
 	/**
@@ -102,7 +95,7 @@ public abstract class EolEquivalenceTests<M extends IEolModule, C extends IEolRu
 	protected static void setUpEquivalenceTest() {
 		expectedConfigIDs = new HashMap<>(expectedConfigs.size());
 		
-		for (IEolRunConfiguration<?> expectedConfig : expectedConfigs) {
+		for (IEolRunConfiguration expectedConfig : expectedConfigs) {
 			expectedConfigIDs.put(expectedConfig.getId(), expectedConfig);
 			expectedConfig.run();
 		}
@@ -122,7 +115,7 @@ public abstract class EolEquivalenceTests<M extends IEolModule, C extends IEolRu
 	protected final void beforeTests() {
 		testModuleCanExecute();
 		testScenariosMatch();
-		assert expectedModule != actualModule;
+		assert expectedConfig.getModule() != testConfig.getModule();
 	}
 	
 	/**
@@ -137,7 +130,7 @@ public abstract class EolEquivalenceTests<M extends IEolModule, C extends IEolRu
 	protected boolean onFail(String message) {
 		if (message != null && !message.isEmpty()) {
 			System.err.println(
-				actualModule.getClass().getSimpleName()+
+				testConfig.getModule().getClass().getSimpleName()+
 				", "+testConfig.script.getFileName()+
 				", "+testConfig.modelsAndProperties
 			);
@@ -157,27 +150,28 @@ public abstract class EolEquivalenceTests<M extends IEolModule, C extends IEolRu
 	}
 
 	protected void testScenariosMatch() {
-		Function<M, Collection<String>> modelCollector = module -> module
-			.getContext().getModelRepository().getModels()
+		Function<IEolRunConfiguration, Collection<String>> modelCollector = cfg ->
+			cfg.getModule().getContext()
+				.getModelRepository().getModels()
 				.stream()
 				.map(IModel::getName)
 				.collect(Collectors.toList());
 	
 		assertEquals("Same script",
-			expectedModule.getUri(),
-			actualModule.getUri()
+			expectedConfig.getModule().getUri(),
+			testConfig.getModule().getUri()
 		);
 			
 		assertEquals("Same models",
-			modelCollector.apply(expectedModule),
-			modelCollector.apply(actualModule)
+			modelCollector.apply(expectedConfig),
+			modelCollector.apply(testConfig)
 		);
 	}
 	
 	@Test
 	public void testFrameStacks() {
-		Function<M, List<String>> fsMapper = module -> module
-			.getContext().getFrameStack()
+		Function<IEolRunConfiguration, List<String>> fsMapper = cfg -> cfg
+			.getModule().getContext().getFrameStack()
 			.getFrames().stream()
 			.map(Frame::getAll)
 			.map(Map::keySet)
@@ -185,31 +179,31 @@ public abstract class EolEquivalenceTests<M extends IEolModule, C extends IEolRu
 			.collect(Collectors.toList());
 		
 		onFail(testCollectionsHaveSameElements(
-			fsMapper.apply(expectedModule),
-			fsMapper.apply(actualModule),
+			fsMapper.apply(expectedConfig),
+			fsMapper.apply(testConfig),
 			"FrameStacks"
 		));
 	}
 	
 	@Test
 	public void testExecutorFactories() {
-		Function<M, List<ModuleElement>> stackTraceGetter =
-			module -> module.getContext().getExecutorFactory().getStackTraceManager().getStackTrace();
+		Function<IEolRunConfiguration, List<ModuleElement>> stackTraceGetter =
+			cfg -> cfg.getModule().getContext().getExecutorFactory().getStackTraceManager().getStackTrace();
 		
 		assertEquals("Same stack traces",
-			stackTraceGetter.apply(expectedModule),
-			stackTraceGetter.apply(actualModule)
+			stackTraceGetter.apply(expectedConfig),
+			stackTraceGetter.apply(testConfig)
 		);
 	}
 	
 	@Test
 	public void testOperationContributorRegistries() {
-		Function<M, Collection<OperationContributor>> contributors = module ->
-			module.getContext().getOperationContributorRegistry().stream().collect(Collectors.toSet());
+		Function<IEolRunConfiguration, Collection<OperationContributor>> contributors = cfg ->
+			cfg.getModule().getContext().getOperationContributorRegistry().stream().collect(Collectors.toSet());
 	
 		Collection<OperationContributor>
-			expectedOCs = contributors.apply(expectedModule),
-			actualOCs = contributors.apply(actualModule);
+			expectedOCs = contributors.apply(expectedConfig),
+			actualOCs = contributors.apply(testConfig);
 
 		onFail(printIfDifferent(
 			actualOCs.size() < expectedOCs.size(),

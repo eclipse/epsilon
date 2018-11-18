@@ -11,28 +11,35 @@ package org.eclipse.epsilon.erl.launch;
 
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.erl.IErlModule;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public abstract class IErlRunConfiguration<M extends IErlModule> extends IEolRunConfiguration<M> {
+public abstract class IErlRunConfiguration extends IEolRunConfiguration {
 	
-	public IErlRunConfiguration(Builder<M, ? extends IErlRunConfiguration<M>, ?> builder) {
+	public IErlRunConfiguration(Builder<? extends IErlRunConfiguration, ?> builder) {
 		super(builder);
 	}
 	
-	public IErlRunConfiguration(IEolRunConfiguration<? extends M> other) {
+	public IErlRunConfiguration(IEolRunConfiguration other) {
 		super(other);
 	}
 
 	@Override
+	public IErlModule getModule() {
+		return (IErlModule) super.getModule();
+	}
+	
+	@Override
+	protected abstract IErlModule getDefaultModule();
+	
+	@Override
 	protected void postExecute() throws Exception {
 		super.postExecute();
-		if (profileExecution && module.getContext() instanceof IErlContext) {
-			writeOut(((IErlContext) module.getContext()).getExecutorFactory().getRuleProfiler(), printMarker);
+		if (profileExecution) {
+			writeOut(getModule().getContext().getExecutorFactory().getRuleProfiler(), printMarker);
 		}
 	}
 	

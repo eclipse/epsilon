@@ -23,14 +23,19 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  * @author Sina Madani
  * @since 1.6
  */
-public class EvlRunConfiguration extends IErlRunConfiguration<IEvlModule> {
+public class EvlRunConfiguration extends IErlRunConfiguration {
 	
-	public EvlRunConfiguration(IEolRunConfiguration.Builder<IEvlModule, ? extends IErlRunConfiguration<IEvlModule>, ?> builder) {
+	public EvlRunConfiguration(IEolRunConfiguration.Builder<? extends IErlRunConfiguration, ?> builder) {
 		super(builder);
 	}
 	
-	public EvlRunConfiguration(IEolRunConfiguration<? extends IEvlModule> other) {
+	public EvlRunConfiguration(IErlRunConfiguration other) {
 		super(other);
+	}
+	
+	@Override
+	public IEvlModule getModule() {
+		return (IEvlModule) super.getModule();
 	}
 	
 	@Override
@@ -47,6 +52,12 @@ public class EvlRunConfiguration extends IErlRunConfiguration<IEvlModule> {
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public Set<UnsatisfiedConstraint> getResult() {
+		return (Set<UnsatisfiedConstraint>) super.getResult();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public Set<UnsatisfiedConstraint> execute() throws EolRuntimeException {
 		return (Set<UnsatisfiedConstraint>) super.execute();
 	}
@@ -56,7 +67,7 @@ public class EvlRunConfiguration extends IErlRunConfiguration<IEvlModule> {
 		super.postExecute();
 		
 		if (showResults || profileExecution) {
-			IEvlContext context = module.getContext();
+			IEvlContext context = getModule().getContext();
 			int numUnsatisfied = context.getUnsatisfiedConstraints().size();
 			if (numUnsatisfied > 0) {
 				writeOut(numUnsatisfied+" constraint"+(numUnsatisfied > 1 ? "s have" : " has")+" not been satisfied"+(showResults ? ':' : '.'));

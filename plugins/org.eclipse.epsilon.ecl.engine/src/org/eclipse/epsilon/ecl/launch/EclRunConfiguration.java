@@ -12,6 +12,7 @@ package org.eclipse.epsilon.ecl.launch;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 
 /**
@@ -19,16 +20,21 @@ import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
  * @author Sina Madani
  * @since 1.6
  */
-public class EclRunConfiguration extends IErlRunConfiguration<IEclModule> {
+public class EclRunConfiguration extends IErlRunConfiguration {
 
-	public EclRunConfiguration(Builder<IEclModule, ? extends IErlRunConfiguration<IEclModule>, ?> builder) {
+	public EclRunConfiguration(Builder<? extends IErlRunConfiguration, ?> builder) {
 		super(builder);
 	}
 	
-	public EclRunConfiguration(IErlRunConfiguration<IEclModule> other) {
+	public EclRunConfiguration(IErlRunConfiguration other) {
 		super(other);
 	}
 
+	@Override
+	public IEclModule getModule() {
+		return (IEclModule) super.getModule();
+	}
+	
 	@Override
 	protected IEclModule getDefaultModule() {
 		return new EclModule();
@@ -40,8 +46,13 @@ public class EclRunConfiguration extends IErlRunConfiguration<IEclModule> {
 	}
 	
 	@Override
+	protected MatchTrace execute() throws EolRuntimeException {
+		return (MatchTrace) super.execute();
+	}
+	
+	@Override
 	protected void postExecute() throws Exception {
-		getResult().toString(module.getContext());
+		getResult().toString(getModule().getContext());
 		super.postExecute();
 	}
 }

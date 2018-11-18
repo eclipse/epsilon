@@ -18,6 +18,7 @@ import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.launch.EgxRunConfiguration;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
+import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -31,7 +32,7 @@ import org.junit.runners.Parameterized.Parameters;
  * @since 1.6
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EgxModuleEquivalenceTests extends EolEquivalenceTests<IEgxModule, EgxRunConfiguration> {
+public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfiguration> {
 
 	static Map<Path, String> expectedOutput;
 	
@@ -52,7 +53,7 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<IEgxModule, E
 	}
 
 	@Parameters//(name = "0")	//Don't use this as the Eclipse JUnit view won't show failures!
-	public static Iterable<? extends IEolRunConfiguration<IEgxModule>> configurations() {
+	public static Iterable<? extends IErlRunConfiguration> configurations() {
 		return getScenarios(thriftInputs, modules(false));
 	}
 	
