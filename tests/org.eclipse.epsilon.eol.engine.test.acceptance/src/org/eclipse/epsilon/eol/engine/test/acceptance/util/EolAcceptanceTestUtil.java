@@ -96,7 +96,7 @@ public class EolAcceptanceTestUtil {
 	 * A list of pre-configured Runnables which will call the execute() method on the provided module.
 	 * @param modules A collection of IEolModules to use in combination with each set of test data.
 	 */
-	public static <M extends IEolModule, R, C extends IEolRunConfiguration<M, R>> Collection<C> getScenarios(
+	public static <M extends IEolModule, C extends IEolRunConfiguration<M>> Collection<C> getScenarios(
 		Class<C> clazz,
 		List<String[]> testInputs,
 		Collection<Supplier<? extends M>> moduleGetters,
@@ -123,7 +123,7 @@ public class EolAcceptanceTestUtil {
 				IModel model = new EmfModel();
 				
 				for (Supplier<? extends M> moduleGetter : moduleGetters) {
-					scenarios.add((C) new IEolRunConfiguration.Builder<>(clazz)
+					scenarios.add(IEolRunConfiguration.Builder(clazz)
 							.withScript(eolScript)
 							.withModel(model, properties)
 							.withModule(moduleGetter.get())

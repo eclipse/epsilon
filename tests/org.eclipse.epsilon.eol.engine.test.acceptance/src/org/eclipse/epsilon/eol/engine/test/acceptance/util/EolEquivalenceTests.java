@@ -72,13 +72,13 @@ import org.junit.runner.RunWith;
  * @author Sina Madani
  */
 @RunWith(org.junit.runners.Parameterized.class)
-public abstract class EolEquivalenceTests<M extends IEolModule, C extends IEolRunConfiguration<M, ?>> {
+public abstract class EolEquivalenceTests<M extends IEolModule, C extends IEolRunConfiguration<M>> {
 
 	// The oracle configurations
-	protected static Collection<? extends IEolRunConfiguration<? extends IEolModule, ?>> expectedConfigs;
+	protected static Collection<? extends IEolRunConfiguration<? extends IEolModule>> expectedConfigs;
 	
 	// Used to identify which scenario to compare our results with.
-	protected static Map<Integer, IEolRunConfiguration<?, ?>> expectedConfigIDs;
+	protected static Map<Integer, IEolRunConfiguration<?>> expectedConfigIDs;
 	
 	// The scenario and module combination under test. This is the parameterised test variable.
 	protected final C expectedConfig, testConfig;
@@ -102,7 +102,7 @@ public abstract class EolEquivalenceTests<M extends IEolModule, C extends IEolRu
 	protected static void setUpEquivalenceTest() {
 		expectedConfigIDs = new HashMap<>(expectedConfigs.size());
 		
-		for (IEolRunConfiguration<?, ?> expectedConfig : expectedConfigs) {
+		for (IEolRunConfiguration<?> expectedConfig : expectedConfigs) {
 			expectedConfigIDs.put(expectedConfig.getId(), expectedConfig);
 			expectedConfig.run();
 		}

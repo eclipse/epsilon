@@ -16,20 +16,20 @@ import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
-import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
+import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public class EgxRunConfiguration extends IEolRunConfiguration<IEgxModule, Object> {
+public class EgxRunConfiguration extends IErlRunConfiguration<IEgxModule> {
 
-	public EgxRunConfiguration(Builder<IEgxModule, ? extends IEolRunConfiguration<IEgxModule, Object>> builder) {
+	public EgxRunConfiguration(Builder<IEgxModule, ? extends IErlRunConfiguration<IEgxModule>, ?> builder) {
 		super(builder);
 	}
 	
-	public EgxRunConfiguration(IEolRunConfiguration<? extends IEgxModule, ?> other) {
+	public EgxRunConfiguration(IErlRunConfiguration<? extends IEgxModule> other) {
 		super(other);
 	}
 

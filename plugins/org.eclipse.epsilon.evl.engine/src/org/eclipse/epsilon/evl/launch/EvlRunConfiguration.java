@@ -23,13 +23,13 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  * @author Sina Madani
  * @since 1.6
  */
-public class EvlRunConfiguration extends IErlRunConfiguration<IEvlModule, Set<UnsatisfiedConstraint>> {
+public class EvlRunConfiguration extends IErlRunConfiguration<IEvlModule> {
 	
-	public EvlRunConfiguration(IEolRunConfiguration.Builder<IEvlModule, ? extends IErlRunConfiguration<IEvlModule, Set<UnsatisfiedConstraint>>> builder) {
+	public EvlRunConfiguration(IEolRunConfiguration.Builder<IEvlModule, ? extends IErlRunConfiguration<IEvlModule>, ?> builder) {
 		super(builder);
 	}
 	
-	public EvlRunConfiguration(IEolRunConfiguration<? extends IEvlModule, ? extends Set<UnsatisfiedConstraint>> other) {
+	public EvlRunConfiguration(IEolRunConfiguration<? extends IEvlModule> other) {
 		super(other);
 	}
 	
@@ -45,9 +45,10 @@ public class EvlRunConfiguration extends IErlRunConfiguration<IEvlModule, Set<Un
 		super.preExecute();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set<UnsatisfiedConstraint> execute() throws EolRuntimeException {
-		return super.execute();
+		return (Set<UnsatisfiedConstraint>) super.execute();
 	}
 	
 	@Override

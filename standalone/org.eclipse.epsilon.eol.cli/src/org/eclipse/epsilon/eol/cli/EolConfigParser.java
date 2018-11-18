@@ -38,7 +38,7 @@ import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
  * @author Sina Madani
  * @since 1.6
  */
-public class EolConfigParser<M extends IEolModule, R, C extends IEolRunConfiguration<M, R>> extends ConfigParser<C, IEolRunConfiguration.Builder<M, C>> {
+public class EolConfigParser<M extends IEolModule, C extends IEolRunConfiguration<M>, B extends IEolRunConfiguration.Builder<M, C, B>> extends ConfigParser<C, B> {
 
 	/**
 	 * Allows the caller to invoke any subclass of IEolModule.
@@ -64,13 +64,10 @@ public class EolConfigParser<M extends IEolModule, R, C extends IEolRunConfigura
 		modelsOpt = "models",
 		scriptParamsOpt = "parameters";
 	
-	/**
-	 * @param args command-line arguments.
-	 * @param configClass the subclass of ErlRunConfiguration.
-	 * @param moduleClass the interface of the appropriate module (must be a subclass of IEolModule).
-	 */
+	
+	@SuppressWarnings("unchecked")
 	public EolConfigParser(Class<C> configurationClass) {
-		super(new IEolRunConfiguration.Builder<>(configurationClass));
+		super((B)IEolRunConfiguration.Builder(configurationClass));
 		
 		requiredUsage += "-models [model class]#[model properties];"+nL;
 		optionalUsage += "  [module] [argtype=argvalue]s..."+nL;
@@ -218,13 +215,13 @@ public class EolConfigParser<M extends IEolModule, R, C extends IEolRunConfigura
 	}
 	
 	@SuppressWarnings("unchecked")
-	static Class<? extends IEolRunConfiguration<?, ?>> getRunConfigurationForScript(String scriptPath) {
+	static Class<? extends IEolRunConfiguration<?>> getRunConfigurationForScript(String scriptPath) {
 		String ext = FileUtil.getExtension(scriptPath).toLowerCase();
 		String pkg = ext.equals("egx") ? "egl" : ext;
 		String className = "org.eclipse.epsilon."+pkg+".launch."+StringUtil.firstToUpper(ext)+"RunConfiguration";
 		
 		try {
-			return (Class<? extends IEolRunConfiguration<?, ?>>) Class.forName(className);
+			return (Class<? extends IEolRunConfiguration<?>>) Class.forName(className);
 		}
 		catch (ClassNotFoundException cnfx) {
 			return EolRunConfiguration.class;

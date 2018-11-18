@@ -114,7 +114,7 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 				IEvlModule evlStd = moduleGetter.get();
 				
 				scenarios.add(
-					new EvlRunConfiguration(new IEolRunConfiguration.Builder<IEvlModule, EvlRunConfiguration>()
+					IEolRunConfiguration.Builder(EvlRunConfiguration.class)
 						.withScript(EvlTests.getTestScript(evlStd).toPath())
 						.withModel(EvlTests.getTestModel(false))
 						.withModule(evlStd)
@@ -122,7 +122,6 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 						.showResults(false)
 						.withId(testInputs.size()+1)
 						.build()
-					)
 				);
 			}
 		}

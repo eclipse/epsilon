@@ -27,7 +27,7 @@ import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic.MemoryUnit;
  * @author Sina Madani
  * @since 1.6
  */
-public abstract class ProfilableRunConfiguration<R> implements Runnable {
+public abstract class ProfilableRunConfiguration implements Runnable {
 	
 	protected String printMarker = "-----------------------------------------------------";
 	protected int id;
@@ -35,10 +35,10 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 	public final Path script, outputFile;
 	protected final Collection<ProfileDiagnostic> profiledStages;
 	protected boolean hasRun = false;
-	protected R result;
+	protected Object result;
 	
 	@SuppressWarnings("unchecked")
-	public abstract static class Builder<C extends ProfilableRunConfiguration<?>, B extends Builder<C, B>> {
+	public abstract static class Builder<C extends ProfilableRunConfiguration, B extends Builder<C, B>> {
 		public Integer id;
 		public boolean showResults, profileExecution;
 		public Path script, outputFile;
@@ -98,7 +98,7 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 		this.id = Optional.ofNullable(builder.id).orElseGet(() -> Objects.hash(Objects.toString(script)));
 	}
 	
-	protected ProfilableRunConfiguration(ProfilableRunConfiguration<? extends R> other) {
+	protected ProfilableRunConfiguration(ProfilableRunConfiguration other) {
 		this.script = other.script;
 		this.showResults = other.showResults;
 		this.profileExecution = other.profileExecution;
@@ -144,7 +144,7 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 		}
 	}
 	
-	protected abstract R execute() throws Exception;
+	protected abstract Object execute() throws Exception;
 	
 	protected void postExecute() throws Exception {
 		if (profileExecution) {
@@ -167,7 +167,7 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 		return getTotalExecutionTimeFrom(profiledStages);
 	}
 	
-	public R getResult() {
+	public Object getResult() {
 		if (!hasRun)
 			throw new IllegalStateException("Attempted to get result without calling run()!");
 		
@@ -214,17 +214,18 @@ public abstract class ProfilableRunConfiguration<R> implements Runnable {
 	}
 	
 	@Override
-	public boolean equals(Object other) {
-		if (!(other instanceof ProfilableRunConfiguration))
+	public boolean equals(Object obj) {
+		if (this == obj) return false;
+		if (!(obj instanceof ProfilableRunConfiguration))
 			return false;
 		
-		ProfilableRunConfiguration<?> prc = (ProfilableRunConfiguration<?>) other;
+		ProfilableRunConfiguration other = (ProfilableRunConfiguration) obj;
 		return
-			Objects.equals(this.id, prc.id) &&
-			Objects.equals(this.script, prc.script) &&
-			Objects.equals(this.showResults, prc.showResults) &&
-			Objects.equals(this.profileExecution, prc.profileExecution) &&
-			Objects.equals(this.outputFile, prc.outputFile) &&
-			Objects.equals(this.result, prc.result);
+			Objects.equals(this.id, other.id) &&
+			Objects.equals(this.script, other.script) &&
+			Objects.equals(this.showResults, other.showResults) &&
+			Objects.equals(this.profileExecution, other.profileExecution) &&
+			Objects.equals(this.outputFile, other.outputFile) &&
+			Objects.equals(this.result, other.result);
 	}
 }

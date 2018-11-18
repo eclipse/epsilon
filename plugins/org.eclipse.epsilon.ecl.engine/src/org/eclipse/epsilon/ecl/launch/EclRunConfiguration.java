@@ -12,20 +12,20 @@ package org.eclipse.epsilon.ecl.launch;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
-import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
+import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public class EclRunConfiguration extends IEolRunConfiguration<IEclModule, MatchTrace> {
+public class EclRunConfiguration extends IErlRunConfiguration<IEclModule> {
 
-	public EclRunConfiguration(Builder<IEclModule, ? extends IEolRunConfiguration<IEclModule, MatchTrace>> builder) {
+	public EclRunConfiguration(Builder<IEclModule, ? extends IErlRunConfiguration<IEclModule>, ?> builder) {
 		super(builder);
 	}
 	
-	public EclRunConfiguration(IEolRunConfiguration<IEclModule, MatchTrace> other) {
+	public EclRunConfiguration(IErlRunConfiguration<IEclModule> other) {
 		super(other);
 	}
 
@@ -35,8 +35,13 @@ public class EclRunConfiguration extends IEolRunConfiguration<IEclModule, MatchT
 	}
 	
 	@Override
+	public MatchTrace getResult() {
+		return (MatchTrace) super.getResult();
+	}
+	
+	@Override
 	protected void postExecute() throws Exception {
-		result.toString(module.getContext());
+		getResult().toString(module.getContext());
 		super.postExecute();
 	}
 }

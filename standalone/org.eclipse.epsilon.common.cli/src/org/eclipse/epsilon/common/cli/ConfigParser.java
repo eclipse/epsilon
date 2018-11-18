@@ -22,7 +22,7 @@ import org.eclipse.epsilon.common.launch.ProfilableRunConfiguration;
  * @author Sina Madani
  * @since 1.6
  */
-public class ConfigParser<C extends ProfilableRunConfiguration<?>, B extends ProfilableRunConfiguration.Builder<C, B>> implements Consumer<String[]>, Function<String[], C> {
+public class ConfigParser<C extends ProfilableRunConfiguration, B extends ProfilableRunConfiguration.Builder<C, B>> implements Consumer<String[]>, Function<String[], C> {
 	
 	protected B builder;
 	protected C runConfig;

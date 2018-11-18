@@ -28,14 +28,14 @@ import org.eclipse.epsilon.eol.IEolModule;
  * @author Sina Madani
  * @since 1.6
  */
-public abstract class IEolRunConfiguration<M extends IEolModule, R> extends ProfilableRunConfiguration<R> {
+public abstract class IEolRunConfiguration<M extends IEolModule> extends ProfilableRunConfiguration {
 	
 	protected static final Set<IModel> LOADED_MODELS = new HashSet<>();
 	public final Map<IModel, StringProperties> modelsAndProperties;
 	public final M module;
 	public final Map<String, Object> parameters;
 	
-	public IEolRunConfiguration(Builder<M, ? extends IEolRunConfiguration<M, R>> builder) {
+	public IEolRunConfiguration(Builder<M, ? extends IEolRunConfiguration<M>, ?> builder) {
 		super(builder);
 		this.parameters = builder.parameters;
 		this.modelsAndProperties = builder.modelsAndProperties;
@@ -49,7 +49,7 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 		);
 	}
 	
-	public IEolRunConfiguration(IEolRunConfiguration<? extends M, ? extends R> other) {
+	public IEolRunConfiguration(IEolRunConfiguration<? extends M> other) {
 		super(other);
 		this.modelsAndProperties = other.modelsAndProperties;
 		this.module = other.module;
@@ -98,9 +98,8 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
-	protected R execute() throws EolRuntimeException {
+	protected Object execute() throws EolRuntimeException {
 		Object execResult;
 		
 		if (profileExecution) {
@@ -117,7 +116,7 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 			execResult = module.execute();
 		}
 		
-		return (R) execResult;
+		return execResult;
 	}
 	
 	@Override
@@ -133,19 +132,20 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 	}
 	
 	@Override
-	public boolean equals(Object other) {
-		if (!super.equals(other)) return false;
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (!super.equals(obj)) return false;
 		
-		IEolRunConfiguration<?, ?> eoc = (IEolRunConfiguration<?, ?>) other;
+		IEolRunConfiguration<?> other = (IEolRunConfiguration<?>) obj;
 		return
-			Objects.equals(this.module, eoc.module) &&
-			CollectionUtil.equalsIgnoreOrder(this.modelsAndProperties.keySet(), eoc.modelsAndProperties.keySet());
+			Objects.equals(this.module, other.module) &&
+			CollectionUtil.equalsIgnoreOrder(this.modelsAndProperties.keySet(), other.modelsAndProperties.keySet());
 	}
 	
 	
 	// WARNING: Nasty stuff!
 	@SuppressWarnings("unchecked")
-	public static class Builder<M extends IEolModule, C extends IEolRunConfiguration<M, ?>> extends ProfilableRunConfiguration.Builder<C, IEolRunConfiguration.Builder<M, C>> {
+	public static class Builder<M extends IEolModule, C extends IEolRunConfiguration<M>, B extends Builder<M, C, B>> extends ProfilableRunConfiguration.Builder<C, B> {
 		protected Class<C> configClass;
 		public Builder() {
 			this(null);
@@ -162,8 +162,8 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 		public C build() {
 			try {
 				if (Modifier.isAbstract(this.configClass.getModifiers())) {
-					class InstantiableEOC extends IEolRunConfiguration<M, Object> {
-						public InstantiableEOC(Builder<M, ? extends IEolRunConfiguration<M, Object>> builder) {
+					class InstantiableEOC extends IEolRunConfiguration<M> {
+						public InstantiableEOC(Builder<M, ? extends IEolRunConfiguration<M>, ?> builder) {
 							super(builder);
 						}
 						@Override
@@ -172,7 +172,7 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 						}
 					};
 					
-					return (C) new InstantiableEOC((Builder<M, ? extends IEolRunConfiguration<M, Object>>) this);
+					return (C) new InstantiableEOC((Builder<M, ? extends IEolRunConfiguration<M>, ?>) this);
 				}
 				
 				return (C) Stream.of(configClass.getConstructors())
@@ -194,28 +194,36 @@ public abstract class IEolRunConfiguration<M extends IEolModule, R> extends Prof
 		public Map<IModel, StringProperties> modelsAndProperties = new HashMap<>(4);
 		public Map<String, Object> parameters = new HashMap<>(4);
 
-		public Builder<M, C> withModule(M module) {
+		public Builder<M, C, B> withModule(M module) {
 			this.module = module;
 			return this;
 		}
-		public Builder<M, C> withModel(IModel model) {
+		public Builder<M, C, B> withModel(IModel model) {
 			return withModel(model, new StringProperties());
 		}
-		public Builder<M, C> withModel(IModel model, StringProperties properties) {
+		public Builder<M, C, B> withModel(IModel model, StringProperties properties) {
 			this.modelsAndProperties.put(model, properties);
 			return this;
 		}
-		public Builder<M, C> withModels(Map<IModel, StringProperties> modelsAndProps) {
+		public Builder<M, C, B> withModels(Map<IModel, StringProperties> modelsAndProps) {
 			this.modelsAndProperties.putAll(modelsAndProps);
 			return this;
 		}
-		public Builder<M, C> withParameter(String name, Object value) {
+		public Builder<M, C, B> withParameter(String name, Object value) {
 			this.parameters.put(name, value);
 			return this;
 		}
-		public Builder<M, C> withParameters(Map<String, Object> params) {
+		public Builder<M, C, B> withParameters(Map<String, Object> params) {
 			this.parameters.putAll(params);
 			return this;
 		}
+	}
+	
+	public static <M extends IEolModule, C extends IEolRunConfiguration<M>, B extends Builder<M, C, B>> Builder<M, C, B> Builder() {
+		return new Builder<>();
+	}
+	
+	public static <M extends IEolModule, C extends IEolRunConfiguration<M>, B extends Builder<M, C, B>> Builder<M, C, B> Builder(Class<C> clazz) {
+		return new Builder<>(clazz);
 	}
 }

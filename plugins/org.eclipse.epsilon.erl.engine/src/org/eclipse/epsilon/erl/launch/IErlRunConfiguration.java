@@ -18,13 +18,13 @@ import org.eclipse.epsilon.erl.execute.context.IErlContext;
  * @author Sina Madani
  * @since 1.6
  */
-public abstract class IErlRunConfiguration<M extends IErlModule, R> extends IEolRunConfiguration<M, R> {
+public abstract class IErlRunConfiguration<M extends IErlModule> extends IEolRunConfiguration<M> {
 	
-	public IErlRunConfiguration(Builder<M, ? extends IErlRunConfiguration<M, R>> builder) {
+	public IErlRunConfiguration(Builder<M, ? extends IErlRunConfiguration<M>, ?> builder) {
 		super(builder);
 	}
 	
-	public IErlRunConfiguration(IEolRunConfiguration<? extends M, ? extends R> other) {
+	public IErlRunConfiguration(IEolRunConfiguration<? extends M> other) {
 		super(other);
 	}
 
