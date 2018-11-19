@@ -96,13 +96,15 @@ public class GenerationRule extends ExtensibleNamedRule {
 		final String target = targetBlock.execute(context, false);
 		
 		URI templateUri = templateFactory.resolveTemplate(templateName);
+		EglTemplate eglTemplate;
 		
-		EglTemplate eglTemplate = templateCache.get(templateUri);
-		
-		if (eglTemplate == null) {
-			templateCache.put(templateUri, eglTemplate = templateFactory.load(templateUri));
+		if (templateCache == null || (eglTemplate = templateCache.get(templateUri)) == null) {
+			eglTemplate = templateFactory.load(templateUri);
+			if (templateCache != null) {
+				templateCache.put(templateUri, eglTemplate);
+			}
 		}
-		
+
 		if (sourceParameter != null) {
 			eglTemplate.populate(sourceParameter.getName(), element);
 		}

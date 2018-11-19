@@ -63,8 +63,7 @@ public class EglPreprocessorContext implements IEolContext {
 	}
 
 	@Override
-	public void setPrettyPrinterManager(
-			PrettyPrinterManager prettyPrinterManager) {
+	public void setPrettyPrinterManager(PrettyPrinterManager prettyPrinterManager) {
 		delegate.setPrettyPrinterManager(prettyPrinterManager);
 	}
 

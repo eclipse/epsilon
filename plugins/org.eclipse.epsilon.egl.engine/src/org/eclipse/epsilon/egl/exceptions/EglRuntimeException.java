@@ -72,12 +72,12 @@ public class EglRuntimeException extends EolRuntimeException {
 	}
 	
 	@Override
-	public int getLine(){
+	public int getLine() {
 		return line;
 	}
 	
 	@Override
-	public int getColumn(){
+	public int getColumn() {
 		return column;
 	}
 	
@@ -90,7 +90,7 @@ public class EglRuntimeException extends EolRuntimeException {
 	public String toString() {
 		String result = super.toString();
 		
-		if (cause!=null) {
+		if (cause != null) {
 			result += "\n\tCause: " + cause.toString();
 		}
 		

@@ -11,6 +11,7 @@ package org.eclipse.epsilon.egl.traceability;
 
 import java.net.URI;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 @SuppressWarnings("rawtypes")
 public abstract class Container<E extends Content> extends Content<Template> {
@@ -18,7 +19,7 @@ public abstract class Container<E extends Content> extends Content<Template> {
 	private final String name;
 	private final URI    uri;
 	
-	protected final List<E> contents = new LinkedList<>(); 
+	protected final Collection<E> contents = new LinkedList<>();//ConcurrentLinkedDeque<>(); 
 	
 	protected Container(Template parent, String name, URI uri) {
 		super(parent);
@@ -49,7 +50,7 @@ public abstract class Container<E extends Content> extends Content<Template> {
 	}
 	
 	public Collection<E> getChildren() {
-		return Collections.unmodifiableList(contents);
+		return Collections.unmodifiableCollection(contents);
 	}
 	
 	public boolean hasChildren() {

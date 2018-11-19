@@ -230,17 +230,8 @@ public class EglTemplateFactory {
 	}
 	
 	protected EglTemplate handleFailedLoad(final String name, Exception e) throws EglRuntimeException {
-		final String reason;
-		
-		if (e instanceof FileNotFoundException)
-			reason = "Template not found";
-		else
-			reason = "Could not process";
-		
-		if (context.getModule() == null)
-			throw new EglRuntimeException(reason + " '" + name + "'", e);
-		else
-			throw new EglRuntimeException(reason + " '" + name + "'", e, context.getModule());
+		final String reason = e instanceof FileNotFoundException ? "Template not found" : "Could not process";
+		throw new EglRuntimeException(reason + " '" + name + "'", e, context.getModule());
 	}
 	
 	/**

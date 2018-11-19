@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.common.launch;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -111,9 +110,6 @@ public abstract class ProfilableRunConfiguration implements Runnable {
 			this.script = scriptPath;
 			return (B) this;
 		}
-		public B withScript(File file) {
-			return withScript(file.toPath());
-		}
 		public B withScript(String path) {
 			return withScript(Paths.get(path));
 		}
@@ -121,6 +117,9 @@ public abstract class ProfilableRunConfiguration implements Runnable {
 		public B withOutputFile(Path output) {
 			this.outputFile = output;
 			return (B) this;
+		}
+		public B withOutputFile(String path) {
+			return withOutputFile(Paths.get(path));
 		}
 		
 		public B withId(int id) {
@@ -197,7 +196,7 @@ public abstract class ProfilableRunConfiguration implements Runnable {
 		}
 		if (profileExecution) {
 			writeOut(
-				OperatingSystem.getCpuName(),
+				OperatingSystem.getCPUName(),
 				"Logical processors: "+getNumberOfHardwareThreads(),
 				"Xms: "+getAvailableMemory(MemoryUnit.MB),
 				"Xmx: "+getMaxMemory(MemoryUnit.MB),

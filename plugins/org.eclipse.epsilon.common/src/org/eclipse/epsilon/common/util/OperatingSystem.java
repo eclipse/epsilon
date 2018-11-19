@@ -81,12 +81,19 @@ public class OperatingSystem {
 	 * @return The CPU model as reported by the operating system.
 	 * @since 1.6
 	 */
-	public static String getCpuName() {
+	public static String getCPUName() {
 		try {
-			return execCmd(OSFamily.getOSFamily().equals(OSFamily.WINDOWS) ?
-				new String[] {"powershell.exe", "-Command", "\"wmic CPU get NAME | findstr '@'\""} :
-				new String[] {"/bin/sh", "-c", "cat /proc/cpuinfo | grep -m 1 'model name'"}
-			);
+			switch (OSFamily.getOSFamily()) {
+                case WINDOWS: return execCmd(
+                    "powershell.exe", "-Command", "\"wmic CPU get NAME | findstr '@'\""
+                );
+                case MAC: return execCmd(
+                    "/bin/sh", "-c", "sysctl -n machdep.cpu.brand_string"
+                );
+                default: return execCmd(
+                    "/bin/sh", "-c", "cat /proc/cpuinfo | grep -m 1 'model name'"
+                ).substring(13); // Removes the "model name    : " part
+            }
 		}
 		catch (IOException ex) {
 			System.err.println("Could not get CPU name: "+ex.getMessage());

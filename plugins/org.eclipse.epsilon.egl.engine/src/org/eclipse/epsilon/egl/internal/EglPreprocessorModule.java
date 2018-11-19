@@ -40,12 +40,15 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class EglPreprocessorModule extends EolModule {
 
 	private final Preprocessor preprocessor = new Preprocessor();
-	private EglPreprocessorContext context = new EglPreprocessorContext(super.context);
 	protected AST ast;
 	
-	@Override
-	public EglPreprocessorContext getContext() {
-		return context;
+	/**
+	 *
+	 * @param delegate The delegate for the Preprocessor context.
+	 * @since 1.6
+	 */
+	public EglPreprocessorModule(IEolContext delegate) {
+		this.context = new EglPreprocessorContext(delegate);
 	}
 	
 	public EglPreprocessorModule() {
@@ -54,8 +57,23 @@ public class EglPreprocessorModule extends EolModule {
 	
 	@Override
 	public void build(AST cst, IModule module) {
-		if (cst.getParent() == null) { this.ast = cst; updateASTLocations(cst);}
+		if (cst.getParent() == null) {
+			this.ast = cst;
+			updateASTLocations(cst);
+		}
 		super.build(cst, module);
+	}
+	
+	@Override
+	public EglPreprocessorContext getContext() {
+		return (EglPreprocessorContext) context;
+	}
+	
+	@Override
+	public void setContext(IEolContext context) {
+		if (context instanceof EglPreprocessorContext) {
+			this.context = context;
+		}
 	}
 	
 	public boolean preprocess(AST ast, File sourceFile, URI sourceUri) {

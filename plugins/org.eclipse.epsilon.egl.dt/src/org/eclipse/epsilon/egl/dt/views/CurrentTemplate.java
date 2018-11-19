@@ -19,7 +19,7 @@ public final class CurrentTemplate {
 	private static final CurrentTemplate instance = new CurrentTemplate();
 	
 	private Template template;
-	private List<CurrentTemplateObserver> observers = new LinkedList<CurrentTemplateObserver>();
+	private List<CurrentTemplateObserver> observers = new LinkedList<>();
 	
 	private CurrentTemplate() {}
 	

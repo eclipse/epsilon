@@ -45,7 +45,7 @@ public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IE
 	@Override
 	protected void generateRules() throws EolRuntimeException {
 		IEgxContextParallel context = getContext();
-		EglTemplateFactory templateFactory = context.newTemplateFactory();
+		EglTemplateFactory templateFactory = context.getTemplateFactory();
 		Map<URI, EglTemplate> templateCache = ConcurrencyUtils.concurrentMap();
 		
 		for (GenerationRule rule : getGenerationRules()) {

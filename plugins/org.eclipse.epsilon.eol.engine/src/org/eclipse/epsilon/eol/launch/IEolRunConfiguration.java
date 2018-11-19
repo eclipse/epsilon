@@ -182,6 +182,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 			this.module = module;
 			return this;
 		}
+		
 		public Builder<C, B> withModel(IModel model) {
 			return withModel(model, new StringProperties());
 		}
@@ -199,10 +200,16 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 			}
 			return this;
 		}
+		
 		public Builder<C, B> withProperties(StringProperties properties) {
 			modelsAndProperties.values().forEach(prop -> prop.putAll(properties));
 			return this;
 		}
+		public Builder<C, B> withProperty(String name, Object value) {
+			modelsAndProperties.values().forEach(prop -> prop.put(name, value));
+			return this;
+		}
+		
 		public Builder<C, B> withParameter(String name, Object value) {
 			this.parameters.put(name, value);
 			return this;

@@ -19,11 +19,17 @@ public class EglResult {
 		this.generatedText = generatedText;
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(generatedText);
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) return true;
@@ -34,6 +40,9 @@ public class EglResult {
 		return Objects.equals(this.generatedText, er.generatedText);
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public String toString() {
 		return generatedText;

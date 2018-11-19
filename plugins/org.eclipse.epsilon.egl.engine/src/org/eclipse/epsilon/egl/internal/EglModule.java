@@ -52,7 +52,7 @@ public class EglModule extends EolModule implements IEglModule {
 	protected EglParser parser;
 	protected EglLexer lexer;
 	protected Reader reader;
-	protected EglPreprocessorModule preprocessorModule = new EglPreprocessorModule();
+	protected EglPreprocessorModule preprocessorModule;
 	protected AST ast;
 
 	private final List<EglMarkerSection> markers = new LinkedList<>();	
@@ -64,6 +64,7 @@ public class EglModule extends EolModule implements IEglModule {
 	
 	public EglModule(IEglContext context) {
 		this.context = context != null ? context : new EglContext();
+		preprocessorModule = new EglPreprocessorModule(context);
 	}
 
 	@Override
@@ -123,18 +124,14 @@ public class EglModule extends EolModule implements IEglModule {
 		parser.parse();
 		ast = parser.getAST();
 		
-		final boolean validEgl = parser.getParseProblems().size() == 0;
-		final boolean validEol = preprocess();
-		
+		final boolean validEgl = parser.getParseProblems().isEmpty();
+		final boolean validEol = preprocessorModule.preprocess(ast, sourceFile, sourceUri);
+
 		if (validEgl && validEol) {
 			buildModel();
 		}
 		
 		return validEgl && validEol;
-	}
-
-	private boolean preprocess() {
-		return preprocessorModule.preprocess(ast, sourceFile, sourceUri);
 	}
 	
 	@Override
@@ -144,8 +141,7 @@ public class EglModule extends EolModule implements IEglModule {
 		return null;
 	}
 	
-	public void buildModel() throws Exception {
-		
+	public void buildModel() throws Exception {	
 		for (AST child : ast.getChildren()) {
 			if (child.getType() == TokenType.START_MARKER_TAG.getIdentifier()) {
 				EglMarkerSection section = (EglMarkerSection) createAst(child, this);
@@ -183,9 +179,6 @@ public class EglModule extends EolModule implements IEglModule {
 		context.setModule(this);
 		context.getTemplateFactory().initialiseRoot(templateRoot);
 
-		// HACK : Talk to Louis and redesign properly
-		context.copyInto(preprocessorModule.getContext());
-
 		preprocessorModule.execute(); 
 		context.formatWith(postprocessor);
 		
@@ -222,12 +215,6 @@ public class EglModule extends EolModule implements IEglModule {
 	public OperationList getOperations() {
 		return preprocessorModule.getOperations();
 	}
-	
-	/*
-	@Override
-	public ModuleElement getAst() {
-		return preprocessorModule.getAst();
-	}*/
 	
 	public List<ModuleElement> getModuleElements() {
 		final List<ModuleElement> children = new LinkedList<>();

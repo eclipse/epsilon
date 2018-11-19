@@ -42,7 +42,7 @@ public class EglContext extends EolContext implements IEglContext {
 	private IEglContext parentContext;
 	
 	public EglContext() {
-		this(null);
+		this(new EglTemplateFactory());
 	}
 	
 	public EglContext(EglTemplateFactory templateFactory) {

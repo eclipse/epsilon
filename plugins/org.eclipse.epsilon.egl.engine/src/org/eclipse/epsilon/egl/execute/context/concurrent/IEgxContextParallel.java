@@ -9,9 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.execute.context.concurrent;
 
-import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
@@ -23,13 +20,6 @@ import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
  */
 public interface IEgxContextParallel extends IEgxContext, IErlContextParallel {
 
-	default EglTemplateFactory newTemplateFactory() throws EglRuntimeException {
-		EglTemplateFactory tf = new EglTemplateFactory(this.getTemplateFactory());
-		tf.setContext(new EglContext(tf));
-		this.copyInto(tf.getContext());
-		return tf;
-	}
-	
 	@Override
 	default EolExecutorService newExecutorService() {
 		// TODO optimise
