@@ -34,7 +34,8 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 	
 	public EgxContextParallel(EglTemplateFactory templateFactory, int parallelism) {
 		super(parallelism);
-		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory();
+		this.templateFactory = templateFactory != null ? templateFactory :
+			new EglTemplateFactory(new EglContextParallel(getParallelism()));
 	}
 
 	public EgxContextParallel(int parallelism) {

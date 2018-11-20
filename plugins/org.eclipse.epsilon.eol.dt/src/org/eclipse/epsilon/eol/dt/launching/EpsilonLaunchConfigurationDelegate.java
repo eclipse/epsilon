@@ -90,7 +90,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 			if ("run".equalsIgnoreCase(mode)) {
 				result = module.execute();
 			}
-			else if ("debug".equalsIgnoreCase(mode)){
+			else if ("debug".equalsIgnoreCase(mode)) {
 				// Copy launch configuration attributes to launch
 				Map<?,?> configurationAttributes = configuration.getAttributes();
 				for (Object key : configurationAttributes.keySet()) {
@@ -113,7 +113,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 			progressMonitor.setCanceled(true);
 			return false;
 		}
-		finally{
+		finally {
 			if (target != null) {
 				if (!disposeModelRepository) launch.removeDebugTarget(target);
 			}

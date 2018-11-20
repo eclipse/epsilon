@@ -118,10 +118,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			}
 		}
 		if (isEgx()) {
-			if (module instanceof EgxModule) {
-				((EgxModule)module).setTemplateFactory(templateFactory);
-			}
-			((IEgxModule)module).setContext(new EgxContext(templateFactory));
+			((IEgxModule)module).setTemplateFactory(templateFactory);
 		}
 		else {
 			((EglTemplateFactoryModuleAdapter)module).setFactory(templateFactory); 
@@ -167,7 +164,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	private void prepareToTrace(IEolModule module) {
 		try {
 			if (configuration.getAttribute(PRODUCE_TRACE, false)) {
-				fineGrainedTrace = new EglFineGrainedTraceContextAdaptor().adapt((IEglContext)module.getContext());
+				fineGrainedTrace = new EglFineGrainedTraceContextAdaptor().adapt(getEglContext(module));
 			}
 			
 		} catch (CoreException e) {
@@ -243,13 +240,12 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			storeTraceModel();
 		}
 		
-		final IEglContext context = (IEglContext) module.getContext();
+		final IEglContext context = getEglContext(module);
 		
 		for (StatusMessage message : context.getStatusMessages())
 			EpsilonConsole.getInstance().getInfoStream().println(message);
 		
 		CurrentTemplate.getInstance().setTemplate(context.getTrace());
-		
 	}
 
 	private void storeOutput(EglTemplateFactoryModuleAdapter module, final String output) throws CoreException {
@@ -304,6 +300,21 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			return configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "").endsWith("egx");
 		} catch (CoreException e) {
 			return false;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param module
+	 * @return
+	 * @since 1.6
+	 */
+	IEglContext getEglContext(IEolModule module) {
+		if (module instanceof IEgxModule) {
+			return ((IEgxModule)module).getTemplateFactory().getContext();
+		}
+		else {
+			return (IEglContext)module.getContext();
 		}
 	}
 	

@@ -56,7 +56,7 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 	
 	@Override
 	public void preExecute() throws Exception {
-		getModule().getContext().setTemplateFactory(getDefaultTemplateFactory());
+		getModule().setTemplateFactory(getDefaultTemplateFactory());
 		super.preExecute();
 	}
 	
