@@ -24,12 +24,14 @@ import org.eclipse.epsilon.common.util.ReflectionUtil;
 public class EolLaunchConfigurationMigrationDelegate implements
 		ILaunchConfigurationMigrationDelegate {
 
+	@Override
 	public boolean isCandidate(ILaunchConfiguration candidate)
 			throws CoreException {
 		
 		return true;
 	}
 
+	@Override
 	public void migrate(ILaunchConfiguration candidate) throws CoreException {
 		ILaunchConfigurationWorkingCopy wc = candidate.getWorkingCopy();
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
@@ -38,16 +40,16 @@ public class EolLaunchConfigurationMigrationDelegate implements
 		// Info is LaunchConfigurationInfo
 		Object info = null;
 		try {
-			info = ReflectionUtil.invokeMethod(wc, "getInfo", new ArrayList<Object>());
+			info = ReflectionUtil.invokeMethod(wc, "getInfo", new ArrayList<>());
 		} catch (Exception e1) {
 			LogUtil.log(e1);
 		}
 		
-		ArrayList<Object> parameters = new ArrayList<Object>();
+		ArrayList<Object> parameters = new ArrayList<>();
 		parameters.add(type);
 		try {
 			ReflectionUtil.invokeMethod(info, "setType", parameters);
-			ReflectionUtil.invokeMethod(info, "getType", new ArrayList<Object>());
+			ReflectionUtil.invokeMethod(info, "getType", new ArrayList<>());
 		} catch (Exception e) {
 			LogUtil.log(e);
 		}

@@ -27,8 +27,9 @@ import org.eclipse.swt.graphics.Image;
 
 public class EolEditorOperationTemplateContributor implements IAbstractModuleEditorTemplateContributor, IModuleParseListener {
 
-	protected List<Template> templates = new ArrayList<Template>();
+	protected List<Template> templates = new ArrayList<>();
 	
+	@Override
 	public void moduleParsed(AbstractModuleEditor editor, IModule module) {
 		templates.clear();
 		if (module == null || !(module instanceof IEolModule)) return;
@@ -38,6 +39,7 @@ public class EolEditorOperationTemplateContributor implements IAbstractModuleEdi
 		
 	}
 
+	@Override
 	public List<Template> getTemplates() {
 		return templates;
 	}
@@ -52,7 +54,7 @@ public class EolEditorOperationTemplateContributor implements IAbstractModuleEdi
 		
 		Iterator<Parameter> it = op.getFormalParameters().iterator();
 		while (it.hasNext()) {
-			Parameter fp = (Parameter) it.next();
+			Parameter fp = it.next();
 			call += "${" + fp.getName() + "}";
 			if (it.hasNext()) call += ", ";
 		}

@@ -42,7 +42,7 @@ public class EgxModuleParallelRules extends EgxModuleParallel {
 	protected void generateRules() throws EolRuntimeException {
 		IEgxContextParallel context = getContext();
 		EglTemplateFactory templateFactory = context.getTemplateFactory();
-		Map<URI, EglTemplate> templateCache = null;//ConcurrencyUtils.concurrentMap();
+		Map<URI, EglTemplate> templateCache = ConcurrencyUtils.concurrentMap();
 		
 		for (GenerationRule rule : getGenerationRules()) {
 			Collection<?> allElements = rule.getAllElements(context);

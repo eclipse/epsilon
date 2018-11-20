@@ -40,7 +40,7 @@ public abstract class ExtensionSpecificationFactory<T extends ExtensionSpecifica
 	}
 
 	public Collection<T> findByIdentifiers(Collection<String> identifiers) {
-		final Collection<T> specs = new LinkedList<T>();
+		final Collection<T> specs = new LinkedList<>();
 		
 		for (String identifier : identifiers) {
 			specs.add(findByIdentifier(identifier));
@@ -60,7 +60,7 @@ public abstract class ExtensionSpecificationFactory<T extends ExtensionSpecifica
 	}
 
 	public List<T> loadAllFromExtensionPoints() {
-		final List<T> specs = new LinkedList<T>();
+		final List<T> specs = new LinkedList<>();
 		
 		if (Platform.getExtensionRegistry() != null) {
 			for (IConfigurationElement extension : getFormatterExtensionDefinitions()) {

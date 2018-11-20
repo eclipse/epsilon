@@ -16,11 +16,10 @@ import java.util.List;
 
 import org.eclipse.epsilon.egl.dt.widgets.ListListener.ChangeType;
 
-
 class ListModel<T> {
 
-	private final List<ListListener> changeListeners = new LinkedList<ListListener>();
-	private final List<T> orderedList = new LinkedList<T>();
+	private final List<ListListener> changeListeners = new LinkedList<>();
+	private final List<T> orderedList = new LinkedList<>();
 	
 	public void replaceAllWith(Collection<T> items) {
 		orderedList.clear();
@@ -92,7 +91,7 @@ class ListModel<T> {
 	
 	private static class Selection {
 		
-		private final List<Integer> indices = new LinkedList<Integer>();
+		private final List<Integer> indices = new LinkedList<>();
 		
 		public Selection(int... indices) {
 			for (int index : indices) {
@@ -109,7 +108,7 @@ class ListModel<T> {
 		}
 		
 		public Iterable<Integer> indicesInDescendingOrder() {
-			final LinkedList<Integer> sortedIndices = new LinkedList<Integer>(indices);
+			final LinkedList<Integer> sortedIndices = new LinkedList<>(indices);
 			Collections.sort(sortedIndices, Collections.reverseOrder());
 			return Collections.unmodifiableCollection(sortedIndices);
 		}
@@ -123,7 +122,7 @@ class ListModel<T> {
 		}
 
 		private Selection excludingSequenceAtStart(int startOfSequence, int step, Iterable<Integer> orderedIndices) {
-			final List<Integer> indicesWithoutSequence = new LinkedList<Integer>();
+			final List<Integer> indicesWithoutSequence = new LinkedList<>();
 			int nextInSequence = startOfSequence;
 			
 			for (int index : orderedIndices) {

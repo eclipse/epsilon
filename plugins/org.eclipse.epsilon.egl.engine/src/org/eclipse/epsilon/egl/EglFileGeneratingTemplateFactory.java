@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.egl;
 
 import java.net.URI;
-
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
@@ -20,7 +19,9 @@ public class EglFileGeneratingTemplateFactory extends EglTemplateFactory {
 	protected URI    outputRoot;
 	protected String outputRootPath;
 	
-	public EglFileGeneratingTemplateFactory() {}
+	public EglFileGeneratingTemplateFactory() {
+		super();
+	}
 	
 	public EglFileGeneratingTemplateFactory(IEglContext context) {
 		super(context);

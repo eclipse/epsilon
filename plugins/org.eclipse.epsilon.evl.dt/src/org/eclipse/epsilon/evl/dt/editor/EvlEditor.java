@@ -18,6 +18,7 @@ import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.evl.EvlModule;
+import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dt.editor.outline.EvlModuleContentProvider;
 import org.eclipse.epsilon.evl.dt.editor.outline.EvlModuleElementLabelProvider;
 
@@ -81,7 +82,7 @@ public class EvlEditor extends EolEditor{
 	}
 	
 	@Override
-	public IModule createModule() {
+	public IEvlModule createModule() {
 		return new EvlModule();
 	}
 	

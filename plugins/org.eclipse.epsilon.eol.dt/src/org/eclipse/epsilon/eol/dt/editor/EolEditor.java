@@ -11,7 +11,6 @@ package org.eclipse.epsilon.eol.dt.editor;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
@@ -19,7 +18,6 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleContentProvider;
 import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleElementLabelProvider;
-import org.eclipse.jface.viewers.IContentProvider;
 
 public class EolEditor extends AbstractModuleEditor {
 
@@ -45,7 +43,7 @@ public class EolEditor extends AbstractModuleEditor {
 	
 	@Override
 	public List<String> getKeywords() {
-		ArrayList<String> keywords = new ArrayList<String>();
+		ArrayList<String> keywords = new ArrayList<>(33);
 
 		keywords.add("import");
 		keywords.add("driver");
@@ -86,7 +84,7 @@ public class EolEditor extends AbstractModuleEditor {
 
 	@Override
 	public List<String> getBuiltinVariables() {
-		ArrayList<String> builtIn = new ArrayList<String>();
+		ArrayList<String> builtIn = new ArrayList<>(6);
 		builtIn.add("hasMore");
 		builtIn.add("loopCount");
 		builtIn.add("self");
@@ -121,6 +119,4 @@ public class EolEditor extends AbstractModuleEditor {
 	protected boolean supportsDirtyTextParsing() {
 		return true;
 	}
-
-
 }

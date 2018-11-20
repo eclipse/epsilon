@@ -24,11 +24,6 @@ import org.eclipse.epsilon.erl.IErlModule;
  */
 public interface IEgxModule extends IErlModule {
 	
-	@Override
-	default IEgxContext getContext() {
-		return (IEgxContext) ((IErlModule)this).getContext();
-	}
-	
 	Collection<Content<Template>> getInvokedTemplates();
 	
 	List<GenerationRule> getDeclaredGenerationRules();
@@ -37,5 +32,14 @@ public interface IEgxModule extends IErlModule {
 	
 	default EglTemplateFactory getTemplateFactory() {
 		return getContext().getTemplateFactory();
+	}
+	
+	default void setTemplateFactory(EglTemplateFactory templateFactory) {
+		getContext().setTemplateFactory(templateFactory);
+	}
+	
+	@Override
+	default IEgxContext getContext() {
+		return (IEgxContext) ((IErlModule)this).getContext();
 	}
 }

@@ -24,9 +24,10 @@ public class EolEditorStaticOperationTemplateContributor implements IAbstractMod
 	
 	Image operationImage = EolPlugin.getDefault().createImage("icons/operation.gif");
 	
+	@Override
 	public List<Template> getTemplates() {
 		if (templates == null) {
-			templates = new ArrayList<Template>();
+			templates = new ArrayList<>();
 			templates.add(new TemplateWithImage("select(iterator|condition)", "select items from a collection", "", "select(${iterator}|${condition})",false, operationImage));
 			templates.add(new TemplateWithImage("selectOne(iterator|condition)", "selects one item from a collection", "", "selectOne(${iterator}|${condition})",false, operationImage));
 			templates.add(new TemplateWithImage("forAll(iterator|condition)", "verify that condition holds for all items in a collection", "", "forAll(${iterator}|${condition})",false, operationImage));

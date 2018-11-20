@@ -77,14 +77,6 @@ public class EgxModule extends ErlModule implements IEgxModule {
 		this.context = egxContext;
 	}
 	
-	public EglTemplateFactory getTemplateFactory() {
-		return getContext().getTemplateFactory();
-	}
-	
-	public void setTemplateFactory(EglTemplateFactory templateFactory) {
-		getContext().setTemplateFactory(templateFactory);
-	}
-	
 	@Override
 	public Collection<Content<Template>> getInvokedTemplates() {
 		return invokedTemplates;
@@ -196,13 +188,13 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	}
 	
 	/**
+	 * Executes all GenerationRules.
 	 * 
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
 	protected void generateRules() throws EolRuntimeException {
-		IEgxContext context = getContext();
-		EglTemplateFactory templateFactory = context.getTemplateFactory();
+		EglTemplateFactory templateFactory = getContext().getTemplateFactory();
 		
 		for (GenerationRule rule : getGenerationRules()) {
 			rule.generateAll(context, templateFactory, this);

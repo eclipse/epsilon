@@ -104,70 +104,87 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 		return super.getAdapter(adapter);
 	}
 
+	@Override
 	public boolean canStepInto() {
 		return thread.canStepInto();
 	}
 
+	@Override
 	public boolean canStepOver() {
 		return thread.canStepOver();
 	}
 
+	@Override
 	public boolean canStepReturn() {
 		return thread.canStepReturn();
 	}
 
+	@Override
 	public boolean isStepping() {
 		return thread.isStepping();
 	}
 
+	@Override
 	public void stepInto() throws DebugException {
 		thread.stepInto();
 	}
 
+	@Override
 	public void stepOver() throws DebugException {
 		thread.stepOver();
 	}
 
+	@Override
 	public void stepReturn() throws DebugException {
 		thread.stepReturn();
 	}
 
+	@Override
 	public boolean canResume() {
 		return thread.canResume();
 	}
 
+	@Override
 	public boolean canSuspend() {
 		return thread.canSuspend();
 	}
 
+	@Override
 	public boolean isSuspended() {
 		return thread.isSuspended();
 	}
 
+	@Override
 	public void resume() throws DebugException {
 		thread.resume();
 	}
 
+	@Override
 	public void suspend() throws DebugException {
 		thread.suspend();
 	}
 
+	@Override
 	public boolean canTerminate() {
 		return thread.canTerminate();
 	}
 
+	@Override
 	public boolean isTerminated() {
 		return thread.isTerminated();
 	}
 
+	@Override
 	public void terminate() throws DebugException {
 		thread.terminate();
 	}
 
+	@Override
 	public IThread getThread() {
 		return thread;
 	}
 
+	@Override
 	public IVariable[] getVariables() throws DebugException {
 		int i = 0;
 		EolVariable[] eolVariables = new EolVariable[frame.getAll().size()];
@@ -179,10 +196,12 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 		return eolVariables;
 	}
 
+	@Override
 	public boolean hasVariables() throws DebugException {
 		return getVariables().length > 0;
 	}
 
+	@Override
 	public int getLineNumber() throws DebugException {
 		if (frame.getCurrentStatement() != null) {
 			return frame.getCurrentStatement().getRegion().getStart().getLine();
@@ -190,6 +209,7 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 		return -1;
 	}
 
+	@Override
 	public int getCharStart() throws DebugException {
 		int charStart = getCharStart(frame.getCurrentStatement());
 		if (charStart < 0) {
@@ -198,6 +218,7 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 		return charStart;
 	}
 
+	@Override
 	public int getCharEnd() throws DebugException {
 		int charEnd = getCharEnd(frame.getCurrentStatement());
 		if (charEnd < 0) {
@@ -206,14 +227,17 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 		return charEnd;
 	}
 
+	@Override
 	public String getName() throws DebugException {
 		return name;
 	}
 
+	@Override
 	public IRegisterGroup[] getRegisterGroups() throws DebugException {
 		return null;
 	}
 
+	@Override
 	public boolean hasRegisterGroups() throws DebugException {
 		return false;
 	}

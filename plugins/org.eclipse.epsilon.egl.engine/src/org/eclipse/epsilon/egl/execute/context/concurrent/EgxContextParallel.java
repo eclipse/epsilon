@@ -9,167 +9,63 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.execute.context.concurrent;
 
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.execute.context.EglExecutionManager;
-import org.eclipse.epsilon.egl.execute.context.EglFrameStackManager;
-import org.eclipse.epsilon.egl.execute.context.EgxContext;
-import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
-import org.eclipse.epsilon.eol.execute.ExecutorFactory;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
-import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
-import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
-import org.eclipse.epsilon.eol.execute.concurrent.DelegatePersistentThreadLocal;
-import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
+import org.eclipse.epsilon.egl.IEgxModule;
+import org.eclipse.epsilon.egl.execute.context.EgxModuleTemplateAdapter;
+import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public class EgxContextParallel extends EgxContext implements IEgxContextParallel {
+public class EgxContextParallel extends ErlContextParallel implements IEgxContextParallel {
 
-	protected final int numThreads;
-	protected int nestLevel;
-	protected boolean isParallel = false;
-	protected EolExecutorService executorService;
-	protected PersistentThreadLocal<FrameStack> concurrentFrameStacks;
-	protected PersistentThreadLocal<ExecutorFactory> concurrentExecutors;
-	protected ThreadLocal<OperationContributorRegistry> concurrentMethodContributors;
-	protected ThreadLocal<EglExecutionManager> concurrentExecutionManagers;
+	protected EgxModuleTemplateAdapter baseTemplate;
+	protected EglTemplateFactory templateFactory;
 	
 	public EgxContextParallel() {
-		this(0);
+		this(null);
 	}
 	
 	public EgxContextParallel(EglTemplateFactory templateFactory) {
 		this(templateFactory, 0);
 	}
-
-	public EgxContextParallel(int parallelism) {
-		this(null, parallelism);
-	}
 	
 	public EgxContextParallel(EglTemplateFactory templateFactory, int parallelism) {
-		super(templateFactory);
-		numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM;
+		super(parallelism);
+		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory();
 	}
-	
-	protected void initMainThreadStructures() {
-		frameStack = new FrameStack(null, true);
-		executorFactory = new ExecutorFactory(null, true);
-		setExecutionManager(new EglExecutionManager(new EglFrameStackManager(getFrameStack())));
-	}
-	
-	protected void initThreadLocals() {
-		concurrentMethodContributors = ThreadLocal.withInitial(OperationContributorRegistry::new);
-		concurrentFrameStacks = new DelegatePersistentThreadLocal<>(() -> new FrameStack(frameStack, false));
-		concurrentExecutors = new DelegatePersistentThreadLocal<>(() -> new RuleExecutorFactory(executorFactory, false));
-		concurrentExecutionManagers = ThreadLocal.withInitial((() -> new EglExecutionManager(new EglFrameStackManager(getFrameStack()))));
-	}
-	
-	protected void setBaseThreadSafety(boolean concurrent) {
-		frameStack.setThreadSafe(concurrent);
-		executorFactory.setThreadSafe(concurrent);
-	}
-	
-	@Override
-	protected void finalize() {
-		if (executorService != null) {
-			executorService.shutdownNow();
-			executorService = null;
-		}
-	}
-	
-	@Override
-	public void goParallel() {
-		if (!isParallel) {
-			initThreadLocals();
-			isParallel = true;
-		}
-	}
-	
-	@Override
-	public void endParallel() {
-		isParallel = false;
-		
-		finalize();
-		
-		concurrentFrameStacks.removeAll();
-		concurrentFrameStacks = null;
-		concurrentMethodContributors = null;
-		concurrentExecutors.removeAll();
-		concurrentExecutors = null;
-	}
-	
-	@Override
-	public boolean isParallel() {
-		return isParallel;
-	}
-	
-	@Override
-	public int getParallelism() {
-		return numThreads;
-	}
-	
-	@Override
-	public void enterParallelNest(ModuleElement entryPoint) throws EolNestedParallelismException {
-		if (++nestLevel > PARALLEL_NEST_THRESHOLD) {
-			throw new EolNestedParallelismException(entryPoint);
-		}
+
+	public EgxContextParallel(int parallelism) {
+		super(parallelism);
 	}
 
 	@Override
-	public void exitParallelNest(ModuleElement entryPoint) {
-		if (nestLevel > 0)
-			nestLevel--;
+	public EgxModuleTemplateAdapter getTrace() {
+		if (baseTemplate == null) {
+			baseTemplate = new EgxModuleTemplateAdapter(getModule());
+		}
+		return baseTemplate;
+	}
+	
+	@Override
+	public void setBaseTemplate(EgxModuleTemplateAdapter baseTemplate) {
+		this.baseTemplate = baseTemplate;
+	}
+	
+	@Override
+	public void setTemplateFactory(EglTemplateFactory templateFactory) {
+		this.templateFactory = templateFactory;
 	}
 
 	@Override
-	public int getNestedParallelism() {
-		return nestLevel;
+	public EglTemplateFactory getTemplateFactory() {
+		return templateFactory;
 	}
 	
 	@Override
-	public EolExecutorService getExecutorService() {
-		if (executorService == null) {
-			executorService = newExecutorService();
-		}
-		return executorService;
+	public IEgxModule getModule() {
+		return (IEgxModule) module;
 	}
-	
-	@Override
-	public FrameStack getFrameStack() {
-		return parallelGet(concurrentFrameStacks, super::getFrameStack);
-	}
-	
-	@Override
-	public void setFrameStack(FrameStack frameStack) {
-		parallelSet(frameStack, concurrentFrameStacks, super::setFrameStack);
-	}
-	
-	@Override
-	public OperationContributorRegistry getOperationContributorRegistry() {
-		return parallelGet(concurrentMethodContributors, super::getOperationContributorRegistry);
-	}
-	
-	@Override
-	public RuleExecutorFactory getExecutorFactory() {
-		return (RuleExecutorFactory) parallelGet(concurrentExecutors, super::getExecutorFactory);
-	}
-
-	@Override
-	public void setExecutorFactory(ExecutorFactory executorFactory) {
-		if (executorFactory instanceof RuleExecutorFactory) {
-			parallelSet((RuleExecutorFactory) executorFactory, concurrentExecutors, super::setExecutorFactory);
-		}
-	}
-	
-	@Override
-	public String toString() {
-		return super.toString()+" [parallelism="+getParallelism()+"]";
-	}
-	
 }

@@ -62,7 +62,7 @@ public class EglTask extends ExportableModuleTask {
 		templateFactory.setDefaultFormatters(instantiateDefaultFormatters());
 		
 		if (src != null && src.getName().endsWith("egx")) {
-			module = new EgxModule(new EgxContext(templateFactory));
+			module = new EgxModule(templateFactory);
 		}
 		else {		
 			module = new EglTemplateFactoryModuleAdapter(templateFactory);
@@ -94,7 +94,6 @@ public class EglTask extends ExportableModuleTask {
 		templateFactory.setDefaultFormatters(instantiateDefaultFormatters());
 		
 		if (src != null && src.getName().endsWith("egx")) {
-			((EgxModule) module).setTemplateFactory(templateFactory);
 			module.setContext(new EgxContext(templateFactory));
 		}
 		else {		

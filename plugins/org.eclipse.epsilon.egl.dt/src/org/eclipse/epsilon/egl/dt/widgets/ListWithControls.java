@@ -40,7 +40,7 @@ public class ListWithControls<T> extends Composite {
 	private final TableViewer viewer;
 	private final Composite buttons;
 	
-	private final ListModel<T> model = new ListModel<T>();
+	private final ListModel<T> model = new ListModel<>();
 	private ItemFactory<T> itemFactory;
 	
 	public ListWithControls(Composite parent, int style) {

@@ -11,11 +11,10 @@ package org.eclipse.epsilon.egl.dt.editor;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.EgxModule;
+import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.dt.editor.outline.EgxModuleContentProvider;
 import org.eclipse.epsilon.egl.dt.editor.outline.EgxModuleElementLabelProvider;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
@@ -29,7 +28,7 @@ public class EgxEditor extends EolEditor {
 	@Override
 	public List<String> getKeywords() {
 		
-		List<String> keywords = new ArrayList<String>();
+		List<String> keywords = new ArrayList<>(13);
 		
 		keywords.add("transform");
 		keywords.add("rule");
@@ -54,7 +53,7 @@ public class EgxEditor extends EolEditor {
 	@Override
 	public List<String> getBuiltinVariables() {
 		
-		ArrayList<String> builtIn = new ArrayList<String>();
+		ArrayList<String> builtIn = new ArrayList<>();
 		
 		builtIn.add("generated");
 		
@@ -74,7 +73,7 @@ public class EgxEditor extends EolEditor {
 	}
 	
 	@Override
-	public IModule createModule(){
+	public IEgxModule createModule() {
 		return new EgxModule();
 	}
 }

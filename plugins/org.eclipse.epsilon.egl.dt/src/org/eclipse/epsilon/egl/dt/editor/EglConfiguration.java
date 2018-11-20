@@ -141,7 +141,7 @@ public class EglConfiguration extends SourceViewerConfiguration {
 
 	@Override
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
-		List<String> configuredContentTypes = new ArrayList<String>();
+		List<String> configuredContentTypes = new ArrayList<>();
 		
 		// Add all of the configured content types from the original configuration object
 		configuredContentTypes.addAll(Arrays.asList(configuration.getConfiguredContentTypes(sourceViewer)));

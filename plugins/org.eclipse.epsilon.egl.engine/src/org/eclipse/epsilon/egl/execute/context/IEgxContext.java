@@ -11,6 +11,7 @@ package org.eclipse.epsilon.egl.execute.context;
 
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
@@ -19,14 +20,13 @@ import org.eclipse.epsilon.erl.execute.context.IErlContext;
  * @author Sina Madani
  * @since 1.6
  */
-public interface IEgxContext extends IEglContext, IErlContext {
+public interface IEgxContext extends IErlContext {
 
 	public void setBaseTemplate(EgxModuleTemplateAdapter baseTemplate);
 	
 	@Override
 	public RuleExecutorFactory getExecutorFactory();
 	
-	@Override
 	public EgxModuleTemplateAdapter getTrace();
 	
 	/**
@@ -39,4 +39,29 @@ public interface IEgxContext extends IEglContext, IErlContext {
 	}
 
 	public void setTemplateFactory(EglTemplateFactory templateFactory);
+	
+	public EglTemplateFactory getTemplateFactory();
+	
+	/**
+	 * 
+	 * @param context
+	 * @since 1.6
+	 */
+	public default void copyInto(IEolContext context) {
+		copyInto(context, false);
+	}
+
+	public default void copyInto(IEolContext context, boolean preserveFrameStack) {
+		context.setErrorStream(getErrorStream());
+		context.setExecutorFactory(getExecutorFactory());
+		context.setIntrospectionManager(getIntrospectionManager());
+		context.setModelRepository(getModelRepository());
+		context.setOperationFactory(getOperationFactory());
+		context.setOutputStream(getOutputStream());
+		if (!preserveFrameStack) context.setFrameStack(getFrameStack());
+		context.setUserInput(getUserInput());
+		context.setNativeTypeDelegates(getNativeTypeDelegates());
+		context.setExtendedProperties(getExtendedProperties());
+		context.setPrettyPrinterManager(getPrettyPrinterManager());
+	}
 }

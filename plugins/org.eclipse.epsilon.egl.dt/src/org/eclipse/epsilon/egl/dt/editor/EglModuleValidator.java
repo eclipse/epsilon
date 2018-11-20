@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egl.dt.editor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleValidator;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.IModuleValidator;
@@ -34,7 +33,7 @@ public class EglModuleValidator extends AbstractModuleValidator implements IModu
 	public List<ModuleMarker> validate(IModule module) {
 		if (!appliesTo(module)) return Collections.emptyList();
 		
-		ArrayList<ModuleMarker> markers = new ArrayList<ModuleMarker>();
+		ArrayList<ModuleMarker> markers = new ArrayList<>();
 		EglPreprocessorModule preprocessorModule = ((EglTemplateFactoryModuleAdapter) module).getCurrentTemplate().getModule().getPreprocessorModule();
 		
 		if (!preprocessorModule.getDeclaredOperations().isEmpty()) {

@@ -24,19 +24,19 @@ public class EglResult {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(generatedText);
+		return Objects.hashCode(generatedText);
 	}
 	
 	/**
 	 * @since 1.6
 	 */
 	@Override
-	public boolean equals(Object other) {
-		if (this == other) return true;
-		if (!(other instanceof EglResult))
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (!(obj instanceof EglResult))
 			return false;
 		
-		EglResult er = (EglResult) other;
+		EglResult er = (EglResult) obj;
 		return Objects.equals(this.generatedText, er.generatedText);
 	}
 	

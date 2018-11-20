@@ -18,7 +18,7 @@ import org.eclipse.epsilon.eol.types.AbstractToolNativeTypeDelegate;
 
 public class ExtensionPointToolNativeTypeDelegate extends AbstractToolNativeTypeDelegate{
 	
-	protected HashMap<String, ToolExtension> tools = new HashMap<String, ToolExtension>();
+	protected HashMap<String, ToolExtension> tools = new HashMap<>();
 	
 	public ExtensionPointToolNativeTypeDelegate() {
 		for (ToolExtension extension : ToolExtension.getInstances()) {
@@ -26,10 +26,12 @@ public class ExtensionPointToolNativeTypeDelegate extends AbstractToolNativeType
 		}
 	}
 	
+	@Override
 	public Object createInstance(String clazz, List<Object> parameters) throws EolRuntimeException {
 		return tools.get(clazz).createTool(parameters);
 	}
 
+	@Override
 	public boolean knowsAbout(String clazz) {
 		return tools.containsKey(clazz);
 	}

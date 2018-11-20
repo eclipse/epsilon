@@ -39,12 +39,13 @@ public class EolDebugger implements ExecutionController {
 
 	private IDebugTarget target = null;
 	private boolean stepping = false;
-	private HashMap<String, IFile> iFiles = new HashMap<String, IFile>();
+	private HashMap<String, IFile> iFiles = new HashMap<>();
 	private ModuleElement currentModuleElement, stopAfterModuleElement;
 	private Integer stopAfterFrameStackSizeDropsBelow;
 
 	public EolDebugger() {}
 	
+	@Override
 	public void control(ModuleElement ast, IEolContext context) {
 		if (!controls(ast, context)) return;
 		IFile lastFile = getIFile(ast);
@@ -73,14 +74,17 @@ public class EolDebugger implements ExecutionController {
 		}
 	}
 
+	@Override
 	public boolean isTerminated() {
 		return target.isTerminated();
 	}
 
+	@Override
 	public void report(IEolContext context) {
 		
 	}
 
+	@Override
 	public void dispose() {
 		target = null;
 	}

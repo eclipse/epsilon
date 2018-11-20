@@ -32,7 +32,7 @@ public class EolVariableValue extends EolDebugElement implements IValue {
 	private final EolVariable variable;
 	private IVariable[] children;
 
-	private static final Set<Class<?>> PRIMITIVE_WRAPPER_CLASSES = new HashSet<Class<?>>();
+	private static final Set<Class<?>> PRIMITIVE_WRAPPER_CLASSES = new HashSet<>();
 
 	static {
 		PRIMITIVE_WRAPPER_CLASSES.add(Boolean.class);
@@ -60,24 +60,28 @@ public class EolVariableValue extends EolDebugElement implements IValue {
 		return variable;
 	}
 
+	@Override
 	public String getReferenceTypeName() throws DebugException {
 		return value != null ? value.getClass().getCanonicalName() : "(null)";
 	}
 
+	@Override
 	public String getValueString() throws DebugException {
 		return value + "";
 	}
 
+	@Override
 	public boolean isAllocated() throws DebugException {
 		return true;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public synchronized IVariable[] getVariables() throws DebugException {
 		if (children == null) {
 			// loops, primitive wrappers and null values do not have any children
 			if (!isNullOrPrimitiveWrapper(value) && !variable.isLoop()) {
-				final List<IVariable> subvars = new ArrayList<IVariable>();
+				final List<IVariable> subvars = new ArrayList<>();
 
 				// Elements (for collections and arrays)
 				if (value instanceof Collection) {
@@ -142,6 +146,7 @@ public class EolVariableValue extends EolDebugElement implements IValue {
 		return value == null || PRIMITIVE_WRAPPER_CLASSES.contains(value.getClass());
 	}
 
+	@Override
 	public boolean hasVariables() throws DebugException {
 		final IVariable[] vars = getVariables();
 		return vars != null && vars.length > 0;

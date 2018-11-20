@@ -19,9 +19,10 @@ public class EglEditorStaticTemplateContributor implements IAbstractModuleEditor
 
 	List<Template> templates = null;
 	
+	@Override
 	public List<Template> getTemplates() {
 		if (templates==null) {
-			templates = new ArrayList<Template>();
+			templates = new ArrayList<>();
 			templates.add(new Template("[% %]","dynamic block","","[%${cursor}%]",false));
 			templates.add(new Template("[%= %]","output block","","[%=${cursor}%]",false));
 			templates.add(new Template("[* *]","multiline comment","","[*${cursor}*]",false));

@@ -22,7 +22,6 @@ import org.eclipse.epsilon.egl.EglPersistentTemplate;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
-import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Parameter;
@@ -64,7 +63,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 		mergeBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.MERGE), this);
 	}
 
-	public Collection<?> getAllElements(IEglContext context) throws EolRuntimeException {
+	public Collection<?> getAllElements(IEolContext context) throws EolRuntimeException {
 		if (sourceParameter != null) {
 			return getAllInstances(sourceParameter, context, !isGreedy());
 		}
@@ -73,7 +72,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 		}
 	}
 	
-	public void generate(IEglContext context, EglTemplateFactory templateFactory, IEgxModule module, Object element, Map<URI, EglTemplate> templateCache) throws EolRuntimeException {
+	public void generate(IEolContext context, EglTemplateFactory templateFactory, IEgxModule module, Object element, Map<URI, EglTemplate> templateCache) throws EolRuntimeException {
 		FrameStack frameStack = context.getFrameStack();
 		
 		if (sourceParameter != null) {
@@ -83,8 +82,9 @@ public class GenerationRule extends ExtensibleNamedRule {
 			frameStack.enterLocal(FrameType.PROTECTED, this);
 		}
 		
-		if (guardBlock != null && !guardBlock.execute(context, false))
+		if (guardBlock != null && !guardBlock.execute(context, false)) {
 			return;
+		}
 		
 		if (preBlock != null) {
 			preBlock.execute(context, false);
@@ -132,7 +132,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 		eglTemplate.reset();
 	}
 	
-	public void generateAll(IEglContext context, EglTemplateFactory templateFactory, IEgxModule module) throws EolRuntimeException {
+	public void generateAll(IEolContext context, EglTemplateFactory templateFactory, IEgxModule module) throws EolRuntimeException {
 		Map<URI, EglTemplate> templateCache = new HashMap<>();
 		
 		for (Object element : getAllElements(context)) {

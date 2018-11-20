@@ -18,9 +18,11 @@ import org.eclipse.jface.text.templates.Template;
 public class EgxEditorStaticTemplateContributor implements IAbstractModuleEditorTemplateContributor {
 	
 	List<Template> templates = null;
+	
+	@Override
 	public List<Template> getTemplates() {
 		if (templates == null) {
-			templates = new ArrayList<Template>();
+			templates = new ArrayList<>();
 			templates.add(new Template("transform", "transform rule", "", "rule ${rulename} \r\n\ttransform s : ${sourcemodel}!${sourcetype} {\r\n" +
 					"\r\n\ttemplate : \"${cursor}\"\r\n" +
 					"\r\n\tparameters : Map{}\r\n" +

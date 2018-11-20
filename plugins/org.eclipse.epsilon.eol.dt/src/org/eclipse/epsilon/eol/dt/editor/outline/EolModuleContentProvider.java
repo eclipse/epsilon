@@ -21,9 +21,10 @@ import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 
 public class EolModuleContentProvider extends ModuleContentProvider {
+	
 	@Override
 	public List<ModuleElement> getVisibleChildren(ModuleElement moduleElement) {
-		List<ModuleElement> visible = new ArrayList<ModuleElement>();
+		List<ModuleElement> visible = new ArrayList<>();
 		
 		if (moduleElement.getClass() == EolModule.class) {
 			EolModule module = (EolModule) moduleElement;

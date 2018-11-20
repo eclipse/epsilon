@@ -28,12 +28,13 @@ public class EolEditorBuiltinTypesTemplateContributor implements IAbstractModule
 	
 	Image typeImage = EolPlugin.getDefault().createImage("icons/type.gif");
 	
+	@Override
 	public List<Template> getTemplates() {
 		
-		if (editor == null) return new ArrayList<Template>();
+		if (editor == null) return new ArrayList<>();
 		
 		if (templates == null) {
-			templates = new ArrayList<Template>();
+			templates = new ArrayList<>();
 			for (String type : editor.getTypes()) {
 				templates.add(new TemplateWithImage(type, "built-in type", "", type, false, typeImage));
 			}
@@ -41,6 +42,7 @@ public class EolEditorBuiltinTypesTemplateContributor implements IAbstractModule
 		return templates;
 	}
 
+	@Override
 	public void moduleParsed(AbstractModuleEditor editor, IModule module) {
 		this.editor = editor;
 	}

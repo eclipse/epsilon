@@ -19,9 +19,10 @@ public class EolEditorStaticTemplateContributor implements IAbstractModuleEditor
 
 	private List<Template> templates;
 
+	@Override
 	public List<Template> getTemplates() {
 		if (templates == null) {
-			templates = new ArrayList<Template>();
+			templates = new ArrayList<>();
 			templates.add(new Template("function", "function with return type", "", "function ${context} ${name} () : ${returntype} {\r\n\t${cursor}\r\n}",false));
 			templates.add(new Template("operation", "operation with return type", "", "operation ${context} ${name} () : ${returntype} {\r\n\t${cursor}\r\n}",false));
 			templates.add(new Template("for", "iterate over collection", "", "for (${iterator} in ${collection}) { \r\n\t${cursor}\r\n}",true));

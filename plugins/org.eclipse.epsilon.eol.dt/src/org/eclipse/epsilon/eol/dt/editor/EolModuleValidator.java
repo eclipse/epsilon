@@ -17,10 +17,7 @@ import org.eclipse.epsilon.common.dt.editor.AbstractModuleValidator;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.IModuleValidator;
 import org.eclipse.epsilon.common.module.ModuleMarker;
-import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class EolModuleValidator extends AbstractModuleValidator implements IModuleValidator {
 	
@@ -28,7 +25,7 @@ public class EolModuleValidator extends AbstractModuleValidator implements IModu
 	public List<ModuleMarker> validate(IModule module) {
 		if (!appliesTo(module)) return Collections.emptyList();
 		
-		ArrayList<ModuleMarker> markers = new ArrayList<ModuleMarker>();
+		ArrayList<ModuleMarker> markers = new ArrayList<>();
 		/*
 		// Fix for bug #393988
 		AST firstHelper = null;

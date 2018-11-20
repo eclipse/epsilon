@@ -21,20 +21,21 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
-import org.eclipse.epsilon.eol.util.EolParserUtil;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.swt.graphics.Image;
 
 public class EolEditorTokenTemplateContributor implements IAbstractModuleEditorTemplateContributor, IModuleParseListener {
 	
-	protected List<Template> templates = new ArrayList<Template>();
-	protected HashSet<String> tokens = new HashSet<String>();
+	protected List<Template> templates = new ArrayList<>();
+	protected HashSet<String> tokens = new HashSet<>();
 	Image tokenImage = EolPlugin.getDefault().createImage("icons/token.gif");
 	
+	@Override
 	public List<Template> getTemplates() {
 		return templates;
 	}
 
+	@Override
 	public void moduleParsed(AbstractModuleEditor editor, IModule module) {
 		templates.clear();
 		tokens.clear();

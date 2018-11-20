@@ -20,7 +20,7 @@ import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.dt.editor.outline.EplModuleContentProvider;
 import org.eclipse.epsilon.epl.dt.editor.outline.EplModuleElementLabelProvider;
 
-public class EplEditor extends EolEditor{
+public class EplEditor extends EolEditor {
 	
 	public EplEditor() {
 		this.addTemplateContributor(new EplEditorStaticTemplateContributor());
@@ -29,7 +29,7 @@ public class EplEditor extends EolEditor{
 	@Override
 	public List<String> getKeywords() {
 		
-		List<String> keywords = new ArrayList<String>();
+		List<String> keywords = new ArrayList<>(12);
 		
 		keywords.add("pre");
 		keywords.add("post");
@@ -60,7 +60,7 @@ public class EplEditor extends EolEditor{
 	}
 	
 	@Override
-	public IModule createModule(){
+	public IModule createModule() {
 		return new EplModule();
 	}
 	

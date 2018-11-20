@@ -21,20 +21,21 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
 import org.eclipse.epsilon.eol.dt.EolPlugin;
-import org.eclipse.epsilon.eol.util.EolParserUtil;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.swt.graphics.Image;
 
 public class EolEditorPropertyTemplateContributor implements IAbstractModuleEditorTemplateContributor, IModuleParseListener {
 	
-	protected List<Template> templates = new ArrayList<Template>();
-	protected HashSet<String> properties = new HashSet<String>();
+	protected List<Template> templates = new ArrayList<>();
+	protected HashSet<String> properties = new HashSet<>();
 	Image propertyImage = EolPlugin.getDefault().createImage("icons/property.gif");
 	
+	@Override
 	public List<Template> getTemplates() {
 		return templates;
 	}
 
+	@Override
 	public void moduleParsed(AbstractModuleEditor editor, IModule module) {
 		templates.clear();
 		properties.clear();

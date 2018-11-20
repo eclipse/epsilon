@@ -18,8 +18,6 @@ import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
 import org.eclipse.epsilon.egl.execute.EglOperationFactory;
-import org.eclipse.epsilon.egl.formatter.Formatter;
-import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.output.IOutputBufferFactory;
@@ -84,22 +82,7 @@ public class EglContext extends EolContext implements IEglContext {
 		);
 	}
 	
-	@Override
-	public void copyInto(IEolContext context, boolean preserveFrameStack) {
-		context.setErrorStream(getErrorStream());
-		context.setExecutorFactory(getExecutorFactory());
-		context.setIntrospectionManager(getIntrospectionManager());
-		context.setModelRepository(getModelRepository());
-		context.setOperationFactory(getOperationFactory());
-		context.setOutputStream(getOutputStream());
-		if (!preserveFrameStack) context.setFrameStack(getFrameStack());
-		context.setUserInput(getUserInput());
-		context.setNativeTypeDelegates(getNativeTypeDelegates());
-		context.setExtendedProperties(getExtendedProperties());
-		context.setPrettyPrinterManager(getPrettyPrinterManager());
-		if (context instanceof EglPreprocessorContext)
-			((EglPreprocessorContext) context).setEglContext(this);
-	}
+	
 	
 	@Override
 	public void copyInto(IEolContext context) {
@@ -186,10 +169,5 @@ public class EglContext extends EolContext implements IEglContext {
 	@Override
 	public EglTemplate getCurrentTemplate() {
 		return executionManager.getCurrent().template;
-	}
-	
-	@Override
-	public void formatWith(Formatter formatter) {
-		getOutputBuffer().formatWith(formatter);
 	}
 }

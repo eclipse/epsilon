@@ -11,19 +11,19 @@ package org.eclipse.epsilon.egl.execute.context;
 
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
-import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
+import org.eclipse.epsilon.erl.execute.context.ErlContext;
 
-public class EgxContext extends EglContext implements IEgxContext {
+public class EgxContext extends ErlContext implements IEgxContext {
 	
 	protected EgxModuleTemplateAdapter baseTemplate;
+	private EglTemplateFactory templateFactory;
 	
 	public EgxContext() {
 		this(null);
 	}
 	
 	public EgxContext(EglTemplateFactory templateFactory) {
-		super(templateFactory);
-		executorFactory = new RuleExecutorFactory();
+		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory();
 	}
 	
 	@Override
@@ -43,9 +43,14 @@ public class EgxContext extends EglContext implements IEgxContext {
 	public IEgxModule getModule() {
 		return (IEgxModule) module;
 	}
-	
+
 	@Override
-	public RuleExecutorFactory getExecutorFactory() {
-		return (RuleExecutorFactory) executorFactory;
+	public void setTemplateFactory(EglTemplateFactory templateFactory) {
+		this.templateFactory = templateFactory;
+	}
+
+	@Override
+	public EglTemplateFactory getTemplateFactory() {
+		return templateFactory;
 	}
 }
