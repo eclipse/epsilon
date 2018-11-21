@@ -46,7 +46,7 @@ public class EgxModuleParallel extends EgxModule {
 		this.context = egxContext;
 		this.invokedTemplates = new ConcurrentLinkedQueue<>();
 	}
-	
+
 	@Override
 	protected void prepareExecution() throws EolRuntimeException {
 		super.prepareExecution();

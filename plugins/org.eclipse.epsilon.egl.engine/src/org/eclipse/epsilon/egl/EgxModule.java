@@ -176,7 +176,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	@Override
 	protected void prepareContext() {
 		super.prepareContext();
-		getContext().copyInto(getContext().getTemplateFactory().getContext(), true);
+		getTemplateFactory().getContext().copyFrom(context, true);
 	}
 	
 	@Override
@@ -194,7 +194,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	 * @since 1.6
 	 */
 	protected void generateRules() throws EolRuntimeException {
-		EglTemplateFactory templateFactory = getContext().getTemplateFactory();
+		EglTemplateFactory templateFactory = getTemplateFactory();
 		
 		for (GenerationRule rule : getGenerationRules()) {
 			rule.generateAll(context, templateFactory, this);

@@ -577,6 +577,21 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 		return locals.isEmpty() ? globals : locals;
 	}
 	
+	/**
+	 * Copies the references of all variables in the given FrameStack into this FrameStack.
+	 * 
+	 * @param other The FrameStack to copy from.
+	 * @since 1.6
+	 */
+	public void putAll(FrameStack other) {
+		this.globals.putAll(other.globals.getAll());
+		this.locals.putAll(other.locals.getAll());
+		this.builtInVariables.putAll(other.builtInVariables);
+	}
+	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public FrameStack getBase() {
 		return base;
@@ -596,11 +611,17 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 		return getFrames().size();
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean isThreadSafe() {
 		return isConcurrent;
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public void setThreadSafe(boolean concurrent) {
 		if (concurrent != this.isConcurrent) {
@@ -613,6 +634,7 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 	/**
 	 * Adds all of this FrameStack's frames into its base FrameStack, or vice-versa.
 	 * @param mode Whether to merge from base to this, or from this to base.
+	 * @since 1.6
 	 */
 	@Override
 	public void merge(MergeMode mode) {
@@ -623,6 +645,7 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 	
 	/**
 	 * Adds all the frames and variables from the first argument to the second one.
+	 * @since 1.6
 	 */
 	protected static void mergeFrameStacks(FrameStack from, FrameStack to) {
 		if (from != null && to != null) {

@@ -40,22 +40,26 @@ public class EglContext extends EolContext implements IEglContext {
 	private IEglContext parentContext;
 	
 	public EglContext() {
-		this(new EglTemplateFactory());
+		this((EglTemplateFactory) null);
 	}
 	
 	public EglContext(EglTemplateFactory templateFactory) {
 		super(new EolClasspathNativeTypeDelegate(EglContext.class.getClassLoader()));
-		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory();
+		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory(this);
 		populateScope();
 		setOperationFactory(new EglOperationFactory());
 	}
-
-	protected void setExecutionManager(EglExecutionManager executionManager) {
-		this.executionManager = executionManager;
-	}
 	
-	public void setTemplateFactory(EglTemplateFactory templateFactory) {
-		this.templateFactory = templateFactory;
+	@Override
+	public void copyFrom(IEolContext context, boolean preserveFramestack) {
+		IEglContext.super.copyFrom(context, preserveFramestack);
+		
+		if (context instanceof EglContext) {
+			EglContext other = (EglContext) context;
+		 	this.parentContext = other.parentContext;
+		 	this.executionManager = other.executionManager;
+		 	this.templateFactory = other.templateFactory;
+		}
 	}
 	
 	@Override
@@ -80,13 +84,6 @@ public class EglContext extends EolContext implements IEglContext {
 			Variable.createReadOnlyVariable("openOutputTag", "[%="),
 			Variable.createReadOnlyVariable("closeTag",       "%]")
 		);
-	}
-	
-	
-	
-	@Override
-	public void copyInto(IEolContext context) {
-		copyInto(context, false);
 	}
 
 	@Override

@@ -94,5 +94,5 @@ public interface IEolContext {
 	Queue<AsyncStatementInstance> getAsyncStatementsQueue();
 	
 	OperationContributorRegistry getOperationContributorRegistry();
-	
+
 }

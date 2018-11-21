@@ -12,9 +12,7 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.internal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.WeakHashMap;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
@@ -25,13 +23,12 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccess;
 import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccessRecorder;
-import org.eclipse.epsilon.eol.parse.EolParser;
 
 @SuppressWarnings("restriction")
 public class EglOutputBufferPrintExecutionListener implements IExecutionListener {
 
 	private final IPropertyAccessRecorder recorder;
-	private final WeakHashMap<ModuleElement, EglOutputBufferPrintExecutionListener.TraceData> cache = new WeakHashMap<ModuleElement, EglOutputBufferPrintExecutionListener.TraceData>();
+	private final WeakHashMap<ModuleElement, EglOutputBufferPrintExecutionListener.TraceData> cache = new WeakHashMap<>();
 	private final TracedPropertyAccessLedger ledger;
 
 	public EglOutputBufferPrintExecutionListener(IPropertyAccessRecorder recorder, TracedPropertyAccessLedger ledger) {

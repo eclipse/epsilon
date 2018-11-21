@@ -27,30 +27,35 @@ public interface IEglContext extends IEolContext {
 	public List<String> getPartitioningProblems();	
 	
 	public EglTemplateFactory getTemplateFactory();
-	
+
 	/**
 	 * 
 	 * @param context
+	 * @param preserveFramestack
 	 * @since 1.6
 	 */
-	public default void copyInto(IEolContext context) {
-		copyInto(context, false);
-	}
-
-	public default void copyInto(IEolContext context, boolean preserveFrameStack) {
-		context.setErrorStream(getErrorStream());
-		context.setExecutorFactory(getExecutorFactory());
-		context.setIntrospectionManager(getIntrospectionManager());
-		context.setModelRepository(getModelRepository());
-		context.setOperationFactory(getOperationFactory());
-		context.setOutputStream(getOutputStream());
-		if (!preserveFrameStack) context.setFrameStack(getFrameStack());
-		context.setUserInput(getUserInput());
-		context.setNativeTypeDelegates(getNativeTypeDelegates());
-		context.setExtendedProperties(getExtendedProperties());
-		context.setPrettyPrinterManager(getPrettyPrinterManager());
-		if (context instanceof EglPreprocessorContext)
-			((EglPreprocessorContext) context).setEglContext(this);
+	public default void copyFrom(IEolContext context, boolean preserveFramestack) {
+		this.setErrorStream(context.getErrorStream());
+		this.setExecutorFactory(context.getExecutorFactory());
+		this.setIntrospectionManager(context.getIntrospectionManager());
+		this.setModelRepository(context.getModelRepository());
+		this.setOperationFactory(context.getOperationFactory());
+		this.setOutputStream(context.getOutputStream());
+		if (!preserveFramestack) this.setFrameStack(context.getFrameStack());
+		this.setUserInput(context.getUserInput());
+		this.setNativeTypeDelegates(context.getNativeTypeDelegates());
+		this.setExtendedProperties(context.getExtendedProperties());
+		this.setPrettyPrinterManager(context.getPrettyPrinterManager());
+		if (context instanceof IEglContext) {
+			IEglContext other = (IEglContext) context;
+			other.getStatusMessages().forEach(this::addStatusMessage);
+			this.setOutputBufferFactory(other.getOutputBufferFactory());
+			this.setPartitioner(other.getPartitioner());
+			this.setContentTypeRepository(other.getContentTypeRepository());
+			if (this instanceof EglPreprocessorContext) {
+				((EglPreprocessorContext) this).setEglContext(other);
+			}
+		}
 	}
 	
 	public CompositePartitioner getPartitioner();

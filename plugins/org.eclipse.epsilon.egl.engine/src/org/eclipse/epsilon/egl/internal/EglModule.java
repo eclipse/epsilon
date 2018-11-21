@@ -51,9 +51,7 @@ public class EglModule extends EolModule implements IEglModule {
 
 	protected EglParser parser;
 	protected EglLexer lexer;
-	protected Reader reader;
 	protected EglPreprocessorModule preprocessorModule;
-	protected AST ast;
 
 	private final List<EglMarkerSection> markers = new LinkedList<>();	
 	private URI templateRoot;
@@ -63,8 +61,8 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 	
 	public EglModule(IEglContext context) {
-		this.context = context != null ? context : new EglContext();
-		preprocessorModule = new EglPreprocessorModule(context);
+		((IEglContext) (this.context = new EglContext())).copyFrom(context, false);
+		preprocessorModule = new EglPreprocessorModule(this.context);
 	}
 
 	@Override
@@ -90,7 +88,8 @@ public class EglModule extends EolModule implements IEglModule {
 
 			try {
 				templateRoot = UriUtil.fileToUri(file.getAbsoluteFile().getParentFile());
-			} catch (URISyntaxException e) {}
+			}
+			catch (URISyntaxException e) {}
 		}
 		
 		return parseAndPreprocess(lexer, file);
@@ -101,19 +100,15 @@ public class EglModule extends EolModule implements IEglModule {
 		if (uri == null)
 			throw new IllegalArgumentException("URI cannot be null");
 
-		try {
-			this.sourceUri = uri;
-			this.templateRoot = uri;
+		this.sourceUri = uri;
+		this.templateRoot = uri;
 
-			if (uri.getScheme() != null && uri.getScheme().equals("file")) {
-				this.sourceFile = new File(uri);
-			}
-
-			reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
-			return parseAndPreprocess(new EglLexer(reader), this.sourceFile);
+		if (uri.getScheme() != null && uri.getScheme().equals("file")) {
+			this.sourceFile = new File(uri);
 		}
-		finally {
-			if (reader != null) reader.close();
+
+		try (Reader reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()))) {
+			return parseAndPreprocess(new EglLexer(reader), this.sourceFile);
 		}
 	}
 	
@@ -122,13 +117,13 @@ public class EglModule extends EolModule implements IEglModule {
 		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(file, this);
 		parser = new EglParser(lexer, astFactory);
 		parser.parse();
-		ast = parser.getAST();
+		AST ast = parser.getAST();
 		
 		final boolean validEgl = parser.getParseProblems().isEmpty();
 		final boolean validEol = preprocessorModule.preprocess(ast, sourceFile, sourceUri);
 
 		if (validEgl && validEol) {
-			buildModel();
+			buildModel(ast);
 		}
 		
 		return validEgl && validEol;
@@ -141,7 +136,7 @@ public class EglModule extends EolModule implements IEglModule {
 		return null;
 	}
 	
-	public void buildModel() throws Exception {	
+	void buildModel(AST ast) throws Exception {	
 		for (AST child : ast.getChildren()) {
 			if (child.getType() == TokenType.START_MARKER_TAG.getIdentifier()) {
 				EglMarkerSection section = (EglMarkerSection) createAst(child, this);
@@ -163,13 +158,11 @@ public class EglModule extends EolModule implements IEglModule {
 	@Override
 	public EglResult execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException {
 		IEglContext context = getContext();
-		
 		context.enter(template);
 		
 		final String generatedText = execute(postprocessor);
 		
 		context.exit();
-		
 		return new EglResult(generatedText);
 	}
 
