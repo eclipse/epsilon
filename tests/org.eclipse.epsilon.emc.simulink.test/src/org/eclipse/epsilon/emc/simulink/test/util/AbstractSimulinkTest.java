@@ -103,12 +103,7 @@ public abstract class AbstractSimulinkTest {
 			try {
 				EolModule module = new EolModule();
 				try {
-					File eolAsFile = new File(eol);
-					if (eolAsFile.exists()) {
-						module.parse(eolAsFile);
-					} else {
-						module.parse(eol);
-					}
+					module.parse(eol);
 				} catch (Exception e) {
 					System.err.println("Could not parse EOL");
 					throw e;
@@ -128,7 +123,7 @@ public abstract class AbstractSimulinkTest {
 		}
 	}
 
-	public static SimulinkModel loadSimulinkModel(File file, boolean activeCaching) throws EolModelLoadingException {
+	public static SimulinkModel loadSimulinkModel(File file, boolean activeCaching) throws Exception {
 
 		SimulinkModel model = new SimulinkModel();
 		model.setName("M");
@@ -144,16 +139,26 @@ public abstract class AbstractSimulinkTest {
 		model.setStoredOnDisposal(false);
 		model.setShowInMatlabEditor(false);
 		model.setCachingEnabled(activeCaching);
-		try {			
-			String version = installation.getVersion();
-			model.setLibraryPath(LIBRARY_PATH.path(version));
-			model.setEngineJarPath(ENGINE_JAR.path(version));
+		String version = installation.getVersion();
+		String path;
+		try {
+			path = LIBRARY_PATH.path(version);
+			System.out.println(path);
+			model.setLibraryPath(path);
+			String engine = ENGINE_JAR.path(version);
+			System.out.println(engine);
+			model.setEngineJarPath(engine);
 		} catch (Exception e) {
-			throw new EolModelLoadingException(e, model);
+			e.printStackTrace();
+			throw e;
 		}
 		model.setFollowLinks(false);
-		model.load();
-
+		try {
+			model.load();
+		} catch (EolModelLoadingException e) {
+			e.printStackTrace();
+			throw e;
+		}
 		return model;
 	}
 
