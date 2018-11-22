@@ -6,6 +6,7 @@
  *
  * Contributors:
  *     Louis Rose - initial API and implementation
+ *     Sina Madani - refactoring
  ******************************************************************************/
 package org.eclipse.epsilon.egl.internal;
 
@@ -18,7 +19,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
@@ -50,7 +50,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 public class EglModule extends EolModule implements IEglModule {
 
 	protected EglParser parser;
-	protected EglLexer lexer;
 	protected EglPreprocessorModule preprocessorModule;
 
 	private final List<EglMarkerSection> markers = new LinkedList<>();	
@@ -61,7 +60,8 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 	
 	public EglModule(IEglContext context) {
-		((IEglContext) (this.context = new EglContext())).copyFrom(context, false);
+		this.context = new EglContext();
+		if (context != null) getContext().copyFrom(context, false);
 		preprocessorModule = new EglPreprocessorModule(this.context);
 	}
 
@@ -113,7 +113,6 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 	
 	private boolean parseAndPreprocess(EglLexer lexer, File file) throws Exception {
-		this.lexer = lexer;
 		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(file, this);
 		parser = new EglParser(lexer, astFactory);
 		parser.parse();

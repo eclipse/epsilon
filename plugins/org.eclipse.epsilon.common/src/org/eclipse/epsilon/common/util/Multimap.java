@@ -19,8 +19,9 @@ import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
  * A {@linkplain Map} which allows each to be associated with multiple values.
  * @param <K> The key type.
  * @param <V> The type of values.
+ * @since 1.6 implements Map interface, additional utility methods
  */
-public class Multimap<K, V> {
+public class Multimap<K, V> implements Map<K, Collection<V>> {
 	
 	protected final Map<K, Collection<V>> storage;
 	protected final boolean isConcurrent;
@@ -77,7 +78,8 @@ public class Multimap<K, V> {
 	 * @param key
 	 * @return The associated values, or an empty collection if the key was not present.
 	 */
-	public Collection<V> get(K key) {
+	@Override
+	public Collection<V> get(Object key) {
 		Collection<V> values = storage.get(key);
 		return values != null ? Collections.unmodifiableCollection(values) : Collections.emptyList();
 	}
@@ -90,7 +92,7 @@ public class Multimap<K, V> {
 	 * @return A collection of the associated values, or <code>null</code> if no mapping was present.
 	 * @since 1.6
 	 */
-	public Collection<V> getMutable(K key) {
+	public Collection<V> getMutable(Object key) {
 		return storage.get(key);
 	}
 
@@ -123,7 +125,7 @@ public class Multimap<K, V> {
 	 * @return Whether the key was present and value was added.
 	 * @since 1.6
 	 */
-	public boolean putIfPresent(K key, V value) {
+	public boolean putIfPresent(Object key, V value) {
 		Collection<V> values = storage.get(key);
 		return values != null && values.add(value);
 	}
@@ -146,7 +148,8 @@ public class Multimap<K, V> {
 	 * @param value
 	 * @return Whether the key was present and the associated collection of values was changed.
 	 */
-	public boolean remove(K key, V value) {
+	@Override
+	public boolean remove(Object key, Object value) {
 		Collection<V> col = storage.get(key);
 		return col != null && col.remove(value);
 	}
@@ -158,7 +161,7 @@ public class Multimap<K, V> {
 	 * @return Whether the key was present and the collection changed as a result.
 	 * @since 1.6
 	 */
-	public boolean removeAll(K key) {
+	public boolean removeAll(Object key) {
 		Collection<V> values = storage.get(key);
 		boolean changed = false;
 		if (values != null) {
@@ -179,7 +182,7 @@ public class Multimap<K, V> {
 	 * values was changed as a result of this call.
 	 * @since 1.6
 	 */
-	public boolean removeAll(K key, Collection<V> values) {
+	public boolean removeAll(Object key, Collection<V> values) {
 		Collection<V> oldValues = storage.get(key);
 		return oldValues != null && oldValues.removeAll(values);
 	}
@@ -189,13 +192,15 @@ public class Multimap<K, V> {
 	 * @param key
 	 * @return The values associated with the key, or <code>null</code> if no mapping was present.
 	 */
-	public Collection<V> removeKey(K key) {
+	@Override
+	public Collection<V> remove(Object key) {
 		return storage.remove(key);
 	}
 	
 	/**
 	 * Removes all mappings.
 	 */
+	@Override
 	public void clear() {
 		storage.clear();
 	}
@@ -205,7 +210,8 @@ public class Multimap<K, V> {
 	 * @param key
 	 * @return Whether the given key has one or more values associated with it.
 	 */
-	public boolean containsKey(K key) {
+	@Override
+	public boolean containsKey(Object key) {
 		Collection<V> col = storage.get(key);
 		return col != null && !col.isEmpty();
 	}
@@ -264,6 +270,7 @@ public class Multimap<K, V> {
 	 * mapping was present.
 	 * @since 1.6
 	 */
+	@Override
 	public Collection<V> put(K key, Collection<V> values) {
 		return storage.put(key, newCollection(values));
 	}
@@ -312,7 +319,7 @@ public class Multimap<K, V> {
 	 * @return The stream of values for the key, or an empty stream if the key is not present.
 	 * @since 1.6
 	 */
-	public Stream<V> stream(K key) {
+	public Stream<V> stream(Object key) {
 		Collection<V> colForKey = storage.get(key);
 		return colForKey != null ? colForKey.stream() : Stream.empty();
 	}
@@ -331,6 +338,7 @@ public class Multimap<K, V> {
 	 * @return An immutable KeySetView of this Multimap.
 	 * @since 1.6
 	 */
+	@Override
 	public Set<Map.Entry<K, Collection<V>>> entrySet() {
 		return Collections.unmodifiableSet(storage.entrySet());
 	}
@@ -340,6 +348,7 @@ public class Multimap<K, V> {
 	 * @return The number of keys.
 	 * @since 1.6
 	 */
+	@Override
 	public int size() {
 		return storage.size();
 	}
@@ -381,5 +390,47 @@ public class Multimap<K, V> {
 	@Override
 	public String toString() {
 		return storage.toString();
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean isEmpty() {
+		return storage.isEmpty();
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean containsValue(Object value) {
+		return storage.containsValue(value) ||
+			streamAll()
+			.anyMatch(v -> Objects.equals(v, value));
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public void putAll(Map<? extends K, ? extends Collection<V>> m) {
+		storage.putAll(m);
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public Set<K> keySet() {
+		return storage.keySet();
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public Collection<Collection<V>> values() {
+		return storage.values();
 	}
 }

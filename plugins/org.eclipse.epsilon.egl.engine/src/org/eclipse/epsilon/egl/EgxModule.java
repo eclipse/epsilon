@@ -35,6 +35,10 @@ import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
+/**
+ * 
+ * @since 1.6 extends ERL rather than EGL.
+ */
 public class EgxModule extends ErlModule implements IEgxModule {
 
 	protected NamedRuleList<GenerationRule> generationRules;

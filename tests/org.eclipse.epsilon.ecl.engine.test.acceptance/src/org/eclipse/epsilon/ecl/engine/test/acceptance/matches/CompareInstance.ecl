@@ -45,7 +45,7 @@ rule TDOI_rl
 }
 
 post {
-	for (m in System.context.matchTrace.getMatches()) {
+	for (m in matchTrace.getMatches()) {
 		assertTrue(("Match:" + m.matching + " - Info:" + m.Info + " - " + m.left + " <-> " + m.right).isDefined());
 	}
 }

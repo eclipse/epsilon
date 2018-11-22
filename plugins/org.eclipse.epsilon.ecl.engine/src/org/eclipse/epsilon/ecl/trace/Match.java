@@ -119,11 +119,17 @@ public class Match {
 		this.info = info;
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(matching, userSpecified, rule, left, right);
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;

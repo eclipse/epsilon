@@ -29,9 +29,13 @@ public interface IEglContext extends IEolContext {
 	public EglTemplateFactory getTemplateFactory();
 
 	/**
+	 * Copies the state from the given context into this.
+	 * There are no guarantees about whether this is a shallow or deep copy.
 	 * 
-	 * @param context
-	 * @param preserveFramestack
+	 * @param context The context to copy from.
+	 * @param preserveFramestack Whether to leave this context's FrameStack
+	 * untouched.
+	 * 
 	 * @since 1.6
 	 */
 	public default void copyFrom(IEolContext context, boolean preserveFramestack) {

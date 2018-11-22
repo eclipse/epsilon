@@ -24,14 +24,6 @@ public interface IEclModule extends IErlModule {
 	
 	public List<MatchRule> getDeclaredMatchRules();
 	
-	//public void setLeftModel(IModel leftModel);
-	
-	//public IModel getLeftModel();
-	
-	//public void setRightModel(IModel rightModel);
-	
-	//public IModel getRightModel();
-	
 	@Override
 	default IEclContext getContext() {
 		return (IEclContext) IErlModule.super.getContext();

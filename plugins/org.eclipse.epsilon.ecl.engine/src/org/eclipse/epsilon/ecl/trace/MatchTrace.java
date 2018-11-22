@@ -151,11 +151,17 @@ public class MatchTrace {
 		return toStringCached != null ? toStringCached : super.toString();
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public int hashCode() {
 		return matches.hashCode();
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;

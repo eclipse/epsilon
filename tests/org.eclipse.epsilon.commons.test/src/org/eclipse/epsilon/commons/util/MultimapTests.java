@@ -204,12 +204,12 @@ public class MultimapTests {
 		@Test
 		public void removeKeyShouldRemoveKey() {
 			multimap.putAll("students", Arrays.asList("Louis", "James", "Frank"));
-			assertEquals(multimap.removeKey("students"), Arrays.asList("Louis", "James", "Frank"));
+			assertEquals(multimap.remove("students"), Arrays.asList("Louis", "James", "Frank"));
 			
 			assertFalse(multimap.containsKey("students"));
 			
 			multimap.put("students", "aStudent");
-			multimap.removeKey("students");
+			multimap.remove("students");
 			assertFalse(multimap.containsKey("students"));
 		}
 	}

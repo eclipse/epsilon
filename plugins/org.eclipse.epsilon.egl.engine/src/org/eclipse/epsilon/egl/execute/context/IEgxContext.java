@@ -11,7 +11,6 @@ package org.eclipse.epsilon.egl.execute.context;
 
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
-import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
@@ -22,9 +21,6 @@ import org.eclipse.epsilon.erl.execute.context.IErlContext;
 public interface IEgxContext extends IErlContext {
 
 	public void setBaseTemplate(EgxModuleTemplateAdapter baseTemplate);
-	
-	@Override
-	public RuleExecutorFactory getExecutorFactory();
 	
 	public EgxModuleTemplateAdapter getTrace();
 	
