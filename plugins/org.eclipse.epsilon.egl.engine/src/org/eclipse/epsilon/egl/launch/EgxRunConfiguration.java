@@ -23,7 +23,11 @@ import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
  * @since 1.6
  */
 public class EgxRunConfiguration extends IErlRunConfiguration {
-
+	
+	public static Builder<? extends EgxRunConfiguration, ?> Builder() {
+		return Builder(EgxRunConfiguration.class);
+	}
+	
 	public EgxRunConfiguration(Builder<? extends EgxRunConfiguration, ?> builder) {
 		super(builder);
 	}

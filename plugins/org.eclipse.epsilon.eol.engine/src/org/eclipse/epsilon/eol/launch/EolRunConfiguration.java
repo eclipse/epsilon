@@ -18,6 +18,10 @@ import org.eclipse.epsilon.eol.EolModule;
  */
 public class EolRunConfiguration extends IEolRunConfiguration {
 	
+	public static Builder<? extends EolRunConfiguration, ?> Builder() {
+		return Builder(EolRunConfiguration.class);
+	}
+	
 	public EolRunConfiguration(Builder<? extends EolRunConfiguration, ?> builder) {
 		super(builder);
 	}

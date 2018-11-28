@@ -22,6 +22,10 @@ import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
  */
 public class EclRunConfiguration extends IErlRunConfiguration {
 
+	public static Builder<? extends EclRunConfiguration, ?> Builder() {
+		return Builder(EclRunConfiguration.class);
+	}
+	
 	public EclRunConfiguration(Builder<? extends EclRunConfiguration, ?> builder) {
 		super(builder);
 	}

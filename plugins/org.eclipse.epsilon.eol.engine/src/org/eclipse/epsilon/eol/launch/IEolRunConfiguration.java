@@ -150,10 +150,10 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	
 	@SuppressWarnings("unchecked")
 	public static class Builder<C extends IEolRunConfiguration, B extends Builder<C, B>> extends ProfilableRunConfiguration.Builder<C, B> {
-		public Builder() {
+		protected Builder() {
 			super();
 		}
-		public Builder(Class<C> runConfigClass) {
+		protected Builder(Class<C> runConfigClass) {
 			super(runConfigClass);
 		}
 		
@@ -218,10 +218,6 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 			this.parameters.putAll(params);
 			return this;
 		}
-	}
-	
-	public static <C extends IEolRunConfiguration, B extends Builder<C, B>> Builder<C, B> Builder() {
-		return new Builder<>();
 	}
 	
 	public static <C extends IEolRunConfiguration, B extends Builder<C, B>> Builder<C, B> Builder(Class<C> clazz) {

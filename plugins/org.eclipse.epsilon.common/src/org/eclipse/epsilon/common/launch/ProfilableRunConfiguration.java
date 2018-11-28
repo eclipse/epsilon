@@ -61,10 +61,10 @@ public abstract class ProfilableRunConfiguration implements Runnable {
 		public boolean showResults, profileExecution;
 		public Path script, outputFile;
 		
-		public Builder() {
+		protected Builder() {
 			this(null);
 		}
-		public Builder(Class<C> runConfigClass) {
+		protected Builder(Class<C> runConfigClass) {
 			setConfigClass(runConfigClass);
 		}
 		private void setConfigClass(Class<C> runConfigClass) {

@@ -24,6 +24,10 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  */
 public class EvlRunConfiguration extends IErlRunConfiguration {
 	
+	public static Builder<? extends EvlRunConfiguration, ?> Builder() {
+		return Builder(EvlRunConfiguration.class);
+	}
+	
 	public EvlRunConfiguration(Builder<? extends EvlRunConfiguration, ?> builder) {
 		super(builder);
 	}
