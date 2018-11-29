@@ -51,6 +51,10 @@ public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
 		this.properties = properties;
 	}
 	
+	public Composite createGroupContainer(Composite parent, String text, int columns) {
+		return DialogUtil.createGroupContainer(parent, text, columns);
+	}
+	
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		
