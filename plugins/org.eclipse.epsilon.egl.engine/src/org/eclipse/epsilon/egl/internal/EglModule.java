@@ -60,8 +60,7 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 	
 	public EglModule(IEglContext context) {
-		this.context = new EglContext();
-		if (context != null) getContext().copyFrom(context, false);
+		this.context = context != null ? context : new EglContext();
 		preprocessorModule = new EglPreprocessorModule(this.context);
 	}
 
@@ -159,47 +158,27 @@ public class EglModule extends EolModule implements IEglModule {
 		IEglContext context = getContext();
 		context.enter(template);
 		
-		final String generatedText = execute(postprocessor);
-		
-		context.exit();
-		return new EglResult(generatedText);
-	}
-
-	private String execute(Formatter postprocessor) throws EglRuntimeException {
-		IEglContext context = getContext();
-		
 		context.setModule(this);
 		context.getTemplateFactory().initialiseRoot(templateRoot);
-
-		preprocessorModule.execute(); 
+		
+		preprocessorModule.execute();
+		EglResult result = new EglResult(context.getOutputBuffer().toString());
+		
 		context.formatWith(postprocessor);
 		
-		checkOutput();
-		
-		return context.getOutputBuffer().toString();
-	}
-
-
-	private void checkOutput() throws EglRuntimeException {
-		IEglContext context = getContext();
-		
 		final List<String> problems = context.getPartitioningProblems();
-
-		if (problems.size() > 0)
+		if (problems.size() > 0) {
 			throw new EglRuntimeException(problems.get(0), this);
-	}
-
-	@Override
-	public IEglContext getContext() {
-		return (IEglContext) context;
+		}
+		
+		context.exit();
+		return result;
 	}
 
 	@Override
 	public List<ParseProblem> getParseProblems() {
 		final List<ParseProblem> combinedErrors = new ArrayList<>(parser.getParseProblems());
-
 		combinedErrors.addAll(preprocessorModule.getParseProblems());
-
 		return combinedErrors;
 	}
 	
@@ -207,17 +186,21 @@ public class EglModule extends EolModule implements IEglModule {
 	public OperationList getOperations() {
 		return preprocessorModule.getOperations();
 	}
-	
-	public List<ModuleElement> getModuleElements() {
-		final List<ModuleElement> children = new LinkedList<>();
-		
+
+	@Override
+	public List<ModuleElement> getChildren() {
+		final List<ModuleElement> children = new ArrayList<>();
 		children.addAll(preprocessorModule.getImports());
 		//children.addAll(sections);
 		children.addAll(preprocessorModule.getDeclaredOperations());
-		
 		return children;
 	}
 
+	@Override
+	public IEglContext getContext() {
+		return (IEglContext) context;
+	}
+	
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEglContext) {

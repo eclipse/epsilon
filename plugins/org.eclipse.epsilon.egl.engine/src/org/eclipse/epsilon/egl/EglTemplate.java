@@ -88,9 +88,7 @@ public class EglTemplate extends AbstractEglTemplate {
 	public String merge(String existing) throws EglRuntimeException {
 		if (!isProcessed()) process();
 		 
-		final Merger merger = new DefaultMerger(module.getContext().getPartitioner(),
-				                                contents,
-				                                existing);
+		final Merger merger = new DefaultMerger(module.getContext().getPartitioner(), contents, existing);
 		
 		final String result = merger.merge();
 		
@@ -143,7 +141,7 @@ public class EglTemplate extends AbstractEglTemplate {
 	
 	@Override
 	public void reset() {
-		this.processed = false;
-		this.template.reset();
+		processed = false;
+		template.reset();
 	}
 }

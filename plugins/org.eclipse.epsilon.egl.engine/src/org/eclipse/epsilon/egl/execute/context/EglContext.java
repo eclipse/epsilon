@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute.context;
 
-import java.io.PrintStream;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,7 +36,6 @@ public class EglContext extends EolContext implements IEglContext {
 	private IOutputBufferFactory outputBufferFactory = () -> new OutputBuffer(this);
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
-	private IEglContext parentContext;
 	
 	public EglContext() {
 		this((EglTemplateFactory) null);
@@ -50,13 +48,28 @@ public class EglContext extends EolContext implements IEglContext {
 		setOperationFactory(new EglOperationFactory());
 	}
 	
+	public EglContext(IEglContext other) {
+		this();
+		if (other != null) {
+			copyFrom(other, false);
+		}
+	}
+	
+	private void populateScope() {
+		getFrameStack().put(
+			Variable.createReadOnlyVariable("TemplateFactory", templateFactory),
+			Variable.createReadOnlyVariable("openTag",       "[%"),
+			Variable.createReadOnlyVariable("openOutputTag", "[%="),
+			Variable.createReadOnlyVariable("closeTag",       "%]")
+		);
+	}
+	
 	@Override
 	public void copyFrom(IEolContext context, boolean preserveFramestack) {
 		IEglContext.super.copyFrom(context, preserveFramestack);
 		
 		if (context instanceof EglContext) {
 			EglContext other = (EglContext) context;
-		 	this.parentContext = other.parentContext;
 		 	this.executionManager = other.executionManager;
 		 	this.templateFactory = other.templateFactory;
 		}
@@ -77,15 +90,6 @@ public class EglContext extends EolContext implements IEglContext {
 		this.outputBufferFactory = outputBufferFactory;
 	}
 
-	private void populateScope() {
-		getFrameStack().put(
-			Variable.createReadOnlyVariable("TemplateFactory", templateFactory),
-			Variable.createReadOnlyVariable("openTag",       "[%"),
-			Variable.createReadOnlyVariable("openOutputTag", "[%="),
-			Variable.createReadOnlyVariable("closeTag",       "%]")
-		);
-	}
-
 	@Override
 	public CompositePartitioner getPartitioner() {
 		return partitioner;
@@ -94,24 +98,6 @@ public class EglContext extends EolContext implements IEglContext {
 	@Override
 	public void setPartitioner(CompositePartitioner partitioner) {
 		this.partitioner = partitioner;
-	}
-	
-	@Override
-	public boolean usePartitionerFor(String contentType) {
-		final CompositePartitioner partitioner = repository.partitionerFor(contentType);
-		
-		if (partitioner == null) {
-			return false;
-		}
-		else {
-			this.partitioner = partitioner;
-			return true;
-		}
-	}
-	
-	@Override
-	public List<String> getPartitioningProblems() {
-		return getPartitioner().partition(getOutputBuffer().toString()).getProblems();
 	}
 	
 	@Override
@@ -127,10 +113,6 @@ public class EglContext extends EolContext implements IEglContext {
 	@Override
 	public void addStatusMessage(StatusMessage message) {
 		statusMessages.add(message);
-		
-		// Chain messages to parent
-		if (parentContext != null)
-			parentContext.addStatusMessage(message);
 	}
 
 	@Override
@@ -138,11 +120,6 @@ public class EglContext extends EolContext implements IEglContext {
 		return Collections.unmodifiableList(statusMessages);
 	}
 	
-	@Override
-	public void setOutputStream(PrintStream outputStream) {
-		super.setOutputStream(outputStream);
-	}
-		
 	@Override
 	public void enter(EglTemplate template) {
 		executionManager.prepareFor(new ExecutableTemplateSpecification(template, outputBufferFactory.create()));

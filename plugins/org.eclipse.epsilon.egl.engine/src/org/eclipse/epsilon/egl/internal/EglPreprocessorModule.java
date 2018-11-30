@@ -48,11 +48,11 @@ public class EglPreprocessorModule extends EolModule {
 	 * @since 1.6
 	 */
 	public EglPreprocessorModule(IEolContext delegate) {
-		this.context = new EglPreprocessorContext(delegate);
+		this.context = new EglPreprocessorContext(delegate != null ? delegate : super.context);
 	}
 	
 	public EglPreprocessorModule() {
-		this.context = new EglPreprocessorContext(super.context);
+		this(null);
 	}
 	
 	@Override

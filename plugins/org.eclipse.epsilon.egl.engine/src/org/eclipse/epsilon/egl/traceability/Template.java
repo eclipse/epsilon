@@ -13,12 +13,11 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import org.eclipse.epsilon.common.util.UriUtil;
 
 public class Template extends Container<Content<Template>> {
 	
-	private final Collection<Variable> variables = new ConcurrentLinkedQueue<>();
+	private final Collection<Variable> variables = new LinkedList<>();
 	
 	public Template() {
 		this(null, "", null);
@@ -91,5 +90,6 @@ public class Template extends Container<Content<Template>> {
 
 	public void reset() {
 		contents.clear();
+		variables.clear();
 	}
 }

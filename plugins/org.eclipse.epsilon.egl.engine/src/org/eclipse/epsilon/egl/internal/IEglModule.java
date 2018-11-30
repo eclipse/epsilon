@@ -30,4 +30,5 @@ public interface IEglModule extends IEolModule {
 	}
 	
 	public EglResult execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException;
+
 }
