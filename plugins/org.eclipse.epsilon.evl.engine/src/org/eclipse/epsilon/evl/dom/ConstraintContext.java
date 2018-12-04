@@ -12,6 +12,7 @@ package org.eclipse.epsilon.evl.dom;
 
 import java.util.*;
 import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
@@ -55,7 +56,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 			constraints.add(constraint);
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param modelElement

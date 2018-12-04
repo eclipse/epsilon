@@ -198,7 +198,7 @@ public class Constraint extends NamedRule {
 	}
 
 	public void setConstraintContext(ConstraintContext constraintContext) {
-		this.constraintContext = constraintContext;
+		setParent(this.constraintContext = constraintContext);
 	}
 	
 	public boolean isCritique() {

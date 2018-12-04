@@ -12,10 +12,12 @@ package org.eclipse.epsilon.evl;
 
 import java.util.*;
 import org.antlr.runtime.ANTLRInputStream;
+import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
@@ -54,12 +56,12 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	}
 	
 	@Override
-	protected EvlLexer createLexer(ANTLRInputStream inputStream) {
+	protected Lexer createLexer(ANTLRInputStream inputStream) {
 		return new EvlLexer(inputStream);
 	}
  
 	@Override
-	public EvlParser createParser(TokenStream tokenStream) {
+	public EpsilonParser createParser(TokenStream tokenStream) {
 		return new EvlParser(tokenStream);
 	}
 
