@@ -15,10 +15,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.traceability.Template;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,14 +40,14 @@ public class EglExecutionManagerTests {
 	}
 	
 	public static class PrepareTests {
-		private final EglFrameStackManager frameStackManager = mock(EglFrameStackManager.class);
-		private final EglExecutionManager manager = new EglExecutionManager(frameStackManager);
+		private final EglExecutionManager manager = new EglExecutionManager();
+		private final FrameStack frameStack = mock(FrameStack.class);
 		
 		@Before
 		public void prepareForSpecs() {
-			manager.prepareFor(firstSpec);
-			manager.prepareFor(secondSpec);
-			manager.prepareFor(thirdSpec);
+			manager.prepareFor(firstSpec, frameStack);
+			manager.prepareFor(secondSpec, frameStack);
+			manager.prepareFor(thirdSpec, frameStack);
 		}
 		
 		@Test
@@ -60,24 +60,24 @@ public class EglExecutionManagerTests {
 			assertEquals(thirdSpec, manager.getCurrent());
 		}
 		
-		@Test
+		/*@Test
 		public void delegatesToFrameStackManager() throws Exception {
 			verify(frameStackManager).prepareFrameStackFor(firstSpec);
 			verify(frameStackManager).prepareFrameStackFor(secondSpec);
 			verify(frameStackManager).prepareFrameStackFor(thirdSpec);
-		}
+		}*/
 	
 	}
 	
 	public static class RestoreTests {
-		private final EglFrameStackManager frameStackManager = mock(EglFrameStackManager.class);
-		private final EglExecutionManager manager = new EglExecutionManager(frameStackManager);
+		private final FrameStack frameStack = mock(FrameStack.class);
+		private final EglExecutionManager manager = new EglExecutionManager();
 		
 		@Before
 		public void prepareForSpecs() {
-			manager.prepareFor(firstSpec);
-			manager.prepareFor(secondSpec);
-			manager.prepareFor(thirdSpec);
+			manager.prepareFor(firstSpec, frameStack);
+			manager.prepareFor(secondSpec, frameStack);
+			manager.prepareFor(thirdSpec, frameStack);
 		}
 		
 		@Test
@@ -104,14 +104,14 @@ public class EglExecutionManagerTests {
 			assertNull(manager.getCurrent());
 		}
 	
-		@Test
+		/*@Test
 		public void delegatesToFrameStackManager() throws Exception {
 			manager.restore();
 			manager.restore();
 			manager.restore();
 			
 			verify(frameStackManager, times(3)).restoreFrameStackToPreviousState();
-		}
+		}*/
 		
 		@Test
 		public void doesNotDestroyBase() throws Exception {

@@ -51,7 +51,7 @@ public class EglModule extends EolModule implements IEglModule {
 
 	protected EglParser parser;
 	protected EglPreprocessorModule preprocessorModule;
-
+	
 	private final List<EglMarkerSection> markers = new LinkedList<>();	
 	private URI templateRoot;
 
@@ -60,8 +60,7 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 	
 	public EglModule(IEglContext context) {
-		this.context = context != null ? context : new EglContext();
-		preprocessorModule = new EglPreprocessorModule(this.context);
+		preprocessorModule = new EglPreprocessorModule(this.context = context);
 	}
 
 	@Override
@@ -162,7 +161,6 @@ public class EglModule extends EolModule implements IEglModule {
 		context.getTemplateFactory().initialiseRoot(templateRoot);
 		
 		preprocessorModule.execute();
-		EglResult result = new EglResult(context.getOutputBuffer().toString());
 		
 		context.formatWith(postprocessor);
 		
@@ -170,6 +168,8 @@ public class EglModule extends EolModule implements IEglModule {
 		if (problems.size() > 0) {
 			throw new EglRuntimeException(problems.get(0), this);
 		}
+		
+		EglResult result = new EglResult(context.getOutputBuffer().toString());
 		
 		context.exit();
 		return result;

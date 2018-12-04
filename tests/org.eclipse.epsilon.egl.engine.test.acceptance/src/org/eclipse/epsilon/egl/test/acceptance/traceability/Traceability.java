@@ -60,11 +60,11 @@ public class Traceability {
 		subTemplate.addVariable("name", "Animal");
 		
 		final OutputFile outputFile = subTemplate.addOutputFile(UriUtil.fileToUri(subProgramOutput));
-		outputFile.addProtectedRegion("javadoc",  true,  OS_IS_WINDOWS ? 22  : 22);
-		outputFile.addProtectedRegion("header",   true,  OS_IS_WINDOWS ? 232 : 226);
-		outputFile.addProtectedRegion("sleep",    true,  OS_IS_WINDOWS ? 386 : 378);
-		outputFile.addProtectedRegion("talk",     true,  OS_IS_WINDOWS ? 520 : 510);
-		outputFile.addProtectedRegion("toString", false, OS_IS_WINDOWS ? 668 : 657);
+		outputFile.addProtectedRegion("javadoc",  true,  24);
+		outputFile.addProtectedRegion("header",   true,  OS_IS_WINDOWS ? 236 : 226);
+		outputFile.addProtectedRegion("sleep",    true,  OS_IS_WINDOWS ? 395 : 378);
+		outputFile.addProtectedRegion("talk",     true,  OS_IS_WINDOWS ? 533 : 510);
+		outputFile.addProtectedRegion("toString", false, OS_IS_WINDOWS ? 687 : 657);
 
 //		System.out.println(expected);
 		
@@ -85,11 +85,11 @@ public class Traceability {
 		subSubProgramTemplate.addVariable("name", "Animal");
 		
 		final OutputFile outputFile = subSubProgramTemplate.addOutputFile(UriUtil.fileToUri(subProgramOutput));
-		outputFile.addProtectedRegion("javadoc",  true,  OS_IS_WINDOWS ? 22  : 22);
-		outputFile.addProtectedRegion("header",   true,  OS_IS_WINDOWS ? 232 : 226);
-		outputFile.addProtectedRegion("sleep",    true,  OS_IS_WINDOWS ? 386 : 378);
-		outputFile.addProtectedRegion("talk",     true,  OS_IS_WINDOWS ? 520 : 510);
-		outputFile.addProtectedRegion("toString", false, OS_IS_WINDOWS ? 668 : 657);
+		outputFile.addProtectedRegion("javadoc",  true,  24);
+		outputFile.addProtectedRegion("header",   true,  OS_IS_WINDOWS ? 236 : 226);
+		outputFile.addProtectedRegion("sleep",    true,  OS_IS_WINDOWS ? 395 : 378);
+		outputFile.addProtectedRegion("talk",     true,  OS_IS_WINDOWS ? 533 : 510);
+		outputFile.addProtectedRegion("toString", false, OS_IS_WINDOWS ? 687 : 657);
 		
 		subProgramTemplate.addOutputFile(UriUtil.fileToUri(programOutput));
 		

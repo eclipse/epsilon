@@ -54,7 +54,7 @@ public class EglRuntimeException extends EolRuntimeException {
 	}
 	
 	public EglRuntimeException(String reason, Throwable cause, ModuleElement ast) {
-		this(reason, cause, ast.getRegion().getStart().getLine(), ast.getRegion().getStart().getColumn(), ast);
+		this(reason, cause, ast != null ? ast.getRegion().getStart().getLine() : 0, ast != null ? ast.getRegion().getStart().getColumn() : 0, ast);
 	}
 	
 	private EglRuntimeException(String reason, Throwable cause, int line, int column, ModuleElement ast) {

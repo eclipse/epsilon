@@ -62,7 +62,7 @@ public class AcceptanceTestUtil {
 	private static EglTemplate current;
 	
 	public static String run(EglTemplateFactory factory, Object program, Model... modelSpecs) throws Exception {
-		final List<IModel> models = new LinkedList<IModel>();
+		final List<IModel> models = new LinkedList<>();
 		
 		for (Model modelSpec : modelSpecs) {
 			models.add(modelSpec.loadEmfModel());
@@ -72,13 +72,13 @@ public class AcceptanceTestUtil {
 	}
 	
 	public static String run(EglTemplateFactory factory, Object program, IModel... models) throws Exception {
-		context = factory.getContext();
 		
 		for (IModel model : models) {
-			context.getModelRepository().addModel(model);
+			factory.getContext().getModelRepository().addModel(model);
 		}
 
 		current = loadTemplate(factory, program);
+		context = current.getModule().getContext();
 		
 		for (ParseProblem problem : current.getParseProblems()) {
 			System.err.println(problem);
@@ -92,13 +92,13 @@ public class AcceptanceTestUtil {
 	}
 	
 	public static void generate(EglTemplateFactory factory, Object program, String destination, IModel... models) throws Exception {
-		context = factory.getContext();
-		
+
 		for (IModel model : models) {
-			context.getModelRepository().addModel(model);
+			factory.getContext().getModelRepository().addModel(model);
 		}
 
 		current = loadTemplate(factory, program);
+		context = current.getModule().getContext();
 		
 		for (ParseProblem problem : current.getParseProblems()) {
 			System.err.println(problem);

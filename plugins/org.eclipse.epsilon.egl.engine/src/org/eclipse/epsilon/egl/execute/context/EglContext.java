@@ -12,6 +12,7 @@ package org.eclipse.epsilon.egl.execute.context;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
@@ -19,7 +20,6 @@ import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
 import org.eclipse.epsilon.egl.execute.EglOperationFactory;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
-import org.eclipse.epsilon.egl.output.IOutputBufferFactory;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
@@ -30,12 +30,12 @@ import org.eclipse.epsilon.eol.types.EolClasspathNativeTypeDelegate;
 
 public class EglContext extends EolContext implements IEglContext {
 
-	private final List<StatusMessage> statusMessages = new LinkedList<>();
-	private EglExecutionManager executionManager = new EglExecutionManager(new EglFrameStackManager(getFrameStack()));
+	private List<StatusMessage> statusMessages = new LinkedList<>();
 	private EglTemplateFactory templateFactory;
-	private IOutputBufferFactory outputBufferFactory = () -> new OutputBuffer(this);
+	private Supplier<? extends IOutputBuffer> outputBufferFactory = () -> new OutputBuffer(this);
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
+	private EglExecutionManager executionManager = new EglExecutionManager();
 	
 	public EglContext() {
 		this((EglTemplateFactory) null);
@@ -67,11 +67,13 @@ public class EglContext extends EolContext implements IEglContext {
 	@Override
 	public void copyFrom(IEolContext context, boolean preserveFramestack) {
 		IEglContext.super.copyFrom(context, preserveFramestack);
+		this.methodContributorRegistry = context.getOperationContributorRegistry();
 		
 		if (context instanceof EglContext) {
 			EglContext other = (EglContext) context;
-		 	this.executionManager = other.executionManager;
 		 	this.templateFactory = other.templateFactory;
+		 	this.statusMessages = other.statusMessages;
+		 	this.executionManager = other.executionManager;
 		}
 	}
 	
@@ -81,12 +83,12 @@ public class EglContext extends EolContext implements IEglContext {
 	}
 	
 	@Override
-	public IOutputBufferFactory getOutputBufferFactory() {
+	public Supplier<? extends IOutputBuffer> getOutputBufferFactory() {
 		return outputBufferFactory;
 	}
 	
 	@Override
-	public void setOutputBufferFactory(IOutputBufferFactory outputBufferFactory) {
+	public void setOutputBufferFactory(Supplier<? extends IOutputBuffer> outputBufferFactory) {
 		this.outputBufferFactory = outputBufferFactory;
 	}
 
@@ -122,7 +124,10 @@ public class EglContext extends EolContext implements IEglContext {
 	
 	@Override
 	public void enter(EglTemplate template) {
-		executionManager.prepareFor(new ExecutableTemplateSpecification(template, outputBufferFactory.create()));
+		executionManager.prepareFor(
+			new ExecutableTemplateSpecification(template, outputBufferFactory.get()),
+			getFrameStack()
+		);
 	}
 	
 	@Override

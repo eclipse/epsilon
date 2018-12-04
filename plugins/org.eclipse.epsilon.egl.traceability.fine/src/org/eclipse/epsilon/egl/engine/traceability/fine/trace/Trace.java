@@ -17,8 +17,8 @@ import java.util.Set;
 
 public class Trace {
 
-	public final List<TextLocation> locations = new LinkedList<TextLocation>();
-	public final Set<TraceLink> traceLinks = new LinkedHashSet<TraceLink>();
+	public final List<TextLocation> locations = new LinkedList<>();
+	public final Set<TraceLink> traceLinks = new LinkedHashSet<>();
 	public String destination;
 	
 	
@@ -33,7 +33,7 @@ public class Trace {
 	}
 
 	public Collection<? extends Object> getAllContents() {
-		final List<Object> allContents = new LinkedList<Object>();
+		final List<Object> allContents = new LinkedList<>();
 		allContents.add(this);
 	
 		for (TraceLink traceLink : traceLinks) {

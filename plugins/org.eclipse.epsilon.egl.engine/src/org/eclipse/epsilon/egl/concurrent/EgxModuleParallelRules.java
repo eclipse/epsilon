@@ -13,7 +13,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
@@ -39,11 +38,7 @@ public class EgxModuleParallelRules extends EgxModuleParallel {
 	}
 
 	@Override
-	protected void generateRules() throws EolRuntimeException {
-		IEgxContextParallel context = getContext();
-		EglTemplateFactory templateFactory = context.getTemplateFactory();
-		Map<URI, EglTemplate> templateCache = ConcurrencyUtils.concurrentMap();
-		
+	protected void generateRules(EglTemplateFactory templateFactory, Map<URI, EglTemplate> templateCache, IEgxContextParallel context) throws EolRuntimeException {
 		for (GenerationRule rule : getGenerationRules()) {
 			Collection<?> allElements = rule.getAllElements(context);
 			ArrayList<Runnable> genJobs = new ArrayList<>(allElements.size());

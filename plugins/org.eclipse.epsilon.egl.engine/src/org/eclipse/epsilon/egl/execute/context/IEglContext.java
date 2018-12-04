@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.egl.execute.context;
 
 import java.util.List;
+import java.util.function.Supplier;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
@@ -17,9 +18,9 @@ import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
-import org.eclipse.epsilon.egl.output.IOutputBufferFactory;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IEglContext extends IEolContext {
@@ -41,16 +42,16 @@ public interface IEglContext extends IEolContext {
 	public void enter(EglTemplate template);
 
 	public void exit();
+	
+	public EglTemplate getCurrentTemplate();
+	
+	public Template getTrace();
 
 	public IOutputBuffer getOutputBuffer();
 	
-	public Template getTrace();
+	public Supplier<? extends IOutputBuffer> getOutputBufferFactory();
 	
-	public EglTemplate getCurrentTemplate();
-
-	public IOutputBufferFactory getOutputBufferFactory();
-	
-	public void setOutputBufferFactory(IOutputBufferFactory outputBufferFactory);
+	public void setOutputBufferFactory(Supplier<? extends IOutputBuffer> outputBufferFactory);
 	
 	public default void formatWith(Formatter formatter) {
 		getOutputBuffer().formatWith(formatter);
@@ -93,10 +94,10 @@ public interface IEglContext extends IEolContext {
 		this.setExtendedProperties(context.getExtendedProperties());
 		this.setPrettyPrinterManager(context.getPrettyPrinterManager());
 		
-		this.setExecutorFactory(context.getExecutorFactory());
+		this.setExecutorFactory(new ExecutorFactory(context.getExecutorFactory()));
 		
 		if (!preserveFramestack) {
-			this.setFrameStack(context.getFrameStack());
+			this.setFrameStack(context.getFrameStack().clone());
 		}
 		
 		if (context instanceof IEglContext) {

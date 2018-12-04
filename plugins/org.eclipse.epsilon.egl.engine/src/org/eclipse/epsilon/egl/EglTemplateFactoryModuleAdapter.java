@@ -140,7 +140,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 
 	@Override
 	public IEglContext getContext() {
-		return factory.getContext();
+		return current.getModule().getContext();
 	}
 
 	@Override
@@ -189,6 +189,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 	public void setContext(IEolContext context) {
 		if (context instanceof IEglContext) {
 			factory.setContext((IEglContext) context);
+			current.getModule().setContext((IEglContext) context);
 		}
 	}
 

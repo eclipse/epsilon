@@ -35,7 +35,7 @@ public class TextLocation {
 	}
 	
 	public Collection<? extends Object> getAllContents() {
-		final List<Object> allContents = new LinkedList<Object>();
+		final List<Object> allContents = new LinkedList<>();
 		allContents.add(this);
 		allContents.add(region);
 		return allContents;

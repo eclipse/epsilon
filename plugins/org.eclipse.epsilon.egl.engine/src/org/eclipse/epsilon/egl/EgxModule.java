@@ -119,18 +119,18 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch (cst.getType()) {
 			case EgxParser.GENERATE: return createGenerationRule(cst);
-			case EgxParser.PARAMETERS: return new ExecutableBlock<Map<?, ?>>(Map.class);
+			case EgxParser.PARAMETERS: return new ExecutableBlock<>(Map.class);
 			case EgxParser.TARGET:
 			case EgxParser.TEMPLATE:
-				return new ExecutableBlock<String>(String.class);
+				return new ExecutableBlock<>(String.class);
 			case EgxParser.OVERWRITE:
 			case EgxParser.GUARD:
 			case EgxParser.MERGE:
-				return new ExecutableBlock<Boolean>(Boolean.class);
+				return new ExecutableBlock<>(Boolean.class);
 			case EgxParser.PRE:
 			case EgxParser.POST: {
 				if (parentAst instanceof GenerationRule) {
-					return new ExecutableBlock<Void>(Void.class);
+					return new ExecutableBlock<>(Void.class);
 				}
 			}
 		}
@@ -172,9 +172,8 @@ public class EgxModule extends ErlModule implements IEgxModule {
 		if (result && file != null) getTemplateFactory().initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
 		return result;
 	}
-	
+
 	/**
-	 * 
 	 * @since 1.6
 	 */
 	@Override
@@ -186,7 +185,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	@Override
 	public Object executeImpl() throws EolRuntimeException {
 		prepareExecution();
-		generateRules();
+		generateRules(getTemplateFactory());
 		postExecution();
 		return null;
 	}
@@ -197,9 +196,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
-	protected void generateRules() throws EolRuntimeException {
-		EglTemplateFactory templateFactory = getTemplateFactory();
-		
+	protected void generateRules(EglTemplateFactory templateFactory) throws EolRuntimeException {
 		for (GenerationRule rule : getGenerationRules()) {
 			rule.generateAll(context, templateFactory, this);
 		}

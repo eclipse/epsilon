@@ -6,23 +6,24 @@
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
+ *     Sina Madani - refactoring
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute.context;
 
 import java.util.LinkedList;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 
-public class EglExecutionManager {
+class EglExecutionManager {
 
-	private final EglFrameStackManager frameStackManager;
-	private final ExecutableTemplateSpecificationStack specs = new ExecutableTemplateSpecificationStack();
+	private final LinkedList<ExecutableTemplateSpecification> specs = new LinkedList<>();
+	private final EglFrameStackManager frameStackManager = new EglFrameStackManager();
+	private ExecutableTemplateSpecification firstSpec;
 	
-	public EglExecutionManager(EglFrameStackManager frameStackManager) {
-		this.frameStackManager = frameStackManager;
-	}
-	
-	public void prepareFor(ExecutableTemplateSpecification spec) {
+	public void prepareFor(ExecutableTemplateSpecification spec, FrameStack frameStack) {
+		if (firstSpec == null) firstSpec = spec;
+		if (!specs.isEmpty()) specs.peek().addAsChild(spec);
 		specs.push(spec);
-		frameStackManager.prepareFrameStackFor(spec);
+		frameStackManager.prepareFrameStackFor(spec, frameStack);
 	}
 
 	public void restore() {
@@ -31,7 +32,7 @@ public class EglExecutionManager {
 	}
 
 	public ExecutableTemplateSpecification getCurrent() {
-		return specs.top();
+		return specs.peek();
 	}
 	
 	public boolean hasParent() {
@@ -39,51 +40,10 @@ public class EglExecutionManager {
 	}
 	
 	public ExecutableTemplateSpecification getParent() {
-		return specs.second();
+		return specs.get(specs.size()-2);
 	}
 
 	public ExecutableTemplateSpecification getBase() {
-		return specs.bottom();
-	}
-	
-	
-	private static class ExecutableTemplateSpecificationStack {
-	
-		private final LinkedList<ExecutableTemplateSpecification> specs = new LinkedList<>();
-		private ExecutableTemplateSpecification firstSpec;
-		
-		public void push(ExecutableTemplateSpecification template) {
-			linkToPrevious(template);
-			specs.push(template);
-		}
-
-		private void linkToPrevious(ExecutableTemplateSpecification template) {
-			if (firstSpec == null) firstSpec = template;
-			if (!specs.isEmpty()) specs.peek().addAsChild(template);
-		}		
-		
-		public void pop() {
-			specs.pop();
-		}
-		
-		public ExecutableTemplateSpecification top() {
-			return specs.isEmpty() ? null : specs.peek();
-		}
-		
-		/**
-		 * @return the executable template specification
-		 *         that is one below the top() of the stack.
-		 */
-		public ExecutableTemplateSpecification second() {
-			return specs.get(specs.size()-2);
-		}
-		
-		public ExecutableTemplateSpecification bottom() {
-			return firstSpec;
-		}
-		
-		public int size() {
-			return specs.size();
-		}
+		return firstSpec;
 	}
 }

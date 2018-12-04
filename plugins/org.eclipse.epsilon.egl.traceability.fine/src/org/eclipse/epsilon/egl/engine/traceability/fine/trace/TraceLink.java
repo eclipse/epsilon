@@ -35,7 +35,7 @@ public class TraceLink {
 	}
 	
 	public Collection<? extends Object> getAllContents() {
-		final List<Object> allContents = new LinkedList<Object>();
+		final List<Object> allContents = new LinkedList<>();
 		allContents.add(this);
 		allContents.addAll(source.getAllContents());
 		allContents.addAll(destination.getAllContents());

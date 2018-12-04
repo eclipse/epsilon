@@ -46,12 +46,12 @@ public class EglFrameStackManagerTests {
 		@Before
 		public void clearFrameStack() {
 			frameStack = new FrameStack();
-			manager    = new EglFrameStackManager(frameStack);
+			manager    = new EglFrameStackManager();
 		}
 		
 		@Test
 		public void prepareShouldSetOutputBufferGlobalVariable() {
-			manager.prepareFrameStackFor(spec);
+			manager.prepareFrameStackFor(spec, frameStack);
 			
 			assertFrameStackHasGlobal(outVariable);
 		}
@@ -60,14 +60,14 @@ public class EglFrameStackManagerTests {
 		public void prepareShouldOverwriteExitingOutVariable() {
 			frameStack.putGlobal(Variable.createReadOnlyVariable("out", new OutputBuffer()));
 			
-			manager.prepareFrameStackFor(spec);
+			manager.prepareFrameStackFor(spec, frameStack);
 			
 			assertFrameStackHasGlobal(outVariable);
 		}
 		
 		@Test
 		public void prepareShouldSetTemplateVariablesAsLocals() {
-			manager.prepareFrameStackFor(spec);
+			manager.prepareFrameStackFor(spec, frameStack);
 			
 			assertFrameStackHasLocal(firstLocalVariable);
 			assertFrameStackHasLocal(secondLocalVariable);
@@ -78,7 +78,7 @@ public class EglFrameStackManagerTests {
 			frameStack.put(firstLocalVariable);
 			frameStack.put(secondLocalVariable);
 			
-			manager.prepareFrameStackFor(spec);
+			manager.prepareFrameStackFor(spec, frameStack);
 			
 			assertFrameStackHasLocal(firstLocalVariable);
 			assertFrameStackHasLocal(secondLocalVariable);
@@ -90,12 +90,12 @@ public class EglFrameStackManagerTests {
 		@Before
 		public void clearFrameStack() {
 			frameStack = new FrameStack();
-			manager    = new EglFrameStackManager(frameStack);
+			manager    = new EglFrameStackManager();
 		}
 		
 		@Test
 		public void restoreShouldRemoveOut() {
-			manager.prepareFrameStackFor(spec);
+			manager.prepareFrameStackFor(spec, frameStack);
 			manager.restoreFrameStackToPreviousState();
 			
 			assertFrameStackHasNoSuchGlobal(outVariable);		
@@ -106,7 +106,7 @@ public class EglFrameStackManagerTests {
 			final Variable existingOut = Variable.createReadOnlyVariable("out", new OutputBuffer());
 			frameStack.putGlobal(existingOut);
 			
-			manager.prepareFrameStackFor(spec);
+			manager.prepareFrameStackFor(spec, frameStack);
 			manager.restoreFrameStackToPreviousState();
 			
 			assertFrameStackHasGlobal(existingOut);		
@@ -114,7 +114,7 @@ public class EglFrameStackManagerTests {
 		
 		@Test
 		public void restoreShouldRemoveLocalVariables() {
-			manager.prepareFrameStackFor(spec);
+			manager.prepareFrameStackFor(spec, frameStack);
 			manager.restoreFrameStackToPreviousState();
 			
 			assertFrameStackHasNoSuchLocal(firstLocalVariable);		
@@ -126,7 +126,7 @@ public class EglFrameStackManagerTests {
 			final Variable existingLocal = Variable.createReadOnlyVariable("name", "Franz");
 			frameStack.put(existingLocal);
 			
-			manager.prepareFrameStackFor(spec);
+			manager.prepareFrameStackFor(spec, frameStack);
 			manager.restoreFrameStackToPreviousState();
 			
 			assertFrameStackHasLocal(existingLocal);

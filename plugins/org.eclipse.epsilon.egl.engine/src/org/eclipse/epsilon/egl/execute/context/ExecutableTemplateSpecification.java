@@ -14,11 +14,11 @@ import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.traceability.Variable;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 
-public class ExecutableTemplateSpecification {
+class ExecutableTemplateSpecification {
 	
-	public EglTemplate template;
-	public IOutputBuffer outputBuffer;
-
+	public final EglTemplate template;
+	public final IOutputBuffer outputBuffer;
+	
 	public ExecutableTemplateSpecification(EglTemplate template, IOutputBuffer outputBuffer) {
 		this.template = template;
 		this.outputBuffer = outputBuffer;
@@ -29,22 +29,13 @@ public class ExecutableTemplateSpecification {
 	}
 	
 	public void addVariablesTo(FrameStack frameStack) {
-		addOutAsGlobalVariable(frameStack);
-		addTemplateVariablesAsLocalVariables(frameStack);
-	}
-	
-	private void addOutAsGlobalVariable(FrameStack frameStack) {
-		frameStack.putGlobal(createEolVariable("out", outputBuffer));
-	}
-	
-	private void addTemplateVariablesAsLocalVariables(FrameStack frameStack) {
+		frameStack.putGlobal(org.eclipse.epsilon.eol.execute.context.Variable
+			.createReadOnlyVariable("out", outputBuffer)
+		);
+		
 		for (Variable variable : template.getTemplate().getVariables()) {
-			frameStack.put(createEolVariable(variable.getName(), variable.getValue()));
+			frameStack.put(variable.getName(), variable.getValue());
 		}
-	}
-
-	private static org.eclipse.epsilon.eol.execute.context.Variable createEolVariable(String name, Object value) {
-		return org.eclipse.epsilon.eol.execute.context.Variable.createReadOnlyVariable(name, value);
 	}
 	
 	@Override

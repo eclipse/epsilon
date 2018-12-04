@@ -20,6 +20,7 @@ import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.egl.test.models.Model;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -153,6 +154,6 @@ public class Merge {
 	}
 	
 	private static void assertEquals(String expected, File actual) throws IOException {
-		junit.framework.Assert.assertEquals(expected, org.eclipse.epsilon.egl.util.FileUtil.read(actual));
+		Assert.assertEquals(expected, org.eclipse.epsilon.egl.util.FileUtil.read(actual));
 	}
 }

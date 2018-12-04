@@ -26,6 +26,7 @@ import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.dom.TemplateOperation;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
+import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.parse.problem.EglParseProblem;
 import org.eclipse.epsilon.egl.preprocessor.Preprocessor;
 import org.eclipse.epsilon.egl.types.EglComplexType;
@@ -49,6 +50,9 @@ public class EglPreprocessorModule extends EolModule {
 	 */
 	public EglPreprocessorModule(IEolContext delegate) {
 		this.context = new EglPreprocessorContext(delegate != null ? delegate : super.context);
+		if (delegate instanceof IEglContext) {
+			getContext().setEglContext((IEglContext)delegate);
+		}
 	}
 	
 	public EglPreprocessorModule() {
@@ -224,21 +228,24 @@ public class EglPreprocessorModule extends EolModule {
 	public Object execute() throws EglRuntimeException {
 		try {
 			return super.execute();
-
-		} catch (EolInternalException ex) {
+		}
+		catch (EolInternalException ex) {
 			if (ex.getInternal() instanceof EglStoppedException) {
 				// Ignore exception caused by a call to out.stop()
 				return null;
-				
-			} else if (ex.getInternal() instanceof EglRuntimeException) {
+			}
+			else if (ex.getInternal() instanceof EglRuntimeException) {
 				throw new EglRuntimeException(ex);
-			} else {
+			}
+			else {
 				throw new EglRuntimeException("Error encountered whilst processing template.", ex);
 			}
-		} catch (EolRuntimeException ex) {
+		}
+		catch (EolRuntimeException ex) {
 			if (ex instanceof EglRuntimeException) {
 				throw (EglRuntimeException)ex;
-			} else {
+			}
+			else {
 				throw new EglRuntimeException(ex);
 			}
 		}

@@ -26,8 +26,7 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
  *       {@link #prepareFrameStackFor(ExecutableTemplateSpecification)}
  *       which ensures that the global variables of the parent template
  *       (if any) are accessible to the child, unless they are overwritten.
- *       variables of its parent, unless they are overwritten. Note that
- *       {@link ExecutableTemplateSpecification#addVariablesTo(FrameStack)}
+ *       Note that {@link ExecutableTemplateSpecification#addVariablesTo(FrameStack)}
  *       is called at this point to initialise any template-specific
  *       variables, such as <code>out</code> (the template-specific
  *       global output buffer variable).</li>
@@ -41,17 +40,14 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
  *       to execute.</li>
  *  </ol>
  */
-public class EglFrameStackManager {
+class EglFrameStackManager {
 
-	private final FrameStack frameStack;
+	private FrameStack frameStack;
 	private final Deque<ModuleElement> localMarkers = new ArrayDeque<>();
 	private final Deque<ModuleElement> globalMarkers = new ArrayDeque<>();
-	
-	public EglFrameStackManager(FrameStack frameStack) {
-		this.frameStack = frameStack;
-	}
 
-	public void prepareFrameStackFor(ExecutableTemplateSpecification spec) {
+	public void prepareFrameStackFor(ExecutableTemplateSpecification spec, FrameStack frameStack) {
+		this.frameStack = frameStack;
 		createFrameForTemplateSpecificGlobals();
 		createOwnFrameForLocals();
 		spec.addVariablesTo(frameStack);

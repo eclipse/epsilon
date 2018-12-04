@@ -20,7 +20,6 @@ import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
 import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.internal.EglModule;
-import org.eclipse.epsilon.egl.internal.EglResult;
 import org.eclipse.epsilon.egl.merge.DefaultMerger;
 import org.eclipse.epsilon.egl.merge.Merger;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
@@ -73,9 +72,8 @@ public class EglTemplate extends AbstractEglTemplate {
 			listener.aboutToProcess(this);
 		}
 		
-		final EglResult result = module.execute(this, formatter);
-		
-		contents = result.generatedText;
+		contents = module.execute(this, formatter).generatedText;
+
 		processed = true;
 
 		for (ITemplateExecutionListener listener : listeners) {
