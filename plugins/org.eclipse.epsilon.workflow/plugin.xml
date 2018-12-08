@@ -4,6 +4,10 @@
    <extension-point id="org.eclipse.epsilon.workflow.eunit.listener" name="EUnitListener" schema="schema/org.eclipse.epsilon.workflow.eunit.listener.exsd"/>
       <extension point="org.eclipse.ant.core.antTasks">
       <antTask
+            class="org.eclipse.epsilon.workflow.tasks.ForTask"
+            library="lib/org.eclipse.epsilon.workflow.jar"
+            name="epsilon.for"/>
+      <antTask
             class="org.eclipse.epsilon.workflow.tasks.LoadModelTask"
             library="lib/org.eclipse.epsilon.workflow.jar"
             name="epsilon.loadModel"/>

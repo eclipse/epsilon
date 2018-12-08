@@ -1,4 +1,5 @@
 <antlib>
+    <taskdef name="epsilon.for" classname="org.eclipse.epsilon.workflow.tasks.ForTask"/>
     <taskdef name="epsilon.loadModel" classname="org.eclipse.epsilon.workflow.tasks.LoadModelTask"/>
     <taskdef name="epsilon.eol" classname="org.eclipse.epsilon.workflow.tasks.EolTask"/>
     <taskdef name="epsilon.eunit" classname="org.eclipse.epsilon.workflow.tasks.EUnitTask"/>

@@ -1,0 +1,33 @@
+<project default="main">
+	
+	<target name="main" depends="expr, fileset, statements, target"/>
+	
+	<target name="expr">
+		<epsilon.for var="it" expr="Sequence{1..2}">
+			<echo message="Echoing ${it}"/>
+		</epsilon.for>
+	</target>
+	
+	<target name="fileset">
+		<epsilon.for var="it">
+			<fileset dir="."/>
+			<echo message="Echoing ${it}"/>
+		</epsilon.for>
+	</target>
+	
+	<target name="statements">
+		<epsilon.for var="it">
+			<echo message="Echoing ${it}"/>
+			return Sequence{1..2};
+		</epsilon.for>
+	</target>
+	
+	<target name="target">
+		<epsilon.for var="it" expr="Sequence{1..2}" target="invoked"/>
+	</target>
+	
+	<target name="invoked">
+		<echo message="Echoing ${it}"/>
+	</target>
+	
+</project>
