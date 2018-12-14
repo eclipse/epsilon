@@ -12,7 +12,6 @@ package org.eclipse.epsilon.examples.egl.gmf.papyrus;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Iterator;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -22,7 +21,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
-import org.eclipse.epsilon.eol.IEolExecutableModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -38,7 +37,7 @@ public class ListActivities implements IObjectActionDelegate {
 	@Override
 	public void run(IAction action) {
 		try {
-			final IEolExecutableModule eglModule = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
+			final IEolModule eglModule = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
 			final ModelRepository modelRepo = eglModule.getContext().getModelRepository();
 			modelRepo.addModel(new InMemoryEmfModel(resource));
 			eglModule.parse(ListActivities.class.getResource("/listActivities.egl").toURI());

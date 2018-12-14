@@ -27,19 +27,23 @@ public class Parameter extends AbstractModuleElement implements ICompilableModul
 	
 	public Parameter() {}
 	
-	public Parameter(NameExpression nameExpression, TypeExpression typeExpression) {
+	public Parameter(NameExpression nameExpression) {
 		this.nameExpression = nameExpression;
+	}
+	
+	public Parameter(NameExpression nameExpression, TypeExpression typeExpression) {
+		this(nameExpression);
 		this.typeExpression = typeExpression;
 	}
 	
 	@Override
-	public void build(AST cst, IModule module){
+	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		this.nameExpression = (NameExpression) module.createAst(cst.getFirstChild(), this);
 		this.typeExpression = (TypeExpression) module.createAst(cst.getSecondChild(), this);
 	}
 
-	public TypeExpression getTypeExpression(){
+	public TypeExpression getTypeExpression() {
 		return typeExpression;
 	}
 	

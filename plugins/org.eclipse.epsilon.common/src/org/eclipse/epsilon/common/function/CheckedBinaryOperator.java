@@ -7,19 +7,23 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
+package org.eclipse.epsilon.common.function;
 
-import org.eclipse.epsilon.eol.execute.operations.declarative.ExistsOperation;
+import java.util.function.BinaryOperator;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
+ * @param <T>
+ * @param <E>
  */
-public class ParallelExistsOperation extends ExistsOperation {
+@FunctionalInterface
+public interface CheckedBinaryOperator<T, E extends Exception> extends BinaryOperator<T>, CheckedBiFunction<T, T, T, E> {
 
-	public ParallelExistsOperation() {
-		setDelegateOperation(new ParallelSelectOperation());
+	@Override
+	default T apply(T t, T u) {
+		return CheckedBiFunction.super.apply(t, u);
 	}
-
+	
 }

@@ -10,10 +10,12 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
+import java.util.List;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 
 /**
  * Returns a new Collection containing one less element for which the predicate is not satisfied.
@@ -23,10 +25,8 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 public class RejectOneOperation extends SelectBasedOperation {
 
 	@Override
-	public Collection<?> execute(Object target, Variable iterator, Expression expression,
-			IEolContext context) throws EolRuntimeException {
-
-		return getSelectOperation().execute(target, iterator, expression, context, false, true);
+	public Collection<?> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+		return getDelegateOperation().execute(false, true, target, operationNameExpression, iterators, expressions, context);
 	}
-
+	
 }

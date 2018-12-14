@@ -9,32 +9,35 @@
 **********************************************************************/
 package org.eclipse.epsilon.common.function;
 
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
+ * @param <T>
+ * @param <U>
+ * @param <E>
  */
 @FunctionalInterface
-public interface CheckedConsumer<T, E extends Exception> extends Consumer<T>, CheckedFunction<T, Void, E> {
-	
+public interface CheckedBiConsumer<T, U, E extends Exception> extends BiConsumer<T, U>, CheckedBiFunction<T, U, Void, E> {
+
 	@Override
-	default Void applyThrows(T t) throws E {
-		acceptThrows(t);
+	default Void applyThrows(T t, U u) throws E {
+		acceptThrows(t, u);
 		return null;
 	}
 	
 	@Override
-	default void accept(T t) throws RuntimeException {
+	default void accept(T t, U u) {
 		try {
-			acceptThrows(t);
+			acceptThrows(t, u);
 		}
 		catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}
 	}
 	
-	void acceptThrows(T t) throws E;
+	void acceptThrows(T t, U u) throws E;
 	
 }

@@ -119,6 +119,55 @@ public interface IEolContextParallel extends IEolContext {
 	
 	//Convenience methods
 	
+	
+	/**
+	 * Utility method for dealing with exceptions in lambda expressions / parallel jobs.
+	 * @param exception The exception to handle.
+	 */
+	default void handleException(Exception exception) {
+		handleException(exception, getExecutorService());
+	}
+	
+	/**
+	 * Caches the Epsilon stack trace and informs the EolExecutorService's
+	 * {@linkplain SingleConcurrentExecutionStatus}.
+	 * @param exception The exception.
+	 * @param executor The ExecutorService which was used to execute the job.
+	 */
+	default void handleException(Exception exception, EolExecutorService executor) {
+		// Cache the Epsilon stack trace
+		if (exception instanceof EolRuntimeException)
+			exception.getMessage();
+	
+		if (executor != null)
+			executor.getExecutionStatus().completeExceptionally(exception);
+	}
+	
+	/**
+	 * Utility method used to appropriately return either a thread-local or the original value,
+	 * depending on whether this context {@linkplain #isParallel()}.
+	 * @param threadLocal The ThreadLocal value (returned if parallel).
+	 * @param originalValueGetter The non-thread-local value (returned if not parallel).
+	 * @return The appropriate value for the current thread.
+	 */
+	default <R> R parallelGet(ThreadLocal<? extends R> threadLocal, Supplier<? extends R> originalValueGetter) {
+		return isParallel() && !ConcurrencyUtils.isMainThread() ? threadLocal.get() : originalValueGetter.get();
+	}
+	
+	/**
+	 * Utility method used to appropriately set either a thread-local or the original value,
+	 * depending on whether this context {@linkplain #isParallel()}.
+	 * @param value The value to set.
+	 * @param threadLocal The ThreadLocal value (will be set if parallel).
+	 * @param originalValueSetter The non-thread-local value (will be set if not parallel).
+	 */
+	default <T> void parallelSet(T value, ThreadLocal<? super T> threadLocal, Consumer<? super T> originalValueSetter) {
+		if (isParallel() && !ConcurrencyUtils.isMainThread())
+			threadLocal.set(value);
+		else
+			originalValueSetter.accept(value);
+	}
+	
 	/**
 	 * Registers the beginning of parallel task on the default EolExecutorService.
 	 * @param entryPoint The AST to associate with this task.
@@ -218,54 +267,6 @@ public interface IEolContextParallel extends IEolContext {
 		T result = executor.shortCircuitCompletionTyped(entryPoint, executor.submitAllTyped(jobs));
 		exitParallelNest(entryPoint);
 		return result;
-	}
-	
-	/**
-	 * Utility method for dealing with exceptions in lambda expressions / parallel jobs.
-	 * @param exception The exception to handle.
-	 */
-	default void handleException(Exception exception) {
-		handleException(exception, getExecutorService());
-	}
-	
-	/**
-	 * Caches the Epsilon stack trace and informs the EolExecutorService's
-	 * {@linkplain SingleConcurrentExecutionStatus}.
-	 * @param exception The exception.
-	 * @param executor The ExecutorService which was used to execute the job.
-	 */
-	default void handleException(Exception exception, EolExecutorService executor) {
-		// Cache the Epsilon stack trace
-		if (exception instanceof EolRuntimeException)
-			exception.getMessage();
-	
-		if (executor != null)
-			executor.getExecutionStatus().completeExceptionally(exception);
-	}
-	
-	/**
-	 * Utility method used to appropriately return either a thread-local or the original value,
-	 * depending on whether this context {@linkplain #isParallel()}.
-	 * @param threadLocal The ThreadLocal value (returned if parallel).
-	 * @param originalValueGetter The non-thread-local value (returned if not parallel).
-	 * @return The appropriate value for the current thread.
-	 */
-	default <R> R parallelGet(ThreadLocal<? extends R> threadLocal, Supplier<? extends R> originalValueGetter) {
-		return isParallel() && !ConcurrencyUtils.isMainThread() ? threadLocal.get() : originalValueGetter.get();
-	}
-	
-	/**
-	 * Utility method used to appropriately set either a thread-local or the original value,
-	 * depending on whether this context {@linkplain #isParallel()}.
-	 * @param value The value to set.
-	 * @param threadLocal The ThreadLocal value (will be set if parallel).
-	 * @param originalValueSetter The non-thread-local value (will be set if not parallel).
-	 */
-	default <T> void parallelSet(T value, ThreadLocal<? super T> threadLocal, Consumer<? super T> originalValueSetter) {
-		if (isParallel() && !ConcurrencyUtils.isMainThread())
-			threadLocal.set(value);
-		else
-			originalValueSetter.accept(value);
 	}
 	
 	/**

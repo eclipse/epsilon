@@ -10,58 +10,55 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
+import java.util.List;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.function.CheckedEolFunction;
 import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolType;
 
 public class ClosureOperation extends FirstOrderOperation {
 	
-	public void closure(Collection<?> source, String iteratorName, EolType iteratorType, Expression expression,
-			IEolContext context, Collection<Object> closure) throws EolRuntimeException {
+	protected void closure(Collection<Object> closure, Collection<?> source, Parameter parameter, Expression expression, CheckedEolFunction<Object, ?> function, IEolContext context) throws EolRuntimeException {
 		
 		FrameStack scope = context.getFrameStack();
 		
 		for (Object item : source) {
-			if (iteratorType == null || iteratorType.isKind(item)) {
-				scope.enterLocal(FrameType.UNPROTECTED, expression,
-					Variable.createReadOnlyVariable(iteratorName, item)
-				);
-				
-				Object bodyResult = context.getExecutorFactory().execute(expression, context);
-				
-				if (bodyResult != null) { //&& !closure.contains(bodyResult)) {
-					Collection<?> bodyCollection = CollectionUtil.asCollection(bodyResult);
-					for (Object result : bodyCollection) {
-						if (result != null && !closure.contains(result)) {
-							closure.add(result);
-							closure(bodyCollection, iteratorName, iteratorType, expression, context, closure);
-						}
+			scope.enterLocal(FrameType.UNPROTECTED, expression, createIteratorVariable(item, parameter, context));
+			
+			Object bodyResult = context.getExecutorFactory().execute(expression, context);
+			
+			if (bodyResult != null) {
+				Collection<?> bodyCollection = CollectionUtil.asCollection(bodyResult);
+				for (Object result : bodyCollection) {
+					if (result != null && !closure.contains(result)) {
+						closure.add(result);
+						closure(closure, source, parameter, expression, function, context);
 					}
-					
 				}
-				scope.leaveLocal(expression);
+				
 			}
+			scope.leaveLocal(expression);
 		}
+	
 	}
 
 	@Override
-	public Collection<?> execute(Object target, Variable iterator, Expression expression,
-			IEolContext context) throws EolRuntimeException {
-
-		Collection<?>      source = CollectionUtil.asCollection(target);
+	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+		
+		Collection<?> source = resolveSource(target, iterators, context);
 		if (source.isEmpty()) return new EolSequence<>(0);
+		Collection<Object> results = CollectionUtil.createDefaultList();
+		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions, context);
 		
-		Collection<Object> result = CollectionUtil.createDefaultList();
+		closure(results, source, iterators.get(0), expressions.get(0), function, context);
 		
-		closure(source, iterator.getName(), iterator.getType(), expression, context, result);
-		
-		return result;
+		return results;
 	}
 	
 }

@@ -20,18 +20,9 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.CollectBasedOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.SelectBasedOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
-import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.eol.types.EolMapType;
-import org.eclipse.epsilon.eol.types.EolNoType;
-import org.eclipse.epsilon.eol.types.EolPrimitiveType;
-import org.eclipse.epsilon.eol.types.EolType;
+import org.eclipse.epsilon.eol.types.*;
 
 public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	
@@ -88,27 +79,34 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 		if (targetExpression != null) {
 			target = context.getExecutorFactory().execute(targetExpression, context);
 		}
+		else if (!parameters.isEmpty()) {
+			EolType iterator = parameters.get(0).getType(context);
+			if (iterator instanceof EolModelElementType) {
+				target = ((EolModelElementType) iterator).getAllOfKind();
+			}
+		}
 		
 		String operationName = nameExpression.getName();
 		IModel owningModel = context.getModelRepository().getOwningModel(target);
-		AbstractOperation operation = getAbstractOperation(target, operationName, nameExpression, owningModel, context);
+		AbstractOperation operation = getAbstractOperation(target, operationName, owningModel, context);
 		
-		if (operation instanceof SelectBasedOperation) {
+		// TODO: add flag to enable this feature?
+		/*if (operation instanceof SelectBasedOperation) {
 			SelectBasedOperation sbo = (SelectBasedOperation) operation;
-			if (sbo.getSelectOperation().getClass().equals(SelectOperation.class)) {
-				sbo.setSelectOperation(
-					(SelectOperation) getAbstractOperation(target, "select", nameExpression, owningModel, context)
+			if (sbo.getDelegateOperation().getClass().equals(SelectOperation.class)) {
+				sbo.setDelegateOperation(
+					(SelectOperation) getAbstractOperation(target, "select", owningModel, context)
 				);
 			}
 		}
 		else if (operation instanceof CollectBasedOperation) {
 			CollectBasedOperation cbo = (CollectBasedOperation) operation;
-			if (cbo.getClass().equals(CollectOperation.class)) {
-				cbo.setCollectOperation(
-					(CollectOperation) getAbstractOperation(target, "collect", nameExpression, owningModel, context)
+			if (cbo.getDelegateOperation().getClass().equals(CollectOperation.class)) {
+				cbo.setDelegateOperation(
+					(CollectOperation) getAbstractOperation(target, "collect", owningModel, context)
 				);
 			}
-		}
+		}*/
 		
 		return operation.execute(target, nameExpression, parameters, expressions, context);
 	}
@@ -150,7 +148,7 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 			else if (name.equals("collect")) {
 				resolvedType = new EolCollectionType("Sequence", expression.getResolvedType());
 			}
-			else if (StringUtil.isOneOf(name, "exists", "forAll", "one", "none")) {
+			else if (StringUtil.isOneOf(name, "exists", "forAll", "one", "none", "nMatch")) {
 				resolvedType = EolPrimitiveType.Boolean;
 			}
 			else if (name.equals("aggregate")) {

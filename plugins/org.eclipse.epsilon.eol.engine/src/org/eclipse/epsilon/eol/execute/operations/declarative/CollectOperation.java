@@ -10,42 +10,30 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
-import org.eclipse.epsilon.common.util.CollectionUtil;
+import java.util.List;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.function.CheckedEolFunction;
 import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolType;
 
 public class CollectOperation extends FirstOrderOperation {
 
 	@Override
-	public Collection<?> execute(Object target, Variable iterator, Expression expression,
-			IEolContext context) throws EolRuntimeException {
+	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		
-		Collection<Object> source = CollectionUtil.asCollection(target);
+		Collection<Object> source = resolveSource(target, iterators, context);
+		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions, context);
+		
 		Collection<Object> result = EolCollectionType.isOrdered(source) ?
 			new EolSequence<>(source.size()) : new EolBag<>(source.size());
-		
-		FrameStack scope = context.getFrameStack();	
-		EolType iteratorType = iterator.getType();
-		String iteratorName = iterator.getName();
-		
+			
 		for (Object item : source) {
-			if (iteratorType == null || iteratorType.isKind(item)) {
-				scope.enterLocal(FrameType.UNPROTECTED, expression,
-					new Variable(iteratorName, item, iteratorType, true)
-				);
-				
-				Object bodyResult = context.getExecutorFactory().execute(expression, context);
-				result.add(bodyResult);
-				scope.leaveLocal(expression);
-			}
+			result.add(function.applyThrows(item));
 		}
 
 		return result;

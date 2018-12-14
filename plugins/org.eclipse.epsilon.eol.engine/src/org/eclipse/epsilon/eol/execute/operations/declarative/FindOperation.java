@@ -9,25 +9,29 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.ISearchableModel;
 
 public class FindOperation extends SelectBasedOperation {
 
 	@Override
-	public Collection<?> execute(Object target, Variable iterator, Expression expression,
-		IEolContext context) throws EolRuntimeException {
+	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+
+		Iterator<?> sourceIter = CollectionUtil.asCollection(target).iterator();
+		Object next;
 		
-		if (target instanceof ISearchableModel) {
-			ISearchableModel searchableModel = (ISearchableModel) target;
-			return searchableModel.find(iterator, expression, context);
+		if (sourceIter.hasNext() && (next = sourceIter.next()) instanceof ISearchableModel) {
+			return ((ISearchableModel)next).findOne(createIteratorVariable(null, iterators.get(0), context), expressions.get(0), context);
 		}
 		else {
-			return getSelectOperation().execute(target, iterator, expression, context, true, false);
+			return getDelegateOperation().execute(true, false, target, operationNameExpression, iterators, expressions, context);
 		}
 	}
 	

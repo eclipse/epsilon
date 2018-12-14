@@ -9,32 +9,30 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.function;
 
-import org.eclipse.epsilon.common.function.CheckedPredicate;
+import org.eclipse.epsilon.common.function.CheckedBiPredicate;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
+ * @param <T>
+ * @param <U>
  */
 @FunctionalInterface
-public interface CheckedEolPredicate<T> extends CheckedPredicate<T, EolRuntimeException>, CheckedEolFunction<T, Boolean> {
+public interface CheckedEolBiPredicate<T, U> extends CheckedEolBiFunction<T, U, Boolean>, CheckedBiPredicate<T, U, EolRuntimeException> {
+
+	@Override
+	boolean testThrows(T t, U u) throws EolRuntimeException;
 	
 	@Override
-	boolean testThrows(T t) throws EolRuntimeException;
-	
-	@Override
-	default Boolean applyThrows(T t) throws EolRuntimeException {
-		return testThrows(t);
+	default Boolean applyThrows(T t, U u) throws EolRuntimeException {
+		return testThrows(t, u);
 	}
 	
 	@Override
-	default boolean test(T t) {
-		try {
-			return testThrows(t);
-		}
-		catch (EolRuntimeException ex) {
-			throw new RuntimeException(ex);
-		}
+	default Boolean apply(T t, U u) {
+		return CheckedEolBiFunction.super.apply(t, u);
 	}
+	
 }

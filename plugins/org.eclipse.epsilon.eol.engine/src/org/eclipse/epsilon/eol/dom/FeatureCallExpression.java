@@ -43,7 +43,7 @@ public abstract class FeatureCallExpression extends Expression {
 		else return o;
 	}
 	
-	protected AbstractOperation getAbstractOperation(Object target, String name, NameExpression featureCallAst, IModel owningModel, IEolContext context) throws EolIllegalOperationException {
+	protected AbstractOperation getAbstractOperation(Object target, String name, IModel owningModel, IEolContext context) throws EolIllegalOperationException {
 		AbstractOperation operation = null;
 		// Objects implementing the IAbstractOperationContributor interface
 		// can override the default higher-order operation implementations
@@ -65,7 +65,7 @@ public abstract class FeatureCallExpression extends Expression {
 		operation = context.getOperationFactory().getOperationFor(name);
 		
 		if (operation == null) {
-			operation = new DynamicOperation(featureCallAst);
+			operation = new DynamicOperation();
 		}
 		
 		return operation;

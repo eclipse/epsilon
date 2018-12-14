@@ -68,11 +68,11 @@ public class AcceptanceTestUtil {
 			models.add(modelSpec.loadEmfModel());
 		}
 	
-		return run(factory, program, models.toArray(new IModel[]{}));
+		return run(factory, program, models.toArray(new IModel[modelSpecs.length]));
 	}
 	
-	public static String run(EglTemplateFactory factory, Object program, IModel... models) throws Exception {
-		
+	@SuppressWarnings("restriction")
+	private static void setup(EglTemplateFactory factory, Object program, IModel... models) throws Exception {
 		for (IModel model : models) {
 			factory.getContext().getModelRepository().addModel(model);
 		}
@@ -83,51 +83,36 @@ public class AcceptanceTestUtil {
 		for (ParseProblem problem : current.getParseProblems()) {
 			System.err.println(problem);
 		}
-		
+	}
+	
+	public static String run(EglTemplateFactory factory, Object program, IModel... models) throws Exception {
+		setup(factory, program, models);
 		final String result = current.process();
-		
 		report();
-		
 		return result;
 	}
 	
 	public static void generate(EglTemplateFactory factory, Object program, String destination, IModel... models) throws Exception {
-
-		for (IModel model : models) {
-			factory.getContext().getModelRepository().addModel(model);
-		}
-
-		current = loadTemplate(factory, program);
-		context = current.getModule().getContext();
-		
-		for (ParseProblem problem : current.getParseProblems()) {
-			System.err.println(problem);
-		}
-		
+		setup(factory, program, models);
 		((EglFileGeneratingTemplate)current).generate(destination);
-		
 		report();
 	}
 
 	private static EglTemplate loadTemplate(EglTemplateFactory factory, Object program) throws Exception {
-		final EglTemplate template;
-		
 		if (program instanceof File) {
 			final File file = (File)program;
-			
 			factory.initialiseRoot(file.getParentFile().toURI());
-			template = factory.load(file.getName());
-			
-		} else if (program instanceof URI) {
-			template = factory.load((URI)program);
-			
-		} else if (program instanceof String) {
-			template = factory.prepare((String)program);
-
-		} else
+			return factory.load(file.getName());
+		}
+		else if (program instanceof URI) {
+			return factory.load((URI)program);
+		}
+		else if (program instanceof String) {
+			return factory.prepare((String)program);
+		}
+		else {
 			throw new IllegalArgumentException("Cannot run a program of type: " + program.getClass().getCanonicalName());
-
-		return template;
+		}
 	}
 	
 	public static Collection<ParseProblem> getParseProblems() {

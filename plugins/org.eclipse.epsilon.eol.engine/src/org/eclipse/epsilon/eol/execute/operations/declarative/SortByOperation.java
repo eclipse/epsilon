@@ -9,12 +9,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.NumberUtil;
@@ -22,13 +27,12 @@ import org.eclipse.epsilon.eol.types.NumberUtil;
 public class SortByOperation extends CollectBasedOperation {
 	
 	@Override
-	public EolSequence<?> execute(Object target, Variable iterator, Expression expression,
-			IEolContext context) throws EolRuntimeException {
-
-		final List<?> source = CollectionUtil.asList(target);
+	public EolSequence<Object> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+		
+		Collection<Object> source = resolveSource(target, iterators, context);
 		if (source.isEmpty()) return new EolSequence<>(0);
 		
-		final List<?> collected = CollectionUtil.asList(getCollectOperation().execute(target, iterator, expression, context));
+		final List<?> collected = CollectionUtil.asList(getDelegateOperation().execute(target, operationNameExpression, iterators, expressions, context));
 		final int colSize = collected.size();
 		assert colSize == source.size();
 		

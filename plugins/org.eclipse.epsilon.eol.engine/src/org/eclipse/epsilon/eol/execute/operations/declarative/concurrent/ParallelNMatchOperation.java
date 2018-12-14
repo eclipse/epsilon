@@ -11,17 +11,18 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.NMatchOperation;
-import org.eclipse.epsilon.eol.types.EolType;
+import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
 
 /**
  * 
@@ -39,54 +40,31 @@ public class ParallelNMatchOperation extends NMatchOperation {
 	}
 	
 	@Override
-	protected boolean execute(final Collection<?> source, final int sourceSize, EolType iteratorType,
-			String iteratorName, Expression expression, final int targetMatches, IEolContext context_)
-			throws EolRuntimeException {
+	protected boolean execute(int sourceSize, int targetMatches, Collection<Object> source, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context_) throws EolRuntimeException {
 		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		AtomicInteger currentMatches = new AtomicInteger();
 		AtomicInteger evaluated = new AtomicInteger();
-		Collection<Runnable> jobs = new ArrayList<>(source.size());
+		Collection<Callable<Boolean>> jobs = new ArrayList<>(sourceSize);
+		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expressions, context);
+		Expression expression = expressions.get(0);
 		
 		for (Object item : source) {
-			if (iteratorType == null || iteratorType.isKind(item)) {
-				jobs.add(() -> {
-					
-					FrameStack scope = context.getFrameStack();
-					try {
-						scope.enterLocal(FrameType.UNPROTECTED, expression,
-							new Variable(iteratorName, item, iteratorType, true)
-						);
-						
-						Object bodyResult = context.getExecutorFactory().execute(expression, context);
-						boolean leave = false;
-						
-						if (bodyResult instanceof Boolean && (boolean) bodyResult) { 
-							leave = currentMatches.incrementAndGet() > targetMatches;
-						}
-						
-						int evaluatedInt = evaluated.incrementAndGet();
-						leave = leave || (sourceSize - evaluatedInt) < (targetMatches - currentMatches.get());
-						
-						if (leave) {
-							context.completeShortCircuit(expression, null);
-						}
-					}
-					catch (EolRuntimeException ex) {
-						context.handleException(ex);
-					}
-					finally {
-						// The finally block is to ensure we don't leak variables if this job is cancelled
-						scope.leaveLocal(expression);
-					}
-					
-				});
-			}
+			jobs.add(() -> {
+				boolean leave = predicate.testThrows(item) && currentMatches.incrementAndGet() > targetMatches;
+				int evaluatedInt = evaluated.incrementAndGet();
+				leave = leave || (sourceSize - evaluatedInt) < (targetMatches - currentMatches.get());
+				
+				if (leave) {
+					context.completeShortCircuit(expression, leave);
+				}
+				
+				return leave;
+			});
 		}
 		
 		// Prevent unnecessary evaluation of remaining jobs once we have the result
-		context.shortCircuit(expression, jobs);
-		
+		context.shortCircuitTyped(expression, jobs);
 		return currentMatches.get() == targetMatches;
 	}
 }

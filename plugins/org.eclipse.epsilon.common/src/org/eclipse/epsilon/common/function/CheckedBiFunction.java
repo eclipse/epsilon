@@ -7,19 +7,32 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
+package org.eclipse.epsilon.common.function;
 
-import org.eclipse.epsilon.eol.execute.operations.declarative.ExistsOperation;
+import java.util.function.BiFunction;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
+ * @param <T>
+ * @param <U>
+ * @param <R>
+ * @param <E>
  */
-public class ParallelExistsOperation extends ExistsOperation {
-
-	public ParallelExistsOperation() {
-		setDelegateOperation(new ParallelSelectOperation());
+@FunctionalInterface
+public interface CheckedBiFunction<T, U, R, E extends Exception> extends BiFunction<T, U, R> {
+	
+	@Override
+	default R apply(T t, U u) {
+		try {
+			return applyThrows(t, u);
+		}
+		catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
 	}
-
+	
+	R applyThrows(T t, U u) throws E;
+	
 }

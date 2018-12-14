@@ -174,8 +174,7 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 		FrameStack scope = context.getFrameStack();
 		
 		if (inNewStackFrame) {
-			scope.enterLocal(FrameType.PROTECTED, this);
-			scope.put(Variable.createReadOnlyVariable("self", self));
+			scope.enterLocal(FrameType.PROTECTED, this, Variable.createReadOnlyVariable("self", self));
 		}
 		
 		Iterator<?> parameterValuesIter = parameterValues.iterator();

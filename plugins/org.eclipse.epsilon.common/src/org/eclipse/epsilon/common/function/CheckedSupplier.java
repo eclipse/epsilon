@@ -17,7 +17,12 @@ import java.util.function.Supplier;
  * @since 1.6
  */
 @FunctionalInterface
-public interface CheckedSupplier<R, E extends Exception> extends Supplier<R> {
+public interface CheckedSupplier<R, E extends Exception> extends Supplier<R>, CheckedFunction<Void, R, E> {
+	
+	@Override
+	default R applyThrows(Void t) throws E {
+		return getThrows();
+	}
 	
 	@Override
 	default R get() throws RuntimeException {

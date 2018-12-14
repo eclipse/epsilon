@@ -196,7 +196,7 @@ public abstract class ProfilableRunConfiguration implements Runnable {
 		}
 		if (profileExecution) {
 			writeOut(
-				OperatingSystem.getCPUName(),
+				OperatingSystem.getCpuName(),
 				"Logical processors: "+getNumberOfHardwareThreads(),
 				"Xms: "+getAvailableMemory(MemoryUnit.MB),
 				"Xmx: "+getMaxMemory(MemoryUnit.MB),

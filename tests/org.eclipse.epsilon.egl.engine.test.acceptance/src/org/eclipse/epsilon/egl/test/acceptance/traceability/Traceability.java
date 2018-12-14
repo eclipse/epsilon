@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.epsilon.common.util.FileUtil;
+import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.egl.test.models.Model;
@@ -26,7 +27,7 @@ import org.junit.Test;
 
 public class Traceability {
 
-	private static boolean OS_IS_WINDOWS;
+	private final static boolean OS_IS_WINDOWS = OperatingSystem.isWindows();
 	
 	private static final File program          = FileUtil.getFile("Hierachy.egl", Traceability.class);
 	private static final File subProgram       = FileUtil.getFile("Traceability.egl", Traceability.class);
@@ -36,10 +37,7 @@ public class Traceability {
 	
 	@Before
 	public void setUp() throws IOException {
-		OS_IS_WINDOWS = System.getProperty("os.name").contains("Windows");
-		
 		final File existing = FileUtil.getFile("OO2Java_existing.txt", Traceability.class);
-		
 		org.eclipse.epsilon.egl.util.FileUtil.write(subProgramOutput, org.eclipse.epsilon.egl.util.FileUtil.read(existing));
 	}
 	

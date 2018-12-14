@@ -39,7 +39,7 @@ public class Variable {
 	public static Variable createReadOnlyVariable(Entry<String, ?> entry) {
 		return createReadOnlyVariable(entry.getKey(), entry.getValue());
 	}
-	
+
 	public Variable() {
 		
 	}

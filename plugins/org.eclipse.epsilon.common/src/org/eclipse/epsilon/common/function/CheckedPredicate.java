@@ -17,7 +17,12 @@ import java.util.function.Predicate;
  * @since 1.6
  */
 @FunctionalInterface
-public interface CheckedPredicate<E extends Exception, T> extends Predicate<T> {
+public interface CheckedPredicate<T, E extends Exception> extends Predicate<T>, CheckedFunction<T, Boolean, E> {
+	
+	@Override
+	default Boolean applyThrows(T t) throws E {
+		return test(t);
+	}
 	
 	@Override
 	default boolean test(T t) throws RuntimeException {

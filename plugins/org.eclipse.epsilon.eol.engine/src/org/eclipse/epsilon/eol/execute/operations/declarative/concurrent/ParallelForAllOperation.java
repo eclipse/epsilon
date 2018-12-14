@@ -19,7 +19,7 @@ import org.eclipse.epsilon.eol.execute.operations.declarative.ForAllOperation;
 public class ParallelForAllOperation extends ForAllOperation {
 	
 	public ParallelForAllOperation() {
-		setSelectOperation(new ParallelSelectOperation());
+		setDelegateOperation(new ParallelSelectOperation());
 	}
 
 }

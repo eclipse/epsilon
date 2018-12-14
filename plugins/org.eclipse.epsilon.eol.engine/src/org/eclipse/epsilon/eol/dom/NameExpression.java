@@ -80,7 +80,8 @@ public class NameExpression extends Expression {
 			catch (EolTypeNotFoundException ex) {}
 		}
 		
-		if (variable == null) throw new EolUndefinedVariableException(name, this);
+		if (variable == null)
+			throw new EolUndefinedVariableException(name, this);
 
 		if (returnVariable) {
 			return variable;

@@ -19,15 +19,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.function.LambdaFactory;
+import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 /**
@@ -38,18 +40,12 @@ import org.eclipse.epsilon.eol.util.ReflectionUtil;
  * @since 1.6
  */
 public class DynamicOperation extends AbstractOperation {
-
-	final ModuleElement ast;
-	
-	public DynamicOperation(ModuleElement caller) {
-		this.ast = caller;
-	}
 	
 	@Override
 	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+		assert expressions != null && !expressions.isEmpty();
 		
 		final String methodName = operationNameExpression.getName();
-		
 		final List<Parameter> iteratorParams;
 		
 		if (iterators.size() == 1 && StringUtil.isOneOf(iterators.get(0).getName(), "null", "_"))
@@ -57,6 +53,11 @@ public class DynamicOperation extends AbstractOperation {
 		else
 			iteratorParams = iterators;
 		
+		if (target instanceof EolNoType || target instanceof LambdaFactory || target == null) {
+			return LambdaFactory.resolveFor(methodName, iteratorParams, expressions.get(0), operationNameExpression, context);
+		}
+		
+		// Look for a matching method with FunctionalInterface parameter(s)
 		Predicate<Method> criteria = method ->
 			//method.isAccessible() && TODO: get this working for Java 9+
 			method.getParameterCount() == expressions.size() &&
@@ -71,7 +72,7 @@ public class DynamicOperation extends AbstractOperation {
 				.count() == 1;
 		
 		final Method resolvedMethod = ReflectionUtil.findApplicableMethodOrThrow(
-			target, methodName, criteria, expressions.stream(), ast, context.getPrettyPrinterManager()
+			target, methodName, criteria, expressions.stream(), operationNameExpression, context.getPrettyPrinterManager()
 		);
 		
 		final int candidateParamCount = resolvedMethod.getParameterCount();
@@ -82,31 +83,37 @@ public class DynamicOperation extends AbstractOperation {
 		for (int i = 0; i < candidateParamCount; i++) {
 			Class<?> targetType = candidateParameterTypes[i].getType();
 			Expression eolExpression = expressions.get(i);
-			
-			candidateParameterValues[i] = Proxy.newProxyInstance(targetType.getClassLoader(), new Class[]{targetType}, new InvocationHandler() {
-				
-				@Override
-				public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					FrameStack scope = context.getFrameStack();
-					scope.enterLocal(FrameType.UNPROTECTED, eolExpression);
-	
-					if (args != null) {
-						assert iteratorParams.size() == args.length;
-						
-						Iterator<Parameter> eolParamsIter = iteratorParams.iterator();
-						for (Object arg : args) {
-							scope.put(eolParamsIter.next().getName(), arg);
-						}
-					}
+			try {
+				// First try to use the CheckedEol version of known functional interfaces
+				candidateParameterValues[i] = LambdaFactory.resolveFor(targetType, iterators, eolExpression, operationNameExpression, context);
+			}
+			catch (EolIllegalOperationException eox) {
+				// Failing that, try to implement the interface
+				candidateParameterValues[i] = Proxy.newProxyInstance(targetType.getClassLoader(), new Class[]{targetType}, new InvocationHandler() {
 					
-					Object result = context.getExecutorFactory().execute(eolExpression, context);
-					scope.leaveLocal(eolExpression);
-					return result;
-				}
-			});
+					@Override
+					public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+						FrameStack scope = context.getFrameStack();
+						scope.enterLocal(FrameType.UNPROTECTED, eolExpression);
+		
+						if (args != null) {
+							assert iteratorParams.size() == args.length;
+							
+							Iterator<Parameter> eolParamsIter = iteratorParams.iterator();
+							for (Object arg : args) {
+								scope.put(eolParamsIter.next().getName(), arg);
+							}
+						}
+						
+						Object result = context.getExecutorFactory().execute(eolExpression, context);
+						scope.leaveLocal(eolExpression);
+						return result;
+					}
+				});
+			}
 		}
 		
-		
+		// Finally, call the method with the resolved parameters
 		try {
 			resolvedMethod.setAccessible(true);	// TODO: Illegal reflective access from Java 9+
 			return resolvedMethod.invoke(target, candidateParameterValues);

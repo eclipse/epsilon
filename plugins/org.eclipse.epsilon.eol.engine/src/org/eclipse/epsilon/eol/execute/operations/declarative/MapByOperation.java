@@ -10,47 +10,33 @@
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
-import org.eclipse.epsilon.common.util.CollectionUtil;
+import java.util.List;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.function.CheckedEolFunction;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolType;
 
 public class MapByOperation extends FirstOrderOperation {
 
 	@Override
-	public EolMap<?, EolSequence<Object>> execute(Object target, Variable iterator, Expression expression,
-			IEolContext context) throws EolRuntimeException {
+	public EolMap<Object, EolSequence<Object>> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		
-		Collection<?> source = CollectionUtil.asCollection(target);
+		Collection<?> source = resolveSource(target, iterators, context);
+		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions, context);
+		
 		EolMap<Object, EolSequence<Object>> result = new EolMap<>();
-		
 		if (source.isEmpty()) return result;
-		
-		FrameStack scope = context.getFrameStack();	
-		EolType iteratorType = iterator.getType();
-		String iteratorName = iterator.getName();
-		
+
 		for (Object item : source) {
-			if (iteratorType == null || iteratorType.isKind(item)) {
-				scope.enterLocal(FrameType.UNPROTECTED, expression,
-					new Variable(iteratorName, item, iteratorType, true)
-				);
-				
-				Object bodyResult = context.getExecutorFactory().execute(expression, context);
-				
-				EolSequence<Object> sequence = (EolSequence<Object>) result.get(bodyResult);
-				if (sequence == null) sequence = new EolSequence<>();
-				sequence.add(item);
-				result.put(bodyResult, sequence);
-				
-				scope.leaveLocal(expression);
-			}
+			Object bodyResult = function.applyThrows(item);
+			EolSequence<Object> sequence = (EolSequence<Object>) result.get(bodyResult);
+			if (sequence == null) sequence = new EolSequence<>();
+			sequence.add(item);
+			result.put(bodyResult, sequence);
 		}
 		
 		return result;

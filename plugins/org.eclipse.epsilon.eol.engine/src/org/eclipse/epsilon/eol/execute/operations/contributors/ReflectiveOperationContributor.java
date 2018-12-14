@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
-
 public class ReflectiveOperationContributor extends OperationContributor {
 
 	@Override

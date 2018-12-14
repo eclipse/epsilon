@@ -7,19 +7,21 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
+package org.eclipse.epsilon.common.function;
 
-import org.eclipse.epsilon.eol.execute.operations.declarative.ExistsOperation;
+import java.util.function.UnaryOperator;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public class ParallelExistsOperation extends ExistsOperation {
+@FunctionalInterface
+public interface CheckedUnaryOperator<T, E extends Exception> extends UnaryOperator<T>, CheckedFunction<T, T, E> {
 
-	public ParallelExistsOperation() {
-		setDelegateOperation(new ParallelSelectOperation());
+	@Override
+	default T apply(T t) {
+		return CheckedFunction.super.apply(t);
 	}
-
+	
 }

@@ -84,7 +84,8 @@ public class EolEditor extends AbstractModuleEditor {
 
 	@Override
 	public List<String> getBuiltinVariables() {
-		ArrayList<String> builtIn = new ArrayList<>(6);
+		ArrayList<String> builtIn = new ArrayList<>(7);
+		
 		builtIn.add("hasMore");
 		builtIn.add("loopCount");
 		builtIn.add("self");

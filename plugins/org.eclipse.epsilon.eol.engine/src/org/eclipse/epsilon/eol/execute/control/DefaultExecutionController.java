@@ -14,16 +14,20 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class DefaultExecutionController implements ExecutionController {
 
+	@Override
 	public void control(ModuleElement ast, IEolContext context) {}
 
+	@Override
 	public boolean isTerminated() {
 		return false;
 	}
 	
+	@Override
 	public void report(IEolContext context) {
 		
 	}
 
+	@Override
 	public void dispose() {
 		// do nothing
 	}

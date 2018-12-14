@@ -10,21 +10,24 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.Collections;
+import java.util.List;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.NotOperatorExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class ForAllOperation extends SelectBasedOperation {
 	
 	@Override
-	public Boolean execute(Object target, Variable iterator, Expression expression,
-			IEolContext context) throws EolRuntimeException {
-		
+	public Boolean execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		// Look for a counter-example
-		return getSelectOperation().execute(target, iterator,
-			new NotOperatorExpression(expression), context, true, true).isEmpty();
+		return getDelegateOperation().execute(
+			target, operationNameExpression, iterators,
+			Collections.singletonList(new NotOperatorExpression(expressions.get(0))),
+			context
+		).isEmpty();
 	}
-
 }

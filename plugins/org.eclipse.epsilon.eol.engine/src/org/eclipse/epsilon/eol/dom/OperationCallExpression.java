@@ -90,9 +90,9 @@ public class OperationCallExpression extends FeatureCallExpression {
 		IModel owningModel = context.getModelRepository().getOwningModel(targetObject);
 		
 		// Non-overridable operations
-		AbstractOperation operation = context.getOperationFactory().getOperationFor(operationName);
-		if (operation != null && (!operation.isOverridable())) {
-			return operation.execute(targetObject, nameExpression, new ArrayList<Parameter>(), parameterExpressions, context);
+		AbstractOperation operation = getAbstractOperation(targetObject, operationName, owningModel, context);
+		if (operation != null && !operation.isOverridable()) {
+			return operation.execute(targetObject, nameExpression, new ArrayList<Parameter>(0), parameterExpressions, context);
 		}
 		
 		// Operation contributor for model elements
@@ -164,7 +164,12 @@ public class OperationCallExpression extends FeatureCallExpression {
 		if (operation instanceof SimpleOperation) {
 			return ((SimpleOperation) operation).execute(targetObject, parameterValues, context, nameExpression);
 		}
-
+		
+		// Most likely a FirstOrderOperation or DynamicOperation
+		if (operation != null && !parameterExpressions.isEmpty()) {
+			return operation.execute(targetObject, nameExpression, new ArrayList<>(0), parameterExpressions, context);
+		}
+		
 		// No operation found
 		throw new EolIllegalOperationException(targetObject, operationName, nameExpression, context.getPrettyPrinterManager());
 	}

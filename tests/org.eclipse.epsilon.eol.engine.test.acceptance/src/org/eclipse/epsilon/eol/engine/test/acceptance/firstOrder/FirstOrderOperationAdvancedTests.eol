@@ -16,6 +16,25 @@ operation Any lengthAsStr() : Integer {
 	return self.toString().length();
 }
 
+@cached
+operation Any strAsHash() : Integer {
+	return self.asString().hashCode();
+}
+
+operation Any strAsHashAsStr() : String {
+	return self.strAsHash().toString();
+}
+
+@test
+operation testNestedOperations() {
+	var actual = Sequence {-7..15}
+		.exists(i | i.strAsHashAsStr().toCharSequence()
+			.parallelForAll(c | i.strAsHash() == 1567 and c.asInteger() <= i.strAsHashAsStr().substring(3).asInteger()
+		)
+	);
+	assertTrue(actual);
+}
+
 @test
 operation testSelectScope() {
 	var testData := Sequence {0..16};

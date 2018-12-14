@@ -10,18 +10,18 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.List;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public class ExistsOperation extends SelectBasedOperation {
 
 	@Override
-	public Boolean execute(Object target, Variable iterator, Expression expression,
-			IEolContext context) throws EolRuntimeException {
-		
-		return !getSelectOperation().execute(target, iterator, expression, context, true, true).isEmpty();
+	public Boolean execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+		return !getDelegateOperation().execute(true, true, target, operationNameExpression, iterators, expressions, context).isEmpty();
 	}
-
+	
 }

@@ -11,23 +11,22 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
-import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.MapByOperation;
+import org.eclipse.epsilon.eol.function.CheckedEolFunction;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolType;
 
 /**
  * 
@@ -37,36 +36,18 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class ParallelMapByOperation extends MapByOperation {
 
 	@Override
-	public EolMap<?, EolSequence<Object>> execute(Object target, Variable iterator, Expression expression,
-			IEolContext context_) throws EolRuntimeException {
+	public EolMap<Object, EolSequence<Object>> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context_) throws EolRuntimeException {
 		
-		Collection<?> source = CollectionUtil.asCollection(target);
+		Collection<?> source = resolveSource(target, iterators, context_);
 		if (source.isEmpty()) return new EolMap<>();
 		
-		EolType iteratorType = iterator.getType();
-		String iteratorName = iterator.getName();
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		Collection<Callable<Entry<?, ?>>> jobs = new ArrayList<>(source.size());
+		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions, context);
+		Expression expression = expressions.get(0);
 		
 		for (Object item : source) {
-			if (iteratorType == null || iteratorType.isKind(item)) {
-				jobs.add(() -> {
-					
-					FrameStack scope = context.getFrameStack();
-					try {
-						scope.enterLocal(FrameType.UNPROTECTED, expression,
-							new Variable(iteratorName, item, iteratorType, true)
-						);
-						
-						Object bodyResult = context.getExecutorFactory().execute(expression, context);
-						return new SimpleEntry<>(bodyResult, item);
-					}
-					finally {
-						scope.leaveLocal(expression);
-					}
-					
-				});
-			}
+			jobs.add(() -> new SimpleEntry<>(function.applyThrows(item), item));
 		}
 		
 		Collection<Entry<?, ?>> intermediates = context.executeParallelTyped(expression, jobs);

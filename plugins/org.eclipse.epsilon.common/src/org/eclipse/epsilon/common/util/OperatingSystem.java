@@ -81,7 +81,7 @@ public class OperatingSystem {
 	 * @return The CPU model as reported by the operating system.
 	 * @since 1.6
 	 */
-	public static String getCPUName() {
+	public static String getCpuName() {
 		try {
 			switch (OSFamily.getOSFamily()) {
                 case WINDOWS: return execCmd(

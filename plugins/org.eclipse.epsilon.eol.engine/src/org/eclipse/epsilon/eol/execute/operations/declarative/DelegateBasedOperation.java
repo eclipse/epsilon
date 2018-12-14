@@ -13,10 +13,21 @@ package org.eclipse.epsilon.eol.execute.operations.declarative;
  * 
  * @author Sina Madani
  * @since 1.6
+ * @param <F>
  */
-public abstract class CollectBasedOperation extends DelegateBasedOperation<CollectOperation> {
+public abstract class DelegateBasedOperation<O extends FirstOrderOperation> extends FirstOrderOperation {
 
-	public CollectBasedOperation() {
-		super(new CollectOperation());
+	protected DelegateBasedOperation(O delegate) {
+		this.delegate = delegate;
+	}
+
+	private O delegate;
+	
+	public void setDelegateOperation(O delegateOp) {
+		this.delegate = delegateOp;
+	}
+
+	public O getDelegateOperation() {
+		return delegate;
 	}
 }

@@ -7,34 +7,37 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.common.function;
+package org.eclipse.epsilon.eol.function;
 
-import java.util.function.Consumer;
+import org.eclipse.epsilon.common.function.CheckedBiConsumer;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
+ * @param <T>
+ * @param <U>
  */
 @FunctionalInterface
-public interface CheckedConsumer<T, E extends Exception> extends Consumer<T>, CheckedFunction<T, Void, E> {
+public interface CheckedEolBiConsumer<T, U> extends CheckedBiConsumer<T, U, EolRuntimeException>, CheckedEolBiFunction<T, U, Void> {
+
+	@Override
+	void acceptThrows(T t, U u) throws EolRuntimeException;
 	
 	@Override
-	default Void applyThrows(T t) throws E {
-		acceptThrows(t);
+	default Void applyThrows(T t, U u) throws EolRuntimeException {
+		acceptThrows(t, u);
 		return null;
 	}
 	
 	@Override
-	default void accept(T t) throws RuntimeException {
+	default void accept(T t, U u) {
 		try {
-			acceptThrows(t);
+			acceptThrows(t, u);
 		}
-		catch (Exception ex) {
+		catch (EolRuntimeException ex) {
 			throw new RuntimeException(ex);
 		}
-	}
-	
-	void acceptThrows(T t) throws E;
-	
+	}	
 }

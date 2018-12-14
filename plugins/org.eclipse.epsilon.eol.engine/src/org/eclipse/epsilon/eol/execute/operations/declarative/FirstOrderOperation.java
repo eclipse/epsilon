@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 2008 The University of York.
+* Copyright (c) 2008-2018 The University of York.
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -9,37 +9,131 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.Collection;
 import java.util.List;
-
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.eol.types.EolModelElementType;
-import org.eclipse.epsilon.eol.types.EolNoType;
+import org.eclipse.epsilon.eol.function.CheckedEolFunction;
+import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
+import org.eclipse.epsilon.eol.function.LambdaFactory;
+import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolType;
 
+/**
+ * 
+ * @since 1.6 Major refactoring - EOL lambdas are converted to Java lambdas.
+ */
 public abstract class FirstOrderOperation extends AbstractOperation {
 	
-	@Override
-	public Object execute(Object target,
-			NameExpression operationNameExpression, List<Parameter> iterators,
-			List<Expression> expressions, IEolContext context)
-			throws EolRuntimeException {
-		
-		Parameter iterator = iterators.get(0);
-		EolType iteratorType = iterator.getType(context);
-		
-		if (target == EolNoType.Instance && iteratorType instanceof EolModelElementType) {
-			target = ((EolModelElementType) iteratorType).getAllOfKind();
-		}
-		
-		return execute(target, new Variable(iterator.getName(), null, iteratorType), expressions.get(0), context);
+	/**
+	 * 
+	 * @param item
+	 * @param parameter
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	protected static Variable createIteratorVariable(Object item, Parameter parameter, IEolContext context) throws EolRuntimeException {
+		return new Variable(parameter.getName(), item, parameter.getType(context), true);
 	}
 	
-	protected abstract Object execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException;
+	/**
+	 * 
+	 * @param target
+	 * @param iterators
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	protected Collection<Object> resolveSource(Object target, List<Parameter> iterators, IEolContext context) throws EolRuntimeException {
+		Collection<Object> source = CollectionUtil.asCollection(target);
+		if (!iterators.isEmpty()) {
+			EolType iteratorType = iterators.get(0).getType(context);
+			final Collection<Object> filteredCol = EolCollectionType.createSameType(source);
+			
+			source = StreamSupport.stream(source.spliterator(), source.size() > 2 << 19)
+				.filter(iteratorType::isKind)
+				.collect(Collectors.toCollection(() -> filteredCol));
+		}
+		return source;
+	}
 	
+	/**
+	 * 
+	 * @param operationNameExpression
+	 * @param iterators
+	 * @param expressions
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	@SuppressWarnings("unchecked")
+	protected CheckedEolFunction<Object, ?> resolveFunction(NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+		return resolveFunction(CheckedEolFunction.class, operationNameExpression, iterators, expressions, context);
+	}
+
+	/**
+	 * 
+	 * @param operationNameExpression
+	 * @param iterators
+	 * @param expressions
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 *  @since 1.6
+	 */
+	@SuppressWarnings("unchecked")
+	protected CheckedEolPredicate<Object> resolvePredicate(NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+		return resolveFunction(CheckedEolPredicate.class, operationNameExpression, iterators, expressions, context);
+	}
+	
+	/**
+	 * 
+	 * @param functionType
+	 * @param operationNameExpression
+	 * @param iterators
+	 * @param expressions
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	@SuppressWarnings("unchecked")
+	protected <R, F extends CheckedEolFunction<Object, R>> F resolveFunction(Class<F> functionType, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+		
+		Expression expression = expressions.get(0);
+		
+		if (iterators.isEmpty()) {
+			Object exprValue = expression.execute(context);
+			
+			try {
+				return functionType.cast(exprValue);
+			}
+			catch (ClassCastException ccx) {
+				throw new EolIllegalOperationParametersException(
+					((OperationCallExpression)expression.getParent()).getOperationName(),
+					functionType.getSimpleName(),
+					java.util.Objects.toString(exprValue),
+					expression
+				);
+			}
+		}
+		else {
+			return (F) LambdaFactory.resolveFor(functionType, iterators, expression, operationNameExpression, context);
+		}
+	}
+
 }

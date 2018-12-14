@@ -1,70 +1,63 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2018 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - refactoring
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
 import java.util.Collection;
-import org.eclipse.epsilon.common.util.CollectionUtil;
+import java.util.List;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.eol.types.EolType;
 
 public class SelectOperation extends FirstOrderOperation {
 	
-	public Collection<?> execute(Object target, Variable iterator, Expression expression, IEolContext context,
-		boolean isSelect, boolean returnOnMatch) throws EolRuntimeException {
+	/**
+	 * 
+	 * @param isSelect
+	 * @param returnOnMatch
+	 * @param target
+	 * @param operationNameExpression
+	 * @param iterators
+	 * @param expressions
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	public Collection<?> execute(boolean isSelect, boolean returnOnMatch, Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context)  throws EolRuntimeException {
 		
-		Collection<Object> source = CollectionUtil.asCollection(target);
-		Collection<Object> result = EolCollectionType.createSameType(source);
+		final Collection<Object> source = resolveSource(target, iterators, context);
+		final CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expressions, context);
+		final Collection<Object> result = EolCollectionType.createSameType(source);
 		
-		boolean isRejectOne = !isSelect && returnOnMatch;
+		final boolean isRejectOne = !isSelect && returnOnMatch;
 		if (isRejectOne) {
 			result.addAll(source);
 		}
 		
-		EolType iteratorType = iterator.getType();
-		String iteratorName = iterator.getName();
-		FrameStack scope = context.getFrameStack();
-		
 		for (Object item : source) {
-			if (iteratorType == null || iteratorType.isKind(item)) {
-				scope.enterLocal(FrameType.UNPROTECTED, expression,
-					Variable.createReadOnlyVariable(iteratorName, item)
-				);
-				
-				Object bodyResult = context.getExecutorFactory().execute(expression, context);
-				
-				if (bodyResult instanceof Boolean) {
-					boolean brBool = (boolean) bodyResult;
-					boolean leave = false;
+			boolean bodyResult = predicate.testThrows(item);
 
-					if (isRejectOne && brBool) {
-						result.remove(item);
-						leave = true;
-					}
-					else if (!isRejectOne && ((isSelect && brBool) || (!isSelect && !brBool))) {
-						result.add(item);
-						leave = returnOnMatch;
-					}
-					
-					if (leave) {
-						scope.leaveLocal(expression);
-						return result;
-					}
+			if (isRejectOne && bodyResult) {
+				result.remove(item);
+				return result;
+			}
+			else if (!isRejectOne && ((isSelect && bodyResult) || (!isSelect && !bodyResult))) {
+				result.add(item);
+				if (returnOnMatch) {
+					return result;
 				}
-				
-				scope.leaveLocal(expression);
 			}
 		}
 		
@@ -72,9 +65,8 @@ public class SelectOperation extends FirstOrderOperation {
 	}
 	
 	@Override
-	public Collection<?> execute(Object target, Variable iterator, Expression expression, IEolContext context)
-		throws EolRuntimeException {
-
-		return execute(target, iterator, expression, context, true, false);
+	public Collection<?> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+		return execute(true, false, target, operationNameExpression, iterators, expressions, context);
 	}
+	
 }

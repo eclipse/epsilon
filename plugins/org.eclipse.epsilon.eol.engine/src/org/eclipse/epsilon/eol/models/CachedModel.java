@@ -168,6 +168,15 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		return cachingEnabled;
 	}
 	
+	/**
+	 * Convenience method for determining when a model has been loaded.
+	 * @return Whether the cache has been populated.
+	 * @since 1.6
+	 */
+	public boolean isLoaded() {
+		return allContentsAreCached;
+	}
+	
 	@Override
 	public Collection<ModelElementType> allContents() {
 		if (isCachingEnabled()) {

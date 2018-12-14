@@ -11,20 +11,19 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
-import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
+import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
+import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.eol.types.EolType;
 
 /**
  * 
@@ -34,58 +33,38 @@ import org.eclipse.epsilon.eol.types.EolType;
 public class ParallelSelectOperation extends SelectOperation {
 	
 	@Override
-	public Collection<?> execute(Object target, Variable iterator, Expression expression, IEolContext context_,
-		boolean isSelect, boolean returnOnMatch) throws EolRuntimeException {
-		
-		Collection<Object> source = CollectionUtil.asCollection(target);
+	public Collection<?> execute(boolean isSelect, boolean returnOnMatch, Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context_) throws EolRuntimeException {
+
+		Collection<Object> source = resolveSource(target, iterators, context_);
 		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
-		
 		if (source.isEmpty()) return resultsCol;
 		
 		boolean isRejectOne = !isSelect && returnOnMatch;
 		if (isRejectOne) {
 			resultsCol.addAll(source);
 		}
-		
-		EolType iteratorType = iterator.getType();
-		String iteratorName = iterator.getName();
-		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
+
 		Collection<Callable<Optional<?>>> jobs = new ArrayList<>(source.size());
+		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
+		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expressions, context);
+		Expression expression = expressions.get(0);
 		
 		for (Object item : source) {
-			if (iteratorType == null || iteratorType.isKind(item)) {
-				jobs.add(() -> {
+			jobs.add(() -> {
+				
+				Optional<?> intermediateResult = null;
+				boolean bodyResult = predicate.testThrows(item);
+				
+				if (isRejectOne && bodyResult || (!isRejectOne && ((isSelect && bodyResult) || (!isSelect && !bodyResult)))) {
+					intermediateResult = Optional.ofNullable(item);
 					
-					Optional<?> intermediateResult = null;
-					FrameStack scope = context.getFrameStack();
-					
-					try {
-						scope.enterLocal(FrameType.UNPROTECTED, expression,
-							new Variable(iteratorName, item, iteratorType, true)
-						);
-						
-						Object bodyResult = context.getExecutorFactory().execute(expression, context);
-						
-						if (bodyResult instanceof Boolean) {
-							boolean brBool = (boolean) bodyResult;
-							
-							if (isRejectOne && brBool || (!isRejectOne && ((isSelect && brBool) || (!isSelect && !brBool)))) {
-								intermediateResult = Optional.ofNullable(item);
-								
-								if (returnOnMatch) {
-									context.completeShortCircuit(expression, intermediateResult);
-								}
-							}
-						}
+					if (returnOnMatch) {
+						context.completeShortCircuit(expression, intermediateResult);
 					}
-					finally {
-						// The finally block is to ensure we don't leak variables if this job is cancelled
-						scope.leaveLocal(expression);
-					}
-					
-					return intermediateResult;
-				});
-			}
+				}
+				
+				return intermediateResult;
+			});
 		}
 		
 		if (returnOnMatch) {

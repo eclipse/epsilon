@@ -45,7 +45,7 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 	/**
 	 * @return A collection of pre-configured run configurations, each with their own IEvlModule.
 	 */
-	@Parameters//(name = "0")	Don't use this as the Eclipse JUnit view won't show failures!
+	@Parameters//(name = "0")	// Don't use this as the Eclipse JUnit view won't show failures!
 	public static Collection<EvlRunConfiguration> configurations() {
 		// Used to specify which module configurations we'd like to test in our scenarios
 		return getScenarios(
@@ -66,7 +66,7 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 		onFail(testCollectionsHaveSameElements(
 			expectedConfig.getModule().getContext().getUnsatisfiedConstraints(),
 			testConfig.getModule().getContext().getUnsatisfiedConstraints(),
-			"Unsatisfied constraints"
+			"UnsatisfiedConstraint"
 		));
 	}
 	
@@ -75,11 +75,11 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 		// Uses Set instead of List for performance reasons when calling containsAll.
 		Function<EvlRunConfiguration, Collection<ConstraintTraceItem>> ctContents = cfg ->
 			cfg.getModule().getContext().getConstraintTrace().stream().collect(Collectors.toSet());
-			
+		
 		onFail(testCollectionsHaveSameElements(
 			ctContents.apply(expectedConfig),
 			ctContents.apply(testConfig),
-			"Constraint traces"
+			"ConstraintTrace"
 		));
 	}
 	

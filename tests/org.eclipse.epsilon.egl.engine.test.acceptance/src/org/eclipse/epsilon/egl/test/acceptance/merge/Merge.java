@@ -10,17 +10,14 @@
 package org.eclipse.epsilon.egl.test.acceptance.merge;
 
 import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.io.IOException;
-
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.egl.test.models.Model;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -101,32 +98,17 @@ public class Merge {
 	@Test
 	public void mergeAbsent() throws Exception {
 		AcceptanceTestUtil.run(GenerateAbsentProgram, Model.OOInstance);
-		assertEquals(ExpectedGenerateAbsent, PetGenerateAbsent);
-		
-		boolean javadocWarningFound = false;
-		boolean talkWarningFound    = false;
-		boolean sleepWarningFound   = false;
-		
-		for (StatusMessage message : AcceptanceTestUtil.getStatusMessages()) {
-			if (message instanceof ProtectedRegionWarning) {
-				final ProtectedRegionWarning prWarning = (ProtectedRegionWarning)message;
-				
-				if (prWarning.getId().equals("javadoc")) javadocWarningFound = true;
-				if (prWarning.getId().equals("talk"))    talkWarningFound = true;
-				if (prWarning.getId().equals("sleep"))   sleepWarningFound = true;
-			}
-		}
-		
-		assertTrue("Expected warning for protected region 'javadoc'", javadocWarningFound);
-		assertTrue("Expected warning for protected region 'talk'",    talkWarningFound);
-		assertTrue("Expected warning for protected region 'sleep'",   sleepWarningFound);
+		assertFoundProtectedRegionWarnings();
 	}
 	
 	@Test
 	public void mergeAbsentNested() throws Exception {
 		org.eclipse.epsilon.egl.util.FileUtil.write(PetGenerateAbsent, org.eclipse.epsilon.egl.util.FileUtil.read(ExistingGenerate));
-		
 		AcceptanceTestUtil.run(GenerateAbsentNestedProgram, Model.OOInstance);
+		assertFoundProtectedRegionWarnings();
+	}
+	
+	private static void assertFoundProtectedRegionWarnings() throws IOException {
 		assertEquals(ExpectedGenerateAbsent, PetGenerateAbsent);
 		
 		boolean javadocWarningFound = false;
@@ -135,11 +117,11 @@ public class Merge {
 		
 		for (StatusMessage message : AcceptanceTestUtil.getStatusMessages()) {
 			if (message instanceof ProtectedRegionWarning) {
-				final ProtectedRegionWarning prWarning = (ProtectedRegionWarning)message;
+				String id = ((ProtectedRegionWarning)message).getId();
 				
-				if (prWarning.getId().equals("javadoc")) javadocWarningFound = true;
-				if (prWarning.getId().equals("talk"))    talkWarningFound = true;
-				if (prWarning.getId().equals("sleep"))   sleepWarningFound = true;
+				if (id.equals("javadoc")) javadocWarningFound = true;
+				else if (id.equals("talk"))    talkWarningFound = true;
+				else if (id.equals("sleep"))   sleepWarningFound = true;
 			}
 		}
 		
@@ -147,13 +129,12 @@ public class Merge {
 		assertTrue("Expected warning for protected region 'talk'",    talkWarningFound);
 		assertTrue("Expected warning for protected region 'sleep'",   sleepWarningFound);
 	}
-	
 	
 	private static void assertEquals(File expected, File actual) throws IOException {
 		assertEquals(org.eclipse.epsilon.egl.util.FileUtil.read(expected), actual);
 	}
 	
 	private static void assertEquals(String expected, File actual) throws IOException {
-		Assert.assertEquals(expected, org.eclipse.epsilon.egl.util.FileUtil.read(actual));
+		org.junit.Assert.assertEquals(expected, org.eclipse.epsilon.egl.util.FileUtil.read(actual));
 	}
 }

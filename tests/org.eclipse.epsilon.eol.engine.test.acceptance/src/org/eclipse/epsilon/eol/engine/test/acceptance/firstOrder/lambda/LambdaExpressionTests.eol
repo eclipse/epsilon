@@ -1,5 +1,6 @@
 var rand = new Native("java.util.Random");
 var IntStream = Native("java.util.stream.IntStream");
+var Stream = Native("java.util.stream.Stream");
 var Collectors = Native("java.util.stream.Collectors");
 
 @test
@@ -30,15 +31,17 @@ operation testStreamCollect() {
 /*@test
 operation testHeterogenousDoubleParameters() {
 	var seed = 1;
-	var powerOfTwo = IntStream
-		.iterate(seed, i | i * 2)	//uh-oh, doesn't work!
-		.limit(10)
+	var doubler = LambdaFactory.unary(i | i * 2);
+	var powerOfTwo = Stream
+		.iterate(seed, doubler)
+		.limit(10l)
 		.filter(i | i == 512)
 		.findAny()
 		.orElse(null);
 	
 	assertEquals(512, powerOfTwo);
-}*/
+}
+*/
 
 @test
 operation testParameterless() {
@@ -79,3 +82,94 @@ operation testStreamIsLazy() {
 operation lazyTest(i) : Boolean {
 	throw "Shouldn't be here!";
 }
+
+/** 
+ * The following tests are only applicable if EOL decides to support assigning lambdas to variables.
+ *
+@test
+operation testPredicateVariable() {
+	var isEvenPredicate = LambdaFactory.predicate(i | i.mod(2) == 0);
+	var testData := Sequence {-15..16};
+	var expected = testData.select(i | i.mod(2) == 0);
+	var actual = testData.select(isEvenPredicate);
+	assertEquals(expected, actual);
+}
+
+@test
+operation testUnaryVariable() {
+	var doubler = LambdaFactory.unary(i | i * 2);
+	var testData := Sequence {1..12};
+	var expected = testData.collect(i | i * 2);
+	var actual = testData.collect(doubler);
+	assertEquals(expected, actual);
+}
+
+@test
+operation testFunctionVariable() {
+	var hasher = LambdaFactory.func(d | d.hashCode());
+	var testData := Sequence {-8..16};
+	var expected = testData.collect(d | d.hashCode());
+	var actual = testData.collect(hasher);
+	assertEquals(expected, actual);
+	actual = testData.collect(i | hasher.applyThrows(i));
+	assertEquals(expected, actual);
+}
+
+@test
+operation testSupplierVariable() {
+	var expected = IntStream.rangeClosed(0, 10)
+		.boxed()
+		.filter(i | i > 10 and i.mod(2) == 0)
+		.findFirst()
+		.orElseGet( | -1);
+		
+	assertEquals(-1, expected);
+	
+	var supplier = LambdaFactory.supplier(| -1);
+	var filter = predicate(i | i > 10 and i.mod(2) == 0);
+	
+	var actual = IntStream.rangeClosed(0, 10)
+		.boxed()
+		.filter(filter)
+		.findFirst()
+		.orElseGet(supplier);
+	
+	assertEquals(expected, actual);
+}
+
+@test
+operation testContextlessLambda() {
+	var raiseMagnitude = unary(i | i * 10);
+	var data := Sequence {-2..3};
+	var expected = Sequence {-20, -10, 0, 10, 20, 30};
+	var actual = data.collect(raiseMagnitude);
+	assertEquals(expected, actual);
+	actual = data.collect(i | i * 10);
+	assertEquals(expected, actual);
+	actual = data.stream().map(raiseMagnitude).collect(Collectors.toList());
+	assertEquals(expected, actual);
+	var toSequence = Collectors.toCollection( | new Sequence);
+	actual = data.stream().map(raiseMagnitude).collect(toSequence);
+	assertEquals(expected, actual);
+	toSequence = Collectors.toCollection(supplier(null | new Sequence));
+	var map = func(i | i * 10);
+	actual = data.stream().map(map).collect(toSequence);
+	assertEquals(expected, actual);
+}
+
+@test
+operation testLambdaReuse() {
+	var data := Sequence {-12..4};
+	var isEvenAbs = predicate(i | i.abs().mod(2) == 0);
+	var expected = Sequence {-12, -10, -8, -6, -4, -2, 0, 2, 4};
+	var actual = data.select(isEvenAbs);
+	assertEquals(expected, actual);
+	actual = data.select(i | i.abs().mod(2) == 0);
+	assertEquals(expected, actual);
+	data := Sequence {11, -9, 7, 17, -64, -9, 5, 3, 1, 2};
+	expected = data.exists(isEvenAbs);
+	assertTrue(expected);
+	actual = data.exists(i | i.abs().mod(2) == 0);
+	assertEquals(expected, actual);
+}
+*/

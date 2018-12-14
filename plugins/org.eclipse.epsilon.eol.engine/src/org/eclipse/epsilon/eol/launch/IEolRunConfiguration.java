@@ -16,6 +16,7 @@ import org.eclipse.epsilon.common.util.StringProperties;
 import static org.eclipse.epsilon.common.util.profiling.BenchmarkUtils.profileExecutionStage;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.IEolModule;
 
@@ -72,10 +73,17 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		
 		if (profileExecution) {
 			profileExecutionStage(profiledStages, "Parsing script", () -> module.parse(script.toFile()));
-			profileExecutionStage(profiledStages, "Parsing model", this::parseModels);
 		}
 		else {
 			module.parse(script.toFile());
+		}
+		
+		module.getParseProblems().forEach(this::writeOut);
+		
+		if (profileExecution) {
+			profileExecutionStage(profiledStages, "Parsing model", this::parseModels);
+		}
+		else {
 			this.parseModels();
 		}
 		
@@ -89,12 +97,14 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 			for (Map.Entry<IModel, StringProperties> modelAndProp : modelsAndProperties.entrySet()) {
 				IModel model = modelAndProp.getKey();
 				if (!LOADED_MODELS.contains(model)) {
-					StringProperties modelProperties = modelAndProp.getValue();
-					if (modelProperties != null) {
-						model.load(modelProperties); 
-					}
-					else {
-						model.load();
+					if (model instanceof CachedModel && !((CachedModel<?>)model).isLoaded()) {
+						StringProperties modelProperties = modelAndProp.getValue();
+						if (modelProperties != null) {
+							model.load(modelProperties); 
+						}
+						else {
+							model.load();
+						}
 					}
 					LOADED_MODELS.add(model);
 				}

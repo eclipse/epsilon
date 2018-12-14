@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 2008 The University of York.
+* Copyright (c) 2008-2018 The University of York.
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -9,16 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-public abstract class SelectBasedOperation extends FirstOrderOperation {
+public abstract class SelectBasedOperation extends DelegateBasedOperation<SelectOperation> {
 
-	private SelectOperation delegate = new SelectOperation();
-	
-	public void setSelectOperation(SelectOperation delegateOp) {
-		this.delegate = delegateOp;
+	public SelectBasedOperation() {
+		super(new SelectOperation());
 	}
-
-	public SelectOperation getSelectOperation() {
-		return delegate;
-	}
-	
 }
