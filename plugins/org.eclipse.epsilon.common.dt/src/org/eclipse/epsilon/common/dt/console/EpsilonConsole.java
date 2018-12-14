@@ -74,10 +74,7 @@ public class EpsilonConsole {
 		warningOutputStream = createConsoleOutputStream();
 		errorOutputStream = createConsoleOutputStream();
 		
-		debugPrintStream = new MirrorPrintStream(debugOutputStream);
-		errorPrintStream = new MirrorPrintStream(errorOutputStream);
-		warningPrintStream = new MirrorPrintStream(warningOutputStream);
-		infoPrintStream = new MirrorPrintStream(infoOutputStream);
+		initPrintStreams();
 		inputStream = ioConsole.getInputStream();				
 		
 		PlatformUI.getWorkbench().getThemeManager().addPropertyChangeListener(new ThemeChangeListener() {
@@ -91,6 +88,18 @@ public class EpsilonConsole {
 		
 		ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[]{ioConsole});
 		ioConsole.addPatternMatchListener(new EolRuntimeExceptionHyperlinkListener(ioConsole));
+	}
+	
+	/**
+	 * Create the print streams by using {@link MirrorPrintStream}
+	 * @see MirrorPrintStream
+	 * @since 1.6
+	 */
+	private void initPrintStreams() {
+		debugPrintStream = new MirrorPrintStream(debugOutputStream);
+		errorPrintStream = new MirrorPrintStream(errorOutputStream);
+		warningPrintStream = new MirrorPrintStream(warningOutputStream);
+		infoPrintStream = new MirrorPrintStream(infoOutputStream);
 	}
 	
 	public static EpsilonConsole getInstance(){
