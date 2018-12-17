@@ -1,0 +1,14 @@
+digraph G {
+	
+	[%for (g in Goal.all) { %]
+	[%=g.name%] [shape=rect, style=rounded];
+	[%}%]
+	
+	[%for (s in Strategy.all) { %]
+	[%=s.name%] [shape=parallelogram];
+	[%}%]
+	
+	[%for (s in SupportedBy.all) { %]
+	[%=s.source.name%] -> [%=s.target.name%];
+	[%}%]
+}
