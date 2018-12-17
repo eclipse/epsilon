@@ -50,7 +50,8 @@ public class PseudoSAXParser {
 
 		DocumentBuilder docBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document document = docBuilder.newDocument();
-
+		document.setStrictErrorChecking(false);
+		
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 		SAXParser saxParser = saxParserFactory.newSAXParser();
 		XMLReader xmlReader = saxParser.getXMLReader();

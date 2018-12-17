@@ -24,6 +24,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.LocatorImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
@@ -59,8 +60,27 @@ public class LocationRecorder extends XMLFilterImpl {
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes atts) throws SAXException {
-		super.startElement(uri, localName, qName, atts);
-
+		
+		// Replaces : with _ in element and attribute names
+		if (localName.startsWith(":")) {
+			localName = localName.replace(":", "_");
+		}
+		
+		if (qName.startsWith(":")) {
+			qName = qName.replace(":", "_");
+		}
+		
+		AttributesImpl attributes = new AttributesImpl(atts);
+		for (int i=0;i<attributes.getLength();i++) {
+			String attributeLocalName = attributes.getLocalName(i);
+			String attributeQName = attributes.getQName(i);
+			
+			if (attributeLocalName.startsWith(":")) attributes.setLocalName(i, attributeLocalName.replace(":", "_"));
+			if (attributeQName.startsWith(":")) attributes.setQName(i, attributeQName.replace(":", "_"));
+		}
+		
+		super.startElement(uri, localName, qName, attributes);
+		
 		locatorStack.push(new LocatorImpl(locator));
 	}
 	
