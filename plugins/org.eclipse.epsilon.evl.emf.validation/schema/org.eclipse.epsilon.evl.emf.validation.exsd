@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.epsilon.evl.emf.validation" id="org.eclipse.epsilon.evl.emf.validation" name="EVL Constraints"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         Allow EVL constraints to be used to validate EMF models via context menu (Right Click -&gt; validate)
       </documentation>
    </annotation>
 
@@ -150,15 +150,6 @@ The value of the variable is taken from the entry with the same name in the cont
 
    <annotation>
       <appInfo>
-         <meta.section type="apiInfo"/>
-      </appInfo>
-      <documentation>
-         [Enter API information here.]
-      </documentation>
-   </annotation>
-
-   <annotation>
-      <appInfo>
          <meta.section type="since"/>
       </appInfo>
       <documentation>
@@ -171,18 +162,52 @@ The value of the variable is taken from the entry with the same name in the cont
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         [Enter extension point usage example here.]
+         &lt;!-- EVL script for metamodel, overrides other validators.
+     The EVL script is at the root of the plugin project inside the validation folder --&gt;
+&lt;extension
+  point=&quot;org.eclipse.epsilon.evl.emf.validation&quot;&gt;
+    &lt;constraintsBinding
+      constraints=&quot;validation/myevl.evl&quot; 
+      namespaceURI=&quot;http://www.example.org/myEcore&quot;&gt;
+    &lt;/constraintsBinding&gt;
+&lt;/extension&gt;
+
+&lt;!-- EVL script for metamodel that references other metamodel, overrides other validators.
+     The EVL script is at the root of the plugin project inside the validation folder --&gt;
+&lt;extension
+  point=&quot;org.eclipse.epsilon.evl.emf.validation&quot;&gt;
+    &lt;constraintsBinding
+      constraints=&quot;validation/myevl.evl&quot;
+      namespaceURI=&quot;http://www.example.org/myEcore&quot;&gt;
+      &lt;!-- Add referenced metamodels here (can appear multiple times) --&gt;
+        &lt;additionalNamespaceURI
+          namespaceURI=&quot;http://www.example.org/otherEcore&quot;&gt;
+        &lt;/additionalNamespaceURI&gt;
+    &lt;/constraintsBinding&gt;
+&lt;/extension&gt;
+
+&lt;!-- EVL script for metamodel, merge (compose) with other validators.
+     The EVL script is at the root of the plugin project inside the validation folder --&gt;
+&lt;extension
+  point=&quot;org.eclipse.epsilon.evl.emf.validation&quot;&gt;
+    &lt;constraintsBinding
+      constraints=&quot;validation/myevl.evl&quot; 
+      namespaceURI=&quot;http://www.example.org/myEcore&quot;
+      compose=&quot;true&quot;&gt;
+    &lt;/constraintsBinding&gt;
+&lt;/extension&gt;
       </documentation>
    </annotation>
+
+
 
    <annotation>
       <appInfo>
-         <meta.section type="implementation"/>
+         <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         Copyright (c) University of York 2008
       </documentation>
    </annotation>
-
 
 </schema>

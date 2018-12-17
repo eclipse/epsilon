@@ -7,6 +7,7 @@ Bundle-Activator: org.eclipse.epsilon.evl.emf.validation.Activator
 Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.evl.engine,
  org.eclipse.epsilon.emc.emf,
+ org.eclipse.emf.edit,
  org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.eol.dt,
  org.eclipse.gmf.runtime.diagram.ui;resolution:=optional,

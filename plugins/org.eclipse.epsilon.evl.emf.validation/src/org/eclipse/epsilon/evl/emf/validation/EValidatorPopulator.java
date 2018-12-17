@@ -124,6 +124,17 @@ public class EValidatorPopulator implements IStartup {
 				
 				if (newValidator != existingValidator) {
 					EValidator.Registry.INSTANCE.put(ePackage, newValidator);
+					// Fixes 369383
+					IConfigurationElement[] additionalPackagesUris = configurationElement
+							.getChildren("additionalNamespaceURI");
+					for (IConfigurationElement additionalPackageUri : additionalPackagesUris) {
+						EPackage addEPackage = EPackage.Registry.INSTANCE.getEPackage(
+								additionalPackageUri.getAttribute("namespaceURI"));
+						if (ePackage != null) {
+							EValidator.Registry.INSTANCE.put(addEPackage, newValidator);
+						}
+						
+					}
 				}
 				
 			} catch (Exception e) {
