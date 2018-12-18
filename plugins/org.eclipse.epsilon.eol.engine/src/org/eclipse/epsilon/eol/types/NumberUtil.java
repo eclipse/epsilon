@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * NOTE: this class reimplements JLS sections 5.6.1 (unary numeric promotion)
  * and 5.6.2 (binary numeric promotion) to reduce casts and instanceof checks.
  */
-public class NumberUtil {
+public /*strictfp*/ class NumberUtil {
 	
 	public static Number multiply(Number n1, Number n2) {
 		if (n1 instanceof BigDecimal || n2 instanceof BigDecimal) {

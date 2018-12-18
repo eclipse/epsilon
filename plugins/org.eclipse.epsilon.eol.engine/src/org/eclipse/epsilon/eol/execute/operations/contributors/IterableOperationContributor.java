@@ -158,17 +158,12 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	public Number product() {
-		if (isEmpty()) {
-			return 0.0f;
-		}
-
-		Number product = 1;
-		for (Object next : getIterable()) {
-			if (next instanceof Number){
-				product = NumberUtil.multiply(product, (Number) next);
-			}
-		}
-		return product;
+		if (isEmpty()) return 0.0f;
+		
+		return StreamSupport.stream(getIterable().spliterator(), true)
+			.filter(Number.class::isInstance)
+			.map(Number.class::cast)
+			.reduce(1, (product, i) -> NumberUtil.multiply(product, i));
 	}
 	
 	public boolean isEmpty() {
@@ -176,7 +171,7 @@ public class IterableOperationContributor extends OperationContributor {
 		return !getIterable().iterator().hasNext();
 	}
 
-	public boolean notEmpty(){
+	public boolean notEmpty() {
 		return !isEmpty();
 	}
 	

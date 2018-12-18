@@ -44,6 +44,14 @@ operation testHeterogenousDoubleParameters() {
 */
 
 @test
+operation testBinaryOperator() {
+	var data := Sequence{0..10};
+	var expected = data.product();
+	var actual = data.stream().reduce(i1, i2 | i1 * i2).get();
+	assertEquals(expected, actual);
+}
+
+@test
 operation testParameterless() {
 	assertEquals(1, IntStream
 		.range(1, 10)

@@ -107,6 +107,27 @@ operation average() {
 }
 
 @test
+operation sum() {
+	var numbers := Sequence{0..16};
+	var expected = (numbers.last()*(numbers.last()+1))/2;
+	var actual = numbers.sum();
+	assertEquals(expected, actual);
+	numbers.add("gobbledeegook");
+	numbers.add(5, "filler");
+	numbers.add(2, null);
+	actual = numbers.sum();
+	assertEquals(expected, actual);
+}
+
+@test
+operation product() {
+	var numbers := Sequence{1..11};
+	var expected = numbers.last().factorial();
+	var actual = numbers.product();
+	assertEquals(expected, actual);
+}
+
+@test
 operation sum_bigdecimal() {
   var s : Sequence;
   s.add(new Native("java.math.BigDecimal")("2.5"));
@@ -121,5 +142,5 @@ operation product_bigdecimal() {
   s.add(new Native("java.math.BigDecimal")("2.5"));
   s.add(3);
   s.add(4.1);
-  assertEquals(30.75, s.product());
+  assertEquals(30.749998, s.product().asFloat());
 }

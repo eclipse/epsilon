@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
+import java.util.stream.LongStream;
 import org.eclipse.epsilon.eol.types.NumberUtil;
 
 public class NumberOperationContributor extends OperationContributor {
@@ -20,6 +21,17 @@ public class NumberOperationContributor extends OperationContributor {
 	
 	private Number getNumber() {
 		return (Number) target;
+	}
+	
+	/**
+	 * n!. Note that only values less than or equal to 20 are supported.
+	 * @return Factorial of self.
+	 * @since 1.6
+	 */
+	public Number factorial() {
+		long n = getNumber().longValue();
+        if (n > 20 || n < 0) throw new IllegalArgumentException(n + " is out of range");
+        return LongStream.rangeClosed(2, n).reduce(1, (a, b) -> a * b);
 	}
 	
 	public Number min(Number other) {
