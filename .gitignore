@@ -3,6 +3,10 @@ bin/
 target
 *.jar
 
+# Ignore IntelliJ files
+*.iml
+*.idea/
+
 # Ignore sym-link to project stored in EpsilonLabs
 /plugins/org.eclipse.epsilon.antlr.dev
 

@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
 import java.util.*;
+import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.types.EolBag;
@@ -150,13 +151,10 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	public Number sum() {
-		Number sum = 0;
-		for (Object next : getIterable()) {
-			if (next instanceof Number){
-				sum = NumberUtil.add(sum, (Number) next);
-			}
-		}
-		return sum;
+		return StreamSupport.stream(getIterable().spliterator(), true)
+			.filter(Number.class::isInstance)
+			.map(Number.class::cast)
+			.reduce(0, (i, sum) -> NumberUtil.add(sum, i));
 	}
 	
 	public Number product() {

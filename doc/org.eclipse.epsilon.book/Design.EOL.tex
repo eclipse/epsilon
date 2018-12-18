@@ -317,7 +317,7 @@ Finally, the Boolean type represents true/false states and provides no additiona
 
 EOL provides four types of collections and a Map type. The Bag type represents non-unique, unordered collections, the Sequence type represents non-unique, ordered collections, the Set type represents unique and unordered collections and the OrderedSet represents unique and ordered collections.
 
-All collection types inherit from the abstract Collection type. Apart from simple operations, EOL also supports first-order logic operations on collections. The following operations apply to all types of collections:
+All collection types inherit from the abstract Collection type. Apart from simple operations, EOL also supports logic operations on collections. The following operations apply to all types of collections:
 \newpage
 
 \begin{longtabu} {|p{6.5cm}|X|}
@@ -422,6 +422,8 @@ The following operations apply to ordered collection types (i.e. Sequence and Or
 
 Also, EOL collections support the following first-order operations. Apart from \emph{aggregate} and \emph{closure}, all of these operations have a parallel variant which can take advantage of multiple cores to improve performance. The parallel variant of an operation \emph{x} can be invoked by prepending it with \emph{parallel} and capitalizing the first letter. For example, \emph{select} becomes \emph{parallelSelect}. All computations contained in parallel operations are assumed to be free from side-effects (i.e. mutation of global state). Furthermore, parallel operations cannot be nested, so only the outermost operation can be declared as parallel.
 
+Aside from the following built-in first-order operations which are evaluated eagerly, all Collection types in the Java implementation of EOL support Streams. This allows for chains of queries and transformations on collections to be evaluated more efficiently. A stream can be obtained by calling the \emph{stream()} method on the collection. The API is defined by the Java standard library\footnote{https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html}.
+
 \begin{longtabu} {|p{6.5cm}|X|}
 \caption{First-order logic operations on Collections}
 \label{tab:FirstOrderOperations}\\
@@ -440,10 +442,12 @@ Also, EOL collections support the following first-order operations. Apart from \
     
     forAll(iterator : Type $|$ condition) : Boolean & Returns true if all items in the collection satisfy the condition \\\hline
     
-    one(iterator : Type $|$ condition) : Boolean & Returns true if there exists exactly one item in the collection that satisfies the condition \\\hline
+    nMatch(iterator : Type $|$ condition, n) : Boolean & Returns true if there are exactly \emph{n} items in the collection that satisfy the condition \\\hline
     
     none(iterator : Type $|$ condition) : Boolean & Returns true if there are no items in the collection that satisfy the condition \\\hline
     
+    one(iterator : Type $|$ condition) : Boolean & Returns true if there exists exactly one item in the collection that satisfies the condition \\\hline
+
     reject(iterator : Type $|$ condition) : Collection & Returns a sub-collection containing only items of the specified type that do not satisfy the condition \\\hline
     
     rejectOne(iterator : Type $|$ condition) : Collection & Returns a sub-collection containing all elements except the first element which does not satisfy the condition \\\hline
@@ -492,6 +496,8 @@ The Map type represents an array of key-value pairs in which the keys are unique
 As discussed earlier, while the purpose of EOL is to provide significant expressive power to enable users to manage models at a high level of abstraction, it is not intended to be a general-purpose programming language. Therefore, there may be cases where users need to implement some functionality that is either not efficiently supported by the EOL runtime (e.g. complex mathematical computations) or that EOL does not support at all (e.g. developing user interfaces, accessing databases). To overcome this problem, EOL enables users to create objects of the underlying programming environment by using \emph{native} types. A native type specifies an $implementation$ property that indicates the unique identifier for an underlying platform type. For instance, in a Java implementation of EOL the user can instantiate and use a Java class via its class identifier. Thus, in Listing \ref{lst:Native} the EOL excerpt creates a Java window (Swing JFrame) and uses its methods to change its title and dimensions and make it visible.
 
 To pass arguments to the constructor of a native type, a parameter list must be added, such as that in Listing~\ref{lst:Native-params}.
+Static types can also be referenced in EOL and stored in a variable for convenience, as shown in Listing~\ref{lst:Static-native}.
+
 \begin{lstlisting}[float=h, caption=Demonstration of NativeType in EOL, label=lst:Native, language=EOL]
 var frame = new Native("javax.swing.JFrame");
 frame.title = "Opened with EOL";
@@ -502,6 +508,10 @@ frame.visible = true;
 \begin{lstlisting}[float=h, caption=Demonstration of NativeType in EOL, label=lst:Native-params, numbers=left, language=EOL]
 var file = new Native("java.io.File")("myfile.txt");
 file.absolutePath.println();
+\end{lstlisting}
+
+\begin{lstlisting}[float=h, caption=Demonstration of NativeType in EOL, label=lst:Static-native, language=EOL]
+	var Collectors = Native("java.util.stream.Collectors");
 \end{lstlisting}
 
 \subsection{Model Element Types}

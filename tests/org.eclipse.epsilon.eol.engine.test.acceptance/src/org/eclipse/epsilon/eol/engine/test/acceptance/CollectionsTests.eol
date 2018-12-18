@@ -1,4 +1,17 @@
 @test
+operation testSum() {
+	var numbers := Sequence{0..12};
+	var expected = (numbers.last()*(numbers.last()+1))/2;
+	var actual = numbers.sum();
+	assertEquals(expected, actual);
+	numbers.add("gobbledeegook");
+	numbers.add(5, "filler");
+	numbers.add(2, null);
+	actual = numbers.sum();
+	assertEquals(expected, actual);
+}
+
+@test
 operation testFirst() {
 	assertEquals(1, Sequence{1,2,3}.first);
 }
