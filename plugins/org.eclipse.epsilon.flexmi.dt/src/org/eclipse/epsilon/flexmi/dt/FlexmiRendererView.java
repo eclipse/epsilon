@@ -17,6 +17,7 @@ import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Composite;
@@ -37,7 +38,8 @@ public class FlexmiRendererView extends ViewPart {
 	protected Browser browser;
 	protected FlexmiEditor editor;
 	protected FlexmiEditorPropertyListener listener = new FlexmiEditorPropertyListener();
-
+	protected TreeViewer treeViewer;
+	
 	@Override
 	public void createPartControl(Composite parent) {
 		
@@ -136,23 +138,30 @@ public class FlexmiRendererView extends ViewPart {
 					browser.setText(module.execute() + "");
 				}
 				else if (format.startsWith("graphviz-")) {
-					String program = format.substring("graphviz-".length());
+					
+					String[] parts = format.split("-");
+					
+					String program = parts[1].trim();
+					String imageType = "svg";
+					if (parts.length > 2) {
+						imageType = parts[2];
+					}
 					
 					File temp = File.createTempFile("flexmi-renderer", ".dot");
-					File png = new File(temp.getAbsolutePath() + ".png");
+					File image = new File(temp.getAbsolutePath() + "." + imageType);
 					File log = new File(temp.getAbsolutePath() + ".log" );
 					
 					Files.write(Paths.get(temp.toURI()), (module.execute() + "").getBytes());
 					
 					if (!OperatingSystem.isWindows()) program = "/usr/local/bin/" + program;
 					
-					ProcessBuilder pb = new ProcessBuilder(new String[] {program, "-Tpng", temp.getAbsolutePath(), "-o", png.getAbsolutePath()});
+					ProcessBuilder pb = new ProcessBuilder(new String[] {program, "-T" + imageType, temp.getAbsolutePath(), "-o", image.getAbsolutePath()});
 					pb.redirectError(log);
 					Process p = pb.start();
 					p.waitFor();
 					
-					if (png.exists()) {
-						browser.setText("<html><img src='" + png.getAbsolutePath() + "'></img></html>");
+					if (image.exists()) {
+						browser.setText("<html><img src='" + image.getAbsolutePath() + "'></img></html>");
 					}
 					else if (log.exists()) {
 						browser.setUrl(URI.createFileURI(log.getAbsolutePath()).toString());
