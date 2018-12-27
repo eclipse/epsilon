@@ -1,0 +1,29 @@
+<?nsuri gsn?>
+<_>
+    <_template name="ccp_g1">
+        <parameter name="root"/>
+        <parameter name="dp"/>
+        <parameter name="s"/>
+        <content>
+            <context name="C1" desc="Development process ${dp} of System ${s}"/>
+            <contextOf source="${root}" target="C1"/>
+            <strat name="${s_name}" desc="Argument by decomposition of the design process"/>
+            <supp source="${root}" target="${s_name}"/>
+        </content>
+    </_template>
+    
+    <_template name="ccp_g3">
+        <parameter name="s"/>
+        <parameter name="ip"/>
+        <parameter name="d"/>
+        <parameter name="sp"/>
+        <parameter name="index"/>
+        <content>
+            <goal name="G${index}" desc="Informal design phase ${ip} is clearly expressed, i.e. ${d}"/>
+            <context name="C${index}" desc="${sp} Standard "/>
+            <contextOf source="G${index}" target="C${index}"/>
+            <supp source="${s}" target="G${index}"/>
+        </content>
+    </_template>
+    
+</_>
