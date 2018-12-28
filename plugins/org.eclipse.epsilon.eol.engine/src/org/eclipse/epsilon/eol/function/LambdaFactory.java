@@ -83,15 +83,21 @@ public class LambdaFactory {
 			Class<R> expectedReturnType, Expression expression, List<Parameter> params,
 			Object... paramValues) throws EolRuntimeException {
 
-		assert params.size() == paramValues.length;
+		assert (
+				(params == null || params.isEmpty()) &&
+				(paramValues == null || paramValues.length == 0) ||
+			params.size() == paramValues.length
+		);
 		
 		FrameStack scope = context.getFrameStack();
 		scope.enterLocal(FrameType.UNPROTECTED, expression);
 		Iterator<Parameter> paramsIter = params.iterator();
 		
-		for (Object value : paramValues) {
-			String name = paramsIter.next().getName();
-			scope.put(name, value);
+		if (paramValues != null) {
+			for (Object value : paramValues) {
+				String name = paramsIter.next().getName();
+				scope.put(name, value);
+			}
 		}
 		
 		Object result = context.getExecutorFactory().execute(expression, context);

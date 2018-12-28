@@ -52,7 +52,7 @@ public class EolAnyType extends EolType {
 	
 	@Override
 	public String toString() {
-		return "Any";
+		return getName();
 	}
 	
 }

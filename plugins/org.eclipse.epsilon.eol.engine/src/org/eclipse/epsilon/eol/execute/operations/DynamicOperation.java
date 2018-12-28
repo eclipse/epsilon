@@ -9,24 +9,20 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.operations;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
+import java.util.Arrays;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.function.LambdaFactory;
 import org.eclipse.epsilon.eol.types.EolNoType;
@@ -61,55 +57,46 @@ public class DynamicOperation extends AbstractOperation {
 		Predicate<Method> criteria = method ->
 			//method.isAccessible() && TODO: get this working for Java 9+
 			method.getParameterCount() == expressions.size() &&
-			Stream.of(method.getParameterTypes())
+			Arrays.stream(method.getParameterTypes())
 				.filter(Class::isInterface)
-				.map(Class::getMethods)
-				.flatMap(Stream::of)
-				.filter(targetParamMethod ->
-					Modifier.isAbstract(targetParamMethod.getModifiers()) &&
-					targetParamMethod.getParameterCount() == iteratorParams.size()
-				)
-				.count() == 1;
+				.allMatch(intf -> Arrays.stream(intf.getAnnotations())
+						.anyMatch(a -> a.annotationType().getSimpleName().equals("FunctionalInterface")) ||
+					Arrays.stream(intf.getMethods())
+					.filter(targetParamMethod ->
+						Modifier.isAbstract(targetParamMethod.getModifiers())
+					)
+					.count() == 1
+				);
 		
 		final Method resolvedMethod = ReflectionUtil.findApplicableMethodOrThrow(
 			target, methodName, criteria, expressions.stream(), operationNameExpression, context.getPrettyPrinterManager()
 		);
 		
 		final int candidateParamCount = resolvedMethod.getParameterCount();
-		assert candidateParamCount == expressions.size();
 		final Object[] candidateParameterValues = new Object[candidateParamCount];
 		final java.lang.reflect.Parameter[] candidateParameterTypes = resolvedMethod.getParameters();
 		
 		for (int i = 0; i < candidateParamCount; i++) {
-			Class<?> targetType = candidateParameterTypes[i].getType();
-			Expression eolExpression = expressions.get(i);
+			final Class<?> targetType = candidateParameterTypes[i].getType();
+			final Expression eolExpression = expressions.get(i);
+			
+			if (!targetType.isInterface()) {
+				candidateParameterValues[i] = eolExpression.execute(context);
+				continue;
+			}
+			
 			try {
 				// First try to use the CheckedEol version of known functional interfaces
 				candidateParameterValues[i] = LambdaFactory.resolveFor(targetType, iterators, eolExpression, operationNameExpression, context);
 			}
 			catch (EolIllegalOperationException eox) {
 				// Failing that, try to implement the interface
-				candidateParameterValues[i] = Proxy.newProxyInstance(targetType.getClassLoader(), new Class[]{targetType}, new InvocationHandler() {
-					
-					@Override
-					public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-						FrameStack scope = context.getFrameStack();
-						scope.enterLocal(FrameType.UNPROTECTED, eolExpression);
-		
-						if (args != null) {
-							assert iteratorParams.size() == args.length;
-							
-							Iterator<Parameter> eolParamsIter = iteratorParams.iterator();
-							for (Object arg : args) {
-								scope.put(eolParamsIter.next().getName(), arg);
-							}
-						}
-						
-						Object result = context.getExecutorFactory().execute(eolExpression, context);
-						scope.leaveLocal(eolExpression);
-						return result;
-					}
-				});
+				candidateParameterValues[i] = Proxy.newProxyInstance(
+					targetType.getClassLoader(),
+					new Class[]{targetType},
+					(proxy, method, args) ->
+						LambdaFactory.executeExpression(context, operationNameExpression, null, eolExpression, iteratorParams, args)
+				);
 			}
 		}
 		

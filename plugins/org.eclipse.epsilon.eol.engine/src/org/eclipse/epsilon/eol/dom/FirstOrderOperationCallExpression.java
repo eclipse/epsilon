@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 2008 The University of York.
+* Copyright (c) 2008-2018 The University of York.
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -18,7 +18,6 @@ import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
@@ -32,11 +31,11 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	
 	public FirstOrderOperationCallExpression() {}
 	
-	public FirstOrderOperationCallExpression(Expression targetExpression, NameExpression nameExpression, Parameter parameter, Expression expression) {
+	public FirstOrderOperationCallExpression(Expression targetExpression, NameExpression nameExpression, Parameter parameter, Expression lambdaExpression) {
 		this.targetExpression = targetExpression;
 		this.nameExpression = nameExpression;
 		this.parameters.add(parameter);
-		this.expressions.add(expression);
+		this.expressions.add(lambdaExpression);
 	}
 	
 	@Override
@@ -47,8 +46,8 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 		
 		if (cst.getFirstChild().getType() != EolParser.PARAMLIST) { 
 			targetExpression = (Expression) module.createAst(cst.getFirstChild(), this);
-			nameExpression = (NameExpression) module.createAst(cst.getSecondChild(), this);
 			exprAst = cst.getSecondChild();
+			nameExpression = (NameExpression) module.createAst(exprAst, this);
 			paramsContainer = exprAst.getFirstChild();
 		}
 		else {
@@ -62,9 +61,21 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 		
 		if (paramsContainer.getType() == EolParser.PARAMLIST) {
 			for (AST ast : paramsContainer.getChildren()) {
-				parameters.add((Parameter) module.createAst(ast, this));
+				Parameter child = (Parameter) module.createAst(ast, this);
+				// This is to allow for mixed parameter types like Stream.iterate(Object, Supplier)
+				// TODO find a way to implement this
+				/*if (ast.getExtraTokens().size() > 0 && ast.getExtraTokens().get(0) != null) {
+					Expression eolExpression = new NameExpression(child.getName());
+					eolExpression.setParent(child);
+					eolExpression.setModule(module);
+					expressions.add(eolExpression);
+				}
+				else {*/
+					parameters.add(child);
+				//}
 			}
 		}
+		
 		for (AST ast : exprAst.getChildren()) {
 			if (parameters.isEmpty() || ast != paramsContainer) {
 				expressions.add((Expression) module.createAst(ast, this));
@@ -132,7 +143,7 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 				//TODO: Check that the type of the parameter is a subtype of the type of the collection
 				contextType = parameter.getCompilationType();
 			}
-			context.getFrameStack().put(new Variable(parameter.getName(), contextType));
+			context.getFrameStack().put(parameter.getName(), contextType);
 			
 			Expression expression = expressions.get(0);
 			expression.compile(context);

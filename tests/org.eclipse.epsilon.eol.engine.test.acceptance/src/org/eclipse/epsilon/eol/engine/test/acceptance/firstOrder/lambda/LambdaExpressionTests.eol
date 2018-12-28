@@ -3,6 +3,20 @@ var IntStream = Native("java.util.stream.IntStream");
 var Stream = Native("java.util.stream.Stream");
 var Collectors = Native("java.util.stream.Collectors");
 
+/*@test TODO get this working
+operation testHeterogenousDoubleParameters() {
+	var seed = 1;
+	var powerOfTwo = Stream
+		.iterate(seed, i|i*2)
+		.limit(10l)
+		.filter(i | i == 512)
+		.findAny()
+		.orElse(null);
+	
+	assertEquals(512, powerOfTwo);
+}
+*/
+
 @test
 operation testStreamLambda() {
 	var doubleOfFirstEvenNumberGT10 = IntStream
@@ -27,21 +41,6 @@ operation testStreamCollect() {
 		.collect(Collectors.toList())
 	);
 }
-
-/*@test
-operation testHeterogenousDoubleParameters() {
-	var seed = 1;
-	var doubler = LambdaFactory.unary(i | i * 2);
-	var powerOfTwo = Stream
-		.iterate(seed, doubler)
-		.limit(10l)
-		.filter(i | i == 512)
-		.findAny()
-		.orElse(null);
-	
-	assertEquals(512, powerOfTwo);
-}
-*/
 
 @test
 operation testBinaryOperator() {
