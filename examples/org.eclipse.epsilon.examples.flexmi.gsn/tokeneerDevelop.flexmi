@@ -18,10 +18,21 @@
         
         <!-- Use the pattern template -->
         <goal name="G1" desc="The development process shows compliance at EAL5 for the Tokeneer System"/>
+        
         <_ccp_g1 _root="G1" _dp="CbC" _s="TIS" _s_name="S1"/>
+        
         <_ccp_g3 _s="S1" _ip="Security Target" _d="S.P1229.40.1" _sp="REQIF 1.2 Specification" _index="2"/>
         <_ccp_g3 _s="S1" _ip="Security Properties" _d="S.P1229.40.4" _sp="REQIF 1.2 Specification" _index="3"/>
         <_ccp_g3 _s="S1" _ip="INFORMED Design" _d="S.P1229.50.2" _sp="SPARK 2014 Specification" _index="4"/>
-        <_ccp_g3 _s="S1" _ip="System Test Specification" _d="S.P1229.63.1" _sp="SPRE Test Script" _index="5"/>    
+        <_ccp_g3 _s="S1" _ip="System Test Specification" _d="S.P1229.63.1" _sp="SPRE Test Script" _index="5"/>
+        
+        <_ccp_g2 _s="S1" _fp="Formal Specification" _pf="TIS Formal Specification (S.P1229.41.2)" _index="6"/> 
+        <_ccp_c3 _s="S6" _aa="Proof of Security Properties (Z)" _index="7"/>
+        <_ccp_c3 _s="S6" _aa="Proof of Formal Specification (Z)" _index="8"/>
+        <_ccp_c4 _s="S6" _p="Security Properties" _index="9"/>
+        <_ccp_c4 _s="S6" _p="Formal Specification" _index="10"/>
+        <_ccp_e1 _s="G7" _aa="Proof of Security Properties (Z)" _index="1"/>
+        <_ccp_e1 _s="G7" _aa="Proof of Formal Specification (Z)" _index="2"/>
+        
     </model>
 </_>

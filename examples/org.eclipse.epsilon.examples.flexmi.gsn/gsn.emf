@@ -24,13 +24,13 @@ class SupportedBy {
 }
 
 class ContextOf {
-	ref Node source;
-	ref Context target;
+  ref Node source;
+  ref Context target;
 }
 
 class Context extends Node {
 }
 
-class Evidence extends Node {
+class Solution extends Node {
 }
 

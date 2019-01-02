@@ -26,4 +26,51 @@
         </content>
     </_template>
     
+    <_template name="ccp_g2">
+        <parameter name="s"/>
+        <parameter name="fp"/>
+        <parameter name="pf"/>
+        <parameter name="index"/>
+        <content language="EGL">
+            <![CDATA[
+            <goal name="G${index}" desc="Formal design phase ${fp} is clrealy expressed and showned to be held"/>
+            <supp source="${s}" target="G${index}"/>
+            <strat name="S${index}" desc="Argument by assurance activity"/>
+            <supp source="G${index}" target="S${index}"/>
+            <goal name="G[%=index.asInteger()+1%]" desc="${pf} is clearly expressed and is valid"/>
+            <supp source="S${index}" target="G[%=index.asInteger()+1%]"/>            
+            ]]>
+        </content>
+    </_template>
+    
+    <_template name="ccp_c4">
+        <parameter name="s"/>
+        <parameter name="p"/>
+        <parameter name="index"/>
+        <content>
+            <context name="C${index}" desc="${p} available as input to the assurance avtivity"/>
+            <contextOf source="${s}" target="C${index}"/>
+        </content>
+    </_template>
+    
+    <_template name="ccp_c3">
+        <parameter name="s"/>
+        <parameter name="aa"/>
+        <parameter name="index"/>
+        <content>
+            <context name="C${index}" desc="Assurance activity ${aa}"/>
+            <contextOf source="${s}" target="C${index}"/>
+        </content>
+    </_template>
+    
+    <_template name="ccp_e1">
+        <parameter name="s"/>
+        <parameter name="aa"/>
+        <parameter name="index"/>
+        <content>
+            <sol name="E${index}" desc="Result from ${aa}"/>
+            <supp source="${s}" target="E${index}"/>
+        </content>
+    </_template>
+    
 </_>
