@@ -55,7 +55,7 @@ public class GenerateXMIAction implements IObjectActionDelegate {
 			IFile flexmiFile = (IFile) selection.getFirstElement();
 			ResourceSet flexmiResourceSet = new ResourceSetImpl();
 			flexmiResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
-			Resource flexmiResource = flexmiResourceSet.createResource(URI.createPlatformResourceURI(flexmiFile.getFullPath().toOSString()));
+			Resource flexmiResource = flexmiResourceSet.createResource(URI.createFileURI(flexmiFile.getLocation().toOSString()));
 			flexmiResource.load(null);
 			
 			// The EClasses of all model elements
