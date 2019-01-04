@@ -86,7 +86,7 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 			EpsilonConsole console = EpsilonConsole.getInstance();
 			console.clear();
 			String outputFile = configuration.getAttribute(IDebugUIConstants.ATTR_CAPTURE_IN_FILE, "");
-			if (outputFile != null) {
+			if (outputFile.length() > 0) {
 				console.enableMirroring(outputFile, configuration.getAttribute(IDebugUIConstants.ATTR_APPEND_TO_FILE, false));
 			}
 			else {
