@@ -1,9 +1,10 @@
 <?nsuri gsn?>
 <_>
-    <_template name="ccp_g1">
-        <parameter name="root"/>
-        <parameter name="dp"/>
-        <parameter name="s"/>
+    <_template name="ccp_compliance">
+    <!-- The top section of the Correct by Constrution Pattern -->
+        <parameter name="root"/>    <!-- The base node(goal) to which the pattern is applied-->    
+        <parameter name="dp"/>      <!-- The design process name -->
+        <parameter name="s"/>       <!-- The system name -->
         <content>
             <context name="C1" desc="Development process ${dp} of System ${s}"/>
             <contextOf source="${root}" target="C1"/>
@@ -12,29 +13,35 @@
         </content>
     </_template>
     
-    <_template name="ccp_g3">
-        <parameter name="s"/>
-        <parameter name="ip"/>
-        <parameter name="d"/>
-        <parameter name="sp"/>
-        <parameter name="index"/>
+    <_template name="ccp_informal_phase">
+        <!-- Arguments section for a desgin phase that can not be formally validated -->
+        <parameter name="link"/>    <!-- The node to which this section is appended too -->
+        <parameter name="ip"/>      <!-- The informal phase name -->
+        <parameter name="d"/>       <!-- The document reference -->
+        <parameter name="sp"/>      <!-- The standard used -->
+        <parameter name="index"/>   <!-- The initial index to name the section nodes -->
         <content>
             <goal name="G${index}" desc="Informal design phase ${ip} is clearly expressed, i.e. ${d}"/>
             <context name="C${index}" desc="${sp} Standard "/>
             <contextOf source="G${index}" target="C${index}"/>
-            <supp source="${s}" target="G${index}"/>
+            <supp source="${link}" target="G${index}"/>
         </content>
     </_template>
     
-    <_template name="ccp_g2">
-        <parameter name="s"/>
-        <parameter name="fp"/>
-        <parameter name="pf"/>
-        <parameter name="index"/>
+    <_template name="ccp_formal_phase">
+        <!-- Arguments for a desgin phase that can be formally validated.
+             The strategy 'S<index>'  can be used as 'link' for the assurance_activity and
+             assurance _activity_input templates.
+             The goal  'G<index + 1> can be used as 'link' for the assurance_activity_evidence
+             template -->
+        <parameter name="link"/>    <!-- The node to which this section is appended too -->
+        <parameter name="fp"/>      <!-- The formal design phase name -->
+        <parameter name="pf"/>      <!-- The formal specification --> 
+        <parameter name="index"/>   <!-- The initial index to name the section nodes -->
         <content language="EGL">
             <![CDATA[
             <goal name="G${index}" desc="Formal design phase ${fp} is clrealy expressed and showned to be held"/>
-            <supp source="${s}" target="G${index}"/>
+            <supp source="${link}" target="G${index}"/>
             <strat name="S${index}" desc="Argument by assurance activity"/>
             <supp source="G${index}" target="S${index}"/>
             <goal name="G[%=index.asInteger()+1%]" desc="${pf} is clearly expressed and is valid"/>
@@ -43,33 +50,37 @@
         </content>
     </_template>
     
-    <_template name="ccp_c4">
-        <parameter name="s"/>
-        <parameter name="p"/>
-        <parameter name="index"/>
-        <content>
-            <context name="C${index}" desc="${p} available as input to the assurance avtivity"/>
-            <contextOf source="${s}" target="C${index}"/>
-        </content>
-    </_template>
-    
-    <_template name="ccp_c3">
-        <parameter name="s"/>
-        <parameter name="aa"/>
-        <parameter name="index"/>
+    <_template name="ccp_assurance_activity">
+        <!-- Arguments for an assurance activity -->
+        <parameter name="link"/>    <!-- The node to which this section is appended too -->
+        <parameter name="aa"/>      <!-- The assurance activity name -->
+        <parameter name="index"/>   <!-- The initial index to name the section nodes -->
         <content>
             <context name="C${index}" desc="Assurance activity ${aa}"/>
-            <contextOf source="${s}" target="C${index}"/>
+            <contextOf source="${link}" target="C${index}"/>
         </content>
     </_template>
     
-    <_template name="ccp_e1">
-        <parameter name="s"/>
-        <parameter name="aa"/>
-        <parameter name="index"/>
+    <_template name="ccp_ass_act_input">
+        <!-- Arguments for an input required by an assurance activity -->
+        <parameter name="link"/>    <!-- The node to which this section is appended too -->
+        <parameter name="p"/>       <!-- The input name -->
+        <parameter name="index"/>   <!-- The initial index to name the section nodes -->
+        <content>
+            <context name="C${index}" desc="${p} available as input to the assurance avtivity"/>
+            <contextOf source="${link}" target="C${index}"/>
+        </content>
+    </_template>
+    
+    
+    <_template name="ccp_ass_act_evidence">
+        <!-- Arguments for the evidence generated by an assurance activity -->
+        <parameter name="link"/>    <!-- The node to which this section is appended too -->
+        <parameter name="aa"/>      <!-- The assurance activity name -->
+        <parameter name="index"/>   <!-- The initial index to name the section nodes -->
         <content>
             <sol name="E${index}" desc="Result from ${aa}"/>
-            <supp source="${s}" target="E${index}"/>
+            <supp source="${link}" target="E${index}"/>
         </content>
     </_template>
     

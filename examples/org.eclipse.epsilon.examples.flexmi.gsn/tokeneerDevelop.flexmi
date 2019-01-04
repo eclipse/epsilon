@@ -19,20 +19,45 @@
         <!-- Use the pattern template -->
         <goal name="G1" desc="The development process shows compliance at EAL5 for the Tokeneer System"/>
         
-        <_ccp_g1 _root="G1" _dp="CbC" _s="TIS" _s_name="S1"/>
+        <_ccp_compliance _root="G1" _dp="CbC" _s="TIS" _s_name="S1"/>
         
-        <_ccp_g3 _s="S1" _ip="Security Target" _d="S.P1229.40.1" _sp="REQIF 1.2 Specification" _index="2"/>
-        <_ccp_g3 _s="S1" _ip="Security Properties" _d="S.P1229.40.4" _sp="REQIF 1.2 Specification" _index="3"/>
-        <_ccp_g3 _s="S1" _ip="INFORMED Design" _d="S.P1229.50.2" _sp="SPARK 2014 Specification" _index="4"/>
-        <_ccp_g3 _s="S1" _ip="System Test Specification" _d="S.P1229.63.1" _sp="SPRE Test Script" _index="5"/>
+        <!-- Informal phases -->
+        <_ccp_informal_phase _link="S1" _ip="Security Target" _d="S.P1229.40.1" _sp="REQIF 1.2 Specification" _index="2"/>
+        <_ccp_informal_phase _link="S1" _ip="Security Properties" _d="S.P1229.40.4" _sp="REQIF 1.2 Specification" _index="3"/>
+        <_ccp_informal_phase _link="S1" _ip="INFORMED Design" _d="S.P1229.50.2" _sp="SPARK 2014 Specification" _index="4"/>
+        <_ccp_informal_phase _link="S1" _ip="System Test Specification" _d="S.P1229.63.1" _sp="SPRE Test Script" _index="5"/>
+               
+        <!-- Formal Specification phase -->
+        <_ccp_formal_phase _link="S1" _fp="Formal Specification" _pf="TIS Formal Specification (S.P1229.41.2)" _index="6"/> 
+        <_ccp_assurance_activity _link="S6" _aa="Proof of Security Properties (Z)" _index="6"/>
+        <_ccp_assurance_activity _link="S6" _aa="Proof of Formal Specification (Z)" _index="8"/>
+        <_ccp_ass_act_input _link="S6" _p="Security Properties" _index="9"/>
+        <_ccp_ass_act_input _link="S6" _p="Formal Specification" _index="10"/>
+        <_ccp_ass_act_evidence _link="G7" _aa="Proof of Security Properties (Z)" _index="1"/>
+        <_ccp_ass_act_evidence _link="G7" _aa="Proof of Formal Specification (Z)" _index="2"/>
         
-        <_ccp_g2 _s="S1" _fp="Formal Specification" _pf="TIS Formal Specification (S.P1229.41.2)" _index="6"/> 
-        <_ccp_c3 _s="S6" _aa="Proof of Security Properties (Z)" _index="7"/>
-        <_ccp_c3 _s="S6" _aa="Proof of Formal Specification (Z)" _index="8"/>
-        <_ccp_c4 _s="S6" _p="Security Properties" _index="9"/>
-        <_ccp_c4 _s="S6" _p="Formal Specification" _index="10"/>
-        <_ccp_e1 _s="G7" _aa="Proof of Security Properties (Z)" _index="1"/>
-        <_ccp_e1 _s="G7" _aa="Proof of Formal Specification (Z)" _index="2"/>
+        <!-- Formal Design phase -->
+        <_ccp_formal_phase _link="S1" _fp="Formal Design" _pf="TIS Formal Design (S.P1229.50.1)" _index="8"/> 
+        <_ccp_assurance_activity _link="S8" _aa="Refinement Proof of Formal Design (Z)" _index="11"/>
+        <_ccp_ass_act_input _link="S8" _p="Formal Specification" _index="12"/>
+        <_ccp_ass_act_input _link="S8" _p="Formal Design" _index="13"/>
+        <_ccp_ass_act_evidence _link="G9" _aa="Refinement Proof of Formal Design (Z)" _index="3"/>
         
+    
+        <!-- SPARK Implementation phase -->
+        <_ccp_formal_phase _link="S1" _fp="SPARK Implementation" _pf="ADA Source Code" _index="10"/> 
+        <_ccp_assurance_activity _link="S10" _aa="Proof of Security Properties (SPARK Proof)" _index="14"/>
+        <_ccp_assurance_activity _link="S10" _aa="Proof of Functional Properties (SPARK Proof)" _index="15"/>
+        <_ccp_assurance_activity _link="S10" _aa="Static Analysis" _index="16"/>
+        <_ccp_assurance_activity _link="S10" _aa="System Test" _index="17"/>
+        <_ccp_ass_act_input _link="S10" _p="Security Properties" _index="18"/>
+        <_ccp_ass_act_input _link="S10" _p="Formal Design" _index="19"/>
+        <_ccp_ass_act_input _link="S10" _p="SPARK Implementation" _index="20"/>
+        <_ccp_ass_act_input _link="S10" _p="System Test Specification" _index="21"/>    
+        <_ccp_ass_act_evidence _link="G11" _aa="Static Analysis" _index="4"/>
+        <_ccp_ass_act_evidence _link="G11" _aa="System Test" _index="5"/>
+        <_ccp_ass_act_evidence _link="G11" _aa="Proof of Security Properties (SPARK Proof)" _index="6"/>
+        <_ccp_ass_act_evidence _link="G11" _aa="Proof of Functional Properties (SPARK Proof)" _index="7"/>
+          
     </model>
 </_>
