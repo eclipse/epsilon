@@ -2,7 +2,7 @@
 <?nsuri http://www.eclipse.org/emf/2002/Ecore?>
 <_>
 	<package name="p1">
-		<_t1/>
+		<t1/>
 	</package>
 	<_template name="t1">
 		<parameter name="p1"/>

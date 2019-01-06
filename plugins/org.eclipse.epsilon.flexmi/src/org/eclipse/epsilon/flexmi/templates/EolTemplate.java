@@ -23,7 +23,9 @@ public class EolTemplate extends XmlTemplate {
 			module.parse(content.getTextContent().trim(), new File(uri));
 			
 			for (String parameter : getParameters()) {
-				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(parameter, call.getAttribute(Template.PREFIX + parameter)));
+				String value = call.getAttribute(parameter);
+				if (call.hasAttribute(Template.PREFIX + parameter)) value = call.getAttribute(Template.PREFIX + parameter);
+				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(parameter, value));
 			}
 			
 			PlainXmlModel model = new PlainXmlModel();

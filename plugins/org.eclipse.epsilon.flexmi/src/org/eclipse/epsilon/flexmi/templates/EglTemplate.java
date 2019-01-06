@@ -27,7 +27,9 @@ public class EglTemplate extends XmlTemplate {
 			module.parse(content.getTextContent().trim(), uri);
 			
 			for (String parameter : getParameters()) {
-				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(parameter, call.getAttribute(Template.PREFIX + parameter)));
+				String value = call.getAttribute(parameter);
+				if (call.hasAttribute(Template.PREFIX + parameter)) value = call.getAttribute(Template.PREFIX + parameter);
+				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(parameter, value));
 			}
 			
 			String xml = "<?xml version=\"1.0\"?><root>" + (module.execute() + "").trim() + "</root>";

@@ -2,7 +2,7 @@
 <?nsuri http://www.eclipse.org/emf/2002/Ecore?>
 <_>
 	<package name="p1">
-		<_t1 _p1="C1" _p2="a1"/>
+		<t1 p1="C1" p2="a1"/>
 	</package>
 	
 	<_template name="t1">
@@ -10,7 +10,7 @@
 		<parameter name="p2"/>
 		<content>
 			<class name="${p1}">
-				<_t2 _p1="${p2}"/>
+				<t2 p1="${p2}"/>
 			</class>
 		</content>
 	</_template>

@@ -9,10 +9,12 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi.test;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import static org.junit.Assert.*;
 
 import org.eclipse.epsilon.flexmi.AttributeStructuralFeatureAllocator;
 import org.junit.Test;
@@ -21,29 +23,33 @@ public class AllocatorTests {
 	
 	@Test
 	public void testMoreValues() {
-		assertAllocation(Arrays.asList("a", "b", "c"), Arrays.asList("a", "b"), 2, Arrays.asList("a", "a"), Arrays.asList("b", "b"));
+		assertAllocation(list("a", "b", "c"), list("a", "b"), 2, list("a", "a"), list("b", "b"));
 	}
 	
 	@Test
 	public void testMoreSlots() {
-		assertAllocation(Arrays.asList("a", "b"), Arrays.asList("a", "b", "c"), 2, Arrays.asList("a", "a"), Arrays.asList("b", "b"));
+		assertAllocation(list("a", "b"), list("a", "b", "c"), 2, list("a", "a"), list("b", "b"));
 	}
 	
 	@Test
 	public void testNoSlots() {
-		assertAllocation(Arrays.asList("a", "b"), Arrays.asList(), 0);
+		assertAllocation(list("a", "b"), list(), 0);
 	}
 
 	@Test
 	public void testNoValues() {
-		assertAllocation(Arrays.asList(), Arrays.asList("a", "b"), 0);
+		assertAllocation(list(), list("a", "b"), 0);
 	}	
 	
-	protected void assertAllocation(List<String> values, List<String> slots, int expectedAllocationCount, List<String>... expextedAllocations) {
+	protected List<String> list(String... s) {
+		return new ArrayList<String>(Arrays.asList(s));
+	}
+	
+	protected void assertAllocation(List<String> values, List<String> slots, int expectedAllocationCount, List<String>... expectedAllocations) {
 		AttributeStructuralFeatureAllocator allocator = new AttributeStructuralFeatureAllocator();
 		Map<String, String> allocation = allocator.allocate(values, slots);
 		assertEquals(expectedAllocationCount, allocation.size());
-		for (List<String> expected : expextedAllocations) {
+		for (List<String> expected : expectedAllocations) {
 			assertEquals(expected.get(1), allocation.get(expected.get(0)));
 		}
 	}

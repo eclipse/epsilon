@@ -85,29 +85,34 @@ public class PseudoSAXParser {
 		if (node instanceof Element) {
 			Element element = (Element) node;
 			if (!isFlexmiRootNode(element)) {
-				if (element.getNodeName().startsWith(Template.PREFIX)) {
-					String templateName = element.getNodeName().substring(Template.PREFIX.length());
-					for (Resource resource : this.resource.getResourceSet().getResources()) {
-						if (resource instanceof FlexmiResource) {
-							template = ((FlexmiResource) resource).getTemplate(templateName);
-							if (template != null) {
-								// ((FlexmiResource) resource).startProcessingFragment(resource.getURI());
-								for (Element applicationElement : template.apply(element)) {
-									visit(applicationElement, handler);
-								}
-								break;
-								// ((FlexmiResource) resource).endProcessingFragment();
+				String templateName = element.getNodeName();
+				if (templateName.startsWith(Template.PREFIX)) {
+					templateName = templateName.substring(Template.PREFIX.length());
+				}
+				
+				for (Resource resource : this.resource.getResourceSet().getResources()) {
+					if (resource instanceof FlexmiResource) {
+						template = ((FlexmiResource) resource).getTemplate(templateName);
+						if (template != null) {
+							// ((FlexmiResource) resource).startProcessingFragment(resource.getURI());
+							for (Element applicationElement : template.apply(element)) {
+								visit(applicationElement, handler);
 							}
+							break;
+							// ((FlexmiResource) resource).endProcessingFragment();
 						}
 					}
-					if (template == null) {
+				}
+				
+				if (template == null) {
+					if (element.getNodeName().startsWith(Template.PREFIX)) {
 						resource.getWarnings().add(new FlexmiDiagnostic("Unknown template " + templateName, uri, resource.getLineNumber(element)));
 						return;
 					}
-				}
-				else {
-					handler.startElement(element);
-				}
+					else {
+						handler.startElement(element);
+					}
+				}			
 			}
 		}
 		if (node instanceof ProcessingInstruction) {

@@ -22,7 +22,7 @@ public class XmlTemplate extends Template {
 		
 		for (Element applicationElement : application) {
 			for (String attributeName : Xml.getAttributeNames(call)) {
-				if (!attributeName.startsWith(Template.PREFIX)) {
+				if (!getParameters().contains(attributeName)) {
 					applicationElement.setAttribute(attributeName, call.getAttribute(attributeName));
 				}
 			}
@@ -45,7 +45,10 @@ public class XmlTemplate extends Template {
 		StrSubstitutor substitutor = new StrSubstitutor(new StrLookup<String>() {
 			@Override
 			public String lookup(String name) {
-				return call.getAttribute("_" + name);
+				if (call.hasAttribute(Template.PREFIX + name)) {
+					return call.getAttribute(Template.PREFIX + name);
+				}
+				return call.getAttribute(name);
 			}
 		});
 		

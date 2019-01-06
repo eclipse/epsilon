@@ -22,7 +22,7 @@ public class TemplateTests extends FlexmiTests {
 		assertEquals(0, resource.getWarnings().size());
 		assertEquals(1, resource.getTemplates().size());
 		assertEquals("t1", resource.getTemplates().get(0).getName());
-		assertEquals("p1", resource.getTemplates().get(0).getParameters().get(0));
+		assertEquals("p", resource.getTemplates().get(0).getParameters().get(0));
 		
 	}
 	
@@ -69,6 +69,7 @@ public class TemplateTests extends FlexmiTests {
 	@Test
 	public void testTemplateInstantiation() throws Exception {
 		assertEval("EPackage.all.first().eClassifiers.at(0).name", "C1", "templates/model-with-template.flexmi");
+		assertEval("EPackage.all.second().eClassifiers.at(0).name", "C2", "templates/model-with-template.flexmi");
 	}
 	
 	@Test
@@ -77,6 +78,7 @@ public class TemplateTests extends FlexmiTests {
 		assertEval("EPackage.all.first().eClassifiers.size()", 10, "templates/model-with-eol-templates.flexmi");
 		assertEval("EPackage.all.second().eClassifiers.at(0).name", "C11", "templates/model-with-eol-templates.flexmi");
 		assertEval("EPackage.all.third().eClassifiers.size()", 5, "templates/model-with-eol-templates.flexmi");
+		assertEval("EPackage.all.fourth().eClassifiers.size()", 5, "templates/model-with-eol-templates.flexmi");
 	}
 	
 	@Test
@@ -85,6 +87,7 @@ public class TemplateTests extends FlexmiTests {
 		assertEval("EPackage.all.first().eClassifiers.size()", 10, "templates/model-with-egl-templates.flexmi");
 		assertEval("EPackage.all.second().eClassifiers.at(0).name", "C11", "templates/model-with-egl-templates.flexmi");
 		assertEval("EPackage.all.third().eClassifiers.size()", 5, "templates/model-with-egl-templates.flexmi");
+		assertEval("EPackage.all.fourth().eClassifiers.size()", 5, "templates/model-with-egl-templates.flexmi");
 	}
 	
 	@Test

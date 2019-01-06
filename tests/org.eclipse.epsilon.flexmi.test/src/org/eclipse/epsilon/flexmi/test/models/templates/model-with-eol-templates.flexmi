@@ -1,14 +1,18 @@
 <?nsuri http://www.eclipse.org/emf/2002/Ecore?>
 <_>
 	<package name="p1">
-		<_t1/>
+		<t1/>
 	</package>
 	
 	<package name="p2">
-		<_t2/>
+		<t2/>
 	</package>
 	
 	<package name="p3">
+		<t3 n="5" abstract="true"/>
+	</package>
+
+	<package name="p4">
 		<_t3 _n="5" abstract="true"/>
 	</package>
 	

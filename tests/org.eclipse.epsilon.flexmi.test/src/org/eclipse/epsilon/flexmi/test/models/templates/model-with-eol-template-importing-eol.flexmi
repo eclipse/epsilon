@@ -2,11 +2,11 @@
 <?import subdir/template-importing-eol.flexmi?>
 <_>
 	<package name="p1">
-		<_t1/>
+		<t1/>
 	</package>
 	
 	<package name="p2">
-		<_t2/>
+		<t2/>
 	</package>
 	
 	<_template name="t1">
