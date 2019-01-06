@@ -21,7 +21,7 @@
         <parameter name="sp"/>      <!-- The standard used -->
         <parameter name="index"/>   <!-- The initial index to name the section nodes -->
         <content>
-            <goal name="G${index}" desc="Informal design phase ${ip} is clearly expressed, i.e. ${d}"/>
+            <goal name="G${index}" desc="${ip} is clearly expressed, i.e. ${d}"/>
             <context name="C${index}" desc="${sp} Standard "/>
             <contextOf source="G${index}" target="C${index}"/>
             <supp source="${link}" target="G${index}"/>
@@ -40,7 +40,7 @@
         <parameter name="index"/>   <!-- The initial index to name the section nodes -->
         <content language="EGL">
             <![CDATA[
-            <goal name="G${index}" desc="Formal design phase ${fp} is clrealy expressed and showned to be held"/>
+            <goal name="G${index}" desc="${fp} is clearly expressed and shown to be held"/>
             <supp source="${link}" target="G${index}"/>
             <strat name="S${index}" desc="Argument by assurance activity"/>
             <supp source="G${index}" target="S${index}"/>
@@ -56,7 +56,7 @@
         <parameter name="aa"/>      <!-- The assurance activity name -->
         <parameter name="index"/>   <!-- The initial index to name the section nodes -->
         <content>
-            <context name="C${index}" desc="Assurance activity ${aa}"/>
+            <context name="C${index}" desc="Assurance activity: ${aa}"/>
             <contextOf source="${link}" target="C${index}"/>
         </content>
     </_template>
@@ -67,7 +67,7 @@
         <parameter name="p"/>       <!-- The input name -->
         <parameter name="index"/>   <!-- The initial index to name the section nodes -->
         <content>
-            <context name="C${index}" desc="${p} available as input to the assurance avtivity"/>
+            <context name="C${index}" desc="${p} available as input to the assurance activity"/>
             <contextOf source="${link}" target="C${index}"/>
         </content>
     </_template>
