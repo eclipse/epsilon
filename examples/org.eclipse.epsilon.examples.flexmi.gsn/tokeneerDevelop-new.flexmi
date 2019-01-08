@@ -25,7 +25,38 @@
 	        <informal-phase ip="Security Properties" d="S.P1229.40.4" sp="REQIF 1.2 Specification"/>
 	        <informal-phase ip="INFORMED Design" d="S.P1229.50.2" sp="SPARK 2014 Specification"/>
 	        <informal-phase ip="System Test Specification" d="S.P1229.63.1" sp="SPRE Test Script"/>    
-        	<formal-phase fp="Formal Specification" pf="TIS Formal Specification (S.P1229.41.2)"/> 
+        	<!-- Formal phases -->
+        	<formal-phase fp="Formal Specification" pf="TIS Formal Specification (S.P1229.41.2)"> 
+        		<assurance-activity aa="Proof of Security Properties (Z)"/>
+        		<assurance-activity aa="Proof of Formal Specification (Z)"/>
+        		<assurance-activity-input p="Security Properties"/>
+        		<assurance-activity-input p="Formal Specification"/>
+        		<assurance-activity-evidence aa="Proof of Security Properties (Z)"/>
+        		<assurance-activity-evidence aa="Proof of Formal Specification (Z)"/>
+        	</formal-phase>
+        	
+        	<formal-phase fp="Formal Design" pf="TIS Formal Design (S.P1229.50.1)"> 
+		        <assurance-activity aa="Refinement Proof of Formal Design (Z)"/>
+		        <assurance-activity-input p="Formal Specification"/>
+		        <assurance-activity-input p="Formal Design"/>
+		        <assurance-activity-evidence aa="Refinement Proof of Formal Design (Z)"/>
+        	</formal-phase>
+        
+        	<formal-phase fp="SPARK Implementation" pf="ADA Source Code"> 
+		        <assurance-activity aa="Proof of Security Properties (SPARK Proof)"/>
+		        <assurance-activity aa="Proof of Functional Properties (SPARK Proof)"/>
+		        <assurance-activity aa="Static Analysis"/>
+		        <assurance-activity aa="System Test"/>
+		        <assurance-activity-input p="Security Properties"/>
+		        <assurance-activity-input p="Formal Design"/>
+		        <assurance-activity-input p="SPARK Implementation"/>
+		        <assurance-activity-input p="System Test Specification"/>    
+		        <assurance-activity-evidence aa="Static Analysis"/>
+		        <assurance-activity-evidence aa="System Test"/>
+		        <assurance-activity-evidence aa="Proof of Security Properties (SPARK Proof)"/>
+		        <assurance-activity-evidence aa="Proof of Functional Properties (SPARK Proof)"/>
+		     </formal-phase>   
+        
         </compliance>
         
         <!-- 
