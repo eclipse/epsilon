@@ -19,44 +19,45 @@
         <!-- Use the pattern template -->
         <goal name="G1" desc="The development process shows compliance at EAL5 for the Tokeneer System"/>
         
-        <compliance root="G1" dp="CbC" s="TIS" s_name="S1"/>
+        <compliance root="G1" dp="CbC" s="TIS">
+	        <!-- Informal phases -->
+	        <informal-phase ip="Security Target" d="S.P1229.40.1" sp="REQIF 1.2 Specification"/>
+	        <informal-phase ip="Security Properties" d="S.P1229.40.4" sp="REQIF 1.2 Specification"/>
+	        <informal-phase ip="INFORMED Design" d="S.P1229.50.2" sp="SPARK 2014 Specification"/>
+	        <informal-phase ip="System Test Specification" d="S.P1229.63.1" sp="SPRE Test Script"/>    
+        	<!-- Formal phases -->
+        	<formal-phase fp="Formal Specification" pf="TIS Formal Specification (S.P1229.41.2)"> 
+        		<assurance-activity aa="Proof of Security Properties (Z)"/>
+        		<assurance-activity aa="Proof of Formal Specification (Z)"/>
+        		<assurance-activity-input p="Security Properties"/>
+        		<assurance-activity-input p="Formal Specification"/>
+        		<assurance-activity-evidence aa="Proof of Security Properties (Z)"/>
+        		<assurance-activity-evidence aa="Proof of Formal Specification (Z)"/>
+        	</formal-phase>
+        	
+        	<formal-phase fp="Formal Design" pf="TIS Formal Design (S.P1229.50.1)"> 
+		        <assurance-activity aa="Refinement Proof of Formal Design (Z)"/>
+		        <assurance-activity-input p="Formal Specification"/>
+		        <assurance-activity-input p="Formal Design"/>
+		        <assurance-activity-evidence aa="Refinement Proof of Formal Design (Z)"/>
+        	</formal-phase>
         
-        <!-- Informal phases -->
-        <informal-phase link="S1" ip="Security Target" d="S.P1229.40.1" sp="REQIF 1.2 Specification" index="2"/>
-        <informal-phase link="S1" ip="Security Properties" d="S.P1229.40.4" sp="REQIF 1.2 Specification" index="3"/>
-        <informal-phase link="S1" ip="INFORMED Design" d="S.P1229.50.2" sp="SPARK 2014 Specification" index="4"/>
-        <informal-phase link="S1" ip="System Test Specification" d="S.P1229.63.1" sp="SPRE Test Script" index="5"/>
-               
-        <!-- Formal Specification phase -->
-        <formal-phase link="S1" fp="Formal Specification" pf="TIS Formal Specification (S.P1229.41.2)" index="6"/> 
-        <assurance-activity link="S6" aa="Proof of Security Properties (Z)" index="6"/>
-        <assurance-activity link="S6" aa="Proof of Formal Specification (Z)" index="8"/>
-        <assurance-activity-input link="S6" p="Security Properties" index="9"/>
-        <assurance-activity-input link="S6" p="Formal Specification" index="10"/>
-        <assurance-activity-evidence link="G7" aa="Proof of Security Properties (Z)" index="1"/>
-        <assurance-activity-evidence link="G7" aa="Proof of Formal Specification (Z)" index="2"/>
+        	<formal-phase fp="SPARK Implementation" pf="ADA Source Code"> 
+		        <assurance-activity aa="Proof of Security Properties (SPARK Proof)"/>
+		        <assurance-activity aa="Proof of Functional Properties (SPARK Proof)"/>
+		        <assurance-activity aa="Static Analysis"/>
+		        <assurance-activity aa="System Test"/>
+		        <assurance-activity-input p="Security Properties"/>
+		        <assurance-activity-input p="Formal Design"/>
+		        <assurance-activity-input p="SPARK Implementation"/>
+		        <assurance-activity-input p="System Test Specification"/>    
+		        <assurance-activity-evidence aa="Static Analysis"/>
+		        <assurance-activity-evidence aa="System Test"/>
+		        <assurance-activity-evidence aa="Proof of Security Properties (SPARK Proof)"/>
+		        <assurance-activity-evidence aa="Proof of Functional Properties (SPARK Proof)"/>
+		    </formal-phase>   
         
-        <!-- Formal Design phase -->
-        <formal-phase link="S1" fp="Formal Design" pf="TIS Formal Design (S.P1229.50.1)" index="8"/> 
-        <assurance-activity link="S8" aa="Refinement Proof of Formal Design (Z)" index="11"/>
-        <assurance-activity-input link="S8" p="Formal Specification" index="12"/>
-        <assurance-activity-input link="S8" p="Formal Design" index="13"/>
-        <assurance-activity-evidence link="G9" aa="Refinement Proof of Formal Design (Z)" index="3"/>
-        
-        <!-- SPARK Implementation phase -->
-        <formal-phase link="S1" fp="SPARK Implementation" pf="ADA Source Code" index="10"/> 
-        <assurance-activity link="S10" aa="Proof of Security Properties (SPARK Proof)" index="14"/>
-        <assurance-activity link="S10" aa="Proof of Functional Properties (SPARK Proof)" index="15"/>
-        <assurance-activity link="S10" aa="Static Analysis" index="16"/>
-        <assurance-activity link="S10" aa="System Test" index="17"/>
-        <assurance-activity-input link="S10" p="Security Properties" index="18"/>
-        <assurance-activity-input link="S10" p="Formal Design" index="19"/>
-        <assurance-activity-input link="S10" p="SPARK Implementation" index="20"/>
-        <assurance-activity-input link="S10" p="System Test Specification" index="21"/>    
-        <assurance-activity-evidence link="G11" aa="Static Analysis" index="4"/>
-        <assurance-activity-evidence link="G11" aa="System Test" index="5"/>
-        <assurance-activity-evidence link="G11" aa="Proof of Security Properties (SPARK Proof)" index="6"/>
-        <assurance-activity-evidence link="G11" aa="Proof of Functional Properties (SPARK Proof)" index="7"/>
+        </compliance>
         
     </model>
 </_>
