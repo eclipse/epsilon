@@ -1,5 +1,10 @@
 package org.eclipse.epsilon.flexmi.actions;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 
@@ -18,7 +23,17 @@ public class VariableDeclaration extends Action {
 	
 	@Override
 	public void perform(FlexmiResource resource) throws Exception {
-		// TODO Auto-generated method stub
-		
+		Map<String, Object> variables = resource.getVariables();
+		if (collection) {
+			if (variables.containsKey(name)) {
+				((Collection<Object>) variables.get(name)).add(eObject);
+			}
+			else {
+				variables.put(name, new ArrayList<Object>(Arrays.asList(eObject)));
+			}
+		}
+		else {
+			variables.put(name, eObject);
+		}
 	}
 }

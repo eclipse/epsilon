@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.flexmi.actions.Action;
 import org.eclipse.epsilon.flexmi.actions.FeatureComputation;
 import org.eclipse.epsilon.flexmi.actions.ObjectInitialization;
@@ -73,6 +74,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected Set<URI> parsedFragmentURIs = new HashSet<URI>();
 	protected List<Template> templates = new ArrayList<Template>();
 	protected BiMap<String, EObject> fullyQualifiedIDs = HashBiMap.create();
+	protected Map<String, Object> variables = new HashMap<String, Object>();
 	
 	public void startProcessingFragment(URI uri) {
 		parsedFragmentURIStack.push(uri);
@@ -434,6 +436,16 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		return 0;
 	}
 	
+	public void handleVarAttribute(String attribute, boolean collection, NamedNodeMap attributes, EObject eObject) {
+		// Find the _var attribute, create a variable declaration and remove it from the node
+		Node varAttribute = attributes.getNamedItem(Template.PREFIX + attribute);
+		if (varAttribute != null) {
+			for (String variable : varAttribute.getNodeValue().split(",")) {
+				actions.add(new VariableDeclaration(eObject, variable.trim(), collection));
+			}
+			attributes.removeNamedItem(varAttribute.getNodeName());
+		}
+	}
 	
 	protected void setAttributes(EObject eObject, Element element) {
 		
@@ -442,19 +454,8 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		
 		if (attributes.getLength() == 0 || eStructuralFeatures.size() == 0) return;
 		
-		// Find the _var attribute, create a variable declaration and remove it from the node
-		Node varAttribute = attributes.getNamedItem(Template.PREFIX + "var");
-		if (varAttribute != null) {
-			actions.add(new VariableDeclaration(eObject, varAttribute.getNodeValue(), false));
-			attributes.removeNamedItem(varAttribute.getNodeName());
-		}
-		
-		// Find the _col attribute, create a variable declaration and remove it from the node
-		Node colAttribute = attributes.getNamedItem(Template.PREFIX + "col");
-		if (colAttribute != null) {
-			actions.add(new VariableDeclaration(eObject, colAttribute.getNodeValue(), true));
-			attributes.removeNamedItem(colAttribute.getNodeName());
-		}
+		handleVarAttribute("var", false, attributes, eObject);
+		handleVarAttribute("col", true, attributes, eObject);
 		
 		Map<Node, EStructuralFeature> allocation = new AttributeStructuralFeatureAllocator().allocate(attributes, eStructuralFeatures);
 		
@@ -610,6 +611,10 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	protected boolean isTemplateElement(Element element) {
 		return objectStack.isEmpty() && Template.NODE_NAME.equals(element.getNodeName());
+	}
+	
+	public Map<String, Object> getVariables() {
+		return variables;
 	}
 	
 }

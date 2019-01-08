@@ -24,7 +24,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	IdTests.class,
 	CompsTests.class,
 	PropogenTests.class,
-	ComputationTests.class
+	ActionTests.class
 })
 public class FlexmiTestSuite {
 

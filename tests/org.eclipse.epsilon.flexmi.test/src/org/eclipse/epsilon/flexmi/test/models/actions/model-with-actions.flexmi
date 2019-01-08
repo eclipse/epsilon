@@ -1,0 +1,18 @@
+<?nsuri http://www.eclipse.org/emf/2002/Ecore?>
+<_>
+	<class name="C1" :col="classes1, classes2">
+		<ref :name="'r' + 1" :type="self.eContainer()"/>
+		<:init>
+			self.abstract = true;
+		</:init>
+	</class>
+	
+	<class name="C2" :var="c" :col="classes1, classes2">
+		<ref :type="c"/>
+	</class>
+	
+	<class name="C3" :super="classes1"/>
+	
+	<class name="C4" :super="classes2"/>
+	
+</_>
