@@ -1,0 +1,62 @@
+<?nsuri gsn?>
+<?render-graphviz-dot graphviz.egl?>
+<?import ccp-new.flexmi?>
+<_>
+    <model>
+        <context name="TIS" desc="Tokeneer ID Station includes functions of biometric authentication and smartcards in a networked system requiering identification and authentication mechanisms"/>
+        <context name="Rets" desc="Requirements will be provided to Altran in the document from known as a Protection Profile"/>
+        <goal name="Top" desc="Development process of Tokeneer can show compliance to Common Criteria (CC) at EAL5" />
+        <contextOf source="Top" target="TIS"/>
+        <contextOf source="Top" target="Rets"/>
+        <supp source="Top" target="TwoAims"/>
+        <strat name="TwoAims" desc="a) Feasibility (does the process achieve 'good' software, and b) Cost-effectiveness (is it a cheaper approach?)" />
+        <goal name="Demo" desc="The practicality/cost -effectiveness of the design process is demonstrated"/>
+        <supp source="TwoAims" target="Demo"/>
+        <supp source="TwoAims" target="G1"/>
+        <strat name="Metrics" desc="Argument by collecting metrics to enable comparision to previous development"/>
+        <supp source="Demo" target="Metrics"/>        
+        
+        <!-- Use the pattern template -->
+        <goal name="G1" desc="The development process shows compliance at EAL5 for the Tokeneer System"/>
+        
+        <compliance root="G1" dp="CbC" s="TIS" s_name="S1">
+	        <!-- Informal phases -->
+	        <informal-phase ip="Security Target" d="S.P1229.40.1" sp="REQIF 1.2 Specification"/>
+	        <informal-phase ip="Security Properties" d="S.P1229.40.4" sp="REQIF 1.2 Specification"/>
+	        <informal-phase ip="INFORMED Design" d="S.P1229.50.2" sp="SPARK 2014 Specification"/>
+	        <informal-phase ip="System Test Specification" d="S.P1229.63.1" sp="SPRE Test Script"/>    
+        	<formal-phase fp="Formal Specification" pf="TIS Formal Specification (S.P1229.41.2)"/> 
+        </compliance>
+        
+        <!-- 
+        <formal-phase link="S1" fp="Formal Specification" pf="TIS Formal Specification (S.P1229.41.2)" index="6"/> 
+        <assurance-activity link="S6" aa="Proof of Security Properties (Z)" index="6"/>
+        <assurance-activity link="S6" aa="Proof of Formal Specification (Z)" index="8"/>
+        <assurance-activity-input link="S6" p="Security Properties" index="9"/>
+        <assurance-activity-input link="S6" p="Formal Specification" index="10"/>
+        <assurance-activity-evidence link="G7" aa="Proof of Security Properties (Z)" index="1"/>
+        <assurance-activity-evidence link="G7" aa="Proof of Formal Specification (Z)" index="2"/>
+        
+        <formal-phase link="S1" fp="Formal Design" pf="TIS Formal Design (S.P1229.50.1)" index="8"/> 
+        <assurance-activity link="S8" aa="Refinement Proof of Formal Design (Z)" index="11"/>
+        <assurance-activity-input link="S8" p="Formal Specification" index="12"/>
+        <assurance-activity-input link="S8" p="Formal Design" index="13"/>
+        <assurance-activity-evidence link="G9" aa="Refinement Proof of Formal Design (Z)" index="3"/>
+        
+        <formal-phase link="S1" fp="SPARK Implementation" pf="ADA Source Code" index="10"/> 
+        <assurance-activity link="S10" aa="Proof of Security Properties (SPARK Proof)" index="14"/>
+        <assurance-activity link="S10" aa="Proof of Functional Properties (SPARK Proof)" index="15"/>
+        <assurance-activity link="S10" aa="Static Analysis" index="16"/>
+        <assurance-activity link="S10" aa="System Test" index="17"/>
+        <assurance-activity-input link="S10" p="Security Properties" index="18"/>
+        <assurance-activity-input link="S10" p="Formal Design" index="19"/>
+        <assurance-activity-input link="S10" p="SPARK Implementation" index="20"/>
+        <assurance-activity-input link="S10" p="System Test Specification" index="21"/>    
+        <assurance-activity-evidence link="G11" aa="Static Analysis" index="4"/>
+        <assurance-activity-evidence link="G11" aa="System Test" index="5"/>
+        <assurance-activity-evidence link="G11" aa="Proof of Security Properties (SPARK Proof)" index="6"/>
+        <assurance-activity-evidence link="G11" aa="Proof of Functional Properties (SPARK Proof)" index="7"/>
+        
+        -->
+    </model>
+</_>
