@@ -25,6 +25,7 @@
 	        <informal-phase ip="Security Properties" d="S.P1229.40.4" sp="REQIF 1.2 Specification"/>
 	        <informal-phase ip="INFORMED Design" d="S.P1229.50.2" sp="SPARK 2014 Specification"/>
 	        <informal-phase ip="System Test Specification" d="S.P1229.63.1" sp="SPRE Test Script"/>    
+        	
         	<!-- Formal phases -->
         	<formal-phase fp="Formal Specification" pf="TIS Formal Specification (S.P1229.41.2)"> 
         		<assurance-activity aa="Proof of Security Properties (Z)"/>

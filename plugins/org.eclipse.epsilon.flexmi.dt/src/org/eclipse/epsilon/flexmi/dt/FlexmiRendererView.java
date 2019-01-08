@@ -1,7 +1,6 @@
 package org.eclipse.epsilon.flexmi.dt;
 
 import java.io.File;
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -17,6 +16,7 @@ import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -39,11 +39,15 @@ public class FlexmiRendererView extends ViewPart {
 	protected FlexmiEditor editor;
 	protected FlexmiEditorPropertyListener listener = new FlexmiEditorPropertyListener();
 	protected TreeViewer treeViewer;
+	protected double zoom = 1.0;
 	
 	@Override
 	public void createPartControl(Composite parent) {
 		
 		IActionBars bars = getViewSite().getActionBars();
+		bars.getToolBarManager().add(new ZoomAction(true));
+		bars.getToolBarManager().add(new ZoomAction(false));
+		bars.getToolBarManager().add(new Separator());
 		bars.getToolBarManager().add(new PrintAction());
 		bars.getToolBarManager().add(new SyncAction());
 		
@@ -161,7 +165,7 @@ public class FlexmiRendererView extends ViewPart {
 					p.waitFor();
 					
 					if (image.exists()) {
-						browser.setText("<html><img src='" + image.getAbsolutePath() + "'></img></html>");
+						browser.setText("<html><body style=\"zoom:" + zoom + "\"><img src='" + image.getAbsolutePath() + "'></img></body></html>");
 					}
 					else if (log.exists()) {
 						browser.setUrl(URI.createFileURI(log.getAbsolutePath()).toString());
@@ -217,6 +221,30 @@ public class FlexmiRendererView extends ViewPart {
 		@Override
 		public void run() {
 			browser.execute("javascript:window.print();");
+		}
+	}
+	
+	class ZoomAction extends Action {
+		
+		boolean in = true;
+		
+		public ZoomAction(boolean in) {
+			this.in = in;
+			if (in) {
+				setText("Zoom in");
+				setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/zoomin.gif"));
+			}
+			else {
+				setText("Zoom out");
+				setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/zoomout.gif"));	
+			}
+		}
+		
+		@Override
+		public void run() {
+			if (in) zoom = Math.min(zoom + 0.1, 3.0);
+			else zoom = Math.max(0, zoom - 0.1);
+			browser.execute("javascript:document.body.style.zoom=" + zoom + ";");
 		}
 	}
 	
