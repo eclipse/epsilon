@@ -38,7 +38,8 @@ public class TemplateTests extends FlexmiTests {
 	public void testTemplateSlot() throws Exception {
 		assertEval("EClass.all.third().eStructuralFeatures.name", Arrays.asList("a1", "a2"), "templates/model-with-template.flexmi");		
 		assertEval("EClass.all.fourth().eStructuralFeatures.name", Arrays.asList("a3"), "templates/model-with-template.flexmi");		
-
+		assertEval("EClass.all[4].eStructuralFeatures.name", Arrays.asList("a4", "a5"), "templates/model-with-template.flexmi");
+		assertEval("EClass.all.exists(c|c.name='C4')", true, "templates/model-with-template.flexmi");
 	}
 	
 	@Test
@@ -74,6 +75,7 @@ public class TemplateTests extends FlexmiTests {
 	public void testTemplateInstantiation() throws Exception {
 		assertEval("EPackage.all.first().eClassifiers.at(0).name", "C1", "templates/model-with-template.flexmi");
 		assertEval("EPackage.all.second().eClassifiers.at(0).name", "C2", "templates/model-with-template.flexmi");
+		
 	}
 	
 	@Test

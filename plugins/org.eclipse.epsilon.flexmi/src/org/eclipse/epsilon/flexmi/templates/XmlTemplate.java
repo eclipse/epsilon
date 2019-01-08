@@ -2,6 +2,7 @@ package org.eclipse.epsilon.flexmi.templates;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.text.StrLookup;
@@ -33,7 +34,26 @@ public class XmlTemplate extends Template {
 	}
 	
 	public List<Element> getApplication(Element call) {
-		List<Element> application = new ArrayList<Element>();
+		//List<Element> application = new ArrayList<Element>();
+		
+		Element clonedContent = (Element) content.cloneNode(true);
+		
+		List<Element> slots = Xml.getDescendant(clonedContent, Template.PREFIX + "slot");
+		Element slot = null;
+		if (!slots.isEmpty()) slot = slots.get(0);
+		
+		if (slot != null) {
+			if (!Xml.getChildren(call).isEmpty()) {
+				for (Element child : Xml.getChildren(call)) {
+					slot.getParentNode().insertBefore(child.cloneNode(true), slot);
+				}
+			}
+			slot.getParentNode().removeChild(slot);
+		}
+		
+		return Xml.getChildren(clonedContent);
+		
+		/*
 		for (Element contentChild : Xml.getChildren(content)) {
 			Element cloned = (Element) contentChild.cloneNode(true);
 			
@@ -43,17 +63,17 @@ public class XmlTemplate extends Template {
 			
 			if (slot != null) {
 				if (!Xml.getChildren(call).isEmpty()) {
-					slot.getParentNode().replaceChild(Xml.getChildren(call).get(0).cloneNode(true), slot);
+					for (Element child : Xml.getChildren(call)) {
+						slot.getParentNode().insertBefore(child.cloneNode(true), slot);
+					}
 				}
-				else {
-					slot.getParentNode().removeChild(slot);
-				}
+				slot.getParentNode().removeChild(slot);
 			}
 			
 			application.add(cloned);
 		}
 		
-		return application;
+		return application;*/
 	}
 	
 	protected void replaceParameters(Element element, Element call) {
