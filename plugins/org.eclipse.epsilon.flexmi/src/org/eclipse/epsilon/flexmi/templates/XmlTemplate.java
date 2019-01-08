@@ -35,8 +35,24 @@ public class XmlTemplate extends Template {
 	public List<Element> getApplication(Element call) {
 		List<Element> application = new ArrayList<Element>();
 		for (Element contentChild : Xml.getChildren(content)) {
-			application.add((Element) contentChild.cloneNode(true));
+			Element cloned = (Element) contentChild.cloneNode(true);
+			
+			List<Element> slots = Xml.getDescendant(cloned, Template.PREFIX + "slot");
+			Element slot = null;
+			if (!slots.isEmpty()) slot = slots.get(0);
+			
+			if (slot != null) {
+				if (!Xml.getChildren(call).isEmpty()) {
+					slot.getParentNode().replaceChild(Xml.getChildren(call).get(0).cloneNode(true), slot);
+				}
+				else {
+					slot.getParentNode().removeChild(slot);
+				}
+			}
+			
+			application.add(cloned);
 		}
+		
 		return application;
 	}
 	

@@ -11,6 +11,9 @@ package org.eclipse.epsilon.flexmi.test;
 
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import static org.junit.Assert.*;
+
+import java.util.Arrays;
+
 import org.junit.Test;
 
 public class TemplateTests extends FlexmiTests {
@@ -20,7 +23,7 @@ public class TemplateTests extends FlexmiTests {
 		FlexmiResource resource = loadResource("templates/model-with-template.flexmi");
 		
 		assertEquals(0, resource.getWarnings().size());
-		assertEquals(1, resource.getTemplates().size());
+		assertEquals(2, resource.getTemplates().size());
 		assertEquals("t1", resource.getTemplates().get(0).getName());
 		assertEquals("p", resource.getTemplates().get(0).getParameters().get(0));
 		
@@ -29,6 +32,13 @@ public class TemplateTests extends FlexmiTests {
 	@Test
 	public void testTemplateApplicationContents() throws Exception {
 		assertEval("EAttribute.all.at(0).name", "a1", "templates/model-with-template.flexmi");		
+	}
+	
+	@Test
+	public void testTemplateSlot() throws Exception {
+		assertEval("EClass.all.third().eStructuralFeatures.name", Arrays.asList("a1", "a2"), "templates/model-with-template.flexmi");		
+		assertEval("EClass.all.fourth().eStructuralFeatures.name", Arrays.asList("a3"), "templates/model-with-template.flexmi");		
+
 	}
 	
 	@Test

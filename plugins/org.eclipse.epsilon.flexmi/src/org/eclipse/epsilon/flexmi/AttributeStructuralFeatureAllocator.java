@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.epsilon.flexmi.templates.Template;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -70,7 +71,7 @@ public class AttributeStructuralFeatureAllocator {
 		
 		HashMap<String, String> result = new HashMap<String, String>();
 		for (String value : new ArrayList<String>(values)) {
-			String slot = slots.stream().filter(s -> s.equalsIgnoreCase(value)).findFirst().orElse(null);
+			String slot = slots.stream().filter(s -> s.equalsIgnoreCase(removePrefix(value))).findFirst().orElse(null);
 			if (slot != null) {
 				values.remove(value);
 				slots.remove(slot);
@@ -86,7 +87,7 @@ public class AttributeStructuralFeatureAllocator {
 		for (AllocationTree leaf : tree.getLeafs()) {
 			int similarity = 0;
 			for (Allocation allocation : leaf.getAllAllocations()) {
-				similarity += stringSimilarityProvider.getSimilarity(allocation.getSlot(), allocation.getValue());
+				similarity += stringSimilarityProvider.getSimilarity(allocation.getSlot(), removePrefix(allocation.getValue()));
 			}
 			if (similarity > bestSimilarity) {
 				bestAllocation = leaf;
@@ -104,6 +105,10 @@ public class AttributeStructuralFeatureAllocator {
 		
 	}
 	
+	protected String removePrefix(String str) {
+		if (str.startsWith(Template.PREFIX)) str = str.substring(Template.PREFIX.length());
+		return str;
+	}
 	
 	class AllocationTree {
 		

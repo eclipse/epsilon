@@ -13,11 +13,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.text.StrLookup;
-import org.apache.commons.lang3.text.StrSubstitutor;
 import org.eclipse.epsilon.flexmi.xml.Xml;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 public abstract class Template {
 	
@@ -25,6 +22,7 @@ public abstract class Template {
 	protected ArrayList<String> parameters = new ArrayList<String>();
 	protected Element content;
 	protected URI uri;
+	protected Element slot;
 	
 	public static final String NODE_NAME = "_template";
 	public static final String PREFIX = "_";
@@ -36,6 +34,8 @@ public abstract class Template {
 			parameters.add(parameterElement.getAttribute("name"));
 		}
 		content = Xml.getChild(element, "content");
+		List<Element> slots = Xml.getDescendant(element, Template.PREFIX + "slot");
+		if (!slots.isEmpty()) slot = slots.get(0);
 	}
 	
 	public String getName() {
@@ -48,6 +48,10 @@ public abstract class Template {
 	
 	public Element getContent() {
 		return content;
+	}
+	
+	public Element getSlot() {
+		return slot;
 	}
 	
 	public abstract List<Element> apply(Element call);

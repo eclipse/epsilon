@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.apache.commons.lang3,
  org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.egl.engine,
- org.eclipse.epsilon.emc.plainxml
+ org.eclipse.epsilon.emc.plainxml,
+ org.eclipse.epsilon.emc.emf
 Export-Package: org.eclipse.epsilon.flexmi,
  org.eclipse.epsilon.flexmi.templates,
  org.eclipse.epsilon.flexmi.xml

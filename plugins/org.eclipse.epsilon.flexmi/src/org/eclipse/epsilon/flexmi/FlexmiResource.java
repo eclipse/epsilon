@@ -61,6 +61,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected List<ProcessingInstruction> processingInstructions = new ArrayList<ProcessingInstruction>();
 	protected EObjectTraceManager eObjectTraceManager = new EObjectTraceManager();
 	protected List<UnresolvedReference> unresolvedReferences = new ArrayList<UnresolvedReference>();
+	protected List<Computation> computations = new ArrayList<Computation>();
 	protected Stack<Object> objectStack = new Stack<Object>();
 	protected Node currentNode = null;
 	protected List<String> scripts = new ArrayList<String>();
@@ -196,11 +197,11 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			name = name.substring(name.indexOf(":")+1);
 		}
 		
-		
-		
 		//Replace variables in attributes
 		for (Node attribute : Xml.getAttributes(element)) {
-			attribute.setNodeValue(substitutor.replace(attribute.getNodeValue()));
+			if (!attribute.getNodeName().startsWith(Template.PREFIX)) {
+				attribute.setNodeValue(substitutor.replace(attribute.getNodeValue()));
+			}
 		}
 		
 		EObject eObject = null;
@@ -248,7 +249,12 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			else if (peek instanceof EObject) {
 				EObject parent = (EObject) peek;
 				
-				if (element.getAttributes().getLength() == 0 && element.getChildNodes().getLength() == 1 && element.getFirstChild() instanceof Text) {
+				if (element.getNodeName().equalsIgnoreCase(Template.PREFIX + "init")) {
+					computations.add(new Constructor(parent, element.getTextContent().trim(), getCurrentURI(), getLineNumber(element)));
+					objectStack.push(null);
+					return;
+				}
+				else if (element.getAttributes().getLength() == 0 && element.getChildNodes().getLength() == 1 && element.getFirstChild() instanceof Text) {
 					EAttribute eAttribute = (EAttribute) eNamedElementForName(name, parent.eClass().getEAllAttributes());
 					
 					if (eAttribute != null) {
@@ -361,6 +367,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	@Override
 	public void endDocument(Document document) {
 		resolveReferences();
+		computeFeatures();
 	}
 	
 	public List<UnresolvedReference> getUnresolvedReferences() {
@@ -377,6 +384,18 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	protected void addParseWarning(String message, URI uri, int line) {
 		getWarnings().add(new FlexmiDiagnostic(message, uri, line));
+	}
+	
+	protected void computeFeatures() {
+		for (Computation computation : computations) {
+			try {
+				computation.compute();
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+				addParseWarning(ex.getMessage(), computation.getUri(), computation.getLineNumber());
+			}
+		}
 	}
 	
 	protected void resolveReferences() {
@@ -445,14 +464,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			frameStack.setVariable(varAttribute.getNodeValue(), eObject);
 			attributes.removeNamedItem("_var");
 		}
-		/*
-		if (!(eObject.eClass().getEStructuralFeature("id") instanceof EAttribute)) {
-			if (attributes.getNamedItem("id") != null) {
-				String value = attributes.getNamedItem("id").getNodeValue();
-				attributes.removeNamedItem("id");
-				setEObjectId(eObject, value);
-			}
-		}*/
 		
 		Map<Node, EStructuralFeature> allocation = new AttributeStructuralFeatureAllocator().allocate(attributes, eStructuralFeatures);
 		
@@ -462,18 +473,23 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			
 			EStructuralFeature sf = allocation.get(attribute);
 			
-			if (sf instanceof EAttribute) {
-				setEAttributeValue(eObject, (EAttribute) sf, name, value);
+			if (name.startsWith(Template.PREFIX)) {
+				computations.add(new ComputedFeature(eObject, sf, name, value, getCurrentURI(), getLineNumber(element)));
 			}
-			else if (sf instanceof EReference) {
-				EReference eReference = (EReference) sf;
-				if (eReference.isMany()) {
-					for (String valuePart : value.split(",")) {
-						unresolvedReferences.add(new UnresolvedReference(eObject, getCurrentURI(), eReference, name, valuePart.trim(), getLineNumber(element)));
-					}
+			else {
+				if (sf instanceof EAttribute) {
+					setEAttributeValue(eObject, (EAttribute) sf, name, value);
 				}
-				else {
-					unresolvedReferences.add(new UnresolvedReference(eObject, getCurrentURI(), eReference, name, value, getLineNumber(element)));
+				else if (sf instanceof EReference) {
+					EReference eReference = (EReference) sf;
+					if (eReference.isMany()) {
+						for (String valuePart : value.split(",")) {
+							unresolvedReferences.add(new UnresolvedReference(eObject, getCurrentURI(), eReference, name, valuePart.trim(), getLineNumber(element)));
+						}
+					}
+					else {
+						unresolvedReferences.add(new UnresolvedReference(eObject, getCurrentURI(), eReference, name, value, getLineNumber(element)));
+					}
 				}
 			}
 		}

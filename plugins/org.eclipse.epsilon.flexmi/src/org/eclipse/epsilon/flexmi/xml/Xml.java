@@ -15,6 +15,7 @@ import java.util.List;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class Xml {
 	
@@ -36,6 +37,10 @@ public class Xml {
 		return names;
 	}
 	
+	public static List<Element> getDescendant(Element e, String name) {
+		return toElementList(e.getElementsByTagName(name));
+	}
+	
 	public static Element getChild(Element e, String name) {
 		List<Element> children = getChildren(e, name);
 		if (children.size() == 0) {
@@ -46,16 +51,20 @@ public class Xml {
 		}
 	}
 	
-	public static List<Element> getChildren(Element e) {
-		List<Element> children = new ArrayList<Element>();
-		for (int i = 0; i < e.getChildNodes().getLength(); i++) {
-			Node child = e.getChildNodes().item(i);
+	public static List<Element> toElementList(NodeList nodeList) {
+		List<Element> node = new ArrayList<Element>();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node child = nodeList.item(i);
 			if (child instanceof Element) {
 				Element childElement = (Element) child;
-				children.add(childElement);
+				node.add(childElement);
 			}
 		}
-		return children;
+		return node;
+	}
+	
+	public static List<Element> getChildren(Element e) {
+		return toElementList(e.getChildNodes());
 	}
 	
 	public static List<Element> getChildren(Element e, String name) {
