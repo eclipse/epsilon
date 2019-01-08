@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.flexmi;
+package org.eclipse.epsilon.flexmi.actions;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -6,13 +6,14 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.flexmi.FlexmiResource;
 
-public class ComputedFeature extends Computation {
+public class FeatureComputation extends Computation {
 	
 	protected EStructuralFeature eStructuralFeature;
 	protected String attribute;
 	
-	public ComputedFeature(EObject eObject, EStructuralFeature eStructuralFeature, String attribute, String expression, URI uri, int lineNumber) {
+	public FeatureComputation(EObject eObject, EStructuralFeature eStructuralFeature, String attribute, String expression, URI uri, int lineNumber) {
 		super();
 		this.eObject = eObject;
 		this.eStructuralFeature = eStructuralFeature;
@@ -22,8 +23,8 @@ public class ComputedFeature extends Computation {
 		this.uri = uri;
 	}
 	
-	public void compute() throws Exception {
-		InMemoryEmfModel model = new InMemoryEmfModel(eObject.eResource());
+	public void compute(FlexmiResource resource) throws Exception {
+		InMemoryEmfModel model = new InMemoryEmfModel(resource);
 		EolModule module = new EolModule();
 		module.parse("return " + expression + ";");
 		if (module.getParseProblems().size() > 0) throw new Exception(module.getParseProblems().get(0).getReason());

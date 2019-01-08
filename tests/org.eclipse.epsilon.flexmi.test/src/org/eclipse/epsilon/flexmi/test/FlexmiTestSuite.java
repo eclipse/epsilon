@@ -22,7 +22,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	TemplateTests.class,
 	AllocatorTests.class,
 	IdTests.class,
-	VariableTests.class,
 	CompsTests.class,
 	PropogenTests.class,
 	ComputationTests.class

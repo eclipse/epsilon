@@ -13,7 +13,7 @@
 	</package>
 
 	<package name="p4">
-		<_t3 _n="5" abstract="true"/>
+		<t3 n="5" abstract="true"/>
 	</package>
 	
 	<_template name="t1">

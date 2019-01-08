@@ -47,12 +47,6 @@ public class TemplateTests extends FlexmiTests {
 	}
 	
 	@Test
-	public void testModelWithUnknownTemplate() throws Exception {
-		FlexmiResource resource = loadResource("templates/model-with-unknown-template.flexmi");
-		assertEquals(1, resource.getWarnings().size());
-	}
-	
-	@Test
 	public void testModelWithImportedTemplates() throws Exception {
 		assertEval("EPackage.all.first().eClassifiers.at(0).name", "O1", "templates/model-with-imported-templates.flexmi");
 		assertEval("EPackage.all.first().eClassifiers.at(1).name", "C2", "templates/model-with-imported-templates.flexmi");

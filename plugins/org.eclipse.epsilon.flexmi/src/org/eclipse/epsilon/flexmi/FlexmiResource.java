@@ -22,8 +22,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import org.apache.commons.lang3.text.StrLookup;
-import org.apache.commons.lang3.text.StrSubstitutor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -39,11 +37,14 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.epsilon.flexmi.actions.Action;
+import org.eclipse.epsilon.flexmi.actions.FeatureComputation;
+import org.eclipse.epsilon.flexmi.actions.ObjectInitialization;
+import org.eclipse.epsilon.flexmi.actions.VariableDeclaration;
 import org.eclipse.epsilon.flexmi.templates.Template;
 import org.eclipse.epsilon.flexmi.xml.Location;
 import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser;
 import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser.Handler;
-import org.eclipse.epsilon.flexmi.xml.Xml;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -61,7 +62,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected List<ProcessingInstruction> processingInstructions = new ArrayList<ProcessingInstruction>();
 	protected EObjectTraceManager eObjectTraceManager = new EObjectTraceManager();
 	protected List<UnresolvedReference> unresolvedReferences = new ArrayList<UnresolvedReference>();
-	protected List<Computation> computations = new ArrayList<Computation>();
+	protected List<Action> actions = new ArrayList<Action>();
 	protected Stack<Object> objectStack = new Stack<Object>();
 	protected Node currentNode = null;
 	protected List<String> scripts = new ArrayList<String>();
@@ -72,13 +73,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected Set<URI> parsedFragmentURIs = new HashSet<URI>();
 	protected List<Template> templates = new ArrayList<Template>();
 	protected BiMap<String, EObject> fullyQualifiedIDs = HashBiMap.create();
-	protected FrameStack frameStack = new FrameStack();
-	protected StrSubstitutor substitutor = new StrSubstitutor(new StrLookup<String>() {
-		@Override
-		public String lookup(String name) {
-			return fullyQualifiedIDs.inverse().get(frameStack.getVariable(name));
-		}
-	});
 	
 	public void startProcessingFragment(URI uri) {
 		parsedFragmentURIStack.push(uri);
@@ -187,7 +181,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void startElement(Element element) {
-		frameStack.pushFrame();
 		currentNode = element;
 		String name = element.getNodeName();
 		
@@ -195,13 +188,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		//TODO: Add option to disable this
 		if (name.indexOf(":") > -1) {
 			name = name.substring(name.indexOf(":")+1);
-		}
-		
-		//Replace variables in attributes
-		for (Node attribute : Xml.getAttributes(element)) {
-			if (!attribute.getNodeName().startsWith(Template.PREFIX)) {
-				attribute.setNodeValue(substitutor.replace(attribute.getNodeValue()));
-			}
 		}
 		
 		EObject eObject = null;
@@ -250,7 +236,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				EObject parent = (EObject) peek;
 				
 				if (element.getNodeName().equalsIgnoreCase(Template.PREFIX + "init")) {
-					computations.add(new Constructor(parent, element.getTextContent().trim(), getCurrentURI(), getLineNumber(element)));
+					actions.add(new ObjectInitialization(parent, element.getTextContent().trim(), getCurrentURI(), getLineNumber(element)));
 					objectStack.push(null);
 					return;
 				}
@@ -333,7 +319,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 
 	@Override
 	public void endElement(Element element) {
-		frameStack.pop();
 		Object object = objectStack.pop();
 		if (object != null && object instanceof EObject) {
 			EObject eObject = (EObject) object;
@@ -367,7 +352,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	@Override
 	public void endDocument(Document document) {
 		resolveReferences();
-		computeFeatures();
+		performActions();
 	}
 	
 	public List<UnresolvedReference> getUnresolvedReferences() {
@@ -386,14 +371,13 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		getWarnings().add(new FlexmiDiagnostic(message, uri, line));
 	}
 	
-	protected void computeFeatures() {
-		for (Computation computation : computations) {
+	protected void performActions() {
+		for (Action action : actions) {
 			try {
-				computation.compute();
+				action.perform(this);
 			}
 			catch (Exception ex) {
-				ex.printStackTrace();
-				addParseWarning(ex.getMessage(), computation.getUri(), computation.getLineNumber());
+				addParseWarning(ex.getMessage(), action.getUri(), action.getLineNumber());
 			}
 		}
 	}
@@ -458,11 +442,18 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		
 		if (attributes.getLength() == 0 || eStructuralFeatures.size() == 0) return;
 		
-		// Find the _var attribute, create a variable and remove it from the node
-		Node varAttribute = attributes.getNamedItem("_var");
+		// Find the _var attribute, create a variable declaration and remove it from the node
+		Node varAttribute = attributes.getNamedItem(Template.PREFIX + "var");
 		if (varAttribute != null) {
-			frameStack.setVariable(varAttribute.getNodeValue(), eObject);
-			attributes.removeNamedItem("_var");
+			actions.add(new VariableDeclaration(eObject, varAttribute.getNodeValue(), false));
+			attributes.removeNamedItem(varAttribute.getNodeName());
+		}
+		
+		// Find the _col attribute, create a variable declaration and remove it from the node
+		Node colAttribute = attributes.getNamedItem(Template.PREFIX + "col");
+		if (colAttribute != null) {
+			actions.add(new VariableDeclaration(eObject, colAttribute.getNodeValue(), true));
+			attributes.removeNamedItem(colAttribute.getNodeName());
 		}
 		
 		Map<Node, EStructuralFeature> allocation = new AttributeStructuralFeatureAllocator().allocate(attributes, eStructuralFeatures);
@@ -474,7 +465,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			EStructuralFeature sf = allocation.get(attribute);
 			
 			if (name.startsWith(Template.PREFIX)) {
-				computations.add(new ComputedFeature(eObject, sf, name, value, getCurrentURI(), getLineNumber(element)));
+				actions.add(new FeatureComputation(eObject, sf, name, value, getCurrentURI(), getLineNumber(element)));
 			}
 			else {
 				if (sf instanceof EAttribute) {
