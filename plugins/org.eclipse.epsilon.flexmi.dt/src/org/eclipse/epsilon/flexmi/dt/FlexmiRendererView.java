@@ -45,8 +45,8 @@ public class FlexmiRendererView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		
 		IActionBars bars = getViewSite().getActionBars();
-		bars.getToolBarManager().add(new ZoomAction(true));
 		bars.getToolBarManager().add(new ZoomAction(false));
+		bars.getToolBarManager().add(new ZoomAction(true));
 		bars.getToolBarManager().add(new Separator());
 		bars.getToolBarManager().add(new PrintAction());
 		bars.getToolBarManager().add(new SyncAction());
