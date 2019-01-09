@@ -2,45 +2,41 @@
 <_>
     <_template name="compliance">
     <!-- The top section of the Correct by Constrution Pattern -->
-        <parameter name="root"/>    <!-- The base node(goal) to which the pattern is applied-->    
-        <parameter name="dp"/>      <!-- The design process name -->
-        <parameter name="s"/>       <!-- The system name -->
+        <parameter name="goal"/>    <!-- The base node(goal) to which the pattern is applied-->    
+        <parameter name="process"/>      <!-- The design process name -->
+        <parameter name="system"/>       <!-- The system name -->
         <content>
-            <context name="C1" desc="Development process ${dp} of System ${s}"/>
-            <contextOf source="${root}" target="C1"/>
+            <context name="C1" desc="Development process ${process} of System ${system}"/>
+            <contextOf source="${goal}" target="C1"/>
             <strat :name="'S' + Strategy.all.indexOf(self)" desc="Argument by decomposition of the design process" :var="complianceStrategy"/>
-            <supp source="${root}" :target="complianceStrategy"/>
+            <supp source="${goal}" :target="complianceStrategy"/>
             <:slot/>
         </content>
     </_template>
     
     <_template name="informal-phase">
         <!-- Arguments section for a desgin phase that can not be formally validated -->
-        <parameter name="ip"/>      <!-- The informal phase name -->
-        <parameter name="d"/>       <!-- The document reference -->
-        <parameter name="sp"/>      <!-- The standard used -->
+        <parameter name="name"/>      <!-- The informal phase name -->
+        <parameter name="document"/>       <!-- The document reference -->
+        <parameter name="standard"/>      <!-- The standard used -->
         <content>
-            <goal :name="'G' + Goal.all.indexOf(self)" desc="${ip} is clearly expressed, i.e. ${d}" :var="goal"/>
-            <context :name="'C' + Context.all.indexOf(self)" desc="${sp} Standard " :var="context"/>
+            <goal :name="'G' + Goal.all.indexOf(self)" desc="${name} is clearly expressed, i.e. ${document}" :var="goal"/>
+            <context :name="'C' + Context.all.indexOf(self)" desc="${standard} Standard " :var="context"/>
             <contextOf :source="goal" :target="context"/>
             <supp :source="complianceStrategy" :target="goal"/>
         </content>
     </_template>
     
     <_template name="formal-phase">
-        <!-- Arguments for a desgin phase that can be formally validated.
-             The strategy 'S<index>'  can be used as 'link' for the assurance_activity and
-             assurance _activity_input templates.
-             The goal  'G<index + 1> can be used as 'link' for the assurance_activity_evidence
-             template -->
-        <parameter name="fp"/>      <!-- The formal design phase name -->
-        <parameter name="pf"/>      <!-- The formal specification --> 
+        <!-- Arguments for a desgin phase that can be formally validated. -->
+        <parameter name="name"/>      <!-- The formal design phase name -->
+        <parameter name="spec"/>      <!-- The formal specification --> 
         <content>
-            <goal :name="'G' + Goal.all.indexOf(self)" desc="${fp} is clearly expressed and shown to be held" :var="goal"/>
+            <goal :name="'G' + Goal.all.indexOf(self)" desc="${name} is clearly expressed and shown to be held" :var="goal"/>
             <supp :source="complianceStrategy" :target="goal"/>
             <strat :name="'S' + Strategy.all.indexOf(self)" desc="Argument by assurance activity" :var="strategy"/>
             <supp :source="goal" :target="strategy"/>
-            <goal :name="'G' + Goal.all.indexOf(self)" desc="${pf} is clearly expressed and is valid" :var="goal2"/>
+            <goal :name="'G' + Goal.all.indexOf(self)" desc="${spec} is clearly expressed and is valid" :var="goal2"/>
             <supp :source="strategy" :target="goal2"/>
             <:slot/>
         </content>
@@ -48,27 +44,27 @@
     
     <_template name="assurance-activity">
         <!-- Arguments for an assurance activity -->
-        <parameter name="aa"/>      <!-- The assurance activity name -->
+        <parameter name="name"/>      <!-- The assurance activity name -->
         <content>
-            <context :name="'C' + Context.all.indexOf(self)" desc="Assurance activity: ${aa}" :var="context"/>
+            <context :name="'C' + Context.all.indexOf(self)" desc="Assurance activity: ${name}" :var="context"/>
             <contextOf :source="strategy" :target="context"/>
         </content>
     </_template>
     
     <_template name="assurance-activity-input">
         <!-- Arguments for an input required by an assurance activity -->
-        <parameter name="p"/>       <!-- The input name -->
+        <parameter name="name"/>       <!-- The input name -->
         <content>
-            <context :name="'C' + Context.all.indexOf(self)" desc="${p} available as input to the assurance activity" :var="context"/>
+            <context :name="'C' + Context.all.indexOf(self)" desc="${name} available as input to the assurance activity" :var="context"/>
             <contextOf :source="strategy" :target="context"/>
         </content>
     </_template>
     
     <_template name="assurance-activity-evidence">
         <!-- Arguments for the evidence generated by an assurance activity -->
-        <parameter name="aa"/>      <!-- The assurance activity name -->
+        <parameter name="name"/>      <!-- The assurance activity name -->
         <content>
-            <sol :name="'E' + Solution.all.indexOf(self)" desc="Result from ${aa}" :var="solution"/>
+            <sol :name="'E' + Solution.all.indexOf(self)" desc="Result from ${name}" :var="solution"/>
             <supp :source="goal2" :target="solution"/>
         </content>
     </_template>

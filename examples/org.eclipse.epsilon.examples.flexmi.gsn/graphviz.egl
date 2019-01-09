@@ -38,7 +38,7 @@ digraph G {
 @template
 operation Node nodeLabel(shape, style) {%]
 [%=self.name%] [shape=[%=shape%] [%if(style.length()>0){%] style=[%=style%][%}%] label=<
-    <TABLE border="0" cellborder="0" cellspacing="0" cellpading="4">
+    <TABLE border="0" cellborder="0" cellspacing="0" cellpading="0">
       <tr>
         <td align="left">[%=self.name%]</td>
       </tr>
@@ -55,13 +55,13 @@ operation Node nodeLabel(shape, style) {%]
  */
 operation Node breakDesc() : String {
     var result = "";
-    var slices = 35;
+    var slices = 15;
     for (w in self.description.split(" ")) {
         result += w;
         if (hasMore) {
             if (result.length() > slices) {
 	            result += "<br align=\"left\"/>";         // "&#13;&#10;";
-	            slices = result.length() + 35;
+	            slices = result.length() + 15;
 	        }
 	        else {
 	            result += " ";
