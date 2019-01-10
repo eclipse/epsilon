@@ -377,8 +377,13 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		registry = null;
 		if (modelImpl != null) {
 			Cache cache = CachedResourceSet.getCache();
-			for (Resource r : modelImpl.getResourceSet().getResources()) {
-				cache.returnResource(r);
+			if (modelImpl.getResourceSet() != null) {
+				for (Resource r : modelImpl.getResourceSet().getResources()) {
+					cache.returnResource(r);
+				}
+			}
+			else {
+				cache.returnResource(modelImpl);
 			}
 			modelImpl = null;
 		}
