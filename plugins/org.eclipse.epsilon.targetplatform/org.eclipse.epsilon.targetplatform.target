@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Epsilon Target Platform" sequenceNumber="112">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?><target name="Epsilon Target Platform" sequenceNumber="112">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.emf.emfatic.feature.group" version="0.8.0.201507261242"/>
@@ -50,10 +49,6 @@
 <repository location="http://download.eclipse.org/modeling/emf/compare/updates/releases/3.3"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.m2m.qvt.oml.sdk.feature.group" version="3.4.0.v20140610-1621"/>
-<repository location="http://download.eclipse.org/mmt/qvto/updates/releases/3.4.0"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.apache.commons.collections" version="3.2.2.v201511171945"/>
 <unit id="org.apache.commons.collections.source" version="3.2.2.v201511171945"/>
 <unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
@@ -75,6 +70,10 @@
 <unit id="org.antlr.runtime" version="3.2.0.v201101311130"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20180606145124/repository"/>
 </location>
+	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+		<unit id="org.eclipse.m2m.qvt.oml.sdk.feature.group" version="3.9.1.v20181210-1559"/>
+		<repository location="http://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
+	</location>
 </locations>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 <launcherArgs>
