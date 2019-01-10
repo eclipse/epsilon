@@ -93,7 +93,6 @@ public class GenerationRule extends ExtensibleNamedRule {
 		final boolean overwrite = (overwriteBlock == null) ? true : overwriteBlock.execute(context, false);
 		final boolean merge = (mergeBlock == null) ? true : mergeBlock.execute(context, false);			
 		final String templateName = (templateBlock == null) ? "" : templateBlock.execute(context, false);
-		final String target = targetBlock.execute(context, false);
 		
 		URI templateUri = templateFactory.resolveTemplate(templateName);
 		EglTemplate eglTemplate;
@@ -114,6 +113,8 @@ public class GenerationRule extends ExtensibleNamedRule {
 				eglTemplate.populate(entry.getKey(), entry.getValue());
 			}
 		}
+		
+		final String target = targetBlock.execute(context, false);
 		
 		File generated = null;
 		if (eglTemplate instanceof EglPersistentTemplate) {
