@@ -1,0 +1,24 @@
+<?nsuri http://www.eclipse.org/emf/2002/Ecore?>
+<?render-graphviz-dot graphviz.egl?>
+<_>
+	
+	<class name="Filesystem">
+		<attr name="name" type="String"/>
+		<ref name="drives" type="Drive" upper="-1" cont="true"/>
+	</class>
+	
+	<class name="Folder" super="File">
+		<ref name="contents" type="File" upper="-1" cont="true"/>
+	</class>
+	
+	<class name="Drive" super="Folder"/>
+	
+	<class name="File">
+		<attr name="name" type="String"/>
+	</class>
+	
+	<class name="Shortcut" super="File"/>
+	
+	<type name="String"/>
+	
+</_>
