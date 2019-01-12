@@ -20,10 +20,11 @@ import org.junit.Test;
 public class EmfModelDeleteTests {
 	
 	@Test
-	public void unregisteredMetamodelResultsInEpsilonException() throws Exception {
+	public void testDeleteWithCache() throws Exception {
 		
-		EmfModel model = EmfModelFactory.getInstance().loadEmfModel("Ecore", new File("../org.eclipse.epsilon.emc.emf.test/model/Delete.ecore"), EcorePackage.eINSTANCE.getNsURI(), AccessMode.READ_ONLY);	
+		EmfModel model = EmfModelFactory.getInstance().createEmfModel("Ecore", new File("../org.eclipse.epsilon.emc.emf.test/model/Delete.ecore"), EcorePackage.eINSTANCE.getNsURI(), AccessMode.READ_ONLY);	
 		model.setCachingEnabled(true);
+		model.load();
 		
 		assertEquals(1,model.getAllOfType("EClass").size());
 		assertEquals(1, model.getAllOfKind("EOperation").size());
