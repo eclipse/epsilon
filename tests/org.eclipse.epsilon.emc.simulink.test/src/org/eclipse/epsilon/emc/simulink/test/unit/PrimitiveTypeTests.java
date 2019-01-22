@@ -119,4 +119,15 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName).get(0);" +
 				"assert(returnValue = false);";
 	}
+	
+	@Test
+	public void testStatementWithResult() {
+		eol = "assert(4 = M.statementWithResult(\"2+2;\")";
+	}
+	
+	@Test
+	public void testStatement() {
+		eol = "M.statement(\"a = 2+2;\");"
+				+ "assert(M.parseMatlabEngineVariable(\"a\") = 4);";
+	}
 }
