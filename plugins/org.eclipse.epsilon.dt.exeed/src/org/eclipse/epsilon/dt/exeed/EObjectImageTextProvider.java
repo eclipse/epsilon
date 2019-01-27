@@ -48,16 +48,13 @@ public abstract class EObjectImageTextProvider {
 		module = new EolModule();
 		module.getContext().getModelRepository().addModel(model);
 		module.getContext().setOperationFactory(new EolOperationFactory() {
-
-			@Override
-			protected void createCache() {
-				super.createCache();
+			{
 				operationCache.put("label", new SimpleOperation() {
 					@Override
 					public Object execute(Object source, List<?> parameters, IEolContext context, ModuleElement ast) throws EolRuntimeException {
 						return getEObjectReferenceLabel(source,getBasicEObjectLabel(source));
 					}
-
+	
 					protected String getBasicEObjectLabel(Object object) {
 						if (!(object instanceof EObject)) return "undefined";
 						EObject eObject = (EObject) object;
@@ -71,7 +68,6 @@ public abstract class EObjectImageTextProvider {
 					
 				});
 			}
-			
 		});
 		
 		//module.getContext().getIntrospectionManager().setDefaultPropertyGetter(new JavaEmfPropertyGetter());

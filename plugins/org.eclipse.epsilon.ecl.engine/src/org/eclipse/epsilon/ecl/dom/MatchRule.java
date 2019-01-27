@@ -45,7 +45,6 @@ public class MatchRule extends ExtensibleNamedRule {
 		super.build(cst, module);
 		leftParameter = (Parameter) module.createAst(cst.getSecondChild(), this);
 		rightParameter = (Parameter) module.createAst(cst.getThirdChild(), this);
-		
 		this.compareBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EclParser.COMPARE), this);
 		this.doBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EclParser.DO), this);
 		this.guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EclParser.GUARD), this);

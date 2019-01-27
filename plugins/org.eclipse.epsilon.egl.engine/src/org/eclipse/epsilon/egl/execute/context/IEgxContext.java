@@ -11,7 +11,6 @@ package org.eclipse.epsilon.egl.execute.context;
 
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
-import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**

@@ -176,6 +176,9 @@ public interface IEolContextParallel extends IEolContext {
 	 */
 	default EolExecutorService beginParallelTask(ModuleElement entryPoint) throws EolNestedParallelismException {
 		EolExecutorService executor = getExecutorService();
+		if (executor == null || executor.isShutdown()) {
+			executor =  newExecutorService();
+		}
 		if (entryPoint == null) entryPoint = getModule();
 		enterParallelNest(entryPoint);
 		executor.getExecutionStatus().register(entryPoint);

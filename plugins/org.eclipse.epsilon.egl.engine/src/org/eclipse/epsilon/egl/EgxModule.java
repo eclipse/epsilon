@@ -214,10 +214,6 @@ public class EgxModule extends ErlModule implements IEgxModule {
 		return (IEgxContext) context;
 	}
 	
-	public void setContext(IEgxContext context) {
-		this.context = context;
-	}
-	
 	@Override
 	public List<GenerationRule> getGenerationRules() {
 		if (generationRules == null) {

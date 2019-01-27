@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.eclipse.epsilon.common.util.OperatingSystem;
+import static org.eclipse.epsilon.common.util.OperatingSystem.*;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic;
 import static org.eclipse.epsilon.common.util.profiling.BenchmarkUtils.*;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic.MemoryUnit;
@@ -196,7 +196,9 @@ public abstract class ProfilableRunConfiguration implements Runnable {
 		}
 		if (profileExecution) {
 			writeOut(
-				OperatingSystem.getCpuName(),
+				getOsNameAndVersion(),
+				getJavaVersion(),
+				getCpuName(),
 				"Logical processors: "+getNumberOfHardwareThreads(),
 				"Xms: "+getAvailableMemory(MemoryUnit.MB),
 				"Xmx: "+getMaxMemory(MemoryUnit.MB),

@@ -11,14 +11,16 @@
 	
 	<target name="main">
 		<runParserBuildFile lang="eol"/>
-		<runParserBuildFile lang="evl"/>
 		<runParserBuildFile lang="etl"/>
-		<runParserBuildFile lang="ecl"/>
-		<runParserBuildFile lang="eml"/>
-		<runParserBuildFile lang="ewl"/>
 		<runParserBuildFile lang="epl"/>
-		<runParserBuildFile lang="egl" parser="egx"/>
-		<runParserBuildFile lang="flock"/>
+		<!--parallel threadCount="6"-->
+			<runParserBuildFile lang="evl"/>
+			<runParserBuildFile lang="ecl"/>
+			<runParserBuildFile lang="ewl"/>
+			<runParserBuildFile lang="eml"/>
+			<runParserBuildFile lang="egl" parser="egx"/>
+			<runParserBuildFile lang="flock"/>
+		<!--/parallel-->
 	</target>
 	
 </project>

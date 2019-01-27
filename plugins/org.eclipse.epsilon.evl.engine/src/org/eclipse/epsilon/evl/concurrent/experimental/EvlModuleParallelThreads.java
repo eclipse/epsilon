@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.evl.concurrent;
+package org.eclipse.epsilon.evl.concurrent.experimental;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
+import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.concurrent.ConstraintContextAtom;

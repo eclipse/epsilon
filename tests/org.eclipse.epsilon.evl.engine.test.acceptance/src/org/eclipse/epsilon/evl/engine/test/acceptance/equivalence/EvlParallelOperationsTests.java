@@ -24,6 +24,7 @@ import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismExcepti
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.concurrent.*;
+import org.eclipse.epsilon.evl.concurrent.experimental.*;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 import org.junit.Before;
 import org.junit.BeforeClass;

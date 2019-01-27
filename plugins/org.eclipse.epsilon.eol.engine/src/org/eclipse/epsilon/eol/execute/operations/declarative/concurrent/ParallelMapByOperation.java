@@ -14,12 +14,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
-import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
@@ -42,15 +43,17 @@ public class ParallelMapByOperation extends MapByOperation {
 		if (source.isEmpty()) return new EolMap<>();
 		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
-		Collection<Callable<Entry<?, ?>>> jobs = new ArrayList<>(source.size());
+		Collection<Future<Entry<?, ?>>> jobResults = new ArrayList<>(source.size());
 		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions, context);
 		Expression expression = expressions.get(0);
+		EolExecutorService executor = context.beginParallelTask(expression);
 		
 		for (Object item : source) {
-			jobs.add(() -> new SimpleEntry<>(function.applyThrows(item), item));
+			jobResults.add(executor.submit(() -> new SimpleEntry<>(function.applyThrows(item), item)));
 		}
 		
-		Collection<Entry<?, ?>> intermediates = context.executeParallelTyped(expression, jobs);
+		Collection<Entry<?, ?>> intermediates = executor.collectResults(jobResults);
+		context.endParallelTask(expression);
 		
 		return intermediates.stream()
 			.collect(Collectors.toMap(

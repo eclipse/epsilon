@@ -203,7 +203,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	@Override
 	public EolExecutorService getExecutorService() {
-		if (executorService == null) {
+		if (executorService == null /*|| executorService.isShutdown()*/) {
 			executorService = newExecutorService();
 		}
 		return executorService;

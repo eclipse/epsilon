@@ -81,7 +81,7 @@ import junit.framework.Test;
                CsvModelTestSuite.class,
                FlexmiTestSuite.class})
 
-public class EpsilonTestSuite{
+public class EpsilonTestSuite {
 	public static Test suite() {
 		return new JUnit4TestAdapter(EpsilonTestSuite.class);
 	}

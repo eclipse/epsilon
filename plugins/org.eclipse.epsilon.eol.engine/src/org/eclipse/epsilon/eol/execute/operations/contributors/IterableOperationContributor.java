@@ -225,11 +225,9 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	public int count(Object o) {
-		int count = 0;
-		for (Object item : getIterable()) {
-			if (Objects.equals(item, o)) count ++;
-		}
-		return count;
+		return StreamSupport.stream(getIterable().spliterator(), false)
+			.filter(item -> Objects.equals(item, o))
+			.mapToInt(item -> 1).sum();
 	}
 
 	public Collection<Object> includingAll(Collection<Object> col) {

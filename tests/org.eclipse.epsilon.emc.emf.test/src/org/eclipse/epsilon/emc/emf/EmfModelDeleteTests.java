@@ -26,7 +26,7 @@ public class EmfModelDeleteTests {
 		model.setCachingEnabled(true);
 		model.load();
 		
-		assertEquals(1,model.getAllOfType("EClass").size());
+		assertEquals(1, model.getAllOfType("EClass").size());
 		assertEquals(1, model.getAllOfKind("EOperation").size());
 		assertEquals(1, model.getAllOfType("EParameter").size());
 		

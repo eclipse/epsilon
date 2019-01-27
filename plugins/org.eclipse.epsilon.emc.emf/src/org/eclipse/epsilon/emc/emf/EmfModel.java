@@ -195,7 +195,8 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 
 			if (notifier instanceof Resource && notification.getFeatureID(Resource.class) == Resource.RESOURCE__CONTENTS) {
 				handle(notification);
-			} else if (feature instanceof EReference && ((EReference)feature).isContainment()) {
+			}
+			else if (feature instanceof EReference && ((EReference)feature).isContainment()) {
 				handle(notification);
 			}
 		}
@@ -207,8 +208,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 					Object oldValue = notification.getOldValue();
 					if (oldValue != Boolean.TRUE && oldValue != Boolean.FALSE) {
 						if (oldValue != null) {
-							EObject old = (EObject) oldValue;
-							forceRemoveFromCache(old);
+							forceRemoveFromCache((EObject) oldValue);
 						}
 						EObject newValue = (EObject) notification.getNewValue();
 						if (newValue != null) {
@@ -389,11 +389,29 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			}
 		}
 		modelImpl = model;
-		if (cachingEnabled) {
+		if (isCachingEnabled()) {
 			modelImpl.eAdapters().add(new CachedContentsAdapter());
 		}
 	}
 
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public void setCachingEnabled(boolean cachingEnabled) {
+		boolean wasEnabled = isCachingEnabled();
+		super.setCachingEnabled(cachingEnabled);
+		
+		if (modelImpl != null) {
+			if (!wasEnabled && cachingEnabled) {
+				modelImpl.eAdapters().add(new CachedContentsAdapter());
+			}
+			else if (wasEnabled && !cachingEnabled) {
+				modelImpl.eAdapters().removeIf(a -> a instanceof CachedContentsAdapter);
+			}
+		}
+	}
+	
 	public List<String> getMetamodelFiles() {
 		final List<String> files = new ArrayList<>(metamodelFileUris.size());
 		for (URI metamodelFileUri : this.metamodelFileUris) {

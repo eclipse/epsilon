@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.emc.emf;
 
 import static org.junit.Assert.*;
-
+import static org.eclipse.epsilon.common.util.OperatingSystem.isWindows;
 import org.eclipse.epsilon.emc.emf.tools.EmfTool;
 import org.junit.Test;
 
@@ -18,23 +18,34 @@ public class EmfToolResolveUriTests {
 
 	@Test
 	public void shouldResolveRelativeToDirectory() throws Exception {
-		final String actual = new EmfTool().resolveURI("nearby.model", "/a/path/");
+		String root = "/a/path/";
+		if (isWindows()) root = "c:"+root;
+		final String nearby = "nearby.model";
 		
-		assertEquals("/a/path/nearby.model", actual);
+		final String actual = new EmfTool().resolveURI(nearby, root);
+		
+		assertEquals(root + nearby, actual.replace('\\', '/'));
 	}
 	
 	@Test
 	public void shouldResolveRelativeToFile() throws Exception {
-		final String actual = new EmfTool().resolveURI("nearby.model", "/a/path/source.file");
+		String root = "/a/path/";
+		if (isWindows()) root = "c:"+root;
+		final String nearby = "nearby.model";
 		
-		assertEquals("/a/path/nearby.model", actual);
+		final String actual = new EmfTool().resolveURI(nearby, root+"source.file");
+		
+		assertEquals(root + nearby, actual.replace('\\', '/'));
 	}
 	
 	@Test
 	public void shouldNotResolveTargetThatIsAbsolute() throws Exception {
-		final String actual = new EmfTool().resolveURI("/a/path/nearby.model", "/another/path/source.file");
+		String path = "/a/path/nearby.model";
+		if (isWindows()) path = "c:"+path;
 		
-		assertEquals("/a/path/nearby.model", actual);
+		final String actual = new EmfTool().resolveURI(path, "/another/path/source.file");
+		
+		assertEquals(path, actual);
 	}
 	
 	@Test
@@ -46,8 +57,12 @@ public class EmfToolResolveUriTests {
 	
 	@Test
 	public void shouldNotChangeUriFragment() throws Exception {
-		final String actual = new EmfTool().resolveURI("nearby.model#//@contents.0", "/a/path/source.file");
+		String root = "/a/path/";
+		if (isWindows()) root = "c:"+root;
+		final String nearby = "nearby.model#//@contents.0";
 		
-		assertEquals("/a/path/nearby.model#//@contents.0", actual);
+		final String actual = new EmfTool().resolveURI(nearby, root+"source.file");
+		
+		assertEquals(root+"nearby.model#//@contents.0", actual.replace('\\', '/'));
 	}
 }

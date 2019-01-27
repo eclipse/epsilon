@@ -10,13 +10,10 @@
 package org.eclipse.epsilon.egl.test.acceptance;
 
 import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 import java.net.URI;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
@@ -62,13 +59,13 @@ public class AcceptanceTestUtil {
 	private static EglTemplate current;
 	
 	public static String run(EglTemplateFactory factory, Object program, Model... modelSpecs) throws Exception {
-		final List<IModel> models = new LinkedList<>();
+		final IModel[] models = new IModel[modelSpecs.length];
 		
-		for (Model modelSpec : modelSpecs) {
-			models.add(modelSpec.loadEmfModel());
+		for (int i = 0; i < modelSpecs.length; i++) {
+			models[i] = modelSpecs[i].loadEmfModel();
 		}
 	
-		return run(factory, program, models.toArray(new IModel[modelSpecs.length]));
+		return run(factory, program, models);
 	}
 	
 	@SuppressWarnings("restriction")

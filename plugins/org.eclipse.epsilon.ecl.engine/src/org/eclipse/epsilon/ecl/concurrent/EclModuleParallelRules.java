@@ -9,10 +9,10 @@
 **********************************************************************/
 package org.eclipse.epsilon.ecl.concurrent;
 
-import java.util.ArrayList;
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.IEclContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 
 /**
  * Matches each pair of elements in parallel for all rules.
@@ -34,18 +34,18 @@ public class EclModuleParallelRules extends EclModuleParallel {
 	protected void matchAllRules(boolean greedy) throws EolRuntimeException {
 		boolean ofTypeOnly = !greedy;
 		IEclContextParallel context = getContext();
-		ArrayList<Runnable> jobs = new ArrayList<>();
+		EolExecutorService executor = context.beginParallelTask(this);
 		
 		for (MatchRule matchRule : getMatchRules()) {
 			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (ofTypeOnly || matchRule.isGreedy())) {
 				for (Object left : matchRule.getLeftInstances(context, ofTypeOnly)) {
 					for (Object right : matchRule.getRightInstances(context, ofTypeOnly)) {
-						jobs.add(() -> {
+						executor.submit(() -> {
 							try {
 								matchRule.matchPair(context, ofTypeOnly, left, right);
 							}
 							catch (EolRuntimeException ex) {
-								context.handleException(ex);
+								context.handleException(ex, executor);
 							}
 						});
 					}
@@ -53,6 +53,7 @@ public class EclModuleParallelRules extends EclModuleParallel {
 			}
 		}
 		
-		context.executeParallel(this, jobs);
+		executor.awaitCompletion();
+		context.endParallelTask(this);
 	}
 }

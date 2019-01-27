@@ -6,15 +6,16 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Matthew Smith - initial investigation into parallelising EVL
  *     Sina Madani - Parallel EVL implementation, testing, refactoring
  ******************************************************************************/
-package org.eclipse.epsilon.evl.concurrent;
+package org.eclipse.epsilon.evl.concurrent.experimental;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
+import org.eclipse.epsilon.evl.concurrent.EvlModuleParallelElements;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.concurrent.ConstraintAtom;
@@ -22,10 +23,14 @@ import org.eclipse.epsilon.evl.execute.concurrent.ConstraintContextAtom;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
+ * 3-stage filtering process.
  * 
  * @author Sina Madani
  * @since 1.6
+ * @deprecated Can be MUCH slower than {@linkplain EvlModuleParallelElements}, but very slightly
+ * faster in some cases.
  */
+@Deprecated
 public class EvlModuleParallelStaged extends EvlModuleParallel {
 	
 	public EvlModuleParallelStaged() {

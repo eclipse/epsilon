@@ -10,10 +10,12 @@
 package org.eclipse.epsilon.ecl.engine.test.acceptance.trees;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestUtil;
+import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.junit.Before;
@@ -33,6 +35,11 @@ public class TestXmlTreeComparison {
 	@Parameter
 	public Supplier<? extends IEclModule> moduleGetter;
 	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
 	@Parameters(name = "{0}")
 	public static Iterable<Supplier<? extends IEclModule>> modules() {
 		return EclAcceptanceTestUtil.modules();
@@ -51,8 +58,23 @@ public class TestXmlTreeComparison {
 	
 	@Test
 	public void testCorrectNumberOfMatches() throws Exception {
+		Collection<Match> reducedMatches = module.getContext().getMatchTrace().getReduced().getMatches();
 		// t1 and t2 should match only
-		assertEquals(2, module.getContext().getMatchTrace().getReduced().getMatches().size());
+		assertEquals(2, reducedMatches.size());
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 * @since 1.6
+	 */
+	@Test
+	public void testCorrectTrace() throws Exception {
+		Collection<Match> allMatches = module.getContext().getMatchTrace().getMatches();
+		Collection<Match> tempMatches = module.getContext().getTempMatchTrace().getMatches();
+		
+		assertEquals(15, allMatches.size());
+		assertTrue(tempMatches.isEmpty());
 	}
 	
 	@Test

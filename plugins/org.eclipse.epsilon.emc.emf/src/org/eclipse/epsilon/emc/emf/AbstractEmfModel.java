@@ -36,23 +36,33 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.CachedResourceSet.Cache;
 import org.eclipse.epsilon.emc.emf.transactions.EmfModelTransactionSupport;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
 public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	//FIXME : If the user wants, they can load it as a local copy
 	
+	/**
+	 * Whether to perform getAllOfKind and getAllOfType operations in parallel.
+	 * False by default.
+	 */
+	public static final String PROPERTY_PARALLEL = "parallel";
+	
 	protected Resource modelImpl;
 	protected boolean expand = true;
+	protected boolean parallelAllOf;
 	protected Registry registry;
 	Map<String, EClass> eClassCache;
 	
@@ -189,12 +199,12 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	 * @throws EolModelElementTypeNotFoundException
 	 * @since 1.6
 	 */
-	Collection<EObject> getAllFromModel(Predicate<EObject> criteria, int parallel) throws EolModelElementTypeNotFoundException {
+	Collection<EObject> getAllFromModel(Predicate<EObject> criteria) throws EolModelElementTypeNotFoundException {
 		Collection<EObject> allContents = allContents();
 		
 		return StreamSupport.stream(
 				allContents.spliterator(),
-				allContents.size() > parallel
+				parallelAllOf
 			)
 			.filter(criteria)
 			.collect(Collectors.toList());
@@ -204,13 +214,13 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	@Override
 	protected Collection<EObject> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
 		final EClass eClass = classForName(type);
-		return getAllFromModel(eObject -> eObject.eClass() == eClass, 2 << 20);
+		return getAllFromModel(eObject -> eObject.eClass() == eClass);
 	}
 	
 	@Override
 	protected Collection<EObject> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException {
 		final EClass eClass = classForName(kind);
-		return getAllFromModel(eClass::isInstance, 2 << 18);
+		return getAllFromModel(eClass::isInstance);
 	}
 	
 	@Override
@@ -319,7 +329,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		
 		EObject eObject = (EObject) instance;
 		EcoreUtil.delete(eObject);
-
+		
 		List<EObject> contents = new ArrayList<>(eObject.eContents());
 		
 		for (EObject content : contents) {
@@ -583,10 +593,6 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		return instance instanceof EObject;
 	}
 
-	public boolean isExpand() {
-		return expand;
-	}
-
 	@Override
 	public boolean isOfKind(Object instance, String metaClass)
 			throws EolModelElementTypeNotFoundException {
@@ -615,8 +621,36 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		
 		return null;
 	}
-
+	
+	public boolean isExpand() {
+		return expand;
+	}
+	
 	public void setExpand(boolean expand) {
 		this.expand = expand;
+	}
+	
+	/**
+	 * 
+	 * @param parallel
+	 * @since 1.6
+	 */
+	public void setParallelAllOf(boolean parallel) {
+		this.parallelAllOf = parallel;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public boolean isParallelAllOf() {
+		return parallelAllOf;
+	}
+	
+	@Override
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
+		super.load(properties, resolver);
+		this.parallelAllOf = properties.getBooleanProperty(PROPERTY_PARALLEL, false);
 	}
 }

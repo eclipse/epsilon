@@ -24,7 +24,7 @@ public class ScalarOperationContributor extends OperationContributor {
 	}
 	
 	public EolSequence<Object> asSequence() {
-		EolSequence<Object> sequence = new EolSequence<>();
+		EolSequence<Object> sequence = new EolSequence<>(1);
 		sequence.add(target);
 		return sequence;
 	}

@@ -106,7 +106,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	 * Additional setup functionality may also be provided here.
 	 */
 	@Test
-	public abstract void _test0();
+	public abstract void _test0() throws Exception;
 	
 	
 	/**

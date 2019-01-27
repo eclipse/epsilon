@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.epl.parse;
 
-// $ANTLR 3.1b1 EplParserRules.g 2018-11-07 16:58:36
+// $ANTLR 3.1b1 EplParserRules.g 2019-01-24 14:02:06
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -52,13 +52,13 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__144=144;
     public static final int T__143=143;
     public static final int T__146=146;
-    public static final int MODELDECLARATIONPARAMETER=72;
+    public static final int MODELDECLARATIONPARAMETER=73;
     public static final int T__145=145;
     public static final int BREAKALL=39;
     public static final int T__140=140;
     public static final int T__142=142;
     public static final int VAR=48;
-    public static final int MODELDECLARATIONPARAMETERS=71;
+    public static final int MODELDECLARATIONPARAMETERS=72;
     public static final int T__141=141;
     public static final int THROW=53;
     public static final int PARAMLIST=25;
@@ -71,7 +71,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int FORMAL=24;
     public static final int IF=31;
     public static final int MultiplicativeExpression=57;
-    public static final int TYPE=64;
+    public static final int TYPE=65;
     public static final int T__139=139;
     public static final int T__138=138;
     public static final int T__133=133;
@@ -88,28 +88,29 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__126=126;
     public static final int JavaIDDigit=18;
     public static final int T__125=125;
-    public static final int MAP=74;
+    public static final int LAMBDAEXPR=64;
+    public static final int MAP=75;
     public static final int T__128=128;
     public static final int T__127=127;
     public static final int T__166=166;
     public static final int T__165=165;
     public static final int T__168=168;
-    public static final int DOMAIN=83;
+    public static final int DOMAIN=84;
     public static final int T__167=167;
     public static final int T__162=162;
     public static final int T__161=161;
     public static final int T__164=164;
-    public static final int MODELDECLARATION=67;
+    public static final int MODELDECLARATION=68;
     public static final int T__163=163;
     public static final int EXPRESSIONINBRACKETS=59;
     public static final int T__160=160;
     public static final int TRANSACTION=41;
     public static final int FLOAT_TYPE_SUFFIX=7;
-    public static final int ITEMSELECTOR=73;
+    public static final int ITEMSELECTOR=74;
     public static final int COMMENT=21;
     public static final int ModelElementType=45;
-    public static final int ROLE=84;
-    public static final int IMPORT=66;
+    public static final int ROLE=85;
+    public static final int IMPORT=67;
     public static final int DELETE=52;
     public static final int ARROW=11;
     public static final int T__159=159;
@@ -125,7 +126,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__152=152;
     public static final int Annotation=23;
     public static final int CONTINUE=40;
-    public static final int ENUMERATION_VALUE=65;
+    public static final int ENUMERATION_VALUE=66;
     public static final int OPERATOR=58;
     public static final int EXPONENT=6;
     public static final int STRING=14;
@@ -133,23 +134,22 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__147=147;
     public static final int T__149=149;
     public static final int T__100=100;
-    public static final int NAMESPACE=68;
+    public static final int NAMESPACE=69;
     public static final int COLLECTION=42;
     public static final int NEW=49;
-    public static final int EXTENDS=79;
-    public static final int T__93=93;
+    public static final int EXTENDS=80;
     public static final int T__102=102;
-    public static final int PRE=77;
+    public static final int PRE=78;
     public static final int T__94=94;
     public static final int T__101=101;
-    public static final int POST=78;
-    public static final int ALIAS=69;
-    public static final int DRIVER=70;
-    public static final int DO=88;
-    public static final int OPTIONAL=90;
-    public static final int KEYVAL=75;
+    public static final int POST=79;
+    public static final int ALIAS=70;
+    public static final int DRIVER=71;
+    public static final int DO=89;
+    public static final int OPTIONAL=91;
+    public static final int KEYVAL=76;
     public static final int POINT_POINT=10;
-    public static final int GUARD=80;
+    public static final int GUARD=81;
     public static final int T__99=99;
     public static final int T__95=95;
     public static final int HELPERMETHOD=28;
@@ -157,13 +157,14 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__97=97;
     public static final int StatementBlock=29;
     public static final int T__98=98;
+    public static final int T__177=177;
     public static final int T__176=176;
     public static final int ABORT=43;
     public static final int T__173=173;
     public static final int StrangeNameLiteral=15;
-    public static final int ONMATCH=87;
+    public static final int ONMATCH=88;
     public static final int T__172=172;
-    public static final int EPLMODULE=92;
+    public static final int EPLMODULE=93;
     public static final int T__175=175;
     public static final int T__174=174;
     public static final int FOR=30;
@@ -179,25 +180,25 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int FeatureCall=60;
     public static final int T__122=122;
     public static final int T__121=121;
-    public static final int NO=89;
+    public static final int NO=90;
     public static final int T__124=124;
     public static final int FLOAT=4;
     public static final int T__123=123;
-    public static final int ACTIVE=91;
+    public static final int ACTIVE=92;
     public static final int T__120=120;
     public static final int NativeType=56;
     public static final int INT=8;
     public static final int ANNOTATIONBLOCK=50;
     public static final int RETURN=37;
-    public static final int KEYVALLIST=76;
-    public static final int PATTERN=81;
-    public static final int NOMATCH=86;
+    public static final int KEYVALLIST=77;
+    public static final int PATTERN=82;
+    public static final int NOMATCH=87;
     public static final int FEATURECALL=63;
     public static final int CollectionType=44;
     public static final int T__119=119;
     public static final int ASSIGNMENT=26;
     public static final int T__118=118;
-    public static final int CARDINALITY=82;
+    public static final int CARDINALITY=83;
     public static final int T__115=115;
     public static final int WS=20;
     public static final int EOF=-1;
@@ -221,7 +222,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__103=103;
     public static final int T__106=106;
     public static final int DEFAULT=36;
-    public static final int MATCH=85;
+    public static final int MATCH=86;
     public static final int T__105=105;
 
     // delegates
@@ -300,7 +301,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            pt=(Token)match(input,168,FOLLOW_168_in_pattern95); if (state.failed) return retval;
+            pt=(Token)match(input,169,FOLLOW_169_in_pattern95); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             pt_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(pt);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(pt_tree, root_0);
@@ -322,7 +323,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 int alt1=2;
                 int LA1_0 = input.LA(1);
 
-                if ( (LA1_0==96) ) {
+                if ( (LA1_0==97) ) {
                     alt1=1;
                 }
 
@@ -331,7 +332,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             	case 1 :
             	    // EplParserRules.g:71:27: ',' role
             	    {
-            	    char_literal3=(Token)match(input,96,FOLLOW_96_in_pattern103); if (state.failed) return retval;
+            	    char_literal3=(Token)match(input,97,FOLLOW_97_in_pattern103); if (state.failed) return retval;
             	    pushFollow(FOLLOW_role_in_pattern106);
             	    role4=role();
 
@@ -351,35 +352,35 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt3=2;
             int LA3_0 = input.LA(1);
 
-            if ( (LA3_0==98) ) {
+            if ( (LA3_0==99) ) {
                 alt3=1;
             }
             switch (alt3) {
                 case 1 :
                     // EplParserRules.g:71:40: ob= '{' ( match | do_ | nomatch | onmatch )* cb= '}'
                     {
-                    ob=(Token)match(input,98,FOLLOW_98_in_pattern113); if (state.failed) return retval;
+                    ob=(Token)match(input,99,FOLLOW_99_in_pattern113); if (state.failed) return retval;
                     // EplParserRules.g:71:48: ( match | do_ | nomatch | onmatch )*
                     loop2:
                     do {
                         int alt2=5;
                         switch ( input.LA(1) ) {
-                        case 171:
+                        case 172:
                             {
                             alt2=1;
                             }
                             break;
-                        case 174:
+                        case 175:
                             {
                             alt2=2;
                             }
                             break;
-                        case 176:
+                        case 177:
                             {
                             alt2=3;
                             }
                             break;
-                        case 175:
+                        case 176:
                             {
                             alt2=4;
                             }
@@ -442,7 +443,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                         }
                     } while (true);
 
-                    cb=(Token)match(input,99,FOLLOW_99_in_pattern135); if (state.failed) return retval;
+                    cb=(Token)match(input,100,FOLLOW_100_in_pattern135); if (state.failed) return retval;
 
                     }
                     break;
@@ -529,7 +530,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt4=2;
             int LA4_0 = input.LA(1);
 
-            if ( (LA4_0==169) ) {
+            if ( (LA4_0==170) ) {
                 alt4=1;
             }
             switch (alt4) {
@@ -559,7 +560,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 int alt5=2;
                 int LA5_0 = input.LA(1);
 
-                if ( (LA5_0==96) ) {
+                if ( (LA5_0==97) ) {
                     alt5=1;
                 }
 
@@ -568,7 +569,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             	case 1 :
             	    // EplParserRules.g:76:14: ',' NAME
             	    {
-            	    char_literal11=(Token)match(input,96,FOLLOW_96_in_role158); if (state.failed) return retval;
+            	    char_literal11=(Token)match(input,97,FOLLOW_97_in_role158); if (state.failed) return retval;
             	    NAME12=(Token)match(input,NAME,FOLLOW_NAME_in_role161); if (state.failed) return retval;
             	    if ( state.backtracking==0 ) {
             	    NAME12_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(NAME12);
@@ -583,7 +584,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 }
             } while (true);
 
-            n=(Token)match(input,105,FOLLOW_105_in_role167); if (state.failed) return retval;
+            n=(Token)match(input,106,FOLLOW_106_in_role167); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             n_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(n);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(n_tree, root_0);
@@ -601,7 +602,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt6=2;
             int LA6_0 = input.LA(1);
 
-            if ( (LA6_0==157) ) {
+            if ( (LA6_0==158) ) {
                 alt6=1;
             }
             switch (alt6) {
@@ -625,23 +626,23 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             do {
                 int alt7=5;
                 switch ( input.LA(1) ) {
-                case 122:
-                case 170:
+                case 123:
+                case 171:
                     {
                     alt7=1;
                     }
                     break;
-                case 166:
+                case 167:
                     {
                     alt7=2;
                     }
                     break;
-                case 172:
+                case 173:
                     {
                     alt7=3;
                     }
                     break;
-                case 173:
+                case 174:
                     {
                     alt7=4;
                     }
@@ -753,7 +754,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            n=(Token)match(input,169,FOLLOW_169_in_no209); if (state.failed) return retval;
+            n=(Token)match(input,170,FOLLOW_170_in_no209); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             n_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(n);
             adaptor.addChild(root_0, n_tree);
@@ -815,7 +816,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,157,FOLLOW_157_in_cardinality228); if (state.failed) return retval;
+            c=(Token)match(input,158,FOLLOW_158_in_cardinality228); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -850,7 +851,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
             }
 
-            cb=(Token)match(input,158,FOLLOW_158_in_cardinality243); if (state.failed) return retval;
+            cb=(Token)match(input,159,FOLLOW_159_in_cardinality243); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
               c.setType(CARDINALITY);
             }
@@ -906,7 +907,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
             set21=(Token)input.LT(1);
-            if ( input.LA(1)==INT||input.LA(1)==153 ) {
+            if ( input.LA(1)==INT||input.LA(1)==154 ) {
                 input.consume();
                 if ( state.backtracking==0 ) adaptor.addChild(root_0, (org.eclipse.epsilon.common.parse.AST)adaptor.create(set21));
                 state.errorRecovery=false;state.failed=false;
@@ -969,10 +970,10 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt9=2;
             int LA9_0 = input.LA(1);
 
-            if ( (LA9_0==122) ) {
+            if ( (LA9_0==123) ) {
                 alt9=1;
             }
-            else if ( (LA9_0==170) ) {
+            else if ( (LA9_0==171) ) {
                 alt9=2;
             }
             else {
@@ -986,7 +987,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 case 1 :
                     // EplParserRules.g:95:3: c= 'in'
                     {
-                    c=(Token)match(input,122,FOLLOW_122_in_domain276); if (state.failed) return retval;
+                    c=(Token)match(input,123,FOLLOW_123_in_domain276); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
                     root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -997,7 +998,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 case 2 :
                     // EplParserRules.g:95:11: c= 'from'
                     {
-                    c=(Token)match(input,170,FOLLOW_170_in_domain281); if (state.failed) return retval;
+                    c=(Token)match(input,171,FOLLOW_171_in_domain281); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
                     root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -1065,7 +1066,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,171,FOLLOW_171_in_match301); if (state.failed) return retval;
+            c=(Token)match(input,172,FOLLOW_172_in_match301); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -1127,7 +1128,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,172,FOLLOW_172_in_optional320); if (state.failed) return retval;
+            c=(Token)match(input,173,FOLLOW_173_in_optional320); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -1189,7 +1190,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,173,FOLLOW_173_in_active339); if (state.failed) return retval;
+            c=(Token)match(input,174,FOLLOW_174_in_active339); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -1251,7 +1252,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,174,FOLLOW_174_in_do_358); if (state.failed) return retval;
+            c=(Token)match(input,175,FOLLOW_175_in_do_358); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -1313,7 +1314,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,175,FOLLOW_175_in_onmatch377); if (state.failed) return retval;
+            c=(Token)match(input,176,FOLLOW_176_in_onmatch377); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -1375,7 +1376,7 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,176,FOLLOW_176_in_nomatch396); if (state.failed) return retval;
+            c=(Token)match(input,177,FOLLOW_177_in_nomatch396); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -1417,49 +1418,49 @@ public class Epl_EplParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
  
 
-    public static final BitSet FOLLOW_168_in_pattern95 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_pattern98 = new BitSet(new long[]{0x0000000000080000L,0x0000000000000000L,0x0000020000000000L});
-    public static final BitSet FOLLOW_role_in_pattern100 = new BitSet(new long[]{0x0000000000000002L,0x0000000500000000L});
-    public static final BitSet FOLLOW_96_in_pattern103 = new BitSet(new long[]{0x0000000000080000L,0x0000000000000000L,0x0000020000000000L});
-    public static final BitSet FOLLOW_role_in_pattern106 = new BitSet(new long[]{0x0000000000000002L,0x0000000500000000L});
-    public static final BitSet FOLLOW_98_in_pattern113 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L,0x0001C80000000000L});
-    public static final BitSet FOLLOW_match_in_pattern117 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L,0x0001C80000000000L});
-    public static final BitSet FOLLOW_do__in_pattern121 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L,0x0001C80000000000L});
-    public static final BitSet FOLLOW_nomatch_in_pattern125 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L,0x0001C80000000000L});
-    public static final BitSet FOLLOW_onmatch_in_pattern129 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L,0x0001C80000000000L});
-    public static final BitSet FOLLOW_99_in_pattern135 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_169_in_pattern95 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_pattern98 = new BitSet(new long[]{0x0000000000080000L,0x0000000000000000L,0x0000040000000000L});
+    public static final BitSet FOLLOW_role_in_pattern100 = new BitSet(new long[]{0x0000000000000002L,0x0000000A00000000L});
+    public static final BitSet FOLLOW_97_in_pattern103 = new BitSet(new long[]{0x0000000000080000L,0x0000000000000000L,0x0000040000000000L});
+    public static final BitSet FOLLOW_role_in_pattern106 = new BitSet(new long[]{0x0000000000000002L,0x0000000A00000000L});
+    public static final BitSet FOLLOW_99_in_pattern113 = new BitSet(new long[]{0x0000000000000000L,0x0000001000000000L,0x0003900000000000L});
+    public static final BitSet FOLLOW_match_in_pattern117 = new BitSet(new long[]{0x0000000000000000L,0x0000001000000000L,0x0003900000000000L});
+    public static final BitSet FOLLOW_do__in_pattern121 = new BitSet(new long[]{0x0000000000000000L,0x0000001000000000L,0x0003900000000000L});
+    public static final BitSet FOLLOW_nomatch_in_pattern125 = new BitSet(new long[]{0x0000000000000000L,0x0000001000000000L,0x0003900000000000L});
+    public static final BitSet FOLLOW_onmatch_in_pattern129 = new BitSet(new long[]{0x0000000000000000L,0x0000001000000000L,0x0003900000000000L});
+    public static final BitSet FOLLOW_100_in_pattern135 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_no_in_role152 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_role155 = new BitSet(new long[]{0x0000000000000000L,0x0000020100000000L});
-    public static final BitSet FOLLOW_96_in_role158 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_role161 = new BitSet(new long[]{0x0000000000000000L,0x0000020100000000L});
-    public static final BitSet FOLLOW_105_in_role167 = new BitSet(new long[]{0x0000000000080000L,0x007F800000000000L});
-    public static final BitSet FOLLOW_typeName_in_role172 = new BitSet(new long[]{0x0000000000000002L,0x0400000000000000L,0x0000344020000000L});
-    public static final BitSet FOLLOW_cardinality_in_role176 = new BitSet(new long[]{0x0000000000000002L,0x0400000000000000L,0x0000344000000000L});
-    public static final BitSet FOLLOW_domain_in_role180 = new BitSet(new long[]{0x0000000000000002L,0x0400000000000000L,0x0000344000000000L});
-    public static final BitSet FOLLOW_guard_in_role184 = new BitSet(new long[]{0x0000000000000002L,0x0400000000000000L,0x0000344000000000L});
-    public static final BitSet FOLLOW_optional_in_role188 = new BitSet(new long[]{0x0000000000000002L,0x0400000000000000L,0x0000344000000000L});
-    public static final BitSet FOLLOW_active_in_role192 = new BitSet(new long[]{0x0000000000000002L,0x0400000000000000L,0x0000344000000000L});
-    public static final BitSet FOLLOW_169_in_no209 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_157_in_cardinality228 = new BitSet(new long[]{0x0000000000000100L,0x0000000000000000L,0x0000000002000000L});
-    public static final BitSet FOLLOW_bound_in_cardinality231 = new BitSet(new long[]{0x0000000000000400L,0x0000000000000000L,0x0000000040000000L});
-    public static final BitSet FOLLOW_POINT_POINT_in_cardinality234 = new BitSet(new long[]{0x0000000000000100L,0x0000000000000000L,0x0000000002000000L});
-    public static final BitSet FOLLOW_bound_in_cardinality237 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000040000000L});
-    public static final BitSet FOLLOW_158_in_cardinality243 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NAME_in_role155 = new BitSet(new long[]{0x0000000000000000L,0x0000040200000000L});
+    public static final BitSet FOLLOW_97_in_role158 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_role161 = new BitSet(new long[]{0x0000000000000000L,0x0000040200000000L});
+    public static final BitSet FOLLOW_106_in_role167 = new BitSet(new long[]{0x0000000000080000L,0x00FF000000000000L});
+    public static final BitSet FOLLOW_typeName_in_role172 = new BitSet(new long[]{0x0000000000000002L,0x0800000000000000L,0x0000688040000000L});
+    public static final BitSet FOLLOW_cardinality_in_role176 = new BitSet(new long[]{0x0000000000000002L,0x0800000000000000L,0x0000688000000000L});
+    public static final BitSet FOLLOW_domain_in_role180 = new BitSet(new long[]{0x0000000000000002L,0x0800000000000000L,0x0000688000000000L});
+    public static final BitSet FOLLOW_guard_in_role184 = new BitSet(new long[]{0x0000000000000002L,0x0800000000000000L,0x0000688000000000L});
+    public static final BitSet FOLLOW_optional_in_role188 = new BitSet(new long[]{0x0000000000000002L,0x0800000000000000L,0x0000688000000000L});
+    public static final BitSet FOLLOW_active_in_role192 = new BitSet(new long[]{0x0000000000000002L,0x0800000000000000L,0x0000688000000000L});
+    public static final BitSet FOLLOW_170_in_no209 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_158_in_cardinality228 = new BitSet(new long[]{0x0000000000000100L,0x0000000000000000L,0x0000000004000000L});
+    public static final BitSet FOLLOW_bound_in_cardinality231 = new BitSet(new long[]{0x0000000000000400L,0x0000000000000000L,0x0000000080000000L});
+    public static final BitSet FOLLOW_POINT_POINT_in_cardinality234 = new BitSet(new long[]{0x0000000000000100L,0x0000000000000000L,0x0000000004000000L});
+    public static final BitSet FOLLOW_bound_in_cardinality237 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000080000000L});
+    public static final BitSet FOLLOW_159_in_cardinality243 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_bound0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_122_in_domain276 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
-    public static final BitSet FOLLOW_170_in_domain281 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
+    public static final BitSet FOLLOW_123_in_domain276 = new BitSet(new long[]{0x0000000000000000L,0x0000040800000000L});
+    public static final BitSet FOLLOW_171_in_domain281 = new BitSet(new long[]{0x0000000000000000L,0x0000040800000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_domain285 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_171_in_match301 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
+    public static final BitSet FOLLOW_172_in_match301 = new BitSet(new long[]{0x0000000000000000L,0x0000040800000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_match304 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_172_in_optional320 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
+    public static final BitSet FOLLOW_173_in_optional320 = new BitSet(new long[]{0x0000000000000000L,0x0000040800000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_optional323 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_173_in_active339 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
+    public static final BitSet FOLLOW_174_in_active339 = new BitSet(new long[]{0x0000000000000000L,0x0000040800000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_active342 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_174_in_do_358 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
+    public static final BitSet FOLLOW_175_in_do_358 = new BitSet(new long[]{0x0000000000000000L,0x0000040800000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_do_361 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_175_in_onmatch377 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
+    public static final BitSet FOLLOW_176_in_onmatch377 = new BitSet(new long[]{0x0000000000000000L,0x0000040800000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_onmatch380 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_176_in_nomatch396 = new BitSet(new long[]{0x0000000000000000L,0x0000020400000000L});
+    public static final BitSet FOLLOW_177_in_nomatch396 = new BitSet(new long[]{0x0000000000000000L,0x0000040800000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_nomatch399 = new BitSet(new long[]{0x0000000000000002L});
 
 }

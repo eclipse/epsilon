@@ -3,19 +3,17 @@ var IntStream = Native("java.util.stream.IntStream");
 var Stream = Native("java.util.stream.Stream");
 var Collectors = Native("java.util.stream.Collectors");
 
-/*@test TODO get this working
+/*@test
 operation testHeterogenousDoubleParameters() {
-	var seed = 1;
 	var powerOfTwo = Stream
-		.iterate(seed, i|i*2)
+		.iterate(1, (i|i*2))
 		.limit(10l)
 		.filter(i | i == 512)
 		.findAny()
 		.orElse(null);
 	
 	assertEquals(512, powerOfTwo);
-}
-*/
+}*/
 
 @test
 operation testStreamLambda() {

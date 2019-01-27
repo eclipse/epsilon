@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.egx.engine.test.acceptance;
 
-import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -30,27 +29,27 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		testsBase = getTestBaseDir(EgxAcceptanceTestSuite.class),
 		thriftBase = testsBase+"thrift/",
 		thriftMetamodel = "thrift.ecore",
-		thriftModels[] = {"ThriftTest.xmi", "fb303.xmi"},
-		thriftScripts[] = {"thrift-java", "thrift-rb"};
+		thriftModels[] = {/*"ThriftTest.xmi", "SimpleService.xmi",*/ "fb303.xmi"},
+		thriftScripts[] = {"thrift-rb", "thrift-java"};
 		
 	public static final List<String[]> thriftInputs;
 	
 	static {
 		thriftInputs = addAllInputs(
-			new String[]{thriftScripts[0]},
-			thriftModels, thriftMetamodel, "egx",
-			thriftBase+"java/", thriftBase, thriftBase
+				new String[]{thriftScripts[0]},
+				thriftModels, thriftMetamodel, "egx",
+				thriftBase+"ruby/", thriftBase, thriftBase
 		);
-		thriftInputs.addAll(addAllInputs(
-			new String[]{thriftScripts[1]},
-			thriftModels, thriftMetamodel, "egx",
-			thriftBase+"ruby/", thriftBase, thriftBase
-		));
+		/*thriftInputs.addAll(addAllInputs(
+				new String[]{thriftScripts[1]},
+				thriftModels, thriftMetamodel, "egx",
+				thriftBase+"java/", thriftBase, thriftBase
+		));*/
 	}
 	
 	public static Collection<Supplier<? extends IEgxModule>> modules(boolean includeStandard) {
-		return parallelModules(THREADS, includeStandard ? EgxModule::new : null,
-			EgxModuleParallel::new, EgxModuleParallelAnnotation::new, EgxModuleParallelRules::new);
+		return parallelModules(THREADS, includeStandard ? EgxModule::new : null/*,
+			EgxModuleParallel::new, EgxModuleParallelAnnotation::new, EgxModuleParallelRules::new*/);
 	}
 	
 	public static Collection<EgxRunConfiguration> getScenarios(
@@ -60,13 +59,13 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	}
 	
 	public static void deleteOutputDirectories() throws IOException {
-		FileUtil.deleteDirectory(thriftBase+"java/output");
+		//FileUtil.deleteDirectory(thriftBase+"java/output");
 		FileUtil.deleteDirectory(thriftBase+"ruby/output");
 	}
 	
 	public static Map<Path, String> getOutputFiles() throws IOException {
-		Map<Path, String> outputs = FileUtil.readDirectory(thriftBase+"java/output");
-		outputs.putAll(FileUtil.readDirectory(thriftBase+"ruby/output"));
+		Map<Path, String> outputs = FileUtil.readDirectory(thriftBase+"ruby/output");
+		//outputs.putAll(FileUtil.readDirectory(thriftBase+"java/output"));
 		return outputs;
 	}
 }

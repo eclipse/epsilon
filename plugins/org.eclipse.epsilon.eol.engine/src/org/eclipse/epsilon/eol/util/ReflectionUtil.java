@@ -210,18 +210,19 @@ public class ReflectionUtil {
 				
 					Class<?>[] parameterTypes = method.getParameterTypes();
 					boolean parametersMatch = parameterTypes.length == parameters.length;
-					if (parametersMatch){
+					if (parametersMatch) {
 						//TODO: See why parameter type checking does not work with EolSequence
 						for (int j = 0; j < parameterTypes.length && parametersMatch; j++) {
 							Class<?> parameterType = parameterTypes[j];
 							Object parameter = parameters[j];
 							if (allowContravariantConversionForParameters) {
 								parametersMatch = parametersMatch && (stage == 0 ? parameterType.isInstance(parameter) : isInstance(parameterType,parameter));
-							} else {
+							}
+							else {
 								parametersMatch = parametersMatch && parameterType.equals(parameter.getClass());
 							}
 						}
-						if (parametersMatch){
+						if (parametersMatch) {
 							return method;
 						}
 					}
@@ -315,7 +316,7 @@ public class ReflectionUtil {
 	public static Field getField(Class<?> clazz, String fieldName) {
 	
 		Field[] fields = clazz.getDeclaredFields();
-		for (int i = 0; i < fields.length; i++){
+		for (int i = 0; i < fields.length; i++) {
 			if (fields[i].getName().equals(fieldName))
 				return fields[i];
 		}

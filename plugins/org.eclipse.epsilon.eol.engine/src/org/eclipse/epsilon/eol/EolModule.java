@@ -118,8 +118,13 @@ public class EolModule extends AbstractModule implements IEolModule {
 				if (!secondChild.hasChildren()) {
 					return new PropertyCallExpression();
 				}
-				else if (secondChild.getExtraTokens().size() == 3) {
-					return new FirstOrderOperationCallExpression();
+				else if (secondChild.getExtraTokens().size() >= 2) {
+					if (secondChild.getChildren().stream().anyMatch(ast -> ast.getType() == EolParser.LAMBDAEXPR)) {
+						return new ComplexOperationCallExpression();
+					}
+					else {
+						return new FirstOrderOperationCallExpression();
+					}
 				}
 				else {
 					return new OperationCallExpression();

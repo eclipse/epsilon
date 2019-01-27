@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.execute.operations.declarative;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -58,14 +57,13 @@ public abstract class FirstOrderOperation extends AbstractOperation {
 	 * @since 1.6
 	 */
 	protected Collection<Object> resolveSource(Object target, List<Parameter> iterators, IEolContext context) throws EolRuntimeException {
-		Collection<Object> source = CollectionUtil.asCollection(target);
+		final Collection<Object> source = CollectionUtil.asCollection(target);
 		if (!iterators.isEmpty()) {
 			EolType iteratorType = iterators.get(0).getType(context);
-			final Collection<Object> filteredCol = EolCollectionType.createSameType(source);
 			
-			source = StreamSupport.stream(source.spliterator(), source.size() > 2 << 19)
+			return source.stream()
 				.filter(iteratorType::isKind)
-				.collect(Collectors.toCollection(() -> filteredCol));
+				.collect(Collectors.toCollection(() -> EolCollectionType.createSameType(source)));
 		}
 		return source;
 	}

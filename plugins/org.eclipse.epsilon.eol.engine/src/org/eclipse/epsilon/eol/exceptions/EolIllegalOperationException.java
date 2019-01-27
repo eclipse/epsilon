@@ -47,10 +47,15 @@ public class EolIllegalOperationException extends EolRuntimeException {
 	
 	@Override
 	public String getReason() {
-		if (object == null || object.equals(EolNoType.NoInstance)) {
-			return "Method '" + methodName + "' not found";
-		} else {		
-			return "Method '" + methodName + "' not found for: " + prettyPrintManager.print(object);
+		if (object == null) {
+			return "Called method '" + methodName + "' on undefined object";
 		}
+		
+		String reason = "Method '" + methodName + "' not found";
+		if (!object.equals(EolNoType.NoInstance)) {
+			reason += " for: " + prettyPrintManager.print(object);
+		}
+	
+		return reason;
 	}
 }

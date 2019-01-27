@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
@@ -44,13 +45,14 @@ public class ParallelSelectOperation extends SelectOperation {
 			resultsCol.addAll(source);
 		}
 
-		Collection<Callable<Optional<?>>> jobs = new ArrayList<>(source.size());
+		Collection<Future<Optional<?>>> jobResults = new ArrayList<>(source.size());
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expressions, context);
 		Expression expression = expressions.get(0);
+		EolExecutorService executor = context.beginParallelTask(expression);
 		
 		for (Object item : source) {
-			jobs.add(() -> {
+			jobResults.add(executor.submit(() -> {
 				
 				Optional<?> intermediateResult = null;
 				boolean bodyResult = predicate.testThrows(item);
@@ -64,11 +66,11 @@ public class ParallelSelectOperation extends SelectOperation {
 				}
 				
 				return intermediateResult;
-			});
+			}));
 		}
 		
 		if (returnOnMatch) {
-			Optional<?> result = context.shortCircuitTyped(expression, jobs);
+			Optional<?> result = executor.shortCircuitCompletionTyped(expression, jobResults);
 			
 			if (result != null) {
 				Object actualResult = result.orElse(null);		
@@ -81,13 +83,14 @@ public class ParallelSelectOperation extends SelectOperation {
 			}
 		}
 		else {
-			context.executeParallelTyped(expression, jobs)
+			executor.collectResults(jobResults)
 				.stream()
 				.filter(opt -> opt != null)
 				.map(opt -> opt.orElse(null))
 				.forEach(resultsCol::add);
 		}
 		
+		context.endParallelTask(expression);
 		return resultsCol;
 	}
 }

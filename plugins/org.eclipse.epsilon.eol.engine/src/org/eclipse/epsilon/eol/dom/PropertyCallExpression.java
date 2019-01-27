@@ -51,7 +51,7 @@ public class PropertyCallExpression extends FeatureCallExpression {
 	
 	public Object execute(Object source, NameExpression propertyNameExpression, IEolContext context, boolean returnSetter) throws EolRuntimeException {
 		String propertyName = propertyNameExpression.getName();
-		if (source == null) throw new EolRuntimeException("Called feature " + propertyName + " on undefined object", propertyNameExpression);
+		if (source == null) throw new EolRuntimeException("Called feature '" + propertyName + "' on undefined object", propertyNameExpression);
 		
 		if (returnSetter) {
 			IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(source, propertyName, context);

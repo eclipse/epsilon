@@ -10,6 +10,8 @@
 package org.eclipse.epsilon.common.util.profiling;
 
 import static java.lang.System.nanoTime;
+import static org.eclipse.epsilon.common.util.OperatingSystem.execCmd;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryUsage;
@@ -27,6 +29,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.function.*;
+import org.eclipse.epsilon.common.util.OperatingSystem.OSFamily;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic.MemoryUnit;
 
 /**
@@ -164,6 +167,31 @@ public final class BenchmarkUtils {
 	}
 	
 	//CPU utils
+	
+	/**
+	 * Convenience method for getting the CPU model.
+	 * @return The CPU model as reported by the operating system.
+	 * @since 1.6
+	 */
+	public static String getCpuName() {
+		try {
+			switch (OSFamily.getOSFamily()) {
+                case WINDOWS: return execCmd(
+                    "powershell.exe", "-Command", "\"wmic CPU get NAME | findstr '@'\""
+                );
+                case MAC: return execCmd(
+                    "/bin/sh", "-c", "sysctl -n machdep.cpu.brand_string"
+                );
+                default: return execCmd(
+                    "/bin/sh", "-c", "cat /proc/cpuinfo | grep -m 1 'model name'"
+                ).substring(13); // Removes the "model name    : " part
+            }
+		}
+		catch (IOException ex) {
+			System.err.println("Could not get CPU name: "+ex.getMessage());
+			return "";
+		}
+	}
 	
 	/**
 	 * Delegates to {@link Runtime#availableProcessors()}.

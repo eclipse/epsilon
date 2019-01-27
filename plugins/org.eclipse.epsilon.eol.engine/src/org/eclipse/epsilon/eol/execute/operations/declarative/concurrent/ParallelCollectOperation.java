@@ -12,11 +12,12 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
@@ -34,7 +35,7 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 public class ParallelCollectOperation extends CollectOperation {
 
 	@Override
-	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context_) throws EolRuntimeException {
+	public Collection<?> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context_) throws EolRuntimeException {
 	
 		Collection<?> source = resolveSource(target, iterators, context_);
 		final int sourceSize = source.size();
@@ -43,15 +44,17 @@ public class ParallelCollectOperation extends CollectOperation {
 			new EolSequence<>(sourceSize) : new EolBag<>(sourceSize);
 		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
-		Collection<Callable<Object>> jobs = new ArrayList<>(sourceSize);
+		Collection<Future<Object>> jobResults = new ArrayList<>(sourceSize);
 		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions, context);
 		Expression expression = expressions.get(0);
+		EolExecutorService executor = context.beginParallelTask(expression);
 		
 		for (Object item : source) {
-			jobs.add(() -> function.applyThrows(item));
+			jobResults.add(executor.submit(() -> function.applyThrows(item)));
 		}
 		
-		resultsCol.addAll(context.executeParallelTyped(expression, jobs));
+		resultsCol.addAll(executor.collectResults(jobResults));
+		context.endParallelTask(expression);
 		
 		return resultsCol;
 	}

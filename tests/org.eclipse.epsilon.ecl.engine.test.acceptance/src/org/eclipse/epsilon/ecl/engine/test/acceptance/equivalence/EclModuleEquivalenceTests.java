@@ -54,11 +54,20 @@ public class EclModuleEquivalenceTests extends EolEquivalenceTests<EclRunConfigu
 	}
 	
 	@Test
-	public void testMatchResults() {
+	public void testTempMatchTraces() throws Exception {
+		MatchTrace
+			expectedTrace = expectedConfig.getModule().getContext().getTempMatchTrace(),
+			actualTrace = testConfig.getModule().getContext().getTempMatchTrace();
+		
+		EpsilonTestUtil.testCollectionsHaveSameElements(expectedTrace.getMatches(), actualTrace.getMatches(), "Temp MatchTrace");
+	}
+	
+	@Test
+	public void testMatchResults() throws Exception {
 		MatchTrace
 			expectedTrace = expectedConfig.getResult(),
 			actualTrace = testConfig.getResult();
 		
-		EpsilonTestUtil.testCollectionsHaveSameElements(expectedTrace.getMatches(), actualTrace.getMatches(), "Match trace");
+		EpsilonTestUtil.testCollectionsHaveSameElements(expectedTrace.getMatches(), actualTrace.getMatches(), "MatchTrace");
 	}
 }

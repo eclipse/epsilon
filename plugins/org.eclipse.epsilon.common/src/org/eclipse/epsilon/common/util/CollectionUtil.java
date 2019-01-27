@@ -11,6 +11,7 @@ package org.eclipse.epsilon.common.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -24,6 +25,28 @@ public class CollectionUtil {
 	
 	private CollectionUtil() {}
 	
+	/**
+	 * 
+	 * @param o
+	 * @return
+	 * @since 1.6
+	 */
+	public static Iterator<?> asIterator(Object o) {
+		if (o instanceof Iterator)
+			return (Iterator<?>) o;
+		else if (o instanceof Iterable)
+			return ((Iterable<?>) o).iterator();
+		else
+			return Collections.singleton(o).iterator();
+	}
+	
+	/**
+	 * 
+	 * @param c1
+	 * @param c2
+	 * @return
+	 * @since 1.6
+	 */
 	public static boolean equalsIgnoreOrder(Collection<?> c1, Collection<?> c2) {
 		if (c1 == c2) return true;
 		if (c1 == null || c2 == null) return false;
@@ -63,6 +86,12 @@ public class CollectionUtil {
 			.collect(Collectors.toCollection(newCollection));
 	}
 	
+	/**
+	 * 
+	 * @param collection
+	 * @param additionalCapacity
+	 * @since 1.6
+	 */
 	public static void addCapacityIfArrayList(Collection<?> collection, int additionalCapacity) {
 		if (collection instanceof ArrayList) {
 			((ArrayList<?>) collection).ensureCapacity(collection.size()+additionalCapacity);

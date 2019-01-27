@@ -7,11 +7,9 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
-
 package org.eclipse.epsilon.emc.emf;
 
-import junit.framework.Assert;
-
+import static org.junit.Assert.*;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.junit.Test;
@@ -20,26 +18,26 @@ public class URITest {
 	
 	@Test
 	public void testCreateUri() {
-		Assert.assertEquals("platform:/resource/project/file.txt", createURI("project/file.txt"));
-		Assert.assertEquals("http://www.foo.com", createURI("http://www.foo.com"));
+		assertEquals("platform:/resource/project/file.txt", createURI("project/file.txt"));
+		assertEquals("http://www.foo.com", createURI("http://www.foo.com"));
 	}
 	
 	@Test
 	public void testWindows() {
 		if (OperatingSystem.isWindows()) {
-			Assert.assertEquals("file:/c:/foo.txt", createURI("c:/foo.txt"));
+			assertEquals("file:/c:/foo.txt", createURI("c:/foo.txt"));
 		}
 	}
 	
 	@Test
 	public void testUnix() {
 		if (OperatingSystem.isUnix()) {
-			Assert.assertEquals("platform:/resource/local/d0/file.txt", createURI("/local/d0/file.txt"));
-			Assert.assertEquals("file:/local/d0/file.txt",     createFileBasedURI("/local/d0/file.txt"));
+			assertEquals("platform:/resource/local/d0/file.txt", createURI("/local/d0/file.txt"));
+			assertEquals("file:/local/d0/file.txt",     createFileBasedURI("/local/d0/file.txt"));
 			
-			Assert.assertEquals("file:/local/d0/file.txt", createURI("file:/local/d0/file.txt"));
-			Assert.assertEquals("platform:/resource/local/d0/file.txt", createURI("platform:/resource/local/d0/file.txt"));
-			Assert.assertEquals("c:/foo.txt", createURI("c:/foo.txt"));			
+			assertEquals("file:/local/d0/file.txt", createURI("file:/local/d0/file.txt"));
+			assertEquals("platform:/resource/local/d0/file.txt", createURI("platform:/resource/local/d0/file.txt"));
+			assertEquals("c:/foo.txt", createURI("c:/foo.txt"));			
 		}
 	}
 	

@@ -76,13 +76,13 @@
             language="EVL"
             name="Parallel (Elements-based)">
       </implementation>
-      <implementation
+      <!--implementation
             class="org.eclipse.epsilon.evl.concurrent.EvlModuleParallelStaged"
             default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
             language="EVL"
             name="Parallel (Stage-based)">
-      </implementation>
+      </implementation-->
    </extension>
 
 </plugin>

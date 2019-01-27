@@ -172,8 +172,8 @@ operation String concreteJavaType() : String {
 	return self;
 }
 
-@cached
 operation Field getTtype() : String {
+	assertTrue(self.fieldType.isDefined());
 	return self.fieldType.getTtype();
 }
 

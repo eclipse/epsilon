@@ -32,23 +32,16 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
  */
 public abstract class CachedModel<ModelElementType> extends Model {
 	
-	public static final String PROPERTY_CACHED = "cached";
 	/**
-	 * @since 1.6
+	 * Whether to cache allOf* calls by default. False for compatibility.
 	 */
-	public static final String PROPERTY_CONCURRENT = "concurrent";
+	public static final String PROPERTY_CACHED = "cached";
 	
 	/**
 	 * Whether to use thread-safe collections by default. False for compatibility.
 	 * @since 1.6
 	 */
-	protected static final boolean DEFAULT_CONCURRENT = false;
-	
-	/**
-	 * Whether to cache allOf* calls by default. False for compatibility.
-	 * @since 1.6
-	 */
-	protected static final boolean DEFAULT_CACHED = false;
+	public static final String PROPERTY_CONCURRENT = "concurrent";
 	
 	/**
 	 * Implementations should return a thread-safe collection when appropriate!
@@ -96,8 +89,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	 * @since 1.6
 	 */
 	protected CachedModel() {
-		setConcurrent(DEFAULT_CONCURRENT);
-		setCachingEnabled(DEFAULT_CACHED);
+		setConcurrent(false);
+		setCachingEnabled(false);
 	}
 	
 	/**
@@ -182,7 +175,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		if (isCachingEnabled()) {
 			if (!allContentsAreCached) {
 				allContentsCache = allContentsFromModel();
-				allContentsAreCached = true;		
+				allContentsAreCached = true;
 			}
 			return allContentsCache;
 		}
@@ -207,6 +200,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 			if (values == null) {
 				values = isKind ? getAllOfKindFromModel(modelElementType) : getAllOfTypeFromModel(modelElementType);
 				cache.putAll(key, values);
+				//return cache.getMutable(key);
 			}
 			return values;
 		}
@@ -234,14 +228,11 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		return instance;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void deleteElement(Object o) throws EolRuntimeException {
-		if (deleteElementInModel(o)) {
-			if (isCachingEnabled()) {
-				@SuppressWarnings("unchecked")
-				ModelElementType instance = (ModelElementType) o;
-				removeFromCache(instance);
-			}
+		if (deleteElementInModel(o) && isCachingEnabled()) {
+			removeFromCache((ModelElementType) o);
 		}
 	}
 
@@ -254,8 +245,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
-		this.setCachingEnabled(properties.getBooleanProperty(PROPERTY_CACHED, DEFAULT_CACHED));
-		this.setConcurrent(properties.getBooleanProperty(PROPERTY_CONCURRENT, DEFAULT_CONCURRENT));
+		this.setCachingEnabled(properties.getBooleanProperty(PROPERTY_CACHED, false));
+		this.setConcurrent(properties.getBooleanProperty(PROPERTY_CONCURRENT, false));
 	}
 
 	@Override

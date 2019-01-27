@@ -24,7 +24,7 @@ operation getOutputDir(packageName : String) {
 	return "output/"+packageName.replace("\\.", '/')+'/';
 }
 
-operation makeStruct(fields, identifier : String, isResult : Boolean, isException : Boolean) : Struct {
+operation makeStruct(fields : Collection, identifier : String, isResult : Boolean, isException : Boolean) : Struct {
 	var structure : new Struct;
 	structure.fields.addAll(fields);
 	structure.identifier = identifier;
@@ -42,7 +42,7 @@ operation Function structifyArgs() : Struct {
 
 operation Function structifyResult() : Struct {
 	var fields = OrderedSet{};
-	if (not self.isVoid()) {
+	if (self.funcType.fieldType.isDefined()) {
 		var resultField : Field = new Field;
 		resultField.identifier = "success";
 		resultField.fieldType = self.funcType.fieldType;
@@ -292,7 +292,7 @@ operation Function getType() : String {
 
 @cached
 operation Function isVoid() : Boolean {
-	return self.funcType.void.isDefined() and self.funcType.void;
+	return self.funcType.void.isDefined() and self.funcType.void;// and self.funcType.fieldType.isUndefined();
 }
 
 @cached

@@ -25,11 +25,11 @@
 	<configuration>
 	  <application>org.eclipse.ui.ide.workbench</application>
 
-	  <argLine>-XX:MaxPermSize=256m</argLine>
+	  <argLine>-Xmx4g</argLine>
 	  <!-- To enable remote debugging, comment the <argLine> above
 	       and uncomment this one: the Eclipse instance will
 	       suspend until a remote debugger is attached -->
-	  <!-- <argLine>-XX:MaxPermSize=256m -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y</argLine> -->
+	  <!-- <argLine>-Xmx4g -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y</argLine> -->
 
 	  <useUIThread>true</useUIThread>
 	  <useUIHarness>true</useUIHarness>

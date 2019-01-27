@@ -35,14 +35,14 @@ import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.concurrent.EolModuleParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
-import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.test.util.EpsilonTestUtil;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public class EolAcceptanceTestUtil {
+public class EolAcceptanceTestUtil extends EpsilonTestUtil {
 	protected EolAcceptanceTestUtil() {}
 	
 	public static void testExceptionEquivalenceBetweenModules(String code) throws Exception {
@@ -92,53 +92,46 @@ public class EolAcceptanceTestUtil {
 		return Arrays.deepHashCode(inputs);
 	}
 	
-	/**
-	 * A list of pre-configured Runnables which will call the execute() method on the provided module.
-	 * @param modules A collection of IEolModules to use in combination with each set of test data.
-	 */
+	public static StringProperties createModelProperties(Path modelFile, Path metamodelFile) {
+		StringProperties properties = new StringProperties();
+		properties.put(PROPERTY_READONLOAD, true);
+		properties.put(PROPERTY_CACHED, true);
+		properties.put(PROPERTY_CONCURRENT, true);
+		properties.put(PROPERTY_STOREONDISPOSAL, true);
+		properties.put(PROPERTY_NAME, FileUtil.removeExtension(modelFile.getFileName().toString()));
+		properties.put(PROPERTY_MODEL_URI, modelFile.toUri().toString());
+		properties.put(PROPERTY_FILE_BASED_METAMODEL_URI, metamodelFile.toUri().toString());
+		return properties;
+	}
+	
 	public static <M extends IEolModule, C extends IEolRunConfiguration> Collection<C> getScenarios(
-		Class<C> clazz,
-		List<String[]> testInputs,
-		Collection<Supplier<? extends M>> moduleGetters,
-		Function<String[], Integer> idCalculator) {
-		try {
-			if (idCalculator == null) idCalculator = EolAcceptanceTestUtil::getScenarioID;
+			Class<C> clazz,
+			List<String[]> testInputs,
+			Collection<Supplier<? extends M>> moduleGetters,
+			Function<String[], Integer> idCalculator) {
+
+		if (idCalculator == null) idCalculator = EolAcceptanceTestUtil::getScenarioID;
+		
+		List<C> scenarios = new ArrayList<>(moduleGetters.size()*(testInputs.size()+2));
+		
+		for (String[] testInput : testInputs) {
+			Path eolScript = Paths.get(testInput[0]);
 			
-			List<C> scenarios = new ArrayList<>(moduleGetters.size()*(testInputs.size()+2));
+			Path modelFile = Paths.get(testInput[1]);
+			Path metamodelFile = Paths.get(testInput[2]);
 			
-			for (String[] testInput : testInputs) {
-				Path eolScript = Paths.get(testInput[0]);
-				
-				Path modelFile = Paths.get(testInput[1]);
-				Path metamodelFile = Paths.get(testInput[2]);
-				StringProperties properties = new StringProperties();
-				properties.put(PROPERTY_READONLOAD, true);
-				properties.put(PROPERTY_CACHED, true);
-				properties.put(PROPERTY_CONCURRENT, true);
-				properties.put(PROPERTY_STOREONDISPOSAL, true);
-				properties.put(PROPERTY_NAME, FileUtil.removeExtension(modelFile.getFileName().toString()));
-				properties.put(PROPERTY_MODEL_URI, modelFile.toUri().toString());
-				properties.put(PROPERTY_FILE_BASED_METAMODEL_URI, metamodelFile.toUri().toString());
-				
-				IModel model = new EmfModel();
-				
-				for (Supplier<? extends M> moduleGetter : moduleGetters) {
-					scenarios.add(IEolRunConfiguration.Builder(clazz)
-						.withScript(eolScript)
-						.withModel(model, properties)
-						.withModule(moduleGetter.get())
-						.withId(idCalculator.apply(testInput))
-						.build()
-					);
-				}
+			for (Supplier<? extends M> moduleGetter : moduleGetters) {
+				scenarios.add(IEolRunConfiguration.Builder(clazz)
+					.withScript(eolScript)
+					.withModel(new EmfModel(), createModelProperties(modelFile, metamodelFile))
+					.withModule(moduleGetter.get())
+					.withId(idCalculator.apply(testInput))
+					.build()
+				);
 			}
-			
-			return scenarios;
 		}
-		catch (SecurityException | IllegalArgumentException ex) {
-			ex.printStackTrace();
-			throw new RuntimeException(ex);
-		}
+		
+		return scenarios;
 	}
 	
 	public static <M extends IEolModule> Collection<? extends M> unwrapModules(Collection<Supplier<? extends M>> moduleGetters) {

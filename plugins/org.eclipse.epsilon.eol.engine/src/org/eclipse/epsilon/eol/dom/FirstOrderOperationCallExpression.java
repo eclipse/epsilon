@@ -12,13 +12,21 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.CollectBasedOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.DelegateBasedOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.SelectBasedOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.FirstOrderOperation;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.*;
@@ -42,43 +50,35 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		
-		final AST paramsContainer, exprAst;
+		final AST lambdaParamsContainer, exprAst;
 		
 		if (cst.getFirstChild().getType() != EolParser.PARAMLIST) { 
 			targetExpression = (Expression) module.createAst(cst.getFirstChild(), this);
 			exprAst = cst.getSecondChild();
 			nameExpression = (NameExpression) module.createAst(exprAst, this);
-			paramsContainer = exprAst.getFirstChild();
 		}
 		else {
 			nameExpression = new NameExpression(cst.getText());
 			nameExpression.setRegion(cst.getRegion());
 			nameExpression.setUri(cst.getUri());
 			nameExpression.setModule(cst.getModule());
-			paramsContainer = cst.getFirstChild();
 			exprAst = cst;
 		}
+
+		lambdaParamsContainer = exprAst.getFirstChild();
 		
-		if (paramsContainer.getType() == EolParser.PARAMLIST) {
-			for (AST ast : paramsContainer.getChildren()) {
-				Parameter child = (Parameter) module.createAst(ast, this);
-				// This is to allow for mixed parameter types like Stream.iterate(Object, Supplier)
-				// TODO find a way to implement this
-				/*if (ast.getExtraTokens().size() > 0 && ast.getExtraTokens().get(0) != null) {
-					Expression eolExpression = new NameExpression(child.getName());
-					eolExpression.setParent(child);
-					eolExpression.setModule(module);
-					expressions.add(eolExpression);
-				}
-				else {*/
-					parameters.add(child);
-				//}
+		if (lambdaParamsContainer != null && lambdaParamsContainer.getType() == EolParser.PARAMLIST) {
+			for (AST ast : lambdaParamsContainer.getChildren()) {
+				parameters.add((Parameter) module.createAst(ast, this));
 			}
 		}
 		
 		for (AST ast : exprAst.getChildren()) {
-			if (parameters.isEmpty() || ast != paramsContainer) {
-				expressions.add((Expression) module.createAst(ast, this));
+			if (parameters.isEmpty() || ast != lambdaParamsContainer) {
+				ModuleElement resolved = module.createAst(ast, this);
+				if (resolved instanceof Expression) {
+					expressions.add((Expression) resolved);
+				}
 			}
 		}
 	}
@@ -102,24 +102,26 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 		AbstractOperation operation = getAbstractOperation(target, operationName, owningModel, context);
 		
 		// TODO: add flag to enable this feature?
-		/*if (operation instanceof SelectBasedOperation) {
-			SelectBasedOperation sbo = (SelectBasedOperation) operation;
-			if (sbo.getDelegateOperation().getClass().equals(SelectOperation.class)) {
-				sbo.setDelegateOperation(
-					(SelectOperation) getAbstractOperation(target, "select", owningModel, context)
-				);
-			}
-		}
-		else if (operation instanceof CollectBasedOperation) {
-			CollectBasedOperation cbo = (CollectBasedOperation) operation;
-			if (cbo.getDelegateOperation().getClass().equals(CollectOperation.class)) {
-				cbo.setDelegateOperation(
-					(CollectOperation) getAbstractOperation(target, "collect", owningModel, context)
-				);
-			}
-		}*/
+		replaceWithDelegateOperation(operation, SelectBasedOperation.class, SelectOperation.class, "select", target, owningModel, context);
+		replaceWithDelegateOperation(operation, CollectBasedOperation.class, CollectOperation.class, "collect", target, owningModel, context);
 		
 		return operation.execute(target, nameExpression, parameters, expressions, context);
+	}
+	
+	@SuppressWarnings("unchecked")
+	<O extends FirstOrderOperation, D extends DelegateBasedOperation<O>>
+		void replaceWithDelegateOperation(AbstractOperation operation, Class<D> delegateClass, Class<O> originalClass,
+				String opName, Object target, IModel owningModel, IEolContext context) throws EolIllegalOperationException {
+		
+		if (delegateClass.isInstance(operation)) {
+			D dbo = (D) operation;
+			if (dbo.getDelegateOperation().getClass().equals(originalClass)) {
+				O delegateOp = (O) getAbstractOperation(target, opName, owningModel, context);
+				if (!delegateOp.getClass().equals(originalClass)) {
+					dbo.setDelegateOperation(delegateOp);
+				}
+			}
+		}
 	}
 	
 	@Override

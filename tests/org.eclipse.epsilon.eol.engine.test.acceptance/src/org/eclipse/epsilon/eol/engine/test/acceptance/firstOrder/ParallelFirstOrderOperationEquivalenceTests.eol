@@ -124,6 +124,42 @@ operation testParallelNoneEquivalence() {
 }
 
 @test
+operation testParallelAtMostNMatchEquivalence() {
+	var expected = testData.atMostNMatch(t | t <> null and t.asBoolean(), 1);
+	assertTrue(expected);
+	var actual = testData.parallelAtMostNMatch(t | t <> null and t.asBoolean(), 1);
+	assertEquals(expected, actual);
+	
+	expected = testData.atMostNMatch(t | t <> null and t.asString().length() > 1, testData.size());
+	assertTrue(expected);
+	actual = testData.parallelAtMostNMatch(t | t <> null and t.asString().length() > 1, testData.size());
+	assertEquals(expected, actual);
+	
+	expected = testData.atMostNMatch(t | t <> null and t.asString().isEmpty(), 0);
+	assertFalse(expected);
+	actual = testData.parallelAtMostNMatch(t | t <> null and t.asString().isEmpty(), 0);
+	assertEquals(expected, actual);
+	
+	expected = testData.atMostNMatch(t | t <> null, 35);
+	assertFalse(expected);
+	actual = testData.parallelAtMostNMatch(t | t <> null, 35);
+	assertEquals(expected, actual);
+}
+
+@test
+operation testParallelAtLeastNMatchEquivalence() {
+	var expected = testData.atLeastNMatch(t | t == null, 3);
+	assertFalse(expected);
+	var actual = testData.parallelAtLeastNMatch(t | t == null, 3);
+	assertEquals(expected, actual);
+	
+	expected = testData.atLeastNMatch(t | t <> null and t.asString().length() == 1, 10);
+	assertTrue(expected);
+	actual = testData.parallelAtLeastNMatch(t | t <> null and t.asString().length() == 1, 10);
+	assertEquals(expected, actual);
+}
+
+@test
 operation testParallelNMatchEquivalence() {
 	var expected = testData.nMatch(t | t == null, 2);
 	assertTrue(expected);

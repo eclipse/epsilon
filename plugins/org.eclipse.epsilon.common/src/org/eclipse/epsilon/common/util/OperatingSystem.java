@@ -17,8 +17,28 @@ import java.io.InputStreamReader;
 public class OperatingSystem {
 	private OperatingSystem() {}
 	
+	/**
+	 * 
+	 * @since 1.6
+	 * @return
+	 */
+	public static String getJavaVersion() {
+		return System.getProperty("java.vm.name")+" "+System.getProperty("java.vm.version");
+	}
+	
+	/**
+	 * 
+	 * @since 1.6
+	 * @return
+	 */
+	public static String getOsNameAndVersion() {
+		String osName = System.getProperty("os.name");
+		if (osName.startsWith("Windows")) return osName;
+		else return osName+" "+System.getProperty("os.version");
+	}
+	
     public static boolean isWindows() {
-        return System.getProperty("os.name").indexOf("Windows") > -1;
+        return System.getProperty("os.name").contains("Windows");
     }
     
     public static boolean isUnix() {
@@ -26,7 +46,7 @@ public class OperatingSystem {
     }
     
     public static boolean isWindowsVista() {
-        return isWindows() && System.getProperty("os.name").indexOf("Vista") > -1;
+        return isWindows() && System.getProperty("os.name").contains("Vista");
     }
 
 	public enum OSFamily {
@@ -40,7 +60,7 @@ public class OperatingSystem {
 		public static OSFamily getOSFamily() {
 			switch (System.getProperty("os.name").substring(0, 3).toLowerCase()) {
 				case "win": return WINDOWS;
-				case "lin": case "deb": case "cen": case "fed": case "ubu": case "and": case "arc": return LINUX;
+				case "lin": return LINUX;
 				case "uni": return UNIX;
 				case "mac": case "ios": case "dar": return MAC;
 				case "sun": case "sol": return SOLARIS;
@@ -74,31 +94,6 @@ public class OperatingSystem {
         }
 
         return processOutput.toString().trim();
-	}
-	
-	/**
-	 * Convenience method for getting the CPU model.
-	 * @return The CPU model as reported by the operating system.
-	 * @since 1.6
-	 */
-	public static String getCpuName() {
-		try {
-			switch (OSFamily.getOSFamily()) {
-                case WINDOWS: return execCmd(
-                    "powershell.exe", "-Command", "\"wmic CPU get NAME | findstr '@'\""
-                );
-                case MAC: return execCmd(
-                    "/bin/sh", "-c", "sysctl -n machdep.cpu.brand_string"
-                );
-                default: return execCmd(
-                    "/bin/sh", "-c", "cat /proc/cpuinfo | grep -m 1 'model name'"
-                ).substring(13); // Removes the "model name    : " part
-            }
-		}
-		catch (IOException ex) {
-			System.err.println("Could not get CPU name: "+ex.getMessage());
-			return "";
-		}
 	}
 }
 

@@ -170,7 +170,6 @@ public class EvlTests {
 		}
 		
 		assertEquals("true", ((Map)context.getFrameStack().get("blackboard").getValue()).get("fix-do-executed"));
-		
 	}
 
 	@Test

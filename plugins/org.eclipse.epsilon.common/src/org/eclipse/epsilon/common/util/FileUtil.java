@@ -25,8 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
-import org.eclipse.epsilon.common.function.ExceptionContainer;
 
 public class FileUtil {
 	private FileUtil() {}
@@ -266,10 +264,13 @@ public class FileUtil {
 	 * @since 1.6
 	 */
 	public static void deleteDirectory(String dir) throws IOException {
-		Files.walk(Paths.get(dir))
-	        .map(Path::toFile)
-	        .sorted((o1, o2) -> -o1.compareTo(o2))
-	        .forEach(File::delete);
+		Path path = Paths.get(dir);
+		if (Files.exists(path)) {
+			Files.walk(path)
+		        .map(Path::toFile)
+		        .sorted((o1, o2) -> -o1.compareTo(o2))
+		        .forEach(File::delete);
+		}
 	}
 	
 	/**
@@ -282,20 +283,13 @@ public class FileUtil {
 	 * @since 1.6
 	 */
 	public static Map<Path, String> readDirectory(String dir) throws IOException {		
-		ExceptionContainer<IOException> exceptionContainer = new ExceptionContainer<>();
+		Map<Path, String> contents = new HashMap<>();
 		
-		Map<Path, String> contents = Files.walk(Paths.get(dir))
-			.collect(Collectors.toMap(path -> path, path -> {
-				try {
-					return new String(Files.readAllBytes(path));
-				}
-				catch (IOException iox) {
-					exceptionContainer.setException(iox);
-					return "";
-				}
-			}));
-		
-		exceptionContainer.throwIfPresent();
+		for (Path path : ((Iterable<Path>)Files.walk(Paths.get(dir))::iterator)) {
+			if (Files.isRegularFile(path)) {
+				contents.put(path, new String(Files.readAllBytes(path)));
+			}
+		}
 		
 		return contents;
 	}

@@ -20,7 +20,7 @@ import java.util.Objects;
  * @since 1.6
  */
 public class EpsilonTestUtil {
-	private EpsilonTestUtil() {}
+	protected EpsilonTestUtil() {}
 	
 	/**
 	 * Convenience hack for handling exceptions when resolving this class's package source directory.

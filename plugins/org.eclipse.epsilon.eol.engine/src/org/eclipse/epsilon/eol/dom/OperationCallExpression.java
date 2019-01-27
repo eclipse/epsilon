@@ -166,7 +166,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		}
 		
 		// Most likely a FirstOrderOperation or DynamicOperation
-		if (operation != null && !parameterExpressions.isEmpty()) {
+		if (operation != null && targetObject != null && !parameterExpressions.isEmpty()) {
 			return operation.execute(targetObject, nameExpression, new ArrayList<>(0), parameterExpressions, context);
 		}
 		

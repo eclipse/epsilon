@@ -120,7 +120,12 @@ public class EglModule extends EolModule implements IEglModule {
 		final boolean validEol = preprocessorModule.preprocess(ast, sourceFile, sourceUri);
 
 		if (validEgl && validEol) {
-			buildModel(ast);
+			for (AST child : ast.getChildren()) {
+				if (child.getType() == TokenType.START_MARKER_TAG.getIdentifier()) {
+					EglMarkerSection section = (EglMarkerSection) createAst(child, this);
+					markers.add(section);
+				}
+			}
 		}
 		
 		return validEgl && validEol;
@@ -131,15 +136,6 @@ public class EglModule extends EolModule implements IEglModule {
 		if (cst == null) return this;
 		if (cst.getType() == TokenType.START_MARKER_TAG.getIdentifier()) return new EglMarkerSection();
 		return null;
-	}
-	
-	void buildModel(AST ast) throws Exception {	
-		for (AST child : ast.getChildren()) {
-			if (child.getType() == TokenType.START_MARKER_TAG.getIdentifier()) {
-				EglMarkerSection section = (EglMarkerSection) createAst(child, this);
-				markers.add(section);
-			}
-		}
 	}
 	
 	@Override

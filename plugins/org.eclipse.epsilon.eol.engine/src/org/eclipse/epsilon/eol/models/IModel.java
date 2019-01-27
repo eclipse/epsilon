@@ -50,7 +50,7 @@ public interface IModel {
 	
 	Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException;
 	
-	Collection<?> getAllOfKind(String type) throws EolModelElementTypeNotFoundException;
+	Collection<?> getAllOfKind(String kind) throws EolModelElementTypeNotFoundException;
 	
 	Object getTypeOf(Object instance);
 	

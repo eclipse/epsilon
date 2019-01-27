@@ -170,6 +170,9 @@ context FieldType {
 
 context Field {
 	guard: self.eContainer.isDefined() 
+	constraint hasFieldType {
+		check: self.fieldType.isDefined()
+	}
 	constraint assignmentsAreLegal {
 		guard: self.hasValue
 		check: self.constVal.isOfType(self.thriftType())

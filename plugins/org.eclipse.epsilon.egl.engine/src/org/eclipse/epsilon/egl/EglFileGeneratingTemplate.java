@@ -94,7 +94,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	
 	private void prepareNewContents() throws EglRuntimeException {
 		switch (outputMode) {
-			case APPEND:
+			case APPEND: {
 				if (existingContents != null) {
 					newContents = existingContents + FileUtil.NEWLINE + getContents();
 				} else {
@@ -102,17 +102,17 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 				}
 				positiveMessage = "Successfully appended to ";
 				break;
-	
-			case MERGE:
+			}
+			case MERGE: {
 				newContents = merge(existingContents);
 				positiveMessage = "Protected regions preserved in ";
 				break;
-				
-			case WRITE:
+			}
+			case WRITE: {
 				newContents = getContents();
 				positiveMessage = "Successfully wrote to ";
 				break;
-				
+			}
 			default:
 				throw new EglRuntimeException("Unsupported output mode " + outputMode, new IllegalStateException());
 		}

@@ -7,9 +7,10 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.evl.concurrent;
+package org.eclipse.epsilon.evl.concurrent.experimental;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 

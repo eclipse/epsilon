@@ -84,6 +84,26 @@ operation testNone() {
 }
 
 @test
+operation testAtMostNMatch() {
+	var data := Sequence {1..16};
+	assertTrue(data.atMostNMatch(n | n.mod(3) == 0, 5));
+	assertFalse(data.atMostNMatch(n | n.mod(2) == 0, 4));
+	assertTrue(data.atMostNMatch(n | n > 1, 16));
+	assertFalse(data.atMostNMatch(n | n == 5 or n == 11 or n == 0 or n == 16, 1));
+	assertTrue(data.atMostNMatch(n | n <= 0 or n > 16, 0));
+}
+
+@test
+operation testAtLeastNMatch() {
+	var data := Sequence {1..16};
+	assertTrue(data.atLeastNMatch(n | n.mod(3) == 0, 5));
+	assertFalse(data.atLeastNMatch(n | n.mod(2) == 0, 9));
+	assertTrue(data.atLeastNMatch(n | n.mod(4) == 0, 3));
+	assertFalse(data.atLeastNMatch(n | n <= 0 or n > 16, 1));
+	assertTrue(data.atLeastNMatch(n | n <= 0 or n > 16, 0));
+}
+
+@test
 operation testNMatch() {
 	var data := Sequence {1..11};
 	var three = data.nMatch(n | n.mod(3) == 0, 3);

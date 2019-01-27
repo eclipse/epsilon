@@ -36,7 +36,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 parser grammar EolParserRules;
-options {backtrack=true; output=AST;}
+options {backtrack=true; output=AST; language=Java;}
 
 tokens {
 	FORMAL;
@@ -79,6 +79,7 @@ tokens {
 	EOLMODULE;
 	BLOCK;
 	FEATURECALL;
+	LAMBDAEXPR;
 	TYPE;
 	ENUMERATION_VALUE;
 	IMPORT;
@@ -103,7 +104,7 @@ public void setTokenType(ParserRuleReturnScope tree, int type) {
 }
 
 operationDeclarationOrAnnotationBlock
-	: operationDeclaration|annotationBlock
+	: operationDeclaration | annotationBlock
 	;
 
 modelDeclaration
@@ -154,7 +155,7 @@ importStatement
 	;
 
 block
-	@after{
+	@after {
 		$tree.setImaginary(true);
 	}
 	:	statement*
@@ -162,7 +163,7 @@ block
 	;
 
 statementBlock
-	@after{
+	@after {
 		$tree.getExtraTokens().add($s); 
 		$tree.getExtraTokens().add($e);
 	}
@@ -191,7 +192,7 @@ executableAnnotation
 	;
 
 annotation
-	:	Annotation|executableAnnotation
+	:	Annotation | executableAnnotation
 	;
 
 annotationBlock
@@ -236,7 +237,7 @@ packagedType
 	;
 
 nativeType
-	@after{
+	@after {
 		$tree.getExtraTokens().add($s); 
 		$tree.getExtraTokens().add($e);
 		$tree.getToken().setType(TYPE);
@@ -245,7 +246,7 @@ nativeType
 	;
 
 collectionType
-	@after{
+	@after {
 		$tree.getExtraTokens().add($op); 
 		$tree.getExtraTokens().add($cp);
 		$tree.getToken().setType(TYPE);
@@ -430,9 +431,9 @@ itemSelectorExpression
 	: primitiveExpression (is='['^ primitiveExpression ']'!
 		{$is.setType(ITEMSELECTOR);})*
 	;
-	
+
 featureCall
-	: simpleFeatureCall | declarativeFeatureCall
+	: simpleFeatureCall | complexFeatureCall
 	;
 
 simpleFeatureCall
@@ -450,13 +451,30 @@ parameterList
 		-> ^(PARAMETERS logicalExpression*)
 	;
 
-declarativeFeatureCall
+complexFeatureCall
 	@after {
 		$tree.getExtraTokens().add($op);
 		$tree.getExtraTokens().add($cp);
-		$tree.getExtraTokens().add($lambda);
 	}
-	:	n=NAME^ op='('! formalParameterList? (lambda='|'! | lambda='=>'!) logicalExpression (','! logicalExpression)* cp=')'!
+	:	NAME^ op='('! (lambdaExpression | lambdaExpressionInBrackets)
+		(','! (logicalExpression | lambdaExpressionInBrackets))* cp=')'!
+	;
+
+lambdaExpressionInBrackets
+	@after {
+		$lop.setType(LAMBDAEXPR);
+		$tree.getExtraTokens().add($lop);
+		$tree.getExtraTokens().add($lcp);
+	}
+	:	(lop='('^ lambdaExpression lcp=')'!) |
+		(lop='['^ lambdaExpression lcp=']'!)
+	;
+
+lambdaExpression
+	@after {
+		$tree.getExtraTokens().add($lt);
+	}
+	:	formalParameterList? (lt='|'! | lt='=>'!) logicalExpression
 	;
 
 newExpression
@@ -465,10 +483,8 @@ newExpression
 	;
 
 variableDeclarationExpression
-	@after{
-		String txt;
-		if (n != null) {txt = "new";}
-		else { txt = v.getText();}
+	@after {
+		String txt = n != null ? "new" : v.getText();
 		$tree.getToken().setText(txt);
 		$tree.getToken().setType(VAR);
 	}
@@ -525,7 +541,7 @@ keyvalExpression
 	;
 primitiveExpression 
 	:	literalSequentialCollection | literalMapCollection | literal | featureCall | pathName | nativeType
-		| collectionType  | logicalExpressionInBrackets
+		| collectionType | logicalExpressionInBrackets
 		| newExpression | variableDeclarationExpression
 	;
 

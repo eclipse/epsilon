@@ -22,6 +22,7 @@ public class EmfModelTransaction implements IModelTransaction {
 		this.model = model;
 	}
 	
+	@Override
 	public void start() {
 		if (model.getModelImpl().getResourceSet() != null) {
 			this.changeRecorder = new ChangeRecorder(model.getModelImpl().getResourceSet());	
@@ -31,6 +32,7 @@ public class EmfModelTransaction implements IModelTransaction {
 		}
 	}
 	
+	@Override
 	public void commit() {
 		if (changeRecorder != null) {
 			changeRecorder.endRecording();
@@ -38,6 +40,7 @@ public class EmfModelTransaction implements IModelTransaction {
 		}
 	}
 	
+	@Override
 	public void rollback() {
 		if (changeRecorder != null) {
 			changeRecorder.endRecording().applyAndReverse();
@@ -46,6 +49,7 @@ public class EmfModelTransaction implements IModelTransaction {
 		}
 	}
 	
+	@Override
 	public void dispose() {
 		this.model = null;
 	}

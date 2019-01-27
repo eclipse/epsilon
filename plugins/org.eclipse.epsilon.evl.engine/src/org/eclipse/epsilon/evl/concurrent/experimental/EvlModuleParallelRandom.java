@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.evl.concurrent.profiling;
+package org.eclipse.epsilon.evl.concurrent.experimental;
 
 import java.util.ArrayList;
 import java.util.Collection;

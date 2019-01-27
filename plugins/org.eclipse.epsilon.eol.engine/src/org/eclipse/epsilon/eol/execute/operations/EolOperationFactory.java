@@ -22,17 +22,15 @@ public class EolOperationFactory {
 	protected final Map<String, AbstractOperation> operationCache = new HashMap<>(64, 0.64f);
 	
 	public EolOperationFactory() {
-		createCache();
-	}
-	
-	protected void createCache() {
 		operationCache.put("assert", new AssertOperation());
 		operationCache.put("assertError", new AssertErrorOperation());
+		operationCache.put("atLeastNMatch", new NMatchOperation(NMatchOperation.MatchMode.MINIMUM));
+		operationCache.put("atMostNMatch", new NMatchOperation(NMatchOperation.MatchMode.MAXIMUM));
 		operationCache.put("collect", new CollectOperation());
 		operationCache.put("exists", new ExistsOperation());
-		operationCache.put("one", new NMatchOperation(1));
-		operationCache.put("none", new NMatchOperation(0));
-		operationCache.put("nMatch", new NMatchOperation());
+		operationCache.put("none", new NMatchOperation(NMatchOperation.MatchMode.EXACT, 0));
+		operationCache.put("one", new NMatchOperation(NMatchOperation.MatchMode.EXACT, 1));
+		operationCache.put("nMatch", new NMatchOperation(NMatchOperation.MatchMode.EXACT));
 		operationCache.put("forAll", new ForAllOperation());
 		operationCache.put("reject", new RejectOperation());
 		operationCache.put("rejectOne", new RejectOneOperation());
@@ -49,9 +47,11 @@ public class EolOperationFactory {
 		operationCache.put("parallelSelectOne", new ParallelSelectOneOperation());
 		operationCache.put("parallelReject", new ParallelRejectOperation());
 		operationCache.put("parallelRejectOne", new ParallelRejectOneOperation());
-		operationCache.put("parallelOne", new ParallelNMatchOperation(1));
-		operationCache.put("parallelNone", new ParallelNMatchOperation(0));
-		operationCache.put("parallelNMatch", new ParallelNMatchOperation());
+		operationCache.put("parallelOne", new ParallelNMatchOperation(NMatchOperation.MatchMode.EXACT, 1));
+		operationCache.put("parallelNone", new ParallelNMatchOperation(NMatchOperation.MatchMode.EXACT, 0));
+		operationCache.put("parallelNMatch", new ParallelNMatchOperation(NMatchOperation.MatchMode.EXACT));
+		operationCache.put("parallelAtMostNMatch", new ParallelNMatchOperation(NMatchOperation.MatchMode.MAXIMUM));
+		operationCache.put("parallelAtLeastNMatch", new ParallelNMatchOperation(NMatchOperation.MatchMode.MINIMUM));
 		operationCache.put("parallelExists", new ParallelExistsOperation());
 		operationCache.put("parallelForAll", new ParallelForAllOperation());
 		operationCache.put("parallelCollect", new ParallelCollectOperation());

@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eol.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2018-11-07 16:58:13
+// $ANTLR 3.1b1 EolLexerRules.g 2019-01-24 14:42:47
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -49,13 +49,13 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__144=144;
     public static final int T__143=143;
     public static final int T__146=146;
-    public static final int MODELDECLARATIONPARAMETER=72;
+    public static final int MODELDECLARATIONPARAMETER=73;
     public static final int T__145=145;
     public static final int BREAKALL=39;
     public static final int T__140=140;
     public static final int T__142=142;
     public static final int VAR=48;
-    public static final int MODELDECLARATIONPARAMETERS=71;
+    public static final int MODELDECLARATIONPARAMETERS=72;
     public static final int T__141=141;
     public static final int THROW=53;
     public static final int PARAMLIST=25;
@@ -68,10 +68,10 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int FORMAL=24;
     public static final int IF=31;
     public static final int MultiplicativeExpression=57;
-    public static final int TYPE=64;
+    public static final int TYPE=65;
     public static final int T__139=139;
     public static final int T__138=138;
-    public static final int Tokens=148;
+    public static final int Tokens=149;
     public static final int T__133=133;
     public static final int T__132=132;
     public static final int T__135=135;
@@ -86,30 +86,32 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__126=126;
     public static final int JavaIDDigit=18;
     public static final int T__125=125;
-    public static final int MAP=74;
+    public static final int LAMBDAEXPR=64;
+    public static final int MAP=75;
     public static final int T__128=128;
     public static final int T__127=127;
-    public static final int MODELDECLARATION=67;
+    public static final int MODELDECLARATION=68;
     public static final int EXPRESSIONINBRACKETS=59;
     public static final int TRANSACTION=41;
     public static final int FLOAT_TYPE_SUFFIX=7;
-    public static final int ITEMSELECTOR=73;
+    public static final int ITEMSELECTOR=74;
     public static final int COMMENT=21;
     public static final int ModelElementType=45;
-    public static final int IMPORT=66;
+    public static final int IMPORT=67;
     public static final int DELETE=52;
     public static final int ARROW=11;
     public static final int SPECIAL_ASSIGNMENT=27;
     public static final int Annotation=23;
     public static final int CONTINUE=40;
-    public static final int ENUMERATION_VALUE=65;
+    public static final int ENUMERATION_VALUE=66;
     public static final int OPERATOR=58;
     public static final int EXPONENT=6;
     public static final int STRING=14;
+    public static final int T__148=148;
     public static final int T__147=147;
     public static final int T__91=91;
     public static final int T__100=100;
-    public static final int NAMESPACE=68;
+    public static final int NAMESPACE=69;
     public static final int T__92=92;
     public static final int COLLECTION=42;
     public static final int NEW=49;
@@ -118,9 +120,9 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int T__94=94;
     public static final int T__101=101;
     public static final int T__90=90;
-    public static final int ALIAS=69;
-    public static final int DRIVER=70;
-    public static final int KEYVAL=75;
+    public static final int ALIAS=70;
+    public static final int DRIVER=71;
+    public static final int KEYVAL=76;
     public static final int POINT_POINT=10;
     public static final int T__99=99;
     public static final int T__95=95;
@@ -149,10 +151,9 @@ public class Eol_EolLexerRules extends Lexer {
     public static final int INT=8;
     public static final int ANNOTATIONBLOCK=50;
     public static final int RETURN=37;
-    public static final int KEYVALLIST=76;
+    public static final int KEYVALLIST=77;
     public static final int FEATURECALL=63;
     public static final int CollectionType=44;
-    public static final int T__77=77;
     public static final int T__119=119;
     public static final int ASSIGNMENT=26;
     public static final int T__78=78;

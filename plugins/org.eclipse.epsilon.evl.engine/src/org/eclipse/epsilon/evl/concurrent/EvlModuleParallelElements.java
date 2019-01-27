@@ -9,9 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.concurrent;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.*;
@@ -37,15 +37,14 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContextParallel context = getContext();
-		ArrayList<Runnable> jobs = new ArrayList<>();
+		EolExecutorService executor = context.beginParallelTask(this);
 		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
 			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
 			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
-			jobs.ensureCapacity(jobs.size() + allOfKind.size());
 			
 			for (Object object : allOfKind) {
-				jobs.add(() -> {
+				executor.submit(() -> {
 					// Lambdas are faster for this kind of work
 					// invokedynamic is more direct than creating an AIC and
 					// dispatching virtual call.
@@ -54,13 +53,14 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 						constraintContext.execute(constraintsToCheck, object, context);
 					}
 					catch (EolRuntimeException ex) {
-						context.handleException(ex);
+						context.handleException(ex, executor);
 					}
 				});
 			}
 		}
 		
-		context.executeParallel(this, jobs);
+		executor.awaitCompletion();		// WARNING: This will kill the executor!
+		context.endParallelTask(this);
 	}
 
 }

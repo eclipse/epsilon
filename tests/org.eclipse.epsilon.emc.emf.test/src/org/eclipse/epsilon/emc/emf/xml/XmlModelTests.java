@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.Before;
@@ -51,6 +52,9 @@ public class XmlModelTests {
 	public void testAbsolutePath() throws Exception {
 		
 		String absolutePath = new File(MODEL_PATH).getAbsolutePath();
+		if (OperatingSystem.isWindows()) {
+			absolutePath = "file:///"+absolutePath;
+		}
 		XmlModel model = createXmlModel(absolutePath, SCHEMA_FILE_PATH);
 		Resource resource = model.getResource();
 		resource.getContents().add(createRootElement(resource));

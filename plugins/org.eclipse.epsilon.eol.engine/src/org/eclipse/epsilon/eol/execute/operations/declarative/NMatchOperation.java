@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 2018 The University of York.
+* Copyright (c) 2018-2019 The University of York.
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -20,31 +20,47 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
 
 /**
- * Returns true if exactly <i>n</i> elements match the predicate.
- * This is therefore a short-circuiting operation.
+ * Operation based on whether <i>n</i> elements satisfy the predicate.
+ * The semantics are defined by {@link MatchMode}. <i>n</i> can be user-defined
+ * or specified once for this short-circuiting operation.
+ * 
  * @author Sina Madani
  * @since 1.6
  */
 public class NMatchOperation extends FirstOrderOperation {
 
+	/**
+	 * Determines the interpretation of <i>n</i>.</br>
+	 * {@link #EXACT}: Whether the number of elements satisfying the predicate is equal to <i>n</i>,<br/>
+	 * {@link #MINIMUM}: Whether the number of elements satisfying the predicate is greater than or equal to <i>n</i>,<br/>
+	 * {@link #MAXIMUM}: Whether the number of elements satisfying the predicate is less than or equal to <i>n</i>.<br/>
+	 */
+	public enum MatchMode {
+		EXACT, MINIMUM, MAXIMUM;
+	}
+	
 	private final int n;
+	protected final MatchMode mode;
 	
 	/**
 	 * nMatch operation where target matches is specified on a per-invocation basis.
 	 */
-	public NMatchOperation() {
+	public NMatchOperation(MatchMode behaviour) {
 		n = -1;	// Negative signifies that no initial value is specified
+		this.mode = behaviour;
 	}
 	
 	/**
 	 * nMatch operation with the target matches pre-specified.
 	 * 
+	 * @param behaviour How to interpret what <i>n</i> means.
 	 * @param n The number of target matches.
 	 * @throws IllegalArgumentException If n is less than zero.
 	 */
-	public NMatchOperation(int n) throws IllegalArgumentException {
+	public NMatchOperation(MatchMode behaviour, int n) throws IllegalArgumentException {
 		if ((this.n = n) < 0)
 			throw new IllegalArgumentException("Target matches can't be negative!");
+		this.mode = behaviour;
 	}
 
 	@Override
@@ -69,29 +85,48 @@ public class NMatchOperation extends FirstOrderOperation {
 		
 		final Collection<Object> source = resolveSource(target, iterators, context);
 		final int sourceSize = source.size();
-		if (sourceSize < targetMatches) return false;
 
+		if (mode != MatchMode.MAXIMUM && sourceSize < targetMatches)
+			return false;
+		
 		return execute(sourceSize, targetMatches, source, operationNameExpression, iterators, expressions, context);
+	}
+	
+	protected boolean shouldShortCircuit(int sourceSize, int targetMatches, int currentMatches, int currentIndex) {
+		// Short-circuit if we met / exceeded the number OR already failed to meet threshold
+		return
+			// First check whether we've already met the criteria
+			(currentMatches > targetMatches || (mode == MatchMode.MINIMUM && currentMatches == targetMatches)) ||
+			// # of remaining elements  vs   # of remaining matches
+			(sourceSize - currentIndex) < (targetMatches - currentMatches);
+	}
+	
+	protected boolean determineResult(int currentMatches, int targetMatches) {
+		switch (mode) {
+			case EXACT: return currentMatches == targetMatches;
+			case MINIMUM: return currentMatches >= targetMatches;
+			case MAXIMUM: return currentMatches <= targetMatches;
+			default: return false;
+		}
 	}
 	
 	protected boolean execute(int sourceSize, int targetMatches, Collection<Object> source, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		
 		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expressions, context);
-		
 		int currentIndex = 0, currentMatches = 0;
 		
 		for (Object item : source) {
 			++currentIndex;
 			
-			// Short-circuit if we exceeded the number OR already failed to meet threshold
-			if (predicate.testThrows(item) && (++currentMatches > targetMatches ||
-				// # of remaining elements  vs   # of remaining matches
-				(sourceSize - currentIndex) < (targetMatches - currentMatches))
-			) {
-				return false;
+			if (predicate.testThrows(item)) {
+				++currentMatches;
+			}
+			
+			if (shouldShortCircuit(sourceSize, targetMatches, currentMatches, currentIndex)) {
+				break;
 			}
 		}
 		
-		return currentMatches == targetMatches;
+		return determineResult(currentMatches, targetMatches);
 	}
 }

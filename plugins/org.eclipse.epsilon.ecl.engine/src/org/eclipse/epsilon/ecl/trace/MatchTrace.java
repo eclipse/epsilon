@@ -20,8 +20,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 public class MatchTrace {
 	
 	/**
-	 * All matches tried during the 
-	 * execution of an ECL module
+	 * All matches tried during the  execution of an ECL module
 	 */
 	protected final Collection<Match> matches;
 	

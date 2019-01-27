@@ -42,20 +42,20 @@ public class PrettyPrinterManager {
 	 * @return A pretty printer for o
 	 * @deprecated External clients should use print(Object object) instead
 	 */
-	public PrettyPrinter getPrettyPrinterFor(Object o){
+	public PrettyPrinter getPrettyPrinterFor(Object o) {
 		
 		//if (eolPrettyPrinter.appliesTo(o)) return eolPrettyPrinter;
 		
 		try {
 			ListIterator<PrettyPrinter> li = prettyPrinters.listIterator();
-			while (li.hasNext()){
+			while (li.hasNext()) {
 				PrettyPrinter prettyPrinter = li.next();
-				if (prettyPrinter.appliesTo(o)){
+				if (prettyPrinter.appliesTo(o)) {
 					return prettyPrinter;
 				}
 			}
 		}
-		catch (Throwable t){
+		catch (Throwable t) {
 			return defaultPrettyPrinter;
 		}
 		

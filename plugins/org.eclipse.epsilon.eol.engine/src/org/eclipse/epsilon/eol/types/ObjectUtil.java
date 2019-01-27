@@ -22,7 +22,7 @@ public class ObjectUtil {
 			return (Collection<?>) o;
 		}
 		else {
-			ArrayList<Object> collection = new ArrayList<>();
+			ArrayList<Object> collection = new ArrayList<>(1);
 			collection.add(o);
 			return collection;
 		}

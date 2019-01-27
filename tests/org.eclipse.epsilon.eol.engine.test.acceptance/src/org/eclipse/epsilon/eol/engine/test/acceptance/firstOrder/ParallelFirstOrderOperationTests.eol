@@ -84,6 +84,26 @@ operation testParallelNone() {
 }
 
 @test
+operation testParallelAtMostNMatch() {
+	var data := Sequence {1..16};
+	assertTrue(data.parallelAtMostNMatch(n | n.mod(3) == 0, 5));
+	assertFalse(data.parallelAtMostNMatch(n | n.mod(2) == 0, 4));
+	assertTrue(data.parallelAtMostNMatch(n | n > 1, 16));
+	assertFalse(data.parallelAtMostNMatch(n | n == 5 or n == 11 or n == 0 or n == 16, 1));
+	assertTrue(data.parallelAtMostNMatch(n | n <= 0 or n > 16, 0));
+}
+
+@test
+operation testParallelAtLeastNMatch() {
+	var data := Sequence {1..16};
+	assertTrue(data.parallelAtLeastNMatch(n | n.mod(3) == 0, 5));
+	assertFalse(data.parallelAtLeastNMatch(n | n.mod(2) == 0, 9));
+	assertTrue(data.parallelAtLeastNMatch(n | n.mod(4) == 0, 3));
+	assertFalse(data.parallelAtLeastNMatch(n | n <= 0 or n > 16, 1));
+	assertTrue(data.parallelAtLeastNMatch(n | n <= 0 or n > 16, 0));
+}
+
+@test
 operation testParallelNMatch() {
 	var data := Sequence {1..11};
 	var three = data.parallelNMatch(n | n.mod(3) == 0, 3);

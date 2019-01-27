@@ -14,6 +14,7 @@ import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorModule;
 import org.eclipse.epsilon.egl.preprocessor.Preprocessor;
+import org.eclipse.epsilon.egl.util.FileUtil;
 
 public interface IOutputBuffer {
 
@@ -35,7 +36,10 @@ public interface IOutputBuffer {
 	/**
 	 * Appends a string representation of the given object and a new line to the buffer.
 	 */
-	public void println(Object o);
+	public default void println(Object o) {
+		print(o);
+		println();
+	}
 
 	/**
 	 * Appends a string representation of the given object to the buffer, correcting
@@ -54,12 +58,20 @@ public interface IOutputBuffer {
 	 * 
 	 * @see EglPreprocessorModule#updateRegionsOfStaticTextASTs
 	 */
-	public void prinx(Object o);
+	public default void prinx(Object o) {
+		print(o);
+	}
 
 	/**
 	 * Returns a string comprised of the specificed number of spaces.
 	 */
-	public String getSpaces(int howMany);
+	public default String getSpaces(int howMany) {
+		String str = "";
+		for (int i = 0; i < howMany; i++) {
+			str += " ";
+		}
+		return str;
+	}
 	
 	/**
 	 * Specifies the type of output in the buffer, such as Java or HTML.
@@ -77,7 +89,11 @@ public interface IOutputBuffer {
 	 * 
 	 * @throws EglRuntimeException if {@link #setContentType(String)} has not been called.
 	 */
-	public String preserve(String id, boolean enabled, String contents) throws EglRuntimeException;
+	public default String preserve(String id, boolean enabled, String contents) throws EglRuntimeException {
+		return startPreserve(id, enabled) + FileUtil.NEWLINE +
+			       contents + FileUtil.NEWLINE +
+			       stopPreserve();
+	}
 
 	/**
 	 * Appends a protected region to the buffer.
@@ -88,7 +104,11 @@ public interface IOutputBuffer {
 	 * @param enabled - a flag indicating whether protection of text in this region should be enabled or not
 	 * @param contents - the contents for this protected region 
 	 */
-	public String preserve(String startComment, String endComment, String id, boolean enabled, String contents) throws EglRuntimeException;
+	public default String preserve(String startComment, String endComment, String id, boolean enabled, String contents) throws EglRuntimeException {
+		return startPreserve(startComment, endComment, id, enabled) + FileUtil.NEWLINE +
+			       contents + FileUtil.NEWLINE +
+			       stopPreserve();
+	}
 
 	/**
 	 * Appends the starting tag for a protected region to the buffer.
@@ -126,7 +146,11 @@ public interface IOutputBuffer {
 	 * 
 	 * @throws EglRuntimeException if {@link #setContentType(String)} has not been called.
 	 */
-	public String control(String id, boolean enabled, String contents) throws EglRuntimeException;
+	public default String control(String id, boolean enabled, String contents) throws EglRuntimeException {
+		return startControl(id, enabled) + FileUtil.NEWLINE +
+			       contents + FileUtil.NEWLINE +
+			       stopPreserve();
+	}
 
 	/**
 	 * Appends a controlled region to the buffer.
@@ -137,7 +161,11 @@ public interface IOutputBuffer {
 	 * @param enabled - a flag indicating whether protection of text in this region should be enabled or not
 	 * @param contents - the contents for this protected region 
 	 */
-	public String control(String startComment, String endComment, String id, boolean enabled, String contents) throws EglRuntimeException;
+	public default String control(String startComment, String endComment, String id, boolean enabled, String contents) throws EglRuntimeException {
+		return startControl(startComment, endComment, id, enabled) + FileUtil.NEWLINE +
+			       contents + FileUtil.NEWLINE +
+			       stopPreserve();
+	}
 
 	/**
 	 * Appends the starting tag for a controlled region to the buffer.

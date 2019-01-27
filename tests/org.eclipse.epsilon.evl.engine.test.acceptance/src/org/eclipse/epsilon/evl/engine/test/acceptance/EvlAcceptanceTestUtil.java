@@ -14,7 +14,6 @@
  */
 package org.eclipse.epsilon.evl.engine.test.acceptance;
 
-import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -23,6 +22,7 @@ import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.concurrent.*;
+import org.eclipse.epsilon.evl.concurrent.experimental.*;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 
 /**
@@ -35,7 +35,7 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	
 	public static final String
 		// Core
-		testsBase = getTestBaseDir(EvlAcceptanceTestSuite.class),
+		testsBase = getTestBaseDir(EvlAcceptanceTestUtil.class),
 		metamodelsRoot = testsBase+"metamodels/",
 		scriptsRoot = testsBase+"scripts/",
 		modelsRoot = testsBase+"models/",

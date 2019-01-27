@@ -12,6 +12,9 @@ package org.eclipse.epsilon.egl;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.execute.control.ITemplateExecutionListener;
@@ -20,15 +23,20 @@ import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
 import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.internal.EglModule;
+import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.merge.DefaultMerger;
 import org.eclipse.epsilon.egl.merge.Merger;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecificationFactory;
 import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
 import org.eclipse.epsilon.egl.traceability.Template;
+import org.eclipse.epsilon.eol.dom.Import;
+import org.eclipse.epsilon.eol.dom.ModelDeclaration;
+import org.eclipse.epsilon.eol.dom.OperationList;
 
-public class EglTemplate extends AbstractEglTemplate {
+public class EglTemplate {
 
+	protected final IEglModule module;
 	protected final String name;
 	protected final Template template;
 	protected final Collection<ITemplateExecutionListener> listeners;
@@ -39,19 +47,17 @@ public class EglTemplate extends AbstractEglTemplate {
 	private boolean processed = false;
 	
 	// For tests
-	protected EglTemplate(URI path, IEglContext context) throws Exception {
+	EglTemplate(URI path, IEglContext context) throws Exception {
 		this(new EglTemplateSpecificationFactory(new NullFormatter(), new IncrementalitySettings()).fromResource(path.toString(), path), context);
 	}
 
 	public EglTemplate(EglTemplateSpecification spec, IEglContext context) throws Exception {
 		this(spec.getName(), context, spec.createTemplate(), spec.getDefaultFormatter(), spec.getIncrementalitySettings(), spec.getTemplateExecutionListeners());
-		
 		spec.parseInto(module);
 	}
 	
 	private EglTemplate(String name, IEglContext context, Template template, Formatter formatter, IncrementalitySettings incrementalitySettings, Collection<ITemplateExecutionListener> listeners) {
-		super(new EglModule(context));
-		
+		this.module = new EglModule(context);
 		this.name     = name;
 		this.template = template;
 		this.formatter = formatter;
@@ -137,7 +143,38 @@ public class EglTemplate extends AbstractEglTemplate {
 		return template;
 	}
 	
-	@Override
+	public IEglModule getModule() {
+		return module;
+	}
+	
+	public List<ParseProblem> getParseProblems() {
+		return module.getParseProblems();
+	}
+
+	public List<ModelDeclaration> getDeclaredModelDefinitions() {
+		return module.getDeclaredModelDeclarations();
+	}
+
+	public OperationList getDeclaredOperations() {
+		return module.getDeclaredOperations();
+	}
+
+	public List<Import> getImports() {
+		return module.getImports();
+	}
+
+	public Set<ModelDeclaration> getModelDefinitions() {
+		return module.getModelDelcarations();
+	}
+
+	public OperationList getOperations() {
+		return module.getOperations();
+	}
+
+	protected void printWarning(String message) {
+		module.getContext().getWarningStream().println(message);
+	}
+	
 	public void reset() {
 		processed = false;
 		template.reset();

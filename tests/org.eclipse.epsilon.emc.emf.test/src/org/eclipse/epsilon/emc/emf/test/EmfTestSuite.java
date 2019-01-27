@@ -7,27 +7,11 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
-
 package org.eclipse.epsilon.emc.emf.test;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
-
-import org.eclipse.epsilon.emc.emf.AbstractEmfModelTests;
-import org.eclipse.epsilon.emc.emf.CachedResourceSetTests;
-import org.eclipse.epsilon.emc.emf.EmfModelCachedContentsTests;
-import org.eclipse.epsilon.emc.emf.EmfModelDeleteTests;
-import org.eclipse.epsilon.emc.emf.EmfModelGetPropertiesOfTests;
-import org.eclipse.epsilon.emc.emf.EmfModelIsPropertySetTests;
-import org.eclipse.epsilon.emc.emf.EmfModelLoadTests;
-import org.eclipse.epsilon.emc.emf.EmfModelPackageForNameTests;
-import org.eclipse.epsilon.emc.emf.EmfModelPropertyMigratorTests;
-import org.eclipse.epsilon.emc.emf.EmfModelStoreTests;
-import org.eclipse.epsilon.emc.emf.EmfModelTestSuite;
-import org.eclipse.epsilon.emc.emf.EmfPropertySetterCoerceTests;
-import org.eclipse.epsilon.emc.emf.EmfPropertySetterConformsTests;
-import org.eclipse.epsilon.emc.emf.EmfToolResolveUriTests;
-import org.eclipse.epsilon.emc.emf.URITest;
+import org.eclipse.epsilon.emc.emf.*;
 import org.eclipse.epsilon.emc.emf.xml.XmlModelTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

@@ -15,13 +15,8 @@ package org.eclipse.epsilon.test;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
-
 import org.eclipse.epsilon.common.dt.test.CommonDevelopmentToolsTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfPluggedInTestSuite;
-import org.eclipse.epsilon.emc.hutn.test.HutnEmcDriverTestSuite;
-import org.eclipse.epsilon.hutn.test.HutnTestSuite;
-import org.eclipse.epsilon.hutn.unparser.HutnUnparserUnitTestSuite;
-import org.eclipse.epsilon.hutn.xmi.test.HutnXmiTestSuite;
 import org.eclipse.epsilon.workflow.tasks.eugenia.EugeniaTestSuite;
 import org.eclipse.epsilon.workflow.test.WorkflowPluggedInTestSuite;
 import org.junit.runner.RunWith;
