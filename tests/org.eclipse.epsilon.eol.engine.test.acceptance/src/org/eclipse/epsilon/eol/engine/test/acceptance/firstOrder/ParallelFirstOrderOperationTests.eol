@@ -121,6 +121,19 @@ operation testParallelNMatch() {
 }
 
 @test
+operation testParallelCount() {
+	var data := Sequence {-15..9};
+	var actual = data.parallelCount(i | i > 0);
+	assertEquals(9, actual);
+	actual = data.parallelCount(i | i.mod(2) == 0 and i < -14);
+	assertEquals(0, actual);
+	actual = data.parallelCount(i | i == 0);
+	assertEquals(1, actual);
+	actual = data.parallelCount(i | true);
+	assertEquals(data.size(), actual);
+}
+
+@test
 operation testParallelForAll() {
 	var data := Sequence {0..10};
 	var forAll = data.parallelForAll(n | n > -1 and n <= 10);

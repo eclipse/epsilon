@@ -173,6 +173,24 @@ operation testParallelNMatchEquivalence() {
 }
 
 @test
+operation testParallelCountEquivalence() {
+	var expected = testData.count(t | t <> null and t.asString().asBoolean());
+	assertEquals(1, expected);
+	var actual = testData.parallelCount(t | t <> null and t.asString().asBoolean());
+	assertEquals(expected, actual);
+	
+	expected = testData.count(t | t == null);
+	assertEquals(2, expected);
+	actual = testData.parallelCount(t | t == null);
+	assertEquals(expected, actual);
+	
+	expected = testData.count(t | t.isDefined());
+	assertEquals(testData.size()-3, expected);
+	actual = testData.parallelCount(t | t.isDefined());
+	assertEquals(expected, actual);
+}
+
+@test
 operation testParallelForAllEquivalence() {
 	var expected = testData.forAll(t | t <> null);
 	assertFalse(expected);

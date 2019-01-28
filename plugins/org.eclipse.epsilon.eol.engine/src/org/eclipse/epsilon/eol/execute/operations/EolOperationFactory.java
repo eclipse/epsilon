@@ -19,7 +19,7 @@ import org.eclipse.epsilon.eol.execute.operations.simple.assertions.*;
 
 public class EolOperationFactory {
 	
-	protected final Map<String, AbstractOperation> operationCache = new HashMap<>(64, 0.64f);
+	protected final Map<String, AbstractOperation> operationCache = new HashMap<>(64);
 	
 	public EolOperationFactory() {
 		operationCache.put("assert", new AssertOperation());
@@ -27,6 +27,7 @@ public class EolOperationFactory {
 		operationCache.put("atLeastNMatch", new NMatchOperation(NMatchOperation.MatchMode.MINIMUM));
 		operationCache.put("atMostNMatch", new NMatchOperation(NMatchOperation.MatchMode.MAXIMUM));
 		operationCache.put("collect", new CollectOperation());
+		operationCache.put("count", new CountOperation());
 		operationCache.put("exists", new ExistsOperation());
 		operationCache.put("none", new NMatchOperation(NMatchOperation.MatchMode.EXACT, 0));
 		operationCache.put("one", new NMatchOperation(NMatchOperation.MatchMode.EXACT, 1));
@@ -43,6 +44,7 @@ public class EolOperationFactory {
 		operationCache.put("as", new AsOperation());
 		operationCache.put("find", new FindOperation());
 		operationCache.put("findOne", new FindOneOperation());
+		operationCache.put("parallelCount", new ParallelCountOperation());
 		operationCache.put("parallelSelect", new ParallelSelectOperation());
 		operationCache.put("parallelSelectOne", new ParallelSelectOneOperation());
 		operationCache.put("parallelReject", new ParallelRejectOperation());

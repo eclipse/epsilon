@@ -96,9 +96,18 @@ operation testNoneScope() {
 @test
 operation testNMatchScope() {
 	var testData := Sequence {-25..16};
-	var expected = testData.nMatch(n | Thread.currentThread == mainThread and n.lengthAsStr() == 2, 16);
+	var expected = testData.nMatch(n | Thread.currentThread() == mainThread and n.lengthAsStr() == 2, 16);
 	assertTrue(expected);
-	var actual = testData.parallelNMatch(n | Thread.currentThread <> mainThread and n.lengthAsStr() == 2, 16);
+	var actual = testData.parallelNMatch(n | Thread.currentThread() <> mainThread and n.lengthAsStr() == 2, 16);
+	assertEquals(expected, actual);
+}
+
+@test
+operation testCountScope() {
+	var testData := Sequence {-6..25};
+	var expected = testData.count(n | Thread.currentThread() == mainThread and n.lengthAsStr() == 1);
+	assertEquals(10, expected);
+	var actual = testData.parallelCount(n | Thread.currentThread() <> mainThread and n.lengthAsStr() == 1);
 	assertEquals(expected, actual);
 }
 
