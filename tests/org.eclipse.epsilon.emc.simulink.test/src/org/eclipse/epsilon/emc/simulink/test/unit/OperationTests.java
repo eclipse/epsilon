@@ -84,13 +84,14 @@ public class OperationTests extends AbstractSimulinkTest {
 				+ "var sA = new `Stateflow.State`; "
 				+ "sA.println('state : ').parent = sfChart; "
 				+ "assert(sA.parent.println('parent : ') <> null); "
-				+ "var msg = \"hello world\"; "
+				+ "var msg = \"hello_world\"; "
 				+ "sA.name = msg; "
-				+ "assert( sA.name.println('msg : ') == msg ); "
-				;/*
-				+ "assert ( sA.opA().println('operation : ') = msg ); "
-				+ "operation `Stateflow.State` opA() : String {  return self.name; }"
-				*/
+				+ "sA.name.println('msg : ');"
+				+ "sA.type.println('type : ');"
+				+ "assert(sA.name = msg);"
+				+ "assert (sA.opA().println('operation : ') = msg ); "
+				+ "operation `Stateflow.State` opA() : String { return self.name; }"
+				;
 	}
 	
 }

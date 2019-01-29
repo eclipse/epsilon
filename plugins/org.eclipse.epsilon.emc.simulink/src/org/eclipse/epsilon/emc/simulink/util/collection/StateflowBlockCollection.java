@@ -15,7 +15,6 @@ import java.util.ListIterator;
 
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
-import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
 import org.eclipse.epsilon.emc.simulink.util.manager.StateflowBlockManager;
 
@@ -28,7 +27,7 @@ public class StateflowBlockCollection extends AbstractSimulinkCollection<Statefl
 	
 	@Override
 	protected boolean isInstanceOf(Object object) {
-		return object instanceof SimulinkBlock;
+		return object instanceof StateflowBlock;
 	}
 
 	@Override
