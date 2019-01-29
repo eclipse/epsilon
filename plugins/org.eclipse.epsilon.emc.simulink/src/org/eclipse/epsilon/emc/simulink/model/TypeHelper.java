@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.util.StateflowUtil;
@@ -46,32 +45,58 @@ public class TypeHelper {
 			return null;
 		} 
 	}
+	
+	public static Kind getKind(SimulinkModel model, Double handle){
+		if (handle != null) {
+			try{
+				String type = (String) model.getEngine().evalWithSetupAndResult("handle = ?;", "get_param(handle, 'Type');", handle);
+				return Kind.get(type);
+			} catch (Exception e) {
+				return Kind.STATEFLOW;
+			}
+		}
+		return null;
+	}
 
-	public static Collection<ISimulinkModelElement> getAllOfType(SimulinkModel model, MatlabEngine engine,
-			String type) throws EolModelElementTypeNotFoundException {
-		Kind kind = null;
-		Collection<ISimulinkModelElement> list = Collections.emptyList();
-		kind = TypeHelper.getKind(type);
+	public static Collection<ISimulinkModelElement> getAllOfType(SimulinkModel model, String type) throws EolModelElementTypeNotFoundException {
+		Kind kind = TypeHelper.getKind(type);
 		if (kind == null) {
-			Collections.emptyList();
-			for (Kind k : Kind.values()) {
+			// Can't be stateflow
+			Kind[] kinds = new Kind[0];
+			if (type.charAt(0) == type.toLowerCase().charAt(0)){  //First is lowercase
+				// it is more likely that we are dealing with a line or a port but we dont rule out a block
+				kinds = new Kind[]{Kind.PORT, Kind.LINE, Kind.BLOCK};
+			} else {
+				// it is more likely that we are dealing with a block but we dont rule out line or port
+				kinds = new Kind[]{Kind.BLOCK, Kind.PORT, Kind.LINE};
+			}
+			Collection<ISimulinkModelElement> tmp = null;
+			for (Kind k : kinds) {
 				try {
-					list = k.getAllSimulinkTypeFromModel(model, type);
-					break;
+					tmp = k.getAllSimulinkTypeFromModel(model, type);
+					if (tmp.size() > 0 ) {
+						return tmp;
+					}
 				} catch (Exception e) {
-					e.printStackTrace();
-				}
+					tmp = null;
+				}	
 			}
 		} else {
 			try {
-				return kind.getAllSimulinkTypeFromModel(model, type);
+				switch (kind) {
+				case STATEFLOW:
+					return StateflowUtil.getAllOfStateflowTypeFromModel(model, type);
+				default:
+					return kind.getAllSimulinkTypeFromModel(model, type);
+				}
 			} catch (Exception e) {
+				throw new EolModelElementTypeNotFoundException(model.getName(), type);
 			}
 		}
-		return list;
+		return new SimulinkElementCollection(model);
 	}
 
-	public static Collection<ISimulinkModelElement> getAll(MatlabEngine engine, SimulinkModel model) {
+	public static Collection<ISimulinkModelElement> getAll(SimulinkModel model) {
 		Collection<ISimulinkModelElement> list = new SimulinkElementCollection(model);
 		list.addAll(Kind.SIMULINK.getAll(model));
 		list.addAll(Kind.STATEFLOW.getAll(model));
@@ -168,13 +193,10 @@ public class TypeHelper {
 				case PORT:
 					return new SimulinkPortCollection(blocks, model);
 				default:
-					return Collections.emptyList();
+					throw new Exception("Only specific Simulink types (block, port, line) are allowed");
 				}
-			} else if (this.equals(Kind.STATEFLOW)) {
-				return StateflowUtil.getAllOfStateflowTypeFromModel(model, type);
-			} else {
-				throw new EolModelElementTypeNotFoundException(model.getName(), type);
-			}
+			} 
+			throw new EolModelElementTypeNotFoundException(model.getName(), type);
 		}
 
 		public static Kind get(String kind) throws Exception {

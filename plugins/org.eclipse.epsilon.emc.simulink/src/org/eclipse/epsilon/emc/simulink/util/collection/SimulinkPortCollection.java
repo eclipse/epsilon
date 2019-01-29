@@ -63,18 +63,6 @@ public class SimulinkPortCollection extends AbstractSimulinkCollection<SimulinkP
 	}
 
 	@Override
-	// FIXME Should not be called
-	public Object[] toArray() {
-		return null;
-	}
-
-	@Override
-	// FIXME Should not be called
-	public <T> T[] toArray(T[] a) {
-		return null;
-	}
-
-	@Override
 	protected Iterator<ISimulinkModelElement> getInternalIterator() {
 		return new SimulinkPortIterator();
 	}

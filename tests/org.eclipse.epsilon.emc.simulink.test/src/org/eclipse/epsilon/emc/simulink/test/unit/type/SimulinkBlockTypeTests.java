@@ -19,7 +19,6 @@ public class SimulinkBlockTypeTests extends AbstractTypeTests {
 
 	private static final String FULL_PATH_GAIN_SIMULINK_BLOCK = "`simulink/Math Operations/Gain`";
 	private static final String GAIN_SIMULINK_BLOCK = "Gain";
-	private static final String SIMULINK_BLOCK = "SimulinkBlock";
 	
 	@Test
 	public void testTypeSimulinkBlock(){

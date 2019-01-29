@@ -35,7 +35,7 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			} else if (isInstanceOfPrimitive(primitive)) {
 				this.primitive = (List<P>) Arrays.asList(primitive);
 			} else {
-				new IllegalStateException("Unhandled primitive type: " + primitive.getClass());
+				new IllegalStateException("Unhandled primitive type: " + getPrimitive().getClass());
 			}
 		} else {
 			this.primitive = new ArrayList<P>();
@@ -45,17 +45,17 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 
 	@Override
 	public int size() {
-		return primitive.size();
+		return getPrimitive().size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return primitive.isEmpty();
+		return getPrimitive().isEmpty();
 	}
 
 	@Override
 	public void clear() {
-		primitive.clear();
+		getPrimitive().clear();
 	}
 
 	@Override
@@ -67,43 +67,43 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 	@Override
 	public ISimulinkModelElement remove(int index) {
 		E element = (E) get(index);
-		primitive.remove(index);
+		getPrimitive().remove(index);
 		return (ISimulinkModelElement) element;
 	}
 
 	@Override
 	public ISimulinkModelElement get(int index) {
-		P handle = primitive.get(index);
+		P handle = getPrimitive().get(index);
 		return (ISimulinkModelElement) manager.construct(handle);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean add(ISimulinkModelElement e) {
-		int size = primitive.size();
-		primitive.add(manager.getId((E) e));
-		return primitive.size() == size + 1;
+		int size = getPrimitive().size();
+		getPrimitive().add(manager.getId((E) e));
+		return getPrimitive().size() == size + 1;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ISimulinkModelElement set(int index, ISimulinkModelElement element) {
 		E previous = (E) get(index);
-		primitive.set(index, manager.getId((E) element));
+		getPrimitive().set(index, manager.getId((E) element));
 		return (ISimulinkModelElement) previous;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void add(int index, ISimulinkModelElement element) {
-		primitive.add(index, manager.getId((E) element));
+		getPrimitive().add(index, manager.getId((E) element));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public int indexOf(Object o) {
 		if (isInstanceOf(o)) {
-			return primitive.indexOf(manager.getId((E) o));
+			return getPrimitive().indexOf(manager.getId((E) o));
 		} else {
 			return -1;
 		}
@@ -113,7 +113,7 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 	@Override
 	public boolean contains(Object o) {
 		if (isInstanceOf(o)) {
-			return primitive.contains(manager.getId((E) o));
+			return getPrimitive().contains(manager.getId((E) o));
 		}
 		return false;
 	}
@@ -122,7 +122,7 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 	@Override
 	public boolean remove(Object o) {
 		if (isInstanceOf(o)) {
-			return primitive.remove(manager.getId((E) o));
+			return getPrimitive().remove(manager.getId((E) o));
 		}
 		return false;
 	}
@@ -131,7 +131,7 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 	@Override
 	public int lastIndexOf(Object o) {
 		if (isInstanceOf(o)) {
-			return primitive.lastIndexOf(manager.getId((E) o));
+			return getPrimitive().lastIndexOf(manager.getId((E) o));
 		}
 		return -1;
 	}
@@ -143,9 +143,9 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			AbstractSimulinkCollection collection = (AbstractSimulinkCollection) c;
 			return getPrimitive().addAll(collection.getPrimitive());
 		} else {
-			int original = primitive.size();
-			c.stream().forEach(e -> primitive.add(manager.getId((E) e)));
-			return original + c.size() == primitive.size();
+			int original = getPrimitive().size();
+			c.stream().forEach(e -> getPrimitive().add(manager.getId((E) e)));
+			return original + c.size() == getPrimitive().size();
 		}
 	}
 
@@ -157,7 +157,7 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			return getPrimitive().containsAll(collection.getPrimitive());
 		} else {
 			// FIXME handle filter
-			return c.stream().filter(e -> isInstanceOf(e)).map(e -> primitive.contains(manager.getId((E) e)))
+			return c.parallelStream().filter(e -> isInstanceOf(e)).map(e -> getPrimitive().contains(manager.getId((E) e)))
 					.reduce(Boolean::logicalAnd).orElse(false);
 		}
 	}
@@ -170,7 +170,7 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			return getPrimitive().addAll(collection.getPrimitive());
 		} else {
 			// FIXME handle filter
-			return c.stream().filter(e -> isInstanceOf(e)).map(e -> primitive.add(manager.getId((E) e)))
+			return c.parallelStream().filter(e -> isInstanceOf(e)).map(e -> getPrimitive().add(manager.getId((E) e)))
 					.reduce(Boolean::logicalAnd).orElse(false);
 		}
 	}
@@ -182,7 +182,7 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			AbstractSimulinkCollection collection = (AbstractSimulinkCollection) c;
 			return getPrimitive().removeAll(collection.getPrimitive());
 		} else {
-			return c.stream().filter(e -> isInstanceOf(e)).map(e -> primitive.remove(manager.getId((E) e)))
+			return c.parallelStream().filter(e -> isInstanceOf(e)).map(e -> getPrimitive().remove(manager.getId((E) e)))
 					.reduce(Boolean::logicalAnd).orElse(false);
 		}
 	}
@@ -196,10 +196,26 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 		} else {
 			List<P> collect = c.stream().filter(e -> isInstanceOf(e)).map(e -> manager.getId((E) e))
 					.collect(Collectors.toList());
-			return primitive.retainAll(collect);
+			return getPrimitive().retainAll(collect);
 		}
 	}
 
+	@Override
+	public Object[] toArray() {
+		return getPrimitive().parallelStream()
+				.map(e -> getManager().construct(e))
+				.collect(Collectors.toList())
+				.toArray();
+	}
+	
+	@Override
+	public <T> T[] toArray(T[] a) {
+		return getPrimitive().parallelStream()
+				.map(e -> getManager().construct(e))
+				.collect(Collectors.toList())
+				.toArray(a);
+	}
+	
 	protected M getManager() {
 		return this.manager;
 	}

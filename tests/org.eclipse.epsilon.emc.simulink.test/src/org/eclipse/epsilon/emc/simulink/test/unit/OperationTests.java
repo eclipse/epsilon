@@ -54,36 +54,43 @@ public class OperationTests extends AbstractSimulinkTest {
 	}
 	
 	@Test
-	public void testContextlessUserDefinedOperation() {
-		eol = "var msg = 'hello world'; "
-				+ "assert ( opA(msg) = msg); "
-				+ "operation opA(msg : String) : String { return msg; }";
-	}
-		
-	@Test
 	public void testSimulinkObjectMethodWithOneParam() {
 		eol = "var gain = new `simulink/Math Operations/Gain`; "
 				+ "assert(gain.get_param(\"BlockType\".asString()).println = 'Gain');";
 	}
 	
 	@Test
+	public void testContextlessUserDefinedOperation() {
+		eol = "var msg = 'hello world'; "
+				+ "assert ( opA(msg).println('operation : ') = msg); "
+				+ "operation opA(msg : String) : String { return msg; }";
+	}
+		
+	@Test
 	public void testSimulinkUserDefinedOperation() {
 		eol = "var gain = new `simulink/Math Operations/Gain`; "
 				+ "var msg = 'hello world'; "
 				+ "gain.name = msg; "
-				+ "assert ( gain.opA() = msg); "
+				+ "assert ( gain.opA().println('operation : ') = msg); "
 				+ "operation Gain opA() : String { return self.name; }";
 	}
 	
-	@Test 
+	@Test
 	public void testStateflowUserDefinedOperation() {
 		eol = "var chart = new `sflib/Chart`; "
+				+ "assert(chart.println('chartSim : ') <> null); "
 				+ "var sfChart = `Stateflow.Chart`.all.first; "
-				+ "var sA = new `Stateflow.State`(sfChart); "
-				+ "var msg = 'hello_world'; "
+				+ "assert(sfChart.println('chartSf : ') <> null); "
+				+ "var sA = new `Stateflow.State`; "
+				+ "sA.println('state : ').parent = sfChart; "
+				+ "assert(sA.parent.println('parent : ') <> null); "
+				+ "var msg = \"hello world\"; "
 				+ "sA.name = msg; "
-				+ "assert ( sA.opA().println = msg); "
-				+ "operation `Stateflow.State` opA() : String { return self.name; }";
+				+ "assert( sA.name.println('msg : ') == msg ); "
+				;/*
+				+ "assert ( sA.opA().println('operation : ') = msg ); "
+				+ "operation `Stateflow.State` opA() : String {  return self.name; }"
+				*/
 	}
 	
 }

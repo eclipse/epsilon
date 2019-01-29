@@ -16,28 +16,18 @@ import java.util.ListIterator;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkElement;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
-import org.eclipse.epsilon.emc.simulink.util.manager.SimulinkManager;
+import org.eclipse.epsilon.emc.simulink.util.manager.SimulinkElementManager;
 
-public class SimulinkElementCollection extends AbstractSimulinkCollection<ISimulinkElement, Double, SimulinkManager> {
+public class SimulinkElementCollection extends AbstractSimulinkCollection<ISimulinkElement, Double, SimulinkElementManager> {
 
 	public SimulinkElementCollection(SimulinkModel model) {
-		super(null, new SimulinkManager(model));	
+		super(null, new SimulinkElementManager(model));	
 	}
 	
 	public SimulinkElementCollection(Object primitive, SimulinkModel model) {
-		super(primitive, new SimulinkManager(model));
+		super(primitive, new SimulinkElementManager(model));
 	}
-	
-	@Override
-	public Object[] toArray() {
-		return null;
-	}
-
-	@Override
-	public <T> T[] toArray(T[] a) {
-		return null;
-	}
-	
+		
 	@Override
 	public ListIterator<ISimulinkModelElement> listIterator() {
 		return new SimulinkElementListIterator();
@@ -73,7 +63,7 @@ public class SimulinkElementCollection extends AbstractSimulinkCollection<ISimul
 		return object instanceof Double[];
 	}
 	
-	protected class SimulinkElementIterator extends AbstractBlockIterator<ISimulinkElement, Double, SimulinkManager>{
+	protected class SimulinkElementIterator extends AbstractBlockIterator<ISimulinkElement, Double, SimulinkElementManager>{
 		
 		SimulinkElementIterator(){
 			super(getPrimitive(), getManager());
@@ -81,7 +71,7 @@ public class SimulinkElementCollection extends AbstractSimulinkCollection<ISimul
 		
 	}
 	
-	protected class SimulinkElementListIterator extends AbstractListIterator<ISimulinkElement, Double, SimulinkManager> {
+	protected class SimulinkElementListIterator extends AbstractListIterator<ISimulinkElement, Double, SimulinkElementManager> {
 		
 		SimulinkElementListIterator(){
 			super(getPrimitive(), getManager());

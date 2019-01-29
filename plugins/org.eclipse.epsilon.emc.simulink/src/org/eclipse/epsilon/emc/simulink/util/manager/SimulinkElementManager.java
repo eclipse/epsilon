@@ -9,25 +9,34 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.util.manager;
 
-import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
+import org.eclipse
+.epsilon.emc.simulink.model.TypeHelper;
+import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkLine;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkPort;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
 
-public class SimulinkManager extends AbstractManager<ISimulinkElement, Double> {
+public class SimulinkElementManager extends AbstractManager<ISimulinkElement, Double> {
 
-	public SimulinkManager(SimulinkModel model){
+	public SimulinkElementManager(SimulinkModel model){
 		super(model);
 	}
 	
 	public ISimulinkElement construct(Double id) {
-		// FIXME
-		try {
-			return new SimulinkBlock(getModel(), getEngine(), id);
-		} catch (MatlabRuntimeException e) {
+		Kind kind = TypeHelper.getKind(getModel(), id);
+		switch (kind) {
+		case BLOCK:
+			return (ISimulinkElement) new SimulinkBlockManager(model).construct(id);
+		case LINE:
+			return (ISimulinkElement) new SimulinkLineManager(model).construct(id);
+		case PORT:
+			return (ISimulinkElement) new SimulinkPortManager(model).construct(id);
+		case STATEFLOW:
+			return (ISimulinkElement) new StateflowBlockManager(model).construct(id);
+		default:
 			return null;
 		}
 	}

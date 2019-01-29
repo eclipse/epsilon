@@ -277,13 +277,13 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 
 	@Override 
 	protected Collection<ISimulinkModelElement> allContentsFromModel() { 
-		return TypeHelper.getAll(engine, this);
+		return TypeHelper.getAll(this);
 	}
 	
-	@Override // FIXME
+	@Override
 	protected Collection<ISimulinkModelElement> getAllOfTypeFromModel(String type) 
 			throws EolModelElementTypeNotFoundException { 
-		return TypeHelper.getAllOfType(this, engine, type);		
+		return TypeHelper.getAllOfType(this, type);		
 	}
 
 	@Override
