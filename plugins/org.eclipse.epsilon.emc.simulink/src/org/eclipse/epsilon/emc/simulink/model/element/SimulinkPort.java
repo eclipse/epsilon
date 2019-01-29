@@ -9,14 +9,14 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.model.element;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
-import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
+import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkLineCollection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class SimulinkPort extends SimulinkElement {
@@ -25,7 +25,7 @@ public class SimulinkPort extends SimulinkElement {
 		super(model, engine, handle);
 	}
 
-	public List<SimulinkLine> getLines() throws EolRuntimeException {
+	public Collection<ISimulinkModelElement> getLines() throws EolRuntimeException {
 		Object children = null;
 		Object lines = null; 
 		try {
@@ -38,10 +38,10 @@ public class SimulinkPort extends SimulinkElement {
 			engine.eval("children = get_param(lines, 'LineChildren');", this.handle);
 			children = engine.getVariable("children");
 			if (children != null) {
-				return SimulinkUtil.getSimulinkLines(model, engine, children);
+				return new SimulinkLineCollection(children, model);
 			}
 		} catch (Exception e) {
-			return SimulinkUtil.getSimulinkLines(model, engine, lines);
+			return new SimulinkLineCollection(lines, model);					
 		}
 		return Collections.emptyList();
 	}

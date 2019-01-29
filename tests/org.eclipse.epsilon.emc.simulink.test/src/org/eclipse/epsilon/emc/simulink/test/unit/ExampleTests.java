@@ -11,13 +11,18 @@ package org.eclipse.epsilon.emc.simulink.test.unit;
 
 import org.eclipse.epsilon.emc.simulink.test.util.AbstractSimulinkTest;
 import org.eclipse.epsilon.emc.simulink.test.util.FileUtils;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ExampleTests extends AbstractSimulinkTest {
 
 private static final String ROOT = "examples/"; 
 	
+	@Before
+	public void reset() {
+		activeCache = false;
+	}
+
 	@Test
 	public void testCreateFeedbackController() { 
 		eolResourceFile = ROOT + "createFeedbackController.eol";
@@ -40,33 +45,29 @@ private static final String ROOT = "examples/";
 	
 	@Test
 	public void testRobustTest() {
-		activeCache = false;
 		eolResourceFile = ROOT + "robustTest.eol";
 	}
 	
 	@Test
-	public void testCachingSFChart() {
+	public void testCachingSFChart() { 
 		activeCache = true;
 		eolResourceFile = ROOT + "caching.eol";
 	}
 	
-	@Test
+	@Test 
 	public void testParent() {
-		activeCache = false;
 		eolResourceFile = ROOT + "parent.eol";
 		modelFile = FileUtils.getModelFile("parent.slx");
 	}
 	
-	@Test
+	@Test 
 	public void testTypeHierarchy() {
-		activeCache = false;
 		eolResourceFile = ROOT + "typesTest.eol";
 		modelFile = FileUtils.getModelFile("feedbackController.slx");
 	}
 	
-	@Test
+	@Test 
 	public void testQueryFeedbackController() {
-		activeCache = false;
 		eolResourceFile = ROOT + "queryFeedbackController.eol";
 		modelFile = FileUtils.getModelFile("feedbackController.slx");
 	}

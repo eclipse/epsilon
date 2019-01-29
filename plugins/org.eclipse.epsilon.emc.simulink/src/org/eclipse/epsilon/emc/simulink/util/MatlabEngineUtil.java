@@ -88,8 +88,7 @@ public class MatlabEngineUtil {
 	}
 
 	public static Object parseMatlabEngineVariable(MatlabEngine engine, String variableName) throws MatlabException {
-		Object value = engine.getVariable(variableName);
-		return parseMatlabEngineVariable(value);
+		return engine.getVariable(variableName);
 	}
 
 	public static Object parseMatlabEngineVariable(Object value) {

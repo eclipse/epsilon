@@ -22,6 +22,7 @@ import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
+import org.eclipse.epsilon.emc.simulink.util.collection.StateflowBlockCollection;
 
 public class StateflowUtil {
 
@@ -127,25 +128,26 @@ public class StateflowUtil {
 
 	/***********/
 	/** TYPES **/
-	/**
-	 * @throws MatlabException *********/
+	/***********/
 
-	public static Collection<ISimulinkModelElement> getAllStateflowBlocksFromModel(SimulinkModel model, MatlabEngine engine) throws MatlabException {
-		StateflowUtil.modelHandleAsM(model);
-		Object ids = engine.evalWithSetupAndResult(FIND_ALL, GET_IDS, M);
-		return getTypeList(model, engine, ids);
+	public static Collection<ISimulinkModelElement> getAllStateflowBlocksFromModel(SimulinkModel model) throws MatlabException {
+		Object ids = allIds(model);
+		return new StateflowBlockCollection(ids, model);
 	}
 
-	public static Collection<ISimulinkModelElement> getAllOfStateflowTypeFromModel(SimulinkModel model, MatlabEngine engine,
-			String type) throws MatlabException {
-		try{
-			StateflowUtil.modelHandleAsM(model);
-			Object ids = engine.evalWithSetupAndResult(FIND_BLOCK_TYPE, GET_IDS, M, type);
-			return getTypeList(model, engine, ids);
-		} catch (MatlabException e) {
-			e.printStackTrace();
-			return Collections.emptyList();
-		}
+	public static Collection<ISimulinkModelElement> getAllOfStateflowTypeFromModel(SimulinkModel model,	String type) throws MatlabException {
+		Object ids = idsOfType(model, type);
+		return new StateflowBlockCollection(ids, model);
+	}
+
+	public static Object allIds(SimulinkModel model) throws MatlabException {
+		StateflowUtil.modelHandleAsM(model);
+		return model.getEngine().evalWithSetupAndResult(FIND_ALL, GET_IDS, M);
+	}
+	
+	public static Object idsOfType(SimulinkModel model, String type) throws MatlabException {
+		modelHandleAsM(model);
+		return model.getEngine().evalWithSetupAndResult(FIND_BLOCK_TYPE, GET_IDS, M, type);
 	}
 	
 	public static  Collection<ISimulinkModelElement> getTypeList(SimulinkModel model, MatlabEngine engine, Object ids) {

@@ -291,7 +291,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 			throws EolModelElementTypeNotFoundException {
 		try {
 			try {
-				return Kind.get(kind).getAll(engine, this);
+				return Kind.get(kind).getAll(this);
 			} catch (Exception e) {
 				return getAllOfTypeFromModel(kind);
 			}
@@ -545,15 +545,15 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 	
 	public Collection<ISimulinkModelElement> getChildren() throws MatlabException {
-		return SimulinkUtil.findBlocks(this, engine, 1);
-	}
-	
-	public Collection<ISimulinkModelElement> findBlocks(Integer depth) throws MatlabException{
-		return SimulinkUtil.findBlocks(this, engine, depth);
+		return SimulinkUtil.findBlocks(this,1);
 	}
 	
 	public Collection<ISimulinkModelElement> findBlocks() throws MatlabException{
-		return findBlocks(1);
+		return SimulinkUtil.findBlocks(this,1);
+	}
+	
+	public Collection<ISimulinkModelElement> findBlocks(Integer depth) throws MatlabException {
+		return SimulinkUtil.findBlocks(this,depth);
 	}
 
 }

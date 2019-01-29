@@ -13,7 +13,8 @@ import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
-import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
+import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkBlockCollection;
+import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkPortCollection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class SimulinkLine extends SimulinkElement {
@@ -35,7 +36,8 @@ public class SimulinkLine extends SimulinkElement {
 
 	public SimulinkBlock getDestination() throws EolRuntimeException {
 		try {
-			return SimulinkUtil.getSimulinkBlocks(model, engine, get(DST_BLOCK_HANDLE)).get(0);
+			Object list = get(DST_BLOCK_HANDLE);
+			return (SimulinkBlock) new SimulinkBlockCollection(list, model).get(0);
 		} catch (MatlabException e) {
 			throw new EolRuntimeException(e.getMessage());
 		}
@@ -43,7 +45,8 @@ public class SimulinkLine extends SimulinkElement {
 
 	public SimulinkBlock getSource() throws EolRuntimeException {
 		try {
-			return SimulinkUtil.getSimulinkBlocks(model, engine, get(SRC_BLOCK_HANDLE)).get(0);
+			Object list = get(SRC_BLOCK_HANDLE);
+			return (SimulinkBlock) new SimulinkBlockCollection(list, model).get(0);
 		} catch (MatlabException e) {
 			throw new EolRuntimeException(e.getMessage());
 		}
@@ -51,7 +54,8 @@ public class SimulinkLine extends SimulinkElement {
 
 	public SimulinkPort getDestinationPort() throws EolRuntimeException {
 		try {
-			return SimulinkUtil.getSimulinkPorts(model, engine, get(DST_PORT_HANDLE)).get(0);
+			Object list = get(DST_PORT_HANDLE);
+			return (SimulinkPort) new SimulinkPortCollection(list, model).get(0);
 		} catch (MatlabException e) {
 			throw new EolRuntimeException(e.getMessage());
 		}
@@ -59,7 +63,8 @@ public class SimulinkLine extends SimulinkElement {
 
 	public SimulinkPort getSourcePort() throws EolRuntimeException {
 		try {
-			return SimulinkUtil.getSimulinkPorts(model, engine, get(SRC_PORT_HANDLE)).get(0);
+			Object list = get(SRC_PORT_HANDLE);
+			return (SimulinkPort) new SimulinkPortCollection(list, model).get(0);
 		} catch (MatlabException e) {
 			throw new EolRuntimeException(e.getMessage());
 		}

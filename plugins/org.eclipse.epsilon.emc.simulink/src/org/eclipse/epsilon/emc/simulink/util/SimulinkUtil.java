@@ -12,17 +12,14 @@ package org.eclipse.epsilon.emc.simulink.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
-import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkElement;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
-import org.eclipse.epsilon.emc.simulink.model.element.SimulinkLine;
-import org.eclipse.epsilon.emc.simulink.model.element.SimulinkPort;
+import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkBlockCollection;
 
 public class SimulinkUtil {
 
@@ -31,17 +28,7 @@ public class SimulinkUtil {
 	public static final String FIND = "find_system('?', 'FindAll', 'on', 'LookUnderMasks', 'On'";
 	public static final String FIND_FOLLOW = "find_system('?', 'FindAll', 'on', 'LookUnderMasks', 'On', 'FollowLinks', 'on'";
 	
-	private static final String FIND_BLOCKS_OF_TYPE_WITH_REFS = 	FIND_FOLLOW 		+ ", 'BlockType', '?');";
-	private static final String FIND_BLOCKS_OF_TYPE = 			FIND 			+ ", 'BlockType', '?');";
-	private static final String FIND_SYSTEM_BLOCKS_WITH_REFS = 	FIND_FOLLOW 		+ ", 'Type', 'Block');";
-	private static final String FIND_SYSTEM_BLOCKS = 				FIND 			+ ", 'Type', 'Block');";
-	private static final String FIND_SYSTEM_LINES_WITH_REFS = 	FIND_FOLLOW 		+ ", 'Type', 'line');";
-	private static final String FIND_SYSTEM_LINES = 				FIND 			+ ", 'Type', 'line');";
-	
 	private static final String FIND_BLOCKS_AT_DEPTH = 			FIND 			+ ", 'SearchDepth', ?, 'Type', 'Block');";
-	private static final String FIND_BLOCKS_AT_DEPTH_WITH_REFS = 	FIND_FOLLOW 		+ ", 'SearchDepth', ?, 'Type', 'Block');";
-	private static final String CHILDREN_BLOCKS = 				FIND 			+ ", 'SearchDepth', 1, 'Type', 'Block');";
-	private static final String CHILDREN_BLOCKS_WITH_REFS = 		FIND_FOLLOW 		+ ", 'SearchDepth', 1, 'Type', 'Block');";
 	
 	public static String getSimpleTypeName(String type) { // OK
 		if (type.indexOf("/") > -1) {
@@ -167,66 +154,24 @@ public class SimulinkUtil {
 	
 	/** SPECIFIC COLLECTION */
 	
-	public static List<SimulinkBlock> getSimulinkBlocks(SimulinkModel model,
-			MatlabEngine engine, Object handles) {
-		return SimulinkUtil.getTypeList(SimulinkBlock.class, model, engine, handles);
+	public static List<ISimulinkModelElement> getChildren(SimulinkModel model, SimulinkBlock block) throws MatlabException {
+			return findBlocks(model, block, 1); 
 	}
 	
-	public static List<SimulinkLine> getSimulinkLines(SimulinkModel model,
-			MatlabEngine engine, Object handles) {
-		return SimulinkUtil.getTypeList(SimulinkLine.class, model, engine, handles);
+	public static List<ISimulinkModelElement> getChildren(SimulinkModel model) throws MatlabException {
+		return findBlocks(model, 1);
 	}
 	
-	public static List<SimulinkPort> getSimulinkPorts(SimulinkModel model,
-			MatlabEngine engine, Object handles) {
-		return SimulinkUtil.getTypeList(SimulinkPort.class, model, engine, handles);
+	public static List<ISimulinkModelElement> findBlocks(SimulinkModel model,Integer depth) throws MatlabException {
+		MatlabEngine engine = model.getEngine();
+		Object handles = engine.evalWithResult(FIND_BLOCKS_AT_DEPTH, model.getSimulinkModelName(), depth);
+		return new SimulinkBlockCollection(handles, model);
 	}
 	
-	public static List<SimulinkBlock> getChildren(SimulinkModel model,
-			MatlabEngine engine, SimulinkBlock block) throws MatlabException {
-			return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN_BLOCKS, block.getPath())); 
+	public static List<ISimulinkModelElement> findBlocks(SimulinkModel model, SimulinkBlock block,Integer depth) throws MatlabException {
+		MatlabEngine engine = model.getEngine();
+		Object handles = engine.evalWithResult(FIND_BLOCKS_AT_DEPTH, block.getPath(), depth);
+		return new SimulinkBlockCollection(handles, model);
 	}
 	
-	public static List<SimulinkBlock> getChildren(SimulinkModel model,
-			MatlabEngine engine) throws MatlabException {
-		return getSimulinkBlocks(model, engine, engine.evalWithResult(CHILDREN_BLOCKS, model.getSimulinkModelName(), model.getSimulinkModelName()));
-	}
-	
-	public static List<ISimulinkModelElement> findBlocks(SimulinkModel model,
-			MatlabEngine engine, Integer depth) throws MatlabException {
-			return getSimulinkBlocks(model, engine, engine.evalWithResult(FIND_BLOCKS_AT_DEPTH, model.getSimulinkModelName(), depth))
-					.stream().map(e -> (ISimulinkElement) e).collect(Collectors.toList());
-
-	}
-	
-	public static List<ISimulinkModelElement> getAllSimulinkFromModel(SimulinkModel model,
-			MatlabEngine engine, Kind kind) throws MatlabException {
-			String cmd = model.isFollowLinks() ? FIND_SYSTEM_BLOCKS_WITH_REFS : FIND_SYSTEM_BLOCKS;
-			return getSimulinkBlocks(model, engine, engine.evalWithResult(cmd, model.getSimulinkModelName()))
-					.stream().map(e -> (ISimulinkElement) e).collect(Collectors.toList());	 
-	}
-	
-	public static List<ISimulinkModelElement> getAllSimulinkBlocksFromModel(SimulinkModel model,
-			MatlabEngine engine) throws MatlabException {
-			String cmd = model.isFollowLinks() ? FIND_SYSTEM_BLOCKS_WITH_REFS : FIND_SYSTEM_BLOCKS;
-			return getSimulinkBlocks(model, engine, engine.evalWithResult(cmd, model.getSimulinkModelName()))
-					.stream().map(e -> (ISimulinkElement) e).collect(Collectors.toList());
-	}
-	
-	public static List<ISimulinkModelElement> getAllSimulinkLinesFromModel(SimulinkModel model,
-			MatlabEngine engine) throws MatlabException {
-			String cmd = model.isFollowLinks() ? FIND_SYSTEM_LINES_WITH_REFS : FIND_SYSTEM_LINES;
-			return getSimulinkLines(model, engine, engine.evalWithResult(cmd, model.getSimulinkModelName()))
-					.stream().map(e -> (ISimulinkElement) e).collect(Collectors.toList());
-	}
-	
-	public static List<ISimulinkModelElement> getAllSimulinkBlocksFromModel(SimulinkModel model,
-			MatlabEngine engine, String type) throws MatlabException {
-			final String simpleType = type;
-			String cmd = model.isFollowLinks() ? FIND_BLOCKS_OF_TYPE_WITH_REFS : FIND_BLOCKS_OF_TYPE;
-			Object blocks = engine.evalWithResult(cmd, model.getSimulinkModelName(), simpleType);
-			return getSimulinkBlocks(model, engine, blocks)
-					.stream().map(e -> (ISimulinkElement) e).collect(Collectors.toList());
-	}
-
 }

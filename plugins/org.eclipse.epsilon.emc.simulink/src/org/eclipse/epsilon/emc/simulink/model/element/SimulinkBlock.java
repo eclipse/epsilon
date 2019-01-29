@@ -24,6 +24,7 @@ import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
+import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkPortCollection;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -100,8 +101,8 @@ public class SimulinkBlock extends SimulinkElement {
 		return null;
 	}
 
-	public List<SimulinkBlock> getChildren() throws MatlabException {
-		return SimulinkUtil.getChildren(model, engine, this);
+	public Collection<ISimulinkModelElement> getChildren() throws MatlabException {
+		return SimulinkUtil.getChildren(model, this);
 	}
 
 	public SimulinkModelElement inspect() throws EolRuntimeException {
@@ -191,22 +192,22 @@ public class SimulinkBlock extends SimulinkElement {
 		}
 	}
 
-	public List<SimulinkPort> getOutports() {
+	public SimulinkPortCollection getOutports() {
 		try {
 			Object handles = engine.evalWithSetupAndResult("handle = ?; " + "ph = get_param(handle, 'PortHandles');",
 					"ph.Outport;", this.handle);
-			return SimulinkUtil.getSimulinkPorts(model, engine, handles);
+			return new SimulinkPortCollection(handles, model);
 		} catch (MatlabException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public List<SimulinkPort> getInports() {
+	public SimulinkPortCollection getInports() {
 		try {
 			Object handles = engine.evalWithSetupAndResult("handle = ?; " + "ph = get_param(handle, 'PortHandles');",
 					"ph.Inport;", this.handle);
-			return SimulinkUtil.getSimulinkPorts(model, engine, handles);
+			return new SimulinkPortCollection(handles, model);
 		} catch (MatlabException e) {
 			e.printStackTrace();
 			return null;
