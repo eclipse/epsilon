@@ -80,11 +80,11 @@ public class SimulinkUtil {
 		return "handle = " + objHandle + "; " + handleMethodWithResult(methodName, list.toArray());
 	}
 
-	public static String handleMethodWithResult(String methodName, Object[] parameters) {
+	private static String handleMethodWithResult(String methodName, Object[] parameters) {
 		return "result = " + handleMethod(methodName, parameters); 
 	}
 	
-	public static String handleMethod(String methodName, Object[] parameters) {
+	private static String handleMethod(String methodName, Object[] parameters) {
 		String cmd = methodName;
 		if (parameters != null && parameters.length > 0) {
 			cmd += "(" + parameters[0];
@@ -105,53 +105,6 @@ public class SimulinkUtil {
 		return -1.0;
 	}
 
-	/** GENERAL COLLECTION */
-	
-	public static <T extends ISimulinkModelElement> List<T> getTypeList(Class<T> returnType, SimulinkModel model, MatlabEngine engine, Object elements) {
-
-		List<T> list = new ArrayList<T>();
-
-		if (elements instanceof List) {
-			try{
-				for (Object element : (List<?>) elements) {
-					if (element instanceof String) {
-						String path = (String) element;
-						T instantiate = instantiate(returnType, model, engine, null, path);
-						if (instantiate!= null) list.add(instantiate);	
-					} else if (element instanceof Double) {
-						Double handle = (Double) element;
-						T instantiate = instantiate(returnType, model, engine, handle, null);
-						if (instantiate!= null) list.add(instantiate);
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-			}
-		} else if (elements instanceof String) {
-			T instantiate = instantiate(returnType, model, engine, null, (String) elements);
-			if (instantiate!= null) list.add(instantiate);
-		} else if (elements instanceof Double) {
-			T instantiate = instantiate(returnType, model, engine, (Double) elements, null);
-			if (instantiate!= null) list.add(instantiate);
-		}
-		return list;
-	}
-	
-	private static <T> T instantiate(Class<T> clazz, SimulinkModel model, MatlabEngine engine, Double handle, String path) {
-		try {
-			if (handle != null) {
-				return clazz.getConstructor(SimulinkModel.class, MatlabEngine.class, Double.class).newInstance(model, engine, handle);
-			} else if (path != null) {
-				return clazz.getConstructor(String.class, SimulinkModel.class, MatlabEngine.class).newInstance(path, model, engine);
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			return null;
-		}
-	}
-	
 	/** SPECIFIC COLLECTION */
 	
 	public static List<ISimulinkModelElement> getChildren(SimulinkModel model, SimulinkBlock block) throws MatlabException {

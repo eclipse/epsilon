@@ -9,8 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.model.element;
 
-import static org.eclipse.epsilon.emc.simulink.engine.MatlabEngineCommands.GET_HANDLE_PROPERTY;
-
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -30,6 +28,7 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 	protected static final String GET_SIMULINK_KIND = "get_param(handle, 'Type');";
 	protected static final String GET_SIMULINK_TYPE = "get_param(handle, '%sType');";
 	protected static final String GET_FULL_NAME = "getfullname(?);";
+	protected static final String GET_HANDLE_PROPERTY = "get_param(handle, '?');";
 
 	protected Double handle = null;
 

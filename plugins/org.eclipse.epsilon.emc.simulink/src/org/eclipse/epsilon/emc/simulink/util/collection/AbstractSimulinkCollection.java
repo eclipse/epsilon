@@ -156,9 +156,11 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			AbstractSimulinkCollection collection = (AbstractSimulinkCollection) c;
 			return getPrimitive().containsAll(collection.getPrimitive());
 		} else {
-			// FIXME handle filter
-			return c.parallelStream().filter(e -> isInstanceOf(e)).map(e -> getPrimitive().contains(manager.getId((E) e)))
-					.reduce(Boolean::logicalAnd).orElse(false);
+			return c.parallelStream()
+					.filter(e -> isInstanceOf(e))
+					.map(e -> getPrimitive().contains(manager.getId((E) e)))
+					.reduce(Boolean::logicalAnd)
+					.orElse(false);
 		}
 	}
 
@@ -169,9 +171,11 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			AbstractSimulinkCollection collection = (AbstractSimulinkCollection) c;
 			return getPrimitive().addAll(collection.getPrimitive());
 		} else {
-			// FIXME handle filter
-			return c.parallelStream().filter(e -> isInstanceOf(e)).map(e -> getPrimitive().add(manager.getId((E) e)))
-					.reduce(Boolean::logicalAnd).orElse(false);
+			return c.parallelStream()
+					.filter(e -> isInstanceOf(e))
+					.map(e -> getPrimitive().add(manager.getId((E) e)))
+					.reduce(Boolean::logicalAnd)
+					.orElse(false);
 		}
 	}
 

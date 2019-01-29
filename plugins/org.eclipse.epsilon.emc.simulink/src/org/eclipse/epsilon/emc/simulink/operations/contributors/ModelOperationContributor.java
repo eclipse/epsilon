@@ -13,7 +13,6 @@ import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkObjectMethod;
 import org.eclipse.epsilon.emc.simulink.introspection.java.StateflowObjectMethod;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
-import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;

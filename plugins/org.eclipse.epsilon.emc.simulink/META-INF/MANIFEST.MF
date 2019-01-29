@@ -17,3 +17,4 @@ Export-Package: org.eclipse.epsilon.emc.simulink.engine,
  org.eclipse.epsilon.emc.simulink.util,
  org.eclipse.epsilon.emc.simulink.util.collection,
  org.eclipse.epsilon.emc.simulink.util.manager
+Automatic-Module-Name: org.eclipse.epsilon.emc.simulink

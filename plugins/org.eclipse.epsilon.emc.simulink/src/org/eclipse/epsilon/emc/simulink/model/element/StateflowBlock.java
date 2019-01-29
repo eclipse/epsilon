@@ -11,7 +11,6 @@ package org.eclipse.epsilon.emc.simulink.model.element;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -21,6 +20,7 @@ import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.emc.simulink.util.StateflowUtil;
+import org.eclipse.epsilon.emc.simulink.util.collection.StateflowBlockCollection;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
@@ -259,13 +259,13 @@ public class StateflowBlock extends SimulinkModelElement {
 		}
 	}
 
-	public Collection<StateflowBlock> getChildren() {
+	public StateflowBlockCollection getChildren() {
 		try {
 			String handle = StateflowUtil.getBlockHandle(this);
 			Object children = (Object) this.engine.evalWithSetupAndResult("list = ?.find('-depth',1); list = setdiff(list, ?);", "get(list,'Id');", handle, handle);
-			return StateflowUtil.getStateflowBlocks(model, engine, children);			
+			return new StateflowBlockCollection(children, model);			
 		} catch (MatlabException e) {
-			return Collections.<StateflowBlock>emptyList();
+			return new StateflowBlockCollection(null, model);
 		}
 	}
 

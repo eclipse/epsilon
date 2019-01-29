@@ -9,13 +9,10 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
@@ -34,18 +31,23 @@ public class StateflowUtil {
 	private static final String FIND_BLOCK_TYPE = "list = ?.find('-isa','?');"; 
 	private static final String GET_IDS = "get(list, 'Id');";
 	private static final String FIND_BY_ID = "? = ?.find('Id', ?);";
-	private static final String FIND_BY_PATH = "? = ?.find('Path', '?');";
 	private static final String FIND_BY_TYPE_PATH = "? = ?.find('-isa', '?', 'Path', '?');";
 
 	/*************/
 	/** HANDLES **/
 	/*************/
 
-	public static String randomHandleName() {
-		return "e" + UUID.randomUUID().toString().replace("-", "").substring(0, 10);
+	public static String getBlockHandleFromId(SimulinkModel model, MatlabEngine engine, Double id) throws MatlabException {
+		return getBlockHandleFromId(model, engine, id.intValue());
+	}
+	
+	public static String getBlockHandle(StateflowBlock block) throws MatlabException {
+		String varName = randomHandleName();
+		getBlockHandleAs(block, varName);
+		return varName;
 	}
 
-	public static void getBlockHandleAs(StateflowBlock block, String varName) throws MatlabException {
+	private static void getBlockHandleAs(StateflowBlock block, String varName) throws MatlabException {
 		modelHandleAsM(block);
 		if (block.getId() != null) {
 			block.getEngine().eval(FIND_BY_ID, varName, M, block.getId().intValue());
@@ -53,51 +55,31 @@ public class StateflowUtil {
 			block.getEngine().eval(FIND_BY_TYPE_PATH, varName, M, block.getType(), block.getPath());
 		}
 	}
-
-	public static String getBlockHandle(StateflowBlock block) throws MatlabException {
-		String varName = randomHandleName();
-		getBlockHandleAs(block, varName);
-		return varName;
+	
+	private static String randomHandleName() {
+		return "e" + UUID.randomUUID().toString().replace("-", "").substring(0, 10);
 	}
 	
-	public static String getBlockHandleFromId(SimulinkModel model, MatlabEngine engine, Integer id) throws MatlabException {
+	private static String getBlockHandleFromId(SimulinkModel model, MatlabEngine engine, Integer id) throws MatlabException {
 		modelHandleAsM(model);
 		String varName = randomHandleName();
 		engine.eval(FIND_BY_ID, varName, M, id.intValue());
 		return varName;
 	}
-	
-	public static String getBlockHandleFromPath(SimulinkModel model, MatlabEngine engine, String path) throws MatlabException {
-		modelHandleAsM(model);
-		String varName = randomHandleName();
-		engine.eval(FIND_BY_PATH, varName, M, path);
-		return varName;
-	}
-	
-	public static String getBlockHandleFromTypeAndPath(SimulinkModel model, MatlabEngine engine, String type, String path) throws MatlabException {
-		modelHandleAsM(model);
-		String varName = randomHandleName();
-		engine.eval(FIND_BY_TYPE_PATH, varName, M, type, path);
-		return varName;
-	}
-	
-	public static String getBlockHandleFromId(SimulinkModel model, MatlabEngine engine, Double id) throws MatlabException {
-		return getBlockHandleFromId(model, engine, id.intValue());
-	}
 
-	public static void modelHandleAsM(ISimulinkModelElement obj) throws MatlabException {
+	private static void modelHandleAsM(ISimulinkModelElement obj) throws MatlabException {
 		modelHandleAs(obj, M);
 	}
 
-	public static void modelHandleAsM(SimulinkModel model) throws MatlabException {
+	private static void modelHandleAsM(SimulinkModel model) throws MatlabException {
 		modelHandleAs(model, M);
 	}
 
-	public static void modelHandleAs(ISimulinkModelElement obj, String as) throws MatlabException {
+	private static void modelHandleAs(ISimulinkModelElement obj, String as) throws MatlabException {
 		modelHandleAs(((SimulinkModel) obj.getOwningModel()), as);
 	}
 
-	public static void modelHandleAs(SimulinkModel model, String as) throws MatlabException {
+	private static void modelHandleAs(SimulinkModel model, String as) throws MatlabException {
 		String modelName = model.getSimulinkModelName();
 		model.getEngine().eval(SF_MODEL, as, modelName);
 	}
@@ -140,46 +122,14 @@ public class StateflowUtil {
 		return new StateflowBlockCollection(ids, model);
 	}
 
-	public static Object allIds(SimulinkModel model) throws MatlabException {
+	private static Object allIds(SimulinkModel model) throws MatlabException {
 		StateflowUtil.modelHandleAsM(model);
 		return model.getEngine().evalWithSetupAndResult(FIND_ALL, GET_IDS, M);
 	}
 	
-	public static Object idsOfType(SimulinkModel model, String type) throws MatlabException {
+	private static Object idsOfType(SimulinkModel model, String type) throws MatlabException {
 		modelHandleAsM(model);
 		return model.getEngine().evalWithSetupAndResult(FIND_BLOCK_TYPE, GET_IDS, M, type);
-	}
-	
-	public static  Collection<ISimulinkModelElement> getTypeList(SimulinkModel model, MatlabEngine engine, Object ids) {
-		return getStateflowBlocks(model, engine, ids).stream().map(e-> (ISimulinkModelElement) e).collect(Collectors.toList());
-	}
-	
-	public static  Collection<StateflowBlock> getStateflowBlocks(SimulinkModel model, MatlabEngine engine, Object ids) {
-		if (ids == null) 
-			return Collections.emptyList();
-		
-		List<StateflowBlock> list = new ArrayList<StateflowBlock>();
-		if (ids instanceof List) {
-			try {
-				for (Double id : (List<Double>) ids) {
-					list.add(new StateflowBlock(model, engine, id));
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		if (ids instanceof Double) {
-				try {
-					list.add(new StateflowBlock(model, engine, (Double) ids));
-				} catch (MatlabException e1) {
-					e1.printStackTrace();
-				}
-		}
-		return list;
-	}
-	
-	public static StateflowBlock cast(Object object){ // TODO to cast response to Simulink or Stateflow Block
-		return null;
 	}
 	
 }
