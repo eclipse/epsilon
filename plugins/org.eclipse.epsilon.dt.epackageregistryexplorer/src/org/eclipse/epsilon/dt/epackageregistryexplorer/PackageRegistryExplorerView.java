@@ -118,13 +118,13 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 	public void createPartControl(Composite parent) {
 		
 		
-		ECoreLabelProvider eCoreLabelProvider = new ECoreLabelProvider(this);
+		EcoreLabelProvider ecoreLabelProvider = new EcoreLabelProvider(this);
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
 		
 		classViewer = new TreeViewer(sashForm, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		classViewer.setContentProvider(new PackageRegistryContentProvider(this));
-		classViewer.setLabelProvider(eCoreLabelProvider);
+		classViewer.setLabelProvider(ecoreLabelProvider);
 		classViewer.addSelectionChangedListener(new ClassViewerSelectionChangedListener());
 		classViewer.setComparator(new ViewerComparator((o1, o2) -> o1.compareTo(o2)));
 		classViewer.setInput(getViewSite());
@@ -164,7 +164,7 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		featureViewer = new TreeViewer(featureViewerForm, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		featureViewerForm.setContent(featureViewer.getControl());
 		featureViewer.setContentProvider(new FeatureViewerContentProvider(this));
-		featureViewer.setLabelProvider(eCoreLabelProvider);
+		featureViewer.setLabelProvider(ecoreLabelProvider);
 		featureViewer.setComparator(new ViewerComparator((o1, o2) -> o1.compareTo(o2)));
 		featureViewer.setInput(null);
 		featureViewer.addDoubleClickListener(new IDoubleClickListener() {

@@ -21,22 +21,28 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.jface.resource.FontRegistry;
-import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-public class ECoreLabelProvider extends LabelProvider implements IFontProvider, IColorProvider {
+public class EcoreLabelProvider extends LabelProvider implements IFontProvider, IColorProvider {
 	
 	protected PackageRegistryExplorerView view;
+	protected Font bold;
+	protected Font italic;
 	
-	public ECoreLabelProvider(PackageRegistryExplorerView view) {
+	public EcoreLabelProvider(PackageRegistryExplorerView view) {
 		this.view = view;
+		bold = FontDescriptor.createFrom(new FontData()).setStyle(SWT.BOLD).createFont(Display.getCurrent());
+		italic = FontDescriptor.createFrom(new FontData()).setStyle(SWT.ITALIC).createFont(Display.getCurrent());
 	}
 	
 	@Override
@@ -150,23 +156,23 @@ public class ECoreLabelProvider extends LabelProvider implements IFontProvider, 
 	}
 
 	public Font getFont(Object element) {
-		FontRegistry reg = JFaceResources.getFontRegistry();
+		
 		if (element instanceof EClass) {
 			EClass eClass = (EClass) element;
 			if (eClass.isAbstract()) {
-				return reg.getItalic("");
+				return italic;
 			}
 		}
 		if (element instanceof EReference) {
 			EReference eReference = (EReference) element;
 			if (eReference.isContainment()) {
-				return reg.getBold("");
+				return bold;
 			}
 		}
 		if (element instanceof EStructuralFeature) {
 			EStructuralFeature eStructuralFeature = (EStructuralFeature) element;
 			if (eStructuralFeature.isDerived()) {
-				return reg.getItalic("");
+				return italic;
 			}
 		}
 		return null;
