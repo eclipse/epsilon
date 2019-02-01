@@ -34,30 +34,23 @@ import org.eclipse.epsilon.eol.types.EolCollectionType;
 public class ParallelSelectOperation extends SelectOperation {
 	
 	@Override
-	public Collection<?> execute(boolean isSelect, boolean returnOnMatch, Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context_) throws EolRuntimeException {
+	public Collection<?> execute(boolean returnOnMatch, Object target, NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context_) throws EolRuntimeException {
 
 		Collection<Object> source = resolveSource(target, iterators, context_);
 		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
 		if (source.isEmpty()) return resultsCol;
-		
-		boolean isRejectOne = !isSelect && returnOnMatch;
-		if (isRejectOne) {
-			resultsCol.addAll(source);
-		}
 
 		Collection<Future<Optional<?>>> jobResults = new ArrayList<>(source.size());
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
-		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expressions, context);
-		Expression expression = expressions.get(0);
+		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
 		EolExecutorService executor = context.beginParallelTask(expression);
 		
 		for (Object item : source) {
 			jobResults.add(executor.submit(() -> {
 				
 				Optional<?> intermediateResult = null;
-				boolean bodyResult = predicate.testThrows(item);
 				
-				if (isRejectOne && bodyResult || (!isRejectOne && ((isSelect && bodyResult) || (!isSelect && !bodyResult)))) {
+				if (predicate.testThrows(item)) {
 					intermediateResult = Optional.ofNullable(item);
 					
 					if (returnOnMatch) {
@@ -72,14 +65,8 @@ public class ParallelSelectOperation extends SelectOperation {
 		if (returnOnMatch) {
 			Optional<?> result = executor.shortCircuitCompletionTyped(expression, jobResults);
 			
-			if (result != null) {
-				Object actualResult = result.orElse(null);		
-				if (isRejectOne) {
-					resultsCol.remove(actualResult);
-				}
-				else {
-					resultsCol.add(actualResult);
-				}
+			if (result != null) {	
+				resultsCol.add(result.orElse(null));
 			}
 		}
 		else {

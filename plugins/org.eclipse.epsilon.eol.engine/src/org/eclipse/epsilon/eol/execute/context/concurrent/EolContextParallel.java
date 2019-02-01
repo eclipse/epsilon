@@ -44,7 +44,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	protected final boolean isPersistent;
 	protected EolExecutorService executorService;
 	
-	// Data strcutures which will be written to and read from during parallel execution:
+	// Data structures which will be written to and read from during parallel execution:
 	protected ThreadLocal<FrameStack> concurrentFrameStacks;
 	protected ThreadLocal<OperationContributorRegistry> concurrentMethodContributors;
 	protected ThreadLocal<ExecutorFactory> concurrentExecutors;
@@ -78,7 +78,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * 
 	 * @param other The context to copy from. Structures
 	 * in this parameter may be modified to be thread-safe.
-	 * @param parallelism The number of threads to use.
 	 * @param persistThreadLocals Whether to save the state of thread-local values
 	 * (such as variable declarations) so that they can be merged into the main thread later.
 	 */

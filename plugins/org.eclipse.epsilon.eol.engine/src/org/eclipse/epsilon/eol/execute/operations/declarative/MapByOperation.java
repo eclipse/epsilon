@@ -26,7 +26,7 @@ public class MapByOperation extends FirstOrderOperation {
 	public EolMap<Object, EolSequence<Object>> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		
 		Collection<?> source = resolveSource(target, iterators, context);
-		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions, context);
+		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions.get(0), context);
 		
 		EolMap<Object, EolSequence<Object>> result = new EolMap<>();
 		if (source.isEmpty()) return result;

@@ -31,7 +31,7 @@ public class FindOneOperation extends SelectBasedOperation {
 			return ((ISearchableModel)next).findOne(createIteratorVariable(null, iterators.get(0), context), expressions.get(0), context);
 		}
 		else {
-			return getDelegateOperation().execute(true, true, target, operationNameExpression, iterators, expressions, context);
+			return getDelegateOperation().execute(true, target, operationNameExpression, iterators, expressions.get(0), context);
 		}
 	}
 

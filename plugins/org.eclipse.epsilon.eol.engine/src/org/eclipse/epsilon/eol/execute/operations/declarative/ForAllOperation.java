@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-import java.util.Collections;
 import java.util.List;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -24,9 +23,9 @@ public class ForAllOperation extends SelectBasedOperation {
 	@Override
 	public Boolean execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		// Look for a counter-example
-		return getDelegateOperation().execute(
+		return getDelegateOperation().execute(true,
 			target, operationNameExpression, iterators,
-			Collections.singletonList(new NotOperatorExpression(expressions.get(0))),
+			new NotOperatorExpression(expressions.get(0)),
 			context
 		).isEmpty();
 	}

@@ -45,8 +45,8 @@ public class ParallelCollectOperation extends CollectOperation {
 		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		Collection<Future<Object>> jobResults = new ArrayList<>(sourceSize);
-		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions, context);
 		Expression expression = expressions.get(0);
+		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expression, context);
 		EolExecutorService executor = context.beginParallelTask(expression);
 		
 		for (Object item : source) {

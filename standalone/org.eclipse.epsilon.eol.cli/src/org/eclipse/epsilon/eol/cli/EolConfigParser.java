@@ -44,11 +44,11 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 	 * Allows the caller to invoke any subclass of IEolModule.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static void main(String[] args) throws ClassNotFoundException {
+	public static void main(String... args) throws ClassNotFoundException {
 		if (args.length > 0) {
 			
 			if (args[0].toUpperCase().startsWith("CONFIG")) {
-				Class<?> configClass = Class.forName(args[0].substring("CONFIG:".length()));
+				Class<?> configClass = Class.forName(args[0].substring(7));
 				String[] adjustedArgs = Arrays.copyOfRange(args, 1, args.length);
 				new EolConfigParser(configClass).apply(adjustedArgs).run();
 			}

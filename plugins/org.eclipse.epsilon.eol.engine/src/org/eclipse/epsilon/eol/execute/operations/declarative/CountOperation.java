@@ -30,7 +30,7 @@ public class CountOperation extends FirstOrderOperation {
 		List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		
 		final Iterable<?> source = resolveSource(target, iterators, context);
-		final CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expressions, context);
+		final CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expressions.get(0), context);
 		int result = 0;
 		
 		for (Object item : source) {

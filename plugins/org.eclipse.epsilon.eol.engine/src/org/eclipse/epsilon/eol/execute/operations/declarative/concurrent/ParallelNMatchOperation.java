@@ -41,14 +41,13 @@ public class ParallelNMatchOperation extends NMatchOperation {
 	}
 
 	@Override
-	protected boolean execute(int sourceSize, int targetMatches, Collection<Object> source, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context_) throws EolRuntimeException {
+	protected boolean execute(int sourceSize, int targetMatches, Collection<Object> source, NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context_) throws EolRuntimeException {
 
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		AtomicInteger currentMatches = new AtomicInteger();
 		AtomicInteger evaluated = new AtomicInteger();
 		Collection<Future<Boolean>> jobResults = new ArrayList<>(sourceSize);
-		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expressions, context);
-		Expression expression = expressions.get(0);
+		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
 		EolExecutorService executor = context.beginParallelTask(expression);
 		
 		for (Object item : source) {

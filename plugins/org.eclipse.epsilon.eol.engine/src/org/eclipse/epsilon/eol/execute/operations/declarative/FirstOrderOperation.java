@@ -79,8 +79,8 @@ public abstract class FirstOrderOperation extends AbstractOperation {
 	 * @since 1.6
 	 */
 	@SuppressWarnings("unchecked")
-	protected CheckedEolFunction<Object, ?> resolveFunction(NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
-		return resolveFunction(CheckedEolFunction.class, operationNameExpression, iterators, expressions, context);
+	protected CheckedEolFunction<Object, ?> resolveFunction(NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
+		return resolveFunction(CheckedEolFunction.class, operationNameExpression, iterators, expression, context);
 	}
 
 	/**
@@ -94,8 +94,8 @@ public abstract class FirstOrderOperation extends AbstractOperation {
 	 *  @since 1.6
 	 */
 	@SuppressWarnings("unchecked")
-	protected CheckedEolPredicate<Object> resolvePredicate(NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
-		return resolveFunction(CheckedEolPredicate.class, operationNameExpression, iterators, expressions, context);
+	protected CheckedEolPredicate<Object> resolvePredicate(NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
+		return resolveFunction(CheckedEolPredicate.class, operationNameExpression, iterators, expression, context);
 	}
 	
 	/**
@@ -110,10 +110,7 @@ public abstract class FirstOrderOperation extends AbstractOperation {
 	 * @since 1.6
 	 */
 	@SuppressWarnings("unchecked")
-	protected <R, F extends CheckedEolFunction<Object, R>> F resolveFunction(Class<F> functionType, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
-		
-		Expression expression = expressions.get(0);
-		
+	protected <R, F extends CheckedEolFunction<Object, R>> F resolveFunction(Class<F> functionType, NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
 		if (iterators.isEmpty()) {
 			Object exprValue = expression.execute(context);
 			

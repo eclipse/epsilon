@@ -23,7 +23,7 @@ import org.eclipse.epsilon.eol.execute.operations.declarative.CountOperation;
 import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
 
 /**
- * Counts the number of elements satisying the condition.
+ * Counts the number of elements satisfying the condition.
  * 
  * @author Sina Madani
  * @since 1.6
@@ -36,9 +36,10 @@ public class ParallelCountOperation extends CountOperation {
 		
 		final IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		final Iterable<?> source = resolveSource(target, iterators, context);
-		final CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expressions, context);
+		final Expression expression = expressions.get(0);
+		final CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
 		final AtomicInteger result = new AtomicInteger();
-		final EolExecutorService executor = context.beginParallelTask(expressions.get(0));
+		final EolExecutorService executor = context.beginParallelTask(expression);
 		
 		for (Object item : source) {
 			executor.execute(() -> {

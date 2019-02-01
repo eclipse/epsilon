@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2018 The University of York.
+ * Copyright (c) 2008-2019 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -24,36 +24,24 @@ public class SelectOperation extends FirstOrderOperation {
 	
 	/**
 	 * 
-	 * @param isSelect
 	 * @param returnOnMatch
 	 * @param target
 	 * @param operationNameExpression
 	 * @param iterators
-	 * @param expressions
+	 * @param expression
 	 * @param context
 	 * @return
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
-	public Collection<?> execute(boolean isSelect, boolean returnOnMatch, Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context)  throws EolRuntimeException {
+	public Collection<?> execute(boolean returnOnMatch, Object target, NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context)  throws EolRuntimeException {
 		
 		final Collection<Object> source = resolveSource(target, iterators, context);
-		final CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expressions, context);
+		final CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
 		final Collection<Object> result = EolCollectionType.createSameType(source);
 		
-		final boolean isRejectOne = !isSelect && returnOnMatch;
-		if (isRejectOne) {
-			result.addAll(source);
-		}
-		
 		for (Object item : source) {
-			boolean bodyResult = predicate.testThrows(item);
-
-			if (isRejectOne && bodyResult) {
-				result.remove(item);
-				return result;
-			}
-			else if (!isRejectOne && ((isSelect && bodyResult) || (!isSelect && !bodyResult))) {
+			if (predicate.testThrows(item)) {
 				result.add(item);
 				if (returnOnMatch) {
 					return result;
@@ -66,7 +54,7 @@ public class SelectOperation extends FirstOrderOperation {
 	
 	@Override
 	public Collection<?> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
-		return execute(true, false, target, operationNameExpression, iterators, expressions, context);
+		return execute(false, target, operationNameExpression, iterators, expressions.get(0), context);
 	}
 	
 }

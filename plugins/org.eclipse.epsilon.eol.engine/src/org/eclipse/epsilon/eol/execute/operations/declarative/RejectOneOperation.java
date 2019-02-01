@@ -26,7 +26,10 @@ public class RejectOneOperation extends SelectBasedOperation {
 
 	@Override
 	public Collection<?> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
-		return getDelegateOperation().execute(false, true, target, operationNameExpression, iterators, expressions, context);
+		
+		Collection<?> rejected = getDelegateOperation().execute(true, target, operationNameExpression, iterators, expressions.get(0), context);
+		Collection<?> source = resolveSource(target, iterators, context);
+		source.removeAll(rejected);
+		return source;
 	}
-	
 }

@@ -54,7 +54,7 @@ public class ClosureOperation extends FirstOrderOperation {
 		Collection<?> source = resolveSource(target, iterators, context);
 		if (source.isEmpty()) return new EolSequence<>(0);
 		Collection<Object> results = CollectionUtil.createDefaultList();
-		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions, context);
+		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions.get(0), context);
 		
 		closure(results, source, iterators.get(0), expressions.get(0), function, context);
 		

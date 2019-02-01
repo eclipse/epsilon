@@ -89,7 +89,7 @@ public class NMatchOperation extends FirstOrderOperation {
 		if (mode != MatchMode.MAXIMUM && sourceSize < targetMatches)
 			return false;
 		
-		return execute(sourceSize, targetMatches, source, operationNameExpression, iterators, expressions, context);
+		return execute(sourceSize, targetMatches, source, operationNameExpression, iterators, expressions.get(0), context);
 	}
 	
 	protected boolean shouldShortCircuit(int sourceSize, int targetMatches, int currentMatches, int currentIndex) {
@@ -110,9 +110,9 @@ public class NMatchOperation extends FirstOrderOperation {
 		}
 	}
 	
-	protected boolean execute(int sourceSize, int targetMatches, Collection<Object> source, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+	protected boolean execute(int sourceSize, int targetMatches, Collection<Object> source, NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
 		
-		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expressions, context);
+		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
 		int currentIndex = 0, currentMatches = 0;
 		
 		for (Object item : source) {

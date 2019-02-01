@@ -21,7 +21,7 @@ public class ExistsOperation extends SelectBasedOperation {
 
 	@Override
 	public Boolean execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
-		return !getDelegateOperation().execute(true, true, target, operationNameExpression, iterators, expressions, context).isEmpty();
+		return !getDelegateOperation().execute(true, target, operationNameExpression, iterators, expressions.get(0), context).isEmpty();
 	}
 	
 }

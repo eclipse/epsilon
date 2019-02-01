@@ -27,7 +27,7 @@ public class CollectOperation extends FirstOrderOperation {
 	public Collection<?> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		
 		Collection<Object> source = resolveSource(target, iterators, context);
-		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions, context);
+		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions.get(0), context);
 		
 		Collection<Object> result = EolCollectionType.isOrdered(source) ?
 			new EolSequence<>(source.size()) : new EolBag<>(source.size());
