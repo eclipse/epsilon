@@ -38,7 +38,7 @@ public final class EvlModuleParallelRandom extends ProfilableEvlModuleParallel {
 		IEvlContextParallel context = getContext();
 		
 		List<ConstraintAtom> originalJobs = profileExecutionStage("get initial jobs",
-			() -> ConstraintAtom.getConstraintJobs(context)
+			() -> ConstraintAtom.getConstraintJobs(this)
 		);
 
 		profileExecutionStage("shuffle jobs", () -> Collections.shuffle(originalJobs));

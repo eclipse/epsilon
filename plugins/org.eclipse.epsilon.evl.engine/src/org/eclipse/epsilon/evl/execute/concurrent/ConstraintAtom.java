@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
@@ -38,10 +39,10 @@ public class ConstraintAtom extends EvlAtom<Constraint> {
 		return unit.execute(element, context);
 	}
 	
-	public static ArrayList<ConstraintAtom> getConstraintJobs(IEvlContext context) throws EolRuntimeException {
+	public static ArrayList<ConstraintAtom> getConstraintJobs(IEvlModule module) throws EolRuntimeException {
 		ArrayList<ConstraintAtom> atoms = new ArrayList<>();
-		
-		for (ConstraintContext constraintContext : context.getModule().getConstraintContexts()) {
+		IEvlContext context = module.getContext();
+		for (ConstraintContext constraintContext : module.getConstraintContexts()) {
 			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
 			for (Object element : allOfKind) {
 				if (constraintContext.shouldBeChecked(element, context)) {
