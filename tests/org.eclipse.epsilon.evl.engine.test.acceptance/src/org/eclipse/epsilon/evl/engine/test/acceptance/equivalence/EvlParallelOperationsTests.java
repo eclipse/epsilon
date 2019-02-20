@@ -61,7 +61,7 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 			javaModels, javaMetamodel
 		);
 	
-	static final int[] testThreads = new int[]{2, 6, 17};
+	static final int[] testThreads = new int[]{2, 7};
 	static final Function<String[], Integer> idCalculator = inputs -> {
 		int scriptHash;
 		if (inputs[0].startsWith("java_parallel") || inputs[0].startsWith("java_sequential")) {

@@ -432,11 +432,17 @@ Aside from the following built-in first-order operations which are evaluated eag
     \textbf{Signature} & \textbf{Description} \\\hline
 %iterate(iterator : IteratorType ; result : ResultType = initialValue $|$ expression) : ResultType & Iterates all the items of the collection that conform to the IteratorType and incrementally calculates the value of the result variable which it finally returns \\\hline
 
+	atLeastNMatch(iterator : Type $|$ condition, n) : Boolean & Returns true if there are at least \emph{n} items in the collection that satisfy the condition \\\hline
+	
+	atMostNMatch(iterator : Type $|$ condition, n) : Boolean & Returns true if there are at most \emph{n} items in the collection that satisfy the condition \\\hline
+
     aggregate(iterator : Type $|$ keyExpression, valueExpression) : Map & Returns a map containing key-value pairs produced by evaluating the key and value expressions on each item of the collection that is of the specified type \\\hline
     
     closure(iterator : Type $|$ expression) : Collection & Returns a collection containing the results of evaluating the transitive closure of the results produced by the expression on each item of the collection that is of the specified type. For example, if \emph{t} is a tree model element, \emph{t.closure(it|it.children)} will return all its descendants \\\hline
     
     collect(iterator : Type $|$ expression) : Collection &  Returns a collection containing the results of evaluating the expression on each item of the collection that is of the specified type \\\hline
+    
+    count(iterator : Type $|$ condition) : Integer & Returns the number of elements in the collection that satisfy the condition \\\hline
     
     exists(iterator : Type $|$ condition) : Boolean & Returns true if there exists at least one item in the collection that satisfies the condition \\\hline
     
