@@ -16,8 +16,8 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 import org.eclipse.epsilon.eol.types.EolNoType;
+import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
-import org.eclipse.epsilon.evl.dom.Constraints;
 import org.eclipse.epsilon.evl.dom.GlobalConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
@@ -49,15 +49,14 @@ public class SatisfiesOperation extends SimpleOperation {
 			return false;
 		
 		IEvlContext context = (IEvlContext) context_;
+		IEvlModule module = context.getModule();
 		ConstraintTrace constraintTrace = context.getConstraintTrace();
 		assert constraintTrace != null;
-		
-		Constraints constraints = context.getModule().getConstraints();
 		
 		for (Object parameter : parameters) {
 			String constraintName = context.getPrettyPrinterManager().toString(parameter);
 
-			Constraint constraint = constraints.getConstraint(constraintName, source, context, ast);
+			Constraint constraint = module.getConstraint(constraintName, source, context, ast);
 			
 			// This is to avoid duplication of global constraints
 			if (constraint.getConstraintContext() instanceof GlobalConstraintContext) {
@@ -71,12 +70,7 @@ public class SatisfiesOperation extends SimpleOperation {
 			}
 			else {
 				// Don't call execute() or shouldBeChecked because it might be a lazy constraint, so need to force appliesTo && check.
-				if (constraint.appliesTo(source, context)) {
-					valid = !constraint.check(source, context).isPresent();
-				}
-				else {
-					valid = false;
-				}
+				valid = constraint.appliesTo(source, context) && !constraint.check(source, context).isPresent();
 				
 				if (context.isOptimizeConstraintTrace()) {
 					constraintTrace.addChecked(constraint, source, valid);

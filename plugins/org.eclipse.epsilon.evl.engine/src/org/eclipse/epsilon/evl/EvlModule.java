@@ -40,7 +40,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	protected IEvlFixer fixer;
 	protected List<ConstraintContext> constraintContexts;
 	protected final ArrayList<ConstraintContext> declaredConstraintContexts = new ArrayList<>(0);
-	protected final Constraints constraints = new Constraints();
+	protected final ArrayList<Constraint> constraints = new ArrayList<>();
 	private boolean optimizeConstraints = false;
 	
 	public EvlModule() {
@@ -105,7 +105,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		globalConstraintContext.setModule(this);
 		globalConstraintContext.setParent(this);
 		
-		Constraints globalConstraints = globalConstraintContext.getConstraints();
+		ArrayList<Constraint> globalConstraints = globalConstraintContext.getConstraints();
 		
 		List<AST>
 			constraintASTs = AstUtil.getChildren(cst, EvlParser.CONSTRAINT),
@@ -302,7 +302,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	}
 	
 	@Override
-	public Constraints getConstraints() { 
+	public List<Constraint> getConstraints() { 
 		return constraints;
 	}
 	

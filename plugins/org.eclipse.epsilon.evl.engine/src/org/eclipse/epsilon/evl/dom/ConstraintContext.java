@@ -30,7 +30,7 @@ import org.eclipse.epsilon.evl.parse.EvlParser;
 
 public class ConstraintContext extends AnnotatableModuleElement implements IExecutableModuleElement {
 	
-	protected final Constraints constraints = new Constraints();
+	protected final ArrayList<Constraint> constraints = new ArrayList<>();
 	protected TypeExpression typeExpression;
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected EolModelElementType type;
@@ -100,7 +100,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 		return typeExpression != null ? typeExpression.getName() : null;
 	}
 	
-	public Constraints getConstraints() {
+	public ArrayList<Constraint> getConstraints() {
 		return constraints;
 	}
 	

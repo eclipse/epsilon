@@ -313,10 +313,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	protected int instancesCount(Resource r) {
 		int i = 0;
-		Iterator<EObject> ite = r.getAllContents();
-		
-		while (ite.hasNext()) {
-			ite.next();
+		for (Iterator<EObject> ite = r.getAllContents(); ite.hasNext(); ite.next()) {
 			++i;
 		}
 		return i;

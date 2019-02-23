@@ -189,8 +189,14 @@ public class Constraint extends NamedRule {
 		return result;
 	}
 
+	/**
+	 * Checks whether this constraint's guard block has dependencies on other constraint(s).
+	 * 
+	 * @return <code>true</code> if the guard block exists and has a satisfies call.
+	 * @since 1.6
+	 */
 	public boolean guardBlockUsesSatisfies() {
-		return guardBlock.getText().contains("satisfies");
+		return guardBlock != null && guardBlock.getText().contains("satisfies");
 	}
 
 	public ConstraintContext getConstraintContext() {

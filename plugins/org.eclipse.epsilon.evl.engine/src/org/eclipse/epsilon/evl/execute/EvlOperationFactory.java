@@ -15,7 +15,6 @@ import org.eclipse.epsilon.evl.execute.operations.SatisfiesOperation;
 public class EvlOperationFactory extends EolOperationFactory {
 	
 	public EvlOperationFactory() {
-		super();
 		SatisfiesOperation satisfiesAll = new SatisfiesOperation(true);
 		operationCache.put("satisfies", satisfiesAll);
 		operationCache.put("satisfiesAll", satisfiesAll);
