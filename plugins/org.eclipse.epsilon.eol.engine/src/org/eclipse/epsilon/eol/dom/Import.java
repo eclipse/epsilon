@@ -27,8 +27,6 @@ public class Import extends AbstractModuleElement {
 	private boolean found = false;
 	protected StringLiteral pathLiteral;
 	
-	public Import() {}
-	
 	public void setParentModule(IEolModule parentModule) {
 		this.parentModule = parentModule;
 	}
@@ -107,6 +105,7 @@ public class Import extends AbstractModuleElement {
 		return found;
 	}
 	
+	@Override
 	public IModule getModule() {
 		return importedModule;
 	}
@@ -126,7 +125,7 @@ public class Import extends AbstractModuleElement {
 	public void setContext(IEolContext context) {
 		if (importedModule instanceof IEolModule) {
 			IEolModule module = (IEolModule) importedModule;
-			module.setContext(context);
+			//module.setContext(context);
 			for (Import import_ : module.getImports()) {
 				import_.setContext(context);
 			}

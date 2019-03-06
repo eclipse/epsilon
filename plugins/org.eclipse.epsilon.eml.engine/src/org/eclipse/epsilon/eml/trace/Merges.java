@@ -17,10 +17,10 @@ import org.eclipse.epsilon.common.util.CollectionUtil;
 
 public class Merges extends ArrayList<Merge> {
 	
-	public Collection<Object> getTargets(){
+	public Collection<Object> getTargets() {
 		ListIterator<Merge> li = listIterator();
 		Collection<Object> targets = CollectionUtil.createDefaultList();
-		while (li.hasNext()){
+		while (li.hasNext()) {
 			Merge merge = li.next();
 			targets.addAll(merge.getTargets());
 		}

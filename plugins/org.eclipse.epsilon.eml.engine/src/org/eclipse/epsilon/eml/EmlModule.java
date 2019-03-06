@@ -38,7 +38,7 @@ public class EmlModule extends EtlModule {
 	protected NamedRuleList<MergeRule> mergeRules;
 	
 	public EmlModule() {
-		this.context = new EmlContext();
+		setContext(new EmlContext());
 	}
 	
 	@Override
@@ -73,7 +73,8 @@ public class EmlModule extends EtlModule {
 	}
 	
 	@Override
-	public Object executeImpl() throws EolRuntimeException {
+	protected void prepareContext() {
+		super.prepareContext();
 		IEmlContext context = getContext();
 		
 		context.getFrameStack().put(
@@ -83,24 +84,37 @@ public class EmlModule extends EtlModule {
 			Variable.createReadOnlyVariable("context", context),
 			Variable.createReadOnlyVariable("thisModule", this)
 		);
-		
-		execute(getPre(), context);
-		context.getMergingStrategy().mergeModels(context);
-		execute(getPost(), context);
-		
+	}
+	
+	@Override
+	public Object executeImpl() throws EolRuntimeException {
+		prepareExecution();
+		merge();
+		postExecution();
 		return null;
+	}
+	
+	/**
+	 * Main execution logic.
+	 * 
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	protected void merge() throws EolRuntimeException {
+		IEmlContext context = getContext();
+		context.getMergingStrategy().mergeModels(context);
 	}
 	
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEmlContext) {
-			this.context = (IEmlContext) context;
+			this.context = context;//super.setContext(context);
 		}
 	}
 	
 	@Override
 	public IEmlContext getContext() {
-		return (IEmlContext) context;
+		return (IEmlContext) super.getContext();
 	}
 	
 	@Override

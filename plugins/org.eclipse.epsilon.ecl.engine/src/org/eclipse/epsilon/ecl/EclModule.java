@@ -43,7 +43,7 @@ public class EclModule extends ErlModule implements IEclModule {
 	protected final NamedRuleList<MatchRule> declaredMatchRules = new NamedRuleList<>();
 	
 	public EclModule() {
-		this.context = new EclContext();
+		setContext(new EclContext());
 	}
 	
 	@Override
@@ -191,7 +191,7 @@ public class EclModule extends ErlModule implements IEclModule {
 	
 	@Override
 	public IEclContext getContext() {
-		return (IEclContext) context;
+		return (IEclContext) super.getContext();
 	}
 	
 	@Override
@@ -212,7 +212,7 @@ public class EclModule extends ErlModule implements IEclModule {
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEclContext) {
-			this.context = (IEclContext) context;
+			super.setContext(context);
 		}
 	}
 	

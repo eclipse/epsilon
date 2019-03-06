@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl.execute.context;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
@@ -34,8 +35,15 @@ public class EclContext extends ErlContext implements IEclContext {
 	}
 
 	@Override
+	public void setModule(IModule module) {
+		if (module instanceof IEclModule) {
+			super.setModule(module);
+		}
+	}
+	
+	@Override
 	public IEclModule getModule() {
-		return (IEclModule) module;
+		return (IEclModule) super.getModule();
 	}
 	
 }

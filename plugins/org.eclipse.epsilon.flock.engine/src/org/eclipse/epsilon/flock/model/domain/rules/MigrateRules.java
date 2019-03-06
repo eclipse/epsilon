@@ -21,7 +21,7 @@ public class MigrateRules {
 	private final List<MigrateRule> migrateRules;
 	
 	public MigrateRules(MigrateRule... rules) {
-		this.migrateRules = new LinkedList<MigrateRule>(Arrays.asList(rules));
+		this.migrateRules = new LinkedList<>(Arrays.asList(rules));
 	}
 
 	public void add(MigrateRule rule) {

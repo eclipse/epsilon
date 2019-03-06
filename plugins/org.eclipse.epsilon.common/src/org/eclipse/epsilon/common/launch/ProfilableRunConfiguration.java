@@ -18,11 +18,13 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import static org.eclipse.epsilon.common.util.OperatingSystem.*;
+import org.eclipse.epsilon.common.function.CheckedSupplier;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic;
 import static org.eclipse.epsilon.common.util.profiling.BenchmarkUtils.*;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic.MemoryUnit;
@@ -43,7 +45,7 @@ import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic.MemoryUnit;
  * @author Sina Madani
  * @since 1.6
  */
-public abstract class ProfilableRunConfiguration implements Runnable {
+public abstract class ProfilableRunConfiguration implements Runnable, Callable<Object>, CheckedSupplier<Object, Exception> {
 	
 	protected String printMarker = "-----------------------------------------------------";
 	protected int id;
@@ -171,16 +173,27 @@ public abstract class ProfilableRunConfiguration implements Runnable {
 	}
 	
 	@Override
+	public Object getThrows() throws Exception {
+		return call();
+	}
+	
+	@Override
+	public Object call() throws Exception {
+		preExecute();
+		result = execute();
+		hasRun = true;
+		postExecute();
+		return result;
+	}
+	
+	@Override
 	public final void run() {
 		try {
-			preExecute();
-			result = execute();
-			postExecute();
+			call();
 		}
 		catch (Exception ex) {
 			handleException(ex);
 		}
-		hasRun = true;
 	}
 	
 	protected void handleException(Exception ex) {
@@ -220,7 +233,7 @@ public abstract class ProfilableRunConfiguration implements Runnable {
 			);
 		}
 		if (showResults) {
-			writeOut("Result: ", "", result, printMarker);
+			writeOut("Result: ", result, printMarker);
 		}
 	}
 	

@@ -31,11 +31,11 @@ public class EolModuleParallel extends EolModule {
 	}
 	
 	public EolModuleParallel() {
-		this.context = new EolContextParallel();
+		setContext(new EolContextParallel());
 	}
 	
 	public EolModuleParallel(int numThreads) {
-		this.context = new EolContextParallel(numThreads);
+		setContext(new EolContextParallel(numThreads));
 	}
 	
 	@Override
@@ -60,7 +60,7 @@ public class EolModuleParallel extends EolModule {
 	
 	@Override
 	public IEolContextParallel getContext() {
-		return (IEolContextParallel) context;
+		return (IEolContextParallel) super.getContext();
 	}
 	
 	/**
@@ -70,6 +70,6 @@ public class EolModuleParallel extends EolModule {
 	@Override
 	public void configure(Map<String, ?> properties) throws IllegalArgumentException {
 		super.configure(properties);
-		context = IEolContextParallel.configureContext(properties, EolContextParallel::new, getContext());
+		setContext(IEolContextParallel.configureContext(properties, EolContextParallel::new, getContext()));
 	}
 }

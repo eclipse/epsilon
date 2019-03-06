@@ -26,10 +26,10 @@ class HutnFixer extends AbstractFixer {
 	@Override
 	protected ParseProblem interpretUnsatisfiedConstraint(UnsatisfiedConstraint constraint) {
 		if (constraint.getInstance() instanceof ModelElement) {			
-			final ModelElement modelElement = (ModelElement)constraint.getInstance();
+			final ModelElement modelElement = (ModelElement) constraint.getInstance();
 			return new ParseProblem(modelElement.getLine(), modelElement.getCol(), constraint.getMessage());
-		
-		} else {
+		}
+		else {
 			throw new IllegalArgumentException("Constraint instance was not a ModelElement");
 		}
 	}
@@ -41,16 +41,15 @@ class HutnFixer extends AbstractFixer {
 	}
 	
 	private boolean applyFixForClassMustSpecifyRequiredReferences(UnsatisfiedConstraint constraint) throws EolRuntimeException {
-		final ClassObject object = (ClassObject)constraint.getInstance();
+		final ClassObject object = (ClassObject) constraint.getInstance();
 		
 		final List<Slot<?>> originalSlots = defensiveCopy(object.getSlots());
 		
-		((FixInstance)constraint.getFixes().getFirst()).perform();
+		((FixInstance)constraint.getFixes().iterator().next()).perform();
 		
 		// Return true only if fix caused a change.
 		return !originalSlots.equals(object.getSlots());
 	}
-	
 	
 	private static <T> List<T> defensiveCopy(List<T> original) {
 		return new LinkedList<>(original);

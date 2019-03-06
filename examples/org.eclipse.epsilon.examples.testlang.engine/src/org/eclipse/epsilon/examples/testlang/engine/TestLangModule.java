@@ -40,7 +40,7 @@ public class TestLangModule extends EolModule {
 	@Override
 	protected void prepareContext() {
 		super.prepareContext();
-		context.getOperationContributorRegistry().add(new TestLangOperationContributor());
+		getContext().getOperationContributorRegistry().add(new TestLangOperationContributor());
 	}
 
 	@Override

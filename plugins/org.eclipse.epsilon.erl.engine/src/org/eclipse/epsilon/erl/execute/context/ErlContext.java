@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.execute.context;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.erl.IErlModule;
@@ -41,8 +42,15 @@ public class ErlContext extends EolContext implements IErlContext {
 	}
 
 	@Override
+	public void setModule(IModule module) {
+		if (module instanceof IErlModule) {
+			super.setModule(module);
+		}
+	}
+	
+	@Override
 	public IErlModule getModule() {
-		return (IErlModule) module;
+		return (IErlModule) super.getModule();
 	}
 
 }

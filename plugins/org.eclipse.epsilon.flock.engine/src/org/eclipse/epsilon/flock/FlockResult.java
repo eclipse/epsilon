@@ -18,7 +18,7 @@ import java.util.LinkedList;
 
 public class FlockResult {
 
-	private final Collection<String> warnings = new LinkedList<String>();
+	private final Collection<String> warnings = new LinkedList<>();
 	
 	public void addWarning(String warning) {
 		warnings.add(warning);

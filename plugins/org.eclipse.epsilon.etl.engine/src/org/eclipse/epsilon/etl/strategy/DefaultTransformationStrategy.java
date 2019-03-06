@@ -21,7 +21,7 @@ import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 
-public class DefaultTransformationStrategy implements ITransformationStrategy{
+public class DefaultTransformationStrategy implements ITransformationStrategy {
 	
 	protected IEquivalentProvider equivalentProvider;
 	//protected IModel sourceModel;
@@ -55,10 +55,12 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		return Collections.emptyList();
 	}
 	
+	@Override
 	public boolean canTransform(Object source) {
 		return !getExcluded().contains(source);
 	}
 	
+	@Override
 	public Collection<?> transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
 		
 		List<Object> targets = CollectionUtil.createDefaultList();
@@ -67,7 +69,7 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		if (!canTransform(source)) return targets;
 		
 		for (TransformationRule rule : getRulesFor(source, context)) {
-			TransformationRule transformRule = (TransformationRule) rule;
+			TransformationRule transformRule = rule;
 			if (rules == null || rules.contains(rule.getName())) {
 				
 				Collection<?> transformed = transformRule.transform(source, context);
@@ -89,12 +91,12 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		
 	}
 	
-	public List<TransformationRule> getRulesFor(Object source, IEtlContext context) throws EolRuntimeException{
-		List<TransformationRule> rules = new ArrayList<TransformationRule>();
+	public List<TransformationRule> getRulesFor(Object source, IEtlContext context) throws EolRuntimeException {
+		List<TransformationRule> rules = new ArrayList<>();
 		
 		for (TransformationRule rule : context.getModule().getTransformationRules()) {
-			if (!rule.isAbstract()){
-				if (rule.appliesTo(source, context, false)){
+			if (!rule.isAbstract()) {
+				if (rule.appliesTo(source, context, false)) {
 					rules.add(rule);
 				}
 			}
@@ -103,7 +105,8 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		return rules;
 	}
 	
-	public Collection<?> getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	@Override
+	public Collection<?> getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException {
 
 		IEtlContext context = (IEtlContext) context_;
 		// First transform the source
@@ -113,6 +116,7 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		//return context.getTransformationTrace().getTransformations(source).getTargets();
 	}
 	
+	@Override
 	public Object getEquivalent(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException {
 		IEtlContext context = (IEtlContext) context_;
 		
@@ -127,11 +131,13 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 	
 	}
 	
+	@Override
 	public Collection<?> getEquivalent(Collection<?> collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
 		return CollectionUtil.flatten(getEquivalents(collection, context, rules));
 	}
 	
+	@Override
 	public Collection<?> getEquivalents(Collection<?> collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
 		IEtlContext context = (IEtlContext) context_;
 		Collection<Object> equivalents = CollectionUtil.createDefaultList();
@@ -144,6 +150,7 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		return equivalents;
 	}
 	
+	@Override
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
 		for (TransformationRule transformRule : context.getModule().getTransformationRules()) {			
 			if (!transformRule.isLazy(context) && !transformRule.isAbstract()) {
@@ -152,13 +159,14 @@ public class DefaultTransformationStrategy implements ITransformationStrategy{
 		}
 	}
 
+	@Override
 	public void setEquivalentProvider(IEquivalentProvider equivalentProvider) {
 		this.equivalentProvider = equivalentProvider;
 	}
 
+	@Override
 	public IEquivalentProvider getEquivalentProvider() {
 		return equivalentProvider;
 	}
 	
-
 }

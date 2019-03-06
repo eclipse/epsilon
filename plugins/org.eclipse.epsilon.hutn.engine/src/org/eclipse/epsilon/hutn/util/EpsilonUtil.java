@@ -22,6 +22,7 @@ import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlFixer;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.execute.context.EvlContext;
 
 public abstract class EpsilonUtil {
 
@@ -34,8 +35,7 @@ public abstract class EpsilonUtil {
 		target.setStoredOnDisposal(false);
 		target.setReadOnLoad(false);
 		
-		transformer.getContext().getModelRepository().addModel(source);
-		transformer.getContext().getModelRepository().addModel(target);
+		transformer.getContext().getModelRepository().addModels(source, target);
 		
 		addExtraModels(transformer.getContext(), extraModels);
 		
@@ -46,7 +46,10 @@ public abstract class EpsilonUtil {
 	
 	public static IEvlModule initialseEvlModule(IEvlFixer fixer, IModel model, IModel... extraModels) throws EolModelLoadingException  {
 		final IEvlModule validator = new EvlModule();
-		
+		// Guarantee ordering of unsatisfied constraints for traceability tests
+		validator.setContext(new EvlContext() {{
+			unsatisfiedConstraints = new java.util.LinkedHashSet<>();
+		}});
 		validator.setUnsatisfiedConstraintFixer(fixer);
 		
 		model.setReadOnLoad(true);
@@ -64,9 +67,9 @@ public abstract class EpsilonUtil {
 	private static void addExtraModels(IEolContext context, IModel... models) throws EolModelLoadingException {
 		for (IModel model : models) {
 			model.setStoredOnDisposal(false);
-			context.getModelRepository().addModel(model);
 			model.load();
 		}
+		context.getModelRepository().addModels(models);
 	}
 	
 	private static void addNativeTypeDelegate(IEolContext context) {

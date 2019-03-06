@@ -38,7 +38,7 @@ public class EwlModule extends EolModule implements IEwlModule {
 	protected List<Wizard> wizards = new ArrayList<>();
 	
 	public EwlModule() {
-		this.context = new EwlContext();
+		setContext(new EwlContext());
 	}
 	
 	@Override
@@ -102,7 +102,7 @@ public class EwlModule extends EolModule implements IEwlModule {
 
 	@Override
 	public IEwlContext getContext() {
-		return (IEwlContext) context;
+		return (IEwlContext) super.getContext();
 	}
 	
 	public List<Wizard> getWizards() {
@@ -110,6 +110,7 @@ public class EwlModule extends EolModule implements IEwlModule {
 	}
 	
 	private boolean allApply(Wizard wizard, Collection<Object> self) throws EolRuntimeException {
+		IEwlContext context = getContext();
 		for (Object o : self) {
 			if (!wizard.appliesTo(o, context)) {
 				return false;
@@ -121,7 +122,7 @@ public class EwlModule extends EolModule implements IEwlModule {
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEwlContext) {
-			this.context = context;
+			super.setContext(context);
 		}
 	}
 

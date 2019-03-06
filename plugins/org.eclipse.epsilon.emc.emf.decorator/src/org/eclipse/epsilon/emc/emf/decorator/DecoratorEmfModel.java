@@ -32,7 +32,7 @@ public class DecoratorEmfModel extends EmfModel {
 	List<DecoratorDescriptor> decoratorDescriptors;
 	
 	protected List<EClass> getDecoratorEClasses(Collection<EPackage> ePackages) {
-		List<EClass> decoratorEClasses = new ArrayList<EClass>();
+		List<EClass> decoratorEClasses = new ArrayList<>();
 		for (EPackage ePackage :ePackages) {
 			for (EClassifier eClassifier : ePackage.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
@@ -50,7 +50,7 @@ public class DecoratorEmfModel extends EmfModel {
 	protected List<DecoratorDescriptor> getDecoratorDescriptors() {
 		
 		if (decoratorDescriptors == null) {
-			decoratorDescriptors = new ArrayList<DecoratorDescriptor>();
+			decoratorDescriptors = new ArrayList<>();
 			
 			List<EClass> decoratorEClasses = getDecoratorEClasses(packages);
 			
@@ -98,7 +98,7 @@ public class DecoratorEmfModel extends EmfModel {
 		// also cache the 
 		// actual decorator
 		
-		Collection<EObject> candidateDecorators = new ArrayList<EObject>();
+		Collection<EObject> candidateDecorators = new ArrayList<>();
 		try {
 			candidateDecorators = getAllOfKind(getFullyQualifiedName(decoratorDescriptor.getEClass()));
 		}
@@ -172,7 +172,7 @@ public class DecoratorEmfModel extends EmfModel {
 				throws EolRuntimeException {
 			if (decorator == null) {
 				if (decoratorDescriptor.getLastValueFeature().isMany()) {
-					return new ArrayList<Object>();
+					return new ArrayList<>();
 				}
 				else {
 					return decoratorDescriptor.getLastValueFeature()

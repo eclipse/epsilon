@@ -35,7 +35,7 @@ import org.eclipse.epsilon.eol.tools.EolSystem;
 public class EolModule extends AbstractModule implements IEolModule {
 	
 	protected StatementBlock main;
-	protected IEolContext context = new EolContext();
+	protected IEolContext context;
 	protected List<Statement> postOperationStatements = new ArrayList<>();
 	protected OperationList declaredOperations = new OperationList();
 	protected List<Import> imports = new ArrayList<>();
@@ -45,6 +45,10 @@ public class EolModule extends AbstractModule implements IEolModule {
 	protected EolCompilationContext compilationContext;
 	private IEolModule parent;
 	private boolean prepareContextCalled = false;
+	
+	public EolModule() {
+		setContext(new EolContext());
+	}
 	
 	@Override
 	public void build(AST cst, IModule module) {
@@ -425,7 +429,9 @@ public class EolModule extends AbstractModule implements IEolModule {
 
 	@Override
 	public void setContext(IEolContext context) {
-		this.context = context;
+		if ((this.context = context) != null && context.getModule() != this) {
+			context.setModule(this);
+		}
 	}
 
 	/**

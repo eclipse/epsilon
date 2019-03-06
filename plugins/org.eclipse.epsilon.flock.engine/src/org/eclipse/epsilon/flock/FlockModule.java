@@ -39,7 +39,7 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	private MigrationStrategy strategy;
 	
 	public FlockModule() {
-		this.context = new FlockContext();
+		setContext(new FlockContext());
 	}
 	
 	@Override
@@ -130,7 +130,7 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	
 	@Override
 	public IFlockContext getContext() {
-		return (IFlockContext) context;
+		return (IFlockContext) super.getContext();
 	}
 	
 	@Override
@@ -146,7 +146,7 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IFlockContext) {
-			this.context = context;
+			super.setContext(context);
 		}
 	}
 }

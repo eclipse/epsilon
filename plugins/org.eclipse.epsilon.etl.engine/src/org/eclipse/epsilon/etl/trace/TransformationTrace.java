@@ -17,7 +17,7 @@ import org.eclipse.epsilon.etl.dom.TransformationRule;
 public class TransformationTrace {
 	
 	//List storage = new ArrayList();
-	HashMap<Object, TransformationList> cache = new HashMap<Object, TransformationList>();
+	HashMap<Object, TransformationList> cache = new HashMap<>();
 	TransformationList transformations = new TransformationList();
 	
 	public void add(Object source, Collection<Object> targets, TransformationRule rule){

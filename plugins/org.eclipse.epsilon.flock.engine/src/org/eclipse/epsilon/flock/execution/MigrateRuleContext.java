@@ -25,7 +25,7 @@ public class MigrateRuleContext {
 	private final Equivalence equivalence;
 	private final IEolContext context;
 	private final FlockExecution execution;
-	private final Map<ClassifierTypedConstruct, Boolean> applicabilityCache = new HashMap<ClassifierTypedConstruct, Boolean>();
+	private final Map<ClassifierTypedConstruct, Boolean> applicabilityCache = new HashMap<>();
 
 	public MigrateRuleContext(Equivalence equivalence, IEolContext context, FlockExecution execution) {
 		this.equivalence = equivalence;

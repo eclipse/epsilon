@@ -97,7 +97,7 @@ public class EolCollectionType extends EolType {
 	}
 	
 	@Override
-	public Object createInstance() {
+	public Collection<?> createInstance() {
 		try {
 			if (this.isCollection()) return null;
 			else if (this.isBag()) {

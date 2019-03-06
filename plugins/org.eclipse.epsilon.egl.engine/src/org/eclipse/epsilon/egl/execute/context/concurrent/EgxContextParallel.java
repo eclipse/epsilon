@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.execute.context.concurrent;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.execute.context.EgxModuleTemplateAdapter;
@@ -66,6 +67,13 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 	
 	@Override
 	public IEgxModule getModule() {
-		return (IEgxModule) module;
+		return (IEgxModule) super.getModule();
+	}
+	
+	@Override
+	public void setModule(IModule module) {
+		if (module instanceof IEgxModule) {
+			super.setModule(module);
+		}
 	}
 }

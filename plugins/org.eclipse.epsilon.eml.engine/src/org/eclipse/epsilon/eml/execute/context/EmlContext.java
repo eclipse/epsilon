@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eml.execute.context;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eml.EmlModule;
 import org.eclipse.epsilon.eml.execute.operations.EmlOperationFactory;
@@ -21,15 +22,12 @@ public class EmlContext extends EtlContext implements IEmlContext {
 
 	protected MatchTrace matchTrace = new MatchTrace();
 	protected MergeTrace mergeTrace = new MergeTrace();
-	//protected MatchTrace tempMatchTrace = new MatchTrace();
 	
 	private IMergingStrategy mergingStrategy = null;
-	//private MatchingStrategy matchingStrategy = null;
 	
 	public EmlContext() {
 		this.setOperationFactory(new EmlOperationFactory());
 		this.mergingStrategy = new DefaultMergingStrategy();
-		//this.matchingStrategy = new DefaultMatchingStrategy();
 	}
 	
 	@Override
@@ -41,37 +39,32 @@ public class EmlContext extends EtlContext implements IEmlContext {
 	public void setMergingStrategy(IMergingStrategy mergingStrategy) {
 		this.mergingStrategy = mergingStrategy;
 	}
-	
-	//public MatchingStrategy getMatchingStrategy() {
-	//	return matchingStrategy;
-	//}
-
-	//public void setMatchingStrategy(MatchingStrategy matchingStrategy) {
-	//	this.matchingStrategy = matchingStrategy;
-	//}
-
-	//public MatchTrace getTempMatchTrace() {
-	//	return tempMatchTrace;
-	//}
 
 	@Override
-	public MatchTrace getMatchTrace(){
+	public MatchTrace getMatchTrace() {
 		return matchTrace;
 	}
 
 	@Override
-	public MergeTrace getMergeTrace(){
+	public MergeTrace getMergeTrace() {
 		return mergeTrace;
 	}
 	
 	@Override
-	public EmlModule getModule(){
-		return (EmlModule) module;
+	public EmlModule getModule() {
+		return (EmlModule) super.getModule();
 	}
 	
 	@Override
-	public void setModule(EmlModule module){
-		this.module = module;
+	public void setModule(EmlModule module) {
+		super.setModule(module);
+	}
+	
+	@Override
+	public void setModule(IModule module) {
+		if (module instanceof EmlModule) {
+			this.module = module;//super.setModule(module);
+		}
 	}
 
 	@Override
@@ -83,20 +76,4 @@ public class EmlContext extends EtlContext implements IEmlContext {
 	public void setMergeTrace(MergeTrace mergeTrace) {
 		this.mergeTrace = mergeTrace;
 	}
-
-	//public void setTempMatchTrace(MatchTrace tempMatchTrace) {
-	//	this.tempMatchTrace = tempMatchTrace;
-	//}
-	
-	/*
-	@Override
-	public ITransformationStrategy getTransformationStrategy(Object source) {
-		if (mergingStrategy.getLeftModel().owns(source)){
-			return mergingStrategy.getLeftTransformationStrategy();
-		}
-		else {
-			return mergingStrategy.getRightTransformationStrategy();
-		}
-	}	
-	*/
 }

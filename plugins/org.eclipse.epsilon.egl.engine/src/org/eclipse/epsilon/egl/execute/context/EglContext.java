@@ -149,4 +149,16 @@ public class EglContext extends EolContext implements IEglContext {
 	public EglTemplate getCurrentTemplate() {
 		return executionManager.getCurrent().template;
 	}
+	
+	/*@Override
+	public IEglModule getModule() {
+		return (IEglModule) super.getModule();
+	}
+	
+	@Override
+	public void setModule(IModule module) {
+		if (module instanceof IEglModule) {
+			super.setModule(module);
+		}
+	}*/
 }

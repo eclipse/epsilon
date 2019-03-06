@@ -31,7 +31,7 @@ import org.eclipse.epsilon.flock.model.domain.typemappings.TypeMappingConstructs
 
 public class MigrationStrategy {
 	
-	private final List<ModuleElement> children = new LinkedList<ModuleElement>();
+	private final List<ModuleElement> children = new LinkedList<>();
 	private final TypeMappingConstructs typeMappingConstructs = new TypeMappingConstructs();
 	private final MigrateRules          migrateRules          = new MigrateRules();
 	

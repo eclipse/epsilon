@@ -12,12 +12,12 @@
  */
 package org.eclipse.epsilon.flock;
 
-import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
 
-public interface IFlockModule extends IEolModule {
+public interface IFlockModule extends IErlModule {
 	
 	@Override
 	public IFlockContext getContext();

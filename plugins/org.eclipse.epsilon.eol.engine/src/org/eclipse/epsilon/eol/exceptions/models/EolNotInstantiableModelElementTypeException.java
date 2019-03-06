@@ -22,7 +22,7 @@ public class EolNotInstantiableModelElementTypeException extends EolRuntimeExcep
 		this.typeName = typeName;
 	}
 	
-	public EolNotInstantiableModelElementTypeException(EolModelElementType type) {
+	public EolNotInstantiableModelElementTypeException(EolModelElementType type) throws EolModelElementTypeNotFoundException {
 		this.model = type.getModel().getName();
 		this.typeName = type.getTypeName();
 	}

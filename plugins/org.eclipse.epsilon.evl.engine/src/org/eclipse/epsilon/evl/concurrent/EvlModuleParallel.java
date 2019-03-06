@@ -32,15 +32,15 @@ public abstract class EvlModuleParallel extends EvlModule {
 	protected abstract void checkConstraints() throws EolRuntimeException;
 	
 	public EvlModuleParallel() {
-		context = new EvlContextParallel();
+		setContext(new EvlContextParallel());
 	}
 	
 	public EvlModuleParallel(int parallelism) {
-		context = new EvlContextParallel(parallelism, true);
+		setContext(new EvlContextParallel(parallelism, true));
 	}
 	
 	protected EvlModuleParallel(int parallelism, boolean threadSafeBaseFrames) {
-		context = new EvlContextParallel(parallelism, threadSafeBaseFrames);
+		setContext(new EvlContextParallel(parallelism, threadSafeBaseFrames));
 	}
 	
 	@Override
@@ -57,7 +57,7 @@ public abstract class EvlModuleParallel extends EvlModule {
 	
 	@Override
 	public IEvlContextParallel getContext() {
-		return (IEvlContextParallel) context;
+		return (IEvlContextParallel) super.getContext();
 	}
 	
 	@Override
@@ -74,10 +74,11 @@ public abstract class EvlModuleParallel extends EvlModule {
 	@Override
 	public void configure(Map<String, ?> properties) throws IllegalArgumentException {
 		super.configure(properties);
-		context = IEolContextParallel.configureContext(
+		IEvlContextParallel context = getContext();
+		setContext(IEolContextParallel.configureContext(
 			properties,
 			threads -> new EvlContextParallel(threads, context.getFrameStack().isThreadSafe()),
-			getContext()
-		);
+			context
+		));
 	}
 }

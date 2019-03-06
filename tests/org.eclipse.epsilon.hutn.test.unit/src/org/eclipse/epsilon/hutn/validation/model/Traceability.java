@@ -26,8 +26,12 @@ public class Traceability extends HutnModelValidationTest {
 	
 	@BeforeClass
 	public static void validateModel() throws HutnValidationException {
-		problems = modelValidationTest(createSpec("families", createPackageObject(createClassObject("Fido", "Pet",    10, 1),
-		                                                                    createClassObject("Fido", "Person", 20, 13))));
+		problems = modelValidationTest(createSpec(
+			"families", createPackageObject(
+				createClassObject("Fido", "Pet",    10, 1),
+		        createClassObject("Fido", "Person", 20, 13)
+		    )
+		));
 	}
 	
 	@Test

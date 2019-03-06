@@ -41,7 +41,7 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	protected NamedRuleList<TransformationRule> transformationRules;
 	
 	public EtlModule() {
-		this.context = new EtlContext();
+		setContext(new EtlContext());
 	}
 	
 	@Override
@@ -108,15 +108,23 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	@Override
 	public Object executeImpl() throws EolRuntimeException {
 		prepareExecution();
+		transform();
+		postExecution();
+		return getContext().getTransformationTrace();
+	}
+	
+	/**
+	 * Main execution logic.
+	 * 
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	protected void transform() throws EolRuntimeException {
 		IEtlContext context = getContext();
-		
 		// Execute the transformModel() method of the strategy
 		if (context.getTransformationStrategy() != null) {
 			context.getTransformationStrategy().transformModels(context);
 		}
-		
-		postExecution();
-		return context.getTransformationTrace();
 	}
 	
 	@Override
@@ -155,13 +163,13 @@ public class EtlModule extends ErlModule implements IEtlModule {
 
 	@Override
 	public IEtlContext getContext() {
-		return (IEtlContext) context;
+		return (IEtlContext) super.getContext();
 	}
 	
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEtlContext) {
-			this.context = (IEtlContext) context;
+			super.setContext(context);
 		}
 	}
 	

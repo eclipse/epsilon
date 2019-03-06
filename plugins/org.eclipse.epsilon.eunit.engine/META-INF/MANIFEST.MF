@@ -13,3 +13,4 @@ Export-Package: org.eclipse.epsilon.eunit,
  org.eclipse.epsilon.internal.eunit.xml
 Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.common.dt;resolution:=optional
+Automatic-Module-Name: org.eclipse.epsilon.eunit.engine

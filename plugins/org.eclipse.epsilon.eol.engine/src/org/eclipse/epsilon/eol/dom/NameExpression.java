@@ -51,7 +51,7 @@ public class NameExpression extends Expression {
 		// First look for a model element type
 		// if the name contains a !
 		if (variable == null) {
-			if (name.indexOf("!") > -1) {
+			if (name.contains("!")) {
 				variable = getModelElementType(name, context);
 			}
 		}

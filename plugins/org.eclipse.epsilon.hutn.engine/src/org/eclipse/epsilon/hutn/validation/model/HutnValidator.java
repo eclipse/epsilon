@@ -38,15 +38,16 @@ public class HutnValidator extends AbstractValidator {
 	
 	public List<ParseProblem> getProblemsForIntermediateModel(Spec hutn) throws HutnValidationException {
 		final IModel model = new InMemoryEmfModel("Intermediate", resourceFor(hutn), HutnPackage.eINSTANCE);
-		final List<IModel> metamodels = new ArrayList<>();
+		final List<NsUri> hutnUris = hutn.getNsUris();
+		final List<IModel> metamodels = new ArrayList<>(hutnUris.size());
 		
-		for (NsUri uri : hutn.getNsUris()) {
+		for (NsUri uri : hutnUris) {
 			try {
 				final IModel metamodel = new EmfMetaModel("Metamodel", uri.getValue());
 				metamodel.load();
-				
 				metamodels.add(metamodel);
-			} catch (EolModelLoadingException e) {
+			}
+			catch (EolModelLoadingException e) {
 				throw new HutnUnrecognisedNsUriException(uri.getValue(), uri.getLine(), uri.getCol());
 			}
 		}

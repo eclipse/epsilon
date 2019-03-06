@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2019 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - bug #538175
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.CollectionUtil;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.compile.m3.MetaClass;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -22,13 +24,17 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.models.ModelRepository.AmbiguityCheckResult;
 
 public class EolModelElementType extends EolType {
 	
-	protected String modelName = "", typeName = "";
-	protected IModel model;
-	protected MetaClass metaClass = null;
+	protected String modelName = "";
+	protected String typeName = "";
+	protected IEolModule module;
+	protected ModelRepository modelRepo;
+	protected MetaClass metaClass;
+	protected IModel cachedModelRef;
 	
 	public EolModelElementType(MetaClass metaClass) {
 		this.metaClass = metaClass;
@@ -36,7 +42,7 @@ public class EolModelElementType extends EolType {
 	}
 	
 	public EolModelElementType(String modelAndMetaClass) {
-		if (modelAndMetaClass.indexOf("!") > -1) {
+		if (modelAndMetaClass.contains("!")) {
 			String[] parts = modelAndMetaClass.split("!");
 			modelName = parts[0];
 			typeName = parts[1];
@@ -49,22 +55,10 @@ public class EolModelElementType extends EolType {
 	
 	public EolModelElementType(String modelAndMetaClass, IEolContext context) throws EolModelNotFoundException, EolModelElementTypeNotFoundException {
 		this(modelAndMetaClass);
+		this.module = (IEolModule) context.getModule();
 		
 		checkAmbiguityOfType(context);
-
-		try {
-			model = context.getModelRepository().getModelByName(modelName);
-		}
-		catch (EolModelNotFoundException ex) {
-			Variable modelVariable = context.getFrameStack().get(modelName);
-			if (modelVariable != null && modelVariable.getValue() instanceof IModel) {
-				model = (IModel) modelVariable.getValue();
-			}
-		}
-		
-		if (model == null || !model.hasType(typeName)) {
-			throw new EolModelElementTypeNotFoundException(modelName, typeName);
-		}
+		getModel(true);	// Eager caching, possibly prevents race conditions
 	}
 
 	private void checkAmbiguityOfType(IEolContext context) {
@@ -111,20 +105,20 @@ public class EolModelElementType extends EolType {
 	
 	public Collection<?> getAllOfKind() {
 		try {
-			return model.getAllOfKind(typeName);
+			return getModel().getAllOfKind(typeName);
 		}
-		catch (Exception e) {
-			e.printStackTrace();
+		catch (EolModelElementTypeNotFoundException ex) {
+			ex.printStackTrace();
 			return Collections.emptyList();
 		}
 	}
 	
 	public Collection<?> getAllOfType() {
 		try {
-			return model.getAllOfType(typeName);
+			return getModel().getAllOfType(typeName);
 		}
-		catch (Exception e) {
-			e.printStackTrace();
+		catch (EolModelElementTypeNotFoundException ex) {
+			ex.printStackTrace();
 			return Collections.emptyList();
 		}
 	}
@@ -145,16 +139,16 @@ public class EolModelElementType extends EolType {
 		return getAllOfKind();
 	}
 	
-	public boolean isInstantiable(){
-		return model.isInstantiable(typeName);
+	public boolean isInstantiable() throws EolModelElementTypeNotFoundException {
+		return getModel().isInstantiable(typeName);
 	}
 	
 	@Override
 	public boolean isType(Object o) {
 		try {
-			return model.isOfType(o,typeName);
+			return getModel().isOfType(o, typeName);
 		}
-		catch (Exception ex){
+		catch (EolModelElementTypeNotFoundException ex) {
 			ex.printStackTrace();
 			return false;
 		}
@@ -162,20 +156,20 @@ public class EolModelElementType extends EolType {
 	
 	@Override
 	public Object createInstance() throws EolRuntimeException {
-		return model.createInstance(typeName);
+		return getModel().createInstance(typeName);
 	}
 
 	@Override
 	public Object createInstance(List<Object> parameters) throws EolRuntimeException {
-		return model.createInstance(typeName, parameters);
+		return getModel().createInstance(typeName, parameters);
 	}
 	
 	@Override
 	public boolean isKind(Object o) {
 		try {
-			return model.isOfKind(o,typeName);
+			return getModel().isOfKind(o, typeName);
 		}
-		catch (Exception ex) {
+		catch (EolModelElementTypeNotFoundException ex) {
 			ex.printStackTrace();
 			return false;
 		}
@@ -184,14 +178,43 @@ public class EolModelElementType extends EolType {
 	@Override
 	public String getName() {
 		String name = "";
-		if (modelName.length() > 0) {
+		if (!modelName.isEmpty()) {
 			name = modelName + "!";
 		}
 		return name + typeName; 
 	}
 	
-	public IModel getModel() {
-		return model;
+	public IModel getModel() throws EolModelElementTypeNotFoundException {
+		return getModel(module.getContext().getModelRepository() != modelRepo);
+	}
+	
+	/**
+	 * Fetches the model from the module's context.
+	 * 
+	 * @param updateCached Whether to re-acquire reference to the model and model repository.
+	 * @return The model
+	 * @throws EolModelElementTypeNotFoundException
+	 * @since 1.6
+	 */
+	public IModel getModel(boolean updateCached) throws EolModelElementTypeNotFoundException {
+		if (cachedModelRef == null || updateCached) {
+			modelRepo = module.getContext().getModelRepository();
+			try {
+				cachedModelRef = modelRepo.getModelByName(modelName);
+			}
+			catch (EolModelNotFoundException ex) {
+				Variable modelVariable = module.getContext().getFrameStack().get(modelName);
+				if (modelVariable != null && modelVariable.getValue() instanceof IModel) {
+					cachedModelRef = (IModel) modelVariable.getValue();
+				}
+			}
+			
+			if (cachedModelRef == null || !cachedModelRef.hasType(typeName)) {
+				throw new EolModelElementTypeNotFoundException(modelName, typeName);
+			}
+		}
+		
+		return cachedModelRef;
 	}
 	
 	public MetaClass getMetaClass() {
@@ -209,7 +232,12 @@ public class EolModelElementType extends EolType {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), model != null ? model.getName() : model, metaClass != null ? metaClass.getName() : metaClass);
+		return Objects.hash(
+			super.hashCode(),
+			getName(),
+			module,
+			metaClass != null ? metaClass.getName() : metaClass
+		);
 	}
 	
 	@Override
@@ -218,13 +246,7 @@ public class EolModelElementType extends EolType {
 		if (!eq) return false;
 		
 		EolModelElementType eme = (EolModelElementType) other;
-		
-		if (!(this.model == null && eme.model == null)) {
-			if (this.model == null || eme.model == null)
-				return false;
-			
-			eq = Objects.equals(this.model.getName(), eme.model.getName());
-		}
+		eq = Objects.equals(this.getName(), eme.getName());
 		
 		if (eq && !(this.metaClass == null && eme.metaClass == null)) {
 			if (this.metaClass == null || eme.metaClass == null)
@@ -232,6 +254,7 @@ public class EolModelElementType extends EolType {
 			
 			eq = Objects.equals(this.metaClass.getName(), eme.metaClass.getName());
 		}
+		eq = eq && Objects.equals(this.module, eme.module);
 		
 		return eq;
 	}

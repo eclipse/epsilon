@@ -20,13 +20,13 @@ public class EolNoType extends EolType {
 	public static EolNoTypeInstance NoInstance = new EolNoTypeInstance();
 	
 	@Override
-	public Object createInstance() throws EolRuntimeException {
+	public Void createInstance() throws EolRuntimeException {
 		return null;
 	}
 
 	@Override
-	public Object createInstance(List<Object> parameters)
-			throws EolRuntimeException {
+	public Void createInstance(List<Object> parameters)
+			throws EolIllegalOperationParametersException {
 		throw new EolIllegalOperationParametersException("createInstance");
 	}
 	

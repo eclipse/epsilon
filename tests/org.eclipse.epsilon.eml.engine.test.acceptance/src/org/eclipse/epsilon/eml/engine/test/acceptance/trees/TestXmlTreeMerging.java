@@ -39,20 +39,17 @@ public class TestXmlTreeMerging {
 		
 		eclModule = new EclModule();
 		eclModule.parse(getClass().getResource("trees.ecl").toURI());
-		info = new HashMap<String, Object>();
+		info = new HashMap<>();
 		eclModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("info", info));
-		eclModule.getContext().getModelRepository().addModel(leftModel);
-		eclModule.getContext().getModelRepository().addModel(rightModel);
+		eclModule.getContext().getModelRepository().addModels(leftModel, rightModel);
 		eclModule.execute();
 		
 		mergedModel = loadXmlModel("Merged", "merged.xml", false);
 		emlModule = new EmlModule();
 		emlModule.parse(getClass().getResource("trees.eml").toURI());
 		emlModule.getContext().getFrameStack().put(Variable.createReadOnlyVariable("info", info));
-		emlModule.getContext().getModelRepository().addModel(leftModel);
-		emlModule.getContext().getModelRepository().addModel(rightModel);
+		emlModule.getContext().getModelRepository().addModels(leftModel, rightModel, mergedModel);
 		emlModule.getContext().setMatchTrace(eclModule.getContext().getMatchTrace().getReduced());
-		emlModule.getContext().getModelRepository().addModel(mergedModel);
 		emlModule.execute();
 	}
 	

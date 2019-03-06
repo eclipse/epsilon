@@ -47,7 +47,7 @@ public class EgxModuleParallel extends EgxModule {
 	}
 	
 	public EgxModuleParallel(IEgxContextParallel egxContext) {
-		this.context = egxContext;
+		setContext(egxContext);
 		this.invokedTemplates = new ConcurrentLinkedQueue<>();
 	}
 
@@ -78,7 +78,7 @@ public class EgxModuleParallel extends EgxModule {
 	
 	@Override
 	public IEgxContextParallel getContext() {
-		return (IEgxContextParallel) context;
+		return (IEgxContextParallel) super.getContext();
 	}
 	
 	@Override
@@ -95,11 +95,12 @@ public class EgxModuleParallel extends EgxModule {
 	@Override
 	public void configure(Map<String, ?> properties) throws IllegalArgumentException {
 		super.configure(properties);
-		context = IEolContextParallel.configureContext(
+		IEgxContextParallel context = getContext();
+		setContext(IEolContextParallel.configureContext(
 			properties,
-			threads -> new EgxContextParallel(getContext().getTemplateFactory(), threads),
-			getContext()
-		);
+			threads -> new EgxContextParallel(context.getTemplateFactory(), threads),
+			context
+		));
 	}
 	
 	@Override

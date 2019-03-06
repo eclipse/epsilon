@@ -48,12 +48,15 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 		if (args.length > 0) {
 			
 			if (args[0].toUpperCase().startsWith("CONFIG")) {
-				Class<?> configClass = Class.forName(args[0].substring(7));
+				Class<? extends IEolRunConfiguration> configClass = (Class<? extends IEolRunConfiguration>)
+					Class.forName(args[0].substring(7));
+				
 				String[] adjustedArgs = Arrays.copyOfRange(args, 1, args.length);
-				new EolConfigParser(configClass).apply(adjustedArgs).run();
+				new EolConfigParser(IEolRunConfiguration.Builder(configClass)).apply(adjustedArgs).run();
 			}
 			else {
-				new EolConfigParser(getRunConfigurationForScript(args[0])).apply(args).run();
+				new EolConfigParser(IEolRunConfiguration.Builder(getRunConfigurationForScript(args[0])))
+					.apply(args).run();
 			}
 			
 		}
@@ -65,9 +68,8 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 		scriptParamsOpt = "parameters";
 	
 	
-	@SuppressWarnings("unchecked")
-	public EolConfigParser(Class<C> configurationClass) {
-		super((B)IEolRunConfiguration.Builder(configurationClass));
+	public EolConfigParser(B builder) {
+		super(builder);
 		
 		requiredUsage += "-models [model class]#[model properties];"+nL;
 		optionalUsage += "  [module] [argtype=argvalue]s..."+nL;

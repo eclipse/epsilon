@@ -24,7 +24,7 @@ import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 
 public class Equivalences {
 
-	private final List<Equivalence> equivalences = new LinkedList<Equivalence>();
+	private final List<Equivalence> equivalences = new LinkedList<>();
 	
 	/**
 	 * Factory method for establishing original to migrated model Equivalences from a MigrationStrategy and an IFlockContext.

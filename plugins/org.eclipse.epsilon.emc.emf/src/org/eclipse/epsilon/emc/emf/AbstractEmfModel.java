@@ -244,7 +244,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 	
 	protected EClass classForName(String name, Registry registry) {	
-		boolean absolute = name.indexOf("::") > -1;
+		boolean absolute = name.contains("::");
 		
 		return registry.values()
 			.stream()
@@ -255,18 +255,13 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 			.orElse(null);
 	}
 
-	protected EClass classForName(String name, boolean absolute, Object pkg) {
-		for (EClassifier eClassifier : EmfUtil.getAllEClassifiers((EPackage)pkg)) {
+	protected EClass classForName(String name, boolean absolute, EPackage pkg) {
+		for (EClassifier eClassifier : EmfUtil.getAllEClassifiers(pkg)) {
 			if (eClassifier instanceof EClass) {
-				String eClassifierName = "";
-				if (absolute) {
-					eClassifierName = getFullyQualifiedName(eClassifier);
-				}
-				else {
-					eClassifierName = eClassifier.getName();
-				}
+				String eClassifierName = absolute ?
+					getFullyQualifiedName(eClassifier) : eClassifier.getName();
 				
-				if (eClassifierName.compareTo(name) == 0) {
+				if (eClassifierName.equals(name)) {
 					return (EClass) eClassifier;
 				}
 			}
@@ -577,10 +572,8 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	protected String getFullyQualifiedName(EClassifier eClassifier) {
 		String fullyQualifiedName = eClassifier.getName();
-		EPackage parent = eClassifier.getEPackage();
-		while (parent != null) {
+		for (EPackage parent = eClassifier.getEPackage(); parent != null; parent = parent.getESuperPackage()) {
 			fullyQualifiedName = parent.getName() + "::" + fullyQualifiedName;
-			parent = parent.getESuperPackage();
 		}
 		return fullyQualifiedName;
 	}

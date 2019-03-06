@@ -18,7 +18,7 @@ import org.eclipse.epsilon.flock.model.checker.IgnoredPropertyChecker;
 
 public class IgnoredProperties {
 
-	private final Collection<String> ignoredProperties = new LinkedList<String>();
+	private final Collection<String> ignoredProperties = new LinkedList<>();
 	
 	public IgnoredProperties(String... ignoredProperties) {
 		this(Arrays.asList(ignoredProperties));

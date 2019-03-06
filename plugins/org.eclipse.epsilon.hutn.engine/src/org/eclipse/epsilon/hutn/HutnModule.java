@@ -58,7 +58,7 @@ public class HutnModule extends EolModule implements IHutnModule {
 	protected boolean hutnIsValid = false;
 	
 	public HutnModule() {
-		this.context = new HutnContext(this);
+		setContext(new HutnContext(this));
 	}
 	
 	@Override
@@ -89,7 +89,7 @@ public class HutnModule extends EolModule implements IHutnModule {
 	
 	@Override
 	public IHutnContext getContext(){
-		return (IHutnContext) context;
+		return (IHutnContext) super.getContext();
 	}
 	
 	/*
@@ -284,12 +284,15 @@ public class HutnModule extends EolModule implements IHutnModule {
 		
 		try {
 			final ModelGenerator modelGenerator = new ModelGenerator(spec);
-			if (generateCompleteTransformation) { modelGenerator.forceGenerationOfTransformationForWholeMetamodel(); }
+			if (generateCompleteTransformation) {
+				modelGenerator.forceGenerationOfTransformationForWholeMetamodel();
+			}
 			
-			final FileWriter writer = new FileWriter(destination);
-			writer.write(modelGenerator.generateTransformation());
-			writer.close();
-		} catch (IOException e) {
+			try (FileWriter writer = new FileWriter(destination)) {
+				writer.write(modelGenerator.generateTransformation());
+			}
+		}
+		catch (IOException e) {
 			throw new HutnGenerationException(e);
 		}
 	}
@@ -297,7 +300,7 @@ public class HutnModule extends EolModule implements IHutnModule {
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IHutnContext) {
-			this.context = (IHutnContext) context;
+			super.setContext(context);
 		}
 	}
 	

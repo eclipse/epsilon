@@ -128,7 +128,7 @@ public class EplModule extends ErlModule {
 	
 	@Override
 	public Object executeImpl() throws EolRuntimeException {
-		execute(getPre(), context);
+		execute(getPre(), getContext());
 		
 		PatternMatcher patternMatcher = new PatternMatcher();
 		PatternMatchModel matchModel = null;
@@ -150,7 +150,7 @@ public class EplModule extends ErlModule {
 			EolRuntimeException.propagate(ex);
 		}
 		
-		execute(getPost(), context);
+		execute(getPost(), getContext());
 		
 		return matchModel;
 	}

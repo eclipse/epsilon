@@ -35,11 +35,10 @@ import org.eclipse.epsilon.etl.parse.EtlParser;
 import org.eclipse.epsilon.etl.trace.TransformationList;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
-
 public class TransformationRule extends ExtensibleNamedRule {
 	
 	protected Parameter sourceParameter;
-	protected List<Parameter> targetParameters = new ArrayList<Parameter>();
+	protected List<Parameter> targetParameters = new ArrayList<>();
 	protected ExecutableBlock<Boolean> guard = null;
 	protected ExecutableBlock<Void> body = null;
 	protected IEtlContext context;
@@ -109,7 +108,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 		return transformedElements.contains(source);
 	}
 			
-	protected Collection<Object> rejected = new ArrayList<Object>();
+	protected Collection<Object> rejected = new ArrayList<>();
 	
 	public boolean appliesTo(Object source, IEtlContext context, boolean asSuperRule) throws EolRuntimeException {
 		return appliesTo(source, context, asSuperRule, true);
@@ -175,7 +174,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 		return targets;
 	}
 	
-	protected Set<Object> transformedElements = new HashSet<Object>();
+	protected Set<Object> transformedElements = new HashSet<>();
 	
 	public Collection<?> transform(Object source, IEtlContext context) throws EolRuntimeException{
 		
@@ -211,7 +210,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 			superRule.transform(source, targets, context);
 		}
 		
-		List<Variable> variables = new ArrayList<Variable>();
+		List<Variable> variables = new ArrayList<>();
 		variables.add(Variable.createReadOnlyVariable("self", this));
 		variables.add(Variable.createReadOnlyVariable(sourceParameter.getName(), source));
 		for (Parameter targetParameter : targetParameters) {
@@ -225,7 +224,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 	}
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		
 		String targetTypes = "";
 		Iterator<Parameter> it = targetParameters.iterator();

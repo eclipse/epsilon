@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute.context;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
@@ -44,8 +45,15 @@ public class EgxContext extends ErlContext implements IEgxContext {
 	}
 	
 	@Override
+	public void setModule(IModule module) {
+		if (module instanceof IEgxModule) {
+			super.setModule(module);
+		}
+	}
+	
+	@Override
 	public IEgxModule getModule() {
-		return (IEgxModule) module;
+		return (IEgxModule) super.getModule();
 	}
 
 	@Override

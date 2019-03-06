@@ -37,7 +37,7 @@ public class EclModuleParallel extends EclModule {
 	}
 	
 	public EclModuleParallel(int parallelism) {
-		this.context = new EclContextParallel(parallelism);
+		setContext(new EclContextParallel(parallelism));
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public class EclModuleParallel extends EclModule {
 	
 	@Override
 	public IEclContextParallel getContext() {
-		return (IEclContextParallel) context;
+		return (IEclContextParallel) super.getContext();
 	}
 	
 	@Override
@@ -76,6 +76,6 @@ public class EclModuleParallel extends EclModule {
 	@Override
 	public void configure(Map<String, ?> properties) throws IllegalArgumentException {
 		super.configure(properties);
-		context = IEolContextParallel.configureContext(properties, EclContextParallel::new, getContext());
+		setContext(IEolContextParallel.configureContext(properties, EclContextParallel::new, getContext()));
 	}
 }

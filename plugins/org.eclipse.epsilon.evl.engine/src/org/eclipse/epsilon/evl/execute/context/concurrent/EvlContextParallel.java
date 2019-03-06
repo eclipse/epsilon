@@ -12,6 +12,7 @@ package org.eclipse.epsilon.evl.execute.context.concurrent;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
@@ -82,8 +83,15 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	}
 
 	@Override
+	public void setModule(IModule module) {
+		if (module instanceof EvlModuleParallel) {
+			super.setModule(module);
+		}
+	}
+	
+	@Override
 	public EvlModuleParallel getModule() {
-		return (EvlModuleParallel) module;
+		return (EvlModuleParallel) super.getModule();
 	}
 	
 	@Override

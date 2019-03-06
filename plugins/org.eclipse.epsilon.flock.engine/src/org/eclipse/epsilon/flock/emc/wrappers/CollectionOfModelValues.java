@@ -23,7 +23,7 @@ import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
 
 class CollectionOfModelValues extends ModelValue<Collection<?>> implements Iterable<ModelValue<?>> {
 
-	private final Collection<ModelValue<?>> modelValues = new LinkedList<ModelValue<?>>();
+	private final Collection<ModelValue<?>> modelValues = new LinkedList<>();
 	
 	CollectionOfModelValues(Model model, Collection<ModelValue<?>> wrappedValues) {
 		modelValues.addAll(wrappedValues);
@@ -35,7 +35,7 @@ class CollectionOfModelValues extends ModelValue<Collection<?>> implements Itera
 	
 	@Override
 	public CollectionOfModelValues getEquivalentIn(Model model, ConservativeCopyContext context) throws ConservativeCopyException {
-		final Collection<ModelValue<?>> copiedModelValues = new LinkedList<ModelValue<?>>();
+		final Collection<ModelValue<?>> copiedModelValues = new LinkedList<>();
 		
 		for (ModelValue<?> modelValue : modelValues) {
 			final ModelValue<?> equivalent = modelValue.getEquivalentIn(model, context);

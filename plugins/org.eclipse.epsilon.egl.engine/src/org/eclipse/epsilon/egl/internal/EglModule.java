@@ -60,7 +60,8 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 	
 	public EglModule(IEglContext context) {
-		preprocessorModule = new EglPreprocessorModule(this.context = /*new EglContext*/(context));
+		setContext/*new EglContext*/(context);
+		preprocessorModule = new EglPreprocessorModule(context);
 	}
 
 	@Override
@@ -194,7 +195,7 @@ public class EglModule extends EolModule implements IEglModule {
 
 	@Override
 	public IEglContext getContext() {
-		return (IEglContext) context;
+		return (IEglContext) super.getContext();
 	}
 	
 	@Override

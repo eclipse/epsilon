@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.hutn;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 
 public class HutnContext extends EolContext implements IHutnContext {
@@ -19,6 +20,13 @@ public class HutnContext extends EolContext implements IHutnContext {
 	
 	@Override
 	public IHutnModule getModule() {
-		return (IHutnModule) module;
+		return (IHutnModule) super.getModule();
+	}
+	
+	@Override
+	public void setModule(IModule module) {
+		if (module instanceof IHutnModule) {
+			super.setModule(module);
+		}
 	}
 }

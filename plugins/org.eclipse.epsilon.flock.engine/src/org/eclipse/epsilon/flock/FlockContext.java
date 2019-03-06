@@ -12,6 +12,7 @@
  */
 package org.eclipse.epsilon.flock;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
@@ -58,7 +59,6 @@ public class FlockContext extends ErlContext implements IFlockContext {
 	private Model wrapModel(IModel model) throws FlockUnsupportedModelException {
 		if (model instanceof IReflectiveModel)
 			return new Model((IReflectiveModel)model, getPrettyPrinterManager());
-		
 		else
 			throw new FlockUnsupportedModelException("Flock can only be used with models that implement IReflectiveModel. " + model.getName() + " does not.");
 	}
@@ -106,5 +106,17 @@ public class FlockContext extends ErlContext implements IFlockContext {
 	@Override
 	public ConservativeCopyContext getConservativeCopyContext() {
 		return new ConservativeCopyContext(originalModel, migratedModel, execution);
+	}
+	
+	@Override
+	public void setModule(IModule module) {
+		if (module instanceof IFlockModule) {
+			super.setModule(module);
+		}
+	}
+	
+	@Override
+	public IFlockModule getModule() {
+		return (IFlockModule) super.getModule();
 	}
 }

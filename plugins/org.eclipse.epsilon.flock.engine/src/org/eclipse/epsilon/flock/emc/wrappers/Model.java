@@ -79,7 +79,7 @@ public class Model {
 	 * but contained in another model.
 	 */
 	public Iterable<ModelElement> directContents() {
-		final Collection<ModelElement> modelElements = new LinkedList<ModelElement>();
+		final Collection<ModelElement> modelElements = new LinkedList<>();
 		
 		for (Object unwrappedModelElement : underlyingModel.allContents()) {
 			if (underlyingModel.owns(unwrappedModelElement)) {
@@ -127,7 +127,7 @@ public class Model {
 		if (parts.size() > 1) {
 			// List#subList returns a "view" of the original list, which appears to be garbage collected
 			// when this method returns. Hence, we construct a new list to return to clients.
-			return new LinkedList<String>(parts.subList(0, parts.size() - 1));
+			return new LinkedList<>(parts.subList(0, parts.size() - 1));
 		} else {
 			return Collections.emptyList();
 		}

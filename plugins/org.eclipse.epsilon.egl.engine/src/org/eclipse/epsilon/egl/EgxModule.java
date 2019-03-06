@@ -78,7 +78,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	}
 	
 	public EgxModule(IEgxContext egxContext) {
-		this.context = egxContext;
+		setContext(egxContext);
 	}
 	
 	@Override
@@ -179,7 +179,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	@Override
 	protected void prepareContext() {
 		super.prepareContext();
-		getTemplateFactory().getContext().copyFrom(context, true);
+		getTemplateFactory().getContext().copyFrom(getContext(), true);
 	}
 	
 	@Override
@@ -197,6 +197,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	 * @since 1.6
 	 */
 	protected void generateRules(EglTemplateFactory templateFactory) throws EolRuntimeException {
+		IEgxContext context = getContext();
 		for (GenerationRule rule : getGenerationRules()) {
 			rule.generateAll(context, templateFactory, this);
 		}
@@ -211,7 +212,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 
 	@Override
 	public IEgxContext getContext() {
-		return (IEgxContext) context;
+		return (IEgxContext) super.getContext();
 	}
 	
 	@Override
@@ -242,7 +243,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEgxContext) {
-			this.context = (IEgxContext) context;
+			super.setContext(context);
 		}
 	}
 }

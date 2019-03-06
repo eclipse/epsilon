@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ewl.execute.context;
 
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.ewl.IEwlModule;
 
@@ -16,6 +17,13 @@ public class EwlContext extends EolContext implements IEwlContext {
 	
 	@Override
 	public IEwlModule getModule() {
-		return (IEwlModule) module;
+		return (IEwlModule) super.getModule();
+	}
+	
+	@Override
+	public void setModule(IModule module) {
+		if (module instanceof IEwlModule) {
+			super.setModule(module);
+		}
 	}
 }

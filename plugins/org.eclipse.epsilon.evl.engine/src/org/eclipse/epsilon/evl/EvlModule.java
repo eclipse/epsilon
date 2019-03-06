@@ -44,7 +44,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	private boolean optimizeConstraints = false;
 	
 	public EvlModule() {
-		this.context = new EvlContext();
+		setContext(new EvlContext());
 	}
 
 	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
@@ -298,7 +298,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	
 	@Override
 	public IEvlContext getContext() {
-		return (IEvlContext) context;
+		return (IEvlContext) super.getContext();
 	}
 	
 	@Override

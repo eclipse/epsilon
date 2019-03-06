@@ -44,7 +44,7 @@ public abstract class Equivalence {
 	public abstract void ruleApplied(FlockExecution execution);
 	
 	public Collection<Variable> getVariables() {
-		final List<Variable> variables = new LinkedList<Variable>();
+		final List<Variable> variables = new LinkedList<>();
 		
 		variables.add(createVariable("original", getOriginal()));
 		variables.add(createVariable("migrated", getEquivalent()));

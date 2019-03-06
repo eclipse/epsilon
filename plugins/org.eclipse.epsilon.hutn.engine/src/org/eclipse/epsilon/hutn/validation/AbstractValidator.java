@@ -31,7 +31,7 @@ public abstract class AbstractValidator {
 	}
 	
 	protected List<ParseProblem> validate(IModel model, List<IModel> extraModels) throws HutnValidationException {
-		return validate(model, extraModels.toArray(new IModel[]{}));
+		return validate(model, extraModels.toArray(new IModel[extraModels.size()]));
 	}
 	
 	protected List<ParseProblem> validate(IModel model, IModel... extraModels) throws HutnValidationException {
@@ -40,7 +40,8 @@ public abstract class AbstractValidator {
 		do {
 			fixer.reset();
 			problems = doValidate(model, extraModels);
-		} while (fixer.hasChangedModel());
+		}
+		while (fixer.hasChangedModel());
 		
 		return problems;
 	}

@@ -46,10 +46,10 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 		List<MergeRule> rules = new ArrayList<>();
 		
 		// First we try to find rules that apply to instance of type only
-		for (MergeRule mergeRule : context.getModule().getMergeRules()){
+		for (MergeRule mergeRule : context.getModule().getMergeRules()) {
 			if (!mergeRule.isAbstract()){
-				if (mergeRule.appliesTo(match, context)){ 
-						rules.add(mergeRule);
+				if (mergeRule.appliesTo(match, context)) { 
+					rules.add(mergeRule);
 				}
 			}
 		}
@@ -106,8 +106,9 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 	@Override
 	public List<Object> getExcluded() {
 		if (excluded == null) {
-			excluded = new ArrayList<>();
-			for (Match match : context.getMatchTrace().getMatches()) {
+			Collection<Match> matches = context.getMatchTrace().getMatches();
+			excluded = new ArrayList<>(matches.size()*2);
+			for (Match match : matches) {
 				excluded.add(match.getLeft());
 				excluded.add(match.getRight());
 			}

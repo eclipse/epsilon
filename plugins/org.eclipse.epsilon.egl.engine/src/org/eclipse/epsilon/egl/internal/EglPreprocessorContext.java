@@ -34,6 +34,7 @@ public class EglPreprocessorContext implements IEolContext {
 	
 	public EglPreprocessorContext(IEolContext delegate) {
 		this.delegate = delegate;
+		//this.setModule(delegate.getModule());
 	}
 	
 	public IEglContext getEglContext() {

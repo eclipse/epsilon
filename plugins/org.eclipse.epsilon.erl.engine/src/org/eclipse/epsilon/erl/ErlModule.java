@@ -35,7 +35,7 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 	protected NamedRuleList<Post> declaredPost = new NamedRuleList<>();
 	
 	protected ErlModule() {
-		this.context = new ErlContext();
+		setContext(new ErlContext());
 	}
 	
 	@Override
@@ -112,11 +112,11 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 	
 	protected void prepareExecution() throws EolRuntimeException {
 		prepareContext();
-		execute(getPre(), context);
+		execute(getPre(), getContext());
 	}
 	
 	protected void postExecution() throws EolRuntimeException {
-		execute(getPost(), context);
+		execute(getPost(), getContext());
 	}
 	
 	protected void execute(List<? extends NamedStatementBlockRule> namedRules) throws EolRuntimeException {
@@ -152,12 +152,12 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IErlContext) {
-			this.context = context;
+			super.setContext(context);
 		}
 	}
 	
 	@Override
 	public IErlContext getContext() {
-		return (IErlContext) context;
+		return (IErlContext) super.getContext();
 	}
 }

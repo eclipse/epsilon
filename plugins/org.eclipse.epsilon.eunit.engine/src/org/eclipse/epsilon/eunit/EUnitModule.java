@@ -100,7 +100,7 @@ public class EUnitModule extends EolModule {
 				if (!"data".equals(annName) && !"Data".equals(annName)) continue;
 
 				try {
-					results.add(new Pair<>(op, (String)ann.getValue(context)));
+					results.add(new Pair<>(op, (String)ann.getValue(getContext())));
 				} catch (EolRuntimeException e) {
 					// skip annotation and go on
 				}
@@ -112,7 +112,7 @@ public class EUnitModule extends EolModule {
 	public boolean isAnnotatedAs(Operation operation, String annotation) {
 		try {
 			return operation.hasAnnotation(annotation);
-			//return EolAnnotationsUtil.getBooleanAnnotationValue(operation, annotation, context, false, true);
+			//return EolAnnotationsUtil.getBooleanAnnotationValue(operation, annotation, getContext(), false, true);
 		}
 		catch (Exception ex) {
 			return false;
@@ -256,7 +256,7 @@ public class EUnitModule extends EolModule {
 
 		try {
 			final EolSequence<?> values
-				= (EolSequence<?>) entry.getLeft().execute(null, Collections.emptyList(), context, true);
+				= (EolSequence<?>) entry.getLeft().execute(null, Collections.emptyList(), getContext(), true);
 			final String variableName = entry.getRight();
 			for (Object value : values) {
 				EUnitTest child = new EUnitTest();
@@ -330,7 +330,7 @@ public class EUnitModule extends EolModule {
 
 			// Run the suite setup operations before all tests
 			for (Operation op : getSuiteSetups()) {
-				op.execute(null, Collections.emptyList(), context, false);
+				op.execute(null, Collections.emptyList(), getContext(), false);
 			}
 		}
 
@@ -351,7 +351,7 @@ public class EUnitModule extends EolModule {
 			if (node.isRootTest()) {
 				// Run the suite teardown operations after all tests
 				for (Operation op : getSuiteTeardowns()) {
-					op.execute(null, Collections.emptyList(), context, false);
+					op.execute(null, Collections.emptyList(), getContext(), false);
 				}
 			}
 		}
@@ -395,7 +395,7 @@ public class EUnitModule extends EolModule {
 		try {
 			// Load models from the inline model operations, if any
 			for (Operation inlineModelOp : getInlineModelOperations()) {
-				inlineModelOp.execute(null, Collections.emptyList(), context, false);
+				inlineModelOp.execute(null, Collections.emptyList(), getContext(), false);
 			}
 
 			// Apply the model bindings
@@ -405,12 +405,12 @@ public class EUnitModule extends EolModule {
 
 			// Call the @setup operations
 			for (Operation opSetup : this.getSetups()) {
-				opSetup.execute(null, Collections.emptyList(), context, false);
+				opSetup.execute(null, Collections.emptyList(), getContext(), false);
 			}
 
 			// Run the @test itself
 			if (opTest != null) {
-				opTest.execute(null, Collections.emptyList(), context, false);
+				opTest.execute(null, Collections.emptyList(), getContext(), false);
 				node.setResult(EUnitTestResultType.SUCCESS);
 			}
 			else {
@@ -421,7 +421,7 @@ public class EUnitModule extends EolModule {
 		finally {
 			// Call the @teardown operations
 			for (Operation opTeardown : this.getTeardowns()) {
-				opTeardown.execute(null, Collections.emptyList(), context, false);
+				opTeardown.execute(null, Collections.emptyList(), getContext(), false);
 			}
 		}
 	}

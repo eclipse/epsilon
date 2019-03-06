@@ -69,7 +69,7 @@ public class TypeExpression extends Expression {
 		}
 		
 		try {
-			return new EolModelElementType(name ,context);
+			return new EolModelElementType(name, context);
 		}
 		catch (EolModelNotFoundException | EolModelElementTypeNotFoundException ex) {
 			throw new EolTypeNotFoundException(getName(), this);

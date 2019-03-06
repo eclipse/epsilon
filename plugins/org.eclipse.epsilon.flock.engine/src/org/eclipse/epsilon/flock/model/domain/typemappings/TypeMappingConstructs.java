@@ -21,7 +21,7 @@ import org.eclipse.epsilon.flock.equivalences.factory.EquivalenceFactory;
 import org.eclipse.epsilon.flock.execution.TypeMappingContext;
 
 public class TypeMappingConstructs {
-	private final List<TypeMappingConstruct> typeMappingConstructs = new LinkedList<TypeMappingConstruct>();
+	private final List<TypeMappingConstruct> typeMappingConstructs = new LinkedList<>();
 	private final EquivalenceFactory defaultEquivalenceFactory;
 	
 	public TypeMappingConstructs(TypeMappingConstruct... typeMappings) {

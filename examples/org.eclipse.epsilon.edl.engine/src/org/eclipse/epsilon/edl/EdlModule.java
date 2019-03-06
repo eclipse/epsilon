@@ -30,12 +30,11 @@ import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-
 public class EdlModule extends EolModule {
 	
-	protected List<ProcessRule> declaredProcessRules = new ArrayList<ProcessRule>();
+	protected List<ProcessRule> declaredProcessRules = new ArrayList<>();
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String... args) throws Exception {
 		
 		EdlModule module = new EdlModule();
 		module.parse(new File("resources/test.edl"));
@@ -96,7 +95,7 @@ public class EdlModule extends EolModule {
 	}
 	
 	public Object executeImpl() throws EolRuntimeException {
-
+		IEolContext context = getContext();
 		for (ProcessRule processRule : declaredProcessRules) {
 			processRule.execute(context);
 		}
@@ -105,13 +104,13 @@ public class EdlModule extends EolModule {
 	}
 	
 	@Override
-	public IEolContext getContext(){
-		return context;
+	public IEolContext getContext() {
+		return super.getContext();
 	}
 
 	@Override
 	public void setContext(IEolContext context) {
-		this.context = context;
+		super.setContext(context);
 	}
 		
 	public List<ProcessRule> getDeclaredProcessRules() {

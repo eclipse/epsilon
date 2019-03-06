@@ -41,7 +41,7 @@ class ModelType {
 	}
 		
 	Collection<String> getPropertiesSharedWith(ModelType other) throws EolModelElementTypeNotFoundException {
-		final Collection<String> sharedProperties = new LinkedList<String>(getProperties());
+		final Collection<String> sharedProperties = new LinkedList<>(getProperties());
 		
 		sharedProperties.retainAll(other.getProperties());
 		

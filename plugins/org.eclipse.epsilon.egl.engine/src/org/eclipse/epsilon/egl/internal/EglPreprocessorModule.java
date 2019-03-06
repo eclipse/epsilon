@@ -49,7 +49,7 @@ public class EglPreprocessorModule extends EolModule {
 	 * @since 1.6
 	 */
 	public EglPreprocessorModule(IEolContext delegate) {
-		this.context = new EglPreprocessorContext(delegate != null ? delegate : super.context);
+		setContext(new EglPreprocessorContext(delegate != null ? delegate : context));
 		if (delegate instanceof IEglContext) {
 			getContext().setEglContext((IEglContext)delegate);
 		}
@@ -70,7 +70,7 @@ public class EglPreprocessorModule extends EolModule {
 	
 	@Override
 	public EglPreprocessorContext getContext() {
-		return (EglPreprocessorContext) context;
+		return (EglPreprocessorContext) super.getContext();
 	}
 	
 	@Override
