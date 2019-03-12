@@ -280,7 +280,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	 * @since 1.6
 	 */
 	@Override
-	public Set<UnsatisfiedConstraint> executeImpl() throws EolRuntimeException {
+	public Collection<UnsatisfiedConstraint> executeImpl() throws EolRuntimeException {
 		prepareExecution();
 		checkConstraints();
 		postExecution();
@@ -292,8 +292,8 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public final Set<UnsatisfiedConstraint> execute() throws EolRuntimeException {
-		return (Set<UnsatisfiedConstraint>) super.execute();
+	public final Collection<UnsatisfiedConstraint> execute() throws EolRuntimeException {
+		return (Collection<UnsatisfiedConstraint>) super.execute();
 	}
 	
 	@Override

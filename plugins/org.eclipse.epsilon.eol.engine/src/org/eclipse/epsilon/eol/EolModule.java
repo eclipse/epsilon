@@ -44,7 +44,6 @@ public class EolModule extends AbstractModule implements IEolModule {
 	protected Set<ModelDeclaration> modelDeclarations;
 	protected EolCompilationContext compilationContext;
 	private IEolModule parent;
-	private boolean prepareContextCalled = false;
 	
 	public EolModule() {
 		setContext(new EolContext());
@@ -246,23 +245,15 @@ public class EolModule extends AbstractModule implements IEolModule {
 
 	protected void prepareContext() {
 		IEolContext context = getContext();
-		if (prepareContextCalled) return;
 		
 		EolSystem system = new EolSystem();
 		system.setContext(context);
-
 		context.setModule(this);
-		
-		for (Import import_ : getImports()) {
-			import_.setContext(context);
-		}
 		
 		context.getFrameStack().putGlobal(
 			Variable.createReadOnlyVariable("null", null),
 			Variable.createReadOnlyVariable("System", system)
 		);
-		
-		prepareContextCalled = true;
 	}
 
 	@Override
@@ -429,8 +420,11 @@ public class EolModule extends AbstractModule implements IEolModule {
 
 	@Override
 	public void setContext(IEolContext context) {
-		if ((this.context = context) != null && context.getModule() != this) {
-			context.setModule(this);
+		if (this.context != context) {
+			this.context = context;
+			for (Import import_ : getImports()) {
+				import_.setContext(context);
+			}
 		}
 	}
 

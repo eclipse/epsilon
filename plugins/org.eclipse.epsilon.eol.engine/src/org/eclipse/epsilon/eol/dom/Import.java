@@ -83,17 +83,16 @@ public class Import extends AbstractModuleElement {
 			}
 			
 			found = true;
-			if (importedModule.getParseProblems().size() == 0) {
-				loaded = true;
-			}
-		} catch (Exception e) {
+			loaded = importedModule.getParseProblems().isEmpty();
+		}
+		catch (Exception ex) {
 			// Ignore the exception. The import's loaded flag is still false
 			// and it's up to the importing module to do something about it.
 		}
 	}
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		return "import '" + getPath() + "'";
 	}
 	
@@ -125,7 +124,7 @@ public class Import extends AbstractModuleElement {
 	public void setContext(IEolContext context) {
 		if (importedModule instanceof IEolModule) {
 			IEolModule module = (IEolModule) importedModule;
-			//module.setContext(context);
+			module.setContext(context);
 			for (Import import_ : module.getImports()) {
 				import_.setContext(context);
 			}

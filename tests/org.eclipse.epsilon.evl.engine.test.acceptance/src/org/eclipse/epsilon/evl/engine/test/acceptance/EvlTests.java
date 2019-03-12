@@ -63,6 +63,10 @@ public class EvlTests {
 		return EvlAcceptanceTestUtil.modules();
 	}
 	
+	public static IModel newTestModel() {
+		return setUpModel("test.xml");
+	}
+	
 	private static IModel setUpModel(String modelName) {
 		PlainXmlModel model = new PlainXmlModel();
 		model.setFile(new File(EvlAcceptanceTestUtil.modelsRoot+modelName));
@@ -102,6 +106,9 @@ public class EvlTests {
 	private IEvlModule loadEVL(boolean optimised) throws Exception {
 		module = moduleGetter.get();
 		loadEVL(module, optimised);
+		if (optimised) {
+			module.getContext().setModule(module);
+		}
 		return module;
 	}
 	
@@ -112,8 +119,12 @@ public class EvlTests {
 	}
 	
 	private void assertUnsatisfiedConstraints(int number, String contextName, String constraintName) {
+		assertUnsatisfiedConstraints(number, contextName, constraintName, module.getContext());
+	}
+	
+	public static void assertUnsatisfiedConstraints(int number, String contextName, String constraintName, IEvlContext context) {
 		int matches = 0;
-		for (UnsatisfiedConstraint uc : module.getContext().getUnsatisfiedConstraints()) {
+		for (UnsatisfiedConstraint uc : context.getUnsatisfiedConstraints()) {
 			Constraint ucConstraint = uc.getConstraint();
 			String contextTypeName = ucConstraint.getConstraintContext().getTypeName();
 			
@@ -126,40 +137,33 @@ public class EvlTests {
 		assertEquals(number, matches);
 	}
 	
-	@SuppressWarnings("rawtypes")
-	@Test
-	public void testEvl() throws Exception {
-		module = loadEVL(false);
-
-		IEvlContext context = module.getContext();
-		module.execute();
-		
-		assertUnsatisfiedConstraints(0, null, "CanAccessPre");
-		assertUnsatisfiedConstraints(1, null, "EolTest");
-		assertUnsatisfiedConstraints(0, "t_a", "GuardVariableInvisibleInBlock");
-		assertUnsatisfiedConstraints(0, "t_a", "NeverChecked");
-		assertUnsatisfiedConstraints(2, "t_b", "EolTest2");
-		assertUnsatisfiedConstraints(2, "t_b", "AlwaysFalse");
-		assertUnsatisfiedConstraints(0, "t_b", "AlwaysTrue");
-		assertUnsatisfiedConstraints(2, "t_b", "ElementOperationInConstraint");
-		assertUnsatisfiedConstraints(0, "t_b", "NeverChecked");
-		assertUnsatisfiedConstraints(0, "t_b", "RequiresNonLazyConstraint");
-		assertUnsatisfiedConstraints(0, "t_b", "LazyWithGuard");
-		assertUnsatisfiedConstraints(2, "t_b", "RequiresLazyConstraint");
-		assertUnsatisfiedConstraints(2, "t_b", "RequiresContextlessLazy");
-		assertUnsatisfiedConstraints(2, "t_b", "InsaneLazyChain");
-		assertUnsatisfiedConstraints(2, "t_c", "WrongType");
-		assertUnsatisfiedConstraints(0, "t_c", "AlwaysTrueOperation");
-		assertUnsatisfiedConstraints(2, "t_c", "AlwaysFalseOperation");
-		assertUnsatisfiedConstraints(2, "t_c", "SatisfiesOneLazyAndNonLazy");
-		assertUnsatisfiedConstraints(2, "t_c", "SatisfiesAllLazyAndNonLazy");
-		assertUnsatisfiedConstraints(0, "t_c", "NeverCalledLazyGuard");
-		assertUnsatisfiedConstraints(2, "t_c", "LazyAlwaysFalseOperation");
-		assertUnsatisfiedConstraints(0, "t_c", "ExtendedPropertyCanBeAccessed");
-		assertUnsatisfiedConstraints(1, null, "LazyContextlessCallsLazy");
-		assertUnsatisfiedConstraints(1, null, "LazyContextlessDependedOn");
-		assertUnsatisfiedConstraints(0, null, "LazyContextlessNeverCalled");
-		assertUnsatisfiedConstraints(0, null, "ImportedOperationWithoutContext");
+	public static void testUnsatisfiedConstraintsForTestScriptAndModel(IEvlContext context) throws EolRuntimeException {
+		assertUnsatisfiedConstraints(0, null, "CanAccessPre", context);
+		assertUnsatisfiedConstraints(1, null, "EolTest", context);
+		assertUnsatisfiedConstraints(0, "t_a", "GuardVariableInvisibleInBlock", context);
+		assertUnsatisfiedConstraints(0, "t_a", "NeverChecked", context);
+		assertUnsatisfiedConstraints(2, "t_b", "EolTest2", context);
+		assertUnsatisfiedConstraints(2, "t_b", "AlwaysFalse", context);
+		assertUnsatisfiedConstraints(0, "t_b", "AlwaysTrue", context);
+		assertUnsatisfiedConstraints(2, "t_b", "ElementOperationInConstraint", context);
+		assertUnsatisfiedConstraints(0, "t_b", "NeverChecked", context);
+		assertUnsatisfiedConstraints(0, "t_b", "RequiresNonLazyConstraint", context);
+		assertUnsatisfiedConstraints(0, "t_b", "LazyWithGuard", context);
+		assertUnsatisfiedConstraints(2, "t_b", "RequiresLazyConstraint", context);
+		assertUnsatisfiedConstraints(2, "t_b", "RequiresContextlessLazy", context);
+		assertUnsatisfiedConstraints(2, "t_b", "InsaneLazyChain", context);
+		assertUnsatisfiedConstraints(2, "t_c", "WrongType", context);
+		assertUnsatisfiedConstraints(0, "t_c", "AlwaysTrueOperation", context);
+		assertUnsatisfiedConstraints(2, "t_c", "AlwaysFalseOperation", context);
+		assertUnsatisfiedConstraints(2, "t_c", "SatisfiesOneLazyAndNonLazy", context);
+		assertUnsatisfiedConstraints(2, "t_c", "SatisfiesAllLazyAndNonLazy", context);
+		assertUnsatisfiedConstraints(0, "t_c", "NeverCalledLazyGuard", context);
+		assertUnsatisfiedConstraints(2, "t_c", "LazyAlwaysFalseOperation", context);
+		assertUnsatisfiedConstraints(0, "t_c", "ExtendedPropertyCanBeAccessed", context);
+		assertUnsatisfiedConstraints(1, null, "LazyContextlessCallsLazy", context);
+		assertUnsatisfiedConstraints(1, null, "LazyContextlessDependedOn", context);
+		assertUnsatisfiedConstraints(0, null, "LazyContextlessNeverCalled", context);
+		assertUnsatisfiedConstraints(0, null, "ImportedOperationWithoutContext", context);
 		
 		for (UnsatisfiedConstraint uc : context.getUnsatisfiedConstraints()) {
 			uc.getMessage();
@@ -169,9 +173,15 @@ public class EvlTests {
 			}
 		}
 		
-		assertEquals("true", ((Map)context.getFrameStack().get("blackboard").getValue()).get("fix-do-executed"));
+		assertEquals("true", ((Map<?,?>)context.getFrameStack().get("blackboard").getValue()).get("fix-do-executed"));
 	}
-
+	
+	@Test
+	public void testUnsatisfiedConstraints() throws Exception {
+		(module = loadEVL(false)).execute();
+		testUnsatisfiedConstraintsForTestScriptAndModel(module.getContext());
+	}
+	
 	@Test
 	public void testCanBeTransformedEVL() throws Exception {
 		module = loadEVL(true);
@@ -235,8 +245,7 @@ public class EvlTests {
 	 */
 	@Test
 	public void testOptimizedExecution() throws Exception {
-		module = loadEVL(true);
-		module.execute();
+		(module = loadEVL(true)).execute();
 		
 		assertUnsatisfiedConstraints(0, "t_b", "NoGuardAlwaysTrue");
 		assertUnsatisfiedConstraints(4, "t_b", "NoGuardAlwaysFalse");

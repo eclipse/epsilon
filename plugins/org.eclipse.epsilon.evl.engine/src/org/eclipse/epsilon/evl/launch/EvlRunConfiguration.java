@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.launch;
 
-import java.util.Set;
+import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 import org.eclipse.epsilon.evl.EvlModule;
@@ -55,14 +55,14 @@ public class EvlRunConfiguration extends IErlRunConfiguration {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<UnsatisfiedConstraint> getResult() {
-		return (Set<UnsatisfiedConstraint>) super.getResult();
+	public Collection<UnsatisfiedConstraint> getResult() {
+		return (Collection<UnsatisfiedConstraint>) super.getResult();
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<UnsatisfiedConstraint> execute() throws EolRuntimeException {
-		return (Set<UnsatisfiedConstraint>) super.execute();
+	public Collection<UnsatisfiedConstraint> execute() throws EolRuntimeException {
+		return (Collection<UnsatisfiedConstraint>) super.execute();
 	}
 	
 	@Override
