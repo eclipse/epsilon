@@ -21,14 +21,14 @@ import org.eclipse.emf.ecore.EValidator;
 
 public class CompositeEValidator implements EValidator {
 	
-	protected Collection<EValidator> delegates = new ArrayList<EValidator>();
+	protected Collection<EValidator> delegates = new ArrayList<>();
 	
 	public Collection<EValidator> getDelegates() {
 		return delegates;
 	}
 
-	public boolean validate(EObject object, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
+	@Override
+	public boolean validate(EObject object, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean validate = true;
 		for (EValidator validator : delegates) {
 			if (validate || diagnostics != null) {
@@ -38,8 +38,8 @@ public class CompositeEValidator implements EValidator {
 		return validate;
 	}
 
-	public boolean validate(EClass class1, EObject object,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
+	@Override
+	public boolean validate(EClass class1, EObject object, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean validate = true;
 		for (EValidator validator : delegates) {
 			if (validate || diagnostics != null) {
@@ -49,8 +49,8 @@ public class CompositeEValidator implements EValidator {
 		return validate;
 	}
 
-	public boolean validate(EDataType dataType, Object value,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
+	@Override
+	public boolean validate(EDataType dataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		boolean validate = true;
 		for (EValidator validator : delegates) {
 			if (validate || diagnostics != null) {

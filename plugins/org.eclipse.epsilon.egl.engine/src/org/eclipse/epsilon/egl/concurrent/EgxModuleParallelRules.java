@@ -21,7 +21,9 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 /**
  * Executes each element for each {@linkplain GenerationRule} in parallel.
+ * 
  * @author Sina Madani
+ * @since 1.6
  */
 public class EgxModuleParallelRules extends EgxModuleParallel {
 

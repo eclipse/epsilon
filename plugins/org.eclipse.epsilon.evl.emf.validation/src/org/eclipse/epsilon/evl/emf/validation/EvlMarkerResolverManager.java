@@ -23,7 +23,7 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 	
 	public static EvlMarkerResolverManager INSTANCE = new EvlMarkerResolverManager();
 	
-	protected Collection<IEvlMarkerResolver> delegates = new ArrayList<IEvlMarkerResolver>();
+	protected Collection<IEvlMarkerResolver> delegates = new ArrayList<>();
 	
 	private EvlMarkerResolverManager() {
 		delegates.add(new EmfMarkerResolver());
@@ -39,6 +39,7 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		}
 	}
 	
+	@Override
 	public boolean canResolve(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {
 			if (delegate.canResolve(marker))
@@ -47,6 +48,7 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		return false;
 	}
 
+	@Override
 	public EObject resolve(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {
 			if (delegate.canResolve(marker))
@@ -55,6 +57,7 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		return null;
 	}
 	
+	@Override
 	public String getAbsoluteElementId(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {
 			if (delegate.canResolve(marker))
@@ -63,6 +66,7 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		return null;
 	}
 
+	@Override
 	public String getMessage(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {
 			if (delegate.canResolve(marker))
@@ -71,6 +75,7 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		return null;
 	}
 
+	@Override
 	public EditingDomain getEditingDomain(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {
 			if (delegate.canResolve(marker))
@@ -83,5 +88,4 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		return null;
 	}
 
-	
 }

@@ -31,14 +31,12 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -51,17 +49,19 @@ import org.eclipse.ui.part.ViewPart;
 
 public class ValidationView extends ViewPart {
 	
-	protected IEvlModule module = null;
+	protected IEvlModule module;
 	protected TableViewer viewer;
 	protected Action stopAction;
 	protected Action clearAction;
 	protected ValidationViewFixer fixer;
 	
 	class UnsatisfiedConstraintLabelProvider extends LabelProvider implements ITableLabelProvider {
+		
 		@Override
 		public String getColumnText(Object obj, int index) {
 			return ((UnsatisfiedConstraint) obj).getMessage();
 		}
+		
 		@Override
 		public Image getColumnImage(Object obj, int index) {
 			UnsatisfiedConstraint unsatisfiedConstraint = (UnsatisfiedConstraint) obj;
@@ -79,10 +79,7 @@ public class ValidationView extends ViewPart {
 			}
 		}
 	}
-	
-	class NameSorter extends ViewerSorter {
-	}
-	
+
 	protected boolean existUnsatisfiedConstraintsToFix() {
 		for (UnsatisfiedConstraint constraint : module.getContext().getUnsatisfiedConstraints()) {
 			if (constraint.getFixes().size() > 0 && !constraint.isFixed()) {
@@ -116,29 +113,26 @@ public class ValidationView extends ViewPart {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new ListContentProvider());
 		viewer.setLabelProvider(new UnsatisfiedConstraintLabelProvider());
-		viewer.setSorter(new NameSorter());
+		// Sort by name alphabetically
+		viewer.setComparator(new ViewerComparator((s1, s2) -> s1.compareTo(s2)));
 		
 		try {
 			final List<IModelElementLocator> modelElementLocators = ClassBasedExtension.getImplementations(IModelElementLocator.EXTENSION_POINT, IModelElementLocator.class);
 		
-			viewer.addDoubleClickListener(new IDoubleClickListener() {
-				
-				@Override
-				public void doubleClick(DoubleClickEvent event) {
-					IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-					final UnsatisfiedConstraint constraint = (UnsatisfiedConstraint) selection.getFirstElement();
-					for (final IModelElementLocator modelElementLocator : modelElementLocators) {
-						if (modelElementLocator.canLocate(constraint.getInstance())) {
-							Job job = new Job("Locating model element") {
-						        @Override
-						        protected IStatus run(IProgressMonitor monitor) {
-						        	modelElementLocator.locate(constraint.getInstance());
-						            return Status.OK_STATUS;
-						        }
-							};
-							// Start the Job
-							job.schedule();
-						}
+			viewer.addDoubleClickListener(event -> {
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+				final UnsatisfiedConstraint constraint = (UnsatisfiedConstraint) selection.getFirstElement();
+				for (final IModelElementLocator modelElementLocator : modelElementLocators) {
+					if (modelElementLocator.canLocate(constraint.getInstance())) {
+						Job job = new Job("Locating model element") {
+					        @Override
+					        protected IStatus run(IProgressMonitor monitor) {
+					        	modelElementLocator.locate(constraint.getInstance());
+					            return Status.OK_STATUS;
+					        }
+						};
+						// Start the Job
+						job.schedule();
 					}
 				}
 			});
@@ -173,7 +167,6 @@ public class ValidationView extends ViewPart {
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		
 		UnsatisfiedConstraint unsatisfiedConstraint = (UnsatisfiedConstraint)((StructuredSelection) viewer.getSelection()).getFirstElement();
 		if (unsatisfiedConstraint == null) return;
 		
@@ -186,7 +179,6 @@ public class ValidationView extends ViewPart {
 	}
 	
 	class PerformFixAction extends Action {
-		
 		UnsatisfiedConstraint unsatisfiedConstraint = null;
 		FixInstance fixInstance = null;
 		
@@ -205,7 +197,6 @@ public class ValidationView extends ViewPart {
 		
 		@Override
 		public void run() {
-			
 			//PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
 				try {
 					fixInstance.perform();
@@ -216,9 +207,7 @@ public class ValidationView extends ViewPart {
 					module.getContext().getErrorStream().println(e.toString());
 				}
 			//});
-			
 		}
-		
 	}
 	
 	private void fillLocalToolBar(IToolBarManager manager) {

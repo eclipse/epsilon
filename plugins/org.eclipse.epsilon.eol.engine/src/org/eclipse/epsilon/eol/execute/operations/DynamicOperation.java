@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.operations;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
@@ -62,7 +61,7 @@ public class DynamicOperation extends AbstractOperation {
 		final String methodName = operationNameExpression.getName();
 		final IEolContext context;
 		
-		if (target instanceof BaseStream && ((BaseStream<?,?>)target).isParallel() && !(context_ instanceof IEolContextParallel)) {
+		if (target instanceof BaseStream && ((BaseStream<?,?>) target).isParallel() && !(context_ instanceof IEolContextParallel)) {
 			context = EolContextParallel.convertToParallel(context_);
 		}
 		else {
@@ -76,17 +75,15 @@ public class DynamicOperation extends AbstractOperation {
 		
 		// Look for a matching method with FunctionalInterface parameter(s)
 		Predicate<Method> criteria = method ->
-			//method.isAccessible() && TODO: get this working for Java 9+
+			Modifier.isPublic(method.getModifiers()) &&
 			method.getParameterCount() == expressions.size() &&
 			Arrays.stream(method.getParameterTypes())
 				.filter(Class::isInterface)
 				.allMatch(intf -> Arrays.stream(intf.getAnnotations())
 						.anyMatch(a -> a.annotationType().equals(FunctionalInterface.class)) ||
 					Arrays.stream(intf.getMethods())
-					.filter(targetParamMethod ->
-						Modifier.isAbstract(targetParamMethod.getModifiers())
-					)
-					.count() == 1
+						.filter(targetParamMethod -> Modifier.isAbstract(targetParamMethod.getModifiers()))
+						.count() == 1
 				);
 		
 		final Method resolvedMethod = ReflectionUtil.findApplicableMethodOrThrow(
@@ -126,10 +123,10 @@ public class DynamicOperation extends AbstractOperation {
 		
 		// Finally, call the method with the resolved parameters
 		try {
-			resolvedMethod.setAccessible(true);	// TODO: Illegal reflective access from Java 9+
-			return resolvedMethod.invoke(target, candidateParameterValues);
+			return ReflectionUtil.executeMethod(resolvedMethod, target, candidateParameterValues);
 		}
-		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+		catch (Throwable ex) {
+			//System.err.println(ex);
 			throw new EolRuntimeException(ex);
 		}
 	}

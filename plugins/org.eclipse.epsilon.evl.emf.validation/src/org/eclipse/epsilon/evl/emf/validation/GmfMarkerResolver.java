@@ -32,7 +32,7 @@ public class GmfMarkerResolver extends EmfMarkerResolver {
 		return "platform:/resource" + resolved.eResource().getURI().toPlatformString(true) + "#" + resolved.eResource().getURIFragment(resolved);
 	}
 	
-	public HashMap<IEditorPart, EditingDomain> domains = new HashMap<IEditorPart, EditingDomain>();
+	public HashMap<IEditorPart, EditingDomain> domains = new HashMap<>();
 	
 	@Override
 	public EditingDomain getEditingDomain(IEditorPart editor) {
@@ -98,7 +98,4 @@ public class GmfMarkerResolver extends EmfMarkerResolver {
 			return null;
 		}
 	}
-	
-	
-	
 }

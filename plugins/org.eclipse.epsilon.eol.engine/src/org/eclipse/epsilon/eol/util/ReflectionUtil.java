@@ -102,12 +102,20 @@ public class ReflectionUtil {
 		for (Class<?> clazzToCheck = obj.getClass(); !candidate.isPresent(); clazzToCheck = clazzToCheck.getSuperclass()) {
 			if (clazzToCheck == null) break;
 			
-			candidate = Stream.concat(
-					Stream.of(getMethods(clazzToCheck, true, true)),
-					Stream.of(clazzToCheck.getInterfaces()).flatMap(clazz -> Stream.of(clazz.getMethods()))
-				)
-				.filter(criteria.and(method -> method.getName().equals(methodName)))
-				.findAny();
+			try {
+				candidate = Stream.concat(
+						Stream.of(getMethods(clazzToCheck, true, true)),
+						Stream.of(clazzToCheck.getInterfaces()).flatMap(clazz -> Stream.of(clazz.getMethods()))
+					)
+					.filter(criteria.and(method ->
+						method.getName().equals(methodName)/* &&
+						method.canAccess(Modifier.isStatic(method.getModifiers()) ? null : obj)
+					*/))
+					.findAny();
+			}
+			catch (Exception ex) {
+				continue;
+			}
 		}
 		
 		return candidate.orElseThrow(exceptionGetter);
@@ -135,7 +143,7 @@ public class ReflectionUtil {
 	 * @since 1.6 (added punchThroughNative parameter)
 	 */
 	private static Method[] getMethods(Object obj, boolean includeInheritedMethods, boolean punchThroughNative) {
-		Class<?> clazz;
+		final Class<?> clazz;
 		
 		if (punchThroughNative && obj instanceof EolNativeType) {
 			clazz = ((EolNativeType)obj).getJavaClass();
@@ -258,6 +266,7 @@ public class ReflectionUtil {
 		try {
 			//TODO: replace with canAccess(Object)
 			if (!method.isAccessible()) {
+				// TODO: Illegal reflective access from Java 9+
 				method.setAccessible(true);
 			}
 			return method.invoke(obj, parameters);
@@ -301,7 +310,7 @@ public class ReflectionUtil {
 		try {
 			return field.get(object);
 		}
-		catch (Exception ex){
+		catch (Exception ex) {
 			return null;
 		}
 	}
@@ -314,17 +323,16 @@ public class ReflectionUtil {
 	 * @return
 	 */
 	public static Field getField(Class<?> clazz, String fieldName) {
-	
 		Field[] fields = clazz.getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
 			if (fields[i].getName().equals(fieldName))
 				return fields[i];
 		}
 		
-		if (clazz.getSuperclass() != Object.class) return getField(clazz.getSuperclass(), fieldName);
+		if (clazz.getSuperclass() != Object.class)
+			return getField(clazz.getSuperclass(), fieldName);
 		
 		return null;
-		
 	}
 	
 	/**

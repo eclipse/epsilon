@@ -19,6 +19,7 @@ public class EvlEditorStaticTemplateContributor implements IAbstractModuleEditor
 	
 	List<Template> templates;
 	
+	@Override
 	public List<Template> getTemplates() {
 		if (templates == null) {
 			templates = new ArrayList<>(3);

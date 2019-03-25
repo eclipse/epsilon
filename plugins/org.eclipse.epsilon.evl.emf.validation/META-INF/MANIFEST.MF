@@ -20,3 +20,4 @@ Require-Bundle: org.eclipse.epsilon.evl.engine,
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.evl.emf.validation
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.evl.emf.validation

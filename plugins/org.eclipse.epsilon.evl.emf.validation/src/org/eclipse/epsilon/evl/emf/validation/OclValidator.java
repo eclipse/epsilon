@@ -11,66 +11,45 @@
 package org.eclipse.epsilon.evl.emf.validation;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Map;
-
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.ocl.OCLInput;
 import org.eclipse.ocl.ecore.Constraint;
-import org.eclipse.ocl.ecore.EcoreEnvironment;
 import org.eclipse.ocl.ecore.OCL;
 
 public class OclValidator implements EValidator {
 	
 	protected URI source;
+	protected OCL ocl;
 	
 	public OclValidator(URI source) {
 		this.source = source;
 	}
 	
-	public boolean validate(EObject object, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-		
+	@Override
+	public boolean validate(EObject object, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return true;
 	}
 
-	public boolean validate(EClass class1, EObject object,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
-		
+	@Override
+	public boolean validate(EClass class1, EObject object, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		try {
-			OCLInput oclInput = new OCLInput(source.toURL().openStream());
+			if (ocl == null) ocl = OCL.newInstance();
 			
-			
-			class GlobalEnvironment extends EcoreEnvironment{
-				
-				public GlobalEnvironment() {
-					super(EPackage.Registry.INSTANCE);
-				}
-				
-			}
-			
-			OCL ocl = OCL.newInstance(new GlobalEnvironment());
-			
-			List<Constraint> constraints = ocl.parse(oclInput);
-			
-			for (Constraint constraint : constraints) {
+			for (Constraint constraint : ocl.parse(new OCLInput(source.toURL().openStream()))) {
 				if (constraint.getSpecification().getContextVariable().getType().isInstance(object)) {
 					if (!ocl.check(object, constraint)) {
-						BasicDiagnostic diagnostic = new BasicDiagnostic(4,"",0,"Constraint " + constraint.getName() + " failed for object " + object ,new Object[]{object});
+						BasicDiagnostic diagnostic = new BasicDiagnostic(4,"",0,"Constraint " + constraint.getName() + " failed for object " + object, new Object[]{object});
 						diagnostics.add(diagnostic);
 					}
 				}
 			}
-			
-			
-			
 		}
 		catch (Exception ex) {
 			LogUtil.log(ex);
@@ -79,11 +58,9 @@ public class OclValidator implements EValidator {
 		return true;
 	}
 
-	public boolean validate(EDataType dataType, Object value,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
-		
+	@Override
+	public boolean validate(EDataType dataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return true;
 	}
-
 }
  

@@ -58,8 +58,11 @@ public class ValidationViewFixer implements IEvlFixer {
 			@Override
 			public void run() {
 				try {
-					validationViewWrapper.validationView = (ValidationView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.epsilon.evl.dt.views.ValidationView");
-				} catch (PartInitException e) {
+					validationViewWrapper.validationView = (ValidationView) PlatformUI
+						.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+						.showView("org.eclipse.epsilon.evl.dt.views.ValidationView");
+				}
+				catch (PartInitException e) {
 					e.printStackTrace();
 				}
 			}

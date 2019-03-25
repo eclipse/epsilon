@@ -173,7 +173,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	}
 	
 	@Override
-	public Object getThrows() throws Exception {
+	public final Object getThrows() throws Exception {
 		return call();
 	}
 	

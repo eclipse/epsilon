@@ -134,7 +134,6 @@ public class EgxModule extends ErlModule implements IEgxModule {
 				}
 			}
 		}
-	
 		return super.adapt(cst, parentAst);
 	}
 	
