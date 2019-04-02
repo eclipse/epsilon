@@ -101,7 +101,8 @@ public class TransformationRule extends ExtensibleNamedRule {
 	
 	@Override
 	public boolean isLazy(IEolContext context) throws EolRuntimeException {
-		return super.isLazy(context) || !(sourceParameter.getType(context) instanceof EolModelElementType);
+		return super.isLazy(context)
+				|| (!(sourceParameter.getType(context) instanceof EolModelElementType) && !isAbstract());
 	}
 	
 	public boolean hasTransformed(Object source) {
