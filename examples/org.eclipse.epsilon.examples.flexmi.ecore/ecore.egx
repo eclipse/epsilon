@@ -1,0 +1,29 @@
+@render graphviz-dot
+rule All2Dot {
+	
+	parameters : Map{"classes" = EClass.all}
+	
+	template: "eclass2dot.egl"
+	
+	target: "Model/(All classes)"
+	
+}
+
+@render graphviz-dot
+rule EClass2Dot 
+	transform c : EClass {
+	
+	parameters {
+		var classes = Set{c};
+		classes.addAll(c.eReferences.eType);
+		classes.addAll(EClass.all.select(o|o.eReferences.eType.includes(c)));
+		classes.addAll(c.eSuperTypes);
+		classes.addAll(EClass.all.select(o|o.eSuperTypes.includes(c)));
+		return Map{"classes" = classes};
+	}
+	
+	template: "eclass2dot.egl"
+	
+	target: "Model/" + c.name
+	
+}

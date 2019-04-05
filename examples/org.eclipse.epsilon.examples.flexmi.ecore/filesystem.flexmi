@@ -1,5 +1,5 @@
 <?nsuri http://www.eclipse.org/emf/2002/Ecore?>
-<?render-graphviz-dot graphviz.egl?>
+<?render-egx ecore.egx?>
 <_>
 	
 	<class name="Filesystem">
