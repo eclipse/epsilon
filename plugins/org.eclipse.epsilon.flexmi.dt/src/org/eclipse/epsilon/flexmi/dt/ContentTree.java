@@ -59,6 +59,32 @@ public class ContentTree {
 		}
 	}
 	
+	public void ingest(ContentTree other) {
+		
+		List<ContentTree> obsolete = new ArrayList<ContentTree>();
+		List<ContentTree> fresh = new ArrayList<>(other.getChildren());
+		
+		for (ContentTree child : getChildren()) {
+			ContentTree counterpart = null;
+			for (ContentTree otherChild : other.getChildren()) {
+				if (child.getName().equals(otherChild.getName())) {
+					counterpart = otherChild;
+					fresh.remove(counterpart);
+					child.setContent(counterpart.getContent());
+					child.setFormat(counterpart.getFormat());
+					child.ingest(counterpart);
+				}
+			}
+			if (counterpart == null) {
+				obsolete.add(child);
+			}
+		}
+		
+		getChildren().removeAll(obsolete);
+		getChildren().addAll(fresh);
+		
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -89,8 +115,7 @@ public class ContentTree {
 	
 	@Override
 	public String toString() {
-		//return name + " { content: " + content + " [" + children.stream().map( n -> n.toString() ) .collect( Collectors.joining( "," ) ) + "]";
-		return name;
+		return name + " { content: " + content + " [" + children.stream().map( n -> n.toString() ) .collect( Collectors.joining( "," ) ) + "]";
 	}
 	
 }

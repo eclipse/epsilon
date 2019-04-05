@@ -29,15 +29,10 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionBars;
@@ -46,6 +41,8 @@ import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.FilteredTree;
+import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.part.ViewPart;
 import org.w3c.dom.ProcessingInstruction;
 
@@ -61,6 +58,7 @@ public class FlexmiRendererView extends ViewPart {
 	protected double zoom = 1.0;
 	protected SashForm sashForm;
 	protected int[] sashFormWeights = null;
+	protected File renderedFile = null;
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -74,7 +72,18 @@ public class FlexmiRendererView extends ViewPart {
 		
 		sashForm = new SashForm(parent, SWT.HORIZONTAL);
 		
-		treeViewer = new TreeViewer(sashForm, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		PatternFilter filter = new PatternFilter() {
+			@Override
+			protected boolean isLeafMatch(Viewer viewer, Object element) {
+				ContentTree contentTree = (ContentTree) element;
+				return wordMatches(contentTree.getName()) || (contentTree.getContent() != null && wordMatches(contentTree.getContent()));
+			}
+		};
+		FilteredTree filteredTree = new FilteredTree(sashForm, SWT.MULTI | SWT.H_SCROLL
+				| SWT.V_SCROLL | SWT.BORDER, filter, true);
+		
+		treeViewer = filteredTree.getViewer();
+		//treeViewer = new TreeViewer(sashForm, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		treeViewer.setContentProvider(new ContentTreeContentProvider());
 		treeViewer.setLabelProvider(new ContentTreeLabelProvider());
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -194,6 +203,8 @@ public class FlexmiRendererView extends ViewPart {
 				Thread.sleep(100);
 			}
 			File flexmiFile = new File(editor.getFile().getLocation().toOSString());
+			boolean rerender = renderedFile != null && renderedFile.getAbsolutePath().equals(flexmiFile.getAbsolutePath());
+			renderedFile = flexmiFile;
 			
 			ResourceSet resourceSet = new ResourceSetImpl();
 			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
@@ -246,15 +257,35 @@ public class FlexmiRendererView extends ViewPart {
 				context.getModelRepository().addModel(model);
 				
 				if (format.equals("egx")) {
-					render("", "text");
+					if (!rerender) {
+						render("", "text");
+					}
 					
 					LazyEglTemplateFactory templateFactory = new LazyEglTemplateFactory();
 					templateFactory.setTemplateRoot(flexmiFile.getParentFile().getAbsolutePath());
 					((EgxModule) module).setTemplateFactory(templateFactory);
 					((EgxModule) module).execute();
 					
-					treeViewer.setInput(templateFactory.getContentTree());
+					ContentTree contentTree = (ContentTree) treeViewer.getInput();
+					if (contentTree == null || !rerender) {
+						treeViewer.setInput(templateFactory.getContentTree());
+					}
+					else {
+						contentTree.ingest(templateFactory.getContentTree());
+					}
+					
 					treeViewer.refresh();
+					
+					if (rerender) {
+						ContentTree selected = (ContentTree) treeViewer.getStructuredSelection().getFirstElement();
+						if (selected != null) {
+							render(selected.getContent(), selected.getFormat());
+						}
+						else {
+							nothingToRender();
+						}
+					}
+					
 				}
 				else {
 					String content = module.execute() + "";
