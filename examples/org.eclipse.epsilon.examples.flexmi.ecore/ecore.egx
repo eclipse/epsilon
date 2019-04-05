@@ -24,6 +24,6 @@ rule EClass2Dot
 	
 	template: "eclass2dot.egl"
 	
-	target: "Model/" + c.name
+	target: "Model/Classes/" + c.name
 	
 }

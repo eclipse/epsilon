@@ -1,5 +1,5 @@
 <?nsuri gsn?>
-<?render-graphviz-dot graphviz.egl?>
+<?render-egx gsn.egx?>
 <?import ccp.flexmi?>
 <_>
     <model>

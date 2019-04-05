@@ -1,16 +1,16 @@
 digraph G {
-[%for (g in Goal.all()) {%]
+[%for (g in AllGoals) {%]
   { rank = same;
     [%=g.nodeLabel("rect", "")%]
-[%    for (c in ContextOf.all.select(c | c.source == g)) { %]
+[%    for (c in AllContextOf.select(c | c.source == g)) { %]
     [%=c.target.nodeLabel("rect", "rounded")%]
 [%    }%]
   }
 [%}%]
-[%for (s in Strategy.all()) { %]
+[%for (s in AllStrategies) { %]
   { rank = same;
     [%=s.nodeLabel("parallelogram", "")%]
-[%  var ctxs = ContextOf.all.select(c | c.source == s);
+[%  var ctxs = AllContextOf.select(c | c.source == s);
     if (ctxs.size() > 0) {%]
     node[group=[%=s.name%]];
 [%      for (c in ctxs) { %]
@@ -20,16 +20,16 @@ digraph G {
 [%  }%]
   }
 [%}%]
-[%for (s in Solution.all()) {%]
+[%for (s in AllSolutions) {%]
   { rank = same;
     [%=s.nodeLabel("circle", "")%]
   }
 [%}%]	
-[%for (s in SupportedBy.all) { %]
+[%for (s in AllSupportedBy) { %]
   [%=s.source.name%] -> [%=s.target.name%];
 [%}%]
 	
-[%for (s in ContextOf.all) { %]
+[%for (s in AllContextOf) { %]
   [%=s.source.name%] -> [%=s.target.name%] [arrowhead = onormal];
 [%}%]
 }

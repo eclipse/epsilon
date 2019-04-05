@@ -1,6 +1,6 @@
 digraph G {
-	node[shape=record]
-	edge[dir=back, arrowtail=empty]
+	node[shape=record,fontname="Menlo",fontsize=8]
+	edge[dir=back, arrowtail=empty,fontname="Menlo",fontsize=8]
 	 
 	[%for (c in classes) { %]
 	[%=c.name%][label = "{[%=c.name%]|[%=c.eAttributes.collect(a|a.getLabel()).concat("\\n")%]|[%=c.eOperations.collect(a|a.getLabel()).concat("\\n")%]}"]

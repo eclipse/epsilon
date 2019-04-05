@@ -1,8 +1,12 @@
 <?nsuri http://www.eclipse.org/emf/2002/Ecore?>
-<?render-graphviz-dot graphviz.egl?>
+<?render-egx ecore.egx?>
 <_>
 
 	<singleton name="Log">
+		<attr name="level" type="int"/>
+	</singleton> 
+	
+	<singleton name="Log2">
 		<attr name="level" type="int"/>
 	</singleton> 
 	
