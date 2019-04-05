@@ -208,21 +208,7 @@ public class FlexmiRendererView extends ViewPart {
 				model.setName("M");
 				
 				if (format.equals("egx")) {
-					module = new EgxModule() {
-						public ModuleElement adapt(AST cst, ModuleElement parentAst) {
-							ModuleElement moduleElement = super.adapt(cst, parentAst);
-							if (moduleElement instanceof GenerationRule) {
-								moduleElement = new GenerationRule() {
-									
-									public void generate(IEolContext context, EglTemplateFactory templateFactory, IEgxModule module, Object element, java.util.Map<java.net.URI,EglTemplate> templateCache) throws EolRuntimeException {
-										((LazyEglTemplateFactory) templateFactory).setGenerationRule(this);
-										super.generate(context, templateFactory, module, element, templateCache);
-									};
-								};
-							}
-							return moduleElement;
-						};
-					};
+					module = new EgxModule();
 					setTreeViewerVisible(true);
 					browserContainer.setBorderVisible(true);
 				}
@@ -245,7 +231,7 @@ public class FlexmiRendererView extends ViewPart {
 						render("", "text");
 					}
 					
-					LazyEglTemplateFactory templateFactory = new LazyEglTemplateFactory();
+					RenderingEglTemplateFactory templateFactory = new RenderingEglTemplateFactory();
 					templateFactory.setTemplateRoot(flexmiFile.getParentFile().getAbsolutePath());
 					((EgxModule) module).setTemplateFactory(templateFactory);
 					((EgxModule) module).execute();

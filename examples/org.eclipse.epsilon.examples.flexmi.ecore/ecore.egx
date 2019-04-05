@@ -1,15 +1,15 @@
-@render graphviz-dot
 rule All2Dot {
 	
-	parameters : Map{"classes" = EClass.all}
+	parameters : Map {
+		"classes" = EClass.all, 
+		"format" = "graphviz-dot",
+		"path" = List{"Model", "(All classes)"}
+	}
 	
 	template: "eclass2dot.egl"
 	
-	target: "Model/(All classes)"
-	
 }
 
-@render graphviz-dot
 rule EClass2Dot 
 	transform c : EClass {
 	
@@ -19,11 +19,14 @@ rule EClass2Dot
 		classes.addAll(EClass.all.select(o|o.eReferences.eType.includes(c)));
 		classes.addAll(c.eSuperTypes);
 		classes.addAll(EClass.all.select(o|o.eSuperTypes.includes(c)));
-		return Map{"classes" = classes};
+		
+		return Map{
+			"classes" = classes, 
+			"format" = "graphviz-dot",
+			"path" = Sequence{"Model", "Classes", c.name}
+		};
 	}
 	
 	template: "eclass2dot.egl"
-	
-	target: "Model/Classes/" + c.name
 	
 }

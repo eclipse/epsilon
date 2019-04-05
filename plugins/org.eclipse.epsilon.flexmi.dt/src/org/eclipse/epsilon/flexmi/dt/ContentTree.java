@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.flexmi.dt;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,12 +11,13 @@ public class ContentTree {
 	protected String content;
 	protected String name;
 	protected String format = "text";
+	protected String icon = "diagram";
 	
 	public static void main(String[] args) {
 		
 		ContentTree pathTree = new ContentTree("");
-		pathTree.addPath("e1/e2", "c1", "text");
-		pathTree.addPath("e1/e3/e4", "c2", "text");
+		pathTree.addPath(Arrays.asList("e1", "e2"), "c1", "text", "");
+		pathTree.addPath(Arrays.asList("e1", "e3", "e4"), "c2", "text", "");
 		System.out.println(pathTree);
 	}
 	
@@ -23,10 +25,11 @@ public class ContentTree {
 		this.name = name;
 	}
 	
-	public void addPath(String path, String content, String format) {
-		if (path.indexOf('/') > -1) {
-			String name = path.substring(0, path.indexOf('/'));
-			String rest = path.substring(path.indexOf('/')+1, path.length());
+	public void addPath(List<String> path, String content, String format, String icon) {
+		
+		if (path.size() > 1) {
+			String name = path.get(0);
+			List<String> rest = path.subList(1, path.size());
 			ContentTree child = null;
 			for (ContentTree candidate : children) {
 				if (candidate.getName().equals(name)) {
@@ -39,23 +42,24 @@ public class ContentTree {
 				children.add(child);
 			}
 			
-			child.addPath(rest, content, format);
+			child.addPath(rest, content, format, icon);
 		}
-		else {
+		else if (path.size() == 1) {
 			ContentTree child = null;
 			for (ContentTree candidate : children) {
-				if (candidate.getName().equals(path)) {
+				if (candidate.getName().equals(path.get(0))) {
 					child = candidate;
 				}
 			}
 			
 			if (child == null) {
-				child = new ContentTree(path);
+				child = new ContentTree(path.get(0));
 				children.add(child);
 			}
 			
 			child.setFormat(format);
 			child.setContent(content);
+			child.setIcon(icon);
 		}
 	}
 	
@@ -72,6 +76,7 @@ public class ContentTree {
 					fresh.remove(counterpart);
 					child.setContent(counterpart.getContent());
 					child.setFormat(counterpart.getFormat());
+					child.setIcon(counterpart.getIcon());
 					child.ingest(counterpart);
 				}
 			}
@@ -111,6 +116,14 @@ public class ContentTree {
 	
 	public void setFormat(String format) {
 		this.format = format;
+	}
+	
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	
+	public String getIcon() {
+		return icon;
 	}
 	
 	@Override

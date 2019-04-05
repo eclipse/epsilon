@@ -1,4 +1,3 @@
-@render graphviz-dot
 rule GSN2Dot {
 	
 	template: "gsn.egl"
@@ -8,14 +7,14 @@ rule GSN2Dot {
 		"AllSolutions" = Solution.all,
 		"AllSupportedBy" = SupportedBy.all,
 		"AllStrategies" = Strategy.all, 
-		"AllGoals" = Goal.all
+		"AllGoals" = Goal.all,
+		"path" = Sequence{"Model", "(All nodes)"},
+		"format" = "graphviz-dot"
 	}
 	
-	target: "Model/(All nodes)"
 	
 }
 
-@render graphviz-dot
 rule GSN2DotNoContexts {
 	
 	template: "gsn.egl"
@@ -25,14 +24,13 @@ rule GSN2DotNoContexts {
 		"AllSolutions" = Solution.all,
 		"AllSupportedBy" = SupportedBy.all,
 		"AllStrategies" = Strategy.all, 
-		"AllGoals" = Goal.all
+		"AllGoals" = Goal.all,
+		"path" = Sequence{"Model", "(All nodes - No Contexts)"},
+		"format" = "graphviz-dot"
 	}
-	
-	target: "Model/(All nodes - No Contexts)"
 	
 }
 
-@render graphviz-dot
 rule Goal2Dot 
 	transform g : Goal {
 	
@@ -47,11 +45,11 @@ rule Goal2Dot
 			"AllSolutions" = SupportedBy.all.select(s|s.source = g and s.`target`.isTypeOf(Solution)).`target`,
 			"AllSupportedBy" = SupportedBy.all.select(s|s.source = g or AllStrategies.includes(s.source)),
 			"AllStrategies" = AllStrategies, 
-			"AllGoals" = Sequence{g}.includingAll(SupportedBy.all.select(s|AllStrategies.includes(s.source) and s.`target`.isTypeOf(Goal)).`target`)
+			"AllGoals" = Sequence{g}.includingAll(SupportedBy.all.select(s|AllStrategies.includes(s.source) and s.`target`.isTypeOf(Goal)).`target`),
+			"path" = Sequence{"Model", "Goals", g.name},
+			"format" = "graphviz-dot"
 		};
 	}
-	
-	target: "Model/Goals/" + g.name
 	
 }
 

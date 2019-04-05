@@ -1,5 +1,5 @@
 <?nsuri gsn?>
-<?render-graphviz-dot graphviz.egl?>
+<?render-egx gsn.egx?>
 <_>
     <model>
         <context name="TIS" desc="Tokeneer ID Station includes functions of biometric authentication and smartcards in a networked system requiering identification and authentication mechanisms"/>
