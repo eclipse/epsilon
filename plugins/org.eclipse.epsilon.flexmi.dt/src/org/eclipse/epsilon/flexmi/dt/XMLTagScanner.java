@@ -20,7 +20,7 @@ public class XMLTagScanner extends RuleBasedScanner {
 				new TextAttribute(manager.getColor(IXMLColorConstants.STRING)));
 		IToken noise =
 				new Token(
-					new TextAttribute(manager.getColor(IXMLColorConstants.PROC_INSTR)));
+					new TextAttribute(manager.getColor(IXMLColorConstants.NOISE)));
 		
 		IRule[] rules = new IRule[3];
 
@@ -31,7 +31,11 @@ public class XMLTagScanner extends RuleBasedScanner {
 		// Add generic whitespace rule.
 		rules[2] = new WhitespaceRule(new XMLWhitespaceDetector());
 		
-		//rules[3] = new WordRule(new SingleCharacterWordDetector('=', '<', '>', '\"'), noise);
+		/*
+		rules[3] = new PatternRule("</", ">", noise, '/', true);
+		
+		rules[4] = new WordRule(new SingleCharacterWordDetector('=', '<', '>', '\"'), noise);
+		*/
 		
 		setRules(rules);
 	}
