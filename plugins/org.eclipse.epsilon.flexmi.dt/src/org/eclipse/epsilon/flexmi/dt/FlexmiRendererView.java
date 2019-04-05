@@ -64,8 +64,9 @@ public class FlexmiRendererView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		
 		IActionBars bars = getViewSite().getActionBars();
-		bars.getToolBarManager().add(new ZoomAction(false));
-		bars.getToolBarManager().add(new ZoomAction(true));
+		bars.getToolBarManager().add(new ZoomAction(ZoomType.IN));
+		bars.getToolBarManager().add(new ZoomAction(ZoomType.ACTUAL));
+		bars.getToolBarManager().add(new ZoomAction(ZoomType.OUT));
 		bars.getToolBarManager().add(new Separator());
 		bars.getToolBarManager().add(new PrintAction());
 		bars.getToolBarManager().add(new SyncAction());
@@ -83,7 +84,6 @@ public class FlexmiRendererView extends ViewPart {
 				| SWT.V_SCROLL | SWT.BORDER, filter, true);
 		
 		treeViewer = filteredTree.getViewer();
-		//treeViewer = new TreeViewer(sashForm, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		treeViewer.setContentProvider(new ContentTreeContentProvider());
 		treeViewer.setLabelProvider(new ContentTreeLabelProvider());
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -104,26 +104,6 @@ public class FlexmiRendererView extends ViewPart {
 		
 		browserContainer = new BrowserContainer(sashForm, SWT.NONE);
 		browser = new Browser(browserContainer, SWT.NONE);
-		
-		/*
-		final Composite c = new Composite(sashForm, SWT.NONE);
-		FillLayout layout = new FillLayout();
-		layout.marginHeight = 5;
-		layout.marginWidth = 5;
-		c.setLayout(layout);
-		browser = new Browser(c, SWT.NONE);
-		c.addPaintListener(new PaintListener() {
-			
-			@Override
-			public void paintControl(PaintEvent e) {
-				
-				Rectangle b = c.getBounds();
-				GC gc = e.gc;
-				gc.setForeground(new Color(null,255,0,0));
-				gc.setBackground(new Color(null,255,0,0));
-				gc.drawRectangle(0, 0, b.width - 1, b.height - 1);
-			}
-		});*/
 		
 		sashFormWeights = new int[] {20, 80};
 		sashForm.setSashWidth(2);
@@ -376,26 +356,38 @@ public class FlexmiRendererView extends ViewPart {
 		}
 	}
 	
+	public enum ZoomType {
+		IN,
+		OUT,
+		ACTUAL
+	}
+	
 	class ZoomAction extends Action {
 		
-		boolean in = true;
+		ZoomType type;
 		
-		public ZoomAction(boolean in) {
-			this.in = in;
-			if (in) {
+		public ZoomAction(ZoomType type) {
+			this.type = type;
+			if (type == ZoomType.IN) {
 				setText("Zoom in");
 				setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/zoomin.gif"));
 			}
-			else {
+			else if (type == ZoomType.OUT){
 				setText("Zoom out");
 				setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/zoomout.gif"));	
+			}
+			else {
+				setText("Reset");
+				setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/zoomactual.gif"));		
 			}
 		}
 		
 		@Override
 		public void run() {
-			if (in) zoom = Math.min(zoom + 0.1, 3.0);
-			else zoom = Math.max(0, zoom - 0.1);
+			if (type == ZoomType.IN) zoom = Math.min(zoom + 0.1, 3.0);
+			else if (type == ZoomType.OUT) zoom = Math.max(0, zoom - 0.1);
+			else zoom = 1.0;
+			
 			browser.execute("javascript:document.body.style.zoom=" + zoom + ";");
 		}
 	}
