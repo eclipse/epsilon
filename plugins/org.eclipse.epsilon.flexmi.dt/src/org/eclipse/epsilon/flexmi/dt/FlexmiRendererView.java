@@ -59,6 +59,7 @@ public class FlexmiRendererView extends ViewPart {
 	protected SashForm sashForm;
 	protected int[] sashFormWeights = null;
 	protected File renderedFile = null;
+	protected boolean locked = false;
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -70,6 +71,7 @@ public class FlexmiRendererView extends ViewPart {
 		bars.getToolBarManager().add(new Separator());
 		bars.getToolBarManager().add(new PrintAction());
 		bars.getToolBarManager().add(new SyncAction());
+		bars.getToolBarManager().add(new LockAction());
 		
 		sashForm = new SashForm(parent, SWT.HORIZONTAL);
 		
@@ -121,6 +123,7 @@ public class FlexmiRendererView extends ViewPart {
 		final PartListener partListener = new PartListener() {
 			@Override
 			public void partActivated(IWorkbenchPartReference partRef) {
+				if (locked) return;
 				if (partRef.getPart(false) instanceof FlexmiEditor) {
 					render((FlexmiEditor) partRef.getPart(false));
 				}
@@ -128,6 +131,7 @@ public class FlexmiRendererView extends ViewPart {
 
 			@Override
 			public void partClosed(IWorkbenchPartReference partRef) {
+				if (locked) return;
 				if (partRef.getPart(false) == FlexmiRendererView.this) {
 					getSite().getPage().removePartListener(this);
 				}
@@ -338,6 +342,7 @@ public class FlexmiRendererView extends ViewPart {
 	class FlexmiEditorPropertyListener implements IPropertyListener {
 		@Override
 		public void propertyChanged(Object source, int propId) {
+			if (locked) return;
 			if (propId == FlexmiEditor.PROP_DIRTY && !editor.isDirty()) {
 				renderEditorContent();
 			}
@@ -403,4 +408,17 @@ public class FlexmiRendererView extends ViewPart {
 			render(editor);
 		}
 	}
+	
+	class LockAction extends Action {
+		public LockAction() {
+			super("Lock", AS_CHECK_BOX);
+			setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/lock.gif"));
+		}
+		
+		@Override
+		public void run() {
+			locked = !locked;
+		}
+	}
+	
 }
