@@ -10,8 +10,8 @@ public class ContentTree {
 	protected List<ContentTree> children = new ArrayList<ContentTree>();
 	protected String content;
 	protected String name;
-	protected String format = "text";
-	protected String icon = "diagram";
+	protected String format;
+	protected String icon;
 	
 	public static void main(String[] args) {
 		

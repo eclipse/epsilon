@@ -208,7 +208,19 @@ public class FlexmiRendererView extends ViewPart {
 				model.setName("M");
 				
 				if (format.equals("egx")) {
-					module = new EgxModule();
+					module = new EgxModule() /*{
+						public ModuleElement adapt(AST cst, ModuleElement parentAst) {
+							ModuleElement element = super.adapt(cst, parentAst);
+							if (element instanceof GenerationRule) {
+								element = new GenerationRule() {
+									public void generate(IEolContext context, EglTemplateFactory templateFactory, IEgxModule module, Object element, java.util.Map<java.net.URI,EglTemplate> templateCache) throws EolRuntimeException {
+										super.generate(context, templateFactory, module, element, null);
+									};
+								};
+							}
+							return element;
+						};
+					}*/;
 					setTreeViewerVisible(true);
 					browserContainer.setBorderVisible(true);
 				}
@@ -249,7 +261,8 @@ public class FlexmiRendererView extends ViewPart {
 					if (rerender) {
 						ContentTree selected = (ContentTree) treeViewer.getStructuredSelection().getFirstElement();
 						if (selected != null) {
-							render(selected.getContent(), selected.getFormat());
+							if (selected.getContent() == null) nothingToRender();
+							else render(selected.getContent(), selected.getFormat());
 						}
 						else {
 							nothingToRender();

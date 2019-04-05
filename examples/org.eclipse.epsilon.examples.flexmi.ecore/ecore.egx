@@ -3,7 +3,8 @@ rule All2Dot {
 	parameters : Map {
 		"classes" = EClass.all, 
 		"format" = "graphviz-dot",
-		"path" = List{"Model", "(All classes)"}
+		"path" = List{"Model", "(All classes)"},
+		"icon" = "ff0000"
 	}
 	
 	template: "eclass2dot.egl"
@@ -23,7 +24,8 @@ rule EClass2Dot
 		return Map{
 			"classes" = classes, 
 			"format" = "graphviz-dot",
-			"path" = Sequence{"Model", "Classes", c.name}
+			"path" = Sequence{"Model", "Classes", c.name},
+			"icon" = "00ff00"
 		};
 	}
 	

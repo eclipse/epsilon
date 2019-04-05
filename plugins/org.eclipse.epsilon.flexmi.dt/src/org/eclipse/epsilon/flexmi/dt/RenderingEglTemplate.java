@@ -29,7 +29,7 @@ public class RenderingEglTemplate extends EglPersistentTemplate {
 		while (targetName.startsWith("/")) targetName = targetName.substring(1);
 		
 		String format = "html";
-		String icon = "diagram";
+		String icon = "cccccc";
 		Collection<String> path = new ArrayList<>(Arrays.asList(""));
 		
 		for (Variable variable : template.getVariables()) {

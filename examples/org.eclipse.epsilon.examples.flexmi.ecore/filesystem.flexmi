@@ -6,7 +6,7 @@
 		<attr name="name" type="String"/>
 		<ref name="drives" type="Drive" upper="-1" cont="true"/>
 	</class>
-	   
+	
 	<class name="Folder" super="File">
 		<ref name="contents" type="File" upper="-1" cont="true"/>
 	</class>

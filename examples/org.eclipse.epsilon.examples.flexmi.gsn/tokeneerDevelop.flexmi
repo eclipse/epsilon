@@ -57,7 +57,7 @@
 		        <evidence name="System Test"/>
 		        <evidence name="Proof of Security Properties (SPARK Proof)"/>
 		        <evidence name="Proof of Functional Properties (SPARK Proof)"/>
-		    </formal-phase>   
+		    </formal-phase>
         	
         </compliance>
         
