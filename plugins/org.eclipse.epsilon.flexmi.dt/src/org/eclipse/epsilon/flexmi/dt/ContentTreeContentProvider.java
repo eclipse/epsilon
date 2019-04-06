@@ -11,7 +11,7 @@ public class ContentTreeContentProvider implements ITreeContentProvider {
 	
 	@Override
 	public Object getParent(Object element) {
-		return null;
+		return ((ContentTree) element).getParent();
 	}
 	
 	@Override

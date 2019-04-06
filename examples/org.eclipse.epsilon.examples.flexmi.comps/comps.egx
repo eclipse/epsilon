@@ -2,6 +2,8 @@
 rule Component2Dot 
 	transform r : Component {
 	
+	// guard : r.components.notEmpty()
+	
 	parameters { 
 		
 		return Map {

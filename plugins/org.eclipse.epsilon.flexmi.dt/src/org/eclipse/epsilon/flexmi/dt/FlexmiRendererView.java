@@ -3,24 +3,19 @@ package org.eclipse.epsilon.flexmi.dt;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
-import org.eclipse.epsilon.egl.EglTemplate;
-import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.EgxModule;
-import org.eclipse.epsilon.egl.IEgxModule;
-import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
@@ -28,6 +23,8 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -60,6 +57,7 @@ public class FlexmiRendererView extends ViewPart {
 	protected int[] sashFormWeights = null;
 	protected File renderedFile = null;
 	protected boolean locked = false;
+	protected HashMap<String, List<String>> selectionHistory = new HashMap<String, List<String>>();
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -95,6 +93,7 @@ public class FlexmiRendererView extends ViewPart {
 				ContentTree contentTree = ((ContentTree)event.getStructuredSelection().getFirstElement());
 				if (contentTree != null && contentTree.getContent() != null) {
 					try {
+						selectionHistory.put(renderedFile.getAbsolutePath(), contentTree.getPath());
 						render(contentTree.getContent(), contentTree.getFormat());
 					} catch (Exception ex) {
 						browser.setText("<html><pre>" + ex.getMessage() + "</pre></html>");
@@ -177,7 +176,7 @@ public class FlexmiRendererView extends ViewPart {
 	}
 	
 	public void nothingToRender() {
-		browser.setText("<html>Nothing to render.</html>");
+		browser.setText("<html></html>");
 	}
 	
 	public void renderEditorContent() {
@@ -186,6 +185,7 @@ public class FlexmiRendererView extends ViewPart {
 			while (editor.getFile() == null) {
 				Thread.sleep(100);
 			}
+			
 			File flexmiFile = new File(editor.getFile().getLocation().toOSString());
 			boolean rerender = renderedFile != null && renderedFile.getAbsolutePath().equals(flexmiFile.getAbsolutePath());
 			renderedFile = flexmiFile;
@@ -251,7 +251,8 @@ public class FlexmiRendererView extends ViewPart {
 					
 					ContentTree contentTree = (ContentTree) treeViewer.getInput();
 					if (contentTree == null || !rerender) {
-						treeViewer.setInput(templateFactory.getContentTree());
+						contentTree = templateFactory.getContentTree();
+						treeViewer.setInput(contentTree);
 					}
 					else {
 						contentTree.ingest(templateFactory.getContentTree());
@@ -268,7 +269,26 @@ public class FlexmiRendererView extends ViewPart {
 						else {
 							nothingToRender();
 						}
-					}
+					} else {
+						
+						ContentTree selection = null;
+						
+						if (selectionHistory.containsKey(renderedFile.getAbsolutePath())) {
+							selection = contentTree.forPath(selectionHistory.get(renderedFile.getAbsolutePath()));
+						}
+						
+						if (selection == null) {
+							selection = contentTree.getFirstWithContent();
+						}
+
+						if (selection != null) {
+							treeViewer.setSelection(new TreeSelection(new TreePath(new Object[] {selection})), true);
+							treeViewer.refresh();
+						}
+						else {
+							nothingToRender();
+						}
+ 					}
 					
 				}
 				else {

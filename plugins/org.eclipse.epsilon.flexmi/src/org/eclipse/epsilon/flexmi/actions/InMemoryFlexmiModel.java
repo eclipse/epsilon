@@ -13,7 +13,7 @@ public class InMemoryFlexmiModel extends InMemoryEmfModel {
 		super(resource);
 	}
 	
-	protected FlexmiModelPropertyGetter propertyGetter = new FlexmiModelPropertyGetter();
+	protected IPropertyGetter propertyGetter = new FlexmiModelPropertyGetter();
 	
 	@Override
 	public IPropertyGetter getPropertyGetter() {
@@ -27,7 +27,7 @@ public class InMemoryFlexmiModel extends InMemoryEmfModel {
 	
 	@Override
 	public boolean knowsAboutProperty(Object instance, String property) {
-		return propertyGetter.hasProperty(instance, property) || super.knowsAboutProperty(instance, property);
+		return (owns(instance) && propertyGetter.hasProperty(instance, property)) || super.knowsAboutProperty(instance, property);
 	}
 	
 	class FlexmiModelPropertyGetter extends EmfPropertyGetter {

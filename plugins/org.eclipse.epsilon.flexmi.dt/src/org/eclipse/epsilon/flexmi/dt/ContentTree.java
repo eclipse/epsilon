@@ -2,8 +2,8 @@ package org.eclipse.epsilon.flexmi.dt;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ContentTree {
 	
@@ -12,13 +12,16 @@ public class ContentTree {
 	protected String name;
 	protected String format;
 	protected String icon;
+	protected ContentTree parent;
 	
 	public static void main(String[] args) {
 		
 		ContentTree pathTree = new ContentTree("");
 		pathTree.addPath(Arrays.asList("e1", "e2"), "c1", "text", "");
 		pathTree.addPath(Arrays.asList("e1", "e3", "e4"), "c2", "text", "");
-		System.out.println(pathTree);
+		ContentTree result = pathTree.forPath(Arrays.asList("", "e1", "e3", "e4"));
+		System.out.println(result.getPath());
+		
 	}
 	
 	public ContentTree(String name) {
@@ -47,7 +50,7 @@ public class ContentTree {
 		else if (path.size() == 1) {
 			ContentTree child = null;
 			for (ContentTree candidate : children) {
-				if (candidate.getName().equals(path.get(0))) {
+				if (candidate.getName() != null && candidate.getName().equals(path.get(0))) {
 					child = candidate;
 				}
 			}
@@ -99,7 +102,16 @@ public class ContentTree {
 	}
 	
 	public List<ContentTree> getChildren() {
+		children.stream().forEach(c -> c.setParent(this));
 		return children;
+	}
+	
+	public void setParent(ContentTree parent) {
+		this.parent = parent;
+	}
+	
+	public ContentTree getParent() {
+		return parent;
 	}
 	
 	public String getContent() {
@@ -128,7 +140,40 @@ public class ContentTree {
 	
 	@Override
 	public String toString() {
-		return name + " { content: " + content + " [" + children.stream().map( n -> n.toString() ) .collect( Collectors.joining( "," ) ) + "]";
+		return super.toString();
+		//return name + " { content: " + content + " [" + children.stream().map( n -> n.toString() ) .collect( Collectors.joining( "," ) ) + "]";
+	}
+	
+	public List<String> getPath() {
+		List<String> path = new ArrayList<String>();
+		if (parent != null) path.addAll(parent.getPath());
+		path.add(this.getName() + "");
+		return path;
+	}
+	
+	public ContentTree forPath(List<String> path) {
+		if (path.get(0).equals(getName())) {
+			if (path.size() > 1) {
+				for (ContentTree child : getChildren()) {
+					ContentTree forPath = child.forPath(path.subList(1, path.size()));
+					if (forPath != null) return forPath;
+				}
+			}
+			else {
+				return this;
+			}
+		}
+		
+		return null;
+	}
+	
+	public ContentTree getFirstWithContent() {
+		if (content != null) return this;
+		for (ContentTree child : getChildren()) {
+			ContentTree result = child.getFirstWithContent();
+			if (result != null) return result;
+		}
+		return null;
 	}
 	
 }
