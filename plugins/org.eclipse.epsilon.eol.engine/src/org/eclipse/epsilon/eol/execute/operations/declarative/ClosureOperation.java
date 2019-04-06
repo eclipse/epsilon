@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import org.eclipse.epsilon.common.util.CollectionUtil;
@@ -38,7 +39,7 @@ public class ClosureOperation extends FirstOrderOperation {
 				for (Object result : bodyCollection) {
 					if (result != null && !closure.contains(result)) {
 						closure.add(result);
-						closure(closure, source, parameter, expression, function, context);
+						closure(closure, Arrays.asList(result), parameter, expression, function, context);
 					}
 				}
 				
