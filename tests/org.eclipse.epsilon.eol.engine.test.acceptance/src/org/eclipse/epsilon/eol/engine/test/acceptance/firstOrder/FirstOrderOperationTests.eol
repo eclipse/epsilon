@@ -221,3 +221,21 @@ operation testClosure() {
 	assertEquals(Sequence{e1, e2, e3}, e3.closure(c|c.~next));
 	
 }
+
+@test
+operation testClosureMany() {
+
+	var e1 = "e1";
+	var e2 = "e2";
+	var e3 = "e3";
+	var e4 = "e4";
+	
+	e1.~next = Sequence{e2};
+	e2.~next = Sequence{e3, e4};
+	e3.~next = Sequence{};
+	e4.~next = Sequence{};
+	
+	assertEquals(Sequence{e2, e3, e4}, e1.closure(c|c.~next));
+	
+
+}
