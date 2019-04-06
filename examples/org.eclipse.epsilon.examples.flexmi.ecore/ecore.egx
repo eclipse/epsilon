@@ -4,10 +4,23 @@ rule All2Dot {
 		"classes" = EClass.all, 
 		"format" = "graphviz-dot",
 		"path" = List{"Model", "(All classes)"},
-		"icon" = "ff0000"
+		"icon" = "diagram-ff0000"
 	}
 	
 	template: "eclass2dot.egl"
+	
+}
+
+rule Ecore2Barchart {
+	
+	parameters : Map {
+		"classes" = EClass.all, 
+		"format" = "html",
+		"path" = List{"Model", "Stats"},
+		"icon" = "barchart"
+	}
+	
+	template: "stats.egl"
 	
 }
 
@@ -25,7 +38,7 @@ rule EClass2Dot
 			"classes" = classes, 
 			"format" = "graphviz-dot",
 			"path" = Sequence{"Model", "Classes", c.name},
-			"icon" = "00ff00"
+			"icon" = "diagram-00ff00"
 		};
 	}
 	

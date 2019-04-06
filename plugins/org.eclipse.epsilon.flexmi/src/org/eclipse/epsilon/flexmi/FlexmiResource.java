@@ -74,6 +74,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected Set<URI> parsedFragmentURIs = new HashSet<URI>();
 	protected List<Template> templates = new ArrayList<Template>();
 	protected BiMap<String, EObject> fullyQualifiedIDs = HashBiMap.create();
+	protected Map<EObject, String> localIDs = new HashMap<EObject, String>();
 	protected Map<String, Object> variables = new HashMap<String, Object>();
 	
 	public void startProcessingFragment(URI uri) {
@@ -144,6 +145,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	protected void setEObjectId(EObject eObject, String id) {
 		getIntrinsicIDToEObjectMap().put(id, eObject);
+		localIDs.put(eObject, id);
 		EObject containerWithId = eObject.eContainer();
 		while (containerWithId != null && !fullyQualifiedIDs.containsValue(containerWithId)) {
 			containerWithId = containerWithId.eContainer();
@@ -615,6 +617,10 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	public Map<String, Object> getVariables() {
 		return variables;
+	}
+	
+	public String getLocalId(EObject eObject) {
+		return localIDs.get(eObject);
 	}
 	
 }

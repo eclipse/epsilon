@@ -13,9 +13,15 @@
 	
 	<class name="Drive" super="Folder"/>
 	
+	<class name="OperatingSystem">
+		<ref name="filesystem" type="Filesystem" cont="true"/>
+	</class>
+	
 	<class name="File">
 		<attr name="name" type="String"/>
 	</class>
+	
+	<?include filetypes.flexmi?>
 	
 	<class name="Shortcut" super="File"/>
 	

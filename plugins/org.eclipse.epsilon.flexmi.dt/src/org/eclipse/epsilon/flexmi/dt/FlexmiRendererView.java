@@ -205,6 +205,7 @@ public class FlexmiRendererView extends ViewPart {
 				
 				String format = renderProcessingInstruction.getTarget().substring("render-".length());
 				InMemoryEmfModel model = new InMemoryEmfModel(resource);
+				model.setExpand(false);
 				model.setName("M");
 				
 				if (format.equals("egx")) {

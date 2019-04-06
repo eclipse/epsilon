@@ -1,0 +1,17 @@
+@greedy
+rule Component2Dot 
+	transform r : Component {
+	
+	parameters { 
+		
+		return Map {
+			"path" = Sequence{"Model"}.
+				includingAll(r.closure(c|c.parent).invert().name).
+				including(r.name),
+			"icon" = "diagram-ff0000",
+			"format" = "graphviz-dot"
+		};
+	}
+	template : "comp2dot.egl"
+	
+}

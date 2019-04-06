@@ -5,7 +5,8 @@ class Component {
 	attr String name;
 	val Port[*] inPorts;
 	val Port[*] outPorts;
-	val Component[*] components;
+	val Component[*]#parent components;
+	ref Component#components parent;
 	val Connector[*] connectors;
 	attr String action;
 }

@@ -29,20 +29,16 @@ public class ContentTreeLabelProvider extends LabelProvider {
 	public Image getImage(Object element) {
 		ContentTree contentTree = (ContentTree) element;
 		if (contentTree.getContent() != null) {
-			Image icon = iconImages.get(contentTree.getIcon());
+			String iconName = contentTree.getIcon();
+			Image icon = iconImages.get(iconName);
 			
 			if (icon == null) {
-				icon = Activator.getDefault().getImageDescriptor("icons/diagram.gif").createImage();
-				ImageData imageData = icon.getImageData();
-				int hex = Integer.decode("0x" + contentTree.getIcon());
-				for (int i=2;i<7;i++) {
-					imageData.setPixel(i, 2, hex);
+				if (iconName.matches("diagram-.*")) {
+					icon = getColoredDiagramIcon(iconName.replace("diagram-", ""));
 				}
-				for (int i=10;i<15;i++) {
-					imageData.setPixel(i, 8, hex);
+				else {
+					icon = Activator.getDefault().getImageDescriptor("icons/" + iconName + ".gif").createImage();
 				}
-				
-				icon = new Image(Display.getCurrent(), imageData);
 				iconImages.put(contentTree.getIcon(), icon);
 			}
 			
@@ -52,4 +48,18 @@ public class ContentTreeLabelProvider extends LabelProvider {
 			return folderImage;
 		}
 	}
+	
+	protected Image getColoredDiagramIcon(String color) {
+		Image icon = Activator.getDefault().getImageDescriptor("icons/diagram.gif").createImage();
+		ImageData imageData = icon.getImageData();
+		int hex = Integer.decode("0x" + color);
+		for (int i=2;i<7;i++) {
+			imageData.setPixel(i, 2, hex);
+		}
+		for (int i=10;i<15;i++) {
+			imageData.setPixel(i, 8, hex);
+		}
+		return new Image(Display.getCurrent(), imageData);
+	}
+	
 }
