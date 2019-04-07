@@ -25,8 +25,9 @@ public class SimulinkUtil {
 
 	private static final String GET_BLOCK_HANDLE = "getSimulinkBlockHandle('?');";
 	
-	public static final String FIND = "find_system('?', 'FindAll', 'on', 'LookUnderMasks', 'On'";
-	public static final String FIND_FOLLOW = "find_system('?', 'FindAll', 'on', 'LookUnderMasks', 'On', 'FollowLinks', 'on'";
+	// FindAll ensures that the response is always handles of kind double, otherwise we get the path  
+	public static final String FIND = "find_system('?', 'FindAll', 'On', 'LookUnderMasks', 'On', 'IncludeCommented', 'On'";
+	public static final String FIND_FOLLOW = FIND + ", 'FollowLinks', 'on'";
 	
 	private static final String FIND_BLOCKS_AT_DEPTH = 			FIND 			+ ", 'SearchDepth', ?, 'Type', 'Block');";
 	

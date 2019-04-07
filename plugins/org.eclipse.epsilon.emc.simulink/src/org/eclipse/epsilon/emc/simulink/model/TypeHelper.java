@@ -132,7 +132,7 @@ public class TypeHelper {
 		}
 
 		public boolean isSimulink() {
-			return !this.equals(STATEFLOW);
+			return !STATEFLOW.equals(this);
 		}
 
 		public  Collection<ISimulinkModelElement> getAll(SimulinkModel model) {
