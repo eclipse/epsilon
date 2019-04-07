@@ -1,39 +1,52 @@
 package org.eclipse.epsilon.flexmi.actions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 
 public class VariableDeclaration extends Action {
 	
 	protected EObject eObject;
 	protected String name;
-	protected boolean collection;
+	protected VariableDeclarationType type;
+	protected ModuleElement entryPoint;
 	
-	public VariableDeclaration(EObject eObject, String name, boolean collection) {
+	public VariableDeclaration(EObject eObject, String name, VariableDeclarationType type) {
 		super();
 		this.eObject = eObject;
 		this.name = name;
-		this.collection = collection;
+		this.type = type;
 	}
 	
 	@Override
 	public void perform(FlexmiResource resource) throws Exception {
-		Map<String, Object> variables = resource.getVariables();
-		if (collection) {
-			if (variables.containsKey(name)) {
-				((Collection<Object>) variables.get(name)).add(eObject);
-			}
-			else {
-				variables.put(name, new ArrayList<Object>(Arrays.asList(eObject)));
-			}
+		
+		Variable variable = Variable.createReadOnlyVariable(name, eObject);
+		if (type == VariableDeclarationType.GLOBAL) {
+			resource.getFrameStack().putGlobal(variable);
+		}
+		else if (type == VariableDeclarationType.REGULAR) {
+			resource.getFrameStack().put(variable);
 		}
 		else {
-			variables.put(name, eObject);
+			resource.getFrameStack().enterLocal(FrameType.PROTECTED, entryPoint);
+			resource.getFrameStack().put(variable);
 		}
+	}
+	
+	public VariableDeclarationType getType() {
+		return type;
+	}
+	
+	public void setEntryPoint(ModuleElement entryPoint) {
+		this.entryPoint = entryPoint;
+	}
+	
+	public enum VariableDeclarationType {
+		LOCAL,
+		GLOBAL,
+		REGULAR
 	}
 }

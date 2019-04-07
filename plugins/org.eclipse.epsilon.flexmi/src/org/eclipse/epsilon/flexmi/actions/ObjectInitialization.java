@@ -4,7 +4,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 
 public class ObjectInitialization extends Computation {
@@ -22,11 +21,8 @@ public class ObjectInitialization extends Computation {
 		EolModule module = new EolModule();
 		module.parse(expression);
 		if (module.getParseProblems().size() > 0) throw new Exception("Parse problem " + module.getParseProblems().get(0).getReason());
-		module.getContext().getFrameStack().putGlobal(Variable.createReadOnlyVariable("self", eObject));
 		module.getContext().getModelRepository().addModel(model);
-		for (String variable : resource.getVariables().keySet()) {
-			module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(variable, resource.getVariables().get(variable)));
-		}		
+		module.getContext().setFrameStack(resource.getFrameStack());		
 		module.execute();
 	}
 	

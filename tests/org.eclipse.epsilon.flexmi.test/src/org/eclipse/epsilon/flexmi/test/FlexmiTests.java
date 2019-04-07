@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.flexmi.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -35,6 +36,11 @@ public abstract class FlexmiTests {
 		InMemoryEmfModel model = new InMemoryEmfModel(loadResource(modelFileName));
 		EolEvaluator evaluator = new EolEvaluator(model);
 		assertEquals(result, evaluator.evaluate(expression));
+	}
+	
+	protected void assertWarning(String message, int line, String modelFileName) throws Exception {
+		assertTrue(loadResource(modelFileName).getWarnings().stream().
+				anyMatch(w -> w.getMessage().contains(message) && w.getLine() == line));
 	}
 	
 }

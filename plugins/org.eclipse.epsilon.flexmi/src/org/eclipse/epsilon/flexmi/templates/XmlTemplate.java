@@ -21,12 +21,16 @@ public class XmlTemplate extends Template {
 		
 		List<Element> application = getApplication(call);
 		
-		for (Element applicationElement : application) {
+		if (!application.isEmpty()) {
+			Element firstElement = application.get(0);
 			for (String attributeName : Xml.getAttributeNames(call)) {
 				if (!getParameters().contains(attributeName)) {
-					applicationElement.setAttribute(attributeName, call.getAttribute(attributeName));
+					firstElement.setAttribute(attributeName, call.getAttribute(attributeName));
 				}
 			}
+		}
+		
+		for (Element applicationElement : application) {
 			replaceParameters(applicationElement, call);
 		}
 		

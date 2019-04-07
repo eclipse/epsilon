@@ -1,5 +1,5 @@
 <?nsuri http://www.eclipse.org/emf/2002/Ecore?>
-<?render-graphviz-dot graphviz.egl?>
+<?render-egx ecore.egx?>
 <_>
 
 	<singleton name="Log">
@@ -22,7 +22,7 @@
 
 	<:template name="singleton">
 		<content>
-			<class :var="c">
+			<class :local="c">
 				<ref name="instance" :type="c"/>
 				<op name="getInstance" :type="c"/>
 				<:slot/>

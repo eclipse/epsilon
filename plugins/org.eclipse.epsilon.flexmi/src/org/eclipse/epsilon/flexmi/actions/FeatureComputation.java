@@ -27,15 +27,13 @@ public class FeatureComputation extends Computation {
 	}
 	
 	public void compute(FlexmiResource resource) throws Exception {
+		
 		InMemoryFlexmiModel model = new InMemoryFlexmiModel(resource);
 		EolModule module = new EolModule();
 		module.parse("return " + expression + ";");
 		if (module.getParseProblems().size() > 0) throw new Exception(module.getParseProblems().get(0).getReason());
-		module.getContext().getFrameStack().putGlobal(Variable.createReadOnlyVariable("self", eObject));
 		module.getContext().getModelRepository().addModel(model);
-		for (String variable : resource.getVariables().keySet()) {
-			module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(variable, resource.getVariables().get(variable)));
-		}
+		module.getContext().setFrameStack(resource.getFrameStack());
 		eObject.eSet(eStructuralFeature, module.execute());
 	}
 	

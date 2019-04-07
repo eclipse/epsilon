@@ -2,7 +2,7 @@
 <?import types.flexmi?>
 <?import library.flexmi?>
 <?render-egx comps.egx?>
-<comp name="SpeedLimitCalculator" :var="slc">
+<comp name="SpeedLimitCalculator" :local="slc">
 	<in name="location" type="geo"/>
 	<out name="speedLimit" type="float"/>
 	

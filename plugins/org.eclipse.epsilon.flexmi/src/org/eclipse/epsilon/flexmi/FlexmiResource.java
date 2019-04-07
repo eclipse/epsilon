@@ -37,11 +37,15 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.flexmi.actions.Action;
+import org.eclipse.epsilon.flexmi.actions.ActionMap;
 import org.eclipse.epsilon.flexmi.actions.FeatureComputation;
 import org.eclipse.epsilon.flexmi.actions.ObjectInitialization;
 import org.eclipse.epsilon.flexmi.actions.VariableDeclaration;
+import org.eclipse.epsilon.flexmi.actions.VariableDeclaration.VariableDeclarationType;
 import org.eclipse.epsilon.flexmi.templates.Template;
 import org.eclipse.epsilon.flexmi.xml.Location;
 import org.eclipse.epsilon.flexmi.xml.PseudoSAXParser;
@@ -63,7 +67,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected List<ProcessingInstruction> processingInstructions = new ArrayList<ProcessingInstruction>();
 	protected EObjectTraceManager eObjectTraceManager = new EObjectTraceManager();
 	protected List<UnresolvedReference> unresolvedReferences = new ArrayList<UnresolvedReference>();
-	protected List<Action> actions = new ArrayList<Action>();
+	// protected List<Action> actions = new ArrayList<Action>();
 	protected Stack<Object> objectStack = new Stack<Object>();
 	protected Node currentNode = null;
 	protected List<String> scripts = new ArrayList<String>();
@@ -75,7 +79,8 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected List<Template> templates = new ArrayList<Template>();
 	protected BiMap<String, EObject> fullyQualifiedIDs = HashBiMap.create();
 	protected Map<EObject, String> localIDs = new HashMap<EObject, String>();
-	protected Map<String, Object> variables = new HashMap<String, Object>();
+	protected FrameStack frameStack = new FrameStack();
+	protected ActionMap actionMap = new ActionMap();
 	
 	public void startProcessingFragment(URI uri) {
 		parsedFragmentURIStack.push(uri);
@@ -240,7 +245,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				EObject parent = (EObject) peek;
 				
 				if (element.getNodeName().equalsIgnoreCase(Template.PREFIX + "init")) {
-					actions.add(new ObjectInitialization(parent, element.getTextContent().trim(), getCurrentURI(), getLineNumber(element)));
+					actionMap.addAction(parent, new ObjectInitialization(parent, element.getTextContent().trim(), getCurrentURI(), getLineNumber(element)));
 					objectStack.push(null);
 					return;
 				}
@@ -356,7 +361,13 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	@Override
 	public void endDocument(Document document) {
 		resolveReferences();
-		performActions();
+		
+		for (EObject content : getContents()) {
+			performNonLocalVariableDeclarations(content);
+		}
+		for (EObject content : getContents()) {
+			performActions(content);
+		}
 	}
 	
 	public List<UnresolvedReference> getUnresolvedReferences() {
@@ -375,8 +386,16 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		getWarnings().add(new FlexmiDiagnostic(message, uri, line));
 	}
 	
-	protected void performActions() {
-		for (Action action : actions) {
+	protected void performActions(EObject eObject) {
+		
+		ModuleElement entryPoint = null;
+		
+		for (Action action : actionMap.getActions(eObject)) {
+			
+			if (entryPoint == null && action instanceof VariableDeclaration && ((VariableDeclaration) action).getType() == VariableDeclarationType.LOCAL) {
+				entryPoint = new AbstractModuleElement() {};
+				((VariableDeclaration) action).setEntryPoint(entryPoint);
+			}
 			try {
 				action.perform(this);
 			}
@@ -384,6 +403,32 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				addParseWarning(ex.getMessage(), action.getUri(), action.getLineNumber());
 			}
 		}
+		
+		for (EObject content : eObject.eContents()) {
+			performNonLocalVariableDeclarations(content);
+		}
+		
+		for (EObject content : eObject.eContents()) {
+			performActions(content);
+		}
+		
+		if (entryPoint != null) frameStack.leaveLocal(entryPoint);
+	}
+	
+	protected void performNonLocalVariableDeclarations(EObject eObject) {
+		List<Action> actions = actionMap.getActions(eObject);
+		List<Action> performed = new ArrayList<Action>();
+		for (Action action : actions) {
+			if (action instanceof VariableDeclaration && ((VariableDeclaration) action).getType() != VariableDeclarationType.LOCAL) {
+				try {
+					action.perform(this);
+					performed.add(action);
+				} catch (Exception ex) {
+					addParseWarning(ex.getMessage(), action.getUri(), action.getLineNumber());
+				}
+			}
+		}
+		actions.removeAll(performed);
 	}
 	
 	protected void resolveReferences() {
@@ -438,12 +483,12 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		return 0;
 	}
 	
-	public void handleVarAttribute(String attribute, boolean collection, NamedNodeMap attributes, EObject eObject) {
+	public void handleVarAttribute(String attribute, VariableDeclarationType type, NamedNodeMap attributes, EObject eObject) {
 		// Find the _var attribute, create a variable declaration and remove it from the node
 		Node varAttribute = attributes.getNamedItem(Template.PREFIX + attribute);
 		if (varAttribute != null) {
 			for (String variable : varAttribute.getNodeValue().split(",")) {
-				actions.add(new VariableDeclaration(eObject, variable.trim(), collection));
+				actionMap.addAction(eObject, new VariableDeclaration(eObject, variable.trim(), type));
 			}
 			attributes.removeNamedItem(varAttribute.getNodeName());
 		}
@@ -456,8 +501,9 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		
 		if (attributes.getLength() == 0 || eStructuralFeatures.size() == 0) return;
 		
-		handleVarAttribute("var", false, attributes, eObject);
-		handleVarAttribute("col", true, attributes, eObject);
+		handleVarAttribute("var", VariableDeclarationType.REGULAR, attributes, eObject);
+		handleVarAttribute("local", VariableDeclarationType.LOCAL, attributes, eObject);
+		handleVarAttribute("global", VariableDeclarationType.GLOBAL, attributes, eObject);
 		
 		Map<Node, EStructuralFeature> allocation = new AttributeStructuralFeatureAllocator().allocate(attributes, eStructuralFeatures);
 		
@@ -468,7 +514,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			EStructuralFeature sf = allocation.get(attribute);
 			
 			if (name.startsWith(Template.PREFIX)) {
-				actions.add(new FeatureComputation(eObject, sf, name, value, getCurrentURI(), getLineNumber(element)));
+				actionMap.addAction(eObject, new FeatureComputation(eObject, sf, name, value, getCurrentURI(), getLineNumber(element)));
 			}
 			else {
 				if (sf instanceof EAttribute) {
@@ -615,8 +661,8 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		return objectStack.isEmpty() && Template.NODE_NAME.equals(element.getNodeName());
 	}
 	
-	public Map<String, Object> getVariables() {
-		return variables;
+	public FrameStack getFrameStack() {
+		return frameStack;
 	}
 	
 	public String getLocalId(EObject eObject) {
