@@ -35,4 +35,3 @@ Export-Package: org.eclipse.epsilon.workflow.tasks,
  org.eclipse.epsilon.workflow.tasks.transactions,
  org.eclipse.epsilon.workflow.tasks.xml
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-ClassPath: .
