@@ -119,6 +119,15 @@ public interface IEolContextParallel extends IEolContext {
 	
 	//Convenience methods
 	
+	/**
+	 * Convenience method for testing whether to perform an operation in parallel using
+	 * this context without encountering an {@link EolNestedParallelismException}.
+	 * 
+	 * @return <code>true</code> if calling {@link #enterParallelNest(ModuleElement)} is permitted.
+	 */
+	default boolean isBelowParallelNestThreshold() {
+		return getNestedParallelism() < PARALLEL_NEST_THRESHOLD;
+	}
 	
 	/**
 	 * Utility method for dealing with exceptions in lambda expressions / parallel jobs.

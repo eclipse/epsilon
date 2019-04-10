@@ -114,9 +114,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 			}
 		}
 		
-		final String target = "";
-		
-		if (targetBlock != null) targetBlock.execute(context, false);
+		final String target = targetBlock != null ? targetBlock.execute(context, false) : "";
 		
 		File generated = null;
 		if (eglTemplate instanceof EglPersistentTemplate) {
