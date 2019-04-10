@@ -37,13 +37,10 @@ public class ModuleImplementationExtension {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.moduleImplementation");
 		IConfigurationElement[] configurationElements =  extensionPoint.getConfigurationElements();
-		for (IConfigurationElement configurationElement : configurationElements){
-			if (configurationElement.getAttribute("language").equals(languageName) 
+		for (IConfigurationElement configurationElement : configurationElements) {
+			if (configurationElement.getAttribute("language").equalsIgnoreCase(languageName) 
 					&& configurationElement.getAttribute("name").equals(implName)) {	
-				ModuleImplementationExtension moduleType = null;
-				moduleType = new ModuleImplementationExtension(configurationElement);
-				return moduleType;
-				
+				return new ModuleImplementationExtension(configurationElement);
 			}
 		}
 		return null;

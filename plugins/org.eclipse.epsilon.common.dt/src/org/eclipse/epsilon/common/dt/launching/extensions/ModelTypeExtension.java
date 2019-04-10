@@ -15,7 +15,6 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
-import org.eclipse.epsilon.eol.compile.context.IModelFactory;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -95,8 +94,7 @@ public class ModelTypeExtension {
 		for (int i=0;i<configurationElements.length; i++){
 			IConfigurationElement configurationElement = configurationElements[i];
 			
-			if (configurationElement.getAttribute("type").equalsIgnoreCase(type)){
-				
+			if (configurationElement.getAttribute("type").equalsIgnoreCase(type)) {
 				ModelTypeExtension modelType = new ModelTypeExtension();
 				modelType.configurationElement = configurationElement;
 				modelType.setClazz(configurationElement.getAttribute("class"));

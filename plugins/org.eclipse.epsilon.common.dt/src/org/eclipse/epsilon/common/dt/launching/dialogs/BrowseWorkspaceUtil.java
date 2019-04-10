@@ -18,7 +18,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 import org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog;
-import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
 
 public class BrowseWorkspaceUtil {
 	

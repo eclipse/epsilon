@@ -1,11 +1,18 @@
+/*********************************************************************
+ * Copyright (c) 2019 The University of York.
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.common.dt.launching.tabs;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -59,7 +66,6 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	
 	@Override
 	public void createControl(Composite parent) {
-		
 		setImplementations(new HashMap<>());
 		FillLayout parentLayout = new FillLayout();
 		parent.setLayout(parentLayout);
@@ -161,12 +167,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	private void addAvailableImplsToCombo(ILaunchConfiguration configuration) {
 		if (modulesDropDown.getItemCount() == 0) {
 			getImplementations(configuration).stream().forEach(modulesDropDown::add);
-			if (getImplementations().size() == 1) {
-				modulesDropDown.setEnabled(false);
-			}
-			else {
-				modulesDropDown.setEnabled(true);
-			}
+			modulesDropDown.setEnabled(getImplementations().size() > 1);
 		}
 	}
 
@@ -181,21 +182,16 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	public List<String> getImplementations(ILaunchConfiguration configuration) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.moduleImplementation");
-		IConfigurationElement[] configurationElements =  extensionPoint.getConfigurationElements();
 		String language = getLanguage(configuration);
-		for (int i=0;i<configurationElements.length; i++){
-			IConfigurationElement configurationElement = configurationElements[i];
+		for (IConfigurationElement configurationElement : extensionPoint.getConfigurationElements()) {
 			String configLanguage = configurationElement.getAttribute("language");
-			if (configLanguage.equals(language)) {	
-				ModuleImplementationExtension moduleType = null;
-				moduleType = new ModuleImplementationExtension(configurationElement);
+			if (configLanguage.equalsIgnoreCase(language)) {	
+				ModuleImplementationExtension moduleType = new ModuleImplementationExtension(configurationElement);
 				implementations.put(moduleType.getName(), moduleType);
 			}
 		}
-		return implementations.values().stream().sorted(new Comparator<ModuleImplementationExtension>() {
-
-			@Override
-			public int compare(ModuleImplementationExtension o1, ModuleImplementationExtension o2) {
+		return implementations.values().stream()
+			.sorted((o1, o2) -> {
 				if (o1.isDefault()) {
 					return -1;
 				}
@@ -203,10 +199,9 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 					return 1;
 				}
 				return 0;
-			}
-				})
-				.map(i -> i.getName())
-				.collect(Collectors.toList());
+			})
+			.map(i -> i.getName())
+			.collect(Collectors.toList());
 	}
 	
 	private void createConfigComposite(Composite parent) {
@@ -226,9 +221,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 		configComposite.setLayout(controlLayout);
 		moduleConfigGroup = DialogUtil.createGroupContainer(configComposite, "Options", 1);
 		moduleConfig.createModuleConfigurationWidgets(moduleConfigGroup, this);
-		if (moduleConfigGroup.getChildren().length == 0) {
-			configComposite.setVisible(false);
-		}
+		configComposite.setVisible(moduleConfigGroup.getChildren().length > 0);
 		configComposite.redraw();
 	}
 
@@ -245,6 +238,4 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 		System.out.println("advanced can save " + isDirty());
 		updateLaunchConfigurationDialog();
 	}
-
 }
-

@@ -68,16 +68,13 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		if (source != null) {
 			int extPoint = source.lastIndexOf('.');
 			if (extPoint > 0) {
-				String fileExtension = source.substring(extPoint+1);
-				switch(fileExtension) {
-				case "egl":
-					result = "EGL";
-					break;
+				switch (source.substring(extPoint+1).toLowerCase()) {
 				case "egx":
 					result = "EGX";
 					break;
 				default:
-					result="";
+					result = "";
+					break;
 				}
 			}
 		}
@@ -158,7 +155,6 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 				}
 			}
 		}
-		
 	}
 
 	private void prepareToTrace(IEolModule module) {
@@ -206,19 +202,12 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	
 	private void addEglPrintStream(final IEolModule module) {
 		final Display display = PlatformUI.getWorkbench().getDisplay();
-		display.syncExec(new Runnable() {
-
-			public void run() {
-				IOConsoleOutputStream outputStream = EpsilonConsole.getInstance().createConsoleOutputStream();
-				if (EclipseUtil.isDarkThemeEnabled()) {
-					outputStream.setColor(display.getSystemColor(SWT.COLOR_CYAN));
-				}
-				else {
-					outputStream.setColor(display.getSystemColor(SWT.COLOR_DARK_MAGENTA));
-				}
-				module.getContext().setOutputStream(new PrintStream(outputStream));	
-			}
-			
+		display.syncExec(() -> {
+			IOConsoleOutputStream outputStream = EpsilonConsole.getInstance().createConsoleOutputStream();
+			outputStream.setColor(display.getSystemColor(
+				EclipseUtil.isDarkThemeEnabled() ? SWT.COLOR_CYAN : SWT.COLOR_DARK_MAGENTA)
+			);
+			module.getContext().setOutputStream(new PrintStream(outputStream));
 		});
 	}
 	
