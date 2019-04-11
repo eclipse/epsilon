@@ -164,7 +164,6 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	 * @param control
 	 */
 	protected final void updateAvailableImpls(ILaunchConfiguration configuration) {
-		getImplementations().clear();
 		modulesDropDown.removeAll();
 		getImplementations(configuration).forEach(modulesDropDown::add);
 		modulesDropDown.select(0);
@@ -198,8 +197,9 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 		for (IConfigurationElement configurationElement : extensionPoint.getConfigurationElements()) {
 			if (shouldConfigurationElementBeIncludedAsAnImplementation(language, configurationElement)) {	
 				ModuleImplementationExtension moduleType = new ModuleImplementationExtension(configurationElement);
-				implementations.put(moduleType.getName(), moduleType);
+				implementations.putIfAbsent(moduleType.getName(), moduleType);
 			}
+			else implementations.remove(configurationElement.getAttribute("name"));
 		}
 		return implementations.values().stream()
 			.sorted((o1, o2) -> {
