@@ -34,7 +34,11 @@ public class FeatureComputation extends Computation {
 		if (module.getParseProblems().size() > 0) throw new Exception(module.getParseProblems().get(0).getReason());
 		module.getContext().getModelRepository().addModel(model);
 		module.getContext().setFrameStack(resource.getFrameStack());
+		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("self", eObject));
 		eObject.eSet(eStructuralFeature, module.execute());
+		
+		EObject a;
+		
 	}
 	
 	public EStructuralFeature geteStructuralFeature() {

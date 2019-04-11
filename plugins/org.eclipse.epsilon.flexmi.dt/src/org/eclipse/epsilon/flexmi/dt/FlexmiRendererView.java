@@ -6,6 +6,11 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.core.internal.jobs.JobStatus;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -16,6 +21,7 @@ import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
@@ -96,7 +102,7 @@ public class FlexmiRendererView extends ViewPart {
 						selectionHistory.put(renderedFile.getAbsolutePath(), contentTree.getPath());
 						render(contentTree.getContent(), contentTree.getFormat());
 					} catch (Exception ex) {
-						browser.setText("<html><pre>" + ex.getMessage() + "</pre></html>");
+						display("<html><pre>" + ex.getMessage() + "</pre></html>");
 						ex.printStackTrace();
 					}
 				}
@@ -153,13 +159,22 @@ public class FlexmiRendererView extends ViewPart {
 				this.editor.removePropertyListener(listener);
 			this.editor = editor;
 			editor.addPropertyListener(listener);
-			Display.getDefault().asyncExec(new Runnable() {
+			
+			Job job = new Job("Rendering") {
+				
 				@Override
-				public void run() {
-					renderEditorContent();
+				protected IStatus run(IProgressMonitor monitor) {
+					Display.getDefault().syncExec(new Runnable() {
+						@Override
+						public void run() {
+							renderEditorContent();
+						}
+					});
+					return Status.OK_STATUS;
 				}
-			});
-
+			};
+			job.setUser(true);
+			job.schedule();
 		}
 	}
 	
@@ -173,18 +188,17 @@ public class FlexmiRendererView extends ViewPart {
 			sashForm.setSashWidth(2);
 			sashForm.setWeights(sashFormWeights);
 		}
+		browserContainer.setBorderVisible(visible);
 	}
 	
 	public void nothingToRender() {
-		browser.setText("<html></html>");
+		display("<html></html>");
 	}
 	
 	public void renderEditorContent() {
 
 		try {
-			while (editor.getFile() == null) {
-				Thread.sleep(100);
-			}
+			while (editor.getFile() == null) { Thread.sleep(100); }
 			
 			File flexmiFile = new File(editor.getFile().getLocation().toOSString());
 			boolean rerender = renderedFile != null && renderedFile.getAbsolutePath().equals(flexmiFile.getAbsolutePath());
@@ -209,26 +223,10 @@ public class FlexmiRendererView extends ViewPart {
 				model.setName("M");
 				
 				if (format.equals("egx")) {
-					module = new EgxModule() /*{
-						public ModuleElement adapt(AST cst, ModuleElement parentAst) {
-							ModuleElement element = super.adapt(cst, parentAst);
-							if (element instanceof GenerationRule) {
-								element = new GenerationRule() {
-									public void generate(IEolContext context, EglTemplateFactory templateFactory, IEgxModule module, Object element, java.util.Map<java.net.URI,EglTemplate> templateCache) throws EolRuntimeException {
-										super.generate(context, templateFactory, module, element, null);
-									};
-								};
-							}
-							return element;
-						};
-					}*/;
-					setTreeViewerVisible(true);
-					browserContainer.setBorderVisible(true);
+					module = new EgxModule();
 				}
 				else {
 					module = new EglTemplateFactoryModuleAdapter(new EglFileGeneratingTemplateFactory());
-					setTreeViewerVisible(false);
-					browserContainer.setBorderVisible(false);
 				}
 				
 				module.parse(new File(flexmiFile.getParentFile(), renderProcessingInstruction.getData().trim()));
@@ -240,72 +238,79 @@ public class FlexmiRendererView extends ViewPart {
 				context.getModelRepository().addModel(model);
 				
 				if (format.equals("egx")) {
-					if (!rerender) {
-						render("", "text");
-					}
-					
 					RenderingEglTemplateFactory templateFactory = new RenderingEglTemplateFactory();
 					templateFactory.setTemplateRoot(flexmiFile.getParentFile().getAbsolutePath());
 					((EgxModule) module).setTemplateFactory(templateFactory);
-					((EgxModule) module).execute();
+					module.execute();
 					
-					ContentTree contentTree = (ContentTree) treeViewer.getInput();
-					if (contentTree == null || !rerender) {
-						contentTree = templateFactory.getContentTree();
-						treeViewer.setInput(contentTree);
-					}
-					else {
-						contentTree.ingest(templateFactory.getContentTree());
-					}
-					
-					treeViewer.refresh();
-					
-					if (rerender) {
-						ContentTree selected = (ContentTree) treeViewer.getStructuredSelection().getFirstElement();
-						if (selected != null) {
-							if (selected.getContent() == null) nothingToRender();
-							else render(selected.getContent(), selected.getFormat());
-						}
-						else {
-							nothingToRender();
-						}
-					} else {
-						
-						ContentTree selection = null;
-						
-						if (selectionHistory.containsKey(renderedFile.getAbsolutePath())) {
-							selection = contentTree.forPath(selectionHistory.get(renderedFile.getAbsolutePath()));
-						}
-						
-						if (selection == null) {
-							selection = contentTree.getFirstWithContent();
-						}
-
-						if (selection != null) {
-							treeViewer.setSelection(new TreeSelection(new TreePath(new Object[] {selection})), true);
-							treeViewer.refresh();
-						}
-						else {
-							nothingToRender();
-						}
- 					}
-					
+					setContentTree(templateFactory.getContentTree(), rerender);
+					setTreeViewerVisible(true);
 				}
 				else {
+					setTreeViewerVisible(false);
 					String content = module.execute() + "";
 					render(content, format);
 				}
 			}
 		} catch (Exception ex) {
-			browser.setText("<html><pre>" + ex.getMessage() + "</pre></html>");
+			try { render("<html><pre>" + ex.getMessage() + "</pre></html>", "html"); } catch (Exception e) {}
 			ex.printStackTrace();
 		}
 
 	}
 	
+	public void runInUIThread(RunnableWithException runnable) throws Exception {
+		Display.getCurrent().asyncExec(runnable);
+		if (runnable.getException() != null) throw runnable.getException();
+	}
+	
+	protected void setContentTree(ContentTree newContentTree, boolean rerender) throws Exception {
+		
+		ContentTree contentTree = (ContentTree) treeViewer.getInput();
+		if (contentTree == null || !rerender) {
+			contentTree = newContentTree;
+			treeViewer.setInput(contentTree);
+		}
+		else {
+			contentTree.ingest(newContentTree);
+		}
+		
+		treeViewer.refresh();
+		
+		if (rerender) {
+			ContentTree selected = (ContentTree) treeViewer.getStructuredSelection().getFirstElement();
+			if (selected != null) {
+				if (selected.getContent() == null) nothingToRender();
+				else render(selected.getContent(), selected.getFormat());
+			}
+			else {
+				nothingToRender();
+			}
+		} else {
+			
+			ContentTree selection = null;
+			
+			if (selectionHistory.containsKey(renderedFile.getAbsolutePath())) {
+				selection = contentTree.forPath(selectionHistory.get(renderedFile.getAbsolutePath()));
+			}
+			
+			if (selection == null) {
+				selection = contentTree.getFirstWithContent();
+			}
+
+			if (selection != null) {
+				treeViewer.setSelection(new TreeSelection(new TreePath(new Object[] {selection})), true);
+				treeViewer.refresh();
+			}
+			else {
+				nothingToRender();
+			}
+		}
+	}
+	
 	protected void render(String content, String format) throws Exception {
 		if (format.equals("html")) {
-			browser.setText(content);
+			display(content);
 		}
 		else if (format.startsWith("graphviz-")) {
 			
@@ -331,22 +336,30 @@ public class FlexmiRendererView extends ViewPart {
 			p.waitFor();
 			
 			if (image.exists()) {
-				browser.setText("<html><body style=\"zoom:" + zoom + "\"><img src='" + image.getAbsolutePath() + "'></img></body></html>");
+				display("<html><body style=\"zoom:" + zoom + "\"><img src='" + image.getAbsolutePath() + "'></img></body></html>");
 			}
 			else if (log.exists()) {
-				browser.setUrl(URI.createFileURI(log.getAbsolutePath()).toString());
+				display(log);
 			}
 		}
 		else if (format.equals("text")) {
 			File temp = File.createTempFile("flexmi-renderer", ".txt");
 			Files.write(Paths.get(temp.toURI()), content.getBytes());
-			browser.setUrl(URI.createFileURI(temp.getAbsolutePath()).toString());
+			display(temp);
 		}
 		else {
 			nothingToRender();
 		}
 	}
-
+	
+	protected void display(String text) {
+		browser.setText(text);
+	}
+	
+	protected void display(File file) {
+		browser.setUrl(URI.createFileURI(file.getAbsolutePath()).toString());
+	}
+	
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -364,7 +377,7 @@ public class FlexmiRendererView extends ViewPart {
 		public void propertyChanged(Object source, int propId) {
 			if (locked) return;
 			if (propId == FlexmiEditor.PROP_DIRTY && !editor.isDirty()) {
-				renderEditorContent();
+				render(editor);
 			}
 		}
 	}

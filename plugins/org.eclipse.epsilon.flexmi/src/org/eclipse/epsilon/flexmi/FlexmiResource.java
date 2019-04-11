@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -81,6 +82,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected Map<EObject, String> localIDs = new HashMap<EObject, String>();
 	protected FrameStack frameStack = new FrameStack();
 	protected ActionMap actionMap = new ActionMap();
+	protected HashMap<EObject, List<EObject>> orderedChildren = new HashMap<EObject, List<EObject>>();
 	
 	public void startProcessingFragment(URI uri) {
 		parsedFragmentURIStack.push(uri);
@@ -232,6 +234,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				if (eClass != null) {
 					eObject = eClass.getEPackage().getEFactoryInstance().create(eClass);
 					containmentSlot.newValue(eObject);
+					addOrderedChild(containmentSlot.getEObject(), eObject);
 					objectStack.push(eObject);
 					setAttributes(eObject, element);
 				}
@@ -314,6 +317,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 					else {
 						parent.eSet(containment, eObject);
 					}
+					addOrderedChild(parent, eObject);
 					setAttributes(eObject, element);
 					objectStack.push(eObject);
 				}
@@ -344,9 +348,23 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		processingInstructions.add(processingInstruction);
 		
 		if ("nsuri".equalsIgnoreCase(key)) {
+			
+			EPackage ePackage = null;
+			//if (getResourceSet() != null) {
+			//	ePackage = getResourceSet().getPackageRegistry().getEPackage(value);
+			//}
+			
+			if (ePackage == null) {
+				ePackage = EPackage.Registry.INSTANCE.getEPackage(value);
+				if (ePackage != null) getResourceSet().getPackageRegistry().put(ePackage.getNsURI(), ePackage);
+			}
+			
+			if (ePackage == null) addParseWarning("Failed to locate EPackage for nsURI " + value + " ");
+			/*
 			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(value);
 			if (ePackage != null) getResourceSet().getPackageRegistry().put(ePackage.getNsURI(), ePackage);
-			else addParseWarning("Failed to locate EPackage for nsURI " + value + " ");
+			else addParseWarning("Failed to locate EPackage for nsURI " + value + " ");*/
+
 		}
 		else if ("eol".equalsIgnoreCase(key)) {
 			scripts.add(value);
@@ -362,9 +380,6 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	public void endDocument(Document document) {
 		resolveReferences();
 		
-		for (EObject content : getContents()) {
-			performNonLocalVariableDeclarations(content);
-		}
 		for (EObject content : getContents()) {
 			performActions(content);
 		}
@@ -404,31 +419,11 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			}
 		}
 		
-		for (EObject content : eObject.eContents()) {
-			performNonLocalVariableDeclarations(content);
-		}
-		
-		for (EObject content : eObject.eContents()) {
+		for (EObject content : getOrderedChildren(eObject)) {
 			performActions(content);
 		}
 		
 		if (entryPoint != null) frameStack.leaveLocal(entryPoint);
-	}
-	
-	protected void performNonLocalVariableDeclarations(EObject eObject) {
-		List<Action> actions = actionMap.getActions(eObject);
-		List<Action> performed = new ArrayList<Action>();
-		for (Action action : actions) {
-			if (action instanceof VariableDeclaration && ((VariableDeclaration) action).getType() != VariableDeclarationType.LOCAL) {
-				try {
-					action.perform(this);
-					performed.add(action);
-				} catch (Exception ex) {
-					addParseWarning(ex.getMessage(), action.getUri(), action.getLineNumber());
-				}
-			}
-		}
-		actions.removeAll(performed);
 	}
 	
 	protected void resolveReferences() {
@@ -484,6 +479,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	}
 	
 	public void handleVarAttribute(String attribute, VariableDeclarationType type, NamedNodeMap attributes, EObject eObject) {
+		
 		// Find the _var attribute, create a variable declaration and remove it from the node
 		Node varAttribute = attributes.getNamedItem(Template.PREFIX + attribute);
 		if (varAttribute != null) {
@@ -655,6 +651,20 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		}
 		
 		return null;
+	}
+	
+	public void addOrderedChild(EObject parent, EObject child) {
+		List<EObject> children = orderedChildren.get(parent);
+		if (children == null) {
+			children = new ArrayList<EObject>();
+			orderedChildren.put(parent, children);
+		}
+		children.add(child);
+	}
+	
+	public List<EObject> getOrderedChildren(EObject parent) {
+		if (orderedChildren.containsKey(parent)) return orderedChildren.get(parent);
+		else return Collections.emptyList(); 
 	}
 	
 	protected boolean isTemplateElement(Element element) {
