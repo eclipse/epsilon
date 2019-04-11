@@ -100,9 +100,8 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 		try {
 			int index = 0;
 			implName = configuration.getAttribute(IMPL_NAME, "");
-			addAvailableImplsToCombo(configuration);
-			if (implName.length() > 0) {
-				index = modulesDropDown.indexOf(implName);
+			updateAvailableImpls(configuration);
+			if (implName.length() > 0 && (index = modulesDropDown.indexOf(implName)) >= 0) {
 				modulesDropDown.select(index);
 				createConfigComposite(mainComposite);
 				if (moduleConfig != null) {
@@ -110,7 +109,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 				}
 			}
 			else {
-				modulesDropDown.select(0);
+				modulesDropDown.select(index);
 				implName = modulesDropDown.getText();
 				createConfigComposite(mainComposite);
 			}
@@ -121,10 +120,10 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		System.out.println("advanced performApply ");
+		System.out.println("advanced performApply");
 		configuration.setAttribute(IMPL_NAME, modulesDropDown.getText());
 		if (moduleConfig != null) {
-			System.out.println("moduleConfig performApply ");
+			System.out.println("moduleConfig performApply");
 			moduleConfig.performApply(configuration);
 		}
 	}
@@ -159,18 +158,31 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 
 	
 	/**
-	 * This method creates a drop-down list of available implementations. If no alternatives 
+	 * This method updates the drop-down list of available implementations. If no alternatives 
 	 * exist, the combo (or the parent) can be disabled, but should show the default one. 
-	 * @param configuration the eclpse launch configuration
+	 * @param configuration the eclipse launch configuration
 	 * @param control
 	 */
-	private void addAvailableImplsToCombo(ILaunchConfiguration configuration) {
-		if (modulesDropDown.getItemCount() == 0) {
-			getImplementations(configuration).stream().forEach(modulesDropDown::add);
-			modulesDropDown.setEnabled(getImplementations().size() > 1);
-		}
+	protected final void updateAvailableImpls(ILaunchConfiguration configuration) {
+		getImplementations().clear();
+		modulesDropDown.removeAll();
+		getImplementations(configuration).forEach(modulesDropDown::add);
+		modulesDropDown.select(0);
+		modulesDropDown.setEnabled(getImplementations().size() > 1);
 	}
-
+	
+	/**
+	 * Used by subclasses to control flexibility of what languages should be included when calling
+	 * {@link #getImplementations()} from a given IConfigurationElement. By default, this simply tests
+	 * for equality between the language and the configurationElement's language attribute.
+	 * 
+	 * @param language As obtaiend from {@link #getLanguage(ILaunchConfiguration)}
+	 * @param configurationElement Elements from the extension point.
+	 * @return Whether the language from the configuration element should be included.
+	 */
+	protected boolean shouldConfigurationElementBeIncludedAsAnImplementation(String language, IConfigurationElement configurationElement) {
+		return language.equalsIgnoreCase(configurationElement.getAttribute("language"));
+	}
 	
 	/**
 	 * The available implementations are extracted from the moduleImplementation extension point, based on
@@ -179,13 +191,12 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	 * @return A list of the names of the available module implementations for the language
 	 * @throws CoreException if the configuration dialog of an implementation can not be created
 	 */
-	public List<String> getImplementations(ILaunchConfiguration configuration) {
+	protected final List<String> getImplementations(ILaunchConfiguration configuration) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.moduleImplementation");
 		String language = getLanguage(configuration);
 		for (IConfigurationElement configurationElement : extensionPoint.getConfigurationElements()) {
-			String configLanguage = configurationElement.getAttribute("language");
-			if (configLanguage.equalsIgnoreCase(language)) {	
+			if (shouldConfigurationElementBeIncludedAsAnImplementation(language, configurationElement)) {	
 				ModuleImplementationExtension moduleType = new ModuleImplementationExtension(configurationElement);
 				implementations.put(moduleType.getName(), moduleType);
 			}

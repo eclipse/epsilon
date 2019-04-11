@@ -13,12 +13,7 @@ import java.util.*;
 import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringUtil;
-import org.eclipse.epsilon.eol.types.EolBag;
-import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.eol.types.EolOrderedSet;
-import org.eclipse.epsilon.eol.types.EolSequence;
-import org.eclipse.epsilon.eol.types.EolSet;
-import org.eclipse.epsilon.eol.types.NumberUtil;
+import org.eclipse.epsilon.eol.types.*;
 
 public class IterableOperationContributor extends OperationContributor {
 
@@ -286,10 +281,7 @@ public class IterableOperationContributor extends OperationContributor {
 	public Collection<Object> first(int number) {
 		Iterator<Object> it = getIterable().iterator();
 		ArrayList<Object> result = new ArrayList<>(number);
-		for (int i = 0; it.hasNext() && i < number;) {
-			result.add(it.next());
-			i++;
-		}
+		for (int i = 0; it.hasNext() && i++ < number; result.add(it.next()));
 		return result;
 	}
 	
@@ -349,13 +341,10 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	public String concat(String delimiter) {
-		return CollectionUtil.join(getIterable(), delimiter, new CollectionUtil.ElementPrinter() {
-			@Override
-			public String print(Object element) {
-				//FIXME : Use the pretty printer manager here
-				return StringUtil.toString(element, "");
-			}
-		});
+		return CollectionUtil.join(getIterable(), delimiter,
+			//FIXME : Use the pretty printer manager here
+			element -> StringUtil.toString(element, "")
+		);
 	}
 	
 	public Number max() {
@@ -367,19 +356,14 @@ public class IterableOperationContributor extends OperationContributor {
 		for (Object next : getIterable()) {
 			if (next instanceof Number) {
 				Number nextNumber = (Number) next;
-				if (max == null) {
+				if (max == null || NumberUtil.greaterThan(nextNumber, max)) {
 					max = nextNumber;
-				}
-				else {
-					if (NumberUtil.greaterThan(nextNumber, max)) {
-						max = nextNumber;
-					}
 				}
 			}
 		}
-		if (max == null) 
+		if (max == null) {
 			max = default_;
-		
+		}
 		return max;
 	}
 	
@@ -392,19 +376,14 @@ public class IterableOperationContributor extends OperationContributor {
 		for (Object next : getIterable()) {
 			if (next instanceof Number) {
 				Number nextNumber = (Number) next;
-				if (min == null) {
+				if (min == null || NumberUtil.lessThan(nextNumber, min)) {
 					min = nextNumber;
-				}
-				else {
-					if (NumberUtil.lessThan(nextNumber, min)) {
-						min = nextNumber;
-					}
 				}
 			}
 		}
-		if (min == null) 
+		if (min == null) {
 			min = default_;
-		
+		}
 		return min;
 	}
 	

@@ -16,12 +16,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.*;
 import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModuleImplementationExtension;
 import org.eclipse.epsilon.common.dt.launching.tabs.AbstractAdvancedConfigurationTab;
 import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.egl.*;
 import org.eclipse.epsilon.egl.dt.debug.EgxDebugger;
@@ -58,37 +58,29 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	 * @param configuration 	The Eclipse configuration that has the source file information.
 	 */
 	public static String getLanguageFromSource(ILaunchConfiguration configuration) {
-		String result = "EGL";	// Use EGL by default
-		String source = null;
 		try {
-			source = configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "");
+			String source = configuration.getAttribute(EolLaunchConfigurationAttributes.SOURCE, "");
+			if (source != null && !source.trim().isEmpty()) {
+				String ext = FileUtil.getExtension(source).toUpperCase();
+				switch (ext) {
+					case "EGX": case "EGL":
+						return ext;
+				}
+			}
 		} catch (CoreException e) {
 		
 		}
-		if (source != null) {
-			int extPoint = source.lastIndexOf('.');
-			if (extPoint > 0) {
-				switch (source.substring(extPoint+1).toLowerCase()) {
-				case "egx":
-					result = "EGX";
-					break;
-				default:
-					result = "";
-					break;
-				}
-			}
-		}
-		return result;
+		return "EGL";
 	}
 	
-	public static String getImplementationFromSource(ILaunchConfigurationWorkingCopy configuration) throws CoreException {
+	public static String getImplementationFromConfig(ILaunchConfiguration configuration) throws CoreException {
 		return configuration.getAttribute(AbstractAdvancedConfigurationTab.IMPL_NAME, "");
 	}
 	
 
 	@Override
 	public IEolModule createModule() throws CoreException {
-		String implName = configuration.getAttribute(AbstractAdvancedConfigurationTab.IMPL_NAME, "");
+		String implName = getImplementationFromConfig(configuration);
 		IEolModule module = null;
 		EglTemplateFactory templateFactory = createTemplateFactoryFromConfiguration();
 		if (implName.length() > 0) {
@@ -104,7 +96,6 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			// Backwards compatibility. For existing configurations, we will use the default module.
 			System.out.println("Configuration does not have specific module implementation information. "
 					+ "Falling back to default module.");
-			//IEolModule module = ModuleImplementationExtension.defaultImplementation().createModule();
 			module = getDefaultModule(configuration);
 			if (module == null) {
 				IStatus result = new Status(IStatus.ERROR, "org.eclipse.epsilon.eol.dt",
@@ -329,9 +320,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 
 	@Override
 	protected String getLanguage() {
-		// TODO Auto-generated method stub
-		return null;
+		return isEgx() ? "EGX" : "EGL";
 	}
-
 }
 

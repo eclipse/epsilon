@@ -60,10 +60,8 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		
 		shell.pack();
 		shell.open();
-		while( !shell.isDisposed())
-		{
-			if(!display.readAndDispatch()) 
-				display.sleep();
+		while (!shell.isDisposed() && !display.readAndDispatch()) {
+			display.sleep();
 		}
 		display.dispose();
 	}
@@ -267,6 +265,7 @@ public class EglSourceConfigurationTab extends AbstractSourceConfigurationTab im
 		
 	}
 
+	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		super.performApply(configuration);
 		

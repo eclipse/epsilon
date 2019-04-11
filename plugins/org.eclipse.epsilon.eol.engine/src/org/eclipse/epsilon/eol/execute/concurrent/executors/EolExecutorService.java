@@ -88,6 +88,7 @@ public interface EolExecutorService extends ExecutorService {
 		if (!status.waitForCompletion(lock)) {
 			termWait.interrupt();
 			shutdownNow();
+			status.getException().printStackTrace();
 			EolRuntimeException.propagateDetailed(status.getException());
 		}
 		
@@ -134,6 +135,7 @@ public interface EolExecutorService extends ExecutorService {
 		if (!status.waitForCompletion(lock)) {
 			compWait.interrupt();
 			shutdownNow();
+			status.getException().printStackTrace();
 			EolRuntimeException.propagateDetailed(status.getException());
 		}
 		

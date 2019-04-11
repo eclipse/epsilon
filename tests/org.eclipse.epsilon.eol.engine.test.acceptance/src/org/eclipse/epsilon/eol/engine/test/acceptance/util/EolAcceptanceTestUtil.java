@@ -68,8 +68,8 @@ public class EolAcceptanceTestUtil extends EpsilonTestUtil {
 		assertEquals(expected.getAst().toString(), actual.getAst().toString());
 	}
 	
-	public static final int[] THREADS = new int[] {
-		0, 1, 2, 3, 10, Byte.MAX_VALUE
+	public static final int[] THREADS = {
+		0, 1, 2, 3, 10, Byte.MAX_VALUE/2
 		//(ConcurrencyUtils.DEFAULT_PARALLELISM/2)+1,
 		//(ConcurrencyUtils.DEFAULT_PARALLELISM*2)-1
 	};

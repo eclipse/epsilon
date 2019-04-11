@@ -145,12 +145,7 @@ public class EolRuntimeException extends Exception {
 					return findCauseImpl(currentCause.getCause(), causes);
 				}
 			}
-			else {
-				return new EolRuntimeException(ex);
-			}
 		}
-		else {
-			return new EolRuntimeException();
-		}
+		return new EolRuntimeException(ex);
 	}
 }

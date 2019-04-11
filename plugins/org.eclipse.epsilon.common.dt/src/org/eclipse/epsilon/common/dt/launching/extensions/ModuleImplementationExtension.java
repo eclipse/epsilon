@@ -93,9 +93,8 @@ public class ModuleImplementationExtension {
 	 * @param configurationElement the configuration element
 	 */
 	public ModuleImplementationExtension(IConfigurationElement configurationElement) {
-		super();
 		this.clazz = configurationElement.getAttribute("class");
-		this.name = configurationElement.getAttribute("name");;
+		this.name = configurationElement.getAttribute("name");
 		this.language = configurationElement.getAttribute("language");
 		this.dialogClazz = configurationElement.getAttribute("dialog");
 		this.default_ = Boolean.valueOf(configurationElement.getAttribute("default"));
