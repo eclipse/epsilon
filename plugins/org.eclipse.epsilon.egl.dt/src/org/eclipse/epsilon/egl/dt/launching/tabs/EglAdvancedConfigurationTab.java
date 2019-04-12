@@ -37,6 +37,7 @@ public class EglAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 	
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
+		removeAvailableImpls();
 		updateAvailableImpls(configuration);
 		super.performApply(configuration);
 	}
@@ -46,9 +47,21 @@ public class EglAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 		
 	}
 
+	String language;
+	
 	@Override
 	public String getLanguage(ILaunchConfiguration configuration) {
-		return EglLaunchConfigurationDelegate.getLanguageFromSource(configuration);
+		return language = EglLaunchConfigurationDelegate.getLanguageFromSource(configuration);
+	}
+	
+	@Override
+	protected boolean shouldImplementationBeIncludedInDropDown(String implName, ILaunchConfiguration configuration) {
+		return implName.contains(language);
+	}
+	
+	@Override
+	protected boolean shouldImplementationBeRemoved(String language, IConfigurationElement configurationElement) {
+		return false;//!language.equals(configurationElement.getAttribute("language"));
 	}
 	
 	@Override

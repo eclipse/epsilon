@@ -98,7 +98,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
-			int index = 0;
+			int index;
 			implName = configuration.getAttribute(IMPL_NAME, "");
 			updateAvailableImpls(configuration);
 			if (implName.length() > 0 && (index = modulesDropDown.indexOf(implName)) >= 0) {
@@ -109,7 +109,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 				}
 			}
 			else {
-				modulesDropDown.select(index);
+				modulesDropDown.select(0);
 				implName = modulesDropDown.getText();
 				createConfigComposite(mainComposite);
 			}
@@ -156,6 +156,12 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	public abstract String getLanguage(ILaunchConfiguration configuration);
 	
 
+	/**
+	 * Removes all options from the drop-down.
+	 */
+	protected final void removeAvailableImpls() {
+		modulesDropDown.removeAll();
+	}
 	
 	/**
 	 * This method updates the drop-down list of available implementations. If no alternatives 
@@ -164,10 +170,22 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	 * @param control
 	 */
 	protected final void updateAvailableImpls(ILaunchConfiguration configuration) {
-		modulesDropDown.removeAll();
-		getImplementations(configuration).forEach(modulesDropDown::add);
+		getImplementations(configuration)
+			.stream()
+			.filter(impl -> shouldImplementationBeIncludedInDropDown(impl, configuration))
+			.forEach(modulesDropDown::add);
 		modulesDropDown.select(0);
-		modulesDropDown.setEnabled(getImplementations().size() > 1);
+		modulesDropDown.setEnabled(modulesDropDown.getItemCount() > 1);
+	}
+	
+	/**
+	 * Whether to include the given option in the implementations drop-down combo list.
+	 * @param implName The name of the implementation
+	 * @param configuration
+	 * @return Whether it should be included
+	 */
+	protected boolean shouldImplementationBeIncludedInDropDown(String implName, ILaunchConfiguration configuration) {
+		return true;
 	}
 	
 	/**
@@ -175,12 +193,23 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	 * {@link #getImplementations()} from a given IConfigurationElement. By default, this simply tests
 	 * for equality between the language and the configurationElement's language attribute.
 	 * 
-	 * @param language As obtaiend from {@link #getLanguage(ILaunchConfiguration)}
+	 * @param language As obtained from {@link #getLanguage(ILaunchConfiguration)}
 	 * @param configurationElement Elements from the extension point.
 	 * @return Whether the language from the configuration element should be included.
 	 */
 	protected boolean shouldConfigurationElementBeIncludedAsAnImplementation(String language, IConfigurationElement configurationElement) {
 		return language.equalsIgnoreCase(configurationElement.getAttribute("language"));
+	}
+	
+	/**
+	 * Called if {@link #shouldConfigurationElementBeIncludedAsAnImplementation(String, IConfigurationElement)} is false for the given inputs.
+	 * 
+	 * @param language As obtained from {@link #getLanguage(ILaunchConfiguration)}
+	 * @param configurationElement Elements from the extension point.
+	 * @return Whether to remove this implementation.
+	 */
+	protected boolean shouldImplementationBeRemoved(String language, IConfigurationElement configurationElement) {
+		return false;
 	}
 	
 	/**
@@ -199,7 +228,9 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 				ModuleImplementationExtension moduleType = new ModuleImplementationExtension(configurationElement);
 				implementations.putIfAbsent(moduleType.getName(), moduleType);
 			}
-			else implementations.remove(configurationElement.getAttribute("name"));
+			else if (shouldImplementationBeRemoved(language, configurationElement)) {
+				implementations.remove(implName);
+			}
 		}
 		return implementations.values().stream()
 			.sorted((o1, o2) -> {
