@@ -266,7 +266,6 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	
 	// COLLECTORS 
 
-	@Override
 	protected Collection<String> getAllTypeNamesOf(Object instance) { 
 		if (instance instanceof ISimulinkModelElement) {
 			return ((ISimulinkModelElement) instance).getAllTypeNamesOf();
@@ -287,16 +286,12 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 
 	@Override
-	protected Collection<ISimulinkModelElement> getAllOfKindFromModel(String kind)  
+	protected Collection<ISimulinkModelElement> getAllOfKindFromModel(String kind_)  
 			throws EolModelElementTypeNotFoundException {
 		try {
-			try {
-				return Kind.get(kind).getAll(this);
-			} catch (Exception e) {
-				return getAllOfTypeFromModel(kind);
-			}
+			return Kind.get(kind_).getAll(this);
 		} catch (Exception e) {
-			throw new EolModelElementTypeNotFoundException(null, null);
+			return getAllOfTypeFromModel(kind_);
 		}
 	}
 	

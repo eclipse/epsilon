@@ -16,13 +16,14 @@ import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
 public class SimulinkBlockManager extends AbstractManager<SimulinkBlock, Double> {
 	
 	public SimulinkBlockManager(SimulinkModel model){
-		super(model);
+ 		super(model);
 	}
 	
 	public SimulinkBlock construct(Double id) {
 		try {
 			return new SimulinkBlock(getModel(), getEngine(), id);
 		} catch (MatlabRuntimeException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

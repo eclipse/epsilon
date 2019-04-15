@@ -23,6 +23,7 @@ public class StateflowBlockManager extends AbstractManager<StateflowBlock, Doubl
 		try {
 			return new StateflowBlock(getModel(), getEngine(), id);
 		} catch (MatlabException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

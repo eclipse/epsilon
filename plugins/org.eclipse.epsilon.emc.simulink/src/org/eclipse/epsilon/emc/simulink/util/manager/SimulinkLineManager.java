@@ -23,6 +23,7 @@ public class SimulinkLineManager extends AbstractManager<SimulinkLine, Double> {
 		try {
 			return new SimulinkLine(getModel(), getEngine(), id);
 		} catch (MatlabRuntimeException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

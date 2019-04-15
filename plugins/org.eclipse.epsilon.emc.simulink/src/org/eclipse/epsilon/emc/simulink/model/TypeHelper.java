@@ -73,12 +73,9 @@ public class TypeHelper {
 			Collection<ISimulinkModelElement> tmp = null;
 			for (Kind k : kinds) {
 				try {
-					tmp = k.getAllSimulinkTypeFromModel(model, type);
-					if (tmp.size() > 0 ) {
-						return tmp;
-					}
+					return k.getAllSimulinkTypeFromModel(model, type);
 				} catch (Exception e) {
-					tmp = null;
+					// this will retry with another kind 
 				}	
 			}
 		} else {

@@ -12,6 +12,7 @@ package org.eclipse.epsilon.emc.simulink.model.element;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
@@ -117,6 +118,7 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 	private void setType() throws MatlabException {
 		if (handle != null) {
 			this.superType = (String) engine.evalWithSetupAndResult(HANDLE, GET_SIMULINK_KIND, handle);
+			this.superType = StringUtil.firstToUpper(superType);
 			String typeCmd = String.format(GET_SIMULINK_TYPE, this.superType);
 			this.type = (String) engine.evalWithSetupAndResult(HANDLE, typeCmd, handle);
 			try {

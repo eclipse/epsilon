@@ -23,6 +23,7 @@ public class SimulinkPortManager extends AbstractManager<SimulinkPort, Double> {
 		try {
 			return new SimulinkPort(getModel(), getEngine(), id);
 		} catch (MatlabRuntimeException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
