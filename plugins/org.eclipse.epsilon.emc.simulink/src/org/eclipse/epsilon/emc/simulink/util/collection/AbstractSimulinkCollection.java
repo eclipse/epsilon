@@ -156,7 +156,7 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			AbstractSimulinkCollection collection = (AbstractSimulinkCollection) c;
 			return getPrimitive().containsAll(collection.getPrimitive());
 		} else {
-			return c.stream()
+			return c.parallelStream()
 					.filter(e -> isInstanceOf(e))
 					.map(e -> getPrimitive().contains(manager.getId((E) e)))
 					.reduce(Boolean::logicalAnd)
@@ -171,7 +171,7 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			AbstractSimulinkCollection collection = (AbstractSimulinkCollection) c;
 			return getPrimitive().addAll(collection.getPrimitive());
 		} else {
-			return c.stream()
+			return c.parallelStream()
 					.filter(e -> isInstanceOf(e))
 					.map(e -> getPrimitive().add(manager.getId((E) e)))
 					.reduce(Boolean::logicalAnd)
@@ -186,8 +186,11 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			AbstractSimulinkCollection collection = (AbstractSimulinkCollection) c;
 			return getPrimitive().removeAll(collection.getPrimitive());
 		} else {
-			return c.stream().filter(e -> isInstanceOf(e)).map(e -> getPrimitive().remove(manager.getId((E) e)))
-					.reduce(Boolean::logicalAnd).orElse(false);
+			return c.parallelStream()
+					.filter(e -> isInstanceOf(e))
+					.map(e -> getPrimitive().remove(manager.getId((E) e)))
+					.reduce(Boolean::logicalAnd)
+					.orElse(false);
 		}
 	}
 
@@ -198,7 +201,9 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			AbstractSimulinkCollection collection = (AbstractSimulinkCollection) c;
 			return getPrimitive().retainAll(collection.getPrimitive());
 		} else {
-			List<P> collect = c.stream().filter(e -> isInstanceOf(e)).map(e -> manager.getId((E) e))
+			List<P> collect = c.parallelStream()
+					.filter(e -> isInstanceOf(e))
+					.map(e -> manager.getId((E) e))
 					.collect(Collectors.toList());
 			return getPrimitive().retainAll(collect);
 		}
