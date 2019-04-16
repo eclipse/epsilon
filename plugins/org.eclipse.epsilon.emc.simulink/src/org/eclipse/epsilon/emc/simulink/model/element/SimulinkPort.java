@@ -35,15 +35,16 @@ public class SimulinkPort extends SimulinkElement {
 			throw new EolRuntimeException(e.getMessage());
 		}
 		try {
-			engine.eval("children = get_param(lines, 'LineChildren');", this.handle);
+			engine.eval("children = get_param(lines, 'LineChildren');");
 			children = engine.getVariable("children");
 			if (children != null) {
 				return new SimulinkLineCollection(children, model);
+			} else {
+				return new SimulinkLineCollection(lines, model);
 			}
 		} catch (Exception e) {
 			return new SimulinkLineCollection(lines, model);					
 		}
-		return Collections.emptyList();
 	}
 	
 	@Override
