@@ -34,6 +34,11 @@ public class SimulinkPort extends SimulinkElement {
 		} catch (MatlabException e) {
 			throw new EolRuntimeException(e.getMessage());
 		}
+		// sometimes it might return an empty cell array and sometimes a -1 we dont know why
+		// in the -1 cases we found that the block had no connections and was masked, it might also be due to properties
+		if (lines.equals(-1.0) || lines.equals(-1)) {
+			return new SimulinkLineCollection(null, model);
+		}
 		try {
 			engine.eval("children = get_param(lines, 'LineChildren');");
 			children = engine.getVariable("children");
@@ -43,7 +48,7 @@ public class SimulinkPort extends SimulinkElement {
 				return new SimulinkLineCollection(lines, model);
 			}
 		} catch (Exception e) {
-			return new SimulinkLineCollection(lines, model);					
+			throw new EolRuntimeException(e.getMessage());					
 		}
 	}
 	
