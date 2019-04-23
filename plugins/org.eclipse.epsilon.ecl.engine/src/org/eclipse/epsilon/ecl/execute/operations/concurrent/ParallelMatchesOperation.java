@@ -13,11 +13,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.EclContextParallel;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.IEclContextParallel;
 import org.eclipse.epsilon.ecl.execute.operations.MatchesOperation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 
 /**
  * 
@@ -30,24 +32,30 @@ public class ParallelMatchesOperation extends MatchesOperation {
 	protected boolean matchCollectionOrdered(Collection<?> leftColFlat, Collection<?> rightColFlat, IEclContext context_) throws EolRuntimeException {
 		
 		IEclContextParallel context = EclContextParallel.convertToParallel(context_);
-		Collection<Runnable> jobs = new ArrayList<>(leftColFlat.size());
+		EolExecutorService executor = context.beginParallelTask();
+		ArrayList<Future<?>> jobFutures = new ArrayList<>(leftColFlat.size());
 		
 		for (Iterator<?> lit = leftColFlat.iterator(), rit = rightColFlat.iterator(); lit.hasNext();) {
 			final Object left = lit.next(), right = rit.next();
 			
-			jobs.add(() -> {
+			jobFutures.add(executor.submit(() -> {
 				try {
 					if (!matchInstances(left, right, context, false)) {
-						context.completeShortCircuit(context.getModule(), Boolean.FALSE);
+						executor.getExecutionStatus().completeWithResult(Boolean.FALSE);
 					}
 				}
-				catch (EolRuntimeException ex) {
-					context.handleException(ex);
+				catch (EolRuntimeException exception) {
+					context.handleException(exception, executor);
 				}
-			});
+			}));
 		}
 		
-		return context.shortCircuit(context.getModule(), jobs) == null;
+		Object result = executor.shortCircuitCompletion(jobFutures);
+		context.endParallelTask();
+		if (result instanceof Boolean) {
+			return (boolean) result;
+		}
+		return true;
 	}
 	
 	

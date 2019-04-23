@@ -26,7 +26,7 @@ public class NestedParallelOperationTests {
 	IEolModule module;
 	
 	String
-		pre = "Sequence{0..255}.parallelSelect(n | n.hashCode().asString().toCharSequence()",
+		pre = "Sequence{0.."+Short.MAX_VALUE+"}.parallelSelect(n | n.hashCode().asString().toCharSequence()",
 		midLambda = "(c | c.asInteger())",
 		endLambda = "(i | i == 8));";
 	

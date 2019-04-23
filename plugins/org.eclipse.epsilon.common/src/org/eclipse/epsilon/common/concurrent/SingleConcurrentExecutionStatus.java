@@ -24,8 +24,9 @@ import java.util.function.Supplier;
 public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 	
 	private volatile boolean inProgress = false;
-	private Thread waitingThread;
+	private volatile boolean registerAvailable = true;
 	private Object result;
+	private Object currentLock;
 
 	@Override
 	public Object getResult(Object lockObj) {
@@ -33,8 +34,17 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 	}
 	
 	@Override
-	public void register(Object lockObj) {
-		inProgress = true;
+	public boolean register(Object lockObj) {
+		if (registerAvailable) {
+			assert !inProgress;
+			inProgress = true;
+			registerAvailable = false;
+			return true;
+		}
+		else {
+			assert inProgress;
+			return false;
+		}
 	}
 	
 	@Override
@@ -42,31 +52,33 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 		return inProgress;
 	}
 	
-	private void complete() {
-		if (inProgress) {
-			inProgress = false;
-			if (waitingThread != null) {
-				waitingThread.interrupt();
-			}
+	private void complete(Object lockObj) {
+		inProgress = false;
+		if (lockObj != null) synchronized (lockObj) {
+			lockObj.notifyAll();
 		}
+		else if (currentLock != null) synchronized (currentLock) {
+			currentLock.notifyAll();
+			currentLock = null;
+		}
+		registerAvailable = true;
 	}
 	
 	@Override
 	public void completeSuccessfully(Object lockObj) {
-		complete();
+		complete(lockObj);
 	}
 	
 	@Override
-	public void completeSuccessfully(Object lockObj, Object result) {
+	public void completeWithResult(Object lockObj, Object result) {
 		this.result = result;
-		complete();
+		completeSuccessfully(lockObj);
 	}
 	
 	@Override
-	public void completeExceptionally(Exception exception) {
-		if (completeExceptionallyBase(exception)) {
-			complete();
-		}
+	public void completeExceptionally(Throwable exception) {
+		completeExceptionallyBase(exception);
+		complete(currentLock);
 	}
 	
 	/**
@@ -75,22 +87,16 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 	 * @return Whether the completion was successful (<code>true</code>) or exceptional (<code>false</code>).
 	 */
 	@Override
-	public boolean waitForCompletion(Object lockObj, Supplier<Boolean> targetState) {
-		synchronized (lockObj) {
-			waitingThread = Thread.currentThread();
-			
-			while (inProgress && (targetState == null || !targetState.get())) {
-				try {
-					lockObj.wait();
-				}
-				catch (InterruptedException ie) {
-					// Interrupt is desirable - no special action needed.
-				}
+	public boolean waitForCompletion(final Object lockObj, final Supplier<Boolean> targetState) {
+		assert lockObj != null;
+		currentLock = lockObj;
+		while (inProgress && (targetState == null || !targetState.get())) synchronized (lockObj) {
+			try {
+				lockObj.wait();
 			}
-			
-			waitingThread = null;
+			catch (InterruptedException ie) {}
 		}
-		
+		currentLock = null;
 		return !failed;
 	}
 	

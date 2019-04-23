@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
+import org.eclipse.epsilon.common.concurrent.SingleConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 /**
@@ -31,7 +32,15 @@ public interface EolExecutorService extends ExecutorService {
 		// Do nothing
 	};
 	
+	/**
+	 * 
+	 * @return A re-usable status object used to interrupt short-circuiting jobs.
+	 */
 	ConcurrentExecutionStatus getExecutionStatus();
+	
+	default ConcurrentExecutionStatus newExecutionStatus() {
+		return new SingleConcurrentExecutionStatus();
+	}
 	
 	/**
 	 * Shuts down this ExecutorService and waits for all jobs to complete.
@@ -48,6 +57,7 @@ public interface EolExecutorService extends ExecutorService {
 	/**
 	 * Blocks until all of the submitted jobs have completed.
 	 * 
+	 * @param futures The jobs to wait for.
 	 * @throws EolRuntimeException if an exception is thrown from any of the jobs,
 	 * or otherwise any other abnormal completion.
 	 * @return {@link ConcurrentExecutionStatus#getResult()}.
@@ -58,8 +68,7 @@ public interface EolExecutorService extends ExecutorService {
 			return null;
 		
 		ConcurrentExecutionStatus status = getExecutionStatus();
-		Object lock = new Object();
-		status.register(lock);
+		status.register();
 		
 		Thread termWait = new Thread(() -> {
 			try {
@@ -70,89 +79,101 @@ public interface EolExecutorService extends ExecutorService {
 				}
 				else {
 					shutdown();
-					awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+					if (!awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)) {
+						throw new IllegalStateException("Infinite wait on termination!");
+					}
 				}
-				status.completeSuccessfully(lock);
+				status.completeSuccessfully();
 			}
 			catch (ExecutionException ex) {
-				status.completeExceptionally(ex);
+				status.completeExceptionally(ex.getCause());
 			}
-			catch (InterruptedException ie) {
-				// If this happens, it means we completed exceptionally,
-				// so exit and let main thread take care of it (see below).
+			catch (Exception ex) {
+				if (status.isInProgress()) {
+					status.completeExceptionally(ex);
+				}
+			}
+			finally {
+				assert !status.isInProgress();
 			}
 		});
 		termWait.setName(getClass().getSimpleName()+"-AwaitTermination");
 		termWait.start();
 
-		if (!status.waitForCompletion(lock)) {
+		if (!status.waitForCompletion()) {
+			Throwable exception = status.getException();
 			termWait.interrupt();
 			shutdownNow();
-			status.getException().printStackTrace();
-			EolRuntimeException.propagateDetailed(status.getException());
+			EolRuntimeException.propagateDetailed(exception);
 		}
 		
-		return status.getResult(lock);
+		try {
+			termWait.join();
+		}
+		catch (InterruptedException ie) {}
+		assert !status.isInProgress();
+		
+		return status.getResult();
 	}
 	
 	/**
 	 * Blocks until all futures have completed, in the order returned by the futures' iterator.
-	 * This method takes care of exception handling semantics.
+	 * This method takes care of exception handling semantics. Note that this method uses a new
+	 * {@linkplain ConcurrentExecutionStatus}.
 	 * 
 	 * @param futures The Futures to wait for.
 	 * @return The result of futures.
-	 * @throws EolRuntimeException
+	 * @throws EolRuntimeException If an exception is thrown from any of the Futures.
 	 */
 	default <R> Collection<R> collectResults(Collection<Future<R>> futures) throws EolRuntimeException {
-		if (futures.isEmpty())
+		if (futures == null || futures.isEmpty())
 			return Collections.emptyList();
 		
-		ConcurrentExecutionStatus status = getExecutionStatus();
-		Object lock = new Object();
-		status.register(lock);
+		ConcurrentExecutionStatus status = newExecutionStatus();
+		status.register();
 		
 		final Collection<R> results = new ArrayList<>(futures.size());
+		final Thread blockingThread = Thread.currentThread();
 		
 		Thread compWait = new Thread(() -> {
 			try {
 				for (Future<R> future : futures) {
 					results.add(future.get());
 				}
-				status.completeSuccessfully(lock);
+				status.completeSuccessfully();
 			}
 			catch (ExecutionException ex) {
-				status.completeExceptionally(ex);
+				status.completeExceptionally(ex.getCause());
 			}
-			catch (CancellationException | InterruptedException ice) {
-				// This means we finished early (short-circuit)
-				// or an exception was raised. Either way no action
-				// required here - will be handled below.
+			catch (Exception ex) {
+				if (status.isInProgress()) {
+					status.completeExceptionally(ex);
+				}
+			}
+			finally {
+				if (blockingThread.getState() == Thread.State.WAITING) {
+					blockingThread.interrupt();
+				}
+				assert !status.isInProgress();
 			}
 		});
 		compWait.setName(getClass().getSimpleName()+"-AwaitCompletion");
 		compWait.start();
 
-		if (!status.waitForCompletion(lock)) {
+		if (!status.waitForCompletion()) {
+			Throwable exception = status.getException();
 			compWait.interrupt();
 			shutdownNow();
-			status.getException().printStackTrace();
-			EolRuntimeException.propagateDetailed(status.getException());
+			EolRuntimeException.propagateDetailed(exception);
 		}
 		
+		try {
+			compWait.join();
+		}
+		catch (InterruptedException ie) {}
+		assert !status.isInProgress();
+		
 		return results;
-	}
-
-	/**
-	 * Calls {@link #shortCircuitCompletion(Collection)}.
-	 * @param jobs The futures to wait on.
-	 * @return The result, cast as the specified type.
-	 * @throws EolRuntimeException If there was an exception in any of the <code>jobs</code>.
-	 * @see {@link #shortCircuitCompletion(Collection)}
-	 */
-	@SuppressWarnings("unchecked")
-	default <T> T shortCircuitCompletionTyped(Object lock, Collection<Future<T>> jobs) throws EolRuntimeException {
-		Collection<Future<?>> casted = jobs.stream().map(j -> (Future<?>) j).collect(Collectors.toList());
-		return (T) shortCircuitCompletion(lock, casted);
 	}
 	
 	/**
@@ -165,35 +186,46 @@ public interface EolExecutorService extends ExecutorService {
 	 * @throws EolRuntimeException If {@linkplain SingleConcurrentExecutionStatus#completeExceptionally(Exception)}
 	 * was called whilst waiting.
 	 */
-	default Object shortCircuitCompletion(Object lock, Collection<Future<?>> jobs) throws EolRuntimeException {
-		if (jobs.isEmpty())
-			return Collections.emptyList();
+	default Object shortCircuitCompletion(Collection<? extends Future<?>> jobs) throws EolRuntimeException {
+		if (jobs.isEmpty()) return null;
 		
 		ConcurrentExecutionStatus status = getExecutionStatus();
+		final Thread blockingThread = Thread.currentThread();
 		
 		Thread compWait = new Thread(() -> {
 			try {
 				for (Future<?> future : jobs) {
-					if (status.isInProgress(lock))
+					if (status.isInProgress())
 						future.get();
 					else return;
 				}
-				status.completeSuccessfully(lock);
+				status.completeSuccessfully();
 			}
 			catch (ExecutionException ex) {
-				ex.printStackTrace();
-				status.completeExceptionally(ex);
+				status.completeExceptionally(ex.getCause());
 			}
-			catch (CancellationException | InterruptedException ice) {
-				// This means we finished early (short-circuit) or exceptionally -
-				// No action required here (see below).
+			catch (Exception ex) {
+				if (status.isInProgress()) {
+					status.completeExceptionally(ex);
+				}
+			}
+			finally {
+				if (blockingThread.getState() == Thread.State.WAITING) {
+					blockingThread.interrupt();
+				}
+				assert !status.isInProgress();
 			}
 		});
 		compWait.setName(getClass().getSimpleName()+"-AwaitCompletion");
 		compWait.start();
 		
-		boolean success = status.waitForCompletion(lock);
+		boolean success = status.waitForCompletion();
 		compWait.interrupt();
+		try {
+			compWait.join();
+		}
+		catch (InterruptedException ie) {}
+		assert !status.isInProgress();
 		
 		if (!success) {
 			shutdownNow();
@@ -206,7 +238,7 @@ public interface EolExecutorService extends ExecutorService {
 			}
 		}
 		
-		return status.getResult(lock);
+		return status.getResult();
 	}
 
 	/**

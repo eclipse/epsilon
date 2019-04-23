@@ -39,7 +39,7 @@ public class DelegatePersistentThreadLocal<T extends ConcurrentBaseDelegate<? ex
 	
 	@Override
 	public void removeAll() {
-		getAll().forEach(t -> t.mergeAndSetThreadSafety(MergeMode.MERGE_INTO_BASE, false));
+		getAll().forEach(t -> t.merge(MergeMode.MERGE_INTO_BASE));
 		super.removeAll();
 	}
 }

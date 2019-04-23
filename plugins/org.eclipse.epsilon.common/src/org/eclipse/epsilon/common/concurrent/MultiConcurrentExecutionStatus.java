@@ -21,7 +21,9 @@ import java.util.function.Supplier;
  * @see SingleConcurrentExecutionStatus
  * @author Sina Madani
  * @since 1.6
+ * @deprecated Not currently maintained.
  */
+@Deprecated
 public final class MultiConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 	
 	private final Map<Object, Object> results = new HashMap<>();
@@ -33,8 +35,9 @@ public final class MultiConcurrentExecutionStatus extends ConcurrentExecutionSta
 	}
 	
 	@Override
-	public void register(Object lockObj) {
+	public boolean register(Object lockObj) {
 		inProgress.put(lockObj, Thread.currentThread());
+		return true;
 	}
 	
 	@Override
@@ -62,13 +65,13 @@ public final class MultiConcurrentExecutionStatus extends ConcurrentExecutionSta
 	}
 	
 	@Override
-	public void completeSuccessfully(Object lockObj, Object result) {
+	public void completeWithResult(Object lockObj, Object result) {
 		results.put(lockObj, result);
 		complete(lockObj);
 	}
 	
 	@Override
-	public void completeExceptionally(Exception exception) {
+	public void completeExceptionally(Throwable exception) {
 		if (completeExceptionallyBase(exception)) {
 			inProgress.values().forEach(Thread::interrupt);
 		}

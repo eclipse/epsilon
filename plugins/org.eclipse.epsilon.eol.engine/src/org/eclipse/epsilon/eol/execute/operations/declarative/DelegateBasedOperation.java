@@ -13,7 +13,7 @@ package org.eclipse.epsilon.eol.execute.operations.declarative;
  * 
  * @author Sina Madani
  * @since 1.6
- * @param <F>
+ * @param <O>
  */
 public abstract class DelegateBasedOperation<O extends FirstOrderOperation> extends FirstOrderOperation {
 

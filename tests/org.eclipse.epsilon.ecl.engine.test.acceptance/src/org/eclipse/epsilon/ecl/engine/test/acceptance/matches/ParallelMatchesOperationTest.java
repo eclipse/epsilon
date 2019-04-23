@@ -24,6 +24,6 @@ public class ParallelMatchesOperationTest extends MatchesOperationTest {
 		super(moduleGetter);
 		module = new EclModuleParallel();
 		//TODO: see why this is failing (on relatively rare occasions, but still)
-		//script = "CompareInstanceParallel.ecl";
+		script = "CompareInstanceParallel.ecl";
 	}
 }

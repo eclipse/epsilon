@@ -1,4 +1,3 @@
-
 operation InfixExpression operatorIsEquality() : Boolean {
 	return self.operator == InfixExpressionKind#EQUALS or self.operator == InfixExpressionKind#NOT_EQUALS;
 }
@@ -8,7 +7,7 @@ operation Modifier isLocal() : Boolean {
 }
 
 operation AbstractTypeDeclaration implements(type : String) {
-	return self.superInterfaces.parallelExists(si | si.type.name == type);
+	return self.superInterfaces.exists(si | si.type.name == type);
 }
 
 @cached
@@ -138,7 +137,7 @@ context ClassDeclaration {
 	
 	constraint cloneInCloneable {
 		guard: self.implements("Cloneable")
-		check: self.getMethods().parallelExists(md |
+		check: self.getMethods().exists(md |
 			md.name == "clone" and
 			md.parameters.isEmpty() and
 			md.thrownExceptions.size() == 1 and
@@ -168,7 +167,7 @@ context ClassDeclaration {
 			return
 				self.bodyDeclarations
 					.parallelSelect(bd | bd.isKindOf(AbstractMethodDeclaration))
-					.forAll(md | md.body.isDefined() implies md.body.statements
+					.sequentialForAll(md | md.body.isDefined() implies md.body.statements
 						.parallelSelect(s | s.isKindOf(VariableDeclaration))
 						.parallelForAll(vd | fields.forAll(fd | fd.name <> vd.name))
 					);
@@ -181,7 +180,7 @@ context CompilationUnit {
 	$parallel THREADS < 1
 	constraint allImportsAreUsed {
 		check: self.imports.forAll(imp |
-			NamedElement.allInstances().parallelExists(ne | ne.originalCompilationUnit == self)
+			NamedElement.allInstances().exists(ne | ne.originalCompilationUnit == self)
 		)
 	}
 }

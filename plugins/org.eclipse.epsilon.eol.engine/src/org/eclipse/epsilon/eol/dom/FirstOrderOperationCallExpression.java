@@ -21,12 +21,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.CollectBasedOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.CollectOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.DelegateBasedOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.SelectBasedOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
-import org.eclipse.epsilon.eol.execute.operations.declarative.FirstOrderOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.*;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.*;
@@ -101,22 +96,54 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 		IModel owningModel = context.getModelRepository().getOwningModel(target);
 		AbstractOperation operation = getAbstractOperation(target, operationName, owningModel, context);
 		
-		// TODO: add flag to enable this feature?
-		replaceWithDelegateOperation(operation, SelectBasedOperation.class, SelectOperation.class, "select", target, owningModel, context);
-		replaceWithDelegateOperation(operation, CollectBasedOperation.class, CollectOperation.class, "collect", target, owningModel, context);
+		replaceWithDelegateOperation(SelectBasedOperation.class, SelectOperation.class, operation, target, operationName, owningModel, context);
+		replaceWithDelegateOperation(CollectBasedOperation.class, CollectOperation.class, operation, target, operationName, owningModel, context);
 		
 		return operation.execute(target, nameExpression, parameters, expressions, context);
 	}
 	
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	protected AbstractOperation getOperationFromFactory(String name, IEolContext context) throws EolIllegalOperationException {
+		return context.getOperationFactory().getOptimisedOperation(name, context);
+	}
+	
+	/**
+	 * 
+	 * @param <O>
+	 * @param <D>
+	 * @param delegateClass
+	 * @param originalClass
+	 * @param operation
+	 * @param target
+	 * @param originalOpName
+	 * @param owningModel
+	 * @param context
+	 * @throws EolIllegalOperationException
+	 * @since 1.6
+	 */
 	@SuppressWarnings("unchecked")
-	<O extends FirstOrderOperation, D extends DelegateBasedOperation<O>>
-		void replaceWithDelegateOperation(AbstractOperation operation, Class<D> delegateClass, Class<O> originalClass,
-				String opName, Object target, IModel owningModel, IEolContext context) throws EolIllegalOperationException {
+	private <O extends FirstOrderOperation, D extends DelegateBasedOperation<O>>
+		void replaceWithDelegateOperation(Class<D> delegateClass, Class<O> originalClass,
+			AbstractOperation operation, Object target, String originalOpName, IModel owningModel, IEolContext context) throws EolIllegalOperationException {
 		
 		if (delegateClass.isInstance(operation)) {
 			D dbo = (D) operation;
 			if (dbo.getDelegateOperation().getClass().equals(originalClass)) {
-				O delegateOp = (O) getAbstractOperation(target, opName, owningModel, context);
+				String delegateOpName = originalClass.getSimpleName();
+				delegateOpName = delegateOpName.substring(0, delegateOpName.indexOf("Operation"));
+				if (originalOpName.startsWith("parallel") && !StringUtil.firstToLower(delegateOpName).startsWith("parallel")) {
+					delegateOpName = "parallel" + delegateOpName;
+				}
+				else if (originalOpName.startsWith("sequential") && !StringUtil.firstToLower(delegateOpName).startsWith("sequential")) {
+					delegateOpName = "sequential" + delegateOpName;
+				}
+				else {
+					delegateOpName = StringUtil.firstToLower(delegateOpName);
+				}
+				O delegateOp = (O) getAbstractOperation(target, delegateOpName, owningModel, context);
 				if (!delegateOp.getClass().equals(originalClass)) {
 					dbo.setDelegateOperation(delegateOp);
 				}
@@ -136,6 +163,8 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 		}
 		
 		String name = nameExpression.getName();
+		if (name.startsWith("sequential")) name = name.substring(10);
+		else if (name.startsWith("parallel")) name = name.substring(8);
 		
 		if (contextType != null) {
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);

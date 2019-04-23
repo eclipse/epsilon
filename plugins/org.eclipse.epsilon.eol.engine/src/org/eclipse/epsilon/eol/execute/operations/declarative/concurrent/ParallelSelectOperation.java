@@ -54,7 +54,7 @@ public class ParallelSelectOperation extends SelectOperation {
 					intermediateResult = Optional.ofNullable(item);
 					
 					if (returnOnMatch) {
-						context.completeShortCircuit(expression, intermediateResult);
+						executor.getExecutionStatus().completeWithResult(intermediateResult);
 					}
 				}
 				
@@ -63,7 +63,7 @@ public class ParallelSelectOperation extends SelectOperation {
 		}
 		
 		if (returnOnMatch) {
-			Optional<?> result = executor.shortCircuitCompletionTyped(expression, jobResults);
+			Optional<?> result = (Optional<?>) executor.shortCircuitCompletion(jobResults);
 			
 			if (result != null) {	
 				resultsCol.add(result.orElse(null));
@@ -77,7 +77,7 @@ public class ParallelSelectOperation extends SelectOperation {
 				.forEach(resultsCol::add);
 		}
 		
-		context.endParallelTask(expression);
+		context.endParallelTask();
 		return resultsCol;
 	}
 }

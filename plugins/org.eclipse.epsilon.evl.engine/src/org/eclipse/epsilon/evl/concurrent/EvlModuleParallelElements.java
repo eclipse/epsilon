@@ -30,37 +30,36 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 	}
 	
 	public EvlModuleParallelElements(int parallelism) {
-		// No need for the base FrameStack to be thread-safe in this implementation!
-		super(parallelism, false);
+		super(parallelism);
 	}
 	
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContextParallel context = getContext();
-		EolExecutorService executor = context.beginParallelTask(this);
+		EolExecutorService executor = context.beginParallelTask();
 		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
 			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
 			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
 			
-			for (Object object : allOfKind) {
-				executor.submit(() -> {
+			for (Object element : allOfKind) {
+				executor.execute(() -> {
 					// Lambdas are faster for this kind of work
 					// invokedynamic is more direct than creating an AIC and
 					// dispatching virtual call.
 					// @see http://www.oracle.com/technetwork/java/jvmls2013kuksen-2014088.pdf
 					try {
-						constraintContext.execute(constraintsToCheck, object, context);
+						constraintContext.execute(constraintsToCheck, element, context);
 					}
-					catch (EolRuntimeException ex) {
-						context.handleException(ex, executor);
+					catch (EolRuntimeException exception) {
+						context.handleException(exception, executor);
 					}
 				});
 			}
 		}
 		
-		executor.awaitCompletion();		// WARNING: This will kill the executor!
-		context.endParallelTask(this);
+		executor.awaitCompletion();
+		context.endParallelTask();
 	}
 
 }

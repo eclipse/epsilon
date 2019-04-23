@@ -27,10 +27,6 @@ import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 public abstract class ProfilableEvlModuleParallel extends EvlModuleParallel implements ProfilableIEolModule {
 
 	protected final Collection<ProfileDiagnostic> profiledStages = new ArrayList<>();
-	
-	protected ProfilableEvlModuleParallel(int parallelism, boolean threadSafeBaseFrames) {
-		super(parallelism, threadSafeBaseFrames);
-	}
 
 	public ProfilableEvlModuleParallel(int parallelism) {
 		super(parallelism);

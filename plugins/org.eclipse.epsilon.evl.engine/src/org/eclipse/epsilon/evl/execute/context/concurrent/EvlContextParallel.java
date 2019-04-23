@@ -11,14 +11,12 @@ package org.eclipse.epsilon.evl.execute.context.concurrent;
 
 import java.util.HashSet;
 import java.util.Set;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
-import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
@@ -33,19 +31,14 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	protected PersistentThreadLocal<Set<UnsatisfiedConstraint>> concurrentUnsatisfiedConstraints;
 	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints;
 	protected ConstraintTrace constraintTrace;
-	protected Set<Constraint> constraintsDependedOn;
 	protected boolean optimizeConstraintTrace = false;
 	
 	public EvlContextParallel() {
-		this(0, true);
+		this(0);
 	}
 	
 	public EvlContextParallel(IEvlContext other) {
 		super(other, true);
-	}
-	
-	public EvlContextParallel(int parallelism) {
-		this(parallelism, true);
 	}
 	
 	/**
@@ -53,35 +46,36 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	 * @param threadSafeBaseFrames whether the base FrameStack should use a thread-safe collection.
 	 * default is <code>true</code>
 	 */
-	public EvlContextParallel(int parallelism, boolean threadSafeBaseFrames) {
+	public EvlContextParallel(int parallelism) {
 		super(parallelism, true);
-		frameStack = new FrameStack(null, threadSafeBaseFrames);
 	}
 	
 	@Override
 	protected void initMainThreadStructures() {
 		super.initMainThreadStructures();
-
-		// Make results data structures thread-safe
 		constraintTrace = new ConstraintTrace(true);
-		
-		// No writes will be made to the base UnsatisfiedConstraints until the end, so make it empty
 		unsatisfiedConstraints = new HashSet<>(0);
 	}
-	
+
 	@Override
 	protected void initThreadLocals() {
-		super.initThreadLocals();	
-		// Since no writes will be made to unsatisfiedConstraints during parallel execution, we don't need a BaseDelegate here.
+		super.initThreadLocals();
 		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(numThreads, HashSet::new);
 	}
 	
 	@Override
-	public void endParallel() {
-		super.endParallel();
-		concurrentUnsatisfiedConstraints.getAll().forEach(unsatisfiedConstraints::addAll);
+	protected void clearThreadLocals() {
+		super.clearThreadLocals();
+		if (concurrentUnsatisfiedConstraints != null) {
+			concurrentUnsatisfiedConstraints.getAll().forEach(unsatisfiedConstraints::addAll);
+		}
 	}
-
+	
+	@Override
+	public Set<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
+		return parallelGet(concurrentUnsatisfiedConstraints, unsatisfiedConstraints);
+	}
+	
 	@Override
 	public void setModule(IModule module) {
 		if (module instanceof EvlModuleParallel) {
@@ -93,20 +87,10 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	public EvlModuleParallel getModule() {
 		return (EvlModuleParallel) super.getModule();
 	}
-	
-	@Override
-	public Set<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
-		return parallelGet(concurrentUnsatisfiedConstraints, () -> unsatisfiedConstraints);
-	}
-	
+
 	@Override
 	public ConstraintTrace getConstraintTrace() {
 		return constraintTrace;
-	}
-	
-	public static IEvlContextParallel convertToParallel(IEvlContext context) throws EolNestedParallelismException {
-		if (context instanceof IEvlContextParallel) return (IEvlContextParallel) context;
-		return IEolContextParallel.copyToParallel(context, EvlContextParallel::new);
 	}
 
 	@Override
@@ -117,5 +101,14 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	@Override
 	public boolean isOptimizeConstraintTrace() {
 		return optimizeConstraintTrace;
+	}
+	
+	public static IEvlContextParallel convertToParallel(IEvlContext context) throws EolNestedParallelismException {
+		if (context instanceof IEvlContextParallel) {
+			IEvlContextParallel pContext = (IEvlContextParallel) context;
+			if (!pContext.isParallel()) pContext.goParallel();
+			return pContext;
+		}
+		return IEolContextParallel.copyToParallel(context, EvlContextParallel::new);
 	}
 }

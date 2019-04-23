@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.evl.execute.concurrent;
+package org.eclipse.epsilon.evl.execute.atoms;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -73,13 +73,19 @@ import org.junit.runner.RunWith;
 @RunWith(org.junit.runners.Parameterized.class)
 public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 
-	// The oracle configurations
+	/**
+	 * The oracle configurations
+	 */
 	protected static Collection<? extends IEolRunConfiguration> expectedConfigs;
 	
-	// Used to identify which scenario to compare our results with.
+	/** 
+	 * Used to identify which scenario to compare our results with.
+	 */
 	protected static Map<Integer, IEolRunConfiguration> expectedConfigIDs;
 	
-	// The scenario and module combination under test. This is the parameterised test variable.
+	/**
+	 *  The scenario and module combination under test. This is the parameterised test variable.
+	 */
 	protected final C expectedConfig, testConfig;
 	
 	@SuppressWarnings("unchecked")

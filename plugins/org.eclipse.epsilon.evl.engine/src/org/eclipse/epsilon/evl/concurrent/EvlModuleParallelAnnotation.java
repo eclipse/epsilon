@@ -68,8 +68,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 				}
 				
 				context.executeParallel(constraintContext, jobs);
-			}
-			
+			}		
 			else {
 				for (Constraint constraint : constraintsToCheck) {
 					ArrayList<Runnable> jobs = new ArrayList<>();

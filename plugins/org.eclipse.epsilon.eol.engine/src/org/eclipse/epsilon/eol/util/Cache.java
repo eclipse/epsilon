@@ -24,18 +24,18 @@ public class Cache<K, V> {
 	}
 	
 	protected Thread createCleanUpThread() {
-		return new Thread(() -> {
-			try {
-				while (!map.isEmpty() && !Thread.currentThread().isInterrupted()) {
-					IdentityBasedWeakReference reference = (IdentityBasedWeakReference) referenceQueue.remove();
-					if (reference != null) {
-						synchronized (map) {
-							map.remove(reference);
-						}
-					}
+		Thread th = new Thread(() -> {
+			while (!map.isEmpty() && !Thread.currentThread().isInterrupted()) try {
+				Object reference = referenceQueue.remove();
+				if (reference instanceof IdentityBasedWeakReference) synchronized (map) {
+					map.remove(reference);
 				}
-			} catch (InterruptedException ie) {}
+			}
+			catch (InterruptedException ie) {}
 		});
+		th.setDaemon(true);
+		th.setName(getClass().getName()+"-cleanup");
+		return th;
 	}
 	
 	public V get(Object key) {
@@ -49,13 +49,9 @@ public class Cache<K, V> {
 		synchronized (map) {
 			if (!map.containsKey(reference)) {
 				map.put(reference, value);
-				if (map.size() == 1) {
-					try {
-						cleanUpThread = createCleanUpThread();
-						cleanUpThread.setDaemon(true);
-						cleanUpThread.start();
-					}
-					catch (Exception ex) {}
+				if (map.size() == 1 && cleanUpThread != null && !cleanUpThread.isAlive()) {
+					cleanUpThread = createCleanUpThread();
+					cleanUpThread.start();
 				}
 			}
 			return value;

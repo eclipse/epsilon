@@ -7,12 +7,14 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.evl.execute.concurrent;
+package org.eclipse.epsilon.evl.execute.atoms;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
@@ -56,7 +58,7 @@ public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
 		else return Collections.emptyList();
 	}
 	
-	public static ArrayList<ConstraintContextAtom> getContextJobs(IEvlModule module) throws EolRuntimeException {
+	public static ArrayList<ConstraintContextAtom> getContextJobs(IEvlModule module) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
 		ArrayList<ConstraintContextAtom> atoms = new ArrayList<>();
 		
 		for (ConstraintContext constraintContext : module.getConstraintContexts()) {

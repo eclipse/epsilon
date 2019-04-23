@@ -11,11 +11,13 @@ package org.eclipse.epsilon.ecl.execute.operations.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.Future;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.EclContextParallel;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.IEclContextParallel;
 import org.eclipse.epsilon.ecl.execute.operations.DoMatchOperation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 
 /**
  * 
@@ -28,24 +30,30 @@ public class ParallelDoMatchOperation extends DoMatchOperation {
 	protected boolean matchAll(Collection<?> leftColFlat, Collection<?> rightColFlat, IEclContext context_) throws EolRuntimeException {
 		
 		IEclContextParallel context = EclContextParallel.convertToParallel(context_);
-		Collection<Runnable> jobs = new ArrayList<>(leftColFlat.size() * rightColFlat.size());
+		EolExecutorService executor = context.beginParallelTask();
+		ArrayList<Future<?>> jobFutures = new ArrayList<>(leftColFlat.size() * rightColFlat.size());
 		
 		for (Object left : leftColFlat) {
 			for (Object right : rightColFlat) {
-				jobs.add(() -> {
+				jobFutures.add(executor.submit(() -> {
 					try {
 						if (!matchInstances(left, right, context, forcedMatch)) {
-							context.completeShortCircuit(context.getModule(), Boolean.FALSE);
+							executor.getExecutionStatus().completeWithResult(Boolean.FALSE);
 						}
 					}
-					catch (EolRuntimeException ex) {
-						context.handleException(ex);
+					catch (EolRuntimeException exception) {
+						context.handleException(exception, executor);
 					}
-				});
+				}));
 			}
 		}
 
-		return context.shortCircuit(context.getModule(), jobs) == null;
+		Object result = executor.shortCircuitCompletion(jobFutures);
+		context.endParallelTask();
+		if (result instanceof Boolean) {
+			return (boolean) result;
+		}
+		return true;
 	}
 	
 }

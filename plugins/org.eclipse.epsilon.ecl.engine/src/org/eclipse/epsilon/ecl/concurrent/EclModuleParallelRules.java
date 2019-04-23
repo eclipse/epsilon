@@ -34,13 +34,13 @@ public class EclModuleParallelRules extends EclModuleParallel {
 	protected void matchAllRules(boolean greedy) throws EolRuntimeException {
 		boolean ofTypeOnly = !greedy;
 		IEclContextParallel context = getContext();
-		EolExecutorService executor = context.beginParallelTask(this);
+		EolExecutorService executor = context.beginParallelTask();
 		
 		for (MatchRule matchRule : getMatchRules()) {
 			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (ofTypeOnly || matchRule.isGreedy())) {
 				for (Object left : matchRule.getLeftInstances(context, ofTypeOnly)) {
 					for (Object right : matchRule.getRightInstances(context, ofTypeOnly)) {
-						executor.submit(() -> {
+						executor.execute(() -> {
 							try {
 								matchRule.matchPair(context, ofTypeOnly, left, right);
 							}
@@ -54,6 +54,6 @@ public class EclModuleParallelRules extends EclModuleParallel {
 		}
 		
 		executor.awaitCompletion();
-		context.endParallelTask(this);
+		context.endParallelTask();
 	}
 }

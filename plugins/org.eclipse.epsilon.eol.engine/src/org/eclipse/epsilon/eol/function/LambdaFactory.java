@@ -95,8 +95,7 @@ public class LambdaFactory {
 		
 		if (paramValues != null) {
 			for (Object value : paramValues) {
-				String name = paramsIter.next().getName();
-				scope.put(name, value);
+				scope.put(paramsIter.next().getName(), value);
 			}
 		}
 		

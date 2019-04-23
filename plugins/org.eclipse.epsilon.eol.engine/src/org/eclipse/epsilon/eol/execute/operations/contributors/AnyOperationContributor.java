@@ -193,8 +193,15 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public int asInteger() {
-		String value = target.toString();
-		return Integer.parseInt(value);
+		try {
+			return Integer.parseInt(target.toString());
+		}
+		catch (Exception ex) {
+			if (target instanceof CharSequence && ((CharSequence)target).length() == 1) {
+				return ((CharSequence)target).charAt(0);
+			}
+			else throw ex;
+		}
 	}
 	
 	public boolean isInteger() {

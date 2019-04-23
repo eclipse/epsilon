@@ -18,8 +18,8 @@ import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallelElements;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
-import org.eclipse.epsilon.evl.execute.concurrent.ConstraintAtom;
-import org.eclipse.epsilon.evl.execute.concurrent.ConstraintContextAtom;
+import org.eclipse.epsilon.evl.execute.atoms.ConstraintAtom;
+import org.eclipse.epsilon.evl.execute.atoms.ConstraintContextAtom;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**

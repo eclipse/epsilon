@@ -49,7 +49,7 @@ context ClassDeclaration {
 					.parallelSelect(bd | bd.isKindOf(AbstractMethodDeclaration))
 					.parallelForAll(md | md.body.isDefined() implies md.body.statements
 						.select(s | s.isKindOf(VariableDeclaration))
-						.forAll(vd | fields.parallelForAll(fd | fd.name <> vd.name))
+						.sequentialForAll(vd | fields.parallelForAll(fd | fd.name <> vd.name))
 					);
 		}
 	}

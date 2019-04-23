@@ -24,6 +24,15 @@ public abstract class AbstractOperation {
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @return Whether this operation executes in parallel.
+	 * @since 1.6
+	 */
+	public boolean isParallel() {
+		return getClass().getSimpleName().startsWith("Parallel");
+	}
+	
 	@Override
 	public String toString() {
 		return getClass().getSimpleName();

@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.evl.execute.concurrent.*;
+import org.eclipse.epsilon.evl.execute.atoms.*;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**

@@ -9,13 +9,14 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
@@ -35,27 +36,26 @@ public class ParallelCountOperation extends CountOperation {
 		List<Expression> expressions, IEolContext context_) throws EolRuntimeException {
 		
 		final IEolContextParallel context = EolContextParallel.convertToParallel(context_);
-		final Iterable<?> source = resolveSource(target, iterators, context);
+		final Collection<?> source = resolveSource(target, iterators, context);
 		final Expression expression = expressions.get(0);
 		final CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
 		final AtomicInteger result = new AtomicInteger();
-		final EolExecutorService executor = context.beginParallelTask(expression);
+		final Collection<Runnable> jobs = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
-			executor.execute(() -> {
+			jobs.add(() -> {
 				try {
 					if (predicate.testThrows(item)) {
 						result.incrementAndGet();
 					}
 				}
 				catch (EolRuntimeException ex) {
-					context.handleException(ex, executor);
+					context.handleException(ex);
 				}
 			});
 		}
 		
-		executor.awaitCompletion();
-		context.endParallelTask(expressions.get(0));
+		context.executeParallel(expression, jobs);
 		return result.get();
 	}
 

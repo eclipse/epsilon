@@ -20,23 +20,48 @@ import java.util.function.Supplier;
 public abstract class ConcurrentExecutionStatus {
 	
 	protected boolean failed;
-	protected Exception exception;
+	protected Throwable exception;
 
-	public Exception getException() {
+	public Throwable getException() {
 		return exception;
 	}
 	
 	public abstract Object getResult(Object lockObj);
 	
-	public abstract void register(Object lockObj);
+	public Object getResult() {
+		return getResult(this);
+	}
+	
+	public boolean register() {
+		return register(this);
+	}
+	
+	/**
+	 * 
+	 * @param lockObj
+	 * @return <code>true</code> if registration was successful.
+	 */
+	public abstract boolean register(Object lockObj);
+	
+	public boolean isInProgress() {
+		return isInProgress(this);
+	}
 	
 	public abstract boolean isInProgress(Object lockObj);
 	
+	public void completeSuccessfully() {
+		completeSuccessfully(this);
+	}
+	
 	public abstract void completeSuccessfully(Object lockObj);
 	
-	public abstract void completeSuccessfully(Object lockObj, Object result);
+	public void completeWithResult(Object result) {
+		completeWithResult(this, result);
+	}
 	
-	protected final boolean completeExceptionallyBase(Exception exception) {
+	public abstract void completeWithResult(Object lockObj, Object result);
+	
+	protected final boolean completeExceptionallyBase(Throwable exception) {
 		boolean firstFail = !failed;
 		if (firstFail) {
 			this.exception = exception;
@@ -45,9 +70,9 @@ public abstract class ConcurrentExecutionStatus {
 		return firstFail;
 	}
 	
-	public abstract void completeExceptionally(Exception exception);
+	public abstract void completeExceptionally(Throwable exception);
 	
-	public synchronized Exception waitForExceptionalCompletion() {
+	public synchronized Throwable waitForExceptionalCompletion() {
 		while (!failed) {
 			try {
 				wait();
@@ -70,4 +95,7 @@ public abstract class ConcurrentExecutionStatus {
 		return waitForCompletion(lockObj, null);
 	}
 	
+	public boolean waitForCompletion() {
+		return waitForCompletion(this);
+	}
 }

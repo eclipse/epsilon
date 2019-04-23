@@ -13,10 +13,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Callable;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
+import static org.eclipse.epsilon.common.concurrent.ConcurrencyUtils.isTopLevelThread;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -32,11 +30,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
  * @since 1.6
  */
 public interface IEolContextParallel extends IEolContext {
-	
-	/**
-	 * Maximum supported level of parallel nesting.
-	 */
-	static final int PARALLEL_NEST_THRESHOLD = 1;
 	
 	/**
 	 * The key used for configuring the parallelism in dt plugins.
@@ -89,44 +82,30 @@ public interface IEolContextParallel extends IEolContext {
 	 */
 	EolExecutorService getExecutorService();
 	
-	/**
-	 * This method is used to signal nesting of parallel jobs. This method records
-	 * the beginning of a nesting level associated with a module element.
-	 * 
-	 * @param entryPoint The module element which started this parallelism nesting.
-	 * @throws EolNestedParallelismException if the maximum supported nesting level is exceeded.
-	 * @see #exitParallelNest()
-	 */
-	void enterParallelNest(ModuleElement entryPoint) throws EolNestedParallelismException;
-	
-	/**
-	 * Leaves the parallel nest. Typical implementations will simply
-	 * decrement the nest count as returned by {@link #getNestedParallelism()}.
-	 * 
-	 * @see #enterParallelNest(ModuleElement)
-	 */
-	void exitParallelNest(ModuleElement entryPoint);
-	
-	/**
-	 * Indicates how many layers of nesting is present in this context. This is a convenience
-	 * method for keeping track of the number of times {@linkplain #enterParallelNest(ModuleElement)}
-	 * has been called in a row without subsequent calls to {@linkplain #exitParallelNest(ModuleElement)}.
-	 * 
-	 * @return The maximum number of nested parallel jobs.
-	 * @see #enterParallelNest(ModuleElement)
-	 */
-	int getNestedParallelism();
-	
 	//Convenience methods
-	
+
 	/**
 	 * Convenience method for testing whether to perform an operation in parallel using
 	 * this context without encountering an {@link EolNestedParallelismException}.
 	 * 
 	 * @return <code>true</code> if calling {@link #enterParallelNest(ModuleElement)} is permitted.
 	 */
-	default boolean isBelowParallelNestThreshold() {
-		return getNestedParallelism() < PARALLEL_NEST_THRESHOLD;
+	default boolean isParallelisationLegal() {
+		return isParallel() && isTopLevelThread();
+	}
+	
+	/**
+	 * This method should be called prior to performing any parallel execution.
+	 * 
+	 * @param entryPoint The module element to use as the cause of an exception
+	 * @throws EolNestedParallelismException If {@link #isParallelisationLegal(Object)} returns false
+	 */
+	default void ensureNotNested(ModuleElement entryPoint) throws EolNestedParallelismException {
+		if (!isParallelisationLegal()) throw new EolNestedParallelismException(entryPoint);
+		EolExecutorService executor = getExecutorService();
+		ConcurrentExecutionStatus status = executor != null ? executor.getExecutionStatus() : null;
+		if (status != null && (entryPoint != null ? status.isInProgress(entryPoint) : status.isInProgress()))
+			throw new EolNestedParallelismException(entryPoint);
 	}
 	
 	/**
@@ -145,36 +124,19 @@ public interface IEolContextParallel extends IEolContext {
 	 */
 	default void handleException(Exception exception, EolExecutorService executor) {
 		// Cache the Epsilon stack trace
-		if (exception instanceof EolRuntimeException)
+		if (exception instanceof EolRuntimeException) {
 			exception.getMessage();
-	
-		if (executor != null)
-			executor.getExecutionStatus().completeExceptionally(exception);
+		}
+		if (executor != null) {
+			ConcurrentExecutionStatus status = executor.getExecutionStatus();
+			if (status != null) {
+				status.completeExceptionally(exception);
+			}
+		}
 	}
-	
-	/**
-	 * Utility method used to appropriately return either a thread-local or the original value,
-	 * depending on whether this context {@linkplain #isParallel()}.
-	 * @param threadLocal The ThreadLocal value (returned if parallel).
-	 * @param originalValueGetter The non-thread-local value (returned if not parallel).
-	 * @return The appropriate value for the current thread.
-	 */
-	default <R> R parallelGet(ThreadLocal<? extends R> threadLocal, Supplier<? extends R> originalValueGetter) {
-		return isParallel() && !ConcurrencyUtils.isMainThread() ? threadLocal.get() : originalValueGetter.get();
-	}
-	
-	/**
-	 * Utility method used to appropriately set either a thread-local or the original value,
-	 * depending on whether this context {@linkplain #isParallel()}.
-	 * @param value The value to set.
-	 * @param threadLocal The ThreadLocal value (will be set if parallel).
-	 * @param originalValueSetter The non-thread-local value (will be set if not parallel).
-	 */
-	default <T> void parallelSet(T value, ThreadLocal<? super T> threadLocal, Consumer<? super T> originalValueSetter) {
-		if (isParallel() && !ConcurrencyUtils.isMainThread())
-			threadLocal.set(value);
-		else
-			originalValueSetter.accept(value);
+
+	default EolExecutorService beginParallelTask() throws EolNestedParallelismException {
+		return beginParallelTask(null);
 	}
 	
 	/**
@@ -184,29 +146,32 @@ public interface IEolContextParallel extends IEolContext {
 	 * @throws EolNestedParallelismException If there was already a parallel task in progress.
 	 */
 	default EolExecutorService beginParallelTask(ModuleElement entryPoint) throws EolNestedParallelismException {
+		if (!isParallel()) throw new IllegalStateException("Should be parallel!");
+		ensureNotNested(entryPoint != null ? entryPoint : getModule());
 		EolExecutorService executor = getExecutorService();
 		if (executor == null || executor.isShutdown()) {
-			executor =  newExecutorService();
+			executor = newExecutorService();
 		}
-		if (entryPoint == null) entryPoint = getModule();
-		enterParallelNest(entryPoint);
-		executor.getExecutionStatus().register(entryPoint);
+		if (!executor.getExecutionStatus().register()) {
+			throw new EolNestedParallelismException(entryPoint);
+		}
 		return executor;
 	}
 	
 	/**
-	 * Completes the parallel task associated with the provided identifier.
-	 * @param entryPoint The identifier for this parallel task.
+	 * 
 	 * @return The result of the task, if any.
 	 */
-	default Object endParallelTask(ModuleElement entryPoint) {
-		if (entryPoint == null) entryPoint = getModule();
-		exitParallelNest(entryPoint);
-		ConcurrentExecutionStatus status = getExecutorService().getExecutionStatus();
-		if (status.isInProgress(entryPoint)) {
-			status.completeSuccessfully(entryPoint);
+	default Object endParallelTask() {
+		EolExecutorService executor = getExecutorService();
+		if (executor != null) {
+			ConcurrentExecutionStatus status = executor.getExecutionStatus();
+			if (status != null) {
+				status.completeSuccessfully();
+				return status.getResult();
+			}
 		}
-		return status.getResult(entryPoint);
+		return null;
 	}
 	
 	/**
@@ -216,10 +181,9 @@ public interface IEolContextParallel extends IEolContext {
 	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
 	 */
 	default void executeParallel(ModuleElement entryPoint, Collection<? extends Runnable> jobs) throws EolRuntimeException {
-		EolExecutorService executor = getExecutorService();
-		enterParallelNest(entryPoint);
+		EolExecutorService executor = beginParallelTask(entryPoint);
 		executor.completeAll(jobs);
-		exitParallelNest(entryPoint);
+		endParallelTask();
 	}
 	
 	/**
@@ -231,11 +195,9 @@ public interface IEolContextParallel extends IEolContext {
 	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
 	 */
 	default <T> Collection<T> executeParallelTyped(ModuleElement entryPoint, Collection<Callable<T>> jobs) throws EolRuntimeException {
-		EolExecutorService executor = getExecutorService();
-		if (entryPoint == null) entryPoint = getModule();
-		enterParallelNest(entryPoint);
+		EolExecutorService executor = beginParallelTask(entryPoint);
 		Collection<T> results = executor.collectResults(executor.submitAllTyped(jobs));
-		exitParallelNest(entryPoint);
+		endParallelTask();
 		return results;
 	}
 	
@@ -245,7 +207,7 @@ public interface IEolContextParallel extends IEolContext {
 	 * @param result The result of the task, if any.
 	 */
 	default void completeShortCircuit(ModuleElement entryPoint, Object result) {
-		getExecutorService().getExecutionStatus().completeSuccessfully(entryPoint, result);
+		getExecutorService().getExecutionStatus().completeWithResult(result);
 	}
 	
 	/**
@@ -259,8 +221,8 @@ public interface IEolContextParallel extends IEolContext {
 	 */
 	default Object shortCircuit(ModuleElement entryPoint, Collection<? extends Runnable> jobs) throws EolRuntimeException {
 		EolExecutorService executor = beginParallelTask(entryPoint);
-		Object result = executor.shortCircuitCompletion(entryPoint, executor.submitAll(jobs));
-		exitParallelNest(entryPoint);
+		Object result = executor.shortCircuitCompletion(executor.submitAll(jobs));
+		endParallelTask();
 		return result;
 	}
 	
@@ -274,10 +236,11 @@ public interface IEolContextParallel extends IEolContext {
 	 * @return The result of this task, as set by {@linkplain #completeShortCircuit(ModuleElement, Object)}, if any.
 	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
 	 */
+	@SuppressWarnings("unchecked")
 	default <T> T shortCircuitTyped(ModuleElement entryPoint, Collection<Callable<T>> jobs) throws EolRuntimeException {
 		EolExecutorService executor = beginParallelTask(entryPoint);
-		T result = executor.shortCircuitCompletionTyped(entryPoint, executor.submitAllTyped(jobs));
-		exitParallelNest(entryPoint);
+		T result = (T) executor.shortCircuitCompletion(executor.submitAllTyped(jobs));
+		endParallelTask();
 		return result;
 	}
 	

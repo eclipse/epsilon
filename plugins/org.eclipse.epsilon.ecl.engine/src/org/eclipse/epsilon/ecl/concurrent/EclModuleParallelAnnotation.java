@@ -9,11 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.ecl.concurrent;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.IEclContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAnnotation;
 
@@ -36,14 +36,14 @@ public class EclModuleParallelAnnotation extends EclModuleParallel implements IE
 	protected void matchAllRules(boolean greedy) throws EolRuntimeException {
 		boolean ofTypeOnly = !greedy;
 		IEclContextParallel context = getContext();
-		ArrayList<Runnable> jobs = new ArrayList<>();
+		EolExecutorService executor = context.beginParallelTask();
 		
 		for (MatchRule matchRule : getMatchRules()) {
 			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (ofTypeOnly || matchRule.isGreedy())) {
 				Collection<?> leftInstances = matchRule.getLeftInstances(context, ofTypeOnly);
 				Collection<?> rightInstances = matchRule.getRightInstances(context, ofTypeOnly);
 				
-				Variable[] annotationVariables = new Variable[] {
+				Variable[] annotationVariables = {
 					Variable.createReadOnlyVariable("leftInstances", leftInstances),
 					Variable.createReadOnlyVariable("rightInstances", rightInstances),
 					Variable.createReadOnlyVariable("matchRule", matchRule),
@@ -53,7 +53,7 @@ public class EclModuleParallelAnnotation extends EclModuleParallel implements IE
 				if (shouldBeParallel(matchRule, annotationVariables)) {
 					for (Object left : leftInstances) {
 						for (Object right : rightInstances) {
-							jobs.add(() -> {
+							executor.execute(() -> {
 								try {
 									matchRule.matchPair(context, ofTypeOnly, left, right);
 								}
@@ -74,7 +74,8 @@ public class EclModuleParallelAnnotation extends EclModuleParallel implements IE
 			}
 		}
 		
-		context.executeParallel(this, jobs);
+		executor.awaitCompletion();
+		context.endParallelTask();
 	}
 	
 }

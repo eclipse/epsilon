@@ -1,3 +1,4 @@
+
 operation InfixExpression operatorIsEquality() : Boolean {
 	return self.operator == InfixExpressionKind#EQUALS or self.operator == InfixExpressionKind#NOT_EQUALS;
 }
@@ -7,16 +8,16 @@ operation Modifier isLocal() : Boolean {
 }
 
 operation AbstractTypeDeclaration implements(type : String) {
-	return self.superInterfaces.sequentialExists(si | si.type.name == type);
+	return self.superInterfaces.exists(si | si.type.name == type);
 }
 
 @cached
 operation AbstractTypeDeclaration getMethods() : Collection {
-	return self.bodyDeclarations.sequentialSelect(bd | bd.isKindOf(MethodDeclaration));
+	return self.bodyDeclarations.select(bd | bd.isKindOf(MethodDeclaration));
 }
 
 operation ClassDeclaration hasEquals() : Boolean {
-	return self.getMethods().sequentialExists(method |
+	return self.getMethods().exists(method |
 			method.name == "equals" and
 			method.parameters.size() == 1 and
 			method.parameters.first().type.type.name == "Object" and
@@ -28,7 +29,7 @@ operation ClassDeclaration hasEquals() : Boolean {
 }
 
 operation ClassDeclaration hasHashcode() : Boolean {
-	return self.getMethods().sequentialExists(method |
+	return self.getMethods().exists(method |
 			method.name == "hashCode" and
 			method.parameters.isEmpty() and
 			method.thrownExceptions.isEmpty() and
@@ -39,7 +40,7 @@ operation ClassDeclaration hasHashcode() : Boolean {
 }
 
 operation ClassDeclaration hasCompareTo() : Boolean {
-	return self.getMethods().sequentialExists(method | 
+	return self.getMethods().exists(method | 
 			method.name == "compareTo" and
 			method.parameters.size() == 1 and
 			method.parameters.first().type.type.name == "Object" and
@@ -87,12 +88,12 @@ context AbstractMethodDeclaration {
 	constraint parametersEffectivelyFinal {
 		guard: self.body.isDefined() and self.parameters.notEmpty()
 		check: self.body.statements
-				.sequentialSelect(s |
+				.select(s |
 					s.isKindOf(ExpressionStatement) and
 					s.expression.isKindOf(Assignment)
 				)
-				.sequentialCollect(s | s.expression)
-				.sequentialSelect(assignment |
+				.collect(s | s.expression)
+				.select(assignment |
 					assignment.leftHandSide.isKindOf(SingleVariableAccess) and
 					assignment.operator == AssignmentKind#ASSIGN and
 					assignment.leftHandSide.isKindOf(SingleVariableAccess) and
@@ -115,7 +116,7 @@ context ClassDeclaration {
 	
 	$parallel self.getMethods().size() >= 25
 	constraint noCovariantEquals {
-		guard: self.getMethods().sequentialExists(method |
+		guard: self.getMethods().exists(method |
 			method.name = "equals" and
 			method.modifier <> null and
 			method.modifier.visibility = VisibilityKind#public and
@@ -125,7 +126,7 @@ context ClassDeclaration {
 	}
 	
 	constraint noCovariantCompareTo {
-		guard: self.getMethods().sequentialExists(method | 
+		guard: self.getMethods().exists(method | 
 			method.name == "compareTo" and
 			method.modifier.isDefined() and
 			method.modifier.visibility == VisibilityKind#public and
@@ -136,7 +137,7 @@ context ClassDeclaration {
 	
 	constraint cloneInCloneable {
 		guard: self.implements("Cloneable")
-		check: self.getMethods().sequentialExists(md |
+		check: self.getMethods().exists(md |
 			md.name == "clone" and
 			md.parameters.isEmpty() and
 			md.thrownExceptions.size() == 1 and
@@ -152,7 +153,7 @@ context ClassDeclaration {
 			self.superClass.type.isKindOf(ClassDeclaration) and
 			self.superClass.type.superInterfaces.isDefined()
 		
-		check: self.superInterfaces.sequentialExists(tIface |
+		check: self.superInterfaces.exists(tIface |
 			self.superClass.type.isKindOf(AbstractTypeDeclaration) implies (
 				self.superClass.type.superInterfaces.includes(tIface)
 			)
@@ -161,13 +162,13 @@ context ClassDeclaration {
 	
 	constraint noObscuredVariables {
 		check {
-			var fields = self.bodyDeclarations.sequentialSelect(bd | bd.isKindOf(FieldDeclaration));
+			var fields = self.bodyDeclarations.select(bd | bd.isKindOf(FieldDeclaration));
 			return
 				self.bodyDeclarations
-					.sequentialSelect(bd | bd.isKindOf(AbstractMethodDeclaration))
-					.sequentialForAll(md | md.body.isDefined() implies md.body.statements
-						.sequentialSelect(s | s.isKindOf(VariableDeclaration))
-						.sequentialForAll(vd | fields.sequentialForAll(fd | fd.name <> vd.name))
+					.select(bd | bd.isKindOf(AbstractMethodDeclaration))
+					.forAll(md | md.body.isDefined() implies md.body.statements
+						.select(s | s.isKindOf(VariableDeclaration))
+						.forAll(vd | fields.forAll(fd | fd.name <> vd.name))
 					);
 		}
 	}
@@ -176,8 +177,8 @@ context ClassDeclaration {
 context CompilationUnit {
 	@parallel
 	constraint allImportsAreUsed {
-		check: self.imports.sequentialForAll(imp |
-			NamedElement.allInstances().sequentialExists(ne | ne.originalCompilationUnit == self)
+		check: self.imports.forAll(imp |
+			NamedElement.allInstances().exists(ne | ne.originalCompilationUnit == self)
 		)
 	}
 }

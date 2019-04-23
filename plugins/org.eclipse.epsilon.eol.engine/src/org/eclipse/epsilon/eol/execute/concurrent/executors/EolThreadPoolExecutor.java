@@ -78,4 +78,12 @@ public class EolThreadPoolExecutor extends ThreadPoolExecutor implements EolExec
 	public ConcurrentExecutionStatus getExecutionStatus() {
 		return execStatus;
 	}
+	
+	@Override
+	protected void terminated() {
+		super.terminated();
+		if (execStatus != null && execStatus.isInProgress()) {
+			execStatus.completeSuccessfully();
+		}
+	}
 }

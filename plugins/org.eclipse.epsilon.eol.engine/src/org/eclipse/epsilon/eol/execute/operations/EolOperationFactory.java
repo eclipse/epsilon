@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2018 The University of York.
+ * Copyright (c) 2008-2019 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -13,6 +13,9 @@ package org.eclipse.epsilon.eol.execute.operations;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.epsilon.common.util.StringUtil;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.*;
 import org.eclipse.epsilon.eol.execute.operations.declarative.concurrent.*;
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.*;
@@ -60,8 +63,57 @@ public class EolOperationFactory {
 		operationCache.put("parallelSortBy", new ParallelSortByOperation());
 		operationCache.put("parallelMapBy", new ParallelMapByOperation());
 	}
-
+	
+	/**
+	 * Retrieves the exact operation based on the given name.
+	 * 
+	 * @param name The operation name.
+	 * @return The cached operation, or <code>null</code> if no operation could be found.
+	 */
 	public AbstractOperation getOperationFor(String name) {
 		return operationCache.get(name);
+	}
+	
+	/**
+	 * 
+	 * @param name The operation name
+	 * @param context The context
+	 * @return An optimal implementation for the requested operation, based on the context's state.
+	 * @since 1.6
+	 */
+	public AbstractOperation getOptimisedOperation(String name, IEolContext context) {
+		AbstractOperation originalOp = operationCache.get(name);
+		if (isOverridenDelegate(originalOp)) {
+			return originalOp;
+		}
+		else if (originalOp != null && context instanceof IEolContextParallel && !name.startsWith("parallel") && ((IEolContextParallel)context).isParallelisationLegal()) {
+			AbstractOperation parallelOp = operationCache.get("parallel" + StringUtil.firstToUpper(name));
+			if (parallelOp != null) return parallelOp;
+		}
+		else if (originalOp == null && name.startsWith("sequential")) {
+			AbstractOperation sequentialOp = operationCache.get(StringUtil.firstToLower(name.substring(10)));
+			if (sequentialOp != null) return sequentialOp;
+		}
+		return originalOp;
+	}
+	
+	/**
+	 * Checks whether the given operation is a {@linkplain DelegateBasedOperation} and if so, whether
+	 * its delegate operation is unknown (built-in) to this factory.
+	 * 
+	 * @param operation The operation to test.
+	 * @return <code>true</code> if the operation has an unrecognised delegate, <code>false</code> otherwise.
+	 * @since 1.6
+	 */
+	public boolean isOverridenDelegate(AbstractOperation operation) {
+		if (operation instanceof DelegateBasedOperation<?>) {
+			AbstractOperation delegate = ((DelegateBasedOperation<?>) operation).getDelegateOperation();
+			if (delegate != null) {
+				Class<? extends AbstractOperation> delegateClass = delegate.getClass();
+				return operationCache.values().stream()
+					.noneMatch(op -> op.getClass() == delegateClass);
+			}
+		}
+		return false;
 	}
 }

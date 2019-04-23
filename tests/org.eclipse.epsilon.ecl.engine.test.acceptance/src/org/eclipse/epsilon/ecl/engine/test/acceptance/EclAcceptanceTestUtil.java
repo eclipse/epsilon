@@ -14,7 +14,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Supplier;
-
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.ecl.*;
 import org.eclipse.epsilon.ecl.concurrent.*;
@@ -56,6 +55,11 @@ public class EclAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	}
 	
 	public static Collection<Supplier<? extends IEclModule>> modules() {
-		return parallelModules(THREADS, EclModule::new, EclModuleParallel::new/*, EclModuleParallelRules::new*/);
+		return parallelModules(THREADS,
+			EclModule::new/*,
+			EclModuleParallel::new,
+			EclModuleParallelAnnotation::new,
+			EclModuleParallelRules::new*/
+		);
 	}
 }

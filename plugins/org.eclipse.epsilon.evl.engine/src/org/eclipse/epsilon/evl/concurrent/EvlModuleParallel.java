@@ -18,29 +18,23 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
+ * No-op EVL module, useful only for setting parallelisation properties for other operations.
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public abstract class EvlModuleParallel extends EvlModule {
+public class EvlModuleParallel extends EvlModule {
 	
 	static {
 		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
 	}
-	
-	@Override
-	protected abstract void checkConstraints() throws EolRuntimeException;
 	
 	public EvlModuleParallel() {
 		setContext(new EvlContextParallel());
 	}
 	
 	public EvlModuleParallel(int parallelism) {
-		setContext(new EvlContextParallel(parallelism, true));
-	}
-	
-	protected EvlModuleParallel(int parallelism, boolean threadSafeBaseFrames) {
-		setContext(new EvlContextParallel(parallelism, threadSafeBaseFrames));
+		setContext(new EvlContextParallel(parallelism));
 	}
 	
 	@Override
@@ -77,7 +71,7 @@ public abstract class EvlModuleParallel extends EvlModule {
 		IEvlContextParallel context = getContext();
 		setContext(IEolContextParallel.configureContext(
 			properties,
-			threads -> new EvlContextParallel(threads, context.getFrameStack().isThreadSafe()),
+			EvlContextParallel::new,
 			context
 		));
 	}

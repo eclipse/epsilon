@@ -19,7 +19,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 	EclCanAccessBuiltinsTests.class, TestXmlTreeComparison.class,
-	MatchesOperationTest.class, ParallelMatchesOperationTest.class
+	MatchesOperationTest.class//, ParallelMatchesOperationTest.class
 })
 public class EclAcceptanceTestSuite {
 

@@ -137,6 +137,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	@Override
 	public String toString() {
 		return super.toString()+
+		", moduleClass="+module.getClass().getName()+
 		", module="+module+
 		"', models='"+Objects.toString(modelsAndProperties)+"'";
 	}

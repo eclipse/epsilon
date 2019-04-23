@@ -46,27 +46,30 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		AtomicInteger currentMatches = new AtomicInteger();
 		AtomicInteger evaluated = new AtomicInteger();
-		Collection<Future<Boolean>> jobResults = new ArrayList<>(sourceSize);
+		Collection<Future<?>> jobResults = new ArrayList<>(sourceSize);
 		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
 		EolExecutorService executor = context.beginParallelTask(expression);
 		
 		for (Object item : source) {
 			jobResults.add(executor.submit(() -> {
-				final int currentInt = predicate.testThrows(item) ? currentMatches.incrementAndGet() : currentMatches.get();
-				final int evaluatedInt = evaluated.incrementAndGet();
-				boolean leave = shouldShortCircuit(sourceSize, targetMatches, currentInt, evaluatedInt);
-				
-				if (leave) {
-					context.completeShortCircuit(expression, leave);
+				try {
+					final int currentInt = predicate.testThrows(item) ?
+						currentMatches.incrementAndGet() : currentMatches.get(),
+						evaluatedInt = evaluated.incrementAndGet();
+					
+					if (shouldShortCircuit(sourceSize, targetMatches, currentInt, evaluatedInt)) {
+						executor.getExecutionStatus().completeWithResult(Boolean.TRUE);
+					}
 				}
-				
-				return leave;
+				catch (EolRuntimeException exception) {
+					context.handleException(exception, executor);
+				}
 			}));
 		}
 		
 		// Prevent unnecessary evaluation of remaining jobs once we have the result
-		executor.shortCircuitCompletionTyped(expression, jobResults);
-		context.endParallelTask(expression);
+		executor.shortCircuitCompletion(jobResults);
+		context.endParallelTask();
 		
 		return determineResult(currentMatches.get(), targetMatches);
 	}

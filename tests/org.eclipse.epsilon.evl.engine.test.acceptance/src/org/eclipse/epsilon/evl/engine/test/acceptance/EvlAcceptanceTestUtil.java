@@ -48,8 +48,10 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 			"emf_cdo-example.xmi",
 		},
 		javaScripts[] = {
+			"java_findbugs_quick",
+			"java_equals",
 			"java_findbugs",
-			"java_equals"
+			"java_sequential"
 		},
 		
 		thriftMetamodel = "thrift.ecore",
@@ -95,8 +97,8 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		allInputs = CollectionUtil.composeArrayListFrom(
 			imdbInputs,
 			cookbookInputs,
-			javaInputs,
-			thriftInputs
+			thriftInputs,
+			javaInputs
 		);
 	}
 	
@@ -133,9 +135,9 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	public static Collection<Supplier<? extends IEvlModule>> modules(boolean includeStandard) {
 		return parallelModules(THREADS,
 			includeStandard ? EvlModule::new : null,
-			EvlModuleParallelNot::new,
 			EvlModuleParallelConstraints::new,
 			EvlModuleParallelStaged::new,
+			EvlModuleParallel::new,
 			EvlModuleParallelAnnotation::new,
 			EvlModuleParallelElements::new
 		);

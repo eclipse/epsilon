@@ -22,6 +22,8 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ConcurrencyUtils {
 	
+	public static final Thread TOP_LEVEL_THREAD = Thread.currentThread();
+	
 	/**
 	 * The number of logical cores in the system.
 	 */
@@ -71,5 +73,9 @@ public class ConcurrencyUtils {
 
 	public static boolean isMainThread() {
 		return Thread.currentThread().getName().equals("main");
+	}
+	
+	public static boolean isTopLevelThread() {
+		return Thread.currentThread().equals(TOP_LEVEL_THREAD);
 	}
 }

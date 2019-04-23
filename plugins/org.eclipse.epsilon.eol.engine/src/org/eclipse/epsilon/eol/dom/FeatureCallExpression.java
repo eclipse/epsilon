@@ -36,7 +36,7 @@ public abstract class FeatureCallExpression extends Expression {
 		this.arrow = cst.getText().equals("->");
 	}
 	
-	public Object wrap(Object o) {
+	static Object wrap(Object o) {
 		if (o instanceof Object[]) {
 			return new ArrayList<>(Arrays.asList((Object[]) o));
 		}
@@ -62,13 +62,25 @@ public abstract class FeatureCallExpression extends Expression {
 			}
 		}
 		
-		operation = context.getOperationFactory().getOperationFor(name);
+		operation = getOperationFromFactory(name, context);
 		
 		if (operation == null) {
 			operation = new DynamicOperation();
 		}
 		
 		return operation;
+	}
+	
+	/**
+	 * 
+	 * @param name The requested operation name
+	 * @param context The context from which the EolOperationFactory is derived.
+	 * @return The operation
+	 * @throws EolIllegalOperationException 
+	 * @since 1.6
+	 */
+	protected AbstractOperation getOperationFromFactory(String name, IEolContext context) throws EolIllegalOperationException {
+		return context.getOperationFactory().getOperationFor(name);
 	}
 	
 	public Expression getTargetExpression() {
