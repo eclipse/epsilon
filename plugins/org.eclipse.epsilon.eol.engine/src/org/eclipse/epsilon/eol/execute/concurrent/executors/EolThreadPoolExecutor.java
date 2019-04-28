@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.eol.execute.concurrent.executors;
 
 import java.util.concurrent.*;
-import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.concurrent.SingleConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.execute.concurrent.EolThreadFactory;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
@@ -29,7 +28,7 @@ public class EolThreadPoolExecutor extends ThreadPoolExecutor implements EolExec
 		DEFAULT_CORE_POOL_SIZE = 1,
 		DEFAULT_MAX_POOL_SIZE = Runtime.getRuntime().availableProcessors();
 	
-	protected final ConcurrentExecutionStatus execStatus = new SingleConcurrentExecutionStatus();
+	protected final SingleConcurrentExecutionStatus execStatus = new SingleConcurrentExecutionStatus();
 
 	/**
 	 * Unbounded thread pool size with fixed queue capacity.
@@ -71,11 +70,11 @@ public class EolThreadPoolExecutor extends ThreadPoolExecutor implements EolExec
 	 */
 	public EolThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
 		super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, (r, e) -> {});
-		setThreadFactory(new EolThreadFactory(getExecutionStatus(), maximumPoolSize));
+		setThreadFactory(new EolThreadFactory(this::handleException, maximumPoolSize));
 	}
 
 	@Override
-	public ConcurrentExecutionStatus getExecutionStatus() {
+	public SingleConcurrentExecutionStatus getExecutionStatus() {
 		return execStatus;
 	}
 	

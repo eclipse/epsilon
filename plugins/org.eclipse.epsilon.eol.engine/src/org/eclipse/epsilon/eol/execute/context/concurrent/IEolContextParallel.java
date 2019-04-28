@@ -104,7 +104,7 @@ public interface IEolContextParallel extends IEolContext {
 		if (!isParallelisationLegal()) throw new EolNestedParallelismException(entryPoint);
 		EolExecutorService executor = getExecutorService();
 		ConcurrentExecutionStatus status = executor != null ? executor.getExecutionStatus() : null;
-		if (status != null && (entryPoint != null ? status.isInProgress(entryPoint) : status.isInProgress()))
+		if (status != null && status.isInProgress())
 			throw new EolNestedParallelismException(entryPoint);
 	}
 	
@@ -128,10 +128,7 @@ public interface IEolContextParallel extends IEolContext {
 			exception.getMessage();
 		}
 		if (executor != null) {
-			ConcurrentExecutionStatus status = executor.getExecutionStatus();
-			if (status != null) {
-				status.completeExceptionally(exception);
-			}
+			executor.handleException(exception);
 		}
 	}
 
@@ -141,6 +138,8 @@ public interface IEolContextParallel extends IEolContext {
 	
 	/**
 	 * Registers the beginning of parallel task on the default EolExecutorService.
+	 * The {@link #endParallelTask()} method must be called once finished.
+	 * 
 	 * @param entryPoint The AST to associate with this task.
 	 * @return {@link #getExecutorService()}
 	 * @throws EolNestedParallelismException If there was already a parallel task in progress.
@@ -159,16 +158,27 @@ public interface IEolContextParallel extends IEolContext {
 	}
 	
 	/**
+	 * Must be called once parallel processing has finished.
 	 * 
+	 * @see #beginParallelTask(ModuleElement)
 	 * @return The result of the task, if any.
+	 * @throws EolRuntimeException if the status completed exceptionally.
+	 * @throws IllegalStateException if the current job is still executing.
 	 */
-	default Object endParallelTask() {
+	default Object endParallelTask() throws EolRuntimeException {
 		EolExecutorService executor = getExecutorService();
 		if (executor != null) {
 			ConcurrentExecutionStatus status = executor.getExecutionStatus();
 			if (status != null) {
-				status.completeSuccessfully();
-				return status.getResult();
+				if (status.isInProgress()) {
+					throw new IllegalStateException("Attempted to end parallel task while execution is in progress!");
+				}
+				else if (status.waitForCompletion()) { // Note: this shouldn't actually wait!
+					return status.getResult();
+				}
+				else {
+					EolRuntimeException.propagateDetailed(status.getException());
+				}
 			}
 		}
 		return null;

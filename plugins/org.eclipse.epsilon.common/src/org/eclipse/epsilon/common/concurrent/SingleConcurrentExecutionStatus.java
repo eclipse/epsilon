@@ -29,14 +29,16 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 	private Object currentLock;
 
 	@Override
-	public Object getResult(Object lockObj) {
+	protected Object getResult(Object lockObj) {
 		return result;
 	}
 	
 	@Override
-	public boolean register(Object lockObj) {
+	protected boolean register(Object lockObj) {
 		if (registerAvailable) {
 			assert !inProgress;
+			exception = null;
+			result = null;
 			inProgress = true;
 			registerAvailable = false;
 			return true;
@@ -48,11 +50,11 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 	}
 	
 	@Override
-	public boolean isInProgress(Object lockObj) {
+	protected boolean isInProgress(Object lockObj) {
 		return inProgress;
 	}
 	
-	private void complete(Object lockObj) {
+	void complete(Object lockObj) {
 		inProgress = false;
 		if (lockObj != null) synchronized (lockObj) {
 			lockObj.notifyAll();
@@ -65,12 +67,12 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 	}
 	
 	@Override
-	public void completeSuccessfully(Object lockObj) {
+	protected void completeSuccessfully(Object lockObj) {
 		complete(lockObj);
 	}
 	
 	@Override
-	public void completeWithResult(Object lockObj, Object result) {
+	protected void completeWithResult(Object lockObj, Object result) {
 		this.result = result;
 		completeSuccessfully(lockObj);
 	}
@@ -87,7 +89,7 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 	 * @return Whether the completion was successful (<code>true</code>) or exceptional (<code>false</code>).
 	 */
 	@Override
-	public boolean waitForCompletion(final Object lockObj, final Supplier<Boolean> targetState) {
+	protected boolean waitForCompletion(final Object lockObj, final Supplier<Boolean> targetState) {
 		assert lockObj != null;
 		currentLock = lockObj;
 		while (isInProgress(lockObj) && (targetState == null || !targetState.get())) synchronized (lockObj) {

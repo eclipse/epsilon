@@ -26,13 +26,13 @@ public abstract class ConcurrentExecutionStatus {
 		return exception;
 	}
 	
-	public abstract Object getResult(Object lockObj);
+	protected abstract Object getResult(Object lockObj);
 	
-	public Object getResult() {
+	public final Object getResult() {
 		return getResult(this);
 	}
 	
-	public boolean register() {
+	public final boolean register() {
 		return register(this);
 	}
 	
@@ -41,25 +41,25 @@ public abstract class ConcurrentExecutionStatus {
 	 * @param lockObj
 	 * @return <code>true</code> if registration was successful.
 	 */
-	public abstract boolean register(Object lockObj);
+	protected abstract boolean register(Object lockObj);
 	
-	public boolean isInProgress() {
+	public final boolean isInProgress() {
 		return isInProgress(this);
 	}
 	
-	public abstract boolean isInProgress(Object lockObj);
+	protected abstract boolean isInProgress(Object lockObj);
 	
-	public void completeSuccessfully() {
+	public final void completeSuccessfully() {
 		completeSuccessfully(this);
 	}
 	
-	public abstract void completeSuccessfully(Object lockObj);
+	protected abstract void completeSuccessfully(Object lockObj);
 	
-	public void completeWithResult(Object result) {
+	public final void completeWithResult(Object result) {
 		completeWithResult(this, result);
 	}
 	
-	public abstract void completeWithResult(Object lockObj, Object result);
+	protected abstract void completeWithResult(Object lockObj, Object result);
 	
 	protected final boolean completeExceptionallyBase(Throwable exception) {
 		boolean firstFail = !failed;
@@ -89,13 +89,17 @@ public abstract class ConcurrentExecutionStatus {
 	 * 
 	 * @return Whether the completion was successful (<code>true</code>) or exceptional (<code>false</code>).
 	 */
-	public abstract boolean waitForCompletion(Object lockObj, Supplier<Boolean> targetState);
+	protected abstract boolean waitForCompletion(Object lockObj, Supplier<Boolean> targetState);
 	
-	public boolean waitForCompletion(Object lockObj) {
+	public final boolean waitForCompletion(Supplier<Boolean> targetState) {
+		return waitForCompletion(this, targetState);
+	}
+	
+	protected final boolean waitForCompletion(Object lockObj) {
 		return waitForCompletion(lockObj, null);
 	}
 	
-	public boolean waitForCompletion() {
-		return waitForCompletion(this);
+	public final boolean waitForCompletion() {
+		return waitForCompletion((Object) this);
 	}
 }

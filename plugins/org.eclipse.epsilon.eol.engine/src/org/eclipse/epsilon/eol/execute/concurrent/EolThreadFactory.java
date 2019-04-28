@@ -11,8 +11,7 @@ package org.eclipse.epsilon.eol.execute.concurrent;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
-import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
+import java.util.function.Consumer;
 
 /**
  * 
@@ -21,11 +20,11 @@ import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
  */
 public class EolThreadFactory implements ThreadFactory {
 
-	protected final AtomicInteger threadCount = new AtomicInteger();
+	protected int threadCount;
 	protected final int maxThreads;
 	protected final String namePrefix;
-	protected final ConcurrentExecutionStatus executionStatus;
-	protected final UncaughtExceptionHandler exceptionHandler = new UncaughtExceptionHandler() {
+	protected final Consumer<Exception> executorExceptionHandler;
+	protected final UncaughtExceptionHandler uncaughtHandler = new UncaughtExceptionHandler() {
 		@Override
 		public void uncaughtException(Thread t, Throwable e) {
 			Exception exception;
@@ -36,7 +35,7 @@ public class EolThreadFactory implements ThreadFactory {
 				exception = new RuntimeException(e.getClass().getSimpleName()+" in thread "+t.getName(), e);
 			}
 			
-			executionStatus.completeExceptionally(exception);
+			executorExceptionHandler.accept(exception);
 		}
 	};
 	
@@ -44,32 +43,32 @@ public class EolThreadFactory implements ThreadFactory {
 		this(null);
 	}
 	
-	public EolThreadFactory(ConcurrentExecutionStatus status) {
-		this(status, Integer.MAX_VALUE);
+	public EolThreadFactory(Consumer<Exception> exceptionHandler) {
+		this(exceptionHandler, Integer.MAX_VALUE);
 	}
 	
-	public EolThreadFactory(ConcurrentExecutionStatus status, int threadLimit) {
-		this(status, threadLimit, null);
+	public EolThreadFactory(Consumer<Exception> exceptionHandler, int threadLimit) {
+		this(exceptionHandler, threadLimit, null);
 	}
 	
-	protected EolThreadFactory(ConcurrentExecutionStatus status, int threadLimit, String threadNamePrefix) {
+	protected EolThreadFactory(Consumer<Exception> exceptionHandler, int threadLimit, String threadNamePrefix) {
 		this.namePrefix = threadNamePrefix != null ? threadNamePrefix : "EOL-Worker";
-		this.executionStatus = status;
+		this.executorExceptionHandler = exceptionHandler;
 		this.maxThreads = threadLimit;
 	}
 	
 	protected <T extends Thread> T setThreadProperties(T thread) {
-		thread.setName(namePrefix+(threadCount.incrementAndGet()));
+		thread.setName(namePrefix + threadCount);
 		thread.setDaemon(true);
-		if (executionStatus != null) {
-			thread.setUncaughtExceptionHandler(exceptionHandler);
+		if (executorExceptionHandler != null) {
+			thread.setUncaughtExceptionHandler(uncaughtHandler);
 		}
 		return thread;
 	}
 	
 	@Override
 	public Thread newThread(Runnable target) {
-		if (threadCount.get() > maxThreads) {
+		if (++threadCount > maxThreads) {
 			throw new IllegalStateException("Exceeded maximum number of threads: "+maxThreads);
 		}
 		return setThreadProperties(new Thread(target));

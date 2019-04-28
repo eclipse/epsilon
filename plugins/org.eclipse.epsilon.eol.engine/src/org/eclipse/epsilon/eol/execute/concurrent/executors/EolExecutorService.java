@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
-import org.eclipse.epsilon.common.concurrent.SingleConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 /**
@@ -30,12 +29,20 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 public interface EolExecutorService extends ExecutorService {
 
 	/**
-	 * This method should return an immutable, re-usable and non-null {@link ConcurrentExecutionStatus}.
+	 * This method should return a non-null {@link ConcurrentExecutionStatus} representing the
+	 * current job in progress.
 	 * 
 	 * @return A re-usable status object used to interrupt short-circuiting jobs and
 	 * handling exceptions.
 	 */
 	ConcurrentExecutionStatus getExecutionStatus();
+	
+	default void handleException(Exception exception) {
+		if (exception instanceof EolRuntimeException) {
+			exception.getMessage();
+		}
+		getExecutionStatus().completeExceptionally(exception);
+	}
 	
 	/**
 	 * Shuts down this ExecutorService and waits for all jobs to complete.
@@ -59,68 +66,85 @@ public interface EolExecutorService extends ExecutorService {
 	 */
 	default <R> List<R> collectResults(Collection<Future<R>> futures) throws EolRuntimeException {
 		final boolean keepAlive = futures != null;
-		if (keepAlive && futures.isEmpty())
-			return Collections.emptyList();
-		
 		final ConcurrentExecutionStatus status = getExecutionStatus();
-		Throwable statusException = status.getException();
-		if (statusException != null) EolRuntimeException.propagateDetailed(statusException);
-		if (!status.isInProgress()) status.register();
-		
-		final List<R> results = keepAlive ? new ArrayList<>(futures.size()) : null;
-		
-		final Thread blockingThread = Thread.currentThread(),
-		compWait = new Thread(() -> {
-			try {
-				if (keepAlive) for (Future<R> future : futures) {
-					if (status.isInProgress()) {
-						results.add(future.get());
-					}
-					else return;
-				}
-				else {
-					shutdown();
-					if (!awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)) {
-						throw new IllegalStateException("Infinite wait on termination!");
-					}
-				}
-				status.completeSuccessfully();
+		try {
+			Throwable statusException = status.getException();
+			if (statusException != null) {
+				EolRuntimeException.propagateDetailed(statusException);
 			}
-			catch (ExecutionException ex) {
-				status.completeExceptionally(ex.getCause());
-			}
-			catch (Exception ex) {
+			else if (keepAlive && futures.isEmpty()) {
 				if (status.isInProgress()) {
-					status.completeExceptionally(ex);
+					status.completeSuccessfully();
+				}
+				return Collections.emptyList();
+			}
+			else if (!status.isInProgress()) {
+				status.register();
+			}
+			
+			final List<R> results = keepAlive ? new ArrayList<>(futures.size()) : null;
+			
+			final Thread blockingThread = Thread.currentThread(),
+			compWait = new Thread(() -> {
+				try {
+					if (keepAlive) for (Future<R> future : futures) {
+						if (status.isInProgress()) {
+							results.add(future.get());
+						}
+						else {
+							assert status.getException() != null;
+							return;
+						}
+					}
+					else {
+						shutdown();
+						if (!awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)) {
+							throw new IllegalStateException("Infinite wait on termination!");
+						}
+					}
+					status.completeSuccessfully();
+				}
+				catch (ExecutionException ex) {
+					status.completeExceptionally(ex.getCause());
+				}
+				catch (Exception ex) {
+					if (status.getException() == null || status.isInProgress()) {
+						status.completeExceptionally(ex);
+					}
+				}
+				finally {
+					if (status.isInProgress() && status.getException() == null) {
+						status.completeSuccessfully();
+					}
+					if (blockingThread.getState() == Thread.State.WAITING) {
+						blockingThread.interrupt();
+					}
+					assert !status.isInProgress();
+				}
+			});
+			compWait.setName(getClass().getSimpleName()+"-AwaitCompletion");
+			compWait.start();
+	
+			try {
+				if (!status.waitForCompletion()) {
+					statusException = status.getException();
+					compWait.interrupt();
+					shutdownNow();
+					EolRuntimeException.propagateDetailed(statusException);
 				}
 			}
 			finally {
-				if (blockingThread.getState() == Thread.State.WAITING) {
-					blockingThread.interrupt();
+				if (compWait.isAlive()) try {
+					compWait.join();
 				}
-				assert !status.isInProgress();
+				catch (InterruptedException ie) {}
 			}
-		});
-		compWait.setName(getClass().getSimpleName()+"-AwaitCompletion");
-		compWait.start();
-
-		try {
-			if (!status.waitForCompletion()) {
-				statusException = status.getException();
-				compWait.interrupt();
-				shutdownNow();
-				EolRuntimeException.propagateDetailed(statusException);
-			}
+			
+			return results;
 		}
 		finally {
-			if (compWait.isAlive()) try {
-				compWait.join();
-			}
-			catch (InterruptedException ie) {}
 			assert !status.isInProgress();
 		}
-		
-		return results;
 	}
 	
 	/**
@@ -134,62 +158,78 @@ public interface EolExecutorService extends ExecutorService {
 	 * was called whilst waiting.
 	 */
 	default Object shortCircuitCompletion(Collection<? extends Future<?>> jobs) throws EolRuntimeException {
-		if (jobs == null || jobs.isEmpty()) return null;
-		
 		final ConcurrentExecutionStatus status = getExecutionStatus();
-		final Thread blockingThread = Thread.currentThread(),
-		compWait = new Thread(() -> {
-			try {
-				for (Future<?> future : jobs) {
-					if (status.isInProgress()) {
-						future.get();
-					}
-					else return;
-				}
-				status.completeSuccessfully();
+		try {
+			Throwable statusException = status.getException();
+			if (statusException != null) {
+				EolRuntimeException.propagateDetailed(statusException);
 			}
-			catch (ExecutionException ex) {
-				status.completeExceptionally(ex.getCause());
-			}
-			catch (Exception ex) {
+			else if (jobs == null || jobs.isEmpty()) {
 				if (status.isInProgress()) {
-					status.completeExceptionally(ex);
+					status.completeSuccessfully();
+				}
+				return status.getResult();
+			}
+			
+			final Thread blockingThread = Thread.currentThread(),
+			compWait = new Thread(() -> {
+				try {
+					for (Future<?> future : jobs) {
+						if (status.isInProgress()) {
+							future.get();
+						}
+						else return;
+					}
+					status.completeSuccessfully();
+				}
+				catch (ExecutionException ex) {
+					status.completeExceptionally(ex.getCause());
+				}
+				catch (Exception ex) {
+					if (status.isInProgress()) {
+						status.completeExceptionally(ex);
+					}
+				}
+				finally {
+					if (status.isInProgress() && status.getException() == null) {
+						status.completeSuccessfully();
+					}
+					if (blockingThread.getState() == Thread.State.WAITING) {
+						blockingThread.interrupt();
+					}
+					assert !status.isInProgress();
+				}
+			});
+			compWait.setName(getClass().getSimpleName()+"-AwaitCompletion");
+			compWait.start();
+			
+			try {
+				boolean success = status.waitForCompletion();
+				compWait.interrupt();
+				
+				if (!success) {
+					shutdownNow();
+					EolRuntimeException.propagateDetailed(status.getException());
+				}
+				else {
+					// This is to avoid unnecessary waiting for completion
+					for (Future<?> future : jobs) {
+						future.cancel(true);
+					}
 				}
 			}
 			finally {
-				if (blockingThread.getState() == Thread.State.WAITING) {
-					blockingThread.interrupt();
+				if (compWait.isAlive()) try {
+					compWait.join();
 				}
-				assert !status.isInProgress();
+				catch (InterruptedException ie) {}
 			}
-		});
-		compWait.setName(getClass().getSimpleName()+"-AwaitCompletion");
-		compWait.start();
-		
-		try {
-			boolean success = status.waitForCompletion();
-			compWait.interrupt();
 			
-			if (!success) {
-				shutdownNow();
-				EolRuntimeException.propagateDetailed(status.getException());
-			}
-			else {
-				// This is to avoid unnecessary waiting for completion
-				for (Future<?> future : jobs) {
-					future.cancel(true);
-				}
-			}
+			return status.getResult();
 		}
 		finally {
-			if (compWait.isAlive()) try {
-				compWait.join();
-			}
-			catch (InterruptedException ie) {}
 			assert !status.isInProgress();
 		}
-		
-		return status.getResult();
 	}
 
 	/**

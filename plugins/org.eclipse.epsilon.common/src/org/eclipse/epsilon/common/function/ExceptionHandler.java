@@ -9,13 +9,20 @@
 **********************************************************************/
 package org.eclipse.epsilon.common.function;
 
+import java.util.function.Consumer;
+
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
 @FunctionalInterface
-public interface ExceptionHandler<E extends Exception> {
+public interface ExceptionHandler<E extends Exception> extends Consumer<E> {
+	
+	@Override
+	default void accept(E ex) {
+		handleException(ex);
+	}
 	
 	public void handleException(E ex);
 	

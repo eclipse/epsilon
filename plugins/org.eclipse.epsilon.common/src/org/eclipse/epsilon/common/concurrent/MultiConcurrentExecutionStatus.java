@@ -102,9 +102,4 @@ public final class MultiConcurrentExecutionStatus extends ConcurrentExecutionSta
 		}
 		return !failed;
 	}
-	
-	@Override
-	public boolean waitForCompletion(Object lockObj) {
-		return waitForCompletion(lockObj, null);
-	}
 }
