@@ -40,7 +40,7 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 	}
 	
 	static final Object TIMEOUT_LOCK = new Object();
-	static final long TEST_TIMEOUT = 16_000L;
+	static final long TEST_TIMEOUT = 45_000L;
 	static volatile boolean testInProgress;
 	static EvlRunConfiguration currentTestConfig;
 	

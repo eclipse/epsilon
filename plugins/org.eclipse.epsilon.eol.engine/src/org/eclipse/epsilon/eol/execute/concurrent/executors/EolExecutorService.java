@@ -29,96 +29,21 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 public interface EolExecutorService extends ExecutorService {
 
 	/**
+	 * This method should return an immutable, re-usable and non-null {@link ConcurrentExecutionStatus}.
 	 * 
-	 * @return A re-usable status object used to interrupt short-circuiting jobs.
+	 * @return A re-usable status object used to interrupt short-circuiting jobs and
+	 * handling exceptions.
 	 */
 	ConcurrentExecutionStatus getExecutionStatus();
-	
-	default ConcurrentExecutionStatus newExecutionStatus() {
-		return new SingleConcurrentExecutionStatus();
-	}
 	
 	/**
 	 * Shuts down this ExecutorService and waits for all jobs to complete.
 	 * 
-	 * @return {@link SingleConcurrentExecutionStatus#getResult()}
 	 * @throws EolRuntimeException if an exception is thrown from any of the jobs,
 	 * or otherwise any other abnormal completion.
-	 * @see #awaitCompletion(Collection)
 	 */
-	default Object awaitCompletion() throws EolRuntimeException {
-		return awaitCompletion(null);
-	}
-	
-	/**
-	 * Blocks until all of the submitted jobs have completed.
-	 * 
-	 * @param futures The jobs to wait for.
-	 * @throws EolRuntimeException if an exception is thrown from any of the jobs,
-	 * or otherwise any other abnormal completion.
-	 * @return {@link ConcurrentExecutionStatus#getResult()}.
-	 */
-	default Object awaitCompletion(Collection<Future<?>> futures) throws EolRuntimeException {
-		final boolean keepAlive = futures != null;
-		if (keepAlive && futures.isEmpty())
-			return null;
-		
-		ConcurrentExecutionStatus status = getExecutionStatus();
-		if (status == null) {
-			status = newExecutionStatus();
-			status.register();
-			assert status.isInProgress();
-		}
-		final ConcurrentExecutionStatus finalStatus = status;
-		
-		final Thread blockingThread = Thread.currentThread(),
-		termWait = new Thread(() -> {
-			try {
-				if (keepAlive) {
-					for (Future<?> future : futures) {
-						future.get();
-					}
-				}
-				else {
-					shutdown();
-					if (!awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)) {
-						throw new IllegalStateException("Infinite wait on termination!");
-					}
-				}
-				finalStatus.completeSuccessfully();
-			}
-			catch (ExecutionException ex) {
-				finalStatus.completeExceptionally(ex.getCause());
-			}
-			catch (Exception ex) {
-				if (finalStatus.isInProgress()) {
-					finalStatus.completeExceptionally(ex);
-				}
-			}
-			finally {
-				if (blockingThread.getState() == Thread.State.WAITING) {
-					blockingThread.interrupt();
-				}
-				assert !finalStatus.isInProgress();
-			}
-		});
-		termWait.setName(getClass().getSimpleName()+"-AwaitTermination");
-		termWait.start();
-
-		if (!finalStatus.waitForCompletion()) {
-			Throwable exception = finalStatus.getException();
-			termWait.interrupt();
-			shutdownNow();
-			EolRuntimeException.propagateDetailed(exception);
-		}
-		
-		try {
-			termWait.join();
-		}
-		catch (InterruptedException ie) {}
-		assert !finalStatus.isInProgress();
-		
-		return finalStatus.getResult();
+	default void awaitCompletion() throws EolRuntimeException {
+		collectResults(null);
 	}
 	
 	/**
@@ -126,62 +51,73 @@ public interface EolExecutorService extends ExecutorService {
 	 * This method takes care of exception handling semantics. Note that this method uses a new
 	 * {@linkplain ConcurrentExecutionStatus}.
 	 * 
-	 * @param futures The Futures to wait for.
-	 * @return The result of futures.
+	 * @param futures The Futures to wait for. A <code>null</code> value will
+	 * wait for all submitted jobs to terminate and shut down this executor.
+	 * @return The result of futures, or <code>null</code> if <code>futures</code> is null.
 	 * @throws EolRuntimeException If an exception is thrown from any of the Futures.
 	 */
-	default <R> Collection<R> collectResults(Collection<Future<R>> futures) throws EolRuntimeException {
-		if (futures == null || futures.isEmpty())
+	default <R> Collection<R> collectResults(Collection<? extends Future<R>> futures) throws EolRuntimeException {
+		final boolean keepAlive = futures != null;
+		if (keepAlive && futures.isEmpty())
 			return Collections.emptyList();
 		
-		ConcurrentExecutionStatus status = getExecutionStatus();
-		if (status == null) {
-			status = newExecutionStatus();
-			status.register();
-			assert status.isInProgress();
-		}
-		final ConcurrentExecutionStatus finalStatus = status;
+		final ConcurrentExecutionStatus status = getExecutionStatus();
+		Throwable statusException = status.getException();
+		if (statusException != null) EolRuntimeException.propagateDetailed(statusException);
+		if (!status.isInProgress()) status.register();
 		
-		final Collection<R> results = new ArrayList<>(futures.size());
+		final Collection<R> results = keepAlive ? new ArrayList<>(futures.size()) : null;
 		
 		final Thread blockingThread = Thread.currentThread(),
 		compWait = new Thread(() -> {
 			try {
-				for (Future<R> future : futures) {
-					results.add(future.get());
+				if (keepAlive) for (Future<R> future : futures) {
+					if (status.isInProgress()) {
+						results.add(future.get());
+					}
+					else return;
 				}
-				finalStatus.completeSuccessfully();
+				else {
+					shutdown();
+					if (!awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)) {
+						throw new IllegalStateException("Infinite wait on termination!");
+					}
+				}
+				status.completeSuccessfully();
 			}
 			catch (ExecutionException ex) {
-				finalStatus.completeExceptionally(ex.getCause());
+				status.completeExceptionally(ex.getCause());
 			}
 			catch (Exception ex) {
-				if (finalStatus.isInProgress()) {
-					finalStatus.completeExceptionally(ex);
+				if (status.isInProgress()) {
+					status.completeExceptionally(ex);
 				}
 			}
 			finally {
 				if (blockingThread.getState() == Thread.State.WAITING) {
 					blockingThread.interrupt();
 				}
-				assert !finalStatus.isInProgress();
+				assert !status.isInProgress();
 			}
 		});
 		compWait.setName(getClass().getSimpleName()+"-AwaitCompletion");
 		compWait.start();
 
-		if (!finalStatus.waitForCompletion()) {
-			Throwable exception = finalStatus.getException();
-			compWait.interrupt();
-			shutdownNow();
-			EolRuntimeException.propagateDetailed(exception);
-		}
-		
 		try {
-			compWait.join();
+			if (!status.waitForCompletion()) {
+				statusException = status.getException();
+				compWait.interrupt();
+				shutdownNow();
+				EolRuntimeException.propagateDetailed(statusException);
+			}
 		}
-		catch (InterruptedException ie) {}
-		assert !finalStatus.isInProgress();
+		finally {
+			if (compWait.isAlive()) try {
+				compWait.join();
+			}
+			catch (InterruptedException ie) {}
+			assert !status.isInProgress();
+		}
 		
 		return results;
 	}
@@ -197,15 +133,16 @@ public interface EolExecutorService extends ExecutorService {
 	 * was called whilst waiting.
 	 */
 	default Object shortCircuitCompletion(Collection<? extends Future<?>> jobs) throws EolRuntimeException {
-		if (jobs.isEmpty()) return null;
+		if (jobs == null || jobs.isEmpty()) return null;
 		
 		final ConcurrentExecutionStatus status = getExecutionStatus();
 		final Thread blockingThread = Thread.currentThread(),
 		compWait = new Thread(() -> {
 			try {
 				for (Future<?> future : jobs) {
-					if (status.isInProgress())
+					if (status.isInProgress()) {
 						future.get();
+					}
 					else return;
 				}
 				status.completeSuccessfully();
@@ -228,23 +165,27 @@ public interface EolExecutorService extends ExecutorService {
 		compWait.setName(getClass().getSimpleName()+"-AwaitCompletion");
 		compWait.start();
 		
-		boolean success = status.waitForCompletion();
-		compWait.interrupt();
 		try {
-			compWait.join();
-		}
-		catch (InterruptedException ie) {}
-		assert !status.isInProgress();
-		
-		if (!success) {
-			shutdownNow();
-			EolRuntimeException.propagateDetailed(status.getException());
-		}
-		else {
-			// This is to avoid unnecessary waiting for completion
-			for (Future<?> future : jobs) {
-				future.cancel(true);
+			boolean success = status.waitForCompletion();
+			compWait.interrupt();
+			
+			if (!success) {
+				shutdownNow();
+				EolRuntimeException.propagateDetailed(status.getException());
 			}
+			else {
+				// This is to avoid unnecessary waiting for completion
+				for (Future<?> future : jobs) {
+					future.cancel(true);
+				}
+			}
+		}
+		finally {
+			if (compWait.isAlive()) try {
+				compWait.join();
+			}
+			catch (InterruptedException ie) {}
+			assert !status.isInProgress();
 		}
 		
 		return status.getResult();
@@ -273,11 +214,10 @@ public interface EolExecutorService extends ExecutorService {
 	/**
 	 * Submits and waits for the jobs to complete.
 	 * @param jobs The tasks to execute.
-	 * @return {@link ConcurrentExecutionStatus#getResult(Object)}
 	 * @throws EolRuntimeException If any of the jobs fail.
 	 */
-	default Object completeAll(Collection<? extends Runnable> jobs) throws EolRuntimeException {
-		return awaitCompletion(submitAll(jobs));
+	default void completeAll(Collection<? extends Runnable> jobs) throws EolRuntimeException {
+		collectResults(submitAll(jobs));
 	}
 	
 }

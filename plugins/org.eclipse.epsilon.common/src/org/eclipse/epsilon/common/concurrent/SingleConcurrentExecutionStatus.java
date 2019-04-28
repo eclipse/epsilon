@@ -57,7 +57,7 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 		if (lockObj != null) synchronized (lockObj) {
 			lockObj.notifyAll();
 		}
-		else if (currentLock != null) synchronized (currentLock) {
+		else if (currentLock != lockObj) synchronized (currentLock) {
 			currentLock.notifyAll();
 		}
 		currentLock = null;
@@ -90,7 +90,7 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 	public boolean waitForCompletion(final Object lockObj, final Supplier<Boolean> targetState) {
 		assert lockObj != null;
 		currentLock = lockObj;
-		while (inProgress && (targetState == null || !targetState.get())) synchronized (lockObj) {
+		while (isInProgress(lockObj) && (targetState == null || !targetState.get())) synchronized (lockObj) {
 			try {
 				// Don't wait forever just in case someone forgets to notify or interrupt
 				lockObj.wait(Short.MAX_VALUE);
