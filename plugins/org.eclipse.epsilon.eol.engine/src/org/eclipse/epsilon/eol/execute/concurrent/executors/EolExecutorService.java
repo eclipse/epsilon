@@ -67,9 +67,9 @@ public interface EolExecutorService extends ExecutorService {
 		if (status == null) {
 			status = newExecutionStatus();
 			status.register();
+			assert status.isInProgress();
 		}
 		final ConcurrentExecutionStatus finalStatus = status;
-		assert finalStatus.isInProgress();
 		
 		final Thread blockingThread = Thread.currentThread(),
 		termWait = new Thread(() -> {
@@ -105,8 +105,8 @@ public interface EolExecutorService extends ExecutorService {
 		termWait.setName(getClass().getSimpleName()+"-AwaitTermination");
 		termWait.start();
 
-		if (!status.waitForCompletion()) {
-			Throwable exception = status.getException();
+		if (!finalStatus.waitForCompletion()) {
+			Throwable exception = finalStatus.getException();
 			termWait.interrupt();
 			shutdownNow();
 			EolRuntimeException.propagateDetailed(exception);
@@ -116,9 +116,9 @@ public interface EolExecutorService extends ExecutorService {
 			termWait.join();
 		}
 		catch (InterruptedException ie) {}
-		assert !status.isInProgress();
+		assert !finalStatus.isInProgress();
 		
-		return status.getResult();
+		return finalStatus.getResult();
 	}
 	
 	/**
@@ -138,9 +138,9 @@ public interface EolExecutorService extends ExecutorService {
 		if (status == null) {
 			status = newExecutionStatus();
 			status.register();
+			assert status.isInProgress();
 		}
 		final ConcurrentExecutionStatus finalStatus = status;
-		assert finalStatus.isInProgress();
 		
 		final Collection<R> results = new ArrayList<>(futures.size());
 		
@@ -170,8 +170,8 @@ public interface EolExecutorService extends ExecutorService {
 		compWait.setName(getClass().getSimpleName()+"-AwaitCompletion");
 		compWait.start();
 
-		if (!status.waitForCompletion()) {
-			Throwable exception = status.getException();
+		if (!finalStatus.waitForCompletion()) {
+			Throwable exception = finalStatus.getException();
 			compWait.interrupt();
 			shutdownNow();
 			EolRuntimeException.propagateDetailed(exception);
@@ -181,7 +181,7 @@ public interface EolExecutorService extends ExecutorService {
 			compWait.join();
 		}
 		catch (InterruptedException ie) {}
-		assert !status.isInProgress();
+		assert !finalStatus.isInProgress();
 		
 		return results;
 	}
