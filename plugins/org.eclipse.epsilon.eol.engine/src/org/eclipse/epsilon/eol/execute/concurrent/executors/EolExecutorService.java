@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.execute.concurrent.executors;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
@@ -56,7 +57,7 @@ public interface EolExecutorService extends ExecutorService {
 	 * @return The result of futures, or <code>null</code> if <code>futures</code> is null.
 	 * @throws EolRuntimeException If an exception is thrown from any of the Futures.
 	 */
-	default <R> Collection<R> collectResults(Collection<? extends Future<R>> futures) throws EolRuntimeException {
+	default <R> List<R> collectResults(Collection<Future<R>> futures) throws EolRuntimeException {
 		final boolean keepAlive = futures != null;
 		if (keepAlive && futures.isEmpty())
 			return Collections.emptyList();
@@ -66,7 +67,7 @@ public interface EolExecutorService extends ExecutorService {
 		if (statusException != null) EolRuntimeException.propagateDetailed(statusException);
 		if (!status.isInProgress()) status.register();
 		
-		final Collection<R> results = keepAlive ? new ArrayList<>(futures.size()) : null;
+		final List<R> results = keepAlive ? new ArrayList<>(futures.size()) : null;
 		
 		final Thread blockingThread = Thread.currentThread(),
 		compWait = new Thread(() -> {
@@ -216,8 +217,10 @@ public interface EolExecutorService extends ExecutorService {
 	 * @param jobs The tasks to execute.
 	 * @throws EolRuntimeException If any of the jobs fail.
 	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	default void completeAll(Collection<? extends Runnable> jobs) throws EolRuntimeException {
-		collectResults(submitAll(jobs));
+		// Just to please the compiler
+		Collection futures = submitAll(jobs);
+		collectResults(futures);
 	}
-	
 }
