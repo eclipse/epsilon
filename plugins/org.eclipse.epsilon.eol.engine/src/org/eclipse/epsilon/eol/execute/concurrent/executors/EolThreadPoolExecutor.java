@@ -56,7 +56,7 @@ public class EolThreadPoolExecutor extends ThreadPoolExecutor implements EolExec
 	 * Guarantees a minimum of numThreads with infinite queueing.
 	 */
 	public static EolThreadPoolExecutor defaultExecutor(int numThreads) {
-		return new EolThreadPoolExecutor(numThreads, Math.max(DEFAULT_MAX_POOL_SIZE+1, numThreads), DEFAULT_KEEP_ALIVE, DEFAULT_TIME_UNIT, new LinkedBlockingQueue<>());
+		return new EolThreadPoolExecutor(numThreads, Math.max(DEFAULT_MAX_POOL_SIZE+1, numThreads), Long.MAX_VALUE, TimeUnit.NANOSECONDS, new LinkedBlockingQueue<>());
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class EolThreadPoolExecutor extends ThreadPoolExecutor implements EolExec
 	 * Custom configuration with default RejectedExecutionHandler.
 	 */
 	public EolThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
-		super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, rejectionHandler);
+		super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, (r, e) -> {});
 		setThreadFactory(new EolThreadFactory(getExecutionStatus(), maximumPoolSize));
 	}
 

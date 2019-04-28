@@ -13,7 +13,9 @@ import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.Annotation;
 import org.eclipse.epsilon.eol.dom.ExecutableAnnotation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModule;
@@ -33,11 +35,12 @@ public interface IErlModuleParallelAnnotation extends IErlModule {
 		
 		if (parallelAnnotation != null) {
 			if (parallelAnnotation instanceof ExecutableAnnotation && parallelAnnotation.hasValue()) {
-				getContext().getFrameStack().enterLocal(FrameType.PROTECTED, ast, variables);
+				IEolContext context = getContext();
+				FrameStack frameStack = context.getFrameStack();
 				
-				Object result = parallelAnnotation.getValue(getContext());
-				
-				getContext().getFrameStack().leaveLocal(ast);
+				frameStack.enterLocal(FrameType.PROTECTED, ast, variables);
+				Object result = parallelAnnotation.getValue(context);
+				frameStack.leaveLocal(ast);
 				
 				if (result instanceof Boolean) {
 					return (boolean) result;

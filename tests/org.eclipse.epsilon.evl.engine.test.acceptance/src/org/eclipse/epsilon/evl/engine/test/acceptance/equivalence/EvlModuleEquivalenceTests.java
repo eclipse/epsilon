@@ -20,7 +20,10 @@ import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 import org.eclipse.epsilon.evl.trace.ConstraintTraceItem;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized.Parameters;
 
@@ -35,6 +38,60 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 	public EvlModuleEquivalenceTests(EvlRunConfiguration configUnderTest) {
 		super(configUnderTest);
 	}
+	
+	static final Object TIMEOUT_LOCK = new Object();
+	static final long TEST_TIMEOUT = 16_000L;
+	static volatile boolean testInProgress;
+	static EvlRunConfiguration currentTestConfig;
+	
+	static {
+		Thread monitor = new Thread(() -> {
+			while (true) try {
+				if (!testInProgress) synchronized (TIMEOUT_LOCK) {
+					TIMEOUT_LOCK.wait();
+				}
+				if (testInProgress) synchronized (TIMEOUT_LOCK) {
+					long startTime = System.currentTimeMillis();
+					TIMEOUT_LOCK.wait(TEST_TIMEOUT);
+					if (System.currentTimeMillis() - startTime > TEST_TIMEOUT) {
+						assert testInProgress;
+						System.err.println(currentTestConfig + " got stuck!");
+						System.exit(1);
+					}
+				}
+			}
+			catch (InterruptedException ie) {
+				
+			}
+		});
+		monitor.setName(EvlParallelOperationsTests.class.getSimpleName()+"-timer");
+		monitor.setDaemon(true);
+		monitor.start();
+	}
+	
+	@Rule
+	public TestWatcher testCounter = new TestWatcher() {
+
+		@Override
+		protected void starting(Description description) {
+			super.starting(description);
+			synchronized (TIMEOUT_LOCK) {
+				currentTestConfig = testConfig;
+				testInProgress = true;
+				TIMEOUT_LOCK.notify();
+			}
+		}
+		
+		@Override
+		protected void finished(Description description) {
+			super.finished(description);
+			synchronized (TIMEOUT_LOCK) {
+				testInProgress = false;
+				TIMEOUT_LOCK.notify();
+			}
+		}
+	};
+	
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

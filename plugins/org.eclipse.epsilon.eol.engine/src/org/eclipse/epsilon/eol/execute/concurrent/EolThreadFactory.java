@@ -25,6 +25,20 @@ public class EolThreadFactory implements ThreadFactory {
 	protected final int maxThreads;
 	protected final String namePrefix;
 	protected final ConcurrentExecutionStatus executionStatus;
+	protected final UncaughtExceptionHandler exceptionHandler = new UncaughtExceptionHandler() {
+		@Override
+		public void uncaughtException(Thread t, Throwable e) {
+			Exception exception;
+			if (e instanceof Exception) {
+				exception = (Exception) e;
+			}
+			else {
+				exception = new RuntimeException(e.getClass().getSimpleName()+" in thread "+t.getName(), e);
+			}
+			
+			executionStatus.completeExceptionally(exception);
+		}
+	};
 	
 	public EolThreadFactory() {
 		this(null);
@@ -47,32 +61,17 @@ public class EolThreadFactory implements ThreadFactory {
 	protected <T extends Thread> T setThreadProperties(T thread) {
 		thread.setName(namePrefix+(threadCount.incrementAndGet()));
 		thread.setDaemon(true);
-		
 		if (executionStatus != null) {
-			thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-				@Override
-				public void uncaughtException(Thread t, Throwable e) {
-					Exception exception;
-					if (e instanceof Exception) {
-						exception = (Exception) e;
-					}
-					else {
-						exception = new RuntimeException(e.getClass().getSimpleName()+" in thread "+t.getName(), e);
-					}
-					
-					executionStatus.completeExceptionally(exception);
-				}
-			});
+			thread.setUncaughtExceptionHandler(exceptionHandler);
 		}
-		
 		return thread;
 	}
 	
 	@Override
 	public Thread newThread(Runnable target) {
-		if (threadCount.get() > maxThreads)
+		if (threadCount.get() > maxThreads) {
 			throw new IllegalStateException("Exceeded maximum number of threads: "+maxThreads);
-		
+		}
 		return setThreadProperties(new Thread(target));
 	}
 }

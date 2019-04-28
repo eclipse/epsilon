@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-import java.util.Collection;
 import java.util.List;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -21,7 +20,9 @@ public class SelectOneOperation extends SelectBasedOperation {
 
 	@Override
 	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
-		Collection<?> result = getDelegateOperation().execute(true, target, operationNameExpression, iterators, expressions.get(0), context);
-		return !result.isEmpty() ? result.iterator().next() : null;
+		Iterable<?> result = getDelegateOperation().execute(true, target, operationNameExpression, iterators, expressions.get(0), context);
+		if (result == null) return null;
+		java.util.Iterator<?> iter = result.iterator();
+		return iter.hasNext() ? iter.next() : null;
 	}
 }

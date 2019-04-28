@@ -32,8 +32,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
 import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized.Parameters;
 
@@ -63,8 +61,7 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 			javaModels, javaMetamodel
 		);
 	
-	static final int[] testThreads = new int[]{2, 5};
-	static final long TEST_TIMEOUT = 16_000L;
+	static final int[] testThreads = {2, 5};
 	static final Function<String[], Integer> idCalculator = inputs -> {
 		int scriptHash;
 		if (inputs[0].startsWith("java_parallel") || inputs[0].startsWith("java_sequential") || inputs[0].startsWith("java_annotated")) {
@@ -76,63 +73,12 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 		return Objects.hash(scriptHash, inputs[1], inputs[2]);
 	};
 	
-	static volatile boolean testInProgress;
-	static EvlRunConfiguration currentTestConfig;
-	
-	static {
-		Thread monitor = new Thread(() -> {
-			while (true) try {
-				if (!testInProgress) synchronized (idCalculator) {
-					idCalculator.wait();
-				}
-				if (testInProgress) synchronized (idCalculator) {
-					long startTime = System.currentTimeMillis();
-					idCalculator.wait(TEST_TIMEOUT);
-					if (System.currentTimeMillis() - startTime > TEST_TIMEOUT) {
-						assert testInProgress;
-						System.err.println(currentTestConfig + " got stuck!");
-						System.exit(1);
-					}
-				}
-			}
-			catch (InterruptedException ie) {
-				
-			}
-		});
-		monitor.setName(EvlParallelOperationsTests.class.getSimpleName()+"-timer");
-		monitor.setDaemon(true);
-		monitor.start();
-	}
-	
 	public EvlParallelOperationsTests(EvlRunConfiguration configUnderTest) {
 		super(configUnderTest);
 	}
 	
 	@Rule
     public TestName testName = new TestName();
-	
-	@Rule
-	public TestWatcher testCounter = new TestWatcher() {
-
-		@Override
-		protected void starting(Description description) {
-			super.starting(description);
-			synchronized (idCalculator) {
-				currentTestConfig = testConfig;
-				testInProgress = true;
-				idCalculator.notify();
-			}
-		}
-		
-		@Override
-		protected void finished(Description description) {
-			super.finished(description);
-			synchronized (idCalculator) {
-				testInProgress = false;
-				idCalculator.notify();
-			}
-		}
-	};
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

@@ -79,7 +79,7 @@ public abstract class FirstOrderOperation extends AbstractOperation {
 	 * @since 1.6
 	 */
 	@SuppressWarnings("unchecked")
-	protected CheckedEolFunction<Object, ?> resolveFunction(NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
+	protected final CheckedEolFunction<Object, ?> resolveFunction(NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
 		return resolveFunction(CheckedEolFunction.class, operationNameExpression, iterators, expression, context);
 	}
 
@@ -94,7 +94,7 @@ public abstract class FirstOrderOperation extends AbstractOperation {
 	 *  @since 1.6
 	 */
 	@SuppressWarnings("unchecked")
-	protected CheckedEolPredicate<Object> resolvePredicate(NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
+	protected final CheckedEolPredicate<Object> resolvePredicate(NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
 		return resolveFunction(CheckedEolPredicate.class, operationNameExpression, iterators, expression, context);
 	}
 	

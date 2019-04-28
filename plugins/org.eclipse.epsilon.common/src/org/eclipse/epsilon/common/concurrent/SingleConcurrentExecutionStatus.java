@@ -59,8 +59,8 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 		}
 		else if (currentLock != null) synchronized (currentLock) {
 			currentLock.notifyAll();
-			currentLock = null;
 		}
+		currentLock = null;
 		registerAvailable = true;
 	}
 	
@@ -92,7 +92,8 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 		currentLock = lockObj;
 		while (inProgress && (targetState == null || !targetState.get())) synchronized (lockObj) {
 			try {
-				lockObj.wait();
+				// Don't wait forever just in case someone forgets to notify or interrupt
+				lockObj.wait(Short.MAX_VALUE);
 			}
 			catch (InterruptedException ie) {}
 		}

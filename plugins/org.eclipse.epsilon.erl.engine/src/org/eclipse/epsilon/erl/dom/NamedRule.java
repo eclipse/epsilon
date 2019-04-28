@@ -81,8 +81,8 @@ public abstract class NamedRule extends AnnotatableModuleElement {
 	 */
 	@Override
 	public boolean equals(Object other) {
-		if (!super.equals(other))
-			return false;
+		if (this == other) return true;
+		if (!super.equals(other)) return false;
 		
 		return Objects.equals(this.toString(), other.toString());
 	}
