@@ -11,7 +11,6 @@ package org.eclipse.epsilon.eol.execute.concurrent.executors;
 
 import java.util.concurrent.*;
 import org.eclipse.epsilon.common.concurrent.SingleConcurrentExecutionStatus;
-import org.eclipse.epsilon.common.function.CheckedRunnable;
 import org.eclipse.epsilon.eol.execute.concurrent.EolThreadFactory;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
@@ -85,31 +84,5 @@ public class EolThreadPoolExecutor extends ThreadPoolExecutor implements EolExec
 		if (execStatus != null && execStatus.isInProgress()) {
 			execStatus.completeSuccessfully();
 		}
-	}
-	
-	protected Runnable wrapCheckedRunnable(final CheckedRunnable<?> command) {
-		return () -> {
-			try {
-				command.runThrows();
-			}
-			catch (Exception ex) {
-				handleException(ex);
-			}
-		};
-	}
-	
-	@Override
-	public void execute(CheckedRunnable<?> command) {
-		execute(wrapCheckedRunnable(command));
-	}
-	
-	@Override
-	public Future<?> submit(CheckedRunnable<?> task) {
-		return submit(wrapCheckedRunnable(task));
-	}
-	
-	@Override
-	public <T> Future<T> submit(CheckedRunnable<?> task, T result) {
-		return submit(wrapCheckedRunnable(task), result);
 	}
 }

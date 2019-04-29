@@ -272,37 +272,36 @@ public interface EolExecutorService extends ExecutorService {
 	}
 	
 	default void execute(CheckedRunnable<?> command) {
-		execute((Runnable) new EolExecutorRunnable(this, command));
+		execute((Runnable) () -> {
+			try {
+				command.runThrows();
+			}
+			catch (Exception ex) {
+				handleException(ex);
+			}
+		});
 	}
 	
 	default Future<?> submit(CheckedRunnable<?> task) {
-		return submit((Runnable) new EolExecutorRunnable(this, task));
+		return submit((Runnable) (Runnable) () -> {
+			try {
+				task.runThrows();
+			}
+			catch (Exception ex) {
+				handleException(ex);
+			}
+		});
 	}
 	
 	default <T> Future<T> submit(CheckedRunnable<?> task, T result) {
-		return submit((Runnable) new EolExecutorRunnable(this, task), result);
+		return submit((Runnable) () -> {
+			try {
+				task.runThrows();
+			}
+			catch (Exception ex) {
+				handleException(ex);
+			}
+		}, result);
 	}
 	
-	/**
-	 * Convenience class for handling checked exceptions from submitted jobs.
-	 */
-	class EolExecutorRunnable implements Runnable {
-		final CheckedRunnable<?> delegate;
-		final EolExecutorService executor;
-		public EolExecutorRunnable(EolExecutorService executor, CheckedRunnable<?> runnable) {
-			this.delegate = runnable;
-			this.executor = executor;
-		}
-		
-		@Override
-		public void run() {
-			try {
-				delegate.runThrows();
-			}
-			catch (Exception exception) {
-				executor.handleException(exception);
-			}
-		}
-	}
-
 }
