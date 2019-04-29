@@ -23,7 +23,7 @@ import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecuto
  */
 public class EolThreadPoolExecutor extends ThreadPoolExecutor implements EolExecutorService {
 
-	protected static final long DEFAULT_KEEP_ALIVE = 1024;
+	protected static final long DEFAULT_KEEP_ALIVE = 1024L;
 	protected static final TimeUnit DEFAULT_TIME_UNIT = TimeUnit.MILLISECONDS;
 	protected static final int
 		DEFAULT_CORE_POOL_SIZE = 1,
@@ -87,19 +87,29 @@ public class EolThreadPoolExecutor extends ThreadPoolExecutor implements EolExec
 		}
 	}
 	
-	// Rely on the uncaughtExceptionHandler from EolThreadFactory to handle exceptions (TODO see why it's not working)
-	/*@Override
+	protected Runnable wrapCheckedRunnable(final CheckedRunnable<?> command) {
+		return () -> {
+			try {
+				command.runThrows();
+			}
+			catch (Exception ex) {
+				handleException(ex);
+			}
+		};
+	}
+	
+	@Override
 	public void execute(CheckedRunnable<?> command) {
-		execute((Runnable) command);
+		execute(wrapCheckedRunnable(command));
 	}
 	
 	@Override
 	public Future<?> submit(CheckedRunnable<?> task) {
-		return submit((Runnable) task);
+		return submit(wrapCheckedRunnable(task));
 	}
 	
 	@Override
 	public <T> Future<T> submit(CheckedRunnable<?> task, T result) {
-		return submit((Runnable) task, result);
-	}*/
+		return submit(wrapCheckedRunnable(task), result);
+	}
 }

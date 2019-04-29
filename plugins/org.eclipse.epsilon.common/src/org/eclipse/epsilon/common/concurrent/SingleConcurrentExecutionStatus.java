@@ -23,7 +23,7 @@ import java.util.function.Supplier;
  */
 public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 	
-	static final long WAIT_TIMEOUT = (1+Short.MAX_VALUE)/2;
+	static final long WAIT_TIMEOUT = Short.MAX_VALUE >> 2;
 	private volatile boolean inProgress = false;
 	private volatile boolean registerAvailable = true;
 	private Object result;
