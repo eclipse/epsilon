@@ -77,15 +77,10 @@ public class EvlModuleParallelThreads extends EvlModuleParallel {
 
 			executor.execute(() -> {
 				for (ConstraintContextAtom contextAtom : splitProblems) {
-					try {
-						if (contextAtom.unit.shouldBeChecked(contextAtom.element, contextAtom.context)) {
-							for (Constraint constraint : contextAtom.unit.getConstraints()) {
-								constraint.execute(contextAtom.element, contextAtom.context);
-							}
+					if (contextAtom.unit.shouldBeChecked(contextAtom.element, contextAtom.context)) {
+						for (Constraint constraint : contextAtom.unit.getConstraints()) {
+							constraint.execute(contextAtom.element, contextAtom.context);
 						}
-					}
-					catch (EolRuntimeException ex) {
-						context.handleException(ex, executor);
 					}
 				}
 			});

@@ -53,14 +53,7 @@ public class EclModuleParallelAnnotation extends EclModuleParallel implements IE
 				if (shouldBeParallel(matchRule, annotationVariables)) {
 					for (Object left : leftInstances) {
 						for (Object right : rightInstances) {
-							executor.execute(() -> {
-								try {
-									matchRule.matchPair(context, ofTypeOnly, left, right);
-								}
-								catch (EolRuntimeException ex) {
-									context.handleException(ex);
-								}
-							});
+							executor.execute(() -> matchRule.matchPair(context, ofTypeOnly, left, right));
 						}
 					}
 				}

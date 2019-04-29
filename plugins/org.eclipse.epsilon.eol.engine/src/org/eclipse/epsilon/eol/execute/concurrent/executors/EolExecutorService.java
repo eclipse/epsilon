@@ -14,8 +14,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
-import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
+import org.eclipse.epsilon.common.function.CheckedRunnable;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 /**
@@ -84,8 +84,7 @@ public interface EolExecutorService extends ExecutorService {
 			
 			final List<R> results = keepAlive ? new ArrayList<>(futures.size()) : null;
 			
-			final Thread blockingThread = Thread.currentThread(),
-			compWait = new Thread(() -> {
+			final Thread compWait = new Thread(() -> {
 				try {
 					if (keepAlive) for (Future<R> future : futures) {
 						if (status.isInProgress()) {
@@ -115,9 +114,6 @@ public interface EolExecutorService extends ExecutorService {
 				finally {
 					if (status.isInProgress() && status.getException() == null) {
 						status.completeSuccessfully();
-					}
-					if (blockingThread.getState() == Thread.State.WAITING) {
-						blockingThread.interrupt();
 					}
 					assert !status.isInProgress();
 				}
@@ -171,8 +167,7 @@ public interface EolExecutorService extends ExecutorService {
 				return status.getResult();
 			}
 			
-			final Thread blockingThread = Thread.currentThread(),
-			compWait = new Thread(() -> {
+			final Thread compWait = new Thread(() -> {
 				try {
 					for (Future<?> future : jobs) {
 						if (status.isInProgress()) {
@@ -193,9 +188,6 @@ public interface EolExecutorService extends ExecutorService {
 				finally {
 					if (status.isInProgress() && status.getException() == null) {
 						status.completeSuccessfully();
-					}
-					if (blockingThread.getState() == Thread.State.WAITING) {
-						blockingThread.interrupt();
 					}
 					assert !status.isInProgress();
 				}
@@ -231,15 +223,24 @@ public interface EolExecutorService extends ExecutorService {
 			assert !status.isInProgress();
 		}
 	}
-
+	
 	/**
 	 * Submits all jobs to this ExecutorService (non-blocking).
 	 * 
 	 * @param jobs The tasks to execute.
 	 * @return The Futures, so that they can be waited on for completion.
 	 */
-	default Collection<Future<?>> submitAll(Collection<? extends Runnable> jobs) {
-		return jobs.stream().map(this::submit).collect(Collectors.toList());
+	default List<Future<?>> submitAll(Collection<? extends Runnable> jobs) {
+		List<Future<?>> jobFutures = new ArrayList<>(jobs.size());
+		for (Runnable job : jobs) {
+			if (job != null) {
+				jobFutures.add(job instanceof CheckedRunnable ?
+					submit((CheckedRunnable<?>) job) :
+					submit(job)
+				);
+			}
+		}
+		return jobFutures;
 	}
 	
 	/**
@@ -248,8 +249,14 @@ public interface EolExecutorService extends ExecutorService {
 	 * @param jobs The tasks to execute.
 	 * @return The Future results of the jobs.
 	 */
-	default <T> Collection<Future<T>> submitAllTyped(Collection<Callable<T>> jobs) {
-		return jobs.stream().map(this::submit).collect(Collectors.toList());
+	default <T> List<Future<T>> submitAllTyped(Collection<Callable<T>> jobs) {
+		List<Future<T>> jobFutures = new ArrayList<>(jobs.size());
+		for (Callable<T> job : jobs) {
+			if (job != null) {
+				jobFutures.add(submit(job));
+			}
+		}
+		return jobFutures;
 	}
 	
 	/**
@@ -263,4 +270,39 @@ public interface EolExecutorService extends ExecutorService {
 		Collection futures = submitAll(jobs);
 		collectResults(futures);
 	}
+	
+	default void execute(CheckedRunnable<?> command) {
+		execute((Runnable) new EolExecutorRunnable(this, command));
+	}
+	
+	default Future<?> submit(CheckedRunnable<?> task) {
+		return submit((Runnable) new EolExecutorRunnable(this, task));
+	}
+	
+	default <T> Future<T> submit(CheckedRunnable<?> task, T result) {
+		return submit((Runnable) new EolExecutorRunnable(this, task), result);
+	}
+	
+	/**
+	 * Convenience class for handling checked exceptions from submitted jobs.
+	 */
+	class EolExecutorRunnable implements Runnable {
+		final CheckedRunnable<?> delegate;
+		final EolExecutorService executor;
+		public EolExecutorRunnable(EolExecutorService executor, CheckedRunnable<?> runnable) {
+			this.delegate = runnable;
+			this.executor = executor;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				delegate.runThrows();
+			}
+			catch (Exception exception) {
+				executor.handleException(exception);
+			}
+		}
+	}
+
 }

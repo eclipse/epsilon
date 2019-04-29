@@ -32,6 +32,7 @@ public interface CheckedEolBiFunction<T, U, R> extends CheckedBiFunction<T, U, R
 			return applyThrows(t, u);
 		}
 		catch (EolRuntimeException ex) {
+			ex.getMessage();
 			throw new RuntimeException(ex);
 		}
 	}

@@ -26,6 +26,7 @@ public interface CheckedEolFunction<T, R> extends CheckedFunction<T, R, EolRunti
 			return applyThrows(t);
 		}
 		catch (EolRuntimeException ex) {
+			ex.getMessage();
 			throw new RuntimeException(ex);
 		}
 	}

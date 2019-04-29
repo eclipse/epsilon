@@ -35,6 +35,7 @@ public interface CheckedEolConsumer<T> extends CheckedConsumer<T, EolRuntimeExce
 			acceptThrows(t);
 		}
 		catch (EolRuntimeException ex) {
+			ex.getMessage();
 			throw new RuntimeException(ex);
 		}
 	}

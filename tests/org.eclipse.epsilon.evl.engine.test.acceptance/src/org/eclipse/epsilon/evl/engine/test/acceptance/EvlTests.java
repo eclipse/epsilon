@@ -272,8 +272,8 @@ public class EvlTests {
 		catch (EolRuntimeException ex) {
 			String reason = ex.getReason();
 			String message = ex.getMessage();
-			assertTrue("Exception has reason", reason != null && reason.length() > 0);
-			assertTrue("Exception has Epsilon trace",
+			assertTrue("Exception must have reason "+module.getClass().getName(), reason != null && reason.length() > 0);
+			assertTrue("Exception must have Epsilon trace" + module.getClass().getName(),
 				message != null &&
 				message.length() > 0 &&
 				!message.equalsIgnoreCase("Unknown reason") &&
@@ -281,6 +281,6 @@ public class EvlTests {
 			);
 			return;
 		}
-		fail("No exception thrown!");
+		fail("No exception thrown! "+module.getClass().getName());
 	}
 }

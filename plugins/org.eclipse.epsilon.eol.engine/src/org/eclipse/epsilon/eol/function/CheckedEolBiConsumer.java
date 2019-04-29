@@ -37,6 +37,7 @@ public interface CheckedEolBiConsumer<T, U> extends CheckedBiConsumer<T, U, EolR
 			acceptThrows(t, u);
 		}
 		catch (EolRuntimeException ex) {
+			ex.getMessage();
 			throw new RuntimeException(ex);
 		}
 	}	

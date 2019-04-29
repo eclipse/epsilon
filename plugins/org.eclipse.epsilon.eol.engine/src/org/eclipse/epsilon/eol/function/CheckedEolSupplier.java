@@ -34,6 +34,7 @@ public interface CheckedEolSupplier<R> extends CheckedSupplier<R, EolRuntimeExce
 			return getThrows();
 		}
 		catch (EolRuntimeException ex) {
+			ex.getMessage();
 			throw new RuntimeException(ex);
 		}
 	}

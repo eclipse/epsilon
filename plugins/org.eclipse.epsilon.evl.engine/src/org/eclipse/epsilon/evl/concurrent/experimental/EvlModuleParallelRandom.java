@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 import org.eclipse.epsilon.evl.execute.atoms.*;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
@@ -43,18 +44,11 @@ public final class EvlModuleParallelRandom extends ProfilableEvlModuleParallel {
 
 		profileExecutionStage("shuffle jobs", () -> Collections.shuffle(originalJobs));
 		
-		Collection<Runnable> executorJobs = new ArrayList<>(originalJobs.size());
+		Collection<CheckedEolRunnable> executorJobs = new ArrayList<>(originalJobs.size());
 		
 		profileCreateJobs(() -> {
 			for (ConstraintAtom job : originalJobs) {
-				executorJobs.add(() -> {
-					try {
-						job.execute(context);
-					}
-					catch (EolRuntimeException exception) {
-						context.handleException(exception);
-					}
-				});
+				executorJobs.add(() -> job.execute(context));
 			}
 		});
 		

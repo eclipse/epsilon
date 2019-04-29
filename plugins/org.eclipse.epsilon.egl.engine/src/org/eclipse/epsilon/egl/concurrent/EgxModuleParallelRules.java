@@ -18,6 +18,7 @@ import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 
 /**
  * Executes each element for each {@linkplain GenerationRule} in parallel.
@@ -43,17 +44,10 @@ public class EgxModuleParallelRules extends EgxModuleParallel {
 	protected void generateRules(EglTemplateFactory templateFactory, Map<URI, EglTemplate> templateCache, IEgxContextParallel context) throws EolRuntimeException {
 		for (GenerationRule rule : getGenerationRules()) {
 			Collection<?> allElements = rule.getAllElements(context);
-			ArrayList<Runnable> genJobs = new ArrayList<>(allElements.size());
+			ArrayList<CheckedEolRunnable> genJobs = new ArrayList<>(allElements.size());
 			
 			for (Object element : allElements) {
-				genJobs.add(() -> {
-					try {
-						rule.generate(context, templateFactory, this, element, templateCache);
-					}
-					catch (EolRuntimeException exception) {
-						context.handleException(exception);
-					}
-				});
+				genJobs.add(() -> rule.generate(context, templateFactory, this, element, templateCache));
 			}
 			
 			context.executeParallel(rule, genJobs);

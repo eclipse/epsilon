@@ -12,6 +12,7 @@ package org.eclipse.epsilon.evl.concurrent.experimental;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
@@ -34,7 +35,7 @@ public class ProfilableEvlModuleParallelElements extends ProfilableEvlModulePara
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		IEvlContextParallel context = getContext();
-		ArrayList<Runnable> jobs = new ArrayList<>();
+		ArrayList<CheckedEolRunnable> jobs = new ArrayList<>();
 		
 		profileCreateJobs(() -> {
 			for (ConstraintContext constraintContext : getConstraintContexts()) {
@@ -43,14 +44,7 @@ public class ProfilableEvlModuleParallelElements extends ProfilableEvlModulePara
 				jobs.ensureCapacity(jobs.size() + allOfKind.size());
 				
 				for (Object object : allOfKind) {
-					jobs.add(() -> {
-						try {
-							constraintContext.execute(constraintsToCheck, object, context);
-						}
-						catch (EolRuntimeException ex) {
-							context.handleException(ex);
-						}
-					});
+					jobs.add(() -> constraintContext.execute(constraintsToCheck, object, context));
 				}
 			}
 		});

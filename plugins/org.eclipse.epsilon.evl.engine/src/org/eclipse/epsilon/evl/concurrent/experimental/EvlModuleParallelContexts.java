@@ -40,15 +40,7 @@ public class EvlModuleParallelContexts extends EvlModuleParallel {
 		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
 			Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
-			
-			executor.execute(() -> {
-				try {
-					constraintContext.execute(constraintsToCheck, context);
-				}
-				catch (EolRuntimeException ex) {
-					context.handleException(ex, executor);
-				}
-			});
+			executor.execute(() -> constraintContext.execute(constraintsToCheck, context));
 		}
 		
 		executor.awaitCompletion();

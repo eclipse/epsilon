@@ -107,30 +107,6 @@ public interface IEolContextParallel extends IEolContext {
 		if (status != null && status.isInProgress())
 			throw new EolNestedParallelismException(entryPoint);
 	}
-	
-	/**
-	 * Utility method for dealing with exceptions in lambda expressions / parallel jobs.
-	 * @param exception The exception to handle.
-	 */
-	default void handleException(Exception exception) {
-		handleException(exception, getExecutorService());
-	}
-	
-	/**
-	 * Caches the Epsilon stack trace and informs the EolExecutorService's
-	 * {@linkplain SingleConcurrentExecutionStatus}.
-	 * @param exception The exception.
-	 * @param executor The ExecutorService which was used to execute the job.
-	 */
-	default void handleException(Exception exception, EolExecutorService executor) {
-		// Cache the Epsilon stack trace
-		if (exception instanceof EolRuntimeException) {
-			exception.getMessage();
-		}
-		if (executor != null) {
-			executor.handleException(exception);
-		}
-	}
 
 	default EolExecutorService beginParallelTask() throws EolNestedParallelismException {
 		return beginParallelTask(null);

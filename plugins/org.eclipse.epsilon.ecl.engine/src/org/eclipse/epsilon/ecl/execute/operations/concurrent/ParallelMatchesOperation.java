@@ -39,13 +39,8 @@ public class ParallelMatchesOperation extends MatchesOperation {
 			final Object left = lit.next(), right = rit.next();
 			
 			jobFutures.add(executor.submit(() -> {
-				try {
-					if (!matchInstances(left, right, context, false)) {
-						executor.getExecutionStatus().completeWithResult(Boolean.FALSE);
-					}
-				}
-				catch (EolRuntimeException exception) {
-					context.handleException(exception, executor);
+				if (!matchInstances(left, right, context, false)) {
+					executor.getExecutionStatus().completeWithResult(Boolean.FALSE);
 				}
 			}));
 		}

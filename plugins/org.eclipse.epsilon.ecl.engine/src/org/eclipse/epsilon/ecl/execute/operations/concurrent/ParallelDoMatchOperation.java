@@ -36,13 +36,8 @@ public class ParallelDoMatchOperation extends DoMatchOperation {
 		for (Object left : leftColFlat) {
 			for (Object right : rightColFlat) {
 				jobFutures.add(executor.submit(() -> {
-					try {
-						if (!matchInstances(left, right, context, forcedMatch)) {
-							executor.getExecutionStatus().completeWithResult(Boolean.FALSE);
-						}
-					}
-					catch (EolRuntimeException exception) {
-						context.handleException(exception, executor);
+					if (!matchInstances(left, right, context, forcedMatch)) {
+						executor.getExecutionStatus().completeWithResult(Boolean.FALSE);
 					}
 				}));
 			}

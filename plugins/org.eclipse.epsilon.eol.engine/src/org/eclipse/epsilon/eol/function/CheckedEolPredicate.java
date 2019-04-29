@@ -34,6 +34,7 @@ public interface CheckedEolPredicate<T> extends CheckedPredicate<T, EolRuntimeEx
 			return testThrows(t);
 		}
 		catch (EolRuntimeException ex) {
+			ex.getMessage();
 			throw new RuntimeException(ex);
 		}
 	}

@@ -22,6 +22,7 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.CountOperation;
 import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
+import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 
 /**
  * Counts the number of elements satisfying the condition.
@@ -40,17 +41,12 @@ public class ParallelCountOperation extends CountOperation {
 		final Expression expression = expressions.get(0);
 		final CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
 		final AtomicInteger result = new AtomicInteger();
-		final Collection<Runnable> jobs = new ArrayList<>(source.size());
+		final ArrayList<CheckedEolRunnable> jobs = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
 			jobs.add(() -> {
-				try {
-					if (predicate.testThrows(item)) {
-						result.incrementAndGet();
-					}
-				}
-				catch (EolRuntimeException ex) {
-					context.handleException(ex);
+				if (predicate.testThrows(item)) {
+					result.incrementAndGet();
 				}
 			});
 		}

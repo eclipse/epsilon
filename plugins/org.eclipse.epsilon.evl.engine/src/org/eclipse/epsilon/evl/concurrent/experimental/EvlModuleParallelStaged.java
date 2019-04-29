@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallelElements;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -123,17 +124,10 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 	 */
 	protected void processConstraintCheck(Collection<ConstraintAtom> constraintJobs) throws EolRuntimeException {
 		final IEvlContextParallel context = getContext();
-		final Collection<Runnable> constraintCheckJobs = new ArrayList<>(constraintJobs.size());
+		final Collection<CheckedEolRunnable> constraintCheckJobs = new ArrayList<>(constraintJobs.size());
 
 		for (ConstraintAtom job : constraintJobs) {
-			constraintCheckJobs.add(() -> {
-				try {
-					job.unit.execute(job.element, context);
-				}
-				catch (EolRuntimeException ex) {
-					context.handleException(ex);
-				}
-			});
+			constraintCheckJobs.add(() -> job.unit.execute(job.element, context));
 		}
 
 		context.executeParallel(this, constraintCheckJobs);

@@ -52,17 +52,12 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		
 		for (Object item : source) {
 			jobResults.add(executor.submit(() -> {
-				try {
-					final int currentInt = predicate.testThrows(item) ?
-						currentMatches.incrementAndGet() : currentMatches.get(),
-						evaluatedInt = evaluated.incrementAndGet();
-					
-					if (shouldShortCircuit(sourceSize, targetMatches, currentInt, evaluatedInt)) {
-						executor.getExecutionStatus().completeWithResult(Boolean.TRUE);
-					}
-				}
-				catch (EolRuntimeException exception) {
-					context.handleException(exception, executor);
+				final int currentInt = predicate.testThrows(item) ?
+					currentMatches.incrementAndGet() : currentMatches.get(),
+					evaluatedInt = evaluated.incrementAndGet();
+				
+				if (shouldShortCircuit(sourceSize, targetMatches, currentInt, evaluatedInt)) {
+					executor.getExecutionStatus().completeWithResult(Boolean.TRUE);
 				}
 			}));
 		}

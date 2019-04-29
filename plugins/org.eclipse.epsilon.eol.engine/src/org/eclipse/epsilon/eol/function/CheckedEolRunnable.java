@@ -40,6 +40,7 @@ public interface CheckedEolRunnable extends CheckedRunnable<EolRuntimeException>
 			runThrows();
 		}
 		catch (EolRuntimeException ex) {
+			ex.getMessage();
 			throw new RuntimeException(ex);
 		}
 	}

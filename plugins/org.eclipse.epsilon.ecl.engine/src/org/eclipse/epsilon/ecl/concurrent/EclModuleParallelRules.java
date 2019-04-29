@@ -40,14 +40,7 @@ public class EclModuleParallelRules extends EclModuleParallel {
 			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (ofTypeOnly || matchRule.isGreedy())) {
 				for (Object left : matchRule.getLeftInstances(context, ofTypeOnly)) {
 					for (Object right : matchRule.getRightInstances(context, ofTypeOnly)) {
-						executor.execute(() -> {
-							try {
-								matchRule.matchPair(context, ofTypeOnly, left, right);
-							}
-							catch (EolRuntimeException ex) {
-								context.handleException(ex, executor);
-							}
-						});
+						executor.execute(() -> matchRule.matchPair(context, ofTypeOnly, left, right));
 					}
 				}
 			}

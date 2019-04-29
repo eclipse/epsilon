@@ -61,7 +61,7 @@ public abstract class ProfilableEvlModuleParallel extends EvlModuleParallel impl
 		profileExecutionStage("create jobs", submitCode);
 	}
 	
-	protected void profileExecuteJobs(Collection<Runnable> jobs) throws EolRuntimeException {
+	protected void profileExecuteJobs(Collection<? extends Runnable> jobs) throws EolRuntimeException {
 		profileExecutionStage("execute jobs", () -> getContext().executeParallel(this, jobs));
 	}
 }

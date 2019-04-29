@@ -12,6 +12,7 @@ package org.eclipse.epsilon.evl.concurrent;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAnnotation;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -48,19 +49,12 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 			final IModel model = constraintContext instanceof GlobalConstraintContext ?
 				null : constraintContext.getType(context).getModel();
 			
+			final ArrayList<CheckedEolRunnable> jobs = new ArrayList<>();
+			
 			if (constraintContext.hasAnnotation(PARALLEL_ANNOTATION_NAME)) {
-				ArrayList<Runnable> jobs = new ArrayList<>();
-				
 				for (Object object : allOfKind) {
 					if (shouldBeParallel(constraintContext, object, model, numElements)) {
-						jobs.add(() -> {
-							try {
-								constraintContext.execute(constraintsToCheck, object, context);
-							}
-							catch (EolRuntimeException exception) {
-								context.handleException(exception);
-							}
-						});
+						jobs.add(() -> constraintContext.execute(constraintsToCheck, object, context));
 					}
 					else {
 						constraintContext.execute(constraintsToCheck, object, context);
@@ -71,19 +65,10 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 			}		
 			else {
 				for (Constraint constraint : constraintsToCheck) {
-					ArrayList<Runnable> jobs = new ArrayList<>();
-					
 					for (Object object : allOfKind) {
 						if (constraintContext.appliesTo(object, context, false)) {
 							if (shouldBeParallel(constraint, object, model, numElements)) {
-								jobs.add(() -> {
-									try {
-										constraint.execute(object, context);
-									}
-									catch (EolRuntimeException exception) {
-										context.handleException(exception);
-									}
-								});
+								jobs.add(() -> constraint.execute(object, context));
 							}
 							else {
 								constraint.execute(object, context);

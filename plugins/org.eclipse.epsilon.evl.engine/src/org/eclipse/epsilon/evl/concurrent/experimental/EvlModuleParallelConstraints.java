@@ -50,14 +50,7 @@ public class EvlModuleParallelConstraints extends EvlModuleParallel {
 			for (Object object : constraintContext.getAllOfSourceKind(context)) {
 				if (constraintContext.shouldBeChecked(object, context)) {
 					for (Constraint constraint : constraintsToCheck) {
-						executor.execute(() -> {
-							try {
-								constraint.execute(object, context);
-							}
-							catch (EolRuntimeException ex) {
-								context.handleException(ex, executor);
-							}
-						});
+						executor.execute(() -> constraint.execute(object, context));
 					}
 				}
 			}
