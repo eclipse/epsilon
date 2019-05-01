@@ -60,9 +60,16 @@ public class DynamicOperation extends AbstractOperation {
 		final Collection<Expression> expressions = lambdas.keySet();
 		final String methodName = operationNameExpression.getName();
 		final IEolContext context;
+		final boolean isParallelOperation = target instanceof BaseStream && ((BaseStream<?,?>) target).isParallel();
 		
-		if (target instanceof BaseStream && ((BaseStream<?,?>) target).isParallel() && !(context_ instanceof IEolContextParallel)) {
-			context = EolContextParallel.convertToParallel(context_);
+		if (isParallelOperation) {
+			IEolContextParallel pContext = (IEolContextParallel) (context = EolContextParallel.convertToParallel(context_));
+			if (pContext.isParallelisationLegal()) {
+				pContext.beginParallelTask(operationNameExpression);
+			}
+			else {
+				((BaseStream<?,?>) target).sequential();
+			}
 		}
 		else {
 			context = context_;
@@ -123,10 +130,16 @@ public class DynamicOperation extends AbstractOperation {
 		
 		// Finally, call the method with the resolved parameters
 		try {
-			return ReflectionUtil.executeMethod(resolvedMethod, target, candidateParameterValues);
+			Object result = ReflectionUtil.executeMethod(resolvedMethod, target, candidateParameterValues);
+			if (isParallelOperation && context instanceof IEolContextParallel) {
+				IEolContextParallel pContext = (IEolContextParallel) context;
+				pContext.getExecutorService().getExecutionStatus().completeSuccessfully();
+				pContext.endParallelTask();
+			}
+			return result;
 		}
 		catch (Throwable ex) {
-			//System.err.println(ex);
+			context.getErrorStream().println(ex);
 			throw new EolRuntimeException(ex);
 		}
 	}

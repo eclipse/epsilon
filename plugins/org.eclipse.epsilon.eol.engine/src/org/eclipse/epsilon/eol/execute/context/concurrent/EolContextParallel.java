@@ -42,7 +42,7 @@ import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 public class EolContextParallel extends EolContext implements IEolContextParallel {
 
 	protected final int numThreads;
-	protected boolean isParallel = false;
+	protected boolean isParallel, isInParallelTask;
 	protected final boolean isPersistent;
 	protected EolExecutorService executorService;
 	
@@ -189,17 +189,25 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
+	public boolean isParallelisationLegal() {
+		return !isInParallelTask;
+	}
+	
+	@Override
 	public EolExecutorService beginParallelTask(ModuleElement entryPoint) throws EolNestedParallelismException {
 		concurrentFrameStacks = null;
 		clearThreadLocals();
 		initThreadLocals();
-		return IEolContextParallel.super.beginParallelTask(entryPoint);
+		EolExecutorService executor = IEolContextParallel.super.beginParallelTask(entryPoint);
+		isInParallelTask = true;
+		return executor;
 	}
 	
 	@Override
 	public Object endParallelTask() throws EolRuntimeException {
 		Object result = IEolContextParallel.super.endParallelTask();
 		shutdownExecutor();
+		isInParallelTask = false;
 		return result;
 	}
 	

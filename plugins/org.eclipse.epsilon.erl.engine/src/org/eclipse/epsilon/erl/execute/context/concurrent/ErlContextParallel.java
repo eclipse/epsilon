@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.execute.context.concurrent;
 
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.erl.IErlModule;
@@ -56,6 +57,16 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 	protected void initThreadLocals() {
 		super.initThreadLocals();
 		concurrentExecutors = initDelegateThreadLocal(() -> new RuleExecutorFactory(executorFactory, false));
+	}
+	
+	@Override
+	public void setExecutorFactory(ExecutorFactory executorFactory) {
+		if (executorFactory instanceof RuleExecutorFactory) {
+			super.setExecutorFactory(executorFactory);
+		}
+		else {
+			super.setExecutorFactory(new RuleExecutorFactory(executorFactory));
+		}
 	}
 	
 	@Override

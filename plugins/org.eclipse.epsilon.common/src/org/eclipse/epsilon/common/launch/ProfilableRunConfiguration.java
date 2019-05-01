@@ -67,11 +67,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 			this(null);
 		}
 		protected Builder(Class<C> runConfigClass) {
-			setConfigClass(runConfigClass);
-		}
-		private void setConfigClass(Class<C> runConfigClass) {
-			this.configClass = runConfigClass != null ? runConfigClass :
-				(Class<C>) getClass().getDeclaringClass();
+			this.configClass = runConfigClass != null ? runConfigClass : (Class<C>) getClass().getDeclaringClass();
 		}
 
 		public abstract C build() throws IllegalArgumentException, IllegalStateException;
@@ -88,16 +84,16 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 			
 			try {
 				return (C) Stream.of(configClass.getConstructors())
-					.filter(constructor -> constructor.getParameterCount() == 1)
-					.filter(constructor -> Stream.of(constructor.getParameterTypes())
-						.filter(clazz -> clazz.getName().contains(getClass().getSimpleName()))
-						.findAny().isPresent()
+					.filter(constructor ->
+						constructor.getParameterCount() == 1 && 
+						Builder.class.isAssignableFrom(constructor.getParameterTypes()[0])
 					)
 					.findAny()
 					.orElseThrow(() -> new NoSuchMethodException("Couldn't find builder constructor for class '"+configClass.getName()+"'."))
 				.newInstance(this);
 			}
 			catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex) {
+				ex.printStackTrace();
 				if (alternative != null) return alternative.get();
 				else throw new IllegalStateException(ex);
 			}

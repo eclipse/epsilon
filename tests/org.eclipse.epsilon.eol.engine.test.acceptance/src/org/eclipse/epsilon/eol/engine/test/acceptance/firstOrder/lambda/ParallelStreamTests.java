@@ -33,7 +33,7 @@ public class ParallelStreamTests {
 	@Test
 	public void testParallelStreamCanExecute() throws Exception {
 		String script =
-			"return Sequence{0..256}.parallelStream()" + 
+			"return Sequence{0..4095}.parallelStream()" + 
 			"		.filter(i | i.mod(32) == 0)" + 
 			"		.map(i | i * i)" + 
 			"		.filter(i | i > 20000)" + 
@@ -48,7 +48,7 @@ public class ParallelStreamTests {
 	public void testParallelStreamEquivalence() throws Exception {
 		String script =
 			"var Collectors = Native('java.util.stream.Collectors');" +
-			"var testData = Sequence{-1024..1024};" +
+			"var testData = Sequence{-1024..2048};" +
 		
 			"var positiveOddsSquaredEol = testData" + 
 			"	.parallelSelect(i | i >= 0 and i.mod(2) > 0)" + 
