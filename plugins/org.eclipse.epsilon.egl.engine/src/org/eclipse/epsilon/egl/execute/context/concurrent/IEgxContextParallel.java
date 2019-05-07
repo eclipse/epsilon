@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.egl.execute.context.concurrent;
 
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 
 /**
@@ -19,11 +18,5 @@ import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
  * @since 1.6
  */
 public interface IEgxContextParallel extends IEgxContext, IErlContextParallel {
-
-	@Override
-	default EolExecutorService newExecutorService() {
-		// TODO optimise
-		return IErlContextParallel.super.newExecutorService();
-	}
 	
 }

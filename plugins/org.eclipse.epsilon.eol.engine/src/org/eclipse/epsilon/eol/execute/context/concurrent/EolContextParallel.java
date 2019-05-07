@@ -183,6 +183,10 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		}
 	}
 	
+	protected EolExecutorService newExecutorService() {
+		return EolThreadPoolExecutor.fixedPoolExecutor(numThreads);
+	}
+	
 	@Override
 	protected void finalize() {
 		endParallel();
@@ -242,13 +246,8 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public EolExecutorService newExecutorService() {
-		return EolThreadPoolExecutor.fixedPoolExecutor(numThreads);
-	}
-	
-	@Override
 	public EolExecutorService getExecutorService() {
-		if (executorService == null /*|| executorService.isShutdown()*/) {
+		if (executorService == null) {
 			executorService = newExecutorService();
 		}
 		return executorService;

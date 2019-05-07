@@ -20,7 +20,6 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 /**
@@ -69,14 +68,6 @@ public interface IEolContextParallel extends IEolContext {
 	boolean isParallel();
 	
 	/**
-	 * A single-use ExecutorService.
-	 * @return a new {@link EolExecutorService}.
-	 */
-	default EolExecutorService newExecutorService() {
-		return EolThreadPoolExecutor.defaultExecutor(getParallelism());
-	}
-	
-	/**
 	 * A re-usable ExecutorService.
 	 * @return a cached {@link EolExecutorService}.
 	 */
@@ -102,14 +93,19 @@ public interface IEolContextParallel extends IEolContext {
 	 */
 	default void ensureNotNested(ModuleElement entryPoint) throws EolNestedParallelismException {
 		if (!isParallelisationLegal()) throw new EolNestedParallelismException(entryPoint);
-		EolExecutorService executor = getExecutorService();
-		ConcurrentExecutionStatus status = executor != null ? executor.getExecutionStatus() : null;
+		ConcurrentExecutionStatus status = getExecutorService().getExecutionStatus();
 		if (status != null && status.isInProgress())
 			throw new EolNestedParallelismException(entryPoint);
 	}
 
+	/**
+	 * Calls {@link #beginParallelTask(ModuleElement)} with this context's module.
+	 * @return
+	 * @throws EolNestedParallelismException
+	 * @see {@link #beginParallelTask(ModuleElement)}
+	 */
 	default EolExecutorService beginParallelTask() throws EolNestedParallelismException {
-		return beginParallelTask(null);
+		return beginParallelTask(getModule());
 	}
 	
 	/**
@@ -124,9 +120,7 @@ public interface IEolContextParallel extends IEolContext {
 		if (!isParallel()) throw new IllegalStateException("Should be parallel!");
 		ensureNotNested(entryPoint != null ? entryPoint : getModule());
 		EolExecutorService executor = getExecutorService();
-		if (executor == null || executor.isShutdown()) {
-			executor = newExecutorService();
-		}
+		assert executor != null && !executor.isShutdown();
 		if (!executor.getExecutionStatus().register()) {
 			throw new EolNestedParallelismException(entryPoint);
 		}

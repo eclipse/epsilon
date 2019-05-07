@@ -11,7 +11,6 @@ package org.eclipse.epsilon.common.util.profiling;
 
 import static java.lang.System.nanoTime;
 import static org.eclipse.epsilon.common.util.OperatingSystem.execCmd;
-import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryUsage;
@@ -183,11 +182,11 @@ public final class BenchmarkUtils {
                     "/bin/sh", "-c", "sysctl -n machdep.cpu.brand_string"
                 );
                 default: return execCmd(
-                    "/bin/sh", "-c", "cat /proc/cpuinfo | grep -m 1 'model name'"
-                ).substring(13); // Removes the "model name    : " part
+                    "/bin/sh", "-c", "cat /proc/cpuinfo | grep -m 1 'model name' | cut -c 14-"
+                );
             }
 		}
-		catch (IOException ex) {
+		catch (Exception ex) {
 			System.err.println("Could not get CPU name: "+ex.getMessage());
 			return "";
 		}
