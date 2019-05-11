@@ -251,7 +251,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 		return id;
 	}
 	
-	protected final void writeOut(Object... lines) {
+	public final void writeOut(Object... lines) {
 		writeOut(Arrays.asList(lines));
 	}
 	

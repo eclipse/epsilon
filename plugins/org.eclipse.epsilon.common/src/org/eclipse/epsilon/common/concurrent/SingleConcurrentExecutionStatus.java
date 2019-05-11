@@ -21,21 +21,21 @@ import java.util.function.Supplier;
  * @author Sina Madani
  * @since 1.6
  */
-public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
+public class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 	
-	static final long WAIT_TIMEOUT = Short.MAX_VALUE >> 2;
+	protected long waitTimeout = 0;
 	private volatile boolean inProgress = false;
 	private volatile boolean registerAvailable = true;
 	private Object result;
 	private Object currentLock;
 
 	@Override
-	protected Object getResult(Object lockObj) {
+	protected final Object getResult(Object lockObj) {
 		return result;
 	}
 	
 	@Override
-	protected boolean register(Object lockObj) {
+	protected final boolean register(Object lockObj) {
 		if (registerAvailable) {
 			assert !inProgress;
 			exception = null;
@@ -51,11 +51,11 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 	}
 	
 	@Override
-	protected boolean isInProgress(Object lockObj) {
+	protected final boolean isInProgress(Object lockObj) {
 		return inProgress;
 	}
 	
-	void complete(Object lockObj) {
+	protected final void complete(Object lockObj) {
 		inProgress = false;
 		if (lockObj != null) synchronized (lockObj) {
 			lockObj.notifyAll();
@@ -68,18 +68,18 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 	}
 	
 	@Override
-	protected void completeSuccessfully(Object lockObj) {
+	protected final void completeSuccessfully(Object lockObj) {
 		complete(lockObj);
 	}
 	
 	@Override
-	protected void completeWithResult(Object lockObj, Object result) {
+	protected final void completeWithResult(Object lockObj, Object result) {
 		this.result = result;
 		completeSuccessfully(lockObj);
 	}
 	
 	@Override
-	public void completeExceptionally(Throwable exception) {
+	public final void completeExceptionally(Throwable exception) {
 		completeExceptionallyBase(exception);
 		complete(currentLock);
 	}
@@ -90,13 +90,13 @@ public final class SingleConcurrentExecutionStatus extends ConcurrentExecutionSt
 	 * @return Whether the completion was successful (<code>true</code>) or exceptional (<code>false</code>).
 	 */
 	@Override
-	protected boolean waitForCompletion(final Object lockObj, final Supplier<Boolean> targetState) {
+	protected final boolean waitForCompletion(final Object lockObj, final Supplier<Boolean> targetState) {
 		assert lockObj != null;
 		currentLock = lockObj;
 		while (isInProgress(lockObj) && (targetState == null || !targetState.get())) synchronized (lockObj) {
 			try {
 				// Don't wait forever just in case someone forgets to notify or interrupt
-				lockObj.wait(WAIT_TIMEOUT);
+				lockObj.wait(waitTimeout);
 			}
 			catch (InterruptedException ie) {}
 		}

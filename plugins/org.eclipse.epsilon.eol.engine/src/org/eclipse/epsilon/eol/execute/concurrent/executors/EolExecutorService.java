@@ -14,9 +14,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
-import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.function.CheckedRunnable;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.EolConcurrentExecutionStatus;
 
 /**
  * Convenience interface which allows for easy handling of waiting for job completions,
@@ -29,13 +29,13 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 public interface EolExecutorService extends ExecutorService {
 
 	/**
-	 * This method should return a non-null {@link ConcurrentExecutionStatus} representing the
+	 * This method should return a non-null {@link EolConcurrentExecutionStatus} representing the
 	 * current job in progress.
 	 * 
 	 * @return A re-usable status object used to interrupt short-circuiting jobs and
 	 * handling exceptions.
 	 */
-	ConcurrentExecutionStatus getExecutionStatus();
+	EolConcurrentExecutionStatus getExecutionStatus();
 	
 	default void handleException(Exception exception) {
 		if (exception instanceof EolRuntimeException) {
@@ -66,7 +66,7 @@ public interface EolExecutorService extends ExecutorService {
 	 */
 	default <R> List<R> collectResults(Collection<Future<R>> futures) throws EolRuntimeException {
 		final boolean keepAlive = futures != null;
-		final ConcurrentExecutionStatus status = getExecutionStatus();
+		final EolConcurrentExecutionStatus status = getExecutionStatus();
 		try {
 			Throwable statusException = status.getException();
 			if (statusException != null) {
@@ -154,7 +154,7 @@ public interface EolExecutorService extends ExecutorService {
 	 * was called whilst waiting.
 	 */
 	default Object shortCircuitCompletion(Collection<? extends Future<?>> jobs) throws EolRuntimeException {
-		final ConcurrentExecutionStatus status = getExecutionStatus();
+		final EolConcurrentExecutionStatus status = getExecutionStatus();
 		try {
 			Throwable statusException = status.getException();
 			if (statusException != null) {
