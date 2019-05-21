@@ -111,7 +111,7 @@ public class EpsilonConsole {
 	
 	public void initialiseColours() {
 		final Display display = PlatformUI.getWorkbench().getDisplay();
-		display.syncExec(new Runnable() {
+		display.asyncExec(new Runnable() {
 			public void run() {
 			if (EclipseUtil.isDarkThemeEnabled()) {
 				infoOutputStream.setColor(new Color(display, 190, 218, 0));
