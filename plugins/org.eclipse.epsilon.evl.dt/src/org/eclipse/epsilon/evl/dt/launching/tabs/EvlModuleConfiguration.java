@@ -29,8 +29,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 
-	private Button optimizeConstraintsBtn;
-	private Button optimizeConstraintTraceBtn;
+	private Button optimizeConstraintsBtn, optimizeConstraintTraceBtn, shortCircuitBtn;
 	
 	@Override
 	public void createModuleConfigurationWidgets(Composite group, AbstractAdvancedConfigurationTab tab) {
@@ -46,6 +45,11 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 			"Only add results to the constraint trace if they are invoked by a satisfies operation."
 		);
 		optimizeConstraintTraceBtn.addSelectionListener(selectionListener);
+		
+		shortCircuitBtn = new Button(group, SWT.CHECK);
+		shortCircuitBtn.setText("Short-circuited validation");
+		shortCircuitBtn.setToolTipText("Stop validation when any constraints are unsatisfied.");
+		shortCircuitBtn.addSelectionListener(selectionListener);
 	}
 
 	@Override
@@ -57,6 +61,9 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 			if (configuration.getAttribute(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE, false)) {
 				optimizeConstraintTraceBtn.setSelection(true);
 			}
+			if (configuration.getAttribute(IEvlContext.SHORT_CIRCUIT, false)) {
+				shortCircuitBtn.setSelection(true);
+			}
 		}
 		catch (CoreException e) {
 			// skip 
@@ -67,7 +74,9 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		boolean optimizeConstraints = optimizeConstraintsBtn != null ? optimizeConstraintsBtn.getSelection() : false;
 		boolean optimizeConstraintTrace = optimizeConstraintTraceBtn != null ? optimizeConstraintTraceBtn.getSelection() : false;
+		boolean shortCircuit = shortCircuitBtn != null ? shortCircuitBtn.getSelection() : false;
 		configuration.setAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimizeConstraints);
 		configuration.setAttribute(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE, optimizeConstraintTrace);
+		configuration.setAttribute(IEvlContext.SHORT_CIRCUIT, shortCircuit);
 	}
 }

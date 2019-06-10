@@ -12,6 +12,8 @@ package org.eclipse.epsilon.evl.execute.context;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
@@ -22,6 +24,8 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints = new HashSet<>();
 	protected ConstraintTrace constraintTrace = new ConstraintTrace();
 	protected boolean optimizeConstraintTrace = false;
+	protected boolean shortCircuit = false;
+	protected boolean terminate = false;
 	
 	@Override
 	public ConstraintTrace getConstraintTrace() {
@@ -53,5 +57,23 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	@Override
 	public boolean isOptimizeConstraintTrace() {
 		return optimizeConstraintTrace;
+	}
+	
+	@Override
+	public boolean isShortCircuiting() {
+		return shortCircuit;
+	}
+	
+	@Override
+	public void setShortCircuit(boolean shortCircuit) {
+		this.shortCircuit = shortCircuit;
+	}
+
+	@Override
+	public boolean shouldShortCircuit(AnnotatableModuleElement rule) throws EolRuntimeException {
+		if (!terminate) {
+			terminate = IEvlContext.super.shouldShortCircuit(rule);
+		}
+		return terminate;
 	}
 }

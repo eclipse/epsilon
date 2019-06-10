@@ -3,20 +3,22 @@
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
->>>>>>> origin/master
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Sina Madani - refactoring
+ *     Sina Madani - refactoring, utility methods, short-circuiting
  ******************************************************************************/
 package org.eclipse.epsilon.evl.execute.context;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
+import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
@@ -29,7 +31,9 @@ public interface IEvlContext extends IErlContext {
 	/**
 	 * @since 1.6
 	 */
-	public static final String OPTIMIZE_CONSTRAINT_TRACE = "optimizeConstraintTrace";
+	public static final String
+		OPTIMIZE_CONSTRAINT_TRACE = "optimizeConstraintTrace",
+		SHORT_CIRCUIT = "shortCircuit";;
 	
 	/**
 	 * Return true if the constraint results cache is optimized. When optimized, constraint results
@@ -37,7 +41,8 @@ public interface IEvlContext extends IErlContext {
 	 * cached if required. If false, constraint results will always be cached.
 	 * <p>
 	 * The default value is false;
-	 * @return
+	 * @return The value of the flag.
+	 * @since 1.6
 	 */
 	boolean isOptimizeConstraintTrace();
 
@@ -45,8 +50,62 @@ public interface IEvlContext extends IErlContext {
 	 * Set the flag for using optimized contraint result caching.
 	 * @see #isOptimizeConstraintTrace()
 	 * @param use	Set to true to use optimzied contraint caching.
+	 * @since 1.6
 	 */
 	void setOptimizeConstraintTrace(boolean optimized);
+	
+	/**
+	 * Option allowing validation to terminate early when any invariant is unsatisfied.
+	 * 
+	 * @return Whether validation will stop once an UnsatisfiedConstraint is found.
+	 * @since 1.6
+	 */
+	boolean isShortCircuiting();
+	
+	/**
+	 * Sets whether short-circuited validation is enabled.
+	 * 
+	 * @param shortCircuit The new value for the flag.
+	 * @since 1.6
+	 */
+	void setShortCircuit(boolean shortCircuit);
+	
+	/**
+	 * Checks whether the condition for short-circuiting is met, either by previous invocation returning
+	 * true or if there are unsatisfied constraints and the
+	 * {@link #isShortCircuiting()} flag is enabled, or if the specified module element has been annotated
+	 * with a termination criteria and an unsatisfied constraint containing the type is already present.
+	 * 
+	 * @param rule The rule with the termination annotation.
+	 * @return Whether termination should be suspended.
+	 * @throws EolRuntimeException
+	 * @throws IllegalArgumentException If the rule parameter is not an appropriate type.
+	 * @since 1.6
+	 */
+	default boolean shouldShortCircuit(AnnotatableModuleElement rule) throws EolRuntimeException {
+		if (isShortCircuiting() && !getUnsatisfiedConstraints().isEmpty()) {
+			return true;
+		}
+		if (rule.getBooleanAnnotationValue("terminate", this)) {
+			Collection<Constraint> constraints;
+			if (rule instanceof ConstraintContext) {
+				constraints = ((ConstraintContext) rule).getConstraints();
+			}
+			else if (rule instanceof Constraint) {
+				constraints = Collections.singleton((Constraint) rule);
+			}
+			else {
+				throw new IllegalArgumentException("Unexpected module element: "+rule);
+			}
+			return getUnsatisfiedConstraints()
+					.stream()
+					.map(UnsatisfiedConstraint::getConstraint)
+					.filter(constraints::contains)
+					.findAny()
+					.isPresent();
+		}
+		return false;
+	}
 	
 	/**
 	 * @since 1.6

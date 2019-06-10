@@ -41,7 +41,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	protected List<ConstraintContext> constraintContexts;
 	protected final ArrayList<ConstraintContext> declaredConstraintContexts = new ArrayList<>(0);
 	protected final ArrayList<Constraint> constraints = new ArrayList<>();
-	private boolean optimizeConstraints = false;
+	private boolean optimizeConstraints;
 	
 	public EvlModule() {
 		setContext(new EvlContext());
@@ -51,8 +51,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	
 	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(4);
 	static {
-		CONFIG_PROPERTIES.add(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE);
 		CONFIG_PROPERTIES.add(OPTIMIZE_CONSTRAINTS);
+		CONFIG_PROPERTIES.add(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE);
+		CONFIG_PROPERTIES.add(IEvlContext.SHORT_CIRCUIT);
 	}
 	
 	@Override
@@ -350,7 +351,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	public void setOptimizeConstraints(boolean optimizeConstraints) {
 		this.optimizeConstraints = optimizeConstraints;
 	}
-
+	
 	/**
 	 * @since 1.6
 	 */
@@ -361,6 +362,9 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		}
 		if (properties.containsKey(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE)) {
 			getContext().setOptimizeConstraintTrace(Boolean.valueOf(Objects.toString(properties.get(OPTIMIZE_CONSTRAINTS))));
+		}
+		if (properties.containsKey(IEvlContext.SHORT_CIRCUIT)) {
+			getContext().setShortCircuit(Boolean.valueOf(Objects.toString(properties.get(IEvlContext.SHORT_CIRCUIT))));
 		}
 	}
 

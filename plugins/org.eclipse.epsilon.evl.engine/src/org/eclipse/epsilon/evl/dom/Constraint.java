@@ -69,12 +69,12 @@ public class Constraint extends NamedRule {
 	}
 	
 	public boolean shouldBeChecked(Object modelElement, IEvlContext context) throws EolRuntimeException {
-		return !isLazy(context) && appliesTo(modelElement, context);
+		return !context.shouldShortCircuit(this) && !isLazy(context) && appliesTo(modelElement, context);
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public final Optional<UnsatisfiedConstraint> execute(Object self, IErlContext context) throws EolRuntimeException {
+	public Optional<UnsatisfiedConstraint> execute(Object self, IErlContext context) throws EolRuntimeException {
 		return (Optional<UnsatisfiedConstraint>) super.execute(self, context);
 	}
 	
@@ -82,7 +82,7 @@ public class Constraint extends NamedRule {
 	 * @since 1.6
 	 */
 	@Override
-	public final Optional<UnsatisfiedConstraint> executeImpl(Object modelElement, IErlContext context_) throws EolRuntimeException {
+	public Optional<UnsatisfiedConstraint> executeImpl(Object modelElement, IErlContext context_) throws EolRuntimeException {
 		IEvlContext context = (IEvlContext) context_;
 		if (shouldBeChecked(modelElement, context)) {
 			return check(modelElement, context);
@@ -134,8 +134,8 @@ public class Constraint extends NamedRule {
 			}
 		}
 		
-		return !postprocessCheck(self, context, unsatisfiedConstraint, result)
-			? Optional.of(unsatisfiedConstraint) : Optional.empty();
+		result = postprocessCheck(self, context, unsatisfiedConstraint, result);
+		return result ? Optional.empty() : Optional.of(unsatisfiedConstraint);
 	}
 
 	protected UnsatisfiedConstraint preprocessCheck(Object self, IEvlContext context) {

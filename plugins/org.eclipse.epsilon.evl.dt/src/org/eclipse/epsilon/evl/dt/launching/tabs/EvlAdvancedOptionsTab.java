@@ -16,6 +16,7 @@ import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dt.EvlPlugin;
+import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -28,7 +29,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 	
-	private Button optimizeConstraintsBtn;
+	private Button optimizeConstraintsBtn, optimizeConstraintTraceBtn, shortCircuitBtn;
 
 	private final SelectionListener selectionListener = new SelectionListener() {
 		
@@ -66,6 +67,18 @@ public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 		optimizeConstraintsBtn = new Button(control, SWT.CHECK);
 		optimizeConstraintsBtn.setText("Optimize Constraints to Select Operations");
 		optimizeConstraintsBtn.addSelectionListener(selectionListener);
+		
+		optimizeConstraintTraceBtn = new Button(control, SWT.CHECK);
+		optimizeConstraintTraceBtn.setText("Optimize constraint trace");
+		optimizeConstraintTraceBtn.setToolTipText(
+			"Only add results to the constraint trace if they are invoked by a satisfies operation."
+		);
+		optimizeConstraintTraceBtn.addSelectionListener(selectionListener);
+		
+		shortCircuitBtn = new Button(control, SWT.CHECK);
+		shortCircuitBtn.setText("Short-circuited validation");
+		shortCircuitBtn.setToolTipText("Stop validation when any constraints are unsatisfied.");
+		shortCircuitBtn.addSelectionListener(selectionListener);
 	}
 
 	@Override
@@ -85,7 +98,12 @@ public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 	
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		configuration.setAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimizeConstraintsBtn.getSelection());
+		boolean optimizeConstraints = optimizeConstraintsBtn != null ? optimizeConstraintsBtn.getSelection() : false;
+		boolean optimizeConstraintTrace = optimizeConstraintTraceBtn != null ? optimizeConstraintTraceBtn.getSelection() : false;
+		boolean shortCircuit = shortCircuitBtn != null ? shortCircuitBtn.getSelection() : false;
+		configuration.setAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimizeConstraints);
+		configuration.setAttribute(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE, optimizeConstraintTrace);
+		configuration.setAttribute(IEvlContext.SHORT_CIRCUIT, shortCircuit);
 	}
 
 	@Override

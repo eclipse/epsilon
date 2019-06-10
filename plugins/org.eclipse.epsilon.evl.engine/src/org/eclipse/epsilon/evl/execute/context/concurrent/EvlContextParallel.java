@@ -9,11 +9,12 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.execute.context.concurrent;
 
-import java.util.HashSet;
 import java.util.Set;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
-import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
@@ -28,10 +29,11 @@ import org.eclipse.epsilon.evl.trace.ConstraintTrace;
  */
 public class EvlContextParallel extends ErlContextParallel implements IEvlContextParallel {
 
-	protected PersistentThreadLocal<Set<UnsatisfiedConstraint>> concurrentUnsatisfiedConstraints;
 	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints;
 	protected ConstraintTrace constraintTrace;
 	protected boolean optimizeConstraintTrace = false;
+	protected boolean shortCircuit = false;
+	protected /*volatile*/ boolean terminate = false;
 	
 	public EvlContextParallel() {
 		this(0);
@@ -54,26 +56,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	protected void initMainThreadStructures() {
 		super.initMainThreadStructures();
 		constraintTrace = new ConstraintTrace(true);
-		unsatisfiedConstraints = new HashSet<>(0);
-	}
-
-	@Override
-	protected void initThreadLocals() {
-		super.initThreadLocals();
-		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(numThreads, HashSet::new);
-	}
-	
-	@Override
-	protected void clearThreadLocals() {
-		super.clearThreadLocals();
-		if (concurrentUnsatisfiedConstraints != null) {
-			concurrentUnsatisfiedConstraints.getAll().forEach(unsatisfiedConstraints::addAll);
-		}
-	}
-	
-	@Override
-	public Set<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
-		return parallelGet(concurrentUnsatisfiedConstraints, unsatisfiedConstraints);
+		unsatisfiedConstraints = ConcurrencyUtils.concurrentSet(64, numThreads);
 	}
 	
 	@Override
@@ -86,6 +69,11 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	@Override
 	public EvlModuleParallel getModule() {
 		return (EvlModuleParallel) super.getModule();
+	}
+	
+	@Override
+	public Set<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
+		return unsatisfiedConstraints;
 	}
 
 	@Override
@@ -110,5 +98,23 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 			return pContext;
 		}
 		return IEolContextParallel.copyToParallel(context, EvlContextParallel::new);
+	}
+
+	@Override
+	public boolean isShortCircuiting() {
+		return shortCircuit;
+	}
+
+	@Override
+	public void setShortCircuit(boolean shortCircuit) {
+		this.shortCircuit = shortCircuit;
+	}
+
+	@Override
+	public boolean shouldShortCircuit(AnnotatableModuleElement rule) throws EolRuntimeException {
+		if (!terminate) {
+			terminate = IEvlContextParallel.super.shouldShortCircuit(rule);
+		}
+		return terminate;
 	}
 }
