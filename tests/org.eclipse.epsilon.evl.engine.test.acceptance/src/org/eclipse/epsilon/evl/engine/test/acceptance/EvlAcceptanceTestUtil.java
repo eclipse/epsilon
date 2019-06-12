@@ -19,7 +19,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
-import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.concurrent.*;
 import org.eclipse.epsilon.evl.concurrent.experimental.*;
@@ -116,7 +115,7 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 				IEvlModule evlStd = moduleGetter.get();
 				
 				scenarios.add(
-					IEolRunConfiguration.Builder(EvlRunConfiguration.class)
+					EvlRunConfiguration.Builder()
 						.withScript(EvlTests.getTestScript(evlStd).toPath())
 						.withModel(EvlTests.getTestModel(false))
 						.withModule(evlStd)

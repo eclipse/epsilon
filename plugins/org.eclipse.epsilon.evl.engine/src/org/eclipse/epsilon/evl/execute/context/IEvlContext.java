@@ -12,13 +12,11 @@ package org.eclipse.epsilon.evl.execute.context;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
-import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
@@ -76,31 +74,21 @@ public interface IEvlContext extends IErlContext {
 	 * {@link #isShortCircuiting()} flag is enabled, or if the specified module element has been annotated
 	 * with a termination criteria and an unsatisfied constraint containing the type is already present.
 	 * 
-	 * @param rule The rule with the termination annotation.
+	 * @param Constraint The rule with the termination annotation.
 	 * @return Whether termination should be suspended.
 	 * @throws EolRuntimeException
 	 * @throws IllegalArgumentException If the rule parameter is not an appropriate type.
 	 * @since 1.6
 	 */
-	default boolean shouldShortCircuit(AnnotatableModuleElement rule) throws EolRuntimeException {
+	default boolean shouldShortCircuit(Constraint constraint) throws EolRuntimeException {
 		if (isShortCircuiting() && !getUnsatisfiedConstraints().isEmpty()) {
 			return true;
 		}
-		if (rule.getBooleanAnnotationValue("terminate", this)) {
-			Collection<Constraint> constraints;
-			if (rule instanceof ConstraintContext) {
-				constraints = ((ConstraintContext) rule).getConstraints();
-			}
-			else if (rule instanceof Constraint) {
-				constraints = Collections.singleton((Constraint) rule);
-			}
-			else {
-				throw new IllegalArgumentException("Unexpected module element: "+rule);
-			}
+		if (constraint.getBooleanAnnotationValue("terminate", this)) {
 			return getUnsatisfiedConstraints()
 					.stream()
 					.map(UnsatisfiedConstraint::getConstraint)
-					.filter(constraints::contains)
+					.filter(constraint::equals)
 					.findAny()
 					.isPresent();
 		}

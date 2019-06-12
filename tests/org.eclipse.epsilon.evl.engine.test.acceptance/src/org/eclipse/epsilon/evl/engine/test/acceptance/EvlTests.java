@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.evl.engine.test.acceptance;
 
 import static org.junit.Assert.*;
+import static org.junit.Assume.*;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
@@ -21,15 +22,20 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.dom.ConstraintSelectTransfomer;
 import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.*;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
@@ -54,6 +60,9 @@ public class EvlTests {
 	
 	@Parameter
 	public Supplier<? extends IEvlModule> moduleGetter;
+	
+	@Rule
+    public TestName testName = new TestName();
 	
 	private IEvlModule module;
 	
@@ -84,7 +93,7 @@ public class EvlTests {
 	}
 	
 	private static File getTestScript(String scriptName, IEvlModule module) {
-		if (scriptName.equals("test")) {
+		if ("test".equals(scriptName)) {
 			FrameStack frameStack = module.getContext().getFrameStack();
 			frameStack.putGlobal(
 				Variable.createReadOnlyVariable("frameStack", frameStack),
@@ -113,8 +122,7 @@ public class EvlTests {
 	}
 	
 	private IEvlModule loadEVL(String scriptName) throws Exception {
-		module = moduleGetter.get();
-		loadEVL(module, false, scriptName);
+		loadEVL(module = moduleGetter.get(), false, scriptName);
 		return module;
 	}
 	
@@ -282,5 +290,29 @@ public class EvlTests {
 			return;
 		}
 		fail("No exception thrown! "+module.getClass().getName());
+	}
+	
+	@Before
+	public void assumeLegal() throws Exception {
+		module = moduleGetter.get();
+		if (testName.getMethodName().contains("ShortCircuit")) {
+			assumeTrue(module.getClass().equals(EvlModule.class));
+			assumeFalse(module instanceof EvlModuleParallel);
+		}
+	}
+	
+	@Test
+	public void testGlobalShortCircuitExecution() throws Exception {
+		(module = loadEVL("shortCircuit")).getContext().setShortCircuit(true);
+		assertEquals(1, module.execute().size());
+		assertUnsatisfiedConstraints(1, "t_a", "TerminateOnFailNoAnnotation");
+	}
+	
+	@Test
+	public void testAnnotatedShortCircuitExecution() throws Exception {
+		(module = loadEVL("shortCircuit")).getContext().setShortCircuit(false);
+		assertEquals(24, module.execute().size());
+		assertUnsatisfiedConstraints(1, "t_c", "TerminateOnFailWithAnnotation");
+		assertUnsatisfiedConstraints(0, "t_c", "NeverCheckedAfterTerminate");
 	}
 }

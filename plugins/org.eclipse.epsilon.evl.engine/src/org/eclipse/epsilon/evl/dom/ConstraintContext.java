@@ -65,7 +65,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @since 1.6
 	 */
 	public boolean shouldBeChecked(Object modelElement, IEvlContext context) throws EolRuntimeException {
-		return !context.shouldShortCircuit(this) && !isLazy(context) && appliesTo(modelElement, context, false);
+		return !isLazy(context) && appliesTo(modelElement, context, false);
 	}
 	
 	public boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException {

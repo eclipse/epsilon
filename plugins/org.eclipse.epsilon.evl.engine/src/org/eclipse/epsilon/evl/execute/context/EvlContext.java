@@ -12,10 +12,10 @@ package org.eclipse.epsilon.evl.execute.context;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
@@ -70,9 +70,9 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	}
 
 	@Override
-	public boolean shouldShortCircuit(AnnotatableModuleElement rule) throws EolRuntimeException {
+	public boolean shouldShortCircuit(Constraint constraint) throws EolRuntimeException {
 		if (!terminate) {
-			terminate = IEvlContext.super.shouldShortCircuit(rule);
+			terminate = IEvlContext.super.shouldShortCircuit(constraint);
 		}
 		return terminate;
 	}

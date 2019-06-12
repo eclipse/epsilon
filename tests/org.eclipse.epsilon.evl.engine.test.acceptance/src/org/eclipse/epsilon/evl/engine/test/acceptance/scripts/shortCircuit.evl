@@ -1,12 +1,3 @@
-import "utils.eol";
-
-pre {
-	foo();
-	var Thread : new Native("java.lang.Thread");
-	var preVar = "my variable";
-	preVar.printlnIf("sealed".isJavaKeyword());
-}
-
 @cached
 operation t_b foo(expr : Integer) : Boolean {
 	return expr <= 0;
@@ -21,14 +12,6 @@ operation returnFalse() : Boolean {
 	return false;
 }
 
-constraint EolTest {
-	check: "UndecEmber".isValidMonth()
-}
-
-constraint CanAccessPre {
-	check: Thread.isDefined()
-}
-
 context t_a {
 
 	constraint SelfVisibleInGuard {
@@ -36,41 +19,8 @@ context t_a {
 		check: true
 	}
 	
-	@parallel
-	constraint GuardVariableInvisibleInBlock {
-		guard {
-			var condition = true;
-			return condition;
-		}
-		check {
-			return frameStack.get("condition").isUndefined();
-		}
-	}
-	
-	constraint CheckVariableVisibleInMessage {
-		check {
-			if (frameStack.get("condition").isDefined())
-				throw "condition variable has leaked";
-			
-			var msg = "error";
-			return false;
-		}
-		message : msg
-	}
-	
-	constraint CheckVariableVisibleInFix {
-		check {
-			var msg = "error";
-			return false;
-		}
-		fix {
-			title : "Fix " + msg
-			do {
-				blackboard.put("fix-do-executed", "true");
-				msg; // Check that the msg variable from the check part is visible
-				self; // Check that the self variable is visible
-			}
-		}
+	constraint TerminateOnFailNoAnnotation {
+		check: false
 	}
 }
 
@@ -87,17 +37,8 @@ context t_a {
 context t_b {
 	
 	@terminate
-	constraint DontTerminate {
-		guard: false
-		check {
-			throw "IllegalStateException in DontTerminate";
-		}
-	}
-	
-	$parallel t_b.all.size() > 1
-	constraint EolTest2 {
-		guard: '>'.isJavaToken()
-		check: "Optional".isJavaPrimitive(true)
+	constraint DontTerminateOnFailWithAnnotation {
+		check: self.satisfies("AlwaysTrue")
 	}
 	
 	constraint AlwaysFalse { 
@@ -110,6 +51,14 @@ context t_b {
 	
 	constraint ElementOperationInConstraint {
 		check: self.foo(1 + 2)
+	}
+	
+	@terminate
+	constraint DontTerminate {
+		guard: false
+		check {
+			throw "IllegalStateException in DontTerminate";
+		}
 	}
 	
 	constraint NeverChecked {
@@ -206,17 +155,21 @@ constraint LazyContextlessDependedOn {
 	check: false
 }
 
-constraint ImportedOperationWithoutContext {
-	guard: true
-	check: "January".isValidMonth()
-}
-
 constraint Contextless {
 	check: t_a.all.size + t_b.all.size > 2
 }
 
-post {
-	assert(preVar.isDefined() or EOL().isUndefined(), "preVar is undefined!");
-	printIfDefined(null);
-	assert(Thread.currentThread().getName().isDefined(), "No name for thread!");
+context t_c {
+
+	@terminate
+	constraint TerminateOnFailWithAnnotation {
+		check: false
+	}
+	
+	constraint NeverCheckedAfterTerminate {
+		guard {
+			throw "Constraint 'NeverCheckedAfterTerminate' was executed!";
+		}
+		check: false
+	}
 }

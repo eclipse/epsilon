@@ -24,16 +24,70 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  */
 public class EvlRunConfiguration extends IErlRunConfiguration {
 	
+	@SuppressWarnings("unchecked")
+	public static class Builder<R extends EvlRunConfiguration, B extends Builder<R, B>> extends IErlRunConfiguration.Builder<R, B> {
+		
+		public boolean optimizeTrace, optimizeConstraints, shortCircuit;
+		
+		public B withShortCircuiting() {
+			return withShortCircuiting(true);
+		}
+		public B withShortCircuiting(boolean sc) {
+			this.shortCircuit = sc;
+			return (B) this;
+		}
+		
+		public B withOptimizeConstraints() {
+			return withOptimizeConstraints(true);
+		}
+		public B withOptimizeConstraints(boolean optimize) {
+			this.optimizeConstraints = optimize;
+			return (B) this;
+		}
+		
+		public B withOptimizeConstraintTrace() {
+			return withOptimizeConstraintTrace(true);
+		}
+		public B withOptimizeConstraintTrace(boolean optimize) {
+			this.optimizeTrace = optimize;
+			return (B) this;
+		}
+		
+		protected Builder() {
+			super();
+		}
+		protected Builder(Class<R> runConfigClass) {
+			super(runConfigClass);
+		}
+	}
+	
 	public static Builder<? extends EvlRunConfiguration, ?> Builder() {
-		return Builder(EvlRunConfiguration.class);
+		return new Builder<>();
+	}
+	
+	public EvlRunConfiguration(IErlRunConfiguration.Builder<? extends EvlRunConfiguration, ?> builder) {
+		super(builder);
 	}
 	
 	public EvlRunConfiguration(Builder<? extends EvlRunConfiguration, ?> builder) {
 		super(builder);
+		IEvlModule module = getModule();
+		if (module instanceof EvlModule) {
+			((EvlModule) module).setOptimizeConstraints(builder.optimizeConstraints);
+		}
+		module.getContext().setShortCircuit(builder.shortCircuit);
+		module.getContext().setOptimizeConstraintTrace(builder.optimizeTrace);
 	}
 	
 	public EvlRunConfiguration(EvlRunConfiguration other) {
 		super(other);
+		IEvlModule module = getModule(), otherModule = other.getModule();
+		if (module instanceof EvlModule && otherModule instanceof EvlModule) {
+			((EvlModule) module).setOptimizeConstraints(((EvlModule) otherModule).isOptimizeConstraints());
+		}
+		IEvlContext context = module.getContext(), otherContext = otherModule.getContext();
+		context.setShortCircuit(otherContext.isShortCircuiting());
+		context.setOptimizeConstraintTrace(otherContext.isOptimizeConstraintTrace());
 	}
 	
 	@Override

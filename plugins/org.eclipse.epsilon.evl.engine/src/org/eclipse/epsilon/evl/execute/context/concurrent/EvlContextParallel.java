@@ -12,12 +12,12 @@ package org.eclipse.epsilon.evl.execute.context.concurrent;
 import java.util.Set;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
+import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
@@ -111,9 +111,9 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	}
 
 	@Override
-	public boolean shouldShortCircuit(AnnotatableModuleElement rule) throws EolRuntimeException {
+	public boolean shouldShortCircuit(Constraint constraint) throws EolRuntimeException {
 		if (!terminate) {
-			terminate = IEvlContextParallel.super.shouldShortCircuit(rule);
+			terminate = IEvlContextParallel.super.shouldShortCircuit(constraint);
 		}
 		return terminate;
 	}

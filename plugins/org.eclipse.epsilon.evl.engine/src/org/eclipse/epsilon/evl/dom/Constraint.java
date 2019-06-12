@@ -181,6 +181,9 @@ public class Constraint extends NamedRule {
 				fixInstance.setSelf(self);
 				unsatisfiedConstraintFixes.add(fixInstance);
 			}
+			
+			// Update the short-circuiting logic on fail
+			context.shouldShortCircuit(this);
 		}
 
 		// Don't dispose the frame we leave if unsatisfied because it may be needed for fix parts,
