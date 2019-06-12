@@ -16,7 +16,7 @@ import static org.junit.Assert.fail;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
-import org.eclipse.epsilon.emc.simulink.test.util.MatlabEngineFilesEnum;
+import org.eclipse.epsilon.emc.simulink.util.MatlabEngineSetupEnum;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class MatlabEngineTests {
 	public static void setup() {
 		try {
 			engine = MatlabEnginePool
-					.getInstance(MatlabEngineFilesEnum.LIBRARY_PATH.path(), MatlabEngineFilesEnum.ENGINE_JAR.path())
+					.getInstance(MatlabEngineSetupEnum.LIBRARY_PATH.path(), MatlabEngineSetupEnum.ENGINE_JAR.path())
 					.getMatlabEngine();
 		} catch (Exception e) {
 			throw new RuntimeException("could not setup the test class");

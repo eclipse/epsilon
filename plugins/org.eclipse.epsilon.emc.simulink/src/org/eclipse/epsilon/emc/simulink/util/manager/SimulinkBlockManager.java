@@ -29,7 +29,12 @@ public class SimulinkBlockManager extends AbstractManager<SimulinkBlock, Double>
 	}
 	
 	public Double getId(SimulinkBlock from) {
-		return from.getHandle();
+		return (Double) from.getHandle();
+	}
+
+	@Override
+	public SimulinkModel getModel() {
+		return (SimulinkModel) model;
 	}	
 	
 }

@@ -11,47 +11,35 @@ package org.eclipse.epsilon.emc.simulink.model;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Future;
 
 import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
-import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertyGetter;
-import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertySetter;
+import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
 import org.eclipse.epsilon.emc.simulink.operations.contributors.ModelOperationContributor;
-import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
-import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements IOperationContributorProvider {
+public class SimulinkModel extends AbstractSimulinkModel implements IOperationContributorProvider {
 
 	/** CONSTANTS */
-	public static final String PROPERTY_FILE = "file";
-	public static final String PROPERTY_LIBRARY_PATH = "library_path";
-	public static final String PROPERTY_ENGINE_JAR_PATH = "engine_jar_path";
 	public static final String PROPERTY_SHOW_IN_MATLAB_EDITOR = "hidden_editor";
 	public static final String PROPERTY_FOLLOW_LINKS = "follow_links";
 	public static final String PROPERTY_WORKING_DIR = "working_dir";
@@ -84,24 +72,18 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 
 	/** FIELDS */
 
-	protected File file = null;
-	protected SimulinkPropertyGetter propertyGetter;
-	protected SimulinkPropertySetter propertySetter;
 	protected ModelOperationContributor simulinkOperationContributor;
 
 	protected File workingDir = null;
-	protected String libraryPath;
-	protected String engineJarPath;
-	protected MatlabEngine engine;
-
+	
 	protected boolean showInMatlabEditor = false;
 	protected boolean followLinks = true;
 	protected double handle = -1;
 
 	@Override
 	protected void loadModel() throws EolModelLoadingException { 
+		super.loadModel();
 		try {
-			engine = MatlabEnginePool.getInstance(libraryPath, engineJarPath).getMatlabEngine();
 			simulinkOperationContributor = new ModelOperationContributor(engine);
 				
 			if ((workingDir != null && workingDir.exists())) {
@@ -137,15 +119,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		}
 	}
 	
-	@Override
-	protected void disposeModel() { 
-		try {
-			MatlabEnginePool.getInstance(libraryPath, engineJarPath).release(engine);
-		} catch (MatlabRuntimeException e) {
-			
-		}
-	}
-
+	
 	@Override
 	protected ISimulinkModelElement createInstanceInModel(String type)
 			throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException { 
@@ -259,20 +233,8 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		}
 	}
 	
-	@Override
-	protected Object getCacheKeyForType(String type) throws EolModelElementTypeNotFoundException { 
-		return type;		
-	}
 	
 	// COLLECTORS 
-
-	protected Collection<String> getAllTypeNamesOf(Object instance) { 
-		if (instance instanceof ISimulinkModelElement) {
-			return ((ISimulinkModelElement) instance).getAllTypeNamesOf();
-		} else {
-			return Arrays.asList(getTypeNameOf(instance));
-		}
-	}
 
 	@Override 
 	protected Collection<ISimulinkModelElement> allContentsFromModel() { 
@@ -306,27 +268,20 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		model.setStoredOnDisposal(false);
 		model.setShowInMatlabEditor(true);
 		model.setFollowLinks(false);
-		//model.setEngineJarPath(MatlabEngineFilesEnum.ENGINE_JAR.path());
-		//model.setLibraryPath(MatlabEngineFilesEnum.LIBRARY_PATH.path());
+		model.setLibraryPath("/Applications/MATLAB_R2018b.app/bin/maci64/");
+		model.setEngineJarPath("/Applications/MATLAB_R2018b.app/extern/engines/java/jar/engine.jar");
 		model.load();
 		System.out.println(model.getAllOfType("Gain"));
 	}
 
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException { 
 		super.load(properties, resolver);
-
-		String filePath = properties.getProperty(SimulinkModel.PROPERTY_FILE);
 		String workingDirPath = properties.getProperty(SimulinkModel.PROPERTY_WORKING_DIR);
-		if (properties.hasProperty(SimulinkModel.PROPERTY_LIBRARY_PATH))
-			libraryPath = properties.getProperty(SimulinkModel.PROPERTY_LIBRARY_PATH);
-		if (properties.hasProperty(SimulinkModel.PROPERTY_ENGINE_JAR_PATH))
-			engineJarPath = properties.getProperty(SimulinkModel.PROPERTY_ENGINE_JAR_PATH);
 		if (properties.hasProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR))
 			showInMatlabEditor = properties.getBooleanProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR, false);
 		if (properties.hasProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS))
 			followLinks = properties.getBooleanProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS, true);
-		if (filePath != null && filePath.trim().length() > 0)
-			file = new File(resolver.resolve(filePath));
+		String filePath = properties.getProperty(PROPERTY_FILE);
 		if (workingDirPath != null && workingDirPath.trim().length() > 0) {
 			workingDir = new File(resolver.resolve(filePath));
 		}			
@@ -385,8 +340,7 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		}
 		return ((instance instanceof ISimulinkModelElement) 
 				&& ((ISimulinkModelElement) instance).getOwningModel() == this ) 
-				|| (instance instanceof SimulinkModel)
-				|| (instance.getClass().getCanonicalName().startsWith("org.eclipse.epsilon.emc.simulink.types"));
+				|| (instance instanceof SimulinkModel);
 	}
 
 	@Override
@@ -406,11 +360,6 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	}
 
 	@Override
-	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {  
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public boolean isInstantiable(String type) { 
 		return hasType(type);
 	}
@@ -423,58 +372,15 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 		}
 		return name;
 	}
-	
-	@Override
-	public IPropertySetter getPropertySetter() { 
-		if (propertySetter == null) {
-			propertySetter = new SimulinkPropertySetter(engine);
-		}
-		return propertySetter;
-	}
-
-	@Override
-	public IPropertyGetter getPropertyGetter() { 
-		if (propertyGetter == null) {
-			propertyGetter = new SimulinkPropertyGetter();
-		}
-		return propertyGetter;
-	}
 
 	@Override
 	public OperationContributor getOperationContributor() { 
 		return simulinkOperationContributor;
 	}
 
-	public File getFile() { 
-		return file;
-	}
-
-	public void setFile(File file) { 
-		this.file = file;
-	}
-
-	public MatlabEngine getEngine() { 
-		return engine;
-	}
-
+	
 	public Double getHandle() { 
 		return handle;
-	}
-
-	public String getLibraryPath() { 
-		return libraryPath;
-	}
-
-	public void setLibraryPath(String libraryPath) { 
-		this.libraryPath = libraryPath;
-	}
-
-	public String getEngineJarPath() { 
-		return engineJarPath;
-	}
-
-	public void setEngineJarPath(String engineJarPath) { 
-		this.engineJarPath = engineJarPath;
 	}
 
 	public boolean isShowInMatlabEditor() {
@@ -508,35 +414,6 @@ public class SimulinkModel extends CachedModel<ISimulinkModelElement> implements
 	 */
 	public void setFollowLinks(boolean followLinks) {
 		this.followLinks = followLinks;
-	}
-
-	public Object parseMatlabEngineVariable(String variableName) throws MatlabException { 
-		return MatlabEngineUtil.parseMatlabEngineVariable(engine, variableName);
-	}
-	
-	public void statement(String statement) throws EolRuntimeException {
-		try{
-			engine.eval(statement);
-		} catch (MatlabException e) {
-			throw new EolRuntimeException(e.getMessage());
-		}
-	}
-	
-	public Object statementWithResult(String statement) throws EolRuntimeException {
-		try{
-			return engine.evalWithResult(statement);
-		} catch (MatlabException e) {
-			throw new EolRuntimeException(e.getMessage());
-		}
-	}
-	
-	public Object getWorkspaceVariable(String value) {
-		try {
-			return MatlabEngineUtil.parseMatlabEngineVariable(engine,value);
-		} catch (MatlabException e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 	
 	public Collection<ISimulinkModelElement> getChildren() throws MatlabException {

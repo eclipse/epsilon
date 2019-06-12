@@ -9,8 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.test.unit.type;
 
+import org.eclipse.epsilon.emc.simulink.common.test.FileUtils;
 import org.eclipse.epsilon.emc.simulink.test.util.AbstractTypeTests;
-import org.eclipse.epsilon.emc.simulink.test.util.FileUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 

@@ -29,7 +29,12 @@ public class SimulinkPortManager extends AbstractManager<SimulinkPort, Double> {
 	}
 	
 	public Double getId(SimulinkPort from) {
-		return from.getHandle();
+		return (Double) from.getHandle();
 	}	
+	
+	@Override
+	public SimulinkModel getModel() {
+		return (SimulinkModel) model;
+	}
 	
 }

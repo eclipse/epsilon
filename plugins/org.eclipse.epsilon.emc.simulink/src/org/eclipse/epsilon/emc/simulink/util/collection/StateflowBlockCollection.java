@@ -60,7 +60,7 @@ public class StateflowBlockCollection extends AbstractSimulinkCollection<Statefl
 		return new StateflowBlockIterator();
 	}
 		
-	protected class StateflowBlockIterator extends AbstractBlockIterator<StateflowBlock, Double, StateflowBlockManager>{
+	protected class StateflowBlockIterator extends AbstractElementIterator<StateflowBlock, Double, StateflowBlockManager>{
 		
 		StateflowBlockIterator(){
 			super(getPrimitive(), getManager());

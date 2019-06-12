@@ -29,7 +29,12 @@ public class SimulinkLineManager extends AbstractManager<SimulinkLine, Double> {
 	}
 	
 	public Double getId(SimulinkLine from) {
-		return from.getHandle();
+		return (Double) from.getHandle();
 	}	
+	
+	@Override
+	public SimulinkModel getModel() {
+		return (SimulinkModel) model;
+	}
 	
 }

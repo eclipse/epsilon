@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.emc.simulink.test.unit;
 
 import org.eclipse.epsilon.emc.simulink.test.util.AbstractSimulinkTest;
-import org.eclipse.epsilon.emc.simulink.test.util.FileUtils;
+import org.eclipse.epsilon.emc.simulink.common.test.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -6,14 +6,12 @@ Bundle-Version: 1.6.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.slf4j.api;bundle-version="1.7.2";visibility:=reexport,
- org.eclipse.epsilon.common
-Export-Package: org.eclipse.epsilon.emc.simulink.engine,
- org.eclipse.epsilon.emc.simulink.exception,
- org.eclipse.epsilon.emc.simulink.introspection.java,
+ org.eclipse.epsilon.common,
+ org.eclipse.epsilon.emc.simulink.common
+Export-Package: org.eclipse.epsilon.emc.simulink.introspection.java,
  org.eclipse.epsilon.emc.simulink.model,
  org.eclipse.epsilon.emc.simulink.model.element,
  org.eclipse.epsilon.emc.simulink.operations.contributors,
- org.eclipse.epsilon.emc.simulink.types,
  org.eclipse.epsilon.emc.simulink.util,
  org.eclipse.epsilon.emc.simulink.util.collection,
  org.eclipse.epsilon.emc.simulink.util.manager

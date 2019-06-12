@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.emc.simulink.model.element;
 
 import java.util.Collection;
-import java.util.Collections;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
@@ -37,15 +36,15 @@ public class SimulinkPort extends SimulinkElement {
 		// sometimes it might return an empty cell array and sometimes a -1 we dont know why
 		// in the -1 cases we found that the block had no connections and was masked, it might also be due to properties
 		if (lines.equals(-1.0) || lines.equals(-1)) {
-			return new SimulinkLineCollection(null, model);
+			return new SimulinkLineCollection(null, ((SimulinkModel)model));
 		}
 		try {
 			engine.eval("children = get_param(lines, 'LineChildren');");
 			children = engine.getVariable("children");
 			if (children != null) {
-				return new SimulinkLineCollection(children, model);
+				return new SimulinkLineCollection(children, ((SimulinkModel)model));
 			} else {
-				return new SimulinkLineCollection(lines, model);
+				return new SimulinkLineCollection(lines, ((SimulinkModel)model));
 			}
 		} catch (Exception e) {
 			throw new EolRuntimeException(e.getMessage());					

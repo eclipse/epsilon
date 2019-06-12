@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Simulink Common
+Bundle-SymbolicName: org.eclipse.epsilon.emc.simulink.common
+Bundle-Version: 1.6.0.qualifier
+Automatic-Module-Name: org.eclipse.epsilon.emc.simulink.common
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.slf4j.api;visibility:=reexport,
+ org.eclipse.epsilon.common
+Export-Package: org.eclipse.epsilon.emc.simulink.engine,
+ org.eclipse.epsilon.emc.simulink.exception,
+ org.eclipse.epsilon.emc.simulink.introspection.java,
+ org.eclipse.epsilon.emc.simulink.model,
+ org.eclipse.epsilon.emc.simulink.model.element,
+ org.eclipse.epsilon.emc.simulink.testmanager.model,
+ org.eclipse.epsilon.emc.simulink.types,
+ org.eclipse.epsilon.emc.simulink.util,
+ org.eclipse.epsilon.emc.simulink.util.collection,
+ org.eclipse.epsilon.emc.simulink.util.manager

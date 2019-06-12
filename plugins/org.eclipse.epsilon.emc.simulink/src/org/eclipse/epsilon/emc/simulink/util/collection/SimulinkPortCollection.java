@@ -67,7 +67,7 @@ public class SimulinkPortCollection extends AbstractSimulinkCollection<SimulinkP
 		return new SimulinkPortIterator();
 	}
 		
-	protected class SimulinkPortIterator extends AbstractBlockIterator<SimulinkPort, Double, SimulinkPortManager>{
+	protected class SimulinkPortIterator extends AbstractElementIterator<SimulinkPort, Double, SimulinkPortManager>{
 		
 		SimulinkPortIterator(){
 			super(getPrimitive(), getManager());

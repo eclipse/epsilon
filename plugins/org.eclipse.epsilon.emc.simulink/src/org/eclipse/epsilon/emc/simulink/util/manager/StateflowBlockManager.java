@@ -32,4 +32,8 @@ public class StateflowBlockManager extends AbstractManager<StateflowBlock, Doubl
 		return from.getId();
 	}	
 	
+	@Override
+	public SimulinkModel getModel() {
+		return (SimulinkModel) model;
+	}
 }

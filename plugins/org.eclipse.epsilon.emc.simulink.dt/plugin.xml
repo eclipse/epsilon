@@ -18,14 +18,4 @@
             class="org.eclipse.epsilon.emc.simulink.dt.SimulinkModelElementLocator">
       </modelElementLocator>
    </extension>
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            category="Epsilon"
-            class="org.eclipse.epsilon.emc.simulink.dt.SimulinkModelPreferencePage"
-            id="org.eclipse.epsilon.emc.simulink.dt.SimulinkModelPreferencePage"
-            name="Simulink">
-      </page>
-   </extension>
-
 </plugin>

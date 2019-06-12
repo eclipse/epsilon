@@ -9,8 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.test.unit;
 
-import static org.eclipse.epsilon.emc.simulink.test.util.MatlabEngineFilesEnum.ENGINE_JAR;
-import static org.eclipse.epsilon.emc.simulink.test.util.MatlabEngineFilesEnum.LIBRARY_PATH;
+import static org.eclipse.epsilon.emc.simulink.util.MatlabEngineSetupEnum.ENGINE_JAR;
+import static org.eclipse.epsilon.emc.simulink.util.MatlabEngineSetupEnum.LIBRARY_PATH;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.epsilon.emc.simulink.common.test.AssumeMatlabInstalled;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
-import org.eclipse.epsilon.emc.simulink.test.util.AssumeMatlabInstalled;
 import org.eclipse.epsilon.eol.EolModule;
 import org.junit.AfterClass;
 import org.junit.Before;

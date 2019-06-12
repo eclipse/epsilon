@@ -18,7 +18,7 @@ import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkLine;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkPort;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
-
+// FIXME Try to make generic
 public class SimulinkElementManager extends AbstractManager<ISimulinkElement, Double> {
 
 	public SimulinkElementManager(SimulinkModel model){
@@ -29,13 +29,13 @@ public class SimulinkElementManager extends AbstractManager<ISimulinkElement, Do
 		Kind kind = TypeHelper.getKind(getModel(), id);
 		switch (kind) {
 		case BLOCK:
-			return (ISimulinkElement) new SimulinkBlockManager(model).construct(id);
+			return (ISimulinkElement) new SimulinkBlockManager( getModel()).construct(id);
 		case LINE:
-			return (ISimulinkElement) new SimulinkLineManager(model).construct(id);
+			return (ISimulinkElement) new SimulinkLineManager(getModel()).construct(id);
 		case PORT:
-			return (ISimulinkElement) new SimulinkPortManager(model).construct(id);
+			return (ISimulinkElement) new SimulinkPortManager(getModel()).construct(id);
 		case STATEFLOW:
-			return (ISimulinkElement) new StateflowBlockManager(model).construct(id);
+			return (ISimulinkElement) new StateflowBlockManager(getModel()).construct(id);
 		default:
 			return null;
 		}
@@ -43,15 +43,20 @@ public class SimulinkElementManager extends AbstractManager<ISimulinkElement, Do
 	
 	public Double getId(ISimulinkElement from) {
 		if (from instanceof StateflowBlock) {
-			return new StateflowBlockManager(model).getId((StateflowBlock) from);
+			return new StateflowBlockManager(getModel()).getId((StateflowBlock) from);
 		} else if (from instanceof SimulinkLine) {
-			return new SimulinkLineManager(model).getId((SimulinkLine) from);
+			return new SimulinkLineManager(getModel()).getId((SimulinkLine) from);
 		} else if (from instanceof SimulinkPort) {
-			return new SimulinkPortManager(model).getId((SimulinkPort) from);
+			return new SimulinkPortManager(getModel()).getId((SimulinkPort) from);
 		} else if (from instanceof SimulinkBlock) {
-			return new SimulinkBlockManager(model).getId((SimulinkBlock) from);
+			return new SimulinkBlockManager(getModel()).getId((SimulinkBlock) from);
 		} 
 		return null;
+	}
+
+	@Override
+	public SimulinkModel getModel() {
+		return (SimulinkModel)model;
 	}	
 	
 }

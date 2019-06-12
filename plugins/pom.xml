@@ -65,8 +65,12 @@
     <module>org.eclipse.epsilon.emc.spreadsheets.google.dt</module>
     <module>org.eclipse.epsilon.emc.uml</module>
     <module>org.eclipse.epsilon.emc.uml.dt</module>
+    <module>org.eclipse.epsilon.emc.simulink.common</module>
+    <module>org.eclipse.epsilon.emc.simulink.common.dt</module>
     <module>org.eclipse.epsilon.emc.simulink</module>
     <module>org.eclipse.epsilon.emc.simulink.dt</module>
+    <module>org.eclipse.epsilon.emc.simulink.dictionary</module>
+    <module>org.eclipse.epsilon.emc.simulink.dictionary.dt</module>
     <module>org.eclipse.epsilon.emf.dt</module>
     <module>org.eclipse.epsilon.eml.dt</module>
     <module>org.eclipse.epsilon.eml.engine</module>

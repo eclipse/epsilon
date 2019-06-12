@@ -59,7 +59,7 @@ public class SimulinkLineCollection extends AbstractSimulinkCollection<SimulinkL
 		return new SimulinkLineIterator();
 	}
 		
-	protected class SimulinkLineIterator extends AbstractBlockIterator<SimulinkLine, Double, SimulinkLineManager>{
+	protected class SimulinkLineIterator extends AbstractElementIterator<SimulinkLine, Double, SimulinkLineManager>{
 		
 		SimulinkLineIterator(){
 			super(getPrimitive(), getManager());

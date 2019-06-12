@@ -55,13 +55,13 @@ public class SimulinkBlock extends SimulinkElement {
 
 	protected String getParentPath() throws MatlabRuntimeException { // FIXME could be simplified
 		SimulinkBlock parent = getParent();
-		return parent == null ? model.getSimulinkModelName() : parent.getPath();
+		return parent == null ? ((SimulinkModel)model).getSimulinkModelName() : parent.getPath();
 	}
 
 	public void setParent(SimulinkBlock parent) {
 		try {
 			String name = (String) getProperty("name");
-			String parentPath = parent == null ? model.getSimulinkModelName() : parent.getPath();
+			String parentPath = parent == null ? ((SimulinkModel)model).getSimulinkModelName() : parent.getPath();
 			Double newHandle = (Double) engine.evalWithResult(ADD_BLOCK_MAKE_NAME_UNIQUE_ON, getPath(),
 					parentPath + "/" + name);
 			engine.eval(HANDLE_DELETE_BLOCK_HANDLE, handle);
@@ -82,7 +82,7 @@ public class SimulinkBlock extends SimulinkElement {
 					return null;
 				}
 				try {
-					return new SimulinkBlock(parentPath, model, engine);
+					return new SimulinkBlock(parentPath, ((SimulinkModel)model), engine);
 				} catch (MatlabRuntimeException e) {
 					throw new MatlabRuntimeException("Unable to retrieve parent");
 				}
@@ -93,7 +93,7 @@ public class SimulinkBlock extends SimulinkElement {
 	}
 
 	public Collection<ISimulinkModelElement> getChildren() throws MatlabException {
-		return SimulinkUtil.getChildren(model, this);
+		return SimulinkUtil.getChildren(((SimulinkModel)model), this);
 	}
 
 	public SimulinkModelElement inspect() throws EolRuntimeException {
@@ -187,7 +187,7 @@ public class SimulinkBlock extends SimulinkElement {
 		try {
 			Object handles = engine.evalWithSetupAndResult("handle = ?; " + "ph = get_param(handle, 'PortHandles');",
 					"ph.Outport;", this.handle);
-			return new SimulinkPortCollection(handles, model);
+			return new SimulinkPortCollection(handles, ((SimulinkModel)model));
 		} catch (MatlabException e) {
 			e.printStackTrace();
 			return null;
@@ -198,7 +198,7 @@ public class SimulinkBlock extends SimulinkElement {
 		try {
 			Object handles = engine.evalWithSetupAndResult("handle = ?; " + "ph = get_param(handle, 'PortHandles');",
 					"ph.Inport;", this.handle);
-			return new SimulinkPortCollection(handles, model);
+			return new SimulinkPortCollection(handles, ((SimulinkModel)model));
 		} catch (MatlabException e) {
 			e.printStackTrace();
 			return null;

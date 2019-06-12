@@ -48,7 +48,7 @@ public class SimulinkUtil {
 	}
 	
 	public static String handleMethod(ISimulinkElement obj, String methodName, Object[] parameters) {
-		Double handle = obj.getHandle();
+		Object handle = obj.getHandle();
 		return handleMethod(handle, methodName, parameters);
 	}
 	
@@ -65,7 +65,7 @@ public class SimulinkUtil {
 	}
 	
 	public static String handleMethodWithResult(ISimulinkElement obj, String methodName, Object[] parameters) {
-		Double handle = obj.getHandle();
+		Object handle = obj.getHandle();
 		return handleMethodWithResult(handle, methodName, parameters);
 	}
 	

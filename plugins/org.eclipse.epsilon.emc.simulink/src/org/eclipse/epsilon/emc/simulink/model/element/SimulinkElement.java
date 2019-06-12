@@ -107,7 +107,7 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 	}
 
 	@Override
-	public Double getHandle() {
+	public Object getHandle() {
 		return this.handle;
 	}
 	

@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Simulink Dictionary
+Bundle-SymbolicName: org.eclipse.epsilon.emc.simulink.dictionary
+Bundle-Version: 1.6.0.qualifier
+Automatic-Module-Name: org.eclipse.epsilon.emc.simulink.dictionary
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.common,
+ org.eclipse.epsilon.emc.simulink.common
+Export-Package: org.eclipse.epsilon.emc.simulink.dictionary.model,
+ org.eclipse.epsilon.emc.simulink.dictionary.model.element,
+ org.eclipse.epsilon.emc.simulink.dictionary.util.collection,
+ org.eclipse.epsilon.emc.simulink.dictionary.util.manager

@@ -91,7 +91,7 @@ public class StateflowBlock extends SimulinkModelElement {
 	
 	private void setType() throws MatlabException {
 		if (this.id != null) {
-			String handle = StateflowUtil.getBlockHandleFromId(model, engine, this.id);
+			String handle = StateflowUtil.getBlockHandleFromId(((SimulinkModel)model), engine, this.id);
 			this.type = SimulinkModel.STATEFLOW + "." + (String) engine.evalWithResult(SIMPLE_TYPE, handle);
 		}
 	}
@@ -188,7 +188,7 @@ public class StateflowBlock extends SimulinkModelElement {
 	public String getPath() {
 		if (this.id != null) {
 			try {
-				String handle = StateflowUtil.getBlockHandleFromId(model, engine, id);
+				String handle = StateflowUtil.getBlockHandleFromId(((SimulinkModel)model), engine, id);
 				return (String) engine.evalWithResult("?.path;", handle);
 			} catch (MatlabException e) {}
 		}
@@ -202,10 +202,10 @@ public class StateflowBlock extends SimulinkModelElement {
 			String h = StateflowUtil.getBlockHandle(this);
 			try {
 				Double parentId = (Double) engine.evalWithResult("?.up.id;",h);
-				return new StateflowBlock(model, engine, parentId);
+				return new StateflowBlock(((SimulinkModel)model), engine, parentId);
 			} catch (MatlabException e) {
 				String path = (String) engine.evalWithResult("?.path;",h);
-				return new SimulinkBlock(path, model, engine);
+				return new SimulinkBlock(path, ((SimulinkModel)model), engine);
 			}
 		} catch (MatlabException e1) {
 			throw new EolRuntimeException(e1.getMessage());
@@ -263,9 +263,9 @@ public class StateflowBlock extends SimulinkModelElement {
 		try {
 			String handle = StateflowUtil.getBlockHandle(this);
 			Object children = (Object) this.engine.evalWithSetupAndResult("list = ?.find('-depth',1); list = setdiff(list, ?);", "get(list,'Id');", handle, handle);
-			return new StateflowBlockCollection(children, model);			
+			return new StateflowBlockCollection(children, ((SimulinkModel)model));			
 		} catch (MatlabException e) {
-			return new StateflowBlockCollection(null, model);
+			return new StateflowBlockCollection(null, ((SimulinkModel)model));
 		}
 	}
 
@@ -315,7 +315,12 @@ public class StateflowBlock extends SimulinkModelElement {
 	public SimulinkBlock asSimulink() throws EolRuntimeException {
 		Double h = SimulinkUtil.getHandle(this.getPath(), this.engine);
 		if (h >= 0) 
-			return new SimulinkBlock(model, engine, h);	
+			return new SimulinkBlock(((SimulinkModel)model), engine, h);	
 		throw new EolRuntimeException("This block does not have a simulink Nature");
+	}
+
+	@Override
+	public Double getHandle() {
+		return getId();
 	}
 }
