@@ -282,12 +282,12 @@ public class FileUtil {
 	 * @throws IOException
 	 * @since 1.6
 	 */
-	public static Map<Path, String> readDirectory(String dir) throws IOException {		
-		Map<Path, String> contents = new HashMap<>();
+	public static Map<Path, byte[]> readDirectory(String dir) throws IOException {		
+		Map<Path, byte[]> contents = new HashMap<>();
 		
 		for (Path path : ((Iterable<Path>)Files.walk(Paths.get(dir))::iterator)) {
 			if (Files.isRegularFile(path)) {
-				contents.put(path, new String(Files.readAllBytes(path)));
+				contents.put(path, Files.readAllBytes(path));
 			}
 		}
 		

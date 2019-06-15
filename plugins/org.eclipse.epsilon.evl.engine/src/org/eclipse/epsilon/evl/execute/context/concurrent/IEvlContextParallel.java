@@ -21,6 +21,18 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 public interface IEvlContextParallel extends IEvlContext, IErlContextParallel {
 
 	@Override
+	default void setShortCircuit(boolean shortCircuit) {
+		if (shortCircuit) {
+			getErrorStream().println("WARNING: short-circuiting not supported by "+getClass().getName());
+		}
+	}
+	
+	@Override
+	default boolean isShortCircuiting() {
+		return false;
+	}
+	
+	@Override
 	default EvlModuleParallel getModule() {
 		return (EvlModuleParallel) IEvlContext.super.getModule();
 	}

@@ -48,8 +48,8 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	}
 	
 	public static Collection<Supplier<? extends IEgxModule>> modules(boolean includeStandard) {
-		return parallelModules(THREADS, includeStandard ? EgxModule::new : null/*,
-			EgxModuleParallel::new, EgxModuleParallelAnnotation::new, EgxModuleParallelRules::new*/);
+		return parallelModules(THREADS, includeStandard ? EgxModule::new : null,
+			EgxModuleParallel::new, EgxModuleParallelAnnotation::new, EgxModuleParallelRules::new);
 	}
 	
 	public static Collection<EgxRunConfiguration> getScenarios(
@@ -63,8 +63,8 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		FileUtil.deleteDirectory(thriftBase+"ruby/output");
 	}
 	
-	public static Map<Path, String> getOutputFiles() throws IOException {
-		Map<Path, String> outputs = FileUtil.readDirectory(thriftBase+"ruby/output");
+	public static Map<Path, byte[]> getOutputFiles() throws IOException {
+		Map<Path, byte[]> outputs = FileUtil.readDirectory(thriftBase+"ruby/output");
 		//outputs.putAll(FileUtil.readDirectory(thriftBase+"java/output"));
 		return outputs;
 	}

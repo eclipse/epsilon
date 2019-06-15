@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.egx.engine.test.acceptance.equivalence;
 
 import static org.eclipse.epsilon.egx.engine.test.acceptance.EgxAcceptanceTestUtil.*;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import java.nio.file.Path;
 import java.util.*;
@@ -17,10 +18,7 @@ import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.launch.EgxRunConfiguration;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
 import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized.Parameters;
 
@@ -32,7 +30,7 @@ import org.junit.runners.Parameterized.Parameters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfiguration> {
 
-	static Map<Path, String> expectedOutput;
+	static Map<Path, byte[]> expectedOutput, actualOutput;
 	
 	public EgxModuleEquivalenceTests(EgxRunConfiguration configUnderTest) {
 		super(configUnderTest);
@@ -43,6 +41,7 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfigu
 		expectedConfigs = getScenarios(thriftInputs, Collections.singleton(EgxModule::new));
 		setUpEquivalenceTest();
 		expectedOutput = getOutputFiles();
+		deleteOutputDirectories();
 	}
 
 	@AfterClass
@@ -56,12 +55,28 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfigu
 	}
 	
 	@Test
-	public void _test0() {
+	@Override
+	public void _test0() throws Exception {
 		super.beforeTests();
+		actualOutput = getOutputFiles();
+		deleteOutputDirectories();
 	}
 	
 	@Test
 	public void testEquivalentOutput() throws Exception {
-		assertEquals(expectedOutput.values(), getOutputFiles().values());
+		
+		assertEquals(expectedOutput.size(), actualOutput.size());
+		assertEquals(expectedOutput.keySet(), actualOutput.keySet());
+		
+		Collection<byte[]>
+			expectedOutputs = expectedOutput.values(),
+			actualOutputs = actualOutput.values();
+		
+		Iterator<byte[]> actualIter = actualOutputs.iterator();
+		for (byte[] expectedBytes : expectedOutputs) {
+			assert actualIter.hasNext();
+			byte[] actualBytes = actualIter.next();
+			assertArrayEquals(expectedBytes, actualBytes);
+		}
 	}
 }
