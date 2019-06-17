@@ -78,7 +78,7 @@ public class EglTemplate {
 			listener.aboutToProcess(this);
 		}
 		
-		contents = module.execute(this, formatter).generatedText;
+		contents = module.execute(this, formatter).toString();
 
 		processed = true;
 

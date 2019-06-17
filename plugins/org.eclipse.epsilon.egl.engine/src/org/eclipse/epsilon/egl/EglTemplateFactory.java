@@ -34,9 +34,8 @@ public class EglTemplateFactory {
 
 	protected IEglContext context;
 	protected URI root;
-	private URI    templateRoot;
-	private String templateRootPath;
-	
+	private   URI  templateRoot;
+	private String templateRootPath;	
 	private Formatter defaultFormatter = new NullFormatter();
 	private IncrementalitySettings defaultIncrementalitySettings = new IncrementalitySettings();
 	private final Collection<ITemplateExecutionListener> listeners = new LinkedList<>();

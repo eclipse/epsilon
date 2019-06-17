@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -95,10 +96,11 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	}
 	
 	/**
-	 * This should be called after assigning expectedConfigs in
-	 * <code>setUpBeforeClass()</code>.
+	 * This should be called in <code>setUpBeforeClass()</code>.
 	 */
-	protected static void setUpEquivalenceTest() {
+	protected static void setUpEquivalenceTest(Collection<? extends IEolRunConfiguration> expectedConfs) {
+		Objects.requireNonNull(expectedConfs);
+		expectedConfigs = expectedConfs;
 		expectedConfigIDs = new HashMap<>(expectedConfigs.size());
 		
 		for (IEolRunConfiguration expectedConfig : expectedConfigs) {

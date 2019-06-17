@@ -95,8 +95,7 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		expectedConfigs = getScenarios(EvlModule::new);
-		setUpEquivalenceTest();
+		setUpEquivalenceTest(getScenarios(EvlModule::new));
 	}
 	
 	/**

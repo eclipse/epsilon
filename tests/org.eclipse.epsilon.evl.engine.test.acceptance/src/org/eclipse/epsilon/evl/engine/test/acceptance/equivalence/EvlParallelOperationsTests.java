@@ -86,8 +86,7 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 			inputsWithNesting, false, Collections.singleton(EvlModule::new), idCalculator
 		);
 		scenarios.addAll(getScenarios(inputsWithoutNesting, false, getTestModules(), idCalculator));
-		expectedConfigs = scenarios;
-		setUpEquivalenceTest();
+		setUpEquivalenceTest(scenarios);
 	}
 	
 	@SuppressWarnings("deprecation")

@@ -19,7 +19,7 @@ import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.concurrent.*;
-import org.eclipse.epsilon.egl.launch.EgxRunConfiguration;
+import org.eclipse.epsilon.egx.engine.test.acceptance.util.EgxRunConfigurationTest;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
 
 public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
@@ -52,10 +52,10 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 			EgxModuleParallel::new, EgxModuleParallelAnnotation::new, EgxModuleParallelRules::new);
 	}
 	
-	public static Collection<EgxRunConfiguration> getScenarios(
+	public static Collection<EgxRunConfigurationTest> getScenarios(
 		List<String[]> testInputs,
 		Collection<Supplier<? extends IEgxModule>> moduleGetters) {
-			return getScenarios(EgxRunConfiguration.class, testInputs, moduleGetters, null);
+			return getScenarios(EgxRunConfigurationTest.class, testInputs, moduleGetters, null);
 	}
 	
 	public static void deleteOutputDirectories() throws IOException {

@@ -60,7 +60,7 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 	
 	public EglModule(IEglContext context) {
-		setContext/*new EglContext*/(context);
+		setContext(/*new EglContext(*/context/*)*/);
 		preprocessorModule = new EglPreprocessorModule(context);
 	}
 
@@ -150,7 +150,7 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 	
 	@Override
-	public EglResult execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException {
+	public Object execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException {
 		IEglContext context = getContext();
 		context.enter(template);
 		
@@ -166,7 +166,7 @@ public class EglModule extends EolModule implements IEglModule {
 			throw new EglRuntimeException(problems.get(0), this);
 		}
 		
-		EglResult result = new EglResult(context.getOutputBuffer().toString());
+		String result = context.getOutputBuffer().toString();
 		
 		context.exit();
 		return result;

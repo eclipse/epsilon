@@ -29,6 +29,6 @@ public interface IEglModule extends IEolModule {
 		return (IEglContext) ((IEolModule) this).getContext();
 	}
 	
-	public EglResult execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException;
+	public Object execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException;
 
 }

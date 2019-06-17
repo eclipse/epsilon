@@ -36,15 +36,15 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 		super(other);
 	}
 
-	protected EglTemplateFactory getDefaultTemplateFactory() {
-		EglFileGeneratingTemplateFactory templateFactory = new EglFileGeneratingTemplateFactory();
-		try {
-			Path outputDir = (outputFile != null ? outputFile : script).getParent();
-			templateFactory.setOutputRoot(outputDir.toString());
-		}
-		catch (EglRuntimeException ex) {
-			ex.printStackTrace();
-		}
+	protected Path getDefaultOutputRoot() {
+		return (outputFile != null ? outputFile : script).getParent();
+	}
+	
+	protected EglTemplateFactory getDefaultTemplateFactory() throws EglRuntimeException {
+		EglFileGeneratingTemplateFactory templateFactory = new EglFileGeneratingTemplateFactory(
+			getModule().getTemplateFactory().getContext()
+		);
+		templateFactory.setOutputRoot(getDefaultOutputRoot().toString());
 		return templateFactory;
 	}
 	
@@ -62,10 +62,5 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 	public void preExecute() throws Exception {
 		getModule().setTemplateFactory(getDefaultTemplateFactory());
 		super.preExecute();
-	}
-	
-	@Override
-	protected void postExecute() throws Exception {
-		super.postExecute();
 	}
 }

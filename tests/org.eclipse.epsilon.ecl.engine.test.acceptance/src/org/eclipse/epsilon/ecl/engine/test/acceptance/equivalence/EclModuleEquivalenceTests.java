@@ -44,8 +44,7 @@ public class EclModuleEquivalenceTests extends EolEquivalenceTests<EclRunConfigu
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		expectedConfigs = getScenarios(EclModule::new);
-		setUpEquivalenceTest();
+		setUpEquivalenceTest(getScenarios(EclModule::new));
 	}
 	
 	@Override

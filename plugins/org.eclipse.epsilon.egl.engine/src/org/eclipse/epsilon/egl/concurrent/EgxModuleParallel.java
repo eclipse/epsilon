@@ -54,8 +54,10 @@ public class EgxModuleParallel extends EgxModule {
 	@Override
 	public Object executeImpl() throws EolRuntimeException {
 		prepareExecution();
-		int numberOfRules = getGenerationRules().size();
-		generateRules(getTemplateFactory(), ConcurrencyUtils.concurrentMap(numberOfRules, (numberOfRules/2)+1), getContext());
+		//final int numberOfRules = getGenerationRules().size();
+		generateRules(getTemplateFactory(),
+			/*ConcurrencyUtils.concurrentMap(numberOfRules, (numberOfRules/2)+1)*/null,
+			getContext());
 		postExecution();
 		return null;
 	}
