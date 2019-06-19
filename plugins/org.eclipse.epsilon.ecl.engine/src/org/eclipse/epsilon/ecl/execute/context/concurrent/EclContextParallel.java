@@ -14,7 +14,6 @@ import org.eclipse.epsilon.ecl.concurrent.EclModuleParallel;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
-import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 
 /**
@@ -77,6 +76,6 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 	
 	public static IEclContextParallel convertToParallel(IEclContext context) throws EolNestedParallelismException {
 		if (context instanceof IEclContextParallel) return (IEclContextParallel) context;
-		return IEolContextParallel.copyToParallel(context, EclContextParallel::new);
+		return new EclContextParallel(context);
 	}
 }

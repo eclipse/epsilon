@@ -43,27 +43,11 @@ public interface IEolContextParallel extends IEolContext {
 	int getParallelism();
 	
 	/**
-	 * This method signals the start of parallel execution. A typical implementation
-	 * should initialise thread-local data structures (if not already done so) and
-	 * make non-thread-local structures thread-safe. It should also set a flag to
-	 * indicate that parallel execution has begun; so that {@linkplain #isParallel()}
-	 * returns true.
-	 */
-	void goParallel();
-	
-	/**
-	 * This method signals the end of parallel execution. A typical implementation
-	 * should merge all useful data from thread-local structures into the original
-	 * structures, dispose of any variables and structures used during parallel
-	 * execution and shutdown the cached EolExecutorService.
-	 */
-	void endParallel();
-	
-	/**
-	 * This method will typically return true if execution of the associated
-	 * {@link IEolModule} has begun, and will return false if execution has ended or not started.
+	 * This method will return true if {@link #beginParallelTask()} has been called
+	 * and false if {@link #endParallelTask()} has been called, or {@link #beginParallelTask()}
+	 * has not been called yet.
 	 * 
-	 * @return whether this Context is currently executing in parallel mode.
+	 * @return Whether this Context is currently executing in parallel mode.
 	 */
 	boolean isParallel();
 	
@@ -82,7 +66,7 @@ public interface IEolContextParallel extends IEolContext {
 	 * @return <code>true</code> if calling {@link #enterParallelNest(ModuleElement)} is permitted.
 	 */
 	default boolean isParallelisationLegal() {
-		return isParallel() && isTopLevelThread();
+		return !isParallel() && isTopLevelThread();
 	}
 	
 	/**
@@ -117,7 +101,6 @@ public interface IEolContextParallel extends IEolContext {
 	 * @throws EolNestedParallelismException If there was already a parallel task in progress.
 	 */
 	default EolExecutorService beginParallelTask(ModuleElement entryPoint) throws EolNestedParallelismException {
-		if (!isParallel()) throw new IllegalStateException("Should be parallel!");
 		ensureNotNested(entryPoint != null ? entryPoint : getModule());
 		EolExecutorService executor = getExecutorService();
 		assert executor != null && !executor.isShutdown();
@@ -223,23 +206,7 @@ public interface IEolContextParallel extends IEolContext {
 		endParallelTask();
 		return result;
 	}
-	
-	/**
-	 * Copies the state of the given context into a new context and calls {@linkplain #goParallel()}.
-	 * @param context The source context to copy from.
-	 * @param parallelConstructor The copy constructor for the new context.
-	 * @return The newly created context.
-	 * @throws EolNestedParallelismException
-	 */
-	static <C extends IEolContext, P extends IEolContextParallel> P copyToParallel(
-			C context, Function<C, ? extends P> parallelConstructor)
-			throws EolNestedParallelismException {
 
-		P parallelContext = parallelConstructor.apply(context);
-		parallelContext.goParallel();
-		return parallelContext;
-	}
-	
 	/**
 	 * Convenience method for setting the parallelism on a context.
 	 * @param properties The parameter passed to the configure method of the module.

@@ -83,12 +83,12 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 			}
 			
 			try {
-				return (C) Stream.of(configClass.getConstructors())
+				return (C) Stream.of(configClass.getDeclaredConstructors())
 					.filter(constructor ->
-						constructor.getParameterCount() == 1 && 
-						Builder.class.isAssignableFrom(constructor.getParameterTypes()[0])
+						constructor.getParameterCount() == 1 &&
+						constructor.getParameterTypes()[0].isAssignableFrom(this.getClass())
 					)
-					.findAny()
+					.findFirst()
 					.orElseThrow(() -> new NoSuchMethodException("Couldn't find builder constructor for class '"+configClass.getName()+"'."))
 				.newInstance(this);
 			}

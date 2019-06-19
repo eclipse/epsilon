@@ -19,8 +19,7 @@ public class EglLexer {
 
 	private String program;
 	private int col = 1;
-	private int line = 1;
-	
+	private int line = 1;	
 	private int index = 0;
 	
 	public EglLexer(InputStream is) throws IOException {
@@ -38,12 +37,9 @@ public class EglLexer {
 	
 	public EglLexer(Reader reader) throws IOException {
 		final StringBuilder program = new StringBuilder();
-		int next = reader.read();
 		
-		while (next != -1) {
+		for (int next = reader.read(); next != -1; next = reader.read()) {
 			program.append(((char)next));
-			
-			next = reader.read();
 		}
 		
 		this.program = program.toString();
@@ -57,37 +53,35 @@ public class EglLexer {
 	}
 	
 	public EglToken nextToken() throws EglRecognitionException {
-		if (program.length()==0) {
+		if (program.isEmpty()) {
 			return tokenise(TokenType.EOF, "");
-		
-		} else if (program.startsWith("\r\n")) {
+		}
+		else if (program.startsWith("\r\n")) {
 			return tokenise(TokenType.NEW_LINE, "\r\n");
-			
-		} else if (program.startsWith("\n")) {
+		}
+		else if (program.startsWith("\n")) {
 			return tokenise(TokenType.NEW_LINE, "\n");
-			
-		} else if (program.startsWith("[*-")) {
+		}
+		else if (program.startsWith("[*-")) {
 			return tokenise(TokenType.START_MARKER_TAG, "[*-");
-			
-		} else if (program.startsWith("[*")) {
+		}
+		else if (program.startsWith("[*")) {
 			return tokenise(TokenType.START_COMMENT_TAG, "[*");
-		
-		} else if (program.startsWith("*]")) {
+		}
+		else if (program.startsWith("*]")) {
 			return tokenise(TokenType.END_COMMENT_TAG, "*]");
-		
-		} else if (program.startsWith("[%=")) {
+		}
+		else if (program.startsWith("[%=")) {
 			return tokenise(TokenType.START_OUTPUT_TAG, "[%=");
-		
-		} else if (program.startsWith("[%")) {
+		}
+		else if (program.startsWith("[%")) {
 			return tokenise(TokenType.START_TAG, "[%");
-		
-		} else if (program.startsWith("%]")) {
+		}
+		else if (program.startsWith("%]")) {
 			return tokenise(TokenType.END_TAG, "%]");
-		
-		} else {
-			
+		}
+		else {
 			for (index = 0; index < program.length(); index++) {
-				
 				// Check if any other token is next
 				if (programMatches("\n") || programMatches("\r\n") ||
 					programMatches("[%") || programMatches("%]")   ||
@@ -95,7 +89,6 @@ public class EglLexer {
 					
 					return tokenise(TokenType.PLAIN_TEXT, program.substring(0, index));
 				}
-				
 			}
 			
 			return tokenise(TokenType.PLAIN_TEXT, program);

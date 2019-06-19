@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
@@ -64,18 +63,6 @@ public class EgxModuleParallel extends EgxModule {
 	
 	protected void generateRules(EglTemplateFactory templateFactory, Map<URI, EglTemplate> templateCache, IEgxContextParallel context) throws EolRuntimeException {
 		generateRules(templateFactory);
-	}
-
-	@Override
-	protected void prepareExecution() throws EolRuntimeException {
-		super.prepareExecution();
-		getContext().goParallel();
-	}
-	
-	@Override
-	protected void postExecution() throws EolRuntimeException {
-		getContext().endParallel();
-		super.postExecution();
 	}
 	
 	@Override

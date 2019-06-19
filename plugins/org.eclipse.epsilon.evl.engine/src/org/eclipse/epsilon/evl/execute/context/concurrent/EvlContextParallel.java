@@ -14,7 +14,6 @@ import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
-import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -92,12 +91,8 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	}
 	
 	public static IEvlContextParallel convertToParallel(IEvlContext context) throws EolNestedParallelismException {
-		if (context instanceof IEvlContextParallel) {
-			IEvlContextParallel pContext = (IEvlContextParallel) context;
-			if (!pContext.isParallel()) pContext.goParallel();
-			return pContext;
-		}
-		return IEolContextParallel.copyToParallel(context, EvlContextParallel::new);
+		if (context instanceof IEvlContextParallel) return (IEvlContextParallel) context;
+		return new EvlContextParallel(context);
 	}
 
 	@Override

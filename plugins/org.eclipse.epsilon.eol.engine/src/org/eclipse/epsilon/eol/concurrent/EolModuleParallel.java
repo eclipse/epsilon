@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
@@ -36,19 +35,6 @@ public class EolModuleParallel extends EolModule {
 	
 	public EolModuleParallel(int numThreads) {
 		setContext(new EolContextParallel(numThreads));
-	}
-	
-	@Override
-	protected void prepareContext() {
-		super.prepareContext();
-		getContext().goParallel();
-	}
-	
-	@Override
-	public Object executeImpl() throws EolRuntimeException {
-		Object result = super.executeImpl();
-		getContext().endParallel();
-		return result;
 	}
 	
 	@Override

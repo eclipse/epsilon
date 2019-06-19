@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.Map;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.evl.EvlModule;
@@ -35,18 +34,6 @@ public class EvlModuleParallel extends EvlModule {
 	
 	public EvlModuleParallel(int parallelism) {
 		setContext(new EvlContextParallel(parallelism));
-	}
-	
-	@Override
-	protected void prepareExecution() throws EolRuntimeException {
-		super.prepareExecution();
-		getContext().goParallel();
-	}
-	
-	@Override
-	protected void postExecution() throws EolRuntimeException {
-		getContext().endParallel();
-		super.postExecution();
 	}
 	
 	@Override

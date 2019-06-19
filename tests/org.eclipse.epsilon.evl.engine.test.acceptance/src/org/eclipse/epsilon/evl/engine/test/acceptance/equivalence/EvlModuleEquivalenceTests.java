@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.evl.engine.test.acceptance.equivalence;
 
 import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
+import static org.junit.Assert.assertTrue;
 import static org.eclipse.epsilon.evl.engine.test.acceptance.EvlAcceptanceTestUtil.*;
 import java.util.*;
 import java.util.function.Function;
@@ -146,5 +147,12 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 			testConfig.getModule().getContext().getConstraintsDependedOn(),
 			"Constraints depended on"
 		));
+	}
+	
+	@Override
+	public void testFrameStacks() {
+		assertTrue("No missing variables",
+			getFrameStackAsString(currentTestConfig).containsAll(getFrameStackAsString(expectedConfig))
+		);
 	}
 }

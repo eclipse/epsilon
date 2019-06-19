@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Set;
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.*;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
@@ -38,18 +37,6 @@ public class EclModuleParallel extends EclModule {
 	
 	public EclModuleParallel(int parallelism) {
 		setContext(new EclContextParallel(parallelism));
-	}
-	
-	@Override
-	protected void prepareExecution() throws EolRuntimeException {
-		super.prepareExecution();
-		getContext().goParallel();
-	}
-	
-	@Override
-	protected void postExecution() throws EolRuntimeException {
-		getContext().endParallel();
-		super.postExecution();
 	}
 	
 	@Override

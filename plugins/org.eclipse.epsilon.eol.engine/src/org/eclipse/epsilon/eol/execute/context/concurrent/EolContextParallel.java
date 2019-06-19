@@ -42,7 +42,7 @@ import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 public class EolContextParallel extends EolContext implements IEolContextParallel {
 
 	protected final int numThreads;
-	protected boolean isParallel, isInParallelTask;
+	protected boolean isInParallelTask;
 	protected final boolean isPersistent;
 	protected EolExecutorService executorService;
 	
@@ -128,7 +128,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @return The appropriate value for the current thread.
 	 */
 	protected <R> R parallelGet(ThreadLocal<? extends R> threadLocal, Supplier<? extends R> originalValueGetter) {
-		return threadLocal != null && isParallel() && !isTopLevelThread() ? threadLocal.get() : originalValueGetter.get();
+		return threadLocal != null && !isTopLevelThread() ? threadLocal.get() : originalValueGetter.get();
 	}
 	
 	/**
@@ -141,7 +141,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @return The appropriate value for the current thread.
 	 */
 	protected <R> R parallelGet(ThreadLocal<? extends R> threadLocal, R originalValue) {
-		return threadLocal != null && isParallel() && !isTopLevelThread() ? threadLocal.get() : originalValue;
+		return threadLocal != null && !isTopLevelThread() ? threadLocal.get() : originalValue;
 	}
 	
 	/**
@@ -152,7 +152,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @param originalValueSetter The non-thread-local value (will be set if not parallel).
 	 */
 	protected <T> void parallelSet(T value, ThreadLocal<? super T> threadLocal, Consumer<? super T> originalValueSetter) {
-		if (threadLocal != null && isParallel() && !isTopLevelThread())
+		if (threadLocal != null && !isTopLevelThread())
 			threadLocal.set(value);
 		else
 			originalValueSetter.accept(value);
@@ -189,20 +189,21 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	@Override
 	protected void finalize() {
-		endParallel();
-	}
-	
-	@Override
-	public boolean isParallelisationLegal() {
-		return !isInParallelTask;
+		clearThreadLocals();
+		nullifyThreadLocals();
+		shutdownExecutor();
 	}
 	
 	@Override
 	public EolExecutorService beginParallelTask(ModuleElement entryPoint) throws EolNestedParallelismException {
+		ensureNotNested(entryPoint != null ? entryPoint : getModule());
 		concurrentFrameStacks = null;
-		clearThreadLocals();
 		initThreadLocals();
-		EolExecutorService executor = IEolContextParallel.super.beginParallelTask(entryPoint);
+		EolExecutorService executor = getExecutorService();
+		assert executor != null && !executor.isShutdown();
+		if (!executor.getExecutionStatus().register()) {
+			throw new EolNestedParallelismException(entryPoint);
+		}
 		isInParallelTask = true;
 		return executor;
 	}
@@ -211,33 +212,18 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	public Object endParallelTask() throws EolRuntimeException {
 		Object result = IEolContextParallel.super.endParallelTask();
 		shutdownExecutor();
+		clearThreadLocals();
 		isInParallelTask = false;
 		return result;
 	}
-	
-	@Override
-	public void goParallel() {
-		if (!isParallel) {
-			initThreadLocals();
-			isParallel = true;
-		}
-	}
-	
-	@Override
-	public void endParallel() {
-		isParallel = false;
-		shutdownExecutor();
-		clearThreadLocals();
-		nullifyThreadLocals();
-	}
-	
+
 	public boolean isPersistent() {
 		return isPersistent;
 	}
 	
 	@Override
 	public boolean isParallel() {
-		return isParallel;
+		return isInParallelTask;
 	}
 	
 	@Override
@@ -284,11 +270,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	public static IEolContextParallel convertToParallel(IEolContext context) throws EolNestedParallelismException {
-		if (context instanceof IEolContextParallel) {
-			IEolContextParallel pContext = (IEolContextParallel) context;
-			if (!pContext.isParallel()) pContext.goParallel();
-			return pContext;
-		}
-		return IEolContextParallel.copyToParallel(context, EolContextParallel::new);
+		if (context instanceof IEolContextParallel) return (IEolContextParallel) context;
+		return new EolContextParallel(context);
 	}
 }

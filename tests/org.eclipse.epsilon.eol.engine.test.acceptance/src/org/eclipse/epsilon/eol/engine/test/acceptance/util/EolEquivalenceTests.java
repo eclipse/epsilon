@@ -176,42 +176,45 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 		);
 	}
 	
-	@Test
-	public void testFrameStacks() {
-		Function<IEolRunConfiguration, List<String>> fsMapper = cfg -> cfg
-			.getModule().getContext().getFrameStack()
+	public static List<String> getFrameStackAsString(IEolRunConfiguration config) {
+		return config.getModule().getContext().getFrameStack()
 			.getFrames().stream()
 			.map(Frame::getAll)
 			.map(Map::keySet)
 			.flatMap(Set::stream)
 			.collect(Collectors.toList());
-		
+	}
+	
+	@Test
+	public void testFrameStacks() {
 		onFail(testCollectionsHaveSameElements(
-			fsMapper.apply(expectedConfig),
-			fsMapper.apply(testConfig),
+			getFrameStackAsString(expectedConfig),
+			getFrameStackAsString(testConfig),
 			"FrameStacks"
 		));
 	}
 	
+	public static List<ModuleElement> getStackTraceModuleElements(IEolRunConfiguration config) {
+		return config.getModule().getContext().getExecutorFactory().getStackTraceManager().getStackTrace();
+	}
+	
 	@Test
 	public void testExecutorFactories() {
-		Function<IEolRunConfiguration, List<ModuleElement>> stackTraceGetter =
-			cfg -> cfg.getModule().getContext().getExecutorFactory().getStackTraceManager().getStackTrace();
-		
 		assertEquals("Same stack traces",
-			stackTraceGetter.apply(expectedConfig),
-			stackTraceGetter.apply(testConfig)
+			getStackTraceModuleElements(expectedConfig),
+			getStackTraceModuleElements(testConfig)
 		);
+	}
+	
+	public static Collection<OperationContributor> getOperationContributors(IEolRunConfiguration config) {
+		return config.getModule().getContext().getOperationContributorRegistry().stream().collect(Collectors.toSet());
 	}
 	
 	@Test
 	public void testOperationContributorRegistries() {
-		Function<IEolRunConfiguration, Collection<OperationContributor>> contributors = cfg ->
-			cfg.getModule().getContext().getOperationContributorRegistry().stream().collect(Collectors.toSet());
-	
 		Collection<OperationContributor>
-			expectedOCs = contributors.apply(expectedConfig),
-			actualOCs = contributors.apply(testConfig);
+			expectedOCs = getOperationContributors(expectedConfig),
+			actualOCs = getOperationContributors(testConfig);
 
 		onFail(printIfDifferent(
 			actualOCs.size() < expectedOCs.size(),
