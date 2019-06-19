@@ -7,7 +7,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio Garcia-Dominguez - revised assertions
- *     Sina Madani - parallel operations
+ *     Sina Madani - parallel operations, automatic substitution
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations;
 
@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.*;
 import org.eclipse.epsilon.eol.execute.operations.declarative.concurrent.*;
@@ -86,7 +87,10 @@ public class EolOperationFactory {
 		if (isOverridenDelegate(originalOp)) {
 			return originalOp;
 		}
-		else if (originalOp != null && context instanceof IEolContextParallel && !name.startsWith("parallel") && ((IEolContextParallel)context).isParallelisationLegal()) {
+		// TODO: Further testing to ensure this is really safe, hence restricted application for now
+		else if (originalOp != null && context.getClass().equals(EolContextParallel.class) &&
+				!name.startsWith("parallel") && ((IEolContextParallel)context).isParallelisationLegal()) {
+			
 			AbstractOperation parallelOp = operationCache.get("parallel" + StringUtil.firstToUpper(name));
 			if (parallelOp != null) return parallelOp;
 		}

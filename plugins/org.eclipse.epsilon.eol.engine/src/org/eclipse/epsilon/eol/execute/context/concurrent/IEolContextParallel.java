@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
-import static org.eclipse.epsilon.common.concurrent.ConcurrencyUtils.isTopLevelThread;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -56,8 +55,6 @@ public interface IEolContextParallel extends IEolContext {
 	 * @return a cached {@link EolExecutorService}.
 	 */
 	EolExecutorService getExecutorService();
-	
-	//Convenience methods
 
 	/**
 	 * Convenience method for testing whether to perform an operation in parallel using
@@ -65,9 +62,7 @@ public interface IEolContextParallel extends IEolContext {
 	 * 
 	 * @return <code>true</code> if calling {@link #enterParallelNest(ModuleElement)} is permitted.
 	 */
-	default boolean isParallelisationLegal() {
-		return !isParallel() && isTopLevelThread();
-	}
+	boolean isParallelisationLegal();
 	
 	/**
 	 * This method should be called prior to performing any parallel execution.

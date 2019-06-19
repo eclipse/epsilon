@@ -289,7 +289,7 @@ class FrameStackRegion {
 	 * @since 1.6
 	 */
 	static void mergeFrames(FrameStackRegion from, FrameStackRegion to) {
-		if (from != null && to != null && from.frames != null && !from.frames.isEmpty()) {
+		if (from != null && to != null && from.frames != null) synchronized (from) {
 			Deque<SingleFrame> framesToAdd = new ArrayDeque<>(from.frames);
 			
 			framesToAdd.removeIf(frame -> frame.getAll().isEmpty());
