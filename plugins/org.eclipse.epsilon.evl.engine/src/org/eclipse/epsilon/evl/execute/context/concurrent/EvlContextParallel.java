@@ -9,11 +9,12 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.execute.context.concurrent;
 
+import java.util.HashSet;
 import java.util.Set;
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
+import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -28,6 +29,7 @@ import org.eclipse.epsilon.evl.trace.ConstraintTrace;
  */
 public class EvlContextParallel extends ErlContextParallel implements IEvlContextParallel {
 
+	protected ThreadLocal<Set<UnsatisfiedConstraint>> concurrentUnsatisfiedConstraints;
 	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints;
 	protected ConstraintTrace constraintTrace;
 	protected boolean optimizeConstraintTrace = false;
@@ -55,7 +57,25 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	protected void initMainThreadStructures() {
 		super.initMainThreadStructures();
 		constraintTrace = new ConstraintTrace(true);
-		unsatisfiedConstraints = ConcurrencyUtils.concurrentSet(64, numThreads);
+		unsatisfiedConstraints = new HashSet<>(0);
+	}
+	
+	@Override
+	protected void initThreadLocals() {
+		super.initThreadLocals();
+		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(numThreads, HashSet::new);
+	}
+	
+	@Override
+	protected void clearThreadLocals() {
+		super.clearThreadLocals();
+		if (concurrentUnsatisfiedConstraints instanceof PersistentThreadLocal) {
+			if (unsatisfiedConstraints == null) {
+				unsatisfiedConstraints = new HashSet<>();
+			}
+			((PersistentThreadLocal<Set<UnsatisfiedConstraint>>) concurrentUnsatisfiedConstraints)
+				.getAll().forEach(unsatisfiedConstraints::addAll);
+		}
 	}
 	
 	@Override
@@ -72,7 +92,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	
 	@Override
 	public Set<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
-		return unsatisfiedConstraints;
+		return parallelGet(concurrentUnsatisfiedConstraints, unsatisfiedConstraints);
 	}
 
 	@Override
