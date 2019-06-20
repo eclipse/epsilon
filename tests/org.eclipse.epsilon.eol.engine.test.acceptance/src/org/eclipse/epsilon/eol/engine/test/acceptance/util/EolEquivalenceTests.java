@@ -68,6 +68,8 @@ import org.junit.runner.RunWith;
  * 
  * The last two requirements are a workaround for JUnit's inadequate @Before semantics.
  * 
+ * @param C The type of run configuration (and thus, module) under test.
+ * 
  * @see EolAcceptanceTestUtil
  * @author Sina Madani
  */
@@ -97,6 +99,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	
 	/**
 	 * This should be called in <code>setUpBeforeClass()</code>.
+	 * @param expectedConfs The oracle configurations.
 	 */
 	protected static void setUpEquivalenceTest(Collection<? extends IEolRunConfiguration> expectedConfs) {
 		Objects.requireNonNull(expectedConfs);

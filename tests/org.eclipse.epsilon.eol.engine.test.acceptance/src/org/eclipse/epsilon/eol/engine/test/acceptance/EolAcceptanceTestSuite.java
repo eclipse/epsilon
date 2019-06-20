@@ -58,6 +58,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	FirstOrderOperationAdvancedTests.class,
 	FirstOrderOperationExceptionHandlingTests.class,
 	SequentialFirstOrderOperationTests.class,
+	EolModuleEquivalenceTests.class,
 	NestedParallelOperationTests.class,
 	AutoParallelOperationTests.class,
 	LambdaExpressionTests.class,
