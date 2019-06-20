@@ -29,11 +29,11 @@ import org.eclipse.epsilon.evl.trace.ConstraintTrace;
  */
 public class EvlContextParallel extends ErlContextParallel implements IEvlContextParallel {
 
-	protected ThreadLocal<Set<UnsatisfiedConstraint>> concurrentUnsatisfiedConstraints;
+	protected PersistentThreadLocal<Set<UnsatisfiedConstraint>> concurrentUnsatisfiedConstraints;
 	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints;
 	protected ConstraintTrace constraintTrace;
 	protected boolean optimizeConstraintTrace = false;
-	protected boolean shortCircuit = false;
+	protected boolean shortCircuiting = false;
 	protected /*volatile*/ boolean terminate = false;
 	
 	public EvlContextParallel() {
@@ -73,9 +73,10 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 			if (unsatisfiedConstraints == null) {
 				unsatisfiedConstraints = new HashSet<>();
 			}
-			((PersistentThreadLocal<Set<UnsatisfiedConstraint>>) concurrentUnsatisfiedConstraints)
-				.getAll().forEach(unsatisfiedConstraints::addAll);
+			concurrentUnsatisfiedConstraints.getAll().forEach(unsatisfiedConstraints::addAll);
+			concurrentUnsatisfiedConstraints.removeAll();
 		}
+		concurrentUnsatisfiedConstraints = null;
 	}
 	
 	@Override
@@ -117,12 +118,12 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 
 	@Override
 	public boolean isShortCircuiting() {
-		return shortCircuit;
+		return shortCircuiting;
 	}
 
 	@Override
 	public void setShortCircuit(boolean shortCircuit) {
-		this.shortCircuit = shortCircuit;
+		this.shortCircuiting = shortCircuit;
 	}
 
 	@Override
