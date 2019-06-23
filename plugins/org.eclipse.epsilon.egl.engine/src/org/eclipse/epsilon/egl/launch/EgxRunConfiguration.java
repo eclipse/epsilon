@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.launch;
 
-import java.nio.file.Path;
+import java.net.URI;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
@@ -36,8 +36,8 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 		super(other);
 	}
 
-	protected Path getDefaultOutputRoot() {
-		return (outputFile != null ? outputFile : script).getParent();
+	protected URI getDefaultOutputRoot() {
+		return (outputFile != null ? outputFile : script).getParent().toUri();
 	}
 	
 	protected EglTemplateFactory getDefaultTemplateFactory() throws EglRuntimeException {
@@ -60,7 +60,7 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 	
 	@Override
 	public void preExecute() throws Exception {
-		getModule().setTemplateFactory(getDefaultTemplateFactory());
+		getModule().getContext().setTemplateFactory(getDefaultTemplateFactory());
 		super.preExecute();
 	}
 }

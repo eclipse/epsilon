@@ -56,9 +56,9 @@ public class EclAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	
 	public static Collection<Supplier<? extends IEclModule>> modules() {
 		return parallelModules(THREADS,
-			EclModule::new/*,
+			EclModule::new,
 			EclModuleParallel::new,
-			EclModuleParallelAnnotation::new,
+			EclModuleParallelAnnotation::new/*,
 			EclModuleParallelRules::new*/
 		);
 	}

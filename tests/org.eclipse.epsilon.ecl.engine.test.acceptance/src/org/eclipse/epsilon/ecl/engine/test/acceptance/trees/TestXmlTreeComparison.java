@@ -10,12 +10,11 @@
 package org.eclipse.epsilon.ecl.engine.test.acceptance.trees;
 
 import java.io.File;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestUtil;
-import org.eclipse.epsilon.ecl.trace.Match;
+import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.junit.Before;
@@ -58,7 +57,7 @@ public class TestXmlTreeComparison {
 	
 	@Test
 	public void testCorrectNumberOfMatches() throws Exception {
-		Collection<Match> reducedMatches = module.getContext().getMatchTrace().getReduced().getMatches();
+		MatchTrace reducedMatches = module.getContext().getMatchTrace().getReduced();
 		// t1 and t2 should match only
 		assertEquals(2, reducedMatches.size());
 	}
@@ -70,11 +69,8 @@ public class TestXmlTreeComparison {
 	 */
 	@Test
 	public void testCorrectTrace() throws Exception {
-		Collection<Match> allMatches = module.getContext().getMatchTrace().getMatches();
-		Collection<Match> tempMatches = module.getContext().getTempMatchTrace().getMatches();
-		
+		MatchTrace allMatches = module.getContext().getMatchTrace();
 		assertEquals(15, allMatches.size());
-		assertTrue(tempMatches.isEmpty());
 	}
 	
 	@Test

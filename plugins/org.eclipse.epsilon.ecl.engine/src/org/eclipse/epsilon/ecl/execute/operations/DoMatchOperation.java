@@ -40,7 +40,7 @@ public class DoMatchOperation extends MatchesOperation {
 		for (Object left : leftColFlat) {
 			for (Object right : rightColFlat) {
 				// Note the bitwise operator - we don't want to short-circuit!
-				match &= matchInstances(left, right, context, forcedMatch);
+				match &= matchInstances(left, right, context);
 			}
 		}
 

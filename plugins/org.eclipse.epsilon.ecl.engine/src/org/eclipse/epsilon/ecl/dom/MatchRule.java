@@ -51,11 +51,9 @@ public class MatchRule extends ExtensibleNamedRule {
 	}
 	
 	public boolean appliesTo(Object left, Object right, IEclContext context, boolean ofTypeOnly) throws EolRuntimeException {
-		
-		boolean appliesToTypes = getAllInstances(leftParameter, context, !(!ofTypeOnly || isGreedy())).contains(left) &&
-			getAllInstances(rightParameter, context, !(!ofTypeOnly || isGreedy())).contains(right);
-		
-		boolean guardSatisfied = true;
+		final boolean guardSatisfied, oto = !(!ofTypeOnly || isGreedy());
+		final boolean appliesToTypes = getAllInstances(leftParameter, context, oto).contains(left) &&
+			getAllInstances(rightParameter, context, oto).contains(right);
 		
 		if (!isAbstract() && appliesToTypes && guardBlock != null) {
 			guardSatisfied = guardBlock.execute(context, 
@@ -64,6 +62,7 @@ public class MatchRule extends ExtensibleNamedRule {
 				Variable.createReadOnlyVariable("self", this)
 			);
 		}
+		else guardSatisfied = true;
 		
 		return appliesToTypes && guardSatisfied;
 	}
@@ -83,12 +82,12 @@ public class MatchRule extends ExtensibleNamedRule {
 		
 		// Try to find a rule with ofTypeOnly = true
 		if (appliesTo(leftInstance, rightInstance, context, true)) {
-			match(leftInstance, rightInstance, context, false, null, false);
+			match(leftInstance, rightInstance, context, null, false);
 		}
 		//TODO: Why both branches do same thing?
 		// Else find a rule with onlyOfClass = false
 		else if (appliesTo(leftInstance, rightInstance, context, false)) {
-			match(leftInstance, rightInstance, context, false, null, false);
+			match(leftInstance, rightInstance, context, null, false);
 		}
 	}
 	
@@ -103,19 +102,18 @@ public class MatchRule extends ExtensibleNamedRule {
 	 * @throws EolRuntimeException
 	 */
 	//TOOD: Variables defined in the guard should be accessible in the compare and do parts
-	public Match match(Object left, Object right, IEclContext context, boolean asSuperRule, EolMap<?, ?> matchInfo, boolean forcedMatch) throws EolRuntimeException {
-		MatchTrace matchTrace = context.getMatchTrace();
-		MatchTrace tempMatchTrace = context.getTempMatchTrace();
+	public Match match(Object left, Object right, IEclContext context, EolMap<?, ?> matchInfo, boolean forcedMatch) throws EolRuntimeException {
+		MatchTrace matchTrace = context.getMatchTrace(), tempMatchTrace = context.getTempMatchTrace();
 		Match match = null, tempMatch = null;
-		
+		boolean asSuperRule = matchInfo != null;
+		 
 		if (!asSuperRule) {
 			// See if there is a match for left<->right in the temp match trace
 			// If there is no match in the temp trace, create one
 			// and add it to the temp trace
 			// Else, return the temp match
 			if ((tempMatch = tempMatchTrace.getMatch(left, right)) == null) {
-				tempMatch = new Match(left, right, true, this);
-				tempMatchTrace.getMatches().add(tempMatch);
+				tempMatchTrace.add(tempMatch = new Match(left, right, true, this));
 			}
 			else {
 				return tempMatch;
@@ -123,7 +121,7 @@ public class MatchRule extends ExtensibleNamedRule {
 			
 			// See if left<->right have been already matched
 			if ((match = matchTrace.getMatch(left, right)) != null) {
-				tempMatchTrace.getMatches().remove(tempMatch);
+				tempMatchTrace.remove(tempMatch);
 				return match;
 			}
 		}
@@ -138,14 +136,14 @@ public class MatchRule extends ExtensibleNamedRule {
 			boolean matching = true;
 			for (ExtensibleNamedRule rule : superRules) {
 				MatchRule matchRule = (MatchRule) rule;
-				Match superRuleMatch = matchRule.match(left, right, context, true, match.getInfo(), false);
+				Match superRuleMatch = matchRule.match(left, right, context, match.getInfo(), false);
 				matching = matching && superRuleMatch.isMatching();
 			}
 			match.setMatching(matching);
 			
-			if (matching == false) {
-				tempMatchTrace.getMatches().remove(tempMatch);
-				matchTrace.getMatches().add(match);
+			if (!matching) {
+				tempMatchTrace.remove(tempMatch);
+				matchTrace.add(match);
 				return match;
 			}
 		}
@@ -174,7 +172,7 @@ public class MatchRule extends ExtensibleNamedRule {
 		if (!asSuperRule) {
 			// Before exiting remove the temp match
 			// we created from the temp match trace
-			tempMatchTrace.getMatches().remove(tempMatch);
+			tempMatchTrace.remove(tempMatch);
 			
 			// If there are temp matches, it means
 			// that the matching decision is based
@@ -183,8 +181,8 @@ public class MatchRule extends ExtensibleNamedRule {
 			// add a permanent match
 			
 			//TODO : See if this affects cyclic dependencies
-			if (forcedMatch || tempMatchTrace.getMatches().isEmpty()) {
-				matchTrace.getMatches().add(match);
+			if (forcedMatch || tempMatchTrace.isEmpty()) {
+				matchTrace.add(match);
 			}
 		}
 		

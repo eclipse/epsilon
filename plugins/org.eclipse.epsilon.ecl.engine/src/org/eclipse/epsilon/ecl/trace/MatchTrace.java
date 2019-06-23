@@ -11,13 +11,19 @@ package org.eclipse.epsilon.ecl.trace;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
-public class MatchTrace {
+/**
+ * 
+ *
+ * @since 1.6 Can be accessed through Collection API rather than getMatches for convenience
+ */
+public class MatchTrace implements Collection<Match> {
 	
 	/**
 	 * All matches tried during the  execution of an ECL module
@@ -36,7 +42,7 @@ public class MatchTrace {
 	
 	public MatchTrace(MatchTrace copy) {
 		this(copy.matches.getClass().getSimpleName().contains("Concurrent"));
-		this.getMatches().addAll(copy.getMatches());
+		this.matches.addAll(copy.matches);
 	}
 	
 	/**
@@ -46,7 +52,7 @@ public class MatchTrace {
 		MatchTrace reduced = new MatchTrace();
 		for (Match match : matches) {
 			if (match.isMatching()) {
-				reduced.getMatches().add(match);
+				reduced.add(match);
 			}
 		}
 		return reduced;
@@ -54,12 +60,12 @@ public class MatchTrace {
 	
 	public Match add(Object left, Object right, boolean matching, MatchRule rule) {
 		Match match = new Match(left, right, matching, rule);
-		getMatches().add(match);
+		add(match);
 		return match;
 	}
 	
 	public Match getMatch(Object left, Object right) {
-		for (Match match : this.getMatches()) {
+		for (Match match : matches) {
 			if (match.contains(left, right)) {
 				return match;
 			}
@@ -73,7 +79,7 @@ public class MatchTrace {
 	 * @return
 	 */
 	public Collection<Match> getMatches(Object object) {
-		return getMatches()
+		return matches
 				.stream()
 				.filter(match -> match.isMatching() && match.contains(object))
 				.collect(Collectors.toList());
@@ -85,7 +91,7 @@ public class MatchTrace {
 	 * @return
 	 */
 	public Match getMatch(Object object) {
-		for (Match match : this.getMatches()) {
+		for (Match match : matches) {
 			if (match.contains(object) && match.isMatching()) {
 				return match;
 			}
@@ -94,7 +100,7 @@ public class MatchTrace {
 	}
 	
 	public Match getMatch(Object left, MatchRule rule) {
-		for (Match match : this.getMatches()) {
+		for (Match match : matches) {
 			if (match.isMatching() && match.left == left && match.getRule() == rule) {
 				return match;
 			}
@@ -103,7 +109,7 @@ public class MatchTrace {
 	}
 	
 	public boolean hasBeenMatched(Object object) {
-		for (Match match : this.getMatches()) {
+		for (Match match : matches) {
 			if (match.contains(object)) {
 				return true;
 			}
@@ -114,7 +120,7 @@ public class MatchTrace {
 	public String toString(IEolContext context) {
 		String str = "";
 		
-		for (Match match : this.getMatches()) {
+		for (Match match : matches) {
 			str += "[" + match.isMatching() + "]\n";
 			str += context.getPrettyPrinterManager().toString(match.getLeft());
 			str += "\n ->" + context.getPrettyPrinterManager().toString(match.getRight());
@@ -132,12 +138,14 @@ public class MatchTrace {
 	public Collection<Match> getMatches() {
 		return matches;
 	}
+
 	
 	/**
 	 * 
 	 * @return
 	 * @since 1.6
 	 */
+	@Override
 	public Stream<Match> stream() {
 		return matches.stream();
 	}
@@ -170,5 +178,117 @@ public class MatchTrace {
 		return
 			this.matches.size() == other.matches.size() &&
 			this.matches.containsAll(other.matches);
+	}
+	
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean add(Match match) {
+		return matches.add(match);
+	}
+	
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean remove(Object o) {
+		return matches.remove(o);
+	}
+	
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public int size() {
+		return matches.size();
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean isEmpty() {
+		return matches.isEmpty();
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean contains(Object o) {
+		return matches.contains(o);
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public Iterator<Match> iterator() {
+		return matches.iterator();
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public Object[] toArray() {
+		return matches.toArray();
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public <T> T[] toArray(T[] a) {
+		return matches.toArray(a);
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean containsAll(Collection<?> c) {
+		return matches.containsAll(c);
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean addAll(Collection<? extends Match> c) {
+		return matches.addAll(c);
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean removeAll(Collection<?> c) {
+		return matches.removeAll(c);
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean retainAll(Collection<?> c) {
+		return matches.retainAll(c);
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public void clear() {
+		matches.clear();
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public Stream<Match> parallelStream() {
+		return matches.parallelStream();
 	}
 }

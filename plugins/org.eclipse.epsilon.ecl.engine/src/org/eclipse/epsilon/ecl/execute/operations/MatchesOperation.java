@@ -27,7 +27,7 @@ public class MatchesOperation extends SimpleOperation {
 
 	protected boolean forcedMatch = false;
 	
-	protected static final boolean matchInstances(Object left, Object right, IEclContext context, boolean forcedMatch) throws EolRuntimeException {
+	protected boolean matchInstances(Object left, Object right, IEclContext context) throws EolRuntimeException {
 		return context.getModule().match(left, right, forcedMatch).isMatching();
 	}
 
@@ -45,7 +45,7 @@ public class MatchesOperation extends SimpleOperation {
 		Iterator<?> rit = rightColFlat.iterator();
 		
 		while (lit.hasNext()) {
-			if (!matchInstances(lit.next(), rit.next(), context, false)) {
+			if (!matchInstances(lit.next(), rit.next(), context)) {
 				return false;
 			}
 		}
@@ -67,7 +67,7 @@ public class MatchesOperation extends SimpleOperation {
 		for (Object left : leftColFlat) {
 			match = false;
 			for (Object right : rightColFlat) {
-				if ((match = matchInstances(left, right, context, forcedMatch)) == true) {
+				if ((match = matchInstances(left, right, context)) == true) {
 					break;
 				}
 			}
@@ -104,7 +104,6 @@ public class MatchesOperation extends SimpleOperation {
 			// Unordered collection
 			else if (leftCol instanceof Set || leftCol instanceof EolBag && !(leftCol instanceof EolOrderedSet) &&
 				rightCol instanceof Set || rightCol instanceof EolBag && !(rightCol instanceof EolOrderedSet)) {
-
 				return matchCollectionUnordered(leftColFlat, rightColFlat, context);
 			}
 			// Respect ordering
@@ -116,7 +115,7 @@ public class MatchesOperation extends SimpleOperation {
 			return false;
 		}
 		else {
-			return matchInstances(source, parameter, context, forcedMatch);
+			return matchInstances(source, parameter, context);
 		}
 	}
 }

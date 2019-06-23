@@ -39,7 +39,7 @@ public class ParallelMatchesOperation extends MatchesOperation {
 			final Object left = lit.next(), right = rit.next();
 			
 			jobFutures.add(executor.submit(() -> {
-				if (!matchInstances(left, right, context, false)) {
+				if (!matchInstances(left, right, context)) {
 					executor.getExecutionStatus().completeWithResult(Boolean.FALSE);
 				}
 			}));
@@ -63,7 +63,7 @@ public class ParallelMatchesOperation extends MatchesOperation {
 			
 			jobs.add(() -> {
 				for (Object right : rightColFlat) {
-					if (matchInstances(left, right, context, forcedMatch)) {
+					if (matchInstances(left, right, context)) {
 						return true;
 					}
 				}

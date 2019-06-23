@@ -29,7 +29,7 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 		
 		this.context = context;
 		
-		for (Match match : context.getMatchTrace().getMatches()) {
+		for (Match match : context.getMatchTrace()) {
 			List<MergeRule> rules = getRulesFor(match, context);
 			for (MergeRule mergeRule : rules) {
 				if (!mergeRule.isLazy(context) && !mergeRule.hasMerged(match)) {
@@ -106,7 +106,7 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 	@Override
 	public List<Object> getExcluded() {
 		if (excluded == null) {
-			Collection<Match> matches = context.getMatchTrace().getMatches();
+			Collection<Match> matches = context.getMatchTrace();
 			excluded = new ArrayList<>(matches.size()*2);
 			for (Match match : matches) {
 				excluded.add(match.getLeft());

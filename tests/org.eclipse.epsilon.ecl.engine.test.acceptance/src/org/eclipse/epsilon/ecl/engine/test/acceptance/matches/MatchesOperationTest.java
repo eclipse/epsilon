@@ -10,11 +10,11 @@
 package org.eclipse.epsilon.ecl.engine.test.acceptance.matches;
 
 import static org.junit.Assert.assertEquals;
-import java.util.Collection;
+import static org.junit.Assert.fail;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestUtil;
-import org.eclipse.epsilon.ecl.trace.Match;
+import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,15 +52,11 @@ public class MatchesOperationTest {
 	
 	@Test
 	public void testCorrectNumberOfMatches() throws Exception {
-		Collection<Match> allMatches = module.getContext().getMatchTrace().getMatches();
-		assertEquals(1, allMatches.size());
+		MatchTrace allMatches = module.getContext().getMatchTrace();
+		if (allMatches.size() != 1) {
+			fail("Expected 1 match, but got: "+System.lineSeparator()+allMatches.toString(module.getContext()));
+		}
 		assertEquals("TLN (Left!TLN, Right!TLN)", allMatches.iterator().next().getRule().toString());
-	}
-	
-	@Test
-	public void testCorrectTrace() throws Exception {
-		Collection<Match> tempTrace = module.getContext().getTempMatchTrace().getMatches();
-		assertEquals(0, tempTrace.size());
 	}
 	
 	private EmfModel loadEmfModel(String modelName) throws Exception {

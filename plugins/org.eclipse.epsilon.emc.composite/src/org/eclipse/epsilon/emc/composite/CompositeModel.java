@@ -40,8 +40,8 @@ import org.eclipse.epsilon.eol.models.Model;
 
 public class CompositeModel extends Model {
 	
-	protected Collection<IModel> models = new ArrayList<IModel>();
-	protected ArrayList<ArrayList<Object>> equivalents = new ArrayList<ArrayList<Object>>();
+	protected Collection<IModel> models = new ArrayList<>();
+	protected ArrayList<ArrayList<Object>> equivalents = new ArrayList<>();
 	
 	public CompositeModel(Collection<IModel> models) {
 		this.models = models;
@@ -58,7 +58,7 @@ public class CompositeModel extends Model {
 	}
 	
 	protected void findEquivalents(MatchTrace matchTrace) {
-		for (Match m : matchTrace.getMatches()) {
+		for (Match m : matchTrace) {
 			boolean existing = false;
 			for (ArrayList<Object> eq : equivalents) {
 				if (eq.contains(m.getLeft()) || eq.contains(m.getRight())) {
@@ -68,7 +68,7 @@ public class CompositeModel extends Model {
  				}
 			}
 			if (!existing) {
-				ArrayList<Object> eq = new ArrayList<Object>();
+				ArrayList<Object> eq = new ArrayList<>();
 				eq.add(m.getLeft());
 				eq.add(m.getRight());
 				equivalents.add(eq);
@@ -77,7 +77,7 @@ public class CompositeModel extends Model {
 	}
 	
 	public Collection<Object> getEquivalents(Object instance) {
-		Collection<Object> equivalents = new ArrayList<Object>();
+		Collection<Object> equivalents = new ArrayList<>();
 		for (ArrayList<Object> eq : this.equivalents) {
 			if (eq.contains(instance)) {
 				equivalents.addAll(eq);
@@ -104,9 +104,10 @@ public class CompositeModel extends Model {
 		}
 	}
 	
+	@Override
 	public Collection<?> allContents() {
 		
-		Collection<Object> all = new ArrayList<Object>();
+		Collection<Object> all = new ArrayList<>();
 		
 		for (IModel m : models) {
 			all.addAll(m.allContents());
@@ -117,6 +118,7 @@ public class CompositeModel extends Model {
 		return all;
 	}
 
+	@Override
 	public Object createInstance(String type)
 			throws EolModelElementTypeNotFoundException,
 			EolNotInstantiableModelElementTypeException {
@@ -129,16 +131,18 @@ public class CompositeModel extends Model {
 		throw new EolNotInstantiableModelElementTypeException(this.name, type);
 	}
 
+	@Override
 	public void deleteElement(Object instance) throws EolRuntimeException {
 		for (IModel m : models) {
 			if (m.owns(instance)) m.deleteElement(instance);
 		}
 	}
 
+	@Override
 	public Collection<Object> getAllOfKind(String type)
 			throws EolModelElementTypeNotFoundException {
 
-		Collection<Object> all = new ArrayList<Object>();
+		Collection<Object> all = new ArrayList<>();
 		
 		for (IModel m : models) {
 			if (m.hasType(type))
@@ -150,11 +154,12 @@ public class CompositeModel extends Model {
 		return all;
 	}
 
+	@Override
 	public Collection<Object> getAllOfType(String type)
 			throws EolModelElementTypeNotFoundException {
 
 
-		Collection<Object> all = new ArrayList<Object>();
+		Collection<Object> all = new ArrayList<>();
 		
 		for (IModel m : models) {
 			if (m.hasType(type))
@@ -166,6 +171,7 @@ public class CompositeModel extends Model {
 		return all;
 	}
 
+	@Override
 	public Object getElementById(String id) {
 		for (IModel m : models) {
 			Object element = null;
@@ -175,6 +181,7 @@ public class CompositeModel extends Model {
 		return null;
 	}
 
+	@Override
 	public String getElementId(Object instance) {
 		for (IModel m : models) {
 			if (m.owns(instance)) return m.getElementId(instance);
@@ -182,12 +189,14 @@ public class CompositeModel extends Model {
 		return null;
 	}
 	
+	@Override
 	public void setElementId(Object instance, String newId) {
 		for (IModel m : models) {
 			if (m.owns(instance)) m.setElementId(instance, newId);
 		}
 	}
 
+	@Override
 	public Object getEnumerationValue(String enumeration, String label)
 			throws EolEnumerationValueNotFoundException {
 		if (models.size() > 0) 
@@ -195,6 +204,7 @@ public class CompositeModel extends Model {
 		else return null;
 	}
 
+	@Override
 	public Object getTypeOf(Object instance) {
 		for (IModel m : models) {
 			if (m.owns(instance)) return m.getTypeOf(instance);
@@ -202,6 +212,7 @@ public class CompositeModel extends Model {
 		return false;
 	}
 	
+	@Override
 	public String getTypeNameOf(Object instance) {
 		for (IModel m : models) {
 			if (m.isModelElement(instance)) return m.getTypeNameOf(instance);
@@ -210,6 +221,7 @@ public class CompositeModel extends Model {
 		throw new IllegalArgumentException("Cannot be contained by this model: " + instance);
 	}
 
+	@Override
 	public boolean hasType(String type) {
 		for (IModel m : models) {
 			if (m.hasType(type)) return true;
@@ -217,10 +229,12 @@ public class CompositeModel extends Model {
 		return false;
 	}
 
+	@Override
 	public boolean isInstantiable(String type) {
 		return false;
 	}
 
+	@Override
 	public boolean isModelElement(Object instance) {
 		for (IModel m : models) {
 			if (m.isModelElement(instance)) return true;
@@ -228,10 +242,12 @@ public class CompositeModel extends Model {
 		return false;
 	}
 
+	@Override
 	public void load() throws EolModelLoadingException {
 		
 	}
 
+	@Override
 	public boolean owns(Object instance) {
 		for (IModel m : models) {
 			if (m.owns(instance)) return true;
@@ -248,6 +264,7 @@ public class CompositeModel extends Model {
 		super.dispose();
 	}
 	
+	@Override
 	public boolean store(String location) {
 		for (IModel m : models) {
 			if (!m.store(location)) return false;
@@ -255,6 +272,7 @@ public class CompositeModel extends Model {
 		return true;
 	}
 
+	@Override
 	public boolean store() {
 		for (IModel m : models) {
 			if (!m.store()) return false;
@@ -269,10 +287,11 @@ public class CompositeModel extends Model {
 	
 	class CompositePropertyGetter extends AbstractPropertyGetter {
 
+		@Override
 		public Object invoke(Object object, String property)
 				throws EolRuntimeException {
 			
-			HashMap<Object, IPropertyGetter> getters = new HashMap<Object, IPropertyGetter>();
+			HashMap<Object, IPropertyGetter> getters = new HashMap<>();
 			Collection<Object> equivalents = getEquivalents(object);
 			
 			if (equivalents.isEmpty()) equivalents.add(object);
@@ -286,7 +305,7 @@ public class CompositeModel extends Model {
 				}
 			}
 			
-			Collection<Object> results = new HashSet<Object>();
+			Collection<Object> results = new HashSet<>();
 			
 			for (Object eq : equivalents) {
 				
@@ -315,6 +334,7 @@ public class CompositeModel extends Model {
 	
 	private class CompositePropertySetter extends AbstractPropertySetter {
 
+		@Override
 		public void invoke(Object value) throws EolRuntimeException {
 			getDelegate().invoke(value);
 		}

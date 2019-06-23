@@ -23,8 +23,8 @@ import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
  */
 public class EclContextParallel extends ErlContextParallel implements IEclContextParallel {
 
-	protected MatchTrace tempMatchTrace;
 	protected MatchTrace matchTrace;
+	protected MatchTrace tempMatchTrace;
 	
 	public EclContextParallel() {
 		this(0);
@@ -37,7 +37,7 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 	public EclContextParallel(IEclContext other) {
 		super(other, true);
 		this.matchTrace = new MatchTrace(other.getMatchTrace());
-		this.tempMatchTrace = new MatchTrace(other.getTempMatchTrace());
+		this.tempMatchTrace = new MatchTrace(other.getMatchTrace());
 	}
 	
 	@Override
@@ -56,12 +56,12 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 	public MatchTrace getMatchTrace() {
 		return matchTrace;
 	}
-
+	
 	@Override
 	public MatchTrace getTempMatchTrace() {
 		return tempMatchTrace;
 	}
-
+	
 	@Override
 	public EclModuleParallel getModule() {
 		return (EclModuleParallel) super.getModule();

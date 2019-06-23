@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.ecl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +26,6 @@ import org.eclipse.epsilon.ecl.execute.context.EclContext;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.parse.EclLexer;
 import org.eclipse.epsilon.ecl.parse.EclParser;
-import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
@@ -157,39 +155,6 @@ public class EclModule extends ErlModule implements IEclModule {
 	}
 	
 	@Override
-	public Match match(Object left, Object right, boolean forcedMatch) throws EolRuntimeException {
-		IEclContext context = getContext();
-		
-		Match traceMatch = context.getMatchTrace().getMatch(left, right);
-		if (traceMatch != null) return traceMatch;
-		
-		List<MatchRule> matchRules = getRulesFor(left, right, context, true);
-		
-		if (!matchRules.isEmpty()) {
-			MatchRule matchRule = (MatchRule) matchRules.iterator().next();
-			return matchRule.match(left, right, context, false, null, forcedMatch);
-		}
-		else {
-			matchRules = getRulesFor(left, right, context, false);
-			boolean matchRulesNotEmpty = !matchRules.isEmpty();
-			Match match = new Match(left, right, matchRulesNotEmpty, null);
-			
-			if (matchRulesNotEmpty) {
-				for (MatchRule matchRule : matchRules) {
-					if (matchRule.isGreedy()) {
-						Match tempMatch = matchRule.match(left, right, context, true, match.getInfo(), forcedMatch);
-						match.setMatching(match.isMatching() && tempMatch.isMatching());
-						match.setRule(matchRule);
-					}
-				}
-			}
-			
-			context.getMatchTrace().getMatches().add(match);
-			return match;
-		}
-	}
-	
-	@Override
 	public IEclContext getContext() {
 		return (IEclContext) super.getContext();
 	}
@@ -214,15 +179,5 @@ public class EclModule extends ErlModule implements IEclModule {
 		if (context instanceof IEclContext) {
 			super.setContext(context);
 		}
-	}
-	
-	public List<MatchRule> getRulesFor(Object obj1, Object obj2, IEclContext context, boolean ofClassOnly) throws EolRuntimeException {
-		List<MatchRule> rules = new ArrayList<>();
-		for (MatchRule matchRule : getMatchRules()) {
-			if (!matchRule.isAbstract() && matchRule.appliesTo(obj1, obj2, context, ofClassOnly)) {
-				rules.add(matchRule);
-			}
-		}
-		return rules;
 	}
 }

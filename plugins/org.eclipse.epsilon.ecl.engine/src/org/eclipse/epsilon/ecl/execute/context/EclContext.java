@@ -17,7 +17,7 @@ import org.eclipse.epsilon.erl.execute.context.ErlContext;
 public class EclContext extends ErlContext implements IEclContext {
 	
 	protected MatchTrace matchTrace = new MatchTrace();
-	protected MatchTrace tempMatchTrace = new MatchTrace();
+	protected MatchTrace tempMatchTrace;
 	
 	@Override
 	public void setMatchTrace(MatchTrace matchTrace) {
@@ -31,6 +31,9 @@ public class EclContext extends ErlContext implements IEclContext {
 	
 	@Override
 	public MatchTrace getTempMatchTrace() {
+		if (tempMatchTrace == null) {
+			tempMatchTrace = new MatchTrace();
+		}
 		return tempMatchTrace;
 	}
 
@@ -45,5 +48,4 @@ public class EclContext extends ErlContext implements IEclContext {
 	public IEclModule getModule() {
 		return (IEclModule) super.getModule();
 	}
-	
 }
