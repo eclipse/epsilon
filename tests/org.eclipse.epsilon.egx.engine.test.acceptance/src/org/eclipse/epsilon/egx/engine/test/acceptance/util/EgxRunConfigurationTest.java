@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egx.engine.test.acceptance.util;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
-import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.launch.EgxRunConfiguration;
 import org.eclipse.epsilon.egx.engine.test.acceptance.EgxAcceptanceTestUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -38,14 +37,13 @@ public class EgxRunConfigurationTest extends EgxRunConfiguration {
 	
 	@Override
 	protected Object execute() throws EolRuntimeException {
-		super.execute();
+		getModule().execute();
 		return getResult();
 	}
 	
 	@Override
 	protected void postExecute() throws Exception {
 		EgxAcceptanceTestUtil.deleteOutputDirectories();
-		super.postExecute();
 	}
 
 	@SuppressWarnings("unchecked")

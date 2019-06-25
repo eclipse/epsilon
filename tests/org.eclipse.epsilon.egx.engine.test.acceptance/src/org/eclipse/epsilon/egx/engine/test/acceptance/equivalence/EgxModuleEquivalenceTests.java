@@ -53,9 +53,8 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfigu
 	public void _test0() throws Exception {
 		super.beforeTests();
 	}
-	
-	// TODO: See why output grows (some files being appended to) even when deleting output directories between each run!
-	//@Test
+
+	//@Test // TODO: TemplateFactory / EglTemplate is broken somehow. Output keeps growing between different invocations!
 	public void testEquivalentOutput() throws Exception {
 		Map<Path, byte[]>
 			expectedOutput = expectedConfig.getResult(),

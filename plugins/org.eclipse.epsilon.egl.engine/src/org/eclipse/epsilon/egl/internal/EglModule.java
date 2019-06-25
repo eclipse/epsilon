@@ -27,7 +27,6 @@ import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.model.EglMarkerSection;
@@ -50,8 +49,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 public class EglModule extends EolModule implements IEglModule {
 
 	protected EglParser parser;
-	protected EglPreprocessorModule preprocessorModule;
-	
+	protected EglPreprocessorModule preprocessorModule;	
 	private final List<EglMarkerSection> markers = new LinkedList<>();	
 	private URI templateRoot;
 
@@ -60,7 +58,7 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 	
 	public EglModule(IEglContext context) {
-		setContext(/*new EglContext(*/context/*)*/);
+		setContext(context);
 		preprocessorModule = new EglPreprocessorModule(context);
 	}
 

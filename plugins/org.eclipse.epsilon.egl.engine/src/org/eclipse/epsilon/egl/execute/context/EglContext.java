@@ -20,7 +20,6 @@ import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
 import org.eclipse.epsilon.egl.execute.EglOperationFactory;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
-import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
@@ -32,7 +31,7 @@ public class EglContext extends EolContext implements IEglContext {
 
 	private List<StatusMessage> statusMessages = new LinkedList<>();
 	private EglTemplateFactory templateFactory;
-	private Supplier<? extends IOutputBuffer> outputBufferFactory = () -> new OutputBuffer(this);
+	private Supplier<? extends IOutputBuffer> outputBufferFactory = IEglContext.super.getOutputBufferFactory();
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
 	private EglExecutionManager executionManager = new EglExecutionManager();
@@ -125,7 +124,7 @@ public class EglContext extends EolContext implements IEglContext {
 	@Override
 	public void enter(EglTemplate template) {
 		executionManager.prepareFor(
-			new ExecutableTemplateSpecification(template, outputBufferFactory.get()),
+			new ExecutableTemplateSpecification(template, getOutputBufferFactory().get()),
 			getFrameStack()
 		);
 	}

@@ -253,7 +253,7 @@ public class EglTemplateFactory {
 	}
 
 	private EglTemplateSpecificationFactory createTemplateSpecificationFactory() {
-		return new EglTemplateSpecificationFactory(defaultFormatter, defaultIncrementalitySettings, listeners.toArray(new ITemplateExecutionListener[]{}));
+		return new EglTemplateSpecificationFactory(defaultFormatter, defaultIncrementalitySettings, listeners.toArray(new ITemplateExecutionListener[0]));
 	}
 		
 	@Override

@@ -18,6 +18,7 @@ import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
+import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
@@ -49,7 +50,9 @@ public interface IEglContext extends IEolContext {
 
 	public IOutputBuffer getOutputBuffer();
 	
-	public Supplier<? extends IOutputBuffer> getOutputBufferFactory();
+	public default Supplier<? extends IOutputBuffer> getOutputBufferFactory() {
+		return () -> new OutputBuffer(this);
+	}
 	
 	public void setOutputBufferFactory(Supplier<? extends IOutputBuffer> outputBufferFactory);
 	

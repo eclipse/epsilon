@@ -95,11 +95,9 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	private void prepareNewContents() throws EglRuntimeException {
 		switch (outputMode) {
 			case APPEND: {
-				if (existingContents != null) {
-					newContents = existingContents + FileUtil.NEWLINE + getContents();
-				} else {
-					newContents = getContents();
-				}
+				newContents = existingContents != null ?
+					existingContents + FileUtil.NEWLINE + getContents() :
+					getContents();
 				positiveMessage = "Successfully appended to ";
 				break;
 			}

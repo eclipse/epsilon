@@ -13,6 +13,7 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
@@ -78,7 +79,7 @@ public class EglTemplate {
 			listener.aboutToProcess(this);
 		}
 		
-		contents = module.execute(this, formatter).toString();
+		contents = Objects.toString(module.execute(this, formatter), "");
 
 		processed = true;
 

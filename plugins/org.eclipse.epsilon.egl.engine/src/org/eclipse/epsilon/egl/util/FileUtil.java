@@ -99,7 +99,7 @@ public abstract class FileUtil {
 			file.getAbsoluteFile().getParentFile().mkdirs();
 		}
 		
-		if (!file.exists()) file.createNewFile();
+		file.createNewFile();	// Contains exists check
 		
 		try (FileWriter writer = new FileWriter(file, append)) {
 			writer.write(contents);
