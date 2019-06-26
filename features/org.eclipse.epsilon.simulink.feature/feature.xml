@@ -306,7 +306,6 @@ version(s), and exceptions or additional permissions here}.&quot;
 
    <requires>
       <import plugin="org.eclipse.epsilon.eol.engine"/>
-      <import plugin="org.apache.log4j"/>
       <import plugin="org.eclipse.epsilon.common"/>
       <import plugin="org.slf4j.api"/>
    </requires>

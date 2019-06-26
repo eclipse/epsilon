@@ -11,12 +11,12 @@ work with Simulink models.
    </description>
 
    <copyright>
-        Copyright (c) 2018 The University of York.
+      Copyright (c) 2018 The University of York.
 
         This program and the accompanying materials are made
         available under the terms of the Eclipse Public License 2.0
         which is available at https://www.eclipse.org/legal/epl-2.0/
-    </copyright>
+   </copyright>
 
    <license url="https://www.eclipse.org/legal/epl-2.0">
       Eclipse Public License - v 2.0
@@ -304,7 +304,6 @@ version(s), and exceptions or additional permissions here}.&quot;
    </url>
 
    <requires>
-      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.epsilon.common.dt"/>
       <import plugin="org.eclipse.epsilon.emc.simulink"/>
       <import plugin="org.eclipse.epsilon.emc.simulink.common"/>
