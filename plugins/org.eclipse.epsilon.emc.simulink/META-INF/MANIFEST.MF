@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.epsilon.emc.simulink
 Bundle-Version: 1.6.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.eol.engine,
- org.slf4j.api;bundle-version="1.7.2";visibility:=reexport,
+ org.slf4j.api;visibility:=reexport,
  org.eclipse.epsilon.common,
  org.eclipse.epsilon.emc.simulink.common
 Export-Package: org.eclipse.epsilon.emc.simulink.introspection.java,

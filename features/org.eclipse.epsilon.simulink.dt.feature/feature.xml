@@ -307,10 +307,26 @@ version(s), and exceptions or additional permissions here}.&quot;
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.epsilon.common.dt"/>
       <import plugin="org.eclipse.epsilon.emc.simulink"/>
+      <import plugin="org.eclipse.epsilon.emc.simulink.common"/>
+      <import plugin="org.eclipse.epsilon.emc.simulink.dictionary"/>
    </requires>
 
    <plugin
          id="org.eclipse.epsilon.emc.simulink.dt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.emc.simulink.dictionary.dt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.epsilon.emc.simulink.common.dt"
          download-size="0"
          install-size="0"
          version="0.0.0"
