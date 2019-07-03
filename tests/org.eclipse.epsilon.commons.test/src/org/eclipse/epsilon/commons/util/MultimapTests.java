@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import org.eclipse.epsilon.common.util.Multimap;
-import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -204,7 +203,7 @@ public class MultimapTests {
 		@Test
 		public void removeKeyShouldRemoveKey() {
 			multimap.putAll("students", Arrays.asList("Louis", "James", "Frank"));
-			assertEquals(multimap.remove("students"), Arrays.asList("Louis", "James", "Frank"));
+			assertEquals(new ArrayList<>(multimap.remove("students")), Arrays.asList("Louis", "James", "Frank"));
 			
 			assertFalse(multimap.containsKey("students"));
 			
