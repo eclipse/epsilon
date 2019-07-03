@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -107,11 +106,6 @@ public class NullSupportingDeque<E> implements Deque<E> {
 	@Override
 	public boolean removeLastOccurrence(Object o) {
 		return delegate.removeLastOccurrence(replaceWithNull(o));
-	}
-	
-	@Override
-	public <T> T[] toArray(IntFunction<T[]> generator) {
-		return delegate.toArray(generator);
 	}
 
 	@Override
