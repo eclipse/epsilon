@@ -23,7 +23,7 @@ public abstract class Statement extends AbstractExecutableModuleElement {
 		else if (element instanceof Expression) {
 			return new StatementBlock(new ExpressionStatement((Expression) element));
 		}
-		else throw new RuntimeException(element + " was expected to be a StatementBlock, Statement or Expression but instead it is " + element);
+		else throw new IllegalArgumentException(element + " was expected to be a StatementBlock, Statement or Expression but instead it is " + element);
 	}
 	
 }

@@ -12,19 +12,47 @@ package org.eclipse.epsilon.common.module;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URL;
+import java.nio.file.Path;
 import java.util.List;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 
 public interface IModule extends ModuleElement {
 	
-	boolean parse(File file) throws Exception;
+	/**
+	 * 
+	 * @param url
+	 * @return
+	 * @throws Exception
+	 * @since 1.6
+	 */
+	default boolean parse(URL url) throws Exception {
+		return parse(url.toURI());
+	}
 	
-	boolean parse(URI uri) throws Exception;
+	/**
+	 * 
+	 * @param path
+	 * @return
+	 * @throws Exception
+	 * @since 1.6
+	 */
+	default boolean parse(Path path) throws Exception {
+		return parse(path.toUri());
+	}
 	
-	boolean parse(String code) throws Exception;
+	default boolean parse(File file) throws Exception {
+		return parse(file.toURI());
+	}
+	
+	default boolean parse(String code) throws Exception {
+		return parse(code, (File) null);
+	}
 	
 	boolean parse(String code, File file) throws Exception;
+	
+	boolean parse(URI uri) throws Exception;
 	
 	List<ModuleMarker> compile();
 	

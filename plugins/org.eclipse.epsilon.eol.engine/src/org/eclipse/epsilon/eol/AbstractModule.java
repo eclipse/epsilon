@@ -58,22 +58,12 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 	}
 	
 	@Override
-	public boolean parse(String code) throws Exception {
-		return parse(code, null);
-	}
-	
-	@Override
 	public boolean parse(String code, File file) throws Exception {
 		this.sourceFile = file;
 		if (file != null) {
 			this.sourceUri = file.toURI();
 		}
 		return parse(sourceUri, new ByteArrayInputStream(code.getBytes()));
-	}
-
-	@Override
-	public boolean parse(File file) throws Exception {
-		return parse(file.toURI());
 	}
 
 	@Override
