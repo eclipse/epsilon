@@ -1,20 +1,22 @@
 digraph G {
+	node[fontname=Arial, fontsize=11]
+	
 [%for (g in AllGoals) {%]
   { rank = same;
-    [%=g.nodeLabel("rect", "")%]
+    [%=g.nodeLabel("rect", "", "mintcream")%]
 [%    for (c in AllContextOf.select(c | c.source == g)) { %]
-    [%=c.target.nodeLabel("rect", "rounded")%]
+    [%=c.target.nodeLabel("rect", "rounded", "linen")%]
 [%    }%]
   }
 [%}%]
 [%for (s in AllStrategies) { %]
   { rank = same;
-    [%=s.nodeLabel("parallelogram", "")%]
+    [%=s.nodeLabel("polygon skew=0.3 margin=0 height=1.5 width=3 fixedsize=true", "", "floralwhite")%]
 [%  var ctxs = AllContextOf.select(c | c.source == s);
     if (ctxs.size() > 0) {%]
     node[group=[%=s.name%]];
 [%      for (c in ctxs) { %]
-    [%=c.target.nodeLabel("rect", "rounded")%]
+    [%=c.target.nodeLabel("rect", "rounded", "azure")%]
 [%      }%]
     [%=ctxs.target.name.concat("->")%][style=invis];
 [%  }%]
@@ -22,7 +24,7 @@ digraph G {
 [%}%]
 [%for (s in AllSolutions) {%]
   { rank = same;
-    [%=s.nodeLabel("circle", "")%]
+    [%=s.nodeLabel("circle margin=0", "", "cornsilk")%]
   }
 [%}%]	
 [%for (s in AllSupportedBy) { %]
@@ -36,8 +38,8 @@ digraph G {
 [%
 /** Table for Node content */
 @template
-operation Node nodeLabel(shape, style) {%]
-[%=self.name%] [shape=[%=shape%] [%if(style.length()>0){%] style=[%=style%][%}%] label=<
+operation Node nodeLabel(shape, style, colour) {%]
+[%=self.name%] [shape=[%=shape%] [%if(style.length()>0){%] style=[%=style%][%}%] style=filled fillcolor=[%=colour%] label=<
     <TABLE border="0" cellborder="0" cellspacing="0" cellpading="0">
       <tr>
         <td align="left">[%=self.name%]</td>

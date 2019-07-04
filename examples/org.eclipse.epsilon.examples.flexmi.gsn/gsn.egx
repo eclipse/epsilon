@@ -48,7 +48,7 @@ rule Goal2Dot
 			"AllSupportedBy" = SupportedBy.all.select(s|s.source = g or AllStrategies.includes(s.source)),
 			"AllStrategies" = AllStrategies, 
 			"AllGoals" = Sequence{g}.includingAll(SupportedBy.all.select(s|AllStrategies.includes(s.source) and s.`target`.isTypeOf(Goal)).`target`),
-			"path" = Sequence{"Model", "Goals", g.name},
+			"path" = Sequence{"Model", "Goals", "(" + g.name + ") " + g.description},
 			"format" = "graphviz-dot",
 			"icon" = "diagram"
 		};

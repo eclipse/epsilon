@@ -1,9 +1,0 @@
-<?nsuri http://www.eclipse.org/emf/2002/Ecore?>
-<_>
-	<class name="C1" :local="c">
-		<op :name="'create'+c.name" :type="c"/>
-	</class>
-	
-	<class :name="c.name"/>
-	
-</_>

@@ -15,15 +15,22 @@
     </_template>
     
     <_template name="informal-phase">
-        <!-- Arguments section for a desgin phase that can not be formally validated -->
+        <!-- 
+        	Arguments section for a desgin phase 
+        	that can not be formally validated 
+        -->
         <parameter name="name"/>      <!-- The informal phase name -->
         <parameter name="document"/>       <!-- The document reference -->
         <parameter name="standard"/>      <!-- The standard used -->
         <content>
-            <goal :name="'G' + Goal.all.indexOf(self)" desc="${name} is clearly expressed, i.e. ${document}" :var="goal"/>
-            <context :name="'C' + Context.all.indexOf(self)" desc="${standard} Standard " :var="context"/>
+            <goal :name="'G' + Goal.all.indexOf(self)" 
+            	desc="${name} is clearly expressed, i.e. ${document}" 
+            	:var="goal"/>
+            <context :name="'C' + Context.all.indexOf(self)" 
+            	desc="${standard} Standard " :var="context"/>
             <contextOf :source="goal" :target="context"/>
             <supp :source="complianceStrategy" :target="goal"/>
+                
         </content>
     </_template>
     
