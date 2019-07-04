@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.flexmi.dt;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,8 +10,10 @@ import java.util.Collection;
 import org.eclipse.epsilon.egl.EglPersistentTemplate;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.output.Writer;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.traceability.Variable;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class RenderingEglTemplate extends EglPersistentTemplate {
 	
@@ -26,7 +29,8 @@ public class RenderingEglTemplate extends EglPersistentTemplate {
 	@Override
 	protected void doGenerate(File file, String targetName, boolean overwrite, boolean merge)
 			throws EglRuntimeException {
-		while (targetName.startsWith("/")) targetName = targetName.substring(1);
+		
+		System.out.println(file.getAbsolutePath());
 		
 		String format = "html";
 		String icon = "cccccc";
@@ -41,6 +45,15 @@ public class RenderingEglTemplate extends EglPersistentTemplate {
 		}
 		
 		contentTree.addPath(new ArrayList<String>(path), getContents(), format, icon);
+		
+		if (file != null && !file.isDirectory()) {
+			try {
+				new Writer(file, getContents()).write();
+			} catch (IOException e) {
+				throw new EglRuntimeException(new EolRuntimeException(e));
+			}
+		}
+		
 	}
 	
 	public void setContentTree(ContentTree contentTree) {

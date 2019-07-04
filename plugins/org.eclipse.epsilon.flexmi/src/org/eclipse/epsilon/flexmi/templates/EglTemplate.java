@@ -26,10 +26,11 @@ public class EglTemplate extends XmlTemplate {
 			EglTemplateFactoryModuleAdapter module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
 			module.parse(content.getTextContent().trim(), uri);
 			
-			for (String parameter : getParameters()) {
-				String value = call.getAttribute(parameter);
-				if (call.hasAttribute(Template.PREFIX + parameter)) value = call.getAttribute(Template.PREFIX + parameter);
-				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(parameter, value));
+			for (Parameter parameter : getParameters()) {
+				String parameterName = parameter.getName();
+				String value = call.getAttribute(parameterName);
+				if (call.hasAttribute(Template.PREFIX + parameterName)) value = call.getAttribute(Template.PREFIX + parameterName);
+				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(parameterName, value));
 			}
 			
 			String xml = "<?xml version=\"1.0\"?><root>" + (module.execute() + "").trim() + "</root>";

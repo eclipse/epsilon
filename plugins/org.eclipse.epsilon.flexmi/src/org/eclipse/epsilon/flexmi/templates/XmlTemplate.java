@@ -24,7 +24,7 @@ public class XmlTemplate extends Template {
 		if (!application.isEmpty()) {
 			Element firstElement = application.get(0);
 			for (String attributeName : Xml.getAttributeNames(call)) {
-				if (!getParameters().contains(attributeName)) {
+				if (!getParameters().stream().anyMatch(p -> p.getName().equals(attributeName))) {
 					firstElement.setAttribute(attributeName, call.getAttribute(attributeName));
 				}
 			}

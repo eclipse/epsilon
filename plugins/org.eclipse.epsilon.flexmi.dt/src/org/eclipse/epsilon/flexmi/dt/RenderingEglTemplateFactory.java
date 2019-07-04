@@ -9,16 +9,26 @@ import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 public class RenderingEglTemplateFactory extends EglTemplateFactory {
 	
 	protected ContentTree contentTree = new ContentTree("");
+	protected File outputRoot = null;
+	
+	public RenderingEglTemplateFactory(File outputRoot) {
+		super();
+		this.outputRoot = outputRoot;
+	}
 	
 	@Override
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
-		RenderingEglTemplate template = new RenderingEglTemplate(spec, context, new File("/").toURI(), new File("/").getAbsolutePath());
+		RenderingEglTemplate template = new RenderingEglTemplate(spec, context, outputRoot.toURI(), outputRoot.getAbsolutePath());
 		template.setContentTree(contentTree);
 		return template;
 	}
 	
 	public ContentTree getContentTree() {
 		return contentTree;
+	}
+	
+	public File getOutputRoot() {
+		return outputRoot;
 	}
 	
 }

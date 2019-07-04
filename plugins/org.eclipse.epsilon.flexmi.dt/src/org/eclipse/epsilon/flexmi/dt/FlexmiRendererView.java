@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.flexmi.dt;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -64,9 +65,12 @@ public class FlexmiRendererView extends ViewPart {
 	protected File renderedFile = null;
 	protected boolean locked = false;
 	protected HashMap<String, List<String>> selectionHistory = new HashMap<String, List<String>>();
+	protected File tempDir = null;
 	
 	@Override
 	public void createPartControl(Composite parent) {
+		
+		try { tempDir = Files.createTempDirectory("flexmi").toFile(); } catch (IOException e) {}
 		
 		IActionBars bars = getViewSite().getActionBars();
 		bars.getToolBarManager().add(new ZoomAction(ZoomType.IN));
@@ -238,7 +242,7 @@ public class FlexmiRendererView extends ViewPart {
 				context.getModelRepository().addModel(model);
 				
 				if (format.equals("egx")) {
-					RenderingEglTemplateFactory templateFactory = new RenderingEglTemplateFactory();
+					RenderingEglTemplateFactory templateFactory = new RenderingEglTemplateFactory(tempDir);
 					templateFactory.setTemplateRoot(flexmiFile.getParentFile().getAbsolutePath());
 					((EgxModule) module).setTemplateFactory(templateFactory);
 					module.execute();
@@ -322,7 +326,7 @@ public class FlexmiRendererView extends ViewPart {
 				imageType = parts[2];
 			}
 			
-			File temp = File.createTempFile("flexmi-renderer", ".dot");
+			File temp = Files.createTempFile(tempDir.toPath(), "flexmi-renderer", ".dot").toFile();
 			File image = new File(temp.getAbsolutePath() + "." + imageType);
 			File log = new File(temp.getAbsolutePath() + ".log" );
 			
