@@ -35,7 +35,7 @@ public abstract class FlexmiTests {
 		
 		for (String metamodel : metamodels) {
 			List<EPackage> ePackages = EmfUtil.register(URI.createURI(FlexmiTestSuite.class.getResource("models/" + metamodel)
-					.toURI().toString()), resourceSet.getPackageRegistry());
+					.toURI().toString()), EPackage.Registry.INSTANCE);
 		}
 		
 		for (Object ePackage : resourceSet.getPackageRegistry().values()) {
