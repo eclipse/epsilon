@@ -25,8 +25,7 @@ public class EolEvaluator {
 	private boolean statementsExecuted = false;
 	
 	public EolEvaluator(IModel... models) {
-		for (IModel model : models)
-			module.getContext().getModelRepository().addModel(model);
+		module.getContext().getModelRepository().addModels(models);
 	}
 	
 	public IEolContext getContext() {

@@ -31,6 +31,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.EolLexer;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.tools.EolSystem;
+import org.eclipse.epsilon.eol.types.EolNativeType;
 
 public class EolModule extends AbstractModule implements IEolModule {
 	
@@ -81,7 +82,14 @@ public class EolModule extends AbstractModule implements IEolModule {
 						continue;
 				}
 				
-				ExpressionStatement expressionStatement = new ExpressionStatement((Expression) module.createAst(child, this));
+				ModuleElement exprAst = module.createAst(child, this);
+				final Expression expression;
+				if (exprAst instanceof ReturnStatement) {
+					expression = ((ReturnStatement) exprAst).getReturnedExpression();
+				}
+				else expression = (Expression) exprAst;
+				
+				ExpressionStatement expressionStatement = new ExpressionStatement(expression);
 				expressionStatement.setParent(this);
 				postOperationStatements.add(expressionStatement);
 			}
@@ -252,7 +260,9 @@ public class EolModule extends AbstractModule implements IEolModule {
 		
 		context.getFrameStack().putGlobal(
 			Variable.createReadOnlyVariable("null", null),
-			Variable.createReadOnlyVariable("System", system)
+			Variable.createReadOnlyVariable("System", system),
+			Variable.createReadOnlyVariable("Collectors", new EolNativeType(java.util.stream.Collectors.class, context)),
+			Variable.createReadOnlyVariable("Stream", new EolNativeType(java.util.stream.Stream.class, context))
 		);
 	}
 

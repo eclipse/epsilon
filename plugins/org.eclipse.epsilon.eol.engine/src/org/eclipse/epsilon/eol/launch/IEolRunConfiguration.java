@@ -11,9 +11,11 @@ package org.eclipse.epsilon.eol.launch;
 
 import java.util.*;
 import org.eclipse.epsilon.common.launch.ProfilableRunConfiguration;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import static org.eclipse.epsilon.common.util.profiling.BenchmarkUtils.profileExecutionStage;
+import org.eclipse.epsilon.eol.exceptions.EolParseException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.CachedModel;
@@ -72,13 +74,17 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		super.preExecute();
 		
 		if (profileExecution) {
-			profileExecutionStage(profiledStages, "Parsing script", () -> module.parse(script.toFile()));
+			profileExecutionStage(profiledStages, "Parsing script", () -> module.parse(script));
 		}
 		else {
-			module.parse(script.toFile());
+			module.parse(script);
 		}
 		
-		module.getParseProblems().forEach(this::writeOut);
+		Collection<ParseProblem> parseProblems = module.getParseProblems();
+		if (!parseProblems.isEmpty()) {
+			writeOut(parseProblems);
+			throw new EolParseException(parseProblems);
+		}
 		
 		if (profileExecution) {
 			profileExecutionStage(profiledStages, "Parsing model", this::parseModels);

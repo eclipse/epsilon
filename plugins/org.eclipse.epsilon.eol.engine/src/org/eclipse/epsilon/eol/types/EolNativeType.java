@@ -23,6 +23,23 @@ public class EolNativeType extends EolAnyType {
 	protected String clazz;
 	protected IToolNativeTypeDelegate delegate;
 	
+	/**
+	 * 
+	 * @param actualClass
+	 * @param context
+	 * @since 1.6
+	 */
+	public EolNativeType(Class<?> actualClass, IEolContext context) {
+		this.clazz = actualClass.getCanonicalName();
+		this.context = context;
+		for (IToolNativeTypeDelegate delegate : context.getNativeTypeDelegates()) {
+			if (delegate.knowsAbout(this.clazz)) {
+				this.delegate = delegate;
+				return;
+			}
+		}
+	}
+	
 	public EolNativeType(StringLiteral classAst, IEolContext context) throws EolTypeNotFoundException {
 		for (IToolNativeTypeDelegate delegate : context.getNativeTypeDelegates()) {
 			if (delegate.knowsAbout(classAst.getValue())) {
