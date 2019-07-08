@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Simulink Requirements Developer Tools
+Bundle-SymbolicName: org.eclipse.epsilon.emc.simulink.requirement.dt;singleton:=true
+Bundle-Version: 1.6.0.qualifier
+Automatic-Module-Name: org.eclipse.epsilon.emc.simulink.requirement.dt
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.epsilon.common.dt,
+ org.eclipse.epsilon.emc.simulink.common,
+ org.eclipse.epsilon.emc.simulink.requirement

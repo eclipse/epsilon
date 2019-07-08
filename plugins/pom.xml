@@ -71,6 +71,8 @@
     <module>org.eclipse.epsilon.emc.simulink.dt</module>
     <module>org.eclipse.epsilon.emc.simulink.dictionary</module>
     <module>org.eclipse.epsilon.emc.simulink.dictionary.dt</module>
+    <module>org.eclipse.epsilon.emc.simulink.requirement</module>
+    <module>org.eclipse.epsilon.emc.simulink.requirement.dt</module>
     <module>org.eclipse.epsilon.emf.dt</module>
     <module>org.eclipse.epsilon.eml.dt</module>
     <module>org.eclipse.epsilon.eml.engine</module>
