@@ -9,6 +9,7 @@ import org.eclipse.epsilon.emc.simulink.model.element.MatlabHandleElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementModel;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class SimulinkLink extends SimulinkModelElement implements ISimulinkRequirementModelElement {
@@ -27,12 +28,12 @@ public class SimulinkLink extends SimulinkModelElement implements ISimulinkRequi
 	}
 
 	@Override
-	public Object getProperty(String property) throws EolRuntimeException {
+	public Object getProperty(String property) throws EolIllegalPropertyException {
 		return linkHandle.getProperty(property);
 	}
 
 	@Override
-	public void setProperty(String property, Object value) throws EolRuntimeException {
+	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
 		linkHandle.setProperty(property, value);
 	}
 

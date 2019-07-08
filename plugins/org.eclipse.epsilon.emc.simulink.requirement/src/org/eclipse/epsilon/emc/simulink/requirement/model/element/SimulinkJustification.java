@@ -10,6 +10,7 @@ import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementModel;
 import org.eclipse.epsilon.emc.simulink.requirement.util.collection.SimulinkJustificationCollection;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class SimulinkJustification extends SimulinkModelElement implements ISimulinkRequirementModelElement {
@@ -41,20 +42,20 @@ public class SimulinkJustification extends SimulinkModelElement implements ISimu
 	}
 
 	@Override
-	public Object getProperty(String property) throws EolRuntimeException {
+	public Object getProperty(String property) throws EolIllegalPropertyException {
 		try {
 			return engine.feval("getAttribute", justificationHandle.getHandle(), property);
 		} catch (MatlabException e) {
-			throw new EolRuntimeException(e);
+			throw new EolIllegalPropertyException(this, property, null, null);
 		} 
 	}
 
 	@Override
-	public void setProperty(String property, Object value) throws EolRuntimeException {
+	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
 		try {
 			engine.feval("setAttribute", justificationHandle.getHandle(), property, value);
 		} catch (MatlabException e) {
-			throw new EolRuntimeException(e);
+			throw new EolIllegalPropertyException(this, property, null, null);
 		} 	
 	}
 
