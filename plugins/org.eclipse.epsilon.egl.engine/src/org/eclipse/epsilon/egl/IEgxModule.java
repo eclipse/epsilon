@@ -30,13 +30,13 @@ public interface IEgxModule extends IErlModule {
 	
 	List<GenerationRule> getGenerationRules();
 	
-	/*default EglTemplateFactory getTemplateFactory() {
+	default EglTemplateFactory getTemplateFactory() {
 		return getContext().getTemplateFactory();
 	}
 	
 	default void setTemplateFactory(EglTemplateFactory templateFactory) {
 		getContext().setTemplateFactory(templateFactory);
-	}*/
+	}
 	
 	@Override
 	default IEgxContext getContext() {
