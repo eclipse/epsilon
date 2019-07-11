@@ -9,7 +9,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute.context;
 
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
@@ -22,6 +26,7 @@ public class EgxContext extends ErlContext implements IEgxContext {
 	
 	protected EgxModuleTemplateAdapter baseTemplate;
 	private EglTemplateFactory templateFactory;
+	protected Map<URI, EglTemplate> templateCache = new HashMap<>(8);
 	
 	public EgxContext() {
 		this(null);
@@ -64,5 +69,13 @@ public class EgxContext extends ErlContext implements IEgxContext {
 	@Override
 	public EglTemplateFactory getTemplateFactory() {
 		return templateFactory;
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public Map<URI, EglTemplate> getTemplateCache() {
+		return templateCache;
 	}
 }

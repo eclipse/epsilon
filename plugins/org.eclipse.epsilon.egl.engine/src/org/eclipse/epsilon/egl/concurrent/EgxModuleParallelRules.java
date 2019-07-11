@@ -9,12 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.concurrent;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Map;
-import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -42,14 +38,12 @@ public class EgxModuleParallelRules extends EgxModuleParallel {
 
 	@Override
 	protected void generateRules() throws EolRuntimeException {
-		Map<URI, EglTemplate> templateCache = new Hashtable<>();
-		
 		for (GenerationRule rule : getGenerationRules()) {
 			Collection<?> allElements = rule.getAllElements(context);
 			ArrayList<CheckedEolRunnable> genJobs = new ArrayList<>(allElements.size());
 			
 			for (Object element : allElements) {
-				genJobs.add(() -> rule.generate(this, element, templateCache));
+				genJobs.add(() -> rule.generate(element, this));
 			}
 			
 			getContext().executeParallel(rule, genJobs);

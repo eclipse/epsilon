@@ -42,7 +42,7 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 	
 	protected EglTemplateFactory getDefaultTemplateFactory() throws EglRuntimeException {
 		EglFileGeneratingTemplateFactory templateFactory = new EglFileGeneratingTemplateFactory(
-			getModule().getTemplateFactory().getContext()
+			getModule().getContext().getTemplateFactory().getContext()
 		);
 		templateFactory.setOutputRoot(getDefaultOutputRoot().toString());
 		return templateFactory;

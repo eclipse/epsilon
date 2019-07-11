@@ -106,7 +106,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			}
 		}
 		if (isEgx()) {
-			((IEgxModule)module).setTemplateFactory(templateFactory);
+			((IEgxModule)module).getContext().setTemplateFactory(templateFactory);
 		}
 		else {
 			((EglTemplateFactoryModuleAdapter)module).setFactory(templateFactory); 
@@ -135,10 +135,10 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		
 		if (isEgx()) {
 			IEgxModule egxModule = (IEgxModule) module;
-			if (egxModule.getTemplateFactory() instanceof EglFileGeneratingTemplateFactory) {
+			if (egxModule.getContext().getTemplateFactory() instanceof EglFileGeneratingTemplateFactory) {
 				try {
 					if (configuration.getAttribute(EGX_GENERATE_TO, GENERATE_TO_DEFAULT_DIR) == GENERATE_TO_CUSTOM_DIR) {
-						((EglFileGeneratingTemplateFactory) egxModule.getTemplateFactory()).setOutputRoot(EclipseUtil.getWorkspaceContainerAbsolutePath(configuration.getAttribute(OUTPUT_DIR_PATH, "")));
+						((EglFileGeneratingTemplateFactory) egxModule.getContext().getTemplateFactory()).setOutputRoot(EclipseUtil.getWorkspaceContainerAbsolutePath(configuration.getAttribute(OUTPUT_DIR_PATH, "")));
 					}
 				}
 				catch (Exception e) {
@@ -163,7 +163,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		try {
 			Collection<Formatter> defaultFormatters = loadDefaultFormattersFromConfiguration();
 			if (isEgx()) {
-				((IEgxModule) module).getTemplateFactory().setDefaultFormatters(defaultFormatters);
+				((IEgxModule) module).getContext().getTemplateFactory().setDefaultFormatters(defaultFormatters);
 			}
 			else {
 				((EglTemplateFactoryModuleAdapter)module).setDefaultFormatters(defaultFormatters);
@@ -291,7 +291,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 	 */
 	IEglContext getEglContext(IEolModule module) {
 		if (module instanceof IEgxModule) {
-			return ((IEgxModule)module).getTemplateFactory().getContext();
+			return ((IEgxModule)module).getContext().getTemplateFactory().getContext();
 		}
 		else {
 			return (IEglContext)module.getContext();

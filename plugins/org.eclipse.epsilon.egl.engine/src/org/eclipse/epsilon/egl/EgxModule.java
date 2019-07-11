@@ -154,21 +154,21 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	@Override
 	public boolean parse(File file) throws Exception {
 		boolean result = super.parse(file);
-		if (result) getTemplateFactory().initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
+		if (result) getContext().getTemplateFactory().initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
 		return result;
 	}
 	
 	@Override
 	public boolean parse(URI uri) throws Exception {
 		boolean result = super.parse(uri);
-		if (result) getTemplateFactory().initialiseRoot(uri);
+		if (result) getContext().getTemplateFactory().initialiseRoot(uri);
 		return result;
 	}
 	
 	@Override
 	public boolean parse(String code, File file) throws Exception {
 		boolean result = super.parse(code, file);
-		if (result && file != null) getTemplateFactory().initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
+		if (result && file != null) getContext().getTemplateFactory().initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
 		return result;
 	}
 
@@ -178,7 +178,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	@Override
 	protected void prepareContext() {
 		super.prepareContext();
-		getTemplateFactory().getContext().copyFrom(getContext(), true);
+		getContext().getTemplateFactory().getContext().copyFrom(getContext(), true);
 	}
 	
 	@Override
@@ -197,11 +197,9 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	 */
 	protected void generateRules() throws EolRuntimeException {
 		IEgxContext context = getContext();
-		Map<URI, EglTemplate> templateCache = new HashMap<>();
-		
 		for (GenerationRule rule : getGenerationRules()) {
 			for (Object element : rule.getAllElements(context)) {
-				rule.generate(this, element, templateCache);
+				rule.generate(element, this);
 			}
 		}
 	}

@@ -13,7 +13,6 @@ import java.io.File;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
@@ -22,6 +21,7 @@ import org.eclipse.epsilon.egl.EglPersistentTemplate;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
+import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Parameter;
@@ -74,8 +74,8 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableDa
 		}
 	}
 	
-	public void generate(IEgxModule module, Object element, Map<URI, EglTemplate> templateCache) throws EolRuntimeException {
-		IEolContext context = module.getContext();
+	public void generate(Object element, IEgxModule module) throws EolRuntimeException {
+		IEgxContext context = module.getContext();
 		FrameStack frameStack = context.getFrameStack();
 		
 		if (sourceParameter != null) {
@@ -96,7 +96,8 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableDa
 		final boolean overwrite = (overwriteBlock == null) ? true : overwriteBlock.execute(context, false);
 		final boolean merge = (mergeBlock == null) ? true : mergeBlock.execute(context, false);			
 		final String templateName = (templateBlock == null) ? "" : templateBlock.execute(context, false);
-		final EglTemplateFactory templateFactory = module.getTemplateFactory();
+		final EglTemplateFactory templateFactory = context.getTemplateFactory();
+		final Map<URI, EglTemplate> templateCache = context.getTemplateCache();
 		
 		URI templateUri = templateFactory.resolveTemplate(templateName);
 		EglTemplate eglTemplate;
@@ -136,14 +137,6 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableDa
 		frameStack.leaveLocal(this);
 		eglTemplate.reset();
 	}
-	
-	public void generateAll(IEgxModule module) throws EolRuntimeException {
-		Map<URI, EglTemplate> templateCache = new HashMap<>();
-		
-		for (Object element : getAllElements(module.getContext())) {
-			generate(module, element, templateCache);
-		}
-	}
 
 	/**
 	 * Gets the model which the "transform" parameter type expression belongs to.
@@ -181,7 +174,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableDa
 	 */
 	@Override
 	public Object executeImpl(Object self, IErlContext context) throws EolRuntimeException {
-		generate((IEgxModule) context.getModule(), self, null);
+		generate(self, (IEgxModule) context.getModule());
 		return null;
 	}
 }

@@ -9,7 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.execute.context.concurrent;
 
+import java.net.URI;
+import java.util.Hashtable;
+import java.util.Map;
 import org.eclipse.epsilon.common.module.IModule;
+import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.execute.context.EgxModuleTemplateAdapter;
@@ -23,7 +27,8 @@ import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 public class EgxContextParallel extends ErlContextParallel implements IEgxContextParallel {
 
 	protected EgxModuleTemplateAdapter baseTemplate;
-	protected EglTemplateFactory templateFactory;
+	private EglTemplateFactory templateFactory;
+	protected Map<URI, EglTemplate> templateCache;// = new Hashtable<>();
 	
 	public EgxContextParallel() {
 		this(null);
@@ -63,6 +68,11 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 	@Override
 	public EglTemplateFactory getTemplateFactory() {
 		return templateFactory;
+	}
+	
+	@Override
+	public Map<URI, EglTemplate> getTemplateCache() {
+		return templateCache;
 	}
 	
 	@Override
