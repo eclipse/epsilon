@@ -11,12 +11,11 @@ package org.eclipse.epsilon.evl.execute.atoms;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.erl.execute.data.RuleAtom;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
-import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
 /**
@@ -25,18 +24,10 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  * @author Sina Madani
  * @since 1.6
  */
-public class ConstraintAtom extends EvlAtom<Constraint> {
-	
-	public ConstraintAtom(Constraint constraint, Object modelElement, IEvlContext evlContext) {
-		super(constraint, modelElement, evlContext);
-	}
+public class ConstraintAtom extends RuleAtom<Constraint> {
 	
 	public ConstraintAtom(Constraint constraint, Object modelElement) {
 		super(constraint, modelElement);
-	}
-	
-	public Optional<UnsatisfiedConstraint> execute(IEvlContext context) throws EolRuntimeException {
-		return unit.execute(element, context);
 	}
 	
 	public static ArrayList<ConstraintAtom> getConstraintJobs(IEvlModule module) throws EolRuntimeException {

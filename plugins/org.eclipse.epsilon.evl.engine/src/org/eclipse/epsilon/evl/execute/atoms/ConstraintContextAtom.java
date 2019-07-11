@@ -15,6 +15,7 @@ import java.util.Collections;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
+import org.eclipse.epsilon.erl.execute.data.RuleAtom;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
@@ -26,12 +27,8 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  * @author Sina Madani
  * @since 1.6
  */
-public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
-	
-	public ConstraintContextAtom(ConstraintContext constraintContext, Object modelElement, IEvlContext evlContext) {
-		super(constraintContext, modelElement, evlContext);
-	}
-	
+public class ConstraintContextAtom extends RuleAtom<ConstraintContext> {
+
 	public ConstraintContextAtom(ConstraintContext constraintContext, Object modelElement) {
 		super(constraintContext, modelElement);
 	}

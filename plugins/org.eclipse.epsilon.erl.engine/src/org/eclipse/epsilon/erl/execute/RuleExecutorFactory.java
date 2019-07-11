@@ -11,7 +11,7 @@ package org.eclipse.epsilon.erl.execute;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
-import org.eclipse.epsilon.erl.dom.NamedRule;
+import org.eclipse.epsilon.erl.dom.IExecutableDataRuleElement;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
@@ -65,22 +65,22 @@ public class RuleExecutorFactory extends ExecutorFactory {
 		super.merge(mode);
 	}
 
-	public Object execute(NamedRule namedRule, Object element, IErlContext context) throws EolRuntimeException {
-		if (namedRule == null) return null;
+	public Object execute(IExecutableDataRuleElement rule, Object element, IErlContext context) throws EolRuntimeException {
+		if (rule == null) return null;
 		
-		preExecute(namedRule, context);
+		preExecute(rule, context);
 		
 		Object result = null;
 		
 		try {
-			result = namedRule.executeImpl(element, context);
-			postExecuteSuccess(namedRule, result, context);
+			result = rule.executeImpl(element, context);
+			postExecuteSuccess(rule, result, context);
 		}
 		catch (Exception ex) {
-			postExecuteFailure(namedRule, ex, context);
+			postExecuteFailure(rule, ex, context);
 		}
 		finally {
-			postExecuteFinally(namedRule, context);
+			postExecuteFinally(rule, context);
 		}
 		
 		return result;

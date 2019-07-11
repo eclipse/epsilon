@@ -45,7 +45,7 @@ operation testParallelRejectEquivalence() {
 		t.asReal() > 22/7
 	);
 	
-	actual.equalsIgnoreOrder(expected);
+	assertEquals(Sequence(expected), Sequence(actual));
 }
 
 @test

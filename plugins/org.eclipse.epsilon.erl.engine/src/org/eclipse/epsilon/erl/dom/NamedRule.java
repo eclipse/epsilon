@@ -15,10 +15,9 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
-public abstract class NamedRule extends AnnotatableModuleElement {
+public abstract class NamedRule extends AnnotatableModuleElement implements IExecutableDataRuleElement {
 	
 	protected NameExpression nameExpression;
 
@@ -47,18 +46,7 @@ public abstract class NamedRule extends AnnotatableModuleElement {
 		this.nameExpression = nameExpression;
 	}
 	
-	public Object execute(Object self, IErlContext context) throws EolRuntimeException {
-		return context.getExecutorFactory().execute(this, self, context);
-	}
-	
-	/**
-	 * Used to execute this rule on a given model element through the {@linkplain RuleExecutorFactory}.
-	 * @param self The model element to execute this rule for.
-	 * @param context The execution context.
-	 * @return The result of {@link RuleExecutorFactory#execute(NamedRule, Object, IErlContext)}
-	 * @throws EolRuntimeException If an exception is raised by the executor factory.
-	 * @since 1.6
-	 */
+	@Override
 	public Object executeImpl(Object self, IErlContext context) throws EolRuntimeException {
 		return null;
 	}

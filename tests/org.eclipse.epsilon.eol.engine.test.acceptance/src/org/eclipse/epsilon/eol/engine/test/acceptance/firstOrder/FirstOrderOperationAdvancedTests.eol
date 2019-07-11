@@ -43,7 +43,7 @@ operation testSelectScope() {
 	var actual = testData.parallelSelect(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
 	assertEquals(expected, actual);
 	actual = testData.parallelSelect(n | n.lengthAsStr() > 1 and n.lengthAsStr() < shared.length());
-	actual.equalsIgnoreOrder(expected);
+	assertEquals(expected, actual);
 }
 
 @test
@@ -54,7 +54,7 @@ operation testRejectScope() {
 	var actual = testData.parallelReject(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
 	assertEquals(expected, actual);
 	actual = testData.parallelReject(n | n.hashAsStr().lengthAsStr() < shared.length()*2 and n.lengthAsStr() > 1);
-	actual.equalsIgnoreOrder(expected);
+	assertEquals(expected, actual);
 }
 
 @test
