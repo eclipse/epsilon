@@ -23,11 +23,11 @@ import org.eclipse.swt.widgets.Text;
 public class SimulinkRequirementModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
 
 	protected String getModelName() {
-		return "Simulink Dictionary Model";
+		return "Simulink Requirement Model";
 	}
 
 	protected String getModelType() {
-		return "SimulinkDictionary";
+		return "SimulinkRequirement";
 	}
 
 	protected Label fileTextLabel;
@@ -51,7 +51,7 @@ public class SimulinkRequirementModelConfigurationDialog extends AbstractCachedM
 
 		browseModelFile = new Button(groupContent, SWT.NONE);
 		browseModelFile.setText("Browse Workspace...");
-		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(fileText, "Simulink Dictionary Models in the workspace", "Select a Simulink Dictionary Model"));
+		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(fileText, "Simulink Requirement Models in the workspace", "Select a Simulink Requirement Model"));
 
 		groupContent.layout();
 		groupContent.pack();

@@ -18,7 +18,7 @@ import org.osgi.framework.BundleContext;
 
 public class Activator extends Plugin {
 
-	public static final String PLUGIN_ID = "org.eclipse.epsilon.emc.simulink.dictionary.dt";
+	public static final String PLUGIN_ID = "org.eclipse.epsilon.emc.simulink.requirement.dt";
 
 	private static Activator plugin;
 	
