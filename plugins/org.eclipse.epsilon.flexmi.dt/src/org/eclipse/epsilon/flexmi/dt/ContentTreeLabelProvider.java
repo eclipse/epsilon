@@ -1,20 +1,26 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.flexmi.dt;
 
 import java.util.HashMap;
 
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 public class ContentTreeLabelProvider extends LabelProvider {
 	
 	protected Image diagramImage = Activator.getDefault().getImageDescriptor("icons/diagram.gif").createImage();
 	protected Image folderImage = Activator.getDefault().getImageDescriptor("icons/folder.gif").createImage();
-	protected HashMap<String, Image> iconImages = new HashMap<String, Image>();
+	protected HashMap<String, Image> iconImages = new HashMap<>();
 	
 	@Override
 	public String getText(Object element) {

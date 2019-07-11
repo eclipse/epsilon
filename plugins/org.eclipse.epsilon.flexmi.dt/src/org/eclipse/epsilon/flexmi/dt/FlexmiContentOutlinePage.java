@@ -10,10 +10,7 @@
 package org.eclipse.epsilon.flexmi.dt;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.ui.EclipseUIPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
@@ -60,6 +57,7 @@ public class FlexmiContentOutlinePage extends ContentOutlinePage {
 		if (getSite() != null) {
 			getSite().getShell().getDisplay().asyncExec(new Runnable() {
 				
+				@Override
 				public void run() {
 					if (getTreeViewer() != null) {
 						getTreeViewer().setInput(resourceSet);
@@ -132,7 +130,8 @@ public class FlexmiContentOutlinePage extends ContentOutlinePage {
 				
 				IAdaptable adaptable = new IAdaptable() {
 	
-					@SuppressWarnings("rawtypes")
+					@Override
+					@SuppressWarnings({ "rawtypes", "unchecked" })
 					public Object getAdapter(Class adapter) {
 						
 						if (selected instanceof EObject && adapter == IPropertySource.class) {
@@ -161,6 +160,7 @@ public class FlexmiContentOutlinePage extends ContentOutlinePage {
 				final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
 				
 				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+					@Override
 					public void run() {
 						try {
 							int realLine = line;

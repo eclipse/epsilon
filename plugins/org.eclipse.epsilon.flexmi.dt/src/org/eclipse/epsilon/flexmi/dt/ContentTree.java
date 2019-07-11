@@ -1,13 +1,21 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.flexmi.dt;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class ContentTree {
 	
-	protected List<ContentTree> children = new ArrayList<ContentTree>();
+	protected List<ContentTree> children = new ArrayList<>();
 	protected String content;
 	protected String name;
 	protected String format;
@@ -68,7 +76,7 @@ public class ContentTree {
 	
 	public void ingest(ContentTree other) {
 		
-		List<ContentTree> obsolete = new ArrayList<ContentTree>();
+		List<ContentTree> obsolete = new ArrayList<>();
 		List<ContentTree> fresh = new ArrayList<>(other.getChildren());
 		
 		for (ContentTree child : getChildren()) {
@@ -145,7 +153,7 @@ public class ContentTree {
 	}
 	
 	public List<String> getPath() {
-		List<String> path = new ArrayList<String>();
+		List<String> path = new ArrayList<>();
 		if (parent != null) path.addAll(parent.getPath());
 		path.add(this.getName() + "");
 		return path;

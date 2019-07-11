@@ -16,7 +16,7 @@ import org.eclipse.jface.text.rules.IWordDetector;
 
 public class SingleCharacterWordDetector implements IWordDetector {
 
-	private List<Character> chars = new ArrayList<Character>();
+	private List<Character> chars = new ArrayList<>();
     
 	public SingleCharacterWordDetector(char...chars) {
 		for (char c : chars) {
@@ -28,11 +28,13 @@ public class SingleCharacterWordDetector implements IWordDetector {
         chars.add(c);
     }
      
-    public boolean isWordPart(char c) {
+    @Override
+	public boolean isWordPart(char c) {
         return false;
     }
  
-    public boolean isWordStart(char c) {
+    @Override
+	public boolean isWordStart(char c) {
         return chars.contains(c);
     }
 

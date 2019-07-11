@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.flexmi.dt;
 
 import java.io.File;
@@ -6,8 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
-
-import org.eclipse.core.internal.jobs.JobStatus;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -22,7 +29,6 @@ import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
@@ -64,7 +70,7 @@ public class FlexmiRendererView extends ViewPart {
 	protected int[] sashFormWeights = null;
 	protected File renderedFile = null;
 	protected boolean locked = false;
-	protected HashMap<String, List<String>> selectionHistory = new HashMap<String, List<String>>();
+	protected HashMap<String, List<String>> selectionHistory = new HashMap<>();
 	protected File tempDir = null;
 	
 	@Override
@@ -244,7 +250,7 @@ public class FlexmiRendererView extends ViewPart {
 				if (format.equals("egx")) {
 					RenderingEglTemplateFactory templateFactory = new RenderingEglTemplateFactory(tempDir);
 					templateFactory.setTemplateRoot(flexmiFile.getParentFile().getAbsolutePath());
-					((EgxModule) module).setTemplateFactory(templateFactory);
+					((EgxModule) module).getContext().setTemplateFactory(templateFactory);
 					module.execute();
 					
 					setContentTree(templateFactory.getContentTree(), rerender);

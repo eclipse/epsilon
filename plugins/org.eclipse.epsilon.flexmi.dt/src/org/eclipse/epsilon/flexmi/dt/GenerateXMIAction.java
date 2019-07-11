@@ -43,6 +43,7 @@ public class GenerateXMIAction implements IObjectActionDelegate {
 		super();
 	}
 	
+	@Override
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		shell = targetPart.getSite().getShell();
 	}
@@ -50,6 +51,7 @@ public class GenerateXMIAction implements IObjectActionDelegate {
 	/**
 	 * @see IActionDelegate#run(IAction)
 	 */
+	@Override
 	public void run(IAction action) {
 		try {
 			IFile flexmiFile = (IFile) selection.getFirstElement();
@@ -59,7 +61,7 @@ public class GenerateXMIAction implements IObjectActionDelegate {
 			flexmiResource.load(null);
 			
 			// The EClasses of all model elements
-			final Set<EClass> eClasses = new HashSet<EClass>();
+			final Set<EClass> eClasses = new HashSet<>();
 			
 			ResourceSet xmiResourceSet = new ResourceSetImpl();
 			xmiResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl() {
@@ -99,6 +101,7 @@ public class GenerateXMIAction implements IObjectActionDelegate {
 		}
 	}
 
+	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.selection = (IStructuredSelection) selection;
 	}

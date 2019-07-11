@@ -178,7 +178,7 @@ public class FlexmiEditor extends TextEditor {
 		
 	}
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Object getAdapter(Class required) {
 		if (IContentOutlinePage.class.equals(required)) {
@@ -188,7 +188,7 @@ public class FlexmiEditor extends TextEditor {
 	}
 	
 	protected void createMarker(String message, int lineNumber, boolean error, IFile file, String markerType) throws CoreException {
-		Map<String, Object> attr = new HashMap<String, Object>();
+		Map<String, Object> attr = new HashMap<>();
 		attr.put(IMarker.LINE_NUMBER, lineNumber);
 		attr.put(IMarker.MESSAGE, message);				
 		int markerSeverity = IMarker.SEVERITY_WARNING;
@@ -210,6 +210,7 @@ public class FlexmiEditor extends TextEditor {
 		return resource;
 	}
 	
+	@Override
 	public void dispose() {
 		colorManager.dispose();
 		super.dispose();
