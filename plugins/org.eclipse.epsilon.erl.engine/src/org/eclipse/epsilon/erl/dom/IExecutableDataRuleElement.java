@@ -10,13 +10,15 @@
 package org.eclipse.epsilon.erl.dom;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
+ * Allows for execution of rules with different parameters.
  * 
- *
+ * @see {@linkplain IExecutableModuleElement}
  * @author Sina Madani
  * @since 1.6
  */

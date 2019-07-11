@@ -9,17 +9,13 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.concurrent;
 
-import java.net.URI;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import org.eclipse.epsilon.egl.EglTemplate;
-import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
@@ -48,21 +44,6 @@ public class EgxModuleParallel extends EgxModule {
 	public EgxModuleParallel(IEgxContextParallel egxContext) {
 		setContext(egxContext);
 		this.invokedTemplates = new ConcurrentLinkedQueue<>();
-	}
-
-	@Override
-	public Object executeImpl() throws EolRuntimeException {
-		prepareExecution();
-		//final int numberOfRules = getGenerationRules().size();
-		generateRules(getTemplateFactory(),
-			/*ConcurrencyUtils.concurrentMap(numberOfRules, (numberOfRules/2)+1)*/null,
-			getContext());
-		postExecution();
-		return null;
-	}
-	
-	protected void generateRules(EglTemplateFactory templateFactory, Map<URI, EglTemplate> templateCache, IEgxContextParallel context) throws EolRuntimeException {
-		generateRules(templateFactory);
 	}
 	
 	@Override

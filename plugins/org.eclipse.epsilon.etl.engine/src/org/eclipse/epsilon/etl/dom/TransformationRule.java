@@ -30,12 +30,14 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
+import org.eclipse.epsilon.erl.dom.IExecutableDataRuleElement;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.parse.EtlParser;
 import org.eclipse.epsilon.etl.trace.TransformationList;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
-public class TransformationRule extends ExtensibleNamedRule {
+public class TransformationRule extends ExtensibleNamedRule implements IExecutableDataRuleElement {
 	
 	protected Parameter sourceParameter;
 	protected List<Parameter> targetParameters = new ArrayList<>();
@@ -177,7 +179,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 	
 	protected Set<Object> transformedElements = new HashSet<>();
 	
-	public Collection<?> transform(Object source, IEtlContext context) throws EolRuntimeException{
+	public Collection<?> transform(Object source, IEtlContext context) throws EolRuntimeException {
 		
 		TransformationTrace transformationTrace = context.getTransformationTrace();
 		
@@ -260,4 +262,11 @@ public class TransformationRule extends ExtensibleNamedRule {
 		transformedElements = null;
 	}
 	
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public Collection<?> executeImpl(Object self, IErlContext context) throws EolRuntimeException {
+		return transform(self, (IEtlContext) context);
+	}
 }

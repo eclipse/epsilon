@@ -184,7 +184,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	@Override
 	public Object executeImpl() throws EolRuntimeException {
 		prepareExecution();
-		generateRules(getTemplateFactory());
+		generateRules();
 		postExecution();
 		return null;
 	}
@@ -195,10 +195,14 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
-	protected void generateRules(EglTemplateFactory templateFactory) throws EolRuntimeException {
+	protected void generateRules() throws EolRuntimeException {
 		IEgxContext context = getContext();
+		Map<URI, EglTemplate> templateCache = new HashMap<>();
+		
 		for (GenerationRule rule : getGenerationRules()) {
-			rule.generateAll(context, templateFactory, this);
+			for (Object element : rule.getAllElements(context)) {
+				rule.generate(this, element, templateCache);
+			}
 		}
 	}
 	

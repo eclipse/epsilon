@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.erl.dom.IExecutableDataRuleElement;
 import org.eclipse.epsilon.erl.dom.NamedRule;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.evl.execute.FixInstance;
@@ -26,7 +27,7 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.operations.SatisfiesOperation;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
-public class Constraint extends NamedRule {
+public class Constraint extends NamedRule implements IExecutableDataRuleElement {
 	
 	protected boolean isCritique = false;
 	protected List<Fix> fixes;
@@ -75,7 +76,7 @@ public class Constraint extends NamedRule {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Optional<UnsatisfiedConstraint> execute(Object self, IErlContext context) throws EolRuntimeException {
-		return (Optional<UnsatisfiedConstraint>) super.execute(self, context);
+		return (Optional<UnsatisfiedConstraint>) IExecutableDataRuleElement.super.execute(self, context);
 	}
 	
 	/**

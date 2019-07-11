@@ -12,6 +12,7 @@ package org.eclipse.epsilon.erl.execute;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.erl.dom.IExecutableDataRuleElement;
+import org.eclipse.epsilon.erl.dom.IExecutableMultiParameterRuleElement;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
@@ -74,6 +75,27 @@ public class RuleExecutorFactory extends ExecutorFactory {
 		
 		try {
 			result = rule.executeImpl(element, context);
+			postExecuteSuccess(rule, result, context);
+		}
+		catch (Exception ex) {
+			postExecuteFailure(rule, ex, context);
+		}
+		finally {
+			postExecuteFinally(rule, context);
+		}
+		
+		return result;
+	}
+	
+	public Object execute(IExecutableMultiParameterRuleElement rule, IErlContext context, Object... elements) throws EolRuntimeException {
+		if (rule == null) return null;
+		
+		preExecute(rule, context);
+		
+		Object result = null;
+		
+		try {
+			result = rule.executeImpl(context, elements);
 			postExecuteSuccess(rule, result, context);
 		}
 		catch (Exception ex) {

@@ -14,10 +14,8 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.NameExpression;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
-public abstract class NamedRule extends AnnotatableModuleElement implements IExecutableDataRuleElement {
+public abstract class NamedRule extends AnnotatableModuleElement {
 	
 	protected NameExpression nameExpression;
 
@@ -44,11 +42,6 @@ public abstract class NamedRule extends AnnotatableModuleElement implements IExe
 	
 	public void setNameExpression(NameExpression nameExpression) {
 		this.nameExpression = nameExpression;
-	}
-	
-	@Override
-	public Object executeImpl(Object self, IErlContext context) throws EolRuntimeException {
-		return null;
 	}
 	
 	@Override

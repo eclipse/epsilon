@@ -36,8 +36,10 @@ import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
+import org.eclipse.epsilon.erl.dom.IExecutableDataRuleElement;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
-public class GenerationRule extends ExtensibleNamedRule {
+public class GenerationRule extends ExtensibleNamedRule implements IExecutableDataRuleElement {
 	
 	protected Parameter sourceParameter;
 	protected ExecutableBlock<String> targetBlock, templateBlock;
@@ -72,7 +74,8 @@ public class GenerationRule extends ExtensibleNamedRule {
 		}
 	}
 	
-	public void generate(IEolContext context, EglTemplateFactory templateFactory, IEgxModule module, Object element, Map<URI, EglTemplate> templateCache) throws EolRuntimeException {
+	public void generate(IEgxModule module, Object element, Map<URI, EglTemplate> templateCache) throws EolRuntimeException {
+		IEolContext context = module.getContext();
 		FrameStack frameStack = context.getFrameStack();
 		
 		if (sourceParameter != null) {
@@ -93,6 +96,7 @@ public class GenerationRule extends ExtensibleNamedRule {
 		final boolean overwrite = (overwriteBlock == null) ? true : overwriteBlock.execute(context, false);
 		final boolean merge = (mergeBlock == null) ? true : mergeBlock.execute(context, false);			
 		final String templateName = (templateBlock == null) ? "" : templateBlock.execute(context, false);
+		final EglTemplateFactory templateFactory = module.getTemplateFactory();
 		
 		URI templateUri = templateFactory.resolveTemplate(templateName);
 		EglTemplate eglTemplate;
@@ -133,11 +137,11 @@ public class GenerationRule extends ExtensibleNamedRule {
 		eglTemplate.reset();
 	}
 	
-	public void generateAll(IEolContext context, EglTemplateFactory templateFactory, IEgxModule module) throws EolRuntimeException {
+	public void generateAll(IEgxModule module) throws EolRuntimeException {
 		Map<URI, EglTemplate> templateCache = new HashMap<>();
 		
-		for (Object element : getAllElements(context)) {
-			generate(context, templateFactory, module, element, templateCache);
+		for (Object element : getAllElements(module.getContext())) {
+			generate(module, element, templateCache);
 		}
 	}
 
@@ -168,6 +172,16 @@ public class GenerationRule extends ExtensibleNamedRule {
 
 	@Override
 	public AST getSuperRulesAst(AST cst) {
+		return null;
+	}
+	
+	/**
+	 * @since 1.6
+	 * @return Nothing
+	 */
+	@Override
+	public Object executeImpl(Object self, IErlContext context) throws EolRuntimeException {
+		generate((IEgxModule) context.getModule(), self, null);
 		return null;
 	}
 }
