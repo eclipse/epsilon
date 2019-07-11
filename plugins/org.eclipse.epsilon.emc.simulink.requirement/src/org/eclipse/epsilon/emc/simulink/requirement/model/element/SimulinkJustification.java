@@ -43,20 +43,12 @@ public class SimulinkJustification extends SimulinkModelElement implements ISimu
 
 	@Override
 	public Object getProperty(String property) throws EolIllegalPropertyException {
-		try {
-			return engine.feval("getAttribute", justificationHandle.getHandle(), property);
-		} catch (MatlabException e) {
-			throw new EolIllegalPropertyException(this, property, null, null);
-		} 
+		return justificationHandle.getProperty(property);
 	}
 
 	@Override
 	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
-		try {
-			engine.feval("setAttribute", justificationHandle.getHandle(), property, value);
-		} catch (MatlabException e) {
-			throw new EolIllegalPropertyException(this, property, null, null);
-		} 	
+		justificationHandle.setProperty(property, value);
 	}
 
 	@Override

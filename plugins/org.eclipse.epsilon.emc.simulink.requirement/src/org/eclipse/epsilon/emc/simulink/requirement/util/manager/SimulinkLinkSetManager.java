@@ -11,7 +11,6 @@ package org.eclipse.epsilon.emc.simulink.requirement.util.manager;
 
 import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementModel;
 import org.eclipse.epsilon.emc.simulink.requirement.model.element.SimulinkLinkSet;
-import org.eclipse.epsilon.emc.simulink.requirement.model.element.SimulinkRequirement;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
 import org.eclipse.epsilon.emc.simulink.util.manager.AbstractManager;
 

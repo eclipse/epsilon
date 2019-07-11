@@ -12,8 +12,8 @@ package org.eclipse.epsilon.emc.simulink.requirement.model;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
+import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
@@ -40,6 +40,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public class SimulinkRequirementModel extends AbstractSimulinkModel implements ISimulinkRequirementModelElement, IOperationContributorProvider {
 
@@ -64,19 +65,16 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 				+ "for (r in Requirement.all){ r.Id.println('req: '); }\n "
 				+ "for (j in Justification.all){ j.Id.println('jus: '); }\n "
 				+ "for (ref in Reference.all){ ls.Id.println('ref: '); }\n "
-				//+ "for (l in Link.all){ l.Type.println('link: '); }\n "
-				//+ "for (ls in LinkSet.all){ ls.Artifact.println('linkS: '); }\n "
-				//+ "var r = Requirement.all.first().println('Requirement: ');\n "
-				//+ "r.Id = 'MyNewID';"
-				//+ "r.Id.println();"
-				//+ "new Justification;\n "
-				//+ "Justification.all.first().Id.println('Justification: ');\n "
-				
-				//+ "Link.all.size().println('Link: ');"
 		);
 		
 		System.out.println("Executing");
 		module.execute();
+	}
+	
+	@Override
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
+		super.load(properties, resolver);
+		load();
 	}
 	
 	@Override
@@ -186,7 +184,7 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 
 	@Override
 	public boolean hasType(String type) {
-		return Arrays.asList("Justification", "Requirement", "Link", "Reference", "LinkSet", "RequirementSet").contains(type);
+		return true;
 	}
 
 	@Override
@@ -218,13 +216,27 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 	@Override
 	protected Collection<ISimulinkModelElement> getAllOfTypeFromModel(String type)
 			throws EolModelElementTypeNotFoundException {
-		/* FIXME
-		if (type.startsWith("Link")) {
-			// find (LinkType)
-		} else if (type.startsWith("Requirement")) {
-			// find (ReqType)
-		}*/
-		return getAllOfKindFromModel(type);
+		switch (type) {
+		case "Functional":
+		case "Informational":
+		case "Container":
+			try {
+				Object collection = engine.feval("find", getHandle().getHandle(), "ReqType", type);
+				return new SimulinkRequirementCollection(collection, this);
+			} catch (MatlabException e) {
+				e.printStackTrace();
+				break;
+			}
+		default:
+			try {
+				Object collection = engine.feval("find", getHandle().getHandle(), "LinkType", type);
+				return new SimulinkLinkCollection(collection, this);
+			} catch (MatlabException e) {
+				e.printStackTrace();
+				break;
+			}
+		}
+		throw new EolModelElementTypeNotFoundException(this.getName(), type);
 	}
 
 	@Override
@@ -271,11 +283,9 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 				e.printStackTrace();
 				break;
 			}
-		// case RequirementSet (ReqSet) FIXME
-		default:
-			throw new EolModelElementTypeNotFoundException(this.getName(), kind);
 		}
-		return Collections.emptyList();
+		// case RequirementSet (ReqSet) FIXME
+		return getAllOfTypeFromModel(kind);
 	}
 
 	@Override
@@ -297,7 +307,7 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 		default:
 			break;
 		}
-		return null;
+		return super.createInstanceInModel(type);
 	}
 	
 	@Override

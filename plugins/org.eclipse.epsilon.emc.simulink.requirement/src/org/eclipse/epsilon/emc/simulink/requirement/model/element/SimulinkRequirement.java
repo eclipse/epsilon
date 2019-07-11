@@ -71,7 +71,7 @@ public class SimulinkRequirement extends SimulinkModelElement implements ISimuli
 
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		return Arrays.asList(getType());
+		return Arrays.asList("Requirement", getType());
 	}
 
 	@Override
@@ -91,7 +91,11 @@ public class SimulinkRequirement extends SimulinkModelElement implements ISimuli
 	
 	@Override
 	public String getType() {
-		return "Requirement";
+		try {
+			return (String) getProperty("Type");
+		} catch (EolIllegalPropertyException e) {
+			return "Requirement";
+		}
 	}
 
 	/**
