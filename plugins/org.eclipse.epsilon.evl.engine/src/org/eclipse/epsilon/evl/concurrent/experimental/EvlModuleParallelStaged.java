@@ -93,7 +93,7 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 		final ArrayList<ConstraintAtom> constraintGuardResults = new ArrayList<>();
 
 		for (ConstraintContextAtom job : contextJobs) {
-			Collection<Constraint> constraints = preProcessConstraintContext(job.unit);
+			Collection<Constraint> constraints = preProcessConstraintContext(job.rule);
 			Collection<Callable<ConstraintAtom>> constraintGuardJobs = new ArrayList<>(constraints.size());
 			
 			for (Constraint constraint : constraints) {
@@ -107,7 +107,7 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 			
 			constraintGuardResults.ensureCapacity(constraints.size());
 			
-			context.executeParallelTyped(job.unit, constraintGuardJobs)
+			context.executeParallelTyped(job.rule, constraintGuardJobs)
 				.stream()
 				.filter(ca -> ca != null)
 				.forEach(constraintGuardResults::add);
@@ -127,7 +127,7 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 		final Collection<CheckedEolRunnable> constraintCheckJobs = new ArrayList<>(constraintJobs.size());
 
 		for (ConstraintAtom job : constraintJobs) {
-			constraintCheckJobs.add(() -> job.unit.execute(job.element, context));
+			constraintCheckJobs.add(() -> job.rule.execute(job.element, context));
 		}
 
 		context.executeParallel(this, constraintCheckJobs);

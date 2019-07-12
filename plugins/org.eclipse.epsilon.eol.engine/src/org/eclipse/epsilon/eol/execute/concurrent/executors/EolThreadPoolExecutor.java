@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.eol.execute.concurrent.executors;
 
 import java.util.concurrent.*;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.EolConcurrentExecutionStatus;
 import org.eclipse.epsilon.eol.execute.concurrent.EolThreadFactory;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
@@ -71,6 +72,14 @@ public class EolThreadPoolExecutor extends ThreadPoolExecutor implements EolExec
 	public EolThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
 		super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, (r, e) -> {});
 		setThreadFactory(new EolThreadFactory(this::handleException, maximumPoolSize));
+	}
+	
+	@Override
+	protected void afterExecute(Runnable r, Throwable t) {
+		super.afterExecute(r, t);
+		if (t instanceof Exception) {
+			handleException(EolRuntimeException.findCause(t));
+		}
 	}
 
 	@Override

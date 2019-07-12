@@ -34,8 +34,8 @@ public class ConstraintContextAtom extends RuleAtom<ConstraintContext> {
 	}
 	
 	public Collection<UnsatisfiedConstraint> executeWithResults(IEvlContext context) throws EolRuntimeException {
-		if (unit.shouldBeChecked(element, context)) {
-			Collection<Constraint> constraints = unit.getConstraints();
+		if (rule.shouldBeChecked(element, context)) {
+			Collection<Constraint> constraints = rule.getConstraints();
 			ArrayList<UnsatisfiedConstraint> results = new ArrayList<>(constraints.size());
 			for (Constraint constraint : constraints) {
 				constraint.execute(element, context).ifPresent(results::add);

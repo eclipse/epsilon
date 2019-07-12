@@ -124,6 +124,8 @@ public class EolRuntimeException extends Exception {
 	 * unless there is a {@linkplain StackOverflowError}.
 	 */
 	public static EolRuntimeException findCause(Throwable runtimeEx) {
+		if (runtimeEx == null) return null;
+		if (runtimeEx instanceof EolRuntimeException) return (EolRuntimeException) runtimeEx;
 		return findCauseImpl(runtimeEx, new HashSet<>());
 	}
 	

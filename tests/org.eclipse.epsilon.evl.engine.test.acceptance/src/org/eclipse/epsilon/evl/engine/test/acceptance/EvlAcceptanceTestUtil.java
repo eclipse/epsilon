@@ -137,8 +137,8 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 			includeStandard ? EvlModule::new : null,
 			EvlModuleParallelConstraints::new,
 			EvlModuleParallelStaged::new,
-			//EvlModuleParallelContextAtoms::new,
-			//EvlModuleParallelConstraintAtoms::new,
+			EvlModuleParallelContextAtoms::new,
+			EvlModuleParallelConstraintAtoms::new,
 			EvlModuleParallel::new,
 			EvlModuleParallelAnnotation::new,
 			EvlModuleParallelElements::new

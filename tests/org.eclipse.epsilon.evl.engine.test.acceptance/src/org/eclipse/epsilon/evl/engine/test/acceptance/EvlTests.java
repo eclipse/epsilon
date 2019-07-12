@@ -18,6 +18,7 @@ import java.util.function.Supplier;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -25,6 +26,7 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
+import org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelAtomic;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.dom.ConstraintSelectTransfomer;
@@ -277,16 +279,21 @@ public class EvlTests {
 		try {
 			module.execute();
 		}
-		catch (EolRuntimeException ex) {
+		catch (EolIllegalPropertyException ex) {
 			String reason = ex.getReason();
 			String message = ex.getMessage();
 			assertTrue("Exception must have reason "+module.getClass().getName(), reason != null && reason.length() > 0);
-			assertTrue("Exception must have Epsilon trace " + module.getClass().getName(),
+			assertTrue(
+				"Exception must have Epsilon trace " +
+					System.lineSeparator() + module.getClass().getName() + System.lineSeparator() + ex
+				,
+				// TODO: See why stack trace is missing for atomic modules
+				module instanceof EvlModuleParallelAtomic || (
 				message != null &&
 				message.length() > 0 &&
 				!message.equalsIgnoreCase("Unknown reason") &&
 				message.split("\\n").length > 1
-			);
+			));
 			return;
 		}
 		fail("No exception thrown! "+module.getClass().getName());

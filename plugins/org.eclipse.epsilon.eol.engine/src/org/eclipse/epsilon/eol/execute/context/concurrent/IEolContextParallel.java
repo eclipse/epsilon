@@ -76,22 +76,13 @@ public interface IEolContextParallel extends IEolContext {
 		if (status != null && status.isInProgress())
 			throw new EolNestedParallelismException(entryPoint);
 	}
-
-	/**
-	 * Calls {@link #beginParallelTask(ModuleElement)} with this context's module.
-	 * @return
-	 * @throws EolNestedParallelismException
-	 * @see {@link #beginParallelTask(ModuleElement)}
-	 */
-	default EolExecutorService beginParallelTask() throws EolNestedParallelismException {
-		return beginParallelTask(getModule());
-	}
 	
 	/**
 	 * Registers the beginning of parallel task on the default EolExecutorService.
 	 * The {@link #endParallelTask()} method must be called once finished.
 	 * 
-	 * @param entryPoint The AST to associate with this task.
+	 * @param entryPoint The AST to associate with this task. May be null, in which
+	 * case a default value (e.g. {@linkplain #getModule()}) should be used.
 	 * @return {@link #getExecutorService()}
 	 * @throws EolNestedParallelismException If there was already a parallel task in progress.
 	 */
@@ -202,6 +193,7 @@ public interface IEolContextParallel extends IEolContext {
 		return result;
 	}
 
+	
 	/**
 	 * Convenience method for setting the parallelism on a context.
 	 * @param properties The parameter passed to the configure method of the module.
@@ -217,5 +209,26 @@ public interface IEolContextParallel extends IEolContext {
 			return contextConstructor.apply(parallelism);
 		}
 		return currentContext;
+	}
+	
+	// No entryPoint defaults
+	
+	default EolExecutorService beginParallelTask() throws EolNestedParallelismException {
+		return beginParallelTask(null);
+	}
+	default void executeParallel(Collection<? extends Runnable> jobs) throws EolRuntimeException {
+		executeParallel(null, jobs);
+	}
+	default <T> Collection<T> executeParallelTyped(Collection<Callable<T>> jobs) throws EolRuntimeException {
+		return executeParallelTyped(null, jobs);
+	}
+	default void completeShortCircuit(Object result) {
+		completeShortCircuit(null, result);
+	}
+	default <T> T shortCircuitTyped(Collection<Callable<T>> jobs) throws EolRuntimeException {
+		return shortCircuitTyped(null, jobs);
+	}
+	default Object shortCircuit(Collection<? extends Runnable> jobs) throws EolRuntimeException {
+		return shortCircuit(null, jobs);
 	}
 }

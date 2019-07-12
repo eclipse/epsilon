@@ -43,10 +43,6 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
 			
 			for (Object element : allOfKind) {
-				// Lambdas are faster for this kind of work
-				// invokedynamic is more direct than creating an AIC and
-				// dispatching virtual call.
-				// @see http://www.oracle.com/technetwork/java/jvmls2013kuksen-2014088.pdf
 				executor.execute(() -> constraintContext.execute(constraintsToCheck, element, context));
 			}
 		}

@@ -25,30 +25,30 @@ import org.eclipse.epsilon.erl.execute.context.IErlContext;
  */
 public abstract class RuleAtom<T extends IExecutableDataRuleElement> {
 
-	public final T unit;
+	public final T rule;
 	public final Object element;
 	
 	public RuleAtom(T construct, Object modelElement) {
-		this.unit = construct;
+		this.rule = construct;
 		this.element = modelElement;
 	}
 	
 	public Object execute(IErlContext context) throws EolRuntimeException {
-		return unit.execute(element, context);
+		return rule.execute(element, context);
 	}
 	
 	public Entry<T, Object> asEntry() {
-		return new SimpleEntry<>(unit, element);
+		return new SimpleEntry<>(rule, element);
 	}
 	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName()+" [unit=" + unit + ", element=" + element + "]";
+		return getClass().getSimpleName()+" [unit=" + rule + ", element=" + element + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(unit, element);
+		return Objects.hash(rule, element);
 	}
 	
 	@Override
@@ -58,6 +58,6 @@ public abstract class RuleAtom<T extends IExecutableDataRuleElement> {
 		RuleAtom<?> other = (RuleAtom<?>) obj;
 		return
 			Objects.equals(this.element, other.element) &&
-			Objects.equals(this.unit, other.unit);
+			Objects.equals(this.rule, other.rule);
 	}
 }

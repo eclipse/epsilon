@@ -48,7 +48,7 @@ public final class EvlModuleParallelRandom extends ProfilableEvlModuleParallel {
 		
 		profileCreateJobs(() -> {
 			for (ConstraintAtom job : originalJobs) {
-				executorJobs.add(() -> job.unit.execute(job.element, context));
+				executorJobs.add(() -> job.rule.execute(job.element, context));
 			}
 		});
 		

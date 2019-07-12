@@ -13,13 +13,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Spliterator;
-import java.util.concurrent.Future;
+import java.util.concurrent.Callable;
 import java.util.stream.BaseStream;
 import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.erl.IErlModule;
-import org.eclipse.epsilon.erl.dom.IExecutableDataRuleElement;
 import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 import org.eclipse.epsilon.erl.execute.data.JobBatch;
 import org.eclipse.epsilon.erl.execute.data.RuleAtom;
@@ -32,7 +30,7 @@ import org.eclipse.epsilon.erl.execute.data.RuleAtom;
  * @author Sina Madani
  * @since 1.6
  */
-public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<? extends IExecutableDataRuleElement>> extends IErlModule {
+public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends IErlModule {
 
 	/**
 	 * The atomic units of work.
@@ -63,7 +61,6 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<? extends IE
 		else if (job instanceof Iterator) {
 			final List<Object> results;
 			IErlContextParallel context = getContext();
-			
 			if (isInLoop) {
 				results = new LinkedList<>();
 				for (
@@ -71,22 +68,16 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<? extends IE
 					iter.hasNext();
 					results.add(executeJobImpl(iter.next(), isInLoop))
 				);
-				
 				return results;
 			}
 			else {
 				assert context.isParallelisationLegal();
-				EolExecutorService executor = context.beginParallelTask();
-				List<Future<Object>> jobFutures = new LinkedList<>();
-				
+				List<Callable<Object>> jobs = new LinkedList<>();
 				for (Iterator<?> iter = (Iterator<?>) job; iter.hasNext();) {
 					final Object nextJob = iter.next();
-					jobFutures.add(executor.submit(() -> executeJobImpl(nextJob, true)));
+					jobs.add(() -> executeJobImpl(nextJob, true));
 				}
-				
-				results = executor.collectResults(jobFutures);
-				context.endParallelTask();
-				return results;
+				return context.executeParallelTyped(jobs);
 			}
 		}
 		else if (job instanceof BaseStream) {
