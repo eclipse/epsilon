@@ -21,6 +21,7 @@ import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
 import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.concurrent.*;
+import org.eclipse.epsilon.evl.concurrent.atomic.*;
 import org.eclipse.epsilon.evl.concurrent.experimental.*;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 
@@ -136,6 +137,8 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 			includeStandard ? EvlModule::new : null,
 			EvlModuleParallelConstraints::new,
 			EvlModuleParallelStaged::new,
+			//EvlModuleParallelContextAtoms::new,
+			//EvlModuleParallelConstraintAtoms::new,
 			EvlModuleParallel::new,
 			EvlModuleParallelAnnotation::new,
 			EvlModuleParallelElements::new

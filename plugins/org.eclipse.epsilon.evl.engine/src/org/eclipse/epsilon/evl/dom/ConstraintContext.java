@@ -136,14 +136,17 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @param modelElement The model element object.
 	 * @param context The execution context.
 	 * @throws EolRuntimeException
+	 * @return Whether the constraints were checked.
 	 * @since 1.6
 	 */
-	public void execute(Collection<Constraint> constraintsToCheck, Object modelElement, IEvlContext context) throws EolRuntimeException {
+	public boolean execute(Collection<Constraint> constraintsToCheck, Object modelElement, IEvlContext context) throws EolRuntimeException {
 		if (shouldBeChecked(modelElement, context)) {
 			for (Constraint constraint : constraintsToCheck) {
 				constraint.execute(modelElement, context);
 			}
+			return true;
 		}
+		return false;
 	}
 	
 	/**
@@ -174,17 +177,16 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @see {@link #execute(Collection, Object, IEvlContext)}
 	 * @since 1.6
 	 */
-	public void execute(Object modelElement, IEvlContext context) throws EolRuntimeException {
-		execute(getConstraints(), modelElement, context);
+	public boolean execute(Object modelElement, IEvlContext context) throws EolRuntimeException {
+		return execute(getConstraints(), modelElement, context);
 	}
 	
 	/**
 	 * @since 1.6
 	 */
 	@Override
-	public Object executeImpl(Object self, IErlContext context) throws EolRuntimeException {
-		execute(self, (IEvlContext) context);
-		return null;
+	public Boolean executeImpl(Object self, IErlContext context) throws EolRuntimeException {
+		return execute(self, (IEvlContext) context);
 	}
 	
 	/**

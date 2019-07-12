@@ -12,7 +12,9 @@ package org.eclipse.epsilon.erl.execute.data;
 import java.util.Objects;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.dom.IExecutableDataRuleElement;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
  * A single rule-based construct and model element combination.
@@ -29,6 +31,10 @@ public abstract class RuleAtom<T extends IExecutableDataRuleElement> {
 	public RuleAtom(T construct, Object modelElement) {
 		this.unit = construct;
 		this.element = modelElement;
+	}
+	
+	public Object execute(IErlContext context) throws EolRuntimeException {
+		return unit.execute(element, context);
 	}
 	
 	public Entry<T, Object> asEntry() {

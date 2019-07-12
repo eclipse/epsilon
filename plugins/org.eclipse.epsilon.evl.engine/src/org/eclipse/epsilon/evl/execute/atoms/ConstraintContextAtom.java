@@ -33,16 +33,6 @@ public class ConstraintContextAtom extends RuleAtom<ConstraintContext> {
 		super(constraintContext, modelElement);
 	}
 	
-	public boolean execute(IEvlContext context) throws EolRuntimeException {
-		if (unit.shouldBeChecked(element, context)) {
-			for (Constraint constraint : unit.getConstraints()) {
-				constraint.execute(element, context);
-			}
-			return true;
-		}
-		else return false;
-	}
-	
 	public Collection<UnsatisfiedConstraint> executeWithResults(IEvlContext context) throws EolRuntimeException {
 		if (unit.shouldBeChecked(element, context)) {
 			Collection<Constraint> constraints = unit.getConstraints();
