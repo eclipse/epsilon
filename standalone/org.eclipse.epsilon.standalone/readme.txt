@@ -21,3 +21,8 @@ reuses the maven-gpg-plugin to sign and deploy the binary, source, and
 javadoc JARs in tandem to Sonatype OSSRH. The custom Maven plugin is
 in ../eutils-maven-plugin. For more instructions on its use, check the
 comments of its EpsilonStandaloneDeployMojo class.
+
+IMPORTANT !!!
+
+If the jarmodel.xml is modified it is IMPORTANT to run the jarmodel2mvn.launch file 
+as this step is not part of the CI build process.

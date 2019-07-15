@@ -109,7 +109,19 @@
         <outputDirectory></outputDirectory>
       </fileSet>
       <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.emc.simulink.common/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
         <directory>../../plugins/org.eclipse.epsilon.emc.simulink/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.emc.simulink.dictionary/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.emc.simulink.requirement/target/classes</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
       <fileSet>
