@@ -10,7 +10,6 @@ import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementModel;
 import org.eclipse.epsilon.emc.simulink.requirement.util.collection.SimulinkJustificationCollection;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class SimulinkJustification extends SimulinkModelElement implements ISimulinkRequirementModelElement {
@@ -20,7 +19,7 @@ public class SimulinkJustification extends SimulinkModelElement implements ISimu
 	public SimulinkJustification(SimulinkRequirementModel model, MatlabEngine engine, SimulinkJustification justif) {
 		super(model, engine);
 		try {
-			justificationHandle = new MatlabHandleElement(model, engine, (HandleObject) engine.feval("add", justif.getHandle().getHandle()));
+			justificationHandle = new MatlabHandleElement(model, engine, (HandleObject) engine.fevalWithResult("add", justif.getHandle().getHandle()));
 		} catch (MatlabException e) {
 			e.printStackTrace();
 		}
@@ -30,7 +29,7 @@ public class SimulinkJustification extends SimulinkModelElement implements ISimu
 	public SimulinkJustification(SimulinkRequirementModel model, MatlabEngine engine) {
 		super(model, engine);
 		try {
-			justificationHandle = new MatlabHandleElement(model, engine, (HandleObject) engine.feval("addJustification", model.getHandle().getHandle()));
+			justificationHandle = new MatlabHandleElement(model, engine, (HandleObject) engine.fevalWithResult("addJustification", model.getHandle().getHandle()));
 		} catch (MatlabException e) {
 			e.printStackTrace();
 		}
@@ -42,12 +41,12 @@ public class SimulinkJustification extends SimulinkModelElement implements ISimu
 	}
 
 	@Override
-	public Object getProperty(String property) throws EolIllegalPropertyException {
+	public Object getProperty(String property) throws EolRuntimeException {
 		return justificationHandle.getProperty(property);
 	}
 
 	@Override
-	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
+	public void setProperty(String property, Object value) throws EolRuntimeException {
 		justificationHandle.setProperty(property, value);
 	}
 
@@ -78,7 +77,7 @@ public class SimulinkJustification extends SimulinkModelElement implements ISimu
 	
 	public SimulinkJustificationCollection children() {
 		try {
-			Object children = engine.feval("children", justificationHandle.getHandle());
+			Object children = engine.fevalWithResult("children", justificationHandle.getHandle());
 			return new SimulinkJustificationCollection(children, (SimulinkRequirementModel) model);
 		} catch (MatlabException e) {
 			return null; //FIXME
@@ -91,7 +90,7 @@ public class SimulinkJustification extends SimulinkModelElement implements ISimu
 	
 	public ISimulinkRequirementModelElement parent() {
 		try {
-			MatlabHandleElement parent = new MatlabHandleElement((SimulinkRequirementModel)model, getEngine(), (HandleObject) engine.feval("parent", justificationHandle.getHandle()));
+			MatlabHandleElement parent = new MatlabHandleElement((SimulinkRequirementModel)model, getEngine(), (HandleObject) engine.fevalWithResult("parent", justificationHandle.getHandle()));
 			if ("Justification".equals(parent.getType())){
 				return new SimulinkJustification((SimulinkRequirementModel)model, engine, (HandleObject) parent.getHandle());
 			} else {

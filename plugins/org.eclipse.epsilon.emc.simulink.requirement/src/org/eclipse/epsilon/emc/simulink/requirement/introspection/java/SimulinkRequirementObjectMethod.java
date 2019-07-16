@@ -12,7 +12,6 @@ package org.eclipse.epsilon.emc.simulink.requirement.introspection.java;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
-import org.eclipse.epsilon.emc.simulink.model.element.MatlabHandleElement;
 import org.eclipse.epsilon.emc.simulink.requirement.model.element.ISimulinkRequirementModelElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
@@ -32,13 +31,36 @@ public class SimulinkRequirementObjectMethod extends ObjectMethod {
 	public Object execute(Object[] parameters, ModuleElement ast) throws EolRuntimeException {
 		try {
 			if (parameters ==null || parameters.length==0) {
-				return engine.feval(name, ((MatlabHandleElement)((ISimulinkRequirementModelElement) object).getHandle()).getHandle());
+				return engine.fevalWithResult(name, ((ISimulinkRequirementModelElement) object).getHandle());
 			} else {
-				return engine.feval(name, ((MatlabHandleElement)((ISimulinkRequirementModelElement) object).getHandle()).getHandle(), parameters);
+				Object[] params = new Object[parameters.length+1];
+				params[0] = ((ISimulinkRequirementModelElement) object).getHandle();
+				for (int i=0; i<parameters.length; i++) {
+					params[i+1] = parameters[i];
+				}
+				return engine.fevalWithResult(name, params);
 			}
 			
 		} catch (MatlabException e) {
-			throw new EolRuntimeException(e);
+			if (e.isTooManyOutput()) {
+					try{
+						if (parameters ==null || parameters.length==0) {
+						engine.feval(0, name, ((ISimulinkRequirementModelElement) object).getHandle());
+						return null;
+					} else {
+						Object[] params = new Object[parameters.length+1];
+						params[0] = ((ISimulinkRequirementModelElement) object).getHandle();
+						for (int i=0; i<parameters.length; i++) {
+							params[i+1] = parameters[i];
+						}
+						engine.feval(0, name, params);
+						return null;
+					}
+				} catch (MatlabException ex) {
+					throw e.toEolRuntimeException(ast);
+				}
+			} 
+			throw e.toEolRuntimeException(ast);
 		}
 	}
 

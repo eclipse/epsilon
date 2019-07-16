@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.UUID;
 
 import org.eclipse.epsilon.emc.simulink.common.test.AbstractCommonSimulinkTest;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.IGenericSimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineSetupEnum;
+import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
 public class AbstractSimulinkTest extends AbstractCommonSimulinkTest {
@@ -36,7 +38,11 @@ public class AbstractSimulinkTest extends AbstractCommonSimulinkTest {
 			String engine = MatlabEngineSetupEnum.ENGINE_JAR.path(version);
 			System.out.println(engine);
 			model.setEngineJarPath(engine);
-		} catch (Exception e) {
+		} catch (EolAssertionException e) {
+			e.printStackTrace();
+			throw e;
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
@@ -53,6 +59,16 @@ public class AbstractSimulinkTest extends AbstractCommonSimulinkTest {
 	@Override
 	public SimulinkModel getModel() {
 		return new SimulinkModel();
+	}
+
+	@Override
+	public void dispose(IGenericSimulinkModel model) {
+		model.dispose();
+		SimulinkModel simModel = (SimulinkModel) model;
+		try {
+			simModel.getEngine().eval("close_system('?',0)", simModel.getSimulinkModelName());
+		} catch (MatlabException e) {}
+		
 	}
 
 }

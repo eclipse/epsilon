@@ -9,50 +9,58 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.engine;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
+import org.eclipse.epsilon.emc.simulink.exception.EpsilonSimulinkInternalException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("unchecked")
 public class MatlabEngine {
 
+	/** MATHWOWRKS CLASS */
+	private static final String MATLAB_ENGINE_CLASS = "com.mathworks.engine.MatlabEngine";
+	
 	/** ENGINE STATIC METHODS */
 	private static final String CONNECT_MATLAB_METHOD = "connectMatlab";
-	private static final String CONNECT_MATLAB_ASYNC_METHOD = "connectMatlabAsync";
 	private static final String START_MATLAB_METHOD = "connectMatlab";
-	private static final String START_MATLAB_ASYNC_METHOD = "connectMatlabAsync";
 	private static final String FIND_MATLAB_METHOD = "connectMatlab";
+
+	/** ASYNC 
+	private static final String CONNECT_MATLAB_ASYNC_METHOD = "connectMatlabAsync";
+	private static final String START_MATLAB_ASYNC_METHOD = "connectMatlabAsync";
 	private static final String FIND_MATLAB_ASYNC_METHOD = "connectMatlabAsync";
+	 */
 
 	/** ENGINE METHODS */
 	private static final String GET_VARIABLE_METHOD = "getVariable";
-	private static final String GET_VARIABLE_ASYNC_METHOD = "getVariableAsync";
 	private static final String PUT_VARIABLE_METHOD = "putVariable";
-	private static final String PUT_VARIABLE_ASYNC_METHOD = "putVariableAsync";
 	private static final String EVAL_METHOD = "eval";
 	private static final String EVAL_ASYNC_METHOD = "evalAsync";
 	private static final String FEVAL_METHOD = "feval";
-	private static final String FEVAL_ASYNC_METHOD = "fevalAsync";
 	private static final String DISCONNECT_METHOD = "disconnect";
-	private static final String DISCONNECT_ASYNC_METHOD = "disconnectAsync";
 	private static final String QUIT_METHOD = "quit";
-	private static final String QUIT_ASYNC_METHOD = "quitAsync";
 	private static final String CLOSE_METHOD = "close";
 
 	private static final String RESULT = "result";
 	private static final String ASIGN = " = ";
 	private static final String PARAM_REGEX = "[?]";
 
-	/** MATHWOWRKS CLASS */
-	private static final String MATLAB_ENGINE_CLASS = "com.mathworks.engine.MatlabEngine";
+	/** ASYNC
+	
+	private static final String GET_VARIABLE_ASYNC_METHOD = "getVariableAsync";
+	private static final String PUT_VARIABLE_ASYNC_METHOD = "putVariableAsync";
+	private static final String DISCONNECT_ASYNC_METHOD = "disconnectAsync";
+	private static final String QUIT_ASYNC_METHOD = "quitAsync";
+	 */
+	private static final String FEVAL_ASYNC_METHOD = "fevalAsync";
 	
 	/** ERRORS AND LOGS */
 	private static final String ERROR_INVALID_PARAMETER_NUMBER = "%d parameters were expected but %d were provided";
-	private static final Logger LOGGER = LoggerFactory.getLogger(MatlabEngine.class);
 	
 	/** VARIABLES */
 	protected Object engine;
@@ -73,12 +81,19 @@ public class MatlabEngine {
 	protected Method disconnectMethod;
 	
 
-	public MatlabEngine(Class<?> matlabEngineClass) throws Exception {
+	public MatlabEngine(Class<?> matlabEngineClass) throws MatlabException  {
 		try{
 			engine = matlabEngineClass.getMethod(CONNECT_MATLAB_METHOD).invoke(null);
-		} catch (Exception e) {
-			LOGGER.debug("retrying connection");
-			engine = matlabEngineClass.getMethod(CONNECT_MATLAB_METHOD).invoke(null);
+		} catch (InvocationTargetException e) {
+			try{
+				engine = matlabEngineClass.getMethod(CONNECT_MATLAB_METHOD).invoke(null);
+			} catch (InvocationTargetException ex) {
+				throw new MatlabException(e);
+			} catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException ex) {
+				throw new EpsilonSimulinkInternalException(e);
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException e) {
+			throw new EpsilonSimulinkInternalException(e);
 		}
 	}
 
@@ -134,6 +149,14 @@ public class MatlabEngine {
 		}
 	}
 	
+	protected Object processInputObject(Object o){
+		return MatlabEngineUtil.formatForMatlabEngine(o);
+	}
+	
+	protected Object[] processInputObject(Object[] objects){
+		return Arrays.asList(objects).stream().map(o -> processInputObject(o)).collect(Collectors.toList()).toArray(new Object[0]);
+	}
+	
 	/** CLASS METHODS */
 	
 	public static MatlabEngine startMatlab() throws MatlabException {
@@ -141,31 +164,35 @@ public class MatlabEngine {
 			Method startMatlabMethod = engine_class.getMethod(START_MATLAB_METHOD);
 			Object returnedEngine = startMatlabMethod.invoke(null);
 			return new MatlabEngine(returnedEngine);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new MatlabException(e); 
-		}
+		} catch (NoSuchMethodException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} 
+		
 	}
 	
 	public static MatlabEngine startMatlab(String[] options) throws MatlabException {
 		try {
 			Method startMatlabMethod = engine_class.getMethod(START_MATLAB_METHOD, String[].class);
-			Object returnedEngine = startMatlabMethod.invoke(null, options);
+			Object returnedEngine = startMatlabMethod.invoke(null, (Object) options);
 			return new MatlabEngine(returnedEngine);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new MatlabException(e); 
-		}
+		} catch (NoSuchMethodException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} 
 	}
 	
 	public static String[] findMatlab() throws MatlabException {
 		try {
 			Method findMatlabMethod = engine_class.getMethod(FIND_MATLAB_METHOD);
 			return (String[]) findMatlabMethod.invoke(null);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new MatlabException(e); 
-		}
+		} catch (NoSuchMethodException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} 
 	}
 	
 	public static MatlabEngine connectMatlab() throws MatlabException {
@@ -173,10 +200,11 @@ public class MatlabEngine {
 			Method connectMatlabMethod = engine_class.getMethod(CONNECT_MATLAB_METHOD);
 			Object returnedEngine = connectMatlabMethod.invoke(null);
 			return new MatlabEngine(returnedEngine);		
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new MatlabException(e); 
-		}
+		} catch (NoSuchMethodException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} 
 	}
 	
 	public static MatlabEngine connectMatlab(String name) throws MatlabException {
@@ -184,118 +212,229 @@ public class MatlabEngine {
 			Method connectMatlabMethod = engine_class.getMethod(CONNECT_MATLAB_METHOD, String.class);
 			Object returnedEngine = connectMatlabMethod.invoke(null, name);
 			return new MatlabEngine(returnedEngine);		
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new MatlabException(e); 
-		}
+		} catch (NoSuchMethodException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} 
 	}
-	
-	// TODO continue with the asynchronous static class methods 
-	
+		
 	/** OBJECT METHODS */
 	
 	public void eval(String cmd) throws MatlabException {
 		if (evalMethod == null) {
 			try {
 				evalMethod = engine.getClass().getMethod(EVAL_METHOD, String.class);
-			} catch (Exception e) {
-				throw new MatlabException(e);
+			} catch (NoSuchMethodException | SecurityException e) {
+				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
 		try {
-			LOGGER.debug(cmd);
 			evalMethod.invoke(engine, cmd);
-		} catch (Exception e) {
-			LOGGER.debug(e.getMessage());
+		} catch (InvocationTargetException e) {
 			throw new MatlabException(e);
-		}
+		} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} 
 	}
 	
-
 	public Future<Void> evalAsync(String cmd) throws MatlabException {
 		if (evalAsyncMethod == null) {
 			try {
 				evalAsyncMethod = engine.getClass().getMethod(EVAL_ASYNC_METHOD, String.class);
-			} catch (Exception e) {
-				throw new MatlabException(e);
+			} catch (NoSuchMethodException | SecurityException e) {
+				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
 		try {
 			return (Future<Void>) evalAsyncMethod.invoke(engine, cmd);
-		} catch (Exception e) {
+		} catch (InvocationTargetException e) {
 			throw new MatlabException(e);
-		}
+		} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} 
 	}
 	
 	public Object getVariable(String variable) throws MatlabException {
 		if (getVariableMethod == null) {
 			try {
 				getVariableMethod = engine.getClass().getMethod(GET_VARIABLE_METHOD, String.class);
-			} catch (Exception e) {
-				throw new MatlabException(e);
+			} catch (NoSuchMethodException | SecurityException e) {
+				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
 		try {
 			return MatlabEngineUtil.parseMatlabEngineVariable(getVariableMethod.invoke(engine, variable));
-		} catch (Exception e) {
+		} catch (InvocationTargetException e) {
 			throw new MatlabException(e);
-		}
+		} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} 
 	}
-	
-	public Object feval(int numberOfOutputs, String function, Object...handles) throws MatlabException {
+
+	public Object fevalWithResult(int numberOfOutputs, String function, Object...handles) throws MatlabException {
 		if (fevalWithVariableOutputsMethod == null) {
 			try {
 				fevalWithVariableOutputsMethod = engine.getClass().getMethod(FEVAL_METHOD, int.class, String.class, Object[].class);
-			} catch (Exception e) {
-				throw new MatlabException(e);
+			} catch (NoSuchMethodException | SecurityException e) {
+				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
 		try {
-			Object res = fevalWithVariableOutputsMethod.invoke(engine, numberOfOutputs, function, handles);
+			Object res = fevalWithVariableOutputsMethod.invoke(engine, numberOfOutputs, function, processInputObject(handles));
 			if (res != null) {
 				return MatlabEngineUtil.parseMatlabEngineVariable(res);
 			}
 			return null;
-		} catch (Exception e) {
+		} catch (InvocationTargetException e) {
 			throw new MatlabException(e);
-		}
+		} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} 
 	}
-	
-		
-	public Object feval(String function, Object... handles) throws MatlabException {
-		if (fevalMethod == null) {
+
+	public void feval(int numberOfOutputs, String function, Object...handles) throws MatlabException {
+		if (fevalWithVariableOutputsMethod == null) {
 			try {
-				fevalMethod = engine.getClass().getMethod(FEVAL_METHOD, String.class, Object[].class);
-			} catch (Exception e) {
-				throw new MatlabException(e);
+				fevalWithVariableOutputsMethod = engine.getClass().getMethod(FEVAL_METHOD, int.class, String.class, Object[].class);
+			} catch (NoSuchMethodException | SecurityException e) {
+				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
 		try {
-			Object res = fevalMethod.invoke(engine, function, handles);
-			if (res != null) {
-				return MatlabEngineUtil.parseMatlabEngineVariable(res);
-			}
-			
-		} catch (Exception e) {
-			MatlabException e1 = new MatlabException(e);
-			// Some methods such as saveChanges have no returning value. If called 
-			// with this function and fails with not finding the method or the method
-			// throwing an exception, try reducing the number of expected outputs
-			System.err.println("Trying to find alternative '" + function + "' method...");
-			if (e1.isMatchingSignatureError() || e1.isTooManyOutput()) {
-				System.err.println("Alternative found for '" + function + "' method");
-				return feval(0, function, handles);		
-			} else {
-				System.err.println("No alternative found for '" + function + "' method");
-				throw e1;
+			fevalWithVariableOutputsMethod.invoke(engine, numberOfOutputs, function, processInputObject(handles));
+		} catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} 
+	}
+	
+		
+	public Object fevalWithResult(String function, Object... handles) throws MatlabException {
+		if (fevalMethod == null) {
+			try {
+				fevalMethod = engine.getClass().getMethod(FEVAL_METHOD, String.class, Object[].class);
+			} catch (NoSuchMethodException | SecurityException e) {
+				throw new EpsilonSimulinkInternalException(e);
 			}
 		}
-		return null;
+		Object[] processInputObject = processInputObject(handles);
+		try {
+			Object res = fevalMethod.invoke(engine, function, processInputObject);
+			return MatlabEngineUtil.parseMatlabEngineVariable(res);
+		} catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} 
+	}
+	
+	public void feval(String function, Object... handles) throws MatlabException {
+		if (fevalMethod == null) {
+			try {
+				fevalMethod = engine.getClass().getMethod(FEVAL_METHOD, String.class, Object[].class);
+			} catch (NoSuchMethodException | SecurityException e) {
+				throw new EpsilonSimulinkInternalException(e);
+			}
+		}
+		try {
+			fevalMethod.invoke(engine, function, processInputObject(handles));
+		} catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} 
+	}
+	
+	public void putVariable(String variableName, Object value) throws MatlabException {
+		if (putVariableMethod == null) {
+			try {
+				putVariableMethod = engine.getClass().getMethod(PUT_VARIABLE_METHOD, String.class, Object.class);
+			}catch (NoSuchMethodException | SecurityException e) {
+				throw new EpsilonSimulinkInternalException(e);
+			}
+		}
+		try {
+			putVariableMethod.invoke(engine, variableName, processInputObject(value));
+		} catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} 
+	}
+	
+	public void fevalAsync(String function, Object... handles) throws MatlabException {
+		if (fevalAsyncMethod == null) {
+			try {
+				fevalAsyncMethod = engine.getClass().getMethod(FEVAL_ASYNC_METHOD, String.class, Object[].class);
+			} catch (NoSuchMethodException | SecurityException e) {
+				throw new EpsilonSimulinkInternalException(e);
+			}
+		}
+		try {
+			fevalAsyncMethod.invoke(engine, function, handles);
+		} catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} 
+	}
+	
+	public void close() throws MatlabException {
+		if (closeMethod == null) {
+			try {
+				closeMethod = engine.getClass().getMethod(CLOSE_METHOD);
+			} catch (NoSuchMethodException | SecurityException e) {
+				throw new EpsilonSimulinkInternalException(e);
+			}
+		}
+		try {
+			closeMethod.invoke(engine);
+		}  catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} 
+	}
+	
+	public void quit() throws MatlabException {
+		if (quitMethod == null) {
+			try {
+				quitMethod = engine.getClass().getMethod(QUIT_METHOD);
+			} catch (NoSuchMethodException | SecurityException e) {
+				throw new EpsilonSimulinkInternalException(e);
+			}
+		}
+		try {
+			quitMethod.invoke(engine);
+		}  catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} 
+	}
+	
+	public void disconnect() throws MatlabException {
+		if (disconnectMethod == null) {
+			try {
+				disconnectMethod = engine.getClass().getMethod(DISCONNECT_METHOD);
+			} catch (NoSuchMethodException | SecurityException e) {
+				throw new EpsilonSimulinkInternalException(e);
+			}
+		}
+		try {
+			disconnectMethod.invoke(engine);
+		} catch (InvocationTargetException e) {
+			throw new MatlabException(e);
+		} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			throw new EpsilonSimulinkInternalException(e);
+		} 
 	}
 	
 	/*
 	// FIXME
-	public <T> Future<T> getVariableAsync(String variable) throws MatlabException {
+	public <T> Future<T> fAsync(String variable) throws MatlabException {
 		if (getVariableAsyncMethod == null) {
 			try {
 				getVariableAsyncMethod = engine.getClass().getMethod(GET_VARIABLE_ASYNC_METHOD, String.class);
@@ -311,66 +450,5 @@ public class MatlabEngine {
 			throw new MatlabException(e);
 		}
 	}*/
-
-	public void putVariable(String variableName, Object value) throws MatlabException {
-		if (putVariableMethod == null) {
-			try {
-				putVariableMethod = engine.getClass().getMethod(PUT_VARIABLE_METHOD, String.class, Object.class);
-			} catch (Exception e) {
-				throw new MatlabException(e);
-			}
-		}
-		try {
-			putVariableMethod.invoke(engine, variableName, value);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new MatlabException(e);
-		}
-	}
 	
-	public void close() throws MatlabException {
-		if (closeMethod == null) {
-			try {
-				closeMethod = engine.getClass().getMethod(CLOSE_METHOD);
-			} catch (Exception e) {
-				throw new MatlabException(e);
-			}
-		}
-		try {
-			closeMethod.invoke(engine);
-		} catch (Exception e) {
-			throw new MatlabException(e);
-		}
-	}
-	
-	public void quit() throws MatlabException {
-		if (quitMethod == null) {
-			try {
-				quitMethod = engine.getClass().getMethod(QUIT_METHOD);
-			} catch (Exception e) {
-				throw new MatlabException(e);
-			}
-		}
-		try {
-			quitMethod.invoke(engine);
-		} catch (Exception e) {
-			throw new MatlabException(e);
-		}
-	}
-	
-	public void disconnect() throws MatlabException {
-		if (disconnectMethod == null) {
-			try {
-				disconnectMethod = engine.getClass().getMethod(DISCONNECT_METHOD);
-			} catch (Exception e) {
-				throw new MatlabException(e);
-			}
-		}
-		try {
-			disconnectMethod.invoke(engine);
-		} catch (Exception e) {
-			throw new MatlabException(e);
-		}
-	}
-
 }

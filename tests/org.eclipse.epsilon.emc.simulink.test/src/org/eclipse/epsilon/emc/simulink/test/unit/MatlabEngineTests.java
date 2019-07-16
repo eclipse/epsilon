@@ -40,10 +40,9 @@ public class MatlabEngineTests {
 		try {
 			engine.eval("a = 2 + 2");
 			assertEquals(4.0, engine.getVariable("a"));
-		} catch (MatlabException e) {
+		}catch (MatlabException e) {
 			fail(e.getMessage());
-		}
-
+		} 
 	}
 
 	@Test
@@ -53,7 +52,7 @@ public class MatlabEngineTests {
 			assertEquals(4.0, engine.getVariable("b"));
 		} catch (MatlabException e) {
 			fail(e.getMessage());
-		}
+		} 
 	}
 
 	@Test
@@ -63,7 +62,7 @@ public class MatlabEngineTests {
 			assertEquals(4.0, engine.getVariable("c"));
 		} catch (MatlabException e) {
 			fail(e.getMessage());
-		}
+		} 
 	}
 
 	@Test

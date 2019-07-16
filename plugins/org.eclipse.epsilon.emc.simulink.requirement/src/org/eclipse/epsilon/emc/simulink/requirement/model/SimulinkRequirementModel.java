@@ -12,6 +12,7 @@ package org.eclipse.epsilon.emc.simulink.requirement.model;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
@@ -44,9 +45,9 @@ import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public class SimulinkRequirementModel extends AbstractSimulinkModel implements ISimulinkRequirementModelElement, IOperationContributorProvider {
 
-	protected MatlabHandleElement modelHandle;
+	protected MatlabHandleElement reqSetHandle;
+	protected MatlabHandleElement linkSetHandle;
 	protected RequirementModelOperationContributor reqOperationContributor;
-
 
 	public static void main(String[] args) throws Exception {
 		SimulinkRequirementModel reqModel = new SimulinkRequirementModel();
@@ -84,27 +85,32 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 
 		if (!file.exists()) {
 			try {
-				modelHandle = new MatlabHandleElement(this, this.engine, (HandleObject) engine.feval("slreq.new", file.getAbsolutePath()));
+				reqSetHandle = new MatlabHandleElement(this, this.engine, (HandleObject) engine.fevalWithResult("slreq.new", file.getAbsolutePath()));
 			} catch (MatlabException e) {
 				throw new EolModelLoadingException(e, this);
 			}
 		} else {			
 			try {
-				modelHandle = new MatlabHandleElement(this, this.engine, (HandleObject) engine.feval("slreq.load", file.getAbsolutePath()));
+				reqSetHandle = new MatlabHandleElement(this, this.engine, (HandleObject) engine.fevalWithResult("slreq.load", file.getAbsolutePath()));
 			} catch (MatlabException e) {
 				throw new EolModelLoadingException(e, this);
 			}
-		}		
+		}
+		/*try {
+			linkSetHandle = new MatlabHandleElement(this, this.engine, (HandleObject) engine.fevalWithResult("slreq.find", "Type", "LinkSet", "Name", file.getAbsolutePath()));
+		} catch (MatlabException e) {
+			e.printStackTrace();
+		}*/
 	}
 	
 	@Override
-	public Object getProperty(String property) throws EolIllegalPropertyException {
-		return modelHandle.getProperty(property);
+	public Object getProperty(String property) throws EolRuntimeException {
+		return reqSetHandle.getProperty(property);
 	}
 
 	@Override
-	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
-		modelHandle.setProperty(property, value);
+	public void setProperty(String property, Object value) throws EolRuntimeException {
+		reqSetHandle.setProperty(property, value);
 	}
 
 	@Override
@@ -129,7 +135,7 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 
 	@Override
 	public MatlabHandleElement getHandle() {
-		return modelHandle;
+		return reqSetHandle;
 	}
 
 	@Override
@@ -173,13 +179,13 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 
 	@Override
 	public boolean owns(Object instance) {
-		return instance instanceof ISimulinkRequirementModelElement;
+		return instance instanceof ISimulinkRequirementModelElement || super.owns(instance);
 	}
 
 	@Override
 	public boolean isInstantiable(String type) {
 		// FIXME for now, RequirementSet is the model and therefore non instantiable from here
-		return Arrays.asList("Justification", "Requirement", "Link", "Reference", "LinkSet").contains(type);
+		return Arrays.asList("Justification", "Requirement", "Link", "Reference", "LinkSet").contains(type) || super.isInstantiable(type);
 	}
 
 	@Override
@@ -190,7 +196,7 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 	@Override
 	public boolean store(String location) {
 		try{
-			engine.eval("save(?, '?')", modelHandle.getHandle(), location);
+			engine.feval(0,"save", reqSetHandle.getHandle(), location);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -200,7 +206,7 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 	@Override
 	public boolean store() {
 		try{
-			engine.eval("save(?)", modelHandle.getHandle());
+			engine.feval(0,"save", reqSetHandle.getHandle());
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -216,24 +222,19 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 	@Override
 	protected Collection<ISimulinkModelElement> getAllOfTypeFromModel(String type)
 			throws EolModelElementTypeNotFoundException {
-		switch (type) {
-		case "Functional":
-		case "Informational":
-		case "Container":
+		if (type.startsWith("R_")) {			
 			try {
-				Object collection = engine.feval("find", getHandle().getHandle(), "ReqType", type);
+				Object collection = engine.fevalWithResult("slreq.find", "Type", "Requirement", "ReqType", type.substring(2));
 				return new SimulinkRequirementCollection(collection, this);
 			} catch (MatlabException e) {
-				e.printStackTrace();
-				break;
+				throw new EolModelElementTypeNotFoundException(this.getName(), type, e.getMessage());
 			}
-		default:
+		} else if (type.startsWith("L_")) {
 			try {
-				Object collection = engine.feval("find", getHandle().getHandle(), "LinkType", type);
+				Object collection = engine.fevalWithResult("slreq.find", "Type", "Link", "LinkType", type.substring(2));
 				return new SimulinkLinkCollection(collection, this);
 			} catch (MatlabException e) {
-				e.printStackTrace();
-				break;
+				throw new EolModelElementTypeNotFoundException(this.getName(), type, e.getMessage());
 			}
 		}
 		throw new EolModelElementTypeNotFoundException(this.getName(), type);
@@ -245,43 +246,38 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 		switch (kind) {
 		case "Requirement":
 			try {
-				Object collection = engine.feval("find", getHandle().getHandle(), "Type", "Requirement");
+				Object collection = engine.fevalWithResult("find", getHandle().getHandle(), "Type", "Requirement");
 				return new SimulinkRequirementCollection(collection, this);
 			} catch (MatlabException e) {
-				e.printStackTrace();
-				break;
+				return Collections.emptyList();
 			}
 		case "Justification":
 			try {
-				Object collection = engine.feval("find", getHandle().getHandle(), "Type", "Justification");
+				Object collection = engine.fevalWithResult("find", getHandle().getHandle(), "Type", "Justification");
 				return new SimulinkJustificationCollection(collection, this);
 			} catch (MatlabException e) {
-				e.printStackTrace();
-				break;
+				return Collections.emptyList();
 			}
 		case "Link":
 			try {
-				Object collection = engine.feval("find", getHandle().getHandle(), "Type", "Link");
+				Object collection = engine.fevalWithResult("slreq.find", "Type", "Link");
 				return new SimulinkLinkCollection(collection, this);
 			} catch (MatlabException e) {
-				e.printStackTrace();
-				break;
+				return Collections.emptyList();
 			}
 		case "Reference":
 			try {
-				Object collection = engine.feval("find", getHandle().getHandle(), "Type", "Reference");
+				Object collection = engine.fevalWithResult("slreq.find", "Type", "Reference");
 				return new SimulinkReferenceCollection(collection, this);
 			} catch (MatlabException e) {
-				e.printStackTrace();
-				break;
+				return Collections.emptyList();
 			}
 		case "LinkSet":
 			try {
-				Object collection = engine.feval("find", getHandle().getHandle(), "Type", "LinkSet");
+				Object collection = engine.fevalWithResult("slreq.find", "Type", "LinkSet");
 				return new SimulinkLinkSetCollection(collection, this);
 			} catch (MatlabException e) {
-				e.printStackTrace();
-				break;
+				return Collections.emptyList();
 			}
 		}
 		// case RequirementSet (ReqSet) FIXME
@@ -325,9 +321,6 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 				String artifact = (String) parameters.toArray(new Object[0])[0];
 				return new SimulinkLinkSet(this, engine, artifact);
 			}
-			break;
-		case "Link":
-			//return new SimulinkLink(this, engine,);
 			break;
 		default:
 			break;

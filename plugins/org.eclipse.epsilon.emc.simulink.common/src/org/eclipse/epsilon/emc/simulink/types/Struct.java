@@ -11,25 +11,19 @@ package org.eclipse.epsilon.emc.simulink.types;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
-import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.models.IModel;
 
-public class Struct implements ISimulinkModelElement{
+public class Struct extends AbstractType {
 
 	protected static final String STRUCT_MATLAB_CLASS = "com.mathworks.matlab.types.Struct";
 	
@@ -45,14 +39,14 @@ public class Struct implements ISimulinkModelElement{
 	protected static final String VALUES_METHOD = "values";
 
 	private static Class<?> struct_class;
+//	protected Object struct;
 
-	protected Object struct;
-
+//	private MatlabEngine engine;
+	protected HashMap<String, Object> keyValues = null;
+	
 	public static boolean is(Object obj) {
 		return (getMatlabClass() == null) ? false : getMatlabClass().isInstance(obj);  
 	}
-	
-	
 	
 	protected static Class<?> getMatlabClass() {
 		if (struct_class == null) {
@@ -64,39 +58,19 @@ public class Struct implements ISimulinkModelElement{
 		}
 		return struct_class;
 	}
-	
-	HashMap<String, Object> keyValues = null;
 		
 	public Struct(Object struct) {
+		super();
 		if (is(struct)) {
-			this.struct = struct;
+			this.object = struct;
 			init();
 		}
 	}
 	
-	public Struct() {
+	public Struct(MatlabEngine struct) {
+		super();
 		init();
 		keyValues = new HashMap<>();
-	}
-	
-	private Object getStruct() {
-		if (struct == null) {			
-			List<Object> keyValueList = keyValues.entrySet().stream().flatMap(e -> {
-				Object key = (Object) e.getKey();
-				Object value = (Object) e.getValue();
-				Object[] list = new Object[] {key, value};
-				return Arrays.stream(list);
-			}).collect(Collectors.toList());
-			Object[] keyValueArray = keyValueList.toArray(new Object[0]);
-			try {
-				Constructor<?> constructor = struct_class.getConstructor(Object[].class);
-				struct = constructor.newInstance(keyValueArray);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new IllegalStateException(e.getMessage());
-			}
-		} 
-		return struct;
 	}
 
 	// containsKey(Object key) Returns true if this map contains a mapping for the
@@ -132,7 +106,7 @@ public class Struct implements ISimulinkModelElement{
 	// values() Returns a Collection view of the values contained in this map.
 	protected Method valuesMethod;
 
-	private void init() {
+	protected void init() {
 		Class<?> clazz = getMatlabClass();
 		try {
 			containsKeyMethod = containsKeyMethod == null ? clazz.getDeclaredMethod(CONTAINS_KEY_METHOD, Object.class) : null;
@@ -152,7 +126,7 @@ public class Struct implements ISimulinkModelElement{
 	
 	public Boolean containsKey(Object key) {
 		try {
-			return (Boolean) containsKeyMethod.invoke(getStruct(), key);
+			return (Boolean) containsKeyMethod.invoke(getObject(), key);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
@@ -161,7 +135,7 @@ public class Struct implements ISimulinkModelElement{
 	
 	public Boolean containsValue(Object value) {
 		try {
-			return (Boolean) containsValueMethod.invoke(getStruct(), value);
+			return (Boolean) containsValueMethod.invoke(getObject(), value);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());	
@@ -170,7 +144,7 @@ public class Struct implements ISimulinkModelElement{
 	
 	public boolean equals(Object obj) {
 		try {
-			return (boolean) equalsMethod.invoke(getStruct(), obj);
+			return (boolean) equalsMethod.invoke(getObject(), obj);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
@@ -179,7 +153,7 @@ public class Struct implements ISimulinkModelElement{
 	
 	public Object get(Object key) {
 		try {
-			Object val = getMethod.invoke(getStruct(), key);
+			Object val = getMethod.invoke(getObject(), key);
 			return MatlabEngineUtil.parseMatlabEngineVariable(val);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -188,7 +162,7 @@ public class Struct implements ISimulinkModelElement{
 	}
 	public Set<?> entrySet() {
 		try {
-			return (Set<?>) entrySetMethod.invoke(getStruct());
+			return (Set<?>) entrySetMethod.invoke(getObject());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
@@ -196,19 +170,16 @@ public class Struct implements ISimulinkModelElement{
 	}
 	public int hashCode() {
 		try {
-			return (Integer) hashCodeMethod.invoke(getStruct());
+			return (Integer) hashCodeMethod.invoke(getObject());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
 		}
 	}
-
-
-	
 	
 	public Boolean isEmpty() {
 		try {
-			return (Boolean) isEmptyMethod.invoke(getStruct());
+			return (Boolean) isEmptyMethod.invoke(getObject());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
@@ -216,7 +187,7 @@ public class Struct implements ISimulinkModelElement{
 	}
 	public Set<?> keySet() {
 		try {
-			Set<?> set = (Set<?>) keySetMethod.invoke(getStruct());
+			Set<?> set = (Set<?>) keySetMethod.invoke(getObject());
 			return set.stream().map(e -> MatlabEngineUtil.parseMatlabEngineVariable(e)).collect(Collectors.toSet());
 
 		} catch (Exception e) {
@@ -226,7 +197,7 @@ public class Struct implements ISimulinkModelElement{
 	}
 	public Integer size() {
 		try {
-			return (Integer) sizeMethod.invoke(getStruct());
+			return (Integer) sizeMethod.invoke(getObject());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
@@ -237,7 +208,7 @@ public class Struct implements ISimulinkModelElement{
 	public Set<?> values() {
 		try {
 			
-			Set<?> set = new HashSet((Collection) valuesMethod.invoke(getStruct()));
+			Set<?> set = new HashSet((Collection) valuesMethod.invoke(getObject()));
 			return set.stream().map(e -> MatlabEngineUtil.parseMatlabEngineVariable(e)).collect(Collectors.toSet());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -250,59 +221,43 @@ public class Struct implements ISimulinkModelElement{
 		return "Struct: [" +  keySet().toString() + "]";
 	}
 
+	@Override
+	public Object getProperty(String property) throws EolRuntimeException {
+		if (object != null) {
+			return get((String) property);
+		} else {
+			return keyValues.get(property);
+		}
+	}
 
+	@Override
+	public void setProperty(String property, Object value) throws EolRuntimeException {
+		if (object != null) {
+			throw new EolRuntimeException("Property "+ property + " already set for object " + object.toString());
+		} else {
+			keyValues.put(property, value);
+		}
+	}
 	
-	
-	
-	
-	@Override
-	public IModel getOwningModel() {
-		return null;
-	}
-
-	@Override
-	public Object getProperty(String property) throws EolIllegalPropertyException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public MatlabEngine getEngine() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Collection<String> getAllTypeNamesOf() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean deleteElementInModel() throws EolRuntimeException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String getType() {
-		return null;
-	}
-
-	@Override
-	public String getPath() {
-		return null;
-	}
-
-	@Override
-	public Object getHandle() {
-		return null;
+	protected Object getObject() {
+		if (object == null) {			
+			List<Object> keyValueList = keyValues.entrySet().stream().flatMap(e -> {
+				Object key = (String) e.getKey();
+				Object value = (Object) e.getValue();
+				Object[] list = new Object[] {key, value};
+				return Arrays.stream(list);
+			}).collect(Collectors.toList());
+			Object[] keyValueArray = keyValueList.toArray(new Object[0]);
+			try {
+				Constructor<?> constructor = struct_class.getConstructor(Object[].class);
+				constructor.setAccessible(true);
+				object = constructor.newInstance(new Object[] {keyValueArray});
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new IllegalStateException(e.getMessage());
+			}
+		} 
+		return object;
 	}
 
 }

@@ -52,6 +52,4 @@ public class ModelOperationContributor extends OperationContributor {
 		return objectMethod;
 	}
 	
-	
-
 }

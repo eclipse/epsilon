@@ -9,7 +9,6 @@ import org.eclipse.epsilon.emc.simulink.model.element.MatlabHandleElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementModel;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 /** 
@@ -28,20 +27,26 @@ public class SimulinkLinkSet extends SimulinkModelElement implements ISimulinkRe
 	
 	public SimulinkLinkSet(SimulinkRequirementModel model, MatlabEngine engine) {
 		super(model, engine);
-		// TODO create
 	}
 	
 	public SimulinkLinkSet(SimulinkRequirementModel model, MatlabEngine engine, String artifact) {
 		super(model, engine);
 		HandleObject id;
 		try {
-			id = (HandleObject) engine.feval("add", model.getHandle().getHandle(), "Artifact", artifact);
+			id = (HandleObject) engine.fevalWithResult("add", model.getHandle().getHandle(), "Artifact", artifact);
 			linkSetHandle = new MatlabHandleElement(model, engine, id);
 		} catch (MatlabException e) {
 			e.printStackTrace(); //FIXME
 		}
 	}
 	
+	public void setArtifact(String artifact) {
+		try {
+			linkSetHandle = new MatlabHandleElement(model, engine, (HandleObject) engine.fevalWithResult("slreq.load", artifact));
+		} catch (MatlabException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public SimulinkLinkSet(SimulinkRequirementModel model, MatlabEngine engine, HandleObject id) {
 		super(model, engine);
@@ -49,12 +54,12 @@ public class SimulinkLinkSet extends SimulinkModelElement implements ISimulinkRe
 	}
 
 	@Override
-	public Object getProperty(String property) throws EolIllegalPropertyException {
+	public Object getProperty(String property) throws EolRuntimeException {
 		return linkSetHandle.getProperty(property);
 	}
 
 	@Override
-	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
+	public void setProperty(String property, Object value) throws EolRuntimeException {
 		linkSetHandle.setProperty(property, value);
 	}
 
@@ -74,8 +79,8 @@ public class SimulinkLinkSet extends SimulinkModelElement implements ISimulinkRe
 	}
 
 	@Override
-	public MatlabHandleElement getHandle() {
-		return linkSetHandle;
+	public Object getHandle() {
+		return linkSetHandle.getHandle();
 	}
 	
 	@Override

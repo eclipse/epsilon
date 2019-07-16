@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
+import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
+import org.eclipse.epsilon.emc.simulink.model.element.MatlabHandleElement;
 import org.eclipse.epsilon.emc.simulink.types.CellStr;
 import org.eclipse.epsilon.emc.simulink.types.Complex;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
@@ -93,6 +95,66 @@ public class MatlabEngineUtil {
 		return engine.getVariable(variableName);
 	}
 
+	// FIXME ENSURE THAT WE COVER ALL TYPES
+	public static Object formatForMatlabEngine(Object value) {
+		if (value == null)
+			return null;
+		if (value instanceof ISimulinkModelElement)
+			return ((ISimulinkModelElement) value).getHandle();
+		if (value instanceof MatlabHandleElement)
+			return ((MatlabHandleElement) value).getHandle();
+		if (value instanceof HandleObject)
+			return ((HandleObject)value).getHandleObject();
+		if (value instanceof List<?>) {
+			if (((List<?>) value).get(0) instanceof Byte)
+				return ((List<?>) value).toArray(new Byte[0]);
+			if (((List<?>) value).get(0) instanceof Short)
+				return ((List<?>) value).toArray(new Short[0]); 
+			if (((List<?>) value).get(0) instanceof Integer)
+				return ((List<?>) value).toArray(new Integer[0]); 
+			if (((List<?>) value).get(0) instanceof Long)
+				return ((List<?>) value).toArray(new Long[0]); 
+			if (((List<?>) value).get(0) instanceof Long)
+				return ((List<?>) value).toArray(new Long[0]);
+			if (((List<?>) value).get(0) instanceof Double)
+				return ((List<?>) value).toArray(new Double[0]); 
+			if (((List<?>) value).get(0) instanceof Boolean)
+				return ((List<?>) value).toArray(new Boolean[0]);
+			if (((List<?>) value).get(0) instanceof String)
+				return ((List<?>) value).toArray(new String[0]);
+			
+			if (((List<?>) value).get(0) instanceof HandleObject)
+				return ((List<?>) value).stream()
+						.map(c -> ((HandleObject)c).getHandleObject())
+						.collect(Collectors.toList())
+						.toArray(new Object[0]);
+			if (((List<?>) value).get(0) instanceof Complex)
+				return ((List<?>) value).stream()
+						.map(c -> ((Complex)c).getHandle())
+						.collect(Collectors.toList())
+						.toArray(new Object[0]);
+			if (((List<?>) value).get(0) instanceof Struct)
+				return ((List<?>) value).stream()
+						.map(c -> ((Struct)c).getHandle())
+						.collect(Collectors.toList())
+						.toArray(new Object[0]);
+			if (((List<?>) value).get(0) instanceof CellStr)
+				return ((List<?>) value).stream()
+						.map(c -> ((CellStr)c).getHandle())
+						.collect(Collectors.toList())
+						.toArray(new Object[0]);
+		}
+		if (value instanceof String) 
+			return ((String) value).toCharArray();
+		if (value instanceof Struct)
+			return ((Struct) value).getHandle();
+		if (value instanceof Complex)
+			return ((Complex) value).getHandle();
+		if (value instanceof CellStr)
+			return ((CellStr) value).getHandle();
+		return value;
+	}
+	
 	public static Object parseMatlabEngineVariable(Object value) {
 		if (value == null)
 			return null;
@@ -139,4 +201,5 @@ public class MatlabEngineUtil {
 			return new CellStr(value);
 		return value;
 	}
+	
 }

@@ -20,7 +20,7 @@ import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.TypeHelper;
 import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public abstract class SimulinkElement extends SimulinkModelElement implements ISimulinkElement {
 
@@ -81,16 +81,15 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 		super(model, engine);
 	}
 
-	public Object getProperty(String property) throws EolIllegalPropertyException {
+	public Object getProperty(String property) throws EolRuntimeException {
 		try {
 			return engine.evalWithSetupAndResult(HANDLE, GET_HANDLE_PROPERTY, getHandle(), property);
 		} catch (MatlabException e) {
-			e.printStackTrace();
-			throw new EolIllegalPropertyException(this, property, null, null);
+			throw e.toEolRuntimeException();
 		}
 	}
 
-	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
+	public void setProperty(String property, Object value) throws EolRuntimeException {
 		try {
 			String escaped = "?";
 			if (value instanceof ISimulinkElement) {
@@ -102,7 +101,7 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 			String cmd = "handle = ?; set_param(handle, '?', " + escaped + ");";
 			engine.eval(cmd, this.getHandle(), property, value);
 		} catch (MatlabException ex) {
-			throw new EolIllegalPropertyException(value, property, null, null);
+			throw ex.toEolRuntimeException();
 		}
 	}
 

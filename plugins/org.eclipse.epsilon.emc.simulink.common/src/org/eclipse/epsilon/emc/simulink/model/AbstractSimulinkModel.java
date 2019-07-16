@@ -21,6 +21,9 @@ import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertyGetter;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertySetter;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
+import org.eclipse.epsilon.emc.simulink.types.CellStr;
+import org.eclipse.epsilon.emc.simulink.types.Complex;
+import org.eclipse.epsilon.emc.simulink.types.HandleObject;
 import org.eclipse.epsilon.emc.simulink.types.Struct;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -164,19 +167,28 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	}
 	
 	@Override
+	public boolean owns(Object instance) {
+		return instance instanceof Struct || instance instanceof Complex
+				|| instance instanceof HandleObject || instance instanceof CellStr;
+	}
+	
+	@Override
+	public boolean isInstantiable(String type) {
+		return Arrays.asList("Struct", "Complex", "CellStr").contains(type);
+	}
+	
+	@Override
 	protected ISimulinkModelElement createInstanceInModel(String type)
 			throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		switch (type) {
 		case "Struct":
-			return new Struct();
+			return new Struct(getEngine());
 		case "Complex":
-			
-			break;
+			return new Complex(getEngine());
 		case "CellStr":
-			
-			break;	
+			return new CellStr(getEngine());	
 		}
-		return null;
+		throw new EolModelElementTypeNotFoundException(this.getName(), type);
 	}
 	
 	@Override

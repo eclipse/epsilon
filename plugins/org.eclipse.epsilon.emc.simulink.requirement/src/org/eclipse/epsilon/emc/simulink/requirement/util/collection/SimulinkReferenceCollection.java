@@ -36,14 +36,13 @@ public class SimulinkReferenceCollection extends AbstractSimulinkCollection<Simu
 
 	@Override
 	protected boolean isInstanceOfPrimitive(Object object) {
-		return HandleObject.is(object);
+		return HandleObject.is(object) || object.getClass().getName().equals(HandleObject.class.getName());
 	}
 
 	@Override
 	protected boolean isInstanceOfPrimitiveArray(Object object) {
 		if (object instanceof Object[]) {
 			return (Arrays.asList(object)).stream().allMatch(h -> HandleObject.is(h));
-
 		}
 		return false;
 	}

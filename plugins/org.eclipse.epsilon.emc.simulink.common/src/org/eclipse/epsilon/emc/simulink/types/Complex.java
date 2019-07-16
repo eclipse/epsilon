@@ -13,14 +13,15 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.epsilon.common.util.ReflectionUtil;
+import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.util.ReflectionLocalUtil;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-public class Complex {
+public class Complex extends AbstractType {
 
 	private static final String COMPLEX_MATLAB_CLASS = "com.mathworks.matlab.types.Complex";
 	private static Class<?> complex_class;
-
-	private Object complex;
 
 	public static boolean is(Object obj) {
 		return (getMatlabClass() == null) ? false : getMatlabClass().isInstance(obj);
@@ -38,15 +39,26 @@ public class Complex {
 	}
 
 	public Complex(Object complex) {
+		super();
 		if (is(complex)) {
-			this.complex = complex;
+			this.object = complex;
 		}
+	}
+	
+	public Complex(MatlabEngine engine) {
+		this();
+		this.engine = engine;
+	}
+	
+	public Object getHandle() {
+		return object;
 	}
 
 	public Complex(Double real, Double imag) {
+		super();
 		try {
 			Constructor<?> constructor = getMatlabClass().getConstructor(new Class<?>[] {Double.TYPE, Double.TYPE});
-			complex = constructor.newInstance(real, imag);
+			object = constructor.newInstance(real, imag);
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 			System.out.println("Problem retrieving constructor of the complex type");
@@ -70,14 +82,15 @@ public class Complex {
 
 	public Complex() {
 		this(0,0);
+
 	}
 
 	public Double getReal() throws Exception {
-		return (Double) ReflectionLocalUtil.getFieldValue(complex, "real");
+		return (Double) ReflectionLocalUtil.getFieldValue(object, "real");
 	}
 
 	public void setReal(Double real) throws Exception {
-		ReflectionLocalUtil.setFieldValue(complex, "real", real);
+		ReflectionLocalUtil.setFieldValue(object, "real", real);
 	}
 	
 	public void setReal(Integer real) throws Exception {
@@ -85,11 +98,11 @@ public class Complex {
 	}
 
 	public Double getImag() throws Exception {
-		return (Double) ReflectionLocalUtil.getFieldValue(complex, "imag");
+		return (Double) ReflectionLocalUtil.getFieldValue(object, "imag");
 	}
 
 	public void setImag(Double imag) throws Exception {
-		ReflectionLocalUtil.setFieldValue(complex, "imag", imag);
+		ReflectionLocalUtil.setFieldValue(object, "imag", imag);
 	}
 	
 	public void setImag(Integer imag) throws Exception {
@@ -99,10 +112,53 @@ public class Complex {
 	@Override
 	public String toString() {
 		try {
-			return (String) ReflectionUtil.invokeMethod(complex, "toString", null);
+			return (String) ReflectionUtil.invokeMethod(object, "toString", null);
 		} catch (Exception e) {
 			return "";
 		}
+	}
+
+	@Override
+	public Object getProperty(String property) throws EolRuntimeException {
+		try {
+			switch (property) {
+			case "real":
+				return getReal();
+			case "imag":
+				return getImag();
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			throw new EolRuntimeException(e);
+		}
+		return null;
+	}
+
+	@Override
+	public void setProperty(String property, Object value) throws EolRuntimeException {
+		if (value instanceof Double || value instanceof Integer) {
+			try {
+				switch (property) {
+				case "real":
+					setReal((Double) value);
+				case "imag":
+					setImag((Double) value);
+				default:
+					break;
+				}
+			} catch (Exception e) {
+				throw new EolRuntimeException(e);
+			}
+		}
+	}
+
+	@Override
+	protected void init() {}
+
+	@Override
+	protected Object getObject() {
+		return object;
 	}
 
 }

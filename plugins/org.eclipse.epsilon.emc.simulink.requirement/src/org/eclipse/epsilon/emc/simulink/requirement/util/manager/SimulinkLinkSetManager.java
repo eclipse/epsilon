@@ -27,7 +27,7 @@ public class SimulinkLinkSetManager extends AbstractManager<SimulinkLinkSet, Han
 
 	@Override
 	public HandleObject getId(SimulinkLinkSet from) {
-		return (HandleObject) from.getHandle().getHandle();
+		return (HandleObject) from.getHandle();
 		
 	}
 

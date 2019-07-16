@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.util.collection;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -36,7 +37,12 @@ public class SimulinkLineCollection extends AbstractSimulinkCollection<SimulinkL
 
 	@Override
 	protected boolean isInstanceOfPrimitiveArray(Object object) {
-		return object instanceof Double[];
+		if (object instanceof Double[])
+			return true;
+		if (object instanceof Object[]) {
+			return (Arrays.asList((Object[])object)).stream().allMatch(h -> isInstanceOfPrimitive(h));
+		}
+		return false;
 	}
 	
 	@Override

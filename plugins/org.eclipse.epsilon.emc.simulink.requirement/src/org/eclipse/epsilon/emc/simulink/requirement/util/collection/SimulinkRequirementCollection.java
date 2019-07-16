@@ -36,7 +36,7 @@ public class SimulinkRequirementCollection extends AbstractSimulinkCollection<Si
 
 	@Override
 	protected boolean isInstanceOfPrimitive(Object object) {
-		return HandleObject.is(object);
+		return HandleObject.is(object) || object.getClass().getName().equals(HandleObject.class.getName());
 	}
 
 	@Override

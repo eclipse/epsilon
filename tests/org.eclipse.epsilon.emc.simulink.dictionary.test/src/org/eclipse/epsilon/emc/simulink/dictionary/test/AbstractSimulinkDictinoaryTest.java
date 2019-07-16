@@ -51,5 +51,11 @@ public class AbstractSimulinkDictinoaryTest extends AbstractCommonSimulinkTest {
 		return new SimulinkDictionaryModel();
 	}
 
+	@Override
+	public void dispose(IGenericSimulinkModel model) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

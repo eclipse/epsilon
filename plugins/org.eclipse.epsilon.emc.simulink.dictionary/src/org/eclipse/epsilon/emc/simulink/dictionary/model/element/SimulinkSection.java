@@ -17,7 +17,6 @@ import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.MatlabHandleElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class SimulinkSection extends SimulinkModelElement implements ISimulinkDictionaryModelElement{
@@ -30,12 +29,12 @@ public class SimulinkSection extends SimulinkModelElement implements ISimulinkDi
 	}
 
 	@Override
-	public Object getProperty(String property) throws EolIllegalPropertyException {
+	public Object getProperty(String property) throws EolRuntimeException {
 		return section.getProperty(property);
 	}
 
 	@Override
-	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
+	public void setProperty(String property, Object value) throws EolRuntimeException {
 		section.setProperty(property, value);
 	}
 

@@ -16,16 +16,18 @@ import java.util.Collections;
 
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.ISimulinkDictionaryModelElement;
+import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkDataType;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkEntry;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkSection;
+import org.eclipse.epsilon.emc.simulink.dictionary.util.collection.SimulinkDataTypeCollection;
 import org.eclipse.epsilon.emc.simulink.dictionary.util.collection.SimulinkEntryCollection;
+import org.eclipse.epsilon.emc.simulink.exception.EpsilonSimulinkInternalException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.MatlabHandleElement;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -49,13 +51,13 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 
 		if (!file.exists()) {
 			try {
-				dictionaryHandle = new MatlabHandleElement(this, this.engine, (HandleObject) engine.feval(CREATE_FILE, file.getAbsolutePath()));
+				dictionaryHandle = new MatlabHandleElement(this, this.engine, (HandleObject) engine.fevalWithResult(CREATE_FILE, file.getAbsolutePath()));
 			} catch (MatlabException e) {
 				throw new EolModelLoadingException(e, this);
 			}
 		} else {			
 			try {
-				dictionaryHandle = new MatlabHandleElement(this, this.engine, (HandleObject) engine.feval(OPEN_FILE, file.getAbsolutePath()));
+				dictionaryHandle = new MatlabHandleElement(this, this.engine, (HandleObject) engine.fevalWithResult(OPEN_FILE, file.getAbsolutePath()));
 			} catch (MatlabException e) {
 				throw new EolModelLoadingException(e, this);
 			}
@@ -101,17 +103,17 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 		if (instance instanceof ISimulinkModelElement && ((ISimulinkModelElement)instance).getOwningModel().getClass().equals(getClass())) {
 			return true;
 		}
-		return false;
+		return super.owns(instance);
 	}
 
 	@Override
 	public boolean isInstantiable(String type) {
-		return "Entry".equals(type);
+		return super.isInstantiable(type) || type.equals("Entry") || type.startsWith("Simulink.");
 	}
 
 	@Override
 	public boolean hasType(String type) {
-		return Arrays.asList("Entry", "Section", "Dictionary").contains(type);
+		return true;
 	}
 
 	@Override
@@ -123,12 +125,12 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 	@Override
 	public boolean store() {
 		try {
-			engine.feval("saveChanges", dictionaryHandle.getHandle());
+			engine.fevalAsync("saveChanges", dictionaryHandle.getHandle());
 			return true;
-		} catch (MatlabException e) {
+		} catch (MatlabException | EpsilonSimulinkInternalException e) {
 			e.printStackTrace();
 			return false;
-		}
+		} 
 	}
 
 	@Override
@@ -146,7 +148,17 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 	@Override
 	protected Collection<ISimulinkModelElement> getAllOfTypeFromModel(String type)
 			throws EolModelElementTypeNotFoundException {
-		return getAllOfKindFromModel(type);		
+		if (type.startsWith("Simulink.")) {
+			try {
+				Object value = engine.fevalWithResult("char", "-value");
+				Object collection = engine.fevalWithResult(3,"find",getSection().getHandle(), value, "-class", type);
+				return new SimulinkDataTypeCollection(collection, this);
+			} catch (MatlabException e) {
+				e.printStackTrace();
+				return null;
+			} 
+		}
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -159,15 +171,16 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 			return Arrays.asList(this.getSection());
 		case "Entry":
 			try {
-				Object collection = engine.feval("find", getSection().getHandle());
+				Object collection = engine.fevalWithResult("find", getSection().getHandle());
 				return new SimulinkEntryCollection(collection, this);
 			} catch (MatlabException e) {
 				e.printStackTrace();
+				return null;
 			}
 		default:
 			break;
 		}
-		return Collections.emptyList();
+		return getAllOfTypeFromModel(kind);
 	}
 
 	@Override
@@ -180,18 +193,12 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 		case "Entry":
 			return new SimulinkEntry(this, engine);
 		default:
-			return null;
+			if (type.startsWith("Simulink.")) {
+				return new SimulinkDataType(this, engine, type);
+			}
+			return super.createInstanceInModel(type);
 		}
 	}
-	
-	/*@Override
-	public Object createInstance(String type, Collection<Object> parameters)
-			throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
-		if (type.equals("Entry") && parameters.size() == 1){
-			Object[] array = parameters.toArray(new Object[0]);
-			//FIXME
-		}
-	}*/
 
 	@Override
 	protected boolean deleteElementInModel(Object instance) throws EolRuntimeException {
@@ -229,18 +236,18 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 	}
 
 	@Override
-	public Object getProperty(String property) throws EolIllegalPropertyException {
+	public Object getProperty(String property) throws EolRuntimeException {
 		return dictionaryHandle.getProperty(property);
 	}
 
 	@Override
-	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
+	public void setProperty(String property, Object value) throws EolRuntimeException {
 		dictionaryHandle.setProperty(property, value);
 	}
 	
 	public SimulinkSection getSection(){
 		try {
-			HandleObject sectionHandle = (HandleObject) engine.feval("getSection", dictionaryHandle.getHandle(), "Design Data");
+			HandleObject sectionHandle = (HandleObject) engine.fevalWithResult("getSection", dictionaryHandle.getHandle(), "Design Data");
 			return new SimulinkSection(this, engine, sectionHandle); 
 		} catch (MatlabException e) {
 			e.printStackTrace();

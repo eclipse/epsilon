@@ -225,11 +225,11 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 				.toArray(a);
 	}
 	
-	protected M getManager() {
+	public M getManager() {
 		return this.manager;
 	}
 
-	protected List<P> getPrimitive() {
+	public List<P> getPrimitive() {
 		return this.primitive;
 	}
 

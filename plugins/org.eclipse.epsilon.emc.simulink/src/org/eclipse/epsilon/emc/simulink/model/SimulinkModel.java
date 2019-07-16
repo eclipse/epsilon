@@ -11,6 +11,7 @@ package org.eclipse.epsilon.emc.simulink.model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Future;
@@ -40,6 +41,7 @@ import org.slf4j.LoggerFactory;
 public class SimulinkModel extends AbstractSimulinkModel implements IOperationContributorProvider {
 
 	/** CONSTANTS */
+	public static final String PROPERTY_PATHS = "paths";
 	public static final String PROPERTY_SHOW_IN_MATLAB_EDITOR = "hidden_editor";
 	public static final String PROPERTY_FOLLOW_LINKS = "follow_links";
 	public static final String PROPERTY_WORKING_DIR = "working_dir";
@@ -136,7 +138,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 				throw new EolNotInstantiableModelElementTypeException(getSimulinkModelName(), type);
 			}
 		} else {
-			throw new EolModelElementTypeNotFoundException(type, null);
+			return super.createInstanceInModel(type);
 		}
 	}
 	
@@ -270,7 +272,10 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 		model.setFollowLinks(false);
 		model.setLibraryPath("/Applications/MATLAB_R2018b.app/bin/maci64/");
 		model.setEngineJarPath("/Applications/MATLAB_R2018b.app/extern/engines/java/jar/engine.jar");
+		//model.addPath("");
+	
 		model.load();
+		
 		System.out.println(model.getAllOfType("Gain"));
 	}
 
@@ -284,7 +289,11 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 		String filePath = properties.getProperty(PROPERTY_FILE);
 		if (workingDirPath != null && workingDirPath.trim().length() > 0) {
 			workingDir = new File(resolver.resolve(filePath));
-		}			
+		}
+		String paths = properties.getProperty(SimulinkModel.PROPERTY_PATHS);
+		if (paths != null && !paths.isEmpty()) {
+			Arrays.asList(paths.trim().split(";")).stream().forEach(p->addPath(p));
+		}
 
 		load();
 	}
@@ -340,7 +349,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 		}
 		return ((instance instanceof ISimulinkModelElement) 
 				&& ((ISimulinkModelElement) instance).getOwningModel() == this ) 
-				|| (instance instanceof SimulinkModel);
+				|| (instance instanceof SimulinkModel) || super.owns(instance);
 	}
 
 	@Override
@@ -361,7 +370,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 
 	@Override
 	public boolean isInstantiable(String type) { 
-		return hasType(type);
+		return hasType(type) || super.isInstantiable(type);
 	}
 
 	public String getSimulinkModelName() { 
@@ -395,6 +404,19 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 		this.workingDir = workingDir;
 	}
 	
+	private List<String> paths = new ArrayList<>();
+	
+	public void addPath(String path) {
+		paths.add(path);
+	}
+	public void addPath(File path) {
+		paths.add(path.getAbsolutePath());
+	}
+
+	public List<String> getPaths(File workingDir) {
+		return paths;
+	}	
+	
 	/**
 	 * If true, the model will be shown in the MATLAB Editor. 
 	 * If the model is already loaded, it will not open it again. 
@@ -427,5 +449,5 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	public Collection<ISimulinkModelElement> findBlocks(Integer depth) throws MatlabException {
 		return SimulinkUtil.findBlocks(this,depth);
 	}
-
+	
 }

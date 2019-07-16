@@ -51,5 +51,11 @@ public class AbstractSimulinkRequirementTest extends AbstractCommonSimulinkTest 
 		return new SimulinkRequirementModel();
 	}
 
+	@Override
+	public void dispose(IGenericSimulinkModel model) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

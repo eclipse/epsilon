@@ -7,36 +7,36 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.emc.simulink.requirement.util.collection;
+package org.eclipse.epsilon.emc.simulink.dictionary.util.collection;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.eclipse.epsilon.emc.simulink.dictionary.model.SimulinkDictionaryModel;
+import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkDataType;
+import org.eclipse.epsilon.emc.simulink.dictionary.util.manager.SimulinkDataTypeManager;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
-import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementModel;
-import org.eclipse.epsilon.emc.simulink.requirement.model.element.SimulinkLinkSet;
-import org.eclipse.epsilon.emc.simulink.requirement.util.manager.SimulinkLinkSetManager;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
 import org.eclipse.epsilon.emc.simulink.util.collection.AbstractElementIterator;
 import org.eclipse.epsilon.emc.simulink.util.collection.AbstractListIterator;
 import org.eclipse.epsilon.emc.simulink.util.collection.AbstractSimulinkCollection;
 
-public class SimulinkLinkSetCollection extends AbstractSimulinkCollection<SimulinkLinkSet, HandleObject, SimulinkLinkSetManager> {
+public class SimulinkDataTypeCollection extends AbstractSimulinkCollection<SimulinkDataType, HandleObject, SimulinkDataTypeManager> {
 
-	public SimulinkLinkSetCollection(Object primitive, SimulinkRequirementModel model) {
-		super(primitive, new SimulinkLinkSetManager(model));
+	public SimulinkDataTypeCollection(Object primitive, SimulinkDictionaryModel model) {
+		super(primitive, new SimulinkDataTypeManager(model));
 	}
 
 	@Override
 	protected boolean isInstanceOf(Object object) {
-		return object instanceof SimulinkLinkSet;
+		return object instanceof SimulinkDataType;
 	}
 
 	@Override
 	protected boolean isInstanceOfPrimitive(Object object) {
-		return HandleObject.is(object) || object.getClass().getName().equals(HandleObject.class.getName());
+		return HandleObject.is(object);
 	}
 
 	@Override
@@ -50,39 +50,39 @@ public class SimulinkLinkSetCollection extends AbstractSimulinkCollection<Simuli
 	
 	@Override
 	public List<ISimulinkModelElement> subList(int fromIndex, int toIndex) {
-		return new SimulinkLinkSetCollection(getPrimitive().subList(fromIndex, toIndex), getManager().getModel());
+		return new SimulinkDataTypeCollection(getPrimitive().subList(fromIndex, toIndex), getManager().getModel());
 	}
 	
 	@Override
 	public ListIterator<ISimulinkModelElement> listIterator() {
-		return new SimulinkLinkSetListIterator();
+		return new SimulinkDataTypeListIterator();
 	}
 
 	@Override
 	public ListIterator<ISimulinkModelElement> listIterator(int index) {
-		return new SimulinkLinkSetListIterator(index);
+		return new SimulinkDataTypeListIterator(index);
 	}
 
 	@Override
 	protected Iterator<ISimulinkModelElement> getInternalIterator() {
-		return new SimulinkLinkSetIterator();
+		return new SimulinkDataTypeIterator();
 	}
 		
-	protected class SimulinkLinkSetIterator extends AbstractElementIterator<SimulinkLinkSet, HandleObject, SimulinkLinkSetManager>{
+	public class SimulinkDataTypeIterator extends AbstractElementIterator<SimulinkDataType, HandleObject, SimulinkDataTypeManager>{
 		
-		SimulinkLinkSetIterator(){
+		public SimulinkDataTypeIterator(){
 			super(getPrimitive(), getManager());
 		}
 		
 	}
 	
-	protected class SimulinkLinkSetListIterator extends AbstractListIterator<SimulinkLinkSet, HandleObject, SimulinkLinkSetManager> {
+	public class SimulinkDataTypeListIterator extends AbstractListIterator<SimulinkDataType, HandleObject, SimulinkDataTypeManager> {
 		
-		SimulinkLinkSetListIterator(){
+		public SimulinkDataTypeListIterator(){
 			super(getPrimitive(), getManager());
 		}
 		
-		SimulinkLinkSetListIterator(int index){
+		public SimulinkDataTypeListIterator(int index){
 			super(index, getPrimitive(), getManager());
 		}
 		

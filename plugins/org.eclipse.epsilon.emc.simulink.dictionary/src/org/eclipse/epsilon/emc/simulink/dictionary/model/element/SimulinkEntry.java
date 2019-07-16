@@ -11,13 +11,13 @@ package org.eclipse.epsilon.emc.simulink.dictionary.model.element;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.epsilon.emc.simulink.dictionary.model.SimulinkDictionaryModel;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
+import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.MatlabHandleElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
@@ -48,12 +48,18 @@ public class SimulinkEntry extends SimulinkModelElement implements ISimulinkDict
 	}
 
 	@Override
-	public Object getProperty(String property) throws EolIllegalPropertyException {
+	public Object getProperty(String property) throws EolRuntimeException {
 		if (entry != null) {
 			if ("Value".equals(property)) {
 				try {
-					return engine.feval("getValue", entry.getHandle()); 
+					//return engine.fevalWithResult("getValue", entry.getHandle());
+					//engine.feval("getValue", entry.getHandle());
+					engine.putVariable("handle", entry.getHandle());
+					return engine.evalWithResult("getValue(handle)");
+					//return MatlabEngineUtil.parse
+				
 				} catch (MatlabException e) {
+					e.isUnsupportedTypeException();
 					e.printStackTrace();
 					throw new EolIllegalPropertyException(this, property, null, null);
 				}
@@ -72,16 +78,24 @@ public class SimulinkEntry extends SimulinkModelElement implements ISimulinkDict
 	protected Map<String, Object> properties = new HashMap<String, Object>();
 
 	@Override
-	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
+	public void setProperty(String property, Object value) throws EolRuntimeException {
 		if (entry != null)
 			if (property.equals("Value")) {
+				
+				if (value instanceof HandleObject) {
+					value = ((HandleObject) value).getHandleObject();
+				} else if (value instanceof ISimulinkModelElement) {
+					value = ((ISimulinkModelElement) value).getHandle();
+					if (value instanceof MatlabHandleElement) {
+						value = ((MatlabHandleElement)value).getHandle();
+					}
+				}
 				try {
-					engine.feval("setValue", entry.getHandle(), value); // FIXME ensure value is the appropriate MATLAB
-																		// format
+					engine.feval("setValue", entry.getHandle(), value);
 				} catch (MatlabException e) {
 					e.printStackTrace();
 					throw new EolIllegalPropertyException(this, property, null, null);
-				}
+				} 
 			} else {
 				entry.setProperty(property, value);
 			}
@@ -89,7 +103,7 @@ public class SimulinkEntry extends SimulinkModelElement implements ISimulinkDict
 			properties.put(property, value);
 			if (properties.containsKey("Name") && properties.containsKey("Value")) {
 				try {
-					HandleObject entryObject = (HandleObject) engine.feval("addEntry",
+					HandleObject entryObject = (HandleObject) engine.fevalWithResult("addEntry",
 							((SimulinkDictionaryModel) model).getSection().getHandle(), properties.get("Name"),
 							properties.get("Value"));
 					entry = new MatlabHandleElement(model, engine, entryObject);

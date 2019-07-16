@@ -13,16 +13,17 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class CellStr {
+import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+
+public class CellStr extends AbstractType {
 
 	private static final String CELL_STR_MATLAB_CLASS = "com.mathworks.matlab.types.CellStr";
 
 	private static Class<?> cell_str_class;
 
-	protected Object cellStr;
-
 	protected Method getStringArrayMethod;
-	
 	protected Method equalsMethod;
 	
 	public static boolean is(Object obj) {
@@ -41,16 +42,21 @@ public class CellStr {
 	}
 	
 	public CellStr(Object cellStr) {
+		super();
 		if (is(cellStr)) {
-			this.cellStr = cellStr;
+			this.object = cellStr;
 			init();
 		}
+	}
+	
+	public CellStr(MatlabEngine engine) {
+		super(engine);
 	}
 	
 	public CellStr(String[] stringArray) {
 		try {
 			Constructor<?> constructor = getMatlabClass().getConstructor(String[].class);
-			cellStr = constructor.newInstance(stringArray);
+			object = constructor.newInstance((Object)stringArray);
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 			System.out.println("Problem retrieving constructor of the complex type");
@@ -64,7 +70,7 @@ public class CellStr {
 	public CellStr(String[][] stringArray) {
 		try {
 			Constructor<?> constructor = getMatlabClass().getConstructor(String[][].class);
-			cellStr = constructor.newInstance(stringArray);
+			object = constructor.newInstance((Object) stringArray);
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 			System.out.println("Problem retrieving constructor of the complex type");
@@ -75,7 +81,7 @@ public class CellStr {
 		}		
 	}
 	
-	private void init() {
+	protected void init() {
 		Class<?> clazz = getMatlabClass();
 		try {
 			getStringArrayMethod = getStringArrayMethod == null ? clazz.getDeclaredMethod("getStringArray") : null;
@@ -87,7 +93,7 @@ public class CellStr {
 	
 	public Object getStringArray() {
 		try {
-			return (Integer) getStringArrayMethod.invoke(cellStr);
+			return (Integer) getStringArrayMethod.invoke(object);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
@@ -96,12 +102,29 @@ public class CellStr {
 	
 	public boolean equals(Object object){
 		try {
-			return (Boolean) equalsMethod.invoke(cellStr, object);
+			return (Boolean) equalsMethod.invoke(object, object);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalStateException(e.getMessage());
 		}
 		
+	}
+
+	@Override
+	public Object getProperty(String property) throws EolRuntimeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setProperty(String property, Object value) throws EolRuntimeException {
+		// TODO Auto-generated method stub
+
+	}
+	
+	@Override
+	protected Object getObject() {
+		return object;
 	}
 
 }

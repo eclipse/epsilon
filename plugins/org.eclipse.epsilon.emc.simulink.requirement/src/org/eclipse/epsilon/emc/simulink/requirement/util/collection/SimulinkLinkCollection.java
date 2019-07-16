@@ -36,7 +36,7 @@ public class SimulinkLinkCollection extends AbstractSimulinkCollection<SimulinkL
 
 	@Override
 	protected boolean isInstanceOfPrimitive(Object object) {
-		return HandleObject.is(object);
+		return HandleObject.is(object) || object.getClass().getName().equals(HandleObject.class.getName());
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import org.eclipse.epsilon.emc.simulink.model.element.MatlabHandleElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementModel;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 
@@ -26,7 +25,7 @@ public class SimulinkReference extends SimulinkModelElement implements ISimulink
 		super(model, engine);
 		HandleObject id;
 		try {
-			id = (HandleObject) engine.feval("add", model.getHandle().getHandle(), "Artifact", artifact);
+			id = (HandleObject) engine.fevalWithResult("add", model.getHandle().getHandle(), "Artifact", artifact);
 			referenceHandle = new MatlabHandleElement(model, engine, id);
 		} catch (MatlabException e) {
 			e.printStackTrace(); //FIXME
@@ -39,12 +38,12 @@ public class SimulinkReference extends SimulinkModelElement implements ISimulink
 	}
 
 	@Override
-	public Object getProperty(String property) throws EolIllegalPropertyException {
+	public Object getProperty(String property) throws EolRuntimeException {
 		return referenceHandle.getProperty(property);
 	}
 
 	@Override
-	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
+	public void setProperty(String property, Object value) throws EolRuntimeException {
 		referenceHandle.setProperty(property, value);
 	}
 

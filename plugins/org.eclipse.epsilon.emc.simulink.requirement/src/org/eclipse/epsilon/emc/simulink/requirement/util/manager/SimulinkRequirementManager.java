@@ -22,12 +22,12 @@ public class SimulinkRequirementManager extends AbstractManager<SimulinkRequirem
 
 	@Override
 	public SimulinkRequirement construct(HandleObject id) {
-		return new SimulinkRequirement(getModel(), getEngine(), id); // FIXME
+		return new SimulinkRequirement(getModel(), getEngine(), id);
 	}
 
 	@Override
 	public HandleObject getId(SimulinkRequirement from) {
-		return (HandleObject) from.getHandle().getHandle();
+		return (HandleObject) from.getHandle();
 		
 	}
 

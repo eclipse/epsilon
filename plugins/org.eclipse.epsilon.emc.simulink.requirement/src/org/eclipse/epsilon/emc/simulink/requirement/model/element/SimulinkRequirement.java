@@ -14,13 +14,14 @@ import java.util.Collection;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
+import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.MatlabHandleElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementModel;
+import org.eclipse.epsilon.emc.simulink.requirement.util.collection.SimulinkRequirementCollection;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-
 
 public class SimulinkRequirement extends SimulinkModelElement implements ISimulinkRequirementModelElement{
 
@@ -29,7 +30,7 @@ public class SimulinkRequirement extends SimulinkModelElement implements ISimuli
 	public SimulinkRequirement(SimulinkRequirementModel model, MatlabEngine engine, SimulinkRequirement requirement) {
 		super(model, engine);
 		try {
-			requirementHandle = new MatlabHandleElement(model, engine, (HandleObject) engine.feval("add", requirement.getHandle().getHandle()));
+			requirementHandle = new MatlabHandleElement(model, engine, (HandleObject) engine.fevalWithResult("add", requirement.getHandle()));
 		} catch (MatlabException e) {
 			e.printStackTrace();
 		}
@@ -38,7 +39,7 @@ public class SimulinkRequirement extends SimulinkModelElement implements ISimuli
 	public SimulinkRequirement(SimulinkRequirementModel model, MatlabEngine engine, SimulinkJustification justification) {
 		super(model, engine);
 		try {
-			requirementHandle = new MatlabHandleElement(model, engine, (HandleObject) engine.feval("add", justification.getHandle().getHandle()));
+			requirementHandle = new MatlabHandleElement(model, engine, (HandleObject) engine.fevalWithResult("add", justification.getHandle().getHandle()));
 		} catch (MatlabException e) {
 			e.printStackTrace();
 		}
@@ -48,7 +49,7 @@ public class SimulinkRequirement extends SimulinkModelElement implements ISimuli
 	public SimulinkRequirement(SimulinkRequirementModel model, MatlabEngine engine) {
 		super(model, engine);
 		try {
-			requirementHandle = new MatlabHandleElement(model, engine, (HandleObject) engine.feval("add", model.getHandle().getHandle()));
+			requirementHandle = new MatlabHandleElement(model, engine, (HandleObject) engine.fevalWithResult("add", model.getHandle().getHandle()));
 		} catch (MatlabException e) {
 			e.printStackTrace();
 		}
@@ -59,13 +60,15 @@ public class SimulinkRequirement extends SimulinkModelElement implements ISimuli
 		requirementHandle = new MatlabHandleElement(model, engine, id);
 	}
 	
+	//getAttribute Get requirement custom attributes
 	@Override
-	public Object getProperty(String property) throws EolIllegalPropertyException {
+	public Object getProperty(String property) throws EolRuntimeException {
 		return requirementHandle.getProperty(property);
 	}
-
+	
+	//setAttribute Set requirement custom attributes
 	@Override
-	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
+	public void setProperty(String property, Object value) throws EolRuntimeException {
 		requirementHandle.setProperty(property, value);
 	}
 
@@ -85,34 +88,87 @@ public class SimulinkRequirement extends SimulinkModelElement implements ISimuli
 	}
 
 	@Override
-	public MatlabHandleElement getHandle() {
-		return requirementHandle;
+	public Object getHandle() {
+		return requirementHandle.getHandle();
 	}
 	
 	@Override
 	public String getType() {
 		try {
 			return (String) getProperty("Type");
-		} catch (EolIllegalPropertyException e) {
+		} catch (EolRuntimeException e) {
 			return "Requirement";
 		}
 	}
 
+	public SimulinkRequirementCollection children() {
+		try {
+			Object collection = engine.fevalWithResult("children", getHandle());
+			return new SimulinkRequirementCollection(collection, (SimulinkRequirementModel) getOwningModel());
+		} catch (MatlabException e) {
+			return new SimulinkRequirementCollection(null, (SimulinkRequirementModel) getOwningModel());
+		}
+	}
+	
+	public SimulinkRequirement add() {
+		try {
+			HandleObject id = (HandleObject) engine.fevalWithResult("add", getHandle());
+			return new SimulinkRequirement((SimulinkRequirementModel) getOwningModel(), engine, id);
+		} catch (MatlabException e) {
+			return null;
+		}
+	}
+	
+	public SimulinkRequirement parent() {
+		try {
+			HandleObject id = (HandleObject) engine.fevalWithResult("parent", getHandle());
+			if (id != null) {				
+				return new SimulinkRequirement((SimulinkRequirementModel) getOwningModel(), engine, id);
+			} else {
+				return null;
+			}
+		} catch (MatlabException e) {
+			return null;
+		}
+	}
+	
+	public SimulinkLink justifyImplementation(SimulinkJustification justification){
+		return justify(justification, "Implementation");
+	}
+	
+	public SimulinkLink justifyVerification(SimulinkJustification justification){
+		return justify(justification, "Verification");
+	}
+	
+	public SimulinkLink justify(SimulinkJustification justification, String kind){
+		try {
+			HandleObject id = (HandleObject) engine.fevalWithResult("justify" + kind, getHandle(), justification.getHandle().getHandle());
+			return new SimulinkLink((SimulinkRequirementModel) getOwningModel(), engine, id);
+		} catch (MatlabException e) {
+			return null;
+		}
+	}
+	
+	public SimulinkLink linkTo(ISimulinkModelElement element){
+		try {
+			HandleObject id = (HandleObject) engine.fevalWithResult("slreq.createLink", getHandle(), element.getHandle());
+			return new SimulinkLink((SimulinkRequirementModel) getOwningModel(), engine, id);
+		} catch (MatlabException e) {
+			return null;
+		}
+	}
+	
+	public SimulinkLink linkFrom(ISimulinkModelElement element){
+		try {
+			HandleObject id = (HandleObject) engine.fevalWithResult("slreq.createLink", element.getHandle(), getHandle());
+			return new SimulinkLink((SimulinkRequirementModel) getOwningModel(), engine, id);
+		} catch (MatlabException e) {
+			return null;
+		}
+	}
+	
 	/**
-	add Add requirement to requirements set
-	children Find child requirements of a requirement
-	demote Demote requirements
-	promote Promote requirements
-	find Find requirements that have matching attribute values
-	getAttribute Get requirement custom attributes
-	parent Find parent item of requirement
-	reqSet Return parent requirements set
-	setAttribute Set requirement custom attributes
-	getImplementationStatus Query requirement implementation status summary
-	getVerificationStatus Query requirement verification status summary
-	isJustifiedFor Check if requirement is justified
-	justifyImplementation Justify requirements for implementation
-	justifyVerification Justify requirements for verification
+	reqSet - Return parent requirements set
 	*/
 	
 }

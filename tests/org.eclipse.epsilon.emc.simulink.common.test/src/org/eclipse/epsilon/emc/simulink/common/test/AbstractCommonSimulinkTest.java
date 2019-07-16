@@ -86,7 +86,7 @@ public abstract class AbstractCommonSimulinkTest {
 				eol = String.join(LN_BR, lines);
 			} catch (Exception e) {}
 		}
-		System.out.println("   >> EOL: " + LN_BR + eol);
+		
 	}
 
 	public void run(String eol, File file) throws Exception {
@@ -106,14 +106,16 @@ public abstract class AbstractCommonSimulinkTest {
 				}
 
 				model = loadSimulinkModel(file, activeCaching);
-
+				System.out.println("   >>Model: " + model.getFile().getName());
+				System.out.println("   >> EOL: " + LN_BR + eol);
+				
 				module.getContext().getModelRepository().addModel(model);
 				module.execute();
 			} catch (Exception ex) {
 				throw ex;
 			} finally {
 				if (model != null) {
-					model.dispose();
+					dispose(model);
 				}
 			}
 		}
@@ -122,5 +124,7 @@ public abstract class AbstractCommonSimulinkTest {
 	public abstract IGenericSimulinkModel loadSimulinkModel(File file, boolean activeCaching) throws Exception;
 	
 	public abstract IGenericSimulinkModel getModel();
+	
+	public abstract void dispose(IGenericSimulinkModel model);
 
 }

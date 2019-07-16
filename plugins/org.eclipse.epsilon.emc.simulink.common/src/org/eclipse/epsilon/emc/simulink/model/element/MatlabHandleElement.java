@@ -15,7 +15,6 @@ import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.IGenericSimulinkModel;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class MatlabHandleElement extends SimulinkModelElement {
@@ -33,18 +32,17 @@ public class MatlabHandleElement extends SimulinkModelElement {
 	}
 
 	@Override
-	public Object getProperty(String property) throws EolIllegalPropertyException {
+	public Object getProperty(String property) throws EolRuntimeException {
 		try {
 			setHandleInMatlabWorkspace();
 			return engine.evalWithResult("handle." + property + ";");
 		} catch (MatlabException e) {
-			e.printStackTrace();
-			throw new EolIllegalPropertyException(this, property, null, null);
+			throw e.toEolRuntimeException();
 		}
 	}
 
 	@Override
-	public void setProperty(String property, Object value) throws EolIllegalPropertyException {
+	public void setProperty(String property, Object value) throws EolRuntimeException {
 		try {
 			setHandleInMatlabWorkspace();
 			String escaped = "?";
@@ -58,14 +56,13 @@ public class MatlabHandleElement extends SimulinkModelElement {
 			engine.eval(cmd, value);
 
 		} catch (MatlabException e) {
-			e.printStackTrace();
-			throw new EolIllegalPropertyException(this, property, null, null);
+			throw e.toEolRuntimeException();
 		}
 	}
 
 	@Override
 	public Object getHandle() {
-		return handle.getHandleObject();
+		return  handle.getHandleObject();
 	}
 
 	public void setHandleInMatlabWorkspace() throws MatlabException {
