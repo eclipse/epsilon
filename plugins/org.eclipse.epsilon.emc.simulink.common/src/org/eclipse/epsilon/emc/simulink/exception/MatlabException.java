@@ -31,7 +31,7 @@ public class MatlabException extends Exception {
 	private static final String TOO_MANY_OUTPUT = "Too many output arguments";
 		
 	public MatlabException(InvocationTargetException e) {
-		super((e.getTargetException().getCause() == null)? e.getTargetException().getCause() : e.getTargetException());
+		super(e.getTargetException());
 		isEngine = isEngineException(e.getTargetException());
 		isExecution = isExecutionException(e.getTargetException());
 		isSyntax = isSyntaxException(e.getTargetException());
@@ -99,6 +99,11 @@ public class MatlabException extends Exception {
 		EolRuntimeException eol = toEolRuntimeException(); 
 		eol.setAst(ast);
 		return eol;
+	}
+	
+	@Override
+	public String getMessage() {
+		return (getCause()!=null)? ((getCause().getCause()!=null) ? getCause().getCause().getMessage() : getCause().getMessage()): super.getMessage();
 	}
 	
 }

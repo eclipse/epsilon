@@ -59,9 +59,11 @@ public class SimulinkEntry extends SimulinkModelElement implements ISimulinkDict
 					//return MatlabEngineUtil.parse
 				
 				} catch (MatlabException e) {
-					e.isUnsupportedTypeException();
-					e.printStackTrace();
-					throw new EolIllegalPropertyException(this, property, null, null);
+					if (e.isUnsupportedTypeException()) {
+						return null;
+					} else {						
+						throw new EolIllegalPropertyException(this, property, null, null);
+					}
 				}
 			} else {				
 				return entry.getProperty(property);
