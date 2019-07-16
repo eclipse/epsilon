@@ -36,6 +36,9 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 
 	protected DirectoryFieldEditor workingDirBrowser;
 	
+	protected Label pathsTextLabel;
+	protected Text pathsText;
+	
 	protected Label showInMatlabEditorLabel;
 	protected Button showInMatlabEditorCheckbox;
 
@@ -71,6 +74,15 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 		final Composite matlabGroupContent = DialogUtil.createGroupContainer(parent, "MATLAB options", 3);
 
 		workingDirBrowser = new DirectoryFieldEditor(SimulinkModel.PROPERTY_WORKING_DIR, "Working directory: ", matlabGroupContent);
+
+		pathsTextLabel = new Label(matlabGroupContent, SWT.NONE);
+		pathsTextLabel.setText("Paths: ");
+		pathsTextLabel.setToolTipText("Colon (;) separated list");
+
+		pathsText = new Text(matlabGroupContent, SWT.BORDER);
+		pathsText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		new Label(matlabGroupContent, SWT.NONE);
 
 		showInMatlabEditorLabel = new Label(matlabGroupContent, SWT.NONE);
 		showInMatlabEditorLabel.setText("Force MATLAB to open (?): ");
@@ -110,6 +122,7 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 		}
 		fileText.setText(properties.getProperty(SimulinkModel.PROPERTY_FILE));
 		workingDirBrowser.setStringValue(properties.getProperty(SimulinkModel.PROPERTY_WORKING_DIR));
+		pathsText.setText(properties.getProperty(SimulinkModel.PROPERTY_PATHS));
 	}
 
 	protected void storeProperties() {
@@ -122,6 +135,7 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 		}
 		properties.put(SimulinkModel.PROPERTY_FILE, fileText.getText());
 		properties.put(SimulinkModel.PROPERTY_WORKING_DIR, workingDirBrowser.getStringValue());
+		properties.put(SimulinkModel.PROPERTY_PATHS, pathsText.getText());
 	}
 	
 }

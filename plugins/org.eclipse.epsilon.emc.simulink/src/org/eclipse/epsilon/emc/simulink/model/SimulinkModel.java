@@ -114,6 +114,9 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 					// Ignore; system already exists
 				}
 			}
+			for (String path : paths) {
+				engine.eval("addpath ?", path);
+			}
 			
 			this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());
 		} catch (Exception e) {
