@@ -346,7 +346,7 @@ public class FlexmiRendererView extends ViewPart {
 			p.waitFor();
 			
 			if (image.exists()) {
-				display("<html><body style=\"zoom:" + zoom + "\"><img src='" + image.getAbsolutePath() + "'></img></body></html>");
+				display("<html><body style=\"zoom:" + zoom + "\"><object data=\"" + image.getAbsolutePath() + "\" type=\"image/svg+xml\"></object></body></html>");
 			}
 			else if (log.exists()) {
 				display(log);
