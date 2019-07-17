@@ -31,7 +31,6 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.parse.EolLexer;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.tools.EolSystem;
-import org.eclipse.epsilon.eol.types.EolNativeType;
 
 public class EolModule extends AbstractModule implements IEolModule {
 	
@@ -260,9 +259,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 		
 		context.getFrameStack().putGlobal(
 			Variable.createReadOnlyVariable("null", null),
-			Variable.createReadOnlyVariable("System", system),
-			Variable.createReadOnlyVariable("Collectors", new EolNativeType(java.util.stream.Collectors.class, context)),
-			Variable.createReadOnlyVariable("Stream", new EolNativeType(java.util.stream.Stream.class, context))
+			Variable.createReadOnlyVariable("System", system)
 		);
 	}
 
