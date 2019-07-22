@@ -29,7 +29,8 @@ import org.eclipse.ui.part.FileEditorInput;
  * NullPointerException when the source is missing.
  */
 public class DebugModelPresentation implements IDebugModelPresentation {
-	private ListenerList listeners = new ListenerList();
+	
+	private ListenerList<ILabelProviderListener> listeners = new ListenerList<>();
 	private Image imgLoopVariable;
 
 	public DebugModelPresentation() {
@@ -85,7 +86,7 @@ public class DebugModelPresentation implements IDebugModelPresentation {
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof EolVariable) {
-			final EolVariable v = (EolVariable)element;
+			final EolVariable v = (EolVariable) element;
 			if (v.isLoop()) {
 				return imgLoopVariable;
 			}

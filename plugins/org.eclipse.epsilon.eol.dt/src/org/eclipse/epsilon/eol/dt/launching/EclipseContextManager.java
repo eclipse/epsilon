@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.dt.launching;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -41,7 +40,6 @@ import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinter;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.ui.PlatformUI;
 
 public class EclipseContextManager {
@@ -164,10 +162,8 @@ public class EclipseContextManager {
 		} catch (CoreException e) {
 			LogUtil.log(e); return;
 		}
-		
-		ListIterator<?> li = models.listIterator();
-		
-		while (li.hasNext()){
+
+		for (ListIterator<?> li = models.listIterator(); li.hasNext();) {
 			String modelDescriptor = li.next().toString();
 			StringProperties properties = new StringProperties();
 			properties.load(modelDescriptor);
@@ -176,24 +172,21 @@ public class EclipseContextManager {
 
 			try {
 				model = ModelTypeExtension.forType(properties.getProperty("type")).createModel();
-				model.load(properties, new IRelativePathResolver() {
-					
-					@Override
-					public String resolve(String relativePath) {
-						try {
-							IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(relativePath));
-							if (file != null) { 
-								return file.getLocation().toOSString(); 
-							}
+				model.load(properties, relativePath -> {
+					try {
+						IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(relativePath));
+						if (file != null) { 
+							return file.getLocation().toOSString(); 
 						}
-						catch (Exception ex) { LogUtil.log("Error while resolving absolute path for " + relativePath, ex); }
-						
-						return EclipseUtil.getWorkspacePath() + relativePath;
 					}
+					catch (Exception ex) { LogUtil.log("Error while resolving absolute path for " + relativePath, ex); }
+					
+					return EclipseUtil.getWorkspacePath() + relativePath;
 				});
 				
 				context.getModelRepository().addModel(model);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				EpsilonConsole.getInstance().getErrorStream().print(e.toString());
 				LogUtil.log(e);
 			}

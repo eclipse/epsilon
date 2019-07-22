@@ -64,7 +64,7 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 			for (Object element : allOfKind) {
 				contextJobs.add(() -> {
 					if (constraintContext.shouldBeChecked(element, context)) {
-						return new ConstraintContextAtom(constraintContext, element);
+						return new ConstraintContextAtom(constraintContext, element, context);
 					}
 					return null;
 				});
@@ -99,7 +99,7 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 			for (Constraint constraint : constraints) {
 				constraintGuardJobs.add(() -> {
 					if (constraint.shouldBeChecked(job.element, context)) {
-						return new ConstraintAtom(constraint, job.element);
+						return new ConstraintAtom(constraint, job.element, context);
 					}
 					return null;
 				});
@@ -127,7 +127,7 @@ public class EvlModuleParallelStaged extends EvlModuleParallel {
 		final Collection<CheckedEolRunnable> constraintCheckJobs = new ArrayList<>(constraintJobs.size());
 
 		for (ConstraintAtom job : constraintJobs) {
-			constraintCheckJobs.add(() -> job.rule.execute(job.element, context));
+			constraintCheckJobs.add(() -> job.rule.check(job.element, context));
 		}
 
 		context.executeParallel(this, constraintCheckJobs);

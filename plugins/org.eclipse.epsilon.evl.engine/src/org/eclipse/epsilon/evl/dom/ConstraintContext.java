@@ -102,7 +102,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 		return typeExpression != null ? typeExpression.getName() : null;
 	}
 	
-	public ArrayList<Constraint> getConstraints() {
+	public List<Constraint> getConstraints() {
 		return constraints;
 	}
 	

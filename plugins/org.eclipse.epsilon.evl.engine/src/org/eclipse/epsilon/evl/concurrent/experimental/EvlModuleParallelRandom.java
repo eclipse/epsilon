@@ -9,14 +9,10 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.concurrent.experimental;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 import org.eclipse.epsilon.evl.execute.atoms.*;
-import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
  * Shuffles the constraint-element pairs prior to execution.
@@ -36,23 +32,11 @@ public final class EvlModuleParallelRandom extends ProfilableEvlModuleParallel {
 	
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
-		IEvlContextParallel context = getContext();
-		
-		List<ConstraintAtom> originalJobs = profileExecutionStage("get initial jobs",
+		List<ConstraintAtom> jobs = profileExecutionStage("create jobs",
 			() -> ConstraintAtom.getConstraintJobs(this)
 		);
-
-		profileExecutionStage("shuffle jobs", () -> Collections.shuffle(originalJobs));
-		
-		Collection<CheckedEolRunnable> executorJobs = new ArrayList<>(originalJobs.size());
-		
-		profileCreateJobs(() -> {
-			for (ConstraintAtom job : originalJobs) {
-				executorJobs.add(() -> job.rule.execute(job.element, context));
-			}
-		});
-		
-		profileExecuteJobs(executorJobs);
+		profileExecutionStage("shuffle jobs", () -> Collections.shuffle(jobs));
+		profileExecuteJobs(jobs);
 	}
 	
 }

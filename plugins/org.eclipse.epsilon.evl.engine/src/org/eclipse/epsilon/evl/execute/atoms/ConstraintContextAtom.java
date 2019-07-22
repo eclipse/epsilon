@@ -12,10 +12,11 @@ package org.eclipse.epsilon.evl.execute.atoms;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
-import org.eclipse.epsilon.erl.execute.data.RuleAtom;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
@@ -27,10 +28,18 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  * @author Sina Madani
  * @since 1.6
  */
-public class ConstraintContextAtom extends RuleAtom<ConstraintContext> {
+public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
 
+	public ConstraintContextAtom(ConstraintContext constraintContext, Object modelElement, IEvlContext context) {
+		super(constraintContext, modelElement, context);
+	}
+	
 	public ConstraintContextAtom(ConstraintContext constraintContext, Object modelElement) {
 		super(constraintContext, modelElement);
+	}
+	
+	public Collection<UnsatisfiedConstraint> executeWithResults() throws EolRuntimeException {
+		return executeWithResults(getContext());
 	}
 	
 	public Collection<UnsatisfiedConstraint> executeWithResults(IEvlContext context) throws EolRuntimeException {
@@ -45,14 +54,19 @@ public class ConstraintContextAtom extends RuleAtom<ConstraintContext> {
 		else return Collections.emptyList();
 	}
 	
+	public List<ConstraintAtom> toConstraintAtoms() {
+		return rule.getConstraints().stream().map(c -> new ConstraintAtom(c, this.element)).collect(Collectors.toList());
+	}
+	
 	public static ArrayList<ConstraintContextAtom> getContextJobs(IEvlModule module) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
+		IEvlContext context = module.getContext();
 		ArrayList<ConstraintContextAtom> atoms = new ArrayList<>();
 		
 		for (ConstraintContext constraintContext : module.getConstraintContexts()) {
 			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(module.getContext());
 			atoms.ensureCapacity(atoms.size()+allOfKind.size());
 			for (Object element : allOfKind) {
-				atoms.add(new ConstraintContextAtom(constraintContext, element));
+				atoms.add(new ConstraintContextAtom(constraintContext, element, context));
 			}
 		}
 		

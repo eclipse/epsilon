@@ -73,7 +73,7 @@ public class EolLaunchShortcut implements ILaunchShortcut2 {
 	protected ILaunchConfiguration[] getLaunchConfigurations(IFile file) {
 		try {
 			ILaunchConfigurationType type = getLaunchConfigurationType();
-			ArrayList<ILaunchConfiguration> launchConfigurationsList = new ArrayList<ILaunchConfiguration>();
+			ArrayList<ILaunchConfiguration> launchConfigurationsList = new ArrayList<>();
 			
 			for (ILaunchConfiguration config : DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurations(type)) {
 				
@@ -98,6 +98,7 @@ public class EolLaunchShortcut implements ILaunchShortcut2 {
 		return null;
 	}
 	
+	@Override
 	public ILaunchConfiguration[] getLaunchConfigurations(ISelection selection) {
 		if (selection instanceof IStructuredSelection) {
 			Object o = ((IStructuredSelection) selection).getFirstElement();
@@ -109,6 +110,7 @@ public class EolLaunchShortcut implements ILaunchShortcut2 {
 		return null;
 	}
 	
+	@Override
 	public ILaunchConfiguration[] getLaunchConfigurations(IEditorPart editorpart) {
 		if (editorpart.getEditorInput() instanceof IFileEditorInput) {
 			return getLaunchConfigurations(((IFileEditorInput)editorpart.getEditorInput()).getFile());
@@ -117,6 +119,7 @@ public class EolLaunchShortcut implements ILaunchShortcut2 {
 		return null;
 	}
 	
+	@Override
 	public void launch(ISelection selection, String mode) {
 		if (selection instanceof IStructuredSelection) {
 			Object o = ((IStructuredSelection) selection).getFirstElement();
@@ -126,16 +129,19 @@ public class EolLaunchShortcut implements ILaunchShortcut2 {
 		}
 	}
 
+	@Override
 	public void launch(IEditorPart editor, String mode) {
 		if (editor.getEditorInput() instanceof IFileEditorInput) {
 			launch(((IFileEditorInput)editor.getEditorInput()).getFile(), mode);
 		}
 	}
 	
+	@Override
 	public IResource getLaunchableResource(ISelection selection) {
 		return null;
 	}
 
+	@Override
 	public IResource getLaunchableResource(IEditorPart editorpart) {
 		return null;
 	}

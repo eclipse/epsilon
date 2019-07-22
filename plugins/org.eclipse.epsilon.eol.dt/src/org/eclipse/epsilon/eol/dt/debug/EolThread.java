@@ -26,69 +26,90 @@ public class EolThread extends EolDebugElement implements IThread {
 	public EolThread(IDebugTarget target) {
 		super(target);
 	}
+	
+	@Override
+	public EolDebugTarget getDebugTarget() {
+		return (EolDebugTarget) super.getDebugTarget();
+	}
 
+	@Override
 	public boolean canResume() {
 		return getDebugTarget().canResume();
 	}
 
+	@Override
 	public boolean canSuspend() {
 		return getDebugTarget().canSuspend();
 	}
 
+	@Override
 	public boolean isSuspended() {
 		return getDebugTarget().isSuspended();
 	}
 
+	@Override
 	public void resume() throws DebugException {
 		getDebugTarget().resume();
 	}
 
+	@Override
 	public void suspend() throws DebugException {
 		getDebugTarget().suspend();
 	}
 
+	@Override
 	public boolean canStepInto() {
 		return isSuspended() && !isTerminated();
 	}
 
+	@Override
 	public boolean canStepOver() {
 		return true;
 	}
 
+	@Override
 	public boolean canStepReturn() {
 		return true;
 	}
 
+	@Override
 	public boolean isStepping() {
 		return false;
 	}
 
+	@Override
 	public void stepInto() throws DebugException {
-		((EolDebugTarget) getDebugTarget()).stepInto();
+		getDebugTarget().stepInto();
 	}
 
+	@Override
 	public void stepOver() throws DebugException {
-		((EolDebugTarget) getDebugTarget()).stepOver();
+		getDebugTarget().stepOver();
 	}
 
+	@Override
 	public void stepReturn() throws DebugException {
-		((EolDebugTarget) getDebugTarget()).stepReturn();
+		getDebugTarget().stepReturn();
 	}
 
+	@Override
 	public boolean canTerminate() {
 		return getDebugTarget().canTerminate();
 	}
 
+	@Override
 	public boolean isTerminated() {
 		return getDebugTarget().isTerminated();
 	}
 
+	@Override
 	public void terminate() throws DebugException {
 		getDebugTarget().terminate();
 	}
 
+	@Override
 	public IStackFrame[] getStackFrames() throws DebugException {
-		List<SingleFrame> frames = ((EolDebugTarget) getDebugTarget()).getModule().getContext().getFrameStack().getFrames();
+		List<SingleFrame> frames = getDebugTarget().getModule().getContext().getFrameStack().getFrames();
 		IStackFrame[] stackFrames  = new IStackFrame[frames.size()];
 		int i = 0;
 		for (Frame frame : frames) {
@@ -98,23 +119,28 @@ public class EolThread extends EolDebugElement implements IThread {
 		return stackFrames;
 	}
 
+	@Override
 	public boolean hasStackFrames() throws DebugException {
 		return getStackFrames().length > 0;
 	}
 
+	@Override
 	public int getPriority() throws DebugException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public IStackFrame getTopStackFrame() throws DebugException {
 		return getStackFrames()[0];
 	}
 
+	@Override
 	public String getName() throws DebugException {
 		return getDebugTarget().getName();
 	}
 
+	@Override
 	public IBreakpoint[] getBreakpoints() {
 		// TODO Auto-generated method stub
 		return null;

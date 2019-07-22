@@ -112,9 +112,8 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 			}
 			else if ("debug".equalsIgnoreCase(mode)) {
 				// Copy launch configuration attributes to launch
-				Map<?,?> configurationAttributes = configuration.getAttributes();
-				for (Object key : configurationAttributes.keySet()) {
-					launch.setAttribute(key + "", configurationAttributes.get(key) + "");
+				for (Map.Entry<?, ?> entry : configuration.getAttributes().entrySet()) {
+					launch.setAttribute(entry.getKey() + "", entry.getValue() + "");
 				}
 
 				final String name = launch.getAttribute(lauchConfigurationSourceAttribute);

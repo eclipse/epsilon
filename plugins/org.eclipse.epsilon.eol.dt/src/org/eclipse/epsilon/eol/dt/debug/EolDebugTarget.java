@@ -25,7 +25,7 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 
 	protected boolean suspended;
 	protected boolean terminated;
-	protected EolDebugger debugger = null;
+	protected EolDebugger debugger;
 	protected ILaunch launch;
 	protected IThread[] threads = new IThread[1];
 	protected IProcess process;
@@ -70,78 +70,95 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 	}
 
 	@Override
-	public IDebugTarget getDebugTarget() {
+	public EolDebugTarget getDebugTarget() {
 		return this;
 	}
 
+	@Override
 	public ILaunch getLaunch() {
 		return launch;
 	}
 
+	@Override
 	public boolean canTerminate() {
 		return !isTerminated();
 	}
 
+	@Override
 	public boolean isTerminated() {
 		return terminated;
 	}
 
+	@Override
 	public void terminate() throws DebugException {
 		this.terminated = true;
 		this.suspended = false;
 		fireTerminateEvent();
 	}
 
+	@Override
 	public boolean canResume() {
 		return isSuspended() && !isTerminated();
 	}
 
+	@Override
 	public boolean canSuspend() {
 		return !isSuspended() && !isTerminated();
 	}
 
+	@Override
 	public boolean isSuspended() {
 		return suspended;
 	}
 
+	@Override
 	public void resume() throws DebugException {
 		this.suspended = false;
 		fireResumeEvent(DebugEvent.RESUME);
 	}
 
+	@Override
 	public void suspend() throws DebugException {
 		this.suspended = true;
 		fireSuspendEvent(DebugEvent.SUSPEND);
 	}
 
+	@Override
 	public void breakpointAdded(IBreakpoint breakpoint) {
 		// nothing to do
 	}
 
+	@Override
 	public void breakpointRemoved(IBreakpoint breakpoint, IMarkerDelta delta) {
 		// nothing to do
 	}
 
+	@Override
 	public void breakpointChanged(IBreakpoint breakpoint, IMarkerDelta delta) {
 		// nothing to do
 	}
 
+	@Override
 	public IProcess getProcess() {
 		return null;
 	}
 
+	@Override
 	public IThread[] getThreads() throws DebugException {
 		return threads;
 	}
 
+	@Override
 	public boolean hasThreads() throws DebugException {
 		return true;
 	}
 
+	@Override
 	public String getName() throws DebugException {
 		return name;
 	}
 
+	@Override
 	public boolean supportsBreakpoint(IBreakpoint breakpoint) {
 		return false;
 	}
@@ -150,22 +167,27 @@ public class EolDebugTarget extends EolDebugElement implements IDebugTarget {
 	 * Irrelevant methods
 	 */
 
+	@Override
 	public boolean canDisconnect() {
 		return false;
 	}
 
+	@Override
 	public void disconnect() throws DebugException {
 		// do nothing
 	}
 
+	@Override
 	public boolean isDisconnected() {
 		return false;
 	}
 
+	@Override
 	public boolean supportsStorageRetrieval() {
 		return false;
 	}
 
+	@Override
 	public IMemoryBlock getMemoryBlock(long startAddress, long length) throws DebugException {
 		return null;
 	}

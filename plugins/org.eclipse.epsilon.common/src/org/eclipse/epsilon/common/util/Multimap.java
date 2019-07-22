@@ -61,7 +61,7 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 */
 	protected Collection<V> newCollection() {
 		return isConcurrent ?
-			Collections.synchronizedCollection(new NullSupportingDeque<>(new ConcurrentLinkedDeque<>())) :
+			new NullSupportingDeque<>(new ConcurrentLinkedDeque<>()) :
 			new NullSupportingDeque<>(new ArrayDeque<>());
 	}
 	
@@ -73,7 +73,7 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 */
 	protected Collection<V> newCollection(Collection<V> values) {
 		return isConcurrent ?
-			Collections.synchronizedCollection(new NullSupportingDeque<>(new ConcurrentLinkedDeque<>(values))) :
+			new NullSupportingDeque<>(new ConcurrentLinkedDeque<>(values)) :
 			new NullSupportingDeque<>(new ArrayDeque<>(values));
 	} 
 	

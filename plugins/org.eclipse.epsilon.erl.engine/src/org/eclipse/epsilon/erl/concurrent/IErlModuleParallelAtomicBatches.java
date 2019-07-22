@@ -48,6 +48,7 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends 
 	 * @throws EolRuntimeException If an exception is thrown whilst evaluating the job(s).
 	 * @return The result of evaluating the job.
 	 */
+	@SuppressWarnings("unchecked")
 	default Object executeJobImpl(Object job, boolean isInLoop) throws EolRuntimeException {
 		if (job instanceof JobBatch) {
 			return executeJobImpl(((JobBatch) job).split(getAllJobs()), isInLoop);
@@ -68,15 +69,22 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends 
 					iter.hasNext();
 					results.add(executeJobImpl(iter.next(), isInLoop))
 				);
+				
 				return results;
 			}
 			else {
 				assert context.isParallelisationLegal();
 				List<Callable<Object>> jobs = new LinkedList<>();
+				
 				for (Iterator<?> iter = (Iterator<?>) job; iter.hasNext();) {
 					final Object nextJob = iter.next();
-					jobs.add(() -> executeJobImpl(nextJob, true));
+					
+					jobs.add(nextJob instanceof Callable ?
+						(Callable<Object>) nextJob :
+						() -> executeJobImpl(nextJob, true)
+					);
 				}
+				
 				return context.executeParallelTyped(jobs);
 			}
 		}

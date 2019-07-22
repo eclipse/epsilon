@@ -19,6 +19,7 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -106,7 +107,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		globalConstraintContext.setModule(this);
 		globalConstraintContext.setParent(this);
 		
-		ArrayList<Constraint> globalConstraints = globalConstraintContext.getConstraints();
+		List<Constraint> globalConstraints = globalConstraintContext.getConstraints();
 		
 		List<AST>
 			constraintASTs = AstUtil.getChildren(cst, EvlParser.CONSTRAINT),
@@ -114,7 +115,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 			constraintContextAsts = AstUtil.getChildren(cst, EvlParser.CONTEXT);
 		
 		declaredConstraintContexts.ensureCapacity(constraintContextAsts.size()+1);
-		globalConstraints.ensureCapacity(constraintASTs.size()+critiqueASTs.size()+globalConstraints.size());
+		CollectionUtil.addCapacityIfArrayList(globalConstraints, constraintASTs.size());
 		
 		for (AST constraintAst : constraintASTs) {
 			Constraint constraint = (Constraint) module.createAst(constraintAst, globalConstraintContext);
