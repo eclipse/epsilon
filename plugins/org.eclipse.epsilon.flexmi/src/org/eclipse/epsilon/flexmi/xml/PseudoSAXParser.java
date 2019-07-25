@@ -10,6 +10,8 @@
 package org.eclipse.epsilon.flexmi.xml;
 
 import java.io.InputStream;
+import java.net.URL;
+import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -86,6 +88,20 @@ public class PseudoSAXParser {
 			Element element = (Element) node;
 			if (!isFlexmiRootNode(element)) {
 				String templateName = element.getNodeName();
+				
+				for (Node attribute : Xml.getAttributes(element)) {
+					if (attribute.getNodeName().endsWith("_")) {
+						try {
+							URI external = URI.createFileURI(attribute.getNodeValue()).resolve(uri);
+							Scanner scanner = new Scanner(new URL(external.toString()).openStream());
+							attribute.setNodeValue(scanner.useDelimiter("\\Z").next().trim());
+							scanner.close();
+						}
+						catch (Exception ex) {
+							resource.getWarnings().add(new FlexmiDiagnostic(ex.getMessage(), uri, resource.getLineNumber(element)));
+						}
+					}
+				}
 				
 				for (Resource resource : this.resource.getResourceSet().getResources()) {
 					if (resource instanceof FlexmiResource) {

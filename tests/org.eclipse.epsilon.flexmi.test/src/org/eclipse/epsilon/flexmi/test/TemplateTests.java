@@ -25,7 +25,7 @@ public class TemplateTests extends FlexmiTests {
 		assertEquals(0, resource.getWarnings().size());
 		assertEquals(3, resource.getTemplates().size());
 		assertEquals("t1", resource.getTemplates().get(0).getName());
-		assertEquals("p", resource.getTemplates().get(0).getParameters().get(0));
+		assertEquals("p", resource.getTemplates().get(0).getParameters().get(0).getName());
 		
 	}
 	
