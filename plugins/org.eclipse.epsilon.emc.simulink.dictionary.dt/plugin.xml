@@ -8,7 +8,7 @@
             dialog="org.eclipse.epsilon.emc.simuink.dictionary.dt.SimulinkDictionaryModelConfigurationDialog"
             icon="images/matlab.png"
             label="Simulink Dictionary Model"
-            stable="true"
+            stable="false"
             type="SimulinkDictionary">
       </modelType>
    </extension>

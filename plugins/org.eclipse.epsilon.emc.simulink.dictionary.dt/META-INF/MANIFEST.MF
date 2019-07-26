@@ -8,3 +8,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.emc.simulink.common,
  org.eclipse.epsilon.emc.simulink.dictionary
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.epsilon.emc.simuink.dictionary.dt.Activator

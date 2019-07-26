@@ -8,7 +8,7 @@
             dialog="org.eclipse.epsilon.emc.simuink.requirement.dt.SimulinkRequirementModelConfigurationDialog"
             icon="images/matlab.png"
             label="Simulink Requirement Model"
-            stable="true"
+            stable="false"
             type="SimulinkRequirement">
       </modelType>
    </extension>
