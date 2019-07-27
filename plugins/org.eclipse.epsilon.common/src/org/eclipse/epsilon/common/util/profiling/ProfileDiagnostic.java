@@ -21,7 +21,7 @@ public class ProfileDiagnostic implements java.io.Serializable {
 	
 	private static final long serialVersionUID = -1275024406100263604L;
 
-	public static enum MemoryUnit  implements java.io.Serializable {
+	public static enum MemoryUnit {
 		BYTES, KB, MB, GB, TB, PB, EB, ZB, YB;
 		
 		public static double convertFromBytes(MemoryUnit to, long amount) {

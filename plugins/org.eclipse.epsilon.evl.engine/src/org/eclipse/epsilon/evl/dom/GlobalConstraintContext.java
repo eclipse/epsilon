@@ -14,8 +14,8 @@ import java.util.Collection;
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolNoType;
-import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
 public class GlobalConstraintContext extends ConstraintContext {
 	
@@ -27,14 +27,14 @@ public class GlobalConstraintContext extends ConstraintContext {
 	}
 	
 	@Override
-	public Collection<?> getAllOfSourceKind(IEvlContext context)
+	public Collection<?> getAllOfSourceKind(IEolContext context)
 			throws EolModelElementTypeNotFoundException,
 			EolModelNotFoundException {
 		return getAllOfSourceType(context);
 	}
 	
 	@Override
-	public Collection<?> getAllOfSourceType(IEvlContext context)
+	public Collection<?> getAllOfSourceType(IEolContext context)
 			throws EolModelElementTypeNotFoundException,
 			EolModelNotFoundException {
 		return allOfType;

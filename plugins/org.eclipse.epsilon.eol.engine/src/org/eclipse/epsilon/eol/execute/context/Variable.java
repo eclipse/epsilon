@@ -76,6 +76,16 @@ public class Variable {
 		this.value = value;
 	}
 	
+	/**
+	 * Creates a shallow copy of the given Variable.
+	 * @param v The variable to shallow copy from
+	 * @since 1.6
+	 */
+	public Variable(Variable v) {
+		this(v.name, v.value, v.type, v.readOnly);
+		this.deprecationInfo = v.deprecationInfo;
+	}
+
 	public Object getValue() {
 		return value;
 	}
@@ -128,7 +138,7 @@ public class Variable {
 	
 	@Override
 	public Variable clone() {
-		return new Variable(name, value, type, readOnly);
+		return new Variable(this);
 	}
 	
 	@Override

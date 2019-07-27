@@ -76,10 +76,10 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch (cst.getType()) {
 			case EvlParser.FIX: return new Fix();
-			case EvlParser.DO: return new ExecutableBlock<Void>(Void.class);
+			case EvlParser.DO: return new ExecutableBlock<>(Void.class);
 			case EvlParser.TITLE:
 			case EvlParser.MESSAGE:
-				return new ExecutableBlock<String>(String.class);
+				return new ExecutableBlock<>(String.class);
 			case EvlParser.CONSTRAINT:
 			case EvlParser.CRITIQUE:
 				return new Constraint();
@@ -87,7 +87,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 				return new ConstraintContext();
 			case EvlParser.CHECK:
 			case EvlParser.GUARD:
-				return new ExecutableBlock<Boolean>(Boolean.class);
+				return new ExecutableBlock<>(Boolean.class);
 		}
 		return super.adapt(cst, parentAst);
 	}

@@ -9,11 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.common.concurrent;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.*;
+import java.util.concurrent.*;
+import org.eclipse.epsilon.common.util.NullSupportingDeque;
 
 /**
  * 
@@ -34,6 +32,17 @@ public class ConcurrencyUtils {
 	//@see https://stackoverflow.com/questions/10901752/what-is-the-significance-of-load-factor-in-hashmap
 	private static final float DEFAULT_LOAD_FACTOR = 0.7f;
 	
+	private static <T> Collection<T> wrapDeque(Deque<Object> wrapped) {
+		return /*Collections.synchronizedCollection(*/new NullSupportingDeque<>(wrapped);//);
+	}
+	
+	public static <T> Collection<T> concurrentOrderedCollection(Collection<? extends T> values) {
+		return wrapDeque(values != null ? new ConcurrentLinkedDeque<>(values) : new ConcurrentLinkedDeque<>());
+	}
+	public static <T> Collection<T> concurrentOrderedCollection() {
+		return wrapDeque(new ConcurrentLinkedDeque<>());
+	}
+	
 	public static <T> Set<T> concurrentSet() {
 		return concurrentSet(-1, -1);
 	}
@@ -42,7 +51,7 @@ public class ConcurrencyUtils {
 		Set<T> cs = ConcurrencyUtils.<T, Boolean>newConcurrentHashMap(
 				null, initial != null ? initial.size() : -1, -1
 			).keySet(Boolean.TRUE);
-		cs.addAll(initial);
+		if (cs != null) cs.addAll(initial);
 		return cs;
 	}
 	

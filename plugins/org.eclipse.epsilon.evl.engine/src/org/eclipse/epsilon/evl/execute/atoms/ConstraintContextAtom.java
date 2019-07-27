@@ -63,7 +63,7 @@ public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
 		ArrayList<ConstraintContextAtom> atoms = new ArrayList<>();
 		
 		for (ConstraintContext constraintContext : module.getConstraintContexts()) {
-			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(module.getContext());
+			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
 			atoms.ensureCapacity(atoms.size()+allOfKind.size());
 			for (Object element : allOfKind) {
 				atoms.add(new ConstraintContextAtom(constraintContext, element, context));

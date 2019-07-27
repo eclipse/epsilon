@@ -33,7 +33,7 @@ import org.eclipse.epsilon.common.parse.AST;
  * @version 1.3
  * @see org.eclipse.epsilon.eol.execute.context.Frame
  */
-public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
+public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack> {
 	
 	/**
 	 * <p>
@@ -143,7 +143,7 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 	protected FrameStackRegion globals;
 	protected FrameStackRegion locals;
 	protected Map<String, Variable> builtInVariables;
-	protected final FrameStack base;
+	protected FrameStack base;
 	protected boolean isConcurrent;
 	
 	public FrameStack() {
@@ -170,6 +170,13 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 		this.isConcurrent = concurrent;
 		globals = new FrameStackRegion(concurrent);
 		locals = new FrameStackRegion(concurrent);
+		initializeState();
+	}
+	
+	/**
+	 * Called from constructor or clone() method.
+	 */
+	protected void initializeState() {
 		enterGlobal(FrameType.UNPROTECTED, null);
 		builtInVariables = new HashMap<>(2);
 		builtInVariables.put("null", Variable.createReadOnlyVariable("null", null));
@@ -541,10 +548,18 @@ public class FrameStack implements ConcurrentBaseDelegate<FrameStack> {
 	
 	@Override
 	public FrameStack clone() {
-		FrameStack clone = new FrameStack(this.base, this.isConcurrent);
-		clone.locals = locals.clone();
-		clone.globals = globals.clone();
-		return clone;
+		try {
+			FrameStack clone = (FrameStack) super.clone();
+			clone.base = this.base;
+			clone.setThreadSafe(this.isThreadSafe());
+			clone.initializeState();
+			clone.locals = locals.clone();
+			clone.globals = globals.clone();
+			return clone;
+		}
+		catch (CloneNotSupportedException cnfx) {
+			throw new RuntimeException(cnfx);
+		}
 	}
 	
 	@Override

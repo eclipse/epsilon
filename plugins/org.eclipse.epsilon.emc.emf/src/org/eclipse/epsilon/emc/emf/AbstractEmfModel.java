@@ -271,7 +271,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	@Override
 	protected Collection<EObject> allContentsFromModel() {
-		final Collection<EObject> allInstances = new ArrayList<>();
+		final Collection<EObject> allInstances = new LinkedList<>();
 		
 		for (Resource resource : getResources()) {
 			Iterator<EObject> it = EcoreUtil.getAllContents(resource, expand);

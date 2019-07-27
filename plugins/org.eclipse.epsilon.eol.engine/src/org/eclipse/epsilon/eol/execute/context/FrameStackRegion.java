@@ -31,7 +31,7 @@ import org.eclipse.epsilon.eol.dom.WhileStatement;
  * @author Louis Rose, Antonio García-Domínguez, Sina Madani
  * @see org.eclipse.epsilon.eol.execute.context.FrameStack
  */
-class FrameStackRegion {
+class FrameStackRegion implements Cloneable {
 
 	/**
 	 * We use the newer Deque class rather than a java.util.Stack,
@@ -309,13 +309,20 @@ class FrameStackRegion {
 
 	@Override
 	protected FrameStackRegion clone() {
-		final FrameStackRegion clone = new FrameStackRegion(isThreadSafe());
-		
-		for (SingleFrame frame : frames) {
-			clone.frames.add(frame.clone());
+		try {
+			final FrameStackRegion clone = (FrameStackRegion) super.clone();
+			clone.frames = this.isThreadSafe() ?
+				new ConcurrentLinkedDeque<>() : new ArrayDeque<>(this.frames.size());
+			
+			for (SingleFrame frame : this.frames) {
+				clone.frames.add(frame.clone());
+			}
+			
+			return clone;
 		}
-		
-		return clone;
+		catch (CloneNotSupportedException cnsx) {
+			throw new RuntimeException(cnsx);
+		}
 	}
 	
 	/**

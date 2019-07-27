@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.common.util;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.stream.Stream;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 
@@ -61,8 +60,8 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 */
 	protected Collection<V> newCollection() {
 		return isConcurrent ?
-			new NullSupportingDeque<>(new ConcurrentLinkedDeque<>()) :
-			new NullSupportingDeque<>(new ArrayDeque<>());
+			ConcurrencyUtils.concurrentOrderedCollection() :
+			new LinkedList<>();
 	}
 	
 	/**
@@ -73,8 +72,8 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 */
 	protected Collection<V> newCollection(Collection<V> values) {
 		return isConcurrent ?
-			new NullSupportingDeque<>(new ConcurrentLinkedDeque<>(values)) :
-			new NullSupportingDeque<>(new ArrayDeque<>(values));
+			ConcurrencyUtils.concurrentOrderedCollection(values) :
+			new LinkedList<>(values);
 	} 
 	
 	/**

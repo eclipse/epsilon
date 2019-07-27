@@ -19,13 +19,12 @@ import org.eclipse.epsilon.common.util.StringUtil;
 /**
  * An individual stack frame for the EOL frame stack.
  */
-public class SingleFrame implements Frame {
+public class SingleFrame implements Frame, Cloneable {
 
 	private Map<String, Variable> storage = new LinkedHashMap<>(4);
 	private FrameType type;
 	private String label;
 	private ModuleElement entryPoint, currentStatement;
-
 	
 	public SingleFrame(FrameType type, ModuleElement entryPoint) {
 		this.type = type;
@@ -54,13 +53,21 @@ public class SingleFrame implements Frame {
 	
 	@Override
 	public SingleFrame clone() {
-		SingleFrame clone = new SingleFrame(type, entryPoint);
-		clone.label = label;
-		clone.currentStatement = currentStatement;
-		for (Variable v : storage.values()) {
-			clone.storage.put(v.name, v.clone());
+		try {
+			SingleFrame clone = (SingleFrame) super.clone();
+			clone.storage = new LinkedHashMap<>(this.storage.size());
+			clone.type = this.type;
+			clone.entryPoint = this.entryPoint;
+			clone.label = this.label;
+			clone.currentStatement = this.currentStatement;
+			for (Variable v : this.storage.values()) {
+				clone.storage.put(v.name, v.clone());
+			}
+			return clone;
 		}
-		return clone;
+		catch (CloneNotSupportedException cnxx) {
+			throw new RuntimeException(cnxx);
+		}
 	}
 
 	@Override

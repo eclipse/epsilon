@@ -11,7 +11,7 @@
 package org.eclipse.epsilon.eol.models;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -117,7 +117,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		
 		if (concurrent) {
 			allContentsCache = allContentsCache != null ?
-				new ConcurrentLinkedQueue<>(allContentsCache) : new ConcurrentLinkedQueue<>();
+				ConcurrencyUtils.concurrentOrderedCollection(allContentsCache) :
+				ConcurrencyUtils.concurrentOrderedCollection();
 		}
 		else {
 			allContentsCache = allContentsCache != null ?
