@@ -7,12 +7,4 @@
 			class = "org.eclipse.epsilon.examples.evl.xtext.evlDSL.EvlDSLPackage"
 			genModel = "model/generated/EvlDSL.genmodel" />
 	</extension>
- <extension
-       point="org.eclipse.epsilon.evl.emf.validation">
-    <constraintsBinding
-          compose="true"
-          constraints="evldsl.evl"
-          namespaceURI="http://www.eclipse.org/epsilon/examples/evl/xtext/EvlDSL">
-    </constraintsBinding>
- </extension>
 </plugin>
