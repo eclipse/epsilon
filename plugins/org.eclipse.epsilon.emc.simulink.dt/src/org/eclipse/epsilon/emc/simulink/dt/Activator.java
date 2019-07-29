@@ -12,24 +12,18 @@ package org.eclipse.epsilon.emc.simulink.dt;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
-/**
- * The activator class controls the plug-in life cycle
- */
 public class Activator extends Plugin {
 
 	public static final String PLUGIN_ID = "org.eclipse.epsilon.emc.simulink.dt";
 
 	private static Activator plugin;
 	
-	/**
-	 * The constructor
-	 */
 	public Activator() {
+		plugin = this;
 	}
 
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		plugin = this;
 	}
 
 	public void stop(BundleContext context) throws Exception {
@@ -37,11 +31,6 @@ public class Activator extends Plugin {
 		super.stop(context);
 	}
 
-	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
-	 */
 	public static Activator getDefault() {
 		return plugin;
 	}

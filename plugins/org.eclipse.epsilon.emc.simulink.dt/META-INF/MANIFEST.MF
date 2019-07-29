@@ -1,7 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: EMC Simulink development tools
+Bundle-Name: Simulink development tools
 Bundle-SymbolicName: org.eclipse.epsilon.emc.simulink.dt;singleton:=true
+Automatic-Module-Name: org.eclipse.epsilon.emc.simulink.dt
 Bundle-Version: 1.6.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.emc.simulink.dt.Activator
 Require-Bundle: org.eclipse.epsilon.common.dt,

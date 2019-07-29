@@ -19,11 +19,12 @@ public class Activator extends Plugin {
 
 	private static Activator plugin;
 	
-	public Activator() {}
+	public Activator() {
+		plugin = this;
+	}
 
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		plugin = this;
 	}
 
 	public void stop(BundleContext context) throws Exception {

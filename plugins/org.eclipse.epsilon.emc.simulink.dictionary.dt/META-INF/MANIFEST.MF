@@ -2,11 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Simulink Dictionary Deverloper Tools
 Bundle-SymbolicName: org.eclipse.epsilon.emc.simulink.dictionary.dt;singleton:=true
-Bundle-Version: 1.6.0.qualifier
 Automatic-Module-Name: org.eclipse.epsilon.emc.simuink.dictionary.dt
+Bundle-Version: 1.6.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.emc.simulink.common,
  org.eclipse.epsilon.emc.simulink.dictionary
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.epsilon.emc.simuink.dictionary.dt.Activator
+Bundle-Vendor: Eclipse Modeling Project
