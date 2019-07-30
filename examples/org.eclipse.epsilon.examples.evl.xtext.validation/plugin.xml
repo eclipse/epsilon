@@ -9,5 +9,12 @@
           namespaceURI="http://www.eclipse.org/epsilon/examples/evl/xtext/EvlDSL">
     </constraintsBinding>
  </extension>
+<extension
+      point="org.eclipse.ui.ide.markerResolution">
+   <markerResolutionGenerator
+         class="org.eclipse.epsilon.evl.emf.validation.EvlMarkerResolutionGenerator"
+         markerType="org.eclipse.epsilon.examples.evl.xtext.ui.evldsl.check.fast">
+   </markerResolutionGenerator>
+</extension>
 
 </plugin>
