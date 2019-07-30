@@ -16,7 +16,9 @@ Require-Bundle: org.eclipse.epsilon.evl.engine,
  org.eclipse.sirius;resolution:=optional,
  org.eclipse.sirius.ecore.extender;resolution:=optional,
  org.eclipse.sirius.diagram.ui;resolution:=optional,
- org.eclipse.emf.common.ui
+ org.eclipse.emf.common.ui,
+ org.eclipse.xtext.ui;resolution:=optional,
+ org.eclipse.xtext;resolution:=optional
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.evl.emf.validation
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

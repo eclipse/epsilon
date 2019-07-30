@@ -26,6 +26,7 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 	protected Collection<IEvlMarkerResolver> delegates = new ArrayList<>();
 	
 	private EvlMarkerResolverManager() {
+		delegates.add(new XtextMarkerResolver());
 		delegates.add(new EmfMarkerResolver());
 		delegates.add(new SiriusMarkerResolver());
 		try {
@@ -48,6 +49,16 @@ public class EvlMarkerResolverManager implements IEvlMarkerResolver {
 		return false;
 	}
 
+	@Override
+	public void run(IMarker marker, EvlMarkerResolution resolution) {
+		for (IEvlMarkerResolver delegate : delegates) {
+			if (delegate.canResolve(marker)) {
+				delegate.run(marker, resolution);
+				return;
+			}
+		}
+	}
+	
 	@Override
 	public EObject resolve(IMarker marker) {
 		for (IEvlMarkerResolver delegate : delegates) {

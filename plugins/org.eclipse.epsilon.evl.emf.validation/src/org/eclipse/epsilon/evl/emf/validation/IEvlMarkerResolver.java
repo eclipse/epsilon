@@ -25,4 +25,6 @@ public interface IEvlMarkerResolver {
 	
 	public EditingDomain getEditingDomain(IMarker marker);
 	
+	public void run(IMarker marker, EvlMarkerResolution resolution);
+	
 }

@@ -10,10 +10,6 @@
 package org.eclipse.epsilon.evl.emf.validation;
 
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.ui.IMarkerResolution;
@@ -43,58 +39,25 @@ public class EvlMarkerResolution implements IMarkerResolution {
 	}
 
 	public void run(IMarker marker) {
-		
-		EObject self = EvlMarkerResolverManager.INSTANCE.resolve(marker); //getEObject(elementId);
-		
-		Resource resource = self.eResource();
-		InMemoryEmfModel model = new InMemoryEmfModel(modelName, resource, ePackageUri);
-		
-		try {
-			fix.setSelf(self);
-			fix.getContext().getModelRepository().addModel(model);
-			EvlMarkerResolverManager.INSTANCE.getEditingDomain(marker).getCommandStack().execute(new ExecuteEvlFixCommand(fix, model));
-			
-			// 286126 - save resource so that any open GMF diagram editors are automatically refreshed
-			// see also: http://dev.eclipse.org/newslists/news.eclipse.modeling.gmf/msg04508.html
-			//self.eResource().save(Collections.EMPTY_MAP);
-			resource.setModified(true);
-			marker.delete();			
-		} catch (Exception e) {
-			LogUtil.log(e);
-		} finally {
-			fix.getContext().getModelRepository().removeModel(model);
-			model.dispose();
-		}
+		EvlMarkerResolverManager.INSTANCE.run(marker, this);
+	}
+
+	public FixInstance getFix() {
+		return fix;
+	}
+
+	public String getElementId() {
+		return elementId;
+	}
+
+	public String getModelName() {
+		return modelName;
+	}
+
+	public String getePackageUri() {
+		return ePackageUri;
 	}
 	
-	//protected EditingDomain domain;
-	/*
-	private EObject getEObject(String elementId) {
-		
-		EObject self = null;
-		String[] parts = elementId.split("#");
-		
-		URI uri = URI.createURI(parts[0]);
-		String filePath = uri.toPlatformString(true);
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(filePath));
-		String editorId = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(filePath).getId();
-		IEditorPart part = null;
-		
-		try {
-			part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new FileEditorInput(file), editorId);
-		} catch (PartInitException e1) {
-			return null;
-		}
-		
-		if (part instanceof IEditingDomainProvider) {
-			domain = ((IEditingDomainProvider) part).getEditingDomain();
-			ResourceSet resourceSet = ((IEditingDomainProvider) part).getEditingDomain().getResourceSet();
-			Resource resource = resourceSet.getResources().get(0);
-			self = resource.getEObject(parts[1]);
-		}
-		
-		return self;
-		
-	}
-	*/
+	
+	
 }

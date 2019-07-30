@@ -19,6 +19,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
+import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -91,6 +94,32 @@ public class EmfMarkerResolver implements IEvlMarkerResolver {
 		return parts[1];
 	}
 	
+	@Override
+	public void run(IMarker marker, EvlMarkerResolution resolution) {
+		EObject self = EvlMarkerResolverManager.INSTANCE.resolve(marker); //getEObject(elementId);
+		
+		Resource resource = self.eResource();
+		InMemoryEmfModel model = new InMemoryEmfModel(resolution.getModelName(), resource, resolution.getePackageUri());
+		
+		FixInstance fix = resolution.getFix();
+		try {
+			fix.setSelf(self);
+			fix.getContext().getModelRepository().addModel(model);
+			EvlMarkerResolverManager.INSTANCE.getEditingDomain(marker).getCommandStack().execute(new ExecuteEvlFixCommand(fix, model));
+			
+			// 286126 - save resource so that any open GMF diagram editors are automatically refreshed
+			// see also: http://dev.eclipse.org/newslists/news.eclipse.modeling.gmf/msg04508.html
+			//self.eResource().save(Collections.EMPTY_MAP);
+			resource.setModified(true);
+			marker.delete();			
+		} catch (Exception e) {
+			LogUtil.log(e);
+		} finally {
+			fix.getContext().getModelRepository().removeModel(model);
+			model.dispose();
+		}
+	}
+	
 	public String getAbsoluteElementId(IMarker marker) {
 		return marker.getAttribute("uri", "");
 	}
@@ -98,5 +127,5 @@ public class EmfMarkerResolver implements IEvlMarkerResolver {
 	public String getMessage(IMarker marker) {
 		return marker.getAttribute("message", "");
 	}
-
+	
 }
