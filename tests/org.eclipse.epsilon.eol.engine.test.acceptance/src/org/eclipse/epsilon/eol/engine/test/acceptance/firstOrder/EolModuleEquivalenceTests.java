@@ -12,13 +12,14 @@ package org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.concurrent.EolModuleParallel;
 import static org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil.*;
+import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.lambda.LambdaExpressionTests;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
 import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.junit.BeforeClass;
@@ -36,9 +37,11 @@ import org.junit.runners.Parameterized.Parameters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EolModuleEquivalenceTests extends EolEquivalenceTests<EolRunConfiguration> {
 	
-	static final String[] scripts = Arrays.stream(
-			new File(getTestBaseDir(FirstOrderOperationTests.class)).listFiles()
+	static final String[] scripts = Stream.of(
+			new File(getTestBaseDir(FirstOrderOperationTests.class)),
+			new File(getTestBaseDir(LambdaExpressionTests.class))
 		)
+		.flatMap(f -> Stream.of(f.listFiles()))
 		.map(File::getAbsolutePath)
 		.filter(fn -> fn.endsWith(".eol"))
 		.toArray(String[]::new);

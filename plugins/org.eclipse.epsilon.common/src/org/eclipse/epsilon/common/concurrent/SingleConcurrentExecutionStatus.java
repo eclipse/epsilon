@@ -25,7 +25,6 @@ public class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 	
 	protected long waitTimeout = 0;
 	private volatile boolean inProgress = false;
-	private volatile boolean registerAvailable = true;
 	private Object result;
 	private Object currentLock;
 
@@ -36,18 +35,12 @@ public class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 	
 	@Override
 	protected final boolean register(Object lockObj) {
-		if (registerAvailable) {
-			assert !inProgress;
+		if (!inProgress) {
 			exception = null;
 			result = null;
-			inProgress = true;
-			registerAvailable = false;
-			return true;
+			return inProgress = true;
 		}
-		else {
-			assert inProgress;
-			return false;
-		}
+		else return false;
 	}
 	
 	@Override
@@ -64,7 +57,6 @@ public class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 			currentLock.notifyAll();
 		}
 		currentLock = null;
-		registerAvailable = true;
 	}
 	
 	@Override
