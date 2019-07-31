@@ -41,8 +41,8 @@ public class EolModuleEquivalenceTests extends EolEquivalenceTests<EolRunConfigu
 			new File(getTestBaseDir(FirstOrderOperationTests.class)),
 			new File(getTestBaseDir(LambdaExpressionTests.class))
 		)
-		.flatMap(f -> Stream.of(f.listFiles()))
-		.map(File::getAbsolutePath)
+		.<File> flatMap(f -> Stream.of(f.listFiles()))
+		.<String> map(File::getAbsolutePath)
 		.filter(fn -> fn.endsWith(".eol"))
 		.toArray(String[]::new);
 	
