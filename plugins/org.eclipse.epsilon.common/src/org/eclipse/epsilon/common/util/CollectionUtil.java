@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.util;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -193,6 +194,16 @@ public class CollectionUtil {
 			filled.add(iterator.next());
 		}
 		return filled;
+	}
+	
+	public static <E> E[] toArray(Collection<E> c, Class<?> arrayType) {
+		if (c == null) return null;
+		E[] arr = (E[]) Array.newInstance(arrayType, c.size());
+		Iterator<E> it = c.iterator();
+		for (int i = 0; it.hasNext(); i++) {
+			arr[i] = it.next();
+		}
+		return arr;
 	}
 	
 	public static String join(Iterable<?> collection, String delimiter) {

@@ -39,7 +39,6 @@ public class ParallelSelectOperation extends SelectOperation {
 		Collection<Object> source = resolveSource(target, iterators, context_);
 		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
 		if (source.isEmpty()) return resultsCol;
-
 		Collection<Future<Optional<?>>> jobResults = new ArrayList<>(source.size());
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
@@ -47,24 +46,19 @@ public class ParallelSelectOperation extends SelectOperation {
 		
 		for (Object item : source) {
 			jobResults.add(executor.submit(() -> {
-				
 				Optional<?> intermediateResult = null;
-				
 				if (predicate.testThrows(item)) {
 					intermediateResult = Optional.ofNullable(item);
-					
 					if (returnOnMatch) {
 						executor.getExecutionStatus().completeWithResult(intermediateResult);
 					}
 				}
-				
 				return intermediateResult;
 			}));
 		}
 		
 		if (returnOnMatch) {
 			Optional<?> result = (Optional<?>) executor.shortCircuitCompletion(jobResults);
-			
 			if (result != null) {	
 				resultsCol.add(result.orElse(null));
 			}

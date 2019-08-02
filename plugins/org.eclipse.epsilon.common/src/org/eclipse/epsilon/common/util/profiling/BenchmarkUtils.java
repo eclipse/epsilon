@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.common.util.profiling;
 
 import static java.lang.System.nanoTime;
-import static org.eclipse.epsilon.common.util.OperatingSystem.execCmd;
+import static org.eclipse.epsilon.common.util.OperatingSystem.executeCommand;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryUsage;
@@ -175,13 +175,13 @@ public final class BenchmarkUtils {
 	public static String getCpuName() {
 		try {
 			switch (OSFamily.getOSFamily()) {
-                case WINDOWS: return execCmd(
+                case WINDOWS: return executeCommand(
                     "powershell.exe", "-Command", "\"wmic CPU get NAME | findstr '@'\""
                 );
-                case MAC: return execCmd(
+                case MAC: return executeCommand(
                     "/bin/sh", "-c", "sysctl -n machdep.cpu.brand_string"
                 );
-                default: return execCmd(
+                default: return executeCommand(
                     "/bin/sh", "-c", "cat /proc/cpuinfo | grep -m 1 'model name' | cut -c 14-"
                 );
             }

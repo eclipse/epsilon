@@ -44,10 +44,6 @@ public class OperatingSystem {
     public static boolean isUnix() {
         return !isWindows();
     }
-    
-    public static boolean isWindowsVista() {
-        return isWindows() && System.getProperty("os.name").contains("Vista");
-    }
 
 	public enum OSFamily {
 		WINDOWS,
@@ -76,7 +72,7 @@ public class OperatingSystem {
 	 * @throws IOException
 	 * @since 1.6
 	 */
-	public static String execCmd(String... args) throws IOException {
+	public static String executeCommand(String... args) throws IOException {
 		Process process = new ProcessBuilder(args).redirectErrorStream(true).start();
 		StringBuilder processOutput = new StringBuilder();
 

@@ -38,7 +38,7 @@ public class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 		if (!inProgress) {
 			exception = null;
 			result = null;
-			return inProgress = true;
+			return (inProgress = true);
 		}
 		else return false;
 	}
@@ -48,7 +48,8 @@ public class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 		return inProgress;
 	}
 	
-	protected final void complete(Object lockObj) {
+	@Override
+	protected final void completeSuccessfully(Object lockObj) {
 		inProgress = false;
 		if (lockObj != null) synchronized (lockObj) {
 			lockObj.notifyAll();
@@ -60,11 +61,6 @@ public class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 	}
 	
 	@Override
-	protected final void completeSuccessfully(Object lockObj) {
-		complete(lockObj);
-	}
-	
-	@Override
 	protected final void completeWithResult(Object lockObj, Object result) {
 		this.result = result;
 		completeSuccessfully(lockObj);
@@ -73,7 +69,7 @@ public class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 	@Override
 	public final void completeExceptionally(Throwable exception) {
 		completeExceptionallyBase(exception);
-		complete(currentLock);
+		completeSuccessfully(currentLock);
 	}
 	
 	/**
@@ -93,12 +89,12 @@ public class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 			catch (InterruptedException ie) {}
 		}
 		currentLock = null;
-		return !failed;
+		return exception == null;
 	}
 	
-	/*@Override
-	public Exception waitForExceptionalCompletion() {
-		waitForCompletion(lockObj, () -> failed);
+	@Override
+	public Throwable waitForExceptionalCompletion() {
+		waitForCompletion(() -> exception != null);
 		return exception;
-	}*/
+	}
 }

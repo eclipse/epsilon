@@ -19,7 +19,6 @@ import java.util.function.Supplier;
  */
 public abstract class ConcurrentExecutionStatus {
 	
-	protected boolean failed;
 	protected Throwable exception;
 
 	public Throwable getException() {
@@ -61,11 +60,10 @@ public abstract class ConcurrentExecutionStatus {
 	
 	protected abstract void completeWithResult(Object lockObj, Object result);
 	
-	protected final boolean completeExceptionallyBase(Throwable exception) {
-		boolean firstFail = !failed;
+	protected final boolean completeExceptionallyBase(Throwable t) {
+		boolean firstFail = this.exception == null;
 		if (firstFail) {
-			this.exception = exception;
-			failed = true;
+			this.exception = t;
 		}
 		return firstFail;
 	}
@@ -73,7 +71,7 @@ public abstract class ConcurrentExecutionStatus {
 	public abstract void completeExceptionally(Throwable exception);
 	
 	public synchronized Throwable waitForExceptionalCompletion() {
-		while (!failed) {
+		while (exception == null) {
 			try {
 				wait();
 			}

@@ -12,12 +12,11 @@ package org.eclipse.epsilon.common.dt.editor.hyperlinks;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.util.ArrayUtil;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
@@ -32,12 +31,12 @@ import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
 public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector, IModuleParseListener {
 
 	protected AbstractModuleEditor editor;
-	protected HashMap<OperationCallExpression, IRegion> astRegions = new HashMap<OperationCallExpression, IRegion>();
+	protected HashMap<OperationCallExpression, IRegion> astRegions = new HashMap<>();
 	protected IEolModule module = null;
 	
 	public List<IHyperlink> createHyperlinks(OperationCallExpression ast) {
 		
-		ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
+		ArrayList<IHyperlink> hyperlinks = new ArrayList<>();
 		
 		for (Object op : module.getOperations()) {
 			Operation operation = (Operation) op;
@@ -68,9 +67,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 			if (region.getOffset() <= candidateRegion.getOffset() + candidateRegion.getLength() 
 					&& region.getOffset() >= candidateRegion.getOffset()) {
 				
-				IHyperlink[] hyperlinks = new ArrayUtil<IHyperlink>()
-					.toArray(createHyperlinks(ast), IHyperlink.class);
-				
+				IHyperlink[] hyperlinks = CollectionUtil.toArray(createHyperlinks(ast), IHyperlink.class);
 				if (hyperlinks.length > 0) return hyperlinks;
 			}
 			

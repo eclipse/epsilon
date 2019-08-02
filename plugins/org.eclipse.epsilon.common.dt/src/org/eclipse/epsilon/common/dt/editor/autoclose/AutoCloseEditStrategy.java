@@ -18,7 +18,7 @@ import org.eclipse.jface.text.IDocument;
 
 public class AutoCloseEditStrategy implements IAutoEditStrategy {
 
-	protected List<AutoClosePair> autoClosePairs = new ArrayList<AutoClosePair>();
+	protected List<AutoClosePair> autoClosePairs = new ArrayList<>();
 	protected AutoCloseAction lastAutoCloseAction = AutoCloseAction.NoAutoCloseAction;
 	
 	public AutoCloseEditStrategy() {
@@ -29,6 +29,7 @@ public class AutoCloseEditStrategy implements IAutoEditStrategy {
 		//autoClosePairs.add(new AutoClosePair('[', ']'));
 	}
 	
+	@Override
 	public void customizeDocumentCommand(IDocument document, DocumentCommand command) {
 		
 		AutoCloseCandidate autoCloseCandidate = new AutoCloseCandidate(document, command);

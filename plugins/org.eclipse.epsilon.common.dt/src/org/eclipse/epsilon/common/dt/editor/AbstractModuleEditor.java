@@ -10,17 +10,7 @@
 package org.eclipse.epsilon.common.dt.editor;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-
+import java.util.*;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -63,7 +53,6 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.jface.text.templates.Template;
-import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
@@ -83,8 +72,8 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	
 	protected Color backgroundColor = null;
 	protected Job parseModuleJob = null;
-	protected ArrayList<IModuleParseListener> moduleParsedListeners = new ArrayList<IModuleParseListener>();
-	protected ArrayList<IAbstractModuleEditorTemplateContributor> templateContributors = new ArrayList<IAbstractModuleEditorTemplateContributor>();
+	protected ArrayList<IModuleParseListener> moduleParsedListeners = new ArrayList<>();
+	protected ArrayList<IAbstractModuleEditorTemplateContributor> templateContributors = new ArrayList<>();
 
 	public static String PROBLEMMARKER = "org.eclipse.epsilon.common.dt.problemmarker";
 	
@@ -178,7 +167,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		// The list returned by Arrays.asList cannot be changed in size,
 		// as it is just a wrapper over the Java array. Therefore, any
 		// calls to add/remove will return an UnsupportedOperationException.
-		return new ArrayList<String>(Arrays.asList(
+		return new ArrayList<>(Arrays.asList(
 			"String", "Boolean", "Integer", "Real",
 			"Any", "Map", "Collection", "Bag", "Sequence",
 			"Set", "OrderedSet", "Native", "List"));
@@ -408,7 +397,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			
 			// Create markers for parse problems
 			for (ParseProblem problem : module.getParseProblems()) {
-				Map<String, Object> attr = new HashMap<String, Object>();
+				Map<String, Object> attr = new HashMap<>();
 				attr.put(IMarker.LINE_NUMBER, new Integer(problem.getLine()));
 				attr.put(IMarker.MESSAGE, problem.getReason());				
 				int markerSeverity;
@@ -456,7 +445,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		if (moduleMarkers == null) return;
 		
 		for (ModuleMarker moduleMarker : moduleMarkers) {
-			Map<String, Object> attr = new HashMap<String, Object>();
+			Map<String, Object> attr = new HashMap<>();
 			Region region = moduleMarker.getRegion();
 			int startOffset = doc.getLineOffset(region.getStart().getLine()-1) + region.getStart().getColumn();
 			int endOffset = doc.getLineOffset(region.getEnd().getLine()-1) + region.getEnd().getColumn();
@@ -478,7 +467,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	}
 	
 	private Collection<String> getMarkerTypes() {
-		final Set<String> markerTypes = new HashSet<String>();
+		final Set<String> markerTypes = new HashSet<>();
 		markerTypes.add(AbstractModuleEditor.PROBLEMMARKER);
 		
 		for (IModuleValidator validator : ModuleValidatorExtensionPointManager.getDefault().getExtensions()) {
@@ -514,7 +503,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	
 	public final List<Template> getTemplates() {
 		
-		List<Template> templates = new ArrayList<Template>();
+		List<Template> templates = new ArrayList<>();
 		
 		for (IAbstractModuleEditorTemplateContributor contributor : templateContributors) {
 			templates.addAll(contributor.getTemplates());
