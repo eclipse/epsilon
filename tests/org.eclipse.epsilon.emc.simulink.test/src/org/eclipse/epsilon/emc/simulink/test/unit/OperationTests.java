@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.emc.simulink.test.unit;
 
 import org.eclipse.epsilon.emc.simulink.test.util.AbstractSimulinkTest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class OperationTests extends AbstractSimulinkTest {
@@ -46,6 +47,7 @@ public class OperationTests extends AbstractSimulinkTest {
 				+ "assert(gain.type = 'Gain')";
 	}
 	
+	@Ignore
 	@Test
 	public void testModelObjectMethodForNoContextSimulink() {
 		eol = "M.add_param('a', '2'); "

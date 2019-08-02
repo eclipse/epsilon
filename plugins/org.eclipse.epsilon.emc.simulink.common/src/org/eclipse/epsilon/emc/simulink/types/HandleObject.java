@@ -20,7 +20,7 @@ public class HandleObject{
 		return (getMatlabClass() == null) ? false : getMatlabClass().isInstance(obj);
 	}
 
-	private static Class<?> getMatlabClass() {
+	public static Class<?> getMatlabClass() {
 		if (handle_object_class == null) {
 			try {
 				handle_object_class = ClassLoader.getSystemClassLoader().loadClass(HANDLE_OBJECT_MATLAB_CLASS);

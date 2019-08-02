@@ -14,6 +14,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -57,6 +58,7 @@ public class MatlabEnginePool {
 			method.invoke(systemURLClassLoader, engineJarPathURL);
 
 			matlabEngineClass = systemURLClassLoader.loadClass(MATLAB_ENGINE_CLASS);
+			MatlabEngine.setEngineClass(matlabEngineClass);
 		} catch (Exception ex) {
 			throw new MatlabRuntimeException("Make sure to properly configure the library path and MATLAB engine Jar in Epsilon/Simulink preferences");
 		}
@@ -77,7 +79,7 @@ public class MatlabEnginePool {
 	public MatlabEngine getMatlabEngine() throws Exception {
 		MatlabEngine engine = null;
 		if (pool.isEmpty()) {
-			engine = new MatlabEngine(matlabEngineClass);
+			engine = new MatlabEngine();
 		} else {
 			engine = pool.iterator().next();
 			pool.remove(engine);
@@ -95,6 +97,22 @@ public class MatlabEnginePool {
 
 	public String getLibraryPath() {
 		return libraryPath;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		String l = "/Applications/MATLAB_R2018b.app/bin/maci64/";
+		String e = "/Applications/MATLAB_R2018b.app/extern/engines/java/jar/engine.jar";
+		MatlabEnginePool pool = MatlabEnginePool.getInstance(l, e);
+		System.out.println(pool.pool.size());
+		MatlabEngine matlabEngine = pool.getMatlabEngine();
+		System.out.println("One Engine");
+		System.out.println(matlabEngine.isDisconnected());
+		matlabEngine.startMatlab();
+		String[] findMatlab = matlabEngine.findMatlab();
+		System.out.println(Arrays.toString(findMatlab));
+		//System.out.println(matlabEngine.connectMatlab(findMatlab[0]));
+		pool.getMatlabEngine();
+
 	}
 
 }

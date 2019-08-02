@@ -9,11 +9,15 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.engine;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
+
+import javax.xml.bind.MarshalException;
 
 import org.eclipse.epsilon.emc.simulink.exception.EpsilonSimulinkInternalException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
@@ -27,8 +31,8 @@ public class MatlabEngine {
 	
 	/** ENGINE STATIC METHODS */
 	private static final String CONNECT_MATLAB_METHOD = "connectMatlab";
-	private static final String START_MATLAB_METHOD = "connectMatlab";
-	private static final String FIND_MATLAB_METHOD = "connectMatlab";
+	private static final String START_MATLAB_METHOD = "startMatlab";
+	private static final String FIND_MATLAB_METHOD = "findMatlab";
 
 	/** ASYNC 
 	private static final String CONNECT_MATLAB_ASYNC_METHOD = "connectMatlabAsync";
@@ -80,13 +84,24 @@ public class MatlabEngine {
 	protected Method quitMethod;
 	protected Method disconnectMethod;
 	
-
-	public MatlabEngine(Class<?> matlabEngineClass) throws MatlabException  {
+	public boolean isDisconnected() throws Exception{
+		Field declaredField = engine_class.getDeclaredField("fDisconnected");
+		declaredField.setAccessible(true);
+		AtomicBoolean disconnected = (AtomicBoolean) declaredField.get(engine);
+		return disconnected.get();
+	}
+	
+	public static void setEngineClass(Class<?> matlabEngineClass) {
+		engine_class = matlabEngineClass;
+	}
+	
+	public MatlabEngine() throws Exception  {
+		if (engine_class == null) throw new InternalError("Engine Class not yet set");
 		try{
-			engine = matlabEngineClass.getMethod(CONNECT_MATLAB_METHOD).invoke(null);
+			engine = engine_class.getMethod(CONNECT_MATLAB_METHOD).invoke(null);
 		} catch (InvocationTargetException e) {
 			try{
-				engine = matlabEngineClass.getMethod(CONNECT_MATLAB_METHOD).invoke(null);
+				engine = engine_class.getMethod(START_MATLAB_METHOD).invoke(null);
 			} catch (InvocationTargetException ex) {
 				throw new MatlabException(e);
 			} catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException ex) {
