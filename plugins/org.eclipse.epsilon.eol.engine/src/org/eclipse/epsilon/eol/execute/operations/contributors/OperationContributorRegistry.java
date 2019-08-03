@@ -20,7 +20,7 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.compatibility.Str
 
 public class OperationContributorRegistry {
 	
-	private final Collection<OperationContributor> operationContributorsCache = getDefaultOperationContributors();
+	private final List<OperationContributor> operationContributorsCache = getDefaultOperationContributors();
 
 	/**
 	 * <p>Adds the specified {@link OperationContributor} to the list of contributors
@@ -43,7 +43,7 @@ public class OperationContributorRegistry {
 	 * by the registry. 
 	 */
 	protected List<OperationContributor> getDefaultOperationContributors() {
-		return new LinkedList<>(
+		return new ArrayList<>(
 			Arrays.asList(
 				new StringCompatibilityOperationContributor(),
                 new ReflectiveOperationContributor(),
@@ -71,7 +71,7 @@ public class OperationContributorRegistry {
 	 * example, EGL's contributor for OutputBuffer's print operations.
 	 */
 	public ObjectMethod findContributedMethodForUnevaluatedParameters(Object target, String name, List<Expression> parameterExpressions, IEolContext context) {
-		for (OperationContributor c : getOperationContributorsFor(target)) {
+		for (OperationContributor c : getOperationContributorsFor(target, context)) {
 			ObjectMethod objectMethod = c.findContributedMethodForUnevaluatedParameters(target, name, parameterExpressions, context);
 			if (objectMethod != null)
 				return objectMethod;
@@ -86,7 +86,7 @@ public class OperationContributorRegistry {
 	 * evaluated.
 	 */
 	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context) {
-		for (OperationContributor c : getOperationContributorsFor(target)) {
+		for (OperationContributor c : getOperationContributorsFor(target, context)) {
 			ObjectMethod objectMethod = c.findContributedMethodForEvaluatedParameters(target, name, parameters, context, false);
 			if (objectMethod != null)
 				return objectMethod;
@@ -94,14 +94,20 @@ public class OperationContributorRegistry {
 		return null;
 	}
 	
-	protected Collection<OperationContributor> getOperationContributorsFor(Object target) {
-		return operationContributorsCache.stream()
-			.filter(oc -> oc.contributesTo(target))
-			.collect(Collectors.toList());
+	protected Collection<OperationContributor> getOperationContributorsFor(Object target, IEolContext context) {
+		return stream().filter(oc -> {
+			oc.setContext(context);
+			return oc.contributesTo(target);
+		})
+		.collect(Collectors.toList());
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
 	public Stream<OperationContributor> stream() {
 		return operationContributorsCache.stream();
 	}
-	
 }

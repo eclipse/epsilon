@@ -70,6 +70,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 	}
 	
 	public EglTemplateFactoryModuleAdapter() {
+		this(new EglTemplateFactory());
 	}
 	
 	public EglTemplateFactoryModuleAdapter(EglTemplateFactory factory) {

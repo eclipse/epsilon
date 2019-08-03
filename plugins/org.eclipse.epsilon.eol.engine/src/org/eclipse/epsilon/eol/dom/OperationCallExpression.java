@@ -130,7 +130,6 @@ public class OperationCallExpression extends FeatureCallExpression {
 		if (context.getModule() instanceof IEolModule && !isArrow()) {
 			OperationList operations = ((IEolModule) context.getModule()).getOperations();
 			Operation helper = operations.getOperation(targetObject, nameExpression , parameterValues, context);
-
 			if (helper != null) {
 				return helper.execute(targetObject, parameterValues, context);
 			}
