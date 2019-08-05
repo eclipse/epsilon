@@ -46,6 +46,18 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 		this(new EglTemplateSpecificationFactory(new NullFormatter(), new IncrementalitySettings()).fromResource(path.toString(), path), context, outputRoot);
 	}
 
+	public EglFileGeneratingTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot, String outputRootPath) throws Exception {
+		super(spec, context, outputRoot, outputRootPath);
+	}
+	
+	/**
+	 * 
+	 * @param spec
+	 * @param context
+	 * @param outputRoot
+	 * @throws Exception
+	 * @since 1.6
+	 */
 	public EglFileGeneratingTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot) throws Exception {
 		super(spec, context, outputRoot);
 	}

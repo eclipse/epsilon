@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egl;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
@@ -24,13 +23,27 @@ import org.eclipse.epsilon.egl.util.FileUtil;
 public abstract class EglPersistentTemplate extends EglTemplate {
 
 	protected final URI outputRoot;
+	protected final String outputRootPath;
 
+	/**
+	 * 
+	 * @param spec
+	 * @param context
+	 * @param outputRoot
+	 * @throws Exception
+	 * @since 1.6
+	 */
 	public EglPersistentTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot) throws Exception {
-		super(spec, context);
-		this.outputRoot = outputRoot;
+		this(spec, context, outputRoot, outputRoot != null ? outputRoot.getPath() : null);
 	}
 	
+	public EglPersistentTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot, String outputRootPath) throws Exception {
+		super(spec, context);
+		this.outputRoot     = outputRoot;
+		this.outputRootPath = outputRootPath;
+	}
 	
+
 	protected File resolveFile(String path) throws EglRuntimeException {
 		try {
 			final String encodedPath = UriUtil.encode(path, false);
@@ -132,11 +145,11 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 	}
 	
 	protected String name(String path) {
-		if (outputRoot == null) {
+		if (outputRootPath == null) {
 			return path;
 		}
 		else {
-			return new File(outputRoot).getPath() + FileUtil.FILE_SEP + path;
+			return new File(outputRootPath).getPath() + FileUtil.FILE_SEP + path;
 		}
 	}
 

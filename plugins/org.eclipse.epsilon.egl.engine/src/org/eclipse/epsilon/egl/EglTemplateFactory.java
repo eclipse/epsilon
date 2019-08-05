@@ -34,6 +34,7 @@ public class EglTemplateFactory {
 	protected IEglContext context;
 	protected URI root;
 	private URI templateRoot;
+	private String templateRootPath;
 	private Formatter defaultFormatter = new NullFormatter();
 	private IncrementalitySettings defaultIncrementalitySettings = new IncrementalitySettings();
 	private final Collection<ITemplateExecutionListener> listeners = new LinkedList<>();
@@ -50,6 +51,7 @@ public class EglTemplateFactory {
 	public EglTemplateFactory(EglTemplateFactory other) {
 		this.context = other.context;
 		this.root = other.root;
+		this.templateRootPath = other.templateRootPath;
 		this.templateRoot = other.templateRoot;
 	}
 
@@ -94,11 +96,11 @@ public class EglTemplateFactory {
 	}
 	
 	public String getTemplateRoot() {
-		return templateRoot.toString();
+		return templateRootPath;
 	}
 	
 	public void setTemplateRoot(String path) throws EglRuntimeException {
-		templateRoot = resolveRoot(path);
+		templateRoot = resolveRoot(templateRootPath = path);
 	}
 	
 	protected URI resolveRoot(String path) throws EglRuntimeException {
@@ -121,8 +123,8 @@ public class EglTemplateFactory {
 	
 	protected String name(String path) {
 		String name = path;
-		 if (templateRoot != null)
-			 name = new File(templateRoot).getPath() + FileUtil.FILE_SEP + name;
+		 if (templateRootPath != null)
+			 name = new File(templateRootPath).getPath() + FileUtil.FILE_SEP + name;
 		 return name;
 	}
 	
@@ -194,7 +196,6 @@ public class EglTemplateFactory {
 	 */
 	protected EglTemplate load(String code, URI resource) throws EglRuntimeException {
 		final String name = resource.toString(); // FIXME better name for URIs
-
 		return load(createTemplateSpecificationFactory().fromDirtyResource(name, code, resource));
 	}
 
