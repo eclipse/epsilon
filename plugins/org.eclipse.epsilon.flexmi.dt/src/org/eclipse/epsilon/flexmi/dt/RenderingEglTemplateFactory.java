@@ -18,7 +18,7 @@ public class RenderingEglTemplateFactory extends EglTemplateFactory {
 	
 	@Override
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
-		RenderingEglTemplate template = new RenderingEglTemplate(spec, context, outputRoot.toURI(), outputRoot.getAbsolutePath());
+		RenderingEglTemplate template = new RenderingEglTemplate(spec, context, outputRoot.toURI());
 		template.setContentTree(contentTree);
 		return template;
 	}

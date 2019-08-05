@@ -34,6 +34,7 @@ import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolType;
@@ -49,14 +50,14 @@ public class EglPreprocessorModule extends EolModule {
 	 * @since 1.6
 	 */
 	public EglPreprocessorModule(IEolContext delegate) {
-		setContext(new EglPreprocessorContext(delegate != null ? delegate : context));
+		setContext(new EglPreprocessorContext(delegate));
 		if (delegate instanceof IEglContext) {
-			getContext().setEglContext((IEglContext)delegate);
+			getContext().setEglContext((IEglContext) delegate);
 		}
 	}
 	
 	public EglPreprocessorModule() {
-		this(null);
+		this(new EolContext());
 	}
 	
 	@Override

@@ -71,7 +71,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 */
 	public EList<TraceLink> getTraceLinks() {
 		if (traceLinks == null) {
-			traceLinks = new EObjectContainmentEList<TraceLink>(TraceLink.class, this, TextlinkPackage.TRACE__TRACE_LINKS);
+			traceLinks = new EObjectContainmentEList<>(TraceLink.class, this, TextlinkPackage.TRACE__TRACE_LINKS);
 		}
 		return traceLinks;
 	}

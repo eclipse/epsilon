@@ -17,7 +17,7 @@ import org.junit.Test;
 
 public class ListModelTests {
 
-	private final ListModel<String> model = new ListModel<String>();
+	private final ListModel<String> model = new ListModel<>();
 	
 	@Test
 	public void addAnItem() {

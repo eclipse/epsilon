@@ -17,7 +17,7 @@ import org.junit.Test;
 public class LineByLineNavigatorTests {
 
 	private final String threeLinesOfText = "foo" + NEWLINE + "bar" + NEWLINE + "baz";
-	private final LineByLineNavigator<Line> navigator = new LineByLineNavigator<Line>(threeLinesOfText, new PlainLineFactory());
+	private final LineByLineNavigator<Line> navigator = new LineByLineNavigator<>(threeLinesOfText, Line::new);
 	
 	@Test
 	public void iteratesOverLines() {
@@ -86,15 +86,5 @@ public class LineByLineNavigatorTests {
 	private void joinFirstTwoLines() {
 		navigator.moveToNextLine();
 		navigator.joinCurrentToPrevious("|");
-	}
-	
-	
-	private static class PlainLineFactory implements LineFactory<Line> {
-
-		@Override
-		public Line createLine(String rawLine) {
-			return new Line(rawLine);
-		}
-		
 	}
 }

@@ -39,7 +39,7 @@ public class Pojo2Emf implements IFineGrainedTracePostprocessor {
 	}
 	
 	private Collection<? extends TraceLink> transform(Collection<org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink> original) {
-		final Collection<TraceLink> transformed = new LinkedList<TraceLink>();
+		final Collection<TraceLink> transformed = new LinkedList<>();
 		
 		for (org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink element : original) {
 			transformed.add(transform(element));

@@ -47,6 +47,7 @@ public abstract class TextLinkInnerEditorInput<T> extends FileEditorInput {
 			super(file, true, resource);
 		}
 		
+		@Override
 		public boolean contains(Object o) {
 			if (!(o instanceof EmfModelLocation))
 				return false;
@@ -63,6 +64,7 @@ public abstract class TextLinkInnerEditorInput<T> extends FileEditorInput {
 			super(file, false, resource);
 		}
 		
+		@Override
 		public boolean contains(Object o) {
 			if (!(o instanceof TextLocation))
 				return false;

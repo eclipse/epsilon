@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egl.spec;
 import java.net.URI;
 import java.util.Collection;
 import java.util.LinkedList;
-
 import org.eclipse.epsilon.egl.execute.control.ITemplateExecutionListener;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;

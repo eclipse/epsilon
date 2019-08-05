@@ -20,6 +20,6 @@ public class CountingTemplateFactory extends EglFileGeneratingTemplateFactory {
 
 	@Override
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
-		return new CountingTemplate(spec, context, getOutputRootOrRoot(), outputRootPath);
+		return new CountingTemplate(spec, context, getOutputRootOrRoot());
 	}	
 }

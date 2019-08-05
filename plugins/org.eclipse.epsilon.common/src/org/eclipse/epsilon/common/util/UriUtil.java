@@ -29,7 +29,7 @@ public abstract class UriUtil {
 		
 		else {
 			for (URI parent : relativeTo) {
-				if (parent!=null) {
+				if (parent != null) {
 					
 					boolean parentIsJar = false;
 					

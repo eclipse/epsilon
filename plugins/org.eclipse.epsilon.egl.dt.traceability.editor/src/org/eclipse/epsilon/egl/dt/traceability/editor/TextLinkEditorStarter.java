@@ -65,6 +65,7 @@ public class TextLinkEditorStarter extends EditorPart {
 		
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				EmfModel textlinkModel = null;
 				

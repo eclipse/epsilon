@@ -17,6 +17,7 @@ import org.eclipse.epsilon.eol.dt.editor.outline.EolModuleContentProvider;
 
 public class EglModuleContentProvider extends EolModuleContentProvider {
 	
+	@SuppressWarnings("restriction")
 	@Override
 	public List<ModuleElement> getVisibleChildren(ModuleElement moduleElement) {
 		List<ModuleElement> visible = super.getVisibleChildren(moduleElement);

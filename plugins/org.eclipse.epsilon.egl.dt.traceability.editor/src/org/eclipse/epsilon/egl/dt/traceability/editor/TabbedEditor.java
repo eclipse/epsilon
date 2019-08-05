@@ -33,7 +33,7 @@ public class TabbedEditor<T extends IEditorPart> extends Composite {
 	
 	public TabbedEditor(Composite parent, Collection<T> innerEditors) {
 		super(parent, SWT.NONE);
-		this.innerEditors = new LinkedList<T>(innerEditors);
+		this.innerEditors = new LinkedList<>(innerEditors);
 		
 		this.setLayout(new FillLayout());
 		
@@ -56,8 +56,10 @@ public class TabbedEditor<T extends IEditorPart> extends Composite {
 		
 		folder.addSelectionListener(new SelectionListener(){
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (e.item != null && e.item instanceof CTabItem) {
 					((CTabItem) e.item).getControl().setFocus();

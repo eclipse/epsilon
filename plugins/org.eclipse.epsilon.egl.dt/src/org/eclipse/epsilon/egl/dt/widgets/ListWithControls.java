@@ -153,6 +153,7 @@ public class ListWithControls<T> extends Composite {
 			button.addSelectionListener(listener);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setItems(T... items) {
 		setItems(Arrays.asList(items));
 	}

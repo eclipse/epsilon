@@ -30,7 +30,7 @@ public class VirtualTemplateFactory extends EglFileGeneratingTemplateFactory {
 	
 	@Override
 	public EglTemplate load(URI resource) throws EglRuntimeException {
-		String relativePath = root.relativize(resource).toString();
+		String relativePath = templateRoot.relativize(resource).toString();
 		
 		if (virtualTemplates.containsKey(relativePath)) {
 			return this.load(virtualTemplates.get(relativePath), resource);
@@ -41,7 +41,7 @@ public class VirtualTemplateFactory extends EglFileGeneratingTemplateFactory {
 	
 	@Override
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
-		return new VirtualTemplate(ledger, spec, context, getOutputRootOrRoot(), outputRootPath);
+		return new VirtualTemplate(ledger, spec, context, getOutputRootOrRoot());
 	}
 
 	public Collection<String> getOutputFiles() {

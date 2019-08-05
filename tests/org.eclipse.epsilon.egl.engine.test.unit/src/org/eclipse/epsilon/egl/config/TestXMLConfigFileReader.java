@@ -127,7 +127,7 @@ public class TestXMLConfigFileReader {
 	
 	@Test
 	public void readEmptyContentTypes() throws PersistenceException, FileNotFoundException {
-		final Map<String, CompositePartitioner> expected = new HashMap<String, CompositePartitioner>();
+		final Map<String, CompositePartitioner> expected = new HashMap<>();
 		
 		assertEquals(expected, read(emptyContentTypes));
 	}
@@ -168,7 +168,7 @@ public class TestXMLConfigFileReader {
 	
 	@Test
 	public void readCommentStyleEmptyEndsWith() throws PersistenceException, FileNotFoundException {
-		final Map<String, CompositePartitioner> expected = new HashMap<String, CompositePartitioner>();
+		final Map<String, CompositePartitioner> expected = new HashMap<>();
 		expected.put("Java", new CompositePartitioner(new CommentBlockPartitioner("//", null)));
 		
 		assertEquals(expected, read(commentStyleEmptyEndsWith));
@@ -176,7 +176,7 @@ public class TestXMLConfigFileReader {
 	
 	@Test
 	public void readCommentStyleEmptyStartsWith() throws PersistenceException, FileNotFoundException {
-		final Map<String, CompositePartitioner> expected = new HashMap<String, CompositePartitioner>();
+		final Map<String, CompositePartitioner> expected = new HashMap<>();
 		expected.put("OddLanguage", new CompositePartitioner(new CommentBlockPartitioner(null, "**")));
 		
 		assertEquals(expected, read(commentStyleEmptyStartsWith));
@@ -189,7 +189,7 @@ public class TestXMLConfigFileReader {
 	
 	@Test
 	public void readEmptyCommentStyle() throws PersistenceException, FileNotFoundException {
-		final Map<String, CompositePartitioner> expected = new HashMap<String, CompositePartitioner>();
+		final Map<String, CompositePartitioner> expected = new HashMap<>();
 		expected.put("PlainText", new CompositePartitioner(new CommentBlockPartitioner(null, null)));
 		
 		assertEquals(expected, read(emptyCommentStyle));
@@ -198,7 +198,7 @@ public class TestXMLConfigFileReader {
 	
 	@Test
 	public void readValid() throws PersistenceException, FileNotFoundException {
-		final Map<String, CompositePartitioner> expected = new HashMap<String, CompositePartitioner>();
+		final Map<String, CompositePartitioner> expected = new HashMap<>();
 		expected.put("Java", new CompositePartitioner(new CommentBlockPartitioner("//", null),
 		                                              new CommentBlockPartitioner("/*", "*/")));
 		

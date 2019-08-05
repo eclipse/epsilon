@@ -40,7 +40,7 @@ public class TestControlledRegionMerging {
 	
 	@Test
 	public void testMerge() {
-		final Merger merger = new DefaultMerger(partitioner, generated, existing);
+		final Merger merger = new Merger(partitioner, generated, existing);
 		assertEquals(expected, merger.merge());
 		assertEquals(0, merger.getMergeWarnings().size());
 	}

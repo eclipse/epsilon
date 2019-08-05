@@ -34,7 +34,7 @@ public class TestProtectedRegionMerging {
 
 	@Test
 	public void testOnAndOn() {
-		final Merger merger = new DefaultMerger(partitioner, generated, existing);
+		final Merger merger = new Merger(partitioner, generated, existing);
 		
 		assertEquals(existing, merger.merge());
 		assertEquals(0, merger.getMergeWarnings().size());
@@ -42,7 +42,7 @@ public class TestProtectedRegionMerging {
 	
 	@Test
 	public void testOnAndOff() {
-		final Merger merger = new DefaultMerger(partitioner, generated, turnOff(existing));
+		final Merger merger = new Merger(partitioner, generated, turnOff(existing));
 		
 		assertEquals(generated, merger.merge());
 		assertEquals(0, merger.getMergeWarnings().size());
@@ -50,7 +50,7 @@ public class TestProtectedRegionMerging {
 	
 	@Test
 	public void testOnAndAbsent() {
-		final Merger merger = new DefaultMerger(partitioner, generated, "");
+		final Merger merger = new Merger(partitioner, generated, "");
 		
 		assertEquals(generated, merger.merge());
 		assertEquals(0, merger.getMergeWarnings().size());
@@ -59,7 +59,7 @@ public class TestProtectedRegionMerging {
 
 	@Test
 	public void testOffAndOn() {
-		final Merger merger = new DefaultMerger(partitioner, turnOff(generated), existing);
+		final Merger merger = new Merger(partitioner, turnOff(generated), existing);
 		
 		assertEquals(existing, merger.merge());
 		assertEquals(0, merger.getMergeWarnings().size());
@@ -67,7 +67,7 @@ public class TestProtectedRegionMerging {
 	
 	@Test
 	public void testOffAndOff() {
-		final Merger merger = new DefaultMerger(partitioner, turnOff(generated), turnOff(existing));
+		final Merger merger = new Merger(partitioner, turnOff(generated), turnOff(existing));
 		
 		assertEquals(turnOff(generated), merger.merge());
 		assertEquals(0, merger.getMergeWarnings().size());
@@ -75,7 +75,7 @@ public class TestProtectedRegionMerging {
 	
 	@Test
 	public void testOffAndAbsent() {
-		final Merger merger = new DefaultMerger(partitioner, turnOff(generated), "");
+		final Merger merger = new Merger(partitioner, turnOff(generated), "");
 		
 		assertEquals(turnOff(generated), merger.merge());
 		assertEquals(0, merger.getMergeWarnings().size());
@@ -84,14 +84,14 @@ public class TestProtectedRegionMerging {
 	
 	@Test
 	public void testAbsentAndOn() {
-		final Merger merger = new DefaultMerger(partitioner, "", existing);
+		final Merger merger = new Merger(partitioner, "", existing);
 		assertEquals("", merger.merge());
 		assertEquals(1, merger.getMergeWarnings().size());
 	}
 	
 	@Test
 	public void testAbsentAndOff() {
-		final Merger merger = new DefaultMerger(partitioner, "", turnOff(existing));
+		final Merger merger = new Merger(partitioner, "", turnOff(existing));
 		
 		assertEquals("", merger.merge());
 		assertEquals(1, merger.getMergeWarnings().size());
@@ -99,7 +99,7 @@ public class TestProtectedRegionMerging {
 	
 	@Test
 	public void testAbsentAndAbsent() {
-		final Merger merger = new DefaultMerger(partitioner, "", "");
+		final Merger merger = new Merger(partitioner, "", "");
 		
 		assertEquals("", merger.merge());
 		assertEquals(0, merger.getMergeWarnings().size());

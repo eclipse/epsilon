@@ -16,8 +16,7 @@ import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 
 public class EglFileGeneratingTemplateFactory extends EglTemplateFactory {
 	
-	protected URI    outputRoot;
-	protected String outputRootPath;
+	protected URI outputRoot;
 	
 	public EglFileGeneratingTemplateFactory() {
 		super();
@@ -28,20 +27,19 @@ public class EglFileGeneratingTemplateFactory extends EglTemplateFactory {
 	}
 
 	public String getOutputRoot() {
-		return outputRootPath;
+		return outputRoot.toString();
 	}
 	
 	public void setOutputRoot(String path) throws EglRuntimeException {
-		outputRootPath = path;
-		outputRoot     = resolveRoot(path);
+		outputRoot = resolveRoot(path);
 	}
 
 	@Override
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
-		return new EglFileGeneratingTemplate(spec, context, getOutputRootOrRoot(), outputRootPath);
+		return new EglFileGeneratingTemplate(spec, context, getOutputRootOrRoot());
 	}
 	
 	protected URI getOutputRootOrRoot() {
-		return outputRoot != null ? outputRoot : root;
+		return outputRoot != null ? outputRoot : templateRoot;
 	}
 }

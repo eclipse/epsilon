@@ -27,6 +27,7 @@ import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.dom.Statement;
 import org.eclipse.epsilon.eol.dom.StringLiteral;
 
+@SuppressWarnings("restriction")
 public class EglModuleValidator extends AbstractModuleValidator implements IModuleValidator {
 	
 	@Override

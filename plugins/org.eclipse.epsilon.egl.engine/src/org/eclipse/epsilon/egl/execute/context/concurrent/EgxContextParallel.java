@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.egl.execute.context.concurrent;
 
 import java.net.URI;
-import java.util.Hashtable;
 import java.util.Map;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.EglTemplate;
@@ -28,7 +27,7 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 
 	protected EgxModuleTemplateAdapter baseTemplate;
 	private EglTemplateFactory templateFactory;
-	protected Map<URI, EglTemplate> templateCache;// = new Hashtable<>();
+	protected Map<URI, EglTemplate> templateCache;// = new java.util.Hashtable<>();
 	
 	public EgxContextParallel() {
 		this(null);

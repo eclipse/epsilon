@@ -61,8 +61,8 @@ public class TextLinkEditor extends MultiEditor {
 		form.setLayout(new FillLayout());
 		
 		innerEditors = new TextLinkInnerEditors(getInnerEditors());
-		sources = new TabbedEditor<EcoreEditor>(form, innerEditors.getAllModelEditors());
-		destinations = new TabbedEditor<ITextEditor>(form, innerEditors.getAllTextEditors());
+		sources = new TabbedEditor<>(form, innerEditors.getAllModelEditors());
+		destinations = new TabbedEditor<>(form, innerEditors.getAllTextEditors());
 		
 		sources.addMouseListenerToEditors(new MouseAdapter() {
 			@Override public void mouseDoubleClick(MouseEvent e) {
@@ -128,7 +128,7 @@ public class TextLinkEditor extends MultiEditor {
 			final EObject selection = sourceEditor.getEditingDomain().getResourceSet().getEObject(modelElementToUri(((EmfModelLocation) source).getModelElement()), true);
 			
 //			((ISelectionProvider)innerEditor).setSelection(new StructuredSelection(selection));
-			((EcoreEditor)sourceEditor).setSelectionToViewer(Arrays.asList(selection));
+			sourceEditor.setSelectionToViewer(Arrays.asList(selection));
 			
 			sources.switchTo(sourceEditor);
 		}
@@ -199,7 +199,7 @@ public class TextLinkEditor extends MultiEditor {
 
 		@SuppressWarnings("unchecked")
 		private <T> Collection<T> getEditors(boolean isSource) {
-			final List<T> innerTextEditors = new LinkedList<T>();
+			final List<T> innerTextEditors = new LinkedList<>();
 			
 			for (IEditorPart editor : editors) {
 				if (((TextLinkInnerEditorInput<?>)editor.getEditorInput()).isSource() == isSource) {

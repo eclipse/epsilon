@@ -27,6 +27,7 @@ import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.model.EglMarkerSection;
@@ -54,7 +55,7 @@ public class EglModule extends EolModule implements IEglModule {
 	private URI templateRoot;
 
 	public EglModule() {
-		this(null);
+		this(new EglContext());
 	}
 	
 	public EglModule(IEglContext context) {

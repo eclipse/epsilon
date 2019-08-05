@@ -52,7 +52,7 @@ public class InvokingSubtemplates {
 	
 	@Test
 	public void notificationsAreFiredForEachSubtemplate() {
-		final List<ExecutionEvent> expectedEvents = new LinkedList<ExecutionEvent>();
+		final List<ExecutionEvent> expectedEvents = new LinkedList<>();
 		
 		expectedEvents.add(new ExecutionEvent("Driver.egl", EventType.PREPROCESS));
 		expectedEvents.add(new ExecutionEvent("first/First.egl", EventType.PREPROCESS));
@@ -96,7 +96,7 @@ public class InvokingSubtemplates {
 	
 	private static class MockListener implements ITemplateExecutionListener {
 		
-		public final Collection<ExecutionEvent> events = new LinkedList<ExecutionEvent>();  
+		public final Collection<ExecutionEvent> events = new LinkedList<>();  
 		
 		@Override
 		public void aboutToProcess(EglTemplate template) {

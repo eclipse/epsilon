@@ -148,7 +148,7 @@ public class Exceptions {
 	}
 	
 	private static Collection<Class<? extends Throwable>> typeOfCauses(Exception e) {
-		final Collection<Class<? extends Throwable>> causes = new HashSet<Class<? extends Throwable>>();
+		final Collection<Class<? extends Throwable>> causes = new HashSet<>();
 		
 		Throwable current = e;
 		while (current.getCause() != null) {

@@ -24,10 +24,10 @@ import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 
 public class CountingTemplate extends EglPersistentTemplate {
 
-	private static final Map<File, Integer> COUNTERS = new HashMap<File, Integer>();
+	private static final Map<File, Integer> COUNTERS = new HashMap<>();
 	
-	public CountingTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot, String outputRootPath) throws Exception {
-		super(spec, context, outputRoot, outputRootPath);
+	public CountingTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot) throws Exception {
+		super(spec, context, outputRoot);
 	}
 
 	@Override

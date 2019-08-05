@@ -24,16 +24,13 @@ import org.eclipse.epsilon.egl.util.FileUtil;
 public abstract class EglPersistentTemplate extends EglTemplate {
 
 	protected final URI outputRoot;
-	protected final String outputRootPath;
 
-	public EglPersistentTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot, String outputRootPath) throws Exception {
+	public EglPersistentTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot) throws Exception {
 		super(spec, context);
-		
-		this.outputRoot     = outputRoot;
-		this.outputRootPath = outputRootPath;
+		this.outputRoot = outputRoot;
 	}
 	
-
+	
 	protected File resolveFile(String path) throws EglRuntimeException {
 		try {
 			final String encodedPath = UriUtil.encode(path, false);
@@ -135,11 +132,11 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 	}
 	
 	protected String name(String path) {
-		if (outputRootPath == null) {
+		if (outputRoot == null) {
 			return path;
 		}
 		else {
-			return new File(outputRootPath).getPath() + FileUtil.FILE_SEP + path;
+			return new File(outputRoot).getPath() + FileUtil.FILE_SEP + path;
 		}
 	}
 

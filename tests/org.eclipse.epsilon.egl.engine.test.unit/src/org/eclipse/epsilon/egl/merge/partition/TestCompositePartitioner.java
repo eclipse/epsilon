@@ -31,7 +31,7 @@ public class TestCompositePartitioner {
 	private final CompositePartitioner partitioner = new CompositePartitioner(htmlPartitioner, javaPartitioner);
 	
 	public TestCompositePartitioner() {		
-		final List<Region> regions = new LinkedList<Region>();
+		final List<Region> regions = new LinkedList<>();
 		
 		final LocatedRegion secondPR = javaPartitioner.new CommentedProtectedRegion("second", 0, false, "");
 		secondPR.setContents("Second protected region" + NEWLINE);

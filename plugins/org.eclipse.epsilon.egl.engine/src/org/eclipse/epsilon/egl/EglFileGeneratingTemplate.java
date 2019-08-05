@@ -43,11 +43,11 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	
 	// For tests
 	protected EglFileGeneratingTemplate(URI path, IEglContext context, URI outputRoot) throws Exception {
-		this(new EglTemplateSpecificationFactory(new NullFormatter(), new IncrementalitySettings()).fromResource(path.toString(), path), context, outputRoot, outputRoot.getPath());
+		this(new EglTemplateSpecificationFactory(new NullFormatter(), new IncrementalitySettings()).fromResource(path.toString(), path), context, outputRoot);
 	}
 
-	public EglFileGeneratingTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot, String outputRootPath) throws Exception {
-		super(spec, context, outputRoot, outputRootPath);
+	public EglFileGeneratingTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot) throws Exception {
+		super(spec, context, outputRoot);
 	}
 	
 	public File append(String path) throws EglRuntimeException {

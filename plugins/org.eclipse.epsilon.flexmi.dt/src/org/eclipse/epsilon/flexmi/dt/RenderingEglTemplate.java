@@ -29,9 +29,9 @@ public class RenderingEglTemplate extends EglPersistentTemplate {
 	protected ContentTree contentTree;
 	protected IEglContext context;
 	
-	public RenderingEglTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot, String outputRootPath)
+	public RenderingEglTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot)
 			throws Exception {
-		super(spec, context, outputRoot, outputRootPath);
+		super(spec, context, outputRoot);
 		this.context = context;
 	}
 	

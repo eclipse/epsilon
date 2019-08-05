@@ -35,8 +35,8 @@ class FileEditorInputConverter {
 	}
 	
 	public TextLinkEditorInput convert() throws EolRuntimeException {
-		final List<String> editorIDs = new LinkedList<String>();
-		final List<IEditorInput> editorInputs = new LinkedList<IEditorInput>();
+		final List<String> editorIDs = new LinkedList<>();
+		final List<IEditorInput> editorInputs = new LinkedList<>();
 		
 		for (Resource source : textlinkModel.getSources()) {
 			if (source == null) continue;

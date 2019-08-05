@@ -47,7 +47,7 @@ public class TextLinkModel {
 	}
 	
 	public Collection<TraceLink> getTraceLinks() {
-		final Collection<TraceLink> traceLinks = new LinkedList<TraceLink>();
+		final Collection<TraceLink> traceLinks = new LinkedList<>();
 		
 		try {
 			for (EObject traceElement : model.getAllOfKind("TraceLink")) {
@@ -64,7 +64,7 @@ public class TextLinkModel {
 	}
 
 	public Set<Resource> getSources() {
-		final Set<Resource> resources = new HashSet<Resource>();
+		final Set<Resource> resources = new HashSet<>();
 		
 		for (EmfModelLocation modelLocation : getEmfModelLocations()) {
 			if (modelLocation.getModelElement().eResource() != null)
@@ -75,7 +75,7 @@ public class TextLinkModel {
 	}
 	
 	public Set<String> getDestinations() {
-		final Set<String> resources = new HashSet<String>();
+		final Set<String> resources = new HashSet<>();
 		
 		for (TextLocation textLocation : getTextLocations()) {
 			resources.add(textLocation.getResource());
@@ -85,7 +85,7 @@ public class TextLinkModel {
 	}
 		
 	private Collection<EmfModelLocation> getEmfModelLocations() {
-		final List<EmfModelLocation> result = new LinkedList<EmfModelLocation>();
+		final List<EmfModelLocation> result = new LinkedList<>();
 			
 		for (EObject modelElement : getAllOfKind(TextlinkPackage.eINSTANCE.getEmfModelLocation())) {
 			result.add((EmfModelLocation)modelElement);
@@ -95,7 +95,7 @@ public class TextLinkModel {
 	}
 
 	private Collection<TextLocation> getTextLocations() {
-		final List<TextLocation> result = new LinkedList<TextLocation>();
+		final List<TextLocation> result = new LinkedList<>();
 			
 		for (EObject modelElement : getAllOfKind(TextlinkPackage.eINSTANCE.getTextLocation())) {
 			result.add((TextLocation)modelElement);
@@ -126,7 +126,7 @@ public class TextLinkModel {
 	}
 
 	public List<TextLocation> getDestinationsFor(EObject source) {
-		final List<TextLocation> destinations = new LinkedList<TextLocation>();
+		final List<TextLocation> destinations = new LinkedList<>();
 		
 		for (TraceLink traceLink : getTraceLinks()) {
 			if (isNavigableAndMatchingTraceLink(traceLink, source, destinations)) {

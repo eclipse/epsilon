@@ -36,7 +36,7 @@ public abstract class TestCommentBlockPartitioner {
 		this.endComment   = partitioner.getEndComment().length()   == 0 ? "" : " " + partitioner.getEndComment();
 		
 		
-		final List<Region> regions = new LinkedList<Region>();
+		final List<Region> regions = new LinkedList<>();
 		
 		final LocatedRegion secondPR = partitioner.new CommentedProtectedRegion("second", 0, false, "");
 		secondPR.setContents("Second protected region" + NEWLINE);

@@ -65,7 +65,7 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 	}
 
 	Collection<TraceLink> matchingTraceLinksFor(DocumentLocation hoverLocation, TextLinkModel model) {
-		final List<TraceLink> matching = new LinkedList<TraceLink>();
+		final List<TraceLink> matching = new LinkedList<>();
 		
 		for (TraceLink candidate : model.getTraceLinks()) {
 			final Region region = candidate.getDestination().getRegion();
@@ -86,7 +86,7 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 	}
 	
 	Set<HyperlinkSpec> createHyperlinkSpecsFor(Collection<TraceLink> traceLinks) {
-		final Set<HyperlinkSpec> hyperlinkSpecs = new HashSet<HyperlinkSpec>();
+		final Set<HyperlinkSpec> hyperlinkSpecs = new HashSet<>();
 		
 		for (TraceLink traceLink : traceLinks) {
 			final Region textlinkRegion = traceLink.getDestination().getRegion();
@@ -99,7 +99,7 @@ public class TextLinkHyperlinkDetector extends AbstractHyperlinkDetector {
 	}
 	
 	private Collection<IHyperlink> createHyperlinks(Collection<HyperlinkSpec> hyperlinkSpecs) {
-		final List<IHyperlink> hyperlinks = new LinkedList<IHyperlink>();
+		final List<IHyperlink> hyperlinks = new LinkedList<>();
 		
 		for (HyperlinkSpec hyperlinkSpec : hyperlinkSpecs) {
 			hyperlinks.add(new TextlinkHyperlink(hyperlinkSpec));

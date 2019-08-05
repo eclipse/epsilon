@@ -9,16 +9,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.engine.traceability.fine.internal;
 
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
+import static org.mockito.Mockito.*;
 import java.util.Arrays;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;

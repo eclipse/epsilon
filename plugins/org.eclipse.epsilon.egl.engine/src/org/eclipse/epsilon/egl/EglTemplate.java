@@ -25,7 +25,6 @@ import org.eclipse.epsilon.egl.formatter.NullFormatter;
 import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.internal.EglModule;
 import org.eclipse.epsilon.egl.internal.IEglModule;
-import org.eclipse.epsilon.egl.merge.DefaultMerger;
 import org.eclipse.epsilon.egl.merge.Merger;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecificationFactory;
@@ -80,7 +79,6 @@ public class EglTemplate {
 		}
 		
 		contents = Objects.toString(module.execute(this, formatter), "");
-
 		processed = true;
 
 		for (ITemplateExecutionListener listener : listeners) {
@@ -93,7 +91,7 @@ public class EglTemplate {
 	public String merge(String existing) throws EglRuntimeException {
 		if (!isProcessed()) process();
 		 
-		final Merger merger = new DefaultMerger(module.getContext().getPartitioner(), contents, existing);
+		final Merger merger = new Merger(module.getContext().getPartitioner(), contents, existing);
 		
 		final String result = merger.merge();
 		

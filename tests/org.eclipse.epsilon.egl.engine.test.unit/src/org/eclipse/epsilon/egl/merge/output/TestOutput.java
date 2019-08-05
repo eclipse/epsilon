@@ -22,11 +22,11 @@ import org.junit.Test;
 
 public class TestOutput {
 
-	private static final List<Region> regions            = new LinkedList<Region>();
-	private static final List<Region> noProtectedRegions = new LinkedList<Region>();
-	private static final List<Region> empty              = new LinkedList<Region>();
+	private static final List<Region> regions            = new LinkedList<>();
+	private static final List<Region> noProtectedRegions = new LinkedList<>();
+	private static final List<Region> empty              = new LinkedList<>();
 
-	private static final List<LocatedRegion> protectedRegions = new LinkedList<LocatedRegion>();
+	private static final List<LocatedRegion> protectedRegions = new LinkedList<>();
 	
 	@BeforeClass
 	public static void setUpOnce() {
@@ -65,14 +65,14 @@ public class TestOutput {
 	
 	@Test
 	public void testGetProtectedRegionsNone() {
-		final List<LocatedRegion> expected = new LinkedList<LocatedRegion>();
+		final List<LocatedRegion> expected = new LinkedList<>();
 		
 		assertEquals(expected, new Output(noProtectedRegions).getLocatedRegions());
 	}
 	
 	@Test
 	public void testGetProtectedRegionsEmpty() {
-		final List<LocatedRegion> expected = new LinkedList<LocatedRegion>();
+		final List<LocatedRegion> expected = new LinkedList<>();
 		
 		assertEquals(expected, new Output().getLocatedRegions());
 	}
