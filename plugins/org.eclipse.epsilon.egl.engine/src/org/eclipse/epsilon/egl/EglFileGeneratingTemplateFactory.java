@@ -40,6 +40,6 @@ public class EglFileGeneratingTemplateFactory extends EglTemplateFactory {
 	}
 	
 	protected URI getOutputRootOrRoot() {
-		return outputRoot != null ? outputRoot : templateRoot;
+		return outputRoot != null ? outputRoot : root;
 	}
 }

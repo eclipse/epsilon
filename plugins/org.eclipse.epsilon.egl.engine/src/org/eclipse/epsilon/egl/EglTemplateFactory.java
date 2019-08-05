@@ -16,7 +16,6 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
-
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
@@ -33,7 +32,8 @@ import org.eclipse.epsilon.egl.util.FileUtil;
 public class EglTemplateFactory {
 
 	protected IEglContext context;
-	protected   URI  templateRoot;
+	protected URI root;
+	private URI templateRoot;
 	private Formatter defaultFormatter = new NullFormatter();
 	private IncrementalitySettings defaultIncrementalitySettings = new IncrementalitySettings();
 	private final Collection<ITemplateExecutionListener> listeners = new LinkedList<>();
@@ -49,6 +49,7 @@ public class EglTemplateFactory {
 	
 	public EglTemplateFactory(EglTemplateFactory other) {
 		this.context = other.context;
+		this.root = other.root;
 		this.templateRoot = other.templateRoot;
 	}
 
@@ -84,12 +85,12 @@ public class EglTemplateFactory {
 	 * Sets the root of this template factory, unless it has already been set.
 	 */
 	public void initialiseRoot(URI root) {
-		if (this.templateRoot == null)
+		if (this.root == null)
 			setRoot(root);
 	}
 	
 	public void setRoot(URI root) {
-		this.templateRoot = root;
+		this.root = root;
 	}
 	
 	public String getTemplateRoot() {
@@ -97,13 +98,12 @@ public class EglTemplateFactory {
 	}
 	
 	public void setTemplateRoot(String path) throws EglRuntimeException {
-		this.templateRoot = null;
-		this.templateRoot = resolveRoot(path);
+		templateRoot = resolveRoot(path);
 	}
 	
 	protected URI resolveRoot(String path) throws EglRuntimeException {
 		try {
-			return UriUtil.resolve(UriUtil.encode(path, true), templateRoot);
+			return UriUtil.resolve(UriUtil.encode(path, true), root);
 			
 		} catch (URISyntaxException e) {
 			throw new EglRuntimeException("Could not resolve path: "+path, e, context.getModule());
@@ -112,17 +112,17 @@ public class EglTemplateFactory {
 	
 	public URI resolveTemplate(String path) throws EglRuntimeException {
 		try {
-			return UriUtil.resolve(UriUtil.encode(path, false), templateRoot);	
-		}
-		catch (URISyntaxException e) {
+			return UriUtil.resolve(UriUtil.encode(path, false), templateRoot, root);
+			
+		} catch (URISyntaxException e) {
 			throw new EglRuntimeException("Could not resolve path: "+path, e, context.getModule());
 		}
 	}
 	
 	protected String name(String path) {
-		String name = path;	 
+		String name = path;
 		 if (templateRoot != null)
-			 name = new File(templateRoot).getPath() + FileUtil.FILE_SEP + name; 
+			 name = new File(templateRoot).getPath() + FileUtil.FILE_SEP + name;
 		 return name;
 	}
 	
@@ -135,10 +135,8 @@ public class EglTemplateFactory {
 	 */
 	public EglTemplate load(File file) throws EglRuntimeException {
 		final String name = name(file.getAbsolutePath());
-		
 		try {
 			return load(createTemplateSpecificationFactory().fromResource(name, UriUtil.fileToUri(file)));
-		
 		} catch (URISyntaxException e) {
 			return handleFailedLoad(name, e);
 		}
@@ -155,10 +153,8 @@ public class EglTemplateFactory {
 	 */
 	protected EglTemplate load(String code, File file) throws EglRuntimeException {
 		final String name = name(file.getAbsolutePath());
-
 		try {
 			return load(createTemplateSpecificationFactory().fromDirtyResource(name, code, UriUtil.fileToUri(file)));
-		
 		} catch (URISyntaxException e) {
 			return handleFailedLoad(name, e);
 		}			
@@ -184,7 +180,6 @@ public class EglTemplateFactory {
 	 */
 	public EglTemplate load(URI resource) throws EglRuntimeException {
 		final String name = resource.toString(); // FIXME better name for URIs
-		
 		return load(createTemplateSpecificationFactory().fromResource(name, resource));
 	}
 	
