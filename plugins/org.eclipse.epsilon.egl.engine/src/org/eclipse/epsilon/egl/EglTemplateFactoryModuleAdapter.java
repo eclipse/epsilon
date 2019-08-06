@@ -146,27 +146,27 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 
 	@Override
 	public List<ModelDeclaration> getDeclaredModelDeclarations() {
-		return current.getModule().getPreprocessorModule().getDeclaredModelDeclarations();
+		return current.getModule().getDeclaredModelDeclarations();
 	}
 
 	@Override
 	public OperationList getDeclaredOperations() {
-		return current.getModule().getPreprocessorModule().getDeclaredOperations();
+		return current.getModule().getDeclaredOperations();
 	}
 
 	@Override
 	public List<Import> getImports() {
-		return current.getModule().getPreprocessorModule().getImports();
+		return current.getModule().getImports();
 	}
 
 	@Override
 	public Set<ModelDeclaration> getModelDelcarations() {
-		return current.getModule().getPreprocessorModule().getModelDelcarations();
+		return current.getModule().getModelDelcarations();
 	}
 
 	@Override
 	public OperationList getOperations() {
-		return current.getModule().getPreprocessorModule().getOperations();
+		return current.getModule().getOperations();
 	}
 
 	public void setDefaultFormatters(Collection<Formatter> defaultFormatters) {
@@ -196,7 +196,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 
 	@Override
 	public EolCompilationContext getCompilationContext() {
-		return current.getModule().getPreprocessorModule().getCompilationContext();
+		return current.getModule().getCompilationContext();
 	}
 
 	@Override

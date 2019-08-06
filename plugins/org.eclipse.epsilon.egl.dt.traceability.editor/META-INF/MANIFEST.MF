@@ -16,3 +16,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.editor
 Export-Package: org.eclipse.epsilon.egl.dt.traceability.editor,
  org.eclipse.epsilon.egl.dt.traceability.editor.hyperlinks
+Automatic-Module-Name: org.eclipse.epsilon.egl.dt.traceability.editor

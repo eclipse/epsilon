@@ -20,8 +20,6 @@ import org.eclipse.epsilon.eol.IEolModule;
 
 public interface IEglModule extends IEolModule {
 	
-	public EglPreprocessorModule getPreprocessorModule();
-	
 	public List<EglMarkerSection> getMarkers();
 	
 	@Override

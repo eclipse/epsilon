@@ -21,8 +21,8 @@ public class VirtualTemplate extends EglPersistentTemplate {
 
 	private final VirtualTemplateLedger ledger;
 	
-	public VirtualTemplate(VirtualTemplateLedger ledger, EglTemplateSpecification spec, IEglContext context, URI outputRoot) throws Exception {
-		super(spec, context, outputRoot);
+	public VirtualTemplate(VirtualTemplateLedger ledger, EglTemplateSpecification spec, IEglContext context, URI outputRoot, String outputRootPath) throws Exception {
+		super(spec, context, outputRoot, outputRootPath);
 		this.ledger = ledger;
 	}
 

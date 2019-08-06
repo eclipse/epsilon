@@ -55,24 +55,20 @@ public class DynamicOperation extends AbstractOperation {
 		return execute(target, operationNameExpression, lambdas, context);
 	}
 	
-	public Object execute(Object target, NameExpression operationNameExpression, LinkedHashMap<Expression, List<Parameter>> lambdas, IEolContext context_) throws EolRuntimeException {
+	public Object execute(Object target, NameExpression operationNameExpression, LinkedHashMap<Expression, List<Parameter>> lambdas, IEolContext context) throws EolRuntimeException {
 		final Iterator<Map.Entry<Expression, List<Parameter>>> entriesIter = lambdas.entrySet().iterator();
 		final Collection<Expression> expressions = lambdas.keySet();
 		final String methodName = operationNameExpression.getName();
-		final IEolContext context;
 		final boolean isParallelOperation = target instanceof BaseStream && ((BaseStream<?,?>) target).isParallel();
 		
 		if (isParallelOperation) {
-			IEolContextParallel pContext = (IEolContextParallel) (context = EolContextParallel.convertToParallel(context_));
+			IEolContextParallel pContext = (IEolContextParallel) (context = EolContextParallel.convertToParallel(context));
 			if (pContext.isParallelisationLegal()) {
 				pContext.beginParallelTask(operationNameExpression);
 			}
 			else {
 				((BaseStream<?,?>) target).sequential();
 			}
-		}
-		else {
-			context = context_;
 		}
 		
 		if (target instanceof EolNoType || target instanceof LambdaFactory) {
@@ -118,12 +114,13 @@ public class DynamicOperation extends AbstractOperation {
 				candidateParameterValues[i] = LambdaFactory.resolveFor(targetType, iteratorParams, rawExpr, operationNameExpression, context);
 			}
 			catch (EolIllegalOperationException eox) {
+				final IEolContext fContext = context;
 				// Failing that, try to implement the interface
 				candidateParameterValues[i] = Proxy.newProxyInstance(
 					targetType.getClassLoader(),
 					new Class[]{targetType},
 					(proxy, method, args) ->
-						LambdaFactory.executeExpression(context, operationNameExpression, null, rawExpr,  iteratorParams, args)
+						LambdaFactory.executeExpression(fContext, operationNameExpression, null, rawExpr,  iteratorParams, args)
 				);
 			}
 		}

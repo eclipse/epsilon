@@ -7,11 +7,9 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
-
 package org.eclipse.epsilon.egl.dom;
 
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
-import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.eol.dom.Operation;
@@ -24,7 +22,7 @@ public class TemplateOperation extends Operation {
 
 	@Override
 	protected Return executeBody(IEolContext context) throws EolRuntimeException {
-		final IEglContext parentContext = ((EglPreprocessorContext)context).getEglContext();
+		final IEglContext parentContext = (IEglContext) context;
 		final IOutputBuffer out = new OutputBuffer(parentContext);
 		context.getFrameStack().put(Variable.createReadOnlyVariable("out", out));
 		super.executeBody(context);

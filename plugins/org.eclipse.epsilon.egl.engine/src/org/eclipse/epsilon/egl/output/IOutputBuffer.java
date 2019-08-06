@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egl.output;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.formatter.Formatter;
-import org.eclipse.epsilon.egl.internal.EglPreprocessorModule;
 import org.eclipse.epsilon.egl.preprocessor.Preprocessor;
 import org.eclipse.epsilon.egl.util.FileUtil;
 

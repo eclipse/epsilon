@@ -19,7 +19,7 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
-import org.eclipse.epsilon.egl.internal.EglPreprocessorModule;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.ExpressionStatement;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -27,7 +27,6 @@ import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.dom.Statement;
 import org.eclipse.epsilon.eol.dom.StringLiteral;
 
-@SuppressWarnings("restriction")
 public class EglModuleValidator extends AbstractModuleValidator implements IModuleValidator {
 	
 	@Override
@@ -35,21 +34,21 @@ public class EglModuleValidator extends AbstractModuleValidator implements IModu
 		if (!appliesTo(module)) return Collections.emptyList();
 		
 		ArrayList<ModuleMarker> markers = new ArrayList<>();
-		EglPreprocessorModule preprocessorModule = ((EglTemplateFactoryModuleAdapter) module).getCurrentTemplate().getModule().getPreprocessorModule();
+		IEolModule eglModule = ((EglTemplateFactoryModuleAdapter) module).getCurrentTemplate().getModule();
 		
-		if (!preprocessorModule.getDeclaredOperations().isEmpty()) {
+		if (!eglModule.getDeclaredOperations().isEmpty()) {
 			
 			boolean looseStatements = false;
 			
 			// Fix for bug #393988
-			for (Statement statement : preprocessorModule.getPostOperationStatements()) {
+			for (Statement statement : eglModule.getPostOperationStatements()) {
 				if (!isEmptyPrintStatement(statement)) {
 					looseStatements = true; break;
 				}
 			}
 			
 			if (looseStatements) {
-				markers.add(new ModuleMarker(null, preprocessorModule.getOperations().get(0).getRegion(), 
+				markers.add(new ModuleMarker(null, eglModule.getOperations().get(0).getRegion(), 
 						"All loose statements and textual content after the first operation will be ignored at runtime.", 
 						Severity.Warning));
 			}

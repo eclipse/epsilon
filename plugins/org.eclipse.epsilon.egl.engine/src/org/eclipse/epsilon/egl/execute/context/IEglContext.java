@@ -15,7 +15,6 @@ import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.formatter.Formatter;
-import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
@@ -109,9 +108,6 @@ public interface IEglContext extends IEolContext {
 			this.setOutputBufferFactory(other.getOutputBufferFactory());
 			this.setPartitioner(other.getPartitioner());
 			this.setContentTypeRepository(other.getContentTypeRepository());
-			if (this instanceof EglPreprocessorContext) {
-				((EglPreprocessorContext) this).setEglContext(other);
-			}
 		}
 	}
 }

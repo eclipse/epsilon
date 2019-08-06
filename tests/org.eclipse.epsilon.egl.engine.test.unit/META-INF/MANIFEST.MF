@@ -5,6 +5,9 @@ Bundle-SymbolicName: org.eclipse.epsilon.egl.engine.test.unit
 Bundle-Version: 1.6.0.qualifier
 Export-Package: org.eclipse.epsilon.egl,
  org.eclipse.epsilon.egl.config,
+ org.eclipse.epsilon.egl.execute.context,
+ org.eclipse.epsilon.egl.formatter.language,
+ org.eclipse.epsilon.egl.formatter.linebyline,
  org.eclipse.epsilon.egl.merge,
  org.eclipse.epsilon.egl.merge.output,
  org.eclipse.epsilon.egl.merge.partition,
@@ -16,3 +19,4 @@ Export-Package: org.eclipse.epsilon.egl,
 Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.egl.engine.test.unit

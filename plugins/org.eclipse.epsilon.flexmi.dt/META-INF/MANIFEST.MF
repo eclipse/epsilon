@@ -17,3 +17,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.flexmi.dt
 Bundle-Activator: org.eclipse.epsilon.flexmi.dt.Activator
 Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.eclipse.epsilon.flexmi.dt

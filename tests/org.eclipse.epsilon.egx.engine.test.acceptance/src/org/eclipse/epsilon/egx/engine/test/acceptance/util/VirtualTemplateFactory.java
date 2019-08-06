@@ -13,7 +13,6 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
@@ -41,7 +40,7 @@ public class VirtualTemplateFactory extends EglFileGeneratingTemplateFactory {
 	
 	@Override
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
-		return new VirtualTemplate(ledger, spec, context, getOutputRootOrRoot());
+		return new VirtualTemplate(ledger, spec, context, getOutputRootOrRoot(), outputRootPath);
 	}
 
 	public Collection<String> getOutputFiles() {

@@ -15,7 +15,6 @@ import java.util.WeakHashMap;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
-import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -24,7 +23,6 @@ import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccess;
 import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccessRecorder;
 
-@SuppressWarnings("restriction")
 public class EglOutputBufferPrintExecutionListener implements IExecutionListener {
 
 	private final IPropertyAccessRecorder recorder;
@@ -46,7 +44,7 @@ public class EglOutputBufferPrintExecutionListener implements IExecutionListener
 		
 		if (cache.containsKey(ast)) {
 			recorder.stopRecording();
-			associatePropertyAccessesWithRegionInGeneratedText(ast, ((EglPreprocessorContext)context).getEglContext());
+			associatePropertyAccessesWithRegionInGeneratedText(ast, ((IEglContext) context));
 		}
 	}
 	

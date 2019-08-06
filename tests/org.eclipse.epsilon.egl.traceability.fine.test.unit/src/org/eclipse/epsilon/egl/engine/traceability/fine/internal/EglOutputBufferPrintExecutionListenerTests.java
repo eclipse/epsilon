@@ -14,7 +14,7 @@ import java.util.Arrays;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
-import org.eclipse.epsilon.egl.internal.EglPreprocessorContext;
+import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -27,7 +27,6 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 
-@SuppressWarnings("restriction")
 @RunWith(Suite.class)
 @SuiteClasses({EglOutputBufferPrintExecutionListenerTests.StartsRecordingWhenOutputBufferIsAboutToBePrintedTo.class,
                EglOutputBufferPrintExecutionListenerTests.StopsRecordingWhenPrintCallHasBeenExecuted.class})
@@ -71,7 +70,7 @@ public class EglOutputBufferPrintExecutionListenerTests {
 		@Test
 		public void stopsRecordingWhenPrintCallHasBeenExecuted() throws Exception {
 			final IPropertyAccessRecorder recorder = createPropertyAccessRecorder(new PropertyAccesses());
-			afterExecutingMethodCallTest(recorder, new TracedPropertyAccessLedger(), new OutputBuffer(), mock(EglPreprocessorContext.class));
+			afterExecutingMethodCallTest(recorder, new TracedPropertyAccessLedger(), new OutputBuffer(), mock(EglContext.class));
 			verify(recorder).stopRecording();
 		}
 		
@@ -90,8 +89,8 @@ public class EglOutputBufferPrintExecutionListenerTests {
 			
 			// Have the context return the correct template
 			final EglTemplate template = mock(EglTemplate.class);
-			final EglPreprocessorContext context = mock(EglPreprocessorContext.class, RETURNS_DEEP_STUBS);
-			when(context.getEglContext().getCurrentTemplate()).thenReturn(template);
+			final EglContext context = mock(EglContext.class, RETURNS_DEEP_STUBS);
+			when(context.getCurrentTemplate()).thenReturn(template);
 			
 			// Execute the test
 			afterExecutingMethodCallTest(createPropertyAccessRecorder(new PropertyAccesses(access)), ledger, buffer, context);

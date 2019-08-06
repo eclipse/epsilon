@@ -17,8 +17,10 @@ import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
@@ -26,17 +28,27 @@ import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
+import org.eclipse.epsilon.egl.dom.TemplateOperation;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.model.EglMarkerSection;
+import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
 import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
+import org.eclipse.epsilon.egl.parse.problem.EglParseProblem;
+import org.eclipse.epsilon.egl.preprocessor.Preprocessor;
+import org.eclipse.epsilon.egl.types.EglComplexType;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.dom.OperationList;
+import org.eclipse.epsilon.eol.dom.TypeExpression;
+import org.eclipse.epsilon.eol.exceptions.EolInternalException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.parse.EolParser;
+import org.eclipse.epsilon.eol.types.EolType;
 
 /**
  * Used internally by {@link EglTemplateFactory} and {@link EglTemplate}
@@ -45,13 +57,13 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
  * Most extensions should subclass {@link EglTemplateFactory} and/or
  * {@link EglTemplate} rather than this class.
  *
- * @author lrose
+ * @author lrose, Sina Madani
  */
 public class EglModule extends EolModule implements IEglModule {
 
-	protected EglParser parser;
-	protected EglPreprocessorModule preprocessorModule;	
-	private final List<EglMarkerSection> markers = new LinkedList<>();	
+	protected EglParser eglParser;
+	private final Preprocessor preprocessor = new Preprocessor();
+	private final List<EglMarkerSection> markers = new LinkedList<>();
 	private URI templateRoot;
 
 	public EglModule() {
@@ -59,40 +71,26 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 	
 	public EglModule(IEglContext context) {
-		setContext(context);
-		preprocessorModule = new EglPreprocessorModule(context);
+		this.context = context;
 	}
-
+	
 	@Override
-	public boolean parse(String code) throws Exception {
-		return parse(code, null);
+	public void build(AST cst, IModule module) {
+		if (cst.getParent() == null) {
+			preprocessor.updateASTLocations(cst);
+		}
+		super.build(cst, module);
 	}
 	
 	@Override
 	public boolean parse(String code, File file) throws Exception {
-		return parseFromLexer(new EglLexer(code), file);
-	}
-	
-	@Override
-	public boolean parse(File file) throws Exception {
-		return parse(file.toURI());
-	}
-	
-	private boolean parseFromLexer(EglLexer lexer, File file) throws Exception {
-		this.sourceFile = file;
-		
-		if (file != null) {
-			this.sourceUri = file.toURI();
-
-			try {
-				templateRoot = UriUtil.fileToUri(file.getAbsoluteFile().getParentFile());
-			}
-			catch (URISyntaxException e) {}
+		if ((this.sourceFile = file) != null) try {
+			templateRoot = UriUtil.fileToUri(file.getAbsoluteFile().getParentFile());
 		}
-		
-		return parseAndPreprocess(lexer, file);
+		catch (URISyntaxException e) {}
+		return parseAndPreprocess(new EglLexer(code));
 	}
-	
+
 	@Override
 	public boolean parse(URI uri) throws Exception {
 		if (uri == null)
@@ -106,41 +104,55 @@ public class EglModule extends EolModule implements IEglModule {
 		}
 
 		try (Reader reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()))) {
-			return parseAndPreprocess(new EglLexer(reader), this.sourceFile);
+			return parseAndPreprocess(new EglLexer(reader));
 		}
 	}
 	
-	private boolean parseAndPreprocess(EglLexer lexer, File file) throws Exception {
-		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(file, this);
-		parser = new EglParser(lexer, astFactory);
-		parser.parse();
-		AST ast = parser.getAST();
-		
-		final boolean validEgl = parser.getParseProblems().isEmpty();
-		final boolean validEol = preprocessorModule.preprocess(ast, sourceFile, sourceUri);
+	private boolean parseAndPreprocess(EglLexer lexer) throws Exception {
+		EpsilonTreeAdaptor astFactory = new EpsilonTreeAdaptor(sourceFile, this);
+		(eglParser = new EglParser(lexer, astFactory)).parse();
+		AST ast = eglParser.getAST();
 
-		if (validEgl && validEol) {
+		if (eglParser.getParseProblems().isEmpty() && preprocess(ast)) {
 			for (AST child : ast.getChildren()) {
 				if (child.getType() == TokenType.START_MARKER_TAG.getIdentifier()) {
 					EglMarkerSection section = (EglMarkerSection) createAst(child, this);
 					markers.add(section);
 				}
 			}
+			return true;
 		}
-		
-		return validEgl && validEol;
+		return false;
 	}
 	
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
-		if (cst == null) return this;
-		if (cst.getType() == TokenType.START_MARKER_TAG.getIdentifier()) return new EglMarkerSection();
-		return null;
-	}
-	
-	@Override
-	public EglPreprocessorModule getPreprocessorModule() {
-		return preprocessorModule;
+		if (cst == null) {
+			return this;
+		}
+		if (cst.getType() == TokenType.START_MARKER_TAG.getIdentifier()) {
+			return new EglMarkerSection();
+		}
+		if (cst.getType() == EolParser.HELPERMETHOD && hasAnnotation(cst, "template")) {
+			return new TemplateOperation();
+		}
+		
+		ModuleElement ast = super.adapt(cst, parentAst);
+		
+		if (ast instanceof TypeExpression) {
+			return new TypeExpression() {
+				@Override
+				public EolType execute(IEolContext context) throws EolRuntimeException {
+					if ("Template".equals(getName())) {
+						return EglComplexType.Template;
+					}
+					else {
+						return super.execute(context);
+					}
+				}
+			};
+		}
+		return ast;
 	}
 	
 	@Override
@@ -151,21 +163,41 @@ public class EglModule extends EolModule implements IEglModule {
 	@Override
 	public Object execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException {
 		IEglContext context = getContext();
-		context.enter(template);
 		
-		context.setModule(this);
+		context.enter(template);
 		context.getTemplateFactory().initialiseRoot(templateRoot);
 		
-		preprocessorModule.execute();
+		try {
+			super.execute();
+		}
+		catch (EolInternalException ex) {
+			Throwable internal = ex.getInternal();
+			if (internal instanceof EglStoppedException) {
+				// Ignore exception caused by a call to out.stop()
+			}
+			else if (internal instanceof EglRuntimeException) {
+				throw new EglRuntimeException(ex);
+			}
+			else {
+				throw new EglRuntimeException("Error encountered whilst processing template.", ex);
+			}
+		}
+		catch (EglRuntimeException ex) {
+			throw ex;
+		}
+		catch (EolRuntimeException ex) {
+			throw new EglRuntimeException(ex);
+		}
 		
-		context.formatWith(postprocessor);
+		IOutputBuffer output = context.getOutputBuffer();
+		output.formatWith(postprocessor);
 		
 		final List<String> problems = context.getPartitioningProblems();
 		if (problems.size() > 0) {
 			throw new EglRuntimeException(problems.get(0), this);
 		}
 		
-		String result = context.getOutputBuffer().toString();
+		String result = output.toString();
 		
 		context.exit();
 		return result;
@@ -173,23 +205,33 @@ public class EglModule extends EolModule implements IEglModule {
 
 	@Override
 	public List<ParseProblem> getParseProblems() {
-		final List<ParseProblem> combinedErrors = new ArrayList<>(parser.getParseProblems());
-		combinedErrors.addAll(preprocessorModule.getParseProblems());
-		return combinedErrors;
-	}
-	
-	@Override
-	public OperationList getOperations() {
-		return preprocessorModule.getOperations();
+		parseProblems.addAll(eglParser.getParseProblems());
+		
+		for (int index = 0; index < parseProblems.size(); index++) {
+			final ParseProblem problem = parseProblems.get(index);
+			
+			if (!(problem instanceof EglParseProblem)) {
+				parseProblems.remove(index);
+				parseProblems.add(index, new EglParseProblem(problem, preprocessor.getTrace()));
+			}
+		}
+		
+		return parseProblems;
 	}
 
 	@Override
 	public List<ModuleElement> getChildren() {
 		final List<ModuleElement> children = new ArrayList<>();
-		children.addAll(preprocessorModule.getImports());
-		//children.addAll(sections);
-		children.addAll(preprocessorModule.getDeclaredOperations());
+		children.addAll(getImports());
+		children.addAll(getDeclaredOperations());
 		return children;
+	}
+	
+	@Override
+	protected HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
+		importConfiguration.put("egl", EglModule.class);
+		return importConfiguration;
 	}
 
 	@Override
@@ -201,6 +243,28 @@ public class EglModule extends EolModule implements IEglModule {
 	public void setContext(IEolContext context) {
 		if (context instanceof IEglContext) {
 			this.context = context;
+		}
+	}
+	
+	protected boolean hasAnnotation(AST ast, String name) {
+		if (ast.getAnnotationsAst() == null) return false;
+		for (AST annotation : ast.getAnnotationsAst().getChildren()) {
+			if (annotation.getType() == EolParser.Annotation && 
+				annotation.getText().trim().equals("@" + name)) return true;
+		}
+		return false;
+	}
+	
+	protected boolean preprocess(AST ast) {
+		final String eol = preprocessor.convertToEol(ast);
+		try {
+			return super.parse(eol, sourceFile);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			// Ignore - clients are expected to call
+			// getParseProblems in order to check for problems
+			return false;
 		}
 	}
 }

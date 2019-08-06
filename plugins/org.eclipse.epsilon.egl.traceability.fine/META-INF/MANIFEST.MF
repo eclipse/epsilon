@@ -11,3 +11,4 @@ Export-Package: org.eclipse.epsilon.egl.engine.traceability.fine,
  org.eclipse.epsilon.egl.engine.traceability.fine.trace
 Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.egl.engine
+Automatic-Module-Name: org.eclipse.epsilon.egl.traceability.fine
