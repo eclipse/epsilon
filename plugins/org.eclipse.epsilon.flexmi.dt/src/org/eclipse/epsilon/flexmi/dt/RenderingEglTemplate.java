@@ -15,11 +15,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.eclipse.epsilon.egl.EglPersistentTemplate;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
-import org.eclipse.epsilon.egl.output.Writer;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.traceability.Variable;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -57,7 +55,7 @@ public class RenderingEglTemplate extends EglPersistentTemplate {
 		
 		if (file != null && !file.isDirectory()) {
 			try {
-				new Writer(file, getContents()).write();
+				org.eclipse.epsilon.egl.util.FileUtil.write(file, getContents());
 			} catch (IOException e) {
 				throw new EglRuntimeException(new EolRuntimeException(e));
 			}
