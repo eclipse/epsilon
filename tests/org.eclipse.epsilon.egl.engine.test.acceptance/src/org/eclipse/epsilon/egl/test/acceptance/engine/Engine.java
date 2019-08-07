@@ -11,12 +11,10 @@ package org.eclipse.epsilon.egl.test.acceptance.engine;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.util.Collection;
-
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
-import org.eclipse.epsilon.common.util.FileUtil;
+import static org.eclipse.epsilon.common.util.FileUtil.getFile;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
 import org.eclipse.epsilon.egl.test.models.Model;
@@ -30,19 +28,21 @@ public class Engine {
 	private static File runtimeExceptionProgram;
 	private static File invalidPath;
 	private static File NonExistentImport;
+	private static File processTemplate;
 	
 	
 	@BeforeClass
 	public static void setUpOnce() {
-		OO2JavaProgram          = FileUtil.getFile("OO2Java.egl",          Engine.class);
-		OO2JavaImportEolProgram = FileUtil.getFile("OO2JavaImportEol.egl", Engine.class);
-		OO2JavaImportEglProgram = FileUtil.getFile("OO2JavaImportEgl.egl", Engine.class);
-		OO2JavaExpected         = FileUtil.getFile("OO2Java.txt",          Engine.class);
+		OO2JavaProgram          = getFile("OO2Java.egl",           Engine.class);
+		OO2JavaImportEolProgram = getFile("OO2JavaImportEol.egl",  Engine.class);
+		OO2JavaImportEglProgram = getFile("OO2JavaImportEgl.egl",  Engine.class);
+		OO2JavaExpected         = getFile("OO2Java.txt",           Engine.class);
 		
-		NonExistentImport = FileUtil.getFile("NonExistentImport.egl", Engine.class);
+		NonExistentImport       = getFile("NonExistentImport.egl", Engine.class);
 		
-		runtimeExceptionProgram = FileUtil.getFile("RuntimeException.egl", Engine.class);
-		invalidPath             = FileUtil.getFile("Inva*lid.egl",         Engine.class);
+		runtimeExceptionProgram = getFile("RuntimeException.egl",  Engine.class);
+		invalidPath             = getFile("Inva*lid.egl",          Engine.class);
+		processTemplate         = getFile("ProcessTemplate.egl",   Engine.class);
 	}
 	
 	@Test
@@ -84,5 +84,15 @@ public class Engine {
 	@Test (expected=EglRuntimeException.class)
 	public void testParseInvalid() throws Exception {
 		AcceptanceTestUtil.run(invalidPath);
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 * @since 1.6
+	 */
+	@Test
+	public void testProcessConsistency() throws Exception {
+		AcceptanceTestUtil.run(processTemplate);	// TODO: fix
 	}
 }

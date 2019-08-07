@@ -1,0 +1,9 @@
+[%var scopedElementVariable = "se";%]
+[%//=flatten()%]
+[%
+operation flatten() : String {
+	var r;
+	r += "`" + scopedElementVariable + "`.";
+	return r;
+}
+%]

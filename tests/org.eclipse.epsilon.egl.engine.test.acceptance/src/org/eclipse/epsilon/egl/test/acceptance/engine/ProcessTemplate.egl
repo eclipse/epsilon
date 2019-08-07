@@ -1,0 +1,11 @@
+[%
+processTemplate();
+processTemplate();
+
+operation processTemplate() {
+	"In processTemplate()".println();
+	// template.egl can be any file
+	var t = TemplateFactory.load("template.egl");
+	t.process();
+}
+%]

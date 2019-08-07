@@ -65,7 +65,6 @@ public interface IEglContext extends IEolContext {
 	
 	public default boolean usePartitionerFor(String contentType) {
 		final CompositePartitioner partitioner = getContentTypeRepository().partitionerFor(contentType);
-		
 		if (partitioner == null) {
 			return false;
 		}
@@ -94,12 +93,11 @@ public interface IEglContext extends IEolContext {
 		this.setUserInput(context.getUserInput());
 		this.setNativeTypeDelegates(context.getNativeTypeDelegates());
 		this.setExtendedProperties(context.getExtendedProperties());
-		this.setPrettyPrinterManager(context.getPrettyPrinterManager());
-		
+		this.setPrettyPrinterManager(context.getPrettyPrinterManager());		
 		this.setExecutorFactory(new ExecutorFactory(context.getExecutorFactory()));
 		
 		if (!preserveFramestack) {
-			this.setFrameStack(context.getFrameStack().clone());
+			this.setFrameStack(context.getFrameStack());
 		}
 		
 		if (context instanceof IEglContext) {

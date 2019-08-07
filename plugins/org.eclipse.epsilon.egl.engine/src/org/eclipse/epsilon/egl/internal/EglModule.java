@@ -67,11 +67,11 @@ public class EglModule extends EolModule implements IEglModule {
 	private URI templateRoot;
 
 	public EglModule() {
-		this(new EglContext());
+		this(null);
 	}
 	
 	public EglModule(IEglContext context) {
-		this.context = context;
+		this.context = context != null ? context : new EglContext();
 	}
 	
 	@Override
