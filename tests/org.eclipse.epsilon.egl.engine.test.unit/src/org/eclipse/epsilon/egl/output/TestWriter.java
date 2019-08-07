@@ -11,12 +11,7 @@ package org.eclipse.epsilon.egl.output;
 
 import java.io.File;
 import java.io.IOException;
-
-import org.eclipse.epsilon.common.util.FileUtil;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import static org.junit.Assert.*;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
@@ -30,8 +25,8 @@ public class TestWriter {
 	
 	@BeforeClass
 	public static void setUpOnce() throws IOException {	
-		VALID_PATH     = FileUtil.getFile("Valid.txt", TestWriter.class);
-		READ_ONLY_PATH = FileUtil.getFile("ReadOnly.txt", TestWriter.class);
+		VALID_PATH     = org.eclipse.epsilon.common.util.FileUtil.getFile("Valid.txt", TestWriter.class);
+		READ_ONLY_PATH = org.eclipse.epsilon.common.util.FileUtil.getFile("ReadOnly.txt", TestWriter.class);
 		
 		READ_ONLY_PATH.createNewFile();
 		READ_ONLY_PATH.setReadOnly();
@@ -52,7 +47,7 @@ public class TestWriter {
 	@Test
 	public void testWriteValid() throws IOException {
 		final String contents = "Hello" + NEWLINE + "World!" + NEWLINE + testNumber;
-		new Writer(VALID_PATH, contents).write();
+		org.eclipse.epsilon.egl.util.FileUtil.write(VALID_PATH, contents);
 		
 		assertEquals(contents, org.eclipse.epsilon.egl.util.FileUtil.read(VALID_PATH));
 	}
@@ -60,6 +55,6 @@ public class TestWriter {
 	@Test (expected=IOException.class)
 	public void testWriteReadOnly() throws IOException {
 		final String contents = "Hello" + NEWLINE + "World!" + NEWLINE + testNumber;
-		new Writer(READ_ONLY_PATH, contents).write();
+		org.eclipse.epsilon.egl.util.FileUtil.write(READ_ONLY_PATH, contents);
 	}
 }

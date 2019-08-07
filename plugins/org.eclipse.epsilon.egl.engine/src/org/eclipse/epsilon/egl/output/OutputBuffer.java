@@ -11,6 +11,9 @@ package org.eclipse.epsilon.egl.output;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
@@ -19,15 +22,13 @@ import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.merge.output.RegionType;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.status.Warning;
-import org.eclipse.epsilon.egl.util.FileUtil;
 
 public class OutputBuffer implements IOutputBuffer {
 	
 	protected StringBuffer buffer = new StringBuffer();
 	protected IEglContext context;
 
-	protected LineCounter lineCounter   = new LineCounter(FileUtil.NEWLINE);
-	protected ColumnCounter columnCounter = new ColumnCounter(FileUtil.NEWLINE);
+	Pattern newLinePattern;
 	
 	protected List<CommentBlockPartitioner> customPartitioners = new LinkedList<>();
 	protected boolean contentTypeSet = false;
@@ -60,13 +61,14 @@ public class OutputBuffer implements IOutputBuffer {
 	
 	@Override
 	public void print(Object o) {
-		buffer.append(o == null ? "null" : o.toString());
+		buffer.append(Objects.toString(o));
 	}
 	
 	@Override
 	public void printdyn(Object o) {
 		final String indentation = calculateIndentationToMatch(getLastLineInBuffer());
-		final String[] lines = StringUtil.toString(o).split(FileUtil.NEWLINE);
+		final String newLine = getNewline();
+		final String[] lines = StringUtil.toString(o).split(newLine);
 		
 		for (int i = 0; i < lines.length; i++) {
 			if (i == 0) {
@@ -74,7 +76,7 @@ public class OutputBuffer implements IOutputBuffer {
 				// placed on a newline nor indented  
 				buffer.append(lines[i]);
 			} else {
-				buffer.append(FileUtil.NEWLINE + indentation + lines[i]);
+				buffer.append(newLine + indentation + lines[i]);
 			}
 		}
 	}
@@ -107,7 +109,7 @@ public class OutputBuffer implements IOutputBuffer {
 	
 	@Override
 	public void println() {
-		buffer.append(FileUtil.NEWLINE);
+		buffer.append(getNewline());
 	}
 	
 	@Override
@@ -207,8 +209,7 @@ public class OutputBuffer implements IOutputBuffer {
 			throw new EglRuntimeException("There is no current region to stop.", context.getModule());
 
 		final String result = lastLine;
-		lastLine = null;
-		
+		lastLine = null;	
 		return result;
 	}
 	
@@ -219,17 +220,16 @@ public class OutputBuffer implements IOutputBuffer {
 	
 	@Override
 	public int getCurrentLineNumber() {
-		return lineCounter.getCurrentLineNumberFor(this.buffer.toString());
-	}
-	
-	@Override
-	public int getCurrentColumnNumber() {
-		return columnCounter.getCurrentColumnNumberFrom(this.buffer.toString());
+		if (newLinePattern == null) newLinePattern = Pattern.compile(getNewline());
+		final Matcher newLineMatcher = newLinePattern.matcher(buffer.toString());
+		int numberOfLines;
+		for (numberOfLines = 1; newLineMatcher.find(); ++numberOfLines);
+		return numberOfLines;
 	}
 
 	@Override
 	public int getOffset() {
-		return buffer.toString().length();
+		return buffer.length();
 	}
 	
 	@Override

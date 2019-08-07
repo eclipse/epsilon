@@ -11,7 +11,6 @@ package org.eclipse.epsilon.egl.output;
 
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import static org.junit.Assert.assertEquals;
-
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.XMLContentTypeRepository;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
@@ -31,7 +30,7 @@ public class TestOutputBuffer {
 	private final CommentBlockPartitioner partitioner       = new CommentBlockPartitioner("<!--", "-->");
 	private final CompositePartitioner expectedPartitioners = new CompositePartitioner(partitioner);
 	
-	private IOutputBuffer buffer;
+	private OutputBuffer buffer;
 	private IEglContext   context;
 	
 	@Before
@@ -76,7 +75,7 @@ public class TestOutputBuffer {
 	
 	@Test
 	public void testChop() {
-		final IOutputBuffer buffer = new OutputBuffer(context, "hello");
+		final OutputBuffer buffer = new OutputBuffer(context, "hello");
 		
 		final String expected = "he";
 		buffer.chop(3);
@@ -86,7 +85,7 @@ public class TestOutputBuffer {
 	
 	@Test
 	public void testChopAll() {
-		final IOutputBuffer buffer = new OutputBuffer(context, "hello");
+		final OutputBuffer buffer = new OutputBuffer(context, "hello");
 		
 		final String expected = "";
 		buffer.chop(5);
@@ -96,7 +95,7 @@ public class TestOutputBuffer {
 	
 	@Test
 	public void testChopTooMany() {
-		final IOutputBuffer buffer = new OutputBuffer(context, "hello");
+		final OutputBuffer buffer = new OutputBuffer(context, "hello");
 		
 		final String expected = "";
 		buffer.chop(6);

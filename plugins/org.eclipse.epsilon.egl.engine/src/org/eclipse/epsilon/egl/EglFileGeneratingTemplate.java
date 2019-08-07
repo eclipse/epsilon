@@ -13,14 +13,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
 import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
-import org.eclipse.epsilon.egl.output.Writer;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecificationFactory;
 import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
@@ -142,7 +140,9 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	}
 
 	private void write() throws IOException, URISyntaxException {
-		new Writer(target, newContents).write();
+		if (target != null) {
+			FileUtil.write(target, newContents);
+		}
 		
 		currentOutputFile = template.addOutputFile(targetName, UriUtil.fileToUri(target));
 		

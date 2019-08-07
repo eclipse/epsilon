@@ -10,33 +10,33 @@
 package org.eclipse.epsilon.egl.output;
 
 import static org.junit.Assert.assertEquals;
-
-import org.eclipse.epsilon.egl.util.FileUtil;
+import org.junit.Before;
 import org.junit.Test;
 
 public class OutputBufferOffsetTests {
 
+	OutputBuffer buffer;
+	
+	@Before
+	public void setup() {
+		buffer = new OutputBuffer();
+	}
+	
 	@Test
 	public void zeroWhenEmpty() {
-		final IOutputBuffer buffer = new OutputBuffer();
-		
 		assertEquals(0, buffer.getOffset());
 	}
 
 	@Test
 	public void offsetIsLengthOfContents() throws Exception {
-		final IOutputBuffer buffer = new OutputBuffer();
 		buffer.print("foo");
-		
 		assertEquals("foo".length(), buffer.getOffset());
 	}
 	
 	@Test
 	public void offsetRespectsLineBreaks() throws Exception {
-		final IOutputBuffer buffer = new OutputBuffer();
 		buffer.println("foo");
 		buffer.print("bar");
-		
-		assertEquals(("foo" + FileUtil.NEWLINE + "bar").length(), buffer.getOffset());
+		assertEquals(("foo" + buffer.getNewline() + "bar").length(), buffer.getOffset());
 	}
 }

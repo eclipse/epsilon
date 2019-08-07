@@ -43,18 +43,7 @@ public class EglContext extends EolContext implements IEglContext {
 	public EglContext(EglTemplateFactory templateFactory) {
 		super(new EolClasspathNativeTypeDelegate(EglContext.class.getClassLoader()));
 		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory(this);
-		populateScope();
 		setOperationFactory(new EglOperationFactory());
-	}
-	
-	public EglContext(IEglContext other) {
-		this();
-		if (other != null) {
-			copyFrom(other, false);
-		}
-	}
-	
-	private void populateScope() {
 		getFrameStack().put(
 			Variable.createReadOnlyVariable("TemplateFactory", templateFactory),
 			Variable.createReadOnlyVariable("openTag",       "[%"),
@@ -63,16 +52,26 @@ public class EglContext extends EolContext implements IEglContext {
 		);
 	}
 	
+	public EglContext(IEglContext other) {
+		this();
+		if (other != null) {
+			copyFrom(other, false);
+		}
+	}
+
 	@Override
 	public void copyFrom(IEolContext context, boolean preserveFramestack) {
 		IEglContext.super.copyFrom(context, preserveFramestack);
-		this.methodContributorRegistry = context.getOperationContributorRegistry();
 		
+		this.methodContributorRegistry = context.getOperationContributorRegistry();
 		if (context instanceof EglContext) {
 			EglContext other = (EglContext) context;
 		 	this.templateFactory = other.templateFactory;
 		 	this.statusMessages = other.statusMessages;
 		 	this.executionManager = other.executionManager;
+			this.setOutputBufferFactory(other.getOutputBufferFactory());
+			this.setPartitioner(other.getPartitioner());
+			this.setContentTypeRepository(other.getContentTypeRepository());
 		}
 	}
 	

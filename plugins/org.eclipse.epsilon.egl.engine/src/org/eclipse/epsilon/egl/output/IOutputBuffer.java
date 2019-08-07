@@ -13,7 +13,6 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.exceptions.EglStoppedException;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.preprocessor.Preprocessor;
-import org.eclipse.epsilon.egl.util.FileUtil;
 
 public interface IOutputBuffer {
 
@@ -89,8 +88,8 @@ public interface IOutputBuffer {
 	 * @throws EglRuntimeException if {@link #setContentType(String)} has not been called.
 	 */
 	public default String preserve(String id, boolean enabled, String contents) throws EglRuntimeException {
-		return startPreserve(id, enabled) + FileUtil.NEWLINE +
-			       contents + FileUtil.NEWLINE +
+		return startPreserve(id, enabled) + getNewline() +
+			       contents + getNewline() +
 			       stopPreserve();
 	}
 
@@ -104,8 +103,8 @@ public interface IOutputBuffer {
 	 * @param contents - the contents for this protected region 
 	 */
 	public default String preserve(String startComment, String endComment, String id, boolean enabled, String contents) throws EglRuntimeException {
-		return startPreserve(startComment, endComment, id, enabled) + FileUtil.NEWLINE +
-			       contents + FileUtil.NEWLINE +
+		return startPreserve(startComment, endComment, id, enabled) + getNewline() +
+			       contents + getNewline() +
 			       stopPreserve();
 	}
 
@@ -146,8 +145,8 @@ public interface IOutputBuffer {
 	 * @throws EglRuntimeException if {@link #setContentType(String)} has not been called.
 	 */
 	public default String control(String id, boolean enabled, String contents) throws EglRuntimeException {
-		return startControl(id, enabled) + FileUtil.NEWLINE +
-			       contents + FileUtil.NEWLINE +
+		return startControl(id, enabled) + getNewline() +
+			       contents + getNewline() +
 			       stopPreserve();
 	}
 
@@ -161,8 +160,8 @@ public interface IOutputBuffer {
 	 * @param contents - the contents for this protected region 
 	 */
 	public default String control(String startComment, String endComment, String id, boolean enabled, String contents) throws EglRuntimeException {
-		return startControl(startComment, endComment, id, enabled) + FileUtil.NEWLINE +
-			       contents + FileUtil.NEWLINE +
+		return startControl(startComment, endComment, id, enabled) + getNewline() +
+			       contents + getNewline() +
 			       stopPreserve();
 	}
 
@@ -206,7 +205,12 @@ public interface IOutputBuffer {
 	/**
 	 * Returns the character number of the last character in the buffer.
 	 */
-	public int getCurrentColumnNumber();
+	public default int getCurrentColumnNumber() {
+		final String text = toString(), newLine = getNewline();
+		if (text.endsWith(newLine)) return 1;
+		final String[] lines = text.split(newLine);
+		return lines[lines.length - 1].length() + 1;
+	}
 
 	/**
 	 * Returns the size of the buffer.
@@ -222,4 +226,13 @@ public interface IOutputBuffer {
 	 * Converts the contents of the buffer to a string.
 	 */
 	public String toString();
+	
+	/**
+	 *
+	 * @return The newline character.
+	 * @since 1.6
+	 */
+	public default String getNewline() {
+		return org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
+	}
 }

@@ -74,6 +74,10 @@ public interface IEglContext extends IEolContext {
 		}
 	}
 	
+	public default void copyFrom(IEolContext context) {
+		copyFrom(context, false);
+	}
+	
 	/**
 	 * Copies the state from the given context into this.
 	 * There are no guarantees about whether this is a shallow or deep copy.
@@ -84,7 +88,7 @@ public interface IEglContext extends IEolContext {
 	 * 
 	 * @since 1.6
 	 */
-	public default void copyFrom(IEolContext context, boolean preserveFramestack) {
+	public default void copyFrom(IEolContext context, boolean preserveFrameStack) {
 		this.setErrorStream(context.getErrorStream());
 		this.setOutputStream(context.getOutputStream());
 		this.setIntrospectionManager(context.getIntrospectionManager());
@@ -95,17 +99,8 @@ public interface IEglContext extends IEolContext {
 		this.setExtendedProperties(context.getExtendedProperties());
 		this.setPrettyPrinterManager(context.getPrettyPrinterManager());		
 		this.setExecutorFactory(new ExecutorFactory(context.getExecutorFactory()));
-		
-		if (!preserveFramestack) {
+		if (!preserveFrameStack) {
 			this.setFrameStack(context.getFrameStack());
-		}
-		
-		if (context instanceof IEglContext) {
-			IEglContext other = (IEglContext) context;
-			other.getStatusMessages().forEach(this::addStatusMessage);
-			this.setOutputBufferFactory(other.getOutputBufferFactory());
-			this.setPartitioner(other.getPartitioner());
-			this.setContentTypeRepository(other.getContentTypeRepository());
 		}
 	}
 }

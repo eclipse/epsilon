@@ -31,7 +31,7 @@ public class IncludeOperation extends SimpleOperation {
 		
 		Variable outVariable = context.getFrameStack().get("out");
 		
-		IOutputBuffer out = (IOutputBuffer)outVariable.getValue();
+		IOutputBuffer out = (IOutputBuffer) outVariable.getValue();
 		
 		String templatePath = (String) parameters.get(0);
 		EglTemplate template = templateFactory.load(templatePath);

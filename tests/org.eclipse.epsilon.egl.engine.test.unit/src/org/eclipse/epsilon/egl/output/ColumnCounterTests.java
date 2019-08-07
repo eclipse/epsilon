@@ -33,7 +33,6 @@ public class ColumnCounterTests {
 	}
 	
 	public abstract static class CurrentColumnNumberTests {
-		final ColumnCounter counter = new ColumnCounter(getNewLine());
 	
 		protected abstract String getNewLine();
 
@@ -72,8 +71,16 @@ public class ColumnCounterTests {
 			assertEquals(2, getCurrentColumnNumberFrom("\t"));
 		}
 
-		protected int getCurrentColumnNumberFrom(String text) {
-			return counter.getCurrentColumnNumberFrom(text);
+		protected int getCurrentColumnNumberFrom(final String text) {
+			return new OutputBuffer(){
+				{
+					buffer = new StringBuffer(text);
+				}
+				public String getNewline() {
+					return CurrentColumnNumberTests.this.getNewLine();
+				}
+			}
+			.getCurrentColumnNumber();
 		}
 	}
 }

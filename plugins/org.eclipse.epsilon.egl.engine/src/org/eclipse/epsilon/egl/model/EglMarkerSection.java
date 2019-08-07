@@ -9,11 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.model;
 
+import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 
-
-public class EglMarkerSection extends EglSection {
+public class EglMarkerSection extends AbstractModuleElement {
 	
 	protected String text;
 	

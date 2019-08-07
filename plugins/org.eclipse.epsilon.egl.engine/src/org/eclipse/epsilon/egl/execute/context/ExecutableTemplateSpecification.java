@@ -11,7 +11,6 @@ package org.eclipse.epsilon.egl.execute.context;
 
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
-import org.eclipse.epsilon.egl.traceability.Variable;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 
 class ExecutableTemplateSpecification {
@@ -33,7 +32,7 @@ class ExecutableTemplateSpecification {
 			.createReadOnlyVariable("out", outputBuffer)
 		);
 		
-		for (Variable variable : template.getTemplate().getVariables()) {
+		for (org.eclipse.epsilon.egl.traceability.Variable variable : template.getTemplate().getVariables()) {
 			frameStack.put(variable.getName(), variable.getValue());
 		}
 	}

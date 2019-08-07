@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.egl.output;
 
 import static org.junit.Assert.assertEquals;
-
+import java.util.regex.Pattern;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -39,8 +39,6 @@ public class LineCounterTests {
 	
 	
 	public static abstract class CurrentLineNumberTests {
-	
-		private final LineCounter counter = new LineCounter(getNewLine());
 				
 		protected abstract String getNewLine();
 
@@ -70,7 +68,11 @@ public class LineCounterTests {
 		}
 	
 		protected int getCurrentLineNumberFor(String text) {
-			return counter.getCurrentLineNumberFor(text);
+			return new OutputBuffer(){{
+				newLinePattern = Pattern.compile(CurrentLineNumberTests.this.getNewLine());
+				buffer = new StringBuffer(text);
+			}}
+			.getCurrentLineNumber();
 		}
 	}
 }
