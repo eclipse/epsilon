@@ -81,12 +81,14 @@ public class SingleConcurrentExecutionStatus extends ConcurrentExecutionStatus {
 	protected final boolean waitForCompletion(final Object lockObj, final Supplier<Boolean> targetState) {
 		assert lockObj != null;
 		currentLock = lockObj;
-		while (isInProgress(lockObj) && (targetState == null || !targetState.get())) synchronized (lockObj) {
-			try {
-				// Don't wait forever just in case someone forgets to notify or interrupt
-				lockObj.wait(waitTimeout);
+		synchronized (lockObj) {
+			while (inProgress && (targetState == null || !targetState.get())) {
+				try {
+					// Don't wait forever just in case someone forgets to notify or interrupt
+					lockObj.wait(waitTimeout);
+				}
+				catch (InterruptedException ie) {}
 			}
-			catch (InterruptedException ie) {}
 		}
 		currentLock = null;
 		return exception == null;

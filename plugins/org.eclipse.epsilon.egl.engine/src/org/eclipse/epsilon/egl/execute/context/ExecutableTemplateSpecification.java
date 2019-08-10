@@ -32,8 +32,8 @@ class ExecutableTemplateSpecification {
 			.createReadOnlyVariable("out", outputBuffer)
 		);
 		
-		for (org.eclipse.epsilon.egl.traceability.Variable variable : template.getTemplate().getVariables()) {
-			frameStack.put(variable.getName(), variable.getValue());
+		for (java.util.Map.Entry<String, ?> variable : template.getTemplate().getVariables()) {
+			frameStack.put(variable);
 		}
 	}
 	

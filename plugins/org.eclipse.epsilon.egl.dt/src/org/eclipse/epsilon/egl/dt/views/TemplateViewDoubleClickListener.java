@@ -114,18 +114,14 @@ public class TemplateViewDoubleClickListener implements IDoubleClickListener {
 			
 			for (Object selectedItem : selection.toList()) {
 				if (selectedItem instanceof Container) {
-					if (((Container<?>)selectedItem).getURI().getScheme().equals("file")) {
-					
-						final File file = new File(((Container<?>)selectedItem).getURI());
-						
-						openEditor(file);
+					if (((Container)selectedItem).getURI().getScheme().equals("file")) {
+						openEditor(new File(((Container)selectedItem).getURI()));
 					}
-					
-				} else if (selectedItem instanceof ProtectedRegion) {
+				}
+				else if (selectedItem instanceof ProtectedRegion) {
 					final ProtectedRegion pr = (ProtectedRegion)selectedItem;
 					
 					if (pr.getParent().getURI().getScheme().equals("file")) {
-						
 						openEditor(new File(pr.getParent().getURI()), pr.getOffset());
 					}
 				}

@@ -9,9 +9,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.traceability;
 
+import java.util.Map.Entry;
 import java.util.Objects;
 
-public class Variable extends Content<Template> {
+/**
+ * 
+ * @since 1.6 implements Map.Entry
+ */
+public class Variable extends Content<Template> implements Entry<String, Object> {
 
 	private final String name;
 	private final Object value;
@@ -59,4 +64,13 @@ public class Variable extends Content<Template> {
 		return name + "=" + Objects.toString(value);
 	}
 
+	@Override
+	public String getKey() {
+		return name;
+	}
+
+	@Override
+	public Object setValue(Object value) {
+		return value;
+	}
 }

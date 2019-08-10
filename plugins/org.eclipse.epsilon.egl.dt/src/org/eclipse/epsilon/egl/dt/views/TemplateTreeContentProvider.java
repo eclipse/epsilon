@@ -22,7 +22,7 @@ public class TemplateTreeContentProvider implements ITreeContentProvider {
 	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof Container) {
-			return ((Container<?>)parentElement).getChildren().toArray();
+			return ((Container) parentElement).getChildren().toArray();
 		}
 		
 		return EMPTY;
@@ -31,7 +31,7 @@ public class TemplateTreeContentProvider implements ITreeContentProvider {
 	@Override
 	public Object getParent(Object element) {
 		if (element instanceof Content) {
-			return ((Content<?>)element).getParent();
+			return ((Content<?>) element).getParent();
 		}
 		
 		return null;
@@ -40,7 +40,7 @@ public class TemplateTreeContentProvider implements ITreeContentProvider {
 	@Override
 	public boolean hasChildren(Object element) {
 		if (element instanceof Container) {
-			return ((Container<?>)element).hasChildren();
+			return ((Container) element).hasChildren();
 		}
 		
 		return false;

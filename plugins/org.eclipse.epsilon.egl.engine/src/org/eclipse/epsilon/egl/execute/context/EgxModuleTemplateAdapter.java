@@ -13,7 +13,6 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
 import org.eclipse.epsilon.egl.IEgxModule;
-import org.eclipse.epsilon.egl.traceability.Content;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.egl.traceability.Variable;
 
@@ -41,13 +40,8 @@ public class EgxModuleTemplateAdapter extends Template {
 	}
 	
 	@Override
-	public Collection<Content<Template>> getChildren() {
+	public Collection<Template> getChildren() {
 		return module.getInvokedTemplates();
-	}
-	
-	@Override
-	public boolean hasChildren() {
-		return !getChildren().isEmpty();
 	}
 	
 	public String toString() {

@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.List;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
-import org.eclipse.epsilon.egl.traceability.Content;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.erl.IErlModule;
 
@@ -24,7 +23,7 @@ import org.eclipse.epsilon.erl.IErlModule;
  */
 public interface IEgxModule extends IErlModule {
 	
-	Collection<Content<Template>> getInvokedTemplates();
+	Collection<Template> getInvokedTemplates();
 	
 	List<GenerationRule> getDeclaredGenerationRules();
 	

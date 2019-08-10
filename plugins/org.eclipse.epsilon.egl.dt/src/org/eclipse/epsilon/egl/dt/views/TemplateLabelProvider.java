@@ -46,7 +46,7 @@ public class TemplateLabelProvider extends LabelProvider {
 	@Override
 	public String getText(Object element) {
 		if (element instanceof Container)
-			return ((Container<?>)element).getName();
+			return ((Container) element).getName();
 		
 		else if (element instanceof ProtectedRegion)
 			return ((ProtectedRegion)element).getId();

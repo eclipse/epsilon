@@ -11,13 +11,10 @@ package org.eclipse.epsilon.egl.traceability;
 
 import java.net.URI;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.util.UriUtil;
 
-public class Template extends Container<Content<Template>> {
-	
-	private final Collection<Variable> variables = new LinkedList<>();
+public class Template extends Container {
 	
 	public Template() {
 		this(null, "", null);
@@ -41,7 +38,7 @@ public class Template extends Container<Content<Template>> {
 	
 	public OutputFile addOutputFile(String name, URI uri) {
 		final OutputFile outputFile = new OutputFile(this, name, uri);
-		super.add(outputFile);
+		add(outputFile);
 		return outputFile;
 	}
 	
@@ -54,7 +51,7 @@ public class Template extends Container<Content<Template>> {
 	
 	public Template addTemplate(String name, URI uri) {
 		final Template template = new Template(this, name, uri);
-		super.add(template);
+		add(template);
 		return template;
 	}
 	
@@ -67,29 +64,25 @@ public class Template extends Container<Content<Template>> {
 	
 	public Variable addVariable(String name, Object value) {
 		final Variable variable = new Variable(this, name, value);
-		super.add(variable);
-		variables.add(variable);
+		add(variable);
 		return variable;
 	}
 	
 	public Collection<Variable> getVariables() {
-		return Collections.unmodifiableCollection(variables);
+		return contents.stream()
+			.filter(Variable.class::isInstance)
+			.map(Variable.class::cast)
+			.collect(Collectors.toList());
 	}
 	
 	public Collection<OutputFile> getOutputFiles() {
-		final Collection<OutputFile> outputFiles = new LinkedList<>();
-		
-		for (Content<Template> child : contents) {
-			if (child instanceof OutputFile) {
-				outputFiles.add((OutputFile)child);
-			}
-		}
-		
-		return outputFiles;
+		return contents.stream()
+			.filter(OutputFile.class::isInstance)
+			.map(OutputFile.class::cast)
+			.collect(Collectors.toList());
 	}
 
 	public void reset() {
 		contents.clear();
-		variables.clear();
 	}
 }

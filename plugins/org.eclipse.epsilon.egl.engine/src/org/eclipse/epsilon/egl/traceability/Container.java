@@ -15,13 +15,12 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Objects;
 
-@SuppressWarnings("rawtypes")
-public abstract class Container<E extends Content> extends Content<Template> {
+public abstract class Container extends Content<Template> {
 
 	private final String name;
 	private final URI    uri;
 	
-	protected final Collection<E> contents = new LinkedList<>();
+	protected final Collection<Object> contents = new LinkedList<>();
 	
 	protected Container(Template parent, String name, URI uri) {
 		super(parent);
@@ -41,15 +40,17 @@ public abstract class Container<E extends Content> extends Content<Template> {
 		return uri;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void add(E child) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void add(Object child) {
 		if (child == this) return;
 		
-		child.setParent(this);
+		if (child instanceof Content<?>) {
+			((Content) child).setParent(this);
+		}
 		contents.add(child);
 	}
 	
-	public Collection<E> getChildren() {
+	public Collection<?> getChildren() {
 		return Collections.unmodifiableCollection(contents);
 	}
 	
@@ -62,7 +63,7 @@ public abstract class Container<E extends Content> extends Content<Template> {
 		if (this == o) return true;
 		if (!(o instanceof Container)) return false;
 		
-		final Container<?> that = (Container<?>)o;
+		final Container that = (Container) o;
 		return
 			Objects.equals(this.name, that.name) &&
 			Objects.equals(this.uri, that.uri) &&

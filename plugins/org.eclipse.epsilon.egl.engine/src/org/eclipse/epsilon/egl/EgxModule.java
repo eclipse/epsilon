@@ -25,7 +25,6 @@ import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.parse.EgxLexer;
 import org.eclipse.epsilon.egl.parse.EgxParser;
-import org.eclipse.epsilon.egl.traceability.Content;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
@@ -43,7 +42,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 
 	protected NamedRuleList<GenerationRule> generationRules;
 	protected NamedRuleList<GenerationRule> declaredGenerationRules = new NamedRuleList<>();
-	protected Collection<Content<Template>> invokedTemplates = new ArrayList<>();
+	protected Collection<Template> invokedTemplates = new ArrayList<>();
 	
 	public static void main(String[] args) throws Exception {
 		final EgxModule module = new EgxModule();
@@ -82,7 +81,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	}
 	
 	@Override
-	public Collection<Content<Template>> getInvokedTemplates() {
+	public Collection<Template> getInvokedTemplates() {
 		return invokedTemplates;
 	}
 	

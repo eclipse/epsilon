@@ -11,7 +11,7 @@ package org.eclipse.epsilon.egl.traceability;
 
 import java.net.URI;
 
-public class OutputFile extends Container<ProtectedRegion> {
+public class OutputFile extends Container {
 	
 	protected OutputFile(Template template, String name, URI uri) {
 		super(template, name, uri);
@@ -25,7 +25,7 @@ public class OutputFile extends Container<ProtectedRegion> {
 
 	public ProtectedRegion addProtectedRegion(String id, boolean enabled, int offset) {
 		final ProtectedRegion pr = new ProtectedRegion(this, id, enabled, offset);
-		super.add(pr);
+		add(pr);
 		return pr;
 	}
 }

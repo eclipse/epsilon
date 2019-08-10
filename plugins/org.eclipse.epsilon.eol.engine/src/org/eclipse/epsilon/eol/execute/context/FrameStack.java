@@ -331,6 +331,18 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 			.forEach(activeRegion::put);
 	}
 	
+	/**
+	 * Puts the Entry as read-only variable into the topmost frame of the scope.
+	 * 
+	 * @param variables
+	 * @since 1.6
+	 */
+	public void put(Map.Entry<String, ?> variable) {
+		if (variable != null) {
+			put(Variable.createReadOnlyVariable(variable));
+		}
+	}
+	
 	public void put(Collection<Variable> variables) {
 		activeGroup().put(variables.toArray(new Variable[variables.size()]));
 	}
