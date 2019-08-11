@@ -32,7 +32,7 @@ public abstract class LanguageFormatter implements Formatter {
 	}
 	
     // Removes any existing indentation
-	private String clean(String text) {
+	private static String clean(String text) {
 		final StringBuilder sb = new StringBuilder();
 		
 		// Iterate over each line in the text

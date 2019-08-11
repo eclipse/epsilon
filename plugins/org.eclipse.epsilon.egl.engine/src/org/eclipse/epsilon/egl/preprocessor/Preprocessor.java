@@ -201,7 +201,7 @@ public class Preprocessor {
 	 * might contain newline characters that are not appropriate for the
 	 * environment in which it is currently executing.
 	 */
-	private String normaliseNewLines(String text) {
+	private static String normaliseNewLines(String text) {
 		return text
 			// First normalise newlines to \n
 			.replaceAll("\\r\\n", "\n")

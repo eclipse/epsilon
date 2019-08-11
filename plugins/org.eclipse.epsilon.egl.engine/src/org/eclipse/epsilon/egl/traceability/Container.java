@@ -44,7 +44,7 @@ public abstract class Container extends Content<Template> {
 	public void add(Object child) {
 		if (child == this) return;
 		
-		if (child instanceof Content<?>) {
+		if (child instanceof Content) {
 			((Content) child).setParent(this);
 		}
 		contents.add(child);

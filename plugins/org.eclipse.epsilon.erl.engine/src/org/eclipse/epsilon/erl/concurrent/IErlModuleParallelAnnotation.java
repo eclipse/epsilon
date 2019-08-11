@@ -30,6 +30,10 @@ public interface IErlModuleParallelAnnotation extends IErlModule {
 	
 	public static final String PARALLEL_ANNOTATION_NAME = "parallel";
 	
+	default boolean hasParallelAnnotation(AnnotatableModuleElement ast) {
+		return ast.getAnnotation(PARALLEL_ANNOTATION_NAME) != null;
+	}
+	
 	default boolean shouldBeParallel(AnnotatableModuleElement ast, Variable... variables) throws EolRuntimeException {
 		Annotation parallelAnnotation = ast.getAnnotation(PARALLEL_ANNOTATION_NAME);
 		
@@ -41,18 +45,15 @@ public interface IErlModuleParallelAnnotation extends IErlModule {
 				frameStack.enterLocal(FrameType.PROTECTED, ast, variables);
 				Object result = parallelAnnotation.getValue(context);
 				frameStack.leaveLocal(ast);
-				
-				if (result instanceof Boolean) {
-					return (boolean) result;
-				}
+				return result instanceof Boolean && (boolean) result;
 			}
 			else return true;
 		}
-		
-		return false;
+		else return false;
 	}
-
+	
 	default boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model, int numElements) throws EolRuntimeException {
+		if (!hasParallelAnnotation(ast) || !getContext().isParallelisationLegal()) return false;
 		return shouldBeParallel(ast, new Variable[] {
 			Variable.createReadOnlyVariable("self", self),
 			Variable.createReadOnlyVariable("NUM_ELEMENTS", numElements),

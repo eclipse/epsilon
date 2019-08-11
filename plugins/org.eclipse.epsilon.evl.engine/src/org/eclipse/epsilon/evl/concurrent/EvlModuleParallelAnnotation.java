@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.concurrent;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
@@ -49,7 +49,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 			final IModel model = constraintContext instanceof GlobalConstraintContext ?
 				null : constraintContext.getType(context).getModel();
 			
-			final ArrayList<CheckedEolRunnable> jobs = new ArrayList<>();
+			final Collection<CheckedEolRunnable> jobs = new LinkedList<>();
 			
 			if (constraintContext.hasAnnotation(PARALLEL_ANNOTATION_NAME)) {
 				for (Object object : allOfKind) {

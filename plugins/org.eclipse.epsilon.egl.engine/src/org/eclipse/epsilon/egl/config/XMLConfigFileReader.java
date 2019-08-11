@@ -13,15 +13,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.xml.sax.Attributes;
-import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -30,7 +27,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class XMLConfigFileReader extends DefaultHandler implements ConfigFileReader {
 
 	private final String DTD_FILE_NAME = "ContentTypes.dtd";
-	private final String DTD_URL       = "http://www.epsilon.org/egl/ContentTypes.dtd";
+	private final String DTD_URL       = "https://www.epsilon.org/egl/"+DTD_FILE_NAME;
 	private final String ROOT_ELEMENT  = "ContentTypes";
 	
 	private final Map<String, CompositePartitioner> contentTypes = new HashMap<>();
@@ -51,22 +48,13 @@ public class XMLConfigFileReader extends DefaultHandler implements ConfigFileRea
 			final SAXParser parser = factory.newSAXParser();
 			
 			// Utilise an entity resolver that always uses the local DTD
-			parser.getXMLReader().setEntityResolver(new EntityResolver() {
-
-				@Override
-				public InputSource resolveEntity(String publicId,
-				                                 String systemId)
-				throws SAXException, IOException {
-					
-					// Intercept the reference to the fictional URL and 
-					// load the DTD from the file system
-					if (systemId.equals(DTD_URL)) {
-						return new InputSource(XMLConfigFileReader.class.getResourceAsStream(DTD_FILE_NAME));
-					}
-					
-					return null;
+			parser.getXMLReader().setEntityResolver((publicId, systemId) -> {
+				// Intercept the reference to the fictional URL and 
+				// load the DTD from the file system
+				if (systemId.equals(DTD_URL)) {
+					return new InputSource(XMLConfigFileReader.class.getResourceAsStream(DTD_FILE_NAME));
 				}
-				
+				return null;
 			});
 			
 			// Use this object for handling any errors
