@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.execute.context;
 
+import java.net.URI;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -61,11 +62,11 @@ class EglExecutionManager {
 	
 	private void prepareFrameStack() {
 		final StatementBlock frameGlobalStackMarker = new StatementBlock();
-		//frameGlobalStackMarker.setUri(URI.create("template-specific-globals"));
+		frameGlobalStackMarker.setUri(URI.create("template-specific-globals"));
 		globalMarkers.push(frameGlobalStackMarker);
 		frameStack.enterGlobal(FrameType.UNPROTECTED, frameGlobalStackMarker);
 		final StatementBlock frameLocalStackMarker = new StatementBlock();
-		//frameLocalStackMarker.setUri(URI.create("locals"));
+		frameLocalStackMarker.setUri(URI.create("locals"));
 		localMarkers.push(frameLocalStackMarker);
 		frameStack.enterGlobal(FrameType.UNPROTECTED, frameLocalStackMarker);
 	}

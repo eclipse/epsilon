@@ -11,10 +11,13 @@ package org.eclipse.epsilon.egl.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAtomicBatches;
+import org.eclipse.epsilon.erl.execute.data.ExecutableRuleAtom;
 
 /**
  * Executes each element for each {@linkplain GenerationRule} in parallel.
@@ -22,7 +25,7 @@ import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
  * @author Sina Madani
  * @since 1.6
  */
-public class EgxModuleParallelRules extends EgxModuleParallel {
+public class EgxModuleParallelRules extends EgxModuleParallel implements IErlModuleParallelAtomicBatches<ExecutableRuleAtom<GenerationRule>> {
 
 	public EgxModuleParallelRules() {
 		super();
@@ -48,6 +51,22 @@ public class EgxModuleParallelRules extends EgxModuleParallel {
 			
 			getContext().executeParallel(rule, genJobs);
 		}
+	}
+
+	@Override
+	public List<? extends ExecutableRuleAtom<GenerationRule>> getAllJobs() throws EolRuntimeException {
+		IEgxContextParallel context = getContext();
+		final ArrayList<ExecutableRuleAtom<GenerationRule>> atoms = new ArrayList<>();
+		
+		for (GenerationRule rule : getGenerationRules()) {
+			Collection<?> allElements = rule.getAllElements(context);
+			atoms.ensureCapacity(atoms.size() + allElements.size());
+			for (Object element : allElements) {
+				atoms.add(new ExecutableRuleAtom<>(rule, element, context));
+			}
+		}
+		
+		return atoms;
 	}
 	
 }

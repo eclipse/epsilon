@@ -18,6 +18,7 @@ import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
 
 /**
  * A no-op parallel module, useful only for extending or setting number of threads used in
@@ -26,7 +27,7 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EgxModuleParallel extends EgxModule {
+public class EgxModuleParallel extends EgxModule implements IErlModuleParallel {
 
 	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
 	static {

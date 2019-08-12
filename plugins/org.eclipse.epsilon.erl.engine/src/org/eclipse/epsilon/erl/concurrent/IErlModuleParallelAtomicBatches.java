@@ -9,8 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.concurrent;
 
+import java.util.ArrayDeque;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.concurrent.Callable;
@@ -39,6 +40,10 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends 
 	 */
 	List<? extends D> getAllJobs() throws EolRuntimeException;
 	
+	default Object executeAllJobs() throws EolRuntimeException {
+		return executeJobImpl(getAllJobs(), false);
+	}
+	
 	/**
 	 * Evaluates the job locally.
 	 * 
@@ -56,36 +61,35 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends 
 			return ((RuleAtom<?>) job).execute(getContext());
 		}
 		else if (job instanceof Iterable) {
-			return executeJobImpl(((Iterable<?>) job).iterator(), isInLoop);
-		}
-		else if (job instanceof Iterator) {
-			final List<Object> results;
 			IErlContextParallel context = getContext();
+			final int colSize = job instanceof Collection ? ((Collection<?>) job).size() : 256;
+			
 			if (isInLoop) {
-				results = new LinkedList<>();
-				for (
-					Iterator<?> iter = (Iterator<?>) job;
-					iter.hasNext();
-					results.add(executeJobImpl(iter.next(), isInLoop))
-				);
+				final Collection<Object> results = new ArrayDeque<>(colSize);
+					
+				for (Object next : (Iterable<?>) job) {
+					results.add(executeJobImpl(next, isInLoop));
+				}
 				
 				return results;
 			}
 			else {
 				assert context.isParallelisationLegal();
-				List<Callable<Object>> jobs = new LinkedList<>();
+				Collection<Callable<Object>> jobs = new ArrayDeque<>(colSize);
 				
-				for (Iterator<?> iter = (Iterator<?>) job; iter.hasNext();) {
-					final Object nextJob = iter.next();
-					
-					jobs.add(nextJob instanceof Callable ?
-						(Callable<Object>) nextJob :
-						() -> executeJobImpl(nextJob, true)
+				for (Object next : (Iterable<?>) job) {
+					jobs.add(next instanceof Callable ?
+						(Callable<Object>) next :
+						() -> executeJobImpl(next, true)
 					);
 				}
 				
 				return context.executeParallelTyped(jobs);
 			}
+		}
+		else if (job instanceof Iterator) {
+			Iterable<?> iter = () -> (Iterator<Object>) job;
+			return executeJobImpl(iter, isInLoop);
 		}
 		else if (job instanceof BaseStream) {
 			return executeJobImpl(((BaseStream<?,?>)job).iterator(), isInLoop);

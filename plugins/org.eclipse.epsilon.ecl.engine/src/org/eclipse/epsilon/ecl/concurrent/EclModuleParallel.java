@@ -16,6 +16,7 @@ import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.*;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
 
 /**
  * A no-op parallel module, useful only for extending and setting
@@ -24,7 +25,7 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EclModuleParallel extends EclModule {
+public class EclModuleParallel extends EclModule implements IErlModuleParallel {
 
 	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
 	static {

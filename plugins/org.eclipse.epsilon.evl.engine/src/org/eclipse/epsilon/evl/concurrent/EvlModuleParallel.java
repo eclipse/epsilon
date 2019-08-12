@@ -12,6 +12,7 @@ package org.eclipse.epsilon.evl.concurrent;
 import java.util.Map;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
@@ -22,7 +23,7 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EvlModuleParallel extends EvlModule {
+public class EvlModuleParallel extends EvlModule implements IErlModuleParallel {
 	
 	static {
 		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);

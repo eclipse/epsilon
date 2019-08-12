@@ -36,7 +36,6 @@ public static final String PARALLEL_ANNOTATION_NAME = "parallel";
 			if (annotation instanceof ExecutableAnnotation && annotation.hasValue()) {
 				IEolContext context = getContext();
 				FrameStack frameStack = context.getFrameStack();
-				
 				frameStack.enterLocal(FrameType.PROTECTED, annotation, variables);
 				Object result = annotation.getValue(context);
 				frameStack.leaveLocal(annotation);

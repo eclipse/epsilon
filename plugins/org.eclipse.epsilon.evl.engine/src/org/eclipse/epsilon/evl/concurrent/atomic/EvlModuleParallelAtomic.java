@@ -49,6 +49,6 @@ public abstract class EvlModuleParallelAtomic<A extends RuleAtom<?>> extends Evl
 	
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
-		executeJobImpl(getAllJobs(), false);
+		executeAllJobs();
 	}
 }

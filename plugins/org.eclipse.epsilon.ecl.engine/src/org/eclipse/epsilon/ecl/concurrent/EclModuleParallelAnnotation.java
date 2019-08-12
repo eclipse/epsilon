@@ -17,14 +17,13 @@ import org.eclipse.epsilon.eol.dom.ExecutableAnnotation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
 
 /**
  * Parallel execution for ECL only on rules annotated with <code>@parallel</code>.
  * @author Sina Madani
  * @since 1.6
  */
-public class EclModuleParallelAnnotation extends EclModuleParallel implements IErlModuleParallel {
+public class EclModuleParallelAnnotation extends EclModuleParallel {
 
 	public EclModuleParallelAnnotation() {
 		super();
