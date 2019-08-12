@@ -162,10 +162,13 @@ public class EglModule extends EolModule implements IEglModule {
 	
 	@Override
 	public Object execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException {
-		IEglContext context = getContext();
+		// We need a new context to fix bug 549761 (see Engine.testProcessConsistency JUnit test)
+		// TODO Figure out what's going on and refactor a better solution!
+		IEglContext ogContext = getContext(), tmpContext = ogContext;//new EglContext(ogContext);
+		setContext(tmpContext);
 		
-		context.enter(template);
-		context.getTemplateFactory().initialiseRoot(templateRoot);
+		tmpContext.enter(template);
+		tmpContext.getTemplateFactory().initialiseRoot(templateRoot);
 		
 		try {
 			super.execute();
@@ -188,18 +191,21 @@ public class EglModule extends EolModule implements IEglModule {
 		catch (EolRuntimeException ex) {
 			throw new EglRuntimeException(ex);
 		}
-		
-		IOutputBuffer output = context.getOutputBuffer();
+		finally {
+			setContext(ogContext);
+		}
+
+		IOutputBuffer output = tmpContext.getOutputBuffer();
 		output.formatWith(postprocessor);
 		
-		final List<String> problems = context.getPartitioningProblems();
+		final List<String> problems = tmpContext.getPartitioningProblems();
 		if (problems.size() > 0) {
 			throw new EglRuntimeException(problems.get(0), this);
 		}
-		
+
 		String result = output.toString();
 		
-		context.exit();
+		tmpContext.exit();
 		return result;
 	}
 

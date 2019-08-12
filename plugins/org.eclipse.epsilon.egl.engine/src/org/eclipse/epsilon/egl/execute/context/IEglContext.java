@@ -49,11 +49,14 @@ public interface IEglContext extends IEolContext {
 
 	public IOutputBuffer getOutputBuffer();
 	
-	public default Supplier<? extends IOutputBuffer> getOutputBufferFactory() {
-		return () -> new OutputBuffer(this);
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public default IOutputBuffer newOutputBuffer() {
+		return new OutputBuffer(this);
 	}
-	
-	public void setOutputBufferFactory(Supplier<? extends IOutputBuffer> outputBufferFactory);
 	
 	public default void formatWith(Formatter formatter) {
 		getOutputBuffer().formatWith(formatter);

@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egl.execute.context;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Supplier;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
@@ -31,7 +30,6 @@ public class EglContext extends EolContext implements IEglContext {
 
 	private List<StatusMessage> statusMessages = new LinkedList<>();
 	private EglTemplateFactory templateFactory;
-	private Supplier<? extends IOutputBuffer> outputBufferFactory = IEglContext.super.getOutputBufferFactory();
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
 	private EglExecutionManager executionManager = new EglExecutionManager();
@@ -69,7 +67,6 @@ public class EglContext extends EolContext implements IEglContext {
 		 	this.templateFactory = other.templateFactory;
 		 	this.statusMessages = other.statusMessages;
 		 	this.executionManager = other.executionManager;
-			this.setOutputBufferFactory(other.getOutputBufferFactory());
 			this.setPartitioner(other.getPartitioner());
 			this.setContentTypeRepository(other.getContentTypeRepository());
 		}
@@ -78,16 +75,6 @@ public class EglContext extends EolContext implements IEglContext {
 	@Override
 	public EglTemplateFactory getTemplateFactory() {
 		return templateFactory;
-	}
-	
-	@Override
-	public Supplier<? extends IOutputBuffer> getOutputBufferFactory() {
-		return outputBufferFactory;
-	}
-	
-	@Override
-	public void setOutputBufferFactory(Supplier<? extends IOutputBuffer> outputBufferFactory) {
-		this.outputBufferFactory = outputBufferFactory;
 	}
 
 	@Override
@@ -123,7 +110,7 @@ public class EglContext extends EolContext implements IEglContext {
 	@Override
 	public void enter(EglTemplate template) {
 		executionManager.prepareFor(
-			new ExecutableTemplateSpecification(template, getOutputBufferFactory().get()),
+			new ExecutableTemplateSpecification(template, newOutputBuffer()),
 			getFrameStack()
 		);
 	}

@@ -27,7 +27,7 @@ public class StatementBlock extends AbstractExecutableModuleElement {
 		if (statements != null) {
 			this.statements.ensureCapacity(statements.length);
 			for (Statement statement : statements) {
-				this.statements.add(statement);
+				if (statement != null) this.statements.add(statement);
 			}
 		}
 	}

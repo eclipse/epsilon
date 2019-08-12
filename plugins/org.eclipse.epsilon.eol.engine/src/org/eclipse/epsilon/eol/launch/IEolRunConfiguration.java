@@ -201,7 +201,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		}
 		
 		public Builder<C, B> withModel(IModel model) {
-			return withModel(model, new StringProperties());
+			return withModel(model, null);
 		}
 		public Builder<C, B> withModel(IModel model, StringProperties properties) {
 			this.modelsAndProperties.put(model, properties);

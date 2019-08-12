@@ -98,19 +98,18 @@ public class EglServlet extends HttpServlet {
 				
 				modelManager.setCurrentModelRepository(factory.getContext().getModelRepository());
 				
-				FrameStack frameStack = factory.getContext().getFrameStack();
-				
-				// Create built-in variables
-				frameStack.put(Variable.createReadOnlyVariable("modelManager", modelManager));
-				frameStack.put(Variable.createReadOnlyVariable("cache", caching));
-				
-				// Create JSP-like built-in variables
-				frameStack.put(Variable.createReadOnlyVariable("request", req));
-				frameStack.put(Variable.createReadOnlyVariable("response", resp));
-				frameStack.put(Variable.createReadOnlyVariable("config", getServletConfig()));
-				frameStack.put(Variable.createReadOnlyVariable("application", getServletContext()));
-				frameStack.put(Variable.createReadOnlyVariable("session", req.getSession()));
-				
+				factory.getContext().getFrameStack().put(
+					// Create built-in variables
+					Variable.createReadOnlyVariable("modelManager", modelManager),
+					Variable.createReadOnlyVariable("cache", caching),
+					// Create JSP-like built-in variables
+					Variable.createReadOnlyVariable("request", req),
+					Variable.createReadOnlyVariable("response", resp),
+					Variable.createReadOnlyVariable("config", getServletConfig()),
+					Variable.createReadOnlyVariable("application", getServletContext()),
+					Variable.createReadOnlyVariable("session", req.getSession())
+				);
+
 				String result = template.process();
 				
 				resp.setContentType("text/html");
@@ -159,7 +158,7 @@ public class EglServlet extends HttpServlet {
 
 	protected EglTemplateFactory instantiateTemplateFactory(String clazz) {
 		try {
-			return (EglTemplateFactory) Class.forName(clazz).newInstance();
+			return (EglTemplateFactory) Class.forName(clazz).getConstructor().newInstance();
 		
 		} catch (Exception e) {
 			System.out.println("Could not instantiate " + clazz);
