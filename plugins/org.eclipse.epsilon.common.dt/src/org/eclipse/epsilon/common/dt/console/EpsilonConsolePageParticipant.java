@@ -15,24 +15,29 @@ import org.eclipse.ui.part.IPageBookViewPage;
 
 public class EpsilonConsolePageParticipant implements IConsolePageParticipant {
 
+	@Override
 	public void activated() {
 		
 	}
 
+	@Override
 	public void deactivated() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void init(IPageBookViewPage page, IConsole console) {
 		
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class adapter) {
 		// TODO Auto-generated method stub

@@ -24,26 +24,32 @@ public class EolRuntimeExceptionHyperlinkListener implements IPatternMatchListen
 		this.ioConsole = ioConsole;
 	}
 	
+	@Override
 	public String getPattern() {
 		return "\\(.*?@(\\d+):(\\d+)-(\\d+):(\\d+)\\)";
 	}
 
+	@Override
 	public int getCompilerFlags() {
 		return 0;
 	}
 
+	@Override
 	public String getLineQualifier() {
 		return null;
 	}
 
+	@Override
 	public void connect(TextConsole console) {
 		
 	}
 
+	@Override
 	public void disconnect() {
 		
 	}
 
+	@Override
 	public void matchFound(PatternMatchEvent event) {
 		
 		try {

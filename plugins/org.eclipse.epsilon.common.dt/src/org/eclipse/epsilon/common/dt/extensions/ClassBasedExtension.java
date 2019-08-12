@@ -48,7 +48,7 @@ public class ClassBasedExtension {
 	 * Returns a list with the available extensions for this extension point.
 	 */
 	public static List<ClassBasedExtension> getInstances(String extensionPointID, Class<?> expectedClass) {
-		List<ClassBasedExtension> instances = new ArrayList<ClassBasedExtension>();
+		List<ClassBasedExtension> instances = new ArrayList<>();
 
 		IExtensionRegistry registry = RegistryFactory.getRegistry();
 		if (registry == null) {
@@ -74,7 +74,7 @@ public class ClassBasedExtension {
 	public static <T> List<T> getImplementations(String extensionPointID, Class<T> expectedClass)
 		throws IllegalExtensionException
 	{
-		List<T> listeners = new ArrayList<T>();
+		List<T> listeners = new ArrayList<>();
 		for (ClassBasedExtension ext : getInstances(extensionPointID, expectedClass)) {
 			listeners.add((T)ext.createInstance());
 		}

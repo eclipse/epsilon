@@ -33,15 +33,18 @@ public class HtmlTransferable implements Transferable {
 			}
         }
 
-        public DataFlavor[] getTransferDataFlavors() {
+        @Override
+		public DataFlavor[] getTransferDataFlavors() {
             return new DataFlavor[]{_htmlDataFlavor};
         }
 
-        public boolean isDataFlavorSupported(DataFlavor flavor) {
+        @Override
+		public boolean isDataFlavorSupported(DataFlavor flavor) {
             return "text/html".equalsIgnoreCase(flavor.getMimeType());
         }
 
-        public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
+        @Override
+		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
         {
             //InputStream stringStream = new ByteArrayInputStream(_htmlText.getBytes("utf-8"));
             //return stringStream;

@@ -35,20 +35,24 @@ public class EclipseExecutionController implements ExecutionController {
 		timer.schedule(pollMonitorTask, 0l, 200l);
 	}
 	
+	@Override
 	public void control(ModuleElement ast, IEolContext context) {	}
 	
 	protected void setTerminated(boolean terminated) {
 		this.terminated = terminated;
 	}
 	
+	@Override
 	public boolean isTerminated() {
 		return terminated;
 	}
 
+	@Override
 	public void report(IEolContext context) {
 		
 	}
 
+	@Override
 	public void dispose() {
 		timer.cancel();
 	}

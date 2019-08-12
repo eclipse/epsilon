@@ -13,6 +13,7 @@ import org.eclipse.epsilon.common.module.IModuleValidator;
 
 public abstract class AbstractModuleValidator implements IModuleValidator {
 
+	@Override
 	public String getMarkerType() {
 		return AbstractModuleEditor.PROBLEMMARKER;
 	}

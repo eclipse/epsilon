@@ -23,8 +23,10 @@ public abstract class AbstractObjectActionDelegate implements IObjectActionDeleg
 	protected ISelection selection;
 	
 	
+	@Override
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {}
 
+	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.selection = selection;
 	}
@@ -41,6 +43,7 @@ public abstract class AbstractObjectActionDelegate implements IObjectActionDeleg
 		return getFirstElementOf(selection);	
 	}
 	
+	@Override
 	public abstract void run(IAction action);
 	
 	

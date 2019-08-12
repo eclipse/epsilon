@@ -29,6 +29,7 @@ public class MultilineDamagerRepairer extends DefaultDamagerRepairer {
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.text.presentation.IPresentationDamager#getDamageRegion(org.eclipse.jface.text.ITypedRegion, org.eclipse.jface.text.DocumentEvent, boolean)
 	 */
+	@Override
 	public IRegion getDamageRegion(ITypedRegion partition, DocumentEvent e, boolean documentPartitioningChanged) {
 		return partition;
 	}

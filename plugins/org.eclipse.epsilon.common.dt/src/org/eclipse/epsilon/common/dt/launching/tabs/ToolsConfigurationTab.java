@@ -41,6 +41,7 @@ public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 	private List<String> tools = new StringList();
 	private TableViewer toolsViewer;
 
+	@Override
 	public void createControl(Composite parent) {
 		
 		FillLayout parentLayout = new FillLayout();
@@ -81,10 +82,12 @@ public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 		canSave();
 	}
 
+	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
 			tools = new StringList(configuration.getAttribute("tools", new StringList()));
@@ -97,10 +100,12 @@ public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 		}
 	}
 
+	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute("tools", tools);
 	}
 
+	@Override
 	public String getName() {
 		return "Tools";
 	}
@@ -125,6 +130,7 @@ public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 	
 	class AddModelListener implements Listener{
 
+		@Override
 		public void handleEvent(Event event) {
 			
 			try {
@@ -147,6 +153,7 @@ public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 
 	class EditModelListener implements Listener{
 
+		@Override
 		public void handleEvent(Event event) {
 			
 			IStructuredSelection selection = (IStructuredSelection) toolsViewer.getSelection();
@@ -173,6 +180,7 @@ public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 	
 	class RemoveModelListener implements Listener{
 
+		@Override
 		public void handleEvent(Event event) {
 			IStructuredSelection selection = (IStructuredSelection) toolsViewer.getSelection();
 			if (selection.getFirstElement() == null) return;
@@ -187,15 +195,18 @@ public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 	
 	class ListContentProvider implements IStructuredContentProvider{
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			List<?> list = (List<?>) inputElement;
 			return list.toArray();
 		}
 
+		@Override
 		public void dispose() {
 			// TODO Auto-generated method stub
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			
 		}
@@ -204,30 +215,36 @@ public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 	
 	class ModelLabelProvider implements ILabelProvider{
 
+		@Override
 		public Image getImage(Object element) {
 			return EpsilonCommonsPlugin.getDefault().createImage("icons/tool.gif");
 		}
 
+		@Override
 		public String getText(Object element) {
 			StringProperties properties = new StringProperties();
 			properties.load(element.toString());
 			return properties.getProperty("name") + " (" + properties.getProperty("class") + ")";
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 			// TODO Auto-generated method stub
 		}
 
+		@Override
 		public void dispose() {
 			// TODO Auto-generated method stub
 			
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 			// TODO Auto-generated method stub
 			

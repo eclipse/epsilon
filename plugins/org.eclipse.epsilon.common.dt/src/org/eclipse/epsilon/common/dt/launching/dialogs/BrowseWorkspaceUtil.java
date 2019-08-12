@@ -17,6 +17,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
+import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 import org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog;
 
 public class BrowseWorkspaceUtil {
@@ -79,7 +80,7 @@ public class BrowseWorkspaceUtil {
 	public static IFile browseFile(Shell shell, String title, String message, String pattern, Image image){
 		FilteredResourcesSelectionDialog dialog = new FilteredResourcesSelectionDialog(shell, false, ResourcesPlugin.getWorkspace().getRoot(), IResource.FILE);
 		
-		dialog.setInitialPattern(pattern, FilteredResourcesSelectionDialog.FULL_SELECTION);
+		dialog.setInitialPattern(pattern, FilteredItemsSelectionDialog.FULL_SELECTION);
 		dialog.setTitle(title);
 		dialog.setMessage(message);
 

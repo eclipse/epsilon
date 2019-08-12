@@ -112,6 +112,7 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 		modelTypesViewer.setLabelProvider(new ModelTypeLabelProvider());
 		modelTypesViewer.getControl().addMouseListener(new MouseListener() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				ModelTypeSelectionDialog.this.modelType = (ModelTypeExtension)((IStructuredSelection)modelTypesViewer.getSelection()).getFirstElement();
 				if (ModelTypeSelectionDialog.this.modelType != null) {
@@ -119,11 +120,13 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 				}
 			}
 
+			@Override
 			public void mouseDown(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
 
+			@Override
 			public void mouseUp(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
@@ -135,6 +138,7 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 
 		showAllButton.addListener(SWT.Selection, new Listener() {
 			
+			@Override
 			public void handleEvent(Event event) {
 				
 				ArrayList<ModelTypeExtension> filtered;
@@ -156,7 +160,7 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 	}
 	
 	private ArrayList<ModelTypeExtension> getStableModelTypeExtensions() {
-		ArrayList<ModelTypeExtension> filtered = new ArrayList<ModelTypeExtension>();
+		ArrayList<ModelTypeExtension> filtered = new ArrayList<>();
 		for (ModelTypeExtension ext : modelTypes) {
 			if (ext.isStable()) {
 				filtered.add(ext);
@@ -166,7 +170,7 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 	}
 	
 	private void findModelTypes() {		
-		modelTypes = new ArrayList<ModelTypeExtension>();
+		modelTypes = new ArrayList<>();
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		
 		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.epsilon.common.dt.modelType");
@@ -194,6 +198,7 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 		
 	}
 
+	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		this.modelType = (ModelTypeExtension)((IStructuredSelection)event.getSelection()).getFirstElement();
 	}

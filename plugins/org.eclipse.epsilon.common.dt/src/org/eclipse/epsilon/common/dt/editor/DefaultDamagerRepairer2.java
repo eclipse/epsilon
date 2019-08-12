@@ -85,6 +85,7 @@ public class DefaultDamagerRepairer2 implements IPresentationDamager, IPresentat
 	 * @see IPresentationDamager#setDocument(IDocument)
 	 * @see IPresentationRepairer#setDocument(IDocument)
 	 */
+	@Override
 	public void setDocument(IDocument document) {
 		fDocument= document;
 	}
@@ -118,6 +119,7 @@ public class DefaultDamagerRepairer2 implements IPresentationDamager, IPresentat
 	/*
 	 * @see IPresentationDamager#getDamageRegion(ITypedRegion, DocumentEvent, boolean)
 	 */
+	@Override
 	public IRegion getDamageRegion(ITypedRegion partition, DocumentEvent e, boolean documentPartitioningChanged) {
 
 		if (!documentPartitioningChanged) {
@@ -149,6 +151,7 @@ public class DefaultDamagerRepairer2 implements IPresentationDamager, IPresentat
 	/*
 	 * @see IPresentationRepairer#createPresentation(TextPresentation, ITypedRegion)
 	 */
+	@Override
 	public void createPresentation(TextPresentation presentation, ITypedRegion region) {
 
 		if (fScanner == null) {

@@ -18,8 +18,9 @@ import org.eclipse.swt.widgets.Composite;
 
 public abstract class AbstractCachedModelConfigurationDialog extends AbstractModelConfigurationDialog {
 	
-	protected Button isCachedButton;
+	protected Button isCachedButton, isConcurrentButton;
 	
+	@Override
 	protected void createGroups(Composite control) {
 		super.createGroups(control);
 		createPerformanceGroup(control);
@@ -29,26 +30,42 @@ public abstract class AbstractCachedModelConfigurationDialog extends AbstractMod
 		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Performance", 3);
 		
 		isCachedButton = new Button(groupContent, SWT.CHECK);
-		isCachedButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		isCachedButton.setText("Cache model elements to improve execution time");
 		isCachedButton.setSelection(true);
 		
-		GridData isCachedButtonData = new GridData();
-		isCachedButtonData.horizontalSpan = 2;
-		isCachedButton.setLayoutData(isCachedButtonData);
+		isConcurrentButton = new Button(groupContent, SWT.CHECK);
+		isConcurrentButton.setSelection(false);
+		isConcurrentButton.setText("Thread-safe cache");
+		
+		GridData buttonData = new GridData(GridData.FILL_HORIZONTAL);
+		buttonData.horizontalSpan = 2;
+		isCachedButton.setLayoutData(buttonData);
+		isConcurrentButton.setLayoutData(buttonData);
 		
 		groupContent.layout();
 		groupContent.pack();
 	}
 	
+	@Override
 	protected void loadProperties() {
 		super.loadProperties();
 		if (properties == null) return;
-		if (isCachedButton != null) isCachedButton.setSelection(properties.getBooleanProperty(CachedModel.PROPERTY_CACHED, true));
+		if (isCachedButton != null) {
+			isCachedButton.setSelection(properties.getBooleanProperty(CachedModel.PROPERTY_CACHED, true));
+		}
+		if (isConcurrentButton != null) {
+			isConcurrentButton.setSelection(properties.getBooleanProperty(CachedModel.PROPERTY_CONCURRENT, false));
+		}
 	}
 	
+	@Override
 	protected void storeProperties() {
 		super.storeProperties();
-		if (isCachedButton != null) properties.put(CachedModel.PROPERTY_CACHED, isCachedButton.getSelection() + "");
+		if (isCachedButton != null) {
+			properties.put(CachedModel.PROPERTY_CACHED, isCachedButton.getSelection() + "");
+		}
+		if (isConcurrentButton != null) {
+			properties.put(CachedModel.PROPERTY_CONCURRENT, isConcurrentButton.getSelection() + "");
+		}
 	}
 }

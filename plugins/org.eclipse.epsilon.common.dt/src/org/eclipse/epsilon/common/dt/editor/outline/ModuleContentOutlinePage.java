@@ -125,10 +125,12 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 		}
 	}
 
+	@Override
 	public void moduleParsed(AbstractModuleEditor editor, final IModule module) {
 		if (getSite() != null) {
 			getSite().getShell().getDisplay().asyncExec(new Runnable() {
 				
+				@Override
 				public void run() {
 					if (getTreeViewer() != null) {
 						getTreeViewer().setInput(getOutlineRoot(module));

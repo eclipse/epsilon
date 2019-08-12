@@ -26,18 +26,22 @@ public class ASTHyperlink implements IHyperlink {
 		this.label = label;
 	}
 	
+	@Override
 	public IRegion getHyperlinkRegion() {
 		return region;
 	}
 
+	@Override
 	public String getTypeLabel() {
 		return label;
 	}
 
+	@Override
 	public String getHyperlinkText() {
 		return label; //ast.getText();
 	}
 
+	@Override
 	public void open() {
 		EclipseUtil.openEditorAt(targetAST);
 	}

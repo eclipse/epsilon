@@ -31,7 +31,7 @@ public abstract class ResourceBuildingIncrementalProjectBuilder extends Incremen
 	
 	private void refreshProject(IProgressMonitor monitor) {
 		try {
-			getProject().refreshLocal(IProject.DEPTH_INFINITE, monitor);
+			getProject().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		} catch (CoreException e) {
 			reportError(e);
 			e.printStackTrace();
@@ -60,6 +60,7 @@ public abstract class ResourceBuildingIncrementalProjectBuilder extends Incremen
 		try {
 			delta.accept(new IResourceDeltaVisitor() {
 				
+				@Override
 				public boolean visit(IResourceDelta delta) {
 					if (delta.getKind() == IResourceDelta.ADDED || delta.getKind() == IResourceDelta.CHANGED)
 						buildResource(delta.getResource(), monitor);
@@ -77,6 +78,7 @@ public abstract class ResourceBuildingIncrementalProjectBuilder extends Incremen
 		try {
 			getProject().accept(new IResourceVisitor() {
 
+				@Override
 				public boolean visit(IResource resource) throws CoreException {
 					buildResource(resource, monitor);
 					return true; // visit children too

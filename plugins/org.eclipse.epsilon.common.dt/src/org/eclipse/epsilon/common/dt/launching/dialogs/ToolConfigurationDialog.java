@@ -113,6 +113,7 @@ public class ToolConfigurationDialog extends TitleAreaDialog implements ISelecti
 		this.properties = properties;
 	}
 
+	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		ToolExtension extension = (ToolExtension)((StructuredSelection)classCombo.getSelection()).getFirstElement();
 		if (extension == null) return;

@@ -127,7 +127,8 @@ public class MirrorPrintStream extends PrintStream {
      * #checkError()} to return <tt>true</tt> until {@link
      * #clearError()} is invoked.
      */
-    protected void setError() {
+    @Override
+	protected void setError() {
         trouble = true;
     }
 
@@ -138,7 +139,8 @@ public class MirrorPrintStream extends PrintStream {
      * #checkError()} to return <tt>false</tt> until another write
      * operation fails and invokes {@link #setError()}.
      */
-    protected void clearError() {
+    @Override
+	protected void clearError() {
         trouble = false;
     }
 }

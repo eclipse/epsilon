@@ -76,6 +76,7 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 	public ITextDoubleClickStrategy getDoubleClickStrategy(
 			ISourceViewer sourceViewer, String contentType) {
 		ITextDoubleClickStrategy clickStrat = new ITextDoubleClickStrategy() {
+			@Override
 			public void doubleClicked(ITextViewer viewer) {
 				try {
 					IDocument doc = viewer.getDocument();
@@ -130,6 +131,7 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 		return new IHyperlinkDetector[] { hyperlinkDetector };
 	}
 	
+	@Override
 	public IContentAssistant getContentAssistant (ISourceViewer sourceViewer) {
 		ContentAssistant assistance = new ContentAssistant();
 		assistance.setContentAssistProcessor(new AbstractModuleEditorCompletionProcessor(editor),

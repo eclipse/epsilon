@@ -21,7 +21,7 @@ import org.eclipse.epsilon.common.dt.util.LogUtil;
 
 public abstract class ExtensionPointManager<T> {
 	
-	protected static HashMap<Class<?>, ExtensionPointManager<?>> managers = new HashMap<Class<?>, ExtensionPointManager<?>>();
+	protected static HashMap<Class<?>, ExtensionPointManager<?>> managers = new HashMap<>();
 	protected List<T> extensions;
 	
 	public ExtensionPointManager() {
@@ -30,7 +30,7 @@ public abstract class ExtensionPointManager<T> {
 	
 	public List<T> getExtensions() {
 		if (extensions == null) {
-			extensions = new ArrayList<T>();
+			extensions = new ArrayList<>();
 			IExtensionRegistry registry = Platform.getExtensionRegistry();
 			if (registry == null) {
 				return extensions;

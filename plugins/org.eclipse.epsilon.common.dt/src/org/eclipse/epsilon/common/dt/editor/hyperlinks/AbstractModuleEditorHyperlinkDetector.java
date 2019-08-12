@@ -58,6 +58,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 		return hyperlinks;
 	}
 
+	@Override
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {
 		
@@ -77,6 +78,7 @@ public class AbstractModuleEditorHyperlinkDetector implements IHyperlinkDetector
 		
 	}
 
+	@Override
 	public void moduleParsed(AbstractModuleEditor editor, IModule module) {
 		astRegions.clear();
 		this.editor = editor;

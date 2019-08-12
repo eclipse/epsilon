@@ -19,10 +19,12 @@ public abstract class AbstractNature implements IProjectNature {
 	
 	protected IProject project;
 	
+	@Override
 	public IProject getProject() {
 		return project;
 	}
 
+	@Override
 	public void setProject(IProject project) {
 		this.project = project;
 	}

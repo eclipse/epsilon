@@ -21,6 +21,7 @@ public abstract class BuilderConfiguringNature extends AbstractNature {
 	
 	protected abstract String getBuilderID();
 	
+	@Override
 	public void configure() throws CoreException {	
 		if (!projectHasBuildSpecForBuilder()) {
 			applyBuildSpecToProject(addCommandForOurBuilderToExistingBuildSpec());
@@ -28,7 +29,7 @@ public abstract class BuilderConfiguringNature extends AbstractNature {
 	}
 	
 	private Collection<ICommand> addCommandForOurBuilderToExistingBuildSpec() throws CoreException {
-		final Collection<ICommand> newBuildSpec = new LinkedList<ICommand>();
+		final Collection<ICommand> newBuildSpec = new LinkedList<>();
 		newBuildSpec.add(createOurBuildCommand());
 		newBuildSpec.addAll(Arrays.asList(project.getDescription().getBuildSpec()));
 		return newBuildSpec;
@@ -54,6 +55,7 @@ public abstract class BuilderConfiguringNature extends AbstractNature {
 	 * builder in the plugin.xml, which will cause the build command 
 	 * to be removed automatically when the nature is removed.
 	 */
+	@Override
 	public void deconfigure() {
 		// Do nothing
 	}

@@ -55,6 +55,7 @@ public abstract class AbstractNewFileWizard2 extends Wizard implements INewWizar
         final IFile file = newFileWizardPage.createNewFile();
         
         getShell().getDisplay().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				IWorkbenchPage page =
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -74,7 +75,8 @@ public abstract class AbstractNewFileWizard2 extends Wizard implements INewWizar
             return false;        
     }
 
-    public void init(IWorkbench workbench, IStructuredSelection selection) {
+    @Override
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
         this.workbench = workbench;
         this.selection = selection;
     }

@@ -87,10 +87,12 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 		fDefaultReturnToken = new Token(new TextAttribute(null, backgroundColor, SWT.NORMAL));
 		
 		WordRule keywordsRule = new WordRule(new IWordDetector() {
+			@Override
 			public boolean isWordStart(char c) {
 				return Character.isJavaIdentifierStart(c);// || c == '.';
 			}
 
+			@Override
 			public boolean isWordPart(char c) {
 				return Character.isJavaIdentifierPart(c);
 			}
@@ -102,10 +104,12 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 		}
 
 		WordRule builtinRule = new WordRule(new IWordDetector() {
+			@Override
 			public boolean isWordStart(char c) {
 				return Character.isJavaIdentifierStart(c);// || c == '.';
 			}
 
+			@Override
 			public boolean isWordPart(char c) {
 				return Character.isJavaIdentifierPart(c);
 			}
@@ -117,10 +121,12 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 		}
 		
 		WordRule typesRule = new WordRule(new IWordDetector() {
+			@Override
 			public boolean isWordStart(char c) {
 				return Character.isJavaIdentifierStart(c);// || c == '.';
 			}
 
+			@Override
 			public boolean isWordPart(char c) {
 				return Character.isJavaIdentifierPart(c);
 			}
@@ -132,10 +138,12 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 		}
 		
 		WordRule assertionsRule = new WordRule(new IWordDetector() {
+			@Override
 			public boolean isWordStart(char c) {
 				return Character.isJavaIdentifierStart(c);// || c == '.';
 			}
 
+			@Override
 			public boolean isWordPart(char c) {
 				return Character.isJavaIdentifierPart(c);
 			}

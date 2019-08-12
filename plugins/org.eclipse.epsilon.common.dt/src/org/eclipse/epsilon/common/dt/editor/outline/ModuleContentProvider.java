@@ -17,24 +17,30 @@ import org.eclipse.jface.viewers.Viewer;
 
 public abstract class ModuleContentProvider implements ITreeContentProvider{
 	
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		return getVisibleChildren((ModuleElement) parentElement).toArray();
 	}
 
+	@Override
 	public Object getParent(Object element) {
 		return ((ModuleElement) element).getParent();
 	}
 
+	@Override
 	public boolean hasChildren(Object element) {
 		return (element instanceof ModuleElement && getVisibleChildren((ModuleElement)element).size() > 0) ;
 	}
 
+	@Override
 	public Object[] getElements(Object inputElement) {
 		return getVisibleChildren((ModuleElement) inputElement).toArray();
 	}
 
+	@Override
 	public void dispose() {}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		
 	}

@@ -36,6 +36,7 @@ public class IllegalExtensionException extends EolRuntimeException {
 		this.cause = cause;
 	}
 
+	@Override
 	public Throwable getCause() {
 		return this.cause;
 	}

@@ -42,9 +42,10 @@ public class ToolsView extends ViewPart {
 	class ViewContentProvider implements IStructuredContentProvider, 
 										   ITreeContentProvider {
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			
-			ArrayList<ToolVariable> toolClasses = new ArrayList<ToolVariable>();
+			ArrayList<ToolVariable> toolClasses = new ArrayList<>();
 			
 			for (ToolExtension toolExtension : ToolExtension.getInstances()) {
 				Bundle bundle = Platform.getBundle(toolExtension.getConfigurationElement().getContributor().getName());
@@ -61,16 +62,19 @@ public class ToolsView extends ViewPart {
 			return toolClasses.toArray();
 		}
 
+		@Override
 		public void dispose() {
 			// TODO Auto-generated method stub
 			
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			// TODO Auto-generated method stub
 			
 		}
 
+		@Override
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof ToolVariable) {
 				Class<?> clazz = ((ToolVariable) parentElement).getClazz();
@@ -91,7 +95,7 @@ public class ToolsView extends ViewPart {
 		}
 		
 		protected Object[] getMethods(Class<?> clazz, boolean declaredOnly) {
-			ArrayList<Method> methods = new ArrayList<Method>();
+			ArrayList<Method> methods = new ArrayList<>();
 			Method[] classMethods;
 			
 			if (declaredOnly) classMethods = clazz.getDeclaredMethods();
@@ -105,11 +109,13 @@ public class ToolsView extends ViewPart {
 			return methods.toArray();
 		}
 		
+		@Override
 		public Object getParent(Object element) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		@Override
 		public boolean hasChildren(Object element) {
 			if (element instanceof ToolVariable) return true;
 			else if (element instanceof Method) return ((Method) element).getReturnType()!=Void.TYPE;

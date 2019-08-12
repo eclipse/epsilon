@@ -23,16 +23,19 @@ public class ConsoleHyperlink implements IHyperlink {
 		this.region = region;
 	}
 	
+	@Override
 	public void linkEntered() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void linkExited() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void linkActivated() {
 		
 		EclipseUtil.openEditorAt(file, region);

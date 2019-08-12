@@ -42,7 +42,7 @@ public class ToolExtension {
 	public static ArrayList<ToolExtension> getInstances() {
 		
 		if (instances == null) {
-			instances = new ArrayList<ToolExtension>();
+			instances = new ArrayList<>();
 			IExtensionRegistry registry = Platform.getExtensionRegistry();
 			if (registry == null) {
 				return instances;

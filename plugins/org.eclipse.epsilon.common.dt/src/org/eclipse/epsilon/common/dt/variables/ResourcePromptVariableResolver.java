@@ -18,10 +18,12 @@ import org.eclipse.ui.PlatformUI;
 
 public class ResourcePromptVariableResolver implements IDynamicVariableResolver {
 
+	@Override
 	public String resolveValue(IDynamicVariable variable, String argument) throws CoreException {
 		final Display display = PlatformUI.getWorkbench().getDisplay();
 		final StringWrapper location = new StringWrapper();
 		display.syncExec(new Runnable() {
+			@Override
 			public void run() {
 				location.value =  
 					BrowseWorkspaceUtil.browseFile

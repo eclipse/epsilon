@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.ui.css.swt.theme.ITheme;
 import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.widgets.Display;
@@ -156,6 +155,7 @@ public class EclipseUtil {
 		final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(iFile.getName());
 		
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					
@@ -185,7 +185,7 @@ public class EclipseUtil {
 	
 	public static void openEditorAt(File file, int line, int column, boolean highlightLine) {
 		if (file == null) return;
-		IFile iFile = (IFile) ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(file.toURI())[0];
+		IFile iFile = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(file.toURI())[0];
 		openEditorAt(iFile, line, column, highlightLine);
 	}
 	
@@ -200,6 +200,7 @@ public class EclipseUtil {
 		final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
 		
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					int realLine = line;

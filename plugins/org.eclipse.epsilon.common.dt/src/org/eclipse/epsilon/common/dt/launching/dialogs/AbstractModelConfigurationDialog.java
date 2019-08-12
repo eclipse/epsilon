@@ -167,6 +167,7 @@ public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
 			this.text = text;
 		}
 		
+		@Override
 		public void handleEvent(Event event) {
 			String file = BrowseWorkspaceUtil.browseFilePath(getShell(), 
 					title, prompt, null);

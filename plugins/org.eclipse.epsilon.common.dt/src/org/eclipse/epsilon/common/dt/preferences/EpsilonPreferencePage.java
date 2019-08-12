@@ -28,7 +28,7 @@ public class EpsilonPreferencePage extends PreferencePage implements
 
 	public static final String ENABLE_STATIC_ANALYSIS = "enableStaticAnalysis";
 	
-	protected List<FieldEditor> fieldEditors = new ArrayList<FieldEditor>();
+	protected List<FieldEditor> fieldEditors = new ArrayList<>();
 	
 	@Override
 	protected Control createContents(Composite parent) {
@@ -45,6 +45,7 @@ public class EpsilonPreferencePage extends PreferencePage implements
 		return composite;
 	}
 	
+	@Override
 	public void init(IWorkbench workbench) {
 
 	}

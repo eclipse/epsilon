@@ -40,6 +40,7 @@ public abstract class ToggleNatureAction extends AbstractObjectActionDelegate im
 		}
 	}
 	
+	@Override
 	public void run(IAction action) {
 		try {
 			if (getFirstElementInSelection() instanceof IProject) {
@@ -77,14 +78,14 @@ public abstract class ToggleNatureAction extends AbstractObjectActionDelegate im
 	}
 
 	private Collection<String> addOurNature(final String[] natureIds) {
-		final Collection<String> newNatureIds = new LinkedList<String>();
+		final Collection<String> newNatureIds = new LinkedList<>();
 		newNatureIds.add(getNatureId());
 		newNatureIds.addAll(Arrays.asList(natureIds));
 		return newNatureIds;
 	}
 
 	private Collection<String> removeOurNature(final String[] natureIds) {
-		final Collection<String> newNatureIds = new LinkedList<String>(Arrays.asList(natureIds));
+		final Collection<String> newNatureIds = new LinkedList<>(Arrays.asList(natureIds));
 		newNatureIds.remove(getNatureId());
 		return newNatureIds;
 	}

@@ -514,6 +514,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	
 	private static final String CONTENTASSIST_PROPOSAL_ID = 
 		   "org.eclipse.common.dt.editor.AbsractModuleEditor.ContentAssistProposal"; 
+		@Override
 		protected void createActions() {
 		   super.createActions();
 
@@ -533,7 +534,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 					// TODO Auto-generated method stub
 					return null;
 				}},
-		      "ContentAssistProposal", this, SourceViewer.CONTENTASSIST_PROPOSALS);
+		      "ContentAssistProposal", this, ISourceViewer.CONTENTASSIST_PROPOSALS);
 		   action.setActionDefinitionId(CONTENTASSIST_PROPOSAL_ID);
 
 		   // Tell the editor about this new action

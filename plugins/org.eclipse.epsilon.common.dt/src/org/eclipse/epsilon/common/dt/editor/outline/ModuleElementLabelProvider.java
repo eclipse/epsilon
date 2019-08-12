@@ -16,8 +16,10 @@ import org.eclipse.swt.graphics.Image;
 
 public abstract class ModuleElementLabelProvider implements ILabelProvider {
 	
+	@Override
 	public abstract Image getImage(Object element);
 
+	@Override
 	public String getText(Object element) {
 		//ModuleElement el = (ModuleElement) element;
 		//Visitor v = new Visitor();
@@ -26,21 +28,25 @@ public abstract class ModuleElementLabelProvider implements ILabelProvider {
 		return String.valueOf(element);
 	}
 
+	@Override
 	public void addListener(ILabelProviderListener listener) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public boolean isLabelProperty(Object element, String property) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void removeListener(ILabelProviderListener listener) {
 		// TODO Auto-generated method stub
 		
