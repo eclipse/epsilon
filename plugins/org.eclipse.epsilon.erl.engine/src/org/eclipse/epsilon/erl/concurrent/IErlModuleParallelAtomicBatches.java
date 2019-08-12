@@ -17,7 +17,6 @@ import java.util.concurrent.Callable;
 import java.util.stream.BaseStream;
 import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 import org.eclipse.epsilon.erl.execute.data.JobBatch;
 import org.eclipse.epsilon.erl.execute.data.RuleAtom;
@@ -30,7 +29,7 @@ import org.eclipse.epsilon.erl.execute.data.RuleAtom;
  * @author Sina Madani
  * @since 1.6
  */
-public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends IErlModule {
+public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends IErlModuleParallel {
 
 	/**
 	 * The atomic units of work.
@@ -110,10 +109,5 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends 
 	 */
 	default List<JobBatch> getBatchJobs(int batchSize) throws EolRuntimeException {
 		return JobBatch.getBatches(getAllJobs().size(), batchSize);
-	}
-	
-	@Override
-	default IErlContextParallel getContext() {
-		return (IErlContextParallel) IErlModule.super.getContext();
 	}
 }

@@ -24,10 +24,7 @@ public abstract class Container extends Content<Template> {
 	
 	protected Container(Template parent, String name, URI uri) {
 		super(parent);
-		
-		if (name == null)
-			throw new NullPointerException("name cannot be null");
-		
+		Objects.requireNonNull(name, "name cannot be null");
 		this.name = name;
 		this.uri  = uri;
 	}
@@ -43,7 +40,6 @@ public abstract class Container extends Content<Template> {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void add(Object child) {
 		if (child == this) return;
-		
 		if (child instanceof Content) {
 			((Content) child).setParent(this);
 		}
@@ -73,11 +69,9 @@ public abstract class Container extends Content<Template> {
 	@Override
 	public int hashCode() {
 		int result = 17;
-		
 		result += 37 * name.hashCode();
 		result += 37 * result + Objects.hashCode(uri);
 		result += 37 * contents.hashCode();
-		
 		return result;
 	}
 	

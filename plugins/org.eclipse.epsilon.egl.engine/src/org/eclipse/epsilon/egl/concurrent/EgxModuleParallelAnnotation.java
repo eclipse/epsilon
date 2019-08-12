@@ -15,7 +15,7 @@ import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
-import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAnnotation;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
 
 /**
  * Evaluates {@linkplain GenerationRule}-element pairs in parallel
@@ -24,7 +24,7 @@ import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAnnotation;
  * @author Sina Madani
  * @since 1.6
  */
-public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IErlModuleParallelAnnotation {
+public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IErlModuleParallel {
 
 	public EgxModuleParallelAnnotation() {
 		super();

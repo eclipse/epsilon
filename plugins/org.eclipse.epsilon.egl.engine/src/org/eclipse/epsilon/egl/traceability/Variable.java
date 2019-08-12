@@ -10,23 +10,17 @@
 package org.eclipse.epsilon.egl.traceability;
 
 import java.util.Map.Entry;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Objects;
 
-/**
- * 
- * @since 1.6 implements Map.Entry
- */
-public class Variable extends Content<Template> implements Entry<String, Object> {
+public class Variable extends Content<Template> {
 
 	private final String name;
 	private final Object value;
 	
 	protected Variable(Template parent, String name, Object value) {
 		super(parent);
-		
-		if (name == null)
-			throw new NullPointerException("name cannot be null");
-		
+		Objects.requireNonNull(name, "name cannot be null");
 		this.name = name;
 		this.value = value;
 	}
@@ -53,7 +47,6 @@ public class Variable extends Content<Template> implements Entry<String, Object>
 	@Override
 	public int hashCode() {
 		int result = 17;
-		
 		result += 37 * result + name.hashCode();
 		result += 37 * result + Objects.hashCode(value);
 		return result;
@@ -63,14 +56,13 @@ public class Variable extends Content<Template> implements Entry<String, Object>
 	public String toString() {
 		return name + "=" + Objects.toString(value);
 	}
-
-	@Override
-	public String getKey() {
-		return name;
-	}
-
-	@Override
-	public Object setValue(Object value) {
-		return value;
+	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public Entry<String, Object> asEntry() {
+		return new SimpleEntry<>(name, value);
 	}
 }

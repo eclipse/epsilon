@@ -12,17 +12,19 @@ package org.eclipse.epsilon.ecl.concurrent;
 import java.util.Collection;
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.IEclContextParallel;
+import org.eclipse.epsilon.eol.dom.Annotation;
+import org.eclipse.epsilon.eol.dom.ExecutableAnnotation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAnnotation;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
 
 /**
  * Parallel execution for ECL only on rules annotated with <code>@parallel</code>.
  * @author Sina Madani
  * @since 1.6
  */
-public class EclModuleParallelAnnotation extends EclModuleParallel implements IErlModuleParallelAnnotation {
+public class EclModuleParallelAnnotation extends EclModuleParallel implements IErlModuleParallel {
 
 	public EclModuleParallelAnnotation() {
 		super();
@@ -43,17 +45,21 @@ public class EclModuleParallelAnnotation extends EclModuleParallel implements IE
 				Collection<?> leftInstances = matchRule.getLeftInstances(context, ofTypeOnly);
 				Collection<?> rightInstances = matchRule.getRightInstances(context, ofTypeOnly);
 				
-				Variable[] annotationVariables = {
-					Variable.createReadOnlyVariable("leftInstances", leftInstances),
-					Variable.createReadOnlyVariable("rightInstances", rightInstances),
-					Variable.createReadOnlyVariable("matchRule", matchRule),
-					Variable.createReadOnlyVariable("THREADS", context.getParallelism())
-				};
+				Annotation pAnnotation = matchRule.getAnnotation(PARALLEL_ANNOTATION_NAME);
 				
-				if (shouldBeParallel(matchRule, annotationVariables)) {
-					for (Object left : leftInstances) {
-						for (Object right : rightInstances) {
-							executor.execute(() -> matchRule.matchPair(context, ofTypeOnly, left, right));
+				if (pAnnotation != null) {
+					Variable[] annotationVariables = pAnnotation instanceof ExecutableAnnotation ?
+						new Variable[] {
+							Variable.createReadOnlyVariable("leftInstances", leftInstances),
+							Variable.createReadOnlyVariable("rightInstances", rightInstances),
+							Variable.createReadOnlyVariable("matchRule", matchRule),
+							Variable.createReadOnlyVariable("THREADS", context.getParallelism())
+						} : new Variable[0];
+					if (shouldBeParallel(pAnnotation, annotationVariables)) {
+						for (Object left : leftInstances) {
+							for (Object right : rightInstances) {
+								executor.execute(() -> matchRule.matchPair(context, ofTypeOnly, left, right));
+							}
 						}
 					}
 				}

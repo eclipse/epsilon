@@ -1,5 +1,5 @@
 /*********************************************************************
- * Copyright (c) 2018 The University of York.
+ * Copyright (c) 2019 The University of York.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -22,29 +22,24 @@ import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 
 /**
- * Marker interface providing convenience method for parallel execution based on annotations.
+ * 
+ * 
  * @author Sina Madani
  * @since 1.6
  */
-public interface IErlModuleParallelAnnotation extends IErlModule {
+public interface IErlModuleParallel extends IErlModule {
+
+public static final String PARALLEL_ANNOTATION_NAME = "parallel";
 	
-	public static final String PARALLEL_ANNOTATION_NAME = "parallel";
-	
-	default boolean hasParallelAnnotation(AnnotatableModuleElement ast) {
-		return ast.getAnnotation(PARALLEL_ANNOTATION_NAME) != null;
-	}
-	
-	default boolean shouldBeParallel(AnnotatableModuleElement ast, Variable... variables) throws EolRuntimeException {
-		Annotation parallelAnnotation = ast.getAnnotation(PARALLEL_ANNOTATION_NAME);
-		
-		if (parallelAnnotation != null) {
-			if (parallelAnnotation instanceof ExecutableAnnotation && parallelAnnotation.hasValue()) {
+	default boolean shouldBeParallel(Annotation annotation, Variable... variables) throws EolRuntimeException {	
+		if (annotation != null) {
+			if (annotation instanceof ExecutableAnnotation && annotation.hasValue()) {
 				IEolContext context = getContext();
 				FrameStack frameStack = context.getFrameStack();
 				
-				frameStack.enterLocal(FrameType.PROTECTED, ast, variables);
-				Object result = parallelAnnotation.getValue(context);
-				frameStack.leaveLocal(ast);
+				frameStack.enterLocal(FrameType.PROTECTED, annotation, variables);
+				Object result = annotation.getValue(context);
+				frameStack.leaveLocal(annotation);
 				return result instanceof Boolean && (boolean) result;
 			}
 			else return true;
@@ -53,8 +48,9 @@ public interface IErlModuleParallelAnnotation extends IErlModule {
 	}
 	
 	default boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model, int numElements) throws EolRuntimeException {
-		if (!hasParallelAnnotation(ast) || !getContext().isParallelisationLegal()) return false;
-		return shouldBeParallel(ast, new Variable[] {
+		Annotation pAnnotation = ast.getAnnotation(PARALLEL_ANNOTATION_NAME);
+		if (pAnnotation == null || !getContext().isParallelisationLegal()) return false;
+		return shouldBeParallel(pAnnotation, new Variable[] {
 			Variable.createReadOnlyVariable("self", self),
 			Variable.createReadOnlyVariable("NUM_ELEMENTS", numElements),
 			Variable.createReadOnlyVariable("MODEL", model),

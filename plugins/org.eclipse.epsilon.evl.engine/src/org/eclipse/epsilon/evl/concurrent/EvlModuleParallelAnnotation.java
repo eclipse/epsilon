@@ -14,7 +14,7 @@ import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAnnotation;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.dom.GlobalConstraintContext;
@@ -28,7 +28,7 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IErlModuleParallelAnnotation {
+public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IErlModuleParallel {
 
 	public EvlModuleParallelAnnotation() {
 		super();

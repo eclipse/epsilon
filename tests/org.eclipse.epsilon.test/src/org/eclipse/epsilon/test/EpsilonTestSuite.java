@@ -53,7 +53,6 @@ import junit.framework.Test;
 @SuiteClasses({CommonsTestSuite.class,
                EolUnitTestSuite.class, 
                EolAcceptanceTestSuite.class,
-               EvlAcceptanceTestSuite.class,
                EtlAcceptanceTestSuite.class,
                EclAcceptanceTestSuite.class,
                EmlAcceptanceTestSuite.class,
@@ -79,7 +78,8 @@ import junit.framework.Test;
                SimulinkTestSuite.class,
                SpreadsheetDriverTestSuite.class,
                CsvModelTestSuite.class,
-               FlexmiTestSuite.class})
+               FlexmiTestSuite.class,
+               EvlAcceptanceTestSuite.class})
 
 public class EpsilonTestSuite {
 	public static Test suite() {

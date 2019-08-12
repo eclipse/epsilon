@@ -27,7 +27,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class XMLConfigFileReader extends DefaultHandler implements ConfigFileReader {
 
 	private final String DTD_FILE_NAME = "ContentTypes.dtd";
-	private final String DTD_URL       = "https://www.epsilon.org/egl/"+DTD_FILE_NAME;
+	private final String DTD_URL       = "http://www.epsilon.org/egl/"+DTD_FILE_NAME;
 	private final String ROOT_ELEMENT  = "ContentTypes";
 	
 	private final Map<String, CompositePartitioner> contentTypes = new HashMap<>();

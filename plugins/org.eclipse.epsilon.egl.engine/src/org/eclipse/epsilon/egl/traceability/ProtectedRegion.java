@@ -9,6 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.traceability;
 
+import java.util.Objects;
+
 public class ProtectedRegion extends Content<OutputFile> {
 
 	private final String id;
@@ -17,13 +19,8 @@ public class ProtectedRegion extends Content<OutputFile> {
 	
 	protected ProtectedRegion(OutputFile parent, String id, boolean enabled, int offset) {
 		super(parent);
-		
-		if (parent == null)
-			throw new NullPointerException("parent cannot be null");
-		
-		if (id == null)
-			throw new NullPointerException("id cannot be null");
-		
+		Objects.requireNonNull(parent, "parent cannot be null");
+		Objects.requireNonNull(id, "id cannot be null");
 		this.id      = id;
 		this.enabled = enabled;
 		this.offset  = offset;
@@ -56,11 +53,9 @@ public class ProtectedRegion extends Content<OutputFile> {
 	@Override
 	public int hashCode() {
 		int result = 17;
-		
 		result += 37 * result + id.hashCode();
 		result += 37 * result + (enabled ? 1 : 0);
 		result += 37 * result + offset;
-		
 		return result;
 	}
 	
