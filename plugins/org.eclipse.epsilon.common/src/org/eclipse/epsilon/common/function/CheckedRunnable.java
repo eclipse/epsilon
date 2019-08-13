@@ -15,11 +15,12 @@ package org.eclipse.epsilon.common.function;
  * @since 1.6
  */
 @FunctionalInterface
-public interface CheckedRunnable<E extends Exception> extends Runnable, CheckedConsumer<Void, E> {
+public interface CheckedRunnable<E extends Exception> extends Runnable, CheckedFunction<Void, Void, E> {
 	
 	@Override
-	default void acceptThrows(Void t) throws E {
+	default Void applyThrows(Void t) throws E {
 		runThrows();
+		return null;
 	}
 	
 	@Override

@@ -31,7 +31,7 @@ public class MatlabEnginePool {
 	protected static String libraryPath;
 	protected static String engineJarPath;
 
-	protected Set<MatlabEngine> pool = new LinkedHashSet<MatlabEngine>();
+	protected Set<MatlabEngine> pool = new LinkedHashSet<>();
 	protected Class<?> matlabEngineClass;
 	
 	private MatlabEnginePool(String libraryPath, String engineJarPath) throws MatlabRuntimeException {
@@ -60,7 +60,7 @@ public class MatlabEnginePool {
 			matlabEngineClass = systemURLClassLoader.loadClass(MATLAB_ENGINE_CLASS);
 			MatlabEngine.setEngineClass(matlabEngineClass);
 		} catch (Exception ex) {
-			throw new MatlabRuntimeException("Make sure to properly configure the library path and MATLAB engine Jar in Epsilon/Simulink preferences");
+			throw new MatlabRuntimeException("Make sure to properly configure the library path and MATLAB engine Jar in Epsilon/Simulink preferences", ex);
 		}
 	}
 	

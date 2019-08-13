@@ -15,7 +15,7 @@ public class MatlabRuntimeException extends EolRuntimeException {
 	
 	private static final long serialVersionUID = 1L;
 
-	public MatlabRuntimeException(){
+	public MatlabRuntimeException() {
 		super();
 	}
 	
@@ -23,7 +23,11 @@ public class MatlabRuntimeException extends EolRuntimeException {
 		super(reason);
 	}
 	
-	public MatlabRuntimeException(MatlabException ex){
+	public MatlabRuntimeException(String reason, Throwable cause) {
+		super(reason, cause);
+	}
+	
+	public MatlabRuntimeException(MatlabException ex) {
 		super(ex.getMessage());
 	}
 
