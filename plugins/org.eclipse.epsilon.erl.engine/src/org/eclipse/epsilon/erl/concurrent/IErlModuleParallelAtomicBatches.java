@@ -9,13 +9,15 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.concurrent;
 
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.concurrent.Callable;
 import java.util.stream.BaseStream;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
@@ -40,8 +42,8 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends 
 	 */
 	List<? extends D> getAllJobs() throws EolRuntimeException;
 	
-	default Object executeAllJobs() throws EolRuntimeException {
-		return executeJobImpl(getAllJobs(), false);
+	default Collection<?> executeAllJobs() throws EolRuntimeException {
+		return (Collection<?>) executeJob(getAllJobs());
 	}
 	
 	/**
@@ -53,9 +55,9 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends 
 	 * @return The result of evaluating the job.
 	 */
 	@SuppressWarnings("unchecked")
-	default Object executeJobImpl(Object job, boolean isInLoop) throws EolRuntimeException {
+	default Object executeJob(Object job) throws EolRuntimeException {
 		if (job instanceof JobBatch) {
-			return executeJobImpl(((JobBatch) job).split(getAllJobs()), isInLoop);
+			return executeJob(((JobBatch) job).split(getAllJobs()));
 		}
 		else if (job instanceof RuleAtom) {
 			return ((RuleAtom<?>) job).execute(getContext());
@@ -64,40 +66,38 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends 
 			IErlContextParallel context = getContext();
 			final int colSize = job instanceof Collection ? ((Collection<?>) job).size() : 256;
 			
-			if (isInLoop) {
-				final Collection<Object> results = new ArrayDeque<>(colSize);
-					
+			if (context.isParallelisationLegal()) {
+				final Collection<Object> results = new ArrayList<>(colSize);
 				for (Object next : (Iterable<?>) job) {
-					results.add(executeJobImpl(next, isInLoop));
+					results.add(executeJob(next));
 				}
-				
 				return results;
 			}
 			else {
-				assert context.isParallelisationLegal();
-				Collection<Callable<Object>> jobs = new ArrayDeque<>(colSize);
-				
+				Collection<Callable<Object>> jobs = new ArrayList<>(colSize);
 				for (Object next : (Iterable<?>) job) {
 					jobs.add(next instanceof Callable ?
 						(Callable<Object>) next :
-						() -> executeJobImpl(next, true)
+						() -> executeJob(next)
 					);
 				}
-				
 				return context.executeParallelTyped(jobs);
 			}
 		}
-		else if (job instanceof Iterator) {
-			Iterable<?> iter = () -> (Iterator<Object>) job;
-			return executeJobImpl(iter, isInLoop);
+		else if (job instanceof Stream) {
+			Stream<?> stream = (Stream<?>) job;
+			boolean finite = stream.spliterator().hasCharacteristics(Spliterator.SIZED);
+			return executeJob(finite ? stream.collect(Collectors.toList()) : stream.iterator());
 		}
 		else if (job instanceof BaseStream) {
-			return executeJobImpl(((BaseStream<?,?>)job).iterator(), isInLoop);
+			return executeJob(((BaseStream<?,?>)job).iterator());
+		}
+		else if (job instanceof Iterator) {
+			Iterable<?> iter = () -> (Iterator<Object>) job;
+			return executeJob(iter);
 		}
 		else if (job instanceof Spliterator) {
-			return executeJobImpl(StreamSupport.stream(
-				(Spliterator<?>) job, getContext().isParallelisationLegal()), isInLoop
-			);
+			return executeJob(StreamSupport.stream((Spliterator<?>) job, getContext().isParallelisationLegal()));
 		}
 		else {
 			throw new IllegalArgumentException("Received unexpected object of type "+job.getClass().getName());

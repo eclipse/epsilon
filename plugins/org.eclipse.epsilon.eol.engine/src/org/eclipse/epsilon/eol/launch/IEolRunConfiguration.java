@@ -18,6 +18,7 @@ import static org.eclipse.epsilon.common.util.profiling.BenchmarkUtils.profileEx
 import org.eclipse.epsilon.eol.exceptions.EolParseException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -103,7 +104,15 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 			for (Map.Entry<IModel, StringProperties> modelAndProp : modelsAndProperties.entrySet()) {
 				IModel model = modelAndProp.getKey();
 				if (!LOADED_MODELS.contains(model)) {
-					if (model instanceof CachedModel && !((CachedModel<?>)model).isLoaded()) {
+					boolean shouldLoad = true;
+					if (model instanceof CachedModel) {
+						CachedModel<?> cModel = (CachedModel<?>) model;
+						if (module.getContext() instanceof IEolContextParallel) {
+							cModel.setConcurrent(true);
+						}
+						shouldLoad = !cModel.isLoaded();
+					}
+					if (shouldLoad) {
 						StringProperties modelProperties = modelAndProp.getValue();
 						if (modelProperties != null) {
 							model.load(modelProperties); 
