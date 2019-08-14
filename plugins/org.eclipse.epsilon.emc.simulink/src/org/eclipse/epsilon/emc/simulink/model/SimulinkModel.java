@@ -282,6 +282,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 		System.out.println(model.getAllOfType("Gain"));
 	}
 
+	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException { 
 		super.load(properties, resolver);
 		String workingDirPath = properties.getProperty(SimulinkModel.PROPERTY_WORKING_DIR);

@@ -15,7 +15,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
 import org.eclipse.epsilon.emc.simulink.exception.EpsilonSimulinkInternalException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
@@ -93,11 +92,11 @@ public class MatlabEngine {
 	}
 	
 	public MatlabEngine() throws Exception  {
-		if (engine_class == null) throw new InternalError("Engine Class not yet set");
-		try{
+		if (engine_class == null) throw new IllegalStateException("Engine Class not yet set");
+		try {
 			engine = engine_class.getMethod(CONNECT_MATLAB_METHOD).invoke(null);
 		} catch (InvocationTargetException e) {
-			try{
+			try {
 				engine = engine_class.getMethod(START_MATLAB_METHOD).invoke(null);
 			} catch (InvocationTargetException ex) {
 				throw new MatlabException(e);
@@ -161,12 +160,12 @@ public class MatlabEngine {
 		}
 	}
 	
-	protected Object processInputObject(Object o){
+	protected Object processInputObject(Object o) {
 		return MatlabEngineUtil.formatForMatlabEngine(o);
 	}
 	
-	protected Object[] processInputObject(Object[] objects){
-		return Arrays.asList(objects).stream().map(o -> processInputObject(o)).collect(Collectors.toList()).toArray(new Object[0]);
+	protected Object[] processInputObject(Object[] objects) {
+		return Arrays.stream(objects).map(this::processInputObject).toArray();
 	}
 	
 	/** CLASS METHODS */

@@ -36,8 +36,8 @@ public class MatlabEnginePool {
 	
 	private MatlabEnginePool(String libraryPath, String engineJarPath) throws MatlabRuntimeException {
 
-		this.libraryPath = libraryPath;
-		this.engineJarPath = engineJarPath;
+		MatlabEnginePool.libraryPath = libraryPath;
+		MatlabEnginePool.engineJarPath = engineJarPath;
 
 		try {
 			final String SEP = System.getProperty("path.separator");
@@ -106,8 +106,8 @@ public class MatlabEnginePool {
 		MatlabEngine matlabEngine = pool.getMatlabEngine();
 		System.out.println("One Engine");
 		System.out.println(matlabEngine.isDisconnected());
-		matlabEngine.startMatlab();
-		String[] findMatlab = matlabEngine.findMatlab();
+		MatlabEngine.startMatlab();
+		String[] findMatlab = MatlabEngine.findMatlab();
 		System.out.println(Arrays.toString(findMatlab));
 		//System.out.println(matlabEngine.connectMatlab(findMatlab[0]));
 		pool.getMatlabEngine();
