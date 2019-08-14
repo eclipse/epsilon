@@ -29,8 +29,9 @@ public class EquivalentsOperation extends SimpleOperation {
 		if (source == null) return null;
 		
 		List<String> rules = null;
-		if (parameters.size() > 0) {
-			rules = new ArrayList<>();
+		int paramsSize = parameters.size();
+		if (paramsSize > 0) {
+			rules = new ArrayList<>(paramsSize);
 			for (Object parameter : parameters) {
 				rules.add(StringUtil.toString(parameter));
 			}

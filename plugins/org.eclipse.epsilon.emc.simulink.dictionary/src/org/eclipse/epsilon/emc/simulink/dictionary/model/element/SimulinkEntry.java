@@ -77,7 +77,7 @@ public class SimulinkEntry extends SimulinkModelElement implements ISimulinkDict
 		}
 	}
 
-	protected Map<String, Object> properties = new HashMap<String, Object>();
+	protected Map<String, Object> properties = new HashMap<>();
 
 	@Override
 	public void setProperty(String property, Object value) throws EolRuntimeException {
@@ -142,11 +142,6 @@ public class SimulinkEntry extends SimulinkModelElement implements ISimulinkDict
 	@Override
 	public String getType() {
 		return "Entry";
-	}
-
-	@Override
-	public String getPath() {
-		throw new IllegalAccessError("Entry elements don't have a type");
 	}
 
 	@Override

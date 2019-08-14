@@ -26,7 +26,7 @@ public class SimulinkDataType extends SimulinkModelElement implements ISimulinkD
 	
 	protected MatlabHandleElement dataType;
 	protected String type;
-	protected Map<String, Object> properties = new HashMap<String, Object>();
+	protected Map<String, Object> properties = new HashMap<>();
 
 	// Create a new entry
 	public SimulinkDataType(SimulinkDictionaryModel model, MatlabEngine engine, String type) {
@@ -84,12 +84,7 @@ public class SimulinkDataType extends SimulinkModelElement implements ISimulinkD
 	public String getType() {
 		return type;
 	}
-
-	@Override
-	public String getPath() {
-		throw new IllegalAccessError("Entry elements don't have a type");
-	}
-
+	
 	@Override
 	public Object getHandle() {
 		return dataType.getHandle();

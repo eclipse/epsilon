@@ -38,7 +38,7 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 				new IllegalStateException("Unhandled primitive type: " + getPrimitive().getClass());
 			}
 		} else {
-			this.primitive = new ArrayList<P>();
+			this.primitive = new ArrayList<>();
 		}
 		this.manager = manager;
 	}
@@ -213,7 +213,6 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 	public Object[] toArray() {
 		return getPrimitive().stream()
 				.map(e -> getManager().construct(e))
-				.collect(Collectors.toList())
 				.toArray();
 	}
 	
@@ -221,8 +220,7 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 	public <T> T[] toArray(T[] a) {
 		return getPrimitive().stream()
 				.map(e -> getManager().construct(e))
-				.collect(Collectors.toList())
-				.toArray(a);
+				.toArray(i -> a);
 	}
 	
 	public M getManager() {

@@ -11,11 +11,9 @@ package org.eclipse.epsilon.emc.simulink.types;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-
 import org.eclipse.epsilon.common.util.ReflectionUtil;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.util.ReflectionLocalUtil;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class Complex extends AbstractType {

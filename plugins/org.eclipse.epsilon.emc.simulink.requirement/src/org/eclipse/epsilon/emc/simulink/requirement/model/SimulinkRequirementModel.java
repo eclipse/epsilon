@@ -13,7 +13,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
@@ -33,7 +32,6 @@ import org.eclipse.epsilon.emc.simulink.requirement.util.collection.SimulinkRefe
 import org.eclipse.epsilon.emc.simulink.requirement.util.collection.SimulinkRequirementCollection;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -126,11 +124,6 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 	@Override
 	public String getType() {
 		return "RequirementSet";
-	}
-
-	@Override
-	public String getPath() {
-		throw new IllegalAccessError("RequirementSet element does not have a path");
 	}
 
 	@Override

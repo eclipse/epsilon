@@ -271,11 +271,6 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 	}
 
 	@Override
-	public String getPath() {
-		return null;
-	}
-
-	@Override
 	public MatlabHandleElement getHandle() {
 		return dictionaryHandle;
 	}

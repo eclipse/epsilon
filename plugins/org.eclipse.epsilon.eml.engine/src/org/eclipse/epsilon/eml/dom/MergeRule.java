@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eml.dom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import org.eclipse.epsilon.common.module.IModule;
@@ -93,7 +94,7 @@ public class MergeRule extends ExtensibleNamedRule {
 	}
 	
 
-	public Collection<?> merge(Match match, Collection<Object> targets, IEmlContext context) throws EolRuntimeException{
+	public Collection<?> merge(Match match, Collection<Object> targets, IEmlContext context) throws EolRuntimeException {
 		
 		MergeTrace mergeTrace =(context).getMergeTrace();
 		Merges merges = mergeTrace.getMerges(match, this);
@@ -114,7 +115,7 @@ public class MergeRule extends ExtensibleNamedRule {
 	
 	public Collection<?> merge(Match match, IEmlContext context) throws EolRuntimeException{
 		
-		MergeTrace mergeTrace =(context).getMergeTrace();
+		MergeTrace mergeTrace = context.getMergeTrace();
 		
 		if (hasMerged(match)) {
 			return mergeTrace.getMerges(match, this).getTargets();
@@ -124,17 +125,13 @@ public class MergeRule extends ExtensibleNamedRule {
 		}
 		
 		Collection<Object> targets = CollectionUtil.createDefaultList();
-
-		ListIterator<Parameter> li = targetParameters.listIterator();
 		
-		while (li.hasNext()) {
-
-			Parameter targetParameter = (Parameter) li.next();
+		for (Parameter targetParameter : targetParameters) {
 			EolType targetParameterType = (EolType) targetParameter.getType(context);
 			targets.add(targetParameterType.createInstance());
 		}
 
-		mergeTrace.add(match,targets,this);
+		mergeTrace.add(match, targets, this);
 	
 		executeSuperRulesAndBody(match, targets, context);
 		
@@ -160,8 +157,7 @@ public class MergeRule extends ExtensibleNamedRule {
 		return str;
 	}
 	
-	public void executeSuperRulesAndBody(Match match, Collection<Object> targets, IEmlContext context) throws EolRuntimeException{
-		
+	public void executeSuperRulesAndBody(Match match, Collection<Object> targets, IEmlContext context) throws EolRuntimeException {		
 		// Execute the super rules
 		for (ExtensibleNamedRule superRule : superRules){
 			((MergeRule) superRule).merge(match, targets, context);
@@ -176,15 +172,15 @@ public class MergeRule extends ExtensibleNamedRule {
 			Variable.createReadOnlyVariable("self", this)
 		);
 		
+		assert targets.size() == targetParameters.size();
+		Iterator<?> targetsIter = targets.iterator();
 		
-		for (int i = 0; i < targetParameters.size(); i++) {
-			Parameter targetParameter = (Parameter) targetParameters.get(i);
-			scope.put(new Variable(targetParameter.getName(), CollectionUtil.asList(targets).get(i),targetParameter.getType(context),true));
+		for (Parameter targetParameter : targetParameters) {
+			scope.put(new Variable(targetParameter.getName(), targetsIter.next(), targetParameter.getType(context), true));
 		}
 		context.getExecutorFactory().execute(bodyBlock, context);
 		
-		scope.leaveLocal(this);
-		
+		scope.leaveLocal(this);	
 	}
 
 	@Override

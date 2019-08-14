@@ -49,11 +49,6 @@ public class SimulinkSection extends SimulinkModelElement implements ISimulinkDi
 	}
 
 	@Override
-	public String getPath() {
-		return null;
-	}
-
-	@Override
 	public Object getHandle() {
 		return section.getHandle();
 	}

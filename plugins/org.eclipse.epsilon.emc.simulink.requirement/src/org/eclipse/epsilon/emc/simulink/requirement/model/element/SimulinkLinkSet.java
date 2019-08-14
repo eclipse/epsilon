@@ -72,12 +72,7 @@ public class SimulinkLinkSet extends SimulinkModelElement implements ISimulinkRe
 	public boolean deleteElementInModel() throws EolRuntimeException {
 		throw new IllegalAccessError("Cannot remove LinkSet");
 	}
-
-	@Override
-	public String getPath() {
-		return null; //FIXME
-	}
-
+	
 	@Override
 	public Object getHandle() {
 		return linkSetHandle.getHandle();

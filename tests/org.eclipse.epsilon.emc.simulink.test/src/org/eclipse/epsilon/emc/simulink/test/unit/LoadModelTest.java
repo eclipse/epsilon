@@ -65,7 +65,7 @@ public class LoadModelTest {
 	
 	private static Iterable<Object[]> getData() {
 		if (data== null) {
-			ArrayList<Object[]> list = new ArrayList<Object[]>();
+			ArrayList<Object[]> list = new ArrayList<>();
 			List<Boolean> bools = Arrays.asList(new Boolean[] {false, true});
 			List<String> files = Arrays.asList(new String[] {feedbackController, empty, notExisting});
 			List<String> workdirs = Arrays.asList(new String[] {"", RESOURCES, WITH_SPACES});

@@ -181,12 +181,12 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	protected ISimulinkModelElement createInstanceInModel(String type)
 			throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		switch (type) {
-		case "Struct":
-			return new Struct(getEngine());
-		case "Complex":
-			return new Complex(getEngine());
-		case "CellStr":
-			return new CellStr(getEngine());	
+			case "Struct":
+				return new Struct(getEngine());
+			case "Complex":
+				return new Complex(getEngine());
+			case "CellStr":
+				return new CellStr(getEngine());	
 		}
 		throw new EolModelElementTypeNotFoundException(this.getName(), type);
 	}
@@ -201,8 +201,6 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 			libraryPath = properties.getProperty(PROPERTY_LIBRARY_PATH);
 		if (properties.hasProperty(PROPERTY_ENGINE_JAR_PATH))
 			engineJarPath = properties.getProperty(PROPERTY_ENGINE_JAR_PATH);
-
-		
 	}
 
 }

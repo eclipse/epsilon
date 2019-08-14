@@ -11,7 +11,6 @@ package org.eclipse.epsilon.emc.simulink.requirement.model.element;
 
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
@@ -20,7 +19,6 @@ import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementModel;
 import org.eclipse.epsilon.emc.simulink.requirement.util.collection.SimulinkRequirementCollection;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class SimulinkRequirement extends SimulinkModelElement implements ISimulinkRequirementModelElement{
@@ -80,11 +78,6 @@ public class SimulinkRequirement extends SimulinkModelElement implements ISimuli
 	@Override
 	public boolean deleteElementInModel() throws EolRuntimeException {
 		throw new EolRuntimeException("Can't remove requirements");
-	}
-
-	@Override
-	public String getPath() {
-		throw new IllegalAccessError("No path");
 	}
 
 	@Override

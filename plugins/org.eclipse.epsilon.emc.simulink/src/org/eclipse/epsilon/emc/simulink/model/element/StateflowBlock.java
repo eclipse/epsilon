@@ -35,7 +35,7 @@ public class StateflowBlock extends SimulinkModelElement {
 	/** FIELDS */
 
 	private Double id;
-	private HashMap<String, Object> properties = new HashMap<String, Object>();
+	private HashMap<String, Object> properties = new HashMap<>();
 
 	/** CONSTRUCTORS */
 

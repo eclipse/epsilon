@@ -30,9 +30,6 @@ public interface ISimulinkModelElement extends IModelElement {
 	public boolean deleteElementInModel() throws EolRuntimeException;
 
 	public String getType(); 
-	
-	// FIXME Remove from interface
-	public String getPath();
 
 	Object getHandle();
 

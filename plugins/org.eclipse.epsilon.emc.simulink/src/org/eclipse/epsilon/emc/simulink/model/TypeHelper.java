@@ -30,7 +30,7 @@ public class TypeHelper {
 	private static final String FIND_KIND	= FIND + ", 'Type', '%s');";
 	private static final String FIND_TYPE 	= FIND + ", '%sType', '?');";
 
-	private static Map<String, String> map = new HashMap<String, String>();
+	private static Map<String, String> map = new HashMap<>();
 
 	public static Kind getKind(String type) {
 		if (type.toLowerCase().startsWith(Kind.STATEFLOW.name().toLowerCase())) {

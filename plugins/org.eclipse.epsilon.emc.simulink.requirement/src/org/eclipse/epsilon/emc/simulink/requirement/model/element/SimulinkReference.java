@@ -63,11 +63,6 @@ public class SimulinkReference extends SimulinkModelElement implements ISimulink
 	}
 
 	@Override
-	public String getPath() {
-		return null; //FIXME
-	}
-
-	@Override
 	public MatlabHandleElement getHandle() {
 		return referenceHandle;
 	}

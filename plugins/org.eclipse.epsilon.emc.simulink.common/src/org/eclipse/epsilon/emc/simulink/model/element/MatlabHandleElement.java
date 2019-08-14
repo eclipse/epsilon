@@ -82,10 +82,4 @@ public class MatlabHandleElement extends SimulinkModelElement {
 		return null;
 	}
 
-	@Override
-	public String getPath() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -58,7 +58,7 @@ public class SimulinkUtil {
 	}
 	
 	private static String handleMethod(Object objHandle, String methodName, Object[] parameters) {
-		List<Object> list = new ArrayList<Object>();
+		List<Object> list = new ArrayList<>();
 		list.add("handle");
 		list.addAll(Arrays.asList(parameters));
 		return "handle = " + objHandle + "; " + handleMethod(methodName, list.toArray());
@@ -75,7 +75,7 @@ public class SimulinkUtil {
 	}
 	
 	private static String handleMethodWithResult(Object objHandle, String methodName, Object[] parameters) {
-		List<Object> list = new ArrayList<Object>();
+		List<Object> list = new ArrayList<>();
 		list.add("handle");
 		list.addAll(Arrays.asList(parameters));
 		return "handle = " + objHandle + "; " + handleMethodWithResult(methodName, list.toArray());

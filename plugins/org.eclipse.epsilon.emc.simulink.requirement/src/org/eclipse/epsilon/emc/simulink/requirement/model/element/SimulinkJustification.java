@@ -66,11 +66,6 @@ public class SimulinkJustification extends SimulinkModelElement implements ISimu
 	}
 
 	@Override
-	public String getPath() {
-		throw new IllegalAccessError("No path");
-	}
-
-	@Override
 	public MatlabHandleElement getHandle() {
 		return justificationHandle;
 	}

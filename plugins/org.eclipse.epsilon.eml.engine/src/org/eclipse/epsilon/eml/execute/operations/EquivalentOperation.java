@@ -29,8 +29,9 @@ public class EquivalentOperation extends SimpleOperation {
 		if (source == null) return null;
 		
 		List<String> rules = null;
-		if (parameters.size() > 0) {
-			rules = new ArrayList<>();
+		int paramsSize = parameters.size();
+		if (paramsSize > 0) {
+			rules = new ArrayList<>(paramsSize);
 			for (Object parameter : parameters) {
 				rules.add(StringUtil.toString(parameter));
 			}
@@ -39,7 +40,7 @@ public class EquivalentOperation extends SimpleOperation {
 		IEmlContext emlContext = (IEmlContext) context;
 		IMergingStrategy strategy = emlContext.getMergingStrategy();
 		
-		if (source instanceof Collection){
+		if (source instanceof Collection) {
 			return strategy.getEquivalent((Collection<?>) source, emlContext, rules);
 		} else {
 			return strategy.getEquivalent(source, emlContext, rules);

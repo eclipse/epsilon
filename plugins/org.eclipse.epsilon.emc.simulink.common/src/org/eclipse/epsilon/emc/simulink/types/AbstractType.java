@@ -8,7 +8,7 @@ import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
 
-public abstract class AbstractType implements ISimulinkModelElement{
+public abstract class AbstractType implements ISimulinkModelElement {
 
 	protected Object object;
 	protected MatlabEngine engine;
@@ -44,11 +44,6 @@ public abstract class AbstractType implements ISimulinkModelElement{
 	@Override
 	public String getType() {
 		return getClass().getName();
-	}
-
-	@Override
-	public String getPath() {
-		return null;
 	}
 
 	@Override

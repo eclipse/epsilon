@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.emc.simulink.util;
 
 import java.util.ArrayList;
-
+import java.util.Collection;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.model.IGenericSimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.MatlabHandleElement;
@@ -24,13 +24,13 @@ public class MatlabHandleUtil {
 		} else if (HandleObject.is(handleObject)) {
 			return new MatlabHandleElement(owningModel, engine, new HandleObject(handleObject));
 		}		
-		else if (handleObject instanceof ArrayList<?>) {
-			ArrayList<Object> handleObjects = new ArrayList<Object>();
-			for (Object o : (ArrayList<?>) handleObject) {
+		else if (handleObject instanceof Collection) {
+			ArrayList<Object> handleObjects = new ArrayList<>(((Collection<?>) handleObject).size());
+			for (Object o : (Iterable<?>) handleObject) {
 				handleObjects.add(MatlabHandleUtil.convert(o, engine, owningModel));
 			}
 			return handleObjects;
-		} 
-		return handleObject;
+		}
+		else return handleObject;
 	}
 }

@@ -11,13 +11,12 @@ package org.eclipse.epsilon.emc.simulink.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
-import org.eclipse.epsilon.emc.simulink.model.element.MatlabHandleElement;
 import org.eclipse.epsilon.emc.simulink.types.CellStr;
 import org.eclipse.epsilon.emc.simulink.types.Complex;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
@@ -26,7 +25,7 @@ import org.eclipse.epsilon.emc.simulink.types.Struct;
 public class MatlabEngineUtil {
 
 	public static List<Double> matlabArrayToList(double[] value) {
-		ArrayList<Double> result = new ArrayList<Double>();
+		ArrayList<Double> result = new ArrayList<>(value.length);
 		for (int i = 0; i < value.length; i++) {
 			result.add(value[i]);
 		}
@@ -34,7 +33,7 @@ public class MatlabEngineUtil {
 	}
 
 	public static List<Long> matlabArrayToList(long[] value) {
-		ArrayList<Long> result = new ArrayList<Long>();
+		ArrayList<Long> result = new ArrayList<>(value.length);
 		for (int i = 0; i < value.length; i++) {
 			result.add(value[i]);
 		}
@@ -42,7 +41,7 @@ public class MatlabEngineUtil {
 	}
 
 	public static List<Integer> matlabArrayToList(int[] value) {
-		ArrayList<Integer> result = new ArrayList<Integer>();
+		ArrayList<Integer> result = new ArrayList<>(value.length);
 		for (int i = 0; i < value.length; i++) {
 			result.add(value[i]);
 		}
@@ -50,7 +49,7 @@ public class MatlabEngineUtil {
 	}
 
 	public static List<Float> matlabArrayToList(float[] value) {
-		ArrayList<Float> result = new ArrayList<Float>();
+		ArrayList<Float> result = new ArrayList<>(value.length);
 		for (int i = 0; i < value.length; i++) {
 			result.add(value[i]);
 		}
@@ -58,7 +57,7 @@ public class MatlabEngineUtil {
 	}
 
 	public static List<Boolean> matlabArrayToList(boolean[] value) {
-		ArrayList<Boolean> result = new ArrayList<Boolean>();
+		ArrayList<Boolean> result = new ArrayList<>(value.length);
 		for (int i = 0; i < value.length; i++) {
 			result.add(value[i]);
 		}
@@ -66,7 +65,7 @@ public class MatlabEngineUtil {
 	}
 
 	public static List<Byte> matlabArrayToList(byte[] value) {
-		ArrayList<Byte> result = new ArrayList<Byte>();
+		ArrayList<Byte> result = new ArrayList<>(value.length);
 		for (int i = 0; i < value.length; i++) {
 			result.add(value[i]);
 		}
@@ -74,7 +73,7 @@ public class MatlabEngineUtil {
 	}
 
 	public static List<Short> matlabArrayToList(short[] value) {
-		ArrayList<Short> result = new ArrayList<Short>();
+		ArrayList<Short> result = new ArrayList<>(value.length);
 		for (int i = 0; i < value.length; i++) {
 			result.add(value[i]);
 		}
@@ -84,7 +83,7 @@ public class MatlabEngineUtil {
 	@SuppressWarnings("unchecked")
 	public static <T> List<T> matlabArrayToList(Object[] value) {
 		T[] newValue = (T[]) value;
-		ArrayList<T> result = new ArrayList<T>();
+		ArrayList<T> result = new ArrayList<>(value.length);
 		for (int i = 0; i < newValue.length; i++) {
 			result.add(newValue[i]);
 		}
@@ -101,57 +100,40 @@ public class MatlabEngineUtil {
 			return null;
 		if (value instanceof ISimulinkModelElement)
 			return ((ISimulinkModelElement) value).getHandle();
-		if (value instanceof MatlabHandleElement)
-			return ((MatlabHandleElement) value).getHandle();
 		if (value instanceof HandleObject)
 			return ((HandleObject)value).getHandleObject();
-		if (value instanceof List<?>) {
-			if (((List<?>) value).get(0) instanceof Byte)
-				return ((List<?>) value).toArray(new Byte[0]);
-			if (((List<?>) value).get(0) instanceof Short)
-				return ((List<?>) value).toArray(new Short[0]); 
-			if (((List<?>) value).get(0) instanceof Integer)
-				return ((List<?>) value).toArray(new Integer[0]); 
-			if (((List<?>) value).get(0) instanceof Long)
-				return ((List<?>) value).toArray(new Long[0]); 
-			if (((List<?>) value).get(0) instanceof Long)
-				return ((List<?>) value).toArray(new Long[0]);
-			if (((List<?>) value).get(0) instanceof Double)
-				return ((List<?>) value).toArray(new Double[0]); 
-			if (((List<?>) value).get(0) instanceof Boolean)
-				return ((List<?>) value).toArray(new Boolean[0]);
-			if (((List<?>) value).get(0) instanceof String)
-				return ((List<?>) value).toArray(new String[0]);
-			
-			if (((List<?>) value).get(0) instanceof HandleObject)
-				return ((List<?>) value).stream()
-						.map(c -> ((HandleObject)c).getHandleObject())
-						.collect(Collectors.toList())
-						.toArray(new Object[0]);
-			if (((List<?>) value).get(0) instanceof Complex)
-				return ((List<?>) value).stream()
-						.map(c -> ((Complex)c).getHandle())
-						.collect(Collectors.toList())
-						.toArray(new Object[0]);
-			if (((List<?>) value).get(0) instanceof Struct)
-				return ((List<?>) value).stream()
-						.map(c -> ((Struct)c).getHandle())
-						.collect(Collectors.toList())
-						.toArray(new Object[0]);
-			if (((List<?>) value).get(0) instanceof CellStr)
-				return ((List<?>) value).stream()
-						.map(c -> ((CellStr)c).getHandle())
-						.collect(Collectors.toList())
-						.toArray(new Object[0]);
-		}
 		if (value instanceof String) 
 			return ((String) value).toCharArray();
-		if (value instanceof Struct)
-			return ((Struct) value).getHandle();
-		if (value instanceof Complex)
-			return ((Complex) value).getHandle();
-		if (value instanceof CellStr)
-			return ((CellStr) value).getHandle();
+		if (value instanceof Collection) {
+			Collection<?> collection = (Collection<?>) value;
+			int size = collection.size();
+			Object first = collection.iterator().next();
+			if (first instanceof Byte)
+				return collection.toArray(new Byte[size]);
+			if (first instanceof Short)
+				return collection.toArray(new Short[size]); 
+			if (first instanceof Integer)
+				return collection.toArray(new Integer[size]); 
+			if (first instanceof Long)
+				return collection.toArray(new Long[size]); 
+			if (first instanceof Long)
+				return collection.toArray(new Long[size]);
+			if (first instanceof Double)
+				return collection.toArray(new Double[size]); 
+			if (first instanceof Boolean)
+				return collection.toArray(new Boolean[size]);
+			if (first instanceof String)
+				return collection.toArray(new String[size]);
+			
+			if (first instanceof HandleObject)
+				return collection.stream()
+						.map(c -> ((HandleObject)c).getHandleObject())
+						.toArray();
+			if (first instanceof ISimulinkModelElement)
+				return collection.stream()
+						.map(s -> ((ISimulinkModelElement) s).getHandle())
+						.toArray();
+		}
 		return value;
 	}
 	
