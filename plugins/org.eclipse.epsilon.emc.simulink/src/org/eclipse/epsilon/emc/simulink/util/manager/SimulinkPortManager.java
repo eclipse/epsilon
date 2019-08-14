@@ -19,6 +19,7 @@ public class SimulinkPortManager extends AbstractManager<SimulinkPort, Double> {
 		super(model);
 	}
 	
+	@Override
 	public SimulinkPort construct(Double id) {
 		try {
 			return new SimulinkPort(getModel(), getEngine(), id);
@@ -28,6 +29,7 @@ public class SimulinkPortManager extends AbstractManager<SimulinkPort, Double> {
 		}
 	}
 	
+	@Override
 	public Double getId(SimulinkPort from) {
 		return (Double) from.getHandle();
 	}	

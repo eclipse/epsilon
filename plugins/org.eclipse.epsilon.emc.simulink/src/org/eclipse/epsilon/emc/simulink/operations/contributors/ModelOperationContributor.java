@@ -41,9 +41,9 @@ public class ModelOperationContributor extends OperationContributor {
 		if (overrideContextOperationContributorRegistry == false 
 				&& context.getOperationFactory().getOperationFor(name) == null) {
 			if (target instanceof StateflowBlock) {
-				objectMethod = (ObjectMethod) new StateflowObjectMethod(engine, target, name);
+				objectMethod = new StateflowObjectMethod(engine, target, name);
 			} else if (target instanceof SimulinkElement || target instanceof SimulinkModel) {
-				objectMethod = (ObjectMethod) new SimulinkObjectMethod(engine, target, name);
+				objectMethod = new SimulinkObjectMethod(engine, target, name);
 			}
 		}
 		if (objectMethod == null) { 

@@ -17,7 +17,6 @@ import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkPortCollection;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 @SuppressWarnings("unused")

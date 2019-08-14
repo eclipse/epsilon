@@ -81,6 +81,7 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 		super(model, engine);
 	}
 
+	@Override
 	public Object getProperty(String property) throws EolRuntimeException {
 		try {
 			return engine.evalWithSetupAndResult(HANDLE, GET_HANDLE_PROPERTY, getHandle(), property);
@@ -89,6 +90,7 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 		}
 	}
 
+	@Override
 	public void setProperty(String property, Object value) throws EolRuntimeException {
 		try {
 			String escaped = "?";

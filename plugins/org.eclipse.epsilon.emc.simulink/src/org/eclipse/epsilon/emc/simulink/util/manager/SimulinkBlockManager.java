@@ -19,6 +19,7 @@ public class SimulinkBlockManager extends AbstractManager<SimulinkBlock, Double>
  		super(model);
 	}
 	
+	@Override
 	public SimulinkBlock construct(Double id) {
 		try {
 			return new SimulinkBlock(getModel(), getEngine(), id);
@@ -28,6 +29,7 @@ public class SimulinkBlockManager extends AbstractManager<SimulinkBlock, Double>
 		}
 	}
 	
+	@Override
 	public Double getId(SimulinkBlock from) {
 		return (Double) from.getHandle();
 	}

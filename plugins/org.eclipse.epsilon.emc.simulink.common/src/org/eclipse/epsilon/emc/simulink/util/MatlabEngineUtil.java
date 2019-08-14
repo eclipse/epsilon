@@ -158,16 +158,16 @@ public class MatlabEngineUtil {
 			return MatlabEngineUtil.matlabArrayToList((boolean[]) value);
 		if (value instanceof String[])
 			return MatlabEngineUtil.matlabArrayToList((String[]) value);
-		if (value instanceof Object[] ) {
+		if (value instanceof Object[]) {
 			List<Object> l = Arrays.asList((Object[])value);
-			if (l.stream().allMatch(e->HandleObject.is(e))) {
-				 return l.stream().map(e -> new HandleObject(e)).collect(Collectors.toList());
-			} else if (l.stream().allMatch(e->Complex.is(e))) {
-				return l.stream().map(e -> new Complex(e)).collect(Collectors.toList());
-			} else if (l.stream().allMatch(e->Struct.is(e))) {
-				return l.stream().map(e -> new Struct(e)).collect(Collectors.toList());
-			} else if (l.stream().allMatch(e->CellStr.is(e))) {
-				return l.stream().map(e -> new CellStr(e)).collect(Collectors.toList());
+			if (l.stream().allMatch(HandleObject::is)) {
+				 return l.stream().map(HandleObject::new).collect(Collectors.toList());
+			} else if (l.stream().allMatch(Complex::is)) {
+				return l.stream().map(Complex::new).collect(Collectors.toList());
+			} else if (l.stream().allMatch(Struct::is)) {
+				return l.stream().map(Struct::new).collect(Collectors.toList());
+			} else if (l.stream().allMatch(CellStr::is)) {
+				return l.stream().map(CellStr::new).collect(Collectors.toList());
 			}
 		}
 		if (value instanceof Character) 

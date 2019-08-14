@@ -19,6 +19,7 @@ public class StateflowBlockManager extends AbstractManager<StateflowBlock, Doubl
 		super(model);
 	}
 	
+	@Override
 	public StateflowBlock construct(Double id) {
 		try {
 			return new StateflowBlock(getModel(), getEngine(), id);
@@ -28,6 +29,7 @@ public class StateflowBlockManager extends AbstractManager<StateflowBlock, Doubl
 		}
 	}
 	
+	@Override
 	public Double getId(StateflowBlock from) {
 		return from.getId();
 	}	

@@ -19,6 +19,7 @@ public class SimulinkLineManager extends AbstractManager<SimulinkLine, Double> {
 		super(model);
 	}
 	
+	@Override
 	public SimulinkLine construct(Double id) {
 		try {
 			return new SimulinkLine(getModel(), getEngine(), id);
@@ -28,6 +29,7 @@ public class SimulinkLineManager extends AbstractManager<SimulinkLine, Double> {
 		}
 	}
 	
+	@Override
 	public Double getId(SimulinkLine from) {
 		return (Double) from.getHandle();
 	}	

@@ -262,7 +262,7 @@ public class StateflowBlock extends SimulinkModelElement {
 	public StateflowBlockCollection getChildren() {
 		try {
 			String handle = StateflowUtil.getBlockHandle(this);
-			Object children = (Object) this.engine.evalWithSetupAndResult("list = ?.find('-depth',1); list = setdiff(list, ?);", "get(list,'Id');", handle, handle);
+			Object children = this.engine.evalWithSetupAndResult("list = ?.find('-depth',1); list = setdiff(list, ?);", "get(list,'Id');", handle, handle);
 			return new StateflowBlockCollection(children, ((SimulinkModel)model));			
 		} catch (MatlabException e) {
 			return new StateflowBlockCollection(null, ((SimulinkModel)model));

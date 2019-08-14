@@ -25,15 +25,16 @@ public class SimulinkElementManager extends AbstractManager<ISimulinkElement, Do
 		super(model);
 	}
 	
+	@Override
 	public ISimulinkElement construct(Double id) {
 		Kind kind = TypeHelper.getKind(getModel(), id);
 		switch (kind) {
 		case BLOCK:
-			return (ISimulinkElement) new SimulinkBlockManager( getModel()).construct(id);
+			return new SimulinkBlockManager( getModel()).construct(id);
 		case LINE:
-			return (ISimulinkElement) new SimulinkLineManager(getModel()).construct(id);
+			return new SimulinkLineManager(getModel()).construct(id);
 		case PORT:
-			return (ISimulinkElement) new SimulinkPortManager(getModel()).construct(id);
+			return new SimulinkPortManager(getModel()).construct(id);
 		case STATEFLOW:
 			return (ISimulinkElement) new StateflowBlockManager(getModel()).construct(id);
 		default:
@@ -41,6 +42,7 @@ public class SimulinkElementManager extends AbstractManager<ISimulinkElement, Do
 		}
 	}
 	
+	@Override
 	public Double getId(ISimulinkElement from) {
 		if (from instanceof StateflowBlock) {
 			return new StateflowBlockManager(getModel()).getId((StateflowBlock) from);
