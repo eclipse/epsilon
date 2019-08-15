@@ -15,22 +15,22 @@ import java.util.List;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.util.manager.Manager;
 
-public abstract class AbstractElementIterator<T, I, M extends Manager<T, I>> implements Iterator<ISimulinkModelElement>{
+public abstract class AbstractElementIterator<T, I, M extends Manager<T, I>> implements Iterator<ISimulinkModelElement> {
 	protected Iterator<I> iterator; 		
 	protected M manager ;
 	
-	public AbstractElementIterator(List<I> primitive, M manager){
+	public AbstractElementIterator(List<I> primitive, M manager) {
 		this.iterator = primitive.iterator();
 		this.manager = manager;
 	}
 
 	@Override
-	public boolean hasNext() {
+	public synchronized boolean hasNext() {
 		return getIterator().hasNext();
 	}
 
 	@Override
-	public ISimulinkModelElement next() {
+	public synchronized ISimulinkModelElement next() {
 		return (ISimulinkModelElement) manager.construct(getIterator().next());
 	}
 	

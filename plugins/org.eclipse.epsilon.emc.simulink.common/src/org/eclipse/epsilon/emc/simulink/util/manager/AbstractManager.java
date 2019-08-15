@@ -9,20 +9,12 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.util.manager;
 
-import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.model.IGenericSimulinkModel;
 
 public abstract class AbstractManager<T, I> implements Manager<T, I>{
 	protected IGenericSimulinkModel model;
 
-	public AbstractManager(IGenericSimulinkModel model){
+	public AbstractManager(IGenericSimulinkModel model) {
 		this.model = model;
 	}	
-
-	
-	@Override
-	public MatlabEngine getEngine() {
-		return this.model.getEngine();
-	}
-	
 }

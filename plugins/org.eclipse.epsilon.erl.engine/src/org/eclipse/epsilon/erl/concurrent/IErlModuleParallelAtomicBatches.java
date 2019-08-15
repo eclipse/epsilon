@@ -67,13 +67,6 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends 
 			final int colSize = job instanceof Collection ? ((Collection<?>) job).size() : 256;
 			
 			if (context.isParallelisationLegal()) {
-				final Collection<Object> results = new ArrayList<>(colSize);
-				for (Object next : (Iterable<?>) job) {
-					results.add(executeJob(next));
-				}
-				return results;
-			}
-			else {
 				Collection<Callable<Object>> jobs = new ArrayList<>(colSize);
 				for (Object next : (Iterable<?>) job) {
 					jobs.add(next instanceof Callable ?
@@ -82,6 +75,13 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends 
 					);
 				}
 				return context.executeParallelTyped(jobs);
+			}
+			else {
+				final Collection<Object> results = new ArrayList<>(colSize);
+				for (Object next : (Iterable<?>) job) {
+					results.add(executeJob(next));
+				}
+				return results;
 			}
 		}
 		else if (job instanceof Stream) {

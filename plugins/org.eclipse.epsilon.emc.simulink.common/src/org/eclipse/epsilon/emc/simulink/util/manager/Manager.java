@@ -12,9 +12,15 @@ package org.eclipse.epsilon.emc.simulink.util.manager;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.model.IGenericSimulinkModel;
 
-public interface Manager<T,I>{
+public interface Manager<T,I> {
+	
 	T construct(I id);
+	
 	I getId(T from);
+	
 	IGenericSimulinkModel getModel();
-	MatlabEngine getEngine();
+	
+	default MatlabEngine getEngine() {
+		return getModel().getEngine();
+	}
 }

@@ -15,7 +15,7 @@ import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
 
 public class SimulinkBlockManager extends AbstractManager<SimulinkBlock, Double> {
 	
-	public SimulinkBlockManager(SimulinkModel model){
+	public SimulinkBlockManager(SimulinkModel model) {
  		super(model);
 	}
 	

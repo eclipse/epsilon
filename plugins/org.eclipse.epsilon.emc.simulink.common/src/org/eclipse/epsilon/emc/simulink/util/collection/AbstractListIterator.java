@@ -16,7 +16,7 @@ import java.util.ListIterator;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.util.manager.Manager;
 
-public class AbstractListIterator<T,I, M extends Manager<T, I>> extends AbstractElementIterator<T, I, M> implements ListIterator<ISimulinkModelElement>{
+public class AbstractListIterator<T,I, M extends Manager<T, I>> extends AbstractElementIterator<T, I, M> implements ListIterator<ISimulinkModelElement> {
 	
 	ListIterator<I> listIterator;
 			
@@ -30,6 +30,7 @@ public class AbstractListIterator<T,I, M extends Manager<T, I>> extends Abstract
 		listIterator = primitive.listIterator(index);
 	}
 	
+	@Override
 	public Iterator<I> getIterator() {
 		return listIterator;
 	}
