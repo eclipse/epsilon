@@ -13,6 +13,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
@@ -43,6 +44,9 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public static final String PROPERTY_MATLAB_PATH = "matlab_path";
 	public static final String PROPERTY_LIBRARY_PATH = "library_path";
 	public static final String PROPERTY_ENGINE_JAR_PATH = "engine_jar_path";
+	public static final String ENV_MATLAB_PATH = ENV_PREFIX + PROPERTY_MATLAB_PATH;
+	public static final String ENV_LIBRARY_PATH = ENV_PREFIX + PROPERTY_LIBRARY_PATH;
+	public static final String ENV_ENGINE_JAR_PATH = ENV_PREFIX + PROPERTY_ENGINE_JAR_PATH;
 		
 	protected File file;
 	protected SimulinkPropertyGetter propertyGetter;
@@ -162,12 +166,24 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		).toAbsolutePath().toString();
 	}
 	
+	protected void setLibraryPathFromEnv() {
+		libraryPath = System.getenv(ENV_LIBRARY_PATH);
+	}
+	
+	protected void setEngineJarPathFromEnv() {
+		engineJarPath = System.getenv(ENV_ENGINE_JAR_PATH);
+	}
+	
+	protected void setMatlabPathFromEnv() {
+		matlabPath = System.getenv(ENV_MATLAB_PATH);
+	}
+	
 	public Object parseMatlabEngineVariable(String variableName) throws MatlabException { 
 		return MatlabEngineUtil.parseMatlabEngineVariable(engine, variableName);
 	}
 	
 	public void statement(String statement) throws EolRuntimeException {
-		try{
+		try {
 			engine.eval(statement);
 		} catch (MatlabException e) {
 			throw new EolRuntimeException(e.getMessage());
@@ -219,6 +235,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
+		
 		String filePath = properties.getProperty(PROPERTY_FILE);
 		if (filePath != null && filePath.trim().length() > 0)
 			file = new File(resolver.resolve(filePath));
@@ -233,16 +250,33 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		if (properties.hasProperty(PROPERTY_ENGINE_JAR_PATH))
 			engineJarPath = properties.getProperty(PROPERTY_ENGINE_JAR_PATH);
 		
-		boolean emptyLibraryPath = libraryPath == null || libraryPath.trim().isEmpty();
-		boolean emptyEngineJarPath = engineJarPath == null || engineJarPath.trim().isEmpty();
+		boolean emptyLibraryPath = FileUtil.isEmptyPath(libraryPath);
+		boolean emptyEngineJarPath = FileUtil.isEmptyPath(engineJarPath);
+		boolean emptyMatlabPath = FileUtil.isEmptyPath(matlabPath);
 		
-		if (matlabPath != null || matlabPath.trim().isEmpty()) {
-			if (emptyLibraryPath)
-				setLibraryPathFromRoot();
-			if (emptyEngineJarPath)
-				setEngineJarPathFromRoot();
+		if (emptyMatlabPath) {
+			setMatlabPathFromEnv();
+			emptyMatlabPath = FileUtil.isEmptyPath(matlabPath);
 		}
-		else if (emptyLibraryPath || emptyEngineJarPath) {
+		if (FileUtil.isEmptyPath(matlabPath) == false) {
+			if (emptyLibraryPath) {
+				setLibraryPathFromRoot();
+				emptyLibraryPath = FileUtil.isEmptyPath(libraryPath);
+			}
+			if (emptyEngineJarPath) {
+				setEngineJarPathFromRoot();
+				emptyEngineJarPath = FileUtil.isEmptyPath(engineJarPath);
+			}
+		}
+		if (emptyLibraryPath) {
+			setLibraryPathFromEnv();
+			emptyLibraryPath = FileUtil.isEmptyPath(libraryPath);
+		}
+		if (emptyEngineJarPath) {
+			setEngineJarPathFromEnv();
+			emptyEngineJarPath = FileUtil.isEmptyPath(engineJarPath);
+		}
+		if (emptyLibraryPath || emptyEngineJarPath) {
 			String errMsg = "Unresolved MATLAB environment variables."
 				+ "Please ensure that '"+PROPERTY_MATLAB_PATH+"' points to a valid MATLAB installation."
 				+ "Alternatively, specify the '",

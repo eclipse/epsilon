@@ -34,6 +34,11 @@ public abstract class Model implements IModel {
 	public static final String PROPERTY_STOREONDISPOSAL = "storeOnDisposal";
 	public static final String PROPERTY_ALIASES = "aliases";
 	
+	/**
+	 * @since 1.6
+	 */
+	protected static final String ENV_PREFIX = "org.eclipse.epsilon.emc.";
+	
 	protected String name;
 	protected List<String> aliases = new ArrayList<>();
 	protected boolean storeOnDisposal = false;
