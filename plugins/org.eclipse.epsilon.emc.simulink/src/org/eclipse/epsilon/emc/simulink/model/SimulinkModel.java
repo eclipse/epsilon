@@ -85,9 +85,6 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	@Override
 	protected void loadModel() throws EolModelLoadingException { 
 		super.loadModel();
-		if (file == null) throw new IllegalStateException(
-			"File cannot be null! Please ensure the '"+PROPERTY_FILE+"' property is set."
-		);
 		
 		try {
 			simulinkOperationContributor = new ModelOperationContributor(engine);

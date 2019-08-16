@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 2008 The University of York.
+* Copyright (c) 2019 The University of York.
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -24,6 +24,10 @@ public interface IGenericSimulinkModel extends IModel {
 
 	String getLibraryPath();
 
+	void setMatlabPath(String matlabPath);
+	
+	String getMatlabPath();
+	
 	MatlabEngine getEngine();
 
 	void setFile(File file);

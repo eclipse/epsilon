@@ -149,6 +149,9 @@ public interface IModel extends AutoCloseable {
 	
 	Metamodel getMetamodel(StringProperties properties, IRelativePathResolver resolver);
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	default void close() {
 		this.dispose();

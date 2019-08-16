@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 2008 The University of York.
+* Copyright (c) 2019 The University of York.
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -10,9 +10,10 @@
 package org.eclipse.epsilon.emc.simulink.model;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
-
+import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
@@ -39,6 +40,7 @@ import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelElement> implements IGenericSimulinkModel {
 
 	public static final String PROPERTY_FILE = "file";
+	public static final String PROPERTY_MATLAB_PATH = "matlab_path";
 	public static final String PROPERTY_LIBRARY_PATH = "library_path";
 	public static final String PROPERTY_ENGINE_JAR_PATH = "engine_jar_path";
 		
@@ -46,6 +48,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	protected SimulinkPropertyGetter propertyGetter;
 	protected SimulinkPropertySetter propertySetter;
 	
+	protected String matlabPath;
 	protected String libraryPath;
 	protected String engineJarPath;
 	protected MatlabEngine engine;
@@ -137,6 +140,28 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		this.engineJarPath = engineJarPath;
 	}
 	
+	@Override
+	public String getMatlabPath() {
+		return matlabPath;
+	}
+	
+	@Override
+	public void setMatlabPath(String matlabPath) {
+		this.matlabPath = matlabPath;
+	}
+	
+	protected void setLibraryPathFromRoot() {
+		libraryPath = Paths.get(
+			matlabPath, "bin", OperatingSystem.isWindows() ? "win64" : ""
+		).toAbsolutePath().toString();
+	}
+	
+	protected void setEngineJarPathFromRoot() {
+		engineJarPath = Paths.get(
+			matlabPath, "extern", "engines", "java", "jar", "engine.jar"
+		).toAbsolutePath().toString();
+	}
+	
 	public Object parseMatlabEngineVariable(String variableName) throws MatlabException { 
 		return MatlabEngineUtil.parseMatlabEngineVariable(engine, variableName);
 	}
@@ -159,7 +184,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	
 	public Object getWorkspaceVariable(String value) {
 		try {
-			return MatlabEngineUtil.parseMatlabEngineVariable(engine,value);
+			return MatlabEngineUtil.parseMatlabEngineVariable(engine, value);
 		} catch (MatlabException e) {
 			e.printStackTrace();
 			return null;
@@ -197,10 +222,45 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		String filePath = properties.getProperty(PROPERTY_FILE);
 		if (filePath != null && filePath.trim().length() > 0)
 			file = new File(resolver.resolve(filePath));
+		if (file == null) throw new IllegalStateException(
+			"File cannot be null! Please ensure the '"+PROPERTY_FILE+"' property is set."
+		);
+		
+		if (properties.hasProperty(PROPERTY_MATLAB_PATH))
+			matlabPath = properties.getProperty(PROPERTY_MATLAB_PATH);
 		if (properties.hasProperty(PROPERTY_LIBRARY_PATH))
 			libraryPath = properties.getProperty(PROPERTY_LIBRARY_PATH);
 		if (properties.hasProperty(PROPERTY_ENGINE_JAR_PATH))
 			engineJarPath = properties.getProperty(PROPERTY_ENGINE_JAR_PATH);
+		
+		boolean emptyLibraryPath = libraryPath == null || libraryPath.trim().isEmpty();
+		boolean emptyEngineJarPath = engineJarPath == null || engineJarPath.trim().isEmpty();
+		
+		if (matlabPath != null || matlabPath.trim().isEmpty()) {
+			if (emptyLibraryPath)
+				setLibraryPathFromRoot();
+			if (emptyEngineJarPath)
+				setEngineJarPathFromRoot();
+		}
+		else if (emptyLibraryPath || emptyEngineJarPath) {
+			String errMsg = "Unresolved MATLAB environment variables."
+				+ "Please ensure that '"+PROPERTY_MATLAB_PATH+"' points to a valid MATLAB installation."
+				+ "Alternatively, specify the '",
+				singleSuffix = "' property.",
+				multiSuffix = "' properties.";
+			
+			if (emptyEngineJarPath && !emptyLibraryPath) {
+				errMsg += PROPERTY_ENGINE_JAR_PATH + singleSuffix;
+			}
+			if (emptyLibraryPath && !emptyEngineJarPath) {
+				errMsg += PROPERTY_LIBRARY_PATH + singleSuffix;
+			}
+			if (emptyEngineJarPath && emptyLibraryPath) {
+				errMsg += PROPERTY_ENGINE_JAR_PATH + " and " + PROPERTY_LIBRARY_PATH + multiSuffix;
+			}
+			
+			throw new IllegalStateException(errMsg);
+		}
 	}
 
 }
