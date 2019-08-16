@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2019 The University of York, Aston University.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio Garcia-Dominguez - extended AutoCloseable with default impl.
  ******************************************************************************/
 package org.eclipse.epsilon.eol.models;
 
@@ -22,7 +23,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
 
-public interface IModel {
+public interface IModel extends AutoCloseable {
 	
 	void load(StringProperties properties) throws EolModelLoadingException;
 	
@@ -148,4 +149,8 @@ public interface IModel {
 	
 	Metamodel getMetamodel(StringProperties properties, IRelativePathResolver resolver);
 	
+	@Override
+	default void close() {
+		this.dispose();
+	}
 }
