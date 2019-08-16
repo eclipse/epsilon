@@ -13,9 +13,9 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
-import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
@@ -250,31 +250,31 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		if (properties.hasProperty(PROPERTY_ENGINE_JAR_PATH))
 			engineJarPath = properties.getProperty(PROPERTY_ENGINE_JAR_PATH);
 		
-		boolean emptyLibraryPath = FileUtil.isEmptyPath(libraryPath);
-		boolean emptyEngineJarPath = FileUtil.isEmptyPath(engineJarPath);
-		boolean emptyMatlabPath = FileUtil.isEmptyPath(matlabPath);
+		boolean emptyLibraryPath = StringUtil.isEmpty(libraryPath);
+		boolean emptyEngineJarPath = StringUtil.isEmpty(engineJarPath);
+		boolean emptyMatlabPath = StringUtil.isEmpty(matlabPath);
 		
 		if (emptyMatlabPath) {
 			setMatlabPathFromEnv();
-			emptyMatlabPath = FileUtil.isEmptyPath(matlabPath);
+			emptyMatlabPath = StringUtil.isEmpty(matlabPath);
 		}
-		if (FileUtil.isEmptyPath(matlabPath) == false) {
+		if (!emptyMatlabPath) {
 			if (emptyLibraryPath) {
 				setLibraryPathFromRoot();
-				emptyLibraryPath = FileUtil.isEmptyPath(libraryPath);
+				emptyLibraryPath = StringUtil.isEmpty(libraryPath);
 			}
 			if (emptyEngineJarPath) {
 				setEngineJarPathFromRoot();
-				emptyEngineJarPath = FileUtil.isEmptyPath(engineJarPath);
+				emptyEngineJarPath = StringUtil.isEmpty(engineJarPath);
 			}
 		}
 		if (emptyLibraryPath) {
 			setLibraryPathFromEnv();
-			emptyLibraryPath = FileUtil.isEmptyPath(libraryPath);
+			emptyLibraryPath = StringUtil.isEmpty(libraryPath);
 		}
 		if (emptyEngineJarPath) {
 			setEngineJarPathFromEnv();
-			emptyEngineJarPath = FileUtil.isEmptyPath(engineJarPath);
+			emptyEngineJarPath = StringUtil.isEmpty(engineJarPath);
 		}
 		if (emptyLibraryPath || emptyEngineJarPath) {
 			String errMsg = "Unresolved MATLAB environment variables."

@@ -136,16 +136,6 @@ public class FileUtil {
 	public static String getPath(String name, Class<?> relativeTo) {
 		return getFile(name, relativeTo).getAbsolutePath();
 	}
-	
-	/**
-	 * 
-	 * @param path
-	 * @return
-	 * @since 1.6
-	 */
-	public static boolean isEmptyPath(String path) {
-		return path == null || path.trim().isEmpty();
-	}
 
 	public static void checkFileExists(final File file) throws FileNotFoundException {
 		if (!file.exists()) {
