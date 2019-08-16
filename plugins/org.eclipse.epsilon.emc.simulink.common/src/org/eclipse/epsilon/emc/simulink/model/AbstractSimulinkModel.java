@@ -155,8 +155,16 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	}
 	
 	protected void setLibraryPathFromRoot() {
+		String osBin;
+		if (OperatingSystem.isMac())
+			osBin = "maci64";
+		else if (OperatingSystem.isWindows())
+			osBin = "win64";
+		else
+			osBin = "";
+		
 		libraryPath = Paths.get(
-			matlabPath, "bin", OperatingSystem.isWindows() ? "win64" : ""
+			matlabPath, "bin", osBin
 		).toAbsolutePath().toString();
 	}
 	
@@ -175,7 +183,10 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	}
 	
 	protected void setMatlabPathFromEnv() {
-		matlabPath = System.getenv(ENV_MATLAB_PATH);
+		if (StringUtil.isEmpty(matlabPath = System.getenv(ENV_MATLAB_PATH)))
+			// No harm in trying I suppose...
+			if (StringUtil.isEmpty(matlabPath = System.getenv("MATLAB_HOME")))
+				matlabPath = System.getenv("matlabroot");
 	}
 	
 	public Object parseMatlabEngineVariable(String variableName) throws MatlabException { 

@@ -18,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
@@ -286,17 +287,18 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException { 
 		super.load(properties, resolver);
+		
 		String workingDirPath = properties.getProperty(SimulinkModel.PROPERTY_WORKING_DIR);
 		if (properties.hasProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR))
 			showInMatlabEditor = properties.getBooleanProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR, false);
 		if (properties.hasProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS))
 			followLinks = properties.getBooleanProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS, true);
 		String filePath = properties.getProperty(PROPERTY_FILE);
-		if (workingDirPath != null && workingDirPath.trim().length() > 0) {
+		if (!StringUtil.isEmpty(workingDirPath)) {
 			workingDir = new File(resolver.resolve(filePath));
 		}
 		String paths = properties.getProperty(SimulinkModel.PROPERTY_PATHS);
-		if (paths != null && !paths.isEmpty()) {
+		if (!StringUtil.isEmpty(paths)) {
 			Arrays.stream(paths.trim().split(";")).forEach(this::addPath);
 		}
 

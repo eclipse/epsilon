@@ -37,8 +37,17 @@ public class OperatingSystem {
 		else return osName+" "+System.getProperty("os.version");
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public static boolean isMac() {
+		return OSFamily.getOSFamily() == OSFamily.MAC;
+	}
+	
     public static boolean isWindows() {
-        return System.getProperty("os.name").contains("Windows");
+        return OSFamily.getOSFamily() == OSFamily.WINDOWS;
     }
     
     public static boolean isUnix() {
