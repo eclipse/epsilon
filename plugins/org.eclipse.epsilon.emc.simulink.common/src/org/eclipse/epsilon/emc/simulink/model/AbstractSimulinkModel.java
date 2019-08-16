@@ -42,7 +42,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public static final String PROPERTY_LIBRARY_PATH = "library_path";
 	public static final String PROPERTY_ENGINE_JAR_PATH = "engine_jar_path";
 		
-	protected File file = null;
+	protected File file;
 	protected SimulinkPropertyGetter propertyGetter;
 	protected SimulinkPropertySetter propertySetter;
 	

@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Future;
-
+import java.util.concurrent.ExecutionException;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
@@ -85,6 +85,10 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	@Override
 	protected void loadModel() throws EolModelLoadingException { 
 		super.loadModel();
+		if (file == null) throw new IllegalStateException(
+			"File cannot be null! Please ensure the '"+PROPERTY_FILE+"' property is set."
+		);
+		
 		try {
 			simulinkOperationContributor = new ModelOperationContributor(engine);
 				
@@ -98,7 +102,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 			
 			if (readOnLoad) {
 				String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
-				try{
+				try {
 					engine.eval(cmd, file.getAbsolutePath());				
 				} catch (Exception e) {
 					try {
@@ -296,7 +300,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 		}
 		String paths = properties.getProperty(SimulinkModel.PROPERTY_PATHS);
 		if (paths != null && !paths.isEmpty()) {
-			Arrays.asList(paths.trim().split(";")).stream().forEach(p->addPath(p));
+			Arrays.stream(paths.trim().split(";")).forEach(this::addPath);
 		}
 
 		load();
@@ -304,13 +308,9 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 
 	public void simulate() throws InterruptedException {
 		String name = getFile().getName().substring(0, getFile().getName().lastIndexOf("."));
-		Future<Void> fSim;
 		try {
-			fSim = engine.evalAsync("simout = sim('" + name + "', []);");
-			while (!fSim.isDone()) {
-				Thread.sleep(1000);
-			}
-		} catch (MatlabException e) {
+			engine.evalAsync("simout = sim('" + name + "', []);").get();
+		} catch (MatlabException | ExecutionException e) {
 			e.printStackTrace();
 		}
 	}
@@ -377,13 +377,8 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 		return hasType(type) || super.isInstantiable(type);
 	}
 
-	public String getSimulinkModelName() { 
-		String name = file.getName();
-		int pos = name.lastIndexOf(".");
-		if (pos > 0) {
-			name = name.substring(0, pos);
-		}
-		return name;
+	public String getSimulinkModelName() {
+		return FileUtil.getFileName(file.getName(), false);
 	}
 
 	@Override

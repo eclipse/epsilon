@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eol.exceptions.models;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.models.IModel;
 
-public class EolModelLoadingException extends EolInternalException{
+public class EolModelLoadingException extends EolInternalException {
 	
 	protected IModel model = null;
 	
