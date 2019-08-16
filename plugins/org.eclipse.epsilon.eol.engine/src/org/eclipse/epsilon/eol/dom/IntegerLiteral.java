@@ -29,13 +29,29 @@ public class IntegerLiteral extends LiteralExpression {
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
-		String text = "";
-		if (cst.getText().endsWith("l")) {
-			text = cst.getText().substring(0, cst.getText().length() - 1);
+		String text = cst.getText();
+
+		/*
+		 * int range is -2,147,483,648 to 2,147,483,647, but the INT token in
+		 * EolLexerRules.g does not include the leading '-', so anything over 10
+		 * characters or anything that the user has explicitly specified as such is
+		 * clearly a long value.
+		 */
+		if (text.endsWith("l") || text.length() > 10) {
+			text = cst.getText().substring(0, text.length() - 1);
 			value = Long.parseLong(text);
 		}
 		else {
-			value = Integer.parseInt(cst.getText());
+			/*
+			 * If it's not clearly a long value, parse as an int (to avoid additional
+			 * overheads from new comparisons), or fall back to parsing it as a long if
+			 * needed.
+			 */
+			try {
+				value = Integer.parseInt(text);
+			} catch (NumberFormatException ex) {
+				value = Long.parseLong(text);
+			}
 		}
 	}
 	
