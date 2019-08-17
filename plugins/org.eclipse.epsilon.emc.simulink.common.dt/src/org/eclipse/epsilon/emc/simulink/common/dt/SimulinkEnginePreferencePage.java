@@ -12,6 +12,7 @@ package org.eclipse.epsilon.emc.simulink.common.dt;
 import java.util.ArrayList;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
+import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 import static org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel.*;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
@@ -96,7 +97,7 @@ public class SimulinkEnginePreferencePage extends PreferencePage implements IWor
 			preferences.getString(PROPERTY_ENGINE_JAR_PATH)
 		};
 		
-		resolvePaths(currentPaths);
+		MatlabEngineUtil.resolvePaths(currentPaths);
 		
 		preferences.setValue(PROPERTY_MATLAB_PATH, currentPaths[0]);
 		preferences.setValue(PROPERTY_LIBRARY_PATH, currentPaths[1]);

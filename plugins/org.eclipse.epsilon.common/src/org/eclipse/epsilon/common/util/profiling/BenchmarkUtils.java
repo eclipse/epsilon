@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.function.*;
-import org.eclipse.epsilon.common.util.OperatingSystem.OSFamily;
+import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic.MemoryUnit;
 
 /**
@@ -174,7 +174,7 @@ public final class BenchmarkUtils {
 	 */
 	public static String getCpuName() {
 		try {
-			switch (OSFamily.getOSFamily()) {
+			switch (OperatingSystem.getOSFamily()) {
                 case WINDOWS: return executeCommand(
                     "powershell.exe", "-Command", "\"wmic CPU get NAME | findstr '@'\""
                 );

@@ -14,8 +14,25 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class OperatingSystem {
-	private OperatingSystem() {}
+public enum OperatingSystem {
+	
+	WINDOWS,
+	UNIX,
+	LINUX,
+	SOLARIS,
+	MAC,
+	OTHER;
+	
+	public static OperatingSystem getOSFamily() {
+		switch (System.getProperty("os.name").substring(0, 3).toLowerCase()) {
+			case "win": return WINDOWS;
+			case "lin": return LINUX;
+			case "uni": return UNIX;
+			case "mac": case "ios": case "dar": return MAC;
+			case "sun": case "sol": return SOLARIS;
+			default: return OTHER;
+		}
+	}
 	
 	/**
 	 * 
@@ -43,37 +60,17 @@ public class OperatingSystem {
 	 * @since 1.6
 	 */
 	public static boolean isMac() {
-		return OSFamily.getOSFamily() == OSFamily.MAC;
+		return getOSFamily() == MAC;
 	}
 	
     public static boolean isWindows() {
-        return OSFamily.getOSFamily() == OSFamily.WINDOWS;
+        return getOSFamily() == WINDOWS;
     }
     
     public static boolean isUnix() {
         return !isWindows();
     }
 
-	public enum OSFamily {
-		WINDOWS,
-		UNIX,
-		LINUX,
-		SOLARIS,
-		MAC,
-		OTHER;
-		
-		public static OSFamily getOSFamily() {
-			switch (System.getProperty("os.name").substring(0, 3).toLowerCase()) {
-				case "win": return WINDOWS;
-				case "lin": return LINUX;
-				case "uni": return UNIX;
-				case "mac": case "ios": case "dar": return MAC;
-				case "sun": case "sol": return SOLARIS;
-				default: return OTHER;
-			}
-		}
-	}
-	
 	/**
 	 * Executes the given command(s) natively.
 	 * @param args The commands.

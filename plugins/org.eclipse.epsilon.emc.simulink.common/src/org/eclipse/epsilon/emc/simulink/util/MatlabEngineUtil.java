@@ -9,21 +9,152 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.util;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.eclipse.epsilon.common.util.OperatingSystem;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
-import org.eclipse.epsilon.emc.simulink.types.CellStr;
-import org.eclipse.epsilon.emc.simulink.types.Complex;
-import org.eclipse.epsilon.emc.simulink.types.HandleObject;
-import org.eclipse.epsilon.emc.simulink.types.Struct;
+import org.eclipse.epsilon.emc.simulink.types.*;
+import static org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel.*;
 
 public class MatlabEngineUtil {
 
+	/**
+	 * Resolves paths. The array is only written to if this method succeeds.
+	 * 
+	 * @param currentPaths Contains the paths to determine in the following order: <br/>
+	 * - {@link #PROPERTY_MATLAB_PATH}
+	 * - {@link #PROPERTY_LIBRARY_PATH}
+	 * - {@value #PROPERTY_ENGINE_JAR_PATH}
+	 * 
+	 * @throws IllegalArgumentException If the paths array is null or not length 3.
+	 * @throws IllegalStateException If the paths couldn't be resolved.
+	 */
+	public static void resolvePaths(String[] currentPaths) throws IllegalStateException, IllegalArgumentException {
+		if (currentPaths == null || currentPaths.length < 3)
+			throw new IllegalArgumentException("Must provide ["
+				+PROPERTY_MATLAB_PATH+"], ["
+				+PROPERTY_LIBRARY_PATH+"], ["
+				+PROPERTY_ENGINE_JAR_PATH+"]."
+			);
+		
+		String
+			matlabPath = currentPaths[0],
+			libraryPath = currentPaths[1],
+			engineJarPath = currentPaths[2];
+		
+		boolean emptyMatlabPath = StringUtil.isEmpty(matlabPath);
+		boolean emptyLibraryPath = StringUtil.isEmpty(libraryPath);
+		boolean emptyEngineJarPath = StringUtil.isEmpty(engineJarPath);
+		
+		if (emptyMatlabPath) {
+			emptyMatlabPath = StringUtil.isEmpty(matlabPath = getMatlabPathFromEnv());
+		}
+		if (!emptyMatlabPath) {
+			if (emptyLibraryPath) {
+				emptyLibraryPath = StringUtil.isEmpty(libraryPath = getLibraryPathFromRoot(matlabPath));
+			}
+			if (emptyEngineJarPath) {
+				emptyEngineJarPath = StringUtil.isEmpty(engineJarPath = getEngineJarPathFromRoot(matlabPath));
+			}
+		}
+		if (emptyLibraryPath) {
+			emptyLibraryPath = StringUtil.isEmpty(libraryPath = getLibraryPathFromEnv());
+		}
+		if (emptyEngineJarPath) {
+			emptyEngineJarPath = StringUtil.isEmpty(engineJarPath = getEngineJarPathFromEnv());
+		}
+		if (emptyLibraryPath || emptyEngineJarPath) {
+			String errMsg = "Unresolved MATLAB environment variables."
+				+ "Please ensure that '"+PROPERTY_MATLAB_PATH+"' points to a valid MATLAB installation."
+				+ "Alternatively, specify the '",
+				singleSuffix = "' property.",
+				multiSuffix = "' properties.";
+			
+			if (emptyEngineJarPath && !emptyLibraryPath) {
+				errMsg += PROPERTY_ENGINE_JAR_PATH + singleSuffix;
+			}
+			if (emptyLibraryPath && !emptyEngineJarPath) {
+				errMsg += PROPERTY_LIBRARY_PATH + singleSuffix;
+			}
+			if (emptyEngineJarPath && emptyLibraryPath) {
+				errMsg += PROPERTY_ENGINE_JAR_PATH + " and " + PROPERTY_LIBRARY_PATH + multiSuffix;
+			}
+			
+			throw new IllegalStateException(errMsg);
+		}
+		else {
+			currentPaths[0] = matlabPath;
+			currentPaths[1] = libraryPath;
+			currentPaths[2] = engineJarPath;
+		}
+	}
+	
+	public static String getLibraryPathFromRoot(String matlabPath) {
+		String osBin;
+		if (OperatingSystem.isMac())
+			osBin = "maci64";
+		else if (OperatingSystem.isWindows())
+			osBin = "win64";
+		else
+			osBin = "";
+		
+		return Paths.get(
+			matlabPath, "bin", osBin
+		).toAbsolutePath().toString();
+	}
+	
+	public static String getEngineJarPathFromRoot(String matlabPath) {
+		return Paths.get(
+			matlabPath, "extern", "engines", "java", "jar", "engine.jar"
+		).toAbsolutePath().toString();
+	}
+	
+	public static String getLibraryPathFromEnv() {
+		return System.getenv(ENV_LIBRARY_PATH);
+	}
+	
+	public static String getEngineJarPathFromEnv() {
+		return System.getenv(ENV_ENGINE_JAR_PATH);
+	}
+	
+	public static String getMatlabPathFromEnv() {
+		String matlabPath = null;
+		// No harm in trying I suppose...
+		if (StringUtil.isEmpty(matlabPath = System.getenv(ENV_MATLAB_PATH)))
+		if (StringUtil.isEmpty(matlabPath = System.getenv("MATLAB_HOME")))
+		if (StringUtil.isEmpty(matlabPath = System.getenv("matlabroot"))) {
+			File root;
+			switch (OperatingSystem.getOSFamily()) {
+				case WINDOWS: root = Paths.get("C:", "Program Files", "MATLAB").toFile();
+					break;
+				case MAC: root = new File("/Applications");
+					break;
+				default: root = new File("/usr/local/MATLAB");
+					break;
+			}
+			if (root != null && root.exists()) {
+				File[] subDirs = root.listFiles(OperatingSystem.isMac() ?
+					(file, name) -> name.startsWith("MATLAB_") && name.endsWith(".app") && file.isDirectory()
+					: null
+				);
+				
+				if (subDirs.length > 0) {
+					matlabPath = subDirs[subDirs.length - 1].getAbsolutePath().toString();
+				}
+			}
+		}
+		return matlabPath;
+	}
+	
+	
 	public static List<Double> matlabArrayToList(double[] value) {
 		ArrayList<Double> result = new ArrayList<>(value.length);
 		for (int i = 0; i < value.length; i++) {
