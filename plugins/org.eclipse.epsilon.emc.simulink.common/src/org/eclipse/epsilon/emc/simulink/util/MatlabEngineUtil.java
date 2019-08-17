@@ -99,12 +99,14 @@ public class MatlabEngineUtil {
 	
 	public static String getLibraryPathFromRoot(String matlabPath) {
 		String osBin;
-		if (OperatingSystem.isMac())
-			osBin = "maci64";
-		else if (OperatingSystem.isWindows())
-			osBin = "win64";
-		else
-			osBin = "";
+		switch (OperatingSystem.getOSFamily()) {
+			case WINDOWS: osBin = "win64";
+				break;
+			case MAC: osBin = "maci64";
+				break;
+			default: osBin = "glnxa64";
+				break;
+		}
 		
 		return Paths.get(
 			matlabPath, "bin", osBin
