@@ -11,6 +11,7 @@ package org.eclipse.epsilon.emc.simulink.dt;
 
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
 import org.eclipse.epsilon.common.dt.util.DialogUtil;
+import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.swt.SWT;
@@ -22,10 +23,12 @@ import org.eclipse.swt.widgets.Text;
 
 public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
 
+	@Override
 	protected String getModelName() {
 		return "Simulink Model";
 	}
 
+	@Override
 	protected String getModelType() {
 		return "Simulink";
 	}
@@ -45,6 +48,7 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 	protected Label followLinksLabel;
 	protected Button followLinksCheckbox;
 
+	@Override
 	protected void createGroups(Composite control) {
 		super.createGroups(control);
 		createFilesGroup(control);
@@ -111,6 +115,7 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 		return matlabGroupContent;
 	}
 
+	@Override
 	protected void loadProperties() {
 		super.loadProperties();
 		if (properties == null) return;
@@ -120,11 +125,12 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 		if (followLinksCheckbox != null) {
 			followLinksCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS,"true")).booleanValue());
 		}
-		fileText.setText(properties.getProperty(SimulinkModel.PROPERTY_FILE));
+		fileText.setText(properties.getProperty(AbstractSimulinkModel.PROPERTY_FILE));
 		workingDirBrowser.setStringValue(properties.getProperty(SimulinkModel.PROPERTY_WORKING_DIR));
 		pathsText.setText(properties.getProperty(SimulinkModel.PROPERTY_PATHS));
 	}
 
+	@Override
 	protected void storeProperties() {
 		super.storeProperties();
 		if (showInMatlabEditorCheckbox != null) {
@@ -133,7 +139,7 @@ public class SimulinkModelConfigurationDialog extends AbstractCachedModelConfigu
 		if (followLinksCheckbox != null) {
 			properties.put(SimulinkModel.PROPERTY_FOLLOW_LINKS, followLinksCheckbox.getSelection() + "");
 		}
-		properties.put(SimulinkModel.PROPERTY_FILE, fileText.getText());
+		properties.put(AbstractSimulinkModel.PROPERTY_FILE, fileText.getText());
 		properties.put(SimulinkModel.PROPERTY_WORKING_DIR, workingDirBrowser.getStringValue());
 		properties.put(SimulinkModel.PROPERTY_PATHS, pathsText.getText());
 	}

@@ -80,6 +80,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		return type;		
 	}
 	
+	@Override
 	protected Collection<String> getAllTypeNamesOf(Object instance) { 
 		if (instance instanceof ISimulinkModelElement) {
 			return ((ISimulinkModelElement) instance).getAllTypeNamesOf();
@@ -154,7 +155,78 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		this.matlabPath = matlabPath;
 	}
 	
-	protected void setLibraryPathFromRoot() {
+	/**
+	 * Resolves paths. The array is only written to if this method succeeds.
+	 * 
+	 * @param currentPaths Contains the paths to determine in the following order: <br/>
+	 * - {@link #PROPERTY_MATLAB_PATH}
+	 * - {@link #PROPERTY_LIBRARY_PATH}
+	 * - {@value #PROPERTY_ENGINE_JAR_PATH}
+	 * 
+	 * @throws IllegalArgumentException If the paths array is null or not length 3.
+	 * @throws IllegalStateException If the paths couldn't be resolved.
+	 */
+	public static void resolvePaths(String[] currentPaths) throws IllegalStateException, IllegalArgumentException {
+		if (currentPaths == null || currentPaths.length < 3)
+			throw new IllegalArgumentException("Must provide ["
+				+PROPERTY_MATLAB_PATH+"], ["
+				+PROPERTY_LIBRARY_PATH+"], ["
+				+PROPERTY_ENGINE_JAR_PATH+"]."
+			);
+		
+		String
+			matlabPath = currentPaths[0],
+			libraryPath = currentPaths[1],
+			engineJarPath = currentPaths[2];
+		
+		boolean emptyMatlabPath = StringUtil.isEmpty(matlabPath);
+		boolean emptyLibraryPath = StringUtil.isEmpty(libraryPath);
+		boolean emptyEngineJarPath = StringUtil.isEmpty(engineJarPath);
+		
+		if (emptyMatlabPath) {
+			emptyMatlabPath = StringUtil.isEmpty(matlabPath = getMatlabPathFromEnv());
+		}
+		if (!emptyMatlabPath) {
+			if (emptyLibraryPath) {
+				emptyLibraryPath = StringUtil.isEmpty(libraryPath = getLibraryPathFromRoot(matlabPath));
+			}
+			if (emptyEngineJarPath) {
+				emptyEngineJarPath = StringUtil.isEmpty(engineJarPath = getEngineJarPathFromRoot(matlabPath));
+			}
+		}
+		if (emptyLibraryPath) {
+			emptyLibraryPath = StringUtil.isEmpty(libraryPath = getLibraryPathFromEnv());
+		}
+		if (emptyEngineJarPath) {
+			emptyEngineJarPath = StringUtil.isEmpty(engineJarPath = getEngineJarPathFromEnv());
+		}
+		if (emptyLibraryPath || emptyEngineJarPath) {
+			String errMsg = "Unresolved MATLAB environment variables."
+				+ "Please ensure that '"+PROPERTY_MATLAB_PATH+"' points to a valid MATLAB installation."
+				+ "Alternatively, specify the '",
+				singleSuffix = "' property.",
+				multiSuffix = "' properties.";
+			
+			if (emptyEngineJarPath && !emptyLibraryPath) {
+				errMsg += PROPERTY_ENGINE_JAR_PATH + singleSuffix;
+			}
+			if (emptyLibraryPath && !emptyEngineJarPath) {
+				errMsg += PROPERTY_LIBRARY_PATH + singleSuffix;
+			}
+			if (emptyEngineJarPath && emptyLibraryPath) {
+				errMsg += PROPERTY_ENGINE_JAR_PATH + " and " + PROPERTY_LIBRARY_PATH + multiSuffix;
+			}
+			
+			throw new IllegalStateException(errMsg);
+		}
+		else {
+			currentPaths[0] = matlabPath;
+			currentPaths[1] = libraryPath;
+			currentPaths[2] = engineJarPath;
+		}
+	}
+	
+	public static String getLibraryPathFromRoot(String matlabPath) {
 		String osBin;
 		if (OperatingSystem.isMac())
 			osBin = "maci64";
@@ -163,30 +235,32 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		else
 			osBin = "";
 		
-		libraryPath = Paths.get(
+		return Paths.get(
 			matlabPath, "bin", osBin
 		).toAbsolutePath().toString();
 	}
 	
-	protected void setEngineJarPathFromRoot() {
-		engineJarPath = Paths.get(
+	public static String getEngineJarPathFromRoot(String matlabPath) {
+		return Paths.get(
 			matlabPath, "extern", "engines", "java", "jar", "engine.jar"
 		).toAbsolutePath().toString();
 	}
 	
-	protected void setLibraryPathFromEnv() {
-		libraryPath = System.getenv(ENV_LIBRARY_PATH);
+	public static String getLibraryPathFromEnv() {
+		return System.getenv(ENV_LIBRARY_PATH);
 	}
 	
-	protected void setEngineJarPathFromEnv() {
-		engineJarPath = System.getenv(ENV_ENGINE_JAR_PATH);
+	public static String getEngineJarPathFromEnv() {
+		return System.getenv(ENV_ENGINE_JAR_PATH);
 	}
 	
-	protected void setMatlabPathFromEnv() {
+	public static String getMatlabPathFromEnv() {
+		String matlabPath = null;
 		if (StringUtil.isEmpty(matlabPath = System.getenv(ENV_MATLAB_PATH)))
 			// No harm in trying I suppose...
 			if (StringUtil.isEmpty(matlabPath = System.getenv("MATLAB_HOME")))
-				matlabPath = System.getenv("matlabroot");
+				return System.getenv("matlabroot");
+		return matlabPath;
 	}
 	
 	public Object parseMatlabEngineVariable(String variableName) throws MatlabException { 
@@ -261,51 +335,11 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		if (properties.hasProperty(PROPERTY_ENGINE_JAR_PATH))
 			engineJarPath = properties.getProperty(PROPERTY_ENGINE_JAR_PATH);
 		
-		boolean emptyLibraryPath = StringUtil.isEmpty(libraryPath);
-		boolean emptyEngineJarPath = StringUtil.isEmpty(engineJarPath);
-		boolean emptyMatlabPath = StringUtil.isEmpty(matlabPath);
-		
-		if (emptyMatlabPath) {
-			setMatlabPathFromEnv();
-			emptyMatlabPath = StringUtil.isEmpty(matlabPath);
-		}
-		if (!emptyMatlabPath) {
-			if (emptyLibraryPath) {
-				setLibraryPathFromRoot();
-				emptyLibraryPath = StringUtil.isEmpty(libraryPath);
-			}
-			if (emptyEngineJarPath) {
-				setEngineJarPathFromRoot();
-				emptyEngineJarPath = StringUtil.isEmpty(engineJarPath);
-			}
-		}
-		if (emptyLibraryPath) {
-			setLibraryPathFromEnv();
-			emptyLibraryPath = StringUtil.isEmpty(libraryPath);
-		}
-		if (emptyEngineJarPath) {
-			setEngineJarPathFromEnv();
-			emptyEngineJarPath = StringUtil.isEmpty(engineJarPath);
-		}
-		if (emptyLibraryPath || emptyEngineJarPath) {
-			String errMsg = "Unresolved MATLAB environment variables."
-				+ "Please ensure that '"+PROPERTY_MATLAB_PATH+"' points to a valid MATLAB installation."
-				+ "Alternatively, specify the '",
-				singleSuffix = "' property.",
-				multiSuffix = "' properties.";
-			
-			if (emptyEngineJarPath && !emptyLibraryPath) {
-				errMsg += PROPERTY_ENGINE_JAR_PATH + singleSuffix;
-			}
-			if (emptyLibraryPath && !emptyEngineJarPath) {
-				errMsg += PROPERTY_LIBRARY_PATH + singleSuffix;
-			}
-			if (emptyEngineJarPath && emptyLibraryPath) {
-				errMsg += PROPERTY_ENGINE_JAR_PATH + " and " + PROPERTY_LIBRARY_PATH + multiSuffix;
-			}
-			
-			throw new IllegalStateException(errMsg);
-		}
+		String[] allPaths = {matlabPath, libraryPath, engineJarPath};
+		resolvePaths(allPaths);
+		matlabPath = allPaths[0];
+		libraryPath = allPaths[1];
+		engineJarPath = allPaths[2];
 	}
 
 }

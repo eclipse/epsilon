@@ -10,14 +10,13 @@
 package org.eclipse.epsilon.emc.simulink.common.dt;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
-import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
+import static org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel.*;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FileFieldEditor;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -27,23 +26,29 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class SimulinkEnginePreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	
-	protected List<FieldEditor> fieldEditors = new ArrayList<FieldEditor>();
+	protected final ArrayList<FieldEditor> fieldEditors = new ArrayList<>();
+	protected IPreferenceStore preferences = EpsilonCommonsPlugin.getDefault().getPreferenceStore();
 	
 	@Override
 	protected Control createContents(Composite parent) {
 		
-		Composite composite = new Composite(parent, SWT.FILL);
-
-		final DirectoryFieldEditor libraryPathEditor = new DirectoryFieldEditor(AbstractSimulinkModel.PROPERTY_LIBRARY_PATH, "Library directory", composite);
-		final FileFieldEditor engineJarPathEditor = new FileFieldEditor(AbstractSimulinkModel.PROPERTY_ENGINE_JAR_PATH, "Engine JAR file", true, composite);
+		final Composite composite = new Composite(parent, SWT.FILL);
 		
+		
+		final DirectoryFieldEditor matlabPathEditor = new DirectoryFieldEditor(PROPERTY_MATLAB_PATH, "MATLAB installation directory", composite);
+		final DirectoryFieldEditor libraryPathEditor = new DirectoryFieldEditor(PROPERTY_LIBRARY_PATH, "Library directory", composite);
+		final FileFieldEditor engineJarPathEditor = new FileFieldEditor(PROPERTY_ENGINE_JAR_PATH, "Engine JAR file", true, composite);
+		
+		fieldEditors.add(matlabPathEditor);
 		fieldEditors.add(libraryPathEditor);
 		fieldEditors.add(engineJarPathEditor);
 		
 		for (FieldEditor fieldEditor : fieldEditors) {
-			fieldEditor.setPreferenceStore(EpsilonCommonsPlugin.getDefault().getPreferenceStore());
+			fieldEditor.setPreferenceStore(preferences);
 			fieldEditor.load();
 		}
+		
+		resolvePreferences();
 		
 		/*
 		Button testConnectionButton = new Button(composite, SWT.NONE);
@@ -84,10 +89,38 @@ public class SimulinkEnginePreferencePage extends PreferencePage implements IWor
 		return composite;
 	}
 	
-	public void init(IWorkbench workbench) {	}
-
+	protected void resolvePreferences() {
+		String[] currentPaths = {
+			preferences.getString(PROPERTY_MATLAB_PATH),
+			preferences.getString(PROPERTY_LIBRARY_PATH),
+			preferences.getString(PROPERTY_ENGINE_JAR_PATH)
+		};
+		
+		resolvePaths(currentPaths);
+		
+		preferences.setValue(PROPERTY_MATLAB_PATH, currentPaths[0]);
+		preferences.setValue(PROPERTY_LIBRARY_PATH, currentPaths[1]);
+		preferences.setValue(PROPERTY_ENGINE_JAR_PATH, currentPaths[2]);
+		
+		for (FieldEditor fieldEditor : fieldEditors) {
+			fieldEditor.load();
+		}
+	}
+	
+	@Override
+	public void init(IWorkbench workbench) {
+		
+	}
+	
+	@Override
+	protected void performApply() {
+		super.performApply();
+		resolvePreferences();
+	}
+	
 	@Override
 	public boolean performOk() {
+		super.performOk();
 		for (FieldEditor fieldEditor : fieldEditors) {
 			fieldEditor.store();
 		}
