@@ -1,6 +1,5 @@
-package org.eclipse.epsilon.emc.simuink.requirement.dt;
 /*********************************************************************
-* Copyright (c) 2008 The University of York.
+* Copyright (c) 2019 The University of York.
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -8,17 +7,19 @@ package org.eclipse.epsilon.emc.simuink.requirement.dt;
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-
+package org.eclipse.epsilon.emc.simuink.requirement.dt;
 
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
-import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
 import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementModel;
+import org.eclipse.jface.preference.IPreferenceStore;
 
 public class SimulinkRequirementModelInEclipse extends SimulinkRequirementModel {
 	
 	public SimulinkRequirementModelInEclipse() {
-		this.engineJarPath = EpsilonCommonsPlugin.getDefault().getPreferenceStore().getString(AbstractSimulinkModel.PROPERTY_ENGINE_JAR_PATH);
-		this.libraryPath = EpsilonCommonsPlugin.getDefault().getPreferenceStore().getString(AbstractSimulinkModel.PROPERTY_LIBRARY_PATH);
+		IPreferenceStore prefs = EpsilonCommonsPlugin.getDefault().getPreferenceStore();
+		this.matlabPath = prefs.getString(PROPERTY_MATLAB_PATH);
+		this.libraryPath = prefs.getString(PROPERTY_LIBRARY_PATH);
+		this.engineJarPath = prefs.getString(PROPERTY_ENGINE_JAR_PATH);
 	}
 	
 }
