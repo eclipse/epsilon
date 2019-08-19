@@ -31,12 +31,8 @@ public class EgxModuleParallelRules extends EgxModuleParallel implements IErlMod
 		super();
 	}
 
-	public EgxModuleParallelRules(int parallelism) {
-		super(parallelism);
-	}
-
-	public EgxModuleParallelRules(IEgxContextParallel egxContext) {
-		super(egxContext);
+	public EgxModuleParallelRules(IEgxContextParallel context) {
+		super(context);
 	}
 
 	@Override

@@ -41,7 +41,17 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	protected NamedRuleList<TransformationRule> transformationRules;
 	
 	public EtlModule() {
-		setContext(new EtlContext());
+		this(null);
+	}
+	
+	/**
+	 * Instantiates the module with the specified execution context.
+	 * 
+	 * @param context The execution context
+	 * @since 1.6
+	 */
+	public EtlModule(IEtlContext context) {
+		super(context != null ? context : new EtlContext());
 	}
 	
 	@Override
@@ -170,6 +180,12 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	public void setContext(IEolContext context) {
 		if (context instanceof IEtlContext) {
 			super.setContext(context);
+		}
+		else if (context != null) {
+			throw new IllegalArgumentException(
+				"Invalid context type: expected "+IEtlContext.class.getName()
+				+ " but got "+context.getClass().getName()
+			);
 		}
 	}
 	

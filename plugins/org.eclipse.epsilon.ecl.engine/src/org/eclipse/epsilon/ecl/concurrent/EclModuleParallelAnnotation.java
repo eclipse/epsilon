@@ -29,8 +29,8 @@ public class EclModuleParallelAnnotation extends EclModuleParallel {
 		super();
 	}
 
-	public EclModuleParallelAnnotation(int parallelism) {
-		super(parallelism);
+	public EclModuleParallelAnnotation(IEclContextParallel context) {
+		super(context);
 	}
 
 	@Override

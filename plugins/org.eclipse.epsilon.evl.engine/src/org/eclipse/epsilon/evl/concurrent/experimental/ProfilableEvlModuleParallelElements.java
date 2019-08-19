@@ -24,12 +24,12 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  */
 public class ProfilableEvlModuleParallelElements extends ProfilableEvlModuleParallel {
 
-	public ProfilableEvlModuleParallelElements(int parallelism) {
-		super(parallelism);
+	public ProfilableEvlModuleParallelElements(IEvlContextParallel context) {
+		super(context);
 	}
 
 	public ProfilableEvlModuleParallelElements() {
-		this(0);
+		super();
 	}
 
 	@Override

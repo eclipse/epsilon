@@ -19,6 +19,7 @@ import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.concurrent.*;
+import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.egx.engine.test.acceptance.util.EgxRunConfigurationTest;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
 
@@ -48,8 +49,12 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	}
 	
 	public static Collection<Supplier<? extends IEgxModule>> modules(boolean includeStandard) {
-		return parallelModules(THREADS, includeStandard ? EgxModule::new : null,
-			EgxModuleParallel::new, EgxModuleParallelAnnotation::new, EgxModuleParallelRules::new);
+		return parallelModules(THREADS,
+			includeStandard ? EgxModule::new : null,
+			p -> new EgxModuleParallel(new EgxContextParallel(p)),
+			p -> new EgxModuleParallelAnnotation(new EgxContextParallel(p)),
+			p -> new EgxModuleParallelRules(new EgxContextParallel(p))
+		);
 	}
 	
 	public static Collection<EgxRunConfigurationTest> getScenarios(

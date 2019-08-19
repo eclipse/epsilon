@@ -46,7 +46,17 @@ public class EolModule extends AbstractModule implements IEolModule {
 	private IEolModule parent;
 	
 	public EolModule() {
-		setContext(new EolContext());
+		this(null);
+	}
+	
+	/**
+	 * Instantiates the module with the specified execution context.
+	 * 
+	 * @param context The execution context
+	 * @since 1.6
+	 */
+	public EolModule(IEolContext context) {
+		setContext(context != null ? context : new EolContext());
 	}
 	
 	@Override

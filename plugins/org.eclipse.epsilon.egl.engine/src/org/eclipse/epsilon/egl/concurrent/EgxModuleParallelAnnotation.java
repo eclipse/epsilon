@@ -30,10 +30,6 @@ public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IE
 		super();
 	}
 
-	public EgxModuleParallelAnnotation(int parallelism) {
-		super(parallelism);
-	}
-
 	public EgxModuleParallelAnnotation(IEgxContextParallel egxContext) {
 		super(egxContext);
 	}

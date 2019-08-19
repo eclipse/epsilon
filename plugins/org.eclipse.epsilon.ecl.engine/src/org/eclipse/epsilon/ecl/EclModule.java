@@ -41,7 +41,17 @@ public class EclModule extends ErlModule implements IEclModule {
 	protected final NamedRuleList<MatchRule> declaredMatchRules = new NamedRuleList<>();
 	
 	public EclModule() {
-		setContext(new EclContext());
+		this(null);
+	}
+	
+	/**
+	 * Instantiates the module with the specified execution context.
+	 * 
+	 * @param context The execution context
+	 * @since 1.6
+	 */
+	public EclModule(IEclContext context) {
+		super(context != null ? context : new EclContext());
 	}
 	
 	@Override

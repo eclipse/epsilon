@@ -35,7 +35,17 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 	protected NamedRuleList<Post> declaredPost = new NamedRuleList<>();
 	
 	protected ErlModule() {
-		setContext(new ErlContext());
+		this(null);
+	}
+	
+	/**
+	 * Instantiates the module with the specified execution context.
+	 * 
+	 * @param context The execution context
+	 * @since 1.6
+	 */
+	protected ErlModule(IErlContext context) {
+		super(context != null ? context : new ErlContext());
 	}
 	
 	@Override
@@ -153,6 +163,12 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 	public void setContext(IEolContext context) {
 		if (context instanceof IErlContext) {
 			super.setContext(context);
+		}
+		else if (context != null) {
+			throw new IllegalArgumentException(
+				"Invalid context type: expected "+IErlContext.class.getName()
+				+ " but got "+context.getClass().getName()
+			);
 		}
 	}
 	

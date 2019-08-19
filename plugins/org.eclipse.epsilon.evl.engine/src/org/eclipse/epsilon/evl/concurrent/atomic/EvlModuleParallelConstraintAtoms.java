@@ -12,6 +12,7 @@ package org.eclipse.epsilon.evl.concurrent.atomic;
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.execute.atoms.ConstraintAtom;
+import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
  * 
@@ -25,8 +26,8 @@ public class EvlModuleParallelConstraintAtoms extends EvlModuleParallelAtomic<Co
 		super();
 	}
 
-	public EvlModuleParallelConstraintAtoms(int parallelism) {
-		super(parallelism);
+	public EvlModuleParallelConstraintAtoms(IEvlContextParallel context) {
+		super(context);
 	}
 
 	@Override

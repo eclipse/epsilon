@@ -30,7 +30,7 @@ public class TestXmlTreeWizards {
 	public void setup() throws Exception {
 		module = new EwlModule();
 		module.parse(getClass().getResource("trees.ewl").toURI());
-		info = new HashMap<String, Object>();
+		info = new HashMap<>();
 		model = loadXmlModel("Tree", "tree.xml");
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("info", info));
 		module.getContext().getModelRepository().addModel(model);

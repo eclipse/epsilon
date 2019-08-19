@@ -17,6 +17,7 @@ import java.util.function.Supplier;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.ecl.*;
 import org.eclipse.epsilon.ecl.concurrent.*;
+import org.eclipse.epsilon.ecl.execute.context.concurrent.EclContextParallel;
 import org.eclipse.epsilon.ecl.launch.EclRunConfiguration;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
@@ -57,9 +58,9 @@ public class EclAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	public static Collection<Supplier<? extends IEclModule>> modules() {
 		return parallelModules(THREADS,
 			EclModule::new,
-			EclModuleParallel::new,
-			EclModuleParallelAnnotation::new/*,
-			EclModuleParallelRules::new*/
+			p -> new EclModuleParallel(new EclContextParallel(p)),
+			p -> new EclModuleParallelAnnotation(new EclContextParallel(p))/*,
+			p -> new EclModuleParallelRules(new EclContextParallel(p))*/
 		);
 	}
 }

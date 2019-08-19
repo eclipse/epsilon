@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.execute.atoms.*;
+import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
  * Shuffles the constraint-element pairs prior to execution.
@@ -26,8 +27,8 @@ public final class EvlModuleParallelRandom extends ProfilableEvlModuleParallel {
 		super();
 	}
 
-	public EvlModuleParallelRandom(int parallelism) {
-		super(parallelism);
+	public EvlModuleParallelRandom(IEvlContextParallel context) {
+		super(context);
 	}
 	
 	@Override

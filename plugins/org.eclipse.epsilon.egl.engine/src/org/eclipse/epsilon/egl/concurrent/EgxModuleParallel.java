@@ -35,15 +35,11 @@ public class EgxModuleParallel extends EgxModule implements IErlModuleParallel {
 	}
 	
 	public EgxModuleParallel() {
-		this(new EgxContextParallel());
+		this(null);
 	}
 	
-	public EgxModuleParallel(int parallelism) {
-		this(new EgxContextParallel(null, parallelism));
-	}
-	
-	public EgxModuleParallel(IEgxContextParallel egxContext) {
-		setContext(egxContext);
+	public EgxModuleParallel(IEgxContextParallel context) {
+		super(context != null ? context : new EgxContextParallel());
 		this.invokedTemplates = new ConcurrentLinkedQueue<>();
 	}
 	
@@ -56,6 +52,12 @@ public class EgxModuleParallel extends EgxModule implements IErlModuleParallel {
 	public void setContext(IEolContext context) {
 		if (context instanceof IEgxContextParallel) {
 			super.setContext(context);
+		}
+		else if (context != null) {
+			throw new IllegalArgumentException(
+				"Invalid context type: expected "+IEgxContextParallel.class.getName()
+				+ " but got "+context.getClass().getName()
+			);
 		}
 	}
 	

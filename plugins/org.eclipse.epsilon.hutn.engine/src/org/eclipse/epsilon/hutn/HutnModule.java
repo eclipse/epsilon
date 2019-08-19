@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.Lexer;
@@ -58,7 +57,18 @@ public class HutnModule extends EolModule implements IHutnModule {
 	protected boolean hutnIsValid = false;
 	
 	public HutnModule() {
-		setContext(new HutnContext(this));
+		this(null);
+	}
+	
+	/**
+	 * Instantiates the module with the specified execution context.
+	 * 
+	 * @param context The execution context
+	 * @since 1.6
+	 */
+	public HutnModule(IHutnContext context) {
+		super(context != null ? context : new HutnContext());
+		getContext().setModule(this);
 	}
 	
 	@Override
@@ -264,9 +274,9 @@ public class HutnModule extends EolModule implements IHutnModule {
 		final Resource resource = EmfUtil.createResource(fileUri);
 		resource.getContents().add(spec);
 		
-		final EmfModel model = new InMemoryEmfModel("Intermediate", resource, HutnPackage.eINSTANCE);
-		model.store(fileUri);
-		model.dispose();
+		try (EmfModel model = new InMemoryEmfModel("Intermediate", resource, HutnPackage.eINSTANCE)) {
+			model.store(fileUri);
+		}
 	}
 	
 	@Override
@@ -301,6 +311,12 @@ public class HutnModule extends EolModule implements IHutnModule {
 	public void setContext(IEolContext context) {
 		if (context instanceof IHutnContext) {
 			super.setContext(context);
+		}
+		else if (context != null) {
+			throw new IllegalArgumentException(
+				"Invalid context type: expected "+IHutnContext.class.getName()
+				+ " but got "+context.getClass().getName()
+			);
 		}
 	}
 	

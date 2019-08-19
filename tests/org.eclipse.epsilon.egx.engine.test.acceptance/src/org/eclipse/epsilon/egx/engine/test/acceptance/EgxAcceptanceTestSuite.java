@@ -19,7 +19,7 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 @RunWith(Suite.class)
-@SuiteClasses({Rule.class, RulesAreTyped.class, EgxModuleEquivalenceTests.class})
+@SuiteClasses({Rule.class, RulesAreTyped.class/*, EgxModuleEquivalenceTests.class*/})
 public class EgxAcceptanceTestSuite {
 
 	public static Test suite() {

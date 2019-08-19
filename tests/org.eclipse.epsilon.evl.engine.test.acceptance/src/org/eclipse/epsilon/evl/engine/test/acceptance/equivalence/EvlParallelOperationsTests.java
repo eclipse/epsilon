@@ -24,7 +24,10 @@ import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismExcepti
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.concurrent.*;
+import org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelConstraintAtoms;
+import org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelContextAtoms;
 import org.eclipse.epsilon.evl.concurrent.experimental.*;
+import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -93,11 +96,13 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 	static Collection<Supplier<? extends IEvlModule>> getTestModules() {
 		Collection<Supplier<? extends IEvlModule>> modules = EolAcceptanceTestUtil.parallelModules(
 			testThreads, null,
-			EvlModuleParallelStaged::new,
-			EvlModuleParallelConstraints::new,
-			EvlModuleParallel::new,
-			EvlModuleParallelAnnotation::new,
-			EvlModuleParallelElements::new
+			p -> new EvlModuleParallelConstraints(new EvlContextParallel(p)),
+			p -> new EvlModuleParallelStaged(new EvlContextParallel(p)),
+			p -> new EvlModuleParallelContextAtoms(new EvlContextParallel(p)),
+			p -> new EvlModuleParallelConstraintAtoms(new EvlContextParallel(p)),
+			p -> new EvlModuleParallel(new EvlContextParallel(p)),
+			p -> new EvlModuleParallelAnnotation(new EvlContextParallel(p)),
+			p -> new EvlModuleParallelElements(new EvlContextParallel(p))
 		);
 		modules.add(EvlModule::new);
 		return modules;
@@ -107,8 +112,8 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 	public static Collection<EvlRunConfiguration> configurations() {
 		Collection<EvlRunConfiguration> scenarios = getScenarios(inputsWithNesting, false,
 			EolAcceptanceTestUtil.parallelModules(testThreads, null,
-				EvlModuleParallelAnnotation::new,
-				EvlModuleParallel::new
+				p -> new EvlModuleParallelAnnotation(new EvlContextParallel(p)),
+				p -> new EvlModuleParallel(new EvlContextParallel(p))
 			),
 			idCalculator
 		);

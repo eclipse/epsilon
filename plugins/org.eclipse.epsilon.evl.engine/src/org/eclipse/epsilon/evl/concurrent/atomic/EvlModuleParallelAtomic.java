@@ -14,6 +14,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAtomicBatches;
 import org.eclipse.epsilon.erl.execute.data.RuleAtom;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
+import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
  * Parallelisation based on atomic job list.
@@ -27,8 +28,8 @@ public abstract class EvlModuleParallelAtomic<A extends RuleAtom<?>> extends Evl
 		super();
 	}
 	
-	public EvlModuleParallelAtomic(int parallelism) {
-		super(parallelism);
+	public EvlModuleParallelAtomic(IEvlContextParallel context) {
+		super(context);
 	}
 
 	protected List<A> jobsCache;

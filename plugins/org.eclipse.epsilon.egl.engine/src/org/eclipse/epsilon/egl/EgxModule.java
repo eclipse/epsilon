@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2012 The University of York.
+ * Copyright (c) 2012-2019 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - refactoring
  ******************************************************************************/
 package org.eclipse.epsilon.egl;
 
@@ -30,7 +31,6 @@ import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
@@ -44,40 +44,20 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	protected NamedRuleList<GenerationRule> declaredGenerationRules = new NamedRuleList<>();
 	protected Collection<Template> invokedTemplates = new ArrayList<>();
 	
-	public static void main(String[] args) throws Exception {
-		final EgxModule module = new EgxModule();
-		module.parse("");
-		module.getContext().getExecutorFactory().addExecutionListener(new IExecutionListener() {
-			
-			@Override
-			public void finishedExecutingWithException(ModuleElement ast,
-					EolRuntimeException exception, IEolContext context) {}
-			
-			@Override
-			public void finishedExecuting(ModuleElement ast, Object result,
-					IEolContext context) {
-				if (ast == module) System.out.println("Finished executing.");
-			}
-			
-			@Override
-			public void aboutToExecute(ModuleElement ast, IEolContext context) {
-				if (ast == module) System.out.println("About to execute ...");
-			}
-		});
-		
-		module.execute();
-	}
-	
 	public EgxModule() {
 		this(new EgxContext());
 	}
 	
-	public EgxModule(EglTemplateFactory templateFactory) {
-		this(new EgxContext(templateFactory));
+	/**
+	 * Instantiates the module with the specified execution context.
+	 * @param context The execution context
+	 */
+	public EgxModule(IEgxContext context) {
+		super(context != null ? context : new EgxContext());
 	}
 	
-	public EgxModule(IEgxContext egxContext) {
-		setContext(egxContext);
+	public EgxModule(EglTemplateFactory templateFactory) {
+		this(new EgxContext(templateFactory));
 	}
 	
 	@Override
@@ -209,11 +189,6 @@ public class EgxModule extends ErlModule implements IEgxModule {
 		importConfiguration.put("egx", EgxModule.class);
 		return importConfiguration;
 	}
-
-	@Override
-	public IEgxContext getContext() {
-		return (IEgxContext) super.getContext();
-	}
 	
 	@Override
 	public List<GenerationRule> getGenerationRules() {
@@ -239,11 +214,22 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	protected int getPreBlockTokenType() {
 		return EgxParser.PRE;
 	}
+	
+	@Override
+	public IEgxContext getContext() {
+		return (IEgxContext) super.getContext();
+	}
 
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEgxContext) {
 			super.setContext(context);
+		}
+		else if (context != null) {
+			throw new IllegalArgumentException(
+				"Invalid context type: expected "+IEgxContext.class.getName()
+				+ " but got "+context.getClass().getName()
+			);
 		}
 	}
 }

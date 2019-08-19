@@ -21,6 +21,7 @@ import org.eclipse.epsilon.eol.concurrent.EolModuleParallel;
 import static org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil.*;
 import org.eclipse.epsilon.eol.engine.test.acceptance.firstOrder.lambda.LambdaExpressionTests;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
+import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -71,7 +72,7 @@ public class EolModuleEquivalenceTests extends EolEquivalenceTests<EolRunConfigu
 	
 	@Parameters//(name = "0")	// Don't use this as the Eclipse JUnit view won't show failures!
 	public static Collection<EolRunConfiguration> configurations() {
-		return getScenarios(parallelModules(THREADS, null, EolModuleParallel::new));
+		return getScenarios(parallelModules(THREADS, null, p -> new EolModuleParallel(new EolContextParallel(p))));
 	}
 	
 	@Test

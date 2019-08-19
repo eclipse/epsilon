@@ -26,8 +26,8 @@ public class EclModuleParallelRules extends EclModuleParallel {
 		super();
 	}
 	
-	public EclModuleParallelRules(int parallelism) {
-		super(parallelism);
+	public EclModuleParallelRules(IEclContextParallel context) {
+		super(context);
 	}
 	
 	@Override

@@ -38,7 +38,17 @@ public class EmlModule extends EtlModule {
 	protected NamedRuleList<MergeRule> mergeRules;
 	
 	public EmlModule() {
-		setContext(new EmlContext());
+		this(null);
+	}
+	
+	/**
+	 * Instantiates the module with the specified execution context.
+	 * 
+	 * @param context The execution context
+	 * @since 1.6
+	 */
+	public EmlModule(IEmlContext context) {
+		super(context != null ? context : new EmlContext());
 	}
 	
 	@Override
@@ -109,6 +119,12 @@ public class EmlModule extends EtlModule {
 	public void setContext(IEolContext context) {
 		if (context instanceof IEmlContext) {
 			this.context = context;//super.setContext(context);
+		}
+		else if (context != null) {
+			throw new IllegalArgumentException(
+				"Invalid context type: expected "+IEmlContext.class.getName()
+				+ " but got "+context.getClass().getName()
+			);
 		}
 	}
 	

@@ -38,7 +38,17 @@ public class EwlModule extends EolModule implements IEwlModule {
 	protected List<Wizard> wizards = new ArrayList<>();
 	
 	public EwlModule() {
-		setContext(new EwlContext());
+		this(null);
+	}
+	
+	/**
+	 * Instantiates the module with the specified execution context.
+	 * 
+	 * @param context The execution context
+	 * @since 1.6
+	 */
+	public EwlModule(IEwlContext context) {
+		super(context != null ? context : new EwlContext());
 	}
 	
 	@Override
@@ -99,11 +109,6 @@ public class EwlModule extends EolModule implements IEwlModule {
 
 		return applicableWizards;
 	}
-
-	@Override
-	public IEwlContext getContext() {
-		return (IEwlContext) super.getContext();
-	}
 	
 	public List<Wizard> getWizards() {
 		return wizards;
@@ -120,9 +125,20 @@ public class EwlModule extends EolModule implements IEwlModule {
 	}
 
 	@Override
+	public IEwlContext getContext() {
+		return (IEwlContext) super.getContext();
+	}
+	
+	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEwlContext) {
 			super.setContext(context);
+		}
+		else if (context != null) {
+			throw new IllegalArgumentException(
+				"Invalid context type: expected "+IEwlContext.class.getName()
+				+ " but got "+context.getClass().getName()
+			);
 		}
 	}
 

@@ -33,11 +33,11 @@ public class EclModuleParallel extends EclModule implements IErlModuleParallel {
 	}
 	
 	public EclModuleParallel() {
-		this(0);
+		this(null);
 	}
 	
-	public EclModuleParallel(int parallelism) {
-		setContext(new EclContextParallel(parallelism));
+	public EclModuleParallel(IEclContextParallel context) {
+		super(context != null ? context : new EclContextParallel());
 	}
 	
 	@Override
@@ -49,6 +49,12 @@ public class EclModuleParallel extends EclModule implements IErlModuleParallel {
 	public void setContext(IEolContext context) {
 		if (context instanceof IEclContextParallel) {
 			super.setContext(context);
+		}
+		else if (context != null) {
+			throw new IllegalArgumentException(
+				"Invalid context type: expected "+IEclContextParallel.class.getName()
+				+ " but got "+context.getClass().getName()
+			);
 		}
 	}
 	

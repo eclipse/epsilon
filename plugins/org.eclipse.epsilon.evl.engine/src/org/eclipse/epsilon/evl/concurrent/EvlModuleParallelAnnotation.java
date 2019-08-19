@@ -33,8 +33,8 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 		super();
 	}
 
-	public EvlModuleParallelAnnotation(int parallelism) {
-		super(parallelism);
+	public EvlModuleParallelAnnotation(IEvlContextParallel context) {
+		super(context);
 	}
 	
 	@Override

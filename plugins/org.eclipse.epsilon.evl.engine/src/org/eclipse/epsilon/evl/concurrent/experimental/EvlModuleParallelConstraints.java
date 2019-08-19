@@ -35,8 +35,8 @@ public class EvlModuleParallelConstraints extends EvlModuleParallel {
 		super();
 	}
 	
-	public EvlModuleParallelConstraints(int parallelism) {
-		super(parallelism);
+	public EvlModuleParallelConstraints(IEvlContextParallel context) {
+		super(context);
 	}
 	
 	@Override

@@ -14,6 +14,10 @@ import org.eclipse.epsilon.eol.execute.context.EolContext;
 
 public class HutnContext extends EolContext implements IHutnContext {
 
+	HutnContext() {
+		super();
+	}
+	
 	public HutnContext(IHutnModule module) {
 		setModule(module);
 	}

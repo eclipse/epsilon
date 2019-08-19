@@ -26,11 +26,11 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.*;
 public class EvlModuleParallelElements extends EvlModuleParallel {
 
 	public EvlModuleParallelElements() {
-		this(0);
+		super();
 	}
 	
-	public EvlModuleParallelElements(int parallelism) {
-		super(parallelism);
+	public EvlModuleParallelElements(IEvlContextParallel context) {
+		super(context);
 	}
 	
 	@Override

@@ -45,7 +45,17 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	private boolean optimizeConstraints;
 	
 	public EvlModule() {
-		setContext(new EvlContext());
+		this(null);
+	}
+	
+	/**
+	 * Instantiates the module with the specified execution context.
+	 * 
+	 * @param context The execution context
+	 * @since 1.6
+	 */
+	public EvlModule(IEvlContext context) {
+		super(context != null ? context : new EvlContext());
 	}
 
 	public static final String OPTIMIZE_CONSTRAINTS = "optimizeConstraints";
@@ -332,6 +342,12 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	public void setContext(IEolContext context) {
 		if (context instanceof IEvlContext) {
 			super.setContext(context);
+		}
+		else if (context != null) {
+			throw new IllegalArgumentException(
+				"Invalid context type: expected "+IEvlContext.class.getName()
+				+ " but got "+context.getClass().getName()
+			);
 		}
 	}
 	

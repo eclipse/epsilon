@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 import org.eclipse.epsilon.eol.launch.ProfilableIEolModule;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
+import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
  * 
@@ -28,8 +29,8 @@ public abstract class ProfilableEvlModuleParallel extends EvlModuleParallel impl
 
 	protected final Collection<ProfileDiagnostic> profiledStages = new ArrayList<>();
 
-	public ProfilableEvlModuleParallel(int parallelism) {
-		super(parallelism);
+	public ProfilableEvlModuleParallel(IEvlContextParallel context) {
+		super(context);
 	}
 
 	public ProfilableEvlModuleParallel() {

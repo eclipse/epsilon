@@ -30,17 +30,23 @@ public class EolModuleParallel extends EolModule {
 	}
 	
 	public EolModuleParallel() {
-		setContext(new EolContextParallel());
+		this(null);
 	}
 	
-	public EolModuleParallel(int numThreads) {
-		setContext(new EolContextParallel(numThreads));
+	public EolModuleParallel(IEolContextParallel context) {
+		super(context != null ? context : new EolContextParallel());
 	}
 	
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEolContextParallel) {
 			super.setContext(context);
+		}
+		else if (context != null) {
+			throw new IllegalArgumentException(
+				"Invalid context type: expected "+IEolContextParallel.class.getName()
+				+ " but got "+context.getClass().getName()
+			);
 		}
 	}
 	
