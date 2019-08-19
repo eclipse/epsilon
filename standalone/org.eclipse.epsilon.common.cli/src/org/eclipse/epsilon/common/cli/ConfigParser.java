@@ -80,6 +80,70 @@ public class ConfigParser<C extends ProfilableRunConfiguration, B extends Profil
 		}
 	}
 	
+	protected double tryParse(String opt, float absentDefault) throws IllegalArgumentException {
+		if (cmdLine.hasOption(opt)) {
+			String value = cmdLine.getOptionValue(opt);
+			if (value != null && !value.isEmpty()) try {
+				return Float.parseFloat(value);
+			}
+			catch (NumberFormatException nan) {
+				throw new IllegalArgumentException(
+					"Invalid value for option '"+opt
+					+ "': expected float but got "+value
+				);
+			}
+		}
+		return absentDefault;
+	}
+	
+	protected double tryParse(String opt, double absentDefault) throws IllegalArgumentException {
+		if (cmdLine.hasOption(opt)) {
+			String value = cmdLine.getOptionValue(opt);
+			if (value != null && !value.isEmpty()) try {
+				return Double.parseDouble(value);
+			}
+			catch (NumberFormatException nan) {
+				throw new IllegalArgumentException(
+					"Invalid value for option '"+opt
+					+ "': expected double but got "+value
+				);
+			}
+		}
+		return absentDefault;
+	}
+	
+	protected int tryParse(String opt, int absentDefault) throws IllegalArgumentException {
+		if (cmdLine.hasOption(opt)) {
+			String value = cmdLine.getOptionValue(opt);
+			if (value != null && !value.isEmpty()) try {
+				return Integer.parseInt(value);
+			}
+			catch (NumberFormatException nan) {
+				throw new IllegalArgumentException(
+					"Invalid value for option '"+opt
+					+ "': expected int but got "+value
+				);
+			}
+		}
+		return absentDefault;
+	}
+	
+	protected long tryParse(String opt, long absentDefault) throws IllegalArgumentException {
+		if (cmdLine.hasOption(opt)) {
+			String value = cmdLine.getOptionValue(opt);
+			if (value != null && !value.isEmpty()) try {
+				return Long.parseLong(value);
+			}
+			catch (NumberFormatException nan) {
+				throw new IllegalArgumentException(
+					"Invalid value for option '"+opt
+					+ "': expected long but got "+value
+				);
+			}
+		}
+		return absentDefault;
+	}
+	
 	@Override
 	public final void accept(String[] args) {
 		try {
