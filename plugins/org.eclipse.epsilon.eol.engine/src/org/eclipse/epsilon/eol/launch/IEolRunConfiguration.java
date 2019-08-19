@@ -180,6 +180,8 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		
 		@Override
 		public C build() {
+			if (module == null) module = createModule();
+			
 			return buildReflective(() -> {
 				class InstantiableEOC extends IEolRunConfiguration {
 					public InstantiableEOC(Builder<C, B> builder) {

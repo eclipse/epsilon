@@ -149,33 +149,39 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	public static <C extends ProfilableRunConfiguration, B extends Builder<C, B>> B Builder(Class<C> clazz) {
-		Objects.requireNonNull(clazz);
-		
-		Collection<Constructor<?>> constructors = Arrays.stream(clazz.getDeclaredClasses())
-			.filter(c -> Modifier.isStatic(c.getModifiers()))
-			.filter(ProfilableRunConfiguration.Builder.class::isAssignableFrom)
-			.flatMap(c -> Arrays.stream(c.getDeclaredConstructors()))
-			.collect(Collectors.toList());
-		
-		Constructor<?> constructor = constructors.stream()
-			.filter(c -> Arrays.stream(c.getParameterTypes()).anyMatch(p -> p.getClass() == Class.class))
-			.findAny().orElseGet(() -> constructors.stream()
-				.filter(c -> c.getParameterCount() == 0)
-				.findAny().orElse(null)
-			);
-		
+	public static <C extends ProfilableRunConfiguration, B extends Builder<C, B>> B Builder(Class<C> configClass) {
+		Constructor<B> constructor = findBuilder(configClass);
 		if (constructor == null) {
-			throw new IllegalArgumentException("Could not find suitable Builder constructor for "+clazz.getName());
+			throw new IllegalArgumentException("Could not find suitable Builder constructor for "+configClass.getName());
 		}
 		try {
 			constructor.setAccessible(true);
-			return (B) (constructor.getParameterCount() == 0 ? constructor.newInstance() : constructor.newInstance(clazz));
+			return (B) (constructor.getParameterCount() == 0 ? constructor.newInstance() : constructor.newInstance(configClass));
 		}
 		catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
 			throw new IllegalArgumentException(ex);
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected static <C extends ProfilableRunConfiguration, B extends Builder<C, B>> Constructor<B> findBuilder(Class<C> configClass) {
+		Objects.requireNonNull(configClass);
+		Constructor<?> constructor = null;
+		for (Class<?> clazz = configClass; constructor == null && clazz != Object.class; clazz = configClass.getSuperclass()) {
+			Collection<Constructor<?>> constructors = Arrays.stream(clazz.getDeclaredClasses())
+				.filter(c -> Modifier.isStatic(c.getModifiers()))
+				.filter(ProfilableRunConfiguration.Builder.class::isAssignableFrom)
+				.flatMap(c -> Arrays.stream(c.getDeclaredConstructors()))
+				.collect(Collectors.toList());
+			
+			constructor = constructors.stream()
+				.filter(c -> Arrays.stream(c.getParameterTypes()).anyMatch(p -> p.getClass() == Class.class))
+				.findAny().orElseGet(() -> constructors.stream()
+					.filter(c -> c.getParameterCount() == 0)
+					.findAny().orElse(null)
+				);
+		}
+		return (Constructor<B>) constructor;
 	}
 	
 	protected ProfilableRunConfiguration(Builder<?, ?> builder) {

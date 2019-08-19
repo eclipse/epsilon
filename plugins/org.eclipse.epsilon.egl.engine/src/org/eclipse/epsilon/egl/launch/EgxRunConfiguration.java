@@ -27,11 +27,11 @@ import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
  */
 public class EgxRunConfiguration extends IErlRunConfiguration {
 	
-	public static class Builder<R extends EgxRunConfiguration, B extends Builder<R, B>> extends IErlRunConfiguration.Builder<R, B> {
+	public static class Builder<C extends EgxRunConfiguration, B extends Builder<C, B>> extends IErlRunConfiguration.Builder<C, B> {
 		protected Builder() {
 			super();
 		}
-		protected Builder(Class<R> runConfigClass) {
+		protected Builder(Class<C> runConfigClass) {
 			super(runConfigClass);
 		}
 		
@@ -63,9 +63,7 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 	}
 	
 	protected EglTemplateFactory getDefaultTemplateFactory() throws EglRuntimeException {
-		EglFileGeneratingTemplateFactory templateFactory = new EglFileGeneratingTemplateFactory(
-			getModule().getContext().getTemplateFactory().getContext()
-		);
+		EglFileGeneratingTemplateFactory templateFactory = new EglFileGeneratingTemplateFactory();
 		templateFactory.setOutputRoot(getDefaultOutputRoot().toString());
 		return templateFactory;
 	}
