@@ -14,8 +14,11 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
+import org.eclipse.epsilon.evl.concurrent.EvlModuleParallelElements;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
+import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 
 /**
  * 
@@ -59,10 +62,20 @@ public class EvlRunConfiguration extends IErlRunConfiguration {
 		protected Builder(Class<R> runConfigClass) {
 			super(runConfigClass);
 		}
+		
+		@Override
+		protected IEvlModule createDefaultModule() {
+			return new EvlModule();
+		}
+		
+		@Override
+		protected EvlModuleParallel createParallelModule() {
+			return new EvlModuleParallelElements(new EvlContextParallel(parallelism));
+		}
 	}
 	
 	public static Builder<? extends EvlRunConfiguration, ?> Builder() {
-		return new Builder<>();
+		return new Builder<>(EvlRunConfiguration.class);
 	}
 	
 	public EvlRunConfiguration(IErlRunConfiguration.Builder<? extends EvlRunConfiguration, ?> builder) {
@@ -93,11 +106,6 @@ public class EvlRunConfiguration extends IErlRunConfiguration {
 	@Override
 	public IEvlModule getModule() {
 		return (IEvlModule) super.getModule();
-	}
-	
-	@Override
-	protected IEvlModule getDefaultModule() {
-		return new EvlModule();
 	}
 	
 	// METHOD VISIBILITY

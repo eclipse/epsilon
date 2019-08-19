@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.common.launch;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
@@ -145,6 +146,35 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 		public B profileExecution(boolean profile) {
 			this.profileExecution = profile;
 			return (B) this;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <C extends ProfilableRunConfiguration, B extends Builder<C, B>> B Builder(Class<C> clazz) {
+		Objects.requireNonNull(clazz);
+		
+		Collection<Constructor<?>> constructors = Arrays.stream(clazz.getDeclaredClasses())
+			.filter(c -> Modifier.isStatic(c.getModifiers()))
+			.filter(ProfilableRunConfiguration.Builder.class::isAssignableFrom)
+			.flatMap(c -> Arrays.stream(c.getDeclaredConstructors()))
+			.collect(Collectors.toList());
+		
+		Constructor<?> constructor = constructors.stream()
+			.filter(c -> Arrays.stream(c.getParameterTypes()).anyMatch(p -> p.getClass() == Class.class))
+			.findAny().orElseGet(() -> constructors.stream()
+				.filter(c -> c.getParameterCount() == 0)
+				.findAny().orElse(null)
+			);
+		
+		if (constructor == null) {
+			throw new IllegalArgumentException("Could not find suitable Builder constructor for "+clazz.getName());
+		}
+		try {
+			constructor.setAccessible(true);
+			return (B) (constructor.getParameterCount() == 0 ? constructor.newInstance() : constructor.newInstance(clazz));
+		}
+		catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+			throw new IllegalArgumentException(ex);
 		}
 	}
 	

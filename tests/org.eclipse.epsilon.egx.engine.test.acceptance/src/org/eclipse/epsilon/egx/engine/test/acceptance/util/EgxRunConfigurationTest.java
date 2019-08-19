@@ -24,8 +24,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
  */
 public class EgxRunConfigurationTest extends EgxRunConfiguration {
 
-	public EgxRunConfigurationTest(
-		org.eclipse.epsilon.eol.launch.IEolRunConfiguration.Builder<? extends EgxRunConfiguration, ?> builder) {
+	public EgxRunConfigurationTest(Builder<? extends EgxRunConfiguration, ?> builder) {
 		super(builder);
 		// TODO Auto-generated constructor stub
 	}

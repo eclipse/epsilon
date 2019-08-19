@@ -40,7 +40,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		super(builder);
 		this.parameters = builder.parameters;
 		this.modelsAndProperties = builder.modelsAndProperties;
-		this.module = Optional.ofNullable(builder.module).orElseGet(this::getDefaultModule);
+		this.module = Objects.requireNonNull(builder.module, "Module cannot be null!");
 		this.id = Optional.ofNullable(builder.id).orElseGet(() ->
 			Objects.hash(
 				super.id,
@@ -64,11 +64,6 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	public IEolModule getModule() {
 		return module;
 	}
-	
-	/**
-	 * @return a concrete (i.e. non-abstract) implementation of IEolModule.
-	 */
-	protected abstract IEolModule getDefaultModule();
 	
 	@Override
 	protected void preExecute() throws Exception {
@@ -175,7 +170,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	
 	
 	@SuppressWarnings("unchecked")
-	public static class Builder<C extends IEolRunConfiguration, B extends Builder<C, B>> extends ProfilableRunConfiguration.Builder<C, B> {
+	public static abstract class Builder<C extends IEolRunConfiguration, B extends Builder<C, B>> extends ProfilableRunConfiguration.Builder<C, B> {
 		protected Builder() {
 			super();
 		}
@@ -190,25 +185,28 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 					public InstantiableEOC(Builder<C, B> builder) {
 						super(builder);
 					}
-					@Override
-					protected IEolModule getDefaultModule() {
-						throw new UnsupportedOperationException();
-					}
 				};
 				
 				return (C) new InstantiableEOC((Builder<C, B>) this);
 			});
 		}
 		
+		protected abstract IEolModule createModule();
+		
 		public IEolModule module;
 		public Map<IModel, StringProperties> modelsAndProperties = new HashMap<>(4);
 		public Map<String, Object> parameters = new HashMap<>(4);
+		public boolean incremental;
+		public int parallelism = Integer.MIN_VALUE;
 
+		public boolean isParallel() {
+			return parallelism != Integer.MIN_VALUE;
+		}
+		
 		public Builder<C, B> withModule(IEolModule module) {
 			this.module = module;
 			return this;
 		}
-		
 		public Builder<C, B> withModel(IModel model) {
 			return withModel(model, null);
 		}
@@ -226,7 +224,6 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 			}
 			return this;
 		}
-		
 		public Builder<C, B> withProperties(StringProperties properties) {
 			modelsAndProperties.values().forEach(prop -> prop.putAll(properties));
 			return this;
@@ -235,7 +232,6 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 			modelsAndProperties.values().forEach(prop -> prop.put(name, value));
 			return this;
 		}
-		
 		public Builder<C, B> withParameter(String name, Object value) {
 			this.parameters.put(name, value);
 			return this;
@@ -244,9 +240,9 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 			this.parameters.putAll(params);
 			return this;
 		}
-	}
-	
-	public static <C extends IEolRunConfiguration, B extends Builder<C, B>> Builder<C, B> Builder(Class<C> clazz) {
-		return new Builder<>(clazz);
+		public B withParallelism(int parallelism) {
+			this.parallelism = parallelism;
+			return (B) this;
+		}
 	}
 }

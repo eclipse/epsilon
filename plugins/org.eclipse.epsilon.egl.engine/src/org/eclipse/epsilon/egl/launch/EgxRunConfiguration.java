@@ -14,7 +14,10 @@ import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
+import org.eclipse.epsilon.egl.concurrent.EgxModuleParallel;
+import org.eclipse.epsilon.egl.concurrent.EgxModuleParallelRules;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 
 /**
@@ -24,8 +27,27 @@ import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
  */
 public class EgxRunConfiguration extends IErlRunConfiguration {
 	
+	public static class Builder<R extends EgxRunConfiguration, B extends Builder<R, B>> extends IErlRunConfiguration.Builder<R, B> {
+		protected Builder() {
+			super();
+		}
+		protected Builder(Class<R> runConfigClass) {
+			super(runConfigClass);
+		}
+		
+		@Override
+		protected IEgxModule createDefaultModule() {
+			return new EgxModule();
+		}
+		
+		@Override
+		protected EgxModuleParallel createParallelModule() {
+			return new EgxModuleParallelRules(new EgxContextParallel(parallelism));
+		}
+	}
+	
 	public static Builder<? extends EgxRunConfiguration, ?> Builder() {
-		return Builder(EgxRunConfiguration.class);
+		return new Builder<>(EgxRunConfiguration.class);
 	}
 	
 	public EgxRunConfiguration(Builder<? extends EgxRunConfiguration, ?> builder) {
@@ -51,11 +73,6 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 	@Override
 	public IEgxModule getModule() {
 		return (IEgxModule) super.getModule();
-	}
-	
-	@Override
-	protected IEgxModule getDefaultModule() {
-		return new EgxModule();
 	}
 	
 	@Override

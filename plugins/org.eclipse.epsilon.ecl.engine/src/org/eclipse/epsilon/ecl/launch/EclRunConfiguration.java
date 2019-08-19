@@ -11,6 +11,9 @@ package org.eclipse.epsilon.ecl.launch;
 
 import org.eclipse.epsilon.ecl.EclModule;
 import org.eclipse.epsilon.ecl.IEclModule;
+import org.eclipse.epsilon.ecl.concurrent.EclModuleParallel;
+import org.eclipse.epsilon.ecl.concurrent.EclModuleParallelRules;
+import org.eclipse.epsilon.ecl.execute.context.concurrent.EclContextParallel;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
@@ -22,8 +25,27 @@ import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
  */
 public class EclRunConfiguration extends IErlRunConfiguration {
 
+	public static class Builder<R extends EclRunConfiguration, B extends Builder<R, B>> extends IErlRunConfiguration.Builder<R, B> {
+		protected Builder() {
+			super();
+		}
+		protected Builder(Class<R> runConfigClass) {
+			super(runConfigClass);
+		}
+		
+		@Override
+		protected IEclModule createDefaultModule() {
+			return new EclModule();
+		}
+		
+		@Override
+		protected EclModuleParallel createParallelModule() {
+			return new EclModuleParallelRules(new EclContextParallel(parallelism));
+		}
+	}
+	
 	public static Builder<? extends EclRunConfiguration, ?> Builder() {
-		return Builder(EclRunConfiguration.class);
+		return new Builder<>(EclRunConfiguration.class);
 	}
 	
 	public EclRunConfiguration(Builder<? extends EclRunConfiguration, ?> builder) {
@@ -37,11 +59,6 @@ public class EclRunConfiguration extends IErlRunConfiguration {
 	@Override
 	public IEclModule getModule() {
 		return (IEclModule) super.getModule();
-	}
-	
-	@Override
-	protected IEclModule getDefaultModule() {
-		return new EclModule();
 	}
 	
 	@Override

@@ -10,6 +10,8 @@
 package org.eclipse.epsilon.eol.launch;
 
 import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.concurrent.EolModuleParallel;
+import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 
 /**
  * 
@@ -18,8 +20,22 @@ import org.eclipse.epsilon.eol.EolModule;
  */
 public class EolRunConfiguration extends IEolRunConfiguration {
 	
+	public static class Builder<R extends EolRunConfiguration, B extends Builder<R, B>> extends IEolRunConfiguration.Builder<R, B> {
+		protected Builder() {
+			super();
+		}
+		protected Builder(Class<R> runConfigClass) {
+			super(runConfigClass);
+		}
+		
+		@Override
+		protected EolModule createModule() {
+			return isParallel() ? new EolModuleParallel(new EolContextParallel(parallelism)) : new EolModule();
+		}
+	}
+	
 	public static Builder<? extends EolRunConfiguration, ?> Builder() {
-		return Builder(EolRunConfiguration.class);
+		return new Builder<>(EolRunConfiguration.class);
 	}
 	
 	public EolRunConfiguration(Builder<? extends EolRunConfiguration, ?> builder) {
@@ -33,10 +49,5 @@ public class EolRunConfiguration extends IEolRunConfiguration {
 	@Override
 	public EolModule getModule() {
 		return (EolModule) super.getModule();
-	}
-	
-	@Override
-	protected EolModule getDefaultModule() {
-		return new EolModule();
 	}
 }

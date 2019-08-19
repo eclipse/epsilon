@@ -104,6 +104,7 @@ public class EolAcceptanceTestUtil extends EpsilonTestUtil {
 		return properties;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <M extends IEolModule, C extends IEolRunConfiguration> Collection<C> getScenarios(
 			Class<C> clazz,
 			List<String[]> testInputs,
@@ -121,7 +122,7 @@ public class EolAcceptanceTestUtil extends EpsilonTestUtil {
 			Path metamodelFile = Paths.get(testInput[2]);
 			
 			for (Supplier<? extends M> moduleGetter : moduleGetters) {
-				scenarios.add(IEolRunConfiguration.Builder(clazz)
+				scenarios.add(((IEolRunConfiguration.Builder<C, ?>) IEolRunConfiguration.Builder(clazz))
 					.withScript(eolScript)
 					.withModel(new EmfModel(), createModelProperties(modelFile, metamodelFile))
 					.withModule(moduleGetter.get())

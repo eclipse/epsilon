@@ -65,7 +65,8 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 	private final String
 		moduleOpt = "module",
 		modelsOpt = "models",
-		scriptParamsOpt = "parameters";
+		scriptParamsOpt = "parameters",
+		parallelismOpt = "parallelism";
 	
 	
 	public EolConfigParser(B builder) {
@@ -84,9 +85,7 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 			.hasArgs()
 			.valueSeparator()
 			.build()
-		);
-		
-		options.addOption(Option.builder(modelsOpt)
+		).addOption(Option.builder(modelsOpt)
 			.hasArgs()
 			.desc("Specify the models and properties. The format first specifies the concrete Java class to"
 				+ "be instantiated (fully qualified name after org.eclipse.epsilon.emc.), followed by #,"
@@ -96,9 +95,7 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 			)
 			.valueSeparator(';')
 			.build()
-		);
-		
-		options.addOption(Option.builder(scriptParamsOpt)
+		).addOption(Option.builder(scriptParamsOpt)
 			.hasArgs()
 			.desc("Specify parameters to the script in comma-separated key=value pairs. Note that "
 				+ "the type of variable passed will always be a String."
@@ -106,24 +103,75 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 			.optionalArg(true)
 			.valueSeparator(',')
 			.build()
+		).addOption(Option.builder("threads")
+			.longOpt(parallelismOpt)
+			.desc("Maximum number of simulatenously running jobs.")
+			.hasArg()
+			.build()
 		);
 	}
 	
 	@Override
 	protected void parseArgs(String[] args) throws Exception {
 		super.parseArgs(args);
-		
+		builder.parallelism = tryParse(parallelismOpt, builder.parallelism);
 		if (cmdLine.hasOption(moduleOpt)) {
 			builder.module = parseModule(cmdLine.getOptionValues(moduleOpt));
 		}
-		
 		if (cmdLine.hasOption(modelsOpt)) {
 			builder.modelsAndProperties.putAll(parseModelParameters(cmdLine.getOptionValues(modelsOpt)));
 		}
-		
 		if (cmdLine.hasOption(scriptParamsOpt)) {
 			builder.parameters.putAll(parseScriptParameters(cmdLine.getOptionValues(scriptParamsOpt)));
 		}
+	}
+	
+	protected double tryParse(String opt, double absentDefault) throws IllegalArgumentException {
+		if (cmdLine.hasOption(opt)) {
+			String value = cmdLine.getOptionValue(opt);
+			if (value != null && !value.isEmpty()) try {
+				return Double.parseDouble(value);
+			}
+			catch (NumberFormatException nan) {
+				throw new IllegalArgumentException(
+					"Invalid value for option '"+opt
+					+ "': expected double but got "+value
+				);
+			}
+		}
+		return absentDefault;
+	}
+	
+	protected int tryParse(String opt, int absentDefault) throws IllegalArgumentException {
+		if (cmdLine.hasOption(opt)) {
+			String value = cmdLine.getOptionValue(opt);
+			if (value != null && !value.isEmpty()) try {
+				return Integer.parseInt(value);
+			}
+			catch (NumberFormatException nan) {
+				throw new IllegalArgumentException(
+					"Invalid value for option '"+opt
+					+ "': expected int but got "+value
+				);
+			}
+		}
+		return absentDefault;
+	}
+	
+	protected long tryParse(String opt, long absentDefault) throws IllegalArgumentException {
+		if (cmdLine.hasOption(opt)) {
+			String value = cmdLine.getOptionValue(opt);
+			if (value != null && !value.isEmpty()) try {
+				return Long.parseLong(value);
+			}
+			catch (NumberFormatException nan) {
+				throw new IllegalArgumentException(
+					"Invalid value for option '"+opt
+					+ "': expected long but got "+value
+				);
+			}
+		}
+		return absentDefault;
 	}
 	
 	public static Map<IModel, StringProperties> parseModelParameters(String[] arguments) throws Exception {
