@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # For Java 8
-JAVADOC_FLAGS="-Xdoclint:none"
+JAVADOC_FLAGS="-encoding UTF-8 -Xdoclint:none"
 #JAVADOC_FLAGS=""
 
 for srcjar in target/epsilon-*-sources.jar; do
