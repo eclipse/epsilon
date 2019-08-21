@@ -11,6 +11,9 @@ pipeline {
         maven 'apache-maven-3.5.4'
         jdk 'oracle-jdk8-latest'
     }
+    triggers {
+        pollSCM('* * * * *')
+    }
     stages {
         stage('Build') {
             steps {
@@ -21,7 +24,7 @@ pipeline {
             }
         }
         stage('Update website') {
-          when { branch 'master' }
+          when { branch 'refs/remotes/origin/master' }
           steps {
             lock('download-area') {
               sshagent ( ['projects-storage.eclipse.org-bot-ssh']) {
@@ -39,7 +42,7 @@ pipeline {
           }
         }
         stage('Deploy to OSSRH') {
-          when { branch 'master' }
+          when { branch 'refs/remotes/origin/master' }
           steps {
             withMaven(maven: 'apache-maven-3.3.9', mavenSettingsFilePath: '/opt/public/hipp/homes/genie.epsilon/.m2/settings-deploy-ossrh.xml') {
               sh '''
