@@ -11,11 +11,6 @@ pipeline {
         maven 'apache-maven-3.5.4'
         jdk 'oracle-jdk8-latest'
     }
-    options {
-      // Only one concurrent build per branch.
-      // Mostly for master builds which include packaging.
-      disableConcurrentBuilds()
-    }
     stages {
         stage('Build') {
             steps {
@@ -28,16 +23,18 @@ pipeline {
         stage('Update website') {
           when { branch 'master' }
           steps {
-            sshagent ( ['projects-storage.eclipse.org-bot-ssh']) {
-              sh '''
-                ssh genie.epsilon@projects-storage.eclipse.org rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim
-                scp -r "$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/site" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim
-                scp "$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim/site.zip
-                ssh genie.epsilon@projects-storage.eclipse.org bash -c "rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-jars/*"
-                scp "$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target/epsilon-"* /home/data/httpd/download.eclipse.org/epsilon/interim-jars
-                ssh genie.epsilon@projects-storage.eclipse.org rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-javadoc
-                scp -r "$WORKSPACE/target/site/apidocs" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim-javadoc
-              '''
+            lock('download-area') {
+              sshagent ( ['projects-storage.eclipse.org-bot-ssh']) {
+                sh '''
+                  ssh genie.epsilon@projects-storage.eclipse.org rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim
+                  scp -r "$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/site" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim
+                  scp "$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim/site.zip
+                  ssh genie.epsilon@projects-storage.eclipse.org bash -c "rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-jars/*"
+                  scp "$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target/epsilon-"* /home/data/httpd/download.eclipse.org/epsilon/interim-jars
+                  ssh genie.epsilon@projects-storage.eclipse.org rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-javadoc
+                  scp -r "$WORKSPACE/target/site/apidocs" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim-javadoc
+                '''
+              }
             }
           }
         }
@@ -52,7 +49,9 @@ do
   echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
 done
               '''
-              sh 'mvn -B -f standalone/org.eclipse.epsilon.standalone/pom.xml -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
+              lock('ossrh') {
+                sh 'mvn -B -f standalone/org.eclipse.epsilon.standalone/pom.xml -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
+              }
             }
           }
         }
