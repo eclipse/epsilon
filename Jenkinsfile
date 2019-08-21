@@ -18,13 +18,13 @@ pipeline {
         stage('Build') {
             steps {
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
-                  sh 'mvn -B clean install javadoc:aggregate'
+                  sh 'mvn -B --quiet clean install javadoc:aggregate'
                 }
                 sh 'cd standalone/org.eclipse.epsilon.standalone/ && bash build-javadoc-jar.sh'
             }
         }
         stage('Update website') {
-          when { branch 'refs/remotes/origin/master' }
+          when { branch 'master' }
           steps {
             lock('download-area') {
               sshagent ( ['projects-storage.eclipse.org-bot-ssh']) {
@@ -42,7 +42,7 @@ pipeline {
           }
         }
         stage('Deploy to OSSRH') {
-          when { branch 'refs/remotes/origin/master' }
+          when { branch 'master' }
           steps {
             withMaven(maven: 'apache-maven-3.3.9', mavenSettingsFilePath: '/opt/public/hipp/homes/genie.epsilon/.m2/settings-deploy-ossrh.xml') {
               sh '''
@@ -53,7 +53,7 @@ do
 done
               '''
               lock('ossrh') {
-                sh 'mvn -B -f standalone/org.eclipse.epsilon.standalone/pom.xml -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
+                sh 'mvn -B --quiet -f standalone/org.eclipse.epsilon.standalone/pom.xml -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
               }
             }
           }
