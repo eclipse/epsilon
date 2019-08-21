@@ -12,7 +12,7 @@ pipeline {
         jdk 'oracle-jdk8-latest'
     }
     triggers {
-        pollSCM('* * * * *')
+        pollSCM('H/5 * * * *')
     }
     stages {
         stage('Build') {
