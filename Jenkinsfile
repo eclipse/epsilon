@@ -21,6 +21,7 @@ pipeline {
             }
         }
         stage('Update website') {
+          when { branch 'master' }
           steps {
             sshagent ( ['projects-storage.eclipse.org-bot-ssh']) {
               sh '''
@@ -36,6 +37,7 @@ pipeline {
           }
         }
         stage('Deploy to OSSRH') {
+          when { branch 'master' }
           steps {
             withMaven(maven: 'apache-maven-3.3.9', mavenSettingsFilePath: '/opt/public/hipp/homes/genie.epsilon/.m2/settings-deploy-ossrh.xml') {
               sh '''
