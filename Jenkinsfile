@@ -11,6 +11,11 @@ pipeline {
         maven 'apache-maven-3.5.4'
         jdk 'oracle-jdk8-latest'
     }
+    options {
+      // Only one concurrent build per branch.
+      // Mostly for master builds which include packaging.
+      disableConcurrentBuilds()
+    }
     stages {
         stage('Build') {
             steps {
