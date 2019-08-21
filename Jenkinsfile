@@ -22,10 +22,17 @@ pipeline {
         }
         stage('Update website') {
           steps {
-            sh 'rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim && cp -r "$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/site" /home/data/httpd/download.eclipse.org/epsilon/interim'
-            sh 'rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim/site.zip && cp "$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/site_assembly.zip" /home/data/httpd/download.eclipse.org/epsilon/interim/site.zip'
-            sh 'rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-jars/* && cp $WORKSPACE/standalone/org.eclipse.epsilon.standalone/target/epsilon-* /home/data/httpd/download.eclipse.org/epsilon/interim-jars'
-            sh 'rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-javadoc && cp -r "$WORKSPACE/target/site/apidocs" /home/data/httpd/download.eclipse.org/epsilon/interim-javadoc'
+            sshagent ( ['projects-storage.eclipse.org-bot-ssh']) {
+              sh '''
+                ssh genie.epsilon@projects-storage.eclipse.org rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim
+                scp -r "$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/site" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim
+                scp "$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim/site.zip
+                ssh genie.epsilon@projects-storage.eclipse.org bash -c 'rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-jars/*'
+                scp "$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target/epsilon-"* /home/data/httpd/download.eclipse.org/epsilon/interim-jars
+                ssh genie.epsilon@projects-storage.eclipse.org rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-javadoc
+                scp -r "$WORKSPACE/target/site/apidocs" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim-javadoc
+              '''
+            }
           }
         }
         stage('Deploy to OSSRH') {
