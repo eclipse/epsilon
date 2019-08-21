@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # For Java 8
-#JAVADOC_FLAGS="-Xdoclint:none"
-JAVADOC_FLAGS=""
+JAVADOC_FLAGS="-Xdoclint:none"
+#JAVADOC_FLAGS=""
 
 for srcjar in target/epsilon-*-sources.jar; do
     rm -rf tmpsrc tmpjavadoc
