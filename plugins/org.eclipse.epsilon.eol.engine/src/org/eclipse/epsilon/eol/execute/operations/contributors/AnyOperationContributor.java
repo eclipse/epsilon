@@ -32,28 +32,28 @@ public class AnyOperationContributor extends OperationContributor {
 	
 	public Object type() {
 		
-		if (EolPrimitiveType.String.isType(target)){
+		if (EolPrimitiveType.String.isType(target)) {
 			return EolPrimitiveType.String;
 		}
-		else if (EolPrimitiveType.Boolean.isType(target)){
+		else if (EolPrimitiveType.Boolean.isType(target)) {
 			return EolPrimitiveType.Boolean;
 		}
-		else if (EolPrimitiveType.Real.isType(target)){
+		else if (EolPrimitiveType.Real.isType(target)) {
 			return EolPrimitiveType.Real;
 		}
-		else if (EolPrimitiveType.Integer.isType(target)){
+		else if (EolPrimitiveType.Integer.isType(target)) {
 			return EolPrimitiveType.Integer;
 		}
-		else if (EolCollectionType.Bag.isType(target)){
+		else if (EolCollectionType.Bag.isType(target)) {
 			return EolCollectionType.Bag;
 		}
-		else if (EolCollectionType.Sequence.isType(target)){
+		else if (EolCollectionType.Sequence.isType(target)) {
 			return EolCollectionType.Sequence;
 		}
-		else if (EolCollectionType.Set.isType(target)){
+		else if (EolCollectionType.Set.isType(target)) {
 			return EolCollectionType.Set;
 		}
-		else if (EolCollectionType.OrderedSet.isType(target)){
+		else if (EolCollectionType.OrderedSet.isType(target)) {
 			return EolCollectionType.OrderedSet;
 		}
 		

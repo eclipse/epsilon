@@ -45,24 +45,21 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void main(String... args) throws ClassNotFoundException {
-		if (args.length > 0) {
+		if (args.length < 1) throw new IllegalArgumentException("Must provide arguments! At the minimum, an Epsilon script is required.");
+		if (args[0].toUpperCase().startsWith("CONFIG")) {
+			Class<? extends IEolRunConfiguration> configClass = (Class<? extends IEolRunConfiguration>)
+				Class.forName(args[0].substring(7));
 			
-			if (args[0].toUpperCase().startsWith("CONFIG")) {
-				Class<? extends IEolRunConfiguration> configClass = (Class<? extends IEolRunConfiguration>)
-					Class.forName(args[0].substring(7));
-				
-				String[] adjustedArgs = Arrays.copyOfRange(args, 1, args.length);
-				new EolConfigParser(IEolRunConfiguration.Builder(configClass)).apply(adjustedArgs).run();
-			}
-			else {
-				new EolConfigParser(IEolRunConfiguration.Builder(getRunConfigurationForScript(args[0])))
-					.apply(args).run();
-			}
-			
+			String[] adjustedArgs = Arrays.copyOfRange(args, 1, args.length);
+			new EolConfigParser(IEolRunConfiguration.Builder(configClass)).apply(adjustedArgs).run();
+		}
+		else {
+			new EolConfigParser(IEolRunConfiguration.Builder(getRunConfigurationForScript(args[0])))
+				.apply(args).run();
 		}
 	}
 	
-	private final String
+	protected String
 		moduleOpt = "module",
 		modelsOpt = "models",
 		scriptParamsOpt = "parameters",

@@ -17,6 +17,7 @@ import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.EolUndefinedVariableException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
@@ -25,6 +26,7 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContribu
 import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolNoType;
+import org.eclipse.epsilon.eol.types.EolUndefined;
 
 public class OperationCallExpression extends FeatureCallExpression {
 	
@@ -81,7 +83,12 @@ public class OperationCallExpression extends FeatureCallExpression {
 		String operationName = nameExpression.getName();
 		
 		if (!contextless) {
-			targetObject = context.getExecutorFactory().execute(targetExpression, context);
+			try {
+				targetObject = context.getExecutorFactory().execute(targetExpression, context);
+			}
+			catch (EolUndefinedVariableException npe) {
+				targetObject = EolUndefined.INSTANCE;
+			}
 		}
 		else {
 			targetObject = EolNoType.NoInstance;

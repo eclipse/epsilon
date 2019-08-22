@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.common.cli;
 
 import java.io.PrintWriter;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -35,8 +36,10 @@ public class ConfigParser<C extends ProfilableRunConfiguration, B extends Profil
 		nL = System.lineSeparator(),
 		profileExecutionOpt = "profile",
 		showResultsOpt = "results",
+		helpOpt = "help",
+		scriptOpt = "script",
 		outFileOpt = "outfile",
-		requiredUsage = "  [absolute path to script] "+nL,
+		requiredUsage = " [absolute path to script] "+nL,
 		optionalUsage = "  [show results] "+nL
 		  + "  [profile execution] "+nL
 		  + "  [output file] "+nL;
@@ -46,10 +49,11 @@ public class ConfigParser<C extends ProfilableRunConfiguration, B extends Profil
 	}
 	
 	protected Options options = new Options()
-		.addOption("h", false, "help")
-		.addOption(profileExecutionOpt, false, "Whether to profile execution time and memory usage.")
-		.addOption(showResultsOpt, false, "Whether to output the results.")
-		.addOption(outFileOpt, true, "Specify a path to output file.");
+		.addOption(Option.builder("h").longOpt(helpOpt).desc(helpOpt).build())
+		.addOption(Option.builder("p").longOpt(profileExecutionOpt).desc("Whether to profile execution time and memory usage.").build())
+		.addOption(Option.builder("r").longOpt(showResultsOpt).desc("Whether to output the results.").build())
+		.addOption(Option.builder("o").longOpt(outFileOpt).hasArg().desc("Specify a path to output file.").build())
+		.addOption(Option.builder("i").longOpt(scriptOpt).hasArg().desc("Path to input file.").build());
 	
 	protected HelpFormatter help = new HelpFormatter();
 	protected CommandLine cmdLine;
@@ -57,7 +61,7 @@ public class ConfigParser<C extends ProfilableRunConfiguration, B extends Profil
 	protected void parseArgs(String[] args) throws Exception {
 		cmdLine = new DefaultParser().parse(options, args);
 		
-		if (cmdLine.hasOption('h') || cmdLine.hasOption("help")) {
+		if (cmdLine.hasOption(helpOpt)) {
 			help.printHelp(formatUsage(), options);
 		}
 		
@@ -68,7 +72,15 @@ public class ConfigParser<C extends ProfilableRunConfiguration, B extends Profil
 			builder.outputFile = Paths.get(cmdLine.getOptionValue(outFileOpt));
 		}
 		
-		builder.script = Paths.get(args[0]);
+		if (cmdLine.hasOption(scriptOpt)) {
+			builder.script = Paths.get(cmdLine.getOptionValue(scriptOpt));
+		}
+		else try {
+			builder.script = Paths.get(args[0]);
+		}
+		catch (ArrayIndexOutOfBoundsException | InvalidPathException ex) {
+			throw new IllegalArgumentException(scriptOpt + " is mandatory!", ex);
+		}
 	}
 	
 	protected void handleException(Exception ex) {
