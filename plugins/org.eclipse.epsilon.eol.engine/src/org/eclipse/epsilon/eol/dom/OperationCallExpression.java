@@ -87,7 +87,13 @@ public class OperationCallExpression extends FeatureCallExpression {
 				targetObject = context.getExecutorFactory().execute(targetExpression, context);
 			}
 			catch (EolUndefinedVariableException npe) {
-				targetObject = EolUndefined.INSTANCE;
+				switch (operationName) {
+					case "isDefined":
+					case "isUndefined":
+						targetObject = EolUndefined.INSTANCE;
+						break;
+					default: targetObject = null;
+				}
 			}
 		}
 		else {
