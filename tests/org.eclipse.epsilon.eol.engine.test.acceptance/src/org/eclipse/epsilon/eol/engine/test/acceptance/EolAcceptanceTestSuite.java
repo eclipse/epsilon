@@ -36,6 +36,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	StringTests.class,
 	AnnotatedOperationTests.class,
 	IsDefinedTests.class,
+	ExceptionTests.class,
 	IterableTests.class,
 	EqualityBecomesAssignmentInStatements.class,
 	ReturnTypeTests.class,

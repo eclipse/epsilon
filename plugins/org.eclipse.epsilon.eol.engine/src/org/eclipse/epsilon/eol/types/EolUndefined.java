@@ -22,6 +22,13 @@ public final class EolUndefined extends EolAny implements IUndefined {
 	
 	private EolUndefined() {}
 	
-	public static EolUndefined INSTANCE = new EolUndefined();
+	public static final EolUndefined INSTANCE = new EolUndefined();
 	
+	public boolean isDefined() {
+		return false;
+	}
+	
+	public boolean isUndefined() {
+		return true;
+	}
 }

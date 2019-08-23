@@ -27,3 +27,46 @@ operation emptyStringIsNotDefined() {
 operation emptyStringIsUndefined() {
 	assert(''.isUndefined());
 }
+
+@test
+operation undeclaredVariableIsUndefinedNoException() {
+	assert(myVar.isUndefined());
+}
+
+@test
+operation undeclaredVariableIsNotDefinedNoException() {
+	assert(not myUndeclaredVar.isDefined());
+}
+
+@test
+operation declaredVariableIsDefined() {
+	var definedVar = 2;
+	assert(definedVar.isDefined());
+}
+
+@test
+operation nullVariableIsUndefined() {
+	var myNull = null;
+	assert(myNull.isUndefined());
+}
+
+@test
+operation unassignedVariableIsNotDefined() {
+	var unassigned;
+	assert(not unassigned.isDefined());
+}
+
+@test
+operation outOfScopeVariableIsUndefined() {
+	assert(definedVar.isUndefined());
+	var maybe;
+	if (Native("java.lang.Math").random() > 0.5) {
+		maybe = Sequence{""};
+		assert(maybe.isDefined());
+	}
+	else {
+		assert(maybe.isUndefined());
+		return;
+	}
+	assert(maybe.isDefined());
+}
