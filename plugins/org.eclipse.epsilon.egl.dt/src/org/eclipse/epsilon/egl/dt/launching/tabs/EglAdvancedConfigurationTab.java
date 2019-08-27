@@ -37,7 +37,6 @@ public class EglAdvancedConfigurationTab extends AbstractAdvancedConfigurationTa
 	
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		removeAvailableImpls();
 		updateAvailableImpls(configuration);
 		super.performApply(configuration);
 	}

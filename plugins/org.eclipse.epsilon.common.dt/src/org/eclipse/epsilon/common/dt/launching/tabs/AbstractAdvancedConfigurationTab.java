@@ -126,6 +126,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 			System.out.println("moduleConfig performApply");
 			moduleConfig.performApply(configuration);
 		}
+		setDirty(false);
 	}
 	
 
@@ -155,26 +156,34 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	 */
 	public abstract String getLanguage(ILaunchConfiguration configuration);
 	
-
-	/**
-	 * Removes all options from the drop-down.
-	 */
-	protected final void removeAvailableImpls() {
-		modulesDropDown.removeAll();
-	}
 	
 	/**
 	 * This method updates the drop-down list of available implementations. If no alternatives 
 	 * exist, the combo (or the parent) can be disabled, but should show the default one. 
-	 * @param configuration the eclipse launch configuration
-	 * @param control
+	 * @param configuration the Eclipse launch configuration
 	 */
 	protected final void updateAvailableImpls(ILaunchConfiguration configuration) {
-		getImplementations(configuration)
-			.stream()
-			.filter(impl -> shouldImplementationBeIncludedInDropDown(impl, configuration))
-			.forEach(modulesDropDown::add);
-		modulesDropDown.select(0);
+		for (String impl : getImplementations(configuration)) {
+			if (shouldImplementationBeIncludedInDropDown(impl, configuration)) {
+				boolean isIncluded = false;
+				for (String dd : modulesDropDown.getItems()) {
+					if (dd.equals(impl)) {
+						isIncluded = true;
+						break;
+					}
+				}
+				if (!isIncluded) {
+					modulesDropDown.add(impl);
+				}
+			}
+			else {
+				modulesDropDown.remove(impl);
+			}
+		}
+		
+		if (modulesDropDown.getSelectionIndex() < 0) {
+			modulesDropDown.select(0);
+		}
 		modulesDropDown.setEnabled(modulesDropDown.getItemCount() > 1);
 	}
 	
@@ -242,7 +251,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 				}
 				return 0;
 			})
-			.map(i -> i.getName())
+			.map(ModuleImplementationExtension::getName)
 			.collect(Collectors.toList());
 	}
 	

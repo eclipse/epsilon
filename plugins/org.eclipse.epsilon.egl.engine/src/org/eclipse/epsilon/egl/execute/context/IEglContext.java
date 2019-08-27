@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.egl.execute.context;
 
 import java.util.List;
-import java.util.function.Supplier;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;

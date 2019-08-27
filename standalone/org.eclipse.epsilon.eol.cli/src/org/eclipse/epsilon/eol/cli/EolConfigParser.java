@@ -9,6 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.cli;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,6 +24,7 @@ import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 
@@ -70,7 +73,7 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 		super(builder);
 		
 		requiredUsage += "-models [model class]#[model properties];"+nL;
-		optionalUsage += "  [module] [argtype=argvalue]s..."+nL;
+		optionalUsage += "  -module [org.eclipse.epsilon.moduleClass]"+nL;
 		
 		options.addOption(Option.builder(moduleOpt)
 			.hasArg()
@@ -185,20 +188,38 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 			if (additionals % 2 != 0)
 				throw new IllegalArgumentException("Must provide the types and arguments for module.");
 			int arrSize = additionals/2;
-			Class<?>[] moduleArgTypes = new Class[arrSize];
+			Class<?>[] contextArgTypes = new Class[arrSize];
 			Object[] parsedArgs = new Object[arrSize];
 			
 			for (int l = 0, a = 0; l < arrSize*2; l += 2, a++) {
 				Class<?>[] type = getType(args[l+1]);
 				Class<?> constructType = type.length == 2 ? type[1] : type[0];
-				moduleArgTypes[a] = type[0];
+				contextArgTypes[a] = type[0];
 				parsedArgs[a] = constructType.getConstructor(String.class).newInstance(args[l+2]);
 			}
 
 			Class<?> moduleClass = Class.forName(basePkg+args[0]);
-
+			Class<? extends IEolContext> moduleContextClass = (Class<? extends IEolContext>) Arrays.stream(
+					moduleClass.getDeclaredConstructors()
+				)
+				.map(Constructor::getParameterTypes)
+				.filter(c -> c.length == 1)
+				.flatMap(Arrays::stream)
+				.filter(IEolContext.class::isAssignableFrom)
+				.findAny()
+				.orElseThrow(() -> new IllegalArgumentException("Could not find appropriate constructor for "+moduleClass.getName()));
+			
+			Class<? extends IEolContext> concreteContextClass =  moduleContextClass;
+			if (Modifier.isAbstract(concreteContextClass.getModifiers())) {
+				String concreteClassName = concreteContextClass.getName().replace(".I", ".");
+				concreteContextClass = (Class<? extends IEolContext>) Class.forName(concreteClassName);
+				assert !Modifier.isAbstract(concreteContextClass.getModifiers());
+			}
+			
+			IEolContext context = concreteContextClass.getDeclaredConstructor(contextArgTypes).newInstance(parsedArgs);
+			
 			try {
-				return (R) moduleClass.getDeclaredConstructor(moduleArgTypes).newInstance(parsedArgs);
+				return (R) moduleClass.getDeclaredConstructor(moduleContextClass).newInstance(context);
 			}
 			catch (IllegalAccessException ex) {
 				System.err.println("WARNING: Could not find appropriate constructor for supplied parameters. Proceeding with defaults.");
@@ -207,7 +228,7 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 			}
 		}
 		catch (Exception ex) {
-			throw new IllegalArgumentException("Could not find or instantiate the module: "+ex.getMessage());
+			throw new IllegalArgumentException("Could not find or instantiate the module", ex);
 		}
 	}
 	
