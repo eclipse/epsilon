@@ -22,7 +22,6 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
@@ -174,19 +173,6 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	@Override
 	public IEtlContext getContext() {
 		return (IEtlContext) super.getContext();
-	}
-	
-	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IEtlContext) {
-			super.setContext(context);
-		}
-		else if (context != null) {
-			throw new IllegalArgumentException(
-				"Invalid context type: expected "+IEtlContext.class.getName()
-				+ " but got "+context.getClass().getName()
-			);
-		}
 	}
 	
 	@Override

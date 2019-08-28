@@ -16,7 +16,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
 
@@ -46,19 +45,6 @@ public class EgxModuleParallel extends EgxModule implements IErlModuleParallel {
 	@Override
 	public IEgxContextParallel getContext() {
 		return (IEgxContextParallel) super.getContext();
-	}
-	
-	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IEgxContextParallel) {
-			super.setContext(context);
-		}
-		else if (context != null) {
-			throw new IllegalArgumentException(
-				"Invalid context type: expected "+IEgxContextParallel.class.getName()
-				+ " but got "+context.getClass().getName()
-			);
-		}
 	}
 	
 	/**

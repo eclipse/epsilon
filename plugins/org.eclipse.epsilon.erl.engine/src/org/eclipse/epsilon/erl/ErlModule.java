@@ -160,19 +160,6 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 	}
 	
 	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IErlContext) {
-			super.setContext(context);
-		}
-		else if (context != null) {
-			throw new IllegalArgumentException(
-				"Invalid context type: expected "+IErlContext.class.getName()
-				+ " but got "+context.getClass().getName()
-			);
-		}
-	}
-	
-	@Override
 	public IErlContext getContext() {
 		return (IErlContext) super.getContext();
 	}

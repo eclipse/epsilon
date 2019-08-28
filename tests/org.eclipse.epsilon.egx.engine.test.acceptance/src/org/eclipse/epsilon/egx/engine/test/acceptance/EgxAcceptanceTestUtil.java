@@ -30,7 +30,7 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		testsBase = getTestBaseDir(EgxAcceptanceTestSuite.class),
 		thriftBase = testsBase+"thrift/",
 		thriftMetamodel = "thrift.ecore",
-		thriftModels[] = {/*"ThriftTest.xmi", "SimpleService.xmi",*/ "fb303.xmi"},
+		thriftModels[] = {/*"ThriftTest.xmi", */"SimpleService.xmi", "fb303.xmi"},
 		thriftScripts[] = {"thrift-rb", "thrift-java"};
 		
 	public static final List<String[]> thriftInputs;
@@ -64,7 +64,7 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	}
 	
 	public static void deleteOutputDirectories() throws IOException {
-		//FileUtil.deleteDirectory(thriftBase+"java/output");
+		FileUtil.deleteDirectory(thriftBase+"java/output");
 		FileUtil.deleteDirectory(thriftBase+"ruby/output");
 	}
 	

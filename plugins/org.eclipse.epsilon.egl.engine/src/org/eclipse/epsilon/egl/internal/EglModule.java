@@ -245,13 +245,6 @@ public class EglModule extends EolModule implements IEglModule {
 		return (IEglContext) super.getContext();
 	}
 	
-	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IEglContext) {
-			this.context = context;
-		}
-	}
-	
 	protected boolean hasAnnotation(AST ast, String name) {
 		if (ast.getAnnotationsAst() == null) return false;
 		for (AST annotation : ast.getAnnotationsAst().getChildren()) {

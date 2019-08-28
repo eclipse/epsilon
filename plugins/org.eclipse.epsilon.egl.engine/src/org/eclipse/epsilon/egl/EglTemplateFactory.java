@@ -241,12 +241,15 @@ public class EglTemplateFactory {
 	}
 
 	private EglTemplateSpecificationFactory createTemplateSpecificationFactory() {
-		return new EglTemplateSpecificationFactory(defaultFormatter, defaultIncrementalitySettings, listeners.toArray(new ITemplateExecutionListener[0]));
+		return new EglTemplateSpecificationFactory(
+			defaultFormatter, defaultIncrementalitySettings,
+			listeners.toArray(new ITemplateExecutionListener[listeners.size()])
+		);
 	}
 		
 	@Override
 	public String toString() {
 		final String root = templateRoot == null ? "" : templateRoot.toString();
-		return "TemplateFactory: root='" + root + "'";
+		return getClass().getSimpleName()+": root='" + root + "'";
 	}
 }

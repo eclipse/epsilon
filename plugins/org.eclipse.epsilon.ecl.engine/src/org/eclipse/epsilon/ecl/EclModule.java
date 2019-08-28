@@ -30,7 +30,6 @@ import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
@@ -182,12 +181,5 @@ public class EclModule extends ErlModule implements IEclModule {
 	@Override
 	protected int getPreBlockTokenType() {
 		return EclParser.PRE;
-	}
-
-	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IEclContext) {
-			super.setContext(context);
-		}
 	}
 }

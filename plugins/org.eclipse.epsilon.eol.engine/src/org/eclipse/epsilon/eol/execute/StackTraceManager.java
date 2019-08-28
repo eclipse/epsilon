@@ -91,4 +91,16 @@ public class StackTraceManager implements IExecutionListener {
 				ast.getRegion().getEnd().getColumn() + ")";
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(stackTrace);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (!(obj instanceof StackTraceManager)) return false;
+		StackTraceManager other = (StackTraceManager) obj;
+		return Objects.equals(this.stackTrace, other.stackTrace);
+	}
 }

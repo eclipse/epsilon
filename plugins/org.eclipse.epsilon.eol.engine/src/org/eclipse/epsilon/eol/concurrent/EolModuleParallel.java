@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
@@ -35,19 +34,6 @@ public class EolModuleParallel extends EolModule {
 	
 	public EolModuleParallel(IEolContextParallel context) {
 		super(context != null ? context : new EolContextParallel());
-	}
-	
-	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IEolContextParallel) {
-			super.setContext(context);
-		}
-		else if (context != null) {
-			throw new IllegalArgumentException(
-				"Invalid context type: expected "+IEolContextParallel.class.getName()
-				+ " but got "+context.getClass().getName()
-			);
-		}
 	}
 	
 	@Override

@@ -23,7 +23,6 @@ import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.evl.dom.*;
@@ -338,19 +337,6 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		return EvlParser.PRE;
 	}
 
-	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IEvlContext) {
-			super.setContext(context);
-		}
-		else if (context != null) {
-			throw new IllegalArgumentException(
-				"Invalid context type: expected "+IEvlContext.class.getName()
-				+ " but got "+context.getClass().getName()
-			);
-		}
-	}
-	
 	/**
 	 * Checks if is optimize constraints.
 	 *

@@ -44,6 +44,11 @@ public class EolModule extends AbstractModule implements IEolModule {
 	protected Set<ModelDeclaration> modelDeclarations;
 	protected EolCompilationContext compilationContext;
 	private IEolModule parent;
+	/**
+	 * The type of {@link #context} when using {@link #getContext()} and {@link #setContext(IEolContext)}.
+	 * @since 1.6
+	 */
+	protected Class<? extends IEolContext> expectedContextType = IEolContext.class;
 	
 	public EolModule() {
 		this(null);
@@ -55,8 +60,15 @@ public class EolModule extends AbstractModule implements IEolModule {
 	 * @param context The execution context
 	 * @since 1.6
 	 */
+	@SuppressWarnings("unchecked")
 	public EolModule(IEolContext context) {
 		setContext(context != null ? context : new EolContext());
+		Arrays.stream(getClass().getConstructors())
+			.flatMap(c -> Arrays.stream(c.getParameters()))
+			.map(java.lang.reflect.Parameter::getType)
+			.filter(expectedContextType::isAssignableFrom)
+			.findFirst()
+			.ifPresent(c -> expectedContextType = (Class<? extends IEolContext>) c);
 	}
 	
 	@Override
@@ -437,6 +449,12 @@ public class EolModule extends AbstractModule implements IEolModule {
 
 	@Override
 	public void setContext(IEolContext context) {
+		if (context != null && !expectedContextType.isAssignableFrom(context.getClass())) {
+			throw new IllegalArgumentException(
+				"Invalid context type: expected "+expectedContextType.getName()
+				+ " but got "+context.getClass().getName()
+			);
+		}
 		if (this.context != context) {
 			this.context = context;
 			for (Import import_ : getImports()) {

@@ -30,7 +30,6 @@ import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
@@ -218,18 +217,5 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	@Override
 	public IEgxContext getContext() {
 		return (IEgxContext) super.getContext();
-	}
-
-	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IEgxContext) {
-			super.setContext(context);
-		}
-		else if (context != null) {
-			throw new IllegalArgumentException(
-				"Invalid context type: expected "+IEgxContext.class.getName()
-				+ " but got "+context.getClass().getName()
-			);
-		}
 	}
 }

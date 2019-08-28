@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.Map;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
 import org.eclipse.epsilon.evl.EvlModule;
@@ -40,19 +39,6 @@ public class EvlModuleParallel extends EvlModule implements IErlModuleParallel {
 	@Override
 	public IEvlContextParallel getContext() {
 		return (IEvlContextParallel) super.getContext();
-	}
-	
-	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IEvlContextParallel) {
-			super.setContext(context);
-		}
-		else if (context != null) {
-			throw new IllegalArgumentException(
-				"Invalid context type: expected "+IEvlContextParallel.class.getName()
-				+ " but got "+context.getClass().getName()
-			);
-		}
 	}
 	
 	/**

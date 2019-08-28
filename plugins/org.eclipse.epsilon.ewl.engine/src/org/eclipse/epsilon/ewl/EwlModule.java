@@ -12,7 +12,6 @@ package org.eclipse.epsilon.ewl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
@@ -24,7 +23,6 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.ewl.dom.Wizard;
 import org.eclipse.epsilon.ewl.execute.WizardInstance;
 import org.eclipse.epsilon.ewl.execute.WizardLoopInstance;
@@ -128,18 +126,4 @@ public class EwlModule extends EolModule implements IEwlModule {
 	public IEwlContext getContext() {
 		return (IEwlContext) super.getContext();
 	}
-	
-	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IEwlContext) {
-			super.setContext(context);
-		}
-		else if (context != null) {
-			throw new IllegalArgumentException(
-				"Invalid context type: expected "+IEwlContext.class.getName()
-				+ " but got "+context.getClass().getName()
-			);
-		}
-	}
-
 }

@@ -27,7 +27,6 @@ import org.eclipse.epsilon.eml.parse.EmlLexer;
 import org.eclipse.epsilon.eml.parse.EmlParser;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 import org.eclipse.epsilon.etl.EtlModule;
@@ -113,19 +112,6 @@ public class EmlModule extends EtlModule {
 	protected void merge() throws EolRuntimeException {
 		IEmlContext context = getContext();
 		context.getMergingStrategy().mergeModels(context);
-	}
-	
-	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IEmlContext) {
-			this.context = context;//super.setContext(context);
-		}
-		else if (context != null) {
-			throw new IllegalArgumentException(
-				"Invalid context type: expected "+IEmlContext.class.getName()
-				+ " but got "+context.getClass().getName()
-			);
-		}
 	}
 	
 	@Override

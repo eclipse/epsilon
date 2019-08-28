@@ -32,7 +32,6 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.hutn.exceptions.HutnConfigFileNotFoundException;
 import org.eclipse.epsilon.hutn.exceptions.HutnException;
 import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
@@ -306,18 +305,4 @@ public class HutnModule extends EolModule implements IHutnModule {
 			throw new HutnGenerationException(e);
 		}
 	}
-
-	@Override
-	public void setContext(IEolContext context) {
-		if (context instanceof IHutnContext) {
-			super.setContext(context);
-		}
-		else if (context != null) {
-			throw new IllegalArgumentException(
-				"Invalid context type: expected "+IHutnContext.class.getName()
-				+ " but got "+context.getClass().getName()
-			);
-		}
-	}
-	
 }
