@@ -10,11 +10,12 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock;
+package org.eclipse.epsilon.flock.execute;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalences;
+import org.eclipse.epsilon.flock.execute.context.IFlockContext;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 
 public class MigrationStrategyRunner {

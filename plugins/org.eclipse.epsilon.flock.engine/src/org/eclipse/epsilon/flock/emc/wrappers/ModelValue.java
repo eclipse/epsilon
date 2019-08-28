@@ -14,7 +14,7 @@ package org.eclipse.epsilon.flock.emc.wrappers;
 
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
-import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.flock.execute.exceptions.ConservativeCopyException;
 
 public abstract class ModelValue<UnwrappedType> {
 

@@ -12,10 +12,13 @@
  */
 package org.eclipse.epsilon.flock.model.checker;
 
-import static org.mockito.Mockito.*;
-
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockRuntimeException;
 import org.junit.Test;
 
 public class IgnoredPropertiesCheckerTests {

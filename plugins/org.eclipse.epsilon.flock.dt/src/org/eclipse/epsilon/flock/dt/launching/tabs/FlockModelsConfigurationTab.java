@@ -14,7 +14,6 @@ package org.eclipse.epsilon.flock.dt.launching.tabs;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -54,12 +53,14 @@ public class FlockModelsConfigurationTab extends ModelsConfigurationTab implemen
 		canSave();
 	}
 	
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		updateCombos();
 		canSave();
 		updateLaunchConfigurationDialog();
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		widgetSelected(e);
 	}
@@ -79,6 +80,7 @@ public class FlockModelsConfigurationTab extends ModelsConfigurationTab implemen
 		return super.canSave();
 	}
 	
+	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		super.performApply(configuration);
 		configuration.setAttribute(FlockLaunchConfigurationAttributes.ORIGINAL_MODEL, originalCombo.getSelectionIndex());

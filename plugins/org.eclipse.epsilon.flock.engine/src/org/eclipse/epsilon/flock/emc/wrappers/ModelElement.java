@@ -14,7 +14,6 @@ package org.eclipse.epsilon.flock.emc.wrappers;
 
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;

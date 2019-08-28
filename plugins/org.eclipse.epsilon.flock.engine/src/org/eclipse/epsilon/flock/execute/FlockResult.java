@@ -10,7 +10,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock;
+package org.eclipse.epsilon.flock.execute;
 
 import java.io.PrintStream;
 import java.util.Collection;

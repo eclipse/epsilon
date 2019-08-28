@@ -7,7 +7,7 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.flock.execution.operations;
+package org.eclipse.epsilon.flock.execute.operations;
 
 import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 

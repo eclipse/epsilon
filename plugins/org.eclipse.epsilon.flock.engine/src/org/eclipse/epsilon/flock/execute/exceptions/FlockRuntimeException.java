@@ -10,7 +10,7 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock.execution.exceptions;
+package org.eclipse.epsilon.flock.execute.exceptions;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 

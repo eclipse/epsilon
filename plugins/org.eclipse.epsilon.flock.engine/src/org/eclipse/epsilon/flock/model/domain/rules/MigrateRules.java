@@ -12,10 +12,9 @@ package org.eclipse.epsilon.flock.model.domain.rules;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.flock.context.MigrateRuleContext;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
-import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
 
 public class MigrateRules {
 	private final List<MigrateRule> migrateRules;

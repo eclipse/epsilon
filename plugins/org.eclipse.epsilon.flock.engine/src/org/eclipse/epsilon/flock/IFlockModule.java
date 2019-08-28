@@ -15,7 +15,9 @@ package org.eclipse.epsilon.flock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModule;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
+import org.eclipse.epsilon.flock.execute.FlockResult;
+import org.eclipse.epsilon.flock.execute.context.IFlockContext;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockUnsupportedModelException;
 
 public interface IFlockModule extends IErlModule {
 	

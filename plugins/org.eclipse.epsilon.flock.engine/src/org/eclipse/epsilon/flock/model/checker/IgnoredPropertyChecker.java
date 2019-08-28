@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.flock.model.checker;
 
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockRuntimeException;
 
 public class IgnoredPropertyChecker {
 

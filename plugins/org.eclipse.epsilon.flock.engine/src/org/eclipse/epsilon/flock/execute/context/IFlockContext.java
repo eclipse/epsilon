@@ -10,15 +10,16 @@
  *
  * $Id$
  */
-package org.eclipse.epsilon.flock;
+package org.eclipse.epsilon.flock.execute.context;
 
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
-import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
+import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
+import org.eclipse.epsilon.flock.execute.FlockResult;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockUnsupportedModelException;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 
 public interface IFlockContext extends IErlContext {

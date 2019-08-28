@@ -20,17 +20,7 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.eclipse.epsilon.flock.test.unit.easymock.matchers.OneOfCollection.oneOf;
 import static org.junit.Assert.assertEquals;
-
 import java.util.Arrays;
-
-import org.eclipse.epsilon.flock.emc.wrappers.AttributeValue;
-import org.eclipse.epsilon.flock.emc.wrappers.BackedModelValue;
-import org.eclipse.epsilon.flock.emc.wrappers.CollectionOfModelValues;
-import org.eclipse.epsilon.flock.emc.wrappers.EnumValue;
-import org.eclipse.epsilon.flock.emc.wrappers.Model;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
-import org.eclipse.epsilon.flock.emc.wrappers.ModelValueWrapper;
 import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
 import org.junit.Test;
 

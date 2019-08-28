@@ -14,12 +14,11 @@ package org.eclipse.epsilon.flock.equivalences;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext;
+import org.eclipse.epsilon.flock.context.TypeMappingContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.TypeMappingContext;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 
 public class Equivalences {

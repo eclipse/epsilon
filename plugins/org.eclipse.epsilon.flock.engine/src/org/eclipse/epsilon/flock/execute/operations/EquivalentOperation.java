@@ -7,15 +7,14 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.flock.execution.operations;
+package org.eclipse.epsilon.flock.execute.operations;
 
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
-import org.eclipse.epsilon.flock.IFlockContext;
-import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.flock.execute.context.IFlockContext;
+import org.eclipse.epsilon.flock.execute.exceptions.ConservativeCopyException;
 
 
 public class EquivalentOperation extends SimpleOperation {

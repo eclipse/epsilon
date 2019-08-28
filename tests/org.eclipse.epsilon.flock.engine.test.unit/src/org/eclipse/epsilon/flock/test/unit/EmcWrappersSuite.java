@@ -12,9 +12,6 @@
  */
 package org.eclipse.epsilon.flock.test.unit;
 
-import junit.framework.JUnit4TestAdapter;
-import junit.framework.Test;
-
 import org.eclipse.epsilon.flock.emc.wrappers.AttributeValueTests;
 import org.eclipse.epsilon.flock.emc.wrappers.CollectionOfModelValuesTests;
 import org.eclipse.epsilon.flock.emc.wrappers.EnumValueTests;
@@ -25,6 +22,8 @@ import org.eclipse.epsilon.flock.emc.wrappers.ModelValueWrapperTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import junit.framework.JUnit4TestAdapter;
+import junit.framework.Test;
 
 @RunWith(Suite.class)
 @SuiteClasses({ModelTests.class, ModelValueWrapperTests.class,

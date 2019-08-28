@@ -32,8 +32,8 @@ import org.eclipse.epsilon.eol.dt.userinput.JFaceUserInput;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flock.FlockModule;
-import org.eclipse.epsilon.flock.FlockResult;
 import org.eclipse.epsilon.flock.IFlockModule;
+import org.eclipse.epsilon.flock.execute.FlockResult;
 
 public class MigrationStrategyExecutor {
 

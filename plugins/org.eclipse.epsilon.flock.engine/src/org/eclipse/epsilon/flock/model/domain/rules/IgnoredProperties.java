@@ -12,7 +12,6 @@ package org.eclipse.epsilon.flock.model.domain.rules;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
-
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.model.checker.IgnoredPropertyChecker;
 

@@ -11,9 +11,9 @@ package org.eclipse.epsilon.flock.model.domain.typemappings;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.flock.context.GuardedConstructContext;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
 import org.eclipse.epsilon.flock.equivalences.factory.EquivalenceFactory;
-import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
 
 public interface TypeMappingConstruct extends EquivalenceFactory, ModuleElement {
 

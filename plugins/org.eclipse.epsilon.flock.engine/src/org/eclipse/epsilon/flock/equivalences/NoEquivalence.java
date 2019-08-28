@@ -13,10 +13,10 @@
 package org.eclipse.epsilon.flock.equivalences;
 
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execute.FlockExecution;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 
 public class NoEquivalence extends Equivalence {
@@ -32,14 +32,17 @@ public class NoEquivalence extends Equivalence {
 		this.original = original;
 	}
 	
+	@Override
 	public ModelElement getOriginal() {
 		return original; 
 	}
 	
+	@Override
 	public void automaticallyPopulateEquivalent(ConservativeCopyContext context, IgnoredProperties ignoredProperties) throws FlockRuntimeException {
 		// do nothing
 	}
 
+	@Override
 	public ModelElement getEquivalent() {
 		return null;
 	}

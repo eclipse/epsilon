@@ -15,12 +15,12 @@ package org.eclipse.epsilon.flock.equivalences;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
-import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execute.FlockExecution;
+import org.eclipse.epsilon.flock.execute.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 
 public class TypeBasedEquivalence extends Equivalence {
@@ -35,10 +35,12 @@ public class TypeBasedEquivalence extends Equivalence {
 		this.equivalent = equivalent;
 	}
 	
+	@Override
 	public ModelElement getOriginal() {
 		return original;
 	}
 
+	@Override
 	public ModelElement getEquivalent() {
 		return equivalent;
 	}
@@ -48,6 +50,7 @@ public class TypeBasedEquivalence extends Equivalence {
 		// Do nothing
 	}
 	
+	@Override
 	public void automaticallyPopulateEquivalent(ConservativeCopyContext context, IgnoredProperties ignoredProperties) throws FlockRuntimeException {
 		equivalent.copyIdentityFrom(original);
 		conservativeCopy(context, ignoredProperties);

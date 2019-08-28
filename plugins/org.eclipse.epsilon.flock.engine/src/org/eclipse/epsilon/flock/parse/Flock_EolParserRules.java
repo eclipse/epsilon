@@ -1,15 +1,25 @@
 package org.eclipse.epsilon.flock.parse;
 
 // $ANTLR 3.1b1 EolParserRules.g 2019-01-24 14:02:16
-
-import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-
-import org.antlr.runtime.tree.*;
+import org.antlr.runtime.BaseRecognizer;
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.CommonToken;
+import org.antlr.runtime.DFA;
+import org.antlr.runtime.EarlyExitException;
+import org.antlr.runtime.IntStream;
+import org.antlr.runtime.MismatchedSetException;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.ParserRuleReturnScope;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.RewriteEarlyExitException;
+import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
+import org.antlr.runtime.tree.RewriteRuleTokenStream;
+import org.antlr.runtime.tree.TreeAdaptor;
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -231,15 +241,19 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
         
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
 
-    public void setTreeAdaptor(TreeAdaptor adaptor) {
+    @Override
+	public void setTreeAdaptor(TreeAdaptor adaptor) {
         this.adaptor = adaptor;
     }
-    public TreeAdaptor getTreeAdaptor() {
+    @Override
+	public TreeAdaptor getTreeAdaptor() {
         return adaptor;
     }
 
-    public String[] getTokenNames() { return FlockParser.tokenNames; }
-    public String getGrammarFileName() { return "EolParserRules.g"; }
+    @Override
+	public String[] getTokenNames() { return FlockParser.tokenNames; }
+    @Override
+	public String getGrammarFileName() { return "EolParserRules.g"; }
 
     
     
@@ -251,7 +265,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class operationDeclarationOrAnnotationBlock_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start operationDeclarationOrAnnotationBlock
@@ -339,7 +354,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class modelDeclaration_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start modelDeclaration
@@ -462,8 +478,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(MODELDECLARATION);
+              		retval.tree.getExtraTokens().add(sem);
+              		retval.tree.getToken().setType(MODELDECLARATION);
               	
             }
         }
@@ -481,7 +497,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class modelAlias_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start modelAlias
@@ -576,7 +593,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class modelDriver_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start modelDriver
@@ -637,7 +655,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class modelDeclarationParameters_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start modelDeclarationParameters
@@ -738,8 +757,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(MODELDECLARATIONPARAMETERS);
+              		retval.tree.getExtraTokens().add(cb);
+              		retval.tree.getToken().setType(MODELDECLARATIONPARAMETERS);
               	
             }
         }
@@ -757,7 +776,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class modelDeclarationParameter_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start modelDeclarationParameter
@@ -825,7 +845,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class operationDeclaration_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start operationDeclaration
@@ -862,11 +883,11 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            set16=(Token)input.LT(1);
-            set16=(Token)input.LT(1);
+            set16=input.LT(1);
+            set16=input.LT(1);
             if ( (input.LA(1)>=96 && input.LA(1)<=97) ) {
                 input.consume();
-                if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(set16), root_0);
+                if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(set16), root_0);
                 state.errorRecovery=false;state.failed=false;
             }
             else {
@@ -983,8 +1004,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cp);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(HELPERMETHOD);
+              		retval.tree.getExtraTokens().add(cp);
+              		retval.tree.getToken().setType(HELPERMETHOD);
               	
             }
         }
@@ -1002,7 +1023,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class importStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start importStatement
@@ -1053,7 +1075,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -1071,7 +1093,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class block_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start block
@@ -1138,7 +1161,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
                 // EolParserRules.g:162:5: ^( BLOCK ( statement )* )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(BLOCK, "BLOCK"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(BLOCK, "BLOCK"), root_1);
 
                 // EolParserRules.g:162:13: ( statement )*
                 while ( stream_statement.hasNext() ) {
@@ -1164,7 +1187,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
+              		retval.tree.setImaginary(true);
               	
             }
         }
@@ -1182,7 +1205,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class statementBlock_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start statementBlock
@@ -1227,8 +1251,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(s); 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(e);
+              		retval.tree.getExtraTokens().add(s); 
+              		retval.tree.getExtraTokens().add(e);
               	
             }
         }
@@ -1246,7 +1270,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class formalParameter_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start formalParameter
@@ -1321,7 +1346,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
                 // EolParserRules.g:178:6: ^( FORMAL NAME ( typeName )? )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(FORMAL, "FORMAL"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(FORMAL, "FORMAL"), root_1);
 
                 adaptor.addChild(root_1, stream_NAME.nextNode());
                 // EolParserRules.g:178:20: ( typeName )?
@@ -1366,7 +1391,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class formalParameterList_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start formalParameterList
@@ -1447,7 +1473,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
                 // EolParserRules.g:186:5: ^( PARAMLIST ( formalParameter )* )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(PARAMLIST, "PARAMLIST"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(PARAMLIST, "PARAMLIST"), root_1);
 
                 // EolParserRules.g:186:17: ( formalParameter )*
                 while ( stream_formalParameter.hasNext() ) {
@@ -1473,7 +1499,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
+              		retval.tree.setImaginary(true);
               	
             }
         }
@@ -1491,7 +1517,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class executableAnnotation_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start executableAnnotation
@@ -1521,7 +1548,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             d_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(d);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(d_tree, root_0);
             }
-            x=(Token)input.LT(1);
+            x=input.LT(1);
             matchAny(input); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             x_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(x);
@@ -1561,7 +1588,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class annotation_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start annotation
@@ -1648,7 +1676,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class annotationBlock_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start annotationBlock
@@ -1721,7 +1750,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
                 // EolParserRules.g:203:5: ^( ANNOTATIONBLOCK ( annotation )+ )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(ANNOTATIONBLOCK, "ANNOTATIONBLOCK"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(ANNOTATIONBLOCK, "ANNOTATIONBLOCK"), root_1);
 
                 if ( !(stream_annotation.hasNext()) ) {
                     throw new RewriteEarlyExitException();
@@ -1749,7 +1778,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
+              		retval.tree.setImaginary(true);
               	
             }
         }
@@ -1767,7 +1796,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class typeName_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start typeName
@@ -1873,7 +1903,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(TYPE);
+              		retval.tree.getToken().setType(TYPE);
               	
             }
         }
@@ -1891,7 +1921,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class pathName_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start pathName
@@ -2013,7 +2044,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class packagedType_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start packagedType
@@ -2100,7 +2132,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class nativeType_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start nativeType
@@ -2151,9 +2184,9 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(s); 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(e);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(TYPE);
+              		retval.tree.getExtraTokens().add(s); 
+              		retval.tree.getExtraTokens().add(e);
+              		retval.tree.getToken().setType(TYPE);
               	
             }
         }
@@ -2171,7 +2204,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class collectionType_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start collectionType
@@ -2202,11 +2236,11 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            set40=(Token)input.LT(1);
-            set40=(Token)input.LT(1);
+            set40=input.LT(1);
+            set40=input.LT(1);
             if ( (input.LA(1)>=107 && input.LA(1)<=113) ) {
                 input.consume();
-                if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(set40), root_0);
+                if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(set40), root_0);
                 state.errorRecovery=false;state.failed=false;
             }
             else {
@@ -2356,9 +2390,9 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(op); 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cp);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(TYPE);
+              		retval.tree.getExtraTokens().add(op); 
+              		retval.tree.getExtraTokens().add(cp);
+              		retval.tree.getToken().setType(TYPE);
               	
             }
         }
@@ -2376,7 +2410,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class statement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start statement
@@ -2450,7 +2485,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class statementA_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start statementA
@@ -2620,7 +2656,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class statementB_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start statementB
@@ -2817,7 +2854,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class statementOrStatementBlock_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start statementOrStatementBlock
@@ -2905,7 +2943,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class expressionOrStatementBlock_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start expressionOrStatementBlock
@@ -2996,7 +3035,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class forStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start forStatement
@@ -3083,7 +3123,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class ifStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start ifStatement
@@ -3188,7 +3229,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class switchStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start switchStatement
@@ -3319,7 +3361,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class caseStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start caseStatement
@@ -3433,7 +3476,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class defaultStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start defaultStatement
@@ -3539,7 +3583,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class elseStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start elseStatement
@@ -3581,7 +3626,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(e);
+              		retval.tree.getExtraTokens().add(e);
               	
             }
         }
@@ -3599,7 +3644,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class whileStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start whileStatement
@@ -3675,7 +3721,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class returnStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start returnStatement
@@ -3744,7 +3791,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -3762,7 +3809,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class throwStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start throwStatement
@@ -3831,7 +3879,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -3849,7 +3897,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class deleteStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start deleteStatement
@@ -3918,7 +3967,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -3936,7 +3985,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class breakStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start breakStatement
@@ -3980,7 +4030,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -3998,7 +4048,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class breakAllStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start breakAllStatement
@@ -4042,7 +4093,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -4060,7 +4111,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class continueStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start continueStatement
@@ -4104,7 +4156,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -4122,7 +4174,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class abortStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start abortStatement
@@ -4166,7 +4219,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -4184,7 +4237,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class transactionStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start transactionStatement
@@ -4304,7 +4358,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class assignmentStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start assignmentStatement
@@ -4497,7 +4552,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -4515,7 +4570,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class expressionStatement_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start expressionStatement
@@ -4602,7 +4658,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(sem);
+              		retval.tree.getExtraTokens().add(sem);
               	
             }
         }
@@ -4620,7 +4676,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class logicalExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start logicalExpression
@@ -4788,7 +4845,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class relationalExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start relationalExpression
@@ -5044,7 +5102,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class additiveExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start additiveExpression
@@ -5176,7 +5235,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class multiplicativeExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start multiplicativeExpression
@@ -5308,7 +5368,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class unaryExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start unaryExpression
@@ -5425,7 +5486,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class shortcutOperatorExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start shortcutOperatorExpression
@@ -5510,7 +5572,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class postfixExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start postfixExpression
@@ -5562,11 +5625,11 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             	case 1 :
             	    // EolParserRules.g:425:28: ( POINT | ARROW ) fc= featureCall (is= '[' logicalExpression ']' )*
             	    {
-            	    set120=(Token)input.LT(1);
-            	    set120=(Token)input.LT(1);
+            	    set120=input.LT(1);
+            	    set120=input.LT(1);
             	    if ( input.LA(1)==POINT||input.LA(1)==ARROW ) {
             	        input.consume();
-            	        if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(set120), root_0);
+            	        if ( state.backtracking==0 ) root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(set120), root_0);
             	        state.errorRecovery=false;state.failed=false;
             	    }
             	    else {
@@ -5657,7 +5720,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class itemSelectorExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start itemSelectorExpression
@@ -5754,7 +5818,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class featureCall_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start featureCall
@@ -5828,7 +5893,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class simpleFeatureCall_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start simpleFeatureCall
@@ -5907,7 +5973,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class parameterList_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start parameterList
@@ -6017,7 +6084,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
                 // EolParserRules.g:451:6: ^( PARAMETERS ( logicalExpression )* )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(PARAMETERS, "PARAMETERS"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(PARAMETERS, "PARAMETERS"), root_1);
 
                 // EolParserRules.g:451:19: ( logicalExpression )*
                 while ( stream_logicalExpression.hasNext() ) {
@@ -6043,9 +6110,9 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(op);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cp);
+              		retval.tree.setImaginary(true);
+              		retval.tree.getExtraTokens().add(op);
+              		retval.tree.getExtraTokens().add(cp);
               	
             }
         }
@@ -6063,7 +6130,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class complexFeatureCall_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start complexFeatureCall
@@ -6313,8 +6381,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(op);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cp);
+              		retval.tree.getExtraTokens().add(op);
+              		retval.tree.getExtraTokens().add(cp);
               	
             }
         }
@@ -6332,7 +6400,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class lambdaExpressionInBrackets_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start lambdaExpressionInBrackets
@@ -6436,8 +6505,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             if ( state.backtracking==0 ) {
               
               		lop.setType(LAMBDAEXPR);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(lop);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(lcp);
+              		retval.tree.getExtraTokens().add(lop);
+              		retval.tree.getExtraTokens().add(lcp);
               	
             }
         }
@@ -6455,7 +6524,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class lambdaExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start lambdaExpression
@@ -6556,7 +6626,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(lt);
+              		retval.tree.getExtraTokens().add(lt);
               	
             }
         }
@@ -6574,7 +6644,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class newExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start newExpression
@@ -6664,7 +6735,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class variableDeclarationExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start variableDeclarationExpression
@@ -6820,8 +6892,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             if ( state.backtracking==0 ) {
               
               		String txt = n != null ? "new" : v.getText();
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setText(txt);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getToken().setType(VAR);
+              		retval.tree.getToken().setText(txt);
+              		retval.tree.getToken().setType(VAR);
               	
             }
         }
@@ -6839,7 +6911,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class literalSequentialCollection_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start literalSequentialCollection
@@ -7017,8 +7090,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(ob);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
+              		retval.tree.getExtraTokens().add(ob);
+              		retval.tree.getExtraTokens().add(cb);
               	
             }
         }
@@ -7036,7 +7109,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class expressionRange_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start expressionRange
@@ -7106,7 +7180,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class expressionList_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start expressionList
@@ -7187,7 +7262,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
                 // EolParserRules.g:513:5: ^( EXPRLIST ( logicalExpression )+ )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(EXPRLIST, "EXPRLIST"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(EXPRLIST, "EXPRLIST"), root_1);
 
                 if ( !(stream_logicalExpression.hasNext()) ) {
                     throw new RewriteEarlyExitException();
@@ -7215,7 +7290,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
+              		retval.tree.setImaginary(true);
               	
             }
         }
@@ -7233,7 +7308,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class expressionListOrRange_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start expressionListOrRange
@@ -7307,7 +7383,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class literalMapCollection_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start literalMapCollection
@@ -7379,8 +7456,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(ob);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
+              		retval.tree.getExtraTokens().add(ob);
+              		retval.tree.getExtraTokens().add(cb);
               	
             }
         }
@@ -7398,7 +7475,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class keyvalExpressionList_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start keyvalExpressionList
@@ -7479,7 +7557,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
                 // EolParserRules.g:534:5: ^( KEYVALLIST ( keyvalExpression )+ )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(KEYVALLIST, "KEYVALLIST"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(KEYVALLIST, "KEYVALLIST"), root_1);
 
                 if ( !(stream_keyvalExpression.hasNext()) ) {
                     throw new RewriteEarlyExitException();
@@ -7507,7 +7585,7 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
+              		retval.tree.setImaginary(true);
               	
             }
         }
@@ -7525,7 +7603,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class keyvalExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start keyvalExpression
@@ -7595,7 +7674,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class primitiveExpression_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start primitiveExpression
@@ -7797,7 +7877,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class logicalExpressionInBrackets_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start logicalExpressionInBrackets
@@ -7849,9 +7930,9 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             }
             if ( state.backtracking==0 ) {
               
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(ob);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).setImaginary(true);
+              		retval.tree.getExtraTokens().add(ob);
+              		retval.tree.getExtraTokens().add(cb);
+              		retval.tree.setImaginary(true);
               	
             }
         }
@@ -7869,7 +7950,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class literal_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start literal
@@ -7890,10 +7972,10 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            set171=(Token)input.LT(1);
+            set171=input.LT(1);
             if ( input.LA(1)==FLOAT||input.LA(1)==INT||input.LA(1)==BOOLEAN||input.LA(1)==STRING ) {
                 input.consume();
-                if ( state.backtracking==0 ) adaptor.addChild(root_0, (org.eclipse.epsilon.common.parse.AST)adaptor.create(set171));
+                if ( state.backtracking==0 ) adaptor.addChild(root_0, adaptor.create(set171));
                 state.errorRecovery=false;state.failed=false;
             }
             else {
@@ -8718,10 +8800,12 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             this.special = DFA22_special;
             this.transition = DFA22_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "255:3: ( (op= '(' tn= typeName ( ',' tn= typeName )* cp= ')' ) | (op= '<' tn= typeName ( ',' tn= typeName )* cp= '>' ) )?";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -8838,10 +8922,12 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             this.special = DFA23_special;
             this.transition = DFA23_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "260:1: statement : ( statementA | statementB );";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -8941,10 +9027,12 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             this.special = DFA24_special;
             this.transition = DFA24_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "264:1: statementA : ( assignmentStatement | expressionStatement | forStatement | ifStatement | whileStatement | switchStatement | returnStatement | breakStatement );";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -9273,10 +9361,12 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             this.special = DFA37_special;
             this.transition = DFA37_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "376:21: ( NAME ( ',' NAME )* )?";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -9368,10 +9458,12 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             this.special = DFA40_special;
             this.transition = DFA40_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "392:4: ( postfixExpression op= '=' logicalExpression | logicalExpression )";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -9650,10 +9742,12 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             this.special = DFA45_special;
             this.transition = DFA45_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "()* loopback of 401:23: ( (op= '==' relationalExpression | op= '=' relationalExpression | (op= '>' | op= '<' | op= '>=' | op= '<=' | op= '<>' ) additiveExpression ) )*";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -9837,7 +9931,8 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             this.special = DFA56_special;
             this.transition = DFA56_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "435:1: featureCall : ( simpleFeatureCall | complexFeatureCall );";
         }
     }
@@ -9916,10 +10011,12 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             this.special = DFA70_special;
             this.transition = DFA70_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "491:29: ( ':' (n= 'new' )? t= typeName ( parameterList )? )?";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -10177,10 +10274,12 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             this.special = DFA74_special;
             this.transition = DFA74_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "516:1: expressionListOrRange : ( expressionRange | expressionList );";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {
@@ -10499,10 +10598,12 @@ public class Flock_EolParserRules extends org.eclipse.epsilon.common.parse.Epsil
             this.special = DFA77_special;
             this.transition = DFA77_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "542:1: primitiveExpression : ( literalSequentialCollection | literalMapCollection | literal | featureCall | pathName | nativeType | collectionType | logicalExpressionInBrackets | newExpression | variableDeclarationExpression );";
         }
-        public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
+        @Override
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
         	int _s = s;
             switch ( s ) {

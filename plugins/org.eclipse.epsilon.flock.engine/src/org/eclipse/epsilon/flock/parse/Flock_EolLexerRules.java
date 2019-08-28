@@ -1,13 +1,15 @@
 package org.eclipse.epsilon.flock.parse;
 
 // $ANTLR 3.1b1 EolLexerRules.g 2019-01-24 14:02:17
-
-import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import org.antlr.runtime.BaseRecognizer;
+import org.antlr.runtime.CharStream;
+import org.antlr.runtime.DFA;
+import org.antlr.runtime.EarlyExitException;
+import org.antlr.runtime.Lexer;
+import org.antlr.runtime.MismatchedSetException;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
  * All rights reserved. This program and the accompanying materials
@@ -227,7 +229,8 @@ public class Flock_EolLexerRules extends Lexer {
 
         this.gFlock = gFlock;
     }
-    public String getGrammarFileName() { return "EolLexerRules.g"; }
+    @Override
+	public String getGrammarFileName() { return "EolLexerRules.g"; }
 
     // $ANTLR start DIGIT
     public final void mDIGIT() throws RecognitionException {
@@ -1502,7 +1505,8 @@ public class Flock_EolLexerRules extends Lexer {
     }
     // $ANTLR end Annotation
 
-    public void mTokens() throws RecognitionException {
+    @Override
+	public void mTokens() throws RecognitionException {
         // EolLexerRules.g:1:8: ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | NAME | WS | COMMENT | LINE_COMMENT | Annotation )
         int alt23=12;
         alt23 = dfa23.predict(input);
@@ -1708,7 +1712,8 @@ public class Flock_EolLexerRules extends Lexer {
             this.special = DFA23_special;
             this.transition = DFA23_transition;
         }
-        public String getDescription() {
+        @Override
+		public String getDescription() {
             return "1:1: Tokens : ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | NAME | WS | COMMENT | LINE_COMMENT | Annotation );";
         }
     }

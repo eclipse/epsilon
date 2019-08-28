@@ -12,13 +12,12 @@ package org.eclipse.epsilon.flock.model.domain.typemappings;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
+import org.eclipse.epsilon.flock.context.TypeMappingContext;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.equivalences.factory.DefaultEquivalenceFactory;
 import org.eclipse.epsilon.flock.equivalences.factory.EquivalenceFactory;
-import org.eclipse.epsilon.flock.execution.TypeMappingContext;
 
 public class TypeMappingConstructs {
 	private final List<TypeMappingConstruct> typeMappingConstructs = new LinkedList<>();

@@ -7,12 +7,13 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.flock;
+package org.eclipse.epsilon.flock.execute;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execute.context.IFlockContext;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.MigrationStrategy;
 
 public class FlockExecution {

@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -26,7 +25,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
-import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.flock.execute.exceptions.ConservativeCopyException;
 
 public class Model {
 	

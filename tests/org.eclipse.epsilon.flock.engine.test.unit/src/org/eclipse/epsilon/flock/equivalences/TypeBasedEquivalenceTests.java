@@ -18,18 +18,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.util.Arrays;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelValue;
 import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalence.ConservativeCopy;
-import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execute.FlockExecution;
+import org.eclipse.epsilon.flock.execute.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 import org.junit.Test;
 

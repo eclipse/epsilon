@@ -15,8 +15,8 @@ package org.eclipse.epsilon.flock.model.domain.common;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.flock.context.GuardedConstructContext;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
-import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
 import org.eclipse.epsilon.flock.model.checker.PackageTypedConstructChecker;
 
 public abstract class PackageTypedConstruct extends GuardedConstruct {
@@ -36,6 +36,7 @@ public abstract class PackageTypedConstruct extends GuardedConstruct {
 		return originalPackage;
 	}
 	
+	@Override
 	public boolean appliesIn(GuardedConstructContext context) throws EolRuntimeException {
 		return context.originalBelongsTo(originalPackage) && super.appliesIn(context);
 	}

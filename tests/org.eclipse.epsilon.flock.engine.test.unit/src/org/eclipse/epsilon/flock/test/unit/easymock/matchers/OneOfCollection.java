@@ -16,7 +16,6 @@
 package org.eclipse.epsilon.flock.test.unit.easymock.matchers;
 
 import java.util.Collection;
-
 import org.easymock.EasyMock;
 import org.easymock.IArgumentMatcher;
 
@@ -33,11 +32,13 @@ public class OneOfCollection implements IArgumentMatcher {
         this.allowed = allowed;
     }
 
-    public boolean matches(Object actual) {
+    @Override
+	public boolean matches(Object actual) {
         return allowed.contains(actual);
     }
 
-    public void appendTo(StringBuffer buffer) {
+    @Override
+	public void appendTo(StringBuffer buffer) {
         buffer.append("oneOf(");
         buffer.append(allowed);
         buffer.append("\")");

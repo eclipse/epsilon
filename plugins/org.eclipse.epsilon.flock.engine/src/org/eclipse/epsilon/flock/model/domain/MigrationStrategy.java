@@ -15,13 +15,12 @@ package org.eclipse.epsilon.flock.model.domain;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.flock.context.MigrateRuleContext;
 import org.eclipse.epsilon.flock.context.MigrationStrategyCheckingContext;
+import org.eclipse.epsilon.flock.context.TypeMappingContext;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
-import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
-import org.eclipse.epsilon.flock.execution.TypeMappingContext;
 import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;

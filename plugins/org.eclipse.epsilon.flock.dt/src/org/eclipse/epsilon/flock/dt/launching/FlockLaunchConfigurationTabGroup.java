@@ -18,6 +18,7 @@ import org.eclipse.epsilon.flock.dt.launching.tabs.FlockSourceConfigurationTab;
 
 public class FlockLaunchConfigurationTabGroup extends AbstractLaunchConfigurationTabGroup {
 
+	@Override
 	public void createTabs(ILaunchConfigurationDialog dialog, String mode) { 
 		ILaunchConfigurationTab[] tabs = 
 			new ILaunchConfigurationTab[]{

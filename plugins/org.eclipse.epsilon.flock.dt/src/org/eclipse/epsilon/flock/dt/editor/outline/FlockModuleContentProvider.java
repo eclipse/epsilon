@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.flock.dt.editor.outline;
 
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.erl.dt.editor.outline.ErlModuleContentProvider;
 import org.eclipse.epsilon.flock.FlockModule;

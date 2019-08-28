@@ -16,11 +16,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.flock.FlockExecution;
+import org.eclipse.epsilon.flock.context.GuardedConstructContext;
+import org.eclipse.epsilon.flock.context.MigrateRuleContext;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
+import org.eclipse.epsilon.flock.execute.FlockExecution;
 import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 import org.junit.Test;
 

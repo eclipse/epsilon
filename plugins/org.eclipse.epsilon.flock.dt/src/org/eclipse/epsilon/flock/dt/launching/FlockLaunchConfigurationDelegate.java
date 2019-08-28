@@ -18,10 +18,10 @@ import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.flock.FlockResult;
-import org.eclipse.epsilon.flock.IFlockContext;
 import org.eclipse.epsilon.flock.dt.FlockDebugger;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockUnsupportedModelException;
+import org.eclipse.epsilon.flock.execute.FlockResult;
+import org.eclipse.epsilon.flock.execute.context.IFlockContext;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockUnsupportedModelException;
 
 public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
@@ -30,6 +30,7 @@ public class FlockLaunchConfigurationDelegate extends EpsilonLaunchConfiguration
 	 * alternate IModule implementation of the language.
 	 * @since 1.6
 	 */
+	@Override
 	public String getLanguage() {
 		return "FLOCK";
 	}

@@ -12,14 +12,13 @@
  */
 package org.eclipse.epsilon.flock.test.unit;
 
-import junit.framework.JUnit4TestAdapter;
-import junit.framework.Test;
-
 import org.eclipse.epsilon.flock.model.checker.IgnoredPropertiesCheckerTests;
 import org.eclipse.epsilon.flock.model.checker.TypedConstructCheckerTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import junit.framework.JUnit4TestAdapter;
+import junit.framework.Test;
 
 @RunWith(Suite.class)
 @SuiteClasses({TypedConstructCheckerTests.class, IgnoredPropertiesCheckerTests.class})

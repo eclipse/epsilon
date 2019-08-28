@@ -13,13 +13,13 @@
 package org.eclipse.epsilon.flock.equivalences.factory;
 
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.EquivalenceEstablishmentContext.EquivalentFactory;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
 import org.eclipse.epsilon.flock.equivalences.NoEquivalence;
 import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalence;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execute.FlockExecution;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockRuntimeException;
 
 public class DefaultEquivalenceFactory implements EquivalenceFactory {
 

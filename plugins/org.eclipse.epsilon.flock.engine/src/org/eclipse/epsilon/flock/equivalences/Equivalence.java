@@ -15,14 +15,13 @@ package org.eclipse.epsilon.flock.equivalences;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
+import org.eclipse.epsilon.flock.context.MigrateRuleContext;
 import org.eclipse.epsilon.flock.emc.wrappers.ModelElement;
-import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execute.FlockExecution;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 
 public abstract class Equivalence {
@@ -52,7 +51,7 @@ public abstract class Equivalence {
 		return variables;
 	}
 	
-	private Variable createVariable(String name, ModelElement element) {
+	private static Variable createVariable(String name, ModelElement element) {
 		if (element == null) {
 			return Variable.createReadOnlyVariable(name, null);
 		} else {

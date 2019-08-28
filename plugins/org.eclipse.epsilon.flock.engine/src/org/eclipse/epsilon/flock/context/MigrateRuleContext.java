@@ -7,17 +7,16 @@
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.flock.execution;
+package org.eclipse.epsilon.flock.context;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.flock.FlockExecution;
 import org.eclipse.epsilon.flock.equivalences.Equivalence;
+import org.eclipse.epsilon.flock.execute.FlockExecution;
 import org.eclipse.epsilon.flock.model.domain.common.ClassifierTypedConstruct;
 
 public class MigrateRuleContext {

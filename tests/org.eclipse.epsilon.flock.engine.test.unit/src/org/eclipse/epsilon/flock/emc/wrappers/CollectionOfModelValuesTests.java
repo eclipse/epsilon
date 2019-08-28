@@ -17,16 +17,10 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
-
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
-import org.eclipse.epsilon.flock.emc.wrappers.AttributeValue;
-import org.eclipse.epsilon.flock.emc.wrappers.BackedModelValue;
-import org.eclipse.epsilon.flock.emc.wrappers.CollectionOfModelValues;
-import org.eclipse.epsilon.flock.emc.wrappers.Model;
-import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.flock.execute.exceptions.ConservativeCopyException;
 import org.junit.Test;
 
 public class CollectionOfModelValuesTests {

@@ -17,7 +17,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.flock.execution.GuardedConstructContext;
+import org.eclipse.epsilon.flock.context.GuardedConstructContext;
 import org.eclipse.epsilon.flock.parse.FlockParser;
 
 public abstract class GuardedConstruct extends FlockConstruct {

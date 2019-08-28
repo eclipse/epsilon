@@ -16,10 +16,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
-import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.flock.execute.exceptions.ConservativeCopyException;
 
 class CollectionOfModelValues extends ModelValue<Collection<?>> implements Iterable<ModelValue<?>> {
 
@@ -59,6 +58,7 @@ class CollectionOfModelValues extends ModelValue<Collection<?>> implements Itera
 		return modelObjects;
 	}
 
+	@Override
 	public Iterator<ModelValue<?>> iterator() {
 		return modelValues.iterator();
 	}

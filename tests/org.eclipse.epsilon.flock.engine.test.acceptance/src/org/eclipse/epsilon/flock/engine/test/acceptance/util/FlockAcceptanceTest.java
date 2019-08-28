@@ -21,8 +21,8 @@ import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.flock.IFlockModule;
+import org.eclipse.epsilon.flock.execute.FlockResult;
 import org.eclipse.epsilon.flock.FlockModule;
-import org.eclipse.epsilon.flock.FlockResult;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 

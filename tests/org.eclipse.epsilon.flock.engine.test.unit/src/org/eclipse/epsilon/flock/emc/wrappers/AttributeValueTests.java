@@ -16,11 +16,8 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
-
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
-import org.eclipse.epsilon.flock.emc.wrappers.AttributeValue;
-import org.eclipse.epsilon.flock.emc.wrappers.Model;
-import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.flock.execute.exceptions.ConservativeCopyException;
 import org.junit.Test;
 
 public class AttributeValueTests {

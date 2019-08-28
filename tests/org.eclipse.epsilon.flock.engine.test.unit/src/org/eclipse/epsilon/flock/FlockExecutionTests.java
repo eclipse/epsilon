@@ -10,9 +10,14 @@
 package org.eclipse.epsilon.flock;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.eclipse.epsilon.flock.emc.wrappers.Model;
-import org.eclipse.epsilon.flock.execution.exceptions.FlockRuntimeException;
+import org.eclipse.epsilon.flock.execute.FlockExecution;
+import org.eclipse.epsilon.flock.execute.FlockResult;
+import org.eclipse.epsilon.flock.execute.MigrationStrategyRunner;
+import org.eclipse.epsilon.flock.execute.exceptions.FlockRuntimeException;
 import org.junit.Test;
 
 public class FlockExecutionTests {

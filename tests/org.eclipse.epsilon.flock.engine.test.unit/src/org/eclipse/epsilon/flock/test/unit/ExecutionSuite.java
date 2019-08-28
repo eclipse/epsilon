@@ -12,9 +12,6 @@
  */
 package org.eclipse.epsilon.flock.test.unit;
 
-import junit.framework.JUnit4TestAdapter;
-import junit.framework.Test;
-
 import org.eclipse.epsilon.flock.FlockExecutionTests;
 import org.eclipse.epsilon.flock.equivalences.EquivalencesTests;
 import org.eclipse.epsilon.flock.equivalences.TypeBasedEquivalenceTests;
@@ -23,6 +20,8 @@ import org.eclipse.epsilon.flock.execution.MigrateRuleContextTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import junit.framework.JUnit4TestAdapter;
+import junit.framework.Test;
 
 @RunWith(Suite.class)
 @SuiteClasses({FlockExecutionTests.class,

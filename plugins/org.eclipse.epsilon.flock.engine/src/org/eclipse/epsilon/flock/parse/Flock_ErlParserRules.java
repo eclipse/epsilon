@@ -1,15 +1,14 @@
 package org.eclipse.epsilon.flock.parse;
 
 // $ANTLR 3.1b1 ErlParserRules.g 2019-01-24 14:02:16
-
-import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-
-import org.antlr.runtime.tree.*;
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.ParserRuleReturnScope;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.TreeAdaptor;
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -231,20 +230,25 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
         
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
 
-    public void setTreeAdaptor(TreeAdaptor adaptor) {
+    @Override
+	public void setTreeAdaptor(TreeAdaptor adaptor) {
         this.adaptor = adaptor;
     }
-    public TreeAdaptor getTreeAdaptor() {
+    @Override
+	public TreeAdaptor getTreeAdaptor() {
         return adaptor;
     }
 
-    public String[] getTokenNames() { return FlockParser.tokenNames; }
-    public String getGrammarFileName() { return "ErlParserRules.g"; }
+    @Override
+	public String[] getTokenNames() { return FlockParser.tokenNames; }
+    @Override
+	public String getGrammarFileName() { return "ErlParserRules.g"; }
 
 
     public static class pre_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start pre
@@ -330,7 +334,8 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class post_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start post
@@ -416,7 +421,8 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class extendz_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start extendz

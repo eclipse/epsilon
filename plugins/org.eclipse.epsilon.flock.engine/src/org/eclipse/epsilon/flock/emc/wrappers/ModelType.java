@@ -14,7 +14,6 @@ package org.eclipse.epsilon.flock.emc.wrappers;
 
 import java.util.Collection;
 import java.util.LinkedList;
-
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 
 class ModelType {

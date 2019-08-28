@@ -11,7 +11,6 @@ package org.eclipse.epsilon.flock.dt.editor;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
 import org.eclipse.epsilon.common.module.IModule;

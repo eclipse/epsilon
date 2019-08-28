@@ -12,9 +12,8 @@ package org.eclipse.epsilon.flock.model.domain.rules;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.flock.execution.MigrateRuleContext;
+import org.eclipse.epsilon.flock.context.MigrateRuleContext;
 import org.junit.Test;
 
 public class MigrateRulesTests {

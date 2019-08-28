@@ -15,7 +15,7 @@ package org.eclipse.epsilon.flock.emc.wrappers;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotAnEnumerationValueException;
 import org.eclipse.epsilon.flock.context.ConservativeCopyContext;
-import org.eclipse.epsilon.flock.execution.exceptions.ConservativeCopyException;
+import org.eclipse.epsilon.flock.execute.exceptions.ConservativeCopyException;
 
 class EnumValue extends BackedModelValue<Object> {
 

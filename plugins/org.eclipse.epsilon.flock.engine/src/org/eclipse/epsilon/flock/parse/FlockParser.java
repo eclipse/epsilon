@@ -3,18 +3,19 @@
 package org.eclipse.epsilon.flock.parse;
 
 import java.net.URI;
-import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.ParserRuleReturnScope;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
+import org.antlr.runtime.tree.RewriteRuleTokenStream;
+import org.antlr.runtime.tree.TreeAdaptor;
 import org.eclipse.epsilon.common.parse.AST;
-
-
-import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-
-import org.antlr.runtime.tree.*;
+import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
 
 /*******************************************************************************
  * Copyright (c) 2009 The University of York.
@@ -241,15 +242,19 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
         
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
 
-    public void setTreeAdaptor(TreeAdaptor adaptor) {
+    @Override
+	public void setTreeAdaptor(TreeAdaptor adaptor) {
         this.adaptor = adaptor;
     }
-    public TreeAdaptor getTreeAdaptor() {
+    @Override
+	public TreeAdaptor getTreeAdaptor() {
         return adaptor;
     }
 
-    public String[] getTokenNames() { return FlockParser.tokenNames; }
-    public String getGrammarFileName() { return "/home/smadani/Epsilon/org.eclipse.epsilon/plugins/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g"; }
+    @Override
+	public String[] getTokenNames() { return FlockParser.tokenNames; }
+    @Override
+	public String getGrammarFileName() { return "/home/smadani/Epsilon/org.eclipse.epsilon/plugins/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g"; }
 
 
     	@Override
@@ -269,7 +274,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class flockModule_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start flockModule
@@ -408,7 +414,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
                 // /home/smadani/Epsilon/org.eclipse.epsilon/plugins/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:116:5: ^( FLOCKMODULE ( importStatement )* ( modelDeclaration )* ( flockModuleContent )* )
                 {
                 org.eclipse.epsilon.common.parse.AST root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
-                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot((org.eclipse.epsilon.common.parse.AST)adaptor.create(FLOCKMODULE, "FLOCKMODULE"), root_1);
+                root_1 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(adaptor.create(FLOCKMODULE, "FLOCKMODULE"), root_1);
 
                 // /home/smadani/Epsilon/org.eclipse.epsilon/plugins/org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:116:19: ( importStatement )*
                 while ( stream_importStatement.hasNext() ) {
@@ -459,7 +465,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class flockModuleContent_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start flockModuleContent
@@ -638,7 +645,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class retyping_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start retyping
@@ -737,7 +745,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class retyping_package_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start retyping_package
@@ -836,7 +845,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class retyping_classifier_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start retyping_classifier
@@ -934,7 +944,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class deletion_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start deletion
@@ -1033,7 +1044,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class deletion_package_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start deletion_package
@@ -1122,7 +1134,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class deletion_classifier_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start deletion_classifier
@@ -1209,7 +1222,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class migrateRule_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start migrateRule
@@ -1308,7 +1322,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class fullRule_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start fullRule
@@ -1421,8 +1436,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             }
             if ( state.backtracking==0 ) {
 
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(ob);
-              		((org.eclipse.epsilon.common.parse.AST)retval.tree).getExtraTokens().add(cb);
+              		retval.tree.getExtraTokens().add(ob);
+              		retval.tree.getExtraTokens().add(cb);
               	
             }
         }
@@ -1440,7 +1455,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class ignoringRule_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start ignoringRule
@@ -1535,7 +1551,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class ignoring_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start ignoring
@@ -1597,7 +1614,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class propertyList_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start propertyList
@@ -1704,7 +1722,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
     public static class guard_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        public Object getTree() { return tree; }
+        @Override
+		public Object getTree() { return tree; }
     };
 
     // $ANTLR start guard
