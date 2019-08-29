@@ -47,6 +47,20 @@ public class ObjectMethod {
 		this.method = method;
 	}
 	
+	/**
+	 * Convenience method for invoking {@link #execute(Object[], ModuleElement)}
+	 * without needing to wrap parameters into an array.
+	 * 
+	 * @param ast
+	 * @param parameters
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	public Object execute(ModuleElement ast, Object... parameters) throws EolRuntimeException {
+		return execute(parameters, ast);
+	}
+	
 	public Object execute(Object[] parameters, ModuleElement ast) throws EolRuntimeException {
 		return ReflectionUtil.executeMethod(object, method, parameters, ast);
 	}

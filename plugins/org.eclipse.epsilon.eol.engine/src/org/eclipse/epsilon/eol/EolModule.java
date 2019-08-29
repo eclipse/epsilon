@@ -63,7 +63,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 	@SuppressWarnings("unchecked")
 	public EolModule(IEolContext context) {
 		setContext(context != null ? context : new EolContext());
-		Arrays.stream(getClass().getConstructors())
+		Arrays.stream(getClass().getDeclaredConstructors())
 			.flatMap(c -> Arrays.stream(c.getParameters()))
 			.map(java.lang.reflect.Parameter::getType)
 			.filter(expectedContextType::isAssignableFrom)

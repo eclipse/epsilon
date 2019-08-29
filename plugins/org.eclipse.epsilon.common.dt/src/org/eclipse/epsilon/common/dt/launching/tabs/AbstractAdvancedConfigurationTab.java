@@ -126,7 +126,6 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 			System.out.println("moduleConfig performApply");
 			moduleConfig.performApply(configuration);
 		}
-		setDirty(false);
 	}
 	
 

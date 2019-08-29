@@ -14,6 +14,7 @@ import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
 import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.epsilon.egl.internal.IEglModule;
 import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
@@ -48,6 +49,9 @@ public interface IEglContext extends IEolContext {
 
 	public IOutputBuffer getOutputBuffer();
 	
+	@Override
+	IEglModule getModule();
+	
 	/**
 	 * 
 	 * @return
@@ -74,10 +78,6 @@ public interface IEglContext extends IEolContext {
 			setPartitioner(partitioner);
 			return true;
 		}
-	}
-	
-	public default void copyFrom(IEolContext context) {
-		copyFrom(context, false);
 	}
 	
 	/**

@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.*;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.types.EolType;
 
 // TODO : Overload add, addAll, remove et.al and add results to a WeakHashMap for better performance
 @SuppressWarnings("serial")
@@ -46,14 +47,9 @@ public class OperationList extends ArrayList<Operation> {
 		OperationList operations = new OperationList();
 		
 		for (Operation operation : this) {
-			if (operation.getName().compareTo(name) == 0 && operation.getFormalParameters().size() == parameters.size()) {
-				boolean correctContext = false;
-				if (ofTypeOnly) {
-					correctContext = operation.getContextType(context).isType(object);
-				}
-				else {
-					correctContext = operation.getContextType(context).isKind(object);
-				}
+			if (operation.getName().equals(name) && operation.getFormalParameters().size() == parameters.size()) {
+				EolType contextType = operation.getContextType(context);
+				boolean correctContext = ofTypeOnly ? contextType.isType(object) : contextType.isKind(object);
 				
 				if (correctContext) {
 					Iterator<Parameter> fpi = operation.getFormalParameters().iterator();
@@ -74,7 +70,7 @@ public class OperationList extends ArrayList<Operation> {
 					
 					if (correctParameters) {
 						operations.add(operation);
-						if (returnOne) return operations;
+						if (returnOne) break;
 					}
 				}
 			}
