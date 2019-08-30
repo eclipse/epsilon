@@ -170,9 +170,8 @@ public interface EolExecutorService extends ExecutorService {
 			final Thread compWait = new Thread(() -> {
 				try {
 					for (Future<?> future : jobs) {
-						if (status.isInProgress()) {
+						if (status.isInProgress())
 							future.get();
-						}
 						else return;
 					}
 					status.completeSuccessfully();

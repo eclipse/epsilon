@@ -12,5 +12,9 @@ package org.eclipse.epsilon.eol.execute.context;
 
 public enum FrameType {
 	PROTECTED,
-	UNPROTECTED
+	UNPROTECTED,
+	/**
+	 * @since 1.6
+	 */
+	UNPROTECTED_NOMERGE
 }

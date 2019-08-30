@@ -679,7 +679,7 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 			FrameStackRegion.mergeFrames(from.locals, to.locals);
 			FrameStackRegion.mergeFrames(from.globals, to.globals);
 			
-			//Just in case a subclass adds to built-in variables
+			// Just in case a subclass adds to built-in variables
 			if (!from.builtInVariables.isEmpty()) {
 				from.builtInVariables.forEach(to.builtInVariables::putIfAbsent);
 			}

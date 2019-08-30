@@ -24,7 +24,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.function.CheckedEolFunction;
 import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
-import org.eclipse.epsilon.eol.function.LambdaFactory;
+import org.eclipse.epsilon.eol.function.EolLambdaFactory;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolType;
 
@@ -127,7 +127,7 @@ public abstract class FirstOrderOperation extends AbstractOperation {
 			}
 		}
 		else {
-			return (F) LambdaFactory.resolveFor(functionType, iterators, expression, operationNameExpression, context);
+			return (F) EolLambdaFactory.resolveFor(functionType, iterators, expression, operationNameExpression, context);
 		}
 	}
 

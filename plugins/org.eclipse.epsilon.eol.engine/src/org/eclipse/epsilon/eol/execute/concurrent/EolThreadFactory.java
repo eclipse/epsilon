@@ -71,6 +71,6 @@ public class EolThreadFactory implements ThreadFactory {
 		if (++threadCount > maxThreads) {
 			throw new IllegalStateException("Exceeded maximum number of threads: "+maxThreads);
 		}
-		return setThreadProperties(new Thread(target));
+		return setThreadProperties(new EolThread(target));
 	}
 }

@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.*;
 import org.eclipse.epsilon.eol.execute.operations.declarative.concurrent.*;
@@ -87,8 +86,7 @@ public class EolOperationFactory {
 		if (isOverridenDelegate(originalOp)) {
 			return originalOp;
 		}
-		// TODO: Further testing to ensure this is really safe, hence restricted application for now
-		else if (originalOp != null && context.getClass().equals(EolContextParallel.class) &&
+		else if (originalOp != null && context instanceof IEolContextParallel &&
 				!name.startsWith("parallel") && ((IEolContextParallel)context).isParallelisationLegal()) {
 			
 			AbstractOperation parallelOp = operationCache.get("parallel" + StringUtil.firstToUpper(name));

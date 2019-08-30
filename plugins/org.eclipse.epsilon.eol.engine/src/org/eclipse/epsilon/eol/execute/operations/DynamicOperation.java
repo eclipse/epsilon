@@ -30,7 +30,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
-import org.eclipse.epsilon.eol.function.LambdaFactory;
+import org.eclipse.epsilon.eol.function.EolLambdaFactory;
 import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
@@ -71,9 +71,9 @@ public class DynamicOperation extends AbstractOperation {
 			}
 		}
 		
-		if (target instanceof EolNoType || target instanceof LambdaFactory) {
+		if (target instanceof EolNoType || target instanceof EolLambdaFactory) {
 			final Map.Entry<Expression, List<Parameter>> first = entriesIter.next();
-			return LambdaFactory.resolveFor(methodName, first.getValue(), first.getKey(), operationNameExpression, context);
+			return EolLambdaFactory.resolveFor(methodName, first.getValue(), first.getKey(), operationNameExpression, context);
 		}
 		
 		// Look for a matching method with FunctionalInterface parameter(s)
@@ -111,7 +111,7 @@ public class DynamicOperation extends AbstractOperation {
 			
 			try {
 				// First try to use the CheckedEol version of known functional interfaces
-				candidateParameterValues[i] = LambdaFactory.resolveFor(targetType, iteratorParams, rawExpr, operationNameExpression, context);
+				candidateParameterValues[i] = EolLambdaFactory.resolveFor(targetType, iteratorParams, rawExpr, operationNameExpression, context);
 			}
 			catch (EolIllegalOperationException eox) {
 				final IEolContext fContext = context;
@@ -120,7 +120,7 @@ public class DynamicOperation extends AbstractOperation {
 					targetType.getClassLoader(),
 					new Class[]{targetType},
 					(proxy, method, args) ->
-						LambdaFactory.executeExpression(fContext, operationNameExpression, null, rawExpr,  iteratorParams, args)
+						EolLambdaFactory.executeExpression(fContext, operationNameExpression, null, rawExpr,  iteratorParams, args)
 				);
 			}
 		}

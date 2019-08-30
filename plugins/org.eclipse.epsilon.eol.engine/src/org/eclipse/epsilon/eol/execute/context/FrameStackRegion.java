@@ -290,9 +290,13 @@ class FrameStackRegion implements Cloneable {
 	 */
 	static void mergeFrames(FrameStackRegion from, FrameStackRegion to) {
 		if (from != null && to != null && from.frames != null) synchronized (from) {
-			Deque<SingleFrame> framesToAdd = new ArrayDeque<>(from.frames);
+			Deque<SingleFrame> framesToAdd = to.isThreadSafe() ? new ConcurrentLinkedDeque<>() : new ArrayDeque<>();
 			
-			framesToAdd.removeIf(frame -> frame.getAll().isEmpty());
+			for (SingleFrame frame : from.frames) {
+				if (frame.getType() != FrameType.UNPROTECTED_NOMERGE && !frame.getAll().isEmpty()) {
+					framesToAdd.add(frame);
+				}
+			}
 			
 			if (to.frames == null) {
 				to.frames = framesToAdd;

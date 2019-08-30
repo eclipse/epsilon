@@ -27,7 +27,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
  * @author Sina Madani
  * @since 1.6
  */
-public class LambdaFactory { 
+public class EolLambdaFactory { 
 	
 	public static Object resolveFor(Class<?> clazz, List<Parameter> iteratorParams, Expression lambdaExpr,
 			ModuleElement ast, IEolContext context) throws EolIllegalOperationException {
@@ -74,7 +74,7 @@ public class LambdaFactory {
 			case "binaryoperator":// case "bioperator": case "binary": case "binaryop":
 				return (CheckedEolBinaryOperator<?>) (t, u) -> executeExpression(context, ast, t != null ? t.getClass() : null, lambdaExpr, iteratorParams, t, u);
 			default:
-				throw new EolIllegalOperationException(LambdaFactory.class, methodName, ast, context.getPrettyPrinterManager());
+				throw new EolIllegalOperationException(EolLambdaFactory.class, methodName, ast, context.getPrettyPrinterManager());
 		}
 	}
 	
@@ -90,9 +90,9 @@ public class LambdaFactory {
 		);
 		
 		FrameStack scope = context.getFrameStack();
-		scope.enterLocal(FrameType.UNPROTECTED, expression);
-		Iterator<Parameter> paramsIter = params.iterator();
+		scope.enterLocal(FrameType.UNPROTECTED_NOMERGE, expression);
 		
+		Iterator<Parameter> paramsIter = params.iterator();
 		if (paramValues != null) {
 			for (Object value : paramValues) {
 				scope.put(paramsIter.next().getName(), value);
@@ -102,10 +102,7 @@ public class LambdaFactory {
 		Object result = context.getExecutorFactory().execute(expression, context);
 		scope.leaveLocal(expression);
 		
-		// Use try-catch for slightly better performance. If it goes wrong we end up creating an
-		// exception anyway so no benefit of using if/else. Most of the time the try should succeed.
-		
-		try {//(expectedReturnType == null || result == null || expectedReturnType.isInstance(result))
+		try {
 			return (R) result;
 		}
 		catch (ClassCastException ccx) {
