@@ -22,10 +22,6 @@ import org.eclipse.epsilon.erl.execute.context.IErlContext;
  * @since 1.6
  */
 public interface IEgxContext extends IErlContext {
-
-	public void setBaseTemplate(EgxModuleTemplateAdapter baseTemplate);
-	
-	public EgxModuleTemplateAdapter getTrace();
 	
 	/**
 	 * Casts the IModule to IEgxModule

@@ -24,9 +24,9 @@ import org.eclipse.epsilon.erl.execute.context.ErlContext;
  */
 public class EgxContext extends ErlContext implements IEgxContext {
 	
-	protected EgxModuleTemplateAdapter baseTemplate;
+	private EgxModuleTemplateAdapter baseTemplate;
 	private EglTemplateFactory templateFactory;
-	protected Map<URI, EglTemplate> templateCache = new HashMap<>(8);
+	protected Map<URI, EglTemplate> templateCache = new HashMap<>();
 	
 	public EgxContext() {
 		this(null);
@@ -36,7 +36,6 @@ public class EgxContext extends ErlContext implements IEgxContext {
 		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory();
 	}
 	
-	@Override
 	public EgxModuleTemplateAdapter getTrace() {
 		if (baseTemplate == null) {
 			baseTemplate = new EgxModuleTemplateAdapter(getModule());
@@ -44,7 +43,6 @@ public class EgxContext extends ErlContext implements IEgxContext {
 		return baseTemplate;
 	}
 	
-	@Override
 	public void setBaseTemplate(EgxModuleTemplateAdapter baseTemplate) {
 		this.baseTemplate = baseTemplate;
 	}

@@ -25,9 +25,11 @@ import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
  */
 public class EgxContextParallel extends ErlContextParallel implements IEgxContextParallel {
 
-	protected EgxModuleTemplateAdapter baseTemplate;
-	private EglTemplateFactory templateFactory;
-	protected Map<URI, EglTemplate> templateCache;// = new java.util.Hashtable<>();
+	EgxModuleTemplateAdapter baseTemplate;
+	protected EglTemplateFactory templateFactory;
+	protected Map<URI, EglTemplate> templateCache;
+	protected ThreadLocal<EglTemplateFactory> concurrentTemplateFactories;
+	protected ThreadLocal<Map<URI, EglTemplate>> concurrentTemplateCaches;
 	
 	public EgxContextParallel() {
 		this(null);
@@ -47,31 +49,25 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 	}
 
 	@Override
-	public EgxModuleTemplateAdapter getTrace() {
-		if (baseTemplate == null) {
-			baseTemplate = new EgxModuleTemplateAdapter(getModule());
-		}
-		return baseTemplate;
-	}
-	
-	@Override
-	public void setBaseTemplate(EgxModuleTemplateAdapter baseTemplate) {
-		this.baseTemplate = baseTemplate;
+	protected void initThreadLocals() {
+		super.initThreadLocals();
+		concurrentTemplateFactories = ThreadLocal.withInitial(() -> new EglTemplateFactory(templateFactory));
+		concurrentTemplateCaches = ThreadLocal.withInitial(java.util.HashMap::new);
 	}
 	
 	@Override
 	public void setTemplateFactory(EglTemplateFactory templateFactory) {
-		this.templateFactory = templateFactory;
+		parallelSet(templateFactory, concurrentTemplateFactories, tf -> this.templateFactory = tf);
 	}
 
 	@Override
 	public EglTemplateFactory getTemplateFactory() {
-		return templateFactory;
+		return parallelGet(concurrentTemplateFactories, templateFactory);
 	}
 	
 	@Override
 	public Map<URI, EglTemplate> getTemplateCache() {
-		return templateCache;
+		return parallelGet(concurrentTemplateCaches, templateCache);
 	}
 	
 	@Override
