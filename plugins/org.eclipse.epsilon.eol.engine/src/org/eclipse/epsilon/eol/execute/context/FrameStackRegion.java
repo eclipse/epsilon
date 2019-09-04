@@ -289,7 +289,7 @@ class FrameStackRegion implements Cloneable {
 	 * @since 1.6
 	 */
 	static void mergeFrames(FrameStackRegion from, FrameStackRegion to) {
-		if (from != null && to != null && from.frames != null) synchronized (from) {
+		if (from != null && to != null && from.frames != null) {
 			Deque<SingleFrame> framesToAdd = to.isThreadSafe() ? new ConcurrentLinkedDeque<>() : new ArrayDeque<>();
 			
 			for (SingleFrame frame : from.frames) {
@@ -354,7 +354,7 @@ class FrameStackRegion implements Cloneable {
 	}
 	
 	protected static boolean isLoopAst(ModuleElement ast) {
-		return ast != null && (ast instanceof ForStatement || ast instanceof WhileStatement);
+		return ast instanceof ForStatement || ast instanceof WhileStatement;
 	}
 	
 	private void disposeFramesUntil(ModuleElement entryPoint) {

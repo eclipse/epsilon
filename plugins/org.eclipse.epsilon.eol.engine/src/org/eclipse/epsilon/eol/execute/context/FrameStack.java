@@ -675,7 +675,7 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 	 * @since 1.6
 	 */
 	protected static void mergeFrameStacks(FrameStack from, FrameStack to) {
-		if (from != null && to != null) {
+		if (from != null && to != null) synchronized (to) {
 			FrameStackRegion.mergeFrames(from.locals, to.locals);
 			FrameStackRegion.mergeFrames(from.globals, to.globals);
 			
