@@ -33,14 +33,14 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		thriftModels[] = {/*"ThriftTest.xmi", */"SimpleService.xmi", "fb303.xmi"},
 		thriftScripts[] = {"thrift-rb", "thrift-java"};
 		
-	public static final List<String[]> thriftInputs;
+	public static final List<String[]> thriftInputs = new java.util.ArrayList<>();
 	
 	static {
-		thriftInputs = addAllInputs(
+		thriftInputs.addAll(addAllInputs(
 				new String[]{thriftScripts[0]},
 				thriftModels, thriftMetamodel, "egx",
 				thriftBase+"ruby/", thriftBase, thriftBase
-		);
+		));
 		/*thriftInputs.addAll(addAllInputs(
 				new String[]{thriftScripts[1]},
 				thriftModels, thriftMetamodel, "egx",
@@ -64,13 +64,20 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	}
 	
 	public static void deleteOutputDirectories() throws IOException {
-		FileUtil.deleteDirectory(thriftBase+"java/output");
-		FileUtil.deleteDirectory(thriftBase+"ruby/output");
+		try {
+			FileUtil.deleteDirectory(thriftBase+"ruby/output");
+			FileUtil.deleteDirectory(thriftBase+"java/output");
+		}
+		catch (java.nio.file.NoSuchFileException ignore) {}
 	}
 	
 	public static Map<Path, byte[]> getOutputFiles() throws IOException {
-		Map<Path, byte[]> outputs = FileUtil.readDirectory(thriftBase+"ruby/output");
-		//outputs.putAll(FileUtil.readDirectory(thriftBase+"java/output"));
+		Map<Path, byte[]> outputs = new java.util.HashMap<>();
+		try {
+			outputs.putAll(FileUtil.readDirectory(thriftBase+"ruby/output"));
+			outputs.putAll(FileUtil.readDirectory(thriftBase+"java/output"));
+		}
+		catch (java.nio.file.NoSuchFileException ignore) {}
 		return outputs;
 	}
 }

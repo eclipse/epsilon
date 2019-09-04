@@ -55,7 +55,7 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 			if (!method.isAccessible()) {
 				method.setAccessible(true);
 			}
-			return method.invoke(objectMethod.getObject(), new Object[]{});
+			return method.invoke(objectMethod.getObject());
 		}
 		catch (Exception ex) {
 			throw new EolInternalException(ex);
