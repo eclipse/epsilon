@@ -18,7 +18,10 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 
 public abstract class AnnotatableModuleElement extends AbstractModuleElement {
 	
@@ -84,6 +87,30 @@ public abstract class AnnotatableModuleElement extends AbstractModuleElement {
 		catch (Exception ex) {
 			throw new EolIllegalReturnException("Boolean", result, annotation, context);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param context
+	 * @param variables
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	public boolean getBooleanAnnotationValue(String name, IEolContext context, Variable... variables) throws EolRuntimeException {	
+		Annotation annotation = getAnnotation(name);
+		if (annotation != null) {
+			if (annotation instanceof ExecutableAnnotation && annotation.hasValue()) {
+				FrameStack frameStack = context.getFrameStack();
+				frameStack.enterLocal(FrameType.PROTECTED, annotation, variables);
+				Object result = annotation.getValue(context);
+				frameStack.leaveLocal(annotation);
+				return result instanceof Boolean && (boolean) result;
+			}
+			else return true;
+		}
+		else return false;
 	}
 	
 	public List<Object> getAnnotationsValues(String name, IEolContext context) throws EolRuntimeException {

@@ -10,12 +10,7 @@
 package org.eclipse.epsilon.erl.concurrent;
 
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
-import org.eclipse.epsilon.eol.dom.Annotation;
-import org.eclipse.epsilon.eol.dom.ExecutableAnnotation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
-import org.eclipse.epsilon.eol.execute.context.FrameType;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModule;
@@ -23,33 +18,16 @@ import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 
 /**
  * 
- * 
  * @author Sina Madani
  * @since 1.6
  */
 public interface IErlModuleParallel extends IErlModule {
 
-public static final String PARALLEL_ANNOTATION_NAME = "parallel";
-	
-	default boolean shouldBeParallel(Annotation annotation, Variable... variables) throws EolRuntimeException {	
-		if (annotation != null) {
-			if (annotation instanceof ExecutableAnnotation && annotation.hasValue()) {
-				IEolContext context = getContext();
-				FrameStack frameStack = context.getFrameStack();
-				frameStack.enterLocal(FrameType.PROTECTED, annotation, variables);
-				Object result = annotation.getValue(context);
-				frameStack.leaveLocal(annotation);
-				return result instanceof Boolean && (boolean) result;
-			}
-			else return true;
-		}
-		else return false;
-	}
+	public static final String PARALLEL_ANNOTATION_NAME = "parallel";
 	
 	default boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model, int numElements) throws EolRuntimeException {
-		Annotation pAnnotation = ast.getAnnotation(PARALLEL_ANNOTATION_NAME);
-		if (pAnnotation == null || !getContext().isParallelisationLegal()) return false;
-		return shouldBeParallel(pAnnotation, new Variable[] {
+		if (!getContext().isParallelisationLegal()) return false;
+		return ast.getBooleanAnnotationValue(PARALLEL_ANNOTATION_NAME, getContext(), new Variable[] {
 			Variable.createReadOnlyVariable("self", self),
 			Variable.createReadOnlyVariable("NUM_ELEMENTS", numElements),
 			Variable.createReadOnlyVariable("MODEL", model),
