@@ -26,12 +26,13 @@ public interface IErlModuleParallel extends IErlModule {
 	public static final String PARALLEL_ANNOTATION_NAME = "parallel";
 	
 	default boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model, int numElements) throws EolRuntimeException {
-		if (!getContext().isParallelisationLegal()) return false;
-		return ast.getBooleanAnnotationValue(PARALLEL_ANNOTATION_NAME, getContext(), new Variable[] {
+		IErlContextParallel context = getContext();
+		if (!context.isParallelisationLegal()) return false;
+		return ast.getBooleanAnnotationValue(PARALLEL_ANNOTATION_NAME, context, () -> new Variable[] {
 			Variable.createReadOnlyVariable("self", self),
 			Variable.createReadOnlyVariable("NUM_ELEMENTS", numElements),
 			Variable.createReadOnlyVariable("MODEL", model),
-			Variable.createReadOnlyVariable("THREADS", getContext().getParallelism())
+			Variable.createReadOnlyVariable("THREADS", context.getParallelism())
 		});
 	}
 	

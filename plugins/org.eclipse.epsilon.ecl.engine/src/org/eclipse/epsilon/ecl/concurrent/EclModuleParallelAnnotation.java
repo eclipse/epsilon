@@ -13,7 +13,6 @@ import java.util.Collection;
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.IEclContextParallel;
 import org.eclipse.epsilon.eol.dom.Annotation;
-import org.eclipse.epsilon.eol.dom.ExecutableAnnotation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -47,14 +46,13 @@ public class EclModuleParallelAnnotation extends EclModuleParallel {
 				Annotation pAnnotation = matchRule.getAnnotation(PARALLEL_ANNOTATION_NAME);
 				
 				if (pAnnotation != null) {
-					Variable[] annotationVariables = pAnnotation instanceof ExecutableAnnotation ?
+					if (matchRule.getBooleanAnnotationValue(PARALLEL_ANNOTATION_NAME, context, () ->
 						new Variable[] {
 							Variable.createReadOnlyVariable("leftInstances", leftInstances),
 							Variable.createReadOnlyVariable("rightInstances", rightInstances),
 							Variable.createReadOnlyVariable("matchRule", matchRule),
 							Variable.createReadOnlyVariable("THREADS", context.getParallelism())
-						} : new Variable[0];
-					if (shouldBeParallel(pAnnotation, annotationVariables)) {
+					})) {
 						for (Object left : leftInstances) {
 							for (Object right : rightInstances) {
 								executor.execute(() -> matchRule.matchPair(context, ofTypeOnly, left, right));

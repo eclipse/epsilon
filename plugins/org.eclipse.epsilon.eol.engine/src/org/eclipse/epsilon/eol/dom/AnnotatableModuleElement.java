@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.dom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
@@ -98,12 +99,12 @@ public abstract class AnnotatableModuleElement extends AbstractModuleElement {
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
-	public boolean getBooleanAnnotationValue(String name, IEolContext context, Variable... variables) throws EolRuntimeException {	
+	public boolean getBooleanAnnotationValue(String name, IEolContext context, Supplier<Variable[]> variables) throws EolRuntimeException {	
 		Annotation annotation = getAnnotation(name);
 		if (annotation != null) {
 			if (annotation instanceof ExecutableAnnotation && annotation.hasValue()) {
 				FrameStack frameStack = context.getFrameStack();
-				frameStack.enterLocal(FrameType.PROTECTED, annotation, variables);
+				frameStack.enterLocal(FrameType.PROTECTED, annotation, variables != null ? variables.get() : new Variable[0]);
 				Object result = annotation.getValue(context);
 				frameStack.leaveLocal(annotation);
 				return result instanceof Boolean && (boolean) result;
