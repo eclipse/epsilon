@@ -62,7 +62,9 @@ public interface IEolContextParallel extends IEolContext {
 	 * 
 	 * @return <code>true</code> if calling {@link #enterParallelNest(ModuleElement)} is permitted.
 	 */
-	boolean isParallelisationLegal();
+	default boolean isParallelisationLegal() {
+		return !isParallel();
+	}
 	
 	/**
 	 * This method should be called prior to performing any parallel execution.

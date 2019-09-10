@@ -31,13 +31,18 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 	}
 
 	public EclContextParallel(int parallelism) {
-		super(parallelism, true);
+		super(parallelism);
 	}
 
 	public EclContextParallel(IEclContext other) {
 		super(other, true);
 		this.matchTrace = new MatchTrace(other.getMatchTrace());
 		this.tempMatchTrace = new MatchTrace(other.getMatchTrace());
+	}
+	
+	public static IEclContextParallel convertToParallel(IEclContext context) throws EolNestedParallelismException {
+		if (context instanceof IEclContextParallel) return (IEclContextParallel) context;
+		return new EclContextParallel(context);
 	}
 	
 	@Override
@@ -72,10 +77,5 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 		if (module instanceof EclModuleParallel) {
 			super.setModule(module);
 		}
-	}
-	
-	public static IEclContextParallel convertToParallel(IEclContext context) throws EolNestedParallelismException {
-		if (context instanceof IEclContextParallel) return (IEclContextParallel) context;
-		return new EclContextParallel(context);
 	}
 }

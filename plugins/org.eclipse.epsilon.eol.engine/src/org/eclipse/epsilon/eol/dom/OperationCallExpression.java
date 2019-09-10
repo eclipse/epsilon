@@ -11,6 +11,7 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.BaseStream;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -19,6 +20,8 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolUndefinedVariableException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
@@ -99,7 +102,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		else {
 			targetObject = EolNoType.NoInstance;
 		}
-				
+		
 		IModel owningModel = context.getModelRepository().getOwningModel(targetObject);
 		
 		// Non-overridable operations
@@ -166,10 +169,32 @@ public class OperationCallExpression extends FeatureCallExpression {
 			// Try contributors that do not override the context's operation contributor registry
 			objectMethod = operationContributor
 				.findContributedMethodForEvaluatedParameters(targetObject, operationName, parameterValuesArray, context, false);
-		} 
+		}
 		
+		// @since 1.6 Special treatment for terminal parallel Stream operations
 		if (objectMethod != null) {
-			return wrap(objectMethod.execute(parameterValuesArray, nameExpression));
+			boolean isParallelOperation = targetObject instanceof BaseStream && ((BaseStream<?,?>) targetObject).isParallel();
+			
+			if (isParallelOperation && !BaseStream.class.isAssignableFrom(objectMethod.getMethod().getReturnType())) {
+				// At some point in the chain, StringUtil.isOneOf(operationName, "parallel", "parallelStream") must've been true
+				IEolContextParallel pContext = (IEolContextParallel) (context = EolContextParallel.convertToParallel(context));
+				if (pContext.isParallelisationLegal()) {
+					pContext.beginParallelTask(nameExpression);
+				}
+				else {
+					((BaseStream<?,?>) targetObject).sequential();
+				}
+			}
+			
+			Object result = wrap(objectMethod.execute(parameterValuesArray, nameExpression));
+			
+			if (isParallelOperation && context instanceof IEolContextParallel) {
+				IEolContextParallel pContext = (IEolContextParallel) context;
+				pContext.getExecutorService().getExecutionStatus().completeSuccessfully();
+				pContext.endParallelTask();
+			}
+			
+			return result;
 		}
 
 		// Execute user-defined operation (if isArrow() == true)

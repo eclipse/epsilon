@@ -50,10 +50,19 @@ public class EUnitRunner extends Runner {
 	public EUnitRunner(Class<?> clazz) {
 		this.clazz = clazz;
 	}
-		
+	
+	/**
+	 * 
+	 * @return A new EUnitModule
+	 * @since 1.6
+	 */
+	protected EUnitModule newModule() {
+		return new EUnitModule();
+	}
+	
 	@Override
 	public Description getDescription() {
-		module = new EUnitModule();
+		module = newModule();
 		testSuiteDescription = Description.createSuiteDescription(clazz);
 		module.getContext().getOperationContributorRegistry().add(new AssertWarningOperationContributor(module.getContext()));
 		

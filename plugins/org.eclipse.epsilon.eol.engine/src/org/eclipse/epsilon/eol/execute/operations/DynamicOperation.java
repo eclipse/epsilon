@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.Arrays;
-import java.util.stream.BaseStream;
 import java.util.Collection;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
@@ -28,8 +27,6 @@ import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
-import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.function.EolLambdaFactory;
 import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
@@ -59,17 +56,6 @@ public class DynamicOperation extends AbstractOperation {
 		final Iterator<Map.Entry<Expression, List<Parameter>>> entriesIter = lambdas.entrySet().iterator();
 		final Collection<Expression> expressions = lambdas.keySet();
 		final String methodName = operationNameExpression.getName();
-		final boolean isParallelOperation = target instanceof BaseStream && ((BaseStream<?,?>) target).isParallel();
-		
-		if (isParallelOperation) {
-			IEolContextParallel pContext = (IEolContextParallel) (context = EolContextParallel.convertToParallel(context));
-			if (pContext.isParallelisationLegal()) {
-				pContext.beginParallelTask(operationNameExpression);
-			}
-			else {
-				((BaseStream<?,?>) target).sequential();
-			}
-		}
 		
 		if (target instanceof EolNoType || target instanceof EolLambdaFactory) {
 			final Map.Entry<Expression, List<Parameter>> first = entriesIter.next();
@@ -127,13 +113,7 @@ public class DynamicOperation extends AbstractOperation {
 		
 		// Finally, call the method with the resolved parameters
 		try {
-			Object result = ReflectionUtil.executeMethod(resolvedMethod, target, candidateParameterValues);
-			if (isParallelOperation && context instanceof IEolContextParallel) {
-				IEolContextParallel pContext = (IEolContextParallel) context;
-				pContext.getExecutorService().getExecutionStatus().completeSuccessfully();
-				pContext.endParallelTask();
-			}
-			return result;
+			return ReflectionUtil.executeMethod(resolvedMethod, target, candidateParameterValues);
 		}
 		catch (Throwable ex) {
 			context.getErrorStream().println(ex);

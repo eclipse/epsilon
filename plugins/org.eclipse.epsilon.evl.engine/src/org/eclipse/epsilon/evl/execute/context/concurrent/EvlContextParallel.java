@@ -50,7 +50,12 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	 * default is <code>true</code>
 	 */
 	public EvlContextParallel(int parallelism) {
-		super(parallelism, true);
+		super(parallelism);
+	}
+	
+	public static IEvlContextParallel convertToParallel(IEvlContext context) throws EolNestedParallelismException {
+		if (context instanceof IEvlContextParallel) return (IEvlContextParallel) context;
+		return new EvlContextParallel(context);
 	}
 	
 	@Override
@@ -109,11 +114,6 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	@Override
 	public boolean isOptimizeConstraintTrace() {
 		return optimizeConstraintTrace;
-	}
-	
-	public static IEvlContextParallel convertToParallel(IEvlContext context) throws EolNestedParallelismException {
-		if (context instanceof IEvlContextParallel) return (IEvlContextParallel) context;
-		return new EvlContextParallel(context);
 	}
 
 	@Override

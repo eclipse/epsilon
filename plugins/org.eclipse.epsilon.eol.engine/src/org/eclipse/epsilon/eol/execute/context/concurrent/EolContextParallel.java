@@ -42,20 +42,15 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 
 	protected final int numThreads;
 	protected boolean isInParallelTask;
-	protected final boolean isPersistent;
 	protected EolExecutorService executorService;
 	
 	// Data structures which will be written to and read from during parallel execution:
 	protected ThreadLocal<FrameStack> concurrentFrameStacks;
 	protected ThreadLocal<OperationContributorRegistry> concurrentMethodContributors;
-	protected ThreadLocal<ExecutorFactory> concurrentExecutors;
+	protected ThreadLocal<ExecutorFactory> concurrentExecutorFactories;
 	
 	public EolContextParallel() {
 		this(0);
-	}
-
-	public EolContextParallel(int parallelism) {
-		this(parallelism, false);
 	}
 	
 	/**
@@ -63,10 +58,9 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @param persistThreadLocals Whether to save the state of thread-local values
 	 * (such as variable declarations) so that they can be merged into the main thread later.
 	 */
-	public EolContextParallel(int parallelism, boolean persistThreadLocals) {
+	public EolContextParallel(int parallelism) {
 		numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM;
 		initMainThreadStructures();
-		this.isPersistent = persistThreadLocals;
 	}
 
 	public EolContextParallel(IEolContext other) {
@@ -86,13 +80,9 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		super(other);
 		frameStack.setThreadSafe(true);
 		executorFactory.setThreadSafe(true);
-		this.isPersistent = persistThreadLocals;
 		
-		IEolContextParallel otherParallel = other instanceof IEolContextParallel ?
-			(IEolContextParallel) other : null;
-		
-		if (otherParallel != null) {
-			numThreads = otherParallel.getParallelism();
+		if (other instanceof IEolContextParallel) {
+			numThreads = ((IEolContextParallel) other).getParallelism();
 		}
 		else {
 			numThreads = ConcurrencyUtils.DEFAULT_PARALLELISM;
@@ -108,13 +98,11 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	protected void initThreadLocals() {
 		concurrentMethodContributors = ThreadLocal.withInitial(OperationContributorRegistry::new);
 		concurrentFrameStacks = initDelegateThreadLocal(() -> new FrameStack(frameStack, true));
-		concurrentExecutors = initDelegateThreadLocal(() -> new ExecutorFactory(executorFactory, true));
+		concurrentExecutorFactories = initDelegateThreadLocal(() -> new ExecutorFactory(executorFactory, true));
 	}
 	
 	protected <T extends ConcurrentBaseDelegate<T>> ThreadLocal<T> initDelegateThreadLocal(Supplier<? extends T> constructor) {
-		return isPersistent ?
-			new DelegatePersistentThreadLocal<>(numThreads, constructor) :
-			ThreadLocal.withInitial(constructor);
+		return new DelegatePersistentThreadLocal<>(numThreads, constructor);
 	}
 	
 	/**
@@ -157,6 +145,11 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 			originalValueSetter.accept(value);
 	}
 	
+	public static IEolContextParallel convertToParallel(IEolContext context) throws EolNestedParallelismException {
+		if (context instanceof IEolContextParallel) return (IEolContextParallel) context;
+		return new EolContextParallel(context);
+	}
+	
 	protected static void removeAllIfPersistent(ThreadLocal<?>... threadLocals) {
 		if (threadLocals != null) for (ThreadLocal<?> tl : threadLocals) {
 			if (tl instanceof PersistentThreadLocal) {
@@ -165,17 +158,13 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		}
 	}
 	
-	public boolean isPersistent() {
-		return isPersistent;
-	}
-	
 	protected void clearThreadLocals() {
-		removeAllIfPersistent(concurrentExecutors, concurrentFrameStacks, concurrentMethodContributors);
+		removeAllIfPersistent(concurrentFrameStacks, concurrentExecutorFactories, concurrentMethodContributors);
 	}
 	
 	protected void nullifyThreadLocals() {
 		concurrentFrameStacks = null;
-		concurrentExecutors = null;
+		concurrentExecutorFactories = null;
 		concurrentMethodContributors = null;
 	}
 	
@@ -219,11 +208,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public boolean isParallelisationLegal() {
-		return !isParallel() && ConcurrencyUtils.isTopLevelThread();
-	}
-	
-	@Override
 	public boolean isParallel() {
 		return isInParallelTask;
 	}
@@ -253,12 +237,12 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	@Override
 	public ExecutorFactory getExecutorFactory() {
-		return parallelGet(concurrentExecutors, executorFactory);
+		return parallelGet(concurrentExecutorFactories, executorFactory);
 	}
 
 	@Override
 	public void setExecutorFactory(ExecutorFactory executorFactory) {
-		parallelSet(executorFactory, concurrentExecutors, super::setExecutorFactory);
+		parallelSet(executorFactory, concurrentExecutorFactories, super::setExecutorFactory);
 	}
 	
 	@Override
@@ -269,10 +253,5 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	@Override
 	public String toString() {
 		return getClass().getSimpleName()+" [parallelism="+getParallelism()+']';
-	}
-	
-	public static IEolContextParallel convertToParallel(IEolContext context) throws EolNestedParallelismException {
-		if (context instanceof IEolContextParallel) return (IEolContextParallel) context;
-		return new EolContextParallel(context);
 	}
 }
