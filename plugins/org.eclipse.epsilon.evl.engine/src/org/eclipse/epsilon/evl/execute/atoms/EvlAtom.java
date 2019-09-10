@@ -20,9 +20,9 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  * @since 1.6
  * @param <T>
  */
-class EvlAtom<T extends IExecutableDataRuleElement> extends ExecutableRuleAtom<T> {
+public abstract class EvlAtom<T extends IExecutableDataRuleElement> extends ExecutableRuleAtom<T> {
 
-	public EvlAtom(T construct, Object modelElement) {
+	protected EvlAtom(T construct, Object modelElement) {
 		super(construct, modelElement);
 	}
 

@@ -99,6 +99,19 @@ public abstract class AnnotatableModuleElement extends AbstractModuleElement {
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
+	public boolean getBooleanAnnotationValue(String name, IEolContext context, Variable... variables) throws EolRuntimeException {
+		return getBooleanAnnotationValue(name, context, () -> variables);
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param context
+	 * @param variables
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
 	public boolean getBooleanAnnotationValue(String name, IEolContext context, Supplier<Variable[]> variables) throws EolRuntimeException {	
 		Annotation annotation = getAnnotation(name);
 		if (annotation != null) {
