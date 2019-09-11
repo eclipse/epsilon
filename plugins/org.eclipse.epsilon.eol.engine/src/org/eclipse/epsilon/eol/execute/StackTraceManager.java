@@ -25,7 +25,7 @@ public class StackTraceManager implements IExecutionListener {
 	 * or by using a {@linkplain ConcurrentLinkedDeque}
 	 * @since 1.6
 	 */
-	protected final Deque<ModuleElement> stackTrace;
+	protected Deque<ModuleElement> stackTrace;
 	
 	public StackTraceManager() {
 		this(false);
@@ -89,6 +89,28 @@ public class StackTraceManager implements IExecutionListener {
 				+ ast.getRegion().getStart().getColumn() + "-" + 
 				ast.getRegion().getEnd().getLine() + ":" +
 				ast.getRegion().getEnd().getColumn() + ")";
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public boolean isThreadSafe() {
+		return stackTrace instanceof ConcurrentLinkedDeque;
+	}
+	
+	/**
+	 * 
+	 * @param concurrent
+	 * @since 1.6
+	 */
+	public void setThreadSafe(boolean concurrent) {
+		if (concurrent != isThreadSafe()) {
+			stackTrace = concurrent ?
+				new ConcurrentLinkedDeque<>(stackTrace) :
+				new ArrayDeque<>(stackTrace);
+		}
 	}
 	
 	@Override
