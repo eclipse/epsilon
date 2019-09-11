@@ -10,9 +10,12 @@
 package org.eclipse.epsilon.eol.execute.introspection.java;
 
 import java.lang.reflect.Method;
-
+import java.util.stream.BaseStream;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
 
 public class ObjectMethod {
@@ -63,5 +66,40 @@ public class ObjectMethod {
 	
 	public Object execute(Object[] parameters, ModuleElement ast) throws EolRuntimeException {
 		return ReflectionUtil.executeMethod(object, method, parameters, ast);
+	}
+	
+	/**
+	 * Special handling (pre/post-processing) of method invocations.
+	 * 
+	 * @param ast
+	 * @param context
+	 * @param parameters
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	public Object execute(ModuleElement ast, IEolContext context, Object... parameters) throws EolRuntimeException {
+		boolean isParallelOperation = object instanceof BaseStream && ((BaseStream<?,?>) object).isParallel();
+		
+		if (isParallelOperation && !BaseStream.class.isAssignableFrom(method.getReturnType())) {
+			// At some point in the chain, StringUtil.isOneOf(operationName, "parallel", "parallelStream") must've been true
+			IEolContextParallel pContext = (IEolContextParallel) (context = EolContextParallel.convertToParallel(context));
+			if (pContext.isParallelisationLegal()) {
+				pContext.beginParallelTask(ast);
+			}
+			else {
+				((BaseStream<?,?>) object).sequential();
+			}
+		}
+		
+		Object result = execute(parameters, ast);
+		
+		if (isParallelOperation && context instanceof IEolContextParallel) {
+			IEolContextParallel pContext = (IEolContextParallel) context;
+			pContext.getExecutorService().getExecutionStatus().completeSuccessfully();
+			pContext.endParallelTask();
+		}
+		
+		return result;
 	}
 }

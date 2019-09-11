@@ -27,6 +27,7 @@ import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.function.EolLambdaFactory;
 import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
@@ -113,7 +114,8 @@ public class DynamicOperation extends AbstractOperation {
 		
 		// Finally, call the method with the resolved parameters
 		try {
-			return ReflectionUtil.executeMethod(resolvedMethod, target, candidateParameterValues);
+			return new ObjectMethod(target, resolvedMethod)
+				.execute(operationNameExpression, context, candidateParameterValues);
 		}
 		catch (Throwable ex) {
 			context.getErrorStream().println(ex);
