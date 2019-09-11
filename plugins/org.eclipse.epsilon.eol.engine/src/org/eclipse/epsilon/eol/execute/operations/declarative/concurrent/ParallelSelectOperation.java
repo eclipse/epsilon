@@ -42,7 +42,7 @@ public class ParallelSelectOperation extends SelectOperation {
 		Collection<Future<Optional<?>>> jobResults = new ArrayList<>(source.size());
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
-		EolExecutorService executor = context.beginParallelTask(expression);
+		EolExecutorService executor = context.beginParallelTask(expression, returnOnMatch);
 		
 		for (Object item : source) {
 			jobResults.add(executor.submit(() -> {

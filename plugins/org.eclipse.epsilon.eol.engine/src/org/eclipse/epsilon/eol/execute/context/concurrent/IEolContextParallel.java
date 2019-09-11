@@ -43,7 +43,7 @@ public interface IEolContextParallel extends IEolContext {
 	
 	/**
 	 * This method will return true if {@link #beginParallelTask()} has been called
-	 * and false if {@link #endParallelTask()} has been called, or {@link #beginParallelTask()}
+	 * and false if {@link #endParallelTask()} has been called, or if {@link #beginParallelTask()}
 	 * has not been called yet.
 	 * 
 	 * @return Whether this Context is currently executing in parallel mode.
@@ -85,10 +85,11 @@ public interface IEolContextParallel extends IEolContext {
 	 * 
 	 * @param entryPoint The AST to associate with this task. May be null, in which
 	 * case a default value (e.g. {@linkplain #getModule()}) should be used.
+	 * @param shortCircuiting Whether the task may be terminated abruptly.
 	 * @return {@link #getExecutorService()}
 	 * @throws EolNestedParallelismException If there was already a parallel task in progress.
 	 */
-	default EolExecutorService beginParallelTask(ModuleElement entryPoint) throws EolNestedParallelismException {
+	default EolExecutorService beginParallelTask(ModuleElement entryPoint, boolean shortCircuiting) throws EolNestedParallelismException {
 		ensureNotNested(entryPoint != null ? entryPoint : getModule());
 		EolExecutorService executor = getExecutorService();
 		assert executor != null && !executor.isShutdown();
@@ -96,6 +97,19 @@ public interface IEolContextParallel extends IEolContext {
 			throw new EolNestedParallelismException(entryPoint);
 		}
 		return executor;
+	}
+	
+	/**
+	 * Registers the beginning of parallel task on the default EolExecutorService.
+	 * The {@link #endParallelTask()} method must be called once finished.
+	 * 
+	 * @param entryPoint The AST to associate with this task. May be null, in which
+	 * case a default value (e.g. {@linkplain #getModule()}) should be used.
+	 * @return {@link #getExecutorService()}
+	 * @throws EolNestedParallelismException If there was already a parallel task in progress.
+	 */
+	default EolExecutorService beginParallelTask(ModuleElement entryPoint) throws EolNestedParallelismException {
+		return beginParallelTask(entryPoint, false);
 	}
 	
 	/**

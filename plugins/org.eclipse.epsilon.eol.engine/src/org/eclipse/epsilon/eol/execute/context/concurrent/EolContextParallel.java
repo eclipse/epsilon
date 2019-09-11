@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.concurrent.ConcurrentBaseDelegate;
+import org.eclipse.epsilon.common.function.BaseDelegate.MergeMode;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
@@ -41,7 +42,7 @@ import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 public class EolContextParallel extends EolContext implements IEolContextParallel {
 
 	protected final int numThreads;
-	protected boolean isInParallelTask;
+	protected boolean isInParallelTask, isInShortCircuitTask;
 	protected EolExecutorService executorService;
 	
 	// Data structures which will be written to and read from during parallel execution:
@@ -97,11 +98,11 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	protected void initThreadLocals() {
 		concurrentMethodContributors = ThreadLocal.withInitial(OperationContributorRegistry::new);
-		concurrentFrameStacks = initDelegateThreadLocal(() -> new FrameStack(frameStack, true));
-		concurrentExecutorFactories = initDelegateThreadLocal(() -> new ExecutorFactory(executorFactory, true));
+		concurrentFrameStacks = initDelegateThreadLocal(() -> new FrameStack(frameStack, false));
+		concurrentExecutorFactories = initDelegateThreadLocal(() -> new ExecutorFactory(executorFactory, false));
 	}
 	
-	protected <T extends ConcurrentBaseDelegate<T>> ThreadLocal<T> initDelegateThreadLocal(Supplier<? extends T> constructor) {
+	protected <T extends ConcurrentBaseDelegate<T>> DelegatePersistentThreadLocal<T> initDelegateThreadLocal(Supplier<? extends T> constructor) {
 		return new DelegatePersistentThreadLocal<>(numThreads, constructor);
 	}
 	
@@ -115,7 +116,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @return The appropriate value for the current thread.
 	 */
 	protected <R> R parallelGet(ThreadLocal<? extends R> threadLocal, Supplier<? extends R> originalValueGetter) {
-		return threadLocal != null && !isParallelisationLegal() ? threadLocal.get() : originalValueGetter.get();
+		return threadLocal != null && !ConcurrencyUtils.isTopLevelThread() ? threadLocal.get() : originalValueGetter.get();
 	}
 	
 	/**
@@ -128,7 +129,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @return The appropriate value for the current thread.
 	 */
 	protected <R> R parallelGet(ThreadLocal<? extends R> threadLocal, R originalValue) {
-		return threadLocal != null && !isParallelisationLegal() ? threadLocal.get() : originalValue;
+		return threadLocal != null && !ConcurrencyUtils.isTopLevelThread() ? threadLocal.get() : originalValue;
 	}
 	
 	/**
@@ -139,7 +140,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @param originalValueSetter The non-thread-local value (will be set if not parallel).
 	 */
 	protected <T> void parallelSet(T value, ThreadLocal<? super T> threadLocal, Consumer<? super T> originalValueSetter) {
-		if (threadLocal != null && !isParallelisationLegal())
+		if (threadLocal != null && !ConcurrencyUtils.isTopLevelThread())
 			threadLocal.set(value);
 		else
 			originalValueSetter.accept(value);
@@ -150,9 +151,12 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		return new EolContextParallel(context);
 	}
 	
-	protected static void removeAllIfPersistent(ThreadLocal<?>... threadLocals) {
+	protected void removeAllIfPersistent(ThreadLocal<?>... threadLocals) {
 		if (threadLocals != null) for (ThreadLocal<?> tl : threadLocals) {
-			if (tl instanceof PersistentThreadLocal) {
+			if (tl instanceof DelegatePersistentThreadLocal && !isInShortCircuitTask) {
+				((DelegatePersistentThreadLocal<?>) tl).removeAll(MergeMode.MERGE_INTO_BASE);
+			}
+			else if (tl instanceof PersistentThreadLocal) {
 				((PersistentThreadLocal<?>) tl).removeAll();
 			}
 		}
@@ -186,8 +190,9 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public EolExecutorService beginParallelTask(ModuleElement entryPoint) throws EolNestedParallelismException {
+	public EolExecutorService beginParallelTask(ModuleElement entryPoint, boolean shortCircuiting) throws EolNestedParallelismException {
 		ensureNotNested(entryPoint != null ? entryPoint : getModule());
+		isInShortCircuitTask = shortCircuiting;
 		initThreadLocals();
 		EolExecutorService executor = getExecutorService();
 		assert executor != null && !executor.isShutdown();
@@ -204,7 +209,12 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		clearExecutor();
 		clearThreadLocals();
 		isInParallelTask = false;
+		isInShortCircuitTask = false;
 		return result;
+	}
+	
+	public boolean isInShortCircuitingTask() {
+		return isInShortCircuitTask;
 	}
 	
 	@Override

@@ -40,11 +40,13 @@ public interface BaseDelegate<T extends BaseDelegate<T>> {
 	void merge(MergeMode mode);
 	
 	default T getFrom(MergeMode mode) {
-		return mode.equals(MergeMode.MERGE_INTO_BASE) ? (T) this : getBase();
+		if (mode == null) return null;
+		return MergeMode.MERGE_INTO_BASE.equals(mode) ? (T) this : getBase();
 	}
 	
 	default T getTo(MergeMode mode) {
-		return mode.equals(MergeMode.INHERIT_FROM_BASE) ? (T) this : getBase();
+		if (mode == null) return null;
+		return MergeMode.INHERIT_FROM_BASE.equals(mode) ? (T) this : getBase();
 	}
 	
 	default <C> void mergeCollectionsUnique(Function<T, Collection<C>> colPropertyGetter, Function<Collection<C>, ? extends Collection<C>> targetCol, MergeMode mode) {

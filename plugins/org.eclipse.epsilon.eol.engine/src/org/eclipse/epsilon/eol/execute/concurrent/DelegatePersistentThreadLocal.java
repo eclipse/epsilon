@@ -31,15 +31,13 @@ public class DelegatePersistentThreadLocal<T extends ConcurrentBaseDelegate<? ex
 		super(initialValue);
 	}
 	
-	@Override
-	public void remove() {
-		get().merge(MergeMode.MERGE_INTO_BASE);
-		super.remove();
+	public void remove(MergeMode mode) {
+		if (mode != null) get().merge(mode);
+		remove();
 	}
 	
-	@Override
-	public void removeAll() {
-		getAll().forEach(t -> t.merge(MergeMode.MERGE_INTO_BASE));
-		super.removeAll();
+	public void removeAll(MergeMode mode) {
+		if (mode != null) getAll().forEach(t -> t.merge(mode));
+		removeAll();
 	}
 }

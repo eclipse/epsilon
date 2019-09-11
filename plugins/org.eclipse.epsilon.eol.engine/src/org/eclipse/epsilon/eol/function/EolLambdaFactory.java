@@ -90,7 +90,7 @@ public class EolLambdaFactory {
 		);
 		
 		FrameStack scope = context.getFrameStack();
-		scope.enterLocal(FrameType.UNPROTECTED_NOMERGE, expression);
+		scope.enterLocal(FrameType.UNPROTECTED, expression);
 		
 		Iterator<Parameter> paramsIter = params.iterator();
 		if (paramValues != null) {

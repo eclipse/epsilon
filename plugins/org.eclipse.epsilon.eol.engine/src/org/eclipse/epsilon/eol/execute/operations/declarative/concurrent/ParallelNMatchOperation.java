@@ -48,7 +48,7 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		AtomicInteger evaluated = new AtomicInteger();
 		Collection<Future<?>> jobResults = new ArrayList<>(sourceSize);
 		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
-		EolExecutorService executor = context.beginParallelTask(expression);
+		EolExecutorService executor = context.beginParallelTask(expression, true);
 		
 		for (Object item : source) {
 			jobResults.add(executor.submit(() -> {

@@ -293,7 +293,7 @@ class FrameStackRegion implements Cloneable {
 			Deque<SingleFrame> framesToAdd = to.isThreadSafe() ? new ConcurrentLinkedDeque<>() : new ArrayDeque<>();
 			
 			for (SingleFrame frame : from.frames) {
-				if (frame.getType() != FrameType.UNPROTECTED_NOMERGE && !frame.getAll().isEmpty()) {
+				if (!frame.getAll().isEmpty()) {
 					framesToAdd.add(frame);
 				}
 			}
