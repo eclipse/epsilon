@@ -14,7 +14,6 @@
 package org.eclipse.epsilon.evl.engine.test.acceptance;
 
 import org.eclipse.epsilon.evl.engine.test.acceptance.builtins.EvlCanAccessBuiltinsTests;
-import org.eclipse.epsilon.evl.engine.test.acceptance.equivalence.*;
 import org.eclipse.epsilon.evl.engine.test.acceptance.reuse.EvlModuleReuseTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -24,13 +23,10 @@ import junit.framework.Test;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-		EvlCanAccessBuiltinsTests.class,
-		EvlTests.class,
-		EvlModuleReuseTests.class,
-		EvlParallelOperationsTests.class,
-		EvlModuleEquivalenceTests.class
-	}
-)
+	EvlCanAccessBuiltinsTests.class,
+	EvlTests.class,
+	EvlModuleReuseTests.class
+})
 public class EvlAcceptanceTestSuite {
 	
 	public static Test suite() {
