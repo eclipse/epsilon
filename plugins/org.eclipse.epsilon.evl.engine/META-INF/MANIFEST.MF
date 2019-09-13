@@ -10,7 +10,6 @@ Require-Bundle: org.eclipse.epsilon.erl.engine;visibility:=reexport
 Export-Package: org.eclipse.epsilon.evl,
  org.eclipse.epsilon.evl.concurrent,
  org.eclipse.epsilon.evl.concurrent.atomic,
- org.eclipse.epsilon.evl.concurrent.experimental,
  org.eclipse.epsilon.evl.dom,
  org.eclipse.epsilon.evl.execute,
  org.eclipse.epsilon.evl.execute.atoms,

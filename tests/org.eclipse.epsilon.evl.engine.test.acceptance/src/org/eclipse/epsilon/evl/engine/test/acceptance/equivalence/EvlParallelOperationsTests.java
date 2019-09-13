@@ -18,15 +18,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.evl.EvlModule;
-import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.concurrent.*;
-import org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelConstraintAtoms;
-import org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelContextAtoms;
-import org.eclipse.epsilon.evl.concurrent.experimental.*;
+import org.eclipse.epsilon.evl.engine.test.acceptance.EvlAcceptanceTestUtil;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 import org.junit.Before;
@@ -64,7 +60,7 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 			javaModels, javaMetamodel
 		);
 	
-	static final int[] testThreads = {2, 5};
+	static final int[] testThreads = {2, 3};
 	static final Function<String[], Integer> idCalculator = inputs -> {
 		int scriptHash;
 		if (inputs[0].startsWith("java_parallel") || inputs[0].startsWith("java_sequential") || inputs[0].startsWith("java_annotated")) {
@@ -88,24 +84,8 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 		Collection<EvlRunConfiguration> scenarios = getScenarios(
 			inputsWithNesting, false, Collections.singleton(EvlModule::new), idCalculator
 		);
-		scenarios.addAll(getScenarios(inputsWithoutNesting, false, getTestModules(), idCalculator));
+		scenarios.addAll(getScenarios(inputsWithoutNesting, false, EvlAcceptanceTestUtil.modules(), idCalculator));
 		setUpEquivalenceTest(scenarios);
-	}
-	
-	@SuppressWarnings("deprecation")
-	static Collection<Supplier<? extends IEvlModule>> getTestModules() {
-		Collection<Supplier<? extends IEvlModule>> modules = EolAcceptanceTestUtil.parallelModules(
-			testThreads, null,
-			p -> new EvlModuleParallelConstraints(new EvlContextParallel(p)),
-			p -> new EvlModuleParallelStaged(new EvlContextParallel(p)),
-			p -> new EvlModuleParallelContextAtoms(new EvlContextParallel(p)),
-			p -> new EvlModuleParallelConstraintAtoms(new EvlContextParallel(p)),
-			p -> new EvlModuleParallel(new EvlContextParallel(p)),
-			p -> new EvlModuleParallelAnnotation(new EvlContextParallel(p)),
-			p -> new EvlModuleParallelElements(new EvlContextParallel(p))
-		);
-		modules.add(EvlModule::new);
-		return modules;
 	}
 	
 	@Parameters
@@ -117,7 +97,7 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 			),
 			idCalculator
 		);
-		scenarios.addAll(getScenarios(inputsWithoutNesting, false, getTestModules(), idCalculator));
+		scenarios.addAll(getScenarios(inputsWithoutNesting, false, EvlAcceptanceTestUtil.modules(), idCalculator));
 		return scenarios;
 	}
 	

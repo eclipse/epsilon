@@ -81,7 +81,7 @@ public class EUnitWithEGLTests extends EUnitTestCase {
 				new HashSet<String>());
 	}
 
-	private String[] interlace(String[] left, String[] right) {
+	private static String[] interlace(String[] left, String[] right) {
 		assert left.length == right.length;
 		String[] interlaced = new String[left.length + right.length];
 		int j = 0;
@@ -92,7 +92,7 @@ public class EUnitWithEGLTests extends EUnitTestCase {
 		return interlaced;
 	}
 
-	private String[] generateCaseNames(final String prefix, final int length) {
+	private static String[] generateCaseNames(final String prefix, final int length) {
 		String[] strings = new String[length];
 		for (int i = 0; i < strings.length; ++i) {
 			strings[i] = prefix + "[" + (i + 1) + "]";

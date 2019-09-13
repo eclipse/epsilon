@@ -22,7 +22,6 @@ import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil
 import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.concurrent.*;
 import org.eclipse.epsilon.evl.concurrent.atomic.*;
-import org.eclipse.epsilon.evl.concurrent.experimental.*;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 
@@ -49,7 +48,6 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 			"emf_cdo-example.xmi",
 		},
 		javaScripts[] = {
-			"java_findbugs_quick",
 			"java_equals",
 			"java_findbugs",
 			"java_sequential"
@@ -97,9 +95,9 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		
 		allInputs = CollectionUtil.composeArrayListFrom(
 			imdbInputs,
-			cookbookInputs,
 			thriftInputs,
-			javaInputs
+			javaInputs,
+			cookbookInputs
 		);
 	}
 	
@@ -114,13 +112,13 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		
 		if (includeTest) {
 			for (Supplier<? extends IEvlModule> moduleGetter : moduleGetters) {
-				IEvlModule evlStd = moduleGetter.get();
+				IEvlModule evlModule = moduleGetter.get();
 				
 				scenarios.add(
 					EvlRunConfiguration.Builder()
-						.withScript(EvlTests.getTestScript(evlStd).toPath())
+						.withScript(EvlTests.getTestScript(evlModule).toPath())
 						.withModel(EvlTests.getTestModel(false))
-						.withModule(evlStd)
+						.withModule(evlModule)
 						.profileExecution(false)
 						.showResults(false)
 						.withId(testInputs.size()+1)
@@ -132,12 +130,9 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		return scenarios;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static Collection<Supplier<? extends IEvlModule>> modules(boolean includeStandard) {
 		return parallelModules(THREADS,
 			includeStandard ? EvlModule::new : null,
-			p -> new EvlModuleParallelConstraints(new EvlContextParallel(p)),
-			p -> new EvlModuleParallelStaged(new EvlContextParallel(p)),
 			p -> new EvlModuleParallelContextAtoms(new EvlContextParallel(p)),
 			p -> new EvlModuleParallelConstraintAtoms(new EvlContextParallel(p)),
 			p -> new EvlModuleParallel(new EvlContextParallel(p)),
