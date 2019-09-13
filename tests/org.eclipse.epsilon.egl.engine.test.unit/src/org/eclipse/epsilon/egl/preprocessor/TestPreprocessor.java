@@ -96,8 +96,8 @@ public class TestPreprocessor {
 	
 	@Test
 	public void testEscapeNewLine() {
-		final String egl = "\n";
-		final String eol = "out.prinx('\\n');";
+		final String egl = NEWLINE;
+		final String eol = "out.prinx('"+ESCAPED_NEWLINE+"');";
 
 		assertEquals(eol, preprocess(egl));
 	}

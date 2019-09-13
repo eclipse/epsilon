@@ -86,14 +86,17 @@ public abstract class EUnitTestCase extends WorkflowTestCase  implements ErrorHa
 		deleteTestReports(BASE_DIR.getParentFile());
 	}
 
+	@Override
 	public void error(SAXParseException exception) throws SAXException {
 		failSAXParseException("error", exception);
 	}
 
+	@Override
 	public void fatalError(SAXParseException exception) throws SAXException {
 		failSAXParseException("fatal error", exception);
 	}
 
+	@Override
 	public void warning(SAXParseException exception) throws SAXException {
 		failSAXParseException("warning", exception);
 	}

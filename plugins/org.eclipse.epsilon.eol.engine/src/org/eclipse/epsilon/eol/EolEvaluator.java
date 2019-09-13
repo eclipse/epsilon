@@ -43,17 +43,22 @@ public class EolEvaluator {
 	}
 	
 	private Object executeInteral(String statement) {
-		statementsExecuted = true;
-		
 		try {
 			if (module.parse(statement)) {
 				return module.execute();
-			} else {
+			}
+			else {
 				throw new EolEvaluatorException(module.getParseProblems());
 			}
-
-		} catch (Exception e) {
+		}
+		catch (EolEvaluatorException e) {
+			throw e;
+		}
+		catch (Exception e) {
 			throw new EolEvaluatorException("Could not execute '" + statement + "'", e);
+		}
+		finally {
+			statementsExecuted = true;
 		}
 	}
 	

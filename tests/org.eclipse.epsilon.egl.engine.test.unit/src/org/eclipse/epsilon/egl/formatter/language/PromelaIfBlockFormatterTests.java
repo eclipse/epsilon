@@ -10,19 +10,19 @@
 package org.eclipse.epsilon.egl.formatter.language;
 
 import static org.junit.Assert.*;
-
+import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import org.junit.Test;
 
 public class PromelaIfBlockFormatterTests {
 
 	@Test
 	public void indentsAfterADoubleColon() throws Exception {
-		final String input = "if"        + '\n' +
-		                     ":: a && b" + '\n' + 
+		final String input = "if"        + NEWLINE +
+		                     ":: a && b" + NEWLINE + 
 		                     "c;";
 		
-		final String expected = "if"         + '\n' + 
-		                         ":: a && b" + '\n' + 
+		final String expected = "if"         + NEWLINE + 
+		                         ":: a && b" + NEWLINE + 
 		                        "\tc;";
 
 		assertEquals(expected, format(input));
@@ -30,17 +30,17 @@ public class PromelaIfBlockFormatterTests {
 	
 	@Test
 	public void indentationContinuesUntilNextDoubleColon() throws Exception {
-		final String input = "if"        + '\n' + 
-		                     ":: a && b" + '\n' + 
-		                     "c;"        + '\n' +
-		                     "d;"        + '\n' +
+		final String input = "if"        + NEWLINE + 
+		                     ":: a && b" + NEWLINE + 
+		                     "c;"        + NEWLINE +
+		                     "d;"        + NEWLINE +
 		                     ":: e || f";
 		
-		final String expected = "if"        + '\n' + 
-		                        ":: a && b" + '\n' + 
-		                        "\tc;"      + '\n' +
-		                        "\td;"      + '\n' +
-		                        ""          + '\n' +
+		final String expected = "if"        + NEWLINE + 
+		                        ":: a && b" + NEWLINE + 
+		                        "\tc;"      + NEWLINE +
+		                        "\td;"      + NEWLINE +
+		                        ""          + NEWLINE +
 		                        ":: e || f";
 
 		assertEquals(expected, format(input));
@@ -48,16 +48,16 @@ public class PromelaIfBlockFormatterTests {
 	
 	@Test
 	public void indentationContinuesUntilEndIfKeyword() throws Exception {
-		final String input = "if"        + '\n' +
-		                     ":: a && b" + '\n' + 
-		                     "c;"        + '\n' +
-		                     "d;"        + '\n' +
+		final String input = "if"        + NEWLINE +
+		                     ":: a && b" + NEWLINE + 
+		                     "c;"        + NEWLINE +
+		                     "d;"        + NEWLINE +
 		                     "fi;";
 		
-		final String expected = "if"        + '\n' +
-		                        ":: a && b" + '\n' + 
-		                        "\tc;"      + '\n' +
-		                        "\td;"      + '\n' +
+		final String expected = "if"        + NEWLINE +
+		                        ":: a && b" + NEWLINE + 
+		                        "\tc;"      + NEWLINE +
+		                        "\td;"      + NEWLINE +
 		                        "fi;";
 
 		assertEquals(expected, format(input));
@@ -65,17 +65,17 @@ public class PromelaIfBlockFormatterTests {
 	
 	@Test
 	public void reducesIndentationAtNextDoubleColon() throws Exception {
-		final String input = "if"        + '\n' +
-		                     ":: a && b" + '\n' +
-		                     "c;"        + '\n' +
-		                     ":: d || e" + '\n' +
+		final String input = "if"        + NEWLINE +
+		                     ":: a && b" + NEWLINE +
+		                     "c;"        + NEWLINE +
+		                     ":: d || e" + NEWLINE +
 		                     "f;";
 		
-		final String expected = "if"        + '\n' +
-		                        ":: a && b" + '\n' + 
-		                        "\tc;"      + '\n' +
-		                        ""          + '\n' +
-		                        ":: d || e" + '\n' +
+		final String expected = "if"        + NEWLINE +
+		                        ":: a && b" + NEWLINE + 
+		                        "\tc;"      + NEWLINE +
+		                        ""          + NEWLINE +
+		                        ":: d || e" + NEWLINE +
 		                        "\tf;";
 
 		assertEquals(expected, format(input));
@@ -83,9 +83,9 @@ public class PromelaIfBlockFormatterTests {
 	
 	@Test
 	public void noIndentationUnlessInAnIfBlock() throws Exception {
-		final String input = ":: a && b" + '\n' + 
-		                     "c;"        + '\n' +
-		                     ":: d || e" + '\n' +
+		final String input = ":: a && b" + NEWLINE + 
+		                     "c;"        + NEWLINE +
+		                     ":: d || e" + NEWLINE +
 		                     "f;";
 		
 		assertEquals(input, format(input));
