@@ -11,9 +11,6 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.subtemp
 
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
-
-import java.io.File;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.EglFineGrainedTraceabilityAcceptanceTest;
@@ -23,9 +20,9 @@ import org.junit.Test;
 public class ReusedTemplateContributesTwiceToTrace extends EglFineGrainedTraceabilityAcceptanceTest {
 	
 	
-	private static final String egl = "[% var template = TemplateFactory.prepare(openOutputTag + 'EClass.all.first.name' + closeTag); %]" +
-	                                  "[% template.generate('Out.txt'); %]" +
-	                                  "[% template.generate('Out2.txt'); %]";
+	private static final String egl = "[% var template = TemplateFactory.prepare(openOutputTag + 'EClass.all.first.name' + closeTag); %]"
+	                                + "[% template.generate('Out.txt'); %]"
+	                                + "[% template.generate('Out2.txt'); %]";
 
 	private static final EClass   person = anEClass().named("Person").build();
 	private static final EPackage model  = aMetamodel().with(person).build();
@@ -45,14 +42,12 @@ public class ReusedTemplateContributesTwiceToTrace extends EglFineGrainedTraceab
 	
 	@Test
 	public void firstDestinationResourceShouldBeFirstFile() {
-		final File generatedFile = new File(getOutputPath(), "Out.txt"); 
-		trace.assertEquals(generatedFile.getAbsolutePath(), "trace.traceLinks.first.destination.resource");
+		trace.assertEquals(getAbsoluteOutputPathFor("Out.txt"), "trace.traceLinks.first.destination.resource");
 	}
 	
 	@Test
 	public void secondDestinationResourceShouldBeSecondFile() {
-		final File generatedFile = new File(getOutputPath(), "Out2.txt"); 
-		trace.assertEquals(generatedFile.getAbsolutePath(), "trace.traceLinks.second.destination.resource");
+		trace.assertEquals(getAbsoluteOutputPathFor("Out2.txt"), "trace.traceLinks.second.destination.resource");
 	}
 //	
 //	@Test

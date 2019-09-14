@@ -11,9 +11,6 @@ package org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.textloc
 
 import static org.eclipse.epsilon.test.util.builders.emf.EClassBuilder.anEClass;
 import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
-
-import java.io.File;
-
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.egl.engine.traceability.fine.test.acceptance.EglFineGrainedTraceabilityAcceptanceTest;
 import org.junit.BeforeClass;
@@ -37,8 +34,6 @@ public class GenerateShouldUpdateTextLocation extends EglFineGrainedTraceability
 	
 	@Test
 	public void destinationResourceShouldHaveGenerationLocationForChildTemplate() {
-		final File generatedFile = new File(getOutputPath(), "ClassName.txt"); 
-		
-		trace.assertEquals(generatedFile.getAbsolutePath(), "trace.traceLinks.first.destination.resource");		
+		trace.assertEquals(getAbsoluteOutputPathFor("ClassName.txt"), "trace.traceLinks.first.destination.resource");		
 	}
 }

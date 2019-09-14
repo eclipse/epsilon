@@ -14,10 +14,9 @@
 package org.eclipse.epsilon.test.util;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -92,7 +91,7 @@ public class ModelWithEolAssertions {
 	
 
 	public void assertNumberOfModelElementsIs(int expected) {
-		int actual = ((Integer)evaluator.evaluate(model.getName() + ".allInstances.size()")).intValue();
+		int actual = (int) evaluator.evaluate(model.getName() + ".allInstances.size()");
 		
 		org.junit.Assert.assertEquals(expected, actual);
 	}
@@ -117,23 +116,21 @@ public class ModelWithEolAssertions {
 
 	private Object convert(Object expected) {
 		if (expected instanceof String) {
-			return convertString(expected);
-		
-		} else if (expected instanceof Collection<?>) {
-			return convertCollection(expected);
+			return convertString((String) expected);
+		}
+		else if (expected instanceof Collection<?>) {
+			return convertCollection((Collection<?>) expected);
 		}
  		return expected;
 	}
 
-	private Object convertString(Object expected) {
-		final String expectedStr = (String)expected;
-		
+	private String convertString(String expected) {
 		// When the expected string contains a hash symbol assume that
 		// it is an enumeration literal, so don't wrap it in quotes
 		// Unless the expected string *starts* with a hash, then it's a
 		// positive adjective, so do wrap it in quotes
-		if (expectedStr.startsWith("#") || !expectedStr.contains("#")) {
-			expected = "'" + escapeQuotes(expectedStr) + "'";
+		if (expected.startsWith("#") || !expected.contains("#")) {
+			expected = "'" + escapeQuotes(expected) + "'";
 		}
 		
 		return expected;
@@ -143,10 +140,10 @@ public class ModelWithEolAssertions {
 		return unescaped.replaceAll("'", "\\\\'");
 	}
 
-	private Object convertCollection(Object expected) {
-		final Collection<Object> converted  = new LinkedList<>();
+	private Collection<?> convertCollection(Collection<?> expected) {
+		final Collection<Object> converted  = new ArrayList<>(expected.size());
 		
-		for (Object element : (Collection<?>) ((Collection<?>)expected)) {
+		for (Object element : expected) {
 			converted.add(convert(element));
 		}
 		
@@ -162,9 +159,9 @@ public class ModelWithEolAssertions {
 		
 		if (result instanceof Boolean)
 			if (message == null)
-				org.junit.Assert.assertTrue(((Boolean)result).booleanValue());
+				org.junit.Assert.assertTrue((boolean) result);
 			else
-				org.junit.Assert.assertTrue(message, ((Boolean)result).booleanValue());
+				org.junit.Assert.assertTrue(message, (boolean) result);
 		else
 			throw new IllegalArgumentException("Could not determine a boolean value for '" + eolStatement + "'");
 	}

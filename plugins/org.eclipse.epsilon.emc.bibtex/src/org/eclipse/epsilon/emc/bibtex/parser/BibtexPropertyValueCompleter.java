@@ -11,6 +11,7 @@ package org.eclipse.epsilon.emc.bibtex.parser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.eclipse.epsilon.common.util.StringUtil;
 
 public class BibtexPropertyValueCompleter {
 	
@@ -18,6 +19,7 @@ public class BibtexPropertyValueCompleter {
 
 	private String value;
 	private int endOfPartialValue;
+	private static Pattern notAClosingBracketPattern;
 	
 	public BibtexPropertyValueCompleter(String partialValue, int endOfPartialValue, String rawProperties) {
 		this.value             = partialValue;
@@ -28,7 +30,6 @@ public class BibtexPropertyValueCompleter {
 
 	public String complete() {		
 		ensureValueIsComplete();
-		
 		return value;
 	}
 
@@ -39,11 +40,9 @@ public class BibtexPropertyValueCompleter {
 	}
 
 	private boolean valueIsComplete() {
-		return characterAfterPartialValue().matches(",|\\n");
-	}
-	
-	private String characterAfterPartialValue() {
-		return rawProperties.substring(endOfPartialValue + 1, endOfPartialValue + 2);
+		if (rawProperties.length() <= endOfPartialValue) return false;
+		String capv = rawProperties.substring(endOfPartialValue + 1, endOfPartialValue + 2);
+		return StringUtil.isOneOf(capv, ",", "\\n", "\\r", "\n", "\r");
 	}
 
 	private void extendValueUpToNextClosingBracket() {
@@ -56,8 +55,9 @@ public class BibtexPropertyValueCompleter {
 	}
 
 	private static Pattern getNotAClosingBracketPattern() {
-		final String ANYTHING_BUT_A_BRACKET = "[^\\}]*";
-		
-		return Pattern.compile(ANYTHING_BUT_A_BRACKET);
+		if (notAClosingBracketPattern == null) {
+			notAClosingBracketPattern = Pattern.compile("[^\\}]*");
+		}
+		return notAClosingBracketPattern;
 	}
 }

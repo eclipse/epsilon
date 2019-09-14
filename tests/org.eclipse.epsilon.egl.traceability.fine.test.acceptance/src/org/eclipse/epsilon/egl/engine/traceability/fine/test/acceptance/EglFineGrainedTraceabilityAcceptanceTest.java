@@ -47,6 +47,11 @@ public class EglFineGrainedTraceabilityAcceptanceTest {
 	protected static boolean deleteOutputFile(String relativePath) {
 		return new File(getOutputPath() + FILE_SEP + relativePath).delete();
 	}
+	
+	protected static String getAbsoluteOutputPathFor(String filename) {
+		final File generatedFile = new File(getOutputPath(), filename);
+		return generatedFile.getAbsolutePath().replace("\\", "\\\\");
+	}
 
 	private static void runEgl(String egl, EObject root, String destination) throws Exception {
 		deleteOutputFile(destination);

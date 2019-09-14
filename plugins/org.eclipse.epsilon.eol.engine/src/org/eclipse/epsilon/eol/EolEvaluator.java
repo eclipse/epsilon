@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.eol;
 
 import java.io.File;
-
+import java.util.Objects;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolEvaluatorException;
@@ -62,12 +62,8 @@ public class EolEvaluator {
 		}
 	}
 	
-	private static String asEolStatement(Object o) {
-		return "return " + o.toString() + ";";
-	}
-	
 	public Object evaluate(Object o) {
-		return executeInteral(asEolStatement(o));
+		return executeInteral("return " + Objects.toString(o) + ";");
 	}
 	
 	public void execute(String statement) {
