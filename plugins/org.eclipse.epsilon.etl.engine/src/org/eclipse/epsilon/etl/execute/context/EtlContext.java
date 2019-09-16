@@ -51,9 +51,4 @@ public class EtlContext extends ErlContext implements IEtlContext {
 			super.setModule(module);
 		}
 	}
-	
-	@Override
-	public void setModule(IEtlModule module) {
-		super.setModule(module);
-	}
 }

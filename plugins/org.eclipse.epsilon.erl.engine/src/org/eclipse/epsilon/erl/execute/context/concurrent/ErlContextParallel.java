@@ -26,10 +26,6 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 		super();
 	}
 
-	public ErlContextParallel(IEolContext other, boolean persistThreadLocals) {
-		super(other, persistThreadLocals);
-	}
-
 	public ErlContextParallel(IEolContext other) {
 		super(other);
 	}

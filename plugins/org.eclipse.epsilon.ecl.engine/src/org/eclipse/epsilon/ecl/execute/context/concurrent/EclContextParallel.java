@@ -35,7 +35,7 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 	}
 
 	public EclContextParallel(IEclContext other) {
-		super(other, true);
+		super(other);
 		this.matchTrace = new MatchTrace(other.getMatchTrace());
 		this.tempMatchTrace = new MatchTrace(other.getMatchTrace());
 	}

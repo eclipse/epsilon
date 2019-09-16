@@ -63,10 +63,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM;
 		initMainThreadStructures();
 	}
-
-	public EolContextParallel(IEolContext other) {
-		this(other, false);
-	}
 	
 	/**
 	 * Copy constructor.
@@ -74,10 +70,8 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * 
 	 * @param other The context to copy from. Structures
 	 * in this parameter may be modified to be thread-safe.
-	 * @param persistThreadLocals Whether to save the state of thread-local values
-	 * (such as variable declarations) so that they can be merged into the main thread later.
 	 */
-	public EolContextParallel(IEolContext other, boolean persistThreadLocals) {
+	public EolContextParallel(IEolContext other) {
 		super(other);
 		frameStack.setThreadSafe(true);
 		executorFactory.setThreadSafe(true);

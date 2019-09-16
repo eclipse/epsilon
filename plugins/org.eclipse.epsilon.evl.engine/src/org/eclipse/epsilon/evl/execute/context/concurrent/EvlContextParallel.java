@@ -41,7 +41,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	}
 	
 	public EvlContextParallel(IEvlContext other) {
-		super(other, true);
+		super(other);
 	}
 	
 	/**
