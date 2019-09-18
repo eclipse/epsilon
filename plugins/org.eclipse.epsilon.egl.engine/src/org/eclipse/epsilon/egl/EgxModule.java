@@ -150,20 +150,15 @@ public class EgxModule extends ErlModule implements IEgxModule {
 		return result;
 	}
 
-	/**
-	 * @since 1.6
-	 */
 	@Override
-	protected void prepareContext() {
+	protected void prepareContext() throws EolRuntimeException {
 		super.prepareContext();
 		getContext().getTemplateFactory().getContext().copyFrom(getContext(), true);
 	}
 	
 	@Override
-	public Object executeImpl() throws EolRuntimeException {
-		prepareExecution();
+	protected Object processRules() throws EolRuntimeException {
 		generateRules();
-		postExecution();
 		return null;
 	}
 	

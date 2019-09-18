@@ -252,7 +252,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	}
 	
 	@Override
-	protected void prepareContext() {
+	protected void prepareContext() throws EolRuntimeException {
 		IEvlContext context = getContext();
 		super.prepareContext();
 		context.setOperationFactory(new EvlOperationFactory());
@@ -262,6 +262,12 @@ public class EvlModule extends ErlModule implements IEvlModule {
 		);
 	}
 
+	@Override
+	protected Collection<UnsatisfiedConstraint> processRules() throws EolRuntimeException {
+		checkConstraints();
+		return getContext().getUnsatisfiedConstraints();
+	}
+	
 	/**
 	 * Invokes the execute() method on all Constraints in all ConstraintContexts.
 	 * If optimizeConstraints, the constraints to be checked are filtered.
@@ -287,23 +293,11 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	}
 	
 	/**
-	 * 
-	 * @since 1.6
-	 */
-	@Override
-	public Collection<UnsatisfiedConstraint> executeImpl() throws EolRuntimeException {
-		prepareExecution();
-		checkConstraints();
-		postExecution();
-		return getContext().getUnsatisfiedConstraints();
-	}
-	
-	/**
 	 * @since 1.6
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public final Collection<UnsatisfiedConstraint> execute() throws EolRuntimeException {
+	public Collection<UnsatisfiedConstraint> execute() throws EolRuntimeException {
 		return (Collection<UnsatisfiedConstraint>) super.execute();
 	}
 	

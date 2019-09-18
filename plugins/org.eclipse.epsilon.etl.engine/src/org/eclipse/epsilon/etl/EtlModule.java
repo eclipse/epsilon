@@ -29,10 +29,12 @@ import org.eclipse.epsilon.etl.dom.EquivalentAssignmentStatement;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.execute.context.EtlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
+import org.eclipse.epsilon.etl.execute.operations.EtlOperationFactory;
 import org.eclipse.epsilon.etl.parse.EtlLexer;
 import org.eclipse.epsilon.etl.parse.EtlParser;
 import org.eclipse.epsilon.etl.strategy.DefaultTransformationStrategy;
 import org.eclipse.epsilon.etl.strategy.FastTransformationStrategy;
+import org.eclipse.epsilon.etl.strategy.ITransformationStrategy;
 
 public class EtlModule extends ErlModule implements IEtlModule {
 	
@@ -101,25 +103,24 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	}
 	
 	@Override
-	public List<TransformationRule> getDeclaredTransformationRules() {
-		return declaredTransformationRules;
-	}
-
-	protected boolean hasLazyRules(IEtlContext context) throws EolRuntimeException {
-		for (TransformationRule rule : getTransformationRules()) {
-			if (rule.isLazy(context)) {
-				return true;
-			}
+	protected void prepareContext() throws EolRuntimeException {
+		super.prepareContext();
+		IEtlContext context = getContext();
+		
+		context.getFrameStack().put(
+			Variable.createReadOnlyVariable("transTrace", context.getTransformationTrace()),
+			Variable.createReadOnlyVariable("context", context),
+			Variable.createReadOnlyVariable("module", this)
+		);
+		
+		context.setOperationFactory(new EtlOperationFactory());
+		
+		if (context.getTransformationStrategy() == null) {
+			ITransformationStrategy transformStrat = hasLazyRules(context) ? 
+				new DefaultTransformationStrategy() : new FastTransformationStrategy();
+			
+			context.setTransformationStrategy(transformStrat);
 		}
-		return false;
-	}
-	
-	@Override
-	public Object executeImpl() throws EolRuntimeException {
-		prepareExecution();
-		transform();
-		postExecution();
-		return getContext().getTransformationTrace();
 	}
 	
 	/**
@@ -128,39 +129,14 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
-	protected void transform() throws EolRuntimeException {
-		IEtlContext context = getContext();
-		// Execute the transformModel() method of the strategy
-		if (context.getTransformationStrategy() != null) {
-			context.getTransformationStrategy().transformModels(context);
-		}
-	}
-	
 	@Override
-	protected void prepareContext() {
-		super.prepareContext();
+	protected Object processRules() throws EolRuntimeException {
 		IEtlContext context = getContext();
-		context.getFrameStack().put(
-			Variable.createReadOnlyVariable("transTrace", context.getTransformationTrace()),
-			Variable.createReadOnlyVariable("context", context),
-			Variable.createReadOnlyVariable("module", this)
-		);
-	}
-	
-	@Override
-	protected void prepareExecution() throws EolRuntimeException {
-		IEtlContext context = getContext();
-		
-		if (context.getTransformationStrategy() == null) {
-			if (hasLazyRules(context)) {
-				context.setTransformationStrategy(new DefaultTransformationStrategy());
-			}
-			else {
-				context.setTransformationStrategy(new FastTransformationStrategy());
-			}
+		ITransformationStrategy transformStrat = context.getTransformationStrategy();
+		if (transformStrat != null) {
+			transformStrat.transformModels(context);
 		}
-		
-		super.prepareExecution();
+		return context.getTransformationTrace();
 	}
 	
 	@Override
@@ -173,6 +149,20 @@ public class EtlModule extends ErlModule implements IEtlModule {
 	@Override
 	public IEtlContext getContext() {
 		return (IEtlContext) super.getContext();
+	}
+	
+	@Override
+	public List<TransformationRule> getDeclaredTransformationRules() {
+		return declaredTransformationRules;
+	}
+
+	protected boolean hasLazyRules(IEtlContext context) throws EolRuntimeException {
+		for (TransformationRule rule : getTransformationRules()) {
+			if (rule.isLazy(context)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@Override

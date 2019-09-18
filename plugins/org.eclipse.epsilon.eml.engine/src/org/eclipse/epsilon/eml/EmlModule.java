@@ -23,6 +23,7 @@ import org.eclipse.epsilon.eml.dom.MergeRule;
 import org.eclipse.epsilon.eml.dom.EquivalentAssignmentStatement;
 import org.eclipse.epsilon.eml.execute.context.EmlContext;
 import org.eclipse.epsilon.eml.execute.context.IEmlContext;
+import org.eclipse.epsilon.eml.execute.operations.EmlOperationFactory;
 import org.eclipse.epsilon.eml.parse.EmlLexer;
 import org.eclipse.epsilon.eml.parse.EmlParser;
 import org.eclipse.epsilon.eol.dom.Import;
@@ -82,10 +83,10 @@ public class EmlModule extends EtlModule {
 	}
 	
 	@Override
-	protected void prepareContext() {
+	protected void prepareContext() throws EolRuntimeException {
 		super.prepareContext();
 		IEmlContext context = getContext();
-		
+		context.setOperationFactory(new EmlOperationFactory());
 		context.getFrameStack().put(
 			Variable.createReadOnlyVariable("matchTrace", context.getMatchTrace()),
 			Variable.createReadOnlyVariable("mergeTrace", context.getMergeTrace()),
@@ -95,23 +96,17 @@ public class EmlModule extends EtlModule {
 		);
 	}
 	
-	@Override
-	public Object executeImpl() throws EolRuntimeException {
-		prepareExecution();
-		merge();
-		postExecution();
-		return null;
-	}
-	
 	/**
 	 * Main execution logic.
 	 * 
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
-	protected void merge() throws EolRuntimeException {
+	@Override
+	protected Object processRules() throws EolRuntimeException {
 		IEmlContext context = getContext();
 		context.getMergingStrategy().mergeModels(context);
+		return null;
 	}
 	
 	@Override

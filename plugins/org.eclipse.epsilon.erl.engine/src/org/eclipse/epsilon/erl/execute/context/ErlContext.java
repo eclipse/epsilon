@@ -23,7 +23,7 @@ public class ErlContext extends EolContext implements IErlContext {
 
 	public ErlContext(IErlContext other) {
 		super(other);
-		executorFactory = new RuleExecutorFactory();
+		executorFactory = other.getExecutorFactory();
 	}
 
 	@Override

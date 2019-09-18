@@ -118,7 +118,7 @@ public class EclModule extends ErlModule implements IEclModule {
 	}
 
 	@Override
-	protected void prepareContext() {
+	protected void prepareContext() throws EolRuntimeException {
 		super.prepareContext();
 		IEclContext context = getContext();
 		context.setOperationFactory(new EclOperationFactory());
@@ -130,15 +130,13 @@ public class EclModule extends ErlModule implements IEclModule {
 	}
 	
 	@Override
-	public final MatchTrace execute() throws EolRuntimeException {
+	public MatchTrace execute() throws EolRuntimeException {
 		return (MatchTrace) super.execute();
 	}
 	
 	@Override
-	public MatchTrace executeImpl() throws EolRuntimeException {
-		prepareExecution();
+	protected MatchTrace processRules() throws EolRuntimeException {
 		matchModels();
-		postExecution();
 		return getContext().getMatchTrace();
 	}
 	

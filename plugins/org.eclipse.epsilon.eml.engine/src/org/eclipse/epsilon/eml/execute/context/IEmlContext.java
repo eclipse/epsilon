@@ -30,8 +30,6 @@ public interface IEmlContext extends IEtlContext {
 		return (EmlModule) ((IEtlContext)this).getModule();
 	}
 
-	public void setModule(EmlModule module);
-
 	public void setMatchTrace(MatchTrace matchTrace);
 
 	public void setMergeTrace(MergeTrace mergeTrace);

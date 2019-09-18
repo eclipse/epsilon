@@ -12,7 +12,6 @@ package org.eclipse.epsilon.etl.execute.context;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.etl.IEtlModule;
-import org.eclipse.epsilon.etl.execute.operations.EtlOperationFactory;
 import org.eclipse.epsilon.etl.strategy.ITransformationStrategy;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
@@ -22,7 +21,19 @@ public class EtlContext extends ErlContext implements IEtlContext {
 	protected ITransformationStrategy transformationStrategy;
 	
 	public EtlContext() {
-		this.operationFactory = new EtlOperationFactory();
+		super();
+	}
+	
+	/**
+	 * Copy constructor.
+	 * 
+	 * @param other
+	 * @since 1.6
+	 */
+	public EtlContext(IEtlContext other) {
+		super(other);
+		this.transformationTrace = other.getTransformationTrace();
+		this.transformationStrategy = other.getTransformationStrategy();
 	}
 	
 	@Override

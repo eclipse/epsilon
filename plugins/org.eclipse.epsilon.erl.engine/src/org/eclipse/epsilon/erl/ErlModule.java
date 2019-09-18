@@ -140,6 +140,25 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 		}
 	}
 	
+	@Override
+	public Object executeImpl() throws EolRuntimeException {
+		prepareExecution();
+		Object result = processRules();
+		postExecution();
+		return result;
+	}
+	
+	/**
+	 * Main rule processing logic. Non-abstract for compatibility.
+	 * 
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	protected Object processRules() throws EolRuntimeException {
+		return null;
+	}
+	
 	protected abstract int getPreBlockTokenType();
 	protected abstract int getPostBlockTokenType();
 

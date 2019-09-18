@@ -272,7 +272,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 		return compilationContext;
 	}
 
-	protected void prepareContext() {
+	protected void prepareContext() throws EolRuntimeException {
 		IEolContext context = getContext();
 		
 		EolSystem system = new EolSystem();

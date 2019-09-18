@@ -113,6 +113,11 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	}
 
 	@Override
+	public FlockResult execute() throws EolRuntimeException {
+		return (FlockResult) super.execute();
+	}
+	
+	@Override
 	public FlockResult execute(IModel original, IModel migrated) throws EolRuntimeException {
 		IFlockContext context = getContext();
 		
@@ -121,13 +126,10 @@ public class FlockModule extends ErlModule implements IFlockModule {
 			
 		return (FlockResult) execute();
 	}
-
+	
 	@Override
-	public FlockResult executeImpl() throws EolRuntimeException {
-		prepareExecution();
-		FlockResult result = getContext().execute(strategy);
-		postExecution();
-		return result;
+	protected FlockResult processRules() throws EolRuntimeException {
+		return getContext().execute(strategy);
 	}
 	
 	public MigrationStrategy getStrategy() {

@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.execute.context;
 
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.strategy.ITransformationStrategy;
@@ -27,9 +26,4 @@ public interface IEtlContext extends IErlContext {
 	public default IEtlModule getModule() {
 		return (IEtlModule) ((IErlContext)this).getModule();
 	}
-	
-	public default void setModule(IEtlModule module) {
-		setModule((IModule) module);
-	}
-	
 }

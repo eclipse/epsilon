@@ -103,7 +103,9 @@ public class JobBatch implements java.io.Serializable, Cloneable {
 		}
 		
 		assert resultList.size() == batches : "Expected number of batches met";
-		assert resultList.get(batches-1).to == totalJobs : "All jobs retained";
+		assert resultList.get(batches-1).to == totalJobs &&
+			   resultList.get(0).from == 0
+			: "All jobs retained";
 		
 		return resultList;
 	}
