@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eol.models;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.common.util.StringProperties;
@@ -43,9 +44,6 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	 */
 	public static final String PROPERTY_CONCURRENT = "concurrent";
 	
-	/**
-	 * Implementations should return a thread-safe collection when appropriate!
-	 */
 	protected abstract Collection<ModelElementType> allContentsFromModel();
 	
 	protected abstract Collection<ModelElementType> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException;
@@ -78,12 +76,11 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	protected abstract Collection<String> getAllTypeNamesOf(Object instance);
 	
 	
-	protected Collection<ModelElementType> allContentsCache;
+	Collection<ModelElementType> allContentsCache;
 	protected Multimap<Object, ModelElementType> typeCache;
 	protected Multimap<Object, ModelElementType> kindCache;
 	protected boolean concurrent;
 	protected boolean cachingEnabled;
-	protected boolean allContentsAreCached;
 	
 	/**
 	 * @since 1.6
@@ -115,22 +112,29 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		kindCache = kindCache != null ?
 			new Multimap<>(concurrent, kindCache) : new Multimap<>(concurrent);
 		
-		if (concurrent) {
-			allContentsCache = allContentsCache != null ?
+		if (allContentsCache != null) {
+			allContentsCache = newAllContentsCache();
+		}
+	}
+	
+	protected Collection<ModelElementType> newAllContentsCache() {
+		if (allContentsCache != null) {
+			return concurrent ?
 				ConcurrencyUtils.concurrentOrderedCollection(allContentsCache) :
-				ConcurrencyUtils.concurrentOrderedCollection();
+				new ArrayList<>(allContentsCache);
 		}
 		else {
-			allContentsCache = allContentsCache != null ?
-				new ArrayList<>(allContentsCache) : new ArrayList<>();
+			return concurrent ?
+				ConcurrencyUtils.concurrentOrderedCollection() :
+				new ArrayList<>();
 		}
 	}
 	
 	protected void addToCache(String type, ModelElementType instance) throws EolModelElementTypeNotFoundException {
-		if (allContentsAreCached) {
+		if (allContentsCache != null) {
 			allContentsCache.add(instance);
 		}
-
+		
 		Object typeCacheKey = getCacheKeyForType(type);
 		typeCache.putIfPresent(typeCacheKey, instance);
 
@@ -141,7 +145,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	}
 
 	protected void removeFromCache(ModelElementType instance) throws EolModelElementTypeNotFoundException {
-		if (allContentsAreCached) {
+		if (allContentsCache != null) {
 			allContentsCache.remove(instance);
 		}
 
@@ -168,21 +172,30 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	 * @since 1.6
 	 */
 	public boolean isLoaded() {
-		return allContentsAreCached;
+		return allContentsCache != null;
 	}
 	
 	@Override
 	public Collection<ModelElementType> allContents() {
-		if (isCachingEnabled()) {
-			if (!allContentsAreCached) {
-				allContentsCache = allContentsFromModel();
-				allContentsAreCached = true;
-			}
+		boolean cached = isCachingEnabled();
+		if (cached && allContentsCache != null) {
 			return allContentsCache;
 		}
-		else {
-			return allContentsFromModel();
+		Collection<ModelElementType> allContents = wrap(allContentsFromModel());
+		if (cached) {
+			allContentsCache = allContents;
 		}
+		return allContents;
+	}
+	
+	/**
+	 * 
+	 * @param allOf
+	 * @return
+	 * @since 1.6
+	 */
+	protected Collection<ModelElementType> wrap(Collection<ModelElementType> allOf) {
+		return isConcurrent() ? new ConcurrentLinkedDeque<>(allOf) : allOf;
 	}
 	
 	/**
@@ -194,20 +207,25 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	 * @since 1.6
 	 */
 	protected Collection<ModelElementType> getAllOfKindOrType(boolean isKind, String modelElementType) throws EolModelElementTypeNotFoundException {
+		Collection<ModelElementType> values = null;
+		Object key = null;
+		Multimap<Object, ModelElementType> cache = null;
+		
 		if (isCachingEnabled()) {
-			Object key = getCacheKeyForType(modelElementType);
-			Multimap<Object, ModelElementType> cache = isKind ? kindCache : typeCache;
-			Collection<ModelElementType> values = cache.getMutable(key);
-			if (values == null) {
-				values = isKind ? getAllOfKindFromModel(modelElementType) : getAllOfTypeFromModel(modelElementType);
+			cache = isKind ? kindCache : typeCache;
+			values = cache.getMutable(key = getCacheKeyForType(modelElementType));
+		}
+		if (values == null) {
+			values = wrap(isKind ?
+				getAllOfKindFromModel(modelElementType) :
+				getAllOfTypeFromModel(modelElementType)
+			);
+			if (cache != null) {
 				cache.putAll(key, values);
 				//return cache.getMutable(key);
 			}
-			return values;
 		}
-		else {
-			return isKind ? getAllOfKindFromModel(modelElementType) : getAllOfTypeFromModel(modelElementType);
-		}
+		return values;
 	}
 	
 	@Override
@@ -258,9 +276,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	}
 
 	public void clearCache() {
-		allContentsCache.clear();
-		allContentsAreCached = false;
-		typeCache.clear();
-		kindCache.clear();
+		allContentsCache = null;
+		if (typeCache != null) typeCache.clear();
+		if (kindCache != null) kindCache.clear();
 	}
 }

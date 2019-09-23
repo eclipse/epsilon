@@ -249,27 +249,22 @@ public class EmfUtil {
 	}
 
 	protected static void setDataTypesInstanceClasses(Resource metamodel) {
-		Iterator<EObject> it = metamodel.getAllContents();
-		while (it.hasNext()) {
-			EObject eObject = (EObject) it.next();
+		for (Iterator<EObject> iterator = metamodel.getAllContents(); iterator.hasNext();) {
+			EObject eObject = iterator.next();
 			if (eObject instanceof EEnum) {
-				// ((EEnum) eObject).setInstanceClassName("java.lang.Integer");
-			} else if (eObject instanceof EDataType) {
+				//TODO : See if we really need this
+				//((EEnum) eObject).setInstanceClassName("java.lang.Integer");
+			}
+			else if (eObject instanceof EDataType) {
 				EDataType eDataType = (EDataType) eObject;
-				String instanceClass = "";
-				if (eDataType.getName().equals("String")) {
-					instanceClass = "java.lang.String";
-				} else if (eDataType.getName().equals("Boolean")) {
-					instanceClass = "java.lang.Boolean";
-				} else if (eDataType.getName().equals("Integer")) {
-					instanceClass = "java.lang.Integer";
-				} else if (eDataType.getName().equals("Float")) {
-					instanceClass = "java.lang.Float";
-				} else if (eDataType.getName().equals("Double")) {
-					instanceClass = "java.lang.Double";
-				}
-				if (instanceClass.trim().length() > 0) {
-					eDataType.setInstanceClassName(instanceClass);
+				String typeName = eDataType.getName();
+				switch (typeName) {
+					case "String":
+					case "Boolean":
+					case "Integer":
+					case "Double":
+					case "Float":
+						eDataType.setInstanceClassName("java.lang."+typeName);
 				}
 			}
 		}
@@ -341,7 +336,35 @@ public class EmfUtil {
 		return cloned;
 	}
 	
-
+	/**
+	 * 
+	 * @param r
+	 * @return
+	 * @since 1.6
+	 */
+	public static List<EObject> getAllContents(Resource r) {
+		List<EObject> allContents = new LinkedList<>();
+		Iterator<EObject> it = r.getAllContents();
+		while (it.hasNext()) {
+			allContents.add(it.next());
+		}
+		return allContents;
+	}
+	
+	/**
+	 * 
+	 * @param r
+	 * @return
+	 * @since 1.6
+	 */
+	public static int instancesCount(Resource r) {
+		int i = 0;
+		for (Iterator<EObject> ite = r.getAllContents(); ite.hasNext(); ite.next()) {
+			++i;
+		}
+		return i;
+	}
+	
 	/**
 	 * @param metamodel
 	 * @param p

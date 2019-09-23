@@ -24,7 +24,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
@@ -89,28 +88,6 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		}
 		else {
 			return new FileInputStream(file);
-		}
-	}
-	
-	protected void setDataTypesInstanceClasses(Resource metamodel) {
-		for (Iterator<EObject> iterator = metamodel.getAllContents(); iterator.hasNext();) {
-			EObject eObject = iterator.next();
-			if (eObject instanceof EEnum) {
-				//TODO : See if we really need this
-				//((EEnum) eObject).setInstanceClassName("java.lang.Integer");
-			}
-			else if (eObject instanceof EDataType) {
-				EDataType eDataType = (EDataType) eObject;
-				String typeName = eDataType.getName();
-				switch (typeName) {
-					case "String":
-					case "Boolean":
-					case "Integer":
-					case "Double":
-					case "Float":
-						eDataType.setInstanceClassName("java.lang."+typeName);
-				}
-			}
 		}
 	}
 	
@@ -274,10 +251,11 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		final Collection<EObject> allInstances = new LinkedList<>();
 		
 		for (Resource resource : getResources()) {
-			Iterator<EObject> it = EcoreUtil.getAllContents(resource, expand);
-			while (it.hasNext()) {
-				allInstances.add(it.next());
-			}
+			for (
+				Iterator<EObject> it = EcoreUtil.getAllContents(resource, expand);
+				it.hasNext();
+				allInstances.add(it.next())
+			);
 		}
 		
 		return allInstances;
@@ -304,14 +282,6 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 			transactionSupport = new EmfModelTransactionSupport(this);
 		}
 		return transactionSupport;
-	}
-	
-	protected int instancesCount(Resource r) {
-		int i = 0;
-		for (Iterator<EObject> ite = r.getAllContents(); ite.hasNext(); ite.next()) {
-			++i;
-		}
-		return i;
 	}
 		
 	@Override
