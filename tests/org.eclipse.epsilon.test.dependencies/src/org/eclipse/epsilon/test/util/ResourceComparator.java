@@ -9,9 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.test.util;
 
-import java.util.ArrayList;
+import static org.junit.Assert.*;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -24,6 +23,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.epsilon.emc.emf.EmfUtil;
 
 public class ResourceComparator {
 	
@@ -40,37 +40,36 @@ public class ResourceComparator {
 		return r;
 	}
 	
-	public boolean compare(Resource r1, Resource r2) {
+	public static void compare(Resource r1, Resource r2) {		
+		List<EObject> all1 = EmfUtil.getAllContents(r1);
+		List<EObject> all2 = EmfUtil.getAllContents(r2);
 		
-		List<EObject> all1 = getAllContents(r1);
-		List<EObject> all2 = getAllContents(r2);
-		
-		if (all1.size() != all2.size()) return false;
+		assertEquals(all1.size(), all2.size());
 		
 		int i = 0;
 		for (EObject o1 : all1) {
-			EObject o2 = all2.get(i);
-			i++;
+			EObject o2 = all2.get(i++);
 			
-			if (!o1.eClass().equals(o2.eClass())) return false;
+			assertEquals(o1.eClass(), o2.eClass());
 			
 			for (EAttribute attr : o1.eClass().getEAllAttributes()) {
 				
-				if (attr.isDerived()) continue;
+				if (attr.isDerived())
+					continue;
 				
 				Object v1 = o1.eGet(attr);
 				Object v2 = o2.eGet(attr);
 				
-				if (v1 == null && v2 == null) continue;
-				if (v1 == null || v2 == null) return false;
+				if (v1 == null && v2 == null)
+					continue;
 				
-				if (!v1.equals(v2)) return false;
-				
+				assertNotNull(v1);
+				assertNotNull(v2);
+				assertEquals(v1, v2);
 			}
-			
-			for (EReference ref : o1.eClass().getEAllReferences()) {
-				
-				if (ref.isDerived()) continue;
+			for (EReference ref : o1.eClass().getEAllReferences()) {	
+				if (ref.isDerived())
+					continue;
 				
 				if (ref.isMany()) {
 					EList<?> cv1 = (EList<?>) o1.eGet(ref);
@@ -78,36 +77,23 @@ public class ResourceComparator {
 					
 					int j = 0;
 					for (Object v1 : cv1) {
-						if (all1.indexOf(v1) != all2.indexOf(cv2.get(j))) return false;
-						j++;
+						assertEquals(all1.indexOf(v1), all2.indexOf(cv2.get(j++)));
 					}
 				}
 				else {
 					Object v1 = o1.eGet(ref);
 					Object v2 = o2.eGet(ref);
 					
-					if (v1 == null && v2 == null) continue;
-					if (v1 == null || v2 == null) return false;					
+					if (v1 == null && v2 == null)
+						continue;
 					
-					if (all1.indexOf(v1) != all2.indexOf(v2)) return false;
+					assertNotNull(v1);
+					assertNotNull(v2);
 					
+					assertEquals(all1.indexOf(v1), all2.indexOf(v2));
 				}
-				
 			}
-			
 		}
-		
-		return true;
-	}
-	
-	protected List<EObject> getAllContents(Resource r) {
-		
-		ArrayList<EObject> allContents = new ArrayList<>();
-		Iterator<EObject> it = r.getAllContents();
-		while (it.hasNext()) {
-			allContents.add(it.next());
-		}
-		return allContents;
 	}
 	
 }

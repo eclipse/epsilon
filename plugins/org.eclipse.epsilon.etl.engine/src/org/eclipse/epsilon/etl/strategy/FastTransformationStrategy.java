@@ -9,58 +9,35 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.strategy;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
+import java.util.*;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.trace.Transformation;
-import org.eclipse.epsilon.etl.trace.TransformationList;
+import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
-public class FastTransformationStrategy implements ITransformationStrategy{
+public class FastTransformationStrategy extends AbstractTransformationStrategy {
 	
-	protected IEquivalentProvider equivalentProvider;
-	protected HashMap<Object, Collection<Object>> flatTrace = new HashMap<>();
-	protected HashMap<Object, TransformationList> pendingTransformations = new HashMap<>();
-	
-	public FastTransformationStrategy(){
-		equivalentProvider = this;
-	}
-	
-	public List<Object> getExcluded() {
-		return Collections.emptyList();
-	}
+	protected Map<Object, Collection<Object>> flatTrace = new HashMap<>();
+	protected Map<Object, Collection<Transformation>> pendingTransformations = new HashMap<>();
 	
 	@Override
-	public boolean canTransform(Object source) {
-		return !getExcluded().contains(source);
-	}
-	
-	@Override
-	public Collection<?> transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException{
-		
+	public Collection<?> transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException {	
 		throw new UnsupportedOperationException(
 				"FastTransformationStrategy cannot transform single objects. " +
 				"Please use DefaultTransformationStrategy instead.");
-		
 	}
 	
 	@Override
-	public Collection<?> getEquivalents(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException{
+	public Collection<?> getEquivalents(Object source, IErlContext context_, List<String> rules) throws EolRuntimeException {
 		IEtlContext context = (IEtlContext) context_;
 		
 		if (pendingTransformations.containsKey(source)) {
-			TransformationList transformations = pendingTransformations.remove(source);
+			Collection<Transformation> transformations = pendingTransformations.remove(source);
 			executeTransformations(transformations, context);
 		}
 		
@@ -76,50 +53,16 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 	}
 	
 	@Override
-	public Object getEquivalent(Object source, IEolContext context_, List<String> rules) throws EolRuntimeException {
-		IEtlContext context = (IEtlContext) context_;
-		
-		Collection<?> equivalents = getEquivalents(source, context, rules);
-		
-		if (equivalents != null && !equivalents.isEmpty()) {
-			return CollectionUtil.getFirst(equivalents);
-		}
-		else {
-			return null;
-		}
-		
-	}
-	
-	@Override
-	public Collection<?> getEquivalent(Collection<?> collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
-		IEtlContext context = (IEtlContext) context_;
-		return CollectionUtil.flatten(getEquivalents(collection, context, rules));
-	}
-	
-	@Override
-	public Collection<?> getEquivalents(Collection<?> collection, IEolContext context_, List<String> rules) throws EolRuntimeException{
-		IEtlContext context = (IEtlContext) context_;
-		Collection<Object> equivalents = CollectionUtil.createDefaultList();
-		Iterator<?> it = collection.iterator();
-		while (it.hasNext()){
-			Object equivalent = getEquivalents(it.next(), context, rules);
-			if (equivalent != null && !equivalents.contains(equivalent)){
-				equivalents.add(equivalent);
-			}
-		}
-		return equivalents;
-	}
-	
-	
-	@Override
 	public void transformModels(IEtlContext context) throws EolRuntimeException {
+		
+		TransformationTrace transTrace = context.getTransformationTrace();
 		
 		for (TransformationRule transformRule : context.getModule().getTransformationRules()) {			
 			if (!transformRule.isLazy(context) && !transformRule.isAbstract()) {
 				Collection<?> sources = transformRule.getAllInstances(transformRule.getSourceParameter(), context, !transformRule.isGreedy());
 				
 				for (Object instance : sources) {
-					if (!getExcluded().contains(instance) && transformRule.appliesTo(instance, context, false, false)){
+					if (!getExcluded().contains(instance) && transformRule.appliesTo(instance, context, false, false)) {
 						
 						Collection<Object> targets = CollectionUtil.createDefaultList();
 						
@@ -127,8 +70,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 							targets.add(target.getType(context).createInstance());
 						}
 						
-						context.getTransformationTrace().add(instance, targets, transformRule);
-						
+						transTrace.add(instance, targets, transformRule);
 					}
 				}
 			}
@@ -153,7 +95,7 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 				pendingTransformations.get(transformation.getSource()).add(transformation);
 			}
 			else {
-				TransformationList transformations = new TransformationList();
+				Collection<Transformation> transformations = new ArrayList<>(1);
 				transformations.add(transformation);
 				pendingTransformations.put(transformation.getSource(), transformations);
 			}
@@ -161,25 +103,14 @@ public class FastTransformationStrategy implements ITransformationStrategy{
 		}
 		
 		executeTransformations(context.getTransformationTrace().getTransformations(), context);
-		
 	}
 	
-	protected void executeTransformations(TransformationList transformations, IEtlContext context) throws EolRuntimeException {
+	protected void executeTransformations(Collection<Transformation> transformations, IEtlContext context) throws EolRuntimeException {
 		for (Transformation transformation : transformations) {
 			TransformationRule rule = transformation.getRule();
 			if (!rule.hasTransformed(transformation.getSource())) {
 				rule.transform(transformation.getSource(), transformation.getTargets(), context);
 			}
 		} 		
-	}
-	
-	@Override
-	public void setEquivalentProvider(IEquivalentProvider equivalentProvider) {
-		this.equivalentProvider = equivalentProvider;
-	}
-
-	@Override
-	public IEquivalentProvider getEquivalentProvider() {
-		return equivalentProvider;
 	}
 }

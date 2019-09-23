@@ -9,14 +9,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.tools;
 
-import org.eclipse.epsilon.common.util.StringUtil;
+import java.util.Objects;
 import org.eclipse.epsilon.profiling.Profiler;
 
 
 public class ProfilerTool extends AbstractTool{
 	
 	public void start(String targetName, Object data) {
-		Profiler.INSTANCE.start(targetName, StringUtil.toString(data, ""), context.getExecutorFactory().getActiveModuleElement());
+		Profiler.INSTANCE.start(targetName, Objects.toString(data, ""), context.getExecutorFactory().getActiveModuleElement());
 	}
 	
 	public void refresh() {

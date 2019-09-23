@@ -13,8 +13,8 @@ package org.eclipse.epsilon.eol.execute.context;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.util.StringUtil;
 
 /**
  * An individual stack frame for the EOL frame stack.
@@ -156,7 +156,7 @@ public class SingleFrame implements Frame, Cloneable {
 					continue;
 			}
 			
-			sb.append(key + "     " + StringUtil.toString(value, "null") + "\r\n");
+			sb.append(key + "     " + Objects.toString(value) + "\r\n");
 		}
 		
 		return sb.toString();

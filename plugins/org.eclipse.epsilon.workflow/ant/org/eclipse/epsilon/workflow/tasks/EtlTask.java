@@ -16,7 +16,6 @@ import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.trace.Transformation;
-import org.eclipse.epsilon.etl.trace.TransformationList;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
 public class EtlTask extends ExportableModuleTask {
@@ -59,7 +58,7 @@ public class EtlTask extends ExportableModuleTask {
 	@Override
 	protected Collection<Class<?>> getClassesForExportedModel() {
 		return Arrays.asList(
-			TransformationTrace.class, TransformationList.class, Transformation.class, TransformationRule.class
+			TransformationTrace.class, Transformation.class, TransformationRule.class
 		);
 	}
 }

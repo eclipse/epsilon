@@ -11,10 +11,9 @@ package org.eclipse.epsilon.etl.execute.operations;
 
 import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 
-public class EtlOperationFactory extends EolOperationFactory{
+public class EtlOperationFactory extends EolOperationFactory {
 	
 	public EtlOperationFactory() {
-		super();
 		operationCache.put("equivalent", new EquivalentOperation());
 		operationCache.put("equivalents", new EquivalentsOperation());
 	}

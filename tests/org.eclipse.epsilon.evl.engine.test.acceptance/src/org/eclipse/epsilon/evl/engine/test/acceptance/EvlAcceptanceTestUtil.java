@@ -6,11 +6,8 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
- *     Louis Rose - initial API and implementation
  *     Sina Madani - Concurrency tests, refactoring, utilities etc.
  ******************************************************************************
- *
- * $Id$
  */
 package org.eclipse.epsilon.evl.engine.test.acceptance;
 

@@ -9,16 +9,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.dom;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
+import java.util.*;
+import java.util.stream.Collectors;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.CollectionUtil;
@@ -34,15 +28,13 @@ import org.eclipse.epsilon.erl.dom.IExecutableDataRuleElement;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.parse.EtlParser;
-import org.eclipse.epsilon.etl.trace.TransformationList;
-import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
 public class TransformationRule extends ExtensibleNamedRule implements IExecutableDataRuleElement {
 	
 	protected Parameter sourceParameter;
-	protected List<Parameter> targetParameters = new ArrayList<>();
-	protected ExecutableBlock<Boolean> guard = null;
-	protected ExecutableBlock<Void> body = null;
+	protected List<Parameter> targetParameters = new ArrayList<>(2);
+	protected ExecutableBlock<Boolean> guard;
+	protected ExecutableBlock<Void> body;
 	protected IEtlContext context;
 	
 	@Override
@@ -92,26 +84,31 @@ public class TransformationRule extends ExtensibleNamedRule implements IExecutab
 		sourceParameter = (Parameter) module.createAst(sourceParameterAst, this);
 		
 		AST targetParametersAst = sourceParameterAst.getNextSibling();
-		AST targetParameterAst = targetParametersAst.getFirstChild();
+		CollectionUtil.addCapacityIfArrayList(targetParameters, targetParametersAst.getChildCount());
 		
-		while (targetParameterAst != null){
+		for (AST targetParameterAst = targetParametersAst.getFirstChild();
+			targetParameterAst != null;
+			targetParameterAst = targetParameterAst.getNextSibling()
+		) {
 			targetParameters.add((Parameter) module.createAst(targetParameterAst, this));
-			targetParameterAst = targetParameterAst.getNextSibling();
 		}
 		
 	}
 	
 	@Override
 	public boolean isLazy(IEolContext context) throws EolRuntimeException {
-		return super.isLazy(context)
+		if (isLazy == null) {
+			isLazy = super.isLazy(context)
 				|| (!(sourceParameter.getType(context) instanceof EolModelElementType) && !isAbstract());
+		}
+		return isLazy;
 	}
 	
 	public boolean hasTransformed(Object source) {
 		return transformedElements.contains(source);
 	}
 			
-	protected Collection<Object> rejected = new ArrayList<>();
+	protected Collection<Object> rejected = ConcurrencyUtils.concurrentSet();
 	
 	public boolean appliesTo(Object source, IEtlContext context, boolean asSuperRule) throws EolRuntimeException {
 		return appliesTo(source, context, asSuperRule, true);
@@ -130,45 +127,62 @@ public class TransformationRule extends ExtensibleNamedRule implements IExecutab
 		}
 		else {
 			boolean ofTypeOnly = !(isGreedy() || asSuperRule);
-			if (ofTypeOnly) {
-				appliesToTypes = sourceParameter.getType(context).isType(source);
-			}
-			else {
-				appliesToTypes = sourceParameter.getType(context).isKind(source);	
-			}
+			EolType type = sourceParameter.getType(context);
+			appliesToTypes = ofTypeOnly ? type.isType(source) : type.isKind(source);
 		}
 		
 		boolean guardSatisfied = true;
 		
-		if (appliesToTypes && guard != null){
-			
+		if (appliesToTypes && guard != null) {
 			guardSatisfied = guard.execute(context, 
-					Variable.createReadOnlyVariable(sourceParameter.getName(), source), 
-					Variable.createReadOnlyVariable("self", this));	
+				Variable.createReadOnlyVariable(sourceParameter.getName(), source), 
+				Variable.createReadOnlyVariable("self", this)
+			);	
 		}
 		
 		boolean applies = appliesToTypes && guardSatisfied;
 		
 		for (ExtensibleNamedRule superRule : getSuperRules()) {
 			TransformationRule rule = (TransformationRule) superRule;
-			if (!rule.appliesTo(source, context, true)) { applies = false; break; }
+			if (!rule.appliesTo(source, context, true)) {
+				applies = false;
+				break;
+			}
 		}
 		
-		if (!applies) {rejected.add(source);}
+		if (!applies) {
+			rejected.add(source);
+		}
 		
 		return applies;
 	}
 	
-	public void transformAll(IEtlContext context, List<Object> excluded) throws EolRuntimeException{
-		
-		Collection<?> all = getAllInstances(sourceParameter, context, !isGreedy());
-		
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	public Collection<?> getAllInstances(IErlContext context) throws EolRuntimeException {
+		return getAllInstances(sourceParameter, context, !isGreedy());
+	}
+	
+	/**
+	 * 
+	 * @param context
+	 * @param excluded
+	 * @param includeLazy Whether to transform lazy rules.
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	public void transformAll(IEtlContext context, Collection<Object> excluded, boolean includeLazy) throws EolRuntimeException {
+		Collection<?> all = getAllInstances(context);
 		for (Object instance : all) {
-			if (!excluded.contains(instance) && appliesTo(instance, context, false)){
+			if (shouldBeTransformed(instance, excluded, context, includeLazy)) {
 				transform(instance, context);
 			}
 		}
-		
 	}
 	
 	public Collection<?> transform(Object source, Collection<Object> targets, IEtlContext context) throws EolRuntimeException {
@@ -180,64 +194,52 @@ public class TransformationRule extends ExtensibleNamedRule implements IExecutab
 	protected Set<Object> transformedElements = new HashSet<>();
 	
 	public Collection<?> transform(Object source, IEtlContext context) throws EolRuntimeException {
-		
-		TransformationTrace transformationTrace = context.getTransformationTrace();
-		
 		if (hasTransformed(source)) {
-			TransformationList transformations = transformationTrace.getTransformations(source);
-			return transformations.getTargets(getName());
+			return context.getTransformationTrace().getTransformationTargets(source, getName());
 		}
 		else {
 			transformedElements.add(source);
 		}
 		
 		Collection<Object> targets = CollectionUtil.createDefaultList();
-		
 		for (Parameter targetParameter : targetParameters) {
-			EolType targetParameterType = (EolType) targetParameter.getType(context);
+			EolType targetParameterType = targetParameter.getType(context);
 			targets.add(targetParameterType.createInstance());
 		}
-		
-		transformationTrace.add(source, targets, this);
+			
+		context.getTransformationTrace().add(source, targets, this);
 		executeSuperRulesAndBody(source, targets, context);
 		return targets;
 	}
 	
-	protected void executeSuperRulesAndBody(Object source, Collection<Object> targets_, IEtlContext context) throws EolRuntimeException{
+	protected void executeSuperRulesAndBody(Object source, Collection<Object> targets_, IEtlContext context) throws EolRuntimeException {
 		
 		List<Object> targets = CollectionUtil.asList(targets_);
-		
 		// Execute super-rules
-		for (ExtensibleNamedRule rule : superRules){
+		for (ExtensibleNamedRule rule : superRules) {
 			TransformationRule superRule = (TransformationRule) rule;
 			superRule.transform(source, targets, context);
 		}
 		
-		List<Variable> variables = new ArrayList<>();
-		variables.add(Variable.createReadOnlyVariable("self", this));
-		variables.add(Variable.createReadOnlyVariable(sourceParameter.getName(), source));
-		for (Parameter targetParameter : targetParameters) {
-			variables.add(Variable.createReadOnlyVariable(targetParameter.getName(), targets.get(targetParameters.indexOf(targetParameter))));
+		Variable[] variables = new Variable[targetParameters.size() + 2];
+		variables[0] = Variable.createReadOnlyVariable("self", this);
+		variables[1] = Variable.createReadOnlyVariable(sourceParameter.getName(), source);
+		
+		for (int i = 2; i < variables.length; ++i) {
+			int offset = i-2;
+			Parameter tp = targetParameters.get(offset);
+			variables[i] = Variable.createReadOnlyVariable(tp.getName(), targets.get(offset));
 		}
-		body.execute(context, variables.toArray(new Variable[]{}));
-	}
-	
-	public List<ModuleElement> getModuleElements() {
-		return Collections.emptyList();
+		
+		body.execute(context, variables);
 	}
 	
 	@Override
-	public String toString() {
-		
-		String targetTypes = "";
-		Iterator<Parameter> it = targetParameters.iterator();
-		while (it.hasNext()){
-			Parameter fp  = it.next();
-			targetTypes += fp.getTypeName();
-			if (it.hasNext()){
-				targetTypes += ", ";
-			}
-		}
+	public String toString() {	
+		String targetTypes = targetParameters
+			.stream()
+			.map(Parameter::getTypeName)
+			.collect(Collectors.joining(", "));
 		
 		return getName() + " (" + sourceParameter.getTypeName() + ") : " + targetTypes;
 	}
@@ -255,9 +257,14 @@ public class TransformationRule extends ExtensibleNamedRule implements IExecutab
 		return getBooleanAnnotationValue("excluded", context, false, true);
 	}
 	
+	public boolean shouldBeTransformed(Object instance, Collection<Object> excluded, IEtlContext context, boolean overrideLazy) throws EolRuntimeException {
+		return (overrideLazy || !isLazy(context))
+			&& !isAbstract()
+			&& (excluded == null || !excluded.contains(instance))
+			&& appliesTo(instance, context, false);
+	}
+	
 	public void dispose() {
-		transformedElements.clear();
-		rejected.clear();
 		rejected = null;
 		transformedElements = null;
 	}
@@ -266,7 +273,11 @@ public class TransformationRule extends ExtensibleNamedRule implements IExecutab
 	 * @since 1.6
 	 */
 	@Override
-	public Collection<?> executeImpl(Object self, IErlContext context) throws EolRuntimeException {
-		return transform(self, (IEtlContext) context);
+	public Collection<?> executeImpl(Object instance, IErlContext context_) throws EolRuntimeException {
+		IEtlContext context = (IEtlContext) context_;
+		if (shouldBeTransformed(instance, null, context, false)) {
+			return transform(instance, context);
+		}
+		return null;
 	}
 }

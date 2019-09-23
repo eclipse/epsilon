@@ -9,43 +9,20 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.execute.operations;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
-import org.eclipse.epsilon.etl.strategy.ITransformationStrategy;
 
-
-public class EquivalentsOperation extends SimpleOperation {
+public class EquivalentsOperation extends AbstractEquivalentOperation {
 	
 	@Override
-	public Object execute(Object source, List<?> parameters, IEolContext context,
-			ModuleElement ast) throws EolRuntimeException {
-		
-		if (source == null) return null;
-		
-		List<String> rules = null;
-		if (parameters.size() > 0) {
-			rules = new ArrayList<>();
-			for (Object parameter : parameters) {
-				rules.add(StringUtil.toString(parameter));
-			}
-		}
-		
-		IEtlContext etlContext = (IEtlContext) context;
-		ITransformationStrategy strategy = etlContext.getTransformationStrategy();
-		
-		if (source instanceof Collection){
-			return strategy.getEquivalents((Collection<?>) source, etlContext, rules);
-		} else {
-			return strategy.getEquivalents(source, etlContext, rules);
-		}
-		
+	protected Collection<?> executeImpl(Collection<?> source, IEtlContext context, List<String> rules) throws EolRuntimeException {
+		return context.getTransformationStrategy().getEquivalents(source, context, rules);
+	}
+	
+	@Override
+	protected Collection<?> executeImpl(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException {
+		return context.getTransformationStrategy().getEquivalents(source, context, rules);
 	}
 }

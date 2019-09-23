@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eml.dom.MergeRule;
 import org.eclipse.epsilon.eml.execute.context.IEmlContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.etl.strategy.DefaultTransformationStrategy;
 
 public class DefaultMergingStrategy extends DefaultTransformationStrategy implements IMergingStrategy {
@@ -58,7 +59,7 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 	}
 	
 	@Override
-	public Collection<?> getEquivalents(Object source, IEolContext context, List<String> rules) throws EolRuntimeException {
+	public Collection<?> getEquivalents(Object source, IErlContext context, List<String> rules) throws EolRuntimeException {
 		
 		if (!getExcluded().contains(source)) {
 			return super.getEquivalents(source, context, rules);

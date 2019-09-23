@@ -12,8 +12,7 @@ package org.eclipse.epsilon.ewl.emf;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.eclipse.epsilon.common.util.StringUtil;
+import java.util.Objects;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -75,7 +74,7 @@ public class WizardsExtensionPreference {
 		List<WizardsExtensionPreference> preferences = new ArrayList<WizardsExtensionPreference>();
 		IPreferenceStore preferenceStore = EwlEmfPlugin.getDefault().getPreferenceStore();
 		
-		for (String str : StringUtil.toString(preferenceStore.getString(preferenceKey),"").split(";")) {
+		for (String str : Objects.toString(preferenceStore.getString(preferenceKey),"").split(";")) {
 			if (str.trim().length() > 0) {
 				preferences.add(WizardsExtensionPreference.create(str));
 			}

@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.execute.operations.contributors;
 import java.util.*;
 import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.common.util.CollectionUtil;
-import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.types.*;
 
 public class IterableOperationContributor extends OperationContributor {
@@ -343,7 +342,7 @@ public class IterableOperationContributor extends OperationContributor {
 	public String concat(String delimiter) {
 		return CollectionUtil.join(getIterable(), delimiter,
 			//FIXME : Use the pretty printer manager here
-			element -> StringUtil.toString(element, "")
+			element -> Objects.toString(element, "")
 		);
 	}
 	

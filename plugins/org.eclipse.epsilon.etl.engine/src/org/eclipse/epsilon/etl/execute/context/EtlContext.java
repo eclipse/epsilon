@@ -17,11 +17,11 @@ import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
 public class EtlContext extends ErlContext implements IEtlContext {
 	
-	protected TransformationTrace transformationTrace = new TransformationTrace();
+	protected TransformationTrace transformationTrace;
 	protected ITransformationStrategy transformationStrategy;
 	
 	public EtlContext() {
-		super();
+		transformationTrace = new TransformationTrace(false);
 	}
 	
 	/**

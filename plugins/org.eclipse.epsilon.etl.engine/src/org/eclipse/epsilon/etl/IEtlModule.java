@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.etl;
 
 import java.util.List;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
@@ -24,10 +23,5 @@ public interface IEtlModule extends IErlModule {
 	@Override
 	public default IEtlContext getContext() {
 		return (IEtlContext) ((IErlModule)this).getContext();
-	}
-	
-	// TODO: do we really need this?
-	default void setContext(IEtlContext context) {
-		setContext((IEolContext) context);
 	}
 }

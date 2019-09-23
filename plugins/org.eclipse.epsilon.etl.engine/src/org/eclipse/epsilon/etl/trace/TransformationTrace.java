@@ -9,75 +9,62 @@
  ******************************************************************************/
 package org.eclipse.epsilon.etl.trace;
 
-import java.util.Collection;
-import java.util.HashMap;
-
+import java.util.*;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
 
 public class TransformationTrace {
 	
-	//List storage = new ArrayList();
-	HashMap<Object, TransformationList> cache = new HashMap<>();
-	TransformationList transformations = new TransformationList();
+	Map<Object, Collection<Transformation>> cache;
+	Collection<Transformation> transformations;
+	boolean isConcurrent;
 	
-	public void add(Object source, Collection<Object> targets, TransformationRule rule){
-		Transformation transformation = new Transformation();
-		transformation.setSource(source);
-		transformation.setTargets(targets);
+	public TransformationTrace() {
+		this(false);
+	}
+	
+	public TransformationTrace(boolean concurrent) {
+		this.isConcurrent = concurrent;
+		cache = concurrent ? ConcurrencyUtils.concurrentMap() : new HashMap<>();
+		transformations = newCollection();
+	}
+	
+	<T> Collection<T> newCollection() {
+		return isConcurrent ? new Vector<>() : new ArrayList<>();
+	}
+	
+	public void add(Object source, Collection<Object> targets, TransformationRule rule) {
+		Transformation transformation = new Transformation(source, targets);
 		transformation.setRule(rule);
 		transformations.add(transformation);
-		//cache.put(source, transformation);
-		TransformationList transformations = cache.get(source);
+		Collection<Transformation> transformations = cache.get(source);
 		if (transformations == null) {
-			transformations = new TransformationList();
-			transformations.add(transformation);
-			cache.put(source, transformations);
+			cache.put(source, transformations = newCollection());
 		}
-		else {
-			transformations.add(transformation);
-		}
+		transformations.add(transformation);
 	}
 	
-	public TransformationList getTransformations() {
-		/*
-		Transformations transformations = new Transformations();
-		for (Object key : cache.keySet()) {
-			transformations.addAll((Transformations)cache.get(key));
-		}*/
+	public Collection<Transformation> getTransformations() {
 		return transformations;
 	}
 	
-	public TransformationList getTransformations(Object source){
-		if (cache.containsKey(source)){
-			return cache.get(source);
-		}
-		else {
-			TransformationList transformations = new TransformationList();
-			return transformations;
-		}
-		/*
-		ListIterator li = storage.listIterator();
-		Transformations transformations = new Transformations();
-		while (li.hasNext()){
-			Transformation transformation = (Transformation)li.next();
-			if (transformation.of(source)){
-				transformations.add(transformation);
+	public  Collection<Transformation> getTransformations(Object source) {
+		Collection<Transformation> t =  cache.get(source);
+		return t != null ? t : newCollection();
+	}
+
+	public Collection<?> getTransformationTargets(Object source, String rule) {
+		Collection<Object> targets = CollectionUtil.createDefaultList();
+		for (Transformation transformation : getTransformations()) {
+			if (rule == null || rule.equals(transformation.getRule().getName())) {
+				targets.addAll(transformation.getTargets());
 			}
 		}
-		return transformations;
-		*/
+		return targets;
 	}
-	/*
-	public Transformations getTransformations(Object source, TransformRule rule){
-		ListIterator li = storage.listIterator();
-		Transformations transformations = new Transformations();
-		while (li.hasNext()){
-			Transformation transformation = (Transformation)li.next();
-			if (transformation.of(source) && transformation.getRule() == rule){
-				transformations.add(transformation);
-			}
-		}
-		return transformations;		
+	
+	public boolean containsTransformedBy(TransformationRule rule) {
+		return getTransformations().stream().anyMatch(t -> t.getRule() == rule);
 	}
-	*/
 }

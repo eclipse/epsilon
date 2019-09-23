@@ -1,31 +1,55 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The University of York.
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * 
+ * Contributors:
+ *     Dimitrios Kolovos - initial API and implementation
+ ******************************************************************************/
 package org.eclipse.epsilon.etl.engine.test.acceptance;
 
 import static org.junit.Assert.*;
-
 import java.io.File;
-
-import org.eclipse.epsilon.emc.emf.EmfModel;
-import org.eclipse.epsilon.etl.EtlModule;
+import java.util.function.Supplier;
+import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(Parameterized.class)
 public class TransformationRuleTests extends EtlTest {
 
-	private EtlModule module;
+	@Parameter
+	public Supplier<? extends IEtlModule> moduleGetter;
+	
+	private IEtlModule module;
 
+	@Parameters(name = "{0}")
+	public static Iterable<Supplier<? extends IEtlModule>> modules() {
+		return EtlAcceptanceTestUtil.modules();
+	}
+	
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		registerMetamodel("models/Tree.ecore", TransformationRuleTests.class);
+		registerMetamodel("models/Graph.ecore", TransformationRuleTests.class);
+	}
+	
 	@Before
 	public void setup() throws Exception {
-		module = new EtlModule();
-
-		registerMetamodel("models/Tree.ecore");
-		registerMetamodel("models/Graph.ecore");
-
-		EmfModel graphModel = loadModel("Graph", "models/graph.model", "Graph", false, false);
-
-		module.getContext().getModelRepository().addModel(loadModel("Tree", "models/tree.model", "Tree", true, false));
-		module.getContext().getModelRepository().addModel(graphModel);
+		module = moduleGetter.get();
+		
+		module.getContext().getModelRepository().addModels(
+			loadModel("Tree", "models/tree.model", "Tree", true, false),
+			loadModel("Graph", "models/graph.model", "Graph", false, false)
+		);
 	}
 
 	@After
@@ -35,17 +59,8 @@ public class TransformationRuleTests extends EtlTest {
 
 	@Test
 	public void testLazyRuleIdentification() throws Exception {
-		EtlModule module = new EtlModule();
 		module.parse(new File(getFullPath("TransformationRuleTests.etl")));
 		assertTrue(module.getParseProblems().isEmpty());
-
-		registerMetamodel("models/Tree.ecore");
-		registerMetamodel("models/Graph.ecore");
-
-		EmfModel graphModel = loadModel("Graph", "models/graph.model", "Graph", false, false);
-
-		module.getContext().getModelRepository().addModel(loadModel("Tree", "models/tree.model", "Tree", true, false));
-		module.getContext().getModelRepository().addModel(graphModel);
 		
 		module.execute();
 		

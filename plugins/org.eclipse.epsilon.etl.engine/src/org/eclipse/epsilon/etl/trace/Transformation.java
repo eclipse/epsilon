@@ -19,14 +19,17 @@ public class Transformation {
 	protected Collection<Object> targets;
 	protected TransformationRule rule;
 	
-	public Transformation(){
-		
+	public Transformation() {
 	}
 	
 	public Transformation(Object source, Collection<Object> targets) {
-		super();
 		this.source = source;
 		this.targets = targets;
+	}
+	
+	public Transformation(Object source, Collection<Object> targets, TransformationRule rule) {
+		this(source, targets);
+		this.rule = rule;
 	}
 	
 	public Object getSource() {

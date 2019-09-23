@@ -11,18 +11,17 @@ package org.eclipse.epsilon.erl.strategy;
 
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 public interface IEquivalentProvider {
 	
-	Object getEquivalent(Collection<?> collection, IEolContext context, List<String> rules) throws EolRuntimeException;
+	Object getEquivalent(Collection<?> collection, IErlContext context, List<String> rules) throws EolRuntimeException;
 	
-	Object getEquivalent(Object source, IEolContext context, List<String> rules) throws EolRuntimeException;
+	Object getEquivalent(Object source, IErlContext context, List<String> rules) throws EolRuntimeException;
 	
-	Collection<?> getEquivalents(Collection<?> source, IEolContext context, List<String> rules) throws EolRuntimeException;
+	Collection<?> getEquivalents(Collection<?> source, IErlContext context, List<String> rules) throws EolRuntimeException;
 	
-	Collection<?> getEquivalents(Object source, IEolContext context, List<String> rules) throws EolRuntimeException;
+	Collection<?> getEquivalents(Object source, IErlContext context, List<String> rules) throws EolRuntimeException;
 	
 }

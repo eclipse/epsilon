@@ -11,6 +11,7 @@ package org.eclipse.epsilon.common.util;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,21 +50,7 @@ public class StringUtil {
 	}
 	
 	public static String toString(Object o) {
-		if (o != null) {
-			return o.toString();
-		}
-		else {
-			return "";
-		}
-	}
-	
-	public static String toString(Object o, String default_) {
-		if (o != null) {
-			return o.toString();
-		}
-		else {
-			return default_;
-		}
+		return Objects.toString(o, "");
 	}
 	
 	public static boolean isOneOf(String target, String...candidates) {

@@ -11,35 +11,57 @@ package org.eclipse.epsilon.etl.strategy;
 
 import java.util.Collection;
 import java.util.List;
-
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.erl.strategy.IEquivalentProvider;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 
 public interface ITransformationStrategy extends IEquivalentProvider {
-	
-	//public void load(StringProperties properties);
-	
-	//public void autoTransform (Object source, Object target, IEtlContext context) throws EolRuntimeException;
-	
-	//public Object autoTransform (Object source, IEtlContext context) throws EolRuntimeException;
 	
 	public Collection<?> transform(Object source, IEtlContext context, List<String> rules) throws EolRuntimeException;
 		
 	public void transformModels(IEtlContext context) throws EolRuntimeException;
 
 	public void setEquivalentProvider(IEquivalentProvider equivalentProvider);
-	
-	public IEquivalentProvider getEquivalentProvider();
 
 	public boolean canTransform(Object source);
 	
-	//public IModel getSourceModel();
+	public default IEquivalentProvider getEquivalentProvider() {
+		return this;
+	}
 	
-	//public void setSourceModel(IModel sourceModel);
+	@Override
+	public default Object getEquivalent(Object source, IErlContext context_, List<String> rules) throws EolRuntimeException {
+		IEtlContext context = (IEtlContext) context_;
+		
+		Collection<?> equivalents = getEquivalents(source, context, rules);
+		
+		if (equivalents != null && !equivalents.isEmpty()) {
+			return CollectionUtil.getFirst(equivalents);
+		}
+		else {
+			return null;
+		}
+	}
 	
-	//public IModel getTargetModel();
+	@Override
+	public default Collection<?> getEquivalent(Collection<?> collection, IErlContext context_, List<String> rules) throws EolRuntimeException {
+		IEtlContext context = (IEtlContext) context_;
+		return CollectionUtil.flatten(getEquivalents(collection, context, rules));
+	}
 	
-	//public void setTargetModel(IModel sourceModel);
+	@Override
+	public default Collection<?> getEquivalents(Collection<?> collection, IErlContext context_, List<String> rules) throws EolRuntimeException {
+		IEtlContext context = (IEtlContext) context_;
+		Collection<Object> equivalents = CollectionUtil.createDefaultList();
+		for (Object item : collection) {
+			Object equivalent = getEquivalents(item, context, rules);
+			if (equivalent != null && !equivalents.contains(equivalent)) {
+				equivalents.add(equivalent);
+			}
+		}
+		return equivalents;
+	}
 	
 }

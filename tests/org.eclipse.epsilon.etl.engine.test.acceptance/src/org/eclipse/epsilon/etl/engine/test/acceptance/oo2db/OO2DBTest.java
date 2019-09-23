@@ -9,42 +9,59 @@
 **********************************************************************/
 package org.eclipse.epsilon.etl.engine.test.acceptance.oo2db;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
-
+import java.util.function.Supplier;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.emc.emf.EmfModel;
-import org.eclipse.epsilon.etl.EtlModule;
+import org.eclipse.epsilon.etl.IEtlModule;
+import org.eclipse.epsilon.etl.engine.test.acceptance.EtlAcceptanceTestUtil;
 import org.eclipse.epsilon.etl.engine.test.acceptance.EtlTest;
-import org.eclipse.epsilon.test.util.ResourceComparator;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(Parameterized.class)
 public class OO2DBTest extends EtlTest {
 	
+	@Parameter
+	public Supplier<? extends IEtlModule> moduleGetter;
+
+	@Parameters(name = "{0}")
+	public static Iterable<Supplier<? extends IEtlModule>> modules() {
+		return EtlAcceptanceTestUtil.modules();
+	}
+	
+	static Resource dbModelOracle;
+	
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		registerMetamodel("models/OO.ecore", OO2DBTest.class);
+		registerMetamodel("models/DB.ecore", OO2DBTest.class);
+		registerMetamodel("models/TM.ecore", OO2DBTest.class);
+		registerMetamodel("models/SimpleTrace.ecore", OO2DBTest.class);
+		dbModelOracle = getResource("models/DBInstance.model", OO2DBTest.class);
+	}
+	
 	@Test
-	public void testOO2DBTransformation() throws Exception {
-		
-		EtlModule module = new EtlModule();
+	public void testOO2DBTransformation() throws Exception {	
+		IEtlModule module = moduleGetter.get();
 		module.parse(new File(getFullPath("OO2DB.etl")));
-		
-		registerMetamodel("models/OO.ecore");
-		registerMetamodel("models/DB.ecore");
-		registerMetamodel("models/TM.ecore");
-		registerMetamodel("models/SimpleTrace.ecore");
-		
+
 		EmfModel dbModel = loadModel("DB", "models/DBInstance.model", "DB", false, false);
 		
-		module.getContext().getModelRepository().addModel(loadModel("OO", "models/OOInstance.model", "OO", true, false));
-		module.getContext().getModelRepository().addModel(dbModel);
-		module.getContext().getModelRepository().addModel(loadModel("OO2DB", "models/OO2DB.model", "TM", true, false));
-		module.getContext().getModelRepository().addModel(loadModel("Trace", "models/Trace.model", "SimpleTrace", false, false));
+		module.getContext().getModelRepository().addModels(
+			loadModel("OO", "models/OOInstance.model", "OO", true, false),
+			dbModel,
+			loadModel("OO2DB", "models/OO2DB.model", "TM", true, false),
+			loadModel("Trace", "models/Trace.model", "SimpleTrace", false, false)
+		);
 		
 		module.execute();
 		
-		Resource dbModelOracle = getResource("models/DBInstance.model");
-		
-		assertTrue(new ResourceComparator().compare(dbModelOracle, dbModel.getModelImpl()));
+		testForEquivalence(dbModelOracle, dbModel.getResource());
 		
 		module.getContext().dispose();
 	}
