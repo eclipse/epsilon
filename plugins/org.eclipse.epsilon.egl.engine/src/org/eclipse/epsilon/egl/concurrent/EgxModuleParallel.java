@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import org.eclipse.epsilon.egl.EgxModule;
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
@@ -34,9 +35,14 @@ public class EgxModuleParallel extends EgxModule implements IErlModuleParallel {
 	}
 	
 	public EgxModuleParallel() {
-		this(null);
+		this((IEgxContextParallel) null);
 	}
 	
+	public EgxModuleParallel(String outputRoot) throws EglRuntimeException {
+		this();
+		setFileGeneratingTemplateFactory(outputRoot);
+	}
+
 	public EgxModuleParallel(IEgxContextParallel context) {
 		super(context != null ? context : new EgxContextParallel());
 		this.invokedTemplates = new ConcurrentLinkedQueue<>();

@@ -12,6 +12,7 @@ package org.eclipse.epsilon.egl.concurrent;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
@@ -34,6 +35,11 @@ public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IE
 		super(egxContext);
 	}
 
+	public EgxModuleParallelAnnotation(String outputRoot) throws EglRuntimeException {
+		this();
+		setFileGeneratingTemplateFactory(outputRoot);
+	}
+	
 	@Override
 	protected Object processRules() throws EolRuntimeException {
 		for (GenerationRule rule : getGenerationRules()) {

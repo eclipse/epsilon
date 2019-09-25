@@ -85,10 +85,16 @@ public class EglTemplateFactory {
 	
 	/**
 	 * Sets the root of this template factory, unless it has already been set.
+	 * @param root The new root.
+	 * @return <code>true</code> if the root was set as a result of this call,
+	 * <code>false</code> if the root had already been initialized.
 	 */
-	public void initialiseRoot(URI root) {
-		if (this.root == null)
+	public boolean initialiseRoot(URI root) {
+		if (this.root == null) {
 			setRoot(root);
+			return true;
+		}
+		return false;
 	}
 	
 	public void setRoot(URI root) {
@@ -106,7 +112,7 @@ public class EglTemplateFactory {
 	protected URI resolveRoot(String path) throws EglRuntimeException {
 		try {
 			return UriUtil.resolve(UriUtil.encode(path, true), root);
-			
+
 		} catch (URISyntaxException e) {
 			throw new EglRuntimeException("Could not resolve path: "+path, e, context.getModule());
 		}

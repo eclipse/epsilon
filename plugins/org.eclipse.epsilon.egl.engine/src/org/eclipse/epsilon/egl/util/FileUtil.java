@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 public abstract class FileUtil {
 
@@ -41,10 +42,7 @@ public abstract class FileUtil {
 	 *                              <code>null</code>
 	 */
 	public static String resolve(String path, File parent) {
-		if (path==null)
-			throw new NullPointerException("path may not be null");
-		
-		File file = new File(path);
+		File file = new File(Objects.requireNonNull(path, "path may not be null"));
 		
 		if (!file.isAbsolute() && parent != null) {
 			file = new File(parent, path);
@@ -63,10 +61,8 @@ public abstract class FileUtil {
 	public static String read(File file) throws IOException {
 		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 			final StringBuilder contents = new StringBuilder();
-			
-			int c;
 
-			while ((c = reader.read()) != -1) {
+			for (int c; (c = reader.read()) != -1;) {
 				if ((char)c == '\r' && (char)reader.read() == '\n')
 					contents.append(NEWLINE);
 				
@@ -78,7 +74,6 @@ public abstract class FileUtil {
 			}
 		
 			return contents.toString();
-			
 		}
 	}
 	

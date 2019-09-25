@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
@@ -33,6 +34,11 @@ public class EgxModuleParallelRules extends EgxModuleParallel implements IErlMod
 
 	public EgxModuleParallelRules(IEgxContextParallel context) {
 		super(context);
+	}
+	
+	public EgxModuleParallelRules(String outputRoot) throws EglRuntimeException {
+		this();
+		setFileGeneratingTemplateFactory(outputRoot);
 	}
 
 	@Override

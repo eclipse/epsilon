@@ -27,7 +27,7 @@ public abstract class UriUtil {
 		if (uri.isAbsolute())
 			return uri;
 		
-		else {
+		else if (relativeTo != null) {
 			for (URI parent : relativeTo) {
 				if (parent != null) {
 					

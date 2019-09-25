@@ -22,6 +22,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.parse.EgxLexer;
@@ -44,7 +45,20 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	protected Collection<Template> invokedTemplates = new ArrayList<>();
 	
 	public EgxModule() {
-		this(new EgxContext());
+		this((IEgxContext) null);
+	}
+	
+	/**
+	 * Instantiates the module and the context configured for outputting generated files
+	 * to the specified directory.
+	 * 
+	 * @param outputRoot The base location to send output files to.
+	 * @throws EglRuntimeException If the path could not be resolved.
+	 * @since 1.6
+	 */
+	public EgxModule(String outputRoot) throws EglRuntimeException {
+		this();
+		setFileGeneratingTemplateFactory(outputRoot);
 	}
 	
 	/**
@@ -57,6 +71,18 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	
 	public EgxModule(EglTemplateFactory templateFactory) {
 		this(new EgxContext(templateFactory));
+	}
+	
+	/**
+	 * Convenience method for initialising a {@link EglFileGeneratingTemplateFactory} with
+	 * the specified output path.
+	 * 
+	 * @param outputRoot
+	 * @throws EglRuntimeException
+	 * @since 1.6
+	 */
+	protected void setFileGeneratingTemplateFactory(String outputRoot) throws EglRuntimeException {
+		getContext().setTemplateFactory(new EglFileGeneratingTemplateFactory(new File(outputRoot).getAbsolutePath()));
 	}
 	
 	@Override
