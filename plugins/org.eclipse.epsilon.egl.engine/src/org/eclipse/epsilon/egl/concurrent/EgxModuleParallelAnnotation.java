@@ -35,7 +35,7 @@ public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IE
 	}
 
 	@Override
-	protected void generateRules() throws EolRuntimeException {
+	protected Object processRules() throws EolRuntimeException {
 		for (GenerationRule rule : getGenerationRules()) {
 			final Collection<?> allElements = rule.getAllElements(context);
 			final int numElements = allElements.size();
@@ -52,6 +52,7 @@ public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IE
 			
 			getContext().executeParallel(rule, genJobs);
 		}
+		return null;
 	}
 	
 }

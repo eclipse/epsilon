@@ -33,6 +33,7 @@ public class EgxContext extends ErlContext implements IEgxContext {
 	}
 	
 	public EgxContext(EglTemplateFactory templateFactory) {
+		//super(templateFactory != null ? templateFactory.getContext() : null);
 		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory();
 	}
 	

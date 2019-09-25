@@ -158,23 +158,13 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	
 	@Override
 	protected Object processRules() throws EolRuntimeException {
-		generateRules();
-		return null;
-	}
-	
-	/**
-	 * Executes all GenerationRules.
-	 * 
-	 * @throws EolRuntimeException
-	 * @since 1.6
-	 */
-	protected void generateRules() throws EolRuntimeException {
 		IEgxContext context = getContext();
 		for (GenerationRule rule : getGenerationRules()) {
 			for (Object element : rule.getAllElements(context)) {
 				rule.generate(element, this);
 			}
 		}
+		return null;
 	}
 	
 	@Override

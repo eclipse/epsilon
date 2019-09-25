@@ -177,11 +177,8 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	 * @since 1.6
 	 */
 	Collection<EObject> getAllFromModel(Predicate<EObject> criteria) throws EolModelElementTypeNotFoundException {
-		Collection<EObject> allContents = allContents();
-		
 		return StreamSupport.stream(
-				allContents.spliterator(),
-				parallelAllOf
+				allContents().spliterator(), parallelAllOf
 			)
 			.filter(criteria)
 			.collect(Collectors.toList());
@@ -191,7 +188,9 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	@Override
 	protected Collection<EObject> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
 		final EClass eClass = classForName(type);
-		return getAllFromModel(eObject -> eObject.eClass() == eClass);
+		return getAllFromModel(eObject ->
+			eObject.eClass() == eClass
+		);
 	}
 	
 	@Override

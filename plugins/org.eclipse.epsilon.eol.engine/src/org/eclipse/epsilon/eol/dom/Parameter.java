@@ -78,7 +78,7 @@ public class Parameter extends AbstractModuleElement implements ICompilableModul
 	}
 	
 	public EolType getType(IEolContext context) throws EolRuntimeException {
-		if (type == null){
+		if (type == null) {
 			if (typeExpression != null) {
 				type = (EolType) context.getExecutorFactory().execute(typeExpression,context);
 			}

@@ -26,6 +26,16 @@ public class EglFileGeneratingTemplateFactory extends EglTemplateFactory {
 	public EglFileGeneratingTemplateFactory(IEglContext context) {
 		super(context);
 	}
+	
+	/**
+	 * 
+	 * @param outputRoot
+	 * @throws EglRuntimeException
+	 * @since 1.6
+	 */
+	public EglFileGeneratingTemplateFactory(String outputRoot) throws EglRuntimeException {
+		setOutputRoot(outputRoot);
+	}
 
 	public String getOutputRoot() {
 		return outputRootPath;
