@@ -13,7 +13,7 @@ import java.util.Objects;
 import org.eclipse.epsilon.profiling.Profiler;
 
 
-public class ProfilerTool extends AbstractTool{
+public class ProfilerTool extends AbstractTool {
 	
 	public void start(String targetName, Object data) {
 		Profiler.INSTANCE.start(targetName, Objects.toString(data, ""), context.getExecutorFactory().getActiveModuleElement());

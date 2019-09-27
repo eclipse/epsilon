@@ -24,6 +24,7 @@ import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameters;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
@@ -36,10 +37,8 @@ import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
-import org.eclipse.epsilon.erl.dom.IExecutableDataRuleElement;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
-public class GenerationRule extends ExtensibleNamedRule implements IExecutableDataRuleElement {
+public class GenerationRule extends ExtensibleNamedRule implements IExecutableModuleElementParameters {
 	
 	protected Parameter sourceParameter;
 	protected ExecutableBlock<String> targetBlock, templateBlock;
@@ -173,8 +172,8 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableDa
 	 * @return Nothing
 	 */
 	@Override
-	public Object executeImpl(Object self, IErlContext context) throws EolRuntimeException {
-		generate(self, (IEgxModule) context.getModule());
+	public Object executeImpl(IEolContext context, Object... parameters) throws EolRuntimeException {
+		generate(parameters[0], (IEgxModule) context.getModule());
 		return null;
 	}
 }

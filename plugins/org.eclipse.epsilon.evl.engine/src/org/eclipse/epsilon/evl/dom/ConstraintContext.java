@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2016 The University of York.
+ * Copyright (c) 2008-2019 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -7,6 +7,7 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio Garcia-Dominguez - aggregate into select(...)
+ *     Sina Madani - Parameterised execution
  ******************************************************************************/
 package org.eclipse.epsilon.evl.dom;
 
@@ -16,7 +17,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
-import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameters;
 import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -25,12 +26,10 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
-import org.eclipse.epsilon.erl.dom.IExecutableDataRuleElement;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
-public class ConstraintContext extends AnnotatableModuleElement implements IExecutableModuleElement, IExecutableDataRuleElement {
+public class ConstraintContext extends AnnotatableModuleElement implements IExecutableModuleElementParameters {
 	
 	protected final ArrayList<Constraint> constraints = new ArrayList<>();
 	protected TypeExpression typeExpression;
@@ -142,7 +141,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	public boolean execute(Collection<Constraint> constraintsToCheck, Object modelElement, IEvlContext context) throws EolRuntimeException {
 		if (shouldBeChecked(modelElement, context)) {
 			for (Constraint constraint : constraintsToCheck) {
-				constraint.execute(modelElement, context);
+				constraint.execute(context, modelElement);
 			}
 			return true;
 		}
@@ -162,7 +161,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 			for (Object modelElement : getAllOfSourceKind(context)) {
 				if (appliesTo(modelElement, context, false)) {
 					for (Constraint constraint : constraintsToCheck) {
-						constraint.execute(modelElement, context);
+						constraint.execute(context, modelElement);
 					}
 				}
 			}
@@ -182,15 +181,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	}
 	
 	/**
-	 * @since 1.6
-	 */
-	@Override
-	public Boolean executeImpl(Object self, IErlContext context) throws EolRuntimeException {
-		return execute(self, (IEvlContext) context);
-	}
-	
-	/**
-	 * Checks all of this ConstraintContext's constraints for all applicable elements of this type.
+	 *
 	 * @param context_ The EVL execution context.
 	 * @throws EolRuntimeException
 	 * @return nothing.
@@ -198,13 +189,18 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @since 1.6
 	 */
 	@Override
-	public Object execute(IEolContext context_) throws EolRuntimeException {
+	public Object executeImpl(IEolContext context_, Object... parameters) throws EolRuntimeException {
 		IEvlContext context = (IEvlContext) context_;
-		Collection<Constraint> constraintsToCheck = getConstraints();		
-		for (Object element : getAllOfSourceKind(context)) {
-			execute(constraintsToCheck, element, context);
+		Collection<Constraint> constraintsToCheck = getConstraints();
+		if (parameters == null || parameters.length == 0) {
+			for (Object element : getAllOfSourceKind(context)) {
+				execute(constraintsToCheck, element, context);
+			}
+			return null;
 		}
-		return null;
+		else {
+			return execute(constraintsToCheck, parameters[0], context);
+		}
 	}
 	
 	@Override

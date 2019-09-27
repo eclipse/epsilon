@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.erl.execute.context.concurrent;
 
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
-import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
@@ -19,8 +18,5 @@ import org.eclipse.epsilon.erl.execute.context.IErlContext;
  * @since 1.6
  */
 public interface IErlContextParallel extends IErlContext, IEolContextParallel {
-	
-	@Override
-	RuleExecutorFactory getExecutorFactory();
 	
 }

@@ -53,7 +53,7 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 			includeStandard ? EgxModule::new : null,
 			p -> new EgxModuleParallel(new EgxContextParallel(p)),
 			p -> new EgxModuleParallelAnnotation(new EgxContextParallel(p)),
-			p -> new EgxModuleParallelRules(new EgxContextParallel(p))
+			p -> new EgxModuleParallelElements(new EgxContextParallel(p))
 		);
 	}
 	

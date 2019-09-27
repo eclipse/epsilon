@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2019 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - Refactoring + concurrency + parameterised execution
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute;
 
@@ -18,6 +19,7 @@ import org.eclipse.epsilon.common.concurrent.ConcurrentBaseDelegate;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameters;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolTerminationException;
@@ -66,6 +68,7 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		}*/
 		setStackTraceManager(new StackTraceManager(concurrent));
 	}
+
 	
 	public void addExecutionListener(IExecutionListener listener) {
 		executionListeners.add(listener);
@@ -222,6 +225,36 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @param moduleElement
+	 * @param context
+	 * @param elements
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	public final Object execute(IExecutableModuleElementParameters moduleElement, IEolContext context, Object... parameters) throws EolRuntimeException {
+		if (moduleElement == null) return null;
+		
+		preExecute(moduleElement, context);
+		
+		Object result = null;
+		
+		try {
+			result = moduleElement.executeImpl(context, parameters);
+			postExecuteSuccess(moduleElement, result, context);
+		}
+		catch (Exception ex) {
+			postExecuteFailure(moduleElement, ex, context);
+		}
+		finally {
+			postExecuteFinally(moduleElement, context);
+		}
+		
+		return result;
+	}
+	
 	public ModuleElement getActiveModuleElement() {
 		return activeModuleElement;
 	}
@@ -255,7 +288,7 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 			
 		}
 	}
-
+	
 	/**
 	 * @since 1.6
 	 */

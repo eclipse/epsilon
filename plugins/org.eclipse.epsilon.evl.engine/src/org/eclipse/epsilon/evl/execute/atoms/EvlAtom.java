@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.execute.atoms;
 
-import org.eclipse.epsilon.erl.dom.IExecutableDataRuleElement;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameters;
 import org.eclipse.epsilon.erl.execute.data.ExecutableRuleAtom;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 
@@ -20,7 +20,7 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
  * @since 1.6
  * @param <T>
  */
-public abstract class EvlAtom<T extends IExecutableDataRuleElement> extends ExecutableRuleAtom<T> {
+public abstract class EvlAtom<T extends IExecutableModuleElementParameters> extends ExecutableRuleAtom<T> {
 
 	protected EvlAtom(T construct, Object modelElement) {
 		super(construct, modelElement);

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -47,7 +48,7 @@ public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
 			Collection<Constraint> constraints = rule.getConstraints();
 			ArrayList<UnsatisfiedConstraint> results = new ArrayList<>(constraints.size());
 			for (Constraint constraint : constraints) {
-				constraint.execute(element, context).ifPresent(results::add);
+				((Optional<UnsatisfiedConstraint>) constraint.execute(context, element)).ifPresent(results::add);
 			}
 			return results;
 		}

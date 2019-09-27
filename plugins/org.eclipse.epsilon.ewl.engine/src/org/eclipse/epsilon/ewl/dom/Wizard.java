@@ -13,16 +13,15 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameters;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.erl.dom.IExecutableDataRuleElement;
 import org.eclipse.epsilon.erl.dom.NamedRule;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.ewl.parse.EwlParser;
 
-public class Wizard extends NamedRule implements IExecutableDataRuleElement {
+public class Wizard extends NamedRule implements IExecutableModuleElementParameters {
 	
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected ExecutableBlock<Void> bodyBlock;
@@ -67,7 +66,12 @@ public class Wizard extends NamedRule implements IExecutableDataRuleElement {
 	 * @since 1.6
 	 */
 	@Override
-	public Object executeImpl(Object self, IErlContext context) throws EolRuntimeException {
+	public Object executeImpl(IEolContext context, Object... parameters) throws EolRuntimeException {
+		if (parameters == null || parameters.length > 0) {
+			throw new IllegalArgumentException("'self' must be defined.");
+		}
+		
+		Object self = parameters[0];
 		if (appliesTo(self, context)) {
 			process(self, context);
 		}

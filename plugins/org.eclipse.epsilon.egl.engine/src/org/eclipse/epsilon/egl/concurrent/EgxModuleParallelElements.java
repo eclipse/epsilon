@@ -26,17 +26,17 @@ import org.eclipse.epsilon.erl.execute.data.ExecutableRuleAtom;
  * @author Sina Madani
  * @since 1.6
  */
-public class EgxModuleParallelRules extends EgxModuleParallel implements IErlModuleParallelAtomicBatches<ExecutableRuleAtom<GenerationRule>> {
+public class EgxModuleParallelElements extends EgxModuleParallel implements IErlModuleParallelAtomicBatches<ExecutableRuleAtom<GenerationRule>> {
 
-	public EgxModuleParallelRules() {
+	public EgxModuleParallelElements() {
 		super();
 	}
 
-	public EgxModuleParallelRules(IEgxContextParallel context) {
+	public EgxModuleParallelElements(IEgxContextParallel context) {
 		super(context);
 	}
 	
-	public EgxModuleParallelRules(String outputRoot) throws EglRuntimeException {
+	public EgxModuleParallelElements(String outputRoot) throws EglRuntimeException {
 		this();
 		setFileGeneratingTemplateFactory(outputRoot);
 	}

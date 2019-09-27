@@ -7,26 +7,29 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.erl.dom;
+package org.eclipse.epsilon.eol.dom;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 /**
- * Allows for execution of rules with multiple parameters. This
- * is essentially the same as {@link IExecutableDataRuleElement} but
- * with more than one "self".
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public interface IExecutableMultiParameterRuleElement extends ModuleElement {
-
-	default Object execute(IErlContext context, Object...parameters) throws EolRuntimeException {
+public interface IExecutableModuleElementParameters extends IExecutableModuleElement {
+	
+	Object executeImpl(IEolContext context, Object...parameters) throws EolRuntimeException;
+	
+	default Object execute(IEolContext context, Object... parameters) throws EolRuntimeException {
 		return context.getExecutorFactory().execute(this, context, parameters);
 	}
 	
-	Object executeImpl(IErlContext context, Object... parameters) throws EolRuntimeException;
+	@Override
+	default Object execute(IEolContext context) throws EolRuntimeException {
+		return execute(context, new Object[0]);
+	}
+	
+	//Class<?>[] getExpectedParameterTypes();
 	
 }

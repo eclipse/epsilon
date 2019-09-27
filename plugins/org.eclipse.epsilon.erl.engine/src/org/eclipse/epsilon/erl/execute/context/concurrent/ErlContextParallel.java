@@ -12,8 +12,8 @@ package org.eclipse.epsilon.erl.execute.context.concurrent;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
-import org.eclipse.epsilon.erl.IErlModule;
-import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
+import org.eclipse.epsilon.erl.execute.RuleProfilingExecutorFactory;
 
 /**
  * 
@@ -24,45 +24,46 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 
 	public ErlContextParallel() {
 		super();
+		setExecutorFactory(null);
 	}
 
 	public ErlContextParallel(IEolContext other) {
 		super(other);
 	}
 
-	public ErlContextParallel(int parallelism) {
-		super(parallelism);
-	}
-
-	@Override
-	public IErlModule getModule() {
-		return (IErlModule) super.getModule();
-	}
-	
 	@Override
 	protected void initMainThreadStructures() {
 		super.initMainThreadStructures();
-		executorFactory = new RuleExecutorFactory(null, true);
+		executorFactory = new RuleProfilingExecutorFactory(null, true);
 	}
 	
 	@Override
 	protected void initThreadLocals() {
 		super.initThreadLocals();
-		concurrentExecutorFactories = initDelegateThreadLocal(() -> new RuleExecutorFactory(executorFactory, false));
+		concurrentExecutorFactories = initDelegateThreadLocal(() -> new RuleProfilingExecutorFactory(executorFactory, false));
 	}
 	
 	@Override
 	public void setExecutorFactory(ExecutorFactory executorFactory) {
-		if (executorFactory instanceof RuleExecutorFactory) {
+		if (executorFactory instanceof RuleProfilingExecutorFactory) {
 			super.setExecutorFactory(executorFactory);
 		}
 		else {
-			super.setExecutorFactory(new RuleExecutorFactory(executorFactory));
+			super.setExecutorFactory(new RuleProfilingExecutorFactory(executorFactory));
 		}
 	}
 	
 	@Override
-	public RuleExecutorFactory getExecutorFactory() {
-		return (RuleExecutorFactory) super.getExecutorFactory();
+	public RuleProfilingExecutorFactory getExecutorFactory() {
+		return (RuleProfilingExecutorFactory) super.getExecutorFactory();
+	}
+	
+	public ErlContextParallel(int parallelism) {
+		super(parallelism);
+	}
+
+	@Override
+	public IErlModuleParallel getModule() {
+		return (IErlModuleParallel) super.getModule();
 	}
 }

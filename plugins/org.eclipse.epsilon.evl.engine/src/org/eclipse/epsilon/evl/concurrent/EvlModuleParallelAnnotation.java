@@ -67,10 +67,10 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel {
 					for (Object object : allOfKind) {
 						if (constraintContext.appliesTo(object, context, false)) {
 							if (shouldBeParallel(constraint, object, model, numElements)) {
-								jobs.add(() -> constraint.execute(object, context));
+								jobs.add(() -> constraint.execute(context, object));
 							}
 							else {
-								constraint.execute(object, context);
+								constraint.execute(context, object);
 							}
 						}
 					}

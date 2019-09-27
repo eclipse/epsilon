@@ -15,7 +15,9 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 public class DefaultExecutionController implements ExecutionController {
 
 	@Override
-	public void control(ModuleElement ast, IEolContext context) {}
+	public void control(ModuleElement ast, IEolContext context) {
+		// do nothing
+	}
 
 	@Override
 	public boolean isTerminated() {
@@ -24,7 +26,7 @@ public class DefaultExecutionController implements ExecutionController {
 	
 	@Override
 	public void report(IEolContext context) {
-		
+		// do nothing
 	}
 
 	@Override

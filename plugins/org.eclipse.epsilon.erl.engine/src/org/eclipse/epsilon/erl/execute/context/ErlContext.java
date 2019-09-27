@@ -14,36 +14,34 @@ import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.IErlModule;
-import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
+import org.eclipse.epsilon.erl.execute.RuleProfilingExecutorFactory;
 
 public class ErlContext extends EolContext implements IErlContext {
 
 	public ErlContext() {
-		executorFactory = new RuleExecutorFactory();
+		super();
+		setExecutorFactory(null);
 	}
 
 	public ErlContext(IEolContext other) {
 		super(other);
-		if (other != null) {
-			setExecutorFactory(other.getExecutorFactory());
-		}
 	}
-
+	
 	@Override
 	public void setExecutorFactory(ExecutorFactory executorFactory) {
-		if (executorFactory instanceof RuleExecutorFactory) {
+		if (executorFactory instanceof RuleProfilingExecutorFactory) {
 			this.executorFactory = executorFactory;
 		}
 		else {
-			this.executorFactory = new RuleExecutorFactory(executorFactory);
+			this.executorFactory = new RuleProfilingExecutorFactory(executorFactory);
 		}
 	}
 	
 	@Override
-	public RuleExecutorFactory getExecutorFactory() {
-		return (RuleExecutorFactory) executorFactory;
+	public RuleProfilingExecutorFactory getExecutorFactory() {
+		return (RuleProfilingExecutorFactory) super.getExecutorFactory();
 	}
-
+	
 	@Override
 	public void setModule(IModule module) {
 		if (module instanceof IErlModule) {
@@ -55,5 +53,4 @@ public class ErlContext extends EolContext implements IErlContext {
 	public IErlModule getModule() {
 		return (IErlModule) super.getModule();
 	}
-
 }

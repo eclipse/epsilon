@@ -42,6 +42,7 @@ public abstract class IErlRunConfiguration extends IEolRunConfiguration {
 	
 	public IErlRunConfiguration(Builder<? extends IErlRunConfiguration, ?> builder) {
 		super(builder);
+		getModule().getContext().getExecutorFactory().setProfilingEnabled(profileExecution);
 	}
 	
 	public IErlRunConfiguration(IEolRunConfiguration other) {
@@ -49,16 +50,15 @@ public abstract class IErlRunConfiguration extends IEolRunConfiguration {
 	}
 
 	@Override
-	public IErlModule getModule() {
-		return (IErlModule) super.getModule();
-	}
-	
-	@Override
 	protected void postExecute() throws Exception {
 		super.postExecute();
 		if (profileExecution) {
-			writeOut(getModule().getContext().getExecutorFactory().getRuleProfiler(), printMarker);
+			writeOut(getModule().getContext().getExecutorFactory().getExecutionController(), "");
 		}
 	}
 	
+	@Override
+	public IErlModule getModule() {
+		return (IErlModule) super.getModule();
+	}
 }

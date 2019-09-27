@@ -19,17 +19,17 @@ import org.eclipse.epsilon.ecl.parse.EclParser;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameters;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
-import org.eclipse.epsilon.erl.dom.IExecutableMultiParameterRuleElement;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
-public class MatchRule extends ExtensibleNamedRule implements IExecutableMultiParameterRuleElement {
+public class MatchRule extends ExtensibleNamedRule implements IExecutableModuleElementParameters {
 	
 	protected ExecutableBlock<Boolean> compareBlock;
 	protected ExecutableBlock<Boolean> guardBlock;
@@ -210,7 +210,7 @@ public class MatchRule extends ExtensibleNamedRule implements IExecutableMultiPa
 	 * @return {@link #match(Object, Object, IEclContext, EolMap, boolean)}
 	 */
 	@Override
-	public Object executeImpl(IErlContext context, Object... parameters) throws EolRuntimeException {
+	public Object executeImpl(IEolContext context, Object... parameters) throws EolRuntimeException {
 		if (parameters == null || parameters.length < 2) {
 			throw new IllegalArgumentException("Expected 2 parameters (left and right)");
 		}
