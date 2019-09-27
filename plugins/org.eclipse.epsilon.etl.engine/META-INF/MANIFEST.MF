@@ -7,9 +7,12 @@ Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.erl.engine;visibility:=reexport
 Export-Package: org.eclipse.epsilon.etl,
+ org.eclipse.epsilon.etl.concurrent,
  org.eclipse.epsilon.etl.dom,
  org.eclipse.epsilon.etl.execute.context,
+ org.eclipse.epsilon.etl.execute.context.concurrent,
  org.eclipse.epsilon.etl.execute.operations,
+ org.eclipse.epsilon.etl.launch,
  org.eclipse.epsilon.etl.parse,
  org.eclipse.epsilon.etl.strategy,
  org.eclipse.epsilon.etl.trace

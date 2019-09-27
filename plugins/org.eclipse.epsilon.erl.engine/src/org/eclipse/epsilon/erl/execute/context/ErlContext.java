@@ -16,6 +16,11 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.execute.RuleProfilingExecutorFactory;
 
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class ErlContext extends EolContext implements IErlContext {
 
 	public ErlContext() {
