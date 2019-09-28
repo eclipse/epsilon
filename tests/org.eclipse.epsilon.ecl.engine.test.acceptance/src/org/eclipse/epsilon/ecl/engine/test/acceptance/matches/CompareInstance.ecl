@@ -1,3 +1,4 @@
+@parallel
 rule TLN 
 	match l : Left!TLN with r : Right!TLN extends TAnyLN {
 	compare : l.text = r.text

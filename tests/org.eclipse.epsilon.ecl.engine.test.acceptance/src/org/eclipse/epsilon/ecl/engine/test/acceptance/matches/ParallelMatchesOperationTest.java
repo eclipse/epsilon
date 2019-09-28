@@ -10,8 +10,7 @@
 package org.eclipse.epsilon.ecl.engine.test.acceptance.matches;
 
 import java.util.function.Supplier;
-import org.eclipse.epsilon.ecl.*;
-import org.eclipse.epsilon.ecl.concurrent.EclModuleParallel;
+import org.eclipse.epsilon.ecl.IEclModule;
 
 /**
  * 
@@ -22,7 +21,7 @@ public class ParallelMatchesOperationTest extends MatchesOperationTest {
 
 	public ParallelMatchesOperationTest(Supplier<? extends IEclModule> moduleGetter) {
 		super(moduleGetter);
-		module = new EclModuleParallel();
+		module = moduleGetter.get();
 		//TODO: see why this is failing (on relatively rare occasions, but still)
 		script = "CompareInstanceParallel.ecl";
 	}

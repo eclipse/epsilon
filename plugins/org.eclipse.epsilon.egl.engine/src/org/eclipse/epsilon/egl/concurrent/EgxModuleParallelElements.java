@@ -43,6 +43,7 @@ public class EgxModuleParallelElements extends EgxModuleParallel implements IErl
 
 	@Override
 	protected Object processRules() throws EolRuntimeException {
+		IEgxContextParallel context = getContext();
 		for (GenerationRule rule : getGenerationRules()) {
 			Collection<?> allElements = rule.getAllElements(context);
 			ArrayList<CheckedEolRunnable> genJobs = new ArrayList<>(allElements.size());
@@ -51,7 +52,7 @@ public class EgxModuleParallelElements extends EgxModuleParallel implements IErl
 				genJobs.add(() -> rule.generate(element, this));
 			}
 			
-			getContext().executeParallel(rule, genJobs);
+			context.executeParallel(rule, genJobs);
 		}
 		return null;
 	}

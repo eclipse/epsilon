@@ -9,10 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.ecl.launch;
 
-import org.eclipse.epsilon.ecl.EclModule;
-import org.eclipse.epsilon.ecl.IEclModule;
-import org.eclipse.epsilon.ecl.concurrent.EclModuleParallel;
-import org.eclipse.epsilon.ecl.concurrent.EclModuleParallelRules;
+import org.eclipse.epsilon.ecl.*;
+import org.eclipse.epsilon.ecl.concurrent.*;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.EclContextParallel;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -40,7 +38,7 @@ public class EclRunConfiguration extends IErlRunConfiguration {
 		
 		@Override
 		protected EclModuleParallel createParallelModule() {
-			return new EclModuleParallelRules(new EclContextParallel(parallelism));
+			return new EclModuleParallelAnnotation(new EclContextParallel(parallelism));
 		}
 	}
 	

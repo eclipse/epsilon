@@ -32,8 +32,7 @@ public class EclAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	
 	static final String testsBase = getTestBaseDir(EclAcceptanceTestUtil.class);
 
-	@SafeVarargs
-	public static Collection<EclRunConfiguration> getScenarios(Supplier<? extends IEclModule>... moduleGetters) {
+	public static Collection<EclRunConfiguration> getScenarios(Iterable<Supplier<? extends IEclModule>> moduleGetters) {
 		ArrayList<EclRunConfiguration> scenarios = new ArrayList<>();
 		
 		String matchesRoot = testsBase+"/matches/";
@@ -59,8 +58,7 @@ public class EclAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		return parallelModules(THREADS,
 			EclModule::new,
 			p -> new EclModuleParallel(new EclContextParallel(p)),
-			p -> new EclModuleParallelAnnotation(new EclContextParallel(p))/*,
-			p -> new EclModuleParallelRules(new EclContextParallel(p))*/
+			p -> new EclModuleParallelAnnotation(new EclContextParallel(p))
 		);
 	}
 }

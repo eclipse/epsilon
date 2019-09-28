@@ -11,10 +11,12 @@ package org.eclipse.epsilon.ecl.trace;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -28,7 +30,9 @@ public class MatchTrace implements Collection<Match> {
 	/**
 	 * All matches tried during the  execution of an ECL module
 	 */
-	protected final Collection<Match> matches;
+	protected Collection<Match> matches;
+	
+	protected boolean concurrent;
 	
 	protected String toStringCached;
 	
@@ -37,11 +41,11 @@ public class MatchTrace implements Collection<Match> {
 	}
 	
 	public MatchTrace(boolean concurrent) {
-		matches = concurrent ? ConcurrencyUtils.concurrentSet() : new ArrayList<>();
+		matches = (this.concurrent = concurrent) ? new ConcurrentLinkedDeque<>() : new ArrayList<>();
 	}
 	
 	public MatchTrace(MatchTrace copy) {
-		this(copy.matches.getClass().getSimpleName().contains("Concurrent"));
+		this(Objects.requireNonNull(copy).concurrent);
 		this.matches.addAll(copy.matches);
 	}
 	
@@ -49,7 +53,7 @@ public class MatchTrace implements Collection<Match> {
 	 * Returns only successful matches
 	 */
 	public MatchTrace getReduced() { 
-		MatchTrace reduced = new MatchTrace();
+		MatchTrace reduced = new MatchTrace(concurrent);
 		for (Match match : matches) {
 			if (match.isMatching()) {
 				reduced.add(match);
@@ -79,10 +83,9 @@ public class MatchTrace implements Collection<Match> {
 	 * @return
 	 */
 	public Collection<Match> getMatches(Object object) {
-		return matches
-				.stream()
-				.filter(match -> match.isMatching() && match.contains(object))
-				.collect(Collectors.toList());
+		return matches.stream()
+			.filter(match -> match.isMatching() && match.contains(object))
+			.collect(Collectors.toList());
 	}
 	
 	/**
@@ -136,7 +139,7 @@ public class MatchTrace implements Collection<Match> {
 	 * @return
 	 */
 	public Collection<Match> getMatches() {
-		return matches;
+		return Collections.unmodifiableCollection(matches);
 	}
 
 	

@@ -10,8 +10,8 @@
 package org.eclipse.epsilon.ecl.engine.test.acceptance.equivalence;
 
 import static org.eclipse.epsilon.ecl.engine.test.acceptance.EclAcceptanceTestUtil.*;
+import java.util.Collections;
 import org.eclipse.epsilon.ecl.EclModule;
-import org.eclipse.epsilon.ecl.concurrent.*;
 import org.eclipse.epsilon.ecl.launch.EclRunConfiguration;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
@@ -39,12 +39,12 @@ public class EclModuleEquivalenceTests extends EolEquivalenceTests<EclRunConfigu
 	 */
 	@Parameters//(name = "0")	Don't use this as the Eclipse JUnit view won't show failures!
 	public static Iterable<? extends EclRunConfiguration> configurations() {
-		return getScenarios(EclModuleParallelRules::new, EclModuleParallelAnnotation::new, EclModuleParallel::new);
+		return getScenarios(modules());
 	}
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		setUpEquivalenceTest(getScenarios(EclModule::new));
+		setUpEquivalenceTest(getScenarios(Collections.singleton(EclModule::new)));
 	}
 	
 	@Override

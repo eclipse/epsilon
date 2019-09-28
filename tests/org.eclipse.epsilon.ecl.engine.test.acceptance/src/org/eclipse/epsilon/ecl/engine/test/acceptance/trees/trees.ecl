@@ -6,6 +6,7 @@ post {
 	prepost.put("post", "post");
 }
 
+@parallel
 rule Root2Root 
 	match l : Left!t_tree
 	with r : Right!t_tree {

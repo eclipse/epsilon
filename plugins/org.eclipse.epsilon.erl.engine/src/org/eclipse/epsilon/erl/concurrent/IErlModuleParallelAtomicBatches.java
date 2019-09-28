@@ -15,10 +15,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.concurrent.Callable;
-import java.util.stream.BaseStream;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.concurrent.Future;
+import java.util.function.Supplier;
+import java.util.stream.*;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 import org.eclipse.epsilon.erl.execute.data.JobBatch;
@@ -62,6 +61,10 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends 
 		else if (job instanceof RuleAtom) {
 			return ((RuleAtom<?>) job).execute(getContext());
 		}
+		else if (job instanceof Runnable) {
+			((Runnable) job).run();
+			return null;
+		}
 		else if (job instanceof Iterable) {
 			IErlContextParallel context = getContext();
 			final int colSize = job instanceof Collection ? ((Collection<?>) job).size() : 256;
@@ -99,9 +102,22 @@ public interface IErlModuleParallelAtomicBatches<D extends RuleAtom<?>> extends 
 		else if (job instanceof Spliterator) {
 			return executeJob(StreamSupport.stream((Spliterator<?>) job, getContext().isParallelisationLegal()));
 		}
-		else {
-			throw new IllegalArgumentException("Received unexpected object of type "+job.getClass().getName());
+		else if (job instanceof Supplier) {
+			return ((Supplier<?>) job).get();
 		}
+		else try {
+			if (job instanceof Future) {
+				return ((Future<?>) job).get();
+			}
+			else if (job instanceof Callable) {
+				return ((Callable<?>) job).call();
+			}
+		}
+		catch (Exception ex) {
+			EolRuntimeException.propagateDetailed(ex);
+		}
+			
+		throw new IllegalArgumentException("Received unexpected object of type "+job.getClass().getName());
 	}
 	
 	/**
