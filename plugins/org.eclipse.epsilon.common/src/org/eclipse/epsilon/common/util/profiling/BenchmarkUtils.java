@@ -176,7 +176,7 @@ public final class BenchmarkUtils {
 		try {
 			switch (OperatingSystem.getOSFamily()) {
                 case WINDOWS: return executeCommand(
-                    "powershell.exe", "-Command", "\"wmic CPU get NAME | findstr '@'\""
+                    "powershell.exe", "-Command", "\"(wmic CPU get NAME)[2]\""
                 );
                 case MAC: return executeCommand(
                     "/bin/sh", "-c", "sysctl -n machdep.cpu.brand_string"

@@ -35,7 +35,6 @@ public class SimulinkEnginePreferencePage extends PreferencePage implements IWor
 		
 		final Composite composite = new Composite(parent, SWT.FILL);
 		
-		
 		final DirectoryFieldEditor matlabPathEditor = new DirectoryFieldEditor(PROPERTY_MATLAB_PATH, "MATLAB installation directory", composite);
 		final DirectoryFieldEditor libraryPathEditor = new DirectoryFieldEditor(PROPERTY_LIBRARY_PATH, "Library directory", composite);
 		final FileFieldEditor engineJarPathEditor = new FileFieldEditor(PROPERTY_ENGINE_JAR_PATH, "Engine JAR file", true, composite);
@@ -97,11 +96,17 @@ public class SimulinkEnginePreferencePage extends PreferencePage implements IWor
 			preferences.getString(PROPERTY_ENGINE_JAR_PATH)
 		};
 		
-		MatlabEngineUtil.resolvePaths(currentPaths);
-		
-		preferences.setValue(PROPERTY_MATLAB_PATH, currentPaths[0]);
-		preferences.setValue(PROPERTY_LIBRARY_PATH, currentPaths[1]);
-		preferences.setValue(PROPERTY_ENGINE_JAR_PATH, currentPaths[2]);
+		try {
+			MatlabEngineUtil.resolvePaths(currentPaths);
+			
+			preferences.setValue(PROPERTY_MATLAB_PATH, currentPaths[0]);
+			preferences.setValue(PROPERTY_LIBRARY_PATH, currentPaths[1]);
+			preferences.setValue(PROPERTY_ENGINE_JAR_PATH, currentPaths[2]);
+		}
+		catch (IllegalStateException | IllegalArgumentException iax) {
+			// Couldn't resolve, so leave blank
+			//iax.printStackTrace();
+		}
 		
 		for (FieldEditor fieldEditor : fieldEditors) {
 			fieldEditor.load();
