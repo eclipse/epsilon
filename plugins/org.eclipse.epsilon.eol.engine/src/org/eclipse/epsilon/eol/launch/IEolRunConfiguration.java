@@ -83,10 +83,10 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		}
 		
 		if (profileExecution) {
-			profileExecutionStage(profiledStages, "Parsing model", this::parseModels);
+			profileExecutionStage(profiledStages, "Loading model", this::loadModels);
 		}
 		else {
-			this.parseModels();
+			this.loadModels();
 		}
 		
 		if (!parameters.isEmpty()) {
@@ -94,7 +94,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		}
 	}
 	
-	protected void parseModels() throws EolModelLoadingException {
+	protected void loadModels() throws EolModelLoadingException {
 		if (modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
 			for (Map.Entry<IModel, StringProperties> modelAndProp : modelsAndProperties.entrySet()) {
 				IModel model = modelAndProp.getKey();

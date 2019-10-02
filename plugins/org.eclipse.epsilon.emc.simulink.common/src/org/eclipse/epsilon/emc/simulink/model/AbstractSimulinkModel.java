@@ -57,8 +57,10 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	@Override
 	protected void loadModel() throws EolModelLoadingException { 
 		try {
+			resolvePaths();
 			engine = MatlabEnginePool.getInstance(libraryPath, engineJarPath).getMatlabEngine();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
 		}
 	}
@@ -67,7 +69,8 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	protected void disposeModel() { 
 		try {
 			MatlabEnginePool.getInstance(libraryPath, engineJarPath).release(engine);
-		} catch (MatlabRuntimeException e) {
+		}
+		catch (MatlabRuntimeException e) {
 			
 		}
 	}
@@ -81,7 +84,8 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	protected Collection<String> getAllTypeNamesOf(Object instance) { 
 		if (instance instanceof ISimulinkModelElement) {
 			return ((ISimulinkModelElement) instance).getAllTypeNamesOf();
-		} else {
+		}
+		else {
 			return Arrays.asList(getTypeNameOf(instance));
 		}
 	}
@@ -159,15 +163,17 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public void statement(String statement) throws EolRuntimeException {
 		try {
 			engine.eval(statement);
-		} catch (MatlabException e) {
+		}
+		catch (MatlabException e) {
 			throw new EolRuntimeException(e.getMessage());
 		}
 	}
 	
 	public Object statementWithResult(String statement) throws EolRuntimeException {
-		try{
+		try {
 			return engine.evalWithResult(statement);
-		} catch (MatlabException e) {
+		}
+		catch (MatlabException e) {
 			throw new EolRuntimeException(e.getMessage());
 		}
 	}
@@ -224,6 +230,10 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		if (properties.hasProperty(PROPERTY_ENGINE_JAR_PATH))
 			engineJarPath = properties.getProperty(PROPERTY_ENGINE_JAR_PATH);
 		
+		resolvePaths();
+	}
+	
+	protected void resolvePaths() {
 		String[] allPaths = {matlabPath, libraryPath, engineJarPath};
 		MatlabEngineUtil.resolvePaths(allPaths);
 		matlabPath = allPaths[0];
