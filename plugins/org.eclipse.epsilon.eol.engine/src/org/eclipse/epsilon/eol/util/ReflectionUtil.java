@@ -9,25 +9,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.util;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.lang.reflect.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
-import org.eclipse.epsilon.eol.exceptions.EolInternalException;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.*;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolNativeType;
 
@@ -45,18 +32,14 @@ public class ReflectionUtil {
 	}
 	
 	public static Set<String> getMethodNames(Object obj, boolean includeInheritedMethods) {
-		if (obj == null) {
-			return new HashSet<>(0);
-		}
+		if (obj == null) return new HashSet<>(0);
 		
-		Method[] methods = getMethods(obj, includeInheritedMethods, false);
+		Method[] methods = getMethods(obj, includeInheritedMethods);
 		
 		Set<String> methodNames = new HashSet<>(methods.length);
-		
 		for (Method method : methods) {
 			methodNames.add(getMethodName(method));
 		}
-		
 		return methodNames;
 	}
 	
@@ -78,7 +61,7 @@ public class ReflectionUtil {
 	 * @since 1.6
 	 */
 	public static Method findApplicableMethodOrThrow(Object obj, String methodName, Predicate<Method> criteria, Stream<?> parameters, ModuleElement ast, PrettyPrinterManager ppm) throws EolRuntimeException {
-		final Method[] candidates = getMethodsForName(obj, methodName);
+		final Method[] candidates = getMethodsFromPublicClassesForName(obj, methodName);
 		
 		Supplier<? extends EolRuntimeException> exceptionGetter = () -> {
 			Collector<CharSequence, ?, String> paramJoiner = Collectors.joining(", ");
@@ -97,28 +80,37 @@ public class ReflectionUtil {
 			else return new EolIllegalOperationException(obj, methodName, ast, ppm);
 		};
 		
-		Optional<Method> candidate = Stream.of(candidates).filter(criteria).findAny();
-		
-		for (Class<?> clazzToCheck = obj.getClass(); !candidate.isPresent(); clazzToCheck = clazzToCheck.getSuperclass()) {
-			if (clazzToCheck == null) break;
-			
-			try {
-				candidate = Stream.concat(
-						Stream.of(getMethods(clazzToCheck, true, true)),
-						Stream.of(clazzToCheck.getInterfaces()).flatMap(clazz -> Stream.of(clazz.getMethods()))
-					)
-					.filter(criteria.and(method ->
-						method.getName().equals(methodName)/* &&
-						method.canAccess(Modifier.isStatic(method.getModifiers()) ? null : obj)
-					*/))
-					.findAny();
-			}
-			catch (Exception ex) {
-				continue;
-			}
+		return Stream.of(candidates).filter(criteria).findAny().orElseThrow(exceptionGetter);
+	}
+	
+	/**
+	 * 
+	 * @param clazz
+	 * @return
+	 * @since 1.6
+	 */
+	public static Class<?>[] discoverPublicClasses(Class<?> clazz) {
+		List<Class<?>> interfaces = new ArrayList<>();
+		discoverPublicClasses(clazz, interfaces);
+		Collections.reverse(interfaces);
+		return interfaces.toArray(new Class[interfaces.size()]);
+	}
+
+	/**
+	 * 
+	 * @param clazz
+	 * @param interfaces
+	 * @since 1.6
+	 */
+	private static void discoverPublicClasses(Class<?> clazz, List<Class<?>> interfaces) {
+		if (clazz == null) return;
+		if (Modifier.isPublic(clazz.getModifiers())) {
+			interfaces.add(clazz);
 		}
-		
-		return candidate.orElseThrow(exceptionGetter);
+		for (Class<?> superInterface : clazz.getInterfaces()) {
+			discoverPublicClasses(superInterface, interfaces);
+		}
+		discoverPublicClasses(clazz.getSuperclass(), interfaces);
 	}
 	
 	/**
@@ -128,30 +120,17 @@ public class ReflectionUtil {
 	 * @return
 	 * @since 1.6
 	 */
-	public static Method[] getMethodsForName(Object obj, String methodName) {
-		return Stream.of(getMethods(obj, true, true))
-			.filter(method -> method.getName().equals(methodName))
+	public static Method[] getMethodsFromPublicClassesForName(Object obj, String methodName) {
+		Class<?> clazz = obj instanceof EolNativeType ? ((EolNativeType) obj).getJavaClass() : obj.getClass();
+		return Arrays.stream(discoverPublicClasses(clazz))
+			.flatMap(c -> Arrays.stream(c.getMethods()))
+			.filter(m -> m.getName().equals(methodName))
 			.toArray(Method[]::new);
 	}
-	
-	/**
-	 * 
-	 * @param obj
-	 * @param includeInheritedMethods
-	 * @param punchThroughNative
-	 * @return
-	 * @since 1.6 (added punchThroughNative parameter)
-	 */
-	private static Method[] getMethods(Object obj, boolean includeInheritedMethods, boolean punchThroughNative) {
-		final Class<?> clazz;
-		
-		if (punchThroughNative && obj instanceof EolNativeType) {
-			clazz = ((EolNativeType)obj).getJavaClass();
-		}
-		else {
-			clazz = obj.getClass();
-		}
-		
+
+
+	private static Method[] getMethods(Object obj, boolean includeInheritedMethods) {
+		Class<?> clazz = obj.getClass();
 		if (includeInheritedMethods) {
 			return clazz.getMethods();
 		}
@@ -181,7 +160,7 @@ public class ReflectionUtil {
 	}
 
 	private static Method getInstanceMethodFor(Object obj, String methodName, Object[] parameters, boolean includeInheritedMethods, boolean allowContravariantConversionForParameters) {
-		return searchMethodsFor(getMethods(obj, includeInheritedMethods, false), methodName, parameters, allowContravariantConversionForParameters);
+		return searchMethodsFor(getMethods(obj, includeInheritedMethods), methodName, parameters, allowContravariantConversionForParameters);
 	}
 	
 	private static Method getStaticMethodFor(Object obj, String methodName, Object[] parameters, boolean allowContravariantConversionForParameters) {
