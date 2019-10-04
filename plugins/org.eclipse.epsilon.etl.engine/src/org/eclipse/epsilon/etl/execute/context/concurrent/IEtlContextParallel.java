@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.etl.execute.context.concurrent;
 
 import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
-import org.eclipse.epsilon.etl.concurrent.EtlModuleParallel;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 
 /**
@@ -20,9 +19,4 @@ import org.eclipse.epsilon.etl.execute.context.IEtlContext;
  */
 public interface IEtlContextParallel extends IEtlContext, IErlContextParallel {
 
-	@Override
-	default EtlModuleParallel getModule() {
-		return (EtlModuleParallel) IEtlContext.super.getModule();
-	}
-	
 }
