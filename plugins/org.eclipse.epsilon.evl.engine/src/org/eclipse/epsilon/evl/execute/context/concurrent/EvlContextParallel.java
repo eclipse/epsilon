@@ -16,7 +16,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
-import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
+import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
@@ -85,18 +85,6 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	}
 	
 	@Override
-	public void setModule(IModule module) {
-		if (module instanceof EvlModuleParallel) {
-			super.setModule(module);
-		}
-	}
-	
-	@Override
-	public EvlModuleParallel getModule() {
-		return (EvlModuleParallel) super.getModule();
-	}
-	
-	@Override
 	public Set<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
 		return parallelGet(concurrentUnsatisfiedConstraints, unsatisfiedConstraints);
 	}
@@ -132,5 +120,17 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 			terminate = IEvlContextParallel.super.shouldShortCircuit(constraint);
 		}
 		return terminate;
+	}
+	
+	@Override
+	public void setModule(IModule module) {
+		if (module instanceof IEvlModule) {
+			super.setModule(module);
+		}
+	}
+	
+	@Override
+	public IEvlModule getModule() {
+		return (IEvlModule) super.getModule();
 	}
 }

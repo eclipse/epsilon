@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.erl.execute.context;
 
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.execute.RuleProfilingExecutorFactory;
 
 /**
@@ -19,11 +18,6 @@ import org.eclipse.epsilon.erl.execute.RuleProfilingExecutorFactory;
  * @since 1.6
  */
 public interface IErlContext extends IEolContext {
-	
-	@Override
-	default IErlModule getModule() {
-		return (IErlModule) ((IEolContext)this).getModule();
-	}
 	
 	@Override
 	RuleProfilingExecutorFactory getExecutorFactory();

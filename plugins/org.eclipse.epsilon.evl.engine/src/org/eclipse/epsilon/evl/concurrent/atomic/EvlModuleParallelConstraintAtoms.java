@@ -9,9 +9,14 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.concurrent.atomic;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.evl.execute.atoms.ConstraintAtom;
+import org.eclipse.epsilon.erl.execute.data.ExecutableRuleAtom;
+import org.eclipse.epsilon.evl.dom.Constraint;
+import org.eclipse.epsilon.evl.dom.ConstraintContext;
+import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
@@ -20,7 +25,7 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EvlModuleParallelConstraintAtoms extends EvlModuleParallelAtomic<ConstraintAtom> {
+public class EvlModuleParallelConstraintAtoms extends EvlModuleParallelAtomic<ExecutableRuleAtom<Constraint>> {
 
 	public EvlModuleParallelConstraintAtoms() {
 		super();
@@ -31,8 +36,25 @@ public class EvlModuleParallelConstraintAtoms extends EvlModuleParallelAtomic<Co
 	}
 
 	@Override
-	protected List<ConstraintAtom> getAllJobsImpl() throws EolRuntimeException {
-		return ConstraintAtom.getConstraintJobs(this);
+	protected List<ExecutableRuleAtom<Constraint>> getAllJobsImpl() throws EolRuntimeException {
+		ArrayList<ExecutableRuleAtom<Constraint>> atoms = new ArrayList<>();
+		IEvlContext context = getContext();
+		
+		for (ConstraintContext constraintContext : getConstraintContexts()) {
+			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
+			for (Object element : allOfKind) {
+				if (constraintContext.shouldBeChecked(element, context)) {
+					Collection<Constraint> constraints = constraintContext.getConstraints();
+					atoms.ensureCapacity(atoms.size()+(constraints.size()*allOfKind.size()));
+					
+					for (Constraint constraint : constraints) {
+						atoms.add(new ExecutableRuleAtom<>(constraint, element, context));
+					}
+				}
+			}
+		}
+		
+		return atoms;
 	}
 
 }

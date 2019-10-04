@@ -83,7 +83,7 @@ public abstract class AbstractModule extends AbstractModuleElement implements IM
 		AST cst = null;
 		
 		try {
-			cst = (AST)((ParserRuleReturnScope) ReflectionUtil.executeMethod(parser,getMainRule(), new Object[]{})).getTree();
+			cst = (AST)((ParserRuleReturnScope) ReflectionUtil.executeMethod(parser, getMainRule())).getTree();
 		}
 		
 		catch (RecognitionException ex) {

@@ -122,9 +122,10 @@ public class ReflectionUtil {
 	 */
 	public static Method[] getMethodsFromPublicClassesForName(Object obj, String methodName) {
 		Class<?> clazz = obj instanceof EolNativeType ? ((EolNativeType) obj).getJavaClass() : obj.getClass();
-		return Arrays.stream(discoverPublicClasses(clazz))
+		return Stream.of(discoverPublicClasses(clazz))
+			//.parallel()
 			.flatMap(c -> Arrays.stream(c.getMethods()))
-			.filter(m -> m.getName().equals(methodName))
+			.filter(m -> getMethodName(m).equals(methodName))
 			.toArray(Method[]::new);
 	}
 
@@ -188,13 +189,9 @@ public class ReflectionUtil {
 		// third one, varargs are used. We should do the same if we want to tell apart remove(Object)
 		// from remove(int) like Java normally would.
 		for (int stage = 0; stage < 2; ++stage) {
-			for (int i = 0; i < methods.length; i++) {
-				boolean namesMatch = false;
-				namesMatch = getMethodName(methods[i]).equalsIgnoreCase(methodName);
-			
-				if (namesMatch) {
-					Method method = methods[i];
-				
+			for (Method method : methods) {
+				if (getMethodName(method).equalsIgnoreCase(methodName)) {
+					
 					Class<?>[] parameterTypes = method.getParameterTypes();
 					boolean parametersMatch = parameterTypes.length == parameters.length;
 					if (parametersMatch) {
@@ -203,7 +200,7 @@ public class ReflectionUtil {
 							Class<?> parameterType = parameterTypes[j];
 							Object parameter = parameters[j];
 							if (allowContravariantConversionForParameters) {
-								parametersMatch = parametersMatch && (stage == 0 ? parameterType.isInstance(parameter) : isInstance(parameterType,parameter));
+								parametersMatch = parametersMatch && (stage == 0 ? parameterType.isInstance(parameter) : isInstance(parameterType, parameter));
 							}
 							else {
 								parametersMatch = parametersMatch && parameterType.equals(parameter.getClass());
@@ -218,19 +215,11 @@ public class ReflectionUtil {
 		}
 		return null;
 	}
-
-	public static Object executeMethod(Object obj, Method method, Object[] parameters, ModuleElement ast) throws EolRuntimeException {
-		try {
-			return executeMethod(method, obj, parameters);
-		} catch (Throwable t) {
-			throw new EolInternalException(t, ast);
-		}
-	}
 	
-	public static Object executeMethod(Object obj, String methodName, Object[] parameters) throws Throwable {
+	public static Object executeMethod(Object obj, String methodName, Object... parameters) throws Throwable {
 		Method method = getMethodFor(obj, methodName, parameters, true, true);
 		try {
-			//TODO: replace with canAccess(Object)
+			//TODO: replace with trySetAccessible
 			if (!method.isAccessible()) {
 				method.setAccessible(true);
 			}
@@ -241,18 +230,76 @@ public class ReflectionUtil {
 		}
 	}
 	
-	public static Object executeMethod(Method method, Object obj, Object[] parameters) throws Throwable {
+	/**
+	 * Used in Java 8 and before.
+	 * 
+	 * @param obj
+	 * @param method
+	 * @param ast
+	 * @param parameters
+	 * @return
+	 * @throws EolRuntimeException
+	 */
+	public static Object executeMethod(Object obj, Method method, ModuleElement ast, Object... parameters) throws EolRuntimeException {
 		try {
-			//TODO: replace with canAccess(Object)
 			if (!method.isAccessible()) {
-				// TODO: Illegal reflective access from Java 9+
 				method.setAccessible(true);
 			}
 			return method.invoke(obj, parameters);
 		}
-		catch (InvocationTargetException iex) {
-			throw iex.getCause();
+		catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException ix) {
+			Throwable cause = ix.getCause();
+			if (cause == null) cause = ix;
+			throw new EolInternalException(cause, ast);
 		}
+	}
+	
+	/*
+	 * This method should replace the one above when we move on from Java 8.
+	 * @param obj
+	 * @param method
+	 * @param ast
+	 * @param parameters
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 *
+	public static Object executeMethod(Object obj, Method method, ModuleElement ast, Object... parameters) throws EolRuntimeException {
+		try {
+			if (method.trySetAccessible()) {
+				return method.invoke(obj, parameters);
+			}
+			else {
+				Method legal = getLegalMethod(obj, method);
+				if (legal != null) {
+					return legal.invoke(obj, parameters);
+				}
+			}
+		}
+		catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException ix) {
+			Throwable cause = ix.getCause();
+			if (cause == null) cause = ix;
+			throw new EolInternalException(cause, ast);
+		}
+			
+		throw new EolIllegalOperationException(obj, method.getName(), ast, null);
+	}*/
+	
+	/**
+	 * This tries to find a method such that invoking via reflection won't be illegal in Java 9+
+	 * 
+	 * @param obj
+	 * @param method
+	 * @return
+	 * @since 1.6
+	 */
+	protected static Method getLegalMethod(Object obj, Method method) {
+		for (Method m : ReflectionUtil.getMethodsFromPublicClassesForName(obj, method.getName())) {
+			if (Objects.deepEquals(m.getParameterTypes(), method.getParameterTypes()) && m.getClass().isAssignableFrom(method.getClass())) {
+				return m;
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -261,7 +308,7 @@ public class ReflectionUtil {
 	 * @param method
 	 * @return
 	 */
-	public static String methodToString(Method method){
+	public static String methodToString(Method method) {
 		String str = getMethodName(method);
 		str += "(";
 		for (int i = 0; i < method.getParameterTypes().length; i++) {

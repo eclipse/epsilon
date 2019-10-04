@@ -29,7 +29,7 @@ public abstract class OperationContributor {
 	public ObjectMethod findContributedMethodForUnevaluatedParameters(Object target, String name, List<Expression> parameterExpressions, IEolContext context) {
 		// Note that the last parameter is false: we only want to retrieve methods that take an AST as an argument
 		// and not methods that take a supertype of AST (such as Object)
-		Method method = getObjectMethodFor(target, name, new Object[]{new AST()}, false);
+		Method method = getMethodFor(target, name, new Object[]{new AST()}, false);
 		return createObjectMethod(target, method, context);
 	}
 
@@ -38,11 +38,11 @@ public abstract class OperationContributor {
 	}
 	
 	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context, boolean overrideContextOperationContributorRegistry) {
-		Method method = getObjectMethodFor(target, name, parameters, true);
+		Method method = getMethodFor(target, name, parameters, true);
 		return createObjectMethod(target, method, context);
 	}
 
-	private Method getObjectMethodFor(Object target, String name, Object[] parameters, boolean allowContravariantConversionForParameters) {
+	private Method getMethodFor(Object target, String name, Object[] parameters, boolean allowContravariantConversionForParameters) {
 		
 		// Maintain a cache of method names if the reflection target is this
 		// so that we don't iterate through all methods every time

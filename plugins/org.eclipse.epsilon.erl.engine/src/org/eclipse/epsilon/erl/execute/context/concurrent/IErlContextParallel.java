@@ -18,5 +18,5 @@ import org.eclipse.epsilon.erl.execute.context.IErlContext;
  * @since 1.6
  */
 public interface IErlContextParallel extends IErlContext, IEolContextParallel {
-	
+
 }

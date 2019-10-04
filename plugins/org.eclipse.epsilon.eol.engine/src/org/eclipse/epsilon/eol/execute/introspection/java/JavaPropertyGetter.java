@@ -51,7 +51,7 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 		}
 		
 		try {
-			//TODO: use canAccess(Object)
+			//TODO: use trySetAcessible()
 			if (!method.isAccessible()) {
 				method.setAccessible(true);
 			}

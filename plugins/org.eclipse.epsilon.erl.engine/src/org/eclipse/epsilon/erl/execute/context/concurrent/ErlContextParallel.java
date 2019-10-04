@@ -12,7 +12,6 @@ package org.eclipse.epsilon.erl.execute.context.concurrent;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
-import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
 import org.eclipse.epsilon.erl.execute.RuleProfilingExecutorFactory;
 
 /**
@@ -60,10 +59,5 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 	
 	public ErlContextParallel(int parallelism) {
 		super(parallelism);
-	}
-
-	@Override
-	public IErlModuleParallel getModule() {
-		return (IErlModuleParallel) super.getModule();
 	}
 }

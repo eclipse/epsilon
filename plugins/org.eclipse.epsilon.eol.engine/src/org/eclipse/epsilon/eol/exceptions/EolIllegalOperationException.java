@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.exceptions;
 
+import java.util.Objects;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolNoType;
@@ -53,7 +54,13 @@ public class EolIllegalOperationException extends EolRuntimeException {
 		
 		String reason = "Method '" + methodName + "' not found";
 		if (!object.equals(EolNoType.NoInstance)) {
-			reason += " for: " + prettyPrintManager.print(object);
+			reason += " for: ";
+			if (prettyPrintManager != null) {
+				reason += prettyPrintManager.print(object);
+			}
+			else {
+				reason += Objects.toString(object);
+			}
 		}
 	
 		return reason;
