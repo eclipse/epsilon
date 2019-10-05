@@ -15,19 +15,19 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
-import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameters;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.erl.dom.IExecutableRuleElement;
 import org.eclipse.epsilon.erl.dom.NamedRule;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.operations.SatisfiesOperation;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
-public class Constraint extends NamedRule implements IExecutableModuleElementParameters {
+public class Constraint extends NamedRule implements IExecutableRuleElement {
 	
 	protected boolean isCritique = false;
 	protected List<Fix> fixes;
@@ -74,13 +74,10 @@ public class Constraint extends NamedRule implements IExecutableModuleElementPar
 	}
 	
 	@Override
-	public Optional<UnsatisfiedConstraint> executeImpl(IEolContext context_, Object... parameters) throws EolRuntimeException {
+	public Optional<UnsatisfiedConstraint> execute(IErlContext context_, Object self) throws EolRuntimeException {
 		IEvlContext context = (IEvlContext) context_;
-		if (parameters == null || parameters.length == 0) {
-			throw new IllegalArgumentException("'self' parameter is not provided");
-		}
-		if (shouldBeChecked(parameters[0], context)) {
-			return check(parameters[0], context);
+		if (shouldBeChecked(self, context)) {
+			return check(self, context);
 		}
 		return Optional.empty();
 	}

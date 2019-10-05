@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.erl.execute.context;
 
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.erl.execute.RuleProfilingExecutorFactory;
+import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 
 /**
  * 
@@ -20,6 +20,6 @@ import org.eclipse.epsilon.erl.execute.RuleProfilingExecutorFactory;
 public interface IErlContext extends IEolContext {
 	
 	@Override
-	RuleProfilingExecutorFactory getExecutorFactory();
+	RuleExecutorFactory getExecutorFactory();
 	
 }

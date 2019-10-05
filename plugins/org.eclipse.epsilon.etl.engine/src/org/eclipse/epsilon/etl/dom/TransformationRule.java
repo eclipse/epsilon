@@ -17,7 +17,6 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
-import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameters;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -29,7 +28,7 @@ import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.parse.EtlParser;
 
-public class TransformationRule extends ExtensibleNamedRule implements IExecutableModuleElementParameters {
+public class TransformationRule extends ExtensibleNamedRule {
 	
 	protected Parameter sourceParameter;
 	protected List<Parameter> targetParameters = new ArrayList<>(2);
@@ -179,7 +178,9 @@ public class TransformationRule extends ExtensibleNamedRule implements IExecutab
 	public void transformAll(IEtlContext context, Collection<Object> excluded, boolean includeLazy) throws EolRuntimeException {
 		Collection<?> all = getAllInstances(context);
 		for (Object instance : all) {
-			execute(context, instance, excluded, includeLazy);
+			if (shouldBeTransformed(instance, excluded, context, includeLazy)) {
+				transform(instance, context);
+			}
 		}
 	}
 	
@@ -265,26 +266,5 @@ public class TransformationRule extends ExtensibleNamedRule implements IExecutab
 	public void dispose() {
 		rejected = null;
 		transformedElements = null;
-	}
-	
-	/**
-	 * @since 1.6
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public Collection<?> executeImpl(IEolContext context_, Object... parameters) throws EolRuntimeException {
-		IEtlContext context = (IEtlContext) context_;
-		if (parameters != null && parameters.length > 0) {
-			Object self = parameters[0];
-			Collection<Object> excluded = parameters.length > 1 &&
-				parameters[1] instanceof Collection ? (Collection<Object>) parameters[1] : null;
-			boolean greedy = parameters.length > 2 &&
-				parameters[2] instanceof Boolean ? (boolean) parameters[2] : false;
-			
-			if (shouldBeTransformed(self, excluded, context, greedy)) {
-				return transform(self, context);
-			}
-		}
-		return null;
 	}
 }

@@ -19,14 +19,11 @@ import org.eclipse.epsilon.common.concurrent.ConcurrentBaseDelegate;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
-import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameters;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolTerminationException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.control.DefaultExecutionController;
-import org.eclipse.epsilon.eol.execute.control.ExecutionController;
-import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
+import org.eclipse.epsilon.eol.execute.control.*;
 
 public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> {
 	
@@ -203,8 +200,7 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		else return null;
 	}
 	
-	public final Object execute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {
-		
+	public final Object execute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {	
 		if (moduleElement == null) return null;
 		
 		preExecute(moduleElement, context);
@@ -213,36 +209,6 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 		
 		try {
 			result = executeImpl(moduleElement, context);
-			postExecuteSuccess(moduleElement, result, context);
-		}
-		catch (Exception ex) {
-			postExecuteFailure(moduleElement, ex, context);
-		}
-		finally {
-			postExecuteFinally(moduleElement, context);
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * 
-	 * @param moduleElement
-	 * @param context
-	 * @param elements
-	 * @return
-	 * @throws EolRuntimeException
-	 * @since 1.6
-	 */
-	public final Object execute(IExecutableModuleElementParameters moduleElement, IEolContext context, Object... parameters) throws EolRuntimeException {
-		if (moduleElement == null) return null;
-		
-		preExecute(moduleElement, context);
-		
-		Object result = null;
-		
-		try {
-			result = moduleElement.executeImpl(context, parameters);
 			postExecuteSuccess(moduleElement, result, context);
 		}
 		catch (Exception ex) {

@@ -19,17 +19,15 @@ import org.eclipse.epsilon.ecl.parse.EclParser;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
-import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameters;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolMap;
 import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
 
-public class MatchRule extends ExtensibleNamedRule implements IExecutableModuleElementParameters {
+public class MatchRule extends ExtensibleNamedRule {
 	
 	protected ExecutableBlock<Boolean> compareBlock;
 	protected ExecutableBlock<Boolean> guardBlock;
@@ -203,19 +201,5 @@ public class MatchRule extends ExtensibleNamedRule implements IExecutableModuleE
 		return getName()+ " (" +
 		leftParameter.getTypeName() + ", " +
 		rightParameter.getTypeName() + ")";
-	}
-	
-	/**
-	 * @since 1.6
-	 * @return {@link #match(Object, Object, IEclContext, EolMap, boolean)}
-	 */
-	@Override
-	public Object executeImpl(IEolContext context, Object... parameters) throws EolRuntimeException {
-		if (parameters == null || parameters.length < 2) {
-			throw new IllegalArgumentException("Expected 2 parameters (left and right)");
-		}
-		EolMap<?, ?> matchInfo = parameters.length > 2 && parameters[2] instanceof EolMap ? (EolMap<?, ?>) parameters[2] : null;
-		boolean forced = parameters.length > 3 && parameters[3] instanceof Boolean ? (boolean) parameters[3] : false;
-		return match(parameters[0], parameters[1], (IEclContext) context, matchInfo, forced);
 	}
 }

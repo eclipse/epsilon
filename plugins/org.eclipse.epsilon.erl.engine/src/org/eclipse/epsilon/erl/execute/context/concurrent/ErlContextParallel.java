@@ -12,7 +12,7 @@ package org.eclipse.epsilon.erl.execute.context.concurrent;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
-import org.eclipse.epsilon.erl.execute.RuleProfilingExecutorFactory;
+import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 
 /**
  * 
@@ -33,28 +33,28 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 	@Override
 	protected void initMainThreadStructures() {
 		super.initMainThreadStructures();
-		executorFactory = new RuleProfilingExecutorFactory(null, true);
+		executorFactory = new RuleExecutorFactory(null, true);
 	}
 	
 	@Override
 	protected void initThreadLocals() {
 		super.initThreadLocals();
-		concurrentExecutorFactories = initDelegateThreadLocal(() -> new RuleProfilingExecutorFactory(executorFactory, false));
+		concurrentExecutorFactories = initDelegateThreadLocal(() -> new RuleExecutorFactory(executorFactory, false));
 	}
 	
 	@Override
 	public void setExecutorFactory(ExecutorFactory executorFactory) {
-		if (executorFactory instanceof RuleProfilingExecutorFactory) {
+		if (executorFactory instanceof RuleExecutorFactory) {
 			super.setExecutorFactory(executorFactory);
 		}
 		else {
-			super.setExecutorFactory(new RuleProfilingExecutorFactory(executorFactory));
+			super.setExecutorFactory(new RuleExecutorFactory(executorFactory));
 		}
 	}
 	
 	@Override
-	public RuleProfilingExecutorFactory getExecutorFactory() {
-		return (RuleProfilingExecutorFactory) super.getExecutorFactory();
+	public RuleExecutorFactory getExecutorFactory() {
+		return (RuleExecutorFactory) super.getExecutorFactory();
 	}
 	
 	public ErlContextParallel(int parallelism) {

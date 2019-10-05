@@ -12,8 +12,8 @@ package org.eclipse.epsilon.erl.execute.data;
 import java.util.Objects;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
-import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameters;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.erl.dom.IExecutableRuleElement;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
@@ -23,7 +23,7 @@ import org.eclipse.epsilon.erl.execute.context.IErlContext;
  * @author Sina Madani
  * @since 1.6
  */
-public abstract class RuleAtom<T extends IExecutableModuleElementParameters> {
+public abstract class RuleAtom<T extends IExecutableRuleElement> {
 
 	public final T rule;
 	public final Object element;
@@ -34,7 +34,7 @@ public abstract class RuleAtom<T extends IExecutableModuleElementParameters> {
 	}
 	
 	public Object execute(IErlContext context) throws EolRuntimeException {
-		return rule.execute(context, element);
+		return context.getExecutorFactory().execute(rule, context, element);
 	}
 	
 	public Entry<T, Object> asEntry() {
