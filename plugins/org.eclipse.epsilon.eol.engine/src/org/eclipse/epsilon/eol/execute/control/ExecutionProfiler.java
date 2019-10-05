@@ -14,7 +14,6 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.profiling.BenchmarkUtils;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -23,26 +22,25 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 public class ExecutionProfiler implements ExecutionController, IExecutionListener {
 	
 	protected final Map<ModuleElement, Duration> executionTimes = new HashMap<>();
-	protected final Class<? extends ModuleElement> profiledTypes[];
 	private ModuleElement currentAst;
 	private long currentStartNanos;
 	
-	public ExecutionProfiler() {
-		this(ModuleElement.class);
-	}
-	
-	@SafeVarargs
-	public ExecutionProfiler(Class<? extends ModuleElement>... profileClasses) {
-		profiledTypes = profileClasses;
+	/**
+	 * Determines whether the ModuleElement should be profiled.
+	 * @param ast The ModuleElement under scrutiny.
+	 * @param context The context passed to {@link #control(ModuleElement, IEolContext)}
+	 * @return <code>true</code> if the ModuleElement should be profiled, <code>false</code> otherwise.
+	 */
+	protected boolean screenAST(ModuleElement ast, IEolContext context) {
+		return true;
 	}
 	
 	@Override
 	public void control(ModuleElement ast, IEolContext context) {
-		if (ast == null || Stream.of(profiledTypes).noneMatch(t -> t.isInstance(ast)))
-			return;
-		
-		currentAst = ast;
-		currentStartNanos = System.nanoTime();
+		if (ast != null && screenAST(ast, context)) {
+			currentAst = ast;
+			currentStartNanos = System.nanoTime();
+		}
 	}
 	
 	@Override

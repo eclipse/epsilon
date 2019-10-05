@@ -13,7 +13,7 @@ import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.control.DefaultExecutionController;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 import org.eclipse.epsilon.eol.execute.control.ExecutionProfiler;
-import org.eclipse.epsilon.erl.dom.NamedRule;
+import org.eclipse.epsilon.erl.execute.control.RuleProfiler;
 
 /**
  * 
@@ -37,15 +37,10 @@ public class RuleExecutorFactory extends ExecutorFactory {
 		}
 	}
 
-	public boolean isProfilingEnabled() {
-		return executionController instanceof ExecutionProfiler;
-	}
-
 	public void setProfilingEnabled(boolean profile) {
 		boolean profilingEnabled = isProfilingEnabled();
 		if (profile && !profilingEnabled) {
-			ExecutionProfiler profiler = new ExecutionProfiler(NamedRule.class);
-			setExecutionController(profiler);
+			setExecutionController(new RuleProfiler());
 		}
 		else if (!profile && profilingEnabled) {
 			setExecutionController(new DefaultExecutionController());

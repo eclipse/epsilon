@@ -100,6 +100,15 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 	}
 	
 	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public boolean isProfilingEnabled() {
+		return executionController instanceof ExecutionProfiler;
+	}
+	
+	/**
 	 * @deprecated Use {@link ExecutorFactory#execute(ModuleElement, IEolContext)} instead.
 	 */
 	@Deprecated
