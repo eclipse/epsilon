@@ -19,6 +19,8 @@ import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
 import org.eclipse.epsilon.eol.types.EolNativeType;
 
 public class ReflectionUtil {
+	private ReflectionUtil() {}
+	
 	
 	public static boolean hasMethods(Object obj, String methodName) {
 		if (obj == null) return false;
@@ -229,17 +231,7 @@ public class ReflectionUtil {
 			throw e.getTargetException();
 		}
 	}
-	
-	/**
-	 * Used in Java 8 and before.
-	 * 
-	 * @param obj
-	 * @param method
-	 * @param ast
-	 * @param parameters
-	 * @return
-	 * @throws EolRuntimeException
-	 */
+
 	public static Object executeMethod(Object obj, Method method, ModuleElement ast, Object... parameters) throws EolRuntimeException {
 		try {
 			if (!method.isAccessible()) {
@@ -293,7 +285,7 @@ public class ReflectionUtil {
 	 * @return
 	 * @since 1.6
 	 */
-	protected static Method getLegalMethod(Object obj, Method method) {
+	public static Method getLegalMethod(Object obj, Method method) {
 		for (Method m : ReflectionUtil.getMethodsFromPublicClassesForName(obj, method.getName())) {
 			if (Objects.deepEquals(m.getParameterTypes(), method.getParameterTypes()) && m.getClass().isAssignableFrom(method.getClass())) {
 				return m;

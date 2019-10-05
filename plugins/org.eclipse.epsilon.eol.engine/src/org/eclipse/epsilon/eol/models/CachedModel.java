@@ -11,14 +11,11 @@
 package org.eclipse.epsilon.eol.models;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.exceptions.models.*;
 
 /**
  * A model that performs memoization of allContents, getAllOfType
@@ -195,7 +192,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	 * @since 1.6
 	 */
 	protected Collection<ModelElementType> wrap(Collection<ModelElementType> allOf) {
-		return isConcurrent() ? new ConcurrentLinkedDeque<>(allOf) : allOf;
+		return isConcurrent() ? ConcurrencyUtils.concurrentOrderedCollection(allOf) : allOf;
 	}
 	
 	/**
