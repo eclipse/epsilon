@@ -56,12 +56,11 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	/**
 	 * Convenience method for creating new values for entries.
 	 * @return A suitable collection based on the thread-safety of this Multimap.
+	 * @see #newCollection(Collection)
 	 * @since 1.6
 	 */
-	protected Collection<V> newCollection() {
-		return isConcurrent ?
-			ConcurrencyUtils.concurrentOrderedCollection() :
-			new LinkedList<>();
+	protected final Collection<V> newCollection() {
+		return newCollection(null);
 	}
 	
 	/**
@@ -73,7 +72,7 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	protected Collection<V> newCollection(Collection<V> values) {
 		return isConcurrent ?
 			ConcurrencyUtils.concurrentOrderedCollection(values) :
-			new LinkedList<>(values);
+			values != null ? new ArrayList<>(values) : new ArrayList<>();
 	} 
 	
 	/**

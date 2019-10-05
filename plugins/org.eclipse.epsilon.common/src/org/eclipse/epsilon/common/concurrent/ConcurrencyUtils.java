@@ -11,7 +11,6 @@ package org.eclipse.epsilon.common.concurrent;
 
 import java.util.*;
 import java.util.concurrent.*;
-import org.eclipse.epsilon.common.util.NullSupportingDeque;
 
 /**
  * 
@@ -32,15 +31,14 @@ public class ConcurrencyUtils {
 	//@see https://stackoverflow.com/questions/10901752/what-is-the-significance-of-load-factor-in-hashmap
 	private static final float DEFAULT_LOAD_FACTOR = 0.7f;
 	
-	private static <T> Collection<T> wrapDeque(ConcurrentLinkedDeque<Object> wrapped) {
-		return /*Collections.synchronizedCollection(*/new NullSupportingDeque<>(wrapped);//);
+	public static final <T> Collection<T> concurrentOrderedCollection() {
+		return concurrentOrderedCollection(null);
 	}
 	
 	public static <T> Collection<T> concurrentOrderedCollection(Collection<? extends T> values) {
-		return wrapDeque(values != null ? new ConcurrentLinkedDeque<>(values) : new ConcurrentLinkedDeque<>());
-	}
-	public static <T> Collection<T> concurrentOrderedCollection() {
-		return wrapDeque(new ConcurrentLinkedDeque<>());
+		return (values != null ?
+			new ConcurrentLinkedQueue<>(values) : new ConcurrentLinkedQueue<>()
+		);
 	}
 	
 	public static <T> Set<T> concurrentSet() {

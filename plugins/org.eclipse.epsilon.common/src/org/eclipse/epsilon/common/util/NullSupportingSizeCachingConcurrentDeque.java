@@ -31,7 +31,7 @@ import java.util.stream.Stream;
  * @param <E>
  */
 @SuppressWarnings("unchecked")
-public class NullSupportingDeque<E> implements Deque<E> {
+public class NullSupportingSizeCachingConcurrentDeque<E> implements Deque<E> {
 	
 	protected static final Object NULL = new Object();
 	
@@ -46,7 +46,7 @@ public class NullSupportingDeque<E> implements Deque<E> {
 		return e == NULL ? null : (E) e;
 	}
 	
-	public NullSupportingDeque(ConcurrentLinkedDeque<Object> delegate) {
+	public NullSupportingSizeCachingConcurrentDeque(ConcurrentLinkedDeque<Object> delegate) {
 		Objects.requireNonNull(this.delegate = delegate);
 		this.sizeCache = delegate.size();
 	}

@@ -123,7 +123,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	protected Collection<ModelElementType> wrap(Collection<ModelElementType> contents) {
 		Collection<ModelElementType> result = contents; //!= null ? new ArrayList<>(contents) : new ArrayList<>();
 		if (isConcurrent()) {
-			result = ConcurrencyUtils.concurrentOrderedCollection(contents);//Collections.synchronizedCollection(result);
+			result = ConcurrencyUtils.concurrentOrderedCollection(contents);
 		}
 		return result;
 	}
