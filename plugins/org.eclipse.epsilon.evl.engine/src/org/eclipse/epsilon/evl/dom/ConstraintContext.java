@@ -18,6 +18,7 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameter;
 import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -26,12 +27,10 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
-import org.eclipse.epsilon.erl.dom.IExecutableRuleElement;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
-public class ConstraintContext extends AnnotatableModuleElement implements IExecutableModuleElement, IExecutableRuleElement {
+public class ConstraintContext extends AnnotatableModuleElement implements IExecutableModuleElement, IExecutableModuleElementParameter {
 	
 	protected final ArrayList<Constraint> constraints = new ArrayList<>();
 	protected TypeExpression typeExpression;
@@ -191,7 +190,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @since 1.6
 	 */
 	@Override
-	public Object execute(IErlContext context_, Object self) throws EolRuntimeException {
+	public Object execute(IEolContext context_, Object self) throws EolRuntimeException {
 		IEvlContext context = (IEvlContext) context_;
 		return execute(getConstraints(), self, context);
 	}

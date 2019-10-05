@@ -7,21 +7,21 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.erl.dom;
+package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 /**
  * Executable ModuleElement which can be invoked with a parameter.
  * 
  * @author Sina Madani
  * @since 1.6
- * @see {@link org.eclipse.epsilon.eol.dom.IExecutableModuleElement}
+ * @see {@link IExecutableModuleElement}
  */
-public interface IExecutableRuleElement extends ModuleElement {
+public interface IExecutableModuleElementParameter extends ModuleElement {
 	
-	Object execute(IErlContext context, Object parameter) throws EolRuntimeException;
+	Object execute(IEolContext context, Object parameter) throws EolRuntimeException;
 	
 }

@@ -9,14 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.execute;
 
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.control.DefaultExecutionController;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 import org.eclipse.epsilon.eol.execute.control.ExecutionProfiler;
-import org.eclipse.epsilon.erl.dom.IExecutableRuleElement;
 import org.eclipse.epsilon.erl.dom.NamedRule;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
  * 
@@ -69,30 +66,5 @@ public class RuleExecutorFactory extends ExecutorFactory {
 		}
 		
 		super.merge(mode);
-	}
-	
-	protected Object executeImpl(IExecutableRuleElement moduleElement, IErlContext context, Object self) throws EolRuntimeException {
-		return moduleElement.execute(context, self);
-	}
-	
-	public Object execute(IExecutableRuleElement moduleElement, IErlContext context, Object self) throws EolRuntimeException {
-		if (moduleElement == null) return null;
-		
-		preExecute(moduleElement, context);
-		
-		Object result = null;
-		
-		try {
-			result = executeImpl(moduleElement, context, self);
-			postExecuteSuccess(moduleElement, result, context);
-		}
-		catch (Exception ex) {
-			postExecuteFailure(moduleElement, ex, context);
-		}
-		finally {
-			postExecuteFinally(moduleElement, context);
-		}
-		
-		return result;
 	}
 }

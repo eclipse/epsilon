@@ -10,9 +10,9 @@
 package org.eclipse.epsilon.erl.execute.data;
 
 import java.util.concurrent.Callable;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
-import org.eclipse.epsilon.erl.dom.IExecutableRuleElement;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
@@ -24,7 +24,7 @@ import org.eclipse.epsilon.erl.execute.context.IErlContext;
  * @since 1.6
  * @param <T>
  */
-public class ExecutableRuleAtom<T extends IExecutableRuleElement> extends RuleAtom<T> implements CheckedEolRunnable, Callable<Object> {
+public class ExecutableRuleAtom<T extends IExecutableModuleElementParameter> extends RuleAtom<T> implements CheckedEolRunnable, Callable<Object> {
 
 	protected IErlContext context;
 	
