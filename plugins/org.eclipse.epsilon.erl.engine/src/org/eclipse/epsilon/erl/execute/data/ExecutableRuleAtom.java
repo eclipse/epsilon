@@ -13,6 +13,7 @@ import java.util.concurrent.Callable;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
+import org.eclipse.epsilon.eol.function.CheckedEolSupplier;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
@@ -24,7 +25,8 @@ import org.eclipse.epsilon.erl.execute.context.IErlContext;
  * @since 1.6
  * @param <T>
  */
-public class ExecutableRuleAtom<T extends IExecutableModuleElementParameter> extends RuleAtom<T> implements CheckedEolRunnable, Callable<Object> {
+public class ExecutableRuleAtom<T extends IExecutableModuleElementParameter>
+		extends RuleAtom<T> implements CheckedEolRunnable, Callable<Object>, CheckedEolSupplier<Object> {
 
 	protected IErlContext context;
 	
@@ -51,5 +53,10 @@ public class ExecutableRuleAtom<T extends IExecutableModuleElementParameter> ext
 	@Override
 	public final void runThrows() throws EolRuntimeException {
 		execute();
+	}
+	
+	@Override
+	public final Object getThrows() throws EolRuntimeException {
+		return execute();
 	}
 }

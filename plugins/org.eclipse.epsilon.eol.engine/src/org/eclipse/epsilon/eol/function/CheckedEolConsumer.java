@@ -18,16 +18,10 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
  * @since 1.6
  */
 @FunctionalInterface
-public interface CheckedEolConsumer<T> extends CheckedConsumer<T, EolRuntimeException>, CheckedEolFunction<T, Void> {
+public interface CheckedEolConsumer<T> extends CheckedConsumer<T, EolRuntimeException> {
 	
 	@Override
 	void acceptThrows(T t) throws EolRuntimeException;
-	
-	@Override
-	default Void applyThrows(T t) throws EolRuntimeException {
-		acceptThrows(t);
-		return null;
-	}
 	
 	@Override
 	default void accept(T t) {

@@ -90,9 +90,8 @@ public abstract class FirstOrderOperation extends AbstractOperation {
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
-	@SuppressWarnings("unchecked")
 	protected final CheckedEolFunction<Object, ?> resolveFunction(NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
-		return resolveFunction(CheckedEolFunction.class, operationNameExpression, iterators, expression, context);
+		return resolve(CheckedEolFunction.class, operationNameExpression, iterators, expression, context);
 	}
 
 	/**
@@ -105,41 +104,41 @@ public abstract class FirstOrderOperation extends AbstractOperation {
 	 * @throws EolRuntimeException
 	 *  @since 1.6
 	 */
-	@SuppressWarnings("unchecked")
 	protected final CheckedEolPredicate<Object> resolvePredicate(NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
-		return resolveFunction(CheckedEolPredicate.class, operationNameExpression, iterators, expression, context);
+		return resolve(CheckedEolPredicate.class, operationNameExpression, iterators, expression, context);
 	}
 	
 	/**
 	 * 
-	 * @param functionType
+	 * @param <F>
+	 * @param fType
 	 * @param operationNameExpression
 	 * @param iterators
-	 * @param expressions
+	 * @param expression
 	 * @param context
 	 * @return
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
 	@SuppressWarnings("unchecked")
-	protected <R, F extends CheckedEolFunction<Object, R>> F resolveFunction(Class<F> functionType, NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
+	protected <F> F resolve(Class<?> fType, NameExpression operationNameExpression, List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
 		if (iterators.isEmpty()) {
 			Object exprValue = expression.execute(context);
 			
 			try {
-				return functionType.cast(exprValue);
+				return (F) fType.cast(exprValue);
 			}
 			catch (ClassCastException ccx) {
 				throw new EolIllegalOperationParametersException(
 					((OperationCallExpression)expression.getParent()).getOperationName(),
-					functionType.getSimpleName(),
+					fType.getSimpleName(),
 					java.util.Objects.toString(exprValue),
 					expression
 				);
 			}
 		}
 		else {
-			return (F) EolLambdaFactory.resolveFor(functionType, iterators, expression, operationNameExpression, context);
+			return (F) EolLambdaFactory.resolveFor(fType, iterators, expression, operationNameExpression, context);
 		}
 	}
 

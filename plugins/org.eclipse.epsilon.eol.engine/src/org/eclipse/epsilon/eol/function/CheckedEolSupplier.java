@@ -18,15 +18,10 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
  * @since 1.6
  */
 @FunctionalInterface
-public interface CheckedEolSupplier<R> extends CheckedSupplier<R, EolRuntimeException>, CheckedEolFunction<Void, R> {
+public interface CheckedEolSupplier<R> extends CheckedSupplier<R, EolRuntimeException> {
 	
 	@Override
 	R getThrows() throws EolRuntimeException;
-	
-	@Override
-	default R applyThrows(Void t) throws EolRuntimeException {
-		return getThrows();
-	}
 	
 	@Override
 	default R get() {

@@ -18,16 +18,10 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
  * @since 1.6
  */
 @FunctionalInterface
-public interface CheckedEolRunnable extends CheckedRunnable<EolRuntimeException>, CheckedEolFunction<Void, Void> {
+public interface CheckedEolRunnable extends CheckedRunnable<EolRuntimeException> {
 	
 	@Override
 	void runThrows() throws EolRuntimeException;
-	
-	@Override
-	default Void applyThrows(Void t) throws EolRuntimeException {
-		runThrows();
-		return null;
-	}
 	
 	@Override
 	default void run() {

@@ -20,13 +20,7 @@ import java.util.function.BiConsumer;
  * @param <E>
  */
 @FunctionalInterface
-public interface CheckedBiConsumer<T, U, E extends Exception> extends BiConsumer<T, U>, CheckedBiFunction<T, U, Void, E> {
-
-	@Override
-	default Void applyThrows(T t, U u) throws E {
-		acceptThrows(t, u);
-		return null;
-	}
+public interface CheckedBiConsumer<T, U, E extends Exception> extends BiConsumer<T, U> {
 	
 	@Override
 	default void accept(T t, U u) {

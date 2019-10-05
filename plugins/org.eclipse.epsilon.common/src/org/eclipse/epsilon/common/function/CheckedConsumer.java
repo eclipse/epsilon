@@ -17,13 +17,7 @@ import java.util.function.Consumer;
  * @since 1.6
  */
 @FunctionalInterface
-public interface CheckedConsumer<T, E extends Exception> extends Consumer<T>, CheckedFunction<T, Void, E> {
-	
-	@Override
-	default Void applyThrows(T t) throws E {
-		acceptThrows(t);
-		return null;
-	}
+public interface CheckedConsumer<T, E extends Exception> extends Consumer<T> {
 	
 	@Override
 	default void accept(T t) throws RuntimeException {
