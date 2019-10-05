@@ -9,8 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -61,7 +64,10 @@ public abstract class FirstOrderOperation extends AbstractOperation {
 		if (!iterators.isEmpty()) {
 			EolType iteratorType = iterators.get(0).getType(context);
 			Collection<Object> result = EolCollectionType.createSameType(source);
-			CollectionUtil.addCapacityIfArrayList(result, source.size());
+			// Don't do this if we're dealing with a ConcurrentLinkedDeque due to potentially infinite loop when calling size()
+			if (result instanceof ArrayList && !(source instanceof ConcurrentLinkedDeque) && !(source instanceof ConcurrentLinkedQueue)) {
+				((ArrayList<Object>) result).ensureCapacity(source.size());
+			}
 			
 			for (Object item : source) {
 				if (iteratorType.isKind(item)) {

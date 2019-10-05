@@ -110,21 +110,22 @@ public abstract class CachedModel<ModelElementType> extends Model {
 			new Multimap<>(concurrent, kindCache) : new Multimap<>(concurrent);
 		
 		if (allContentsCache != null) {
-			allContentsCache = newAllContentsCache();
+			allContentsCache = wrap(allContentsCache);
 		}
 	}
 	
-	protected Collection<ModelElementType> newAllContentsCache() {
-		if (allContentsCache != null) {
-			return concurrent ?
-				ConcurrencyUtils.concurrentOrderedCollection(allContentsCache) :
-				new ArrayList<>(allContentsCache);
+	/**
+	 * 
+	 * @param contents The model elements
+	 * @return
+	 * @since 1.6
+	 */
+	protected Collection<ModelElementType> wrap(Collection<ModelElementType> contents) {
+		Collection<ModelElementType> result = contents; //!= null ? new ArrayList<>(contents) : new ArrayList<>();
+		if (isConcurrent()) {
+			result = ConcurrencyUtils.concurrentOrderedCollection(contents);//Collections.synchronizedCollection(result);
 		}
-		else {
-			return concurrent ?
-				ConcurrencyUtils.concurrentOrderedCollection() :
-				new ArrayList<>();
-		}
+		return result;
 	}
 	
 	protected void addToCache(String type, ModelElementType instance) throws EolModelElementTypeNotFoundException {
@@ -183,16 +184,6 @@ public abstract class CachedModel<ModelElementType> extends Model {
 			allContentsCache = allContents;
 		}
 		return allContents;
-	}
-	
-	/**
-	 * 
-	 * @param allOf
-	 * @return
-	 * @since 1.6
-	 */
-	protected Collection<ModelElementType> wrap(Collection<ModelElementType> allOf) {
-		return isConcurrent() ? ConcurrencyUtils.concurrentOrderedCollection(allOf) : allOf;
 	}
 	
 	/**

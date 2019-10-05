@@ -32,7 +32,7 @@ public class ConcurrencyUtils {
 	//@see https://stackoverflow.com/questions/10901752/what-is-the-significance-of-load-factor-in-hashmap
 	private static final float DEFAULT_LOAD_FACTOR = 0.7f;
 	
-	private static <T> Collection<T> wrapDeque(Deque<Object> wrapped) {
+	private static <T> Collection<T> wrapDeque(ConcurrentLinkedDeque<Object> wrapped) {
 		return /*Collections.synchronizedCollection(*/new NullSupportingDeque<>(wrapped);//);
 	}
 	

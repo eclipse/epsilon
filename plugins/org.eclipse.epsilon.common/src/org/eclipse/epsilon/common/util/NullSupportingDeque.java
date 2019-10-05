@@ -14,15 +14,17 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Spliterator;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * A {@link Deque} wrapper which supports <code>null</code> values
+ * A {@link ConcurrentLinkedDeque} wrapper which supports <code>null</code> values
  * using a constant wrapper in place of null elements. This is suitable as
  * a more efficient replacement for {@link java.util.LinkedList}, when
- * the {@linkplain java.util.List} interface is not needed.
+ * the {@linkplain java.util.List} interface is not needed. The size
+ * of this is cached to avoid traversal.
  * 
  * @author Sina Madani
  * @since 1.6
@@ -33,7 +35,8 @@ public class NullSupportingDeque<E> implements Deque<E> {
 	
 	protected static final Object NULL = new Object();
 	
-	protected final Deque<Object> delegate;
+	protected final ConcurrentLinkedDeque<Object> delegate;
+	protected volatile int sizeCache;
 	
 	protected Object replaceWithNull(Object o) {
 		return o == null ? NULL : o;
@@ -43,29 +46,40 @@ public class NullSupportingDeque<E> implements Deque<E> {
 		return e == NULL ? null : (E) e;
 	}
 	
-	public NullSupportingDeque(Deque<Object> delegate) {
+	public NullSupportingDeque(ConcurrentLinkedDeque<Object> delegate) {
 		Objects.requireNonNull(this.delegate = delegate);
+		this.sizeCache = delegate.size();
 	}
-
+	
+	@Override
+	public int size() {
+		return sizeCache;
+	}
 	
 	@Override
 	public void addFirst(E e) {
 		delegate.addFirst(replaceWithNull(e));
+		++sizeCache;
 	}
 	
 	@Override
 	public void addLast(E e) {
 		delegate.addLast(replaceWithNull(e));
+		++sizeCache;
 	}
 	
 	@Override
 	public E pollFirst() {
-		return convertToNull(delegate.pollFirst());
+		E e = convertToNull(delegate.pollFirst());
+		if (e != null) --sizeCache;
+		return e;
 	}
 	
 	@Override
 	public E pollLast() {
-		return convertToNull(delegate.pollLast());
+		E e = convertToNull(delegate.pollLast());
+		if (e != null) --sizeCache;
+		return e;
 	}
 	
 	@Override
@@ -90,22 +104,34 @@ public class NullSupportingDeque<E> implements Deque<E> {
 	
 	@Override
 	public E removeFirst() {
-		return convertToNull(delegate.removeFirst());
+		E e = convertToNull(delegate.removeFirst());
+		--sizeCache;
+		return e;
 	}
 	
 	@Override
 	public E removeLast() {
-		return convertToNull(delegate.removeLast());
+		E e = convertToNull(delegate.removeLast());
+		--sizeCache;
+		return e;
 	}
 	
 	@Override
 	public boolean removeFirstOccurrence(Object o) {
-		return delegate.removeFirstOccurrence(replaceWithNull(o));
+		if (delegate.removeFirstOccurrence(replaceWithNull(o))) {
+			--sizeCache;
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
 	public boolean removeLastOccurrence(Object o) {
-		return delegate.removeLastOccurrence(replaceWithNull(o));
+		if (delegate.removeLastOccurrence(replaceWithNull(o))) {
+			--sizeCache;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -135,12 +161,16 @@ public class NullSupportingDeque<E> implements Deque<E> {
 
 	@Override
 	public boolean offerFirst(Object e) {
-		return delegate.offerFirst(replaceWithNull(e));
+		delegate.offerFirst(replaceWithNull(e));
+		++sizeCache;
+		return true;
 	}
 
 	@Override
 	public boolean offerLast(Object e) {
-		return delegate.offerLast(replaceWithNull(e));
+		delegate.offerLast(replaceWithNull(e));
+		++sizeCache;
+		return true;
 	}
 
 	@Override
@@ -190,7 +220,11 @@ public class NullSupportingDeque<E> implements Deque<E> {
 
 	@Override
 	public boolean addAll(Collection<? extends E> c) {
-		return delegate.addAll(c);
+		if (delegate.addAll(c)) {
+			sizeCache += c.size();
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -216,11 +250,6 @@ public class NullSupportingDeque<E> implements Deque<E> {
 	@Override
 	public boolean contains(Object o) {
 		return delegate.contains(replaceWithNull(o));
-	}
-
-	@Override
-	public int size() {
-		return delegate.size();
 	}
 
 	@Override

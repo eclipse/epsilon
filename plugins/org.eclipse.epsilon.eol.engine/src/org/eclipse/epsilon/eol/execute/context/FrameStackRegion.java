@@ -117,7 +117,9 @@ class FrameStackRegion implements Cloneable {
 	}
 	
 	/**
-	 * Returns the number of frames in this region.
+	 * WARNING: Do not call if concurrent == true!
+	 * 
+	 * @return The number of frames in this region.
 	 */
 	public int frameCount() {
 		return frames.size();

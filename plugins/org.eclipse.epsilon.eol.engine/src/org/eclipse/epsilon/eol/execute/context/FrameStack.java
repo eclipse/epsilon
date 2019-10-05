@@ -554,6 +554,12 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 		return frames;
 	}
 	
+	/**
+	 * WARNING: Do not call if {@link #isThreadSafe()} is <code>true</code>
+	 * whilst in use. Failure to comply may result in infinite waiting!
+	 * 
+	 * @return
+	 */
 	public int getDepth() {
 		return locals.frameCount() + globals.frameCount();
 	}

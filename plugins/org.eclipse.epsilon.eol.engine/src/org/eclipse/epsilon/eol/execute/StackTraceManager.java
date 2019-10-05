@@ -25,7 +25,7 @@ public class StackTraceManager implements IExecutionListener {
 	 * or by using a {@linkplain ConcurrentLinkedDeque}
 	 * @since 1.6
 	 */
-	protected Deque<ModuleElement> stackTrace;
+	Deque<ModuleElement> stackTrace;
 	
 	public StackTraceManager() {
 		this(false);
