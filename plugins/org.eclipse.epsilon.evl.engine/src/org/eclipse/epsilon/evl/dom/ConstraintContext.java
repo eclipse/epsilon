@@ -23,6 +23,7 @@ import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
@@ -141,8 +142,9 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 */
 	public boolean execute(Collection<Constraint> constraintsToCheck, Object modelElement, IEvlContext context) throws EolRuntimeException {
 		if (shouldBeChecked(modelElement, context)) {
+			ExecutorFactory executorFactory = context.getExecutorFactory();
 			for (Constraint constraint : constraintsToCheck) {
-				constraint.execute(context, modelElement);
+				executorFactory.execute(constraint, context, modelElement);
 			}
 			return true;
 		}
@@ -159,10 +161,11 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 */
 	public void execute(Collection<Constraint> constraintsToCheck, IEvlContext context) throws EolRuntimeException {
 		if (!isLazy(context)) {
+			ExecutorFactory executorFactory = context.getExecutorFactory();
 			for (Object modelElement : getAllOfSourceKind(context)) {
 				if (appliesTo(modelElement, context, false)) {
 					for (Constraint constraint : constraintsToCheck) {
-						constraint.execute(context, modelElement);
+						executorFactory.execute(constraint, context, modelElement);
 					}
 				}
 			}

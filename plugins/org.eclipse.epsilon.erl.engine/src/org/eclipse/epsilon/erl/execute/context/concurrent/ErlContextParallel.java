@@ -22,10 +22,14 @@ import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 public class ErlContextParallel extends EolContextParallel implements IErlContextParallel {
 
 	public ErlContextParallel() {
-		super();
-		setExecutorFactory(null);
+		this(0);
 	}
 
+	public ErlContextParallel(int parallelism) {
+		super(parallelism);
+		setExecutorFactory(null);
+	}
+	
 	public ErlContextParallel(IEolContext other) {
 		super(other);
 	}
@@ -55,9 +59,5 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 	@Override
 	public RuleExecutorFactory getExecutorFactory() {
 		return (RuleExecutorFactory) super.getExecutorFactory();
-	}
-	
-	public ErlContextParallel(int parallelism) {
-		super(parallelism);
 	}
 }
