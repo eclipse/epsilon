@@ -48,7 +48,8 @@ public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
 			Collection<Constraint> constraints = rule.getConstraints();
 			ArrayList<UnsatisfiedConstraint> results = new ArrayList<>(constraints.size());
 			for (Constraint constraint : constraints) {
-				((Optional<UnsatisfiedConstraint>) constraint.execute(context, element)).ifPresent(results::add);
+				((Optional<UnsatisfiedConstraint>) constraint.execute(context, element))
+					.ifPresent(results::add);
 			}
 			return results;
 		}

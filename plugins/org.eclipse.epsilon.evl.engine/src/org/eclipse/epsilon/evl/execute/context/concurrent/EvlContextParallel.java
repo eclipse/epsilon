@@ -68,7 +68,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	@Override
 	protected void initThreadLocals() {
 		super.initThreadLocals();
-		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(numThreads, HashSet::new);
+		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(getParallelism(), HashSet::new);
 	}
 	
 	@Override

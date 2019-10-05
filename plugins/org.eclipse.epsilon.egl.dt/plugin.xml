@@ -129,7 +129,7 @@
             name="Parallel EGX (Annotation-based)">
       </implementation>
       <implementation
-            class="org.eclipse.epsilon.egl.concurrent.EgxModuleParallelRules"
+            class="org.eclipse.epsilon.egl.concurrent.EgxModuleParallelElements"
             default="false"
             dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleParallelConfiguration"
             language="EGX"

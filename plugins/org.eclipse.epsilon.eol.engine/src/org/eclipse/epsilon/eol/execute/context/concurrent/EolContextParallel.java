@@ -41,7 +41,7 @@ import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
  */
 public class EolContextParallel extends EolContext implements IEolContextParallel {
 
-	protected final int numThreads;
+	int numThreads;
 	protected boolean isInParallelTask, isInShortCircuitTask;
 	protected EolExecutorService executorService;
 	
@@ -212,12 +212,25 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
+	public void setParallelism(int threads) throws IllegalStateException, IllegalArgumentException {
+		if (threads != this.numThreads) {
+			if (isInParallelTask) {
+				throw new IllegalStateException("Cannot change parallelism whilst execution is in progress!");
+			}
+			if (threads <= 0) {
+				throw new IllegalArgumentException("Parallelism of "+threads+" is nonsensical!");
+			}
+			this.numThreads = threads;
+		}
+	}
+	
+	@Override
 	public boolean isParallel() {
 		return isInParallelTask;
 	}
 	
 	@Override
-	public int getParallelism() {
+	public final int getParallelism() {
 		return numThreads;
 	}
 	

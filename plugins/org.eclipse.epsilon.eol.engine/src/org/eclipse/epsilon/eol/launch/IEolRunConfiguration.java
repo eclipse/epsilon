@@ -18,6 +18,7 @@ import static org.eclipse.epsilon.common.util.profiling.BenchmarkUtils.profileEx
 import org.eclipse.epsilon.eol.exceptions.EolParseException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -41,6 +42,13 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		this.parameters = builder.parameters;
 		this.modelsAndProperties = builder.modelsAndProperties;
 		this.module = Objects.requireNonNull(builder.module, "Module cannot be null!");
+		
+		IEolContext context = module.getContext();
+		if (builder.isParallel() && builder.parallelism > 0 && context instanceof IEolContextParallel) {
+			IEolContextParallel pContext = (IEolContextParallel) context;
+			pContext.setParallelism(builder.parallelism);
+		}
+		
 		this.id = Optional.ofNullable(builder.id).orElseGet(() ->
 			Objects.hash(
 				super.id,

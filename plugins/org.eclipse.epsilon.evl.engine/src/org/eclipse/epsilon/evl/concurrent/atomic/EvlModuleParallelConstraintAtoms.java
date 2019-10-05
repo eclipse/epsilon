@@ -21,7 +21,6 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
  * 
- * @see {@link org.eclipse.epsilon.evl.concurrent.experimental.EvlModuleParallelConstraints}
  * @author Sina Madani
  * @since 1.6
  */

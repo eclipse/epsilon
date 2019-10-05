@@ -42,6 +42,19 @@ public interface IEolContextParallel extends IEolContext {
 	int getParallelism();
 	
 	/**
+	 * Attempts to set the parallelism of this context and its associated executor.
+	 * Note that this may not take effect immediately and is intended to be called during parallel
+	 * execution. Implementations may ignore this operation or throw an {@linkplain UnsupportedOperationException}.
+	 * It is recommended that this method is only called during initialisation, and is present for convenience only.
+	 * 
+	 * @param parallelism The new value. Must be positive.
+	 * @throws UnsupportedOperationException If this context (or its ExecutorService) has an immutable parallelism.
+	 * @throws IllegalStateException If this method is called at an inconvenient time.
+	 * @throws IllegalArgumentException If the new value is out of bounds.
+	 */
+	void setParallelism(int parallelism) throws UnsupportedOperationException, IllegalStateException, IllegalArgumentException;
+	
+	/**
 	 * This method will return true if {@link #beginParallelTask()} has been called
 	 * and false if {@link #endParallelTask()} has been called, or if {@link #beginParallelTask()}
 	 * has not been called yet.
