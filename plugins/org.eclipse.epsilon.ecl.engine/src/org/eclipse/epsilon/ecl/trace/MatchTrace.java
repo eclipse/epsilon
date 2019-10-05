@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
@@ -42,7 +41,7 @@ public class MatchTrace implements Collection<Match> {
 	}
 	
 	public MatchTrace(boolean concurrent) {
-		matches = (this.concurrent = concurrent) ? new ConcurrentLinkedDeque<>() : new ArrayList<>();
+		matches = (this.concurrent = concurrent) ? ConcurrencyUtils.concurrentOrderedCollection() : new ArrayList<>();
 	}
 	
 	public MatchTrace(MatchTrace copy) {

@@ -190,32 +190,32 @@ public class NullSupportingDeque<E> implements Deque<E> {
 
 	@Override
 	public boolean add(Object e) {
-		return delegate.add(replaceWithNull(e));
+		return offerLast(e);
 	}
 
 	@Override
 	public boolean offer(Object e) {
-		return delegate.offer(replaceWithNull(e));
+		return offerLast(e);
 	}
 
 	@Override
 	public E remove() {
-		return convertToNull(delegate.remove());
+		return removeFirst();
 	}
 
 	@Override
 	public E poll() {
-		return convertToNull(delegate.poll());
+		return pollFirst();
 	}
 
 	@Override
 	public E element() {
-		return convertToNull(delegate.element());
+		return getFirst();
 	}
 
 	@Override
 	public E peek() {
-		return convertToNull(delegate.peek());
+		return peekFirst();
 	}
 
 	@Override
@@ -230,11 +230,12 @@ public class NullSupportingDeque<E> implements Deque<E> {
 	@Override
 	public void push(Object e) {
 		delegate.push(replaceWithNull(e));
+		++sizeCache;
 	}
 
 	@Override
 	public E pop() {
-		return convertToNull(delegate.pop());
+		return removeFirst();
 	}
 
 	@Override
@@ -244,7 +245,11 @@ public class NullSupportingDeque<E> implements Deque<E> {
 
 	@Override
 	public boolean remove(Object o) {
-		return delegate.remove(replaceWithNull(o));
+		if (delegate.remove(replaceWithNull(o))) {
+			--sizeCache;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -275,6 +280,7 @@ public class NullSupportingDeque<E> implements Deque<E> {
 	@Override
 	public void clear() {
 		delegate.clear();
+		sizeCache = 0;
 	}
 
 	@Override
