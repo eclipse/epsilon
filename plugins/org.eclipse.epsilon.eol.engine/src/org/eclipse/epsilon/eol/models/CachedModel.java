@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.eol.models;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.common.util.StringProperties;
@@ -110,8 +111,12 @@ public abstract class CachedModel<ModelElementType> extends Model {
 			new Multimap<>(concurrent, kindCache) : new Multimap<>(concurrent);
 		
 		if (allContentsCache != null) {
-			allContentsCache = wrap(allContentsCache);
+			wrapAllContents(allContentsCache);
 		}
+	}
+	
+	void wrapAllContents(Collection<ModelElementType> contents) {
+		allContentsCache = isConcurrent() ? new ConcurrentLinkedQueue<>(contents) : contents;
 	}
 	
 	/**
@@ -179,11 +184,12 @@ public abstract class CachedModel<ModelElementType> extends Model {
 		if (cached && allContentsCache != null) {
 			return allContentsCache;
 		}
-		Collection<ModelElementType> allContents = wrap(allContentsFromModel());
+		Collection<ModelElementType> allContents = allContentsFromModel();
 		if (cached) {
-			allContentsCache = allContents;
+			wrapAllContents(allContents);
+			return allContentsCache;
 		}
-		return allContents;
+		else return wrap(allContents);
 	}
 	
 	/**

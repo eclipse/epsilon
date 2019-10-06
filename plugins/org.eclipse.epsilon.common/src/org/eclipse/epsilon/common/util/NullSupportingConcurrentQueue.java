@@ -14,21 +14,20 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * A {@link ConcurrentLinkedQueue} wrapper which supports <code>null</code> values
- * using a constant wrapper in place of null elements. This is suitable as
- * a high-performance concurrent collection. The size of this is cached to avoid traversal.
+ * using a constant wrapper in place of null elements. This implementation is
+ * synchronized for structural modifications and for querying of its size,
+ * however iteration does not require synchronization.
  * 
  * @author Sina Madani
  * @since 1.6
  * @param <E>
  */
 @SuppressWarnings("unchecked")
-public class NullSupportingSizeCachingQueue<E> extends ConcurrentLinkedQueue<E> {
-	
-	private static final long serialVersionUID = -7959402550712221977L;
+public class NullSupportingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 
-	protected static final Object NULL = new Object();
+	private static final long serialVersionUID = -5104118709725619348L;
 	
-	protected int sizeCache;
+	protected static final Object NULL = new Object();
 	
 	protected final static Object replaceWithNull(Object o) {
 		return o == null ? NULL : o;
@@ -38,15 +37,14 @@ public class NullSupportingSizeCachingQueue<E> extends ConcurrentLinkedQueue<E> 
 		return e == NULL ? null : (E) e;
 	}
 	
-	public NullSupportingSizeCachingQueue(Collection<? extends E> initial) {
+	public NullSupportingConcurrentQueue() {
+		super();
+	}
+	
+	public NullSupportingConcurrentQueue(Collection<? extends E> initial) {
 		if (initial != null) {
 			addAll(initial);
 		}
-	}
-	
-	@Override
-	public int size() {
-		return sizeCache;
 	}
 	
 	@Override
@@ -55,15 +53,12 @@ public class NullSupportingSizeCachingQueue<E> extends ConcurrentLinkedQueue<E> 
 	}
 	
 	@Override
-	public E poll() {
-		E e = convertToNull(super.poll());
-		if (e == null) sizeCache = 0;
-		else --sizeCache;
-		return e;
+	public synchronized E poll() {
+		return convertToNull(super.poll());
 	}
 	
 	@Override
-	public E remove() {
+	public synchronized E remove() {
 		return convertToNull(super.remove());
 	}
 	
@@ -74,18 +69,17 @@ public class NullSupportingSizeCachingQueue<E> extends ConcurrentLinkedQueue<E> 
 	}
 	
 	@Override
-	public boolean offer(E e) {
-		super.offer(e);
-		++sizeCache;
-		return true;
+	public synchronized boolean offer(E e) {
+		return super.offer(e);
 	}
 	
 	@Override
-	public boolean addAll(Collection<? extends E> c) {
-		if (super.addAll(c) && c != null) {
-			sizeCache += c.size();
-			return true;
-		}
-		return false;
+	public synchronized boolean addAll(Collection<? extends E> c) {
+		return super.addAll(c);
+	}
+	
+	@Override
+	public synchronized int size() {
+		return super.size();
 	}
 }
