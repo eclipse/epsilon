@@ -126,7 +126,7 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 	protected void preExecute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {
 		activeModuleElement = moduleElement;
 		
-		if (executionController != null) {
+		if (executionController != null && !(executionController instanceof DefaultExecutionController)) {
 			if (executionController.isTerminated()) throw new EolTerminationException(moduleElement);
 			try {
 				executionController.control(moduleElement, context);
@@ -187,7 +187,7 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 	 * @since 1.6
 	 */
 	protected void postExecuteFinally(ModuleElement moduleElement, IEolContext context) {
-		if (executionController != null) {
+		if (executionController != null && !(executionController instanceof DefaultExecutionController)) {
 			executionController.done(moduleElement, context);
 		}
 	}

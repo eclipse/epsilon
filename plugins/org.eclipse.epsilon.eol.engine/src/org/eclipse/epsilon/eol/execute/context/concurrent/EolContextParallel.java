@@ -101,6 +101,17 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	/**
+	 * Determines whether calling {@link #parallelGet(ThreadLocal, Object)} or
+	 * {@link #parallelSet(Object, ThreadLocal, Consumer)} should use the ThreadLocal
+	 * value or if the alternative value should be returned.
+	 * 
+	 * @return <code>true</code> if the ThreadLocal should be used, <code>false</code> otherwise.
+	 */
+	protected boolean useThreadLocalValue() {
+		return !ConcurrencyUtils.isTopLevelThread();
+	}
+	
+	/**
 	 * Utility method used to appropriately return either a thread-local or the original value,
 	 * depending on whether this context {@linkplain #isParallel()}.
 	 * 
@@ -109,8 +120,8 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @param originalValueGetter The non-thread-local value (returned if not parallel).
 	 * @return The appropriate value for the current thread.
 	 */
-	protected <R> R parallelGet(ThreadLocal<? extends R> threadLocal, Supplier<? extends R> originalValueGetter) {
-		return threadLocal != null && !ConcurrencyUtils.isTopLevelThread() ? threadLocal.get() : originalValueGetter.get();
+	protected final <R> R parallelGet(ThreadLocal<? extends R> threadLocal, Supplier<? extends R> originalValueGetter) {
+		return threadLocal != null && useThreadLocalValue() ? threadLocal.get() : originalValueGetter.get();
 	}
 	
 	/**
@@ -122,8 +133,8 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @param originalValue The main, persistent variable
 	 * @return The appropriate value for the current thread.
 	 */
-	protected <R> R parallelGet(ThreadLocal<? extends R> threadLocal, R originalValue) {
-		return threadLocal != null && !ConcurrencyUtils.isTopLevelThread() ? threadLocal.get() : originalValue;
+	protected final <R> R parallelGet(ThreadLocal<? extends R> threadLocal, R originalValue) {
+		return threadLocal != null && useThreadLocalValue() ? threadLocal.get() : originalValue;
 	}
 	
 	/**
@@ -133,8 +144,8 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @param threadLocal The ThreadLocal value (will be set if parallel).
 	 * @param originalValueSetter The non-thread-local value (will be set if not parallel).
 	 */
-	protected <T> void parallelSet(T value, ThreadLocal<? super T> threadLocal, Consumer<? super T> originalValueSetter) {
-		if (threadLocal != null && !ConcurrencyUtils.isTopLevelThread())
+	protected final <T> void parallelSet(T value, ThreadLocal<? super T> threadLocal, Consumer<? super T> originalValueSetter) {
+		if (threadLocal != null && useThreadLocalValue())
 			threadLocal.set(value);
 		else
 			originalValueSetter.accept(value);

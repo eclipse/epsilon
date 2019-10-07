@@ -24,8 +24,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 @SuppressWarnings("unchecked")
 public class NullSupportingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
-
-	private static final long serialVersionUID = -5104118709725619348L;
+	
+	private static final long serialVersionUID = 1123011197588756957L;
 	
 	protected static final Object NULL = new Object();
 	
@@ -33,8 +33,8 @@ public class NullSupportingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 		return o == null ? NULL : o;
 	}
 	
-	protected final E convertToNull(Object e) {
-		return e == NULL ? null : (E) e;
+	protected static final <T> T convertToNull(Object o) {
+		return o == NULL ? null : (T) o;
 	}
 	
 	public NullSupportingConcurrentQueue() {
@@ -43,7 +43,7 @@ public class NullSupportingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 	
 	public NullSupportingConcurrentQueue(Collection<? extends E> initial) {
 		if (initial != null) {
-			addAll(initial);
+			super.addAll(initial);
 		}
 	}
 	

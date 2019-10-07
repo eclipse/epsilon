@@ -445,7 +445,11 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 	 * @return The local variable with the specified name or <code>null</code>
 	 */
 	public Variable getLocal(String name) {
-		return delegateLookup(fs -> fs.locals.get(name));
+		Variable variable = locals.get(name);
+		if (variable == null && base != null) {
+			variable = base.getLocal(name);
+		}
+		return variable;
 	}
 	
 	/**
@@ -462,7 +466,11 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 	 * @return The global variable with the specified name or <code>null</code>
 	 */
 	public Variable getGlobal(String name) {
-		return delegateLookup(fs -> fs.globals.get(name));
+		Variable variable = globals.get(name);
+		if (variable == null && base != null) {
+			variable = base.getGlobal(name);
+		}
+		return variable;
 	}
 	
 	public boolean isInLoop() {

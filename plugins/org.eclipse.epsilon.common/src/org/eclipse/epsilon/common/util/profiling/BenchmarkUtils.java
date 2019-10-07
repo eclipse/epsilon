@@ -128,9 +128,7 @@ public final class BenchmarkUtils {
 	 * <a href="https://cruftex.net/2017/03/28/The-6-Memory-Metrics-You-Should-Track-in-Your-Java-Benchmarks.html#metric-used-memory-after-forced-gc">See this</a>
 	 */
 	public static long getCurrentMemoryUsage() {
-		return  ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed() +
-		    ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage().getUsed();
-		    //RT.totalMemory() - RT.freeMemory();
+		return RT.totalMemory() - RT.freeMemory();
 	}
 	
 	/**
