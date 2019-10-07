@@ -43,7 +43,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 
 	int numThreads;
 	protected boolean isInParallelTask, isInShortCircuitTask;
-	protected EolExecutorService executorService;
+	protected EolThreadPoolExecutor executorService;
 	
 	// Data structures which will be written to and read from during parallel execution:
 	protected ThreadLocal<FrameStack> concurrentFrameStacks;
@@ -156,7 +156,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		return new EolContextParallel(context);
 	}
 	
-	protected void removeAllIfPersistent(ThreadLocal<?>... threadLocals) {
+	protected void removeAll(ThreadLocal<?>... threadLocals) {
 		if (threadLocals != null) for (ThreadLocal<?> tl : threadLocals) {
 			if (tl instanceof DelegatePersistentThreadLocal && !isInShortCircuitTask) {
 				((DelegatePersistentThreadLocal<?>) tl).removeAll(MergeMode.MERGE_INTO_BASE);
@@ -164,11 +164,14 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 			else if (tl instanceof PersistentThreadLocal) {
 				((PersistentThreadLocal<?>) tl).removeAll();
 			}
+			else if (tl != null) {
+				tl.remove();
+			}
 		}
 	}
 	
 	protected void clearThreadLocals() {
-		removeAllIfPersistent(concurrentFrameStacks, concurrentExecutorFactories, concurrentMethodContributors);
+		removeAll(concurrentFrameStacks, concurrentExecutorFactories, concurrentMethodContributors);
 	}
 	
 	protected void nullifyThreadLocals() {
@@ -184,7 +187,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		}
 	}
 	
-	protected EolExecutorService newExecutorService() {
+	protected EolThreadPoolExecutor newExecutorService() {
 		return EolThreadPoolExecutor.fixedPoolExecutor(numThreads);
 	}
 	
@@ -246,7 +249,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public EolExecutorService getExecutorService() {
+	public final EolExecutorService getExecutorService() {
 		if (executorService == null) {
 			executorService = newExecutorService();
 		}

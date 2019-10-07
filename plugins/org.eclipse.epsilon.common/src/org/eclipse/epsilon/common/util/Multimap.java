@@ -38,8 +38,7 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 * @since 1.6
 	 */
 	public Multimap(boolean concurrent) {
-		storage = (this.isConcurrent = concurrent) == true ?
-			ConcurrencyUtils.concurrentMap() : new HashMap<>();
+		this(concurrent, null);
 	}
 	
 	/**
@@ -49,8 +48,30 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 * @since 1.6
 	 */
 	public Multimap(boolean concurrent, Multimap<K, V> other) {
-		storage = (this.isConcurrent = concurrent) == true ?
-			ConcurrencyUtils.concurrentMap(other.storage) : new HashMap<>(other.storage);
+		this.isConcurrent = concurrent;
+		this.storage = newMapDelegate(other != null ? other.storage : null);
+	}
+	
+	/**
+	 * Convenience method for creating a new underlying Multimap.
+	 * 
+	 * @param initial The elements to add to the multimap.
+	 * @since 1.6
+	 * @see #newMapDelegate(Map)
+	 */
+	protected final Map<K, Collection<V>> newMapDelegate() {
+		return newMapDelegate(null);
+	}
+	
+	/**
+	 * Convenience method for creating a new underlying Multimap.
+	 * 
+	 * @param initial The elements to add to the multimap.
+	 * @return A suitable Map based on the thread-safety of this Multimap.
+	 */
+	protected final Map<K, Collection<V>> newMapDelegate(Map<? extends K, ? extends Collection<V>> initial) {
+		return isConcurrent ? ConcurrencyUtils.concurrentMap(initial) :
+			initial != null ? new HashMap<>(initial) : new HashMap<>();
 	}
 	
 	/**
@@ -69,7 +90,7 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 * @return A suitable collection based on the thread-safety of this Multimap.
 	 * @since 1.6
 	 */
-	protected Collection<V> newCollection(Collection<V> values) {
+	protected Collection<V> newCollection(Collection<? extends V> values) {
 		return isConcurrent ?
 			ConcurrencyUtils.concurrentOrderedCollection(values) :
 			values != null ? new LinkedList<>(values) : new LinkedList<>();

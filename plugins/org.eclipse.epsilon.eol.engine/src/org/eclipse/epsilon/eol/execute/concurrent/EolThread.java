@@ -19,7 +19,7 @@ package org.eclipse.epsilon.eol.execute.concurrent;
  */
 public class EolThread extends Thread {
 
-	protected volatile Runnable cleanup;
+	protected Runnable cleanup;
 	
 	public EolThread() {
 		super();

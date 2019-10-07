@@ -60,7 +60,7 @@ public class ConcurrencyUtils {
 		return newConcurrentHashMap(null, -1, -1);
 	}
 	
-	public static <K, V> ConcurrentMap<K, V> concurrentMap(Map<K, V> initial) {
+	public static <K, V> ConcurrentMap<K, V> concurrentMap(Map<? extends K, ? extends V> initial) {
 		return newConcurrentHashMap(initial, -1, -1);
 	}
 	
@@ -68,7 +68,7 @@ public class ConcurrencyUtils {
 		return newConcurrentHashMap(null, initialCapacity, parallelism);
 	}
 	
-	private static <K, V> ConcurrentHashMap<K, V> newConcurrentHashMap(Map<K, V> initial, int initialCapacity, int parallelism) {
+	private static <K, V> ConcurrentHashMap<K, V> newConcurrentHashMap(Map<? extends K, ? extends V> initial, int initialCapacity, int parallelism) {
 		if (initial != null) return new ConcurrentHashMap<>(initial);
 		else return new ConcurrentHashMap<>(
 			initialCapacity >= 0 ? initialCapacity : DEFAULT_CAPACITY,
