@@ -70,7 +70,7 @@
             name="Parallel (Annotation-based)">
       </implementation>
       <implementation
-            class="org.eclipse.epsilon.evl.concurrent.EvlModuleParallelElements"
+            class="org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelContextAtoms"
             default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
             language="EVL"
