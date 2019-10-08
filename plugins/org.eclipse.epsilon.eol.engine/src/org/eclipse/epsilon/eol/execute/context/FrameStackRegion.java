@@ -132,12 +132,11 @@ class FrameStackRegion implements Cloneable {
 	 */
 	public Variable get(String name) {
 		for (Frame frame : frames) {
-			if (frame.contains(name)) {
-				return frame.get(name);
-			}
-			else if (frame.getType() == FrameType.PROTECTED) {
+			Variable v = frame.get(name);
+			if (v != null)
+				return v;
+			if (frame.isProtected())
 				break;
-			}
 		}
 		return null;
 	}
@@ -157,7 +156,7 @@ class FrameStackRegion implements Cloneable {
 					all.put(key, entry.getValue());
 				}
 			}
-			if (frame.getType() == FrameType.PROTECTED) {
+			if (frame.isProtected()) {
 				break;
 			}
 		}
@@ -180,7 +179,7 @@ class FrameStackRegion implements Cloneable {
 			if (isLoopAst(frame.getEntryPoint())) {
 				return true;
 			}
-			else if (frame.getType() == FrameType.PROTECTED) {
+			else if (frame.isProtected()) {
 				return false;
 			}
 		}
@@ -259,9 +258,7 @@ class FrameStackRegion implements Cloneable {
 	public void remove(String name) {
 		for (Frame frame : frames) {
 			frame.remove(name);			
-			if (frame.getType() == FrameType.PROTECTED) {
-				break;
-			}
+			if (frame.isProtected()) break;
 		}
 	}
 	

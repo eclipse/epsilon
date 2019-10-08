@@ -188,13 +188,12 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	protected EolThreadPoolExecutor newExecutorService() {
-		return EolThreadPoolExecutor.fixedPoolExecutor(numThreads);
+		return new EolThreadPoolExecutor(numThreads);
 	}
 	
 	@Override
 	protected void finalize() {
 		clearExecutor();
-		nullifyThreadLocals();
 	}
 	
 	@Override
@@ -214,7 +213,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	@Override
 	public Object endParallelTask() throws EolRuntimeException {
 		Object result = IEolContextParallel.super.endParallelTask();
-		clearExecutor();
+		//clearExecutor();
 		clearThreadLocals();
 		isInParallelTask = false;
 		isInShortCircuitTask = false;

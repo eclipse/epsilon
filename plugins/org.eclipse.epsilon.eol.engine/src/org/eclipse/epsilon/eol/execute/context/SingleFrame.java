@@ -27,8 +27,7 @@ public class SingleFrame implements Frame, Cloneable {
 	private ModuleElement entryPoint, currentStatement;
 	
 	public SingleFrame(FrameType type, ModuleElement entryPoint) {
-		this.type = type;
-		this.entryPoint = entryPoint;
+		this(type, entryPoint, null);
 	}
 	
 	public SingleFrame(FrameType type, ModuleElement entryPoint, String label) {
@@ -113,16 +112,6 @@ public class SingleFrame implements Frame, Cloneable {
 	public boolean contains(String key) {
 		return storage.containsKey(key);
 	}
-
-	@Override
-	public FrameType getType() {
-		return type;
-	}
-
-	@Override
-	public void setType(FrameType type) {
-		this.type = type;
-	}
 	
 	@Override
 	public ModuleElement getEntryPoint() {
@@ -132,6 +121,16 @@ public class SingleFrame implements Frame, Cloneable {
 	@Override
 	public void setEntryPoint(ModuleElement entryPoint) {
 		this.entryPoint = entryPoint;
+	}
+	
+	@Override
+	public FrameType getType() {
+		return type;
+	}
+	
+	@Override
+	public void setType(FrameType type) {
+		this.type = type;
 	}
 	
 	@Override

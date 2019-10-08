@@ -30,7 +30,7 @@ import org.eclipse.epsilon.common.parse.AST;
  * 
  *
  * @author Dimitrios Kolovos, Antonio García-Domínguez, Sina Madani
- * @version 1.3
+ * @version 1.4
  * @see org.eclipse.epsilon.eol.execute.context.Frame
  */
 public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack> {
@@ -110,6 +110,11 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 		}
 
 		@Override
+		public boolean isProtected() {
+			return globals.top().isProtected();
+		}
+		
+		@Override
 		public FrameType getType() {
 			return globals.top().getType();
 		}
@@ -118,7 +123,7 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 		public void setType(FrameType type) {
 			globals.top().setType(type);
 		}
-
+		
 		@Override
 		public ModuleElement getEntryPoint() {
 			return globals.top().getEntryPoint();

@@ -50,12 +50,26 @@ public interface Frame {
 
 	void putAll(Map<String, Variable> variables);
 	
+	/**
+	 * 
+	 * @param key
+	 * @return The Variable, or <code>null</code> if absent.
+	 */
 	Variable get(String key);
 	
 	Map<String, Variable> getAll();
 	
 	boolean contains(String key);
 
+	/**
+	 * 
+	 * @return <code>true</code> if this frame is protected visibility.
+	 * @since 1.6
+	 */
+	default boolean isProtected() {
+		return getType() == FrameType.PROTECTED;
+	}
+	
 	FrameType getType();
 	
 	void setType(FrameType type);

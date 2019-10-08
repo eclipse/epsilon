@@ -33,20 +33,16 @@ public class EolThread extends Thread {
 		this.cleanup = fin;
 	}
 	
-	public void cleanup() {
-		if (cleanup != null) {
-			cleanup.run();
-			cleanup = null;
-		}
-	}
-	
 	@Override
 	public final void run() {
 		try {
 			super.run();
 		}
 		finally {
-			cleanup();
+			if (cleanup != null) {
+				cleanup.run();
+				cleanup = null;
+			}
 		}
 	}
 }
