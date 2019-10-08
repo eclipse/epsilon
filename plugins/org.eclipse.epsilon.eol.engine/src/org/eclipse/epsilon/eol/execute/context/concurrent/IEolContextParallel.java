@@ -9,11 +9,20 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.context.concurrent;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Spliterator;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.BaseStream;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -222,6 +231,83 @@ public interface IEolContextParallel extends IEolContext {
 		return result;
 	}
 
+	/**
+	 * Evaluates the job using this context's parallel execution facilities.
+	 * Implementations may override this to support additional job types, calling
+	 * the super method as the last resort for unknown cases. All implementations
+	 * are expected to support Iterable / Collection types, as well as common
+	 * concurrency units such as Runnable, Callable and Future.
+	 * 
+	 * @param job The job (or jobs) to evaluate.
+	 * @param isInLoop Whether this method is being called recursively from a loop.
+	 * 
+	 * @throws IllegalArgumentException If the job type is not recognised.
+	 * @throws EolRuntimeException If an exception is thrown whilst evaluating the job(s).
+	 * 
+	 * @return The result of evaluating the job.
+	 */
+	@SuppressWarnings("unchecked")
+	default Object executeJob(Object job) throws EolRuntimeException {
+		if (job instanceof Runnable) {
+			((Runnable) job).run();
+			return null;
+		}
+		else if (job instanceof Iterable) {
+			final int colSize = job instanceof Collection ? ((Collection<?>) job).size() : 256;
+			
+			if (isParallelisationLegal()) {
+				Collection<Callable<Object>> jobs = new ArrayList<>(colSize);
+				for (Object next : (Iterable<?>) job) {
+					jobs.add(next instanceof Callable ?
+						(Callable<Object>) next :
+						() -> executeJob(next)
+					);
+				}
+				return executeParallelTyped(jobs);
+			}
+			else {
+				final Collection<Object> results = new ArrayList<>(colSize);
+				for (Object next : (Iterable<?>) job) {
+					results.add(executeJob(next));
+				}
+				return results;
+			}
+		}
+		else if (job instanceof ModuleElement) {
+			return getExecutorFactory().execute((ModuleElement) job, this);
+		}
+		else if (job instanceof Stream) {
+			Stream<?> stream = (Stream<?>) job;
+			boolean finite = stream.spliterator().hasCharacteristics(Spliterator.SIZED);
+			return executeJob(finite ? stream.collect(Collectors.toList()) : stream.iterator());
+		}
+		else if (job instanceof BaseStream) {
+			return executeJob(((BaseStream<?,?>)job).iterator());
+		}
+		else if (job instanceof Iterator) {
+			Iterable<?> iter = () -> (Iterator<Object>) job;
+			return executeJob(iter);
+		}
+		else if (job instanceof Spliterator) {
+			return executeJob(StreamSupport.stream((Spliterator<?>) job, isParallelisationLegal()));
+		}
+		else if (job instanceof Supplier) {
+			return ((Supplier<?>) job).get();
+		}
+		else try {
+			if (job instanceof Future) {
+				return ((Future<?>) job).get();
+			}
+			else if (job instanceof Callable) {
+				return ((Callable<?>) job).call();
+			}
+		}
+		catch (Exception ex) {
+			EolRuntimeException.propagateDetailed(ex);
+		}
+			
+		throw new IllegalArgumentException("Received unexpected object of type "+job.getClass().getName());
+	}
 	
 	/**
 	 * Convenience method for setting the parallelism on a context.

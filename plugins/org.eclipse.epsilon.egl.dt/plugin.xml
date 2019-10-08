@@ -122,14 +122,14 @@
             name="Default (EGX)">
       </implementation>
        <implementation
-            class="org.eclipse.epsilon.egl.concurrent.EgxModuleParallelAnnotation"
+            class="org.eclipse.epsilon.egl.concurrent.EgxModuleParallel"
             default="false"
             dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleParallelConfiguration"
             language="EGX"
             name="Parallel EGX (Annotation-based)">
       </implementation>
       <implementation
-            class="org.eclipse.epsilon.egl.concurrent.EgxModuleParallelElements"
+            class="org.eclipse.epsilon.egl.concurrent.atomic.EgxModuleParallelGenerationRuleAtoms"
             default="false"
             dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleParallelConfiguration"
             language="EGX"

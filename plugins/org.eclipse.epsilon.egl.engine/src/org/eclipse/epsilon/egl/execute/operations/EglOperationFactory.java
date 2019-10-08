@@ -7,18 +7,14 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.evl.execute;
+package org.eclipse.epsilon.egl.execute.operations;
 
 import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
-import org.eclipse.epsilon.evl.execute.operations.SatisfiesOperation;
 
-public class EvlOperationFactory extends EolOperationFactory {
+public class EglOperationFactory extends EolOperationFactory {
 	
-	public EvlOperationFactory() {
-		SatisfiesOperation satisfiesAll = new SatisfiesOperation(true);
-		operationCache.put("satisfies", satisfiesAll);
-		operationCache.put("satisfiesAll", satisfiesAll);
-		operationCache.put("satisfiesOne", new SatisfiesOperation(false));
+	public EglOperationFactory() {
+		operationCache.put("include", new IncludeOperation());
 	}
 	
 }

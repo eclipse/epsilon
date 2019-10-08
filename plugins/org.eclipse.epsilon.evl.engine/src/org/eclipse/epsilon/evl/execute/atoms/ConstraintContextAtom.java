@@ -61,7 +61,7 @@ public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
 		return rule.getConstraints().stream().map(c -> new ConstraintAtom(c, this.element)).collect(Collectors.toList());
 	}
 	
-	public static ArrayList<ConstraintContextAtom> getContextJobs(IEvlModule module) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
+	public static ArrayList<ConstraintContextAtom> getAllJobs(IEvlModule module) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
 		IEvlContext context = module.getContext();
 		ArrayList<ConstraintContextAtom> atoms = new ArrayList<>();
 		

@@ -10,18 +10,16 @@
 package org.eclipse.epsilon.etl.concurrent;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.execute.context.concurrent.EtlContextParallel;
 import org.eclipse.epsilon.etl.execute.context.concurrent.IEtlContextParallel;
 
 /**
- * No-op ETL module, useful only for setting parallelisation properties for other operations.
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public class EtlModuleParallel extends EtlModule implements IErlModuleParallel {
+public class EtlModuleParallel extends EtlModule {
 
 	public EtlModuleParallel() {
 		this(null);

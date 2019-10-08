@@ -287,7 +287,6 @@ public class EvlTests {
 				"Exception must have Epsilon trace " +
 					System.lineSeparator() + module.getClass().getName() + System.lineSeparator() + ex
 				,
-				// TODO: See why stack trace is missing for atomic modules
 				module instanceof EvlModuleParallelAtomic || (
 				message != null &&
 				message.length() > 0 &&

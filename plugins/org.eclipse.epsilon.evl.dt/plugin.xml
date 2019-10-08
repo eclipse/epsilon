@@ -63,7 +63,7 @@
             name="Default">
       </implementation>
       <implementation
-            class="org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation"
+            class="org.eclipse.epsilon.evl.concurrent.EvlModuleParallel"
             default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
             language="EVL"

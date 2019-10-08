@@ -92,7 +92,6 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 	public static Collection<EvlRunConfiguration> configurations() {
 		Collection<EvlRunConfiguration> scenarios = getScenarios(inputsWithNesting, false,
 			EolAcceptanceTestUtil.parallelModules(testThreads, null,
-				p -> new EvlModuleParallelAnnotation(new EvlContextParallel(p)),
 				p -> new EvlModuleParallel(new EvlContextParallel(p))
 			),
 			idCalculator

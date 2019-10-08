@@ -13,7 +13,6 @@ import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.concurrent.EtlModuleParallel;
-import org.eclipse.epsilon.etl.execute.context.concurrent.EtlContextParallel;
 
 /**
  * 
@@ -30,13 +29,10 @@ public class EtlRunConfiguration extends IErlRunConfiguration {
 		protected Builder(Class<R> runConfigClass) {
 			super(runConfigClass);
 		}
+		
 		@Override
-		protected IEtlModule createDefaultModule() {
-			return new EtlModule();
-		}
-		@Override
-		protected EtlModuleParallel createParallelModule() {
-			return new EtlModuleParallel(new EtlContextParallel(parallelism));
+		protected IEtlModule createModule() {
+			return isParallel() ? new EtlModule() : new EtlModuleParallel();
 		}
 	}
 	

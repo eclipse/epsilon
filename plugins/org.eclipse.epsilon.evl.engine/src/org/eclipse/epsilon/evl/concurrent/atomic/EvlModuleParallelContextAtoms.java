@@ -16,7 +16,6 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
  * 
- * @see {@link org.eclipse.epsilon.evl.concurrent.EvlModuleParallelElements}
  * @author Sina Madani
  * @since 1.6
  */
@@ -31,8 +30,8 @@ public class EvlModuleParallelContextAtoms extends EvlModuleParallelAtomic<Const
 	}
 
 	@Override
-	protected List<ConstraintContextAtom> getAllJobsImpl() throws EolRuntimeException {
-		return ConstraintContextAtom.getContextJobs(this);
+	public List<ConstraintContextAtom> getAllJobs() throws EolRuntimeException {
+		return ConstraintContextAtom.getAllJobs(this);
 	}
 
 }

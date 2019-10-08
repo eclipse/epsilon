@@ -9,47 +9,29 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.concurrent.atomic;
 
-import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAtomicBatches;
-import org.eclipse.epsilon.erl.execute.data.RuleAtom;
+import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
+import org.eclipse.epsilon.evl.execute.atoms.EvlAtom;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
- * Parallelisation based on atomic job list.
- *
+ * 
  * @author Sina Madani
  * @since 1.6
  */
-public abstract class EvlModuleParallelAtomic<A extends RuleAtom<?>> extends EvlModuleParallel implements IErlModuleParallelAtomicBatches<A> {
+public abstract class EvlModuleParallelAtomic<A extends EvlAtom<?>> extends EvlModuleParallel implements IErlModuleAtomicBatches<A> {
 
 	public EvlModuleParallelAtomic() {
-		super();
+		this(null);
 	}
 	
 	public EvlModuleParallelAtomic(IEvlContextParallel context) {
 		super(context);
 	}
-
-	protected List<A> jobsCache;
-
-	@Override
-	public final List<A> getAllJobs() throws EolRuntimeException {
-		if (jobsCache == null) {
-			jobsCache = getAllJobsImpl();
-		}
-		return jobsCache;
-	}
-	
-	/**
-	 * Non-cached implementation as called by {@link #getAllJobs()}.
-	 * @return The deterministically ordered jobs.
-	 */
-	protected abstract List<A> getAllJobsImpl() throws EolRuntimeException;
 	
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
-		executeAllJobs();
+		getContext().executeJob(getAllJobs());
 	}
 }

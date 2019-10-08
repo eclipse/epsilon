@@ -9,14 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.concurrent.atomic;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.execute.data.ExecutableRuleAtom;
-import org.eclipse.epsilon.evl.dom.Constraint;
-import org.eclipse.epsilon.evl.dom.ConstraintContext;
-import org.eclipse.epsilon.evl.execute.context.IEvlContext;
+import org.eclipse.epsilon.evl.execute.atoms.ConstraintAtom;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
@@ -24,7 +19,7 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EvlModuleParallelConstraintAtoms extends EvlModuleParallelAtomic<ExecutableRuleAtom<Constraint>> {
+public class EvlModuleParallelConstraintAtoms extends EvlModuleParallelAtomic<ConstraintAtom> {
 
 	public EvlModuleParallelConstraintAtoms() {
 		super();
@@ -35,25 +30,7 @@ public class EvlModuleParallelConstraintAtoms extends EvlModuleParallelAtomic<Ex
 	}
 
 	@Override
-	protected List<ExecutableRuleAtom<Constraint>> getAllJobsImpl() throws EolRuntimeException {
-		ArrayList<ExecutableRuleAtom<Constraint>> atoms = new ArrayList<>();
-		IEvlContext context = getContext();
-		
-		for (ConstraintContext constraintContext : getConstraintContexts()) {
-			Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
-			for (Object element : allOfKind) {
-				if (constraintContext.shouldBeChecked(element, context)) {
-					Collection<Constraint> constraints = constraintContext.getConstraints();
-					atoms.ensureCapacity(atoms.size()+(constraints.size()*allOfKind.size()));
-					
-					for (Constraint constraint : constraints) {
-						atoms.add(new ExecutableRuleAtom<>(constraint, element, context));
-					}
-				}
-			}
-		}
-		
-		return atoms;
+	public List<ConstraintAtom> getAllJobs() throws EolRuntimeException {
+		return ConstraintAtom.getAllJobs(this);
 	}
-
 }

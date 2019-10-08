@@ -9,13 +9,19 @@
 **********************************************************************/
 package org.eclipse.epsilon.ecl.concurrent;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.epsilon.ecl.EclModule;
+import org.eclipse.epsilon.ecl.dom.MatchRule;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.*;
+import org.eclipse.epsilon.eol.dom.Annotation;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
-import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
+import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 
 /**
  * A no-op parallel module, useful only for extending and setting
@@ -24,7 +30,7 @@ import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EclModuleParallel extends EclModule implements IErlModuleParallel {
+public class EclModuleParallel extends EclModule {
 
 	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
 	static {
@@ -37,6 +43,48 @@ public class EclModuleParallel extends EclModule implements IErlModuleParallel {
 	
 	public EclModuleParallel(IEclContextParallel context) {
 		super(context != null ? context : new EclContextParallel());
+	}
+	
+	@Override
+	protected void matchAllRules(boolean greedy) throws EolRuntimeException {
+		boolean ofTypeOnly = !greedy;
+		IEclContextParallel context = getContext();
+		EolExecutorService executor = context.beginParallelTask();
+		
+		for (MatchRule matchRule : getMatchRules()) {
+			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (ofTypeOnly || matchRule.isGreedy())) {
+				Collection<?> leftInstances = matchRule.getLeftInstances(context, ofTypeOnly);
+				Collection<?> rightInstances = matchRule.getRightInstances(context, ofTypeOnly);
+				
+				Annotation pAnnotation = matchRule.getAnnotation(IErlContextParallel.PARALLEL_ANNOTATION_NAME);
+				
+				if (pAnnotation != null) {
+					if (matchRule.getBooleanAnnotationValue(IErlContextParallel.PARALLEL_ANNOTATION_NAME, context, () ->
+						new Variable[] {
+							Variable.createReadOnlyVariable("leftInstances", leftInstances),
+							Variable.createReadOnlyVariable("rightInstances", rightInstances),
+							Variable.createReadOnlyVariable("matchRule", matchRule),
+							Variable.createReadOnlyVariable("THREADS", context.getParallelism())
+					})) {
+						for (Object left : leftInstances) {
+							for (Object right : rightInstances) {
+								executor.execute(() -> matchRule.matchPair(context, ofTypeOnly, left, right));
+							}
+						}
+					}
+				}
+				else {
+					for (Object left : leftInstances) {
+						for (Object right : rightInstances) {
+							matchRule.matchPair(context, ofTypeOnly, left, right);
+						}
+					}
+				}
+			}
+		}
+		
+		executor.awaitCompletion();
+		context.endParallelTask();
 	}
 	
 	@Override

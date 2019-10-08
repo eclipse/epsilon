@@ -33,7 +33,7 @@ public class ConstraintAtom extends EvlAtom<Constraint> {
 		super(constraint, modelElement);
 	}
 	
-	public static ArrayList<ConstraintAtom> getConstraintJobs(IEvlModule module) throws EolRuntimeException {
+	public static ArrayList<ConstraintAtom> getAllJobs(IEvlModule module) throws EolRuntimeException {
 		ArrayList<ConstraintAtom> atoms = new ArrayList<>();
 		IEvlContext context = module.getContext();
 		for (ConstraintContext constraintContext : module.getConstraintContexts()) {

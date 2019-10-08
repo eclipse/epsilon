@@ -11,7 +11,6 @@ package org.eclipse.epsilon.erl.launch;
 
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.erl.IErlModule;
-import org.eclipse.epsilon.erl.concurrent.IErlModuleParallel;
 
 /**
  * 
@@ -22,21 +21,15 @@ public abstract class IErlRunConfiguration extends IEolRunConfiguration {
 	
 	public static abstract class Builder<R extends IErlRunConfiguration, B extends Builder<R, B>> extends IEolRunConfiguration.Builder<R, B> {
 		
-		@Override
-		protected IErlModule createModule() {
-			return isParallel() ? createParallelModule() : createDefaultModule();
-		}
-		
-		protected abstract IErlModule createDefaultModule();
-		
-		protected abstract IErlModuleParallel createParallelModule();
-		
 		protected Builder() {
 			super();
 		}
 		protected Builder(Class<R> runConfigClass) {
 			super(runConfigClass);
 		}
+		
+		@Override
+		protected abstract IErlModule createModule();
 		
 	}
 	
