@@ -7,30 +7,36 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.evl.concurrent.atomic;
+package org.eclipse.epsilon.egl.concurrent.atomic;
 
 import java.util.List;
+import org.eclipse.epsilon.egl.concurrent.EgxModuleParallel;
+import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
-import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
-import org.eclipse.epsilon.evl.execute.atoms.EvlAtom;
-import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
+import org.eclipse.epsilon.erl.execute.data.RuleAtom;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
+ * @param <A>
  */
-public abstract class EvlModuleParallelAtomic<A extends EvlAtom<?>> extends EvlModuleParallel implements IErlModuleAtomicBatches<A> {
+public abstract class EgxModuleParallelAtomic<A extends RuleAtom<?>> extends EgxModuleParallel implements IErlModuleAtomicBatches<A> {
 
-	public EvlModuleParallelAtomic() {
-		this(null);
+	public EgxModuleParallelAtomic() {
+		super();
 	}
-	
-	public EvlModuleParallelAtomic(IEvlContextParallel context) {
+
+	public EgxModuleParallelAtomic(String outputRoot) throws EglRuntimeException {
+		super(outputRoot);
+	}
+
+	public EgxModuleParallelAtomic(IEgxContextParallel context) {
 		super(context);
 	}
-	
+
 	protected List<A> jobsCache;
 
 	@Override
@@ -48,7 +54,7 @@ public abstract class EvlModuleParallelAtomic<A extends EvlAtom<?>> extends EvlM
 	protected abstract List<A> getAllJobsImpl() throws EolRuntimeException;
 	
 	@Override
-	protected void checkConstraints() throws EolRuntimeException {
-		getContext().executeJob(getAllJobs());
+	protected Object processRules() throws EolRuntimeException {
+		return getContext().executeJob(getAllJobs());
 	}
 }

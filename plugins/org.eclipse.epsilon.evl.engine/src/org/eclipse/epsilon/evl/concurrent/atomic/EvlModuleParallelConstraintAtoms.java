@@ -30,7 +30,7 @@ public class EvlModuleParallelConstraintAtoms extends EvlModuleParallelAtomic<Co
 	}
 
 	@Override
-	public List<ConstraintAtom> getAllJobs() throws EolRuntimeException {
+	protected List<ConstraintAtom> getAllJobsImpl() throws EolRuntimeException {
 		return ConstraintAtom.getAllJobs(this);
 	}
 }

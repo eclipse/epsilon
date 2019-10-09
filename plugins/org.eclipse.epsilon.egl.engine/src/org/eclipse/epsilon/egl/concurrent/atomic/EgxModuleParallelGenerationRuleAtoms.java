@@ -10,19 +10,17 @@
 package org.eclipse.epsilon.egl.concurrent.atomic;
 
 import java.util.List;
-import org.eclipse.epsilon.egl.concurrent.EgxModuleParallel;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.atoms.GenerationRuleAtom;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public class EgxModuleParallelGenerationRuleAtoms extends EgxModuleParallel implements IErlModuleAtomicBatches<GenerationRuleAtom> {
+public class EgxModuleParallelGenerationRuleAtoms extends EgxModuleParallelAtomic<GenerationRuleAtom> {
 
 	public EgxModuleParallelGenerationRuleAtoms() {
 		super();
@@ -35,14 +33,9 @@ public class EgxModuleParallelGenerationRuleAtoms extends EgxModuleParallel impl
 	public EgxModuleParallelGenerationRuleAtoms(IEgxContextParallel context) {
 		super(context);
 	}
-
-	@Override
-	protected Object processRules() throws EolRuntimeException {
-		return getContext().executeJob(getAllJobs());
-	}
 	
 	@Override
-	public List<? extends GenerationRuleAtom> getAllJobs() throws EolRuntimeException {
+	protected List<GenerationRuleAtom> getAllJobsImpl() throws EolRuntimeException {
 		return GenerationRuleAtom.getAllJobs(this);
 	}
 }
