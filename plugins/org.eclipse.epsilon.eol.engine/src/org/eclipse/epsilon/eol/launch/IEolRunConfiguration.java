@@ -32,7 +32,6 @@ import org.eclipse.epsilon.eol.IEolModule;
  */
 public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	
-	protected static final Set<IModel> LOADED_MODELS = new HashSet<>();
 	public final Map<IModel, StringProperties> modelsAndProperties;
 	public final Map<String, Object> parameters;
 	private final IEolModule module;
@@ -106,29 +105,35 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		if (modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
 			for (Map.Entry<IModel, StringProperties> modelAndProp : modelsAndProperties.entrySet()) {
 				IModel model = modelAndProp.getKey();
-				if (!LOADED_MODELS.contains(model)) {
-					boolean shouldLoad = true;
-					if (model instanceof CachedModel) {
-						CachedModel<?> cModel = (CachedModel<?>) model;
-						if (module.getContext() instanceof IEolContextParallel) {
-							cModel.setConcurrent(true);
-						}
-						shouldLoad = !cModel.isLoaded();
+				boolean shouldLoad = true;
+				if (model instanceof CachedModel) {
+					CachedModel<?> cModel = (CachedModel<?>) model;
+					shouldLoad = !cModel.isLoaded();
+					Object context = module.getContext();
+					if (context instanceof IEolContextParallel && ((IEolContextParallel) context).getParallelism() > 1) {
+						cModel.setConcurrent(true);
 					}
-					if (shouldLoad) {
-						StringProperties modelProperties = modelAndProp.getValue();
-						if (modelProperties != null) {
-							model.load(modelProperties); 
-						}
-						else {
-							model.load();
-						}
+				}
+				if (shouldLoad) {
+					StringProperties modelProperties = modelAndProp.getValue();
+					if (modelProperties != null) {
+						model.load(modelProperties); 
 					}
-					LOADED_MODELS.add(model);
+					else {
+						model.load();
+					}
 				}
 				module.getContext().getModelRepository().addModel(model);
 			}
 		}
+	}
+	
+	public void dispose() {
+		module.getContext().dispose();
+		parameters.clear();
+		//modelsAndProperties.keySet().forEach(IModel::dispose);
+		modelsAndProperties.clear();
+		module.setContext(null);
 	}
 	
 	@Override

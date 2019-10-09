@@ -119,6 +119,11 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	@Test
 	public abstract void _test0() throws Exception;
 	
+	@Test
+	public void zzz_AfterAll() throws Exception {
+		testConfig.dispose();
+	}
+	
 	/**
 	 * Pre-requisite for testing.
 	 */

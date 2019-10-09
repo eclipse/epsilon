@@ -82,7 +82,7 @@ public class EvlTests {
 		PlainXmlModel model = new PlainXmlModel();
 		model.setFile(new File(EvlAcceptanceTestUtil.modelsRoot+modelName));
 		model.setName(FileUtil.removeExtension(model.getFile().getName()));
-		//model.setCachingEnabled(true);
+		model.setCachingEnabled(false);
 		return model;
 	}
 	

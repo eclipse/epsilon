@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
 import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
-import org.eclipse.epsilon.evl.trace.ConstraintTraceItem;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -88,6 +87,7 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 			synchronized (TIMEOUT_LOCK) {
 				testInProgress = false;
 				TIMEOUT_LOCK.notify();
+				currentTestConfig = null;
 			}
 		}
 	};
@@ -129,8 +129,10 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 	@Test
 	public void testConstraintTraces() {
 		// Uses Set instead of List for performance reasons when calling containsAll.
-		Function<EvlRunConfiguration, Collection<ConstraintTraceItem>> ctContents = cfg ->
-			cfg.getModule().getContext().getConstraintTrace().stream().collect(Collectors.toSet());
+		Function<EvlRunConfiguration, Collection<?>> ctContents = cfg ->
+			cfg.getModule().getContext().getConstraintTrace()
+			.stream()//.map(Object::toString)
+			.collect(Collectors.toSet());
 		
 		onFail(testCollectionsHaveSameElements(
 			ctContents.apply(expectedConfig),

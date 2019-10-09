@@ -192,11 +192,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	protected void finalize() {
-		clearExecutor();
-	}
-	
-	@Override
 	public EolExecutorService beginParallelTask(ModuleElement entryPoint, boolean shortCircuiting) throws EolNestedParallelismException {
 		ensureNotNested(entryPoint != null ? entryPoint : getModule());
 		isInShortCircuitTask = shortCircuiting;
@@ -253,6 +248,18 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 			executorService = newExecutorService();
 		}
 		return executorService;
+	}
+	
+	@Override
+	protected void finalize() {
+		clearExecutor();
+	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		clearExecutor();
+		nullifyThreadLocals();
 	}
 	
 	@Override

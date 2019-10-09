@@ -149,6 +149,14 @@ public class PlainXmlModel extends CachedModel<Element> {
 		bindings.add(new Binding(sourceTag, sourceAttribute, targetTag, targetAttribute, many));
 	}
 	
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean isLoaded() {
+		return document != null;
+	}
+	
 	@Override
 	protected Element createInstanceInModel(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		return createInstance(type, Collections.emptyList());

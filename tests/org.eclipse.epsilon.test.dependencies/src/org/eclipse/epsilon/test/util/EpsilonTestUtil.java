@@ -78,7 +78,7 @@ public class EpsilonTestUtil {
 			System.err.println("Actual: \n\t"+actual);
 			return sameSize;
 		}
-		
+
 		return printIfDifferent(!actual.containsAll(expected), expected, actual, collectionName);
 	}
 }

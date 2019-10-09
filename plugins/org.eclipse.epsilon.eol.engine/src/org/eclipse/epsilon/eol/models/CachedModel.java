@@ -77,15 +77,51 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	Collection<ModelElementType> allContentsCache;
 	protected Multimap<Object, ModelElementType> typeCache;
 	protected Multimap<Object, ModelElementType> kindCache;
-	protected boolean concurrent;
-	protected boolean cachingEnabled;
+	boolean concurrent;
+	boolean cachingEnabled;
 	
 	/**
 	 * @since 1.6
 	 */
 	protected CachedModel() {
-		setConcurrent(false);
-		setCachingEnabled(false);
+		initCaches();
+	}
+	
+	/**
+	 * Sets the caches based on this model's properties. This
+	 * method should only be called if there has been a change to
+	 * the properties ({@link #cachingEnabled} or {@link #concurrent})
+	 * as the caches will be reset.
+	 * 
+	 * @since 1.6
+	 */
+	protected void initCaches() {
+		typeCache = typeCache != null ?
+			new Multimap<>(concurrent, typeCache) : new Multimap<>(concurrent);	
+		kindCache = kindCache != null ?
+			new Multimap<>(concurrent, kindCache) : new Multimap<>(concurrent);
+		
+		if (allContentsCache != null) {
+			wrapAllContents(allContentsCache);
+		}
+	}
+	
+	public void setCachingEnabled(boolean cachingEnabled) {
+		if (this.cachingEnabled != cachingEnabled) {
+			this.cachingEnabled = cachingEnabled;
+			if (cachingEnabled) {
+				initCaches();
+			}
+			else {
+				allContentsCache = null;
+				kindCache = null;
+				typeCache = null;
+			}
+		}
+	}
+	
+	public boolean isCachingEnabled() {
+		return cachingEnabled;
 	}
 	
 	/**
@@ -103,15 +139,9 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	 * @since 1.6
 	 */
 	public void setConcurrent(boolean concurrent) {
-		this.concurrent = concurrent;
-		
-		typeCache = typeCache != null ?
-			new Multimap<>(concurrent, typeCache) : new Multimap<>(concurrent);	
-		kindCache = kindCache != null ?
-			new Multimap<>(concurrent, kindCache) : new Multimap<>(concurrent);
-		
-		if (allContentsCache != null) {
-			wrapAllContents(allContentsCache);
+		if (this.concurrent != concurrent) {
+			this.concurrent = concurrent;
+			initCaches();
 		}
 	}
 	
@@ -134,39 +164,43 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	}
 	
 	protected void addToCache(String type, ModelElementType instance) throws EolModelElementTypeNotFoundException {
+		assert cachingEnabled;
+		
 		if (allContentsCache != null) {
 			allContentsCache.add(instance);
 		}
 		
-		Object typeCacheKey = getCacheKeyForType(type);
-		typeCache.putIfPresent(typeCacheKey, instance);
+		if (typeCache != null) {
+			Object typeCacheKey = getCacheKeyForType(type);
+			typeCache.putIfPresent(typeCacheKey, instance);
+		}
 
-		for (String kind : getAllTypeNamesOf(instance)) {
-			Object kindCacheKey = getCacheKeyForType(kind);
-			kindCache.putIfPresent(kindCacheKey, instance);
+		if (kindCache != null) {
+			for (String kind : getAllTypeNamesOf(instance)) {
+				Object kindCacheKey = getCacheKeyForType(kind);
+				kindCache.putIfPresent(kindCacheKey, instance);
+			}
 		}
 	}
 
 	protected void removeFromCache(ModelElementType instance) throws EolModelElementTypeNotFoundException {
+		assert cachingEnabled;
+		
 		if (allContentsCache != null) {
 			allContentsCache.remove(instance);
 		}
 
-		Object typeCacheKey = getCacheKeyForType(getTypeNameOf(instance));
-		typeCache.remove(typeCacheKey, instance);
-
-		for (String kind : getAllTypeNamesOf(instance)) {
-			Object kindCacheKey = getCacheKeyForType(kind);
-			kindCache.remove(kindCacheKey, instance);
+		if (typeCache != null) {
+			Object typeCacheKey = getCacheKeyForType(getTypeNameOf(instance));
+			typeCache.remove(typeCacheKey, instance);
 		}
-	}
 
-	public void setCachingEnabled(boolean cachingEnabled) {
-		this.cachingEnabled = cachingEnabled;
-	}
-	
-	public boolean isCachingEnabled() {
-		return cachingEnabled;
+		if (kindCache != null) {
+			for (String kind : getAllTypeNamesOf(instance)) {
+				Object kindCacheKey = getCacheKeyForType(kind);
+				kindCache.remove(kindCacheKey, instance);
+			}
+		}
 	}
 	
 	/**

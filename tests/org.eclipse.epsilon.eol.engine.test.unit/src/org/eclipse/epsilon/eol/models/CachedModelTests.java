@@ -422,7 +422,7 @@ public class CachedModelTests {
 	private static class SimpleCachedModel extends CachedModel<String> {
 		
 		SimpleCachedModel() {
-			this.cachingEnabled = true;
+			setCachingEnabled(true);
 		}
 		
 		protected Collection<String> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {

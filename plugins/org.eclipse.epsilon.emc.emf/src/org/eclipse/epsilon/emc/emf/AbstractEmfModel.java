@@ -61,17 +61,14 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	protected Resource modelImpl;
 	protected boolean expand = true;
-	protected boolean parallelAllOf;
+	boolean parallelAllOf;
 	protected Registry registry;
 	Map<String, EClass> eClassCache;
 	
-	/**
-	 * @since 1.6
-	 */
 	@Override
-	public void setConcurrent(boolean concurrent) {
-		super.setConcurrent(concurrent);
-		if (concurrent) {
+	protected void initCaches() {
+		super.initCaches();
+		if (isConcurrent()) {
 			eClassCache = eClassCache != null ?
 				ConcurrencyUtils.concurrentMap(eClassCache) : ConcurrencyUtils.concurrentMap();
 		}
@@ -611,5 +608,13 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
 		this.parallelAllOf = properties.getBooleanProperty(PROPERTY_PARALLEL, false);
+	}
+	
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean isLoaded() {
+		return modelImpl != null && modelImpl.isLoaded();
 	}
 }
