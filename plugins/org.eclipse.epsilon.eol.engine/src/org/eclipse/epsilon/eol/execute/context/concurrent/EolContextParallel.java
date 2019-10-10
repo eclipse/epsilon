@@ -208,7 +208,9 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	@Override
 	public Object endParallelTask() throws EolRuntimeException {
 		Object result = IEolContextParallel.super.endParallelTask();
-		//clearExecutor();
+		if (isInShortCircuitTask) {
+			clearExecutor();
+		}
 		clearThreadLocals();
 		isInParallelTask = false;
 		isInShortCircuitTask = false;

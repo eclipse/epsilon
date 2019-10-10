@@ -12,6 +12,7 @@ package org.eclipse.epsilon.eol.execute.context.concurrent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Spliterator;
@@ -248,15 +249,18 @@ public interface IEolContextParallel extends IEolContext {
 	 */
 	@SuppressWarnings("unchecked")
 	default Object executeJob(Object job) throws EolRuntimeException {
-		if (job instanceof Runnable) {
+		if (job == null) {
+			return null;
+		}
+		else if (job instanceof Runnable) {
 			((Runnable) job).run();
 			return null;
 		}
 		else if (job instanceof Iterable) {
-			final int colSize = job instanceof Collection ? ((Collection<?>) job).size() : 256;
+			final int colSize = job instanceof Collection ? ((Collection<?>) job).size() : -1;
 			
 			if (isParallelisationLegal()) {
-				Collection<Callable<Object>> jobs = new ArrayList<>(colSize);
+				Collection<Callable<Object>> jobs = colSize >= 0 ? new ArrayList<>(colSize) : new LinkedList<>();
 				for (Object next : (Iterable<?>) job) {
 					jobs.add(next instanceof Callable ?
 						(Callable<Object>) next :
@@ -266,7 +270,7 @@ public interface IEolContextParallel extends IEolContext {
 				return executeParallelTyped(jobs);
 			}
 			else {
-				final Collection<Object> results = new ArrayList<>(colSize);
+				Collection<Object> results = colSize >= 0 ? new ArrayList<>(colSize) : new LinkedList<>();
 				for (Object next : (Iterable<?>) job) {
 					results.add(executeJob(next));
 				}

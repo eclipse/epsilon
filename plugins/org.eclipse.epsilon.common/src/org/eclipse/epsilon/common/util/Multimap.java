@@ -93,7 +93,7 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	protected Collection<V> newCollection(Collection<? extends V> values) {
 		return isConcurrent ?
 			ConcurrencyUtils.concurrentOrderedCollection(values) :
-			values != null ? new LinkedList<>(values) : new LinkedList<>();
+			values != null ? new ArrayList<>(values) : new LinkedList<>();
 	} 
 	
 	/**
