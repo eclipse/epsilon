@@ -35,12 +35,19 @@ public abstract class Model implements IModel {
 	public static final String PROPERTY_ALIASES = "aliases";
 	
 	/**
+	 * Indicates that the model will not be modified.
+	 * @since 1.6
+	 */
+	public static final String PROPERTY_READONLY = "readOnly";
+	
+	/**
+	 * Used for acquiring properties externally (e.g. from environment variables)
 	 * @since 1.6
 	 */
 	protected static final String ENV_PREFIX = "org.eclipse.epsilon.emc.";
 	
 	protected String name;
-	protected List<String> aliases = new ArrayList<>();
+	protected List<String> aliases = new ArrayList<>(1);
 	protected boolean storeOnDisposal = false;
 	protected boolean readOnLoad = true;
 	
@@ -71,14 +78,16 @@ public abstract class Model implements IModel {
 	
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
-		this.name = properties.getProperty(PROPERTY_NAME);
-		this.readOnLoad = Boolean.parseBoolean(properties.getProperty(PROPERTY_READONLOAD, ""+readOnLoad));
-		this.storeOnDisposal = Boolean.parseBoolean(properties.getProperty(PROPERTY_STOREONDISPOSAL, ""+storeOnDisposal));
+		setName(properties.getProperty(PROPERTY_NAME, name));
+		setReadOnLoad(properties.getBooleanProperty(PROPERTY_READONLOAD, readOnLoad));
+		setStoredOnDisposal(properties.getBooleanProperty(PROPERTY_STOREONDISPOSAL, storeOnDisposal));
 		
-		String[] aliases = properties.getProperty(PROPERTY_ALIASES).split(",");
-		CollectionUtil.addCapacityIfArrayList(this.aliases, aliases.length);
-		for (String alias : aliases) {
-			this.aliases.add(alias.trim());
+		if (properties.hasProperty(PROPERTY_ALIASES)) {
+			String[] aliases = properties.getProperty(PROPERTY_ALIASES).split(",");
+			CollectionUtil.addCapacityIfArrayList(this.aliases, aliases.length);
+			for (String alias : aliases) {
+				this.aliases.add(alias.trim());
+			}
 		}
 	}
 	

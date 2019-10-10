@@ -218,17 +218,14 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		
 		String filePath = properties.getProperty(PROPERTY_FILE);
 		if (filePath != null && filePath.trim().length() > 0)
-			file = new File(resolver.resolve(filePath));
+			setFile(new File(resolver.resolve(filePath)));
 		if (file == null) throw new IllegalStateException(
 			"File cannot be null! Please ensure the '"+PROPERTY_FILE+"' property is set."
 		);
 		
-		if (properties.hasProperty(PROPERTY_MATLAB_PATH))
-			matlabPath = properties.getProperty(PROPERTY_MATLAB_PATH);
-		if (properties.hasProperty(PROPERTY_LIBRARY_PATH))
-			libraryPath = properties.getProperty(PROPERTY_LIBRARY_PATH);
-		if (properties.hasProperty(PROPERTY_ENGINE_JAR_PATH))
-			engineJarPath = properties.getProperty(PROPERTY_ENGINE_JAR_PATH);
+		setMatlabPath(properties.getProperty(PROPERTY_MATLAB_PATH, matlabPath));
+		setLibraryPath(properties.getProperty(PROPERTY_LIBRARY_PATH, libraryPath));
+		setEngineJarPath(properties.getProperty(PROPERTY_ENGINE_JAR_PATH, engineJarPath));
 		
 		resolvePaths();
 	}

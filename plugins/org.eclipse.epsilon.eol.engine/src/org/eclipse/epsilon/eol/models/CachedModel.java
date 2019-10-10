@@ -96,10 +96,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	 * @since 1.6
 	 */
 	protected void initCaches() {
-		typeCache = typeCache != null ?
-			new Multimap<>(concurrent, typeCache) : new Multimap<>(concurrent);	
-		kindCache = kindCache != null ?
-			new Multimap<>(concurrent, kindCache) : new Multimap<>(concurrent);
+		typeCache = new Multimap<>(concurrent, false, typeCache);
+		kindCache = new Multimap<>(concurrent, false, kindCache);
 		
 		if (allContentsCache != null) {
 			wrapAllContents(allContentsCache);
@@ -292,8 +290,8 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
-		this.setCachingEnabled(properties.getBooleanProperty(PROPERTY_CACHED, false));
-		this.setConcurrent(properties.getBooleanProperty(PROPERTY_CONCURRENT, false));
+		this.setCachingEnabled(properties.getBooleanProperty(PROPERTY_CACHED, cachingEnabled));
+		this.setConcurrent(properties.getBooleanProperty(PROPERTY_CONCURRENT, concurrent));
 	}
 
 	@Override

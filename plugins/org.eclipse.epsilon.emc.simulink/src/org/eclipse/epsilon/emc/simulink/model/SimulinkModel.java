@@ -263,39 +263,17 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 			return getAllOfTypeFromModel(kind_);
 		}
 	}
-	
-	public static void main(String[] args) throws Exception {
-		File tmpFile = File.createTempFile("foo", ".slx");
-		
-		SimulinkModel model = new SimulinkModel();
-		model.setName("M");
-		model.setFile(tmpFile);
-		model.setWorkingDir(null);
-		model.setReadOnLoad(false);
-		model.setStoredOnDisposal(false);
-		model.setShowInMatlabEditor(true);
-		model.setFollowLinks(false);
-		model.setLibraryPath("/Applications/MATLAB_R2018b.app/bin/maci64/");
-		model.setEngineJarPath("/Applications/MATLAB_R2018b.app/extern/engines/java/jar/engine.jar");
-		//model.addPath("");
-	
-		model.load();
-		
-		System.out.println(model.getAllOfType("Gain"));
-	}
 
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException { 
 		super.load(properties, resolver);
 		
-		String workingDirPath = properties.getProperty(SimulinkModel.PROPERTY_WORKING_DIR);
-		if (properties.hasProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR))
-			showInMatlabEditor = properties.getBooleanProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR, false);
-		if (properties.hasProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS))
-			followLinks = properties.getBooleanProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS, true);
+		String workingDirPath = properties.getProperty(PROPERTY_WORKING_DIR);
+		setShowInMatlabEditor(properties.getBooleanProperty(PROPERTY_SHOW_IN_MATLAB_EDITOR, showInMatlabEditor));
+		setFollowLinks(properties.getBooleanProperty(PROPERTY_FOLLOW_LINKS, followLinks));
 		String filePath = properties.getProperty(PROPERTY_FILE);
 		if (!StringUtil.isEmpty(workingDirPath)) {
-			workingDir = new File(resolver.resolve(filePath));
+			setWorkingDir(new File(resolver.resolve(filePath)));
 		}
 		String paths = properties.getProperty(SimulinkModel.PROPERTY_PATHS);
 		if (!StringUtil.isEmpty(paths)) {

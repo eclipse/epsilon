@@ -89,8 +89,8 @@ public class StringProperties extends Properties {
 	
 	public boolean getBooleanProperty(String key, boolean def) {
 		String property = getProperty(key);
-		if (property.equalsIgnoreCase("true")) return true;
-		else if (property.equalsIgnoreCase("false")) return false;
+		if ("true".equalsIgnoreCase(property)) return true;
+		else if ("false".equalsIgnoreCase(property)) return false;
 		else return def;
 	}
 	

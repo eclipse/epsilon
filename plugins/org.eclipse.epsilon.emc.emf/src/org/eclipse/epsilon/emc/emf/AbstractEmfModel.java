@@ -57,13 +57,16 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	 * Whether to perform getAllOfKind and getAllOfType operations in parallel.
 	 * False by default.
 	 */
-	public static final String PROPERTY_PARALLEL = "parallel";
+	public static final String PROPERTY_PARALLELALLOF = "parallelAllOf";
 	
 	protected Resource modelImpl;
 	protected boolean expand = true;
-	boolean parallelAllOf;
 	protected Registry registry;
 	Map<String, EClass> eClassCache;
+	/**
+	 * @since 1.6
+	 */
+	boolean parallelAllOf;
 	
 	@Override
 	protected void initCaches() {
@@ -607,7 +610,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
-		this.parallelAllOf = properties.getBooleanProperty(PROPERTY_PARALLEL, false);
+		setParallelAllOf(properties.getBooleanProperty(PROPERTY_PARALLELALLOF, parallelAllOf));
 	}
 	
 	/**

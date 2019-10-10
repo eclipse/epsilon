@@ -105,16 +105,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		if (modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
 			for (Map.Entry<IModel, StringProperties> modelAndProp : modelsAndProperties.entrySet()) {
 				IModel model = modelAndProp.getKey();
-				boolean shouldLoad = true;
-				if (model instanceof CachedModel) {
-					CachedModel<?> cModel = (CachedModel<?>) model;
-					shouldLoad = !cModel.isLoaded();
-					Object context = module.getContext();
-					if (context instanceof IEolContextParallel && ((IEolContextParallel) context).getParallelism() > 1) {
-						cModel.setConcurrent(true);
-					}
-				}
-				if (shouldLoad) {
+				if (!(model instanceof CachedModel) || !((CachedModel<?>) model).isLoaded()) {
 					StringProperties modelProperties = modelAndProp.getValue();
 					if (modelProperties != null) {
 						model.load(modelProperties); 

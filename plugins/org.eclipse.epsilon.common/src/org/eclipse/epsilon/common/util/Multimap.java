@@ -11,6 +11,7 @@
 package org.eclipse.epsilon.common.util;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Stream;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 
@@ -23,32 +24,42 @@ import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 public class Multimap<K, V> implements Map<K, Collection<V>> {
 	
 	protected final Map<K, Collection<V>> storage;
-	protected final boolean isConcurrent;
+	protected final boolean isConcurrent, isReadOptimized;
 	
 	/**
 	 * Creates a non-concurrent Multimap.
 	 */
 	public Multimap() {
-		this(false);
+		this(false, false);
 	}
 	
 	/**
 	 * 
 	 * @param concurrent Whether this implementation should be thread-safe.
+	 * 
+	 * @param readOnly Whether this Multimap (i.e. both the underlying Map itself and
+	 * collections associated with keys) will be immutable or rarely written to.
+	 * 
 	 * @since 1.6
 	 */
-	public Multimap(boolean concurrent) {
-		this(concurrent, null);
+	public Multimap(boolean concurrent, boolean readOnly) {
+		this(concurrent, readOnly, null);
 	}
 	
 	/**
 	 * 
 	 * @param concurrent Whether this implementation should be thread-safe.
+	 * 
+	 * @param readOnly Whether this Multimap (i.e. both the underlying Map itself and
+	 * collections associated with keys) will be immutable or rarely written to.
+	 * 
 	 * @param other The Multimap to copy from.
+	 * 
 	 * @since 1.6
 	 */
-	public Multimap(boolean concurrent, Multimap<K, V> other) {
+	public Multimap(boolean concurrent, boolean readOnly, Multimap<K, V> other) {
 		this.isConcurrent = concurrent;
+		this.isReadOptimized = readOnly;
 		this.storage = newMapDelegate(other != null ? other.storage : null);
 	}
 	
@@ -69,7 +80,7 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 * @param initial The elements to add to the multimap.
 	 * @return A suitable Map based on the thread-safety of this Multimap.
 	 */
-	protected final Map<K, Collection<V>> newMapDelegate(Map<? extends K, ? extends Collection<V>> initial) {
+	protected Map<K, Collection<V>> newMapDelegate(Map<? extends K, ? extends Collection<V>> initial) {
 		return isConcurrent ? ConcurrencyUtils.concurrentMap(initial) :
 			initial != null ? new HashMap<>(initial) : new HashMap<>();
 	}
@@ -91,7 +102,10 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 * @since 1.6
 	 */
 	protected Collection<V> newCollection(Collection<? extends V> values) {
-		return isConcurrent ?
+		if (isReadOptimized) {
+			return values != null ? new CopyOnWriteArrayList<>(values) : new CopyOnWriteArrayList<>();
+		}
+		else return isConcurrent ?
 			ConcurrencyUtils.concurrentOrderedCollection(values) :
 			values != null ? new ArrayList<>(values) : new LinkedList<>();
 	} 
