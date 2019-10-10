@@ -37,6 +37,16 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 * 
 	 * @param concurrent Whether this implementation should be thread-safe.
 	 * 
+	 * @since 1.6
+	 */
+	public Multimap(boolean concurrent) {
+		this(concurrent, false);
+	}
+	
+	/**
+	 * 
+	 * @param concurrent Whether this implementation should be thread-safe.
+	 * 
 	 * @param readOnly Whether this Multimap (i.e. both the underlying Map itself and
 	 * collections associated with keys) will be immutable or rarely written to.
 	 * 
@@ -57,10 +67,19 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 * 
 	 * @since 1.6
 	 */
-	public Multimap(boolean concurrent, boolean readOnly, Multimap<K, V> other) {
+	public Multimap(boolean concurrent, boolean readOnly, Map<K, ? extends Collection<V>> other) {
 		this.isConcurrent = concurrent;
 		this.isReadOptimized = readOnly;
-		this.storage = newMapDelegate(other != null ? other.storage : null);
+		this.storage = newMapDelegate(other != null ? other : null);
+	}
+	
+	/**
+	 * Copy constructor.
+	 * @param other The Multimap to copy from.
+	 * @throws NullPointerException If the Multimap is null.
+	 */
+	public Multimap(Multimap<K, V> other) {
+		this(Objects.requireNonNull(other).isConcurrent, other.isReadOptimized, other.storage);
 	}
 	
 	/**
