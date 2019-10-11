@@ -367,7 +367,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 		StringBuilder output = new StringBuilder();
 		if (this.knownHeaders) {
 			// First line is the headers
-			Iterator<String> keyIt = ((Map<String, Object>) ((LinkedList<Map<String, Object>>) rows).getFirst()).keySet().iterator();
+			Iterator<String> keyIt = ((LinkedList<Map<String, Object>>) rows).getFirst().keySet().iterator();
 			output.append(keyIt.next());
 			while (keyIt.hasNext()) {
 				output.append(this.fieldSeparator);
@@ -426,8 +426,8 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 		if (!"Row".equals(type)) {
 			throw new EolModelElementTypeNotFoundException(this.name, type);
 		}
-		Map<String, Object> returnVal = new LinkedHashMap<String, Object>();
-		for (String key : ((Map<String, Object>) ((LinkedList<Map<String, Object>>) rows).getFirst()).keySet()) {
+		Map<String, Object> returnVal = new LinkedHashMap<>();
+		for (String key : ((LinkedList<Map<String, Object>>) rows).getFirst().keySet()) {
 			returnVal.put(key, "");
 		}
 		rows.add(returnVal);
@@ -484,7 +484,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	protected static List<Map<String, Object>> createRows(BufferedReader reader,
 			boolean knownHeaders, char fieldSeparator, boolean varargsHeaders) throws Exception {
 		
-		List<Map<String, Object>> rows = new LinkedList<Map<String, Object>>();
+		List<Map<String, Object>> rows = new LinkedList<>();
 		
 		Iterable<CSVRecord> records;
 		try {
@@ -493,7 +493,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 				csvFormat = csvFormat.withFirstRecordAsHeader();
 				records = csvFormat.parse(reader);
 				for (CSVRecord record : records) {
-					LinkedHashMap<String, Object> row = new LinkedHashMap<String, Object>();
+					LinkedHashMap<String, Object> row = new LinkedHashMap<>();
 					if (!varargsHeaders) {
 						for (Entry<String, String> entry : record.toMap().entrySet()) {
 							row.put(entry.getKey(), entry.getValue());
@@ -510,7 +510,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 							row.put(hmKeysIT.next(), value);
 							i++;
 						}
-						List<String> varargsField = new ArrayList<String>();
+						List<String> varargsField = new ArrayList<>();
 						while(it.hasNext()) {
 							varargsField.add(it.next());	
 						}
@@ -523,7 +523,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 				for (CSVRecord record : records) {
 					List<String> values = new ArrayList<>();
 					record.iterator().forEachRemaining(values::add);
-					LinkedHashMap<String, Object> row = new LinkedHashMap<String, Object>();
+					LinkedHashMap<String, Object> row = new LinkedHashMap<>();
 					row.put("field", values);
 					rows.add(row);
 				}

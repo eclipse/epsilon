@@ -85,6 +85,7 @@ public class BibtexModelConfigurationDialogue extends AbstractModelConfiguration
 			this.text = text;
 		}
 		
+		@Override
 		public void handleEvent(Event event) {
 			final String file = BrowseWorkspaceUtil.browseFilePath(getShell(),
 			                                                       "BibTeX source files in the workspace",

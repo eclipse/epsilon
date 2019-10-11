@@ -17,6 +17,8 @@ import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.csv.CsvModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.models.CachedModel;
+import org.eclipse.epsilon.eol.models.Model;
 import org.eclipse.epsilon.workflow.tasks.EpsilonTask;
 
 /**
@@ -66,11 +68,11 @@ public class LoadCsvModelTask extends EpsilonTask {
 
 		
 		final StringProperties properties = new StringProperties();
-		properties.put(CsvModel.PROPERTY_NAME, name + "");
-		properties.put(CsvModel.PROPERTY_ALIASES, alias + "");
-		properties.put(CsvModel.PROPERTY_CACHED, String.valueOf(cached));
-		properties.put(CsvModel.PROPERTY_READONLOAD, String.valueOf(read));
-		properties.put(CsvModel.PROPERTY_STOREONDISPOSAL, String.valueOf(store));
+		properties.put(Model.PROPERTY_NAME, name + "");
+		properties.put(Model.PROPERTY_ALIASES, alias + "");
+		properties.put(CachedModel.PROPERTY_CACHED, String.valueOf(cached));
+		properties.put(Model.PROPERTY_READONLOAD, String.valueOf(read));
+		properties.put(Model.PROPERTY_STOREONDISPOSAL, String.valueOf(store));
 		properties.put(CsvModel.PROPERTY_FIELD_SEPARATOR, fieldSeparator);
 		properties.put(CsvModel.PROPERTY_QUOTE_CHARACTER, quoteChar);
 		properties.put(CsvModel.PROPERTY_HAS_KNOWN_HEADERS, String.valueOf(knownHeaders));

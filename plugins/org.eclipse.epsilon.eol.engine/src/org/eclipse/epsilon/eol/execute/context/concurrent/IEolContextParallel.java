@@ -252,11 +252,7 @@ public interface IEolContextParallel extends IEolContext {
 		if (job == null) {
 			return null;
 		}
-		else if (job instanceof Runnable) {
-			((Runnable) job).run();
-			return null;
-		}
-		else if (job instanceof Iterable) {
+		if (job instanceof Iterable) {
 			final int colSize = job instanceof Collection ? ((Collection<?>) job).size() : -1;
 			
 			if (isParallelisationLegal()) {
@@ -277,28 +273,28 @@ public interface IEolContextParallel extends IEolContext {
 				return results;
 			}
 		}
-		else if (job instanceof ModuleElement) {
+		if (job instanceof ModuleElement) {
 			return getExecutorFactory().execute((ModuleElement) job, this);
 		}
-		else if (job instanceof Stream) {
+		if (job instanceof Stream) {
 			Stream<?> stream = (Stream<?>) job;
 			boolean finite = stream.spliterator().hasCharacteristics(Spliterator.SIZED);
 			return executeJob(finite ? stream.collect(Collectors.toList()) : stream.iterator());
 		}
-		else if (job instanceof BaseStream) {
+		if (job instanceof BaseStream) {
 			return executeJob(((BaseStream<?,?>)job).iterator());
 		}
-		else if (job instanceof Iterator) {
+		if (job instanceof Iterator) {
 			Iterable<?> iter = () -> (Iterator<Object>) job;
 			return executeJob(iter);
 		}
-		else if (job instanceof Spliterator) {
+		if (job instanceof Spliterator) {
 			return executeJob(StreamSupport.stream((Spliterator<?>) job, isParallelisationLegal()));
 		}
-		else if (job instanceof Supplier) {
+		if (job instanceof Supplier) {
 			return ((Supplier<?>) job).get();
 		}
-		else try {
+		try {
 			if (job instanceof Future) {
 				return ((Future<?>) job).get();
 			}
@@ -308,6 +304,10 @@ public interface IEolContextParallel extends IEolContext {
 		}
 		catch (Exception ex) {
 			EolRuntimeException.propagateDetailed(ex);
+		}
+		if (job instanceof Runnable) {
+			((Runnable) job).run();
+			return null;
 		}
 			
 		throw new IllegalArgumentException("Received unexpected object of type "+job.getClass().getName());

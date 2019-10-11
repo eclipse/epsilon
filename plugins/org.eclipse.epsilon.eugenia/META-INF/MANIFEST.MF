@@ -20,3 +20,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.eugenia,
  org.eclipse.epsilon.eugenia.operationcontributors
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.eugenia

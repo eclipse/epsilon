@@ -42,6 +42,14 @@ public class BibtexModel extends CachedModel<Publication> {
 		this.bibtex = bibtex;
 	}
 	
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public boolean isLoaded() {
+		return bibtex != null && bibliography != null;
+	}
+	
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
@@ -64,17 +72,19 @@ public class BibtexModel extends CachedModel<Publication> {
 		bibliography = new BibtexParser(bibtex).parse();
 	}
 
+	@Override
 	public boolean owns(Object instance) {
 		return instance instanceof Publication;
 	}
 	
+	@Override
 	public boolean hasType(String type) {
 		return bibliography.hasType(type);
 	}
 	
 	@Override
 	protected Collection<Publication> allContentsFromModel() {
-		return new LinkedList<Publication>(bibliography.publications);
+		return new LinkedList<>(bibliography.publications);
 	}
 	
 	@Override
@@ -101,6 +111,7 @@ public class BibtexModel extends CachedModel<Publication> {
 				return "id".equals(property) || ((Publication)object).hasProperty(property);
 			}
 
+			@Override
 			public Object invoke(Object object, String property) throws EolRuntimeException {
 				final Publication publication = (Publication)object;
 				
@@ -113,12 +124,14 @@ public class BibtexModel extends CachedModel<Publication> {
 	public IPropertySetter getPropertySetter() {
 		return new AbstractPropertySetter() {
 			
+			@Override
 			public void invoke(Object value) throws EolRuntimeException {
 				((Publication)object).setProperty(property, value);
 			}
 		};
 	}
 	
+	@Override
 	public boolean store(String location) {
 		try {
 			FileUtil.setFileContents(new BibtexUnparser(bibliography).unparse(), new File(location));
@@ -130,38 +143,47 @@ public class BibtexModel extends CachedModel<Publication> {
 		}
 	}
 
+	@Override
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Object getTypeOf(Object instance) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public String getTypeNameOf(Object instance) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Object getElementById(String id) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public String getElementId(Object instance) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setElementId(Object instance, String newId) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean isInstantiable(String type) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean isModelElement(Object instance) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean store() {
 		throw new UnsupportedOperationException();
 	}

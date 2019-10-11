@@ -9,3 +9,4 @@ Require-Bundle: org.eclipse.epsilon.eol.engine
 Export-Package: org.eclipse.epsilon.emc.bibtex,
  org.eclipse.epsilon.emc.bibtex.domain,
  org.eclipse.epsilon.emc.bibtex.parser
+Automatic-Module-Name: org.eclipse.epsilon.emc.bibtex

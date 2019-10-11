@@ -16,9 +16,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 public class CsvModelConfigurationDialogue extends AbstractCachedModelConfigurationDialog {
@@ -80,13 +78,9 @@ public class CsvModelConfigurationDialogue extends AbstractCachedModelConfigurat
 		
 		knownHeadersBtn = new Button(groupContent, SWT.CHECK);
 		knownHeadersBtn.setText("Known Headers");
-		knownHeadersBtn.addListener(SWT.Selection, new Listener() {
-			
-			@Override
-			public void handleEvent(Event event) {
-				System.out.println("knownHeadersBtn Selected");
-				varargsHeadersBtn.setEnabled(knownHeadersBtn.getSelection());
-			}
+		knownHeadersBtn.addListener(SWT.Selection, event -> {
+			System.out.println("knownHeadersBtn Selected");
+			varargsHeadersBtn.setEnabled(knownHeadersBtn.getSelection());
 		});
 		varargsHeadersBtn = new Button(groupContent, SWT.CHECK);
 		varargsHeadersBtn.setText("Varargs Headers");

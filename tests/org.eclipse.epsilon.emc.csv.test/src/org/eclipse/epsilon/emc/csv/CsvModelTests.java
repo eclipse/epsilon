@@ -182,7 +182,7 @@ public class CsvModelTests {
 				for (int j=0; j<headers.length; j++) {
 					//Varargs
 					if (j == headers.length-1) {
-						List<String> varargRowData = new ArrayList<String>();
+						List<String> varargRowData = new ArrayList<>();
 						for(int k=0; k<rowData.length-headers.length+1;k++) {
 							varargRowData.add(rowData[j+k]);
 						}
@@ -238,7 +238,7 @@ public class CsvModelTests {
 			assertTrue(model.isModelElement(row));
 			Map<String, Object> row2 = new LinkedHashMap<>();
 			assertFalse(model.isModelElement(row2));
-			row2 = new HashMap<String, Object>();
+			row2 = new HashMap<>();
 			row2.putAll(row);
 			assertFalse(model.isModelElement(row2));
 		}
@@ -254,7 +254,7 @@ public class CsvModelTests {
 			thrown.expect(IllegalArgumentException.class);
 	        thrown.expectMessage("Not a valid CSV model instance");
 			model.getTypeOf(row2);
-			row2 = new HashMap<String, Object>();
+			row2 = new HashMap<>();
 			row2.putAll(row);
 			model.getTypeOf(row2);
 		}
@@ -290,7 +290,7 @@ public class CsvModelTests {
 			thrown.expect(IllegalArgumentException.class);
 	        thrown.expectMessage("Not a valid CSV model instance");
 			model.getAllTypeNamesOf(row2);
-			row2 = new HashMap<String, Object>();
+			row2 = new HashMap<>();
 			row2.putAll(row);
 			model.getAllTypeNamesOf(row2);
 		}
@@ -314,7 +314,7 @@ public class CsvModelTests {
 			thrown.expect(IllegalArgumentException.class);
 	        thrown.expectMessage("Not a valid CSV model instance");
 			model.getTypeNameOf(row2);
-			row2 = new HashMap<String, Object>();
+			row2 = new HashMap<>();
 			row2.putAll(row);
 			model.getTypeNameOf(row2);
 		}
@@ -330,7 +330,7 @@ public class CsvModelTests {
 			thrown.expect(IllegalArgumentException.class);
 	        thrown.expectMessage("Not a valid CSV model instance");
 			model.getTypeNameOf(row2);
-			row2 = new HashMap<String, Object>();
+			row2 = new HashMap<>();
 			row2.putAll(row);
 			model.getTypeNameOf(row2);
 			
@@ -374,8 +374,7 @@ public class CsvModelTests {
 		@Test
 		public void testCreateInstanceInModelString() throws Exception, EolNotInstantiableModelElementTypeException {
 			Map<String, Object> newRow = model.createInstanceInModel("Row");
-			for (int i=0;i<headers.length;i++) {
-				String key = headers[i];
+			for (String key : headers) {
 				assertThat(String.format("Field %s should be empty", key), newRow.get(key), is(""));
 			}
 			thrown.expect(EolModelElementTypeNotFoundException.class);
@@ -385,8 +384,7 @@ public class CsvModelTests {
 
 		@Test
 		public void testHasProperty() throws Exception {
-			for (int i=0;i<headers.length;i++) {
-				String key = headers[i];
+			for (String key : headers) {
 				assertThat(String.format("Row has property %s.", key), model.hasProperty("Row", key), is(true));
 			}
 			assertThat("Row doesn't have property someProperty.", model.hasProperty("Row", "someProperty"), is(false));
