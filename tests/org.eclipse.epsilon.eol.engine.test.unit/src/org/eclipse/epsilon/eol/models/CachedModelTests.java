@@ -425,26 +425,32 @@ public class CachedModelTests {
 			setCachingEnabled(true);
 		}
 		
+		@Override
 		protected Collection<String> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
 			return new ArrayList<>(Collections.singleton("Fake" + type));
 		}
 
+		@Override
 		public Collection<String> getAllOfKindFromModel(String kind) throws EolModelElementTypeNotFoundException {
 			return new ArrayList<>(Collections.singleton("Fake" + kind));
 		}	
 
+		@Override
 		protected Collection<String> allContentsFromModel() {
 			return new ArrayList<>(Arrays.asList("FakeWidget", "FakeSprocket"));
 		}
 
+		@Override
 		protected Object getCacheKeyForType(String type) throws EolModelElementTypeNotFoundException {
 			return type;
 		}
 		
+		@Override
 		protected String createInstanceInModel(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 			return "New" + type;
 		}
 		
+		@Override
 		protected boolean deleteElementInModel(Object instance) throws EolRuntimeException {
 			return true;
 		}
@@ -454,10 +460,12 @@ public class CachedModelTests {
 			return Collections.singleton("Widget");
 		}
 		
+		@Override
 		public String getTypeNameOf(Object instance) {
 			return "Widget";
 		}
 		
+		@Override
 		protected void loadModel() throws EolModelLoadingException {}
 		
 		@Override
@@ -466,56 +474,67 @@ public class CachedModelTests {
 		/* The following methods aren't used by CachedModel */
 		
 		
+		@Override
 		public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		@Override
 		public Object getTypeOf(Object instance) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		@Override
 		public Object getElementById(String id) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		@Override
 		public String getElementId(Object instance) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		@Override
 		public void setElementId(Object instance, String newId) {
 			// TODO Auto-generated method stub
 			
 		}
 
+		@Override
 		public boolean owns(Object instance) {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public boolean isInstantiable(String type) {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public boolean isModelElement(Object instance) {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public boolean hasType(String type) {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public boolean store(String location) {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public boolean store() {
 			// TODO Auto-generated method stub
 			return false;

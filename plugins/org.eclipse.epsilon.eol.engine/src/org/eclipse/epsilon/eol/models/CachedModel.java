@@ -221,7 +221,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 			wrapAllContents(allContents);
 			return allContentsCache;
 		}
-		else return wrap(allContents);
+		return wrap(allContents);
 	}
 	
 	/**

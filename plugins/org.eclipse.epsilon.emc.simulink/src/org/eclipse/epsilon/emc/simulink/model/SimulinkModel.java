@@ -149,6 +149,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	
 	@Override
 	protected void addToCache(String type, ISimulinkModelElement instance) throws EolModelElementTypeNotFoundException {
+		assert kindCache != null;
 		for (String kind : getAllTypeNamesOf(instance)) {
 			Object kindCacheKey = getCacheKeyForType(kind);
 			kindCache.putIfPresent(kindCacheKey, instance);
@@ -157,6 +158,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 
 	@Override
 	protected void removeFromCache(ISimulinkModelElement instance) throws EolModelElementTypeNotFoundException {
+		assert kindCache != null;
 		for (String kind : getAllTypeNamesOf(instance)) {
 			final Object kindCacheKey = getCacheKeyForType(kind);
 			kindCache.remove(kindCacheKey, instance);
@@ -166,16 +168,14 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	@Override
 	public void deleteElement(Object o) throws EolRuntimeException {
 		deleteElementInModel(o);
-		if (isCachingEnabled()) {
-			if (o instanceof ISimulinkModelElement) {
-				removeFromCache((ISimulinkModelElement) o);
-				String type = ((ISimulinkModelElement) o).getType();
-				for (List<String> specialType : deleteBlockMap) {
-					if (specialType.contains(type)) {
-						for (String equivalent : specialType) {
-							if (!equivalent.equals(type)) {
-								kindCache.replaceValues(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
-							}
+		if (isCachingEnabled() && o instanceof ISimulinkModelElement) {
+			removeFromCache((ISimulinkModelElement) o);
+			String type = ((ISimulinkModelElement) o).getType();
+			for (List<String> specialType : deleteBlockMap) {
+				if (specialType.contains(type)) {
+					for (String equivalent : specialType) {
+						if (!equivalent.equals(type)) {
+							kindCache.replaceValues(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
 						}
 					}
 				}
@@ -189,8 +189,8 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 		ISimulinkModelElement instance = createInstanceInModel(type);
 		if (isCachingEnabled()) {
 			addToCache(instance.getType(), instance);
-			if (createBlockMap.containsKey(type)){
-				for (String equivalent : createBlockMap.get(type)){
+			if (createBlockMap.containsKey(type)) {
+				for (String equivalent : createBlockMap.get(type)) {
 					kindCache.replaceValues(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
 				}
 			}
@@ -209,8 +209,8 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 						StateflowBlock instance = new StateflowBlock(this, engine, type, (StateflowBlock) parentObject);
 						if (isCachingEnabled()) {
 							addToCache(instance.getType(), instance);
-							if (createBlockMap.containsKey(type)){
-								for (String equivalent : createBlockMap.get(type)){
+							if (createBlockMap.containsKey(type)) {
+								for (String equivalent : createBlockMap.get(type)) {
 									kindCache.replaceValues(equivalent, getAllOfTypeFromModel(equivalent)); // refresh for type
 								}
 							}

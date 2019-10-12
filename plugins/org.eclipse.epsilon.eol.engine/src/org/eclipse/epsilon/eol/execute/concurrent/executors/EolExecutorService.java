@@ -282,14 +282,7 @@ public interface EolExecutorService extends ExecutorService {
 	}
 	
 	default Future<?> submit(CheckedRunnable<?> task) {
-		return submit((Runnable) (Runnable) () -> {
-			try {
-				task.runThrows();
-			}
-			catch (Exception ex) {
-				handleException(ex);
-			}
-		});
+		return submit(task, null);
 	}
 	
 	default <T> Future<T> submit(CheckedRunnable<?> task, T result) {

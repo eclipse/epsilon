@@ -70,7 +70,6 @@ public class TypeHelper {
 				// it is more likely that we are dealing with a block but we dont rule out line or port
 				kinds = new Kind[]{Kind.BLOCK, Kind.PORT, Kind.LINE};
 			}
-			Collection<ISimulinkModelElement> tmp = null;
 			for (Kind k : kinds) {
 				try {
 					return k.getAllSimulinkTypeFromModel(model, type);

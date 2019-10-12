@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Spinner;
 /**
  * 
  * @author Horacio Hoyos
- * @author Sina Madani
+ * @author Sina Madani - parallel configuraiton utils
  * @since 1.6
  */
 public class AbstractModuleConfiguration implements ModuleConfiguration {
@@ -66,7 +66,10 @@ public class AbstractModuleConfiguration implements ModuleConfiguration {
 	
 	// Parallel module utils
 	
-	protected static final int THREAD_INITIAL = ConcurrencyUtils.DEFAULT_PARALLELISM;
+	protected static final int THREAD_INITIAL = Math.max(1, ConcurrencyUtils.DEFAULT_PARALLELISM - 1);
+	protected static final int THREAD_INCREMENTS = calculateThreadIncrementFromInitial(THREAD_INITIAL);
+	protected static final int THREAD_MAXIMUM = THREAD_INITIAL*THREAD_INCREMENTS;
+	
 	/**
 	 * Example mapping of initial -> increment:</br>
 	 * 	64 -> 8,</br>
@@ -81,10 +84,6 @@ public class AbstractModuleConfiguration implements ModuleConfiguration {
 	 * 	4 -> 2,</br>
 	 * 	2 -> 1
 	 */
-	protected static final int THREAD_INCREMENTS = calculateThreadIncrementFromInitial(THREAD_INITIAL);
-	protected static final int THREAD_MAXIMUM = THREAD_INITIAL*THREAD_INCREMENTS;
-	
-	
 	protected static int calculateThreadIncrementFromInitial(int initial) {
 		for (int i = (int) Math.round(Math.sqrt(initial)); i > 0; i--) {
 			if (initial % i == 0)
