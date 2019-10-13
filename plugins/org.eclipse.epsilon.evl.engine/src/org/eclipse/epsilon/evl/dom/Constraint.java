@@ -158,9 +158,7 @@ public class Constraint extends NamedRule implements IExecutableModuleElementPar
 			unsatisfiedConstraint.setInstance(self);
 			unsatisfiedConstraint.setConstraint(this);
 
-			String messageResult = messageBlock != null ?
-					messageBlock.execute(context, false) :
-					"Invariant "+this.getName()+" failed for "+context.getPrettyPrinterManager().toString(self);
+			String messageResult = getUnsatisfiedMessage(self, context);
 
 			unsatisfiedConstraint.setMessage(messageResult);
 			context.getUnsatisfiedConstraints().add(unsatisfiedConstraint);
@@ -184,6 +182,21 @@ public class Constraint extends NamedRule implements IExecutableModuleElementPar
 		return result;
 	}
 
+	/**
+	 * Returns the message to be used in {@linkplain UnsatisfiedConstraint#getMessage()}.
+	 * 
+	 * @param self The model element.
+	 * @param context The execution context.
+	 * @return The message if this Constraint's check block returns false.
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	public String getUnsatisfiedMessage(Object self, IEvlContext context) throws EolRuntimeException {
+		return messageBlock != null ?
+			messageBlock.execute(context, false) :
+			"Invariant "+this.getName()+" failed for "+context.getPrettyPrinterManager().toString(self);
+	}
+	
 	/**
 	 * Checks whether this constraint's guard block has dependencies on other constraint(s).
 	 * 

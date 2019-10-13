@@ -17,7 +17,7 @@ public class UnsatisfiedConstraint {
 	protected Constraint constraint;
 	protected String message;
 	protected Object instance;
-	protected final Deque<FixInstance> fixes = new LinkedList<>();
+	protected final List<FixInstance> fixes = new LinkedList<>();
 	protected boolean fixed = false;
 	protected Map<String, Object> extras = new HashMap<>();
 	
@@ -53,7 +53,7 @@ public class UnsatisfiedConstraint {
 		this.instance = result;
 	}
 	
-	public Deque<FixInstance> getFixes() {
+	public List<FixInstance> getFixes() {
 		return fixes;
 	}
 	

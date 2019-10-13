@@ -72,8 +72,8 @@ public interface IEvlModule extends IErlModule {
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
-	default Constraint getConstraint(String name, Object target, IEvlContext context, ModuleElement ast) throws EolRuntimeException {
-		Optional<Constraint> constraint = getConstraint(name, null, target, context, false);
+	default Constraint getConstraint(String name, Object target, ModuleElement ast) throws EolRuntimeException {
+		Optional<Constraint> constraint = getConstraint(name, null, target, false);
 		if (!constraint.isPresent()) {
 			constraint = getConstraints().stream().filter(c -> c.getName().equals(name)).findFirst();
 		}
@@ -91,7 +91,8 @@ public interface IEvlModule extends IErlModule {
 	 * @throws EolRuntimeException#
 	 * @since 1.6
 	 */
-	default Optional<Constraint> getConstraint(String name, ConstraintContext constraintContext, Object target, IEvlContext context, boolean appliesTo) throws EolRuntimeException {
+	default Optional<Constraint> getConstraint(String name, ConstraintContext constraintContext, Object target, boolean appliesTo) throws EolRuntimeException {
+		IEvlContext context = getContext();
 		for (Constraint constraint : getConstraints()) {
 			ConstraintContext cc = constraintContext == null ? constraint.getConstraintContext() : constraintContext;
 			if (

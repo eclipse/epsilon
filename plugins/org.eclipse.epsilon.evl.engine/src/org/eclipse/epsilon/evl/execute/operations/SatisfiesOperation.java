@@ -56,7 +56,7 @@ public class SatisfiesOperation extends SimpleOperation {
 		for (Object parameter : parameters) {
 			String constraintName = context.getPrettyPrinterManager().toString(parameter);
 
-			Constraint constraint = module.getConstraint(constraintName, source, context, ast);
+			Constraint constraint = module.getConstraint(constraintName, source, ast);
 			
 			// This is to avoid duplication of global constraints
 			if (constraint.getConstraintContext() instanceof GlobalConstraintContext) {
