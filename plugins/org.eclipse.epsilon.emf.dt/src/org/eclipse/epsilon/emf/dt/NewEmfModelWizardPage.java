@@ -26,8 +26,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -82,6 +80,7 @@ public class NewEmfModelWizardPage extends WizardPage {
 	/**
 	 * @see IDialogPage#createControl(Composite)
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -94,11 +93,7 @@ public class NewEmfModelWizardPage extends WizardPage {
 		containerText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		containerText.setLayoutData(gd);
-		containerText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
+		containerText.addModifyListener(e -> dialogChanged());
 
 		Button button = new Button(container, SWT.PUSH);
 		button.setText("Browse...");
@@ -114,11 +109,7 @@ public class NewEmfModelWizardPage extends WizardPage {
 		fileText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		fileText.setLayoutData(gd);
-		fileText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
+		fileText.addModifyListener(e -> dialogChanged());
 	
 		new Label(container, SWT.NONE);
 		
@@ -203,7 +194,7 @@ public class NewEmfModelWizardPage extends WizardPage {
 	
 	void populateRootClassCombo(String namespaceUri) {
 		rootClassCombo.removeAll();
-		ArrayList<String> classNames = new ArrayList<String>();
+		ArrayList<String> classNames = new ArrayList<>();
 		EPackage ePackage = (EPackage) EPackage.Registry.INSTANCE.get(namespaceUri);
 		Iterator<EObject> it = ePackage.eAllContents();
 		while (it.hasNext()){

@@ -35,6 +35,7 @@ public class WizardsPreferencePage extends PreferencePage implements IWorkbenchP
 	
 	public class RemoveListener implements Listener {
 
+		@Override
 		public void handleEvent(Event event) {
 			WizardsExtensionPreference preference = (WizardsExtensionPreference) ((IStructuredSelection) viewer.getSelection()).getFirstElement();
 			if (preference!=null) {
@@ -47,6 +48,7 @@ public class WizardsPreferencePage extends PreferencePage implements IWorkbenchP
 
 	public class AddListener implements Listener {
 
+		@Override
 		public void handleEvent(Event event) {
 			WizardsExtensionPreference preference = new WizardsExtensionPreference();
 			WizardsExtensionPreferenceDialog dialog = new WizardsExtensionPreferenceDialog(getShell());
@@ -61,6 +63,7 @@ public class WizardsPreferencePage extends PreferencePage implements IWorkbenchP
 
 	public class EditListener implements Listener {
 
+		@Override
 		public void handleEvent(Event event) {
 			WizardsExtensionPreference preference = (WizardsExtensionPreference) ((IStructuredSelection) viewer.getSelection()).getFirstElement();
 			if (preference!=null) {
@@ -123,6 +126,7 @@ public class WizardsPreferencePage extends PreferencePage implements IWorkbenchP
 		return control;
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 		
 	}
@@ -136,10 +140,12 @@ public class WizardsPreferencePage extends PreferencePage implements IWorkbenchP
 	
 	class WizardsPreferenceLabelProvider implements ITableLabelProvider {
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			WizardsExtensionPreference preference = (WizardsExtensionPreference) element;
 			if (columnIndex == 0) {
@@ -153,21 +159,25 @@ public class WizardsPreferencePage extends PreferencePage implements IWorkbenchP
 			}
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 			// TODO Auto-generated method stub
 			
 		}
 
+		@Override
 		public void dispose() {
 			// TODO Auto-generated method stub
 			
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 			// TODO Auto-generated method stub
 			

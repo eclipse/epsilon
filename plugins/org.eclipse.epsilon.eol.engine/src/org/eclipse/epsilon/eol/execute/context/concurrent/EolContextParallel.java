@@ -71,7 +71,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @param other The context to copy from. Structures
 	 * in this parameter may be modified to be thread-safe.
 	 */
-	public EolContextParallel(IEolContext other) {
+	protected EolContextParallel(IEolContext other) {
 		super(other);
 		frameStack.setThreadSafe(true);
 		executorFactory.setThreadSafe(true);

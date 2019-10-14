@@ -77,6 +77,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 	/**
 	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
 	 */
+	@Override
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		this.targetPart = targetPart;
 	}
@@ -84,6 +85,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 	/**
 	 * @see IActionDelegate#run(IAction)
 	 */
+	@Override
 	public void run(IAction action) {
 		// do nothing
 	}
@@ -91,6 +93,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 	/**
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
 	 */
+	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.selection = selection;
 		action.setMenuCreator(this);
@@ -119,10 +122,12 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 		return wizardsMenu;
 	}
 
+	@Override
 	public void menuHidden(MenuEvent e) {
 		// not interested in this event
 	}
 
+	@Override
 	public void menuShown(MenuEvent e) {
 		populateWizardsMenu((Menu)e.widget);
 	}
@@ -149,8 +154,8 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 			item.dispose();
 		}
 		
-		List<EObject> eObjects = new ArrayList<EObject>();
-		List<WizardInstance> applicableWizards = new ArrayList<WizardInstance>();
+		List<EObject> eObjects = new ArrayList<>();
+		List<WizardInstance> applicableWizards = new ArrayList<>();
 
 		if ((selection instanceof IStructuredSelection)) {
 			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
@@ -173,7 +178,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 			}
 
 			final Resource mainResource = eObjects.get(0).eResource();
-			models = new ArrayList<InMemoryEmfModel>();
+			models = new ArrayList<>();
 			models.add(new InMemoryEmfModel("Model", mainResource, ePackages));
 			if (getEditingDomain() instanceof AdapterFactoryEditingDomain) {
 				// AFED is the common superclass of many useful editing domains, such as the GMF DiagramEditingDomain,
@@ -182,7 +187,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 				final AdapterFactoryEditingDomain adapterEDomain = (AdapterFactoryEditingDomain)getEditingDomain();
 
 				// Try to give the extra models better names (without collisions)
-				final Map<String, Integer> usedCounts = new HashMap<String,Integer>();
+				final Map<String, Integer> usedCounts = new HashMap<>();
 				for (Resource res : adapterEDomain.getResourceSet().getResources()) {
 					if (res != mainResource) {
 						final String modelName = extractModelNameFromExtension(res, usedCounts);
@@ -239,10 +244,12 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 				LogUtil.log(e);
 			}
 			wizardItem.addSelectionListener(new SelectionListener() {
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					// do nothing
 				}
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 						WorkbenchPartRefresher refresher = getWorkbenchPartRefresher();
 						refresher.setPart(targetPart);
@@ -294,7 +301,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 	}
 
 	private List<IConfigurationElement> getConfigurationElementsFor(final Set<String> eObjectURIs) {
-		final List<IConfigurationElement> availableConfigElems = new ArrayList<IConfigurationElement>();
+		final List<IConfigurationElement> availableConfigElems = new ArrayList<>();
 		for (IConfigurationElement configurationElement : getAllConfigurationElements()) {
 			String namespaceURI = configurationElement.getAttribute("namespaceURI");
 			if (namespaceURI.equalsIgnoreCase("*") || eObjectURIs.contains(namespaceURI)) {
@@ -305,7 +312,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 	}
 
 	private Set<String> getEObjectURIsFor(Collection<EObject> eObjects) {
-		final Set<String> eObjectURIs = new TreeSet<String>(); 
+		final Set<String> eObjectURIs = new TreeSet<>(); 
 		for (EObject eObject : eObjects) {
 			String eObjectNsURI = EmfUtil.getTopEPackage(eObject).getNsURI();
 			eObjectURIs.add(eObjectNsURI);
@@ -314,7 +321,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 	}
 
 	private List<URI> getEwlURIsFor(Set<String> eObjectURIs, Collection<IConfigurationElement> availableConfigElems) {
-		final List<URI> wizardURIs = new ArrayList<URI>();
+		final List<URI> wizardURIs = new ArrayList<>();
 		for (IConfigurationElement configurationElement : availableConfigElems) {
 			String pluginId = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
 			try {
@@ -335,7 +342,7 @@ public abstract class AbstractContributeWizardsAction implements IObjectActionDe
 	}
 
 	private List<EPackage> getExtraPackages(Collection<IConfigurationElement> availableConfigElems) {
-		final List<EPackage> ePackages = new ArrayList<EPackage>();
+		final List<EPackage> ePackages = new ArrayList<>();
 		for (IConfigurationElement elem : availableConfigElems) {
 			final String extraPackages = elem.getAttribute("extraPackages");
 			if (extraPackages == null) continue;

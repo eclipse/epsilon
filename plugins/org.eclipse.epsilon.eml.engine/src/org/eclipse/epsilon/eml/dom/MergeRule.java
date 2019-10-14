@@ -127,7 +127,7 @@ public class MergeRule extends ExtensibleNamedRule {
 		Collection<Object> targets = CollectionUtil.createDefaultList();
 		
 		for (Parameter targetParameter : targetParameters) {
-			EolType targetParameterType = (EolType) targetParameter.getType(context);
+			EolType targetParameterType = targetParameter.getType(context);
 			targets.add(targetParameterType.createInstance());
 		}
 
@@ -148,7 +148,7 @@ public class MergeRule extends ExtensibleNamedRule {
 		str = str + ") : ";
 		ListIterator<Parameter> li = targetParameters.listIterator();
 		while (li.hasNext()) {
-			Parameter targetParameter = (Parameter) li.next();
+			Parameter targetParameter = li.next();
 			str += targetParameter.getTypeName();
 			if (li.hasNext()) {
 				str += ", ";

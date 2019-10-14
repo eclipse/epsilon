@@ -15,6 +15,7 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 
 public class ContributeEmfWizardsAction extends AbstractContributeWizardsAction {
 	
+	@Override
 	protected EditingDomain getEditingDomain() {
 		if (targetPart instanceof IEditingDomainProvider) {
 			return ((IEditingDomainProvider) targetPart).getEditingDomain();
@@ -23,6 +24,7 @@ public class ContributeEmfWizardsAction extends AbstractContributeWizardsAction 
 		}
 	}
 
+	@Override
 	protected EObject getEObject(Object selected) {
 		if (selected instanceof EObject) {
 			return (EObject) selected;

@@ -39,7 +39,7 @@ public class WizardNewImmuatableProjectCreationPage extends WizardNewProjectCrea
 	}
 	
 	protected List<Control> getDescendants(Composite composite, Class<?> c) {
-		List<Control> controls = new ArrayList<Control>();
+		List<Control> controls = new ArrayList<>();
 		if (c.isInstance(composite)) controls.add(composite);
 		
 		for (Control control : composite.getChildren()) {

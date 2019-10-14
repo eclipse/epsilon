@@ -17,24 +17,8 @@ import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
 public class EtlContext extends ErlContext implements IEtlContext {
 	
-	protected TransformationTrace transformationTrace;
+	protected TransformationTrace transformationTrace = new TransformationTrace();
 	protected ITransformationStrategy transformationStrategy;
-	
-	public EtlContext() {
-		transformationTrace = new TransformationTrace(false);
-	}
-	
-	/**
-	 * Copy constructor.
-	 * 
-	 * @param other
-	 * @since 1.6
-	 */
-	public EtlContext(IEtlContext other) {
-		super(other);
-		this.transformationTrace = other.getTransformationTrace();
-		this.transformationStrategy = other.getTransformationStrategy();
-	}
 	
 	@Override
 	public TransformationTrace getTransformationTrace() {

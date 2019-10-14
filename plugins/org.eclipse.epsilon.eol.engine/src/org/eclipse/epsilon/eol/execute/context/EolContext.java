@@ -74,7 +74,7 @@ public class EolContext implements IEolContext {
 	 * @param other
 	 * @since 1.6
 	 */
-	public EolContext(IEolContext other) {
+	protected EolContext(IEolContext other) {
 		userInput = other.getUserInput();
 		frameStack = other.getFrameStack();
 		modelRepository = other.getModelRepository();

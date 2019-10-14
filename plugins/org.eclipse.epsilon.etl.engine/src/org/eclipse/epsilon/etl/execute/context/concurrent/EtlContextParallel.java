@@ -12,7 +12,6 @@ package org.eclipse.epsilon.etl.execute.context.concurrent;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.etl.IEtlModule;
-import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.strategy.ITransformationStrategy;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
@@ -25,12 +24,6 @@ public class EtlContextParallel extends ErlContextParallel implements IEtlContex
 
 	protected TransformationTrace transformationTrace;
 	protected ITransformationStrategy transformationStrategy;
-	
-	public EtlContextParallel(IEtlContext other) {
-		super(other);
-		this.transformationStrategy = other.getTransformationStrategy();
-		this.transformationTrace = other.getTransformationTrace();
-	}
 	
 	public EtlContextParallel() {
 		this(0);

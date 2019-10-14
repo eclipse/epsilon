@@ -19,14 +19,17 @@ public class NewHutnFileWizard extends AbstractNewFileWizard {
 	}
 	
 	
+	@Override
 	public String getTitle() {
 		return "New HUTN File";
 	}
 
+	@Override
 	public String getExtension() {
 		return "hutn";
 	}
 
+	@Override
 	public String getDescription() {
 		return "This wizard creates a new HUTN file with *.hutn extension";
 	}

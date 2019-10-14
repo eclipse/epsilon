@@ -11,9 +11,7 @@ package org.eclipse.epsilon.ecl.execute.context.concurrent;
 
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.ecl.IEclModule;
-import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
-import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 
 /**
@@ -34,17 +32,6 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 		super(parallelism);
 	}
 
-	public EclContextParallel(IEclContext other) {
-		super(other);
-		this.matchTrace = new MatchTrace(other.getMatchTrace());
-		this.tempMatchTrace = new MatchTrace(other.getMatchTrace());
-	}
-	
-	public static IEclContextParallel convertToParallel(IEclContext context) throws EolNestedParallelismException {
-		if (context instanceof IEclContextParallel) return (IEclContextParallel) context;
-		return new EclContextParallel(context);
-	}
-	
 	@Override
 	protected void initMainThreadStructures() {
 		super.initMainThreadStructures();

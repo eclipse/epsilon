@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.erl.execute.context.concurrent;
 
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 
@@ -30,10 +29,6 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 		setExecutorFactory(null);
 	}
 	
-	public ErlContextParallel(IEolContext other) {
-		super(other);
-	}
-
 	@Override
 	protected void initMainThreadStructures() {
 		super.initMainThreadStructures();

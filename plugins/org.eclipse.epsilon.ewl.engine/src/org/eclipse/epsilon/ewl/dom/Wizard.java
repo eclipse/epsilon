@@ -31,6 +31,7 @@ public class Wizard extends NamedRule implements IExecutableModuleElementParamet
 		super();
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);

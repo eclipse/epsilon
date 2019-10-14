@@ -54,18 +54,15 @@ public abstract class AbstractNewFileWizard2 extends Wizard implements INewWizar
         
         final IFile file = newFileWizardPage.createNewFile();
         
-        getShell().getDisplay().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				IWorkbenchPage page =
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				try {
-					//IDE.openEditor(page, file, true);
-					IEditorDescriptor desc = PlatformUI.getWorkbench().
-					        getEditorRegistry().getDefaultEditor(file.getName());
-					page.openEditor(new FileEditorInput(file), desc.getId());
-				} catch (PartInitException e) {
-				}
+        getShell().getDisplay().asyncExec(() -> {
+			IWorkbenchPage page =
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			try {
+				//IDE.openEditor(page, file, true);
+				IEditorDescriptor desc = PlatformUI.getWorkbench().
+				        getEditorRegistry().getDefaultEditor(file.getName());
+				page.openEditor(new FileEditorInput(file), desc.getId());
+			} catch (PartInitException e) {
 			}
 		});
         

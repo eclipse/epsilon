@@ -27,20 +27,6 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	protected boolean shortCircuit = false;
 	protected boolean terminate = false;
 	
-	public EvlContext() {
-		super();
-	}
-	
-	public EvlContext(IEvlContext other) {
-		super(other);
-		if (other != null) {
-			this.shortCircuit = other.isShortCircuiting();
-			this.optimizeConstraintTrace = other.isOptimizeConstraintTrace();
-			this.constraintTrace = other.getConstraintTrace();
-			this.unsatisfiedConstraints = other.getUnsatisfiedConstraints();
-		}
-	}
-	
 	@Override
 	public ConstraintTrace getConstraintTrace() {
 		return constraintTrace;

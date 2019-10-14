@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.Future;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
-import org.eclipse.epsilon.ecl.execute.context.concurrent.EclContextParallel;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.IEclContextParallel;
 import org.eclipse.epsilon.ecl.execute.operations.DoMatchOperation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -29,7 +28,7 @@ public class ParallelDoMatchOperation extends DoMatchOperation {
 	@Override
 	protected boolean matchAll(Collection<?> leftColFlat, Collection<?> rightColFlat, IEclContext context_) throws EolRuntimeException {
 		
-		IEclContextParallel context = EclContextParallel.convertToParallel(context_);
+		IEclContextParallel context = (IEclContextParallel) context_;
 		EolExecutorService executor = context.beginParallelTask();
 		ArrayList<Future<?>> jobFutures = new ArrayList<>(leftColFlat.size() * rightColFlat.size());
 		

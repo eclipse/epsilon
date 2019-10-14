@@ -71,7 +71,7 @@ public class WizardsExtensionPreference {
 	}
 	
 	public static List<WizardsExtensionPreference> getPreferences() {
-		List<WizardsExtensionPreference> preferences = new ArrayList<WizardsExtensionPreference>();
+		List<WizardsExtensionPreference> preferences = new ArrayList<>();
 		IPreferenceStore preferenceStore = EwlEmfPlugin.getDefault().getPreferenceStore();
 		
 		for (String str : Objects.toString(preferenceStore.getString(preferenceKey),"").split(";")) {

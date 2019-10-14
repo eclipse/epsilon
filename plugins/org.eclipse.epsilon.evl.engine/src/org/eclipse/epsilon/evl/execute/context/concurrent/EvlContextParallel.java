@@ -13,13 +13,11 @@ import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
-import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
 /**
@@ -39,17 +37,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	public EvlContextParallel() {
 		this(0);
 	}
-	
-	public EvlContextParallel(IEvlContext other) {
-		super(other);
-		if (other != null) {
-			this.shortCircuiting = other.isShortCircuiting();
-			this.optimizeConstraintTrace = other.isOptimizeConstraintTrace();
-			this.constraintTrace = other.getConstraintTrace();
-			this.unsatisfiedConstraints = other.getUnsatisfiedConstraints();
-		}
-	}
-	
+
 	/**
 	 * @param parallelism The number of threads to use.
 	 * @param threadSafeBaseFrames whether the base FrameStack should use a thread-safe collection.
@@ -57,11 +45,6 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	 */
 	public EvlContextParallel(int parallelism) {
 		super(parallelism);
-	}
-	
-	public static IEvlContextParallel convertToParallel(IEvlContext context) throws EolNestedParallelismException {
-		if (context instanceof IEvlContextParallel) return (IEvlContextParallel) context;
-		return new EvlContextParallel(context);
 	}
 	
 	@Override

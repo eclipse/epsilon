@@ -85,15 +85,13 @@ public class NewEmfModelWizard extends Wizard implements INewWizard {
 		final String fileName = page.getFileName();
 		final String rootClass = page.getRootClass();
 		final String metamodelUri = page.getMetaModelUri();
-		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException {
-				try {
-					doFinish(containerName, fileName, metamodelUri, rootClass, monitor);
-				} catch (CoreException e) {
-					throw new InvocationTargetException(e);
-				} finally {
-					monitor.done();
-				}
+		IRunnableWithProgress op = monitor -> {
+			try {
+				doFinish(containerName, fileName, metamodelUri, rootClass, monitor);
+			} catch (CoreException e) {
+				throw new InvocationTargetException(e);
+			} finally {
+				monitor.done();
 			}
 		};
 		try {
@@ -148,15 +146,13 @@ public class NewEmfModelWizard extends Wizard implements INewWizard {
 		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE,null);
 		final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(containerName + "/" + fileName));
 		// Open the new model for editing
-		getShell().getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				IWorkbenchPage page =
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				try {
-					IDE.openEditor(page, file, true);
-				} catch (PartInitException e) {
-					LogUtil.log(e);
-				}
+		getShell().getDisplay().asyncExec(() -> {
+			IWorkbenchPage page =
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			try {
+				IDE.openEditor(page, file, true);
+			} catch (PartInitException e) {
+				LogUtil.log(e);
 			}
 		});
 		
@@ -220,6 +216,7 @@ public class NewEmfModelWizard extends Wizard implements INewWizard {
 	 * we can initialize from it.
 	 * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
 	 */
+	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
 	}

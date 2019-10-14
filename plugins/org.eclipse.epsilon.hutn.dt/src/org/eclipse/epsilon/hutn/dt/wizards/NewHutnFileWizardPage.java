@@ -13,8 +13,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.common.dt.wizards.NewFileWizardPage;
 import org.eclipse.epsilon.emf.dt.BrowseEPackagesListener;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -33,11 +31,7 @@ public class NewHutnFileWizardPage extends NewFileWizardPage {
 		metamodelUri = new Text(parent, SWT.BORDER | SWT.SINGLE);
 		 
 		metamodelUri.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		metamodelUri.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
+		metamodelUri.addModifyListener(e -> dialogChanged());
 		
 		final Button browseMetamodelUri = new Button(parent, SWT.NONE);
 		browseMetamodelUri.setText("Browse EPackages...");

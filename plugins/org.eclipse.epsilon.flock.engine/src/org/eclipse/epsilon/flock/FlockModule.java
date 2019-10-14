@@ -124,7 +124,7 @@ public class FlockModule extends ErlModule implements IFlockModule {
 		context.setOriginalModel(original);
 		context.setMigratedModel(migrated);
 			
-		return (FlockResult) execute();
+		return execute();
 	}
 	
 	@Override

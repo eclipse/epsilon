@@ -35,6 +35,7 @@ public class ExecuteWizardInstanceCommand implements Command{
 		this.refresher = refresher;
 	}
 
+	@Override
 	public void execute() {
 		// Record changes only for the domain model (the first one): the others are assumed to be extra models (e.g. diagram models)
 		ChangeRecorder recorder = new ChangeRecorder(models.get(0).getModelImpl().getResourceSet());
@@ -50,24 +51,29 @@ public class ExecuteWizardInstanceCommand implements Command{
 		}
 	}
 
+	@Override
 	public void redo() {
 		if (changeDescription != null) {
 			changeDescription.applyAndReverse();
 		}
 	}
 
+	@Override
 	public boolean canExecute() {
 		return true;
 	}
 
+	@Override
 	public boolean canUndo() {
 		return true;
 	}
 
+	@Override
 	public Command chain(Command command) {
 		return null;
 	}
 
+	@Override
 	public void dispose() {
 		for (InMemoryEmfModel model : models) {
 			model.dispose();
@@ -76,14 +82,17 @@ public class ExecuteWizardInstanceCommand implements Command{
 		wizardInstance = null;
 	}
 
+	@Override
 	public Collection<?> getAffectedObjects() {
 		return Collections.emptyList();
 	}
 
+	@Override
 	public String getDescription() {
 		return getLabel();
 	}
 
+	@Override
 	public String getLabel() {
 		try {
 			return wizardInstance.getTitle();
@@ -92,10 +101,12 @@ public class ExecuteWizardInstanceCommand implements Command{
 		}
 	}
 
+	@Override
 	public Collection<?> getResult() {
 		return null;
 	}
 
+	@Override
 	public void undo() {
 		if (changeDescription != null) {
 			changeDescription.applyAndReverse();

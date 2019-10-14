@@ -26,7 +26,6 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.ui.dialogs.IOverwriteQuery;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.wizards.datatransfer.ImportOperation;
 
@@ -54,11 +53,13 @@ abstract public class WebGitProjectNewWizard extends Wizard implements
 		setNeedsProgressMonitor(true);
 	}
 
+	@Override
 	public boolean performFinish() {
 
 		try {
 			IRunnableWithProgress operation = new WorkspaceModifyOperation() {
 
+				@Override
 				public void execute(IProgressMonitor monitor)
 						throws InterruptedException {
 					try {
@@ -79,13 +80,7 @@ abstract public class WebGitProjectNewWizard extends Wizard implements
 							
 							ImportOperation op = new ImportOperation(project.getFullPath(), exampleFolder, 
 									structureProvider,
-									new IOverwriteQuery() {
-										
-										@Override
-										public String queryOverwrite(String pathString) {
-											return pathString;
-										}
-									}, structureProvider.getChildren(exampleFolder));
+									pathString -> pathString, structureProvider.getChildren(exampleFolder));
 							
 							op.setContext(getShell());
 							try {
@@ -125,6 +120,7 @@ abstract public class WebGitProjectNewWizard extends Wizard implements
 		return true;
 	}
 
+	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 
 		wizardNewProjectCreationPage = new WizardNewImmuatableProjectCreationPage(getPageName());

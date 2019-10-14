@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import org.eclipse.epsilon.ecl.execute.context.IEclContext;
-import org.eclipse.epsilon.ecl.execute.context.concurrent.EclContextParallel;
 import org.eclipse.epsilon.ecl.execute.context.concurrent.IEclContextParallel;
 import org.eclipse.epsilon.ecl.execute.operations.MatchesOperation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -31,7 +30,7 @@ public class ParallelMatchesOperation extends MatchesOperation {
 	@Override
 	protected boolean matchCollectionOrdered(Collection<?> leftColFlat, Collection<?> rightColFlat, IEclContext context_) throws EolRuntimeException {
 		
-		IEclContextParallel context = EclContextParallel.convertToParallel(context_);
+		IEclContextParallel context = (IEclContextParallel) context_;
 		EolExecutorService executor = context.beginParallelTask();
 		ArrayList<Future<?>> jobFutures = new ArrayList<>(leftColFlat.size());
 		
@@ -56,7 +55,7 @@ public class ParallelMatchesOperation extends MatchesOperation {
 	
 	@Override
 	protected boolean matchCollectionUnordered(Collection<?> leftColFlat, Collection<?> rightColFlat, IEclContext context_) throws EolRuntimeException {
-		IEclContextParallel context = EclContextParallel.convertToParallel(context_);
+		IEclContextParallel context = (IEclContextParallel) context_;
 			
 		for (Object left : leftColFlat) {
 			Collection<Callable<Boolean>> jobs = new ArrayList<>(rightColFlat.size());
