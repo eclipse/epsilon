@@ -14,8 +14,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -56,14 +54,10 @@ public class InMemoryEmfModel extends EmfModel {
 	public InMemoryEmfModel(String name, Resource modelImpl, Collection<EPackage> ePackages, boolean isContainerListenerEnabled) {
 		init(name, modelImpl, ePackages, isContainerListenerEnabled);
 	}
-
-	public boolean getExpand() { return true; }
 	
-	protected void init(String name, Resource modelImpl, Collection<EPackage> ePackages, boolean isContainerListenerEnabled) {
-		
+	protected void init(String name, Resource modelImpl, Collection<EPackage> ePackages, boolean isContainerListenerEnabled) {	
 		setName(name);
 		this.modelImpl = modelImpl;
-		this.expand = getExpand();
 
 		// If there is no ResourceSet we cannot register or call the resource creation factory
 		if(modelImpl.getResourceSet() != null) {
@@ -76,7 +70,7 @@ public class InMemoryEmfModel extends EmfModel {
 			
 			// If there is no ResourceSet available, AbstractEmfModel#getPackageRegistry()
 			// already returns the global registry, so no need to worry about this
-			if(modelImpl.getResourceSet() != null && modelImpl.getResourceSet().getPackageRegistry().isEmpty()) {
+			if (modelImpl.getResourceSet() != null && modelImpl.getResourceSet().getPackageRegistry().isEmpty()) {
 				modelImpl.getResourceSet().setPackageRegistry(EPackage.Registry.INSTANCE);
 			}
 		}
@@ -94,16 +88,8 @@ public class InMemoryEmfModel extends EmfModel {
 			}
 		}
 
-		boolean bHasCachedContentsAdapter = false;
-		for (Adapter adapter : modelImpl.eAdapters()) {
-			if (adapter instanceof CachedContentsAdapter) {
-				bHasCachedContentsAdapter = true;
-				break;
-			}
-		}
-		if (!bHasCachedContentsAdapter) {
-			modelImpl.eAdapters().add(new CachedContentsAdapter());
-		}
+		// Since 1.6, having CachedContentsAdapter implies cached=true, otherwise it's inconsistent.
+		setCachingEnabled(true);
 
 		if (isContainerListenerEnabled) {
 			this.setupContainmentChangeListeners();

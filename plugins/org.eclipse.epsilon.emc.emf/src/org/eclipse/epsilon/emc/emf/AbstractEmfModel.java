@@ -54,6 +54,16 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	//FIXME : If the user wants, they can load it as a local copy
 	
 	/**
+	 * One of the keys used to construct the first argument to {@link AbstractEmfModel#load(StringProperties, String)}.
+	 * 
+	 * When paired with "true", external references will be resolved during loading.
+	 * Otherwise, external references are not resolved.
+	 * 
+	 * Paired with "true" by default.
+	 */
+	public static final String PROPERTY_EXPAND = "expand";
+	
+	/**
 	 * Whether to perform getAllOfKind and getAllOfType operations in parallel.
 	 * False by default.
 	 */
@@ -611,6 +621,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
 		setParallelAllOf(properties.getBooleanProperty(PROPERTY_PARALLELALLOF, parallelAllOf));
+		setExpand(properties.getBooleanProperty(PROPERTY_EXPAND, expand));
 	}
 	
 	/**

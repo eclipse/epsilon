@@ -41,16 +41,6 @@ import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
-	
-	/**
-	 * One of the keys used to construct the first argument to {@link EmfModel#load(StringProperties, String)}.
-	 * 
-	 * When paired with "true", external references will be resolved during loading.
-	 * Otherwise, external references are not resolved.
-	 * 
-	 * Paired with "true" by default.
-	 */
-	public static final String PROPERTY_EXPAND = "expand";
 
 	/**
 	 * @deprecated {@link #PROPERTY_METAMODEL_URI} and {@link #PROPERTY_FILE_BASED_METAMODEL_URI} are now
@@ -114,7 +104,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 
 	protected List<URI> metamodelUris = new ArrayList<>();
 	protected List<EPackage> packages;
-	protected boolean isMetamodelFileBased;
+	protected boolean isMetamodelFileBased = false;
 	protected URI modelUri = null;
 	protected List<URI> metamodelFileUris = new ArrayList<>();
 	protected boolean useExtendedMetadata = false;
@@ -161,12 +151,11 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		
 		super.load(properties, resolver);
 		this.modelUri = URI.createURI(properties.getProperty(PROPERTY_MODEL_URI));
-		this.expand = properties.getBooleanProperty(PROPERTY_EXPAND, true);
-		this.isMetamodelFileBased = properties.getBooleanProperty(PROPERTY_IS_METAMODEL_FILE_BASED, false);
-
+		this.isMetamodelFileBased = properties.getBooleanProperty(PROPERTY_IS_METAMODEL_FILE_BASED, isMetamodelFileBased);
+		
 		this.metamodelUris = toURIList(properties.getProperty(PROPERTY_METAMODEL_URI));
-		this.metamodelFileUris = toURIList(properties.getProperty(PROPERTY_FILE_BASED_METAMODEL_URI));
-		this.reuseUnmodifiedFileBasedMetamodels = properties.getBooleanProperty(PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS, true);
+		setMetamodelFileUris(toURIList(properties.getProperty(PROPERTY_FILE_BASED_METAMODEL_URI)));
+		setReuseUnmodifiedFileBasedMetamodels(properties.getBooleanProperty(PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS, reuseUnmodifiedFileBasedMetamodels));
 		
 		load();
 	}
@@ -395,6 +384,17 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	}
 
 	/**
+	 * Determines whether this model has an adapter matching the specified type.
+	 * 
+	 * @param adapterType The adapter class.
+	 * @return <code>true</code> if this model's adapters contains the specified adapter type.
+	 * @since 1.6
+	 */
+	protected boolean hasAdapter(Class<? extends EContentAdapter> adapterType) {
+		return modelImpl.eAdapters().stream().anyMatch(a -> adapterType.isAssignableFrom(a.getClass()));
+	}
+	
+	/**
 	 * @since 1.6
 	 */
 	@Override
@@ -403,7 +403,7 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		super.setCachingEnabled(cachingEnabled);
 		
 		if (modelImpl != null) {
-			if (!wasEnabled && cachingEnabled) {
+			if (!wasEnabled && cachingEnabled && !hasAdapter(CachedContentsAdapter.class)) {
 				modelImpl.eAdapters().add(new CachedContentsAdapter());
 			}
 			else if (wasEnabled && !cachingEnabled) {
