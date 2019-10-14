@@ -90,7 +90,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		executorFactory = new ExecutorFactory(null, true);
 	}
 	
-	protected void initThreadLocals() {
+	protected synchronized void initThreadLocals() {
 		concurrentMethodContributors = ThreadLocal.withInitial(OperationContributorRegistry::new);
 		concurrentFrameStacks = initDelegateThreadLocal(() -> new FrameStack(frameStack, false));
 		concurrentExecutorFactories = initDelegateThreadLocal(() -> new ExecutorFactory(executorFactory, false));
@@ -170,7 +170,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		}
 	}
 	
-	protected void clearThreadLocals() {
+	protected synchronized void clearThreadLocals() {
 		removeAll(concurrentFrameStacks, concurrentExecutorFactories, concurrentMethodContributors);
 	}
 	
@@ -192,7 +192,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public EolExecutorService beginParallelTask(ModuleElement entryPoint, boolean shortCircuiting) throws EolNestedParallelismException {
+	public synchronized EolExecutorService beginParallelTask(ModuleElement entryPoint, boolean shortCircuiting) throws EolNestedParallelismException {
 		ensureNotNested(entryPoint != null ? entryPoint : getModule());
 		isInShortCircuitTask = shortCircuiting;
 		initThreadLocals();
@@ -206,7 +206,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public Object endParallelTask() throws EolRuntimeException {
+	public synchronized Object endParallelTask() throws EolRuntimeException {
 		Object result = IEolContextParallel.super.endParallelTask();
 		if (isInShortCircuitTask) {
 			clearExecutor();
@@ -222,7 +222,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public void setParallelism(int threads) throws IllegalStateException, IllegalArgumentException {
+	public synchronized void setParallelism(int threads) throws IllegalStateException, IllegalArgumentException {
 		if (threads != this.numThreads) {
 			if (isInParallelTask) {
 				throw new IllegalStateException("Cannot change parallelism whilst execution is in progress!");
@@ -246,7 +246,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	@Override
 	public final EolExecutorService getExecutorService() {
-		if (executorService == null) {
+		if (executorService == null) synchronized (this) {
 			executorService = newExecutorService();
 		}
 		return executorService;
@@ -258,7 +258,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public void dispose() {
+	public synchronized void dispose() {
 		super.dispose();
 		clearExecutor();
 		nullifyThreadLocals();

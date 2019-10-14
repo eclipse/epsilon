@@ -42,6 +42,12 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	
 	public EvlContextParallel(IEvlContext other) {
 		super(other);
+		if (other != null) {
+			this.shortCircuiting = other.isShortCircuiting();
+			this.optimizeConstraintTrace = other.isOptimizeConstraintTrace();
+			this.constraintTrace = other.getConstraintTrace();
+			this.unsatisfiedConstraints = other.getUnsatisfiedConstraints();
+		}
 	}
 	
 	/**
@@ -72,7 +78,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	}
 	
 	@Override
-	protected void clearThreadLocals() {
+	protected synchronized void clearThreadLocals() {
 		super.clearThreadLocals();
 		if (concurrentUnsatisfiedConstraints instanceof PersistentThreadLocal) {
 			if (unsatisfiedConstraints == null) {
