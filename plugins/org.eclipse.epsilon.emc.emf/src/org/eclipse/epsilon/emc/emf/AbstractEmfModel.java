@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
@@ -547,6 +548,17 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		} catch (EolModelElementTypeNotFoundException e) {
 			return false;
 		}
+	}
+	
+	/**
+	 * Determines whether this model has an adapter matching the specified type.
+	 * 
+	 * @param adapterType The adapter class.
+	 * @return <code>true</code> if this model's adapters contains the specified adapter type.
+	 * @since 1.6
+	 */
+	protected boolean hasAdapter(Class<? extends EContentAdapter> adapterType) {
+		return modelImpl.eAdapters().stream().anyMatch(adapterType::isInstance);
 	}
 	
 	protected String getFullyQualifiedName(EClassifier eClassifier) {

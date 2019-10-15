@@ -382,17 +382,6 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 			modelImpl.eAdapters().add(new CachedContentsAdapter());
 		}
 	}
-
-	/**
-	 * Determines whether this model has an adapter matching the specified type.
-	 * 
-	 * @param adapterType The adapter class.
-	 * @return <code>true</code> if this model's adapters contains the specified adapter type.
-	 * @since 1.6
-	 */
-	protected boolean hasAdapter(Class<? extends EContentAdapter> adapterType) {
-		return modelImpl.eAdapters().stream().anyMatch(a -> adapterType.isAssignableFrom(a.getClass()));
-	}
 	
 	/**
 	 * @since 1.6
