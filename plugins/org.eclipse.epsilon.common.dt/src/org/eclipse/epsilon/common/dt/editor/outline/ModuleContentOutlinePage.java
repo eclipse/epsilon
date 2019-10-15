@@ -132,7 +132,7 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 				
 				@Override
 				public void run() {
-					if (getTreeViewer() != null) {
+					if (getTreeViewer() != null && !getTreeViewer().getTree().isDisposed()) {
 						getTreeViewer().setInput(getOutlineRoot(module));
 						//getTreeViewer().expandAll();
 					}
