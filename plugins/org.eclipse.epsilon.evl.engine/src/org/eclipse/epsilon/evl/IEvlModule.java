@@ -12,8 +12,8 @@ package org.eclipse.epsilon.evl;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -49,63 +49,43 @@ public interface IEvlModule extends IErlModule {
 	// UTILS
 	
 	/**
+	 * Searches for a {@link ConstraintContext} by the specified type name.
 	 * 
-	 * @param name
-	 * @return
+	 * @param name The name of the model element type.
+	 * @return The first ConstraintContext matching the name, or <code>null</code> if not found.
 	 * @since 1.6
 	 */
 	default ConstraintContext getConstraintContext(String name) {
 		return getConstraintContexts()
 			.stream()
 			.filter(cc -> cc.getTypeName().equals(name))
-			.findAny()
+			.findFirst()
 			.orElse(null);
 	}
 	
 	/**
+	 * Finds a Constraint instance in this module based on the specified filters.
 	 * 
-	 * @param name
-	 * @param target
-	 * @param context
-	 * @param ast
-	 * @return
-	 * @throws EolRuntimeException
+	 * @param constraintName The constraint name to search for (mandatory).
+	 * @param contextName The name of the model element type (ConstraintContext) that the constraint is declared in (optional).
+	 * @param modelElement A model element which the Constraint should be applicable to (optional).
+	 * @param ast The AST that is calling this operation (optional).
+	 * @return A Constraint matching the specified criteria, or <code>null</code> if not found.
+	 * @throws EolRuntimeException If there are problems finding the constraint from the specified parameters.
+	 * @throws EvlConstraintNotFoundException If the constraint could not be found.
 	 * @since 1.6
 	 */
-	default Constraint getConstraint(String name, Object target, ModuleElement ast) throws EolRuntimeException {
-		Optional<Constraint> constraint = getConstraint(name, null, target, false);
-		if (!constraint.isPresent()) {
-			constraint = getConstraints().stream().filter(c -> c.getName().equals(name)).findFirst();
-		}
-		return constraint.orElseThrow(() -> new EvlConstraintNotFoundException(name, ast));
-	}
-	
-	/**
-	 * 
-	 * @param name
-	 * @param constraintContext
-	 * @param target
-	 * @param context
-	 * @param appliesTo
-	 * @return
-	 * @throws EolRuntimeException#
-	 * @since 1.6
-	 */
-	default Optional<Constraint> getConstraint(String name, ConstraintContext constraintContext, Object target, boolean appliesTo) throws EolRuntimeException {
+	default Constraint getConstraint(String constraintName, String contextName, Object modelElement, ModuleElement ast) throws EolRuntimeException {
 		IEvlContext context = getContext();
 		for (Constraint constraint : getConstraints()) {
-			ConstraintContext cc = constraintContext == null ? constraint.getConstraintContext() : constraintContext;
-			if (
-				constraint.getName().equals(name) && 
-				(
-					(cc instanceof GlobalConstraintContext) ||
-					cc.getAllOfSourceKind(context).contains(target)
-				) &&
-				(!appliesTo || constraint.appliesTo(target, context))
+			ConstraintContext cc = constraint.getConstraintContext();
+			if (constraint.getName().equals(constraintName) &&
+				(StringUtil.isEmpty(contextName) || cc.getTypeName().equals(contextName)) &&
+				(cc instanceof GlobalConstraintContext || modelElement == null || cc.getAllOfSourceKind(context).contains(modelElement))
 			) {
-				return Optional.of(constraint);
+				return constraint;
 			}
 		}
-		return Optional.empty();
+		throw new EvlConstraintNotFoundException(constraintName, ast);
 	}
 }

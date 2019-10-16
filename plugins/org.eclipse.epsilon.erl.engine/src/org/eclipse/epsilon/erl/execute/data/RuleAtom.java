@@ -41,10 +41,6 @@ public abstract class RuleAtom<T extends IExecutableModuleElementParameter> {
 		return new SimpleEntry<>(rule, element);
 	}
 	
-	public ExecutableRuleAtom<T> asJob(IErlContext context) {
-		return new ExecutableRuleAtom<>(this.rule, this.element, context);
-	}
-	
 	@Override
 	public String toString() {
 		return getClass().getSimpleName()+" [unit=" + rule + ", element=" + element + "]";
