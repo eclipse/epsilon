@@ -206,7 +206,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		public int parallelism = Integer.MIN_VALUE;
 
 		public boolean isParallel() {
-			return parallelism != Integer.MIN_VALUE;
+			return parallelism > -1;
 		}
 		
 		public Builder<C, B> withModule(IEolModule module) {

@@ -100,10 +100,10 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 			}
 		}
 		
-		  public B with(Consumer<B> builderFunction) {
-			  builderFunction.accept((B) this);
-			  return (B) this;
-		  }
+		public B with(Consumer<B> builderFunction) {
+			builderFunction.accept((B) this);
+			return (B) this;
+		}
 		
 		public B withScript(Path scriptPath) {
 			this.script = scriptPath;

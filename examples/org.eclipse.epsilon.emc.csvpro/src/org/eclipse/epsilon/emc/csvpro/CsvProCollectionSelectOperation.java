@@ -11,7 +11,7 @@ package org.eclipse.epsilon.emc.csvpro;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
+import java.util.List;
 import org.eclipse.epsilon.eol.dom.EqualsOperatorExpression;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.GreaterEqualOperatorExpression;
@@ -21,49 +21,39 @@ import org.eclipse.epsilon.eol.dom.LessThanOperatorExpression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.NotEqualsOperatorExpression;
 import org.eclipse.epsilon.eol.dom.OperatorExpression;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 
 public class CsvProCollectionSelectOperation extends SelectOperation {
 	
-	private IEolContext context;
-	private Variable iterator;
 	private String index;
 	
 	public CsvProCollectionSelectOperation(String index) {
 		super();
 		this.index = index;
 	}
-
+	
 	@Override
-	public Collection<?> execute(Object target, Variable iterator, Expression ast, IEolContext context,
-			boolean returnOnFirstMatch, boolean isSelect) throws EolRuntimeException {
+	public Collection<?> execute(boolean returnOnMatch, Object target, NameExpression operationNameExpression,
+		List<Parameter> iterators, Expression expression, IEolContext context) throws EolRuntimeException {
 
-		if (!(target instanceof CsvProCollection)) {
-			return super.execute(target, iterator, ast, context, returnOnFirstMatch, isSelect);
+		if (!(target instanceof CsvProCollection) || !isOptimisable(expression, iterators.get(0))) {
+			return super.execute(returnOnMatch, target, operationNameExpression, iterators, expression, context);
 		}
 		try {
-			this.context = context;
-			this.iterator = iterator;
-			if (isOptimisable(ast)) {
-				return optimisedExecution((CsvProCollection)target, ast, returnOnFirstMatch, isSelect);
-			}
-			else {
-				// System.err.println("giving to super: "+ast.toStringTree());
-				return super.execute(target, iterator, (Expression) ast, context, returnOnFirstMatch, isSelect);
-			}
+			return optimisedExecution(returnOnMatch, (CsvProCollection)target, operationNameExpression, iterators, expression, context);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new EolRuntimeException("OptimisableCollectionSelectOperation: parseAST(iterator, ast) failed:", ast);
+			throw new EolRuntimeException("OptimisableCollectionSelectOperation: parseAST(iterator, ast) failed:", expression);
 		}
 
 	}
 
-	private boolean isOptimisable(Expression ast) {
+	private boolean isOptimisable(Expression ast, Parameter parameter) {
 		// WE support >, <, >=, <=, == and <>
 		if (!(ast instanceof EqualsOperatorExpression ||
 				ast instanceof GreaterThanOperatorExpression ||
@@ -88,7 +78,7 @@ public class CsvProCollectionSelectOperation extends SelectOperation {
 			return false;
 		}
 		final NameExpression nameExpression = (NameExpression) rawTargetExpression;
-		if (!iterator.getName().equals(nameExpression.getName())) {
+		if (!parameter.getName().equals(nameExpression.getName())) {
 			return false;
 		}
 		// Check that we are accessing the index property
@@ -99,15 +89,14 @@ public class CsvProCollectionSelectOperation extends SelectOperation {
 		return true;
 	}
 	
-	private Collection<?> optimisedExecution(CsvProCollection target, Expression ast, boolean returnOnFirstMatch, boolean isSelect) throws EolRuntimeException {
+	private Collection<?> optimisedExecution(boolean returnOnMatch, CsvProCollection target, NameExpression operationNameExpression,
+		List<Parameter> iterators, Expression ast, IEolContext context) throws EolRuntimeException {
 		
 		final OperatorExpression opExp = (OperatorExpression) ast;
-		final PropertyCallExpression lOperand = (PropertyCallExpression) opExp.getFirstOperand();
-		final String attributename = lOperand.getPropertyNameExpression().getName();
 		final Expression valueAST = opExp.getSecondOperand();
 		Object attributevalue = null;
 		try {
-			attributevalue = context.getExecutorFactory().executeAST(valueAST, context);
+			attributevalue = context.getExecutorFactory().execute(valueAST, context);
 		}
 		catch (Exception e) {
 			// if the rhs is invalid or tries to use the iterator of the select
@@ -115,7 +104,7 @@ public class CsvProCollectionSelectOperation extends SelectOperation {
 			// FIXME Make message more Artisan like
 			System.err.println("Warning: the RHS of the expression:\n" + ast
 					+ "\ncannot be evaluated using indexing,\nas the iterator variable of the current select operation ("
-					+ iterator.getName() + ") is not used in this process.\nDefaulting to Epsion's select");
+					+ iterators.get(0).getName() + ") is not used in this process.\nDefaulting to Epsilon's select");
 		}
 		if (attributevalue instanceof String) {
 			String id = (String) attributevalue;
@@ -141,12 +130,12 @@ public class CsvProCollectionSelectOperation extends SelectOperation {
 			}
 			else if (ast instanceof NotEqualsOperatorExpression) {
 				result = new ArrayList<>(target);
-				result.remove(id);
+				result.remove(target.get(id));
 			}
 			return result;
 		}
 		else {
-			return super.execute(target, iterator, (Expression) ast, context, returnOnFirstMatch, isSelect);
+			return super.execute(returnOnMatch, target, operationNameExpression, iterators, ast, context);
 		}
 	}
 	

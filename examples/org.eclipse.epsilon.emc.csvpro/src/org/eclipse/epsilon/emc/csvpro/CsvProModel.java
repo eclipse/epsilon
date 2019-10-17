@@ -19,7 +19,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -157,13 +156,11 @@ public class CsvProModel extends CachedModel<Integer> {
 		if (!isCachingEnabled()) {
 			CsvProCollection ret = getNewCsvProCollection();
 			ret.setRows(rows);
-			allContentsAreCached = false;
 			return ret;
 		}
-		if (!allContentsAreCached || !isCachingEnabled()) {
+		if (allContentsCache == null) {
 			allContentsCache = getNewCsvProCollection();
 			allContentsCache.setRows(rows);
-			allContentsAreCached = true;
 		}
 		return allContentsCache;
 	}

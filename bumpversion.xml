@@ -1,6 +1,6 @@
 <project default="main">
-	<property name="current" value="1.5.0"/>
-	<property name="new" value="1.5.1"/>
+	<property name="current" value="1.6.0"/>
+	<property name="new" value="2.0.0"/>
 
 	<target name="main">
 		<replace dir="." token="${current}-SNAPSHOT" value="${new}-SNAPSHOT">
