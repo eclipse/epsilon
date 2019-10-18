@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.eol.types;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class EolSequence<T> extends ArrayList<T> {
 	
@@ -19,8 +20,32 @@ public class EolSequence<T> extends ArrayList<T> {
 		super();
 	}
 	
+	/**
+	 * 
+	 * @param initialCapacity
+	 * @since 1.6
+	 */
 	public EolSequence(int initialCapacity) {
 		super(initialCapacity);
+	}
+
+	/**
+	 * 
+	 * @param c
+	 * @since 1.6
+	 */
+	public EolSequence(Collection<? extends T> c) {
+		super(c);
+	}
+	
+	/**
+	 * 
+	 * @param arr
+	 * @since 1.6
+	 */
+	public EolSequence(T[] arr) {
+		this(arr.length);
+		for (T t : arr) add(t);
 	}
 	
 }

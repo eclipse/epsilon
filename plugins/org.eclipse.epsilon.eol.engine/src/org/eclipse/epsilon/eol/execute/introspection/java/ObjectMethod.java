@@ -60,7 +60,7 @@ public class ObjectMethod {
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
-	public Object execute(ModuleElement ast, Object... parameters) throws EolRuntimeException {
+	public final Object execute(ModuleElement ast, Object... parameters) throws EolRuntimeException {
 		return execute(parameters, ast);
 	}
 	

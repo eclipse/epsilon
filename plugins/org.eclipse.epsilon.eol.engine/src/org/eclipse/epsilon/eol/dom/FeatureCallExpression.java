@@ -9,8 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.dom;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
@@ -20,6 +18,7 @@ import org.eclipse.epsilon.eol.execute.operations.DynamicOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributorProvider;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.types.EolSequence;
 
 public abstract class FeatureCallExpression extends Expression {
 		
@@ -38,7 +37,7 @@ public abstract class FeatureCallExpression extends Expression {
 	
 	static Object wrap(Object o) {
 		if (o instanceof Object[]) {
-			return new ArrayList<>(Arrays.asList((Object[]) o));
+			return new EolSequence<>((Object[]) o);
 		}
 		else return o;
 	}

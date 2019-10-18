@@ -13,3 +13,4 @@ Export-Package: org.eclipse.epsilon.epl,
  org.eclipse.epsilon.epl.dom,
  org.eclipse.epsilon.epl.execute,
  org.eclipse.epsilon.epl.parse
+Automatic-Module-Name: org.eclipse.epsilon.epl.engine

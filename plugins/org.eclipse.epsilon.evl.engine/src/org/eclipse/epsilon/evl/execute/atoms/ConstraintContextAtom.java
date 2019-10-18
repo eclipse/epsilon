@@ -43,14 +43,19 @@ public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
 		return executeWithResults(getContext());
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Collection<UnsatisfiedConstraint> executeWithResults(IEvlContext context) throws EolRuntimeException {
 		if (rule.shouldBeChecked(element, context)) {
 			Collection<Constraint> constraints = rule.getConstraints();
 			ArrayList<UnsatisfiedConstraint> results = new ArrayList<>(constraints.size());
 			for (Constraint constraint : constraints) {
-				((Optional<UnsatisfiedConstraint>)
-					context.getExecutorFactory().execute(constraint, context, element))
-					.ifPresent(results::add);
+				Object result = context.getExecutorFactory().execute(constraint, context, element);
+				if (result instanceof Optional) {
+					((Optional<UnsatisfiedConstraint>) result).ifPresent(results::add);
+				}
+				else if (result instanceof UnsatisfiedConstraint) {
+					results.add((UnsatisfiedConstraint) result);
+				}
 			}
 			return results;
 		}

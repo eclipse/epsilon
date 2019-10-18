@@ -89,9 +89,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 			catch (EolUndefinedVariableException npe) {
 				switch (operationName) {
 					default: throw npe;
-					case "isDefined":
-					case "isUndefined":
-					case "ifDefined":
+					case "isDefined": case "isUndefined": case "ifDefined": case "ifUndefined":
 						targetObject = EolUndefined.INSTANCE;
 				}
 			}

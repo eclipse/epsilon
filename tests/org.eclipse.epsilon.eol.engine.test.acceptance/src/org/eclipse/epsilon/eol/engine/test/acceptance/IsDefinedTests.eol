@@ -70,3 +70,11 @@ operation outOfScopeVariableIsUndefined() {
 	}
 	assert(maybe.isDefined());
 }
+
+@test
+operation ifUndefinedWorks() {
+	var undef;
+	var res = undef.ifUndefined(6);
+	assert(res == 6);
+	assert(res.ifUndefined(3) == res);
+}

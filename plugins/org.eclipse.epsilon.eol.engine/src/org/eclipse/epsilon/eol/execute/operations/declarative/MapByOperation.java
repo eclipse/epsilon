@@ -33,7 +33,7 @@ public class MapByOperation extends FirstOrderOperation {
 
 		for (Object item : source) {
 			Object bodyResult = function.applyThrows(item);
-			EolSequence<Object> sequence = (EolSequence<Object>) result.get(bodyResult);
+			EolSequence<Object> sequence = result.get(bodyResult);
 			if (sequence == null) sequence = new EolSequence<>();
 			sequence.add(item);
 			result.put(bodyResult, sequence);

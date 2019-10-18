@@ -105,7 +105,7 @@ public class BasicEUnitOperationContributor extends OperationContributor {
 		String upperBound = null, lowerBound = null;
 		if (expected != null) {
 			if (expected instanceof Float) {
-				final float flExpected = ((Number)expected).floatValue();
+				final float flExpected = expected.floatValue();
 				final float flMargin = intUlps * Math.ulp(flExpected);
 				bIsEqual = bIsEqual && Math.abs(obtained.floatValue() - flExpected) <= flMargin;
 				lowerBound = Float.toString(flExpected - flMargin);

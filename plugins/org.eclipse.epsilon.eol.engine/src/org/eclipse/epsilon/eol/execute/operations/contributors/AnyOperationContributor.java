@@ -13,7 +13,6 @@ package org.eclipse.epsilon.eol.execute.operations.contributors;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IUndefined;
@@ -100,7 +99,7 @@ public class AnyOperationContributor extends OperationContributor {
 		try {
 			getter.invoke(target, property);
 		}
-		catch (EolIllegalPropertyException pex){
+		catch (EolIllegalPropertyException pex) {
 			return false;
 		}
 		
@@ -123,7 +122,7 @@ public class AnyOperationContributor extends OperationContributor {
 		}
 	}
 	
-	public boolean isUndefined() {
+	public final boolean isUndefined() {
 		return !isDefined();
 	}
 	
