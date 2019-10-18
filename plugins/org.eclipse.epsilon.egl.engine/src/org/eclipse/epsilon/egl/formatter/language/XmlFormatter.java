@@ -9,10 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.formatter.language;
 
-import org.eclipse.epsilon.egl.formatter.Formatter;
-
-
-public class XmlFormatter extends LanguageFormatter implements Formatter {
+public class XmlFormatter extends LanguageFormatter {
 
 	/*
 	 * A start tag begins with < and ends with >

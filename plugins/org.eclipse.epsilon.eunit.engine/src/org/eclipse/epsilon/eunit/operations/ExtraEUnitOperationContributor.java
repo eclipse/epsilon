@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiPredicate;
 import java.util.regex.Pattern;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
@@ -42,16 +43,11 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 	private static final Set<String> ASSERTEQUALDIRS_IGNORED_FILENAMES;
 
 	static {
-		ASSERTEQUALDIRS_IGNORED_FILENAMES = new HashSet<String>();
+		ASSERTEQUALDIRS_IGNORED_FILENAMES = new HashSet<>();
 
 		// By default, ignore hidden Subversion / Git directories 
 		ASSERTEQUALDIRS_IGNORED_FILENAMES.add(".svn");
 		ASSERTEQUALDIRS_IGNORED_FILENAMES.add(".git");
-	}
-
-	// Lambda lookalike for reusing code in the line matching methods
-	private interface Predicate2<T, U> {
-		public boolean evaluate(T t, U u);
 	}
 
 	@Override
@@ -115,12 +111,7 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		if (message == null) {
 			message = String.format("No lines matched '%s' from start to finish", regexp);
 		}
-		assertLineMatchingPredicate(message, pathExpected, regexp, new Predicate2<Pattern, String>() {
-			@Override
-			public boolean evaluate(Pattern regexp, String line) {
-				return regexp.matcher(line).matches();
-			}
-		});
+		assertLineMatchingPredicate(message, pathExpected, regexp, (rgx, ln) -> rgx.matcher(ln).matches());
 	}
 
 	public void assertLineWithMatch(String pathExpected, String regexp) throws EolInternalException {
@@ -131,15 +122,10 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		if (message == null) {
 			message = String.format("No lines contained a match for '%s'", regexp);
 		}
-		assertLineMatchingPredicate(message, pathExpected, regexp, new Predicate2<Pattern, String>() {
-			@Override
-			public boolean evaluate(Pattern regexp, String line) {
-				return regexp.matcher(line).find();
-			}
-		});
+		assertLineMatchingPredicate(message, pathExpected, regexp, (rgx, ln) -> rgx.matcher(ln).find());
 	}
 
-	private void assertLineMatchingPredicate(String message, String pathExpected, String regexp, Predicate2<Pattern, String> predicate) throws EolInternalException {
+	private void assertLineMatchingPredicate(String message, String pathExpected, String regexp, BiPredicate<Pattern, String> predicate) throws EolInternalException {
 		BufferedReader reader = null;
 		try {
 			final Pattern regex = Pattern.compile(regexp);
@@ -147,7 +133,7 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 			reader = new BufferedReader(new FileReader(new File(pathExpected)));
 			String line;
 			while ((line = reader.readLine()) != null) {
-				if (predicate.evaluate(regex, line)) {
+				if (predicate.test(regex, line)) {
 					return;
 				}
 			}

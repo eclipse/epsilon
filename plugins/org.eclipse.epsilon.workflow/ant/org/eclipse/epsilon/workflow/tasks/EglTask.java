@@ -108,9 +108,9 @@ public class EglTask extends ExportableModuleTask {
 		Set<String> requiredProperties = module.getConfigurationProperties();
 		Map<String, Object> props = new HashMap<>(requiredProperties.size());
 		for (String rp : requiredProperties) {
-			for (ModuleProperty np : properties) {
-				if (rp.equals(np.name)) {
-					props.put(np.name, np.value);
+			for (ModuleProperty mp : properties) {
+				if (rp.equals(mp.getKey())) {
+					props.put(mp.getKey(), mp.getValue());
 				}
 			}
 		}

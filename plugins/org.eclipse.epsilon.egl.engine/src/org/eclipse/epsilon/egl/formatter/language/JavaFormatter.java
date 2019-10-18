@@ -11,9 +11,7 @@ package org.eclipse.epsilon.egl.formatter.language;
 
 import java.util.regex.Pattern;
 
-import org.eclipse.epsilon.egl.formatter.Formatter;
-
-public class JavaFormatter extends LanguageFormatter implements Formatter {
+public class JavaFormatter extends LanguageFormatter {
 
 	// Increase indentation after every open bracket that terminates a line
 	// (allowing for any whitespace between the bracket and the line terminator)

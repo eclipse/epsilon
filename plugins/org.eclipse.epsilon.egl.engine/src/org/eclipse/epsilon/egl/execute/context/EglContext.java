@@ -33,7 +33,7 @@ public class EglContext extends EolContext implements IEglContext {
 	private EglTemplateFactory templateFactory;
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
-	private EglExecutionManager executionManager = new EglExecutionManager();
+	private final EglExecutionManager executionManager = new EglExecutionManager();
 	
 	public EglContext() {
 		this((EglTemplateFactory) null);
@@ -94,15 +94,9 @@ public class EglContext extends EolContext implements IEglContext {
 		return Collections.unmodifiableList(statusMessages);
 	}
 	
-	/**
-	 * This is to fix bug 549761.
-	 */
-	private IModule tmpModule;
-	
 	@Override
 	public void enter(EglTemplate template) {
-		tmpModule = module;
-		module = template.getModule();
+		setModule(template.getModule());
 		executionManager.prepareFor(
 			new ExecutableTemplateSpecification(template, newOutputBuffer()),
 			getFrameStack()
@@ -111,9 +105,8 @@ public class EglContext extends EolContext implements IEglContext {
 	
 	@Override
 	public void exit() {
+		setModule(getCurrentTemplate().getModule());
 		executionManager.restore();
-		module = tmpModule;
-		tmpModule = null;
 	}
 
 	@Override
@@ -133,6 +126,16 @@ public class EglContext extends EolContext implements IEglContext {
 	
 	@Override
 	public IEglModule getModule() {
+		ExecutableTemplateSpecification ts = executionManager.getCurrent();
+		if (ts != null) {
+			EglTemplate template = getCurrentTemplate();
+			if (template != null) {
+				IEglModule tm = template.getModule();
+				if (tm != null) {
+					return tm;
+				}
+			}
+		}
 		return (IEglModule) super.getModule();
 	}
 	

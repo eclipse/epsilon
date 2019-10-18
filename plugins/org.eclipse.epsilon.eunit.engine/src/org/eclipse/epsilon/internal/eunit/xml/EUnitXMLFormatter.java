@@ -95,11 +95,9 @@ public class EUnitXMLFormatter {
 		try {
 			// Uses an XSLT identity transform to save a DOM tree to a file.
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
-			FileOutputStream osReport = new FileOutputStream(reportFile);
-			try {
+			
+			try (FileOutputStream osReport = new FileOutputStream(reportFile)) {
 				transformer.transform(new DOMSource(doc), new StreamResult(osReport));
-			} finally {
-				osReport.close();
 			}
 		} catch (Exception e) {
 			throw new EolInternalException(e);
@@ -129,24 +127,24 @@ public class EUnitXMLFormatter {
 
 		Element resultChild = null;
 		switch (test.getResult()) {
-		case FAILURE:
-			resultChild = doc.createElement("failure");
-			break;
-		case ERROR:
-			resultChild = doc.createElement("error");
-			break;
-		}
-		if (resultChild != null) {
-			caseElem.appendChild(resultChild);
-			resultChild.setAttribute("message", test.getException()
-					.getMessage());
-			resultChild.setAttribute("type", test.getException().getClass()
-					.getName());
-
-			final StringWriter stringWriter = new StringWriter();
-			test.getException().printStackTrace(new PrintWriter(stringWriter));
-			resultChild.setTextContent(stringWriter.toString());
-		}
+			case FAILURE:
+				resultChild = doc.createElement("failure");
+				break;
+			case ERROR:
+				resultChild = doc.createElement("error");
+				break;
+			}
+			if (resultChild != null) {
+				caseElem.appendChild(resultChild);
+				resultChild.setAttribute("message", test.getException()
+						.getMessage());
+				resultChild.setAttribute("type", test.getException().getClass()
+						.getName());
+	
+				final StringWriter stringWriter = new StringWriter();
+				test.getException().printStackTrace(new PrintWriter(stringWriter));
+				resultChild.setTextContent(stringWriter.toString());
+			}
 	}
 
 	private void saveProperties(Document doc, Element suiteElem) {

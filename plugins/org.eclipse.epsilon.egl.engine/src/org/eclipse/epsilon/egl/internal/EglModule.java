@@ -71,7 +71,7 @@ public class EglModule extends EolModule implements IEglModule {
 	}
 	
 	public EglModule(IEglContext context) {
-		this.context = context != null ? context : new EglContext();
+		super(context != null ? context : new EglContext());
 	}
 	
 	@Override
@@ -163,7 +163,6 @@ public class EglModule extends EolModule implements IEglModule {
 	@Override
 	public Object execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException {
 		IEglContext context = getContext();
-		
 		context.enter(template);
 		context.getTemplateFactory().initialiseRoot(templateRoot);
 		
@@ -193,7 +192,7 @@ public class EglModule extends EolModule implements IEglModule {
 		output.formatWith(postprocessor);
 		
 		final List<String> problems = context.getPartitioningProblems();
-		if (problems.size() > 0) {
+		if (!problems.isEmpty()) {
 			throw new EglRuntimeException(problems.get(0), this);
 		}
 
@@ -233,7 +232,7 @@ public class EglModule extends EolModule implements IEglModule {
 		importConfiguration.put("egl", EglModule.class);
 		return importConfiguration;
 	}
-
+	
 	@Override
 	public IEglContext getContext() {
 		return (IEglContext) super.getContext();

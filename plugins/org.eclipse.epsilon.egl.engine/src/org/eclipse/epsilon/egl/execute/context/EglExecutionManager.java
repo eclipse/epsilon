@@ -48,7 +48,7 @@ class EglExecutionManager {
 	private FrameStack frameStack;
 	private final Deque<ModuleElement> localMarkers = new ArrayDeque<>();
 	private final Deque<ModuleElement> globalMarkers = new ArrayDeque<>();
-	private final LinkedList<ExecutableTemplateSpecification> specs = new LinkedList<>();
+	private final Deque<ExecutableTemplateSpecification> specs = new LinkedList<>();
 	private ExecutableTemplateSpecification firstSpec;
 	
 	public void prepareFor(ExecutableTemplateSpecification spec, FrameStack frameStack) {

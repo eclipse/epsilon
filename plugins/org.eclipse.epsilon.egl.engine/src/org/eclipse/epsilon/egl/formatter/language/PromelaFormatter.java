@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.formatter.language;
 
-
 import org.eclipse.epsilon.egl.formatter.CompositeFormatter;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.formatter.linebyline.Line;
@@ -26,7 +25,7 @@ public class PromelaFormatter implements Formatter {
 		return composite.format(text);
 	}
 	
-	static class PromelaBlockFormatter extends LanguageFormatter implements Formatter {
+	static class PromelaBlockFormatter extends LanguageFormatter {
 		
 		// Increase indentation after every line that contains an open bracket
 		private static final String increasePattern = "\\{";

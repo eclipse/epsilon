@@ -113,8 +113,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 				final Constructor constructor = hutnModelClass.getConstructor(String.class, String.class);
 				hutnModel = (IModel)constructor.newInstance(modelName, hutnContent);
 				hutnModel.load();
-				ModelRepository modelRepository = module.getContext().getModelRepository();
-				modelRepository.addModel(hutnModel);
+				module.getContext().getModelRepository().addModel(hutnModel);
 			} catch (Exception ex) {
 				throw new EolModelLoadingException(ex, hutnModel);
 			}

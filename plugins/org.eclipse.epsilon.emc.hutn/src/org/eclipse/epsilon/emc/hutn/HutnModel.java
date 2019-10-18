@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Collections;
-
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
@@ -37,7 +36,6 @@ import org.eclipse.epsilon.hutn.exceptions.HutnGenerationException;
 import org.eclipse.epsilon.hutn.xmi.HutnXmiBridgeException;
 import org.eclipse.epsilon.hutn.xmi.Xmi2Hutn;
 
-
 public class HutnModel extends Model implements IAdaptableModel, IReflectiveModel {
 
 	public static final String PROPERTY_SOURCE_FILE = "sourceFile";
@@ -54,10 +52,12 @@ public class HutnModel extends Model implements IAdaptableModel, IReflectiveMode
 		setName(name);
 	}
 	
+	@Override
 	public boolean preventLoadingOfExternalModelElements() {
 		return false;
 	}
 	
+	@Override
 	public void load() throws EolModelLoadingException {
 		try {
 			final IHutnModule module = new HutnModule();
@@ -107,6 +107,7 @@ public class HutnModel extends Model implements IAdaptableModel, IReflectiveMode
 		return model.getPropertySetter();
 	}
 
+	@Override
 	public boolean store(String location) {
 		try {
 			FileUtil.setFileContents(getHutn(), new File(location));
@@ -119,6 +120,7 @@ public class HutnModel extends Model implements IAdaptableModel, IReflectiveMode
 		}
 	}
 
+	@Override
 	public boolean store() {
 		return hutnSourceFile == null ? false : store(hutnSourceFile.getAbsolutePath());
 	}
@@ -165,94 +167,117 @@ public class HutnModel extends Model implements IAdaptableModel, IReflectiveMode
 	
 // Delegates //	
 
+	@Override
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
 		return model.getEnumerationValue(enumeration, label);
 	}
 
+	@Override
 	public Collection<?> allContents() {
 		return model.allContents();
 	}
 
+	@Override
 	public Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
 		return model.getAllOfType(type);
 	}
 
+	@Override
 	public Collection<?> getAllOfKind(String type) throws EolModelElementTypeNotFoundException {
 		return model.getAllOfKind(type);
 	}
 
+	@Override
 	public Object getTypeOf(Object instance) {
 		return model.getTypeOf(instance);
 	}
 
+	@Override
 	public String getTypeNameOf(Object instance) {
 		return model.getTypeNameOf(instance);
 	}
 
+	@Override
 	public Object createInstance(String type) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		return model.createInstance(type);
 	}
 
+	@Override
 	public Object getElementById(String id) {
 		return model.getElementById(id);
 	}
 
+	@Override
 	public String getElementId(Object instance) {
 		return model.getElementId(instance);
 	}
 
+	@Override
 	public void setElementId(Object instance, String newId) {
 		model.setElementId(instance, newId);
 	}
 
+	@Override
 	public void deleteElement(Object instance) throws EolRuntimeException {
 		model.deleteElement(instance);
 	}
 
+	@Override
 	public boolean owns(Object instance) {
 		return model.owns(instance);
 	}
 
+	@Override
 	public boolean isInstantiable(String type) {
 		return model.isInstantiable(type);
 	}
 	
+	@Override
 	public boolean isModelElement(Object instance) {
 		return isModelElement(instance);
 	}
 
+	@Override
 	public boolean hasType(String type) {
 		return model.hasType(type);
 	}
 	
+	@Override
 	public boolean hasPackage(String packageName) {
 		return model.hasPackage(packageName);
 	}
 	
+	@Override
 	public Object getContainerOf(Object object) {
 		return model.getContainerOf(object);
 	}
 
+	@Override
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
 		return model.getPropertiesOf(type);
 	}
 
+	@Override
 	public boolean hasProperty(String type, String property) throws EolModelElementTypeNotFoundException {
 		return model.hasProperty(type, property);
 	}
 
+	@Override
 	public boolean isEnumerationValue(Object object) {
 		return model.isEnumerationValue(object);
 	}
 
+	@Override
 	public String getEnumerationTypeOf(Object literal) throws EolNotAnEnumerationValueException {
 		return model.getEnumerationTypeOf(literal);
 	}
 
+	@Override
 	public String getEnumerationLabelOf(Object literal) throws EolNotAnEnumerationValueException {
 		return model.getEnumerationLabelOf(literal);
 	}
 	
+	@Override
 	public <T> T adaptTo(Class<T> modelType) {
 		if (modelType.isInstance(model)) {
 			return modelType.cast(model);

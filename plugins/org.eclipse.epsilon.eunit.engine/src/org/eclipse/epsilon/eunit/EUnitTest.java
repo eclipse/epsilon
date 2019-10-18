@@ -27,7 +27,7 @@ public class EUnitTest {
 	private Exception exception;
 
 	private EUnitTest parent;
-	private List<EUnitTest> children = new ArrayList<EUnitTest>();
+	private List<EUnitTest> children = new ArrayList<>();
 
 	// Data/model bindings
 	private String dataVariable;
@@ -329,7 +329,7 @@ public class EUnitTest {
 	 * Returns a list of all ancestor test cases (excluding this one) with a binding.
 	 */
 	public List<EUnitTest> getAllBindings() {
-		List<EUnitTest> lBindings = new LinkedList<EUnitTest>();
+		List<EUnitTest> lBindings = new LinkedList<>();
 		for (EUnitTest t = this; t != null; t = t.getParent()) {
 			if (t.getDataVariableName() == null && t.getModelBindings() == null) {
 				continue;
@@ -410,7 +410,7 @@ public class EUnitTest {
 	 */
 	@SuppressWarnings("rawtypes")
 	public List<EUnitTest> collectLeafTests(List selectedOperations, EUnitTestResultType resultFilter) {
-		final List<EUnitTest> tests = new ArrayList<EUnitTest>();
+		final List<EUnitTest> tests = new ArrayList<>();
 		collectLeafTests(selectedOperations, resultFilter, tests);
 		return tests;
 	}
