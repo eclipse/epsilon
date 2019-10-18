@@ -34,12 +34,14 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	
 	public final Map<IModel, StringProperties> modelsAndProperties;
 	public final Map<String, Object> parameters;
+	protected final boolean loadModels;
 	private final IEolModule module;
 	
 	public IEolRunConfiguration(Builder<? extends IEolRunConfiguration, ?> builder) {
 		super(builder);
 		this.parameters = builder.parameters;
 		this.modelsAndProperties = builder.modelsAndProperties;
+		this.loadModels = builder.loadModels;
 		this.module = Objects.requireNonNull(builder.module, "Module cannot be null!");
 		
 		IEolContext context = module.getContext();
@@ -62,6 +64,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		this.modelsAndProperties = other.modelsAndProperties;
 		this.module = other.module;
 		this.parameters = other.parameters;
+		this.loadModels = other.loadModels;
 	}
 	
 	/**
@@ -76,24 +79,24 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	protected void preExecute() throws Exception {
 		super.preExecute();
 		
+		prepareModule();
+		
+		if (loadModels) {
+			loadModels();
+		}
+	}
+	
+	protected void prepareModule() throws Exception {
 		if (profileExecution) {
 			profileExecutionStage(profiledStages, "Parsing script", () -> module.parse(script));
 		}
 		else {
 			module.parse(script);
 		}
-		
 		Collection<ParseProblem> parseProblems = module.getParseProblems();
 		if (!parseProblems.isEmpty()) {
 			writeOut(parseProblems);
 			throw new EolParseException(parseProblems);
-		}
-		
-		if (profileExecution) {
-			profileExecutionStage(profiledStages, "Loading model", this::loadModels);
-		}
-		else {
-			this.loadModels();
 		}
 		
 		if (!parameters.isEmpty()) {
@@ -101,7 +104,16 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		}
 	}
 	
-	protected void loadModels() throws EolModelLoadingException {
+	protected final void loadModels() throws EolModelLoadingException {
+		if (profileExecution) {
+			profileExecutionStage(profiledStages, "Loading model(s)", this::loadModelsImpl);
+		}
+		else {
+			this.loadModelsImpl();
+		}
+	}
+	
+	protected void loadModelsImpl() throws EolModelLoadingException {
 		if (modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
 			for (Map.Entry<IModel, StringProperties> modelAndProp : modelsAndProperties.entrySet()) {
 				IModel model = modelAndProp.getKey();
@@ -193,58 +205,69 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 					}
 				};
 				
-				return (C) new InstantiableEOC((Builder<C, B>) this);
+				return (C) new InstantiableEOC(this);
 			});
 		}
 		
 		protected abstract IEolModule createModule();
 		
 		public IEolModule module;
-		public Map<IModel, StringProperties> modelsAndProperties = new HashMap<>(4);
-		public Map<String, Object> parameters = new HashMap<>(4);
+		public Map<IModel, StringProperties> modelsAndProperties = new LinkedHashMap<>(4);
+		public Map<String, Object> parameters = new LinkedHashMap<>(4);
 		public boolean incremental;
+		public boolean loadModels = true;
 		public int parallelism = Integer.MIN_VALUE;
 
+		public boolean isIncremental() {
+			return incremental;
+		}
 		public boolean isParallel() {
 			return parallelism > -1;
 		}
 		
-		public Builder<C, B> withModule(IEolModule module) {
-			this.module = module;
-			return this;
+		public B skipModelLoading() {
+			return withModelLoading(false);
 		}
-		public Builder<C, B> withModel(IModel model) {
+		public B withModelLoading(boolean load) {
+			this.loadModels = load;
+			return (B) this;
+		}
+		public B withModule(IEolModule module) {
+			this.module = module;
+			return (B) this;
+		}
+		public B withModel(IModel model) {
 			return withModel(model, null);
 		}
-		public Builder<C, B> withModel(IModel model, StringProperties properties) {
+		public B withModel(IModel model, StringProperties properties) {
 			this.modelsAndProperties.put(model, properties);
-			return this;
+			return (B) this;
 		}
-		public Builder<C, B> withModels(Map<IModel, StringProperties> modelsAndProps) {
+		public B withModels(Map<IModel, StringProperties> modelsAndProps) {
 			this.modelsAndProperties.putAll(modelsAndProps);
-			return this;
+			return (B) this;
 		}
-		public Builder<C, B> withModels(IModel... models) {
+		public B withModels(IModel... models) {
 			for (IModel model : models) {
 				withModel(model);
 			}
-			return this;
+			return (B) this;
 		}
-		public Builder<C, B> withProperties(StringProperties properties) {
+		public B withProperties(StringProperties properties) {
 			modelsAndProperties.values().forEach(prop -> prop.putAll(properties));
-			return this;
+			return (B) this;
 		}
-		public Builder<C, B> withProperty(String name, Object value) {
+		public B withProperty(String name, Object value) {
 			modelsAndProperties.values().forEach(prop -> prop.put(name, value));
-			return this;
+			return (B) this;
 		}
-		public Builder<C, B> withParameter(String name, Object value) {
+		public B withParameter(String name, Object value) {
 			this.parameters.put(name, value);
-			return this;
+			return (B) this;
 		}
-		public Builder<C, B> withParameters(Map<String, Object> params) {
+		public B withParameters(Map<String, Object> params) {
 			this.parameters.putAll(params);
-			return this;
+			return (B) this;
 		}
 		public B withParallelism(int parallelism) {
 			this.parallelism = parallelism;

@@ -22,6 +22,14 @@ public class ConcurrencyUtils {
 	
 	public static final Thread TOP_LEVEL_THREAD = Thread.currentThread();
 	
+	public static boolean isMainThread() {
+		return Thread.currentThread().getName().equals("main");
+	}
+	
+	public static boolean isTopLevelThread() {
+		return Thread.currentThread().equals(TOP_LEVEL_THREAD);
+	}
+	
 	/**
 	 * The number of logical cores in the system.
 	 */
@@ -76,12 +84,21 @@ public class ConcurrencyUtils {
 			parallelism > 0 ? parallelism : 1+DEFAULT_PARALLELISM/2
 		);
 	}
-
-	public static boolean isMainThread() {
-		return Thread.currentThread().getName().equals("main");
-	}
 	
-	public static boolean isTopLevelThread() {
-		return Thread.currentThread().equals(TOP_LEVEL_THREAD);
+	/**
+	 * Executes the two tasks asynchronously and blocks the calling thread until both have completed.
+	 * 
+	 * @param t1
+	 * @param t2
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 */
+	public static void executeAsync(Runnable r1, Runnable r2) throws InterruptedException, ExecutionException {
+		CompletableFuture.runAsync(r1)
+			.thenCombine(
+				CompletableFuture.runAsync(r2),
+				(v1, v2) -> null
+			)
+			.get();
 	}
 }

@@ -20,6 +20,7 @@ import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -156,7 +157,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 		}
 		try {
 			constructor.setAccessible(true);
-			return (B) (constructor.getParameterCount() == 0 ? constructor.newInstance() : constructor.newInstance(configClass));
+			return constructor.getParameterCount() == 0 ? constructor.newInstance() : constructor.newInstance(configClass);
 		}
 		catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
 			throw new IllegalArgumentException(ex);
@@ -190,7 +191,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 		this.profileExecution = builder.profileExecution;
 		this.showResults = builder.showResults;
 		this.outputFile = builder.outputFile;
-		this.profiledStages = new LinkedList<>();
+		this.profiledStages = new ConcurrentLinkedDeque<>();
 		this.id = Optional.ofNullable(builder.id).orElseGet(() -> Objects.hash(Objects.toString(script)));
 	}
 	
