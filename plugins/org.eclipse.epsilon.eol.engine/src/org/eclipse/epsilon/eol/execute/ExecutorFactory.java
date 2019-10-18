@@ -109,14 +109,6 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 	}
 	
 	/**
-	 * @deprecated Use {@link ExecutorFactory#execute(ModuleElement, IEolContext)} instead.
-	 */
-	@Deprecated
-	public Object executeAST(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {
-		return execute(moduleElement, context);
-	}
-	
-	/**
 	 * 
 	 * @param moduleElement
 	 * @param context

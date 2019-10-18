@@ -66,9 +66,9 @@ public class EolModule extends AbstractModule implements IEolModule {
 		Arrays.stream(getClass().getDeclaredConstructors())
 			.flatMap(c -> Arrays.stream(c.getParameters()))
 			.map(java.lang.reflect.Parameter::getType)
-			.filter(expectedContextType::isAssignableFrom)
+			.filter(this.expectedContextType::isAssignableFrom)
 			.findFirst()
-			.ifPresent(c -> expectedContextType = (Class<? extends IEolContext>) c);
+			.ifPresent(c -> this.expectedContextType = (Class<? extends IEolContext>) c);
 	}
 	
 	@Override
@@ -449,7 +449,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 
 	@Override
 	public void setContext(IEolContext context) {
-		if (context != null && !expectedContextType.isAssignableFrom(context.getClass())) {
+		if (context != null && !expectedContextType.isInstance(context)) {
 			throw new IllegalArgumentException(
 				"Invalid context type: expected "+expectedContextType.getName()
 				+ " but got "+context.getClass().getName()
