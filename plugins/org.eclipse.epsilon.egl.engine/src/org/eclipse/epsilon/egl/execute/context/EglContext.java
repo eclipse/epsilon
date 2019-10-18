@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egl.execute.context;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.config.ContentTypeRepository;
@@ -137,12 +136,5 @@ public class EglContext extends EolContext implements IEglContext {
 			}
 		}
 		return (IEglModule) super.getModule();
-	}
-	
-	@Override
-	public void setModule(IModule module) {
-		if (module instanceof IEglModule) {
-			super.setModule(module);
-		}
 	}
 }

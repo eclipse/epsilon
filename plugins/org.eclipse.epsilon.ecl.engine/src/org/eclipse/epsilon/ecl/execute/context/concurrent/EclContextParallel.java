@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.ecl.execute.context.concurrent;
 
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.ecl.IEclModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
@@ -57,12 +56,5 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 	@Override
 	public IEclModule getModule() {
 		return (IEclModule) super.getModule();
-	}
-	
-	@Override
-	public void setModule(IModule module) {
-		if (module instanceof IEclModule) {
-			super.setModule(module);
-		}
 	}
 }

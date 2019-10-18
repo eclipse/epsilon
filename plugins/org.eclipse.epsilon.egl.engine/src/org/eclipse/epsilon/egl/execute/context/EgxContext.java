@@ -12,7 +12,6 @@ package org.eclipse.epsilon.egl.execute.context;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
@@ -46,13 +45,6 @@ public class EgxContext extends ErlContext implements IEgxContext {
 	
 	public void setBaseTemplate(EgxModuleTemplateAdapter baseTemplate) {
 		this.baseTemplate = baseTemplate;
-	}
-	
-	@Override
-	public void setModule(IModule module) {
-		if (module instanceof IEgxModule) {
-			super.setModule(module);
-		}
 	}
 	
 	@Override

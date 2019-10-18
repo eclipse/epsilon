@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.eol.execute.context;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -47,10 +46,17 @@ public class EolContext implements IEolContext {
 	protected EolClasspathNativeTypeDelegate classpathNativeTypeDelegate;
 	protected List<IToolNativeTypeDelegate> nativeTypeDelegates;
 	
+	/**
+	 * The type of {@link #module} when using {@link #getModule()} and {@link #setModule(IModule)}.
+	 * @since 1.6
+	 */
+	Class<? extends IModule> expectedModuleType = IModule.class;
+	
 	public EolContext() {
 		this(new EolClasspathNativeTypeDelegate());
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected EolContext(EolClasspathNativeTypeDelegate classpathNativeTypeDelegate) {
 		userInput = new JavaConsoleUserInput();
 		frameStack = new FrameStack();
@@ -66,7 +72,15 @@ public class EolContext implements IEolContext {
 		asyncStatementsQueue = new LinkedList<>();
 		methodContributorRegistry = new OperationContributorRegistry();
 		this.classpathNativeTypeDelegate = classpathNativeTypeDelegate;
-		this.nativeTypeDelegates = new ArrayList<>(CollectionUtil.asCollection(classpathNativeTypeDelegate));
+		this.nativeTypeDelegates = CollectionUtil.asList(classpathNativeTypeDelegate);
+		
+		// Ensure that setModule is consistent with getModule
+		try {
+			expectedModuleType = (Class<? extends IModule>) getClass().getMethod("getModule").getReturnType();
+		}
+		catch (NoSuchMethodException | SecurityException | ClassCastException ex) {
+			// Use the default - no need to do anything here.
+		}
 	}
 
 	/**
@@ -203,6 +217,12 @@ public class EolContext implements IEolContext {
 
 	@Override
 	public void setModule(IModule module) {
+		if (module != null && !expectedModuleType.isInstance(module)) {
+			throw new IllegalArgumentException(
+				"Invalid module type: expected "+expectedModuleType.getName()
+				+ " but got "+module.getClass().getName()
+			);
+		}
 		this.module = module;
 	}
 

@@ -11,7 +11,6 @@ package org.eclipse.epsilon.evl.execute.context;
 
 import java.util.HashSet;
 import java.util.Set;
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.evl.IEvlModule;
@@ -35,13 +34,6 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	@Override
 	public Set<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
 		return unsatisfiedConstraints;
-	}
-	
-	@Override
-	public void setModule(IModule module) {
-		if (module instanceof IEvlModule) {
-			super.setModule(module);
-		}
 	}
 	
 	@Override

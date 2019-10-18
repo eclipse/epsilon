@@ -42,6 +42,12 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 	}
 	
 	@Override
+	public void setProfilingEnabled(boolean profilingEnabled) {
+		super.setProfilingEnabled(profilingEnabled);
+		getExecutorFactory().setProfilingEnabled(profilingEnabled);
+	}
+	
+	@Override
 	public void setExecutorFactory(ExecutorFactory executorFactory) {
 		if (executorFactory instanceof RuleExecutorFactory) {
 			super.setExecutorFactory(executorFactory);

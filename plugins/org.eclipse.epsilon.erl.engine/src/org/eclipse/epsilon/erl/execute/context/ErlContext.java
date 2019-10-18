@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.execute.context;
 
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.erl.IErlModule;
@@ -28,6 +27,12 @@ public class ErlContext extends EolContext implements IErlContext {
 	}
 
 	@Override
+	public void setProfilingEnabled(boolean profilingEnabled) {
+		super.setProfilingEnabled(profilingEnabled);
+		getExecutorFactory().setProfilingEnabled(profilingEnabled);
+	}
+	
+	@Override
 	public void setExecutorFactory(ExecutorFactory executorFactory) {
 		if (executorFactory instanceof RuleExecutorFactory) {
 			this.executorFactory = executorFactory;
@@ -40,13 +45,6 @@ public class ErlContext extends EolContext implements IErlContext {
 	@Override
 	public RuleExecutorFactory getExecutorFactory() {
 		return (RuleExecutorFactory) super.getExecutorFactory();
-	}
-	
-	@Override
-	public void setModule(IModule module) {
-		if (module instanceof IErlModule) {
-			super.setModule(module);
-		}
 	}
 	
 	@Override

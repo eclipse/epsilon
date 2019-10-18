@@ -44,11 +44,12 @@ public class EolModule extends AbstractModule implements IEolModule {
 	protected Set<ModelDeclaration> modelDeclarations;
 	protected EolCompilationContext compilationContext;
 	private IEolModule parent;
+	
 	/**
 	 * The type of {@link #context} when using {@link #getContext()} and {@link #setContext(IEolContext)}.
 	 * @since 1.6
 	 */
-	protected Class<? extends IEolContext> expectedContextType = IEolContext.class;
+	Class<? extends IEolContext> expectedContextType = IEolContext.class;
 	
 	public EolModule() {
 		this(null);
@@ -63,12 +64,13 @@ public class EolModule extends AbstractModule implements IEolModule {
 	@SuppressWarnings("unchecked")
 	public EolModule(IEolContext context) {
 		setContext(context != null ? context : new EolContext());
-		Arrays.stream(getClass().getDeclaredConstructors())
-			.flatMap(c -> Arrays.stream(c.getParameters()))
-			.map(java.lang.reflect.Parameter::getType)
-			.filter(this.expectedContextType::isAssignableFrom)
-			.findFirst()
-			.ifPresent(c -> this.expectedContextType = (Class<? extends IEolContext>) c);
+		// Ensure that setContext is consistent with getContext
+		try {
+			expectedContextType = (Class<? extends IEolContext>) getClass().getMethod("getContext").getReturnType();
+		}
+		catch (NoSuchMethodException | SecurityException | ClassCastException ex) {
+			// Use the default - no need to do anything here.
+		}
 	}
 	
 	@Override

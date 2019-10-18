@@ -12,7 +12,6 @@
  */
 package org.eclipse.epsilon.flock.execute.context;
 
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
@@ -109,13 +108,6 @@ public class FlockContext extends ErlContext implements IFlockContext {
 	@Override
 	public ConservativeCopyContext getConservativeCopyContext() {
 		return new ConservativeCopyContext(originalModel, migratedModel, execution);
-	}
-	
-	@Override
-	public void setModule(IModule module) {
-		if (module instanceof IFlockModule) {
-			super.setModule(module);
-		}
 	}
 	
 	@Override

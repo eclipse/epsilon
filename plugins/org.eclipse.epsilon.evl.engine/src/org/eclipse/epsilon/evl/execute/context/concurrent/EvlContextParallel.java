@@ -11,7 +11,6 @@ package org.eclipse.epsilon.evl.execute.context.concurrent;
 
 import java.util.HashSet;
 import java.util.Set;
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
@@ -109,13 +108,6 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 			terminate = IEvlContextParallel.super.shouldShortCircuit(constraint);
 		}
 		return terminate;
-	}
-	
-	@Override
-	public void setModule(IModule module) {
-		if (module instanceof IEvlModule) {
-			super.setModule(module);
-		}
 	}
 	
 	@Override

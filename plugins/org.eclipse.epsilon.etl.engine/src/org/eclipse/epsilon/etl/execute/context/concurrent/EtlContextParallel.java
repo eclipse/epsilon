@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.etl.execute.context.concurrent;
 
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.strategy.ITransformationStrategy;
@@ -52,12 +51,5 @@ public class EtlContextParallel extends ErlContextParallel implements IEtlContex
 	@Override
 	public IEtlModule getModule() {
 		return (IEtlModule) super.getModule();
-	}
-	
-	@Override
-	public void setModule(IModule module) {
-		if (module instanceof IEtlModule) {
-			super.setModule(module);
-		}
 	}
 }
