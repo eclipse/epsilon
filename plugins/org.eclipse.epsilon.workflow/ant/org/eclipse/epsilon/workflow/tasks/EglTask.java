@@ -109,8 +109,8 @@ public class EglTask extends ExportableModuleTask {
 		Map<String, Object> props = new HashMap<>(requiredProperties.size());
 		for (String rp : requiredProperties) {
 			for (ModuleProperty mp : properties) {
-				if (rp.equals(mp.getKey())) {
-					props.put(mp.getKey(), mp.getValue());
+				if (rp.equals(mp.name)) {
+					props.put(mp.name, mp.value);
 				}
 			}
 		}

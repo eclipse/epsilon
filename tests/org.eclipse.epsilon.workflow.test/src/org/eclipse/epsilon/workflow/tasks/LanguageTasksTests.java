@@ -117,11 +117,12 @@ public class LanguageTasksTests {
 		final String initTask = createTaskDefTarget("Evl");
 		final StringBuilder mainBuilder = new StringBuilder();
 		mainBuilder.append("<target name=\"main\" depends=\"evl.init, loadModels\">");
-		mainBuilder.append(String.format("  <epsilon.evl id=\"evl\" src=\"%s\" ", evlFile.getAbsolutePath()));	// Use id so its not disposed
-		mainBuilder.append("moduleimplementation=\"org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation\">");
+		mainBuilder.append(String.format("  <epsilon.evl id=\"evl\" src=\"%s\" ", evlFile.getAbsolutePath()));	// Use id so it's not disposed
+		mainBuilder.append("moduleImplementation=\"org.eclipse.epsilon.evl.concurrent.EvlModuleParallel\">");
+		mainBuilder.append("  <moduleProperty name=\"parallelism\" value=\"6\"/>");
 		mainBuilder.append("  <moduleProperty name=\""+EvlModule.OPTIMIZE_CONSTRAINTS+"\" value=\"true\"/>");
 		mainBuilder.append("  <moduleProperty name=\""+IEvlContext.OPTIMIZE_CONSTRAINT_TRACE+"\" value=\"true\"/>");
-		mainBuilder.append("  <moduleproperty name=\"parallelism\" value=\"6\"/>");
+		mainBuilder.append("  <moduleProperty name=\""+IEvlContext.SHORT_CIRCUIT+"\" value=\"false\"/>");
 		mainBuilder.append("  <model ref=\"T1\"/>");
 		mainBuilder.append("</epsilon.evl>");
 		mainBuilder.append("</target>");
@@ -136,12 +137,15 @@ public class LanguageTasksTests {
         assertThat(evlTask.code, isEmptyString());
         assertThat(evlTask.src.getAbsolutePath(), is(evlFile.getAbsolutePath()));
         assertThat(evlTask.properties, is(not(empty())));
-        ModuleProperty oc = evlTask.properties.get(0);
-        assertThat(oc.getKey(), is("optimizeConstraints"));
-        assertThat(oc.getValue(), is("true"));
-        ModuleProperty parallelism = evlTask.properties.get(1);
-        assertThat(parallelism.getKey(), is("parallelism"));
+        
+        ModuleProperty parallelism = evlTask.properties.get(0);
+        assertThat(parallelism.getName(), is("parallelism"));
         assertThat(parallelism.getValue(), is("6"));
+        
+        ModuleProperty oc = evlTask.properties.get(1);
+        assertThat(oc.name, is("optimizeConstraints"));
+        assertThat(oc.value, is("true"));
+        
         buildFile.delete();
 	}
 

@@ -13,16 +13,13 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URI;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
@@ -53,20 +50,21 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	 * @author Horacio Hoyos Rodriguez
 	 * @since 1.6
 	 */
-	protected static class ModuleProperty extends AbstractMap.SimpleEntry<String, String> {
-
-		private static final long serialVersionUID = -1570522461247533848L;
-
-		public ModuleProperty(String name, String value) {
-			this(new AbstractMap.SimpleEntry<>(name, value));
-		}
+	protected static class ModuleProperty {
 		
-		public ModuleProperty(Entry<String, String> entry) {
-			super(entry);
-		}
+		String name, value;
 		
 		public String getName() {
-			return getKey();
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getValue() {
+			return value;
+		}
+		public void setValue(String value) {
+			this.value = value;
 		}
 		
 		public static Map<String, ?> toMap(Collection<ModuleProperty> properties) {
@@ -463,8 +461,8 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 		Map<String, Object> props = new HashMap<>(requiredProperties.size());
 		for (String rp : requiredProperties) {
 			for (ModuleProperty mp : properties) {
-				if (rp.equals(mp.getKey())) {
-					props.put(mp.getKey(), mp.getValue());
+				if (rp.equals(mp.name)) {
+					props.put(mp.name, mp.value);
 				}
 			}
 		}
@@ -481,8 +479,8 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 	}
 
 	/** Ant constructor for nested elements */
-    public ModuleProperty createModuleProperty(String name, String value) {                    
-    	ModuleProperty property = new ModuleProperty(name, value);
+    public ModuleProperty createModuleProperty() {                    
+    	ModuleProperty property = new ModuleProperty();
     	properties.add(property);
         return property;
     }

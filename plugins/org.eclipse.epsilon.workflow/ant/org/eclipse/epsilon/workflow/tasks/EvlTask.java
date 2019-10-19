@@ -85,6 +85,6 @@ public class EvlTask extends ExportableModuleTask {
 	 */
 	@Override
 	protected Collection<UnsatisfiedConstraint> getObjectsForExportedModel() {
-		return new ArrayList<>(((EvlModule)module).getContext().getUnsatisfiedConstraints());
+		return new ArrayList<>(((IEvlModule)module).getContext().getUnsatisfiedConstraints());
 	}
 }
