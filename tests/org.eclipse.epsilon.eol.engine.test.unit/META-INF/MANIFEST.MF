@@ -7,3 +7,4 @@ Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.test.dependencies
 Export-Package: org.eclipse.epsilon.eol.test.unit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.eol.engine.test.unit

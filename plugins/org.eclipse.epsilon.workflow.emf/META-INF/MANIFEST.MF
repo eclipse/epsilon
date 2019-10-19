@@ -15,3 +15,4 @@ Require-Bundle: org.apache.ant,
  org.eclipse.ant.core,
  org.eclipse.epsilon.workflow,
  org.eclipse.ui
+Automatic-Module-Name: org.eclipse.epsilon.workflow.emf

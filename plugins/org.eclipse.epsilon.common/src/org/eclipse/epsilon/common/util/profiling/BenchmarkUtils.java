@@ -363,7 +363,7 @@ public final class BenchmarkUtils {
 	//Format utils
 	
 	public static void addProfileInfo(Collection<ProfileDiagnostic> profileStages, String stage, long nanos, long memory) {
-		profileStages.add(new ProfileDiagnostic(stage, Duration.ofNanos(nanos), (double) memory, MemoryUnit.BYTES));
+		profileStages.add(new ProfileDiagnostic(stage, Duration.ofNanos(nanos), memory, MemoryUnit.BYTES));
 	}
 	
 	public static String formatExecutionStages(Iterable<ProfileDiagnostic> profileInfo) {

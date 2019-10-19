@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.emc.uml.dt
+Automatic-Module-Name: org.eclipse.epsilon.emc.uml.dt

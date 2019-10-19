@@ -9,3 +9,4 @@ Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.concordance.core.test,
  org.eclipse.epsilon.concordance.clients.test
 Export-Package: org.eclipse.epsilon.concordance.test
+Automatic-Module-Name: org.eclipse.epsilon.concordance.test

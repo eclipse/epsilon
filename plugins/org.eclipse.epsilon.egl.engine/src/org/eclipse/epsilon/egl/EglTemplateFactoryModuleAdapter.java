@@ -190,7 +190,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 	public void setContext(IEolContext context) {
 		if (context instanceof IEglContext) {
 			factory.setContext((IEglContext) context);
-			current.getModule().setContext((IEglContext) context);
+			current.getModule().setContext(context);
 		}
 	}
 

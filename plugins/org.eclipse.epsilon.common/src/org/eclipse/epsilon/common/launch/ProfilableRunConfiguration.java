@@ -256,17 +256,26 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	
 	protected abstract Object execute() throws Exception;
 	
+	protected List<Object> getProfilingOutput() {
+		return Arrays.asList(
+			"Profiled processes:",
+			formatExecutionStages(profiledStages),
+			"Finished at "+getTime()
+		);
+	}
+	
+	protected List<Object> getResultOutput() {
+		return Arrays.asList("Result: ", result);
+	}
+	
 	protected void postExecute() throws Exception {
 		if (profileExecution) {
-			writeOut("",
-				"Profiled processes:",
-				formatExecutionStages(profiledStages),
-				"Finished at "+getTime(),
-				printMarker
-			);
+			writeOut(getProfilingOutput());
+			writeOut(printMarker);
 		}
 		if (showResults) {
-			writeOut("Result: ", result, printMarker);
+			writeOut(getResultOutput());
+			writeOut(printMarker);
 		}
 	}
 	

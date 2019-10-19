@@ -13,3 +13,4 @@ Require-Bundle: org.apache.ant,
  org.eclipse.epsilon.eugenia,
  org.eclipse.epsilon.workflow,
  org.eclipse.ui
+Automatic-Module-Name: org.eclipse.epsilon.workflow.eugenia

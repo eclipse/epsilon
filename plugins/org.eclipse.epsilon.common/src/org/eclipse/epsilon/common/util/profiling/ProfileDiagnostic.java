@@ -25,7 +25,7 @@ public class ProfileDiagnostic implements java.io.Serializable {
 		BYTES, KB, MB, GB, TB, PB, EB, ZB, YB;
 		
 		public static double convertFromBytes(MemoryUnit to, long amount) {
-			return convertUnits(MemoryUnit.BYTES, to, (double) amount);
+			return convertUnits(MemoryUnit.BYTES, to, amount);
 		}
 		
 		public static double convertUnits(MemoryUnit from, MemoryUnit to, double amount) {

@@ -161,6 +161,13 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	}
 	
 	@Override
+	protected List<Object> getProfilingOutput() {
+		List<Object> prof = new ArrayList<>(super.getProfilingOutput());
+		prof.addAll(Arrays.asList(printMarker, getModule().getContext().getExecutorFactory().getExecutionController()));
+		return prof;
+	}
+	
+	@Override
 	public String toString() {
 		return super.toString()+
 		", moduleClass="+module.getClass().getName()+
@@ -196,7 +203,11 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		
 		@Override
 		public C build() {
-			if (module == null) module = createModule();
+			if (module == null) {
+				module = createModule();
+			}
+			
+			module.getContext().setProfilingEnabled(profileExecution);
 			
 			return buildReflective(() -> {
 				class InstantiableEOC extends IEolRunConfiguration {
@@ -214,13 +225,9 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		public IEolModule module;
 		public Map<IModel, StringProperties> modelsAndProperties = new LinkedHashMap<>(4);
 		public Map<String, Object> parameters = new LinkedHashMap<>(4);
-		public boolean incremental;
 		public boolean loadModels = true;
 		public int parallelism = Integer.MIN_VALUE;
 
-		public boolean isIncremental() {
-			return incremental;
-		}
 		public boolean isParallel() {
 			return parallelism > -1;
 		}

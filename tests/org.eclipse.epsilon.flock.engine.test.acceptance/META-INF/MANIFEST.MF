@@ -8,4 +8,5 @@ Require-Bundle: org.eclipse.epsilon.flock.engine.test.dependencies,
  org.eclipse.epsilon.test.fixtures.hutn
 Export-Package: org.eclipse.epsilon.flock.engine.test.acceptance
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.flock.engine.test.acceptance
 

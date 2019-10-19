@@ -137,11 +137,11 @@ public class LanguageTasksTests {
         assertThat(evlTask.src.getAbsolutePath(), is(evlFile.getAbsolutePath()));
         assertThat(evlTask.properties, is(not(empty())));
         ModuleProperty oc = evlTask.properties.get(0);
-        assertThat(oc.name, is("optimizeConstraints"));
-        assertThat(oc.value, is("true"));
+        assertThat(oc.getKey(), is("optimizeConstraints"));
+        assertThat(oc.getValue(), is("true"));
         ModuleProperty parallelism = evlTask.properties.get(1);
-        assertThat(parallelism.name, is("parallelism"));
-        assertThat(parallelism.value, is("6"));
+        assertThat(parallelism.getKey(), is("parallelism"));
+        assertThat(parallelism.getValue(), is("6"));
         buildFile.delete();
 	}
 
