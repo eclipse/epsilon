@@ -68,15 +68,41 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @since 1.6
 	 */
 	public boolean shouldBeChecked(Object modelElement, IEvlContext context) throws EolRuntimeException {
-		return !isLazy(context) && appliesTo(modelElement, context, false);
+		return !isLazy(context) && appliesTo(modelElement, context);
 	}
 	
-	public boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException {
+	/**
+	 * Checks if the given model element is an instance of the type described by this ConstraintContext.
+	 * 
+	 * @param modelElement The model element.
+	 * @param context The execution context containing the model(s).
+	 * @return <code>true</code> if the object's type is equal to this ConstraintContext's type.
+	 * @throws EolModelElementTypeNotFoundException
+	 * @since 1.6
+	 */
+	public boolean isOfType(Object modelElement, IEvlContext context) throws EolModelElementTypeNotFoundException {
+		return context.getModelRepository().getOwningModel(modelElement).isOfType(modelElement, getTypeName());
+	}
+	
+	/**
+	 * Checks if the given model element is an instance of the kind described by this ConstraintContext.
+	 * 
+	 * @param modelElement The model element.
+	 * @param context The execution context containing the model(s).
+	 * @return <code>true</code> if the model element is compatible with this ConstraintContext.
+	 * @throws EolModelElementTypeNotFoundException
+	 * @throws EolModelNotFoundException
+	 */
+	public boolean isOfKind(Object modelElement, IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
+		return getAllOfSourceKind(context).contains(modelElement);
+	}
+	
+	public final boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException {
 		return appliesTo(object, context, false);
 	}
 
 	public boolean appliesTo(Object object, IEvlContext context, boolean checkType) throws EolRuntimeException {
-		if (checkType && !context.getModelRepository().getOwningModel(object).isOfType(object, getTypeName()))
+		if (checkType && !isOfType(object, context))
 			return false;
 
 		if (guardBlock != null)
@@ -163,7 +189,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 		if (!isLazy(context)) {
 			ExecutorFactory executorFactory = context.getExecutorFactory();
 			for (Object modelElement : getAllOfSourceKind(context)) {
-				if (appliesTo(modelElement, context, false)) {
+				if (appliesTo(modelElement, context)) {
 					for (Constraint constraint : constraintsToCheck) {
 						executorFactory.execute(constraint, context, modelElement);
 					}
