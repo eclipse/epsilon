@@ -93,8 +93,8 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @throws EolModelElementTypeNotFoundException
 	 * @throws EolModelNotFoundException
 	 */
-	public boolean isOfKind(Object modelElement, IEvlContext context) throws EolModelElementTypeNotFoundException, EolModelNotFoundException {
-		return getAllOfSourceKind(context).contains(modelElement);
+	public boolean isOfKind(Object modelElement, IEvlContext context) throws EolModelElementTypeNotFoundException {
+		return context.getModelRepository().getOwningModel(modelElement).isOfKind(modelElement, getTypeName());
 	}
 	
 	public final boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException {
