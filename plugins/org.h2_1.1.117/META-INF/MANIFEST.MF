@@ -34,3 +34,4 @@ Export-Package: org.h2,
  org.h2.util,
  org.h2.value
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.h2_1.1.117

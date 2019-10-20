@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.ui.ide,
 Bundle-Activator: org.eclipse.epsilon.emf.dt.EmfUtilPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.emf.dt

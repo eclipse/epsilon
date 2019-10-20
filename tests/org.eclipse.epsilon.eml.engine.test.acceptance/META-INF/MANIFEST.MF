@@ -11,3 +11,4 @@ Require-Bundle: org.eclipse.epsilon.egl.engine.test.dependencies,
  org.eclipse.epsilon.etl.engine,
  org.eclipse.epsilon.emc.plainxml
 Export-Package: org.eclipse.epsilon.eml.engine.test.acceptance
+Automatic-Module-Name: org.eclipse.epsilon.eml.engine.test.acceptance

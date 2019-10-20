@@ -13,3 +13,4 @@ Export-Package: org.objenesis,
  org.objenesis.instantiator.jrockit,
  org.objenesis.instantiator.sun,
  org.objenesis.strategy
+Automatic-Module-Name: org.objenesis_1.0

@@ -8,4 +8,6 @@ Require-Bundle: org.eclipse.epsilon.emc.hutn,
  org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.hutn.test.dependencies
 Bundle-Vendor: Eclipse.org
-Export-Package: org.eclipse.epsilon.emc.hutn.test
+Export-Package: org.eclipse.epsilon.emc.hutn,
+ org.eclipse.epsilon.emc.hutn.test
+Automatic-Module-Name: org.eclipse.epsilon.emc.hutn.test

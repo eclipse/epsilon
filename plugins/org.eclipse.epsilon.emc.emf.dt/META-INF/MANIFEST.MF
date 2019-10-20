@@ -13,3 +13,4 @@ Export-Package: org.eclipse.epsilon.emc.emf.dt
 Bundle-Activator: org.eclipse.epsilon.emc.emf.dt.Activator
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.emc.emf.dt

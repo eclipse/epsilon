@@ -12,3 +12,4 @@ Bundle-Vendor: Eclipse Modeling Project
 Export-Package: org.eclipse.epsilon.perspective,
  org.eclipse.epsilon.perspective.actions
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.perspective

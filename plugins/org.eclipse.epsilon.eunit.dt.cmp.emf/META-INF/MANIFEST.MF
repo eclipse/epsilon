@@ -11,3 +11,4 @@ Require-Bundle: org.eclipse.emf.compare;bundle-version="3.1.0",
  org.eclipse.epsilon.emc.emf,
  org.eclipse.epsilon.eunit.engine
 Export-Package: org.eclipse.epsilon.eunit.dt.cmp.emf.v3
+Automatic-Module-Name: org.eclipse.epsilon.eunit.dt.cmp.emf

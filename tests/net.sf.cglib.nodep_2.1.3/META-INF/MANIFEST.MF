@@ -16,3 +16,4 @@ Export-Package: net.sf.cglib.asm,
  net.sf.cglib.transform.hook,
  net.sf.cglib.transform.impl,
  net.sf.cglib.util
+Automatic-Module-Name: net.sf.cglib.nodep_2.1.3

@@ -11,3 +11,4 @@ Require-Bundle: org.eclipse.epsilon.hutn.xmi,
 Export-Package: org.eclipse.epsilon.hutn.xmi.dt,
  org.eclipse.epsilon.hutn.xmi.dt.actions
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.hutn.xmi.dt

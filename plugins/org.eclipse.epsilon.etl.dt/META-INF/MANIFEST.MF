@@ -16,3 +16,4 @@ Export-Package: org.eclipse.epsilon.etl.dt,
  org.eclipse.epsilon.etl.dt.launching.tabs,
  org.eclipse.epsilon.etl.dt.wizards
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.etl.dt

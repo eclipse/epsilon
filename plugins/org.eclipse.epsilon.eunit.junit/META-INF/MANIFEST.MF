@@ -18,3 +18,4 @@ Export-Package: org.eclipse.epsilon.eunit.junit;
    org.eclipse.epsilon.eunit,
    org.junit.runner.notification,
    org.junit.runner"
+Automatic-Module-Name: org.eclipse.epsilon.eunit.junit

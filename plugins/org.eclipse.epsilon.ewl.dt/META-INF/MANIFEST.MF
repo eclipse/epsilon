@@ -15,3 +15,4 @@ Export-Package: org.eclipse.epsilon.ewl.dt,
  org.eclipse.epsilon.ewl.dt.editor.outline,
  org.eclipse.epsilon.ewl.dt.wizards
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.ewl.dt

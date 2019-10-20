@@ -6,3 +6,4 @@ Bundle-Version: 1.4.0.qualifier
 Bundle-Vendor: Apache Software Foundation
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.apache.commons.cli
+Automatic-Module-Name: org.apache.commons.cli_1.4

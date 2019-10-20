@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.epsilon.common.dt,
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.profiling.dt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.profiling.dt

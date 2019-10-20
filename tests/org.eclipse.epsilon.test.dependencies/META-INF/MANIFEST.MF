@@ -15,7 +15,9 @@ Require-Bundle: org.hamcrest.library;bundle-version="1.3.0";visibility:=reexport
  org.easymock_2.4;visibility:=reexport,
  org.eclipse.epsilon.emc.plainxml;visibility:=reexport
 Bundle-Vendor: Eclipse.org
-Export-Package: org.antlr.gunit,
+Export-Package: org,
+ org.antlr,
+ org.antlr.gunit,
  org.eclipse.epsilon.test.builtins,
  org.eclipse.epsilon.test.util,
  org.eclipse.epsilon.test.util.builders.emf,

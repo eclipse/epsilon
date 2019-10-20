@@ -10,3 +10,4 @@ Require-Bundle: org.dom4j;bundle-version="1.6.1";visibility:=reexport,
  org.apache.poi.ooxml_3.10.1;bundle-version="3.10.1";visibility:=reexport,
  org.apache.poi_3.10.1;bundle-version="3.10.1";visibility:=reexport,
  org.apache.xmlbeans_2.6.0;bundle-version="2.6.0";visibility:=reexport
+Automatic-Module-Name: org.eclipse.epsilon.emc.spreadsheets.excel.dependencies

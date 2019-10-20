@@ -15,3 +15,4 @@ Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.eunit.junit,
  org.eclipse.epsilon.eol.dt
 Export-Package: org.eclipse.epsilon.eunit.junit.dt
+Automatic-Module-Name: org.eclipse.epsilon.eunit.junit.dt

@@ -18,3 +18,4 @@ Require-Bundle: org.apache.ant,
  org.apache.poi_3.10.1,
  org.apache.commons.collections;bundle-version="3.2.2",
  org.apache.commons.lang3;bundle-version="3.1.0"
+Automatic-Module-Name: org.eclipse.epsilon.standalone

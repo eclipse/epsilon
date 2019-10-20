@@ -56,3 +56,4 @@ Export-Package: org.apache.poi,
  org.apache.poi.ss.util,
  org.apache.poi.ss.util.cellwalk,
  org.apache.poi.util
+Automatic-Module-Name: org.apache.poi_3.10.1

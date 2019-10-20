@@ -10,6 +10,8 @@ Export-Package: org.eclipse.epsilon.hutn.xmi,
  org.eclipse.epsilon.hutn.xmi.coerce,
  org.eclipse.epsilon.hutn.xmi.parser,
  org.eclipse.epsilon.hutn.xmi.parser.generator,
+ org.eclipse.epsilon.hutn.xmi.parser.sax,
  org.eclipse.epsilon.hutn.xmi.postprocessor,
  org.eclipse.epsilon.hutn.xmi.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.hutn.xmi

@@ -7,3 +7,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: com.google.gdata_1.47.1;bundle-version="1.47.1";visibility:=reexport,
  com.google.guava;bundle-version="18.0.0";visibility:=reexport
+Automatic-Module-Name: org.eclipse.epsilon.emc.spreadsheets.google.dependencies

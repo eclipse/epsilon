@@ -8,3 +8,4 @@ Require-Bundle: org.eclipse.epsilon.hutn.xmi.test.unit,
  org.eclipse.epsilon.hutn.xmi.test.integration
 Export-Package: org.eclipse.epsilon.hutn.xmi.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.hutn.xmi.test

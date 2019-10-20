@@ -10,3 +10,4 @@ Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.common.dt.test,
  com.google.inject
 Export-Package: org.eclipse.epsilon.emc.emf.test
+Automatic-Module-Name: org.eclipse.epsilon.emc.emf.test

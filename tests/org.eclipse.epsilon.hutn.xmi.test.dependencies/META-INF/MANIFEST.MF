@@ -7,3 +7,4 @@ Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.epsilon.hutn.xmi;visibility:=reexport,
  org.eclipse.epsilon.hutn.test.dependencies;visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.hutn.xmi.test.dependencies

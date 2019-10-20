@@ -10,3 +10,4 @@ Require-Bundle: org.eclipse.epsilon.flexmi,
  org.eclipse.epsilon.emc.emf,
  com.google.guava
 Export-Package: org.eclipse.epsilon.flexmi.test
+Automatic-Module-Name: org.eclipse.epsilon.flexmi.test

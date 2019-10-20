@@ -14,3 +14,4 @@ Export-Package: org.eclipse.epsilon.emc.simulink.test.suite,
  org.eclipse.epsilon.emc.simulink.test.unit.type,
  org.eclipse.epsilon.emc.simulink.test.util
 Import-Package: org.slf4j;version="1.7.2"
+Automatic-Module-Name: org.eclipse.epsilon.emc.simulink.test

@@ -42,3 +42,4 @@ Export-Package: org.apache.poi,
 Require-Bundle: org.apache.poi_3.10.1;bundle-version="3.10.1";visibility:=reexport,
  org.apache.poi.ooxml.schemas_3.10.1;bundle-version="3.10.1";visibility:=reexport,
  org.dom4j;bundle-version="1.6.1";visibility:=reexport
+Automatic-Module-Name: org.apache.poi.ooxml_3.10.1

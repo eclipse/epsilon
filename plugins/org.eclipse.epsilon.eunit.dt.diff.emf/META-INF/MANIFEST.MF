@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.epsilon.eunit.dt,
  org.eclipse.emf.compare.ide.ui;bundle-version="4.0.0",
  org.eclipse.ui
 Export-Package: org.eclipse.epsilon.eunit.dt.diff.emf.v3
+Automatic-Module-Name: org.eclipse.epsilon.eunit.dt.diff.emf

@@ -14,3 +14,4 @@ Export-Package: org.jdom,
  org.jdom.xpath
 Require-Bundle: javax.xml;resolution:=optional
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.jdom_1.0

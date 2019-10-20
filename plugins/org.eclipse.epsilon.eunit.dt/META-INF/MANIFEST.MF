@@ -16,3 +16,4 @@ Export-Package: org.eclipse.epsilon.eunit.dt,
  org.eclipse.epsilon.eunit.dt.ui,
  org.eclipse.epsilon.internal.eunit.dt.diff,
  org.eclipse.epsilon.internal.eunit.dt.history
+Automatic-Module-Name: org.eclipse.epsilon.eunit.dt
