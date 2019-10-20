@@ -14,9 +14,7 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.eclipse.epsilon.egl.EglTemplate;
-import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.traceability.Template;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,62 +25,54 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({EglExecutionManagerTests.PrepareTests.class, EglExecutionManagerTests.RestoreTests.class})
 public class EglExecutionManagerTests {
 	
-	private static final ExecutableTemplateSpecification firstSpec  = createExecutableTemplateSpecification("First");
-	private static final ExecutableTemplateSpecification secondSpec = createExecutableTemplateSpecification("Second");
-	private static final ExecutableTemplateSpecification thirdSpec  = createExecutableTemplateSpecification("Third");
+	private static final EglTemplate
+		firstSpec = createTemplate("First"),
+		secondSpec = createTemplate("Second"),
+		thirdSpec  = createTemplate("Third");
 	
-	private static ExecutableTemplateSpecification createExecutableTemplateSpecification(String name) {
+	static EglTemplate createTemplate(String name) {
 		final EglTemplate template = mock(EglTemplate.class);
 		when(template.getTemplate()).thenReturn(new Template(name));
-		return new ExecutableTemplateSpecification(template, new OutputBuffer());
+		return template;
 	}
 	
 	public static class PrepareTests {
-		private final EglExecutionManager manager = new EglExecutionManager();
-		private final FrameStack frameStack = mock(FrameStack.class);
+		private final EglExecutionManager manager = new EglExecutionManager(new EglContext());
 		
 		@Before
 		public void prepareForSpecs() {
-			manager.prepareFor(firstSpec, frameStack);
-			manager.prepareFor(secondSpec, frameStack);
-			manager.prepareFor(thirdSpec, frameStack);
+			manager.prepareFor(firstSpec);
+			manager.prepareFor(secondSpec);
+			manager.prepareFor(thirdSpec);
 		}
 		
 		@Test
 		public void setsBaseAsFirstToBePrepared() throws Exception {
-			assertEquals(firstSpec, manager.getBase());
+			assertEquals(firstSpec, manager.getBase().template);
 		}
 		
 		@Test
 		public void setsCurrentAsLastToBePrepared() throws Exception {
-			assertEquals(thirdSpec, manager.getCurrent());
+			assertEquals(thirdSpec, manager.getCurrent().template);
 		}
-		
-		/*@Test
-		public void delegatesToFrameStackManager() throws Exception {
-			verify(frameStackManager).prepareFrameStackFor(firstSpec);
-			verify(frameStackManager).prepareFrameStackFor(secondSpec);
-			verify(frameStackManager).prepareFrameStackFor(thirdSpec);
-		}*/
 	
 	}
 	
 	public static class RestoreTests {
-		private final FrameStack frameStack = mock(FrameStack.class);
-		private final EglExecutionManager manager = new EglExecutionManager();
+		private final EglExecutionManager manager = new EglExecutionManager(new EglContext());
 		
 		@Before
 		public void prepareForSpecs() {
-			manager.prepareFor(firstSpec, frameStack);
-			manager.prepareFor(secondSpec, frameStack);
-			manager.prepareFor(thirdSpec, frameStack);
+			manager.prepareFor(firstSpec);
+			manager.prepareFor(secondSpec);
+			manager.prepareFor(thirdSpec);
 		}
 		
 		@Test
 		public void restoresPreviousAsCurrent() throws Exception {
 			manager.restore();
 			
-			assertEquals(secondSpec, manager.getCurrent());
+			assertEquals(secondSpec, manager.getCurrent().template);
 		}
 		
 		@Test
@@ -90,7 +80,7 @@ public class EglExecutionManagerTests {
 			manager.restore();
 			manager.restore();
 			
-			assertEquals(firstSpec, manager.getCurrent());
+			assertEquals(firstSpec, manager.getCurrent().template);
 		}
 		
 		@Test
@@ -101,15 +91,6 @@ public class EglExecutionManagerTests {
 			
 			assertNull(manager.getCurrent());
 		}
-	
-		/*@Test
-		public void delegatesToFrameStackManager() throws Exception {
-			manager.restore();
-			manager.restore();
-			manager.restore();
-			
-			verify(frameStackManager, times(3)).restoreFrameStackToPreviousState();
-		}*/
 		
 		@Test
 		public void doesNotDestroyBase() throws Exception {
@@ -117,7 +98,7 @@ public class EglExecutionManagerTests {
 			manager.restore();
 			manager.restore();
 			
-			assertEquals(firstSpec, manager.getBase());
+			assertEquals(firstSpec, manager.getBase().template);
 		}
 	}
 }

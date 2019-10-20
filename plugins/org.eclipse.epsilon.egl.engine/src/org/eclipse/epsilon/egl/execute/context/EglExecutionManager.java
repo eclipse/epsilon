@@ -15,6 +15,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.egl.EglTemplate;
+import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -45,22 +47,33 @@ import org.eclipse.epsilon.eol.execute.context.FrameType;
  */
 class EglExecutionManager {
 
+	public EglExecutionManager(IEglContext context) {
+		this.context = context;
+	}
+	
+	final IEglContext context;
 	private FrameStack frameStack;
 	private final Deque<ModuleElement> localMarkers = new ArrayDeque<>();
 	private final Deque<ModuleElement> globalMarkers = new ArrayDeque<>();
 	private final Deque<ExecutableTemplateSpecification> specs = new LinkedList<>();
 	private ExecutableTemplateSpecification firstSpec;
 	
-	public void prepareFor(ExecutableTemplateSpecification spec, FrameStack frameStack) {
+	public void prepareFor(EglTemplate template) {
+		prepareFor(template, context.newOutputBuffer());
+	}
+	
+	public void prepareFor(EglTemplate template, IOutputBuffer outputBuffer) {
+		ExecutableTemplateSpecification spec = new ExecutableTemplateSpecification(template, outputBuffer);
 		if (firstSpec == null) firstSpec = spec;
 		if (!specs.isEmpty()) getCurrent().addAsChild(spec);
 		specs.push(spec);
-		this.frameStack = frameStack;
+		setModule();
 		prepareFrameStack();
 		spec.addVariablesTo(frameStack);
 	}
 	
 	private void prepareFrameStack() {
+		frameStack = context.getFrameStack();
 		final StatementBlock frameGlobalStackMarker = new StatementBlock();
 		frameGlobalStackMarker.setUri(URI.create("template-specific-globals"));
 		globalMarkers.push(frameGlobalStackMarker);
@@ -76,7 +89,12 @@ class EglExecutionManager {
 		frameStack.leaveGlobal(globalMarkers.pop());
 	}
 	
+	void setModule() {
+		context.setModule(getCurrent().template.getModule());
+	}
+	
 	public void restore() {
+		setModule();
 		restoreFrameStack();
 		specs.pop();
 	}

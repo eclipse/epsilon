@@ -32,7 +32,7 @@ public class EglContext extends EolContext implements IEglContext {
 	private EglTemplateFactory templateFactory;
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
-	private final EglExecutionManager executionManager = new EglExecutionManager();
+	private final EglExecutionManager executionManager = new EglExecutionManager(this);
 	
 	public EglContext() {
 		this((EglTemplateFactory) null);
@@ -95,16 +95,11 @@ public class EglContext extends EolContext implements IEglContext {
 	
 	@Override
 	public void enter(EglTemplate template) {
-		setModule(template.getModule());
-		executionManager.prepareFor(
-			new ExecutableTemplateSpecification(template, newOutputBuffer()),
-			getFrameStack()
-		);
+		executionManager.prepareFor(template);
 	}
 	
 	@Override
 	public void exit() {
-		setModule(getCurrentTemplate().getModule());
 		executionManager.restore();
 	}
 
