@@ -29,7 +29,7 @@ import org.eclipse.epsilon.eol.execute.control.*;
 public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> {
 	
 	protected ExecutionController executionController;
-	protected ModuleElement activeModuleElement = null;
+	protected ModuleElement activeModuleElement;
 	protected Collection<IExecutionListener> executionListeners;
 	protected StackTraceManager stackTraceManager;
 	protected ExecutorFactory base;
@@ -104,7 +104,7 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 	 * @return
 	 * @since 1.6
 	 */
-	public boolean isProfilingEnabled() {
+	protected boolean isProfilingEnabled() {
 		return executionController instanceof ExecutionProfiler;
 	}
 	
@@ -118,7 +118,7 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 	protected void preExecute(ModuleElement moduleElement, IEolContext context) throws EolRuntimeException {
 		activeModuleElement = moduleElement;
 		
-		if (executionController != null && !(executionController instanceof DefaultExecutionController)) {
+		if (executionController != null) {
 			if (executionController.isTerminated()) throw new EolTerminationException(moduleElement);
 			try {
 				executionController.control(moduleElement, context);
@@ -179,7 +179,7 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 	 * @since 1.6
 	 */
 	protected void postExecuteFinally(ModuleElement moduleElement, IEolContext context) {
-		if (executionController != null && !(executionController instanceof DefaultExecutionController)) {
+		if (executionController != null) {
 			executionController.done(moduleElement, context);
 		}
 	}

@@ -105,23 +105,13 @@ public abstract class Model implements IModel {
 	@Override
 	public boolean isOfKind(Object instance, String metaClass) throws EolModelElementTypeNotFoundException {
 		Collection<?> allOfKind = getAllOfKind(metaClass);
-		if (allOfKind != null && allOfKind.contains(instance)) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return allOfKind != null && allOfKind.contains(instance);
 	}
 
 	@Override
 	public boolean isOfType(Object instance, String metaClass) throws EolModelElementTypeNotFoundException {
 		Collection<?> allOfClass = getAllOfType(metaClass);
-		if (allOfClass != null && allOfClass.contains(instance)) {
-			return true;
-		}
-		else {
-			return false;
-		}		
+		return allOfClass != null && allOfClass.contains(instance);	
 	}
 	
 	@Override
@@ -171,8 +161,8 @@ public abstract class Model implements IModel {
 	
 	@Override
 	public void dispose() {
-		if (this.isStoredOnDisposal()) {
-			this.store();
+		if (isStoredOnDisposal()) {
+			store();
 		}
 	}
 	

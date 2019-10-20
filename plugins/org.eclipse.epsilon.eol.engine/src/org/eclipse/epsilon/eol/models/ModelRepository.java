@@ -75,7 +75,7 @@ public class ModelRepository {
 			} 
 		}
 		
-		ModelGroup modelGroup = (ModelGroup) cachedModelGroups.get(modelName);
+		ModelGroup modelGroup = cachedModelGroups.get(modelName);
 		if (modelGroup == null) {
 			modelGroup = new ModelGroup(this,modelName);
 			cachedModelGroups.put(modelName, modelGroup);
@@ -122,7 +122,7 @@ public class ModelRepository {
 	//TODO : Add support for using #vk_public straight
 	// and test for MDR models
 	//FIXME : Remove method from model repository
-	public Object getEnumerationValue(String modelAndEnumerationAndLabel) throws EolModelNotFoundException, EolEnumerationValueNotFoundException{
+	public Object getEnumerationValue(String modelAndEnumerationAndLabel) throws EolModelNotFoundException, EolEnumerationValueNotFoundException {
 		
 		String modelName = getModelName(modelAndEnumerationAndLabel);
 		String enumerationAndLabel = getMetaClassName(modelAndEnumerationAndLabel);
@@ -133,7 +133,7 @@ public class ModelRepository {
 		return model.getEnumerationValue(enumeration, label);
 	}
 	
-	public IModel getOwningModel(Object instance){
+	public IModel getOwningModel(Object instance) {
 		// Fail fast since models should not contain null objects.
 		if (instance == null) {
 			return null;

@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.execute.context.concurrent;
 
+import java.util.function.Supplier;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -25,12 +26,19 @@ import org.eclipse.epsilon.erl.execute.data.RuleAtom;
  * @since 1.6
  */
 public interface IErlContextParallel extends IErlContext, IEolContextParallel {
-
-	public static final String PARALLEL_ANNOTATION_NAME = "parallel";
+	
+	default boolean shouldBeParallel(AnnotatableModuleElement ast, Variable... variables) throws EolRuntimeException {
+		if (!isParallelisationLegal()) return false;
+		return ast.getBooleanAnnotationValue("parallel", this, variables);
+	}
+	
+	default boolean shouldBeParallel(AnnotatableModuleElement ast, Supplier<? extends Variable[]> variables) throws EolRuntimeException {
+		if (!isParallelisationLegal()) return false;
+		return ast.getBooleanAnnotationValue("parallel", this, variables);
+	}
 	
 	default boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model, int numElements) throws EolRuntimeException {
-		if (!isParallelisationLegal()) return false;
-		return ast.getBooleanAnnotationValue(PARALLEL_ANNOTATION_NAME, this, () -> new Variable[] {
+		return shouldBeParallel(ast, () -> new Variable[] {
 			Variable.createReadOnlyVariable("self", self),
 			Variable.createReadOnlyVariable("NUM_ELEMENTS", numElements),
 			Variable.createReadOnlyVariable("MODEL", model),

@@ -12,11 +12,11 @@ package org.eclipse.epsilon.evl.concurrent;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
@@ -56,7 +56,7 @@ public class EvlModuleParallel extends EvlModule {
 			
 			final Collection<CheckedEolRunnable> jobs = new LinkedList<>();
 			
-			if (constraintContext.hasAnnotation(IErlContextParallel.PARALLEL_ANNOTATION_NAME)) {
+			if (constraintContext.hasAnnotation("parallel")) {
 				for (Object object : allOfKind) {
 					if (context.shouldBeParallel(constraintContext, object, model, numElements)) {
 						jobs.add(() -> constraintContext.execute(constraintsToCheck, object, context));
@@ -67,7 +67,7 @@ public class EvlModuleParallel extends EvlModule {
 				}
 				
 				context.executeParallel(constraintContext, jobs);
-			}		
+			}	
 			else {
 				for (Constraint constraint : constraintsToCheck) {
 					for (Object object : allOfKind) {
@@ -85,6 +85,14 @@ public class EvlModuleParallel extends EvlModule {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Does not look up the element in the context.
+	 */
+	@Override
+	public Constraint getConstraint(String constraintName, String contextName, Object modelElement, ModuleElement ast) throws EolRuntimeException {
+		return super.getConstraint(constraintName, contextName, null, ast);
 	}
 	
 	@Override

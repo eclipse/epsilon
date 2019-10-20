@@ -82,7 +82,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	
 	@Override
 	protected Collection<Element> allContentsFromModel() {
-		ArrayList<Element> elements = new ArrayList<>();
+		Collection<Element> elements = new ArrayList<>();
 		collectAllElements(document, elements);
 		for (Element created : createdElements) {
 			if (!elements.contains(created) && created.getParentNode() == null) {
@@ -222,7 +222,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 		return true;
 	}
 	
-	public void collectAllElements(Node root, ArrayList<Element> elements) {
+	public void collectAllElements(Node root, Collection<Element> elements) {
 		if (root instanceof Element) {
 			elements.add((Element) root);
 		}

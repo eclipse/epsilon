@@ -68,7 +68,7 @@ public interface IEvlModule extends IErlModule {
 	 * 
 	 * @param constraintName The constraint name to search for (mandatory).
 	 * @param contextName The name of the model element type (ConstraintContext) that the constraint is declared in (optional).
-	 * @param modelElement A model element which the Constraint should be applicable to (optional).
+	 * @param modelElement A model element which the Constraint's context should be applicable to (optional).
 	 * @param ast The AST that is calling this operation (optional).
 	 * @return A Constraint matching the specified criteria, or <code>null</code> if not found.
 	 * @throws EolRuntimeException If there are problems finding the constraint from the specified parameters.

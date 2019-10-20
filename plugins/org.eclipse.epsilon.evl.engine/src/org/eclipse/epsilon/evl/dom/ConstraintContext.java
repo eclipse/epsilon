@@ -26,7 +26,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.parse.EvlParser;
@@ -91,7 +90,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @param context The execution context containing the model(s).
 	 * @return <code>true</code> if the model element is compatible with this ConstraintContext.
 	 * @throws EolModelElementTypeNotFoundException
-	 * @throws EolModelNotFoundException
+	 * @since 1.6
 	 */
 	public boolean isOfKind(Object modelElement, IEvlContext context) throws EolModelElementTypeNotFoundException {
 		return context.getModelRepository().getOwningModel(modelElement).isOfKind(modelElement, getTypeName());
@@ -117,10 +116,17 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @throws EolRuntimeException
 	 */
 	public boolean isLazy(IEvlContext context) throws EolRuntimeException {
-		if (isLazy == null) {
-			isLazy = getBooleanAnnotationValue("lazy", context) ||
-				constraints.stream()
-					.allMatch((CheckedEolPredicate<Constraint>) c -> c.isLazy(context));
+		if (isLazy == null) synchronized (this) {
+			boolean lazy = getBooleanAnnotationValue("lazy", context);	// Will be proven false in the loop below if this is not the case
+			if (!lazy && !constraints.isEmpty()) {
+				lazy = true;
+				for (
+					Iterator<Constraint> iter = constraints.iterator();
+					lazy && iter.hasNext();	// Stop evaluating once we've found a Constraint that is not lazy
+					lazy = iter.next().isLazy(context)
+				);
+			}
+			isLazy = lazy;
 		}
 		return isLazy;
 	}
@@ -150,7 +156,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	}
 
 	public EolModelElementType getType(IEolContext context) throws EolModelNotFoundException, EolModelElementTypeNotFoundException {
-		if (type == null) {
+		if (type == null) synchronized (this) {
 			type = new EolModelElementType(getTypeName(), context);
 		}
 		return type;
