@@ -22,8 +22,24 @@ import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
 public interface IEvlContext extends IErlContext {
 	
-	Set<UnsatisfiedConstraint> getUnsatisfiedConstraints();
+	/**
+	 * This collection is written to internally by the engine during execution.
+	 * Although {@link IEvlModule#execute()} mandates the results to be a Set, 
+	 * for performance optimisation reasons this method is permitted to return
+	 * any collection, so long as once execution is complete, the results contain
+	 * no duplicates. This collection should therefore only be used to add elements,
+	 * and is expected not to be queried during execution.
+	 * 
+	 * @return A mutable collection of unsatisfied Constraint-element pairs.
+	 */
+	Collection<UnsatisfiedConstraint> getUnsatisfiedConstraints();
 	
+	/**
+	 * Used internally to determine evaluated constraints.
+	 * 
+	 * @return The checked Constraint-element pairs, or <code>null</code> if
+	 * the trace is disabled.
+	 */
 	ConstraintTrace getConstraintTrace();
 
 	/**
@@ -31,7 +47,7 @@ public interface IEvlContext extends IErlContext {
 	 */
 	public static final String
 		OPTIMIZE_CONSTRAINT_TRACE = "optimizeConstraintTrace",
-		SHORT_CIRCUIT = "shortCircuit";;
+		SHORT_CIRCUIT = "shortCircuit";
 	
 	/**
 	 * Return true if the constraint results cache is optimized. When optimized, constraint results

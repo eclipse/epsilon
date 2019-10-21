@@ -263,9 +263,10 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	}
 
 	@Override
-	protected Collection<UnsatisfiedConstraint> processRules() throws EolRuntimeException {
+	protected Set<UnsatisfiedConstraint> processRules() throws EolRuntimeException {
 		checkConstraints();
-		return getContext().getUnsatisfiedConstraints();
+		Collection<UnsatisfiedConstraint> results = getContext().getUnsatisfiedConstraints();
+		return results instanceof Set ? (Set<UnsatisfiedConstraint>) results : new HashSet<>(results);
 	}
 	
 	/**
@@ -297,8 +298,8 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<UnsatisfiedConstraint> execute() throws EolRuntimeException {
-		return (Collection<UnsatisfiedConstraint>) super.execute();
+	public Set<UnsatisfiedConstraint> execute() throws EolRuntimeException {
+		return (Set<UnsatisfiedConstraint>) super.execute();
 	}
 	
 	@Override

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl;
 
-import java.util.Collection;
+import java.util.Set;
 import java.util.List;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringUtil;
@@ -32,10 +32,10 @@ public interface IEvlModule extends IErlModule {
 	List<ConstraintContext> getConstraintContexts();
 	
 	/**
-	 * @since 1.6 returns Collection instead of List
+	 * @since 1.6 returns Set instead of List
 	 */
 	@Override
-	Collection<UnsatisfiedConstraint> execute() throws EolRuntimeException;
+	Set<UnsatisfiedConstraint> execute() throws EolRuntimeException;
 	
 	void setUnsatisfiedConstraintFixer(IEvlFixer fixer);
 	

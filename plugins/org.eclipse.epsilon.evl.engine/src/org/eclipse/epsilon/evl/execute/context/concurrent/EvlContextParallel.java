@@ -9,6 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.execute.context.concurrent;
 
+import java.util.ArrayDeque;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -26,7 +28,7 @@ import org.eclipse.epsilon.evl.trace.ConstraintTrace;
  */
 public class EvlContextParallel extends ErlContextParallel implements IEvlContextParallel {
 
-	protected PersistentThreadLocal<Set<UnsatisfiedConstraint>> concurrentUnsatisfiedConstraints;
+	protected PersistentThreadLocal<Collection<UnsatisfiedConstraint>> concurrentUnsatisfiedConstraints;
 	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints;
 	protected ConstraintTrace constraintTrace;
 	protected boolean optimizeConstraintTrace = false;
@@ -56,24 +58,24 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	@Override
 	protected void initThreadLocals() {
 		super.initThreadLocals();
-		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(getParallelism(), HashSet::new);
+		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(getParallelism(), ArrayDeque::new);
 	}
 	
 	@Override
 	protected synchronized void clearThreadLocals() {
 		super.clearThreadLocals();
-		if (concurrentUnsatisfiedConstraints instanceof PersistentThreadLocal) {
-			if (unsatisfiedConstraints == null) {
-				unsatisfiedConstraints = new HashSet<>();
-			}
-			concurrentUnsatisfiedConstraints.getAll().forEach(unsatisfiedConstraints::addAll);
-			concurrentUnsatisfiedConstraints.removeAll();
+		if (concurrentUnsatisfiedConstraints == null) return;
+		
+		if (unsatisfiedConstraints == null) {
+			unsatisfiedConstraints = new HashSet<>();
 		}
+		concurrentUnsatisfiedConstraints.getAll().forEach(unsatisfiedConstraints::addAll);
+		concurrentUnsatisfiedConstraints.removeAll();
 		concurrentUnsatisfiedConstraints = null;
 	}
 	
 	@Override
-	public Set<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
+	public Collection<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
 		return parallelGet(concurrentUnsatisfiedConstraints, unsatisfiedConstraints);
 	}
 
