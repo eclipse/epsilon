@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 
 public class InMemoryEmfModel extends EmfModel {
 	
@@ -60,8 +61,13 @@ public class InMemoryEmfModel extends EmfModel {
 		this.modelImpl = modelImpl;
 
 		// If there is no ResourceSet we cannot register or call the resource creation factory
-		if(modelImpl.getResourceSet() != null) {
-			modelImpl.getResourceSet().setResourceFactoryRegistry(Resource.Factory.Registry.INSTANCE);
+		// @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=540424
+		final ResourceSet resourceSet = modelImpl.getResourceSet();
+		if (resourceSet != null) {
+			Resource.Factory.Registry rfReg = resourceSet.getResourceFactoryRegistry();
+			if (rfReg == null) {
+				resourceSet.setResourceFactoryRegistry(Resource.Factory.Registry.INSTANCE);
+			}
 		}
 
 		if (ePackages == null || ePackages.isEmpty()) {
@@ -70,20 +76,21 @@ public class InMemoryEmfModel extends EmfModel {
 			
 			// If there is no ResourceSet available, AbstractEmfModel#getPackageRegistry()
 			// already returns the global registry, so no need to worry about this
-			if (modelImpl.getResourceSet() != null && modelImpl.getResourceSet().getPackageRegistry().isEmpty()) {
-				modelImpl.getResourceSet().setPackageRegistry(EPackage.Registry.INSTANCE);
+			if (resourceSet != null && resourceSet.getPackageRegistry().isEmpty()) {
+				resourceSet.setPackageRegistry(EPackage.Registry.INSTANCE);
 			}
 		}
 		else {
+			final EPackage.Registry epReg = getPackageRegistry();
 			for (EPackage ePackage : ePackages) {
-				getPackageRegistry().put(ePackage.getNsURI(), ePackage);
+				epReg.put(ePackage.getNsURI(), ePackage);
 				
 				//Added : Collect dependencies
 				
 				List<EPackage> dependencies =  new ArrayList<>();
 				EmfUtil.collectDependencies(ePackage, dependencies);
 				for (EPackage dependency : dependencies) {
-					getPackageRegistry().put(dependency.getNsURI(), dependency);	
+					epReg.put(dependency.getNsURI(), dependency);	
 				}
 			}
 		}

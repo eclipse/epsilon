@@ -33,7 +33,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	protected ConstraintTrace constraintTrace;
 	protected boolean optimizeConstraintTrace = false;
 	protected boolean shortCircuiting = false;
-	protected /*volatile*/ boolean terminate = false;
+	protected boolean terminate = false;
 	
 	public EvlContextParallel() {
 		this(0);

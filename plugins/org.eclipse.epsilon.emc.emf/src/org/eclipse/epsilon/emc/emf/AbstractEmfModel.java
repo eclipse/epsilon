@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -72,7 +71,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	
 	protected Resource modelImpl;
 	protected boolean expand = true;
-	protected Registry registry;
+	protected EPackage.Registry registry;
 	Map<String, EClass> eClassCache;
 	/**
 	 * @since 1.6
@@ -112,7 +111,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	 * 
 	 * @return the (global) package registry
 	 */
-	protected Registry getPackageRegistry() {
+	protected EPackage.Registry getPackageRegistry() {
 		if (registry == null) {
 			if (modelImpl == null || modelImpl.getResourceSet() == null) {
 				registry = EPackage.Registry.INSTANCE;
@@ -230,7 +229,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 		throw new EolModelElementTypeNotFoundException(this.name, name);
 	}
 	
-	protected EClass classForName(String name, Registry registry) {	
+	protected EClass classForName(String name, EPackage.Registry registry) {	
 		boolean absolute = name.contains("::");
 		
 		return registry.values()
