@@ -9,27 +9,23 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.concurrent;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import org.eclipse.epsilon.egl.EgxModule;
-import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
-import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public class EgxModuleParallel extends EgxModule {
+public abstract class EgxModuleParallel extends EgxModule {
 
 	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
 	static {
@@ -51,26 +47,7 @@ public class EgxModuleParallel extends EgxModule {
 	}
 	
 	@Override
-	protected Object processRules() throws EolRuntimeException {
-		IEgxContextParallel context = getContext();
-		
-		for (GenerationRule rule : getGenerationRules()) {
-			final Collection<?> allElements = rule.getAllElements(context);
-			final int numElements = allElements.size();
-			ArrayList<CheckedEolRunnable> genJobs = new ArrayList<>(numElements);
-			
-			for (Object element : allElements) {
-				if (context.shouldBeParallel(rule, element, rule.getOwningModelForType(context), numElements)) {
-					genJobs.add(() -> rule.generate(element, this));
-				}
-				else {
-					rule.generate(element, this);
-				}
-			}
-			context.executeParallel(rule, genJobs);
-		}
-		return null;
-	}
+	protected abstract Object processRules() throws EolRuntimeException;
 	
 	@Override
 	public IEgxContextParallel getContext() {

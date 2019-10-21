@@ -39,7 +39,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	/**
 	 * @since 1.6
 	 */
-	protected Boolean isLazy;
+	Boolean isLazy;
 	
 	@SuppressWarnings("unchecked")
 	public void build(AST cst, IModule module) {

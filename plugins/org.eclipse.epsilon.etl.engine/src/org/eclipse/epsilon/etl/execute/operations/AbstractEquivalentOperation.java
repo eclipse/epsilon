@@ -45,7 +45,7 @@ abstract class AbstractEquivalentOperation extends SimpleOperation {
 			return executeImpl((Collection<?>) source, (IEtlContext) context, rules);
 		}
 		else {
-			return executeImpl((Object) source, (IEtlContext) context, rules);
+			return executeImpl(source, (IEtlContext) context, rules);
 		}
 	}
 

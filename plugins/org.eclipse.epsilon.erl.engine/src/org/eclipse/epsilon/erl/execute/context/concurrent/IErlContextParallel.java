@@ -9,12 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.execute.context.concurrent;
 
-import java.util.function.Supplier;
-import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.erl.execute.data.JobBatch;
@@ -26,25 +22,6 @@ import org.eclipse.epsilon.erl.execute.data.RuleAtom;
  * @since 1.6
  */
 public interface IErlContextParallel extends IErlContext, IEolContextParallel {
-	
-	default boolean shouldBeParallel(AnnotatableModuleElement ast, Variable... variables) throws EolRuntimeException {
-		if (!isParallelisationLegal()) return false;
-		return ast.getBooleanAnnotationValue("parallel", this, variables);
-	}
-	
-	default boolean shouldBeParallel(AnnotatableModuleElement ast, Supplier<? extends Variable[]> variables) throws EolRuntimeException {
-		if (!isParallelisationLegal()) return false;
-		return ast.getBooleanAnnotationValue("parallel", this, variables);
-	}
-	
-	default boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model, int numElements) throws EolRuntimeException {
-		return shouldBeParallel(ast, () -> new Variable[] {
-			Variable.createReadOnlyVariable("self", self),
-			Variable.createReadOnlyVariable("NUM_ELEMENTS", numElements),
-			Variable.createReadOnlyVariable("MODEL", model),
-			Variable.createReadOnlyVariable("THREADS", getParallelism())
-		});
-	}
 	
 	@Override
 	default Object executeJob(Object job) throws EolRuntimeException {

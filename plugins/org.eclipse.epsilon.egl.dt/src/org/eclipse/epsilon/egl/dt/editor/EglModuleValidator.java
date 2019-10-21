@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleValidator;
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.common.module.IModuleValidator;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
@@ -27,7 +26,7 @@ import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.dom.Statement;
 import org.eclipse.epsilon.eol.dom.StringLiteral;
 
-public class EglModuleValidator extends AbstractModuleValidator implements IModuleValidator {
+public class EglModuleValidator extends AbstractModuleValidator {
 	
 	@Override
 	public List<ModuleMarker> validate(IModule module) {

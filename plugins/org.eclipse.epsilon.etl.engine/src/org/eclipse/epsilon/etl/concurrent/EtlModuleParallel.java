@@ -15,6 +15,7 @@ import org.eclipse.epsilon.etl.execute.context.concurrent.EtlContextParallel;
 import org.eclipse.epsilon.etl.execute.context.concurrent.IEtlContextParallel;
 
 /**
+ * No-op ETL module, useful for taking advantage of parallel operations only.
  * 
  * @author Sina Madani
  * @since 1.6

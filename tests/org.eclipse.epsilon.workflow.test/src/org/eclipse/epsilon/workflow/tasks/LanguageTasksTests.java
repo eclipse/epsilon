@@ -118,7 +118,7 @@ public class LanguageTasksTests {
 		final StringBuilder mainBuilder = new StringBuilder();
 		mainBuilder.append("<target name=\"main\" depends=\"evl.init, loadModels\">");
 		mainBuilder.append(String.format("  <epsilon.evl id=\"evl\" src=\"%s\" ", evlFile.getAbsolutePath()));	// Use id so it's not disposed
-		mainBuilder.append("moduleImplementation=\"org.eclipse.epsilon.evl.concurrent.EvlModuleParallel\">");
+		mainBuilder.append("moduleImplementation=\"org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation\">");
 		mainBuilder.append("  <moduleProperty name=\"parallelism\" value=\"6\"/>");
 		mainBuilder.append("  <moduleProperty name=\""+EvlModule.OPTIMIZE_CONSTRAINTS+"\" value=\"true\"/>");
 		mainBuilder.append("  <moduleProperty name=\""+IEvlContext.OPTIMIZE_CONSTRAINT_TRACE+"\" value=\"true\"/>");

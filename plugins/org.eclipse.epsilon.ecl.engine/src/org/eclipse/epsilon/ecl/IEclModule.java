@@ -44,7 +44,7 @@ public interface IEclModule extends IErlModule {
 		Collection<MatchRule> matchRules = getRulesFor(left, right, context, true);
 		
 		if (!matchRules.isEmpty()) {
-			MatchRule matchRule = (MatchRule) matchRules.iterator().next();
+			MatchRule matchRule = matchRules.iterator().next();
 			return matchRule.match(left, right, context, null, forcedMatch);
 		}
 		else {

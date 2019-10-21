@@ -122,7 +122,7 @@
             name="Default (EGX)">
       </implementation>
        <implementation
-            class="org.eclipse.epsilon.egl.concurrent.EgxModuleParallel"
+            class="org.eclipse.epsilon.egl.concurrent.EgxModuleParallelAnnotation"
             default="false"
             dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleParallelConfiguration"
             language="EGX"

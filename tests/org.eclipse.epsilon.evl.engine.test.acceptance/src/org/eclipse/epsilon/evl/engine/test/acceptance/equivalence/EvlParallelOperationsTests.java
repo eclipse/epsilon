@@ -92,7 +92,7 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 	public static Collection<EvlRunConfiguration> configurations() {
 		Collection<EvlRunConfiguration> scenarios = getScenarios(inputsWithNesting, false,
 			EolAcceptanceTestUtil.parallelModules(testThreads, null,
-				p -> new EvlModuleParallel(new EvlContextParallel(p))
+				p -> new EvlModuleParallelAnnotation(new EvlContextParallel(p))
 			),
 			idCalculator
 		);
@@ -105,7 +105,7 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 		boolean isParallelNestedScript = testConfig.script.getFileName().toString().equals("java_parallelNested.evl");
 		if (testName.getMethodName().startsWith("testIllegalNesting")) {
 			assumeTrue(isParallelNestedScript);
-			assumeFalse(testConfig.getModule().getClass().equals(EvlModuleParallel.class));
+			assumeFalse(testConfig.getModule() instanceof EvlModuleParallelAnnotation);
 			expectedConfig.run();
 			testConfig.preExecute();
 			testScenariosMatch();

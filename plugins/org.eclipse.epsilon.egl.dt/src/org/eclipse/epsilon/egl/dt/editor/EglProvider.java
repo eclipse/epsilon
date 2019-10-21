@@ -20,9 +20,8 @@ import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.ui.editors.text.FileDocumentProvider;
-import org.eclipse.ui.texteditor.IDocumentProvider;
 
-public class EglProvider extends FileDocumentProvider implements IDocumentProvider {
+public class EglProvider extends FileDocumentProvider {
 
 	public static final String EGL_EOL         = "org.eclipse.epsilon.egl.dt.editor.EOL";
 	public static final String EGL_EOLSHORTCUT = "org.eclipse.epsilon.egl.dt.editor.EOLSHORTCUT";
