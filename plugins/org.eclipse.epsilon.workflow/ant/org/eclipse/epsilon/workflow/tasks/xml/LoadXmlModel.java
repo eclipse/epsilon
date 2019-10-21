@@ -40,7 +40,7 @@ public class LoadXmlModel extends EpsilonTask {
 			model.load();
 		}
 		catch (Exception ex) {
-			throw new BuildException();
+			throw new BuildException(ex);
 		}
 		
 		getProjectRepository().addModel(model);

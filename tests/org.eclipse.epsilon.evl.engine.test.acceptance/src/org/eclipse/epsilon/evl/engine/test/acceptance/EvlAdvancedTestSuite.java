@@ -21,6 +21,11 @@ import junit.framework.Test;
 	EvlParallelOperationsTests.class,
 	EvlModuleEquivalenceTests.class
 })
+/**
+ * 
+ * @author Sina Madani
+ * @since 1.6
+ */
 public class EvlAdvancedTestSuite {
 
 	public static Test suite() {

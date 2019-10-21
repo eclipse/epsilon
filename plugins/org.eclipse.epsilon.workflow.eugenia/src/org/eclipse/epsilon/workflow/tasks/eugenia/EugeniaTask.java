@@ -35,7 +35,7 @@ public class EugeniaTask extends EpsilonTask {
 
 	private File sourceFile;
 	private EugeniaActionDelegateStep firstStep, lastStep;
-	private List<EugeniaExtraModel> extraModels = new ArrayList<EugeniaExtraModel>();
+	private List<EugeniaExtraModel> extraModels = new ArrayList<>();
 
 	/**
 	 * <p>Changes the source file for the Eugenia workflow. If the name of source file

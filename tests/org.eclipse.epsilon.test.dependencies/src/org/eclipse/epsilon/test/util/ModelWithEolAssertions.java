@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
-import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolEvaluatorException;
 import org.eclipse.epsilon.eol.models.CachedModel;
@@ -76,8 +75,8 @@ public class ModelWithEolAssertions {
 	}
 	
 	public void add(EObject... eObjects) {
-		if (model instanceof EmfModel) {
-			((EmfModel)model).getModelImpl().getContents().addAll(Arrays.asList(eObjects));
+		if (model instanceof AbstractEmfModel) {
+			((AbstractEmfModel) model).getResource().getContents().addAll(Arrays.asList(eObjects));
 		}
 	}
 	
@@ -241,7 +240,7 @@ public class ModelWithEolAssertions {
 	
 	public void store(String path) {
 		if (model instanceof AbstractEmfModel) {
-			((AbstractEmfModel)model).getModelImpl().setURI(URI.createFileURI(path));
+			((AbstractEmfModel) model).getResource().setURI(URI.createFileURI(path));
 			model.store();
 		} else {
 			model.store(path);
@@ -250,7 +249,7 @@ public class ModelWithEolAssertions {
 	
 	public Resource getResource() {
 		if (model instanceof AbstractEmfModel)
-			return ((AbstractEmfModel)model).getModelImpl();
+			return ((AbstractEmfModel) model).getResource();
 		else
 			return null;
 	}

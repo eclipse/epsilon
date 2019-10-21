@@ -10,15 +10,13 @@
 package org.eclipse.epsilon.emc.emf.xml;
 
 import java.util.Collection;
-import java.util.Iterator;
-
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.emf.CachedResourceSet;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -41,18 +39,17 @@ public class XmlModel extends EmfModel implements IOperationContributorProvider 
 	}
 	
 	@Override
-	protected void determinePackagesFrom(ResourceSet resourceSet)
-			throws EolModelLoadingException {
+	protected void determinePackagesFrom(ResourceSet resourceSet) throws EolModelLoadingException {
 		super.determinePackagesFrom(resourceSet);
 		
 		if (xsdFile != null && xsdFile.endsWith("xsd")) {
 			XSDEcoreBuilder xsdEcoreBuilder = new XSDEcoreBuilder();
 			
-		    Collection<EObject> ePackages = xsdEcoreBuilder.generate(URI.createFileURI(xsdFile));
+		    Collection<?> ePackages = xsdEcoreBuilder.generate(URI.createFileURI(xsdFile));
 		    
-		    for (Iterator<EObject> iter = ePackages.iterator(); iter.hasNext();) {
-		    	EPackage ePackage = (EPackage) iter.next();
-		    	if (ePackage.getNsURI() == null || ePackage.getNsURI().length() == 0) {
+		    for (Object eObj : ePackages) {
+		    	EPackage ePackage = (EPackage) eObj;
+		    	if (StringUtil.isEmpty(ePackage.getNsURI())) {
 		    		ePackage.setNsURI(ePackage.getName());
 		    	}
 		    	packages.add(ePackage);

@@ -25,12 +25,14 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({CommonDevelopmentToolsTestSuite.class,
-               EmfPluggedInTestSuite.class,
-               EugeniaTestSuite.class,
-               WorkflowPluggedInTestSuite.class,
-               ConcordancePluggedInTestSuite.class})
-public class EpsilonPluggedInTestSuite{
+@SuiteClasses({
+	CommonDevelopmentToolsTestSuite.class,
+	EmfPluggedInTestSuite.class,
+	EugeniaTestSuite.class,
+	WorkflowPluggedInTestSuite.class,
+	ConcordancePluggedInTestSuite.class
+})
+public class EpsilonPluggedInTestSuite {
 
 	public static Test suite() {
 		return new JUnit4TestAdapter(EpsilonPluggedInTestSuite.class);

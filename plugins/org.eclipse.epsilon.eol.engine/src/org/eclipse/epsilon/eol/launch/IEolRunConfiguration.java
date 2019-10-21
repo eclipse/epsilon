@@ -20,6 +20,8 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
+import org.eclipse.epsilon.eol.execute.control.ExecutionController;
+import org.eclipse.epsilon.eol.execute.control.ExecutionProfiler;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -102,6 +104,8 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		if (!parameters.isEmpty()) {
 			module.getContext().getFrameStack().put(parameters, false);
 		}
+		
+		module.getContext().setProfilingEnabled(profileExecution);
 	}
 	
 	protected final void loadModels() throws EolModelLoadingException {
@@ -162,8 +166,11 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	
 	@Override
 	protected List<Object> getProfilingOutput() {
+		ExecutionController executionController = getModule().getContext().getExecutorFactory().getExecutionController();
 		List<Object> prof = new ArrayList<>(super.getProfilingOutput());
-		prof.addAll(Arrays.asList(printMarker, getModule().getContext().getExecutorFactory().getExecutionController()));
+		if (executionController instanceof ExecutionProfiler) {
+			prof.addAll(Arrays.asList(printMarker, executionController));
+		}
 		return prof;
 	}
 	

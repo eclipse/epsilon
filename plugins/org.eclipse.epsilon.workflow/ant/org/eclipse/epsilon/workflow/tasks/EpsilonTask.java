@@ -100,6 +100,7 @@ public abstract class EpsilonTask extends Task {
 
 	protected List<NamedTransactionSupport> getActiveTransactions() {
 		
+		@SuppressWarnings("unchecked")
 		List<NamedTransactionSupport> activeTransactions = 
 			(List<NamedTransactionSupport>) getProject().getReference(EpsilonTask.EPSILON_ACTIVETRANSACTIONS);
 		

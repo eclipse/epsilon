@@ -24,11 +24,13 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({CommonDevelopmentToolsTestSuite.class,
-               EmfPluggedInTestSuite.class,
-               EugeniaTestSuite.class,
-               WorkflowPluggedInTestSuite.class,
-               /*, ConcordancePluggedInTestSuite.class*/})
+@SuiteClasses({
+	CommonDevelopmentToolsTestSuite.class,
+	EmfPluggedInTestSuite.class,
+	EugeniaTestSuite.class,
+	WorkflowPluggedInTestSuite.class,
+	//ConcordancePluggedInTestSuite.class
+})
 public class EpsilonHudsonPluggedInTestSuite{
 
 	public static Test suite() {

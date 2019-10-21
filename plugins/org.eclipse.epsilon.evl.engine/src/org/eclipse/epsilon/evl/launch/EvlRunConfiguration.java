@@ -14,7 +14,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
-import org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation;
+import org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelContextAtoms;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
@@ -64,7 +64,7 @@ public class EvlRunConfiguration extends IErlRunConfiguration {
 		
 		@Override
 		protected IEvlModule createModule() {
-			return isParallel() ? new EvlModuleParallelAnnotation(new EvlContextParallel(parallelism)) : new EvlModule();
+			return isParallel() ? new EvlModuleParallelContextAtoms(new EvlContextParallel(parallelism)) : new EvlModule();
 		}
 	}
 	

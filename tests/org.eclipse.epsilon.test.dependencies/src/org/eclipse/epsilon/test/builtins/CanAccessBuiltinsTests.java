@@ -19,7 +19,6 @@ import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.Test;
 
-
 public abstract class CanAccessBuiltinsTests {
 	
 	@Test
@@ -40,10 +39,10 @@ public abstract class CanAccessBuiltinsTests {
 	protected abstract String getExpectedPrintedValue() throws Exception;
 	
 	protected void execute(IEolModule module) throws EolRuntimeException {
-		if (module instanceof IEolModule) {
-			((IEolModule)module).execute();
-		
-		} else {
+		if (module!= null) {
+			module.execute();
+		}
+		else {
 			throw new IllegalArgumentException("CanAccessBuiltins does not know how to execute the following module. (Please override this method). " + module);
 		}
 	}
