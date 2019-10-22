@@ -22,7 +22,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
 public final class EmfModelFactory {
 
-	private static EmfModelFactory instance = new EmfModelFactory();
+	private static final EmfModelFactory instance = new EmfModelFactory();
 	
 	private EmfModelFactory() {}
 	
@@ -104,19 +104,14 @@ public final class EmfModelFactory {
 		
 		return emfModel;
 	}
-
-	
 	
 	private EmfModel createEmfModel(String name, File model) {
-		final EmfModel emfModel = new EmfModel();
-		
+		final EmfModel emfModel = new EmfModel();	
 		emfModel.setName(name);
-		emfModel.setModelFile(model.getAbsolutePath());
-			
+		emfModel.setModelFile(model.getAbsolutePath());		
 		return emfModel;
 	}
-	
-	
+		
 	public enum AccessMode {
 		READ_ONLY (true, false),
 		WRITE_ONLY(false, true),

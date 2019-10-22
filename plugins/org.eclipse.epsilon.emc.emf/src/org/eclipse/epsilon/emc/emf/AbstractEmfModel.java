@@ -381,13 +381,16 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	}
 	
 	/**
-	 * @deprecated Use getResource() instead
+	 * @deprecated Use {@link #getResource()} instead
 	 */
 	@Deprecated
 	public Resource getModelImpl() {
 		return modelImpl;
 	}
 	
+	/**
+	 * @deprecated Use {@link #setResource(Resource)} instead
+	 */
 	public void setModelImpl(Resource modelImpl) {
 		this.modelImpl = modelImpl;
 	}

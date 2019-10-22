@@ -42,7 +42,7 @@ public class EmfModelStoreTests {
 	public void storeUnixAbsolutePath() throws Exception {	
 		if (OperatingSystem.isUnix()) {
 			final EmfModel model = new EmfModel();
-			model.setModelImpl(EmfUtil.createResource());
+			model.setResource(EmfUtil.createResource());
 			
 			assertTrue(model.store(URI.createFileURI(UNIX_ABSOLUTE_PATH)));
 		}
@@ -52,7 +52,7 @@ public class EmfModelStoreTests {
 	public void storeFailsForAbsolutePathsWithoutASchema() throws Exception {	
 		if (OperatingSystem.isUnix()) {
 			final EmfModel model = new EmfModel();
-			model.setModelImpl(EmfUtil.createResource());
+			model.setResource(EmfUtil.createResource());
 				
 			assertFalse(model.store(UNIX_ABSOLUTE_PATH));
 		}

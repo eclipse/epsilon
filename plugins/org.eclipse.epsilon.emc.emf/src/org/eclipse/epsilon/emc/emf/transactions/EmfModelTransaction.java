@@ -10,6 +10,8 @@
 package org.eclipse.epsilon.emc.emf.transactions;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransaction;
 
@@ -24,12 +26,10 @@ public class EmfModelTransaction implements IModelTransaction {
 	
 	@Override
 	public void start() {
-		if (model.getModelImpl().getResourceSet() != null) {
-			this.changeRecorder = new ChangeRecorder(model.getModelImpl().getResourceSet());	
-		}
-		else {
-			this.changeRecorder = new ChangeRecorder(model.getModelImpl());		
-		}
+		Resource impl = model.getResource();
+		ResourceSet rs = impl.getResourceSet();
+		this.changeRecorder = rs != null ?
+			new ChangeRecorder(rs) : new ChangeRecorder(impl);
 	}
 	
 	@Override

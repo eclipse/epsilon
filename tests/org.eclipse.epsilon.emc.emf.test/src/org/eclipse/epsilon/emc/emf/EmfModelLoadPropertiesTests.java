@@ -84,7 +84,7 @@ public class EmfModelLoadPropertiesTests {
 		final EmfModel model = new EmfModel();
 		model.load(properties);
 		
-		final EObject firstElement = model.getModelImpl().getContents().get(0);
+		final EObject firstElement = model.getResource().getContents().get(0);
 		assertEquals("Simple", firstElement.eClass().getName());
 	}
 	

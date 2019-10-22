@@ -331,7 +331,7 @@ public class EmfUtil {
 	}
 	
 	public static <T extends EObject> T clone(T object) {
-		final T cloned = (T)EcoreUtil.copy(object);
+		final T cloned = EcoreUtil.copy(object);
 		org.eclipse.epsilon.emc.emf.EmfUtil.createResource(cloned);
 		return cloned;
 	}
@@ -344,10 +344,11 @@ public class EmfUtil {
 	 */
 	public static List<EObject> getAllContents(Resource r) {
 		List<EObject> allContents = new LinkedList<>();
-		Iterator<EObject> it = r.getAllContents();
-		while (it.hasNext()) {
-			allContents.add(it.next());
-		}
+		for (
+			Iterator<EObject> it = r.getAllContents();
+			it.hasNext();
+			allContents.add(it.next())
+		);
 		return allContents;
 	}
 	

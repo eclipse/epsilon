@@ -21,10 +21,10 @@ import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.ewl.execute.WizardInstance;
 
-public class ExecuteWizardInstanceCommand implements Command{
+public class ExecuteWizardInstanceCommand implements Command {
 	
-	protected WizardInstance wizardInstance = null;
-	protected List<InMemoryEmfModel> models = null;
+	protected WizardInstance wizardInstance;
+	protected List<InMemoryEmfModel> models;
 	protected ChangeDescription changeDescription;
 	protected WorkbenchPartRefresher refresher;
 	
@@ -38,11 +38,12 @@ public class ExecuteWizardInstanceCommand implements Command{
 	@Override
 	public void execute() {
 		// Record changes only for the domain model (the first one): the others are assumed to be extra models (e.g. diagram models)
-		ChangeRecorder recorder = new ChangeRecorder(models.get(0).getModelImpl().getResourceSet());
+		ChangeRecorder recorder = new ChangeRecorder(models.get(0).getResource().getResourceSet());
 		try {
 			//recorder.beginRecording(model.allInstances());
 			wizardInstance.process();
-		} catch (EolRuntimeException e) {
+		}
+		catch (EolRuntimeException e) {
 			e.printStackTrace(EpsilonConsole.getInstance().getErrorStream());
 		}
 		finally {
@@ -112,5 +113,4 @@ public class ExecuteWizardInstanceCommand implements Command{
 			changeDescription.applyAndReverse();
 		}
 	}
-	
 }

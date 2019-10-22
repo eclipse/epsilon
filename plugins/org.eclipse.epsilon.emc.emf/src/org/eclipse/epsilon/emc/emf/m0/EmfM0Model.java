@@ -70,14 +70,12 @@ public class EmfM0Model extends EmfModel {
 		
 		EmfModel copy = new EmfModel();
 		
-		//copy.setMetamodel(this.isMetamodel());
 		copy.getAliases().addAll(this.getAliases());
 		copy.setMetamodelFiles(this.getMetamodelFiles());
 		copy.setMetamodelUris(this.getMetamodelUris());
 		copy.setModelFile(this.getModelFile());
 		copy.setMetamodelFileBased(this.isMetamodelFileBased());
-		//copy.setMetamodelImpl(this.getMetamodelImpl());
-		copy.setModelImpl(this.getModelImpl());
+		copy.setResource(this.getResource());
 		copy.setReadOnLoad(this.isReadOnLoad());
 		copy.setStoredOnDisposal(this.isStoredOnDisposal());
 		copy.setName("Model");
@@ -180,11 +178,11 @@ public class EmfM0Model extends EmfModel {
 	
 	//FIXME : Actually check is such a type is present
 	@Override
-	public boolean hasType(String type){
+	public boolean hasType(String type) {
 		Operation hasTypeHelper = getHelper("hasType");
 		boolean hasType = false;
 		try {
-			hasType = (Boolean) hasTypeHelper.execute(type, new ArrayList<>(), eolModule.getContext());
+			hasType = (boolean) hasTypeHelper.execute(type, new ArrayList<>(0), eolModule.getContext());
 		}
 		catch (EolRuntimeException rex){
 			eolModule.getContext().getErrorStream().print(rex);
