@@ -213,7 +213,9 @@ public abstract class CachedModel<ModelElementType> extends Model {
 				// Could've changed while we were waiting on the lock
 				if (allContentsCache == null) {
 					allContentsCache = wrap(allContentsFromModel());
-					if (allContentsCache == null) break;
+					if (allContentsCache == null) {
+						return wrap(new ArrayList<>(0));
+					}
 				}
 			}
 			return allContentsCache;

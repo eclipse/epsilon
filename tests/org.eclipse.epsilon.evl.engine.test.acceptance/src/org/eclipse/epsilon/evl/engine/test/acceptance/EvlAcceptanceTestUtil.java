@@ -131,6 +131,7 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	public static Collection<Supplier<? extends IEvlModule>> modules(boolean includeStandard) {
 		return parallelModules(THREADS,
 			includeStandard ? EvlModule::new : null,
+			p -> new EvlModuleParallelElements(new EvlContextParallel(p)),
 			p -> new EvlModuleParallelContextAtoms(new EvlContextParallel(p)),
 			p -> new EvlModuleParallelConstraintAtoms(new EvlContextParallel(p)),
 			p -> new EvlModuleParallelAnnotation(new EvlContextParallel(p))
