@@ -149,7 +149,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	 * @since 1.6
 	 */
 	protected Collection<ModelElementType> wrap(Collection<ModelElementType> contents) {
-		Collection<ModelElementType> result = contents; //!= null ? new ArrayList<>(contents) : new ArrayList<>();
+		Collection<ModelElementType> result = contents;
 		if (isConcurrent()) {
 			result = ConcurrencyUtils.concurrentOrderedCollection(contents);
 		}
@@ -207,44 +207,62 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	
 	@Override
 	public Collection<ModelElementType> allContents() {
-		boolean cached = isCachingEnabled();
-		if (cached && allContentsCache != null) {
+		// Prevent race condition which could result in multiple threads calling allContentsFromModel
+		if (isCachingEnabled()) {
+			while (allContentsCache == null) synchronized (this) {
+				// Could've changed while we were waiting on the lock
+				if (allContentsCache == null) {
+					allContentsCache = wrap(allContentsFromModel());
+					if (allContentsCache == null) break;
+				}
+			}
 			return allContentsCache;
 		}
-		Collection<ModelElementType> allContents = allContentsFromModel();
-		if (cached) {
-			return allContentsCache = wrap(allContents);
-		}
-		return wrap(allContents);
+		else return wrap(allContentsFromModel());
 	}
 	
 	/**
 	 * 
-	 * @param isKind
-	 * @param modelElementType
-	 * @return
+	 * @param isKind <code>true</code> if calling {@link #getAllOfKind(String)}.
+	 * @param modelElementType The name of the model element type.
+	 * @return All model elements conforming to the kind / type (depending on the flag).
 	 * @throws EolModelElementTypeNotFoundException
 	 * @since 1.6
 	 */
 	protected Collection<ModelElementType> getAllOfKindOrType(boolean isKind, String modelElementType) throws EolModelElementTypeNotFoundException {
 		Collection<ModelElementType> values = null;
-		Object key = null;
-		Multimap<Object, ModelElementType> cache = null;
+		
+		// The code below is to prevent duplicate calls to getAllOf*FromModel.
+		// With multiple threads there could be a race condition, so the
+		// intent is to block the threads until the cache has been populated
+		// by a single thread, and the others can just pick up from the cache
+		// rather than recalculating.
 		
 		if (isCachingEnabled()) {
-			cache = isKind ? kindCache : typeCache;
-			values = cache.getMutable(key = getCacheKeyForType(modelElementType));
+			final Multimap<Object, ModelElementType> cache = isKind ? kindCache : typeCache;
+			final Object key = getCacheKeyForType(modelElementType);
+			
+			while ((values = cache.getMutable(key)) == null) synchronized (this) {
+				// Could've changed while we were waiting on the lock
+				if (values == null) {
+					values = isKind ?
+						getAllOfKindFromModel(modelElementType) :
+						getAllOfTypeFromModel(modelElementType);
+					
+					if (values == null) {
+						values = new ArrayList<>(0);
+					}
+					cache.putAll(key, values, isConcurrent());
+				}
+			}
 		}
-		if (values == null) {
+		else if (values == null) {
 			values = wrap(isKind ?
 				getAllOfKindFromModel(modelElementType) :
 				getAllOfTypeFromModel(modelElementType)
 			);
-			if (cache != null) {
-				cache.putAll(key, values);
-				//return cache.getMutable(key);
-			}
 		}
+		
 		return values;
 	}
 	

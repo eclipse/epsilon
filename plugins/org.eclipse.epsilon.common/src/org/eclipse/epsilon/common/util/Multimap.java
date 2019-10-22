@@ -291,11 +291,23 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 * @return Whether the key was present.
 	 * @since 1.6 Values are wrapped into the appropriate collection, and existing values are appended to rather than replaced.
 	 */
-	public boolean putAll(K key, Collection<V> values) {
+	public final boolean putAll(K key, Collection<V> values) {
+		return putAll(key, values, true);
+	}
+	
+	/**
+	 * Associates all of the specified values for the given key. Previously associated
+	 * values will not be removed.
+	 * @param key
+	 * @param values The additional values to associate with the key.
+	 * @param wrap Whether to wrap the provided values into a new collection.
+	 * @return Whether the key was present.
+	 * @since 1.6
+	 */
+	public boolean putAll(K key, Collection<V> values, boolean wrap) {
 		boolean wasPresent = storage.containsKey(key) && storage.get(key).addAll(values);
-		
 		if (!wasPresent) {
-			storage.put(key, newCollection(values));
+			storage.put(key, wrap ? newCollection(values) : values);
 		}
 		return wasPresent;
 	}
