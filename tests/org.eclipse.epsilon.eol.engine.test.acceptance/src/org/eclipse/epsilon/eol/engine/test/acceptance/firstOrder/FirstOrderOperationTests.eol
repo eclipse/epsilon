@@ -22,6 +22,17 @@ operation testSelectOne() {
 }
 
 @test
+operation testSelectFirst() {
+	var data := Sequence {0..16};
+	var selected = data.selectFirst(n | n.asString().length() > 1);
+	assertEquals(10, selected);
+	selected = data.selectFirst(n | n >= data.size()/2);
+	assertEquals(8, selected);
+	selected = data.selectFirst(n | n > 16);
+	assertEquals(null, selected);
+}
+
+@test
 operation testReject() {
 	var data := Sequence {0..9};
 	var rejected = data.reject(n | n < 1 or n > 6 or n == 5 and n <> 9);

@@ -40,6 +40,7 @@ public class EolOperationFactory {
 		operationCache.put("rejectOne", new RejectOneOperation());
 		operationCache.put("select", new SelectOperation());
 		operationCache.put("selectOne", new SelectOneOperation());
+		operationCache.put("selectFirst", new SelectOneOperation());
 		operationCache.put("aggregate", new AggregateOperation());
 		operationCache.put("closure", new ClosureOperation());
 		operationCache.put("sortBy", new SortByOperation());
@@ -87,7 +88,7 @@ public class EolOperationFactory {
 			return originalOp;
 		}
 		else if (originalOp != null && context instanceof IEolContextParallel &&
-				!name.startsWith("parallel") && ((IEolContextParallel)context).isParallelisationLegal()) {
+			((IEolContextParallel) context).isParallelisationLegal() && !name.startsWith("parallel")) {
 			
 			AbstractOperation parallelOp = operationCache.get("parallel" + StringUtil.firstToUpper(name));
 			if (parallelOp != null) return parallelOp;
