@@ -209,7 +209,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	public Collection<ModelElementType> allContents() {
 		// Prevent race condition which could result in multiple threads calling allContentsFromModel
 		if (isCachingEnabled()) {
-			while (allContentsCache == null) synchronized (this) {
+			if (allContentsCache == null) synchronized (this) {
 				// Could've changed while we were waiting on the lock
 				if (allContentsCache == null) {
 					allContentsCache = wrap(allContentsFromModel());
@@ -244,9 +244,9 @@ public abstract class CachedModel<ModelElementType> extends Model {
 			final Multimap<Object, ModelElementType> cache = isKind ? kindCache : typeCache;
 			final Object key = getCacheKeyForType(modelElementType);
 			
-			while ((values = cache.getMutable(key)) == null) synchronized (this) {
+			if ((values = cache.getMutable(key)) == null) synchronized (this) {
 				// Could've changed while we were waiting on the lock
-				if (values == null) {
+				if ((values = cache.getMutable(key)) == null) {
 					values = isKind ?
 						getAllOfKindFromModel(modelElementType) :
 						getAllOfTypeFromModel(modelElementType);

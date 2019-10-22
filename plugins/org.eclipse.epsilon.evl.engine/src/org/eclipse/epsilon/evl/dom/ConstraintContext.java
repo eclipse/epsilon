@@ -117,6 +117,9 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 */
 	public boolean isLazy(IEvlContext context) throws EolRuntimeException {
 		if (isLazy == null) synchronized (this) {
+			// Could've changed while we were waiting for the lock
+			if (isLazy != null) return isLazy;
+			
 			boolean lazy = getBooleanAnnotationValue("lazy", context);	// Will be proven false in the loop below if this is not the case
 			if (!lazy && !constraints.isEmpty()) {
 				lazy = true;
