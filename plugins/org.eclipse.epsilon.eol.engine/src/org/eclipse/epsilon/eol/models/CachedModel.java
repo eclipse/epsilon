@@ -246,15 +246,15 @@ public abstract class CachedModel<ModelElementType> extends Model {
 			
 			if ((values = cache.getMutable(key)) == null) synchronized (this) {
 				// Could've changed while we were waiting on the lock
-				if ((values = cache.getMutable(key)) == null) {
-					values = isKind ?
+				if (!concurrent || (values = cache.getMutable(key)) == null) {
+					values = wrap(isKind ?
 						getAllOfKindFromModel(modelElementType) :
-						getAllOfTypeFromModel(modelElementType);
-					
+						getAllOfTypeFromModel(modelElementType)
+					);
 					if (values == null) {
 						values = new ArrayList<>(0);
 					}
-					cache.putAll(key, values, isConcurrent());
+					cache.putAll(key, values, false);
 				}
 			}
 		}
