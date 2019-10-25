@@ -78,17 +78,12 @@ public class GmfMarkerResolver extends EmfMarkerResolver {
 
 	@Override
 	public EObject resolve(IMarker marker) {
-		// TODO Auto-generated method stub
-		
 		Object view = null;
 		String viewId = marker.getAttribute("elementId", "");
 		
 		for (Resource resource : getEditingDomain(marker).getResourceSet().getResources()) {
-			Object temp = resource.getEObject(viewId);
-			if (temp!=null) {
-				view = temp;
+			if ((view = resource.getEObject(viewId)) != null)
 				break;
-			}
 		}
 		
 		if (view instanceof View) {

@@ -12,7 +12,7 @@ package org.eclipse.epsilon.evl.emf.validation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-
+import java.util.Map;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
@@ -28,21 +28,22 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 	
 	public static EvlMarkerResolutionGenerator INSTANCE = new EvlMarkerResolutionGenerator();
 	
-	protected HashMap<String, Collection<FixInstance>> resolutions = new HashMap<String, Collection<FixInstance>>();
+	protected Map<String, Collection<FixInstance>> resolutions = new HashMap<>();
 	
-	protected HashMap<FixInstance, String> messages = new HashMap<FixInstance, String>();
+	protected Map<FixInstance, String> messages = new HashMap<>();
 	
-	protected HashMap<FixInstance, String> modelNames = new HashMap<FixInstance, String>();
+	protected Map<FixInstance, String> modelNames = new HashMap<>();
 	
-	protected HashMap<FixInstance, String> ePackageUris = new HashMap<FixInstance, String>();
+	protected Map<FixInstance, String> ePackageUris = new HashMap<>();
 	
+	@Override
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		
 		if (this != INSTANCE) return INSTANCE.getResolutions(marker);
 		
 		if (!EvlMarkerResolverManager.INSTANCE.canResolve(marker)) return new IMarkerResolution[]{};
 		
-		ArrayList<EvlMarkerResolution> resolutions = new ArrayList<EvlMarkerResolution>();
+		ArrayList<EvlMarkerResolution> resolutions = new ArrayList<>();
 		String elementId = "";
 		
 		try {
@@ -65,8 +66,7 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 	
 		int i = 0;
 		for (IMarkerResolution resolution : resolutions) {
-			iMarkerResolutions[i] = resolution;
-			i++;
+			iMarkerResolutions[i++] = resolution;
 		}
 		
 		iMarkerResolutions[iMarkerResolutions.length - 1] = new IMarkerResolution() {
@@ -118,7 +118,7 @@ public class EvlMarkerResolutionGenerator implements IMarkerResolutionGenerator 
 			fixes = resolutions.get(elementId);
 		}
 		else {
-			fixes = new ArrayList<FixInstance>();
+			fixes = new ArrayList<>();
 			resolutions.put(elementId, fixes);
 		}
 		fixes.add(disconnect(fix));

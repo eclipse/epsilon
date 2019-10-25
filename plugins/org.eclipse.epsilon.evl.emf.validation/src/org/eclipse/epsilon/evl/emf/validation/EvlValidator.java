@@ -18,7 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -48,11 +47,11 @@ import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 
 public class EvlValidator implements EValidator {
 
-	protected Set<String> diagnosticVariables = null;
-	protected EvlModule module = null;
-	protected URI source = null;
+	protected Set<String> diagnosticVariables;
+	protected IEvlModule module;
+	protected URI source;
 	protected EmfPrettyPrinter printer = new EmfPrettyPrinter();
-	protected Resource currentResource = null;
+	protected Resource currentResource;
 	protected ValidationResults results = new ValidationResults();;
 	protected Collection<EObject> history = new ArrayList<>();
 	protected String modelName;
@@ -115,7 +114,7 @@ public class EvlValidator implements EValidator {
 	 * @see #validate(EDataType, Object, DiagnosticChain, Map)
 	 */
 	public void addDiagnosticianVariable(String name) {
-		if(diagnosticVariables == null) {
+		if (diagnosticVariables == null) {
 			diagnosticVariables = new HashSet<>();
 		}
 		diagnosticVariables.add(name);
@@ -160,7 +159,7 @@ public class EvlValidator implements EValidator {
 				if (!(entry.getKey() instanceof EObject)) {
 					continue;
 				}
-				final EObject key = (EObject)entry.getKey();
+				final EObject key = (EObject) entry.getKey();
 				if (key.eResource() == eObject.eResource()) {
 					continue;
 				}
@@ -170,7 +169,7 @@ public class EvlValidator implements EValidator {
 		}
 
 		addMarkers("", eObject, diagnostics);
-		return results.size() == 0;
+		return results.isEmpty();
 	}
 
 	@Override
@@ -352,11 +351,11 @@ public class EvlValidator implements EValidator {
 	
 	public interface ValidationProblemListener {
 		
-		public void onParseProblems(EvlModule module, List<ParseProblem> parseProblems);
+		public void onParseProblems(IEvlModule module, List<ParseProblem> parseProblems);
 		
-		public void onRuntimeException(EvlModule module, EolRuntimeException ex);
+		public void onRuntimeException(IEvlModule module, EolRuntimeException ex);
 	
-		public void onParseException(EvlModule module, Exception ex);
+		public void onParseException(IEvlModule module, Exception ex);
 		
 	}
 	

@@ -197,7 +197,9 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		isInShortCircuitTask = shortCircuiting;
 		initThreadLocals();
 		EolExecutorService executor = getExecutorService();
-		assert executor != null && !executor.isShutdown();
+		if (executor == null || executor.isShutdown()) {
+			executor = this.executorService = newExecutorService();
+		}
 		if (!executor.getExecutionStatus().register()) {
 			throw new EolNestedParallelismException(entryPoint);
 		}
