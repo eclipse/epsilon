@@ -40,6 +40,7 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 		optimizeConstraintsBtn.addSelectionListener(selectionListener);
 		
 		optimizeConstraintTraceBtn = new Button(group, SWT.CHECK);
+		optimizeConstraintTraceBtn.setSelection(true);
 		optimizeConstraintTraceBtn.setText("Optimize constraint trace");
 		optimizeConstraintTraceBtn.setToolTipText(
 			"Only add results to the constraint trace if they are invoked by a satisfies operation."
@@ -58,7 +59,7 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 			if (configuration.getAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, false)) {
 				optimizeConstraintsBtn.setSelection(true);
 			}
-			if (configuration.getAttribute(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE, true)) {
+			if (configuration.getAttribute(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE, false)) {
 				optimizeConstraintTraceBtn.setSelection(true);
 			}
 			if (configuration.getAttribute(IEvlContext.SHORT_CIRCUIT, false)) {
@@ -73,7 +74,7 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		boolean optimizeConstraints = optimizeConstraintsBtn != null ? optimizeConstraintsBtn.getSelection() : false;
-		boolean optimizeConstraintTrace = optimizeConstraintTraceBtn != null ? optimizeConstraintTraceBtn.getSelection() : true;
+		boolean optimizeConstraintTrace = optimizeConstraintTraceBtn != null ? optimizeConstraintTraceBtn.getSelection() : false;
 		boolean shortCircuit = shortCircuitBtn != null ? shortCircuitBtn.getSelection() : false;
 		configuration.setAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimizeConstraints);
 		configuration.setAttribute(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE, optimizeConstraintTrace);

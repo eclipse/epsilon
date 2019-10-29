@@ -255,7 +255,7 @@ context ClassDeclaration {
 		guard: self.getPublicFields().notEmpty()
 		check: self.bodyDeclarations.select(bd |
 			bd.isKindOf(MethodDeclaration) and
-			(bd.modifier.isUndefined() or bd.modifier.static)
+			(bd.modifier.isUndefined() or (bd.modifier.static.isDefined() and bd.modifier.static))
 			and not (
 				bd.isEquals() or bd.isHashcode() or bd.isToString()
 				or bd.isFinalize() or bd.isClone() or bd.isCompareTo()
