@@ -216,12 +216,12 @@ public interface IEolContextParallel extends IEolContext {
 			final boolean isCollection = job instanceof Collection;
 			
 			if (isParallelisationLegal()) {
-				final Collection<Callable<Object>> jobs = isCollection ?
+				final Collection<Callable<?>> jobs = isCollection ?
 					new ArrayList<>(((Collection<?>) job).size()) : new LinkedList<>();
 				
 				for (Object next : (Iterable<?>) job) {
 					jobs.add(next instanceof Callable ?
-						(Callable<Object>) next :
+						(Callable<?>) next :
 						() -> executeJob(next)
 					);
 				}

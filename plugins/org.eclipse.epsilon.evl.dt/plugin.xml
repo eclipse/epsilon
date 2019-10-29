@@ -67,28 +67,28 @@
             default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
             language="EVL"
-            name="Parallel (Context-atoms)">
+            name="Parallel (ContextAtoms)">
       </implementation>
       <implementation
             class="org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation"
             default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
             language="EVL"
-            name="Parallel (Annotation-based)">
+            name="Parallel (Annotations)">
       </implementation>
       <implementation
             class="org.eclipse.epsilon.evl.concurrent.EvlModuleParallelElements"
             default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
             language="EVL"
-            name="Parallel (Elements-based)">
+            name="Parallel (Elements)">
       </implementation>
       <implementation
             class="org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelConstraintAtoms"
             default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
             language="EVL"
-            name="Parallel (Constraint-atoms)">
+            name="Parallel (ConstraintAtoms)">
       </implementation>
    </extension>
 
