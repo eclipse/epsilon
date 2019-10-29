@@ -73,7 +73,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	protected abstract Collection<String> getAllTypeNamesOf(Object instance);
 	
 	
-	Collection<ModelElementType> allContentsCache;
+	protected Collection<ModelElementType> allContentsCache;
 	protected Multimap<Object, ModelElementType> typeCache;
 	protected Multimap<Object, ModelElementType> kindCache;
 	boolean concurrent;
