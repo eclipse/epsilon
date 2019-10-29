@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.context.concurrent;
 
+import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
@@ -16,8 +17,6 @@ import org.eclipse.epsilon.common.concurrent.ConcurrentBaseDelegate;
 import org.eclipse.epsilon.common.function.BaseDelegate.MergeMode;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolThreadPoolExecutor;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -25,6 +24,7 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContribu
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.DelegatePersistentThreadLocal;
+import org.eclipse.epsilon.eol.execute.concurrent.EolThreadPoolExecutor;
 import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 
 /**
@@ -192,31 +192,26 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public synchronized EolExecutorService beginParallelTask(ModuleElement entryPoint, boolean shortCircuiting) throws EolNestedParallelismException {
+	public synchronized ExecutorService beginParallelTask(ModuleElement entryPoint, boolean shortCircuiting) throws EolNestedParallelismException {
 		ensureNotNested(entryPoint != null ? entryPoint : getModule());
 		isInShortCircuitTask = shortCircuiting;
 		initThreadLocals();
-		EolExecutorService executor = getExecutorService();
+		ExecutorService executor = getExecutorService();
 		if (executor == null || executor.isShutdown()) {
 			executor = this.executorService = newExecutorService();
-		}
-		if (!executor.getExecutionStatus().register()) {
-			throw new EolNestedParallelismException(entryPoint);
 		}
 		isInParallelTask = true;
 		return executor;
 	}
 	
 	@Override
-	public synchronized Object endParallelTask() throws EolRuntimeException {
-		Object result = IEolContextParallel.super.endParallelTask();
+	public synchronized void endParallelTask() throws EolRuntimeException {
 		if (isInShortCircuitTask) {
 			clearExecutor();
 		}
 		clearThreadLocals();
 		isInParallelTask = false;
 		isInShortCircuitTask = false;
-		return result;
 	}
 	
 	public boolean isInShortCircuitingTask() {
@@ -247,7 +242,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public final EolExecutorService getExecutorService() {
+	public final EolThreadPoolExecutor getExecutorService() {
 		if (executorService == null) synchronized (this) {
 			executorService = newExecutorService();
 		}

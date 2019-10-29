@@ -96,7 +96,6 @@ public class ObjectMethod {
 		
 		if (isParallelOperation && context instanceof IEolContextParallel) {
 			IEolContextParallel pContext = (IEolContextParallel) context;
-			pContext.getExecutorService().getExecutionStatus().completeSuccessfully();
 			pContext.endParallelTask();
 		}
 		

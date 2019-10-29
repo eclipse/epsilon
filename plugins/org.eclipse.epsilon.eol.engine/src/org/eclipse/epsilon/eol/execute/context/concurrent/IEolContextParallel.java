@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -24,11 +26,9 @@ import java.util.stream.BaseStream;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import org.eclipse.epsilon.common.concurrent.ConcurrentExecutionStatus;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 /**
@@ -75,9 +75,9 @@ public interface IEolContextParallel extends IEolContext {
 	
 	/**
 	 * A re-usable ExecutorService.
-	 * @return a cached {@link EolExecutorService}.
+	 * @return a cached {@link ExecutorService}.
 	 */
-	EolExecutorService getExecutorService();
+	ExecutorService getExecutorService();
 
 	/**
 	 * Convenience method for testing whether to perform an operation in parallel using
@@ -96,14 +96,12 @@ public interface IEolContextParallel extends IEolContext {
 	 * @throws EolNestedParallelismException If {@link #isParallelisationLegal(Object)} returns false
 	 */
 	default void ensureNotNested(ModuleElement entryPoint) throws EolNestedParallelismException {
-		if (!isParallelisationLegal()) throw new EolNestedParallelismException(entryPoint);
-		ConcurrentExecutionStatus status = getExecutorService().getExecutionStatus();
-		if (status != null && status.isInProgress())
+		if (!isParallelisationLegal())
 			throw new EolNestedParallelismException(entryPoint);
 	}
 	
 	/**
-	 * Registers the beginning of parallel task on the default EolExecutorService.
+	 * Registers the beginning of parallel task on the default ExecutorService.
 	 * The {@link #endParallelTask()} method must be called once finished.
 	 * 
 	 * @param entryPoint The AST to associate with this task. May be null, in which
@@ -112,18 +110,15 @@ public interface IEolContextParallel extends IEolContext {
 	 * @return {@link #getExecutorService()}
 	 * @throws EolNestedParallelismException If there was already a parallel task in progress.
 	 */
-	default EolExecutorService beginParallelTask(ModuleElement entryPoint, boolean shortCircuiting) throws EolNestedParallelismException {
+	default ExecutorService beginParallelTask(ModuleElement entryPoint, boolean shortCircuiting) throws EolNestedParallelismException {
 		ensureNotNested(entryPoint != null ? entryPoint : getModule());
-		EolExecutorService executor = getExecutorService();
+		ExecutorService executor = getExecutorService();
 		assert executor != null && !executor.isShutdown();
-		if (!executor.getExecutionStatus().register()) {
-			throw new EolNestedParallelismException(entryPoint);
-		}
 		return executor;
 	}
 	
 	/**
-	 * Registers the beginning of parallel task on the default EolExecutorService.
+	 * Registers the beginning of parallel task on the default ExecutorService.
 	 * The {@link #endParallelTask()} method must be called once finished.
 	 * 
 	 * @param entryPoint The AST to associate with this task. May be null, in which
@@ -131,7 +126,7 @@ public interface IEolContextParallel extends IEolContext {
 	 * @return {@link #getExecutorService()}
 	 * @throws EolNestedParallelismException If there was already a parallel task in progress.
 	 */
-	default EolExecutorService beginParallelTask(ModuleElement entryPoint) throws EolNestedParallelismException {
+	default ExecutorService beginParallelTask(ModuleElement entryPoint) throws EolNestedParallelismException {
 		return beginParallelTask(entryPoint, false);
 	}
 	
@@ -139,79 +134,37 @@ public interface IEolContextParallel extends IEolContext {
 	 * Must be called once parallel processing has finished.
 	 * 
 	 * @see #beginParallelTask(ModuleElement)
-	 * @return The result of the task, if any.
 	 * @throws EolRuntimeException if the status completed exceptionally.
 	 * @throws IllegalStateException if the current job is still executing.
 	 */
-	default Object endParallelTask() throws EolRuntimeException {
-		EolExecutorService executor = getExecutorService();
-		if (executor != null) {
-			ConcurrentExecutionStatus status = executor.getExecutionStatus();
-			if (status != null) {
-				if (status.isInProgress()) {
-					throw new IllegalStateException("Attempted to end parallel task while execution is in progress!");
-				}
-				else if (status.waitForCompletion()) { // Note: this shouldn't actually wait!
-					return status.getResult();
-				}
-				else {
-					EolRuntimeException.propagateDetailed(status.getException());
-				}
-			}
-		}
-		return null;
-	}
+	void endParallelTask() throws EolRuntimeException;
 	
 	/**
 	 * Executes all of the tasks in parallel, blocking until they have completed.
-	 * @param jobs The jobs to execute.
-	 * @param entryPoint The identifier for this parallel task.
-	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
-	 */
-	default void executeParallel(ModuleElement entryPoint, Collection<? extends Runnable> jobs) throws EolRuntimeException {
-		EolExecutorService executor = beginParallelTask(entryPoint);
-		executor.completeAll(jobs);
-		endParallelTask();
-	}
-	
-	/**
-	 * Executes all of the tasks in parallel, blocking until they have completed.
+	 * The returned Collection is ordered based on the same ordering of the input Collection.
+	 * 
 	 * @param <T> The return type for each job.
 	 * @param entryPoint The identifier for this parallel task.
 	 * @param jobs The transformations to perform.
-	 * @return The result of the jobs.
+	 * @return The result of the jobs in encounter order.
 	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
 	 */
-	default <T> Collection<T> executeParallelTyped(ModuleElement entryPoint, Collection<Callable<T>> jobs) throws EolRuntimeException {
-		EolExecutorService executor = beginParallelTask(entryPoint);
-		Collection<T> results = executor.collectResults(executor.submitAllTyped(jobs));
+	default <T> Collection<T> executeParallel(ModuleElement entryPoint, Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
+		final ExecutorService executor = beginParallelTask(entryPoint);
+		Collection<T> results;
+		try {
+			results = new ArrayList<>(jobs.size());
+			for (Future<? extends T> future : executor.invokeAll(jobs)) {
+				results.add(future.get());
+			}
+		}
+		catch (InterruptedException | ExecutionException ex) {
+			EolRuntimeException.propagateDetailed(ex);
+			assert false : "This should never be reached";
+			results = null;
+		}
 		endParallelTask();
 		return results;
-	}
-	
-	/**
-	 * Signals the completion of a short-circuitable task.
-	 * @param entryPoint The identifier used to initiate the parallel task.
-	 * @param result The result of the task, if any.
-	 */
-	default void completeShortCircuit(ModuleElement entryPoint, Object result) {
-		getExecutorService().getExecutionStatus().completeWithResult(result);
-	}
-	
-	/**
-	 * Submits all jobs and waits until either all jobs have completed, or 
-	 * {@link #completeShortCircuit(ModuleElement, Object)} is called.
-	 * 
-	 * @param entryPoint The identifier for this parallel task.
-	 * @param jobs The jobs to execute.
-	 * @return The result of this task, as set by {@linkplain #completeShortCircuit(ModuleElement, Object)}, if any.
-	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
-	 */
-	default Object shortCircuit(ModuleElement entryPoint, Collection<? extends Runnable> jobs) throws EolRuntimeException {
-		EolExecutorService executor = beginParallelTask(entryPoint);
-		Object result = executor.shortCircuitCompletion(executor.submitAll(jobs));
-		endParallelTask();
-		return result;
 	}
 	
 	/**
@@ -224,10 +177,17 @@ public interface IEolContextParallel extends IEolContext {
 	 * @return The result of this task, as set by {@linkplain #completeShortCircuit(ModuleElement, Object)}, if any.
 	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
 	 */
-	@SuppressWarnings("unchecked")
-	default <T> T shortCircuitTyped(ModuleElement entryPoint, Collection<Callable<T>> jobs) throws EolRuntimeException {
-		EolExecutorService executor = beginParallelTask(entryPoint);
-		T result = (T) executor.shortCircuitCompletion(executor.submitAllTyped(jobs));
+	default <T> T shortCircuit(ModuleElement entryPoint, Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
+		final ExecutorService executor = beginParallelTask(entryPoint, true);
+		T result;
+		try {
+			result = executor.invokeAny(jobs);
+		}
+		catch (InterruptedException | ExecutionException ex) {
+			EolRuntimeException.propagateDetailed(ex);
+			assert false : "This should never be reached";
+			result = null;
+		}
 		endParallelTask();
 		return result;
 	}
@@ -253,20 +213,24 @@ public interface IEolContextParallel extends IEolContext {
 			return null;
 		}
 		if (job instanceof Iterable) {
-			final int colSize = job instanceof Collection ? ((Collection<?>) job).size() : -1;
+			final boolean isCollection = job instanceof Collection;
 			
 			if (isParallelisationLegal()) {
-				Collection<Callable<Object>> jobs = colSize >= 0 ? new ArrayList<>(colSize) : new LinkedList<>();
+				final Collection<Callable<Object>> jobs = isCollection ?
+					new ArrayList<>(((Collection<?>) job).size()) : new LinkedList<>();
+				
 				for (Object next : (Iterable<?>) job) {
 					jobs.add(next instanceof Callable ?
 						(Callable<Object>) next :
 						() -> executeJob(next)
 					);
 				}
-				return executeParallelTyped(jobs);
+				return executeParallel(jobs);
 			}
 			else {
-				Collection<Object> results = colSize >= 0 ? new ArrayList<>(colSize) : new LinkedList<>();
+				final Collection<Object> results = isCollection ?
+					new ArrayList<>(((Collection<?>) job).size()) : new LinkedList<>();
+				
 				for (Object next : (Iterable<?>) job) {
 					results.add(executeJob(next));
 				}
@@ -332,22 +296,13 @@ public interface IEolContextParallel extends IEolContext {
 	
 	// No entryPoint defaults
 	
-	default EolExecutorService beginParallelTask() throws EolNestedParallelismException {
+	default ExecutorService beginParallelTask() throws EolNestedParallelismException {
 		return beginParallelTask(null);
 	}
-	default void executeParallel(Collection<? extends Runnable> jobs) throws EolRuntimeException {
-		executeParallel(null, jobs);
+	default <T> Collection<T> executeParallel(Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
+		return executeParallel(null, jobs);
 	}
-	default <T> Collection<T> executeParallelTyped(Collection<Callable<T>> jobs) throws EolRuntimeException {
-		return executeParallelTyped(null, jobs);
-	}
-	default void completeShortCircuit(Object result) {
-		completeShortCircuit(null, result);
-	}
-	default <T> T shortCircuitTyped(Collection<Callable<T>> jobs) throws EolRuntimeException {
-		return shortCircuitTyped(null, jobs);
-	}
-	default Object shortCircuit(Collection<? extends Runnable> jobs) throws EolRuntimeException {
+	default <T> T shortCircuit(Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
 		return shortCircuit(null, jobs);
 	}
 }

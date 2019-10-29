@@ -11,8 +11,8 @@ package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.concurrent.Callable;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModuleParallelAnnotation;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -46,7 +46,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 			final IModel model = constraintContext instanceof GlobalConstraintContext ?
 				null : constraintContext.getType(context).getModel();
 			
-			final Collection<CheckedEolRunnable> jobs = new LinkedList<>();
+			final Collection<Callable<Object>> jobs = new LinkedList<>();
 			
 			if (constraintContext.hasAnnotation("parallel")) {
 				for (Object object : allOfKind) {

@@ -13,12 +13,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.Future;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Stream;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
@@ -39,39 +40,33 @@ public class ParallelSelectOperation extends SelectOperation {
 		Collection<Object> source = resolveSource(target, iterators, context_);
 		Collection<Object> resultsCol = EolCollectionType.createSameType(source);
 		if (source.isEmpty()) return resultsCol;
-		Collection<Future<Optional<?>>> jobResults = new ArrayList<>(source.size());
+		Collection<Callable<Optional<?>>> jobs = new ArrayList<>(source.size());
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
-		EolExecutorService executor = context.beginParallelTask(expression, returnOnMatch);
+		AtomicBoolean keepSearching = new AtomicBoolean(true);
 		
 		for (Object item : source) {
-			jobResults.add(executor.submit(() -> {
+			jobs.add(() -> {
 				Optional<?> intermediateResult = null;
-				if (predicate.testThrows(item)) {
+				if (keepSearching.get() && predicate.testThrows(item)) {
 					intermediateResult = Optional.ofNullable(item);
 					if (returnOnMatch) {
-						executor.getExecutionStatus().completeWithResult(intermediateResult);
+						keepSearching.set(false);
 					}
 				}
 				return intermediateResult;
-			}));
+			});
 		}
+		
+		Stream<Optional<?>> resStream = context.executeParallel(jobs).stream().filter(r -> r != null);
 		
 		if (returnOnMatch) {
-			Optional<?> result = (Optional<?>) executor.shortCircuitCompletion(jobResults);
-			if (result != null) {	
-				resultsCol.add(result.orElse(null));
-			}
+			resStream.findAny().ifPresent(r -> resultsCol.add(r.orElse(null)));
 		}
 		else {
-			executor.collectResults(jobResults)
-				.stream()
-				.filter(opt -> opt != null)
-				.map(opt -> opt.orElse(null))
-				.forEach(resultsCol::add);
+			resStream.map(opt -> opt.orElse(null)).forEach(resultsCol::add);
 		}
 		
-		context.endParallelTask();
 		return resultsCol;
 	}
 }

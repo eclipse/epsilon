@@ -12,13 +12,13 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Future;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.executors.EolExecutorService;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
@@ -46,25 +46,26 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		AtomicInteger currentMatches = new AtomicInteger();
 		AtomicInteger evaluated = new AtomicInteger();
-		Collection<Future<?>> jobResults = new ArrayList<>(sourceSize);
+		Collection<Callable<Void>> jobs = new ArrayList<>(sourceSize);
 		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
-		EolExecutorService executor = context.beginParallelTask(expression, true);
+		AtomicBoolean keepSearching = new AtomicBoolean(true);
 		
 		for (Object item : source) {
-			jobResults.add(executor.submit(() -> {
-				final int currentInt = predicate.testThrows(item) ?
-					currentMatches.incrementAndGet() : currentMatches.get(),
-					evaluatedInt = evaluated.incrementAndGet();
-				
-				if (shouldShortCircuit(sourceSize, targetMatches, currentInt, evaluatedInt)) {
-					executor.getExecutionStatus().completeWithResult(Boolean.TRUE);
+			jobs.add(() -> {
+				if (keepSearching.get()) {
+					final int currentInt = predicate.testThrows(item) ?
+						currentMatches.incrementAndGet() : currentMatches.get(),
+						evaluatedInt = evaluated.incrementAndGet();
+					
+					if (shouldShortCircuit(sourceSize, targetMatches, currentInt, evaluatedInt)) {
+						keepSearching.set(false);
+					}
 				}
-			}));
+				return null;
+			});
 		}
 		
-		// Prevent unnecessary evaluation of remaining jobs once we have the result
-		executor.shortCircuitCompletion(jobResults);
-		context.endParallelTask();
+		context.executeParallel(expression, jobs);
 		
 		return determineResult(currentMatches.get(), targetMatches);
 	}

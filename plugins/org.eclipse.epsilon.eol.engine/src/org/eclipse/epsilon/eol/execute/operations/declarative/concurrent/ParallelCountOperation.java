@@ -9,9 +9,10 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
-import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -22,7 +23,6 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.CountOperation;
 import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
-import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 
 /**
  * Counts the number of elements satisfying the condition.
@@ -41,13 +41,14 @@ public class ParallelCountOperation extends CountOperation {
 		final Expression expression = expressions.get(0);
 		final CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
 		final AtomicInteger result = new AtomicInteger();
-		final ArrayList<CheckedEolRunnable> jobs = new ArrayList<>(source.size());
+		final Collection<Callable<Void>> jobs = new ArrayDeque<>(source.size());
 		
 		for (Object item : source) {
 			jobs.add(() -> {
 				if (predicate.testThrows(item)) {
 					result.incrementAndGet();
 				}
+				return null;
 			});
 		}
 		

@@ -39,18 +39,6 @@ public class EolThreadFactory implements ThreadFactory {
 		}
 	};
 	
-	public EolThreadFactory() {
-		this(null);
-	}
-	
-	public EolThreadFactory(Consumer<Exception> exceptionHandler) {
-		this(exceptionHandler, Integer.MAX_VALUE);
-	}
-	
-	public EolThreadFactory(Consumer<Exception> exceptionHandler, int threadLimit) {
-		this(exceptionHandler, threadLimit, null);
-	}
-	
 	protected EolThreadFactory(Consumer<Exception> exceptionHandler, int threadLimit, String threadNamePrefix) {
 		this.namePrefix = threadNamePrefix != null ? threadNamePrefix : "EOL-Worker";
 		this.executorExceptionHandler = exceptionHandler;

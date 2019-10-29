@@ -11,11 +11,11 @@ package org.eclipse.epsilon.egl.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.Callable;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
 
 /**
  * Executes each element for each {@linkplain GenerationRule} in parallel.
@@ -43,10 +43,13 @@ public class EgxModuleParallelElements extends EgxModuleParallel {
 		
 		for (GenerationRule rule : getGenerationRules()) {
 			final Collection<?> allElements = rule.getAllElements(context);
-			final ArrayList<CheckedEolRunnable> genJobs = new ArrayList<>(allElements.size());
+			final ArrayList<Callable<Void>> genJobs = new ArrayList<>(allElements.size());
 			
 			for (final Object element : allElements) {
-				genJobs.add(() -> rule.generate(element, this));
+				genJobs.add(() -> {
+					rule.generate(element, this);
+					return null;
+				});
 			}
 			
 			context.executeParallel(rule, genJobs);
