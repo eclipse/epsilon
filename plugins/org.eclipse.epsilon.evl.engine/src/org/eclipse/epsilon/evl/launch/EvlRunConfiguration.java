@@ -29,7 +29,9 @@ public class EvlRunConfiguration extends IErlRunConfiguration {
 	@SuppressWarnings("unchecked")
 	public static class Builder<R extends EvlRunConfiguration, B extends Builder<R, B>> extends IErlRunConfiguration.Builder<R, B> {
 		
-		public boolean optimizeTrace, optimizeConstraints, shortCircuit;
+		public boolean optimizeTrace = true;
+		public boolean optimizeConstraints = false;
+		public boolean shortCircuit = false;
 		
 		public B withShortCircuiting() {
 			return withShortCircuiting(true);
@@ -47,8 +49,8 @@ public class EvlRunConfiguration extends IErlRunConfiguration {
 			return (B) this;
 		}
 		
-		public B withOptimizeConstraintTrace() {
-			return withOptimizeConstraintTrace(true);
+		public B withEagerConstraintTrace() {
+			return withOptimizeConstraintTrace(false);
 		}
 		public B withOptimizeConstraintTrace(boolean optimize) {
 			this.optimizeTrace = optimize;
