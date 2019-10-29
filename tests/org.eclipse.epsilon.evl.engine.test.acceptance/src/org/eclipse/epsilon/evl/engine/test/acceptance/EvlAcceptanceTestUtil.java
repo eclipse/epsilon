@@ -107,21 +107,29 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		if (testInputs == null) testInputs = allInputs;
 		if (moduleGetters == null) moduleGetters = modules();
 		Collection<EvlRunConfiguration> scenarios = EolAcceptanceTestUtil.getScenarios(EvlRunConfiguration.class, testInputs, moduleGetters, idCalculator);
+		Collection<EvlRunConfiguration> alts = EolAcceptanceTestUtil.getScenarios(EvlRunConfiguration.class, testInputs, moduleGetters, idCalculator);
+		
+		for (EvlRunConfiguration conf : alts) {
+			conf.getModule().getContext().setOptimizeConstraintTrace(!conf.getModule().getContext().isOptimizeConstraintTrace());
+		}
+		scenarios.addAll(alts);
 		
 		if (includeTest) {
-			for (Supplier<? extends IEvlModule> moduleGetter : moduleGetters) {
-				IEvlModule evlModule = moduleGetter.get();
-				
-				scenarios.add(
-					EvlRunConfiguration.Builder()
-						.withScript(EvlTests.getTestScript(evlModule).toPath())
-						.withModel(EvlTests.getTestModel(false))
-						.withModule(evlModule)
-						.profileExecution(false)
-						.showResults(false)
-						.withId(testInputs.size()+1)
-						.build()
-				);
+			for (boolean optimizeTrace = false; !optimizeTrace; optimizeTrace = true) {
+				for (Supplier<? extends IEvlModule> moduleGetter : moduleGetters) {
+					IEvlModule evlModule = moduleGetter.get();
+					scenarios.add(
+						EvlRunConfiguration.Builder()
+							.withScript(EvlTests.getTestScript(evlModule).toPath())
+							.withModel(EvlTests.getTestModel(false))
+							.withModule(evlModule)
+							.profileExecution(false)
+							.showResults(false)
+							.withOptimizeConstraintTrace(optimizeTrace)
+							.withId(testInputs.size()+1)
+							.build()
+					);
+				}
 			}
 		}
 		

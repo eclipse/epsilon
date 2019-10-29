@@ -12,6 +12,7 @@ package org.eclipse.epsilon.workflow.tasks;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.execute.CommandLineFixer;
@@ -26,7 +27,9 @@ public class EvlTask extends ExportableModuleTask {
 	}
 
 	public void setExportConstraintTrace(String exportConstraintTrace) {
-		this.exportConstraintTrace = exportConstraintTrace;
+		if (!StringUtil.isEmpty(this.exportConstraintTrace = exportConstraintTrace) && module instanceof IEvlModule) {
+			((IEvlModule) module).getContext().setOptimizeConstraintTrace(false);
+		}
 	}
 
 	@Override

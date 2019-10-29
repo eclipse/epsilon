@@ -128,6 +128,8 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 	
 	@Test
 	public void testConstraintTraces() {
+		if (expectedConfig.getModule().getContext().isOptimizeConstraintTrace() != testConfig.getModule().getContext().isOptimizeConstraintTrace())
+			return;
 		// Uses Set instead of List for performance reasons when calling containsAll.
 		Function<EvlRunConfiguration, Collection<?>> ctContents = cfg ->
 			cfg.getModule().getContext().getConstraintTrace()
