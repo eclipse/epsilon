@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.flexmi.actions;
 
 import org.eclipse.emf.ecore.EObject;
@@ -30,6 +39,11 @@ public class InMemoryFlexmiModel extends InMemoryEmfModel {
 		return (owns(instance) && propertyGetter.hasProperty(instance, property)) || super.knowsAboutProperty(instance, property);
 	}
 	
+	@Override
+	public FlexmiResource getResource() {
+		return (FlexmiResource) super.getResource();
+	}
+	
 	class FlexmiModelPropertyGetter extends EmfPropertyGetter {
 		
 		@Override
@@ -46,7 +60,7 @@ public class InMemoryFlexmiModel extends InMemoryEmfModel {
 		
 		protected EObject getChild(Object container, String id) {
 			for (EObject content : ((EObject) container).eContents()) {
-				if (id.equals(((FlexmiResource) modelImpl).getLocalId(content))) {
+				if (id.equals(getResource().getLocalId(content))) {
 					return content;
 				}
 			}

@@ -31,9 +31,10 @@ import org.xml.sax.helpers.XMLFilterImpl;
 public class LocationRecorder extends XMLFilterImpl {
 
 	protected Locator locator;
-	protected Stack<Locator> locatorStack = new Stack<Locator>();
+	// TODO: Does it need to be synchronized? If so, why not use ConcurrentLinkedDeque? If not, why not ArrayDeque?
+	protected Stack<Locator> locatorStack = new Stack<>();
 	protected UserDataHandler dataHandler = new LocationDataHandler();
-	protected Stack<Node> nodeStack = new Stack<Node>();
+	protected Stack<Node> nodeStack = new Stack<>();
 
 	LocationRecorder(XMLReader xmlReader, Document dom) {
 		super(xmlReader);
@@ -71,7 +72,7 @@ public class LocationRecorder extends XMLFilterImpl {
 		}
 		
 		AttributesImpl attributes = new AttributesImpl(atts);
-		for (int i=0;i<attributes.getLength();i++) {
+		for (int i = 0; i < attributes.getLength(); i++) {
 			String attributeLocalName = attributes.getLocalName(i);
 			String attributeQName = attributes.getQName(i);
 			
@@ -104,7 +105,7 @@ public class LocationRecorder extends XMLFilterImpl {
 
 		super.endElement(uri, localName, qName);
 
-		if (locatorStack.size() > 0) {
+		if (!locatorStack.isEmpty()) {
 			Locator startLocator = locatorStack.pop();
 
 			Location location = new Location(startLocator.getLineNumber(),
@@ -116,7 +117,7 @@ public class LocationRecorder extends XMLFilterImpl {
 		}
 	}
 
-	private class LocationDataHandler implements UserDataHandler {
+	class LocationDataHandler implements UserDataHandler {
 
 		@Override
 		public void handle(short operation, String key, Object data, Node src,

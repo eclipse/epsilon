@@ -1,14 +1,19 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.flexmi.actions;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 
 public class FeatureComputation extends Computation {
@@ -33,7 +38,9 @@ public class FeatureComputation extends Computation {
 		String code = expression;
 		if (!attribute.endsWith("_")) code = "return " + code + ";";
 		module.parse(code);
-		if (module.getParseProblems().size() > 0) throw new Exception(module.getParseProblems().get(0).getReason());
+		if (!module.getParseProblems().isEmpty()) {
+			throw new Exception(module.getParseProblems().get(0).getReason());
+		}
 		module.getContext().getModelRepository().addModel(model);
 		module.getContext().setFrameStack(resource.getFrameStack());
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("self", eObject));

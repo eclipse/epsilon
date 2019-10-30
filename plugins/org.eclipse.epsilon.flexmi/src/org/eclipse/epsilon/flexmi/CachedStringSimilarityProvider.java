@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class CachedStringSimilarityProvider implements StringSimilarityProvider {
 	
-	protected HashMap<String, Integer> cache = new HashMap<String, Integer>();
+	protected HashMap<String, Integer> cache = new HashMap<>();
 	protected StringSimilarityProvider delegate;
 	
 	public CachedStringSimilarityProvider(StringSimilarityProvider delegate) {

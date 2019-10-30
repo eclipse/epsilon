@@ -57,7 +57,7 @@ public class AssignmentCalculator {
 			}
 		}
 		
-		HashMap<Object, Object> map = new HashMap<Object, Object>();
+		HashMap<Object, Object> map = new HashMap<>();
 		if (bestAssignment != null) {
 			for (Assignment assignment : bestAssignment) {
 				if (scorer.score(assignment.getLeft(), assignment.getRight()) >= 0) {
@@ -68,7 +68,7 @@ public class AssignmentCalculator {
 		return map;
 	}
 	
-	private ArrayList<?> toArrayList(List<?> list) {
+	private static ArrayList<?> toArrayList(List<?> list) {
 		if (list instanceof ArrayList<?>) {
 			return (ArrayList<?>) list;
 		}
@@ -80,14 +80,15 @@ public class AssignmentCalculator {
 	
 	private ArrayList<ArrayList<Assignment>> calculateAssignments(ArrayList<?> leftList, ArrayList<?> rightList) {
 		
-		Tree<Assignment> root = new Tree<Assignment>();
+		Tree<Assignment> root = new Tree<>();
 		
 		calculateAssignments(root, leftList, rightList);
 		
-		ArrayList<ArrayList<Assignment>> assignmentLists = new ArrayList<ArrayList<Assignment>>();
+		ArrayList<ArrayList<Tree<Assignment>>> allPaths = root.getAllPaths();
+		ArrayList<ArrayList<Assignment>> assignmentLists = new ArrayList<>(allPaths.size());
 		
-		for (ArrayList<Tree<Assignment>> path : root.getAllPaths()) {
-			ArrayList<Assignment> assignmentList = new ArrayList<Assignment>();
+		for (ArrayList<Tree<Assignment>> path : allPaths) {
+			ArrayList<Assignment> assignmentList = new ArrayList<>(path.size());
 			for (Tree<Assignment> tree : path) {
 				assignmentList.add(tree.getValue());
 			}
@@ -103,7 +104,7 @@ public class AssignmentCalculator {
 		
 		Object firstLeft = leftList.get(0);
 		for (Object right : rightList) {
-			Tree<Assignment> tree = new Tree<Assignment>();
+			Tree<Assignment> tree = new Tree<>();
 			tree.setValue(new Assignment(firstLeft, right));
 			parent.getChildren().add(tree);
 			
@@ -123,9 +124,9 @@ public class AssignmentCalculator {
 		
 	}
 	
-	private class Tree<T> {
+	class Tree<T> {
 		
-		protected ArrayList<Tree<T>> children = new ArrayList<Tree<T>>();
+		protected ArrayList<Tree<T>> children = new ArrayList<>();
 		protected T value;
 		
 		public List<Tree<T>> getChildren() {
@@ -134,10 +135,10 @@ public class AssignmentCalculator {
 		
 		public ArrayList<ArrayList<Tree<T>>> getAllPaths() {
 			
-			ArrayList<ArrayList<Tree<T>>> allPaths = new ArrayList<ArrayList<Tree<T>>>();
+			ArrayList<ArrayList<Tree<T>>> allPaths = new ArrayList<>();
 			
 			for (Tree<T> child : getChildren()) {
-				ArrayList<Tree<T>> path = new ArrayList<Tree<T>>();
+				ArrayList<Tree<T>> path = new ArrayList<>();
 				path.add(child);
 				collectAllPaths(path, allPaths);
 			}

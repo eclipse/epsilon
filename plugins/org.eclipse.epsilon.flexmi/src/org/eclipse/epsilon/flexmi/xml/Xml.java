@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
 public class Xml {
 	
 	public static List<Node> getAttributes(Element e) {
-		List<Node> attributes = new ArrayList<Node>();
+		List<Node> attributes = new ArrayList<>();
 		NamedNodeMap nodeMap = e.getAttributes();
 		for (int i = 0; i < nodeMap.getLength(); i++) {
 			attributes.add(nodeMap.item(i));
@@ -29,9 +29,10 @@ public class Xml {
 	}
 	
 	public static List<String> getAttributeNames(Element e) {
-		List<String> names = new ArrayList<String>();
 		NamedNodeMap attributes = e.getAttributes();
-		for (int i = 0; i < attributes.getLength(); i++) {
+		final int attrLen = attributes.getLength();
+		List<String> names = new ArrayList<>(attrLen);
+		for (int i = 0; i < attrLen; i++) {
 			names.add(attributes.item(i).getNodeName());
 		}
 		return names;
@@ -43,7 +44,7 @@ public class Xml {
 	
 	public static Element getChild(Element e, String name) {
 		List<Element> children = getChildren(e, name);
-		if (children.size() == 0) {
+		if (children.isEmpty()) {
 			return null;
 		}
 		else {
@@ -52,7 +53,7 @@ public class Xml {
 	}
 	
 	public static List<Element> toElementList(NodeList nodeList) {
-		List<Element> node = new ArrayList<Element>();
+		List<Element> node = new ArrayList<>();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node child = nodeList.item(i);
 			if (child instanceof Element) {
@@ -68,7 +69,7 @@ public class Xml {
 	}
 	
 	public static List<Element> getChildren(Element e, String name) {
-		List<Element> children = new ArrayList<Element>();
+		List<Element> children = new ArrayList<>();
 		for (int i = 0; i < e.getChildNodes().getLength(); i++) {
 			Node child = e.getChildNodes().item(i);
 			if (child instanceof Element) {

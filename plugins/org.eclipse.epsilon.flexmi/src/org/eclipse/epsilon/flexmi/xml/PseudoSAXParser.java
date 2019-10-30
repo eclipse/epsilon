@@ -93,9 +93,9 @@ public class PseudoSAXParser {
 					if (attribute.getNodeName().endsWith("_")) {
 						try {
 							URI external = URI.createFileURI(attribute.getNodeValue()).resolve(uri);
-							Scanner scanner = new Scanner(new URL(external.toString()).openStream());
-							attribute.setNodeValue(scanner.useDelimiter("\\Z").next().trim());
-							scanner.close();
+							try (Scanner scanner = new Scanner(new URL(external.toString()).openStream())) {
+								attribute.setNodeValue(scanner.useDelimiter("\\Z").next().trim());
+							}
 						}
 						catch (Exception ex) {
 							resource.getWarnings().add(new FlexmiDiagnostic(ex.getMessage(), uri, resource.getLineNumber(element)));

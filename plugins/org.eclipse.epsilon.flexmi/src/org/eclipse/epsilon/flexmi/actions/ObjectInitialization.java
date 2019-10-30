@@ -21,7 +21,9 @@ public class ObjectInitialization extends Computation {
 		InMemoryEmfModel model = new InMemoryEmfModel(resource);
 		EolModule module = new EolModule();
 		module.parse(expression);
-		if (module.getParseProblems().size() > 0) throw new Exception("Parse problem " + module.getParseProblems().get(0).getReason());
+		if (!module.getParseProblems().isEmpty()) {
+			throw new Exception("Parse problem " + module.getParseProblems().get(0).getReason());
+		}
 		module.getContext().getModelRepository().addModel(model);
 		module.getContext().setFrameStack(resource.getFrameStack());
 		module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("self", eObject));

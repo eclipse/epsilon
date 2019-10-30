@@ -19,7 +19,7 @@ import org.w3c.dom.Element;
 public abstract class Template {
 	
 	protected String name;
-	protected ArrayList<Parameter> parameters = new ArrayList<Parameter>();
+	protected ArrayList<Parameter> parameters = new ArrayList<>();
 	protected Element content;
 	protected URI uri;
 	protected Element slot;
@@ -30,11 +30,13 @@ public abstract class Template {
 	public Template(Element element, URI uri) {
 		this.uri = uri;
 		this.name = element.getAttribute("name");
-		for (Element parameterElement : Xml.getChildren(element, "parameter")) {
+		List<? extends Element> elements = Xml.getChildren(element, "parameter");
+		parameters.ensureCapacity(elements.size());
+		for (Element parameterElement : elements) {
 			parameters.add(new Parameter(parameterElement.getAttribute("name"), parameterElement.getAttribute("default")));
 		}
 		content = Xml.getChild(element, "content");
-		List<Element> slots = Xml.getDescendant(element, Template.PREFIX + "slot");
+		List<? extends Element> slots = Xml.getDescendant(element, Template.PREFIX + "slot");
 		if (!slots.isEmpty()) slot = slots.get(0);
 	}
 	

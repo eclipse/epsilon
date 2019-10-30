@@ -37,7 +37,7 @@ public class EolTemplate extends XmlTemplate {
 			module.getContext().getModelRepository().addModel(model);
 			module.execute();
 			
-			List<Element> elements = new ArrayList<Element>();
+			List<Element> elements = new ArrayList<>();
 			for (Element element : model.allContents()) {
 				if (element.getParentNode() == null) {
 					elements.add(element);

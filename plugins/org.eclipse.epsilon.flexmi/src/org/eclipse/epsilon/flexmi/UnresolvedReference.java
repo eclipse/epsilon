@@ -9,8 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;

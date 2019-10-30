@@ -65,24 +65,24 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	
 	public static final String ROOT_NODE_NAME = "_";
 	
-	protected List<ProcessingInstruction> processingInstructions = new ArrayList<ProcessingInstruction>();
+	protected List<ProcessingInstruction> processingInstructions = new ArrayList<>();
 	protected EObjectTraceManager eObjectTraceManager = new EObjectTraceManager();
-	protected List<UnresolvedReference> unresolvedReferences = new ArrayList<UnresolvedReference>();
+	protected List<UnresolvedReference> unresolvedReferences = new ArrayList<>();
 	// protected List<Action> actions = new ArrayList<Action>();
-	protected Stack<Object> objectStack = new Stack<Object>();
+	protected Stack<Object> objectStack = new Stack<>();
 	protected Node currentNode = null;
-	protected List<String> scripts = new ArrayList<String>();
-	protected HashMap<String, EClass> eClassCache = new HashMap<String, EClass>();
-	protected HashMap<EClass, List<EClass>> allSubtypesCache = new HashMap<EClass, List<EClass>>();
+	protected List<String> scripts = new ArrayList<>();
+	protected HashMap<String, EClass> eClassCache = new HashMap<>();
+	protected HashMap<EClass, List<EClass>> allSubtypesCache = new HashMap<>();
 	protected StringSimilarityProvider stringSimilarityProvider = new CachedStringSimilarityProvider(new DefaultStringSimilarityProvider());
-	protected Stack<URI> parsedFragmentURIStack = new Stack<URI>();
-	protected Set<URI> parsedFragmentURIs = new HashSet<URI>();
-	protected List<Template> templates = new ArrayList<Template>();
+	protected Stack<URI> parsedFragmentURIStack = new Stack<>();
+	protected Set<URI> parsedFragmentURIs = new HashSet<>();
+	protected List<Template> templates = new ArrayList<>();
 	protected BiMap<String, EObject> fullyQualifiedIDs = HashBiMap.create();
-	protected Map<EObject, String> localIDs = new HashMap<EObject, String>();
+	protected Map<EObject, String> localIDs = new HashMap<>();
 	protected FrameStack frameStack = new FrameStack();
 	protected ActionMap actionMap = new ActionMap();
-	protected HashMap<EObject, List<EObject>> orderedChildren = new HashMap<EObject, List<EObject>>();
+	protected HashMap<EObject, List<EObject>> orderedChildren = new HashMap<>();
 	
 	public void startProcessingFragment(URI uri) {
 		parsedFragmentURIStack.push(uri);
@@ -197,8 +197,9 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		
 		//Remove prefixes
 		//TODO: Add option to disable this
-		if (name.indexOf(":") > -1) {
-			name = name.substring(name.indexOf(":")+1);
+		int colonIndex = name.indexOf(":");
+		if (colonIndex > -1) {
+			name = name.substring(colonIndex+1);
 		}
 		
 		EObject eObject = null;
@@ -278,7 +279,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				}
 				
 				// Check for the best class or containment reference
-				Set<ENamedElement> candidates = new HashSet<ENamedElement>();
+				Set<ENamedElement> candidates = new HashSet<>();
 				for (EReference eReference : parent.eClass().getEAllContainments()) {
 					candidates.addAll(getAllSubtypes(eReference.getEReferenceType()));				
 				}
@@ -292,7 +293,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 					// Get the best match and an appropriate containment reference
 					eClass = (EClass) topCandidate;
 					if (eClass != null) {
-						Set<EReference> candidateEReferences = new HashSet<EReference>();
+						Set<EReference> candidateEReferences = new HashSet<>();
 						for (EReference eReference : parent.eClass().getEAllContainments()) {
 							if (getAllSubtypes(eReference.getEReferenceType()).contains(eClass)) {
 								candidateEReferences.add(eReference);
@@ -427,15 +428,14 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	}
 	
 	protected void resolveReferences() {
-		List<UnresolvedReference> unresolvableReferences = new ArrayList<UnresolvedReference>();
+		List<UnresolvedReference> unresolvableReferences = new ArrayList<>();
 		
 		for (UnresolvedReference unresolvedReference : unresolvedReferences) {
 			EReference eReference = unresolvedReference.getEReference();
 			if (eReference.isMany()) {
 				
 				if ("*".equals(unresolvedReference.getValue())) {
-					Iterator<EObject> it = this.getAllContents();
-					while (it.hasNext()) {
+					for (Iterator<EObject> it = this.getAllContents(); it.hasNext();) {
 						EObject candidate = it.next();
 						if (eReference.getEReferenceType().isInstance(candidate)) {
 							new EReferenceSlot(eReference, unresolvedReference.getEObject()).newValue(candidate);
@@ -567,7 +567,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	}
 	
 	protected List<EStructuralFeature> getCandidateStructuralFeaturesForAttribute(EClass eClass) {
-		List<EStructuralFeature> eStructuralFeatures = new ArrayList<EStructuralFeature>();
+		List<EStructuralFeature> eStructuralFeatures = new ArrayList<>();
 		for (EStructuralFeature sf : eClass.getEAllStructuralFeatures()) {
 			if (sf.isChangeable() && (sf instanceof EAttribute || ((sf instanceof EReference) && !((EReference) sf).isContainment()))) {
 				eStructuralFeatures.add(sf);
@@ -577,10 +577,9 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	}
 	
 	protected List<EClass> getAllConcreteEClasses() {
-		List<EClass> eClasses = new ArrayList<EClass>();
-		Iterator<Object> it = getResourceSet().getPackageRegistry().values().iterator();
-		while (it.hasNext()) {
-			EPackage ePackage = (EPackage) it.next();
+		List<EClass> eClasses = new ArrayList<>();
+		for (Object o : getResourceSet().getPackageRegistry().values()) {
+			EPackage ePackage = (EPackage) o;
 			for (EClassifier eClassifier : ePackage.getEClassifiers()) {
 				if (eClassifier instanceof EClass && !((EClass) eClassifier).isAbstract()) {
 					eClasses.add((EClass) eClassifier);
@@ -593,7 +592,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	protected List<EClass> getAllSubtypes(EClass eClass) {
 		List<EClass> allSubtypes = allSubtypesCache.get(eClass);
 		if (allSubtypes == null) {
-			allSubtypes = new ArrayList<EClass>();
+			allSubtypes = new ArrayList<>();
 			for (EClass candidate : getAllConcreteEClasses()) {
 				if (candidate.getEAllSuperTypes().contains(eClass)) {
 					allSubtypes.add(candidate);
@@ -642,7 +641,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				return candidates.iterator().next();
 			}
 			
-			return bestMatch;			
+			return bestMatch;
 		}
 		else {
 			for (ENamedElement candidate : candidates) {
@@ -656,7 +655,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 	public void addOrderedChild(EObject parent, EObject child) {
 		List<EObject> children = orderedChildren.get(parent);
 		if (children == null) {
-			children = new ArrayList<EObject>();
+			children = new ArrayList<>();
 			orderedChildren.put(parent, children);
 		}
 		children.add(child);

@@ -16,8 +16,8 @@ import org.eclipse.emf.ecore.EObject;
 
 public class EObjectTraceManager {
 	
-	protected HashMap<EObject, EObjectLocation> eObjectLineTrace = new HashMap<EObject, EObjectLocation>();
-	protected HashMap<EObjectLocation, EObject> lineEObjectTrace = new HashMap<EObjectLocation, EObject>();
+	protected HashMap<EObject, EObjectLocation> eObjectLineTrace = new HashMap<>();
+	protected HashMap<EObjectLocation, EObject> lineEObjectTrace = new HashMap<>();
 	
 	public void trace(EObject eObject, URI uri, int line) {
 		eObjectLineTrace.put(eObject, new EObjectLocation(uri, line));

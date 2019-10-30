@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 
 public class ActionMap {
 	
-	protected Map<EObject, List<Action>> map = new HashMap<EObject, List<Action>>();
+	protected Map<EObject, List<Action>> map = new HashMap<>();
 	
 	public void addAction(EObject eObject, Action action) {
 		if (!map.containsKey(eObject)) {
