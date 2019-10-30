@@ -9,9 +9,13 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.execute.context.concurrent;
 
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
+import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
+import org.eclipse.epsilon.erl.execute.data.JobBatch;
+import org.eclipse.epsilon.erl.execute.data.RuleAtom;
 
 /**
  * 
@@ -60,5 +64,17 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 	@Override
 	public RuleExecutorFactory getExecutorFactory() {
 		return (RuleExecutorFactory) super.getExecutorFactory();
+	}
+	
+	@Override
+	protected Object executeJob(Object job) throws EolRuntimeException {
+		if (job instanceof RuleAtom) {
+			return ((RuleAtom<?>) job).execute(this);
+		}
+		Object module;
+		if (job instanceof JobBatch && (module = getModule()) instanceof IErlModuleAtomicBatches) {
+			 return executeJob(((JobBatch) job).split(((IErlModuleAtomicBatches<?>) module).getAllJobs()));
+		}
+		return super.executeJob(job);
 	}
 }
