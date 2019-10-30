@@ -63,7 +63,6 @@ public class EolModule extends AbstractModule implements IEolModule {
 	 */
 	@SuppressWarnings("unchecked")
 	public EolModule(IEolContext context) {
-		setContext(context != null ? context : new EolContext());
 		// Ensure that setContext is consistent with getContext
 		try {
 			expectedContextType = (Class<? extends IEolContext>) getClass().getMethod("getContext").getReturnType();
@@ -71,6 +70,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 		catch (NoSuchMethodException | SecurityException | ClassCastException ex) {
 			// Use the default - no need to do anything here.
 		}
+		setContext(context != null ? context : new EolContext());
 	}
 	
 	@Override
@@ -248,8 +248,6 @@ public class EolModule extends AbstractModule implements IEolModule {
 	
 	@Override
 	public String getMainRule() {
-//		String className = getClass().getSimpleName();
-//		return Character.toLowerCase(className.charAt(0)) + className.substring(1);
 		return "eolModule";
 	}
 	
@@ -259,7 +257,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 	}
 	
 	protected HashMap<String, Class<?>> getImportConfiguration() {
-		HashMap<String, Class<?>> importConfiguration = new HashMap<>(8);
+		HashMap<String, Class<?>> importConfiguration = new HashMap<>(4);
 		importConfiguration.put("eol", EolModule.class);
 		return importConfiguration;
 	}

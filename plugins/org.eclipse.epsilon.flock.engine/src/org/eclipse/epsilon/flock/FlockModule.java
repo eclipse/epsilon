@@ -45,7 +45,7 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	}
 	
 	public FlockModule(IFlockContext context) {
-		setContext(context != null ? context : new FlockContext());
+		super(context != null ? context : new FlockContext());
 	}
 	
 	@Override
