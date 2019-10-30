@@ -17,16 +17,13 @@ package org.eclipse.epsilon.eol.execute.concurrent;
  * @author Sina Madani
  * @since 1.6
  */
-public class EolThread extends Thread {
+public class EolExecutorThread extends Thread {
 
 	protected Runnable cleanup;
 	
-	public EolThread() {
-		super();
-	}
-	
-	public EolThread(Runnable target) {
-		super(target);
+	public EolExecutorThread(Runnable target, String name) {
+		super(target, name);
+		setDaemon(true);
 	}
 
 	public void setTerminationHandler(Runnable fin) {

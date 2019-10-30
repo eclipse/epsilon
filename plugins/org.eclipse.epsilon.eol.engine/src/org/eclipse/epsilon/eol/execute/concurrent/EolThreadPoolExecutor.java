@@ -27,7 +27,7 @@ public class EolThreadPoolExecutor extends ThreadPoolExecutor {
 			numThreads, numThreads,
 			Long.MAX_VALUE, TimeUnit.NANOSECONDS,
 			new LinkedBlockingQueue<>(),
-			new EolThreadFactory(null, numThreads, "EOL-Worker"),
+			new EolThreadFactory(numThreads, "EOL-Worker"),
 			(r, e) -> {}
 		);
 	}

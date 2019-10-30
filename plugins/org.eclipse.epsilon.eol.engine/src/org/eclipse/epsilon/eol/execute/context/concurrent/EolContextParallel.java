@@ -358,12 +358,12 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		if (job instanceof BaseStream) {
 			return executeJob(((BaseStream<?,?>)job).iterator());
 		}
+		if (job instanceof Spliterator) {
+			return executeJob(StreamSupport.stream((Spliterator<?>) job, isParallelisationLegal()));
+		}
 		if (job instanceof Iterator) {
 			Iterable<?> iter = () -> (Iterator<Object>) job;
 			return executeJob(iter);
-		}
-		if (job instanceof Spliterator) {
-			return executeJob(StreamSupport.stream((Spliterator<?>) job, isParallelisationLegal()));
 		}
 		if (job instanceof Supplier) {
 			return ((Supplier<?>) job).get();
@@ -372,7 +372,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 			if (job instanceof Future) {
 				return ((Future<?>) job).get();
 			}
-			else if (job instanceof Callable) {
+			if (job instanceof Callable) {
 				return ((Callable<?>) job).call();
 			}
 		}
