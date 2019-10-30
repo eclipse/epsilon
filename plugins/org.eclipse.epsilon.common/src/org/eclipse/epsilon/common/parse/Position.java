@@ -11,7 +11,12 @@ package org.eclipse.epsilon.common.parse;
 
 import java.util.Objects;
 
-public class Position {
+public final class Position implements Cloneable, java.io.Serializable {
+	
+	/**
+	 * @since 1.6
+	 */
+	private static final long serialVersionUID = 6556794941272597738L;
 	
 	protected int line, column;
 	
@@ -50,6 +55,23 @@ public class Position {
 	@Override
 	public String toString() {
 		return line + ":" + column;
+	}
+	
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	protected Position clone() {
+		Position clone;
+		try {
+			clone = (Position) super.clone();
+		}
+		catch (CloneNotSupportedException cnsx) {
+			throw new UnsupportedOperationException(cnsx);
+		}
+		clone.line = this.line;
+		clone.column = this.column;
+		return clone;
 	}
 	
 	/**

@@ -11,20 +11,33 @@ package org.eclipse.epsilon.common.parse;
 
 import java.util.Objects;
 
-public class Region {
+public final class Region implements Cloneable, java.io.Serializable {
 	
-	protected Position start = new Position(0, 0);
-	protected Position end = new Position(0, 0); 
+	/**
+	 * @since 1.6
+	 */
+	private static final long serialVersionUID = 7112437532509719424L;
 	
-	public Region() {}
+	protected Position start;
+	protected Position end;
 	
-	public Region(int startLine, int startColumn, int endLine, int endColumn) {
-		this.start = new Position(startLine, startColumn);
-		this.end = new Position(endLine, endColumn);
+	public Region() {
+		this(0, 0, 0, 0);
 	}
 	
-	public Region clone() {
-		return new Region(getStart().getLine(), getStart().getColumn(), getEnd().getLine(), getEnd().getColumn());
+	/**
+	 * 
+	 * @param start
+	 * @param end
+	 * @since 1.6
+	 */
+	public Region(Position start, Position end) {
+		this.start = start;
+		this.end = end;
+	}
+	
+	public Region(int startLine, int startColumn, int endLine, int endColumn) {
+		this(new Position(startLine, startColumn), new Position(endLine, endColumn));
 	}
 	
 	public Position getStart() {
@@ -41,6 +54,20 @@ public class Region {
 	
 	public void setEnd(Position end) {
 		this.end = end;
+	}
+	
+	@Override
+	public Region clone() {
+		Region clone;
+		try {
+			clone = (Region) super.clone();
+		}
+		catch (CloneNotSupportedException cnsx) {
+			throw new UnsupportedOperationException(cnsx);
+		}
+		if (this.start != null) clone.start = this.start.clone();
+		if (this.end != null) clone.end = this.end.clone();
+		return clone;
 	}
 	
 	@Override
