@@ -14,6 +14,7 @@ import java.io.File;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.dom.TransformationRule;
+import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -63,9 +64,14 @@ public class TransformationRuleTests extends EtlTest {
 		assertTrue(module.getParseProblems().isEmpty());
 		
 		module.execute();
+		IEtlContext context = module.getContext();
 		
 		for (TransformationRule rule : module.getTransformationRules()) {
-			assertEquals(rule.getName() + " should be lazy", rule.getBooleanAnnotationValue("isLazy", null), rule.isLazy());
+			assertEquals(
+				rule.getName() + " should be lazy",
+				rule.getBooleanAnnotationValue("isLazy", null),
+				rule.isLazy(context)
+			);
 		}
 	}
 

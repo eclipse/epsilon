@@ -40,24 +40,21 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 	}
 	
 	public Collection<?> getAllInstances(Parameter parameter, IEolContext context, boolean ofTypeOnly) throws EolRuntimeException {
-		Map<Parameter, Collection<?>> cache = null;
-		if (ofTypeOnly) cache = ofTypeCache;
-		else cache = ofKindCache;
+		final Map<Parameter, Collection<?>> cache = ofTypeOnly ? ofTypeCache : ofKindCache;
 		
 		Collection<?> instances = cache.get(parameter);
 		
 		if (instances == null) {
 			try {
 				EolModelElementType parameterType = (EolModelElementType) parameter.getType(context);
-				if (ofTypeOnly) instances = parameterType.getAllOfType();
-				else instances = parameterType.getAllOfKind();
+				instances = ofTypeOnly ? parameterType.getAllOfType() : parameterType.getAllOfKind();
 				cache.put(parameter, instances);
 			}
-			catch (EolModelElementTypeNotFoundException ex){
+			catch (EolModelElementTypeNotFoundException ex) {
 				ex.setAst(parameter.getTypeExpression());
 				throw ex;
 			}
-			catch (EolModelNotFoundException ex){
+			catch (EolModelNotFoundException ex) {
 				ex.setAst(parameter.getTypeExpression());
 				throw ex;
 			}
@@ -65,22 +62,18 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 		return instances;
 	}
 	
-	public boolean isGreedy() throws EolRuntimeException {
+	public boolean isGreedy(IEolContext context) throws EolRuntimeException {
 		if (isGreedy == null) {
-			isGreedy = getBooleanAnnotationValue("greedy", null);
+			isGreedy = getBooleanAnnotationValue("greedy", context);
 		}
 		return isGreedy;
 	}
 	
-	public boolean isAbstract() throws EolRuntimeException {
+	public boolean isAbstract(IEolContext context) throws EolRuntimeException {
 		if (isAbstract == null) {
-			isAbstract = getBooleanAnnotationValue("abstract", null);
+			isAbstract = getBooleanAnnotationValue("abstract", context);
 		}
 		return isAbstract;
-	}
-	
-	public boolean isLazy() throws EolRuntimeException {
-		return isLazy(null);
 	}
 	
 	public boolean isLazy(IEolContext context) throws EolRuntimeException {

@@ -31,7 +31,7 @@ public class DefaultTransformationStrategy extends AbstractTransformationStrateg
 				
 				Collection<?> transformed = rule.transform(source, context);
 				
-				if (!rule.isPrimary()) {
+				if (!rule.isPrimary(context)) {
 					targets.addAll(transformed);
 				}
 				else {

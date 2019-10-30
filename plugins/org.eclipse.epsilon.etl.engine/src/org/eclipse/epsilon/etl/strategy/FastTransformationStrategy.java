@@ -58,8 +58,8 @@ public class FastTransformationStrategy extends AbstractTransformationStrategy {
 		TransformationTrace transTrace = context.getTransformationTrace();
 		
 		for (TransformationRule transformRule : context.getModule().getTransformationRules()) {			
-			if (!transformRule.isLazy(context) && !transformRule.isAbstract()) {
-				Collection<?> sources = transformRule.getAllInstances(transformRule.getSourceParameter(), context, !transformRule.isGreedy());
+			if (!transformRule.isLazy(context) && !transformRule.isAbstract(context)) {
+				Collection<?> sources = transformRule.getAllInstances(transformRule.getSourceParameter(), context, !transformRule.isGreedy(context));
 				
 				for (Object instance : sources) {
 					if (!getExcluded().contains(instance) && transformRule.appliesTo(instance, context, false, false)) {
@@ -76,40 +76,43 @@ public class FastTransformationStrategy extends AbstractTransformationStrategy {
 			}
 		}
 		
-		for (Transformation transformation : context.getTransformationTrace().getTransformations()) {
+		for (Transformation transformation : transTrace.getTransformations()) {
+			Object source = transformation.getSource();
 			
 			if (flatTrace.containsKey(transformation.getSource())) {
-				if (transformation.getRule().isPrimary()) {
-					flatTrace.put(transformation.getSource(), 
-							EolCollectionType.join(transformation.getTargets(), flatTrace.get(transformation.getSource())));
+				if (transformation.getRule().isPrimary(context)) {
+					flatTrace.put(source, 
+							EolCollectionType.join(transformation.getTargets(), flatTrace.get(source)));
 				}
 				else {
-					flatTrace.get(transformation.getSource()).addAll(transformation.getTargets());
+					flatTrace.get(source).addAll(transformation.getTargets());
 				}
 			}
 			else {
-				flatTrace.put(transformation.getSource(), EolCollectionType.clone(transformation.getTargets()));
+				flatTrace.put(source, EolCollectionType.clone(transformation.getTargets()));
 			}
 			
-			if (pendingTransformations.containsKey(transformation.getSource())) {
-				pendingTransformations.get(transformation.getSource()).add(transformation);
+			Collection<Transformation> pending = pendingTransformations.get(source);
+			if (pending != null) {
+				pending.add(transformation);
 			}
 			else {
 				Collection<Transformation> transformations = new ArrayList<>(1);
 				transformations.add(transformation);
-				pendingTransformations.put(transformation.getSource(), transformations);
+				pendingTransformations.put(source, transformations);
 			}
 			
 		}
 		
-		executeTransformations(context.getTransformationTrace().getTransformations(), context);
+		executeTransformations(transTrace.getTransformations(), context);
 	}
 	
 	protected void executeTransformations(Collection<Transformation> transformations, IEtlContext context) throws EolRuntimeException {
 		for (Transformation transformation : transformations) {
 			TransformationRule rule = transformation.getRule();
-			if (!rule.hasTransformed(transformation.getSource())) {
-				rule.transform(transformation.getSource(), transformation.getTargets(), context);
+			Object source = transformation.getSource();
+			if (!rule.hasTransformed(source)) {
+				rule.transform(source, transformation.getTargets(), context);
 			}
 		} 		
 	}

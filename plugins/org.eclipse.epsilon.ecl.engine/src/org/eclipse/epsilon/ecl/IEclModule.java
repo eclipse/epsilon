@@ -52,7 +52,7 @@ public interface IEclModule extends IErlModule {
 			Match match = new Match(left, right, !matchRules.isEmpty(), null);
 			
 			for (MatchRule matchRule : matchRules) {
-				if (matchRule.isGreedy()) {
+				if (matchRule.isGreedy(context)) {
 					Match tempMatch = matchRule.match(left, right, context, match.getInfo(), forcedMatch);
 					match.setMatching(match.isMatching() && tempMatch.isMatching());
 					match.setRule(matchRule);
@@ -67,7 +67,7 @@ public interface IEclModule extends IErlModule {
 	default List<MatchRule> getRulesFor(Object left, Object right, IEclContext context, boolean ofClassOnly) throws EolRuntimeException {
 		ArrayList<MatchRule> rules = new ArrayList<>();
 		for (MatchRule matchRule : getMatchRules()) {
-			if (!matchRule.isAbstract() && matchRule.appliesTo(left, right, context, ofClassOnly)) {
+			if (!matchRule.isAbstract(context) && matchRule.appliesTo(left, right, context, ofClassOnly)) {
 				rules.add(matchRule);
 			}
 		}

@@ -11,7 +11,6 @@ package org.eclipse.epsilon.etl.dom;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
@@ -24,7 +23,6 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
-import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.parse.EtlParser;
 
@@ -35,6 +33,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 	protected ExecutableBlock<Boolean> guard;
 	protected ExecutableBlock<Void> body;
 	protected IEtlContext context;
+	protected Boolean isPrimary = null;
 	
 	@Override
 	public AST getSuperRulesAst(AST cst) {
@@ -98,7 +97,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 	public boolean isLazy(IEolContext context) throws EolRuntimeException {
 		if (isLazy == null) {
 			isLazy = super.isLazy(context)
-				|| (!(sourceParameter.getType(context) instanceof EolModelElementType) && !isAbstract());
+				|| (!(sourceParameter.getType(context) instanceof EolModelElementType) && !isAbstract(context));
 		}
 		return isLazy;
 	}
@@ -107,7 +106,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 		return transformedElements.contains(source);
 	}
 			
-	protected Collection<Object> rejected = ConcurrencyUtils.concurrentSet();
+	protected Collection<Object> rejected = new HashSet<>();
 	
 	public boolean appliesTo(Object source, IEtlContext context, boolean asSuperRule) throws EolRuntimeException {
 		return appliesTo(source, context, asSuperRule, true);
@@ -125,7 +124,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 			appliesToTypes = true;
 		}
 		else {
-			boolean ofTypeOnly = !(isGreedy() || asSuperRule);
+			boolean ofTypeOnly = !(isGreedy(context) || asSuperRule);
 			EolType type = sourceParameter.getType(context);
 			appliesToTypes = ofTypeOnly ? type.isType(source) : type.isKind(source);
 		}
@@ -163,8 +162,8 @@ public class TransformationRule extends ExtensibleNamedRule {
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
-	public Collection<?> getAllInstances(IErlContext context) throws EolRuntimeException {
-		return getAllInstances(sourceParameter, context, !isGreedy());
+	public Collection<?> getAllInstances(IEtlContext context) throws EolRuntimeException {
+		return getAllInstances(sourceParameter, context, !isGreedy(context));
 	}
 	
 	/**
@@ -243,11 +242,9 @@ public class TransformationRule extends ExtensibleNamedRule {
 		return getName() + " (" + sourceParameter.getTypeName() + ") : " + targetTypes;
 	}
 	
-	protected Boolean isPrimary = null;
-	
-	public boolean isPrimary() throws EolRuntimeException {
+	public boolean isPrimary(IEtlContext context) throws EolRuntimeException {
 		if (isPrimary == null) {
-			isPrimary = getBooleanAnnotationValue("primary", null);
+			isPrimary = getBooleanAnnotationValue("primary", context);
 		}
 		return isPrimary;
 	}
@@ -258,7 +255,7 @@ public class TransformationRule extends ExtensibleNamedRule {
 	
 	public boolean shouldBeTransformed(Object instance, Collection<Object> excluded, IEtlContext context, boolean overrideLazy) throws EolRuntimeException {
 		return (overrideLazy || !isLazy(context))
-			&& !isAbstract()
+			&& !isAbstract(context)
 			&& (excluded == null || !excluded.contains(instance))
 			&& appliesTo(instance, context, false);
 	}

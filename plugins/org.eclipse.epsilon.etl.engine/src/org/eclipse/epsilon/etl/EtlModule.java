@@ -116,7 +116,7 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		context.setOperationFactory(new EtlOperationFactory());
 		
 		if (context.getTransformationStrategy() == null) {
-			ITransformationStrategy transformStrat = hasLazyRules(context) ? 
+			ITransformationStrategy transformStrat = hasLazyRules() ? 
 				new DefaultTransformationStrategy() : new FastTransformationStrategy();
 			
 			context.setTransformationStrategy(transformStrat);
@@ -156,7 +156,8 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		return declaredTransformationRules;
 	}
 
-	protected boolean hasLazyRules(IEtlContext context) throws EolRuntimeException {
+	protected boolean hasLazyRules() throws EolRuntimeException {
+		IEtlContext context = getContext();
 		for (TransformationRule rule : getTransformationRules()) {
 			if (rule.isLazy(context)) {
 				return true;

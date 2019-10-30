@@ -51,11 +51,11 @@ public class MatchRule extends ExtensibleNamedRule {
 	}
 	
 	public boolean appliesTo(Object left, Object right, IEclContext context, boolean ofTypeOnly) throws EolRuntimeException {
-		final boolean guardSatisfied, oto = !(!ofTypeOnly || isGreedy());
+		final boolean guardSatisfied, oto = !(!ofTypeOnly || isGreedy(context));
 		final boolean appliesToTypes = getAllInstances(leftParameter, context, oto).contains(left) &&
 			getAllInstances(rightParameter, context, oto).contains(right);
 		
-		if (!isAbstract() && appliesToTypes && guardBlock != null) {
+		if (!isAbstract(context) && appliesToTypes && guardBlock != null) {
 			guardSatisfied = guardBlock.execute(context, 
 				Variable.createReadOnlyVariable(leftParameter.getName(), left),
 				Variable.createReadOnlyVariable(rightParameter.getName(), right),

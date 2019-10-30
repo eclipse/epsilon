@@ -151,7 +151,7 @@ public class EclModule extends ErlModule implements IEclModule {
 		IEclContext context = getContext();
 		
 		for (MatchRule matchRule : getMatchRules()) {
-			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (!greedy || matchRule.isGreedy())) {
+			if (!matchRule.isAbstract(context) && !matchRule.isLazy(context) && (!greedy || matchRule.isGreedy(context))) {
 				for (Object left : matchRule.getLeftInstances(context, ofTypeOnly)) {
 					for (Object right : matchRule.getRightInstances(context, ofTypeOnly)) {
 						matchRule.matchPair(context, ofTypeOnly, left, right);

@@ -64,9 +64,9 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		mergeBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.MERGE), this);
 	}
 
-	public Collection<?> getAllElements(IEolContext context) throws EolRuntimeException {
+	public Collection<?> getAllElements(IEgxContext context) throws EolRuntimeException {
 		if (sourceParameter != null) {
-			return getAllInstances(sourceParameter, context, !isGreedy());
+			return getAllInstances(sourceParameter, context, !isGreedy(context));
 		}
 		else {
 			return Collections.singleton(null);

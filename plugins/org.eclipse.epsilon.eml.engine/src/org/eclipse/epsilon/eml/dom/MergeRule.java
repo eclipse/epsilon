@@ -62,10 +62,6 @@ public class MergeRule extends ExtensibleNamedRule {
 		
 	}
 	
-	public boolean isLazy(IEmlContext context) throws EolRuntimeException {
-		return getBooleanAnnotationValue("lazy", context);
-	}
-	
 	public boolean isPrimary(IEmlContext context) throws EolRuntimeException {
 		return getBooleanAnnotationValue("primary", context);
 	}
@@ -77,12 +73,12 @@ public class MergeRule extends ExtensibleNamedRule {
 		Object left = match.getLeft();
 		Object right = match.getRight();
 		
-		boolean appliesToTypes = getAllInstances(leftParameter, context, !isGreedy()).contains(left) && 
-				getAllInstances(rightParameter, context, !isGreedy()).contains(right);
+		boolean appliesToTypes = getAllInstances(leftParameter, context, !isGreedy(context)).contains(left) && 
+				getAllInstances(rightParameter, context, !isGreedy(context)).contains(right);
 	
 		boolean guardSatisfied = true;
 		
-		if (appliesToTypes && guardBlock != null){
+		if (appliesToTypes && guardBlock != null) {
 			
 			guardSatisfied = guardBlock.execute(context, 
 				Variable.createReadOnlyVariable(leftParameter.getName(), left), 

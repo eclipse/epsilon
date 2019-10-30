@@ -35,7 +35,7 @@ public abstract class AbstractTransformationStrategy implements ITransformationS
 		Collection<TransformationRule> allRules = context.getModule().getTransformationRules();
 		List<TransformationRule> filtered = new ArrayList<>(allRules.size());
 		for (TransformationRule transformRule : allRules) {
-			if (!transformRule.isAbstract() && !transformRule.isLazy(context)) {
+			if (!transformRule.isAbstract(context) && !transformRule.isLazy(context)) {
 				filtered.add(transformRule);
 			}
 		}
@@ -45,7 +45,7 @@ public abstract class AbstractTransformationStrategy implements ITransformationS
 	protected List<TransformationRule> getRulesFor(Object source, IEtlContext context) throws EolRuntimeException {
 		List<TransformationRule> rules = new ArrayList<>();
 		for (TransformationRule rule : context.getModule().getTransformationRules()) {
-			if (!rule.isAbstract() && rule.appliesTo(source, context, false)) {
+			if (!rule.isAbstract(context) && rule.appliesTo(source, context, false)) {
 				rules.add(rule);
 			}
 		}

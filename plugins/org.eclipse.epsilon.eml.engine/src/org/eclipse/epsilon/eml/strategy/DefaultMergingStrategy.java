@@ -48,7 +48,7 @@ public class DefaultMergingStrategy extends DefaultTransformationStrategy implem
 		
 		// First we try to find rules that apply to instance of type only
 		for (MergeRule mergeRule : context.getModule().getMergeRules()) {
-			if (!mergeRule.isAbstract()){
+			if (!mergeRule.isAbstract(context)) {
 				if (mergeRule.appliesTo(match, context)) { 
 					rules.add(mergeRule);
 				}
