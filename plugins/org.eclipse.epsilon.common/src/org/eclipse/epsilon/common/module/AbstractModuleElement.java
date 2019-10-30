@@ -21,9 +21,9 @@ import org.eclipse.epsilon.common.parse.Region;
 
 public abstract class AbstractModuleElement implements ModuleElement {
 	
-	protected List<Comment> comments = new ArrayList<>();
+	protected ArrayList<Comment> comments = new ArrayList<>(0);
+	protected ArrayList<ModuleElement> children = new ArrayList<>(0);
 	protected ModuleElement parent;
-	protected List<ModuleElement> children = new ArrayList<>();
 	protected URI uri;
 	protected IModule module;
 	protected Region region = new Region();
@@ -32,8 +32,7 @@ public abstract class AbstractModuleElement implements ModuleElement {
 	public void build(AST cst, IModule module) {
 		List<Token> commentTokens = cst.getCommentTokens();
 		
-		if (comments instanceof ArrayList)
-			((ArrayList<Comment>) comments).ensureCapacity(commentTokens.size());
+		comments.ensureCapacity(commentTokens.size());
 		
 		for (Token commentToken : commentTokens) {
 			Comment comment = new Comment(commentToken);

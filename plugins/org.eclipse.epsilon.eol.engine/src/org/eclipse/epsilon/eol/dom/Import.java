@@ -11,7 +11,7 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.io.File;
 import java.net.URI;
-
+import java.util.Objects;
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
@@ -58,10 +58,12 @@ public class Import extends AbstractModuleElement {
 			}
 			
 			// Detect and handle circular imports gracefully
-			for (IEolModule ancestor = parentModule;
-					ancestor != null && !found;
-					ancestor = ancestor.getParentModule()) {
-				if (ancestor.getSourceUri() != null && ancestor.getSourceUri().equals(uri)) {
+			for (
+				IEolModule ancestor = parentModule;
+				ancestor != null && !found;
+				ancestor = ancestor.getParentModule()
+			) {
+				if (Objects.equals(ancestor.getSourceUri(), uri)) {
 					found = true;
 					importedModule = ancestor;
 				}
@@ -69,7 +71,8 @@ public class Import extends AbstractModuleElement {
 			if (!found) {
 				try {
 					importedModule.parse(uri);
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					// Useful for plugin developers: fall back on platform:/resource if platform:/plugin does not work
 					if ("platform".equals(uri.getScheme()) && uri.getPath().startsWith("/plugin/")) {
 						final String sNewURI = uri.toString().replaceFirst("/plugin/", "/resource/");
