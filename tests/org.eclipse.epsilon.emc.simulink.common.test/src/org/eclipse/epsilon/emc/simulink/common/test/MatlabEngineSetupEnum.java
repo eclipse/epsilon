@@ -7,7 +7,7 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.emc.simulink.util;
+package org.eclipse.epsilon.emc.simulink.common.test;
 
 import java.io.File;
 import java.util.Arrays;

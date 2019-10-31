@@ -34,7 +34,7 @@ context Recipe {
 		fix {
 			title: "Delete \""+self.name+"\"."
 			do {
-				Category.all.recipies.remove(self);
+				Recipe.all.remove(self);
 			}
 		}
 	}

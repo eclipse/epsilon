@@ -12,11 +12,10 @@ package org.eclipse.epsilon.emc.simulink.test.unit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
+import org.eclipse.epsilon.emc.simulink.common.test.MatlabEngineSetupEnum;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
-import org.eclipse.epsilon.emc.simulink.util.MatlabEngineSetupEnum;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

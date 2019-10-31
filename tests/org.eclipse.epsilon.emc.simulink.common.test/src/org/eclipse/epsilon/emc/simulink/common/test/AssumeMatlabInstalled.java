@@ -10,8 +10,6 @@
 package org.eclipse.epsilon.emc.simulink.common.test;
 
 import java.util.List;
-
-import org.eclipse.epsilon.emc.simulink.util.MatlabEngineSetupEnum;
 import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;

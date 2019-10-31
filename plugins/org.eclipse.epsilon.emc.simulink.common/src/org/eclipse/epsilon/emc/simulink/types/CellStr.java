@@ -98,7 +98,8 @@ public class CellStr extends AbstractType {
 		}
 	}
 	
-	public boolean equals(Object object){
+	@Override
+	public boolean equals(Object object) {
 		try {
 			return (Boolean) equalsMethod.invoke(object, object);
 		} catch (Exception e) {

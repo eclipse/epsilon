@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.UUID;
 
 import org.eclipse.epsilon.emc.simulink.common.test.AbstractCommonSimulinkTest;
+import org.eclipse.epsilon.emc.simulink.common.test.MatlabEngineSetupEnum;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.IGenericSimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
-import org.eclipse.epsilon.emc.simulink.util.MatlabEngineSetupEnum;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 

@@ -9,8 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.test.unit;
 
-import static org.eclipse.epsilon.emc.simulink.util.MatlabEngineSetupEnum.ENGINE_JAR;
-import static org.eclipse.epsilon.emc.simulink.util.MatlabEngineSetupEnum.LIBRARY_PATH;
+import static org.eclipse.epsilon.emc.simulink.common.test.MatlabEngineSetupEnum.ENGINE_JAR;
+import static org.eclipse.epsilon.emc.simulink.common.test.MatlabEngineSetupEnum.LIBRARY_PATH;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 

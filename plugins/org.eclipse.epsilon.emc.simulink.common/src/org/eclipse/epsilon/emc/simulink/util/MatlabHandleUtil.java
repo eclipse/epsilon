@@ -21,7 +21,8 @@ public class MatlabHandleUtil {
 	public static Object convert(Object handleObject, MatlabEngine engine, IGenericSimulinkModel owningModel) {
 		if (handleObject instanceof HandleObject) {
 			return new MatlabHandleElement(owningModel, engine, (HandleObject) handleObject);
-		} else if (HandleObject.is(handleObject)) {
+		}
+		else if (HandleObject.is(handleObject)) {
 			return new MatlabHandleElement(owningModel, engine, new HandleObject(handleObject));
 		}		
 		else if (handleObject instanceof Collection) {

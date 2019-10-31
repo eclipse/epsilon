@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.UUID;
 
 import org.eclipse.epsilon.emc.simulink.common.test.AbstractCommonSimulinkTest;
+import org.eclipse.epsilon.emc.simulink.common.test.MatlabEngineSetupEnum;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.SimulinkDictionaryModel;
 import org.eclipse.epsilon.emc.simulink.model.IGenericSimulinkModel;
-import org.eclipse.epsilon.emc.simulink.util.MatlabEngineSetupEnum;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
 public class AbstractSimulinkDictinoaryTest extends AbstractCommonSimulinkTest {
