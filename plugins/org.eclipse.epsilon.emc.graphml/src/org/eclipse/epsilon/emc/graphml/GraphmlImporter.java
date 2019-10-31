@@ -54,10 +54,10 @@ public class GraphmlImporter {
 	public Muddle importGraph(String uri) throws Exception {
 		
 		graph = MuddleFactory.eINSTANCE.createMuddle();
-		nodeMap = new HashMap<String, MuddleElement>();
-		nodeElementMap = new HashMap<MuddleElement, Element>();
-		orphanEdges = new ArrayList<OrphanLink>();
-		referenceNodes = new ArrayList<MuddleElement>();
+		nodeMap = new HashMap<>();
+		nodeElementMap = new HashMap<>();
+		orphanEdges = new ArrayList<>();
+		referenceNodes = new ArrayList<>();
 		
 		SAXBuilder builder = new SAXBuilder();
 		Document doc = builder.build(uri);
@@ -173,7 +173,7 @@ public class GraphmlImporter {
 			}
 		}
 		
-		List<MuddleElement> typedEdgeNodes = new ArrayList<MuddleElement>();
+		List<MuddleElement> typedEdgeNodes = new ArrayList<>();
 		
 		// Create nodes for typed edges
 		for (Element edgeElement : getEdgeElements()) {
@@ -405,7 +405,7 @@ public class GraphmlImporter {
 				if (slot.getValues().size() > 0) {
 					Type slotType = slot.getFeature().getType();
 					if (slotType instanceof IntegerType || slotType instanceof BooleanType || slotType instanceof RealType) {
-						List<Object> castedValues = new ArrayList<Object>();
+						List<Object> castedValues = new ArrayList<>();
 						for (Object value : slot.getValues()) {
 							castedValues.add(cast(value, slotType));
 						}
@@ -559,7 +559,7 @@ public class GraphmlImporter {
 			labelTag = "EdgeLabel";
 			propertiesKey = configuration.getEdgePropertiesKey();
 		}
-		List<String> labels = new ArrayList<String>();
+		List<String> labels = new ArrayList<>();
 		for (Element labelElement : getDescendants(e, labelTag)) {
 			if (getFirstAncestor(labelElement, e.getName()) == e) {
 				labels.addAll(getLabels(labelElement.getText()));
@@ -589,7 +589,7 @@ public class GraphmlImporter {
 	}
 	
 	protected List<String> getLabels(String s) {
-		List<String> labels = new ArrayList<String>();
+		List<String> labels = new ArrayList<>();
 		s = s.trim();
 		for (String label : s.split("\\n")) {
 			if (label.trim().length() > 0) {
@@ -600,7 +600,7 @@ public class GraphmlImporter {
 	}
 	
 	protected List<Element> getDescendants(Element node, final String name) {
-		List<Element> descendants = new ArrayList<Element>();
+		List<Element> descendants = new ArrayList<>();
 		Iterator<?> iterator = node.getDescendants(new Filter() {
 			@Override
 			public boolean matches(Object o) {
@@ -614,7 +614,7 @@ public class GraphmlImporter {
 	}
 	
 	protected List<Element> getNodeElements() {
-		List<Element> elements = new ArrayList<Element>();
+		List<Element> elements = new ArrayList<>();
 		
 		for (Object o : getDescendants(graphElement, "node") /*graphElement.getChildren("node", namespace)*/) {
 			elements.add((Element) o);
@@ -623,7 +623,7 @@ public class GraphmlImporter {
 	}
 	
 	protected List<Element> getEdgeElements() {
-		List<Element> elements = new ArrayList<Element>();
+		List<Element> elements = new ArrayList<>();
 		for (Object o : getDescendants(graphElement, "edge") /*graphElement.getChildren("edge", namespace)*/) {
 			elements.add((Element) o);
 		}

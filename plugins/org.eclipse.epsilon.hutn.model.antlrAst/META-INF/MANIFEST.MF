@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.epsilon.common,
  org.eclipse.epsilon.antlr.postprocessor.model
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.hutn.model.antlrAst

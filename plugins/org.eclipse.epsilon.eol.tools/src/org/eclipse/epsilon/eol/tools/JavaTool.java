@@ -21,7 +21,7 @@ public class JavaTool {
 		
 	//TODO : Add parameter names too
 	public List<String> getMethodSignatures(Object o) {
-		List<String> signatures = new ArrayList<String>();
+		List<String> signatures = new ArrayList<>();
 		
 		if (o == null) return signatures;
 		

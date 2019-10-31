@@ -102,7 +102,7 @@ public class ExcelWorksheet extends SpreadsheetWorksheet
 	public List<SpreadsheetRow> getRows()
 	{
 		LOGGER.debug("Inside getRows() method");
-		final List<SpreadsheetRow> rows = new ArrayList<SpreadsheetRow>();
+		final List<SpreadsheetRow> rows = new ArrayList<>();
 		final int numOfRows = this.sheet.getPhysicalNumberOfRows();
 		for (int i = this.getFirstRowIndex(); i <= numOfRows; i++)
 		{

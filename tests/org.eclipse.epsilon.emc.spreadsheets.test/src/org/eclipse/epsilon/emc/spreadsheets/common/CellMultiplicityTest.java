@@ -54,8 +54,8 @@ public class CellMultiplicityTest
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_0", "456# value2"); // driver id
 		values.put("column1", "123# abc"); // name
 		list.add(values);
@@ -92,8 +92,8 @@ public class CellMultiplicityTest
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("column0", "456; value2");
 		values.put("column1", "123; abc");
 		list.add(values);
@@ -126,8 +126,8 @@ public class CellMultiplicityTest
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("column2", "456; 123");
 		values.put("column3", "123; 789");
 		list.add(values);
@@ -160,8 +160,8 @@ public class CellMultiplicityTest
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("column4", "4.3; 123.1567");
 		values.put("column5", "123.456 ;  789.00098");
 		list.add(values);
@@ -192,8 +192,8 @@ public class CellMultiplicityTest
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("column6", "true;false");
 		values.put("column7", "false;  true; false");
 		list.add(values);
@@ -225,8 +225,8 @@ public class CellMultiplicityTest
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("column8", "4.3; 123.1567");
 		values.put("column9", "123.456 ;  789.00098");
 		list.add(values);
@@ -258,8 +258,8 @@ public class CellMultiplicityTest
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("column3", "12a4; 789");
 		values.put("column5", "123.456 ;  789.0009a");
 		values.put("column7", "false;  abc; false");

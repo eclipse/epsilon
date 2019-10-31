@@ -28,7 +28,7 @@ class Metafeatures {
 	}
 	
 	Iterable<Object> getValuesToHashFrom(EModelElement metamodelElement) {
-		final List<Object> valuesToHash = new LinkedList<Object>();
+		final List<Object> valuesToHash = new LinkedList<>();
 				
 		for (String metafeatureName : metafeatureNames) {
 			valuesToHash.add(getValueOfMetafeatureFrom(metamodelElement, metafeatureName));

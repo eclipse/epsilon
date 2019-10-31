@@ -120,7 +120,7 @@ public class SpreadsheetPropertySetter extends JavaPropertySetter
 
 	private List<String> getReferencedValues(final List<SpreadsheetRow> rows, final Set<SpreadsheetReference> references)
 	{
-		final List<String> values = new ArrayList<String>();
+		final List<String> values = new ArrayList<>();
 		for (final SpreadsheetRow row : rows)
 		{
 			boolean thisRowIsReferenced = false;
@@ -204,7 +204,7 @@ public class SpreadsheetPropertySetter extends JavaPropertySetter
 	{
 		final SpreadsheetColumn referencingColumn = reference.getReferencingColumn();
 		final List<String> cellValues = referencingRow.getAllVisibleCellValues(referencingColumn);
-		final Set<String> cellValueSet = new LinkedHashSet<String>(cellValues);
+		final Set<String> cellValueSet = new LinkedHashSet<>(cellValues);
 		cellValueSet.remove(removedValue);
 
 		// Only when reference column relationship is many to not many we can be sure that the new value replaces old
@@ -214,12 +214,12 @@ public class SpreadsheetPropertySetter extends JavaPropertySetter
 		{
 			cellValueSet.addAll(newValues);
 		}
-		this.editReferencingCell(referencingRow, referencingColumn, new ArrayList<String>(cellValueSet));
+		this.editReferencingCell(referencingRow, referencingColumn, new ArrayList<>(cellValueSet));
 	}
 
 	public void editPlainCell(final SpreadsheetRow row, final SpreadsheetColumn column, final Object newCellValues)
 	{
-		List<String> valuesToWrite = new ArrayList<String>();
+		List<String> valuesToWrite = new ArrayList<>();
 		if (column.isMany())
 		{
 			if (newCellValues instanceof Collection<?>)

@@ -44,7 +44,7 @@ public abstract class EugeniaWorkflowDelegate implements IObjectActionDelegate {
 
 	private EugeniaActionDelegateStep firstStep = null;
 	private EugeniaActionDelegateStep lastStep = null;
-	private Map<EugeniaActionDelegateStep, List<IModel>> extraModels = new HashMap<EugeniaActionDelegateStep, List<IModel>>();
+	private Map<EugeniaActionDelegateStep, List<IModel>> extraModels = new HashMap<>();
 
 	public String getErrorMessage() {
 		return "Generating some/all of the target models was "

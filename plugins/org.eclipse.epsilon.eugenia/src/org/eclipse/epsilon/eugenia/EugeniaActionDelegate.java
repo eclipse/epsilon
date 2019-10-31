@@ -136,7 +136,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	public abstract String getCustomizationTransformation();
 	
 	public List<Variable> getExtraVariables() {
-		return new ArrayList<Variable>();
+		return new ArrayList<>();
 	}
 	
 	public boolean isApplicable() {

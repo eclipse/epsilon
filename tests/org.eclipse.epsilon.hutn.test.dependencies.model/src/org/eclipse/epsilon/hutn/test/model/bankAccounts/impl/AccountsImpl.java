@@ -80,7 +80,7 @@ public class AccountsImpl extends EObjectImpl implements Accounts {
 	 */
 	public EList<Account> getAccounts() {
 		if (accounts == null) {
-			accounts = new EObjectContainmentEList<Account>(Account.class, this, BankAccountsPackage.ACCOUNTS__ACCOUNTS);
+			accounts = new EObjectContainmentEList<>(Account.class, this, BankAccountsPackage.ACCOUNTS__ACCOUNTS);
 		}
 		return accounts;
 	}

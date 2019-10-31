@@ -120,7 +120,7 @@ public class ConcordanceH2Database {
 	}
 
 	public Collection<IConcordanceModel> findAllInstancesOf(String nsUri) throws H2DatabaseAccessException {
-		final Collection<IConcordanceModel> instances = new LinkedList<IConcordanceModel>();
+		final Collection<IConcordanceModel> instances = new LinkedList<>();
 		
 		for (Object uri : models.findBy(new H2Value("nsUri", nsUri), "URI")) {
 			instances.add(ConcordanceModelFactory.createModel(URI.createURI(uri.toString())));
@@ -130,7 +130,7 @@ public class ConcordanceH2Database {
 	}
 	
 	public Collection<CrossReference> findAllCrossReferencesTo(IConcordanceModel target) throws H2DatabaseAccessException {
-		final Collection<CrossReference> instances = new LinkedList<CrossReference>();
+		final Collection<CrossReference> instances = new LinkedList<>();
 		
 		for (H2Row xref : crossReferences.findBy(new H2Value("targetModel", target.getUri()))) {
 			final URI sourceElementUri = URI.createURI(xref.getValue("sourceModel").toString()).appendFragment(xref.getValue("sourceFragment").toString());
@@ -147,7 +147,7 @@ public class ConcordanceH2Database {
 	}
 
 	public Collection<IConcordanceModel> findAllModelsWithCrossReferencesTo(IConcordanceModel target) throws H2DatabaseAccessException {
-		final Collection<IConcordanceModel> instances = new LinkedList<IConcordanceModel>();
+		final Collection<IConcordanceModel> instances = new LinkedList<>();
 		
 		for (Object uri : crossReferences.findBy(new H2Value("targetModel", target.getUri()), "sourceModel")) {
 			instances.add(ConcordanceModelFactory.createModel(URI.createURI(uri.toString())));

@@ -161,7 +161,7 @@ public abstract class SlotImpl<T> extends ModelElementImpl implements Slot<T> {
 	 */
 	public EList<T> getValues() {
 		if (values == null) {
-			values = new EDataTypeEList<T>(Object.class, this, HutnPackage.SLOT__VALUES);
+			values = new EDataTypeEList<>(Object.class, this, HutnPackage.SLOT__VALUES);
 		}
 		return values;
 	}

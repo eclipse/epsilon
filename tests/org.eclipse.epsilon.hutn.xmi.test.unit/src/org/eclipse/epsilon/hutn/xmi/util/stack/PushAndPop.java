@@ -24,7 +24,7 @@ public class PushAndPop {
 	
 	@Before
 	public void setup() {
-		 stack = new Stack<String>();
+		 stack = new Stack<>();
 	}
 	
 	@Test

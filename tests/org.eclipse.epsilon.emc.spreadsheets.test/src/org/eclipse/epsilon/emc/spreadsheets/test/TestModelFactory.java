@@ -99,7 +99,7 @@ public class TestModelFactory
 	public static Collection<Object[]> getModelsToTest(String modelName, String excelFile, String configPath,
 			String googleFileName) throws Exception
 	{
-		List<Object> testModels = new ArrayList<Object>();
+		List<Object> testModels = new ArrayList<>();
 		testModels.add(TestModelFactory.getExcelModel(excelFile, configPath, modelName));
 		GSModel model = TestModelFactory.getGSModel(googleFileName, configPath, modelName);
 		if (model != null)
@@ -112,7 +112,7 @@ public class TestModelFactory
 	public static Collection<Object[]> getModelsToTest(String modelName, String excelFile, String googleFileName)
 			throws Exception
 	{
-		List<Object> testModels = new ArrayList<Object>();
+		List<Object> testModels = new ArrayList<>();
 		testModels.add(TestModelFactory.getExcelModelNotLoaded(excelFile, modelName));
 		GSModel model = TestModelFactory.getGSModelNotLoaded(googleFileName, modelName);
 		if (model != null)

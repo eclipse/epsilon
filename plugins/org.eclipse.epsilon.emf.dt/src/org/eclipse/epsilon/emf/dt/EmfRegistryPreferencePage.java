@@ -35,7 +35,7 @@ public class EmfRegistryPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
 
 	private List<String> metamodels = null;
-	private List<String> removedMetamodels = new ArrayList<String>();
+	private List<String> removedMetamodels = new ArrayList<>();
 	private TableViewer metamodelsViewer;
 
 	public EmfRegistryPreferencePage() {

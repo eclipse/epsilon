@@ -41,7 +41,7 @@ public class AnnotateEcoreDelegate extends EugeniaActionDelegate {
 	
 	@Override
 	public List<IModel> getModels() throws Exception {
-		List<IModel> models = new ArrayList<IModel>();
+		List<IModel> models = new ArrayList<>();
 		final EmfModel ecoreModel = loadModel("Ecore", gmfFileSet.getEcorePath(), EcorePackage.eINSTANCE.getNsURI(), true, saveEcore, true);
 		models.add(ecoreModel);
 		return models;

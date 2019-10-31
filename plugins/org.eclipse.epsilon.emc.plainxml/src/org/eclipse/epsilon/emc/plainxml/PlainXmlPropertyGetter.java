@@ -76,7 +76,7 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 					
 					for (final Binding binding : BindingMatcher.getMatchingBindings(model, e, p.getProperty())) {
 						if (binding.isMany()) {
-							LoudList<Element> referenced = new LoudList<Element>();
+							LoudList<Element> referenced = new LoudList<>();
 							String[] referencedIds = e.getAttribute(p.getProperty()).split(",");
 							for (Object o : model.allContents()) {
 								Element candidate = (Element) o;
@@ -126,7 +126,7 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 			
 			else {
 				List<Element> children = DomUtil.getChildren(e);
-				List<Element> result = new ArrayList<Element>();
+				List<Element> result = new ArrayList<>();
 				
 				// Look for elements with this specific tag name
 				for (Element child : children) {

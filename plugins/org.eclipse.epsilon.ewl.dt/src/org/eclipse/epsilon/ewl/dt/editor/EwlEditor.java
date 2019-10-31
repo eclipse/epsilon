@@ -29,7 +29,7 @@ public class EwlEditor extends EolEditor{
 	@Override
 	public List<String> getKeywords() {
 		
-		List<String> keywords = new ArrayList<String>();
+		List<String> keywords = new ArrayList<>();
 		
 		keywords.add("wizard");
 		keywords.add("guard");

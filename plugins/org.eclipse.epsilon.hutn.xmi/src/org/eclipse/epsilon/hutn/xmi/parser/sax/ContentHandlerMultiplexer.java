@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 
 public class ContentHandlerMultiplexer implements ContentHandler {
 	
-	private final List<ContentHandler> handlers = new LinkedList<ContentHandler>();
+	private final List<ContentHandler> handlers = new LinkedList<>();
 	
 	public ContentHandlerMultiplexer(ContentHandler... handlers) {
 		this.handlers.addAll(Arrays.asList(handlers));

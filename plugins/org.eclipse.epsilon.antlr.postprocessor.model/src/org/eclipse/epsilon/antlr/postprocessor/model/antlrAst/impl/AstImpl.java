@@ -81,7 +81,7 @@ public class AstImpl extends EObjectImpl implements Ast {
 	 */
 	public EList<Node> getRoots() {
 		if (roots == null) {
-			roots = new EObjectContainmentEList<Node>(Node.class, this, AntlrAstPackage.AST__ROOTS);
+			roots = new EObjectContainmentEList<>(Node.class, this, AntlrAstPackage.AST__ROOTS);
 		}
 		return roots;
 	}

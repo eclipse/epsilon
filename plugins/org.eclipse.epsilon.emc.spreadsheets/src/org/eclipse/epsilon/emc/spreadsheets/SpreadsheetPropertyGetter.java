@@ -57,7 +57,7 @@ public class SpreadsheetPropertyGetter extends JavaPropertyGetter
 
 	public List<Object> query(final Collection<?> collection, final String column) throws EolRuntimeException
 	{
-		final List<Object> valuesToReturn = new ArrayList<Object>();
+		final List<Object> valuesToReturn = new ArrayList<>();
 		for (final Object object : collection)
 		{
 			final Object queryResult = this.invoke(object, column);
@@ -113,7 +113,7 @@ public class SpreadsheetPropertyGetter extends JavaPropertyGetter
 
 	private List<Object> getValuesFromReferencingCell(final SpreadsheetRow row, final SpreadsheetColumn column)
 	{
-		final Set<Object> rowsToReturn = new LinkedHashSet<Object>();
+		final Set<Object> rowsToReturn = new LinkedHashSet<>();
 		final List<String> cellValues = row.getAllVisibleCellValues(column);
 		if (CollectionUtils.isNotEmpty(cellValues))
 		{
@@ -142,12 +142,12 @@ public class SpreadsheetPropertyGetter extends JavaPropertyGetter
 				}
 			}
 		}
-		return new ArrayList<Object>(rowsToReturn);
+		return new ArrayList<>(rowsToReturn);
 	}
 
 	private Object getVisibleValuesFromCell(final SpreadsheetRow row, final SpreadsheetColumn column)
 	{
-		List<Object> returnObjects = new ArrayList<Object>(row.getAllVisibleCellValues(column));
+		List<Object> returnObjects = new ArrayList<>(row.getAllVisibleCellValues(column));
 		if (column.isMany())
 		{
 			return returnObjects;

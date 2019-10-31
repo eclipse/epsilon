@@ -49,7 +49,7 @@ public class CrossReferenceAnalyserTests {
 	
 
 	private Set<CrossReference> crossReferences(CrossReference... crossReferences) {
-		return new HashSet<CrossReference>(Arrays.asList(crossReferences));
+		return new HashSet<>(Arrays.asList(crossReferences));
 	}
 
 	private static Set<CrossReference> crossReferencesOf(String model) throws IOException {

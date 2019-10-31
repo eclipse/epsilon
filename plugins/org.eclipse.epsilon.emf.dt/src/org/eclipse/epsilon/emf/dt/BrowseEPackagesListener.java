@@ -48,7 +48,7 @@ public abstract class BrowseEPackagesListener implements Listener {
 		dialog.setMessage("Select an EPackage");
 		dialog.setTitle("Registered EPackages");
 		
-		List<String> ePackages = new ArrayList<String>();
+		List<String> ePackages = new ArrayList<>();
 		ePackages.addAll(EPackage.Registry.INSTANCE.keySet());
 		
 		dialog.setElements(ePackages.toArray());

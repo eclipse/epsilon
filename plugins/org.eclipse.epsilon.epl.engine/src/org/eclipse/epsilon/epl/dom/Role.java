@@ -31,7 +31,7 @@ import org.eclipse.epsilon.epl.parse.EplParser;
 
 public class Role extends AbstractModuleElement {
 	
-	protected ArrayList<String> names = new ArrayList<String>();
+	protected ArrayList<String> names = new ArrayList<>();
 	protected TypeExpression typeExpression;
 	protected Domain domain = null;
 	protected ExecutableBlock<Boolean> guard = null;
@@ -143,7 +143,7 @@ public class Role extends AbstractModuleElement {
 						return (List) allInstances;
 					}
 					else {
-						EolSequence<Object> sequence = new EolSequence<Object>();
+						EolSequence<Object> sequence = new EolSequence<>();
 						sequence.addAll(allInstances);
 						return sequence;
 					}
@@ -171,7 +171,7 @@ public class Role extends AbstractModuleElement {
 			@Override
 			protected List<Object> getValues() throws Exception {
 				
-				ArrayList<Object> filtered = new ArrayList<Object>();
+				ArrayList<Object> filtered = new ArrayList<>();
 				
 				if (getGuard()!=null) {
 					for (Object o : instances) {
@@ -182,7 +182,7 @@ public class Role extends AbstractModuleElement {
 					filtered.addAll(instances);
 				}
 				
-				ArrayList<Object> result = new ArrayList<Object>();
+				ArrayList<Object> result = new ArrayList<>();
 				if (getCardinality().isInBounds(filtered.size())) {
 					result.add(filtered);
 				}
@@ -211,14 +211,14 @@ public class Role extends AbstractModuleElement {
 				if (getGuard()!=null) {
 					for (Object o : instances) {
 						if (getGuard().execute(context, true)) {
-							return new ArrayList<Object>();
+							return new ArrayList<>();
 						}
 					}
 				}
 				else {
-					if (instances.size() > 0) return new ArrayList<Object>();
+					if (instances.size() > 0) return new ArrayList<>();
 				}
-				ArrayList<Object> noMatchList = new ArrayList<Object>();
+				ArrayList<Object> noMatchList = new ArrayList<>();
 				noMatchList.add(NoMatch.INSTANCE);
 				return noMatchList;
 			}

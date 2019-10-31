@@ -66,7 +66,7 @@ import org.eclipse.epsilon.hutn.xmi.util.Stack;
 public class SpecGenerator {
 
 	private final Spec spec = HutnFactory.eINSTANCE.createSpec();
-	private final Stack<ClassObject> stack = new Stack<ClassObject>();
+	private final Stack<ClassObject> stack = new Stack<>();
 
 	private ContainmentSlot containingSlot;
 	

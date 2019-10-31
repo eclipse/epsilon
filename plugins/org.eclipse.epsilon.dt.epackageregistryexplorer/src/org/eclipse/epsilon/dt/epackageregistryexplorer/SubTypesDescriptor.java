@@ -31,7 +31,7 @@ public class SubTypesDescriptor {
 	
 	public Collection<EClass> getSubtypes(Collection<EPackage> ePackages) {
 		
-		Collection<EClass> subtypes = new ArrayList<EClass>();
+		Collection<EClass> subtypes = new ArrayList<>();
 		
 		for (EPackage p : ePackages) {
 			for (EClassifier o : p.getEClassifiers()) {

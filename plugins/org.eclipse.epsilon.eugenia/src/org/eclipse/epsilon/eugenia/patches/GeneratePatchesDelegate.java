@@ -71,7 +71,7 @@ public class GeneratePatchesDelegate extends EugeniaActionDelegate {
 
 	@Override
 	public List<IModel> getModels() throws Exception {
-		final List<IModel> models = new ArrayList<IModel>();
+		final List<IModel> models = new ArrayList<>();
 		
 		models.add(loadModel("GmfGen", gmfFileSet.getGmfGenPath(), GMFGenPackage.eINSTANCE.getNsURI(), true, true, false));
 

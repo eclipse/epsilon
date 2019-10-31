@@ -29,11 +29,11 @@ import org.eclipse.epsilon.epl.dom.Role;
 
 public class PatternMatchModel extends Model{
 	
-	protected HashMap<String, List<PatternMatch>> matchMap = new HashMap<String, List<PatternMatch>>();
-	protected HashSet<PatternMatch> matches = new HashSet<PatternMatch>();
+	protected HashMap<String, List<PatternMatch>> matchMap = new HashMap<>();
+	protected HashSet<PatternMatch> matches = new HashSet<>();
 	protected PatternMatchPropertyGetter propertyGetter;
 	protected PatternMatchPropertySetter propertySetter = new PatternMatchPropertySetter();
-	protected HashMap<String, HashSet<Object>> componentMap = new HashMap<String, HashSet<Object>>();
+	protected HashMap<String, HashSet<Object>> componentMap = new HashMap<>();
 	
 	@Override
 	public void dispose() {
@@ -77,7 +77,7 @@ public class PatternMatchModel extends Model{
 					stringOps.setTarget(name);
 					String componentName = pattern.getName() +
 							stringOps.firstToUpperCase();
-					componentMap.put(componentName, new HashSet<Object>());
+					componentMap.put(componentName, new HashSet<>());
 				}
 			}
 		}

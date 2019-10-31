@@ -38,7 +38,7 @@ public abstract class AbstractGenerator {
 	}
 	
 	public Collection<File> generate(File directory, String prefix, int number) {
-		final Collection<File> generated = new LinkedList<File>();
+		final Collection<File> generated = new LinkedList<>();
 		
 		System.out.println("Generating models.");
 		for (int index = 1; index <= number; index++) {

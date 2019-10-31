@@ -45,10 +45,10 @@ public class FileLocator {
 	private class FileLocatingVisitor implements IResourceVisitor {
 
 		private final List<String> extensions;
-		private final List<IFile> matchingFiles = new LinkedList<IFile>();
+		private final List<IFile> matchingFiles = new LinkedList<>();
 		
 		public FileLocatingVisitor(Collection<String> extensions) {
-			this.extensions = new LinkedList<String>(extensions);
+			this.extensions = new LinkedList<>(extensions);
 		}
 
 		public boolean visit(IResource resource) throws CoreException {

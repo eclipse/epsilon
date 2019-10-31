@@ -288,7 +288,7 @@ public class ConcordanceH2DatabaseTests {
 	}
 	
 	private static H2Row createCrossReferenceRow(String sourceModelUri, String sourceFragment, String sourceLabel, String targetModelUri, String targetFragment, String targetLabel, String label) {
-		final List<H2Value> values = new LinkedList<H2Value>();
+		final List<H2Value> values = new LinkedList<>();
 		
 		values.add(new H2Value("sourceModel",    sourceModelUri));
 		values.add(new H2Value("sourceFragment", sourceFragment));
@@ -329,7 +329,7 @@ public class ConcordanceH2DatabaseTests {
 		
 		expect(stub.getUri()).andReturn(uri).anyTimes();
 		expect(stub.getNsUri()).andReturn(nsUri).anyTimes();
-		expect(stub.getAllCrossReferences()).andReturn(new HashSet<CrossReference>(Arrays.asList(xrefs))).anyTimes();
+		expect(stub.getAllCrossReferences()).andReturn(new HashSet<>(Arrays.asList(xrefs))).anyTimes();
 		replay(stub);
 		
 		return stub;

@@ -58,7 +58,7 @@ public class GSRowEqualsTest
 		assertTrue(model.getAllOfType("Sheet1").size() == 0);
 		assertTrue(model.getAllOfType("Sheet2").size() == 0);
 		
-		Map<String, Object> values1 = new HashMap<String, Object>();
+		Map<String, Object> values1 = new HashMap<>();
 		values1.put("c_0", "value01");
 		values1.put("c_1", "value11");
 		SpreadsheetRow row1Sheet1 = (SpreadsheetRow) model.createInstance("Sheet1", values1);
@@ -70,7 +70,7 @@ public class GSRowEqualsTest
 		assertTrue(row2Sheet1.equals(row2Sheet1));
 		assertTrue(!row2Sheet1.equals(row1Sheet1));
 		
-		Map<String, Object> values2 = new HashMap<String, Object>();
+		Map<String, Object> values2 = new HashMap<>();
 		values2.put("c_0", "value02");
 		values2.put("c_1", "value12");
 		SpreadsheetRow row1Sheet2 = (SpreadsheetRow) model.createInstance("Sheet2", values2);

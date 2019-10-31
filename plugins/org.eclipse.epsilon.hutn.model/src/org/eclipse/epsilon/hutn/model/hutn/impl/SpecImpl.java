@@ -137,7 +137,7 @@ public class SpecImpl extends EObjectImpl implements Spec {
 	 */
 	public EList<NsUri> getNsUris() {
 		if (nsUris == null) {
-			nsUris = new EObjectContainmentEList<NsUri>(NsUri.class, this, HutnPackage.SPEC__NS_URIS);
+			nsUris = new EObjectContainmentEList<>(NsUri.class, this, HutnPackage.SPEC__NS_URIS);
 		}
 		return nsUris;
 	}
@@ -149,7 +149,7 @@ public class SpecImpl extends EObjectImpl implements Spec {
 	 */
 	public EList<PackageObject> getObjects() {
 		if (objects == null) {
-			objects = new EObjectContainmentEList<PackageObject>(PackageObject.class, this, HutnPackage.SPEC__OBJECTS);
+			objects = new EObjectContainmentEList<>(PackageObject.class, this, HutnPackage.SPEC__OBJECTS);
 		}
 		return objects;
 	}

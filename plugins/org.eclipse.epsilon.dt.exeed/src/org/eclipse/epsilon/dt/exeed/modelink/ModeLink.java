@@ -33,7 +33,7 @@ public class ModeLink {
 	private static final String ATTR_THREE_WAY = "threeWay";
 	private static final boolean ATTR_THREE_WAY_DEFAULT = true;
 
-	private List<LinkedModel> linkedModels = new ArrayList<LinkedModel>();
+	private List<LinkedModel> linkedModels = new ArrayList<>();
 
 	private boolean threeWay = ATTR_THREE_WAY_DEFAULT;
 	private boolean forceExeedL = ATTR_FORCE_EXEED_DEFAULT;

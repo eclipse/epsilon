@@ -21,7 +21,7 @@ import org.eclipse.epsilon.concordance.model.IConcordanceModel;
 
 public class ConcordanceHistory {
 	
-	private final LinkedList<Event> events = new LinkedList<Event>();
+	private final LinkedList<Event> events = new LinkedList<>();
 		
 	public void log(Event event) {
 		events.addFirst(event);
@@ -48,7 +48,7 @@ public class ConcordanceHistory {
 	                          events :
 	                          events.subList(0, numberOfEvents);
 		
-		return new LinkedList<Event>(sublist);
+		return new LinkedList<>(sublist);
 	}
 	
 	

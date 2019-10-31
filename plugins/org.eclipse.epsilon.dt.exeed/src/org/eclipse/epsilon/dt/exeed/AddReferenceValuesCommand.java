@@ -55,7 +55,7 @@ public class AddReferenceValuesCommand implements Command {
 	}
 
 	public Collection<EObject> getAffectedObjects() {
-		List<EObject> col = new ArrayList<EObject>();
+		List<EObject> col = new ArrayList<>();
 		col.add(object);
 		return col;
 	}

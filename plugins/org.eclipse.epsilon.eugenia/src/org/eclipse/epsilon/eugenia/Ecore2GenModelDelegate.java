@@ -56,7 +56,7 @@ public class Ecore2GenModelDelegate extends GuardedEcoreModelGenerationDelegate 
 	@Override
 	public List<IModel> getModels() throws Exception {
 		
-		List<IModel> models = new ArrayList<IModel>();
+		List<IModel> models = new ArrayList<>();
 
 		// Bug 360629: to avoid breaking code, we keep the old 'Ecore' name, but we add an 'ECore' alias for consistency
 		final EmfModel ecoreModel = loadModel("Ecore", gmfFileSet.getEcorePath(), EcorePackage.eINSTANCE.getNsURI(), true, false, false);
@@ -72,8 +72,8 @@ public class Ecore2GenModelDelegate extends GuardedEcoreModelGenerationDelegate 
 
 	@Override
 	public List<Variable> getExtraVariables() {
-		ArrayList<Variable> variables = new ArrayList<Variable>();
-		HashMap<String, GenPackage> usedGenPackages = new HashMap<String, GenPackage>();
+		ArrayList<Variable> variables = new ArrayList<>();
+		HashMap<String, GenPackage> usedGenPackages = new HashMap<>();
 		
 		try {
 			ResourceSet eCoreResourceSet = new ResourceSetImpl();

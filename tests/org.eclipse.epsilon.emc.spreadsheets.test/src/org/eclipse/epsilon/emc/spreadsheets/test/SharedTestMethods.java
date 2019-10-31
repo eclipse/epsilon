@@ -76,8 +76,8 @@ public class SharedTestMethods
 	public static SpreadsheetRow writeRow(SpreadsheetModel model, String worksheetName, String idCol, String id,
 			String columnName, String value) throws EolModelElementTypeNotFoundException
 	{
-		List<Object> listOfMap = new ArrayList<Object>();
-		Map<String, Object> valueMap = new HashMap<String, Object>();
+		List<Object> listOfMap = new ArrayList<>();
+		Map<String, Object> valueMap = new HashMap<>();
 		valueMap.put(idCol, id);
 		valueMap.put(columnName, value);
 		listOfMap.add(valueMap);
@@ -93,8 +93,8 @@ public class SharedTestMethods
 	public static SpreadsheetRow writeRow(SpreadsheetModel model, String worksheetName, String idCol, String id,
 			String columnName, SpreadsheetRow referencedRow) throws EolModelElementTypeNotFoundException
 	{
-		List<Object> listOfMap = new ArrayList<Object>();
-		Map<String, Object> mapOfValues = new HashMap<String, Object>();
+		List<Object> listOfMap = new ArrayList<>();
+		Map<String, Object> mapOfValues = new HashMap<>();
 		mapOfValues.put(idCol, id);
 		mapOfValues.put(columnName, referencedRow);
 		listOfMap.add(mapOfValues);

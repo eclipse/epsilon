@@ -30,7 +30,7 @@ public class HutnPreamble {
 
 	// TODO - should this be an epsilon module?
 	
-	private final Collection<ParseProblem> problems = new LinkedList<ParseProblem>();
+	private final Collection<ParseProblem> problems = new LinkedList<>();
 	private Token next;
 	
 	public Spec process(String hutn) {

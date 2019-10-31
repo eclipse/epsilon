@@ -81,7 +81,7 @@ public class ConfigurationImpl extends EObjectImpl implements Configuration {
 	 */
 	public EList<Rule> getRules() {
 		if (rules == null) {
-			rules = new EObjectContainmentEList<Rule>(Rule.class, this, HutnConfigPackage.CONFIGURATION__RULES);
+			rules = new EObjectContainmentEList<>(Rule.class, this, HutnConfigPackage.CONFIGURATION__RULES);
 		}
 		return rules;
 	}

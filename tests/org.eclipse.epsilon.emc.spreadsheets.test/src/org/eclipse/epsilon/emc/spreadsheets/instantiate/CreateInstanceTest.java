@@ -57,8 +57,8 @@ public class CreateInstanceTest
 		SharedTestMethods.clearWorksheet(model, worksheetName);
 		assertTrue(model.getAllOfType(worksheetName).size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", "string1");
 		list.add(values);
 		model.createInstance(worksheetName, list);
@@ -83,7 +83,7 @@ public class CreateInstanceTest
 		SharedTestMethods.clearWorksheet(model, worksheetName);
 		assertTrue(model.getAllOfType(worksheetName).size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
+		List<Object> list = new ArrayList<>();
 		model.createInstance(worksheetName, list);
 		assertTrue(model.getAllOfType(worksheetName).size() == 1);
 
@@ -106,8 +106,8 @@ public class CreateInstanceTest
 		SharedTestMethods.clearWorksheet(model, worksheetName);
 		assertTrue(model.getAllOfType(worksheetName).size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
-		Set<String> values = new HashSet<String>();
+		List<Object> list = new ArrayList<>();
+		Set<String> values = new HashSet<>();
 		values.add("string1");
 		list.add(values);
 		try
@@ -127,8 +127,8 @@ public class CreateInstanceTest
 	{
 		String worksheetName = "UNKNOWN";
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", "string1");
 		list.add(values);
 		try
@@ -147,8 +147,8 @@ public class CreateInstanceTest
 	{
 		String worksheetName = "Sheet1";
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_10", "string1");
 		list.add(values);
 		try

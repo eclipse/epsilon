@@ -102,7 +102,7 @@ public class PersonImpl extends NamedElementImpl implements Person {
 	 */
 	public EList<Account> getSharedAccounts() {
 		if (sharedAccounts == null) {
-			sharedAccounts = new EObjectResolvingEList<Account>(Account.class, this, FamiliesPackage.PERSON__SHARED_ACCOUNTS);
+			sharedAccounts = new EObjectResolvingEList<>(Account.class, this, FamiliesPackage.PERSON__SHARED_ACCOUNTS);
 		}
 		return sharedAccounts;
 	}
@@ -114,7 +114,7 @@ public class PersonImpl extends NamedElementImpl implements Person {
 	 */
 	public EList<Account> getAccounts() {
 		if (accounts == null) {
-			accounts = new EObjectContainmentEList<Account>(Account.class, this, FamiliesPackage.PERSON__ACCOUNTS);
+			accounts = new EObjectContainmentEList<>(Account.class, this, FamiliesPackage.PERSON__ACCOUNTS);
 		}
 		return accounts;
 	}
@@ -126,7 +126,7 @@ public class PersonImpl extends NamedElementImpl implements Person {
 	 */
 	public EList<Person> getFriends() {
 		if (friends == null) {
-			friends = new EObjectResolvingEList<Person>(Person.class, this, FamiliesPackage.PERSON__FRIENDS);
+			friends = new EObjectResolvingEList<>(Person.class, this, FamiliesPackage.PERSON__FRIENDS);
 		}
 		return friends;
 	}

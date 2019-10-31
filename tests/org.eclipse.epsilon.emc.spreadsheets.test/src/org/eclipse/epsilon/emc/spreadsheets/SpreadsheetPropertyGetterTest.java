@@ -31,9 +31,9 @@ public class SpreadsheetPropertyGetterTest
 	public void testColumnNotMany() throws EolRuntimeException
 	{
 		String columnName = "COLUMN";
-		List<String> values = new ArrayList<String>();
+		List<String> values = new ArrayList<>();
 		values.add("VALUE");
-		Set<SpreadsheetReference> sourceReferences = new HashSet<SpreadsheetReference>();
+		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
 		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
 		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
 		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
@@ -60,8 +60,8 @@ public class SpreadsheetPropertyGetterTest
 	public void testColumnNotManyAndCellIsBlank() throws EolRuntimeException
 	{
 		String columnName = "COLUMN";
-		List<String> values = new ArrayList<String>();
-		Set<SpreadsheetReference> sourceReferences = new HashSet<SpreadsheetReference>();
+		List<String> values = new ArrayList<>();
+		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
 		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
 		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
 		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
@@ -89,10 +89,10 @@ public class SpreadsheetPropertyGetterTest
 	public void testColumnIsMany() throws EolRuntimeException
 	{
 		String columnName = "COLUMN";
-		List<String> values = new ArrayList<String>();
+		List<String> values = new ArrayList<>();
 		values.add("VALUE1");
 		values.add("VALUE2");
-		Set<SpreadsheetReference> sourceReferences = new HashSet<SpreadsheetReference>();
+		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
 		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
 		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
 		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
@@ -120,8 +120,8 @@ public class SpreadsheetPropertyGetterTest
 	public void testColumnIsManyAndCellIsBlank() throws EolRuntimeException
 	{
 		String columnName = "COLUMN";
-		List<String> values = new ArrayList<String>();
-		Set<SpreadsheetReference> sourceReferences = new HashSet<SpreadsheetReference>();
+		List<String> values = new ArrayList<>();
+		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
 		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
 		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
 		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
@@ -149,17 +149,17 @@ public class SpreadsheetPropertyGetterTest
 	{
 		SpreadsheetRow row1 = control.createMock(SpreadsheetRow.class);
 		SpreadsheetRow row2 = control.createMock(SpreadsheetRow.class);
-		List<SpreadsheetRow> rows = new ArrayList<SpreadsheetRow>();
+		List<SpreadsheetRow> rows = new ArrayList<>();
 		rows.add(row1);
 		rows.add(row2);
 
 		String columnName = "COLUMN";
-		List<String> values1 = new ArrayList<String>();
+		List<String> values1 = new ArrayList<>();
 		values1.add("VALUE1");
-		List<String> values2 = new ArrayList<String>();
+		List<String> values2 = new ArrayList<>();
 		values2.add("VALUE2");
 
-		Set<SpreadsheetReference> sourceReferences = new HashSet<SpreadsheetReference>();
+		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
 		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
 		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
 

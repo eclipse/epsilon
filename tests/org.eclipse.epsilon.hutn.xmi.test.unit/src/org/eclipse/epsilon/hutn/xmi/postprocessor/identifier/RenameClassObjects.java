@@ -38,28 +38,28 @@ public class RenameClassObjects {
 	
 	@Test
 	public void singleObject() {
-		final Map<ClassObject, String> data = new HashMap<ClassObject, String>();
+		final Map<ClassObject, String> data = new HashMap<>();
 		data.put(createClassObject("Person"), "Person1");
 		identifierTest(data);
 	}
 	
 	@Test
 	public void noType() {
-		final Map<ClassObject, String> data = new HashMap<ClassObject, String>();
+		final Map<ClassObject, String> data = new HashMap<>();
 		data.put(createClassObject(), "UnknownType1");
 		identifierTest(data);
 	}
 	
 	@Test
 	public void overwritesExistingIdentifier() {
-		final Map<ClassObject, String> data = new HashMap<ClassObject, String>();
+		final Map<ClassObject, String> data = new HashMap<>();
 		data.put(createClassObject("fred", "Person"), "Person1");
 		identifierTest(data);
 	}
 	
 	@Test
 	public void twoObjectsOfSameType() {
-		final Map<ClassObject, String> data = new LinkedHashMap<ClassObject, String>();
+		final Map<ClassObject, String> data = new LinkedHashMap<>();
 		data.put(createClassObject("Person"), "Person1");
 		data.put(createClassObject("Person"), "Person2");
 		identifierTest(data);
@@ -67,7 +67,7 @@ public class RenameClassObjects {
 	
 	@Test
 	public void mixedTypes() {
-		final Map<ClassObject, String> data = new LinkedHashMap<ClassObject, String>();
+		final Map<ClassObject, String> data = new LinkedHashMap<>();
 		data.put(createClassObject("Person"), "Person1");
 		data.put(createClassObject("Family"), "Family1");
 		data.put(createClassObject("Person"), "Person2");
@@ -77,7 +77,7 @@ public class RenameClassObjects {
 	
 	@Test
 	public void preferNameWhenAvailable() {
-		final Map<ClassObject, String> data = new LinkedHashMap<ClassObject, String>();
+		final Map<ClassObject, String> data = new LinkedHashMap<>();
 		data.put(createClassObject("Person", createAttributeSlot("name", "John Doe")), "John Doe");
 		
 		identifierTest(data);
@@ -85,7 +85,7 @@ public class RenameClassObjects {
 	
 	@Test
 	public void onlyUseAttributeTypedNameAsIdentifier() {
-		final Map<ClassObject, String> data = new LinkedHashMap<ClassObject, String>();
+		final Map<ClassObject, String> data = new LinkedHashMap<>();
 		data.put(createClassObject("Person", createContainmentSlot("name", createClassObject("Person"))), "Person1");
 		
 		identifierTest(data);

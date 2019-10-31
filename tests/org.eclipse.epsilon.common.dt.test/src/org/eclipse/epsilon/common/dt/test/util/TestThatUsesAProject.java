@@ -169,7 +169,7 @@ public class TestThatUsesAProject {
 	}
 
 	private static final Collection<String> addNature(final String[] natureIds, String natureId) {
-		final Collection<String> newNatureIds = new LinkedList<String>();
+		final Collection<String> newNatureIds = new LinkedList<>();
 		newNatureIds.add(natureId);
 		newNatureIds.addAll(Arrays.asList(natureIds));
 		return newNatureIds;

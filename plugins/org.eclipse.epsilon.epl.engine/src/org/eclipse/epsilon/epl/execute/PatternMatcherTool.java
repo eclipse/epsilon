@@ -28,7 +28,7 @@ import org.eclipse.epsilon.epl.EplModule;
 public class PatternMatcherTool extends AbstractTool {
 	
 	public void match(String epl, String name, HashMap<String, IModel> modelMap) throws Exception {
-		List<IModel> models = new ArrayList<IModel>();
+		List<IModel> models = new ArrayList<>();
 		for (String modelName : modelMap.keySet()) {
 			IModel model = modelMap.get(modelName);
 			if (!model.getName().equals(modelName)) model = new ModelReference(model);

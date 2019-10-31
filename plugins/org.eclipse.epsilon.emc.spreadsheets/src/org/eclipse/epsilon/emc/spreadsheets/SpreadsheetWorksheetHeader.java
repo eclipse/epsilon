@@ -27,7 +27,7 @@ public class SpreadsheetWorksheetHeader
 	public SpreadsheetWorksheetHeader(final SpreadsheetWorksheet worksheet)
 	{
 		this.worksheet = worksheet;
-		this.header = new TreeSet<SpreadsheetColumn>(new SpreadsheetColumnComparator());
+		this.header = new TreeSet<>(new SpreadsheetColumnComparator());
 	}
 
 	/**

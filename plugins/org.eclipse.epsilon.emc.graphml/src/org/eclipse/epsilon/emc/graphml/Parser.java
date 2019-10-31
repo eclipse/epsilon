@@ -36,7 +36,7 @@ public class Parser {
 	}
 	
 	public List<String> getGroups() {
-		List<String> groups = new ArrayList<String>();
+		List<String> groups = new ArrayList<>();
 		for (int i=1;i<=matcher.groupCount();i++) {
 			groups.add(matcher.group(i));
 		}

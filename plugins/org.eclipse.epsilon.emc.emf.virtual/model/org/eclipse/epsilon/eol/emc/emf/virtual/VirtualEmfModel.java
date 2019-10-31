@@ -57,7 +57,7 @@ public class VirtualEmfModel extends AbstractEmfModel {
 		return super.isOfType(instance, metaClass);
 	}
 	
-	protected List<String> types = new ArrayList<String>();
+	protected List<String> types = new ArrayList<>();
 	
 	@Override
 	public boolean hasType(String type) {

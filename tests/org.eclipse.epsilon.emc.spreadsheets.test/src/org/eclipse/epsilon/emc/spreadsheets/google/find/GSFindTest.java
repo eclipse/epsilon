@@ -61,9 +61,9 @@ public class GSFindTest
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		assertTrue(model.getAllOfType("Sheet1").size() == 0);
 
-		Map<String, Object> values1 = new HashMap<String, Object>();
+		Map<String, Object> values1 = new HashMap<>();
 		values1.put("c_0", "value0");
-		Map<String, Object> values2 = new HashMap<String, Object>();
+		Map<String, Object> values2 = new HashMap<>();
 		values2.put("c_0", "value1");
 		model.createInstance("Sheet1", values1);
 		model.createInstance("Sheet1", values1);
@@ -79,7 +79,7 @@ public class GSFindTest
 
 		assertTrue(result instanceof Collection);
 		@SuppressWarnings("unchecked")
-		List<Object> rows = new ArrayList<Object>((Collection<Object>) result);
+		List<Object> rows = new ArrayList<>((Collection<Object>) result);
 		assertTrue(rows.size() == 2);
 		assertTrue(((SpreadsheetRow) rows.get(0)).getVisibleCellValue(column).equals("value0"));
 		assertTrue(((SpreadsheetRow) rows.get(1)).getVisibleCellValue(column).equals("value0"));
@@ -91,9 +91,9 @@ public class GSFindTest
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		assertTrue(model.getAllOfType("Sheet1").size() == 0);
 
-		Map<String, Object> values1 = new HashMap<String, Object>();
+		Map<String, Object> values1 = new HashMap<>();
 		values1.put("c_2", "value0, value1");
-		Map<String, Object> values2 = new HashMap<String, Object>();
+		Map<String, Object> values2 = new HashMap<>();
 		values2.put("c_2", "value1, value2");
 		model.createInstance("Sheet1", values1);
 		model.createInstance("Sheet1", values1);
@@ -107,7 +107,7 @@ public class GSFindTest
 
 		assertTrue(result instanceof Collection);
 		@SuppressWarnings("unchecked")
-		List<Object> rows = new ArrayList<Object>((Collection<Object>) result);
+		List<Object> rows = new ArrayList<>((Collection<Object>) result);
 		assertTrue(rows.size() == 0);
 	}
 
@@ -185,9 +185,9 @@ public class GSFindTest
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		assertTrue(model.getAllOfType("Sheet1").size() == 0);
 
-		Map<String, Object> values1 = new HashMap<String, Object>();
+		Map<String, Object> values1 = new HashMap<>();
 		values1.put("c_0", "value0");
-		Map<String, Object> values2 = new HashMap<String, Object>();
+		Map<String, Object> values2 = new HashMap<>();
 		values2.put("c_0", "value1");
 		model.createInstance("Sheet1", values1);
 		model.createInstance("Sheet1", values1);
@@ -203,7 +203,7 @@ public class GSFindTest
 
 		assertTrue(result instanceof Collection);
 		@SuppressWarnings("unchecked")
-		List<Object> rows = new ArrayList<Object>((Collection<Object>) result);
+		List<Object> rows = new ArrayList<>((Collection<Object>) result);
 		assertTrue(rows.size() == 3);
 		assertTrue(((SpreadsheetRow) rows.get(0)).getVisibleCellValue(column).equals("value0"));
 		assertTrue(((SpreadsheetRow) rows.get(1)).getVisibleCellValue(column).equals("value0"));
@@ -216,10 +216,10 @@ public class GSFindTest
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		assertTrue(model.getAllOfType("Sheet1").size() == 0);
 
-		Map<String, Object> values1 = new HashMap<String, Object>();
+		Map<String, Object> values1 = new HashMap<>();
 		values1.put("c_0", "value0");
 		values1.put("c_2", "10");
-		Map<String, Object> values2 = new HashMap<String, Object>();
+		Map<String, Object> values2 = new HashMap<>();
 		values2.put("c_0", "value1");
 		values2.put("c_2", "20");
 		model.createInstance("Sheet1", values1);
@@ -237,7 +237,7 @@ public class GSFindTest
 
 		assertTrue(result instanceof Collection);
 		@SuppressWarnings("unchecked")
-		List<Object> rows = new ArrayList<Object>((Collection<Object>) result);
+		List<Object> rows = new ArrayList<>((Collection<Object>) result);
 		assertTrue(rows.size() == 1);
 		assertTrue(((SpreadsheetRow) rows.get(0)).getVisibleCellValue(column0).equals("value1"));
 		assertTrue(((SpreadsheetRow) rows.get(0)).getVisibleCellValue(column2).equals("20"));

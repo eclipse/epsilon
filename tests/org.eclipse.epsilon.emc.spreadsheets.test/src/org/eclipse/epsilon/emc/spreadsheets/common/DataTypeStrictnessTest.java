@@ -54,8 +54,8 @@ public class DataTypeStrictnessTest
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_0", "string"); // driver id
 		values.put("column1", 123); // name
 		values.put("c2", 1.526); // alias
@@ -115,8 +115,8 @@ public class DataTypeStrictnessTest
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_0", "string"); // driver id
 		values.put("column1", 123); // name
 		values.put("c2", 1.526); // alias
@@ -176,8 +176,8 @@ public class DataTypeStrictnessTest
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_0", 1234); // driver id
 		values.put("column1", "string"); // name
 		values.put("c2", "true"); // alias

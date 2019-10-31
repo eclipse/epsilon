@@ -41,7 +41,7 @@ public class HutnSpecAstToSpec {
 	}
 	
 	private Collection<CommonTree> getNsUriValueNodes() {
-		final Collection<CommonTree> nsUriValueNodes = new LinkedList<CommonTree>();
+		final Collection<CommonTree> nsUriValueNodes = new LinkedList<>();
 		
 		for (Object metamodel : ast.getChildren()) {
 			for (Object metamodelFeature : ((CommonTree)metamodel).getChildren()) {

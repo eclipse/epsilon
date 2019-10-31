@@ -40,7 +40,7 @@ public class UriFragmentPostProcessor {
 	
 	private void resolveUriFragmentValuesInReferenceSlots() {
 		for (ReferenceSlot slot : allReferenceSlots()) {
-			final EList<String> newValues = new BasicEList<String>();
+			final EList<String> newValues = new BasicEList<>();
 			
 			for (String value : slot.getValues()) {
 				newValues.add(resolveOrReturn(value));
@@ -52,7 +52,7 @@ public class UriFragmentPostProcessor {
 	
 	private void resolveUriFragmentValuesInAttributeSlots() {
 		for (AttributeSlot slot : allAttributeSlots()) {
-			final EList<Object> newValues = new BasicEList<Object>();
+			final EList<Object> newValues = new BasicEList<>();
 				
 			for (Object value : slot.getValues()) {
 				newValues.add(resolveOrReturn(value));

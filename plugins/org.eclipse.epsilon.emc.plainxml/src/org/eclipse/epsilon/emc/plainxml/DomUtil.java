@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 public class DomUtil {
 	
 	public static List<Element> getChildren(Element parent) {
-		List<Element> result = new ArrayList<Element>();
+		List<Element> result = new ArrayList<>();
 		NodeList childNodes = parent.getChildNodes();
 		for (int i=0; i<childNodes.getLength(); i++) {
 			Object o = childNodes.item(i);

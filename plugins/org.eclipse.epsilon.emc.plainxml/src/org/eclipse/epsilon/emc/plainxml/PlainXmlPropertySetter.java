@@ -54,14 +54,14 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 							String sourceAttribute = p.getProperty();
 							if (binding.isMany()) {
 								
-								ArrayList<String> referenceIds = new ArrayList<String>();
+								ArrayList<String> referenceIds = new ArrayList<>();
 								
 								Collection<Object> values = null;
 								if (value instanceof Collection) {
 									values = (Collection) value;
 								}
 								else {
-									values = new ArrayList<Object>();
+									values = new ArrayList<>();
 									values.add(value);
 								}
 								

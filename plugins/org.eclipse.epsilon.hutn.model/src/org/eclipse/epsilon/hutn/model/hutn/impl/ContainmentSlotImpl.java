@@ -87,7 +87,7 @@ public class ContainmentSlotImpl extends ClassObjectSlotImpl<ClassObject> implem
 	@Override
 	public EList<ClassObject> getClassObjects() {
 		if (classObjects == null) {
-			classObjects = new EObjectContainmentEList<ClassObject>(ClassObject.class, this, HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS);
+			classObjects = new EObjectContainmentEList<>(ClassObject.class, this, HutnPackage.CONTAINMENT_SLOT__CLASS_OBJECTS);
 		}
 		return classObjects;
 	}

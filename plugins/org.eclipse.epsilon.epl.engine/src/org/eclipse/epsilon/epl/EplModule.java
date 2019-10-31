@@ -38,7 +38,7 @@ import org.eclipse.epsilon.erl.ErlModule;
 
 public class EplModule extends ErlModule {
 	
-	protected List<Pattern> declaredPatterns = new ArrayList<Pattern>();
+	protected List<Pattern> declaredPatterns = new ArrayList<>();
 	protected boolean repeatWhileMatchesFound = false;
 	protected int maxLoops = INFINITE;
 	protected String patternMatchModelName = "P";
@@ -114,7 +114,7 @@ public class EplModule extends ErlModule {
 	
 	public List<Pattern> getPatterns() {
 		if (patterns == null) {
-			patterns = new ArrayList<Pattern>();
+			patterns = new ArrayList<>();
 			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof EplModule)) {
 					EplModule module = (EplModule) import_.getModule();

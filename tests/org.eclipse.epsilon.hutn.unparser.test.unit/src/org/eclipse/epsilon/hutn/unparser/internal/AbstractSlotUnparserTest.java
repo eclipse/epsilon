@@ -54,7 +54,7 @@ public abstract class AbstractSlotUnparserTest {
 	}
 	
 	public static void referenceSlotTest(String featureName, ClassObject[] classObjects, String[] hutns) {
-		final List<String> referenceValues = new LinkedList<String>();
+		final List<String> referenceValues = new LinkedList<>();
 		
 		for (ClassObject classObject : classObjects) {
 			referenceValues.add(classObject.getIdentifier());
@@ -84,7 +84,7 @@ public abstract class AbstractSlotUnparserTest {
 		
 		final ContainmentSlot slot = HutnFactory.eINSTANCE.createContainmentSlot();
 		slot.setFeature(expectedFeatureName);
-		slot.setClassObjects(new BasicEList<ClassObject>(Arrays.asList(classObjects)));
+		slot.setClassObjects(new BasicEList<>(Arrays.asList(classObjects)));
 		
 		final Resource resource = EmfUtil.createResource();
 		resource.getContents().add(slot);

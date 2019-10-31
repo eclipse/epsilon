@@ -12,3 +12,4 @@ Export-Package: org.eclipse.epsilon.concordance.clients.conformance,
  org.eclipse.epsilon.concordance.clients.migration,
  org.eclipse.epsilon.concordance.clients.xref
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.concordance.clients

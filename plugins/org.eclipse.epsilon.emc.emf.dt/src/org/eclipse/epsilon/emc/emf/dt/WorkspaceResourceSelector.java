@@ -31,7 +31,7 @@ public class WorkspaceResourceSelector {
 	protected Button newButton = null;
 	protected Text pathText = null;
 	protected Label label = null;
-	protected ArrayList<WorkspaceResourceSelectorListener> listeners = new ArrayList<WorkspaceResourceSelectorListener>();
+	protected ArrayList<WorkspaceResourceSelectorListener> listeners = new ArrayList<>();
 	protected String browseTitle = "Select a file";
 	protected String browseMessage = "Files in the workspace";
 	protected boolean newEnabled = false;

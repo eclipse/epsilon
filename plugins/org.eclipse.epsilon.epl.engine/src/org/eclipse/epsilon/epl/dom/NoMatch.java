@@ -23,7 +23,7 @@ public class NoMatch implements IUndefined {
 	
 	public static List<Object> asList() {
 		if (list == null) {
-			list = new ArrayList<Object>();
+			list = new ArrayList<>();
 			list.add(INSTANCE);
 		}
 		return list;

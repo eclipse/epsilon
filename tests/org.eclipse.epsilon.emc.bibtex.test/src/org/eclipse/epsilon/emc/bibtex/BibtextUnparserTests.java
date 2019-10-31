@@ -112,7 +112,7 @@ public class BibtextUnparserTests {
 	}
 	
 	private static <K,V> Map<K,V> map(Pair<K,V>... entries) {
-		final Map<K,V> map = new HashMap<K, V>();
+		final Map<K,V> map = new HashMap<>();
 
 		for (Pair<K, V> entry : entries) {
 			map.put(entry.first, entry.second);
@@ -122,7 +122,7 @@ public class BibtextUnparserTests {
 	}
 
 	private static <K,V> Pair<K,V> property(K key, V value) {
-		return new Pair<K,V>(key, value);
+		return new Pair<>(key, value);
 	}
 
 	private static class Pair<A,B> {

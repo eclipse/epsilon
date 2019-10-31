@@ -56,7 +56,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, worksheetName);
 		assertTrue(model.getAllOfType(worksheetName).size() == 0);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", "string1,  string2");
 		values.put("c_2", "123, 456, abc");
 		values.put("c_3", "1.52684, 1.23456, abc");
@@ -134,7 +134,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, worksheetName);
 		assertTrue(model.getAllOfType(worksheetName).size() == 0);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", "");
 		values.put("c_2", "");
 		values.put("c_3", "");
@@ -178,7 +178,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, worksheetName);
 		assertTrue(model.getAllOfType(worksheetName).size() == 0);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", new LinkedHashSet<Object>(Arrays.asList("string1", "string2")));
 		values.put("c_2", new LinkedHashSet<Object>(Arrays.asList("123", "456", "abc")));
 		values.put("c_3", new LinkedHashSet<Object>(Arrays.asList("1.52684", "1.23456", "abc")));
@@ -220,7 +220,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, worksheetName);
 		assertTrue(model.getAllOfType(worksheetName).size() == 0);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", "string1,  string2");
 		values.put("c_2", "123, 456,  abc");
 		values.put("c_3", "1.52684, 1.23456,  abc");
@@ -299,7 +299,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, worksheetName);
 		assertTrue(model.getAllOfType(worksheetName).size() == 0);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", null);
 		values.put("c_2", null);
 		values.put("c_3", null);
@@ -341,7 +341,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, worksheetName);
 		assertTrue(model.getAllOfType(worksheetName).size() == 0);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", new LinkedHashSet<Object>(Arrays.asList("string1", "string2")));
 		values.put("c_2", new LinkedHashSet<Object>(Arrays.asList("123", "456", "abc")));
 		values.put("c_3", new LinkedHashSet<Object>(Arrays.asList("1.52684", "1.23456", "abc")));

@@ -57,7 +57,7 @@ public class CrossReferencingGraphsGenerator {
 	}
 
 	private CompositeModel loadGraphModels(Collection<File> generatedModels) throws EolModelLoadingException, EolModelElementTypeNotFoundException {
-		final Collection<IModel> models = new LinkedList<IModel>();
+		final Collection<IModel> models = new LinkedList<>();
 		
 		for (File generatedModel : generatedModels) {
 			models.add(loadGraphModel(generatedModel));

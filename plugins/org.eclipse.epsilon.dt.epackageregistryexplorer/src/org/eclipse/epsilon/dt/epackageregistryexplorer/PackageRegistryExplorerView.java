@@ -61,13 +61,13 @@ import org.eclipse.ui.views.properties.IPropertySource;
 public class PackageRegistryExplorerView extends ViewPart implements ISelectionProvider{
 	
 	public static final String ID = "org.eclipse.epsilon.dt.epackageregistryexplorer.PackageRegistryExplorerView";
-	protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
+	protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<>();
 	protected boolean backRunning = false;
 	protected TreeViewer classViewer;
 	protected ViewForm featureViewerForm;
 	protected TreeViewer featureViewer;
-	protected ArrayList<EPackage> ePackages = new ArrayList<EPackage>();
-	protected List<TreePath> history = new ArrayList<TreePath>();
+	protected ArrayList<EPackage> ePackages = new ArrayList<>();
+	protected List<TreePath> history = new ArrayList<>();
 	protected CLabel selectedClassLabel = null;
 	protected boolean showInheritedFeatures = true;
 	protected boolean showDerivedFeatures = true;
@@ -287,11 +287,11 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		
 		@Override
 		public void run() {
-			ArrayList<EPackage> ePackages = new ArrayList<EPackage>();
+			ArrayList<EPackage> ePackages = new ArrayList<>();
 			
 			//Avoid concurrent modification exceptions that can happen when iterating
 			//directly over INSTANCE.values()
-			ArrayList<Object> ePackageRegistryValues = new ArrayList<Object>();
+			ArrayList<Object> ePackageRegistryValues = new ArrayList<>();
 			ePackageRegistryValues.addAll(EPackage.Registry.INSTANCE.values());
 			
 			for (Object o : ePackageRegistryValues) {

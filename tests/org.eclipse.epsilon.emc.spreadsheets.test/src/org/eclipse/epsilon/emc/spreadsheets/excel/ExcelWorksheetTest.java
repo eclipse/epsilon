@@ -78,8 +78,8 @@ public class ExcelWorksheetTest
 			model.deleteElement(row);
 		}
 
-		List<Object> list = new ArrayList<Object>();
-		Map<String, Object> values = new HashMap<String, Object>();
+		List<Object> list = new ArrayList<>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_0", "value0");
 		values.put("c_1", "value1");
 		values.put("c_3", "value3");

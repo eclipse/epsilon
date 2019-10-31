@@ -25,7 +25,7 @@ public class ProposalsFactory {
 	private final int offset;
 	private final String replacee;
 	
-	private final List<String> completions = new LinkedList<String>();
+	private final List<String> completions = new LinkedList<>();
 	
 	public ProposalsFactory(int offset, String replacee) {
 		this.offset   = offset;
@@ -44,7 +44,7 @@ public class ProposalsFactory {
 
 	
 	public ICompletionProposal[] proposals() {
-		final Collection<ICompletionProposal> proposals = new LinkedList<ICompletionProposal>();
+		final Collection<ICompletionProposal> proposals = new LinkedList<>();
 		
 		Collections.sort(completions);
 		

@@ -22,8 +22,8 @@ import org.eclipse.epsilon.eol.types.EolNoType;
 
 public class SchedulerTool extends AbstractTool{
 	
-	ArrayList<Job> jobs = new ArrayList<Job>();
-	ArrayList<Operation> queque = new ArrayList<Operation>();
+	ArrayList<Job> jobs = new ArrayList<>();
+	ArrayList<Operation> queque = new ArrayList<>();
 	
 	class Job {
 		

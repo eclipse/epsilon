@@ -61,7 +61,7 @@ public abstract class EmfUtil {
 	
 	@SuppressWarnings("unchecked")
 	public static <T extends EObject> List<T> getAllModelElementsOfType(Resource resource, Class<T> type) {
-		final List<T> results = new LinkedList<T>();
+		final List<T> results = new LinkedList<>();
 		
 		if (resource != null) {
 			final TreeIterator<EObject> iterator = resource.getAllContents();

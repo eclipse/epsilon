@@ -82,7 +82,7 @@ public class ClassObjectImpl extends ObjectImpl implements ClassObject {
 	 */
 	public EList<Slot<?>> getSlots() {
 		if (slots == null) {
-			slots = new EObjectContainmentWithInverseEList<Slot<?>>(Slot.class, this, HutnPackage.CLASS_OBJECT__SLOTS, HutnPackage.SLOT__OWNER);
+			slots = new EObjectContainmentWithInverseEList<>(Slot.class, this, HutnPackage.CLASS_OBJECT__SLOTS, HutnPackage.SLOT__OWNER);
 		}
 		return slots;
 	}

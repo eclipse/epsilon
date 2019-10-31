@@ -44,7 +44,7 @@ public class LinkingModelSelectionListener implements ISelectionChangedListener{
 	public void selectionChanged(SelectionChangedEvent event) {
 		IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 		
-		UniqueArrayList<String> linkedObjects = new UniqueArrayList<String>();
+		UniqueArrayList<String> linkedObjects = new UniqueArrayList<>();
 		
 		Iterator<?> it = selection.iterator();
 		while (it.hasNext()) {
@@ -69,7 +69,7 @@ public class LinkingModelSelectionListener implements ISelectionChangedListener{
 	
 	protected List<String> getLinkedObjects(EObject eObject) {
 		Iterator<EReference> it = eObject.eClass().getEAllReferences().iterator();
-		UniqueArrayList<String> linkedObjects = new UniqueArrayList<String>();
+		UniqueArrayList<String> linkedObjects = new UniqueArrayList<>();
 		
 		while (it.hasNext()) {
 			EReference ref = it.next();
@@ -103,7 +103,7 @@ public class LinkingModelSelectionListener implements ISelectionChangedListener{
 		TreeViewer viewer = (TreeViewer) ((IViewerProvider)editor).getViewer();
 		viewer.setSelection(new StructuredSelection(Collections.EMPTY_LIST));
 		
-		UniqueArrayList<EObject> toSelect = new UniqueArrayList<EObject>();
+		UniqueArrayList<EObject> toSelect = new UniqueArrayList<>();
 		
 		//Resource resource = (Resource) ((IEditingDomainProvider)editor).getEditingDomain().getResourceSet().getResources().get(0);
 		ResourceSet resourceSet =  ((IEditingDomainProvider)editor).getEditingDomain().getResourceSet();

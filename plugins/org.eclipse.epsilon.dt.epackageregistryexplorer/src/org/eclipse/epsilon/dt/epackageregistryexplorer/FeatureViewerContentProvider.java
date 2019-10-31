@@ -41,7 +41,7 @@ public class FeatureViewerContentProvider implements ITreeContentProvider {
 			return features;
 		}
 		else {
-			ArrayList<EStructuralFeature> filtered = new ArrayList<EStructuralFeature>();
+			ArrayList<EStructuralFeature> filtered = new ArrayList<>();
 			for (EStructuralFeature sf : features) {
 				if (!sf.isDerived()) {
 					filtered.add(sf);
@@ -54,7 +54,7 @@ public class FeatureViewerContentProvider implements ITreeContentProvider {
 	
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof EClass) {
-			ArrayList<Object> eStructuralFeatures = new ArrayList<Object>();
+			ArrayList<Object> eStructuralFeatures = new ArrayList<>();
 			eStructuralFeatures.addAll(getFeatures((EClass) inputElement));
 			eStructuralFeatures.addAll(DecoratorSupport.getHooks((EClass)inputElement, view.getEPackages(), view.isShowInheritedFeatures()));
 			if (view.isShowOperations()) {

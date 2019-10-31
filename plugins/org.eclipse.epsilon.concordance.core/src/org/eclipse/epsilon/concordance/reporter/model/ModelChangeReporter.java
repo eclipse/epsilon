@@ -26,8 +26,8 @@ import org.eclipse.epsilon.concordance.model.IConcordanceModel;
  */
 public class ModelChangeReporter {
 
-	private final Collection<ModelChangeListener> listeners = new LinkedList<ModelChangeListener>();
-	private final Collection<ModelChangeListener> databaseListeners = new LinkedList<ModelChangeListener>();
+	private final Collection<ModelChangeListener> listeners = new LinkedList<>();
+	private final Collection<ModelChangeListener> databaseListeners = new LinkedList<>();
 
 	/**
 	 * Adds listener, so it get notified on changes. This listener should not

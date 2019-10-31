@@ -21,7 +21,7 @@ public abstract class DynamicList<T> implements List<T>{
 	protected List<T> values = null;
 	protected boolean resetable = false;
 	protected ExceptionHandler exceptionHandler = null;
-	protected ArrayList<DynamicListListener<T>> listeners = new ArrayList<DynamicListListener<T>>();
+	protected ArrayList<DynamicListListener<T>> listeners = new ArrayList<>();
 	
 	protected abstract List<T> getValues() throws Exception;
 	

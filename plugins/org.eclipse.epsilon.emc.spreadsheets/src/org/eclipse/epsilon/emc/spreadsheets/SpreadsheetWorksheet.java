@@ -308,7 +308,7 @@ public abstract class SpreadsheetWorksheet
 	 */
 	public SpreadsheetRow addRow(final Map<String, Object> parameters)
 	{
-		final Map<SpreadsheetColumn, Object> rowValues = new HashMap<SpreadsheetColumn, Object>();
+		final Map<SpreadsheetColumn, Object> rowValues = new HashMap<>();
 		for (final Map.Entry<String, Object> entry : parameters.entrySet())
 		{
 			final SpreadsheetColumn column = this.header.getColumn(entry.getKey());
@@ -360,7 +360,7 @@ public abstract class SpreadsheetWorksheet
 	 */
 	public Map<SpreadsheetColumn, String> getValuesForEmptyRow()
 	{
-		final Map<SpreadsheetColumn, String> row = new HashMap<SpreadsheetColumn, String>();
+		final Map<SpreadsheetColumn, String> row = new HashMap<>();
 		for (final SpreadsheetColumn column : this.getHeader().getColumns())
 		{
 			String value = this.getDefaultEmptyCellValue();
@@ -398,7 +398,7 @@ public abstract class SpreadsheetWorksheet
 			throw new IllegalArgumentException(message);
 		}
 
-		final List<String> valuesToWrite = new ArrayList<String>();
+		final List<String> valuesToWrite = new ArrayList<>();
 		for (final SpreadsheetRow row : rows)
 		{
 			final Set<SpreadsheetReference> references = this.model.getReferencesBySource(this, column);
@@ -532,7 +532,7 @@ public abstract class SpreadsheetWorksheet
 	{
 		this.checkThatWorksheetExists();
 
-		final List<SpreadsheetRow> rows = new ArrayList<SpreadsheetRow>();
+		final List<SpreadsheetRow> rows = new ArrayList<>();
 		for (final SpreadsheetRow row : this.getRows())
 		{
 			final List<String> cellValues = row.getAllVisibleCellValues(column);

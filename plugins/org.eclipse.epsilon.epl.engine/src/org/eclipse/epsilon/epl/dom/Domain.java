@@ -45,12 +45,12 @@ public class Domain extends ExecutableBlock<Object> {
 				Object result =  context.getExecutorFactory().execute(Domain.this, context);
 			
 				if (!(result instanceof Collection)) {
-					List<Object> results = new ArrayList<Object>();
+					List<Object> results = new ArrayList<>();
 					results.add(result);
 					result = results;
 				}
 				
-				ArrayList<Object> filtered = new ArrayList<Object>();
+				ArrayList<Object> filtered = new ArrayList<>();
 				for (Object o : (Collection<?>) result) {
 					//IModel owningModel = context.getModelRepository().getOwningModel(o);
 					if (type.isKind(o)) {

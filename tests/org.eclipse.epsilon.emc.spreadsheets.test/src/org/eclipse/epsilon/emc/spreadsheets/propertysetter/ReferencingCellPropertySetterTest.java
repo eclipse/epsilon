@@ -104,7 +104,7 @@ public class ReferencingCellPropertySetterTest
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1, v2"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 1);
 
-		List<SpreadsheetRow> referencedRows = new ArrayList<SpreadsheetRow>(Arrays.asList(referencedRow1,
+		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1,
 				referencedRow2));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
@@ -209,7 +209,7 @@ public class ReferencingCellPropertySetterTest
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 1);
 
-		List<SpreadsheetRow> referencedRows = new ArrayList<SpreadsheetRow>(Arrays.asList(referencedRow1,
+		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1,
 				referencedRow2));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
@@ -315,7 +315,7 @@ public class ReferencingCellPropertySetterTest
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1, v2"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 2);
 
-		List<SpreadsheetRow> referencedRows = new ArrayList<SpreadsheetRow>(Arrays.asList(referencedRow1,
+		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1,
 				referencedRow2));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
@@ -471,7 +471,7 @@ public class ReferencingCellPropertySetterTest
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1, v2"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 2);
 
-		List<SpreadsheetRow> referencedRows = new ArrayList<SpreadsheetRow>(Arrays.asList(referencedRow1,
+		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1,
 				referencedRow2));
 		referencedRows.add(null); // ignored
 

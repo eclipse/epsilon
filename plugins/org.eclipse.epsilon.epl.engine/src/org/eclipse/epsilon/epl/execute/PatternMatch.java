@@ -16,7 +16,7 @@ import org.eclipse.epsilon.epl.dom.Pattern;
 public class PatternMatch {
 	
 	protected Pattern pattern;
-	protected HashMap<String, Object> roleBindings = new HashMap<String, Object>();
+	protected HashMap<String, Object> roleBindings = new HashMap<>();
 	
 	public PatternMatch(Pattern pattern) {
 		this.pattern = pattern;

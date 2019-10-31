@@ -108,7 +108,7 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 		}
 	}
 
-	private Map<EUnitTest, Description> testDescriptions = new IdentityHashMap<EUnitTest, Description>();
+	private Map<EUnitTest, Description> testDescriptions = new IdentityHashMap<>();
 	protected EUnitModule module;
 	protected IEUnitSuite suiteInstance;
 
@@ -136,7 +136,7 @@ public class EUnitTestRunner extends ParentRunner<EUnitTest> {
 			return Arrays.asList(module.getSuiteRoot());
 		} catch (EolRuntimeException e) {
 			e.printStackTrace();
-			return new ArrayList<EUnitTest>();
+			return new ArrayList<>();
 		}
 	}
 

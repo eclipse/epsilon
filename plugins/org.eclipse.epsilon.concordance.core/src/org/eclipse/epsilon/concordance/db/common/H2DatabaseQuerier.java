@@ -45,14 +45,14 @@ class H2DatabaseQuerier {
 		openConnection();
 				
 		final PreparedStatement statement = prepareStatement(sql, parameters);
-		final Collection<H2Row> results = new LinkedList<H2Row>();
+		final Collection<H2Row> results = new LinkedList<>();
 		
 		if (statement.execute() && !statement.isClosed()) {
 			final ResultSet resultSet = statement.getResultSet();
 		
 			if (resultSet != null) {
 				while (resultSet.next()) {
-					final List<H2Value> values = new LinkedList<H2Value>();
+					final List<H2Value> values = new LinkedList<>();
 					
 					for (int columnIndex = 1; columnIndex <= resultSet.getMetaData().getColumnCount(); columnIndex++) {
 						values.add(new H2Value(resultSet.getMetaData().getColumnName(columnIndex), resultSet.getObject(columnIndex)));

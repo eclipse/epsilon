@@ -20,14 +20,14 @@ import org.apache.tools.ant.types.ResourceCollection;
 
 public class ResourceCollectionGroup extends DataType implements ResourceCollection {
 	
-	protected List<ResourceCollection> resourceCollections = new ArrayList<ResourceCollection>();
+	protected List<ResourceCollection> resourceCollections = new ArrayList<>();
 	
 	public Iterator<Resource> iterator() {
 		if (isReference()) {
 			return ((ResourceCollectionGroup) getCheckedRef(getProject())).iterator();
 		}
 		
-		ArrayList<Resource> resources = new ArrayList<Resource>();
+		ArrayList<Resource> resources = new ArrayList<>();
 		for (ResourceCollection resourceCollection : resourceCollections) {
 			Iterator<Resource> iterator = resourceCollection.iterator();
 			while (iterator.hasNext()) {

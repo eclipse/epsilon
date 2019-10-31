@@ -64,7 +64,7 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 
 	@Override
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-		itemPropertyDescriptors = new ArrayList<IItemPropertyDescriptor>();
+		itemPropertyDescriptors = new ArrayList<>();
 
 		for (Iterator<EStructuralFeature> i = ((EObject) object).eClass()
 				.getEAllStructuralFeatures().iterator(); i.hasNext();) {
@@ -177,9 +177,9 @@ public class ExeedItemProvider extends ReflectiveItemProvider {
 		// Override the initialization of super.gatherMetadata
 		// to avoid double EClasses added by late discovery of extensions
 		if (allRoots == null) {
-			allRoots = new UniqueArrayList<EObject>();
-			allEClasses = new UniqueArrayList<EClass>();
-			allEPackages = new UniqueArrayList<EPackage>();
+			allRoots = new UniqueArrayList<>();
+			allEClasses = new UniqueArrayList<>();
+			allEPackages = new UniqueArrayList<>();
 		}
 	}
 }

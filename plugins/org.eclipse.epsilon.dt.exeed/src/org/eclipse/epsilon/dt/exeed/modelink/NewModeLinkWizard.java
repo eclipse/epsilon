@@ -97,15 +97,13 @@ public class NewModeLinkWizard extends ConfigureModeLinkWizard implements INewWi
 		}
 		IContainer container = (IContainer) resource;
 		final IFile file = container.getFile(new Path(fileName));
-		try {
-			InputStream stream = openContentStream();
+		try (InputStream stream = openContentStream()) {
 			if (file.exists()) {
 				file.setContents(stream, true, true, monitor);
 			} else {
 				file.create(stream, true, monitor);
 			}
-			stream.close();
-			file.refreshLocal(0,null);
+			file.refreshLocal(0, null);
 			modeLink.store(file);
 			
 		} catch (IOException e) {

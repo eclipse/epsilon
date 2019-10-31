@@ -30,7 +30,7 @@ public class EmlEditor extends EtlEditor {
 	@Override
 	public List<String> getKeywords() {
 		
-		List<String> emlKeywords = new ArrayList<String>();
+		List<String> emlKeywords = new ArrayList<>();
 		
 		emlKeywords.add("merge");
 		emlKeywords.add("mid");
@@ -45,7 +45,7 @@ public class EmlEditor extends EtlEditor {
 	@Override
 	public List<String> getBuiltinVariables() {
 		
-		ArrayList<String> emlBuiltin = new ArrayList<String>();
+		ArrayList<String> emlBuiltin = new ArrayList<>();
 		
 		emlBuiltin.add("matchTrace");
 		emlBuiltin.add("mergeTrace");

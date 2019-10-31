@@ -52,7 +52,7 @@ public class SetReferenceValueCommand implements Command {
 	}
 
 	public Collection<?> getAffectedObjects() {
-		List<EObject> col = new ArrayList<EObject>();
+		List<EObject> col = new ArrayList<>();
 		col.add(object);
 		return col;
 	}

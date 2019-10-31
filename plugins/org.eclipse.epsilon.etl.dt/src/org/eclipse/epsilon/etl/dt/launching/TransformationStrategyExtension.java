@@ -84,7 +84,7 @@ public class TransformationStrategyExtension {
 	public static List<TransformationStrategyExtension> getExtensions() {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IExtensionPoint extenstionPoint = registry.getExtensionPoint("org.eclipse.epsilon.etl.dt.transformationStrategy");
-		List<TransformationStrategyExtension> extensions = new ArrayList<TransformationStrategyExtension>();
+		List<TransformationStrategyExtension> extensions = new ArrayList<>();
 		IConfigurationElement[] configurationElements = extenstionPoint.getConfigurationElements();
 		
 		for (int i=0;i<configurationElements.length;i++) {

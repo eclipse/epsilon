@@ -18,7 +18,7 @@ import org.w3c.dom.Element;
 public class BindingMatcher {
 	
 	public static Collection<Binding> getMatchingBindings(PlainXmlModel model, Element e, String property) {
-		List<Binding> bindings = new ArrayList<Binding>();
+		List<Binding> bindings = new ArrayList<>();
 		for (Binding binding : model.getBindings()) {
 			if (TagMatcher.matches(e, binding.getSourceTag())
 					&& property.equals(binding.getSourceAttribute())) {

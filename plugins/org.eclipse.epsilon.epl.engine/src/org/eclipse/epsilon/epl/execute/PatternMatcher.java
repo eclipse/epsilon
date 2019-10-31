@@ -94,7 +94,7 @@ public class PatternMatcher {
 	 */
 	public List<PatternMatch> match(final Pattern pattern, final IEolContext context) throws Exception {
 		
-		List<PatternMatch> patternMatches = new ArrayList<PatternMatch>();
+		List<PatternMatch> patternMatches = new ArrayList<>();
 		CompositeCombinationGenerator<Object> generator = initGenerator(pattern, context);
 		
 		while (generator.hasMore()) {
@@ -173,7 +173,7 @@ public class PatternMatcher {
 	 * @throws EolRuntimeException
 	 */
 	protected CompositeCombinationGenerator<Object> initGenerator(final Pattern pattern, final IEolContext context) throws EolRuntimeException {
-		CompositeCombinationGenerator<Object> generator = new CompositeCombinationGenerator<Object>();
+		CompositeCombinationGenerator<Object> generator = new CompositeCombinationGenerator<>();
 		
 		for (Role role : pattern.getRoles()) {
 			generator.addCombinationGenerator(createCombinationGenerator(role, context));
@@ -211,7 +211,7 @@ public class PatternMatcher {
 	
 	
 	protected List<Variable> getVariables(List<Object> combination, Role role) {
-		ArrayList<Variable> variables = new ArrayList<Variable>();
+		ArrayList<Variable> variables = new ArrayList<>();
 		int i = 0;
 		for (String name : role.getNames()) {
 			variables.add(Variable.createReadOnlyVariable(name, combination.get(i)));

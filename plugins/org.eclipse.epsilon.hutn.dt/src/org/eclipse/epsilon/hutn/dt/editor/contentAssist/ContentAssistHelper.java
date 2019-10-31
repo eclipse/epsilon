@@ -55,7 +55,7 @@ public class ContentAssistHelper {
 	}
 	
 	private Collection<String> slotSuggestionsFor(String type) {
-		final Collection<String> slotSuggestions = new LinkedList<String>();
+		final Collection<String> slotSuggestions = new LinkedList<>();
 		
 		for (String feature : directory.featureNamesFor(type)) {
 			slotSuggestions.add(feature + ": ");

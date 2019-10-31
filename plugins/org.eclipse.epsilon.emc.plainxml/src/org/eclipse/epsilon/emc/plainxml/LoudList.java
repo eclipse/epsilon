@@ -18,7 +18,7 @@ public class LoudList<E> extends ArrayList<E> {
 
 	public static void main(String[] args) {
 		
-		LoudList<Integer> list = new LoudList<Integer>();
+		LoudList<Integer> list = new LoudList<>();
 		
 		list.addListener(new LoudListListener<Integer>() {
 			
@@ -50,7 +50,7 @@ public class LoudList<E> extends ArrayList<E> {
 	}
 	
 	
-	protected ArrayList<LoudListListener<E>> listeners = new ArrayList<LoudListListener<E>>();
+	protected ArrayList<LoudListListener<E>> listeners = new ArrayList<>();
 	protected boolean unique = false;
 	
 	public void addListener(LoudListListener<E> listener) {
@@ -110,7 +110,7 @@ public class LoudList<E> extends ArrayList<E> {
 
 	@Override
 	public void clear() {
-		ArrayList<E> temp = new ArrayList<E>();
+		ArrayList<E> temp = new ArrayList<>();
 		temp.addAll(this);
 		
 		super.clear();

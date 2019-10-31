@@ -180,7 +180,7 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 		public void run() {
 			ExeedEditor editor = (ExeedEditor) ExeedActionBarContributor.this.getActiveEditor();
 			
-			ArrayList<String> registeredPackages = new ArrayList<String>(EPackage.Registry.INSTANCE.keySet());
+			ArrayList<String> registeredPackages = new ArrayList<>(EPackage.Registry.INSTANCE.keySet());
 			Collections.sort(registeredPackages);
 			
 			ListSelectionDialog dlg = new ListSelectionDialog(
@@ -302,7 +302,7 @@ public class ExeedActionBarContributor extends EcoreActionBarContributor {
 
 	protected List<IAction> sortActionCollection(Collection<IAction> col) {
 
-		ArrayList<IAction> list = new ArrayList<IAction>(col);
+		ArrayList<IAction> list = new ArrayList<>(col);
 		Collections.sort(list, new Comparator<IAction>() {
 			public int compare(IAction o1, IAction o2) {
 				return o1.getText().compareTo(o2.getText());

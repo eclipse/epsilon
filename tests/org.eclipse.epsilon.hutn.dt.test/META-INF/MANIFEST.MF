@@ -8,3 +8,4 @@ Require-Bundle: org.eclipse.epsilon.hutn.dt,
  org.eclipse.epsilon.hutn.test.dependencies
 Export-Package: org.eclipse.epsilon.hutn.dt.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.hutn.dt.test

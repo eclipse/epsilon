@@ -30,7 +30,7 @@ public class ModelWalkingNsUriAnalyser implements NsUriAnalyser {
 
 	public Set<String> determineNsUris() {
 		try {
-			final Set<String> nsUris = new HashSet<String>();
+			final Set<String> nsUris = new HashSet<>();
 			
 			for (EObject object : container.getAllContents(false)) {
 				nsUris.add(nsUriFor(object));

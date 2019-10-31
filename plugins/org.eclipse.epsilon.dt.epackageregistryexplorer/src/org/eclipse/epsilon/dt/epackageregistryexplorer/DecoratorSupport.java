@@ -43,7 +43,7 @@ public class DecoratorSupport {
 	
 	public static Set<DecoratorHookDescriptor> getHooks(EClass eClass, List<EPackage> ePackages, boolean inherited) {
 			
-			Set<DecoratorHookDescriptor> hooks = new HashSet<DecoratorHookDescriptor>();
+			Set<DecoratorHookDescriptor> hooks = new HashSet<>();
 			
 			for (EPackage p : ePackages) {
 				for (EClassifier o : p.getEClassifiers()) {

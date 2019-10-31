@@ -92,7 +92,7 @@ public class DistrictImpl extends EObjectImpl implements District {
 	 */
 	public EList<Family> getFamilies() {
 		if (families == null) {
-			families = new EObjectContainmentWithInverseEList<Family>(Family.class, this, FamiliesPackage.DISTRICT__FAMILIES, FamiliesPackage.FAMILY__DISTRICT);
+			families = new EObjectContainmentWithInverseEList<>(Family.class, this, FamiliesPackage.DISTRICT__FAMILIES, FamiliesPackage.FAMILY__DISTRICT);
 		}
 		return families;
 	}
@@ -104,7 +104,7 @@ public class DistrictImpl extends EObjectImpl implements District {
 	 */
 	public EList<Dog> getDogs() {
 		if (dogs == null) {
-			dogs = new EObjectContainmentWithInverseEList<Dog>(Dog.class, this, FamiliesPackage.DISTRICT__DOGS, FamiliesPackage.DOG__DISTRICT);
+			dogs = new EObjectContainmentWithInverseEList<>(Dog.class, this, FamiliesPackage.DISTRICT__DOGS, FamiliesPackage.DOG__DISTRICT);
 		}
 		return dogs;
 	}

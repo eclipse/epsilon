@@ -31,7 +31,7 @@ public class TestHutnLexer {
 
 	private class ErrorRecordingHutnLexer extends HutnLexer {
 
-		private final List<RecognitionException> problems = new LinkedList<RecognitionException>();
+		private final List<RecognitionException> problems = new LinkedList<>();
 		
 		public ErrorRecordingHutnLexer(CharStream input) {
 			super(input);

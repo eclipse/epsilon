@@ -27,7 +27,7 @@ public class FlockEditor extends EolEditor {
 	
 	@Override
 	public List<String> getKeywords() {
-		final List<String> keywords = new ArrayList<String>(super.getKeywords());
+		final List<String> keywords = new ArrayList<>(super.getKeywords());
 
 		keywords.add("delete");
 		keywords.add("retype");
@@ -44,7 +44,7 @@ public class FlockEditor extends EolEditor {
 	
 	@Override
 	public List<String> getBuiltinVariables() {
-		final List<String> builtIn = new ArrayList<String>(super.getBuiltinVariables());
+		final List<String> builtIn = new ArrayList<>(super.getBuiltinVariables());
 		
 		builtIn.add("original");
 		builtIn.add("migrated");

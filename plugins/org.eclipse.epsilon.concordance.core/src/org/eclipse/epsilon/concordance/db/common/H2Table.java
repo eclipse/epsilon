@@ -121,7 +121,7 @@ public class H2Table {
 	
 	public Collection<Object> findBy(H2Value key, String columnName) throws H2DatabaseAccessException {
 		try {
-			final Collection<Object> results = new LinkedList<Object>();
+			final Collection<Object> results = new LinkedList<>();
 			
 			for (H2Row row : querier.execute("SELECT " + columnName.toUpperCase() + " FROM " + name + " WHERE " + key.columnName + "=?;", key.value.toString())) {
 				results.add(row.getValue(columnName.toUpperCase()));

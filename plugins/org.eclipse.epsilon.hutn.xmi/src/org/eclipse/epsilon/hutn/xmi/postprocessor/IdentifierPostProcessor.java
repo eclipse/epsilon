@@ -26,7 +26,7 @@ public class IdentifierPostProcessor {
 
 	private final Spec spec;
 	private final ClassObjectNamer classObjectNamer = new ClassObjectNamer();
-	private final Map<String, String> renamings = new HashMap<String, String>();
+	private final Map<String, String> renamings = new HashMap<>();
 	
 	public IdentifierPostProcessor(Spec spec) {
 		this.spec = spec;
@@ -55,7 +55,7 @@ public class IdentifierPostProcessor {
 	
 	private void updateReferenceSlots() {
 		for (ReferenceSlot slot : allReferenceSlots()) {
-			final List<String> newValues = new LinkedList<String>();
+			final List<String> newValues = new LinkedList<>();
 			
 			for (String identifier : slot.getValues()) {
 				final String newValue;

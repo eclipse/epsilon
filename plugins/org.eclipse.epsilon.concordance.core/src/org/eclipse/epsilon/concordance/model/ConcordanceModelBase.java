@@ -57,7 +57,7 @@ abstract public class ConcordanceModelBase implements IConcordanceModel,
 	public Collection<EObject> getAllContents(boolean resolve)
 			throws IOException {
 		// Create a new list
-		final Collection<EObject> contents = new LinkedList<EObject>();
+		final Collection<EObject> contents = new LinkedList<>();
 
 		for (Iterator<EObject> iterator = getAllContentsIterator(resolve); iterator
 				.hasNext();) {
@@ -70,7 +70,7 @@ abstract public class ConcordanceModelBase implements IConcordanceModel,
 	}
 
 	public Set<IConcordanceModel> getAllReferencedModels() {
-		final Set<IConcordanceModel> referencedModels = new HashSet<IConcordanceModel>();
+		final Set<IConcordanceModel> referencedModels = new HashSet<>();
 
 		for (CrossReference xref : getAllCrossReferences()) {
 			referencedModels.add(xref.target.model);

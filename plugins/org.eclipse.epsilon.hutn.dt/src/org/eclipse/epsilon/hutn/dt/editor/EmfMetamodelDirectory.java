@@ -37,7 +37,7 @@ public class EmfMetamodelDirectory {
 	}
 	
 	public EmfMetamodelDirectory(Collection<NsUri> nsUris) throws EolModelLoadingException {
-		final Collection<IModel> mms = new LinkedList<IModel>();
+		final Collection<IModel> mms = new LinkedList<>();
 		
 		for (NsUri nsUri : nsUris) {
 			mms.add(loadMetamodel(nsUri.getValue()));
@@ -64,7 +64,7 @@ public class EmfMetamodelDirectory {
 		final EClass eClass = eClass(className);
 		
 		if (eClass != null) {
-			final Collection<String> featureNames = new LinkedList<String>();
+			final Collection<String> featureNames = new LinkedList<>();
 
 			for (EStructuralFeature feature : eClass.getEAllStructuralFeatures()) {
 				featureNames.add(feature.getName());
@@ -96,7 +96,7 @@ public class EmfMetamodelDirectory {
 	
 	public Collection<String> concreteClassNames() {
 		try {
-			final Collection<String> names = new LinkedList<String>();
+			final Collection<String> names = new LinkedList<>();
 
 			for (Object element : metamodels.getAllOfKind("EClass")) {
 				if (element instanceof EClass && !((EClass)element).isAbstract()) {
@@ -114,7 +114,7 @@ public class EmfMetamodelDirectory {
 	
 	private Collection<String> namesOfTypedElements(String type) {
 		try {
-			final Collection<String> names = new LinkedList<String>();
+			final Collection<String> names = new LinkedList<>();
 
 			for (Object element : metamodels.getAllOfKind(type)) {
 				if (element instanceof EObject) {

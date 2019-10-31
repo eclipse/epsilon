@@ -111,7 +111,7 @@ public class ExeedEditingDomainViewerDropAdapter extends EditingDomainViewerDrop
 	}
 
 	private List<EReference> listQualifiedReferences(DropTargetEvent event) {
-		final List<EReference> qualifiedReferences = new ArrayList<EReference>();
+		final List<EReference> qualifiedReferences = new ArrayList<>();
 	
 		TreeItem item = (TreeItem) event.item;
 		if (item == null || !(item.getData() instanceof EObject)) {

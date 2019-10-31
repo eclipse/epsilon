@@ -41,7 +41,7 @@ public class H2Database {
 		try {
 			querier.execute("DROP TABLE IF EXISTS " + tableName + ";");
 			
-			final Collection<H2Column> allColumns = new LinkedList<H2Column>(primaryKeys);
+			final Collection<H2Column> allColumns = new LinkedList<>(primaryKeys);
 			allColumns.addAll(Arrays.asList(columns));
 			
 			

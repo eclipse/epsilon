@@ -26,7 +26,7 @@ import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 
 public abstract class HutnPostProcessorTest {
 	
-	protected final static List<ParseProblem> problems = new LinkedList<ParseProblem>();
+	protected final static List<ParseProblem> problems = new LinkedList<>();
 	
 	protected static ModelWithEolAssertions postProcessorTest(AST ast) {
 		problems.clear();

@@ -343,7 +343,7 @@ public class FeatureImpl extends MinimalEObjectImpl.Container implements Feature
 	 */
 	public EList<Slot> getSlots() {
 		if (slots == null) {
-			slots = new EObjectWithInverseResolvingEList<Slot>(Slot.class, this, MuddlePackage.FEATURE__SLOTS, MuddlePackage.SLOT__FEATURE);
+			slots = new EObjectWithInverseResolvingEList<>(Slot.class, this, MuddlePackage.FEATURE__SLOTS, MuddlePackage.SLOT__FEATURE);
 		}
 		return slots;
 	}

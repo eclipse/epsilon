@@ -74,7 +74,7 @@ public class FloatSlotImpl extends SlotImpl implements FloatSlot {
 	 */
 	public EList<Float> getValues() {
 		if (values == null) {
-			values = new EDataTypeUniqueEList<Float>(Float.class, this, VirtualPackage.FLOAT_SLOT__VALUES);
+			values = new EDataTypeUniqueEList<>(Float.class, this, VirtualPackage.FLOAT_SLOT__VALUES);
 		}
 		return values;
 	}

@@ -19,7 +19,7 @@ public class DynamicListCombinationGenerator<T> implements CombinationGenerator<
 	protected int n;
 	protected List<T> list = null;
 	protected ListCombinationGenerator<T> listCombinationGenerator = null;
-	protected ArrayList<CombinationGeneratorListener<T>> listeners = new ArrayList<CombinationGeneratorListener<T>>();
+	protected ArrayList<CombinationGeneratorListener<T>> listeners = new ArrayList<>();
 	protected boolean producedValidCombination = false;
 	protected State state = State.NORMAL;
 	protected Boolean optional = null;
@@ -55,7 +55,7 @@ public class DynamicListCombinationGenerator<T> implements CombinationGenerator<
 	}
 	
 	protected void createCombinationGenerator() {
-		listCombinationGenerator = new ListCombinationGenerator<T>(list, n);		
+		listCombinationGenerator = new ListCombinationGenerator<>(list, n);		
 	}
 	
 	public void reset() {
@@ -94,7 +94,7 @@ public class DynamicListCombinationGenerator<T> implements CombinationGenerator<
 			if (state == State.HAS_RETURNED_OPTIONAL) return null;
 			
 			if (state == State.CAN_RETURN_OPTIONAL) {
-				ArrayList<T> optional = new ArrayList<T>();
+				ArrayList<T> optional = new ArrayList<>();
 				for (int i=0;i<n;i++) {
 					optional.add((T) NoMatch.INSTANCE);
 				}

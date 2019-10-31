@@ -41,7 +41,7 @@ public class BruteForceConcordanceIndex implements ConcordanceIndex {
 
 	private Collection<IConcordanceModel> findAllModels() {
 		try {
-			final Collection<IConcordanceModel> models = new LinkedList<IConcordanceModel>();
+			final Collection<IConcordanceModel> models = new LinkedList<>();
 			
 			for (IFile modelFile : new FileLocator("model").findAllMatchingFiles(workspaceRoot())) {
 				if (hasConcordanceNature(modelFile.getProject())) {

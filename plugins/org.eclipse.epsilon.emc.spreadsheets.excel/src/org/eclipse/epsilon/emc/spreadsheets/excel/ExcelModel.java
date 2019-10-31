@@ -305,10 +305,8 @@ public class ExcelModel extends SpreadsheetModel
 
 	private void writeFile(final POIFSFileSystem fileSystem) throws IOException
 	{
-		FileOutputStream fileOutputStream = null;
-		try
+		try (FileOutputStream fileOutputStream = new FileOutputStream(this.spreadsheetFile))
 		{
-			fileOutputStream = new FileOutputStream(this.spreadsheetFile);
 			if (fileSystem == null)
 			{
 				this.workbook.write(fileOutputStream);
@@ -318,14 +316,6 @@ public class ExcelModel extends SpreadsheetModel
 				fileSystem.writeFilesystem(fileOutputStream);
 			}
 		}
-		finally
-		{
-			if (fileOutputStream != null)
-			{
-				fileOutputStream.close();
-			}
-		}
-
 	}
 
 	private void encryptFile() throws Exception
@@ -340,10 +330,11 @@ public class ExcelModel extends SpreadsheetModel
 				final Encryptor enc = info.getEncryptor();
 				enc.confirmPassword(this.password);
 
-				final OPCPackage opc = OPCPackage.open(this.spreadsheetFile, PackageAccess.READ_WRITE);
-				OutputStream os = enc.getDataStream(fs);
-				opc.save(os);
-				opc.close();
+				try (OPCPackage opc = OPCPackage.open(this.spreadsheetFile, PackageAccess.READ_WRITE))
+				{
+					OutputStream os = enc.getDataStream(fs);
+					opc.save(os);
+				}
 
 				this.writeFile(fs);
 			}

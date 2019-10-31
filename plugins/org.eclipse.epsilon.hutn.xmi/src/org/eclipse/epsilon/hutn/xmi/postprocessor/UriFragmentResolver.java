@@ -54,7 +54,7 @@ public class UriFragmentResolver {
 			throw new IllegalArgumentException("Not a valid URI fragment: " + value);
 		}
 		
-		final Collection<ClassObject> resolved = new LinkedList<ClassObject>();
+		final Collection<ClassObject> resolved = new LinkedList<>();
 		
 		for (String uriFragment : value.split(" ")) {
 			resolved.add(resolveUriFragment(uriFragment));

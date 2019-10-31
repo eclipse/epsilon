@@ -8,3 +8,4 @@ Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.epl.engine
 Export-Package: org.eclipse.epsilon.epl.engine.test.acceptance
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.epsilon.epl.engine.test.acceptance

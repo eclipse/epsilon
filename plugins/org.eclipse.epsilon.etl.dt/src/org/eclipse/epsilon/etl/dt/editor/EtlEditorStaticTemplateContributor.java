@@ -20,7 +20,7 @@ public class EtlEditorStaticTemplateContributor implements IAbstractModuleEditor
 	List<Template> templates = null;
 	public List<Template> getTemplates() {
 		if (templates == null) {
-			templates = new ArrayList<Template>();
+			templates = new ArrayList<>();
 			templates.add(new Template("transform", "transform rule", "", "rule ${rulename} \r\n\ttransform s : ${sourcemodel}!${sourcetype}\r\n\tto t : ${targetmodel}!${targettype} {\r\n\t${cursor}\r\n}",false));
 			templates.add(new Template("common transform", "transform rule", "", "rule ${name} \r\n\ttransform s : Source!${name}\r\n\tto t : Target!${name} {\r\n\t${cursor}\r\n}",false));
 			templates.add(new Template("pre", "block executed before the rules", "", "pre ${name} {\r\n\t${cursor}\r\n}",false));

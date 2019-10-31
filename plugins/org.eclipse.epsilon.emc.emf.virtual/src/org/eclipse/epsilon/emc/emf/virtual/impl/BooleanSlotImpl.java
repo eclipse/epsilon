@@ -74,7 +74,7 @@ public class BooleanSlotImpl extends SlotImpl implements BooleanSlot {
 	 */
 	public EList<Boolean> getValues() {
 		if (values == null) {
-			values = new EDataTypeUniqueEList<Boolean>(Boolean.class, this, VirtualPackage.BOOLEAN_SLOT__VALUES);
+			values = new EDataTypeUniqueEList<>(Boolean.class, this, VirtualPackage.BOOLEAN_SLOT__VALUES);
 		}
 		return values;
 	}

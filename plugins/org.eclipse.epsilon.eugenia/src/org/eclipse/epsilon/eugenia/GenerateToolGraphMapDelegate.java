@@ -43,7 +43,7 @@ public class GenerateToolGraphMapDelegate extends GuardedEcoreModelGenerationDel
 	
 	@Override
 	public List<IModel> getModels() throws Exception {
-		List<IModel> models = new ArrayList<IModel>();
+		List<IModel> models = new ArrayList<>();
 		models.add(loadModel("ECore", gmfFileSet.getEcorePath(), EcorePackage.eNS_URI, true, true, true));
 		models.add(loadModel("GmfMap", gmfFileSet.getGmfMapPath(), GMFMapPackage.eNS_URI, false, true, true));
 		models.add(loadModel("GmfGraph", gmfFileSet.getGmfGraphPath(), GMFGraphPackage.eNS_URI, false, true, true));

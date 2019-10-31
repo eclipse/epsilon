@@ -7,3 +7,4 @@ Bundle-ClassPath: .
 Export-Package: org.mockito,
  org.mockito.stubbing
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.mockito_1.8.4

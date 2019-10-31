@@ -91,7 +91,7 @@ public abstract class ConcordanceClientIntegrationTest extends TestThatUsesAProj
 	}
 	
 	protected Collection<Event> eventsForNewFiles(Collection<IResource> files) {
-		final Collection<Event> events = new LinkedList<Event>();
+		final Collection<Event> events = new LinkedList<>();
 		
 		for (IResource file : files) {
 			events.add(event(EventType.ADD,    file));
@@ -102,7 +102,7 @@ public abstract class ConcordanceClientIntegrationTest extends TestThatUsesAProj
 	}
 
 	protected static Collection<IResource> modelsIn(IProject project) throws CoreException {
-		final Collection<IResource> members = new LinkedList<IResource>(Arrays.asList(project.members()));
+		final Collection<IResource> members = new LinkedList<>(Arrays.asList(project.members()));
 		
 		members.remove(project.findMember(".project"));
 		

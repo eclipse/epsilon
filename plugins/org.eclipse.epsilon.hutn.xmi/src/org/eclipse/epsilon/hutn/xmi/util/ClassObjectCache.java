@@ -20,7 +20,7 @@ import org.eclipse.epsilon.hutn.model.hutn.HutnFactory;
 
 public class ClassObjectCache {
 
-	private final Map<String, ClassObject> cache = new HashMap<String, ClassObject>();
+	private final Map<String, ClassObject> cache = new HashMap<>();
 
 	
 	public ClassObject get(String identifier) {

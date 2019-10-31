@@ -57,7 +57,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, worksheetName);
 		assertTrue(model.getAllOfType(worksheetName).size() == 0);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", "VALUE0");
 		try
 		{
@@ -84,7 +84,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, "Sheet5");
 		assertTrue(model.getAllOfType("Sheet5").size() == 0);
 
-		Map<String, Object> referencedValues = new HashMap<String, Object>();
+		Map<String, Object> referencedValues = new HashMap<>();
 		referencedValues.put("c_1", "");
 		referencedValues.put("c_2", "");
 		referencedValues.put("c_3", "");
@@ -93,7 +93,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SpreadsheetRow referencedRow = (SpreadsheetRow) model.createInstance("Sheet5", referencedValues);
 		assertTrue(model.getAllOfType("Sheet5").size() == 1);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", referencedRow);
 		values.put("c_2", referencedRow);
 		values.put("c_3", referencedRow);
@@ -143,7 +143,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, "Sheet5");
 		assertTrue(model.getAllOfType("Sheet5").size() == 0);
 
-		Map<String, Object> referencedValues = new HashMap<String, Object>();
+		Map<String, Object> referencedValues = new HashMap<>();
 		referencedValues.put("c_1", "string1,  string2");
 		referencedValues.put("c_2", "123, 456,  abc");
 		referencedValues.put("c_3", "1.52684, 1.23456,  abc");
@@ -152,7 +152,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SpreadsheetRow referencedRow = (SpreadsheetRow) model.createInstance("Sheet5", referencedValues);
 		assertTrue(model.getAllOfType("Sheet5").size() == 1);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", referencedRow);
 		values.put("c_2", referencedRow);
 		values.put("c_3", referencedRow);
@@ -196,7 +196,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, "Sheet5");
 		assertTrue(model.getAllOfType("Sheet5").size() == 0);
 
-		Map<String, Object> referencedValues = new HashMap<String, Object>();
+		Map<String, Object> referencedValues = new HashMap<>();
 		referencedValues.put("c_1", "string1,  string2");
 		referencedValues.put("c_2", "123, 456,  abc");
 		referencedValues.put("c_3", "1.52684, 1.23456,  abc");
@@ -206,11 +206,11 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SpreadsheetRow referencedRow2 = (SpreadsheetRow) model.createInstance("Sheet5", referencedValues);
 		assertTrue(model.getAllOfType("Sheet5").size() == 2);
 
-		Set<SpreadsheetRow> setOfReferencedRows = new LinkedHashSet<SpreadsheetRow>();
+		Set<SpreadsheetRow> setOfReferencedRows = new LinkedHashSet<>();
 		setOfReferencedRows.add(referencedRow1);
 		setOfReferencedRows.add(referencedRow2);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", setOfReferencedRows);
 		values.put("c_2", setOfReferencedRows);
 		values.put("c_3", setOfReferencedRows);
@@ -254,7 +254,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, "Sheet5");
 		assertTrue(model.getAllOfType("Sheet5").size() == 0);
 
-		Map<String, Object> referencedValues = new HashMap<String, Object>();
+		Map<String, Object> referencedValues = new HashMap<>();
 		referencedValues.put("c_1", "string1,  string2");
 		referencedValues.put("c_2", "123, 456,  abc");
 		referencedValues.put("c_3", "1.52684, 1.23456,  abc");
@@ -263,7 +263,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SpreadsheetRow referencedRow = (SpreadsheetRow) model.createInstance("Sheet5", referencedValues);
 		assertTrue(model.getAllOfType("Sheet5").size() == 1);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", referencedRow);
 		values.put("c_2", referencedRow);
 		values.put("c_3", referencedRow);
@@ -307,7 +307,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, "Sheet5");
 		assertTrue(model.getAllOfType("Sheet5").size() == 0);
 
-		Map<String, Object> referencedValues = new HashMap<String, Object>();
+		Map<String, Object> referencedValues = new HashMap<>();
 		referencedValues.put("c_1", "string1,  string2");
 		referencedValues.put("c_2", "123, 456,  abc");
 		referencedValues.put("c_3", "1.52684, 1.23456,  abc");
@@ -317,11 +317,11 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SpreadsheetRow referencedRow2 = (SpreadsheetRow) model.createInstance("Sheet5", referencedValues);
 		assertTrue(model.getAllOfType("Sheet5").size() == 2);
 
-		Set<SpreadsheetRow> setOfReferencedRows = new LinkedHashSet<SpreadsheetRow>();
+		Set<SpreadsheetRow> setOfReferencedRows = new LinkedHashSet<>();
 		setOfReferencedRows.add(referencedRow1);
 		setOfReferencedRows.add(referencedRow2);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", setOfReferencedRows);
 		values.put("c_2", setOfReferencedRows);
 		values.put("c_3", setOfReferencedRows);
@@ -371,7 +371,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, "Sheet6");
 		assertTrue(model.getAllOfType("Sheet6").size() == 0);
 
-		Map<String, Object> referencedValues = new HashMap<String, Object>();
+		Map<String, Object> referencedValues = new HashMap<>();
 		referencedValues.put("c_1", "string1,  string2");
 		referencedValues.put("c_2", "123, 456,  abc");
 		referencedValues.put("c_3", "1.52684, 1.23456,  abc");
@@ -380,7 +380,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SpreadsheetRow referencedRow = (SpreadsheetRow) model.createInstance("Sheet6", referencedValues);
 		assertTrue(model.getAllOfType("Sheet6").size() == 1);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", referencedRow);
 		values.put("c_2", referencedRow);
 		values.put("c_3", referencedRow);
@@ -424,7 +424,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, "Sheet6");
 		assertTrue(model.getAllOfType("Sheet6").size() == 0);
 
-		Map<String, Object> referencedValues = new HashMap<String, Object>();
+		Map<String, Object> referencedValues = new HashMap<>();
 		referencedValues.put("c_1", "string1,  string2");
 		referencedValues.put("c_2", "123, 456,  abc");
 		referencedValues.put("c_3", "1.52684, 1.23456,  abc");
@@ -434,11 +434,11 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SpreadsheetRow referencedRow2 = (SpreadsheetRow) model.createInstance("Sheet6", referencedValues);
 		assertTrue(model.getAllOfType("Sheet6").size() == 2);
 
-		Set<SpreadsheetRow> setOfReferencedRows = new LinkedHashSet<SpreadsheetRow>();
+		Set<SpreadsheetRow> setOfReferencedRows = new LinkedHashSet<>();
 		setOfReferencedRows.add(referencedRow1);
 		setOfReferencedRows.add(referencedRow2);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", setOfReferencedRows);
 		values.put("c_2", setOfReferencedRows);
 		values.put("c_3", setOfReferencedRows);
@@ -482,7 +482,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, "Sheet6");
 		assertTrue(model.getAllOfType("Sheet6").size() == 0);
 
-		Map<String, Object> referencedValues = new HashMap<String, Object>();
+		Map<String, Object> referencedValues = new HashMap<>();
 		referencedValues.put("c_1", "string1,  string2");
 		referencedValues.put("c_2", "123, 456,  abc");
 		referencedValues.put("c_3", "1.52684, 1.23456,  abc");
@@ -491,7 +491,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SpreadsheetRow referencedRow = (SpreadsheetRow) model.createInstance("Sheet6", referencedValues);
 		assertTrue(model.getAllOfType("Sheet6").size() == 1);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", referencedRow);
 		values.put("c_2", referencedRow);
 		values.put("c_3", referencedRow);
@@ -536,7 +536,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SharedTestMethods.clearWorksheet(model, "Sheet6");
 		assertTrue(model.getAllOfType("Sheet6").size() == 0);
 
-		Map<String, Object> referencedValues = new HashMap<String, Object>();
+		Map<String, Object> referencedValues = new HashMap<>();
 		referencedValues.put("c_1", "string1,  string2");
 		referencedValues.put("c_2", "123, 456,  abc");
 		referencedValues.put("c_3", "1.52684, 1.23456,  abc");
@@ -546,11 +546,11 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		SpreadsheetRow referencedRow2 = (SpreadsheetRow) model.createInstance("Sheet6", referencedValues);
 		assertTrue(model.getAllOfType("Sheet6").size() == 2);
 
-		Set<SpreadsheetRow> setOfReferencedRows = new LinkedHashSet<SpreadsheetRow>();
+		Set<SpreadsheetRow> setOfReferencedRows = new LinkedHashSet<>();
 		setOfReferencedRows.add(referencedRow1);
 		setOfReferencedRows.add(referencedRow2);
 
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", setOfReferencedRows);
 		values.put("c_2", setOfReferencedRows);
 		values.put("c_3", setOfReferencedRows);

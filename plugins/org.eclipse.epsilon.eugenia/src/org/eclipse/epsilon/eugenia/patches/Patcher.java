@@ -79,7 +79,7 @@ public class Patcher {
 	}
 
 	private Collection<IResource> getFolderContents(IFolder folder, boolean reversed) throws CoreException {
-		final List<IResource> members = new LinkedList<IResource>(Arrays.asList(folder.members()));
+		final List<IResource> members = new LinkedList<>(Arrays.asList(folder.members()));
 		if (reversed) { Collections.reverse(members); }
 		return members;
 	}
@@ -192,7 +192,7 @@ public class Patcher {
 	
 	public static class Errors {
 		
-		private Map<String, Throwable> errors = new HashMap<String, Throwable>();
+		private Map<String, Throwable> errors = new HashMap<>();
 		
 		public void add(String message) {
 			add(message, new PatchApplicationException(message));

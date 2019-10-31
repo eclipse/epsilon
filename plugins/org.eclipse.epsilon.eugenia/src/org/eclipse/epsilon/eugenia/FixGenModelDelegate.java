@@ -36,7 +36,7 @@ public class FixGenModelDelegate extends EugeniaActionDelegate {
 	
 	@Override
 	public List<IModel> getModels() throws Exception {
-		List<IModel> models = new ArrayList<IModel>();
+		List<IModel> models = new ArrayList<>();
 
 		// The GenModel must be loaded *and* disposed first (bug #307755)
 		models.add(loadModel("GenModel", gmfFileSet.getGenModelPath(), GenModelPackage.eINSTANCE.getNsURI(), true, true, false));
@@ -47,7 +47,7 @@ public class FixGenModelDelegate extends EugeniaActionDelegate {
 
 	@Override
 	public List<Variable> getExtraVariables() {
-		ArrayList<Variable> variables = new ArrayList<Variable>();
+		ArrayList<Variable> variables = new ArrayList<>();
 		variables.add(CopyrightProvider.getCopyrightVariable(getSelectedFile()));
 		return variables;
 	}

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Tree {
 	
 	protected String label;
-	protected ArrayList<Tree> children = new ArrayList<Tree>();
+	protected ArrayList<Tree> children = new ArrayList<>();
 	
 	public String toString() {
 		return this.label;
@@ -57,7 +57,7 @@ public class Tree {
 	
 	public ArrayList<Tree> getAllChildren() {
 		
-		ArrayList<Tree> allChildren = new ArrayList<Tree>();
+		ArrayList<Tree> allChildren = new ArrayList<>();
 		
 		allChildren.addAll(children);
 		

@@ -29,7 +29,7 @@ import org.eclipse.epsilon.common.dt.util.LogUtil;
 public class CrossReferenceAnalyser {
 
 	private final IConcordanceModel sourceModel;
-	private final Set<CrossReference> xrefs = new HashSet<CrossReference>();
+	private final Set<CrossReference> xrefs = new HashSet<>();
 	
 	public CrossReferenceAnalyser(IConcordanceModel source) {
 		this.sourceModel = source;
@@ -85,7 +85,7 @@ public class CrossReferenceAnalyser {
 			values = (Collection<EObject>)value;
 		
 		} else { 
-			values = new ArrayList<EObject>();
+			values = new ArrayList<>();
 
 			if (value != null)
 				values.add((EObject) value);

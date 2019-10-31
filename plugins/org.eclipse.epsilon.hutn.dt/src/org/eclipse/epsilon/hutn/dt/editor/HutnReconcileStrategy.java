@@ -67,7 +67,7 @@ public class HutnReconcileStrategy implements IReconcilingStrategy {
 				file.deleteMarkers(null, true, IResource.DEPTH_INFINITE);
 				
 				for (ParseProblem error : errors) {
-					final Map<String, Object> attribute = new HashMap<String, Object>();
+					final Map<String, Object> attribute = new HashMap<>();
 					attribute.put(IMarker.LINE_NUMBER, error.getLine());
 					attribute.put(IMarker.MESSAGE,     error.getReason());				
 					attribute.put(IMarker.SEVERITY,    error.getSeverity() == ParseProblem.ERROR ? IMarker.SEVERITY_ERROR : IMarker.SEVERITY_WARNING);

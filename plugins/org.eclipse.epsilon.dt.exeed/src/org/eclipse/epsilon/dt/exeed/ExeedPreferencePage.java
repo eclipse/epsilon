@@ -29,7 +29,7 @@ public class ExeedPreferencePage extends PreferencePage implements IWorkbenchPre
 	public static final String SHOW_STRUCTURAL_INFO = "showStructuralInfo";
 	public static final String SHOW_ALL_RESOURCES= "showAllResources";
 	
-	protected List<FieldEditor> fieldEditors = new ArrayList<FieldEditor>();
+	protected List<FieldEditor> fieldEditors = new ArrayList<>();
 	
 	@Override
 	protected Control createContents(Composite parent) {

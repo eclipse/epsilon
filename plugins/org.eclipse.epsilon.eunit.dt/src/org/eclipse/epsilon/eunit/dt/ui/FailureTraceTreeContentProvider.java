@@ -31,7 +31,7 @@ import org.eclipse.ui.IViewSite;
 class FailureTraceTreeContentProvider implements ITreeContentProvider {
 	private EUnitTest currentTest;
 	private List<Frame> currentTestFrames;
-	private Map<Variable, Frame> mapVarToFrame = new IdentityHashMap<Variable, Frame>();
+	private Map<Variable, Frame> mapVarToFrame = new IdentityHashMap<>();
 	private final IViewSite viewSite;
 
 	public FailureTraceTreeContentProvider(IViewSite viewSite) {
@@ -73,7 +73,7 @@ class FailureTraceTreeContentProvider implements ITreeContentProvider {
 		if (parentElement instanceof EUnitTest) {
 			EUnitTest test = (EUnitTest)parentElement;
 
-			ArrayList<Object> children = new ArrayList<Object>();
+			ArrayList<Object> children = new ArrayList<>();
 			if (test.getException() != null) {
 				children.add(test.getException());
 			}

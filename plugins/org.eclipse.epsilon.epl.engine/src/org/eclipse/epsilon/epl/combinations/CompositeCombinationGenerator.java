@@ -17,17 +17,17 @@ import java.util.Stack;
 
 public class CompositeCombinationGenerator<T> implements CombinationGenerator<List<T>> {
 	
-	protected ArrayList<CombinationGenerator<T>> generators = new ArrayList<CombinationGenerator<T>>();
+	protected ArrayList<CombinationGenerator<T>> generators = new ArrayList<>();
 	protected int currentGeneratorIndex = 0;
-	protected Stack<List<T>> currentStack = new Stack<List<T>>();
+	protected Stack<List<T>> currentStack = new Stack<>();
 	protected CompositeCombinationValidator<T> validator = null;
-	protected List<List<T>> NEXT = new ArrayList<List<T>>();
-	protected List<List<T>> UNKNOWN = new LinkedList<List<T>>();
+	protected List<List<T>> NEXT = new ArrayList<>();
+	protected List<List<T>> UNKNOWN = new LinkedList<>();
 	protected List<List<T>> lookahead = UNKNOWN;
 	
 	public static void main(String[] args) throws Exception {
 		
-		CompositeCombinationGenerator<String> ccg = new CompositeCombinationGenerator<String>();
+		CompositeCombinationGenerator<String> ccg = new CompositeCombinationGenerator<>();
 		
 //		NCombinationGenerator<String> f1 = new NCombinationGenerator<String>(createList("a1", "a2", "a3", "a4"), 2);
 		//DynamicListCombinationGenerator<String> f1 = new DynamicListCombinationGenerator<String>(createList("a", "b"), 1);
@@ -54,7 +54,7 @@ public class CompositeCombinationGenerator<T> implements CombinationGenerator<Li
 	}
 	
 	public static List<String> createList(String... strings) {
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		for (String str : strings) {
 			list.add(str);
 		}

@@ -52,7 +52,7 @@ public class WebGitFolder extends WebGitFile {
 		
 		if (children == null) {
 			
-			children = new ArrayList<WebGitFile>();
+			children = new ArrayList<>();
 			List<String> childFileNames = getChildrenFileNames(url);
 			
 			for (String childFileName : childFileNames) {
@@ -73,7 +73,7 @@ public class WebGitFolder extends WebGitFile {
 	}
 	
 	protected List<String> getChildrenFileNames(String url) throws Exception {
-		ArrayList<String> childFileNames = new ArrayList<String>();
+		ArrayList<String> childFileNames = new ArrayList<>();
 		String text = getText(server + url);
 		Pattern links = Pattern.compile("href='(.*?)'");
 		Matcher matcher = links.matcher(text);
@@ -90,9 +90,7 @@ public class WebGitFolder extends WebGitFile {
 	protected String getText(String url) throws Exception {
 		URL website = new URL(url);
 		URLConnection connection = website.openConnection();
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				connection.getInputStream()));
-		try {
+		try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
 			StringBuilder response = new StringBuilder();
 			String inputLine;
 
@@ -101,8 +99,6 @@ public class WebGitFolder extends WebGitFile {
 			}
 
 			return response.toString();
-		} finally {
-			in.close();
 		}
 	}
 }

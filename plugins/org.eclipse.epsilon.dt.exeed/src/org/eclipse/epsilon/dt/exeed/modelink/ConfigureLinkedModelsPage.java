@@ -133,7 +133,7 @@ public class ConfigureLinkedModelsPage extends WizardPage {
 	
 	private class LinkedModelsContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
-			ArrayList<LinkedModel> filtered = new ArrayList<LinkedModel>();
+			ArrayList<LinkedModel> filtered = new ArrayList<>();
 			for (LinkedModel m : modeLink.getLinkedModels()) {
 				if (m.getPosition() == position) {
 					filtered.add(m);

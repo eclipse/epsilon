@@ -62,8 +62,8 @@ public class ConformanceChecker extends DefaultMetamodelChangeListener {
 	
 	static class ErrorLogInformer implements ConformanceReporter {
 
-		private final Collection<String> conformantModels    = new LinkedList<String>();
-		private final Collection<String> nonConformantModels = new LinkedList<String>();
+		private final Collection<String> conformantModels    = new LinkedList<>();
+		private final Collection<String> nonConformantModels = new LinkedList<>();
 
 		
 		public void reportConformant(String name) {

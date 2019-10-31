@@ -33,7 +33,7 @@ class SlotFactory {
 	}
 	
 	private Slot createSlot(Object referenceValue, Object value) {
-		final List<Object> values = new ArrayList<Object>();
+		final List<Object> values = new ArrayList<>();
 		values.add(value);
 		return createSlot(referenceValue, values);
 	}
@@ -101,7 +101,7 @@ class SlotFactory {
 
 	private Object getValue(EList<?> values) {
 		if (values.size() > 1) {
-			final List<Object> list = new ArrayList<Object>();
+			final List<Object> list = new ArrayList<>();
 			
 			for (Object value : values) {
 				list.add(value);

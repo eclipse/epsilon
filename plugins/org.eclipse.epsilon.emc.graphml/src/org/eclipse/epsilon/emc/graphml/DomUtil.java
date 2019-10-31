@@ -17,7 +17,7 @@ import org.jdom.Element;
 public class DomUtil {
 	
 	public static List<Element> getChildren(Element parent, String name) {
-		List<Element> children = new ArrayList<Element>();
+		List<Element> children = new ArrayList<>();
 		for (Object o : parent.getChildren()) {
 			if (o instanceof Element) {
 				Element e = (Element) o;

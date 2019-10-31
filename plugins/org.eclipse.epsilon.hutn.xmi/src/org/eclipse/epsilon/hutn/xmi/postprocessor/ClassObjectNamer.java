@@ -21,7 +21,7 @@ import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 
 public class ClassObjectNamer {
 
-	private final Map<String, Integer> counters = new HashMap<String, Integer>(); 
+	private final Map<String, Integer> counters = new HashMap<>(); 
 	
 	public String name(ClassObject co) {
 		final String name;

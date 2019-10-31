@@ -42,7 +42,7 @@ public class AllocatorTests {
 	}	
 	
 	protected List<String> list(String... s) {
-		return new ArrayList<String>(Arrays.asList(s));
+		return new ArrayList<>(Arrays.asList(s));
 	}
 	
 	protected void assertAllocation(List<String> values, List<String> slots, int expectedAllocationCount, List<String>... expectedAllocations) {

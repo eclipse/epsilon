@@ -34,7 +34,7 @@ public class HutnScanner extends RuleBasedScanner {
 	public static final Color KEYWORD = new Color(Display.getCurrent(), new RGB(127, 0, 85));
 
 	
-	private final List<IRule> basicRules = new LinkedList<IRule>();
+	private final List<IRule> basicRules = new LinkedList<>();
 	
 	public HutnScanner() {
 		basicRules.add(new EndOfLineRule("//", new Token(new TextAttribute(COMMENT))));
@@ -55,7 +55,7 @@ public class HutnScanner extends RuleBasedScanner {
 	}
 	
 	public void setKeywords(List<String> keywords) {
-		final List<IRule> rules = new LinkedList<IRule>(basicRules);
+		final List<IRule> rules = new LinkedList<>(basicRules);
 		
 		final WordRule keywordRule = new WordRule(new HutnWordDetector());		
 		for (String keyword : keywords) {

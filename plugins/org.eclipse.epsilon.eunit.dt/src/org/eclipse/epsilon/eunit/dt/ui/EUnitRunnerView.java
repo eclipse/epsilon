@@ -89,7 +89,7 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 	}
 
 	private class CompareResultsAction extends Action {
-		private List<IDifferenceViewer> diffViewers = new ArrayList<IDifferenceViewer>();
+		private List<IDifferenceViewer> diffViewers = new ArrayList<>();
 
 		public CompareResultsAction() {
 			setText("Compare Results");
@@ -242,7 +242,7 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 			try {
 				final List<EUnitModule> modules = history
 						.getModules(currentLaunch);
-				final List<EUnitTest> tests = new ArrayList<EUnitTest>();
+				final List<EUnitTest> tests = new ArrayList<>();
 				for (EUnitModule module : modules) {
 					final EUnitTest result = module.getSuiteRoot();
 					result.collectLeafTests(module.getSelectedOperations(),
@@ -321,7 +321,7 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 
 		private List<EUnitTest> getSelectedTestCases(ISelection selection) {
 			IStructuredSelection selectedTestCases = (IStructuredSelection)selection;
-			List<EUnitTest> testCases = new ArrayList<EUnitTest>();
+			List<EUnitTest> testCases = new ArrayList<>();
 			for (Object o : selectedTestCases.toList()) {
 				if (o instanceof EUnitTest) {
 					testCases.add((EUnitTest)o);
@@ -693,9 +693,9 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 			try {
 				copy = launch.getLaunchConfiguration().getWorkingCopy();
 				if (testCases != null) {
-					final Set<String> opNames = new HashSet<String>();
+					final Set<String> opNames = new HashSet<>();
 					collectOperationNamesFromSubtree(testCases, opNames);
-					EUnitPlugin.getDefault().setSelectedOperations(copy, new ArrayList<String>(opNames));
+					EUnitPlugin.getDefault().setSelectedOperations(copy, new ArrayList<>(opNames));
 				}
 				copy.launch(launch.getLaunchMode(), null, true);
 			} catch (CoreException e) {

@@ -216,7 +216,7 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 	 */
 	public EList<String> getAddress() {
 		if (address == null) {
-			address = new EDataTypeUniqueEList<String>(String.class, this, FamiliesPackage.FAMILY__ADDRESS);
+			address = new EDataTypeUniqueEList<>(String.class, this, FamiliesPackage.FAMILY__ADDRESS);
 		}
 		return address;
 	}
@@ -228,7 +228,7 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 	 */
 	public EList<Pet> getPets() {
 		if (pets == null) {
-			pets = new EObjectResolvingEList<Pet>(Pet.class, this, FamiliesPackage.FAMILY__PETS);
+			pets = new EObjectResolvingEList<>(Pet.class, this, FamiliesPackage.FAMILY__PETS);
 		}
 		return pets;
 	}
@@ -261,7 +261,7 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 	 */
 	public EList<Person> getMembers() {
 		if (members == null) {
-			members = new EObjectContainmentEList<Person>(Person.class, this, FamiliesPackage.FAMILY__MEMBERS);
+			members = new EObjectContainmentEList<>(Person.class, this, FamiliesPackage.FAMILY__MEMBERS);
 		}
 		return members;
 	}
@@ -336,7 +336,7 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 	 */
 	public EList<Dog> getDogs() {
 		if (dogs == null) {
-			dogs = new EObjectResolvingEList<Dog>(Dog.class, this, FamiliesPackage.FAMILY__DOGS);
+			dogs = new EObjectResolvingEList<>(Dog.class, this, FamiliesPackage.FAMILY__DOGS);
 		}
 		return dogs;
 	}
@@ -389,7 +389,7 @@ public class FamilyImpl extends NamedElementImpl implements Family {
 	 */
 	public EList<Integer> getLotteryNumbers() {
 		if (lotteryNumbers == null) {
-			lotteryNumbers = new EDataTypeUniqueEList<Integer>(Integer.class, this, FamiliesPackage.FAMILY__LOTTERY_NUMBERS);
+			lotteryNumbers = new EDataTypeUniqueEList<>(Integer.class, this, FamiliesPackage.FAMILY__LOTTERY_NUMBERS);
 		}
 		return lotteryNumbers;
 	}

@@ -104,7 +104,7 @@ public class FlockModelsConfigurationTab extends ModelsConfigurationTab implemen
 	}
 	
 	private void updateCombos() {
-		final List<String> modelNames = new LinkedList<String>();
+		final List<String> modelNames = new LinkedList<>();
 		
 		for (Object model : models) {
 			StringProperties sp = new StringProperties();

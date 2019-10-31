@@ -94,7 +94,7 @@ public class SlotImpl extends MinimalEObjectImpl.Container implements Slot {
 	 */
 	public EList<Object> getValues() {
 		if (values == null) {
-			values = new EDataTypeUniqueEList<Object>(Object.class, this, MuddlePackage.SLOT__VALUES);
+			values = new EDataTypeUniqueEList<>(Object.class, this, MuddlePackage.SLOT__VALUES);
 		}
 		return values;
 	}

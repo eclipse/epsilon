@@ -80,7 +80,7 @@ public class SpreadsheetUtils
 	 */
 	public static List<SpreadsheetRow> extractAllRowsFromObject(final Object object)
 	{
-		final List<SpreadsheetRow> rows = new ArrayList<SpreadsheetRow>();
+		final List<SpreadsheetRow> rows = new ArrayList<>();
 		if (object instanceof SpreadsheetRow)
 		{
 			rows.add((SpreadsheetRow) object);
@@ -105,7 +105,7 @@ public class SpreadsheetUtils
 	@SuppressWarnings("unchecked")
 	public static Map<String, Object> extractMapFromCollection(final Collection<Object> collection)
 	{
-		Map<String, Object> extractedMap = new HashMap<String, Object>();
+		Map<String, Object> extractedMap = new HashMap<>();
 		if (CollectionUtils.isEmpty(collection))
 		{
 			return extractedMap;
@@ -155,7 +155,7 @@ public class SpreadsheetUtils
 	@SuppressWarnings("unchecked")
 	public static List<String> convertObjectToList(final Object value)
 	{
-		final List<String> newValues = new ArrayList<String>();
+		final List<String> newValues = new ArrayList<>();
 		if (value instanceof Collection<?>)
 		{
 			newValues.addAll((Collection<String>) value);

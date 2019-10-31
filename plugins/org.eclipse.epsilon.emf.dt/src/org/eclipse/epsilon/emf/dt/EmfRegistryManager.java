@@ -30,7 +30,7 @@ import org.eclipse.epsilon.emc.emf.EmfUtil;
 public class EmfRegistryManager {
 
 	protected static EmfRegistryManager instance = null;
-	protected HashMap<String, List<EPackage>> managedMetamodels = new HashMap<String, List<EPackage>>();
+	protected HashMap<String, List<EPackage>> managedMetamodels = new HashMap<>();
 
 	public static EmfRegistryManager getInstance() {
 		if (instance == null) {
@@ -63,7 +63,7 @@ public class EmfRegistryManager {
 				// IResourceDelta docDelta = rootDelta.findMember(DOC_PATH);
 				// if (docDelta == null)
 				// return;
-				final ArrayList<IResourceDelta> changed = new ArrayList<IResourceDelta>();
+				final ArrayList<IResourceDelta> changed = new ArrayList<>();
 				IResourceDeltaVisitor visitor = new IResourceDeltaVisitor() {
 					public boolean visit(IResourceDelta delta) {
 						// only interested in changed resources (not added or
@@ -152,7 +152,7 @@ public class EmfRegistryManager {
 	}
 
 	public List<String> getMetamodels() {
-		List<String> metamodels = new ArrayList<String>();
+		List<String> metamodels = new ArrayList<>();
 		String concat = EmfUtilPlugin.getDefault().getPreferenceStore().getString("metamodels");
 		StringTokenizer st = new StringTokenizer(concat, ";");
 		while (st.hasMoreTokens()) {

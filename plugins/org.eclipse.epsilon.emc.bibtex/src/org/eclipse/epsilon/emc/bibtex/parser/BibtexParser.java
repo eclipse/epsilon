@@ -41,7 +41,7 @@ public class BibtexParser {
 	}
 
 	private Map<String, String> parseProperties(String rawProperties) {
-		final Map<String, String> properties = new HashMap<String, String>();
+		final Map<String, String> properties = new HashMap<>();
 		final Matcher propertyMatcher = getPropertyPattern().matcher(rawProperties);
 		
 		while (propertyMatcher.find()) {

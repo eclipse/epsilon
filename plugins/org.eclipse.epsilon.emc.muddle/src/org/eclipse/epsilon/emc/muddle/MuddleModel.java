@@ -80,7 +80,7 @@ public class MuddleModel extends Model {
 	
 	public Set<Feature> getUnusedFeatures() {
 		if (unusedFeatures == null && muddle != null) {
-			unusedFeatures = new HashSet<Feature>();
+			unusedFeatures = new HashSet<>();
 			for (Type type : muddle.getTypes()) {
 	               if (type instanceof MuddleElementType) {
 	            	   unusedFeatures.addAll(((MuddleElementType) type).getFeatures());
@@ -119,7 +119,7 @@ public class MuddleModel extends Model {
 	public Collection<?> getAllOfKind(String type)
 			throws EolModelElementTypeNotFoundException {
 		
-		ArrayList<MuddleElement> elements = new ArrayList<MuddleElement>();
+		ArrayList<MuddleElement> elements = new ArrayList<>();
 		for (MuddleElementType elementType : getAllSubTypes(muddleElementTypeForName(type))) {
 			elements.addAll(elementType.getInstances());
 		}
@@ -127,7 +127,7 @@ public class MuddleModel extends Model {
 	}
 	
 	protected Set<MuddleElementType> getAllSubTypes(MuddleElementType elementType) {
-		HashSet<MuddleElementType> allSubTypes = new HashSet<MuddleElementType>();
+		HashSet<MuddleElementType> allSubTypes = new HashSet<>();
 		collectAllSubTypes(elementType, allSubTypes);
 		return allSubTypes;
 	}

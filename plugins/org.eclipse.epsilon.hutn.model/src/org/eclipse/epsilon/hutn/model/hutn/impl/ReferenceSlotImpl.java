@@ -81,7 +81,7 @@ public class ReferenceSlotImpl extends ClassObjectSlotImpl<String> implements Re
 	 * @generated NOT
 	 */
 	public EList<ClassObject> getClassObjects() {
-		final EList<ClassObject> classObjects = new BasicEList<ClassObject>();
+		final EList<ClassObject> classObjects = new BasicEList<>();
 		
 		for (String identifier : getValues()) {
 			final ClassObject classObject = getClassObject(identifier);
@@ -89,7 +89,7 @@ public class ReferenceSlotImpl extends ClassObjectSlotImpl<String> implements Re
 			classObjects.add(classObject);
 		}
 		
-		return new BasicEList.UnmodifiableEList<ClassObject>(classObjects.size(), classObjects.toArray());
+		return new BasicEList.UnmodifiableEList<>(classObjects.size(), classObjects.toArray());
 	}
 	
 	/**

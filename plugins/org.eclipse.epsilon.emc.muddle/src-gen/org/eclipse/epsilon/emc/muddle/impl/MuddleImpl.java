@@ -92,7 +92,7 @@ public class MuddleImpl extends MinimalEObjectImpl.Container implements Muddle {
 	 */
 	public EList<Type> getTypes() {
 		if (types == null) {
-			types = new EObjectContainmentEList<Type>(Type.class, this, MuddlePackage.MUDDLE__TYPES);
+			types = new EObjectContainmentEList<>(Type.class, this, MuddlePackage.MUDDLE__TYPES);
 		}
 		return types;
 	}
@@ -104,7 +104,7 @@ public class MuddleImpl extends MinimalEObjectImpl.Container implements Muddle {
 	 */
 	public EList<MuddleElement> getElements() {
 		if (elements == null) {
-			elements = new EObjectContainmentWithInverseEList<MuddleElement>(MuddleElement.class, this, MuddlePackage.MUDDLE__ELEMENTS, MuddlePackage.MUDDLE_ELEMENT__MUDDLE);
+			elements = new EObjectContainmentWithInverseEList<>(MuddleElement.class, this, MuddlePackage.MUDDLE__ELEMENTS, MuddlePackage.MUDDLE_ELEMENT__MUDDLE);
 		}
 		return elements;
 	}

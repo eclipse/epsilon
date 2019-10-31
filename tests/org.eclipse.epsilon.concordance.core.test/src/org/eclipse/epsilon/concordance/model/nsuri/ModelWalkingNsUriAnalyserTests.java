@@ -65,7 +65,7 @@ public class ModelWalkingNsUriAnalyserTests {
 	
 
 	private static <T> Set<T> asSet(T... elements) {
-		final Set<T> set = new HashSet<T>();
+		final Set<T> set = new HashSet<>();
 		set.addAll(Arrays.asList(elements));
 		return set;
 	}

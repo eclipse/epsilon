@@ -126,7 +126,7 @@ public class VirtualObjectImpl extends TypedElementImpl implements VirtualObject
 	 */
 	public EList<Slot> getSlots() {
 		if (slots == null) {
-			slots = new EObjectContainmentWithInverseEList<Slot>(Slot.class, this, VirtualPackage.VIRTUAL_OBJECT__SLOTS, VirtualPackage.SLOT__OWNER);
+			slots = new EObjectContainmentWithInverseEList<>(Slot.class, this, VirtualPackage.VIRTUAL_OBJECT__SLOTS, VirtualPackage.SLOT__OWNER);
 		}
 		return slots;
 	}

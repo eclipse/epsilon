@@ -355,8 +355,8 @@ public class InMemoryConcordanceIndexTests {
 	private ConcordanceModel stub(Collection<IConcordanceModel> firstTargets, Collection<IConcordanceModel> secondTargets) {
 		final ConcordanceModel stub = createMock("StubModel" + STUB_COUNT++, ConcordanceModel.class);
 
-		expect(stub.getAllReferencedModels()).andReturn(new HashSet<IConcordanceModel>(firstTargets)).times(1);
-		expect(stub.getAllReferencedModels()).andReturn(new HashSet<IConcordanceModel>(secondTargets)).anyTimes();
+		expect(stub.getAllReferencedModels()).andReturn(new HashSet<>(firstTargets)).times(1);
+		expect(stub.getAllReferencedModels()).andReturn(new HashSet<>(secondTargets)).anyTimes();
 		
 		expect(stub.getNsUri()).andReturn("families").anyTimes();
 		replay(stub);

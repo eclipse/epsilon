@@ -27,9 +27,9 @@ import org.eclipse.epsilon.concordance.core.hashing.hashers.ecore.EPackageHasher
 
 public class EPackageRegistryCache {
 
-	private final Map<String, EPackage> cache = new HashMap<String, EPackage>();
-	private final Map<String, EPackage> currentRegistry = new HashMap<String, EPackage>();
-	private final Collection<String> erroringNsUris = new LinkedList<String>();
+	private final Map<String, EPackage> cache = new HashMap<>();
+	private final Map<String, EPackage> currentRegistry = new HashMap<>();
+	private final Collection<String> erroringNsUris = new LinkedList<>();
 
 	
 	public EPackageRegistryCache() {
@@ -46,7 +46,7 @@ public class EPackageRegistryCache {
 	}
 
 	private Set<Entry<String, EPackage>> expiredEntries() {
-		final Set<Entry<String, EPackage>> entriesNotInOther = new HashSet<Entry<String,EPackage>>();
+		final Set<Entry<String, EPackage>> entriesNotInOther = new HashSet<>();
 		
 		for (Iterator<Entry<String, EPackage>> iterator = cache.entrySet().iterator(); iterator.hasNext();) {
 			final Entry<String, EPackage> cachedEntry = iterator.next();
@@ -62,7 +62,7 @@ public class EPackageRegistryCache {
 
 
 	private Set<Entry<String, EPackage>> freshEntries() {
-		final Set<Entry<String, EPackage>> freshEntries = new HashSet<Entry<String,EPackage>>();
+		final Set<Entry<String, EPackage>> freshEntries = new HashSet<>();
 		
 		for (Entry<String, EPackage> currentRegistryEntry : currentRegistry.entrySet()){
 			if (!cache.containsKey(currentRegistryEntry.getKey())) {
@@ -76,7 +76,7 @@ public class EPackageRegistryCache {
 
 
 	private Set<Entry<EPackage, EPackage>> changedEntries() {
-		final Map<EPackage, EPackage> changedEntries = new HashMap<EPackage,EPackage>();
+		final Map<EPackage, EPackage> changedEntries = new HashMap<>();
 		
 		for (Entry<String, EPackage> currentRegistryEntry : currentRegistry.entrySet()) {
 			final String nsUri = currentRegistryEntry.getKey();
@@ -109,7 +109,7 @@ public class EPackageRegistryCache {
 	private void refreshCurrentRegistry() {
 		currentRegistry.clear();
 		
-		for (String key : new HashSet<String>(EPackage.Registry.INSTANCE.keySet())) {
+		for (String key : new HashSet<>(EPackage.Registry.INSTANCE.keySet())) {
 			if (getEPackage(key) != null)
 				currentRegistry.put(key, getEPackage(key));
 		}

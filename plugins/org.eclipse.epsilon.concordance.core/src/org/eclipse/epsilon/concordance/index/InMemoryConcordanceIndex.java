@@ -28,11 +28,11 @@ import org.eclipse.epsilon.concordance.reporter.model.ModelChangeReporter;
  */
 public class InMemoryConcordanceIndex implements ConcordanceIndex, ModelChangeListener {
 
-	final Map<IConcordanceModel, String>      modelToNsUri = new HashMap<IConcordanceModel, String>();
-	final Map<IConcordanceModel, Set<IConcordanceModel>> modelToReferencedModels = new HashMap<IConcordanceModel, Set<IConcordanceModel>>();
+	final Map<IConcordanceModel, String>      modelToNsUri = new HashMap<>();
+	final Map<IConcordanceModel, Set<IConcordanceModel>> modelToReferencedModels = new HashMap<>();
 	
-	final Map<String, Set<IConcordanceModel>> modelsByNsUri           = new HashMap<String, Set<IConcordanceModel>>();
-	final Map<IConcordanceModel, Set<IConcordanceModel>> modelsByReferencedModel = new HashMap<IConcordanceModel, Set<IConcordanceModel>>();
+	final Map<String, Set<IConcordanceModel>> modelsByNsUri           = new HashMap<>();
+	final Map<IConcordanceModel, Set<IConcordanceModel>> modelsByReferencedModel = new HashMap<>();
 	
 	/**
 	 * @deprecated WARNING: This is a partial implementation of an in-memory index. It may not work as expected. 

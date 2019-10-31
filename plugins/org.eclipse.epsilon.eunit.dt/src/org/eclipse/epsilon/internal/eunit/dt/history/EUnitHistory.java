@@ -28,7 +28,7 @@ import org.eclipse.epsilon.eunit.dt.EUnitPlugin;
  */
 public class EUnitHistory {
 
-	private final Map<ILaunch, List<EUnitModule>> launches = new LinkedHashMap<ILaunch, List<EUnitModule>>();
+	private final Map<ILaunch, List<EUnitModule>> launches = new LinkedHashMap<>();
 	private ILaunch currentLaunch = null;
 
 	public void addLaunch(ILaunch launch, EUnitModule module) {
@@ -36,7 +36,7 @@ public class EUnitHistory {
 			launches.get(launch).add(module);
 		}
 		else {
-			final List<EUnitModule> newList = new ArrayList<EUnitModule>();
+			final List<EUnitModule> newList = new ArrayList<>();
 			newList.add(module);
 			launches.put(launch, newList);
 		}

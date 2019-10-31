@@ -102,7 +102,7 @@ public class ListCombinationGenerator<T> implements CombinationGenerator<T> {
 			remaining = remaining.subtract(BigInteger.ONE);
 		}
 		
-		List<T> next = new ArrayList<T>();
+		List<T> next = new ArrayList<>();
 		for (int j : a) {
 			next.add(list.get(j));
 		}

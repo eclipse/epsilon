@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EPackage;
 
 public class MetamodelChangeReporter {
 
-	private final List<MetamodelChangeListener> listeners = new LinkedList<MetamodelChangeListener>();
+	private final List<MetamodelChangeListener> listeners = new LinkedList<>();
 	private final EPackageRegistryCache cache = new EPackageRegistryCache();
 	
 	

@@ -175,7 +175,7 @@ public class SpreadsheetPropertySetterTest
 		final String value = "VALUE";
 		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
 		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
-		Set<SpreadsheetReference> sourceReferences = new HashSet<SpreadsheetReference>();
+		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
 		SpreadsheetReference reference = control.createMock(SpreadsheetReference.class);
 		sourceReferences.add(reference);
 
@@ -210,14 +210,14 @@ public class SpreadsheetPropertySetterTest
 		SpreadsheetRow valueRow = control.createMock(SpreadsheetRow.class);
 		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
 		SpreadsheetColumn column = control.createMock(SpreadsheetColumn.class);
-		Set<SpreadsheetReference> sourceReferences = new HashSet<SpreadsheetReference>();
+		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
 		SpreadsheetReference reference = control.createMock(SpreadsheetReference.class);
 		sourceReferences.add(reference);
 		SpreadsheetWorksheet targetWorksheet = control.createMock(SpreadsheetWorksheet.class);
-		final List<String> newValues = new ArrayList<String>();
+		final List<String> newValues = new ArrayList<>();
 		newValues.add("V1");
 		SpreadsheetColumn targetColumn = control.createMock(SpreadsheetColumn.class);
-		final List<String> currentValues = new ArrayList<String>();
+		final List<String> currentValues = new ArrayList<>();
 		currentValues.add("V1");
 		currentValues.add("V2");
 		currentValues.add("V3");

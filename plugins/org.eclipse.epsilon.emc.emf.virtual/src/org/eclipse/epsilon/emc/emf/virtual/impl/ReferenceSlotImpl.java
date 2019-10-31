@@ -75,7 +75,7 @@ public class ReferenceSlotImpl extends SlotImpl implements ReferenceSlot {
 	 */
 	public EList<VirtualObject> getValues() {
 		if (values == null) {
-			values = new EObjectResolvingEList<VirtualObject>(VirtualObject.class, this, VirtualPackage.REFERENCE_SLOT__VALUES);
+			values = new EObjectResolvingEList<>(VirtualObject.class, this, VirtualPackage.REFERENCE_SLOT__VALUES);
 		}
 		return values;
 	}

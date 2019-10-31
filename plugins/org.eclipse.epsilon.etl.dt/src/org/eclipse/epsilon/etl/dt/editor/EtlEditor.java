@@ -29,7 +29,7 @@ public class EtlEditor extends EolEditor{
 	@Override
 	public List<String> getKeywords() {
 		
-		List<String> keywords = new ArrayList<String>();
+		List<String> keywords = new ArrayList<>();
 		
 		keywords.add("transform");
 		keywords.add("auto");
@@ -49,7 +49,7 @@ public class EtlEditor extends EolEditor{
 	@Override
 	public List<String> getBuiltinVariables() {
 		
-		ArrayList<String> builtIn = new ArrayList<String>();
+		ArrayList<String> builtIn = new ArrayList<>();
 		
 		builtIn.add("transTrace");
 		

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class Stack<T> {
 
-	private final List<T> stack = new LinkedList<T>();
+	private final List<T> stack = new LinkedList<>();
 	
 	public T peek() {
 		if (stack.isEmpty())

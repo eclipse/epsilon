@@ -26,7 +26,7 @@ class MigrationLoader {
 	private static final String MIGRATION_EXT_POINT_ID = "org.eclipse.epsilon.concordance.clients.Migration";
 
 	public Collection<Migration> loadFromExtensions() {
-		final Collection<Migration> migrations = new LinkedList<Migration>();
+		final Collection<Migration> migrations = new LinkedList<>();
 				
 		for (IConfigurationElement extPoint : getMigrationExtensionDefinitions()) {
 			final Migration migration = createMigrationFrom(extPoint);

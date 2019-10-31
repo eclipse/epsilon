@@ -112,7 +112,7 @@ public class MuddleElementTypeImpl extends TypeImpl implements MuddleElementType
 	 */
 	public EList<MuddleElement> getInstances() {
 		if (instances == null) {
-			instances = new EObjectWithInverseResolvingEList<MuddleElement>(MuddleElement.class, this, MuddlePackage.MUDDLE_ELEMENT_TYPE__INSTANCES, MuddlePackage.MUDDLE_ELEMENT__TYPE);
+			instances = new EObjectWithInverseResolvingEList<>(MuddleElement.class, this, MuddlePackage.MUDDLE_ELEMENT_TYPE__INSTANCES, MuddlePackage.MUDDLE_ELEMENT__TYPE);
 		}
 		return instances;
 	}
@@ -124,7 +124,7 @@ public class MuddleElementTypeImpl extends TypeImpl implements MuddleElementType
 	 */
 	public EList<Feature> getFeatures() {
 		if (features == null) {
-			features = new EObjectContainmentWithInverseEList<Feature>(Feature.class, this, MuddlePackage.MUDDLE_ELEMENT_TYPE__FEATURES, MuddlePackage.FEATURE__OWNING_TYPE);
+			features = new EObjectContainmentWithInverseEList<>(Feature.class, this, MuddlePackage.MUDDLE_ELEMENT_TYPE__FEATURES, MuddlePackage.FEATURE__OWNING_TYPE);
 		}
 		return features;
 	}
@@ -136,7 +136,7 @@ public class MuddleElementTypeImpl extends TypeImpl implements MuddleElementType
 	 */
 	public EList<MuddleElementType> getSuperTypes() {
 		if (superTypes == null) {
-			superTypes = new EObjectWithInverseResolvingEList.ManyInverse<MuddleElementType>(MuddleElementType.class, this, MuddlePackage.MUDDLE_ELEMENT_TYPE__SUPER_TYPES, MuddlePackage.MUDDLE_ELEMENT_TYPE__SUB_TYPES);
+			superTypes = new EObjectWithInverseResolvingEList.ManyInverse<>(MuddleElementType.class, this, MuddlePackage.MUDDLE_ELEMENT_TYPE__SUPER_TYPES, MuddlePackage.MUDDLE_ELEMENT_TYPE__SUB_TYPES);
 		}
 		return superTypes;
 	}
@@ -148,7 +148,7 @@ public class MuddleElementTypeImpl extends TypeImpl implements MuddleElementType
 	 */
 	public EList<MuddleElementType> getSubTypes() {
 		if (subTypes == null) {
-			subTypes = new EObjectWithInverseResolvingEList.ManyInverse<MuddleElementType>(MuddleElementType.class, this, MuddlePackage.MUDDLE_ELEMENT_TYPE__SUB_TYPES, MuddlePackage.MUDDLE_ELEMENT_TYPE__SUPER_TYPES);
+			subTypes = new EObjectWithInverseResolvingEList.ManyInverse<>(MuddleElementType.class, this, MuddlePackage.MUDDLE_ELEMENT_TYPE__SUB_TYPES, MuddlePackage.MUDDLE_ELEMENT_TYPE__SUPER_TYPES);
 		}
 		return subTypes;
 	}

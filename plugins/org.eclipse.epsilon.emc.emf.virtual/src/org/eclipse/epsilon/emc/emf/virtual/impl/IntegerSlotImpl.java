@@ -74,7 +74,7 @@ public class IntegerSlotImpl extends SlotImpl implements IntegerSlot {
 	 */
 	public EList<Integer> getValues() {
 		if (values == null) {
-			values = new EDataTypeUniqueEList<Integer>(Integer.class, this, VirtualPackage.INTEGER_SLOT__VALUES);
+			values = new EDataTypeUniqueEList<>(Integer.class, this, VirtualPackage.INTEGER_SLOT__VALUES);
 		}
 		return values;
 	}

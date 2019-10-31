@@ -18,7 +18,7 @@ final class HutnKeywordManager {
 	
 	private final HutnScanner scanner;
 	
-	private List<String> cachedKeywords = new LinkedList<String>();
+	private List<String> cachedKeywords = new LinkedList<>();
 	
 	public HutnKeywordManager(HutnScanner scanner) {
 		this.scanner = scanner;
@@ -45,7 +45,7 @@ final class HutnKeywordManager {
 	}
 	
 	private List<String> getKeywordsFor(List<String> nsUris) {
-		final List<String> keywords = new LinkedList<String>();
+		final List<String> keywords = new LinkedList<>();
 
 		for (String nsUri : nsUris) {
 			try {

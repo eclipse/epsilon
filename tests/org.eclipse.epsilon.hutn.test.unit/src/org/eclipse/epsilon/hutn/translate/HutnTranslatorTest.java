@@ -112,7 +112,7 @@ public abstract class HutnTranslatorTest {
 	
 	protected static Node createAttribute(String name, Object... values) {
 		if (values.length > 0) {
-			final List<Node> valueNodes = new LinkedList<Node>();
+			final List<Node> valueNodes = new LinkedList<>();
 			
 			for (Object value : values) {
 				final Node valueNode = getNodeObjectFor(value);
@@ -182,7 +182,7 @@ public abstract class HutnTranslatorTest {
 	}
 	
 	private static List<Node> createReferenceNodes(Reference... references) {
-		final List<Node> referenceNodes = new LinkedList<Node>();
+		final List<Node> referenceNodes = new LinkedList<>();
 		
 		for (Reference reference : references) {
 			final Node identifierNode = HutnAntlrAstFactory.eINSTANCE.createTextualValueNode();

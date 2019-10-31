@@ -40,7 +40,7 @@ public class FixGmfGenDelegate extends EugeniaActionDelegate {
 	
 	@Override
 	public List<IModel> getModels() throws Exception {
-		List<IModel> models = new ArrayList<IModel>();
+		List<IModel> models = new ArrayList<>();
 
 		// Antonio: GmfGen needs to be disposed before all the others: otherwise, all its contents
 		// disappear during disposal and we end up saving an empty model. It only happens when we
@@ -59,7 +59,7 @@ public class FixGmfGenDelegate extends EugeniaActionDelegate {
 
 	@Override
 	public List<Variable> getExtraVariables() {
-		ArrayList<Variable> variables = new ArrayList<Variable>();
+		ArrayList<Variable> variables = new ArrayList<>();
 		variables.add(CopyrightProvider.getCopyrightVariable(getSelectedFile()));
 		return variables;
 	}

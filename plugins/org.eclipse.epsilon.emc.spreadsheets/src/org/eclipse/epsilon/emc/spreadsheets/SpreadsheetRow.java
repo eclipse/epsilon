@@ -102,7 +102,7 @@ public abstract class SpreadsheetRow
 	 */
 	public List<String> getAllVisibleCellValues(final SpreadsheetColumn column, final boolean trim)
 	{
-		final List<String> values = new ArrayList<String>();
+		final List<String> values = new ArrayList<>();
 		final String visibleCellValue = this.getVisibleCellValue(column);
 		if (StringUtils.isNotEmpty(visibleCellValue))
 		{

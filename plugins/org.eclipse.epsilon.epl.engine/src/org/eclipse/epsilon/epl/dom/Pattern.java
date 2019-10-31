@@ -23,7 +23,7 @@ import org.eclipse.epsilon.erl.dom.NamedRule;
 
 public class Pattern extends NamedRule {
 	
-	protected List<Role> roles = new ArrayList<Role>();
+	protected List<Role> roles = new ArrayList<>();
 	protected ExecutableBlock<Void> do_ = null;
 	protected ExecutableBlock<Boolean> match = null;
 	protected ExecutableBlock<Void> noMatch = null;

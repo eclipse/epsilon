@@ -52,7 +52,7 @@ public class PackageRegistryContentProvider implements ITreeContentProvider {
 	}
 
 	public Collection<Object> getInheritanceDescriptors(EClass eClass) {
-		ArrayList<Object> inheritanceDescriptors = new ArrayList<Object>();
+		ArrayList<Object> inheritanceDescriptors = new ArrayList<>();
 		if (eClass.getESuperTypes().size() > 0) {
 			inheritanceDescriptors.add(new SuperTypesDescriptor(eClass));
 		}

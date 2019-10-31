@@ -31,7 +31,7 @@ public class CollectionHasher extends TypeSafeHasher<Collection<?>> {
 
 	@Override
 	public int hashSafely(Collection<?> collection) {
-		final List<Integer> hashes = new LinkedList<Integer>();
+		final List<Integer> hashes = new LinkedList<>();
 		
 		for (Object element : collection) {
 			hashes.add(DelegatingHasher.getInstance().hash(element));

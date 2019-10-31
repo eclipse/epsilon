@@ -51,8 +51,8 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 
 	public SpreadsheetModel()
 	{
-		this.worksheets = new ArrayList<SpreadsheetWorksheet>();
-		this.references = new ArrayList<SpreadsheetReference>();
+		this.worksheets = new ArrayList<>();
+		this.references = new ArrayList<>();
 	}
 
 	public List<SpreadsheetWorksheet> getWorksheets()
@@ -239,7 +239,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	@Override
 	public List<SpreadsheetRow> allContents()
 	{
-		final List<SpreadsheetRow> rows = new ArrayList<SpreadsheetRow>();
+		final List<SpreadsheetRow> rows = new ArrayList<>();
 		for (final SpreadsheetWorksheet worksheet : this.getWorksheets())
 		{
 			try
@@ -271,7 +271,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 		}
 		else
 		{
-			final List<SpreadsheetRow> rows = new ArrayList<SpreadsheetRow>();
+			final List<SpreadsheetRow> rows = new ArrayList<>();
 			rows.addAll(worksheet.getRows());
 			return rows;
 		}
@@ -500,7 +500,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	 */
 	public Set<SpreadsheetReference> getReferencesBySource(final SpreadsheetWorksheet worksheet)
 	{
-		final Set<SpreadsheetReference> references = new HashSet<SpreadsheetReference>();
+		final Set<SpreadsheetReference> references = new HashSet<>();
 		for (final SpreadsheetReference reference : this.getReferences())
 		{
 			if (reference.getReferencingWorksheet() == worksheet)
@@ -522,7 +522,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	public Set<SpreadsheetReference> getReferencesBySource(final SpreadsheetWorksheet worksheet,
 			final SpreadsheetColumn column)
 	{
-		final Set<SpreadsheetReference> references = new HashSet<SpreadsheetReference>();
+		final Set<SpreadsheetReference> references = new HashSet<>();
 		for (final SpreadsheetReference reference : this.getReferencesBySource(worksheet))
 		{
 			if (reference.getReferencingColumn() == column)
@@ -541,7 +541,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	 */
 	public Set<SpreadsheetReference> getReferencesByTarget(final SpreadsheetWorksheet worksheet)
 	{
-		final Set<SpreadsheetReference> references = new HashSet<SpreadsheetReference>();
+		final Set<SpreadsheetReference> references = new HashSet<>();
 		for (final SpreadsheetReference reference : this.getReferences())
 		{
 			if (reference.getReferencedWorksheet() == worksheet)
@@ -563,7 +563,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	public Set<SpreadsheetReference> getReferencesByTarget(final SpreadsheetWorksheet worksheet,
 			final SpreadsheetColumn column)
 	{
-		final Set<SpreadsheetReference> references = new HashSet<SpreadsheetReference>();
+		final Set<SpreadsheetReference> references = new HashSet<>();
 		for (final SpreadsheetReference reference : this.getReferencesByTarget(worksheet))
 		{
 			if (reference.getReferencedColumn() == column)

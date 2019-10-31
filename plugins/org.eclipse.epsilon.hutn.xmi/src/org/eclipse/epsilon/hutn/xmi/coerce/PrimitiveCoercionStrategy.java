@@ -35,7 +35,7 @@ public class PrimitiveCoercionStrategy extends AbstractCoercionStrategy {
 	}
 	
 	private EList<Object> coercedValues() {
-		final EList<Object> coercedValues = new BasicEList<Object>();
+		final EList<Object> coercedValues = new BasicEList<>();
 			 
 		for (String value : values) {
 			coercedValues.add(new SerialisedValue(value).coerce());

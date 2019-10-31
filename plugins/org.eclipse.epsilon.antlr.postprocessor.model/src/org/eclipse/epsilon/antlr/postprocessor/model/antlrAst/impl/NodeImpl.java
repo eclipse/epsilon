@@ -251,7 +251,7 @@ public abstract class NodeImpl extends EObjectImpl implements Node {
 	 */
 	public EList<Node> getChildren() {
 		if (children == null) {
-			children = new EObjectContainmentWithInverseEList<Node>(Node.class, this, AntlrAstPackage.NODE__CHILDREN, AntlrAstPackage.NODE__PARENT);
+			children = new EObjectContainmentWithInverseEList<>(Node.class, this, AntlrAstPackage.NODE__CHILDREN, AntlrAstPackage.NODE__PARENT);
 		}
 		return children;
 	}

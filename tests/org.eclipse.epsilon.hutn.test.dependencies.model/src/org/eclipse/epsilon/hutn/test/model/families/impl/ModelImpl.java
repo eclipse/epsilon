@@ -91,7 +91,7 @@ public class ModelImpl extends EObjectImpl implements Model {
 	 */
 	public EList<NamedElement> getContents() {
 		if (contents == null) {
-			contents = new EObjectContainmentEList<NamedElement>(NamedElement.class, this, FamiliesPackage.MODEL__CONTENTS);
+			contents = new EObjectContainmentEList<>(NamedElement.class, this, FamiliesPackage.MODEL__CONTENTS);
 		}
 		return contents;
 	}
@@ -103,7 +103,7 @@ public class ModelImpl extends EObjectImpl implements Model {
 	 */
 	public EList<NamedElement> getContents2() {
 		if (contents2 == null) {
-			contents2 = new EObjectContainmentEList<NamedElement>(NamedElement.class, this, FamiliesPackage.MODEL__CONTENTS2);
+			contents2 = new EObjectContainmentEList<>(NamedElement.class, this, FamiliesPackage.MODEL__CONTENTS2);
 		}
 		return contents2;
 	}

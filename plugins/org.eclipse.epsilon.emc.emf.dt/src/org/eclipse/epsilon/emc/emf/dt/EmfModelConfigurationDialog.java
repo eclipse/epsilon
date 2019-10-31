@@ -117,7 +117,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 	private TableViewer metamodelList;
 
 	// May contain metamodel URIs (as URI objects) or String (file-based metamodel paths) objects
-	private List<Object> metamodels = new ArrayList<Object>();
+	private List<Object> metamodels = new ArrayList<>();
 
 	private Button reuseUnmodifiedFileBasedMetamodelsButton;
 	
@@ -361,7 +361,7 @@ public class EmfModelConfigurationDialog extends AbstractCachedModelConfiguratio
 	 * @return
 	 */
 	private Collection<EPackage> findEPackages(String resourcePath) {
-		Set<EPackage> ePackages = new HashSet<EPackage>();
+		Set<EPackage> ePackages = new HashSet<>();
 		
 		try {
 			ResourceSet rs = new ResourceSetImpl();

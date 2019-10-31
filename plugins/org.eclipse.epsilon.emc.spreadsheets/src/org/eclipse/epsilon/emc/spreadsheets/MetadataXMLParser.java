@@ -39,7 +39,7 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 	@Override
 	public Set<SpreadsheetWorksheetMetadata> getWorksheetMetadata()
 	{
-		final Set<SpreadsheetWorksheetMetadata> worksheets = new HashSet<SpreadsheetWorksheetMetadata>();
+		final Set<SpreadsheetWorksheetMetadata> worksheets = new HashSet<>();
 		final Element document = this.xml.getDocumentElement();
 		final NodeList nodeList = document.getElementsByTagName(ORMConstants.ORM_WORKSHEET);
 		for (int i = 0; i < nodeList.getLength(); i++)
@@ -78,7 +78,7 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 	@Override
 	public Set<SpreadsheetColumnMetadata> getColumnMetadata(final String name)
 	{
-		final Set<SpreadsheetColumnMetadata> columns = new HashSet<SpreadsheetColumnMetadata>();
+		final Set<SpreadsheetColumnMetadata> columns = new HashSet<>();
 		final Element document = this.xml.getDocumentElement();
 		final NodeList worksheetNodeList = document.getElementsByTagName(ORMConstants.ORM_WORKSHEET);
 		for (int i = 0; i < worksheetNodeList.getLength(); i++)
@@ -98,7 +98,7 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 
 	private Set<SpreadsheetColumnMetadata> getColumnMetadataFromElement(final Element columnElement)
 	{
-		final Set<SpreadsheetColumnMetadata> columns = new HashSet<SpreadsheetColumnMetadata>();
+		final Set<SpreadsheetColumnMetadata> columns = new HashSet<>();
 
 		final NodeList columnNodeList = columnElement.getChildNodes();
 		for (int c = 0; c < columnNodeList.getLength(); c++)
@@ -144,7 +144,7 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 	@Override
 	public Set<SpreadsheetReferenceMetadata> getReferenceMetadata()
 	{
-		final Set<SpreadsheetReferenceMetadata> references = new HashSet<SpreadsheetReferenceMetadata>();
+		final Set<SpreadsheetReferenceMetadata> references = new HashSet<>();
 		final Element document = this.xml.getDocumentElement();
 		final NodeList nl = document.getElementsByTagName(ORMConstants.ORM_REFERENCE);
 		for (int i = 0; i < nl.getLength(); i++)

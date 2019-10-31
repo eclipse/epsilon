@@ -28,7 +28,7 @@ public class EplTests {
 	@Test
 	public void testEpl() throws Exception {
 		
-		HashMap<String, String> blackboard = new HashMap<String, String>();
+		HashMap<String, String> blackboard = new HashMap<>();
 		
 		EplModule module = new EplModule();
 		module.parse(EplTests.class.getResource("test.epl").toURI());

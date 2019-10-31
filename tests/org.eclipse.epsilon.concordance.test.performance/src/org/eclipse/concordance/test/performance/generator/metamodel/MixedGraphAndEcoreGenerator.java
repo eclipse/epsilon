@@ -22,7 +22,7 @@ import org.eclipse.concordance.test.performance.generator.graph.GraphGenerator;
 
 public class MixedGraphAndEcoreGenerator {
 
-	private final Collection<File> generated = new LinkedList<File>();
+	private final Collection<File> generated = new LinkedList<>();
 	
 	public Iterable<File> generate(File directory, int total, int graphPercentage) {
 		generated.clear();

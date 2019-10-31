@@ -120,14 +120,12 @@ public abstract class AbstractNewFileWizard extends Wizard implements INewWizard
 		}
 		
 		final IFile file = container.getFile(new Path(fileName));
-		try {
-			InputStream stream = openContentStream();
+		try (InputStream stream = openContentStream()) {
 			if (file.exists()) {
 				file.setContents(stream, true, true, monitor);
 			} else {
 				file.create(stream, true, monitor);
 			}
-			stream.close();
 		} catch (IOException e) {
 		}
 		monitor.worked(1);

@@ -184,7 +184,7 @@ public class GSWorksheet extends SpreadsheetWorksheet
 		{
 			try
 			{
-				this.rows = new LinkedHashSet<GSRow>();
+				this.rows = new LinkedHashSet<>();
 				this.listFeed = this.listFeed.getSelf();
 				for (final ListEntry listEntry : this.listFeed.getEntries())
 				{
@@ -198,7 +198,7 @@ public class GSWorksheet extends SpreadsheetWorksheet
 				throw new IllegalStateException(e.getMessage());
 			}
 		}
-		return new ArrayList<SpreadsheetRow>(this.rows);
+		return new ArrayList<>(this.rows);
 	}
 
 	@Override
@@ -236,7 +236,7 @@ public class GSWorksheet extends SpreadsheetWorksheet
 		this.checkThatWorksheetExists();
 		try
 		{
-			final int rowIndex = new ArrayList<GSRow>(this.rows).indexOf(row);
+			final int rowIndex = new ArrayList<>(this.rows).indexOf(row);
 			this.listFeed = this.listFeed.getSelf();
 			this.listFeed.getEntries().get(rowIndex).delete();
 			this.worksheetEntry = this.worksheetEntry.getSelf();
@@ -291,7 +291,7 @@ public class GSWorksheet extends SpreadsheetWorksheet
 
 	public int getRowIndex(GSRow row)
 	{
-		return new ArrayList<GSRow>(this.rows).indexOf(row);
+		return new ArrayList<>(this.rows).indexOf(row);
 	}
 
 	public ListEntry getListEntry(final GSRow row) throws IOException, ServiceException

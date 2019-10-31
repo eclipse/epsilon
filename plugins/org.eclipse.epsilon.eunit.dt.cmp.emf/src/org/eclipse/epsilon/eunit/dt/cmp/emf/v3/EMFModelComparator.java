@@ -172,7 +172,7 @@ public class EMFModelComparator implements IModelComparator {
 		ResourceSet newResourceSet = new EmfModelResourceSet();
 
 		// Save the original non-platform URIs
-		final Map<Resource, URI> originalURIMap = new HashMap<Resource, URI>();
+		final Map<Resource, URI> originalURIMap = new HashMap<>();
 		for (Resource res : resourceSet.getResources()) {
 			final String scheme = res.getURI().scheme();
 			if ("platform".equals(scheme) || "pathmap".equals(scheme)) {
@@ -199,7 +199,7 @@ public class EMFModelComparator implements IModelComparator {
 
 			// Save all the non-platform resources and add them to the new resource set.
 			// The platform: resources will be resolved implicitly by the comparison.
-			final List<Resource> newResources = new ArrayList<Resource>(originalURIMap.size());
+			final List<Resource> newResources = new ArrayList<>(originalURIMap.size());
 			for (Resource res : originalURIMap.keySet()) {
 				res.save(Collections.EMPTY_MAP);
 				final Resource newResource = newResourceSet.createResource(res.getURI());
@@ -247,7 +247,7 @@ public class EMFModelComparator implements IModelComparator {
 									"Invalid value for '%s': the collection must only have strings", name));
 							}
 						}
-						ignoreAttributes = new HashSet<String>((Collection<String>)col);
+						ignoreAttributes = new HashSet<>((Collection<String>)col);
 					}
 					else {
 						throw new IllegalArgumentException(String.format(

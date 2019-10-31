@@ -76,20 +76,9 @@ public class ExeedEditor extends EcoreEditor {
 		public Resource createResource(URI uri) {
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toString().replace("platform:/resource/", "")));
 			String nsUri = "";
-			try {
-				InputStream is = file.getContents();
-				try {
-					BufferedReader br = new BufferedReader(
-							new InputStreamReader(is));
-					try {
-						nsUri = br.readLine();
-					} finally {
-						// Make sure that 'br', 'isr' and 'is' are clsoed
-						br.close();
-					}
-				} finally {
-					// Just to make sure 'is' gets closed (if something happens when creating 'br'
-					is.close();
+			try (InputStream is = file.getContents()) {
+				try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+					nsUri = br.readLine();
 				}
 			}
 			catch (Exception e) {
@@ -112,7 +101,7 @@ public class ExeedEditor extends EcoreEditor {
 				    	return resourceSet.getResources();
 				    }
 				    else {
-						ArrayList<Resource> list = new ArrayList<Resource>();
+						ArrayList<Resource> list = new ArrayList<>();
 						list.add(resourceSet.getResources().get(0));
 						return list;
 				    }
@@ -251,7 +240,7 @@ public class ExeedEditor extends EcoreEditor {
 
 	protected void loadViewerCustomizers() {
 		final String bundleID = FrameworkUtil.getBundle(ExeedEditor.class).getSymbolicName();
-		this.resourceClassToCustomizerMap = new HashMap<Class<?>, IExeedCustomizer>();
+		this.resourceClassToCustomizerMap = new HashMap<>();
 		for (IConfigurationElement elem : Platform.getExtensionRegistry().getConfigurationElementsFor(VIEWERCUSTOMIZER_EXTPOINT)) {
 			try {
 				final Class<?> resourceClass = elem.createExecutableExtension(VIEWERCUSTOMIZER_RESOURCECLASS_ATTR).getClass();

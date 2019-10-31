@@ -21,7 +21,7 @@ public class FlockEditorStaticTemplateContributor implements IAbstractModuleEdit
 	@Override
 	public List<Template> getTemplates() {
 		if (templates == null) {
-			templates = new ArrayList<Template>();
+			templates = new ArrayList<>();
 			templates.add(new Template("migrate", "migration strategy", "", "migrate ${strategyname} ${originaltype} {\r\n\t${cursor}\r\n}", false));
 			templates.add(new Template("pre", "block executed before the rules", "", "pre ${name} {\r\n\t${cursor}\r\n}",false));
 			templates.add(new Template("post", "block executed after the rules", "", "post ${name} {\r\n\t${cursor}\r\n}",false));

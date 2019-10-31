@@ -15,8 +15,8 @@ import java.util.LinkedList;
 import java.util.Set;
 
 public class Bibliography {
-	public Collection<Publication> publications = new LinkedList<Publication>();
-	public Set<String> knownTypes = new HashSet<String>();
+	public Collection<Publication> publications = new LinkedList<>();
+	public Set<String> knownTypes = new HashSet<>();
 	
 	public void add(Publication publication) {
 		publications.add(publication);
@@ -28,7 +28,7 @@ public class Bibliography {
 	}
 
 	public Collection<Publication> allOfType(String type) {
-		final LinkedList<Publication> allOfType = new LinkedList<Publication>();
+		final LinkedList<Publication> allOfType = new LinkedList<>();
 		
 		for (Publication publication : publications) {
 			if (publication.type.equalsIgnoreCase(type)) {

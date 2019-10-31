@@ -77,7 +77,7 @@ public class FilesystemTreeNode
 		File[] files = file.listFiles();
 		if (files == null) return files;
 
-		List<FilesystemTreeNode> children = new ArrayList<FilesystemTreeNode>();
+		List<FilesystemTreeNode> children = new ArrayList<>();
 		for (File childFile : file.listFiles()) {
 			children.add(new FilesystemTreeNode(childFile));
 		}

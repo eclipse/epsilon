@@ -90,7 +90,7 @@ public class PackageObjectImpl extends ObjectImpl implements PackageObject {
 	 */
 	public EList<ClassObject> getClassObjects() {
 		if (classObjects == null) {
-			classObjects = new EObjectContainmentEList<ClassObject>(ClassObject.class, this, HutnPackage.PACKAGE_OBJECT__CLASS_OBJECTS);
+			classObjects = new EObjectContainmentEList<>(ClassObject.class, this, HutnPackage.PACKAGE_OBJECT__CLASS_OBJECTS);
 		}
 		return classObjects;
 	}
@@ -102,7 +102,7 @@ public class PackageObjectImpl extends ObjectImpl implements PackageObject {
 	 */
 	public EList<EPackage> getMetamodel() {
 		if (metamodel == null) {
-			metamodel = new EObjectResolvingEList<EPackage>(EPackage.class, this, HutnPackage.PACKAGE_OBJECT__METAMODEL);
+			metamodel = new EObjectResolvingEList<>(EPackage.class, this, HutnPackage.PACKAGE_OBJECT__METAMODEL);
 		}
 		return metamodel;
 	}
@@ -114,7 +114,7 @@ public class PackageObjectImpl extends ObjectImpl implements PackageObject {
 	 * @generated NOT
 	 */
 	public EList<EClass> getAllEClasses() {
-		final EList<EClass> eClasses = new BasicEList<EClass>();
+		final EList<EClass> eClasses = new BasicEList<>();
 		
 		if (!getMetamodel().isEmpty()) {
 			for (EPackage ePackage : getMetamodel()) {

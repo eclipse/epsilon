@@ -23,7 +23,7 @@ private Stack<String> stack;
 	
 	@Before
 	public void setup() {
-		 stack = new Stack<String>();
+		 stack = new Stack<>();
 	}
 	
 	@Test

@@ -42,6 +42,6 @@ public class EModelElementOperationContributor extends OperationContributor {
 	}
 
 	public EModelElement annotate(String annotation) {
-		return annotate(annotation, new HashMap<Object, Object>());
+		return annotate(annotation, new HashMap<>());
 	}
 }

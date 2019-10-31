@@ -150,7 +150,7 @@ public class MuddleElementImpl extends MinimalEObjectImpl.Container implements M
 	 */
 	public EList<Slot> getSlots() {
 		if (slots == null) {
-			slots = new EObjectContainmentWithInverseEList<Slot>(Slot.class, this, MuddlePackage.MUDDLE_ELEMENT__SLOTS, MuddlePackage.SLOT__OWNING_ELEMENT);
+			slots = new EObjectContainmentWithInverseEList<>(Slot.class, this, MuddlePackage.MUDDLE_ELEMENT__SLOTS, MuddlePackage.SLOT__OWNING_ELEMENT);
 		}
 		return slots;
 	}
