@@ -60,7 +60,7 @@
             default="true"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleConfiguration"
             language="EVL"
-            name="Default">
+            name="Sequential">
       </implementation>
       <implementation
             class="org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelContextAtoms"

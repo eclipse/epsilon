@@ -22,7 +22,7 @@ import org.eclipse.epsilon.common.parse.Region;
 public abstract class AbstractModuleElement implements ModuleElement {
 	
 	protected ArrayList<Comment> comments = new ArrayList<>(0);
-	protected ArrayList<ModuleElement> children = new ArrayList<>(0);
+	protected ArrayList<ModuleElement> children = new ArrayList<>(3);
 	protected ModuleElement parent;
 	protected URI uri;
 	protected IModule module;
