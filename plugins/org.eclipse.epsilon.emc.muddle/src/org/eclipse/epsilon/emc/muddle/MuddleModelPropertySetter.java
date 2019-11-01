@@ -13,7 +13,6 @@ import java.util.Collection;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
-import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 
 public class MuddleModelPropertySetter extends AbstractPropertySetter {
 

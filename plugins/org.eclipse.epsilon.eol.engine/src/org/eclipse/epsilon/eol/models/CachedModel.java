@@ -251,10 +251,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 						getAllOfKindFromModel(modelElementType) :
 						getAllOfTypeFromModel(modelElementType)
 					);
-					if (values == null) {
-						values = new ArrayList<>(0);
-					}
-					cache.putAll(key, values, false);
+					cache.putAll(key, values, values == null);
 				}
 			}
 		}

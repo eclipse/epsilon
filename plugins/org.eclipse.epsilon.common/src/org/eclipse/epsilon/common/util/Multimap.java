@@ -307,7 +307,7 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	public boolean putAll(K key, Collection<V> values, boolean wrap) {
 		boolean wasPresent = storage.containsKey(key) && storage.get(key).addAll(values);
 		if (!wasPresent) {
-			storage.put(key, wrap ? newCollection(values) : values);
+			put(key, values, wrap);
 		}
 		return wasPresent;
 	}
@@ -335,13 +335,18 @@ public class Multimap<K, V> implements Map<K, Collection<V>> {
 	 * 
 	 * @param key
 	 * @param values The values to copy from.
+	 * @param wrap Whether to wrap the provided values into a new collection.
 	 * @return The previously associated values, or <code>null</code> if no
 	 * mapping was present.
 	 * @since 1.6
 	 */
+	public Collection<V> put(K key, Collection<V> values, boolean wrap) {
+		return storage.put(key, wrap || values == null ? newCollection(values) : values);
+	}
+	
 	@Override
 	public Collection<V> put(K key, Collection<V> values) {
-		return storage.put(key, newCollection(values));
+		return put(key, values, true);
 	}
 	
 	/**
