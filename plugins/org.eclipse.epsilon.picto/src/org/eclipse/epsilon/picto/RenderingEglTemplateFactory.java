@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.flexmi.dt;
+package org.eclipse.epsilon.picto;
 
 import java.io.File;
 

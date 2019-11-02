@@ -7,7 +7,7 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.flexmi.dt;
+package org.eclipse.epsilon.picto;
 
 import java.util.HashMap;
 
@@ -33,6 +33,7 @@ public class ContentTreeLabelProvider extends LabelProvider {
 	
 	@Override
 	public Image getImage(Object element) {
+		
 		ContentTree contentTree = (ContentTree) element;
 		if (contentTree.getContent() != null) {
 			String iconName = contentTree.getIcon();

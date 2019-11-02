@@ -7,7 +7,7 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.flexmi.dt;
+package org.eclipse.epsilon.picto;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,14 +15,20 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
@@ -31,7 +37,10 @@ import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
-import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
+import org.eclipse.epsilon.flexmi.dt.BrowserContainer;
+import org.eclipse.epsilon.flexmi.dt.FlexmiEditor;
+import org.eclipse.epsilon.flexmi.dt.PartListener;
+import org.eclipse.epsilon.flexmi.dt.RunnableWithException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -46,9 +55,12 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.FilteredTree;
@@ -56,14 +68,14 @@ import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.part.ViewPart;
 import org.w3c.dom.ProcessingInstruction;
 
-public class FlexmiRendererView extends ViewPart {
+public class PictoView extends ViewPart {
 	
-	public static final String ID = "org.eclipse.epsilon.flexmi.dt.FlexmiRendererView";
+	public static final String ID = "org.eclipse.epsilon.picto.PictoView";
 
 	protected Browser browser;
 	protected BrowserContainer browserContainer;
-	protected FlexmiEditor editor;
-	protected FlexmiEditorPropertyListener listener = new FlexmiEditorPropertyListener();
+	protected IEditorPart editor;
+	protected EditorPropertyListener listener = new EditorPropertyListener();
 	protected TreeViewer treeViewer;
 	protected double zoom = 1.0;
 	protected SashForm sashForm;
@@ -76,7 +88,7 @@ public class FlexmiRendererView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		
-		try { tempDir = Files.createTempDirectory("flexmi").toFile(); } catch (IOException e) {}
+		try { tempDir = Files.createTempDirectory("picto").toFile(); } catch (IOException e) {}
 		
 		IActionBars bars = getViewSite().getActionBars();
 		bars.getToolBarManager().add(new ZoomAction(ZoomType.IN));
@@ -129,8 +141,8 @@ public class FlexmiRendererView extends ViewPart {
 		setTreeViewerVisible(false);
 		
 		IEditorPart activeEditor = getSite().getPage().getActiveEditor();
-		if (activeEditor instanceof FlexmiEditor) {
-			render((FlexmiEditor) activeEditor);
+		if (supports(activeEditor)) {
+			render(activeEditor);
 		} else {
 			render(null);
 		}
@@ -139,18 +151,18 @@ public class FlexmiRendererView extends ViewPart {
 			@Override
 			public void partActivated(IWorkbenchPartReference partRef) {
 				if (locked) return;
-				if (partRef.getPart(false) instanceof FlexmiEditor) {
-					render((FlexmiEditor) partRef.getPart(false));
+				if (supports(partRef.getPart(false))) {
+					render((IEditorPart) partRef.getPart(false));
 				}
 			}
 
 			@Override
 			public void partClosed(IWorkbenchPartReference partRef) {
 				if (locked) return;
-				if (partRef.getPart(false) == FlexmiRendererView.this) {
+				if (partRef.getPart(false) == PictoView.this) {
 					getSite().getPage().removePartListener(this);
 				}
-				else if (partRef.getPart(false) instanceof FlexmiEditor) {
+				else if (supports(partRef.getPart(false))) {
 					render(null);
 				}
 			}
@@ -160,7 +172,7 @@ public class FlexmiRendererView extends ViewPart {
 
 	}
 
-	public void render(FlexmiEditor editor) {
+	public void render(IEditorPart editor) {
 
 		if (editor == null) {
 			nothingToRender();
@@ -208,38 +220,51 @@ public class FlexmiRendererView extends ViewPart {
 	public void renderEditorContent() {
 
 		try {
-			while (editor.getFile() == null) { Thread.sleep(100); }
+			while (getFile(editor) == null) { Thread.sleep(100); }
 			
-			File flexmiFile = new File(editor.getFile().getLocation().toOSString());
-			boolean rerender = renderedFile != null && renderedFile.getAbsolutePath().equals(flexmiFile.getAbsolutePath());
-			renderedFile = flexmiFile;
+			File modelFile = new File(getFile(editor).getLocation().toOSString());
+			boolean rerender = renderedFile != null && renderedFile.getAbsolutePath().equals(modelFile.getAbsolutePath());
+			renderedFile = modelFile;
 			
+			/*
 			ResourceSet resourceSet = new ResourceSetImpl();
 			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
 			FlexmiResource resource = (FlexmiResource) resourceSet
-					.createResource(URI.createFileURI(flexmiFile.getAbsolutePath()));
-			resource.load(null);
+					.createResource(URI.createFileURI(modelFile.getAbsolutePath()));
+			resource.load(null);*/
 			
-			ProcessingInstruction renderProcessingInstruction = (ProcessingInstruction) resource.
-						getProcessingInstructions().stream().filter(p -> p.getTarget().startsWith("render-")).findFirst().orElse(null);
+			//ProcessingInstruction renderProcessingInstruction = (ProcessingInstruction) resource.
+			//			getProcessingInstructions().stream().filter(p -> p.getTarget().startsWith("render-")).findFirst().orElse(null);
 			
-			if (renderProcessingInstruction != null) {
+			Resource resource = getResource(editor);
+			PictoMetadata renderingMetadata = getRenderingMetadata(editor);
+			
+			if (renderingMetadata != null) {
 				
 				IEolModule module = null;
 				
-				String format = renderProcessingInstruction.getTarget().substring("render-".length());
-				InMemoryEmfModel model = new InMemoryEmfModel(resource);
-				model.setExpand(false);
-				model.setName("M");
+				InMemoryEmfModel model = null;
 				
-				if (format.equals("egx")) {
+				if (renderingMetadata.getNsuri() != null) {
+					EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(renderingMetadata.getNsuri());
+					model = new InMemoryEmfModel("M", resource, ePackage);
+				}
+				else {
+					model = new InMemoryEmfModel("M", resource);
+				}
+				
+				model.setExpand(false);
+				
+				
+				if (renderingMetadata.getFormat().equals("egx")) {
 					module = new EgxModule();
 				}
 				else {
 					module = new EglTemplateFactoryModuleAdapter(new EglFileGeneratingTemplateFactory());
 				}
 				
-				module.parse(new File(flexmiFile.getParentFile(), renderProcessingInstruction.getData().trim()));
+				File egxFile = new File(modelFile.getParentFile(), renderingMetadata.getFile());
+				module.parse(egxFile);
 				
 				IEolContext context = module.getContext();
 				context.setOutputStream(EpsilonConsole.getInstance().getDebugStream());
@@ -247,9 +272,9 @@ public class FlexmiRendererView extends ViewPart {
 				context.setWarningStream(EpsilonConsole.getInstance().getWarningStream());		
 				context.getModelRepository().addModel(model);
 				
-				if (format.equals("egx")) {
+				if (renderingMetadata.getFormat().equals("egx")) {
 					RenderingEglTemplateFactory templateFactory = new RenderingEglTemplateFactory(tempDir);
-					templateFactory.setTemplateRoot(flexmiFile.getParentFile().getAbsolutePath());
+					templateFactory.setTemplateRoot(egxFile.getParentFile().getAbsolutePath());
 					((EgxModule) module).getContext().setTemplateFactory(templateFactory);
 					module.execute();
 					
@@ -259,7 +284,7 @@ public class FlexmiRendererView extends ViewPart {
 				else {
 					setTreeViewerVisible(false);
 					String content = module.execute() + "";
-					render(content, format);
+					render(content, renderingMetadata.getFormat());
 				}
 			}
 		} catch (Exception ex) {
@@ -332,7 +357,7 @@ public class FlexmiRendererView extends ViewPart {
 				imageType = parts[2];
 			}
 			
-			File temp = Files.createTempFile(tempDir.toPath(), "flexmi-renderer", ".dot").toFile();
+			File temp = Files.createTempFile(tempDir.toPath(), "picto-renderer", ".dot").toFile();
 			File image = new File(temp.getAbsolutePath() + "." + imageType);
 			File log = new File(temp.getAbsolutePath() + ".log" );
 			
@@ -353,7 +378,7 @@ public class FlexmiRendererView extends ViewPart {
 			}
 		}
 		else if (format.equals("text")) {
-			File temp = File.createTempFile("flexmi-renderer", ".txt");
+			File temp = File.createTempFile("picto-renderer", ".txt");
 			Files.write(Paths.get(temp.toURI()), content.getBytes());
 			display(temp);
 		}
@@ -382,11 +407,11 @@ public class FlexmiRendererView extends ViewPart {
 		browser.setFocus();
 	}
 
-	class FlexmiEditorPropertyListener implements IPropertyListener {
+	class EditorPropertyListener implements IPropertyListener {
 		@Override
 		public void propertyChanged(Object source, int propId) {
 			if (locked) return;
-			if (propId == FlexmiEditor.PROP_DIRTY && !editor.isDirty()) {
+			if (propId == IEditorPart.PROP_DIRTY && !editor.isDirty()) {
 				render(editor);
 			}
 		}
@@ -462,6 +487,61 @@ public class FlexmiRendererView extends ViewPart {
 		public void run() {
 			locked = !locked;
 		}
+	}
+	
+	protected PictoMetadata getRenderingMetadata(IEditorPart editorPart) {
+		if (editor instanceof FlexmiEditor) {
+			FlexmiResource resource = (FlexmiResource) getResource(editorPart);
+			ProcessingInstruction renderProcessingInstruction = (ProcessingInstruction) ((FlexmiResource) resource).
+						getProcessingInstructions().stream().filter(p -> p.getTarget().startsWith("render-")).findFirst().orElse(null);
+			if (renderProcessingInstruction != null) {
+				PictoMetadata metadata = new PictoMetadata();
+				metadata.setFormat(renderProcessingInstruction.getTarget().substring("render-".length()));
+				metadata.setFile(renderProcessingInstruction.getData().trim());
+				return metadata;
+			}
+		}
+		else if (editor instanceof IEditingDomainProvider) {
+			IFile file = getFile(editorPart);
+			IFile renderingMetadataFile = file.getParent().getFile(Path.fromPortableString(file.getName() + ".picto"));
+			if (renderingMetadataFile.exists()) {
+				PictoMetadata metadata = new PictoMetadata();
+				Properties properties = new Properties();
+				try {
+					properties.load(renderingMetadataFile.getContents(true));
+					metadata.setFormat(properties.getProperty("format"));
+					metadata.setFile(properties.getProperty("file"));
+					metadata.setNsuri(properties.getProperty("nsuri"));
+					return metadata;
+				} catch (Exception e) {
+					LogUtil.log(e);
+				}
+			}
+		}
+		return null;
+	}
+	
+	protected Resource getResource(IEditorPart editorPart) {
+		if (editorPart instanceof FlexmiEditor) return ((FlexmiEditor) editorPart).getResource();
+		else if (editorPart instanceof IEditingDomainProvider) return ((IEditingDomainProvider) editorPart).getEditingDomain().getResourceSet().getResources().get(0);
+		else return null;
+	}
+	
+	protected boolean supports(IWorkbenchPart editorPart) {
+		return editorPart instanceof FlexmiEditor || editorPart instanceof IEditingDomainProvider;
+	}
+	
+	protected IFile getFile(IEditorPart editorPart) {
+		if (editorPart instanceof FlexmiEditor) return ((FlexmiEditor) editorPart).getFile();
+		else if (editorPart instanceof IEditingDomainProvider) {
+			IEditorInput input = editorPart.getEditorInput();
+			if (input instanceof IFileEditorInput) {
+				return ((IFileEditorInput)input).getFile();
+			}
+			else 
+				return null;
+		}
+		return null;
 	}
 	
 }

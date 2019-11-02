@@ -7,7 +7,7 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.flexmi.dt;
+package org.eclipse.epsilon.picto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,10 +16,10 @@ import java.util.List;
 public class ContentTree {
 	
 	protected List<ContentTree> children = new ArrayList<>();
-	protected String content;
+	protected String content = "";
 	protected String name;
-	protected String format;
-	protected String icon;
+	protected String format = "html";
+	protected String icon = "folder";
 	protected ContentTree parent;
 	
 	public static void main(String[] args) {
