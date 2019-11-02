@@ -11,6 +11,7 @@ package org.eclipse.epsilon.common.util;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -42,8 +43,7 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 		return o == NULL ? null : (T) o;
 	}
 	
-	protected volatile int size;
-	protected final Consumer<? extends E> offerSuper = super::offer;
+	protected final AtomicInteger size = new AtomicInteger();
 	
 	public SizeCachingConcurrentQueue() {
 		super();
@@ -51,7 +51,7 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 	
 	public SizeCachingConcurrentQueue(Collection<? extends E> initial) {
 		super(initial);
-		size += initial.size();
+		size.set(initial.size());
 	}
 	
 	@Override
@@ -62,15 +62,18 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 	@Override
 	public E poll() {
 		E res = convertToNull(super.poll());
-		--size;
+		size.decrementAndGet();
 		return res;
 	}
+	
+	// Compiler-pleasing magic
+	protected final Consumer<? extends E> offerSuper = super::offer;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean offer(E e) {
 		((Consumer) offerSuper).accept(replaceWithNull(e));
-		++size;
+		size.incrementAndGet();
 		return true;
 	}
 	
@@ -84,13 +87,13 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 				.collect(Collectors.toList());
 			
 			res = super.addAll(filtered);
-			size += filtered.size();
+			size.getAndAdd(filtered.size());
 		}
 		return res;
 	}
 	
 	@Override
 	public int size() {
-		return size;
+		return size.get();
 	}
 }
