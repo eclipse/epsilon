@@ -11,7 +11,7 @@ package org.eclipse.epsilon.common.concurrent;
 
 import java.util.*;
 import java.util.concurrent.*;
-import org.eclipse.epsilon.common.util.NullSupportingConcurrentQueue;
+import org.eclipse.epsilon.common.util.SizeCachingConcurrentQueue;
 
 /**
  * 
@@ -45,7 +45,9 @@ public class ConcurrencyUtils {
 	}
 	
 	public static <T> Collection<T> concurrentOrderedCollection(Collection<? extends T> values) {
-		return new NullSupportingConcurrentQueue<>(values);
+		return values != null ?
+			new SizeCachingConcurrentQueue<>(values) :
+			new SizeCachingConcurrentQueue<>();
 	}
 	
 	public static <T> Set<T> concurrentSet() {
