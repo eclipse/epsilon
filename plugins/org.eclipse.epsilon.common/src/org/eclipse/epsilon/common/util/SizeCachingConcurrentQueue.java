@@ -43,15 +43,15 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 		return o == NULL ? null : (T) o;
 	}
 	
-	protected final AtomicInteger size = new AtomicInteger();
+	protected final AtomicInteger size;
 	
 	public SizeCachingConcurrentQueue() {
-		super();
+		size = new AtomicInteger();
 	}
 	
 	public SizeCachingConcurrentQueue(Collection<? extends E> initial) {
 		super(initial);
-		size.set(initial.size());
+		size = new AtomicInteger(initial.size());
 	}
 	
 	@Override
@@ -73,8 +73,7 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 	@Override
 	public boolean offer(E e) {
 		((Consumer) offerSuper).accept(replaceWithNull(e));
-		size.incrementAndGet();
-		return true;
+		return size.incrementAndGet() > 0;
 	}
 	
 	@SuppressWarnings("rawtypes")

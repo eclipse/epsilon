@@ -61,8 +61,9 @@ public abstract class FeatureCallExpression extends Expression {
 			}
 		}
 		
-		operation = getOperationFromFactory(name, context);
+		operation = getOperationFromContext(name, context);
 		
+		// TODO: Some analysis on targetExpression to see if this is correct
 		if (operation == null) {
 			operation = new DynamicOperation();
 		}
@@ -78,7 +79,7 @@ public abstract class FeatureCallExpression extends Expression {
 	 * @throws EolIllegalOperationException 
 	 * @since 1.6
 	 */
-	protected AbstractOperation getOperationFromFactory(String name, IEolContext context) throws EolIllegalOperationException {
+	protected AbstractOperation getOperationFromContext(String name, IEolContext context) throws EolIllegalOperationException {
 		return context.getOperationFactory().getOperationFor(name);
 	}
 	

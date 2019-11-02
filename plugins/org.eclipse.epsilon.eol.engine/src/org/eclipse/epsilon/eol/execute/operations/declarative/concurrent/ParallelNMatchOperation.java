@@ -65,7 +65,7 @@ public class ParallelNMatchOperation extends NMatchOperation {
 			});
 		}
 		
-		context.executeParallel(expression, jobs);
+		context.executeAll(expression, jobs);
 		
 		return determineResult(currentMatches.get(), targetMatches);
 	}

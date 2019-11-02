@@ -335,7 +335,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 						() -> executeJob(next)
 					);
 				}
-				return executeParallel(jobs);
+				return executeAll(null, jobs);
 			}
 			else {
 				final Collection<Object> results = isCollection ?

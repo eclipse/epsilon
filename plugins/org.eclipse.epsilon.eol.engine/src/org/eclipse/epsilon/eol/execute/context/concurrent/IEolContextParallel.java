@@ -141,7 +141,7 @@ public interface IEolContextParallel extends IEolContext {
 	 * @return The result of the jobs in encounter order.
 	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
 	 */
-	default <T> Collection<T> executeParallel(ModuleElement entryPoint, Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
+	default <T> Collection<T> executeAll(ModuleElement entryPoint, Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
 		final ExecutorService executor = beginParallelTask(entryPoint);
 		Collection<T> results;
 		try {
@@ -169,7 +169,7 @@ public interface IEolContextParallel extends IEolContext {
 	 * @return The result of this task, as set by {@linkplain #completeShortCircuit(ModuleElement, Object)}, if any.
 	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
 	 */
-	default <T> T shortCircuit(ModuleElement entryPoint, Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
+	default <T> T executeAny(ModuleElement entryPoint, Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
 		final ExecutorService executor = beginParallelTask(entryPoint, true);
 		T result;
 		try {
@@ -199,17 +199,5 @@ public interface IEolContextParallel extends IEolContext {
 			return contextConstructor.apply(parallelism);
 		}
 		return currentContext;
-	}
-	
-	// No entryPoint defaults
-	
-	default ExecutorService beginParallelTask() throws EolNestedParallelismException {
-		return beginParallelTask(null);
-	}
-	default <T> Collection<T> executeParallel(Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
-		return executeParallel(null, jobs);
-	}
-	default <T> T shortCircuit(Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
-		return shortCircuit(null, jobs);
 	}
 }

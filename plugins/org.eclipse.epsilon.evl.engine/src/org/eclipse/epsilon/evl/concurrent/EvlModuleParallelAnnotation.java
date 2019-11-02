@@ -58,7 +58,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 					}
 				}
 				
-				context.executeParallel(constraintContext, jobs);
+				context.executeAll(constraintContext, jobs);
 			}	
 			else {
 				for (Constraint constraint : constraintsToCheck) {
@@ -73,7 +73,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 						}
 					}
 					
-					context.executeParallel(constraint, jobs);
+					context.executeAll(constraint, jobs);
 				}
 			}
 		}

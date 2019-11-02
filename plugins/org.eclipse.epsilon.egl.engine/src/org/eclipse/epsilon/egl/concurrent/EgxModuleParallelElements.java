@@ -52,7 +52,7 @@ public class EgxModuleParallelElements extends EgxModuleParallel {
 				});
 			}
 			
-			context.executeParallel(rule, genJobs);
+			context.executeAll(rule, genJobs);
 		}
 		return null;
 	}

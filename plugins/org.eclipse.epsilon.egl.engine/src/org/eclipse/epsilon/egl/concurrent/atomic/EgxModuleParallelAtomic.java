@@ -55,6 +55,6 @@ public abstract class EgxModuleParallelAtomic<A extends ExecutableRuleAtom<?>> e
 	
 	@Override
 	protected Object processRules() throws EolRuntimeException {
-		return getContext().executeParallel(getAllJobs());
+		return getContext().executeAll(this, getAllJobs());
 	}
 }

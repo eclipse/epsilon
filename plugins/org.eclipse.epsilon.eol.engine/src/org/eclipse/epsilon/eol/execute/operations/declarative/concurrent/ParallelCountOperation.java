@@ -52,7 +52,7 @@ public class ParallelCountOperation extends CountOperation {
 			});
 		}
 		
-		context.executeParallel(expression, jobs);
+		context.executeAll(expression, jobs);
 		return result.get();
 	}
 

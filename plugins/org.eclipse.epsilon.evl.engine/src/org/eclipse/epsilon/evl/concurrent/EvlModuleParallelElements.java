@@ -47,7 +47,7 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 				jobs.add(() -> constraintContext.execute(constraintsToCheck, element, context));
 			}
 			
-			context.executeParallel(constraintContext, jobs);
+			context.executeAll(constraintContext, jobs);
 		}
 	}
 

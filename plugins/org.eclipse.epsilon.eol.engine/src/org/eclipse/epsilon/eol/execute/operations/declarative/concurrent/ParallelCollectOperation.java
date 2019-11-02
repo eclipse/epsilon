@@ -51,7 +51,7 @@ public class ParallelCollectOperation extends CollectOperation {
 			jobs.add(() -> function.applyThrows(item));
 		}
 		
-		resultsCol.addAll(context.executeParallel(expression, jobs));
+		resultsCol.addAll(context.executeAll(expression, jobs));
 		
 		return resultsCol;
 	}

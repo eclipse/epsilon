@@ -106,7 +106,7 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	 * @since 1.6
 	 */
 	@Override
-	protected AbstractOperation getOperationFromFactory(String name, IEolContext context) throws EolIllegalOperationException {
+	protected AbstractOperation getOperationFromContext(String name, IEolContext context) throws EolIllegalOperationException {
 		return context.getOperationFactory().getOptimisedOperation(name, context);
 	}
 	

@@ -57,7 +57,7 @@ public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IE
 					rule.generate(element, this);
 				}
 			}
-			context.executeParallel(rule, genJobs);
+			context.executeAll(rule, genJobs);
 		}
 		return null;
 	}

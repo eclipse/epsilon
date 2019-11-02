@@ -58,7 +58,7 @@ public class ParallelSelectOperation extends SelectOperation {
 			});
 		}
 		
-		Stream<Optional<?>> resStream = context.executeParallel(jobs).stream().filter(r -> r != null);
+		Stream<Optional<?>> resStream = context.executeAll(expression, jobs).stream().filter(r -> r != null);
 		
 		if (returnOnMatch) {
 			resStream.findAny().ifPresent(r -> resultsCol.add(r.orElse(null)));

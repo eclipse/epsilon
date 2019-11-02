@@ -50,7 +50,7 @@ public class ParallelMapByOperation extends MapByOperation {
 			jobs.add(() -> new SimpleEntry<>(function.applyThrows(item), item));
 		}
 		
-		Collection<Entry<?, ?>> intermediates = context.executeParallel(expression, jobs);
+		Collection<Entry<?, ?>> intermediates = context.executeAll(expression, jobs);
 		
 		return intermediates.stream()
 			.collect(Collectors.toMap(
