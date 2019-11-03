@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -51,6 +53,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.BrowserFunction;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -133,6 +136,25 @@ public class PictoView extends ViewPart {
 		
 		browserContainer = new BrowserContainer(sashForm, SWT.NONE);
 		browser = new Browser(browserContainer, SWT.NONE);
+		
+		new BrowserFunction(browser, "showView") {
+			public Object function(Object[] arguments) {
+				
+				if (arguments.length == 1) {
+					String view = arguments[0] + "";
+					ContentTree contentTree = (ContentTree) treeViewer.getInput();
+					ContentTree viewTree = contentTree.forPath(Arrays.asList(view.split("/")));
+					ArrayList<ContentTree> path = new ArrayList<ContentTree>();
+					while (viewTree != null) {
+						path.add(0, viewTree);
+						viewTree = viewTree.getParent();
+					}
+					treeViewer.setSelection(new TreeSelection(new TreePath(path.toArray())));
+					treeViewer.refresh();
+				}
+				return null;
+			};
+		};
 		
 		sashFormWeights = new int[] {20, 80};
 		sashForm.setSashWidth(2);

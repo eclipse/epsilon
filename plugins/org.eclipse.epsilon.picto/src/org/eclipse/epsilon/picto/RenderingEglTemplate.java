@@ -37,8 +37,6 @@ public class RenderingEglTemplate extends EglPersistentTemplate {
 	protected void doGenerate(File file, String targetName, boolean overwrite, boolean merge)
 			throws EglRuntimeException {
 		
-		System.out.println(file.getAbsolutePath());
-		
 		String format = "html";
 		String icon = "cccccc";
 		Collection<String> path = new ArrayList<>(Arrays.asList(""));
