@@ -32,7 +32,7 @@ public class GenerationRuleAtom extends ExecutableRuleAtom<GenerationRule> {
 		super(construct, modelElement);
 	}
 
-	public static ArrayList<GenerationRuleAtom> getAllJobs(IEgxModule module) throws EolRuntimeException {
+	public static final ArrayList<GenerationRuleAtom> getAllJobs(IEgxModule module) throws EolRuntimeException {
 		IEgxContext context = module.getContext();
 		final ArrayList<GenerationRuleAtom> atoms = new ArrayList<>();
 		

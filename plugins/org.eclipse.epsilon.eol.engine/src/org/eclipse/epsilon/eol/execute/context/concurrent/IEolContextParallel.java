@@ -11,6 +11,7 @@ package org.eclipse.epsilon.eol.execute.context.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Callable;
@@ -141,9 +142,9 @@ public interface IEolContextParallel extends IEolContext {
 	 * @return The result of the jobs in encounter order.
 	 * @throws EolRuntimeException If any of the jobs fail (i.e. throw an exception).
 	 */
-	default <T> Collection<T> executeAll(ModuleElement entryPoint, Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
+	default <T> List<T> executeAll(ModuleElement entryPoint, Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
 		final ExecutorService executor = beginParallelTask(entryPoint);
-		Collection<T> results;
+		List<T> results;
 		try {
 			results = new ArrayList<>(jobs.size());
 			for (Future<? extends T> future : executor.invokeAll(jobs)) {

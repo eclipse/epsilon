@@ -43,7 +43,7 @@ public class ConstraintSelectTransfomer {
 			&& isOptimisableExpression(constraint.checkBlock);
 	}
 
-	private boolean isOptimisableExpression(ExecutableBlock<Boolean> block) {
+	private static boolean isOptimisableExpression(ExecutableBlock<Boolean> block) {
 		if (block == null) {
 			// non-existing blocks are trivially optimisable
 			return true;
@@ -66,14 +66,14 @@ public class ConstraintSelectTransfomer {
 		}
 	}
 
-	private boolean isSimpleBlock(StatementBlock block) {
+	private static boolean isSimpleBlock(StatementBlock block) {
 		if (block.getStatements().size() != 1) {
 			return false;
 		}
 		return block.getStatements().get(0) instanceof ReturnStatement;
 	}
 
-	private boolean isDependentOnOtherRules(ModuleElement node) {
+	private static boolean isDependentOnOtherRules(ModuleElement node) {
 		if (node instanceof OperationCallExpression) {
 			OperationCallExpression opCall = (OperationCallExpression)node;
 			if (opCall.getParameterExpressions().size() > 0) {
@@ -138,7 +138,7 @@ public class ConstraintSelectTransfomer {
 		return newBlock;
 	}
 
-	private Expression getExpressionFromBlock(ExecutableBlock<Boolean> guardBlock) {
+	private static Expression getExpressionFromBlock(ExecutableBlock<Boolean> guardBlock) {
 		if (guardBlock != null) {
 			if (guardBlock.getBody() instanceof Expression) {
 				return (Expression) guardBlock.getBody();

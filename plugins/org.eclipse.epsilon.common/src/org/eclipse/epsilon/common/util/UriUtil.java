@@ -57,8 +57,7 @@ public abstract class UriUtil {
 	}
 	
 	public static String encode(String s, boolean isDirectory) {
-		s = s.replaceAll(" ",    "%20");
-		s = s.replaceAll("\\\\", "/");
+		s = s.replaceAll(" ",    "%20").replaceAll("\\\\", "/");
 		
 		if (isDirectory && !s.endsWith("/"))
 			s += "/";

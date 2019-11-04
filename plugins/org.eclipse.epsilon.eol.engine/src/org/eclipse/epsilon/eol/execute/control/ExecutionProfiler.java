@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.util.profiling.BenchmarkUtils;
+import static org.eclipse.epsilon.common.util.profiling.BenchmarkUtils.formatDuration;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -23,7 +23,7 @@ public class ExecutionProfiler implements ExecutionController, IExecutionListene
 	
 	protected final Map<ModuleElement, Duration> executionTimes = new HashMap<>();
 	private ModuleElement currentAst;
-	private long currentStartNanos;
+	private long currentStart;
 	
 	/**
 	 * Determines whether the ModuleElement should be profiled.
@@ -39,7 +39,7 @@ public class ExecutionProfiler implements ExecutionController, IExecutionListene
 	public void control(ModuleElement ast, IEolContext context) {
 		if (ast != null && screenAST(ast, context)) {
 			currentAst = ast;
-			currentStartNanos = System.nanoTime();
+			currentStart = System.nanoTime();
 		}
 	}
 	
@@ -47,12 +47,12 @@ public class ExecutionProfiler implements ExecutionController, IExecutionListene
 	public void done(ModuleElement ast, IEolContext context) {
 		if (ast == null || ast != currentAst) return;
 		
-		long execTimeNanos = System.nanoTime() - currentStartNanos;
+		long execTime = System.nanoTime() - currentStart;
 		Duration currentDuration = executionTimes.get(ast);
 		
 		executionTimes.put(
 			currentAst, 
-			currentDuration != null ? currentDuration.plusNanos(execTimeNanos) : Duration.ofNanos(execTimeNanos)
+			currentDuration != null ? currentDuration.plusNanos(execTime) : Duration.ofNanos(execTime)
 		);
 		
 		currentAst = null;
@@ -62,7 +62,7 @@ public class ExecutionProfiler implements ExecutionController, IExecutionListene
 	public void dispose() {
 		executionTimes.clear();
 		currentAst = null;
-		currentStartNanos = 0;
+		currentStart = 0;
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class ExecutionProfiler implements ExecutionController, IExecutionListene
 			.entrySet()
 			.stream()
 			.sorted((a, b) -> b.getValue().compareTo(a.getValue()))
-			.map(entry -> "'"+entry.getKey()+"' took "+BenchmarkUtils.formatDuration(entry.getValue()))
+			.map(entry -> "'"+entry.getKey()+"' took "+formatDuration(entry.getValue()))
 			.collect(Collectors.joining(",\n"));
 	}
 	

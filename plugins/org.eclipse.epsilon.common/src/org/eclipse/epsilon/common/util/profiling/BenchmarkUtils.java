@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.common.util.profiling;
 
 import static java.lang.System.nanoTime;
+import static java.lang.System.currentTimeMillis;
 import static org.eclipse.epsilon.common.util.OperatingSystem.executeCommand;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryPoolMXBean;
@@ -327,8 +328,9 @@ public final class BenchmarkUtils {
 		profileExecutionStage(profileInfo, description, checkedEquivalent);
 	}
 	
-	
 	//Temporal utils
+	
+	// Nanoseconds
 	
 	public static <T, E extends Exception> long measureTimeNanos(CheckedConsumer<T, E> code, T argument) throws E {
 		final long endTime, startTime = nanoTime();
@@ -336,20 +338,38 @@ public final class BenchmarkUtils {
 		endTime = nanoTime();
 		return endTime-startTime;
 	}
-	
 	public static <E extends Exception> long measureTimeNanos(CheckedRunnable<E> code) throws E {
 		CheckedConsumer<Void, E> consEquivalent = v -> code.run();
 		return measureTimeNanos(consEquivalent, null);
 	}
-	
 	public static long measureTimeNanos(Runnable code) {
 		CheckedRunnable<RuntimeException> checkedEquivalent = () -> code.run();
 		return measureTimeNanos(checkedEquivalent);
 	}
-	
 	public static <T> long measureTimeNanos(Consumer<T> code, T argument) {
 		CheckedConsumer<T, RuntimeException> checkedEquivalent = code::accept;
 		return measureTimeNanos(checkedEquivalent, argument);
+	}
+	
+	// Milliseconds
+	
+	public static <T, E extends Exception> long measureTimeMillis(CheckedConsumer<T, E> code, T argument) throws E {
+		final long endTime, startTime = currentTimeMillis();
+		code.acceptThrows(argument);
+		endTime = currentTimeMillis();
+		return endTime-startTime;
+	}
+	public static <E extends Exception> long measureTimeMillis(CheckedRunnable<E> code) throws E {
+		CheckedConsumer<Void, E> consEquivalent = v -> code.run();
+		return measureTimeMillis(consEquivalent, null);
+	}
+	public static long measureTimeMillis(Runnable code) {
+		CheckedRunnable<RuntimeException> checkedEquivalent = () -> code.run();
+		return measureTimeMillis(checkedEquivalent);
+	}
+	public static <T> long measureTimeMillis(Consumer<T> code, T argument) {
+		CheckedConsumer<T, RuntimeException> checkedEquivalent = code::accept;
+		return measureTimeMillis(checkedEquivalent, argument);
 	}
 	
 	public static void printExecutionTime(String stageTag, Runnable code) {
