@@ -12,7 +12,7 @@ package org.eclipse.epsilon.erl.execute.control;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.ExecutionProfiler;
-import org.eclipse.epsilon.erl.dom.NamedRule;
+import org.eclipse.epsilon.erl.dom.*;
 
 /**
  * Profiles {@link NamedRule}s.
@@ -24,7 +24,7 @@ public class RuleProfiler extends ExecutionProfiler {
 
 	@Override
 	protected boolean screenAST(ModuleElement ast, IEolContext context) {
-		return ast instanceof NamedRule;
+		return ast instanceof NamedRule || ast instanceof Pre || ast instanceof Post;
 	}
 	
 }

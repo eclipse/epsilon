@@ -48,7 +48,7 @@ public class ParallelStreamTests {
 	public void testParallelStreamEquivalence() throws Exception {
 		String script =
 			"var Collectors = Native('java.util.stream.Collectors');" +
-			"var testData = Sequence{-1024..2048};" +
+			"var testData = Sequence{-9999..99999};" +
 		
 			"var positiveOddsSquaredEol = testData" + 
 			"	.parallelSelect(i | i >= 0 and i.mod(2) > 0)" + 

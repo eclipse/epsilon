@@ -85,7 +85,8 @@ public class ObjectMethod {
 			// At some point in the chain, StringUtil.isOneOf(operationName, "parallel", "parallelStream") must've been true
 			IEolContextParallel pContext = (IEolContextParallel) (context = EolContextParallel.convertToParallel(context));
 			if (pContext.isParallelisationLegal()) {
-				pContext.beginParallelTask(ast, true);
+				pContext.beginParallelTask(ast);
+				pContext.getExecutorService().shutdown();
 			}
 			else {
 				((BaseStream<?,?>) object).sequential();
