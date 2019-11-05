@@ -103,7 +103,7 @@ public class PropertyCallExpression extends FeatureCallExpression {
 			boolean many = false;
 			MetaClass metaClass = null;
 			if (type instanceof EolModelElementType && ((EolModelElementType) type).getMetaClass() != null) {
-				metaClass = (MetaClass) ((EolModelElementType) type).getMetaClass();
+				metaClass = ((EolModelElementType) type).getMetaClass();
 			}
 			else if (type instanceof EolCollectionType && ((EolCollectionType) type).getContentType() instanceof EolModelElementType) {
 				metaClass = ((EolModelElementType)((EolCollectionType) type).getContentType()).getMetaClass();

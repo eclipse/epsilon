@@ -9,11 +9,18 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.dom;
 
+import org.eclipse.epsilon.common.util.StringUtil;
+
 public class Pre extends NamedStatementBlockRule {
 	
 	@Override
 	public String toString() {
-		return "pre " + getName();
+		String ts = "pre";
+		final String name = getName();
+		if (!StringUtil.isEmpty(name)) {
+			ts += " "+name;
+		}
+		return ts;
 	}
 	
 }

@@ -72,7 +72,7 @@ public class NameExpression extends Expression {
 		
 		if (variable == null) {
 			try {
-				EolType type = (EolType) new TypeExpression(name).execute(context);
+				EolType type = new TypeExpression(name).execute(context);
 				if (type != null) {
 					variable = Variable.createReadOnlyVariable(type.getName(), type);
 				}
