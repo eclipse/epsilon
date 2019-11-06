@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.ui.IStartup;
 
 public class EValidatorPopulator implements IStartup {
@@ -35,6 +36,7 @@ public class EValidatorPopulator implements IStartup {
 		return isFinished;
 	}
 
+	@Override
 	public void earlyStartup() {
 		
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
@@ -66,7 +68,9 @@ public class EValidatorPopulator implements IStartup {
 				EValidator evlValidator = null;
 				if (url.toString().endsWith("evl")) {
 					String modelName = configurationElement.getAttribute("modelName");
-					if (modelName == null || modelName.trim().length() == 0) modelName = EvlValidator.DEFAULT_MODEL_NAME;
+					if (StringUtil.isEmpty(modelName)) {
+						modelName = EvlValidator.DEFAULT_MODEL_NAME;
+					}
 
 					// Use custom EvlValidator if provided: otherwise, use the default implementation
 					if(configurationElement.getAttribute("validator") != null) {

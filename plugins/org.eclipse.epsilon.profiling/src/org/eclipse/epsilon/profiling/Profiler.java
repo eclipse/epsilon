@@ -142,7 +142,7 @@ public class Profiler {
 		HashMap<String, ExecutionTime> executionTimes = new HashMap<>();
 		collectExecutionTimes(executionTimes, root);
 		
-		ArrayList<ProfilerTargetSummary> summaries = new ArrayList<>();
+		ArrayList<ProfilerTargetSummary> summaries = new ArrayList<>(targetNames.size());
 		int i = 0;
 		for (String targetName : targetNames) {
 			ProfilerTargetSummary summary = new ProfilerTargetSummary();

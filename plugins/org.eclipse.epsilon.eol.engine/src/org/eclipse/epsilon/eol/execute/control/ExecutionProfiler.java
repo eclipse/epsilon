@@ -27,9 +27,11 @@ public class ExecutionProfiler implements ExecutionController, IExecutionListene
 	
 	/**
 	 * Determines whether the ModuleElement should be profiled.
+	 * 
 	 * @param ast The ModuleElement under scrutiny.
 	 * @param context The context passed to {@link #control(ModuleElement, IEolContext)}
 	 * @return <code>true</code> if the ModuleElement should be profiled, <code>false</code> otherwise.
+	 * @since 1.6
 	 */
 	protected boolean screenAST(ModuleElement ast, IEolContext context) {
 		return true;

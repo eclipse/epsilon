@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -40,7 +41,6 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.evl.EvlModule;
-import org.eclipse.epsilon.evl.IEvlFixer;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
@@ -52,7 +52,7 @@ public class EvlValidator implements EValidator {
 	protected URI source;
 	protected EmfPrettyPrinter printer = new EmfPrettyPrinter();
 	protected Resource currentResource;
-	protected ValidationResults results = new ValidationResults();;
+	protected ValidationResults results = new ValidationResults();
 	protected Collection<EObject> history = new ArrayList<>();
 	protected String modelName;
 	protected String ePackageUri;
@@ -60,6 +60,12 @@ public class EvlValidator implements EValidator {
 	protected boolean showErrorDialog = true;
 	protected boolean logErrors = true;
 	protected List<ValidationProblemListener> problemListeners = new ArrayList<>();
+	
+	/**
+	 * IEvlModule implementation
+	 * @since 1.6
+	 */
+	protected Supplier<? extends IEvlModule> moduleProvider = EvlModule::new;
 
 	/** Collection of all packages that are available to this validator */
 	protected Collection<EPackage> ePackages = new ArrayList<>();
@@ -201,7 +207,7 @@ public class EvlValidator implements EValidator {
 	protected void validate(Resource resource, Map<Object, Object> context) {
 		results.clear();
 
-		module = new EvlModule();
+		module = moduleProvider != null ? moduleProvider.get() : new EvlModule();
 		try {
 			module.parse(source);
 		} catch (Exception e) {
@@ -215,7 +221,7 @@ public class EvlValidator implements EValidator {
 			return;
 		}
 
-		if (module.getParseProblems().size() > 0) {
+		if (!module.getParseProblems().isEmpty()) {
 			if (isLogErrors()) {
 				LogUtil.log(source + " has one or more syntax errors : " + module.getParseProblems().get(0).toString(), null, isShowErrorDialog());
 			}
@@ -242,30 +248,29 @@ public class EvlValidator implements EValidator {
 		// Add variables to the EvlModule to make the available to the EVL rules
 		if (diagnosticVariables != null) {
 			for (String diagnosticVariable : diagnosticVariables) {
-				final Variable variable = new Variable(diagnosticVariable,
-						context.get(diagnosticVariable),
-						EolAnyType.Instance);
+				final Variable variable = new Variable(
+					diagnosticVariable,
+					context.get(diagnosticVariable),
+					EolAnyType.Instance
+				);
 				module.getContext().getFrameStack().put(variable);
 			}
 		}
 
 		try {
 			module.execute();
-			module.setUnsatisfiedConstraintFixer(new IEvlFixer() {
-				@Override
-				public void fix(IEvlModule module) throws EolRuntimeException {
-					// Do nothing
-				}
-			});
+			module.setUnsatisfiedConstraintFixer(module -> {});
 
 			for (UnsatisfiedConstraint unsatisfied : module.getContext().getUnsatisfiedConstraints()) {
 				Object key = unsatisfied.getInstance();
-				if (!results.containsKey(key)) {
-					results.put(key, new ArrayList<UnsatisfiedConstraint>());
+				Collection<UnsatisfiedConstraint> value = results.get(key);
+				if (value == null) {
+					results.put(key, value = new ArrayList<>());
 				}
-				results.get(key).add(unsatisfied);
+				value.add(unsatisfied);
 			}
-		} catch (EolRuntimeException e) {
+		}
+		catch (EolRuntimeException e) {
 			if (logException(e)) {
 				LogUtil.log("A runtime error was raised during the evaluation of " + source + " : " + e.getMessage(), e, isShowErrorDialog());
 			}
@@ -280,7 +285,7 @@ public class EvlValidator implements EValidator {
 	}
 
 	protected void addMarkers(String msgPrefix, EObject eObject, DiagnosticChain diagnostics) {
-		if(diagnostics == null) {
+		if (diagnostics == null) {
 			// user is not interested in markers...
 			return;
 		}
