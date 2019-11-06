@@ -13,7 +13,6 @@ import java.util.function.Supplier;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 
 /**
@@ -23,19 +22,16 @@ import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
  */
 public interface IErlModuleParallelAnnotation extends IErlModule {
 	
+	default boolean shouldBeParallel(AnnotatableModuleElement ast, final Object self) throws EolRuntimeException {
+		return shouldBeParallel(ast, () -> new Variable[]{
+			Variable.createReadOnlyVariable("self", self)
+		});
+	}
+	
 	default boolean shouldBeParallel(AnnotatableModuleElement ast, Supplier<? extends Variable[]> variables) throws EolRuntimeException {
 		IErlContextParallel context = getContext();
 		if (!context.isParallelisationLegal()) return false;
 		return ast.getBooleanAnnotationValue("parallel", context, variables);
-	}
-	
-	default boolean shouldBeParallel(AnnotatableModuleElement ast, Object self, IModel model, int numElements) throws EolRuntimeException {
-		return shouldBeParallel(ast, () -> new Variable[] {
-			Variable.createReadOnlyVariable("self", self),
-			Variable.createReadOnlyVariable("NUM_ELEMENTS", numElements),
-			Variable.createReadOnlyVariable("MODEL", model),
-			Variable.createReadOnlyVariable("THREADS", getContext().getParallelism())
-		});
 	}
 	
 	@Override

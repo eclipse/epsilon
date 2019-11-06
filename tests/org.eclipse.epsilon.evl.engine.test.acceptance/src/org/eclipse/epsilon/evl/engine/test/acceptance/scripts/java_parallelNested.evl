@@ -39,7 +39,7 @@ context AbstractMethodDeclaration {
 }
 
 context ClassDeclaration {
-	$parallel MODEL.name.length() > 0
+	$parallel self.name.length() > 0
 	constraint noObscuredVariables {
 		guard: currentThreadName() == "main"
 		check {

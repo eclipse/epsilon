@@ -43,11 +43,10 @@ public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IE
 		
 		for (GenerationRule rule : getGenerationRules()) {
 			final Collection<?> allElements = rule.getAllElements(context);
-			final int numElements = allElements.size();
-			ArrayList<Callable<Void>> genJobs = new ArrayList<>(numElements);
+			final Collection<Callable<Void>> genJobs = new ArrayList<>(allElements.size());
 			
 			for (Object element : allElements) {
-				if (shouldBeParallel(rule, element, rule.getOwningModelForType(context), numElements)) {
+				if (shouldBeParallel(rule, element)) {
 					genJobs.add(() -> {
 						rule.generate(element, this);
 						return null;

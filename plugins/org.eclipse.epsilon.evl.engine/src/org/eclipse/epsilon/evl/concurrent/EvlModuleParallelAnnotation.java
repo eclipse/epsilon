@@ -13,11 +13,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.concurrent.Callable;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.erl.IErlModuleParallelAnnotation;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
-import org.eclipse.epsilon.evl.dom.GlobalConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
@@ -42,15 +40,12 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
 			final Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
 			final Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
-			final int numElements = allOfKind.size();
-			final IModel model = constraintContext instanceof GlobalConstraintContext ?
-				null : constraintContext.getType(context).getModel();
 			
 			final Collection<Callable<Object>> jobs = new LinkedList<>();
 			
 			if (constraintContext.hasAnnotation("parallel")) {
 				for (Object object : allOfKind) {
-					if (shouldBeParallel(constraintContext, object, model, numElements)) {
+					if (shouldBeParallel(constraintContext, object)) {
 						jobs.add(() -> constraintContext.execute(constraintsToCheck, object, context));
 					}
 					else {
@@ -64,7 +59,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 				for (Constraint constraint : constraintsToCheck) {
 					for (Object object : allOfKind) {
 						if (constraintContext.shouldBeChecked(object, context)) {
-							if (shouldBeParallel(constraint, object, model, numElements)) {
+							if (shouldBeParallel(constraint, object)) {
 								jobs.add(() -> context.getExecutorFactory().execute(constraint, context, object));
 							}
 							else {

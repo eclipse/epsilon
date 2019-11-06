@@ -50,7 +50,7 @@ operation ClassDeclaration hasCompareTo() : Boolean {
 	);
 }
 
-$parallel self.size() > THREADS
+$parallel self.size() > 16
 context MethodInvocation {
 	guard: self.method.isDefined()
 	
@@ -182,7 +182,7 @@ context CompilationUnit {
 	}
 }
 
-$parallel NUM_ELEMENTS > 100000
+$parallel false
 context NamedElement {
 	constraint notReservedWord {
 		check: self.name <> "var" and

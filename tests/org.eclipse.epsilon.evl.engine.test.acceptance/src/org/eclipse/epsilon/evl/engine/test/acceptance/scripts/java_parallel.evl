@@ -1,3 +1,7 @@
+pre {
+	var THREADS = Native("java.lang.Runtime").getRuntime().availableProcessors();
+}
+
 operation InfixExpression operatorIsEquality() : Boolean {
 	return self.operator == InfixExpressionKind#EQUALS or self.operator == InfixExpressionKind#NOT_EQUALS;
 }
@@ -185,7 +189,7 @@ context CompilationUnit {
 	}
 }
 
-$parallel NUM_ELEMENTS > 131072
+$parallel NamedElement.allInstances().size() > 131072
 context NamedElement {
 	constraint notReservedWord {
 		check: self.name <> "var" and
