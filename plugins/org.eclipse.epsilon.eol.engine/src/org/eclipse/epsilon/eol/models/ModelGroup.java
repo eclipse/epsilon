@@ -38,7 +38,7 @@ public class ModelGroup extends Model {
 				models.add(model);
 			}
 		}
-		if (models.size() == 0) throw new EolModelNotFoundException(metaModel);
+		if (models.isEmpty()) throw new EolModelNotFoundException(metaModel);
 	}
 	
 	public ArrayList<IModel> getModels() {

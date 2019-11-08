@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -34,6 +33,7 @@ import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
@@ -44,9 +44,8 @@ import org.eclipse.epsilon.flexmi.dt.FlexmiEditor;
 import org.eclipse.epsilon.flexmi.dt.PartListener;
 import org.eclipse.epsilon.flexmi.dt.RunnableWithException;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -57,7 +56,6 @@ import org.eclipse.swt.browser.BrowserFunction;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
@@ -93,14 +91,14 @@ public class PictoView extends ViewPart {
 		
 		try { tempDir = Files.createTempDirectory("picto").toFile(); } catch (IOException e) {}
 		
-		IActionBars bars = getViewSite().getActionBars();
-		bars.getToolBarManager().add(new ZoomAction(ZoomType.IN));
-		bars.getToolBarManager().add(new ZoomAction(ZoomType.ACTUAL));
-		bars.getToolBarManager().add(new ZoomAction(ZoomType.OUT));
-		bars.getToolBarManager().add(new Separator());
-		bars.getToolBarManager().add(new PrintAction());
-		bars.getToolBarManager().add(new SyncAction());
-		bars.getToolBarManager().add(new LockAction());
+		IToolBarManager barManager = getViewSite().getActionBars().getToolBarManager();
+		barManager.add(new ZoomAction(ZoomType.IN));
+		barManager.add(new ZoomAction(ZoomType.ACTUAL));
+		barManager.add(new ZoomAction(ZoomType.OUT));
+		barManager.add(new Separator());
+		barManager.add(new PrintAction());
+		barManager.add(new SyncAction());
+		barManager.add(new LockAction());
 		
 		sashForm = new SashForm(parent, SWT.HORIZONTAL);
 		
@@ -117,19 +115,15 @@ public class PictoView extends ViewPart {
 		treeViewer = filteredTree.getViewer();
 		treeViewer.setContentProvider(new ContentTreeContentProvider());
 		treeViewer.setLabelProvider(new ContentTreeLabelProvider());
-		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				ContentTree contentTree = ((ContentTree)event.getStructuredSelection().getFirstElement());
-				if (contentTree != null && contentTree.getContent() != null) {
-					try {
-						selectionHistory.put(renderedFile.getAbsolutePath(), contentTree.getPath());
-						render(contentTree.getContent(), contentTree.getFormat());
-					} catch (Exception ex) {
-						display("<html><pre>" + ex.getMessage() + "</pre></html>");
-						ex.printStackTrace();
-					}
+		treeViewer.addSelectionChangedListener(event -> {
+			ContentTree contentTree = ((ContentTree)event.getStructuredSelection().getFirstElement());
+			if (contentTree != null && contentTree.getContent() != null) {
+				try {
+					selectionHistory.put(renderedFile.getAbsolutePath(), contentTree.getPath());
+					render(contentTree.getContent(), contentTree.getFormat());
+				} catch (Exception ex) {
+					display("<html><pre>" + ex.getMessage() + "</pre></html>");
+					ex.printStackTrace();
 				}
 			}
 		});
@@ -144,7 +138,7 @@ public class PictoView extends ViewPart {
 					String view = arguments[0] + "";
 					ContentTree contentTree = (ContentTree) treeViewer.getInput();
 					ContentTree viewTree = contentTree.forPath(Arrays.asList(view.split("/")));
-					ArrayList<ContentTree> path = new ArrayList<ContentTree>();
+					List<ContentTree> path = new ArrayList<>();
 					while (viewTree != null) {
 						path.add(0, viewTree);
 						viewTree = viewTree.getParent();
@@ -263,9 +257,9 @@ public class PictoView extends ViewPart {
 			
 			if (renderingMetadata != null) {
 				
-				IEolModule module = null;
+				IEolModule module;
 				
-				InMemoryEmfModel model = null;
+				InMemoryEmfModel model;
 				
 				if (renderingMetadata.getNsuri() != null) {
 					EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(renderingMetadata.getNsuri());
@@ -276,6 +270,8 @@ public class PictoView extends ViewPart {
 				}
 				
 				model.setExpand(false);
+				model.setCachingEnabled(true);
+				model.setConcurrent(true);
 				
 				
 				if (renderingMetadata.getFormat().equals("egx")) {
@@ -297,7 +293,7 @@ public class PictoView extends ViewPart {
 				if (renderingMetadata.getFormat().equals("egx")) {
 					RenderingEglTemplateFactory templateFactory = new RenderingEglTemplateFactory(tempDir);
 					templateFactory.setTemplateRoot(egxFile.getParentFile().getAbsolutePath());
-					((EgxModule) module).getContext().setTemplateFactory(templateFactory);
+					((IEgxModule) module).getContext().setTemplateFactory(templateFactory);
 					module.execute();
 					
 					setContentTree(templateFactory.getContentTree(), rerender);
@@ -309,7 +305,8 @@ public class PictoView extends ViewPart {
 					render(content, renderingMetadata.getFormat());
 				}
 			}
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			try { render("<html><pre>" + ex.getMessage() + "</pre></html>", "html"); } catch (Exception e) {}
 			ex.printStackTrace();
 		}

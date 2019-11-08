@@ -121,7 +121,7 @@
             language="EGX"
             name="Sequential EGX">
       </implementation>
-       <implementation
+       <!--implementation
             class="org.eclipse.epsilon.egl.concurrent.EgxModuleParallelAnnotation"
             default="false"
             dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleParallelConfiguration"
@@ -129,12 +129,19 @@
             name="Parallel EGX (Annotation)">
       </implementation>
       <implementation
-            class="org.eclipse.epsilon.egl.concurrent.atomic.EgxModuleParallelGenerationRuleAtoms"
+            class="org.eclipse.epsilon.egl.concurrent.EgxModuleParallelElements"
             default="false"
             dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleParallelConfiguration"
             language="EGX"
             name="Parallel EGX (Elements)">
       </implementation>
+      <implementation
+            class="org.eclipse.epsilon.egl.concurrent.atomic.EgxModuleParallelGenerationRuleAtoms"
+            default="false"
+            dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleParallelConfiguration"
+            language="EGX"
+            name="Parallel EGX (GenerationRuleAtoms)">
+      </implementation-->
    </extension>
    <extension
          point="org.eclipse.epsilon.common.dt.moduleImplementation">

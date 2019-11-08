@@ -270,10 +270,12 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	
 	protected void postExecute() throws Exception {
 		if (profileExecution) {
+			writeOut(printMarker);
 			writeOut(getProfilingOutput());
 			writeOut(printMarker);
 		}
 		if (showResults) {
+			writeOut(printMarker);
 			writeOut(getResultOutput());
 			writeOut(printMarker);
 		}
