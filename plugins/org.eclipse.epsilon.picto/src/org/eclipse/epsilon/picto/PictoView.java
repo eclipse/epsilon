@@ -269,10 +269,7 @@ public class PictoView extends ViewPart {
 					model = new InMemoryEmfModel("M", resource);
 				}
 				
-				model.setExpand(false);
-				model.setCachingEnabled(true);
-				model.setConcurrent(true);
-				
+				model.setExpand(false);	
 				
 				if (renderingMetadata.getFormat().equals("egx")) {
 					module = new EgxModule();
