@@ -176,7 +176,7 @@ public class ContentTree {
 	}
 	
 	public ContentTree getFirstWithContent() {
-		if (content != null) return this;
+		if (content != null && content.length()>0) return this;
 		for (ContentTree child : getChildren()) {
 			ContentTree result = child.getFirstWithContent();
 			if (result != null) return result;

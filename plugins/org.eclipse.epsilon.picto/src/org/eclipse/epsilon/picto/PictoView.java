@@ -9,8 +9,10 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -21,13 +23,22 @@ import java.util.Properties;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.emfatic.core.generator.ecore.Builder;
+import org.eclipse.emf.emfatic.core.generator.ecore.Connector;
+import org.eclipse.emf.emfatic.core.generator.ecore.EmfaticSemanticWarning;
+import org.eclipse.emf.emfatic.core.lang.gen.parser.EmfaticParserDriver;
+import org.eclipse.emf.emfatic.ui.editor.EmfaticEditor;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.OperatingSystem;
@@ -43,6 +54,8 @@ import org.eclipse.epsilon.flexmi.dt.BrowserContainer;
 import org.eclipse.epsilon.flexmi.dt.FlexmiEditor;
 import org.eclipse.epsilon.flexmi.dt.PartListener;
 import org.eclipse.epsilon.flexmi.dt.RunnableWithException;
+import org.eclipse.gymnast.runtime.core.parser.ParseContext;
+import org.eclipse.gymnast.runtime.core.parser.ParseMessage;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
@@ -189,7 +202,7 @@ public class PictoView extends ViewPart {
 	}
 
 	public void render(IEditorPart editor) {
-
+		
 		if (editor == null) {
 			nothingToRender();
 		} else {
@@ -202,12 +215,12 @@ public class PictoView extends ViewPart {
 				
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
-					Display.getDefault().syncExec(new Runnable() {
-						@Override
-						public void run() {
+					//Display.getDefault().syncExec(new Runnable() {
+					//	@Override
+					//	public void run() {
 							renderEditorContent();
-						}
-					});
+					//	}
+					//});
 					return Status.OK_STATUS;
 				}
 			};
@@ -256,9 +269,8 @@ public class PictoView extends ViewPart {
 			PictoMetadata renderingMetadata = getRenderingMetadata(editor);
 			
 			if (renderingMetadata != null) {
-				
-				IEolModule module;
-				
+			
+				IEolModule module;	
 				InMemoryEmfModel model;
 				
 				if (renderingMetadata.getNsuri() != null) {
@@ -293,25 +305,38 @@ public class PictoView extends ViewPart {
 					((IEgxModule) module).getContext().setTemplateFactory(templateFactory);
 					module.execute();
 					
-					setContentTree(templateFactory.getContentTree(), rerender);
-					setTreeViewerVisible(true);
+					runInUIThread(new RunnableWithException() {
+						
+						@Override
+						public void runWithException() throws Exception {
+							setContentTree(templateFactory.getContentTree(), rerender);
+							setTreeViewerVisible(true);
+						}
+					});
+					
 				}
 				else {
-					setTreeViewerVisible(false);
 					String content = module.execute() + "";
-					render(content, renderingMetadata.getFormat());
+					runInUIThread(new RunnableWithException() {
+						
+						@Override
+						public void runWithException() throws Exception {
+							setTreeViewerVisible(false);
+							render(content, renderingMetadata.getFormat());
+						}
+					});
 				}
 			}
 		}
 		catch (Exception ex) {
 			try { render("<html><pre>" + ex.getMessage() + "</pre></html>", "html"); } catch (Exception e) {}
-			ex.printStackTrace();
+			LogUtil.log(ex);
 		}
 
 	}
 	
 	public void runInUIThread(RunnableWithException runnable) throws Exception {
-		Display.getCurrent().asyncExec(runnable);
+		Display.getDefault().asyncExec(runnable);
 		if (runnable.getException() != null) throw runnable.getException();
 	}
 	
@@ -348,7 +373,7 @@ public class PictoView extends ViewPart {
 			if (selection == null) {
 				selection = contentTree.getFirstWithContent();
 			}
-
+			System.out.println(selection.getName());
 			if (selection != null) {
 				treeViewer.setSelection(new TreeSelection(new TreePath(new Object[] {selection})), true);
 				treeViewer.refresh();
@@ -517,7 +542,7 @@ public class PictoView extends ViewPart {
 				return metadata;
 			}
 		}
-		else if (editor instanceof IEditingDomainProvider) {
+		else if (editor instanceof IEditingDomainProvider || editor instanceof EmfaticEditor) {
 			IFile file = getFile(editorPart);
 			IFile renderingMetadataFile = file.getParent().getFile(Path.fromPortableString(file.getName() + ".picto"));
 			if (renderingMetadataFile.exists()) {
@@ -538,17 +563,57 @@ public class PictoView extends ViewPart {
 	}
 	
 	protected Resource getResource(IEditorPart editorPart) {
-		if (editorPart instanceof FlexmiEditor) return ((FlexmiEditor) editorPart).getResource();
-		else if (editorPart instanceof IEditingDomainProvider) return ((IEditingDomainProvider) editorPart).getEditingDomain().getResourceSet().getResources().get(0);
-		else return null;
+		if (editorPart instanceof FlexmiEditor) {
+			return ((FlexmiEditor) editorPart).getResource();
+		}
+		else if (editorPart instanceof EmfaticEditor) {
+			try {
+				BufferedReader reader = new BufferedReader(new InputStreamReader(getFile(editorPart).getContents()));
+				EmfaticParserDriver parser = new EmfaticParserDriver(URI.createFileURI("some.emf"));
+				ParseContext parseContext = parser.parse(reader);
+				ResourceSet resourceSet = new ResourceSetImpl();
+				resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new ResourceFactoryImpl());
+				Resource resource = resourceSet.createResource(URI.createFileURI("some.ecore"));
+				Builder builder = new Builder();
+				NullProgressMonitor monitor = new NullProgressMonitor();
+				builder.build(parseContext, resource, monitor);
+				if (!parseContext.hasErrors()) {
+					Connector connector = new Connector(builder);
+					connector.connect(parseContext, resource, monitor);
+				}
+				
+				boolean showStopper = false;
+				for (ParseMessage pm : parseContext.getMessages()) {
+					showStopper |= !(pm instanceof EmfaticSemanticWarning.EcoreValidatorDiagnostic);
+				}
+				
+				if (!showStopper) {
+					return resource;
+				}
+			} catch (Exception ex) {
+				LogUtil.log(ex);
+			}
+		}
+ 		else if (editorPart instanceof IEditingDomainProvider) {
+			return ((IEditingDomainProvider) editorPart).getEditingDomain().getResourceSet().getResources().get(0);
+		}
+		
+		return null;
 	}
 	
 	protected boolean supports(IWorkbenchPart editorPart) {
-		return editorPart instanceof FlexmiEditor || editorPart instanceof IEditingDomainProvider;
+		return editorPart instanceof FlexmiEditor || 
+				editorPart instanceof EmfaticEditor || 
+				editorPart instanceof IEditingDomainProvider;
 	}
 	
 	protected IFile getFile(IEditorPart editorPart) {
-		if (editorPart instanceof FlexmiEditor) return ((FlexmiEditor) editorPart).getFile();
+		if (editorPart instanceof FlexmiEditor) {
+			return ((FlexmiEditor) editorPart).getFile();
+		}
+		else if (editorPart instanceof EmfaticEditor) {
+			return ((EmfaticEditor) editorPart).getFile();
+		}
 		else if (editorPart instanceof IEditingDomainProvider) {
 			IEditorInput input = editorPart.getEditorInput();
 			if (input instanceof IFileEditorInput) {

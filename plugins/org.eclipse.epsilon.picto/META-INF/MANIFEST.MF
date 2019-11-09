@@ -16,7 +16,11 @@ Require-Bundle: org.eclipse.epsilon.flexmi,
  org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.egl.engine,
  org.eclipse.epsilon.emc.emf,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ org.eclipse.emf.emfatic.ui;resolution:=optional,
+ org.eclipse.gymnast.runtime.ui;resolution:=optional,
+ org.eclipse.emf.emfatic.core;resolution:=optional,
+ org.eclipse.gymnast.runtime.core;resolution:=optional
 Bundle-Activator: org.eclipse.epsilon.picto.Activator
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.picto
