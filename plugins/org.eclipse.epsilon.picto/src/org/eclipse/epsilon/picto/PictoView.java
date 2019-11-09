@@ -211,16 +211,11 @@ public class PictoView extends ViewPart {
 			this.editor = editor;
 			editor.addPropertyListener(listener);
 			
-			Job job = new Job("Rendering") {
+			Job job = new Job("Rendering " + editor.getTitle()) {
 				
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
-					//Display.getDefault().syncExec(new Runnable() {
-					//	@Override
-					//	public void run() {
-							renderEditorContent();
-					//	}
-					//});
+					renderEditorContent();
 					return Status.OK_STATUS;
 				}
 			};
