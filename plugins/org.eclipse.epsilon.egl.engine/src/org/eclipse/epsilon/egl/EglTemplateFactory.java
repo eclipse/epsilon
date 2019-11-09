@@ -49,10 +49,12 @@ public class EglTemplateFactory {
 	}
 	
 	public EglTemplateFactory(EglTemplateFactory other) {
-		this.context = other.context;
 		this.root = other.root;
-		this.templateRootPath = other.templateRootPath;
 		this.templateRoot = other.templateRoot;
+		this.templateRootPath = other.templateRootPath;
+		this.defaultFormatter = other.defaultFormatter;
+		this.defaultIncrementalitySettings = other.defaultIncrementalitySettings;
+		this.context = new EglContext(this);//new EglContext(other.context);
 	}
 
 	public Collection<ITemplateExecutionListener> getTemplateExecutionListeners() {

@@ -126,28 +126,23 @@ public class EolRuntimeException extends Exception {
 	public static EolRuntimeException findCause(Throwable runtimeEx) {
 		if (runtimeEx == null) return null;
 		if (runtimeEx instanceof EolRuntimeException) return (EolRuntimeException) runtimeEx;
-		return findCauseImpl(runtimeEx, new HashSet<>());
+		EolRuntimeException result = findCauseImpl(runtimeEx.getCause(), new HashSet<>());
+		return result != null ? result : new EolRuntimeException(runtimeEx);
 	}
 	
-	private static EolRuntimeException findCauseImpl(Throwable ex, Collection<Throwable> causes) {
-		if (ex instanceof EolRuntimeException) {
-			return (EolRuntimeException) ex;
+	private static EolRuntimeException findCauseImpl(Throwable currentCause, Collection<Throwable> causes) {
+		if (currentCause instanceof EolRuntimeException) {
+			return (EolRuntimeException) currentCause;
 		}
-		else if (ex != null) {
-			Throwable currentCause = ex.getCause();
-			if (currentCause instanceof EolRuntimeException) {
-				return (EolRuntimeException) currentCause;
+		else if (currentCause != null) {
+			if (causes.contains(currentCause)) {
+				return new EolRuntimeException(currentCause);
 			}
-			else if (currentCause != null) {
-				if (causes.contains(currentCause)) {
-					return new EolRuntimeException(currentCause);
-				}
-				else {
-					causes.add(currentCause);
-					return findCauseImpl(currentCause.getCause(), causes);
-				}
+			else {
+				causes.add(currentCause);
+				return findCauseImpl(currentCause.getCause(), causes);
 			}
 		}
-		return new EolRuntimeException(ex);
+		else return null;
 	}
 }

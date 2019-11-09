@@ -12,7 +12,7 @@ package org.eclipse.epsilon.egl.concurrent;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
@@ -43,7 +43,7 @@ public abstract class EgxModuleParallel extends EgxModule {
 
 	public EgxModuleParallel(IEgxContextParallel context) {
 		super(context != null ? context : new EgxContextParallel());
-		this.invokedTemplates = new ConcurrentLinkedQueue<>();
+		this.invokedTemplates = ConcurrencyUtils.concurrentOrderedCollection();
 	}
 	
 	@Override
