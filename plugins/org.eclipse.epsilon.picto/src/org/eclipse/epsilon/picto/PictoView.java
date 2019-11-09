@@ -368,7 +368,7 @@ public class PictoView extends ViewPart {
 			if (selection == null) {
 				selection = contentTree.getFirstWithContent();
 			}
-			System.out.println(selection.getName());
+			
 			if (selection != null) {
 				treeViewer.setSelection(new TreeSelection(new TreePath(new Object[] {selection})), true);
 				treeViewer.refresh();
