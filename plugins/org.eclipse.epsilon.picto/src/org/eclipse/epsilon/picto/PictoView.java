@@ -241,6 +241,7 @@ public class PictoView extends ViewPart {
 		display("<html></html>");
 	}
 	
+	@SuppressWarnings("resource")
 	public void renderEditorContent() {
 
 		try {
@@ -285,8 +286,13 @@ public class PictoView extends ViewPart {
 					module = new EglTemplateFactoryModuleAdapter(new EglFileGeneratingTemplateFactory());
 				}
 				
-				File egxFile = new File(modelFile.getParentFile(), renderingMetadata.getFile());
-				module.parse(egxFile);
+				if (renderingMetadata.getFile() == null) throw new Exception("No EGL file specified.");
+				
+				File eglFile = new File(modelFile.getParentFile(), renderingMetadata.getFile());
+				
+				if (!eglFile.exists()) throw new Exception("Cannot find file " + eglFile.getAbsolutePath());
+				
+				module.parse(eglFile);
 				
 				IEolContext context = module.getContext();
 				context.setOutputStream(EpsilonConsole.getInstance().getDebugStream());
@@ -296,7 +302,7 @@ public class PictoView extends ViewPart {
 				
 				if (renderingMetadata.getFormat().equals("egx")) {
 					RenderingEglTemplateFactory templateFactory = new RenderingEglTemplateFactory(tempDir);
-					templateFactory.setTemplateRoot(egxFile.getParentFile().getAbsolutePath());
+					templateFactory.setTemplateRoot(eglFile.getParentFile().getAbsolutePath());
 					((IEgxModule) module).getContext().setTemplateFactory(templateFactory);
 					module.execute();
 					
@@ -324,7 +330,18 @@ public class PictoView extends ViewPart {
 			}
 		}
 		catch (Exception ex) {
-			try { render("<html><pre>" + ex.getMessage() + "</pre></html>", "html"); } catch (Exception e) {}
+			try { 
+				runInUIThread(new RunnableWithException() {
+					
+					@Override
+					public void runWithException() throws Exception {
+						setTreeViewerVisible(false);
+						render("<html><pre>" + ex.getMessage() + "</pre></html>", "html");
+					}
+				});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			LogUtil.log(ex);
 		}
 
@@ -545,7 +562,7 @@ public class PictoView extends ViewPart {
 				Properties properties = new Properties();
 				try {
 					properties.load(renderingMetadataFile.getContents(true));
-					metadata.setFormat(properties.getProperty("format"));
+					metadata.setFormat(properties.getProperty("format", "text"));
 					metadata.setFile(properties.getProperty("file"));
 					metadata.setNsuri(properties.getProperty("nsuri"));
 					return metadata;
