@@ -1,3 +1,5 @@
+import "comps.eol";
+
 @greedy
 rule Component2Dot 
 	transform r : Component {
@@ -7,9 +9,7 @@ rule Component2Dot
 	parameters { 
 		
 		return Map {
-			"path" = Sequence{"Model"}.
-				includingAll(r.closure(c|c.parent).invert().name).
-				including(r.name),
+			"path" = r.getPath(),
 			"icon" = "diagram-ff0000",
 			"format" = "graphviz-dot"
 		};

@@ -1,18 +1,22 @@
+[%import "comps.eol";%]
 digraph G {
+	node[fontname=Tahoma, fontsize=10]
+	edge[fontname=Tahoma, fontsize=10]
+	
 	rankdir=LR
 	
 	[%if (r.components.notEmpty()){%]
 	{rank = same [%=r.inPorts.name.concat(" ")%]}
 	{rank = same [%=r.outPorts.name.concat(" ")%]}
 	[%for (p in r.inPorts.includingAll(r.outPorts)){%]
-	[%=p.name%] [shape=rect, style=rounded];
+	[%=p.name%] [shape=none, margin=0, label=<<table cellspacing='1' cellborder='0' border="0" cellpadding="0"><tr><td align="right"><img src="[%=getIcon("port")%]"/></td><td align="left" valign="middle">[%=p.name%]</td></tr></table>>];
 	[%}%]
 	
 	[%for (c in r.components){%]
 	[%=c.toDot()%]
 	[%}%]
 	
-	[%for (c in Connector.all.select(c|c.belongsToDiagram())){%]
+	[%for (c in comps::Connector.all.select(c|c.belongsToDiagram())){%]
 	[%=c.from.getDotID()%] -> [%=c.to.getDotID()%]
 	[%}%]
 	[%}else{%]
@@ -22,16 +26,17 @@ digraph G {
 
 [%
 @template
-operation Component toDot() {
+operation comps::Component toDot() {
 %]
-	[%=self.name%] [shape=plaintext label=<
+	[%=self.name%] [shape=plaintext, label=<
 	<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td border="1">
-				<table border="0" cellspacing="0" cellpadding="0">
+				<table border="0" cellspacing="0" cellpadding="0" bgcolor="#fffcdc">
 					<tr>
-						<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+						<td sides="B" border="1">&nbsp;</td><td sides="B" border="1">&nbsp;</td><td cellpadding="2" align="right" sides="B" border="1"><img src="[%=getIcon("component")%]"></img></td>
 					</tr>
+					<tr><td colspan="3">&nbsp;</td></tr>
 					[%if(self.maxPorts() > 0){%]
 					[%for (i in 0.to(self.maxPorts()-1)){%]
 					<tr>
@@ -50,14 +55,14 @@ operation Component toDot() {
 			</td>
 		</tr>
 		<tr>
-			<td cellpadding="5">[%=self.name%]</td>
+			<td cellpadding="5" href="javascript:top.showView('/[%=self.getPath().concat("/")%]')">[%=self.name%]</td>
 		</tr>
 	</table>
 	>];
 [%
 }
 
-operation Port getDotID(){
+operation comps::Port getDotID(){
 	if (self.eContainer() == r) {
 		return self.name;
 	}
@@ -70,7 +75,7 @@ operation getPortCell(ports : Collection, index : Integer) {
 	var cell = "<td cellpadding='2' ";
 	if (ports.size > index) {
 		cell += " port='" + ports.at(index).name + 
-			"'><font point-size='12'>" 
+			"'><font color='#727372' point-size='9'>" 
 			+ ports.at(index).name + "</font>";
 	}
 	else {
@@ -80,11 +85,11 @@ operation getPortCell(ports : Collection, index : Integer) {
 	return cell;
 }
 
-operation Component maxPorts() {
+operation comps::Component maxPorts() {
 	return Sequence{self.inPorts.size(), self.outPorts.size()}.max();
 }
 
-operation Connector belongsToDiagram() {
+operation comps::Connector belongsToDiagram() {
 	return Sequence{self.from, self.to}.forAll(p|
 		r.inPorts.includes(p) or 
 		r.outPorts.includes(p) or 
@@ -92,4 +97,8 @@ operation Connector belongsToDiagram() {
 		r.components.outPorts.flatten().includes(p));
 }
 
+operation getIcon(name : String) {
+	return new Native("java.io.File")
+		(System.context.module.file.parent, "icons/" + name + ".png").absolutePath;
+}
 %]
