@@ -40,7 +40,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	protected IEvlFixer fixer;
 	protected List<ConstraintContext> constraintContexts;
 	protected final ArrayList<ConstraintContext> declaredConstraintContexts = new ArrayList<>(0);
-	protected final ArrayList<Constraint> constraints = new ArrayList<>();
+	protected final ArrayList<Constraint> constraints = new ArrayList<>(0);
 	private boolean optimizeConstraints;
 	
 	public EvlModule() {

@@ -14,6 +14,7 @@ package org.eclipse.epsilon.eol.types;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.epsilon.eol.EolModule;
@@ -74,11 +75,10 @@ public class EolCollectionType extends EolType {
 	
 	@Override
 	public boolean isType(Object o) {
-		
 		if (!(o instanceof Collection)) return false;
 		Collection<?> c = (Collection<?>) o;
 		if (this.isCollection()) return false; // Collection is abstract
-		return getTypeOf(c).getName() == this.getName();
+		return Objects.equals(getTypeOf(c).getName(), this.getName());
 	}
 
 	@Override

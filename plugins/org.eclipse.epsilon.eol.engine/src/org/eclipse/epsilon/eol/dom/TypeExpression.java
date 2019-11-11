@@ -122,43 +122,35 @@ public class TypeExpression extends Expression {
 	}
 	
 	public void setName(String name) {
-		this.name = name;
-		type = null;
-		if (name.equals("Integer")){
-			type = EolPrimitiveType.Integer;
-		}
-		else if (name.equals("Any")){
-			type = EolAnyType.Instance;
-		}
-		else if (name.equals("Boolean")){
-			type = EolPrimitiveType.Boolean;
-		}
-		else if (name.equals("String")){
-			type = EolPrimitiveType.String;
-		}
-		else if (name.equals("Real") ) {
-			type = EolPrimitiveType.Real;
-		}
-		else if (name.equals("Map")){
-			type = new EolMapType();
-		}
-		else if (name.equals("Sequence") || name.equals("List")){
-			type = new EolCollectionType("Sequence");
-		}
-		else if (name.equals("Bag")){
-			type = new EolCollectionType("Bag");
-		}
-		else if (name.equals("Set")){
-			type = new EolCollectionType("Set");
-		}
-		else if (name.equals("OrderedSet")){
-			type = new EolCollectionType("OrderedSet");
-		}
-		else if (name.equals("Collection")){
-			type = new EolCollectionType("Collection");
-		}
-		else if (name.equals("Nothing")) {
-			type = EolNoType.Instance;
+		switch (this.name = name) {
+			case "Integer":
+				type = EolPrimitiveType.Integer;
+				break;
+			case "Any":
+				type = EolAnyType.Instance;
+				break;
+			case "Boolean":
+				type = EolPrimitiveType.Boolean;
+				break;
+			case "String":
+				type = EolPrimitiveType.String;
+				break;
+			case "Real":
+				type = EolPrimitiveType.Real;
+				break;
+			case "Map":
+				type = new EolMapType();
+				break;
+			case "List": name = "Sequence";
+			case "Bag": case "Sequence": case "Set": case "OrderedSet": case "Collection":
+				type = new EolCollectionType(name);
+				break;
+			case "Nothing":
+				type = EolNoType.Instance;
+				break;
+			default:
+				type = null;
+				break;
 		}
 	}
 	

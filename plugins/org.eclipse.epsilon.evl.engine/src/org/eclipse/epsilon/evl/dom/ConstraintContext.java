@@ -32,7 +32,7 @@ import org.eclipse.epsilon.evl.parse.EvlParser;
 
 public class ConstraintContext extends AnnotatableModuleElement implements IExecutableModuleElement, IExecutableModuleElementParameter {
 	
-	protected final ArrayList<Constraint> constraints = new ArrayList<>();
+	protected final ArrayList<Constraint> constraints = new ArrayList<>(0);
 	protected TypeExpression typeExpression;
 	protected ExecutableBlock<Boolean> guardBlock;
 	protected EolModelElementType type;
@@ -164,7 +164,9 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 
 	public EolModelElementType getType(IEolContext context) throws EolModelNotFoundException, EolModelElementTypeNotFoundException {
 		if (type == null) synchronized (this) {
-			type = new EolModelElementType(getTypeName(), context);
+			if (type == null) {
+				type = new EolModelElementType(getTypeName(), context);
+			}
 		}
 		return type;
 	}
