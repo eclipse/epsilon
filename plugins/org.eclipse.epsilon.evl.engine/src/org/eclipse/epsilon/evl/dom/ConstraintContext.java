@@ -76,13 +76,11 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @param modelElement The model element.
 	 * @param context The execution context containing the model(s).
 	 * @return <code>true</code> if the object's type is equal to this ConstraintContext's type.
-	 * @throws EolModelElementTypeNotFoundException
+	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
-	public boolean isSourceOfType(Object modelElement, IEvlContext context) throws EolModelElementTypeNotFoundException {
-		String typeName = getTypeName();
-		typeName = typeName.substring(typeName.indexOf("!")+1);
-		return context.getModelRepository().getOwningModel(modelElement).isOfType(modelElement, typeName);
+	public boolean isOfSourceType(Object modelElement, IEvlContext context) throws EolRuntimeException {
+		return context.getModelRepository().getOwningModel(modelElement).isOfType(modelElement, getType(context).getTypeName());
 	}
 	
 	/**
@@ -91,13 +89,11 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @param modelElement The model element.
 	 * @param context The execution context containing the model(s).
 	 * @return <code>true</code> if the model element is compatible with this ConstraintContext.
-	 * @throws EolModelElementTypeNotFoundException
+	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
-	public boolean isSourceOfKind(Object modelElement, IEvlContext context) throws EolModelElementTypeNotFoundException {
-		String typeName = getTypeName();
-		typeName = typeName.substring(typeName.indexOf("!")+1);
-		return context.getModelRepository().getOwningModel(modelElement).isOfKind(modelElement, typeName);
+	public boolean isOfSourceKind(Object modelElement, IEvlContext context) throws EolRuntimeException {
+		return context.getModelRepository().getOwningModel(modelElement).isOfKind(modelElement, getType(context).getTypeName());
 	}
 	
 	public final boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException {
@@ -105,7 +101,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	}
 
 	public boolean appliesTo(Object object, IEvlContext context, boolean checkType) throws EolRuntimeException {
-		if (checkType && !isSourceOfType(object, context))
+		if (checkType && !isOfSourceType(object, context))
 			return false;
 
 		if (guardBlock != null)
