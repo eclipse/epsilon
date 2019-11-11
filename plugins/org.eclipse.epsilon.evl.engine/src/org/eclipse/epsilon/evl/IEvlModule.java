@@ -81,7 +81,7 @@ public interface IEvlModule extends IErlModule {
 			ConstraintContext cc = constraint.getConstraintContext();
 			if (constraint.getName().equals(constraintName) &&
 				(StringUtil.isEmpty(contextName) || cc.getTypeName().equals(contextName)) &&
-				(cc instanceof GlobalConstraintContext || modelElement == null || cc.isOfKind(modelElement, context))
+				(cc instanceof GlobalConstraintContext || modelElement == null || cc.isSourceOfKind(modelElement, context))
 			) {
 				return constraint;
 			}

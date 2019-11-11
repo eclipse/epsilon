@@ -79,8 +79,10 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @throws EolModelElementTypeNotFoundException
 	 * @since 1.6
 	 */
-	public boolean isOfType(Object modelElement, IEvlContext context) throws EolModelElementTypeNotFoundException {
-		return context.getModelRepository().getOwningModel(modelElement).isOfType(modelElement, getTypeName());
+	public boolean isSourceOfType(Object modelElement, IEvlContext context) throws EolModelElementTypeNotFoundException {
+		String typeName = getTypeName();
+		typeName = typeName.substring(typeName.indexOf("!")+1);
+		return context.getModelRepository().getOwningModel(modelElement).isOfType(modelElement, typeName);
 	}
 	
 	/**
@@ -92,8 +94,10 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	 * @throws EolModelElementTypeNotFoundException
 	 * @since 1.6
 	 */
-	public boolean isOfKind(Object modelElement, IEvlContext context) throws EolModelElementTypeNotFoundException {
-		return context.getModelRepository().getOwningModel(modelElement).isOfKind(modelElement, getTypeName());
+	public boolean isSourceOfKind(Object modelElement, IEvlContext context) throws EolModelElementTypeNotFoundException {
+		String typeName = getTypeName();
+		typeName = typeName.substring(typeName.indexOf("!")+1);
+		return context.getModelRepository().getOwningModel(modelElement).isOfKind(modelElement, typeName);
 	}
 	
 	public final boolean appliesTo(Object object, IEvlContext context) throws EolRuntimeException {
@@ -101,7 +105,7 @@ public class ConstraintContext extends AnnotatableModuleElement implements IExec
 	}
 
 	public boolean appliesTo(Object object, IEvlContext context, boolean checkType) throws EolRuntimeException {
-		if (checkType && !isOfType(object, context))
+		if (checkType && !isSourceOfType(object, context))
 			return false;
 
 		if (guardBlock != null)

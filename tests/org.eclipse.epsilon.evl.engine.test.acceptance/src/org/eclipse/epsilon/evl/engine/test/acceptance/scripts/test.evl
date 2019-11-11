@@ -215,6 +215,17 @@ constraint Contextless {
 	check: t_a.all.size + t_b.all.size > 2
 }
 
+context test!t_c {
+    constraint TestModelNameRef {
+        check : false
+    }
+
+    constraint TestTestModelNameRefSatisfies {
+        guard: self.satisfies("TestModelNameRef")
+        check: false
+    }
+}
+
 post {
 	assert(preVar.isDefined() or EOL().isUndefined(), "preVar is undefined!");
 	printIfDefined(null);
