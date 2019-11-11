@@ -276,14 +276,9 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
 	}
 
 	private CTabFolder createFolder(Composite parent) {
-		CTabFolder folder = new CTabFolder(parent, SWT.BORDER);
-		ToolBar t = new ToolBar(folder, SWT.HORIZONTAL | SWT.FLAT);
-		ToolBarManager tbm = new ToolBarManager(t);
-	
-		tbm.update(true);
+		CTabFolder folder = new CTabFolder(parent, SWT.FLAT);
 		folder.setTabPosition(SWT.BOTTOM);
 		folder.setSimple(true);
-		t.setVisible(true);
 	
 		folder.addSelectionListener(new SelectionListener(){
 			public void widgetDefaultSelected(SelectionEvent e) {
