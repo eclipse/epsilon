@@ -39,22 +39,12 @@ public class EglTemplateFactory {
 	private IncrementalitySettings defaultIncrementalitySettings = new IncrementalitySettings();
 	private final Collection<ITemplateExecutionListener> listeners = new LinkedList<>();
 	
-	
 	public EglTemplateFactory() {
-		this.context = new EglContext(this);
+		this(null);
 	}
 	
 	public EglTemplateFactory(IEglContext context) {
-		this.context = context;
-	}
-	
-	public EglTemplateFactory(EglTemplateFactory other) {
-		this.root = other.root;
-		this.templateRoot = other.templateRoot;
-		this.templateRootPath = other.templateRootPath;
-		this.defaultFormatter = other.defaultFormatter;
-		this.defaultIncrementalitySettings = other.defaultIncrementalitySettings;
-		this.context = new EglContext(this);//new EglContext(other.context);
+		this.context = context != null ? context : new EglContext(this);
 	}
 
 	public Collection<ITemplateExecutionListener> getTemplateExecutionListeners() {
@@ -116,7 +106,7 @@ public class EglTemplateFactory {
 			return UriUtil.resolve(UriUtil.encode(path, true), root);
 
 		} catch (URISyntaxException e) {
-			throw new EglRuntimeException("Could not resolve path: "+path, e, context.getModule());
+			throw new EglRuntimeException("Could not resolve path: "+path, e, getContext().getModule());
 		}
 	}
 	
@@ -125,7 +115,7 @@ public class EglTemplateFactory {
 			return UriUtil.resolve(UriUtil.encode(path, false), templateRoot, root);
 			
 		} catch (URISyntaxException e) {
-			throw new EglRuntimeException("Could not resolve path: "+path, e, context.getModule());
+			throw new EglRuntimeException("Could not resolve path: "+path, e, getContext().getModule());
 		}
 	}
 	
@@ -226,7 +216,7 @@ public class EglTemplateFactory {
 	
 	protected EglTemplate handleFailedLoad(final String name, Exception e) throws EglRuntimeException {
 		final String reason = e instanceof FileNotFoundException ? "Template not found" : "Could not process";
-		throw new EglRuntimeException(reason + " '" + name + "'", e, context.getModule());
+		throw new EglRuntimeException(reason + " '" + name + "'", e, getContext().getModule());
 	}
 	
 	/**
@@ -245,7 +235,7 @@ public class EglTemplateFactory {
 	 * Subclasses may override to create different types of template.
 	 */
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
-		return new EglTemplate(spec, context);
+		return new EglTemplate(spec, getContext());
 	}
 
 	private EglTemplateSpecificationFactory createTemplateSpecificationFactory() {
