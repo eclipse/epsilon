@@ -13,7 +13,6 @@ package org.eclipse.epsilon.eol.types;
 import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.util.ReflectionUtil;
@@ -44,20 +43,19 @@ public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelega
 	public Object createInstance(String clazz, List<Object> parameters) throws EolRuntimeException {
 		try {
 			Class<?> c = fClassLoader.loadClass(clazz);
-			if (parameters.size() > 0) {
+			final int paramsSize = parameters.size();
+			if (paramsSize > 0) {
 				for (Constructor<?> con : c.getConstructors()) {
-					if (con.getParameterTypes().length != parameters.size()) continue;
+					Class<?>[] paramTypes = con.getParameterTypes();
+					if (paramTypes.length != paramsSize) continue;
 					boolean parameterTypesMatch = true;
-					for (int i = 0; i< parameters.size(); i++) {
-						parameterTypesMatch = parameterTypesMatch && 
-							ReflectionUtil.isInstance(con.getParameterTypes()[i], parameters.get(i));
+					for (int i = 0; i < paramsSize && parameterTypesMatch; i++) {
+						parameterTypesMatch = ReflectionUtil.isInstance(paramTypes[i], parameters.get(i));
 					}
 					if (parameterTypesMatch) {
-						return con.newInstance(parameters.toArray());
+						return con.newInstance(parameters.toArray(new Object[paramsSize]));
 					}
 				}
-				//Constructor con = c.getConstructor(getTypes(parameters));
-				
 			}
 			else {
 				return c.getDeclaredConstructor().newInstance();
@@ -77,8 +75,7 @@ public class EolClasspathNativeTypeDelegate extends AbstractToolNativeTypeDelega
 		Class<?>[] types = new Class[objects.size()];
 		int i = 0;
 		for (Object o : objects) {
-			types[i] = o.getClass();
-			i++;
+			types[i++] = o.getClass();
 		}
 		return types;
 	}

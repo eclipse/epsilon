@@ -52,12 +52,8 @@ public class EolContext implements IEolContext {
 	 */
 	Class<? extends IModule> expectedModuleType = IModule.class;
 	
-	public EolContext() {
-		this(new EolClasspathNativeTypeDelegate());
-	}
-	
 	@SuppressWarnings("unchecked")
-	protected EolContext(EolClasspathNativeTypeDelegate classpathNativeTypeDelegate) {
+	public EolContext() {
 		userInput = new JavaConsoleUserInput();
 		frameStack = new FrameStack();
 		modelRepository = new ModelRepository();
@@ -71,8 +67,8 @@ public class EolContext implements IEolContext {
 		extendedProperties = new ExtendedProperties();
 		asyncStatementsQueue = new LinkedList<>();
 		methodContributorRegistry = new OperationContributorRegistry();
-		this.classpathNativeTypeDelegate = classpathNativeTypeDelegate;
-		this.nativeTypeDelegates = CollectionUtil.asList(classpathNativeTypeDelegate);
+		classpathNativeTypeDelegate = new EolClasspathNativeTypeDelegate();
+		nativeTypeDelegates = CollectionUtil.asList(classpathNativeTypeDelegate);
 		
 		// Ensure that setModule is consistent with getModule
 		try {
@@ -90,10 +86,8 @@ public class EolContext implements IEolContext {
 	 */
 	protected EolContext(IEolContext other) {
 		userInput = other.getUserInput();
-		frameStack = other.getFrameStack();
 		modelRepository = other.getModelRepository();
 		introspectionManager = other.getIntrospectionManager();
-		executorFactory = other.getExecutorFactory();
 		operationFactory = other.getOperationFactory();
 		prettyPrinterManager = other.getPrettyPrinterManager();
 		outputStream = other.getOutputStream();
@@ -106,10 +100,12 @@ public class EolContext implements IEolContext {
 		asyncStatementsQueue = other.getAsyncStatementsQueue();
 		methodContributorRegistry = other.getOperationContributorRegistry();
 		nativeTypeDelegates = other.getNativeTypeDelegates();
+		frameStack = new FrameStack(other.getFrameStack());
+		executorFactory = new ExecutorFactory(other.getExecutorFactory());
 		classpathNativeTypeDelegate = other instanceof EolContext ?
-			((EolContext)other).classpathNativeTypeDelegate : new EolClasspathNativeTypeDelegate();
+			((EolContext)other).classpathNativeTypeDelegate : new EolClasspathNativeTypeDelegate(other.getClass().getClassLoader());
 	}
-	
+
 	@Override
 	public OperationContributorRegistry getOperationContributorRegistry() {
 		return methodContributorRegistry;

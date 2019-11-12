@@ -39,7 +39,7 @@ public class EglContext extends EolContext implements IEglContext {
 	}
 	
 	public EglContext(EglTemplateFactory templateFactory) {
-		super(new EolClasspathNativeTypeDelegate(EglContext.class.getClassLoader()));
+		this.classpathNativeTypeDelegate = new EolClasspathNativeTypeDelegate(getClass().getClassLoader());
 		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory(this);
 		setOperationFactory(new EglOperationFactory());
 		getFrameStack().put(
@@ -53,9 +53,14 @@ public class EglContext extends EolContext implements IEglContext {
 	public EglContext(IEglContext other) {
 		super(other);
 	 	this.templateFactory = other.getTemplateFactory();
-	 	this.statusMessages.addAll(other.getStatusMessages());
 		this.setPartitioner(other.getPartitioner());
 		this.setContentTypeRepository(other.getContentTypeRepository());
+		if (other instanceof EglContext) {
+	 		this.statusMessages = ((EglContext) other).statusMessages;
+	 	}
+	 	else {
+	 		this.statusMessages.addAll(other.getStatusMessages());
+	 	}
 	}
 	
 	@Override
