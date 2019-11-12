@@ -31,6 +31,7 @@ import org.eclipse.epsilon.egl.util.FileUtil;
 
 public class EglTemplateFactory {
 
+	protected boolean copyContext = false;
 	protected IEglContext context;
 	protected URI root;
 	private URI templateRoot;
@@ -47,6 +48,24 @@ public class EglTemplateFactory {
 		this.context = context != null ? context : new EglContext(this);
 	}
 
+	/**
+	 * 
+	 * @param copy
+	 * @since 1.6
+	 */
+	public void setCopyContextForNewTemplates(boolean copy) {
+		this.copyContext = copy;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public boolean isCopyContextForNewTemplates() {
+		return this.copyContext;
+	}
+	
 	public Collection<ITemplateExecutionListener> getTemplateExecutionListeners() {
 		return this.listeners;
 	}
@@ -235,7 +254,7 @@ public class EglTemplateFactory {
 	 * Subclasses may override to create different types of template.
 	 */
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
-		return new EglTemplate(spec, getContext());
+		return new EglTemplate(spec, copyContext ? new EglContext(getContext()) : getContext());
 	}
 
 	private EglTemplateSpecificationFactory createTemplateSpecificationFactory() {

@@ -39,7 +39,7 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 	
 	public EgxContextParallel(EglTemplateFactory templateFactory, int parallelism) {
 		super(parallelism);
-		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory();
+		setTemplateFactory(templateFactory != null ? templateFactory : new EglTemplateFactory());
 	}
 
 	public EgxContextParallel(int parallelism) {
@@ -54,7 +54,9 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 	
 	@Override
 	public void setTemplateFactory(EglTemplateFactory templateFactory) {
-		this.templateFactory = templateFactory;
+		if ((this.templateFactory = templateFactory) != null) {
+			templateFactory.setCopyContextForNewTemplates(true);
+		}
 	}
 
 	@Override

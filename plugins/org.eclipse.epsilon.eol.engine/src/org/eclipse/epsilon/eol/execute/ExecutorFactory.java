@@ -104,7 +104,7 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 	 * @return
 	 * @since 1.6
 	 */
-	public boolean isProfilingEnabled() {
+	protected boolean isProfilingEnabled() {
 		return executionController instanceof ExecutionProfiler;
 	}
 	
