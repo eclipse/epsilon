@@ -137,10 +137,8 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 		current = null;
 	}
 
-	public void buildModel() throws Exception {}
-
 	@Override
-	public IEglContext getContext() {
+	public IEolContext getContext() {
 		return factory.getContext();
 	}
 

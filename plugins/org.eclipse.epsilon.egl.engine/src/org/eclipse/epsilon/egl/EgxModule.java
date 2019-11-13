@@ -179,7 +179,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	@Override
 	protected void prepareContext() throws EolRuntimeException {
 		super.prepareContext();
-		getContext().getTemplateFactory().getContext().copyFrom(getContext(), true);
+		getContext().getTemplateFactory().getContext().copyFrom(getContext());
 	}
 	
 	@Override

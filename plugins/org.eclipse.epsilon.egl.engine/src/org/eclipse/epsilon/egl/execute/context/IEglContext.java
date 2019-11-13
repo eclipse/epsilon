@@ -85,12 +85,9 @@ public interface IEglContext extends IEolContext {
 	 * There are no guarantees about whether this is a shallow or deep copy.
 	 * 
 	 * @param context The context to copy from.
-	 * @param preserveFramestack Whether to leave this context's FrameStack
-	 * untouched.
-	 * 
 	 * @since 1.6
 	 */
-	public default void copyFrom(IEolContext context, boolean preserveFrameStack) {
+	public default void copyFrom(IEolContext context) {
 		this.setErrorStream(context.getErrorStream());
 		this.setOutputStream(context.getOutputStream());
 		this.setIntrospectionManager(context.getIntrospectionManager());
@@ -101,8 +98,6 @@ public interface IEglContext extends IEolContext {
 		this.setExtendedProperties(context.getExtendedProperties());
 		this.setPrettyPrinterManager(context.getPrettyPrinterManager());		
 		this.setExecutorFactory(new ExecutorFactory(context.getExecutorFactory()));
-		if (!preserveFrameStack) {
-			this.setFrameStack(context.getFrameStack());
-		}
+		//this.getFrameStack().putAll(context.getFrameStack());
 	}
 }

@@ -72,7 +72,9 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 */
 	public EolContextParallel(int parallelism) {
 		numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM;
-		initMainThreadStructures();
+		// This will be the "base" of others, so make it thread-safe for concurrent reads
+		frameStack = new FrameStack(null, true);
+		executorFactory = new ExecutorFactory(null, true);
 	}
 	
 	/**
@@ -93,12 +95,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		else {
 			numThreads = ConcurrencyUtils.DEFAULT_PARALLELISM;
 		}
-	}
-	
-	protected void initMainThreadStructures() {
-		// This will be the "base" of others, so make it thread-safe for concurrent reads
-		frameStack = new FrameStack(null, true);
-		executorFactory = new ExecutorFactory(null, true);
 	}
 	
 	protected synchronized void initThreadLocals() {

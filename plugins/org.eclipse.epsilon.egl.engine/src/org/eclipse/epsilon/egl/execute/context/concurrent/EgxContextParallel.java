@@ -14,7 +14,6 @@ import java.util.Map;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
-import org.eclipse.epsilon.egl.execute.context.EgxModuleTemplateAdapter;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 
 /**
@@ -24,7 +23,6 @@ import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
  */
 public class EgxContextParallel extends ErlContextParallel implements IEgxContextParallel {
 
-	EgxModuleTemplateAdapter baseTemplate;
 	protected EglTemplateFactory templateFactory;
 	protected Map<URI, EglTemplate> templateCache;
 	protected ThreadLocal<Map<URI, EglTemplate>> concurrentTemplateCaches;
