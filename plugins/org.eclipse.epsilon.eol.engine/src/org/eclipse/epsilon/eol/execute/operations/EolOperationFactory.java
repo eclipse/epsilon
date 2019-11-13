@@ -11,6 +11,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.epsilon.common.util.StringUtil;
@@ -19,6 +20,7 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.operations.declarative.*;
 import org.eclipse.epsilon.eol.execute.operations.declarative.concurrent.*;
 import org.eclipse.epsilon.eol.execute.operations.simple.assertions.*;
+import org.eclipse.epsilon.eol.models.IModel;
 
 public class EolOperationFactory {
 	
@@ -78,18 +80,21 @@ public class EolOperationFactory {
 	/**
 	 * 
 	 * @param name The operation name
+	 * @param owningModel 
+	 * @param target 
 	 * @param context The context
 	 * @return An optimal implementation for the requested operation, based on the context's state.
 	 * @since 1.6
 	 */
-	public AbstractOperation getOptimisedOperation(String name, IEolContext context) {
+	public AbstractOperation getOptimisedOperation(String name, Object target, IModel owningModel, IEolContext context) {
 		AbstractOperation originalOp = operationCache.get(name);
 		if (isOverridenDelegate(originalOp)) {
 			return originalOp;
 		}
 		else if (originalOp != null && context instanceof IEolContextParallel &&
-			((IEolContextParallel) context).isParallelisationLegal() && !name.startsWith("parallel")) {
-			
+			((IEolContextParallel) context).isParallelisationLegal() && !name.startsWith("parallel") &&
+			target instanceof Collection && ((Collection<?>) target).size() >= ((IEolContextParallel) context).getParallelism()
+		) {
 			AbstractOperation parallelOp = operationCache.get("parallel" + StringUtil.firstToUpper(name));
 			if (parallelOp != null) return parallelOp;
 		}
