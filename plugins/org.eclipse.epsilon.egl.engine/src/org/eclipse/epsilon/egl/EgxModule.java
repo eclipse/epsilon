@@ -187,7 +187,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 		IEgxContext context = getContext();
 		for (GenerationRule rule : getGenerationRules()) {
 			for (Object element : rule.getAllElements(context)) {
-				rule.generate(element, this);
+				context.getExecutorFactory().execute(rule, context, element);
 			}
 		}
 		return null;
