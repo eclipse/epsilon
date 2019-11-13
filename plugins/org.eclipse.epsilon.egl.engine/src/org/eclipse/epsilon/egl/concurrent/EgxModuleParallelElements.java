@@ -46,7 +46,7 @@ public class EgxModuleParallelElements extends EgxModuleParallel {
 			final ArrayList<Callable<?>> genJobs = new ArrayList<>(allElements.size());
 			
 			for (final Object element : allElements) {
-				genJobs.add(() -> rule.execute(context, element));
+				genJobs.add(() -> context.getExecutorFactory().execute(rule, context, element));
 			}
 			
 			context.executeAll(rule, genJobs);
