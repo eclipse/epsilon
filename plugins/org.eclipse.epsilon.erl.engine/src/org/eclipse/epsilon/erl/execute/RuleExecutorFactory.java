@@ -32,8 +32,8 @@ public class RuleExecutorFactory extends ExecutorFactory {
 
 	public RuleExecutorFactory(ExecutorFactory parent, boolean concurrent) {
 		super(parent, concurrent);
-		if (parent instanceof RuleExecutorFactory) {
-			setProfilingEnabled(((RuleExecutorFactory) parent).isProfilingEnabled());
+		if (parent != null) {
+			setProfilingEnabled(parent.isProfilingEnabled());
 		}
 	}
 
