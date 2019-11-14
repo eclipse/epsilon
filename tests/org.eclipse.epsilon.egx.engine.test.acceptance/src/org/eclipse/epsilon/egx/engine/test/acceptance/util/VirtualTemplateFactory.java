@@ -40,7 +40,7 @@ public class VirtualTemplateFactory extends EglFileGeneratingTemplateFactory {
 	
 	@Override
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
-		return new VirtualTemplate(ledger, spec, context, getOutputRootOrRoot(), outputRootPath);
+		return new VirtualTemplate(ledger, spec, getContext(), getOutputRootOrRoot(), outputRootPath);
 	}
 
 	public Collection<String> getOutputFiles() {
