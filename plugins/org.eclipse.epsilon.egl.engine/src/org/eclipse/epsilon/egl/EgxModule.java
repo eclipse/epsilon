@@ -124,6 +124,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 		switch (cst.getType()) {
 			case EgxParser.GENERATE: return createGenerationRule(cst);
 			case EgxParser.PARAMETERS: return new ExecutableBlock<>(Map.class);
+			case EgxParser.DOMAIN: return new ExecutableBlock<>(Collection.class);
 			case EgxParser.TARGET:
 			case EgxParser.TEMPLATE:
 				return new ExecutableBlock<>(String.class);

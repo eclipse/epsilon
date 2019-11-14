@@ -41,6 +41,7 @@ import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
 public class GenerationRule extends ExtensibleNamedRule implements IExecutableModuleElementParameter {
 	
 	protected Parameter sourceParameter;
+	protected ExecutableBlock<Collection<?>> domainBlock;
 	protected ExecutableBlock<String> targetBlock, templateBlock;
 	protected ExecutableBlock<Boolean> guardBlock, overwriteBlock, mergeBlock;
 	protected ExecutableBlock<Void> preBlock, postBlock;
@@ -58,6 +59,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.GUARD), this);
 		targetBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TARGET), this);
 		parametersBlock = (ExecutableBlock<EolMap<String, ?>>) module.createAst(AstUtil.getChild(cst, EgxParser.PARAMETERS), this);
+		domainBlock = (ExecutableBlock<Collection<?>>) module.createAst(AstUtil.getChild(cst, EgxParser.DOMAIN), this);
 		preBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EgxParser.PRE), this);
 		postBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EgxParser.POST), this);
 		overwriteBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.OVERWRITE), this);
@@ -66,7 +68,12 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 
 	public Collection<?> getAllElements(IEgxContext context) throws EolRuntimeException {
 		if (sourceParameter != null) {
-			return getAllInstances(sourceParameter, context, !isGreedy(context));
+			if (domainBlock == null) {
+				return getAllInstances(sourceParameter, context, !isGreedy(context));
+			}
+			else {
+				return domainBlock.execute(context, true);
+			}
 		}
 		else {
 			return Collections.singleton(null);

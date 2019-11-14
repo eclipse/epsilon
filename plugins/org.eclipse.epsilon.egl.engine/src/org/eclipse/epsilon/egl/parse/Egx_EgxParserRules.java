@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.egl.parse;
 
-// $ANTLR 3.1b1 EgxParserRules.g 2019-01-24 14:02:14
+// $ANTLR 3.1b1 EgxParserRules.g 2019-11-14 12:04:21
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -61,7 +61,7 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int MODELDECLARATIONPARAMETERS=72;
     public static final int T__141=141;
     public static final int THROW=53;
-    public static final int EGXMODULE=87;
+    public static final int EGXMODULE=88;
     public static final int PARAMLIST=25;
     public static final int EXPRLIST=54;
     public static final int EXPRRANGE=55;
@@ -96,10 +96,11 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__166=166;
     public static final int T__165=165;
     public static final int T__168=168;
+    public static final int DOMAIN=85;
     public static final int T__167=167;
     public static final int T__162=162;
     public static final int T__161=161;
-    public static final int MERGE=86;
+    public static final int MERGE=87;
     public static final int T__164=164;
     public static final int MODELDECLARATION=68;
     public static final int T__163=163;
@@ -165,6 +166,7 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int StrangeNameLiteral=15;
     public static final int FOR=30;
     public static final int BLOCK=62;
+    public static final int T__171=171;
     public static final int T__170=170;
     public static final int PARAMETERS=46;
     public static final int SpecialNameChar=17;
@@ -178,7 +180,7 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__124=124;
     public static final int FLOAT=4;
     public static final int T__123=123;
-    public static final int OVERWRITE=85;
+    public static final int OVERWRITE=86;
     public static final int T__120=120;
     public static final int NativeType=56;
     public static final int INT=8;
@@ -204,7 +206,6 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int EOLMODULE=61;
     public static final int DIGIT=5;
     public static final int EXECUTABLEANNOTATION=51;
-    public static final int T__88=88;
     public static final int T__108=108;
     public static final int T__89=89;
     public static final int T__107=107;
@@ -250,7 +251,7 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start generationRule
-    // EgxParserRules.g:50:1: generationRule : r= 'rule' rule= NAME ( 'transform' formalParameter )? ob= '{' ( guard | target | template | parameters | pre | post | overwrite | merge )* cb= '}' ;
+    // EgxParserRules.g:51:1: generationRule : r= 'rule' rule= NAME ( 'transform' formalParameter ( domain )? )? ob= '{' ( guard | target | template | parameters | pre | post | overwrite | merge )* cb= '}' ;
     public final Egx_EgxParserRules.generationRule_return generationRule() throws RecognitionException {
         Egx_EgxParserRules.generationRule_return retval = new Egx_EgxParserRules.generationRule_return();
         retval.start = input.LT(1);
@@ -264,21 +265,23 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         Token string_literal1=null;
         Egx_EolParserRules.formalParameter_return formalParameter2 = null;
 
-        Egx_ErlParserRules.guard_return guard3 = null;
+        Egx_EgxParserRules.domain_return domain3 = null;
 
-        Egx_EgxParserRules.target_return target4 = null;
+        Egx_ErlParserRules.guard_return guard4 = null;
 
-        Egx_EgxParserRules.template_return template5 = null;
+        Egx_EgxParserRules.target_return target5 = null;
 
-        Egx_EgxParserRules.parameters_return parameters6 = null;
+        Egx_EgxParserRules.template_return template6 = null;
 
-        Egx_ErlParserRules.pre_return pre7 = null;
+        Egx_EgxParserRules.parameters_return parameters7 = null;
 
-        Egx_ErlParserRules.post_return post8 = null;
+        Egx_ErlParserRules.pre_return pre8 = null;
 
-        Egx_EgxParserRules.overwrite_return overwrite9 = null;
+        Egx_ErlParserRules.post_return post9 = null;
 
-        Egx_EgxParserRules.merge_return merge10 = null;
+        Egx_EgxParserRules.overwrite_return overwrite10 = null;
+
+        Egx_EgxParserRules.merge_return merge11 = null;
 
 
         org.eclipse.epsilon.common.parse.AST r_tree=null;
@@ -288,199 +291,222 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST string_literal1_tree=null;
 
         try {
-            // EgxParserRules.g:55:2: (r= 'rule' rule= NAME ( 'transform' formalParameter )? ob= '{' ( guard | target | template | parameters | pre | post | overwrite | merge )* cb= '}' )
-            // EgxParserRules.g:55:4: r= 'rule' rule= NAME ( 'transform' formalParameter )? ob= '{' ( guard | target | template | parameters | pre | post | overwrite | merge )* cb= '}'
+            // EgxParserRules.g:56:2: (r= 'rule' rule= NAME ( 'transform' formalParameter ( domain )? )? ob= '{' ( guard | target | template | parameters | pre | post | overwrite | merge )* cb= '}' )
+            // EgxParserRules.g:56:4: r= 'rule' rule= NAME ( 'transform' formalParameter ( domain )? )? ob= '{' ( guard | target | template | parameters | pre | post | overwrite | merge )* cb= '}'
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            r=(Token)match(input,163,FOLLOW_163_in_generationRule64); if (state.failed) return retval;
+            r=(Token)match(input,164,FOLLOW_164_in_generationRule68); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             r_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(r);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(r_tree, root_0);
             }
-            rule=(Token)match(input,NAME,FOLLOW_NAME_in_generationRule69); if (state.failed) return retval;
+            rule=(Token)match(input,NAME,FOLLOW_NAME_in_generationRule73); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             rule_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(rule);
             adaptor.addChild(root_0, rule_tree);
             }
-            // EgxParserRules.g:55:24: ( 'transform' formalParameter )?
-            int alt1=2;
-            int LA1_0 = input.LA(1);
+            // EgxParserRules.g:56:24: ( 'transform' formalParameter ( domain )? )?
+            int alt2=2;
+            int LA2_0 = input.LA(1);
 
-            if ( (LA1_0==164) ) {
-                alt1=1;
+            if ( (LA2_0==165) ) {
+                alt2=1;
             }
-            switch (alt1) {
+            switch (alt2) {
                 case 1 :
-                    // EgxParserRules.g:55:25: 'transform' formalParameter
+                    // EgxParserRules.g:56:25: 'transform' formalParameter ( domain )?
                     {
-                    string_literal1=(Token)match(input,164,FOLLOW_164_in_generationRule72); if (state.failed) return retval;
-                    pushFollow(FOLLOW_formalParameter_in_generationRule75);
+                    string_literal1=(Token)match(input,165,FOLLOW_165_in_generationRule76); if (state.failed) return retval;
+                    pushFollow(FOLLOW_formalParameter_in_generationRule79);
                     formalParameter2=gEgx.formalParameter();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, formalParameter2.getTree());
+                    // EgxParserRules.g:56:54: ( domain )?
+                    int alt1=2;
+                    int LA1_0 = input.LA(1);
+
+                    if ( (LA1_0==118) ) {
+                        alt1=1;
+                    }
+                    switch (alt1) {
+                        case 1 :
+                            // EgxParserRules.g:0:0: domain
+                            {
+                            pushFollow(FOLLOW_domain_in_generationRule81);
+                            domain3=domain();
+
+                            state._fsp--;
+                            if (state.failed) return retval;
+                            if ( state.backtracking==0 ) adaptor.addChild(root_0, domain3.getTree());
+
+                            }
+                            break;
+
+                    }
+
 
                     }
                     break;
 
             }
 
-            ob=(Token)match(input,93,FOLLOW_93_in_generationRule82); if (state.failed) return retval;
-            // EgxParserRules.g:56:10: ( guard | target | template | parameters | pre | post | overwrite | merge )*
-            loop2:
+            ob=(Token)match(input,94,FOLLOW_94_in_generationRule89); if (state.failed) return retval;
+            // EgxParserRules.g:57:10: ( guard | target | template | parameters | pre | post | overwrite | merge )*
+            loop3:
             do {
-                int alt2=9;
+                int alt3=9;
                 switch ( input.LA(1) ) {
-                case 161:
+                case 162:
                     {
-                    alt2=1;
-                    }
-                    break;
-                case 165:
-                    {
-                    alt2=2;
+                    alt3=1;
                     }
                     break;
                 case 166:
                     {
-                    alt2=3;
+                    alt3=2;
                     }
                     break;
                 case 167:
                     {
-                    alt2=4;
-                    }
-                    break;
-                case 159:
-                    {
-                    alt2=5;
-                    }
-                    break;
-                case 160:
-                    {
-                    alt2=6;
+                    alt3=3;
                     }
                     break;
                 case 168:
                     {
-                    alt2=7;
+                    alt3=4;
+                    }
+                    break;
+                case 160:
+                    {
+                    alt3=5;
+                    }
+                    break;
+                case 161:
+                    {
+                    alt3=6;
                     }
                     break;
                 case 169:
-                case 170:
                     {
-                    alt2=8;
+                    alt3=7;
+                    }
+                    break;
+                case 170:
+                case 171:
+                    {
+                    alt3=8;
                     }
                     break;
 
                 }
 
-                switch (alt2) {
+                switch (alt3) {
             	case 1 :
-            	    // EgxParserRules.g:56:11: guard
+            	    // EgxParserRules.g:57:11: guard
             	    {
-            	    pushFollow(FOLLOW_guard_in_generationRule86);
-            	    guard3=gEgx.guard();
+            	    pushFollow(FOLLOW_guard_in_generationRule93);
+            	    guard4=gEgx.guard();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
-            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, guard3.getTree());
+            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, guard4.getTree());
 
             	    }
             	    break;
             	case 2 :
-            	    // EgxParserRules.g:56:19: target
+            	    // EgxParserRules.g:57:19: target
             	    {
-            	    pushFollow(FOLLOW_target_in_generationRule90);
-            	    target4=target();
+            	    pushFollow(FOLLOW_target_in_generationRule97);
+            	    target5=target();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
-            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, target4.getTree());
+            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, target5.getTree());
 
             	    }
             	    break;
             	case 3 :
-            	    // EgxParserRules.g:56:28: template
+            	    // EgxParserRules.g:57:28: template
             	    {
-            	    pushFollow(FOLLOW_template_in_generationRule94);
-            	    template5=template();
+            	    pushFollow(FOLLOW_template_in_generationRule101);
+            	    template6=template();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
-            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, template5.getTree());
+            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, template6.getTree());
 
             	    }
             	    break;
             	case 4 :
-            	    // EgxParserRules.g:56:39: parameters
+            	    // EgxParserRules.g:57:39: parameters
             	    {
-            	    pushFollow(FOLLOW_parameters_in_generationRule98);
-            	    parameters6=parameters();
+            	    pushFollow(FOLLOW_parameters_in_generationRule105);
+            	    parameters7=parameters();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
-            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, parameters6.getTree());
+            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, parameters7.getTree());
 
             	    }
             	    break;
             	case 5 :
-            	    // EgxParserRules.g:56:52: pre
+            	    // EgxParserRules.g:57:52: pre
             	    {
-            	    pushFollow(FOLLOW_pre_in_generationRule102);
-            	    pre7=gEgx.pre();
+            	    pushFollow(FOLLOW_pre_in_generationRule109);
+            	    pre8=gEgx.pre();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
-            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, pre7.getTree());
+            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, pre8.getTree());
 
             	    }
             	    break;
             	case 6 :
-            	    // EgxParserRules.g:56:58: post
+            	    // EgxParserRules.g:57:58: post
             	    {
-            	    pushFollow(FOLLOW_post_in_generationRule106);
-            	    post8=gEgx.post();
+            	    pushFollow(FOLLOW_post_in_generationRule113);
+            	    post9=gEgx.post();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
-            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, post8.getTree());
+            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, post9.getTree());
 
             	    }
             	    break;
             	case 7 :
-            	    // EgxParserRules.g:56:65: overwrite
+            	    // EgxParserRules.g:57:65: overwrite
             	    {
-            	    pushFollow(FOLLOW_overwrite_in_generationRule110);
-            	    overwrite9=overwrite();
+            	    pushFollow(FOLLOW_overwrite_in_generationRule117);
+            	    overwrite10=overwrite();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
-            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, overwrite9.getTree());
+            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, overwrite10.getTree());
 
             	    }
             	    break;
             	case 8 :
-            	    // EgxParserRules.g:56:77: merge
+            	    // EgxParserRules.g:57:77: merge
             	    {
-            	    pushFollow(FOLLOW_merge_in_generationRule114);
-            	    merge10=merge();
+            	    pushFollow(FOLLOW_merge_in_generationRule121);
+            	    merge11=merge();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
-            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, merge10.getTree());
+            	    if ( state.backtracking==0 ) adaptor.addChild(root_0, merge11.getTree());
 
             	    }
             	    break;
 
             	default :
-            	    break loop2;
+            	    break loop3;
                 }
             } while (true);
 
-            cb=(Token)match(input,94,FOLLOW_94_in_generationRule120); if (state.failed) return retval;
+            cb=(Token)match(input,95,FOLLOW_95_in_generationRule127); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
               r.setType(GENERATE);
             }
@@ -513,13 +539,81 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     }
     // $ANTLR end generationRule
 
+    public static class domain_return extends ParserRuleReturnScope {
+        org.eclipse.epsilon.common.parse.AST tree;
+        public Object getTree() { return tree; }
+    };
+
+    // $ANTLR start domain
+    // EgxParserRules.g:61:1: domain : (c= 'in' ) expressionOrStatementBlock ;
+    public final Egx_EgxParserRules.domain_return domain() throws RecognitionException {
+        Egx_EgxParserRules.domain_return retval = new Egx_EgxParserRules.domain_return();
+        retval.start = input.LT(1);
+
+        org.eclipse.epsilon.common.parse.AST root_0 = null;
+
+        Token c=null;
+        Egx_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock12 = null;
+
+
+        org.eclipse.epsilon.common.parse.AST c_tree=null;
+
+        try {
+            // EgxParserRules.g:61:8: ( (c= 'in' ) expressionOrStatementBlock )
+            // EgxParserRules.g:62:2: (c= 'in' ) expressionOrStatementBlock
+            {
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
+
+            // EgxParserRules.g:62:2: (c= 'in' )
+            // EgxParserRules.g:62:3: c= 'in'
+            {
+            c=(Token)match(input,118,FOLLOW_118_in_domain145); if (state.failed) return retval;
+            if ( state.backtracking==0 ) {
+            c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
+            root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
+            }
+
+            }
+
+            pushFollow(FOLLOW_expressionOrStatementBlock_in_domain149);
+            expressionOrStatementBlock12=gEgx.expressionOrStatementBlock();
+
+            state._fsp--;
+            if (state.failed) return retval;
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock12.getTree());
+            if ( state.backtracking==0 ) {
+              c.setType(DOMAIN);
+            }
+
+            }
+
+            retval.stop = input.LT(-1);
+
+            if ( state.backtracking==0 ) {
+
+            retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+            }
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+    	retval.tree = (org.eclipse.epsilon.common.parse.AST)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
+        }
+        finally {
+        }
+        return retval;
+    }
+    // $ANTLR end domain
+
     public static class target_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
         public Object getTree() { return tree; }
     };
 
     // $ANTLR start target
-    // EgxParserRules.g:60:1: target : g= 'target' expressionOrStatementBlock ;
+    // EgxParserRules.g:66:1: target : g= 'target' expressionOrStatementBlock ;
     public final Egx_EgxParserRules.target_return target() throws RecognitionException {
         Egx_EgxParserRules.target_return retval = new Egx_EgxParserRules.target_return();
         retval.start = input.LT(1);
@@ -527,28 +621,28 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token g=null;
-        Egx_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock11 = null;
+        Egx_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock13 = null;
 
 
         org.eclipse.epsilon.common.parse.AST g_tree=null;
 
         try {
-            // EgxParserRules.g:61:2: (g= 'target' expressionOrStatementBlock )
-            // EgxParserRules.g:61:4: g= 'target' expressionOrStatementBlock
+            // EgxParserRules.g:67:2: (g= 'target' expressionOrStatementBlock )
+            // EgxParserRules.g:67:4: g= 'target' expressionOrStatementBlock
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            g=(Token)match(input,165,FOLLOW_165_in_target137); if (state.failed) return retval;
+            g=(Token)match(input,166,FOLLOW_166_in_target166); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             g_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(g);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(g_tree, root_0);
             }
-            pushFollow(FOLLOW_expressionOrStatementBlock_in_target140);
-            expressionOrStatementBlock11=gEgx.expressionOrStatementBlock();
+            pushFollow(FOLLOW_expressionOrStatementBlock_in_target169);
+            expressionOrStatementBlock13=gEgx.expressionOrStatementBlock();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock11.getTree());
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock13.getTree());
             if ( state.backtracking==0 ) {
               g.setType(TARGET);
             }
@@ -581,7 +675,7 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start template
-    // EgxParserRules.g:65:1: template : g= 'template' expressionOrStatementBlock ;
+    // EgxParserRules.g:71:1: template : g= 'template' expressionOrStatementBlock ;
     public final Egx_EgxParserRules.template_return template() throws RecognitionException {
         Egx_EgxParserRules.template_return retval = new Egx_EgxParserRules.template_return();
         retval.start = input.LT(1);
@@ -589,28 +683,28 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token g=null;
-        Egx_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock12 = null;
+        Egx_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock14 = null;
 
 
         org.eclipse.epsilon.common.parse.AST g_tree=null;
 
         try {
-            // EgxParserRules.g:66:2: (g= 'template' expressionOrStatementBlock )
-            // EgxParserRules.g:66:4: g= 'template' expressionOrStatementBlock
+            // EgxParserRules.g:72:2: (g= 'template' expressionOrStatementBlock )
+            // EgxParserRules.g:72:4: g= 'template' expressionOrStatementBlock
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            g=(Token)match(input,166,FOLLOW_166_in_template156); if (state.failed) return retval;
+            g=(Token)match(input,167,FOLLOW_167_in_template185); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             g_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(g);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(g_tree, root_0);
             }
-            pushFollow(FOLLOW_expressionOrStatementBlock_in_template159);
-            expressionOrStatementBlock12=gEgx.expressionOrStatementBlock();
+            pushFollow(FOLLOW_expressionOrStatementBlock_in_template188);
+            expressionOrStatementBlock14=gEgx.expressionOrStatementBlock();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock12.getTree());
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock14.getTree());
             if ( state.backtracking==0 ) {
               g.setType(TEMPLATE);
             }
@@ -643,7 +737,7 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start parameters
-    // EgxParserRules.g:70:1: parameters : g= 'parameters' expressionOrStatementBlock ;
+    // EgxParserRules.g:76:1: parameters : g= 'parameters' expressionOrStatementBlock ;
     public final Egx_EgxParserRules.parameters_return parameters() throws RecognitionException {
         Egx_EgxParserRules.parameters_return retval = new Egx_EgxParserRules.parameters_return();
         retval.start = input.LT(1);
@@ -651,28 +745,28 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token g=null;
-        Egx_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock13 = null;
+        Egx_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock15 = null;
 
 
         org.eclipse.epsilon.common.parse.AST g_tree=null;
 
         try {
-            // EgxParserRules.g:71:2: (g= 'parameters' expressionOrStatementBlock )
-            // EgxParserRules.g:71:4: g= 'parameters' expressionOrStatementBlock
+            // EgxParserRules.g:77:2: (g= 'parameters' expressionOrStatementBlock )
+            // EgxParserRules.g:77:4: g= 'parameters' expressionOrStatementBlock
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            g=(Token)match(input,167,FOLLOW_167_in_parameters175); if (state.failed) return retval;
+            g=(Token)match(input,168,FOLLOW_168_in_parameters204); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             g_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(g);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(g_tree, root_0);
             }
-            pushFollow(FOLLOW_expressionOrStatementBlock_in_parameters178);
-            expressionOrStatementBlock13=gEgx.expressionOrStatementBlock();
+            pushFollow(FOLLOW_expressionOrStatementBlock_in_parameters207);
+            expressionOrStatementBlock15=gEgx.expressionOrStatementBlock();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock13.getTree());
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock15.getTree());
             if ( state.backtracking==0 ) {
               g.setType(PARAMETERS);
             }
@@ -705,7 +799,7 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start overwrite
-    // EgxParserRules.g:75:1: overwrite : g= 'overwrite' expressionOrStatementBlock ;
+    // EgxParserRules.g:81:1: overwrite : g= 'overwrite' expressionOrStatementBlock ;
     public final Egx_EgxParserRules.overwrite_return overwrite() throws RecognitionException {
         Egx_EgxParserRules.overwrite_return retval = new Egx_EgxParserRules.overwrite_return();
         retval.start = input.LT(1);
@@ -713,28 +807,28 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token g=null;
-        Egx_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock14 = null;
+        Egx_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock16 = null;
 
 
         org.eclipse.epsilon.common.parse.AST g_tree=null;
 
         try {
-            // EgxParserRules.g:76:2: (g= 'overwrite' expressionOrStatementBlock )
-            // EgxParserRules.g:76:4: g= 'overwrite' expressionOrStatementBlock
+            // EgxParserRules.g:82:2: (g= 'overwrite' expressionOrStatementBlock )
+            // EgxParserRules.g:82:4: g= 'overwrite' expressionOrStatementBlock
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            g=(Token)match(input,168,FOLLOW_168_in_overwrite194); if (state.failed) return retval;
+            g=(Token)match(input,169,FOLLOW_169_in_overwrite223); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             g_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(g);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(g_tree, root_0);
             }
-            pushFollow(FOLLOW_expressionOrStatementBlock_in_overwrite197);
-            expressionOrStatementBlock14=gEgx.expressionOrStatementBlock();
+            pushFollow(FOLLOW_expressionOrStatementBlock_in_overwrite226);
+            expressionOrStatementBlock16=gEgx.expressionOrStatementBlock();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock14.getTree());
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock16.getTree());
             if ( state.backtracking==0 ) {
               g.setType(OVERWRITE);
             }
@@ -767,7 +861,7 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     };
 
     // $ANTLR start merge
-    // EgxParserRules.g:80:1: merge : (g= 'merge' | 'protectRegions' ) expressionOrStatementBlock ;
+    // EgxParserRules.g:86:1: merge : (g= 'merge' | 'protectRegions' ) expressionOrStatementBlock ;
     public final Egx_EgxParserRules.merge_return merge() throws RecognitionException {
         Egx_EgxParserRules.merge_return retval = new Egx_EgxParserRules.merge_return();
         retval.start = input.LT(1);
@@ -775,41 +869,41 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         org.eclipse.epsilon.common.parse.AST root_0 = null;
 
         Token g=null;
-        Token string_literal15=null;
-        Egx_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock16 = null;
+        Token string_literal17=null;
+        Egx_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock18 = null;
 
 
         org.eclipse.epsilon.common.parse.AST g_tree=null;
-        org.eclipse.epsilon.common.parse.AST string_literal15_tree=null;
+        org.eclipse.epsilon.common.parse.AST string_literal17_tree=null;
 
         try {
-            // EgxParserRules.g:81:2: ( (g= 'merge' | 'protectRegions' ) expressionOrStatementBlock )
-            // EgxParserRules.g:81:4: (g= 'merge' | 'protectRegions' ) expressionOrStatementBlock
+            // EgxParserRules.g:87:2: ( (g= 'merge' | 'protectRegions' ) expressionOrStatementBlock )
+            // EgxParserRules.g:87:4: (g= 'merge' | 'protectRegions' ) expressionOrStatementBlock
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            // EgxParserRules.g:81:4: (g= 'merge' | 'protectRegions' )
-            int alt3=2;
-            int LA3_0 = input.LA(1);
+            // EgxParserRules.g:87:4: (g= 'merge' | 'protectRegions' )
+            int alt4=2;
+            int LA4_0 = input.LA(1);
 
-            if ( (LA3_0==169) ) {
-                alt3=1;
+            if ( (LA4_0==170) ) {
+                alt4=1;
             }
-            else if ( (LA3_0==170) ) {
-                alt3=2;
+            else if ( (LA4_0==171) ) {
+                alt4=2;
             }
             else {
                 if (state.backtracking>0) {state.failed=true; return retval;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 3, 0, input);
+                    new NoViableAltException("", 4, 0, input);
 
                 throw nvae;
             }
-            switch (alt3) {
+            switch (alt4) {
                 case 1 :
-                    // EgxParserRules.g:81:5: g= 'merge'
+                    // EgxParserRules.g:87:5: g= 'merge'
                     {
-                    g=(Token)match(input,169,FOLLOW_169_in_merge214); if (state.failed) return retval;
+                    g=(Token)match(input,170,FOLLOW_170_in_merge243); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     g_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(g);
                     adaptor.addChild(root_0, g_tree);
@@ -818,12 +912,12 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                     }
                     break;
                 case 2 :
-                    // EgxParserRules.g:81:15: 'protectRegions'
+                    // EgxParserRules.g:87:15: 'protectRegions'
                     {
-                    string_literal15=(Token)match(input,170,FOLLOW_170_in_merge216); if (state.failed) return retval;
+                    string_literal17=(Token)match(input,171,FOLLOW_171_in_merge245); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
-                    string_literal15_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(string_literal15);
-                    adaptor.addChild(root_0, string_literal15_tree);
+                    string_literal17_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(string_literal17);
+                    adaptor.addChild(root_0, string_literal17_tree);
                     }
 
                     }
@@ -831,12 +925,12 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
             }
 
-            pushFollow(FOLLOW_expressionOrStatementBlock_in_merge220);
-            expressionOrStatementBlock16=gEgx.expressionOrStatementBlock();
+            pushFollow(FOLLOW_expressionOrStatementBlock_in_merge249);
+            expressionOrStatementBlock18=gEgx.expressionOrStatementBlock();
 
             state._fsp--;
             if (state.failed) return retval;
-            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock16.getTree());
+            if ( state.backtracking==0 ) adaptor.addChild(root_0, expressionOrStatementBlock18.getTree());
             if ( state.backtracking==0 ) {
               g.setType(MERGE);
             }
@@ -868,30 +962,33 @@ public class Egx_EgxParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
  
 
-    public static final BitSet FOLLOW_163_in_generationRule64 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_generationRule69 = new BitSet(new long[]{0x0000000000000000L,0x0000000020000000L,0x0000001000000000L});
-    public static final BitSet FOLLOW_164_in_generationRule72 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_formalParameter_in_generationRule75 = new BitSet(new long[]{0x0000000000000000L,0x0000000020000000L});
-    public static final BitSet FOLLOW_93_in_generationRule82 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L,0x000007E380000000L});
-    public static final BitSet FOLLOW_guard_in_generationRule86 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L,0x000007E380000000L});
-    public static final BitSet FOLLOW_target_in_generationRule90 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L,0x000007E380000000L});
-    public static final BitSet FOLLOW_template_in_generationRule94 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L,0x000007E380000000L});
-    public static final BitSet FOLLOW_parameters_in_generationRule98 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L,0x000007E380000000L});
-    public static final BitSet FOLLOW_pre_in_generationRule102 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L,0x000007E380000000L});
-    public static final BitSet FOLLOW_post_in_generationRule106 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L,0x000007E380000000L});
-    public static final BitSet FOLLOW_overwrite_in_generationRule110 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L,0x000007E380000000L});
-    public static final BitSet FOLLOW_merge_in_generationRule114 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L,0x000007E380000000L});
-    public static final BitSet FOLLOW_94_in_generationRule120 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_165_in_target137 = new BitSet(new long[]{0x0000000000000000L,0x0000001020000000L});
-    public static final BitSet FOLLOW_expressionOrStatementBlock_in_target140 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_166_in_template156 = new BitSet(new long[]{0x0000000000000000L,0x0000001020000000L});
-    public static final BitSet FOLLOW_expressionOrStatementBlock_in_template159 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_167_in_parameters175 = new BitSet(new long[]{0x0000000000000000L,0x0000001020000000L});
-    public static final BitSet FOLLOW_expressionOrStatementBlock_in_parameters178 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_168_in_overwrite194 = new BitSet(new long[]{0x0000000000000000L,0x0000001020000000L});
-    public static final BitSet FOLLOW_expressionOrStatementBlock_in_overwrite197 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_169_in_merge214 = new BitSet(new long[]{0x0000000000000000L,0x0000001020000000L});
-    public static final BitSet FOLLOW_170_in_merge216 = new BitSet(new long[]{0x0000000000000000L,0x0000001020000000L});
-    public static final BitSet FOLLOW_expressionOrStatementBlock_in_merge220 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_164_in_generationRule68 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_generationRule73 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L,0x0000002000000000L});
+    public static final BitSet FOLLOW_165_in_generationRule76 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_formalParameter_in_generationRule79 = new BitSet(new long[]{0x0000000000000000L,0x0040000040000000L});
+    public static final BitSet FOLLOW_domain_in_generationRule81 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L});
+    public static final BitSet FOLLOW_94_in_generationRule89 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L,0x00000FC700000000L});
+    public static final BitSet FOLLOW_guard_in_generationRule93 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L,0x00000FC700000000L});
+    public static final BitSet FOLLOW_target_in_generationRule97 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L,0x00000FC700000000L});
+    public static final BitSet FOLLOW_template_in_generationRule101 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L,0x00000FC700000000L});
+    public static final BitSet FOLLOW_parameters_in_generationRule105 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L,0x00000FC700000000L});
+    public static final BitSet FOLLOW_pre_in_generationRule109 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L,0x00000FC700000000L});
+    public static final BitSet FOLLOW_post_in_generationRule113 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L,0x00000FC700000000L});
+    public static final BitSet FOLLOW_overwrite_in_generationRule117 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L,0x00000FC700000000L});
+    public static final BitSet FOLLOW_merge_in_generationRule121 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L,0x00000FC700000000L});
+    public static final BitSet FOLLOW_95_in_generationRule127 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_118_in_domain145 = new BitSet(new long[]{0x0000000000000000L,0x0000002040000000L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_domain149 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_166_in_target166 = new BitSet(new long[]{0x0000000000000000L,0x0000002040000000L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_target169 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_167_in_template185 = new BitSet(new long[]{0x0000000000000000L,0x0000002040000000L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_template188 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_168_in_parameters204 = new BitSet(new long[]{0x0000000000000000L,0x0000002040000000L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_parameters207 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_169_in_overwrite223 = new BitSet(new long[]{0x0000000000000000L,0x0000002040000000L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_overwrite226 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_170_in_merge243 = new BitSet(new long[]{0x0000000000000000L,0x0000002040000000L});
+    public static final BitSet FOLLOW_171_in_merge245 = new BitSet(new long[]{0x0000000000000000L,0x0000002040000000L});
+    public static final BitSet FOLLOW_expressionOrStatementBlock_in_merge249 = new BitSet(new long[]{0x0000000000000002L});
 
 }

@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.egl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2019-01-24 14:02:15
+// $ANTLR 3.1b1 EolLexerRules.g 2019-11-14 12:04:22
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -58,7 +58,7 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int MODELDECLARATIONPARAMETERS=72;
     public static final int T__141=141;
     public static final int THROW=53;
-    public static final int EGXMODULE=87;
+    public static final int EGXMODULE=88;
     public static final int PARAMLIST=25;
     public static final int EXPRLIST=54;
     public static final int EXPRRANGE=55;
@@ -72,7 +72,7 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int TYPE=65;
     public static final int T__139=139;
     public static final int T__138=138;
-    public static final int Tokens=171;
+    public static final int Tokens=172;
     public static final int T__133=133;
     public static final int T__132=132;
     public static final int T__135=135;
@@ -94,10 +94,11 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int T__166=166;
     public static final int T__165=165;
     public static final int T__168=168;
+    public static final int DOMAIN=85;
     public static final int T__167=167;
     public static final int T__162=162;
     public static final int T__161=161;
-    public static final int MERGE=86;
+    public static final int MERGE=87;
     public static final int T__164=164;
     public static final int MODELDECLARATION=68;
     public static final int T__163=163;
@@ -163,6 +164,7 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int StrangeNameLiteral=15;
     public static final int FOR=30;
     public static final int BLOCK=62;
+    public static final int T__171=171;
     public static final int T__170=170;
     public static final int PARAMETERS=46;
     public static final int SpecialNameChar=17;
@@ -176,7 +178,7 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int T__124=124;
     public static final int FLOAT=4;
     public static final int T__123=123;
-    public static final int OVERWRITE=85;
+    public static final int OVERWRITE=86;
     public static final int T__120=120;
     public static final int NativeType=56;
     public static final int INT=8;
@@ -202,7 +204,6 @@ public class Egx_EolLexerRules extends Lexer {
     public static final int EOLMODULE=61;
     public static final int DIGIT=5;
     public static final int EXECUTABLEANNOTATION=51;
-    public static final int T__88=88;
     public static final int T__108=108;
     public static final int T__89=89;
     public static final int T__107=107;

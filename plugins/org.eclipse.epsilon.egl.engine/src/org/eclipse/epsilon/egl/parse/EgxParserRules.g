@@ -43,6 +43,7 @@ tokens {
 	TARGET;
 	TEMPLATE;
 	PARAMETERS;
+	DOMAIN;
 	OVERWRITE;
 	MERGE;
 }
@@ -52,11 +53,16 @@ generationRule
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
 	}
-	:	r='rule'^ rule=NAME ('transform'! formalParameter)?
+	:	r='rule'^ rule=NAME ('transform'! formalParameter domain?)?
 	ob='{'! (guard | target | template | parameters | pre | post | overwrite | merge)* cb='}'!
 	{$r.setType(GENERATE);}
 	;
 
+domain :
+	(c='in'^) expressionOrStatementBlock
+	{$c.setType(DOMAIN);}
+	;
+	
 target
 	:	g='target'^ expressionOrStatementBlock
 	{$g.setType(TARGET);}
