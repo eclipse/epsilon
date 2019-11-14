@@ -254,7 +254,7 @@ public class EglTemplateFactory {
 	 * Subclasses may override to create different types of template.
 	 */
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
-		return new EglTemplate(spec, copyContext ? new EglContext(getContext()) : getContext());
+		return new EglTemplate(spec, isCopyContextForNewTemplates() ? new EglContext(getContext()) : getContext());
 	}
 
 	private EglTemplateSpecificationFactory createTemplateSpecificationFactory() {
