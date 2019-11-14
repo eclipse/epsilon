@@ -41,7 +41,7 @@ public class EgxModuleTemplateAdapter extends Template {
 	
 	@Override
 	public Collection<Template> getChildren() {
-		return module.getInvokedTemplates();
+		return module.getContext().getInvokedTemplates();
 	}
 	
 	public String toString() {

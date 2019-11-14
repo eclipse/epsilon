@@ -20,10 +20,10 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.egl.EglPersistentTemplate;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
+import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameter;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -38,7 +38,7 @@ import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
 import org.eclipse.epsilon.erl.dom.ExtensibleNamedRule;
 
-public class GenerationRule extends ExtensibleNamedRule implements IExecutableModuleElementParameter {
+public class GenerationRule extends ExtensibleNamedRule implements IExecutableModuleElementParameter, IExecutableModuleElement {
 	
 	protected Parameter sourceParameter;
 	protected ExecutableBlock<Collection<?>> domainBlock;
@@ -80,8 +80,9 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		}
 	}
 	
-	protected void generate(Object element, IEgxModule module) throws EolRuntimeException {
-		IEgxContext context = module.getContext();
+	@Override
+	public Object execute(IEolContext context_, Object element) throws EolRuntimeException {
+		IEgxContext context = (IEgxContext) context_;
 		FrameStack frameStack = context.getFrameStack();
 		
 		if (sourceParameter != null) {
@@ -92,7 +93,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		}
 		
 		if (guardBlock != null && !guardBlock.execute(context, false)) {
-			return;
+			return null;
 		}
 		
 		if (preBlock != null) {
@@ -132,7 +133,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 			generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
 		}
 		
-		module.getInvokedTemplates().add(eglTemplate.getTemplate());
+		context.getInvokedTemplates().add(eglTemplate.getTemplate());
 		
 		if (postBlock != null) {
 			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, postBlock, Variable.createReadOnlyVariable("generated", generated));
@@ -142,6 +143,15 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		
 		frameStack.leaveLocal(this);
 		eglTemplate.reset();
+		return null;
+	}
+	
+	@Override
+	public Object execute(IEolContext context) throws EolRuntimeException {
+		for (Object element : getAllElements((IEgxContext) context)) {
+			context.getExecutorFactory().execute(this, context, element);
+		}
+		return null;
 	}
 
 	/**
@@ -171,16 +181,6 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 
 	@Override
 	public AST getSuperRulesAst(AST cst) {
-		return null;
-	}
-	
-	/**
-	 * @since 1.6
-	 * @return Nothing
-	 */
-	@Override
-	public Object execute(IEolContext context, Object self) throws EolRuntimeException {
-		generate(self, (IEgxModule) context.getModule());
 		return null;
 	}
 }

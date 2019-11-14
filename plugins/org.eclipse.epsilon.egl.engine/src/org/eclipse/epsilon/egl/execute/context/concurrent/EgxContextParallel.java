@@ -10,10 +10,13 @@
 package org.eclipse.epsilon.egl.execute.context.concurrent;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.Map;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
+import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 
 /**
@@ -26,6 +29,7 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 	protected EglTemplateFactory templateFactory;
 	protected Map<URI, EglTemplate> templateCache;
 	protected ThreadLocal<Map<URI, EglTemplate>> concurrentTemplateCaches;
+	protected Collection<Template> invokedTemplates = ConcurrencyUtils.concurrentOrderedCollection();
 	
 	public EgxContextParallel() {
 		this(null);
@@ -65,6 +69,11 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 	@Override
 	public Map<URI, EglTemplate> getTemplateCache() {
 		return parallelGet(concurrentTemplateCaches, templateCache);
+	}
+	
+	@Override
+	public Collection<Template> getInvokedTemplates() {
+		return invokedTemplates;
 	}
 	
 	@Override

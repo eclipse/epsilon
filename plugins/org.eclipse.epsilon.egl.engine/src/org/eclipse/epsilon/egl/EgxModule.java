@@ -27,7 +27,6 @@ import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.parse.EgxLexer;
 import org.eclipse.epsilon.egl.parse.EgxParser;
-import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -42,7 +41,6 @@ public class EgxModule extends ErlModule implements IEgxModule {
 
 	protected NamedRuleList<GenerationRule> generationRules;
 	protected NamedRuleList<GenerationRule> declaredGenerationRules = new NamedRuleList<>();
-	protected Collection<Template> invokedTemplates = new ArrayList<>();
 	
 	public EgxModule() {
 		this((IEgxContext) null);
@@ -83,11 +81,6 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	 */
 	protected void setFileGeneratingTemplateFactory(String outputRoot) throws EglRuntimeException {
 		getContext().setTemplateFactory(new EglFileGeneratingTemplateFactory(new File(outputRoot).getAbsolutePath()));
-	}
-	
-	@Override
-	public Collection<Template> getInvokedTemplates() {
-		return invokedTemplates;
 	}
 	
 	@Override
@@ -187,9 +180,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	protected Object processRules() throws EolRuntimeException {
 		IEgxContext context = getContext();
 		for (GenerationRule rule : getGenerationRules()) {
-			for (Object element : rule.getAllElements(context)) {
-				context.getExecutorFactory().execute(rule, context, element);
-			}
+			context.getExecutorFactory().execute(rule, context);
 		}
 		return null;
 	}

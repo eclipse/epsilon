@@ -10,10 +10,12 @@
 package org.eclipse.epsilon.egl.execute.context;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.Map;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
+import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
@@ -37,5 +39,7 @@ public interface IEgxContext extends IErlContext {
 	public EglTemplateFactory getTemplateFactory();
 
 	public Map<URI, EglTemplate> getTemplateCache();
+	
+	public Collection<Template> getInvokedTemplates();
 	
 }

@@ -10,11 +10,14 @@
 package org.eclipse.epsilon.egl.execute.context;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
+import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
 
 /**
@@ -26,6 +29,7 @@ public class EgxContext extends ErlContext implements IEgxContext {
 	private EgxModuleTemplateAdapter baseTemplate;
 	private EglTemplateFactory templateFactory;
 	protected Map<URI, EglTemplate> templateCache = new HashMap<>();
+	protected Collection<Template> invokedTemplates = new ArrayList<>();
 	
 	public EgxContext() {
 		this(null);
@@ -51,6 +55,11 @@ public class EgxContext extends ErlContext implements IEgxContext {
 		return (IEgxModule) super.getModule();
 	}
 
+	@Override
+	public Collection<Template> getInvokedTemplates() {
+		return invokedTemplates;
+	}
+	
 	@Override
 	public void setTemplateFactory(EglTemplateFactory templateFactory) {
 		this.templateFactory = templateFactory;
