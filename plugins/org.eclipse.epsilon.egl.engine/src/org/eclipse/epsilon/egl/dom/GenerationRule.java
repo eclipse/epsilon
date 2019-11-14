@@ -80,7 +80,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		}
 	}
 	
-	public void generate(Object element, IEgxModule module) throws EolRuntimeException {
+	protected void generate(Object element, IEgxModule module) throws EolRuntimeException {
 		IEgxContext context = module.getContext();
 		FrameStack frameStack = context.getFrameStack();
 		

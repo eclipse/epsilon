@@ -43,17 +43,14 @@ public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IE
 		
 		for (GenerationRule rule : getGenerationRules()) {
 			final Collection<?> allElements = rule.getAllElements(context);
-			final Collection<Callable<Void>> genJobs = new ArrayList<>(allElements.size());
+			final Collection<Callable<?>> genJobs = new ArrayList<>(allElements.size());
 			
 			for (Object element : allElements) {
 				if (shouldBeParallel(rule, element)) {
-					genJobs.add(() -> {
-						rule.generate(element, this);
-						return null;
-					});
+					genJobs.add(() -> context.getExecutorFactory().execute(rule, context, element));
 				}
 				else {
-					rule.generate(element, this);
+					context.getExecutorFactory().execute(rule, context, element);
 				}
 			}
 			context.executeAll(rule, genJobs);
