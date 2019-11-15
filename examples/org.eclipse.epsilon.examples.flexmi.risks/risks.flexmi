@@ -1,0 +1,7 @@
+<?nsuri risks?>
+<?render-egx risks2html/risks2html.egx?>
+<_>
+	<r t="A low-significance risk" lik="l" sev="m"/>
+	<r t="An important risk" lik="m" sev="m"/>
+	<r t="A critical risk" lik="m" sev="h"/>
+</_>

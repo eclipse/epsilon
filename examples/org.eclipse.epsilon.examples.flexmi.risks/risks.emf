@@ -1,0 +1,15 @@
+@namespace(uri="risks", prefix="risks")
+package risks;
+
+class Risk {
+	attr String title;
+	attr Scale likelihood;
+	attr Scale severity;
+}
+
+enum Scale {
+	LOW = 1;
+	MEDIUM = 2;
+	HIGH = 3;
+}
+
