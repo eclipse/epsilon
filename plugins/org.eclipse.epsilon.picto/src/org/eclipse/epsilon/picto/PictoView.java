@@ -181,9 +181,9 @@ public class PictoView extends ViewPart {
 			@Override
 			public void partActivated(IWorkbenchPartReference partRef) {
 				if (locked) return;
-				if (PictoView.this.editor == editor) return;
-				if (supports(partRef.getPart(false))) {
-					render((IEditorPart) partRef.getPart(false));
+				IWorkbenchPart part = partRef.getPart(false);
+				if (editor != part && supports(part)) {
+					render((IEditorPart) part);
 				}
 			}
 
