@@ -11,16 +11,16 @@ package org.eclipse.epsilon.picto;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 
-public class ContentTreeContentProvider implements ITreeContentProvider {
+public class ViewTreeContentProvider implements ITreeContentProvider {
 	
 	@Override
 	public boolean hasChildren(Object element) {
-		return !((ContentTree) element).getChildren().isEmpty();
+		return !((ViewTree) element).getChildren().isEmpty();
 	}
 	
 	@Override
 	public Object getParent(Object element) {
-		return ((ContentTree) element).getParent();
+		return ((ViewTree) element).getParent();
 	}
 	
 	@Override
@@ -30,6 +30,6 @@ public class ContentTreeContentProvider implements ITreeContentProvider {
 	
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		return ((ContentTree) parentElement).getChildren().toArray();
+		return ((ViewTree) parentElement).getChildren().toArray();
 	}
 }

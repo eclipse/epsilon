@@ -67,6 +67,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
+import org.eclipse.swt.browser.ProgressEvent;
+import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -97,8 +99,9 @@ public class PictoView extends ViewPart {
 	protected int[] sashFormWeights = null;
 	protected File renderedFile = null;
 	protected boolean locked = false;
-	protected HashMap<String, List<String>> selectionHistory = new HashMap<>();
+	protected HashMap<String, ViewTree> selectionHistory = new HashMap<>();
 	protected File tempDir = null;
+	protected ViewTree activeView = null;
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -119,25 +122,24 @@ public class PictoView extends ViewPart {
 		PatternFilter filter = new PatternFilter() {
 			@Override
 			protected boolean isLeafMatch(Viewer viewer, Object element) {
-				ContentTree contentTree = (ContentTree) element;
-				return wordMatches(contentTree.getName()) || (contentTree.getContent() != null && wordMatches(contentTree.getContent()));
+				ViewTree viewTree = (ViewTree) element;
+				return wordMatches(viewTree.getName()) || (viewTree.getContent() != null && wordMatches(viewTree.getContent()));
 			}
 		};
 		FilteredTree filteredTree = new FilteredTree(sashForm, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.BORDER, filter, true);
 		
 		treeViewer = filteredTree.getViewer();
-		treeViewer.setContentProvider(new ContentTreeContentProvider());
-		treeViewer.setLabelProvider(new ContentTreeLabelProvider());
+		treeViewer.setContentProvider(new ViewTreeContentProvider());
+		treeViewer.setLabelProvider(new ViewTreeLabelProvider());
 		treeViewer.addSelectionChangedListener(event -> {
-			ContentTree contentTree = ((ContentTree)event.getStructuredSelection().getFirstElement());
-			if (contentTree != null && contentTree.getContent() != null) {
+			ViewTree view = ((ViewTree)event.getStructuredSelection().getFirstElement());
+			if (view != null && view.getContent() != null) {
 				try {
-					selectionHistory.put(renderedFile.getAbsolutePath(), contentTree.getPath());
-					render(contentTree.getContent(), contentTree.getFormat());
+					selectionHistory.put(renderedFile.getAbsolutePath(), view);
+					renderView(view);
 				} catch (Exception ex) {
 					display("<html><pre>" + ex.getMessage() + "</pre></html>");
-					ex.printStackTrace();
 				}
 			}
 		});
@@ -149,10 +151,10 @@ public class PictoView extends ViewPart {
 			public Object function(Object[] arguments) {
 				
 				if (arguments.length == 1) {
-					String view = arguments[0] + "";
-					ContentTree contentTree = (ContentTree) treeViewer.getInput();
-					ContentTree viewTree = contentTree.forPath(Arrays.asList(view.split("/")));
-					List<ContentTree> path = new ArrayList<>();
+					String viewPath = arguments[0] + "";
+					ViewTree view = (ViewTree) treeViewer.getInput();
+					ViewTree viewTree = view.forPath(Arrays.asList(viewPath.split("/")));
+					List<ViewTree> path = new ArrayList<>();
 					while (viewTree != null) {
 						path.add(0, viewTree);
 						viewTree = viewTree.getParent();
@@ -302,7 +304,7 @@ public class PictoView extends ViewPart {
 						
 						@Override
 						public void runWithException() throws Exception {
-							setContentTree(templateFactory.getContentTree(), rerender);
+							setViewTree(templateFactory.getViewTree(), rerender);
 							setTreeViewerVisible(true);
 						}
 					});
@@ -314,8 +316,11 @@ public class PictoView extends ViewPart {
 						
 						@Override
 						public void runWithException() throws Exception {
+							if (!rerender) activeView = new ViewTree();
+							activeView.setContent(content);
+							activeView.setFormat(renderingMetadata.getFormat());
 							setTreeViewerVisible(false);
-							render(content, renderingMetadata.getFormat());
+							renderView(activeView);
 						}
 					});
 				}
@@ -328,7 +333,7 @@ public class PictoView extends ViewPart {
 					@Override
 					public void runWithException() throws Exception {
 						setTreeViewerVisible(false);
-						render("<html><pre>" + ex.getMessage() + "</pre></html>", "html");
+						renderView(new ViewTree("<html><pre>" + ex.getMessage() + "</pre></html>", "html"));
 					}
 				});
 			} catch (Exception e) {
@@ -340,42 +345,45 @@ public class PictoView extends ViewPart {
 	}
 	
 	public void runInUIThread(RunnableWithException runnable) throws Exception {
-		Display.getDefault().asyncExec(runnable);
+		Display.getDefault().syncExec(runnable);
 		if (runnable.getException() != null) throw runnable.getException();
 	}
 	
-	protected void setContentTree(ContentTree newContentTree, boolean rerender) throws Exception {
+	protected void setViewTree(ViewTree newViewTree, boolean rerender) throws Exception {
 		
-		ContentTree contentTree = (ContentTree) treeViewer.getInput();
-		if (contentTree == null || !rerender) {
-			contentTree = newContentTree;
-			treeViewer.setInput(contentTree);
+		ViewTree viewTree = (ViewTree) treeViewer.getInput();
+		if (viewTree == null || !rerender) {
+			viewTree = newViewTree;
+			treeViewer.setInput(viewTree);
 		}
 		else {
-			contentTree.ingest(newContentTree);
+			viewTree.ingest(newViewTree);
 		}
 		
 		treeViewer.refresh();
 		
 		if (rerender) {
-			ContentTree selected = (ContentTree) treeViewer.getStructuredSelection().getFirstElement();
+			ViewTree selected = (ViewTree) treeViewer.getStructuredSelection().getFirstElement();
 			if (selected != null) {
 				if (selected.getContent() == null) nothingToRender();
-				else render(selected.getContent(), selected.getFormat());
+				else renderView(selected);
 			}
 			else {
 				nothingToRender();
 			}
 		} else {
 			
-			ContentTree selection = null;
+			ViewTree selection = null;
+			ViewTree historicalView = selectionHistory.get(renderedFile.getAbsolutePath());
 			
-			if (selectionHistory.containsKey(renderedFile.getAbsolutePath())) {
-				selection = contentTree.forPath(selectionHistory.get(renderedFile.getAbsolutePath()));
+			if (historicalView != null) {
+				selection = viewTree.forPath(historicalView.getPath());
+				selection.setScrollX(historicalView.getScrollX());
+				selection.setScrollY(historicalView.getScrollY());
 			}
 			
 			if (selection == null) {
-				selection = contentTree.getFirstWithContent();
+				selection = viewTree.getFirstWithContent();
 			}
 			
 			if (selection != null) {
@@ -388,7 +396,32 @@ public class PictoView extends ViewPart {
 		}
 	}
 	
-	protected void render(String content, String format) throws Exception {
+	protected void renderView(ViewTree view) throws Exception {
+		
+		if (activeView != null) {
+			Double scrollX = (Double) browser.evaluate("return window.scrollX;");
+			Double scrollY = (Double) browser.evaluate("return window.scrollY;");
+			activeView.setScrollX(scrollX.intValue());
+			activeView.setScrollY(scrollY.intValue());
+		}
+		
+		activeView = view;
+		
+		browser.addProgressListener(new ProgressListener() {
+			
+			@Override
+			public void completed(ProgressEvent event) {
+				browser.evaluate("window.scroll(" + activeView.getScrollX() + ", " + activeView.getScrollY() + ");");
+				browser.removeProgressListener(this);
+			}
+			
+			@Override
+			public void changed(ProgressEvent event) {}
+		});
+		
+		String format = view.getFormat();
+		String content = view.getContent();
+		
 		if (format.equals("html")) {
 			display(content);
 		}

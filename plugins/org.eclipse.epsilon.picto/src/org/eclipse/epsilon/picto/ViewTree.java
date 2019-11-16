@@ -13,26 +13,36 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ContentTree {
+public class ViewTree {
 	
-	protected List<ContentTree> children = new ArrayList<>();
+	protected List<ViewTree> children = new ArrayList<>();
 	protected String content = "";
 	protected String name;
 	protected String format = "html";
 	protected String icon = "folder";
-	protected ContentTree parent;
+	protected ViewTree parent;
+	protected int scrollX;
+	protected int scrollY;
 	
 	public static void main(String[] args) {
 		
-		ContentTree pathTree = new ContentTree("");
+		ViewTree pathTree = new ViewTree("");
 		pathTree.addPath(Arrays.asList("e1", "e2"), "c1", "text", "");
 		pathTree.addPath(Arrays.asList("e1", "e3", "e4"), "c2", "text", "");
-		ContentTree result = pathTree.forPath(Arrays.asList("", "e1", "e3", "e4"));
+		ViewTree result = pathTree.forPath(Arrays.asList("", "e1", "e3", "e4"));
 		System.out.println(result.getPath());
 		
 	}
 	
-	public ContentTree(String name) {
+	public ViewTree() {}
+	
+	public ViewTree(String content, String format) {
+		super();
+		this.content = content;
+		this.format = format;
+	}
+
+	public ViewTree(String name) {
 		this.name = name;
 	}
 	
@@ -41,30 +51,30 @@ public class ContentTree {
 		if (path.size() > 1) {
 			String name = path.get(0);
 			List<String> rest = path.subList(1, path.size());
-			ContentTree child = null;
-			for (ContentTree candidate : children) {
+			ViewTree child = null;
+			for (ViewTree candidate : children) {
 				if (candidate.getName().equals(name)) {
 					child = candidate;
 				}
 			}
 			
 			if (child == null) {
-				child = new ContentTree(name);
+				child = new ViewTree(name);
 				children.add(child);
 			}
 			
 			child.addPath(rest, content, format, icon);
 		}
 		else if (path.size() == 1) {
-			ContentTree child = null;
-			for (ContentTree candidate : children) {
+			ViewTree child = null;
+			for (ViewTree candidate : children) {
 				if (candidate.getName() != null && candidate.getName().equals(path.get(0))) {
 					child = candidate;
 				}
 			}
 			
 			if (child == null) {
-				child = new ContentTree(path.get(0));
+				child = new ViewTree(path.get(0));
 				children.add(child);
 			}
 			
@@ -74,14 +84,14 @@ public class ContentTree {
 		}
 	}
 	
-	public void ingest(ContentTree other) {
+	public void ingest(ViewTree other) {
 		
-		List<ContentTree> obsolete = new ArrayList<>();
-		List<ContentTree> fresh = new ArrayList<>(other.getChildren());
+		List<ViewTree> obsolete = new ArrayList<>();
+		List<ViewTree> fresh = new ArrayList<>(other.getChildren());
 		
-		for (ContentTree child : getChildren()) {
-			ContentTree counterpart = null;
-			for (ContentTree otherChild : other.getChildren()) {
+		for (ViewTree child : getChildren()) {
+			ViewTree counterpart = null;
+			for (ViewTree otherChild : other.getChildren()) {
 				if (child.getName().equals(otherChild.getName())) {
 					counterpart = otherChild;
 					fresh.remove(counterpart);
@@ -109,16 +119,16 @@ public class ContentTree {
 		this.name = name;
 	}
 	
-	public List<ContentTree> getChildren() {
+	public List<ViewTree> getChildren() {
 		children.stream().forEach(c -> c.setParent(this));
 		return children;
 	}
 	
-	public void setParent(ContentTree parent) {
+	public void setParent(ViewTree parent) {
 		this.parent = parent;
 	}
 	
-	public ContentTree getParent() {
+	public ViewTree getParent() {
 		return parent;
 	}
 	
@@ -146,6 +156,22 @@ public class ContentTree {
 		return icon;
 	}
 	
+	public int getScrollX() {
+		return scrollX;
+	}
+
+	public void setScrollX(int scrollX) {
+		this.scrollX = scrollX;
+	}
+
+	public int getScrollY() {
+		return scrollY;
+	}
+
+	public void setScrollY(int scrollY) {
+		this.scrollY = scrollY;
+	}
+
 	@Override
 	public String toString() {
 		return super.toString();
@@ -159,11 +185,11 @@ public class ContentTree {
 		return path;
 	}
 	
-	public ContentTree forPath(List<String> path) {
+	public ViewTree forPath(List<String> path) {
 		if (path.get(0).equals(getName())) {
 			if (path.size() > 1) {
-				for (ContentTree child : getChildren()) {
-					ContentTree forPath = child.forPath(path.subList(1, path.size()));
+				for (ViewTree child : getChildren()) {
+					ViewTree forPath = child.forPath(path.subList(1, path.size()));
 					if (forPath != null) return forPath;
 				}
 			}
@@ -175,10 +201,10 @@ public class ContentTree {
 		return null;
 	}
 	
-	public ContentTree getFirstWithContent() {
+	public ViewTree getFirstWithContent() {
 		if (content != null && content.length()>0) return this;
-		for (ContentTree child : getChildren()) {
-			ContentTree result = child.getFirstWithContent();
+		for (ViewTree child : getChildren()) {
+			ViewTree result = child.getFirstWithContent();
 			if (result != null) return result;
 		}
 		return null;

@@ -8,7 +8,7 @@ import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 
 public class RenderingEglTemplateFactory extends EglTemplateFactory {
 	
-	protected ContentTree contentTree = new ContentTree("");
+	protected ViewTree viewTree = new ViewTree("");
 	protected File outputRoot = null;
 	
 	public RenderingEglTemplateFactory(File outputRoot) {
@@ -19,12 +19,12 @@ public class RenderingEglTemplateFactory extends EglTemplateFactory {
 	@Override
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
 		RenderingEglTemplate template = new RenderingEglTemplate(spec, context, outputRoot.toURI());
-		template.setContentTree(contentTree);
+		template.setViewTree(viewTree);
 		return template;
 	}
 	
-	public ContentTree getContentTree() {
-		return contentTree;
+	public ViewTree getViewTree() {
+		return viewTree;
 	}
 	
 	public File getOutputRoot() {

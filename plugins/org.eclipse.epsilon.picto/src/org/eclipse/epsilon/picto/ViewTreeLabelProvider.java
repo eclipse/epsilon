@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 
-public class ContentTreeLabelProvider extends LabelProvider {
+public class ViewTreeLabelProvider extends LabelProvider {
 	
 	protected Image diagramImage = Activator.getDefault().getImageDescriptor("icons/diagram.gif").createImage();
 	protected Image folderImage = Activator.getDefault().getImageDescriptor("icons/folder.gif").createImage();
@@ -24,7 +24,7 @@ public class ContentTreeLabelProvider extends LabelProvider {
 	
 	@Override
 	public String getText(Object element) {
-		ContentTree contentTree = (ContentTree) element;
+		ViewTree contentTree = (ViewTree) element;
 		if (contentTree.getName() == null || contentTree.getName().trim().length() == 0) {
 			return "<empty>";
 		}
@@ -34,7 +34,7 @@ public class ContentTreeLabelProvider extends LabelProvider {
 	@Override
 	public Image getImage(Object element) {
 		
-		ContentTree contentTree = (ContentTree) element;
+		ViewTree contentTree = (ViewTree) element;
 		if (contentTree.getContent() != null) {
 			String iconName = contentTree.getIcon();
 			Image icon = iconImages.get(iconName);

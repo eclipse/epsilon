@@ -24,7 +24,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class RenderingEglTemplate extends EglPersistentTemplate {
 	
-	protected ContentTree contentTree;
+	protected ViewTree viewTree;
 	protected IEglContext context;
 	
 	public RenderingEglTemplate(EglTemplateSpecification spec, IEglContext context, URI outputRoot)
@@ -49,7 +49,7 @@ public class RenderingEglTemplate extends EglPersistentTemplate {
 			}
 		}
 		
-		contentTree.addPath(new ArrayList<>(path), getContents(), format, icon);
+		viewTree.addPath(new ArrayList<>(path), getContents(), format, icon);
 		
 		if (file != null && !file.isDirectory()) {
 			try {
@@ -61,8 +61,8 @@ public class RenderingEglTemplate extends EglPersistentTemplate {
 		
 	}
 	
-	public void setContentTree(ContentTree contentTree) {
-		this.contentTree = contentTree;
+	public void setViewTree(ViewTree viewTree) {
+		this.viewTree = viewTree;
 	}
 	
 }
