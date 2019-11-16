@@ -50,6 +50,7 @@ import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
+import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 import org.eclipse.epsilon.flexmi.dt.BrowserContainer;
 import org.eclipse.epsilon.flexmi.dt.FlexmiEditor;
 import org.eclipse.epsilon.flexmi.dt.PartListener;
@@ -180,6 +181,7 @@ public class PictoView extends ViewPart {
 			@Override
 			public void partActivated(IWorkbenchPartReference partRef) {
 				if (locked) return;
+				if (PictoView.this.editor == editor) return;
 				if (supports(partRef.getPart(false))) {
 					render((IEditorPart) partRef.getPart(false));
 				}
@@ -250,16 +252,6 @@ public class PictoView extends ViewPart {
 			File modelFile = new File(getFile(editor).getLocation().toOSString());
 			boolean rerender = renderedFile != null && renderedFile.getAbsolutePath().equals(modelFile.getAbsolutePath());
 			renderedFile = modelFile;
-			
-			/*
-			ResourceSet resourceSet = new ResourceSetImpl();
-			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
-			FlexmiResource resource = (FlexmiResource) resourceSet
-					.createResource(URI.createFileURI(modelFile.getAbsolutePath()));
-			resource.load(null);*/
-			
-			//ProcessingInstruction renderProcessingInstruction = (ProcessingInstruction) resource.
-			//			getProcessingInstructions().stream().filter(p -> p.getTarget().startsWith("render-")).findFirst().orElse(null);
 			
 			Resource resource = getResource(editor);
 			PictoMetadata renderingMetadata = getRenderingMetadata(editor);
@@ -576,7 +568,16 @@ public class PictoView extends ViewPart {
 	
 	protected Resource getResource(IEditorPart editorPart) {
 		if (editorPart instanceof FlexmiEditor) {
-			return ((FlexmiEditor) editorPart).getResource();
+			IFile file = getFile(editorPart);
+			ResourceSet resourceSet = new ResourceSetImpl();
+			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
+			Resource resource = resourceSet.createResource(URI.createFileURI(file.getLocation().toOSString()));
+			try {
+				resource.load(null);
+				return resource;
+			} catch (IOException e) {
+				LogUtil.log(e);
+			}
 		}
 		else if (editorPart instanceof EmfaticEditor) {
 			try {
