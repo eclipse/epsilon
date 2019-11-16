@@ -9,35 +9,36 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 public class CopyToClipboardAction extends Action {
 	
-	protected Browser browser;
+	protected ViewRenderer viewRenderer;
 	
-	public CopyToClipboardAction(Browser browser) {
-		this.browser = browser;
+	public CopyToClipboardAction(ViewRenderer viewRenderer) {
+		this.viewRenderer = viewRenderer;
 		setText("Copy to clipboard");
 		setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
 	}
 
 	@Override
 	public void run() {
-		int width = ((Double) browser.evaluate("return document.body.scrollWidth")).intValue();
-		int height = ((Double) browser.evaluate("return document.body.scrollHeight")).intValue();
+		Browser browser = viewRenderer.getBrowser();
 		
 		Point oldSize = browser.getSize();
-		Image image = new Image(browser.getDisplay(), width, height);
+		Point printableArea = viewRenderer.getPrintableArea();
+		Point scrollPosition = viewRenderer.getScrollPosition();
         
-		//TODO: Restore scroll position
+		Image image = new Image(browser.getDisplay(), printableArea.x, printableArea.y);
+        
 		//TODO: Trim image
         GC gc = new GC(image);
-        browser.setSize(width, height);
+        browser.setSize(printableArea);
         browser.print(gc);
         browser.setSize(oldSize);
+        viewRenderer.setScrollPosition(scrollPosition);
         gc.dispose();
 
         Clipboard clipboard = new Clipboard(browser.getDisplay());

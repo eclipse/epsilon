@@ -51,10 +51,10 @@ import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
-import org.eclipse.epsilon.flexmi.dt.BrowserContainer;
 import org.eclipse.epsilon.flexmi.dt.FlexmiEditor;
 import org.eclipse.epsilon.flexmi.dt.PartListener;
 import org.eclipse.epsilon.flexmi.dt.RunnableWithException;
+import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
 import org.eclipse.gymnast.runtime.core.parser.ParseContext;
 import org.eclipse.gymnast.runtime.core.parser.ParseMessage;
 import org.eclipse.jface.action.Action;
@@ -88,13 +88,12 @@ import org.w3c.dom.ProcessingInstruction;
 public class PictoView extends ViewPart {
 	
 	public static final String ID = "org.eclipse.epsilon.picto.PictoView";
-
-	protected Browser browser;
+	
+	protected ViewRenderer viewRenderer;
 	protected BrowserContainer browserContainer;
 	protected IEditorPart editor;
 	protected EditorPropertyListener listener = new EditorPropertyListener();
 	protected TreeViewer treeViewer;
-	protected double zoom = 1.0;
 	protected SashForm sashForm;
 	protected int[] sashFormWeights = null;
 	protected File renderedFile = null;
@@ -130,15 +129,15 @@ public class PictoView extends ViewPart {
 					selectionHistory.put(renderedFile.getAbsolutePath(), view);
 					renderView(view);
 				} catch (Exception ex) {
-					display("<html><pre>" + ex.getMessage() + "</pre></html>");
+					viewRenderer.display("<html><pre>" + ex.getMessage() + "</pre></html>");
 				}
 			}
 		});
 		
 		browserContainer = new BrowserContainer(sashForm, SWT.NONE);
-		browser = new Browser(browserContainer, SWT.NONE);
+		viewRenderer = new ViewRenderer(new Browser(browserContainer, SWT.NONE));
 		
-		new BrowserFunction(browser, "showView") {
+		new BrowserFunction(viewRenderer.getBrowser(), "showView") {
 			public Object function(Object[] arguments) {
 				
 				if (arguments.length == 1) {
@@ -197,7 +196,7 @@ public class PictoView extends ViewPart {
 		barManager.add(new ZoomAction(ZoomType.ACTUAL));
 		barManager.add(new ZoomAction(ZoomType.OUT));
 		barManager.add(new Separator());
-		barManager.add(new CopyToClipboardAction(browser));
+		barManager.add(new CopyToClipboardAction(viewRenderer));
 		barManager.add(new PrintAction());
 		barManager.add(new SyncAction());
 		barManager.add(new LockAction());
@@ -209,7 +208,7 @@ public class PictoView extends ViewPart {
 	public void render(IEditorPart editor) {
 		
 		if (editor == null) {
-			nothingToRender();
+			viewRenderer.nothingToRender();
 		} else {
 			if (this.editor != null)
 				this.editor.removePropertyListener(listener);
@@ -242,9 +241,7 @@ public class PictoView extends ViewPart {
 		browserContainer.setBorderVisible(visible);
 	}
 	
-	public void nothingToRender() {
-		display("<html></html>");
-	}
+	
 	
 	@SuppressWarnings("resource")
 	public void renderEditorContent() {
@@ -366,11 +363,11 @@ public class PictoView extends ViewPart {
 		if (rerender) {
 			ViewTree selected = (ViewTree) treeViewer.getStructuredSelection().getFirstElement();
 			if (selected != null) {
-				if (selected.getContent() == null) nothingToRender();
+				if (selected.getContent() == null) viewRenderer.nothingToRender();
 				else renderView(selected);
 			}
 			else {
-				nothingToRender();
+				viewRenderer.nothingToRender();
 			}
 		} else {
 			
@@ -379,8 +376,7 @@ public class PictoView extends ViewPart {
 			
 			if (historicalView != null) {
 				selection = viewTree.forPath(historicalView.getPath());
-				selection.setScrollX(historicalView.getScrollX());
-				selection.setScrollY(historicalView.getScrollY());
+				selection.setScrollPosition(historicalView.getScrollPosition());
 			}
 			
 			if (selection == null) {
@@ -392,18 +388,17 @@ public class PictoView extends ViewPart {
 				treeViewer.refresh();
 			}
 			else {
-				nothingToRender();
+				viewRenderer.nothingToRender();
 			}
 		}
 	}
 	
 	protected void renderView(ViewTree view) throws Exception {
 		
+		Browser browser = viewRenderer.getBrowser();
+		
 		if (activeView != null) {
-			Double scrollX = (Double) browser.evaluate("return window.scrollX;");
-			Double scrollY = (Double) browser.evaluate("return window.scrollY;");
-			activeView.setScrollX(scrollX.intValue());
-			activeView.setScrollY(scrollY.intValue());
+			activeView.setScrollPosition(viewRenderer.getScrollPosition());
 		}
 		
 		activeView = view;
@@ -412,7 +407,7 @@ public class PictoView extends ViewPart {
 			
 			@Override
 			public void completed(ProgressEvent event) {
-				browser.evaluate("window.scroll(" + activeView.getScrollX() + ", " + activeView.getScrollY() + ");");
+				viewRenderer.setScrollPosition(activeView.getScrollPosition());
 				browser.removeProgressListener(this);
 			}
 			
@@ -424,7 +419,7 @@ public class PictoView extends ViewPart {
 		String content = view.getContent();
 		
 		if (format.equals("html")) {
-			display(content);
+			viewRenderer.display(content);
 		}
 		else if (format.startsWith("graphviz-")) {
 			
@@ -450,28 +445,20 @@ public class PictoView extends ViewPart {
 			p.waitFor();
 			
 			if (image.exists()) {
-				display("<html><body style=\"zoom:" + zoom + "\"><object data=\"" + image.getAbsolutePath() + "\" type=\"image/svg+xml\"></object></body></html>");
+				viewRenderer.display("<html><body style=\"zoom:" + viewRenderer.getZoom() + "\"><object data=\"" + image.getAbsolutePath() + "\" type=\"image/svg+xml\"></object></body></html>");
 			}
 			else if (log.exists()) {
-				display(log);
+				viewRenderer.display(log);
 			}
 		}
 		else if (format.equals("text")) {
 			File temp = File.createTempFile("picto-renderer", ".txt");
 			Files.write(Paths.get(temp.toURI()), content.getBytes());
-			display(temp);
+			viewRenderer.display(temp);
 		}
 		else {
-			nothingToRender();
+			viewRenderer.nothingToRender();
 		}
-	}
-	
-	protected void display(String text) {
-		browser.setText(text);
-	}
-	
-	protected void display(File file) {
-		browser.setUrl(URI.createFileURI(file.getAbsolutePath()).toString());
 	}
 	
 	@Override
@@ -483,7 +470,7 @@ public class PictoView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-		browser.setFocus();
+		viewRenderer.getBrowser().setFocus();
 	}
 
 	class EditorPropertyListener implements IPropertyListener {
@@ -504,14 +491,8 @@ public class PictoView extends ViewPart {
 		
 		@Override
 		public void run() {
-			browser.execute("javascript:window.print();");
+			viewRenderer.getBrowser().execute("javascript:window.print();");
 		}
-	}
-	
-	public enum ZoomType {
-		IN,
-		OUT,
-		ACTUAL
 	}
 	
 	class ZoomAction extends Action {
@@ -536,11 +517,7 @@ public class PictoView extends ViewPart {
 		
 		@Override
 		public void run() {
-			if (type == ZoomType.IN) zoom = Math.min(zoom + 0.1, 3.0);
-			else if (type == ZoomType.OUT) zoom = Math.max(0, zoom - 0.1);
-			else zoom = 1.0;
-			
-			browser.execute("javascript:document.body.style.zoom=" + zoom + ";");
+			viewRenderer.zoom(type);
 		}
 	}
 	

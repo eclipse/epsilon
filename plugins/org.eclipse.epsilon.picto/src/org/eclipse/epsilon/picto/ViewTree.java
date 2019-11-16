@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.swt.graphics.Point;
+
 public class ViewTree {
 	
 	protected List<ViewTree> children = new ArrayList<>();
@@ -21,8 +23,7 @@ public class ViewTree {
 	protected String format = "html";
 	protected String icon = "folder";
 	protected ViewTree parent;
-	protected int scrollX;
-	protected int scrollY;
+	protected Point scrollPosition = new Point(0, 0);
 	
 	public static void main(String[] args) {
 		
@@ -156,20 +157,12 @@ public class ViewTree {
 		return icon;
 	}
 	
-	public int getScrollX() {
-		return scrollX;
+	public Point getScrollPosition() {
+		return scrollPosition;
 	}
-
-	public void setScrollX(int scrollX) {
-		this.scrollX = scrollX;
-	}
-
-	public int getScrollY() {
-		return scrollY;
-	}
-
-	public void setScrollY(int scrollY) {
-		this.scrollY = scrollY;
+	
+	public void setScrollPosition(Point scrollPosition) {
+		this.scrollPosition = scrollPosition;
 	}
 
 	@Override
