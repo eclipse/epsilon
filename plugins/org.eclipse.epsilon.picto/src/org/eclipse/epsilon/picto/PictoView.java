@@ -108,15 +108,6 @@ public class PictoView extends ViewPart {
 		
 		try { tempDir = Files.createTempDirectory("picto").toFile(); } catch (IOException e) {}
 		
-		IToolBarManager barManager = getViewSite().getActionBars().getToolBarManager();
-		barManager.add(new ZoomAction(ZoomType.IN));
-		barManager.add(new ZoomAction(ZoomType.ACTUAL));
-		barManager.add(new ZoomAction(ZoomType.OUT));
-		barManager.add(new Separator());
-		barManager.add(new PrintAction());
-		barManager.add(new SyncAction());
-		barManager.add(new LockAction());
-		
 		sashForm = new SashForm(parent, SWT.HORIZONTAL);
 		
 		PatternFilter filter = new PatternFilter() {
@@ -200,6 +191,16 @@ public class PictoView extends ViewPart {
 				}
 			}
 		};
+		
+		IToolBarManager barManager = getViewSite().getActionBars().getToolBarManager();
+		barManager.add(new ZoomAction(ZoomType.IN));
+		barManager.add(new ZoomAction(ZoomType.ACTUAL));
+		barManager.add(new ZoomAction(ZoomType.OUT));
+		barManager.add(new Separator());
+		barManager.add(new CopyToClipboardAction(browser));
+		barManager.add(new PrintAction());
+		barManager.add(new SyncAction());
+		barManager.add(new LockAction());
 		
 		this.getSite().getPage().addPartListener(partListener);
 
