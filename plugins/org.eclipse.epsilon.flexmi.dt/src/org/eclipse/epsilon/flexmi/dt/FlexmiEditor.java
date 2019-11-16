@@ -46,7 +46,7 @@ import org.xml.sax.SAXParseException;
 public class FlexmiEditor extends TextEditor {
 
 	private ColorManager colorManager;
-	protected Job parseModuleJob = null;
+	protected Job parseResourceJob = null;
 	protected FlexmiContentOutlinePage outlinePage = null;
 	protected FlexmiResource resource = null;
 	protected IFile file;
@@ -73,7 +73,7 @@ public class FlexmiEditor extends TextEditor {
 		
 		final int delay = 1000;
 		
-		parseModuleJob = new Job("Parsing module") {
+		parseResourceJob = new Job("Parsing module") {
 			
 			protected int status = -1;
 			
@@ -83,7 +83,7 @@ public class FlexmiEditor extends TextEditor {
 				if (!isClosed()) {
 					int textHashCode = getText().hashCode();
 					if (status != textHashCode) {
-						parseModule();
+						parseResource();
 						status = textHashCode;
 					}
 					
@@ -94,8 +94,8 @@ public class FlexmiEditor extends TextEditor {
 			}
 		};
 		
-		parseModuleJob.setSystem(true);
-		parseModuleJob.schedule(delay);
+		parseResourceJob.setSystem(true);
+		parseResourceJob.schedule(delay);
 		
 	}
 	
@@ -104,7 +104,7 @@ public class FlexmiEditor extends TextEditor {
 		super.doSetSelection(selection);
 	}
 	
-	public void parseModule() {
+	public void parseResource() {
 		
 		// Return early if the file is opened in an unexpected editor (e.g. in a Subclipse RemoteFileEditor)
 		if (!(getEditorInput() instanceof FileEditorInput)) return;
