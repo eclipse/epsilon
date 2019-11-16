@@ -9,54 +9,40 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
-import org.eclipse.core.resources.IFile;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-import org.eclipse.emf.emfatic.core.generator.ecore.Builder;
-import org.eclipse.emf.emfatic.core.generator.ecore.Connector;
-import org.eclipse.emf.emfatic.core.generator.ecore.EmfaticSemanticWarning;
-import org.eclipse.emf.emfatic.core.lang.gen.parser.EmfaticParserDriver;
-import org.eclipse.emf.emfatic.ui.editor.EmfaticEditor;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
-import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.EgxModule;
+import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.flexmi.FlexmiResource;
-import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
-import org.eclipse.epsilon.flexmi.dt.FlexmiEditor;
 import org.eclipse.epsilon.flexmi.dt.PartListener;
 import org.eclipse.epsilon.flexmi.dt.RunnableWithException;
 import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
-import org.eclipse.gymnast.runtime.core.parser.ParseContext;
-import org.eclipse.gymnast.runtime.core.parser.ParseMessage;
+import org.eclipse.epsilon.picto.source.DotSource;
+import org.eclipse.epsilon.picto.source.EditingDomainProviderSource;
+import org.eclipse.epsilon.picto.source.EmfaticSource;
+import org.eclipse.epsilon.picto.source.FlexmiSource;
+
+import org.eclipse.epsilon.picto.source.NeatoSource;import org.eclipse.epsilon.picto.source.HtmlSource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
@@ -72,9 +58,7 @@ import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
@@ -83,7 +67,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.part.ViewPart;
-import org.w3c.dom.ProcessingInstruction;
 
 public class PictoView extends ViewPart {
 	
@@ -101,6 +84,14 @@ public class PictoView extends ViewPart {
 	protected HashMap<String, ViewTree> selectionHistory = new HashMap<>();
 	protected File tempDir = null;
 	protected ViewTree activeView = null;
+	protected List<PictoSource> sources = 
+			Arrays.asList(
+					new EmfaticSource(), 
+					new EditingDomainProviderSource(), 
+					new FlexmiSource(),
+					new HtmlSource(),
+					new DotSource(),
+					new NeatoSource());
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -174,7 +165,7 @@ public class PictoView extends ViewPart {
 			public void partActivated(IWorkbenchPartReference partRef) {
 				if (locked) return;
 				IWorkbenchPart part = partRef.getPart(false);
-				if (editor != part && supports(part)) {
+				if (editor != part && part instanceof IEditorPart && supports((IEditorPart) part)) {
 					render((IEditorPart) part);
 				}
 			}
@@ -182,10 +173,13 @@ public class PictoView extends ViewPart {
 			@Override
 			public void partClosed(IWorkbenchPartReference partRef) {
 				if (locked) return;
-				if (partRef.getPart(false) == PictoView.this) {
+				IWorkbenchPart workbenchPart = partRef.getPart(false);
+				if (!(workbenchPart instanceof IEditorPart)) return;
+				IEditorPart editorPart = (IEditorPart) workbenchPart;
+				if (editorPart == PictoView.this) {
 					getSite().getPage().removePartListener(this);
 				}
-				else if (supports(partRef.getPart(false))) {
+				else if (supports(editorPart)) {
 					render(null);
 				}
 			}
@@ -247,14 +241,17 @@ public class PictoView extends ViewPart {
 	public void renderEditorContent() {
 
 		try {
-			while (getFile(editor) == null) { Thread.sleep(100); }
 			
-			File modelFile = new File(getFile(editor).getLocation().toOSString());
+			PictoSource source = getSource(editor);
+			
+			while (source.getFile(editor) == null) { Thread.sleep(100); }
+			
+			File modelFile = new File(source.getFile(editor).getLocation().toOSString());
 			boolean rerender = renderedFile != null && renderedFile.getAbsolutePath().equals(modelFile.getAbsolutePath());
 			renderedFile = modelFile;
 			
-			Resource resource = getResource(editor);
-			PictoMetadata renderingMetadata = getRenderingMetadata(editor);
+			Resource resource = source.getResource(editor);
+			PictoMetadata renderingMetadata = source.getRenderingMetadata(editor);
 			
 			if (renderingMetadata != null) {
 			
@@ -280,7 +277,10 @@ public class PictoView extends ViewPart {
 				
 				if (renderingMetadata.getFile() == null) throw new Exception("No EGL file specified.");
 				
-				File eglFile = new File(modelFile.getParentFile(), renderingMetadata.getFile());
+				File eglFile = new File(renderingMetadata.getFile()); 
+				if (!eglFile.isAbsolute()) {
+					eglFile = new File(modelFile.getParentFile(), renderingMetadata.getFile());
+				}
 				
 				if (!eglFile.exists()) throw new Exception("Cannot find file " + eglFile.getAbsolutePath());
 				
@@ -545,106 +545,13 @@ public class PictoView extends ViewPart {
 		}
 	}
 	
-	protected PictoMetadata getRenderingMetadata(IEditorPart editorPart) {
-		if (editor instanceof FlexmiEditor) {
-			FlexmiResource resource = (FlexmiResource) getResource(editorPart);
-			ProcessingInstruction renderProcessingInstruction = (ProcessingInstruction) ((FlexmiResource) resource).
-						getProcessingInstructions().stream().filter(p -> p.getTarget().startsWith("render-")).findFirst().orElse(null);
-			if (renderProcessingInstruction != null) {
-				PictoMetadata metadata = new PictoMetadata();
-				metadata.setFormat(renderProcessingInstruction.getTarget().substring("render-".length()));
-				metadata.setFile(renderProcessingInstruction.getData().trim());
-				return metadata;
-			}
-		}
-		else if (editor instanceof IEditingDomainProvider || editor instanceof EmfaticEditor) {
-			IFile file = getFile(editorPart);
-			IFile renderingMetadataFile = file.getParent().getFile(Path.fromPortableString(file.getName() + ".picto"));
-			if (renderingMetadataFile.exists()) {
-				PictoMetadata metadata = new PictoMetadata();
-				Properties properties = new Properties();
-				try {
-					properties.load(renderingMetadataFile.getContents(true));
-					metadata.setFormat(properties.getProperty("format", "text"));
-					metadata.setFile(properties.getProperty("file"));
-					metadata.setNsuri(properties.getProperty("nsuri"));
-					return metadata;
-				} catch (Exception e) {
-					LogUtil.log(e);
-				}
-			}
-		}
-		return null;
+	protected boolean supports(IEditorPart editorPart) {
+		return getSource(editorPart) != null;
 	}
 	
-	protected Resource getResource(IEditorPart editorPart) {
-		if (editorPart instanceof FlexmiEditor) {
-			IFile file = getFile(editorPart);
-			ResourceSet resourceSet = new ResourceSetImpl();
-			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
-			Resource resource = resourceSet.createResource(URI.createFileURI(file.getLocation().toOSString()));
-			try {
-				resource.load(null);
-				return resource;
-			} catch (IOException e) {
-				LogUtil.log(e);
-			}
-		}
-		else if (editorPart instanceof EmfaticEditor) {
-			try {
-				BufferedReader reader = new BufferedReader(new InputStreamReader(getFile(editorPart).getContents()));
-				EmfaticParserDriver parser = new EmfaticParserDriver(URI.createFileURI("some.emf"));
-				ParseContext parseContext = parser.parse(reader);
-				ResourceSet resourceSet = new ResourceSetImpl();
-				resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new ResourceFactoryImpl());
-				Resource resource = resourceSet.createResource(URI.createFileURI("some.ecore"));
-				Builder builder = new Builder();
-				NullProgressMonitor monitor = new NullProgressMonitor();
-				builder.build(parseContext, resource, monitor);
-				if (!parseContext.hasErrors()) {
-					Connector connector = new Connector(builder);
-					connector.connect(parseContext, resource, monitor);
-				}
-				
-				boolean showStopper = false;
-				for (ParseMessage pm : parseContext.getMessages()) {
-					showStopper |= !(pm instanceof EmfaticSemanticWarning.EcoreValidatorDiagnostic);
-				}
-				
-				if (!showStopper) {
-					return resource;
-				}
-			} catch (Exception ex) {
-				LogUtil.log(ex);
-			}
-		}
- 		else if (editorPart instanceof IEditingDomainProvider) {
-			return ((IEditingDomainProvider) editorPart).getEditingDomain().getResourceSet().getResources().get(0);
-		}
-		
-		return null;
-	}
-	
-	protected boolean supports(IWorkbenchPart editorPart) {
-		return editorPart instanceof FlexmiEditor || 
-				editorPart instanceof EmfaticEditor || 
-				editorPart instanceof IEditingDomainProvider;
-	}
-	
-	protected IFile getFile(IEditorPart editorPart) {
-		if (editorPart instanceof FlexmiEditor) {
-			return ((FlexmiEditor) editorPart).getFile();
-		}
-		else if (editorPart instanceof EmfaticEditor) {
-			return ((EmfaticEditor) editorPart).getFile();
-		}
-		else if (editorPart instanceof IEditingDomainProvider) {
-			IEditorInput input = editorPart.getEditorInput();
-			if (input instanceof IFileEditorInput) {
-				return ((IFileEditorInput)input).getFile();
-			}
-			else 
-				return null;
+	protected PictoSource getSource(IEditorPart editorPart) {
+		for (PictoSource source : sources) {
+			if (source.supports(editorPart)) return source;
 		}
 		return null;
 	}
