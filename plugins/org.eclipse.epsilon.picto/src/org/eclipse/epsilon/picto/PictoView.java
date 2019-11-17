@@ -31,6 +31,7 @@ import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
+import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -154,7 +155,7 @@ public class PictoView extends ViewPart {
 		setTreeViewerVisible(false);
 		
 		IEditorPart activeEditor = getSite().getPage().getActiveEditor();
-		if (supports(activeEditor)) {
+		if (activeEditor != null && supports(activeEditor)) {
 			render(activeEditor);
 		} else {
 			render(null);
