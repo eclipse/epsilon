@@ -18,36 +18,36 @@ import org.eclipse.swt.graphics.Point;
 public class ViewTree {
 	
 	protected List<ViewTree> children = new ArrayList<>();
-	protected String content = "";
-	protected String name;
+	protected ContentPromise promise;
+	protected String name = "";
 	protected String format = "html";
 	protected String icon = "folder";
 	protected ViewTree parent;
 	protected Point scrollPosition = new Point(0, 0);
+	protected String cachedContent = null;
 	
 	public static void main(String[] args) {
 		
 		ViewTree pathTree = new ViewTree("");
-		pathTree.addPath(Arrays.asList("e1", "e2"), "c1", "text", "");
-		pathTree.addPath(Arrays.asList("e1", "e3", "e4"), "c2", "text", "");
+		pathTree.addPath(Arrays.asList("e1", "e2"), new StringContentPromise("c1"), "text", "");
+		pathTree.addPath(Arrays.asList("e1", "e3", "e4"), new StringContentPromise("c2"), "text", "");
 		ViewTree result = pathTree.forPath(Arrays.asList("", "e1", "e3", "e4"));
 		System.out.println(result.getPath());
 		
 	}
 	
 	public ViewTree() {}
-	
-	public ViewTree(String content, String format) {
-		super();
-		this.content = content;
-		this.format = format;
-	}
 
 	public ViewTree(String name) {
 		this.name = name;
 	}
 	
-	public void addPath(List<String> path, String content, String format, String icon) {
+	public ViewTree(String content, String format) {
+		this.promise = new StringContentPromise(content);
+		this.format = format;
+	}
+	
+	public void addPath(List<String> path, ContentPromise promise, String format, String icon) {
 		
 		if (path.size() > 1) {
 			String name = path.get(0);
@@ -64,7 +64,7 @@ public class ViewTree {
 				children.add(child);
 			}
 			
-			child.addPath(rest, content, format, icon);
+			child.addPath(rest, promise, format, icon);
 		}
 		else if (path.size() == 1) {
 			ViewTree child = null;
@@ -80,7 +80,7 @@ public class ViewTree {
 			}
 			
 			child.setFormat(format);
-			child.setContent(content);
+			child.setPromise(promise);
 			child.setIcon(icon);
 		}
 	}
@@ -96,7 +96,7 @@ public class ViewTree {
 				if (child.getName().equals(otherChild.getName())) {
 					counterpart = otherChild;
 					fresh.remove(counterpart);
-					child.setContent(counterpart.getContent());
+					child.setPromise(counterpart.getPromise());
 					child.setFormat(counterpart.getFormat());
 					child.setIcon(counterpart.getIcon());
 					child.ingest(counterpart);
@@ -134,11 +134,27 @@ public class ViewTree {
 	}
 	
 	public String getContent() {
-		return content;
+		
+		if (cachedContent == null) {
+			try {
+				cachedContent = promise.getContent();
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return cachedContent;
 	}
 	
-	public void setContent(String content) {
-		this.content = content;
+	public void setPromise(ContentPromise promise) {
+		if (promise != this.promise) {
+			this.promise = promise;
+			cachedContent = null;
+		}
+	}
+	
+	public ContentPromise getPromise() {
+		return promise;
 	}
 	
 	public String getFormat() {
@@ -195,7 +211,7 @@ public class ViewTree {
 	}
 	
 	public ViewTree getFirstWithContent() {
-		if (content != null && content.length()>0) return this;
+		if (promise != null) return this;
 		for (ViewTree child : getChildren()) {
 			ViewTree result = child.getFirstWithContent();
 			if (result != null) return result;

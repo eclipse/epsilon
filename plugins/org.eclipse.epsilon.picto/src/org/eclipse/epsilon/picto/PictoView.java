@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,22 +29,23 @@ import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
+import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
-import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
-import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flexmi.dt.PartListener;
 import org.eclipse.epsilon.flexmi.dt.RunnableWithException;
+import org.eclipse.epsilon.picto.LazyEgxModule.LazyGenerationRuleContentPromise;
 import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
 import org.eclipse.epsilon.picto.source.DotSource;
 import org.eclipse.epsilon.picto.source.EditingDomainProviderSource;
 import org.eclipse.epsilon.picto.source.EmfaticSource;
 import org.eclipse.epsilon.picto.source.FlexmiSource;
-
-import org.eclipse.epsilon.picto.source.NeatoSource;import org.eclipse.epsilon.picto.source.HtmlSource;
+import org.eclipse.epsilon.picto.source.HtmlSource;
+import org.eclipse.epsilon.picto.source.NeatoSource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
@@ -105,7 +107,7 @@ public class PictoView extends ViewPart {
 			@Override
 			protected boolean isLeafMatch(Viewer viewer, Object element) {
 				ViewTree viewTree = (ViewTree) element;
-				return wordMatches(viewTree.getName()) || (viewTree.getContent() != null && wordMatches(viewTree.getContent()));
+				return wordMatches(viewTree.getName());
 			}
 		};
 		FilteredTree filteredTree = new FilteredTree(sashForm, SWT.MULTI | SWT.H_SCROLL
@@ -238,7 +240,7 @@ public class PictoView extends ViewPart {
 	
 	
 	
-	@SuppressWarnings("resource")
+	@SuppressWarnings({ "resource", "unchecked" })
 	public void renderEditorContent() {
 
 		try {
@@ -270,7 +272,7 @@ public class PictoView extends ViewPart {
 				model.setExpand(false);	
 				
 				if (renderingMetadata.getFormat().equals("egx")) {
-					module = new EgxModule();
+					module = new LazyEgxModule();
 				}
 				else {
 					module = new EglTemplateFactoryModuleAdapter(new EglFileGeneratingTemplateFactory());
@@ -294,16 +296,35 @@ public class PictoView extends ViewPart {
 				context.getModelRepository().addModel(model);
 				
 				if (renderingMetadata.getFormat().equals("egx")) {
-					RenderingEglTemplateFactory templateFactory = new RenderingEglTemplateFactory(tempDir);
+					
+					EglTemplateFactory templateFactory = new EglTemplateFactory();
 					templateFactory.setTemplateRoot(eglFile.getParentFile().getAbsolutePath());
 					((IEgxModule) module).getContext().setTemplateFactory(templateFactory);
-					module.execute();
+					
+					ViewTree viewTree = new ViewTree();
+					
+					List<LazyGenerationRuleContentPromise> instances = (List<LazyGenerationRuleContentPromise>) module.execute();
+					for (LazyGenerationRuleContentPromise instance : instances) {
+						String format = "html";
+						String icon = "cccccc";
+						Collection<String> path = new ArrayList<>(Arrays.asList(""));
+						
+						for (Variable variable : instance.getVariables()) {
+							switch (variable.getName()) {
+							case "format": format = variable.getValue() + ""; break;
+							case "path": path = (Collection<String>) variable.getValue(); break;
+							case "icon": icon = variable.getValue() + ""; break;
+							}
+						}
+						
+						viewTree.addPath(new ArrayList<>(path), instance, format, icon);
+					}
 					
 					runInUIThread(new RunnableWithException() {
 						
 						@Override
 						public void runWithException() throws Exception {
-							setViewTree(templateFactory.getViewTree(), rerender);
+							setViewTree(viewTree, rerender);
 							setTreeViewerVisible(true);
 						}
 					});
@@ -316,7 +337,7 @@ public class PictoView extends ViewPart {
 						@Override
 						public void runWithException() throws Exception {
 							if (!rerender) activeView = new ViewTree();
-							activeView.setContent(content);
+							activeView.setPromise(new StringContentPromise(content));
 							activeView.setFormat(renderingMetadata.getFormat());
 							setTreeViewerVisible(false);
 							renderView(activeView);
@@ -377,7 +398,8 @@ public class PictoView extends ViewPart {
 			
 			if (historicalView != null) {
 				selection = viewTree.forPath(historicalView.getPath());
-				selection.setScrollPosition(historicalView.getScrollPosition());
+				if (selection != null)
+					selection.setScrollPosition(historicalView.getScrollPosition());
 			}
 			
 			if (selection == null) {

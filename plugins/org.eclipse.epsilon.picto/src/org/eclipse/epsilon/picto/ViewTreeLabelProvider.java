@@ -35,25 +35,20 @@ public class ViewTreeLabelProvider extends LabelProvider {
 	public Image getImage(Object element) {
 		
 		ViewTree contentTree = (ViewTree) element;
-		if (contentTree.getContent() != null) {
-			String iconName = contentTree.getIcon();
-			Image icon = iconImages.get(iconName);
-			
-			if (icon == null) {
-				if (iconName.matches("diagram-.*")) {
-					icon = getColoredDiagramIcon(iconName.replace("diagram-", ""));
-				}
-				else {
-					icon = Activator.getDefault().getImageDescriptor("icons/" + iconName + ".gif").createImage();
-				}
-				iconImages.put(contentTree.getIcon(), icon);
+		String iconName = contentTree.getIcon();
+		Image icon = iconImages.get(iconName);
+		
+		if (icon == null) {
+			if (iconName.matches("diagram-.*")) {
+				icon = getColoredDiagramIcon(iconName.replace("diagram-", ""));
 			}
-			
-			return icon;
+			else {
+				icon = Activator.getDefault().getImageDescriptor("icons/" + iconName + ".gif").createImage();
+			}
+			iconImages.put(contentTree.getIcon(), icon);
 		}
-		else {
-			return folderImage;
-		}
+		
+		return icon;
 	}
 	
 	protected Image getColoredDiagramIcon(String color) {
