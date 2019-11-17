@@ -93,6 +93,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		}
 		
 		if (guardBlock != null && !guardBlock.execute(context, false)) {
+			frameStack.leaveLocal(this);
 			return null;
 		}
 		
