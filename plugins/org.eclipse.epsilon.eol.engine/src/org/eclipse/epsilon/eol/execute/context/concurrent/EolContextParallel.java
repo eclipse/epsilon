@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
-import org.eclipse.epsilon.common.concurrent.ConcurrentBaseDelegate;
+import org.eclipse.epsilon.common.function.BaseDelegate;
 import org.eclipse.epsilon.common.function.BaseDelegate.MergeMode;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
@@ -74,7 +74,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM;
 		// This will be the "base" of others, so make it thread-safe for concurrent reads
 		frameStack.setThreadSafe(true);
-		executorFactory.setThreadSafe(true);
 	}
 	
 	/**
@@ -87,7 +86,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	protected EolContextParallel(IEolContext other) {
 		super(other);
 		frameStack.setThreadSafe(true);
-		executorFactory.setThreadSafe(true);
 		
 		if (other instanceof IEolContextParallel) {
 			numThreads = ((IEolContextParallel) other).getParallelism();
@@ -97,13 +95,13 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		}
 	}
 	
-	protected synchronized void initThreadLocals() {
+	protected void initThreadLocals() {
 		concurrentMethodContributors = ThreadLocal.withInitial(OperationContributorRegistry::new);
 		concurrentFrameStacks = initDelegateThreadLocal(() -> new FrameStack(frameStack, false));
-		concurrentExecutorFactories = initDelegateThreadLocal(() -> new ExecutorFactory(executorFactory, false));
+		concurrentExecutorFactories = initDelegateThreadLocal(() -> new ExecutorFactory(executorFactory));
 	}
 	
-	protected <T extends ConcurrentBaseDelegate<T>> DelegatePersistentThreadLocal<T> initDelegateThreadLocal(Supplier<? extends T> constructor) {
+	protected <T extends BaseDelegate<T>> DelegatePersistentThreadLocal<T> initDelegateThreadLocal(Supplier<? extends T> constructor) {
 		return new DelegatePersistentThreadLocal<>(numThreads, constructor);
 	}
 	
@@ -115,7 +113,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @return <code>true</code> if the ThreadLocal should be used, <code>false</code> otherwise.
 	 */
 	protected boolean useThreadLocalValue() {
-		return !ConcurrencyUtils.isTopLevelThread();
+		return isInParallelTask;//!ConcurrencyUtils.isTopLevelThread();
 	}
 	
 	/**
@@ -187,7 +185,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		concurrentMethodContributors = null;
 	}
 	
-	protected synchronized void clearExecutor() {
+	protected void clearExecutor() {
 		if (executorService != null) {
 			executorService.shutdownNow();
 			executorService = null;

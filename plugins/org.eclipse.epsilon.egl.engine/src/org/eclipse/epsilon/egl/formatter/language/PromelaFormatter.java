@@ -76,7 +76,7 @@ public class PromelaFormatter implements Formatter {
 		}
 		
 		
-		private static class PromelaLineFactory implements LineFactory<PromelaLine> {
+		static class PromelaLineFactory implements LineFactory<PromelaLine> {
 
 			@Override
 			public PromelaLine createLine(String rawLine) {
@@ -85,7 +85,7 @@ public class PromelaFormatter implements Formatter {
 			
 		}
 		
-		private static class PromelaLine extends Line {
+		static class PromelaLine extends Line {
 
 			public PromelaLine(String rawLine) {
 				super(rawLine);

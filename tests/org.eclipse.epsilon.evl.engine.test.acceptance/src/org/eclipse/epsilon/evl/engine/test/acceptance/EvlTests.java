@@ -16,6 +16,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.common.util.FileUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
@@ -26,7 +27,6 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
-import org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelAtomic;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.dom.ConstraintSelectTransfomer;
@@ -287,12 +287,10 @@ public class EvlTests {
 				"Exception must have Epsilon trace " +
 					System.lineSeparator() + module.getClass().getName() + System.lineSeparator() + ex
 				,
-				module instanceof EvlModuleParallelAtomic || (
-				message != null &&
-				message.length() > 0 &&
-				!message.equalsIgnoreCase("Unknown reason") &&
-				message.split("\\n").length > 1
-			));
+				!StringUtil.isEmpty(message) &&
+				!message.equalsIgnoreCase("Unknown reason")// &&
+				//message.split("\\n").length > 1
+			);
 			return;
 		}
 		fail("No exception thrown! "+module.getClass().getName());

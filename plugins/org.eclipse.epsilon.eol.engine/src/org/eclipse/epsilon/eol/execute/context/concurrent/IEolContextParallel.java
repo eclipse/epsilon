@@ -144,9 +144,8 @@ public interface IEolContextParallel extends IEolContext {
 	 */
 	default <T> List<T> executeAll(ModuleElement entryPoint, Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
 		final ExecutorService executor = beginParallelTask(entryPoint);
-		List<T> results;
+		List<T> results = new ArrayList<>(jobs.size());
 		try {
-			results = new ArrayList<>(jobs.size());
 			for (Future<? extends T> future : executor.invokeAll(jobs)) {
 				results.add(future.get());
 			}
@@ -154,7 +153,6 @@ public interface IEolContextParallel extends IEolContext {
 		catch (InterruptedException | ExecutionException ex) {
 			EolRuntimeException.propagateDetailed(ex);
 			assert false : "This should never be reached";
-			results = null;
 		}
 		endParallelTask();
 		return results;
@@ -172,14 +170,13 @@ public interface IEolContextParallel extends IEolContext {
 	 */
 	default <T> T executeAny(ModuleElement entryPoint, Collection<? extends Callable<? extends T>> jobs) throws EolRuntimeException {
 		final ExecutorService executor = beginParallelTask(entryPoint, true);
-		T result;
+		T result = null;
 		try {
 			result = executor.invokeAny(jobs);
 		}
 		catch (InterruptedException | ExecutionException ex) {
 			EolRuntimeException.propagateDetailed(ex);
 			assert false : "This should never be reached";
-			result = null;
 		}
 		endParallelTask();
 		return result;

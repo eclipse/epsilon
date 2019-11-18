@@ -13,9 +13,8 @@ package org.eclipse.epsilon.eol.execute;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
-import org.eclipse.epsilon.common.concurrent.ConcurrentBaseDelegate;
+import org.eclipse.epsilon.common.function.BaseDelegate;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
@@ -26,7 +25,7 @@ import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolTerminationException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.*;
 
-public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> {
+public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 	
 	protected ExecutionController executionController;
 	protected ModuleElement activeModuleElement;
@@ -44,19 +43,9 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 	 * @since 1.6
 	 */
 	public ExecutorFactory(ExecutorFactory parent) {
-		this(parent, false);
-	}
-	
-	/**
-	 * 
-	 * @param parent
-	 * @param concurrent
-	 * @since 1.6
-	 */
-	public ExecutorFactory(ExecutorFactory parent, boolean concurrent) {
 		this.base = parent;
 		executionController = new DefaultExecutionController();
-		executionListeners = concurrent ? new ConcurrentLinkedQueue<>() : new ArrayList<>(2);
+		executionListeners = new ArrayList<>(2);
 		/*if (base != null) {
 			executionListeners.addAll(base.executionListeners
 				.stream()
@@ -64,9 +53,8 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 				.collect(Collectors.toSet())
 			);
 		}*/
-		setStackTraceManager(new StackTraceManager(concurrent));
+		setStackTraceManager(new StackTraceManager());
 	}
-
 	
 	public void addExecutionListener(IExecutionListener listener) {
 		executionListeners.add(listener);
@@ -282,35 +270,12 @@ public class ExecutorFactory implements ConcurrentBaseDelegate<ExecutorFactory> 
 	 * @since 1.6
 	 */
 	@Override
-	public boolean isThreadSafe() {
-		return stackTraceManager.isThreadSafe();
-	}
-
-	/**
-	 * @since 1.6
-	 */
-	@Override
-	public void setThreadSafe(boolean concurrent) {
-		if (concurrent != isThreadSafe()) {
-			stackTraceManager.setThreadSafe(concurrent);
-			executionListeners = concurrent ?
-				new ConcurrentLinkedQueue<>(executionListeners) :
-				new ArrayList<>(executionListeners);
-			
-		}
-	}
-	
-	/**
-	 * @since 1.6
-	 */
-	@Override
 	public void merge(MergeMode mode) {
 		mergeCollectionsUnique(
 			ef -> ef.executionListeners
 				.stream()
 				.filter(el -> el != ef.stackTraceManager && el != this.stackTraceManager)
 				.collect(Collectors.toList()),
-			ConcurrentLinkedQueue::new,
 			ArrayList::new,
 			mode
 		);

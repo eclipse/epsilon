@@ -25,20 +25,7 @@ public class StackTraceManager implements IExecutionListener {
 	 * or by using a {@linkplain ConcurrentLinkedDeque}
 	 * @since 1.6
 	 */
-	Deque<ModuleElement> stackTrace;
-	
-	public StackTraceManager() {
-		this(false);
-	}
-	
-	/**
-	 * 
-	 * @param concurrent
-	 * @since 1.6
-	 */
-	public StackTraceManager(boolean concurrent) {
-		stackTrace = concurrent ? new ConcurrentLinkedDeque<>() : new ArrayDeque<>();
-	}
+	Deque<ModuleElement> stackTrace = new ArrayDeque<>();
 	
 	@Override
 	public void aboutToExecute(ModuleElement ast, IEolContext context) {
@@ -89,28 +76,6 @@ public class StackTraceManager implements IExecutionListener {
 				+ ast.getRegion().getStart().getColumn() + "-" + 
 				ast.getRegion().getEnd().getLine() + ":" +
 				ast.getRegion().getEnd().getColumn() + ")";
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @since 1.6
-	 */
-	public boolean isThreadSafe() {
-		return stackTrace instanceof ConcurrentLinkedDeque;
-	}
-	
-	/**
-	 * 
-	 * @param concurrent
-	 * @since 1.6
-	 */
-	public void setThreadSafe(boolean concurrent) {
-		if (concurrent != isThreadSafe()) {
-			stackTrace = concurrent ?
-				new ConcurrentLinkedDeque<>(stackTrace) :
-				new ArrayDeque<>(stackTrace);
-		}
 	}
 	
 	@Override

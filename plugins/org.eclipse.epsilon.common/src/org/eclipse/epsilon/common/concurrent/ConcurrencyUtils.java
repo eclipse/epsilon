@@ -22,12 +22,12 @@ public class ConcurrencyUtils {
 	
 	public static final Thread TOP_LEVEL_THREAD = Thread.currentThread();
 	
-	public static boolean isMainThread() {
+	public static final boolean isMainThread() {
 		return Thread.currentThread().getName().equals("main");
 	}
 	
-	public static boolean isTopLevelThread() {
-		return Thread.currentThread().equals(TOP_LEVEL_THREAD);
+	public static final boolean isTopLevelThread() {
+		return Thread.currentThread() == TOP_LEVEL_THREAD;
 	}
 	
 	/**

@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.concurrent;
 
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -41,7 +41,7 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 		for (final ConstraintContext constraintContext : getConstraintContexts()) {
 			final Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
 			final Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
-			final Collection<Callable<?>> jobs = new ArrayDeque<>(allOfKind.size());
+			final Collection<Callable<?>> jobs = new ArrayList<>(allOfKind.size());
 			
 			for (Object element : allOfKind) {
 				jobs.add(() -> constraintContext.execute(constraintsToCheck, element, context));
