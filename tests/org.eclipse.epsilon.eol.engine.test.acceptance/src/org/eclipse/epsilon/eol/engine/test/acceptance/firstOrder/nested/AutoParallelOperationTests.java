@@ -25,7 +25,8 @@ public class AutoParallelOperationTests {
 	IEolModule module;
 	String code,
 		pre = "var Thread = Native(\"java.lang.Thread\");\n",
-		isMain = "(Thread.currentThread().getName() == \"main\")";
+		isMain = "(Thread.currentThread().getName() == \"main\")",
+		sequence = "Sequence{-16.."+Runtime.getRuntime().availableProcessors()*2+"}";
 	
 	Object execute() throws Exception {
 		module.parse(pre+"\nreturn "+code);
@@ -47,7 +48,7 @@ public class AutoParallelOperationTests {
 	
 	@Test
 	public void testL1Nesting() throws Exception {
-		code = "Sequence{-16..25}"
+		code =sequence
 			+ ".reject(i | i < 0 or "+isMain+")"
 			+ ".collect(i | i.hashCode().asString().toCharSequence())"
 			+ ".select(cs | not "+isMain+" and cs"
@@ -60,7 +61,7 @@ public class AutoParallelOperationTests {
 	
 	@Test
 	public void testSequentialNesting() throws Exception {
-		code = "Sequence{-16..25}"
+		code = sequence
 			+ ".sequentialReject(i | i < 0 and "+isMain+")"
 			+ ".sequentialCollect(i | i.hashCode().asString().toCharSequence())"
 			+ ".sequentialSelect(cs | "+isMain+" and cs"

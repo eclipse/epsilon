@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.execute.context.concurrent;
 
-import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -51,7 +51,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	@Override
 	protected void initThreadLocals() {
 		super.initThreadLocals();
-		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(getParallelism(), ArrayDeque::new);
+		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(getParallelism(), LinkedList::new);
 	}
 	
 	@Override
