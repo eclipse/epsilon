@@ -49,7 +49,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	}
 	
 	@Override
-	protected void initThreadLocals() {
+	protected synchronized void initThreadLocals() {
 		super.initThreadLocals();
 		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(getParallelism(), LinkedList::new);
 	}

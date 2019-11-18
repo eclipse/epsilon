@@ -187,7 +187,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		concurrentMethodContributors = null;
 	}
 	
-	protected void clearExecutor() {
+	protected synchronized void clearExecutor() {
 		if (executorService != null) {
 			executorService.shutdownNow();
 			executorService = null;
@@ -257,11 +257,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	protected void finalize() {
-		clearExecutor();
-	}
-	
-	@Override
 	public synchronized void dispose() {
 		super.dispose();
 		clearExecutor();
@@ -275,7 +270,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	@Override
 	public void setFrameStack(FrameStack frameStack) {
-		parallelSet(frameStack, concurrentFrameStacks, super::setFrameStack);
+		parallelSet(frameStack, concurrentFrameStacks, fs -> this.frameStack = fs);
 	}
 	
 	@Override
@@ -285,7 +280,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 
 	@Override
 	public void setExecutorFactory(ExecutorFactory executorFactory) {
-		parallelSet(executorFactory, concurrentExecutorFactories, super::setExecutorFactory);
+		parallelSet(executorFactory, concurrentExecutorFactories, ef -> this.executorFactory = ef);
 	}
 	
 	@Override
