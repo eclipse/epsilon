@@ -15,11 +15,26 @@ digraph G {
 	[%=p.name%] [shape=none, margin=0, label=<<table cellspacing='1' cellborder='0' border="0" cellpadding="0"><tr><td align="right" valign="middle">[%=p.name%]</td><td align="left"><img src="[%=getIcon("port")%]"/></td></tr></table>>];
 	[%}%]
 	
-	[%for (c in r.components){%]
+	[%for (g in r.groups){%]
+	subgraph cluster_c[%=loopCount%] {
+		style=filled;
+		fontname="Tahoma";
+		fontsize=9;
+		color="#c2e3ae";
+		labeljust="r";
+		label = <<b>[%=g.name%] </b>>;
+		[%for (c in g.components){%]
+		[%=c.toDot()%]
+		[%}%]
+	}
+	[%}%]
+	
+	[%for (c in r.components.excludingAll(r.groups.components.flatten())){%]
 	[%=c.toDot()%]
 	[%}%]
 	
-	[%for (c in comps::Connector.all.select(c|c.belongsToDiagram())){%]
+	[%for (c in r.components.inPorts.flatten().incoming.flatten().
+		includingAll(r.components.outPorts.flatten().outgoing.flatten()).asSet()){%]
 	[%=c.from.getDotID()%] -> [%=c.to.getDotID()%]
 	[%}%]
 	[%}else{%]

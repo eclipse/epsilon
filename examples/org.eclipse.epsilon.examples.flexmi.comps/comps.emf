@@ -9,6 +9,12 @@ class Component {
 	ref Component#components parent;
 	val Connector[*] connectors;
 	attr String action;
+	val Group[*] groups;
+}
+
+class Group {
+	attr String name;
+	ref Component[*] components;
 }
 
 class Port {

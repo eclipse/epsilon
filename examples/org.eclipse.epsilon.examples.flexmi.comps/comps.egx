@@ -1,10 +1,22 @@
 import "comps.eol";
 
+rule Comps2Barchart {
+	
+	parameters : Map {
+		"format" = "html",
+		"path" = List{"Model", "Stats"},
+		"icon" = "barchart"
+	}
+	
+	template: "stats.egl"
+	
+}
+
 @greedy
 rule Component2Dot 
-	transform r : Component {
+	transform r : comps::Component {
 	
-	// guard : r.components.notEmpty()
+	guard : r.components.notEmpty()
 	
 	parameters { 
 		
@@ -17,3 +29,4 @@ rule Component2Dot
 	template : "comp2dot.egl"
 	
 }
+
