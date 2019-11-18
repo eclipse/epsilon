@@ -14,8 +14,10 @@ import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
+import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolMapType;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
@@ -35,11 +37,13 @@ public abstract class TypeInitialiser extends Expression {
 				EolModelElementType modelElementType = (EolModelElementType) type;
 				throw new EolNotInstantiableModelElementTypeException(modelElementType);
 			}
-							
+			
+			ExecutorFactory executorFactory = context.getExecutorFactory();
+			
 			ArrayList<Object> parameterValues = new ArrayList<>();
 			for (Expression parameter : parameters) {
 				if (!(parameter.getClass() == EqualsOperatorExpression.class)) {
-					parameterValues.add(context.getExecutorFactory().execute(parameter, context));
+					parameterValues.add(executorFactory.execute(parameter, context));
 				}
 			}
 			
@@ -52,15 +56,17 @@ public abstract class TypeInitialiser extends Expression {
 				instance = type.createInstance(parameterValues);
 			}
 			
+			IntrospectionManager introspectionManager = context.getIntrospectionManager();
+			
 			for (Expression parameter : parameters) {
 				if (parameter.getClass() == EqualsOperatorExpression.class) {
 					EqualsOperatorExpression equalsOperatorExpression = (EqualsOperatorExpression) parameter;
 					if (equalsOperatorExpression.getFirstOperand() instanceof NameExpression) {
 						String property = ((NameExpression) equalsOperatorExpression.getFirstOperand()).getName();
-						IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(instance, property, context);
+						IPropertySetter setter = introspectionManager.getPropertySetterFor(instance, property, context);
 						if (setter != null) {
 							setter.setAst(parameter);
-							setter.invoke(context.getExecutorFactory().execute(equalsOperatorExpression.getSecondOperand(), context));
+							setter.invoke(executorFactory.execute(equalsOperatorExpression.getSecondOperand(), context));
 						}
 						else throw new EolIllegalPropertyException(instance, property, equalsOperatorExpression.getFirstOperand(), context);
 					}

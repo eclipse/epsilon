@@ -27,6 +27,7 @@ import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -98,11 +99,13 @@ public abstract class EObjectImageTextProvider {
 			labelCode = getEClassAnnotationDetail(eObject, "exeed", "label");
 			if (labelCode != null) {
 				parse(labelCode);
-				module.getContext().getFrameStack().enterLocal(FrameType.UNPROTECTED, null);
-				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("self", eObject));
-				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("thisModule", module));
+				FrameStack frameStack = module.getContext().getFrameStack();
+				frameStack.enterLocal(FrameType.UNPROTECTED, null,
+					Variable.createReadOnlyVariable("self", eObject),
+					Variable.createReadOnlyVariable("thisModule", module)
+				);
 				String label = StringUtil.toString(module.execute());
-				module.getContext().getFrameStack().leaveLocal(null);
+				frameStack.leaveLocal(null);
 				return addStructuralInfo(object,label,forReference);
 			}
 		} catch (Exception e) {
@@ -114,7 +117,8 @@ public abstract class EObjectImageTextProvider {
 	public Collection<?> getChoiceOfValues(Object object, String filter, Collection<?> def) {
 		try {
 			parse(filter);
-			module.getContext().getFrameStack().putGlobal(Variable.createReadOnlyVariable("self", object));
+			FrameStack frameStack = module.getContext().getFrameStack();
+			frameStack.putGlobal(Variable.createReadOnlyVariable("self", object));
 			return (Collection<?>) module.execute();
 		}
 		catch (Exception ex) {
@@ -135,11 +139,12 @@ public abstract class EObjectImageTextProvider {
 			String labelCode = getEClassAnnotationDetail(eObject, "exeed", "referenceLabel");
 			if (labelCode != null) {
 				parse(labelCode);
-				Variable[] variables = {};
-				module.getContext().getFrameStack().enterLocal(FrameType.UNPROTECTED, null, variables);
-				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("self", eObject));
+				FrameStack frameStack = module.getContext().getFrameStack();
+				frameStack.enterLocal(FrameType.UNPROTECTED, null,
+					Variable.createReadOnlyVariable("self", eObject)
+				);
 				String label = StringUtil.toString(module.execute());
-				module.getContext().getFrameStack().leaveLocal(null);
+				frameStack.leaveLocal(null);
 				return label;
 			}
 		} catch (Exception e) {
@@ -155,7 +160,8 @@ public abstract class EObjectImageTextProvider {
 		String icon = "";
 		try {
 			EObject eObject = (EObject) object;
-			module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("self", eObject));
+			FrameStack frameStack = module.getContext().getFrameStack();
+			frameStack.put(Variable.createReadOnlyVariable("self", eObject));
 			String labelCode = getEClassAnnotationDetail(eObject, "exeed", "icon");
 			if (labelCode != null) {
 				parse(labelCode);

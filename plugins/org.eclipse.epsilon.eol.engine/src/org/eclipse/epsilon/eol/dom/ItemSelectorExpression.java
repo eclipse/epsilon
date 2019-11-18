@@ -16,6 +16,7 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
@@ -34,9 +35,9 @@ public class ItemSelectorExpression extends Expression {
 	}
 	
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		
-		Object expression = context.getExecutorFactory().execute(targetExpression, context);
-		Object index = context.getExecutorFactory().execute(indexExpression, context);
+		ExecutorFactory executorFactory = context.getExecutorFactory();
+		Object expression = executorFactory.execute(targetExpression, context);
+		Object index = executorFactory.execute(indexExpression, context);
 		
 		if ((expression instanceof Collection)) {
 			if (!(index instanceof Integer)) 

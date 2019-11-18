@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.EolUndefinedVariableException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.ObjectMethod;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
@@ -81,10 +82,12 @@ public class OperationCallExpression extends FeatureCallExpression {
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		Object targetObject;
 		String operationName = nameExpression.getName();
+		ExecutorFactory executorFactory = null;
 		
 		if (!contextless) {
 			try {
-				targetObject = context.getExecutorFactory().execute(targetExpression, context);
+				executorFactory = context.getExecutorFactory();
+				targetObject = executorFactory.execute(targetExpression, context);
 			}
 			catch (EolUndefinedVariableException npe) {
 				switch (operationName) {
@@ -131,10 +134,11 @@ public class OperationCallExpression extends FeatureCallExpression {
 			return wrap(objectMethod.execute(nameExpression, context, nameExpression)); 
 		}
 		
+		if (executorFactory == null) executorFactory = context.getExecutorFactory();
 		ArrayList<Object> parameterValues = new ArrayList<>(parameterExpressions.size());
 		
 		for (Expression parameter : parameterExpressions) {
-			parameterValues.add(context.getExecutorFactory().execute(parameter, context));
+			parameterValues.add(executorFactory.execute(parameter, context));
 		}
 		
 		// Execute user-defined operation (if isArrow() == false)

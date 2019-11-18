@@ -11,12 +11,14 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
@@ -72,18 +74,17 @@ public class SwitchStatement extends Statement {
 	
 	@Override
 	public Return execute(IEolContext context) throws EolRuntimeException {
-		
-		Object switchValue = context.getExecutorFactory().execute(conditionExpression, context);
+		ExecutorFactory executorFactory = context.getExecutorFactory();
+		Object switchValue = executorFactory.execute(conditionExpression, context);
 		
 		boolean continue_ = false;
 		
 		for (Case c : cases) {
-			Object caseValue = context.getExecutorFactory().execute(c.getCondition(), context);
+			Object caseValue = executorFactory.execute(c.getCondition(), context);
 			
-			if (continue_ || equals(switchValue, caseValue)) {
-				
+			if (continue_ || Objects.equals(switchValue, caseValue)) {		
 				try {
-					Object result = context.getExecutorFactory().execute(c.getBody(), context);
+					Object result = executorFactory.execute(c.getBody(), context);
 					if (result instanceof Return) {
 						return (Return) result;
 					}
@@ -98,7 +99,7 @@ public class SwitchStatement extends Statement {
 		}
 		
 		if (_default != null) {
-			Object result = context.getExecutorFactory().execute(_default.getBody(), context);
+			Object result = executorFactory.execute(_default.getBody(), context);
 			
 			if (result instanceof Return) {
 				return (Return) result;
@@ -108,48 +109,6 @@ public class SwitchStatement extends Statement {
 			}
 		}
 		
-		/*
-		AST nextCase = switchValueAst.getNextSibling();
-		
-		try {
-			
-			boolean continue_ = false;
-			
-			while (nextCase != null) {
-				
-				if (nextCase.getType() == EolParser.CASE) {
-					AST caseValueAst = nextCase.getFirstChild();
-					
-					if (continue_ || equals(context.getExecutorFactory().executeAST(caseValueAst, context), switchValue)) {
-						AST caseBodyStatement = caseValueAst.getNextSibling();
-						try {
-							Object result = context.getExecutorFactory().executeAST(caseBodyStatement, context);
-							if (result instanceof Return) return result;
-						}
-						catch (EolContinueException ex) {
-							continue_ = true;
-						}
-						
-						if (!continue_) { break; }
-						
-					}
-				}
-				else if (nextCase.getType() == EolParser.DEFAULT) {
-					AST defaultBodyStatement = nextCase.getFirstChild();
-					Object result = context.getExecutorFactory().executeAST(defaultBodyStatement, context);
-					if (result instanceof Return) return result;
-					
-				}
-				
-				nextCase = nextCase.getNextSibling();
-				
-			}
-			
-		}
-		catch (EolBreakException e) {
-			
-		}
-		*/
 		return null;
 	}
 	
@@ -157,11 +116,5 @@ public class SwitchStatement extends Statement {
 	public void compile(EolCompilationContext context) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	protected boolean equals(Object o1, Object o2) {
-		if (o1 == null && o2 == null) return true;
-		if (o1 == null || o2 == null) return false;
-		return o1.equals(o2);
 	}
 }

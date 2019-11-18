@@ -175,8 +175,7 @@ public class EUnitTask extends ExecutableModuleTask implements EUnitTestListener
 			module = new EUnitModule();
 			final IEolContext context = module.getContext();
 			context.getOperationContributorRegistry().add(new RunTargetOperationContributor());
-			context.getFrameStack().put(
-					new Variable("antProject", getProject(), new EolAnyType(), true));
+			context.getFrameStack().put(new Variable("antProject", getProject(), new EolAnyType(), true));
 
 			// Replace the default native type delegate (which uses the Eclipse class loader) with
 			// one which uses the Ant classpath, as customized by the user

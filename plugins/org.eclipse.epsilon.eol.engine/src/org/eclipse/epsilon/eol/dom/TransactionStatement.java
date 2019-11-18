@@ -17,7 +17,9 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolAbortTransactionException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.Return;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -56,10 +58,13 @@ public class TransactionStatement extends Statement {
 			model.getTransactionSupport().startTransaction();
 		}
 		
+		FrameStack frameStack = context.getFrameStack();
+		ExecutorFactory executorFactory = context.getExecutorFactory();
+		
 		try {
-			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
-			Object result = context.getExecutorFactory().execute(body, context);
-			context.getFrameStack().leaveLocal(this);
+			frameStack.enterLocal(FrameType.UNPROTECTED, this);
+			Object result = executorFactory.execute(body, context);
+			frameStack.leaveLocal(this);
 			
 			if (result instanceof Return) {
 				for (IModel model : models) {
@@ -75,7 +80,7 @@ public class TransactionStatement extends Statement {
 			}
 		}
 		catch (EolRuntimeException ex) {
-			context.getFrameStack().leaveLocal(this);
+			frameStack.leaveLocal(this);
 			for (IModel model : models) {
 				model.getTransactionSupport().rollbackTransaction();
 			}

@@ -16,6 +16,7 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolAnyType;
@@ -68,8 +69,10 @@ public class VariableDeclaration extends TypeInitialiser {
 			variableType = (EolType) context.getExecutorFactory().execute(typeExpression, context);
 		}
 		
+		FrameStack frameStack = context.getFrameStack();
+		
 		if (external) {
-			Variable variable = context.getFrameStack().get(getName());
+			Variable variable = frameStack.get(getName());
 			if (variable != null) {
 				return variable;
 			}
@@ -79,7 +82,7 @@ public class VariableDeclaration extends TypeInitialiser {
 		Object newInstance = initialiseType(variableType, parameterExpressions, context, instantiate);
 		
 		Variable variable = new Variable(getName(), newInstance, variableType);
-		context.getFrameStack().put(variable);
+		frameStack.put(variable);
 		return variable;
 	}
 	

@@ -233,7 +233,8 @@ public class Operation extends AnnotatableModuleElement implements ICompilableMo
 	}
 
 	protected void evaluatePostConditions(IEolContext context, Object result) throws EolRuntimeException {
-		context.getFrameStack().put(Variable.createReadOnlyVariable("_result", result));
+		FrameStack frameStack = context.getFrameStack();
+		frameStack.put(Variable.createReadOnlyVariable("_result", result));
 		for (Annotation annotation : getAnnotations("post")) {
 			if (!(annotation instanceof ExecutableAnnotation)) continue;
 			

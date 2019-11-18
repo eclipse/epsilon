@@ -13,6 +13,7 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
@@ -59,6 +60,7 @@ public class AssignmentStatement extends Statement {
 		// Executing the valueExpression will return an Object
 		
 		Object targetExpressionResult;
+		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
 		if (targetExpression instanceof PropertyCallExpression) {
 			targetExpressionResult = ((PropertyCallExpression) targetExpression).execute(context, true);
@@ -67,10 +69,10 @@ public class AssignmentStatement extends Statement {
 			targetExpressionResult = ((NameExpression) targetExpression).execute(context, true);
 		}
 		else {
-			targetExpressionResult = context.getExecutorFactory().execute(targetExpression, context);
+			targetExpressionResult = executorFactory.execute(targetExpression, context);
 		}
 		
-		Object valueExpressionResult = context.getExecutorFactory().execute(valueExpression, context);
+		Object valueExpressionResult = executorFactory.execute(valueExpression, context);
 		
 		if (targetExpressionResult instanceof IPropertySetter) {
 			IPropertySetter setter = (IPropertySetter) targetExpressionResult;

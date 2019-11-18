@@ -16,6 +16,7 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolBag;
@@ -79,12 +80,14 @@ public class CollectionLiteralExpression extends LiteralExpression {
 			collection = new EolBag<>();
 		}
 		
+		ExecutorFactory executorFactory = context.getExecutorFactory();
+		
 		if (range) {
 			Expression rangeStartExpression = parameterExpressions.get(0);
 			Expression rangeEndExpression = parameterExpressions.get(1);
 			
-			Object rangeStart = context.getExecutorFactory().execute(rangeStartExpression, context);
-			Object rangeEnd = context.getExecutorFactory().execute(rangeEndExpression, context);
+			Object rangeStart = executorFactory.execute(rangeStartExpression, context);
+			Object rangeEnd = executorFactory.execute(rangeEndExpression, context);
 			
 			if (rangeStart instanceof Integer && rangeEnd instanceof Integer) {
 				
@@ -113,7 +116,7 @@ public class CollectionLiteralExpression extends LiteralExpression {
 		}
 		else {
 			for (Expression parameterExpression : parameterExpressions) {
-				collection.add(context.getExecutorFactory().execute(parameterExpression, context));
+				collection.add(executorFactory.execute(parameterExpression, context));
 			}
 		}
 

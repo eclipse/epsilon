@@ -27,6 +27,7 @@ import org.eclipse.epsilon.eol.dom.IExecutableModuleElement;
 import org.eclipse.epsilon.eol.dom.IExecutableModuleElementParameter;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -149,8 +150,9 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
+		ExecutorFactory executorFactory = context.getExecutorFactory();
 		for (Object element : getAllElements((IEgxContext) context)) {
-			context.getExecutorFactory().execute(this, context, element);
+			executorFactory.execute(this, context, element);
 		}
 		return null;
 	}

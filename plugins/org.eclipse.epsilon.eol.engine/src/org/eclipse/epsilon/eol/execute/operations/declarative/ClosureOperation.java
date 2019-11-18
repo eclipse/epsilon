@@ -17,6 +17,7 @@ import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -28,11 +29,12 @@ public class ClosureOperation extends FirstOrderOperation {
 	protected void closure(Collection<Object> closure, Collection<?> source, Parameter parameter, Expression expression, CheckedEolFunction<Object, ?> function, IEolContext context) throws EolRuntimeException {
 		
 		FrameStack scope = context.getFrameStack();
+		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
 		for (Object item : source) {
 			scope.enterLocal(FrameType.UNPROTECTED, expression, createIteratorVariable(item, parameter, context));
 			
-			Object bodyResult = context.getExecutorFactory().execute(expression, context);
+			Object bodyResult = executorFactory.execute(expression, context);
 			
 			if (bodyResult != null) {
 				Collection<?> bodyCollection = CollectionUtil.asCollection(bodyResult);

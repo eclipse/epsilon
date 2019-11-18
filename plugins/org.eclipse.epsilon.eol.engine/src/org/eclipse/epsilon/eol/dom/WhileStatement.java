@@ -18,7 +18,9 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.Return;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -45,47 +47,46 @@ public class WhileStatement extends Statement {
 
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		//how many times the loop has been executed
-		int loop = 0;
+		FrameStack frameStack = context.getFrameStack();
+		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
-		while (true) {
-			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
+		for (int loop = 1; ; ++loop) {
+			frameStack.enterLocal(FrameType.UNPROTECTED, this);
 			
-			loop ++;
-			Object condition = context.getExecutorFactory().execute(conditionExpression, context);		
+			Object condition = executorFactory.execute(conditionExpression, context);		
 			
 			if (!(condition instanceof Boolean)) {
-				context.getFrameStack().leaveLocal(this);
+				frameStack.leaveLocal(this);
 				throw new EolIllegalReturnException("Boolean", condition, conditionExpression, context);
 			}
 			
 			Object result = null;
 			
 			if ((boolean) condition) {
-				context.getFrameStack().put(Variable.createReadOnlyVariable("loopCount", loop));
+				frameStack.put(Variable.createReadOnlyVariable("loopCount", loop));
 				
 				try {
-					result = context.getExecutorFactory().execute(bodyStatementBlock, context);
+					result = executorFactory.execute(bodyStatementBlock, context);
 				}
 				catch (EolBreakException bex) {
-					if (bex.isBreaksAll() && context.getFrameStack().isInLoop()) {
+					if (bex.isBreaksAll() && frameStack.isInLoop()) {
 						throw bex;
 					}
-					context.getFrameStack().leaveLocal(this);
+					frameStack.leaveLocal(this);
 					break;
 				}
 				catch (EolContinueException cex){
-					context.getFrameStack().leaveLocal(this);
+					frameStack.leaveLocal(this);
 					continue;
 				}
 
 			}
 			else {
-				context.getFrameStack().leaveLocal(this);
+				frameStack.leaveLocal(this);
 				break;
 			}
 			
-			context.getFrameStack().leaveLocal(this);
+			frameStack.leaveLocal(this);
 		
 			if (result instanceof Return) {
 				return result;
@@ -97,16 +98,16 @@ public class WhileStatement extends Statement {
 	
 	@Override
 	public void compile(EolCompilationContext context) {
+		FrameStack frameStack = context.getFrameStack();
 		conditionExpression.compile(context);
 		
-		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, bodyStatementBlock);
+		frameStack.enterLocal(FrameType.UNPROTECTED, bodyStatementBlock);
 		bodyStatementBlock.compile(context);
-		context.getFrameStack().leaveLocal(bodyStatementBlock);
+		frameStack.leaveLocal(bodyStatementBlock);
 		
 		if (conditionExpression.hasResolvedType() && conditionExpression.getResolvedType() != EolPrimitiveType.Boolean) {
 			context.getMarkers().add(new ModuleMarker(conditionExpression, "Condition must be a Boolean", Severity.Error));
-		}
-		
+		}		
 	}
 
 	public Expression getConditionExpression() {

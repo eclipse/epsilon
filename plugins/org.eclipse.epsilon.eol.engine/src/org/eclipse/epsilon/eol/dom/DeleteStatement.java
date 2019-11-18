@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 
 public class DeleteStatement extends Statement {
@@ -33,14 +34,15 @@ public class DeleteStatement extends Statement {
 	@Override
 	public Void execute(IEolContext context) throws EolRuntimeException {
 		Object target = null;
-		if (expression != null){
+		if (expression != null) {
 			target = context.getExecutorFactory().execute(expression, context);
 		}
 		
 		Collection<?> col = CollectionUtil.asCollection(target);
+		ModelRepository modelRepo = context.getModelRepository();
 		
 		for (Object instance : EolCollectionType.clone(col)) {
-			IModel model = context.getModelRepository().getOwningModel(instance);
+			IModel model = modelRepo.getOwningModel(instance);
 				
 			if (model != null) {
 				model.deleteElement(instance);

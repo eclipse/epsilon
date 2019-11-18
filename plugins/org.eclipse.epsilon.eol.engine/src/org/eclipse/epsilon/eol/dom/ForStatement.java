@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolBreakException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
@@ -54,7 +55,8 @@ public class ForStatement extends Statement {
 	@Override
 	public Return execute(IEolContext context) throws EolRuntimeException {
 		
-		Object iteratedObject = context.getExecutorFactory().execute(this.iteratedExpression, context);
+		ExecutorFactory executorFactory = context.getExecutorFactory();
+		Object iteratedObject = executorFactory.execute(this.iteratedExpression, context);
 		
 		Collection<Object> iteratedCol = null;
 		Iterator<?> it = null;
@@ -90,9 +92,7 @@ public class ForStatement extends Statement {
 			Object next = it.next();
 			
 			if (!iteratorType.isKind(next)) continue;
-			frameStack.enterLocal(FrameType.UNPROTECTED, this);
-			
-			frameStack.put(
+			frameStack.enterLocal(FrameType.UNPROTECTED, this,
 				new Variable(iteratorParameter.getName(), next, iteratorType),
 				new Variable("hasMore", it.hasNext(), EolPrimitiveType.Boolean, true),
 				new Variable("loopCount", loop++, EolPrimitiveType.Integer, true)
@@ -101,18 +101,18 @@ public class ForStatement extends Statement {
 			Object result = null; 
 			
 			try {
-				result = context.getExecutorFactory().execute(bodyStatementBlock, context);
-				context.getFrameStack().leaveLocal(this);
+				result = executorFactory.execute(bodyStatementBlock, context);
+				frameStack.leaveLocal(this);
 			}
 			catch (EolBreakException ex) {
 				loopBroken = true;
-				context.getFrameStack().leaveLocal(this);
-				if (ex.isBreaksAll() && context.getFrameStack().isInLoop()) {
+				frameStack.leaveLocal(this);
+				if (ex.isBreaksAll() && frameStack.isInLoop()) {
 					throw ex;
 				}
 			}
 			catch (EolContinueException cex) {
-				context.getFrameStack().leaveLocal(this);
+				frameStack.leaveLocal(this);
 			}
 			
 			if (result instanceof Return) {

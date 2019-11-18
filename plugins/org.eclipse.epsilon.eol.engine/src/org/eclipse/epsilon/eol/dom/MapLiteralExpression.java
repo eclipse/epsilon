@@ -15,6 +15,7 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolMap;
 
@@ -42,10 +43,11 @@ public class MapLiteralExpression extends Expression {
 	@Override
 	public EolMap<?, ?> execute(IEolContext context) throws EolRuntimeException {
 		final EolMap<Object, Object> map = new EolMap<>();
-
+		ExecutorFactory executorFactory = context.getExecutorFactory();
+		
 		for (KeyValueExpressionPair keyValueExpressionPair : keyValueExpressionPairs) {
-			final Object key = context.getExecutorFactory().execute(keyValueExpressionPair.getKey(), context);
-			final Object val = context.getExecutorFactory().execute(keyValueExpressionPair.getValue(), context);
+			final Object key = executorFactory.execute(keyValueExpressionPair.getKey(), context);
+			final Object val = executorFactory.execute(keyValueExpressionPair.getValue(), context);
 			map.put(key, val);
 		}
 

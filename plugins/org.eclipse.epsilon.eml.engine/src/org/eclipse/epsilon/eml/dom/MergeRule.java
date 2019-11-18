@@ -28,6 +28,7 @@ import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.Variable;
@@ -174,7 +175,9 @@ public class MergeRule extends ExtensibleNamedRule {
 		for (Parameter targetParameter : targetParameters) {
 			scope.put(new Variable(targetParameter.getName(), targetsIter.next(), targetParameter.getType(context), true));
 		}
-		context.getExecutorFactory().execute(bodyBlock, context);
+		
+		ExecutorFactory executorFactory = context.getExecutorFactory();
+		executorFactory.execute(bodyBlock, context);
 		
 		scope.leaveLocal(this);	
 	}

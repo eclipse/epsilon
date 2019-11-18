@@ -288,8 +288,8 @@ public class EvlTests {
 					System.lineSeparator() + module.getClass().getName() + System.lineSeparator() + ex
 				,
 				!StringUtil.isEmpty(message) &&
-				!message.equalsIgnoreCase("Unknown reason")// &&
-				//message.split("\\n").length > 1
+				!message.equalsIgnoreCase("Unknown reason") &&
+				message.split(System.lineSeparator()).length >= 1
 			);
 			return;
 		}

@@ -16,7 +16,9 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.Return;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class StatementBlock extends AbstractExecutableModuleElement {
@@ -56,9 +58,12 @@ public class StatementBlock extends AbstractExecutableModuleElement {
 	
 	@Override
 	public Return execute(IEolContext context) throws EolRuntimeException {
+		FrameStack frameStack = context.getFrameStack();
+		ExecutorFactory executorFactory = context.getExecutorFactory();
+		
 		for (Statement statement : statements) {
-			context.getFrameStack().setCurrentStatement(statement);
-			Object result = context.getExecutorFactory().execute(statement, context);
+			frameStack.setCurrentStatement(statement);
+			Object result = executorFactory.execute(statement, context);
 			if (result instanceof Return) {
 				return (Return) result;
 			}

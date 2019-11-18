@@ -15,6 +15,7 @@ import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -36,21 +37,22 @@ public class AggregateOperation extends FirstOrderOperation {
 		Expression initialExpression = expressions.size() > 2 ? expressions.get(2) : null;
 		
 		FrameStack scope = context.getFrameStack();
+		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
 		for (Object item : source) {
 			scope.enterLocal(FrameType.UNPROTECTED, keyExpression, createIteratorVariable(item, iterators.get(0), context));
 			
-			Object total, keyResult = context.getExecutorFactory().execute(keyExpression, context);
+			Object total, keyResult = executorFactory.execute(keyExpression, context);
 			
 			if (result.containsKey(keyResult)) {
 				total = result.get(keyResult);
 			}
 			else {
-				total = context.getExecutorFactory().execute(initialExpression, context);
+				total = executorFactory.execute(initialExpression, context);
 			}
 			
 			scope.put(Variable.createReadOnlyVariable("total", total));
-			Object valueResult = context.getExecutorFactory().execute(valueExpression, context);
+			Object valueResult = executorFactory.execute(valueExpression, context);
 			result.put(keyResult, valueResult);
 			scope.leaveLocal(keyExpression);
 		}

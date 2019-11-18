@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.eol.dom;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public abstract class EagerOperatorExpression extends OperatorExpression {
@@ -22,11 +23,12 @@ public abstract class EagerOperatorExpression extends OperatorExpression {
 
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		Object o1 = context.getExecutorFactory().execute(firstOperand, context);
+		ExecutorFactory executorFactory = context.getExecutorFactory();
+		Object o1 = executorFactory.execute(firstOperand, context);
 		Object o2 = null;
 		
 		if (secondOperand != null) {
-			o2 = context.getExecutorFactory().execute(secondOperand, context);
+			o2 = executorFactory.execute(secondOperand, context);
 		}
 		return execute(o1, o2, context);
 	}

@@ -16,6 +16,8 @@ import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
@@ -44,35 +46,38 @@ public class IfStatement extends Statement {
 
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
+		FrameStack frameStack = context.getFrameStack();
+		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
-		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, this);
-		Object condition = context.getExecutorFactory().execute(conditionExpression, context);
+		frameStack.enterLocal(FrameType.UNPROTECTED, this);
+		Object condition = executorFactory.execute(conditionExpression, context);
 		
 		if (!(condition instanceof Boolean)) throw new EolIllegalReturnException("Boolean", condition, conditionExpression, context);
 		
 		Object result = null;
 		
 		if ((boolean) condition) {
-			result = context.getExecutorFactory().execute(thenStatementBlock, context);
+			result = executorFactory.execute(thenStatementBlock, context);
 		}
 		else if (elseStatementBlock != null) {
-			result = context.getExecutorFactory().execute(elseStatementBlock, context);
+			result = executorFactory.execute(elseStatementBlock, context);
 		}
 		
-		context.getFrameStack().leaveLocal(this);
+		frameStack.leaveLocal(this);
 		return result;
 	}
 	
 	@Override
 	public void compile(EolCompilationContext context) {
 		conditionExpression.compile(context);
+		FrameStack frameStack = context.getFrameStack();
 		
-		context.getFrameStack().enterLocal(FrameType.UNPROTECTED, thenStatementBlock);
+		frameStack.enterLocal(FrameType.UNPROTECTED, thenStatementBlock);
 		thenStatementBlock.compile(context);
-		context.getFrameStack().leaveLocal(thenStatementBlock);
+		frameStack.leaveLocal(thenStatementBlock);
 		
 		if (elseStatementBlock != null) {
-			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, elseStatementBlock);
+			frameStack.enterLocal(FrameType.UNPROTECTED, elseStatementBlock);
 			elseStatementBlock.compile(context);
 			context.getFrameStack().leaveLocal(elseStatementBlock);
 		}

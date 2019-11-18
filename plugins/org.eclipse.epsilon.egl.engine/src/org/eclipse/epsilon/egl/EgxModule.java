@@ -30,6 +30,7 @@ import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 
@@ -179,8 +180,9 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	@Override
 	protected Object processRules() throws EolRuntimeException {
 		IEgxContext context = getContext();
+		ExecutorFactory executorFactory = context.getExecutorFactory();
 		for (GenerationRule rule : getGenerationRules()) {
-			context.getExecutorFactory().execute(rule, context);
+			executorFactory.execute(rule, context);
 		}
 		return null;
 	}

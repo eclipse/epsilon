@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
@@ -46,10 +47,12 @@ public class ConstraintContextAtom extends EvlAtom<ConstraintContext> {
 	@SuppressWarnings("unchecked")
 	public Collection<UnsatisfiedConstraint> executeWithResults(IEvlContext context) throws EolRuntimeException {
 		if (rule.shouldBeChecked(element, context)) {
+			ExecutorFactory executorFactory = context.getExecutorFactory();
 			Collection<Constraint> constraints = rule.getConstraints();
 			ArrayList<UnsatisfiedConstraint> results = new ArrayList<>(constraints.size());
+
 			for (Constraint constraint : constraints) {
-				Object result = context.getExecutorFactory().execute(constraint, context, element);
+				Object result = executorFactory.execute(constraint, context, element);
 				if (result instanceof Optional) {
 					((Optional<UnsatisfiedConstraint>) result).ifPresent(results::add);
 				}
