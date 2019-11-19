@@ -35,6 +35,19 @@ public interface IEvlContext extends IErlContext {
 	Collection<UnsatisfiedConstraint> getUnsatisfiedConstraints();
 	
 	/**
+	 * This method is called internally once all constraints have been processed to convert
+	 * the underlying collection in {@link #getUnsatisfiedConstraints()} to a unique one.
+	 * 
+	 * @return The final, filtered set of UnsatisfiedConstraints suitable for post-processing.
+	 * @since 1.6
+	 */
+	default Set<UnsatisfiedConstraint> uniqueUnsatisfiedConstraints() {
+		Collection<UnsatisfiedConstraint> uc = getUnsatisfiedConstraints();
+		if (uc instanceof Set) return (Set<UnsatisfiedConstraint>) uc;
+		return new LinkedHashSet<>(uc);
+	}
+	
+	/**
 	 * Used internally to determine evaluated constraints.
 	 * 
 	 * @return The checked Constraint-element pairs, or <code>null</code> if

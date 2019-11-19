@@ -78,7 +78,7 @@ public abstract class AbstractEcoreModelValidationDelegate extends EugeniaAction
 						valid = false;
 						super.executeImpl();
 						unsatisfiedConstraints = this.getContext().getUnsatisfiedConstraints();
-						valid = (getErrors().size() == 0);
+						valid = getErrors().isEmpty();
 						
 						// Create markers for unsatisfied constraints
 						for (UnsatisfiedConstraint unsatisfiedConstraint : unsatisfiedConstraints) {

@@ -9,12 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.execute.context.concurrent;
 
-import java.util.LinkedList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -28,8 +27,7 @@ import org.eclipse.epsilon.evl.trace.ConstraintTrace;
  */
 public class EvlContextParallel extends ErlContextParallel implements IEvlContextParallel {
 
-	protected PersistentThreadLocal<Collection<UnsatisfiedConstraint>> concurrentUnsatisfiedConstraints;
-	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints = new HashSet<>(0);
+	protected Collection<UnsatisfiedConstraint> unsatisfiedConstraints = new ConcurrentLinkedQueue<>();
 	protected ConstraintTrace constraintTrace = new ConstraintTrace(true);
 	protected boolean optimizeConstraintTrace = false;
 	protected boolean shortCircuiting = false;
@@ -49,27 +47,16 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	}
 	
 	@Override
-	protected void initThreadLocals() {
-		super.initThreadLocals();
-		concurrentUnsatisfiedConstraints = new PersistentThreadLocal<>(getParallelism(), LinkedList::new);
-	}
-	
-	@Override
-	protected synchronized void clearThreadLocals() {
-		super.clearThreadLocals();
-		if (concurrentUnsatisfiedConstraints == null) return;
-		
-		if (unsatisfiedConstraints == null) {
-			unsatisfiedConstraints = new HashSet<>();
+	public synchronized Set<UnsatisfiedConstraint> uniqueUnsatisfiedConstraints() {
+		if (!(unsatisfiedConstraints instanceof Set)) {
+			unsatisfiedConstraints = ConcurrencyUtils.concurrentSet(unsatisfiedConstraints);
 		}
-		concurrentUnsatisfiedConstraints.getAll().forEach(unsatisfiedConstraints::addAll);
-		concurrentUnsatisfiedConstraints.removeAll();
-		concurrentUnsatisfiedConstraints = null;
+		return (Set<UnsatisfiedConstraint>) unsatisfiedConstraints;
 	}
 	
 	@Override
 	public Collection<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
-		return parallelGet(concurrentUnsatisfiedConstraints, unsatisfiedConstraints);
+		return unsatisfiedConstraints;
 	}
 
 	@Override

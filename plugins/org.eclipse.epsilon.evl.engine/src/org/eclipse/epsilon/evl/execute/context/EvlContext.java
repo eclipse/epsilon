@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.execute.context;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -20,7 +21,7 @@ import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
 public class EvlContext extends ErlContext implements IEvlContext {
 
-	protected Set<UnsatisfiedConstraint> unsatisfiedConstraints = new HashSet<>();
+	protected Collection<UnsatisfiedConstraint> unsatisfiedConstraints = new HashSet<>();
 	protected ConstraintTrace constraintTrace = new ConstraintTrace();
 	protected boolean optimizeConstraintTrace = false;
 	protected boolean shortCircuit = false;
@@ -32,7 +33,15 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	}
 	
 	@Override
-	public Set<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
+	public Set<UnsatisfiedConstraint> uniqueUnsatisfiedConstraints() {
+		if (!(unsatisfiedConstraints instanceof Set)) {
+			unsatisfiedConstraints = new HashSet<>(unsatisfiedConstraints);
+		}
+		return (Set<UnsatisfiedConstraint>) unsatisfiedConstraints;
+	}
+	
+	@Override
+	public Collection<UnsatisfiedConstraint> getUnsatisfiedConstraints() {
 		return unsatisfiedConstraints;
 	}
 	
