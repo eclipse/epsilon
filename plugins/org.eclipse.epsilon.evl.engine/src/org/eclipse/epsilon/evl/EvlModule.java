@@ -266,11 +266,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	protected Set<UnsatisfiedConstraint> processRules() throws EolRuntimeException {
 		checkConstraints();
 		IEvlContext context = getContext();
-		Collection<UnsatisfiedConstraint> results = context.getUnsatisfiedConstraints();
-		if (!(results instanceof Set)) {
-			results = context.uniqueUnsatisfiedConstraints();
-		}
-		return (Set<UnsatisfiedConstraint>) results;
+		return context.uniqueUnsatisfiedConstraints();
 	}
 	
 	/**
