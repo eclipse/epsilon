@@ -26,7 +26,6 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.function.BaseDelegate;
-import org.eclipse.epsilon.common.function.BaseDelegate.MergeMode;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
@@ -51,12 +50,13 @@ import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
  * @author Sina Madani
  * @since 1.6
  */
-public class EolContextParallel extends EolContext implements IEolContextParallel {
+public class EolContextParallel extends EolContext implements IEolContextParallel, BaseDelegate<EolContextParallel> {
 
 	int numThreads;
 	protected boolean isInParallelTask;
 	protected boolean isInShortCircuitTask;
 	protected EolThreadPoolExecutor executorService;
+	protected EolContextParallel base;
 	
 	// Data structures which will be written to and read from during parallel execution:
 	protected ThreadLocal<FrameStack> concurrentFrameStacks;
@@ -80,20 +80,19 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	/**
-	 * Copy constructor.
-	 * NOTE: The context parameter may be modified.
+	 * Copy constructor, intended for optimising access to ThreadLocals and setting the 
+	 * provided context as its parent if it is an instance of this class.
 	 * 
-	 * @param other The context to copy from. Structures
-	 * in this parameter may be modified to be thread-safe.
+	 * @param other The parent context to copy from. Must not be null.
 	 */
 	protected EolContextParallel(IEolContext other) {
 		super(other);
 		frameStack.setThreadSafe(true);
 		
 		if (other instanceof EolContextParallel) {
-			EolContextParallel context = (EolContextParallel) other;
-			executorService = context.getExecutorService();
-			isInShortCircuitTask = context.isInShortCircuitingTask();
+			base = (EolContextParallel) other;
+			frameStack = base.getFrameStack();
+			executorFactory = base.getExecutorFactory();
 		}
 		
 		if (other instanceof IEolContextParallel) {
@@ -124,6 +123,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @return <code>true</code> if the ThreadLocal should be used, <code>false</code> otherwise.
 	 */
 	protected boolean useThreadLocalValue() {
+		assert (isInParallelTask ^ base != null) || base == null : "Cannot be parallel if has a parent!";
 		return isInParallelTask;
 	}
 	
@@ -204,7 +204,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	protected EolThreadPoolExecutor newExecutorService() {
-		return new EolThreadPoolExecutor(numThreads);
+		return base != null ? base.newExecutorService() : new EolThreadPoolExecutor(numThreads);
 	}
 	
 	@Override
@@ -259,6 +259,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	@Override
 	public final EolThreadPoolExecutor getExecutorService() {
+		if (base != null) return base.getExecutorService();
 		if (executorService == null) synchronized (this) {
 			executorService = newExecutorService();
 		}
@@ -278,24 +279,24 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	@Override
-	public void setFrameStack(FrameStack frameStack) {
-		parallelSet(frameStack, concurrentFrameStacks, fs -> this.frameStack = fs);
-	}
-	
-	@Override
 	public ExecutorFactory getExecutorFactory() {
 		return parallelGet(concurrentExecutorFactories, executorFactory);
-	}
-
-	@Override
-	public void setExecutorFactory(ExecutorFactory executorFactory) {
-		parallelSet(executorFactory, concurrentExecutorFactories, ef -> this.executorFactory = ef);
 	}
 	
 	@Override
 	public OperationContributorRegistry getOperationContributorRegistry() {
 		return parallelGet(concurrentMethodContributors, methodContributorRegistry);
 	}
+	
+	@Override
+	public void setFrameStack(FrameStack frameStack) {
+		parallelSet(frameStack, concurrentFrameStacks, fs -> this.frameStack = fs);
+	}
+
+	@Override
+	public void setExecutorFactory(ExecutorFactory executorFactory) {
+		parallelSet(executorFactory, concurrentExecutorFactories, ef -> this.executorFactory = ef);
+	}	
 	
 	@Override
 	public String toString() {
@@ -385,5 +386,20 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		}
 			
 		throw new IllegalArgumentException("Received unexpected object of type "+job.getClass().getName());
+	}
+	
+	@Override
+	public EolContextParallel getBase() {
+		return base;
+	}
+
+	@Override
+	public void merge(MergeMode mode) {
+		if (base != null) {
+			this.getExecutorFactory().setBase(base.getExecutorFactory());
+			this.getFrameStack().setBase(base.getFrameStack());
+		}
+		getExecutorFactory().merge(mode);
+		getFrameStack().merge(mode);
 	}
 }

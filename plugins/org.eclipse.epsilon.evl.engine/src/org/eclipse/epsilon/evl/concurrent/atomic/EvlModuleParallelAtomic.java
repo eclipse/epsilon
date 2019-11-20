@@ -11,6 +11,7 @@ package org.eclipse.epsilon.evl.concurrent.atomic;
 
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.execute.atoms.EvlAtom;
@@ -49,6 +50,6 @@ public abstract class EvlModuleParallelAtomic<A extends EvlAtom<?>> extends EvlM
 	
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
-		getContext().executeAll(this, getAllJobs());
+		((IEolContextParallel) getContext()).executeAll(this, getAllJobs());
 	}
 }

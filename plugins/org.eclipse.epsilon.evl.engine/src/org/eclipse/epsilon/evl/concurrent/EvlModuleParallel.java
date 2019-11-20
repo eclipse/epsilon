@@ -9,18 +9,16 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.concurrent;
 
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
+import org.eclipse.epsilon.common.function.BaseDelegate.MergeMode;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.DelegatePersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
-import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
-import org.eclipse.epsilon.evl.dom.ConstraintContext;
-import org.eclipse.epsilon.evl.dom.GlobalConstraintContext;
+import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
@@ -29,7 +27,15 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EvlModuleParallel extends EvlModule {
+public abstract class EvlModuleParallel extends EvlModule {
+	
+	/**
+	 * Optimisation so that calls to methods like getFrameStack() don't re-fetch the ThreadLocal
+	 * value every time whilst within the same parallelisation context.
+	 */
+	protected DelegatePersistentThreadLocal<EvlContextParallel> concurrentContexts = new DelegatePersistentThreadLocal<>(
+		getContext().getParallelism(), () -> new EvlContextParallel(super.getContext())
+	);
 	
 	static {
 		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
@@ -44,47 +50,13 @@ public class EvlModuleParallel extends EvlModule {
 	}
 	
 	@Override
-	protected void checkConstraints() throws EolRuntimeException {
-		IEvlContextParallel context = getContext();
-		
-		for (ConstraintContext constraintContext : getConstraintContexts()) {
-			final Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
-			final Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
-			final int numElements = allOfKind.size();
-			final IModel model = constraintContext instanceof GlobalConstraintContext ?
-				null : constraintContext.getType(context).getModel();
-			
-			final Collection<CheckedEolRunnable> jobs = new LinkedList<>();
-			
-			if (constraintContext.hasAnnotation("parallel")) {
-				for (Object object : allOfKind) {
-					if (context.shouldBeParallel(constraintContext, object, model, numElements)) {
-						jobs.add(() -> constraintContext.execute(constraintsToCheck, object, context));
-					}
-					else {
-						constraintContext.execute(constraintsToCheck, object, context);
-					}
-				}
-				
-				context.executeParallel(constraintContext, jobs);
-			}	
-			else {
-				for (Constraint constraint : constraintsToCheck) {
-					for (Object object : allOfKind) {
-						if (constraintContext.appliesTo(object, context)) {
-							if (context.shouldBeParallel(constraint, object, model, numElements)) {
-								jobs.add(() -> constraint.execute(context, object));
-							}
-							else {
-								constraint.execute(context, object);
-							}
-						}
-					}
-					
-					context.executeParallel(constraint, jobs);
-				}
-			}
-		}
+	protected abstract void checkConstraints() throws EolRuntimeException;
+	
+	@Override
+	protected Set<UnsatisfiedConstraint> processRules() throws EolRuntimeException {
+		Set<UnsatisfiedConstraint> result = super.processRules();
+		concurrentContexts.removeAll(MergeMode.MERGE_INTO_BASE);
+		return result;
 	}
 	
 	/**
@@ -97,7 +69,8 @@ public class EvlModuleParallel extends EvlModule {
 	
 	@Override
 	public IEvlContextParallel getContext() {
-		return (IEvlContextParallel) super.getContext();
+		IEvlContextParallel context = (IEvlContextParallel) super.getContext();
+		return context != null && context.isParallel() ? concurrentContexts.get() : context;
 	}
 	
 	/**
@@ -107,11 +80,10 @@ public class EvlModuleParallel extends EvlModule {
 	@Override
 	public void configure(Map<String, ?> properties) throws IllegalArgumentException {
 		super.configure(properties);
-		IEvlContextParallel context = getContext();
 		setContext(IEolContextParallel.configureContext(
 			properties,
 			EvlContextParallel::new,
-			context
+			getContext()
 		));
 	}
 }

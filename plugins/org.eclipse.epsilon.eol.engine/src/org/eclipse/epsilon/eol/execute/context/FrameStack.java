@@ -645,6 +645,15 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 	
 	/**
 	 * 
+	 * @param parent
+	 * @since 1.6
+	 */
+	public void setBase(FrameStack parent) {
+		this.base = parent;
+	}
+	
+	/**
+	 * 
 	 * @param includeBase
 	 * @return
 	 * @since 1.6

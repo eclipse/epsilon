@@ -259,6 +259,15 @@ public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 	}
 	
 	/**
+	 * 
+	 * @param parent
+	 * @since 1.6
+	 */
+	public void setBase(ExecutorFactory parent) {
+		this.base = parent;
+	}
+	
+	/**
 	 * @since 1.6
 	 */
 	@Override

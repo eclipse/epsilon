@@ -13,9 +13,11 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.concurrent.Callable;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.erl.IErlModuleParallelAnnotation;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
+import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
@@ -35,40 +37,44 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
-		IEvlContextParallel context = getContext();
+		IEvlContextParallel pContext = getContext();
 		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
 			final Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
-			final Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
+			final Collection<?> allOfKind = constraintContext.getAllOfSourceKind(pContext);
 			
 			final Collection<Callable<Object>> jobs = new LinkedList<>();
 			
 			if (constraintContext.hasAnnotation("parallel")) {
 				for (Object object : allOfKind) {
 					if (shouldBeParallel(constraintContext, object)) {
-						jobs.add(() -> constraintContext.execute(constraintsToCheck, object, context));
+						jobs.add(() -> constraintContext.execute(constraintsToCheck, object, getContext()));
 					}
 					else {
-						constraintContext.execute(constraintsToCheck, object, context);
+						constraintContext.execute(constraintsToCheck, object, pContext);
 					}
 				}
 				
-				context.executeAll(constraintContext, jobs);
+				pContext.executeAll(constraintContext, jobs);
 			}	
 			else {
+				ExecutorFactory executorFactory = pContext.getExecutorFactory();
 				for (Constraint constraint : constraintsToCheck) {
 					for (Object object : allOfKind) {
-						if (constraintContext.shouldBeChecked(object, context)) {
+						if (constraintContext.shouldBeChecked(object, pContext)) {
 							if (shouldBeParallel(constraint, object)) {
-								jobs.add(() -> context.getExecutorFactory().execute(constraint, context, object));
+								jobs.add(() -> {
+									IEvlContext context = getContext();
+									return context.getExecutorFactory().execute(constraint, context, object);
+								});
 							}
 							else {
-								context.getExecutorFactory().execute(constraint, context, object);
+								executorFactory.execute(constraint, pContext, object);
 							}
 						}
 					}
 					
-					context.executeAll(constraint, jobs);
+					pContext.executeAll(constraint, jobs);
 				}
 			}
 		}
