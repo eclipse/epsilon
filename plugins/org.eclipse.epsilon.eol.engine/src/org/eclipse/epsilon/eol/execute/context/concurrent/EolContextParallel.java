@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Spliterator;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
@@ -74,6 +75,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM;
 		// This will be the "base" of others, so make it thread-safe for concurrent reads
 		frameStack.setThreadSafe(true);
+		asyncStatementsQueue = new ConcurrentLinkedQueue<>();
 	}
 	
 	/**
@@ -87,11 +89,19 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		super(other);
 		frameStack.setThreadSafe(true);
 		
+		if (other instanceof EolContextParallel) {
+			EolContextParallel context = (EolContextParallel) other;
+			executorService = context.getExecutorService();
+			isInShortCircuitTask = context.isInShortCircuitingTask();
+		}
+		
 		if (other instanceof IEolContextParallel) {
 			numThreads = ((IEolContextParallel) other).getParallelism();
+			isInParallelTask = ((IEolContextParallel) other).isParallel();
 		}
 		else {
 			numThreads = ConcurrencyUtils.DEFAULT_PARALLELISM;
+			asyncStatementsQueue = new ConcurrentLinkedQueue<>(other.getAsyncStatementsQueue());
 		}
 	}
 	
@@ -113,7 +123,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @return <code>true</code> if the ThreadLocal should be used, <code>false</code> otherwise.
 	 */
 	protected boolean useThreadLocalValue() {
-		return isInParallelTask;//!ConcurrencyUtils.isTopLevelThread();
+		return isInParallelTask;
 	}
 	
 	/**

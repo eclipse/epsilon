@@ -11,6 +11,7 @@ package org.eclipse.epsilon.erl.execute.context.concurrent;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
@@ -31,6 +32,11 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 	public ErlContextParallel(int parallelism) {
 		super(parallelism);
 		setExecutorFactory(new RuleExecutorFactory());
+	}
+	
+	protected ErlContextParallel(IEolContext other) {
+		super(other);
+		setExecutorFactory(executorFactory);
 	}
 	
 	@Override

@@ -36,7 +36,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	public EvlContextParallel() {
 		this(0);
 	}
-
+	
 	/**
 	 * @param parallelism The number of threads to use.
 	 * @param threadSafeBaseFrames whether the base FrameStack should use a thread-safe collection.
