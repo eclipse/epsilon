@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2019 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -21,11 +21,16 @@ import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
 public class EvlContext extends ErlContext implements IEvlContext {
 
-	protected Collection<UnsatisfiedConstraint> unsatisfiedConstraints = new HashSet<>();
-	protected ConstraintTrace constraintTrace = new ConstraintTrace();
+	protected Collection<UnsatisfiedConstraint> unsatisfiedConstraints;
+	protected ConstraintTrace constraintTrace;
 	protected boolean optimizeConstraintTrace = false;
-	protected boolean shortCircuit = false;
+	protected boolean shortCircuiting = false;
 	protected boolean terminate = false;
+	
+	public EvlContext() {
+		constraintTrace = new ConstraintTrace();
+		unsatisfiedConstraints = new HashSet<>();
+	}
 	
 	@Override
 	public ConstraintTrace getConstraintTrace() {
@@ -62,12 +67,12 @@ public class EvlContext extends ErlContext implements IEvlContext {
 	
 	@Override
 	public boolean isShortCircuiting() {
-		return shortCircuit;
+		return shortCircuiting;
 	}
 	
 	@Override
 	public void setShortCircuit(boolean shortCircuit) {
-		this.shortCircuit = shortCircuit;
+		this.shortCircuiting = shortCircuit;
 	}
 
 	@Override

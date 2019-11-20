@@ -9,12 +9,18 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.concurrent;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
+import org.eclipse.epsilon.eol.function.CheckedEolRunnable;
+import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
+import org.eclipse.epsilon.evl.dom.ConstraintContext;
+import org.eclipse.epsilon.evl.dom.GlobalConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
@@ -23,7 +29,7 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public abstract class EvlModuleParallel extends EvlModule {
+public class EvlModuleParallel extends EvlModule {
 	
 	static {
 		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
@@ -38,7 +44,48 @@ public abstract class EvlModuleParallel extends EvlModule {
 	}
 	
 	@Override
-	protected abstract void checkConstraints() throws EolRuntimeException;
+	protected void checkConstraints() throws EolRuntimeException {
+		IEvlContextParallel context = getContext();
+		
+		for (ConstraintContext constraintContext : getConstraintContexts()) {
+			final Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
+			final Collection<?> allOfKind = constraintContext.getAllOfSourceKind(context);
+			final int numElements = allOfKind.size();
+			final IModel model = constraintContext instanceof GlobalConstraintContext ?
+				null : constraintContext.getType(context).getModel();
+			
+			final Collection<CheckedEolRunnable> jobs = new LinkedList<>();
+			
+			if (constraintContext.hasAnnotation("parallel")) {
+				for (Object object : allOfKind) {
+					if (context.shouldBeParallel(constraintContext, object, model, numElements)) {
+						jobs.add(() -> constraintContext.execute(constraintsToCheck, object, context));
+					}
+					else {
+						constraintContext.execute(constraintsToCheck, object, context);
+					}
+				}
+				
+				context.executeParallel(constraintContext, jobs);
+			}	
+			else {
+				for (Constraint constraint : constraintsToCheck) {
+					for (Object object : allOfKind) {
+						if (constraintContext.appliesTo(object, context)) {
+							if (context.shouldBeParallel(constraint, object, model, numElements)) {
+								jobs.add(() -> constraint.execute(context, object));
+							}
+							else {
+								constraint.execute(context, object);
+							}
+						}
+					}
+					
+					context.executeParallel(constraint, jobs);
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Does not look up the element in the context.

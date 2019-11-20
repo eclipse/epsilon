@@ -54,7 +54,8 @@ import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 public class EolContextParallel extends EolContext implements IEolContextParallel {
 
 	int numThreads;
-	protected boolean isInParallelTask, isInShortCircuitTask;
+	protected boolean isInParallelTask;
+	protected boolean isInShortCircuitTask;
 	protected EolThreadPoolExecutor executorService;
 	
 	// Data structures which will be written to and read from during parallel execution:

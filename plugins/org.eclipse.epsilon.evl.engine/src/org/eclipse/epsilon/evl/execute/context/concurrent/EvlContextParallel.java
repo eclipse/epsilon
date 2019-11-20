@@ -27,8 +27,8 @@ import org.eclipse.epsilon.evl.trace.ConstraintTrace;
  */
 public class EvlContextParallel extends ErlContextParallel implements IEvlContextParallel {
 
-	protected Collection<UnsatisfiedConstraint> unsatisfiedConstraints = new SizeCachingConcurrentQueue<>();
-	protected ConstraintTrace constraintTrace = new ConstraintTrace(true);
+	protected Collection<UnsatisfiedConstraint> unsatisfiedConstraints;
+	protected ConstraintTrace constraintTrace;
 	protected boolean optimizeConstraintTrace = false;
 	protected boolean shortCircuiting = false;
 	protected boolean terminate = false;
@@ -44,6 +44,8 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	 */
 	public EvlContextParallel(int parallelism) {
 		super(parallelism);
+		unsatisfiedConstraints = new SizeCachingConcurrentQueue<>();
+		constraintTrace = new ConstraintTrace(true);
 	}
 	
 	@Override
