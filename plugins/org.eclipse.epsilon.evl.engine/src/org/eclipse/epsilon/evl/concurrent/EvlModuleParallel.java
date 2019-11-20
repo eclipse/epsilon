@@ -10,17 +10,12 @@
 package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.Map;
-import java.util.Set;
-import org.eclipse.epsilon.common.function.BaseDelegate.MergeMode;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.concurrent.DelegatePersistentThreadLocal;
+import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
-import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
-import org.eclipse.epsilon.evl.execute.context.EvlContext;
-import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
@@ -30,14 +25,6 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * @since 1.6
  */
 public abstract class EvlModuleParallel extends EvlModule {
-	
-	/**
-	 * Optimisation so that calls to methods like getFrameStack() don't re-fetch the ThreadLocal
-	 * value every time whilst within the same parallelisation context.
-	 */
-	protected DelegatePersistentThreadLocal<EvlContext> concurrentContexts = new DelegatePersistentThreadLocal<>(
-		getContext().getParallelism(), () -> new EvlContext(super.getContext())
-	);
 	
 	static {
 		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
@@ -55,10 +42,11 @@ public abstract class EvlModuleParallel extends EvlModule {
 	protected abstract void checkConstraints() throws EolRuntimeException;
 	
 	@Override
-	protected Set<UnsatisfiedConstraint> processRules() throws EolRuntimeException {
-		Set<UnsatisfiedConstraint> result = super.processRules();
-		concurrentContexts.removeAll(MergeMode.MERGE_INTO_BASE);
-		return result;
+	protected void postExecution() throws EolRuntimeException {
+		if (context instanceof EolContextParallel) {
+			((EolContextParallel) context).clearShadows();
+		}
+		super.postExecution();
 	}
 	
 	/**
@@ -72,16 +60,6 @@ public abstract class EvlModuleParallel extends EvlModule {
 	@Override
 	public IEvlContextParallel getContext() {
 		return (IEvlContextParallel) super.getContext();
-	}
-	
-	/**
-	 * Should be used to obtain the execution context while executing in parallel.
-	 * 
-	 * @return A ThreadLocal copy of {@link #getContext()}.
-	 */
-	protected IEvlContext getShadowContext() {
-		assert getContext().isParallel() : "Shadow context should only be obtained during parallel execution!";
-		return concurrentContexts.get();
 	}
 	
 	/**

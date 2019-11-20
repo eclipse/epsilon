@@ -16,6 +16,8 @@ import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.IEgxModule;
+import org.eclipse.epsilon.egl.execute.context.EgxContext;
+import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 
@@ -48,6 +50,16 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 		this(null, parallelism);
 	}
 
+	@Override
+	protected EgxContext createShadowThreadLocalContext() {
+		return new EgxContext(this);
+	}
+	
+	@Override
+	public IEgxContext getShadow() {
+		return (IEgxContext) super.getShadow();
+	}
+	
 	@Override
 	protected void initThreadLocals() {
 		super.initThreadLocals();

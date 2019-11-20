@@ -15,6 +15,8 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
+import org.eclipse.epsilon.erl.execute.context.ErlContext;
+import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.erl.execute.data.JobBatch;
 import org.eclipse.epsilon.erl.execute.data.RuleAtom;
 
@@ -64,6 +66,16 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 	@Override
 	public RuleExecutorFactory getExecutorFactory() {
 		return (RuleExecutorFactory) super.getExecutorFactory();
+	}
+	
+	@Override
+	protected ErlContext createShadowThreadLocalContext() {
+		return new ErlContext(this);
+	}
+	
+	@Override
+	public IErlContext getShadow() {
+		return (IErlContext) super.getShadow();
 	}
 	
 	@Override

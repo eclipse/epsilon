@@ -15,7 +15,7 @@ import java.util.concurrent.Callable;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
-import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
+import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.erl.IErlModuleParallelAnnotation;
@@ -35,13 +35,13 @@ public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IE
 		super(outputRoot);
 	}
 
-	public EgxModuleParallelAnnotation(IEgxContextParallel context) {
+	public EgxModuleParallelAnnotation(EgxContextParallel context) {
 		super(context);
 	}
 
 	@Override
 	protected Object processRules() throws EolRuntimeException {
-		IEgxContextParallel pContext = getContext();
+		EgxContextParallel pContext = (EgxContextParallel) getContext();
 		ExecutorFactory executorFactory = pContext.getExecutorFactory();
 		
 		for (GenerationRule rule : getGenerationRules()) {
@@ -51,7 +51,7 @@ public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IE
 			for (Object element : allElements) {
 				if (shouldBeParallel(rule, element)) {
 					genJobs.add(() -> {
-						IEgxContext sContext = getShadowContext();
+						IEgxContext sContext = pContext.getShadow();
 						return sContext.getExecutorFactory().execute(rule, sContext, element);
 					});
 				}

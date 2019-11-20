@@ -30,13 +30,13 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 		super();
 	}
 	
-	public EvlModuleParallelElements(IEvlContextParallel context) {
+	public EvlModuleParallelElements(EvlContextParallel context) {
 		super(context);
 	}
 	
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
-		final IEvlContextParallel context = getContext();
+		final EvlContextParallel context = (EvlContextParallel) getContext();
 		
 		for (final ConstraintContext constraintContext : getConstraintContexts()) {
 			final Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
@@ -44,7 +44,7 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 			final Collection<Callable<?>> jobs = new ArrayList<>(allOfKind.size());
 			
 			for (Object element : allOfKind) {
-				jobs.add(() -> constraintContext.execute(constraintsToCheck, element, getShadowContext()));
+				jobs.add(() -> constraintContext.execute(constraintsToCheck, element, context.getShadow()));
 			}
 			
 			context.executeAll(constraintContext, jobs);

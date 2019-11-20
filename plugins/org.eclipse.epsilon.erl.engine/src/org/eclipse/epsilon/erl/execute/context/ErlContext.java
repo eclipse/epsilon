@@ -27,7 +27,11 @@ public class ErlContext extends EolContext implements IErlContext {
 		setExecutorFactory(null);
 	}
 	
-	protected ErlContext(IEolContext other) {
+	/**
+	 * Copy constructor, intended for internal use only.
+	 * @param other The parent context.
+	 */
+	public ErlContext(IEolContext other) {
 		super(other);
 		setExecutorFactory(executorFactory);
 	}

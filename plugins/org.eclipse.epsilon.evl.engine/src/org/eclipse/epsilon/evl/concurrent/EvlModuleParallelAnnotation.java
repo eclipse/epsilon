@@ -18,7 +18,7 @@ import org.eclipse.epsilon.erl.IErlModuleParallelAnnotation;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
-import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
+import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 
 /**
  * 
@@ -31,13 +31,13 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 		super();
 	}
 
-	public EvlModuleParallelAnnotation(IEvlContextParallel context) {
+	public EvlModuleParallelAnnotation(EvlContextParallel context) {
 		super(context);
 	}
 
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
-		IEvlContextParallel pContext = getContext();
+		EvlContextParallel pContext = (EvlContextParallel) getContext();
 		
 		for (ConstraintContext constraintContext : getConstraintContexts()) {
 			final Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
@@ -48,7 +48,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 			if (constraintContext.hasAnnotation("parallel")) {
 				for (Object object : allOfKind) {
 					if (shouldBeParallel(constraintContext, object)) {
-						jobs.add(() -> constraintContext.execute(constraintsToCheck, object, getShadowContext()));
+						jobs.add(() -> constraintContext.execute(constraintsToCheck, object, pContext.getShadow()));
 					}
 					else {
 						constraintContext.execute(constraintsToCheck, object, pContext);
@@ -64,8 +64,8 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 						if (constraintContext.shouldBeChecked(object, pContext)) {
 							if (shouldBeParallel(constraint, object)) {
 								jobs.add(() -> {
-									IEvlContext context = getShadowContext();
-									return context.getExecutorFactory().execute(constraint, context, object);
+									IEvlContext sContext = pContext.getShadow();
+									return sContext.getExecutorFactory().execute(constraint, sContext, object);
 								});
 							}
 							else {

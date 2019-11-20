@@ -51,7 +51,13 @@ import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
  * @since 1.6
  */
 public class EolContextParallel extends EolContext implements IEolContextParallel {
-
+	
+	/**
+	 * Optimisation so that calls to methods like getFrameStack() don't re-fetch the ThreadLocal
+	 * value every time whilst within the same parallelisation context.
+	 */
+	protected DelegatePersistentThreadLocal<EolContext> threadLocalShadows;
+	
 	int numThreads;
 	protected boolean isInParallelTask;
 	protected boolean isInShortCircuitTask;
@@ -76,6 +82,13 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		// This will be the "base" of others, so make it thread-safe for concurrent reads
 		frameStack.setThreadSafe(true);
 		asyncStatementsQueue = new ConcurrentLinkedQueue<>();
+		threadLocalShadows = new DelegatePersistentThreadLocal<>(
+			getParallelism(), this::createShadowThreadLocalContext
+		);
+	}
+	
+	protected EolContext createShadowThreadLocalContext() {
+		return new EolContext(this);
 	}
 	
 	/**
@@ -294,6 +307,26 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	@Override
 	public String toString() {
 		return getClass().getSimpleName()+" [parallelism="+getParallelism()+']';
+	}
+	
+	/**
+	 * Should be used to obtain the execution context while executing in parallel.
+	 * 
+	 * @return A ThreadLocal copy of this context.
+	 */
+	public IEolContext getShadow() {
+		assert isParallel() : "Shadow context should only be obtained during parallel execution!";
+		return threadLocalShadows.get();
+	}
+	
+	/**
+	 * Should be called after all heavyweight parallel execution has completed to merge temporary state.
+	 */
+	public synchronized void clearShadows() {
+		assert !isParallel() : "Should not clear shadow contexts whilst executing parallel jobs!";
+		if (threadLocalShadows != null) {
+			threadLocalShadows.removeAll(MergeMode.MERGE_INTO_BASE);
+		}
 	}
 	
 	/**

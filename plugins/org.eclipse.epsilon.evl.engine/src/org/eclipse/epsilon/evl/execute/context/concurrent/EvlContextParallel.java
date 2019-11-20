@@ -18,6 +18,8 @@ import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
+import org.eclipse.epsilon.evl.execute.context.EvlContext;
+import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
 /**
@@ -46,6 +48,16 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 		super(parallelism);
 		unsatisfiedConstraints = new SizeCachingConcurrentQueue<>();
 		constraintTrace = new ConstraintTrace(true);
+	}
+	
+	@Override
+	protected EvlContext createShadowThreadLocalContext() {
+		return new EvlContext(this);
+	}
+	
+	@Override
+	public IEvlContext getShadow() {
+		return (IEvlContext) super.getShadow();
 	}
 	
 	@Override

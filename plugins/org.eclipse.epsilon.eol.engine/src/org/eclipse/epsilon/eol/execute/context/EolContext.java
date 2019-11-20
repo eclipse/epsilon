@@ -86,12 +86,13 @@ public class EolContext implements IEolContext, BaseDelegate<EolContext> {
 	}
 
 	/**
-	 * Copy constructor
-	 * @param other
+	 * Copy constructor, intended for internal use only.
+	 * 
+	 * @param other The parent context.
 	 * @since 1.6
 	 * @author Sina Madani
 	 */
-	protected EolContext(IEolContext other) {
+	public EolContext(IEolContext other) {
 		userInput = other.getUserInput();
 		modelRepository = other.getModelRepository();
 		introspectionManager = other.getIntrospectionManager();
@@ -120,7 +121,7 @@ public class EolContext implements IEolContext, BaseDelegate<EolContext> {
 			classpathNativeTypeDelegate = new EolClasspathNativeTypeDelegate(other.getClass().getClassLoader());
 		}
 		
-		if (other instanceof EolContextParallel) {
+		if (other instanceof EolContextParallel && ((EolContextParallel) other).isParallel()) {
 			// ThreadLocal values
 			frameStack = other.getFrameStack();
 			executorFactory = other.getExecutorFactory();

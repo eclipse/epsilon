@@ -15,7 +15,7 @@ import java.util.concurrent.Callable;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
-import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
+import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 /**
@@ -30,7 +30,7 @@ public class EgxModuleParallelElements extends EgxModuleParallel {
 		super();
 	}
 
-	public EgxModuleParallelElements(IEgxContextParallel context) {
+	public EgxModuleParallelElements(EgxContextParallel context) {
 		super(context);
 	}
 	
@@ -40,7 +40,7 @@ public class EgxModuleParallelElements extends EgxModuleParallel {
 
 	@Override
 	protected Object processRules() throws EolRuntimeException {
-		final IEgxContextParallel pContext = getContext();
+		final EgxContextParallel pContext = (EgxContextParallel) getContext();
 		
 		for (GenerationRule rule : getGenerationRules()) {
 			final Collection<?> allElements = rule.getAllElements(pContext);
@@ -48,7 +48,7 @@ public class EgxModuleParallelElements extends EgxModuleParallel {
 			
 			for (final Object element : allElements) {
 				genJobs.add(() -> {
-					IEgxContext sContext = getShadowContext();
+					IEgxContext sContext = pContext.getShadow();
 					return sContext.getExecutorFactory().execute(rule, sContext, element);
 				});
 			}
