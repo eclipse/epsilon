@@ -13,10 +13,12 @@ import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import org.eclipse.epsilon.common.function.BaseDelegate;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.execute.DeprecationInfo;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
+import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
 import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
@@ -27,7 +29,7 @@ import org.eclipse.epsilon.eol.types.IToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.userinput.IUserInput;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 
-public class EolContext implements IEolContext {
+public class EolContext implements IEolContext, BaseDelegate<EolContext> {
 	
 	protected IUserInput userInput;
 	protected FrameStack frameStack;
@@ -45,6 +47,10 @@ public class EolContext implements IEolContext {
 	protected OperationContributorRegistry methodContributorRegistry;
 	protected EolClasspathNativeTypeDelegate classpathNativeTypeDelegate;
 	protected List<IToolNativeTypeDelegate> nativeTypeDelegates;
+	/**
+	 * @since 1.6
+	 */
+	protected EolContext parent;
 	
 	/**
 	 * The type of {@link #module} when using {@link #getModule()} and {@link #setModule(IModule)}.
@@ -83,6 +89,7 @@ public class EolContext implements IEolContext {
 	 * Copy constructor
 	 * @param other
 	 * @since 1.6
+	 * @author Sina Madani
 	 */
 	protected EolContext(IEolContext other) {
 		userInput = other.getUserInput();
@@ -93,17 +100,35 @@ public class EolContext implements IEolContext {
 		outputStream = other.getOutputStream();
 		errorStream = other.getErrorStream();
 		warningStream = other.getWarningStream();
-		module = other.getModule();
 		profilingEnabled = other.isProfilingEnabled();
 		assertionsEnabled = other.isAssertionsEnabled();
 		extendedProperties = other.getExtendedProperties();
 		asyncStatementsQueue = other.getAsyncStatementsQueue();
-		methodContributorRegistry = other.getOperationContributorRegistry();
 		nativeTypeDelegates = other.getNativeTypeDelegates();
-		frameStack = new FrameStack(other.getFrameStack());
-		executorFactory = new ExecutorFactory(other.getExecutorFactory());
-		classpathNativeTypeDelegate = other instanceof EolContext ?
-			((EolContext)other).classpathNativeTypeDelegate : new EolClasspathNativeTypeDelegate(other.getClass().getClassLoader());
+		methodContributorRegistry = other.getOperationContributorRegistry();
+		
+		IModule otherModule = other.getModule();
+		if (expectedModuleType.isInstance(otherModule)) {
+			this.module = otherModule;
+		}
+		
+		if (other instanceof EolContext) {
+			parent = (EolContext) other;
+			classpathNativeTypeDelegate = parent.classpathNativeTypeDelegate;
+		}
+		else {
+			classpathNativeTypeDelegate = new EolClasspathNativeTypeDelegate(other.getClass().getClassLoader());
+		}
+		
+		if (other instanceof EolContextParallel) {
+			// ThreadLocal values
+			frameStack = other.getFrameStack();
+			executorFactory = other.getExecutorFactory();
+		}
+		else {
+			frameStack = new FrameStack(other.getFrameStack());
+			executorFactory = new ExecutorFactory(other.getExecutorFactory());
+		}
 	}
 
 	@Override
@@ -292,5 +317,22 @@ public class EolContext implements IEolContext {
 	@Override
 	public Queue<AsyncStatementInstance> getAsyncStatementsQueue() {
 		return asyncStatementsQueue;
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public EolContext getBase() {
+		return parent;
+	}
+
+	/**
+	 * @since 1.6
+	 */
+	@Override
+	public void merge(MergeMode mode) {
+		getExecutorFactory().merge(mode);
+		getFrameStack().merge(mode);
 	}
 }

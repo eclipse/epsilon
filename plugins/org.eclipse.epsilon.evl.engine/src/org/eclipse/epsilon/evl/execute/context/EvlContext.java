@@ -32,6 +32,20 @@ public class EvlContext extends ErlContext implements IEvlContext {
 		unsatisfiedConstraints = new HashSet<>();
 	}
 	
+	/**
+	 * Copy constructor, intended for internal use only.
+	 * 
+	 * @param other The parent context.
+	 * @since 1.6
+	 */
+	public EvlContext(IEvlContext other) {
+		super(other);
+		optimizeConstraintTrace = other.isOptimizeConstraintTrace();
+		shortCircuiting = other.isShortCircuiting();
+		unsatisfiedConstraints = other.getUnsatisfiedConstraints();
+		constraintTrace = other.getConstraintTrace();
+	}
+	
 	@Override
 	public ConstraintTrace getConstraintTrace() {
 		return constraintTrace;

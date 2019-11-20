@@ -48,7 +48,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 			if (constraintContext.hasAnnotation("parallel")) {
 				for (Object object : allOfKind) {
 					if (shouldBeParallel(constraintContext, object)) {
-						jobs.add(() -> constraintContext.execute(constraintsToCheck, object, getContext()));
+						jobs.add(() -> constraintContext.execute(constraintsToCheck, object, getShadowContext()));
 					}
 					else {
 						constraintContext.execute(constraintsToCheck, object, pContext);
@@ -64,7 +64,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 						if (constraintContext.shouldBeChecked(object, pContext)) {
 							if (shouldBeParallel(constraint, object)) {
 								jobs.add(() -> {
-									IEvlContext context = getContext();
+									IEvlContext context = getShadowContext();
 									return context.getExecutorFactory().execute(constraint, context, object);
 								});
 							}

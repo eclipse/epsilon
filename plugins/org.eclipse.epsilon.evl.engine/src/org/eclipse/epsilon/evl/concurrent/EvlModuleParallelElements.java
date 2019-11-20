@@ -44,7 +44,7 @@ public class EvlModuleParallelElements extends EvlModuleParallel {
 			final Collection<Callable<?>> jobs = new ArrayList<>(allOfKind.size());
 			
 			for (Object element : allOfKind) {
-				jobs.add(() -> constraintContext.execute(constraintsToCheck, element, getContext()));
+				jobs.add(() -> constraintContext.execute(constraintsToCheck, element, getShadowContext()));
 			}
 			
 			context.executeAll(constraintContext, jobs);

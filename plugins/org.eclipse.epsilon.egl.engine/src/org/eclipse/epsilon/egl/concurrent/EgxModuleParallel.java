@@ -14,9 +14,12 @@ import java.util.Map;
 import java.util.Set;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.execute.context.EgxContext;
+import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.concurrent.DelegatePersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
 /**
@@ -30,6 +33,14 @@ public abstract class EgxModuleParallel extends EgxModule {
 	static {
 		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
 	}
+	
+	/**
+	 * Optimisation so that calls to methods like getFrameStack() don't re-fetch the ThreadLocal
+	 * value every time whilst within the same parallelisation context.
+	 */
+	protected DelegatePersistentThreadLocal<EgxContext> concurrentContexts = new DelegatePersistentThreadLocal<>(
+		getContext().getParallelism(), () -> new EgxContext(super.getContext())
+	);
 	
 	public EgxModuleParallel() {
 		this((IEgxContextParallel) null);
@@ -50,6 +61,10 @@ public abstract class EgxModuleParallel extends EgxModule {
 	@Override
 	public IEgxContextParallel getContext() {
 		return (IEgxContextParallel) super.getContext();
+	}
+	
+	protected IEgxContext getShadowContext() {
+		return concurrentContexts.get();
 	}
 	
 	/**

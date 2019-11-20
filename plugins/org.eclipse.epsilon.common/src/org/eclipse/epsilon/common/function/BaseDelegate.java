@@ -27,7 +27,7 @@ import org.eclipse.epsilon.common.util.CollectionUtil;
  * @since 1.6
  */
 @SuppressWarnings("unchecked")
-public interface BaseDelegate<T extends BaseDelegate<T>> {
+public interface BaseDelegate<T extends BaseDelegate<? extends T>> {
 	
 	static enum MergeMode {
 		MERGE_INTO_BASE,

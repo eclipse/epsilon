@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.concurrent.Callable;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
@@ -39,17 +40,20 @@ public class EgxModuleParallelElements extends EgxModuleParallel {
 
 	@Override
 	protected Object processRules() throws EolRuntimeException {
-		final IEgxContextParallel context = getContext();
+		final IEgxContextParallel pContext = getContext();
 		
 		for (GenerationRule rule : getGenerationRules()) {
-			final Collection<?> allElements = rule.getAllElements(context);
+			final Collection<?> allElements = rule.getAllElements(pContext);
 			final ArrayList<Callable<?>> genJobs = new ArrayList<>(allElements.size());
 			
 			for (final Object element : allElements) {
-				genJobs.add(() -> context.getExecutorFactory().execute(rule, context, element));
+				genJobs.add(() -> {
+					IEgxContext sContext = getShadowContext();
+					return sContext.getExecutorFactory().execute(rule, sContext, element);
+				});
 			}
 			
-			context.executeAll(rule, genJobs);
+			pContext.executeAll(rule, genJobs);
 		}
 		return null;
 	}

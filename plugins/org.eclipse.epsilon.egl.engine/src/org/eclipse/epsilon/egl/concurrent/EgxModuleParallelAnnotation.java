@@ -14,8 +14,10 @@ import java.util.Collection;
 import java.util.concurrent.Callable;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.erl.IErlModuleParallelAnnotation;
 
 /**
@@ -39,21 +41,25 @@ public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IE
 
 	@Override
 	protected Object processRules() throws EolRuntimeException {
-		IEgxContextParallel context = getContext();
+		IEgxContextParallel pContext = getContext();
+		ExecutorFactory executorFactory = pContext.getExecutorFactory();
 		
 		for (GenerationRule rule : getGenerationRules()) {
-			final Collection<?> allElements = rule.getAllElements(context);
+			final Collection<?> allElements = rule.getAllElements(pContext);
 			final Collection<Callable<?>> genJobs = new ArrayList<>(allElements.size());
 			
 			for (Object element : allElements) {
 				if (shouldBeParallel(rule, element)) {
-					genJobs.add(() -> context.getExecutorFactory().execute(rule, context, element));
+					genJobs.add(() -> {
+						IEgxContext sContext = getShadowContext();
+						return sContext.getExecutorFactory().execute(rule, sContext, element);
+					});
 				}
 				else {
-					context.getExecutorFactory().execute(rule, context, element);
+					executorFactory.execute(rule, pContext, element);
 				}
 			}
-			context.executeAll(rule, genJobs);
+			pContext.executeAll(rule, genJobs);
 		}
 		return null;
 	}

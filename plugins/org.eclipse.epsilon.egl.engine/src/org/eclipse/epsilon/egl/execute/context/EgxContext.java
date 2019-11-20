@@ -28,15 +28,33 @@ public class EgxContext extends ErlContext implements IEgxContext {
 	
 	private EgxModuleTemplateAdapter baseTemplate;
 	private EglTemplateFactory templateFactory;
-	protected Map<URI, EglTemplate> templateCache = new HashMap<>();
-	protected Collection<Template> invokedTemplates = new ArrayList<>();
+	protected Map<URI, EglTemplate> templateCache;
+	protected Collection<Template> invokedTemplates;
 	
 	public EgxContext() {
-		this(null);
+		this((EglTemplateFactory) null);
 	}
 	
 	public EgxContext(EglTemplateFactory templateFactory) {
 		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory();
+		invokedTemplates = new ArrayList<>();
+		templateCache = new HashMap<>();
+	}
+	
+	/**
+	 * Copy constructor, intended for internal use only.
+	 * 
+	 * @param other The parent context.
+	 * @since 1.6
+	 */
+	public EgxContext(IEgxContext other) {
+		super(other);
+		templateFactory = other.getTemplateFactory();
+		invokedTemplates = other.getInvokedTemplates();
+		templateCache = other.getTemplateCache();
+		if (other instanceof EgxContext) {
+			baseTemplate = ((EgxContext) other).baseTemplate;
+		}
 	}
 	
 	public EgxModuleTemplateAdapter getTrace() {

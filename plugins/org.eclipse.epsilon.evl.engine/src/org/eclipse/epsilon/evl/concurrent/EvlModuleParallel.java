@@ -19,6 +19,8 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
+import org.eclipse.epsilon.evl.execute.context.EvlContext;
+import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
@@ -33,8 +35,8 @@ public abstract class EvlModuleParallel extends EvlModule {
 	 * Optimisation so that calls to methods like getFrameStack() don't re-fetch the ThreadLocal
 	 * value every time whilst within the same parallelisation context.
 	 */
-	protected DelegatePersistentThreadLocal<EvlContextParallel> concurrentContexts = new DelegatePersistentThreadLocal<>(
-		getContext().getParallelism(), () -> new EvlContextParallel(super.getContext())
+	protected DelegatePersistentThreadLocal<EvlContext> concurrentContexts = new DelegatePersistentThreadLocal<>(
+		getContext().getParallelism(), () -> new EvlContext(super.getContext())
 	);
 	
 	static {
@@ -69,12 +71,21 @@ public abstract class EvlModuleParallel extends EvlModule {
 	
 	@Override
 	public IEvlContextParallel getContext() {
-		IEvlContextParallel context = (IEvlContextParallel) super.getContext();
-		return context != null && context.isParallel() ? concurrentContexts.get() : context;
+		return (IEvlContextParallel) super.getContext();
 	}
 	
 	/**
-	 * WARNING: This method should only be called by the DT plugin for initialization purposes,
+	 * Should be used to obtain the execution context while executing in parallel.
+	 * 
+	 * @return A ThreadLocal copy of {@link #getContext()}.
+	 */
+	protected IEvlContext getShadowContext() {
+		assert getContext().isParallel() : "Shadow context should only be obtained during parallel execution!";
+		return concurrentContexts.get();
+	}
+	
+	/**
+	 * WARNING: This method should only be called by the DT plugin for initialisation purposes,
 	 * as the context will be reset!
 	 */
 	@Override
