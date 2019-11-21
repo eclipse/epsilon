@@ -17,7 +17,6 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 
 /**
@@ -47,14 +46,6 @@ public abstract class EgxModuleParallel extends EgxModule {
 	
 	@Override
 	protected abstract Object processRules() throws EolRuntimeException;
-	
-	@Override
-	protected void postExecution() throws EolRuntimeException {
-		if (context instanceof EolContextParallel) {
-			((EolContextParallel) context).clearShadows();
-		}
-		super.postExecution();
-	}
 	
 	@Override
 	public IEgxContextParallel getContext() {

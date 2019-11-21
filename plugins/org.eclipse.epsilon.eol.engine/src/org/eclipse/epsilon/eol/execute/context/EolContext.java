@@ -18,7 +18,7 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.execute.DeprecationInfo;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
-import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
+import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
 import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
@@ -106,7 +106,11 @@ public class EolContext implements IEolContext, BaseDelegate<EolContext> {
 		extendedProperties = other.getExtendedProperties();
 		asyncStatementsQueue = other.getAsyncStatementsQueue();
 		nativeTypeDelegates = other.getNativeTypeDelegates();
+		// Note that if other instanceof EolContextParallel && other.isParallel(), then
+		// the following three will be ThreadLocal references as desired.
 		methodContributorRegistry = other.getOperationContributorRegistry();
+		frameStack = other.getFrameStack();
+		executorFactory = other.getExecutorFactory();
 		
 		IModule otherModule = other.getModule();
 		if (expectedModuleType.isInstance(otherModule)) {
@@ -119,16 +123,6 @@ public class EolContext implements IEolContext, BaseDelegate<EolContext> {
 		}
 		else {
 			classpathNativeTypeDelegate = new EolClasspathNativeTypeDelegate(other.getClass().getClassLoader());
-		}
-		
-		if (other instanceof EolContextParallel && ((EolContextParallel) other).isParallel()) {
-			// ThreadLocal values
-			frameStack = other.getFrameStack();
-			executorFactory = other.getExecutorFactory();
-		}
-		else {
-			frameStack = new FrameStack(other.getFrameStack());
-			executorFactory = new ExecutorFactory(other.getExecutorFactory());
 		}
 	}
 
@@ -309,8 +303,9 @@ public class EolContext implements IEolContext, BaseDelegate<EolContext> {
 	
 	@Override
 	public void dispose() {
-		if (executorFactory.getExecutionController() != null) {
-			executorFactory.getExecutionController().dispose();
+		ExecutionController executionController = executorFactory.getExecutionController();
+		if (executionController != null) {
+			executionController.dispose();
 		}
 		extendedProperties.clear();
 	}

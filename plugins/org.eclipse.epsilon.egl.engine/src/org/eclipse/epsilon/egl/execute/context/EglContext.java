@@ -22,7 +22,9 @@ import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolClasspathNativeTypeDelegate;
 
@@ -52,14 +54,16 @@ public class EglContext extends EolContext implements IEglContext {
 	
 	public EglContext(IEglContext other) {
 		super(other);
-	 	this.templateFactory = other.getTemplateFactory();
-		this.setPartitioner(other.getPartitioner());
-		this.setContentTypeRepository(other.getContentTypeRepository());
+		frameStack = new FrameStack(other.getFrameStack());
+		executorFactory = new ExecutorFactory(other.getExecutorFactory());
+	 	templateFactory = other.getTemplateFactory();
+		setPartitioner(other.getPartitioner());
+		setContentTypeRepository(other.getContentTypeRepository());
 		if (other instanceof EglContext) {
-	 		this.statusMessages = ((EglContext) other).statusMessages;
+	 		statusMessages = ((EglContext) other).statusMessages;
 	 	}
 	 	else {
-	 		this.statusMessages.addAll(other.getStatusMessages());
+	 		statusMessages.addAll(other.getStatusMessages());
 	 	}
 	}
 	

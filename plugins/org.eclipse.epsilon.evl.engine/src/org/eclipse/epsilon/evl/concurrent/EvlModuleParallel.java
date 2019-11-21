@@ -12,7 +12,6 @@ package org.eclipse.epsilon.evl.concurrent;
 import java.util.Map;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -40,14 +39,6 @@ public abstract class EvlModuleParallel extends EvlModule {
 	
 	@Override
 	protected abstract void checkConstraints() throws EolRuntimeException;
-	
-	@Override
-	protected void postExecution() throws EolRuntimeException {
-		if (context instanceof EolContextParallel) {
-			((EolContextParallel) context).clearShadows();
-		}
-		super.postExecution();
-	}
 	
 	/**
 	 * Does not look up the element in the context.

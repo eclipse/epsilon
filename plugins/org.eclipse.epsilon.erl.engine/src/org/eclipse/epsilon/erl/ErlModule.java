@@ -21,6 +21,7 @@ import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.erl.dom.*;
 import org.eclipse.epsilon.erl.exceptions.ErlCircularRuleInheritanceException;
 import org.eclipse.epsilon.erl.exceptions.ErlRuleNotFoundException;
@@ -126,6 +127,9 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 	}
 	
 	protected void postExecution() throws EolRuntimeException {
+		if (context instanceof EolContextParallel) {
+			((EolContextParallel) context).clearShadows();
+		}
 		execute(getPost(), getContext());
 	}
 	
