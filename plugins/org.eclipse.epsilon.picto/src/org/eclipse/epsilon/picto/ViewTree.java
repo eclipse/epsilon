@@ -136,10 +136,16 @@ public class ViewTree {
 	public String getContent() {
 		
 		if (cachedContent == null) {
-			try {
-				cachedContent = promise.getContent();
-			} catch (Exception e) {
-				throw new RuntimeException(e);
+			
+			if (promise == null) {
+				cachedContent = "";
+			}
+			else {
+				try {
+					cachedContent = promise.getContent();
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
 			}
 		}
 		
