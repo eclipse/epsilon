@@ -63,32 +63,32 @@
             name="Sequential">
       </implementation>
       <implementation
-            class="org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelContextAtoms"
-            default="false"
-            dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
-            language="EVL"
-            name="ParallelContextAtoms">
-      </implementation>
-      <implementation
             class="org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation"
             default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
             language="EVL"
-            name="ParallelAnnotations">
+            name="Parallel (Annotations)">
       </implementation>
       <implementation
             class="org.eclipse.epsilon.evl.concurrent.EvlModuleParallelElements"
             default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
             language="EVL"
-            name="ParallelElements [Recommended]">
+            name="Parallel (Elements) [Recommended]">
+      </implementation>
+      <implementation
+            class="org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelContextAtoms"
+            default="false"
+            dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
+            language="EVL"
+            name="Parallel (ContextAtoms)">
       </implementation>
       <implementation
             class="org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelConstraintAtoms"
             default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
             language="EVL"
-            name="ParallelConstraintAtoms">
+            name="Parallel (ConstraintAtoms)">
       </implementation>
    </extension>
 

@@ -56,15 +56,15 @@ public class EvlModuleConfiguration extends AbstractModuleConfiguration {
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
-			if (configuration.getAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, false)) {
-				optimizeConstraintsBtn.setSelection(true);
-			}
-			if (configuration.getAttribute(IEvlContext.OPTIMIZE_CONSTRAINT_TRACE, false)) {
-				optimizeConstraintTraceBtn.setSelection(true);
-			}
-			if (configuration.getAttribute(IEvlContext.SHORT_CIRCUIT, false)) {
-				shortCircuitBtn.setSelection(true);
-			}
+			optimizeConstraintsBtn.setSelection(
+				configuration.getAttribute(EvlModule.OPTIMIZE_CONSTRAINTS, optimizeConstraintsBtn.getSelection())
+			);
+			optimizeConstraintTraceBtn.setSelection(configuration.getAttribute(
+				IEvlContext.OPTIMIZE_CONSTRAINT_TRACE, optimizeConstraintTraceBtn.getSelection())
+			);
+			shortCircuitBtn.setSelection(
+				configuration.getAttribute(IEvlContext.SHORT_CIRCUIT, shortCircuitBtn.getSelection())
+			);
 		}
 		catch (CoreException e) {
 			// skip 
