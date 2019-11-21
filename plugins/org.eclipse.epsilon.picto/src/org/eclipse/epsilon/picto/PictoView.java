@@ -46,6 +46,7 @@ import org.eclipse.epsilon.picto.source.EmfaticSource;
 import org.eclipse.epsilon.picto.source.FlexmiSource;
 import org.eclipse.epsilon.picto.source.HtmlSource;
 import org.eclipse.epsilon.picto.source.NeatoSource;
+import org.eclipse.epsilon.picto.source.SvgSource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
@@ -93,6 +94,7 @@ public class PictoView extends ViewPart {
 					new EditingDomainProviderSource(), 
 					new FlexmiSource(),
 					new HtmlSource(),
+					new SvgSource(),
 					new DotSource(),
 					new NeatoSource());
 	
