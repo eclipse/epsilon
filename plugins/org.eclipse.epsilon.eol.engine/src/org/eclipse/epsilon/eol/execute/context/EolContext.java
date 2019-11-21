@@ -13,7 +13,6 @@ import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import org.eclipse.epsilon.common.function.BaseDelegate;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.execute.DeprecationInfo;
@@ -29,7 +28,7 @@ import org.eclipse.epsilon.eol.types.IToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.userinput.IUserInput;
 import org.eclipse.epsilon.eol.userinput.JavaConsoleUserInput;
 
-public class EolContext implements IEolContext, BaseDelegate<EolContext> {
+public class EolContext implements IEolContext {
 	
 	protected IUserInput userInput;
 	protected FrameStack frameStack;
@@ -47,10 +46,6 @@ public class EolContext implements IEolContext, BaseDelegate<EolContext> {
 	protected OperationContributorRegistry methodContributorRegistry;
 	protected EolClasspathNativeTypeDelegate classpathNativeTypeDelegate;
 	protected List<IToolNativeTypeDelegate> nativeTypeDelegates;
-	/**
-	 * @since 1.6
-	 */
-	protected EolContext parent;
 	
 	/**
 	 * The type of {@link #module} when using {@link #getModule()} and {@link #setModule(IModule)}.
@@ -118,8 +113,7 @@ public class EolContext implements IEolContext, BaseDelegate<EolContext> {
 		}
 		
 		if (other instanceof EolContext) {
-			parent = (EolContext) other;
-			classpathNativeTypeDelegate = parent.classpathNativeTypeDelegate;
+			classpathNativeTypeDelegate = ((EolContext) other).classpathNativeTypeDelegate;
 		}
 		else {
 			classpathNativeTypeDelegate = new EolClasspathNativeTypeDelegate(other.getClass().getClassLoader());
@@ -313,22 +307,5 @@ public class EolContext implements IEolContext, BaseDelegate<EolContext> {
 	@Override
 	public Queue<AsyncStatementInstance> getAsyncStatementsQueue() {
 		return asyncStatementsQueue;
-	}
-
-	/**
-	 * @since 1.6
-	 */
-	@Override
-	public EolContext getBase() {
-		return parent;
-	}
-
-	/**
-	 * @since 1.6
-	 */
-	@Override
-	public void merge(MergeMode mode) {
-		getExecutorFactory().merge(mode);
-		getFrameStack().merge(mode);
 	}
 }

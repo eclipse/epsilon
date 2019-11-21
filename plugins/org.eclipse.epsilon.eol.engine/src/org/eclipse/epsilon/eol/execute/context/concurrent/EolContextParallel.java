@@ -24,6 +24,7 @@ import java.util.stream.BaseStream;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import org.eclipse.epsilon.common.function.BaseDelegate.MergeMode;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.function.BaseDelegate;
 import org.eclipse.epsilon.common.module.ModuleElement;
@@ -66,7 +67,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * Optimisation so that calls to methods like getFrameStack() don't re-fetch the ThreadLocal
 	 * value every time whilst within the same parallelisation context.
 	 */
-	DelegatePersistentThreadLocal<EolContext> threadLocalShadows;
+	ThreadLocal<EolContext> threadLocalShadows;
 	
 	public EolContextParallel() {
 		this(0);
@@ -82,9 +83,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		// This will be the "base" of others, so make it thread-safe for concurrent reads
 		frameStack.setThreadSafe(true);
 		asyncStatementsQueue = new ConcurrentLinkedQueue<>();
-		threadLocalShadows = new DelegatePersistentThreadLocal<>(
-			getParallelism(), this::createShadowThreadLocalContext
-		);
 	}
 	
 	/**
@@ -113,6 +111,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		concurrentMethodContributors = ThreadLocal.withInitial(OperationContributorRegistry::new);
 		concurrentFrameStacks = initDelegateThreadLocal(() -> new FrameStack(frameStack, false));
 		concurrentExecutorFactories = initDelegateThreadLocal(() -> new ExecutorFactory(executorFactory));
+		threadLocalShadows = ThreadLocal.withInitial(this::createShadowThreadLocalContext);
 	}
 	
 	protected <T extends BaseDelegate<T>> DelegatePersistentThreadLocal<T> initDelegateThreadLocal(Supplier<? extends T> constructor) {
@@ -190,13 +189,14 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	protected synchronized void clearThreadLocals() {
-		removeAll(concurrentFrameStacks, concurrentExecutorFactories, concurrentMethodContributors);
+		removeAll(concurrentFrameStacks, concurrentExecutorFactories, concurrentMethodContributors, threadLocalShadows);
 	}
 	
 	protected void nullifyThreadLocals() {
 		concurrentFrameStacks = null;
 		concurrentExecutorFactories = null;
 		concurrentMethodContributors = null;
+		threadLocalShadows = null;
 	}
 	
 	protected void clearExecutor() {
@@ -317,16 +317,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	public IEolContext getShadow() {
 		assert isParallel() : "Shadow context should only be obtained during parallel execution!";
 		return threadLocalShadows.get();
-	}
-	
-	/**
-	 * Should be called after all heavyweight parallel execution has completed to merge temporary state.
-	 */
-	public synchronized void clearShadows() {
-		assert !isParallel() : "Should not clear shadow contexts whilst executing parallel jobs!";
-		if (threadLocalShadows != null) {
-			threadLocalShadows.removeAll(MergeMode.MERGE_INTO_BASE);
-		}
 	}
 	
 	/**

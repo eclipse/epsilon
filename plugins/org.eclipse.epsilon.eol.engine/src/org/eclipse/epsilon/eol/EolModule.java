@@ -28,7 +28,6 @@ import org.eclipse.epsilon.eol.execute.Return;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.eol.parse.EolLexer;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.tools.EolSystem;
@@ -411,11 +410,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 	
 	public Object executeImpl() throws EolRuntimeException {
 		IEolContext context = getContext();
-		Object result = Return.getValue(context.getExecutorFactory().execute(main, context));
-		if (context instanceof EolContextParallel) {
-			((EolContextParallel) context).clearShadows();
-		}
-		return result;
+		return Return.getValue(context.getExecutorFactory().execute(main, context));
 	}
 	
 	@Override
