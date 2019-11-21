@@ -52,12 +52,6 @@ import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
  */
 public class EolContextParallel extends EolContext implements IEolContextParallel {
 	
-	/**
-	 * Optimisation so that calls to methods like getFrameStack() don't re-fetch the ThreadLocal
-	 * value every time whilst within the same parallelisation context.
-	 */
-	protected DelegatePersistentThreadLocal<EolContext> threadLocalShadows;
-	
 	int numThreads;
 	protected boolean isInParallelTask;
 	protected boolean isInShortCircuitTask;
@@ -67,6 +61,12 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	protected ThreadLocal<FrameStack> concurrentFrameStacks;
 	protected ThreadLocal<OperationContributorRegistry> concurrentMethodContributors;
 	protected ThreadLocal<ExecutorFactory> concurrentExecutorFactories;
+	
+	/**
+	 * Optimisation so that calls to methods like getFrameStack() don't re-fetch the ThreadLocal
+	 * value every time whilst within the same parallelisation context.
+	 */
+	DelegatePersistentThreadLocal<EolContext> threadLocalShadows;
 	
 	public EolContextParallel() {
 		this(0);
@@ -85,10 +85,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		threadLocalShadows = new DelegatePersistentThreadLocal<>(
 			getParallelism(), this::createShadowThreadLocalContext
 		);
-	}
-	
-	protected EolContext createShadowThreadLocalContext() {
-		return new EolContext(this);
 	}
 	
 	/**
@@ -309,6 +305,10 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		return getClass().getSimpleName()+" [parallelism="+getParallelism()+']';
 	}
 	
+	protected EolContext createShadowThreadLocalContext() {
+		return new EolContext(this);
+	}
+	
 	/**
 	 * Should be used to obtain the execution context while executing in parallel.
 	 * 
@@ -332,17 +332,15 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	/**
 	 * Evaluates the job using this context's parallel execution facilities.
 	 * Subclasses may override this to support additional job types, calling
-	 * the super method as the last resort for unknown cases. All implementations
-	 * are expected to support Iterable / Collection types, as well as common
+	 * the super method as the last resort for unknown cases. Supported types include
+	 * multi-valued types (e.g. Iterable / Iterator, Stream etc.) as well as common
 	 * concurrency units such as Runnable, Callable and Future.
 	 * 
 	 * @param job The job (or jobs) to evaluate.
-	 * @param isInLoop Whether this method is being called recursively from a loop.
-	 * 
 	 * @throws IllegalArgumentException If the job type is not recognised.
 	 * @throws EolRuntimeException If an exception is thrown whilst evaluating the job(s).
 	 * 
-	 * @return The result of evaluating the job.
+	 * @return The result of evaluating the job, if any.
 	 */
 	@SuppressWarnings("unchecked")
 	protected Object executeJob(Object job) throws EolRuntimeException {
