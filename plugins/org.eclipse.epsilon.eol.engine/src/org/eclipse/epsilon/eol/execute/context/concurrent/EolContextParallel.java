@@ -350,7 +350,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @return The result of evaluating the job, if any.
 	 */
 	@SuppressWarnings("unchecked")
-	protected Object executeJob(Object job) throws EolRuntimeException {
+	public Object executeJob(Object job) throws EolRuntimeException {
 		if (job == null) {
 			return null;
 		}
@@ -362,10 +362,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 					new ArrayList<>(((Collection<?>) job).size()) : new LinkedList<>();
 				
 				for (Object next : (Iterable<?>) job) {
-					jobs.add(next instanceof Callable ?
-						(Callable<?>) next :
-						() -> executeJob(next)
-					);
+					jobs.add(() -> executeJob(next));
 				}
 				return executeAll(null, jobs);
 			}

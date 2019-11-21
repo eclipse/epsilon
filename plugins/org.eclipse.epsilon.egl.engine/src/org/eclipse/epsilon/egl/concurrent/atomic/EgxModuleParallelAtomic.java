@@ -15,6 +15,7 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
+import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.erl.execute.data.ExecutableRuleAtom;
 
 /**
@@ -55,6 +56,9 @@ public abstract class EgxModuleParallelAtomic<A extends ExecutableRuleAtom<?>> e
 	
 	@Override
 	protected Object processRules() throws EolRuntimeException {
-		return getContext().executeAll(this, getAllJobs());
+		if (context instanceof ErlContextParallel) {
+			return ((ErlContextParallel) context).executeJob(getAllJobs());
+		}
+		else return getContext().executeAll(this, getAllJobs());
 	}
 }

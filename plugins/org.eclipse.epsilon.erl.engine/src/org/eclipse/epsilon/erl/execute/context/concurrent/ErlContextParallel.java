@@ -78,9 +78,9 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 	}
 	
 	@Override
-	protected Object executeJob(Object job) throws EolRuntimeException {
+	public Object executeJob(Object job) throws EolRuntimeException {
 		if (job instanceof RuleAtom) {
-			return ((RuleAtom<?>) job).execute(this);
+			return ((RuleAtom<?>) job).execute(getShadow());
 		}
 		Object module;
 		if (job instanceof JobBatch && (module = getModule()) instanceof IErlModuleAtomicBatches) {

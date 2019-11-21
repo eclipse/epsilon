@@ -68,6 +68,18 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 	}
 	
 	@Override
+	protected synchronized void clearThreadLocals() {
+		super.clearThreadLocals();
+		removeAll(concurrentTemplateCaches);
+	}
+	
+	@Override
+	protected void nullifyThreadLocals() {
+		super.nullifyThreadLocals();
+		concurrentTemplateCaches = null;
+	}
+	
+	@Override
 	public void setTemplateFactory(EglTemplateFactory templateFactory) {
 		if ((this.templateFactory = templateFactory) != null) {
 			templateFactory.setCopyContextForNewTemplates(true);
