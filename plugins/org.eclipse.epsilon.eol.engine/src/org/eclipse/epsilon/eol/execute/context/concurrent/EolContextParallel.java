@@ -54,14 +54,14 @@ import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 public class EolContextParallel extends EolContext implements IEolContextParallel {
 	
 	int numThreads;
-	protected boolean isInParallelTask;
-	protected boolean isInShortCircuitTask;
+	boolean isInParallelTask;
+	boolean isInShortCircuitTask;
 	protected EolThreadPoolExecutor executorService;
 	
 	// Data structures which will be written to and read from during parallel execution:
-	protected ThreadLocal<FrameStack> concurrentFrameStacks;
-	protected ThreadLocal<OperationContributorRegistry> concurrentMethodContributors;
-	protected ThreadLocal<ExecutorFactory> concurrentExecutorFactories;
+	ThreadLocal<FrameStack> concurrentFrameStacks;
+	ThreadLocal<OperationContributorRegistry> concurrentMethodContributors;
+	ThreadLocal<ExecutorFactory> concurrentExecutorFactories;
 	
 	/**
 	 * Optimisation so that calls to methods like getFrameStack() don't re-fetch the ThreadLocal
@@ -108,9 +108,9 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	protected void initThreadLocals() {
-		concurrentMethodContributors = ThreadLocal.withInitial(OperationContributorRegistry::new);
-		concurrentFrameStacks = initDelegateThreadLocal(() -> new FrameStack(frameStack, false));
-		concurrentExecutorFactories = initDelegateThreadLocal(() -> new ExecutorFactory(executorFactory));
+		concurrentMethodContributors = ThreadLocal.withInitial(this::createThreadLocalOperationContributorRegistry);
+		concurrentFrameStacks = initDelegateThreadLocal(this::createThreadLocalFrameStack);
+		concurrentExecutorFactories = initDelegateThreadLocal(this::createThreadLocalExecutorFactory);
 		threadLocalShadows = ThreadLocal.withInitial(this::createShadowThreadLocalContext);
 	}
 	
@@ -305,6 +305,18 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		return getClass().getSimpleName()+" [parallelism="+getParallelism()+']';
 	}
 	
+	protected ExecutorFactory createThreadLocalExecutorFactory() {
+		return new ExecutorFactory(executorFactory);
+	}
+	
+	protected FrameStack createThreadLocalFrameStack() {
+		return new FrameStack(frameStack, false);
+	}
+	
+	protected OperationContributorRegistry createThreadLocalOperationContributorRegistry() {
+		return new OperationContributorRegistry();
+	}
+	
 	protected EolContext createShadowThreadLocalContext() {
 		return new EolContext(this);
 	}
@@ -313,9 +325,14 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * Should be used to obtain the execution context while executing in parallel.
 	 * 
 	 * @return A ThreadLocal copy of this context.
+	 * @throws IllegalStateException If this method is called when {@link #isParallel()} is <code>false</code>,
+	 * or if called in any other illegal manner.
 	 */
-	public IEolContext getShadow() {
-		assert isParallel() : "Shadow context should only be obtained during parallel execution!";
+	public IEolContext getShadow() throws IllegalStateException {
+		if (threadLocalShadows == null) throw new IllegalStateException(
+			"Shadow context should only be obtained during parallel execution!"
+		);
+		assert isParallel();
 		return threadLocalShadows.get();
 	}
 	

@@ -61,6 +61,10 @@ public class PersistentThreadLocal<T> extends ThreadLocal<T> {
 		return allValues.values();
 	}
 	
+	public int size() {
+		return allValues.size();
+	}
+	
 	public void removeAll() {
 		allValues.clear();
 		remove();

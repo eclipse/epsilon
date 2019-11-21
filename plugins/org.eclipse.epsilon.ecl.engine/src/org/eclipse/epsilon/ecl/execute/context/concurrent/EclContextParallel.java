@@ -20,8 +20,8 @@ import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
  */
 public class EclContextParallel extends ErlContextParallel implements IEclContextParallel {
 
-	protected MatchTrace matchTrace = new MatchTrace(true);
-	protected MatchTrace tempMatchTrace = new MatchTrace(true);
+	protected MatchTrace matchTrace;
+	protected MatchTrace tempMatchTrace;
 	
 	public EclContextParallel() {
 		this(0);
@@ -29,6 +29,8 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 
 	public EclContextParallel(int parallelism) {
 		super(parallelism);
+		matchTrace = new MatchTrace(true);
+		tempMatchTrace = new MatchTrace(true);
 	}
 
 	@Override

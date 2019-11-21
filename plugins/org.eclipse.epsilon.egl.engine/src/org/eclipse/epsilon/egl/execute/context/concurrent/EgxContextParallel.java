@@ -30,8 +30,8 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 
 	protected EglTemplateFactory templateFactory;
 	protected Map<URI, EglTemplate> templateCache;
-	protected ThreadLocal<Map<URI, EglTemplate>> concurrentTemplateCaches;
-	protected Collection<Template> invokedTemplates = ConcurrencyUtils.concurrentOrderedCollection();
+	protected Collection<Template> invokedTemplates;
+	ThreadLocal<Map<URI, EglTemplate>> concurrentTemplateCaches;
 	
 	public EgxContextParallel() {
 		this(null);
@@ -41,13 +41,14 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 		this(templateFactory, 0);
 	}
 	
+	public EgxContextParallel(int parallelism) {
+		this(null, parallelism);
+	}
+	
 	public EgxContextParallel(EglTemplateFactory templateFactory, int parallelism) {
 		super(parallelism);
 		setTemplateFactory(templateFactory != null ? templateFactory : new EglTemplateFactory());
-	}
-
-	public EgxContextParallel(int parallelism) {
-		this(null, parallelism);
+		invokedTemplates = ConcurrencyUtils.concurrentOrderedCollection();
 	}
 
 	@Override
