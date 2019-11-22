@@ -14,6 +14,7 @@ class Component {
 
 class Group {
 	attr String name;
+	attr String color;
 	ref Component[*] components;
 }
 

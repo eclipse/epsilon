@@ -1,17 +1,5 @@
 import "comps.eol";
 
-rule Comps2Barchart {
-	
-	parameters : Map {
-		"format" = "html",
-		"path" = List{"Model", "Stats"},
-		"icon" = "barchart"
-	}
-	
-	template: "stats.egl"
-	
-}
-
 @greedy
 rule Component2Dot 
 	transform r : comps::Component {
