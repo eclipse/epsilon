@@ -110,14 +110,14 @@
          point="org.eclipse.epsilon.common.dt.moduleImplementation">
       <implementation
             class="org.eclipse.epsilon.eol.EolModule"
-            default="true"
+            default="false"
             dialog="org.eclipse.epsilon.eol.dt.launching.EolModuleConfiguration"
             language="EOL"
-            name="Default">
+            name="Sequential">
       </implementation>
       <implementation
             class="org.eclipse.epsilon.eol.concurrent.EolModuleParallel"
-            default="false"
+            default="true"
             dialog="org.eclipse.epsilon.eol.dt.launching.EolModuleParallelConfiguration"
             language="EOL"
             name="Parallel">
