@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.eol.execute.context.concurrent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -340,8 +341,8 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * Evaluates the job using this context's parallel execution facilities.
 	 * Subclasses may override this to support additional job types, calling
 	 * the super method as the last resort for unknown cases. Supported types include
-	 * multi-valued types (e.g. Iterable / Iterator, Stream etc.) as well as common
-	 * concurrency units such as Runnable, Callable and Future.
+	 * multi-valued types (e.g. arrays, Iterable / Iterator, Stream etc.) as well as
+	 * common concurrency units such as Runnable, Callable and Future.
 	 * 
 	 * @param job The job (or jobs) to evaluate.
 	 * @throws IllegalArgumentException If the job type is not recognised.
@@ -378,6 +379,9 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		}
 		if (job instanceof ModuleElement) {
 			return getExecutorFactory().execute((ModuleElement) job, this);
+		}
+		if (job instanceof Object[]) {
+			return executeJob(Arrays.asList((Object[]) job));
 		}
 		if (job instanceof Stream) {
 			Stream<?> stream = (Stream<?>) job;
