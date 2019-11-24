@@ -64,10 +64,9 @@ public class ModelWalkingNsUriAnalyserTests {
 	}
 	
 
+	@SafeVarargs
 	private static <T> Set<T> asSet(T... elements) {
-		final Set<T> set = new HashSet<>();
-		set.addAll(Arrays.asList(elements));
-		return set;
+		return new HashSet<>(Arrays.asList(elements));
 	}
 	
 	private static EObject createCat() {

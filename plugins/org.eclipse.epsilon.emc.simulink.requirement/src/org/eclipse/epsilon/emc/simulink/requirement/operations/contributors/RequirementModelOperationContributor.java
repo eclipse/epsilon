@@ -35,7 +35,7 @@ public class RequirementModelOperationContributor extends OperationContributor {
 		ObjectMethod objectMethod = null;
 		if (overrideContextOperationContributorRegistry == false 
 				&& context.getOperationFactory().getOperationFor(name) == null) {
-			objectMethod = (ObjectMethod) new SimulinkRequirementObjectMethod(engine, target, name);
+			objectMethod = new SimulinkRequirementObjectMethod(engine, target, name);
 		}
 		if (objectMethod == null) { 
 			objectMethod = super.findContributedMethodForEvaluatedParameters(target, name, parameters, context, overrideContextOperationContributorRegistry);

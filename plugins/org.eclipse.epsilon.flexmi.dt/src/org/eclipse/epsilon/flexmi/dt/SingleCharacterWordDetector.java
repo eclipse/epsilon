@@ -10,15 +10,14 @@
 package org.eclipse.epsilon.flexmi.dt;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.jface.text.rules.IWordDetector;
 
 public class SingleCharacterWordDetector implements IWordDetector {
 
-	private List<Character> chars = new ArrayList<>();
+	private ArrayList<Character> chars = new ArrayList<>();
     
-	public SingleCharacterWordDetector(char...chars) {
+	public SingleCharacterWordDetector(char... chars) {
+		this.chars.ensureCapacity(chars.length);
 		for (char c : chars) {
 			this.chars.add(c);
 		}

@@ -16,10 +16,9 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink;
 import org.eclipse.epsilon.egl.execute.control.DefaultTemplateExecutionListener;
-import org.eclipse.epsilon.egl.execute.control.ITemplateExecutionListener;
 import org.eclipse.epsilon.eol.execute.introspection.recording.IPropertyAccess;
 
-public class TraceLinkCreatingTemplateExecutionListener extends DefaultTemplateExecutionListener implements ITemplateExecutionListener {
+public class TraceLinkCreatingTemplateExecutionListener extends DefaultTemplateExecutionListener {
 
 	private final Trace trace;
 	private final TracedPropertyAccessLedger ledger;

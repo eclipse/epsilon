@@ -44,7 +44,7 @@ public class H2Table {
 			int index = 0;
 			
 			for (Iterator<H2Value> iterator = Arrays.asList(values).iterator(); iterator.hasNext(); index++) {
-				final H2Value value = (H2Value) iterator.next();
+				final H2Value value = iterator.next();
 				
 				parameters[index] = value.value;
 				columnsSql += value.columnName;
@@ -92,7 +92,7 @@ public class H2Table {
  			int index = 0;
 			
  			for (Iterator<H2Value> iterator = Arrays.asList(updatedValues).iterator(); iterator.hasNext(); index++) {
-				final H2Value value = (H2Value) iterator.next();
+				final H2Value value = iterator.next();
 				
 				parameters[index] = value.value;
 				updatesSql += value.columnName + "=?";

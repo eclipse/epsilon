@@ -12,11 +12,7 @@ package org.eclipse.epsilon.egl.preprocessor;
 import static org.junit.Assert.*;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import static org.eclipse.epsilon.egl.util.FileUtil.ESCAPED_NEWLINE;
-
 import java.io.File;
-
-
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
 import org.eclipse.epsilon.egl.parse.EglLexer;
 import org.eclipse.epsilon.egl.parse.EglParser;
@@ -32,7 +28,7 @@ public class TestPreprocessor {
 
 		parser.parse();
 		
-		return preprocessor.convertToEol((AST)parser.getAST());
+		return preprocessor.convertToEol(parser.getAST());
 	}
 	
 	@Test

@@ -13,9 +13,8 @@ import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.execute.context.EglContext;
 import org.eclipse.epsilon.egl.internal.EglModule;
-import org.eclipse.epsilon.egl.internal.IEglModule;
 
-public class MockContext extends EglContext implements IEglContext {
+public class MockContext extends EglContext {
 	
 	public MockContext() {
 		super(new EglTemplateFactory());
@@ -26,8 +25,7 @@ public class MockContext extends EglContext implements IEglContext {
 		return new MockModule(this);
 	}
 	
-	private static class MockModule extends EglModule implements IEglModule {
-
+	private static class MockModule extends EglModule {
 		public MockModule(IEglContext context) {
 			super(context);
 		}

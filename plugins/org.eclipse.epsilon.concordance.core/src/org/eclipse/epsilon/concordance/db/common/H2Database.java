@@ -48,7 +48,7 @@ public class H2Database {
 			String columnsSql = "";
 			
 			for (Iterator<H2Column> iterator = allColumns.iterator(); iterator.hasNext();) {
-				final H2Column column = (H2Column)iterator.next();
+				final H2Column column = iterator.next();
 				
 				columnsSql += column.name + " " + column.type;
 				
@@ -61,7 +61,7 @@ public class H2Database {
 			String primaryKeysSql = "";
 			
 			for (Iterator<H2Column> iterator = primaryKeys.iterator(); iterator.hasNext();) {
-				final H2Column primaryKey = (H2Column)iterator.next();
+				final H2Column primaryKey = iterator.next();
 				
 				primaryKeysSql += primaryKey.name;
 				

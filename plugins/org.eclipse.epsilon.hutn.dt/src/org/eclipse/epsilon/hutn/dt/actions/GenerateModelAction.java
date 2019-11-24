@@ -14,11 +14,11 @@ import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.hutn.dt.util.HutnBuilderHelper;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.ui.IObjectActionDelegate;
 
-public class GenerateModelAction extends AbstractObjectActionDelegate implements IObjectActionDelegate {
+public class GenerateModelAction extends AbstractObjectActionDelegate {
 	
 	
+	@Override
 	public void run(IAction action) {
 		if (getFirstElementInSelection() instanceof IFile) {
 			new HutnBuilderHelper((IFile)getFirstElementInSelection(), new DialogueReporter()).buildHutn();
@@ -27,6 +27,7 @@ public class GenerateModelAction extends AbstractObjectActionDelegate implements
 	
 	private static class DialogueReporter implements HutnBuilderHelper.HutnBuildReporter {
 		
+		@Override
 		public void reportFailure(IFile source, String message) {
 			LogUtil.logInfo(message, true);
 		}

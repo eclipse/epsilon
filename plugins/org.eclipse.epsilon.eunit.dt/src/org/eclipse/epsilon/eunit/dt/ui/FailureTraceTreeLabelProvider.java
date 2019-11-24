@@ -11,16 +11,13 @@ package org.eclipse.epsilon.eunit.dt.ui;
 
 import java.io.File;
 import java.net.URI;
-
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.prettyprinting.PrettyPrinterManager;
-import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.ViewerCell;

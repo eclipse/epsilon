@@ -28,9 +28,8 @@ import org.eclipse.epsilon.hutn.IHutnModule;
 import org.eclipse.epsilon.hutn.dt.util.WorkspaceUtil;
 import org.eclipse.epsilon.hutn.model.hutn.HutnPackage;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.ui.IObjectActionDelegate;
 
-public class GenerateDebugInformation extends AbstractObjectActionDelegate implements IObjectActionDelegate {
+public class GenerateDebugInformation extends AbstractObjectActionDelegate {
 
 	private static final ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
 	
@@ -45,7 +44,7 @@ public class GenerateDebugInformation extends AbstractObjectActionDelegate imple
 	private String launchConfigName;
 	private String targetModelName;
 	
-	
+	@Override
 	public void run(IAction action) {
 		try {
 			if (getFirstElementInSelection() instanceof IFile) {

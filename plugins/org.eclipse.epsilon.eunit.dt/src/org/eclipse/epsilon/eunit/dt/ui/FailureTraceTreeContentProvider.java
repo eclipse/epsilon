@@ -93,7 +93,7 @@ class FailureTraceTreeContentProvider implements ITreeContentProvider {
 			return currentTest;
 		}
 		else if (element instanceof Variable) {
-			return mapVarToFrame.get((Variable)element);
+			return mapVarToFrame.get(element);
 		}
 		return null;
 	}

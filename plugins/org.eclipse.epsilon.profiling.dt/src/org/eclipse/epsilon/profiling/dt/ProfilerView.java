@@ -386,22 +386,17 @@ public class ProfilerView extends ViewPart implements IProfilerListener{
 		targetSummaries = Profiler.INSTANCE.getTargetSummaries();
 		rootTargets = Profiler.INSTANCE.getRoot().getChildren();
 		
-		Display.getDefault().asyncExec(new Runnable() {
-
-			@Override
-			public void run() {
-				
-				long total = 0;
-				for (ProfilerTargetSummary summary : targetSummaries) {
-					total += summary.getExecutionTime().getAggregate();
-				}
-				
-				overviewViewer.setProfilerOverview(Profiler.INSTANCE.getOverview());
-				
-				targetsViewer.refresh();
-				detailsViewer.refresh();
+		Display.getDefault().asyncExec(() -> {
+			// TODO: why is total not used?
+			long total = 0;
+			for (ProfilerTargetSummary summary : targetSummaries) {
+				total += summary.getExecutionTime().getAggregate();
 			}
 			
+			overviewViewer.setProfilerOverview(Profiler.INSTANCE.getOverview());
+			
+			targetsViewer.refresh();
+			detailsViewer.refresh();
 		});
 	}
 

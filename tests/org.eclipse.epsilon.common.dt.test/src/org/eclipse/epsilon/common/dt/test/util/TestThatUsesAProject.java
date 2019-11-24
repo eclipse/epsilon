@@ -144,14 +144,11 @@ public class TestThatUsesAProject {
 
 	/** Print the contents of the given file to {@link System.err} */
 	protected static void printFileContents(IFile file) throws IOException, CoreException {
-		final InputStreamReader reader = new InputStreamReader(file.getContents());
-		try {
+		try (InputStreamReader reader = new InputStreamReader(file.getContents())) {
 			int c;
 			while ((c = reader.read()) != -1) {
 				System.err.print((char) c);
 			}
-		} finally {
-			reader.close();
 		}
 	}
 

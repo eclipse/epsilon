@@ -59,7 +59,7 @@ public class EUnitPlugin extends AbstractUIPlugin implements EpsilonPlugin, ILau
 	private static final String LAUNCH_ATTR_SELECTED_TESTS = "org.eclipse.epsilon.eunit.dt.selected_tests";
 
 	@SuppressWarnings("rawtypes")
-	private static final List LAUNCH_ATTR_SELECTED_TESTS_DEFAULT = (List)null;
+	private static final List LAUNCH_ATTR_SELECTED_TESTS_DEFAULT = null;
 
 	/*
 	 * (non-Javadoc)
