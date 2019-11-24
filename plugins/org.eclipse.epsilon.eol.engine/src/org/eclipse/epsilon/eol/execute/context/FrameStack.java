@@ -35,116 +35,6 @@ import org.eclipse.epsilon.common.parse.AST;
  */
 public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack> {
 	
-	/**
-	 * <p>
-	 * Implementation of {@link Frame} which hides the fact that global
-	 * variables can now be split over several stack frames. Tries to follow a
-	 * "Do What I Mean" approach:
-	 * </p>
-	 * <ul>
-	 * <li>{@link #dispose()} and {@link #clear()} propagate over all stack
-	 * frames.</li>
-	 * <li>{@link #getAll()} continues until the topmost protected stack frame
-	 * (inclusive).</li>
-	 * <li>{@link #get(String)} and {@link #remove(String)} continue until the
-	 * topmost match (up to the topmost protected stack frame, inclusive).</li>
-	 * <li>and the rest only operate on the topmost global stack frame.</li>
-	 * </ul>
-	 *
-	 * @author Antonio García-Domínguez
-	 */
-	private class GlobalFrame implements Frame {
-		@Override
-		public void dispose() {
-			globals.dispose();
-		}
-
-		@Override
-		public void clear() {
-			globals.clear();
-		}
-
-		@Override
-		public String getLabel() {
-			return globals.top().getLabel();
-		}
-
-		@Override
-		public void setLabel(String label) {
-			globals.top().setLabel(label);
-		}
-
-		@Override
-		public void put(String name, Object value) {
-			globals.put(name, value);
-		}
-
-		@Override
-		public void remove(String name) {
-			globals.remove(name);
-		}
-
-		@Override
-		public void put(Variable variable) {
-			globals.put(variable);
-		}
-
-		@Override
-		public void putAll(Map<String, Variable> variables) {
-			globals.putAll(variables);
-		}
-
-		@Override
-		public Variable get(String name) {
-			return globals.get(name);
-		}
-
-		@Override
-		public Map<String, Variable> getAll() {
-			return globals.getAll();
-		}
-
-		@Override
-		public boolean contains(String key) {
-			return get(key) != null;
-		}
-
-		@Override
-		public boolean isProtected() {
-			return globals.top().isProtected();
-		}
-		
-		@Override
-		public FrameType getType() {
-			return globals.top().getType();
-		}
-
-		@Override
-		public void setType(FrameType type) {
-			globals.top().setType(type);
-		}
-		
-		@Override
-		public ModuleElement getEntryPoint() {
-			return globals.top().getEntryPoint();
-		}
-
-		@Override
-		public void setEntryPoint(ModuleElement entryPoint) {
-			globals.top().setEntryPoint(entryPoint);
-		}
-
-		@Override
-		public ModuleElement getCurrentStatement() {
-			return globals.top().getCurrentStatement();
-		}
-
-		@Override
-		public void setCurrentStatement(ModuleElement ast) {
-			globals.top().setCurrentStatement(ast);
-		}
-	}
-
 	protected FrameStackRegion globals;
 	protected FrameStackRegion locals;
 	protected Map<String, Variable> builtInVariables;
@@ -254,16 +144,6 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 	}
 	
 	/**
-	 * Enters a new local frame.
-	 *
-	 * @deprecated Use {@link #enterLocal(FrameType, AST, Variable...)} instead.
-	 *             This method will be removed from a future version of Epsilon.
-	 */
-	public Frame enter(FrameType type, ModuleElement entryPoint, Variable... variables) {
-		return enterLocal(type, entryPoint, variables);
-	}
-	
-	/**
 	 * Leaves the current local frame and returns to the previous frame in the
 	 * stack. This method cannot leave a global stack frame: use
 	 * {@link #leaveGlobal(AST, boolean)} for that.
@@ -297,28 +177,6 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 	 */
 	public void leaveGlobal(ModuleElement entryPoint) {
 		leaveGlobal(entryPoint, true);
-	}
-	
-	/**
-	 * Leaves the current local frame and returns to the previous frame in the
-	 * stack.
-	 * 
-	 * @deprecated Use {@link #leaveLocal(AST, boolean)} instead.
-	 *             This method will be removed from a future version of Epsilon.
-	 */
-	public void leave(ModuleElement entryPoint, boolean dispose) {
-		leaveLocal(entryPoint, dispose);
-	}
-	
-	/**
-	 * Convenience method for {@link #leaveLocal(AST)} which disposes of the stack
-	 * frame that was left.
-	 * 
-	 * @deprecated Use {@link #leaveLocal(AST)} instead.
-	 *             This method will be removed from a future version of Epsilon.
-	 */
-	public void leave(ModuleElement entryPoint) {
-		leaveLocal(entryPoint, true);
 	}
 
 	/**
@@ -524,25 +382,6 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 		return getGlobal(name) != null;
 	}
 	
-	/**
-	 * Returns a single frame containing all global variables. Note that this
-	 * representation does not allow clients to determine in which global frame
-	 * a variable resides. This method is provided only for
-	 * backwards-compatibility reasons: previous version of EOL did not support
-	 * multiple global variable frames.
-	 * 
-	 * @deprecated Use the designated methods for manipulating global variables
-	 *             (e.g. {@link #enterGlobal(FrameType, AST, Variable...)},
-	 *             {@link #putGlobal(Variable)} and {@link #getGlobal(String)}).
-	 *             If no appropriate method exists, please open a bug report to
-	 *             request it. This method will be removed in a future version
-	 *             of Epsilon.
-	 */
-	@Deprecated
-	public Frame getGlobals() {
-		return new GlobalFrame();
-	}
-
 	/**
 	 * Returns a list with all local (from top to bottom) and global (from top
 	 * to bottom) stack frames, in that order.
