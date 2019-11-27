@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.diagram.ui.tools.internal.resource.NavigationMarkerConstants;
@@ -61,7 +60,7 @@ public class SiriusMarkerResolver extends EmfMarkerResolver {
 	
 	@Override
 	public EObject resolve(IMarker marker) {
-		return getSemanticElement(getMarkedView(getSession(marker), marker));	
+		return getSemanticElement(getMarkedView(getSession(marker), marker));		
 	}
 	
 	@Override
@@ -72,7 +71,7 @@ public class SiriusMarkerResolver extends EmfMarkerResolver {
 	private View getMarkedView(Session session, IMarker marker) {
         String elementID = marker.getAttribute(org.eclipse.gmf.runtime.common.ui.resources.IMarker.ELEMENT_ID, null);
         String diagramURI = marker.getAttribute("DIAGRAM_DESCRIPTOR_URI", null);
-
+        
         if (diagramURI == null || elementID == null) {
             return null;
         }
@@ -80,13 +79,12 @@ public class SiriusMarkerResolver extends EmfMarkerResolver {
         ResourceSet set = session.getTransactionalEditingDomain().getResourceSet();
         if (set != null) {
             EObject markedDiagram = set.getEObject(URI.createURI(diagramURI), true);
-            EObject markerTarget = markedDiagram instanceof Diagram ? markedDiagram.eResource().getEObject(elementID) : null;
+            EObject markerTarget = markedDiagram.eResource().getEObject(elementID);
             if (markerTarget instanceof View) {
                 return (View) markerTarget;
             }
         }
         return null;
-
     }
 	
 	private EObject getSemanticElement(View markedView) {

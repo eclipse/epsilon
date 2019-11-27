@@ -60,6 +60,7 @@ public class EvlValidator implements EValidator {
 	protected boolean showErrorDialog = true;
 	protected boolean logErrors = true;
 	protected List<ValidationProblemListener> problemListeners = new ArrayList<>();
+	protected DiagnosticChain diagnostics = null;
 	
 	/**
 	 * IEvlModule implementation
@@ -156,8 +157,8 @@ public class EvlValidator implements EValidator {
 			EvlMarkerResolutionGenerator.INSTANCE.removeFixesFor(eObject);
 		}
 		
-		// If it is the root that is validated validate the whole resource and cache the results
-		if (eObject.eContainer() == null) {
+		if (diagnostics != this.diagnostics) {
+			this.diagnostics = diagnostics;
 			validate(eObject.eResource(), context);
 
 			// Add problem markers for violations in objects in externally referenced models
@@ -165,7 +166,7 @@ public class EvlValidator implements EValidator {
 				if (!(entry.getKey() instanceof EObject)) {
 					continue;
 				}
-				final EObject key = (EObject) entry.getKey();
+				final EObject key = (EObject)entry.getKey();
 				if (key.eResource() == eObject.eResource()) {
 					continue;
 				}
