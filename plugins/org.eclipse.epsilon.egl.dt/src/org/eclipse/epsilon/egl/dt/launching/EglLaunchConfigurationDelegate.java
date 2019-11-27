@@ -37,6 +37,7 @@ import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.*;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.status.StatusMessage;
+import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EolLaunchConfigurationAttributes;
@@ -211,8 +212,9 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		if (output != null && output.length() > 0 && module instanceof EglTemplateFactoryModuleAdapter) {
 			if (configuration.getAttribute(EGL_GENERATE_TO, GENERATE_TO_CONSOLE) == GENERATE_TO_CONSOLE) {
 				EpsilonConsole.getInstance().getDebugStream().println(output);
-			} else {
-				storeOutput((EglTemplateFactoryModuleAdapter)module, output);
+			}
+			else {
+				storeOutput((EglTemplateFactoryModuleAdapter) module, output);
 			}
 		}
 		
@@ -222,10 +224,14 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		
 		final IEglContext context = getEglContext(module);
 		
-		for (StatusMessage message : context.getStatusMessages())
+		for (StatusMessage message : context.getStatusMessages()) {
 			EpsilonConsole.getInstance().getInfoStream().println(message);
+		}
 		
-		CurrentTemplate.getInstance().setTemplate(context.getTrace());
+		Template trace = context.getTrace();
+		if (trace != null) {
+			CurrentTemplate.getInstance().setTemplate(trace);
+		}
 	}
 
 	private void storeOutput(EglTemplateFactoryModuleAdapter module, final String output) throws CoreException {

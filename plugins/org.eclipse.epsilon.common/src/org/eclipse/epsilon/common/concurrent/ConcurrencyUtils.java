@@ -104,15 +104,15 @@ public class ConcurrencyUtils {
 			.get();
 	}
 	
-	public static Collection<Callable<Void>> runnableToCallable(Collection<? extends Runnable> runnables) {
-		Collection<Callable<Void>> callables = new ArrayDeque<>(runnables.size());
+	public static Collection<Callable<?>> runnableToCallable(Collection<? extends Runnable> runnables) {
+		Collection<Callable<?>> callables = new ArrayDeque<>(runnables.size());
 		for (Runnable r : runnables) {
 			callables.add(runnableToCallable(r));
 		}
 		return callables;
 	}
 	
-	public static Callable<Void> runnableToCallable(Runnable runnable) {
+	public static Callable<?> runnableToCallable(Runnable runnable) {
 		return () -> {
 			runnable.run();
 			return null;

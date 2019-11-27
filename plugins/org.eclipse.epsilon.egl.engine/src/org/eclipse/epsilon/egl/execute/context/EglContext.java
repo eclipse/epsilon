@@ -119,7 +119,11 @@ public class EglContext extends EolContext implements IEglContext {
 	
 	@Override
 	public Template getTrace() {
-		return executionManager.getBase().template.getTemplate();
+		ExecutableTemplateSpecification base = executionManager.getBase();
+		if (base != null && base.template != null) {
+			return base.template.getTemplate();
+		}
+		return null;
 	}
 	
 	@Override
