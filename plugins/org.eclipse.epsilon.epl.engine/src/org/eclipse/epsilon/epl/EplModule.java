@@ -36,7 +36,7 @@ import org.eclipse.epsilon.epl.parse.EplLexer;
 import org.eclipse.epsilon.epl.parse.EplParser;
 import org.eclipse.epsilon.erl.ErlModule;
 
-public class EplModule extends ErlModule {
+public class EplModule extends ErlModule implements IEplModule{
 	
 	protected List<Pattern> declaredPatterns = new ArrayList<>();
 	protected boolean repeatWhileMatchesFound = false;
@@ -106,12 +106,14 @@ public class EplModule extends ErlModule {
 		}
 	}
 	
+	@Override
 	public List<Pattern> getDeclaredPatterns() {
 		return declaredPatterns;
 	}
 	
 	protected ArrayList<Pattern> patterns = null;
 	
+	@Override
 	public List<Pattern> getPatterns() {
 		if (patterns == null) {
 			patterns = new ArrayList<>();
@@ -155,18 +157,22 @@ public class EplModule extends ErlModule {
 		return matchModel;
 	}
 	
+	@Override
 	public int getMaxLoops() {
 		return maxLoops;
 	}
 	
+	@Override
 	public void setMaxLoops(int maxLoops) {
 		this.maxLoops = maxLoops;
 	}
 	
+	@Override
 	public boolean isRepeatWhileMatches() {
 		return repeatWhileMatchesFound;
 	}
 	
+	@Override
 	public void setRepeatWhileMatches(boolean repeatWhileMatches) {
 		this.repeatWhileMatchesFound = repeatWhileMatches;
 	}
@@ -181,6 +187,7 @@ public class EplModule extends ErlModule {
 		return EplParser.POST;
 	}
 	
+	@Override
 	public int getMaximumLevel() {
 		int maximumLevel = 0;
 		for (Pattern pattern : getPatterns()) {
@@ -189,10 +196,12 @@ public class EplModule extends ErlModule {
 		return maximumLevel;
 	}
 	
+	@Override
 	public String getPatternMatchModelName() {
 		return patternMatchModelName;
 	}
 	
+	@Override
 	public void setPatternMatchModelName(String patternMatchModelName) {
 		this.patternMatchModelName = patternMatchModelName;
 	}

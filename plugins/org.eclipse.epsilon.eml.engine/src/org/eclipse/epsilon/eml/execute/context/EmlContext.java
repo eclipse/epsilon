@@ -9,9 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eml.execute.context;
 
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
-import org.eclipse.epsilon.eml.EmlModule;
+import org.eclipse.epsilon.eml.IEmlModule;
 import org.eclipse.epsilon.eml.strategy.DefaultMergingStrategy;
 import org.eclipse.epsilon.eml.strategy.IMergingStrategy;
 import org.eclipse.epsilon.eml.trace.MergeTrace;
@@ -49,15 +48,15 @@ public class EmlContext extends EtlContext implements IEmlContext {
 	}
 	
 	@Override
-	public EmlModule getModule() {
-		return (EmlModule) super.getModule();
+	public IEmlModule getModule() {
+		return (IEmlModule) super.getModule();
 	}
 	
 	@Override
-	public void setModule(IModule module) {
-		if (module instanceof EmlModule) {
-			this.module = module;//super.setModule(module);
-		}
+	public void setModule(IEmlModule module) {
+ 		if (module instanceof IEmlModule) {
+ 			this.module = module;//super.setModule(module);
+ 		}
 	}
 
 	@Override

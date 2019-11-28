@@ -20,7 +20,7 @@ import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.epl.EplModule;
+import org.eclipse.epsilon.epl.IEplModule;
 import org.eclipse.epsilon.epl.combinations.CombinationGenerator;
 import org.eclipse.epsilon.epl.combinations.CombinationGeneratorListener;
 import org.eclipse.epsilon.epl.combinations.CompositeCombinationGenerator;
@@ -45,7 +45,7 @@ public class PatternMatcher {
 	 * @return The PatternMatchModel with the match information.
 	 * @throws Exception
 	 */
-	public PatternMatchModel match(EplModule module) throws Exception {
+	public PatternMatchModel match(IEplModule module) throws Exception {
 		frame = null;
 		
 		IEolContext context = module.getContext();

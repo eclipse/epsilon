@@ -32,7 +32,7 @@ import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.erl.dom.NamedRuleList;
 import org.eclipse.epsilon.etl.EtlModule;
 
-public class EmlModule extends EtlModule {
+public class EmlModule extends EtlModule implements IEmlModule {
 	
 	protected NamedRuleList<MergeRule> declaredMergeRules = new NamedRuleList<>();
 	protected NamedRuleList<MergeRule> mergeRules;
@@ -125,16 +125,18 @@ public class EmlModule extends EtlModule {
 		return super.adapt(cst, parentAst);
 	}
 	
+	@Override
 	public List<MergeRule> getDeclaredMergeRules(){
 		return declaredMergeRules;
 	}
 	
+	@Override
 	public List<MergeRule> getMergeRules() {
 		if (mergeRules == null) {
 			mergeRules = new NamedRuleList<>();
 			for (Import import_ : imports) {
 				if (import_.isLoaded() && (import_.getModule() instanceof EmlModule)) {
-					EmlModule module = (EmlModule) import_.getModule();
+					IEmlModule module = (IEmlModule) import_.getModule();
 					mergeRules.addAll(module.getMergeRules());
 				}
 			}
