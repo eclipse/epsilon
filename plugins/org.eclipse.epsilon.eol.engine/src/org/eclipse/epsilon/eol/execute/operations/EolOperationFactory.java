@@ -42,7 +42,7 @@ public class EolOperationFactory {
 		operationCache.put("rejectOne", new RejectOneOperation());
 		operationCache.put("select", new SelectOperation());
 		operationCache.put("selectOne", new SelectOneOperation());
-		operationCache.put("selectFirst", new SelectOneOperation());
+		operationCache.put("selectFirst", new SelectFirstOperation());
 		operationCache.put("aggregate", new AggregateOperation());
 		operationCache.put("closure", new ClosureOperation());
 		operationCache.put("sortBy", new SortByOperation());
