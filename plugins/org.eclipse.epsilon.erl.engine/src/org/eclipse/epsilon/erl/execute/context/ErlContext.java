@@ -24,7 +24,7 @@ public class ErlContext extends EolContext implements IErlContext {
 
 	public ErlContext() {
 		super();
-		setExecutorFactory(null);
+		setExecutorFactory(new RuleExecutorFactory());
 	}
 	
 	/**
@@ -44,12 +44,9 @@ public class ErlContext extends EolContext implements IErlContext {
 	
 	@Override
 	public void setExecutorFactory(ExecutorFactory executorFactory) {
-		if (executorFactory instanceof RuleExecutorFactory) {
-			this.executorFactory = executorFactory;
-		}
-		else {
-			this.executorFactory = new RuleExecutorFactory(executorFactory);
-		}
+		super.setExecutorFactory(executorFactory instanceof RuleExecutorFactory ?
+			executorFactory : new RuleExecutorFactory(executorFactory)
+		);
 	}
 	
 	@Override

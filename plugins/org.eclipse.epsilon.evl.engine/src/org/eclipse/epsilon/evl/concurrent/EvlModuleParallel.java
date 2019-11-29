@@ -9,7 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.concurrent;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
@@ -25,7 +27,9 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  */
 public abstract class EvlModuleParallel extends EvlModule {
 	
+	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(8);
 	static {
+		CONFIG_PROPERTIES.addAll(EvlModule.CONFIG_PROPERTIES);
 		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
 	}
 	
@@ -65,5 +69,10 @@ public abstract class EvlModuleParallel extends EvlModule {
 			EvlContextParallel::new,
 			getContext()
 		));
+	}
+	
+	@Override
+	public Set<String> getConfigurationProperties() {
+		return CONFIG_PROPERTIES;
 	}
 }
