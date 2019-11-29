@@ -27,6 +27,8 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.common.function.BaseDelegate.MergeMode;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
+import org.eclipse.epsilon.common.concurrent.DelegatePersistentThreadLocal;
+import org.eclipse.epsilon.common.concurrent.PersistentThreadLocal;
 import org.eclipse.epsilon.common.function.BaseDelegate;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
@@ -36,9 +38,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
-import org.eclipse.epsilon.eol.execute.concurrent.DelegatePersistentThreadLocal;
 import org.eclipse.epsilon.eol.execute.concurrent.EolThreadPoolExecutor;
-import org.eclipse.epsilon.eol.execute.concurrent.PersistentThreadLocal;
 
 /**
  * Skeletal implementation of a parallel IEolContext. This class takes care of

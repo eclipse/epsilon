@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.eol.execute.concurrent;
+package org.eclipse.epsilon.common.concurrent;
 
 import java.util.*;
 import java.util.Map.Entry;

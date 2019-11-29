@@ -98,6 +98,6 @@ public abstract class ConcurrentExecutionStatus {
 	}
 	
 	public final boolean waitForCompletion() {
-		return waitForCompletion((Object) this);
+		return waitForCompletion(this);
 	}
 }
