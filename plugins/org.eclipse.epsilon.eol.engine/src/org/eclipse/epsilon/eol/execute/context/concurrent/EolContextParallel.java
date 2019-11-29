@@ -44,10 +44,13 @@ import org.eclipse.epsilon.eol.execute.concurrent.EolThreadPoolExecutor;
  * Skeletal implementation of a parallel IEolContext. This class takes care of
  * the common structures which are affected by multi-threading using
  * {@linkplain ThreadLocal}s. For use cases where these thread-local values are
- * required, a {@linkplain DelegatePersistentThreadLocal} is used, so that the
+ * required, a {@linkplain PersistentThreadLocal} is used, so that the
  * context will be consistent with a sequential implementation once
- * {@linkplain #endParallel()} is invoked. The default behaviour of this class is
- * to NOT persist thread-local values to improve performance and save memory.
+ * {@linkplain #endParallel()} is invoked.
+ * <br/><br/>
+ * For optimal performance, it is recommend that parallel tasks obtain a sequential
+ * "snapshot" of this context to avoid frequent retrieval of ThreadLocal values using
+ * the {@link #getShadow()} method.
  * 
  * @author Sina Madani
  * @since 1.6
@@ -76,8 +79,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	/**
 	 * @param parallelism The number of threads to use.
-	 * @param persistThreadLocals Whether to save the state of thread-local values
-	 * (such as variable declarations) so that they can be merged into the main thread later.
 	 */
 	public EolContextParallel(int parallelism) {
 		numThreads = parallelism > 0 ? parallelism : ConcurrencyUtils.DEFAULT_PARALLELISM;
