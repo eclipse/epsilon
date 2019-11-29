@@ -13,6 +13,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
+import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
@@ -75,6 +76,11 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 	@Override
 	public IErlContext getShadow() {
 		return (IErlContext) super.getShadow();
+	}
+	
+	@Override
+	public IErlModule getModule() {
+		return (IErlModule) super.getModule();
 	}
 	
 	@Override
