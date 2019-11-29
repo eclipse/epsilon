@@ -50,4 +50,9 @@ public class EolModuleParallel extends EolModule {
 		super.configure(properties);
 		setContext(IEolContextParallel.configureContext(properties, EolContextParallel::new, getContext()));
 	}
+	
+	@Override
+	public Set<String> getConfigurationProperties() {
+		return CONFIG_PROPERTIES;
+	}
 }
