@@ -57,7 +57,7 @@ public class AnyOperationContributor extends OperationContributor {
 		}
 		
 		IModel model = context.getModelRepository().getOwningModel(target);
-		if (model != null){
+		if (model != null) {
 			return model.getTypeOf(target);
 		}
 		

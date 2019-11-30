@@ -326,7 +326,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 			}
 		}
 		
-		return  false;
+		return false;
 	}
 
 	@Override

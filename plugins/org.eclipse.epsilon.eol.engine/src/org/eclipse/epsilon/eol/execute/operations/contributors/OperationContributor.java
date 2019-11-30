@@ -22,7 +22,7 @@ public abstract class OperationContributor {
 	
 	protected Object target;
 	protected IEolContext context;
-	protected Set<String> cachedMethodNames = null;
+	protected Set<String> cachedMethodNames;
 	
 	public abstract boolean contributesTo(Object target);
 	
@@ -46,8 +46,10 @@ public abstract class OperationContributor {
 		
 		// Maintain a cache of method names if the reflection target is this
 		// so that we don't iterate through all methods every time
-		if (getReflectionTarget(target) == this && cachedMethodNames == null) {
-			cachedMethodNames = ReflectionUtil.getMethodNames(this, includeInheritedMethods());
+		if (getReflectionTarget(target) == this && cachedMethodNames == null) synchronized (this) {
+			if (cachedMethodNames == null) {
+				cachedMethodNames = ReflectionUtil.getMethodNames(this, includeInheritedMethods());
+			}
 		}
 		
 		if (cachedMethodNames == null || cachedMethodNames.contains(name)) {

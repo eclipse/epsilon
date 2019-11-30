@@ -57,13 +57,13 @@ public class ModelRepository {
 	}
 	
 	private HashMap<String, ModelGroup> cachedModelGroups = new HashMap<>();
-	public IModel getModelByName(String modelName) throws EolModelNotFoundException{
+	
+	public IModel getModelByName(String modelName) throws EolModelNotFoundException {
 
 		// Note: EUnit's model bindings depend on having "" aliased to the first model.
 		// If you change this, don't forget to change EUnitModule#runSuite!
 		if (modelName.length() == 0) {
 			if (models.size() > 0) {
-			//if (models.size() == 1) {
 				return models.get(0);
 			}
 			else return null;
@@ -151,7 +151,7 @@ public class ModelRepository {
 	}
 	
 	protected String getMetaClassName(String modelAndMetaClass) {
-		if (modelAndMetaClass.indexOf("!") != -1){
+		if (modelAndMetaClass.contains("!")) {
 			return modelAndMetaClass.split("!")[1];
 		}
 		else {
@@ -160,7 +160,7 @@ public class ModelRepository {
 	}
 	
 	protected String getModelName(String modelAndMetaClass) {
-		if (modelAndMetaClass.indexOf("!") != -1){
+		if (modelAndMetaClass.contains("!")) {
 			return modelAndMetaClass.split("!")[0];
 		}
 		else {
