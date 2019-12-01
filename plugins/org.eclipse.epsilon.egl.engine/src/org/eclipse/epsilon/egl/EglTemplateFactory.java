@@ -269,7 +269,7 @@ public class EglTemplateFactory {
 	protected IEglContext getContextForNewTemplate() {
 		if (delegate == null) return getContext();
 		EglContext tc = new EglContext(getContext());
-		tc.copyFrom(delegate);
+		tc.setOperationContributorRegistry(delegate.getOperationContributorRegistry());
 		return tc;
 	}
 	
