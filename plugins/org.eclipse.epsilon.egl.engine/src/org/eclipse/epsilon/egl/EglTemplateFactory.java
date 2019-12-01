@@ -266,7 +266,7 @@ public class EglTemplateFactory {
 	 * @return An appropriate context to be used for a new EglTemplate instance.
 	 * @since 1.6
 	 */
-	protected IEglContext getContextForNewTemplate() {
+	protected synchronized IEglContext getContextForNewTemplate() {
 		if (delegate == null) return getContext();
 		EglContext tc = new EglContext(getContext());
 		tc.setOperationContributorRegistry(delegate.getOperationContributorRegistry());

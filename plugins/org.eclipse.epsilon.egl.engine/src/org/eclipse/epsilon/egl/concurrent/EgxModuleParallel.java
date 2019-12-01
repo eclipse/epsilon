@@ -37,7 +37,9 @@ public abstract class EgxModuleParallel extends EgxModule {
 	
 	public EgxModuleParallel(String outputRoot) throws EglRuntimeException {
 		this();
-		setFileGeneratingTemplateFactory(outputRoot);
+		if (outputRoot != null) {
+			setFileGeneratingTemplateFactory(outputRoot);
+		}
 	}
 
 	public EgxModuleParallel(IEgxContextParallel context) {

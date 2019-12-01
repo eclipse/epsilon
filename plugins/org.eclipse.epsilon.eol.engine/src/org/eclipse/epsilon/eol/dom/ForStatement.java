@@ -73,7 +73,7 @@ public class ForStatement extends Statement {
 			iteratedCol.addAll(((EolModelElementType) iteratedObject).all());
 		}
 		else if (iteratedObject instanceof Iterator) {
-			it = (Iterator) iteratedObject;
+			it = (Iterator<?>) iteratedObject;
 		}
 		else {
 			iteratedCol = CollectionUtil.createDefaultList();
@@ -85,10 +85,9 @@ public class ForStatement extends Statement {
 
 		boolean loopBroken = false;
 		
-		int loop = 1;
 		FrameStack frameStack = context.getFrameStack();
 		
-		while (it.hasNext() && !loopBroken) {
+		for (int loop = 1; it.hasNext() && !loopBroken;) {
 			Object next = it.next();
 			
 			if (!iteratorType.isKind(next)) continue;
