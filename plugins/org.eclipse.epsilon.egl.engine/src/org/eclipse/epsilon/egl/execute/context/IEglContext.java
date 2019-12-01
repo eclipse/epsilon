@@ -22,6 +22,7 @@ import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 
 public interface IEglContext extends IEolContext {
 	
@@ -98,6 +99,15 @@ public interface IEglContext extends IEolContext {
 		this.setExtendedProperties(context.getExtendedProperties());
 		this.setPrettyPrinterManager(context.getPrettyPrinterManager());		
 		this.setExecutorFactory(new ExecutorFactory(context.getExecutorFactory()));
-		//this.getFrameStack().putAll(context.getFrameStack());
+		this.getFrameStack().setBase(context.getFrameStack());
+		this.setOperationContributorRegistry(context.getOperationContributorRegistry());
 	}
+	
+	/**
+	 *
+	 * @param ocr
+	 * @since 1.6
+	 */
+	public void setOperationContributorRegistry(OperationContributorRegistry ocr);
+	
 }

@@ -26,6 +26,7 @@ import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.types.EolClasspathNativeTypeDelegate;
 
 public class EglContext extends EolContext implements IEglContext {
@@ -39,7 +40,7 @@ public class EglContext extends EolContext implements IEglContext {
 	public EglContext() {
 		this((EglTemplateFactory) null);
 	}
-	
+
 	public EglContext(EglTemplateFactory templateFactory) {
 		this.classpathNativeTypeDelegate = new EolClasspathNativeTypeDelegate(getClass().getClassLoader());
 		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory(this);
@@ -57,6 +58,7 @@ public class EglContext extends EolContext implements IEglContext {
 		frameStack = new FrameStack(other.getFrameStack());
 		executorFactory = new ExecutorFactory(other.getExecutorFactory());
 	 	templateFactory = other.getTemplateFactory();
+	 	methodContributorRegistry = other.getOperationContributorRegistry();
 		setPartitioner(other.getPartitioner());
 		setContentTypeRepository(other.getContentTypeRepository());
 		if (other instanceof EglContext) {
@@ -66,7 +68,7 @@ public class EglContext extends EolContext implements IEglContext {
 	 		statusMessages.addAll(other.getStatusMessages());
 	 	}
 	}
-	
+
 	@Override
 	public EglTemplateFactory getTemplateFactory() {
 		return templateFactory;
@@ -144,5 +146,10 @@ public class EglContext extends EolContext implements IEglContext {
 			}
 		}
 		return (IEglModule) super.getModule();
+	}
+	
+	@Override
+	public void setOperationContributorRegistry(OperationContributorRegistry ocr) {
+		this.methodContributorRegistry = ocr;
 	}
 }

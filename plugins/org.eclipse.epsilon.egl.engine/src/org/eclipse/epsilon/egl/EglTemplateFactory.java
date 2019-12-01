@@ -28,10 +28,11 @@ import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecificationFactory;
 import org.eclipse.epsilon.egl.util.FileUtil;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class EglTemplateFactory {
 
-	protected boolean copyContext = false;
+	protected IEolContext delegate;
 	protected IEglContext context;
 	protected URI root;
 	private URI templateRoot;
@@ -47,25 +48,25 @@ public class EglTemplateFactory {
 	public EglTemplateFactory(IEglContext context) {
 		this.context = context != null ? context : new EglContext(this);
 	}
-
-	/**
-	 * 
-	 * @param copy
-	 * @since 1.6
-	 */
-	public void setCopyContextForNewTemplates(boolean copy) {
-		this.copyContext = copy;
-	}
 	
 	/**
 	 * 
 	 * @return
 	 * @since 1.6
 	 */
-	public boolean isCopyContextForNewTemplates() {
-		return this.copyContext;
+	 IEolContext getDelegate() {
+		return delegate;
 	}
-	
+
+	 /**
+	  * 
+	  * @param delegate
+	  * @since 1.6
+	  */
+	public void setDelegate(IEolContext delegate) {
+		this.delegate = delegate;
+	}
+
 	public Collection<ITemplateExecutionListener> getTemplateExecutionListeners() {
 		return this.listeners;
 	}
@@ -254,9 +255,24 @@ public class EglTemplateFactory {
 	 * Subclasses may override to create different types of template.
 	 */
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
-		return new EglTemplate(spec, isCopyContextForNewTemplates() ? new EglContext(getContext()) : getContext());
+		return new EglTemplate(spec, getContextForNewTemplate());
 	}
 
+	/**
+	 * This method should be called when creating a new template from {@link #createTemplate(EglTemplateSpecification)}.
+	 * The rationale is that in some cases this factory's context is not safe to be used directly, so
+	 * a proxy or modifications may be needed instead.
+	 * 
+	 * @return An appropriate context to be used for a new EglTemplate instance.
+	 * @since 1.6
+	 */
+	protected IEglContext getContextForNewTemplate() {
+		if (delegate == null) return getContext();
+		EglContext tc = new EglContext(getContext());
+		tc.copyFrom(delegate);
+		return tc;
+	}
+	
 	private EglTemplateSpecificationFactory createTemplateSpecificationFactory() {
 		return new EglTemplateSpecificationFactory(
 			defaultFormatter, defaultIncrementalitySettings,
