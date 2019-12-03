@@ -12,6 +12,7 @@ package org.eclipse.epsilon.epl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
@@ -24,14 +25,14 @@ import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.dom.Import;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.EolContext;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.epl.dom.Cardinality;
 import org.eclipse.epsilon.epl.dom.Domain;
 import org.eclipse.epsilon.epl.dom.Pattern;
 import org.eclipse.epsilon.epl.dom.Role;
 import org.eclipse.epsilon.epl.execute.PatternMatchModel;
 import org.eclipse.epsilon.epl.execute.PatternMatcher;
+import org.eclipse.epsilon.epl.execute.context.EplContext;
+import org.eclipse.epsilon.epl.execute.context.IEplContext;
 import org.eclipse.epsilon.epl.parse.EplLexer;
 import org.eclipse.epsilon.epl.parse.EplParser;
 import org.eclipse.epsilon.erl.ErlModule;
@@ -51,6 +52,14 @@ public class EplModule extends ErlModule implements IEplModule{
 		//new AstExplorer(module.getAst(), EplParser.class);
 		module.parse("pre{ System.user.prompt('foo?');}");
 		module.execute();
+	}
+	
+	public EplModule() {
+		this(null);
+	}
+	
+	protected EplModule(IEplContext context) {
+		super(context != null ? context : new EplContext());
 	}
 	
 	@Override
@@ -132,7 +141,14 @@ public class EplModule extends ErlModule implements IEplModule{
 	public Object executeImpl() throws EolRuntimeException {
 		execute(getPre(), getContext());
 		
-		PatternMatcher patternMatcher = new PatternMatcher();
+		PatternMatcher patternMatcher = null;
+		if (getContext().getPatternMatcher() == null) {
+			patternMatcher = new PatternMatcher();
+			getContext().setPatternMatcher(patternMatcher);
+		} else {
+			patternMatcher = getContext().getPatternMatcher();
+		}
+		
 		PatternMatchModel matchModel = null;
 		try {
 			int loops = 1;
@@ -153,6 +169,8 @@ public class EplModule extends ErlModule implements IEplModule{
 		}
 		
 		execute(getPost(), getContext());
+		
+		getContext().setPatternMatchTrace(matchModel);
 		
 		return matchModel;
 	}
@@ -204,6 +222,11 @@ public class EplModule extends ErlModule implements IEplModule{
 	@Override
 	public void setPatternMatchModelName(String patternMatchModelName) {
 		this.patternMatchModelName = patternMatchModelName;
+	}
+	
+	@Override
+	public IEplContext getContext() {
+		return (IEplContext) super.getContext();
 	}
 	
 }

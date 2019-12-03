@@ -20,7 +20,6 @@ import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.execute.PatternMatchModel;
 import org.junit.Test;
 
-@SuppressWarnings("unchecked")
 public class EplTests {
 	
 	protected PatternMatchModel patternMatchModel = null;
@@ -36,7 +35,7 @@ public class EplTests {
 		
 		PlainXmlModel model = new PlainXmlModel();
 		model.setName("M");
-		model.setFile(new File(EplTests.class.getResource("test.xml").toURI()));
+		model.setFile(new File(EplTests.class.getResource("test.xml").getFile()));
 		model.load();
 		
 		module.getContext().getModelRepository().addModel(model);

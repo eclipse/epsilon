@@ -39,7 +39,7 @@ import org.eclipse.epsilon.internal.eunit.io.ByteBufferTeePrintStream;
 import org.eclipse.epsilon.internal.eunit.util.Pair;
 import org.eclipse.epsilon.internal.eunit.xml.EUnitXMLFormatter;
 
-public class EUnitModule extends EolModule {
+public class EUnitModule extends EolModule implements IEUnitModule {
 
 	private static final String MODEL_EXCLUSIVE_BINDING_ANNOTATION_NAME = "onlyWith";
 	private static final String MODEL_BINDING_ANNOTATION_NAME = "with";
@@ -67,30 +67,37 @@ public class EUnitModule extends EolModule {
 		this.getContext().getOperationContributorRegistry().add(new ExtraEUnitOperationContributor());
 	}
 
+	@Override
 	public ArrayList<Operation> getTests() {
 		return collectOperationsAnnotatedWith("Test", getOperationsAnnotatedWith("test"));
 	}
 
+	@Override
 	public ArrayList<Operation> getInlineModelOperations() {
 		return collectOperationsAnnotatedWith("Model", getOperationsAnnotatedWith("model"));
 	}
 
+	@Override
 	public ArrayList<Operation> getSetups() {
 		return collectOperationsAnnotatedWith("Before", getOperationsAnnotatedWith("setup"));
 	}
 	
+	@Override
 	public ArrayList<Operation> getTeardowns() {
 		return collectOperationsAnnotatedWith("After", getOperationsAnnotatedWith("teardown"));
 	}
 
+	@Override
 	public ArrayList<Operation> getSuiteSetups() {
 		return collectOperationsAnnotatedWith("BeforeClass", getOperationsAnnotatedWith("suitesetup"));
 	}
 
+	@Override
 	public ArrayList<Operation> getSuiteTeardowns() {
 		return collectOperationsAnnotatedWith("AfterClass", getOperationsAnnotatedWith("suiteteardown"));
 	}
 
+	@Override
 	public List<Pair<Operation, String>> getDataVariableNames() {
 		final List<Pair<Operation, String>> results = new ArrayList<>();
 		for (Operation op : getOperations()) {
@@ -109,6 +116,7 @@ public class EUnitModule extends EolModule {
 		return results;
 	}
 
+	@Override
 	public boolean isAnnotatedAs(Operation operation, String annotation) {
 		try {
 			return operation.hasAnnotation(annotation);
@@ -130,6 +138,7 @@ public class EUnitModule extends EolModule {
 		return null;
 	}
 
+	@Override
 	public EUnitTest getSuiteRoot() throws EolRuntimeException {
 		// We're stricter when running EUnit than with the other E*L languages:
 		// we will abort test execution if the EUnit module had any parse problems
@@ -153,6 +162,7 @@ public class EUnitModule extends EolModule {
 		return suiteRoot;
 	}
 
+	@Override
 	public void runSuite(EUnitTest node) throws EolRuntimeException {
 		if (node.getResult().equals(EUnitTestResultType.SKIPPED)) {
 			// The test case is to be skipped
@@ -521,10 +531,12 @@ public class EUnitModule extends EolModule {
 
 	/* EVENT NOTIFICATION METHODS */
 
+	@Override
 	public boolean addTestListener(EUnitTestListener listener) {
 		return testListeners.add(listener);
 	}
 
+	@Override
 	public boolean removeTestListener(EUnitTestListener listener) {
 		return testListeners.remove(listener);
 	}
@@ -543,13 +555,13 @@ public class EUnitModule extends EolModule {
 
 	/* OPERATION FILTERING */
 
-	@SuppressWarnings("rawtypes")
-	public List getSelectedOperations() {
+	@Override
+	public List<?> getSelectedOperations() {
 		return selectedOperations;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public void setSelectedOperations(List attribute) throws EolRuntimeException {
+	@Override
+	public void setSelectedOperations(List<?> attribute) throws EolRuntimeException {
 		this.selectedOperations = attribute;
 
 		// Scan the test tree and mark entries as skipped as necessary
@@ -597,6 +609,7 @@ public class EUnitModule extends EolModule {
 	 * By default, it is the current directory. If <code>null</code>,
 	 * no report will be written.
 	 */
+	@Override
 	public void setReportDirectory(File reportFile) {
 		this.reportDirectory = reportFile;
 	}
@@ -605,6 +618,7 @@ public class EUnitModule extends EolModule {
 	 * Returns the destination directory for the JUnit-style XML report.
 	 * For details about possible values, see {@link #setReportDirectory(File)}.
 	 */
+	@Override
 	public File getReportDirectory() {
 		return reportDirectory;
 	}
@@ -620,6 +634,7 @@ public class EUnitModule extends EolModule {
 	 * Returns the "class name" to be used for this module in JUnit-style reports.
 	 * It is the basename of the .eunit file, without the extension.
 	 */
+	@Override
 	public String getClassName() {
 		final String filename = EUnitModule.getBasename(this);
 		final int lastDot = filename.lastIndexOf('.');
@@ -629,6 +644,7 @@ public class EUnitModule extends EolModule {
 	/**
 	 * Returns the package name to use in the reports. By default, it is {@link #DEFAULT_PACKAGE}.
 	 */
+	@Override
 	public String getPackage() {
 		return packageName;
 	}
@@ -636,6 +652,7 @@ public class EUnitModule extends EolModule {
 	/**
 	 * Changes the package name to use in the reports. By default, it is {@link #DEFAULT_PACKAGE}.
 	 */
+	@Override
 	public void setPackage(String packageName) {
 		this.packageName = packageName;
 	}
@@ -643,6 +660,7 @@ public class EUnitModule extends EolModule {
 	/**
 	 * Returns the logical name of this module as if it was a Java class, for the JUnit-style reports.
 	 */
+	@Override
 	public String getQualifiedName() {
 		return getPackage() + "." + getClassName();
 	}
