@@ -31,7 +31,6 @@ import org.eclipse.epsilon.emc.hutn.test.*;
 import org.eclipse.epsilon.emc.plainxml.test.*;
 import org.eclipse.epsilon.emc.simulink.test.suite.*;
 import org.eclipse.epsilon.emc.spreadsheets.test.*;
-import org.eclipse.epsilon.emg.engine.test.acceptance.EmgAcceptanceTestSuite;
 import org.eclipse.epsilon.eml.engine.test.acceptance.*;
 import org.eclipse.epsilon.eol.engine.test.acceptance.*;
 import org.eclipse.epsilon.eol.test.unit.*;
@@ -59,7 +58,6 @@ import junit.framework.Test;
 	EvlAcceptanceTestSuite.class,
 	EtlAcceptanceTestSuite.class,
 	EclAcceptanceTestSuite.class,
-	EmgAcceptanceTestSuite.class,
 	EmlAcceptanceTestSuite.class,
 	EwlAcceptanceTestSuite.class,
 	EglTestSuite.class,

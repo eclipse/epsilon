@@ -24,10 +24,6 @@
         <outputDirectory></outputDirectory>
       </fileSet>
       <fileSet>
-        <directory>../../plugins/org.eclipse.epsilon.emg.engine/src</directory>
-        <outputDirectory></outputDirectory>
-      </fileSet>
-      <fileSet>
         <directory>../../plugins/org.eclipse.epsilon.eml.engine/src</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
