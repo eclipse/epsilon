@@ -3,6 +3,7 @@ package org.eclipse.epsilon.epl;
 import java.util.List;
 
 import org.eclipse.epsilon.epl.dom.Pattern;
+import org.eclipse.epsilon.epl.execute.context.IEplContext;
 import org.eclipse.epsilon.erl.IErlModule;
 
 public interface IEplModule extends IErlModule {
@@ -24,5 +25,10 @@ public interface IEplModule extends IErlModule {
 	List<Pattern> getPatterns();
 
 	List<Pattern> getDeclaredPatterns();
+
+	@Override
+	default IEplContext getContext() {
+		return (IEplContext) ((IErlModule)this).getContext();
+	}
 
 }

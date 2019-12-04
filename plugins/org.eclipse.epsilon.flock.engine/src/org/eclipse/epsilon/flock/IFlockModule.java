@@ -22,7 +22,9 @@ import org.eclipse.epsilon.flock.execute.exceptions.FlockUnsupportedModelExcepti
 public interface IFlockModule extends IErlModule {
 	
 	@Override
-	public IFlockContext getContext();
+	default IFlockContext getContext() {
+		return (IFlockContext) ((IErlModule)this).getContext();
+	}
 	
 	public FlockResult execute(IModel original, IModel migrated) throws EolRuntimeException, FlockUnsupportedModelException;
 }
