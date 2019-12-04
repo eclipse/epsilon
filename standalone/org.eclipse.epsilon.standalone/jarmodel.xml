@@ -9,6 +9,7 @@
 		<project name="org.eclipse.epsilon.egl.engine"/>
 		<project name="org.eclipse.epsilon.egl.traceability.fine"/>
 		<project name="org.eclipse.epsilon.ecl.engine"/>
+		<project name="org.eclipse.epsilon.emg.engine"/>
 		<project name="org.eclipse.epsilon.eml.engine"/>
 		<project name="org.eclipse.epsilon.etl.engine"/>
 		<project name="org.eclipse.epsilon.evl.engine"/>

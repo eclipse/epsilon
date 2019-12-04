@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EMG Engine
+Bundle-SymbolicName: org.eclipse.epsilon.emg.engine;singleton:=true
+Bundle-Version: 1.6.0.qualifier
+Bundle-Vendor: Eclipse Modeling Project
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.epsilon.eol.engine,
+ org.eclipse.epsilon.emc.emf,
+ org.eclipse.epsilon.epl.engine,
+ org.apache.commons.math3
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.epsilon.emg;
+  uses:="org.eclipse.epsilon.epl.dom,
+   org.eclipse.epsilon.epl.execute,
+   org.eclipse.epsilon.emc.emf,
+   org.eclipse.epsilon.emg.random,
+   org.eclipse.epsilon.epl,
+   org.eclipse.epsilon.eol.execute.context",
+ org.eclipse.epsilon.emg.operationContributors;uses:="org.eclipse.epsilon.eol.execute.operations.contributors,org.eclipse.epsilon.emg.random,org.eclipse.epsilon.emg",
+ org.eclipse.epsilon.emg.random;uses:="org.apache.commons.math3.random,org.eclipse.epsilon.eol.execute.context"
+Automatic-Module-Name: org.eclipse.epsilon.emg.engine
