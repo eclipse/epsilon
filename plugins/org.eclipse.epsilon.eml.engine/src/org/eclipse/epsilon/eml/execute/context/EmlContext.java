@@ -54,9 +54,7 @@ public class EmlContext extends EtlContext implements IEmlContext {
 	
 	@Override
 	public void setModule(IEmlModule module) {
- 		if (module instanceof IEmlModule) {
- 			this.module = module;//super.setModule(module);
- 		}
+ 		this.module = module;
 	}
 
 	@Override

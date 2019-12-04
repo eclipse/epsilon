@@ -21,6 +21,7 @@ import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.egl.merge.output.RegionType;
 import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
+import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.status.Warning;
 
 public class OutputBuffer implements IOutputBuffer {
@@ -116,13 +117,14 @@ public class OutputBuffer implements IOutputBuffer {
 	public void setContentType(String name) throws EglRuntimeException {
 		if (contentTypeSet) {
 			context.addStatusMessage(new Warning("Cannot set content type to '" + name + "' - content type already specified."));
-		} else {
+		}
+		else {
 			if (!context.usePartitionerFor(name)) {
 				throw new EglRuntimeException("'" + name + "' is not a recognised content type.", context.getModule());
 			}
-			
+			CompositePartitioner partitioner = context.getPartitioner();
 			for (CommentBlockPartitioner customPartitioner : customPartitioners) {
-				context.getPartitioner().addPartitioner(customPartitioner);
+				partitioner.addPartitioner(customPartitioner);
 			}
 			
 			contentTypeSet = true;
@@ -146,12 +148,13 @@ public class OutputBuffer implements IOutputBuffer {
 		if (lastLine != null)
 			throw new EglRuntimeException("The current region must be stopped before another region may begin.", context.getModule());
 		
-		if (context.getPartitioner().getDefaultPartitioner() == null)
+		CompositePartitioner partitioner = context.getPartitioner();
+		if (partitioner.getDefaultPartitioner() == null)
 			throw new EglRuntimeException("A content type must be specified before using startPreserve(id, enabled).", context.getModule());
 		
-		lastLine = context.getPartitioner().getDefaultPartitioner().getLastLine(id, regionType);
+		lastLine = partitioner.getDefaultPartitioner().getLastLine(id, regionType);
 		
-		return context.getPartitioner().getDefaultPartitioner().getFirstLine(id, enabled, regionType);	
+		return partitioner.getDefaultPartitioner().getFirstLine(id, enabled, regionType);	
 	}
 	
 	@Override
