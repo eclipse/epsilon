@@ -87,7 +87,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		
 		if (modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
 			addModelsToRepo();
-			if (loadModels) {
+			if (loadModels && currentRepeat == 1) {
 				loadModels();
 			}
 		}
@@ -150,7 +150,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	@Override
 	public void reset() throws Exception {
 		super.reset();
-		if (loadModels) {
+		if (loadModels && currentRepeat < targetRepeats) {
 			module.getContext().getModelRepository().dispose();
 		}
 		//module.getContext().getFrameStack().dispose();

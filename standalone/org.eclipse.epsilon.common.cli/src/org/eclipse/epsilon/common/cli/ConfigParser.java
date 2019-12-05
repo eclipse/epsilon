@@ -35,6 +35,7 @@ public class ConfigParser<C extends ProfilableRunConfiguration, B extends Profil
 	protected String
 		nL = System.lineSeparator(),
 		profileExecutionOpt = "profile",
+		repeatsOpt = "repeats",
 		showResultsOpt = "results",
 		helpOpt = "help",
 		scriptOpt = "script",
@@ -49,6 +50,7 @@ public class ConfigParser<C extends ProfilableRunConfiguration, B extends Profil
 	}
 	
 	protected Options options = new Options()
+		.addOption(Option.builder("r").longOpt(repeatsOpt).hasArg().desc("Number of times to repeat the experiment").build())
 		.addOption(Option.builder("h").longOpt(helpOpt).desc(helpOpt).build())
 		.addOption(Option.builder("p").longOpt(profileExecutionOpt).desc("Whether to profile execution time and memory usage.").build())
 		.addOption(Option.builder("r").longOpt(showResultsOpt).desc("Whether to output the results.").build())
@@ -71,6 +73,8 @@ public class ConfigParser<C extends ProfilableRunConfiguration, B extends Profil
 		if (cmdLine.hasOption(outFileOpt)) {
 			builder.outputFile = Paths.get(cmdLine.getOptionValue(outFileOpt));
 		}
+		
+		builder.withRepeats(tryParse(repeatsOpt, builder.repeats));
 		
 		if (cmdLine.hasOption(scriptOpt)) {
 			builder.script = Paths.get(cmdLine.getOptionValue(scriptOpt));

@@ -56,7 +56,8 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	protected final Collection<ProfileDiagnostic> profiledStages;
 	protected boolean hasRun = false;
 	protected Object result;
-	protected final int repeats;
+	protected final int targetRepeats;
+	protected int currentRepeat;
 	
 	@SuppressWarnings("unchecked")
 	public abstract static class Builder<C extends ProfilableRunConfiguration, B extends Builder<C, B>> {
@@ -200,7 +201,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 		this.outputFile = builder.outputFile;
 		this.profiledStages = new ConcurrentLinkedDeque<>();
 		this.id = Optional.ofNullable(builder.id).orElseGet(() -> Objects.hash(Objects.toString(script)));
-		this.repeats = builder.repeats;
+		this.targetRepeats = builder.repeats;
 	}
 	
 	protected ProfilableRunConfiguration(ProfilableRunConfiguration other) {
@@ -211,7 +212,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 		this.outputFile = other.outputFile;
 		this.result = other.result;
 		this.profiledStages = other.profiledStages;
-		this.repeats = other.repeats;
+		this.targetRepeats = other.targetRepeats;
 	}
 	
 	@Override
@@ -222,14 +223,20 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	@Override
 	public final Object call() throws Exception {
 		beforeRepeatLoop();
-		for (int i = 0; i < repeats; i++) {
-			reset();
-			//System.gc();
+		assert currentRepeat == 0;
+		do {
+			if (currentRepeat++ > 1) {
+				reset();
+			}
+			if (profileExecution) {
+				System.gc();
+			}
 			preExecute();
 			result = execute();
 			hasRun = true;
 			postExecute();
 		}
+		while (currentRepeat < targetRepeats);
 		afterRepeatLoop();
 		return result;
 	}
