@@ -95,4 +95,11 @@ public class EgxContext extends ErlContext implements IEgxContext {
 	public Map<URI, EglTemplate> getTemplateCache() {
 		return templateCache;
 	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		if (templateCache != null) templateCache.clear();
+		if (invokedTemplates != null) invokedTemplates.clear();
+	}
 }

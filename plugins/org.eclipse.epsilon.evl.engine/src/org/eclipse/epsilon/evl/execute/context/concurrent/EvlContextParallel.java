@@ -110,4 +110,14 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	public IEvlModule getModule() {
 		return (IEvlModule) super.getModule();
 	}
+	
+	@Override
+	public synchronized void dispose() {
+		super.dispose();
+		if (unsatisfiedConstraints != null)
+			unsatisfiedConstraints.clear();
+		if (constraintTrace != null)
+			constraintTrace.clear();
+		terminate = false;
+	}
 }

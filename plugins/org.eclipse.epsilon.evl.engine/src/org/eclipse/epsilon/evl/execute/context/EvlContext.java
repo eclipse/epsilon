@@ -96,4 +96,14 @@ public class EvlContext extends ErlContext implements IEvlContext {
 		}
 		return terminate;
 	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		if (unsatisfiedConstraints != null)
+			unsatisfiedConstraints.clear();
+		if (constraintTrace != null)
+			constraintTrace.clear();
+		terminate = false;
+	}
 }

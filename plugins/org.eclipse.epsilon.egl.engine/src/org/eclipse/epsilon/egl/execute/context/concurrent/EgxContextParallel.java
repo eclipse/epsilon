@@ -105,4 +105,11 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 	public IEgxModule getModule() {
 		return (IEgxModule) super.getModule();
 	}
+	
+	@Override
+	public synchronized void dispose() {
+		super.dispose();
+		if (templateCache != null) templateCache.clear();
+		if (invokedTemplates != null) invokedTemplates.clear();
+	}
 }

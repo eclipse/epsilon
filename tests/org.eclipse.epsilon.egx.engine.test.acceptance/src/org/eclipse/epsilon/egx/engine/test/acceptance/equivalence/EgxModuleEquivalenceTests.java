@@ -50,7 +50,7 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfigu
 	
 	@Test
 	@Override
-	public void _test0() throws Exception {
+	public void _0test0() throws Exception {
 		super.beforeTests();
 	}
 

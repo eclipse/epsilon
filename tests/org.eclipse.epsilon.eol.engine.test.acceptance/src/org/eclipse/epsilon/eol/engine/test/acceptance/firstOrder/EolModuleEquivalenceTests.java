@@ -77,7 +77,7 @@ public class EolModuleEquivalenceTests extends EolEquivalenceTests<EolRunConfigu
 	
 	@Test
 	@Override
-	public void _test0() {
+	public void _0test0() {
 		super.beforeTests();
 	}
 }

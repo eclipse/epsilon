@@ -56,11 +56,13 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	protected final Collection<ProfileDiagnostic> profiledStages;
 	protected boolean hasRun = false;
 	protected Object result;
+	protected final int repeats;
 	
 	@SuppressWarnings("unchecked")
 	public abstract static class Builder<C extends ProfilableRunConfiguration, B extends Builder<C, B>> {
 		protected Class<C> configClass;
 		
+		public int repeats = 1;
 		public Integer id;
 		public boolean showResults, profileExecution;
 		public Path script, outputFile;
@@ -137,7 +139,12 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 			this.showResults = show;
 			return (B) this;
 		}
-		
+		public B withRepeats(int repetition) {
+			if (repetition < 1)
+				throw new IllegalArgumentException("Repeats must be positive!");
+			this.repeats = repetition;
+			return (B) this;
+		}
 		public B withProfiling() {
 			return profileExecution(true);
 		}
@@ -193,6 +200,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 		this.outputFile = builder.outputFile;
 		this.profiledStages = new ConcurrentLinkedDeque<>();
 		this.id = Optional.ofNullable(builder.id).orElseGet(() -> Objects.hash(Objects.toString(script)));
+		this.repeats = builder.repeats;
 	}
 	
 	protected ProfilableRunConfiguration(ProfilableRunConfiguration other) {
@@ -203,6 +211,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 		this.outputFile = other.outputFile;
 		this.result = other.result;
 		this.profiledStages = other.profiledStages;
+		this.repeats = other.repeats;
 	}
 	
 	@Override
@@ -211,12 +220,26 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	}
 	
 	@Override
-	public Object call() throws Exception {
-		preExecute();
-		result = execute();
-		hasRun = true;
-		postExecute();
+	public final Object call() throws Exception {
+		beforeRepeatLoop();
+		for (int i = 0; i < repeats; i++) {
+			reset();
+			//System.gc();
+			preExecute();
+			result = execute();
+			hasRun = true;
+			postExecute();
+		}
+		afterRepeatLoop();
 		return result;
+	}
+	
+	protected void beforeRepeatLoop() throws Exception {
+		// Do nothing
+	}
+	
+	protected void afterRepeatLoop() throws Exception {
+		// Do nothing
 	}
 	
 	@Override
@@ -279,6 +302,11 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 			writeOut(getResultOutput());
 			writeOut(printMarker);
 		}
+	}
+	
+	protected void reset() throws Exception {
+		profiledStages.clear();
+		hasRun = false;
 	}
 	
 	public Duration getExecutionTime() {

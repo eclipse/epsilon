@@ -104,6 +104,15 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	}
 
 	/**
+	 * @since 1.6
+	 */
+	public void clear() {
+		if (storage != null) storage.clear();
+		if (storageOptimised != null) storageOptimised.clear();
+		if (iterable != null) iterable.clear();
+	}
+	
+	/**
 	 * 
 	 * @return
 	 * @since 1.6

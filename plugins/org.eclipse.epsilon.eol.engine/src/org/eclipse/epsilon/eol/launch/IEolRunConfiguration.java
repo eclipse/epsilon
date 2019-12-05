@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.eol.launch;
 
 import java.util.*;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.launch.ProfilableRunConfiguration;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.CollectionUtil;
@@ -24,6 +25,7 @@ import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 import org.eclipse.epsilon.eol.execute.control.ExecutionProfiler;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.IEolModule;
 
 /**
@@ -36,7 +38,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	
 	public final Map<IModel, StringProperties> modelsAndProperties;
 	public final Map<String, Object> parameters;
-	protected final boolean loadModels;
+	protected boolean loadModels;
 	private final IEolModule module;
 	
 	public IEolRunConfiguration(Builder<? extends IEolRunConfiguration, ?> builder) {
@@ -83,8 +85,21 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		
 		prepareModule();
 		
-		if (loadModels) {
-			loadModels();
+		if (modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
+			addModelsToRepo();
+			if (loadModels) {
+				loadModels();
+			}
+		}
+	}
+	
+	protected void addModelsToRepo() throws Exception {
+		ModelRepository modelRepo = module.getContext().getModelRepository();
+		for (Map.Entry<IModel, StringProperties> modelAndProp : modelsAndProperties.entrySet()) {
+			IModel model = modelAndProp.getKey();
+			if (!modelRepo.getModels().contains(model)) {
+				modelRepo.addModel(model);
+			}
 		}
 	}
 	
@@ -118,29 +133,28 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	}
 	
 	protected void loadModelsImpl() throws EolModelLoadingException {
-		if (modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
-			for (Map.Entry<IModel, StringProperties> modelAndProp : modelsAndProperties.entrySet()) {
-				IModel model = modelAndProp.getKey();
-				if (!(model instanceof CachedModel) || !((CachedModel<?>) model).isLoaded()) {
-					StringProperties modelProperties = modelAndProp.getValue();
-					if (modelProperties != null) {
-						model.load(modelProperties); 
-					}
-					else {
-						model.load();
-					}
+		for (Map.Entry<IModel, StringProperties> modelAndProp : modelsAndProperties.entrySet()) {
+			IModel model = modelAndProp.getKey();
+			if (!(model instanceof CachedModel) || !((CachedModel<?>) model).isLoaded()) {
+				StringProperties modelProperties = modelAndProp.getValue();
+				if (modelProperties != null) {
+					model.load(modelProperties); 
 				}
-				module.getContext().getModelRepository().addModel(model);
+				else {
+					model.load();
+				}
 			}
 		}
 	}
 	
-	public void dispose() {
+	@Override
+	public void reset() throws Exception {
+		super.reset();
+		if (loadModels) {
+			module.getContext().getModelRepository().dispose();
+		}
+		//module.getContext().getFrameStack().dispose();
 		module.getContext().dispose();
-		parameters.clear();
-		//modelsAndProperties.keySet().forEach(IModel::dispose);
-		modelsAndProperties.clear();
-		module.setContext(null);
 	}
 	
 	@Override
@@ -285,6 +299,10 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		}
 		public B withParallelism(int parallelism) {
 			this.parallelism = parallelism;
+			return (B) this;
+		}
+		public B withParallelism() {
+			this.parallelism = ConcurrencyUtils.DEFAULT_PARALLELISM;
 			return (B) this;
 		}
 	}

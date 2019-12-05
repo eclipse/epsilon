@@ -58,7 +58,7 @@ import org.junit.runner.RunWith;
  * 
  * 	<br/>
  * 
- * <li> An implementation of {@linkplain #_test0()} which simply calls the #beforeTests() method
+ * <li> An implementation of {@linkplain #_0test0()} which simply calls the #beforeTests() method
  *
  * 	<br/>
  *
@@ -117,11 +117,11 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	 * Additional setup functionality may also be provided here.
 	 */
 	@Test
-	public abstract void _test0() throws Exception;
+	public abstract void _0test0() throws Exception;
 	
 	@Test
 	public void zzz_AfterAll() throws Exception {
-		testConfig.dispose();
+		testConfig.reset();
 	}
 	
 	/**
