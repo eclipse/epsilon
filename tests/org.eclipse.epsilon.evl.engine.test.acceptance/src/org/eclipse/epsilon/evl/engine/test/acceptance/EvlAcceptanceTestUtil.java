@@ -122,17 +122,17 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 						EvlRunConfiguration.Builder()
 							.withScript(EvlTests.getTestScript(evlModule).toPath())
 							.withModel(EvlTests.getTestModel(false))
+							.loadModels(false)
 							.withModule(evlModule)
 							.profileExecution(false)
 							.showResults(false)
-							.withOptimizeConstraintTrace(optimizeTrace)
+							.optimizeConstraintTrace(optimizeTrace)
 							.withId(testInputs.size()+1)
 							.build()
 					);
 				}
 			}
 		}
-		
 		return scenarios;
 	}
 	

@@ -21,6 +21,7 @@ import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -50,9 +51,17 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class EvlTests {
 
-	private static final IModel
-		TEST_MODEL = setUpModel("test.xml"),
-		OPTIMISED_MODEL = setUpModel("optimised.xml");
+	private static IModel TEST_MODEL, OPTIMISED_MODEL;
+	
+	static {
+		try {
+			TEST_MODEL = setUpModel("test.xml");
+			OPTIMISED_MODEL = setUpModel("optimised.xml");
+		}
+		catch (EolModelLoadingException ex) {
+			ex.printStackTrace();
+		}
+	}
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -74,15 +83,16 @@ public class EvlTests {
 		return EvlAcceptanceTestUtil.modules();
 	}
 	
-	public static IModel newTestModel() {
+	public static IModel newTestModel() throws EolModelLoadingException {
 		return setUpModel("test.xml");
 	}
 	
-	private static IModel setUpModel(String modelName) {
+	private static IModel setUpModel(String modelName) throws EolModelLoadingException {
 		PlainXmlModel model = new PlainXmlModel();
 		model.setFile(new File(EvlAcceptanceTestUtil.modelsRoot+modelName));
 		model.setName(FileUtil.removeExtension(model.getFile().getName()));
 		model.setCachingEnabled(false);
+		model.load();
 		return model;
 	}
 	

@@ -144,7 +144,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		// Execute user-defined operation (if isArrow() == false)
 		if (context.getModule() instanceof IEolModule && !isArrow()) {
 			OperationList operations = ((IEolModule) context.getModule()).getOperations();
-			Operation helper = operations.getOperation(targetObject, nameExpression , parameterValues, context);
+			Operation helper = operations.getOperation(targetObject, nameExpression, parameterValues, context);
 			if (helper != null) {
 				return helper.execute(targetObject, parameterValues, context);
 			}

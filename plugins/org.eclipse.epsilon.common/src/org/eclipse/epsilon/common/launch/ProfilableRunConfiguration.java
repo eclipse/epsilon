@@ -224,8 +224,8 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	public final Object call() throws Exception {
 		beforeRepeatLoop();
 		assert currentRepeat == 0;
-		do {
-			if (currentRepeat++ > 1) {
+		while (currentRepeat < targetRepeats) {
+			if (++currentRepeat > 1) {
 				reset();
 			}
 			if (profileExecution) {
@@ -236,7 +236,6 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 			hasRun = true;
 			postExecute();
 		}
-		while (currentRepeat < targetRepeats);
 		afterRepeatLoop();
 		return result;
 	}
@@ -314,6 +313,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	protected void reset() throws Exception {
 		profiledStages.clear();
 		hasRun = false;
+		currentRepeat = 0;
 	}
 	
 	public Duration getExecutionTime() {

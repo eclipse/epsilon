@@ -33,26 +33,26 @@ public class EvlRunConfiguration extends IErlRunConfiguration {
 		public boolean optimizeConstraints = false;
 		public boolean shortCircuit = false;
 		
-		public B withShortCircuiting() {
-			return withShortCircuiting(true);
+		public B shortCircuiting() {
+			return shortCircuiting(true);
 		}
-		public B withShortCircuiting(boolean sc) {
+		public B shortCircuiting(boolean sc) {
 			this.shortCircuit = sc;
 			return (B) this;
 		}
 		
-		public B withOptimizeConstraints() {
-			return withOptimizeConstraints(true);
+		public B optimizeConstraints() {
+			return optimizeConstraints(true);
 		}
-		public B withOptimizeConstraints(boolean optimize) {
+		public B optimizeConstraints(boolean optimize) {
 			this.optimizeConstraints = optimize;
 			return (B) this;
 		}
 		
-		public B withEagerConstraintTrace() {
-			return withOptimizeConstraintTrace(false);
+		public B eagerConstraintTrace() {
+			return optimizeConstraintTrace(false);
 		}
-		public B withOptimizeConstraintTrace(boolean optimize) {
+		public B optimizeConstraintTrace(boolean optimize) {
 			this.optimizeTrace = optimize;
 			return (B) this;
 		}

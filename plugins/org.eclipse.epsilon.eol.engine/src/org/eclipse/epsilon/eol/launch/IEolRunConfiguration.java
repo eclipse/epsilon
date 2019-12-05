@@ -150,11 +150,13 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	@Override
 	public void reset() throws Exception {
 		super.reset();
-		if (loadModels && currentRepeat >= targetRepeats) {
+		if (currentRepeat >= targetRepeats) {
 			module.getContext().getModelRepository().dispose();
+			module.getContext().getFrameStack().dispose();
 		}
-		//module.getContext().getFrameStack().dispose();
-		module.getContext().dispose();
+		if (currentRepeat > 0) {
+			module.getContext().dispose();
+		}
 	}
 	
 	@Override
@@ -254,9 +256,12 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		}
 		
 		public B skipModelLoading() {
-			return withModelLoading(false);
+			return loadModels(false);
 		}
 		public B withModelLoading(boolean load) {
+			return loadModels(load);
+		}
+		public B loadModels(boolean load) {
 			this.loadModels = load;
 			return (B) this;
 		}
@@ -302,8 +307,14 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 			return (B) this;
 		}
 		public B withParallelism() {
-			this.parallelism = ConcurrencyUtils.DEFAULT_PARALLELISM;
+			return parallel(true);
+		}
+		public B parallel(boolean parallel) {
+			this.parallelism = parallel ? ConcurrencyUtils.DEFAULT_PARALLELISM : Integer.MIN_VALUE;
 			return (B) this;
+		}
+		public B parallel() {
+			return parallel(true);
 		}
 	}
 }
