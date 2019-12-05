@@ -150,7 +150,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	@Override
 	public void reset() throws Exception {
 		super.reset();
-		if (loadModels && currentRepeat < targetRepeats) {
+		if (loadModels && currentRepeat >= targetRepeats) {
 			module.getContext().getModelRepository().dispose();
 		}
 		//module.getContext().getFrameStack().dispose();
