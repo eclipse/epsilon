@@ -57,7 +57,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	protected boolean hasRun = false;
 	protected Object result;
 	protected final int targetRepeats;
-	protected int currentRepeat;
+	private int currentRepeat;
 	
 	@SuppressWarnings("unchecked")
 	public abstract static class Builder<C extends ProfilableRunConfiguration, B extends Builder<C, B>> {
@@ -224,7 +224,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	public final Object call() throws Exception {
 		beforeRepeatLoop();
 		assert currentRepeat == 0;
-		while (++currentRepeat <= targetRepeats) {
+		while (currentRepeat++ < targetRepeats) {
 			if (currentRepeat > 1) {
 				reset();
 			}
@@ -246,6 +246,10 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	
 	protected void afterRepeatLoop() throws Exception {
 		currentRepeat = 0;
+	}
+	
+	protected int getCurrentRepeat() {
+		return currentRepeat;
 	}
 	
 	@Override
