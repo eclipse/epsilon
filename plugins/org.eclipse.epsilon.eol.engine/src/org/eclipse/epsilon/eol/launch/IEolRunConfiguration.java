@@ -150,13 +150,16 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	@Override
 	public void reset() throws Exception {
 		super.reset();
-		if (currentRepeat >= targetRepeats) {
-			module.getContext().getModelRepository().dispose();
-			module.getContext().getFrameStack().dispose();
-		}
 		if (currentRepeat > 0) {
 			module.getContext().dispose();
 		}
+	}
+	
+	@Override
+	protected void afterRepeatLoop() throws Exception {
+		super.afterRepeatLoop();
+		module.getContext().getModelRepository().dispose();
+		module.getContext().getFrameStack().dispose();
 	}
 	
 	@Override
