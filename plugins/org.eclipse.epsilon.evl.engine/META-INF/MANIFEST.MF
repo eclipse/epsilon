@@ -17,7 +17,6 @@ Export-Package: org.eclipse.epsilon.evl,
  org.eclipse.epsilon.evl.execute.context.concurrent,
  org.eclipse.epsilon.evl.execute.exceptions,
  org.eclipse.epsilon.evl.execute.operations,
- org.eclipse.epsilon.evl.graph,
  org.eclipse.epsilon.evl.launch,
  org.eclipse.epsilon.evl.parse,
  org.eclipse.epsilon.evl.trace

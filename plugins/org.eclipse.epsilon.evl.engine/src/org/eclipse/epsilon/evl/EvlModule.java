@@ -29,9 +29,7 @@ import org.eclipse.epsilon.evl.dom.*;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.execute.context.EvlContext;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
-import org.eclipse.epsilon.evl.execute.exceptions.EvlConstraintNotFoundException;
 import org.eclipse.epsilon.evl.execute.operations.EvlOperationFactory;
-import org.eclipse.epsilon.evl.graph.EvlGraph;
 import org.eclipse.epsilon.evl.parse.EvlLexer;
 import org.eclipse.epsilon.evl.parse.EvlParser;
 
@@ -170,20 +168,6 @@ public class EvlModule extends ErlModule implements IEvlModule {
 			constraintContexts.addAll(declaredConstraintContexts);
 		}
 		return constraintContexts;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @throws EvlConstraintNotFoundException
-	 * @since 1.6
-	 */
-	protected List<Constraint> computeConstraintSequence() throws EvlConstraintNotFoundException {
-		IEvlContext context = getContext();
-		EvlGraph graph = new EvlGraph(context);
-		graph.addConstraintContexts(getConstraintContexts());
-		graph.setAllConstraintsDependedOn();
-		return graph.getConstraintSequence();
 	}
 	
 	/**

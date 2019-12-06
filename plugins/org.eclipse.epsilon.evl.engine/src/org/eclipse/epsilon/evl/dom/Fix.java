@@ -9,8 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.evl.dom;
 
-import java.util.Collections;
-import java.util.List;
 import org.eclipse.epsilon.common.module.AbstractModuleElement;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
@@ -34,10 +32,6 @@ public class Fix extends AbstractModuleElement {
 		guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EvlParser.GUARD), this);
 		titleBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst,EvlParser.TITLE), this);
 		bodyBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst,EvlParser.DO), this);
-	}
-	
-	public List<?> getModuleElements() {
-		return Collections.EMPTY_LIST;
 	}
 	
 	public String getTitle(Object self, IEvlContext context) throws EolRuntimeException{
