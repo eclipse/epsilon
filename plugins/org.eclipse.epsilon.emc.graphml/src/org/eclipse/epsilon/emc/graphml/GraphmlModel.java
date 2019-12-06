@@ -10,9 +10,8 @@
 package org.eclipse.epsilon.emc.graphml;
 
 import java.io.File;
-import java.net.URL;
-
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.muddle.MuddleFactory;
 import org.eclipse.epsilon.emc.muddle.MuddleModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -21,7 +20,7 @@ import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 public class GraphmlModel extends MuddleModel {
 	
 	public static final String PROPERTY_FILE = "file";
-	public static String PROPERTY_URI = "uri";
+	public static final String PROPERTY_URI = "uri";
 	protected File file = null;
 	protected String uri = null;
 	
@@ -36,7 +35,7 @@ public class GraphmlModel extends MuddleModel {
 		
 		String filePath = properties.getProperty(GraphmlModel.PROPERTY_FILE);
 		
-		if (filePath != null && filePath.trim().length() > 0) {
+		if (!StringUtil.isEmpty(filePath)) {
 			file = new File(resolver.resolve(filePath));
 		}
 		else {
@@ -51,12 +50,9 @@ public class GraphmlModel extends MuddleModel {
 		if (readOnLoad) {
 			GraphmlImporter importer = new GraphmlImporter();
 			try {
-				if (uri!=null) {
-					muddle = importer.importGraph(uri);
-				} else {
-					muddle = importer.importGraph(file);
-				}
-			} catch (Exception e) {
+				muddle = uri != null ? importer.importGraph(uri) : importer.importGraph(file);
+			}
+			catch (Exception e) {
 				throw new EolModelLoadingException(e, this);
 			}
 		}

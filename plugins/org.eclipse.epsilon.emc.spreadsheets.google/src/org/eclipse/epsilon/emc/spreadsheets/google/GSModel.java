@@ -11,28 +11,21 @@ package org.eclipse.epsilon.emc.spreadsheets.google;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetWorksheetMetadata;
 import org.eclipse.epsilon.emc.spreadsheets.MetadataXMLParser;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetDataType;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheet;
@@ -43,12 +36,10 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.eol.models.Model;
-import org.eclipse.epsilon.eol.parse.EolParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-
 import com.google.gdata.client.spreadsheet.SpreadsheetQuery;
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
 import com.google.gdata.data.PlainTextConstruct;

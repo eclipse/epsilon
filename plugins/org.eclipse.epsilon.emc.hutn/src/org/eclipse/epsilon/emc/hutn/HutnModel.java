@@ -91,10 +91,15 @@ public class HutnModel extends Model implements IAdaptableModel, IReflectiveMode
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
-		
 		this.hutnSourceFile = new File(resolver.resolve(properties.getProperty(PROPERTY_SOURCE_FILE)));
-		
 		load();
+	}
+	
+	/**
+	 * @since 1.6
+	 */
+	public boolean isLoaded() {
+		return model != null && model.isLoaded();
 	}
 
 	@Override

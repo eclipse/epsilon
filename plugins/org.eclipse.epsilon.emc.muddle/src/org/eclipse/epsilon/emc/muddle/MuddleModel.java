@@ -231,4 +231,10 @@ public class MuddleModel extends Model {
 		
 	}
 	
+	/**
+	 * @since 1.6
+	 */
+	public boolean isLoaded() {
+		return muddle != null;
+	}
 }

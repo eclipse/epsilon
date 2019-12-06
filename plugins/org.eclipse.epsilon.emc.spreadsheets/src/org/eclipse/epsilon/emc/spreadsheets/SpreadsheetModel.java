@@ -46,6 +46,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 
 	protected List<SpreadsheetWorksheet> worksheets;
 	protected List<SpreadsheetReference> references;
+	protected boolean isLoaded;
 
 	public SpreadsheetModel()
 	{
@@ -126,6 +127,14 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 		{
 			throw new EolModelLoadingException(e, this);
 		}
+		isLoaded = true;
+	}
+	
+	/**
+	 * @since 1.6
+	 */
+	public boolean isLoaded() {
+		return isLoaded;
 	}
 
 	/**
