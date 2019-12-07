@@ -9,8 +9,12 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi;
 
-public interface StringSimilarityProvider {
+public interface StringSimilarityProvider extends java.util.Comparator<String> {
 	
 	public int getSimilarity(String one, String other);
 	
+	@Override
+	default int compare(String o1, String o2) {
+		return getSimilarity(o1, o2);
+	}
 }
