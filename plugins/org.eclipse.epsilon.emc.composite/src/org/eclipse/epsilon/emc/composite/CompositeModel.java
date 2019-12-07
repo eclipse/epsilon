@@ -60,7 +60,7 @@ public class CompositeModel extends Model {
 	protected void findEquivalents(MatchTrace matchTrace) {
 		for (Match m : matchTrace) {
 			boolean existing = false;
-			for (ArrayList<Object> eq : equivalents) {
+			for (Collection<Object> eq : equivalents) {
 				if (eq.contains(m.getLeft()) || eq.contains(m.getRight())) {
 					existing = true;
 					if (!eq.contains(m.getLeft())) eq.add(m.getLeft());
@@ -199,7 +199,7 @@ public class CompositeModel extends Model {
 	@Override
 	public Object getEnumerationValue(String enumeration, String label)
 			throws EolEnumerationValueNotFoundException {
-		if (models.size() > 0) 
+		if (!models.isEmpty()) 
 			return models.iterator().next().getEnumerationValue(enumeration, label);
 		else return null;
 	}

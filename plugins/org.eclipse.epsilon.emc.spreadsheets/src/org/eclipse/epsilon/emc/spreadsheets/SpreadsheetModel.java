@@ -136,6 +136,12 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	public boolean isLoaded() {
 		return isLoaded;
 	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		isLoaded = false;
+	}
 
 	/**
 	 * The purpose of this method is to load the spreadsheet.

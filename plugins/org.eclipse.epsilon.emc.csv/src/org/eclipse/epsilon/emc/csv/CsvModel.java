@@ -375,7 +375,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 			}
 			output.append(System.getProperty("line.separator"));
 		}
-		for (Map<String, Object>row : rows) {
+		for (Map<String, Object> row : rows) {
 			Iterator<Object> fieldIt = row.values().iterator();
 			output.append(fieldIt.next());
 			while (fieldIt.hasNext()) {
@@ -574,7 +574,12 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	 */
 	@Override
 	protected void disposeModel() {
-		rows.clear();
+		if (rows != null) rows.clear();
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return rows != null;
 	}
 
 	/* (non-Javadoc)
@@ -612,5 +617,4 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	public void setReader(BufferedReader reader) {
 		this.reader = reader;
 	}
-
 }
