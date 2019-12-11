@@ -23,6 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -35,6 +37,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -368,6 +371,18 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 			if (ePackage != null) getResourceSet().getPackageRegistry().put(ePackage.getNsURI(), ePackage);
 			else addParseWarning("Failed to locate EPackage for nsURI " + value + " ");*/
 
+		}
+		else if ("nsuris".equalsIgnoreCase(key)) {
+			boolean matchFound = false;
+			for (String nsuri : EPackage.Registry.INSTANCE.keySet()) {
+				if (nsuri.matches(value)) {
+					getResourceSet().getPackageRegistry().put(nsuri, EPackage.Registry.INSTANCE.getEPackage(nsuri));
+					matchFound = true;
+				}
+			}
+			if (!matchFound) {
+				addParseWarning("Failed to locate EPackages for nsURI pattern " + value + " ");
+			}
 		}
 		else if ("eol".equalsIgnoreCase(key)) {
 			scripts.add(value);
