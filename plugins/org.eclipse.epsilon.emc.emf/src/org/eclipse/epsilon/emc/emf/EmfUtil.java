@@ -131,13 +131,13 @@ public class EmfUtil {
 	
 	public static EPackage getTopEPackage(EPackage ePackage) {
 		EPackage top = ePackage;
-		while (top.getESuperPackage()!=null) {
+		while (top.getESuperPackage() != null) {
 			top = top.getESuperPackage();
 		}
 		return top;
 	}
 	
-	//protected HashMap<URI, List<EPackage>> cache = new HashMap<URI, List<EPackage>>();
+	//protected HashMap<URI, List<EPackage>> cache = new HashMap<>>();
 	
 	private static void initialiseResourceFactoryRegistry() {
 		final Map<String, Object> etfm = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();

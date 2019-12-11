@@ -24,7 +24,7 @@ public class XmlPropertySetter extends EmfPropertySetter {
 		EObject eObject = (EObject) object;
 		EStructuralFeature sf = EmfUtil.getEStructuralFeature(eObject.eClass(), property);
 		
-		if (sf.getEType().getName().equals("QName")) {
+		if ("QName".equals(sf.getEType().getName())) {
 			QName qName = QName.valueOf((String)(value));
 			eObject.eSet(sf, qName);
 		}
@@ -32,7 +32,4 @@ public class XmlPropertySetter extends EmfPropertySetter {
 			super.invoke(value);
 		}
 	}
-	
-	
-	
 }

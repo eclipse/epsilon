@@ -53,12 +53,10 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 	@SuppressWarnings("unchecked")
 	public void invoke(Object value) throws EolRuntimeException {
 		EStructuralFeature sf = getEStructuralFeature();
-		
-		
 		if (sf.isMany()) {
 			if (value != null) {
 				Collection<Object> sourceValues = (Collection<Object>) getEObject().eGet(sf);
-				if (value instanceof Collection){	
+				if (value instanceof Collection) {	
 					copyCollectionValues(((Collection<?>)value), sourceValues);
 				}
 				else {
@@ -74,10 +72,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 	
 	protected void copyCollectionValues(Collection<?> source, Collection<Object> target) {
 		target.clear();
-
-		for (Object element : source) {
-			target.add(element);
-		}
+		target.addAll(source);
 	}
 	
 	protected EObject getEObject() throws EolIllegalPropertyException {
@@ -88,8 +83,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 	}
 	
 	private EStructuralFeature getEStructuralFeature() throws EolIllegalPropertyException {
-		final EStructuralFeature sf = EmfUtil.getEStructuralFeature(getEObject().eClass(), property);
-		
+		final EStructuralFeature sf = EmfUtil.getEStructuralFeature(getEObject().eClass(), property);	
 		if (sf == null)
 			throw new EolIllegalPropertyException(object, property, ast, context);
 		else
@@ -105,12 +99,12 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 	}
 	
 	private boolean isConformantSizeForProperty(Collection<?> values) throws EolIllegalPropertyException {
-		return lowerbound() <= values.size() && values.size() <= upperbound();
+		int size = values.size();
+		return lowerbound() <= size && size <= upperbound();
 	}
 	
 	private int upperbound() throws EolIllegalPropertyException {
 		final int upperbound = getEStructuralFeature().getUpperBound();
-		
 		return upperbound == ETypedElement.UNBOUNDED_MULTIPLICITY ? Integer.MAX_VALUE : upperbound;
 	}
 	
@@ -122,8 +116,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 		for (Object value : values) {
 			if (!isConformantTypeForProperty(value))
 				return false;
-		}
-		
+		}		
 		return true;
 	}
 	
