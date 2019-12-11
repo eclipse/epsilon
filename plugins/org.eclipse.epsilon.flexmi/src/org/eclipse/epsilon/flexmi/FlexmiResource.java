@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -561,7 +562,9 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		try {
 			if (eAttribute.getEAttributeType() instanceof EEnum) {
 				EEnum eEnum = (EEnum) eAttribute.getEAttributeType();
-				return eNamedElementForName(value, eEnum.getELiterals());
+				EEnumLiteral literal = (EEnumLiteral) eNamedElementForName(value, eEnum.getELiterals());
+				if (literal != null) return literal.getInstance();
+				else return null;
 			}
 			else {
 				return eAttribute.getEAttributeType().getEPackage().getEFactoryInstance().createFromString(eAttribute.getEAttributeType(), value);
