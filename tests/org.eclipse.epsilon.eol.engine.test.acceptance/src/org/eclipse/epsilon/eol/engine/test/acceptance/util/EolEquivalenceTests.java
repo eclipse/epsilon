@@ -12,12 +12,7 @@ package org.eclipse.epsilon.eol.engine.test.acceptance.util;
 import static org.eclipse.epsilon.test.util.EpsilonTestUtil.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.module.ModuleElement;
@@ -25,7 +20,7 @@ import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 
 /**
@@ -122,6 +117,11 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	@Test
 	public void zzz_AfterAll() throws Exception {
 		testConfig.dispose();
+	}
+	
+	@AfterClass
+	public static void afterClass() throws Exception {
+		for (IEolRunConfiguration c : expectedConfigs) c.dispose();
 	}
 	
 	/**

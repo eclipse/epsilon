@@ -17,7 +17,6 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.execute.DeprecationInfo;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
-import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
 import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
@@ -297,10 +296,7 @@ public class EolContext implements IEolContext {
 	
 	@Override
 	public void dispose() {
-		ExecutionController executionController = executorFactory.getExecutionController();
-		if (executionController != null) {
-			executionController.dispose();
-		}
+		executorFactory.reset();
 		extendedProperties.clear();
 	}
 

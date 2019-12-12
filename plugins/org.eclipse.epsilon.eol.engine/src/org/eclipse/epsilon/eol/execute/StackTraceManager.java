@@ -27,6 +27,13 @@ public class StackTraceManager implements IExecutionListener {
 	 */
 	Deque<ModuleElement> stackTrace = new ArrayDeque<>();
 	
+	/**
+	 * @since 1.6
+	 */
+	protected void reset() {
+		if (stackTrace != null) stackTrace.clear();
+	}
+	
 	@Override
 	public void aboutToExecute(ModuleElement ast, IEolContext context) {
 		stackTrace.push(ast);
@@ -38,7 +45,9 @@ public class StackTraceManager implements IExecutionListener {
 	}
 	
 	@Override
-	public void finishedExecutingWithException(ModuleElement ast, EolRuntimeException exception, IEolContext context) {}
+	public void finishedExecutingWithException(ModuleElement ast, EolRuntimeException exception, IEolContext context) {
+		
+	}
 	
 	public List<ModuleElement> getStackTrace() {
 		return new ArrayList<>(this.stackTrace);

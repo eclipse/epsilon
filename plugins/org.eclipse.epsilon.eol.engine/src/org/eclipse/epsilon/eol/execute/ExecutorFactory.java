@@ -289,4 +289,13 @@ public class ExecutorFactory implements BaseDelegate<ExecutorFactory> {
 			mode
 		);
 	}
+
+	/**
+	 * @since 1.6
+	 */
+	public void reset() {
+		activeModuleElement = null;
+		if (stackTraceManager != null) stackTraceManager.reset();
+		if (executionController != null) executionController.dispose();
+	}
 }

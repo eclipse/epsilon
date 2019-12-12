@@ -150,9 +150,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	@Override
 	public void reset() throws Exception {
 		super.reset();
-		if (!isLastRepeat()) {
-			module.getContext().dispose();
-		}
+		module.getContext().dispose();
 	}
 	
 	public void dispose() throws Exception {
