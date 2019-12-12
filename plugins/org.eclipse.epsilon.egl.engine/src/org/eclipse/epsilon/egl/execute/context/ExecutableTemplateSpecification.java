@@ -23,6 +23,16 @@ class ExecutableTemplateSpecification {
 		this.outputBuffer = outputBuffer;
 	}
 
+	/**
+	 * Copy constructor.
+	 * @param other
+	 * @since 1.6
+	 */
+	public ExecutableTemplateSpecification(ExecutableTemplateSpecification other) {
+		this.template = other.template;
+		this.outputBuffer = other.outputBuffer;
+	}
+	
 	public void addAsChild(ExecutableTemplateSpecification child) {
 		template.getTemplate().add(child.template.getTemplate());
 	}

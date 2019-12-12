@@ -12,7 +12,6 @@ package org.eclipse.epsilon.evl.execute.exceptions;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-
 public class EvlConstraintNotFoundException extends EolRuntimeException {
 	
 	protected String constraintName;

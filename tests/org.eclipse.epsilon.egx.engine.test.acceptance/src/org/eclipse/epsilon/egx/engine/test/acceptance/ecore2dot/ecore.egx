@@ -16,7 +16,6 @@ rule All2Dot {
 		"path" = List{"Model", "3D inheritance"},
 		"icon" = "diagram-fffbd7"
 	}
-	
 	template: "ecore23d.egl"
 }*/
 
@@ -31,6 +30,7 @@ rule Ecore2Barchart {
 	target: "output/barchart.txt"
 }
 
+@parallel
 rule EClass2Dot 
 	transform c : EClass {
 	parameters {

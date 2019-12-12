@@ -252,7 +252,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 		}
 		else {
 			for (Map<String, Object> row : rows) {
-				List<Object> fields = (List<Object>) row.get(HEADERLESS_FIELD_NAME);
+				List<?> fields = (List<?>) row.get(HEADERLESS_FIELD_NAME);
 				if (fields.get(idFieldIndex).equals(id)) {
 					return row;
 				}

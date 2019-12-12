@@ -52,10 +52,10 @@ class EglExecutionManager {
 	}
 	
 	final IEglContext context;
-	private FrameStack frameStack;
-	private final Deque<ModuleElement> localMarkers = new ArrayDeque<>();
-	private final Deque<ModuleElement> globalMarkers = new ArrayDeque<>();
-	private final Deque<ExecutableTemplateSpecification> specs = new LinkedList<>();
+	FrameStack frameStack;
+	final Deque<ModuleElement> localMarkers = new ArrayDeque<>();
+	final Deque<ModuleElement> globalMarkers = new ArrayDeque<>();
+	final Deque<ExecutableTemplateSpecification> specs = new LinkedList<>();
 	private ExecutableTemplateSpecification firstSpec;
 	
 	public void prepareFor(EglTemplate template) {

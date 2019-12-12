@@ -62,7 +62,8 @@ public class EglContext extends EolContext implements IEglContext {
 		setPartitioner(other.getPartitioner());
 		setContentTypeRepository(other.getContentTypeRepository());
 		if (other instanceof EglContext) {
-	 		statusMessages = ((EglContext) other).statusMessages;
+			EglContext eglContext = (EglContext) other;
+	 		statusMessages = eglContext.statusMessages;
 	 	}
 	 	else {
 	 		statusMessages.addAll(other.getStatusMessages());
