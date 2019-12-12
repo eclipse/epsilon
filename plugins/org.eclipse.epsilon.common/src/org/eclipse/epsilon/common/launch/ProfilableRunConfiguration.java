@@ -223,7 +223,6 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	@Override
 	public final Object call() throws Exception {
 		beforeRepeatLoop();
-		assert currentRepeat == 0;
 		while (currentRepeat++ < targetRepeats) {
 			if (currentRepeat > 1) {
 				reset();
@@ -241,7 +240,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	}
 	
 	protected void beforeRepeatLoop() throws Exception {
-		// Do nothing
+		currentRepeat = 0;
 	}
 	
 	protected void afterRepeatLoop() throws Exception {

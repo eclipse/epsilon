@@ -11,8 +11,9 @@ package org.eclipse.epsilon.flexmi;
 
 public class DefaultStringSimilarityProvider implements StringSimilarityProvider {
 	
+	@Override
 	public int getSimilarity(String first, String second) {
-		if (first == null || second == null || first.length() == 0 || second.length() == 0) return 0;
+		if (first == null || second == null || first.isEmpty() || second.isEmpty()) return 0;
 
 		int maxLen = 0;
 		int firstLength = first.length();

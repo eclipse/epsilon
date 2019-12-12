@@ -35,7 +35,7 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfigu
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		setUpEquivalenceTest(getScenarios(thriftInputs, Collections.singleton(EgxModule::new)));
+		setUpEquivalenceTest(getScenarios(allInputs, Collections.singleton(EgxModule::new)));
 	}
 
 	@AfterClass
@@ -43,9 +43,9 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfigu
 		//deleteOutputDirectories();
 	}
 
-	@Parameters//(name = "0")	//Don't use this as the Eclipse JUnit view won't show failures!
+	@Parameters//(name = "0")	// Don't use this as the Eclipse JUnit view won't show failures!
 	public static Iterable<? extends EgxRunConfigurationTest> configurations() {
-		return getScenarios(thriftInputs, modules(false));
+		return getScenarios(allInputs, modules(false));
 	}
 	
 	@Test
@@ -54,7 +54,7 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfigu
 		super.beforeTests();
 	}
 
-	//@Test // TODO: TemplateFactory / EglTemplate is broken somehow. Output keeps growing between different invocations!
+	@Test
 	public void testEquivalentOutput() throws Exception {
 		Map<Path, byte[]>
 			expectedOutput = expectedConfig.getResult(),

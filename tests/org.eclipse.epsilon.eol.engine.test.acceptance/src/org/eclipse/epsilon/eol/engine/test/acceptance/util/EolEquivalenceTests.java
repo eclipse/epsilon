@@ -121,7 +121,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	
 	@Test
 	public void zzz_AfterAll() throws Exception {
-		testConfig.fullDispose();
+		testConfig.dispose();
 	}
 	
 	/**

@@ -11,6 +11,7 @@ package org.eclipse.epsilon.egx.engine.test.acceptance;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -29,24 +30,38 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	
 	public static final String
 		testsBase = getTestBaseDir(EgxAcceptanceTestSuite.class),
+		ecoreBase = testsBase+"ecore2dot/",
+		ecoreMetamodel = "Ecore.ecore",
+		ecoreModels[] = {"java.ecore"},
+		ecoreScripts[] = {"ecore"},
 		thriftBase = testsBase+"thrift/",
 		thriftMetamodel = "thrift.ecore",
-		thriftModels[] = {/*"ThriftTest.xmi", */"SimpleService.xmi", "fb303.xmi"},
+		thriftModels[] = {/*"ThriftTest.xmi", */"fb303.xmi", "SimpleService.xmi"},
 		thriftScripts[] = {"thrift-rb", "thrift-java"};
 		
-	public static final List<String[]> thriftInputs = new java.util.ArrayList<>();
+	public static final List<String[]>
+		ecoreInputs = new ArrayList<>(),
+		thriftInputs = new ArrayList<>(),
+		allInputs = new ArrayList<>();
 	
 	static {
+		ecoreInputs.addAll(addAllInputs(
+			ecoreScripts,
+			ecoreModels, ecoreMetamodel, "egx",
+			ecoreBase, ecoreBase, ecoreBase
+		));
 		thriftInputs.addAll(addAllInputs(
-				new String[]{thriftScripts[0]},
-				thriftModels, thriftMetamodel, "egx",
-				thriftBase+"ruby/", thriftBase, thriftBase
+			new String[]{thriftScripts[0]},
+			thriftModels, thriftMetamodel, "egx",
+			thriftBase+"ruby/", thriftBase, thriftBase
 		));
 		/*thriftInputs.addAll(addAllInputs(
-				new String[]{thriftScripts[1]},
-				thriftModels, thriftMetamodel, "egx",
-				thriftBase+"java/", thriftBase, thriftBase
+			new String[]{thriftScripts[1]},
+			thriftModels, thriftMetamodel, "egx",
+			thriftBase+"java/", thriftBase, thriftBase
 		));*/
+		allInputs.addAll(ecoreInputs);
+		allInputs.addAll(thriftInputs);
 	}
 	
 	public static Collection<Supplier<? extends IEgxModule>> modules(boolean includeStandard) {
@@ -66,6 +81,7 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	
 	public static void deleteOutputDirectories() throws IOException {
 		try {
+			FileUtil.deleteDirectory(ecoreBase+"output");
 			FileUtil.deleteDirectory(thriftBase+"ruby/output");
 			FileUtil.deleteDirectory(thriftBase+"java/output");
 		}
@@ -75,6 +91,7 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	public static Map<Path, byte[]> getOutputFiles() throws IOException {
 		Map<Path, byte[]> outputs = new java.util.HashMap<>();
 		try {
+			outputs.putAll(FileUtil.readDirectory(ecoreBase+"output"));
 			outputs.putAll(FileUtil.readDirectory(thriftBase+"ruby/output"));
 			outputs.putAll(FileUtil.readDirectory(thriftBase+"java/output"));
 		}

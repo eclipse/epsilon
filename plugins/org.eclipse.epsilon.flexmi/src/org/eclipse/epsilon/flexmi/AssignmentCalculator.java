@@ -19,19 +19,15 @@ public class AssignmentCalculator {
 	
 	public static void main(String[] args) {
 		
-		Map<Object, Object> assignment = new AssignmentCalculator().calculateAssignment(Arrays.asList(10, 20), Arrays.asList(5,6,7), new AssignmentScorer() {
+		Map<Object, Object> assignment = new AssignmentCalculator().calculateAssignment(Arrays.asList(10, 20), Arrays.asList(5,6,7), (left, right) -> {
+			int leftInt = (Integer) left;
+			int rightInt = (Integer) right;
 			
-			@Override
-			public float score(Object left, Object right) {
-				Integer leftInt = (Integer) left;
-				Integer rightInt = (Integer) right;
-				
-				if (leftInt > rightInt) {
-					return rightInt / (float) leftInt;
-				}
-				else {
-					return -1;
-				}
+			if (leftInt > rightInt) {
+				return rightInt / (float) leftInt;
+			}
+			else {
+				return -1;
 			}
 		});
 		
@@ -100,7 +96,7 @@ public class AssignmentCalculator {
 	
 	private void calculateAssignments(Tree<Assignment> parent, ArrayList<?> leftList, ArrayList<?> rightList) {
 		
-		if (leftList.size() == 0) return;
+		if (leftList.isEmpty()) return;
 		
 		Object firstLeft = leftList.get(0);
 		for (Object right : rightList) {
@@ -153,7 +149,7 @@ public class AssignmentCalculator {
 			}
 			else {
 				for (Tree<T> child : lastElement.getChildren()) {
-					ArrayList<Tree<T>> newPath = new ArrayList<Tree<T>>((List) path.clone());
+					ArrayList<Tree<T>> newPath = new ArrayList<>((List) path.clone());
 					newPath.add(child);
 					collectAllPaths(newPath, allPaths);
 				}

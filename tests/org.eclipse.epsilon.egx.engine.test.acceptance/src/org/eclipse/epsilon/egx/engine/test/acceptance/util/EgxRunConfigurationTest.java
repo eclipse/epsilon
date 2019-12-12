@@ -38,6 +38,11 @@ public class EgxRunConfigurationTest extends EgxRunConfiguration {
 	protected void postExecute() throws Exception {
 		EgxAcceptanceTestUtil.deleteOutputDirectories();
 	}
+	
+	@Override
+	public void dispose() throws Exception {
+		reset();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
