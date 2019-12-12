@@ -247,8 +247,16 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 		currentRepeat = 0;
 	}
 	
-	protected int getCurrentRepeat() {
+	protected final int getCurrentRepeat() {
 		return currentRepeat;
+	}
+	
+	protected final boolean isFirstRepeat() {
+		return getCurrentRepeat() == 1;
+	}
+	
+	protected final boolean isLastRepeat() {
+		return getCurrentRepeat() == targetRepeats;
 	}
 	
 	@Override

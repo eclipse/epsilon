@@ -83,11 +83,11 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	protected void preExecute() throws Exception {
 		super.preExecute();
 		
-		prepareModule();
+		if (isFirstRepeat()) prepareModule();
 		
 		if (modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
 			addModelsToRepo();
-			if (loadModels && getCurrentRepeat() == 1) {
+			if (loadModels && isFirstRepeat()) {
 				loadModels();
 			}
 		}
@@ -150,7 +150,7 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	@Override
 	public void reset() throws Exception {
 		super.reset();
-		if (getCurrentRepeat() < targetRepeats) {
+		if (!isLastRepeat()) {
 			module.getContext().dispose();
 		}
 	}
