@@ -67,7 +67,7 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		imdbScripts[] = {"imdb_validator"},
 		imdbModels[] = {"imdb-small.xmi"};
 	
-	/*Nx3 array where N is number of test inputs;
+	/** Nx3 array where N is number of test inputs; <br/>
 	 *  0 is the script path,
 	 *  1 is the model path,
 	 *  2 is the metamodel path.

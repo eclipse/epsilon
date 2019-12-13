@@ -30,7 +30,7 @@ public class StackTraceManager implements IExecutionListener {
 	/**
 	 * @since 1.6
 	 */
-	protected void reset() {
+	protected void dispose() {
 		if (stackTrace != null) stackTrace.clear();
 	}
 	

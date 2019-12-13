@@ -80,6 +80,7 @@ public class FrameStack implements Cloneable, ConcurrentBaseDelegate<FrameStack>
 	public void dispose() {
 		globals.dispose();
 		locals.dispose();
+		initializeState();
 	}
 
 	/**

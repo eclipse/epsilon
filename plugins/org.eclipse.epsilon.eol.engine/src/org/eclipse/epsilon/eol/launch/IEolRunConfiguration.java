@@ -83,7 +83,13 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	protected void preExecute() throws Exception {
 		super.preExecute();
 		
-		if (isFirstRepeat()) prepareModule();
+		if (isFirstRepeat()) {
+			prepareModule();
+		}
+		else {
+			module.getContext().getFrameStack().dispose();
+			prepareFrameStack();
+		}
 		
 		if (modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
 			addModelsToRepo();
@@ -116,11 +122,15 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 			throw new EolParseException(parseProblems);
 		}
 		
+		prepareFrameStack();
+		
+		module.getContext().setProfilingEnabled(profileExecution);
+	}
+	
+	protected void prepareFrameStack() {
 		if (!parameters.isEmpty()) {
 			module.getContext().getFrameStack().put(parameters, false);
 		}
-		
-		module.getContext().setProfilingEnabled(profileExecution);
 	}
 	
 	protected final void loadModels() throws EolModelLoadingException {
@@ -154,9 +164,9 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 	}
 	
 	public void dispose() throws Exception {
-		module.getContext().getModelRepository().dispose();
-		module.getContext().getFrameStack().dispose();
 		reset();
+		module.getContext().getFrameStack().dispose();
+		module.getContext().getModelRepository().dispose();
 	}
 	
 	@Override

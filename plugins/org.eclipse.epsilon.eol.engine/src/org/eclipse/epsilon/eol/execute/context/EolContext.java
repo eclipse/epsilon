@@ -296,7 +296,7 @@ public class EolContext implements IEolContext {
 	
 	@Override
 	public void dispose() {
-		executorFactory.reset();
+		executorFactory.dispose();
 		extendedProperties.clear();
 	}
 
