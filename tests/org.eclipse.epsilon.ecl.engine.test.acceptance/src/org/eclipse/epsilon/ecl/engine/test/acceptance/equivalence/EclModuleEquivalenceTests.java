@@ -48,7 +48,7 @@ public class EclModuleEquivalenceTests extends EolEquivalenceTests<EclRunConfigu
 	}
 	
 	@Override
-	public void _0test0() {
+	public void _0test0() throws Exception {
 		super.beforeTests();
 	}
 

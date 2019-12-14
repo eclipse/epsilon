@@ -127,7 +127,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	/**
 	 * Pre-requisite for testing.
 	 */
-	protected final void beforeTests() {
+	protected final void beforeTests() throws Exception {
 		testModuleCanExecute();
 		testScenariosMatch();
 		assert expectedConfig.getModule() != testConfig.getModule();
@@ -155,7 +155,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 		return false;
 	}
 	
-	protected void testModuleCanExecute() {
+	protected void testModuleCanExecute() throws Exception {
 		try {
 			testConfig.run();
 		}
@@ -164,7 +164,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 		}
 	}
 
-	protected void testScenariosMatch() {
+	protected void testScenariosMatch() throws Exception {
 		Function<IEolRunConfiguration, Collection<String>> modelCollector = cfg ->
 			cfg.getModule().getContext()
 				.getModelRepository().getModels()
@@ -193,7 +193,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	}
 	
 	@Test
-	public void testFrameStacks() {
+	public void testFrameStacks() throws Exception {
 		onFail(testCollectionsHaveSameElements(
 			getFrameStackAsString(expectedConfig),
 			getFrameStackAsString(testConfig),
@@ -206,7 +206,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	}
 	
 	@Test
-	public void testExecutorFactories() {
+	public void testExecutorFactories() throws Exception {
 		assertEquals("Same stack traces",
 			getStackTraceModuleElements(expectedConfig),
 			getStackTraceModuleElements(testConfig)
@@ -218,7 +218,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	}
 	
 	@Test
-	public void testOperationContributorRegistries() {
+	public void testOperationContributorRegistries() throws Exception {
 		Collection<OperationContributor>
 			expectedOCs = getOperationContributors(expectedConfig),
 			actualOCs = getOperationContributors(testConfig);

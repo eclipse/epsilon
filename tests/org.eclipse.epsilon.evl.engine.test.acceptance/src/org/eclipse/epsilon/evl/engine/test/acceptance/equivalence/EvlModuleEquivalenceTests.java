@@ -113,7 +113,7 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 	
 	@Test
 	@Override
-	public void _0test0() {
+	public void _0test0() throws Exception {
 		super.beforeTests();
 	}
 	

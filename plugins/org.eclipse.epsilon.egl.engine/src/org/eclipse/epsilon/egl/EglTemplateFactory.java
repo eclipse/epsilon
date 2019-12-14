@@ -102,9 +102,11 @@ public class EglTemplateFactory {
 	 * <code>false</code> if the root had already been initialized.
 	 */
 	public boolean initialiseRoot(URI root) {
-		if (this.root == null) {
-			setRoot(root);
-			return true;
+		if (this.root == null) synchronized (this) {
+			if (this.root == null) {
+				setRoot(root);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -117,7 +119,7 @@ public class EglTemplateFactory {
 		return templateRootPath;
 	}
 	
-	public void setTemplateRoot(String path) throws EglRuntimeException {
+	public synchronized void setTemplateRoot(String path) throws EglRuntimeException {
 		templateRoot = resolveRoot(templateRootPath = path);
 	}
 	
@@ -266,10 +268,11 @@ public class EglTemplateFactory {
 	 * @return An appropriate context to be used for a new EglTemplate instance.
 	 * @since 1.6
 	 */
-	protected synchronized IEglContext getContextForNewTemplate() {
+	protected IEglContext getContextForNewTemplate() {
 		if (delegate == null) return getContext();
 		EglContext tc = new EglContext(getContext());
 		tc.setOperationContributorRegistry(delegate.getOperationContributorRegistry());
+		tc.setExtendedProperties(delegate.getExtendedProperties());
 		return tc;
 	}
 	

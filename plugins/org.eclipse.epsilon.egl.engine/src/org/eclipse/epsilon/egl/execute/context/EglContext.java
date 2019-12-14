@@ -31,11 +31,11 @@ import org.eclipse.epsilon.eol.types.EolClasspathNativeTypeDelegate;
 
 public class EglContext extends EolContext implements IEglContext {
 
-	private List<StatusMessage> statusMessages = new LinkedList<>();
 	private EglTemplateFactory templateFactory;
+	private List<StatusMessage> statusMessages = new LinkedList<>();
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
-	private final EglExecutionManager executionManager = new EglExecutionManager(this);
+	private EglExecutionManager executionManager = new EglExecutionManager(this);
 	
 	public EglContext() {
 		this((EglTemplateFactory) null);
