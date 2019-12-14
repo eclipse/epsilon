@@ -56,7 +56,7 @@ public class ViewRenderer {
 	}
 	
 	public void nothingToRender() {
-		display("<html></html>");
+		display("<html>Nothing to render.</html>");
 	}
 	
 	public enum ZoomType {

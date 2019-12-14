@@ -207,6 +207,7 @@ public class PictoView extends ViewPart {
 	public void render(IEditorPart editor) {
 		
 		if (editor == null) {
+			setTreeViewerVisible(false);
 			viewRenderer.nothingToRender();
 		} else {
 			if (this.editor != null)
