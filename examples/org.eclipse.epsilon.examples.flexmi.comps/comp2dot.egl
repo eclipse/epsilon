@@ -50,7 +50,7 @@ operation comps::Component toDot() {
 	<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td border="1">
-				<table border="0" cellspacing="0" cellpadding="0" bgcolor="#fffcdc">
+				<table border="0" cellspacing="0" cellpadding="0" bgcolor="#fffcdc:#ffffff" gradientangle="270">
 					<tr>
 						<td>&nbsp;</td><td>&nbsp;</td><td cellpadding="2" align="right"><img src="[%=getIcon("component")%]"></img></td>
 					</tr>
