@@ -85,6 +85,7 @@ public class PictoView extends ViewPart {
 	protected int[] sashFormWeights = null;
 	protected File renderedFile = null;
 	protected boolean locked = false;
+	protected ToggleTreeViewerAction hideTreeAction;
 	protected HashMap<String, ViewTree> selectionHistory = new HashMap<>();
 	protected File tempDir = null;
 	protected ViewTree activeView = null;
@@ -156,6 +157,7 @@ public class PictoView extends ViewPart {
 		sashForm.setSashWidth(2);
 		sashForm.setWeights(sashFormWeights);
 		
+		hideTreeAction = new ToggleTreeViewerAction();
 		setTreeViewerVisible(false);
 		
 		IEditorPart activeEditor = getSite().getPage().getActiveEditor();
@@ -199,6 +201,7 @@ public class PictoView extends ViewPart {
 		barManager.add(new PrintAction());
 		barManager.add(new SyncAction());
 		barManager.add(new LockAction());
+		barManager.add(hideTreeAction);
 		
 		this.getSite().getPage().addPartListener(partListener);
 
@@ -228,16 +231,27 @@ public class PictoView extends ViewPart {
 		}
 	}
 	
+	protected boolean treeViewerShouldBeVisible;
+	
+	protected boolean isTreeViewerVisible() {
+		return sashForm.getSashWidth() > 0;
+	}
+	
 	protected void setTreeViewerVisible(boolean visible) {
-		if (sashForm.getSashWidth() > 0 && !visible) { // Hide
+		this.treeViewerShouldBeVisible = visible;
+		
+		visible = treeViewerShouldBeVisible && !hideTreeAction.isChecked();
+		
+		if (isTreeViewerVisible() && !visible) { // Hide
 			sashFormWeights = sashForm.getWeights();
 			sashForm.setSashWidth(0);
 			sashForm.setWeights(new int[] {0, 100});
 		}
-		else if (sashForm.getSashWidth() == 0 && visible) { // Show
+		else if (!isTreeViewerVisible() && visible) { // Show
 			sashForm.setSashWidth(2);
 			sashForm.setWeights(sashFormWeights);
 		}
+		
 		browserContainer.setBorderVisible(visible);
 	}
 	
@@ -568,6 +582,19 @@ public class PictoView extends ViewPart {
 		@Override
 		public void run() {
 			locked = !locked;
+		}
+	}
+	
+	class ToggleTreeViewerAction extends Action {
+		
+		public ToggleTreeViewerAction() {
+			super("Toggle tree", AS_CHECK_BOX);
+			setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/tree.png"));
+		}
+		
+		@Override
+		public void run() {
+			setTreeViewerVisible(treeViewerShouldBeVisible);
 		}
 	}
 	
