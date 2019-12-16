@@ -102,7 +102,7 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	@Override
 	public HashMap<String, Class<?>> getImportConfiguration() {
 		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
-		importConfiguration.put("evl", getClass());
+		importConfiguration.put("evl", EvlModule.class);
 		return importConfiguration;
 	}
 	

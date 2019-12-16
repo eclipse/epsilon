@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.evl.concurrent;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -39,6 +40,13 @@ public abstract class EvlModuleParallel extends EvlModule {
 	
 	public EvlModuleParallel(IEvlContextParallel context) {
 		super(context != null ? context : new EvlContextParallel());
+	}
+	
+	@Override
+	public HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
+		importConfiguration.put("evl", EvlModuleParallelAnnotation.class);
+		return importConfiguration;
 	}
 	
 	@Override
