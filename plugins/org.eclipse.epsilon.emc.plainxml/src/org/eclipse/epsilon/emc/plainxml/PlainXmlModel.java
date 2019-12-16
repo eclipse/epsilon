@@ -289,6 +289,12 @@ public class PlainXmlModel extends CachedModel<Element> {
 
 	@Override
 	public Object getElementById(String id) {
+		for (Object o : allContents()){
+			Element e = ((Element) o);
+			if (e.hasAttribute(idAttributeName) && e.getAttribute(idAttributeName).equals(id)) {
+				return e;
+			}
+		}
 		return null;
 	}
 	

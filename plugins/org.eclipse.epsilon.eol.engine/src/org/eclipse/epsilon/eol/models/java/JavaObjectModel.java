@@ -134,8 +134,19 @@ public class JavaObjectModel extends Model {
 
 	@Override
 	public Object getElementById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		int hashCode = 0;
+		try {
+			hashCode = Integer.parseInt(id);
+			for (Object o : allContents()) {
+				if (o.hashCode() == hashCode) {
+					return o;
+				}
+			}
+			return null;
+		}
+		catch (Exception ex) {
+			return null;
+		}
 	}
 
 	@Override

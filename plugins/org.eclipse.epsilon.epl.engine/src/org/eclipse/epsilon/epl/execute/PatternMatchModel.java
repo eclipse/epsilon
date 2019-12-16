@@ -148,11 +148,26 @@ public class PatternMatchModel extends Model{
 
 	@Override
 	public Object getElementById(String id) {
-		return null;
+		int hashCode = 0;
+		try {
+			hashCode = Integer.parseInt(id);
+			for (Object o : allContents()) { // PatternMatch elements
+				if (o.hashCode() == hashCode) {
+					return o;
+				}
+			}
+			return null;
+		}
+		catch (Exception ex) {
+			return null;
+		}
 	}
 
 	@Override
 	public String getElementId(Object instance) {
+		if (instance instanceof PatternMatch){
+			return instance.hashCode() + "";	
+		}
 		return null;
 	}
 
