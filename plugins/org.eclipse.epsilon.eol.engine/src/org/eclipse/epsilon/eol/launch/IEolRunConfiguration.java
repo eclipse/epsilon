@@ -86,14 +86,14 @@ public abstract class IEolRunConfiguration extends ProfilableRunConfiguration {
 		if (isFirstRepeat()) {
 			prepareModule();
 		}
-		else {
+		else if (targetRepeats > 1) {
 			module.getContext().getFrameStack().dispose();
 			prepareFrameStack();
 		}
 		
 		if (modelsAndProperties != null && !modelsAndProperties.isEmpty()) {
 			addModelsToRepo();
-			if (loadModels && isFirstRepeat()) {
+			if (loadModels && (isFirstRepeat() || targetRepeats == 1)) {
 				loadModels();
 			}
 		}

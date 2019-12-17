@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.execute.context.concurrent;
 
+import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -87,7 +88,9 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 		}
 		Object module;
 		if (job instanceof JobBatch && (module = getModule()) instanceof IErlModuleAtomicBatches) {
-			 return executeJob(((JobBatch) job).split(((IErlModuleAtomicBatches<?>) module).getAllJobs()));
+			List<?> allJobs = ((IErlModuleAtomicBatches<?>) module).getAllJobs();
+			assert allJobs.size() >= ((JobBatch) job).to;
+			return executeJob(((JobBatch) job).split(allJobs));
 		}
 		return super.executeJob(job);
 	}

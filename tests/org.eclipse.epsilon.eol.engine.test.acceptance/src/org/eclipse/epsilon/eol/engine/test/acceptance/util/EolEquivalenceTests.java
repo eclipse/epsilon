@@ -121,7 +121,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	
 	@AfterClass
 	public static void afterClass() throws Exception {
-		for (IEolRunConfiguration c : expectedConfigs) c.dispose();
+		//for (IEolRunConfiguration c : expectedConfigs) c.dispose();
 	}
 	
 	/**
