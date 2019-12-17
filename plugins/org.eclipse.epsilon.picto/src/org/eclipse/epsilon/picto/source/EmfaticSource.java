@@ -65,5 +65,10 @@ public class EmfaticSource extends ExternalMetadataSource {
 	public IFile getFile(IEditorPart editorPart) {
 		return ((EmfaticEditor) editorPart).getFile();
 	}
-
+	
+	@Override
+	public void showElement(String id, String uri, IEditorPart editor) {
+		throw new UnsupportedOperationException();
+	}
+	
 }

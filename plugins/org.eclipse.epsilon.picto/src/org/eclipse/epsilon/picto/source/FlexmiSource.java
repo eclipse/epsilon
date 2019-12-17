@@ -1,13 +1,18 @@
 package org.eclipse.epsilon.picto.source;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
+import org.eclipse.epsilon.flexmi.EObjectLocation;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 import org.eclipse.epsilon.flexmi.dt.FlexmiEditor;
@@ -56,5 +61,19 @@ public class FlexmiSource implements PictoSource {
 	public IFile getFile(IEditorPart editorPart) {
 		return ((FlexmiEditor) editorPart).getFile();
 	}
-
+	
+	@Override
+	public void showElement(String id, String uri, IEditorPart editor) {
+		EObject eObject = getResource(editor).getEObject(id);
+		FlexmiResource resource = (FlexmiResource) eObject.eResource();
+		EObjectLocation location = resource.getEObjectTraceManager().getLine(eObject);
+		
+		try {
+			EclipseUtil.openEditorAt(new File(new java.net.URI(location.getUri().toString())), location.getLine(), 0, false);
+		} catch (URISyntaxException e) {
+			LogUtil.log(e);
+		}
+		
+	}
+	
 }

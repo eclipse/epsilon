@@ -14,4 +14,6 @@ public interface PictoSource {
 	
 	public IFile getFile(IEditorPart editorPart);
 	
+	public void showElement(String id, String uri, IEditorPart editor);
+	
 }

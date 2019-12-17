@@ -42,5 +42,10 @@ public abstract class SimpleSource implements PictoSource {
 		}
 		return null;
 	}
-
+	
+	@Override
+	public void showElement(String id, String uri, IEditorPart editor) {
+		throw new UnsupportedOperationException();
+	}
+	
 }

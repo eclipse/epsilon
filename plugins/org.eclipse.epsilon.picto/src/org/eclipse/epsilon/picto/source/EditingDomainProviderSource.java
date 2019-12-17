@@ -1,11 +1,19 @@
 package org.eclipse.epsilon.picto.source;
 
+import java.util.Arrays;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.presentation.EcoreEditor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.PlatformUI;
 
 public class EditingDomainProviderSource extends ExternalMetadataSource {
 
@@ -29,4 +37,16 @@ public class EditingDomainProviderSource extends ExternalMetadataSource {
 			return null;
 	}
 
+	@Override
+	public void showElement(String id, String uri, IEditorPart editor) {
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(editor);
+		IEditingDomainProvider editingDomainProvider = (IEditingDomainProvider) editor;
+		Resource resource = editingDomainProvider.getEditingDomain().getResourceSet().getResource(URI.createURI(uri), true);
+		EObject eObject = resource.getEObject(id);
+		if (editor instanceof EcoreEditor) {
+			((EcoreEditor) editor).setSelectionToViewer(Arrays.asList(eObject));
+			editor.setFocus();
+		}
+	}
+ 
 }
