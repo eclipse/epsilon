@@ -34,6 +34,7 @@ import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flexmi.dt.PartListener;
@@ -270,7 +271,15 @@ public class PictoView extends ViewPart {
 			boolean rerender = renderedFile != null && renderedFile.getAbsolutePath().equals(modelFile.getAbsolutePath());
 			renderedFile = modelFile;
 			
-			Resource resource = source.getResource(editor);
+			Resource resource;
+			
+			try {
+				resource = source.getResource(editor);
+			}
+			catch (Exception ex) {
+				throw new ResourceLoadingException(ex);
+			}
+			
 			PictoMetadata renderingMetadata = source.getRenderingMetadata(editor);
 			
 			if (renderingMetadata != null) {
