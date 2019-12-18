@@ -69,7 +69,7 @@ done
       }
       failure {
         mail to: "epsilon-dev@eclipse.org",
-          subject: "Epsilon interim build failed!"
+          subject: "Epsilon interim build failed!",
           body: "${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/> URL: ${env.BUILD_URL}"
       }
     }
