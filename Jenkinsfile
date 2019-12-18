@@ -68,7 +68,9 @@ done
                  subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}")
       }
       failure {
-        mail bcc: '', body: "<b>Epsilon interim build failed!</b>: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "epsilon-dev@eclipse.org";
+        mail to: "epsilon-dev@eclipse.org",
+          subject: "Epsilon interim build failed!"
+          body: "${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/> URL: ${env.BUILD_URL}"
       }
     }
 }
