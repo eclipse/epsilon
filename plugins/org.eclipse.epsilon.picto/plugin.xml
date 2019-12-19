@@ -11,5 +11,20 @@
           inject="true"
           name="Picto">
     </view>
- </extension>
+</extension>
+    <extension
+        point="org.eclipse.ui.handlers">
+    <handler
+           class="org.eclipse.epsilon.picto.FindReplaceHandler"
+           commandId="org.eclipse.ui.edit.findReplace">
+        <activeWhen>
+           <with
+                 variable="activePartId">
+              <equals
+                    value="org.eclipse.epsilon.picto.PictoView">
+              </equals>
+           </with>
+        </activeWhen>
+     </handler>
+     </extension> 
 </plugin>

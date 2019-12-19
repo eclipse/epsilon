@@ -11,8 +11,6 @@ package org.eclipse.epsilon.picto;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -25,11 +23,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
@@ -40,8 +36,6 @@ import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.flexmi.EObjectLocation;
-import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.dt.PartListener;
 import org.eclipse.epsilon.flexmi.dt.RunnableWithException;
 import org.eclipse.epsilon.picto.LazyEgxModule.LazyGenerationRuleContentPromise;
@@ -56,6 +50,7 @@ import org.eclipse.epsilon.picto.source.SvgSource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.text.IFindReplaceTarget;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -633,6 +628,15 @@ public class PictoView extends ViewPart {
 			if (source.supports(editorPart)) return source;
 		}
 		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getAdapter(Class<T> adapter) {
+	    if (IFindReplaceTarget.class.equals(adapter)) {
+	    	return (T) new BrowserFindTarget(viewRenderer.getBrowser());
+	    }
+	    return super.getAdapter(adapter);
 	}
 	
 }

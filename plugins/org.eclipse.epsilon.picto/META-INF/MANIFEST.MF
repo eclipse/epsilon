@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.epsilon.flexmi,
  org.eclipse.emf.emfatic.core;resolution:=optional,
  org.eclipse.gymnast.runtime.core;resolution:=optional,
  org.eclipse.ui.forms,
- org.eclipse.emf.ecore.editor
+ org.eclipse.emf.ecore.editor,
+ org.eclipse.jface.text
 Bundle-Activator: org.eclipse.epsilon.picto.Activator
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.picto
