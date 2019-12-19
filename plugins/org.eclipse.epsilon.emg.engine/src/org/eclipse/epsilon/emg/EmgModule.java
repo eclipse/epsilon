@@ -11,24 +11,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emg;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.emc.emf.EmfModel;
+
 import org.eclipse.epsilon.emg.execute.operations.contributors.EmgOperationContributor;
 import org.eclipse.epsilon.eol.dom.Annotation;
 import org.eclipse.epsilon.eol.dom.AnnotationBlock;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eol.models.IRelativePathResolver;
-import org.eclipse.epsilon.eol.models.Model;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.execute.PatternMatchModel;
@@ -279,55 +272,6 @@ public class EmgModule extends EplModule {
 	}
 
 	/**
-	 * Creates the emf model.
-	 *
-	 * @param name            the name
-	 * @param model           the model
-	 * @param metamodel       the metamodel
-	 * @param readOnLoad      the read on load
-	 * @param storeOnDisposal the store on disposal
-	 * @return the emf model
-	 * @throws EolModelLoadingException the eol model loading exception
-	 * @throws URISyntaxException       the URI syntax exception
-	 */
-	@Deprecated
-	protected static EmfModel createEmfModel(String name, String model, String metamodel, boolean readOnLoad,
-		boolean storeOnDisposal) throws EolModelLoadingException, URISyntaxException {
-		EmfModel emfModel = new EmfModel();
-		StringProperties properties = new StringProperties();
-		properties.put(Model.PROPERTY_NAME, name);
-		properties.put(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI, metamodel);
-		properties.put(EmfModel.PROPERTY_MODEL_URI, model);
-		properties.put(Model.PROPERTY_READONLOAD, false + "");
-		properties.put(Model.PROPERTY_STOREONDISPOSAL, storeOnDisposal + "");
-		emfModel.load(properties, (IRelativePathResolver) null);
-		return emfModel;
-	}
-
-	/**
-	 * Gets the model.
-	 *
-	 * @return the model
-	 * @deprecated EMG can use any type of model
-	 */
-	@Deprecated
-	protected EmfModel getModel() {
-		for (IModel mod : context.getModelRepository().getModels()) {
-			if (mod instanceof EmfModel) {
-				return (EmfModel) mod;
-			}
-		}
-		try {
-			throw new Exception();
-		}
-		catch (Exception e) {
-			System.out.println("No EmfModel found");
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	/**
 	 * Gets the int.
 	 * 
 	 * @param object the object
@@ -340,31 +284,4 @@ public class EmgModule extends EplModule {
 			return Integer.parseInt((String) object);
 	}
 
-	/**
-	 * Gets the file path.
-	 * 
-	 * @param file the file
-	 * @return the file path
-	 */
-	protected String getFilePath(String file) {
-		URI ecoreUri = URI.createURI(file);
-		URI filePath = ecoreUri.trimFileExtension();
-		return filePath.toString();
-	}
-
-	/**
-	 * Gets the new file path.
-	 *
-	 * @param file   the file
-	 * @param output the output
-	 * @return the new file path
-	 */
-	protected String getNewFilePath(String file, String output) {
-		URI ecoreUri = URI.createURI(file);
-		if (!output.contains("."))
-			output = output + ecoreUri.fileExtension();
-		URI filePath = ecoreUri.trimSegments(1);
-		filePath = filePath.appendSegment(output);
-		return filePath.toString();
-	}
 }

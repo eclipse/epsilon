@@ -307,7 +307,8 @@ version(s), and exceptions or additional permissions here}.&quot;
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.dependencies"/>
+      <import plugin="org.apache.commons.csv_1.5" version="1.5.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.commons.math3"/>
    </requires>
 
    <plugin
