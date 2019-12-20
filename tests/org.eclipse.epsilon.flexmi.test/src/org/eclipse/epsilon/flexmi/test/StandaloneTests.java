@@ -45,6 +45,9 @@ public class StandaloneTests extends FlexmiTests {
 		assertEval("EClass.all.first().eSuperTypes.first().name", "c2", "standalone/valid-model.flexmi");
 	}
 	
-	
+	@Test
+	public void testNameAsElement() throws Exception {
+		assertEval("EPackage.all.first().name", "p1", "standalone/name-as-element.flexmi");
+	}
 	
 }
