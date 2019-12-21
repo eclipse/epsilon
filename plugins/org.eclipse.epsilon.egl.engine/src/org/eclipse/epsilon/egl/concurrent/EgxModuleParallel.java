@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.concurrent;
 
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -35,7 +36,7 @@ public abstract class EgxModuleParallel extends EgxModule {
 		this((IEgxContextParallel) null);
 	}
 	
-	public EgxModuleParallel(String outputRoot) throws EglRuntimeException {
+	public EgxModuleParallel(Path outputRoot) throws EglRuntimeException {
 		this();
 		if (outputRoot != null) {
 			setFileGeneratingTemplateFactory(outputRoot);

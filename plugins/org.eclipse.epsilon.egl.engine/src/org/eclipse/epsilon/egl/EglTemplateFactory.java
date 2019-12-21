@@ -54,7 +54,7 @@ public class EglTemplateFactory {
 	 * @return
 	 * @since 1.6
 	 */
-	 IEolContext getDelegate() {
+	public IEolContext getDelegate() {
 		return delegate;
 	}
 

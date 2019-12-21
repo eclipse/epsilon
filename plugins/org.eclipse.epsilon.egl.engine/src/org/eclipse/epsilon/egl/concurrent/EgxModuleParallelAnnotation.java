@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.concurrent;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.Callable;
@@ -31,7 +32,7 @@ public class EgxModuleParallelAnnotation extends EgxModuleParallel implements IE
 		super();
 	}
 
-	public EgxModuleParallelAnnotation(String outputRoot) throws EglRuntimeException {
+	public EgxModuleParallelAnnotation(Path outputRoot) throws EglRuntimeException {
 		super(outputRoot);
 	}
 

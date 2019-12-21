@@ -89,18 +89,22 @@ public interface IEglContext extends IEolContext {
 	 * @since 1.6
 	 */
 	public default void copyFrom(IEolContext context) {
-		this.setErrorStream(context.getErrorStream());
-		this.setOutputStream(context.getOutputStream());
 		this.setIntrospectionManager(context.getIntrospectionManager());
 		this.setModelRepository(context.getModelRepository());
-		this.setOperationFactory(context.getOperationFactory());
 		this.setUserInput(context.getUserInput());
 		this.setNativeTypeDelegates(context.getNativeTypeDelegates());
 		this.setExtendedProperties(context.getExtendedProperties());
-		this.setPrettyPrinterManager(context.getPrettyPrinterManager());		
+		this.setPrettyPrinterManager(context.getPrettyPrinterManager());
+		this.setErrorStream(context.getErrorStream());
+		this.setOutputStream(context.getOutputStream());
+		
 		this.setExecutorFactory(new ExecutorFactory(context.getExecutorFactory()));
 		this.getFrameStack().setBase(context.getFrameStack());
 		this.setOperationContributorRegistry(context.getOperationContributorRegistry());
+		
+		if (context instanceof IEglContext) {
+			this.setOperationFactory(context.getOperationFactory());
+		}
 	}
 	
 	/**

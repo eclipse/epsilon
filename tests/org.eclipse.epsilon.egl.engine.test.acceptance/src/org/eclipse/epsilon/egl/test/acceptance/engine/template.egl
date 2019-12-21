@@ -1,9 +1,11 @@
+[%include("Operations.egl");%]
 [%var scopedElementVariable = "se";%]
-[%//=flatten()%]
+[%=op()%]
 [%
-operation flatten() : String {
-	var r;
-	r += "`" + scopedElementVariable + "`.";
+operation op() : String {
+	var scopedElementVariable = "localSe";
+	var r = "`" + scopedElementVariable + "`.";
+	// TODO: see why this won't parse r->toString();
 	return r;
 }
 %]

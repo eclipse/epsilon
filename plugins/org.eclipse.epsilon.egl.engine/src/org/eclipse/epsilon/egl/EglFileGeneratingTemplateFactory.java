@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.egl;
 
 import java.net.URI;
+import java.nio.file.Path;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
@@ -33,8 +34,8 @@ public class EglFileGeneratingTemplateFactory extends EglTemplateFactory {
 	 * @throws EglRuntimeException
 	 * @since 1.6
 	 */
-	public EglFileGeneratingTemplateFactory(String outputRoot) throws EglRuntimeException {
-		setOutputRoot(outputRoot);
+	public EglFileGeneratingTemplateFactory(Path outputRoot) throws EglRuntimeException {
+		setOutputRoot(outputRoot.toString());
 	}
 
 	public String getOutputRoot() {

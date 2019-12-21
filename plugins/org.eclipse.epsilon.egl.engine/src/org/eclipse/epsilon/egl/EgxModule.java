@@ -12,6 +12,7 @@ package org.eclipse.epsilon.egl;
 
 import java.io.File;
 import java.net.URI;
+import java.nio.file.Path;
 import java.util.*;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
@@ -55,7 +56,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	 * @throws EglRuntimeException If the path could not be resolved.
 	 * @since 1.6
 	 */
-	public EgxModule(String outputRoot) throws EglRuntimeException {
+	public EgxModule(Path outputRoot) throws EglRuntimeException {
 		this();
 		setFileGeneratingTemplateFactory(outputRoot);
 	}
@@ -80,8 +81,8 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	 * @throws EglRuntimeException
 	 * @since 1.6
 	 */
-	protected void setFileGeneratingTemplateFactory(String outputRoot) throws EglRuntimeException {
-		getContext().setTemplateFactory(new EglFileGeneratingTemplateFactory(new File(outputRoot).getAbsolutePath()));
+	protected void setFileGeneratingTemplateFactory(Path outputRoot) throws EglRuntimeException {
+		getContext().setTemplateFactory(new EglFileGeneratingTemplateFactory(outputRoot.toAbsolutePath()));
 	}
 	
 	@Override

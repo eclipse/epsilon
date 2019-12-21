@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.concurrent.atomic;
 
+import java.nio.file.Path;
 import java.util.List;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.atoms.GenerationRuleAtom;
@@ -26,7 +27,7 @@ public class EgxModuleParallelGenerationRuleAtoms extends EgxModuleParallelAtomi
 		super();
 	}
 
-	public EgxModuleParallelGenerationRuleAtoms(String outputRoot) throws EglRuntimeException {
+	public EgxModuleParallelGenerationRuleAtoms(Path outputRoot) throws EglRuntimeException {
 		super(outputRoot);
 	}
 

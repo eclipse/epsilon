@@ -9,9 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egx.engine.test.acceptance;
 
-import org.eclipse.epsilon.egx.engine.test.acceptance.rules.DomainTests;
-import org.eclipse.epsilon.egx.engine.test.acceptance.rules.Rule;
-import org.eclipse.epsilon.egx.engine.test.acceptance.rules.RulesAreTyped;
+import org.eclipse.epsilon.egx.engine.test.acceptance.operations.*;
+import org.eclipse.epsilon.egx.engine.test.acceptance.rules.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -19,7 +18,7 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 @RunWith(Suite.class)
-@SuiteClasses({Rule.class, RulesAreTyped.class, DomainTests.class})
+@SuiteClasses({Rule.class, RulesAreTyped.class, DomainTests.class, IncludeTests.class})
 public class EgxAcceptanceTestSuite {
 
 	public static Test suite() {

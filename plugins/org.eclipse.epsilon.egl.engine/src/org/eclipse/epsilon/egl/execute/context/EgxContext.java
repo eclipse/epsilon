@@ -36,7 +36,7 @@ public class EgxContext extends ErlContext implements IEgxContext {
 	}
 	
 	public EgxContext(EglTemplateFactory templateFactory) {
-		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory();
+		setTemplateFactory(templateFactory != null ? templateFactory : new EglTemplateFactory());
 		invokedTemplates = new ArrayList<>();
 		templateCache = new HashMap<>();
 	}
@@ -80,7 +80,9 @@ public class EgxContext extends ErlContext implements IEgxContext {
 	
 	@Override
 	public void setTemplateFactory(EglTemplateFactory templateFactory) {
-		this.templateFactory = templateFactory;
+		if ((this.templateFactory = templateFactory) != null && templateFactory.getDelegate() == null) {
+			templateFactory.setDelegate(this);
+		}
 	}
 
 	@Override

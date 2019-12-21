@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.concurrent;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.Callable;
@@ -34,7 +35,7 @@ public class EgxModuleParallelElements extends EgxModuleParallel {
 		super(context);
 	}
 	
-	public EgxModuleParallelElements(String outputRoot) throws EglRuntimeException {
+	public EgxModuleParallelElements(Path outputRoot) throws EglRuntimeException {
 		super(outputRoot);
 	}
 
