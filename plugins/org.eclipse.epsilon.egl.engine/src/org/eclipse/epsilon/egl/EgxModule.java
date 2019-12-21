@@ -50,7 +50,7 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	}
 	
 	/**
-	 * Convenience method for {@link #EgxModule(Path)}.
+	 * Calls {@link #EgxModule(Path)}.
 	 * 
 	 * @param outputRoot
 	 * @throws EglRuntimeException

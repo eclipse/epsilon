@@ -44,7 +44,7 @@ public class StatementBlock extends AbstractExecutableModuleElement {
 			if (moduleElement instanceof Statement) {
 				statements.add((Statement) moduleElement);
 			}
-			else {
+			else if (moduleElement instanceof Expression) {
 				ExpressionStatement expressionStatement = new ExpressionStatement((Expression) moduleElement);
 				expressionStatement.setParent(this);
 				statements.add(expressionStatement);
