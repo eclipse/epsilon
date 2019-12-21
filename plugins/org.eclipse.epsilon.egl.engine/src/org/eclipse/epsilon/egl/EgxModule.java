@@ -13,6 +13,7 @@ package org.eclipse.epsilon.egl;
 import java.io.File;
 import java.net.URI;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
@@ -46,6 +47,18 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	
 	public EgxModule() {
 		this((IEgxContext) null);
+	}
+	
+	/**
+	 * Convenience method for {@link #EgxModule(Path)}.
+	 * 
+	 * @param outputRoot
+	 * @throws EglRuntimeException
+	 * @since 1.6
+	 * @see #EgxModule(Path)
+	 */
+	public EgxModule(String outputRoot) throws EglRuntimeException {
+		this(Paths.get(outputRoot));
 	}
 	
 	/**
