@@ -368,13 +368,6 @@ version(s), and exceptions or additional permissions here}.&quot;
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epsilon.eol.dt.tools"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.epsilon.etl.dt"
          download-size="0"
          install-size="0"
@@ -383,13 +376,6 @@ version(s), and exceptions or additional permissions here}.&quot;
 
    <plugin
          id="org.eclipse.epsilon.evl.dt"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.epsilon.ecl.dt.tools"
          download-size="0"
          install-size="0"
          version="0.0.0"
