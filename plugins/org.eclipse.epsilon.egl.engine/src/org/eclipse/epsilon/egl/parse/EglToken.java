@@ -31,7 +31,8 @@ public class EglToken extends CommonToken {
 		private final int identifier;
 		
 		private TokenType() {
-			this.identifier = ordinal() + EglToken.MIN_TOKEN_TYPE;
+			// Increase the ID to avoid overlap with existing tokens (for example, see bug #558543)
+			this.identifier = ordinal() + (MIN_TOKEN_TYPE << 8);
 		}
 		
 		public int getIdentifier() {
