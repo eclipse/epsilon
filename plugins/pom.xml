@@ -31,7 +31,6 @@
     <module>org.eclipse.epsilon.dt.epackageregistryexplorer</module>
     <module>org.eclipse.epsilon.dt.exeed</module>
     <module>org.eclipse.epsilon.ecl.dt</module>
-    <module>org.eclipse.epsilon.ecl.dt.tools</module>
     <module>org.eclipse.epsilon.ecl.engine</module>
     <module>org.eclipse.epsilon.egl.dt</module>
     <module>org.eclipse.epsilon.egl.dt.traceability.editor</module>
@@ -79,7 +78,6 @@
     <module>org.eclipse.epsilon.eml.dt</module>
     <module>org.eclipse.epsilon.eml.engine</module>
     <module>org.eclipse.epsilon.eol.dt</module>
-    <module>org.eclipse.epsilon.eol.dt.tools</module>
     <module>org.eclipse.epsilon.eol.engine</module>
     <module>org.eclipse.epsilon.eol.tools</module>
     <module>org.eclipse.epsilon.epl.dt</module>

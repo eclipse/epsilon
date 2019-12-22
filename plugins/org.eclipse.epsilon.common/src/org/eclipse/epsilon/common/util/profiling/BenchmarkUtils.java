@@ -279,8 +279,8 @@ public final class BenchmarkUtils {
 		R result = code.applyThrows(argument);
 		
 		endTime = nanoTime();
-		measureAndAddGCTime(profileInfo);
 		endMemory = getCurrentMemoryUsage();
+		measureAndAddGCTime(profileInfo);
 		
 		addProfileInfo(profileInfo, description, endTime-startTime, endMemory-startMemory);
 		return result;

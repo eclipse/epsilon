@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Object Language Tools
-Bundle-SymbolicName: org.eclipse.epsilon.eol.dt.tools;singleton:=true
-Bundle-Version: 1.6.0.qualifier
-Bundle-Vendor: Eclipse Modeling Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.epsilon.eol.tools
-Automatic-Module-Name: org.eclipse.epsilon.eol.dt.tools
