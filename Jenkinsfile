@@ -59,15 +59,17 @@ done
         }
     }
     post {
-      changed {
-        emailext (body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+      success {
+		mail body: 'Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at ${env.BUILD_URL}', replyTo: 'epsilon-dev@eclipse.org', subject: 'Epsilon Interim build email is now WORKING!', to: 'epsilon-dev@eclipse.org'
+		
+        /*emailext (body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
                 recipientProviders: [[
                    $class: "DevelopersRecipientProvider",
                    $class: "RequesterRecipientProvider"
                 ]],
             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
 			to: "epsilon-dev@eclipse.org"
-		) 
+		)*/
       }
     }
 }
