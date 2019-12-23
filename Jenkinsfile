@@ -60,7 +60,13 @@ done
     }
     post {
       success {
-		mail body: 'Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at ${env.BUILD_URL}', replyTo: 'epsilon-dev@eclipse.org', subject: 'Epsilon Interim build email is now WORKING!', to: 'epsilon-dev@eclipse.org'
+		mail
+		  to: 'epsilon-dev@eclipse.org',
+		  subject: 'Epsilon Interim build emails now WORKING!',
+		  body: 'Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}. More info at ${env.BUILD_URL}',
+		  from: '', cc: '', bcc: '', replyTo: '', 
+          charset: 'UTF-8',
+          mimeType: 'text/html'
 		
         /*emailext (body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
                 recipientProviders: [[
