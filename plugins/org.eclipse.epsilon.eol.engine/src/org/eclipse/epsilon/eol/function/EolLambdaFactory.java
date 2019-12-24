@@ -20,6 +20,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 
 /**
  * Utility class for converting EOL lambdas to Java lambdas.
@@ -88,6 +89,10 @@ public class EolLambdaFactory {
 				(paramValues == null || paramValues.length == 0) ||
 			params.size() == paramValues.length
 		);
+		
+		if (context instanceof EolContextParallel) {
+			context = ((EolContextParallel) context).getShadow();
+		}
 		
 		FrameStack scope = context.getFrameStack();
 		scope.enterLocal(FrameType.UNPROTECTED, expression);

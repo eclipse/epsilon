@@ -20,7 +20,11 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 public class EolNestedParallelismException extends EolRuntimeException {
 
 	public EolNestedParallelismException() {
-		this(null);
+		this((ModuleElement) null);
+	}
+	
+	public EolNestedParallelismException(String message) {
+		this.reason = message;
 	}
 
 	public EolNestedParallelismException(ModuleElement ast) {

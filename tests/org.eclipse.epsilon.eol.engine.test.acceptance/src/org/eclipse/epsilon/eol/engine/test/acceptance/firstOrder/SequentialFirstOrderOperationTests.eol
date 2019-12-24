@@ -8,6 +8,11 @@ operation testSequentialSelect() {
 	assertEquals(Sequence{}, selected);
 	selected = data.sequentialSelect(n | n < 10);
 	assertEquals(data, selected);
+	data = Bag{};
+	selected = data.sequentialSelect(e|e);
+	assertEquals(selected.getClass(), data.getClass());
+	assertTrue(data.isEmpty());
+	assertEquals(selected.size(), data.size());
 }
 
 @test
@@ -178,4 +183,9 @@ operation testSequentialMapBy() {
 	expected.put(5, Sequence{false, 12024});
 	var actual = data.sequentialMapBy(n | n.toString().length());
 	assertEquals(expected, actual);
+	var actual = data.parallelMapBy(n | n.toString().length());
+	assertEquals(expected, actual);
+	data = Sequence{};
+	actual = data.sequentialMapBy(n | n.toString().length());
+	assertTrue(actual.entrySet().isEmpty());
 }

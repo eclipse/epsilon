@@ -36,6 +36,7 @@ import org.eclipse.epsilon.eol.execute.context.EolContext;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
+import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.concurrent.EolNestedParallelismException;
 import org.eclipse.epsilon.eol.execute.concurrent.EolThreadPoolExecutor;
@@ -173,7 +174,9 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	
 	public static IEolContextParallel convertToParallel(IEolContext context) throws EolNestedParallelismException {
 		if (context instanceof IEolContextParallel) return (IEolContextParallel) context;
-		return new EolContextParallel(context);
+		if (((IEolModule) context.getModule()).getContext() instanceof IEolContextParallel)
+			throw new EolNestedParallelismException("Attempted to create parallel context from a shadow!");
+		else return new EolContextParallel(context);
 	}
 	
 	protected void removeAll(ThreadLocal<?>... threadLocals) {
