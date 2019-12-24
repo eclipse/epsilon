@@ -46,7 +46,7 @@ public class ParallelNMatchOperation extends NMatchOperation {
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		AtomicInteger currentMatches = new AtomicInteger();
 		AtomicInteger evaluated = new AtomicInteger();
-		Collection<Callable<Void>> jobs = new ArrayList<>(sourceSize);
+		Collection<Callable<?>> jobs = new ArrayList<>(sourceSize);
 		CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
 		AtomicBoolean keepSearching = new AtomicBoolean(true);
 		

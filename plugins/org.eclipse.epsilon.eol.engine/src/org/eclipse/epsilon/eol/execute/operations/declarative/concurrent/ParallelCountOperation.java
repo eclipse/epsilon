@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -41,7 +41,7 @@ public class ParallelCountOperation extends CountOperation {
 		final Expression expression = expressions.get(0);
 		final CheckedEolPredicate<Object> predicate = resolvePredicate(operationNameExpression, iterators, expression, context);
 		final AtomicInteger result = new AtomicInteger();
-		final Collection<Callable<Void>> jobs = new ArrayDeque<>(source.size());
+		final Collection<Callable<?>> jobs = new ArrayList<>(source.size());
 		
 		for (Object item : source) {
 			jobs.add(() -> {

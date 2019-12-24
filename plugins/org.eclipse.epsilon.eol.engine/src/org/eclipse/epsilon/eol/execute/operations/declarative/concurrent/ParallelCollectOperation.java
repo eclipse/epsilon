@@ -43,7 +43,7 @@ public class ParallelCollectOperation extends CollectOperation {
 			new EolSequence<>(sourceSize) : new EolBag<>(sourceSize);
 		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
-		Collection<Callable<Object>> jobs = new ArrayList<>(sourceSize);
+		Collection<Callable<?>> jobs = new ArrayList<>(sourceSize);
 		Expression expression = expressions.get(0);
 		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expression, context);
 		

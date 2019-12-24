@@ -17,7 +17,6 @@ import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationException;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalReturnException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -100,8 +99,7 @@ public class EolLambdaFactory {
 			}
 		}
 		
-		ExecutorFactory executorFactory = context.getExecutorFactory();
-		Object result = executorFactory.execute(expression, context);
+		Object result = context.getExecutorFactory().execute(expression, context);
 		scope.leaveLocal(expression);
 		
 		try {
