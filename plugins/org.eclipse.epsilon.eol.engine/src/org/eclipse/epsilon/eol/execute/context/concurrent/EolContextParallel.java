@@ -172,13 +172,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 			originalValueSetter.accept(value);
 	}
 	
-	public static IEolContextParallel convertToParallel(IEolContext context) throws EolNestedParallelismException {
-		if (context instanceof IEolContextParallel) return (IEolContextParallel) context;
-		if (((IEolModule) context.getModule()).getContext() instanceof IEolContextParallel)
-			throw new EolNestedParallelismException("Attempted to create parallel context from a shadow!");
-		else return new EolContextParallel(context);
-	}
-	
 	protected void removeAll(ThreadLocal<?>... threadLocals) {
 		if (threadLocals != null) for (ThreadLocal<?> tl : threadLocals) {
 			if (tl instanceof DelegatePersistentThreadLocal && !isInShortCircuitTask) {
@@ -332,8 +325,17 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * 
 	 * @return A ThreadLocal copy of this context if in parallel, or this context otherwise.
 	 */
-	public synchronized IEolContext getShadow() {
-		return threadLocalShadows == null ? this : threadLocalShadows.get();
+	public IEolContext getShadow() {
+		return isParallelisationLegal() || threadLocalShadows == null ? this : threadLocalShadows.get();
+	}
+	
+	public static IEolContextParallel convertToParallel(IEolContext context) throws EolNestedParallelismException {
+		if (context instanceof IEolContextParallel) return (IEolContextParallel) context;
+		Object cModule = context.getModule();
+		if (cModule instanceof IEolModule && ((IEolModule)cModule).getContext() instanceof IEolContextParallel) {
+			throw new EolNestedParallelismException("Attempted to create parallel context from a shadow!");
+		}
+		return new EolContextParallel(context);
 	}
 	
 	/**
