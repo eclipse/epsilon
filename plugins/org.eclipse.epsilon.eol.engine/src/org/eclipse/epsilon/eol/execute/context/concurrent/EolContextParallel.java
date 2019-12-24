@@ -329,9 +329,8 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * 
 	 * @return A ThreadLocal copy of this context if in parallel, or this context otherwise.
 	 */
-	public synchronized IEolContext getShadow() throws IllegalStateException {
-		if (threadLocalShadows == null || !isParallel()) return this;
-		else return threadLocalShadows.get();
+	public synchronized IEolContext getShadow() {
+		return threadLocalShadows == null ? this : threadLocalShadows.get();
 	}
 	
 	/**
@@ -375,7 +374,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 			}
 		}
 		if (job instanceof ModuleElement) {
-			return getExecutorFactory().execute((ModuleElement) job, this);
+			return getExecutorFactory().execute((ModuleElement) job, getShadow());
 		}
 		if (job instanceof Object[]) {
 			return executeJob(Arrays.asList((Object[]) job));
