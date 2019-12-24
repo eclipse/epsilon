@@ -13,7 +13,6 @@ package org.eclipse.epsilon.evl.execute.context;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -21,6 +20,14 @@ import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 import org.eclipse.epsilon.evl.trace.ConstraintTrace;
 
 public interface IEvlContext extends IErlContext {
+	
+	/**
+	 * Casts the IModule to IEvlModule
+	 * @see org.eclipse.epsilon.eol.execute.context.IEolContext#getModule()
+	 * @since 1.6
+	 */
+	@Override
+	IEvlModule getModule();
 	
 	/**
 	 * This collection is written to internally by the engine during execution.
@@ -174,15 +181,5 @@ public interface IEvlContext extends IErlContext {
 			.stream()
 			.filter(Constraint::isDependedOn)
 			.collect(Collectors.toSet());
-	}
-	
-	/**
-	 * Casts the IModule to IEvlModule
-	 * @see org.eclipse.epsilon.eol.execute.context.IEolContext#getModule()
-	 * @since 1.6
-	 */
-	@Override
-	default IEvlModule getModule() {
-		return (IEvlModule) ((IEolContext)this).getModule();
 	}
 }

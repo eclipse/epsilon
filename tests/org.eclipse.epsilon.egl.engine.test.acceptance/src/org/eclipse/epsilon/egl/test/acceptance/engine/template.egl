@@ -1,5 +1,7 @@
-[%include("Operations.egl");%]
-[%var scopedElementVariable = "se";%]
+[%
+include("Operations.egl");
+var scopedElementVariable = "se";
+%]
 [%=op()%]
 [%
 operation op() : String {

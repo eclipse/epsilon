@@ -25,8 +25,7 @@ import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.egl.execute.context.EgxContext;
-import org.eclipse.epsilon.egl.execute.context.IEgxContext;
+import org.eclipse.epsilon.egl.execute.context.*;
 import org.eclipse.epsilon.egl.parse.EgxLexer;
 import org.eclipse.epsilon.egl.parse.EgxParser;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
@@ -188,7 +187,8 @@ public class EgxModule extends ErlModule implements IEgxModule {
 	@Override
 	protected void prepareContext() throws EolRuntimeException {
 		super.prepareContext();
-		getContext().getTemplateFactory().getContext().copyFrom(getContext());
+		IEgxContext context = getContext();
+		context.getTemplateFactory().getContext().copyFrom(context);
 	}
 	
 	@Override

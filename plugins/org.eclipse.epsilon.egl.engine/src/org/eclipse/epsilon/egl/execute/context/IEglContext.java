@@ -22,6 +22,7 @@ import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 
 public interface IEglContext extends IEolContext {
@@ -102,8 +103,9 @@ public interface IEglContext extends IEolContext {
 		this.getFrameStack().setBase(context.getFrameStack());
 		this.setOperationContributorRegistry(context.getOperationContributorRegistry());
 		
-		if (context instanceof IEglContext) {
-			this.setOperationFactory(context.getOperationFactory());
+		EolOperationFactory opf = context.getOperationFactory();
+		if (this.getOperationFactory().getClass().isInstance(opf)) {
+			this.setOperationFactory(opf);
 		}
 	}
 	

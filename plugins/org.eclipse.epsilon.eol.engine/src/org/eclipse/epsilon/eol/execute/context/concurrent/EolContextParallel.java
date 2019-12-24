@@ -324,18 +324,14 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	}
 	
 	/**
-	 * Should be used to obtain the execution context while executing in parallel.
+	 * Can be used to obtain an optimal execution context while executing in parallel.
+	 * If execution is currently not parallel, then this context itself is returned.
 	 * 
-	 * @return A ThreadLocal copy of this context.
-	 * @throws IllegalStateException If this method is called when {@link #isParallel()} is <code>false</code>,
-	 * or if called in any other illegal manner.
+	 * @return A ThreadLocal copy of this context if in parallel, or this context otherwise.
 	 */
-	public IEolContext getShadow() throws IllegalStateException {
-		if (threadLocalShadows == null) throw new IllegalStateException(
-			"Shadow context should only be obtained during parallel execution!"
-		);
-		assert isParallel();
-		return threadLocalShadows.get();
+	public synchronized IEolContext getShadow() throws IllegalStateException {
+		if (threadLocalShadows == null || !isParallel()) return this;
+		else return threadLocalShadows.get();
 	}
 	
 	/**

@@ -21,6 +21,7 @@ import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 
 /**
  * Utility class for converting EOL lambdas to Java lambdas.
@@ -46,12 +47,15 @@ public class EolLambdaFactory {
 	 * @throws EolIllegalOperationException 
 	 */
 	public static Object resolveFor(String methodName, List<Parameter> iteratorParams, Expression lambdaExpr,
-			ModuleElement ast, IEolContext context) throws EolIllegalOperationException {
+			ModuleElement ast, IEolContext context_) throws EolIllegalOperationException {
 		
 		methodName = methodName.toLowerCase().replace("checkedeol", "");
 		if (methodName.startsWith("get")) {
 			methodName = methodName.substring(3);
 		}
+		
+		final IEolContext context = context_ instanceof EolContextParallel ?
+			((EolContextParallel)context_).getShadow() : context_;
 		
 		switch (methodName) {
 			case "runnable":// case "statement":
@@ -89,6 +93,7 @@ public class EolLambdaFactory {
 				(paramValues == null || paramValues.length == 0) ||
 			params.size() == paramValues.length
 		);
+		assert context != null;
 		
 		FrameStack scope = context.getFrameStack();
 		scope.enterLocal(FrameType.UNPROTECTED, expression);

@@ -150,6 +150,11 @@ public class EglContext extends EolContext implements IEglContext {
 	}
 	
 	@Override
+	public EglOperationFactory getOperationFactory() {
+		return (EglOperationFactory) super.getOperationFactory();
+	}
+	
+	@Override
 	public void setOperationContributorRegistry(OperationContributorRegistry ocr) {
 		this.methodContributorRegistry = ocr;
 	}
