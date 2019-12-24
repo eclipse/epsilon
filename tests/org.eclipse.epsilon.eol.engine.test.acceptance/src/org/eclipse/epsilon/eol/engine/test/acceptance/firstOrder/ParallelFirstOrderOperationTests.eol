@@ -8,6 +8,11 @@ operation testParallelSelect() {
 	assertEquals(Sequence{}, selected);
 	selected = data.parallelSelect(n | n < 10);
 	assertEquals(data, selected);
+	data = Bag{};
+	selected = data.parallelSelect(e|e);
+	assertEquals(selected.getClass(), data.getClass());
+	assertTrue(data.isEmpty());
+	assertEquals(selected.size(), data.size());
 }
 
 @test
@@ -178,4 +183,7 @@ operation testParallelMapBy() {
 	expected.put(5, Sequence{false, 12024});
 	var actual = data.parallelMapBy(n | n.toString().length());
 	assertEquals(expected, actual);
+	data = Sequence{};
+	actual = data.parallelMapBy(n | n.toString().length());
+	assertTrue(actual.entrySet().isEmpty());
 }

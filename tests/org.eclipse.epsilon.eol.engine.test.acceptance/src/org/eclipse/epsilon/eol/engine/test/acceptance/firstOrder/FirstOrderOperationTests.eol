@@ -8,6 +8,11 @@ operation testSelect() {
 	assertEquals(Sequence{}, selected);
 	selected = data.select(n | n < 10);
 	assertEquals(data, selected);
+	data = Bag{};
+	selected = data.select(e|e);
+	assertEquals(selected.getClass(), data.getClass());
+	assertTrue(data.isEmpty());
+	assertEquals(selected.size(), data.size());
 }
 
 @test
@@ -189,6 +194,9 @@ operation testMapBy() {
 	expected.put(5, Sequence{false, 12024});
 	var actual = data.mapBy(n | n.toString().length());
 	assertEquals(expected, actual);
+	data = Sequence{};
+	actual = data.mapBy(n | n.toString().length());
+	assertTrue(actual.entrySet().isEmpty());
 }
 
 @test
