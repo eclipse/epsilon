@@ -37,7 +37,7 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 			}
 			
 			PlainXmlProperty p = PlainXmlProperty.parse(property);
-			if (p!=null) {
+			if (p != null) {
 				if (p.isAttribute()) {
 					e.setAttribute(p.getProperty(), p.cast(String.valueOf(value)) + "");
 					return;
@@ -69,7 +69,7 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 									Element candidate = (Element) o;
 									if (candidate.getTagName().matches(binding.getTargetTag())) {
 										String referenceId = candidate.getAttribute(binding.getTargetAttribute());
-										if (referenceId != null && referenceId.trim().length() > 0) {
+										if (referenceId != null && !referenceId.trim().isEmpty()) {
 											referenceIds.add(referenceId);
 										}
 									}	

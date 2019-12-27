@@ -64,11 +64,11 @@ public class PlainXmlModel extends CachedModel<Element> {
 
 	protected ArrayList<Element> createdElements = new ArrayList<>();
 	protected ArrayList<Binding> bindings = new ArrayList<>();
-	protected static String ELEMENT_TYPE = "Element";
-	protected static String DEFAULT_NEW_TAG_NAME = "element";
+	protected static final String ELEMENT_TYPE = "Element";
+	protected static final String DEFAULT_NEW_TAG_NAME = "element";
 	
-	public static String PROPERTY_FILE = "file";
-	public static String PROPERTY_URI = "uri";
+	public static final String PROPERTY_FILE = "file";
+	public static final String PROPERTY_URI = "uri";
 	
 	public Node getRoot() {
 		return document.getFirstChild();
