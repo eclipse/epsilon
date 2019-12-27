@@ -60,7 +60,7 @@ public class EolLambdaFactory {
 				return (CheckedEolConsumer<?>) t -> executeExpression(context, ast, null, lambdaExpr, iteratorParams, t);
 			case "supplier":// case "getter":
 				return (CheckedEolSupplier<?>) () -> executeExpression(context, ast, null, lambdaExpr, iteratorParams);
-			case "function":// case "func": case "fun": case "mapper":
+			case "function": case "func": case "fun":// case "mapper":
 				return (CheckedEolFunction<?, ?>) t -> executeExpression(context, ast, null, lambdaExpr, iteratorParams, t);
 			case "predicate":// case "filter":
 				return (CheckedEolPredicate<?>) t -> executeExpression(context, ast, Boolean.class, lambdaExpr, iteratorParams, t);

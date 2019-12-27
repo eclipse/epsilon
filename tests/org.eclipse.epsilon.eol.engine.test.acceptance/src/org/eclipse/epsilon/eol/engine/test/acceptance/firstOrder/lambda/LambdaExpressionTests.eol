@@ -1,4 +1,4 @@
-var rand = new Native("java.util.Random");
+var Random = new Native("java.util.Random");
 var IntStream = Native("java.util.stream.IntStream");
 var Stream = Native("java.util.stream.Stream");
 var Collectors = Native("java.util.stream.Collectors");
@@ -53,7 +53,7 @@ operation testParameterless() {
 	assertEquals(1, IntStream
 		.range(1, 10)
 		.findFirst()
-		.orElseGet( | rand.nextInt(10) - 20)
+		.orElseGet( | Random.nextInt(10) - 20)
 	);
 }
 
@@ -65,7 +65,7 @@ operation testConsumer() {
 @test
 operation testSupplier() {
 	assertEquals(16, Native("java.util.stream.DoubleStream")
-		.generate(_| rand.nextDouble())
+		.generate(_| Random.nextDouble())
 		.limit(16l)
 		.count()
 	);
@@ -88,12 +88,56 @@ operation lazyTest(i) : Boolean {
 	throw "Shouldn't be here!";
 }
 
-/** 
- * The following tests are only applicable if EOL decides to support assigning lambdas to variables.
- *
+@test
+operation testRunnable() {
+	var called : new Native("java.util.concurrent.atomic.AtomicBoolean");
+	assertFalse(called.get());
+	var runnable = runnable( | called.set(true));
+	var thread = new Native("java.lang.Thread")(runnable);
+	thread.start();
+	thread.join();
+	assertTrue(called.get());
+	assertFalse(thread.isAlive());
+	thread = new Native("java.lang.Thread")(called.set(false));
+	thread.start();
+	thread.join();
+	assertFalse(called.get());
+	assertFalse(thread.isAlive());
+}
+
+// EolLambdaFactory tests
+
+@test
+operation testContextlessSupplier() {
+	var sup1 = supplier(|1);
+	assertEquals(sup1.get(), 1);
+	var supNested = supplier(null | sup1.get());
+	assertEquals(supNested.get(), sup1.get());
+	assertEquals(supNested.getClass(), sup1.getClass());
+}
+
+@test
+operation testContextlessConsumer() {
+	var sideEffect = Sequence{};
+	assertTrue(sideEffect.isEmpty());
+	var consumer = consumer(a | sideEffect.add(a));
+	var localVar : new Native("java.lang.Object");
+	consumer.accept(localVar);
+	assertFalse(sideEffect.isEmpty());
+	assertEquals(sideEffect.first(), localVar);
+}
+
+@test
+operation testContextlessFunction() {
+	var rand = Random.nextInt();
+	var const = 2;
+	var func = `function`(i | i * const);
+	assertEquals(func.apply(rand), rand * 2);
+}
+
 @test
 operation testPredicateVariable() {
-	var isEvenPredicate = LambdaFactory.predicate(i | i.mod(2) == 0);
+	var isEvenPredicate = predicate(i | i.mod(2) == 0);
 	var testData := Sequence {-15..16};
 	var expected = testData.select(i | i.mod(2) == 0);
 	var actual = testData.select(isEvenPredicate);
@@ -102,7 +146,7 @@ operation testPredicateVariable() {
 
 @test
 operation testUnaryVariable() {
-	var doubler = LambdaFactory.unary(i | i * 2);
+	var doubler = unary(i | i * 2);
 	var testData := Sequence {1..12};
 	var expected = testData.collect(i | i * 2);
 	var actual = testData.collect(doubler);
@@ -111,7 +155,7 @@ operation testUnaryVariable() {
 
 @test
 operation testFunctionVariable() {
-	var hasher = LambdaFactory.func(d | d.hashCode());
+	var hasher = func(d | d.hashCode());
 	var testData := Sequence {-8..16};
 	var expected = testData.collect(d | d.hashCode());
 	var actual = testData.collect(hasher);
@@ -130,7 +174,7 @@ operation testSupplierVariable() {
 		
 	assertEquals(-1, expected);
 	
-	var supplier = LambdaFactory.supplier(| -1);
+	var supplier = supplier(| -1);
 	var filter = predicate(i | i > 10 and i.mod(2) == 0);
 	
 	var actual = IntStream.rangeClosed(0, 10)
@@ -177,4 +221,3 @@ operation testLambdaReuse() {
 	actual = data.exists(i | i.abs().mod(2) == 0);
 	assertEquals(expected, actual);
 }
-*/

@@ -25,7 +25,6 @@ import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
-import org.eclipse.epsilon.eol.function.EolLambdaFactory;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.types.EolUndefined;
@@ -185,12 +184,6 @@ public class OperationCallExpression extends FeatureCallExpression {
 		if (operation != null && targetObject != null && !parameterExpressions.isEmpty()) {
 			return operation.execute(targetObject, nameExpression, new ArrayList<>(0), parameterExpressions, context);
 		}
-		
-		// Maybe the user is trying to create a lambda expression as a variable. No harm in trying to help them out...
-		if (contextless && !parameterExpressions.isEmpty()) try {
-			return EolLambdaFactory.resolveFor(operationName, new ArrayList<>(0), parameterExpressions.get(0), nameExpression, context);
-		}
-		catch (EolIllegalOperationException ignore) {}
 		
 		// No operation found
 		throw new EolIllegalOperationException(targetObject, operationName, nameExpression, context.getPrettyPrinterManager());
