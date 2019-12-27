@@ -21,13 +21,18 @@ public class IntegerOperationContributor extends OperationContributor {
 	}
 
 	public EolSequence<Integer> to(Integer end) {
-		Integer start = (Integer) target;
+		Integer start = (Integer) getTarget();
 		EolSequence<Integer> result = new EolSequence<>();
 		if (start < end) {
+			int cap = end-start;
+			if (cap > 0) result.ensureCapacity(cap);
 			for (int i = start; i <= end; i++) {
 				result.add(i);
 			}
-		} else {
+		}
+		else {
+			int cap = start-end;
+			if (cap > 0) result.ensureCapacity(cap);
 			for (int i = start; i >= end; i--) {
 				result.add(i);
 			}
@@ -37,9 +42,13 @@ public class IntegerOperationContributor extends OperationContributor {
 
 	public EolSequence<Integer> iota(int i, int step) throws Exception {
 		EolSequence<Integer> result = new EolSequence<>();
-		int x = (Integer) target;
+		int x = (Integer) getTarget();
 		if ((step == 0) || (x < i && step < 0) || (x > i && step > 0)) {
 			throw new Exception("Invalid argument(s) to iota(i, step)");
+		}
+		if (step > 0 && i > step) {
+			int div = i / step;
+			result.ensureCapacity(div+1);
 		}
 		while (x <= i) {
 			result.add(x);
@@ -49,17 +58,17 @@ public class IntegerOperationContributor extends OperationContributor {
 	}
 
 	public String toBinary() {
-		Integer i = (Integer) target;
+		Integer i = (Integer) getTarget();
 		return Integer.toBinaryString(i);
 	}
 
 	public String toHex() {
-		Integer i = (Integer) target;
+		Integer i = (Integer) getTarget();
 		return Integer.toHexString(i);
 	}
 	
 	public Integer mod(Integer other) {
-		return ((Integer) target) % other;
+		return ((Integer) getTarget()) % other;
 	}
 	
 }

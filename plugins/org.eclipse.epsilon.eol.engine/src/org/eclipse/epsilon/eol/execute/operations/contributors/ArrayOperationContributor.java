@@ -22,7 +22,7 @@ public class ArrayOperationContributor extends OperationContributor {
 	
 	public EolSequence<Object> asSequence() {
 		EolSequence<Object> sequence = new EolSequence<>();
-		sequence.addAll(Arrays.asList(target));
+		sequence.addAll(Arrays.asList(getTarget()));
 		return sequence;
 	}
 }

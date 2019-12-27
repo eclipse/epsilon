@@ -23,24 +23,27 @@ public class EClassOperationContributor extends OperationContributor {
 	}
 	
 	public EAttribute attr(String name) throws EolRuntimeException {
-		for (EAttribute attr : ((EClass) target).getEAttributes()) {
-			if (attr.getName().equals(name)) return attr;
+		EClass target = (EClass) getTarget();
+		for (EAttribute attr : target.getEAttributes()) {
+			if (name.equals(attr.getName())) return attr;
 		}
-		throw new EolRuntimeException("Class " + ((EClass) target).getName() + " does not own an attributed named " + name);
+		throw new EolRuntimeException("Class " + target.getName() + " does not own an attributed named " + name);
 	}
 	
 	public EReference ref(String name) throws EolRuntimeException {
-		for (EReference ref : ((EClass) target).getEReferences()) {
-			if (ref.getName().equals(name) && !ref.isContainment()) return ref;
+		EClass target = (EClass) getTarget();
+		for (EReference ref : target.getEReferences()) {
+			if (name.equals(ref.getName()) && !ref.isContainment()) return ref;
 		}
-		throw new EolRuntimeException("Class " + ((EClass) target).getName() + " does not own an non-containment reference named " + name);
+		throw new EolRuntimeException("Class " + target.getName() + " does not own an non-containment reference named " + name);
 	}
 	
 	public EReference val(String name) throws EolRuntimeException {
-		for (EReference ref : ((EClass) target).getEReferences()) {
-			if (ref.getName().equals(name) && ref.isContainment()) return ref;
+		EClass target = (EClass) getTarget();
+		for (EReference ref : target.getEReferences()) {
+			if (name.equals(ref.getName()) && ref.isContainment()) return ref;
 		}
-		throw new EolRuntimeException("Class " + ((EClass) target).getName() + " does not own a containment reference named " + name);
+		throw new EolRuntimeException("Class " + target.getName() + " does not own a containment reference named " + name);
 	}
 	
 }

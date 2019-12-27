@@ -26,7 +26,7 @@ public class StringCompatibilityOperationContributor extends OperationContributo
 	 * @return
 	 */
 	public String replace(String regex, String replacement) {
-		return ((String) target).replaceAll(regex, replacement);
+		return ((String) getTarget()).replaceAll(regex, replacement);
 	}
 
 	/**
@@ -35,6 +35,6 @@ public class StringCompatibilityOperationContributor extends OperationContributo
 	 * EOL does not have that primitive type.
 	 */
 	public String characterAt(int index) {
-		return ((String) target).charAt(index) + "";
+		return ((String) getTarget()).charAt(index) + "";
 	}
 }

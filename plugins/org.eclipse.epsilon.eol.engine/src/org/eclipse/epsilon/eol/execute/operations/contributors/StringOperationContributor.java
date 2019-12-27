@@ -38,22 +38,17 @@ public class StringOperationContributor extends OperationContributor {
 	}
 	
 	public Object toEnum() throws Exception {
-		return context.getModelRepository().getEnumerationValue(target + "");
+		return context.getModelRepository().getEnumerationValue(getTarget() + "");
 	}
 	
 	@Override
 	public void setTarget(Object target) {
-		if (target instanceof Character) {
-			this.target = target + "";
-		}
-		else {
-			super.setTarget(target);			
-		}
+		super.setTarget(target instanceof Character ? target+"" : target);			
 	}
 	
 	public String escapeXml() throws Exception {
 		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-		Text text = document.createTextNode(target + "");
+		Text text = document.createTextNode(getTarget() + "");
 		Transformer transformer = TransformerFactory.newInstance().newTransformer();
 		DOMSource source = new DOMSource(text);
 		StringWriter writer = new StringWriter();
@@ -64,17 +59,17 @@ public class StringOperationContributor extends OperationContributor {
 	}
 	
 	public String firstToUpperCase() {
-		String value = (String) target;
+		String value = (String) getTarget();
 		return value.substring(0,1).toUpperCase() + value.substring(1, value.length());
 	}
 	
 	public String characterAt(int index) {
-		String value = (String) target;
+		String value = (String) getTarget();
 		return value.charAt(index) + "";
 	}
 	
 	public String firstToLowerCase() {
-		String value = (String) target;
+		String value = (String) getTarget();
 		return value.substring(0,1).toLowerCase() + value.substring(1, value.length());
 	}
 	
@@ -87,7 +82,7 @@ public class StringOperationContributor extends OperationContributor {
 	}
 	
 	public void store(String where) throws Exception {
-		String value = (String) target;
+		String value = (String) getTarget();
 		try (FileOutputStream fos = new FileOutputStream(where)) {
 			fos.write(value.getBytes());
 			fos.flush();
@@ -95,12 +90,12 @@ public class StringOperationContributor extends OperationContributor {
 	}
 	
 	public boolean isSubstringOf(String str) {
-		String value = (String) target;
+		String value = (String) getTarget();
 		return (str == null ? false : str.indexOf(value) > -1);
 	}
 	
 	public List<String> toCharSequence() {
-		String value = (String) target;
+		String value = (String) getTarget();
 		List<String> charSeq = CollectionUtil.createDefaultList();
 		for (int i = 0; i < value.length(); i++) {
 			charSeq.add(value.charAt(i)+"");
@@ -109,7 +104,7 @@ public class StringOperationContributor extends OperationContributor {
 	}
 	
 	public String pad(int width, String padding, boolean right) {
-		String result = (String) target;
+		String result = (String) getTarget();
 		int pad = width - result.length();
 		while (pad > 0) {
 			if (right) {

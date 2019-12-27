@@ -26,8 +26,8 @@ public class ModelElementOperationContributor extends OperationContributor {
 	}
 
 	public String id() throws Exception {
-		IModel model = context.getModelRepository().getOwningModel(target);
-		return model.getElementId(target);
+		IModel model = context.getModelRepository().getOwningModel(getTarget());
+		return model.getElementId(getTarget());
 	}
 
 }

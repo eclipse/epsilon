@@ -29,8 +29,7 @@ public abstract class OperationContributor {
 	public ObjectMethod findContributedMethodForUnevaluatedParameters(Object target, String name, List<Expression> parameterExpressions, IEolContext context) {
 		// Note that the last parameter is false: we only want to retrieve methods that take an AST as an argument
 		// and not methods that take a supertype of AST (such as Object)
-		Method method = getMethodFor(target, name, new Object[]{new AST()}, false);
-		return createObjectMethod(target, method, context);
+		return createObjectMethodFor(target, name, new Object[]{new AST()}, context, false);
 	}
 
 	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context) {
@@ -38,12 +37,11 @@ public abstract class OperationContributor {
 	}
 	
 	public ObjectMethod findContributedMethodForEvaluatedParameters(Object target, String name, Object[] parameters, IEolContext context, boolean overrideContextOperationContributorRegistry) {
-		Method method = getMethodFor(target, name, parameters, true);
-		return createObjectMethod(target, method, context);
+		return createObjectMethodFor(target, name, parameters, context, !overrideContextOperationContributorRegistry);
 	}
 
-	private Method getMethodFor(Object target, String name, Object[] parameters, boolean allowContravariantConversionForParameters) {
-		
+	private ObjectMethod createObjectMethodFor(Object target, String name, Object[] parameters, IEolContext context, boolean allowContravariantConversionForParameters) {	
+		Method method = null;
 		// Maintain a cache of method names if the reflection target is this
 		// so that we don't iterate through all methods every time
 		if (getReflectionTarget(target) == this && cachedMethodNames == null) {
@@ -51,27 +49,20 @@ public abstract class OperationContributor {
 		}
 		
 		if (cachedMethodNames == null || cachedMethodNames.contains(name)) {
-			return ReflectionUtil.getMethodFor(getReflectionTarget(target),
+			method = ReflectionUtil.getMethodFor(getReflectionTarget(target),
 		                                   name,
 		                                   parameters,
 		                                   includeInheritedMethods(),
 		                                   allowContravariantConversionForParameters);
 		}
-		else {
-			return null;
-		}
-	}
-
-	private ObjectMethod createObjectMethod(Object target, Method method, IEolContext context) {
+		
 		if (method != null) {
 			ObjectMethod objectMethod = new ObjectMethod(getReflectionTarget(target), method);
 			setTarget(target);
 			setContext(context);
 			return objectMethod;
 		}
-		else {
-			return null;
-		}
+		else return null;
 	}
 	
 	/**
@@ -86,6 +77,15 @@ public abstract class OperationContributor {
 	
 	protected Object getReflectionTarget(Object target) {
 		return this;
+	}
+	
+	/**
+	 * 
+	 * @return The {@link #target} field.
+	 * @since 1.6
+	 */
+	protected Object getTarget() {
+		return target;
 	}
 	
 	public void setTarget(Object target) {

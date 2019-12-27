@@ -20,7 +20,7 @@ public class NumberOperationContributor extends OperationContributor {
 	}
 	
 	private Number getNumber() {
-		return (Number) target;
+		return (Number) getTarget();
 	}
 	
 	/**
@@ -35,7 +35,7 @@ public class NumberOperationContributor extends OperationContributor {
 	}
 	
 	public Number min(Number other) {
-		Number self = (Number) target;
+		Number self = (Number) getTarget();
 		if (NumberUtil.lessThan(self, other)) {
 			return self;
 		}
@@ -45,7 +45,7 @@ public class NumberOperationContributor extends OperationContributor {
 	}
 	
 	public Number max(Number other) {
-		Number self = (Number) target;
+		Number self = (Number) getTarget();
 		if (NumberUtil.greaterThan(self, other)) {
 			return self;
 		}
@@ -55,13 +55,13 @@ public class NumberOperationContributor extends OperationContributor {
 	}
 	
 	public int floor() {
-		Number self = (Number) target;
+		Number self = (Number) getTarget();
 		return (int) Math.floor(self.doubleValue());
 	}
 	
 	public Number pow(Number n) {
-		Double pow = Math.pow(((Number) target).doubleValue(), n.doubleValue());
-		if (target instanceof Integer && n instanceof Integer && NumberUtil.greaterThan(n, 0)) {
+		Double pow = Math.pow(((Number) getTarget()).doubleValue(), n.doubleValue());
+		if (getTarget() instanceof Integer && n instanceof Integer && NumberUtil.greaterThan(n, 0)) {
 			return pow.intValue();
 		}
 		else {
@@ -70,7 +70,7 @@ public class NumberOperationContributor extends OperationContributor {
 	}
 	
 	public int ceiling() {
-		Number self = (Number) target;
+		Number self = (Number) getTarget();
 		return (int) Math.ceil(self.doubleValue());
 	}
 	
@@ -91,6 +91,7 @@ public class NumberOperationContributor extends OperationContributor {
 	}
 	
 	public Number abs() {
+		Object target = this.getTarget();
 		if (target instanceof Integer) return Math.abs((Integer) target);
 		if (target instanceof Float) return Math.abs((Float) target);
 		if (target instanceof Double) return Math.abs((Double) target);
@@ -99,27 +100,27 @@ public class NumberOperationContributor extends OperationContributor {
 	}
 	
 	public double asReal() {
-		Number value = (Number) target;
+		Number value = (Number) getTarget();
 		return value.floatValue();
 	}
 	
 	public double asDouble() {
-		Number value = (Number) target;
+		Number value = (Number) getTarget();
 		return value.doubleValue();
 	}
 	
 	public float asFloat() {
-		Number value = (Number) target;
+		Number value = (Number) getTarget();
 		return value.floatValue();
 	}
 	
 	public int asInteger() {
-		Number value = (Number) target;
+		Number value = (Number) getTarget();
 		return value.intValue();
 	}
 	
 	public long asLong() {
-		Number value = (Number) target;
+		Number value = (Number) getTarget();
 		return value.longValue();
 	}
 	

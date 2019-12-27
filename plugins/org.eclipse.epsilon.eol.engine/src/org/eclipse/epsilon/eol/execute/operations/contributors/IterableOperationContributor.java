@@ -30,37 +30,37 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	public IterableOperationContributor(Iterable<?> target) {
-		this.target = target;
+		setTarget(target);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected Iterable<Object> getIterable() {
-		return (Iterable<Object>) target;
+		return (Iterable<Object>) getTarget();
 	}
 
 	protected boolean isCollection() {
-		return target instanceof Collection;
+		return getTarget() instanceof Collection;
 	}
 
 	@SuppressWarnings("unchecked")
 	protected Collection<Object> getCollection() {
-		return (Collection<Object>) target;
+		return (Collection<Object>) getTarget();
 	}
 
 	protected boolean isList() {
-		return target instanceof List;
+		return getTarget() instanceof List;
 	}
 	
 	protected List<?> getList() {
-		return (List<?>) target;
+		return (List<?>) getTarget();
 	}
 	
 	protected boolean isSet() {
-		return target instanceof Set;
+		return getTarget() instanceof Set;
 	}
 	
 	protected Set<?> getSet() {
-		return (Set<?>) target;
+		return (Set<?>) getTarget();
 	}
 	
 	@Override
@@ -79,7 +79,7 @@ public class IterableOperationContributor extends OperationContributor {
 			return getCollection().size();
 		} else {
 			int size = 0;
-			for (Iterator<Object> it = getIterable().iterator(); it.hasNext(); ++size) {
+			for (Iterator<?> it = getIterable().iterator(); it.hasNext(); ++size) {
 				it.next();
 			}
 			return size;
@@ -91,10 +91,8 @@ public class IterableOperationContributor extends OperationContributor {
 			return getList().get(index);
 		}
 		else {
-			Iterator<?> it = getIterable().iterator();
 			int i = 0;
-			while (it.hasNext()) {
-				Object next = it.next();
+			for (Object next : getIterable()) {
 				if (i == index) return next;
 				else i++;
 			}
@@ -161,6 +159,7 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	public boolean isEmpty() {
+		Object target = getTarget();
 		if (target instanceof Collection<?>) return ((Collection<?>) target).isEmpty();
 		return !getIterable().iterator().hasNext();
 	}
@@ -170,10 +169,11 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	protected <T> void copy(Iterable<T> source, Collection<T> target) {
-		Iterator<T> it = source.iterator();
-		while (it.hasNext()) {
-			target.add(it.next());
-		}
+		for (
+			Iterator<T> it = source.iterator();
+			it.hasNext();
+			target.add(it.next())
+		);
 	}
 
 	@Override
@@ -188,11 +188,11 @@ public class IterableOperationContributor extends OperationContributor {
 	public boolean includes(Object key) {
 		if (isCollection()) {
 			return getCollection().contains(key);
-		} else {
+		}
+		else {
 			Iterator<?> it = getIterable().iterator();
 			while (it.hasNext()) {
-				Object o = it.next();
-				if (Objects.equals(o, key)) {
+				if (Objects.equals(it.next(), key)) {
 					return true;
 				}
 			}

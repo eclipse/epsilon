@@ -30,6 +30,7 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public Object type() {
+		Object target = getTarget();
 		
 		if (EolPrimitiveType.String.isType(target)) {
 			return EolPrimitiveType.String;
@@ -69,15 +70,15 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public boolean isTypeOf(EolType type) {
-		return type.isType(target);
+		return type.isType(getTarget());
 	}
 	
 	public boolean isKindOf(EolType type) {
-		return type.isKind(target);
+		return type.isKind(getTarget());
 	}
 	
 	public Class<?> getNativeType() {
-		return target.getClass();
+		return getTarget().getClass();
 	}
 	
 	public Class<?> nativeType() {
@@ -89,28 +90,29 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public IModel owningModel() {
-		return context.getModelRepository().getOwningModel(target);
+		return context.getModelRepository().getOwningModel(getTarget());
 	}
 	
 	public boolean hasProperty(String property) throws Exception {
+		Object target = getTarget();
 		
 		IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(target, property, context);
 		
 		try {
 			getter.invoke(target, property);
+			return true;
 		}
 		catch (EolIllegalPropertyException pex) {
 			return false;
 		}
-		
-		return true;
 	}
 	
 	public String asString() {
-		return context.getPrettyPrinterManager().print(target);
+		return context.getPrettyPrinterManager().print(getTarget());
 	}
 	
 	public boolean isDefined() {
+		Object target = getTarget();
 		if (target == null || target instanceof IUndefined) {
 			return false;
 		}
@@ -128,7 +130,7 @@ public class AnyOperationContributor extends OperationContributor {
 	
 	public Object ifUndefined(Object alternative) {
 		if (isUndefined()) return alternative;
-		else return target;
+		else return getTarget();
 	}
 	
 	public Object println() {
@@ -141,8 +143,8 @@ public class AnyOperationContributor extends OperationContributor {
 	
 	public Object println(Object prefix, Object suffix) {
 		context.getOutputStream().
-			println(prefix + context.getPrettyPrinterManager().print(target) + suffix);
-		return target;
+			println(prefix + context.getPrettyPrinterManager().print(getTarget()) + suffix);
+		return getTarget();
 	}
 	
 	public Object print() {
@@ -155,8 +157,8 @@ public class AnyOperationContributor extends OperationContributor {
 	
 	public Object print(Object prefix, Object suffix) {
 		context.getOutputStream().
-			print(prefix + context.getPrettyPrinterManager().print(target) + suffix);
-		return target;
+			print(prefix + context.getPrettyPrinterManager().print(getTarget()) + suffix);
+		return getTarget();
 	}
 	
 	public Object err() {
@@ -169,8 +171,8 @@ public class AnyOperationContributor extends OperationContributor {
 	
 	public Object err(Object prefix, Object suffix) {
 		context.getErrorStream().
-			print(prefix + context.getPrettyPrinterManager().print(target) + suffix);
-		return target;
+			print(prefix + context.getPrettyPrinterManager().print(getTarget()) + suffix);
+		return getTarget();
 	}
 	
 	public Object errln() {
@@ -183,15 +185,16 @@ public class AnyOperationContributor extends OperationContributor {
 	
 	public Object errln(Object prefix, Object suffix) {
 		context.getErrorStream().
-			println(prefix + context.getPrettyPrinterManager().print(target) + suffix);
-		return target;
+			println(prefix + context.getPrettyPrinterManager().print(getTarget()) + suffix);
+		return getTarget();
 	}
 	
 	public String format(String formatString) {
-		return String.format(formatString, target);
+		return String.format(formatString, getTarget());
 	}
 	
 	public int asInteger() {
+		Object target = getTarget();
 		try {
 			return Integer.parseInt(target.toString());
 		}
@@ -204,7 +207,7 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public boolean isInteger() {
-		String value = target.toString();
+		String value = getTarget().toString();
 		try {
 			Integer.parseInt(value);
 			return true;
@@ -215,7 +218,7 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public boolean isReal() {
-		String value = target.toString();
+		String value = getTarget().toString();
 		try {
 			Double.parseDouble(value);
 			return true;
@@ -226,36 +229,36 @@ public class AnyOperationContributor extends OperationContributor {
 	}
 	
 	public float asReal() {
-		String value = target.toString();
+		String value = getTarget().toString();
 		return Float.parseFloat(value);
 	}
 	
 	public double asDouble() {
-		String value = target.toString();
+		String value = getTarget().toString();
 		return Double.parseDouble(value);
 	}
 	
 	public float asFloat() {
-		String value = target.toString();
+		String value = getTarget().toString();
 		return Float.parseFloat(value);
 	}
 	
 	public long asLong() {
-		String value = target.toString();
+		String value = getTarget().toString();
 		return Long.parseLong(value);
 	}
 	
 	public boolean asBoolean() {
-		String value = target.toString();
+		String value = getTarget().toString();
 		return Boolean.parseBoolean(value);
 	}
 	
 	public String asUnicode() {
-		String value = target.toString();
+		String value = getTarget().toString();
 		return "" + (char) Integer.parseInt(value, 16);
 	}
 	
 	public Date asDate(String format) throws ParseException {
-		return new SimpleDateFormat(format).parse(target.toString());
+		return new SimpleDateFormat(format).parse(getTarget().toString());
 	}
 }

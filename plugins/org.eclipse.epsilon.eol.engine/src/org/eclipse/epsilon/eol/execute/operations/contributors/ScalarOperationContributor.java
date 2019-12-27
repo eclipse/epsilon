@@ -25,25 +25,25 @@ public class ScalarOperationContributor extends OperationContributor {
 	
 	public EolSequence<Object> asSequence() {
 		EolSequence<Object> sequence = new EolSequence<>(1);
-		sequence.add(target);
+		sequence.add(getTarget());
 		return sequence;
 	}
 	
 	public EolSet<Object> asSet() {
 		EolSet<Object>set = new EolSet<>();
-		set.add(target);
+		set.add(getTarget());
 		return set;
 	}
 	
 	public EolBag<Object> asBag() {
 		EolBag<Object> bag = new EolBag<>();
-		bag.add(target);
+		bag.add(getTarget());
 		return bag;
 	}
 	
 	public EolOrderedSet<Object> asOrderedSet() {
 		EolOrderedSet<Object> set = new EolOrderedSet<>();
-		set.add(target);
+		set.add(getTarget());
 		return set;
 	}
 	

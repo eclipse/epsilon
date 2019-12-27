@@ -23,13 +23,13 @@ public class MixedElementOperationContributor extends OperationContributor {
 	}
 	
 	public void addText(String text) {
-		EObject eObject = (EObject) target;
+		EObject eObject = (EObject) getTarget();
 		FeatureMap mixed = (FeatureMap) eObject.eGet(eObject.eClass().getEStructuralFeature("mixed"));
 		FeatureMapUtil.addText(mixed, text);
 	}
 	
 	public void addText(String text, int index) {
-		EObject eObject = (EObject) target;
+		EObject eObject = (EObject) getTarget();
 		FeatureMap mixed = (FeatureMap) eObject.eGet(eObject.eClass().getEStructuralFeature("mixed"));
 		FeatureMapUtil.addText(mixed, index, text);
 		

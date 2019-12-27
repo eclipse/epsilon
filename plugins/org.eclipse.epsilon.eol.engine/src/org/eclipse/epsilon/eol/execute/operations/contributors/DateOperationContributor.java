@@ -21,14 +21,14 @@ public class DateOperationContributor extends OperationContributor {
 	}
 	
 	public int getDayOfTheWeek() {
-		Date date = (Date) target;
+		Date date = (Date) getTarget();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return calendar.get(Calendar.DAY_OF_WEEK);
 	}
 	
 	public long getDifferenceInDays(Date other) {
-		Date date = (Date) target;
+		Date date = (Date) getTarget();
 		long diff = date.getTime() - other.getTime();
 	    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}

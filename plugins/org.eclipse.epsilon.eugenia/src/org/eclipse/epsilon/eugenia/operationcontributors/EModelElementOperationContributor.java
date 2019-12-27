@@ -26,13 +26,13 @@ public class EModelElementOperationContributor extends OperationContributor {
 	}
 	
 	public EModelElement annotate(String annotation, Map<?,?> details) {
-		EModelElement eModelElement = (EModelElement) target;
+		EModelElement eModelElement = (EModelElement) getTarget();
 		EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
 		eAnnotation.setSource(annotation);
 		eModelElement.getEAnnotations().add(eAnnotation);
 		
-		for (Object key : details.keySet()) {
-			eAnnotation.getDetails().put(key + "", details.get(key) + "");
+		for (Map.Entry<?, ?> entry : details.entrySet()) {
+			eAnnotation.getDetails().put(entry.getKey() + "", entry.getValue() + "");
 		}
 		
 		if (eModelElement instanceof EStructuralFeature) {

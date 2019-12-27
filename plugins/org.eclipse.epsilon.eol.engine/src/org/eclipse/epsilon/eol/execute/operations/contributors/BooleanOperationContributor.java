@@ -13,34 +13,34 @@ public class BooleanOperationContributor extends OperationContributor {
 
 	@Override
 	public boolean contributesTo(Object target) {
-		return target instanceof Boolean;
+		return getTarget() instanceof Boolean;
 	}
 	
 	public boolean or(boolean operand) {
-		boolean value = (Boolean) target;
+		boolean value = (Boolean) getTarget();
 		return value || operand;
 	}
 	
 	public boolean and(boolean operand) {
-		boolean value = (Boolean) target;
+		boolean value = (Boolean) getTarget();
 		return value && operand;
 	}
 	
 	public boolean not() {
-		return !((Boolean) target);
+		return !((Boolean) getTarget());
 	}
 	
 	public boolean xor(boolean operand) {
-		boolean value = (Boolean) target;
+		boolean value = (Boolean) getTarget();
 		return value != operand;		
 	}
 	
 	public String asString() {
-		return target + "";
+		return getTarget() + "";
 	}
 	
-	public Object ternary(Object rIfTrue, Object rIfFalse) {
-		boolean value = (Boolean) target;
-		return value ? rIfTrue : rIfFalse;
-	}
+	/*public Object ternary(Supplier<?> sIfTrue, Supplier<?> sIfFalse) {
+		boolean value = (Boolean) getTarget();
+		return value ? sIfTrue.get() : sIfFalse.get();
+	}*/
 }
