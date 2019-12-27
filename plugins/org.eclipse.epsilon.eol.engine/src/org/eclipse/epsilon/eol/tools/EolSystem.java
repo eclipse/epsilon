@@ -34,10 +34,10 @@ public class EolSystem extends AbstractTool {
 	}
 	
 	public void execAsync() throws EolRuntimeException {
-		Queue<AsyncStatementInstance> queue = context.getAsyncStatementsQueue();
-		while (!queue.isEmpty()) {
-			queue.poll().execute(context);
-		}
+		for (
+			Queue<AsyncStatementInstance> queue = context.getAsyncStatementsQueue();
+			!queue.isEmpty();
+			queue.poll().execute(context)
+		);
 	}
-	
 }

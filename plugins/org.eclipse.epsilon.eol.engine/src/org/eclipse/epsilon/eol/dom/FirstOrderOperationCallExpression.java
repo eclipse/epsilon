@@ -45,9 +45,9 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		
-		final AST lambdaParamsContainer, exprAst;
+		AST lambdaParamsContainer, exprAst;
 		
-		if (cst.getFirstChild().getType() != EolParser.PARAMLIST) { 
+		if (cst.getType() != EolParser.NAME && cst.getFirstChild().getType() != EolParser.PARAMLIST) { 
 			targetExpression = (Expression) module.createAst(cst.getFirstChild(), this);
 			exprAst = cst.getSecondChild();
 			nameExpression = (NameExpression) module.createAst(exprAst, this);
@@ -60,7 +60,7 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 			exprAst = cst;
 		}
 
-		lambdaParamsContainer = exprAst.getFirstChild();
+		lambdaParamsContainer = exprAst != null ? exprAst.getFirstChild() : null;
 		
 		if (lambdaParamsContainer != null && lambdaParamsContainer.getType() == EolParser.PARAMLIST) {
 			for (AST ast : lambdaParamsContainer.getChildren()) {
@@ -68,7 +68,7 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 			}
 		}
 		
-		for (AST ast : exprAst.getChildren()) {
+		if (exprAst != null) for (AST ast : exprAst.getChildren()) {
 			if (parameters.isEmpty() || ast != lambdaParamsContainer) {
 				ModuleElement resolved = module.createAst(ast, this);
 				if (resolved instanceof Expression) {

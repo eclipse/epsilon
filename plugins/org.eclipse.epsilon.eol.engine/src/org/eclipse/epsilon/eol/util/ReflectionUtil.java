@@ -59,30 +59,34 @@ public class ReflectionUtil {
 	 * @param methodName The name of the method to find.
 	 * @param criteria Function which limits the search scope of methods.
 	 * @return A method (chosen non-deterministically) which matches the criteria.
-	 * @throws EolRuntimeException If no method matching the criteria can be found.
+	 * @throws EolIllegalOperationException If no method matching the criteria can be found.
+	 * @throws EolIllegalOperationParametersException If the method parameters are invalid.
 	 * @since 1.6
 	 */
-	public static Method findApplicableMethodOrThrow(Object obj, String methodName, Predicate<Method> criteria, Stream<?> parameters, ModuleElement ast, PrettyPrinterManager ppm) throws EolRuntimeException {
+	public static Method findApplicableMethodOrThrow(Object obj, String methodName, Predicate<Method> criteria, Collection<?> parameters, ModuleElement ast, PrettyPrinterManager ppm) throws EolIllegalOperationException, EolIllegalOperationParametersException {
 		final Method[] candidates = getMethodsFromPublicClassesForName(obj, methodName);
 		
-		Supplier<? extends EolRuntimeException> exceptionGetter = () -> {
+		Method method = Stream.of(candidates).filter(criteria).findAny().orElse(null);
+		if (method == null) {
+			method = searchMethodsFor(candidates, methodName, parameters.toArray(), true);
+		}
+		if (method == null) {
 			Collector<CharSequence, ?, String> paramJoiner = Collectors.joining(", ");
-			
 			if (candidates.length > 0) {
 				String expectedParams = Stream.of(candidates[0].getParameterTypes())
 					.map(Class::getTypeName)
 					.collect(paramJoiner);
 				
-				String actualParams = parameters
+				String actualParams = parameters.stream()
 					.map(expr -> expr.getClass().getTypeName())
 					.collect(paramJoiner);
 				
-				return new EolIllegalOperationParametersException(methodName, expectedParams, actualParams, ast);
+				throw new EolIllegalOperationParametersException(methodName, expectedParams, actualParams, ast);
 			}
-			else return new EolIllegalOperationException(obj, methodName, ast, ppm);
-		};
+			else throw new EolIllegalOperationException(obj, methodName, ast, ppm);
+		}
 		
-		return Stream.of(candidates).filter(criteria).findAny().orElseThrow(exceptionGetter);
+		return method;
 	}
 	
 	/**

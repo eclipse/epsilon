@@ -38,22 +38,22 @@ public class EolLambdaFactory {
 	
 	/**
 	 * Validation of parameters is assumed to have already been performed in DynamicOperation or by the caller.
-	 * @param methodName
+	 * @param clazzName
 	 * @param iteratorParams
 	 * @param lambdaExprs
 	 * @param context
 	 * @return
 	 * @throws EolIllegalOperationException 
 	 */
-	public static Object resolveFor(String methodName, List<Parameter> iteratorParams, Expression lambdaExpr,
+	public static Object resolveFor(String clazzName, List<Parameter> iteratorParams, Expression lambdaExpr,
 			ModuleElement ast, IEolContext context) throws EolIllegalOperationException {
 		
-		methodName = methodName.toLowerCase().replace("checkedeol", "");
-		if (methodName.startsWith("get")) {
-			methodName = methodName.substring(3);
+		clazzName = clazzName.toLowerCase().replace("checkedeol", "");
+		if (clazzName.startsWith("get")) {
+			clazzName = clazzName.substring(3);
 		}
 		
-		switch (methodName) {
+		switch (clazzName) {
 			case "runnable":// case "statement":
 				return (CheckedEolRunnable) () -> executeExpression(context, lambdaExpr, null, lambdaExpr, iteratorParams);
 			case "consumer":// case "setter":
@@ -75,7 +75,7 @@ public class EolLambdaFactory {
 			case "binaryoperator":// case "bioperator": case "binary": case "binaryop":
 				return (CheckedEolBinaryOperator<?>) (t, u) -> executeExpression(context, ast, t != null ? t.getClass() : null, lambdaExpr, iteratorParams, t, u);
 			default:
-				throw new EolIllegalOperationException(EolLambdaFactory.class, methodName, ast, context.getPrettyPrinterManager());
+				throw new EolIllegalOperationException(EolLambdaFactory.class, clazzName, ast, context.getPrettyPrinterManager());
 		}
 	}
 	
@@ -87,7 +87,7 @@ public class EolLambdaFactory {
 		assert context != null && (
 				(params == null || params.isEmpty()) &&
 				(paramValues == null || paramValues.length == 0) ||
-			params.size() == paramValues.length
+			params.size() >= paramValues.length
 		);
 		
 		if (context instanceof EolContextParallel) {

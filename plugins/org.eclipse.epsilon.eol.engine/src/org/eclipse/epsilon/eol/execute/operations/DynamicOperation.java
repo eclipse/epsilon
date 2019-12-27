@@ -77,7 +77,7 @@ public class DynamicOperation extends AbstractOperation {
 				);
 		
 		final Method resolvedMethod = ReflectionUtil.findApplicableMethodOrThrow(
-			target, methodName, criteria, expressions.stream(), operationNameExpression, context.getPrettyPrinterManager()
+			target, methodName, criteria, expressions, operationNameExpression, context.getPrettyPrinterManager()
 		);
 		
 		final int candidateParamCount = resolvedMethod.getParameterCount();

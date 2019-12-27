@@ -25,6 +25,7 @@ import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.execute.operations.simple.SimpleOperation;
+import org.eclipse.epsilon.eol.function.EolLambdaFactory;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolNoType;
 import org.eclipse.epsilon.eol.types.EolUndefined;
@@ -35,7 +36,13 @@ public class OperationCallExpression extends FeatureCallExpression {
 	protected NameExpression nameExpression;
 	protected boolean contextless;
 	
-	public OperationCallExpression() {}
+	public OperationCallExpression() {
+		this(false);
+	}
+	
+	public OperationCallExpression(boolean contextless) {
+		this.contextless = contextless;
+	}
 	
 	public OperationCallExpression(Expression targetExpression, NameExpression nameExpression, Expression... parameterExpressions) {
 		this.targetExpression = targetExpression;
@@ -47,10 +54,6 @@ public class OperationCallExpression extends FeatureCallExpression {
 				this.parameterExpressions.add(parameterExpression);
 			}
 		}
-	}
-	
-	public OperationCallExpression(boolean contextless) {
-		this.contextless = contextless;
 	}
 	
 	@Override
@@ -72,7 +75,6 @@ public class OperationCallExpression extends FeatureCallExpression {
 		
 		List<AST> parametersChildren = parametersAst.getChildren();
 		parameterExpressions.ensureCapacity(parameterExpressions.size()+parametersChildren.size());
-		
 		for (AST parameterAst : parametersChildren) {
 			parameterExpressions.add((Expression) module.createAst(parameterAst, this));
 		}
@@ -183,6 +185,12 @@ public class OperationCallExpression extends FeatureCallExpression {
 		if (operation != null && targetObject != null && !parameterExpressions.isEmpty()) {
 			return operation.execute(targetObject, nameExpression, new ArrayList<>(0), parameterExpressions, context);
 		}
+		
+		// Maybe the user is trying to create a lambda expression as a variable. No harm in trying to help them out...
+		if (contextless && !parameterExpressions.isEmpty()) try {
+			return EolLambdaFactory.resolveFor(operationName, new ArrayList<>(0), parameterExpressions.get(0), nameExpression, context);
+		}
+		catch (EolIllegalOperationException ignore) {}
 		
 		// No operation found
 		throw new EolIllegalOperationException(targetObject, operationName, nameExpression, context.getPrettyPrinterManager());

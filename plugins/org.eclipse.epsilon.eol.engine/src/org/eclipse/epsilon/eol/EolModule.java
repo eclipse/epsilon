@@ -165,12 +165,19 @@ public class EolModule extends AbstractModule implements IEolModule {
 				}
 			}
 			case EolParser.NAME: {
-				if (cst.hasChildren() && cst.getFirstChild().getType() == EolParser.PARAMLIST) {
-					return new FirstOrderOperationCallExpression();
+				if (cst.hasChildren()) {
+					AST firstChild = cst.getFirstChild();
+					if (firstChild.getType() == EolParser.PARAMLIST) {
+						return new FirstOrderOperationCallExpression();
+					}
+					else if (firstChild.getExtraTokens().size() >= 1) {
+						if (firstChild.getChildren().stream().anyMatch(ast -> ast.getType() == EolParser.LAMBDAEXPR)) {
+							return new ComplexOperationCallExpression();
+						}
+						else return new FirstOrderOperationCallExpression();
+					}
 				}
-				else {
-					return new NameExpression();
-				}
+				return new NameExpression();
 			}
 			case EolParser.FORMAL: return new Parameter();
 			case EolParser.BLOCK: return new StatementBlock();
