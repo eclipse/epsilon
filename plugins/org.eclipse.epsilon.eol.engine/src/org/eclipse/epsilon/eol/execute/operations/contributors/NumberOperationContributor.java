@@ -36,31 +36,20 @@ public class NumberOperationContributor extends OperationContributor {
 	
 	public Number min(Number other) {
 		Number self = (Number) getTarget();
-		if (NumberUtil.lessThan(self, other)) {
-			return self;
-		}
-		else {
-			return other;
-		}
+		return NumberUtil.lessThan(self, other) ? self : other;
 	}
 	
 	public Number max(Number other) {
-		Number self = (Number) getTarget();
-		if (NumberUtil.greaterThan(self, other)) {
-			return self;
-		}
-		else {
-			return other;
-		}
+		Number self = getNumber();
+		return NumberUtil.greaterThan(self, other) ? self : other;
 	}
 	
 	public int floor() {
-		Number self = (Number) getTarget();
-		return (int) Math.floor(self.doubleValue());
+		return (int) Math.floor(asDouble());
 	}
 	
 	public Number pow(Number n) {
-		Double pow = Math.pow(((Number) getTarget()).doubleValue(), n.doubleValue());
+		Double pow = Math.pow(asDouble(), n.doubleValue());
 		if (getTarget() instanceof Integer && n instanceof Integer && NumberUtil.greaterThan(n, 0)) {
 			return pow.intValue();
 		}
@@ -70,12 +59,11 @@ public class NumberOperationContributor extends OperationContributor {
 	}
 	
 	public int ceiling() {
-		Number self = (Number) getTarget();
-		return (int) Math.ceil(self.doubleValue());
+		return (int) Math.ceil(asDouble());
 	}
 	
 	public int round() {
-		return Math.round(getNumber().floatValue());
+		return Math.round(asFloat());
 	}
 	
 	public double ln() {
@@ -83,11 +71,11 @@ public class NumberOperationContributor extends OperationContributor {
 	}
 	
 	public double log() {
-		return Math.log(getNumber().doubleValue());
+		return Math.log(asDouble());
 	}
 	
 	public double log10() {
-		return Math.log10(getNumber().doubleValue());
+		return Math.log10(asDouble());
 	}
 	
 	public Number abs() {
@@ -100,28 +88,23 @@ public class NumberOperationContributor extends OperationContributor {
 	}
 	
 	public double asReal() {
-		Number value = (Number) getTarget();
-		return value.floatValue();
+		return asFloat();
 	}
 	
 	public double asDouble() {
-		Number value = (Number) getTarget();
-		return value.doubleValue();
+		return getNumber().doubleValue();
 	}
 	
 	public float asFloat() {
-		Number value = (Number) getTarget();
-		return value.floatValue();
+		return getNumber().floatValue();
 	}
 	
 	public int asInteger() {
-		Number value = (Number) getTarget();
-		return value.intValue();
+		return getNumber().intValue();
 	}
 	
 	public long asLong() {
-		Number value = (Number) getTarget();
-		return value.longValue();
+		return getNumber().longValue();
 	}
 	
 }

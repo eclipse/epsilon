@@ -9,21 +9,21 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.contributors;
 
+import java.util.function.Supplier;
+
 public class BooleanOperationContributor extends OperationContributor {
 
 	@Override
 	public boolean contributesTo(Object target) {
-		return getTarget() instanceof Boolean;
+		return target instanceof Boolean;
 	}
 	
 	public boolean or(boolean operand) {
-		boolean value = (Boolean) getTarget();
-		return value || operand;
+		return operand || (Boolean) getTarget();
 	}
 	
 	public boolean and(boolean operand) {
-		boolean value = (Boolean) getTarget();
-		return value && operand;
+		return operand && (Boolean) getTarget();
 	}
 	
 	public boolean not() {
@@ -31,16 +31,15 @@ public class BooleanOperationContributor extends OperationContributor {
 	}
 	
 	public boolean xor(boolean operand) {
-		boolean value = (Boolean) getTarget();
-		return value != operand;		
+		return (Boolean) getTarget() != operand;		
 	}
 	
 	public String asString() {
 		return getTarget() + "";
 	}
 	
-	/*public Object ternary(Supplier<?> sIfTrue, Supplier<?> sIfFalse) {
+	public Object ternary(Supplier<?> sIfTrue, Supplier<?> sIfFalse) {
 		boolean value = (Boolean) getTarget();
 		return value ? sIfTrue.get() : sIfFalse.get();
-	}*/
+	}
 }

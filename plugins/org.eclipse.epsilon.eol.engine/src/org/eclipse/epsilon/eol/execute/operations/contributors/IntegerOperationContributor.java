@@ -21,7 +21,7 @@ public class IntegerOperationContributor extends OperationContributor {
 	}
 
 	public EolSequence<Integer> to(Integer end) {
-		Integer start = (Integer) getTarget();
+		int start = (int) getTarget();
 		EolSequence<Integer> result = new EolSequence<>();
 		if (start < end) {
 			int cap = end-start;
@@ -42,7 +42,7 @@ public class IntegerOperationContributor extends OperationContributor {
 
 	public EolSequence<Integer> iota(int i, int step) throws Exception {
 		EolSequence<Integer> result = new EolSequence<>();
-		int x = (Integer) getTarget();
+		int x = (int) getTarget();
 		if ((step == 0) || (x < i && step < 0) || (x > i && step > 0)) {
 			throw new Exception("Invalid argument(s) to iota(i, step)");
 		}
@@ -58,13 +58,11 @@ public class IntegerOperationContributor extends OperationContributor {
 	}
 
 	public String toBinary() {
-		Integer i = (Integer) getTarget();
-		return Integer.toBinaryString(i);
+		return Integer.toBinaryString((int) getTarget());
 	}
 
 	public String toHex() {
-		Integer i = (Integer) getTarget();
-		return Integer.toHexString(i);
+		return Integer.toHexString((int) getTarget());
 	}
 	
 	public Integer mod(Integer other) {

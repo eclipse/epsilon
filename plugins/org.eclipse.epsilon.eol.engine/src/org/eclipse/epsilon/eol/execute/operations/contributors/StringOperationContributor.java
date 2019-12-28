@@ -105,15 +105,13 @@ public class StringOperationContributor extends OperationContributor {
 	
 	public String pad(int width, String padding, boolean right) {
 		String result = (String) getTarget();
-		int pad = width - result.length();
-		while (pad > 0) {
+		for (int pad = width-result.length(); pad > 0; --pad) {
 			if (right) {
 				result = result + padding;
 			}
 			else {
 				result = padding + result;
 			}
-			pad = pad - 1;
 		}
 		return result;
 	}
