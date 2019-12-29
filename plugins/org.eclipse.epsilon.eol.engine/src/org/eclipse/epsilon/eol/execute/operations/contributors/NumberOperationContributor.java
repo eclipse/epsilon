@@ -19,8 +19,9 @@ public class NumberOperationContributor extends OperationContributor {
 		return target instanceof Number;
 	}
 	
-	private Number getNumber() {
-		return (Number) getTarget();
+	@Override
+	protected Number getTarget() {
+		return (Number) super.getTarget();
 	}
 	
 	/**
@@ -29,18 +30,18 @@ public class NumberOperationContributor extends OperationContributor {
 	 * @since 1.6
 	 */
 	public Number factorial() {
-		long n = getNumber().longValue();
+		long n = getTarget().longValue();
         if (n > 20 || n < 0) throw new IllegalArgumentException(n + " is out of range");
         return LongStream.rangeClosed(2, n).reduce(1, (a, b) -> a * b);
 	}
 	
 	public Number min(Number other) {
-		Number self = (Number) getTarget();
+		Number self = getTarget();
 		return NumberUtil.lessThan(self, other) ? self : other;
 	}
 	
 	public Number max(Number other) {
-		Number self = getNumber();
+		Number self = getTarget();
 		return NumberUtil.greaterThan(self, other) ? self : other;
 	}
 	
@@ -79,7 +80,7 @@ public class NumberOperationContributor extends OperationContributor {
 	}
 	
 	public Number abs() {
-		Object target = this.getTarget();
+		Object target = getTarget();
 		if (target instanceof Integer) return Math.abs((Integer) target);
 		if (target instanceof Float) return Math.abs((Float) target);
 		if (target instanceof Double) return Math.abs((Double) target);
@@ -92,19 +93,19 @@ public class NumberOperationContributor extends OperationContributor {
 	}
 	
 	public double asDouble() {
-		return getNumber().doubleValue();
+		return getTarget().doubleValue();
 	}
 	
 	public float asFloat() {
-		return getNumber().floatValue();
+		return getTarget().floatValue();
 	}
 	
 	public int asInteger() {
-		return getNumber().intValue();
+		return getTarget().intValue();
 	}
 	
 	public long asLong() {
-		return getNumber().longValue();
+		return getTarget().longValue();
 	}
 	
 }

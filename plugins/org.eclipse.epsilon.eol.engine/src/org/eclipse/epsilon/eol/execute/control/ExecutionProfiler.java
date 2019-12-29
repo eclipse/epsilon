@@ -79,7 +79,7 @@ public class ExecutionProfiler implements ExecutionController, IExecutionListene
 			.stream()
 			.sorted((a, b) -> b.getValue().compareTo(a.getValue()))
 			.map(entry -> "'"+entry.getKey()+"' took "+formatDuration(entry.getValue()))
-			.collect(Collectors.joining(",\n"));
+			.collect(Collectors.joining(","+System.lineSeparator()));
 	}
 	
 	@SafeVarargs

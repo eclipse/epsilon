@@ -33,11 +33,16 @@ public class IterableOperationContributor extends OperationContributor {
 		setTarget(target);
 	}
 
+	@Override
+	protected Iterable<?> getTarget() {
+		return (Iterable<?>) super.getTarget();
+	}
+	
 	@SuppressWarnings("unchecked")
 	protected Iterable<Object> getIterable() {
 		return (Iterable<Object>) getTarget();
 	}
-
+	
 	protected boolean isCollection() {
 		return getTarget() instanceof Collection;
 	}
@@ -79,7 +84,7 @@ public class IterableOperationContributor extends OperationContributor {
 			return getCollection().size();
 		} else {
 			int size = 0;
-			for (Iterator<?> it = getIterable().iterator(); it.hasNext(); ++size) {
+			for (Iterator<?> it = getTarget().iterator(); it.hasNext(); ++size) {
 				it.next();
 			}
 			return size;
@@ -92,7 +97,7 @@ public class IterableOperationContributor extends OperationContributor {
 		}
 		else {
 			int i = 0;
-			for (Object next : getIterable()) {
+			for (Object next : getTarget()) {
 				if (i == index) return next;
 				else i++;
 			}
@@ -106,7 +111,7 @@ public class IterableOperationContributor extends OperationContributor {
 		}
 		else {
 			Object toRemove = null;
-			Iterator<?> it = getIterable().iterator();
+			Iterator<?> it = getTarget().iterator();
 			int i;
 			for (i = 0; it.hasNext() && i <= index; ++i) {
 				toRemove = it.next();
@@ -143,7 +148,7 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	public Number sum() {
-		return StreamSupport.stream(getIterable().spliterator(), true)
+		return StreamSupport.stream(getTarget().spliterator(), true)
 			.filter(Number.class::isInstance)
 			.map(Number.class::cast)
 			.reduce(0, (i, sum) -> NumberUtil.add(sum, i));
@@ -152,7 +157,7 @@ public class IterableOperationContributor extends OperationContributor {
 	public Number product() {
 		if (isEmpty()) return 0.0f;
 		
-		return StreamSupport.stream(getIterable().spliterator(), true)
+		return StreamSupport.stream(getTarget().spliterator(), true)
 			.filter(Number.class::isInstance)
 			.map(Number.class::cast)
 			.reduce(1, (product, i) -> NumberUtil.multiply(product, i));
@@ -161,7 +166,7 @@ public class IterableOperationContributor extends OperationContributor {
 	public boolean isEmpty() {
 		Object target = getTarget();
 		if (target instanceof Collection<?>) return ((Collection<?>) target).isEmpty();
-		return !getIterable().iterator().hasNext();
+		return !getTarget().iterator().hasNext();
 	}
 
 	public boolean notEmpty() {
@@ -190,7 +195,7 @@ public class IterableOperationContributor extends OperationContributor {
 			return getCollection().contains(key);
 		}
 		else {
-			Iterator<?> it = getIterable().iterator();
+			Iterator<?> it = getTarget().iterator();
 			while (it.hasNext()) {
 				if (Objects.equals(it.next(), key)) {
 					return true;
@@ -219,21 +224,21 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	public int count(Object o) {
-		return StreamSupport.stream(getIterable().spliterator(), false)
+		return StreamSupport.stream(getTarget().spliterator(), false)
 			.filter(item -> Objects.equals(item, o))
 			.mapToInt(item -> 1).sum();
 	}
 
 	public Collection<Object> includingAll(Collection<Object> col) {
 		Collection<Object> result = createCollection();
-		addAll(getIterable(), result);
+		addAll(getTarget(), result);
 		addAll(col, result);
 		return result;
 	}
 
 	public Collection<Object> including(Object o) {
 		Collection<Object> result = createCollection();
-		addAll(getIterable(), result);
+		addAll(getTarget(), result);
 		result.add(o);
 		return result;
 	}
@@ -249,14 +254,14 @@ public class IterableOperationContributor extends OperationContributor {
 		}
 		else {
 			col = createCollection();
-			addAll(getIterable(), col);
+			addAll(getTarget(), col);
 		}
 		return CollectionUtil.flatten(col);
 	}
 
 	public Collection<Object> excluding(Object o) {
 		Collection<Object> excluding = createCollection();
-		addAll(getIterable(), excluding);
+		addAll(getTarget(), excluding);
 		while (excluding.contains(o)) {
 			excluding.remove(o);
 		}
@@ -265,7 +270,7 @@ public class IterableOperationContributor extends OperationContributor {
 
 	public Collection<Object> excludingAll(Collection<?> col) {
 		Collection<Object> difference = createCollection();
-		for (Object next : getIterable()) {
+		for (Object next : getTarget()) {
 			if (!col.contains(next)) {
 				difference.add(next);
 			}
@@ -278,7 +283,7 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	public Collection<Object> first(int number) {
-		Iterator<Object> it = getIterable().iterator();
+		Iterator<?> it = getTarget().iterator();
 		ArrayList<Object> result = new ArrayList<>(number);
 		for (int i = 0; it.hasNext() && i++ < number; result.add(it.next()));
 		return result;
@@ -305,11 +310,8 @@ public class IterableOperationContributor extends OperationContributor {
 			return nth(getCollection().size() - 1);
 		}
 		else {
-			final Iterator<Object> it = getIterable().iterator();
 			Object o = null;
-			while (it.hasNext()) {
-				o = it.next();
-			}
+			for (Iterator<?> it = getTarget().iterator(); it.hasNext(); o = it.next());
 			return o;
 		}
 	}
@@ -320,7 +322,7 @@ public class IterableOperationContributor extends OperationContributor {
 		}
 		else {
 			int counter = 0;
-			for (Object item : getIterable()) {
+			for (Object item : getTarget()) {
 				if (Objects.equals(item, o)) {
 					return counter;
 				}
@@ -340,7 +342,7 @@ public class IterableOperationContributor extends OperationContributor {
 	}
 	
 	public String concat(String delimiter) {
-		return CollectionUtil.join(getIterable(), delimiter,
+		return CollectionUtil.join(getTarget(), delimiter,
 			//FIXME : Use the pretty printer manager here
 			element -> Objects.toString(element, "")
 		);
@@ -352,7 +354,7 @@ public class IterableOperationContributor extends OperationContributor {
 	
 	public Number max(Number default_) {
 		Number max = null;
-		for (Object next : getIterable()) {
+		for (Object next : getTarget()) {
 			if (next instanceof Number) {
 				Number nextNumber = (Number) next;
 				if (max == null || NumberUtil.greaterThan(nextNumber, max)) {
@@ -372,7 +374,7 @@ public class IterableOperationContributor extends OperationContributor {
 	
 	public Number min(Number default_) {
 		Number min = null;
-		for (Object next : getIterable()) {
+		for (Object next : getTarget()) {
 			if (next instanceof Number) {
 				Number nextNumber = (Number) next;
 				if (min == null || NumberUtil.lessThan(nextNumber, min)) {
@@ -388,7 +390,7 @@ public class IterableOperationContributor extends OperationContributor {
 	
 	public Collection<Object> invert() {
 		EolSequence<Object> sequence = new EolSequence<>();
-		for (Object o : getIterable()) {
+		for (Object o : getTarget()) {
 			sequence.add(0, o);
 		}
 		return sequence;
@@ -424,9 +426,9 @@ public class IterableOperationContributor extends OperationContributor {
 	    return sets;
 	}
 	
-	private static void addAll(final Iterable<Object> elements, Collection<Object> target) {
+	private static void addAll(final Iterable<?> elements, Collection<Object> target) {
 		if (elements instanceof Collection) {
-			target.addAll((Collection<Object>)elements);
+			target.addAll((Collection<?>)elements);
 		}
 		else {
 			for (Object o : elements) {

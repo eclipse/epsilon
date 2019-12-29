@@ -18,28 +18,41 @@ public class BooleanOperationContributor extends OperationContributor {
 		return target instanceof Boolean;
 	}
 	
+	@Override
+	protected Boolean getTarget() {
+		return (Boolean) super.getTarget();
+	}
+	
 	public boolean or(boolean operand) {
-		return operand || (Boolean) getTarget();
+		return operand || getTarget();
 	}
 	
 	public boolean and(boolean operand) {
-		return operand && (Boolean) getTarget();
+		return operand && getTarget();
 	}
 	
 	public boolean not() {
-		return !((Boolean) getTarget());
+		return !getTarget();
 	}
 	
 	public boolean xor(boolean operand) {
-		return (Boolean) getTarget() != operand;		
+		return getTarget() != operand;		
 	}
 	
 	public String asString() {
 		return getTarget() + "";
 	}
 	
+	/**
+	 * Lazy functional-style ternary operation.
+	 * 
+	 * @param sIfTrue Value getter if the target is <code>true</code>
+	 * @param sIfFalse Value getter if the target is <code>false</code>
+	 * @return The value given by the Supplier parameters based on whether the target is true or false.
+	 * @since 1.6
+	 */
 	public Object ternary(Supplier<?> sIfTrue, Supplier<?> sIfFalse) {
-		boolean value = (Boolean) getTarget();
+		boolean value = getTarget();
 		return value ? sIfTrue.get() : sIfFalse.get();
 	}
 }

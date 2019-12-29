@@ -20,15 +20,20 @@ public class DateOperationContributor extends OperationContributor {
 		return target instanceof Date;
 	}
 	
+	@Override
+	protected Date getTarget() {
+		return (Date) super.getTarget();
+	}
+	
 	public int getDayOfTheWeek() {
-		Date date = (Date) getTarget();
+		Date date = getTarget();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return calendar.get(Calendar.DAY_OF_WEEK);
 	}
 	
 	public long getDifferenceInDays(Date other) {
-		Date date = (Date) getTarget();
+		Date date = getTarget();
 		long diff = date.getTime() - other.getTime();
 	    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}

@@ -17,6 +17,11 @@ public class StringCompatibilityOperationContributor extends OperationContributo
 	public boolean contributesTo(Object target) {
 		return target instanceof String;
 	}
+	
+	@Override
+	protected String getTarget() {
+		return (String) super.getTarget();
+	}
 
 	/**
 	 * In the previous version of EOL, EolString.replace
@@ -26,7 +31,7 @@ public class StringCompatibilityOperationContributor extends OperationContributo
 	 * @return
 	 */
 	public String replace(String regex, String replacement) {
-		return ((String) getTarget()).replaceAll(regex, replacement);
+		return getTarget().replaceAll(regex, replacement);
 	}
 
 	/**
@@ -35,6 +40,6 @@ public class StringCompatibilityOperationContributor extends OperationContributo
 	 * EOL does not have that primitive type.
 	 */
 	public String characterAt(int index) {
-		return ((String) getTarget()).charAt(index) + "";
+		return getTarget().charAt(index) + "";
 	}
 }
