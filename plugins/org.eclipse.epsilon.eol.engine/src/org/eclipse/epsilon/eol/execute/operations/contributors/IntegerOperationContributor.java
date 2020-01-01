@@ -71,7 +71,7 @@ public class IntegerOperationContributor extends OperationContributor {
 	}
 	
 	public Integer mod(Integer other) {
-		return (getTarget()) % other;
+		return getTarget() % other;
 	}
 	
 }

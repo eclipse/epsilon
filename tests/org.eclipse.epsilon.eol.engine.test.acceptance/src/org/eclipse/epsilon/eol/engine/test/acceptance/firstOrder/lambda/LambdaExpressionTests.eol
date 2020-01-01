@@ -88,8 +88,10 @@ operation lazyTest(i) : Boolean {
 	throw "Shouldn't be here!";
 }
 
+// EolLambdaFactory tests
+
 @test
-operation testRunnable() {
+operation testRunnableThread() {
 	var called : new Native("java.util.concurrent.atomic.AtomicBoolean");
 	assertFalse(called.get());
 	var runnable = runnable( | called.set(true));
@@ -98,14 +100,7 @@ operation testRunnable() {
 	thread.join();
 	assertTrue(called.get());
 	assertFalse(thread.isAlive());
-	thread = new Native("java.lang.Thread")(called.set(false));
-	thread.start();
-	thread.join();
-	assertFalse(called.get());
-	assertFalse(thread.isAlive());
 }
-
-// EolLambdaFactory tests
 
 @test
 operation testContextlessSupplier() {

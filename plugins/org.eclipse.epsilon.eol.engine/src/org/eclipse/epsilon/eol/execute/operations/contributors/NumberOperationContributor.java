@@ -29,7 +29,7 @@ public class NumberOperationContributor extends OperationContributor {
 	 * @return Factorial of self.
 	 * @since 1.6
 	 */
-	public Number factorial() {
+	public long factorial() {
 		long n = getTarget().longValue();
         if (n > 20 || n < 0) throw new IllegalArgumentException(n + " is out of range");
         return LongStream.rangeClosed(2, n).reduce(1, (a, b) -> a * b);

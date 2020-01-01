@@ -326,9 +326,17 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * @return A ThreadLocal copy of this context if in parallel, or this context otherwise.
 	 */
 	public IEolContext getShadow() {
-		return isParallelisationLegal() || threadLocalShadows == null ? this : threadLocalShadows.get();
+		return !isInParallelTask || threadLocalShadows == null ? this : threadLocalShadows.get();
 	}
 	
+	/**
+	 * Utility method for converting a sequential context to a parallel one, if it is not already parallel.
+	 * 
+	 * @param context The current execution context to check or convert.
+	 * @return The context if it is already parallel, or a new {@link EolContextParallel} with state
+	 * copied over from the context parameter.
+	 * @throws EolNestedParallelismException If the context is already derived from a parallel context.
+	 */
 	public static IEolContextParallel convertToParallel(IEolContext context) throws EolNestedParallelismException {
 		if (context instanceof IEolContextParallel) return (IEolContextParallel) context;
 		Object cModule = context.getModule();
@@ -418,6 +426,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 			return null;
 		}
 			
-		throw new IllegalArgumentException("Received unexpected object of type "+job.getClass().getName());
+		throw new IllegalArgumentException("Encountered unexpected object of type "+job.getClass().getName());
 	}
 }
