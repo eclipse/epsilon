@@ -210,8 +210,7 @@ public class EglModule extends EolModule implements IEglModule {
 			final ParseProblem problem = parseProblems.get(index);
 			
 			if (!(problem instanceof EglParseProblem)) {
-				parseProblems.remove(index);
-				parseProblems.add(index, new EglParseProblem(problem, preprocessor.getTrace()));
+				parseProblems.set(index, new EglParseProblem(problem, preprocessor.getTrace()));
 			}
 		}
 		

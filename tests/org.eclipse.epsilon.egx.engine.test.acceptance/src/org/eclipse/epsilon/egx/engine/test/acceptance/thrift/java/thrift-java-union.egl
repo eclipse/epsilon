@@ -190,7 +190,7 @@ operation Union printTupleSchemeRead() {%]
     _Fields setField = _Fields.findByThriftId(fieldID);
     if (setField != null) {
       switch (setField) {
-      [% for (field in self.fields) {%]
+      [% for (field in self.fields) if (field <> null) {%]
         case [%=field.~capsIdentifier%]:
           [%=field.javaType(true)%] [%=field.identifier%];
           [% field.printDeserialize("", true, "          "); %]
@@ -209,7 +209,7 @@ operation Union printTupleSchemeWrite() {%]
   @Override
   protected void tupleSchemeWriteValue(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     switch (setField_) {
-    [% for (field in self.fields) {%]
+    [% for (field in self.fields) if (field <> null) {%]
       case [%=field.~capsIdentifier%]:
         [%=field.javaType(true)%] [%=field.identifier%] = ([%=field.javaType(true)%])value_;
         [% field.printSerialize("", true, "        ");%]
@@ -222,7 +222,7 @@ operation Union printTupleSchemeWrite() {%]
 [%}
 
 operation Union printBoilerplate() {
-	for (field in self.fields) {
+	for (field in self.fields) if (field <> null) {
 		field.printComment("  "); %]
   public [%=field.javaType()%] get[%=field.~accessorName%]() {
     if (getSetField() == _Fields.[%=field.~capsIdentifier%]) {

@@ -10,10 +10,11 @@
 package org.eclipse.epsilon.egl.dom;
 
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
-import org.eclipse.epsilon.egl.output.OutputBuffer;
+import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.eol.dom.Operation;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.Return;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
@@ -21,10 +22,13 @@ public class TemplateOperation extends Operation {
 
 	@Override
 	protected Return executeBody(IEolContext context) throws EolRuntimeException {
-		final IEglContext parentContext = (IEglContext) context;
-		final OutputBuffer out = new OutputBuffer(parentContext);
-		context.getFrameStack().put(Variable.createReadOnlyVariable("out", out));
+		final IEglContext eglContext = (IEglContext) context;
+		final IOutputBuffer out = eglContext.newOutputBuffer();
+		final String outName = "out";
+		final FrameStack frameStack = context.getFrameStack();
+		frameStack.put(Variable.createReadOnlyVariable(outName, out));
 		super.executeBody(context);
+		//frameStack.remove(outName);	
 		return new Return(out.toString());
 	}
 	

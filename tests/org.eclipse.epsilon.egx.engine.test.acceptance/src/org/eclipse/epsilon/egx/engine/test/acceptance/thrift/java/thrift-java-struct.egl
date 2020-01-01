@@ -73,7 +73,7 @@ public [%=isInner.ternary("static ", "")%]class [%=identifier%][%=isException.te
 
   @Override
   public void clear() {
-[% for (field in fields) {
+[% for (field in fields) if (field <> null) {
 	if (field.isPrimitive()) {%]
     set[%=field.~accessorName%]IsSet(false);
 [%		if (field.javaType().startsWith("bool")) {%]
@@ -92,7 +92,7 @@ public [%=isInner.ternary("static ", "")%]class [%=identifier%][%=isException.te
 [% struct.printBoilerplate(); %]
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    [% for (field in fields) {%]
+    [% for (field in fields) if (field <> null) {%]
     case [%=field.~capsIdentifier%]:
       if (value == null) {
         unset[%=field.~accessorName%]();
@@ -107,7 +107,7 @@ public [%=isInner.ternary("static ", "")%]class [%=identifier%][%=isException.te
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    [% for (field in fields) {%]
+    [% for (field in fields) if (field <> null) {%]
     case [%=field.~capsIdentifier%]:
       return [%="get".changeIf(field.fieldType.isBool(), "is")+field.~accessorName%]();
 
@@ -485,7 +485,7 @@ operation Struct printTupleReader() {%]
 		reqField.printDeserialize("struct.", false, "        "); %]
       struct.set[%=reqField.~accessorName%]IsSet(true);
 	[%}
-	var optionals = self.fields.select(f | not f.isRequired());
+	var optionals = self.fields.reject(f | f.isRequired());
 	var optionalCount = optionals.size();
 	if (optionalCount > 0) {%]
       BitSet incoming = iprot.readBitSet([%=optionalCount%]);
@@ -502,7 +502,7 @@ operation Struct printTupleReader() {%]
 operation Struct printBoilerplate() {
 	var structName : String = self.identifier;
 	var issetPrimitive : Boolean = self.issetType() == "PRIMITIVE";
-	for (field in self.fields) {
+	for (field in self.fields) if (field <> null) {
 		var type : FieldType = field.fieldType;
 		var javaType : String = field.javaType();
 		var acName : String = field.~accessorName;

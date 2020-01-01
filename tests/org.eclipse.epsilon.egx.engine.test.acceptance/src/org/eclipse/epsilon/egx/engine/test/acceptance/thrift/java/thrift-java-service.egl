@@ -109,12 +109,12 @@ public class [%=identifier%] {
     }
 
     public static class [%=func.identifier%]_call extends org.apache.thrift.async.TAsyncMethodCall {
-      [% for (arg in func.args) {%]
+      [% for (arg in func.args) if (arg <> null) {%]
       private [%=arg.javaType()%] [%=arg.identifier%];
       [%}%]
       public [%=func.identifier%]_call([%=func.getArgs(true, true)%]org.apache.thrift.async.AsyncMethodCallback resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, [%=func.isOneway.ternary("true", "false")%]);
-        [% for (arg in func.args) {%]
+        [% for (arg in func.args) if (arg <> null) {%]
         this.[%=arg.identifier%] = [%=arg.identifier%];
         [%}%]
       }

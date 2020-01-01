@@ -121,15 +121,18 @@ operation String resolveJavaType() : String {
 
 @cached
 operation Const javaType() : String {
+	if (self.fieldType.isUndefined()) return "";
 	return self.fieldType.javaType();
 }
 
 @cached
 operation Field javaType() : String {
+	if (self.fieldType.isUndefined()) return "";
 	return self.fieldType.javaType();
 }
 
 operation Field javaType(generic : Boolean) : String {
+	if (self.fieldType.isUndefined()) return "";
 	return self.fieldType.javaType(generic);
 }
 
@@ -153,11 +156,12 @@ operation FieldType javaType() : String {
 
 @cached
 operation Field concreteJavaType() : String {
+	if (self.fieldType.isUndefined()) return "";
 	return self.fieldType.concreteJavaType();
 }
 
 operation FieldType concreteJavaType() : String {
-	if (not self.~concreteJavaType.isDefined()) {
+	if (self.~concreteJavaType.isUndefined()) {
 		self.~concreteJavaType = self.javaType().concreteJavaType();
 	}
 	return self.~concreteJavaType;
@@ -196,7 +200,10 @@ operation Function getType(generic : Boolean) : String {
 	if (self.isVoid()) {
 		return generic.ternary("Void", "void");
 	}
-	return self.funcType.fieldType.javaType(generic);
+	if (self.funcType.isDefined() and self.funcType.fieldType.isDefined()) {
+		return self.funcType.fieldType.javaType(generic);
+	}
+	return "";
 }
 
 operation Function isPrimitive() : Boolean {
@@ -227,7 +234,7 @@ operation Function getArgs(includeTypes : Boolean, includeContinuation : Boolean
 operation Function getArgs(includeTypes : Boolean, prefixText : String, continuation : String) : String {
 	var argstr : String = "";
 	for (arg in self.args) {
-		if (includeTypes) {
+		if (includeTypes and arg.fieldType.isDefined()) {
 			argstr += arg.fieldType.javaType()+' ';
 		}
 		argstr += prefixText+arg.identifier+", ";
@@ -263,7 +270,9 @@ operation Field getDeclaration(visibility : String, reqComment : Boolean, sep : 
 	if (visibility.isDefined() and visibility.length() > 0) {
 		decStr = visibility+' ';
 	}
-	decStr += self.fieldType.javaType()+' '+self.identifier+sep;
+	if (self.fieldType.isDefined()) {
+		decStr += self.fieldType.javaType()+' '+self.identifier+sep;
+	}
 	if (reqComment) {
 		var requiredness : String = "required";
 		if (self.fieldReq.isDefined() and self.fieldReq.literal == "optional")
@@ -467,10 +476,10 @@ operation FieldType printSerialize(prefix : String, identifier : String, hasMeta
 		}
 		out.println(name+".size())"+("".changeIf(hasMetadata, ")"))+';');
 		out.print(padding+"for (");
-		if (self.isMap()) {
+		if (self.isMap() and container.keyType.isDefined() and container.valType.isDefined()) {
 			out.print("Map.Entry<"+container.keyType.javaType()+", "+container.valType.javaType()+"> "+iterName+" : "+name+".entrySet()");
 		}
-		else {
+		else if (container.fieldType.isDefined()) {
 			out.print(container.fieldType.javaType()+' '+iterName+" : "+name);
 		}
 		out.println(')');
@@ -538,13 +547,13 @@ operation FieldType printDeserialize(prefix : String, identifier : String, hasMe
 		var colElem : String;
 		var keyElem : String;
 		var valElem : String;
-		if (isMap) {
+		if (isMap and container.keyType.isDefined() and container.valType.isDefined()) {
 			keyElem = "_key".iterNum();
 			valElem = "_val".iterNum();
 			out.println(padding+container.keyType.javaType()+' '+keyElem+';');
 			out.println(padding+container.valType.javaType()+' '+valElem+';');
 		}
-		else {
+		else if (container.fieldType.isDefined()) {
 			colElem = "_elem".iterNum();
 			out.println(padding+container.fieldType.javaType()+' '+colElem+';');
 		}
@@ -557,7 +566,7 @@ operation FieldType printDeserialize(prefix : String, identifier : String, hasMe
 			container.valType.printDeserialize("", valElem, hasMetadata, padding);
 			out.println(padding+name+".put("+keyElem+", "+valElem+");");
 		}
-		else {
+		else if (container.fieldType.isDefined()) {
 			container.fieldType.printDeserialize("", colElem, hasMetadata, padding);
 			out.println(padding+name+".add("+colElem+");");
 		}

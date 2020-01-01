@@ -55,11 +55,11 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 			thriftModels, thriftMetamodel, "egx",
 			thriftBase+"ruby/", thriftBase, thriftBase
 		));
-		/*thriftInputs.addAll(addAllInputs(
+		thriftInputs.addAll(addAllInputs(
 			new String[]{thriftScripts[1]},
 			thriftModels, thriftMetamodel, "egx",
 			thriftBase+"java/", thriftBase, thriftBase
-		));*/
+		));
 		allInputs.addAll(ecoreInputs);
 		allInputs.addAll(thriftInputs);
 	}
