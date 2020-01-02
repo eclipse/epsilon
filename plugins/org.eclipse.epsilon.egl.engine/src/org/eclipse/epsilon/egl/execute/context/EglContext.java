@@ -45,21 +45,23 @@ public class EglContext extends EolContext implements IEglContext {
 		this.classpathNativeTypeDelegate = new EolClasspathNativeTypeDelegate(getClass().getClassLoader());
 		this.templateFactory = templateFactory != null ? templateFactory : new EglTemplateFactory(this);
 		setOperationFactory(new EglOperationFactory());
-		getFrameStack().put(
-			Variable.createReadOnlyVariable("TemplateFactory", templateFactory),
-			Variable.createReadOnlyVariable("openTag",       "[%"),
-			Variable.createReadOnlyVariable("openOutputTag", "[%="),
-			Variable.createReadOnlyVariable("closeTag",       "%]")
-		);
+		populateFrameStack();
 	}
 	
+	/**
+	 * Copy constructor, intended for internal use only.
+	 * 
+	 * @param other The base context.
+	 * @since 1.6
+	 */
 	public EglContext(IEglContext other) {
 		super(other);
 		frameStack = new FrameStack(other.getFrameStack());
 		executorFactory = new ExecutorFactory(other.getExecutorFactory());
 	 	templateFactory = other.getTemplateFactory();
 	 	methodContributorRegistry = other.getOperationContributorRegistry();
-		setPartitioner(other.getPartitioner());
+	 	populateFrameStack();
+		//setPartitioner(other.getPartitioner());
 		setContentTypeRepository(other.getContentTypeRepository());
 		if (other instanceof EglContext) {
 			EglContext eglContext = (EglContext) other;
@@ -68,6 +70,15 @@ public class EglContext extends EolContext implements IEglContext {
 	 	else {
 	 		statusMessages.addAll(other.getStatusMessages());
 	 	}
+	}
+	
+	private void populateFrameStack() {
+		getFrameStack().put(
+			Variable.createReadOnlyVariable("TemplateFactory", templateFactory),
+			Variable.createReadOnlyVariable("openTag",       "[%"),
+			Variable.createReadOnlyVariable("openOutputTag", "[%="),
+			Variable.createReadOnlyVariable("closeTag",       "%]")
+		);
 	}
 
 	@Override

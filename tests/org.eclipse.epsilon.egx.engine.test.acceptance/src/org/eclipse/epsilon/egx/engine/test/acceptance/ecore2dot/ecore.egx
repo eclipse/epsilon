@@ -1,3 +1,7 @@
+pre {
+	var outputRoot = "output/";
+}
+
 rule All2Dot {
 	parameters : Map {
 		"classes" = EClass.all, 
@@ -6,10 +10,10 @@ rule All2Dot {
 		"icon" = "diagram-ff0000"
 	}
 	template: "ecore2dot.egl"
-	target: "output/ecoredot.txt"
+	target: outputRoot+"ecoredot.txt"
 }
 
-/*rule Ecore23D {
+rule Ecore23D {
 	parameters : Map {
 		"classes" = EClass.all, 
 		"format" = "html",
@@ -17,7 +21,8 @@ rule All2Dot {
 		"icon" = "diagram-fffbd7"
 	}
 	template: "ecore23d.egl"
-}*/
+	target: outputRoot+"ecore23d.txt"
+}
 
 rule Ecore2Barchart {
 	parameters : Map {
@@ -27,7 +32,7 @@ rule Ecore2Barchart {
 		"icon" = "barchart"
 	}
 	template: "stats.egl"
-	target: "output/barchart.txt"
+	target: outputRoot+"barchart.txt"
 }
 
 @parallel
@@ -46,5 +51,5 @@ rule EClass2Dot
 		};
 	}
 	template: "eclass2dot.egl"
-	target: "output/eclassdot.txt"
+	target: outputRoot+"eclassdot.txt"
 }
