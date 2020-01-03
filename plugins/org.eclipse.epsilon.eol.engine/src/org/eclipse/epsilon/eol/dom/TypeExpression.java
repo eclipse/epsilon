@@ -53,7 +53,7 @@ public class TypeExpression extends Expression {
 			if (moduleElement instanceof TypeExpression) {
 				parameterTypeExpressions.add((TypeExpression) moduleElement);
 			}
-			else if (name.equals("Native")) {
+			else if ("Native".equals(name)) {
 				nativeType = (StringLiteral) moduleElement;	
 			}
 		}
@@ -64,7 +64,7 @@ public class TypeExpression extends Expression {
 
 		if (type != null) return type;
 		
-		if (getName().equals("Native")) {
+		if ("Native".equals(getName())) {
 			return new EolNativeType(nativeType, context);
 		}
 		
