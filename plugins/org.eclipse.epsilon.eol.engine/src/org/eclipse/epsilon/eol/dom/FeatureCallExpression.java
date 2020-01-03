@@ -25,6 +25,12 @@ public abstract class FeatureCallExpression extends Expression {
 	protected boolean arrow;
 	protected Expression targetExpression;
 	
+	/**
+	 * The feaure name expression.
+	 * @since 1.6
+	 */
+	protected NameExpression nameExpression;
+	
 	public boolean isArrow() {
 		return arrow;
 	}
@@ -91,5 +97,24 @@ public abstract class FeatureCallExpression extends Expression {
 	
 	public void setTargetExpression(Expression targetExpression) {
 		this.targetExpression = targetExpression;
+	}
+	
+	
+	/**
+	 * 
+	 * @param nameExpression
+	 * @since 1.6
+	 */
+	public void setNameExpression(NameExpression nameExpression) {
+		this.nameExpression = nameExpression;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public NameExpression getNameExpression() {
+		return nameExpression;
 	}
 }

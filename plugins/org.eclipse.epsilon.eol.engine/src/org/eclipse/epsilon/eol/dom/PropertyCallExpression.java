@@ -28,25 +28,23 @@ import org.eclipse.epsilon.eol.types.EolType;
 
 public class PropertyCallExpression extends FeatureCallExpression {
 	
-	protected NameExpression propertyNameExpression;
-	
 	public PropertyCallExpression() {}
 	
 	public PropertyCallExpression(Expression targetExpression, NameExpression propertyNameExpression) {
 		this.targetExpression = targetExpression;
-		this.propertyNameExpression = propertyNameExpression;
+		this.nameExpression = propertyNameExpression;
 	}
 	
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
 		targetExpression = (Expression) module.createAst(cst.getFirstChild(), this);
-		propertyNameExpression = (NameExpression) module.createAst(cst.getSecondChild(), this);
+		nameExpression = (NameExpression) module.createAst(cst.getSecondChild(), this);
 	}
 	
 	public Object execute(IEolContext context, boolean returnSetter) throws EolRuntimeException {
 		Object source = context.getExecutorFactory().execute(targetExpression, context);
-		return execute(source, propertyNameExpression, context, returnSetter);
+		return execute(source, nameExpression, context, returnSetter);
 	}
 	
 	public Object execute(Object source, NameExpression propertyNameExpression, IEolContext context, boolean returnSetter) throws EolRuntimeException {
@@ -85,13 +83,13 @@ public class PropertyCallExpression extends FeatureCallExpression {
 		targetExpression.compile(context);
 		
 		// Extended properties
-		if (propertyNameExpression.getName().startsWith("~")) {
+		if (nameExpression.getName().startsWith("~")) {
 			resolvedType = EolAnyType.Instance;
 		}
 		// e.g. EPackage.all
 		else if (targetExpression instanceof NameExpression && ((NameExpression) targetExpression).isTypeName()) {
 			if (((NameExpression) targetExpression).getResolvedType() instanceof EolModelElementType) {
-				if (propertyNameExpression.getName().equals("all") || propertyNameExpression.getName().equals("allInstances")) {
+				if (nameExpression.getName().equals("all") || nameExpression.getName().equals("allInstances")) {
 					resolvedType = new EolCollectionType("Sequence", targetExpression.getResolvedType());
 				}
 			}
@@ -111,7 +109,7 @@ public class PropertyCallExpression extends FeatureCallExpression {
 			}
 			
 			if (metaClass != null) {
-				StructuralFeature structuralFeature = metaClass.getStructuralFeature(propertyNameExpression.getName());
+				StructuralFeature structuralFeature = metaClass.getStructuralFeature(nameExpression.getName());
 				if (structuralFeature != null) {
 					if (structuralFeature.isMany()) {
 						EolCollectionType collectionType = null;
@@ -138,7 +136,7 @@ public class PropertyCallExpression extends FeatureCallExpression {
 					}
 				}
 				else {
-					context.addWarningMarker(propertyNameExpression, "Structural feature " + propertyNameExpression.getName() + " not found in type " + metaClass.getName());
+					context.addWarningMarker(nameExpression, "Structural feature " + nameExpression.getName() + " not found in type " + metaClass.getName());
 				}
 			}
 			
@@ -146,10 +144,6 @@ public class PropertyCallExpression extends FeatureCallExpression {
 	}
 	
 	public NameExpression getPropertyNameExpression() {
-		return propertyNameExpression;
-	}
-	
-	public void setPropertyNameExpression(NameExpression propertyNameExpression) {
-		this.propertyNameExpression = propertyNameExpression;
+		return getNameExpression();
 	}
 }

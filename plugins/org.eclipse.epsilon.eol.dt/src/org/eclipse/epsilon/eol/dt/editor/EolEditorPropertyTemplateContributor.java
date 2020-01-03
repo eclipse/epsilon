@@ -46,7 +46,9 @@ public class EolEditorPropertyTemplateContributor implements IAbstractModuleEdit
 	}
 	
 	protected void findProperties(ModuleElement root) {
-		if (root instanceof PropertyCallExpression) { properties.add(((PropertyCallExpression) root).getPropertyNameExpression().getName()); }
+		if (root instanceof PropertyCallExpression) {
+			properties.add(((PropertyCallExpression) root).getNameExpression().getName());
+		}
 		for (ModuleElement child : root.getChildren()) {
 			findProperties(child);
 		}

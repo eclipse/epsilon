@@ -28,7 +28,6 @@ import org.eclipse.epsilon.eol.types.*;
 
 public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 	
-	protected NameExpression nameExpression;
 	protected List<Parameter> parameters = new ArrayList<>(2);
 	protected List<Expression> expressions = new ArrayList<>(3);
 	
@@ -221,14 +220,6 @@ public class FirstOrderOperationCallExpression extends FeatureCallExpression {
 		else {
 			context.addErrorMarker(nameExpression, "Operation " + name + " only applies to collections");
 		}
-	}
-	
-	public NameExpression getNameExpression() {
-		return nameExpression;
-	}
-	
-	public void setNameExpression(NameExpression nameExpression) {
-		this.nameExpression = nameExpression;
 	}
 	
 	public List<Parameter> getParameters() {

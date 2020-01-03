@@ -47,7 +47,7 @@ public class PropertyAccessExecutionListener implements IExecutionListener {
 			PropertyCallExpression propertyCallExpression = (PropertyCallExpression) ast;
 			
 			final Object modelElement = cache.get(propertyCallExpression.getTargetExpression());
-			final String propertyName = propertyCallExpression.getPropertyNameExpression().getName();
+			final String propertyName = propertyCallExpression.getNameExpression().getName();
 			
 			if (isModelBasedProperty(modelElement, propertyName, context)) {
 				for (IPropertyAccessRecorder recorder : this.recorders) {

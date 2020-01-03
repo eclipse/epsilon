@@ -44,7 +44,7 @@ public class MatchesOperation extends SimpleOperation {
 		Iterator<?> lit = leftColFlat.iterator();
 		Iterator<?> rit = rightColFlat.iterator();
 		
-		while (lit.hasNext()) {
+		while (lit.hasNext() && rit.hasNext()) {
 			if (!matchInstances(lit.next(), rit.next(), context)) {
 				return false;
 			}

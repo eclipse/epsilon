@@ -29,7 +29,6 @@ import org.eclipse.epsilon.eol.parse.EolParser;
  */
 public class ComplexOperationCallExpression extends FeatureCallExpression {
 
-	protected NameExpression nameExpression;
 	protected LinkedHashMap<Expression, List<Parameter>> complexParameters = new LinkedHashMap<>(4);
 	
 	@Override
@@ -75,14 +74,6 @@ public class ComplexOperationCallExpression extends FeatureCallExpression {
 	@Override
 	public void compile(EolCompilationContext context) {
 		// TODO Auto-generated method stub
-	}
-
-	public NameExpression getNameExpression() {
-		return nameExpression;
-	}
-	
-	public void setNameExpression(NameExpression nameExpression) {
-		this.nameExpression = nameExpression;
 	}
 	
 	public LinkedHashMap<Expression, List<Parameter>> getComplexParameters() {

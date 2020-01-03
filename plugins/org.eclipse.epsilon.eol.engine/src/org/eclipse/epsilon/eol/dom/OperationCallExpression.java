@@ -32,7 +32,6 @@ import org.eclipse.epsilon.eol.types.EolUndefined;
 public class OperationCallExpression extends FeatureCallExpression {
 	
 	protected final ArrayList<Expression> parameterExpressions = new ArrayList<>(0);
-	protected NameExpression nameExpression;
 	protected boolean contextless;
 	
 	public OperationCallExpression() {
@@ -211,9 +210,5 @@ public class OperationCallExpression extends FeatureCallExpression {
 	
 	public List<Expression> getParameterExpressions() {
 		return parameterExpressions;
-	}
-	
-	public NameExpression getNameExpression() {
-		return nameExpression;
 	}
 }
