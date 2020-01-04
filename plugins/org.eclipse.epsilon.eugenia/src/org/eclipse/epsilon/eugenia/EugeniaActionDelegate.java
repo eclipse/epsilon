@@ -25,13 +25,16 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.concurrent.EolModuleParallel;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.Model;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -59,6 +62,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		return this;
 	}
 	
+	@Override
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		this.shell = targetPart.getSite().getShell();
 	}
@@ -75,8 +79,10 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		return false;
 	}
 	
+	@Override
 	public void run(final IAction action) {
 		Job job = new Job(getTitle()) {
+			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
 					runImpl(action);
@@ -86,14 +92,8 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 					// from being logged
 					LogUtil.log(ex);
 					
-					PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-
-						public void run() {
-							MessageDialog.openError(shell, "Error",
-							"An error has occured. Please see the Error Log.");
-						}
-						
-					});
+					PlatformUI.getWorkbench().getDisplay().syncExec(() -> MessageDialog.openError(shell, "Error",
+					"An error has occured. Please see the Error Log."));
 				}
 				return Status.OK_STATUS;
 			}
@@ -124,7 +124,7 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	}
 
 	public IEolModule createBuiltinModule() throws EolRuntimeException {
-		return new EolModule();
+		return new EolModuleParallel();
 	}
 	
 	public IEolModule createCustomizationModule() throws EolRuntimeException {
@@ -154,18 +154,12 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 			throw new Exception("Syntax error(s) in the built-in transformation " + uri + ": " + builtin.getParseProblems());
 		}
 		
-		for (Variable variable : getExtraVariables()) {
-			builtin.getContext().getFrameStack().put(variable);
-		}
-		
-		for (IModel model : getModels()) {
-			builtin.getContext().getModelRepository().addModel(model);
-		}
-
-		
+		builtin.getContext().getFrameStack().put(getExtraVariables());
+		builtin.getContext().getModelRepository().addModels(getModels());
 		builtin.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
 		builtin.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
 		builtin.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
+		
 		if (clearConsole) EpsilonConsole.getInstance().clear();
 		
 		try {
@@ -175,20 +169,14 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 				File customizationFile = new File(customizationPath);
 				if (customizationFile.exists()) {
 					customization.parse(customizationFile);
-					if (customization.getParseProblems().size() == 0) {
+					if (customization.getParseProblems().isEmpty()) {
 						customization.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
 						customization.getContext().setModelRepository(builtin.getContext().getModelRepository());
 						customization.getContext().setErrorStream(EpsilonConsole.getInstance().getErrorStream());
 						customization.getContext().setOutputStream(EpsilonConsole.getInstance().getDebugStream());
 						customization.getContext().setExtendedProperties(builtin.getContext().getExtendedProperties());
-						for (Variable variable : getExtraVariables()) {
-							customization.getContext().getFrameStack().put(variable);
-						}
-						if (getExtraModels() != null) {
-							for (IModel model : getExtraModels()) {
-								customization.getContext().getModelRepository().addModel(model);
-							}
-						}
+						customization.getContext().getFrameStack().put(getExtraVariables());
+						customization.getContext().getModelRepository().addModels(getExtraModels());
 						preExecuteCustomisation(customization);
 						customization.execute();
 					}
@@ -233,20 +221,20 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 		properties.put(EmfModel.PROPERTY_MODEL_URI, org.eclipse.emf.common.util.URI.createURI(path, true));
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, nsUri);
 		properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "false");
-		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad + "");
-		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, storeOnDisposal + "");
-		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
-		properties.put(EmfModel.PROPERTY_NAME, name);
+		properties.put(Model.PROPERTY_READONLOAD, readOnLoad + "");
+		properties.put(Model.PROPERTY_STOREONDISPOSAL, storeOnDisposal + "");
+		properties.put(AbstractEmfModel.PROPERTY_EXPAND, expand + "");
+		properties.put(Model.PROPERTY_NAME, name);
 		
 		//model.load(properties, EclipseUtil.getWorkspacePath());
 		model.load(properties);
 		return model;
 	}
 	
+	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		Iterator<?> it = ((IStructuredSelection) selection).iterator();
-		
-		if (it.hasNext()){
+		if (it.hasNext()) {
 			setSelection((IResource) it.next());
 		}
 	}

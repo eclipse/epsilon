@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
+import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.models.transactions.ModelRepositoryTransactionSupport;
@@ -32,6 +32,20 @@ public class ModelRepository {
 	}
 	
 	public void addModels(IModel... models) {
+		if (models == null || models.length == 0) return;
+		CollectionUtil.addCapacityIfArrayList(this.models, models.length);
+		for (IModel model : models)
+			addModel(model);
+	}
+	
+	/**
+	 * 
+	 * @param models
+	 * @since 1.6
+	 */
+	public void addModels(Collection<? extends IModel> models) {
+		if (models == null || models.isEmpty()) return;
+		CollectionUtil.addCapacityIfArrayList(this.models, models.size());
 		for (IModel model : models)
 			addModel(model);
 	}
