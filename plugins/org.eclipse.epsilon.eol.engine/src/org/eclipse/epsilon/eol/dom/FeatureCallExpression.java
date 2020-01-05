@@ -117,4 +117,14 @@ public abstract class FeatureCallExpression extends Expression {
 	public NameExpression getNameExpression() {
 		return nameExpression;
 	}
+	
+	/**
+	 * Convenience method for <code>getNameExpression().getName()</code>.
+	 * 
+	 * @return The name of the feature call, or <code>null</code> if absent.
+	 * @since 1.6
+	 */
+	public String getName() {
+		return nameExpression != null ? nameExpression.getName() : null;
+	}
 }
