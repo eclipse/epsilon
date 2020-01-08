@@ -67,13 +67,13 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	public Collection<Object> execute(IEolContext context) throws EolRuntimeException{
 		Collection<Object> collection = null; 
 		
-		if (collectionType.equals("Sequence") || collectionType.equals("List")) {
+		if ("Sequence".equals(collectionType) || "List".equals(collectionType)) {
 			collection = new EolSequence<>();
 		}
-		else if (collectionType.equals("Set")){
+		else if ("Set".equals(collectionType)) {
 			collection = new EolSet<>();
 		}
-		else if (collectionType.equals("OrderedSet")){
+		else if ("OrderedSet".equals(collectionType)) {
 			collection = new EolOrderedSet<>();
 		}
 		else {

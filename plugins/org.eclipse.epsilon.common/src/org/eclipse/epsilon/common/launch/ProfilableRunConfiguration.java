@@ -345,15 +345,17 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 	}
 	
 	public final void writeOut(Object... lines) {
+		if (lines == null || lines.length == 0) return;
 		writeOut(Arrays.asList(lines));
 	}
 	
 	protected void writeOut(Collection<?> lines) {
+		if (lines == null || lines.isEmpty()) return;
 		if (outputFile != null) {
 			try {
 				Files.write(
 					outputFile,
-					lines.stream().map(Object::toString).collect(Collectors.toList()),
+					lines.stream().map(Objects::toString).collect(Collectors.toList()),
 					StandardOpenOption.APPEND, StandardOpenOption.CREATE, StandardOpenOption.WRITE
 				);
 				return;
@@ -362,7 +364,7 @@ public abstract class ProfilableRunConfiguration implements Runnable, Callable<O
 				System.err.println("Couldn't write to file '"+outputFile+"': "+iox.getMessage());
 			}
 		}
-		//Fall back to stdout if couldn't write to file
+		// Fall back to stdout if couldn't write to file
 		lines.forEach(System.out::println);
 	}
 	
