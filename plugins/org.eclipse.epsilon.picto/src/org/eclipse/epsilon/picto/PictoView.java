@@ -336,7 +336,7 @@ public class PictoView extends ViewPart {
 				if (renderingMetadata.getFormat().equals("egx")) {
 					
 					EglTemplateFactory templateFactory = new EglTemplateFactory();
-					templateFactory.setTemplateRoot(eglFile.getParentFile().getAbsolutePath());
+					templateFactory.setTemplateRoot(eglFile.getParentFile().toURI().toString());
 					((IEgxModule) module).getContext().setTemplateFactory(templateFactory);
 					
 					ViewTree viewTree = new ViewTree();
