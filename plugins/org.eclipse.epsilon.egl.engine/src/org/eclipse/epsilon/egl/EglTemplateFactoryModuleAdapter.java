@@ -38,7 +38,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 
-public class EglTemplateFactoryModuleAdapter implements IEolModule {
+public class EglTemplateFactoryModuleAdapter implements IEglModule {
 		
 	private EglTemplateFactory factory;
 	private EglTemplate current;
@@ -77,14 +77,17 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 		this.factory = factory;
 	}
 	
+	@Override
 	public EglTemplateFactory getFactory() {
 		return factory;
 	}
 
+	@Override
 	public void setFactory(EglTemplateFactory factory) {
 		this.factory = factory;
 	}
 
+	@Override
 	public EglTemplate getCurrentTemplate() {
 		return current;
 	}
@@ -113,6 +116,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 		return current.getParseProblems().isEmpty();
 	}
 	
+	@Override
 	public boolean parse(String code, URI uri) throws Exception {
 		current = factory.load(code, uri);
 		return current.getParseProblems().isEmpty();
@@ -133,12 +137,13 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 		return Collections.emptyList();
 	}
 	
+	@Override
 	public void reset() {
 		current = null;
 	}
 
 	@Override
-	public IEolContext getContext() {
+	public IEglContext getContext() {
 		return factory.getContext();
 	}
 
@@ -167,6 +172,7 @@ public class EglTemplateFactoryModuleAdapter implements IEolModule {
 		return current.getModule().getOperations();
 	}
 
+	@Override
 	public void setDefaultFormatters(Collection<Formatter> defaultFormatters) {
 		factory.setDefaultFormatters(defaultFormatters);
 	}
