@@ -30,7 +30,7 @@ import org.eclipse.epsilon.epl.execute.PatternMatchModel;
  * The Emg Module is responsible for execution emg scripts. Emg scripts are used
  * to generate models.
  */
-public class EmgModule extends EplModule {
+public class EmgModule extends EplModule implements IEmgModule {
 
 	/**
 	 * Assign the created elements to a list
@@ -69,6 +69,7 @@ public class EmgModule extends EplModule {
 	/**
 	 * @param seed the seed to set
 	 */
+	@Override
 	public void setSeed(long seed) {
 		this.seed = seed;
 	}
@@ -76,6 +77,7 @@ public class EmgModule extends EplModule {
 	/**
 	 * @param useSeed the useSeed to set
 	 */
+	@Override
 	public void setUseSeed(boolean useSeed) {
 		this.useSeed = useSeed;
 	}
@@ -83,6 +85,7 @@ public class EmgModule extends EplModule {
 	/**
 	 * @return the namedCreatedObjects
 	 */
+	@Override
 	public Map<String, List<Object>> getNamedCreatedObjects() {
 		return namedCreatedObjects;
 	}
