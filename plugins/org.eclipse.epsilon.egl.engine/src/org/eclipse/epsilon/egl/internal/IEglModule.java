@@ -23,9 +23,7 @@ public interface IEglModule extends IEolModule {
 	public List<EglMarkerSection> getMarkers();
 	
 	@Override
-	default IEglContext getContext() {
-		return (IEglContext) ((IEolModule) this).getContext();
-	}
+	IEglContext getContext();
 	
 	public Object execute(EglTemplate template, Formatter postprocessor) throws EglRuntimeException;
 
