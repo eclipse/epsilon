@@ -246,6 +246,7 @@ public class PictoView extends ViewPart {
 	protected boolean treeViewerShouldBeVisible;
 	
 	protected boolean isTreeViewerVisible() {
+		if (sashForm.isDisposed()) return false;
 		return sashForm.getSashWidth() > 0;
 	}
 	
