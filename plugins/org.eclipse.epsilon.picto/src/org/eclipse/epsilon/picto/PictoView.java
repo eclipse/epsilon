@@ -137,7 +137,6 @@ public class PictoView extends ViewPart {
 		
 		new BrowserFunction(viewRenderer.getBrowser(), "showView") {
 			public Object function(Object[] arguments) {
-				
 				if (arguments.length == 1) {
 					String viewPath = arguments[0] + "";
 					ViewTree view = (ViewTree) treeViewer.getInput();
@@ -150,7 +149,7 @@ public class PictoView extends ViewPart {
 					treeViewer.setSelection(new TreeSelection(new TreePath(path.toArray())));
 					treeViewer.refresh();
 				}
-				return null;
+				throw new RuntimeException();
 			};
 		};
 		
@@ -162,7 +161,7 @@ public class PictoView extends ViewPart {
 					PictoSource source = getSource(editor);
 					source.showElement(id, uri, editor);
 				}
-				return null;
+				throw new RuntimeException();
 			};
 		};
 		
@@ -506,7 +505,7 @@ public class PictoView extends ViewPart {
 			p.waitFor();
 			
 			if (image.exists()) {
-				viewRenderer.display("<html><body style=\"zoom:" + viewRenderer.getZoom() + "\"><object data=\"" + image.getAbsolutePath() + "\" type=\"image/svg+xml\"></object></body></html>");
+				viewRenderer.display("<html><body style=\"zoom:" + viewRenderer.getZoom() + "\">" + new String(Files.readAllBytes(image.toPath())) + "</body></html>");
 			}
 			else if (log.exists()) {
 				viewRenderer.display(log);
