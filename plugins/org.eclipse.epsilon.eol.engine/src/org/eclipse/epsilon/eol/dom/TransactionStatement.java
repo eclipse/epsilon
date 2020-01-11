@@ -23,12 +23,13 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.eclipse.epsilon.eol.models.ModelRepository;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
 public class TransactionStatement extends Statement {
 	
-	protected List<NameExpression> modelNames = new ArrayList<>();
-	protected StatementBlock body = null;
+	protected List<NameExpression> modelNames = new ArrayList<>(0);
+	protected StatementBlock body;
 	
 	@Override
 	public void build(AST cst, IModule module) {
@@ -42,16 +43,18 @@ public class TransactionStatement extends Statement {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		
-		List<IModel> models = new ArrayList<>(modelNames.size());
+		int modelsSize = modelNames.size();
+		List<IModel> models = new ArrayList<>(modelsSize);
+		ModelRepository modelRepository = context.getModelRepository();
 		
-		if (modelNames.size() > 0) {
+		if (modelsSize > 0) {
 			for (NameExpression modelNameAst : modelNames) {
-				IModel model = context.getModelRepository().getModelByName(modelNameAst.getName());
+				IModel model = modelRepository.getModelByName(modelNameAst.getName());
 				models.add(model);
 			}
 		}
 		else {
-			models.addAll(context.getModelRepository().getModels());
+			models.addAll(modelRepository.getModels());
 		}
 		
 		for (IModel model : models) {

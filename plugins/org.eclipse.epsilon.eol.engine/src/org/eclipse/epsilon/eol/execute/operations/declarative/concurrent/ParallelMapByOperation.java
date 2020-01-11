@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.execute.operations.declarative.concurrent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
@@ -53,9 +52,9 @@ public class ParallelMapByOperation extends MapByOperation {
 		
 		Collection<Entry<?, ?>> intermediates = context.executeAll(expression, jobs);
 		
-		Map<Object, EolSequence<Object>> merged = intermediates
+		return intermediates
 			.parallelStream()
-			.collect(Collectors.toConcurrentMap(
+			.collect(Collectors.toMap(
 				Entry::getKey,
 				entry -> {
 					EolSequence<Object> value = new EolSequence<>();
@@ -65,12 +64,9 @@ public class ParallelMapByOperation extends MapByOperation {
 				(oldVal, newVal) -> {
 					oldVal.addAll(newVal);
 					return oldVal;
-				}
+				},
+				EolMap::new
 			)
 		);
-		
-		EolMap<Object, EolSequence<Object>> results = new EolMap<>();
-		results.putAll(merged);
-		return results;
 	}
 }

@@ -26,7 +26,7 @@ public abstract class FeatureCallExpression extends Expression {
 	protected Expression targetExpression;
 	
 	/**
-	 * The feaure name expression.
+	 * The feature name expression.
 	 * @since 1.6
 	 */
 	protected NameExpression nameExpression;
@@ -69,8 +69,7 @@ public abstract class FeatureCallExpression extends Expression {
 		
 		operation = getOperationFromContext(target, name, owningModel, context);
 		
-		// TODO: Some analysis on targetExpression to see if this is correct
-		if (operation == null) {
+		if (operation == null && nameExpression != null) {
 			operation = new DynamicOperation();
 		}
 		

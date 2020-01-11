@@ -113,14 +113,8 @@ public class DynamicOperation extends AbstractOperation {
 		}
 		
 		// Finally, call the method with the resolved parameters
-		try {
-			return new ObjectMethod(target, resolvedMethod)
-				.execute(operationNameExpression, context, candidateParameterValues);
-		}
-		catch (Throwable ex) {
-			context.getErrorStream().println(ex);
-			throw new EolRuntimeException(ex);
-		}
+		return new ObjectMethod(target, resolvedMethod)
+			.execute(operationNameExpression, context, candidateParameterValues);
 	}
 	
 	static List<Parameter> normalizeParameters(List<Parameter> iterators) {

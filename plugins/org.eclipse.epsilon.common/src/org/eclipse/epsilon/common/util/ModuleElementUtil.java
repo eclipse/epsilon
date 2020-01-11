@@ -37,7 +37,8 @@ public class ModuleElementUtil {
 	protected static <C extends Collection<ModuleElement>> C flattenAST(ModuleElement ast, C collection) {
 		if (ast != null) {
 			collection.add(ast);
-			for (ModuleElement child : ast.getChildren()) {
+			Iterable<? extends ModuleElement> children = ast.getChildren();
+			if (children != null) for (ModuleElement child : children) {
 				collection.addAll(flattenAST(child, collection));
 			}
 		}
