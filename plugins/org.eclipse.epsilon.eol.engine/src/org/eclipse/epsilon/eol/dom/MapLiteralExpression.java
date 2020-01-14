@@ -19,7 +19,7 @@ import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolMap;
 
-public class MapLiteralExpression extends Expression {
+public class MapLiteralExpression extends LiteralExpression {
 	
 	protected List<KeyValueExpressionPair> keyValueExpressionPairs = new ArrayList<>();
 	

@@ -2,7 +2,7 @@ import "utils.eol";
 
 pre {
 	foo();
-	var Thread : new Native("java.lang.Thread");
+	var Thread = Native("java.lang.Thread");
 	var preVar = "my variable";
 	preVar.printlnIf("sealed".isJavaKeyword());
 }
