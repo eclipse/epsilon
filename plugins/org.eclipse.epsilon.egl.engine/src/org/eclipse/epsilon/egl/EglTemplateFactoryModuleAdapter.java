@@ -40,7 +40,7 @@ import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 
 public class EglTemplateFactoryModuleAdapter implements IEglModule {
 		
-	private EglTemplateFactory factory;
+	private EglTemplateFactory templateFactory;
 	private EglTemplate current;
 	
 	public static void main(String[] args) throws Exception {
@@ -74,17 +74,32 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 	}
 	
 	public EglTemplateFactoryModuleAdapter(EglTemplateFactory factory) {
-		this.factory = factory;
+		this.templateFactory = factory;
 	}
 	
 	@Override
-	public EglTemplateFactory getFactory() {
-		return factory;
+	public EglTemplateFactory getTemplateFactory() {
+		return templateFactory;
 	}
-
+	
 	@Override
+	public void setTemplateFactory(EglTemplateFactory templateFactory) {
+		this.templateFactory = templateFactory;
+	}
+	
+	/**
+	 * @deprecated Use {@link #getTemplateFactory()}
+	 */
+	@Deprecated
+	public EglTemplateFactory getFactory() {
+		return getTemplateFactory();
+	}
+	/**
+	 * @deprecated Use {@link #setTemplateFactory()}
+	 */
+	@Deprecated
 	public void setFactory(EglTemplateFactory factory) {
-		this.factory = factory;
+		setTemplateFactory(factory);
 	}
 
 	@Override
@@ -94,31 +109,31 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 	
 	@Override
 	public boolean parse(File file) throws Exception {
-		current = factory.load(file);
+		current = templateFactory.load(file);
 		return getParseProblems().isEmpty();
 	}
 	
 	@Override
 	public boolean parse(URI uri) throws Exception {
-		current = factory.load(uri);
+		current = templateFactory.load(uri);
 		return getParseProblems().isEmpty();
 	}
 	
 	@Override
 	public boolean parse(String code) throws Exception {
-		current = factory.prepare(code);
+		current = templateFactory.prepare(code);
 		return getParseProblems().isEmpty();
 	}
 	
 	@Override
 	public boolean parse(String code, File file) throws Exception {
-		current = factory.load(code, file);
+		current = templateFactory.load(code, file);
 		return current.getParseProblems().isEmpty();
 	}
 	
 	@Override
 	public boolean parse(String code, URI uri) throws Exception {
-		current = factory.load(code, uri);
+		current = templateFactory.load(code, uri);
 		return current.getParseProblems().isEmpty();
 	}
 	
@@ -144,7 +159,7 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 
 	@Override
 	public IEglContext getContext() {
-		return factory.getContext();
+		return templateFactory.getContext();
 	}
 
 	@Override
@@ -174,7 +189,7 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 
 	@Override
 	public void setDefaultFormatters(Collection<Formatter> defaultFormatters) {
-		factory.setDefaultFormatters(defaultFormatters);
+		templateFactory.setDefaultFormatters(defaultFormatters);
 	}
 
 	@Override
@@ -193,7 +208,7 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEglContext) {
-			factory.setContext((IEglContext) context);
+			templateFactory.setContext((IEglContext) context);
 			current.getModule().setContext(context);
 		}
 	}

@@ -25,6 +25,7 @@ import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.EgxModule;
+import org.eclipse.epsilon.egl.IEglModule;
 import org.eclipse.epsilon.egl.engine.traceability.fine.EglFineGrainedTraceContextAdaptor;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
@@ -97,7 +98,7 @@ public class EglTask extends ExportableModuleTask {
 			module.setContext(new EgxContext(templateFactory));
 		}
 		else {		
-			((EglTemplateFactoryModuleAdapter)module).setFactory(templateFactory);
+			((IEglModule) module).setTemplateFactory(templateFactory);
 		}
 		
 		// Turn on fine-grained traceability, and

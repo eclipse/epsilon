@@ -25,9 +25,9 @@ public interface IEglModule extends IEolModule {
 	@Override
 	IEglContext getContext();
 
-	EglTemplateFactory getFactory();
+	EglTemplateFactory getTemplateFactory();
 
-	void setFactory(EglTemplateFactory factory);
+	void setTemplateFactory(EglTemplateFactory factory);
 
 	EglTemplate getCurrentTemplate();
 

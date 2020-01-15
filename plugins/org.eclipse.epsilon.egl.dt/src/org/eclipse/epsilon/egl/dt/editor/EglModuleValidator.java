@@ -17,7 +17,7 @@ import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.common.module.ModuleMarker.Severity;
-import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.IEglModule;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.ExpressionStatement;
@@ -33,7 +33,7 @@ public class EglModuleValidator extends AbstractModuleValidator {
 		if (!appliesTo(module)) return Collections.emptyList();
 		
 		ArrayList<ModuleMarker> markers = new ArrayList<>();
-		IEolModule eglModule = ((EglTemplateFactoryModuleAdapter) module).getCurrentTemplate().getModule();
+		IEolModule eglModule = ((IEglModule) module).getCurrentTemplate().getModule();
 		
 		if (!eglModule.getDeclaredOperations().isEmpty()) {
 			
@@ -59,7 +59,7 @@ public class EglModuleValidator extends AbstractModuleValidator {
 	}
 	
 	protected boolean appliesTo(IModule module) {
-		return module instanceof EglTemplateFactoryModuleAdapter;
+		return module instanceof IEglModule;
 	}
 	
 	protected boolean isEmptyPrintStatement(ModuleElement ast) {

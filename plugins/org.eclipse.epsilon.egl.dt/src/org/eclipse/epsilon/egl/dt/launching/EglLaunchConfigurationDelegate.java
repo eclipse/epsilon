@@ -110,7 +110,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			((IEgxModule)module).getContext().setTemplateFactory(templateFactory);
 		}
 		else {
-			((EglTemplateFactoryModuleAdapter)module).setFactory(templateFactory); 
+			((IEglModule) module).setTemplateFactory(templateFactory); 
 		}
 		return module;		
 	}
@@ -167,7 +167,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 				((IEgxModule) module).getContext().getTemplateFactory().setDefaultFormatters(defaultFormatters);
 			}
 			else {
-				((EglTemplateFactoryModuleAdapter)module).setDefaultFormatters(defaultFormatters);
+				((IEglModule) module).setDefaultFormatters(defaultFormatters);
 			}
 		} catch (CoreException e) {
 			LogUtil.log("Error encountered whilst trying to load postprocessor", e);
@@ -209,12 +209,12 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		
 		final String output = StringUtil.toString(result);
 		
-		if (output != null && output.length() > 0 && module instanceof EglTemplateFactoryModuleAdapter) {
+		if (output != null && output.length() > 0 && module instanceof IEglModule) {
 			if (configuration.getAttribute(EGL_GENERATE_TO, GENERATE_TO_CONSOLE) == GENERATE_TO_CONSOLE) {
 				EpsilonConsole.getInstance().getDebugStream().println(output);
 			}
 			else {
-				storeOutput((EglTemplateFactoryModuleAdapter) module, output);
+				storeOutput((IEglModule) module, output);
 			}
 		}
 		
@@ -234,7 +234,7 @@ public class EglLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 		}
 	}
 
-	private void storeOutput(EglTemplateFactoryModuleAdapter module, final String output) throws CoreException {
+	private void storeOutput(IEglModule module, final String output) throws CoreException {
 		final String outputFilePath = configuration.getAttribute(OUTPUT_FILE_PATH, "");
 		
 		final EglTemplate template = module.getCurrentTemplate();

@@ -21,6 +21,7 @@ import org.eclipse.epsilon.common.parse.Position;
 import org.eclipse.epsilon.common.parse.Region;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
+import org.eclipse.epsilon.egl.IEglModule;
 import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleContentProvider;
 import org.eclipse.epsilon.egl.dt.editor.outline.EglModuleElementLabelProvider;
 import org.eclipse.epsilon.egl.model.EglMarkerSection;
@@ -41,7 +42,7 @@ public class EglEditor extends AbstractModuleEditor {
 			
 			@Override
 			public void moduleParsed(AbstractModuleEditor editor, IModule module_) {
-				EglTemplateFactoryModuleAdapter module = (EglTemplateFactoryModuleAdapter) module_;
+				IEglModule module = (IEglModule) module_;
 				for (IModuleParseListener moduleParseListener : eolEditor.getModuleParsedListeners()) {
 					moduleParseListener.moduleParsed(eolEditor, module);
 				}
