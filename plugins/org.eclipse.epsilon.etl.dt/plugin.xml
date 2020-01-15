@@ -60,7 +60,14 @@
             default="true"
             dialog="org.eclipse.epsilon.etl.dt.launching.EtlModuleConfiguration"
             language="ETL"
-            name="Default">
+            name="Sequential">
+      </implementation>
+      <implementation
+            class="org.eclipse.epsilon.etl.concurrent.EtlModuleParallel"
+            default="false"
+            dialog="org.eclipse.epsilon.etl.dt.launching.EtlModuleParallelConfiguration"
+            language="ETL"
+            name="Parallel">
       </implementation>
    </extension>
 

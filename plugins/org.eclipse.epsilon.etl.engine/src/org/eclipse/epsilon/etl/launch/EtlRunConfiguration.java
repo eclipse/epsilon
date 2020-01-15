@@ -32,7 +32,7 @@ public class EtlRunConfiguration extends IErlRunConfiguration {
 		
 		@Override
 		protected IEtlModule createModule() {
-			return isParallel() ? new EtlModule() : new EtlModuleParallel();
+			return isParallel() ?  new EtlModuleParallel() : new EtlModule();
 		}
 	}
 	
