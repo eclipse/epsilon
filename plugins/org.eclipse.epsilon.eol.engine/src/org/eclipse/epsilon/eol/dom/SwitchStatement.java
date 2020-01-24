@@ -20,6 +20,8 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.flowcontrol.EolContinueException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.Return;
+import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.parse.EolParser;
 
@@ -75,41 +77,37 @@ public class SwitchStatement extends Statement {
 	@Override
 	public Return execute(IEolContext context) throws EolRuntimeException {
 		ExecutorFactory executorFactory = context.getExecutorFactory();
+		FrameStack frameStack = context.getFrameStack();
 		Object switchValue = executorFactory.execute(conditionExpression, context);
 		
 		boolean continue_ = false;
 		
 		for (Case c : cases) {
-			Object caseValue = executorFactory.execute(c.getCondition(), context);
-			
-			if (continue_ || Objects.equals(switchValue, caseValue)) {		
-				try {
-					Object result = executorFactory.execute(c.getBody(), context);
-					if (result instanceof Return) {
-						return (Return) result;
+			frameStack.enterLocal(FrameType.UNPROTECTED, c);
+			try {
+				Object caseValue = executorFactory.execute(c.getCondition(), context);
+				
+				if (continue_ || Objects.equals(switchValue, caseValue)) {
+					try {
+						return executeCaseBody(c, context, executorFactory);
 					}
-					else {
-						return null;
+					catch (EolContinueException ex) {
+						continue_ = true;
 					}
 				}
-				catch (EolContinueException ex) {
-					continue_ = true;
-				}
+			}
+			finally {
+				frameStack.leaveLocal(c);
 			}
 		}
 		
-		if (_default != null) {
-			Object result = executorFactory.execute(_default.getBody(), context);
-			
-			if (result instanceof Return) {
-				return (Return) result;
-			}
-			else {
-				return null;
-			}
-		}
-		
-		return null;
+		return executeCaseBody(getDefault(), context, executorFactory);
+	}
+	
+	private Return executeCaseBody(Case c, IEolContext context, ExecutorFactory executorFactory) throws EolRuntimeException {
+		if (c == null) return null;
+		Object result = executorFactory.execute(c.getBody(), context);
+		return result instanceof Return ? (Return) result : null;
 	}
 	
 	@Override

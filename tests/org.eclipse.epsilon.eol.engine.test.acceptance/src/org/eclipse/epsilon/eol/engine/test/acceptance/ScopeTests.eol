@@ -26,3 +26,20 @@ operation testIfScope() {
 	assertError(x);
 	assertEquals(10, z);
 }
+
+@test
+operation testSwitchScope() {
+	doSwitch("3");
+	doSwitch("1");
+	doSwitch(0);
+}
+
+operation doSwitch(s) {
+	switch (s) {
+		case "1": var a = 6;
+		case "3": var i = s+9;
+		assertEquals(i, "39");
+		return;
+	}
+	assertFalse(a.isDefined());
+}

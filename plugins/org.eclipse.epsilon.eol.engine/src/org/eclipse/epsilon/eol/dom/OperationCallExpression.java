@@ -141,9 +141,10 @@ public class OperationCallExpression extends FeatureCallExpression {
 			parameterValues.add(executorFactory.execute(parameter, context));
 		}
 		
+		Object module = context.getModule();
 		// Execute user-defined operation (if isArrow() == false)
-		if (context.getModule() instanceof IEolModule && !isArrow()) {
-			OperationList operations = ((IEolModule) context.getModule()).getOperations();
+		if (module instanceof IEolModule && !isArrow()) {
+			OperationList operations = ((IEolModule) module).getOperations();
 			Operation helper = operations.getOperation(targetObject, nameExpression, parameterValues, context);
 			if (helper != null) {
 				return helper.execute(targetObject, parameterValues, context);
@@ -178,7 +179,7 @@ public class OperationCallExpression extends FeatureCallExpression {
 		if (operation instanceof SimpleOperation) {
 			return ((SimpleOperation) operation).execute(targetObject, parameterValues, context, nameExpression);
 		}
-		
+
 		// Most likely a FirstOrderOperation or DynamicOperation
 		if (operation != null && targetObject != null && !parameterExpressions.isEmpty()) {
 			return operation.execute(targetObject, nameExpression, new ArrayList<>(0), parameterExpressions, context);
