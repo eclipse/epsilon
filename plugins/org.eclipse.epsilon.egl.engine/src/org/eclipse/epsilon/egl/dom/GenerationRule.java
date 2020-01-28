@@ -45,7 +45,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 	protected ExecutableBlock<Collection<?>> domainBlock;
 	protected ExecutableBlock<String> targetBlock, templateBlock;
 	protected ExecutableBlock<Boolean> guardBlock, overwriteBlock, mergeBlock;
-	protected ExecutableBlock<Void> preBlock, postBlock;
+	protected ExecutableBlock<?> preBlock, postBlock;
 	protected ExecutableBlock<EolMap<String, ?>> parametersBlock;
 	
 	@SuppressWarnings("unchecked")
@@ -61,8 +61,8 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		targetBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TARGET), this);
 		parametersBlock = (ExecutableBlock<EolMap<String, ?>>) module.createAst(AstUtil.getChild(cst, EgxParser.PARAMETERS), this);
 		domainBlock = (ExecutableBlock<Collection<?>>) module.createAst(AstUtil.getChild(cst, EgxParser.DOMAIN), this);
-		preBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EgxParser.PRE), this);
-		postBlock = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EgxParser.POST), this);
+		preBlock = (ExecutableBlock<?>) module.createAst(AstUtil.getChild(cst, EgxParser.PRE), this);
+		postBlock = (ExecutableBlock<?>) module.createAst(AstUtil.getChild(cst, EgxParser.POST), this);
 		overwriteBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.OVERWRITE), this);
 		mergeBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.MERGE), this);
 	}
@@ -138,7 +138,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		context.getInvokedTemplates().add(eglTemplate.getTemplate());
 		
 		if (postBlock != null) {
-			context.getFrameStack().enterLocal(FrameType.UNPROTECTED, postBlock, Variable.createReadOnlyVariable("generated", generated));
+			frameStack.enterLocal(FrameType.UNPROTECTED, postBlock, Variable.createReadOnlyVariable("generated", generated));
 			postBlock.execute(context, false);
 			frameStack.leaveLocal(postBlock);
 		}

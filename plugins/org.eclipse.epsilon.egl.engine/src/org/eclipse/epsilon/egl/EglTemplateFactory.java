@@ -119,7 +119,7 @@ public class EglTemplateFactory {
 		return templateRootPath;
 	}
 	
-	public synchronized void setTemplateRoot(String path) throws EglRuntimeException {
+	public void setTemplateRoot(String path) throws EglRuntimeException {
 		templateRoot = resolveRoot(templateRootPath = path);
 	}
 	

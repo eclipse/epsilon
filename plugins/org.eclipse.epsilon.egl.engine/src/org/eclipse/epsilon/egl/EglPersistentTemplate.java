@@ -110,7 +110,7 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 	 * @param path
 	 * @throws EglRuntimeException
 	 */
-	public void generate(String path) throws EglRuntimeException {
+	public final void generate(String path) throws EglRuntimeException {
 		generate(path, true, true);
 	}
 
@@ -121,6 +121,7 @@ public abstract class EglPersistentTemplate extends EglTemplate {
 	 * @param path
 	 * @param overwrite
 	 * @param merge
+	 * @return The output file.
 	 * @throws EglRuntimeException
 	 */
 	public File generate(String path, boolean overwrite, boolean merge) throws EglRuntimeException {

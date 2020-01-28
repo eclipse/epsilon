@@ -36,38 +36,11 @@ import org.eclipse.epsilon.eol.dom.Statement;
 import org.eclipse.epsilon.eol.dom.StatementBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.control.IExecutionListener;
 
 public class EglTemplateFactoryModuleAdapter implements IEglModule {
 		
 	private EglTemplateFactory templateFactory;
 	private EglTemplate current;
-	
-	public static void main(String[] args) throws Exception {
-		EglTemplateFactoryModuleAdapter module = new EglTemplateFactoryModuleAdapter(new EglTemplateFactory());
-		module.getContext().getExecutorFactory().addExecutionListener(new IExecutionListener() {
-			
-			@Override
-			public void finishedExecutingWithException(ModuleElement ast,
-					EolRuntimeException exception, IEolContext context) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void finishedExecuting(ModuleElement ast, Object result,
-					IEolContext context) {
-				System.out.println("Done");
-			}
-			
-			@Override
-			public void aboutToExecute(ModuleElement ast, IEolContext context) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		module.execute();
-	}
 	
 	public EglTemplateFactoryModuleAdapter() {
 		this(new EglTemplateFactory());
@@ -164,27 +137,27 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 
 	@Override
 	public List<ModelDeclaration> getDeclaredModelDeclarations() {
-		return current.getModule().getDeclaredModelDeclarations();
+		return current.module.getDeclaredModelDeclarations();
 	}
 
 	@Override
 	public OperationList getDeclaredOperations() {
-		return current.getModule().getDeclaredOperations();
+		return current.module.getDeclaredOperations();
 	}
 
 	@Override
 	public List<Import> getImports() {
-		return current.getModule().getImports();
+		return current.module.getImports();
 	}
 
 	@Override
 	public Set<ModelDeclaration> getModelDelcarations() {
-		return current.getModule().getModelDelcarations();
+		return current.module.getModelDelcarations();
 	}
 
 	@Override
 	public OperationList getOperations() {
-		return current.getModule().getOperations();
+		return current.module.getOperations();
 	}
 
 	@Override
@@ -194,54 +167,61 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 
 	@Override
 	public IEolModule getParentModule() {
-		return null;
+		return current.module.getParentModule();
 	}
 
 	@Override
-	public void setParentModule(IEolModule parent) {}
+	public void setParentModule(IEolModule parent) {
+		current.module.setParentModule(parent);
+	}
 
 	@Override
 	public URI getSourceUri() {
-		return null;
+		return current.module.getSourceUri();
 	}
 
 	@Override
 	public void setContext(IEolContext context) {
 		if (context instanceof IEglContext) {
 			templateFactory.setContext((IEglContext) context);
-			current.getModule().setContext(context);
+			current.module.setContext(context);
 		}
 	}
 
 	@Override
 	public EolCompilationContext getCompilationContext() {
-		return current.getModule().getCompilationContext();
+		return current.module.getCompilationContext();
 	}
 
 	@Override
 	public ModuleElement createAst(AST cst, ModuleElement parentAst) {
-		return null;
+		return current.module.createAst(cst, parentAst);
 	}
 
 	@Override
 	public File getFile() {
-		// TODO Auto-generated method stub
-		return null;
+		return current.module.getFile();
 	}
 
 	@Override
 	public URI getUri() {
-		return null;
+		return current.module.getUri();
 	}
 
 	@Override
-	public void setUri(URI uri) {}
+	public void setUri(URI uri) {
+		current.module.setUri(uri);
+	}
 
 	@Override
-	public void setModule(IModule module) {}
+	public void setModule(IModule module) {
+		current.module.setModule(module);
+	}
 	
 	@Override
-	public void build(AST cst, IModule module) {}
+	public void build(AST cst, IModule module) {
+		current.module.build(cst, module);
+	}
 
 	@Override
 	public Region getRegion() {
@@ -249,15 +229,19 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 	}
 
 	@Override
-	public void setRegion(Region region) {}
-
-	@Override
-	public ModuleElement getParent() {
-		return null;
+	public void setRegion(Region region) {
+		current.module.setRegion(region);
 	}
 
 	@Override
-	public void setParent(ModuleElement moduleElement) {}
+	public ModuleElement getParent() {
+		return current.module.getParent();
+	}
+
+	@Override
+	public void setParent(ModuleElement moduleElement) {
+		current.module.setParent(moduleElement);
+	}
 
 	@Override
 	public List<ModuleElement> getChildren() {
@@ -266,17 +250,17 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 
 	@Override
 	public IModule getModule() {
-		return null;
+		return current.module;
 	}
 
 	@Override
 	public StatementBlock getMain() {
-		return null;
+		return current.module.getMain();
 	}
 
 	@Override
 	public List<Statement> getPostOperationStatements() {
-		return Collections.emptyList();
+		return current.module.getPostOperationStatements();
 	}
 
 }

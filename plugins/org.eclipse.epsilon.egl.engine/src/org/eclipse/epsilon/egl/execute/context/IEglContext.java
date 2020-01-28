@@ -100,7 +100,7 @@ public interface IEglContext extends IEolContext {
 		this.setOutputStream(context.getOutputStream());
 		
 		this.setExecutorFactory(new ExecutorFactory(context.getExecutorFactory()));
-		this.getFrameStack().setBase(context.getFrameStack());
+		//this.getFrameStack().setBase(context.getFrameStack());
 		this.setOperationContributorRegistry(context.getOperationContributorRegistry());
 		
 		EolOperationFactory opf = context.getOperationFactory();
