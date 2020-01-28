@@ -82,7 +82,7 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 	@Override
 	public void setTemplateFactory(EglTemplateFactory templateFactory) {
 		if ((this.templateFactory = templateFactory) != null) {
-			templateFactory.setDelegate(this);
+			templateFactory.copyState(this);
 		}
 	}
 

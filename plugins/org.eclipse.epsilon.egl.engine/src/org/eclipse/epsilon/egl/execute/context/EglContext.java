@@ -59,7 +59,6 @@ public class EglContext extends EolContext implements IEglContext {
 		frameStack = new FrameStack(other.getFrameStack());
 		executorFactory = new ExecutorFactory(other.getExecutorFactory());
 	 	templateFactory = other.getTemplateFactory();
-	 	methodContributorRegistry = other.getOperationContributorRegistry();
 	 	populateFrameStack();
 		//setPartitioner(other.getPartitioner());
 		setContentTypeRepository(other.getContentTypeRepository());

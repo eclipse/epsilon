@@ -183,13 +183,6 @@ public class EgxModule extends ErlModule implements IEgxModule {
 		if (result && file != null) getContext().getTemplateFactory().initialiseRoot(file.getAbsoluteFile().getParentFile().toURI());
 		return result;
 	}
-
-	@Override
-	protected void prepareContext() throws EolRuntimeException {
-		super.prepareContext();
-		IEgxContext context = getContext();
-		context.getTemplateFactory().getContext().copyFrom(context);
-	}
 	
 	@Override
 	protected Object processRules() throws EolRuntimeException {

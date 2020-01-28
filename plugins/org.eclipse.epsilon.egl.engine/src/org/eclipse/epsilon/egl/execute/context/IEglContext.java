@@ -20,9 +20,7 @@ import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
-import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 
 public interface IEglContext extends IEolContext {
@@ -79,33 +77,6 @@ public interface IEglContext extends IEolContext {
 		else {
 			setPartitioner(partitioner);
 			return true;
-		}
-	}
-	
-	/**
-	 * Copies the state from the given context into this.
-	 * There are no guarantees about whether this is a shallow or deep copy.
-	 * 
-	 * @param context The context to copy from.
-	 * @since 1.6
-	 */
-	public default void copyFrom(IEolContext context) {
-		this.setIntrospectionManager(context.getIntrospectionManager());
-		this.setModelRepository(context.getModelRepository());
-		this.setUserInput(context.getUserInput());
-		this.setNativeTypeDelegates(context.getNativeTypeDelegates());
-		this.setExtendedProperties(context.getExtendedProperties());
-		this.setPrettyPrinterManager(context.getPrettyPrinterManager());
-		this.setErrorStream(context.getErrorStream());
-		this.setOutputStream(context.getOutputStream());
-		
-		this.setExecutorFactory(new ExecutorFactory(context.getExecutorFactory()));
-		//this.getFrameStack().setBase(context.getFrameStack());
-		this.setOperationContributorRegistry(context.getOperationContributorRegistry());
-		
-		EolOperationFactory opf = context.getOperationFactory();
-		if (this.getOperationFactory().getClass().isInstance(opf)) {
-			this.setOperationFactory(opf);
 		}
 	}
 	

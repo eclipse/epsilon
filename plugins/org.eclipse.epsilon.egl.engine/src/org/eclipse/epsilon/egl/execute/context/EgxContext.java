@@ -80,8 +80,8 @@ public class EgxContext extends ErlContext implements IEgxContext {
 	
 	@Override
 	public void setTemplateFactory(EglTemplateFactory templateFactory) {
-		if ((this.templateFactory = templateFactory) != null && templateFactory.getDelegate() == null) {
-			templateFactory.setDelegate(this);
+		if ((this.templateFactory = templateFactory) != null) {
+			templateFactory.copyState(this);
 		}
 	}
 

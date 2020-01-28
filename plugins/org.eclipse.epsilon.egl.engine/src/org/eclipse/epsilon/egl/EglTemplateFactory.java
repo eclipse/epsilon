@@ -28,11 +28,13 @@ import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecificationFactory;
 import org.eclipse.epsilon.egl.util.FileUtil;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
+import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 
 public class EglTemplateFactory {
 
-	protected IEolContext delegate;
 	protected IEglContext context;
 	protected URI root;
 	private URI templateRoot;
@@ -40,6 +42,7 @@ public class EglTemplateFactory {
 	private Formatter defaultFormatter = new NullFormatter();
 	private IncrementalitySettings defaultIncrementalitySettings = new IncrementalitySettings();
 	private final Collection<ITemplateExecutionListener> listeners = new LinkedList<>();
+	boolean copyContextForNewTemplates = false;
 	
 	public EglTemplateFactory() {
 		this(null);
@@ -49,24 +52,6 @@ public class EglTemplateFactory {
 		this.context = context != null ? context : new EglContext(this);
 	}
 	
-	/**
-	 * 
-	 * @return
-	 * @since 1.6
-	 */
-	public IEolContext getDelegate() {
-		return delegate;
-	}
-
-	 /**
-	  * 
-	  * @param delegate
-	  * @since 1.6
-	  */
-	public void setDelegate(IEolContext delegate) {
-		this.delegate = delegate;
-	}
-
 	public Collection<ITemplateExecutionListener> getTemplateExecutionListeners() {
 		return this.listeners;
 	}
@@ -95,6 +80,7 @@ public class EglTemplateFactory {
 		this.context = context;
 	}
 	
+
 	/**
 	 * Sets the root of this template factory, unless it has already been set.
 	 * @param root The new root.
@@ -261,6 +247,35 @@ public class EglTemplateFactory {
 	}
 
 	/**
+	 * Copies the state from the given context into this factory's IEglContext.
+	 * 
+	 * @param delegate The context to copy from.
+	 */
+	public void copyState(IEolContext delegate) {
+		if (delegate == null) return;
+		copyContextForNewTemplates = delegate instanceof IEolContextParallel;
+		if (context == null) return;//context = new EglContext(this);
+		
+		context.setIntrospectionManager(delegate.getIntrospectionManager());
+		context.setModelRepository(delegate.getModelRepository());
+		context.setUserInput(delegate.getUserInput());
+		context.setNativeTypeDelegates(delegate.getNativeTypeDelegates());
+		context.setExtendedProperties(delegate.getExtendedProperties());
+		context.setPrettyPrinterManager(delegate.getPrettyPrinterManager());
+		context.setErrorStream(delegate.getErrorStream());
+		context.setOutputStream(delegate.getOutputStream());
+		
+		context.setExecutorFactory(new ExecutorFactory(delegate.getExecutorFactory()));
+		//context.getFrameStack().setBase(delegate.getFrameStack());
+		//context.setOperationContributorRegistry(delegate.getOperationContributorRegistry());
+		
+		EolOperationFactory opf = delegate.getOperationFactory();
+		if (context.getOperationFactory().getClass().isInstance(opf)) {
+			context.setOperationFactory(opf);
+		}
+	}
+	
+	/**
 	 * This method should be called when creating a new template from {@link #createTemplate(EglTemplateSpecification)}.
 	 * The rationale is that in some cases this factory's context is not safe to be used directly, so
 	 * a proxy or modifications may be needed instead.
@@ -269,11 +284,7 @@ public class EglTemplateFactory {
 	 * @since 1.6
 	 */
 	protected IEglContext getContextForNewTemplate() {
-		if (delegate == null) return getContext();
-		EglContext tc = new EglContext(getContext());
-		tc.setOperationContributorRegistry(delegate.getOperationContributorRegistry());
-		tc.setExtendedProperties(delegate.getExtendedProperties());
-		return tc;
+		return copyContextForNewTemplates ? new EglContext(context) : context;
 	}
 	
 	private EglTemplateSpecificationFactory createTemplateSpecificationFactory() {
