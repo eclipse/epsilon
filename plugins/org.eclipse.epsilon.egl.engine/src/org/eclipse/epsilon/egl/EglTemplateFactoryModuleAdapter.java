@@ -15,7 +15,6 @@ package org.eclipse.epsilon.egl;
 import java.io.File;
 import java.net.URI;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -122,7 +121,8 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 	
 	@Override
 	public List<ModuleMarker> compile() {
-		return Collections.emptyList();
+		if (current == null) return null;
+		return current.module.compile();
 	}
 	
 	@Override
@@ -137,26 +137,31 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 
 	@Override
 	public List<ModelDeclaration> getDeclaredModelDeclarations() {
+		if (current == null) return null;
 		return current.module.getDeclaredModelDeclarations();
 	}
 
 	@Override
 	public OperationList getDeclaredOperations() {
+		if (current == null) return null;
 		return current.module.getDeclaredOperations();
 	}
 
 	@Override
 	public List<Import> getImports() {
+		if (current == null) return null;
 		return current.module.getImports();
 	}
 
 	@Override
 	public Set<ModelDeclaration> getModelDelcarations() {
+		if (current == null) return null;
 		return current.module.getModelDelcarations();
 	}
 
 	@Override
 	public OperationList getOperations() {
+		if (current == null) return null;
 		return current.module.getOperations();
 	}
 
@@ -167,16 +172,18 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 
 	@Override
 	public IEolModule getParentModule() {
+		if (current == null) return null;
 		return current.module.getParentModule();
 	}
 
 	@Override
 	public void setParentModule(IEolModule parent) {
-		current.module.setParentModule(parent);
+		if (current != null) current.module.setParentModule(parent);
 	}
 
 	@Override
 	public URI getSourceUri() {
+		if (current == null) return null;
 		return current.module.getSourceUri();
 	}
 
@@ -184,82 +191,92 @@ public class EglTemplateFactoryModuleAdapter implements IEglModule {
 	public void setContext(IEolContext context) {
 		if (context instanceof IEglContext) {
 			templateFactory.setContext((IEglContext) context);
-			current.module.setContext(context);
+			if (current != null) current.module.setContext(context);
 		}
 	}
 
 	@Override
 	public EolCompilationContext getCompilationContext() {
+		if (current == null) return null;
 		return current.module.getCompilationContext();
 	}
 
 	@Override
 	public ModuleElement createAst(AST cst, ModuleElement parentAst) {
+		if (current == null) return null;
 		return current.module.createAst(cst, parentAst);
 	}
 
 	@Override
 	public File getFile() {
+		if (current == null) return null;
 		return current.module.getFile();
 	}
 
 	@Override
 	public URI getUri() {
+		if (current == null) return null;
 		return current.module.getUri();
 	}
 
 	@Override
 	public void setUri(URI uri) {
-		current.module.setUri(uri);
+		if (current != null) current.module.setUri(uri);
 	}
 
 	@Override
 	public void setModule(IModule module) {
-		current.module.setModule(module);
+		if (current != null) current.module.setModule(module);
 	}
 	
 	@Override
 	public void build(AST cst, IModule module) {
-		current.module.build(cst, module);
+		if (current != null) current.module.build(cst, module);
 	}
 
 	@Override
 	public Region getRegion() {
+		if (current == null) return null;
 		return current.module.getRegion();
 	}
 
 	@Override
 	public void setRegion(Region region) {
-		current.module.setRegion(region);
+		if (current != null) current.module.setRegion(region);
 	}
 
 	@Override
 	public ModuleElement getParent() {
+		if (current == null) return null;
 		return current.module.getParent();
 	}
 
 	@Override
 	public void setParent(ModuleElement moduleElement) {
-		current.module.setParent(moduleElement);
+		if (current != null) current.module.setParent(moduleElement);
 	}
 
 	@Override
 	public List<ModuleElement> getChildren() {
+		if (current == null) return null;
 		return current.module.getChildren();
 	}
 
 	@Override
 	public IModule getModule() {
+		if (current == null) return null;
 		return current.module;
 	}
 
 	@Override
 	public StatementBlock getMain() {
+		if (current == null) return null;
 		return current.module.getMain();
 	}
 
 	@Override
 	public List<Statement> getPostOperationStatements() {
+		if (current == null) return null;
 		return current.module.getPostOperationStatements();
 	}
 
