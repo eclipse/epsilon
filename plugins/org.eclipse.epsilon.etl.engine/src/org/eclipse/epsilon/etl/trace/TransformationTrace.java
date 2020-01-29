@@ -58,7 +58,9 @@ public class TransformationTrace {
 		Collection<Object> targets = CollectionUtil.createDefaultList();
 		for (Transformation transformation : getTransformations()) {
 			if (rule == null || rule.equals(transformation.getRule().getName())) {
-				targets.addAll(transformation.getTargets());
+				if (source.equals(transformation.source)) {					
+					targets.addAll(transformation.getTargets());
+				}
 			}
 		}
 		return targets;
