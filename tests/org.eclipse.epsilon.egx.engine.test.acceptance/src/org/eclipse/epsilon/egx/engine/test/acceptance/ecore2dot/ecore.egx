@@ -51,5 +51,5 @@ rule EClass2Dot
 		};
 	}
 	template: "eclass2dot.egl"
-	target: outputRoot+"eclassdot.txt"
+	target: outputRoot+c.name+"_eclassdot.txt"
 }

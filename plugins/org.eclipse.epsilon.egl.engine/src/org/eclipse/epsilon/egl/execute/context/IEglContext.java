@@ -109,7 +109,7 @@ public interface IEglContext extends IEolContext {
 		
 		if (delegate instanceof IEglContext) {
 			IEglContext eglContext = (IEglContext) delegate;
-			//setPartitioner(eglContext.getPartitioner());
+			setPartitioner(eglContext.getPartitioner());
 			setContentTypeRepository(eglContext.getContentTypeRepository());
 		}
 	}
@@ -122,5 +122,4 @@ public interface IEglContext extends IEolContext {
 	default IEolContext getDelegate() {
 		return null;
 	}
-	
 }
