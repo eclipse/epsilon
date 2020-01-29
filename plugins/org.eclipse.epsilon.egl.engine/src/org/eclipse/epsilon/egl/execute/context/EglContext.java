@@ -22,9 +22,8 @@ import org.eclipse.epsilon.egl.merge.partition.CompositePartitioner;
 import org.eclipse.epsilon.egl.output.IOutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
-import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.EolContext;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 import org.eclipse.epsilon.eol.types.EolClasspathNativeTypeDelegate;
@@ -36,6 +35,7 @@ public class EglContext extends EolContext implements IEglContext {
 	private CompositePartitioner partitioner = new CompositePartitioner();
 	private ContentTypeRepository repository = new XMLContentTypeRepository(this);
 	private EglExecutionManager executionManager = new EglExecutionManager(this);
+	private IEolContext delegate;
 	
 	public EglContext() {
 		this((EglTemplateFactory) null);
@@ -55,13 +55,9 @@ public class EglContext extends EolContext implements IEglContext {
 	 * @since 1.6
 	 */
 	public EglContext(IEglContext other) {
-		super(other);
-		frameStack = new FrameStack(other.getFrameStack());
-		executorFactory = new ExecutorFactory(other.getExecutorFactory());
-	 	templateFactory = other.getTemplateFactory();
-	 	populateFrameStack();
-		//setPartitioner(other.getPartitioner());
-		setContentTypeRepository(other.getContentTypeRepository());
+	 	this(other.getTemplateFactory());
+		setDelegate(other.getDelegate());
+		
 		if (other instanceof EglContext) {
 			EglContext eglContext = (EglContext) other;
 	 		statusMessages = eglContext.statusMessages;
@@ -78,6 +74,22 @@ public class EglContext extends EolContext implements IEglContext {
 			Variable.createReadOnlyVariable("openOutputTag", "[%="),
 			Variable.createReadOnlyVariable("closeTag",       "%]")
 		);
+	}
+
+	public void setOperationContributorRegistry(OperationContributorRegistry ocr) {
+		this.methodContributorRegistry = ocr;
+	}
+
+	@Override
+	public void setDelegate(IEolContext delegate) {
+		if ((this.delegate = delegate) == null) return;
+		IEglContext.super.setDelegate(delegate);
+		setOperationContributorRegistry(delegate.getOperationContributorRegistry());
+	}
+	
+	@Override
+	public IEolContext getDelegate() {
+		return delegate;
 	}
 
 	@Override
@@ -162,10 +174,5 @@ public class EglContext extends EolContext implements IEglContext {
 	@Override
 	public EglOperationFactory getOperationFactory() {
 		return (EglOperationFactory) super.getOperationFactory();
-	}
-	
-	@Override
-	public void setOperationContributorRegistry(OperationContributorRegistry ocr) {
-		this.methodContributorRegistry = ocr;
 	}
 }

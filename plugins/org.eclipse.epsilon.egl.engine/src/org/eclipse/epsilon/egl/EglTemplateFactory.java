@@ -28,10 +28,8 @@ import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecificationFactory;
 import org.eclipse.epsilon.egl.util.FileUtil;
-import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
-import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 
 public class EglTemplateFactory {
 
@@ -42,7 +40,6 @@ public class EglTemplateFactory {
 	private Formatter defaultFormatter = new NullFormatter();
 	private IncrementalitySettings defaultIncrementalitySettings = new IncrementalitySettings();
 	private final Collection<ITemplateExecutionListener> listeners = new LinkedList<>();
-	boolean copyContextForNewTemplates = false;
 	
 	public EglTemplateFactory() {
 		this(null);
@@ -245,34 +242,9 @@ public class EglTemplateFactory {
 	protected EglTemplate createTemplate(EglTemplateSpecification spec) throws Exception {
 		return new EglTemplate(spec, getContextForNewTemplate());
 	}
-
-	/**
-	 * Copies the state from the given context into this factory's IEglContext.
-	 * 
-	 * @param delegate The context to copy from.
-	 */
+	
 	public void copyState(IEolContext delegate) {
-		if (delegate == null) return;
-		copyContextForNewTemplates = delegate instanceof IEolContextParallel;
-		if (context == null) return;//context = new EglContext(this);
-		
-		context.setIntrospectionManager(delegate.getIntrospectionManager());
-		context.setModelRepository(delegate.getModelRepository());
-		context.setUserInput(delegate.getUserInput());
-		context.setNativeTypeDelegates(delegate.getNativeTypeDelegates());
-		context.setExtendedProperties(delegate.getExtendedProperties());
-		context.setPrettyPrinterManager(delegate.getPrettyPrinterManager());
-		context.setErrorStream(delegate.getErrorStream());
-		context.setOutputStream(delegate.getOutputStream());
-		
-		context.setExecutorFactory(new ExecutorFactory(delegate.getExecutorFactory()));
-		//context.getFrameStack().setBase(delegate.getFrameStack());
-		//context.setOperationContributorRegistry(delegate.getOperationContributorRegistry());
-		
-		EolOperationFactory opf = delegate.getOperationFactory();
-		if (context.getOperationFactory().getClass().isInstance(opf)) {
-			context.setOperationFactory(opf);
-		}
+		context.setDelegate(delegate);
 	}
 	
 	/**
@@ -284,7 +256,10 @@ public class EglTemplateFactory {
 	 * @since 1.6
 	 */
 	protected IEglContext getContextForNewTemplate() {
-		return copyContextForNewTemplates ? new EglContext(context) : context;
+		if (context.getDelegate() instanceof IEolContextParallel) {
+			return new EglContext(context);
+		}
+		else return getContext();
 	}
 	
 	private EglTemplateSpecificationFactory createTemplateSpecificationFactory() {

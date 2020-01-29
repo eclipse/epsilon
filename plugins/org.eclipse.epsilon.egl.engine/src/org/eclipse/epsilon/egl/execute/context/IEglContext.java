@@ -21,7 +21,7 @@ import org.eclipse.epsilon.egl.output.OutputBuffer;
 import org.eclipse.epsilon.egl.status.StatusMessage;
 import org.eclipse.epsilon.egl.traceability.Template;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
+import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
 
 public interface IEglContext extends IEolContext {
 	
@@ -81,10 +81,46 @@ public interface IEglContext extends IEolContext {
 	}
 	
 	/**
-	 *
-	 * @param ocr
+	 * Copies state references (excluding variables) from the context.
+	 * The copying may be performed lazily and is shallow.
+	 * This is mainly useful if EGL is being invoked from EGX, which
+	 * has a different context.
+	 * 
+	 * @param delegate The parent context.
 	 * @since 1.6
 	 */
-	public void setOperationContributorRegistry(OperationContributorRegistry ocr);
+	default void setDelegate(IEolContext delegate) {
+		if (delegate == null) return;
+		this.setIntrospectionManager(delegate.getIntrospectionManager());
+		this.setModelRepository(delegate.getModelRepository());
+		this.setUserInput(delegate.getUserInput());
+		this.setNativeTypeDelegates(delegate.getNativeTypeDelegates());
+		this.setExtendedProperties(delegate.getExtendedProperties());
+		this.setPrettyPrinterManager(delegate.getPrettyPrinterManager());
+		this.setErrorStream(delegate.getErrorStream());
+		this.setOutputStream(delegate.getOutputStream());	
+		
+		this.getExecutorFactory().setBase(delegate.getExecutorFactory());
+		
+		EolOperationFactory opf = delegate.getOperationFactory();
+		if (this.getOperationFactory().getClass().isInstance(opf)) {
+			this.setOperationFactory(opf);
+		}
+		
+		if (delegate instanceof IEglContext) {
+			IEglContext eglContext = (IEglContext) delegate;
+			//setPartitioner(eglContext.getPartitioner());
+			setContentTypeRepository(eglContext.getContentTypeRepository());
+		}
+	}
+
+	/**
+	 *
+	 * @return
+	 * @since 1.6
+	 */
+	default IEolContext getDelegate() {
+		return null;
+	}
 	
 }
