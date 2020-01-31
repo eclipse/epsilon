@@ -135,13 +135,6 @@
             language="EGX"
             name="Parallel EGX (Elements)">
       </implementation>
-      <implementation
-            class="org.eclipse.epsilon.egl.concurrent.atomic.EgxModuleParallelGenerationRuleAtoms"
-            default="false"
-            dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleParallelConfiguration"
-            language="EGX"
-            name="Parallel EGX (GenerationRuleAtoms)">
-      </implementation>
    </extension>
    <extension
          point="org.eclipse.epsilon.common.dt.moduleImplementation">

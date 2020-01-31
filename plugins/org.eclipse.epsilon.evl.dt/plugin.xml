@@ -77,18 +77,11 @@
             name="Parallel (Elements) [Recommended]">
       </implementation>
       <implementation
-            class="org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelContextAtoms"
-            default="false"
-            dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
-            language="EVL"
-            name="Parallel (ContextAtoms)">
-      </implementation>
-      <implementation
             class="org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelConstraintAtoms"
             default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
             language="EVL"
-            name="Parallel (ConstraintAtoms)">
+            name="Parallel (Constraints)">
       </implementation>
    </extension>
 

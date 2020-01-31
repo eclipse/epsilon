@@ -63,22 +63,28 @@ public abstract class ExtensibleNamedRule extends NamedRule {
 	}
 	
 	public boolean isGreedy(IEolContext context) throws EolRuntimeException {
-		if (isGreedy == null) {
-			isGreedy = getBooleanAnnotationValue("greedy", context);
+		if (isGreedy == null) synchronized (this) {
+			if (isGreedy == null) {
+				isGreedy = getBooleanAnnotationValue("greedy", context);
+			}
 		}
 		return isGreedy;
 	}
 	
 	public boolean isAbstract(IEolContext context) throws EolRuntimeException {
-		if (isAbstract == null) {
-			isAbstract = getBooleanAnnotationValue("abstract", context);
+		if (isAbstract == null) synchronized (this) {
+			if (isAbstract == null) {
+				isAbstract = getBooleanAnnotationValue("abstract", context);
+			}
 		}
 		return isAbstract;
 	}
 	
 	public boolean isLazy(IEolContext context) throws EolRuntimeException {
-		if (isLazy == null) {
-			isLazy = getBooleanAnnotationValue("lazy", context);
+		if (isLazy == null) synchronized (this) {
+			if (isLazy == null) {
+				isLazy = getBooleanAnnotationValue("lazy", context);
+			}
 		}
 		return isLazy;
 	}
