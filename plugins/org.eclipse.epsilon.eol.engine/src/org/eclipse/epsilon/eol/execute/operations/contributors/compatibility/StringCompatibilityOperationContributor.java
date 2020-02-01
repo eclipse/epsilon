@@ -33,6 +33,16 @@ public class StringCompatibilityOperationContributor extends OperationContributo
 	public String replace(String regex, String replacement) {
 		return getTarget().replaceAll(regex, replacement);
 	}
+	
+	/**
+	 * @param lit The String to replace.
+	 * @param replacement The substitute String.
+	 * @return {@link java.lang.String#replace(CharSequence, CharSequence)}
+	 * @since 1.6
+	 */
+	public String replaceLiteral(String lit, String replacement) {
+		return getTarget().replace(lit, replacement);
+	}
 
 	/**
 	 * Java charAt returns a 'char': keep it for backwards compatibility (e.g.
