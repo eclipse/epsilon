@@ -9,15 +9,16 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.merge.output;
 
+import java.util.Objects;
+
 public class Region {
 
 	protected String contents = "";
 	
 	public Region(String contents) {
-		if (contents == null)
-			throw new NullPointerException("contents cannot be null");
-		
-		this.contents = contents;
+		if (contents != null) {
+			this.contents = contents;
+		}
 	}
 	
 	public String getContents() {
@@ -30,21 +31,19 @@ public class Region {
 	
 	@Override
 	public String toString() {
-		return contents;
+		return Objects.toString(contents);
 	}
 	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof Region)) return false;
-		
 		final Region that = (Region) o;
-		
 		return contents.equals(that.contents);
 	}
 	
 	@Override
 	public int hashCode() {
-		return contents.hashCode();
+		return Objects.hashCode(contents);
 	}
 }

@@ -9,16 +9,14 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.merge.output;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Output {
 
-	private final List<Region> regions                    = new LinkedList<>();
-	private final List<String> locatedRegionIds           = new LinkedList<>();
-	private final List<String> duplicatedLocatedRegionIds = new LinkedList<>();
+	private final List<Region> regions = new ArrayList<>(0);
+	private final Collection<String> locatedRegionIds = new LinkedHashSet<>();
+	private final Collection<String> duplicatedLocatedRegionIds = new LinkedHashSet<>();
 	
 	public Output(Region... regions) {
 		this.regions.addAll(Arrays.asList(regions));	
@@ -33,12 +31,13 @@ public class Output {
 	private void processIds() {
 		for (Region r : regions) {
 			if (r instanceof LocatedRegion) {
-				final LocatedRegion pr = (LocatedRegion)r;
-				
-				if (locatedRegionIds.contains(pr.getId())) {
-					duplicatedLocatedRegionIds.add(pr.getId());
-				} else {
-					locatedRegionIds.add(pr.getId());
+				final LocatedRegion lr = (LocatedRegion) r;
+				final String id = lr.getId();
+				if (locatedRegionIds.contains(id)) {
+					duplicatedLocatedRegionIds.add(id);
+				}
+				else {
+					locatedRegionIds.add(id);
 				}
 			}
 		}
@@ -49,14 +48,10 @@ public class Output {
 	}
 	
 	public List<LocatedRegion> getLocatedRegions() {
-		List<LocatedRegion> locatedRegions = new LinkedList<>();
-		
-		for (Region region : regions) {
-			if (region instanceof LocatedRegion)
-				locatedRegions.add((LocatedRegion)region);
-		}
-		
-		return Collections.unmodifiableList(locatedRegions);
+		return regions.stream()
+				.filter(LocatedRegion.class::isInstance)
+				.map(LocatedRegion.class::cast)
+				.collect(Collectors.toList());
 	}
 	
 	public LocatedRegion getLocatedRegion(String id) {
@@ -73,23 +68,19 @@ public class Output {
 	}
 	
 	public List<String> getProblems() {
-		final List<String> problems = new LinkedList<>();
-		
+		final List<String> problems = new ArrayList<>(duplicatedLocatedRegionIds.size());
 		for (String id : duplicatedLocatedRegionIds) {
 			problems.add("Output contains more than one region with the identifier '"+id+"'");
 		}
-		
 		return Collections.unmodifiableList(problems);
 	}
 	
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		
 		for (Region region : regions) {
 			builder.append(region);
 		}
-		
 		return builder.toString();
 	}
 	
@@ -97,14 +88,12 @@ public class Output {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof Output)) return false;
-		
 		final Output that = (Output) o;
-		
-		return regions.equals(that.regions);
+		return Objects.equals(this.regions, that.regions);
 	}
 	
 	@Override
 	public int hashCode() {
-		return regions.hashCode();
+		return Objects.hashCode(regions);
 	}
 }

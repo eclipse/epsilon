@@ -11,7 +11,7 @@ package org.eclipse.epsilon.egl.merge.partition;
 
 import java.util.LinkedList;
 import java.util.List;
-
+import java.util.Objects;
 import org.eclipse.epsilon.egl.merge.output.Output;
 import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
 import org.eclipse.epsilon.egl.merge.output.Region;
@@ -61,7 +61,7 @@ public class CompositePartitioner implements Partitioner {
 							currentOffset += r.toString().length();
 						}
 						
-						index = index + output.getRegions().size() - 1;
+						index += output.getRegions().size() - 1;
 					} else {
 						currentOffset += region.toString().length();
 					}
@@ -86,15 +86,14 @@ public class CompositePartitioner implements Partitioner {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof CompositePartitioner)) return false;
-		
-		final CompositePartitioner that = (CompositePartitioner)o;
-		
-		return partitioners.equals(that.partitioners);
+		if (this == o) return true;
+		if (!(o instanceof CompositePartitioner)) return false;	
+		final CompositePartitioner that = (CompositePartitioner) o;
+		return Objects.equals(this.partitioners, that.partitioners);
 	}
 	
 	@Override
 	public int hashCode() {
-		return partitioners.hashCode();
+		return Objects.hashCode(partitioners);
 	}
 }
