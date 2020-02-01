@@ -9,16 +9,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.merge.partition;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import org.eclipse.epsilon.egl.merge.output.Output;
-import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
-import org.eclipse.epsilon.egl.merge.output.Region;
+import java.util.*;
+import org.eclipse.epsilon.egl.merge.output.*;
 
 public class CompositePartitioner implements Partitioner {
 
-	private final List<CommentBlockPartitioner> partitioners = new LinkedList<>();
+	private final Set<CommentBlockPartitioner> partitioners = Collections.synchronizedSet(new LinkedHashSet<>());
 	
 	public CompositePartitioner(CommentBlockPartitioner... partitioners) {
 		for (CommentBlockPartitioner partitioner : partitioners) {
@@ -30,7 +26,7 @@ public class CompositePartitioner implements Partitioner {
 		if (partitioner == null)
 			throw new NullPointerException("partitioner cannot be null");
 		
-		if (!partitioners.contains(partitioner)) partitioners.add(partitioner);
+		partitioners.add(partitioner);
 	}
 
 	@Override
@@ -62,7 +58,8 @@ public class CompositePartitioner implements Partitioner {
 						}
 						
 						index += output.getRegions().size() - 1;
-					} else {
+					}
+					else {
 						currentOffset += region.toString().length();
 					}
 				
@@ -76,12 +73,12 @@ public class CompositePartitioner implements Partitioner {
 	}
 	
 	public CommentBlockPartitioner getDefaultPartitioner() {
-		return partitioners.isEmpty() ? null : partitioners.get(0);
+		return partitioners.isEmpty() ? null : partitioners.iterator().next();
 	}
 	
 	@Override
 	public String toString() {
-		return partitioners.toString();
+		return Objects.toString(partitioners);
 	}
 	
 	@Override

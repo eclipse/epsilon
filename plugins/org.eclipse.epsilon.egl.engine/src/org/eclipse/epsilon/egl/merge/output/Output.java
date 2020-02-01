@@ -19,11 +19,10 @@ public class Output {
 	private final Collection<String> duplicatedLocatedRegionIds = new LinkedHashSet<>();
 	
 	public Output(Region... regions) {
-		this.regions.addAll(Arrays.asList(regions));	
-		processIds();
+		this(Arrays.asList(regions));	
 	}
 	
-	public Output(List<Region> regions) {
+	public Output(Collection<? extends Region> regions) {
 		this.regions.addAll(regions);
 		processIds();
 	}

@@ -177,10 +177,10 @@ public class CommentBlockPartitioner implements Partitioner {
 		int previousEnd = 0;
 		
 		while (matcher.find()) {
-			
 			if (matcher.start() > previousEnd) {
 				regions.add(new Region(text.substring(previousEnd, matcher.start())));
 			}
+			
 			previousEnd = matcher.end();
 			
 			boolean enabled = matcher.group(3) != null && matcher.group(3).equals("on");
@@ -191,8 +191,9 @@ public class CommentBlockPartitioner implements Partitioner {
 			regions.add(region);
 		}
 		
-		if (previousEnd < text.length())
+		if (previousEnd < text.length()) {
 			regions.add(new Region(text.substring(previousEnd)));
+		}
 		
 		return new Output(regions);
 	}
