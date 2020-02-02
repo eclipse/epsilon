@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dom;
 
-import java.io.File;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
@@ -130,9 +129,12 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		
 		final String target = targetBlock != null ? targetBlock.execute(context, false) : "";
 		
-		File generated = null;
+		Object generated;
 		if (eglTemplate instanceof EglPersistentTemplate) {
 			generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
+		}
+		else {
+			generated = eglTemplate.process();
 		}
 		
 		context.getInvokedTemplates().add(eglTemplate.getTemplate());
