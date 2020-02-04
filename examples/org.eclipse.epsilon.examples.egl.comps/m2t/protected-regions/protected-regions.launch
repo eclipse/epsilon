@@ -5,9 +5,9 @@
 <intAttribute key="egxGenerateTo" value="2"/>
 <booleanAttribute key="fine_grained_profiling" value="false"/>
 <intAttribute key="generateTo" value="1"/>
-<stringAttribute key="implementation_name" value="EGX (Default)"/>
+<stringAttribute key="implementation_name" value="Sequential EGX"/>
 <listAttribute key="models">
-<listEntry value="isMetamodelFileBased=false&#10;name=M&#10;readOnLoad=true&#10;storeOnDisposal=false&#10;aliases=&#10;cached=true&#10;fileBasedMetamodelUri=&#10;metamodelUri=comps&#10;modelUri=platform\:/resource/org.eclipse.epsilon.examples.egl.comps/boilercontroller.model&#10;concurrent=false&#10;reuseUnmodifiedFileBasedMetamodels=true&#10;type=EMF&#10;modelFile=/org.eclipse.epsilon.examples.egl.comps/boilercontroller.model&#10;expand=true&#10;metamodelFile="/>
+<listEntry value="isMetamodelFileBased=false&#10;name=M&#10;readOnLoad=true&#10;storeOnDisposal=false&#10;aliases=&#10;cached=true&#10;fileBasedMetamodelUri=&#10;metamodelUri=comps&#10;modelUri=platform\:/resource/org.eclipse.epsilon.examples.egl.comps/boilerController.model&#10;concurrent=false&#10;reuseUnmodifiedFileBasedMetamodels=true&#10;type=EMF&#10;modelFile=/org.eclipse.epsilon.examples.egl.comps/boilerController.model&#10;expand=true&#10;metamodelFile="/>
 </listAttribute>
 <stringAttribute key="outputDirPath" value="/org.eclipse.epsilon.examples.egl.comps"/>
 <stringAttribute key="outputFilePath" value=""/>
