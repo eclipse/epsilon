@@ -10,7 +10,8 @@
 package org.eclipse.epsilon.emc.simulink.common.test;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,8 @@ public enum MatlabEngineSetupEnum {
 
 	ENGINE_JAR("C:/Program Files/MATLAB/%s/extern/engines/java/jar/engine.jar",
 			"/Applications/MATLAB_%s.app/extern/engines/java/jar/engine.jar", ""), // TODO
-
+	MATLAB("C:/Program Files/MATLAB/%s",
+			"/Applications/MATLAB_%s.app", ""),
 	LIBRARY_PATH("C:/Program Files/MATLAB/%s/bin/win64", "/Applications/MATLAB_%s.app/bin/maci64", ""); // TODO
 
 	private static final String OS_PROPERTY = "os.name";
@@ -26,7 +28,18 @@ public enum MatlabEngineSetupEnum {
 	private static final String MAC = "mac";
 
 	// LIST OF SUPPORTED VERSIONS
-	public static final List<String> VERSIONS = Arrays.asList("R2016b", "R2017a", "R2017b", "R2018a", "R2018b"); 
+
+	public static final List<String> VERSIONS; 
+	
+	static {
+		int currYear = Calendar.getInstance().get(Calendar.YEAR);
+		List<String> v= new ArrayList<String>();
+		for (int i = 2016; i <= currYear; i++) {
+			v.add("R" + i + "a");
+			v.add("R" + i + "b");
+		}
+		VERSIONS = v;
+	}
 
 	private String win;
 	private String osx;

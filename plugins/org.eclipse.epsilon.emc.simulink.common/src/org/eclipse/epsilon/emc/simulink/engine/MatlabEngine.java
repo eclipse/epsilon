@@ -13,8 +13,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.eclipse.epsilon.emc.simulink.exception.EpsilonSimulinkInternalException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
@@ -277,6 +279,34 @@ public class MatlabEngine {
 		try {
 			return MatlabEngineUtil.parseMatlabEngineVariable(getVariableMethod.invoke(engine, variable));
 		} catch (InvocationTargetException e) {
+			String className= (String)evalWithResult("class(?);", variable);
+			if (className.equals("Simulink.SimulationOutput")) {
+				HashMap<String, Object> output = new HashMap<String, Object>();
+				Object evalWithResult = evalWithResult("?.ErrorMessage;",variable);
+				output.put("ErrorMessage", evalWithResult);
+				evalWithResult = evalWithResult("?.simout;",variable);
+				output.put("simout", evalWithResult);
+				evalWithResult = evalWithResult("?.tout;",variable);
+				output.put("tout", evalWithResult);
+				eval("meta = ?.SimulationMetadata;",variable);
+				HashMap<String, Object> meta = new HashMap<String, Object>();
+				eval("meta.ModelInfo;");
+				evalWithResult = getVariable("ans");
+				meta.put("ModelInfo", evalWithResult);
+				eval("meta.TimingInfo;");
+				evalWithResult = getVariable("ans");
+				meta.put("TimingInfo", evalWithResult);
+				eval("meta.ExecutionInfo;");
+				evalWithResult = getVariable("ans");
+				meta.put("ExecutionInfo", evalWithResult);
+				eval("meta.UserString;");
+				evalWithResult = getVariable("ans");
+				meta.put("UserString", evalWithResult);
+				eval("meta.UserData;");
+				evalWithResult = getVariable("ans");
+				meta.put("UserData", evalWithResult);
+				return output;
+			}
 			throw new MatlabException(e);
 		} catch (ReflectiveOperationException | IllegalArgumentException e) {
 			throw new EpsilonSimulinkInternalException(e);

@@ -12,7 +12,7 @@ package org.eclipse.epsilon.emc.simulink.test.unit;
 import org.eclipse.epsilon.emc.simulink.test.util.AbstractSimulinkTest;
 import org.junit.Test;
 
-public class PrimitiveTypeTests extends AbstractSimulinkTest {
+public class SimulateTests extends AbstractSimulinkTest {
 
 	@Test
 	public void simulateAndGetWorkspaceVariableDouble() {
@@ -25,8 +25,8 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 				"constant1.link(function1,1,1);" +
 				"function1.link(out1,1,1);" + 
 				"M.simulate();" +
-				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName).get(0);" +
-				"assert(returnValue = 14.0);";
+				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName);" +
+				"assertEquals(14.0d, returnValue.get('simout').get(0));";
 	}
 
 	@Test
@@ -44,8 +44,8 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 				"constant2.link(subtract1,1,2);" +
 				"subtract1.link(out1,1,1);" +
 				"M.simulate();" +
-				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName).get(0);" +
-				"assert(returnValue = 4);";
+				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName);" +
+				"assertEquals(4, returnValue.get('simout'));";
 	}
 
 	@Test
@@ -63,8 +63,8 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 				"constant2.link(subtract1,1,2);" +
 				"subtract1.link(out1,1,1);" +
 				"M.simulate();" +
-				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName).get(0);" +
-				"assert(returnValue = 4.0);";
+				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName);" +
+				"assertEquals(4.0f, returnValue.get('simout'));";
 	}
 
 	@Test
@@ -82,8 +82,8 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 				"constant2.link(subtract1,1,2);" +
 				"subtract1.link(out1,1,1);" +
 				"M.simulate();" +
-				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName).get(0);" +
-				"assert(returnValue = 4);";
+				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName);" +
+				"assertEquals(4, returnValue.get('simout'));";
 	}
 
 	@Test
@@ -101,8 +101,8 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 				"constant2.link(subtract1,1,2);" +
 				"subtract1.link(out1,1,1);" +
 				"M.simulate();" +
-				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName).get(0);" +
-				"assert(returnValue = 4);";
+				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName);" +
+				"assertEquals(4, returnValue.get('simout'));";
 	}
 
 	@Test
@@ -116,18 +116,8 @@ public class PrimitiveTypeTests extends AbstractSimulinkTest {
 				"constant1.link(compare1,1,1);" +
 				"compare1.link(out1,1,1);" +
 				"M.simulate();" +
-				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName).get(0);" +
-				"assert(returnValue = false);";
+				"var returnValue = M.parseMatlabEngineVariable(out1.VariableName);" +
+				"assertEquals(false, returnValue.get('simout'));";
 	}
 	
-	@Test
-	public void testStatementWithResult() {
-		eol = "assert(4 = M.statementWithResult(\"2+2;\")";
-	}
-	
-	@Test
-	public void testStatement() {
-		eol = "M.statement(\"a = 2+2;\");"
-				+ "assert(M.parseMatlabEngineVariable(\"a\") = 4);";
-	}
 }

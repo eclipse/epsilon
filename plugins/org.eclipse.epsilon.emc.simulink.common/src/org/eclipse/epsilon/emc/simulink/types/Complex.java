@@ -83,8 +83,12 @@ public class Complex extends AbstractType {
 
 	}
 
-	public Double getReal() throws Exception {
-		return (Double) ReflectionLocalUtil.getFieldValue(object, "real");
+	public Double getReal() {
+		try {
+			return (Double) ReflectionLocalUtil.getFieldValue(object, "real");
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public void setReal(Double real) throws Exception {
@@ -95,8 +99,12 @@ public class Complex extends AbstractType {
 		setReal(real.doubleValue());
 	}
 
-	public Double getImag() throws Exception {
-		return (Double) ReflectionLocalUtil.getFieldValue(object, "imag");
+	public Double getImag()  {
+		try {
+			return (Double) ReflectionLocalUtil.getFieldValue(object, "imag");
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public void setImag(Double imag) throws Exception {
@@ -109,11 +117,8 @@ public class Complex extends AbstractType {
 	
 	@Override
 	public String toString() {
-		try {
-			return (String) ReflectionUtil.invokeMethod(object, "toString", null);
-		} catch (Exception e) {
-			return "";
-		}
+		Double imag = getImag();
+		return this.getReal().toString() +(imag>0 ? " +" : " " ) + imag.toString() + "i";
 	}
 
 	@Override
