@@ -147,36 +147,39 @@ public abstract class EpsilonLaunchConfigurationDelegate extends LaunchConfigura
 	/**
 	 * Create the new module based on the configuration.
 	 * @sinv 1.6
-	 * @return an ExL module for the specific langauge being executed
+	 * @return an ExL module for the specific language being executed
 	 * @throws CoreException
 	 */
 	public IEolModule createModule() throws CoreException {
 		String implName = configuration.getAttribute(AbstractAdvancedConfigurationTab.IMPL_NAME, "");
 		IEolModule module ;
 		if (implName.length() > 0) {
-			module = ModuleImplementationExtension.forImplementation(getLanguage(), implName).createModule();
-			Set<String> requiredProperties = module.getConfigurationProperties();
-			Map<String, Object> attr = configuration.getAttributes();
-			requiredProperties.stream()
-		    	.filter(k -> !attr.containsKey(k))
-		    	.forEach(attr::remove);
-			module.configure(attr);
-		}
-		else {
-			// Backwards compatibility. For existing configurations, we will use the default module.
-			System.out.println("Configuration does not have specific module implementation information. "
-					+ "Falling back to default module.");
-			//IEolModule module = ModuleImplementationExtension.defaultImplementation().createModule();
-			module = getDefaultModule(configuration);
-			if (module == null) {
-				IStatus result = new Status(IStatus.ERROR, "org.eclipse.epsilon.eol.dt",
-						"There was no default module found for the target language. Since this is defined "
-						+ "in the Epsilon plugins it is either a bug or your installation may have been "
-						+ "corrupted. Please raise a bug: https://bugs.eclipse.org/bugs/enter_bug.cgi?product=epsilon");
-				throw new CoreException(result);
+			ModuleImplementationExtension moduleImplementationExtension = ModuleImplementationExtension.forImplementation(getLanguage(), implName);
+			if (moduleImplementationExtension != null) {
+				module = moduleImplementationExtension.createModule();
+				Set<String> requiredProperties = module.getConfigurationProperties();
+				Map<String, Object> attr = configuration.getAttributes();
+				requiredProperties.stream()
+			    	.filter(k -> !attr.containsKey(k))
+			    	.forEach(attr::remove);
+				module.configure(attr);
+				return module;
 			}
-			
 		}
+		
+		// Backwards compatibility. For existing configurations or when the implementation name is not found, we will use the default module.
+		System.out.println("Configuration does not have specific module implementation information. "
+				+ "Falling back to default module.");
+		//IEolModule module = ModuleImplementationExtension.defaultImplementation().createModule();
+		module = getDefaultModule(configuration);
+		if (module == null) {
+			IStatus result = new Status(IStatus.ERROR, "org.eclipse.epsilon.eol.dt",
+					"There was no default module found for the target language. Since this is defined "
+					+ "in the Epsilon plugins it is either a bug or your installation may have been "
+					+ "corrupted. Please raise a bug: https://bugs.eclipse.org/bugs/enter_bug.cgi?product=epsilon");
+			throw new CoreException(result);
+		}
+		
 		return module;		
 	}
 	
