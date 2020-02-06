@@ -35,7 +35,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	private String positiveMessage;
 	private OutputMode outputMode;
 
-	private static enum OutputMode {
+	public static enum OutputMode {
 		WRITE, MERGE, APPEND;
 	}
 	
