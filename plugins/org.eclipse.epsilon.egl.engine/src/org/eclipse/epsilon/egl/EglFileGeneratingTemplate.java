@@ -102,7 +102,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 		}
 	}
 	
-	private void prepareNewContents() throws EglRuntimeException {
+	protected void prepareNewContents() throws EglRuntimeException {
 		switch (outputMode) {
 			case APPEND: {
 				newContents = existingContents != null ?
@@ -126,7 +126,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 		}
 	}
 	
-	private void writeNewContentsIfDifferentFromExistingContents() throws URISyntaxException, IOException {
+	protected void writeNewContentsIfDifferentFromExistingContents() throws URISyntaxException, IOException {
 		if (isOverwriteUnchangedFiles() || !newContents.equals(existingContents)) {
 			write();
 			addMessage(positiveMessage + targetName);
@@ -135,11 +135,11 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 		}
 	}
 	
-	private boolean isOverwriteUnchangedFiles() {
+	protected boolean isOverwriteUnchangedFiles() {
 		return getIncrementalitySettings().isOverwriteUnchangedFiles();
 	}
 
-	private void write() throws IOException, URISyntaxException {
+	protected void write() throws IOException, URISyntaxException {
 		if (target != null) {
 			FileUtil.write(target, newContents);
 		}

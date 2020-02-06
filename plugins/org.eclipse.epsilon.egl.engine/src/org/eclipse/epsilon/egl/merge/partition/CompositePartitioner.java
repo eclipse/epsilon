@@ -29,6 +29,10 @@ public class CompositePartitioner implements Partitioner {
 		partitioners.add(partitioner);
 	}
 
+	public Set<CommentBlockPartitioner> getPartitioners() {
+		return partitioners;
+	}
+	
 	@Override
 	public Output partition(String text) {
 		return partition(text, 0);
