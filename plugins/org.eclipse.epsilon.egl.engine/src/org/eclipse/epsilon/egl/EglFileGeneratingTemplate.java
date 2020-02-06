@@ -105,14 +105,14 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	protected void prepareNewContents() throws EglRuntimeException {
 		switch (outputMode) {
 			case APPEND: {
-				newContents = existingContents != null ?
-					existingContents + FileUtil.NEWLINE + getContents() :
+				newContents = getExistingContents() != null ?
+					getExistingContents() + FileUtil.NEWLINE + getContents() :
 					getContents();
 				positiveMessage = "Successfully appended to ";
 				break;
 			}
 			case MERGE: {
-				newContents = merge(existingContents);
+				newContents = merge(getExistingContents());
 				positiveMessage = "Protected regions preserved in ";
 				break;
 			}
@@ -129,9 +129,9 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	protected void writeNewContentsIfDifferentFromExistingContents() throws URISyntaxException, IOException {
 		if (isOverwriteUnchangedFiles() || !newContents.equals(existingContents)) {
 			write();
-			addMessage(positiveMessage + targetName);
+			addMessage(getPositiveMessage() + getTargetName());
 		} else {
-			addMessage("Content unchanged for " + targetName);			
+			addMessage("Content unchanged for " + getTargetName());			
 		}
 	}
 	
@@ -140,15 +140,15 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	}
 
 	protected void write() throws IOException, URISyntaxException {
-		if (target != null) {
-			FileUtil.write(target, newContents);
+		if (getTarget() != null) {
+			FileUtil.write(getTarget(), getNewContents());
 		}
 		
-		currentOutputFile = template.addOutputFile(targetName, UriUtil.fileToUri(target));
+		currentOutputFile = getTemplate().addOutputFile(getTargetName(), UriUtil.fileToUri(getTarget()));
 		
-		if (outputMode == OutputMode.MERGE) {
-			for (LocatedRegion pr : module.getContext().getPartitioner().partition(newContents).getLocatedRegions()) {
-				currentOutputFile.addProtectedRegion(pr.getId(), pr.isEnabled(), pr.getOffset());
+		if (getOutputMode() == OutputMode.MERGE) {
+			for (LocatedRegion pr : module.getContext().getPartitioner().partition(getNewContents()).getLocatedRegions()) {
+				getCurrentOutputFile().addProtectedRegion(pr.getId(), pr.isEnabled(), pr.getOffset());
 			}
 		}
 	}
@@ -156,5 +156,61 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	@Override
 	protected void addProtectedRegionWarning(ProtectedRegionWarning warning) {
 		super.addProtectedRegionWarning(new ProtectedRegionWarning(warning.getId(), target.getAbsolutePath()));
+	}
+
+	public File getTarget() {
+		return target;
+	}
+
+	public void setTarget(File target) {
+		this.target = target;
+	}
+
+	public String getTargetName() {
+		return targetName;
+	}
+
+	public void setTargetName(String targetName) {
+		this.targetName = targetName;
+	}
+
+	public OutputFile getCurrentOutputFile() {
+		return currentOutputFile;
+	}
+
+	public void setCurrentOutputFile(OutputFile currentOutputFile) {
+		this.currentOutputFile = currentOutputFile;
+	}
+
+	public String getExistingContents() {
+		return existingContents;
+	}
+
+	public void setExistingContents(String existingContents) {
+		this.existingContents = existingContents;
+	}
+
+	public String getNewContents() {
+		return newContents;
+	}
+
+	public void setNewContents(String newContents) {
+		this.newContents = newContents;
+	}
+
+	public String getPositiveMessage() {
+		return positiveMessage;
+	}
+
+	public void setPositiveMessage(String positiveMessage) {
+		this.positiveMessage = positiveMessage;
+	}
+
+	public OutputMode getOutputMode() {
+		return outputMode;
+	}
+
+	public void setOutputMode(OutputMode outputMode) {
+		this.outputMode = outputMode;
 	}
 }
