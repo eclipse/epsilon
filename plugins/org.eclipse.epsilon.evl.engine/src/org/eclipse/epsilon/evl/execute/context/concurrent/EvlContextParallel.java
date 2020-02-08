@@ -14,6 +14,7 @@ import java.util.Set;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.SizeCachingConcurrentQueue;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dom.Constraint;
@@ -48,6 +49,17 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 		super(parallelism);
 		unsatisfiedConstraints = new SizeCachingConcurrentQueue<>();
 		constraintTrace = new ConstraintTrace(true);
+	}
+	
+	protected EvlContextParallel(IEolContext other) {
+		super(other);
+		if (other instanceof IEvlContext) {
+			IEvlContext evlContext = (IEvlContext) other;
+			this.unsatisfiedConstraints = evlContext.getUnsatisfiedConstraints();
+			this.optimizeConstraintTrace = evlContext.isOptimizeConstraintTrace();
+			this.shortCircuiting = evlContext.isShortCircuiting();
+			this.constraintTrace = evlContext.getConstraintTrace();
+		}
 	}
 	
 	@Override
