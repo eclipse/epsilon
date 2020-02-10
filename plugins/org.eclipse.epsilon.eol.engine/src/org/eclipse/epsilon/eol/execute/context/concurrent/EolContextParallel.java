@@ -72,7 +72,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 	 * Optimisation so that calls to methods like getFrameStack() don't re-fetch the ThreadLocal
 	 * value every time whilst within the same parallelisation context.
 	 */
-	ThreadLocal<EolContext> threadLocalShadows;
+	ThreadLocal<IEolContext> threadLocalShadows;
 	
 	public EolContextParallel() {
 		this(0);
@@ -315,7 +315,7 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		return new OperationContributorRegistry();
 	}
 	
-	protected EolContext createShadowThreadLocalContext() {
+	protected IEolContext createShadowThreadLocalContext() {
 		return new EolContext(this);
 	}
 	

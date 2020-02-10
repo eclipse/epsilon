@@ -67,7 +67,7 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 	}
 	
 	@Override
-	protected ErlContext createShadowThreadLocalContext() {
+	protected IErlContext createShadowThreadLocalContext() {
 		return new ErlContext(this);
 	}
 	

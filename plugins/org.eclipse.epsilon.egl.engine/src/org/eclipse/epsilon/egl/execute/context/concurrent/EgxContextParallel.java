@@ -52,7 +52,7 @@ public class EgxContextParallel extends ErlContextParallel implements IEgxContex
 	}
 
 	@Override
-	protected EgxContext createShadowThreadLocalContext() {
+	protected IEgxContext createShadowThreadLocalContext() {
 		return new EgxContext(this);
 	}
 	

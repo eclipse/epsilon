@@ -63,7 +63,7 @@ public class EvlContextParallel extends ErlContextParallel implements IEvlContex
 	}
 	
 	@Override
-	protected EvlContext createShadowThreadLocalContext() {
+	protected IEvlContext createShadowThreadLocalContext() {
 		return new EvlContext(this);
 	}
 	
