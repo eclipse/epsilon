@@ -1,7 +1,7 @@
 package org.eclipse.epsilon.emc.simulink.dictionary.test.unit;
 
-import org.eclipse.epsilon.emc.simulink.dictionary.test.AbstractSimulinkDictinoaryTest;
+import org.eclipse.epsilon.emc.simulink.dictionary.test.AbstractSimulinkDictionaryTest;
 
-public class ExampleTest extends AbstractSimulinkDictinoaryTest {
+public class ExampleTest extends AbstractSimulinkDictionaryTest {
 
 }

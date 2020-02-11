@@ -16,7 +16,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ CRUDTests.class, ExampleTests.class, InheritanceTests.class,
 		OperationTests.class, SimulateTests.class, PropertyTests.class,
-		SimulinkPrimitiveTypeAndStatementTest.class, LoadModelTest.class, MatlabEngineTests.class })
+		SimulinkPrimitiveTypeAndStatementTest.class, MatlabEngineTests.class, LoadModelTest.class })
 public class AllTests {
 
 }

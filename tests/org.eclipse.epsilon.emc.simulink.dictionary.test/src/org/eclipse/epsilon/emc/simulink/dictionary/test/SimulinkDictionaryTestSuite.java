@@ -7,4 +7,4 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ExampleTest.class})
-public class DictinoaryTestSuite {}
+public class SimulinkDictionaryTestSuite {}

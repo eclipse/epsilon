@@ -9,7 +9,7 @@ import org.eclipse.epsilon.emc.simulink.dictionary.model.SimulinkDictionaryModel
 import org.eclipse.epsilon.emc.simulink.model.IGenericSimulinkModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
-public class AbstractSimulinkDictinoaryTest extends AbstractCommonSimulinkTest {
+public class AbstractSimulinkDictionaryTest extends AbstractCommonSimulinkTest {
 
 	@Override
 	public IGenericSimulinkModel loadSimulinkModel(File file, boolean activeCaching) throws Exception {

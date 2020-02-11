@@ -35,7 +35,9 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			} else if (isInstanceOfPrimitive(primitive)) {
 				this.primitive = (List<P>) new ArrayList<>(Arrays.asList(primitive));
 			} else {
-				new IllegalStateException("Unhandled primitive type: " + getPrimitive().getClass());
+				this.primitive = new ArrayList();
+				this.primitive.add((P)primitive);
+				//new IllegalStateException("Unhandled primitive type: " + getPrimitive().getClass());
 			}
 		} else {
 			this.primitive = new ArrayList<>();
