@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.flexmi.dt;
+package org.eclipse.epsilon.picto;
 
 public abstract class RunnableWithException implements Runnable {
 	

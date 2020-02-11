@@ -37,7 +37,6 @@ import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.flexmi.dt.PartListener;
-import org.eclipse.epsilon.flexmi.dt.RunnableWithException;
 import org.eclipse.epsilon.picto.LazyEgxModule.LazyGenerationRuleContentPromise;
 import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
 import org.eclipse.epsilon.picto.source.DotSource;
