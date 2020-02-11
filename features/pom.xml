@@ -42,5 +42,8 @@
     <module>org.eclipse.epsilon.uml.feature</module>
     <module>org.eclipse.epsilon.simulink.dt.feature</module>
     <module>org.eclipse.epsilon.simulink.feature</module>
+    <module>org.eclipse.epsilon.flexmi.feature</module>
+    <module>org.eclipse.epsilon.flexmi.dt.feature</module>
+    <module>org.eclipse.epsilon.picto.feature</module>
   </modules>
 </project>
