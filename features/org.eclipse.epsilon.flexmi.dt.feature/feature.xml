@@ -6,7 +6,7 @@
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
-      EuGENia is a tool that automatically generates the .gmfgraph, .gmftool and .gmfmap models needed to implement a GMF editor from a single annotated Ecore metamodel. It can also integrate  optional polishing transformations written in EOL that automate the customization of these models. EuGENia can be run from the Eclipse UI or from the Apache Ant task provided by this feature.
+      This feature provides development tools for Epsilon&apos;s Flexmi reflective XML-based syntax for EMF models.
    </description>
 
    <copyright>
