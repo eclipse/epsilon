@@ -36,7 +36,7 @@
    </feature>
    <feature url="features/org.eclipse.epsilon.simulink.feature_1.6.0.qualifier.jar" id="org.eclipse.epsilon.simulink.feature" version="1.6.0.qualifier">
       <category name="Epsilon Simulink Integration"/>
-   </feature>   
+   </feature>
    <feature url="features/org.eclipse.epsilon.ewl.gmf.feature_1.6.0.qualifier.jar" id="org.eclipse.epsilon.ewl.gmf.feature" version="1.6.0.qualifier">
       <category name="Epsilon GMF Integration"/>
    </feature>
@@ -70,6 +70,15 @@
    <feature url="features/org.eclipse.epsilon.emc.spreadsheets.feature_1.6.0.qualifier.jar" id="org.eclipse.epsilon.emc.spreadsheets.feature" version="1.6.0.qualifier">
       <category name="Epsilon Spreadsheet Integration"/>
    </feature>
+   <feature url="features/org.eclipse.epsilon.flexmi.feature_1.6.0.qualifier.jar" id="org.eclipse.epsilon.flexmi.feature" version="1.6.0.qualifier">
+      <category name="Flexmi"/>
+   </feature>
+   <feature url="features/org.eclipse.epsilon.flexmi.dt.feature_1.6.0.qualifier.jar" id="org.eclipse.epsilon.flexmi.dt.feature" version="1.6.0.qualifier">
+      <category name="Flexmi Development Tools"/>
+   </feature>
+   <feature url="features/org.eclipse.epsilon.picto.feature_1.6.0.qualifier.jar" id="org.eclipse.epsilon.picto.feature" version="1.6.0.qualifier">
+      <category name="Picto"/>
+   </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">
       <description>
          Parsers and execution engines for languages of the Epsilon platform.
@@ -85,6 +94,21 @@
          Support for managing EMF-based models with languages of the Epsilon platform.
       </description>
    </category-def>
+   <category-def name="Flexmi" label="Flexmi">
+      <description>
+         Reflective and fuzzy XML-based concrete syntax for EMF models.
+      </description>
+   </category-def>
+   <category-def name="Flexmi Development Tools" label="Flexmi Development Tools">
+      <description>
+         Development tools for the Flexmi XML-based concrete syntax.
+      </description>
+   </category-def>
+   <category-def name="Picto" label="Picto">
+      <description>
+         Model visualisation via model-to-text transformation.
+      </description>
+   </category-def>
    <category-def name="Epsilon UML Integration" label="Epsilon UML Integration">
       <description>
          Support for managing EMF-based UML models with languages of the Epsilon platform.
@@ -94,7 +118,7 @@
       <description>
          Support for managing Simulink models with languages of the Epsilon platform.
       </description>
-   </category-def>   
+   </category-def>
    <category-def name="Epsilon GMF Integration" label="Epsilon GMF Integration">
       <description>
          Support for developing GMF-based editors (Eugenia), and for refactoring models in GMF-based editors using the Epsilon Wizard Language.
