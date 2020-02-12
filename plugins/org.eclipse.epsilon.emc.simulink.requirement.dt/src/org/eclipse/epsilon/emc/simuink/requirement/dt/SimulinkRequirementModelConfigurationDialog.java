@@ -10,17 +10,10 @@ package org.eclipse.epsilon.emc.simuink.requirement.dt;
  ******************************************************************************/
 
 
-import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
-import org.eclipse.epsilon.common.dt.util.DialogUtil;
-import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.epsilon.emc.simulink.common.dt.AbstractSimulinkModelConfigurationDialog;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 
-public class SimulinkRequirementModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
+public class SimulinkRequirementModelConfigurationDialog extends AbstractSimulinkModelConfigurationDialog {
 
 	protected String getModelName() {
 		return "Simulink Requirement Model";
@@ -30,44 +23,10 @@ public class SimulinkRequirementModelConfigurationDialog extends AbstractCachedM
 		return "SimulinkRequirement";
 	}
 
-	protected Label fileTextLabel;
-	protected Text fileText;
-	protected Button browseModelFile;
-
-	protected void createGroups(Composite control) {
-		super.createGroups(control);
-		createFilesGroup(control);
-		createLoadStoreOptionsGroup(control);
-	}
-
 	protected Composite createFilesGroup(Composite parent) {
-		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Files/URIs", 3);
-
-		fileTextLabel = new Label(groupContent, SWT.NONE);
-		fileTextLabel.setText("File: ");
-
-		fileText = new Text(groupContent, SWT.BORDER);
-		fileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		browseModelFile = new Button(groupContent, SWT.NONE);
-		browseModelFile.setText("Browse Workspace...");
-		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(fileText, "Simulink Requirement Models in the workspace", "Select a Simulink Requirement Model"));
-
-		groupContent.layout();
-		groupContent.pack();
+		final Composite groupContent = super.createFilesGroup(parent);
+		modelFileTextLabel.setText("Requirement file (?): ");
 		return groupContent;
-	}
-
-	protected void loadProperties() {
-		super.loadProperties();
-		if (properties == null) return;
-		fileText.setText(properties.getProperty(AbstractSimulinkModel.PROPERTY_FILE));
-	}
-
-	protected void storeProperties() {
-		super.storeProperties();
-		
-		properties.put(AbstractSimulinkModel.PROPERTY_FILE, fileText.getText());
 	}
 	
 }

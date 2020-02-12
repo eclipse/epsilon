@@ -7,7 +7,8 @@ Bundle-Version: 1.6.0.qualifier
 Bundle-Activator: org.eclipse.epsilon.emc.simulink.dt.Activator
 Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.emc.simulink,
- org.eclipse.epsilon.emc.simulink.common
+ org.eclipse.epsilon.emc.simulink.common,
+ org.eclipse.epsilon.emc.simulink.common.dt
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.emc.simulink.dt

@@ -9,17 +9,25 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.common.dt;
 
+import static org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel.PROPERTY_ENGINE_JAR_PATH;
+import static org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel.PROPERTY_LIBRARY_PATH;
+import static org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel.PROPERTY_MATLAB_PATH;
+
 import java.util.ArrayList;
+
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
-import static org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel.*;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
@@ -50,7 +58,6 @@ public class SimulinkEnginePreferencePage extends PreferencePage implements IWor
 		
 		resolvePreferences();
 		
-		/*
 		Button testConnectionButton = new Button(composite, SWT.NONE);
 		testConnectionButton.setText("Test connection");
 		testConnectionButton.addSelectionListener(new SelectionListener() {
@@ -58,11 +65,11 @@ public class SimulinkEnginePreferencePage extends PreferencePage implements IWor
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					MatlabEnginePool.reset();
 					MatlabEnginePool.getInstance(libraryPathEditor.getStringValue(), engineJarPathEditor.getStringValue()).getMatlabEngine().eval("42");
+					MessageDialog.openInformation(composite.getShell(), "Success", "Engine well configured!");
 				}
 				catch (Exception ex) {
-					ex.printStackTrace();
+					MessageDialog.openError(composite.getShell(), "Error", "Engine location misconfigured");
 				}
 			}
 			
@@ -74,18 +81,19 @@ public class SimulinkEnginePreferencePage extends PreferencePage implements IWor
 		
 		Button resetConnectionButton = new Button(composite, SWT.NONE);
 		resetConnectionButton.setText("Reset connection");
-		testConnectionButton.addSelectionListener(new SelectionListener() {
+		resetConnectionButton.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				MatlabEnginePool.reset();
+				MessageDialog.openInformation(composite.getShell(), "Success", "Engine pool cleared");
 			}
 			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				
 			}
-		});*/
+		});
 		return composite;
 	}
 	

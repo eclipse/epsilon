@@ -9,17 +9,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.simuink.dictionary.dt;
 
-import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractCachedModelConfigurationDialog;
-import org.eclipse.epsilon.common.dt.util.DialogUtil;
-import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.epsilon.emc.simulink.common.dt.AbstractSimulinkModelConfigurationDialog;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 
-public class SimulinkDictionaryModelConfigurationDialog extends AbstractCachedModelConfigurationDialog {
+public class SimulinkDictionaryModelConfigurationDialog extends AbstractSimulinkModelConfigurationDialog {
 
 	protected String getModelName() {
 		return "Simulink Dictionary Model";
@@ -29,44 +22,10 @@ public class SimulinkDictionaryModelConfigurationDialog extends AbstractCachedMo
 		return "SimulinkDictionary";
 	}
 
-	protected Label fileTextLabel;
-	protected Text fileText;
-	protected Button browseModelFile;
-
-	protected void createGroups(Composite control) {
-		super.createGroups(control);
-		createFilesGroup(control);
-		createLoadStoreOptionsGroup(control);
-	}
-
 	protected Composite createFilesGroup(Composite parent) {
-		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Files/URIs", 3);
-
-		fileTextLabel = new Label(groupContent, SWT.NONE);
-		fileTextLabel.setText("File: ");
-
-		fileText = new Text(groupContent, SWT.BORDER);
-		fileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		browseModelFile = new Button(groupContent, SWT.NONE);
-		browseModelFile.setText("Browse Workspace...");
-		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(fileText, "Simulink Dictionary Models in the workspace", "Select a Simulink Dictionary Model"));
-
-		groupContent.layout();
-		groupContent.pack();
+		final Composite groupContent = super.createFilesGroup(parent);
+		modelFileTextLabel.setText("Dictionary file (?): ");
 		return groupContent;
 	}
 
-	protected void loadProperties() {
-		super.loadProperties();
-		if (properties == null) return;
-		fileText.setText(properties.getProperty(AbstractSimulinkModel.PROPERTY_FILE));
-	}
-
-	protected void storeProperties() {
-		super.storeProperties();
-		
-		properties.put(AbstractSimulinkModel.PROPERTY_FILE, fileText.getText());
-	}
-	
 }

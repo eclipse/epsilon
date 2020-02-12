@@ -10,9 +10,13 @@
 package org.eclipse.epsilon.emc.simulink.model;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
@@ -37,14 +41,21 @@ import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelElement> implements IGenericSimulinkModel {
 
+	public static final String PROPERTY_WORKING_DIR = "working_dir";
+	public static final String PROPERTY_PATHS = "paths";
 	public static final String PROPERTY_FILE = "file";
 	public static final String PROPERTY_MATLAB_PATH = "matlab_path";
 	public static final String PROPERTY_LIBRARY_PATH = "library_path";
 	public static final String PROPERTY_ENGINE_JAR_PATH = "engine_jar_path";
+	//public static final String PROPERTY_MUST_CONNECT = "must_connect";
+	//public static final String PROPERTY_ENGINE_SHARED_SESSION_NAME = "engine_session_to_connect_to";
+	public static final String PROPERTY_SIMULINK_PROJECT= "project";
+	public static final String PROPERTY_CURRENT_SIMULINK_PROJECT= "use_current_project";
+	public static final String PROPERTY_ENGINE_POOL_SIZE = "engine_max_pool_size";
 	public static final String ENV_MATLAB_PATH = ENV_PREFIX + PROPERTY_MATLAB_PATH;
 	public static final String ENV_LIBRARY_PATH = ENV_PREFIX + PROPERTY_LIBRARY_PATH;
 	public static final String ENV_ENGINE_JAR_PATH = ENV_PREFIX + PROPERTY_ENGINE_JAR_PATH;
-		
+	
 	protected File file;
 	protected SimulinkPropertyGetter propertyGetter;
 	protected SimulinkPropertySetter propertySetter;
@@ -53,12 +64,41 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	protected String libraryPath;
 	protected String engineJarPath;
 	protected MatlabEngine engine;
+	//protected Boolean mustConnect = false;
+	//protected String engineSharedSessionName = "";
+	protected String simulinkProject = "";
+	protected Boolean useCurrentProject = false;
+	protected Integer enginePoolSize = 2;
 	
+	protected File workingDir = null;
+	protected List<String> paths = new ArrayList<>();
+
 	@Override
 	protected void loadModel() throws EolModelLoadingException { 
 		try {
 			resolvePaths();
-			engine = MatlabEnginePool.getInstance(libraryPath, engineJarPath).getMatlabEngine();
+			engine = MatlabEnginePool.getInstance(getLibraryPath(), getEngineJarPath()).getMatlabEngine();
+			if (isUseCurrentProject()) {
+				engine.eval("currentProject;");
+			}
+			
+			if (!isUseCurrentProject() && getProject() != null && !getProject().isEmpty()) {
+				engine.eval("proj = matlab.project.loadProject('?');", getProject());					
+			}
+			
+			if ((getWorkingDir() != null && getWorkingDir().exists())) {
+				try {
+					engine.eval("cd '?';", getWorkingDir());
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					System.err.println(ex.getMessage());
+				}
+			}
+			
+			for (String path : getPaths()) {
+				engine.eval("addpath ?", path);
+			}
+
 		}
 		catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
@@ -125,6 +165,10 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public MatlabEngine getEngine() { 
 		return engine;
 	}
+	
+	public void setEngine(MatlabEngine engine) {
+		this.engine = engine;
+	}
 
 	@Override
 	public String getLibraryPath() { 
@@ -145,7 +189,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public void setEngineJarPath(String engineJarPath) { 
 		this.engineJarPath = engineJarPath;
 	}
-	
+
 	@Override
 	public String getMatlabPath() {
 		return matlabPath;
@@ -156,6 +200,59 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		this.matlabPath = matlabPath;
 	}
 	
+	/*
+	@Override
+	public Boolean isMustConnect() {
+		return mustConnect;
+	}
+
+	@Override
+	public void setMustConnect(Boolean mustConnect) {
+		this.mustConnect = mustConnect;
+	}
+
+	@Override
+	public String getEngineSharedSessionName() {
+		return engineSharedSessionName;
+	}
+
+	@Override
+	public void setEngineSharedSessionName(String connectingSession) {
+		this.engineSharedSessionName = connectingSession;
+	}
+	
+	@Override
+	public Integer getEnginePoolSize() {
+		return enginePoolSize;
+	}
+
+	@Override
+	public void setEnginePoolSize(Integer enginePoolSize) {
+		this.enginePoolSize = enginePoolSize;
+	}
+	*/
+	
+	@Override
+	public String getProject() {
+		return simulinkProject;
+	}
+
+	@Override
+	public void setProject(String simulinkProject) {
+		this.simulinkProject = simulinkProject;
+	}
+
+	@Override
+	public Boolean isUseCurrentProject() {
+		return useCurrentProject;
+	}
+
+	@Override
+	public void setUseCurrentProject(Boolean currentSimulinkProject) {
+		this.useCurrentProject = currentSimulinkProject;
+	}
+
+
 	public Object parseMatlabEngineVariable(String variableName) throws MatlabException { 
 		return MatlabEngineUtil.parseMatlabEngineVariable(engine, variableName);
 	}
@@ -216,23 +313,63 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
 		
+		String workingDirPath = properties.getProperty(PROPERTY_WORKING_DIR);
 		String filePath = properties.getProperty(PROPERTY_FILE);
 		if (filePath != null && filePath.trim().length() > 0)
 			setFile(new File(resolver.resolve(filePath)));
-		if (file == null) throw new IllegalStateException(
-			"File cannot be null! Please ensure the '"+PROPERTY_FILE+"' property is set."
-		);
+		
+		if (!StringUtil.isEmpty(workingDirPath)) {
+			// if the user has set a working directory, we will use it
+			setWorkingDir(new File(resolver.resolve(workingDirPath)));
+		}
+
+		String paths = properties.getProperty(PROPERTY_PATHS);
+		if (!StringUtil.isEmpty(paths)) {
+			Arrays.stream(paths.trim().split(";")).forEach(this::addPath);
+		}
+		
+		setProject(properties.getProperty(PROPERTY_SIMULINK_PROJECT, ""));
+		setUseCurrentProject(properties.getBooleanProperty(PROPERTY_CURRENT_SIMULINK_PROJECT, false));
+
+		//setMustConnect(properties.getBooleanProperty(PROPERTY_MUST_CONNECT, false));
+		//setEngineSharedSessionName(properties.getProperty(PROPERTY_ENGINE_SHARED_SESSION_NAME, ""));
+		//setEnginePoolSize(properties.getIntegerProperty(PROPERTY_CURRENT_SIMULINK_PROJECT, 2));
 		
 		setMatlabPath(properties.getProperty(PROPERTY_MATLAB_PATH, matlabPath));
 		setLibraryPath(properties.getProperty(PROPERTY_LIBRARY_PATH, libraryPath));
 		setEngineJarPath(properties.getProperty(PROPERTY_ENGINE_JAR_PATH, engineJarPath));
-		
 		resolvePaths();
+			
 	}
 	
 	@Override
 	public boolean isLoaded() {
 		return file != null && engine != null;
+	}
+	
+	@Override
+	public File getWorkingDir() {
+		return workingDir;
+	}
+
+	@Override
+	public void setWorkingDir(File workingDir) {
+		this.workingDir = workingDir;
+	}
+
+	@Override
+	public void addPath(String path) {
+		paths.add(path);
+	}
+	
+	@Override
+	public void addPath(File path) {
+		paths.add(path.getAbsolutePath());
+	}
+	
+	@Override
+	public List<String> getPaths() {
+		return paths;
 	}
 	
 	protected void resolvePaths() {
@@ -242,4 +379,5 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		libraryPath = allPaths[1];
 		engineJarPath = allPaths[2];
 	}
+
 }

@@ -11,17 +11,15 @@ package org.eclipse.epsilon.emc.simulink.model;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.Multimap;
 import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
-import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
@@ -36,33 +34,25 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SimulinkModel extends AbstractSimulinkModel implements IOperationContributorProvider {
 
 	/** CONSTANTS */
-	public static final String PROPERTY_PATHS = "paths";
 	public static final String PROPERTY_SHOW_IN_MATLAB_EDITOR = "hidden_editor";
 	public static final String PROPERTY_FOLLOW_LINKS = "follow_links";
-	public static final String PROPERTY_WORKING_DIR = "working_dir";
+	public static final String PROPERTY_CURRENT_SIMULINK_MODEL = "current_simulink_model";
 
 	public static final String BLOCK = "Block";
 	public static final String SIMULINK = "Simulink";
 	public static final String STATEFLOW = "Stateflow";
 
-	public static final String PWD = "cd '?';";
 	public static final String GET_PARAM = "get_param('?', 'Handle');";
 	public static final String LOAD_SYSTEM = "load_system('?')";
 	public static final String OPEN_SYSTEM = "open_system('?')";
 	public static final String NEW_SYSTEM = "new_system('?', 'Model');";
 	public static final String SAVE_SYSTEM = "save_system('?', '?');";
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SimulinkModel.class);
-
-	//
 	private static final Multimap<String, String> createBlockMap = new Multimap<>();
-	//
 	private static final ArrayList<ArrayList<String>> deleteBlockMap = new ArrayList<>();
 
 	static {
@@ -77,11 +67,11 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 
 	protected ModelOperationContributor simulinkOperationContributor;
 
-	protected File workingDir = null;
-
+	protected boolean useCurrentSimulinkModel = false;
 	protected boolean showInMatlabEditor = false;
 	protected boolean followLinks = true;
 	protected double handle = -1;
+	protected String simulinkModelName;
 
 	@Override
 	protected void loadModel() throws EolModelLoadingException {
@@ -89,38 +79,34 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 
 		try {
 			simulinkOperationContributor = new ModelOperationContributor(engine);
-
-			if ((workingDir != null && workingDir.exists())) {
-				try {
-					engine.eval(PWD, workingDir);
-				} catch (Exception ex) {
-					LOGGER.info(ex.getMessage());
-				}
-			}
-
-			if (readOnLoad) {
-				String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
-				try {
-					engine.eval(cmd, file.getAbsolutePath());
-				} catch (Exception e) {
+			
+			if (isUseCurrentSimulinkModel()) {
+				String evalWithResult = (String) engine.evalWithResult("gcs;");
+				setSimulinkModelName(evalWithResult);
+				this.handle = (Double) engine.evalWithResult("Simulink.ID.getHandle('?');", getSimulinkModelName());
+			} else {
+				setSimulinkModelName(getFile());
+				if (readOnLoad) {
+					String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
+					try {
+						engine.eval(cmd, file.getAbsolutePath());
+					} catch (Exception e) {
+						try {
+							engine.eval(NEW_SYSTEM, getSimulinkModelName());
+						} catch (Exception ex) {
+							// Ignore; system already exists
+						}
+					}
+				} else {
 					try {
 						engine.eval(NEW_SYSTEM, getSimulinkModelName());
 					} catch (Exception ex) {
 						// Ignore; system already exists
 					}
 				}
-			} else {
-				try {
-					engine.eval(NEW_SYSTEM, getSimulinkModelName());
-				} catch (Exception ex) {
-					// Ignore; system already exists
-				}
+				this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());
 			}
-			for (String path : paths) {
-				engine.eval("addpath ?", path);
-			}
-
-			this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());
+			
 		} catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
 		}
@@ -267,24 +253,10 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		super.load(properties, resolver);
 
-		String workingDirPath = properties.getProperty(PROPERTY_WORKING_DIR);
 		setShowInMatlabEditor(properties.getBooleanProperty(PROPERTY_SHOW_IN_MATLAB_EDITOR, showInMatlabEditor));
 		setFollowLinks(properties.getBooleanProperty(PROPERTY_FOLLOW_LINKS, followLinks));
-		String filePath = properties.getProperty(PROPERTY_FILE);
-
-		if (!StringUtil.isEmpty(workingDirPath)) {
-			// if the user has set a working directory, we will use it
-			setWorkingDir(new File(resolver.resolve(workingDirPath)));
-		} else {
-			// otherwise we will use the directory the model file is in
-			setWorkingDir(new File(resolver.resolve(filePath)).getParentFile());
-		}
-
-		String paths = properties.getProperty(SimulinkModel.PROPERTY_PATHS);
-		if (!StringUtil.isEmpty(paths)) {
-			Arrays.stream(paths.trim().split(";")).forEach(this::addPath);
-		}
-
+		setUseCurrentSimulinkModel(properties.getBooleanProperty(PROPERTY_CURRENT_SIMULINK_MODEL, false));
+		
 		load();
 	}
 
@@ -360,7 +332,15 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	}
 
 	public String getSimulinkModelName() {
-		return FileUtil.getFileName(file.getName(), false);
+		return this.simulinkModelName;
+	}
+	
+	protected void setSimulinkModelName(String name) {
+		this.simulinkModelName = name;
+	}
+	
+	protected void setSimulinkModelName(File name) {
+		this.simulinkModelName = FileUtil.getFileName(file.getName(), false);
 	}
 
 	@Override
@@ -376,26 +356,13 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 		return showInMatlabEditor;
 	}
 
-	public File getWorkingDir() {
-		return workingDir;
+	
+	public boolean isUseCurrentSimulinkModel() {
+		return useCurrentSimulinkModel;
 	}
 
-	public void setWorkingDir(File workingDir) {
-		this.workingDir = workingDir;
-	}
-
-	private List<String> paths = new ArrayList<>();
-
-	public void addPath(String path) {
-		paths.add(path);
-	}
-
-	public void addPath(File path) {
-		paths.add(path.getAbsolutePath());
-	}
-
-	public List<String> getPaths(File workingDir) {
-		return paths;
+	public void setUseCurrentSimulinkModel(boolean useCurrentSimulinkModel) {
+		this.useCurrentSimulinkModel = useCurrentSimulinkModel;
 	}
 
 	/**

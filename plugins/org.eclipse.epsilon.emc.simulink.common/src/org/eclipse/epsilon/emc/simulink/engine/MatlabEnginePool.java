@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
 
 public class MatlabEnginePool {
@@ -72,7 +73,9 @@ public class MatlabEnginePool {
 	}
 
 	public static void reset() {
-		instance = null;
+		if (instance != null && !instance.pool.isEmpty()) {			
+			instance.pool.clear();
+		}
 	}
 
 	public MatlabEngine getMatlabEngine() throws Exception {
@@ -87,7 +90,18 @@ public class MatlabEnginePool {
 	}
 
 	public void release(MatlabEngine engine) {
-		pool.add(engine);
+		try {
+			engine.eval("clear");
+			pool.add(engine);
+		} catch (MatlabException e) {
+			e.printStackTrace();
+			try {
+				engine.disconnect();
+			} catch (MatlabException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 	}
 
 	public String getEngineJarPath() {

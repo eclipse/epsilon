@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.emc.simulink.model;
 
 import java.io.File;
+import java.util.List;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -33,5 +34,35 @@ public interface IGenericSimulinkModel extends IModel {
 	void setFile(File file);
 
 	File getFile();
+
+	String getProject();
+
+	void setProject(String simulinkProject);
+
+	Boolean isUseCurrentProject();
+
+	void setUseCurrentProject(Boolean currentSimulinkProject);
+
+	/*void setEngineSharedSessionName(String connectingSession);
+
+	String getEngineSharedSessionName();
+
+	void setMustConnect(Boolean mustConnect);
+
+	Boolean isMustConnect();
+	
+	Integer getEnginePoolSize();
+
+	void setEnginePoolSize(Integer enginePoolSize);*/
+
+	List<String> getPaths();
+
+	void addPath(File path);
+
+	void addPath(String path);
+
+	void setWorkingDir(File workingDir);
+
+	File getWorkingDir();
 
 }
