@@ -105,6 +105,27 @@ public class PatchTests {
 	}
 	
 	@Test
+	public void testTwoMatches() throws Exception {
+		Patch patch = new Patch("=1", ">2");
+		TextBlock block = new TextBlock("1", "1");
+		assertEquals(new TextBlock("1", "2", "1", "2"), patch.apply(block));
+	}
+	
+	@Test
+	public void testTwoMatchesWithRemove() throws Exception {
+		Patch patch = new Patch("<1", ">2");
+		TextBlock block = new TextBlock("1", "1");
+		assertEquals(new TextBlock("2", "2"), patch.apply(block));
+	}
+	
+	@Test
+	public void testTwoMatchesWithKeepAndRemove() throws Exception {
+		Patch patch = new Patch("=1", ">2", "<3");
+		TextBlock block = new TextBlock("1", "3", "1", "3");
+		assertEquals(new TextBlock("1", "2", "1", "2"), patch.apply(block));
+	}
+	
+	@Test
 	public void testIncompleteMatch() throws Exception {
 		Patch patch = new Patch("=1", ">2", "<3");
 		TextBlock block = new TextBlock("1");
