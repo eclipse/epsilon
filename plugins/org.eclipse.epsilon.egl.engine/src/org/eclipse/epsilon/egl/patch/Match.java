@@ -1,18 +1,22 @@
 package org.eclipse.epsilon.egl.patch;
 
+import java.util.Map;
+
 public class Match {
 	
 	protected TextBlock block;
 	protected int startLine;
 	protected int endLine;
 	protected Patch patch;
+	protected Map<Line, Line> lineMap;
 	
-	public Match(TextBlock block, int startLine, int endLine, Patch patch) {
+	public Match(TextBlock block, int startLine, int endLine, Patch patch, Map<Line, Line> lineMap) {
 		super();
 		this.block = block;
 		this.startLine = startLine;
 		this.endLine = endLine;
 		this.patch = patch;
+		this.lineMap = lineMap;
 	}
 
 	public TextBlock getBlock() {
@@ -45,6 +49,14 @@ public class Match {
 
 	public void setPatch(Patch patch) {
 		this.patch = patch;
+	}
+	
+	public Map<Line, Line> getLineMap() {
+		return lineMap;
+	}
+	
+	public void setLineMap(Map<Line, Line> lineMap) {
+		this.lineMap = lineMap;
 	}
 	
 }

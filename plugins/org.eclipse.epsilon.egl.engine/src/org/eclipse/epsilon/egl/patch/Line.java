@@ -40,7 +40,7 @@ public class Line {
 	public boolean equals(Object obj) {
 		if (obj == null) return false;
 		Line other = (Line) obj;
-		return other.getType() == getType() && other.getText().trim().contentEquals(getText().trim());
+		return other.getType() == getType() && other.getText().contentEquals(getText());
 	}
 	
 	@Override
