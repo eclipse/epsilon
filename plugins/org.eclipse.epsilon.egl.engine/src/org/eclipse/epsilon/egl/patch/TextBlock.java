@@ -17,6 +17,22 @@ public class TextBlock {
 		return lines;
 	}
 	
+	protected boolean isFirstLine(Line line) {
+		return lines.indexOf(line) == 0;
+	}
+	
+	protected boolean isLastLine(Line line) {
+		return lines.indexOf(line) == lines.size() - 1;
+	}
+	
+	protected Line getPreviousLine(Line line) {
+		return lines.get(lines.indexOf(line) - 1);
+	}
+	
+	protected Line getNextLine(Line line) {
+		return lines.get(lines.indexOf(line) + 1);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof TextBlock)) return false;

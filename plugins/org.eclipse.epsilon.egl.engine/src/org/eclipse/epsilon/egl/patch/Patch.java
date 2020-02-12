@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.egl.patch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -10,13 +11,40 @@ public class Patch extends TextBlock {
 	
 	public Patch() {}
 	
-	public Patch(String... lines) throws InvalidLineException {
+	public Patch(String... lines) {
 		LineFactory lineFactory = new LineFactory();
 		for (int i=0; i<lines.length; i++) {
-			Line line = lineFactory.createLine(lines[i], i+1);
-			if (line.getType() == LineType.REGULAR) throw new InvalidLineException(line);
-			this.lines.add(line);
+			this.lines.add(lineFactory.createLine(lines[i], i+1));
 		}
+	}
+	
+	public List<PatchValidationDiagnostic> validate() {
+		List<PatchValidationDiagnostic> diagnostics = new ArrayList<>();
+		
+		for (Line line : lines) {
+			if (line.is(LineType.REGULAR)) diagnostics.add(new PatchValidationDiagnostic(line, "Regular lines are not allowed in patch"));
+			if (line.is(LineType.WILDCARD)) {
+				if (isFirstLine(line)) {
+					diagnostics.add(new PatchValidationDiagnostic(line, "Wildcards are not allowed at the beginning of a patch"));
+				}
+				else if (isLastLine(line)) {
+					diagnostics.add(new PatchValidationDiagnostic(line, "Wildcards are not allowed at the end of a patch"));					
+				}
+				
+				if (!isFirstLine(line) && getPreviousLine(line).is(LineType.WILDCARD)) {
+					diagnostics.add(new PatchValidationDiagnostic(line, "Consecutive wildcards are not allowed"));					
+				}
+				if (!isLastLine(line) && getNextLine(line).is(LineType.WILDCARD)) {
+					diagnostics.add(new PatchValidationDiagnostic(line, "Consecutive wildcards are not allowed"));
+				}
+			}
+		}
+		
+		return diagnostics;
+	}
+	
+	public boolean isValid() {
+		return validate().isEmpty();
 	}
 	
 	public List<Match> match(TextBlock block) {
@@ -29,20 +57,36 @@ public class Patch extends TextBlock {
 		
 		if (keepsAndRemoves.getLines().isEmpty()) return matches;
 		
-		HashMap<Line, Line> lineMap = new HashMap<>();
+		LineMap lineMap = new LineMap();
+//		System.out.println("Total lines in block " + block.getLines().size());
+		int blockLineNumber = 0;
 		
-		for (int blockLineNumber=0; blockLineNumber<block.getLines().size(); blockLineNumber++) {
-			
+		while (blockLineNumber<block.getLines().size()) {
+//			System.out.println("Processing block line " + blockLineNumber);
 			Line blockLine = block.getLines().get(blockLineNumber);
-			String blockLineText = blockLine.getText().trim();
-			
-			//if (patchLineNumber == keepsAndRemoves.getLines().size()) break;
-			
+			String blockLineText = blockLine.getTrimmedText();			
 			Line patchLine = keepsAndRemoves.getLines().get(patchLineNumber);
-			String patchLineText = patchLine.getText().trim();
+			String patchLineText = patchLine.getTrimmedText();
 			
-			if (patchLineText.contentEquals(blockLineText)) {
+			if (patchLine.is(LineType.WILDCARD)) {
+				Line matchLine = keepsAndRemoves.getNextLine(patchLine);
+				while (!matchLine.getTrimmedText().contentEquals(blockLineText)) {
+//					System.out.println(patchLine + "->" + blockLine);
+					lineMap.put(patchLine, blockLine);
+					blockLineNumber ++;
+					if (!block.isLastLine(blockLine)) {
+						blockLine = block.getNextLine(blockLine);
+						blockLineText = blockLine.getTrimmedText();
+					}
+				}
+				
+//				System.out.println("After wildcard blockLineNumber is " + blockLineNumber);
+				patchLineNumber++;
+				continue;
+			}
+			else if (patchLineText.contentEquals(blockLineText)) {
 				lineMap.put(patchLine, blockLine);
+//				System.out.println(patchLine + "->" + blockLine);
 				if (patchLineNumber == 0) {
 					startMatchBlockLineNumber = blockLineNumber;
 				}
@@ -57,10 +101,13 @@ public class Patch extends TextBlock {
 				}
 			}
 			else {
+//				System.out.println("Unmatched line");
 				patchLineNumber = 0;
 				startMatchBlockLineNumber = 0;
-				lineMap = new HashMap<Line, Line>();
+				lineMap = new LineMap();
 			}
+			
+			blockLineNumber++;
 		}
 		
 		// If we're left in the middle of a match and all that remains are insertions, complete the match.
@@ -89,10 +136,15 @@ public class Patch extends TextBlock {
 			if (match != null && originalLineNumber == match.getStartLine()) {
 //				System.out.println(match.getPatch().getLines().size());
 				for (Line line : match.getPatch().getLines()) {
-					if (line.getType() != LineType.REMOVE) {
+					if (line.is(LineType.WILDCARD)) {
+						for (Line originalLine : match.getLineMap().get(line)) {
+							merged.getLines().add(new Line(LineType.REGULAR, originalLine.getText(), -1));
+						}
+					}
+					else if (line.isNot(LineType.REMOVE)) {
 						String text;
 						if (line.getType() == LineType.INSERT) text = line.getText();
-						else text = match.getLineMap().get(line).getText();
+						else text = match.getLineMap().get(line).get(0).getText();
 						merged.getLines().add(new Line(LineType.REGULAR, text, -1));
 					}
 				}
@@ -112,7 +164,9 @@ public class Patch extends TextBlock {
 	public Patch keepsAndRemoves() {
 		Patch patch = new Patch();
 		patch.getLines().addAll(this.getLines().stream().
-				filter(l -> l.getType() == LineType.KEEP || l.getType() == LineType.REMOVE).
+				filter(l -> l.getType() == LineType.KEEP 
+						 || l.getType() == LineType.REMOVE
+						 || l.getType() == LineType.WILDCARD).
 				collect(Collectors.toList()));
 		return patch;
 	}

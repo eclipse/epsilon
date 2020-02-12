@@ -12,6 +12,10 @@ public class Line {
 		this.type = type;
 	}
 	
+	public String getTrimmedText() {
+		return getText().trim();
+	}
+	
 	public String getText() {
 		return text;
 	}
@@ -34,6 +38,14 @@ public class Line {
 	
 	public void setType(LineType type) {
 		this.type = type;
+	}
+	
+	public boolean is(LineType type) {
+		return this.type == type;
+	}
+	
+	public boolean isNot(LineType type) {
+		return this.type != type;
 	}
 	
 	@Override

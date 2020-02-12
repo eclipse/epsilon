@@ -15,6 +15,9 @@ public class LineFactory {
 		else if (text.startsWith("#")) {
 			return new Line(LineType.COMMENT, text.substring(1), number);
 		}
+		else if (text.contentEquals("...")) {
+			return new Line(LineType.WILDCARD, "", number);
+		}
 		else return new Line(LineType.REGULAR, text, number);
 	}
 	
