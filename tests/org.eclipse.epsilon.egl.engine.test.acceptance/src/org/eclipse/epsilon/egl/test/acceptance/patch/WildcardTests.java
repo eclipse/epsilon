@@ -10,56 +10,51 @@ import org.junit.Test;
 public class WildcardTests extends PatchTestsBase {
 	
 	@Test
-	public void testWildCard() throws Exception {
+	public void testWildCard() {
 		Patch patch = createPatch("=1", "...", "=4", ">5");
 		TextBlock block = new TextBlock("1","2","3","4");
 		assertEquals(new TextBlock("1", "2", "3", "4", "5"), patch.apply(block));
 	}
 	
 	@Test
-	public void testWildCard2() throws Exception {
+	public void testWildCard2() {
 		Patch patch = createPatch("=1", "=2", "...", "=4", ">5");
 		TextBlock block = new TextBlock("1","2","3","4");
 		assertEquals(new TextBlock("1", "2", "3", "4", "5"), patch.apply(block));
 	}
 	
 	@Test
-	public void testWildCard3() throws Exception {
+	public void testWildCard3() {
 		Patch patch = createPatch("=1", "=2", "...", ">5");
 		TextBlock block = new TextBlock("1","2","3","4");
 		assertEquals(new TextBlock("1", "2", "3", "4", "5"), patch.apply(block));
 	}
 	
 	@Test
-	public void testWildCard4() throws Exception {
+	public void testWildCard4() {
 		Patch patch = createPatch("=1", "=2", "...", "=4");
 		TextBlock block = new TextBlock("1","2","3","4");
 		assertEquals(new TextBlock("1", "2", "3", "4"), patch.apply(block));
 	}
 	
 	@Test
-	public void testWildCard5() throws Exception {
+	public void testWildCard5() {
 		Patch patch = createPatch("=1", "=2", "...", "<4");
 		TextBlock block = new TextBlock("1","2","3","4");
 		assertEquals(new TextBlock("1", "2", "3"), patch.apply(block));
 	}
 	
 	@Test
-	public void testWildCard6() throws Exception {
+	public void testWildCard6() {
 		Patch patch = createPatch("=1", "...", "<4");
 		TextBlock block = new TextBlock("1","2","3","4");
 		assertEquals(new TextBlock("1", "2", "3"), patch.apply(block));
 	}
 	
-	/*
 	@Test
-	public void testWildCard7() throws Exception {
+	public void testWildCard7() {
 		Patch patch = createPatch(">0", "...", "=2");
 		TextBlock block = new TextBlock("1","2", "3");
-		
-		Match match = patch.match(block).get(0);
-		System.out.println(match.getLineMap());
-		
 		assertEquals(new TextBlock("0", "1", "2", "3"), patch.apply(block));
-	}*/
+	}
 }

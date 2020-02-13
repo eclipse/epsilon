@@ -58,7 +58,16 @@ public class Line {
 	
 	@Override
 	public String toString() {
-		return text;
+		String prefix = "";
+		switch (type) {
+		case COMMENT: prefix="#"; break;
+		case INSERT: prefix=">"; break;
+		case KEEP: prefix="="; break;
+		case REGULAR: prefix=""; break;
+		case REMOVE: prefix="<"; break;
+		case WILDCARD: prefix="..."; break;
+		}
+		return prefix + text;
 	}
 	
 }

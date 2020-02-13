@@ -7,22 +7,22 @@ import org.junit.Test;
 
 public class PatchValidationTests {
 	
-	public void testInvalidPatchLine() throws Exception {
+	public void testInvalidPatchLine() {
 		assertFalse(new Patch("foo").isValid());
 	}
 	
 	@Test
-	public void testWildcardInvalidAtTheBeginning() throws Exception {
+	public void testWildcardInvalidAtTheBeginning() {
 		assertFalse(new Patch("...", "=1").isValid());
 	}
 	
 	@Test
-	public void testWildcardInvalidAtTheEnd() throws Exception {
+	public void testWildcardInvalidAtTheEnd() {
 		assertFalse(new Patch("=1", "...").isValid());
 	}
 
 	@Test
-	public void testNoConsecutiveWildcards() throws Exception {
+	public void testNoConsecutiveWildcards() {
 		assertFalse(new Patch("=1", "...", "...", "=2").isValid());
 	}
 	

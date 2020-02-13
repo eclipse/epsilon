@@ -75,6 +75,8 @@ public class Patch extends TextBlock {
 					break;
 				}
 				else {
+					if (startMatchBlockLine == null) startMatchBlockLine = blockLine;
+					
 					while (blockLine != null && !matchLine.getTrimmedText().contentEquals(blockLine.getTrimmedText())) {
 						lineMap.put(patchLine, blockLine);
 						blockLine = block.getNextLine(blockLine);
