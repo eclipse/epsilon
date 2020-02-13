@@ -6,12 +6,12 @@ import java.util.Map;
 public class Match {
 	
 	protected TextBlock block;
-	protected int startLine;
-	protected int endLine;
+	protected Line startLine;
+	protected Line endLine;
 	protected Patch patch;
 	protected LineMap lineMap;
 	
-	public Match(TextBlock block, int startLine, int endLine, Patch patch, LineMap lineMap) {
+	public Match(TextBlock block, Line startLine, Line endLine, Patch patch, LineMap lineMap) {
 		super();
 		this.block = block;
 		this.startLine = startLine;
@@ -28,19 +28,19 @@ public class Match {
 		this.block = block;
 	}
 
-	public int getStartLine() {
+	public Line getStartLine() {
 		return startLine;
 	}
 
-	public void setStartLine(int startLine) {
+	public void setStartLine(Line startLine) {
 		this.startLine = startLine;
 	}
 
-	public int getEndLine() {
+	public Line getEndLine() {
 		return endLine;
 	}
 
-	public void setEndLine(int endLine) {
+	public void setEndLine(Line endLine) {
 		this.endLine = endLine;
 	}
 

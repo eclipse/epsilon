@@ -18,6 +18,11 @@ public class TextBlock {
 		else return lines.get(0);
 	}
 	
+	protected Line getLastLine() {
+		if (lines.isEmpty()) return null;
+		else return lines.get(lines.size()-1);
+	}
+	
 	public List<Line> getLines() {
 		return lines;
 	}

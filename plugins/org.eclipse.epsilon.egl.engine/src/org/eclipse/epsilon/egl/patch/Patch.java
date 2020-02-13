@@ -70,7 +70,7 @@ public class Patch extends TextBlock {
 							lineMap.put(patchLine, blockLine);
 							blockLine = block.getNextLine(blockLine);
 						}
-						matches.add(new Match(block, startMatchBlockLine.getNumber()-1, block.getLines().size(), this, lineMap));
+						matches.add(new Match(block, startMatchBlockLine, block.getLastLine(), this, lineMap));
 					}
 					break;
 				}
@@ -91,7 +91,7 @@ public class Patch extends TextBlock {
 				}
 				
 				if (keepsAndRemoves.isLastLine(patchLine)) {
-					matches.add(new Match(block, startMatchBlockLine.getNumber()-1, blockLine.getNumber()-1, this, lineMap));
+					matches.add(new Match(block, startMatchBlockLine, blockLine, this, lineMap));
 					patchLine = keepsAndRemoves.getFirstLine();
 					startMatchBlockLine = null;
 					lineMap = new LineMap();
@@ -124,31 +124,32 @@ public class Patch extends TextBlock {
 		TextBlock merged = new TextBlock();
 		Iterator<Match> matchIterator = matches.iterator();
 		Match match = matchIterator.next();
-//		System.out.println(match);
 		
-		for (int originalLineNumber=0;originalLineNumber<block.getLines().size();originalLineNumber++) {
-			if (match != null && originalLineNumber == match.getStartLine()) {
-//				System.out.println(match.getPatch().getLines().size());
-				for (Line line : match.getPatch().getLines()) {
-					if (line.is(LineType.WILDCARD)) {
-						for (Line originalLine : match.getLineMap().get(line)) {
-							merged.getLines().add(new Line(LineType.REGULAR, originalLine.getText(), -1));
+		Line originalLine = block.getFirstLine();
+		
+		while (originalLine != null) {
+			if (match != null && originalLine == match.getStartLine()) {
+				for (Line patchLine : match.getPatch().getLines()) {
+					if (patchLine.is(LineType.WILDCARD)) {
+						for (Line blockLine : match.getLineMap().get(patchLine)) {
+							merged.getLines().add(blockLine);
 						}
 					}
-					else if (line.isNot(LineType.REMOVE)) {
+					else if (patchLine.isNot(LineType.REMOVE)) {
 						String text;
-						if (line.getType() == LineType.INSERT) text = line.getText();
-						else text = match.getLineMap().get(line).get(0).getText();
+						if (patchLine.is(LineType.INSERT)) text = patchLine.getText();
+						else text = match.getLineMap().get(patchLine).get(0).getText();
 						merged.getLines().add(new Line(LineType.REGULAR, text, -1));
 					}
 				}
 				
-				originalLineNumber = match.getEndLine();
+				originalLine = block.getNextLine(match.getEndLine());
 				if (matchIterator.hasNext()) match = matchIterator.next();
 				else match = null;
 			}
 			else {
-				merged.getLines().add(block.getLines().get(originalLineNumber));
+				merged.getLines().add(originalLine);
+				originalLine = block.getNextLine(originalLine);
 			}
 		}
 		

@@ -27,8 +27,8 @@ public class PatchTests extends PatchTestsBase {
 		TextBlock block = new TextBlock("irrelevant1","do","end do","irrelevant2");
 		Match match = patch.match(block).get(0);
 		assertEquals(1, patch.match(block).size());
-		assertEquals(1, match.getStartLine());
-		assertEquals(2, match.getEndLine());
+		assertEquals(2, match.getStartLine().getNumber());
+		assertEquals(3, match.getEndLine().getNumber());
 	}
 	
 	@Test
