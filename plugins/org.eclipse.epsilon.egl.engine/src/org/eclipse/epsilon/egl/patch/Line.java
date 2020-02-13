@@ -48,12 +48,13 @@ public class Line {
 		return this.type != type;
 	}
 	
+	/*
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) return false;
 		Line other = (Line) obj;
 		return other.getType() == getType() && other.getText().contentEquals(getText());
-	}
+	}*/
 	
 	@Override
 	public String toString() {

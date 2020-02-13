@@ -48,73 +48,72 @@ public class Patch extends TextBlock {
 	}
 	
 	public List<Match> match(TextBlock block) {
-		
-		int patchLineNumber = 0;
-		int startMatchBlockLineNumber = -1;
-		
+				
+		Line startMatchBlockLine = null;
 		List<Match> matches = new ArrayList<Match>();
 		Patch keepsAndRemoves = this.keepsAndRemoves();
 		
 		if (keepsAndRemoves.getLines().isEmpty()) return matches;
 		
 		LineMap lineMap = new LineMap();
-//		System.out.println("Total lines in block " + block.getLines().size());
-		int blockLineNumber = 0;
+		Line blockLine = block.getFirstLine();
+		Line patchLine = keepsAndRemoves.getFirstLine();
 		
-		while (blockLineNumber<block.getLines().size()) {
-//			System.out.println("Processing block line " + blockLineNumber);
-			Line blockLine = block.getLines().get(blockLineNumber);
-			String blockLineText = blockLine.getTrimmedText();			
-			Line patchLine = keepsAndRemoves.getLines().get(patchLineNumber);
-			String patchLineText = patchLine.getTrimmedText();
+		while (blockLine != null) {
 			
 			if (patchLine.is(LineType.WILDCARD)) {
 				Line matchLine = keepsAndRemoves.getNextLine(patchLine);
-				while (!matchLine.getTrimmedText().contentEquals(blockLineText)) {
-//					System.out.println(patchLine + "->" + blockLine);
-					lineMap.put(patchLine, blockLine);
-					blockLineNumber ++;
-					if (!block.isLastLine(blockLine)) {
-						blockLine = block.getNextLine(blockLine);
-						blockLineText = blockLine.getTrimmedText();
+				
+				if (matchLine == null) {
+					if (startMatchBlockLine != null) {
+						while (blockLine != null) {
+							lineMap.put(patchLine, blockLine);
+							blockLine = block.getNextLine(blockLine);
+						}
+						matches.add(new Match(block, startMatchBlockLine.getNumber()-1, block.getLines().size(), this, lineMap));
 					}
-				}
-				
-//				System.out.println("After wildcard blockLineNumber is " + blockLineNumber);
-				patchLineNumber++;
-				continue;
-			}
-			else if (patchLineText.contentEquals(blockLineText)) {
-				lineMap.put(patchLine, blockLine);
-//				System.out.println(patchLine + "->" + blockLine);
-				if (patchLineNumber == 0) {
-					startMatchBlockLineNumber = blockLineNumber;
-				}
-				
-				if (patchLineNumber == keepsAndRemoves.getLines().size() - 1) {
-					matches.add(new Match(block, startMatchBlockLineNumber, blockLineNumber, this, lineMap));
-					patchLineNumber = 0;
-					startMatchBlockLineNumber = -1;
+					break;
 				}
 				else {
-					patchLineNumber ++;
+					while (blockLine != null && !matchLine.getTrimmedText().contentEquals(blockLine.getTrimmedText())) {
+						lineMap.put(patchLine, blockLine);
+						blockLine = block.getNextLine(blockLine);
+					}
+					
+					patchLine = matchLine;
+					continue;
 				}
 			}
+			else if (patchLine.getTrimmedText().contentEquals(blockLine.getTrimmedText())) {
+				lineMap.put(patchLine, blockLine);
+				if (startMatchBlockLine == null) {
+					startMatchBlockLine = blockLine;
+				}
+				
+				if (keepsAndRemoves.isLastLine(patchLine)) {
+					matches.add(new Match(block, startMatchBlockLine.getNumber()-1, blockLine.getNumber()-1, this, lineMap));
+					patchLine = keepsAndRemoves.getFirstLine();
+					startMatchBlockLine = null;
+				}
+				else {
+					patchLine = keepsAndRemoves.getNextLine(patchLine);
+				}
+				blockLine = block.getNextLine(blockLine);
+			}
 			else {
-//				System.out.println("Unmatched line");
-				patchLineNumber = 0;
-				startMatchBlockLineNumber = 0;
+				blockLine = block.getNextLine(blockLine);
+				patchLine = keepsAndRemoves.getFirstLine();
+				startMatchBlockLine = null;
 				lineMap = new LineMap();
 			}
 			
-			blockLineNumber++;
 		}
 		
 		// If we're left in the middle of a match and all that remains are insertions, complete the match.
 		// e.g. TextBlock["1"] and Patch["=1",">2"]
-		if (startMatchBlockLineNumber >= 0 && patchLineNumber == keepsAndRemoves.getLines().size()) {
-			matches.add(new Match(block, startMatchBlockLineNumber, block.getLines().size(), this, lineMap));
-		}
+		//if (startMatchBlockLine != null && keepsAndRemoves.isFirstLine(patchLine)) {
+		//	matches.add(new Match(block, startMatchBlockLine.getNumber()-1, block.getLines().size(), this, lineMap));
+		//}
 		
 		return matches;
 	}

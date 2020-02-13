@@ -24,7 +24,7 @@ public class PatchTests extends PatchTestsBase {
 	@Test
 	public void testOneMatch() throws Exception {
 		Patch patch = createPatch("=do",">inject",">inject again","=end do");
-		TextBlock block = new TextBlock("irrelevant","do","end do","irrelevant");
+		TextBlock block = new TextBlock("irrelevant1","do","end do","irrelevant2");
 		Match match = patch.match(block).get(0);
 		assertEquals(1, patch.match(block).size());
 		assertEquals(1, match.getStartLine());

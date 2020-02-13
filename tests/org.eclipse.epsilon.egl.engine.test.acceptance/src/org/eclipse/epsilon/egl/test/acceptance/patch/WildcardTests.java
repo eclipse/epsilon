@@ -36,4 +36,25 @@ public class WildcardTests extends PatchTestsBase {
 		assertEquals(new TextBlock("1", "2", "3", "4"), patch.apply(block));
 	}
 	
+	@Test
+	public void testWildCard5() throws Exception {
+		Patch patch = createPatch("=1", "=2", "...", "<4");
+		TextBlock block = new TextBlock("1","2","3","4");
+		assertEquals(new TextBlock("1", "2", "3"), patch.apply(block));
+	}
+	
+	@Test
+	public void testWildCard6() throws Exception {
+		Patch patch = createPatch("=1", "...", "<4");
+		TextBlock block = new TextBlock("1","2","3","4");
+		assertEquals(new TextBlock("1", "2", "3"), patch.apply(block));
+	}
+	
+	/*
+	@Test
+	public void testWildCard7() throws Exception {
+		Patch patch = createPatch(">0", "...", "=2");
+		TextBlock block = new TextBlock("1","2", "3");
+		assertEquals(new TextBlock("0", "1", "2", "3"), patch.apply(block));
+	}*/
 }
