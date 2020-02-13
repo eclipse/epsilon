@@ -153,20 +153,4 @@ public class ComponentInstanceImpl extends ComponentImpl implements ComponentIns
 		return super.eIsSet(featureID);
 	}
 	
-
-	@Override
-	public String getName() {
-		if (name == null) {
-			return prototype.getName();
-		}
-		else return name;
-	}
-
-	@Override
-	public String getAction() {
-		if (action == null) {
-			return prototype.getAction();
-		}
-		else return action;
-	}
 } //ComponentInstanceImpl

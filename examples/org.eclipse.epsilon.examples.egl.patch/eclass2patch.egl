@@ -8,4 +8,5 @@
 +		else return [%=a.name%];
 +	}
 [%}%]
-=} //[%=c.name%]Impl
+-} //[%=c.name%]Impl
++} //[%=c.name%]Impl (Patched)
