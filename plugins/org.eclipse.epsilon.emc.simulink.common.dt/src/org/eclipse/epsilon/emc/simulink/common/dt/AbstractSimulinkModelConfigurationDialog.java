@@ -28,7 +28,7 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 	//protected Text sessionText;
 	//protected Label sessionTextLabel;
 	protected Button projectFileBrowser;
-	protected Button currentProjectButton;
+	protected Button currentProjectCheckbox;
 	protected Button browseModelFile;
 	protected Text projectFileText;
 	protected Text modelFileText;
@@ -50,7 +50,7 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Model", 3);
 
 		modelFileTextLabel = new Label(groupContent, SWT.NONE);
-		modelFileTextLabel.setText("File (?): ");
+		modelFileTextLabel.setText("File: ");
 
 		modelFileText = new Text(groupContent, SWT.BORDER);
 		modelFileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -60,7 +60,7 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		browseModelFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(modelFileText, "Simulink models in the workspace", "Select a Simulink model"));
 		
 		projectFileTextLabel = new Label(groupContent, SWT.NONE);
-		projectFileTextLabel.setText("Project file (?): ");
+		projectFileTextLabel.setText("Project file: ");
 		projectFileTextLabel.setToolTipText("Project that the model is part of. Leave blank if none.");
 
 		projectFileText = new Text(groupContent, SWT.BORDER);
@@ -73,7 +73,7 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		workingDirBrowser = new DirectoryFieldEditor(AbstractSimulinkModel.PROPERTY_WORKING_DIR, "Working directory: ", groupContent);
 		
 		pathsTextLabel = new Label(groupContent, SWT.NONE);
-		pathsTextLabel.setText("Additional paths (?): ");
+		pathsTextLabel.setText("Additional paths: ");
 		pathsTextLabel.setToolTipText("Colon (;) separated list");
 
 		pathsText = new Text(groupContent, SWT.BORDER);
@@ -93,24 +93,24 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		buttonData.horizontalSpan = 1;
 
 		/*isSharedButton = new Button(groupContent, SWT.CHECK);
-		isSharedButton.setText(" Connect to engine (?)");
+		isSharedButton.setText(" Connect to engine");
 		isSharedButton.setSelection(false);
 		isSharedButton.setToolTipText("A *shared* MATLAB instance must be running");
 		isSharedButton.setLayoutData(buttonData);
 		
 		sessionTextLabel = new Label(groupContent, SWT.NONE);
-		sessionTextLabel.setText("MATLAB Session Name (?): ");
+		sessionTextLabel.setText("MATLAB Session Name: ");
 		sessionTextLabel.setToolTipText("If 'connect to shared engine' is enabled, use this field to specify the name of the MATLAB session to connect to");
 		
 		sessionText = new Text(groupContent, SWT.BORDER);
 		sessionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		*/
 		
-		currentProjectButton = new Button(groupContent, SWT.CHECK);
-		currentProjectButton.setText(" Use current project (?)");
-		currentProjectButton.setSelection(false);
-		currentProjectButton.setToolTipText("If selected, disregards any specified project file and instead calls an open project in the shared MATLAB session.");
-		currentProjectButton.setLayoutData(buttonData);
+		currentProjectCheckbox = new Button(groupContent, SWT.CHECK);
+		currentProjectCheckbox.setText(" Use current project");
+		currentProjectCheckbox.setSelection(false);
+		currentProjectCheckbox.setToolTipText("If selected, disregards any specified project file and instead calls an open project in the shared MATLAB session.");
+		currentProjectCheckbox.setLayoutData(buttonData);
 		
 		/*isSharedButton.addSelectionListener(new SelectionListener() {
 			
@@ -133,7 +133,7 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 			}
 			
 		});*/
-		currentProjectButton.addSelectionListener(new SelectionListener() {
+		currentProjectCheckbox.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -163,11 +163,11 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		modelFileText.setText(properties.getProperty(AbstractSimulinkModel.PROPERTY_FILE));
 		workingDirBrowser.setStringValue(properties.getProperty(AbstractSimulinkModel.PROPERTY_WORKING_DIR));
 		pathsText.setText(properties.getProperty(AbstractSimulinkModel.PROPERTY_PATHS));
-		if (currentProjectButton != null) {
-			currentProjectButton.setSelection(properties.getBooleanProperty(AbstractSimulinkModel.PROPERTY_CURRENT_SIMULINK_PROJECT, false));
-			if (currentProjectButton.getSelection()) {
-				disableOnSelect(currentProjectButton, projectFileText);
-				disableOnSelect(currentProjectButton, projectFileBrowser);
+		if (currentProjectCheckbox != null) {
+			currentProjectCheckbox.setSelection(properties.getBooleanProperty(AbstractSimulinkModel.PROPERTY_CURRENT_SIMULINK_PROJECT, false));
+			if (currentProjectCheckbox.getSelection()) {
+				disableOnSelect(currentProjectCheckbox, projectFileText);
+				disableOnSelect(currentProjectCheckbox, projectFileBrowser);
 			}
 		}
 		/*if (isSharedButton != null) {
@@ -185,8 +185,8 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 	@Override
 	protected void storeProperties() {
 		super.storeProperties();
-		if (currentProjectButton != null) {
-			properties.put(AbstractSimulinkModel.PROPERTY_CURRENT_SIMULINK_PROJECT, currentProjectButton.getSelection() + "");
+		if (currentProjectCheckbox != null) {
+			properties.put(AbstractSimulinkModel.PROPERTY_CURRENT_SIMULINK_PROJECT, currentProjectCheckbox.getSelection() + "");
 		}
 		/*if (isSharedButton != null) {
 			properties.put(AbstractSimulinkModel.PROPERTY_MUST_CONNECT, isSharedButton.getSelection() + "");
@@ -206,8 +206,8 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 	}
 	
 	protected void restoreStateOfNonSharedEngineFields() {
-		currentProjectButton.setSelection(false);
-		currentProjectButton.setEnabled(false);
+		currentProjectCheckbox.setSelection(false);
+		currentProjectCheckbox.setEnabled(false);
 		projectFileText.setEnabled(true);
 		projectFileText.setEditable(true);
 		projectFileBrowser.setEnabled(true);

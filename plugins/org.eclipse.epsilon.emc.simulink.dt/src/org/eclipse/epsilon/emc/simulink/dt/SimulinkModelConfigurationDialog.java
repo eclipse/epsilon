@@ -31,7 +31,7 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 		return "Simulink";
 	}
 
-	protected Button currentSimulinkButton;
+	protected Button currentSimulinkCheckbox;
 	protected Button showInMatlabEditorCheckbox;
 	protected Label followLinksLabel;
 	protected Button followLinksCheckbox;
@@ -39,10 +39,10 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 	@Override
 	protected Composite createFilesGroup(Composite parent) {
 		Composite createFilesGroup = super.createFilesGroup(parent);
-		modelFileTextLabel.setText("Model file (?): ");
+		modelFileTextLabel.setText("Model file: ");
 		
 		followLinksLabel = new Label(createFilesGroup, SWT.NONE);
-		followLinksLabel.setText("Follow Block Links (?): ");
+		followLinksLabel.setText("Follow Block Links: ");
 		followLinksLabel.setToolTipText("Set the 'FollowLinks' flag to 'on' of the 'find_system' method "
 				+ "used when calling all elements of a type in Epsilon e.g. ModelType.all;");
 		
@@ -62,13 +62,13 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 		GridData buttonData = new GridData(GridData.FILL_HORIZONTAL);
 		buttonData.horizontalSpan = 1;
 
-		currentSimulinkButton = new Button(engineGroup, SWT.CHECK);
-		currentSimulinkButton.setText(" Use current model (?)");
-		currentSimulinkButton.setSelection(false);
-		currentSimulinkButton.setToolTipText("If selected, disregards any specified simulink model file and instead works with the current open model in a shared MATLAB session.");
-		currentSimulinkButton.setLayoutData(buttonData);
+		currentSimulinkCheckbox = new Button(engineGroup, SWT.CHECK);
+		currentSimulinkCheckbox.setText(" Use current model");
+		currentSimulinkCheckbox.setSelection(false);
+		currentSimulinkCheckbox.setToolTipText("If selected, disregards any specified simulink model file and instead works with the current open model in a shared MATLAB session.");
+		currentSimulinkCheckbox.setLayoutData(buttonData);
 		
-		currentSimulinkButton.addSelectionListener(new SelectionListener() {
+		currentSimulinkCheckbox.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -87,7 +87,7 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 		
 		showInMatlabEditorCheckbox = new Button(engineGroup, SWT.CHECK);
 		showInMatlabEditorCheckbox.setSelection(false);
-		showInMatlabEditorCheckbox.setText(" Force MATLAB to open (?)");		
+		showInMatlabEditorCheckbox.setText(" Force MATLAB to open");		
 		showInMatlabEditorCheckbox.setToolTipText("If selected, the model will be shown in the MATLAB Editor. "
 				+ "If the model is already loaded, it will not open it again. "
 				+ "If unchecked, the model will not be open in the MATLAB editor, "
@@ -103,8 +103,8 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 	@Override
 	protected void restoreStateOfNonSharedEngineFields() {
 		super.restoreStateOfNonSharedEngineFields();
-		currentSimulinkButton.setEnabled(false);
-		currentSimulinkButton.setSelection(false);
+		currentSimulinkCheckbox.setEnabled(false);
+		currentSimulinkCheckbox.setSelection(false);
 		modelFileText.setEnabled(true);
 		modelFileText.setEditable(true);
 		browseModelFile.setEnabled(true);
@@ -125,11 +125,11 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 		if (showInMatlabEditorCheckbox != null) {
 			showInMatlabEditorCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR,"true")).booleanValue());
 		}
-		if (currentSimulinkButton != null) {
-			currentSimulinkButton.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_CURRENT_SIMULINK_MODEL,"false")).booleanValue());
-			if (currentSimulinkButton.getSelection()) {
-				disableOnSelect(currentSimulinkButton, modelFileText);
-				disableOnSelect(currentSimulinkButton, browseModelFile);
+		if (currentSimulinkCheckbox != null) {
+			currentSimulinkCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_CURRENT_SIMULINK_MODEL,"false")).booleanValue());
+			if (currentSimulinkCheckbox.getSelection()) {
+				disableOnSelect(currentSimulinkCheckbox, modelFileText);
+				disableOnSelect(currentSimulinkCheckbox, browseModelFile);
 			}
 		}
 		if (followLinksCheckbox != null) {
@@ -146,8 +146,8 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 		if (followLinksCheckbox != null) {
 			properties.put(SimulinkModel.PROPERTY_FOLLOW_LINKS, followLinksCheckbox.getSelection() + "");
 		}
-		if (currentSimulinkButton != null) {
-			properties.put(SimulinkModel.PROPERTY_CURRENT_SIMULINK_MODEL, currentSimulinkButton.getSelection() + "");
+		if (currentSimulinkCheckbox != null) {
+			properties.put(SimulinkModel.PROPERTY_CURRENT_SIMULINK_MODEL, currentSimulinkCheckbox.getSelection() + "");
 		}
 	}
 	
