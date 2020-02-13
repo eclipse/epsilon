@@ -2,7 +2,7 @@
 rule EClass2Patch 
 	transform c : EClass {
 	
-	guard : c.eAnnotations.exists(a|a.source = "instance").println()
+	guard : c.eAnnotations.exists(a|a.source = "instance")
 	
 	template : "eclass2patch.egl"
 
