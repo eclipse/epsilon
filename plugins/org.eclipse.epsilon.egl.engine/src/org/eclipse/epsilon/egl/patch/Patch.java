@@ -23,7 +23,7 @@ public class Patch extends TextBlock {
 		
 		for (Line line : lines) {
 			if (line.is(LineType.REGULAR)) diagnostics.add(new PatchValidationDiagnostic(line, "Regular lines are not allowed in patch"));
-			if (line.is(LineType.WILDCARD)) {
+			if (line.is(LineType.KEEP_WILDCARD)) {
 				if (isFirstLine(line)) {
 					diagnostics.add(new PatchValidationDiagnostic(line, "Wildcards are not allowed at the beginning of a patch"));
 				}
@@ -31,10 +31,10 @@ public class Patch extends TextBlock {
 					diagnostics.add(new PatchValidationDiagnostic(line, "Wildcards are not allowed at the end of a patch"));					
 				}
 				
-				if (!isFirstLine(line) && getPreviousLine(line).is(LineType.WILDCARD)) {
+				if (!isFirstLine(line) && getPreviousLine(line).is(LineType.KEEP_WILDCARD)) {
 					diagnostics.add(new PatchValidationDiagnostic(line, "Consecutive wildcards are not allowed"));					
 				}
-				if (!isLastLine(line) && getNextLine(line).is(LineType.WILDCARD)) {
+				if (!isLastLine(line) && getNextLine(line).is(LineType.KEEP_WILDCARD)) {
 					diagnostics.add(new PatchValidationDiagnostic(line, "Consecutive wildcards are not allowed"));
 				}
 			}
@@ -61,7 +61,7 @@ public class Patch extends TextBlock {
 		
 		while (blockLine != null) {
 			
-			if (patchLine.is(LineType.WILDCARD)) {
+			if (patchLine.is(LineType.KEEP_WILDCARD) || patchLine.is(LineType.REMOVE_WILDCARD)) {
 				Line matchLine = keepsAndRemoves.getNextLine(patchLine);
 				
 				if (matchLine == null) {
@@ -132,11 +132,12 @@ public class Patch extends TextBlock {
 		while (originalLine != null) {
 			if (match != null && originalLine == match.getStartLine()) {
 				for (Line patchLine : match.getPatch().getLines()) {
-					if (patchLine.is(LineType.WILDCARD)) {
+					if (patchLine.is(LineType.KEEP_WILDCARD)) {
 						for (Line blockLine : match.getLineMap().get(patchLine)) {
 							merged.getLines().add(blockLine);
 						}
 					}
+					else if (patchLine.is(LineType.REMOVE_WILDCARD)) {}
 					else if (patchLine.isNot(LineType.REMOVE)) {
 						String text;
 						if (patchLine.is(LineType.INSERT)) text = patchLine.getText();
@@ -163,7 +164,8 @@ public class Patch extends TextBlock {
 		patch.getLines().addAll(this.getLines().stream().
 				filter(l -> l.getType() == LineType.KEEP 
 						 || l.getType() == LineType.REMOVE
-						 || l.getType() == LineType.WILDCARD).
+						 || l.getType() == LineType.KEEP_WILDCARD
+						 || l.getType() == LineType.REMOVE_WILDCARD).
 				collect(Collectors.toList()));
 		return patch;
 	}

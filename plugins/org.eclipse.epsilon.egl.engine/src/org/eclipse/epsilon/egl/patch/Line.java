@@ -65,7 +65,8 @@ public class Line {
 		case KEEP: prefix="="; break;
 		case REGULAR: prefix=""; break;
 		case REMOVE: prefix="<"; break;
-		case WILDCARD: prefix="..."; break;
+		case KEEP_WILDCARD: prefix="..."; break;
+		case REMOVE_WILDCARD: prefix="---"; break;
 		}
 		return prefix + text;
 	}

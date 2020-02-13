@@ -16,7 +16,10 @@ public class LineFactory {
 			return new Line(LineType.COMMENT, text.substring(1), number);
 		}
 		else if (text.contentEquals("...")) {
-			return new Line(LineType.WILDCARD, "", number);
+			return new Line(LineType.KEEP_WILDCARD, "", number);
+		}
+		else if (text.contentEquals("---")) {
+			return new Line(LineType.REMOVE_WILDCARD, "", number);
 		}
 		else return new Line(LineType.REGULAR, text, number);
 	}

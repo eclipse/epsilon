@@ -10,51 +10,87 @@ import org.junit.Test;
 public class WildcardTests extends PatchTestsBase {
 	
 	@Test
-	public void testWildCard() {
+	public void testKeepWildCard() {
 		Patch patch = createPatch("=1", "...", "=4", ">5");
 		TextBlock block = new TextBlock("1","2","3","4");
 		assertEquals(new TextBlock("1", "2", "3", "4", "5"), patch.apply(block));
 	}
 	
 	@Test
-	public void testWildCard2() {
+	public void testKeepWildCard2() {
 		Patch patch = createPatch("=1", "=2", "...", "=4", ">5");
 		TextBlock block = new TextBlock("1","2","3","4");
 		assertEquals(new TextBlock("1", "2", "3", "4", "5"), patch.apply(block));
 	}
 	
 	@Test
-	public void testWildCard3() {
+	public void testKeepWildCard3() {
 		Patch patch = createPatch("=1", "=2", "...", ">5");
 		TextBlock block = new TextBlock("1","2","3","4");
 		assertEquals(new TextBlock("1", "2", "3", "4", "5"), patch.apply(block));
 	}
 	
 	@Test
-	public void testWildCard4() {
+	public void testKeepWildCard4() {
 		Patch patch = createPatch("=1", "=2", "...", "=4");
 		TextBlock block = new TextBlock("1","2","3","4");
 		assertEquals(new TextBlock("1", "2", "3", "4"), patch.apply(block));
 	}
 	
 	@Test
-	public void testWildCard5() {
+	public void testKeepWildCard5() {
 		Patch patch = createPatch("=1", "=2", "...", "<4");
 		TextBlock block = new TextBlock("1","2","3","4");
 		assertEquals(new TextBlock("1", "2", "3"), patch.apply(block));
 	}
 	
 	@Test
-	public void testWildCard6() {
+	public void testKeepWildCard6() {
 		Patch patch = createPatch("=1", "...", "<4");
 		TextBlock block = new TextBlock("1","2","3","4");
 		assertEquals(new TextBlock("1", "2", "3"), patch.apply(block));
 	}
 	
 	@Test
-	public void testWildCard7() {
+	public void testKeepWildCard7() {
 		Patch patch = createPatch(">0", "...", "=2");
 		TextBlock block = new TextBlock("1","2", "3");
 		assertEquals(new TextBlock("0", "1", "2", "3"), patch.apply(block));
 	}
+	
+	@Test
+	public void testRemoveWildCard() {
+		Patch patch = createPatch("=1", "---", "=3");
+		TextBlock block = new TextBlock("1", "2", "3");
+		assertEquals(new TextBlock("1", "3"), patch.apply(block));
+	}
+	
+	@Test
+	public void testRemoveWildCard1() {
+		Patch patch = createPatch("<1", "---", "=3");
+		TextBlock block = new TextBlock("1", "2", "3");
+		assertEquals(new TextBlock("3"), patch.apply(block));
+	}
+	
+	@Test
+	public void testRemoveWildCard2() {
+		Patch patch = createPatch("<1", "---", "<3");
+		TextBlock block = new TextBlock("1", "2", "3");
+		assertEquals(new TextBlock(), patch.apply(block));
+	}
+	
+	@Test
+	public void testRemoveWildCard3() {
+		Patch patch = createPatch("<1", "---", "<3", ">4");
+		TextBlock block = new TextBlock("1", "2", "3");
+		assertEquals(new TextBlock("4"), patch.apply(block));
+	}
+	
+	@Test
+	public void testRemoveWildCard4() {
+		Patch patch = createPatch("=1", "---");
+		TextBlock block = new TextBlock("1", "2", "3");
+		assertEquals(new TextBlock("1"), patch.apply(block));
+	}
+	
 }

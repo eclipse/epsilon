@@ -5,6 +5,7 @@ public enum LineType {
 	KEEP,
 	REMOVE,
 	INSERT,
-	WILDCARD,
+	KEEP_WILDCARD,
+	REMOVE_WILDCARD,
 	COMMENT;
 }
