@@ -2,6 +2,7 @@ package org.eclipse.epsilon.egl.test.acceptance.patch;
 
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.epsilon.egl.patch.Match;
 import org.eclipse.epsilon.egl.patch.Patch;
 import org.eclipse.epsilon.egl.patch.TextBlock;
 import org.junit.Test;
@@ -55,6 +56,10 @@ public class WildcardTests extends PatchTestsBase {
 	public void testWildCard7() throws Exception {
 		Patch patch = createPatch(">0", "...", "=2");
 		TextBlock block = new TextBlock("1","2", "3");
+		
+		Match match = patch.match(block).get(0);
+		System.out.println(match.getLineMap());
+		
 		assertEquals(new TextBlock("0", "1", "2", "3"), patch.apply(block));
 	}*/
 }

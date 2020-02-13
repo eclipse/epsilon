@@ -26,4 +26,9 @@ public class LineMap {
 		return lines;
 	}
 	
+	@Override
+	public String toString() {
+		return map.toString();
+	}
+	
 }

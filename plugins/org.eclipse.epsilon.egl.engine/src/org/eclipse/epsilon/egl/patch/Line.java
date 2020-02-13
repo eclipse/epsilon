@@ -58,7 +58,7 @@ public class Line {
 	
 	@Override
 	public String toString() {
-		return number + ": " + type + " " + text;
+		return text;
 	}
 	
 }

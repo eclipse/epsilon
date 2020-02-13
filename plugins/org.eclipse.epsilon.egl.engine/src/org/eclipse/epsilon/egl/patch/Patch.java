@@ -94,6 +94,7 @@ public class Patch extends TextBlock {
 					matches.add(new Match(block, startMatchBlockLine.getNumber()-1, blockLine.getNumber()-1, this, lineMap));
 					patchLine = keepsAndRemoves.getFirstLine();
 					startMatchBlockLine = null;
+					lineMap = new LineMap();
 				}
 				else {
 					patchLine = keepsAndRemoves.getNextLine(patchLine);
@@ -108,12 +109,6 @@ public class Patch extends TextBlock {
 			}
 			
 		}
-		
-		// If we're left in the middle of a match and all that remains are insertions, complete the match.
-		// e.g. TextBlock["1"] and Patch["=1",">2"]
-		//if (startMatchBlockLine != null && keepsAndRemoves.isFirstLine(patchLine)) {
-		//	matches.add(new Match(block, startMatchBlockLine.getNumber()-1, block.getLines().size(), this, lineMap));
-		//}
 		
 		return matches;
 	}
