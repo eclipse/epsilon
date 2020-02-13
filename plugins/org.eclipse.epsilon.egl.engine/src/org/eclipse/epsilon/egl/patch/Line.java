@@ -61,10 +61,10 @@ public class Line {
 		String prefix = "";
 		switch (type) {
 		case COMMENT: prefix="#"; break;
-		case INSERT: prefix=">"; break;
+		case INSERT: prefix="+"; break;
 		case KEEP: prefix="="; break;
 		case REGULAR: prefix=""; break;
-		case REMOVE: prefix="<"; break;
+		case REMOVE: prefix="-"; break;
 		case KEEP_WILDCARD: prefix="..."; break;
 		case REMOVE_WILDCARD: prefix="---"; break;
 		}

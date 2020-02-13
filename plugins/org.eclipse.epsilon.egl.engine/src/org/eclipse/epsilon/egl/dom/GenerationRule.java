@@ -16,6 +16,7 @@ import java.util.Map;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.util.AstUtil;
+import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
 import org.eclipse.epsilon.egl.EglPersistentTemplate;
 import org.eclipse.epsilon.egl.EglTemplate;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
@@ -131,7 +132,15 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		
 		Object generated;
 		if (eglTemplate instanceof EglPersistentTemplate) {
-			generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
+			if (hasAnnotation("patch") && eglTemplate instanceof EglFileGeneratingTemplate) {
+				generated = ((EglFileGeneratingTemplate) eglTemplate).patch(target);
+			}
+			else if (hasAnnotation("append") && eglTemplate instanceof EglFileGeneratingTemplate) {
+				generated = ((EglFileGeneratingTemplate) eglTemplate).append(target);
+			}
+			else {
+				generated = ((EglPersistentTemplate) eglTemplate).generate(target, overwrite, merge);
+			}
 		}
 		else {
 			generated = eglTemplate.process();

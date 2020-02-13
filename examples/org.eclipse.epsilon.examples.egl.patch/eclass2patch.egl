@@ -1,0 +1,11 @@
+[%for (a in c.eAllAttributes.excludingAll(c.eAttributes)) { %]
++
++	@Override
++	public String get[%=a.name.ftuc()%]() {
++		if ([%=a.name%] == null) {
++			return prototype.get[%=a.name.ftuc()%]();
++		}
++		else return [%=a.name%];
++	}
+[%}%]
+=} //[%=c.name%]Impl

@@ -1,0 +1,10 @@
+@patch
+rule EClass2Patch 
+	transform c : EClass {
+	
+	guard : c.eAnnotations.exists(a|a.source = "instance").println()
+	
+	template : "eclass2patch.egl"
+
+	target : "src/" + c.eContainer().name + "/impl/" + c.name + "Impl.java"
+}

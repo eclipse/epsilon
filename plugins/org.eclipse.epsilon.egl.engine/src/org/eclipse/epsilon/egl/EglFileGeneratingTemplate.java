@@ -13,12 +13,19 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.ListIterator;
+
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
 import org.eclipse.epsilon.egl.formatter.NullFormatter;
 import org.eclipse.epsilon.egl.incremental.IncrementalitySettings;
 import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
+import org.eclipse.epsilon.egl.patch.Line;
+import org.eclipse.epsilon.egl.patch.Patch;
+import org.eclipse.epsilon.egl.patch.PatchValidationDiagnostic;
+import org.eclipse.epsilon.egl.patch.TextBlock;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecification;
 import org.eclipse.epsilon.egl.spec.EglTemplateSpecificationFactory;
 import org.eclipse.epsilon.egl.status.ProtectedRegionWarning;
@@ -36,7 +43,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	private OutputMode outputMode;
 
 	public static enum OutputMode {
-		WRITE, MERGE, APPEND;
+		WRITE, MERGE, APPEND, PATCH;
 	}
 	
 	// For tests
@@ -61,6 +68,14 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 	}
 	
 	public File append(String path) throws EglRuntimeException {
+		return write(path, OutputMode.APPEND);
+	}
+	
+	public File patch(String path) throws EglRuntimeException {
+		return write(path, OutputMode.PATCH);
+	}
+	
+	protected File write(String path, OutputMode outputMode) throws EglRuntimeException {
 		try {
 			final File target = resolveFile(path);
 
@@ -71,7 +86,7 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 			this.target = target;
 			this.targetName = name(path);			
 			this.existingContents = FileUtil.readIfExists(target);
-			this.outputMode = OutputMode.APPEND;
+			this.outputMode = outputMode;
 			
 			prepareNewContents();
 			writeNewContentsIfDifferentFromExistingContents();
@@ -119,6 +134,29 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 			case WRITE: {
 				newContents = getContents();
 				positiveMessage = "Successfully wrote to ";
+				break;
+			}
+			case PATCH: {
+				positiveMessage = "Successfully patched ";
+				
+				TextBlock existingContentsBlock = new TextBlock(getExistingContents().split(System.lineSeparator()));
+				Patch patch = new Patch(getContents().split(System.lineSeparator()));
+				List<PatchValidationDiagnostic> patchValidationDiagnostics = patch.validate();
+				if (!patchValidationDiagnostics.isEmpty()) {
+					PatchValidationDiagnostic patchValidationDiagnostic = patchValidationDiagnostics.get(0);
+					throw new EglRuntimeException("Invalid patch. Line " + 
+							patchValidationDiagnostic.getLine().getNumber() + ": " + 
+							patchValidationDiagnostic.getReason(), new IllegalStateException());
+				}
+				TextBlock newContentsBlock = patch.apply(existingContentsBlock);
+				StringBuffer newContentsStringBuffer = new StringBuffer();
+				ListIterator<Line> lineIterator = newContentsBlock.getLines().listIterator();
+				while (lineIterator.hasNext()) {
+					Line line = lineIterator.next();
+					newContentsStringBuffer.append(line.getText());
+					if (lineIterator.hasNext()) newContentsStringBuffer.append(System.lineSeparator());
+				}
+				newContents = newContentsStringBuffer.toString();
 				break;
 			}
 			default:
