@@ -1,7 +1,10 @@
 [%for (a in c.eAllAttributes.excludingAll(c.eAttributes)) { %]
 +
++	/**
++	 * @generated
++	 */
 +	@Override
-+	public String get[%=a.name.ftuc()%]() {
++	public [%=a.eType.instanceTypeName%] get[%=a.name.ftuc()%]() {
 +		if ([%=a.name%] == null) {
 +			return prototype.get[%=a.name.ftuc()%]();
 +		}
