@@ -46,6 +46,20 @@ public class PatchTests extends PatchTestsBase {
 	}
 	
 	@Test
+	public void testMergeWithComment() {
+		Patch patch = createPatch("#Comment", "=if","+inject","=end if");
+		TextBlock block = new TextBlock("if","end if");
+		assertEquals(new TextBlock("if", "inject", "end if"), patch.apply(block));
+	}
+	
+	@Test
+	public void testMergeWithCommentAndEmptyLine() {
+		Patch patch = createPatch("", "#Comment", "=if", "", "+inject", "", "=end if");
+		TextBlock block = new TextBlock("if","end if");
+		assertEquals(new TextBlock("if", "inject", "end if"), patch.apply(block));
+	}
+	
+	@Test
 	public void testMergeTwoInjects() {
 		Patch patch = createPatch("=if","+inject", "=else", "+inject", "=end if");
 		TextBlock block = new TextBlock("if", "else", "end if");

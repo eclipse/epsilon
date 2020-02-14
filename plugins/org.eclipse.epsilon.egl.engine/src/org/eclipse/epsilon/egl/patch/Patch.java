@@ -1,8 +1,6 @@
 package org.eclipse.epsilon.egl.patch;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +12,7 @@ public class Patch extends TextBlock {
 	public Patch(String... lines) {
 		LineFactory lineFactory = new LineFactory();
 		for (int i=0; i<lines.length; i++) {
+			if (!lines[i].trim().isEmpty())
 			this.lines.add(lineFactory.createLine(lines[i], i+1));
 		}
 	}
@@ -132,7 +131,8 @@ public class Patch extends TextBlock {
 		while (originalLine != null) {
 			if (match != null && originalLine == match.getStartLine()) {
 				for (Line patchLine : match.getPatch().getLines()) {
-					if (patchLine.is(LineType.KEEP_WILDCARD)) {
+					if (patchLine.is(LineType.COMMENT)) {}
+					else if (patchLine.is(LineType.KEEP_WILDCARD)) {
 						for (Line blockLine : match.getLineMap().get(patchLine)) {
 							merged.getLines().add(blockLine);
 						}
