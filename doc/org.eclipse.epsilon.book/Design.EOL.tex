@@ -420,7 +420,7 @@ The following operations apply to ordered collection types (i.e. Sequence and Or
     third() : Any & Returns the third item of the collection  \\\hline
 \end{longtabu}
 
-Also, EOL collections support the following first-order operations. Apart from \emph{aggregate} and \emph{closure}, all of these operations have a parallel variant which can take advantage of multiple cores to improve performance. The parallel variant of an operation \emph{x} can be invoked by prepending it with \emph{parallel} and capitalizing the first letter. For example, \emph{select} becomes \emph{parallelSelect}. All computations contained in parallel operations are assumed to be free from side-effects (i.e. mutation of global state). Furthermore, parallel operations cannot be nested, so only the outermost operation can be declared as parallel.
+Also, EOL collections support the following first-order operations. Apart from \emph{aggregate} and \emph{closure}, all of these operations have a parallel variant which can take advantage of multiple cores to improve performance. All computations contained in these operations are assumed to be free from side-effects (i.e. do not mutatate global variables).
 
 Aside from the following built-in first-order operations which are evaluated eagerly, all Collection types in the Java implementation of EOL support Streams. This allows for chains of queries and transformations on collections to be evaluated more efficiently. A stream can be obtained by calling the \emph{stream()} method on the collection. The API is defined by the Java standard library\footnote{https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html}.
 
@@ -432,9 +432,9 @@ Aside from the following built-in first-order operations which are evaluated eag
     \textbf{Signature} & \textbf{Description} \\\hline
 %iterate(iterator : IteratorType ; result : ResultType = initialValue $|$ expression) : ResultType & Iterates all the items of the collection that conform to the IteratorType and incrementally calculates the value of the result variable which it finally returns \\\hline
 
-	atLeastNMatch(iterator : Type $|$ condition, n) : Boolean & Returns true if there are at least \emph{n} items in the collection that satisfy the condition \\\hline
+	atLeastNMatch(iterator : Type $|$ condition, n : Integer) : Boolean & Returns true if there are \emph{n} or more items in the collection that satisfy the condition \\\hline
 	
-	atMostNMatch(iterator : Type $|$ condition, n) : Boolean & Returns true if there are at most \emph{n} items in the collection that satisfy the condition \\\hline
+	atMostNMatch(iterator : Type $|$ condition, n : Integer) : Boolean & Returns true if there are \emph{n} or fewer items in the collection that satisfy the condition \\\hline
 
     aggregate(iterator : Type $|$ keyExpression, valueExpression) : Map & Returns a map containing key-value pairs produced by evaluating the key and value expressions on each item of the collection that is of the specified type \\\hline
     
@@ -448,7 +448,7 @@ Aside from the following built-in first-order operations which are evaluated eag
     
     forAll(iterator : Type $|$ condition) : Boolean & Returns true if all items in the collection satisfy the condition \\\hline
     
-    nMatch(iterator : Type $|$ condition, n) : Boolean & Returns true if there are exactly \emph{n} items in the collection that satisfy the condition \\\hline
+    nMatch(iterator : Type $|$ condition, n : Integer) : Boolean & Returns true if there are exactly \emph{n} items in the collection that satisfy the condition \\\hline
     
     none(iterator : Type $|$ condition) : Boolean & Returns true if there are no items in the collection that satisfy the condition \\\hline
     
@@ -460,7 +460,7 @@ Aside from the following built-in first-order operations which are evaluated eag
     
     select(iterator : Type $|$ condition) : Collection & Returns a sub-collection containing only items of the specified type that satisfy the condition \\\hline
     
-    selectOne(iterator : Type $|$ condition) : Any & Returns the first element that satisfies the condition \\\hline
+    selectOne(iterator : Type $|$ condition) : Any & Returns any element that satisfies the condition \\\hline
     
     sortBy(iterator: Type $|$ expression) : Collection & Returns a copy of the collection sorted by the results of evaluating the expression on each item of the collection that conforms to the iterator type. The expression should return either an Integer, a String or an object that is an instance of Comparable. The ordering is calculated as follows: for integers, smaller to greater; for Strings, as defined by the compareTo method of Java strings; for Comparable objects, according to the semantics of the type's compareTo method implementation.  \\\hline
 \end{longtabu}
