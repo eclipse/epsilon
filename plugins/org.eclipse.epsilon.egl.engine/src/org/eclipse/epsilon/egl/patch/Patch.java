@@ -21,7 +21,6 @@ public class Patch extends TextBlock {
 		List<PatchValidationDiagnostic> diagnostics = new ArrayList<>();
 		
 		for (Line line : lines) {
-			if (line.is(LineType.REGULAR)) diagnostics.add(new PatchValidationDiagnostic(line, "Regular lines are not allowed in patch"));
 			if (line.is(LineType.KEEP_WILDCARD)) {
 				if (isFirstLine(line)) {
 					diagnostics.add(new PatchValidationDiagnostic(line, "Wildcards are not allowed at the beginning of a patch"));
@@ -162,7 +161,7 @@ public class Patch extends TextBlock {
 	public Patch keepsAndRemoves() {
 		Patch patch = new Patch();
 		patch.getLines().addAll(this.getLines().stream().
-				filter(l -> l.getType() == LineType.KEEP 
+				filter(l -> l.getType() == LineType.REGULAR 
 						 || l.getType() == LineType.REMOVE
 						 || l.getType() == LineType.KEEP_WILDCARD
 						 || l.getType() == LineType.REMOVE_WILDCARD).

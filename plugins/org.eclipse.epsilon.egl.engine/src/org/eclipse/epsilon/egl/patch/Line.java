@@ -62,7 +62,6 @@ public class Line {
 		switch (type) {
 		case COMMENT: prefix="#"; break;
 		case INSERT: prefix="+"; break;
-		case KEEP: prefix="="; break;
 		case REGULAR: prefix=""; break;
 		case REMOVE: prefix="-"; break;
 		case KEEP_WILDCARD: prefix="..."; break;

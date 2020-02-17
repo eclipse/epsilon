@@ -14,22 +14,22 @@ public class PatchValidationTests {
 	
 	@Test
 	public void testComment() {
-		assertTrue(new Patch("#Comment", "=1", "#Comment").isValid());
+		assertTrue(new Patch("#Comment", "1", "#Comment").isValid());
 	}
 	
 	@Test
 	public void testWildcardInvalidAtTheBeginning() {
-		assertFalse(new Patch("...", "=1").isValid());
+		assertFalse(new Patch("...", "1").isValid());
 	}
 	
 	@Test
 	public void testWildcardInvalidAtTheEnd() {
-		assertFalse(new Patch("=1", "...").isValid());
+		assertFalse(new Patch("1", "...").isValid());
 	}
 
 	@Test
 	public void testNoConsecutiveWildcards() {
-		assertFalse(new Patch("=1", "...", "...", "=2").isValid());
+		assertFalse(new Patch("1", "...", "...", "2").isValid());
 	}
 	
 	

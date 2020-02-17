@@ -1,16 +1,12 @@
-/**
- */
 package comps.impl;
+
 
 import comps.Component;
 import comps.ComponentInstance;
 import comps.CompsPackage;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -152,5 +148,27 @@ public class ComponentInstanceImpl extends ComponentImpl implements ComponentIns
 		}
 		return super.eIsSet(featureID);
 	}
-	
-} //ComponentInstanceImpl
+
+
+	/**
+	 * @generated
+	 */
+	@Override
+	public java.lang.String getName() {
+		if (name == null) {
+			return prototype.getName();
+		}
+		else return name;
+	}
+
+	/**
+	 * @generated
+	 */
+	@Override
+	public java.lang.String getAction() {
+		if (action == null) {
+			return prototype.getAction();
+		}
+		else return action;
+	}
+} //ComponentInstanceImpl (Patched)

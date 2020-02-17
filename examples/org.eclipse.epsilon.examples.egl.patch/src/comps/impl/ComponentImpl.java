@@ -371,15 +371,7 @@ public class ComponentImpl extends MinimalEObjectImpl.Container implements Compo
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(", action: ");
-		result.append(action);
-		result.append(')');
-		return result.toString();
+		return "Component";
 	}
 
 } //ComponentImpl
