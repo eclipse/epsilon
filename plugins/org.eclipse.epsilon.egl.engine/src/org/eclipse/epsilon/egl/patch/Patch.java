@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.egl.patch;
 
 import java.util.ArrayList;
@@ -5,6 +14,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 
+ * @since 1.6
+ */
 public class Patch extends TextBlock {
 	
 	public Patch() {}
@@ -48,7 +61,7 @@ public class Patch extends TextBlock {
 	public List<Match> match(TextBlock block) {
 				
 		Line startMatchBlockLine = null;
-		List<Match> matches = new ArrayList<Match>();
+		List<Match> matches = new ArrayList<>();
 		Patch keepsAndRemoves = this.keepsAndRemoves();
 		
 		if (keepsAndRemoves.getLines().isEmpty()) return matches;

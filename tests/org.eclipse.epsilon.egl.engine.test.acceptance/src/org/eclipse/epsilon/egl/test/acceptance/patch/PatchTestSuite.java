@@ -16,6 +16,10 @@ import org.junit.runners.Suite.SuiteClasses;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
+/**
+ * 
+ * @since 1.6
+ */
 @RunWith(Suite.class)
 @SuiteClasses({PatchTests.class, PatchValidationTests.class, WildcardTests.class})
 public class PatchTestSuite {

@@ -67,7 +67,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		mergeBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.MERGE), this);
 	}
 
-	public Collection<?> getAllElements(IEgxContext context) throws EolRuntimeException {
+	public Collection<?> getAllElements(IEolContext context) throws EolRuntimeException {
 		if (sourceParameter != null) {
 			if (domainBlock == null) {
 				return getAllInstances(sourceParameter, context, !isGreedy(context));
@@ -132,10 +132,10 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		
 		Object generated;
 		if (eglTemplate instanceof EglPersistentTemplate) {
-			if (hasAnnotation("patch") && eglTemplate instanceof EglFileGeneratingTemplate) {
+			if (getBooleanAnnotationValue("patch", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
 				generated = ((EglFileGeneratingTemplate) eglTemplate).patch(target);
 			}
-			else if (hasAnnotation("append") && eglTemplate instanceof EglFileGeneratingTemplate) {
+			else if (getBooleanAnnotationValue("append", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
 				generated = ((EglFileGeneratingTemplate) eglTemplate).append(target);
 			}
 			else {
@@ -162,7 +162,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
 		ExecutorFactory executorFactory = context.getExecutorFactory();
-		for (Object element : getAllElements((IEgxContext) context)) {
+		for (Object element : getAllElements(context)) {
 			executorFactory.execute(this, context, element);
 		}
 		return null;

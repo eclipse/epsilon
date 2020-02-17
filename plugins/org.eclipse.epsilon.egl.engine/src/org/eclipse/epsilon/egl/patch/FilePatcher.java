@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.egl.patch;
 
 import java.io.BufferedReader;
@@ -7,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * 
+ * @since 1.6
+ */
 public class FilePatcher {
 	
 	public static void main(String[] args) throws Exception {
@@ -26,28 +39,26 @@ public class FilePatcher {
 		if (!patch.validate().isEmpty()) throw new Exception("Invalid patch");
 		TextBlock output = patch.apply(input);
 		
-		FileWriter targetWriter = new FileWriter(targetPath);
-		ListIterator<Line> lineIterator = output.getLines().listIterator();
-		while (lineIterator.hasNext()) {
-			Line line = lineIterator.next();
-			targetWriter.write(line.getText());
-			if (lineIterator.hasNext()) targetWriter.write(System.lineSeparator());
+		try (FileWriter targetWriter = new FileWriter(targetPath)) {
+			ListIterator<Line> lineIterator = output.getLines().listIterator();
+			while (lineIterator.hasNext()) {
+				Line line = lineIterator.next();
+				targetWriter.write(line.getText());
+				if (lineIterator.hasNext()) targetWriter.write(System.lineSeparator());
+			}
 		}
-		targetWriter.close();
 		
 	}
 	
 	protected String[] readFromPath(String path) throws Exception {
-		BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
-		List<String> lines = new ArrayList<String>();
-		String line = null;
-		
-		while((line = bufferedReader.readLine()) != null) {
-		    lines.add(line);
+		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
+			List<String> lines = new ArrayList<>();
+			String line = null;
+			while ((line = bufferedReader.readLine()) != null) {
+			    lines.add(line);
+			}
+			return lines.toArray(new String[lines.size()]);
 		}
-		bufferedReader.close();
-
-		return lines.toArray(new String[]{});
 	}
 	
 }

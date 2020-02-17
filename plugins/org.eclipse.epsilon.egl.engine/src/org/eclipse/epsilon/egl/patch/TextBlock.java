@@ -1,11 +1,24 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.egl.patch;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @since 1.6
+ */
 public class TextBlock {
 	
-	protected List<Line> lines = new ArrayList<Line>();
+	protected List<Line> lines = new ArrayList<>();
 	
 	public TextBlock(String... lines) {
 		for (int i=0; i<lines.length; i++) {
