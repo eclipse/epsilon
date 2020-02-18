@@ -129,11 +129,11 @@
             name="Parallel EGX (Annotation)">
       </implementation>
       <implementation
-            class="org.eclipse.epsilon.egl.concurrent.EgxModuleParallelElements"
+            class="org.eclipse.epsilon.egl.concurrent.atomic.EgxModuleParallelGenerationRuleAtoms"
             default="false"
             dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleParallelConfiguration"
             language="EGX"
-            name="Parallel EGX (Elements)">
+            name="Parallel EGX (RuleAtoms)">
       </implementation>
    </extension>
    <extension
