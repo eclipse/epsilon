@@ -99,22 +99,10 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 			"post"
 		};
 		for (int i = 0; i < types.length; i++) {
-			validateConstruct(parent, problems, types[i], names[i]);
-		}
-	}
-	
-	/**
-	 * 
-	 * @param parent
-	 * @param problems
-	 * @param token
-	 * @param tokenName
-	 * @since 1.6
-	 */
-	protected void validateConstruct(AST parent, Collection<ParseProblem> problems, int tokenType, String tokenName) {
-		int severity = ParseProblem.WARNING;
-		if (!AstUtil.hasAtMostNChildrenOfTypes(1, parent, tokenType)) {
-			problems.add(new ParseProblem("Only one '"+tokenName+"' block is permitted!", severity));
+			int severity = ParseProblem.WARNING;
+			if (!AstUtil.hasAtMostNChildrenOfTypes(1, parent, types[i])) {
+				problems.add(new ParseProblem("Only one '"+names[i]+"' block is permitted!", severity));
+			}
 		}
 	}
 
