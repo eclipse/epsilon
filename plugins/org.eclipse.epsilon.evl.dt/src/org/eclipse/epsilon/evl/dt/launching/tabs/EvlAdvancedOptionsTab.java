@@ -21,7 +21,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -47,7 +46,7 @@ public class EvlAdvancedOptionsTab extends AbstractLaunchConfigurationTab {
 	@Override
 	public void createControl(Composite parent) {
 		
-		final FillLayout parentLayout = new FillLayout();
+		final GridLayout parentLayout = new GridLayout();
 		parent.setLayout(parentLayout);
 
 		final Composite control = new Composite(parent, SWT.NONE);

@@ -50,7 +50,7 @@ public class EglGeneratedTextConfigurationTab extends AbstractLaunchConfiguratio
 	@Override
 	public void createControl(Composite parent) {
 		try {
-			final FillLayout parentLayout = new FillLayout();
+			final GridLayout parentLayout = new GridLayout();
 			parent.setLayout(parentLayout);
 
 			final Composite control = new Composite(parent, SWT.NONE);

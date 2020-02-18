@@ -54,7 +54,7 @@ public class ParametersConfigurationTab extends AbstractLaunchConfigurationTab{
 	@Override
 	public void createControl(Composite parent) {
 		
-		FillLayout parentLayout = new FillLayout();
+		GridLayout parentLayout = new GridLayout();
 		parent.setLayout(parentLayout);
 
 		Composite control = new Composite(parent, SWT.FILL);

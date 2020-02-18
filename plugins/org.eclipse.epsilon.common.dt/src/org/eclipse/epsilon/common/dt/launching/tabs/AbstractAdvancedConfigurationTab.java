@@ -67,7 +67,7 @@ public abstract class AbstractAdvancedConfigurationTab extends AbstractLaunchCon
 	@Override
 	public void createControl(Composite parent) {
 		setImplementations(new HashMap<>());
-		FillLayout parentLayout = new FillLayout();
+		GridLayout parentLayout = new GridLayout();
 		parent.setLayout(parentLayout);
 		mainComposite = new Composite(parent, SWT.NONE);
 		setControl(mainComposite);
