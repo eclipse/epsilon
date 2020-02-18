@@ -54,7 +54,7 @@ generationRule
 		$tree.getExtraTokens().add($cb);
 	}
 	:	r='rule'^ rule=NAME ('transform'! formalParameter domain?)?
-	ob='{'! (guard | target | template | parameters | pre | post | overwrite | merge)* cb='}'!
+	ob='{'! generationRuleConstructs cb='}'!
 	{$r.setType(GENERATE);}
 	;
 
@@ -86,4 +86,8 @@ overwrite
 merge
 	:	(g='merge'|'protectRegions')^ expressionOrStatementBlock
 	{$g.setType(MERGE);}
+	;
+
+generationRuleConstructs
+	:	(guard | pre | overwrite | merge | template | parameters | target | post)*
 	;

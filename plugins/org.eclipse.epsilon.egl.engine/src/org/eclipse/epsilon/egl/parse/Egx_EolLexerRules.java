@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.egl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2019-11-14 12:04:22
+// $ANTLR 3.1b1 EolLexerRules.g 2020-02-18 19:52:06
 
 import org.antlr.runtime.*;
 import java.util.Stack;

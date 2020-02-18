@@ -28,10 +28,10 @@ public class AstUtil {
 	}
 	
 	public static AST getChildAt(AST parent, int index) {
-		int count = 0;
 		if (parent == null) return null;
+		int count = 0;
 		AST child = parent.getFirstChild();
-		while (child != null){
+		while (child != null) {
 			if (count == index) {
 				return child;
 			}
@@ -49,42 +49,54 @@ public class AstUtil {
 	
 	public static List<AST> getChildrenBut(AST parent, int type) {
 		List<AST> children = new ArrayList<>();
-		AST child = parent.getFirstChild();
-		while (child != null){
+		if (parent == null) return children;
+		for (AST child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
 			if (!(child.getType() == type)) {
 				children.add(child);
 			}
-			child = child.getNextSibling();
 		}
 		return children;
 	}
 	
-	public static List<AST> getChildren(AST parent, int... type) {
+	public static List<AST> getChildren(AST parent, int... types) {
 		List<AST> children = new ArrayList<>();
-		
-		if (parent != null) {
-			AST child = parent.getFirstChild();
-			while (child != null) {
-				for (int i = 0; i < type.length; i++) {
-					if (child.getType() == type[i] || type[i] == -1) {
-						children.add(child);
-					}
+		if (parent == null || types == null || types.length == 0) return children;
+		for (AST child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
+			for (int type : types) {
+				if (type == -1 || child.getType() == type) {
+					children.add(child);
 				}
-				child = child.getNextSibling();
 			}
 		}
-		
 		return children;
+	}
+	
+	/**
+	 * 
+	 * @param n
+	 * @param parent
+	 * @param type
+	 * @return
+	 */
+	public static boolean hasAtMostNChildrenOfTypes(int n, AST parent, int... types) {
+		if (parent == null || types == null || types.length == 0) return true;
+		int count = 0;
+		for (AST child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
+			for (int type : types) {
+				if (type == -1 || child.getType() == type) {
+					++count;
+				}
+			}
+		}
+		return count <= n;
 	}
 	
 	public static AST getChild(AST parent, int type) {
 		if (parent == null) return null;
-		AST child = parent.getFirstChild();
-		while (child != null){
-			if (child.getType() == type){
+		for (AST child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
+			if (child.getType() == type) {
 				return child;
 			}
-			child = child.getNextSibling();
 		}
 		return null;
 	}
@@ -106,7 +118,7 @@ public class AstUtil {
 	}
 	
 	public static int getParentType(AST child) {
-		if (child.getParent() == null) return -1;
-		return child.getParent().getType();
+		AST parent = child.getParent();
+		return parent != null ? parent.getType() : -1;
 	}
 }

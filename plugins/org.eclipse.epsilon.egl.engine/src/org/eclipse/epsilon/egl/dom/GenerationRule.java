@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Map;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplate;
 import org.eclipse.epsilon.egl.EglPersistentTemplate;
@@ -51,20 +52,70 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 	@SuppressWarnings("unchecked")
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
+		validateConstructs(cst, module.getParseProblems());
+		
 		AST sourceParameterAst = cst.getFirstChild().getNextSibling();
 		if (sourceParameterAst != null && sourceParameterAst.getType() == EolParser.FORMAL) {
 			sourceParameter = (Parameter) module.createAst(sourceParameterAst, this);
 		}
-		
-		templateBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TEMPLATE), this);
-		guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.GUARD), this);
-		targetBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TARGET), this);
-		parametersBlock = (ExecutableBlock<EolMap<String, ?>>) module.createAst(AstUtil.getChild(cst, EgxParser.PARAMETERS), this);
 		domainBlock = (ExecutableBlock<Collection<?>>) module.createAst(AstUtil.getChild(cst, EgxParser.DOMAIN), this);
+		guardBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.GUARD), this);
 		preBlock = (ExecutableBlock<?>) module.createAst(AstUtil.getChild(cst, EgxParser.PRE), this);
-		postBlock = (ExecutableBlock<?>) module.createAst(AstUtil.getChild(cst, EgxParser.POST), this);
 		overwriteBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.OVERWRITE), this);
 		mergeBlock = (ExecutableBlock<Boolean>) module.createAst(AstUtil.getChild(cst, EgxParser.MERGE), this);
+		templateBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TEMPLATE), this);
+		parametersBlock = (ExecutableBlock<EolMap<String, ?>>) module.createAst(AstUtil.getChild(cst, EgxParser.PARAMETERS), this);
+		targetBlock = (ExecutableBlock<String>) module.createAst(AstUtil.getChild(cst, EgxParser.TARGET), this);
+		postBlock = (ExecutableBlock<?>) module.createAst(AstUtil.getChild(cst, EgxParser.POST), this);
+	}
+	
+	/**
+	 * 
+	 * @param parent
+	 * @param problems
+	 * @since 1.6
+	 */
+	private void validateConstructs(AST parent, Collection<ParseProblem> problems) {
+		int[] types = {
+			EgxParser.DOMAIN,
+			EgxParser.GUARD,
+			EgxParser.PRE,
+			EgxParser.OVERWRITE,
+			EgxParser.MERGE,
+			EgxParser.TEMPLATE,
+			EgxParser.PARAMETERS,
+			EgxParser.TARGET,
+			EgxParser.POST
+		};
+		String[] names = {
+			"domain",
+			"guard",
+			"pre",
+			"overwrite",
+			"merge",
+			"template",
+			"parameters",
+			"target",
+			"post"
+		};
+		for (int i = 0; i < types.length; i++) {
+			validateConstruct(parent, problems, types[i], names[i]);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param parent
+	 * @param problems
+	 * @param token
+	 * @param tokenName
+	 * @since 1.6
+	 */
+	protected void validateConstruct(AST parent, Collection<ParseProblem> problems, int tokenType, String tokenName) {
+		int severity = ParseProblem.WARNING;
+		if (!AstUtil.hasAtMostNChildrenOfTypes(1, parent, tokenType)) {
+			problems.add(new ParseProblem("Only one '"+tokenName+"' block is permitted!", severity));
+		}
 	}
 
 	public Collection<?> getAllElements(IEolContext context) throws EolRuntimeException {
