@@ -83,8 +83,8 @@ public class AstUtil {
 		int count = 0;
 		for (AST child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
 			for (int type : types) {
-				if (type == -1 || child.getType() == type) {
-					++count;
+				if ((type == -1 || child.getType() == type) && ++count > n) {
+					return false;
 				}
 			}
 		}

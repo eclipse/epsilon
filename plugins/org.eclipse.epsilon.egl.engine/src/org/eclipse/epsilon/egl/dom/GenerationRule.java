@@ -75,7 +75,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 	 * @param problems
 	 * @since 1.6
 	 */
-	private void validateConstructs(AST parent, Collection<ParseProblem> problems) {
+	private static void validateConstructs(AST parent, Collection<ParseProblem> problems) {
 		int[] types = {
 			EgxParser.DOMAIN,
 			EgxParser.GUARD,
@@ -99,9 +99,10 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 			"post"
 		};
 		for (int i = 0; i < types.length; i++) {
-			int severity = ParseProblem.WARNING;
 			if (!AstUtil.hasAtMostNChildrenOfTypes(1, parent, types[i])) {
-				problems.add(new ParseProblem(parent.getLine(), parent.getColumn(), "At most one '"+names[i]+"' block is permitted in each rule", severity));
+				problems.add(new ParseProblem(parent.getLine(), parent.getColumn(),
+					"At most one '"+names[i]+"' block is permitted in each rule",
+					ParseProblem.WARNING));
 			}
 		}
 	}
