@@ -101,7 +101,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		for (int i = 0; i < types.length; i++) {
 			int severity = ParseProblem.WARNING;
 			if (!AstUtil.hasAtMostNChildrenOfTypes(1, parent, types[i])) {
-				problems.add(new ParseProblem("Only one '"+names[i]+"' block is permitted!", severity));
+				problems.add(new ParseProblem(parent.getLine(), parent.getColumn(), "At most one '"+names[i]+"' block is permitted in each rule", severity));
 			}
 		}
 	}
