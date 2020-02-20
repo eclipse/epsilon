@@ -78,7 +78,7 @@ import junit.framework.Test;
 	WorkflowTestSuite.class,
 	GraphmlTestSuite.class,
 	EmfTestSuite.class,
-	SimulinkTestSuite.class,
+	//SimulinkTestSuite.class,
 	SpreadsheetDriverTestSuite.class,
 	CsvModelTestSuite.class,
 	FlexmiTestSuite.class,
