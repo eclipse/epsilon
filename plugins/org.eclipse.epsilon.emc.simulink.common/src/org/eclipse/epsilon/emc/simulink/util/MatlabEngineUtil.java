@@ -27,6 +27,20 @@ import static org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel.*;
 public class MatlabEngineUtil {
 
 	/**
+	 * Convenience method providing a 3D array with the required paths.
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IllegalArgumentException
+	 * @see #resolvePaths(String[])
+	 * @since 1.6
+	 */
+	public static String[] resolvePaths() throws IllegalStateException, IllegalArgumentException {
+		String[] pathsArr = new String[]{"", "", ""};
+		resolvePaths(pathsArr);
+		return pathsArr;
+	}
+	
+	/**
 	 * Resolves paths. The array is only written to if this method succeeds.
 	 * 
 	 * @param currentPaths Contains the paths to determine in the following order: <br/>
@@ -36,6 +50,8 @@ public class MatlabEngineUtil {
 	 * 
 	 * @throws IllegalArgumentException If the paths array is null or not length 3.
 	 * @throws IllegalStateException If the paths couldn't be resolved.
+	 * @author Sina Madani
+	 * @since 1.6
 	 */
 	public static void resolvePaths(String[] currentPaths) throws IllegalStateException, IllegalArgumentException {
 		if (currentPaths == null || currentPaths.length < 3)
