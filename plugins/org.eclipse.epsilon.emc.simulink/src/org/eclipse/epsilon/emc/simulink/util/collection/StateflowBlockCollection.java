@@ -23,7 +23,7 @@ import org.eclipse.epsilon.emc.simulink.util.manager.StateflowBlockManager;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributor;
 
-public class StateflowBlockCollection extends AbstractSimulinkCollection<StateflowBlock, String, StateflowBlockManager> implements IAbstractOperationContributor{
+public class StateflowBlockCollection extends AbstractSimulinkCollection<StateflowBlock, Double, StateflowBlockManager> implements IAbstractOperationContributor{
 
 	
 	public StateflowBlockCollection(Object primitive, SimulinkModel model) {

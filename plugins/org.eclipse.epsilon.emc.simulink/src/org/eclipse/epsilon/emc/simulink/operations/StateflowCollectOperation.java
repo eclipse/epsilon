@@ -1,7 +1,9 @@
 package org.eclipse.epsilon.emc.simulink.operations;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.util.collection.StateflowBlockCollection;
@@ -27,22 +29,28 @@ public class StateflowCollectOperation extends CollectOperation {
 		StateflowBlockCollection targetList;
 		if (target instanceof StateflowBlockCollection) {
 			/** change the rt to model */ 
-			//handles=arrayfun(@(a) rt.find('Id',a),cell2mat(ids), 'UniformOutput', false)
+			String setup = "handles=arrayfun(@(a) rt.find('Id',a),cell2mat(?), 'UniformOutput', false)";
 			/** change the rt to model */ 
-			//get(cell2mat(handles),'?')
+			String eval = "get(cell2mat(handles),'?')";
 			
-			/*targetList = (StateflowBlockCollection) target;
+			targetList = (StateflowBlockCollection) target;
 			
 			List<?> handles = targetList.getPrimitive();
+			String cellArray = handles.stream().map(e->new Integer(((Double)e).intValue()).toString()).collect(Collectors.joining(";","{","}"));
 			if (areExpressionsValid(expressions)) {
 				PropertyCallExpression expression = (PropertyCallExpression) expressions.get(0);
 				try{
-					return (Collection<?>) engine.evalWithSetupAndResult("handles=?", "get(handles, '?')", handles, expression.getName());
+					//return (Collection<?>) engine.evalWithSetupAndResult("handles=?", "get(handles, '?')", handles, expression.getName());
+					Object result= engine.evalWithSetupAndResult(setup, eval, cellArray, expression.getName());
+					if (result instanceof Collection) {						
+						return (Collection<?>) result;
+					} else {
+						return Arrays.asList(result);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					// TODO
 				}
-			}*/
+			}
 		}		
 		return super.execute(target, operationNameExpression, iterators, expressions, context);
 	}

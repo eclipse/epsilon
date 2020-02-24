@@ -46,7 +46,7 @@ public class TypeHelper {
 		} 
 	}
 	
-	public static Kind getKind(SimulinkModel model, Double handle){
+	public static Kind getKind(SimulinkModel model, Object handle){
 		if (handle != null) {
 			try{
 				String type = (String) model.getEngine().evalWithSetupAndResult("handle = ?;", "get_param(handle, 'Type');", handle);

@@ -36,7 +36,8 @@ public class SimulinkElementManager extends AbstractManager<ISimulinkElement, Ob
 		case PORT:
 			return new SimulinkPortManager(getModel()).construct((Double) id);
 		case STATEFLOW:
-			return (ISimulinkElement) new StateflowBlockManager(getModel()).construct((String) id);
+			return (ISimulinkElement) new StateflowBlockManager(getModel()).construct((Double) id);
+			//return (ISimulinkElement) new StateflowBlockManager(getModel()).construct((String) id);
 		default:
 			return null;
 		}
@@ -45,7 +46,8 @@ public class SimulinkElementManager extends AbstractManager<ISimulinkElement, Ob
 	@Override
 	public Object getId(ISimulinkElement from) {
 		if (from instanceof StateflowBlock) {
-			return (String) new StateflowBlockManager(getModel()).getId((StateflowBlock) from);
+			return (Double) new StateflowBlockManager(getModel()).getId((StateflowBlock) from);
+			//return (String) new StateflowBlockManager(getModel()).getId((StateflowBlock) from);
 		} else if (from instanceof SimulinkLine) {
 			return (Double) new SimulinkLineManager(getModel()).getId((SimulinkLine) from);
 		} else if (from instanceof SimulinkPort) {

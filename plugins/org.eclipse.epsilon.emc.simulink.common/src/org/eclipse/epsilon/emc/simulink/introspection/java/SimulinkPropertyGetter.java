@@ -56,7 +56,6 @@ public class SimulinkPropertyGetter extends JavaPropertyGetter {
 			
 		}
 		
-		
 	}
 
 }
