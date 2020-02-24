@@ -213,12 +213,11 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		ensureNotNested(entryPoint != null ? entryPoint : getModule());
 		isInShortCircuitTask = shortCircuiting;
 		initThreadLocals();
-		ExecutorService executor = getExecutorService();
-		if (executor == null || executor.isShutdown()) {
-			executor = this.executorService = newExecutorService();
+		if (executorService == null || executorService.isShutdown()) {
+			executorService = newExecutorService();
 		}
 		isInParallelTask = true;
-		return executor;
+		return executorService;
 	}
 	
 	@Override
