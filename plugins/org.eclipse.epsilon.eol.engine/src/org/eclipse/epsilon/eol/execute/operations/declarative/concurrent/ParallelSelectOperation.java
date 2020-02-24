@@ -48,7 +48,7 @@ public class ParallelSelectOperation extends SelectOperation {
 		for (Object item : source) {
 			jobs.add(() -> {
 				Optional<?> intermediateResult = null;
-				if (keepSearching.get() && predicate.testThrows(item)) {
+				if ((!returnOnMatch || keepSearching.get()) && predicate.testThrows(item)) {
 					intermediateResult = Optional.ofNullable(item);
 					if (returnOnMatch) {
 						keepSearching.set(false);
