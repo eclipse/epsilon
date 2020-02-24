@@ -17,8 +17,6 @@ import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 
 public class SimulinkPropertyGetter extends JavaPropertyGetter {
 
-	private static final String TYPE = "type";
-
 	protected MatlabEngine engine;
 
 	public SimulinkPropertyGetter() {}
@@ -35,6 +33,7 @@ public class SimulinkPropertyGetter extends JavaPropertyGetter {
 	@Override
 	public Object invoke(Object object, String property) throws EolRuntimeException {
 
+		
 		try {
 			return super.invoke(object, property);
 		} catch (Exception e) {
@@ -43,7 +42,7 @@ public class SimulinkPropertyGetter extends JavaPropertyGetter {
 				
 				ISimulinkModelElement element = (ISimulinkModelElement) object;
 				
-				if (property.equalsIgnoreCase(TYPE)) {
+				if (property.equalsIgnoreCase("type")) {
 					return element.getType();
 				}
 				return element.getProperty(property);

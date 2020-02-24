@@ -22,18 +22,18 @@ import org.eclipse.epsilon.emc.simulink.util.manager.Manager;
 
 public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> implements List<ISimulinkModelElement> {
 
-	private List<P> primitive;
-	private M manager;
+	protected List<P> primitive;
+	protected M manager;
 
 	@SuppressWarnings("unchecked")
 	public AbstractSimulinkCollection(Object primitive, M manager) {
 		if (primitive != null) {
 			if (isInstanceOfPrimitiveArray(primitive)) {
-				this.primitive = MatlabEngineUtil.matlabArrayToList((P[]) primitive);
+				assignPrimitiveFromArray(primitive);
 			} else if (primitive instanceof List) {
-				this.primitive = (List<P>) primitive;
+				assignPrimitiveFromList((List<?>)primitive);
 			} else if (isInstanceOfPrimitive(primitive)) {
-				this.primitive = (List<P>) new ArrayList<>(Arrays.asList(primitive));
+				assignPrimitiveFromSingle(primitive);
 			} else {
 				this.primitive = new ArrayList();
 				this.primitive.add((P)primitive);
@@ -43,6 +43,18 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 			this.primitive = new ArrayList<>();
 		}
 		this.manager = manager;
+	}
+
+	protected void assignPrimitiveFromSingle(Object primitive) {
+		this.primitive = (List<P>) new ArrayList<>(Arrays.asList(primitive));
+	}
+
+	protected void assignPrimitiveFromList(List<?> primitive) {
+		this.primitive = (List<P>) primitive;
+	}
+
+	protected void assignPrimitiveFromArray(Object primitive) {
+		this.primitive = MatlabEngineUtil.matlabArrayToList((P[]) primitive);
 	}
 
 	@Override

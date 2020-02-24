@@ -17,9 +17,13 @@ import java.util.ListIterator;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
+import org.eclipse.epsilon.emc.simulink.operations.StateflowCollectOperation;
+import org.eclipse.epsilon.emc.simulink.operations.StateflowSelectOperation;
 import org.eclipse.epsilon.emc.simulink.util.manager.StateflowBlockManager;
+import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributor;
 
-public class StateflowBlockCollection extends AbstractSimulinkCollection<StateflowBlock, Double, StateflowBlockManager> {
+public class StateflowBlockCollection extends AbstractSimulinkCollection<StateflowBlock, String, StateflowBlockManager> implements IAbstractOperationContributor{
 
 	
 	public StateflowBlockCollection(Object primitive, SimulinkModel model) {
@@ -86,5 +90,15 @@ public class StateflowBlockCollection extends AbstractSimulinkCollection<Statefl
 		
 	}
 
+	@Override
+	public AbstractOperation getAbstractOperation(String name) {
+		if ("select".equals(name)) {
+			return new StateflowSelectOperation(getManager().getEngine());
+		}
+		else if ("collect".equals(name)) {
+			return new StateflowCollectOperation(getManager().getEngine());
+		}
+		else return null;
+	}
 
 }

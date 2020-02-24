@@ -17,9 +17,13 @@ import java.util.ListIterator;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkLine;
+import org.eclipse.epsilon.emc.simulink.operations.SimulinkCollectOperation;
+import org.eclipse.epsilon.emc.simulink.operations.SimulinkSelectOperation;
 import org.eclipse.epsilon.emc.simulink.util.manager.SimulinkLineManager;
+import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributor;
 
-public class SimulinkLineCollection extends AbstractSimulinkCollection<SimulinkLine, Double, SimulinkLineManager> {
+public class SimulinkLineCollection extends AbstractSimulinkCollection<SimulinkLine, Double, SimulinkLineManager> implements IAbstractOperationContributor{
 
 	public SimulinkLineCollection(Object primitive, SimulinkModel model) {
 		super(primitive, new SimulinkLineManager(model));
@@ -85,5 +89,15 @@ public class SimulinkLineCollection extends AbstractSimulinkCollection<SimulinkL
 		
 	}
 
+	@Override
+	public AbstractOperation getAbstractOperation(String name) {
+		if ("select".equals(name)) {
+			return new SimulinkSelectOperation(getManager().getEngine());
+		}
+		else if ("collect".equals(name)) {
+			return new SimulinkCollectOperation(getManager().getEngine());
+		}
+		else return null;
+	}
 
 }

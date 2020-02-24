@@ -20,7 +20,7 @@ import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.util.manager.SimulinkElementManager;
 
 //FIXME Try to make generic
-public class SimulinkElementCollection extends AbstractSimulinkCollection<ISimulinkElement, Double, SimulinkElementManager> {
+public class SimulinkElementCollection extends AbstractSimulinkCollection<ISimulinkElement, Object, SimulinkElementManager> {
 
 	public SimulinkElementCollection(SimulinkModel model) {
 		super(null, new SimulinkElementManager(model));	
@@ -70,7 +70,7 @@ public class SimulinkElementCollection extends AbstractSimulinkCollection<ISimul
 		return false;
 	}
 	
-	protected class SimulinkElementIterator extends AbstractElementIterator<ISimulinkElement, Double, SimulinkElementManager>{
+	protected class SimulinkElementIterator extends AbstractElementIterator<ISimulinkElement, Object, SimulinkElementManager>{
 		
 		SimulinkElementIterator(){
 			super(getPrimitive(), getManager());
@@ -78,7 +78,7 @@ public class SimulinkElementCollection extends AbstractSimulinkCollection<ISimul
 		
 	}
 	
-	protected class SimulinkElementListIterator extends AbstractListIterator<ISimulinkElement, Double, SimulinkElementManager> {
+	protected class SimulinkElementListIterator extends AbstractListIterator<ISimulinkElement, Object, SimulinkElementManager> {
 		
 		SimulinkElementListIterator(){
 			super(getPrimitive(), getManager());
@@ -89,6 +89,5 @@ public class SimulinkElementCollection extends AbstractSimulinkCollection<ISimul
 		}
 		
 	}
-
 	
 }
