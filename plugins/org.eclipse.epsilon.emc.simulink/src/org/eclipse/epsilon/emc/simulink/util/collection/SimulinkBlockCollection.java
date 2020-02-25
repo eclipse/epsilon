@@ -92,7 +92,7 @@ public class SimulinkBlockCollection extends AbstractSimulinkCollection<Simulink
 	@Override
 	public AbstractOperation getAbstractOperation(String name) {
 		if ("select".equals(name)) {
-			return new SimulinkSelectOperation(getManager().getEngine());
+			return new SimulinkSelectOperation(getManager().getEngine(), getManager().getModel());
 		}
 		else if ("collect".equals(name)) {
 			return new SimulinkCollectOperation(getManager().getEngine());
