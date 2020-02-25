@@ -230,10 +230,6 @@ public class EolContextParallel extends EolContext implements IEolContextParalle
 		isInShortCircuitTask = false;
 	}
 	
-	public boolean isInShortCircuitingTask() {
-		return isInShortCircuitTask;
-	}
-	
 	@Override
 	public synchronized void setParallelism(int threads) throws IllegalStateException, IllegalArgumentException {
 		if (threads != this.numThreads) {
