@@ -9,13 +9,16 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
+import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -25,13 +28,14 @@ import org.eclipse.epsilon.eol.function.CheckedEolFunction;
 import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
 import org.eclipse.epsilon.eol.function.EolLambdaFactory;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
+import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
 
 /**
  * 
  * @since 1.6 Major refactoring - EOL lambdas are converted to Java lambdas.
  */
-public abstract class FirstOrderOperation extends AbstractOperation {
+public class FirstOrderOperation extends AbstractOperation {
 	
 	/**
 	 * 
@@ -133,6 +137,19 @@ public abstract class FirstOrderOperation extends AbstractOperation {
 		else {
 			return (F) EolLambdaFactory.resolveFor(fType, iterators, expression, operationNameExpression, context);
 		}
+	}
+	
+	/**
+	 * 1.5 API-compatible UnsupportedOperationException-throwing implementation of execute()
+	 * @deprecated Use one of the other execute methods instead
+	 */
+	public Object execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
+		return execute(target, new Variable(iterators.get(0).getName(), iterators.get(0).getType(context)), expressions.get(0), context);
 	}
 
 }

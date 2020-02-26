@@ -65,7 +65,14 @@ public class EolOperationFactory {
 		operationCache.put("parallelCollect", new ParallelCollectOperation());
 		operationCache.put("parallelSortBy", new ParallelSortByOperation());
 		operationCache.put("parallelMapBy", new ParallelMapByOperation());
+		createCache();
 	}
+	
+	/**
+	 * For backwards compatibility with 1.5
+	 * @deprecated Add methods to the cache in the constructor instead
+	 */
+	protected void createCache() {}
 	
 	/**
 	 * Retrieves the exact operation based on the given name.

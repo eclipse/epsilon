@@ -10,13 +10,18 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
+import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 
@@ -52,9 +57,24 @@ public class SelectOperation extends FirstOrderOperation {
 		return result;
 	}
 	
+	/**
+	 * 1.5-compatible implementation of execute()
+	 * @deprecated Use one of the other execute methods instead
+	 */
+	public Object execute(Object target, Variable iterator, Expression expression, IEolContext context, boolean returnOnMatch) throws EolRuntimeException {
+		List<Parameter> parameters = new ArrayList<Parameter>();
+		if (iterator != null) parameters = Arrays.asList(new Parameter(new NameExpression(iterator.getName()), new TypeExpression(iterator.getType().getName())));
+		return execute(returnOnMatch, target, null, parameters, expression, context);
+	}
+	
 	@Override
 	public Collection<?> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
-		return execute(false, target, operationNameExpression, iterators, expressions.get(0), context);
+		Expression expression = null;
+		Variable variable = null;
+		if (!expressions.isEmpty()) expression = expressions.get(0);
+		if (!iterators.isEmpty()) variable = new Variable(iterators.get(0).getName(), iterators.get(0).getType(context));
+		return (Collection<?>) execute(target, variable, expression, context, false);
+		//return execute(false, target, operationNameExpression, iterators, expressions.get(0), context);
 	}
 	
 }
