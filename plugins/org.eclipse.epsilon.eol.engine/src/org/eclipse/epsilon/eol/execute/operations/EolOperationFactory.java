@@ -72,6 +72,7 @@ public class EolOperationFactory {
 	 * For backwards compatibility with 1.5
 	 * @deprecated Add methods to the cache in the constructor instead
 	 */
+	@Deprecated
 	protected void createCache() {}
 	
 	/**

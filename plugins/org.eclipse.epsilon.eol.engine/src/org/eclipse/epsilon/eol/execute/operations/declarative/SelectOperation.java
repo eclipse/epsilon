@@ -61,8 +61,9 @@ public class SelectOperation extends FirstOrderOperation {
 	 * 1.5-compatible implementation of execute()
 	 * @deprecated Use one of the other execute methods instead
 	 */
+	@Deprecated
 	public Object execute(Object target, Variable iterator, Expression expression, IEolContext context, boolean returnOnMatch) throws EolRuntimeException {
-		List<Parameter> parameters = new ArrayList<Parameter>();
+		List<Parameter> parameters = new ArrayList<>();
 		if (iterator != null) parameters = Arrays.asList(new Parameter(new NameExpression(iterator.getName()), new TypeExpression(iterator.getType().getName())));
 		return execute(returnOnMatch, target, null, parameters, expression, context);
 	}

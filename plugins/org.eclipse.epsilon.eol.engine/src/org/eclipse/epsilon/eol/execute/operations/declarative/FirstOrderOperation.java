@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,7 +17,6 @@ import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
 import org.eclipse.epsilon.eol.dom.OperationCallExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
-import org.eclipse.epsilon.eol.dom.TypeExpression;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -28,7 +26,6 @@ import org.eclipse.epsilon.eol.function.CheckedEolFunction;
 import org.eclipse.epsilon.eol.function.CheckedEolPredicate;
 import org.eclipse.epsilon.eol.function.EolLambdaFactory;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
-import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.eol.types.EolType;
 
 /**
@@ -143,6 +140,7 @@ public class FirstOrderOperation extends AbstractOperation {
 	 * 1.5 API-compatible UnsupportedOperationException-throwing implementation of execute()
 	 * @deprecated Use one of the other execute methods instead
 	 */
+	@Deprecated
 	public Object execute(Object target, Variable iterator, Expression expression, IEolContext context) throws EolRuntimeException {
 		throw new UnsupportedOperationException();
 	}

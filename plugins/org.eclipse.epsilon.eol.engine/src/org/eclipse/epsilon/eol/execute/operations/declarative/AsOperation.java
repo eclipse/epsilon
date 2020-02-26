@@ -44,12 +44,6 @@ public class AsOperation extends SimpleOperation {
 	public boolean isOverridable() {
 		return false;
 	}
-	
-	/*
-	protected boolean isNameAst(AST ast) {
-		return ast!= null && ast.getType() == EolParser.FEATURECALL &&
-			ast.getChildren().isEmpty();
-	}*/
 
 	@Override
 	public Object execute(Object source, List<?> parameters,
