@@ -244,7 +244,6 @@ public class MatlabEngine {
 		}
 		try {
 			cmd = "try\n" + cmd + "\n catch ME \n e = MException(ME.identifier,ME.message); throw(e); \n end";
-			//cmd = "try\n" + cmd + "\n catch ME \n ME.identifier\n\n end";
 			evalMethod.invoke(engine, cmd);
 		} catch (InvocationTargetException e) {
 			throw new MatlabException(e);

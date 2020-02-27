@@ -321,6 +321,9 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		if (!StringUtil.isEmpty(workingDirPath)) {
 			// if the user has set a working directory, we will use it
 			setWorkingDir(new File(resolver.resolve(workingDirPath)));
+		} else {
+			// otherwise we will use the directory the model file is in
+			setWorkingDir(new File(resolver.resolve(filePath)).getParentFile());
 		}
 
 		String paths = properties.getProperty(PROPERTY_PATHS);
