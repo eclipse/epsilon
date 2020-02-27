@@ -12,8 +12,9 @@ package org.eclipse.epsilon.picto.source;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.eclipse.epsilon.picto.PictoMetadata;
 import org.eclipse.epsilon.picto.PictoSource;
+import org.eclipse.epsilon.picto.dom.Picto;
+import org.eclipse.epsilon.picto.dom.PictoFactory;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 
@@ -24,9 +25,9 @@ public abstract class SimpleSource implements PictoSource {
 	public abstract String getFileExtension();
 	
 	@Override
-	public PictoMetadata getRenderingMetadata(IEditorPart editorPart) {
-		PictoMetadata metadata = new PictoMetadata();
-		metadata.setFile(getFile(editorPart).getLocation().toOSString());
+	public Picto getRenderingMetadata(IEditorPart editorPart) {
+		Picto metadata = PictoFactory.eINSTANCE.createPicto();
+		metadata.setTemplate(getFile(editorPart).getLocation().toOSString());
 		metadata.setFormat(getFormat());
 		return metadata;
 	}

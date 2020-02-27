@@ -27,4 +27,12 @@
         </activeWhen>
      </handler>
      </extension> 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated dom -->
+      <package
+            uri="picto"
+            class="org.eclipse.epsilon.picto.dom.PictoPackage"
+            genModel="src/org/eclipse/epsilon/picto/dom/dom.genmodel"/>
+   </extension>
+
 </plugin>

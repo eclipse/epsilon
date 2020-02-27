@@ -25,22 +25,23 @@ import org.eclipse.epsilon.flexmi.EObjectLocation;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 import org.eclipse.epsilon.flexmi.dt.FlexmiEditor;
-import org.eclipse.epsilon.picto.PictoMetadata;
 import org.eclipse.epsilon.picto.PictoSource;
+import org.eclipse.epsilon.picto.dom.Picto;
+import org.eclipse.epsilon.picto.dom.PictoFactory;
 import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.ProcessingInstruction;
 
 public class FlexmiSource implements PictoSource {
 
 	@Override
-	public PictoMetadata getRenderingMetadata(IEditorPart editorPart) {
+	public Picto getRenderingMetadata(IEditorPart editorPart) {
 		FlexmiResource resource = (FlexmiResource) getResource(editorPart);
 		ProcessingInstruction renderProcessingInstruction = (ProcessingInstruction) ((FlexmiResource) resource).
 					getProcessingInstructions().stream().filter(p -> p.getTarget().startsWith("render-")).findFirst().orElse(null);
 		if (renderProcessingInstruction != null) {
-			PictoMetadata metadata = new PictoMetadata();
+			Picto metadata = PictoFactory.eINSTANCE.createPicto();
 			metadata.setFormat(renderProcessingInstruction.getTarget().substring("render-".length()));
-			metadata.setFile(renderProcessingInstruction.getData().trim());
+			metadata.setTemplate(renderProcessingInstruction.getData().trim());
 			return metadata;
 		}
 		return null;

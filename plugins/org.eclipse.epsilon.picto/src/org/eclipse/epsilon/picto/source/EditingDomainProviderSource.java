@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.picto.source;
 
 import java.util.Arrays;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;

@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
@@ -38,6 +37,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.picto.LazyEgxModule.LazyGenerationRuleContentPromise;
 import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
+import org.eclipse.epsilon.picto.dom.Picto;
 import org.eclipse.epsilon.picto.source.DotSource;
 import org.eclipse.epsilon.picto.source.EditingDomainProviderSource;
 import org.eclipse.epsilon.picto.source.EmfaticSource;
@@ -290,20 +290,20 @@ public class PictoView extends ViewPart {
 				throw new ResourceLoadingException(ex);
 			}
 			
-			PictoMetadata renderingMetadata = source.getRenderingMetadata(editor);
+			Picto renderingMetadata = source.getRenderingMetadata(editor);
 			
 			if (renderingMetadata != null) {
 			
 				IEolModule module;	
 				InMemoryEmfModel model;
 				
-				if (renderingMetadata.getNsuri() != null) {
-					EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(renderingMetadata.getNsuri());
-					model = new InMemoryEmfModel("M", resource, ePackage);
-				}
-				else {
+				//if (renderingMetadata.getNsuri() != null) {
+				//	EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(renderingMetadata.getNsuri());
+				//	model = new InMemoryEmfModel("M", resource, ePackage);
+				//}
+				//else {
 					model = new InMemoryEmfModel("M", resource);
-				}
+				//}
 				
 				model.setExpand(false);	
 				
@@ -314,11 +314,11 @@ public class PictoView extends ViewPart {
 					module = new EglTemplateFactoryModuleAdapter(new EglFileGeneratingTemplateFactory());
 				}
 				
-				if (renderingMetadata.getFile() == null) throw new Exception("No EGL file specified.");
+				if (renderingMetadata.getTemplate() == null) throw new Exception("No EGL file specified.");
 				
-				File eglFile = new File(renderingMetadata.getFile()); 
+				File eglFile = new File(renderingMetadata.getTemplate()); 
 				if (!eglFile.isAbsolute()) {
-					eglFile = new File(modelFile.getParentFile(), renderingMetadata.getFile());
+					eglFile = new File(modelFile.getParentFile(), renderingMetadata.getTemplate());
 				}
 				
 				if (!eglFile.exists()) throw new Exception("Cannot find file " + eglFile.getAbsolutePath());

@@ -1,0 +1,20 @@
+@namespace(uri="picto", prefix="")
+package dom;
+
+class Picto {
+	attr String template;
+	attr String format;
+	val Model[*] models;
+	val Parameter[*] parameters;
+}
+
+class Model {
+	attr String name;
+	attr String type;
+	val Parameter[*] parameters;
+}
+
+class Parameter {
+	attr String name;
+	attr String value;
+}

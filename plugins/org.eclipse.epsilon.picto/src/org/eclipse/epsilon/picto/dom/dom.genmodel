@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.epsilon.picto/src" modelPluginID="org.eclipse.epsilon.picto"
+    modelName="Dom" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>dom.ecore</foreignModel>
+  <genPackages prefix="Picto" basePackage="org.eclipse.epsilon.picto" disposableProviderFactory="true"
+      ecorePackage="dom.ecore#/">
+    <genClasses ecoreClass="dom.ecore#//Picto">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Picto/template"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Picto/format"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//Picto/models"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//Picto/parameters"/>
+    </genClasses>
+    <genClasses ecoreClass="dom.ecore#//Model">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Model/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Model/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//Model/parameters"/>
+    </genClasses>
+    <genClasses ecoreClass="dom.ecore#//Parameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Parameter/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Parameter/value"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

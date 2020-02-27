@@ -1,8 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Picto
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.epsilon.picto;singleton:=true
 Bundle-Version: 1.6.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Automatic-Module-Name: org.eclipse.epsilon.picto
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.flexmi,
@@ -23,7 +26,13 @@ Require-Bundle: org.eclipse.epsilon.flexmi,
  org.eclipse.gymnast.runtime.core;resolution:=optional,
  org.eclipse.ui.forms,
  org.eclipse.emf.ecore.editor,
- org.eclipse.jface.text
+ org.eclipse.jface.text,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport
 Bundle-Activator: org.eclipse.epsilon.picto.Activator
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.epsilon.picto
+Export-Package: org.eclipse.epsilon.picto,
+ org.eclipse.epsilon.picto.dom,
+ org.eclipse.epsilon.picto.dom.impl,
+ org.eclipse.epsilon.picto.dom.util,
+ org.eclipse.epsilon.picto.source
