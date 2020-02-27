@@ -4,6 +4,7 @@ package dom;
 class Picto {
 	attr String template;
 	attr String format;
+	attr boolean standalone;
 	val Model[*] models;
 	val Parameter[*] parameters;
 }

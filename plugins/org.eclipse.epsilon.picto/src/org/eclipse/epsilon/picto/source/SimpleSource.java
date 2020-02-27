@@ -34,7 +34,7 @@ public abstract class SimpleSource implements PictoSource {
 
 	@Override
 	public Resource getResource(IEditorPart editorPart) {
-		return new ResourceImpl();
+		return null;
 	}
 
 	@Override

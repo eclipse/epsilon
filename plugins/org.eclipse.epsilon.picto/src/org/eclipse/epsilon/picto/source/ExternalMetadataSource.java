@@ -29,9 +29,13 @@ public abstract class ExternalMetadataSource implements PictoSource {
 	public Picto getRenderingMetadata(IEditorPart editorPart) {
 		IFile file = getFile(editorPart);
 		IFile renderingMetadataFile = file.getParent().getFile(Path.fromPortableString(file.getName() + ".picto"));
-		if (renderingMetadataFile.exists()) {
-			Picto picto = getFromFlexmi(renderingMetadataFile);
-			if (picto == null) picto = getFromProperties(renderingMetadataFile);
+		return getRenderingMetadata(renderingMetadataFile);
+	}
+	
+	public Picto getRenderingMetadata(IFile file) {
+		if (file.exists()) {
+			Picto picto = getFromFlexmi(file);
+			if (picto == null) picto = getFromProperties(file);
 			return picto;
 		}
 		return null;
@@ -45,7 +49,6 @@ public abstract class ExternalMetadataSource implements PictoSource {
 			picto.setFormat(properties.getProperty("format", "text"));
 			picto.setTemplate(properties.getProperty("file"));
 			if (properties.contains("template")) picto.setTemplate(properties.getProperty("template"));
-			System.out.println(picto);
 			return picto;
 		}
 		catch (Exception ex) {
@@ -60,11 +63,9 @@ public abstract class ExternalMetadataSource implements PictoSource {
 			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
 			Resource resource = resourceSet.getResource(URI.createFileURI(file.getLocation().toOSString()), true);
 			resource.load(null);
-			System.out.println((Picto) resource.getContents().iterator().next());
 			return (Picto) resource.getContents().iterator().next();
 		}
 		catch (Exception ex) {
-			ex.printStackTrace();
 			return null;
 		}
 	}

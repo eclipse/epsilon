@@ -85,13 +85,22 @@ public interface PictoPackage extends EPackage {
 	int PICTO__FORMAT = 1;
 
 	/**
+	 * The feature id for the '<em><b>Standalone</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PICTO__STANDALONE = 2;
+
+	/**
 	 * The feature id for the '<em><b>Models</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PICTO__MODELS = 2;
+	int PICTO__MODELS = 3;
 
 	/**
 	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
@@ -100,7 +109,7 @@ public interface PictoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PICTO__PARAMETERS = 3;
+	int PICTO__PARAMETERS = 4;
 
 	/**
 	 * The number of structural features of the '<em>Picto</em>' class.
@@ -109,7 +118,7 @@ public interface PictoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PICTO_FEATURE_COUNT = 4;
+	int PICTO_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Picto</em>' class.
@@ -253,6 +262,17 @@ public interface PictoPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getPicto_Format();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.Picto#isStandalone <em>Standalone</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Standalone</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.Picto#isStandalone()
+	 * @see #getPicto()
+	 * @generated
+	 */
+	EAttribute getPicto_Standalone();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.epsilon.picto.dom.Picto#getModels <em>Models</em>}'.
@@ -399,6 +419,14 @@ public interface PictoPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PICTO__FORMAT = eINSTANCE.getPicto_Format();
+
+		/**
+		 * The meta object literal for the '<em><b>Standalone</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PICTO__STANDALONE = eINSTANCE.getPicto_Standalone();
 
 		/**
 		 * The meta object literal for the '<em><b>Models</b></em>' containment reference list feature.

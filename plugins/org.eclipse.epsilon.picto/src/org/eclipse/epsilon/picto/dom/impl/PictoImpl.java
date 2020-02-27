@@ -33,6 +33,7 @@ import org.eclipse.epsilon.picto.dom.PictoPackage;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#getTemplate <em>Template</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#getFormat <em>Format</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#isStandalone <em>Standalone</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#getModels <em>Models</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#getParameters <em>Parameters</em>}</li>
  * </ul>
@@ -79,6 +80,26 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	 * @ordered
 	 */
 	protected String format = FORMAT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isStandalone() <em>Standalone</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isStandalone()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean STANDALONE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isStandalone() <em>Standalone</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isStandalone()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean standalone = STANDALONE_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getModels() <em>Models</em>}' containment reference list.
@@ -171,6 +192,29 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	 * @generated
 	 */
 	@Override
+	public boolean isStandalone() {
+		return standalone;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setStandalone(boolean newStandalone) {
+		boolean oldStandalone = standalone;
+		standalone = newStandalone;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PictoPackage.PICTO__STANDALONE, oldStandalone, standalone));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EList<Model> getModels() {
 		if (models == null) {
 			models = new EObjectContainmentEList<Model>(Model.class, this, PictoPackage.PICTO__MODELS);
@@ -219,6 +263,8 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 				return getTemplate();
 			case PictoPackage.PICTO__FORMAT:
 				return getFormat();
+			case PictoPackage.PICTO__STANDALONE:
+				return isStandalone();
 			case PictoPackage.PICTO__MODELS:
 				return getModels();
 			case PictoPackage.PICTO__PARAMETERS:
@@ -241,6 +287,9 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 				return;
 			case PictoPackage.PICTO__FORMAT:
 				setFormat((String)newValue);
+				return;
+			case PictoPackage.PICTO__STANDALONE:
+				setStandalone((Boolean)newValue);
 				return;
 			case PictoPackage.PICTO__MODELS:
 				getModels().clear();
@@ -268,6 +317,9 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 			case PictoPackage.PICTO__FORMAT:
 				setFormat(FORMAT_EDEFAULT);
 				return;
+			case PictoPackage.PICTO__STANDALONE:
+				setStandalone(STANDALONE_EDEFAULT);
+				return;
 			case PictoPackage.PICTO__MODELS:
 				getModels().clear();
 				return;
@@ -290,6 +342,8 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 				return TEMPLATE_EDEFAULT == null ? template != null : !TEMPLATE_EDEFAULT.equals(template);
 			case PictoPackage.PICTO__FORMAT:
 				return FORMAT_EDEFAULT == null ? format != null : !FORMAT_EDEFAULT.equals(format);
+			case PictoPackage.PICTO__STANDALONE:
+				return standalone != STANDALONE_EDEFAULT;
 			case PictoPackage.PICTO__MODELS:
 				return models != null && !models.isEmpty();
 			case PictoPackage.PICTO__PARAMETERS:
@@ -312,6 +366,8 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 		result.append(template);
 		result.append(", format: ");
 		result.append(format);
+		result.append(", standalone: ");
+		result.append(standalone);
 		result.append(')');
 		return result.toString();
 	}

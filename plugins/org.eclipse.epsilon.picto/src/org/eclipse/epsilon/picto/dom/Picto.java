@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#getTemplate <em>Template</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#getFormat <em>Format</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#isStandalone <em>Standalone</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#getModels <em>Models</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#getParameters <em>Parameters</em>}</li>
  * </ul>
@@ -69,6 +70,28 @@ public interface Picto extends EObject {
 	 * @generated
 	 */
 	void setFormat(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Standalone</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Standalone</em>' attribute.
+	 * @see #setStandalone(boolean)
+	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getPicto_Standalone()
+	 * @model
+	 * @generated
+	 */
+	boolean isStandalone();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.epsilon.picto.dom.Picto#isStandalone <em>Standalone</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Standalone</em>' attribute.
+	 * @see #isStandalone()
+	 * @generated
+	 */
+	void setStandalone(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Models</b></em>' containment reference list.

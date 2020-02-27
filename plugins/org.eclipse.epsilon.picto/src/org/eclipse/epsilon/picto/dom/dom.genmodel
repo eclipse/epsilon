@@ -10,6 +10,7 @@
     <genClasses ecoreClass="dom.ecore#//Picto">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Picto/template"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Picto/format"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Picto/standalone"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//Picto/models"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//Picto/parameters"/>
     </genClasses>

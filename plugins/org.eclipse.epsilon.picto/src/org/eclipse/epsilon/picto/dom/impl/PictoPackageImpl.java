@@ -140,8 +140,18 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 	 * @generated
 	 */
 	@Override
+	public EAttribute getPicto_Standalone() {
+		return (EAttribute)pictoEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EReference getPicto_Models() {
-		return (EReference)pictoEClass.getEStructuralFeatures().get(2);
+		return (EReference)pictoEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -151,7 +161,7 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 	 */
 	@Override
 	public EReference getPicto_Parameters() {
-		return (EReference)pictoEClass.getEStructuralFeatures().get(3);
+		return (EReference)pictoEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -256,6 +266,7 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 		pictoEClass = createEClass(PICTO);
 		createEAttribute(pictoEClass, PICTO__TEMPLATE);
 		createEAttribute(pictoEClass, PICTO__FORMAT);
+		createEAttribute(pictoEClass, PICTO__STANDALONE);
 		createEReference(pictoEClass, PICTO__MODELS);
 		createEReference(pictoEClass, PICTO__PARAMETERS);
 
@@ -302,6 +313,7 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 		initEClass(pictoEClass, Picto.class, "Picto", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPicto_Template(), ecorePackage.getEString(), "template", null, 0, 1, Picto.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPicto_Format(), ecorePackage.getEString(), "format", null, 0, 1, Picto.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPicto_Standalone(), ecorePackage.getEBoolean(), "standalone", null, 0, 1, Picto.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPicto_Models(), this.getModel(), null, "models", null, 0, -1, Picto.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPicto_Parameters(), this.getParameter(), null, "parameters", null, 0, -1, Picto.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
