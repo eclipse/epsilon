@@ -121,9 +121,13 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 		getModule().getContext().setTemplateFactory(getDefaultTemplateFactory());
 		if (deleteBeforeRun) {
 			File outputContents = new File(outputRoot);
-			if (outputContents.isFile()) outputContents.delete();
-			else for (File f : outputContents.listFiles()) {
-				f.delete();
+			if (outputContents.exists()) {
+				if (outputContents.isFile()) {
+					outputContents.delete();
+				}
+				else for (File f : outputContents.listFiles()) {
+					f.delete();
+				}
 			}
 		}
 		super.preExecute();

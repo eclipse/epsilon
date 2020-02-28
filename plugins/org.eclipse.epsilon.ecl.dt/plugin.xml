@@ -49,10 +49,17 @@
          point="org.eclipse.epsilon.common.dt.moduleImplementation">
       <implementation
             class="org.eclipse.epsilon.ecl.EclModule"
-            default="true"
+            default="false"
             dialog="org.eclipse.epsilon.ecl.dt.launching.EclModuleConfiguration"
             language="ECL"
-            name="Default">
+            name="Sequential">
+      </implementation>
+      <implementation
+            class="org.eclipse.epsilon.ecl.concurrent.EclModuleParallel"
+            default="true"
+            dialog="org.eclipse.epsilon.ecl.dt.launching.EclModuleParallelConfiguration"
+            language="ECL"
+            name="Parallel (Declarative operations)">
       </implementation>
    </extension>
 
