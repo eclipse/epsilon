@@ -100,11 +100,14 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 	}
 	
 	protected EglTemplateFactory getDefaultTemplateFactory() throws EglRuntimeException {
+		EglTemplateFactory templateFactory;
 		if (!persistOutput) {
-			return new EglTemplateFactory();
+			templateFactory = new EglTemplateFactory();
 		}
-		EglFileGeneratingTemplateFactory templateFactory = new EglFileGeneratingTemplateFactory();
-		templateFactory.setOutputRoot(outputRoot.toString());
+		else {
+			templateFactory = new EglFileGeneratingTemplateFactory(Paths.get(outputRoot));
+		}
+		templateFactory.setTemplateRoot(script.getParent().toUri().toString());
 		return templateFactory;
 	}
 	
