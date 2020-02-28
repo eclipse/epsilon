@@ -14,8 +14,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.ListIterator;
-
+import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
@@ -148,15 +147,13 @@ public class EglFileGeneratingTemplate extends EglPersistentTemplate {
 							patchValidationDiagnostic.getLine().getNumber() + ": " + 
 							patchValidationDiagnostic.getReason(), new IllegalStateException());
 				}
+				
 				TextBlock newContentsBlock = patch.apply(existingContentsBlock);
-				StringBuffer newContentsStringBuffer = new StringBuffer();
-				ListIterator<Line> lineIterator = newContentsBlock.getLines().listIterator();
-				while (lineIterator.hasNext()) {
-					Line line = lineIterator.next();
-					newContentsStringBuffer.append(line.getText());
-					if (lineIterator.hasNext()) newContentsStringBuffer.append(System.lineSeparator());
-				}
-				newContents = newContentsStringBuffer.toString();
+				
+				newContents = newContentsBlock.getLines().stream()
+					.map(Line::getText)
+					.collect(Collectors.joining(System.lineSeparator()));
+				
 				break;
 			}
 			default:

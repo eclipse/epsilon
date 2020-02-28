@@ -9,9 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.launch;
 
+import java.io.File;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
@@ -33,6 +35,7 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 		
 		public Path outputRoot;
 		public boolean persistOutput = true;
+		public boolean deleteOutputDirBefore = false;
 		
 		public B withoutPersistence() {
 			return withPersistence(false);
@@ -41,6 +44,14 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 			this.persistOutput = persist;
 			return (B) this;
 		}	
+		
+		public B withFreshOutputDir() {
+			return withFreshOutputDir(true);
+		}
+		public B withFreshOutputDir(boolean deleteBeforeRun) {
+			this.deleteOutputDirBefore = deleteBeforeRun;
+			return (B) this;
+		}
 		
 		public B withOutputRoot(String output) {
 			return withOutputRoot(Paths.get(output));
@@ -68,7 +79,7 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 	}
 	
 	protected final URI outputRoot;
-	protected final boolean persistOutput;
+	protected final boolean persistOutput, deleteBeforeRun;
 	
 	public EgxRunConfiguration(Builder<? extends EgxRunConfiguration, ?> builder) {
 		super(builder);
@@ -78,19 +89,20 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 		}
 		this.outputRoot = output.toUri();
 		this.persistOutput = builder.persistOutput;
+		this.deleteBeforeRun = builder.deleteOutputDirBefore;
 	}
 	
 	public EgxRunConfiguration(EgxRunConfiguration other) {
 		super(other);
 		this.outputRoot = other.outputRoot;
 		this.persistOutput = other.persistOutput;
+		this.deleteBeforeRun = other.deleteBeforeRun;
 	}
 	
 	protected EglTemplateFactory getDefaultTemplateFactory() throws EglRuntimeException {
 		if (!persistOutput) {
 			return new EglTemplateFactory();
 		}
-		
 		EglFileGeneratingTemplateFactory templateFactory = new EglFileGeneratingTemplateFactory();
 		templateFactory.setOutputRoot(outputRoot.toString());
 		return templateFactory;
@@ -104,6 +116,24 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 	@Override
 	public void preExecute() throws Exception {
 		getModule().getContext().setTemplateFactory(getDefaultTemplateFactory());
+		if (deleteBeforeRun) {
+			File outputContents = new File(outputRoot);
+			if (outputContents.isFile()) outputContents.delete();
+			else for (File f : outputContents.listFiles()) {
+				f.delete();
+			}
+		}
 		super.preExecute();
+	}
+	
+	@Override
+	public Object getResult() {
+		if (result == null) try {
+			result = FileUtil.readDirectory(outputRoot.toString());
+		}
+		catch (java.io.IOException iox) {
+			iox.printStackTrace();
+		}
+		return super.getResult();
 	}
 }

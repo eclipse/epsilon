@@ -62,7 +62,7 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 		}
 	}
 	
-	protected String
+	protected final String
 		moduleOpt = "module",
 		modelsOpt = "models",
 		scriptParamsOpt = "parameters",
@@ -72,8 +72,8 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 	public EolConfigParser(B builder) {
 		super(builder);
 		
-		requiredUsage += "-models [model class]#[model properties];"+nL;
-		optionalUsage += "  -module [org.eclipse.epsilon.moduleClass]"+nL;
+		requiredUsage += "  -"+modelsOpt+" [model class]#[model properties];"+nL;
+		optionalUsage += "  -"+moduleOpt+" [org.eclipse.epsilon.moduleClass]"+nL;
 		
 		options.addOption(Option.builder(moduleOpt)
 			.hasArg()
