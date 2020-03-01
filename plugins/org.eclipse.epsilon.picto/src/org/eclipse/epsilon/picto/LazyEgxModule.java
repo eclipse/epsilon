@@ -110,7 +110,7 @@ public class LazyEgxModule extends EgxModule {
 		}
 	}
 	
-	class LazyGenerationRuleContentPromise implements ContentPromise {
+	public class LazyGenerationRuleContentPromise implements ContentPromise {
 		protected EglTemplateFactory templateFactory;
 		protected URI templateUri;
 		protected List<Variable> variables;

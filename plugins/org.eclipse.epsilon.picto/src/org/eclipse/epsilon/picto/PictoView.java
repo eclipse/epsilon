@@ -15,36 +15,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
-import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.OperatingSystem;
-import org.eclipse.epsilon.common.util.StringProperties;
-import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
-import org.eclipse.epsilon.egl.EglTemplateFactory;
-import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
-import org.eclipse.epsilon.egl.IEgxModule;
-import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
-import org.eclipse.epsilon.eol.IEolModule;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.eol.models.IRelativePathResolver;
-import org.eclipse.epsilon.picto.LazyEgxModule.LazyGenerationRuleContentPromise;
 import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
-import org.eclipse.epsilon.picto.dom.Model;
-import org.eclipse.epsilon.picto.dom.Parameter;
-import org.eclipse.epsilon.picto.dom.Picto;
 import org.eclipse.epsilon.picto.source.DotSource;
 import org.eclipse.epsilon.picto.source.EditingDomainProviderSource;
 import org.eclipse.epsilon.picto.source.EmfaticSource;
@@ -96,7 +76,8 @@ public class PictoView extends ViewPart {
 	protected HashMap<String, ViewTree> selectionHistory = new HashMap<>();
 	protected File tempDir = null;
 	protected ViewTree activeView = null;
-	protected List<IModel> models = new ArrayList<>();
+	//protected List<IModel> models = new ArrayList<>();
+	protected PictoSource source = null;
 	protected List<PictoSource> sources = 
 			Arrays.asList(
 					new EmfaticSource(), 
@@ -277,128 +258,35 @@ public class PictoView extends ViewPart {
 	}
 	
 	
-	
-	@SuppressWarnings({ "resource", "unchecked" })
 	public void renderEditorContent() {
 
 		try {
-			PictoSource source = getSource(editor);
+			PictoSource newSource = getSource(editor);
+			if (source != null) source.dispose();
+			source = newSource;
+			
 			while (source.getFile(editor) == null) { Thread.sleep(100); }
 			
 			File modelFile = new File(source.getFile(editor).getLocation().toOSString());
 			boolean rerender = renderedFile != null && renderedFile.getAbsolutePath().equals(modelFile.getAbsolutePath());
 			renderedFile = modelFile;
 			
-			Resource resource;
-			
-			try {
-				resource = source.getResource(editor);
-			}
-			catch (Exception ex) {
-				throw new ResourceLoadingException(ex);
-			}
-			
-			Picto renderingMetadata = source.getRenderingMetadata(editor);
-			
-			if (renderingMetadata != null) {
-			
-				IEolModule module;	
-				IModel model = null;
+			final ViewTree viewTree = source.getViewTree(editor);
+			runInUIThread(new RunnableWithException() {
 				
-				//if (renderingMetadata.getNsuri() != null) {
-				//	EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(renderingMetadata.getNsuri());
-				//	model = new InMemoryEmfModel("M", resource, ePackage);
-				//}
-				//else {
-				if (resource != null) {
-					model = new InMemoryEmfModel("M", resource);
-					((InMemoryEmfModel) model).setExpand(false);
-				}
-				//}
-				
-				if (renderingMetadata.getFormat().equals("egx")) {
-					module = new LazyEgxModule();
-				}
-				else {
-					module = new EglTemplateFactoryModuleAdapter(new EglFileGeneratingTemplateFactory());
-				}
-				
-				if (renderingMetadata.getTemplate() == null) throw new Exception("No EGL file specified.");
-				
-				File eglFile = new File(renderingMetadata.getTemplate()); 
-				if (!eglFile.isAbsolute()) {
-					eglFile = new File(modelFile.getParentFile(), renderingMetadata.getTemplate());
-				}
-				
-				if (!eglFile.exists()) throw new Exception("Cannot find file " + eglFile.getAbsolutePath());
-				
-				module.parse(eglFile);
-				
-				IEolContext context = module.getContext();
-				context.setOutputStream(EpsilonConsole.getInstance().getDebugStream());
-				context.setErrorStream(EpsilonConsole.getInstance().getErrorStream());
-				context.setWarningStream(EpsilonConsole.getInstance().getWarningStream());		
-				if (model != null) context.getModelRepository().addModel(model);
-				
-				disposeModels();
-				
-				for (Model pictoModel : renderingMetadata.getModels()) {
-					model = loadModel(pictoModel, modelFile);
-					if (model != null) models.add(model);
-				}
-				
-				context.getModelRepository().addModels(models);
-				
-				if (renderingMetadata.getFormat().equals("egx")) {
-					
-					EglTemplateFactory templateFactory = new EglTemplateFactory();
-					templateFactory.setTemplateRoot(eglFile.getParentFile().toURI().toString());
-					((IEgxModule) module).getContext().setTemplateFactory(templateFactory);
-					
-					ViewTree viewTree = new ViewTree();
-					
-					List<LazyGenerationRuleContentPromise> instances = (List<LazyGenerationRuleContentPromise>) module.execute();
-					for (LazyGenerationRuleContentPromise instance : instances) {
-						String format = "html";
-						String icon = "cccccc";
-						Collection<String> path = new ArrayList<>(Arrays.asList(""));
-						
-						for (Variable variable : instance.getVariables()) {
-							switch (variable.getName()) {
-							case "format": format = variable.getValue() + ""; break;
-							case "path": path = (Collection<String>) variable.getValue(); break;
-							case "icon": icon = variable.getValue() + ""; break;
-							}
-						}
-						
-						viewTree.addPath(new ArrayList<>(path), instance, format, icon);
+				@Override
+				public void runWithException() throws Exception {
+					if (viewTree.getChildren().isEmpty()) {
+						renderView(viewTree);
 					}
-					
-					runInUIThread(new RunnableWithException() {
-						
-						@Override
-						public void runWithException() throws Exception {
-							setViewTree(viewTree, rerender);
-							setTreeViewerVisible(true);
-						}
-					});
+					else {
+						setViewTree(viewTree, rerender);
+					}
+					setTreeViewerVisible(!viewTree.getChildren().isEmpty());
 					
 				}
-				else {
-					String content = module.execute() + "";
-					runInUIThread(new RunnableWithException() {
-						
-						@Override
-						public void runWithException() throws Exception {
-							if (!rerender) activeView = new ViewTree();
-							activeView.setPromise(new StringContentPromise(content));
-							activeView.setFormat(renderingMetadata.getFormat());
-							setTreeViewerVisible(false);
-							renderView(activeView);
-						}
-					});
-				}
-			}
+			});
+			
 		}
 		catch (Exception ex) {
 			try { 
@@ -415,37 +303,6 @@ public class PictoView extends ViewPart {
 			}
 			LogUtil.log(ex);
 		}
-	}
-	
-	protected IModel loadModel(Model model, File baseFile) throws Exception {
-		IModel m = ModelTypeExtension.forType(model.getType()).createModel();
-		m.setName(model.getName());
-		m.setReadOnLoad(true);
-		m.setStoredOnDisposal(false);
-		StringProperties properties = new StringProperties();
-		for (Parameter parameter : model.getParameters()) {
-			properties.put(parameter.getName(), parameter.getValue());
-		}
-		m.load(properties, new IRelativePathResolver() {
-			
-			@Override
-			public String resolve(String relativePath) {
-				return new File(baseFile.getParentFile(), relativePath).getAbsolutePath();
-			}
-		});
-		return m;
-	}
-	
-	protected void disposeModels() {
-		for (IModel model : models) {
-			try {
-				model.dispose();
-			}
-			catch (Exception ex) {
-				LogUtil.log(ex);
-			}
-		}
-		models.clear();
 	}
 	
 	public void runInUIThread(RunnableWithException runnable) throws Exception {
@@ -571,7 +428,7 @@ public class PictoView extends ViewPart {
 	@Override
 	public void dispose() {
 		super.dispose();
-		disposeModels();
+		if (source != null) source.dispose();
 		if (editor != null)
 			editor.removePropertyListener(listener);
 	}
@@ -673,7 +530,6 @@ public class PictoView extends ViewPart {
 	protected PictoSource getSource(IEditorPart editorPart) {
 		for (PictoSource source : sources) {
 			if (source.supports(editorPart)) {
-				System.out.println(source);
 				return source;
 			}
 		}

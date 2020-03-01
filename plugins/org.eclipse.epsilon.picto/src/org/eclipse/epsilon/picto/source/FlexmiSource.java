@@ -25,13 +25,12 @@ import org.eclipse.epsilon.flexmi.EObjectLocation;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 import org.eclipse.epsilon.flexmi.dt.FlexmiEditor;
-import org.eclipse.epsilon.picto.PictoSource;
 import org.eclipse.epsilon.picto.dom.Picto;
 import org.eclipse.epsilon.picto.dom.PictoFactory;
 import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.ProcessingInstruction;
 
-public class FlexmiSource implements PictoSource {
+public class FlexmiSource extends EglPictoSource {
 
 	@Override
 	public Picto getRenderingMetadata(IEditorPart editorPart) {

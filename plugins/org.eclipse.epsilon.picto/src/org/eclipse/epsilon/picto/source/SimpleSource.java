@@ -11,14 +11,12 @@ package org.eclipse.epsilon.picto.source;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.eclipse.epsilon.picto.PictoSource;
 import org.eclipse.epsilon.picto.dom.Picto;
 import org.eclipse.epsilon.picto.dom.PictoFactory;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 
-public abstract class SimpleSource implements PictoSource {
+public abstract class SimpleSource extends EglPictoSource {
 
 	public abstract String getFormat();
 	

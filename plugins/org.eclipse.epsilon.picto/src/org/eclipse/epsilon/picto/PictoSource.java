@@ -10,15 +10,9 @@
 package org.eclipse.epsilon.picto;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.epsilon.picto.dom.Picto;
 import org.eclipse.ui.IEditorPart;
 
 public interface PictoSource {
-
-	public Picto getRenderingMetadata(IEditorPart editorPart);
-	
-	public Resource getResource(IEditorPart editorPart);
 	
 	public boolean supports(IEditorPart editorPart);
 	
@@ -26,4 +20,7 @@ public interface PictoSource {
 	
 	public void showElement(String id, String uri, IEditorPart editor);
 	
+	public ViewTree getViewTree(IEditorPart editorPart) throws Exception;
+	
+	public void dispose();
 }

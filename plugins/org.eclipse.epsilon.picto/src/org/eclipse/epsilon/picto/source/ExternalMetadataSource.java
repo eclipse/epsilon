@@ -18,12 +18,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
-import org.eclipse.epsilon.picto.PictoSource;
 import org.eclipse.epsilon.picto.dom.Picto;
 import org.eclipse.epsilon.picto.dom.PictoFactory;
 import org.eclipse.ui.IEditorPart;
 
-public abstract class ExternalMetadataSource implements PictoSource {
+public abstract class ExternalMetadataSource extends EglPictoSource {
 
 	@Override
 	public Picto getRenderingMetadata(IEditorPart editorPart) {

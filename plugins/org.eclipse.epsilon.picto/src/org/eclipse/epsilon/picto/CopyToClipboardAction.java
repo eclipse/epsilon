@@ -24,21 +24,21 @@ import org.eclipse.ui.PlatformUI;
 
 public class CopyToClipboardAction extends Action {
 	
-	protected ViewRenderer viewRenderer;
+	protected ViewRenderer htmlRenderer;
 	
 	public CopyToClipboardAction(ViewRenderer viewRenderer) {
-		this.viewRenderer = viewRenderer;
+		this.htmlRenderer = viewRenderer;
 		setText("Copy to clipboard");
 		setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
 	}
 
 	@Override
 	public void run() {
-		Browser browser = viewRenderer.getBrowser();
+		Browser browser = htmlRenderer.getBrowser();
 		
 		Point oldSize = browser.getSize();
-		Point printableArea = viewRenderer.getPrintableArea();
-		Point scrollPosition = viewRenderer.getScrollPosition();
+		Point printableArea = htmlRenderer.getPrintableArea();
+		Point scrollPosition = htmlRenderer.getScrollPosition();
         
 		Image image = new Image(browser.getDisplay(), printableArea.x, printableArea.y);
         
@@ -47,7 +47,7 @@ public class CopyToClipboardAction extends Action {
         browser.setSize(printableArea);
         browser.print(gc);
         browser.setSize(oldSize);
-        viewRenderer.setScrollPosition(scrollPosition);
+        htmlRenderer.setScrollPosition(scrollPosition);
         gc.dispose();
 
         Clipboard clipboard = new Clipboard(browser.getDisplay());
