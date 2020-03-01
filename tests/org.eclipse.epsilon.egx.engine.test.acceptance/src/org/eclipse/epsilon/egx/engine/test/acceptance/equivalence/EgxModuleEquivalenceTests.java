@@ -13,9 +13,11 @@ import static org.eclipse.epsilon.egx.engine.test.acceptance.EgxAcceptanceTestUt
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EgxModule;
-import org.eclipse.epsilon.egx.engine.test.acceptance.util.EgxRunConfigurationTest;
+import org.eclipse.epsilon.egl.launch.EgxRunConfiguration;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -27,9 +29,9 @@ import org.junit.runners.Parameterized.Parameters;
  * @since 1.6
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfigurationTest> {
+public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfiguration> {
 
-	public EgxModuleEquivalenceTests(EgxRunConfigurationTest configUnderTest) {
+	public EgxModuleEquivalenceTests(EgxRunConfiguration configUnderTest) {
 		super(configUnderTest);
 	}
 	
@@ -40,11 +42,11 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfigu
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		//deleteOutputDirectories();
+		deleteOutputDirectories();
 	}
 
 	@Parameters//(name = "0")	// Don't use this as the Eclipse JUnit view won't show failures!
-	public static Iterable<? extends EgxRunConfigurationTest> configurations() {
+	public static Iterable<? extends EgxRunConfiguration> configurations() {
 		return getScenarios(allInputs, modules(false));
 	}
 	
@@ -54,11 +56,15 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfigu
 		super.beforeTests();
 	}
 
+	Map<Path, byte[]> getResult(EgxRunConfiguration scenario) throws Exception {
+		return FileUtil.readDirectory(Paths.get(scenario.outputRoot));
+	}
+	
 	@Test
 	public void testEquivalentOutput() throws Exception {
 		Map<Path, byte[]>
-			expectedOutput = expectedConfig.getResult(),
-			actualOutput = testConfig.getResult();
+			expectedOutput = getResult(expectedConfig),
+			actualOutput = getResult(testConfig);
 		
 		assertEquals(expectedOutput.size(), actualOutput.size());
 		assertEquals(expectedOutput.keySet(), actualOutput.keySet());

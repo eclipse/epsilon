@@ -77,8 +77,8 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 		return new Builder<>(EgxRunConfiguration.class);
 	}
 	
-	protected final URI outputRoot;
-	protected final boolean persistOutput, deleteBeforeRun;
+	public final URI outputRoot;
+	public final boolean persistOutput, deleteBeforeRun;
 	
 	public EgxRunConfiguration(Builder<? extends EgxRunConfiguration, ?> builder) {
 		super(builder);
@@ -119,19 +119,8 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 	public void preExecute() throws Exception {
 		getModule().getContext().setTemplateFactory(getDefaultTemplateFactory());
 		if (deleteBeforeRun) {
-			FileUtil.deleteDirectory(outputRoot.toString());
+			FileUtil.deleteDirectory(Paths.get(outputRoot));
 		}
 		super.preExecute();
-	}
-	
-	@Override
-	public Object getResult() {
-		if (result == null) try {
-			result = FileUtil.readDirectory(outputRoot.toString());
-		}
-		catch (java.io.IOException iox) {
-			iox.printStackTrace();
-		}
-		return super.getResult();
 	}
 }

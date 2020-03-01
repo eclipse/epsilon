@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eunit.operations;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.regex.Pattern;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.exceptions.EolAssertionException;
@@ -126,11 +124,9 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 	}
 
 	private void assertLineMatchingPredicate(String message, String pathExpected, String regexp, BiPredicate<Pattern, String> predicate) throws EolInternalException {
-		BufferedReader reader = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(new File(pathExpected)));) {
 			final Pattern regex = Pattern.compile(regexp);
 
-			reader = new BufferedReader(new FileReader(new File(pathExpected)));
 			String line;
 			while ((line = reader.readLine()) != null) {
 				if (predicate.test(regex, line)) {
@@ -145,15 +141,6 @@ public class ExtraEUnitOperationContributor extends OperationContributor {
 		}
 		catch (Exception ex) {
 			throw new EolInternalException(ex);
-		}
-		finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					throw new EolInternalException(e);
-				}
-			}
 		}
 	}
 

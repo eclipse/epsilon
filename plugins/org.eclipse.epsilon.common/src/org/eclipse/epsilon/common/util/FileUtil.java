@@ -19,9 +19,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -162,36 +164,18 @@ public class FileUtil {
 			}
 		}
 		else {
-			// Based on the second answer in http://stackoverflow.com/questions/106770.
-			FileInputStream isSrc = null;
-			FileOutputStream osDst = null;
-			FileChannel chSrc = null;
-			FileChannel chDst = null;
-			try {
-				isSrc = new FileInputStream(srcFile);
-				osDst = new FileOutputStream(dstFile);
-				chSrc = isSrc.getChannel();
-				chDst = osDst.getChannel();
+			// Based on the second answer in http://stackoverflow.com/questions/106770
+			try (
+				FileInputStream isSrc = new FileInputStream(srcFile);
+				FileOutputStream osDst = new FileOutputStream(dstFile);
+				FileChannel chSrc = isSrc.getChannel();
+				FileChannel chDst = osDst.getChannel();
+			) {
 				final long srcBytes = srcFile.length();
 				long transferred = 0;
 				while (transferred < srcBytes) {
 					transferred += chDst.transferFrom(chSrc, transferred, srcBytes);
 					chDst.position(transferred);
-				}
-			}
-			finally {
-				if (chDst != null) {
-					chDst.close();
-				}
-				else if (osDst != null) {
-					osDst.close();
-				}
-
-				if (chSrc != null) {
-					chSrc.close();
-				}
-				else if (isSrc != null) {
-					isSrc.close();
 				}
 			}
 		}
@@ -247,14 +231,39 @@ public class FileUtil {
 
 	public static boolean sameContents(InputStream isExpected, InputStream isActual) throws IOException {
 		int chExpected, chActual;
-	
 		do {
 			chExpected = isExpected.read();
 			chActual = isActual.read();
 		}
 		while (chExpected == chActual && chExpected > 0 && chActual > 0);
-	
 		return chExpected == chActual;
+	}
+	
+	/**
+	 * 
+	 * @param dir
+	 * @return
+	 * @since 1.6
+	 */
+	public static Path stringToPath(String dir) {
+		Path path;
+		try {
+			path = Paths.get(dir);
+		}
+		catch (InvalidPathException ipx) {
+			path = Paths.get(URI.create(dir));
+		}
+		return path;
+	}
+	
+	/**
+	 * {@link #deleteDirectory(Path)}
+	 * @param path
+	 * @throws IOException
+	 * @since 1.6
+	 */
+	public static void deleteDirectory(final String dir) throws IOException {
+		deleteDirectory(stringToPath(dir));
 	}
 	
 	/**
@@ -263,14 +272,24 @@ public class FileUtil {
 	 * @throws IOException
 	 * @since 1.6
 	 */
-	public static void deleteDirectory(String dir) throws IOException {
-		Path path = Paths.get(dir);
+	public static void deleteDirectory(final Path path) throws IOException {
 		if (Files.exists(path)) {
 			Files.walk(path)
 		        .map(Path::toFile)
 		        .sorted((o1, o2) -> -o1.compareTo(o2))
 		        .forEach(File::delete);
 		}
+	}
+	
+	/**
+	 * {@link #readDirectory(Path)}
+	 * @param dir
+	 * @return
+	 * @throws IOException
+	 * @since 1.6
+	 */
+	public static Map<Path, byte[]> readDirectory(final String dir) throws IOException {
+		return readDirectory(stringToPath(dir));
 	}
 	
 	/**
@@ -282,10 +301,10 @@ public class FileUtil {
 	 * @throws IOException
 	 * @since 1.6
 	 */
-	public static Map<Path, byte[]> readDirectory(String dir) throws IOException {		
+	public static Map<Path, byte[]> readDirectory(final Path dir) throws IOException {		
 		Map<Path, byte[]> contents = new HashMap<>();
 		
-		for (Path path : ((Iterable<Path>)Files.walk(Paths.get(dir))::iterator)) {
+		for (Path path : ((Iterable<Path>)Files.walk(dir)::iterator)) {
 			if (Files.isRegularFile(path)) {
 				contents.put(path, Files.readAllBytes(path));
 			}
