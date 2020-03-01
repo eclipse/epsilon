@@ -196,7 +196,7 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 		
 		frameStack.leaveLocal(this);
 		eglTemplate.reset();
-		return null;
+		return generated;
 	}
 	
 	@Override

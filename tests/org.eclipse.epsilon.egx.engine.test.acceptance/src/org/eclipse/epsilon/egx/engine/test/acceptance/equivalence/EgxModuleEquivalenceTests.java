@@ -13,9 +13,7 @@ import static org.eclipse.epsilon.egx.engine.test.acceptance.EgxAcceptanceTestUt
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.launch.EgxRunConfiguration;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolEquivalenceTests;
@@ -54,10 +52,6 @@ public class EgxModuleEquivalenceTests extends EolEquivalenceTests<EgxRunConfigu
 	@Override
 	public void _0test0() throws Exception {
 		super.beforeTests();
-	}
-
-	Map<Path, byte[]> getResult(EgxRunConfiguration scenario) throws Exception {
-		return FileUtil.readDirectory(Paths.get(scenario.outputRoot));
 	}
 	
 	@Test

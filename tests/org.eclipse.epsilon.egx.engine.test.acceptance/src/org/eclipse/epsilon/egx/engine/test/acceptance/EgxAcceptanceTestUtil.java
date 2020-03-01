@@ -11,6 +11,7 @@ package org.eclipse.epsilon.egx.engine.test.acceptance;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -97,5 +98,9 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		}
 		catch (java.nio.file.NoSuchFileException ignore) {}
 		return outputs;
+	}
+	
+	public static Map<Path, byte[]> getResult(EgxRunConfiguration scenario) throws IOException {
+		return FileUtil.readDirectory(Paths.get(scenario.outputRoot));
 	}
 }

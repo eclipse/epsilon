@@ -118,7 +118,7 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 	@Override
 	public void preExecute() throws Exception {
 		getModule().getContext().setTemplateFactory(getDefaultTemplateFactory());
-		if (deleteBeforeRun) {
+		if (deleteBeforeRun && !persistOutput) {
 			FileUtil.deleteDirectory(Paths.get(outputRoot));
 		}
 		super.preExecute();
