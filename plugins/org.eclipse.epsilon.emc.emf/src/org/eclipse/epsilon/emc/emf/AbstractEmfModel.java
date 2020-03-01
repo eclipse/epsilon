@@ -79,7 +79,7 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	boolean parallelAllOf;
 	
 	@Override
-	protected void initCaches() {
+	protected synchronized void initCaches() {
 		super.initCaches();
 		if (isConcurrent()) {
 			eClassCache = eClassCache != null ?

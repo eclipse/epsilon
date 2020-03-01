@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2020 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - equals, toString, hashCode
  ******************************************************************************/
 package org.eclipse.epsilon.evl.trace;
 
@@ -49,6 +50,18 @@ public class ConstraintTraceItem {
 	}
 	
 	/**
+	 * 
+	 * @param constraint
+	 * @param instance
+	 * @return
+	 * @since 1.6
+	 */
+	public boolean equals(Constraint constraint, Object instance) {
+		return Objects.equals(this.constraint, constraint) &&
+			   Objects.equals(this.instance, instance);
+	}
+	
+	/**
 	 * @since 1.6
 	 */
 	@Override
@@ -66,10 +79,9 @@ public class ConstraintTraceItem {
 			return false;
 		
 		ConstraintTraceItem cti = (ConstraintTraceItem) other;
-		return
+		return  this.result == cti.result &&
 				Objects.equals(this.instance, cti.instance) &&
-				Objects.equals(this.constraint, cti.constraint) &&
-				Objects.equals(this.result, cti.result);
+				Objects.equals(this.constraint, cti.constraint);
 	}
 	
 	/**

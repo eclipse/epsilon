@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2016 The University of York.
+ * Copyright (c) 2008-2020 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -8,6 +8,7 @@
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio Garcia-Dominguez - use collection interfaces and consider
  *                                optimised execution
+ *     Sina Madani - Concurrency support and optimisation
  ******************************************************************************/
 package org.eclipse.epsilon.evl.trace;
 
@@ -20,9 +21,7 @@ import org.eclipse.epsilon.evl.dom.Constraint;
 public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 
 	protected final Set<Constraint> storageOptimised;
-	//Map of model element instances to their constraints along with results
-	protected final Map<Object, Map<Constraint, Boolean>> storage;
-	protected final Collection<ConstraintTraceItem> iterable;
+	protected final Set<ConstraintTraceItem> iterable;
 	
 	public ConstraintTrace() {
 		this(false);
@@ -34,7 +33,6 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	 */
 	public ConstraintTrace(boolean concurrent) {
 		storageOptimised = concurrent ? ConcurrencyUtils.concurrentSet() : new HashSet<>();
-		storage = concurrent ? ConcurrencyUtils.concurrentMap() : new HashMap<>();
 		iterable = concurrent ? ConcurrencyUtils.concurrentSet(): new HashSet<>();
 	}
 	
@@ -46,7 +44,6 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	public void addAll(Collection<? extends ConstraintTrace> others) {
 		for (ConstraintTrace ct : others) {
 			storageOptimised.addAll(ct.storageOptimised.stream().collect(Collectors.toSet()));
-			storage.putAll(ct.storage);
 			iterable.addAll(ct.iterable.stream().collect(Collectors.toSet()));
 		}
 	}
@@ -69,45 +66,25 @@ public class ConstraintTrace implements Iterable<ConstraintTraceItem> {
 	}
 
 	public void addChecked(Constraint constraint, Object object, boolean result) {
-		Map<Constraint, Boolean> results = storage.get(object);
-		if (results == null) {
-			results = new HashMap<>();
-			storage.put(object, results);
-		}
-		results.put(constraint, result);
-		
 		ConstraintTraceItem cti = new ConstraintTraceItem(object, constraint, result);
 		iterable.add(cti);
 	}
 
-	public boolean isChecked(Constraint constraint, Object object) {
-		if (storageOptimised.contains(constraint)) {
-			return true;
-		}
-		final Map<Constraint, Boolean> results = storage.get(object);
-		return results != null && results.get(constraint) != null;
+	public boolean isChecked(Constraint constraint, Object instance) {
+		return storageOptimised.contains(constraint) ||
+			iterable.stream().anyMatch(cti -> cti.equals(constraint, instance));
 	}
 
-	public boolean isSatisfied(Constraint constraint, Object object) {
-		Map<Constraint, Boolean> results = storage.get(object);
-		if (results == null) {
-			// We could not find any individual trace items - it might
-			// have only been checked by optimised constraints.
-			return storageOptimised.contains(constraint);
-		}
-		else {
-			// If we have an individual trace item, use it - otherwise,
-			// see if this constraint was checked in an optimised way.
-			final Boolean result = results.get(constraint);
-			return result != null ? result : storageOptimised.contains(constraint);
-		}
+	public boolean isSatisfied(Constraint constraint, Object instance) {
+		if (storageOptimised.contains(constraint)) return true;
+		ConstraintTraceItem cti = new ConstraintTraceItem(instance, constraint, true);
+		return iterable.stream().anyMatch(cti::equals);
 	}
 
 	/**
 	 * @since 1.6
 	 */
 	public void clear() {
-		if (storage != null) storage.clear();
 		if (storageOptimised != null) storageOptimised.clear();
 		if (iterable != null) iterable.clear();
 	}

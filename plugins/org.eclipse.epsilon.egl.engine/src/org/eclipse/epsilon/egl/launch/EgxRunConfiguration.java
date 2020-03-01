@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.egl.launch;
 
-import java.io.File;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -120,15 +119,7 @@ public class EgxRunConfiguration extends IErlRunConfiguration {
 	public void preExecute() throws Exception {
 		getModule().getContext().setTemplateFactory(getDefaultTemplateFactory());
 		if (deleteBeforeRun) {
-			File outputContents = new File(outputRoot);
-			if (outputContents.exists()) {
-				if (outputContents.isFile()) {
-					outputContents.delete();
-				}
-				else for (File f : outputContents.listFiles()) {
-					f.delete();
-				}
-			}
+			FileUtil.deleteDirectory(outputRoot.toString());
 		}
 		super.preExecute();
 	}

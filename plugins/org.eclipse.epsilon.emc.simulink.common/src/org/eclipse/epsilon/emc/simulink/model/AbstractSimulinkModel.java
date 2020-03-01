@@ -342,9 +342,11 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		setLibraryPath(properties.getProperty(PROPERTY_LIBRARY_PATH, libraryPath));
 		setEngineJarPath(properties.getProperty(PROPERTY_ENGINE_JAR_PATH, engineJarPath));
 		resolvePaths();
-			
 	}
 	
+	/**
+	 * @since 1.6
+	 */
 	@Override
 	public boolean isLoaded() {
 		return file != null && engine != null;

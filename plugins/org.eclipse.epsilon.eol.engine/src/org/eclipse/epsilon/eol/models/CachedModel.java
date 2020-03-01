@@ -94,7 +94,7 @@ public abstract class CachedModel<ModelElementType> extends Model {
 	 * 
 	 * @since 1.6
 	 */
-	protected void initCaches() {
+	protected synchronized void initCaches() {
 		typeCache = new Multimap<>(concurrent, false, typeCache);
 		kindCache = new Multimap<>(concurrent, false, kindCache);
 		
