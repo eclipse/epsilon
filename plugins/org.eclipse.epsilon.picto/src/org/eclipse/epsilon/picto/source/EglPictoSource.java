@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
@@ -38,6 +39,8 @@ public abstract class EglPictoSource implements PictoSource {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ViewTree getViewTree(IEditorPart editor) throws Exception {
+		
+		while (getFile(editor) == null) { Thread.sleep(100); }
 		
 		File modelFile = new File(getFile(editor).getLocation().toOSString());
 		Resource resource;
@@ -171,8 +174,16 @@ public abstract class EglPictoSource implements PictoSource {
 		return m;
 	}
 	
+	@Override
+	public boolean supports(IEditorPart editorPart) {
+		return supportsEditorType(editorPart) && getRenderingMetadata(editorPart) != null;
+	}
+	
 	protected abstract Picto getRenderingMetadata(IEditorPart editorPart);
 	
 	protected abstract Resource getResource(IEditorPart editorPart);
 	
+	protected abstract IFile getFile(IEditorPart editorPart);
+	
+	protected abstract boolean supportsEditorType(IEditorPart editorPart);
 }

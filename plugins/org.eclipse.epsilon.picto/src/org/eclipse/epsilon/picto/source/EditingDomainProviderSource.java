@@ -30,7 +30,7 @@ public class EditingDomainProviderSource extends ExternalMetadataSource {
 	}
 
 	@Override
-	public boolean supports(IEditorPart editorPart) {
+	public boolean supportsEditorType(IEditorPart editorPart) {
 		return editorPart instanceof IEditingDomainProvider;
 	}
 

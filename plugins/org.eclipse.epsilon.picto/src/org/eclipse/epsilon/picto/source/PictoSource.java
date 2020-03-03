@@ -9,15 +9,12 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.source;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.epsilon.picto.ViewTree;
 import org.eclipse.ui.IEditorPart;
 
 public interface PictoSource {
 	
 	public boolean supports(IEditorPart editorPart);
-	
-	public IFile getFile(IEditorPart editorPart);
 	
 	public void showElement(String id, String uri, IEditorPart editor);
 	

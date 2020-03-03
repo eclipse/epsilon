@@ -47,7 +47,11 @@ public class FlexmiSource extends EglPictoSource {
 	}
 
 	@Override
-	public Resource getResource(IEditorPart editorPart) {
+	public Resource getResource(IEditorPart editorPart) {		
+		while (getFile(editorPart) == null) { 
+			try {Thread.sleep(100);} catch (InterruptedException e) {} 
+		}
+		
 		IFile file = getFile(editorPart);
 		ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
@@ -62,7 +66,7 @@ public class FlexmiSource extends EglPictoSource {
 	}
 
 	@Override
-	public boolean supports(IEditorPart editorPart) {
+	public boolean supportsEditorType(IEditorPart editorPart) {
 		return editorPart instanceof FlexmiEditor;
 	}
 

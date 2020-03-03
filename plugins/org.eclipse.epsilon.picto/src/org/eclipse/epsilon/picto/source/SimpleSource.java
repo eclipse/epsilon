@@ -36,7 +36,7 @@ public abstract class SimpleSource extends EglPictoSource {
 	}
 
 	@Override
-	public boolean supports(IEditorPart editorPart) {
+	public boolean supportsEditorType(IEditorPart editorPart) {
 		IFile file = getFile(editorPart);
 		if (file == null) return false;
 		return file.getLocation().getFileExtension().equalsIgnoreCase(getFileExtension());

@@ -64,10 +64,10 @@ public class PictoView extends ViewPart {
 	protected TreeViewer treeViewer;
 	protected SashForm sashForm;
 	protected int[] sashFormWeights = null;
-	protected File renderedFile = null;
+	protected IEditorPart renderedEditor = null;
 	protected boolean locked = false;
 	protected ToggleTreeViewerAction hideTreeAction;
-	protected HashMap<String, ViewTree> selectionHistory = new HashMap<>();
+	protected HashMap<IEditorPart, ViewTree> selectionHistory = new HashMap<>();
 	protected File tempDir = null;
 	protected ViewTree activeView = null;
 	protected PictoSource source = null;
@@ -97,7 +97,7 @@ public class PictoView extends ViewPart {
 			ViewTree view = ((ViewTree)event.getStructuredSelection().getFirstElement());
 			if (view != null && view.getContent() != null) {
 				try {
-					selectionHistory.put(renderedFile.getAbsolutePath(), view);
+					selectionHistory.put(renderedEditor, view);
 					renderView(view);
 				} catch (Exception ex) {
 					viewRenderer.display("<html><pre>" + ex.getMessage() + "</pre></html>");
@@ -249,11 +249,8 @@ public class PictoView extends ViewPart {
 			if (source != null) source.dispose();
 			source = newSource;
 			
-			while (source.getFile(editor) == null) { Thread.sleep(100); }
-			
-			File modelFile = new File(source.getFile(editor).getLocation().toOSString());
-			boolean rerender = renderedFile != null && renderedFile.getAbsolutePath().equals(modelFile.getAbsolutePath());
-			renderedFile = modelFile;
+			boolean rerender = renderedEditor == editor;
+			renderedEditor = editor;
 			
 			final ViewTree viewTree = source.getViewTree(editor);
 			runInUIThread(new RunnableWithException() {
@@ -319,7 +316,7 @@ public class PictoView extends ViewPart {
 		} else {
 			
 			ViewTree selection = null;
-			ViewTree historicalView = selectionHistory.get(renderedFile.getAbsolutePath());
+			ViewTree historicalView = selectionHistory.get(renderedEditor);
 			
 			if (historicalView != null) {
 				selection = viewTree.forPath(historicalView.getPath());
