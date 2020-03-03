@@ -1,17 +1,20 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2020 The University of York, Aston University.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Antonio Garcia-Dominguez - switch to use a LinkedHashSet
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -27,40 +30,36 @@ import org.eclipse.epsilon.eol.types.EolSequence;
 public class ClosureOperation extends FirstOrderOperation {
 	
 	protected void closure(Collection<Object> closure, Collection<?> source, Parameter parameter, Expression expression, CheckedEolFunction<Object, ?> function, IEolContext context) throws EolRuntimeException {
-		
 		FrameStack scope = context.getFrameStack();
 		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
 		for (Object item : source) {
 			scope.enterLocal(FrameType.UNPROTECTED, expression, createIteratorVariable(item, parameter, context));
-			
 			Object bodyResult = executorFactory.execute(expression, context);
 			
 			if (bodyResult != null) {
 				Collection<?> bodyCollection = CollectionUtil.asCollection(bodyResult);
 				for (Object result : bodyCollection) {
-					if (result != null && !closure.contains(result)) {
-						closure.add(result);
-						closure(closure, Arrays.asList(result), parameter, expression, function, context);
+					if (result != null && closure.add(result)) {
+						closure(closure, Collections.singletonList(result), parameter, expression, function, context);
 					}
 				}
-				
 			}
 			scope.leaveLocal(expression);
 		}
-	
 	}
 
 	@Override
 	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
-		
 		Collection<?> source = resolveSource(target, iterators, context);
 		if (source.isEmpty()) return new EolSequence<>(0);
-		Collection<Object> results = CollectionUtil.createDefaultList();
+		Collection<Object> accumulator = CollectionUtil.createDefaultSet();
 		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions.get(0), context);
 		
-		closure(results, source, iterators.get(0), expressions.get(0), function, context);
+		closure(accumulator, source, iterators.get(0), expressions.get(0), function, context);
 		
+		List<Object> results = CollectionUtil.createDefaultList();
+		results.addAll(accumulator);
 		return results;
 	}
 	
