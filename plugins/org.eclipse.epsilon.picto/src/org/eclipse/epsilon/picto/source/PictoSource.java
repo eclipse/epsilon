@@ -7,9 +7,10 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.picto;
+package org.eclipse.epsilon.picto.source;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.epsilon.picto.ViewTree;
 import org.eclipse.ui.IEditorPart;
 
 public interface PictoSource {

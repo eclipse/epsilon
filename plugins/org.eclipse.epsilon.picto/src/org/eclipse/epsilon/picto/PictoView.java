@@ -25,14 +25,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
-import org.eclipse.epsilon.picto.source.DotSource;
-import org.eclipse.epsilon.picto.source.EditingDomainProviderSource;
-import org.eclipse.epsilon.picto.source.EmfaticSource;
-import org.eclipse.epsilon.picto.source.FlexmiSource;
-import org.eclipse.epsilon.picto.source.HtmlSource;
-import org.eclipse.epsilon.picto.source.NeatoSource;
-import org.eclipse.epsilon.picto.source.StandalonePictoSource;
-import org.eclipse.epsilon.picto.source.SvgSource;
+import org.eclipse.epsilon.picto.source.PictoSource;
+import org.eclipse.epsilon.picto.source.PictoSourceExtensionPointManager;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
@@ -76,18 +70,8 @@ public class PictoView extends ViewPart {
 	protected HashMap<String, ViewTree> selectionHistory = new HashMap<>();
 	protected File tempDir = null;
 	protected ViewTree activeView = null;
-	//protected List<IModel> models = new ArrayList<>();
 	protected PictoSource source = null;
-	protected List<PictoSource> sources = 
-			Arrays.asList(
-					new EmfaticSource(), 
-					new EditingDomainProviderSource(),
-					new StandalonePictoSource(),
-					new FlexmiSource(),
-					new HtmlSource(),
-					new SvgSource(),
-					new DotSource(),
-					new NeatoSource());
+	protected List<PictoSource> sources = new PictoSourceExtensionPointManager().getExtensions();
 	
 	@Override
 	public void createPartControl(Composite parent) {

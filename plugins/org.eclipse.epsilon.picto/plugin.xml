@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="pictoSource" name="Picto Source" schema="schema/pictoSource.exsd"/>
 <extension
        point="org.eclipse.ui.views">
     <view
@@ -33,6 +34,17 @@
             uri="picto"
             class="org.eclipse.epsilon.picto.dom.PictoPackage"
             genModel="src/org/eclipse/epsilon/picto/dom/dom.genmodel"/>
+   </extension>
+   <extension
+         point="org.eclipse.epsilon.picto.pictoSource">
+      <pictoSource class="org.eclipse.epsilon.picto.source.EmfaticSource"/>
+      <pictoSource class="org.eclipse.epsilon.picto.source.EditingDomainProviderSource"/>
+      <pictoSource class="org.eclipse.epsilon.picto.source.StandalonePictoSource"/>
+      <pictoSource class="org.eclipse.epsilon.picto.source.FlexmiSource"/>
+      <pictoSource class="org.eclipse.epsilon.picto.source.HtmlSource"/>
+      <pictoSource class="org.eclipse.epsilon.picto.source.SvgSource"/>
+      <pictoSource class="org.eclipse.epsilon.picto.source.DotSource"/>
+      <pictoSource class="org.eclipse.epsilon.picto.source.NeatoSource"/>
    </extension>
 
 </plugin>
