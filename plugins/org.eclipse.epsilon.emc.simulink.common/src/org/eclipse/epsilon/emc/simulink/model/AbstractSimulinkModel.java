@@ -66,7 +66,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	protected MatlabEngine engine;
 	//protected Boolean mustConnect = false;
 	//protected String engineSharedSessionName = "";
-	protected String simulinkProject = "";
+	protected File simulinkProject;
 	protected Boolean useCurrentProject = false;
 	protected Integer enginePoolSize = 2;
 	
@@ -82,10 +82,6 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 				engine.eval("currentProject;");
 			}
 			
-			if (!isUseCurrentProject() && getProject() != null && !getProject().isEmpty()) {
-				engine.eval("proj = matlab.project.loadProject('?');", getProject());					
-			}
-			
 			if ((getWorkingDir() != null && getWorkingDir().exists())) {
 				try {
 					engine.eval("cd '?';", getWorkingDir());
@@ -95,6 +91,16 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 				}
 			}
 			
+			if (!isUseCurrentProject() && getProject() != null && getProject().exists()) {
+				try {
+					engine.eval("cd '?';", getProject().getParent());
+					engine.eval("proj = simulinkproject('?');", getProject().getName().substring(0, getProject().getName().indexOf('.')));					
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					System.err.println(ex.getMessage());
+				}
+				
+			}
 			for (String path : getPaths()) {
 				engine.eval("addpath ?", path);
 			}
@@ -233,12 +239,16 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	*/
 	
 	@Override
-	public String getProject() {
+	public File getProject() {
 		return simulinkProject;
 	}
 
 	@Override
 	public void setProject(String simulinkProject) {
+		this.simulinkProject = new File(simulinkProject);
+	}
+	
+	public void setProject(File simulinkProject) {
 		this.simulinkProject = simulinkProject;
 	}
 
@@ -331,7 +341,10 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 			Arrays.stream(paths.trim().split(";")).forEach(this::addPath);
 		}
 		
-		setProject(properties.getProperty(PROPERTY_SIMULINK_PROJECT, ""));
+		String project = properties.getProperty(PROPERTY_SIMULINK_PROJECT, "");
+		if (project != null && project.trim().length() > 0)
+			setProject(new File(resolver.resolve(project)));
+		
 		setUseCurrentProject(properties.getBooleanProperty(PROPERTY_CURRENT_SIMULINK_PROJECT, false));
 
 		//setMustConnect(properties.getBooleanProperty(PROPERTY_MUST_CONNECT, false));

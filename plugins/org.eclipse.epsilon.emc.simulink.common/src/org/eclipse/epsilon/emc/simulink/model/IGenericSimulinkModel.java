@@ -35,7 +35,7 @@ public interface IGenericSimulinkModel extends IModel {
 
 	File getFile();
 
-	String getProject();
+	File getProject();
 
 	void setProject(String simulinkProject);
 
