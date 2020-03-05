@@ -128,5 +128,12 @@
          </command>
       </menuContribution>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.tool">
+      <tool
+            class="org.eclipse.epsilon.eunit.EUnitModule"
+            defaultName="module">
+      </tool>
+   </extension>
 
 </plugin>

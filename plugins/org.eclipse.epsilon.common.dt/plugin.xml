@@ -57,4 +57,11 @@
             id="Epsilon"
             name="Epsilon"/>
    </extension>
+      <extension
+            point="org.eclipse.epsilon.common.dt.tool">
+         <tool
+               class="org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension"
+               defaultName="modelTypeExtension">
+         </tool>
+      </extension>
 </plugin>

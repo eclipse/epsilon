@@ -69,5 +69,12 @@
             name="Default">
       </implementation>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.tool">
+      <tool
+            class="org.eclipse.epsilon.eml.EmlModule"
+            defaultName="module">
+      </tool>
+   </extension>
 
 </plugin>

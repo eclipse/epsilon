@@ -49,5 +49,12 @@
             name="EMG Program">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.tool">
+      <tool
+            class="org.eclipse.epsilon.emg.EmgModule"
+            defaultName="module">
+      </tool>
+   </extension>
 
 </plugin>

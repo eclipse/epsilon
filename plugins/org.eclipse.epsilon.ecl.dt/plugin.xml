@@ -62,5 +62,12 @@
             name="Parallel (Declarative operations)">
       </implementation>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.tool">
+      <tool
+            class="org.eclipse.epsilon.ecl.EclModule"
+            defaultName="module">
+      </tool>
+   </extension>
 
 </plugin>

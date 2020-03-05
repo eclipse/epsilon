@@ -21,5 +21,12 @@
             id="org.eclipse.epsilon.ewl.dt.wizards.NewEwlFileWizard"
             name="EWL Wizards"/>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.tool">
+      <tool
+            class="org.eclipse.epsilon.ewl.EwlModule"
+            defaultName="module">
+      </tool>
+   </extension>
 
 </plugin>

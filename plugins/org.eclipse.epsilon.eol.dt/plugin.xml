@@ -123,4 +123,11 @@
             name="Parallel">
       </implementation>
    </extension>
+   <extension
+         point="org.eclipse.epsilon.common.dt.tool">
+      <tool
+            class="org.eclipse.epsilon.eol.EolModule"
+            defaultName="module">
+      </tool>
+   </extension>
 </plugin>
