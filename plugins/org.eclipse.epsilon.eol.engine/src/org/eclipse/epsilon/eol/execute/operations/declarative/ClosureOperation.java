@@ -10,11 +10,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.operations.declarative;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -24,12 +22,11 @@ import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.function.CheckedEolFunction;
 import org.eclipse.epsilon.eol.types.EolSequence;
 
 public class ClosureOperation extends FirstOrderOperation {
 	
-	protected void closure(Collection<Object> closure, Collection<?> source, Parameter parameter, Expression expression, CheckedEolFunction<Object, ?> function, IEolContext context) throws EolRuntimeException {
+	protected void closure(Collection<Object> closure, Collection<?> source, Parameter parameter, Expression expression, IEolContext context) throws EolRuntimeException {
 		FrameStack scope = context.getFrameStack();
 		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
@@ -41,7 +38,7 @@ public class ClosureOperation extends FirstOrderOperation {
 				Collection<?> bodyCollection = CollectionUtil.asCollection(bodyResult);
 				for (Object result : bodyCollection) {
 					if (result != null && closure.add(result)) {
-						closure(closure, Collections.singletonList(result), parameter, expression, function, context);
+						closure(closure, Collections.singletonList(result), parameter, expression, context);
 					}
 				}
 			}
@@ -54,9 +51,8 @@ public class ClosureOperation extends FirstOrderOperation {
 		Collection<?> source = resolveSource(target, iterators, context);
 		if (source.isEmpty()) return new EolSequence<>(0);
 		Collection<Object> accumulator = CollectionUtil.createDefaultSet();
-		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions.get(0), context);
 		
-		closure(accumulator, source, iterators.get(0), expressions.get(0), function, context);
+		closure(accumulator, source, iterators.get(0), expressions.get(0), context);
 		
 		List<Object> results = CollectionUtil.createDefaultList();
 		results.addAll(accumulator);

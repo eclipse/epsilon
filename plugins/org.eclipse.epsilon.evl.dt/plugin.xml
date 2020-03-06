@@ -88,7 +88,7 @@
             default="false"
             dialog="org.eclipse.epsilon.evl.dt.launching.tabs.EvlModuleParallelConfiguration"
             language="EVL"
-            name="Parallel (Constraints)">
+            name="Parallel (ConstraintAtoms)">
       </implementation>
    </extension>
    <extension

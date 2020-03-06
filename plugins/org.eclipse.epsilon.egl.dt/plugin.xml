@@ -126,7 +126,7 @@
             default="false"
             dialog="org.eclipse.epsilon.egl.dt.launching.EgxModuleParallelConfiguration"
             language="EGX"
-            name="Parallel EGX (Annotation)">
+            name="Parallel EGX (Annotations)">
       </implementation>
       <implementation
             class="org.eclipse.epsilon.egl.concurrent.atomic.EgxModuleParallelGenerationRuleAtoms"

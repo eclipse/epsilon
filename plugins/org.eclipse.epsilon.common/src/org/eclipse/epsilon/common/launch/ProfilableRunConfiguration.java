@@ -32,8 +32,8 @@ import static org.eclipse.epsilon.common.util.profiling.BenchmarkUtils.*;
 import org.eclipse.epsilon.common.util.profiling.ProfileDiagnostic.MemoryUnit;
 
 /**
- * Generic utility class for building standalone applications with support for:
- * - Multi-stage profiling <br/>
+ * Generic utility class for building standalone applications with support for: <br/>
+ * - Multi-stage, detailed AST profiling <br/>
  * - Writing to output files <br/>
  * - Identifying and comparing configurations <br/>
  * - Displaying results <br/>
