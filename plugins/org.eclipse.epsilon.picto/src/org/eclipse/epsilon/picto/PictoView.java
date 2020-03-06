@@ -382,7 +382,12 @@ public class PictoView extends ViewPart {
 			
 			Files.write(Paths.get(temp.toURI()), content.getBytes());
 			
-			if (!OperatingSystem.isWindows()) program = "/usr/local/bin/" + program;
+			if (OperatingSystem.isMac()) {
+				program = "/usr/local/bin/" + program;
+			}
+			else if (OperatingSystem.isUnix()) {
+				program = "/usr/bin/" + program;
+			}
 			
 			ProcessBuilder pb = new ProcessBuilder(new String[] {program, "-T" + imageType, temp.getAbsolutePath(), "-o", image.getAbsolutePath()});
 			pb.redirectError(log);
