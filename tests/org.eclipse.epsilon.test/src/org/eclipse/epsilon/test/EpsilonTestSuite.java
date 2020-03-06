@@ -82,7 +82,6 @@ import junit.framework.Test;
 	SpreadsheetDriverTestSuite.class,
 	CsvModelTestSuite.class,
 	FlexmiTestSuite.class,
-	//EgxAdvancedTestSuite.class,
 	//EvlAdvancedTestSuite.class
 })
 public class EpsilonTestSuite {

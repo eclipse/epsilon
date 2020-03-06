@@ -37,7 +37,7 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		ecoreScripts[] = {"ecore"},
 		thriftBase = testsBase+"thrift/",
 		thriftMetamodel = "thrift.ecore",
-		thriftModels[] = {/*"ThriftTest.xmi", */"fb303.xmi", "SimpleService.xmi"},
+		thriftModels[] = {"ThriftTest.xmi", "fb303.xmi", "SimpleService.xmi"},
 		thriftScripts[] = {"thrift-rb", "thrift-java"};
 		
 	public static final List<String[]>
@@ -62,7 +62,7 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 			thriftBase+"java/", thriftBase, thriftBase
 		));
 		allInputs.addAll(ecoreInputs);
-		allInputs.addAll(thriftInputs);
+		//allInputs.addAll(thriftInputs);
 	}
 	
 	public static Collection<Supplier<? extends IEgxModule>> modules(boolean includeStandard) {
