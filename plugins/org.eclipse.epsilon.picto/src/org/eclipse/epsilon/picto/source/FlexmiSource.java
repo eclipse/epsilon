@@ -48,11 +48,10 @@ public class FlexmiSource extends EglPictoSource {
 
 	@Override
 	public Resource getResource(IEditorPart editorPart) {		
-		while (getFile(editorPart) == null) { 
-			try {Thread.sleep(100);} catch (InterruptedException e) {} 
-		}
 		
 		IFile file = getFile(editorPart);
+		if (file == null) return null;
+		
 		ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new FlexmiResourceFactory());
 		Resource resource = resourceSet.createResource(URI.createFileURI(file.getLocation().toOSString()));

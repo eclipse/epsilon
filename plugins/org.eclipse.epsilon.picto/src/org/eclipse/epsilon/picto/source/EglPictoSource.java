@@ -18,6 +18,7 @@ import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
+import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -40,9 +41,10 @@ public abstract class EglPictoSource implements PictoSource {
 	@Override
 	public ViewTree getViewTree(IEditorPart editor) throws Exception {
 		
-		while (getFile(editor) == null) { Thread.sleep(100); }
+		IFile iFile = getFile(editor);
+		if (iFile == null) return createEmptyViewTree();
 		
-		File modelFile = new File(getFile(editor).getLocation().toOSString());
+		File modelFile = new File(iFile.getLocation().toOSString());
 		Resource resource;
 		ViewTree viewTree = new ViewTree();
 		
@@ -76,6 +78,8 @@ public abstract class EglPictoSource implements PictoSource {
 			else {
 				module = new EglTemplateFactoryModuleAdapter(new EglFileGeneratingTemplateFactory());
 			}
+			
+			module.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
 			
 			if (renderingMetadata.getTemplate() == null) throw new Exception("No EGL file specified.");
 			
@@ -135,12 +139,16 @@ public abstract class EglPictoSource implements PictoSource {
 			return viewTree;
 		}
 		else {
-			viewTree = new ViewTree();
-			viewTree.setPromise(new StringContentPromise("Nothing to render"));
-			viewTree.setFormat("text");
-			return viewTree;
+			return createEmptyViewTree();
 		}
 		
+	}
+	
+	protected ViewTree createEmptyViewTree() {
+		ViewTree viewTree = new ViewTree();
+		viewTree.setPromise(new StringContentPromise("Nothing to render"));
+		viewTree.setFormat("text");
+		return viewTree;
 	}
 	
 	public void dispose() {
