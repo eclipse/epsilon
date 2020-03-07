@@ -1,0 +1,24 @@
+context Component {
+	
+	/* Component names \n should start with an upper case letter */
+	critique NameStartsWithUpperCase {
+		
+		check : self.name = self.name.ftuc()
+		
+	}
+	
+	/* A component \n must have at least one port */
+	constraint AtLeastOnePort {
+		check : self.inPorts.notEmpty() or self.outPorts.notEmpty()
+	}
+	
+}
+
+context Connector {
+
+	/* A connector \n must connect ports of the same type */
+	constraint ConnectsPortsWithSameType {
+		check : self.from.type = self.to.type
+	}
+	
+}

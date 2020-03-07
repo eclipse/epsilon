@@ -1,0 +1,25 @@
+operation getValidationModule() {
+	var module = new Native("org.eclipse.epsilon.evl.EvlModule");
+	
+	var constraints = EPackage.all.first().getAnnotationValue("constraints", "file");
+	if (not constraints.isDefined()) return module;
+	
+	var constraintsUrl = new Native("java.net.URL")(new Native("java.net.URL")(M.resource.uri.toString()), constraints);
+	module.parse(constraintsUrl.toURI());
+	return module;
+}
+
+operation EModelElement getAnnotationValue(name : String, detail : String) : Any {
+	var ann = self.eAnnotations.selectOne(a|a.source = name);
+	var det;
+
+	if (ann.isDefined()) {
+		det = ann.details.selectOne(d|d.key = detail);
+	}
+
+	if (det.isDefined()) {
+		return det.value;
+	}
+	
+	return det;	
+}
