@@ -46,5 +46,17 @@
       <pictoSource class="org.eclipse.epsilon.picto.source.DotSource"/>
       <pictoSource class="org.eclipse.epsilon.picto.source.NeatoSource"/>
    </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.epsilon.picto.PictoEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            default="true"
+            extensions="picto"
+            icon="icons/picto.png"
+            id="org.eclipse.epsilon.picto.PictoEditor"
+            name="Picto Editor">
+      </editor>
+   </extension>
 
 </plugin>
