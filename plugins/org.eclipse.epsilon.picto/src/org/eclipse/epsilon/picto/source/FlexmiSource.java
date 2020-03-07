@@ -35,6 +35,8 @@ public class FlexmiSource extends EglPictoSource {
 	@Override
 	public Picto getRenderingMetadata(IEditorPart editorPart) {
 		FlexmiResource resource = (FlexmiResource) getResource(editorPart);
+		if (resource == null) return null;
+		
 		ProcessingInstruction renderProcessingInstruction = (ProcessingInstruction) ((FlexmiResource) resource).
 					getProcessingInstructions().stream().filter(p -> p.getTarget().startsWith("render-")).findFirst().orElse(null);
 		if (renderProcessingInstruction != null) {
@@ -49,7 +51,7 @@ public class FlexmiSource extends EglPictoSource {
 	@Override
 	public Resource getResource(IEditorPart editorPart) {		
 		
-		IFile file = getFile(editorPart);
+		IFile file = waitForFile(editorPart);
 		if (file == null) return null;
 		
 		ResourceSet resourceSet = new ResourceSetImpl();

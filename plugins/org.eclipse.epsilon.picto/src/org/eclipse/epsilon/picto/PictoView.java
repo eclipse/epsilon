@@ -153,13 +153,21 @@ public class PictoView extends ViewPart {
 		}
 
 		final PartListener partListener = new PartListener() {
+			
 			@Override
 			public void partActivated(IWorkbenchPartReference partRef) {
 				if (locked) return;
-				IWorkbenchPart part = partRef.getPart(false);
-				if (editor != part && part instanceof IEditorPart && supports((IEditorPart) part)) {
-					render((IEditorPart) part);
-				}
+				Display.getCurrent().asyncExec(new Runnable() {
+					
+					@Override
+					public void run() {
+						IWorkbenchPart part = partRef.getPart(false);
+						if (editor != part && part instanceof IEditorPart && supports((IEditorPart) part)) {
+							render((IEditorPart) part);
+						}
+					}
+				});
+				
 			}
 
 			@Override

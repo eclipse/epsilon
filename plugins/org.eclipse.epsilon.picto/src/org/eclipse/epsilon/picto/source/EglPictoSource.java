@@ -41,7 +41,7 @@ public abstract class EglPictoSource implements PictoSource {
 	@Override
 	public ViewTree getViewTree(IEditorPart editor) throws Exception {
 		
-		IFile iFile = getFile(editor);
+		IFile iFile = waitForFile(editor);
 		if (iFile == null) return createEmptyViewTree();
 		
 		File modelFile = new File(iFile.getLocation().toOSString());
@@ -142,6 +142,18 @@ public abstract class EglPictoSource implements PictoSource {
 			return createEmptyViewTree();
 		}
 		
+	}
+	
+	protected IFile waitForFile(IEditorPart editorPart) {
+		int attempts = 0;
+		int maxAttempts = 50;
+		IFile file = getFile(editorPart);
+		while (file == null && attempts < maxAttempts) {
+			try { Thread.sleep(100); } catch (InterruptedException e) {}
+			file = getFile(editorPart);
+			attempts++;
+		}
+		return file;
 	}
 	
 	protected ViewTree createEmptyViewTree() {
