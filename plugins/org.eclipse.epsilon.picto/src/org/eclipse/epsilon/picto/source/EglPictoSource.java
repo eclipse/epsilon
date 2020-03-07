@@ -181,16 +181,23 @@ public abstract class EglPictoSource implements PictoSource {
 		m.setReadOnLoad(true);
 		m.setStoredOnDisposal(false);
 		StringProperties properties = new StringProperties();
-		for (Parameter parameter : model.getParameters()) {
-			properties.put(parameter.getName(), parameter.getValue());
-		}
-		m.load(properties, new IRelativePathResolver() {
+		IRelativePathResolver relativePathResolver = new IRelativePathResolver() {
 			
 			@Override
 			public String resolve(String relativePath) {
 				return new File(baseFile.getParentFile(), relativePath).getAbsolutePath();
 			}
-		});
+		};
+		
+		for (Parameter parameter : model.getParameters()) {
+			if (parameter.getFile() != null) {
+				properties.put(parameter.getName(), relativePathResolver.resolve(parameter.getFile()));
+			}
+			else {
+				properties.put(parameter.getName(), parameter.getValue());
+			}
+		}
+		m.load(properties, relativePathResolver);
 		return m;
 	}
 	

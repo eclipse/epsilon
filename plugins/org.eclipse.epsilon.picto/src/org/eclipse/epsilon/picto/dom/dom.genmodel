@@ -22,6 +22,7 @@
     <genClasses ecoreClass="dom.ecore#//Parameter">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Parameter/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Parameter/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Parameter/file"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

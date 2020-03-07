@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Parameter#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Parameter#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.Parameter#getFile <em>File</em>}</li>
  * </ul>
  *
  * @see org.eclipse.epsilon.picto.dom.PictoPackage#getParameter()
@@ -65,5 +66,27 @@ public interface Parameter extends EObject {
 	 * @generated
 	 */
 	void setValue(String value);
+
+	/**
+	 * Returns the value of the '<em><b>File</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>File</em>' attribute.
+	 * @see #setFile(String)
+	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getParameter_File()
+	 * @model
+	 * @generated
+	 */
+	String getFile();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.epsilon.picto.dom.Parameter#getFile <em>File</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>File</em>' attribute.
+	 * @see #getFile()
+	 * @generated
+	 */
+	void setFile(String value);
 
 } // Parameter

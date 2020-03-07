@@ -22,6 +22,7 @@ import org.eclipse.epsilon.picto.dom.PictoPackage;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.ParameterImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.ParameterImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.impl.ParameterImpl#getFile <em>File</em>}</li>
  * </ul>
  *
  * @generated
@@ -66,6 +67,26 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
 	 * @ordered
 	 */
 	protected String value = VALUE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getFile() <em>File</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFile()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String FILE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getFile() <em>File</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFile()
+	 * @generated
+	 * @ordered
+	 */
+	protected String file = FILE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -138,12 +159,37 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
 	 * @generated
 	 */
 	@Override
+	public String getFile() {
+		return file;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setFile(String newFile) {
+		String oldFile = file;
+		file = newFile;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PictoPackage.PARAMETER__FILE, oldFile, file));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case PictoPackage.PARAMETER__NAME:
 				return getName();
 			case PictoPackage.PARAMETER__VALUE:
 				return getValue();
+			case PictoPackage.PARAMETER__FILE:
+				return getFile();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -161,6 +207,9 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
 				return;
 			case PictoPackage.PARAMETER__VALUE:
 				setValue((String)newValue);
+				return;
+			case PictoPackage.PARAMETER__FILE:
+				setFile((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -180,6 +229,9 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
 			case PictoPackage.PARAMETER__VALUE:
 				setValue(VALUE_EDEFAULT);
 				return;
+			case PictoPackage.PARAMETER__FILE:
+				setFile(FILE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -196,6 +248,8 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case PictoPackage.PARAMETER__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+			case PictoPackage.PARAMETER__FILE:
+				return FILE_EDEFAULT == null ? file != null : !FILE_EDEFAULT.equals(file);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -214,6 +268,8 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
 		result.append(name);
 		result.append(", value: ");
 		result.append(value);
+		result.append(", file: ");
+		result.append(file);
 		result.append(')');
 		return result.toString();
 	}

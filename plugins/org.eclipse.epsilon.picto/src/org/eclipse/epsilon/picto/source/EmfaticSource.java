@@ -39,7 +39,7 @@ public class EmfaticSource extends ExternalMetadataSource {
 			ParseContext parseContext = parser.parse(reader);
 			ResourceSet resourceSet = new ResourceSetImpl();
 			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new ResourceFactoryImpl());
-			Resource resource = resourceSet.createResource(URI.createFileURI("some.ecore"));
+			Resource resource = resourceSet.createResource(URI.createFileURI(getFile(editorPart).getLocation().toOSString()));
 			Builder builder = new Builder();
 			NullProgressMonitor monitor = new NullProgressMonitor();
 			builder.build(parseContext, resource, monitor);

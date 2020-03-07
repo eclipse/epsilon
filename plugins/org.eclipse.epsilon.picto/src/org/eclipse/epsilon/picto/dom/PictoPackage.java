@@ -213,13 +213,22 @@ public interface PictoPackage extends EPackage {
 	int PARAMETER__VALUE = 1;
 
 	/**
+	 * The feature id for the '<em><b>File</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__FILE = 2;
+
+	/**
 	 * The number of structural features of the '<em>Parameter</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARAMETER_FEATURE_COUNT = 2;
+	int PARAMETER_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Parameter</em>' class.
@@ -372,6 +381,17 @@ public interface PictoPackage extends EPackage {
 	EAttribute getParameter_Value();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.Parameter#getFile <em>File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>File</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.Parameter#getFile()
+	 * @see #getParameter()
+	 * @generated
+	 */
+	EAttribute getParameter_File();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -503,6 +523,14 @@ public interface PictoPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PARAMETER__VALUE = eINSTANCE.getParameter_Value();
+
+		/**
+		 * The meta object literal for the '<em><b>File</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARAMETER__FILE = eINSTANCE.getParameter_File();
 
 	}
 
