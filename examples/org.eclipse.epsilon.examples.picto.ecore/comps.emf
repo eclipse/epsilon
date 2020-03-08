@@ -6,27 +6,28 @@ abstract class NamedElement {
 	attr String name;
 }
 
+class Model extends NamedElement {
+	val Component[*] components;
+	val Connector[*] connectors;
+	val Type[*] types;
+}
+
 @GenModel(documentation="Components are behavioural blocks that \n communicate through input and output ports")
 class Component extends NamedElement {
 	val Port[*] inPorts;
 	val Port[*] outPorts;
-	val Component[*]#parent components;
-	ref Component#components parent;
-	val Connector[*] connectors;
 	attr String action;
 }
 
 
 class Port extends NamedElement {
-	ref Connector[*]#from outgoing;
-	ref Connector[*]#to incoming;
 	ref Type type;
 }
 
 @GenModel(documentation="Connectors connect ports of components")
 class Connector {
-	ref Port#outgoing from;
-	ref Port#incoming to;
+	ref Port from;
+	ref Port to;
 }
 	
 class Type extends NamedElement {
