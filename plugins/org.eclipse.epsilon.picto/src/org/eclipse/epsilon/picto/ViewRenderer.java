@@ -46,7 +46,7 @@ public class ViewRenderer {
 	
 	public void zoom(ZoomType type) {
 		if (type == ZoomType.IN) zoom = Math.min(zoom + 0.1, 3.0);
-		else if (type == ZoomType.OUT) zoom = Math.max(0, zoom - 0.1);
+		else if (type == ZoomType.OUT) zoom = Math.max(0.1, zoom - 0.1);
 		else zoom = 1.0;
 		
 		browser.execute("javascript:document.body.style.zoom=" + zoom + ";");
