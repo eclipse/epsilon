@@ -2,10 +2,12 @@
 @constraints(file="comps.evl")
 package comps;
 
+@GenModel(documentation="Abstract class for named elements")
 abstract class NamedElement {
 	attr String name;
 }
 
+@GenModel(documentation="Root entity that contains \ncomponents, connectors and ports")
 class Model extends NamedElement {
 	val Component[*] components;
 	val Connector[*] connectors;
@@ -19,7 +21,7 @@ class Component extends NamedElement {
 	attr String action;
 }
 
-
+@GenModel(documentation="Ports are used to model \nthe input and output of components")
 class Port extends NamedElement {
 	ref Type type;
 }
@@ -29,7 +31,8 @@ class Connector {
 	ref Port from;
 	ref Port to;
 }
-	
+
+@GenModel(documentation="Types of ports. The name should be a valid \ntype name in the target programming language.")
 class Type extends NamedElement {
 	
 }
