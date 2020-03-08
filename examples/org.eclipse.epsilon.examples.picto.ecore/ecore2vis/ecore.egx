@@ -1,3 +1,7 @@
+pre {
+	var classes = EClass.all.sortBy(c|c.name);
+}
+
 rule Barchart {
 	
 	parameters : Map {
@@ -38,7 +42,7 @@ rule Ecore23D {
 }
 
 rule EClass2ClassDiagram 
-	transform c : EClass {
+	transform c : EClass in: classes {
 	
 	parameters {
 		

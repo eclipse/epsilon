@@ -1,13 +1,13 @@
 context Component {
 	
-	/* Component names \n should start with an upper case letter */
+	/* Component names should start with an upper case letter */
 	critique NameStartsWithUpperCase {
 		
 		check : self.name = self.name.ftuc()
 		
 	}
 	
-	/* A component \n must have at least one port */
+	/* A component must have at least one port */
 	constraint AtLeastOnePort {
 		check : self.inPorts.notEmpty() or self.outPorts.notEmpty()
 	}
@@ -16,7 +16,7 @@ context Component {
 
 context Connector {
 
-	/* A connector \n must connect ports of the same type */
+	/* A connector must connect ports of the same type */
 	constraint ConnectsPortsWithSameType {
 		check : self.from.type = self.to.type
 	}
@@ -25,7 +25,7 @@ context Connector {
 
 context Port {
 	
-	/* Port names \n should start with a lower case letter */
+	/* Port names should start with a lower case letter */
 	critique NameStartsWithLowerCase {
 		
 		check : self.name = self.name.ftlc()

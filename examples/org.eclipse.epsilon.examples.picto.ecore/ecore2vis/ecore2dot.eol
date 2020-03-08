@@ -23,3 +23,26 @@ operation EModelElement getAnnotationValue(name : String, detail : String) : Any
 	
 	return det;	
 }
+
+operation String toMultiline() : String {
+	var multiline = "";
+	
+	for (line in self.split("\\n")) {
+		var length = 0;
+		for (part in line.split(" ")) {
+			multiline += part + " ";
+			if (length > 30) {
+				multiline += "\\l";
+				length = 0;
+			}
+			else {
+				length += part.length();
+			}
+		}
+		if (not multiline.endsWith("\\l")) multiline += "\\l";
+		if (hasMore) multiline += "\\n";
+	}
+	if (not multiline.endsWith("\\l")) multiline += "\\l";
+	
+	return multiline;
+}

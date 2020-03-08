@@ -33,7 +33,7 @@ digraph G {
 			[** Create node for all the documentation of the main class*]
 			[%var documentation = c.getAnnotationValue("http://www.eclipse.org/emf/2002/GenModel", "documentation");%]
 			[%if (documentation.isDefined()){%]
-				[%=c.name%]_Documentation[shape="note", label="[%=documentation%]", style="filled", fillcolor="azure"]
+				[%=c.name%]_Documentation[shape="note", label="[%=documentation.toMultiline()%]", style="filled", fillcolor="azure"]
 				[%=c.name%]_Documentation->[%=c.name%][arrowtail=none, style=dashed];
 			[%}%]
 		[%}%]
@@ -77,12 +77,15 @@ operation EClass getLabel() {
 		"<table border='0' cellspacing='0' cellborder='0' cellpading='0'>" + 
 		"<tr><td align='right' valign='middle'><img src='" + self.getIcon()+ "'></img></td>" + 
 		"<td align='left' valign='middle' href=\""+javascript+"\" tooltip='" + tooltip + "'>" + self.name + "</td></tr></table></td></tr>";
+	
 	label += "<tr><td></td><td></td></tr>";
+	
 	for (f in features.sortBy(f|f.name.toLowerCase())) {
 		label += "<tr>";
 		label += "<td><img src='" + f.getIcon() + "'></img></td><td align='left'>" + f.getLabel(self) + "</td>";
 		label += "</tr>";
 	}
+	
 	if (features.isEmpty()){
 		label += "<tr>";
 		label += "<td> </td><td> </td>";
@@ -133,7 +136,7 @@ operation Any getIcon() {
 operation Any getConstraintLabel() {
 	var label = self.name;
 	if (self.comments.notEmpty()) label = label + ": " + self.comments.first();
-	return label;
+	return label.toMultiline();
 }
 
 operation Any getConstraintColour() {
