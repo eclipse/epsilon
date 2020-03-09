@@ -15,7 +15,9 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
@@ -39,7 +41,6 @@ public class MatlabEnginePool {
 
 		MatlabEnginePool.libraryPath = libraryPath;
 		MatlabEnginePool.engineJarPath = engineJarPath;
-
 		try {
 			final String SEP = System.getProperty("path.separator");
             System.setProperty(JAVA_LIBRARY_PATH, libraryPath + SEP + System.getProperty(JAVA_LIBRARY_PATH));
@@ -64,6 +65,10 @@ public class MatlabEnginePool {
 		}
 	}
 	
+	private MatlabEnginePool() throws MatlabRuntimeException {
+		this(libraryPath, engineJarPath);
+	}
+	
 	public static MatlabEnginePool getInstance(String libraryPath, String engineJarPath) throws MatlabRuntimeException {
 		if (instance == null || (instance != null && (!libraryPath.equalsIgnoreCase(instance.getLibraryPath())
 				|| !engineJarPath.equalsIgnoreCase(instance.getEngineJarPath())))) {
@@ -71,13 +76,34 @@ public class MatlabEnginePool {
 		}
 		return instance;
 	}
-
+	
+	public static MatlabEnginePool getInstance() throws MatlabRuntimeException {
+		if (instance == null) {
+			instance = new MatlabEnginePool();
+		}
+		return instance;
+	}
+	
 	public static void reset() {
 		if (instance != null && !instance.pool.isEmpty()) {			
 			instance.pool.clear();
+			instance.projectEngine.clear();
 		}
 	}
 
+	protected Map<String, MatlabEngine> projectEngine = new HashMap<String, MatlabEngine>();
+	
+	public MatlabEngine getEngineForProject(String absoluteLocation) throws MatlabException, Exception {
+		if (projectEngine.containsKey(absoluteLocation)) {
+			return projectEngine.get(absoluteLocation);
+		} else {
+			MatlabEngine matlabEngine = getMatlabEngine();
+			matlabEngine.setProject(absoluteLocation);
+			projectEngine.put(absoluteLocation, matlabEngine);
+			return matlabEngine;
+		}
+	}
+	
 	public MatlabEngine getMatlabEngine() throws Exception {
 		MatlabEngine engine = null;
 		if (pool.isEmpty()) {
@@ -127,5 +153,11 @@ public class MatlabEnginePool {
 		pool.getMatlabEngine();
 
 	}
+
+	public static void resolve(String library, String engineJar) {
+		libraryPath = library;
+		engineJarPath = engineJar;
+	}
+
 
 }

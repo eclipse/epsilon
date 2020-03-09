@@ -61,12 +61,7 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 			} catch (MatlabException e) {
 				throw new EolModelLoadingException(e, this);
 			}
-		}
-		
-		// FIXME we'll need to find a way to integrate both models Simulink and Dictionary
-		// set the model to use the DD
-		// engine.eval("set_param(?, 'DataDictionary', '"+ filename +"');", model.getHandle());
-		
+		}		
 	}
 
 	@Override

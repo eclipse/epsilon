@@ -77,30 +77,33 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	protected void loadModel() throws EolModelLoadingException { 
 		try {
 			resolvePaths();
-			engine = MatlabEnginePool.getInstance(getLibraryPath(), getEngineJarPath()).getMatlabEngine();
+			
 			if (isUseCurrentProject()) {
-				engine.eval("currentProject;");
+				engine = MatlabEnginePool.getInstance().getEngineForProject("current");
+				engine.addModel(this);
+			} else {
+				if (getProject() != null && getProject().exists()) {
+					try {
+						engine = MatlabEnginePool.getInstance().getEngineForProject(getProject().getAbsolutePath());
+						engine.addModel(this);					
+					} catch (Exception ex) {
+						throw new EolModelLoadingException(ex, this);
+					}
+				} 
 			}
-			
-			if ((getWorkingDir() != null && getWorkingDir().exists())) {
-				try {
-					engine.eval("cd '?';", getWorkingDir());
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					System.err.println(ex.getMessage());
+			if (engine == null) {				
+				engine = MatlabEnginePool.getInstance().getMatlabEngine();
+			}
+			if (!isUseCurrentProject() && getProject() == null) {
+				if ((getWorkingDir() != null && getWorkingDir().exists())) {
+					try {
+						engine.eval("cd '?';", getWorkingDir());
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
 				}
 			}
 			
-			if (!isUseCurrentProject() && getProject() != null && getProject().exists()) {
-				try {
-					engine.eval("cd '?';", getProject().getParent());
-					engine.eval("proj = simulinkproject('?');", getProject().getName().substring(0, getProject().getName().indexOf('.')));					
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					System.err.println(ex.getMessage());
-				}
-				
-			}
 			for (String path : getPaths()) {
 				engine.eval("addpath ?", path);
 			}
@@ -114,10 +117,9 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	@Override
 	protected void disposeModel() { 
 		try {
-			MatlabEnginePool.getInstance(libraryPath, engineJarPath).release(engine);
-		}
-		catch (MatlabRuntimeException e) {
-			
+			engine.release(this);
+		} catch (MatlabRuntimeException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -396,6 +398,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		matlabPath = allPaths[0];
 		libraryPath = allPaths[1];
 		engineJarPath = allPaths[2];
+		MatlabEnginePool.resolve(libraryPath, engineJarPath);
 	}
 
 }

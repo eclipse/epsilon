@@ -9,16 +9,21 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.engine;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.epsilon.emc.simulink.exception.EpsilonSimulinkInternalException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
+import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
+import org.eclipse.epsilon.emc.simulink.model.IGenericSimulinkModel;
 import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 
 @SuppressWarnings("unchecked")
@@ -82,6 +87,9 @@ public class MatlabEngine {
 	protected Method quitMethod;
 	protected Method disconnectMethod;
 	
+	protected String project;
+	protected Set<IGenericSimulinkModel> models = new HashSet<IGenericSimulinkModel>();
+	
 	public boolean isDisconnected() throws Exception{
 		Field declaredField = engine_class.getDeclaredField("fDisconnected");
 		declaredField.setAccessible(true);
@@ -91,6 +99,41 @@ public class MatlabEngine {
 	
 	public static void setEngineClass(Class<?> matlabEngineClass) {
 		engine_class = matlabEngineClass;
+	}
+	
+	public void setProject(String project) throws MatlabException {
+		this.project = project;
+		System.out.println(this.project);
+		if (project.equals("current")) {
+			eval("currentProject;");
+		} else {			
+			File proj = new File(project);
+			eval("cd '?';", proj.getParent());
+			String location = proj.getName().substring(0, proj.getName().indexOf('.'));
+			eval("simulinkproject('?');", location);
+		}
+	}
+	
+	public void addModel(IGenericSimulinkModel model) {
+		this.models.add(model);
+		System.out.println("adding model " + model.getName());
+	}
+	
+	
+	public String getProject() {
+		return project;
+	}
+	
+	public void release(IGenericSimulinkModel model) throws MatlabRuntimeException {
+		if (project != null && !models.isEmpty()) {
+			System.out.println("Removing model");
+			models.remove(model);
+		}
+		if (models.isEmpty()) {
+			this.project = null;
+			System.out.println("Releasing to pool");
+			MatlabEnginePool.getInstance().release(this);
+		}
 	}
 	
 	public MatlabEngine() throws Exception  {
@@ -352,7 +395,6 @@ public class MatlabEngine {
 		} 
 	}
 	
-		
 	public Object fevalWithResult(String function, Object... handles) throws MatlabException {
 		if (fevalMethod == null) {
 			try {
