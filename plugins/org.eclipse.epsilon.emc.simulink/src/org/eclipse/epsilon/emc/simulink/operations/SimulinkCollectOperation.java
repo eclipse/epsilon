@@ -40,9 +40,7 @@ public class SimulinkCollectOperation extends CollectOperation {
 					e.printStackTrace();
 					// TODO
 				}
-			}
-			
-					
+			}					
 		}		
 		
 		return super.execute(target, operationNameExpression, iterators, expressions, context);		

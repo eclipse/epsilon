@@ -67,19 +67,19 @@ public class StateflowUtil {
 		return varName;
 	}
 
-	private static void modelHandleAsM(ISimulinkModelElement obj) throws MatlabException {
+	public static void modelHandleAsM(ISimulinkModelElement obj) throws MatlabException {
 		modelHandleAs(obj, M);
 	}
 
-	private static void modelHandleAsM(SimulinkModel model) throws MatlabException {
+	public static void modelHandleAsM(SimulinkModel model) throws MatlabException {
 		modelHandleAs(model, M);
 	}
 
-	private static void modelHandleAs(ISimulinkModelElement obj, String as) throws MatlabException {
+	public static void modelHandleAs(ISimulinkModelElement obj, String as) throws MatlabException {
 		modelHandleAs(((SimulinkModel) obj.getOwningModel()), as);
 	}
 
-	private static void modelHandleAs(SimulinkModel model, String as) throws MatlabException {
+	public static void modelHandleAs(SimulinkModel model, String as) throws MatlabException {
 		String modelName = model.getSimulinkModelName();
 		model.getEngine().eval(SF_MODEL, as, modelName);
 	}

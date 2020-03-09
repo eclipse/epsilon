@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
+import org.eclipse.epsilon.emc.simulink.util.StateflowUtil;
 import org.eclipse.epsilon.emc.simulink.util.collection.StateflowBlockCollection;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
@@ -27,12 +28,7 @@ public class StateflowCollectOperation extends CollectOperation {
 			List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		
 		StateflowBlockCollection targetList;
-		if (target instanceof StateflowBlockCollection) {
-			/** change the rt to model */ 
-			String setup = "handles=arrayfun(@(a) rt.find('Id',a),cell2mat(?), 'UniformOutput', false)";
-			/** change the rt to model */ 
-			String eval = "get(cell2mat(handles),'?')";
-			
+		if (target instanceof StateflowBlockCollection) {			
 			targetList = (StateflowBlockCollection) target;
 			
 			List<?> handles = targetList.getPrimitive();
@@ -40,7 +36,9 @@ public class StateflowCollectOperation extends CollectOperation {
 			if (areExpressionsValid(expressions)) {
 				PropertyCallExpression expression = (PropertyCallExpression) expressions.get(0);
 				try{
-					//return (Collection<?>) engine.evalWithSetupAndResult("handles=?", "get(handles, '?')", handles, expression.getName());
+					StateflowUtil.modelHandleAsM(targetList.getManager().getModel());
+					String setup = "handles=arrayfun(@(a) m.find('Id',a),cell2mat(?), 'UniformOutput', false)";
+					String eval = "get(cell2mat(handles),'?')";
 					Object result= engine.evalWithSetupAndResult(setup, eval, cellArray, expression.getName());
 					if (result instanceof Collection) {						
 						return (Collection<?>) result;

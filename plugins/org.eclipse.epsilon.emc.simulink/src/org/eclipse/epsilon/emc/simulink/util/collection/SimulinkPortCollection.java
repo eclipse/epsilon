@@ -100,7 +100,7 @@ public class SimulinkPortCollection extends AbstractSimulinkCollection<SimulinkP
 	@Override
 	public AbstractOperation getAbstractOperation(String name) {
 		if ("select".equals(name)) {
-			return new SimulinkSelectOperation(getManager().getEngine(), getManager().getModel());
+			return new SimulinkSelectOperation(getManager().getEngine());
 		}
 		else if ("collect".equals(name)) {
 			return new SimulinkCollectOperation(getManager().getEngine());

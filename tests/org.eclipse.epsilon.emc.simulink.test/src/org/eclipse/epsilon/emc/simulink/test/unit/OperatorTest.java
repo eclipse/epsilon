@@ -7,18 +7,17 @@ import org.junit.Test;
 public class OperatorTest extends AbstractSimulinkTest {
 
 	@Test
-	public void selectSimulinkBlockTest() throws Exception {
+	public void selectSimulinkBlockTestDoubleEquals() throws Exception {
 		modelFile = FileUtils.getModelFile("feedbackController.slx");
 		eol = "Block.all.select(b|b.name == 'Controller').println();";
 	}
-	/*
-	@Ignore
-	@Test
-	public void selectSimulinkBlockTest() throws Exception {
-		modelFile = FileUtils.getModelFile("feedbackController.slx");
-		eol = "Block.all.select(b|b.name.startsWith('Traffic')).println();";
-	}*/
 	
+	@Test
+	public void selectSimulinkBlockTestSingleEquals() throws Exception {
+		modelFile = FileUtils.getModelFile("feedbackController.slx");
+		eol = "Block.all.select(b|b.name = 'Controller').println();";
+	}
+
 	@Test
 	public void collectSimulinkBlockTest() throws Exception {
 		modelFile = FileUtils.getModelFile("feedbackController.slx");
@@ -26,9 +25,15 @@ public class OperatorTest extends AbstractSimulinkTest {
 	}
 	
 	@Test
-	public void selectStateflowStateTest() throws Exception {
+	public void selectStateflowStateTestDoubleEquals() throws Exception {
 		modelFile = FileUtils.getModelFile("sf_traffic_light.slx");
 		eol = "`Stateflow.State`.all.select(b|b.Name == 'Traffic Light 1').println();";
+	}
+	
+	@Test
+	public void selectStateflowStateTestSingleEquals() throws Exception {
+		modelFile = FileUtils.getModelFile("sf_traffic_light.slx");
+		eol = "`Stateflow.State`.all.select(b|b.Name = 'Controller').println();";
 	}
 	
 	@Test
