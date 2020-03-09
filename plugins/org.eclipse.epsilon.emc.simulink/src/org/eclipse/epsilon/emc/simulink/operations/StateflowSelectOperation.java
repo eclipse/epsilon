@@ -81,6 +81,10 @@ public class StateflowSelectOperation extends SelectOperation {
 				(
 					(((OperatorExpression) expression).getFirstOperand() instanceof PropertyCallExpression) 
 					|| (((OperatorExpression) expression).getSecondOperand() instanceof PropertyCallExpression) 
+				) 
+				&& (
+					(((OperatorExpression) expression).getFirstOperand() instanceof StringLiteral) 
+					|| (((OperatorExpression) expression).getSecondOperand() instanceof StringLiteral)
 				)
 		){
 			return true;
