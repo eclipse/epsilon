@@ -7,7 +7,7 @@ var module = getValidationModule();
 
 // Compute the set of classes to be shown in this diagram
 var classes = OrderedSet{c}; // The root class
-classes.addAll(c.eReferences.eType); // The types of its references
+classes.addAll(c.eAllReferences.eType); // The types of its references
 classes.addAll(c.eSuperTypes); // All its supertypes
 classes.addAll(EClass.all.select(o|o.eSuperTypes.includes(c))); // All its subtypes
 %]
@@ -51,9 +51,9 @@ digraph G {
 	[%}%]
 	
 	[* ... and for its references *]
-	[%for (r in main.eReferences) {%]
-		[%=r.eContainer.name%]->[%=r.eType.name%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]"];
-		{rank=same; [%=r.eContainer.name%]; [%=r.eType.name%]}
+	[%for (r in main.eAllReferences) {%]
+		[%=main.name%]->[%=r.eType.name%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]"];
+		{rank=same; [%=main.name%]; [%=r.eType.name%]}
 	[%}%]
 	
 }
