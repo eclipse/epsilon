@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Oomph distribution
+Bundle-SymbolicName: org.eclipse.epsilon.oomph
+Bundle-Version: 1.6.0.qualifier
+Automatic-Module-Name: org.eclipse.epsilon.oomph
+Bundle-Vendor: Eclipse Modeling Project
