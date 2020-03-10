@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -55,6 +56,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -122,13 +124,35 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		
 		SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
 		
-		classViewer = new TreeViewer(sashForm, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		PatternFilter filter = new PatternFilter() {
+			
+			public boolean isEPackageMatch(EPackage ePackage) {
+				return wordMatches(ePackage.getName()) || wordMatches(ePackage.getNsURI());
+			}
+			
+			@Override
+			public boolean isElementVisible(Viewer viewer, Object element) {
+				if (element instanceof EPackage) {
+					// either the ePackage matches or one of its EClasses do
+					return isEPackageMatch((EPackage)element) || isParentMatch(viewer, element);
+				}
+				else if (element instanceof ENamedElement) {
+					// right now the label of the named element is the name, so we can use this to check
+					return isLeafMatch(viewer, element);
+				}
+				return false;
+			}
+		};
+		PackageRegistryTree filteredTree = new PackageRegistryTree(sashForm, SWT.MULTI | SWT.H_SCROLL
+				| SWT.V_SCROLL | SWT.BORDER, filter, true);
+		
+		classViewer = filteredTree.getViewer();
 		classViewer.setContentProvider(new PackageRegistryContentProvider(this));
 		classViewer.setLabelProvider(ecoreLabelProvider);
 		classViewer.addSelectionChangedListener(new ClassViewerSelectionChangedListener());
 		classViewer.setComparator(new ViewerComparator((o1, o2) -> o1.compareTo(o2)));
 		classViewer.setInput(getViewSite());
-		getSite().setSelectionProvider(this);		
+		getSite().setSelectionProvider(this);	
 		
 		classViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
@@ -145,9 +169,17 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 				if (history.size() == 0) {
 					history.add(0, selection.getPaths()[0]);
 				}
-				else if (history.get(0) != selection.getPaths()[0]) {
+				else if (!history.get(0).equals(selection.getPaths()[0])) {
 					history.add(0, selection.getPaths()[0]);
 				}
+			}
+			
+		});
+
+		classViewer.addDoubleClickListener(new IDoubleClickListener() {
+
+			public void doubleClick(DoubleClickEvent event) {
+				filteredTree.clearFilterText();
 			}
 			
 		});
@@ -170,6 +202,7 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		featureViewer.addDoubleClickListener(new IDoubleClickListener() {
 
 			public void doubleClick(DoubleClickEvent event) {
+				filteredTree.clearFilterText();
 				IStructuredSelection s = (IStructuredSelection) event.getSelection();
 				if (s.getFirstElement() != null) {
 					if (s.getFirstElement() instanceof ETypedElement) {
@@ -271,7 +304,7 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 			
 			if (history.size() > 1) {
 				classViewer.setSelection(new TreeSelection(history.get(1)));
-				history.remove(1);
+				history.remove(0);
 			}
 			
 			backRunning = false;
