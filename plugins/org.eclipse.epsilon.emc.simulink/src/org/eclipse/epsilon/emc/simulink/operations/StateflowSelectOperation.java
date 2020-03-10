@@ -11,6 +11,7 @@ import org.eclipse.epsilon.emc.simulink.util.collection.StateflowBlockCollection
 import org.eclipse.epsilon.eol.dom.EqualsOperatorExpression;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.NotOperatorExpression;
 import org.eclipse.epsilon.eol.dom.OperatorExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
@@ -34,7 +35,9 @@ public class StateflowSelectOperation extends SelectOperation {
 		StateflowBlockCollection targetList;
 		if (target instanceof StateflowBlockCollection) {
 			if (isExpressionOptimisable(expression)) {
-			
+				if (expression instanceof NotOperatorExpression) {
+					expression = ((NotOperatorExpression) expression).getFirstOperand();
+				}
 				targetList = (StateflowBlockCollection) target;
 				
 				List<?> handles = targetList.getPrimitive();
@@ -60,10 +63,13 @@ public class StateflowSelectOperation extends SelectOperation {
 						SimulinkModel model = targetList.getManager().getModel(); 
 						try{
 							StateflowUtil.modelHandleAsM(model);
-							String setup = "handles=cell2mat(arrayfun(@(a) m.find('Id',a),cell2mat(?), 'UniformOutput', false))";
+							String setup = "handles=cell2mat(arrayfun(@(a) m.find('Id',a),cell2mat(?), 'UniformOutput', false));";
 							engine.eval(setup, cellArray);
-							Object result = engine.evalWithResult("handles.find('?','?');", propCallEx, value);
-							new StateflowBlockCollection(result, model);
+							Object result = engine.evalWithResult("get(handles.find('?','?'),'Id');", propCallEx, value);
+							if (result instanceof Collection) {
+								result = engine.evalWithResult("cell2mat(result);");
+							}
+							return new StateflowBlockCollection(result, model);
 						} catch (Exception e) {
 							e.printStackTrace();
 							// TODO
@@ -77,6 +83,9 @@ public class StateflowSelectOperation extends SelectOperation {
 	
 
 	protected boolean isExpressionOptimisable(Expression expression){
+		if (expression instanceof NotOperatorExpression) {
+			expression = ((NotOperatorExpression) expression).getFirstOperand();
+		}
 		if ((expression instanceof EqualsOperatorExpression) && 
 				(
 					(((OperatorExpression) expression).getFirstOperand() instanceof PropertyCallExpression) 

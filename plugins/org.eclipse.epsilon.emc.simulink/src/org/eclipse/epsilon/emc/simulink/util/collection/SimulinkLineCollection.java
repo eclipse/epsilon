@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkLine;
@@ -21,7 +22,15 @@ import org.eclipse.epsilon.emc.simulink.operations.SimulinkCollectOperation;
 import org.eclipse.epsilon.emc.simulink.operations.SimulinkSelectOperation;
 import org.eclipse.epsilon.emc.simulink.util.manager.SimulinkLineManager;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.ExistsOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.FindOneOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.FindOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.ForAllOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributor;
+import org.eclipse.epsilon.eol.execute.operations.declarative.RejectOneOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.RejectOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOneOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.SortByOperation;
 
 public class SimulinkLineCollection extends AbstractSimulinkCollection<SimulinkLine, Double, SimulinkLineManager> implements IAbstractOperationContributor{
 
@@ -91,13 +100,53 @@ public class SimulinkLineCollection extends AbstractSimulinkCollection<SimulinkL
 
 	@Override
 	public AbstractOperation getAbstractOperation(String name) {
-		if ("select".equals(name)) {
-			return new SimulinkSelectOperation(getManager().getEngine());
-		}
-		else if ("collect".equals(name)) {
-			return new SimulinkCollectOperation(getManager().getEngine());
-		}
-		else return null;
+		MatlabEngine engine = getManager().getEngine();
+		switch (name) {
+		
+		case "select":			
+			return new SimulinkSelectOperation(engine);
+		case "collect":
+			return new SimulinkCollectOperation(engine);
+
+		/** Select Based */
+		case "exists":
+			ExistsOperation existsOperation = new ExistsOperation();
+			existsOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
+			return existsOperation;
+		case "findOne":
+			FindOneOperation findOneOperation = new FindOneOperation();
+			findOneOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
+			return findOneOperation;
+		case "find":
+			FindOperation findOperation = new FindOperation();
+			findOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
+			return findOperation;
+		case "forAll":
+			ForAllOperation forAllOperation = new ForAllOperation();
+			forAllOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
+			return forAllOperation;
+		case "rejectOne":
+			RejectOneOperation rejectOneOperation = new RejectOneOperation();
+			rejectOneOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
+			return rejectOneOperation;
+		case "reject":
+			RejectOperation rejectOperation = new RejectOperation();
+			rejectOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
+			return rejectOperation;
+		case "selectOne":
+			SelectOneOperation selectOneOperation = new SelectOneOperation();
+			selectOneOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
+			return selectOneOperation;
+		
+		/** Collect Based */
+		case "sortBy":
+			SortByOperation sortByOperation = new SortByOperation();
+			sortByOperation.setDelegateOperation(new SimulinkCollectOperation(engine));
+			return sortByOperation;
+		
+		default:
+			return null;
+		} 
 	}
 
 }

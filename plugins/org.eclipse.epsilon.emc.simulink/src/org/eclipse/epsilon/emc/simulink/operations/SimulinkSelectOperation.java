@@ -14,6 +14,7 @@ import org.eclipse.epsilon.emc.simulink.util.collection.StateflowBlockCollection
 import org.eclipse.epsilon.eol.dom.EqualsOperatorExpression;
 import org.eclipse.epsilon.eol.dom.Expression;
 import org.eclipse.epsilon.eol.dom.NameExpression;
+import org.eclipse.epsilon.eol.dom.NotOperatorExpression;
 import org.eclipse.epsilon.eol.dom.OperatorExpression;
 import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.dom.PropertyCallExpression;
@@ -38,6 +39,9 @@ public class SimulinkSelectOperation extends SelectOperation {
 		if (target instanceof AbstractSimulinkCollection 
 				&& ! (target instanceof StateflowBlockCollection || target instanceof SimulinkElementCollection)) {
 			if (isExpressionOptimisable(expression)) {
+				if (expression instanceof NotOperatorExpression) {
+					expression = ((NotOperatorExpression) expression).getFirstOperand();
+				}
 				targetList = (AbstractSimulinkCollection<?,?,?>) target;
 				
 				List<?> handles = targetList.getPrimitive();
@@ -73,6 +77,9 @@ public class SimulinkSelectOperation extends SelectOperation {
 	}
 	
 	protected boolean isExpressionOptimisable(Expression expression){
+		if (expression instanceof NotOperatorExpression) {
+			expression = ((NotOperatorExpression) expression).getFirstOperand();
+		}
 		if ((expression instanceof EqualsOperatorExpression) && 
 				(
 					(((OperatorExpression) expression).getFirstOperand() instanceof PropertyCallExpression) 

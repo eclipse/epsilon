@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
@@ -21,7 +22,15 @@ import org.eclipse.epsilon.emc.simulink.operations.StateflowCollectOperation;
 import org.eclipse.epsilon.emc.simulink.operations.StateflowSelectOperation;
 import org.eclipse.epsilon.emc.simulink.util.manager.StateflowBlockManager;
 import org.eclipse.epsilon.eol.execute.operations.AbstractOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.ExistsOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.FindOneOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.FindOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.ForAllOperation;
 import org.eclipse.epsilon.eol.execute.operations.declarative.IAbstractOperationContributor;
+import org.eclipse.epsilon.eol.execute.operations.declarative.RejectOneOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.RejectOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOneOperation;
+import org.eclipse.epsilon.eol.execute.operations.declarative.SortByOperation;
 
 public class StateflowBlockCollection extends AbstractSimulinkCollection<StateflowBlock, Double, StateflowBlockManager> implements IAbstractOperationContributor{
 
@@ -92,13 +101,54 @@ public class StateflowBlockCollection extends AbstractSimulinkCollection<Statefl
 
 	@Override
 	public AbstractOperation getAbstractOperation(String name) {
-		if ("select".equals(name)) {
-			return new StateflowSelectOperation(getManager().getEngine());
-		}
-		else if ("collect".equals(name)) {
-			return new StateflowCollectOperation(getManager().getEngine());
-		}
-		else return null;
+		MatlabEngine engine = getManager().getEngine();
+		
+		switch (name) {
+		
+		case "select":			
+			return new StateflowSelectOperation(engine);
+		case "collect":
+			return new StateflowCollectOperation(engine);
+
+		/** Select Based */
+		case "exists":
+			ExistsOperation existsOperation = new ExistsOperation();
+			existsOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+			return existsOperation;
+		case "findOne":
+			FindOneOperation findOneOperation = new FindOneOperation();
+			findOneOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+			return findOneOperation;
+		case "find":
+			FindOperation findOperation = new FindOperation();
+			findOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+			return findOperation;
+		case "forAll":
+			ForAllOperation forAllOperation = new ForAllOperation();
+			forAllOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+			return forAllOperation;
+		case "rejectOne":
+			RejectOneOperation rejectOneOperation = new RejectOneOperation();
+			rejectOneOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+			return rejectOneOperation;
+		case "reject":
+			RejectOperation rejectOperation = new RejectOperation();
+			rejectOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+			return rejectOperation;
+		case "selectOne":
+			SelectOneOperation selectOneOperation = new SelectOneOperation();
+			selectOneOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+			return selectOneOperation;
+		
+		/** Collect Based */
+		case "sortBy":
+			SortByOperation sortByOperation = new SortByOperation();
+			sortByOperation.setDelegateOperation(new StateflowCollectOperation(engine));
+			return sortByOperation;
+		
+		default:
+			return null;
+		} 
 	}
 
 }
