@@ -17,6 +17,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                slackSend (channel: '#ci-notifications', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
                   sh 'mvn -B --quiet clean install javadoc:aggregate'
                 }
@@ -74,6 +75,12 @@ done
             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
 			to: "epsilon-dev@eclipse.org"
 		)*/
+      }
+      success {
+        slackSend (channel: '#ci-notifications', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+      }
+      failure {
+        slackSend (channel: '#ci-notifications', color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
       }
     }
 }
