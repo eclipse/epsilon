@@ -52,7 +52,9 @@ rule EClass2ClassDiagram
 			"icon" = "diagram-fffbd7",
 			"layers" = Sequence {
 				Map {"id"="documentation", "title"="Documentation"},
-				Map {"id"="constraints", "title"="Constraints"}
+				Map {"id"="constraints", "title"="Constraints"},
+				Map {"id"="subtypes", "title"="Subtypes"},
+				Map {"id"="supertypes", "title"="Supertypes"}
 			}
 		};
 	}

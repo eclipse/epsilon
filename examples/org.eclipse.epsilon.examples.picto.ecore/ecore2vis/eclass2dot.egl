@@ -8,8 +8,8 @@ var module = getValidationModule();
 // Compute the set of classes to be shown in this diagram
 var classes = OrderedSet{c}; // The root class
 classes.addAll(c.eAllReferences.eType); // The types of its references
-classes.addAll(c.eSuperTypes); // All its supertypes
-classes.addAll(EClass.all.select(o|o.eSuperTypes.includes(c))); // All its subtypes
+if (isLayerActive("supertypes")) classes.addAll(c.eSuperTypes); // All its supertypes
+if (isLayerActive("subtypes")) classes.addAll(EClass.all.select(o|o.eSuperTypes.includes(c))); // All its subtypes
 %]
 digraph G {
 	graph[splines=ortho]
@@ -45,15 +45,18 @@ digraph G {
 	[%}%]
 	
 	[** Create edges for the supertypes of the main class **]
+	[%if (isLayerActive("supertypes")){%]
 	[%for (s in main.eSuperTypes){%]
 		[%=s.name%]->[%=main.name%]
 	[%}%]
+	[%}%]
 	
 	[** ... and for its subtypes **]
+	[%if (isLayerActive("subtypes")){%]
 	[%for (s in classes.select(c|c.eSuperTypes.includes(main))){%]
 		[%=main.name%]->[%=s.name%]
 	[%}%]
-	
+	[%}%]
 	[* ... and for its references *]
 	[%for (r in main.eAllReferences) {%]
 		[%=main.name%]->[%=r.eType.name%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]"];
@@ -149,7 +152,6 @@ operation Any getConstraintColour() {
 }
 
 operation isLayerActive(id : String) {
-	
 	var layer = layers.selectOne(l|l.id = id);
 	if (layer.isDefined()) {
 		return layer.active;
@@ -157,17 +159,6 @@ operation isLayerActive(id : String) {
 	else {
 		return true;
 	}
-
-	/*
-	var layer = layers.selectOne(l|l.get("id") = id);
-	if (layer.isDefined()) {
-		var active = layer.get("active");
-		if (active.isDefined()) return active;
-		else return true;
-	}
-	else {
-		return false;
-	}*/
 }
 
 %]
