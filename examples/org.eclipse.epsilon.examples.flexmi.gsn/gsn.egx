@@ -10,12 +10,16 @@ rule GSN2Dot {
 		"AllGoals" = Goal.all,
 		"path" = Sequence{"Model", "(All nodes)"},
 		"format" = "graphviz-dot",
-		"icon" = "diagram"
+		"icon" = "diagram",
+		"layers" = Sequence {
+			Map { "id"="contexts", "title"="Contexts"}
+		}
 	}
 	
 	
 }
 
+/*
 rule GSN2DotNoContexts {
 	
 	template: "gsn.egl"
@@ -31,7 +35,7 @@ rule GSN2DotNoContexts {
 		"icon" = "diagram"
 	}
 	
-}
+}*/
 
 rule Goal2Dot 
 	transform g : Goal {
@@ -50,7 +54,10 @@ rule Goal2Dot
 			"AllGoals" = Sequence{g}.includingAll(SupportedBy.all.select(s|AllStrategies.includes(s.source) and s.`target`.isTypeOf(Goal)).`target`),
 			"path" = Sequence{"Model", "Goals", "(" + g.name + ") " + g.description},
 			"format" = "graphviz-dot",
-			"icon" = "diagram"
+			"icon" = "diagram",
+			"layers" = Sequence {
+				Map { "id"="contexts", "title"="Contexts"}
+			}
 		};
 	}
 	

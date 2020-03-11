@@ -1,10 +1,14 @@
 digraph G {
 	node[fontname=Arial, fontsize=11]
+
+[%
+var AllContextOfFiltered = AllContextOf;
+if (not isLayerActive("contexts")) AllContextOfFiltered = new Sequence; %]
 	
 [%for (g in AllGoals) {%]
   { rank = same;
     [%=g.nodeLabel("rect", "", "mintcream")%]
-[%    for (c in AllContextOf.select(c | c.source == g)) { %]
+[%    for (c in AllContextOfFiltered.select(c | c.source == g)) { %]
     [%=c.target.nodeLabel("rect", "rounded", "linen")%]
 [%    }%]
   }
@@ -12,7 +16,7 @@ digraph G {
 [%for (s in AllStrategies) { %]
   { rank = same;
     [%=s.nodeLabel("polygon skew=0.3 margin=0 height=1.5 width=3 fixedsize=true", "", "floralwhite")%]
-[%  var ctxs = AllContextOf.select(c | c.source == s);
+[%  var ctxs = AllContextOfFiltered.select(c | c.source == s);
     if (ctxs.size() > 0) {%]
     node[group=[%=s.name%]];
 [%      for (c in ctxs) { %]
@@ -31,7 +35,7 @@ digraph G {
   [%=s.source.name%] -> [%=s.target.name%];
 [%}%]
 	
-[%for (s in AllContextOf) { %]
+[%for (s in AllContextOfFiltered) { %]
   [%=s.source.name%] -> [%=s.target.name%] [arrowhead = onormal];
 [%}%]
 }
@@ -72,5 +76,15 @@ operation Node breakDesc() : String {
     }
     result += "<br align=\"left\"/>";
     return result;
+}
+
+operation isLayerActive(id : String) {
+	var layer = layers.selectOne(l|l.id = id);
+	if (layer.isDefined()) {
+		return layer.active;
+	}
+	else {
+		return true;
+	}
 }
 %]
