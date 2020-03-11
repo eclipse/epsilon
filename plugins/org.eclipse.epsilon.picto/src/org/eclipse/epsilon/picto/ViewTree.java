@@ -103,6 +103,7 @@ public class ViewTree {
 					child.setPromise(counterpart.getPromise());
 					child.setFormat(counterpart.getFormat());
 					child.setIcon(counterpart.getIcon());
+					preserveLayerState(child, counterpart);
 					child.setLayers(counterpart.getLayers());
 					child.ingest(counterpart);
 				}
@@ -115,6 +116,15 @@ public class ViewTree {
 		getChildren().removeAll(obsolete);
 		getChildren().addAll(fresh);
 		
+	}
+	
+	protected void preserveLayerState(ViewTree existing, ViewTree _new) {
+		for (Layer newLayer : _new.getLayers()) {
+			Layer existingLayer = existing.getLayers().stream().filter(l -> l.getId().equals(newLayer.getId())).findFirst().orElse(null);
+			if (existingLayer != null) {
+				newLayer.setActive(existingLayer.isActive());
+			}
+		}
 	}
 	
 	public String getName() {
