@@ -9,6 +9,7 @@ class Risk {
 	attr String title;
 	attr Scale likelihood;
 	attr Scale severity;
+	attr boolean closed = false;
 }
 
 enum Scale {

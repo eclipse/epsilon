@@ -4,4 +4,5 @@
 	<r t="A low-significance risk" lik="l" sev="m"/>
 	<r t="An important risk" lik="m" sev="m"/>
 	<r t="A critical risk" lik="m" sev="h"/>
+	<r t="A closed critical risk" lik="h" sev="m" closed="true"/>
 </system>

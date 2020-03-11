@@ -11,12 +11,31 @@
 		<th style="width:40px">Severity</th>
 	</tr>
 	[%for (risk in Risk.all.select(r|class.contains(r.getOverall()))){%]
+	[%if ((risk.closed and isLayerActive("closed")) or (not risk.closed and isLayerActive("open"))){%]
 	<tr>
-		<td>[%=risk.title%]</td>
+		<td>[%=risk.getTitle()%]</td>
 		<td style="background-color:#[%=risk.likelihood.value.toColour()%]">&nbsp;</td>
 		<td style="background-color:#[%=risk.severity.value.toColour()%]">&nbsp;</td>
 	</tr>
 	[%}%]
+	[%}%]
 </table>
 </body>
 </html>
+
+[%
+operation Risk getTitle() : String {
+	if (self.closed) return "<del>" + self.title + "</del>";
+	else return self.title;
+}
+
+operation isLayerActive(id : String) {
+	var layer = layers.selectOne(l|l.id = id);
+	if (layer.isDefined()) {
+		return layer.active;
+	}
+	else {
+		return true;
+	}
+}
+%]

@@ -23,7 +23,11 @@ rule Class2HTML
 		return Map {
 			"path" = Sequence{"Risks", class.~title},
 			"icon" = "diagram-" + class.~overall.toColour(),
-			"format" = "html"
+			"format" = "html",
+			"layers" = Sequence {
+				Map {"id"="open", "title"="Open", "active"=true},
+				Map {"id"="closed", "title"="Closed", "active"=false}
+			}
 		};
 	}
 
