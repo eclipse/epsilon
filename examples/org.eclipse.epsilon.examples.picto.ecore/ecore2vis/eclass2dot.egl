@@ -7,7 +7,7 @@ var module = getValidationModule();
 
 // Compute the set of classes to be shown in this diagram
 var classes = OrderedSet{c}; // The root class
-classes.addAll(c.eAllReferences.eType); // The types of its references
+classes.addAll(c.eReferences.eType); // The types of its references
 if (isLayerActive("supertypes")) classes.addAll(c.eSuperTypes); // All its supertypes
 if (isLayerActive("subtypes")) classes.addAll(EClass.all.select(o|o.eSuperTypes.includes(c))); // All its subtypes
 %]
@@ -58,9 +58,9 @@ digraph G {
 	[%}%]
 	[%}%]
 	[* ... and for its references *]
-	[%for (r in main.eAllReferences) {%]
+	[%for (r in main.eReferences.select(r|r.eType <> main)) {%]
 		[%=main.name%]->[%=r.eType.name%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]"];
-		{rank=same; [%=main.name%]; [%=r.eType.name%]}
+		[%if (not r.isContainment()){%]{rank=same; [%=main.name%]; [%=r.eType.name%]}[%}%]
 	[%}%]
 	
 }
@@ -71,6 +71,10 @@ operation EClass getLabel() {
 	var fillcolor = "fffcdc"; if (self==main) fillcolor="c8f0a1";
 	var label = "<table cellspacing='0' cellborder='0' cellpadding='1' bgcolor='#" + fillcolor + "'>";
 	var features = self.eAllStructuralFeatures;
+	
+	if (not isLayerActive("inherited") and self == main) features = self.eStructuralFeatures;
+	if (not isLayerActive("derived")) features = features.reject(f|f.isDerived);
+	
 	if (self.eSuperTypes.includes(main)) features = features.excludingAll(main.eAllStructuralFeatures);
 	
 	var javascript = "javascript:top.showView('/Model/Classes/" + self.name + "')";
