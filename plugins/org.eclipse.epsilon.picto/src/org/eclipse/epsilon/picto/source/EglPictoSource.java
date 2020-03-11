@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -23,6 +24,7 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
+import org.eclipse.epsilon.picto.Layer;
 import org.eclipse.epsilon.picto.LazyEgxModule;
 import org.eclipse.epsilon.picto.LazyEgxModule.LazyGenerationRuleContentPromise;
 import org.eclipse.epsilon.picto.ResourceLoadingException;
@@ -116,16 +118,32 @@ public abstract class EglPictoSource implements PictoSource {
 					String format = "html";
 					String icon = "cccccc";
 					Collection<String> path = new ArrayList<>(Arrays.asList(""));
+					List<Layer> layers = new ArrayList<>();
+					Variable layersVariable = null;
 					
 					for (Variable variable : instance.getVariables()) {
 						switch (variable.getName()) {
 						case "format": format = variable.getValue() + ""; break;
 						case "path": path = (Collection<String>) variable.getValue(); break;
 						case "icon": icon = variable.getValue() + ""; break;
+						case "layers": {
+								layersVariable = variable;
+								List<Object> layerMaps = (List<Object>) variable.getValue();
+								for (Object layerMapObject : layerMaps) {
+									Map<Object, Object> layerMap = (Map<Object, Object>) layerMapObject;
+									Layer layer = new Layer();
+									layer.setId(layerMap.get("id") + "");
+									layer.setTitle(layerMap.get("title") + "");
+									layers.add(layer);
+								}
+							}
 						}
 					}
 					
-					viewTree.addPath(new ArrayList<>(path), instance, format, icon);
+					// Replace layers variable from list of maps to list of Layer objects
+					if (layersVariable != null) instance.getVariables().remove(layersVariable);
+					instance.getVariables().add(Variable.createReadOnlyVariable("layers", layers));
+					viewTree.addPath(new ArrayList<>(path), instance, format, icon, layers);
 				}
 				
 			}

@@ -49,7 +49,11 @@ rule EClass2ClassDiagram
 		return Map{
 			"format" = "graphviz-dot",
 			"path" = Sequence{"Model", "Classes", c.name},
-			"icon" = "diagram-fffbd7"
+			"icon" = "diagram-fffbd7",
+			"layers" = Sequence {
+				Map {"id"="documentation", "title"="Documentation"},
+				Map {"id"="constraints", "title"="Constraints"}
+			}
 		};
 	}
 	

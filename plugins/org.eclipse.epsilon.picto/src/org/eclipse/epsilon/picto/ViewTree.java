@@ -11,6 +11,7 @@ package org.eclipse.epsilon.picto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.swt.graphics.Point;
@@ -25,12 +26,13 @@ public class ViewTree {
 	protected ViewTree parent;
 	protected Point scrollPosition = new Point(0, 0);
 	protected String cachedContent = null;
+	protected List<Layer> layers = new ArrayList<>();
 	
 	public static void main(String[] args) {
 		
 		ViewTree pathTree = new ViewTree("");
-		pathTree.addPath(Arrays.asList("e1", "e2"), new StringContentPromise("c1"), "text", "");
-		pathTree.addPath(Arrays.asList("e1", "e3", "e4"), new StringContentPromise("c2"), "text", "");
+		pathTree.addPath(Arrays.asList("e1", "e2"), new StringContentPromise("c1"), "text", "", Collections.emptyList());
+		pathTree.addPath(Arrays.asList("e1", "e3", "e4"), new StringContentPromise("c2"), "text", "", Collections.emptyList());
 		ViewTree result = pathTree.forPath(Arrays.asList("", "e1", "e3", "e4"));
 		System.out.println(result.getPath());
 		
@@ -47,7 +49,7 @@ public class ViewTree {
 		this.format = format;
 	}
 	
-	public void addPath(List<String> path, ContentPromise promise, String format, String icon) {
+	public void addPath(List<String> path, ContentPromise promise, String format, String icon, List<Layer> layers) {
 		
 		if (path.size() > 1) {
 			String name = path.get(0);
@@ -64,7 +66,7 @@ public class ViewTree {
 				children.add(child);
 			}
 			
-			child.addPath(rest, promise, format, icon);
+			child.addPath(rest, promise, format, icon, layers);
 		}
 		else if (path.size() == 1) {
 			ViewTree child = null;
@@ -82,6 +84,8 @@ public class ViewTree {
 			child.setFormat(format);
 			child.setPromise(promise);
 			child.setIcon(icon);
+			child.setLayers(layers);
+			
 		}
 	}
 	
@@ -99,6 +103,7 @@ public class ViewTree {
 					child.setPromise(counterpart.getPromise());
 					child.setFormat(counterpart.getFormat());
 					child.setIcon(counterpart.getIcon());
+					child.setLayers(counterpart.getLayers());
 					child.ingest(counterpart);
 				}
 			}
@@ -134,7 +139,6 @@ public class ViewTree {
 	}
 	
 	public String getContent() {
-		
 		if (cachedContent == null) {
 			
 			if (promise == null) {
@@ -187,6 +191,14 @@ public class ViewTree {
 		this.scrollPosition = scrollPosition;
 	}
 
+	public List<Layer> getLayers() {
+		return layers;
+	}
+	
+	public void setLayers(List<Layer> layers) {
+		this.layers = layers;
+	}
+	
 	@Override
 	public String toString() {
 		return super.toString();

@@ -25,16 +25,20 @@ digraph G {
 		[%if (main == c){%]
 			
 			[** Create nodes for all the constraints of the main class*]
+			[%if (isLayerActive("constraints")){%]
 			[%for (constraint in module.constraintContexts.select(ctx|ctx.typeName=c.name).collect(ctx|ctx.constraints).flatten()){%]
 				[%=c.name+constraint.name%][label="[%=constraint.getConstraintLabel()%]", style="filled", fillcolor="[%=constraint.getConstraintColour()%]"]
 				[%=c.name%]->[%=c.name+constraint.name%][arrowtail=none, style=dashed]
 			[%}%]
+			[%}%]
 			
 			[** Create node for all the documentation of the main class*]
+			[%if (isLayerActive("documentation")){%]
 			[%var documentation = c.getAnnotationValue("http://www.eclipse.org/emf/2002/GenModel", "documentation");%]
 			[%if (documentation.isDefined()){%]
 				[%=c.name%]_Documentation[shape="note", label="[%=documentation.toMultiline()%]", style="filled", fillcolor="azure"]
 				[%=c.name%]_Documentation->[%=c.name%][arrowtail=none, style=dashed];
+			[%}%]
 			[%}%]
 		[%}%]
 		
@@ -142,6 +146,28 @@ operation Any getConstraintLabel() {
 operation Any getConstraintColour() {
 	if (self.isCritique()) return "khaki1";
 	else return "mistyrose";
+}
+
+operation isLayerActive(id : String) {
+	
+	var layer = layers.selectOne(l|l.id = id);
+	if (layer.isDefined()) {
+		return layer.active;
+	}
+	else {
+		return true;
+	}
+
+	/*
+	var layer = layers.selectOne(l|l.get("id") = id);
+	if (layer.isDefined()) {
+		var active = layer.get("active");
+		if (active.isDefined()) return active;
+		else return true;
+	}
+	else {
+		return false;
+	}*/
 }
 
 %]

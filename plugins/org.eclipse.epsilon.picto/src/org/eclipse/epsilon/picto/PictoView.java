@@ -28,6 +28,9 @@ import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
 import org.eclipse.epsilon.picto.source.PictoSource;
 import org.eclipse.epsilon.picto.source.PictoSourceExtensionPointManager;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.IFindReplaceTarget;
@@ -42,9 +45,10 @@ import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
@@ -101,7 +105,7 @@ public class PictoView extends ViewPart {
 					selectionHistory.put(renderedEditor, view);
 					renderView(view);
 				} catch (Exception ex) {
-					viewRenderer.display("<html><pre>" + ex.getMessage() + "</pre></html>");
+					viewRenderer.display(ex);
 				}
 			}
 		});
@@ -195,6 +199,8 @@ public class PictoView extends ViewPart {
 		};
 		
 		IToolBarManager barManager = getViewSite().getActionBars().getToolBarManager();
+		barManager.add(new LayersMenuAction());
+		barManager.add(new Separator());
 		barManager.add(new ZoomAction(ZoomType.IN));
 		barManager.add(new ZoomAction(ZoomType.ACTUAL));
 		barManager.add(new ZoomAction(ZoomType.OUT));
@@ -523,6 +529,62 @@ public class PictoView extends ViewPart {
 		public void run() {
 			setTreeViewerVisible(treeViewerShouldBeVisible);
 		}
+	}
+	
+	class LayersMenuAction extends Action implements IMenuCreator {
+		public LayersMenuAction() {
+			super("Layers", AS_DROP_DOWN_MENU);
+			setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/layer.gif"));
+			setMenuCreator(this);
+		}
+
+		@Override
+		public void dispose() {}
+
+		@Override
+		public Menu getMenu(Control parent) {
+			
+			if (activeView == null) return null;
+			
+			Menu layersMenu = new Menu(parent);
+			
+			for (Layer layer : activeView.getLayers()) {
+				ActionContributionItem item= new ActionContributionItem(new SetLayerActiveAction(layer));
+				item.fill(layersMenu, -1);
+			}
+			
+			return layersMenu;
+		}
+
+		@Override
+		public Menu getMenu(Menu parent) {
+			return null;
+		}
+	}
+	
+	class SetLayerActiveAction extends Action {
+		
+		protected Layer layer = null;
+		
+		public SetLayerActiveAction(Layer layer) {
+			super(layer.getTitle(), AS_CHECK_BOX);
+			this.setChecked(layer.isActive());
+			this.layer = layer;
+		}
+		
+		@Override
+		public void run() {
+			layer.setActive(!layer.isActive());
+			this.setChecked(layer.isActive());
+			activeView.cachedContent = null;
+			
+			try {
+				renderView(activeView);
+			} catch (Exception ex) {
+				viewRenderer.display(ex);
+			}
+		}
+		
 	}
 	
 	protected boolean supports(IEditorPart editorPart) {

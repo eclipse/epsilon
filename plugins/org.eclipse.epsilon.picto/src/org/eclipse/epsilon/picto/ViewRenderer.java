@@ -56,11 +56,15 @@ public class ViewRenderer {
 		return zoom;
 	}
 	
-	protected void display(String text) {
+	public void display(Exception ex) {
+		display("<html><pre>" + ex.getMessage() + "</pre></html>");
+	}
+	
+	public void display(String text) {
 		browser.setText(text);
 	}
 	
-	protected void display(File file) {
+	public void display(File file) {
 		browser.setUrl(URI.createFileURI(file.getAbsolutePath()).toString());
 	}
 	

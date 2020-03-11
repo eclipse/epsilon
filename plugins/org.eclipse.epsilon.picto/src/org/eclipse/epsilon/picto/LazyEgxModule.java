@@ -114,7 +114,6 @@ public class LazyEgxModule extends EgxModule {
 		protected EglTemplateFactory templateFactory;
 		protected URI templateUri;
 		protected List<Variable> variables;
-		protected String content;
 		
 		public LazyGenerationRuleContentPromise() {}
 		
@@ -133,13 +132,10 @@ public class LazyEgxModule extends EgxModule {
 			
 			EglTemplate template = templateFactory.load(templateUri);
 			
-			if (content == null) {
-				for (Variable variable : variables) {
-					template.populate(variable.getName(), variable.getValue());
-				}
-				content = template.process();
+			for (Variable variable : variables) {
+				template.populate(variable.getName(), variable.getValue());
 			}
-			return content;
+			return template.process();
 		}
 		
 	}
