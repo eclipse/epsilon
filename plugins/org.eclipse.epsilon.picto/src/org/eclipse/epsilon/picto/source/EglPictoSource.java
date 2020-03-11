@@ -134,6 +134,7 @@ public abstract class EglPictoSource implements PictoSource {
 									Layer layer = new Layer();
 									layer.setId(layerMap.get("id") + "");
 									layer.setTitle(layerMap.get("title") + "");
+									if (layerMap.containsKey("active")) layer.setActive((Boolean) layerMap.get("active"));
 									layers.add(layer);
 								}
 							}

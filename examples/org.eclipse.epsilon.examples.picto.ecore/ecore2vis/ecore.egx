@@ -53,7 +53,7 @@ rule EClass2ClassDiagram
 			"layers" = Sequence {
 				Map {"id"="documentation", "title"="Documentation"},
 				Map {"id"="constraints", "title"="Constraints"},
-				Map {"id"="subtypes", "title"="Subtypes"},
+				Map {"id"="subtypes", "title"="Subtypes", "active"=false},
 				Map {"id"="supertypes", "title"="Supertypes"}
 			}
 		};
