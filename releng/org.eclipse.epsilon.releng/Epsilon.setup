@@ -215,7 +215,7 @@
     <setupTask
         xsi:type="setup:EclipseIniTask"
         option="-Doomph.redirection.epsilon.git"
-        value="=https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git.git/plain/releng/org.eclipse.epsilon.oomph/EpsilonDistribution.setup->${git.clone.epsilon.git.location|uri}/releng/org.eclipse.epsilon.oomph/EpsilonDistribution.setup"
+        value="=https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git.git/plain/releng/org.eclipse.epsilon.oomph/Epsilon.setup->${git.clone.epsilon.git.location|uri}/releng/org.eclipse.epsilon.releng/Epsilon.setup"
         vm="true">
       <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
     </setupTask>
