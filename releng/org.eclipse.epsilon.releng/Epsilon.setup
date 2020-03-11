@@ -5,14 +5,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:git="http://www.eclipse.org/oomph/setup/git/1.0"
     xmlns:jdt="http://www.eclipse.org/oomph/setup/jdt/1.0"
+    xmlns:pde="http://www.eclipse.org/oomph/setup/pde/1.0"
     xmlns:predicates="http://www.eclipse.org/oomph/predicates/1.0"
     xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
     xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0"
-    xmlns:setup.targlets="http://www.eclipse.org/oomph/setup/targlets/1.0"
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
-    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore"
+    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/setup/pde/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore"
     name="epsilon.git"
-    label="Epsilon distribution">
+    label="Epsilon">
   <setupTask
       xsi:type="jdt:JRETask"
       version="JavaSE-1.8"
@@ -22,7 +22,7 @@
   <setupTask
       xsi:type="setup:EclipseIniTask"
       option="-Xmx"
-      value="4g"
+      value="2g"
       vm="true">
     <description>Set the heap space needed to work with the projects of ${scope.project.label}</description>
   </setupTask>
@@ -65,139 +65,6 @@
     <description>${scope.project.label}</description>
   </setupTask>
   <setupTask
-      xsi:type="setup.targlets:TargletTask">
-    <targlet
-        name="${scope.project.label}"
-        activeRepositoryList="${eclipse.target.platform}">
-      <requirement
-          name="org.eclipse.sdk.feature.group"/>
-      <requirement
-          name="*"/>
-      <sourceLocator
-          rootFolder="${git.clone.epsilon.git.location}"
-          locateNestedProjects="true"/>
-      <repositoryList
-          name="2020-03">
-        <repository
-            url="http://download.eclipse.org/releases/2020-03"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="2019-12">
-        <repository
-            url="http://download.eclipse.org/releases/2019-12"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="2019-09">
-        <repository
-            url="http://download.eclipse.org/releases/2019-09"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="2019-06">
-        <repository
-            url="http://download.eclipse.org/releases/2019-06"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="2019-03">
-        <repository
-            url="http://download.eclipse.org/releases/2019-03"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="2018-12">
-        <repository
-            url="http://download.eclipse.org/releases/2018-12"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="2018-09">
-        <repository
-            url="http://download.eclipse.org/releases/2018-09"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="Photon">
-        <repository
-            url="http://download.eclipse.org/releases/photon"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="Oxygen">
-        <repository
-            url="http://download.eclipse.org/releases/oxygen"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="Neon">
-        <repository
-            url="http://download.eclipse.org/releases/neon"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="Mars">
-        <repository
-            url="http://download.eclipse.org/releases/mars"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="Luna">
-        <repository
-            url="http://download.eclipse.org/releases/luna"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="Kepler">
-        <repository
-            url="http://download.eclipse.org/releases/kepler"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="Juno">
-        <repository
-            url="http://download.eclipse.org/releases/juno"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="Indigo">
-        <repository
-            url="http://download.eclipse.org/releases/indigo"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="Helios">
-        <repository
-            url="http://download.eclipse.org/releases/helios"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-      <repositoryList
-          name="Galileo">
-        <repository
-            url="http://download.eclipse.org/releases/galileo"/>
-        <repository
-            url="http://download.eclipse.org/cbi/updates/license"/>
-      </repositoryList>
-    </targlet>
-  </setupTask>
-  <setupTask
       xsi:type="setup.workingsets:WorkingSetTask">
     <workingSet
         name="${scope.project.label}">
@@ -205,17 +72,22 @@
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="predicates:RepositoryPredicate"
-            project="org.eclipse.epsilon.oomph"/>
+            project="org.eclipse.epsilon.releng"/>
       </predicate>
     </workingSet>
     <description>The dynamic working sets for ${scope.project.label}</description>
+  </setupTask>
+  <setupTask
+      xsi:type="pde:TargetPlatformTask"
+      name="Epsilon Target Platform">
+    <description></description>
   </setupTask>
   <stream name="master"
       label="Master">
     <setupTask
         xsi:type="setup:EclipseIniTask"
         option="-Doomph.redirection.epsilon.git"
-        value="=https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git.git/plain/releng/org.eclipse.epsilon.oomph/Epsilon.setup->${git.clone.epsilon.git.location|uri}/releng/org.eclipse.epsilon.releng/Epsilon.setup"
+        value="=https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git.git/plain/releng/org.eclipse.epsilon.releng/Epsilon.setup->${git.clone.epsilon.git.location|uri}/releng/org.eclipse.epsilon.releng/Epsilon.setup"
         vm="true">
       <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
     </setupTask>
