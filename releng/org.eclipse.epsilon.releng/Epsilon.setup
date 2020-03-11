@@ -67,12 +67,15 @@
   <setupTask
       xsi:type="setup.workingsets:WorkingSetTask">
     <workingSet
-        name="${scope.project.label}">
+        name="Core">
       <predicate
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="predicates:RepositoryPredicate"
             project="org.eclipse.epsilon.releng"/>
+        <operand
+            xsi:type="predicates:LocationPredicate"
+            pattern="plugins/*"/>
       </predicate>
     </workingSet>
     <description>The dynamic working sets for ${scope.project.label}</description>
