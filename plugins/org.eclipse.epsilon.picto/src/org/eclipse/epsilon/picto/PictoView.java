@@ -199,11 +199,11 @@ public class PictoView extends ViewPart {
 		};
 		
 		IToolBarManager barManager = getViewSite().getActionBars().getToolBarManager();
-		barManager.add(new LayersMenuAction());
-		barManager.add(new Separator());
 		barManager.add(new ZoomAction(ZoomType.IN));
 		barManager.add(new ZoomAction(ZoomType.ACTUAL));
 		barManager.add(new ZoomAction(ZoomType.OUT));
+		barManager.add(new Separator());
+		barManager.add(new LayersMenuAction());
 		barManager.add(new Separator());
 		barManager.add(new CopyToClipboardAction(viewRenderer));
 		barManager.add(new PrintAction());
