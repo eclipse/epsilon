@@ -14,11 +14,9 @@ import org.eclipse.jface.text.*;
 
 public class XMLScanner extends RuleBasedScanner {
 
-	public XMLScanner(ColorManager manager) {
+	public XMLScanner(ColorManager colorManager) {
 		IToken procInstr =
-			new Token(
-				new TextAttribute(
-					manager.getColor(IXMLColorConstants.PROC_INSTR)));
+			new Token(new TextAttribute(colorManager.getProcInstrColor()));
 
 		IRule[] rules = new IRule[2];
 		//Add rule for processing instructions

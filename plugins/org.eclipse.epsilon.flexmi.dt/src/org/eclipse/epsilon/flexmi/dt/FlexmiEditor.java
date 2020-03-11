@@ -56,6 +56,7 @@ public class FlexmiEditor extends TextEditor {
 		setEditorContextMenuId("#TextEditorContext");
 	    setRulerContextMenuId("editor.rulerMenu");
 		colorManager = new ColorManager();
+		colorManager.initialiseColors();
 		setSourceViewerConfiguration(new XMLConfiguration(colorManager));
 		setDocumentProvider(new XMLDocumentProvider());
 	}
@@ -212,7 +213,6 @@ public class FlexmiEditor extends TextEditor {
 	
 	@Override
 	public void dispose() {
-		colorManager.dispose();
 		super.dispose();
 	}
 

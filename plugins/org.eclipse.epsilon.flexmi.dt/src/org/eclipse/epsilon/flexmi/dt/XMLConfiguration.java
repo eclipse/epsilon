@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.flexmi.dt;
 
+import org.eclipse.epsilon.common.dt.util.EclipseUtil;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
 import org.eclipse.jface.text.TextAttribute;
@@ -53,19 +54,15 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 		if (scanner == null) {
 			scanner = new XMLScanner(colorManager);
 			scanner.setDefaultReturnToken(
-				new Token(
-					new TextAttribute(
-						colorManager.getColor(IXMLColorConstants.DEFAULT))));
+				new Token(new TextAttribute(colorManager.getDefaultColor())));
 		}
 		return scanner;
 	}
 	protected XMLTagScanner getXMLTagScanner() {
 		if (tagScanner == null) {
 			tagScanner = new XMLTagScanner(colorManager);
-			tagScanner.setDefaultReturnToken(
-				new Token(
-					new TextAttribute(
-						colorManager.getColor(IXMLColorConstants.TAG))));
+			tagScanner.setDefaultReturnToken(new Token(new TextAttribute(
+					colorManager.getTagColor())));
 		}
 		return tagScanner;
 	}
@@ -82,10 +79,8 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
 
-		NonRuleBasedDamagerRepairer ndr =
-			new NonRuleBasedDamagerRepairer(
-				new TextAttribute(
-					colorManager.getColor(IXMLColorConstants.XML_COMMENT)));
+		NonRuleBasedDamagerRepairer ndr =new NonRuleBasedDamagerRepairer(
+				new TextAttribute(colorManager.getCommentColor()));
 		reconciler.setDamager(ndr, XMLPartitionScanner.XML_COMMENT);
 		reconciler.setRepairer(ndr, XMLPartitionScanner.XML_COMMENT);
 
