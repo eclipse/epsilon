@@ -7,12 +7,12 @@ var module = getValidationModule();
 
 // Compute the set of classes to be shown in this diagram
 var classes = OrderedSet{c}; // The root class
-classes.addAll(c.eReferences.eType); // The types of its references
+classes.addAll(c.getVisibleEReferences().eType); // The types of its references
 if (isLayerActive("supertypes")) classes.addAll(c.eSuperTypes); // All its supertypes
 if (isLayerActive("subtypes")) classes.addAll(EClass.all.select(o|o.eSuperTypes.includes(c))); // All its subtypes
 %]
 digraph G {
-	graph[splines=ortho]
+	graph[splines=ortho, nodesep=0.5]
 	node[fontname=Tahoma, fontsize=10, shape=record]
 	edge[fontname=Tahoma, fontsize=10, dir=back, arrowtail=empty]
 	
@@ -58,7 +58,7 @@ digraph G {
 	[%}%]
 	[%}%]
 	[* ... and for its references *]
-	[%for (r in main.eReferences.select(r|r.eType <> main)) {%]
+	[%for (r in main.getVisibleEReferences().select(r|r.eType <> main)) {%]
 		[%=main.name%]->[%=r.eType.name%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]"];
 		[%if (not r.isContainment()){%]{rank=same; [%=main.name%]; [%=r.eType.name%]}[%}%]
 	[%}%]
@@ -153,6 +153,12 @@ operation Any getConstraintLabel() {
 operation Any getConstraintColour() {
 	if (self.isCritique()) return "khaki1";
 	else return "mistyrose";
+}
+
+operation EClass getVisibleEReferences() {
+	var eReferences = self.eReferences;
+	if (not isLayerActive("derived")) eReferences = eReferences.reject(r|r.isDerived);
+	return eReferences;
 }
 
 operation isLayerActive(id : String) {
