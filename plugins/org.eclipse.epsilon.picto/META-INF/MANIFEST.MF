@@ -30,10 +30,12 @@ Require-Bundle: org.eclipse.epsilon.flexmi,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.epsilon.eol.dt
-Bundle-Activator: org.eclipse.epsilon.picto.Activator
+Bundle-Activator: org.eclipse.epsilon.picto.PictoPlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.picto,
+ org.eclipse.epsilon.picto.actions,
  org.eclipse.epsilon.picto.dom,
  org.eclipse.epsilon.picto.dom.impl,
  org.eclipse.epsilon.picto.dom.util,
- org.eclipse.epsilon.picto.source
+ org.eclipse.epsilon.picto.source,
+ org.eclipse.epsilon.picto.transformers

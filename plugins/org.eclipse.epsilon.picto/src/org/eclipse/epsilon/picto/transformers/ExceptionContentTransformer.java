@@ -1,8 +1,9 @@
-package org.eclipse.epsilon.picto.viewcontent;
+package org.eclipse.epsilon.picto.transformers;
 
+import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.ViewRenderer;
 
-public class ExceptionTransformer implements ViewContentTransformer {
+public class ExceptionContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public boolean canTransform(ViewContent content) {

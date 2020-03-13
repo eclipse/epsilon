@@ -1,5 +1,6 @@
-package org.eclipse.epsilon.picto.viewcontent;
+package org.eclipse.epsilon.picto.transformers;
 
+import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.ViewRenderer;
 
 public interface ViewContentTransformer {

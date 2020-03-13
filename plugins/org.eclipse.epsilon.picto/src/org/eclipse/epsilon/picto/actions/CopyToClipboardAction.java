@@ -7,8 +7,9 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.picto;
+package org.eclipse.epsilon.picto.actions;
 
+import org.eclipse.epsilon.picto.ViewRenderer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;

@@ -18,8 +18,8 @@ import org.eclipse.swt.widgets.Display;
 
 public class ViewTreeLabelProvider extends LabelProvider {
 	
-	protected Image diagramImage = Activator.getDefault().getImageDescriptor("icons/diagram.gif").createImage();
-	protected Image folderImage = Activator.getDefault().getImageDescriptor("icons/folder.gif").createImage();
+	protected Image diagramImage = PictoPlugin.getDefault().getImageDescriptor("icons/diagram.gif").createImage();
+	protected Image folderImage = PictoPlugin.getDefault().getImageDescriptor("icons/folder.gif").createImage();
 	protected HashMap<String, Image> iconImages = new HashMap<>();
 	
 	@Override
@@ -43,7 +43,7 @@ public class ViewTreeLabelProvider extends LabelProvider {
 				icon = getColoredDiagramIcon(iconName.replace("diagram-", ""));
 			}
 			else {
-				icon = Activator.getDefault().getImageDescriptor("icons/" + iconName + ".gif").createImage();
+				icon = PictoPlugin.getDefault().getImageDescriptor("icons/" + iconName + ".gif").createImage();
 			}
 			iconImages.put(contentTree.getIcon(), icon);
 		}
@@ -52,7 +52,7 @@ public class ViewTreeLabelProvider extends LabelProvider {
 	}
 	
 	protected Image getColoredDiagramIcon(String color) {
-		Image icon = Activator.getDefault().getImageDescriptor("icons/diagram.gif").createImage();
+		Image icon = PictoPlugin.getDefault().getImageDescriptor("icons/diagram.gif").createImage();
 		ImageData imageData = icon.getImageData();
 		int hex = Integer.decode("0x" + color);
 		for (int i=2;i<7;i++) {

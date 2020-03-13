@@ -1,10 +1,14 @@
-package org.eclipse.epsilon.picto.viewcontent;
+package org.eclipse.epsilon.picto;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.epsilon.picto.ViewRenderer;
+import org.eclipse.epsilon.picto.transformers.ExceptionContentTransformer;
+import org.eclipse.epsilon.picto.transformers.GraphvizContentTransformer;
+import org.eclipse.epsilon.picto.transformers.SvgContentTransformer;
+import org.eclipse.epsilon.picto.transformers.TextContentTransformer;
+import org.eclipse.epsilon.picto.transformers.ViewContentTransformer;
 
 public class ViewContent {
 	
@@ -15,10 +19,10 @@ public class ViewContent {
 	protected static final ViewContent undefined = new ViewContent("","");
 	
 	protected List<ViewContentTransformer> viewContentTransformers = Arrays.asList(
-			new GraphvizTransformer(), 
-			new SvgTransformer(), 
-			new ExceptionTransformer(),
-			new TextTransformer());
+			new GraphvizContentTransformer(), 
+			new SvgContentTransformer(), 
+			new ExceptionContentTransformer(),
+			new TextContentTransformer());
 	
 	public ViewContent(String format, String text) {
 		super();
@@ -59,7 +63,7 @@ public class ViewContent {
 					try {
 						next = viewContentTransformer.transform(this, renderer);
 					} catch (Exception e) {
-						next = new ExceptionTransformer().getViewContent(e, renderer);
+						next = new ExceptionContentTransformer().getViewContent(e, renderer);
 					}
 					break;
 				}

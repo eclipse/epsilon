@@ -1,4 +1,4 @@
-package org.eclipse.epsilon.picto.viewcontent;
+package org.eclipse.epsilon.picto.transformers;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,9 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.eclipse.epsilon.common.util.OperatingSystem;
+import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.ViewRenderer;
 
-public class GraphvizTransformer implements ViewContentTransformer {
+public class GraphvizContentTransformer implements ViewContentTransformer {
 	
 	protected File tempDir;
 	

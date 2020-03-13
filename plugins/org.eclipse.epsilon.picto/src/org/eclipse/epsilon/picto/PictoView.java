@@ -23,12 +23,16 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
+import org.eclipse.epsilon.picto.actions.CopyToClipboardAction;
+import org.eclipse.epsilon.picto.actions.LayersMenuAction;
+import org.eclipse.epsilon.picto.actions.LockAction;
+import org.eclipse.epsilon.picto.actions.PrintAction;
+import org.eclipse.epsilon.picto.actions.SyncAction;
+import org.eclipse.epsilon.picto.actions.ViewContentsMenuAction;
+import org.eclipse.epsilon.picto.actions.ZoomAction;
 import org.eclipse.epsilon.picto.source.PictoSource;
 import org.eclipse.epsilon.picto.source.PictoSourceExtensionPointManager;
-import org.eclipse.epsilon.picto.viewcontent.ViewContent;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.ActionContributionItem;
-import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.IFindReplaceTarget;
@@ -45,15 +49,11 @@ import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPropertyListener;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.part.ViewPart;
 
@@ -205,19 +205,19 @@ public class PictoView extends ViewPart {
 		};
 		
 		IToolBarManager barManager = getViewSite().getActionBars().getToolBarManager();
-		barManager.add(new ZoomAction(ZoomType.IN));
-		barManager.add(new ZoomAction(ZoomType.ACTUAL));
-		barManager.add(new ZoomAction(ZoomType.OUT));
+		barManager.add(new ZoomAction(ZoomType.IN, viewRenderer));
+		barManager.add(new ZoomAction(ZoomType.ACTUAL, viewRenderer));
+		barManager.add(new ZoomAction(ZoomType.OUT, viewRenderer));
 		barManager.add(new Separator());
-		barManager.add(new LayersMenuAction());
+		barManager.add(new LayersMenuAction(this));
 		barManager.add(new Separator());
 		barManager.add(new CopyToClipboardAction(viewRenderer));
-		barManager.add(new PrintAction());
-		barManager.add(new SyncAction());
-		barManager.add(new LockAction());
+		barManager.add(new PrintAction(viewRenderer));
+		barManager.add(new SyncAction(this));
+		barManager.add(new LockAction(this));
 		barManager.add(hideTreeAction);
 		barManager.add(new Separator());
-		barManager.add(new ViewContentsMenuAction());
+		barManager.add(new ViewContentsMenuAction(this));
 		
 		this.getSite().getPage().addPartListener(partListener);
 
@@ -368,7 +368,7 @@ public class PictoView extends ViewPart {
 		}
 	}
 	
-	protected void renderView(ViewTree view) throws Exception {
+	public void renderView(ViewTree view) throws Exception {
 		
 		Browser browser = viewRenderer.getBrowser();
 		
@@ -422,189 +422,17 @@ public class PictoView extends ViewPart {
 		}
 	}
 	
-	class PrintAction extends Action {
-		public PrintAction() {
-			setText("Print");
-			setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_ETOOL_PRINT_EDIT));
-		}
-		
-		@Override
-		public void run() {
-			viewRenderer.getBrowser().execute("javascript:window.print();");
-		}
-	}
-	
-	class ZoomAction extends Action {
-		
-		ZoomType type;
-		
-		public ZoomAction(ZoomType type) {
-			this.type = type;
-			if (type == ZoomType.IN) {
-				setText("Zoom in");
-				setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/zoomin.gif"));
-			}
-			else if (type == ZoomType.OUT){
-				setText("Zoom out");
-				setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/zoomout.gif"));	
-			}
-			else {
-				setText("Reset");
-				setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/zoomactual.gif"));		
-			}
-		}
-		
-		@Override
-		public void run() {
-			viewRenderer.zoom(type);
-		}
-	}
-	
-	class SyncAction extends Action {
-		public SyncAction() {
-			setText("Sync");
-			setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_ELCL_SYNCED));
-		}
-		
-		@Override
-		public void run() {
-			render(editor);
-		}
-	}
-	
-	class LockAction extends Action {
-		public LockAction() {
-			super("Lock", AS_CHECK_BOX);
-			setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/lock.gif"));
-		}
-		
-		@Override
-		public void run() {
-			locked = !locked;
-		}
-	}
-	
 	class ToggleTreeViewerAction extends Action {
 		
 		public ToggleTreeViewerAction() {
 			super("Toggle tree", AS_CHECK_BOX);
-			setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/tree.png"));
+			setImageDescriptor(PictoPlugin.getDefault().getImageDescriptor("icons/tree.png"));
 		}
 		
 		@Override
 		public void run() {
 			setTreeViewerVisible(treeViewerShouldBeVisible);
 		}
-	}
-	
-	class LayersMenuAction extends Action implements IMenuCreator {
-		public LayersMenuAction() {
-			super("Layers", AS_DROP_DOWN_MENU);
-			setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/layer.gif"));
-			setMenuCreator(this);
-		}
-
-		@Override
-		public void dispose() {}
-
-		@Override
-		public Menu getMenu(Control parent) {
-			
-			if (activeView == null) return null;
-			
-			Menu layersMenu = new Menu(parent);
-			
-			for (Layer layer : activeView.getLayers()) {
-				ActionContributionItem item= new ActionContributionItem(new SetLayerActiveAction(layer));
-				item.fill(layersMenu, -1);
-			}
-			
-			return layersMenu;
-		}
-
-		@Override
-		public Menu getMenu(Menu parent) {
-			return null;
-		}
-	}
-	
-	class SetLayerActiveAction extends Action {
-		
-		protected Layer layer = null;
-		
-		public SetLayerActiveAction(Layer layer) {
-			super(layer.getTitle(), AS_CHECK_BOX);
-			this.setChecked(layer.isActive());
-			this.layer = layer;
-		}
-		
-		@Override
-		public void run() {
-			layer.setActive(!layer.isActive());
-			this.setChecked(layer.isActive());
-			activeView.cachedContent = null;
-			
-			try {
-				renderView(activeView);
-			} catch (Exception ex) {
-				viewRenderer.display(ex);
-			}
-		}
-		
-	}
-	
-	class ViewContentsMenuAction extends Action implements IMenuCreator {
-		public ViewContentsMenuAction() {
-			super("Intermediate representations", AS_DROP_DOWN_MENU);
-			setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/source.png"));
-			setMenuCreator(this);
-		}
-
-		@Override
-		public void dispose() {}
-
-		@Override
-		public Menu getMenu(Control parent) {
-			
-			if (activeView == null) return null;
-			
-			Menu viewContentsMenu = new Menu(parent);
-			
-			List<ViewContent> viewContents = new ArrayList<>();
-			ViewContent content = activeView.getContent();
-			while (content != null) {
-				viewContents.add(content);
-				content = content.getNext(viewRenderer);
-			}
-			
-			for (ViewContent viewContent : viewContents) {
-				ActionContributionItem item= new ActionContributionItem(new RenderViewContentAction(viewContent));
-				item.fill(viewContentsMenu, 0);
-			}
-			
-			return viewContentsMenu;
-		}
-
-		@Override
-		public Menu getMenu(Menu parent) {
-			return null;
-		}
-	}
-	
-	class RenderViewContentAction extends Action {
-		
-		protected ViewContent viewContent = null;
-		
-		public RenderViewContentAction(ViewContent viewContent) {
-			super(viewContent.getFormat(), SWT.NONE);
-			this.viewContent = viewContent;
-		}
-		
-		@Override
-		public void run() {
-			viewRenderer.display(new ViewContent("text", viewContent.getText()).getNext(viewRenderer).getFile());
-		}
-		
 	}
 	
 	protected boolean supports(IEditorPart editorPart) {
@@ -627,6 +455,26 @@ public class PictoView extends ViewPart {
 	    	return (T) new BrowserFindTarget(viewRenderer.getBrowser());
 	    }
 	    return super.getAdapter(adapter);
+	}
+	
+	public IEditorPart getEditor() {
+		return editor;
+	}
+	
+	public boolean isLocked() {
+		return locked;
+	}
+	
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}
+	
+	public ViewTree getActiveView() {
+		return activeView;
+	}
+	
+	public ViewRenderer getViewRenderer() {
+		return viewRenderer;
 	}
 	
 }

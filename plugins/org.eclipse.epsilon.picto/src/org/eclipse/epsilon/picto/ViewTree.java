@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.epsilon.picto.viewcontent.ViewContent;
 import org.eclipse.swt.graphics.Point;
 
 public class ViewTree {
@@ -246,6 +245,10 @@ public class ViewTree {
 			if (result != null) return result;
 		}
 		return null;
+	}
+	
+	public void clearCache() {
+		cachedContent = null;
 	}
 	
 }
