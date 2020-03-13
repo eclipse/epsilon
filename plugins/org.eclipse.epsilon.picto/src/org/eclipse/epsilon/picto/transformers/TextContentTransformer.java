@@ -18,12 +18,12 @@ public class TextContentTransformer implements ViewContentTransformer {
 	public ViewContent transform(ViewContent content, ViewRenderer renderer) throws Exception {
 		File temp = File.createTempFile("picto-renderer", ".txt");
 		Files.write(Paths.get(temp.toURI()), content.getText().getBytes());
-		return new ViewContent(temp);
+		return new ViewContent("html", temp);
 	}
 
 	@Override
 	public String getLabel(ViewContent content) {
-		return "text";
+		return "Text";
 	}
 
 }

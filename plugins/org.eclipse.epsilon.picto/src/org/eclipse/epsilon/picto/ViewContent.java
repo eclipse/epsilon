@@ -15,7 +15,7 @@ public class ViewContent {
 	protected boolean active;
 	protected String label;
 	protected ViewContent next = undefined;
-	protected static final ViewContent undefined = new ViewContent("","");
+	protected static final ViewContent undefined = new ViewContent("We shouldn't be here","xxx");
 	
 	protected List<ViewContentTransformer> viewContentTransformers = 
 			new ViewContentTransformerExtensionPointManager().getExtensions();
@@ -24,15 +24,20 @@ public class ViewContent {
 		super();
 		this.format = format;
 		this.text = text;
+		setLabel();
+	}
+	
+	public ViewContent(String format, File file) {
+		super();
+		this.format = format;
+		this.file = file;
+		setLabel();
+	}
+	
+	protected void setLabel() {
 		for (ViewContentTransformer viewContentTransformer : viewContentTransformers) {
 			if (viewContentTransformer.canTransform(this)) this.label = viewContentTransformer.getLabel(this);
 		}
-	}
-	
-	public ViewContent(File file) {
-		super();
-		this.format = "file";
-		this.file = file;
 	}
 	
 	public String getFormat() {
