@@ -59,6 +59,21 @@
   </setupTask>
   <project name="Developers">
     <setupTask
+        xsi:type="setup.p2:P2Task"
+        label="PDE/JDT">
+      <requirement
+          name="org.eclipse.pde.api.tools.ee.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.pde.feature.group"/>
+      <requirement
+          name="org.eclipse.jdt.feature.group"/>
+    </setupTask>
+    <setupTask
+        xsi:type="pde:TargetPlatformTask"
+        name="Epsilon Target Platform">
+      <description></description>
+    </setupTask>
+    <setupTask
         xsi:type="git:GitCloneTask"
         id="epsilon.git.clone"
         remoteURI="epsilon/org.eclipse.epsilon.git">
@@ -114,7 +129,7 @@
           </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Features'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Model%20Connectivity'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Tests'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20DT']"/>
+              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Features'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Model%20Connectivity'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Tests'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20DT']"/>
         </predicate>
         <predicate
             xsi:type="predicates:OrPredicate">
@@ -141,7 +156,7 @@
           </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Features'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Tests']"/>
+              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Features'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Tests']"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -153,7 +168,7 @@
               pattern="org.eclipse.epsilon.emc.*"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Features'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Tests'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20DT']"/>
+              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Features'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Tests'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20DT']"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -186,7 +201,7 @@
           </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Tests']"/>
+              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Tests']"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -219,25 +234,10 @@
           </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Core'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Features'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Model%20Connectivity'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Tests']"/>
+              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Core'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Features'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Model%20Connectivity'] //@projects[name='Developers']/@setupTasks.4/@workingSets[name='Epsilon%20Tests']"/>
         </predicate>
       </workingSet>
       <description>The dynamic working sets for ${scope.project.label}</description>
-    </setupTask>
-    <setupTask
-        xsi:type="setup.p2:P2Task"
-        label="PDE/JDT">
-      <requirement
-          name="org.eclipse.pde.api.tools.ee.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.pde.feature.group"/>
-      <requirement
-          name="org.eclipse.jdt.feature.group"/>
-    </setupTask>
-    <setupTask
-        xsi:type="pde:TargetPlatformTask"
-        name="Epsilon Target Platform">
-      <description></description>
     </setupTask>
     <description>Epsilon committers should select this.</description>
   </project>
