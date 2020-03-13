@@ -17,6 +17,8 @@ rule Barchart {
 
 rule ClassDiagram {
 	
+	guard : EClass.all.size() < 30
+	
 	parameters : Map {
 		"classes" = EClass.all, 
 		"format" = "graphviz-dot",
@@ -25,6 +27,20 @@ rule ClassDiagram {
 	}
 	
 	template: "ecore2dot.egl"
+	
+}
+
+rule NoClassDiagram {
+	
+	guard : EClass.all.size() >= 30
+	
+	parameters : Map {
+		"format" = "text",
+		"path" = List{"Model", "(All Classes)"},
+		"icon" = "diagram-ff0000"
+	}
+	
+	template: "ecore2not.egl"
 	
 }
 

@@ -1,0 +1,2 @@
+The selected metamodel has [%=EClass.all.size()%] classes and [%=EReference.all.size()%] references. 
+Rendering a class diagram that big with Graphviz would be slow and meaningless.

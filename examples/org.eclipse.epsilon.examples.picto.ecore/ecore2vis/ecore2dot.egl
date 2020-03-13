@@ -1,19 +1,20 @@
+[%import "ecore2dot.eol";%]
 digraph G {
 	graph[splines=ortho]
 	node[fontname=Tahoma, fontsize=10, shape=record]
 	edge[fontname=Tahoma, fontsize=10, dir=back, arrowtail=empty]
 	 
 	[%for (c in classes) { %]
-	[%=c.name%][shape=none, margin=0, label = <[%=c.getLabel()%]>]
+	[%=c.getNodeName()%][shape=none, margin=0, label = <[%=c.getLabel()%]>]
 	[%for (s in c.eSuperTypes.select(c|classes.includes(c))){%]
-	[%=s.name%]->[%=c.name%]
+	[%=s.getNodeName()%]->[%=c.getNodeName()%]
 	[%}%]
 	[%}%]
 	
 	[%for (r in EReference.all.select(r|classes.includes(r.eContainer) and classes.includes(r.eType))) {%]
-	[%=r.eContainer.name+r.name%][label="[%=r.getLabel()%]", shape=plaintext, margin=0,width=0,height=0]
-	[%=r.eContainer.name%]->[%=r.eContainer.name+r.name%][arrowtail=[%=r.getArrowTail()%]]
-	[%=r.eContainer.name+r.name%]->[%=r.eType.name%][arrowhead=normal,arrowtail=none,dir=both];
+	[%=r.eContainer.getNodeName()+r.name%][label="[%=r.getLabel()%]", shape=plaintext, margin=0,width=0,height=0]
+	[%=r.eContainer.getNodeName()%]->[%=r.eContainer.getNodeName()+r.name%][arrowtail=[%=r.getArrowTail()%]]
+	[%=r.eContainer.getNodeName()+r.name%]->[%=r.eType.getNodeName()%][arrowhead=normal,arrowtail=none,dir=both];
 	[%}%]
 	
 	[%=EPackage.all.first.getAnnotationValue("picto", "finetune", "")%]

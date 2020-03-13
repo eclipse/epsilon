@@ -19,7 +19,7 @@ digraph G {
 	[%var main=c;%]
 	[%for (c in classes) { %]
 		[** Create a node for the class **]
-		[%=c.name%][shape=none, margin=0, label = <[%=c.getLabel()%]>]
+		[%=c.getNodeName()%][shape=none, margin=0, label = <[%=c.getLabel()%]>]
 		
 		
 		[%if (main == c){%]
@@ -27,8 +27,8 @@ digraph G {
 			[** Create nodes for all the constraints of the main class*]
 			[%if (isLayerActive("constraints")){%]
 			[%for (constraint in module.constraintContexts.select(ctx|ctx.typeName=c.name).collect(ctx|ctx.constraints).flatten()){%]
-				[%=c.name+constraint.name%][label="[%=constraint.getConstraintLabel()%]", style="filled", fillcolor="[%=constraint.getConstraintColour()%]"]
-				[%=c.name%]->[%=c.name+constraint.name%][arrowtail=none, style=dashed]
+				[%=c.getNodeName()+constraint.name%][label="[%=constraint.getConstraintLabel()%]", style="filled", fillcolor="[%=constraint.getConstraintColour()%]"]
+				[%=c.getNodeName()%]->[%=c.getNodeName()+constraint.name%][arrowtail=none, style=dashed]
 			[%}%]
 			[%}%]
 			
@@ -36,8 +36,8 @@ digraph G {
 			[%if (isLayerActive("documentation")){%]
 			[%var documentation = c.getAnnotationValue("http://www.eclipse.org/emf/2002/GenModel", "documentation");%]
 			[%if (documentation.isDefined()){%]
-				[%=c.name%]_Documentation[shape="note", label="[%=documentation.toMultiline()%]", style="filled", fillcolor="azure"]
-				[%=c.name%]_Documentation->[%=c.name%][arrowtail=none, style=dashed];
+				[%=c.getNodeName()%]_Documentation[shape="note", label="[%=documentation.toMultiline()%]", style="filled", fillcolor="azure"]
+				[%=c.getNodeName()%]_Documentation->[%=c.getNodeName()%][arrowtail=none, style=dashed];
 			[%}%]
 			[%}%]
 		[%}%]
@@ -47,20 +47,20 @@ digraph G {
 	[** Create edges for the supertypes of the main class **]
 	[%if (isLayerActive("supertypes")){%]
 	[%for (s in main.eSuperTypes){%]
-		[%=s.name%]->[%=main.name%]
+		[%=s.getNodeName()%]->[%=main.getNodeName()%]
 	[%}%]
 	[%}%]
 	
 	[** ... and for its subtypes **]
 	[%if (isLayerActive("subtypes")){%]
 	[%for (s in classes.select(c|c.eSuperTypes.includes(main))){%]
-		[%=main.name%]->[%=s.name%]
+		[%=main.getNodeName()%]->[%=s.getNodeName()%]
 	[%}%]
 	[%}%]
 	[* ... and for its references *]
 	[%for (r in main.getVisibleEReferences().select(r|r.eType <> main)) {%]
-		[%=main.name%]->[%=r.eType.name%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]"];
-		[%if (not r.isContainment()){%]{rank=same; [%=main.name%]; [%=r.eType.name%]}[%}%]
+		[%=main.getNodeName()%]->[%=r.eType.getNodeName()%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]"];
+		[%if (not r.isContainment()){%]{rank=same; [%=main.getNodeName()%]; [%=r.eType.getNodeName()%]}[%}%]
 	[%}%]
 	
 }

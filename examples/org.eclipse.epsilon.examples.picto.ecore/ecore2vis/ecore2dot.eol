@@ -44,5 +44,11 @@ operation String toMultiline() : String {
 	}
 	if (not multiline.endsWith("\\l")) multiline += "\\l";
 	
+	multiline = multiline.replaceAll('"', '\\\\"');
+	
 	return multiline;
+}
+
+operation EClass getNodeName() {
+	return "_" + self.name;
 }
