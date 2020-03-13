@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.source;
 
-public class HtmlSource extends SimpleSource {
+public class HtmlSource extends VerbatimSource {
 
 	@Override
 	public String getFormat() {

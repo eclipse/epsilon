@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.source;
 
-public abstract class GraphvizSource extends SimpleSource {
+public abstract class GraphvizSource extends VerbatimSource {
 
 	@Override
 	public String getFormat() {

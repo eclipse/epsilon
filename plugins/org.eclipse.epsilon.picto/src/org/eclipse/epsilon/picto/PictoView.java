@@ -12,7 +12,6 @@ package org.eclipse.epsilon.picto;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,10 +22,10 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.common.util.OperatingSystem;
 import org.eclipse.epsilon.picto.ViewRenderer.ZoomType;
 import org.eclipse.epsilon.picto.source.PictoSource;
 import org.eclipse.epsilon.picto.source.PictoSourceExtensionPointManager;
+import org.eclipse.epsilon.picto.viewcontent.ViewContent;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IMenuCreator;
@@ -217,6 +216,8 @@ public class PictoView extends ViewPart {
 		barManager.add(new SyncAction());
 		barManager.add(new LockAction());
 		barManager.add(hideTreeAction);
+		barManager.add(new Separator());
+		barManager.add(new ViewContentsMenuAction());
 		
 		this.getSite().getPage().addPartListener(partListener);
 
@@ -389,54 +390,12 @@ public class PictoView extends ViewPart {
 			public void changed(ProgressEvent event) {}
 		});
 		
-		String format = view.getFormat();
-		String content = view.getContent();
-		
-		if (format.equals("html")) {
-			viewRenderer.display(content);
-		}
-		else if (format.startsWith("graphviz-")) {
-			
-			String[] parts = format.split("-");
-			
-			String program = parts[1].trim();
-			String imageType = "svg";
-			if (parts.length > 2) {
-				imageType = parts[2];
-			}
-			
-			File temp = Files.createTempFile(tempDir.toPath(), "picto-renderer", ".dot").toFile();
-			File image = new File(temp.getAbsolutePath() + "." + imageType);
-			File log = new File(temp.getAbsolutePath() + ".log" );
-			
-			Files.write(Paths.get(temp.toURI()), content.getBytes());
-			
-			if (OperatingSystem.isMac()) {
-				program = "/usr/local/bin/" + program;
-			}
-			else if (OperatingSystem.isUnix()) {
-				program = "/usr/bin/" + program;
-			}
-			
-			ProcessBuilder pb = new ProcessBuilder(new String[] {program, "-T" + imageType, temp.getAbsolutePath(), "-o", image.getAbsolutePath()});
-			pb.redirectError(log);
-			Process p = pb.start();
-			p.waitFor();
-			
-			if (image.exists()) {
-				viewRenderer.display("<html><body style=\"zoom:" + viewRenderer.getZoom() + "\">" + new String(Files.readAllBytes(image.toPath())) + "</body></html>");
-			}
-			else if (log.exists()) {
-				viewRenderer.display(log);
-			}
-		}
-		else if (format.equals("text")) {
-			File temp = File.createTempFile("picto-renderer", ".txt");
-			Files.write(Paths.get(temp.toURI()), content.getBytes());
-			viewRenderer.display(temp);
+		ViewContent content = view.getContent().getFinal(viewRenderer);
+		if (content.getFile() != null) {
+			viewRenderer.display(content.getFile());
 		}
 		else {
-			viewRenderer.nothingToRender();
+			viewRenderer.display(content.getText());
 		}
 	}
 	
@@ -590,6 +549,60 @@ public class PictoView extends ViewPart {
 			} catch (Exception ex) {
 				viewRenderer.display(ex);
 			}
+		}
+		
+	}
+	
+	class ViewContentsMenuAction extends Action implements IMenuCreator {
+		public ViewContentsMenuAction() {
+			super("Intermediate representations", AS_DROP_DOWN_MENU);
+			setImageDescriptor(Activator.getDefault().getImageDescriptor("icons/source.png"));
+			setMenuCreator(this);
+		}
+
+		@Override
+		public void dispose() {}
+
+		@Override
+		public Menu getMenu(Control parent) {
+			
+			if (activeView == null) return null;
+			
+			Menu viewContentsMenu = new Menu(parent);
+			
+			List<ViewContent> viewContents = new ArrayList<>();
+			ViewContent content = activeView.getContent();
+			while (content != null) {
+				viewContents.add(content);
+				content = content.getNext(viewRenderer);
+			}
+			
+			for (ViewContent viewContent : viewContents) {
+				ActionContributionItem item= new ActionContributionItem(new RenderViewContentAction(viewContent));
+				item.fill(viewContentsMenu, 0);
+			}
+			
+			return viewContentsMenu;
+		}
+
+		@Override
+		public Menu getMenu(Menu parent) {
+			return null;
+		}
+	}
+	
+	class RenderViewContentAction extends Action {
+		
+		protected ViewContent viewContent = null;
+		
+		public RenderViewContentAction(ViewContent viewContent) {
+			super(viewContent.getFormat(), SWT.NONE);
+			this.viewContent = viewContent;
+		}
+		
+		@Override
+		public void run() {
+			viewRenderer.display(new ViewContent("text", viewContent.getText()).getNext(viewRenderer).getFile());
 		}
 		
 	}

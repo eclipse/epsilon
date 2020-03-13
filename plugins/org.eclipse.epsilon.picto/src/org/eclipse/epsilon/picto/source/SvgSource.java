@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.source;
 
-public class SvgSource extends SimpleSource {
+public class SvgSource extends VerbatimSource {
 
 	@Override
 	public String getFormat() {
