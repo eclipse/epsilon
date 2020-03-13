@@ -60,4 +60,9 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 		return tempDir;
 	}
 	
+	@Override
+	public String getLabel(ViewContent content) {
+		return "Graphviz";
+	}
+	
 }

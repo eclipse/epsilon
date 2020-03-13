@@ -34,20 +34,18 @@ public class ViewContentsMenuAction extends Action implements IMenuCreator {
 		
 		Menu viewContentsMenu = new Menu(parent);
 		
-		List<ViewContent> viewContents = new ArrayList<>();
-		ViewContent content = pictoView.getActiveView().getContent();
-		while (content != null) {
-			viewContents.add(content);
-			content = content.getNext(pictoView.getViewRenderer());
-		}
+		
+		List<ViewContent> viewContents = pictoView.getActiveView().getContents(pictoView.getViewRenderer());
 		
 		for (ViewContent viewContent : viewContents) {
-			ActionContributionItem item= new ActionContributionItem(new RenderViewContentAction(viewContent, pictoView.getViewRenderer()));
+			ActionContributionItem item= new ActionContributionItem(new RenderViewContentAction(viewContent, viewContents, pictoView.getViewRenderer()));
 			item.fill(viewContentsMenu, 0);
 		}
 		
-		new Separator().fill(viewContentsMenu, 0);
-		new ActionContributionItem(new RenderActiveViewAction(pictoView)).fill(viewContentsMenu, 0);
+		if (viewContents.stream().filter(vc -> vc.isActive()).findAny().orElse(null) != null) {
+			new Separator().fill(viewContentsMenu, 0);
+			new ActionContributionItem(new RenderActiveViewAction(pictoView, viewContents)).fill(viewContentsMenu, 0);
+		}
 		
 		return viewContentsMenu;
 	}

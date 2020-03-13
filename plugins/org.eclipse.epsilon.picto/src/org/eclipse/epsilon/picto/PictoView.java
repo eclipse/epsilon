@@ -211,7 +211,7 @@ public class PictoView extends ViewPart {
 		barManager.add(new Separator());
 		barManager.add(new LayersMenuAction(this));
 		barManager.add(new Separator());
-		barManager.add(new CopyToClipboardAction(viewRenderer));
+		barManager.add(new CopyToClipboardAction(this));
 		barManager.add(new PrintAction(viewRenderer));
 		barManager.add(new SyncAction(this));
 		barManager.add(new LockAction(this));

@@ -21,4 +21,9 @@ public class TextContentTransformer implements ViewContentTransformer {
 		return new ViewContent(temp);
 	}
 
+	@Override
+	public String getLabel(ViewContent content) {
+		return "text";
+	}
+
 }

@@ -166,6 +166,16 @@ public class ViewTree {
 		return cachedContent;
 	}
 	
+	public List<ViewContent> getContents(ViewRenderer viewRenderer) {
+		List<ViewContent> viewContents = new ArrayList<ViewContent>();
+		ViewContent viewContent = getContent();
+		while (viewContent != null) {
+			viewContents.add(viewContent);
+			viewContent = viewContent.getNext(viewRenderer);
+		}
+		return viewContents;
+	}
+	
 	public void setPromise(ContentPromise promise) {
 		if (promise != this.promise) {
 			this.promise = promise;

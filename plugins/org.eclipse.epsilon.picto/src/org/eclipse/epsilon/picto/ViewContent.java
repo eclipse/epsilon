@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.epsilon.picto.transformers.ExceptionContentTransformer;
 import org.eclipse.epsilon.picto.transformers.GraphvizContentTransformer;
+import org.eclipse.epsilon.picto.transformers.HtmlContentTransformer;
 import org.eclipse.epsilon.picto.transformers.SvgContentTransformer;
 import org.eclipse.epsilon.picto.transformers.TextContentTransformer;
 import org.eclipse.epsilon.picto.transformers.ViewContentTransformer;
@@ -15,6 +16,8 @@ public class ViewContent {
 	protected String format;
 	protected String text;
 	protected File file;
+	protected boolean active;
+	protected String label;
 	protected ViewContent next = undefined;
 	protected static final ViewContent undefined = new ViewContent("","");
 	
@@ -22,12 +25,16 @@ public class ViewContent {
 			new GraphvizContentTransformer(), 
 			new SvgContentTransformer(), 
 			new ExceptionContentTransformer(),
-			new TextContentTransformer());
+			new TextContentTransformer(),
+			new HtmlContentTransformer());
 	
 	public ViewContent(String format, String text) {
 		super();
 		this.format = format;
 		this.text = text;
+		for (ViewContentTransformer viewContentTransformer : viewContentTransformers) {
+			if (viewContentTransformer.canTransform(this)) this.label = viewContentTransformer.getLabel(this);
+		}
 	}
 	
 	public ViewContent(File file) {
@@ -72,4 +79,17 @@ public class ViewContent {
 		if (next == undefined) next = null;
 		return next;
 	}
+	
+	public boolean isActive() {
+		return active;
+	}
+	
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
+	public String getLabel() {
+		return label;
+	}
+	
 }

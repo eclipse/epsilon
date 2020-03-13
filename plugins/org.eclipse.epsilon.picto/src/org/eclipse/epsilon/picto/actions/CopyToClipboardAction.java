@@ -9,6 +9,10 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.actions;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+
+import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewRenderer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
@@ -25,21 +29,40 @@ import org.eclipse.ui.PlatformUI;
 
 public class CopyToClipboardAction extends Action {
 	
-	protected ViewRenderer htmlRenderer;
+	protected ViewRenderer viewRenderer;
+	protected PictoView pictoView;
 	
-	public CopyToClipboardAction(ViewRenderer viewRenderer) {
-		this.htmlRenderer = viewRenderer;
+	public CopyToClipboardAction(PictoView pictoView) {
+		this.viewRenderer = pictoView.getViewRenderer();
+		this.pictoView = pictoView;
 		setText("Copy to clipboard");
 		setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
 	}
 
 	@Override
 	public void run() {
-		Browser browser = htmlRenderer.getBrowser();
+		
+		if (pictoView.getActiveView().getContents(viewRenderer).stream().anyMatch(c -> c.isActive())) {
+			copyTextToClipboard();
+		}
+		else {
+			copyImageToClipboard();
+		}
+	}
+	
+	protected void copyTextToClipboard() {
+		Browser browser = viewRenderer.getBrowser();
+		StringSelection selection = new StringSelection(browser.getText());
+		java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		clipboard.setContents(selection, null);
+	}
+	
+	protected void copyImageToClipboard() {
+		Browser browser = viewRenderer.getBrowser();
 		
 		Point oldSize = browser.getSize();
-		Point printableArea = htmlRenderer.getPrintableArea();
-		Point scrollPosition = htmlRenderer.getScrollPosition();
+		Point printableArea = viewRenderer.getPrintableArea();
+		Point scrollPosition = viewRenderer.getScrollPosition();
         
 		Image image = new Image(browser.getDisplay(), printableArea.x, printableArea.y);
         
@@ -48,7 +71,7 @@ public class CopyToClipboardAction extends Action {
         browser.setSize(printableArea);
         browser.print(gc);
         browser.setSize(oldSize);
-        htmlRenderer.setScrollPosition(scrollPosition);
+        viewRenderer.setScrollPosition(scrollPosition);
         gc.dispose();
 
         Clipboard clipboard = new Clipboard(browser.getDisplay());
