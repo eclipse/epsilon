@@ -13,7 +13,7 @@
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
     xmlns:workingsets="http://www.eclipse.org/oomph/workingsets/1.0"
     xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/setup/pde/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore http://www.eclipse.org/oomph/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/WorkingSets.ecore"
-    name="epsilon.git"
+    name="epsilon"
     label="Epsilon">
   <annotation
       source="http://www.eclipse.org/oomph/setup/BrandingInfo">
@@ -101,9 +101,6 @@
               xsi:type="predicates:RepositoryPredicate"
               project="org.eclipse.epsilon.releng"/>
           <operand
-              xsi:type="predicates:LocationPredicate"
-              pattern="plugins/*"/>
-          <operand
               xsi:type="predicates:OrPredicate">
             <operand
                 xsi:type="predicates:NamePredicate"
@@ -114,10 +111,16 @@
             <operand
                 xsi:type="predicates:NamePredicate"
                 pattern="org.eclipse.epsilon.profiling"/>
-            <operand
-                xsi:type="predicates:NamePredicate"
-                pattern="org.eclipse.epsilon.antlr.*"/>
           </operand>
+          <operand
+              xsi:type="workingsets:ExclusionPredicate"
+              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Features'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Model%20Connectivity'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Tests'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20DT']"/>
+        </predicate>
+        <predicate
+            xsi:type="predicates:OrPredicate">
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern="org.eclipse.epsilon.antlr.*"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -125,24 +128,33 @@
         <predicate
             xsi:type="predicates:AndPredicate">
           <operand
-              xsi:type="predicates:RepositoryPredicate"
-              project="org.eclipse.epsilon.releng"/>
-          <operand
-              xsi:type="predicates:LocationPredicate"
-              pattern="plugins/*"/>
+              xsi:type="predicates:OrPredicate">
+            <operand
+                xsi:type="predicates:NamePredicate"
+                pattern="org.eclipse.epsilon.*.dt"/>
+            <operand
+                xsi:type="predicates:NamePredicate"
+                pattern="org.eclipse.epsilon.*.dt.*"/>
+            <operand
+                xsi:type="predicates:NamePredicate"
+                pattern="org.eclipse.epsilon.dt.*"/>
+          </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Core']"/>
-          <operand
-              xsi:type="predicates:NamePredicate"
-              pattern="org.eclipse.epsilon.*.dt"/>
+              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Features'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Tests']"/>
         </predicate>
       </workingSet>
       <workingSet
           name="Epsilon Model Connectivity">
         <predicate
-            xsi:type="predicates:NamePredicate"
-            pattern="*.emc.*"/>
+            xsi:type="predicates:AndPredicate">
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern="org.eclipse.epsilon.emc.*"/>
+          <operand
+              xsi:type="workingsets:ExclusionPredicate"
+              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Features'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Tests'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20DT']"/>
+        </predicate>
       </workingSet>
       <workingSet
           name="Epsilon Tests">
@@ -152,47 +164,62 @@
               xsi:type="predicates:RepositoryPredicate"
               project="org.eclipse.epsilon.releng"/>
           <operand
-              xsi:type="predicates:LocationPredicate"
-              pattern="tests/*"/>
-          <operand
-              xsi:type="predicates:NamePredicate"
-              pattern="org.eclipse.epsilon.*.test*"/>
+              xsi:type="predicates:OrPredicate">
+            <operand
+                xsi:type="predicates:NamePredicate"
+                pattern="org.eclipse.epsilon.*.test.*"/>
+            <operand
+                xsi:type="predicates:NamePredicate"
+                pattern="org.eclipse.epsilon.test.*"/>
+          </operand>
         </predicate>
       </workingSet>
       <workingSet
           name="Epsilon Features">
         <predicate
-            xsi:type="predicates:OrPredicate">
+            xsi:type="predicates:AndPredicate">
           <operand
-              xsi:type="predicates:NamePredicate"
-              pattern="org.eclipse.epsilon.*.feature"/>
-          <operand
-              xsi:type="predicates:AndPredicate">
+              xsi:type="predicates:OrPredicate">
             <operand
-                xsi:type="predicates:RepositoryPredicate"
-                project="org.eclipse.epsilon.releng"/>
-            <operand
-                xsi:type="predicates:LocationPredicate"
-                pattern="features/*"/>
+                xsi:type="predicates:NamePredicate"
+                pattern="org.eclipse.epsilon.*.feature"/>
           </operand>
+          <operand
+              xsi:type="workingsets:ExclusionPredicate"
+              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Tests']"/>
         </predicate>
       </workingSet>
       <workingSet
           name="Epsilon Examples">
         <predicate
+            xsi:type="predicates:OrPredicate">
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern="org.eclipse.epsilon.*.examples.*"/>
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern="org.eclipse.epsilon.examples.*"/>
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern="org.eclipse.epsilon.*.examples"/>
+        </predicate>
+      </workingSet>
+      <workingSet
+          name="Epsilon (unclassified)">
+        <predicate
             xsi:type="predicates:AndPredicate">
           <operand
               xsi:type="predicates:OrPredicate">
             <operand
-                xsi:type="predicates:LocationPredicate"
-                pattern="examples/*"/>
-            <operand
                 xsi:type="predicates:NamePredicate"
-                pattern="*.examples.*"/>
+                pattern="org.eclipse.epsilon.*"/>
+            <operand
+                xsi:type="predicates:RepositoryPredicate"
+                project="org.eclipse.epsilon.releng"/>
           </operand>
           <operand
-              xsi:type="predicates:RepositoryPredicate"
-              project="org.eclipse.epsilon.releng"/>
+              xsi:type="workingsets:ExclusionPredicate"
+              excludedWorkingSet="//@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Core'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Examples'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Features'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Model%20Connectivity'] //@projects[name='Developers']/@setupTasks.2/@workingSets[name='Epsilon%20Tests']"/>
         </predicate>
       </workingSet>
       <description>The dynamic working sets for ${scope.project.label}</description>
