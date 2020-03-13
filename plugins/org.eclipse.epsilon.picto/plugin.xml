@@ -2,6 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="pictoSource" name="Picto Source" schema="schema/pictoSource.exsd"/>
+   <extension-point id="viewContentTransformer" name="Picto View Content Transformer" schema="schema/viewContentTransformer.exsd"/>
 <extension
        point="org.eclipse.ui.views">
     <view
@@ -57,6 +58,24 @@
             id="org.eclipse.epsilon.picto.PictoEditor"
             name="Picto Editor">
       </editor>
+   </extension>
+   <extension
+         point="org.eclipse.epsilon.picto.viewContentTransformer">
+      <viewContentTransformer
+            class="org.eclipse.epsilon.picto.transformers.HtmlContentTransformer">
+      </viewContentTransformer>
+      <viewContentTransformer
+            class="org.eclipse.epsilon.picto.transformers.SvgContentTransformer">
+      </viewContentTransformer>
+      <viewContentTransformer
+            class="org.eclipse.epsilon.picto.transformers.TextContentTransformer">
+      </viewContentTransformer>
+      <viewContentTransformer
+            class="org.eclipse.epsilon.picto.transformers.ExceptionContentTransformer">
+      </viewContentTransformer>
+      <viewContentTransformer
+            class="org.eclipse.epsilon.picto.transformers.GraphvizContentTransformer">
+      </viewContentTransformer>
    </extension>
 
 </plugin>
