@@ -192,6 +192,9 @@
             <operand
                 xsi:type="predicates:NamePredicate"
                 pattern="org.eclipse.epsilon.test.*"/>
+            <operand
+                xsi:type="predicates:NamePredicate"
+                pattern="org.eclipse.epsilon.test"/>
           </operand>
         </predicate>
       </workingSet>
