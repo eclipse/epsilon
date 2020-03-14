@@ -70,6 +70,7 @@ public class EpsilonPerspectiveFactory implements IPerspectiveFactory{
         layout.addNewWizardShortcut("org.eclipse.epsilon.ecl.dt.wizards.NewEclFileWizard");
         layout.addNewWizardShortcut("org.eclipse.epsilon.eml.dt.wizards.NewEmlFileWizard");
         layout.addNewWizardShortcut("org.eclipse.epsilon.egl.dt.wizards.NewEglFileWizard");
+        layout.addNewWizardShortcut("org.eclipse.epsilon.egl.dt.wizards.NewEgxFileWizard");
         layout.addNewWizardShortcut("org.eclipse.epsilon.ewl.dt.wizards.NewEwlFileWizard");
         layout.addNewWizardShortcut("org.eclipse.epsilon.emf.util.NewEmfModelWizard");
         layout.addNewWizardShortcut("org.eclipse.epsilon.emf.util.NewRegisteredEPackageWizard");
@@ -87,9 +88,6 @@ public class EpsilonPerspectiveFactory implements IPerspectiveFactory{
         
         layout.addShowViewShortcut(IPageLayout.ID_PROJECT_EXPLORER);
         
-        layout.addPerspectiveShortcut("org.eclipse.epsilon.perspective");		
-	
-
+        layout.addPerspectiveShortcut("org.eclipse.epsilon.perspective");
 	}
-	
 }
