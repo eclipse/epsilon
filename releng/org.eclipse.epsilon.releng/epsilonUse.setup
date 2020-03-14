@@ -26,7 +26,7 @@
       <value>https://www.eclipse.org/epsilon</value>
     </detail>
   </annotation>
-  <version name="Latest"
+  <version name="Interim"
       requiredJavaVersion="1.8">
     <setupTask
         xsi:type="setup.p2:P2Task"
@@ -70,11 +70,65 @@
       <repository
           url="https://download.eclipse.org/modeling/emf/updates"/>
       <repository
+          url="http://download.eclipse.org/emfatic/interim"/>
+      <repository
           url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
       <repository
           url="http://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
     </setupTask>
-    <description>Interim version of Epsilon</description>
+    <description>Latest version of Epsilon</description>
+  </version>
+  <version name="Stable"
+      requiredJavaVersion="1.8">
+    <setupTask
+        xsi:type="setup.p2:P2Task"
+        label="${scope.product.label} (${scope.product.version.label})">
+      <requirement
+          name="org.eclipse.platform.ide"/>
+      <requirement
+          name="org.eclipse.platform.feature.group"/>
+      <requirement
+          name="org.eclipse.rcp.feature.group"/>
+      <requirement
+          name="org.eclipse.jdt.feature.group"/>
+      <requirement
+          name="org.eclipse.emf.feature.group"/>
+      <requirement
+          name="org.eclipse.emf.common.feature.group"/>
+      <requirement
+          name="org.eclipse.emf.ecore.feature.group"/>
+      <requirement
+          name="org.eclipse.emf.edit.feature.group"/>
+      <requirement
+          name="org.eclipse.emf.ecore.edit.feature.group"/>
+      <requirement
+          name="org.eclipse.xsd.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.core.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.core.dt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emf.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emf.dt.feature.feature.group"/>
+      <repository
+          url="http://download.eclipse.org/releases/photon"/>
+      <repository
+          url="https://download.eclipse.org/oomph/updates/release"/>
+      <repository
+          url="http://download.eclipse.org/epsilon/updates"/>
+      <repository
+          url="https://dl.bintray.com/epsilonlabs/updates"/>
+      <repository
+          url="https://download.eclipse.org/modeling/emf/updates"/>
+      <repository
+          url="http://download.eclipse.org/emfatic/update"/>
+      <repository
+          url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
+      <repository
+          url="http://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
+    </setupTask>
+    <description>Release version of Epsilon</description>
   </version>
   <description>Epsilon is a suite of model management languages and tools which simplifies programtically working with models. Many modelling formats are supported, including EMF, XML, spreadsheets, Simulink and more.</description>
 </setup:Product>
