@@ -26,30 +26,7 @@
       <value>https://www.eclipse.org/epsilon</value>
     </detail>
   </annotation>
-  <setupTask
-      xsi:type="setup.p2:P2Task"
-      label="Modeling tools">
-    <requirement
-        name="org.eclipse.emf.sdk.feature.group"/>
-    <requirement
-        name="org.eclipse.emf.ecoretools.sdk.feature.group"
-        versionRange="(0.0.1,3.0.0)"/>
-    <requirement
-        name="org.eclipse.xsd.sdk.feature.group"/>
-    <requirement
-        name="org.eclipse.jdt.feature.group"/>
-    <repository
-        url="http://download.eclipse.org/epsilon/interim"/>
-    <repository
-        url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
-    <repository
-        url="http://download.eclipse.org/ecoretools/updates/0.10/R201006151639"/>
-    <repository
-        url="http://download.eclipse.org/oomph/updates/milestone/latest"/>
-  </setupTask>
-  <version name="2020-03"
-      label="2020-03"
-      requiredJavaVersion="1.8">
+  <version name="Latest">
     <setupTask
         xsi:type="setup.p2:P2Task"
         label="${scope.product.label} (${scope.product.version.label})">
@@ -60,11 +37,42 @@
       <requirement
           name="org.eclipse.rcp.feature.group"/>
       <requirement
-          name="org.eclipse.epsilon.feature.group"/>
+          name="org.eclipse.jdt.feature.group"/>
+      <requirement
+          name="org.eclipse.emf.feature.group"/>
+      <requirement
+          name="org.eclipse.emf.common.feature.group"/>
+      <requirement
+          name="org.eclipse.emf.ecore.feature.group"/>
+      <requirement
+          name="org.eclipse.emf.edit.feature.group"/>
+      <requirement
+          name="org.eclipse.emf.ecore.edit.feature.group"/>
+      <requirement
+          name="org.eclipse.xsd.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.core.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.core.dt.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emf.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.emf.dt.feature.feature.group"/>
       <repository
-          url="http://download.eclipse.org/releases/2020-03"/>
+          url="http://download.eclipse.org/releases/latest"/>
+      <repository
+          url="http://download.eclipse.org/oomph/updates/milestone/latest"/>
+      <repository
+          url="http://download.eclipse.org/epsilon/interim"/>
+      <repository
+          url="https://dl.bintray.com/epsilonlabs/updates"/>
+      <repository
+          url="https://download.eclipse.org/modeling/emf/updates"/>
+      <repository
+          url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
+      <repository
+          url="http://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
     </setupTask>
-    <description>Epsilon for 2020-03.</description>
   </version>
   <description>Epsilon is a suite of model management languages and tools which simplifies programtically working with models. Many modelling formats are supported, including EMF, XML, spreadsheets, Simulink and more.</description>
 </setup:Product>
