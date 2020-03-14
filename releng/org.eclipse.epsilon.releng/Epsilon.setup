@@ -126,6 +126,9 @@
             <operand
                 xsi:type="predicates:NamePredicate"
                 pattern="org.eclipse.epsilon.profiling"/>
+            <operand
+                xsi:type="predicates:NamePredicate"
+                pattern="org.eclipse.epsilon.workflow"/>
           </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
@@ -153,6 +156,9 @@
             <operand
                 xsi:type="predicates:NamePredicate"
                 pattern="org.eclipse.epsilon.dt.*"/>
+            <operand
+                xsi:type="predicates:NamePredicate"
+                pattern="org.eclipse.epsilon.perspective"/>
           </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
@@ -239,6 +245,17 @@
       </workingSet>
       <description>The dynamic working sets for ${scope.project.label}</description>
     </setupTask>
+    <stream
+        name="master"
+        label="Master">
+      <setupTask
+          xsi:type="setup:EclipseIniTask"
+          option="-Doomph.redirection.epsilon.git"
+          value="=https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/plain/releng/org.eclipse.epsilon.releng/Epsilon.setup->${git.clone.epsilon.git.location|uri}/releng/org.eclipse.epsilon.releng/Epsilon.setup"
+          vm="true">
+        <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
+      </setupTask>
+    </stream>
     <description>Epsilon committers should select this.</description>
   </project>
   <project name="Users"
@@ -257,16 +274,6 @@
     </setupTask>
     <description>Users of Epsilon should select this.</description>
   </project>
-  <stream name="master"
-      label="Master">
-    <setupTask
-        xsi:type="setup:EclipseIniTask"
-        option="-Doomph.redirection.epsilon.git"
-        value="=https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/plain/releng/org.eclipse.epsilon.releng/Epsilon.setup->${git.clone.epsilon.git.location|uri}/releng/org.eclipse.epsilon.releng/Epsilon.setup"
-        vm="true">
-      <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
-    </setupTask>
-  </stream>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
       href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']"/>
