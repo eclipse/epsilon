@@ -26,7 +26,8 @@
       <value>https://www.eclipse.org/epsilon</value>
     </detail>
   </annotation>
-  <version name="Latest">
+  <version name="Latest"
+      requiredJavaVersion="1.8">
     <setupTask
         xsi:type="setup.p2:P2Task"
         label="${scope.product.label} (${scope.product.version.label})">
@@ -73,6 +74,7 @@
       <repository
           url="http://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
     </setupTask>
+    <description>Interim version of Epsilon</description>
   </version>
   <description>Epsilon is a suite of model management languages and tools which simplifies programtically working with models. Many modelling formats are supported, including EMF, XML, spreadsheets, Simulink and more.</description>
 </setup:Product>
