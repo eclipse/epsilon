@@ -122,9 +122,6 @@
             xsi:type="predicates:OrPredicate">
           <operand
               xsi:type="predicates:NamePredicate"
-              pattern="org.eclipse.epsilon.*.engine"/>
-          <operand
-              xsi:type="predicates:NamePredicate"
               pattern="org.eclipse.epsilon.common"/>
           <operand
               xsi:type="predicates:NamePredicate"
@@ -132,6 +129,18 @@
           <operand
               xsi:type="predicates:NamePredicate"
               pattern="org.eclipse.epsilon.workflow"/>
+          <operand
+              xsi:type="predicates:AndPredicate">
+            <operand
+                xsi:type="predicates:NamePredicate"
+                pattern="org.eclipse.epsilon.*.engine"/>
+            <operand
+                xsi:type="predicates:NotPredicate">
+              <operand
+                  xsi:type="predicates:NamePredicate"
+                  pattern="org.eclipse.epsilon.edl.engine"/>
+            </operand>
+          </operand>
         </operand>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
@@ -236,17 +245,11 @@
       <predicate
           xsi:type="predicates:AndPredicate">
         <operand
-            xsi:type="predicates:OrPredicate">
-          <operand
-              xsi:type="predicates:NamePredicate"
-              pattern="org.eclipse.epsilon.*"/>
-          <operand
-              xsi:type="predicates:RepositoryPredicate"
-              project="org.eclipse.epsilon.releng"/>
-        </operand>
-        <operand
             xsi:type="workingsets:ExclusionPredicate"
             excludedWorkingSet="//@setupTasks.8/@workingSets[name='Epsilon%20Core'] //@setupTasks.8/@workingSets[name='Epsilon%20Examples'] //@setupTasks.8/@workingSets[name='Epsilon%20Features'] //@setupTasks.8/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.8/@workingSets[name='Epsilon%20Tests']"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="org.eclipse.epsilon.*"/>
       </predicate>
     </workingSet>
     <description>The dynamic working sets for ${scope.project.label}</description>
