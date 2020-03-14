@@ -26,6 +26,12 @@
       <value>https://www.eclipse.org/epsilon</value>
     </detail>
   </annotation>
+  <setupTask
+      xsi:type="setup:PreferenceTask"
+      key="/instance/org.eclipse.ui/defaultPerspectiveId"
+      value="org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory">
+    <description>Makes Epsilon perspective the default</description>
+  </setupTask>
   <version name="Interim"
       requiredJavaVersion="1.8">
     <setupTask
