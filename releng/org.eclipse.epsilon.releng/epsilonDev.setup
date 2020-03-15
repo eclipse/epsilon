@@ -269,5 +269,5 @@
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
       href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']"/>
-  <description>Epsilon is a suite of model management languages and tools which simplifies programtically working with models. Many modelling formats are supported, including EMF, XML, spreadsheets, Simulink and more.</description>
+  <description>Epsilon is a family of languages and tools for code generation, model-to-model transformation, model validation, comparison, migration and refactoring that work out of the box with EMF, UML, Simulink, XML and other types of models.</description>
 </setup:Project>
