@@ -36,9 +36,13 @@
     <requirement
         name="org.eclipse.jgit.feature.group"/>
     <requirement
+        name="org.eclipse.egit.feature.group"/>
+    <requirement
         name="org.eclipse.platform.ide"/>
     <requirement
         name="org.eclipse.help.feature.group"/>
+    <requirement
+        name="org.eclipse.epp.mpc.feature.group"/>
     <requirement
         name="org.eclipse.rcp.feature.group"/>
     <requirement
@@ -46,17 +50,49 @@
     <requirement
         name="org.eclipse.emf.feature.group"/>
     <requirement
+        name="org.eclipse.emf.doc.feature.group"/>
+    <requirement
         name="org.eclipse.emf.common.feature.group"/>
     <requirement
         name="org.eclipse.emf.ecore.feature.group"/>
     <requirement
         name="org.eclipse.emf.edit.feature.group"/>
     <requirement
+        name="org.eclipse.emf.edit.ui.feature.group"/>
+    <requirement
         name="org.eclipse.emf.ecore.edit.feature.group"/>
     <requirement
-        name="org.eclipse.xsd.feature.group"/>
-    <requirement
         name="org.eclipse.emf.emfatic.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.transaction.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.workspace.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.query.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.validation.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.validation.doc.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.compare.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.compare.source.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.compare.diagram.gmf.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.compare.egit.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.compare.ide.ui.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.compare.databinding.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.compare.databinding.edit.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.mapping.ecore.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.mapping.ecore.editor.feature.group"/>
+    <requirement
+        name="org.eclipse.xsd.feature.group"/>
     <requirement
         name="org.eclipse.gmf.feature.group"/>
     <requirement
@@ -69,6 +105,34 @@
         name="org.eclipse.gmf.runtime.sdk.feature.group"/>
     <requirement
         name="org.eclipse.gmf.sdk.feature.group"/>
+    <requirement
+        name="org.eclipse.gef.feature.group"/>
+    <requirement
+        name="org.eclipse.gef.sdk.feature.group"/>
+    <requirement
+        name="org.eclipse.m2m.qvt.oml.feature.group"/>
+    <requirement
+        name="org.eclipse.m2m.qvt.oml.runtime.feature.group"/>
+    <requirement
+        name="org.eclipse.m2m.qvt.oml.editor.feature.group"/>
+    <requirement
+        name="org.eclipse.uml2.feature.group"/>
+    <requirement
+        name="org.eclipse.uml2.common.feature.group"/>
+    <requirement
+        name="org.eclipse.uml2.common.edit.feature.group"/>
+    <requirement
+        name="org.eclipse.uml2.codegen.ecore.ui.feature.group"/>
+    <requirement
+        name="org.eclipse.uml2.uml.feature.group"/>
+    <requirement
+        name="org.eclipse.uml2.uml.edit.feature.group"/>
+    <requirement
+        name="org.eclipse.uml2.doc.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.codegen.ecore.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.codegen.ecore.ui.feature.group"/>
     <requirement
         name="org.eclipse.epsilon.core.feature.feature.group"/>
     <requirement
@@ -84,13 +148,7 @@
     <requirement
         name="org.eclipse.epsilon.eugenia.feature.feature.group"/>
     <requirement
-        name="org.eclipse.epsilon.picto.feature.feature.group"/>
-    <requirement
         name="org.eclipse.epsilon.concordance.feature.feature.group"/>
-    <requirement
-        name="org.eclipse.epsilon.flexmi.feature.feature.group"/>
-    <requirement
-        name="org.eclipse.epsilon.flexmi.dt.feature.feature.group"/>
     <requirement
         name="org.eclipse.epsilon.hutn.feature.feature.group"/>
     <requirement
@@ -132,11 +190,29 @@
       value="org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory">
     <description>Makes Epsilon perspective the default</description>
   </setupTask>
+  <setupTask
+      xsi:type="setup:PreferenceTask"
+      key="perspective_id"
+      value="org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory">
+    <description>Makes Epsilon perspective the default</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:PreferenceTask"
+      key="defaultPerspectiveId"
+      value="org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory">
+    <description>Makes Epsilon perspective the default</description>
+  </setupTask>
   <version name="Interim"
       requiredJavaVersion="1.8">
     <setupTask
         xsi:type="setup.p2:P2Task"
         label="${scope.product.version.label} update sites">
+      <requirement
+          name="org.eclipse.epsilon.picto.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.flexmi.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.flexmi.dt.feature.feature.group"/>
       <repository
           url="http://download.eclipse.org/releases/latest"/>
       <repository
@@ -153,10 +229,44 @@
           url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
       <repository
           url="http://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
+      <repository
+          url="https://download.eclipse.org/modeling/tmf/xtext/updates/composite/milestones"/>
     </setupTask>
     <description>Latest version of Epsilon</description>
   </version>
   <version name="Stable"
+      requiredJavaVersion="1.8">
+    <setupTask
+        xsi:type="setup.p2:P2Task"
+        label="${scope.product.version.label} update sites">
+      <requirement
+          name="org.eclipse.epsilon.picto.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.flexmi.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.epsilon.flexmi.dt.feature.feature.group"/>
+      <repository
+          url="http://download.eclipse.org/releases/2020-03"/>
+      <repository
+          url="https://download.eclipse.org/oomph/updates/release"/>
+      <repository
+          url="http://download.eclipse.org/epsilon/updates"/>
+      <repository
+          url="https://dl.bintray.com/epsilonlabs/updates"/>
+      <repository
+          url="https://download.eclipse.org/modeling/emf/updates"/>
+      <repository
+          url="http://download.eclipse.org/emfatic/update"/>
+      <repository
+          url="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
+      <repository
+          url="http://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
+      <repository
+          url="https://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
+    </setupTask>
+    <description>Release version of Epsilon</description>
+  </version>
+  <version name="1.5"
       requiredJavaVersion="1.8">
     <setupTask
         xsi:type="setup.p2:P2Task"
@@ -178,7 +288,7 @@
       <repository
           url="http://download.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
     </setupTask>
-    <description>Release version of Epsilon</description>
+    <description>Epsilon v1.5</description>
   </version>
   <description>Epsilon is a suite of model management languages and tools which simplifies programtically working with models. Many modelling formats are supported, including EMF, XML, spreadsheets, Simulink and more.</description>
 </setup:Product>
