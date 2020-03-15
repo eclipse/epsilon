@@ -66,6 +66,8 @@
         name="org.eclipse.pde.feature.group"/>
     <requirement
         name="org.eclipse.jdt.feature.group"/>
+    <requirement
+        name="org.eclipse.jgit.feature.group"/>
   </setupTask>
   <setupTask
       xsi:type="pde:TargetPlatformTask"

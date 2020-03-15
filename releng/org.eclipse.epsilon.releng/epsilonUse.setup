@@ -27,8 +27,108 @@
     </detail>
   </annotation>
   <setupTask
+      xsi:type="setup.p2:P2Task"
+      label="${scope.product.label} tools">
+    <requirement
+        name="org.eclipse.platform.feature.group"/>
+    <requirement
+        name="org.eclipse.pde.feature.group"/>
+    <requirement
+        name="org.eclipse.jgit.feature.group"/>
+    <requirement
+        name="org.eclipse.platform.ide"/>
+    <requirement
+        name="org.eclipse.help.feature.group"/>
+    <requirement
+        name="org.eclipse.rcp.feature.group"/>
+    <requirement
+        name="org.eclipse.jdt.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.common.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.ecore.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.edit.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.ecore.edit.feature.group"/>
+    <requirement
+        name="org.eclipse.xsd.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.emfatic.feature.group"/>
+    <requirement
+        name="org.eclipse.gmf.feature.group"/>
+    <requirement
+        name="org.eclipse.gmf.runtime.notation.feature.group"/>
+    <requirement
+        name="org.eclipse.gmf.tooling.feature.group"/>
+    <requirement
+        name="org.eclipse.gmf.tooling.runtime.feature.group"/>
+    <requirement
+        name="org.eclipse.gmf.runtime.sdk.feature.group"/>
+    <requirement
+        name="org.eclipse.gmf.sdk.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.core.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.core.dt.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.emf.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.emf.dt.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.uml.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.uml.dt.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.eugenia.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.picto.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.concordance.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.flexmi.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.flexmi.dt.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.hutn.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.hutn.dt.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.eunit.dt.emf.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.evl.emf.validation.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.ewl.emf.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.ewl.gmf.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.emc.graphml.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.simulink.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.simulink.dt.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.emc.spreadsheets.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.emc.spreadsheets.excel.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.emc.spreadsheets.excel.dt.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.emc.spreadsheets.google.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.epsilon.emc.spreadsheets.google.dt.feature.feature.group"/>
+  </setupTask>
+  <setupTask
       xsi:type="setup:PreferenceTask"
       key="/instance/org.eclipse.ui/defaultPerspectiveId"
+      value="org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory">
+    <description>Makes Epsilon perspective the default</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:PreferenceTask"
+      key="org.eclipse.ui/defaultPerspectiveId"
       value="org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory">
     <description>Makes Epsilon perspective the default</description>
   </setupTask>
@@ -36,35 +136,7 @@
       requiredJavaVersion="1.8">
     <setupTask
         xsi:type="setup.p2:P2Task"
-        label="${scope.product.label} (${scope.product.version.label})">
-      <requirement
-          name="org.eclipse.platform.ide"/>
-      <requirement
-          name="org.eclipse.platform.feature.group"/>
-      <requirement
-          name="org.eclipse.rcp.feature.group"/>
-      <requirement
-          name="org.eclipse.jdt.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.common.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.ecore.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.edit.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.ecore.edit.feature.group"/>
-      <requirement
-          name="org.eclipse.xsd.feature.group"/>
-      <requirement
-          name="org.eclipse.epsilon.core.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.epsilon.core.dt.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.epsilon.emf.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.epsilon.emf.dt.feature.feature.group"/>
+        label="${scope.product.version.label} update sites">
       <repository
           url="http://download.eclipse.org/releases/latest"/>
       <repository
@@ -88,35 +160,7 @@
       requiredJavaVersion="1.8">
     <setupTask
         xsi:type="setup.p2:P2Task"
-        label="${scope.product.label} (${scope.product.version.label})">
-      <requirement
-          name="org.eclipse.platform.ide"/>
-      <requirement
-          name="org.eclipse.platform.feature.group"/>
-      <requirement
-          name="org.eclipse.rcp.feature.group"/>
-      <requirement
-          name="org.eclipse.jdt.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.common.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.ecore.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.edit.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.ecore.edit.feature.group"/>
-      <requirement
-          name="org.eclipse.xsd.feature.group"/>
-      <requirement
-          name="org.eclipse.epsilon.core.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.epsilon.core.dt.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.epsilon.emf.feature.feature.group"/>
-      <requirement
-          name="org.eclipse.epsilon.emf.dt.feature.feature.group"/>
+        label="${scope.product.version.label} update sites">
       <repository
           url="http://download.eclipse.org/releases/photon"/>
       <repository
