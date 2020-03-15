@@ -84,9 +84,9 @@
     <requirement
         name="org.eclipse.emf.compare.ide.ui.feature.group"/>
     <requirement
-        name="org.eclipse.emf.compare.databinding.feature.group"/>
+        name="org.eclipse.emf.databinding.feature.group"/>
     <requirement
-        name="org.eclipse.emf.compare.databinding.edit.feature.group"/>
+        name="org.eclipse.emf.databinding.edit.feature.group"/>
     <requirement
         name="org.eclipse.emf.mapping.ecore.feature.group"/>
     <requirement
