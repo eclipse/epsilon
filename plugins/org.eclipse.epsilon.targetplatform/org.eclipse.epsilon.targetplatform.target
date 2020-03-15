@@ -1,33 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?>
-<target name="Epsilon Target Platform" sequenceNumber="112">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?><target name="Epsilon Target Platform" sequenceNumber="112">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.emf.emfatic.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.emf.emfatic.feature.group" version="0.8.0.201507261242"/>
 <repository location="http://download.eclipse.org/emfatic/update/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.e4.core.tools.feature.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.emf.validation.sdk.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.equinox.sdk.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.gef.sdk.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.gmf.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.gmf.runtime.notation.sdk.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.gmf.runtime.sdk.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.platform.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
-<unit id="org.eclipse.rcp.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.sdk.ide" version="0.0.0"/>
-<unit id="org.eclipse.pde.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.platform.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
-<unit id="org.eclipse.ocl.all.sdk.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.sirius.runtime.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.sirius.runtime.ide.ui.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.xsd.sdk.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
-<repository location="http://download.eclipse.org/releases/2019-09/"/>
+<unit id="org.eclipse.e4.core.tools.feature.feature.group" version="4.8.0.v20180512-1132"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.14.0.v20180529-1157"/>
+<unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.12.0.201805030717"/>
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.14.0.v20180518-2029"/>
+<unit id="org.eclipse.gef.sdk.feature.group" version="3.11.0.201606061308"/>
+<unit id="org.eclipse.gmf.feature.group" version="1.12.0.201806010809"/>
+<unit id="org.eclipse.gmf.runtime.notation.sdk.feature.group" version="1.12.0.201805221301"/>
+<unit id="org.eclipse.gmf.runtime.sdk.feature.group" version="1.12.0.201806010809"/>
+<unit id="org.eclipse.jdt.feature.group" version="3.14.0.v20180611-0500"/>
+<unit id="org.eclipse.platform.feature.group" version="4.8.0.v20180611-0656"/>
+<unit id="org.eclipse.platform.sdk" version="4.8.0.I20180611-0500"/>
+<unit id="org.eclipse.rcp.feature.group" version="4.8.0.v20180611-0656"/>
+<unit id="org.eclipse.sdk.ide" version="4.8.0.I20180611-0500"/>
+<repository location="http://download.eclipse.org/releases/photon/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.gmf.sdk.feature.group" version="3.2.1.201409171321"/>
@@ -37,10 +28,24 @@
 <repository location="http://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.emf.compare.rcp.ui.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.emf.compare.rcp.ui.source.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.emf.compare.ide.ui.source.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.emf.compare.uml2.source.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.emf.compare.ide.ui.source.feature.group" version="3.3.3.201805161152"/>
+<unit id="org.eclipse.emf.compare.uml2.source.feature.group" version="3.3.3.201805161152"/>
+<unit id="org.eclipse.ocl.all.sdk.feature.group" version="5.4.0.v20180611-1119"/>
+<unit id="org.eclipse.sirius.runtime.feature.group" version="6.0.0.201806111309"/>
+<unit id="org.eclipse.sirius.runtime.ide.ui.feature.group" version="6.0.0.201806111309"/>
+<unit id="org.eclipse.xsd.sdk.feature.group" version="2.14.0.v20180131-0817"/>
+<unit id="org.eclipse.xtext.sdk.feature.group" version="2.14.0.v20180523-0937"/>
+<repository location="http://download.eclipse.org/releases/photon/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.pde.feature.group" version="3.13.100.v20180611-0826"/>
+<unit id="org.eclipse.platform.feature.group" version="4.8.0.v20180611-0656"/>
+<unit id="org.eclipse.platform.sdk" version="4.8.0.I20180611-0500"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.8"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.emf.compare.rcp.ui.feature.group" version="3.3.3.201805161152"/>
+<unit id="org.eclipse.emf.compare.rcp.ui.source.feature.group" version="3.3.3.201805161152"/>
 <repository location="http://download.eclipse.org/modeling/emf/compare/updates/releases/3.3"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
