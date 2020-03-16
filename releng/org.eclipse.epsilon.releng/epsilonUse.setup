@@ -27,10 +27,23 @@
     </detail>
   </annotation>
   <setupTask
-      xsi:type="setup:PreferenceTask"
-      key="org.eclipse.ui/defaultPerspectiveId"
-      value="org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory">
-    <description>Makes Epsilon perspective the default</description>
+      xsi:type="setup:ResourceCreationTask"
+      content="defaultPerspectiveId=org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory&#xA;"
+      targetURL="${installation.location|uri}/eclipse/configuration/.settings/org.eclipse.ui.ide.prefs">
+    <description>Default preferences</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:ResourceCreationTask"
+      content="org.eclipse.ui/defaultPerspectiveId=org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory"
+      targetURL="${installation.location|uri}/eclipse/epsilon.properties">
+    <description>Creates the default preferences file.</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:EclipseIniTask"
+      option="-Declipse.pluginCustomization"
+      value="=epsilon.properties"
+      vm="true">
+    <description>Sets the pluginCustomization for initial preferences.</description>
   </setupTask>
   <version name="Interim"
       requiredJavaVersion="1.8">
