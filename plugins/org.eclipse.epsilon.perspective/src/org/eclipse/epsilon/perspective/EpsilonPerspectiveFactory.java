@@ -34,8 +34,8 @@ public class EpsilonPerspectiveFactory implements IPerspectiveFactory{
         String editorArea = layout.getEditorArea();
      
         // place navigator to the left (of editor area)
-        IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, (float) 0.30, editorArea);
-        left.addView(IPageLayout.ID_RES_NAV);
+        IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, (float) 0.25, editorArea);
+        left.addView(IPageLayout.ID_PROJECT_EXPLORER);
         //left.addView("org.eclipse.ui.navigator.ProjectExplorer");
         
         //IFolderLayout leftBottom = layout.createFolder("leftBottom", IPageLayout.BOTTOM, 0.7f, "left");
