@@ -14,6 +14,7 @@
 
   <modules>
     <module>com.google.gdata_1.47.1</module>
+    <module>net.sourceforge.plantuml</module>
     <module>org.apache.poi.ooxml.schemas_3.10.1</module>
     <module>org.apache.poi.ooxml_3.10.1</module>
     <module>org.apache.poi_3.10.1</module>
@@ -117,6 +118,7 @@
     <module>org.eclipse.epsilon.flexmi</module>
     <module>org.eclipse.epsilon.flexmi.dt</module>
     <module>org.eclipse.epsilon.picto</module>
+    <module>org.eclipse.epsilon.picto.plantuml</module>
     <module>org.eclipse.epsilon.perspective</module>
     <module>org.eclipse.epsilon.profiling</module>
     <module>org.eclipse.epsilon.profiling.dt</module>
