@@ -20,8 +20,6 @@
         </properties>
         <modules>
           <module>org.eclipse.epsilon.updatesite</module>
-          <module>org.eclipse.epsilon.ide.application</module>
-          <module>org.eclipse.epsilon.ide.feature</module>
         </modules>
     </profile>
     <profile>
@@ -45,8 +43,6 @@
         </repositories-->
         <modules>
           <module>org.eclipse.epsilon.updatesite.interim</module>
-          <!--module>org.eclipse.epsilon.ide.application.interim</module-->
-          <!--module>org.eclipse.epsilon.ide.feature</module-->
         </modules>
     </profile>
   </profiles>

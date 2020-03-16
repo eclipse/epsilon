@@ -13,7 +13,6 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>org.eclipse.epsilon.all.feature</module>
     <module>org.eclipse.epsilon.concordance.dependencies.feature</module>
     <module>org.eclipse.epsilon.concordance.feature</module>
     <module>org.eclipse.epsilon.core.dependencies.feature</module>
