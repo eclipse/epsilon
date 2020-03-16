@@ -17,3 +17,4 @@ Export-Package: org.eclipse.epsilon.flexmi,
  org.eclipse.epsilon.flexmi.templates,
  org.eclipse.epsilon.flexmi.xml
 Automatic-Module-Name: org.eclipse.epsilon.flexmi
+Bundle-Vendor: Eclipse Modeling Project
