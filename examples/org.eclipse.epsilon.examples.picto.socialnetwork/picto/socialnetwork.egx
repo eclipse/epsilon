@@ -1,0 +1,35 @@
+rule Network2Graphviz 
+	transform n : socialnetwork::SocialNetwork {
+
+	template : "socialnetwork2graphviz.egl"
+
+	parameters : Map{
+		"path" = Sequence{"Social Network"},
+		"icon" = "diagram-ffffff",
+		"format" = "graphviz-circo",
+		"layers" = Sequence {
+			Map {"id"="likes", "title"="Likes", "active"=true},
+			Map {"id"="dislikes", "title"="Dislikes", "active"=true}
+		},
+		"people" = n.people
+	}
+	
+}
+
+rule Person2Graphviz 
+	transform p : socialnetwork::Person {
+
+	template : "socialnetwork2graphviz.egl"
+
+	parameters : Map{
+		"path" = Sequence{"Social Network", p.name},
+		"icon" = "diagram-c0c0c0",
+		"format" = "graphviz-dot",
+		"layers" = Sequence {
+			Map {"id"="likes", "title"="Likes", "active"=true},
+			Map {"id"="dislikes", "title"="Dislikes", "active"=true}
+		},
+		"people" = Sequence{p}
+	}
+	
+}
