@@ -248,6 +248,22 @@ public class ModelGroup extends Model {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean isOfKind(Object instance, String metaClass) throws EolModelElementTypeNotFoundException {
+		for (IModel model : models) {
+			if (model.isOfKind(instance, metaClass)) return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isOfType(Object instance, String metaClass) throws EolModelElementTypeNotFoundException {
+		for (IModel model : models) {
+			if (model.isOfType(instance, metaClass)) return true;
+		}
+		return false;	
+	}
 
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
