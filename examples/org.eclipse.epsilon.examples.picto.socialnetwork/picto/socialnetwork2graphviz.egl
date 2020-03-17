@@ -1,10 +1,10 @@
 digraph G {
-	node[shape=rectangle, fontname=Tahoma, fontsize=11, style=filled, fillcolor="bisque"]
+	node[shape=rectangle, fontname=Tahoma, fontsize=10, style="filled", gradientangle="270", fillcolor="bisque:floralwhite"]
 	edge[penwidth=3, style=tapered, arrowhead=none]
 	
 [%for (p in people){%]
 	
-	[%=p.name%] [%if (people.size()==1){%][fillcolor="azure2"][%}%]
+	[%=p.name%] [%if (people.size()==1){%][fillcolor="azure2:ghostwhite"][%}%]
 	
 	[%if (isLayerActive("likes")){%]
 		[%for (l in p.likes){%]
