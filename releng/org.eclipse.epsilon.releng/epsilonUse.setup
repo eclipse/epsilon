@@ -27,23 +27,37 @@
     </detail>
   </annotation>
   <setupTask
-      xsi:type="setup:ResourceCreationTask"
-      content="defaultPerspectiveId=org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory&#xA;"
-      targetURL="${installation.location|uri}/eclipse/configuration/.settings/org.eclipse.ui.prefs">
-    <description>Default preferences</description>
+      xsi:type="setup:VariableTask"
+      name="eclipse.folder"
+      value="${installation.location|uri}/eclipse">
+    <description>Eclipse root installation folder</description>
   </setupTask>
   <setupTask
+      xsi:type="setup:VariableTask"
+      name="epsilon.prefs"
+      value="org.eclipse.ui/defaultPerspectiveId=org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory"/>
+  <setupTask
       xsi:type="setup:ResourceCreationTask"
-      content="org.eclipse.ui/defaultPerspectiveId=org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory"
-      targetURL="${installation.location|uri}/eclipse/configuration/epsilon.properties">
-    <description>Creates the default preferences file.</description>
+      content="defaultPerspectiveId=org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory&#xA;"
+      targetURL="${eclipse.folder}/configuration/.settings/org.eclipse.ui.prefs">
+    <description>Default preferences</description>
   </setupTask>
   <setupTask
       xsi:type="setup:EclipseIniTask"
       option="-Declipse.pluginCustomization"
-      value="=configuration/epsilon.properties"
+      value="=configuration/config.ini"
       vm="true">
     <description>Sets the pluginCustomization for initial preferences.</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:TextModifyTask"
+      url="${eclipse.folder}/configuration/config.ini">
+    <modification
+        pattern="(?s)^((?!property=value).)*(\r?\n)$">
+      <substitution>\1</substitution>
+      <substitution>\2${epsilon.prefs}\2</substitution>
+    </modification>
+    <description>Append preferences to config.ini</description>
   </setupTask>
   <version name="Interim"
       requiredJavaVersion="1.8">

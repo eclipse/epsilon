@@ -9,7 +9,6 @@
     xmlns:predicates="http://www.eclipse.org/oomph/predicates/1.0"
     xmlns:projects="http://www.eclipse.org/oomph/setup/projects/1.0"
     xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
-    xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0"
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
     xmlns:workingsets="http://www.eclipse.org/oomph/workingsets/1.0"
     xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/setup/pde/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore http://www.eclipse.org/oomph/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/WorkingSets.ecore"
@@ -46,28 +45,6 @@
       targetURL="${workspace.location|uri}/.metadata/.plugins/org.eclipse.jdt.ui/dialog_settings.xml"
       encoding="UTF-8">
     <description>Initialize JDT's package explorer to show working sets as its root objects</description>
-  </setupTask>
-  <setupTask
-      xsi:type="setup.p2:P2Task"
-      label="EMF Tools">
-    <repository
-        url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
-    <repository
-        url="http://download.eclipse.org/ecoretools/updates/0.10/R201006151639"/>
-    <repository
-        url="https://download.eclipse.org/emfatic/interim"/>
-  </setupTask>
-  <setupTask
-      xsi:type="setup.p2:P2Task"
-      label="PDE/JDT">
-    <requirement
-        name="org.eclipse.pde.api.tools.ee.feature.feature.group"/>
-    <requirement
-        name="org.eclipse.pde.feature.group"/>
-    <requirement
-        name="org.eclipse.jdt.feature.group"/>
-    <requirement
-        name="org.eclipse.jgit.feature.group"/>
   </setupTask>
   <setupTask
       xsi:type="pde:TargetPlatformTask"
@@ -146,7 +123,7 @@
         </operand>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.8/@workingSets[name='Epsilon%20Examples'] //@setupTasks.8/@workingSets[name='Epsilon%20Features'] //@setupTasks.8/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.8/@workingSets[name='Epsilon%20Tests'] //@setupTasks.8/@workingSets[name='Epsilon%20DT']"/>
+            excludedWorkingSet="//@setupTasks.6/@workingSets[name='Epsilon%20Examples'] //@setupTasks.6/@workingSets[name='Epsilon%20Features'] //@setupTasks.6/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.6/@workingSets[name='Epsilon%20Tests'] //@setupTasks.6/@workingSets[name='Epsilon%20DT']"/>
       </predicate>
       <predicate
           xsi:type="predicates:OrPredicate">
@@ -176,7 +153,7 @@
         </operand>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.8/@workingSets[name='Epsilon%20Examples'] //@setupTasks.8/@workingSets[name='Epsilon%20Features'] //@setupTasks.8/@workingSets[name='Epsilon%20Tests']"/>
+            excludedWorkingSet="//@setupTasks.6/@workingSets[name='Epsilon%20Examples'] //@setupTasks.6/@workingSets[name='Epsilon%20Features'] //@setupTasks.6/@workingSets[name='Epsilon%20Tests']"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -188,7 +165,7 @@
             pattern="org.eclipse.epsilon.emc.*"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.8/@workingSets[name='Epsilon%20Examples'] //@setupTasks.8/@workingSets[name='Epsilon%20Features'] //@setupTasks.8/@workingSets[name='Epsilon%20Tests'] //@setupTasks.8/@workingSets[name='Epsilon%20DT']"/>
+            excludedWorkingSet="//@setupTasks.6/@workingSets[name='Epsilon%20Examples'] //@setupTasks.6/@workingSets[name='Epsilon%20Features'] //@setupTasks.6/@workingSets[name='Epsilon%20Tests'] //@setupTasks.6/@workingSets[name='Epsilon%20DT']"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -224,7 +201,7 @@
         </operand>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.8/@workingSets[name='Epsilon%20Examples'] //@setupTasks.8/@workingSets[name='Epsilon%20Tests']"/>
+            excludedWorkingSet="//@setupTasks.6/@workingSets[name='Epsilon%20Examples'] //@setupTasks.6/@workingSets[name='Epsilon%20Tests']"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -248,7 +225,7 @@
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.8/@workingSets[name='Epsilon%20Core'] //@setupTasks.8/@workingSets[name='Epsilon%20Examples'] //@setupTasks.8/@workingSets[name='Epsilon%20Features'] //@setupTasks.8/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.8/@workingSets[name='Epsilon%20Tests']"/>
+            excludedWorkingSet="//@setupTasks.6/@workingSets[name='Epsilon%20Core'] //@setupTasks.6/@workingSets[name='Epsilon%20Examples'] //@setupTasks.6/@workingSets[name='Epsilon%20Features'] //@setupTasks.6/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.6/@workingSets[name='Epsilon%20Tests']"/>
         <operand
             xsi:type="predicates:NamePredicate"
             pattern="org.eclipse.epsilon.*"/>
