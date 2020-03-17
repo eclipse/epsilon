@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.emf.ecore.dynamic_package">
       <resource
-            location="src/org/eclipse/concordance/test/performance/generator/graph/Graph.ecore"
+            location="src/org/eclipse/epsilon/concordance/test/performance/generator/graph/Graph.ecore"
             uri="graph">
       </resource>
    </extension>
