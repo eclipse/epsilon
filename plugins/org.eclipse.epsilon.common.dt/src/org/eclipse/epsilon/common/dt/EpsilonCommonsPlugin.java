@@ -9,14 +9,15 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt;
 
-
 /**
  * The main plugin class to be used in the desktop.
  */
 public class EpsilonCommonsPlugin extends AbstractEpsilonUIPlugin {
 	
+	public static final String PLUGIN_ID = "org.eclipse.epsilon.common.dt";
+
 	public static EpsilonCommonsPlugin getDefault() {
 		return (EpsilonCommonsPlugin) plugins.get(EpsilonCommonsPlugin.class);
 	}
-	
+
 }

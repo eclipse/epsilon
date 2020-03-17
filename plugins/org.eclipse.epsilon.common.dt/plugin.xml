@@ -50,12 +50,19 @@
             value="true">
       </persistent>
    </extension>
-      <extension
+   <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="org.eclipse.epsilon.common.dt.preferences.EpsilonPreferencePage"
-            id="Epsilon"
-            name="Epsilon"/>
+        class="org.eclipse.epsilon.common.dt.preferences.EpsilonPreferencePage"
+        id="Epsilon"
+        name="Epsilon">
+      </page>
+      <page
+        category="Epsilon"
+        class="org.eclipse.epsilon.common.dt.preferences.EpsilonSyntaxColoringPreferencePage"
+        id="Epsilon.SyntaxColoring"
+        name="Syntax Coloring">
+      </page>
    </extension>
       <extension
             point="org.eclipse.epsilon.common.dt.tool">

@@ -11,6 +11,7 @@ package org.eclipse.epsilon.common.dt.editor;
 
 import java.io.File;
 import java.util.*;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -21,6 +22,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
+import org.eclipse.epsilon.common.dt.editor.highlighting.EpsilonHighlightingManager;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentOutlinePage;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
@@ -48,11 +50,12 @@ import org.eclipse.jface.text.source.ICharacterPairMatcher;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.ISourceViewerExtension2;
 import org.eclipse.jface.text.source.IVerticalRuler;
-import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.jface.text.templates.Template;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
@@ -74,6 +77,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	protected Job parseModuleJob = null;
 	protected ArrayList<IModuleParseListener> moduleParsedListeners = new ArrayList<>();
 	protected ArrayList<IAbstractModuleEditorTemplateContributor> templateContributors = new ArrayList<>();
+	protected EpsilonHighlightingManager highlightingManager;
 
 	public static String PROBLEMMARKER = "org.eclipse.epsilon.common.dt.problemmarker";
 	
@@ -84,6 +88,8 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		setDocumentProvider(new AbstractModuleEditorDocumentProvider());
 		setEditorContextMenuId("#TextEditorContext");
 	    setRulerContextMenuId("editor.rulerMenu");
+		highlightingManager = new EpsilonHighlightingManager();
+		highlightingManager.initialiseDefaultColors();
 	}
 	
 	public void addModuleParsedListener(IModuleParseListener listener) {
@@ -159,6 +165,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		return super.getAdapter(required);
 	}
 	
+	//TODO: (fonso) this list seems incomplete with respect to the book list
 	public List<String> getAssertions(){
 		return Arrays.asList("assert", "assertError");
 	}
@@ -311,16 +318,20 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		setSourceViewerConfiguration(createSourceViewerConfiguration());
 		
 		PlatformUI.getWorkbench().getThemeManager().addPropertyChangeListener(new ThemeChangeListener() {
-			
 			@Override
 			public void themeChange() {
-				ISourceViewer viewer= getSourceViewer();
-				if (!(viewer instanceof ISourceViewerExtension2))
-					return;
-
-				((ISourceViewerExtension2)viewer).unconfigure();
-				setSourceViewerConfiguration(createSourceViewerConfiguration());
-				viewer.configure(getSourceViewerConfiguration());
+				highlightingManager.initialiseDefaultColors();
+				refreshText();
+			}
+			
+		});
+		
+		highlightingManager.getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				if (highlightingManager.isColorPreference(event.getProperty())) {
+					refreshText();
+				}
 			}
 		});
 		
@@ -544,5 +555,18 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		   // when Ctrl+Spacebar is pressed
 		   setActionActivationCode(CONTENTASSIST_PROPOSAL_ID,' ', -1, SWT.CTRL);
 		}
-		
+
+	public EpsilonHighlightingManager getHighlightingManager() {
+		return highlightingManager;
+	}
+	
+	private void refreshText() {
+		ISourceViewer viewer= getSourceViewer();
+		if (!(viewer instanceof ISourceViewerExtension2))
+			return;
+
+		((ISourceViewerExtension2)viewer).unconfigure();
+		setSourceViewerConfiguration(createSourceViewerConfiguration());
+		viewer.configure(getSourceViewerConfiguration());
+	}
 }

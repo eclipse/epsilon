@@ -30,13 +30,19 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.epsilon.common.dt.util.ThemeChangeListener;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.ISourceViewerExtension2;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.MarkerUtilities;
@@ -45,7 +51,7 @@ import org.xml.sax.SAXParseException;
 
 public class FlexmiEditor extends TextEditor {
 
-	private ColorManager colorManager;
+	private FlexmiHighlightingManager highlightingManager;
 	protected Job parseResourceJob = null;
 	protected FlexmiContentOutlinePage outlinePage = null;
 	protected FlexmiResource resource = null;
@@ -55,9 +61,9 @@ public class FlexmiEditor extends TextEditor {
 		super();
 		setEditorContextMenuId("#TextEditorContext");
 	    setRulerContextMenuId("editor.rulerMenu");
-		colorManager = new ColorManager();
-		colorManager.initialiseColors();
-		setSourceViewerConfiguration(new XMLConfiguration(colorManager));
+		highlightingManager = new FlexmiHighlightingManager();
+		highlightingManager.initialiseDefaultColors();
+		setSourceViewerConfiguration(new XMLConfiguration(highlightingManager));
 		setDocumentProvider(new XMLDocumentProvider());
 	}
 	
@@ -98,6 +104,31 @@ public class FlexmiEditor extends TextEditor {
 		parseResourceJob.setSystem(true);
 		parseResourceJob.schedule(delay);
 		
+		PlatformUI.getWorkbench().getThemeManager().addPropertyChangeListener(new ThemeChangeListener() {
+			@Override
+			public void themeChange() {
+				highlightingManager.initialiseDefaultColors();
+				refreshText();
+			}
+		});
+		highlightingManager.getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				if (highlightingManager.isColorPreference(event.getProperty())) {
+					refreshText();
+				}
+			}
+		});
+	}
+
+	public void refreshText() {
+		ISourceViewer viewer= getSourceViewer();
+		if (!(viewer instanceof ISourceViewerExtension2))
+			return;
+		((ISourceViewerExtension2)viewer).unconfigure();
+		
+		setSourceViewerConfiguration(new XMLConfiguration(highlightingManager));
+		viewer.configure(getSourceViewerConfiguration());
 	}
 	
 	@Override

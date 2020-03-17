@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditorSourceViewerConfiguration;
 import org.eclipse.epsilon.common.dt.editor.DefaultDamagerRepairer2;
 import org.eclipse.epsilon.common.dt.editor.contentassist.AbstractModuleEditorCompletionProcessor;
-import org.eclipse.epsilon.common.dt.util.EclipseUtil;
+import org.eclipse.epsilon.common.dt.editor.highlighting.EpsilonHighlightingManager;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IAutoIndentStrategy;
@@ -43,30 +43,19 @@ import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
 
 @SuppressWarnings("deprecation")
 public class EglConfiguration extends SourceViewerConfiguration {
 
 	private final AbstractModuleEditorSourceViewerConfiguration configuration;
-	private Color staticTextColour;
 	protected EolEditor eolEditor;
+	private EpsilonHighlightingManager highlightingManager;
 	
 	public EglConfiguration(AbstractModuleEditorSourceViewerConfiguration configuration, EolEditor eolEditor) {
 		this.configuration = configuration;
 		this.eolEditor = eolEditor;
-		initialiseColours();
-	}
-	
-	public void initialiseColours() {
-		if (EclipseUtil.isDarkThemeEnabled()) {
-			staticTextColour = new Color(Display.getCurrent(), new RGB(115, 148, 255));
-		}
-		else {
-			staticTextColour = new Color(Display.getCurrent(), new RGB(42, 0, 255));
-		}
+		highlightingManager = new EpsilonHighlightingManager();
+		highlightingManager.initialiseDefaultColors();
 	}
 	
 	@Override
@@ -105,7 +94,7 @@ public class EglConfiguration extends SourceViewerConfiguration {
 	
 	private ITokenScanner getStaticTextScanner() {
 		final RuleBasedScanner scanner       = new RuleBasedScanner();
-		final TextAttribute    textAttribute = new TextAttribute(staticTextColour);
+		final TextAttribute    textAttribute = new TextAttribute(highlightingManager.getEGLStaticColor());
 		
 		scanner.setDefaultReturnToken(new Token(textAttribute));
 		
@@ -114,13 +103,13 @@ public class EglConfiguration extends SourceViewerConfiguration {
 	
 	private ITokenScanner getCommentScanner() {
 		final RuleBasedScanner scanner       = new RuleBasedScanner();
-		scanner.setDefaultReturnToken(new Token(new TextAttribute(configuration.getScanner().getCommentColor(), null, SWT.NORMAL)));
+		scanner.setDefaultReturnToken(new Token(new TextAttribute(highlightingManager.getCommentColor(), null, SWT.NORMAL)));
 		return scanner;
 	}
 	
 	private ITokenScanner getMarkerScanner() {
 		final RuleBasedScanner scanner       = new RuleBasedScanner();
-		scanner.setDefaultReturnToken(new Token(new TextAttribute(configuration.getScanner().getMarkerColor(), null, SWT.BOLD)));
+		scanner.setDefaultReturnToken(new Token(new TextAttribute(highlightingManager.getMarkerColor(), null, SWT.BOLD)));
 		return scanner;
 	}
 	

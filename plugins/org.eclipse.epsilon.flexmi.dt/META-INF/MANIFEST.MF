@@ -11,4 +11,6 @@ Require-Bundle: org.eclipse.jface.text,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.epsilon.flexmi.dt
 Automatic-Module-Name: org.eclipse.epsilon.flexmi.dt
+Bundle-Activator: org.eclipse.epsilon.flexmi.dt.FlexmiPlugin
+Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse Modeling Project

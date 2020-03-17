@@ -26,9 +26,9 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 	private XMLDoubleClickStrategy doubleClickStrategy;
 	private XMLTagScanner tagScanner;
 	private XMLScanner scanner;
-	private ColorManager colorManager;
+	private FlexmiHighlightingManager colorManager;
 
-	public XMLConfiguration(ColorManager colorManager) {
+	public XMLConfiguration(FlexmiHighlightingManager colorManager) {
 		this.colorManager = colorManager;
 	}
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {

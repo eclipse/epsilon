@@ -19,7 +19,7 @@ import org.eclipse.jface.text.rules.WhitespaceRule;
 
 public class XMLTagScanner extends RuleBasedScanner {
 
-	public XMLTagScanner(ColorManager colorManager) {
+	public XMLTagScanner(FlexmiHighlightingManager colorManager) {
 		IToken string = new Token(new TextAttribute(colorManager.getStringColor()));
 		
 		IRule[] rules = new IRule[3];

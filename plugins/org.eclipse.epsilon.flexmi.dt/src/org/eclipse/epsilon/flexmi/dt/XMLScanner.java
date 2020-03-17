@@ -14,7 +14,7 @@ import org.eclipse.jface.text.*;
 
 public class XMLScanner extends RuleBasedScanner {
 
-	public XMLScanner(ColorManager colorManager) {
+	public XMLScanner(FlexmiHighlightingManager colorManager) {
 		IToken procInstr =
 			new Token(new TextAttribute(colorManager.getProcInstrColor()));
 
