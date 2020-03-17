@@ -1,0 +1,16 @@
+var graph := new Graph;
+
+for (i in Sequence{1..100}) {
+	graph.nodes.add(new Node);
+}
+
+for (i in Sequence{1..80}) {
+	var edge := new Edge;
+	edge.source := randomNode();
+	edge.target := randomNode();
+}
+
+
+operation randomNode() : Node {
+	return graph.nodes.random();
+}

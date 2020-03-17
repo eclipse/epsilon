@@ -1,0 +1,12 @@
+@namespace(uri="graph", prefix="graph")
+package graph;
+
+class Graph {
+   val Node[*] nodes;
+}
+
+class Node {
+   attr String name;
+   ref Node[*]#predecessors successors;
+   ref Node[*]#successors predecessors;
+}

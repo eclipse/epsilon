@@ -1,0 +1,5 @@
+@startuml
+[%for (i in Interaction.all){%]
+[%=i.from.name%] -> [%=i.to.name%]: [%=i.message%]
+[%}%]
+@enduml

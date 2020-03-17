@@ -1,0 +1,19 @@
+5 operations:
+
+            Index 1 | Delete | Index 2 | Move | Index 3 | Change 
+Aggregated
+Individual
+
+
+10 operations:
+
+            Index 1 | Delete | Index 2 | Move | Index 3 | Change 
+Aggregated
+Individual
+
+
+15 operations:
+
+            Index 1 | Delete | Index 2 | Move | Index 3 | Change 
+Aggregated
+Individual

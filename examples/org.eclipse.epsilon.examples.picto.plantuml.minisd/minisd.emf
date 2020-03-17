@@ -1,0 +1,17 @@
+@namespace(uri="minisd", prefix="")
+package minisd;
+
+class Model {
+	val Participant[*] participants;
+	val Interaction[*] interaction;
+}
+
+class Participant {
+	attr String name;
+}
+
+class Interaction {
+	ref Participant from;
+	ref Participant to;
+	attr String message;
+}
