@@ -8,7 +8,7 @@ pipeline {
       KEYRING = credentials('secret-subkeys.asc')
     }
     tools {
-        maven 'apache-maven-3.5.4'
+        maven 'apache-maven-3.6.3'
         jdk 'oracle-jdk8-latest'
     }
     triggers {
@@ -60,27 +60,27 @@ done
         }
     }
     post {
-      always {
-		mail to: 'epsilon-dev@eclipse.org',
-		  subject: 'Epsilon Interim build emails now WORKING!',
-		  body: "Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}. More info at ${env.BUILD_URL}",
-          charset: 'UTF-8',
-          mimeType: 'text/html'
-		
-        /*emailext (body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+      /*always {
+        emailext (body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
                 recipientProviders: [[
                    $class: "DevelopersRecipientProvider",
                    $class: "RequesterRecipientProvider"
                 ]],
             subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
 			to: "epsilon-dev@eclipse.org"
-		)*/
-      }
+		)
+      }*/
       success {
         slackSend (channel: '#ci-notifications', botUser: true, color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
       }
       failure {
         slackSend (channel: '#ci-notifications', botUser: true, color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+		
+		mail to: 'epsilon-dev@eclipse.org',
+		  subject: 'Epsilon Interim build failed!',
+		  body: "Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}. More info at ${env.BUILD_URL}",
+          charset: 'UTF-8',
+          mimeType: 'text/html'
       }
     }
 }
