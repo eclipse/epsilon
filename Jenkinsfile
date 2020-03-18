@@ -8,7 +8,7 @@ pipeline {
       KEYRING = credentials('secret-subkeys.asc')
     }
     tools {
-        maven 'apache-maven-3.6.3'
+        maven 'apache-maven-3.6.2'
         jdk 'oracle-jdk8-latest'
     }
     triggers {
