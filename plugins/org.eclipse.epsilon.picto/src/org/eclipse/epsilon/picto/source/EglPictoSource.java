@@ -1,6 +1,7 @@
 package org.eclipse.epsilon.picto.source;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import org.eclipse.epsilon.common.dt.console.EpsilonConsole;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
@@ -84,15 +86,9 @@ public abstract class EglPictoSource implements PictoSource {
 			module.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
 			
 			if (renderingMetadata.getTemplate() == null) throw new Exception("No EGL file specified.");
-			
-			File eglFile = new File(renderingMetadata.getTemplate()); 
-			if (!eglFile.isAbsolute()) {
-				eglFile = new File(modelFile.getParentFile(), renderingMetadata.getTemplate());
-			}
-			
-			if (!eglFile.exists()) throw new Exception("Cannot find file " + eglFile.getAbsolutePath());
-			
-			module.parse(eglFile);
+						
+			URI templateUri = UriUtil.resolve(renderingMetadata.getTemplate(), modelFile.toURI());
+			module.parse(templateUri);
 			
 			IEolContext context = module.getContext();
 			context.setOutputStream(EpsilonConsole.getInstance().getDebugStream());
@@ -108,11 +104,7 @@ public abstract class EglPictoSource implements PictoSource {
 			context.getModelRepository().addModels(models);
 			
 			if (renderingMetadata.getFormat().equals("egx")) {
-				
-				EglTemplateFactory templateFactory = new EglTemplateFactory();
-				templateFactory.setTemplateRoot(eglFile.getParentFile().toURI().toString());
-				((IEgxModule) module).getContext().setTemplateFactory(templateFactory);
-				
+								
 				List<LazyGenerationRuleContentPromise> instances = (List<LazyGenerationRuleContentPromise>) module.execute();
 				for (LazyGenerationRuleContentPromise instance : instances) {
 					String format = "html";
