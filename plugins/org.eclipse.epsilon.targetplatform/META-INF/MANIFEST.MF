@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Epsilon Target Platform Definition
-Bundle-SymbolicName: org.eclipse.epsilon.targetplatform
-Bundle-Version: 1.6.0.qualifier
-Bundle-Vendor: Eclipse.org

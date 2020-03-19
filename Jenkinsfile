@@ -28,7 +28,7 @@ pipeline {
           when { branch 'master' }
           steps {
             lock('download-area') {
-              sshagent ( ['projects-storage.eclipse.org-bot-ssh']) {
+              sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                 sh '''
                   ssh genie.epsilon@projects-storage.eclipse.org rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim
                   scp -r "$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/site" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim

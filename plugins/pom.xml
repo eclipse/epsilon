@@ -122,7 +122,6 @@
     <module>org.eclipse.epsilon.perspective</module>
     <module>org.eclipse.epsilon.profiling</module>
     <module>org.eclipse.epsilon.profiling.dt</module>
-    <module>org.eclipse.epsilon.targetplatform</module>
     <module>org.eclipse.epsilon.workflow</module>
     <module>org.eclipse.epsilon.workflow.csv</module>
     <module>org.eclipse.epsilon.workflow.emf</module>

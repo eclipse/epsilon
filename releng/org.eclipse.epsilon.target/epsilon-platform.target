@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?><target name="Epsilon Target Platform" sequenceNumber="112">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+<target name="Epsilon Target Platform" sequenceNumber="112">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.emf.emfatic.feature.group" version="0.8.0.201507261242"/>
-<repository location="http://download.eclipse.org/emfatic/update/"/>
+<repository location="http://download.eclipse.org/emfatic/update"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.e4.core.tools.feature.feature.group" version="4.8.0.v20180512-1132"/>
@@ -18,7 +20,7 @@
 <unit id="org.eclipse.platform.sdk" version="4.8.0.I20180611-0500"/>
 <unit id="org.eclipse.rcp.feature.group" version="4.8.0.v20180611-0656"/>
 <unit id="org.eclipse.sdk.ide" version="4.8.0.I20180611-0500"/>
-<repository location="http://download.eclipse.org/releases/photon/"/>
+<repository location="http://download.eclipse.org/releases/photon"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.gmf.sdk.feature.group" version="3.2.1.201409171321"/>
@@ -77,6 +79,6 @@
 </locations>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 <launcherArgs>
-<vmArgs>-Dosgi.requiredJavaVersion=1.8 -Xmx512m</vmArgs>
+<vmArgs>-Dosgi.requiredJavaVersion=1.8</vmArgs>
 </launcherArgs>
 </target>
