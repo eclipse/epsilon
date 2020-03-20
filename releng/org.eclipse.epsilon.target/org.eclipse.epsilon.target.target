@@ -3,7 +3,7 @@
 <target name="Epsilon Target Platform" sequenceNumber="112">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.emf.emfatic.feature.group" version="0.8.0.201507261242"/>
+<unit id="org.eclipse.emf.emfatic.feature.group" version="0.0.0"/>
 <repository location="http://download.eclipse.org/emfatic/update"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">

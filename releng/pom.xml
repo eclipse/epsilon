@@ -42,7 +42,7 @@
           </repository>
         </repositories-->
         <modules>
-          <module>org.eclipse.epsilon.targetplatform</module>
+          <module>org.eclipse.epsilon.target</module>
           <module>org.eclipse.epsilon.updatesite.interim</module>
         </modules>
     </profile>

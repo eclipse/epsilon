@@ -31,7 +31,7 @@
 
   <build>
     <!-- https://wiki.eclipse.org/IT_Infrastructure_Doc#Sign_my_plugins.2FZIP_files.3F -->
-    <pluginManagement>
+    <!--pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.eclipse.cbi.maven.plugins</groupId>
@@ -51,7 +51,7 @@
           </executions>
         </plugin>
       </plugins>
-    </pluginManagement>
+    </pluginManagement-->
 	
     <plugins>
       <plugin>
@@ -108,7 +108,7 @@
           <target>
             <artifact>
               <groupId>${project.groupId}</groupId>
-              <artifactId>org.eclipse.epsilon.targetplatform</artifactId>
+              <artifactId>org.eclipse.epsilon.target</artifactId>
               <version>1.6.0-SNAPSHOT</version>
             </artifact>
           </target>
@@ -171,11 +171,11 @@
       </plugin>
 	  
 	  <!-- https://www.eclipse.org/cbi/sitedocs/eclipse-jarsigner-plugin/plugin-info.html -->
-	  <plugin>
+	  <!--plugin>
         <groupId>org.eclipse.cbi.maven.plugins</groupId>
         <artifactId>eclipse-jarsigner-plugin</artifactId>
         <version>1.1.7</version>
-      </plugin>
+      </plugin-->
 	  
     </plugins>
   </build>
