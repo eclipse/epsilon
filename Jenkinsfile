@@ -25,7 +25,7 @@ pipeline {
 		    lock('download-area') {
 		      sshagent (['projects-storage.eclipse.org-bot-ssh']) {
 			    sh '''
-				  ssh genie.epsilon@projects-storage.eclipse.org 'cd /home/data/httpd/download.eclipse.org/epsilon/interim && for jar in $(ls features/*.jar | xargs -n 1 basename); do curl -o features-signed/$jar -F file=@features/$jar http://build.eclipse.org:31338/sign ; done && rm -rf features/*.jar; mv features-signed features && rm -rf features-signed; for jar in $(ls plugins/*.jar | xargs -n 1 basename); do curl -o plugins-signed/$jar -F file=@plugins/$jar http://build.eclipse.org:31338/sign ; done && rm -rf plugins/*.jar; mv plugins-signed plugins && rm -rf plugins-signed;'
+				  ssh genie.epsilon@projects-storage.eclipse.org 'cd /home/data/httpd/download.eclipse.org/epsilon/interim && for jar in $(ls features/*.jar | xargs -n 1 basename); do curl -o features-signed/$jar -F file=@features/$jar http://build.eclipse.org:31338/sign ; done; rm features/*.jar; mv features-signed features && for jar in $(ls plugins/*.jar | xargs -n 1 basename); do curl -o plugins-signed/$jar -F file=@plugins/$jar http://build.eclipse.org:31338/sign ; done; rm plugins/*.jar; mv plugins-signed plugins'
 				'''
 		      }
 		    }
