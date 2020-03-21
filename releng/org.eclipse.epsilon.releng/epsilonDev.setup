@@ -73,6 +73,13 @@
     <description>${scope.project.label}</description>
   </setupTask>
   <setupTask
+      xsi:type="git:GitCloneTask"
+      id="epsilon.antlr.git.clone"
+      remoteURI="https://github.com/epsilonlabs/epsilon-antlr-dev.git"
+      checkoutBranch="master">
+    <description>Epsilon ANTLR</description>
+  </setupTask>
+  <setupTask
       xsi:type="projects:ProjectsImportTask">
     <sourceLocator
         rootFolder="${epsilon.git.clone.location/plugins}"/>
@@ -86,6 +93,8 @@
         rootFolder="${epsilon.git.clone.location/features}"/>
     <sourceLocator
         rootFolder="${epsilon.git.clone.location/releng}"/>
+    <sourceLocator
+        rootFolder="{epsilon.antlr.git.clone.location}"/>
     <description>Development Projects</description>
   </setupTask>
   <setupTask
@@ -123,7 +132,7 @@
         </operand>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.6/@workingSets[name='Epsilon%20Examples'] //@setupTasks.6/@workingSets[name='Epsilon%20Features'] //@setupTasks.6/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.6/@workingSets[name='Epsilon%20Tests'] //@setupTasks.6/@workingSets[name='Epsilon%20DT']"/>
+            excludedWorkingSet="//@setupTasks.7/@workingSets[name='Epsilon%20Examples'] //@setupTasks.7/@workingSets[name='Epsilon%20Features'] //@setupTasks.7/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.7/@workingSets[name='Epsilon%20Tests'] //@setupTasks.7/@workingSets[name='Epsilon%20DT']"/>
       </predicate>
       <predicate
           xsi:type="predicates:OrPredicate">
@@ -153,7 +162,7 @@
         </operand>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.6/@workingSets[name='Epsilon%20Examples'] //@setupTasks.6/@workingSets[name='Epsilon%20Features'] //@setupTasks.6/@workingSets[name='Epsilon%20Tests']"/>
+            excludedWorkingSet="//@setupTasks.7/@workingSets[name='Epsilon%20Examples'] //@setupTasks.7/@workingSets[name='Epsilon%20Features'] //@setupTasks.7/@workingSets[name='Epsilon%20Tests']"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -165,7 +174,7 @@
             pattern="org.eclipse.epsilon.emc.*"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.6/@workingSets[name='Epsilon%20Examples'] //@setupTasks.6/@workingSets[name='Epsilon%20Features'] //@setupTasks.6/@workingSets[name='Epsilon%20Tests'] //@setupTasks.6/@workingSets[name='Epsilon%20DT']"/>
+            excludedWorkingSet="//@setupTasks.7/@workingSets[name='Epsilon%20Examples'] //@setupTasks.7/@workingSets[name='Epsilon%20Features'] //@setupTasks.7/@workingSets[name='Epsilon%20Tests'] //@setupTasks.7/@workingSets[name='Epsilon%20DT']"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -201,7 +210,7 @@
         </operand>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.6/@workingSets[name='Epsilon%20Examples'] //@setupTasks.6/@workingSets[name='Epsilon%20Tests']"/>
+            excludedWorkingSet="//@setupTasks.7/@workingSets[name='Epsilon%20Examples'] //@setupTasks.7/@workingSets[name='Epsilon%20Tests']"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -225,7 +234,7 @@
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.6/@workingSets[name='Epsilon%20Core'] //@setupTasks.6/@workingSets[name='Epsilon%20Examples'] //@setupTasks.6/@workingSets[name='Epsilon%20Features'] //@setupTasks.6/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.6/@workingSets[name='Epsilon%20Tests']"/>
+            excludedWorkingSet="//@setupTasks.7/@workingSets[name='Epsilon%20Core'] //@setupTasks.7/@workingSets[name='Epsilon%20Examples'] //@setupTasks.7/@workingSets[name='Epsilon%20Features'] //@setupTasks.7/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.7/@workingSets[name='Epsilon%20Tests']"/>
         <operand
             xsi:type="predicates:NamePredicate"
             pattern="org.eclipse.epsilon.*"/>
