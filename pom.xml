@@ -213,6 +213,9 @@
 	
 	<profile>
 	  <id>eclipse-sign</id>
+	  <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
 	  <build>
 	    <plugins>
 	      <!-- https://www.eclipse.org/cbi/sitedocs/eclipse-jarsigner-plugin/plugin-info.html -->
@@ -232,9 +235,6 @@
                 </goals>
               </execution>
             </executions>
-			<activation>
-              <activeByDefault>false</activeByDefault>
-            </activation>
           </plugin>
 		</plugins>
 	  </build>
