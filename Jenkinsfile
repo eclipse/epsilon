@@ -26,7 +26,7 @@ pipeline {
 		    lock('download-area') {
 		      sshagent (['projects-storage.eclipse.org-bot-ssh']) {
 			    sh '''
-				  ssh genie.epsilon@projects-storage.eclipse.org 'cd /home/data/httpd/download.eclipse.org/epsilon/interim && for jar in $(ls features/*.jar | xargs -n 1 basename); do curl --create-dirs -o features-signed/$jar -F file=@features/$jar http://build.eclipse.org:31338/sign ; done; mv features-signed features && for jar in $(ls plugins/*.jar | xargs -n 1 basename); do curl --create-dirs -o plugins-signed/$jar -F file=@plugins/$jar http://build.eclipse.org:31338/sign ; done; mv plugins-signed plugins'
+				  ssh genie.epsilon@projects-storage.eclipse.org 'cd /home/data/httpd/download.eclipse.org/epsilon/interim && for jar in $(ls features/*.jar | xargs -n 1 basename); do echo "Signing $jar..."; curl --create-dirs -o "features-signed/$jar" -F file=@features/$jar http://build.eclipse.org:31338/sign; done; mv features-signed features && for jar in $(ls plugins/*.jar | xargs -n 1 basename); do echo "Signing $jar..."; curl --create-dirs -o "plugins-signed/$jar" -F file=@plugins/$jar http://build.eclipse.org:31338/sign; done; mv plugins-signed plugins'
 				'''
 		      }
 		    }
@@ -44,7 +44,7 @@ pipeline {
                   ssh genie.epsilon@projects-storage.eclipse.org rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-*
 				  ssh genie.epsilon@projects-storage.eclipse.org mkdir -p /home/data/httpd/download.eclipse.org/epsilon/interim-jars
                   scp "$WORKSPACE"/standalone/org.eclipse.epsilon.standalone/target/epsilon-* genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim-jars/
-                  #ssh genie.epsilon@projects-storage.eclipse.org 'cd /home/data/httpd/download.eclipse.org/epsilon && for jar in $(ls interim-jars-unsigned/*.jar | xargs -n 1 basename); do curl -o interim-jars/$jar -F file=@interim-jars-unsigned/$jar http://build.eclipse.org:31338/sign ; done; rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-jars-unsigned'
+                  #ssh genie.epsilon@projects-storage.eclipse.org 'cd /home/data/httpd/download.eclipse.org/epsilon && for jar in $(ls interim-jars-unsigned/*.jar | xargs -n 1 basename); do curl -o interim-jars/$jar -F file=@interim-jars-unsigned/$jar http://build.eclipse.org:31338/sign; done; rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-jars-unsigned'
                   scp -r "$WORKSPACE/target/site/apidocs" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim-javadoc
                 '''
               }
