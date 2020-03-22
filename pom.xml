@@ -15,8 +15,8 @@
 
   <repositories>
     <repository>
-	  <id>repo.eclipse.org</id>
-      <url>https://repo.eclipse.org/content/repositories/releases</url>
+	  <id>eclipse-cbi</id>
+      <url>https://repo.eclipse.org/content/repositories/cbi</url>
 	</repository>
   </repositories>
 
@@ -25,16 +25,16 @@
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
-	<!--repository>
+	<repository>
       <id>eclipse-repo-releases</id>
       <name>Epsilon Repository - Releases</name>
       <url>https://repo.eclipse.org/content/repositories/epsilon-releases</url>
-    </repository-->
-    <snapshotRepository>
+    </repository>
+    <!--snapshotRepository>
       <id>eclipse-repo-snapshots</id>
       <name>Epsilon Repository - Snapshots</name>
       <url>https://repo.eclipse.org/content/repositories/epsilon-snapshots</url>
-    </snapshotRepository>
+    </snapshotRepository-->
   </distributionManagement>
 
   <modules>
