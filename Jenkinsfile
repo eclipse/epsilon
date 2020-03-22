@@ -16,6 +16,7 @@ pipeline {
     }
     stages {
         stage('Build') {
+		  when { not { changeset "examples/*" } }
           steps {
             slackSend (channel: '#ci-notifications', botUser: true, color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
@@ -32,7 +33,7 @@ pipeline {
           }
         }
         stage('Update website') {
-          when { branch 'master' }
+          when { allOf { branch 'master'; not { changeset "examples/*" } } }
           steps {
             lock('download-area') {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
@@ -51,14 +52,14 @@ pipeline {
           }
         }
         stage('Deploy to OSSRH') {
-          when { branch 'master' }
+          when { allOf { branch 'master'; not { changeset "examples/*" } } }
           steps {
             sh '''
-gpg --batch --import "${KEYRING}"
-for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u);
-do
-  echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
-done
+			  gpg --batch --import "${KEYRING}"
+			  for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u);
+			  do
+			    echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
+			  done
             '''
             lock('ossrh') {
               sh 'mvn -B --quiet -f standalone/org.eclipse.epsilon.standalone/pom.xml -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
