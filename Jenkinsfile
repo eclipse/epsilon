@@ -26,7 +26,7 @@ pipeline {
 		    lock('download-area') {
 		      sshagent (['projects-storage.eclipse.org-bot-ssh']) {
 			    sh '''
-				  ssh genie.epsilon@projects-storage.eclipse.org 'cd /home/data/httpd/download.eclipse.org/epsilon/interim && declare -a folders=("features" "plugins"); for folder in "${folders[@]}"; do for jar in $(ls ${folder}/*.jar | xargs -n 1 basename); do echo "Signing ${jar}..."; curl --create-dirs -o "${folder}-signed/$jar" -F "file=@${folder}/$jar" http://build.eclipse.org:31338/sign; done && mv ${folder}-signed ${folder}; done;
+				  ssh genie.epsilon@projects-storage.eclipse.org 'cd /home/data/httpd/download.eclipse.org/epsilon/interim && declare -a folders=("features" "plugins"); for folder in "${folders[@]}"; do for jar in $(ls ${folder}/*.jar | xargs -n 1 basename); do echo "Signing ${jar}..."; curl --create-dirs -o "${folder}-signed/$jar" -F "file=@${folder}/$jar" http://build.eclipse.org:31338/sign; done && mv ${folder}-signed ${folder}; done;'
 				'''
 		      }
 		    }
