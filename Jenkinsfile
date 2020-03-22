@@ -23,13 +23,6 @@ pipeline {
               sh 'mvn -B --quiet clean install javadoc:aggregate'
             }
             sh 'cd standalone/org.eclipse.epsilon.standalone/ && bash build-javadoc-jar.sh'
-		    lock('download-area') {
-		      sshagent (['projects-storage.eclipse.org-bot-ssh']) {
-			    sh '''
-				  ssh genie.epsilon@projects-storage.eclipse.org 'cd /home/data/httpd/download.eclipse.org/epsilon/interim && declare -a folders=("features" "plugins"); for folder in "${folders[@]}"; do cd $folder && for jar in $(ls *.jar); do echo "Signing ${jar}..." && curl --create-dirs -o "signed/$jar" -F "file=@$jar" http://build.eclipse.org:31338/sign; done && mv -f signed/* . && rm -r signed && cd ../; done;'
-				'''
-		      }
-		    }
           }
         }
         stage('Update website') {
@@ -51,6 +44,18 @@ pipeline {
             }
           }
         }
+		stage('Sign JARs') {
+		  when { allOf { branch 'master'; anyOf { changeset { "features/*" }; changeset { "plugins/*" } } } }
+		  steps {
+		    lock('download-area') {
+		      sshagent (['projects-storage.eclipse.org-bot-ssh']) {
+			    sh '''
+				  ssh genie.epsilon@projects-storage.eclipse.org 'cd /home/data/httpd/download.eclipse.org/epsilon/interim && declare -a folders=("features" "plugins"); for folder in "${folders[@]}"; do cd $folder && for jar in $(ls *.jar); do echo "Signing ${jar}..." && curl --create-dirs -o "signed/$jar" -F "file=@$jar" http://build.eclipse.org:31338/sign; done && mv -f signed/* . && rm -r signed && cd ../; done;'
+				'''
+		      }
+		    }
+		  }
+		}
         stage('Deploy to OSSRH') {
           when { allOf { branch 'master'; not { changeset "examples/*" } } }
           steps {
