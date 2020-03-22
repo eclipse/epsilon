@@ -13,10 +13,27 @@
     <tycho.version>1.0.0</tycho.version>
   </properties>
 
+  <repositories>
+    <repository>
+	  <id>eclipse-repo</id>
+      <url>https://repo.eclipse.org/content/repositories/releases</url>
+	</repository>
+  </repositories>
+
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+	<repository>
+      <id>repo.eclipse.org</id>
+      <name>Epsilon Repository - Releases</name>
+      <url>https://repo.eclipse.org/content/repositories/epsilon-releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>repo.eclipse.org</id>
+      <name>Epsilon Repository - Snapshots</name>
+      <url>https://repo.eclipse.org/content/repositories/epsilon-snapshots</url>
     </snapshotRepository>
   </distributionManagement>
 
