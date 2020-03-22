@@ -45,7 +45,7 @@ pipeline {
           }
         }
 		stage('Sign JARs') {
-		  when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features\/.*)|(plugins\/.*)' }
+		  when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features.*)|(plugins.*)' }
 		  steps {
 		    lock('download-area') {
 		      sshagent (['projects-storage.eclipse.org-bot-ssh']) {
@@ -57,7 +57,7 @@ pipeline {
 		  }
 		}
         stage('Deploy to OSSRH') {
-          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features\/.*)|(plugins\/.*)|(standalone\/.*)' }
+          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features.*)|(plugins.*)|(standalone.*)' }
           steps {
             sh '''
 			  gpg --batch --import "${KEYRING}"
