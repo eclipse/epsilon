@@ -16,7 +16,7 @@ pipeline {
     }
     stages {
         stage('Build') {
-		  when { not { changeset 'examples/**' } }
+		    when { not { changeset 'examples/**' } }
           steps {
             slackSend (channel: '#ci-notifications', botUser: true, color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
@@ -45,7 +45,7 @@ pipeline {
           }
         }
 		stage('Sign JARs') {
-		  when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features.*)|(plugins.*)' }
+		  when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features.*)|(plugins.*)' } }
 		  steps {
 		    lock('download-area') {
 		      sshagent (['projects-storage.eclipse.org-bot-ssh']) {
