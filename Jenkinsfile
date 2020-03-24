@@ -4,7 +4,7 @@ pipeline {
         label 'ui-test'
       }
     }
-	properties {
+	options {
 		disableConcurrentBuilds()
 		buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '28', numToKeepStr: ''))
 	}
