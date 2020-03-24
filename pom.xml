@@ -255,9 +255,9 @@
       </build>
     </profile>
   
-    <profile>
+    <!--profile>
       <id>maven-sign</id>
-	  <activation>
+      <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
       <build>
@@ -269,7 +269,7 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
+    </profile-->
   
     <profile>
       <id>java8-doclint-disabled</id>
