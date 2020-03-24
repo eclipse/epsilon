@@ -4,8 +4,12 @@ pipeline {
         label 'ui-test'
       }
     }
+	properties {
+		disableConcurrentBuilds()
+		buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '28', numToKeepStr: ''))
+	}
     environment {
-      KEYRING = credentials('secret-subkeys.asc')
+		KEYRING = credentials('secret-subkeys.asc')
     }
     tools {
         maven 'apache-maven-3.5.4'
@@ -20,7 +24,7 @@ pipeline {
           steps {
             slackSend (channel: '#ci-notifications', botUser: true, color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
-              sh 'mvn -B -U --quiet clean install javadoc:aggregate'
+              sh 'mvn -B --quiet clean install javadoc:aggregate'
             }
             sh 'cd standalone/org.eclipse.epsilon.standalone/ && bash build-javadoc-jar.sh'
           }
