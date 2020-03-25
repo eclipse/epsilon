@@ -13,7 +13,7 @@
     <tycho.version>1.0.0</tycho.version>
   </properties>
 
-  <repositories>
+  <!--repositories>
     <repository>
       <id>eclipse.cbi.releases</id>
       <name>Eclipse CBI Releases</name>
@@ -22,7 +22,20 @@
         <enabled>true</enabled>
       </releases>
     </repository>
-  </repositories>
+  </repositories-->
+  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>eclipse</id>
+      <url>https://repo.eclipse.org/content/groups/cbi</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
 
   <distributionManagement>
     <snapshotRepository>
