@@ -15,8 +15,12 @@
 
   <repositories>
     <repository>
-      <id>eclipse-cbi</id>
-      <url>https://repo.eclipse.org/content/repositories/cbi</url>
+      <id>eclipse.cbi.releases</id>
+      <name>Eclipse CBI Releases</name>
+      <url>https://repo.eclipse.org/content/groups/cbi</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </repository>
   </repositories>
 
