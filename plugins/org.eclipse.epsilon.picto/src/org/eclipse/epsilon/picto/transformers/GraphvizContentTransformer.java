@@ -48,10 +48,10 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 		p.waitFor();
 		
 		if (image.exists()) {
-			return new ViewContent("svg", new String(Files.readAllBytes(image.toPath())));
+			return new ViewContent("svg", new String(Files.readAllBytes(image.toPath())), content.getPatches());
 		}
 		else {
-			return new ViewContent("exception", new String(Files.readAllBytes(log.toPath())));
+			return new ViewContent("exception", new String(Files.readAllBytes(log.toPath())), content.getPatches());
 		}
 	}
 	

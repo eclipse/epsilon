@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.epsilon.picto;singleton:=true
 Bundle-Version: 1.6.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse Modeling Project
-Bundle-Localization: plugin
 Automatic-Module-Name: org.eclipse.epsilon.picto
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.epsilon.flexmi,

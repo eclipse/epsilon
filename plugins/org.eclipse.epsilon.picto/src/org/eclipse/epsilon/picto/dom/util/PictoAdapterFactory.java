@@ -80,6 +80,18 @@ public class PictoAdapterFactory extends AdapterFactoryImpl {
 				return createParameterAdapter();
 			}
 			@Override
+			public Adapter caseCustomView(CustomView object) {
+				return createCustomViewAdapter();
+			}
+			@Override
+			public Adapter caseLayerConfiguration(LayerConfiguration object) {
+				return createLayerConfigurationAdapter();
+			}
+			@Override
+			public Adapter casePatch(Patch object) {
+				return createPatchAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -138,6 +150,48 @@ public class PictoAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.epsilon.picto.dom.CustomView <em>Custom View</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView
+	 * @generated
+	 */
+	public Adapter createCustomViewAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.epsilon.picto.dom.LayerConfiguration <em>Layer Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.epsilon.picto.dom.LayerConfiguration
+	 * @generated
+	 */
+	public Adapter createLayerConfigurationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.epsilon.picto.dom.Patch <em>Patch</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.epsilon.picto.dom.Patch
+	 * @generated
+	 */
+	public Adapter createPatchAdapter() {
 		return null;
 	}
 

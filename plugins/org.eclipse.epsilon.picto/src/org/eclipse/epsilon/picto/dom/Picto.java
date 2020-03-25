@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#isStandalone <em>Standalone</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#getModels <em>Models</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.Picto#getCustomViews <em>Custom Views</em>}</li>
  * </ul>
  *
  * @see org.eclipse.epsilon.picto.dom.PictoPackage#getPicto()
@@ -116,5 +117,17 @@ public interface Picto extends EObject {
 	 * @generated
 	 */
 	EList<Parameter> getParameters();
+
+	/**
+	 * Returns the value of the '<em><b>Custom Views</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.epsilon.picto.dom.CustomView}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Custom Views</em>' containment reference list.
+	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getPicto_CustomViews()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<CustomView> getCustomViews();
 
 } // Picto

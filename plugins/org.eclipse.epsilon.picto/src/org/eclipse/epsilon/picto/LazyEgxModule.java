@@ -21,11 +21,13 @@ import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.dom.GenerationRule;
 import org.eclipse.epsilon.egl.execute.context.IEgxContext;
+import org.eclipse.epsilon.eol.dom.Parameter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.types.EolAnyType;
 
 public class LazyEgxModule extends EgxModule {
 	
@@ -89,7 +91,7 @@ public class LazyEgxModule extends EgxModule {
 			
 			if (parametersBlock != null) {
 				for (Map.Entry<String, ?> entry : parametersBlock.execute(context, false).entrySet()) {
-					variables.add(Variable.createReadOnlyVariable(entry.getKey(), entry.getValue()));
+					variables.add(new Variable(entry.getKey(), entry.getValue(), EolAnyType.Instance, false));
 				}
 			}
 			
@@ -108,6 +110,11 @@ public class LazyEgxModule extends EgxModule {
 			}
 			return promises;
 		}
+		
+		public Parameter getSourceParameter() {
+			return sourceParameter;
+		}
+		
 	}
 	
 	public class LazyGenerationRuleContentPromise implements ContentPromise {

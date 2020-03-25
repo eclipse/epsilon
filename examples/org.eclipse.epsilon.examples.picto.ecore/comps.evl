@@ -1,6 +1,6 @@
 context Component {
 	
-	/* Component names should start with an upper case letter */
+	/* Component names should start with an upper-case letter */
 	critique NameStartsWithUpperCase {
 		
 		check : self.name = self.name.ftuc()

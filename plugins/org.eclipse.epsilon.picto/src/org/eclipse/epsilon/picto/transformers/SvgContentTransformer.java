@@ -12,7 +12,7 @@ public class SvgContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public ViewContent transform(ViewContent content, ViewRenderer renderer) throws Exception {
-		return new ViewContent("html", "<html><body style=\"zoom:" + renderer.getZoom() + "\">" + content.getText() + "</body></html>");
+		return new ViewContent("html", "<html><body style=\"zoom:" + renderer.getZoom() + "\">" + content.getText() + "</body></html>", content.getPatches());
 	}
 	
 	@Override

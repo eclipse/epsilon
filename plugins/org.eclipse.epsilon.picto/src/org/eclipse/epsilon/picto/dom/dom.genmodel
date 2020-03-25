@@ -13,6 +13,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Picto/standalone"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//Picto/models"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//Picto/parameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//Picto/customViews"/>
     </genClasses>
     <genClasses ecoreClass="dom.ecore#//Model">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Model/name"/>
@@ -22,7 +23,26 @@
     <genClasses ecoreClass="dom.ecore#//Parameter">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Parameter/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Parameter/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Parameter/values"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Parameter/file"/>
+    </genClasses>
+    <genClasses ecoreClass="dom.ecore#//CustomView">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//CustomView/path"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//CustomView/icon"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//CustomView/format"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//CustomView/rule"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//CustomView/content"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//CustomView/patches"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//CustomView/parameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//CustomView/layerConfigurations"/>
+    </genClasses>
+    <genClasses ecoreClass="dom.ecore#//LayerConfiguration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//LayerConfiguration/ids"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//LayerConfiguration/active"/>
+    </genClasses>
+    <genClasses ecoreClass="dom.ecore#//Patch">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Patch/format"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Patch/content"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

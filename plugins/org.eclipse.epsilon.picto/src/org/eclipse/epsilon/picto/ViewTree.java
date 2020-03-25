@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.swt.graphics.Point;
 
 public class ViewTree {
@@ -23,6 +24,7 @@ public class ViewTree {
 	protected String name = "";
 	protected String format = "html";
 	protected String icon = "folder";
+	protected List<Patch> patches = new ArrayList<Patch>();
 	protected ViewTree parent;
 	protected Point scrollPosition = new Point(0, 0);
 	protected ViewContent cachedContent = null;
@@ -32,12 +34,12 @@ public class ViewTree {
 
 		ViewTree pathTree = new ViewTree("");
 		pathTree.addPath(Arrays.asList("e1", "e2"),
-				new StringContentPromise("c1"), "text", "", Collections.emptyList());
+				new StringContentPromise("c1"), "text", "", Collections.emptyList(), Collections.emptyList());
 		pathTree.addPath(Arrays.asList("e1", "e3", "e4"),
-				new StringContentPromise("c2"), "text", "", Collections.emptyList());
+				new StringContentPromise("c2"), "text", "", Collections.emptyList(), Collections.emptyList());
 		pathTree.addPath(Arrays.asList("e1", "e3", "e5"),
 				new StringContentPromise("This is a very,\nvery long content in a view tree"), "text", "",
-				Collections.emptyList());
+				Collections.emptyList(), Collections.emptyList());
 		System.out.println(pathTree);
 
 		System.out.println("----------------------------------");
@@ -58,7 +60,7 @@ public class ViewTree {
 		this.format = format;
 	}
 	
-	public void addPath(List<String> path, ContentPromise promise, String format, String icon, List<Layer> layers) {
+	public void addPath(List<String> path, ContentPromise promise, String format, String icon, List<Patch> patches, List<Layer> layers) {
 		
 		if (path.size() > 1) {
 			String name = path.get(0);
@@ -75,7 +77,7 @@ public class ViewTree {
 				children.add(child);
 			}
 			
-			child.addPath(rest, promise, format, icon, layers);
+			child.addPath(rest, promise, format, icon, patches, layers);
 		}
 		else if (path.size() == 1) {
 			ViewTree child = null;
@@ -93,8 +95,8 @@ public class ViewTree {
 			child.setFormat(format);
 			child.setPromise(promise);
 			child.setIcon(icon);
+			child.setPatches(patches);
 			child.setLayers(layers);
-			
 		}
 	}
 	
@@ -114,6 +116,7 @@ public class ViewTree {
 					child.setIcon(counterpart.getIcon());
 					preserveLayerState(child, counterpart);
 					child.setLayers(counterpart.getLayers());
+					child.setPatches(counterpart.getPatches());
 					child.ingest(counterpart);
 				}
 			}
@@ -161,18 +164,26 @@ public class ViewTree {
 		if (cachedContent == null) {
 			
 			if (promise == null) {
-				cachedContent = new ViewContent(format, "");
+				cachedContent = new ViewContent(format, "", getPatches());
 			}
 			else {
 				try {
-					cachedContent = new ViewContent(format, promise.getContent());
+					cachedContent = new ViewContent(format, promise.getContent(), getPatches());
 				} catch (Exception e) {
-					cachedContent = new ViewContent("exception", e.getMessage());
+					cachedContent = new ViewContent("exception", e.getMessage(), getPatches());
 				}
 			}
 		}
 		
 		return cachedContent;
+	}
+	
+	public List<Patch> getPatches() {
+		return patches;
+	}
+	
+	public void setPatches(List<Patch> patches) {
+		this.patches = patches;
 	}
 	
 	public List<ViewContent> getContents(ViewRenderer viewRenderer) {

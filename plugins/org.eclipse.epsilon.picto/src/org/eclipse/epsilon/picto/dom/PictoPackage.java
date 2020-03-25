@@ -112,13 +112,22 @@ public interface PictoPackage extends EPackage {
 	int PICTO__PARAMETERS = 4;
 
 	/**
+	 * The feature id for the '<em><b>Custom Views</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PICTO__CUSTOM_VIEWS = 5;
+
+	/**
 	 * The number of structural features of the '<em>Picto</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PICTO_FEATURE_COUNT = 5;
+	int PICTO_FEATURE_COUNT = 6;
 
 	/**
 	 * The number of operations of the '<em>Picto</em>' class.
@@ -213,13 +222,22 @@ public interface PictoPackage extends EPackage {
 	int PARAMETER__VALUE = 1;
 
 	/**
+	 * The feature id for the '<em><b>Values</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__VALUES = 2;
+
+	/**
 	 * The feature id for the '<em><b>File</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARAMETER__FILE = 2;
+	int PARAMETER__FILE = 3;
 
 	/**
 	 * The number of structural features of the '<em>Parameter</em>' class.
@@ -228,7 +246,7 @@ public interface PictoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAMETER_FEATURE_COUNT = 3;
+	int PARAMETER_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Parameter</em>' class.
@@ -238,6 +256,200 @@ public interface PictoPackage extends EPackage {
 	 * @ordered
 	 */
 	int PARAMETER_OPERATION_COUNT = 0;
+
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl <em>Custom View</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.epsilon.picto.dom.impl.CustomViewImpl
+	 * @see org.eclipse.epsilon.picto.dom.impl.PictoPackageImpl#getCustomView()
+	 * @generated
+	 */
+	int CUSTOM_VIEW = 3;
+
+	/**
+	 * The feature id for the '<em><b>Path</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_VIEW__PATH = 0;
+
+	/**
+	 * The feature id for the '<em><b>Icon</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_VIEW__ICON = 1;
+
+	/**
+	 * The feature id for the '<em><b>Format</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_VIEW__FORMAT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Rule</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_VIEW__RULE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_VIEW__CONTENT = 4;
+
+	/**
+	 * The feature id for the '<em><b>Patches</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_VIEW__PATCHES = 5;
+
+	/**
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_VIEW__PARAMETERS = 6;
+
+	/**
+	 * The feature id for the '<em><b>Layer Configurations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_VIEW__LAYER_CONFIGURATIONS = 7;
+
+	/**
+	 * The number of structural features of the '<em>Custom View</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_VIEW_FEATURE_COUNT = 8;
+
+	/**
+	 * The number of operations of the '<em>Custom View</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_VIEW_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.epsilon.picto.dom.impl.LayerConfigurationImpl <em>Layer Configuration</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.epsilon.picto.dom.impl.LayerConfigurationImpl
+	 * @see org.eclipse.epsilon.picto.dom.impl.PictoPackageImpl#getLayerConfiguration()
+	 * @generated
+	 */
+	int LAYER_CONFIGURATION = 4;
+
+	/**
+	 * The feature id for the '<em><b>Ids</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYER_CONFIGURATION__IDS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYER_CONFIGURATION__ACTIVE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Layer Configuration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYER_CONFIGURATION_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Layer Configuration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAYER_CONFIGURATION_OPERATION_COUNT = 0;
+
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.epsilon.picto.dom.impl.PatchImpl <em>Patch</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.epsilon.picto.dom.impl.PatchImpl
+	 * @see org.eclipse.epsilon.picto.dom.impl.PictoPackageImpl#getPatch()
+	 * @generated
+	 */
+	int PATCH = 5;
+
+	/**
+	 * The feature id for the '<em><b>Format</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATCH__FORMAT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATCH__CONTENT = 1;
+
+	/**
+	 * The number of structural features of the '<em>Patch</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATCH_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Patch</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATCH_OPERATION_COUNT = 0;
 
 
 	/**
@@ -304,6 +516,17 @@ public interface PictoPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getPicto_Parameters();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.epsilon.picto.dom.Picto#getCustomViews <em>Custom Views</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Custom Views</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.Picto#getCustomViews()
+	 * @see #getPicto()
+	 * @generated
+	 */
+	EReference getPicto_CustomViews();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.epsilon.picto.dom.Model <em>Model</em>}'.
@@ -381,6 +604,17 @@ public interface PictoPackage extends EPackage {
 	EAttribute getParameter_Value();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.epsilon.picto.dom.Parameter#getValues <em>Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Values</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.Parameter#getValues()
+	 * @see #getParameter()
+	 * @generated
+	 */
+	EAttribute getParameter_Values();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.Parameter#getFile <em>File</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -390,6 +624,168 @@ public interface PictoPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getParameter_File();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.epsilon.picto.dom.CustomView <em>Custom View</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Custom View</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView
+	 * @generated
+	 */
+	EClass getCustomView();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.epsilon.picto.dom.CustomView#getPath <em>Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Path</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView#getPath()
+	 * @see #getCustomView()
+	 * @generated
+	 */
+	EAttribute getCustomView_Path();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.CustomView#getIcon <em>Icon</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Icon</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView#getIcon()
+	 * @see #getCustomView()
+	 * @generated
+	 */
+	EAttribute getCustomView_Icon();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.CustomView#getFormat <em>Format</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Format</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView#getFormat()
+	 * @see #getCustomView()
+	 * @generated
+	 */
+	EAttribute getCustomView_Format();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.CustomView#getRule <em>Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Rule</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView#getRule()
+	 * @see #getCustomView()
+	 * @generated
+	 */
+	EAttribute getCustomView_Rule();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.CustomView#getContent <em>Content</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Content</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView#getContent()
+	 * @see #getCustomView()
+	 * @generated
+	 */
+	EAttribute getCustomView_Content();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.epsilon.picto.dom.CustomView#getPatches <em>Patches</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Patches</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView#getPatches()
+	 * @see #getCustomView()
+	 * @generated
+	 */
+	EReference getCustomView_Patches();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.epsilon.picto.dom.CustomView#getParameters <em>Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Parameters</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView#getParameters()
+	 * @see #getCustomView()
+	 * @generated
+	 */
+	EReference getCustomView_Parameters();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.epsilon.picto.dom.CustomView#getLayerConfigurations <em>Layer Configurations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Layer Configurations</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView#getLayerConfigurations()
+	 * @see #getCustomView()
+	 * @generated
+	 */
+	EReference getCustomView_LayerConfigurations();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.epsilon.picto.dom.LayerConfiguration <em>Layer Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Layer Configuration</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.LayerConfiguration
+	 * @generated
+	 */
+	EClass getLayerConfiguration();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.epsilon.picto.dom.LayerConfiguration#getIds <em>Ids</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Ids</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.LayerConfiguration#getIds()
+	 * @see #getLayerConfiguration()
+	 * @generated
+	 */
+	EAttribute getLayerConfiguration_Ids();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.LayerConfiguration#isActive <em>Active</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Active</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.LayerConfiguration#isActive()
+	 * @see #getLayerConfiguration()
+	 * @generated
+	 */
+	EAttribute getLayerConfiguration_Active();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.epsilon.picto.dom.Patch <em>Patch</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Patch</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.Patch
+	 * @generated
+	 */
+	EClass getPatch();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.Patch#getFormat <em>Format</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Format</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.Patch#getFormat()
+	 * @see #getPatch()
+	 * @generated
+	 */
+	EAttribute getPatch_Format();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.Patch#getContent <em>Content</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Content</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.Patch#getContent()
+	 * @see #getPatch()
+	 * @generated
+	 */
+	EAttribute getPatch_Content();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -465,6 +861,14 @@ public interface PictoPackage extends EPackage {
 		EReference PICTO__PARAMETERS = eINSTANCE.getPicto_Parameters();
 
 		/**
+		 * The meta object literal for the '<em><b>Custom Views</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PICTO__CUSTOM_VIEWS = eINSTANCE.getPicto_CustomViews();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.picto.dom.impl.ModelImpl <em>Model</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -525,12 +929,146 @@ public interface PictoPackage extends EPackage {
 		EAttribute PARAMETER__VALUE = eINSTANCE.getParameter_Value();
 
 		/**
+		 * The meta object literal for the '<em><b>Values</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PARAMETER__VALUES = eINSTANCE.getParameter_Values();
+
+		/**
 		 * The meta object literal for the '<em><b>File</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute PARAMETER__FILE = eINSTANCE.getParameter_File();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl <em>Custom View</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.epsilon.picto.dom.impl.CustomViewImpl
+		 * @see org.eclipse.epsilon.picto.dom.impl.PictoPackageImpl#getCustomView()
+		 * @generated
+		 */
+		EClass CUSTOM_VIEW = eINSTANCE.getCustomView();
+
+		/**
+		 * The meta object literal for the '<em><b>Path</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CUSTOM_VIEW__PATH = eINSTANCE.getCustomView_Path();
+
+		/**
+		 * The meta object literal for the '<em><b>Icon</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CUSTOM_VIEW__ICON = eINSTANCE.getCustomView_Icon();
+
+		/**
+		 * The meta object literal for the '<em><b>Format</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CUSTOM_VIEW__FORMAT = eINSTANCE.getCustomView_Format();
+
+		/**
+		 * The meta object literal for the '<em><b>Rule</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CUSTOM_VIEW__RULE = eINSTANCE.getCustomView_Rule();
+
+		/**
+		 * The meta object literal for the '<em><b>Content</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CUSTOM_VIEW__CONTENT = eINSTANCE.getCustomView_Content();
+
+		/**
+		 * The meta object literal for the '<em><b>Patches</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CUSTOM_VIEW__PATCHES = eINSTANCE.getCustomView_Patches();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CUSTOM_VIEW__PARAMETERS = eINSTANCE.getCustomView_Parameters();
+
+		/**
+		 * The meta object literal for the '<em><b>Layer Configurations</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CUSTOM_VIEW__LAYER_CONFIGURATIONS = eINSTANCE.getCustomView_LayerConfigurations();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.epsilon.picto.dom.impl.LayerConfigurationImpl <em>Layer Configuration</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.epsilon.picto.dom.impl.LayerConfigurationImpl
+		 * @see org.eclipse.epsilon.picto.dom.impl.PictoPackageImpl#getLayerConfiguration()
+		 * @generated
+		 */
+		EClass LAYER_CONFIGURATION = eINSTANCE.getLayerConfiguration();
+
+		/**
+		 * The meta object literal for the '<em><b>Ids</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAYER_CONFIGURATION__IDS = eINSTANCE.getLayerConfiguration_Ids();
+
+		/**
+		 * The meta object literal for the '<em><b>Active</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAYER_CONFIGURATION__ACTIVE = eINSTANCE.getLayerConfiguration_Active();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.epsilon.picto.dom.impl.PatchImpl <em>Patch</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.epsilon.picto.dom.impl.PatchImpl
+		 * @see org.eclipse.epsilon.picto.dom.impl.PictoPackageImpl#getPatch()
+		 * @generated
+		 */
+		EClass PATCH = eINSTANCE.getPatch();
+
+		/**
+		 * The meta object literal for the '<em><b>Format</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PATCH__FORMAT = eINSTANCE.getPatch_Format();
+
+		/**
+		 * The meta object literal for the '<em><b>Content</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PATCH__CONTENT = eINSTANCE.getPatch_Content();
 
 	}
 

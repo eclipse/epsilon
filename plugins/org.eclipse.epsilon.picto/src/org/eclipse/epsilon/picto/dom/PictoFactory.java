@@ -49,6 +49,33 @@ public interface PictoFactory extends EFactory {
 	Parameter createParameter();
 
 	/**
+	 * Returns a new object of class '<em>Custom View</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Custom View</em>'.
+	 * @generated
+	 */
+	CustomView createCustomView();
+
+	/**
+	 * Returns a new object of class '<em>Layer Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Layer Configuration</em>'.
+	 * @generated
+	 */
+	LayerConfiguration createLayerConfiguration();
+
+	/**
+	 * Returns a new object of class '<em>Patch</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Patch</em>'.
+	 * @generated
+	 */
+	Patch createPatch();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

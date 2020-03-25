@@ -2,6 +2,7 @@
  */
 package org.eclipse.epsilon.picto.dom;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -15,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Parameter#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Parameter#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.Parameter#getValues <em>Values</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Parameter#getFile <em>File</em>}</li>
  * </ul>
  *
@@ -50,12 +52,12 @@ public interface Parameter extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Value</em>' attribute.
-	 * @see #setValue(String)
+	 * @see #setValue(Object)
 	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getParameter_Value()
 	 * @model
 	 * @generated
 	 */
-	String getValue();
+	Object getValue();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.epsilon.picto.dom.Parameter#getValue <em>Value</em>}' attribute.
@@ -65,7 +67,19 @@ public interface Parameter extends EObject {
 	 * @see #getValue()
 	 * @generated
 	 */
-	void setValue(String value);
+	void setValue(Object value);
+
+	/**
+	 * Returns the value of the '<em><b>Values</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.Object}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Values</em>' attribute list.
+	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getParameter_Values()
+	 * @model
+	 * @generated
+	 */
+	EList<Object> getValues();
 
 	/**
 	 * Returns the value of the '<em><b>File</b></em>' attribute.

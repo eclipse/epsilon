@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.epsilon.picto.dom.CustomView;
 import org.eclipse.epsilon.picto.dom.Model;
 import org.eclipse.epsilon.picto.dom.Parameter;
 import org.eclipse.epsilon.picto.dom.Picto;
@@ -36,6 +37,7 @@ import org.eclipse.epsilon.picto.dom.PictoPackage;
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#isStandalone <em>Standalone</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#getModels <em>Models</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PictoImpl#getCustomViews <em>Custom Views</em>}</li>
  * </ul>
  *
  * @generated
@@ -120,6 +122,16 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	 * @ordered
 	 */
 	protected EList<Parameter> parameters;
+
+	/**
+	 * The cached value of the '{@link #getCustomViews() <em>Custom Views</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCustomViews()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<CustomView> customViews;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -241,12 +253,27 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	 * @generated
 	 */
 	@Override
+	public EList<CustomView> getCustomViews() {
+		if (customViews == null) {
+			customViews = new EObjectContainmentEList<CustomView>(CustomView.class, this, PictoPackage.PICTO__CUSTOM_VIEWS);
+		}
+		return customViews;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case PictoPackage.PICTO__MODELS:
 				return ((InternalEList<?>)getModels()).basicRemove(otherEnd, msgs);
 			case PictoPackage.PICTO__PARAMETERS:
 				return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
+			case PictoPackage.PICTO__CUSTOM_VIEWS:
+				return ((InternalEList<?>)getCustomViews()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -269,6 +296,8 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 				return getModels();
 			case PictoPackage.PICTO__PARAMETERS:
 				return getParameters();
+			case PictoPackage.PICTO__CUSTOM_VIEWS:
+				return getCustomViews();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -299,6 +328,10 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 				getParameters().clear();
 				getParameters().addAll((Collection<? extends Parameter>)newValue);
 				return;
+			case PictoPackage.PICTO__CUSTOM_VIEWS:
+				getCustomViews().clear();
+				getCustomViews().addAll((Collection<? extends CustomView>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -326,6 +359,9 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 			case PictoPackage.PICTO__PARAMETERS:
 				getParameters().clear();
 				return;
+			case PictoPackage.PICTO__CUSTOM_VIEWS:
+				getCustomViews().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -348,6 +384,8 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 				return models != null && !models.isEmpty();
 			case PictoPackage.PICTO__PARAMETERS:
 				return parameters != null && !parameters.isEmpty();
+			case PictoPackage.PICTO__CUSTOM_VIEWS:
+				return customViews != null && !customViews.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

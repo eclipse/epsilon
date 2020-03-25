@@ -5,8 +5,10 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -16,9 +18,7 @@ import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.common.util.UriUtil;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
-import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
-import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.ExtensionPointToolNativeTypeDelegate;
@@ -26,15 +26,20 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
+import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.picto.Layer;
 import org.eclipse.epsilon.picto.LazyEgxModule;
+import org.eclipse.epsilon.picto.LazyEgxModule.LazyGenerationRule;
 import org.eclipse.epsilon.picto.LazyEgxModule.LazyGenerationRuleContentPromise;
 import org.eclipse.epsilon.picto.ResourceLoadingException;
 import org.eclipse.epsilon.picto.StringContentPromise;
 import org.eclipse.epsilon.picto.ViewTree;
+import org.eclipse.epsilon.picto.dom.CustomView;
 import org.eclipse.epsilon.picto.dom.Model;
 import org.eclipse.epsilon.picto.dom.Parameter;
+import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.epsilon.picto.dom.Picto;
+import org.eclipse.epsilon.picto.dom.PictoFactory;
 import org.eclipse.ui.IEditorPart;
 
 public abstract class EglPictoSource implements PictoSource {
@@ -106,9 +111,58 @@ public abstract class EglPictoSource implements PictoSource {
 			if (renderingMetadata.getFormat().equals("egx")) {
 								
 				List<LazyGenerationRuleContentPromise> instances = (List<LazyGenerationRuleContentPromise>) module.execute();
+				
+				// Handle dynamic views (i.e. where rule != null)
+				for (CustomView customView : renderingMetadata.getCustomViews().stream().filter(cv -> cv.getRule() != null).collect(Collectors.toList())) {
+					
+					LazyGenerationRule generationRule = (LazyGenerationRule)((LazyEgxModule) module).
+							getGenerationRules().stream().filter(r -> r.getName().
+							equals(customView.getRule())).findFirst().orElse(null);
+					
+					if (generationRule != null) {
+						Object source = null;
+						if (generationRule.getSourceParameter() != null) {
+							String sourceParameterName = generationRule.getSourceParameter().getName();
+							Parameter sourceParameter = customView.getParameters().stream().
+									filter(sp -> sp.getName().equals(sourceParameterName)).findFirst().orElse(null);
+							if (sourceParameter != null) {
+								customView.getParameters().remove(sourceParameter);
+								source = sourceParameter.getValue(); 
+							}
+						}
+						
+						if (customView.getPath() != null) customView.getParameters().add(createParameter("path", customView.getPath()));
+						if (customView.getIcon() != null) customView.getParameters().add(createParameter("icon", customView.getIcon()));
+						if (customView.getFormat() != null) customView.getParameters().add(createParameter("format", customView.getFormat()));
+						customView.getParameters().add(createParameter("patches", customView.getPatches()));
+						
+						LazyGenerationRuleContentPromise contentPromise = (LazyGenerationRuleContentPromise) 
+								generationRule.execute(module.getContext(), source);
+						
+						for (Parameter parameter : customView.getParameters()) {
+							Variable variable = contentPromise.getVariables().stream().filter(v -> v.getName().equals(parameter.getName())).findFirst().orElse(null);
+							
+							Object value = parameter.getValue();
+							if (value == null) value = parameter.getValues();
+							
+							if (variable != null) {
+								variable.setValue(value, module.getContext());
+							}
+							else {
+								contentPromise.getVariables().add(new Variable(parameter.getName(), value, EolAnyType.Instance, false));
+							}
+						}
+						
+						instances.add(contentPromise);
+						
+					}
+					
+				}
+				
 				for (LazyGenerationRuleContentPromise instance : instances) {
-					String format = "html";
-					String icon = "cccccc";
+					String format = getDefaultFormat();
+					String icon = getDefaultIcon();
+					List<Patch> patches = new ArrayList<>();
 					Collection<String> path = new ArrayList<>(Arrays.asList(""));
 					List<Layer> layers = new ArrayList<>();
 					Variable layersVariable = null;
@@ -129,14 +183,17 @@ public abstract class EglPictoSource implements PictoSource {
 									if (layerMap.containsKey("active")) layer.setActive((Boolean) layerMap.get("active"));
 									layers.add(layer);
 								}
+								break;
 							}
+						case "patches": patches = (List<Patch>) variable.getValue();
 						}
+						
 					}
 					
 					// Replace layers variable from list of maps to list of Layer objects
 					if (layersVariable != null) instance.getVariables().remove(layersVariable);
 					instance.getVariables().add(Variable.createReadOnlyVariable("layers", layers));
-					viewTree.addPath(new ArrayList<>(path), instance, format, icon, layers);
+					viewTree.addPath(new ArrayList<>(path), instance, format, icon, patches, layers);
 				}
 				
 			}
@@ -147,12 +204,28 @@ public abstract class EglPictoSource implements PictoSource {
 				viewTree.setFormat(renderingMetadata.getFormat());
 			}
 			
+			// Handle static views (i.e. where content != null)
+			for (CustomView customView : renderingMetadata.getCustomViews().stream().filter(cv -> cv.getContent() != null).collect(Collectors.toList())) {
+				String format = customView.getFormat() != null ? customView.getFormat() : getDefaultFormat();
+				String icon = customView.getIcon() != null ? customView.getIcon() : getDefaultIcon();
+				
+				viewTree.addPath(customView.getPath(), new StringContentPromise(customView.getContent()), 
+						format, icon, customView.getPatches(), Collections.emptyList());
+			}
+			
 			return viewTree;
 		}
 		else {
 			return createEmptyViewTree();
 		}
 		
+	}
+	
+	protected Parameter createParameter(String name, Object value) {
+		Parameter parameter = PictoFactory.eINSTANCE.createParameter();
+		parameter.setName(name);
+		parameter.setValue(value);
+		return parameter;
 	}
 	
 	protected IFile waitForFile(IEditorPart editorPart) {
@@ -210,6 +283,14 @@ public abstract class EglPictoSource implements PictoSource {
 		}
 		m.load(properties, relativePathResolver);
 		return m;
+	}
+	
+	protected String getDefaultFormat() {
+		return "html";
+	}
+	
+	protected String getDefaultIcon() {
+		return "diagram-cccccc";
 	}
 	
 	@Override

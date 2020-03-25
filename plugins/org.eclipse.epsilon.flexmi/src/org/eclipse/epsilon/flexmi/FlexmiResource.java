@@ -579,6 +579,7 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 				else return null;
 			}
 			else {
+				if (Object.class.getName().equals(eAttribute.getEAttributeType().getInstanceClassName())) return value;
 				return eAttribute.getEAttributeType().getEPackage().getEFactoryInstance().createFromString(eAttribute.getEAttributeType(), value);
 			}
 		}

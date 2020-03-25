@@ -3,7 +3,9 @@ digraph G {
 	graph[splines=ortho]
 	node[fontname=Tahoma, fontsize=10, shape=record]
 	edge[fontname=Tahoma, fontsize=10, dir=back, arrowtail=empty]
-	 
+	
+	[%var classes = EClass.all.select(c|classNames.includes(c.name));%]
+	
 	[%for (c in classes) { %]
 	[%=c.getNodeName()%][shape=none, margin=0, label = <[%=c.getLabel()%]>]
 	[%for (s in c.eSuperTypes.select(c|classes.includes(c))){%]

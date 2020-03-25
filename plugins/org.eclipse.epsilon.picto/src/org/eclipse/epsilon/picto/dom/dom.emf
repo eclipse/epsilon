@@ -7,6 +7,7 @@ class Picto {
 	attr boolean standalone;
 	val Model[*] models;
 	val Parameter[*] parameters;
+	val CustomView[*] customViews;
 }
 
 class Model {
@@ -17,6 +18,28 @@ class Model {
 
 class Parameter {
 	attr String name;
-	attr String value;
+	attr Object value;
+	attr Object[*] values;
 	attr String file;
+}
+
+class CustomView {
+	attr String[*] path;
+	attr String icon;
+	attr String format;
+	attr String rule;
+	attr String content;
+	val Patch[*] patches;
+	val Parameter[*] parameters;
+	val LayerConfiguration[*] layerConfigurations;
+}
+
+class LayerConfiguration {
+	attr String[*] ids;
+	attr boolean active;
+}
+
+class Patch {
+	attr String format;
+	attr String content;
 }

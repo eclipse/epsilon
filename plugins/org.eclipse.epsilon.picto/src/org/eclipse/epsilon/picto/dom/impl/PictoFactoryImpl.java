@@ -59,6 +59,9 @@ public class PictoFactoryImpl extends EFactoryImpl implements PictoFactory {
 			case PictoPackage.PICTO: return createPicto();
 			case PictoPackage.MODEL: return createModel();
 			case PictoPackage.PARAMETER: return createParameter();
+			case PictoPackage.CUSTOM_VIEW: return createCustomView();
+			case PictoPackage.LAYER_CONFIGURATION: return createLayerConfiguration();
+			case PictoPackage.PATCH: return createPatch();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -95,6 +98,39 @@ public class PictoFactoryImpl extends EFactoryImpl implements PictoFactory {
 	public Parameter createParameter() {
 		ParameterImpl parameter = new ParameterImpl();
 		return parameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public CustomView createCustomView() {
+		CustomViewImpl customView = new CustomViewImpl();
+		return customView;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public LayerConfiguration createLayerConfiguration() {
+		LayerConfigurationImpl layerConfiguration = new LayerConfigurationImpl();
+		return layerConfiguration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Patch createPatch() {
+		PatchImpl patch = new PatchImpl();
+		return patch;
 	}
 
 	/**
