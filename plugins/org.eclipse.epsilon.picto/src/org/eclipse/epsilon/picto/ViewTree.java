@@ -29,13 +29,22 @@ public class ViewTree {
 	protected List<Layer> layers = new ArrayList<>();
 	
 	public static void main(String[] args) {
-		
+
 		ViewTree pathTree = new ViewTree("");
-		pathTree.addPath(Arrays.asList("e1", "e2"), new StringContentPromise("c1"), "text", "", Collections.emptyList());
-		pathTree.addPath(Arrays.asList("e1", "e3", "e4"), new StringContentPromise("c2"), "text", "", Collections.emptyList());
+		pathTree.addPath(Arrays.asList("e1", "e2"),
+				new StringContentPromise("c1"), "text", "", Collections.emptyList());
+		pathTree.addPath(Arrays.asList("e1", "e3", "e4"),
+				new StringContentPromise("c2"), "text", "", Collections.emptyList());
+		pathTree.addPath(Arrays.asList("e1", "e3", "e5"),
+				new StringContentPromise("This is a very,\nvery long content in a view tree"), "text", "",
+				Collections.emptyList());
+		System.out.println(pathTree);
+
+		System.out.println("----------------------------------");
+
 		ViewTree result = pathTree.forPath(Arrays.asList("", "e1", "e3", "e4"));
 		System.out.println(result.getPath());
-		
+
 	}
 	
 	public ViewTree() {}
@@ -221,10 +230,35 @@ public class ViewTree {
 	
 	@Override
 	public String toString() {
-		return super.toString();
-		//return name + " { content: " + content + " [" + children.stream().map( n -> n.toString() ) .collect( Collectors.joining( "," ) ) + "]";
+		return render(this, "");
 	}
-	
+
+	private static String render(ViewTree viewTree, String prefix) {
+		StringBuilder s = new StringBuilder();
+		String content = null;
+		if (viewTree.getPromise() != null) {
+			try {
+				content = viewTree.getPromise().getContent();
+			}
+			catch (Exception e) {
+				content = "ContentError";
+			}
+			if (content == null) {
+				content = "";
+			}
+			int preferredLength = 20;
+			if (content.length() > preferredLength) {
+				content = content.substring(0, preferredLength) + "...";
+			}
+			content = content.replace("\n", " ");
+		}
+		s.append(String.format("%sViewTree(%s): %s\n", prefix, viewTree.getName(), content));
+		for (ViewTree child : viewTree.getChildren()) {
+			s.append(render(child, prefix + ">\t"));
+		}
+		return s.toString();
+	}
+
 	public List<String> getPath() {
 		List<String> path = new ArrayList<>();
 		if (parent != null) path.addAll(parent.getPath());
