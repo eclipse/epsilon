@@ -1,10 +1,19 @@
 <?nsuri picto?>
 <picto format="egx" template="ecore2vis/ecore.egx">
-	<view path="Model, Custom, Component/Port/Connector" icon="diagram-ff0000" rule="ClassDiagram">
-		<!--parameter name="classNames" :value="Sequence{'Component', 'Port', 'Connector'}"/-->
-		<patch format="graphviz-dot" content_="comps2vis/cpc-graphviz.patch"/>
+
+	<!-- A custom view produced by invoking an EGX rule -->
+	<view path="Model, Custom, Component/Port/Connector" icon="diagram-0000ff" rule="ClassDiagram">
+		<patch format="graphviz-dot" content_="comps2vis/connector-graphviz.patch"/>
 		<patch format="html" content_="comps2vis/cpc-html.patch"/>
 		<parameter name="classNames" values="Component, Port, Connector"/>
 	</view>
+	
+	<!-- A view with static content -->
 	<view path="Model, Custom, Readme" format="html" content_="comps2vis/readme.html"/>
+	
+	<!-- A patch for an existing view --> 
+	<view path="Model, Classes, Connector" icon="diagram-ff0000">
+		<patch format="graphviz-dot" content_="comps2vis/connector-graphviz.patch"/>
+	</view>
+	
 </picto>

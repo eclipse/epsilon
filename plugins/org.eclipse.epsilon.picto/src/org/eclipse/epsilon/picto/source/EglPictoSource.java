@@ -213,6 +213,22 @@ public abstract class EglPictoSource implements PictoSource {
 						format, icon, customView.getPatches(), Collections.emptyList());
 			}
 			
+			// Handle patches for existing views
+			for (CustomView customView : renderingMetadata.getCustomViews().stream().filter(cv -> cv.getContent() == null && cv.getRule() == null && !cv.getPatches().isEmpty()).collect(Collectors.toList())) {
+				ArrayList<String> path = new ArrayList<>();
+				path.add(viewTree.getName());
+				path.addAll(customView.getPath());
+				
+				ViewTree existingView = viewTree.forPath(path);
+				
+				if (existingView != null) {
+					System.out.println("Patching");
+					if (customView.getIcon() != null) existingView.setIcon(customView.getIcon());
+					if (customView.getFormat() != null) existingView.setFormat(customView.getFormat());
+					existingView.getPatches().addAll(customView.getPatches());
+				}
+			}
+			
 			return viewTree;
 		}
 		else {
