@@ -35,11 +35,11 @@ pipeline {
             lock('download-area') {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                 sh '''
-				  SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/site"
+				  SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target"
 				  if [ -d "$SITEDIR" ]; then
                     ssh genie.epsilon@projects-storage.eclipse.org rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim
-                    scp -r SITEDIR genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim
-                    scp "$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim/site.zip
+                    scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim
+                    scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim/site.zip
                     ssh genie.epsilon@projects-storage.eclipse.org 'rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-*; mkdir -p /home/data/httpd/download.eclipse.org/epsilon/interim-jars'
                     scp "$WORKSPACE"/standalone/org.eclipse.epsilon.standalone/target/epsilon-* genie.epsilon@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/epsilon/interim-jars/
                     #ssh genie.epsilon@projects-storage.eclipse.org 'cd /home/data/httpd/download.eclipse.org/epsilon && for jar in $(ls interim-jars-unsigned/*.jar | xargs -n 1 basename); do curl -o interim-jars/$jar -F file=@interim-jars-unsigned/$jar http://build.eclipse.org:31338/sign; done; rm -rf /home/data/httpd/download.eclipse.org/epsilon/interim-jars-unsigned'
@@ -63,7 +63,7 @@ pipeline {
 		  }
 		}*/
         stage('Deploy to OSSRH') {
-          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features.*)|(plugins.*)|(standalone.*)' } }
+          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features\\/.*)|(plugins\\/.*)|(standalone\\/.*)' } }
           steps {
             sh '''
 			  gpg --batch --import "${KEYRING}"
