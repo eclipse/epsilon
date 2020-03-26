@@ -13,16 +13,16 @@
     <tycho.version>1.0.0</tycho.version>
   </properties>
 
-  <!--repositories>
-    <repository>
-      <id>eclipse.cbi.releases</id>
-      <name>Eclipse CBI Releases</name>
-      <url>https://repo.eclipse.org/content/groups/cbi</url>
+  <repositories>
+    <!--repository>
+      <id></id>
+      <name></name>
+      <url></url>
       <releases>
         <enabled>true</enabled>
       </releases>
-    </repository>
-  </repositories-->
+    </repository-->
+  </repositories>
   
   <pluginRepositories>
     <pluginRepository>
