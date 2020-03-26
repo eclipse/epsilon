@@ -231,7 +231,7 @@ public class ParametersConfigurationTab extends AbstractLaunchConfigurationTab{
 			@Override
 			protected CellEditor createCellEditor(TableViewer viewer) {	
 				ComboBoxViewerCellEditor editor = new ComboBoxViewerCellEditor(viewer.getTable());
-				editor.getViewer().add("String", "Integer", "Real", "Boolean");
+				editor.getViewer().add(new Object[] {"String", "Integer", "Real", "Boolean"});
 				return editor;
 			}
 					
