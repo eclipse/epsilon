@@ -90,12 +90,6 @@ public class PictoSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case PictoPackage.LAYER_CONFIGURATION: {
-				LayerConfiguration layerConfiguration = (LayerConfiguration)theEObject;
-				T result = caseLayerConfiguration(layerConfiguration);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case PictoPackage.PATCH: {
 				Patch patch = (Patch)theEObject;
 				T result = casePatch(patch);
@@ -163,21 +157,6 @@ public class PictoSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCustomView(CustomView object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Layer Configuration</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Layer Configuration</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseLayerConfiguration(LayerConfiguration object) {
 		return null;
 	}
 

@@ -31,12 +31,6 @@ class CustomView {
 	attr String content;
 	val Patch[*] patches;
 	val Parameter[*] parameters;
-	val LayerConfiguration[*] layerConfigurations;
-}
-
-class LayerConfiguration {
-	attr String[*] ids;
-	attr boolean active;
 }
 
 class Patch {

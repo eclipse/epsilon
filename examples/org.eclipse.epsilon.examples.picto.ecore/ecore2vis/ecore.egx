@@ -23,7 +23,12 @@ rule ClassDiagram {
 		"classNames" = EClass.all.name, 
 		"format" = "graphviz-dot",
 		"path" = List{"Model", "(All Classes)"},
-		"icon" = "diagram-ff0000"
+		"icon" = "diagram-ff0000",
+		"layers" = Sequence {
+			Map {"id"="documentation", "title"="Documentation", "active"=false},
+			Map {"id"="derived", "title"="Derived features", "active"=false},
+			Map {"id"="inherited", "title"="Inherited features", "active"=false}
+		}
 	}
 	
 	template: "ecore2dot.egl"

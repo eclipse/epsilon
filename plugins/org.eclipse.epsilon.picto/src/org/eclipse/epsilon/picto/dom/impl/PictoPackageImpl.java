@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.epsilon.picto.dom.CustomView;
-import org.eclipse.epsilon.picto.dom.LayerConfiguration;
 import org.eclipse.epsilon.picto.dom.Model;
 import org.eclipse.epsilon.picto.dom.Parameter;
 import org.eclipse.epsilon.picto.dom.Patch;
@@ -51,13 +50,6 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 	 * @generated
 	 */
 	private EClass customViewEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass layerConfigurationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -373,46 +365,6 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 	 * @generated
 	 */
 	@Override
-	public EReference getCustomView_LayerConfigurations() {
-		return (EReference)customViewEClass.getEStructuralFeatures().get(7);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EClass getLayerConfiguration() {
-		return layerConfigurationEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EAttribute getLayerConfiguration_Ids() {
-		return (EAttribute)layerConfigurationEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EAttribute getLayerConfiguration_Active() {
-		return (EAttribute)layerConfigurationEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public EClass getPatch() {
 		return patchEClass;
 	}
@@ -493,11 +445,6 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 		createEAttribute(customViewEClass, CUSTOM_VIEW__CONTENT);
 		createEReference(customViewEClass, CUSTOM_VIEW__PATCHES);
 		createEReference(customViewEClass, CUSTOM_VIEW__PARAMETERS);
-		createEReference(customViewEClass, CUSTOM_VIEW__LAYER_CONFIGURATIONS);
-
-		layerConfigurationEClass = createEClass(LAYER_CONFIGURATION);
-		createEAttribute(layerConfigurationEClass, LAYER_CONFIGURATION__IDS);
-		createEAttribute(layerConfigurationEClass, LAYER_CONFIGURATION__ACTIVE);
 
 		patchEClass = createEClass(PATCH);
 		createEAttribute(patchEClass, PATCH__FORMAT);
@@ -561,11 +508,6 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 		initEAttribute(getCustomView_Content(), ecorePackage.getEString(), "content", null, 0, 1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCustomView_Patches(), this.getPatch(), null, "patches", null, 0, -1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCustomView_Parameters(), this.getParameter(), null, "parameters", null, 0, -1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCustomView_LayerConfigurations(), this.getLayerConfiguration(), null, "layerConfigurations", null, 0, -1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(layerConfigurationEClass, LayerConfiguration.class, "LayerConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getLayerConfiguration_Ids(), ecorePackage.getEString(), "ids", null, 0, -1, LayerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLayerConfiguration_Active(), ecorePackage.getEBoolean(), "active", null, 0, 1, LayerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(patchEClass, Patch.class, "Patch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPatch_Format(), ecorePackage.getEString(), "format", null, 0, 1, Patch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

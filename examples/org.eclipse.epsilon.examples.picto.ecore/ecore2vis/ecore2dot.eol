@@ -52,3 +52,13 @@ operation String toMultiline() : String {
 operation EClass getNodeName() {
 	return "_" + self.name;
 }
+
+operation isLayerActive(id : String) {
+	var layer = layers.selectOne(l|l.id = id);
+	if (layer.isDefined()) {
+		return layer.active;
+	}
+	else {
+		return true;
+	}
+}

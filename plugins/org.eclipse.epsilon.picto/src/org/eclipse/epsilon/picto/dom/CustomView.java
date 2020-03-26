@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getContent <em>Content</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getPatches <em>Patches</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getParameters <em>Parameters</em>}</li>
- *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getLayerConfigurations <em>Layer Configurations</em>}</li>
  * </ul>
  *
  * @see org.eclipse.epsilon.picto.dom.PictoPackage#getCustomView()
@@ -153,17 +152,5 @@ public interface CustomView extends EObject {
 	 * @generated
 	 */
 	EList<Parameter> getParameters();
-
-	/**
-	 * Returns the value of the '<em><b>Layer Configurations</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.epsilon.picto.dom.LayerConfiguration}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Layer Configurations</em>' containment reference list.
-	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getCustomView_LayerConfigurations()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<LayerConfiguration> getLayerConfigurations();
 
 } // CustomView

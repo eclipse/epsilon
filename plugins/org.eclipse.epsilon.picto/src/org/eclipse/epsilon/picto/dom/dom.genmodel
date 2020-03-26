@@ -34,11 +34,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//CustomView/content"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//CustomView/patches"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//CustomView/parameters"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//CustomView/layerConfigurations"/>
-    </genClasses>
-    <genClasses ecoreClass="dom.ecore#//LayerConfiguration">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//LayerConfiguration/ids"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//LayerConfiguration/active"/>
     </genClasses>
     <genClasses ecoreClass="dom.ecore#//Patch">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Patch/format"/>

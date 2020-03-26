@@ -11,15 +11,30 @@ digraph G {
 	[%for (s in c.eSuperTypes.select(c|classes.includes(c))){%]
 	[%=s.getNodeName()%]->[%=c.getNodeName()%]
 	[%}%]
+	
+	[** Create node for all the documentation of the main class*]
+	[%if (isLayerActive("documentation")){%]
+	[%var documentation = c.getAnnotationValue("http://www.eclipse.org/emf/2002/GenModel", "documentation");%]
+	[%if (documentation.isDefined()){%]
+		[%=c.getNodeName()%]_Documentation[shape="note", label="[%=documentation.toMultiline()%]", style="filled", fillcolor="azure"]
+		[%=c.getNodeName()%]_Documentation->[%=c.getNodeName()%][arrowtail=none, style=dashed];
+	[%}%]
+	[%}%]
 	[%}%]
 	
-	[%for (r in EReference.all.select(r|classes.includes(r.eContainer) and classes.includes(r.eType))) {%]
-	[%=r.eContainer.getNodeName()+r.name%][label="[%=r.getLabel()%]", shape=plaintext, margin=0,width=0,height=0]
-	[%=r.eContainer.getNodeName()%]->[%=r.eContainer.getNodeName()+r.name%][arrowtail=[%=r.getArrowTail()%]]
-	[%=r.eContainer.getNodeName()+r.name%]->[%=r.eType.getNodeName()%][arrowhead=normal,arrowtail=none,dir=both];
+	[%
+	var visibleReferences = EReference.all.select(r|classes.includes(r.eContainer) and classes.includes(r.eType) and r.eType <> r.eContainer);
+	if (not isLayerActive("derived")) visibleReferences = visibleReferences.reject(r|r.isDerived());
+	%]
+	
+	[%for (r in visibleReferences) {%]
+	[%var referenceNodeName = r.eContainer.getNodeName() + "_" + r.name;%]
+	[%=referenceNodeName%][label="[%=r.getLabel()%]", shape=plaintext, margin=0,width=0,height=0]
+	[%=r.eContainer.getNodeName()%]->[%=referenceNodeName%][arrowtail=[%=r.getArrowTail()%]]
+	[%=referenceNodeName%]->[%=r.eType.getNodeName()%][arrowhead=normal,arrowtail=none,dir=both];
 	[%}%]
 	
-	[%=EPackage.all.first.getAnnotationValue("picto", "finetune", "")%]
+	/*Extras*/
 	
 }
 
@@ -28,7 +43,10 @@ digraph G {
 operation EClass getLabel() {
 	var fillcolor = self.getAnnotationValue("picto", "color","#fffcdc");
 	var label = "<table cellspacing='0' cellborder='0' cellpadding='1' bgcolor='" + fillcolor + "'>";
-	var features = self.eAttributes;
+	var features : Sequence;
+	features.addAll(self.eAttributes);
+	features.addAll(self.eReferences.select(r|r.eType <> self));
+	if (not isLayerActive("derived")) features = features.reject(r|r.isDerived);
 	
 	label += "<tr><td sides='B' colspan='2' border='1'>" + 
 		"<table border='0' cellspacing='0' cellborder='0' cellpading='0'>" + 
@@ -107,33 +125,5 @@ operation EModelElement getAnnotationValue(name : String, detail : String, def :
 	
 	return def;	
 }
-
-/*
-operation ETypedElement getLabel() {
-	var label = self.name + " : " + self.eType.name;
-	if (self.isMany) label += "["+"*"+"]";
-	return label;  
-}
-
-operation EOperation getLabel() {
-	var label = self.name + "(" + self.eParameters.collect(p|p.getLabel()).concat(", ") + ")";
-	if (self.eType.isDefined()) {
-		label += " : " + self.eType.name;
-		if (self.isMany) {
-			label += "["+"*"+"]";
-		}
-	}
-	return label;
-}
-
-operation EReference getArrowTail() {
-	if (self.containment) {
-		return "diamond";
-	}
-	else {
-		return "none";
-	}
-}*/
-
 %]
 

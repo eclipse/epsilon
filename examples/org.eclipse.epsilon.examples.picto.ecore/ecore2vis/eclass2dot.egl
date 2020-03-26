@@ -61,6 +61,7 @@ digraph G {
 	[%for (r in main.getVisibleEReferences().select(r|r.eType <> main)) {%]
 		[%=main.getNodeName()%]->[%=r.eType.getNodeName()%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]"];
 		[%if (not r.isContainment()){%]{rank=same; [%=main.getNodeName()%]; [%=r.eType.getNodeName()%]}[%}%]
+		
 	[%}%]
 	
 }
@@ -160,16 +161,5 @@ operation EClass getVisibleEReferences() {
 	if (not isLayerActive("derived")) eReferences = eReferences.reject(r|r.isDerived);
 	return eReferences;
 }
-
-operation isLayerActive(id : String) {
-	var layer = layers.selectOne(l|l.id = id);
-	if (layer.isDefined()) {
-		return layer.active;
-	}
-	else {
-		return true;
-	}
-}
-
 %]
 

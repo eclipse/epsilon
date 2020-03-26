@@ -332,22 +332,13 @@ public interface PictoPackage extends EPackage {
 	int CUSTOM_VIEW__PARAMETERS = 6;
 
 	/**
-	 * The feature id for the '<em><b>Layer Configurations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CUSTOM_VIEW__LAYER_CONFIGURATIONS = 7;
-
-	/**
 	 * The number of structural features of the '<em>Custom View</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CUSTOM_VIEW_FEATURE_COUNT = 8;
+	int CUSTOM_VIEW_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>Custom View</em>' class.
@@ -359,53 +350,6 @@ public interface PictoPackage extends EPackage {
 	int CUSTOM_VIEW_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.epsilon.picto.dom.impl.LayerConfigurationImpl <em>Layer Configuration</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.epsilon.picto.dom.impl.LayerConfigurationImpl
-	 * @see org.eclipse.epsilon.picto.dom.impl.PictoPackageImpl#getLayerConfiguration()
-	 * @generated
-	 */
-	int LAYER_CONFIGURATION = 4;
-
-	/**
-	 * The feature id for the '<em><b>Ids</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LAYER_CONFIGURATION__IDS = 0;
-
-	/**
-	 * The feature id for the '<em><b>Active</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LAYER_CONFIGURATION__ACTIVE = 1;
-
-	/**
-	 * The number of structural features of the '<em>Layer Configuration</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LAYER_CONFIGURATION_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>Layer Configuration</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LAYER_CONFIGURATION_OPERATION_COUNT = 0;
-
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.epsilon.picto.dom.impl.PatchImpl <em>Patch</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -413,7 +357,7 @@ public interface PictoPackage extends EPackage {
 	 * @see org.eclipse.epsilon.picto.dom.impl.PictoPackageImpl#getPatch()
 	 * @generated
 	 */
-	int PATCH = 5;
+	int PATCH = 4;
 
 	/**
 	 * The feature id for the '<em><b>Format</b></em>' attribute.
@@ -713,49 +657,6 @@ public interface PictoPackage extends EPackage {
 	EReference getCustomView_Parameters();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.epsilon.picto.dom.CustomView#getLayerConfigurations <em>Layer Configurations</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Layer Configurations</em>'.
-	 * @see org.eclipse.epsilon.picto.dom.CustomView#getLayerConfigurations()
-	 * @see #getCustomView()
-	 * @generated
-	 */
-	EReference getCustomView_LayerConfigurations();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.epsilon.picto.dom.LayerConfiguration <em>Layer Configuration</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Layer Configuration</em>'.
-	 * @see org.eclipse.epsilon.picto.dom.LayerConfiguration
-	 * @generated
-	 */
-	EClass getLayerConfiguration();
-
-	/**
-	 * Returns the meta object for the attribute list '{@link org.eclipse.epsilon.picto.dom.LayerConfiguration#getIds <em>Ids</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Ids</em>'.
-	 * @see org.eclipse.epsilon.picto.dom.LayerConfiguration#getIds()
-	 * @see #getLayerConfiguration()
-	 * @generated
-	 */
-	EAttribute getLayerConfiguration_Ids();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.LayerConfiguration#isActive <em>Active</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Active</em>'.
-	 * @see org.eclipse.epsilon.picto.dom.LayerConfiguration#isActive()
-	 * @see #getLayerConfiguration()
-	 * @generated
-	 */
-	EAttribute getLayerConfiguration_Active();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.epsilon.picto.dom.Patch <em>Patch</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1009,40 +910,6 @@ public interface PictoPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CUSTOM_VIEW__PARAMETERS = eINSTANCE.getCustomView_Parameters();
-
-		/**
-		 * The meta object literal for the '<em><b>Layer Configurations</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CUSTOM_VIEW__LAYER_CONFIGURATIONS = eINSTANCE.getCustomView_LayerConfigurations();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.epsilon.picto.dom.impl.LayerConfigurationImpl <em>Layer Configuration</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.epsilon.picto.dom.impl.LayerConfigurationImpl
-		 * @see org.eclipse.epsilon.picto.dom.impl.PictoPackageImpl#getLayerConfiguration()
-		 * @generated
-		 */
-		EClass LAYER_CONFIGURATION = eINSTANCE.getLayerConfiguration();
-
-		/**
-		 * The meta object literal for the '<em><b>Ids</b></em>' attribute list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute LAYER_CONFIGURATION__IDS = eINSTANCE.getLayerConfiguration_Ids();
-
-		/**
-		 * The meta object literal for the '<em><b>Active</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute LAYER_CONFIGURATION__ACTIVE = eINSTANCE.getLayerConfiguration_Active();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.picto.dom.impl.PatchImpl <em>Patch</em>}' class.

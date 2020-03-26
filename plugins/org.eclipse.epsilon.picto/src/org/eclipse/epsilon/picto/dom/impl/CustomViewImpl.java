@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.epsilon.picto.dom.CustomView;
-import org.eclipse.epsilon.picto.dom.LayerConfiguration;
 import org.eclipse.epsilon.picto.dom.Parameter;
 import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.epsilon.picto.dom.PictoPackage;
@@ -39,7 +38,6 @@ import org.eclipse.epsilon.picto.dom.PictoPackage;
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getContent <em>Content</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getPatches <em>Patches</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getParameters <em>Parameters</em>}</li>
- *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getLayerConfigurations <em>Layer Configurations</em>}</li>
  * </ul>
  *
  * @generated
@@ -154,16 +152,6 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	 * @ordered
 	 */
 	protected EList<Parameter> parameters;
-
-	/**
-	 * The cached value of the '{@link #getLayerConfigurations() <em>Layer Configurations</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLayerConfigurations()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<LayerConfiguration> layerConfigurations;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -321,27 +309,12 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	 * @generated
 	 */
 	@Override
-	public EList<LayerConfiguration> getLayerConfigurations() {
-		if (layerConfigurations == null) {
-			layerConfigurations = new EObjectContainmentEList<LayerConfiguration>(LayerConfiguration.class, this, PictoPackage.CUSTOM_VIEW__LAYER_CONFIGURATIONS);
-		}
-		return layerConfigurations;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case PictoPackage.CUSTOM_VIEW__PATCHES:
 				return ((InternalEList<?>)getPatches()).basicRemove(otherEnd, msgs);
 			case PictoPackage.CUSTOM_VIEW__PARAMETERS:
 				return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
-			case PictoPackage.CUSTOM_VIEW__LAYER_CONFIGURATIONS:
-				return ((InternalEList<?>)getLayerConfigurations()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -368,8 +341,6 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				return getPatches();
 			case PictoPackage.CUSTOM_VIEW__PARAMETERS:
 				return getParameters();
-			case PictoPackage.CUSTOM_VIEW__LAYER_CONFIGURATIONS:
-				return getLayerConfigurations();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -407,10 +378,6 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				getParameters().clear();
 				getParameters().addAll((Collection<? extends Parameter>)newValue);
 				return;
-			case PictoPackage.CUSTOM_VIEW__LAYER_CONFIGURATIONS:
-				getLayerConfigurations().clear();
-				getLayerConfigurations().addAll((Collection<? extends LayerConfiguration>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -444,9 +411,6 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 			case PictoPackage.CUSTOM_VIEW__PARAMETERS:
 				getParameters().clear();
 				return;
-			case PictoPackage.CUSTOM_VIEW__LAYER_CONFIGURATIONS:
-				getLayerConfigurations().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -473,8 +437,6 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				return patches != null && !patches.isEmpty();
 			case PictoPackage.CUSTOM_VIEW__PARAMETERS:
 				return parameters != null && !parameters.isEmpty();
-			case PictoPackage.CUSTOM_VIEW__LAYER_CONFIGURATIONS:
-				return layerConfigurations != null && !layerConfigurations.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

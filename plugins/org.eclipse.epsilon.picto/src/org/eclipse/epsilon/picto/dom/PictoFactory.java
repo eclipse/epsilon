@@ -58,15 +58,6 @@ public interface PictoFactory extends EFactory {
 	CustomView createCustomView();
 
 	/**
-	 * Returns a new object of class '<em>Layer Configuration</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Layer Configuration</em>'.
-	 * @generated
-	 */
-	LayerConfiguration createLayerConfiguration();
-
-	/**
 	 * Returns a new object of class '<em>Patch</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
