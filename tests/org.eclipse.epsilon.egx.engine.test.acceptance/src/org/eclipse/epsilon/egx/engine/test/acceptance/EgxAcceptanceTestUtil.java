@@ -34,15 +34,10 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		ecoreBase = testsBase+"ecore2dot/",
 		ecoreMetamodel = "Ecore.ecore",
 		ecoreModels[] = {"java.ecore"},
-		ecoreScripts[] = {"ecore"},
-		thriftBase = testsBase+"thrift/",
-		thriftMetamodel = "thrift.ecore",
-		thriftModels[] = {"ThriftTest.xmi", "fb303.xmi", "SimpleService.xmi"},
-		thriftScripts[] = {"thrift-rb", "thrift-java"};
+		ecoreScripts[] = {"ecore"};
 		
 	public static final List<String[]>
 		ecoreInputs = new ArrayList<>(),
-		thriftInputs = new ArrayList<>(),
 		allInputs = new ArrayList<>();
 	
 	static {
@@ -51,18 +46,7 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 			ecoreModels, ecoreMetamodel, "egx",
 			ecoreBase, ecoreBase, ecoreBase
 		));
-		thriftInputs.addAll(addAllInputs(
-			new String[]{thriftScripts[0]},
-			thriftModels, thriftMetamodel, "egx",
-			thriftBase+"ruby/", thriftBase, thriftBase
-		));
-		thriftInputs.addAll(addAllInputs(
-			new String[]{thriftScripts[1]},
-			thriftModels, thriftMetamodel, "egx",
-			thriftBase+"java/", thriftBase, thriftBase
-		));
 		allInputs.addAll(ecoreInputs);
-		//allInputs.addAll(thriftInputs);
 	}
 	
 	public static Collection<Supplier<? extends IEgxModule>> modules(boolean includeStandard) {
@@ -83,8 +67,6 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	public static void deleteOutputDirectories() throws IOException {
 		try {
 			FileUtil.deleteDirectory(ecoreBase+"output");
-			FileUtil.deleteDirectory(thriftBase+"ruby/output");
-			FileUtil.deleteDirectory(thriftBase+"java/output");
 		}
 		catch (java.nio.file.NoSuchFileException ignore) {}
 	}
@@ -93,8 +75,6 @@ public class EgxAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		Map<Path, byte[]> outputs = new java.util.HashMap<>();
 		try {
 			outputs.putAll(FileUtil.readDirectory(ecoreBase+"output"));
-			outputs.putAll(FileUtil.readDirectory(thriftBase+"ruby/output"));
-			outputs.putAll(FileUtil.readDirectory(thriftBase+"java/output"));
 		}
 		catch (java.nio.file.NoSuchFileException ignore) {}
 		return outputs;

@@ -1,9 +1,0 @@
-[% import "rb-helper-functions.egl";
-printFileHead(author); %]
-require '[%=types%]'
-
-[% for (const in constants) {
-	out.print(const.identifier.firstToUpperCase()+" = ");
-	renderValue(const.constVal, const.fieldType, "");
-	out.println('\n');
-} %]

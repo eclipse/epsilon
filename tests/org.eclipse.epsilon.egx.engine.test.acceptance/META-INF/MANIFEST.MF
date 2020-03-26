@@ -8,9 +8,6 @@ Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.epsilon.egx.engine.test.acceptance,
  org.eclipse.epsilon.egx.engine.test.acceptance.equivalence,
  org.eclipse.epsilon.egx.engine.test.acceptance.rules,
- org.eclipse.epsilon.egx.engine.test.acceptance.thrift,
- org.eclipse.epsilon.egx.engine.test.acceptance.thrift.java,
- org.eclipse.epsilon.egx.engine.test.acceptance.thrift.ruby,
  org.eclipse.epsilon.egx.engine.test.acceptance.util
 Require-Bundle: org.eclipse.epsilon.test.dependencies,
  org.eclipse.epsilon.eol.engine.test.acceptance,
