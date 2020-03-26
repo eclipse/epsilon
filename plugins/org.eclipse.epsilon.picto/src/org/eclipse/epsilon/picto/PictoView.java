@@ -14,8 +14,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -390,7 +392,20 @@ public class PictoView extends ViewPart {
 			public void changed(ProgressEvent event) {}
 		});
 		
-		ViewContent content = view.getContent().getFinal(viewRenderer);
+		// Check if one of the source contents of the view is active
+		ListIterator<ViewContent> contentIterator = view.getContents(viewRenderer).listIterator();
+		ViewContent content = null;
+		while (contentIterator.hasNext() && content == null) {
+			ViewContent next = contentIterator.next();
+			if (next.isActive()) {
+				content = next;
+				content = new ViewContent("text", content.getText(), content.getPatches()).getNext(viewRenderer);	
+				
+			}
+		}
+		
+		// ... if not, show the final rendered result
+		if (content == null) content = view.getContent().getFinal(viewRenderer);
 		if (content.getFile() != null) {
 			viewRenderer.display(content.getFile());
 		}
