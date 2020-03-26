@@ -78,6 +78,7 @@ target
 /tests/org.eclipse.epsilon.test/foo.ecore
 /tests/org.eclipse.epsilon.test/TEST-default.StringTests.xml
 /tests/org.eclipse.epsilon.test/TEST-*.xml
+/tests/org.eclipse.epsilon.egl.engine.test.dependencies/dependencies.jar
 
 # /tests/org.eclipse.epsilon.workflow.test/resources/
 /tests/org.eclipse.epsilon.workflow.test/resources/TEST-default.sample.xml
