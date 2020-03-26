@@ -375,7 +375,7 @@ public class AST extends CommonTree {
 		}
 		toString += this.toExtendedStringTreeItem() + "\n";
 		for (AST child : getChildren()) {
-			toString += ((AST)child).toExtendedStringTree(indent + 1);
+			toString += child.toExtendedStringTree(indent + 1);
 		}
 		return toString;
 	}

@@ -46,14 +46,14 @@ public class SimulinkElementManager extends AbstractManager<ISimulinkElement, Ob
 	@Override
 	public Object getId(ISimulinkElement from) {
 		if (from instanceof StateflowBlock) {
-			return (Double) new StateflowBlockManager(getModel()).getId((StateflowBlock) from);
+			return new StateflowBlockManager(getModel()).getId((StateflowBlock) from);
 			//return (String) new StateflowBlockManager(getModel()).getId((StateflowBlock) from);
 		} else if (from instanceof SimulinkLine) {
-			return (Double) new SimulinkLineManager(getModel()).getId((SimulinkLine) from);
+			return new SimulinkLineManager(getModel()).getId((SimulinkLine) from);
 		} else if (from instanceof SimulinkPort) {
-			return (Double) new SimulinkPortManager(getModel()).getId((SimulinkPort) from);
+			return new SimulinkPortManager(getModel()).getId((SimulinkPort) from);
 		} else if (from instanceof SimulinkBlock) {
-			return (Double) new SimulinkBlockManager(getModel()).getId((SimulinkBlock) from);
+			return new SimulinkBlockManager(getModel()).getId((SimulinkBlock) from);
 		} 
 		return null;
 	}

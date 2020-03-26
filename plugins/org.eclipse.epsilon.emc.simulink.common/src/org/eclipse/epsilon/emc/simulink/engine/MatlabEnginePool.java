@@ -91,7 +91,7 @@ public class MatlabEnginePool {
 		}
 	}
 
-	protected Map<String, MatlabEngine> projectEngine = new HashMap<String, MatlabEngine>();
+	protected Map<String, MatlabEngine> projectEngine = new HashMap<>();
 	
 	public MatlabEngine getEngineForProject(String absoluteLocation) throws MatlabException, Exception {
 		if (projectEngine.containsKey(absoluteLocation)) {

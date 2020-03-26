@@ -88,7 +88,7 @@ public class MatlabEngine {
 	protected Method disconnectMethod;
 	
 	protected String project;
-	protected Set<IGenericSimulinkModel> models = new HashSet<IGenericSimulinkModel>();
+	protected Set<IGenericSimulinkModel> models = new HashSet<>();
 	
 	public boolean isDisconnected() throws Exception{
 		Field declaredField = engine_class.getDeclaredField("fDisconnected");
@@ -325,7 +325,7 @@ public class MatlabEngine {
 		} catch (InvocationTargetException e) {
 			String className= (String)evalWithResult("class(?);", variable);
 			if (className.equals("Simulink.SimulationOutput")) {
-				HashMap<String, Object> output = new HashMap<String, Object>();
+				HashMap<String, Object> output = new HashMap<>();
 				Object evalWithResult = evalWithResult("?.ErrorMessage;",variable);
 				output.put("ErrorMessage", evalWithResult);
 				evalWithResult = evalWithResult("?.simout;",variable);
@@ -333,7 +333,7 @@ public class MatlabEngine {
 				evalWithResult = evalWithResult("?.tout;",variable);
 				output.put("tout", evalWithResult);
 				eval("meta = ?.SimulationMetadata;",variable);
-				HashMap<String, Object> meta = new HashMap<String, Object>();
+				HashMap<String, Object> meta = new HashMap<>();
 				eval("meta.ModelInfo;");
 				evalWithResult = getVariable("ans");
 				meta.put("ModelInfo", evalWithResult);

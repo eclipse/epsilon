@@ -11,8 +11,6 @@ package org.eclipse.epsilon.eol;
 
 import java.io.File;
 import java.util.Objects;
-import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.exceptions.EolEvaluatorException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;

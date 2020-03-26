@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2018 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.emc.simulink.operations;
 
 import java.util.Collection;
@@ -95,7 +104,7 @@ public class SimulinkSelectOperation extends SelectOperation {
 		return false;
 	}
 	
-	protected AbstractSimulinkCollection wrap(Object result, AbstractSimulinkCollection target){
+	protected AbstractSimulinkCollection<?,?,?> wrap(Object result, AbstractSimulinkCollection<?,?,?> target) {
 		SimulinkModel model = (SimulinkModel) target.getManager().getModel();
 		if (target instanceof SimulinkBlockCollection) {
 			return new SimulinkBlockCollection(result, model);

@@ -224,7 +224,7 @@ public class Struct extends AbstractType {
 	@Override
 	public Object getProperty(String property) throws EolRuntimeException {
 		if (object != null) {
-			return get((String) property);
+			return get(property);
 		} else {
 			return keyValues.get(property);
 		}
@@ -242,8 +242,8 @@ public class Struct extends AbstractType {
 	protected Object getObject() {
 		if (object == null) {			
 			List<Object> keyValueList = keyValues.entrySet().stream().flatMap(e -> {
-				Object key = (String) e.getKey();
-				Object value = (Object) e.getValue();
+				Object key = e.getKey();
+				Object value = e.getValue();
 				Object[] list = new Object[] {key, value};
 				return Arrays.stream(list);
 			}).collect(Collectors.toList());

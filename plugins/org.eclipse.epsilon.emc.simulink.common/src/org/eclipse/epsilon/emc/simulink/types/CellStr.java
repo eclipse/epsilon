@@ -79,6 +79,7 @@ public class CellStr extends AbstractType {
 		}		
 	}
 	
+	@Override
 	protected void init() {
 		Class<?> clazz = getMatlabClass();
 		try {
