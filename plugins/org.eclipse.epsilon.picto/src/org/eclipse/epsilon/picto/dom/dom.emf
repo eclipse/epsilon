@@ -27,7 +27,7 @@ class CustomView {
 	attr String[*] path;
 	attr String icon;
 	attr String format;
-	attr String rule;
+	attr String type;
 	attr String content;
 	val Patch[*] patches;
 	val Parameter[*] parameters;

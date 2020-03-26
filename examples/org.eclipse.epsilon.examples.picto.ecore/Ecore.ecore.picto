@@ -3,14 +3,14 @@
 	<view path="Model, Classes, EOperation">
 		<patch format="graphviz-dot" content_="ecore-patches/eoperation-graphviz.patch"/>
 	</view>
-	<view path="Model, Custom, Core" rule="ClassDiagram">
+	<view path="Model, Custom, Core" type="ClassDiagram">
 		<parameter name="classNames" values="EPackage, EClass, EAttribute, EReference, EStructuralFeature, EClassifier"/>
 		<patch format="graphviz-dot" content_="ecore-patches/core.patch"/>
 	</view>
-	<view path="Model, Custom, Types" rule="ClassDiagram">
+	<view path="Model, Custom, Types" type="ClassDiagram">
 		<parameter name="classNames" values="EClass, EClassifier, EDataType, EEnum"/>
 	</view>
-	<view path="Model, Custom, Features" rule="ClassDiagram">
+	<view path="Model, Custom, Features" type="ClassDiagram">
 		<parameter name="classNames" values="EStructuralFeature, EOperation, EAttribute, EReference, ETypeParameter"/>
 	</view>
 </picto>

@@ -112,12 +112,12 @@ public abstract class EglPictoSource implements PictoSource {
 								
 				List<LazyGenerationRuleContentPromise> instances = (List<LazyGenerationRuleContentPromise>) module.execute();
 				
-				// Handle dynamic views (i.e. where rule != null)
-				for (CustomView customView : renderingMetadata.getCustomViews().stream().filter(cv -> cv.getRule() != null).collect(Collectors.toList())) {
+				// Handle dynamic views (i.e. where type != null)
+				for (CustomView customView : renderingMetadata.getCustomViews().stream().filter(cv -> cv.getType() != null).collect(Collectors.toList())) {
 					
 					LazyGenerationRule generationRule = (LazyGenerationRule)((LazyEgxModule) module).
 							getGenerationRules().stream().filter(r -> r.getName().
-							equals(customView.getRule())).findFirst().orElse(null);
+							equals(customView.getType())).findFirst().orElse(null);
 					
 					if (generationRule != null) {
 						Object source = null;
@@ -213,8 +213,8 @@ public abstract class EglPictoSource implements PictoSource {
 						format, icon, customView.getPatches(), Collections.emptyList());
 			}
 			
-			// Handle patches for existing views (i.e. where content == null and rule == null)
-			for (CustomView customView : renderingMetadata.getCustomViews().stream().filter(cv -> cv.getContent() == null && cv.getRule() == null).collect(Collectors.toList())) {
+			// Handle patches for existing views (i.e. where content == null and type/rule == null)
+			for (CustomView customView : renderingMetadata.getCustomViews().stream().filter(cv -> cv.getContent() == null && cv.getType() == null).collect(Collectors.toList())) {
 				ArrayList<String> path = new ArrayList<>();
 				path.add(viewTree.getName());
 				path.addAll(customView.getPath());

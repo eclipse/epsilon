@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getPath <em>Path</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getIcon <em>Icon</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getFormat <em>Format</em>}</li>
- *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getRule <em>Rule</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getContent <em>Content</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getPatches <em>Patches</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getParameters <em>Parameters</em>}</li>
@@ -86,26 +86,26 @@ public interface CustomView extends EObject {
 	void setFormat(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Rule</b></em>' attribute.
+	 * Returns the value of the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Rule</em>' attribute.
-	 * @see #setRule(String)
-	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getCustomView_Rule()
+	 * @return the value of the '<em>Type</em>' attribute.
+	 * @see #setType(String)
+	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getCustomView_Type()
 	 * @model
 	 * @generated
 	 */
-	String getRule();
+	String getType();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.epsilon.picto.dom.CustomView#getRule <em>Rule</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.epsilon.picto.dom.CustomView#getType <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Rule</em>' attribute.
-	 * @see #getRule()
+	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * @see #getType()
 	 * @generated
 	 */
-	void setRule(String value);
+	void setType(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Content</b></em>' attribute.

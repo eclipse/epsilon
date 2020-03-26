@@ -34,7 +34,7 @@ import org.eclipse.epsilon.picto.dom.PictoPackage;
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getPath <em>Path</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getIcon <em>Icon</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getFormat <em>Format</em>}</li>
- *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getRule <em>Rule</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getContent <em>Content</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getPatches <em>Patches</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getParameters <em>Parameters</em>}</li>
@@ -94,24 +94,24 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	protected String format = FORMAT_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getRule() <em>Rule</em>}' attribute.
+	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRule()
+	 * @see #getType()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String RULE_EDEFAULT = null;
+	protected static final String TYPE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getRule() <em>Rule</em>}' attribute.
+	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRule()
+	 * @see #getType()
 	 * @generated
 	 * @ordered
 	 */
-	protected String rule = RULE_EDEFAULT;
+	protected String type = TYPE_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getContent() <em>Content</em>}' attribute.
@@ -237,8 +237,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	 * @generated
 	 */
 	@Override
-	public String getRule() {
-		return rule;
+	public String getType() {
+		return type;
 	}
 
 	/**
@@ -247,11 +247,11 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	 * @generated
 	 */
 	@Override
-	public void setRule(String newRule) {
-		String oldRule = rule;
-		rule = newRule;
+	public void setType(String newType) {
+		String oldType = type;
+		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PictoPackage.CUSTOM_VIEW__RULE, oldRule, rule));
+			eNotify(new ENotificationImpl(this, Notification.SET, PictoPackage.CUSTOM_VIEW__TYPE, oldType, type));
 	}
 
 	/**
@@ -333,8 +333,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				return getIcon();
 			case PictoPackage.CUSTOM_VIEW__FORMAT:
 				return getFormat();
-			case PictoPackage.CUSTOM_VIEW__RULE:
-				return getRule();
+			case PictoPackage.CUSTOM_VIEW__TYPE:
+				return getType();
 			case PictoPackage.CUSTOM_VIEW__CONTENT:
 				return getContent();
 			case PictoPackage.CUSTOM_VIEW__PATCHES:
@@ -364,8 +364,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 			case PictoPackage.CUSTOM_VIEW__FORMAT:
 				setFormat((String)newValue);
 				return;
-			case PictoPackage.CUSTOM_VIEW__RULE:
-				setRule((String)newValue);
+			case PictoPackage.CUSTOM_VIEW__TYPE:
+				setType((String)newValue);
 				return;
 			case PictoPackage.CUSTOM_VIEW__CONTENT:
 				setContent((String)newValue);
@@ -399,8 +399,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 			case PictoPackage.CUSTOM_VIEW__FORMAT:
 				setFormat(FORMAT_EDEFAULT);
 				return;
-			case PictoPackage.CUSTOM_VIEW__RULE:
-				setRule(RULE_EDEFAULT);
+			case PictoPackage.CUSTOM_VIEW__TYPE:
+				setType(TYPE_EDEFAULT);
 				return;
 			case PictoPackage.CUSTOM_VIEW__CONTENT:
 				setContent(CONTENT_EDEFAULT);
@@ -429,8 +429,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				return ICON_EDEFAULT == null ? icon != null : !ICON_EDEFAULT.equals(icon);
 			case PictoPackage.CUSTOM_VIEW__FORMAT:
 				return FORMAT_EDEFAULT == null ? format != null : !FORMAT_EDEFAULT.equals(format);
-			case PictoPackage.CUSTOM_VIEW__RULE:
-				return RULE_EDEFAULT == null ? rule != null : !RULE_EDEFAULT.equals(rule);
+			case PictoPackage.CUSTOM_VIEW__TYPE:
+				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
 			case PictoPackage.CUSTOM_VIEW__CONTENT:
 				return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
 			case PictoPackage.CUSTOM_VIEW__PATCHES:
@@ -457,8 +457,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 		result.append(icon);
 		result.append(", format: ");
 		result.append(format);
-		result.append(", rule: ");
-		result.append(rule);
+		result.append(", type: ");
+		result.append(type);
 		result.append(", content: ");
 		result.append(content);
 		result.append(')');

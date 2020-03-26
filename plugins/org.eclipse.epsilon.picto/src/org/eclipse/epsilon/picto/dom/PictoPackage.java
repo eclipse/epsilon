@@ -296,13 +296,13 @@ public interface PictoPackage extends EPackage {
 	int CUSTOM_VIEW__FORMAT = 2;
 
 	/**
-	 * The feature id for the '<em><b>Rule</b></em>' attribute.
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CUSTOM_VIEW__RULE = 3;
+	int CUSTOM_VIEW__TYPE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Content</b></em>' attribute.
@@ -613,15 +613,15 @@ public interface PictoPackage extends EPackage {
 	EAttribute getCustomView_Format();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.CustomView#getRule <em>Rule</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.CustomView#getType <em>Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Rule</em>'.
-	 * @see org.eclipse.epsilon.picto.dom.CustomView#getRule()
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView#getType()
 	 * @see #getCustomView()
 	 * @generated
 	 */
-	EAttribute getCustomView_Rule();
+	EAttribute getCustomView_Type();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.CustomView#getContent <em>Content</em>}'.
@@ -880,12 +880,12 @@ public interface PictoPackage extends EPackage {
 		EAttribute CUSTOM_VIEW__FORMAT = eINSTANCE.getCustomView_Format();
 
 		/**
-		 * The meta object literal for the '<em><b>Rule</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CUSTOM_VIEW__RULE = eINSTANCE.getCustomView_Rule();
+		EAttribute CUSTOM_VIEW__TYPE = eINSTANCE.getCustomView_Type();
 
 		/**
 		 * The meta object literal for the '<em><b>Content</b></em>' attribute feature.

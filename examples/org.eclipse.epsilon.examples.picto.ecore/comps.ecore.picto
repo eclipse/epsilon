@@ -2,9 +2,9 @@
 <picto format="egx" template="ecore2vis/ecore.egx">
 
 	<!-- A custom view produced by invoking an EGX rule -->
-	<view path="Model, Custom, Component/Port/Connector" icon="diagram-0000ff" rule="ClassDiagram">
+	<view path="Model, Custom, Core" icon="diagram-ff00ff" type="ClassDiagram">
 		<patch format="graphviz-dot" content_="comps-patches/connector-graphviz.patch"/>
-		<patch format="html" content_="comps-patches/cpc-html.patch"/>
+		<patch format="html" content_="comps-patches/core-html.patch"/>
 		<parameter name="classNames" values="Component, Port, Connector"/>
 	</view>
 	
