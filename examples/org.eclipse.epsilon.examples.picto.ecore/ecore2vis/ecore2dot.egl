@@ -40,13 +40,29 @@ digraph G {
 
 [%
 
+operation EClass getVisibleFeatures() {
+	var features : Sequence;
+	
+	features.addAll(self.eAllAttributes);
+	features.addAll(self.eAllReferences.select(r|r.eType <> self and classes.excludes(r.eType)));
+	
+	features = features.reject(a|a.eContainer <> self and classes.includes(a.eContainer));
+	
+	if (not isLayerActive("inherited")) features = features.reject(f|f.eContainer <> self);
+	if (not isLayerActive("derived")) features = features.reject(r|r.isDerived);
+	
+	var visibleSuperTypes = self.eAllSuperTypes.select(s|classes.includes(s));
+	var visibleSupertypeFeatures = visibleSuperTypes.collect(s|s.getVisibleFeatures()).flatten().asSet();
+	features = features.reject(f|visibleSupertypeFeatures.includes(f));
+	
+	return features;
+}
+
 operation EClass getLabel() {
 	var fillcolor = self.getAnnotationValue("picto", "color","#fffcdc");
 	var label = "<table cellspacing='0' cellborder='0' cellpadding='1' bgcolor='" + fillcolor + "'>";
-	var features : Sequence;
-	features.addAll(self.eAttributes);
-	features.addAll(self.eReferences.select(r|r.eType <> self));
-	if (not isLayerActive("derived")) features = features.reject(r|r.isDerived);
+	
+	var features = self.getVisibleFeatures();
 	
 	label += "<tr><td sides='B' colspan='2' border='1'>" + 
 		"<table border='0' cellspacing='0' cellborder='0' cellpading='0'>" + 
