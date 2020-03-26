@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.hutn.dt.actions;
 
 import java.io.File;
-
+import java.util.ArrayList;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
@@ -20,7 +20,6 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.common.dt.util.StringList;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.hutn.HutnModule;
@@ -128,7 +127,7 @@ public class GenerateDebugInformation extends AbstractObjectActionDelegate {
 		launchConfig.setAttribute("source", getPathToFileInDebugDir(transformationName));
 		
 		// Add intermediate and target models
-		final StringList models = new StringList();
+		final ArrayList<String> models = new ArrayList<>();
 		models.add(createEmfModel("Intermediate", getPathToFileInDebugDir(intermediateModelName), HutnPackage.eNS_URI, true, false));
 		models.add(createEmfModel("Model",        getPathToFileInDebugDir(targetModelName), hutnModule.getNsUris().get(0), false, true));
 		launchConfig.setAttribute("models", models);

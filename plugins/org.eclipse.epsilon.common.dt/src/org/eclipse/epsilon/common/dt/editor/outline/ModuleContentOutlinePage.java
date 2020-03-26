@@ -106,13 +106,8 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 		}
 		
 		@Override
-		public void run(){
-			if (this.isChecked()){
-				treeViewer.setSorter(alphabeticalSorter);
-			}
-			else {
-				treeViewer.setSorter(null);
-			}
+		public void run() {
+			treeViewer.setComparator(isChecked() ? alphabeticalSorter : null);
 		}
 	}
 	
@@ -128,19 +123,16 @@ public class ModuleContentOutlinePage extends ContentOutlinePage implements IMod
 	@Override
 	public void moduleParsed(AbstractModuleEditor editor, final IModule module) {
 		if (getSite() != null) {
-			getSite().getShell().getDisplay().asyncExec(new Runnable() {
-				
-				@Override
-				public void run() {
-					if (getTreeViewer() != null && !getTreeViewer().getTree().isDisposed()) {
-						getTreeViewer().setInput(getOutlineRoot(module));
-						//getTreeViewer().expandAll();
-					}
+			getSite().getShell().getDisplay().asyncExec(() -> {
+				if (getTreeViewer() != null && !getTreeViewer().getTree().isDisposed()) {
+					getTreeViewer().setInput(getOutlineRoot(module));
+					//getTreeViewer().expandAll();
 				}
 			});
 		}
 	}
 	
-	public Object getOutlineRoot(IModule module) { return module; }
-	
+	public Object getOutlineRoot(IModule module) {
+		return module;
+	}
 }

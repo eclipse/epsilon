@@ -7,7 +7,6 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
-
 package org.eclipse.epsilon.eol.dt.debug;
 
 import org.eclipse.core.resources.IResource;
@@ -23,22 +22,23 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 public class EolBreakpointAdapter implements IToggleBreakpointsTargetExtension {
 
+	@Override
 	public boolean canToggleBreakpoints(IWorkbenchPart part,
 			ISelection selection) {
 		return true;
 	}
 
+	@Override
 	public void toggleBreakpoints(IWorkbenchPart part, ISelection selection)
 			throws CoreException {
 		ITextEditor textEditor = getEditor(part);
 		if (textEditor != null) {
-			IResource resource = (IResource) textEditor.getEditorInput().getAdapter(IResource.class);
+			IResource resource = textEditor.getEditorInput().getAdapter(IResource.class);
 			ITextSelection textSelection = (ITextSelection) selection;
 			int lineNumber = textSelection.getStartLine();
 			IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints(EolDebugConstants.MODEL_IDENTIFIER);
 			
-			for (int i = 0; i < breakpoints.length; i++) {
-				IBreakpoint breakpoint = breakpoints[i];
+			for (IBreakpoint breakpoint : breakpoints) {
 				if (breakpoint instanceof ILineBreakpoint && resource.equals(breakpoint.getMarker().getResource())) {
 					if (((ILineBreakpoint)breakpoint).getLineNumber() == (lineNumber + 1)) {
 						// remove
@@ -56,46 +56,51 @@ public class EolBreakpointAdapter implements IToggleBreakpointsTargetExtension {
 	private ITextEditor getEditor(IWorkbenchPart part) {
 		if (part instanceof ITextEditor) {
 			ITextEditor editorPart = (ITextEditor) part;
-			IResource resource = (IResource) editorPart.getEditorInput().getAdapter(IResource.class);
+			IResource resource = editorPart.getEditorInput().getAdapter(IResource.class);
 			if (resource != null) {
 				return editorPart;
 			}
 		}
 		return null;		
 	}
+	@Override
 	public boolean canToggleLineBreakpoints(IWorkbenchPart part,
 			ISelection selection) {
 		return true;
 	}
 
+	@Override
 	public boolean canToggleMethodBreakpoints(IWorkbenchPart part,
 			ISelection selection) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean canToggleWatchpoints(IWorkbenchPart part,
 			ISelection selection) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void toggleLineBreakpoints(IWorkbenchPart part, ISelection selection)
 			throws CoreException {
 		toggleBreakpoints(part, selection);
 	}
 
+	@Override
 	public void toggleMethodBreakpoints(IWorkbenchPart part,
 			ISelection selection) throws CoreException {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void toggleWatchpoints(IWorkbenchPart part, ISelection selection)
 			throws CoreException {
 		// TODO Auto-generated method stub
 		
 	}
-
 }
  

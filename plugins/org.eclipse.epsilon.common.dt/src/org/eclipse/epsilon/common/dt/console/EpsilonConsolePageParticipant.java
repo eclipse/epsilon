@@ -38,12 +38,8 @@ public class EpsilonConsolePageParticipant implements IConsolePageParticipant {
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
-	public Object getAdapter(Class adapter) {
+	public <T> T getAdapter(Class<T> adapter) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-
 }

@@ -11,7 +11,6 @@ package org.eclipse.epsilon.common.dt.editor;
 
 import java.io.File;
 import java.util.*;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -68,10 +67,8 @@ import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.texteditor.TextOperationAction;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
-
-public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor { //implements IPropertyListener {
+public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	
 	protected Color backgroundColor = null;
 	protected Job parseModuleJob = null;
@@ -101,7 +98,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	}
 	
 	public boolean removeModuleParsedListener(IModuleParseListener listener) {
-		return moduleParsedListeners.remove(moduleParsedListeners);
+		return moduleParsedListeners.remove(listener);
 	}
 	
 	public void addTemplateContributor(IAbstractModuleEditorTemplateContributor templateContributor) {
@@ -155,13 +152,12 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		store.setDefault(EDITOR_MATCHING_BRACKETS_COLOR, "128,128,128");
 	}
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	@Override
-	public Object getAdapter(Class required) {
-		if (IContentOutlinePage.class.equals(required)) {
-			return outlinePage;
+	public <T> T getAdapter(Class<T> required) {
+		if (required != null && required.isInstance(outlinePage)) {
+			return (T) outlinePage;
 		}
-
 		return super.getAdapter(required);
 	}
 	
@@ -170,14 +166,15 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		return Arrays.asList("assert", "assertError");
 	}
 	
-	public List<String> getTypes(){
+	public List<String> getTypes() {
 		// The list returned by Arrays.asList cannot be changed in size,
 		// as it is just a wrapper over the Java array. Therefore, any
 		// calls to add/remove will return an UnsupportedOperationException.
 		return new ArrayList<>(Arrays.asList(
 			"String", "Boolean", "Integer", "Real",
 			"Any", "Map", "Collection", "Bag", "Sequence",
-			"Set", "OrderedSet", "Native", "List"));
+			"Set", "OrderedSet", "Native", "List")
+		);
 	}
 	
 	public abstract List<String> getKeywords();

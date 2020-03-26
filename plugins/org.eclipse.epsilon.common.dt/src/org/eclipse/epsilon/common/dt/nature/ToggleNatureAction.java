@@ -12,7 +12,6 @@ package org.eclipse.epsilon.common.dt.nature;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
@@ -20,9 +19,8 @@ import org.eclipse.epsilon.common.dt.actions.AbstractObjectActionDelegate;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IObjectActionDelegate;
 
-public abstract class ToggleNatureAction extends AbstractObjectActionDelegate implements IObjectActionDelegate {
+public abstract class ToggleNatureAction extends AbstractObjectActionDelegate {
 
 	// FIXME - does not check item on startup. Would using the command platform framework fix this?
 	

@@ -20,19 +20,20 @@ public abstract class ExtensionBasedFileAdapterFactory implements IAdapterFactor
 	
 	protected abstract String getExtension();
 
-	@SuppressWarnings("rawtypes")
-	public Object getAdapter(Object adaptableObject, Class adapterType) {
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
 		if (adaptableObject instanceof IFile) {
 			IFile file = ((IFile) adaptableObject);
 			if (supportsExtension(file.getFileExtension())) {
-				return new EolFile();
+				return (T) new EolFile();
 			}
 		}
 		return null;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public Class[] getAdapterList() {
+	@Override
+	public Class<?>[] getAdapterList() {
 		return null;
 	}
 	

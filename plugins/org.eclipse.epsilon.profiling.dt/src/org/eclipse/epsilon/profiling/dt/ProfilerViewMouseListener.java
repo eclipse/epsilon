@@ -20,14 +20,17 @@ public class ProfilerViewMouseListener implements MouseListener{
 		this.view = view;
 	}
 	
+	@Override
 	public void mouseDoubleClick(MouseEvent e) {
 		
 	}
 
+	@Override
 	public void mouseDown(MouseEvent e) {
 		
 	}
 
+	@Override
 	public void mouseUp(MouseEvent e) {
 		
 	}

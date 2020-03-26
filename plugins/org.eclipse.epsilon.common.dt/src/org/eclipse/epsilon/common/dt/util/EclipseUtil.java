@@ -12,7 +12,6 @@ package org.eclipse.epsilon.common.dt.util;
 
 import java.io.File;
 import java.net.URI;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;

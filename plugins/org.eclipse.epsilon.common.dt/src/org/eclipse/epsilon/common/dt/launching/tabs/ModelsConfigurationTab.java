@@ -9,9 +9,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.launching.tabs;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -22,7 +22,6 @@ import org.eclipse.epsilon.common.dt.launching.dialogs.ModelTypeSelectionDialog;
 import org.eclipse.epsilon.common.dt.launching.extensions.ModelTypeExtension;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.common.dt.util.StringList;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -44,7 +43,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 	
-	protected List<String> models = new StringList();
+	protected List<String> models = new ArrayList<>();
 	private TableViewer modelsViewer;
 	
 	private final List<Button> modelControls = new LinkedList<>();
@@ -138,7 +137,7 @@ public class ModelsConfigurationTab extends AbstractLaunchConfigurationTab{
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
-			models = new StringList(configuration.getAttribute("models", new StringList()));
+			models = new ArrayList<>(configuration.getAttribute("models", new ArrayList<>()));
 			modelsViewer.setInput(models);
 			modelsViewer.refresh(true);
 			canSave();

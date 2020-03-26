@@ -12,7 +12,6 @@ package org.eclipse.epsilon.common.dt.launching.tabs;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -35,7 +34,6 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -233,7 +231,7 @@ public class ParametersConfigurationTab extends AbstractLaunchConfigurationTab{
 			@Override
 			protected CellEditor createCellEditor(TableViewer viewer) {	
 				ComboBoxViewerCellEditor editor = new ComboBoxViewerCellEditor(viewer.getTable());
-				editor.getViewer().add(new String[]{"String", "Integer", "Real", "Boolean"});
+				editor.getViewer().add("String", "Integer", "Real", "Boolean");
 				return editor;
 			}
 					
@@ -276,17 +274,17 @@ public class ParametersConfigurationTab extends AbstractLaunchConfigurationTab{
 	
 	public void addNewParameter() {
 		ParameterConfiguration parameter = new ParameterConfiguration();
+		String parameterName = parameter.getName();
+		
 		boolean uniquename = false; 
-		int i = 1;
-		while (!uniquename) {
+		for (int i = 1; !uniquename; i++) {
 			parameter.setName("p" + i);
 			uniquename = true;
 			for (ParameterConfiguration existing : parameters) {
-				if (existing.getName().equals(parameter.getName())) {
+				if (existing.getName().equals(parameterName)) {
 					uniquename = false;
 				}
 			}
-			i++;
 		}
 		parameter.setType("String");
 		parameters.add(parameter);
@@ -295,8 +293,7 @@ public class ParametersConfigurationTab extends AbstractLaunchConfigurationTab{
 		updateLaunchConfigurationDialog();
 	}
 	
-	class AddParameterListener implements Listener{
-
+	class AddParameterListener implements Listener {
 		@Override
 		public void handleEvent(Event event) {	
 			addNewParameter();
@@ -304,7 +301,6 @@ public class ParametersConfigurationTab extends AbstractLaunchConfigurationTab{
 	}
 	
 	class RemoveParameterListener implements Listener{
-
 		@Override
 		public void handleEvent(Event event) {
 			IStructuredSelection selection = (IStructuredSelection) parametersViewer.getSelection();
@@ -315,11 +311,9 @@ public class ParametersConfigurationTab extends AbstractLaunchConfigurationTab{
 			canSave();
 			updateLaunchConfigurationDialog();
 		}
-		
 	}
 
 	class DuplicateParameterListener implements Listener{
-
 		@Override
 		public void handleEvent(Event event) {
 			IStructuredSelection selection = (IStructuredSelection) parametersViewer.getSelection();
@@ -331,8 +325,8 @@ public class ParametersConfigurationTab extends AbstractLaunchConfigurationTab{
 			canSave();
 			updateLaunchConfigurationDialog();
 		}
-		
 	}
+	
 	class ParameterLabelProvider extends LabelProvider implements ITableLabelProvider {
 
 		@Override

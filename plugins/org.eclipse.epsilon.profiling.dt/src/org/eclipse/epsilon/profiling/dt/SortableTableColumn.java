@@ -12,13 +12,12 @@ package org.eclipse.epsilon.profiling.dt;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 
 public abstract class SortableTableColumn extends TableColumn {
 	
@@ -46,10 +45,12 @@ public abstract class SortableTableColumn extends TableColumn {
 		
 		this.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				SortableTableColumn col = (SortableTableColumn) e.widget;
 				Table table = col.getParent();
@@ -61,25 +62,19 @@ public abstract class SortableTableColumn extends TableColumn {
 					table.setSortColumn(col);
 				}
 				table.setSortDirection(direction);
-				tableViewer.setSorter(new SortableTableColumnSorter(col));
+				tableViewer.setComparator(new SortableTableColumnSorter(col));
 			}
-			
-			
 		});
 		
 	}
 	
 	public abstract int compare(Object o1, Object o2);
 	
-	private class SortableTableColumnSorter extends ViewerSorter {
-		
-		protected SortableTableColumn column;
-		protected TableItem[] tableItems;
-		protected int columnIndex;
+	private class SortableTableColumnSorter extends ViewerComparator {
+		int columnIndex;
 		
 		public SortableTableColumnSorter(SortableTableColumn column) {
-			this.column = column;
-			tableItems = column.getParent().getItems();
+			column.getParent().getItems();
 			int i = 0;
 			for (TableColumn c : column.getParent().getColumns()) {
 				if (c == column) {
@@ -97,7 +92,5 @@ public abstract class SortableTableColumn extends TableColumn {
 			if (direction == SWT.DOWN) result = -1 * result;
 			return result;
 		}
-		
 	}
-	
 }	

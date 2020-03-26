@@ -82,11 +82,6 @@ public class ModuleImplementationExtension {
 	/** The configuration element for this extension. */
 	private final IConfigurationElement configurationElement;
 	
-	/** The qualified name of the class that constructs the module configuration composite. 
-	 * The composite will be added to the Implementation selection dialog when this module
-	 * is selected */
-	private final String dialogClazz;
-
 	/**
 	 * Instantiates a new module implementation extension.
 	 *
@@ -96,7 +91,7 @@ public class ModuleImplementationExtension {
 		this.clazz = configurationElement.getAttribute("class");
 		this.name = configurationElement.getAttribute("name");
 		this.language = configurationElement.getAttribute("language");
-		this.dialogClazz = configurationElement.getAttribute("dialog");
+		configurationElement.getAttribute("dialog");
 		this.default_ = Boolean.valueOf(configurationElement.getAttribute("default"));
 		this.configurationElement = configurationElement;
 	}

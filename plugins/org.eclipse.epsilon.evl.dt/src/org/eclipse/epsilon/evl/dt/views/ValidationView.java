@@ -59,7 +59,7 @@ public class ValidationView extends ViewPart {
 		
 		@Override
 		public String getColumnText(Object obj, int index) {
-			return ((UnsatisfiedConstraint) obj).getMessage();
+			return obj instanceof UnsatisfiedConstraint ? ((UnsatisfiedConstraint) obj).getMessage() : obj.toString();
 		}
 		
 		@Override

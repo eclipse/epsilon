@@ -39,10 +39,8 @@ public class EolLaunchShortcut implements ILaunchShortcut2 {
 			ILaunchConfiguration[] launchConfigurations = getLaunchConfigurations(file);
 			
 			if (launchConfigurations.length == 0) {
-				// Changing to the non-deprecated version of the function below will break support
-				// for Galileo
 				ILaunchConfigurationWorkingCopy configuration = getLaunchConfigurationType().
-					newInstance(file.getParent(), DebugPlugin.getDefault().getLaunchManager().generateUniqueLaunchConfigurationNameFrom(file.getName())).getWorkingCopy();
+					newInstance(file.getParent(), DebugPlugin.getDefault().getLaunchManager().generateLaunchConfigurationName(file.getName())).getWorkingCopy();
 				
 				configuration.setAttribute(EolLaunchConfigurationAttributes.SOURCE, file.getFullPath().toPortableString());
 				configuration.doSave();
@@ -76,13 +74,10 @@ public class EolLaunchShortcut implements ILaunchShortcut2 {
 			ArrayList<ILaunchConfiguration> launchConfigurationsList = new ArrayList<>();
 			
 			for (ILaunchConfiguration config : DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurations(type)) {
-				
 				Path launchConfigutationPath = new Path(config.getAttribute(EolLaunchConfigurationAttributes.SOURCE, ""));
-				
 				if (file.getFullPath().equals(launchConfigutationPath)) {
 					launchConfigurationsList.add(config);
 				}
-				
 			}
 			
 			ILaunchConfiguration[] launchConfigurations = new ILaunchConfiguration[launchConfigurationsList.size()];

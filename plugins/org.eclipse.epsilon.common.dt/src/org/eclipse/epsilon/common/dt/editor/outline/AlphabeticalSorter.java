@@ -9,14 +9,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.common.dt.editor.outline;
 
-import org.eclipse.jface.viewers.ContentViewer;
-import org.eclipse.jface.viewers.IBaseLabelProvider;
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.*;
 
-public class AlphabeticalSorter extends ViewerSorter 
-{ 
+public class AlphabeticalSorter extends ViewerComparator { 
 	
     @Override
 	public int category(Object element) {
@@ -46,8 +41,7 @@ public class AlphabeticalSorter extends ViewerSorter
 			name1 = "";
 		if (name2 == null)
 			name2 = "";
-		return collator.compare(name1, name2);
+		return getComparator().compare(name1, name2);
 	}
-    
     
 }

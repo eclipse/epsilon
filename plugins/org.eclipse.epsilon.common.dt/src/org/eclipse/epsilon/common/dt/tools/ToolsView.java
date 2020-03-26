@@ -13,19 +13,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.launching.extensions.ToolExtension;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -39,8 +32,7 @@ import org.osgi.framework.Bundle;
 public class ToolsView extends ViewPart {
 	private TreeViewer viewer;
 	
-	class ViewContentProvider implements IStructuredContentProvider, 
-										   ITreeContentProvider {
+	class ViewContentProvider implements ITreeContentProvider {
 
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -65,13 +57,11 @@ public class ToolsView extends ViewPart {
 		@Override
 		public void dispose() {
 			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -160,14 +150,6 @@ public class ToolsView extends ViewPart {
 			}
 		}
 	}
-	class NameSorter extends ViewerSorter {
-	}
-
-	/**
-	 * The constructor.
-	 */
-	public ToolsView() {
-	}
 
 	/**
 	 * This is a callback that will allow us
@@ -176,10 +158,9 @@ public class ToolsView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setSorter(new NameSorter());
+		viewer.setComparator(new ViewerComparator());
 		viewer.setInput(getViewSite());		
 		contributeToActionBars();
 	}
@@ -210,10 +191,6 @@ public class ToolsView extends ViewPart {
 		}
 		
 	}
-	
-	//private void fillLocalToolBar(IToolBarManager manager) {
-		
-	//}
 
 	/**
 	 * Passing the focus request to the viewer's control.

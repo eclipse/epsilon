@@ -7,7 +7,6 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
-
 package org.eclipse.epsilon.eol.dt.debug;
 
 import org.eclipse.core.runtime.IAdapterFactory;
@@ -16,19 +15,17 @@ import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 
 public class EolEditorAdapterFactory implements IAdapterFactory {
 
-	@SuppressWarnings("rawtypes")
-	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		
+	@SuppressWarnings("unchecked")
+	public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
 		if (adaptableObject instanceof AbstractModuleEditor) {
-			return new EolBreakpointAdapter();
+			return (T) new EolBreakpointAdapter();
 		}
 		return null;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public Class[] getAdapterList() {
+	@Override
+	public Class<?>[] getAdapterList() {
 		return new Class[]{IToggleBreakpointsTarget.class};
 	}
-
 }
  

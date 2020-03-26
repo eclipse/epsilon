@@ -96,10 +96,11 @@ public class EolStackFrame extends EolDebugElement implements IStackFrame {
 		this.name = name;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
-		if (adapter.equals(ISourceDisplay.class)) {
-			return new EolSourceDisplay();
+	public <T> T getAdapter(Class<T> adapter) {
+		if (adapter != null && ISourceDisplay.class.equals(adapter)) {
+			return (T) new EolSourceDisplay();
 		}
 		return super.getAdapter(adapter);
 	}

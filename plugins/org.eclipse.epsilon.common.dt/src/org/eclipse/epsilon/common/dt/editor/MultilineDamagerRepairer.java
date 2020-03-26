@@ -17,10 +17,6 @@ import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.rules.ITokenScanner;
 
 public class MultilineDamagerRepairer extends DefaultDamagerRepairer {
-
-	public MultilineDamagerRepairer(ITokenScanner scanner, TextAttribute defaultTextAttribute) {
-		super(scanner, defaultTextAttribute);
-	}
 	
 	public MultilineDamagerRepairer(ITokenScanner scanner) {
 		super(scanner);

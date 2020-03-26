@@ -12,14 +12,12 @@ package org.eclipse.epsilon.eol.dt.editor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleValidator;
 import org.eclipse.epsilon.common.module.IModule;
-import org.eclipse.epsilon.common.module.IModuleValidator;
 import org.eclipse.epsilon.common.module.ModuleMarker;
 import org.eclipse.epsilon.eol.EolModule;
 
-public class EolModuleValidator extends AbstractModuleValidator implements IModuleValidator {
+public class EolModuleValidator extends AbstractModuleValidator {
 	
 	@Override
 	public List<ModuleMarker> validate(IModule module) {

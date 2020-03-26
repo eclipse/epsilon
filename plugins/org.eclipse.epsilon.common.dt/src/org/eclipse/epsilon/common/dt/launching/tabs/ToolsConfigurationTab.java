@@ -10,14 +10,13 @@
 package org.eclipse.epsilon.common.dt.launching.tabs;
 
 import java.util.List;
-
+import java.util.ArrayList;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.epsilon.common.dt.EpsilonCommonsPlugin;
 import org.eclipse.epsilon.common.dt.launching.dialogs.ToolConfigurationDialog;
-import org.eclipse.epsilon.common.dt.util.StringList;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -28,7 +27,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -38,7 +36,7 @@ import org.eclipse.swt.widgets.Listener;
 
 public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 	
-	private List<String> tools = new StringList();
+	private List<String> tools = new ArrayList<>();
 	private TableViewer toolsViewer;
 
 	@Override
@@ -90,7 +88,7 @@ public class ToolsConfigurationTab extends AbstractLaunchConfigurationTab{
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
-			tools = new StringList(configuration.getAttribute("tools", new StringList()));
+			tools = new ArrayList<>(configuration.getAttribute("tools", new ArrayList<>()));
 			toolsViewer.setInput(tools);
 			toolsViewer.refresh(true);
 			canSave();

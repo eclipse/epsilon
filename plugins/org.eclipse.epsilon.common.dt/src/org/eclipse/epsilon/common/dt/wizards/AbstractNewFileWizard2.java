@@ -7,7 +7,6 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
-
 package org.eclipse.epsilon.common.dt.wizards;
 
 import org.eclipse.core.resources.IFile;
@@ -25,13 +24,9 @@ public abstract class AbstractNewFileWizard2 extends Wizard implements INewWizar
 
     private IStructuredSelection selection;
     private NewFileWizardPage2 newFileWizardPage;
-    private IWorkbench workbench;
- 
-
+    
     public AbstractNewFileWizard2() {
-
         setWindowTitle(getTitle());
-
     } 
 
 
@@ -74,7 +69,6 @@ public abstract class AbstractNewFileWizard2 extends Wizard implements INewWizar
 
     @Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-        this.workbench = workbench;
         this.selection = selection;
     }
 }
