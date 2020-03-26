@@ -20,7 +20,7 @@ pipeline {
     }
     stages {
         stage('Build') {
-		  when { branch 'master' }
+		  when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features\\/*)|(plugins\\/*)|(releng\\/*)(*pom\\.xml)' } }
           steps {
             slackSend (channel: '#ci-notifications', botUser: true, color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
