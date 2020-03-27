@@ -12,17 +12,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tycho.version>1.0.0</tycho.version>
   </properties>
-
-  <repositories>
-    <!--repository>
-      <id></id>
-      <name></name>
-      <url></url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository-->
-  </repositories>
   
   <pluginRepositories>
     <pluginRepository>
@@ -133,16 +122,6 @@
             </extraRequirements>
           </dependency-resolution>
           <environments>
-            <!--environment>
-              <os>linux</os>
-              <ws>gtk</ws>
-              <arch>x86</arch>
-            </environment>
-			<environment>
-              <os>win32</os>
-              <ws>win32</ws>
-              <arch>x86</arch>
-            </environment-->
             <environment>
               <os>linux</os>
               <ws>gtk</ws>
@@ -212,7 +191,7 @@
             <extensions>true</extensions>
             <configuration>
               <serverId>ossrh</serverId>
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <nexusUrl>https://oss.sonatype.org</nexusUrl>
               <!-- We want to check staged releases manually on
                    Sonatype OSSRH before we propagate to Central. -->
               <autoReleaseAfterClose>false</autoReleaseAfterClose>
