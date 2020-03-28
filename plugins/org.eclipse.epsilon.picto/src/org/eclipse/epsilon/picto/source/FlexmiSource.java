@@ -12,7 +12,6 @@ package org.eclipse.epsilon.picto.source;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -28,7 +27,6 @@ import org.eclipse.epsilon.flexmi.dt.FlexmiEditor;
 import org.eclipse.epsilon.picto.dom.Picto;
 import org.eclipse.epsilon.picto.dom.PictoFactory;
 import org.eclipse.ui.IEditorPart;
-import org.w3c.dom.ProcessingInstruction;
 
 public class FlexmiSource extends EglPictoSource {
 
@@ -37,20 +35,21 @@ public class FlexmiSource extends EglPictoSource {
 		FlexmiResource resource = (FlexmiResource) getResource(editorPart);
 		if (resource == null) return null;
 		
-		ProcessingInstruction renderProcessingInstruction = (ProcessingInstruction) ((FlexmiResource) resource).
-					getProcessingInstructions().stream().filter(p -> p.getTarget().startsWith("render-")).findFirst().orElse(null);
-		if (renderProcessingInstruction != null) {
-			Picto metadata = PictoFactory.eINSTANCE.createPicto();
-			metadata.setFormat(renderProcessingInstruction.getTarget().substring("render-".length()));
-			metadata.setTemplate(renderProcessingInstruction.getData().trim());
-			return metadata;
-		}
-		return null;
+		return resource
+			.getProcessingInstructions().stream()
+			.filter(p -> p.getTarget().startsWith("render-"))
+			.findFirst()
+			.map(renderProcessingInstruction -> {
+				Picto metadata = PictoFactory.eINSTANCE.createPicto();
+				metadata.setFormat(renderProcessingInstruction.getTarget().substring("render-".length()));
+				metadata.setTemplate(renderProcessingInstruction.getData().trim());
+				return metadata;
+			})
+			.orElse(null);
 	}
 
 	@Override
-	public Resource getResource(IEditorPart editorPart) {		
-		
+	public Resource getResource(IEditorPart editorPart) {	
 		IFile file = waitForFile(editorPart);
 		if (file == null) return null;
 		

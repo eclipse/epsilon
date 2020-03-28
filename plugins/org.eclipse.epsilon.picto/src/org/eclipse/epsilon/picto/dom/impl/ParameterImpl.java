@@ -175,7 +175,7 @@ public class ParameterImpl extends MinimalEObjectImpl.Container implements Param
 	@Override
 	public EList<Object> getValues() {
 		if (values == null) {
-			values = new EDataTypeUniqueEList<Object>(Object.class, this, PictoPackage.PARAMETER__VALUES);
+			values = new EDataTypeUniqueEList<>(Object.class, this, PictoPackage.PARAMETER__VALUES);
 		}
 		return values;
 	}

@@ -27,7 +27,7 @@ public class ViewTree {
 	protected String name = "";
 	protected String format = "html";
 	protected String icon = "folder";
-	protected List<Patch> patches = new ArrayList<Patch>();
+	protected List<Patch> patches = new ArrayList<>();
 	protected ViewTree parent;
 	protected Point scrollPosition = new Point(0, 0);
 	protected ViewContent cachedContent = null;
@@ -191,7 +191,7 @@ public class ViewTree {
 	}
 	
 	public List<ViewContent> getContents(ViewRenderer viewRenderer) {
-		List<ViewContent> viewContents = new ArrayList<ViewContent>();
+		List<ViewContent> viewContents = new ArrayList<>();
 		ViewContent viewContent = getContent();
 		while (viewContent != null) {
 			viewContents.add(viewContent);

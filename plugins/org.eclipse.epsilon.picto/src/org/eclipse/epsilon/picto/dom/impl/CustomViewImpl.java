@@ -180,7 +180,7 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	@Override
 	public EList<String> getPath() {
 		if (path == null) {
-			path = new EDataTypeUniqueEList<String>(String.class, this, PictoPackage.CUSTOM_VIEW__PATH);
+			path = new EDataTypeUniqueEList<>(String.class, this, PictoPackage.CUSTOM_VIEW__PATH);
 		}
 		return path;
 	}
@@ -285,7 +285,7 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	@Override
 	public EList<Patch> getPatches() {
 		if (patches == null) {
-			patches = new EObjectContainmentEList<Patch>(Patch.class, this, PictoPackage.CUSTOM_VIEW__PATCHES);
+			patches = new EObjectContainmentEList<>(Patch.class, this, PictoPackage.CUSTOM_VIEW__PATCHES);
 		}
 		return patches;
 	}
@@ -298,7 +298,7 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	@Override
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
-			parameters = new EObjectContainmentEList<Parameter>(Parameter.class, this, PictoPackage.CUSTOM_VIEW__PARAMETERS);
+			parameters = new EObjectContainmentEList<>(Parameter.class, this, PictoPackage.CUSTOM_VIEW__PARAMETERS);
 		}
 		return parameters;
 	}

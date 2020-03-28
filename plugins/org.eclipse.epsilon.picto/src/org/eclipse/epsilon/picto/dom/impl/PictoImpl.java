@@ -229,7 +229,7 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	@Override
 	public EList<Model> getModels() {
 		if (models == null) {
-			models = new EObjectContainmentEList<Model>(Model.class, this, PictoPackage.PICTO__MODELS);
+			models = new EObjectContainmentEList<>(Model.class, this, PictoPackage.PICTO__MODELS);
 		}
 		return models;
 	}
@@ -242,7 +242,7 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	@Override
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
-			parameters = new EObjectContainmentEList<Parameter>(Parameter.class, this, PictoPackage.PICTO__PARAMETERS);
+			parameters = new EObjectContainmentEList<>(Parameter.class, this, PictoPackage.PICTO__PARAMETERS);
 		}
 		return parameters;
 	}
@@ -255,7 +255,7 @@ public class PictoImpl extends MinimalEObjectImpl.Container implements Picto {
 	@Override
 	public EList<CustomView> getCustomViews() {
 		if (customViews == null) {
-			customViews = new EObjectContainmentEList<CustomView>(CustomView.class, this, PictoPackage.PICTO__CUSTOM_VIEWS);
+			customViews = new EObjectContainmentEList<>(CustomView.class, this, PictoPackage.PICTO__CUSTOM_VIEWS);
 		}
 		return customViews;
 	}

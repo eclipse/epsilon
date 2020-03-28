@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.picto;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -57,7 +58,7 @@ public class PictoPlugin extends AbstractUIPlugin {
 	}
 	
 	public ImageDescriptor getImageDescriptor(String path) {
-		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+		return ResourceLocator.imageDescriptorFromBundle(PLUGIN_ID, path).orElse(null);
 	}
 
 }

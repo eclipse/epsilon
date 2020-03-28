@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.picto;
 
 import java.util.ListResourceBundle;
-
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.IWorkbenchPart;
@@ -32,8 +31,8 @@ public class FindReplaceHandler extends org.eclipse.core.commands.AbstractHandle
 					return new Object[][] {};
 				}
 			}, null, part);
+			// TODO org.eclipse.core.commands
 			ActionHandler actionHandler = new ActionHandler(findReplaceAction);
-
 			return actionHandler.execute(event);
 		} catch (Exception e) {
 			throw new ExecutionException("Could not execute command!", e);

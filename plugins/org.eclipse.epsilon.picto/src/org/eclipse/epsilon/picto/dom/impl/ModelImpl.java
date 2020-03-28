@@ -161,7 +161,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
-			parameters = new EObjectContainmentEList<Parameter>(Parameter.class, this, PictoPackage.MODEL__PARAMETERS);
+			parameters = new EObjectContainmentEList<>(Parameter.class, this, PictoPackage.MODEL__PARAMETERS);
 		}
 		return parameters;
 	}
