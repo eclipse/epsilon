@@ -25,6 +25,7 @@ import junit.framework.Test;
 	RulesAreTyped.class,
 	DomainTests.class,
 	IncludeTests.class,
+	PrintTests.class,
 	GenerationRuleConstructsTests.class,
 	EgxModuleEquivalenceTests.class
 })

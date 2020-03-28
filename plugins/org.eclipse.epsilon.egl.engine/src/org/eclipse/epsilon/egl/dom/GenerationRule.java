@@ -168,10 +168,10 @@ public class GenerationRule extends ExtensibleNamedRule implements IExecutableMo
 			}
 		}
 		
-		final String target = targetBlock != null ? targetBlock.execute(context, false) : "";
+		final String target = targetBlock != null ? targetBlock.execute(context, false) : null;
 		
 		Object generated;
-		if (eglTemplate instanceof EglPersistentTemplate) {
+		if (eglTemplate instanceof EglPersistentTemplate && target != null) {
 			if (getBooleanAnnotationValue("patch", context) && eglTemplate instanceof EglFileGeneratingTemplate) {
 				generated = ((EglFileGeneratingTemplate) eglTemplate).patch(target);
 			}

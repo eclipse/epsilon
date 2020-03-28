@@ -259,7 +259,12 @@ public class EglTemplateFactory {
 		if (context.getDelegate() instanceof IEolContextParallel) {
 			return new EglContext(context);
 		}
-		else return getContext();
+		else {
+			// Refresh the output stream of the context etc.
+			// in case they have changed in the delegate
+			getContext().setDelegate(getContext().getDelegate());
+			return getContext();
+		}
 	}
 	
 	private EglTemplateSpecificationFactory createTemplateSpecificationFactory() {
