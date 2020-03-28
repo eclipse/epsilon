@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Patch#getFormat <em>Format</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Patch#getContent <em>Content</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.Patch#getApplies <em>Applies</em>}</li>
  * </ul>
  *
  * @see org.eclipse.epsilon.picto.dom.PictoPackage#getPatch()
@@ -65,5 +66,27 @@ public interface Patch extends EObject {
 	 * @generated
 	 */
 	void setContent(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Applies</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Applies</em>' attribute.
+	 * @see #setApplies(String)
+	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getPatch_Applies()
+	 * @model
+	 * @generated
+	 */
+	String getApplies();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.epsilon.picto.dom.Patch#getApplies <em>Applies</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Applies</em>' attribute.
+	 * @see #getApplies()
+	 * @generated
+	 */
+	void setApplies(String value);
 
 } // Patch

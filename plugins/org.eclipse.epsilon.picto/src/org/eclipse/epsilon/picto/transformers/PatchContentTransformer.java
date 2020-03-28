@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.egl.patch.Line;
 import org.eclipse.epsilon.egl.patch.TextBlock;
+import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.picto.Layer;
 import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.ViewRenderer;
 import org.eclipse.epsilon.picto.dom.Patch;
@@ -29,12 +33,14 @@ public class PatchContentTransformer implements ViewContentTransformer {
 		for (Patch patch : content.getPatches()) {
 			if (patch.getFormat().equals(content.getFormat())) {
 				
-				org.eclipse.epsilon.egl.patch.Patch p = new org.eclipse.epsilon.egl.patch.Patch(patch.getContent().split(System.lineSeparator()));
-				TextBlock b = new TextBlock(patchedText.split(System.lineSeparator()));
-				
-				patchedText = p.apply(b).getLines().stream()
-						.map(Line::getText)
-						.collect(Collectors.joining(System.lineSeparator()));
+				if (applies(patch, content)) {
+					org.eclipse.epsilon.egl.patch.Patch p = new org.eclipse.epsilon.egl.patch.Patch(patch.getContent().split(System.lineSeparator()));
+					TextBlock b = new TextBlock(patchedText.split(System.lineSeparator()));
+					
+					patchedText = p.apply(b).getLines().stream()
+							.map(Line::getText)
+							.collect(Collectors.joining(System.lineSeparator()));
+				}
 				
 				appliedPatches.add(patch);
 			}
@@ -42,8 +48,26 @@ public class PatchContentTransformer implements ViewContentTransformer {
 		
 		List<Patch> remainingPatches = new ArrayList<>(content.getPatches());
 		remainingPatches.removeAll(appliedPatches);
-		return new ViewContent(content.getFormat(), patchedText, remainingPatches);
+		return new ViewContent(content.getFormat(), patchedText, content.getLayers(), remainingPatches);
 		
 	}
-
+	
+	protected boolean applies(Patch patch, ViewContent content) {
+		if (patch.getApplies() == null) return true;
+		
+		try {
+			EolModule module = new EolModule();
+			module.parse("return " + patch.getApplies() + ";");
+			for (Layer layer : content.getLayers()) {
+				module.getContext().getFrameStack().put(Variable.createReadOnlyVariable(layer.getId(), layer.isActive()));
+			}
+			return (Boolean) module.execute();
+		}
+		catch (Exception ex) {
+			LogUtil.log(ex);
+			return false;
+		}
+		
+	}
+	
 }

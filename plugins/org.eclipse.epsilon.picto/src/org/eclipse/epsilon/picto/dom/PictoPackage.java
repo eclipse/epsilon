@@ -378,13 +378,22 @@ public interface PictoPackage extends EPackage {
 	int PATCH__CONTENT = 1;
 
 	/**
+	 * The feature id for the '<em><b>Applies</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATCH__APPLIES = 2;
+
+	/**
 	 * The number of structural features of the '<em>Patch</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PATCH_FEATURE_COUNT = 2;
+	int PATCH_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Patch</em>' class.
@@ -689,6 +698,17 @@ public interface PictoPackage extends EPackage {
 	EAttribute getPatch_Content();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.Patch#getApplies <em>Applies</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Applies</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.Patch#getApplies()
+	 * @see #getPatch()
+	 * @generated
+	 */
+	EAttribute getPatch_Applies();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -936,6 +956,14 @@ public interface PictoPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PATCH__CONTENT = eINSTANCE.getPatch_Content();
+
+		/**
+		 * The meta object literal for the '<em><b>Applies</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PATCH__APPLIES = eINSTANCE.getPatch_Applies();
 
 	}
 

@@ -164,13 +164,13 @@ public class ViewTree {
 		if (cachedContent == null) {
 			
 			if (promise == null) {
-				cachedContent = new ViewContent(format, "", getPatches());
+				cachedContent = new ViewContent(format, "", getLayers(), getPatches());
 			}
 			else {
 				try {
-					cachedContent = new ViewContent(format, promise.getContent(), getPatches());
+					cachedContent = new ViewContent(format, promise.getContent(), getLayers(), getPatches());
 				} catch (Exception e) {
-					cachedContent = new ViewContent("exception", e.getMessage(), getPatches());
+					cachedContent = new ViewContent("exception", e.getMessage(), getLayers(), getPatches());
 				}
 			}
 		}

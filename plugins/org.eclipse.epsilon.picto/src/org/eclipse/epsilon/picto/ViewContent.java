@@ -16,11 +16,12 @@ public class ViewContent {
 	protected String format;
 	protected String text;
 	protected File file;
+	protected List<Layer> layers = new ArrayList<>();
 	protected boolean active;
 	protected String label;
 	protected List<Patch> patches = new ArrayList<>();
 	protected ViewContent next = undefined;
-	protected static final ViewContent undefined = new ViewContent("We shouldn't be here","xxx", Collections.emptyList());
+	protected static final ViewContent undefined = new ViewContent("We shouldn't be here","xxx", Collections.emptyList(), Collections.emptyList());
 	
 	protected static List<ViewContentTransformer> viewContentTransformers;
 	
@@ -33,20 +34,22 @@ public class ViewContent {
 		return viewContentTransformers;
 	}
 	
-	public ViewContent(String format, String text, List<Patch> patches) {
+	public ViewContent(String format, String text, List<Layer> layers, List<Patch> patches) {
 		super();
 		this.format = format;
 		this.text = text;
 		this.patches = patches;
+		this.layers = layers;
 		setLabel();
 	}
 	
 	//TODO: Delete
-	public ViewContent(String format, File file, List<Patch> patches) {
+	public ViewContent(String format, File file, List<Layer> layers, List<Patch> patches) {
 		super();
 		this.format = format;
 		this.file = file;
 		this.patches = patches;
+		this.layers = layers;
 		setLabel();
 	}
 	
@@ -111,6 +114,10 @@ public class ViewContent {
 	
 	public void setPatches(List<Patch> patches) {
 		this.patches = patches;
+	}
+	
+	public List<Layer> getLayers() {
+		return layers;
 	}
 	
 }

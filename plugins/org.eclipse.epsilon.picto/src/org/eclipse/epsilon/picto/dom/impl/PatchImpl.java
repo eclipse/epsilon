@@ -22,6 +22,7 @@ import org.eclipse.epsilon.picto.dom.PictoPackage;
  * <ul>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PatchImpl#getFormat <em>Format</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PatchImpl#getContent <em>Content</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.impl.PatchImpl#getApplies <em>Applies</em>}</li>
  * </ul>
  *
  * @generated
@@ -66,6 +67,26 @@ public class PatchImpl extends MinimalEObjectImpl.Container implements Patch {
 	 * @ordered
 	 */
 	protected String content = CONTENT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getApplies() <em>Applies</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getApplies()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String APPLIES_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getApplies() <em>Applies</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getApplies()
+	 * @generated
+	 * @ordered
+	 */
+	protected String applies = APPLIES_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -138,12 +159,37 @@ public class PatchImpl extends MinimalEObjectImpl.Container implements Patch {
 	 * @generated
 	 */
 	@Override
+	public String getApplies() {
+		return applies;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setApplies(String newApplies) {
+		String oldApplies = applies;
+		applies = newApplies;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PictoPackage.PATCH__APPLIES, oldApplies, applies));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case PictoPackage.PATCH__FORMAT:
 				return getFormat();
 			case PictoPackage.PATCH__CONTENT:
 				return getContent();
+			case PictoPackage.PATCH__APPLIES:
+				return getApplies();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -161,6 +207,9 @@ public class PatchImpl extends MinimalEObjectImpl.Container implements Patch {
 				return;
 			case PictoPackage.PATCH__CONTENT:
 				setContent((String)newValue);
+				return;
+			case PictoPackage.PATCH__APPLIES:
+				setApplies((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -180,6 +229,9 @@ public class PatchImpl extends MinimalEObjectImpl.Container implements Patch {
 			case PictoPackage.PATCH__CONTENT:
 				setContent(CONTENT_EDEFAULT);
 				return;
+			case PictoPackage.PATCH__APPLIES:
+				setApplies(APPLIES_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -196,6 +248,8 @@ public class PatchImpl extends MinimalEObjectImpl.Container implements Patch {
 				return FORMAT_EDEFAULT == null ? format != null : !FORMAT_EDEFAULT.equals(format);
 			case PictoPackage.PATCH__CONTENT:
 				return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
+			case PictoPackage.PATCH__APPLIES:
+				return APPLIES_EDEFAULT == null ? applies != null : !APPLIES_EDEFAULT.equals(applies);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -214,6 +268,8 @@ public class PatchImpl extends MinimalEObjectImpl.Container implements Patch {
 		result.append(format);
 		result.append(", content: ");
 		result.append(content);
+		result.append(", applies: ");
+		result.append(applies);
 		result.append(')');
 		return result.toString();
 	}

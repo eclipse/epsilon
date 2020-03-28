@@ -15,7 +15,8 @@
 	<view path="Model, Classes, Component" icon="diagram-ff0000"/>
 	
 	<view path="Model, Classes, Connector">
-		<patch format="graphviz-dot" content_="comps-patches/connector-graphviz.patch"/>
+		<patch format="graphviz-dot" content_="comps-patches/connector-graphviz.patch"
+			applies="documentation"/>
 	</view>
 	
 	<view path="Model, (All Classes)">

@@ -36,4 +36,5 @@ class CustomView {
 class Patch {
 	attr String format;
 	attr String content;
+	attr String applies;
 }

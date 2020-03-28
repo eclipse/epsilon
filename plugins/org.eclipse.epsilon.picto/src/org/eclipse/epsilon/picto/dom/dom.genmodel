@@ -38,6 +38,7 @@
     <genClasses ecoreClass="dom.ecore#//Patch">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Patch/format"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Patch/content"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Patch/applies"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

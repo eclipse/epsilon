@@ -395,6 +395,16 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 	 * @generated
 	 */
 	@Override
+	public EAttribute getPatch_Applies() {
+		return (EAttribute)patchEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public PictoFactory getPictoFactory() {
 		return (PictoFactory)getEFactoryInstance();
 	}
@@ -449,6 +459,7 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 		patchEClass = createEClass(PATCH);
 		createEAttribute(patchEClass, PATCH__FORMAT);
 		createEAttribute(patchEClass, PATCH__CONTENT);
+		createEAttribute(patchEClass, PATCH__APPLIES);
 	}
 
 	/**
@@ -512,6 +523,7 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 		initEClass(patchEClass, Patch.class, "Patch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPatch_Format(), ecorePackage.getEString(), "format", null, 0, 1, Patch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPatch_Content(), ecorePackage.getEString(), "content", null, 0, 1, Patch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPatch_Applies(), ecorePackage.getEString(), "applies", null, 0, 1, Patch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -18,7 +18,7 @@ public class TextContentTransformer implements ViewContentTransformer {
 	public ViewContent transform(ViewContent content, ViewRenderer renderer) throws Exception {
 		File temp = File.createTempFile("picto-renderer", ".txt");
 		Files.write(Paths.get(temp.toURI()), content.getText().getBytes());
-		return new ViewContent("html", temp, content.getPatches());
+		return new ViewContent("html", temp, content.getLayers(), content.getPatches());
 	}
 
 	@Override
