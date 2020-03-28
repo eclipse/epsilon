@@ -93,6 +93,15 @@
     </setupTask>
     <setupTask
         xsi:type="setup:TextModifyTask"
+        url="configuration:/.settings/org.eclipse.ui.ide.prefs">
+      <modification
+          pattern="(\\+?)">
+        <substitution>\\</substitution>
+      </modification>
+      <description>Formats workspace path in RECENT_WORKSPACES</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:TextModifyTask"
         url="configuration:/config.ini">
       <modification
           pattern="(?s)^((?!property=value).)*(\r?\n)$">
