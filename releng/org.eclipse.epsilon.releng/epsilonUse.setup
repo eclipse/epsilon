@@ -61,14 +61,14 @@
     <setupTask
         xsi:type="setup:EclipseIniTask"
         option="-Xms"
-        value="512m"
+        value="256m"
         vm="true">
       <description>Default initial heap.</description>
     </setupTask>
     <setupTask
         xsi:type="setup:EclipseIniTask"
         option="-Xmx"
-        value="4g"
+        value="3g"
         vm="true">
       <description>Default max heap.</description>
     </setupTask>
