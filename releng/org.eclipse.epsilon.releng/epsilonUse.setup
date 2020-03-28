@@ -27,57 +27,93 @@
     </detail>
   </annotation>
   <setupTask
-      xsi:type="setup:PreferenceTask"
-      id="workspace.perspective"
-      key="/instance/org.eclipse.ui/defaultPerspectiveId"
-      value="org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory">
-    <description>Preferred default perspective.</description>
-  </setupTask>
-  <setupTask
-      xsi:type="setup:VariableTask"
-      name="eclipse.folder"
-      value="${installation.location|uri}/eclipse">
-    <description>Eclipse root installation folder</description>
-  </setupTask>
-  <setupTask
-      xsi:type="setup:VariableTask"
-      name="epsilon.prefs"
-      value="org.eclipse.ui/defaultPerspectiveId=org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory"/>
-  <setupTask
-      xsi:type="setup:ResourceCreationTask"
-      content="defaultPerspectiveId=org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory&#xA;"
-      targetURL="${eclipse.folder}/configuration/.settings/org.eclipse.ui.prefs">
-    <description>Default preferences</description>
-  </setupTask>
-  <setupTask
-      xsi:type="setup:ResourceCreationTask"
-      content="RECENT_WORKSPACES=${installation.location}/workspace&#xA;MAX_RECENT_WORKSPACES=5&#xA;RECENT_WORKSPACES_PROTOCOL=3&#xA;SHOW_RECENT_WORKSPACES=false&#xA;SHOW_WORKSPACE_SELECTION_DIALOG=false&#xA;eclipse.preferences.version=1&#xA;"
-      targetURL="${eclipse.folder}/configuration/.settings/org.eclipse.ui.ide.prefs">
-    <description>Default workspace</description>
-  </setupTask>
-  <setupTask
-      xsi:type="setup:EclipseIniTask"
-      option="-Declipse.pluginCustomization"
-      value="=configuration/config.ini"
-      vm="true">
-    <description>Sets the pluginCustomization for initial preferences.</description>
-  </setupTask>
-  <setupTask
-      xsi:type="setup:TextModifyTask"
-      url="${eclipse.folder}/configuration/config.ini">
-    <modification
-        pattern="(?s)^((?!property=value).)*(\r?\n)$">
-      <substitution>\1</substitution>
-      <substitution>\2${epsilon.prefs}\2</substitution>
-    </modification>
-    <description>Append preferences to config.ini</description>
-  </setupTask>
-  <setupTask
-      xsi:type="setup:EclipseIniTask"
-      option="-Xverify:"
-      value="none"
-      vm="true">
-    <description>Disable bytecode verification for faster boot time.</description>
+      xsi:type="setup:CompoundTask"
+      name="Default preferences">
+    <setupTask
+        xsi:type="setup:PreferenceTask"
+        id="workspace.perspective"
+        key="/instance/org.eclipse.ui/defaultPerspectiveId"
+        value="org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory">
+      <description>Preferred default perspective.</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:VariableTask"
+        name="epsilon.prefs"
+        value="org.eclipse.ui/defaultPerspectiveId=org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory"/>
+    <setupTask
+        xsi:type="setup:VariableTask"
+        name="eclipse.folder"
+        value="${installation.location/}${installation.relativeProductFolder}"
+        label="">
+      <description>Eclipse root installation folder</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:VariableTask"
+        name="epsilon.workspace"
+        value="${installation.location/workspace}"/>
+    <setupTask
+        xsi:type="setup:ResourceCreationTask"
+        content="RECENT_WORKSPACES=C:\\Users\\Sina-\\Epsilon\\epsilon-Interim\\workspace&#xA;MAX_RECENT_WORKSPACES=5&#xA;RECENT_WORKSPACES_PROTOCOL=3&#xA;SHOW_RECENT_WORKSPACES=false&#xA;SHOW_WORKSPACE_SELECTION_DIALOG=false&#xA;eclipse.preferences.version=1&#xA;"
+        targetURL="configuration:/.settings/org.eclipse.ui.ide.prefs">
+      <description>Default workspace</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:EclipseIniTask"
+        option="-Xverify"
+        value=":none"
+        vm="true">
+      <description>Disable bytecode verification for faster boot time.</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:EclipseIniTask"
+        option="-Xms"
+        value="512m"
+        vm="true">
+      <description>Default initial heap.</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:EclipseIniTask"
+        option="-Xmx"
+        value="4g"
+        vm="true">
+      <description>Default max heap.</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:EclipseIniTask"
+        option="-Declipse.pluginCustomization"
+        value="=configuration/config.ini"
+        vm="true">
+      <description>Sets the pluginCustomization for initial preferences.</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:ResourceCreationTask"
+        content="defaultPerspectiveId=org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory&#xA;"
+        targetURL="configuration:/.settings/org.eclipse.ui.prefs">
+      <description>Default preferences</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:TextModifyTask"
+        url="configuration:/config.ini">
+      <modification
+          pattern="(?s)^((?!property=value).)*(\r?\n)$">
+        <substitution>\1</substitution>
+        <substitution>\2${epsilon.prefs}\2</substitution>
+      </modification>
+      <description>Append preferences to config.ini</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:ResourceCreationTask"
+        content="eclipse.preferences.version=1&#xA;showIntro=false&#xA;defaultPerspectiveId=org.eclipse.epsilon.perspective.EpsilonPerspectiveFactory&#xA;"
+        targetURL="${epsilon.workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.prefs|uri}">
+      <description>Populate default workspace preferences.</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:ResourceCreationTask"
+        content="EXIT_PROMPT_ON_CLOSE_LAST_WINDOW=false&#xA;eclipse.preferences.version=1&#xA;quickStart=false&#xA;tipsAndTricks=true&#xA;"
+        targetURL="${epsilon.workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.ide.prefs|uri}">
+      <description>Populate default workspace preferences.</description>
+    </setupTask>
+    <description>Creates the workspace and points Eclipse to it, with default preferences pre-configured.</description>
   </setupTask>
   <version name="Interim"
       requiredJavaVersion="1.8">
