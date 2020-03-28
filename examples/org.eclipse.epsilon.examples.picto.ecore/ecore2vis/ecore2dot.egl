@@ -115,12 +115,6 @@ operation EReference getArrowTail() {
 	}
 }
 
-operation Any getIcon() {
-	return new Native("java.io.File")
-		(System.context.module.file.parent, "icons/" + self.eClass.name + ".gif").absolutePath;
-}
-
-
 operation EReference getLabel() {
 	var label = self.name;
 	if (self.isMany) label += "*";

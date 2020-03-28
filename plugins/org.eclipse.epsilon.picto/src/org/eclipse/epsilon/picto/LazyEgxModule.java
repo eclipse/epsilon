@@ -27,7 +27,10 @@ import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.FrameType;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.types.EolAnyType;
+import org.eclipse.epsilon.eol.types.EolNoType;
+import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 
 public class LazyEgxModule extends EgxModule {
 	
@@ -50,6 +53,7 @@ public class LazyEgxModule extends EgxModule {
 	@Override
 	protected Object processRules() throws EolRuntimeException {
 		IEgxContext context = getContext();
+		context.getOperationContributorRegistry().add(new GetImageOperationContributor(this));
 		List<LazyGenerationRuleContentPromise> promises = new ArrayList<>();
 		for (GenerationRule rule : getGenerationRules()) {
 			promises.addAll((List<LazyGenerationRuleContentPromise>) context.getExecutorFactory().execute(rule, context));

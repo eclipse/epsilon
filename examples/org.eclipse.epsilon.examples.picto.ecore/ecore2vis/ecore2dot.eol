@@ -1,6 +1,5 @@
 operation getValidationModule() {
 	var module = new Native("org.eclipse.epsilon.evl.EvlModule");
-	
 	var constraints = EPackage.all.first().getAnnotationValue("constraints", "file");
 	if (not constraints.isDefined()) return module;
 	
@@ -61,4 +60,8 @@ operation isLayerActive(id : String) {
 	else {
 		return true;
 	}
+}
+
+operation Any getIcon() {
+	return getImage("icons/" + self.eClass.name + ".gif");
 }
