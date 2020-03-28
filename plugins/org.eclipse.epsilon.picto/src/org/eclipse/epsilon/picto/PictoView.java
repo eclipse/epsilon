@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -35,6 +34,7 @@ import org.eclipse.epsilon.picto.actions.ZoomAction;
 import org.eclipse.epsilon.picto.source.PictoSource;
 import org.eclipse.epsilon.picto.source.PictoSourceExtensionPointManager;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.IFindReplaceTarget;
@@ -78,6 +78,7 @@ public class PictoView extends ViewPart {
 	protected ViewTree activeView = null;
 	protected PictoSource source = null;
 	protected List<PictoSource> sources = new PictoSourceExtensionPointManager().getExtensions();
+	protected ViewTreeLabelProvider viewTreeLabelProvider;
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -98,7 +99,8 @@ public class PictoView extends ViewPart {
 		
 		treeViewer = filteredTree.getViewer();
 		treeViewer.setContentProvider(new ViewTreeContentProvider());
-		treeViewer.setLabelProvider(new ViewTreeLabelProvider());
+		viewTreeLabelProvider = new ViewTreeLabelProvider();
+		treeViewer.setLabelProvider(viewTreeLabelProvider);
 		treeViewer.addSelectionChangedListener(event -> {
 			ViewTree view = ((ViewTree)event.getStructuredSelection().getFirstElement());
 			if (view != null && view.getContent() != null) {
@@ -206,21 +208,24 @@ public class PictoView extends ViewPart {
 			}
 		};
 		
-		IToolBarManager barManager = getViewSite().getActionBars().getToolBarManager();
-		barManager.add(new ZoomAction(ZoomType.IN, viewRenderer));
-		barManager.add(new ZoomAction(ZoomType.ACTUAL, viewRenderer));
-		barManager.add(new ZoomAction(ZoomType.OUT, viewRenderer));
-		barManager.add(new Separator());
-		barManager.add(new LayersMenuAction(this));
-		barManager.add(new Separator());
-		barManager.add(new CopyToClipboardAction(this));
-		barManager.add(new PrintAction(viewRenderer));
-		barManager.add(new SyncAction(this));
-		barManager.add(new LockAction(this));
-		barManager.add(hideTreeAction);
-		barManager.add(new Separator());
-		barManager.add(new ViewContentsMenuAction(this));
+		IToolBarManager toolbar = getViewSite().getActionBars().getToolBarManager();
+		toolbar.add(new ZoomAction(ZoomType.IN, viewRenderer));
+		toolbar.add(new ZoomAction(ZoomType.ACTUAL, viewRenderer));
+		toolbar.add(new ZoomAction(ZoomType.OUT, viewRenderer));
+		toolbar.add(new Separator());
+		toolbar.add(new LayersMenuAction(this));
+		toolbar.add(new Separator());
+		toolbar.add(new CopyToClipboardAction(this));
+		toolbar.add(new PrintAction(viewRenderer));
+		toolbar.add(new SyncAction(this));
+		toolbar.add(new LockAction(this));
+		toolbar.add(hideTreeAction);
+		toolbar.add(new Separator());
+		toolbar.add(new ViewContentsMenuAction(this));
 		
+		IMenuManager dropDownMenu = getViewSite().getActionBars().getMenuManager();
+		dropDownMenu.add(new ClearViewTreeLabelProviderIconCacheAction());
+		   
 		this.getSite().getPage().addPartListener(partListener);
 
 	}
@@ -447,6 +452,17 @@ public class PictoView extends ViewPart {
 		@Override
 		public void run() {
 			setTreeViewerVisible(treeViewerShouldBeVisible);
+		}
+	}
+	
+	class ClearViewTreeLabelProviderIconCacheAction extends Action {
+		public ClearViewTreeLabelProviderIconCacheAction() {
+			super("Clear tree icon cache");
+		}
+		
+		@Override
+		public void run() {
+			viewTreeLabelProvider.clearIconCache();
 		}
 	}
 	

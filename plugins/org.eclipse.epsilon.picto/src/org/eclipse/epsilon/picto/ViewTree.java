@@ -9,10 +9,13 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.swt.graphics.Point;
@@ -29,6 +32,7 @@ public class ViewTree {
 	protected Point scrollPosition = new Point(0, 0);
 	protected ViewContent cachedContent = null;
 	protected List<Layer> layers = new ArrayList<>();
+	protected Set<URI> baseUris = new LinkedHashSet<>();
 	
 	public static void main(String[] args) {
 
@@ -60,12 +64,12 @@ public class ViewTree {
 		this.format = format;
 	}
 	
-	public void addPath(List<String> path, ContentPromise promise, String format, String icon, List<Patch> patches, List<Layer> layers) {
+	public ViewTree addPath(List<String> path, ContentPromise promise, String format, String icon, List<Patch> patches, List<Layer> layers) {
+		ViewTree child = null;
 		
 		if (path.size() > 1) {
 			String name = path.get(0);
 			List<String> rest = path.subList(1, path.size());
-			ViewTree child = null;
 			for (ViewTree candidate : children) {
 				if (candidate.getName().equals(name)) {
 					child = candidate;
@@ -79,8 +83,7 @@ public class ViewTree {
 			
 			child.addPath(rest, promise, format, icon, patches, layers);
 		}
-		else if (path.size() == 1) {
-			ViewTree child = null;
+		else {
 			for (ViewTree candidate : children) {
 				if (candidate.getName() != null && candidate.getName().equals(path.get(0))) {
 					child = candidate;
@@ -98,6 +101,7 @@ public class ViewTree {
 			child.setPatches(patches);
 			child.setLayers(layers);
 		}
+		return child;
 	}
 	
 	public void ingest(ViewTree other) {
@@ -304,6 +308,11 @@ public class ViewTree {
 	
 	public void clearCache() {
 		cachedContent = null;
+	}
+	
+	public Set<URI> getBaseUris() {
+		if (parent != null) return parent.getBaseUris();
+		return baseUris;
 	}
 	
 }

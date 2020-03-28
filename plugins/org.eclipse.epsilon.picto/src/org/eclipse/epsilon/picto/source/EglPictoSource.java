@@ -228,6 +228,8 @@ public abstract class EglPictoSource implements PictoSource {
 				}
 			}
 			
+			viewTree.getBaseUris().add(templateUri);
+			viewTree.getBaseUris().add(templateUri.resolve("./icons/"));
 			return viewTree;
 		}
 		else {
