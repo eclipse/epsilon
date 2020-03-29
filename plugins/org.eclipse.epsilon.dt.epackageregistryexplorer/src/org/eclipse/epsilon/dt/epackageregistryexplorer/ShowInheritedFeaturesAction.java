@@ -7,10 +7,10 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
-
 package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.resource.ResourceLocator;
 
 public class ShowInheritedFeaturesAction extends Action {
 	
@@ -20,7 +20,7 @@ public class ShowInheritedFeaturesAction extends Action {
 		this.view = view;
 		this.setChecked(view.isShowInheritedFeatures());
 		this.setText("Show inherited features");
-		this.setImageDescriptor(Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/supertypes.png"));
+		ResourceLocator.imageDescriptorFromBundle(Activator.PLUGIN_ID, "icons/supertypes.png").ifPresent(this::setImageDescriptor);
 	}
 	
 	@Override

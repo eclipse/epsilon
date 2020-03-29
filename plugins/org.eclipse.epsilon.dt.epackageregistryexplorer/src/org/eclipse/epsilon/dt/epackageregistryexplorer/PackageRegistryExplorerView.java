@@ -7,7 +7,6 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
-
 package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
 import java.util.ArrayList;
@@ -25,8 +24,6 @@ import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -154,35 +151,25 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		classViewer.setInput(getViewSite());
 		getSite().setSelectionProvider(this);	
 		
-		classViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-
-			public void selectionChanged(SelectionChangedEvent event) {
-				
-				if (backRunning) return;
-				
-				
-				
-				TreeSelection selection = (TreeSelection) event.getSelection();
-				
-				if (selection.getPaths().length == 0) return;
-				
-				if (history.size() == 0) {
-					history.add(0, selection.getPaths()[0]);
-				}
-				else if (!history.get(0).equals(selection.getPaths()[0])) {
-					history.add(0, selection.getPaths()[0]);
-				}
-			}
+		classViewer.addSelectionChangedListener(event -> {
 			
+			if (backRunning) return;
+			
+			
+			
+			TreeSelection selection = (TreeSelection) event.getSelection();
+			
+			if (selection.getPaths().length == 0) return;
+			
+			if (history.size() == 0) {
+				history.add(0, selection.getPaths()[0]);
+			}
+			else if (!history.get(0).equals(selection.getPaths()[0])) {
+				history.add(0, selection.getPaths()[0]);
+			}
 		});
 
-		classViewer.addDoubleClickListener(new IDoubleClickListener() {
-
-			public void doubleClick(DoubleClickEvent event) {
-				filteredTree.clearFilterText();
-			}
-			
-		});
+		classViewer.addDoubleClickListener(event -> filteredTree.clearFilterText());
 		
 		//Composite composite = new Composite(sashForm, SWT.NONE);
 		
@@ -199,32 +186,22 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		featureViewer.setLabelProvider(ecoreLabelProvider);
 		featureViewer.setComparator(new ViewerComparator((o1, o2) -> o1.compareTo(o2)));
 		featureViewer.setInput(null);
-		featureViewer.addDoubleClickListener(new IDoubleClickListener() {
-
-			public void doubleClick(DoubleClickEvent event) {
-				filteredTree.clearFilterText();
-				IStructuredSelection s = (IStructuredSelection) event.getSelection();
-				if (s.getFirstElement() != null) {
-					if (s.getFirstElement() instanceof ETypedElement) {
-						ETypedElement f = (ETypedElement) s.getFirstElement();
-						classViewer.setSelection(new TreeSelection(new TreePath(new Object[]{f.getEType().getEPackage(), f.getEType()})));
-					}
-					else if (s.getFirstElement() instanceof DecoratorHookDescriptor) {
-						EStructuralFeature f = ((DecoratorHookDescriptor) s.getFirstElement()).getEStructuralFeature();
-						classViewer.setSelection(new TreeSelection(new TreePath(new Object[]{f.getEContainingClass().getEPackage(), f.getEContainingClass()})));	
-					}
+		featureViewer.addDoubleClickListener(event -> {
+			filteredTree.clearFilterText();
+			IStructuredSelection s = (IStructuredSelection) event.getSelection();
+			if (s.getFirstElement() != null) {
+				if (s.getFirstElement() instanceof ETypedElement) {
+					ETypedElement f1 = (ETypedElement) s.getFirstElement();
+					classViewer.setSelection(new TreeSelection(new TreePath(new Object[]{f1.getEType().getEPackage(), f1.getEType()})));
+				}
+				else if (s.getFirstElement() instanceof DecoratorHookDescriptor) {
+					EStructuralFeature f2 = ((DecoratorHookDescriptor) s.getFirstElement()).getEStructuralFeature();
+					classViewer.setSelection(new TreeSelection(new TreePath(new Object[]{f2.getEContainingClass().getEPackage(), f2.getEContainingClass()})));	
 				}
 			}
-			
 		});
 		
-		featureViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-
-			public void selectionChanged(SelectionChangedEvent event) {
-				notifySelectionChangedListeners(featureViewer);
-			}
-			
-		});
+		featureViewer.addSelectionChangedListener(event -> notifySelectionChangedListeners(featureViewer));
 		
 		selectedClassLabel = new CLabel(featureViewerForm, SWT.NONE);
 		featureViewerForm.setTopLeft(selectedClassLabel);
@@ -252,6 +229,7 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 	
 	class ClassViewerSelectionChangedListener implements ISelectionChangedListener {
 
+		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 			TreeItem[] selectedItems = classViewer.getTree().getSelection();
@@ -369,14 +347,10 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 
 		    form.setWeights(new int[] { 30, 40, 30 });
 		    shell.open();
-		    while (!shell.isDisposed()) {
-		      if (!display.readAndDispatch())
+		    while (!shell.isDisposed() && !display.readAndDispatch()) {
 		        display.sleep();
 		    }
 		    display.dispose();
-
-		
-
 	}
 	
 	protected void layout(final Composite parent) {
@@ -425,10 +399,12 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		
 	}
 
+	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		selectionChangedListeners.add(listener);
 	}
 
+	@Override
 	public ISelection getSelection() {
 		return null;
 	}
@@ -439,12 +415,11 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 			
 			IAdaptable adaptable = new IAdaptable() {
 
-				@SuppressWarnings("rawtypes")
-				public Object getAdapter(Class adapter) {
-					
-					if (selected instanceof EObject && adapter == IPropertySource.class) {
-						
-						return new PropertySource(selected, new ReflectiveItemProvider(new ReflectiveItemProviderAdapterFactory()));
+				@Override
+				@SuppressWarnings("unchecked")
+				public <T> T getAdapter(Class<T> adapter) {
+					if (selected instanceof EObject && IPropertySource.class.equals(adapter)) {
+						return (T) new PropertySource(selected, new ReflectiveItemProvider(new ReflectiveItemProviderAdapterFactory()));
 					}
 					return null;
 				}
@@ -454,12 +429,14 @@ public class PackageRegistryExplorerView extends ViewPart implements ISelectionP
 		}
 	}
 	
+	@Override
 	public void removeSelectionChangedListener(
 			ISelectionChangedListener listener) {
 		selectionChangedListeners.remove(listener);
 		
 	}
 
+	@Override
 	public void setSelection(ISelection selection) {
 		// TODO Auto-generated method stub
 		

@@ -176,14 +176,15 @@ public class ModeLinkEditor extends MultiEditor implements ISelectionChangedList
         catch (Exception ex) {}
     }
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
-		if (key.equals(IPropertySheetPage.class)) {
+	public <T> T getAdapter(Class<T> key) {
+		if (IPropertySheetPage.class.equals(key)) {
 			// WORKAROUND for Eclipse 4.x
 			if (properties == null) {
-				 properties = new PropertySheetPage();
+				properties = new PropertySheetPage();
 			}
-			return properties;
+			return (T) properties;
 		}
 		return super.getAdapter(key);
 	}

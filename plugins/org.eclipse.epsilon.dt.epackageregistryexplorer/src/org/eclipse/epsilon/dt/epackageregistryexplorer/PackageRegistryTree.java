@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2008 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
 import org.eclipse.swt.widgets.Composite;
@@ -19,7 +28,7 @@ public class PackageRegistryTree extends FilteredTree {
 	 *            <code>true</code> if the new 3.5 look should be used
 	 */
 	public PackageRegistryTree(Composite parent, int treeStyle, PatternFilter filter, boolean useNewLook) {
-		super(parent, treeStyle, filter, useNewLook);
+		super(parent, treeStyle, filter, useNewLook, true);
 	}
 	
 	public void clearFilterText() {
@@ -33,8 +42,6 @@ public class PackageRegistryTree extends FilteredTree {
 	 * filter refresh job.  Subclasses may override.
 	 *
 	 * @return a time delay in milliseconds before the job should run
-	 *
-	 * @since 3.5
 	 */
 	@Override
 	protected long getRefreshJobDelay() {

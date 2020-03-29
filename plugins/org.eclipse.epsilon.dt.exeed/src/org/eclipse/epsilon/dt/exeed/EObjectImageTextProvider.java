@@ -13,8 +13,6 @@ package org.eclipse.epsilon.dt.exeed;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.List;
-import java.util.ListIterator;
-
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -243,9 +241,7 @@ public abstract class EObjectImageTextProvider {
 		}
 		
 		if (eClass.getESuperTypes().size() > 0) {
-			ListIterator<EClass> li = eClass.getESuperTypes().listIterator();
-			while (li.hasNext()) {
-				EClass superType = (EClass) li.next();
+			for (EClass superType : eClass.getESuperTypes()) {
 				String detailValue = getEClassAnnotationDetail(superType, annotation, detail);
 				if (detailValue != null) {
 					return detailValue;

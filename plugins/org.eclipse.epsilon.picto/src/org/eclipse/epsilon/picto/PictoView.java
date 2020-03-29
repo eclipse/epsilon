@@ -38,8 +38,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.IFindReplaceTarget;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -112,13 +110,7 @@ public class PictoView extends ViewPart {
 				}
 			}
 		});
-		treeViewer.addDoubleClickListener(new IDoubleClickListener() {
-			
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				filteredTree.clearFilterText();
-			}
-		});
+		treeViewer.addDoubleClickListener(event -> filteredTree.clearFilterText());
 		
 		browserContainer = new BrowserContainer(sashForm, SWT.NONE);
 		viewRenderer = new ViewRenderer(new Browser(browserContainer, SWT.NONE));
@@ -172,14 +164,10 @@ public class PictoView extends ViewPart {
 			@Override
 			public void partActivated(IWorkbenchPartReference partRef) {
 				if (locked) return;
-				Display.getCurrent().asyncExec(new Runnable() {
-					
-					@Override
-					public void run() {
-						IWorkbenchPart part = partRef.getPart(false);
-						if (editor != part && part instanceof IEditorPart && supports((IEditorPart) part)) {
-							render((IEditorPart) part);
-						}
+				Display.getCurrent().asyncExec(() -> {
+					IWorkbenchPart part = partRef.getPart(false);
+					if (editor != part && part instanceof IEditorPart && supports((IEditorPart) part)) {
+						render((IEditorPart) part);
 					}
 				});
 				
@@ -196,13 +184,7 @@ public class PictoView extends ViewPart {
 				if (editorPart == PictoView.this) {
 					getSite().getPage().removePartListener(this);
 				} else if (supports(editorPart)) {
-					Display.getCurrent().asyncExec(new Runnable() {
-
-						@Override
-						public void run() {
-							render(null);
-						}
-					});
+					Display.getCurrent().asyncExec(() -> render(null));
 				}
 					
 			}
