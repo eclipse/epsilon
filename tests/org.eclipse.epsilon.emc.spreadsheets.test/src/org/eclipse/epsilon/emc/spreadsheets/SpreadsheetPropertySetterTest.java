@@ -12,21 +12,13 @@ package org.eclipse.epsilon.emc.spreadsheets;
 import static org.easymock.classextension.EasyMock.expect;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.easymock.classextension.EasyMock;
 import org.easymock.IMocksControl;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetPropertySetter;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetReference;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetRow;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheet;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.Test;
 

@@ -12,14 +12,13 @@
  */
 package org.eclipse.epsilon.flock.emc.wrappers;
 
-import static junit.framework.Assert.assertTrue;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.eclipse.epsilon.flock.test.unit.easymock.matchers.OneOfCollection.oneOf;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import java.util.Arrays;
 import org.eclipse.epsilon.hutn.test.model.families.DogBreed;
 import org.junit.Test;

@@ -13,11 +13,8 @@
 package org.eclipse.epsilon.concordance.core.hashing.hashers.ecore;
 
 import static org.junit.Assert.assertEquals;
-
 import java.util.Arrays;
-
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.epsilon.concordance.core.hashing.hashers.ecore.Metafeatures;
 import org.eclipse.epsilon.test.util.builders.emf.EAttributeBuilder;
 import org.junit.Test;
 

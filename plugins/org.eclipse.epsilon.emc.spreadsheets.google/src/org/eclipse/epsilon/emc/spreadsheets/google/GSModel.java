@@ -75,9 +75,11 @@ public class GSModel extends SpreadsheetModel
 	 * The following fields are relevant for the Searchable Model implementation (operators and connectives that are
 	 * supported by Google - but not necessarily by the AST)
 	 */
-	private static final List<String> OPERATORS = new ArrayList<>(Arrays.asList("=", "==", "<>", "<", "<=", ">",
-			">="));
+	@SuppressWarnings("unused")
+	private static final List<String> OPERATORS = new ArrayList<>(Arrays.asList("=", "==", "<>", "<", "<=", ">",">="));
+	@SuppressWarnings("unused")
 	private static final List<String> CONNECTIVES = new ArrayList<>(Arrays.asList("and", "or"));
+	@SuppressWarnings("unused")
 	private static final String FIND_FORMAT_EXCEPTION_MESSAGE = "Invalid search query format";
 
 	public GSModel()

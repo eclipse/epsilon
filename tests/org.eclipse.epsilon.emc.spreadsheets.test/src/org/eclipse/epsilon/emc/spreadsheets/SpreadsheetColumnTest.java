@@ -11,10 +11,6 @@ package org.eclipse.epsilon.emc.spreadsheets;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetModel;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetWorksheet;
 import org.junit.Test;
 
 public class SpreadsheetColumnTest

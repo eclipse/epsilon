@@ -11,9 +11,6 @@ package org.eclipse.epsilon.flexmi.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -34,7 +31,7 @@ public abstract class FlexmiTests {
 		resourceSet.getPackageRegistry().put(EcorePackage.eINSTANCE.getNsURI(), EcorePackage.eINSTANCE);
 		
 		for (String metamodel : metamodels) {
-			List<EPackage> ePackages = EmfUtil.register(URI.createURI(FlexmiTestSuite.class.getResource("models/" + metamodel)
+			EmfUtil.register(URI.createURI(FlexmiTestSuite.class.getResource("models/" + metamodel)
 					.toURI().toString()), EPackage.Registry.INSTANCE);
 		}
 		

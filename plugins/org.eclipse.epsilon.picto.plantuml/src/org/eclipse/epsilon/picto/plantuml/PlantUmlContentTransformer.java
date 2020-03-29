@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 2020 The University of York.
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package org.eclipse.epsilon.picto.plantuml;
 
 import java.io.ByteArrayOutputStream;
@@ -26,11 +35,10 @@ public class PlantUmlContentTransformer implements ViewContentTransformer {
 	@Override
 	public ViewContent transform(ViewContent content, ViewRenderer renderer) throws Exception {
 		SourceStringReader reader = new SourceStringReader(content.getText());
-		final ByteArrayOutputStream os = new ByteArrayOutputStream();
-		reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
-		os.close();
-		String svg = new String(os.toByteArray(), Charset.forName("UTF-8"));
-		return new ViewContent("svg", svg, content.getLayers(), content.getPatches());
+		try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+			reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
+			String svg = new String(os.toByteArray(), Charset.forName("UTF-8"));
+			return new ViewContent("svg", svg, content.getLayers(), content.getPatches());
+		}
 	}
-
 }

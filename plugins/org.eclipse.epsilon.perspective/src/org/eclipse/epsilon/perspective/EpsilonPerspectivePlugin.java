@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.perspective;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -60,6 +61,6 @@ public class EpsilonPerspectivePlugin extends AbstractUIPlugin {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.epsilon.perspective", path);
+		return ResourceLocator.imageDescriptorFromBundle("org.eclipse.epsilon.perspective", path).orElse(null);
 	}
 }

@@ -39,10 +39,8 @@ public class MergeTrace extends ArrayList<Merge> {
 	}
 
 	public Merges getMerges(Match match, MergeRule mergeRule) {
-		ListIterator<Merge> li = listIterator();
 		Merges merges = new Merges();
-		while (li.hasNext()) {
-			Merge merge = (Merge)li.next();
+		for (Merge merge : this) {
 			if (merge.getMatch() == match && merge.getRule() == mergeRule) {
 				merges.add(merge);
 			}

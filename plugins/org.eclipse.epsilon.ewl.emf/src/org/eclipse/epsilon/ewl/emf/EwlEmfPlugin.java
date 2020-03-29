@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -66,7 +67,7 @@ public class EwlEmfPlugin extends AbstractUIPlugin {
 	}
 	
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.epsilon.ewl.emf", path);
+		return ResourceLocator.imageDescriptorFromBundle("org.eclipse.epsilon.ewl.emf", path).orElse(null);
 	}
 	
 	public static URL getResourcePath(String path) {

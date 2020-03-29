@@ -112,7 +112,6 @@ public class HutnTranslator {
 		}
 	
 		configModel.setName("Config");
-		configModel.setMetamodelFileBased(false);
 		configModel.setMetamodelUri(HutnConfigPackage.eNS_URI);
 		
 		return configModel;
@@ -161,7 +160,6 @@ public class HutnTranslator {
 			spec.setSourceFile(sourceFile == null ? null : sourceFile.getAbsolutePath());
 			
 			final EmfModel intermediateModel = new InMemoryEmfModel("Intermediate", EmfUtil.createResource(spec), HutnPackage.eINSTANCE);
-			intermediateModel.setMetamodelFileBased(false);
 			intermediateModel.setMetamodelUri(HutnPackage.eNS_URI);
 			
 			registerMetaModels();

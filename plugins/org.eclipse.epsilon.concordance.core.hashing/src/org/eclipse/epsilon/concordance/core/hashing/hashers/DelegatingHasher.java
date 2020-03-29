@@ -12,10 +12,8 @@
  */
 package org.eclipse.epsilon.concordance.core.hashing.hashers;
 
-
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.eclipse.epsilon.concordance.core.hashing.hashers.ecore.EAttributeHasher;
 import org.eclipse.epsilon.concordance.core.hashing.hashers.ecore.EClassHasher;
 import org.eclipse.epsilon.concordance.core.hashing.hashers.ecore.EDataTypeHasher;
@@ -24,7 +22,6 @@ import org.eclipse.epsilon.concordance.core.hashing.hashers.ecore.EReferenceHash
 import org.eclipse.epsilon.concordance.core.hashing.hashers.java.CollectionHasher;
 import org.eclipse.epsilon.concordance.core.hashing.hashers.java.JavaObjectHasher;
 import org.eclipse.epsilon.concordance.core.hashing.hashers.java.TypeSafeHasher;
-
 
 public class DelegatingHasher implements Hasher {
 
@@ -37,7 +34,6 @@ public class DelegatingHasher implements Hasher {
 	private DelegatingHasher() {}
 	
 	
-	@SuppressWarnings("unchecked")
 	private final Collection<TypeSafeHasher<?>> typeSafeHashers = Arrays.asList((TypeSafeHasher<?>)EPackageHasher.getInstance(),
 	                                                                         EClassHasher.getInstance(),
 	                                                                         EDataTypeHasher.getInstance(),
@@ -45,6 +41,7 @@ public class DelegatingHasher implements Hasher {
 	                                                                         EReferenceHasher.getInstance(),
 	                                                                         CollectionHasher.getInstance());	
 	
+	@Override
 	public int hash(Object object) {
 		return hasherFor(object).hash(object);
 	}

@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.merge.partition;
 
-import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
 import org.junit.Test;
 
 public class TestEndCommentOnlyPartitioner extends TestCommentBlockPartitioner {

@@ -11,9 +11,7 @@ package org.eclipse.epsilon.emc.spreadsheets;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetReferenceMetadata;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetReference;
 import org.eclipse.epsilon.emc.spreadsheets.excel.ExcelModel;
 import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;

@@ -24,7 +24,7 @@ public class EpsilonPerspectiveFactory implements IPerspectiveFactory{
 	
 	public void defineActions(IPageLayout layout) {
         // Add "show views".
-		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
+		layout.addShowViewShortcut("org.eclipse.ui.views.ResourceNavigator");	// TODO: this is deprecated
         layout.addPerspectiveShortcut("org.eclipse.epsilon.perspective");
 	}
 	

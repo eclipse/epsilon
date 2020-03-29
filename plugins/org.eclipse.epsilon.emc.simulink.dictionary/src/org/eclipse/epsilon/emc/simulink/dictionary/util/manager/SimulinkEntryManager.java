@@ -17,7 +17,7 @@ import org.eclipse.epsilon.emc.simulink.util.manager.AbstractManager;
 public class SimulinkEntryManager extends AbstractManager<SimulinkEntry, HandleObject> {
 
 	public SimulinkEntryManager(SimulinkDictionaryModel model) {
-		super((SimulinkDictionaryModel)model);	
+		super(model);	
 	}
 
 	@Override

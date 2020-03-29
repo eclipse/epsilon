@@ -81,14 +81,14 @@ public class VirtualEmfModelConfigurationDialog extends AbstractCachedModelConfi
 
 	
 	@Override
-	protected void loadProperties(){
+	protected void loadProperties() {
 		super.loadProperties();
 		if (properties == null) return;
 		modelFileText.setText(properties.getProperty(EmfModel.PROPERTY_MODEL_FILE));
 	}
 	
 	@Override
-	protected void storeProperties(){
+	protected void storeProperties() {
 		super.storeProperties();
 		properties.put(EmfModel.PROPERTY_MODEL_FILE, modelFileText.getText());
 	}

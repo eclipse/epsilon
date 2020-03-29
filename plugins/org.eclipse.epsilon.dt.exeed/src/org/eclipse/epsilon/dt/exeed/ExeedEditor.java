@@ -58,8 +58,6 @@ import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.emf.dt.EmfRegistryManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.dnd.DND;
@@ -74,6 +72,7 @@ public class ExeedEditor extends EcoreEditor {
 	private static final String VIEWERCUSTOMIZER_EXTPOINT = "org.eclipse.epsilon.dt.exeed.customizer";
 
 	private static final class RegisteredEPackageResourceFactory implements Resource.Factory {
+		@Override
 		public Resource createResource(URI uri) {
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toString().replace("platform:/resource/", "")));
 			String nsUri = "";
@@ -118,24 +117,24 @@ public class ExeedEditor extends EcoreEditor {
 			resource.setTrackingModification(true);
 			Adapter adapter = new Adapter() {
 	
+				@Override
 				public Notifier getTarget() {
 					return null;
 				}
 	
+				@Override
 				public boolean isAdapterForType(Object type) {
 					return false;
 				}
 	
+				@Override
 				public void notifyChanged(Notification notification) {
 					if (ExeedEditor.this.getViewer() != null) {
-						Display.getDefault().syncExec(new Runnable() {
-							public void run() {
-								ExeedEditor.this.getViewer().refresh();
-							}
-						});
+						Display.getDefault().syncExec(() -> ExeedEditor.this.getViewer().refresh());
 					}
 				}
 	
+				@Override
 				public void setTarget(Notifier newTarget) {
 					
 				}
@@ -261,7 +260,7 @@ public class ExeedEditor extends EcoreEditor {
 			exeedPropertySheetPage = new ExeedPropertySheetPage(editingDomain, ExeedEditor.this, getPlugin());
 			exeedPropertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
 		}
-		return (ExeedPropertySheetPage) exeedPropertySheetPage;
+		return exeedPropertySheetPage;
 	}
 
 	@Override
@@ -310,11 +309,7 @@ public class ExeedEditor extends EcoreEditor {
 		}
 
 		TreeViewer viewer = (TreeViewer) getViewer();
-		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			public void selectionChanged(SelectionChangedEvent event) {
-				event.getSource();
-			}
-		});
+		viewer.addSelectionChangedListener(event -> event.getSource());
 
 		InMemoryEmfModel model;
 		if (customizer != null && customizer.isEnabledFor(mainResource)) {

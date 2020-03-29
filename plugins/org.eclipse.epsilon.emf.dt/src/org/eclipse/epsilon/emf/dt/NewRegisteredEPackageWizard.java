@@ -128,15 +128,16 @@ public class NewRegisteredEPackageWizard extends Wizard implements INewWizard {
 		}
 		IContainer container = (IContainer) resource;
 		final IFile file = container.getFile(new Path(fileName));
-		try {
-			InputStream stream = new ByteArrayInputStream(metamodelUri.getBytes());
+		try (InputStream stream = new ByteArrayInputStream(metamodelUri.getBytes())) {
 			if (file.exists()) {
 				file.setContents(stream, true, true, monitor);
-			} else {
+			}
+			else {
 				file.create(stream, true, monitor);
 			}
-			stream.close();
-		} catch (IOException e) {
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
 		}
 		monitor.worked(1);
 		monitor.setTaskName("Opening file for editing...");

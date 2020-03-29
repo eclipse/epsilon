@@ -10,9 +10,6 @@
 package org.eclipse.epsilon.emc.spreadsheets;
 
 import static org.junit.Assert.assertTrue;
-
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetConstants;
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetDataType;
 import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
 import org.junit.BeforeClass;
 import org.junit.Test;

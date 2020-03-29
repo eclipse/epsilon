@@ -17,7 +17,7 @@ import org.eclipse.epsilon.emc.simulink.util.manager.AbstractManager;
 public class SimulinkDataTypeManager extends AbstractManager<SimulinkDataType, HandleObject> {
 
 	public SimulinkDataTypeManager(SimulinkDictionaryModel model) {
-		super((SimulinkDictionaryModel)model);	
+		super(model);	
 	}
 
 	@Override

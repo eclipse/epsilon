@@ -30,10 +30,12 @@ import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 
 public class CopyTextAsHtmlActionDelegate implements IEditorActionDelegate {
 
+	@Override
 	public void run(IAction action) {
 		getActiveEditor();
 	}
 
+	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		
 	}
@@ -55,9 +57,8 @@ public class CopyTextAsHtmlActionDelegate implements IEditorActionDelegate {
 			StyleRange[] styleRanges = widget.getStyleRanges(textSelection.getOffset(), textSelection.getLength());
 			StringBuffer sb = new StringBuffer();
 			
-			for (int i=0;i<styleRanges.length;i++){
+			for (StyleRange styleRange : styleRanges) {
 				try {
-					StyleRange styleRange = styleRanges[i];
 					String range = document.get(styleRange.start, styleRange.length);
 					String lineSeparator = System.getProperty("line.separator");
 					range = range.replaceAll(lineSeparator, "<br>" + lineSeparator);
@@ -96,6 +97,7 @@ public class CopyTextAsHtmlActionDelegate implements IEditorActionDelegate {
 		
 	}
 
+	@Override
 	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
 		// TODO Auto-generated method stub
 		

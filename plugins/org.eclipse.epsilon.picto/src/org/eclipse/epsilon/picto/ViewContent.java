@@ -9,11 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.epsilon.picto.transformers.ExceptionContentTransformer;
 import org.eclipse.epsilon.picto.transformers.PatchContentTransformer;

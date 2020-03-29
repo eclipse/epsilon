@@ -11,11 +11,9 @@ package org.eclipse.epsilon.hutn.validation.model;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
-import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.hutn.model.hutn.ClassObject;
 import org.eclipse.epsilon.hutn.model.hutn.ModelElement;
 import org.eclipse.epsilon.hutn.model.hutn.Slot;
@@ -45,7 +43,7 @@ class HutnFixer extends AbstractFixer {
 		
 		final List<Slot<?>> originalSlots = defensiveCopy(object.getSlots());
 		
-		((FixInstance)constraint.getFixes().iterator().next()).perform();
+		constraint.getFixes().iterator().next().perform();
 		
 		// Return true only if fix caused a change.
 		return !originalSlots.equals(object.getSlots());

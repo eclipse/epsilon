@@ -13,10 +13,7 @@
 package org.eclipse.epsilon.concordance.clients.xref;
 
 import static org.junit.Assert.assertEquals;
-
-
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;

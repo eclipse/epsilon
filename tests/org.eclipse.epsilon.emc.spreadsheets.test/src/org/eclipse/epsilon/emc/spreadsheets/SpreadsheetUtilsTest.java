@@ -13,8 +13,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
-
-import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetUtils;
 import org.junit.Test;
 
 public class SpreadsheetUtilsTest

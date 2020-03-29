@@ -35,7 +35,7 @@ public abstract class EmfUtil {
 	
 	public static Object createFromString(EDataType type, String value) {
 		try {
-			return type.getEPackage().getEFactoryInstance().createFromString((EDataType)type, value);
+			return type.getEPackage().getEFactoryInstance().createFromString(type, value);
 		
 		} catch (NumberFormatException e) {
 			return value;

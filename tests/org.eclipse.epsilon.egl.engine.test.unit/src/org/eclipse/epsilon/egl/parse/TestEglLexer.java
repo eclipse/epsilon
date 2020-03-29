@@ -10,17 +10,12 @@
 package org.eclipse.epsilon.egl.parse;
 
 import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.eclipse.epsilon.egl.parse.EglLexer;
-import org.eclipse.epsilon.egl.parse.EglRecognitionException;
-import org.eclipse.epsilon.egl.parse.EglToken;
 import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.junit.AfterClass;

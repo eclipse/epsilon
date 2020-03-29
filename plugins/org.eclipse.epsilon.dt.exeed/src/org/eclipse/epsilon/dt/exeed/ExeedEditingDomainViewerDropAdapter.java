@@ -26,8 +26,6 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.TreeItem;
@@ -91,11 +89,7 @@ public class ExeedEditingDomainViewerDropAdapter extends EditingDomainViewerDrop
 				MenuItem mi = new MenuItem(m, SWT.PUSH);
 				mi.setText(command.getLabel());
 				mi.setImage(image);
-				mi.addListener(SWT.Selection, new Listener() {
-					public void handleEvent(Event event) {
-						domain.getCommandStack().execute(command);
-					}
-				});
+				mi.addListener(SWT.Selection, event1 -> domain.getCommandStack().execute(command));
 			}
 
 			final Display display = Display.getCurrent();
@@ -122,7 +116,7 @@ public class ExeedEditingDomainViewerDropAdapter extends EditingDomainViewerDrop
 		Iterator<EReference> rit = targetEObject.eClass().getEAllReferences().iterator();
 
 		while (rit.hasNext()) {
-			final EReference ref = (EReference) rit.next();
+			final EReference ref = rit.next();
 			if (!ref.isMany() && source.size() > 1) continue;
 
 			boolean areInstancesOf = true;

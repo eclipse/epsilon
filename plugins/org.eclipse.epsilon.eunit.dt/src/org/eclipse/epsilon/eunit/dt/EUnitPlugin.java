@@ -29,6 +29,7 @@ import org.eclipse.epsilon.common.dt.EpsilonPlugin;
 import org.eclipse.epsilon.eunit.dt.ui.EUnitRunnerView;
 import org.eclipse.epsilon.internal.eunit.dt.history.EUnitHistory;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -101,7 +102,7 @@ public class EUnitPlugin extends AbstractUIPlugin implements EpsilonPlugin, ILau
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+		return ResourceLocator.imageDescriptorFromBundle(PLUGIN_ID, path).orElse(null);
 	}
 
 	@Override
@@ -173,8 +174,9 @@ public class EUnitPlugin extends AbstractUIPlugin implements EpsilonPlugin, ILau
 			if (launch != null) {
 				final ILaunchConfiguration lastLaunchConfig = launch.getLaunchConfiguration();
 				selOps = lastLaunchConfig.getAttribute(
-						LAUNCH_ATTR_SELECTED_TESTS,
-						LAUNCH_ATTR_SELECTED_TESTS_DEFAULT);
+					LAUNCH_ATTR_SELECTED_TESTS,
+					LAUNCH_ATTR_SELECTED_TESTS_DEFAULT
+				);
 			}
 		} catch (CoreException e) {
 			logException(e);

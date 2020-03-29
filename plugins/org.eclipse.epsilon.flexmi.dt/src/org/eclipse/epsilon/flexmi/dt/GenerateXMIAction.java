@@ -12,7 +12,6 @@ package org.eclipse.epsilon.flexmi.dt;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -29,14 +28,12 @@ import org.eclipse.epsilon.flexmi.FlexmiResourceFactory;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class GenerateXMIAction implements IObjectActionDelegate {
 
-	private Shell shell;
 	protected IStructuredSelection selection;
 	
 	public GenerateXMIAction() {
@@ -45,7 +42,7 @@ public class GenerateXMIAction implements IObjectActionDelegate {
 	
 	@Override
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-		shell = targetPart.getSite().getShell();
+		targetPart.getSite().getShell();
 	}
 
 	/**

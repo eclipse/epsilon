@@ -11,15 +11,11 @@ package org.eclipse.epsilon.egl.merge.partition;
 
 import static org.junit.Assert.*;
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.epsilon.egl.merge.output.Output;
 import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
 import org.eclipse.epsilon.egl.merge.output.Region;
-import org.eclipse.epsilon.egl.merge.partition.CommentBlockPartitioner;
-
 
 public abstract class TestCommentBlockPartitioner {
 	

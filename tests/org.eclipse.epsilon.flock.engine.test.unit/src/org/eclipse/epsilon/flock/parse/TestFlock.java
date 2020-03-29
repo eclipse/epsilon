@@ -333,6 +333,7 @@ public class TestFlock extends TestCase {
 	}
 
 	// Invoke target parser.rule
+	@SuppressWarnings("resource")
 	public Object execParser(String testRuleName, String testInput, boolean isFile) throws Exception {
 		CharStream input;
 		/** Set up ANTLR input stream based on input source, file or String */

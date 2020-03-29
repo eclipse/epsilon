@@ -10,14 +10,11 @@
 package org.eclipse.epsilon.flexmi.dt.preferences;
 
 import java.util.HashMap;
-
 import org.eclipse.epsilon.common.dt.preferences.EpsilonSyntaxColoringPreferencePage;
 import org.eclipse.epsilon.flexmi.dt.FlexmiHighlightingManager;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
 
-public class FlexmiSyntaxColoringPreferencePage extends EpsilonSyntaxColoringPreferencePage
-		implements IWorkbenchPreferencePage {
+public class FlexmiSyntaxColoringPreferencePage extends EpsilonSyntaxColoringPreferencePage {
 
 	@Override
 	public void init(IWorkbench workbench) {

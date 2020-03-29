@@ -13,10 +13,7 @@
 package org.eclipse.epsilon.concordance.model.nsuri;
 
 import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
-
-import org.eclipse.epsilon.concordance.model.nsuri.NsUriIdentifyingParser;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 

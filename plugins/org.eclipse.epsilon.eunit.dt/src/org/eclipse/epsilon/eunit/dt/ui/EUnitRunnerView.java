@@ -46,6 +46,8 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -442,7 +444,9 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 		lblFailureTrace.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		lblFailureTrace.setText("Failure Trace");
 		lblFailureTrace.setImage(
-			EUnitPlugin.imageDescriptorFromPlugin(EUnitPlugin.PLUGIN_ID, "icons/eview16/stackframe.gif").createImage());
+			ResourceLocator.imageDescriptorFromBundle(EUnitPlugin.PLUGIN_ID, "icons/eview16/stackframe.gif")
+				.map(ImageDescriptor::createImage).orElse(null)
+		);
 
 		toolbarFailureTrace = new ToolBar(failureTraceComposite, SWT.FLAT);
 		toolbarFailureTrace.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -612,29 +616,29 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 
 	@Override
 	public void afterCase(final EUnitModule module, final EUnitTest test) {
-		Display.getDefault().syncExec(new Runnable() {
-			public void run() {
-				treeViewerTests.update(test, null);
-				treeViewerTests.update(module, null);
+		Display.getDefault().syncExec(() -> {
+			treeViewerTests.update(test, null);
+			treeViewerTests.update(module, null);
 
-				if (test.isLeafTest()) {
-					if (test.getResult() != EUnitTestResultType.SKIPPED) {
-						++nRunTestCases;
-					}
-					switch (test.getResult()) {
+			if (test.isLeafTest()) {
+				if (test.getResult() != EUnitTestResultType.SKIPPED) {
+					++nRunTestCases;
+				}
+				switch (test.getResult()) {
 					case ERROR:
 						++nErrors;
 						break;
 					case FAILURE:
 						++nFailures;
 						break;
-					}
-					updateTestCaseCounts();
+					default:
+						break;
 				}
-				
-				if (nErrors + nFailures > 0) {
-					treeViewerTests.expandAll();
-				}
+				updateTestCaseCounts();
+			}
+			
+			if (nErrors + nFailures > 0) {
+				treeViewerTests.expandAll();
 			}
 		});
 	}

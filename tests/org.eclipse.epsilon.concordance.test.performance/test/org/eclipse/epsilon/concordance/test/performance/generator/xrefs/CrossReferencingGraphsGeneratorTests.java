@@ -14,11 +14,9 @@ package org.eclipse.epsilon.concordance.test.performance.generator.xrefs;
 
 import java.io.File;
 import java.util.Iterator;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.epsilon.common.dt.test.util.TestThatUsesAProject;
-import org.eclipse.epsilon.concordance.test.performance.generator.xrefs.CrossReferencingGraphsGenerator;
 import org.eclipse.epsilon.emc.emf.EmfModelFactory;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
 import org.junit.AfterClass;

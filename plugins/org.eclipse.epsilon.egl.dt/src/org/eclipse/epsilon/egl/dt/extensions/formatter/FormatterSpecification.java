@@ -12,8 +12,9 @@ package org.eclipse.epsilon.egl.dt.extensions.formatter;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.epsilon.egl.dt.extensions.ExtensionSpecification;
 import org.eclipse.epsilon.egl.formatter.Formatter;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class FormatterSpecification extends ExtensionSpecification<Formatter> {
 
@@ -26,9 +27,11 @@ public class FormatterSpecification extends ExtensionSpecification<Formatter> {
 		this.name = extension.getAttribute("name");
 		
 		if (extension.getAttribute("icon") != null) {
-			this.icon = AbstractUIPlugin.imageDescriptorFromPlugin(extension.getContributor().getName(),
-			                                                       extension.getAttribute("icon")).createImage();
-		} else {
+			this.icon = ResourceLocator.imageDescriptorFromBundle(
+				extension.getContributor().getName(), extension.getAttribute("icon")
+			).map(ImageDescriptor::createImage).orElse(null);
+		}
+		else {
 			this.icon = null;
 		}
 	}

@@ -14,9 +14,7 @@ package org.eclipse.epsilon.concordance.history;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.epsilon.concordance.history.ConcordanceHistory;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory.Event;
 import org.eclipse.epsilon.concordance.history.ConcordanceHistory.EventType;
 import org.eclipse.epsilon.concordance.model.ConcordanceModel;

@@ -215,17 +215,13 @@ public abstract class EugeniaActionDelegate implements IObjectActionDelegate {
 	
 	public EmfModel loadModel(String name, String path, String nsUri, boolean readOnLoad, boolean storeOnDisposal, boolean expand) throws Exception {
 		EmfModel model = new EmfModel();
-		
 		StringProperties properties = new StringProperties();
-		
 		properties.put(EmfModel.PROPERTY_MODEL_URI, org.eclipse.emf.common.util.URI.createURI(path, true));
 		properties.put(EmfModel.PROPERTY_METAMODEL_URI, nsUri);
-		properties.put(EmfModel.PROPERTY_IS_METAMODEL_FILE_BASED, "false");
 		properties.put(Model.PROPERTY_READONLOAD, readOnLoad + "");
 		properties.put(Model.PROPERTY_STOREONDISPOSAL, storeOnDisposal + "");
 		properties.put(AbstractEmfModel.PROPERTY_EXPAND, expand + "");
 		properties.put(Model.PROPERTY_NAME, name);
-		
 		//model.load(properties, EclipseUtil.getWorkspacePath());
 		model.load(properties);
 		return model;

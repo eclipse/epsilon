@@ -10,13 +10,9 @@
 package org.eclipse.epsilon.egl.merge.output;
 
 import static org.junit.Assert.*;
-
 import java.util.LinkedList;
 import java.util.List;
-
-import org.eclipse.epsilon.egl.merge.output.Output;
 import org.eclipse.epsilon.egl.merge.output.LocatedRegion;
-import org.eclipse.epsilon.egl.merge.output.Region;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

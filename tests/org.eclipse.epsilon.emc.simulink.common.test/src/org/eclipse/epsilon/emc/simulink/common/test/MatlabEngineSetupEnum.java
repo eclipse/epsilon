@@ -33,7 +33,7 @@ public enum MatlabEngineSetupEnum {
 	
 	static {
 		int currYear = Calendar.getInstance().get(Calendar.YEAR);
-		List<String> v= new ArrayList<String>();
+		List<String> v= new ArrayList<>();
 		for (int i = 2016; i <= currYear; i++) {
 			v.add("R" + i + "a");
 			v.add("R" + i + "b");

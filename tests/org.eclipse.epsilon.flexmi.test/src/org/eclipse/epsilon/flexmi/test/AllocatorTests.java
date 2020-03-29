@@ -45,7 +45,8 @@ public class AllocatorTests {
 		return new ArrayList<>(Arrays.asList(s));
 	}
 	
-	protected void assertAllocation(List<String> values, List<String> slots, int expectedAllocationCount, List<String>... expectedAllocations) {
+	@SafeVarargs
+	protected final void assertAllocation(List<String> values, List<String> slots, int expectedAllocationCount, List<String>... expectedAllocations) {
 		AttributeStructuralFeatureAllocator allocator = new AttributeStructuralFeatureAllocator();
 		Map<String, String> allocation = allocator.allocate(values, slots);
 		assertEquals(expectedAllocationCount, allocation.size());

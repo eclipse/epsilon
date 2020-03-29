@@ -10,8 +10,6 @@
 package org.eclipse.epsilon.egl.formatter.language;
 
 import static org.junit.Assert.*;
-
-import org.eclipse.epsilon.egl.formatter.language.JavaFormatter;
 import org.junit.Test;
 
 public class JavaFormatterTests {

@@ -24,7 +24,8 @@ public class SimulinkRequirementObjectMethod extends ObjectMethod {
 	public SimulinkRequirementObjectMethod(MatlabEngine engine, Object object, String name) {
 		this.engine = engine;
 		this.name = name;
-		this.object = (ISimulinkRequirementModelElement) object;
+		assert object instanceof ISimulinkRequirementModelElement;
+		this.object = object;
 	}
 
 	@Override

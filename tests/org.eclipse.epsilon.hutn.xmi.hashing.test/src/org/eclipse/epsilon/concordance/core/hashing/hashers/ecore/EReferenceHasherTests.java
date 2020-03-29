@@ -17,12 +17,9 @@ import static org.eclipse.epsilon.test.util.builders.emf.EReferenceBuilder.anERe
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.epsilon.concordance.core.hashing.hashers.ecore.EReferenceHasher;
 import org.junit.Test;
-
 
 public class EReferenceHasherTests {
 

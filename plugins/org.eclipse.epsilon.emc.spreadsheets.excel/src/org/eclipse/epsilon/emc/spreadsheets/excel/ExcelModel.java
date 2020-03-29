@@ -293,7 +293,7 @@ public class ExcelModel extends SpreadsheetModel
 		{
 			if (worksheet.getDoesNotExistInSpreadsheet())
 			{
-				this.deleteWorksheet((ExcelWorksheet) worksheet);
+				this.deleteWorksheet(worksheet);
 			}
 		}
 	}

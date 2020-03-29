@@ -18,12 +18,12 @@ import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.hutn.xmi.dt.ConformanceReporter;
 import org.eclipse.epsilon.hutn.xmi.dt.XmiConformanceChecker;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.ui.IObjectActionDelegate;
 
-public class CheckModelAction extends AbstractObjectActionDelegate implements IObjectActionDelegate {
+public class CheckModelAction extends AbstractObjectActionDelegate {
 		
 	private final XmiConformanceChecker checker = new XmiConformanceChecker(new DialogReporter());
 	
+	@Override
 	public void run(IAction action) {
 		if (getFirstElementInSelection() instanceof IFile) {
 			checker.reportConformanceOf((IFile)getFirstElementInSelection());				
@@ -32,10 +32,12 @@ public class CheckModelAction extends AbstractObjectActionDelegate implements IO
 	
 	private static class DialogReporter implements ConformanceReporter {
 
+		@Override
 		public void reportConformant(String name) {
 			LogUtil.logInfo(name + " conforms to its registered metamodel.", true);
 		}
 
+		@Override
 		public void reportNonConformant(String name, Collection<ParseProblem> conformanceProblems) {
 			LogUtil.logInfo(name + " does not conform to its registered metamodel. See the Problems view for further details.", true);
 		}

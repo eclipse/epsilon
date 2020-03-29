@@ -11,13 +11,8 @@ package org.eclipse.epsilon.egl.parse;
 
 import static org.eclipse.epsilon.egl.util.FileUtil.NEWLINE;
 import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.IOException;
-
-import org.eclipse.epsilon.egl.parse.EglLexer;
-import org.eclipse.epsilon.egl.parse.EglParser;
-import org.eclipse.epsilon.egl.parse.EglToken;
 import org.eclipse.epsilon.egl.parse.EglToken.TokenType;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.EpsilonTreeAdaptor;
