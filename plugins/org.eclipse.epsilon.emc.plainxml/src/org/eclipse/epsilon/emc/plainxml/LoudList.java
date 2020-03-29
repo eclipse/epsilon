@@ -122,6 +122,7 @@ public class LoudList<E> extends ArrayList<E> {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean remove(Object o) {
 		boolean result = super.remove(o);

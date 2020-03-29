@@ -44,19 +44,6 @@ public class PlainXmlModel extends CachedModel<Element> {
 	
 	protected String idAttributeName = "id";
 	
-	public static void main(String[] args) throws Exception {
-		
-		PlainXmlModel m = new PlainXmlModel();
-		m.setXml("<?xml version='1.0'?><foo/>");
-		m.load();
-		
-		Object x = m.createInstance("t_zoo");
-		m.setRoot((Node)x);
-		
-		System.err.println(m.getXml());
-		
-	}
-	
 	protected Document document;
 	protected String uri;
 	protected File file;

@@ -25,6 +25,7 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 		this.model = model;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void invoke(Object value) throws EolRuntimeException {
 		
@@ -91,7 +92,6 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 							}
 						}
 					}
-
 				}
 			}
 			

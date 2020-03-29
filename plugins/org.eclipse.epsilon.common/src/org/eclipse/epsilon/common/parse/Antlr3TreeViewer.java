@@ -22,7 +22,9 @@ import org.antlr.runtime.tree.Tree;
 import org.eclipse.epsilon.common.util.StringUtil;
 
 public class Antlr3TreeViewer extends JFrame {
-	
+
+	private static final long serialVersionUID = -5944491471447325678L;
+
 	//StaticFieldNameResolver v2Resolver;
 	StaticFieldNameResolver v3Resolver;
 	

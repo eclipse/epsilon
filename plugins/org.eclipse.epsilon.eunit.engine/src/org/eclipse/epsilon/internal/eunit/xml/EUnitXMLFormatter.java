@@ -133,18 +133,20 @@ public class EUnitXMLFormatter {
 			case ERROR:
 				resultChild = doc.createElement("error");
 				break;
-			}
-			if (resultChild != null) {
-				caseElem.appendChild(resultChild);
-				resultChild.setAttribute("message", test.getException()
-						.getMessage());
-				resultChild.setAttribute("type", test.getException().getClass()
-						.getName());
-	
-				final StringWriter stringWriter = new StringWriter();
-				test.getException().printStackTrace(new PrintWriter(stringWriter));
-				resultChild.setTextContent(stringWriter.toString());
-			}
+			default:
+				break;
+		}
+		if (resultChild != null) {
+			caseElem.appendChild(resultChild);
+			resultChild.setAttribute("message", test.getException()
+					.getMessage());
+			resultChild.setAttribute("type", test.getException().getClass()
+					.getName());
+
+			final StringWriter stringWriter = new StringWriter();
+			test.getException().printStackTrace(new PrintWriter(stringWriter));
+			resultChild.setTextContent(stringWriter.toString());
+		}
 	}
 
 	private void saveProperties(Document doc, Element suiteElem) {

@@ -14,13 +14,6 @@ package org.eclipse.epsilon.hutn.xmi.test.integration.consistent.slots.singleVal
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
-
-import org.eclipse.epsilon.hutn.xmi.test.integration.consistent.slots.singleValued.Boolean;
-import org.eclipse.epsilon.hutn.xmi.test.integration.consistent.slots.singleValued.Enum;
-import org.eclipse.epsilon.hutn.xmi.test.integration.consistent.slots.singleValued.Float;
-import org.eclipse.epsilon.hutn.xmi.test.integration.consistent.slots.singleValued.Integer;
-import org.eclipse.epsilon.hutn.xmi.test.integration.consistent.slots.singleValued.Reference;
-import org.eclipse.epsilon.hutn.xmi.test.integration.consistent.slots.singleValued.String;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;

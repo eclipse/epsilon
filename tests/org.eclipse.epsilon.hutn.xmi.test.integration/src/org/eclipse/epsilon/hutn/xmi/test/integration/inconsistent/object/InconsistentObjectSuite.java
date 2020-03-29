@@ -14,9 +14,6 @@ package org.eclipse.epsilon.hutn.xmi.test.integration.inconsistent.object;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
-
-import org.eclipse.epsilon.hutn.xmi.test.integration.inconsistent.object.AbstractClass;
-import org.eclipse.epsilon.hutn.xmi.test.integration.inconsistent.object.UnknownXsiType;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
