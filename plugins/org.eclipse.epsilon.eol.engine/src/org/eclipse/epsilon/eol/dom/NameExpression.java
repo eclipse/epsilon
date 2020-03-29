@@ -45,7 +45,7 @@ public class NameExpression extends Expression {
 		Variable variable = scope.get(name);
 		
 		if (variable != null && variable.getDeprecationInfo() != null) {
-			context.getWarningStream().println("Warning: " + variable.getDeprecationInfo().getMessage());
+			context.getWarningStream().println("Warning: " + variable.getDeprecationInfo());
 		}
 		
 		// First look for a model element type

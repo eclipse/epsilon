@@ -14,7 +14,6 @@ import java.util.Objects;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalVariableAssignmentException;
 import org.eclipse.epsilon.eol.exceptions.EolReadOnlyVariableException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.DeprecationInfo;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolType;
 
@@ -24,7 +23,7 @@ public class Variable {
 	protected Object value;
 	protected EolType type;
 	protected boolean readOnly = false;
-	protected DeprecationInfo deprecationInfo;
+	protected String deprecationInfo;
 	
 	public static Variable createReadOnlyVariable(String name, Object value) {
 		return new Variable(name, value, EolAnyType.Instance, true);
@@ -128,11 +127,11 @@ public class Variable {
 		this.name = name;
 	}
 	
-	public DeprecationInfo getDeprecationInfo() {
+	public String getDeprecationInfo() {
 		return deprecationInfo;
 	}
 
-	public void setDeprecationInfo(DeprecationInfo deprecationInfo) {
+	public void setDeprecationInfo(String deprecationInfo) {
 		this.deprecationInfo = deprecationInfo;
 	}
 	

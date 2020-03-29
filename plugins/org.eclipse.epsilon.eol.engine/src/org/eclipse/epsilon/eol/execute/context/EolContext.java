@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Queue;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.util.CollectionUtil;
-import org.eclipse.epsilon.eol.execute.DeprecationInfo;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
 import org.eclipse.epsilon.eol.execute.operations.EolOperationFactory;
@@ -249,9 +248,7 @@ public class EolContext implements IEolContext {
 		Variable variable = fs.get(userInputVarName);
 		if (variable == null) {
 			variable = Variable.createReadOnlyVariable(userInputVarName, userInput);
-			DeprecationInfo deprecationInfo = new DeprecationInfo();
-			deprecationInfo.setMessage("Variable UserInput is deprecated. Use System.user instead.");
-			variable.setDeprecationInfo(deprecationInfo);
+			variable.setDeprecationInfo("Variable UserInput is deprecated. Use System.user instead.");
 			fs.putGlobal(variable);
 		}
 		else {
