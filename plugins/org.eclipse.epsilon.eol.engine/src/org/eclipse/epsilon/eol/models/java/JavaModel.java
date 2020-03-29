@@ -300,4 +300,11 @@ public class JavaModel extends Model implements IReflectiveModel {
 		objects = null;
 		classes = null;
 	}
+	
+	/**
+	 * @since 1.6
+	 */
+	public boolean isLoaded() {
+		return objects != null;
+	}
 }

@@ -33,8 +33,8 @@ public class ModelGroup extends Model {
 	
 	public ModelGroup(ModelRepository repository, String metaModel) throws EolModelNotFoundException {
 		this.name = metaModel;
-		for (IModel model : repository.getModels()){
-			if (model.getAliases().contains(metaModel)){
+		for (IModel model : repository.getModels()) {
+			if (model.getAliases().contains(metaModel)) {
 				models.add(model);
 			}
 		}

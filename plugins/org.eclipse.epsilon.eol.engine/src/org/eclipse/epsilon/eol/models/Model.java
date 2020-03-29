@@ -172,6 +172,7 @@ public abstract class Model implements IModel {
 	}
 	
 	NoModelTransactionSupport transactionSupport = new NoModelTransactionSupport();
+	
 	@Override
 	public IModelTransactionSupport getTransactionSupport() {
 		return transactionSupport;

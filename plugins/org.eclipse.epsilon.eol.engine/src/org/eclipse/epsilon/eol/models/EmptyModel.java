@@ -19,7 +19,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 
 public class EmptyModel extends Model {
 
-
 	@Override
 	public void load() throws EolModelLoadingException {
 		
@@ -142,5 +141,12 @@ public class EmptyModel extends Model {
 	@Override
 	public boolean isModelElement(Object instance) {
 		return false;
+	}
+	
+	/**
+	 * @since 1.6
+	 */
+	public boolean isLoaded() {
+		return true;
 	}
 }

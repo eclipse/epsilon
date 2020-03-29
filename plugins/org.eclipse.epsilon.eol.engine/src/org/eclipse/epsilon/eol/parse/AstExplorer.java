@@ -73,34 +73,42 @@ public class AstExplorer {
 			return (Tree) o;
 		}
 
+		@Override
 		public Object getRoot() {
 			return tree;
 		}
 
+		@Override
 		public Object getChild(Object arg0, int arg1) {
 			Tree child = toTree(arg0);
 			return child.getChild(arg1);
 		}
 
+		@Override
 		public int getChildCount(Object arg0) {
 			return toTree(arg0).getChildCount();
 		}
 
+		@Override
 		public boolean isLeaf(Object arg0) {
 			return toTree(arg0).getChildCount() == 0;
 		}
 
+		@Override
 		public void valueForPathChanged(TreePath arg0, Object arg1) {
 		}
 
+		@Override
 		public int getIndexOfChild(Object arg0, Object arg1) {
 			return 0;
 		}
 
+		@Override
 		public void addTreeModelListener(TreeModelListener arg0) {
 
 		}
 
+		@Override
 		public void removeTreeModelListener(TreeModelListener arg0) {
 
 		}
@@ -109,6 +117,9 @@ public class AstExplorer {
 
 	class AstTreeCellRenderer extends DefaultTreeCellRenderer {
 
+		private static final long serialVersionUID = -3570380286525845027L;
+
+		@Override
 		public Component getTreeCellRendererComponent(JTree arg0, Object arg1,
 				boolean selected, boolean expanded, boolean leaf, int row,
 				boolean arg6) {
