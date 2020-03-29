@@ -23,7 +23,7 @@ public class ExceptionContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public ViewContent transform(ViewContent content, ViewRenderer renderer) {
-		return new ViewContent("html", "<html><body style=\"zoom:" + renderer.getZoom() + "\"><pre>" + content.getText() + "</pre></body></html>", content.getLayers(), content.getPatches());
+		return new ViewContent("html", renderer.getZoomableVerbatim(content.getText()), content.getLayers(), content.getPatches());
 	}
 	
 	public ViewContent getViewContent(Exception ex, ViewRenderer renderer) {

@@ -24,7 +24,6 @@ public class ViewContent {
 	
 	protected String format;
 	protected String text;
-	protected File file;
 	protected List<Layer> layers = new ArrayList<>();
 	protected boolean active;
 	protected String label;
@@ -52,16 +51,6 @@ public class ViewContent {
 		setLabel();
 	}
 	
-	//TODO: Delete
-	public ViewContent(String format, File file, List<Layer> layers, List<Patch> patches) {
-		super();
-		this.format = format;
-		this.file = file;
-		this.patches = patches;
-		this.layers = layers;
-		setLabel();
-	}
-	
 	protected void setLabel() {
 		for (ViewContentTransformer viewContentTransformer : getViewContentTransformers()) {
 			if (viewContentTransformer.canTransform(this)) this.label = viewContentTransformer.getLabel(this);
@@ -74,10 +63,6 @@ public class ViewContent {
 	
 	public String getText() {
 		return text;
-	}
-	
-	public File getFile() {
-		return file;
 	}
 	
 	public ViewContent getFinal(ViewRenderer renderer) {

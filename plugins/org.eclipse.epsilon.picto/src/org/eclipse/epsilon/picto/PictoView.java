@@ -296,7 +296,7 @@ public class PictoView extends ViewPart {
 					@Override
 					public void runWithException() throws Exception {
 						setTreeViewerVisible(false);
-						renderView(new ViewTree("<html><pre>" + ex.getMessage() + "</pre></html>", "html"));
+						renderView(new ViewTree(viewRenderer.getZoomableVerbatim(ex.getMessage()), "html"));
 					}
 				});
 			} catch (Exception e) {
@@ -393,12 +393,8 @@ public class PictoView extends ViewPart {
 		
 		// ... if not, show the final rendered result
 		if (content == null) content = view.getContent().getFinal(viewRenderer);
-		if (content.getFile() != null) {
-			viewRenderer.display(content.getFile());
-		}
-		else {
-			viewRenderer.display(content.getText());
-		}
+		viewRenderer.display(content.getText());
+		
 	}
 	
 	@Override

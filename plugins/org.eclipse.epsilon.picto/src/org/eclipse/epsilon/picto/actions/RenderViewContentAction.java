@@ -38,7 +38,7 @@ public class RenderViewContentAction extends Action {
 				other.setActive(false);
 			}
 		}
-		viewRenderer.display(new ViewContent("text", viewContent.getText(), viewContent.getLayers(), viewContent.getPatches()).getNext(viewRenderer).getFile());
+		viewRenderer.display(new ViewContent("text", viewContent.getText(), viewContent.getLayers(), viewContent.getPatches()).getNext(viewRenderer).getText());
 	}
 	
 }

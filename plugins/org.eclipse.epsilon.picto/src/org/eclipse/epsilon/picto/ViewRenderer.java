@@ -9,11 +9,19 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
-import java.io.File;
+import java.io.StringWriter;
 
-import org.eclipse.emf.common.util.URI;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.graphics.Point;
+import org.w3c.dom.Document;
+import org.w3c.dom.Text;
 
 public class ViewRenderer {
 	
@@ -57,19 +65,40 @@ public class ViewRenderer {
 	}
 	
 	public void display(Exception ex) {
-		display("<html><pre>" + ex.getMessage() + "</pre></html>");
+		display(getZoomableVerbatim(ex.getMessage()));
 	}
 	
 	public void display(String text) {
-		browser.setText(text);
-	}
-	
-	public void display(File file) {
-		browser.setUrl(URI.createFileURI(file.getAbsolutePath()).toString());
+		browser.setText(text.replace("${picto-zoom}", zoom + ""));
 	}
 	
 	public void nothingToRender() {
-		display("<html>Nothing to render.</html>");
+		display(getZoomableHtml("<div style=\"font-family:Tahoma;font-size:10px\">Nothing to render.</div>"));
+	}
+	
+	public String getZoomableHtml(String content) {
+		return "<html><body style=\"zoom:${picto-zoom}\">\n" + content + "\n</body></html>";
+	}
+	
+	public String getZoomableVerbatim(String content) {
+		return getZoomableHtml("<pre>\n" + escapeHtml(content) + "</pre>");
+	}
+	
+	private String escapeHtml(String html) {
+		try {
+			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+			Text text = document.createTextNode(html);
+			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			DOMSource source = new DOMSource(text);
+			StringWriter writer = new StringWriter();
+			StreamResult result = new StreamResult(writer);
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+			transformer.transform(source, result);
+			return writer.toString();
+		}
+		catch (Exception ex) {
+			return html;
+		}
 	}
 	
 	public enum ZoomType {

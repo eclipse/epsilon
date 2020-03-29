@@ -5,7 +5,7 @@
   <!--<script src="../../dist/3d-force-graph.js"></script>-->
 </head>
 
-<body>
+<body style="zoom:${picto-zoom}">
   <div id="3d-graph"></div>
 
   <script>
