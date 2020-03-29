@@ -73,7 +73,7 @@ public class ViewRenderer {
 	}
 	
 	public void nothingToRender() {
-		display(getZoomableHtml("<div style=\"font-family:Tahoma;font-size:10px\">Nothing to render.</div>"));
+		display(getZoomableHtml(""));
 	}
 	
 	public String getZoomableHtml(String content) {

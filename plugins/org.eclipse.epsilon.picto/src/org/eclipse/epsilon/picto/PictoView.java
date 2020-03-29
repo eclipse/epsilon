@@ -175,15 +175,20 @@ public class PictoView extends ViewPart {
 
 			@Override
 			public void partClosed(IWorkbenchPartReference partRef) {
-				if (locked) return;
 				
 				IWorkbenchPart workbenchPart = partRef.getPart(false);
 				if (!(workbenchPart instanceof IEditorPart)) return;
 				
 				IEditorPart editorPart = (IEditorPart) workbenchPart;
+				
+				if (locked) {
+					if (editor == editorPart) editor = null;
+					return;
+				}
+				
 				if (editorPart == PictoView.this) {
 					getSite().getPage().removePartListener(this);
-				} else if (supports(editorPart)) {
+				} else if (editor == editorPart) {
 					Display.getCurrent().asyncExec(() -> render(null));
 				}
 					
@@ -217,6 +222,7 @@ public class PictoView extends ViewPart {
 		if (editor == null) {
 			setTreeViewerVisible(false);
 			viewRenderer.nothingToRender();
+			this.editor = null;
 		} else {
 			if (this.editor != null)
 				this.editor.removePropertyListener(listener);
