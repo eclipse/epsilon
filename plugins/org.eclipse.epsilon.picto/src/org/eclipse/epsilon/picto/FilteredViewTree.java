@@ -28,7 +28,7 @@ public class FilteredViewTree extends FilteredTree {
 	 *            <code>true</code> if the new 3.5 look should be used
 	 */
 	public FilteredViewTree(Composite parent, int treeStyle, PatternFilter filter, boolean useNewLook) {
-		super(parent, treeStyle, filter, useNewLook);
+		super(parent, treeStyle, filter, useNewLook, true);
 	}
 	
 	public void clearFilterText() {
@@ -42,8 +42,6 @@ public class FilteredViewTree extends FilteredTree {
 	 * filter refresh job.  Subclasses may override.
 	 *
 	 * @return a time delay in milliseconds before the job should run
-	 *
-	 * @since 3.5
 	 */
 	@Override
 	protected long getRefreshJobDelay() {
