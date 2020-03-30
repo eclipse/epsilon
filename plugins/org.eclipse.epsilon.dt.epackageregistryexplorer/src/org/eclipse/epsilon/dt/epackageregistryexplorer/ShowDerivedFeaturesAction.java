@@ -7,10 +7,11 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
+
 package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.resource.ResourceLocator;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class ShowDerivedFeaturesAction extends Action {
 	
@@ -20,7 +21,7 @@ public class ShowDerivedFeaturesAction extends Action {
 		this.view = view;
 		this.setChecked(view.isShowDerivedFeatures());
 		this.setText("Show derived features");
-		ResourceLocator.imageDescriptorFromBundle(Activator.PLUGIN_ID, "icons/derived.gif").ifPresent(this::setImageDescriptor);
+		this.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/derived.gif"));
 	}
 	
 	@Override

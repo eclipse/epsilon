@@ -16,8 +16,8 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.epsilon.common.dt.launching.dialogs.AbstractModelConfigurationDialog;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class ModelTypeExtension {
 	
@@ -102,8 +102,8 @@ public class ModelTypeExtension {
 				modelType.setLabel(configurationElement.getAttribute("label"));
 				String contributingPlugin = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
 				//URL iconUrl = Platform.getBundle(contributingPlugin).getResource(configurationElement.getAttribute("icon"));
-				ResourceLocator.imageDescriptorFromBundle(contributingPlugin,configurationElement.getAttribute("icon"))
-					.ifPresent(imageDescriptor -> modelType.setImage(imageDescriptor.createImage()));
+				Image image = AbstractUIPlugin.imageDescriptorFromPlugin(contributingPlugin,configurationElement.getAttribute("icon")).createImage();
+				modelType.setImage(image);
 				return modelType;
 			}
 		}

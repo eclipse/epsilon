@@ -67,11 +67,9 @@ public abstract class ToggleNatureAction extends AbstractObjectActionDelegate {
 		return newNatureIds;
 	}
 	
-	private void applyNaturesToProject(IProject project, Collection<String> natureIds) throws CoreException {
+	private static void applyNaturesToProject(IProject project, Collection<String> natureIds) throws CoreException {
 		final IProjectDescription desc = project.getDescription();
-				
 		desc.setNatureIds(natureIds.toArray(new String[0]));
-		
 		project.setDescription(desc, null);
 	}
 

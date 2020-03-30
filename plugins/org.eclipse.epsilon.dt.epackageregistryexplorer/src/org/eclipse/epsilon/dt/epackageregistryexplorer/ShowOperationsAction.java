@@ -7,10 +7,11 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
+
 package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.resource.ResourceLocator;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class ShowOperationsAction extends Action {
 	
@@ -20,7 +21,7 @@ public class ShowOperationsAction extends Action {
 		this.view = view;
 		this.setChecked(view.isShowOperations());
 		this.setText("Show operations");
-		ResourceLocator.imageDescriptorFromBundle("org.eclipse.emf.ecore.edit", "icons/full/obj16/EOperation.gif").ifPresent(this::setImageDescriptor);
+		this.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EOperation.gif"));
 	}
 	
 	@Override

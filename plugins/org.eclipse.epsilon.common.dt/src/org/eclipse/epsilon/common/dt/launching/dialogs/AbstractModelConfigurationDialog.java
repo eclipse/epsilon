@@ -126,8 +126,8 @@ public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
 		if (properties == null) return;
 		nameText.setText(properties.getProperty("name"));
 		aliasesText.setText(properties.getProperty("aliases"));
-		if (readOnLoadCheckbox!=null) readOnLoadCheckbox.setSelection(new Boolean(properties.getProperty("readOnLoad","true")).booleanValue());
-		if (storeOnDisposalCheckbox!=null) storeOnDisposalCheckbox.setSelection(new Boolean(properties.getProperty("storeOnDisposal","false")).booleanValue());
+		if (readOnLoadCheckbox!=null) readOnLoadCheckbox.setSelection(Boolean.parseBoolean(properties.getProperty("readOnLoad", "true")));
+		if (storeOnDisposalCheckbox!=null) storeOnDisposalCheckbox.setSelection(Boolean.parseBoolean(properties.getProperty("storeOnDisposal", "false")));
 	}
 	
 	protected void storeProperties() {

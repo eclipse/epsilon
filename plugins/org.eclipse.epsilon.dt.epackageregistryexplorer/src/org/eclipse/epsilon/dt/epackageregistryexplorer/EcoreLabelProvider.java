@@ -7,9 +7,9 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
+
 package org.eclipse.epsilon.dt.epackageregistryexplorer;
 
-import static org.eclipse.jface.resource.ResourceLocator.imageDescriptorFromBundle;
 import java.util.ListIterator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.resource.FontDescriptor;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -31,6 +30,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class EcoreLabelProvider extends LabelProvider implements IFontProvider, IColorProvider {
 	
@@ -47,49 +47,38 @@ public class EcoreLabelProvider extends LabelProvider implements IFontProvider, 
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof EPackage) {
-			return imageDescriptorFromBundle("org.eclipse.emf.ecore.edit", "icons/full/obj16/EPackage.gif")
-				.map(ImageDescriptor::createImage).orElse(null);
+			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EPackage.gif").createImage();
 		}
 		else if (element instanceof EClass) {
 			if (DecoratorSupport.isDecorator((EClass)element)) {
-				return imageDescriptorFromBundle(Activator.PLUGIN_ID, "icons/decorator.gif")
-					.map(ImageDescriptor::createImage).orElse(null);
+				return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/decorator.gif").createImage();
 			}
-			return imageDescriptorFromBundle("org.eclipse.emf.ecore.edit", "icons/full/obj16/EClass.gif")
-				.map(ImageDescriptor::createImage).orElse(null);	
+			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EClass.gif").createImage();	
 		}
 		else if (element instanceof EDataType) {
-			return imageDescriptorFromBundle("org.eclipse.emf.ecore.edit", "icons/full/obj16/EDataType.gif")
-				.map(ImageDescriptor::createImage).orElse(null);
+			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EDataType.gif").createImage();
 		}
 		else if (element instanceof EAttribute) {
-			return imageDescriptorFromBundle("org.eclipse.emf.ecore.edit", "icons/full/obj16/EAttribute.gif")
-				.map(ImageDescriptor::createImage).orElse(null);
+			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EAttribute.gif").createImage();
 		}
 		else if (element instanceof EOperation) {
-			return imageDescriptorFromBundle("org.eclipse.emf.ecore.edit", "icons/full/obj16/EOperation.gif")
-				.map(ImageDescriptor::createImage).orElse(null);
+			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EOperation.gif").createImage();
 		}
 		else if (element instanceof EReference) {
 			EReference eReference = (EReference) element;
 			if (DecoratorSupport.isHook(eReference)) {
-				return imageDescriptorFromBundle(Activator.PLUGIN_ID, "icons/hook.gif")
-					.map(ImageDescriptor::createImage).orElse(null);
+				return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/hook.gif").createImage();
 			}
-			return imageDescriptorFromBundle("org.eclipse.emf.ecore.edit", "icons/full/obj16/EReference.gif")
-				.map(ImageDescriptor::createImage).orElse(null);
+			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.emf.ecore.edit", "icons/full/obj16/EReference.gif").createImage();
 		}
 		else if (element instanceof DecoratorHookDescriptor) {
-			return imageDescriptorFromBundle(Activator.PLUGIN_ID, "icons/hookFeature.gif")
-				.map(ImageDescriptor::createImage).orElse(null);
+			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/hookFeature.gif").createImage();			
 		}
 		else if (element instanceof SubTypesDescriptor) {
-			return imageDescriptorFromBundle(Activator.PLUGIN_ID, "icons/subtypes.png")
-				.map(ImageDescriptor::createImage).orElse(null);
+			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/subtypes.png").createImage();			
 		}
 		else if (element instanceof SuperTypesDescriptor) {
-			return imageDescriptorFromBundle(Activator.PLUGIN_ID, "icons/supertypes.png")
-				.map(ImageDescriptor::createImage).orElse(null);
+			return AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "icons/supertypes.png").createImage();			
 		}
 		else return super.getImage(element);
 	}
@@ -123,7 +112,8 @@ public class EcoreLabelProvider extends LabelProvider implements IFontProvider, 
 		else if (element instanceof EOperation) {
 			EOperation eOperation = (EOperation) element;
 			String signature = eOperation.getName() + "(";
-			for (ListIterator<EParameter> li = eOperation.getEParameters().listIterator(); li.hasNext();) {
+			ListIterator<EParameter> li = eOperation.getEParameters().listIterator();
+			while (li.hasNext()) {
 				EParameter parameter = li.next();
 				signature = signature + parameter.getName() + ":" + getTypeName(parameter.getEType());
 				if (li.hasNext()) signature = signature + ", ";
@@ -189,6 +179,7 @@ public class EcoreLabelProvider extends LabelProvider implements IFontProvider, 
 		}
 		return null;
 	}
+	
 	
 }
  

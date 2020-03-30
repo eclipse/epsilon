@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.common.dt.launching.dialogs;
 
 import java.util.ArrayList;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -20,7 +21,6 @@ import org.eclipse.epsilon.common.dt.launching.tabs.ModelTypeLabelProvider;
 import org.eclipse.epsilon.common.dt.util.ListContentProvider;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -28,6 +28,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -38,6 +39,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelectionChangedListener {
 	
@@ -184,8 +186,8 @@ public class ModelTypeSelectionDialog extends TitleAreaDialog implements ISelect
 				modelType.setStable(Boolean.parseBoolean(configurationElement.getAttribute("stable")));
 	
 				String contributingPlugin = configurationElement.getDeclaringExtension().getNamespaceIdentifier();
-				ResourceLocator.imageDescriptorFromBundle(contributingPlugin,configurationElement.getAttribute("icon"))
-					.ifPresent(imageDescriptor -> modelType.setImage(imageDescriptor.createImage()));
+				Image image = AbstractUIPlugin.imageDescriptorFromPlugin(contributingPlugin,configurationElement.getAttribute("icon")).createImage();
+				modelType.setImage(image);
 				modelType.setConfigurationElement(configurationElement);
 				modelTypes.add(modelType);
 			}

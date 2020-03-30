@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -46,8 +45,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -444,9 +441,7 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 		lblFailureTrace.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		lblFailureTrace.setText("Failure Trace");
 		lblFailureTrace.setImage(
-			ResourceLocator.imageDescriptorFromBundle(EUnitPlugin.PLUGIN_ID, "icons/eview16/stackframe.gif")
-				.map(ImageDescriptor::createImage).orElse(null)
-		);
+			EUnitPlugin.imageDescriptorFromPlugin(EUnitPlugin.PLUGIN_ID, "icons/eview16/stackframe.gif").createImage());
 
 		toolbarFailureTrace = new ToolBar(failureTraceComposite, SWT.FLAT);
 		toolbarFailureTrace.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -633,7 +628,7 @@ public class EUnitRunnerView extends ViewPart implements EUnitTestListener {
 						break;
 					default:
 						break;
-				}
+					}
 				updateTestCaseCounts();
 			}
 			

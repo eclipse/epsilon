@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.emf.dt;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -62,7 +61,7 @@ public class EmfUtilPlugin extends AbstractUIPlugin implements IStartup {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return ResourceLocator.imageDescriptorFromBundle("org.eclipse.epsilon.emf.dt", path).orElse(null);
+		return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.epsilon.emf.dt", path);
 	}
 
 	@Override

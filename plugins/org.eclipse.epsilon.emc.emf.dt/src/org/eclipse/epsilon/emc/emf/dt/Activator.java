@@ -11,7 +11,6 @@ package org.eclipse.epsilon.emc.emf.dt;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
-import org.eclipse.jface.resource.ResourceLocator;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -77,7 +76,7 @@ public class Activator extends AbstractUIPlugin {
 			descriptor = imageRegistry.getDescriptor(path);
 		}
 		else {
-			descriptor = ResourceLocator.imageDescriptorFromBundle(PLUGIN_ID, path).orElse(null);
+			descriptor = imageDescriptorFromPlugin(PLUGIN_ID, path);
 			imageRegistry.put(path, descriptor);
 		}
 		return descriptor;
