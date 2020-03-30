@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.test.suite;
 
+import java.util.Collections;
 import java.util.List;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEnginePool;
@@ -25,16 +26,29 @@ import org.junit.runners.model.RunnerBuilder;
  */
 public class ConditionalMatlabSuite extends Suite {
 	
-	@Override
-	protected boolean isIgnored(Runner child) {
+	static Boolean isMatlabWorking;
+	
+	public static boolean isMatlabWorking() {
+		if (isMatlabWorking != null) return isMatlabWorking;
+		// Deliberate assignment of the boolean, not accidental
 		if (MatlabEnginePool.resolveFromEnv()) try {
 			MatlabEngine.startMatlab();
-			return super.isIgnored(child);
+			return isMatlabWorking = true;
 		}
 		catch (Exception ex) {
 		}
-		// If we managed to start the MatlabEngine, we wouldn't have reached this point.
-		return true;
+		return isMatlabWorking = false;
+	}
+	
+	@Override
+	protected boolean isIgnored(Runner child) {
+		return super.isIgnored(child) || !isMatlabWorking();
+	}
+	
+	@Override
+	protected List<Runner> getChildren() {
+		if (!isMatlabWorking()) return Collections.emptyList();
+		return super.getChildren();
 	}
 	
 	public ConditionalMatlabSuite(Class<?> klass, RunnerBuilder builder) throws InitializationError {

@@ -9,11 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.test.unit;
 
+import org.eclipse.epsilon.emc.simulink.test.suite.ConditionalMatlabSuite;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-@RunWith(Suite.class)
+@RunWith(ConditionalMatlabSuite.class)
 @SuiteClasses({ CRUDTests.class, ExampleTests.class, InheritanceTests.class,
 		OperationTests.class, SimulateTests.class, PropertyTests.class, OperatorTest.class,
 		SimulinkPrimitiveTypeAndStatementTest.class, MatlabEngineTests.class, LoadModelTest.class })
