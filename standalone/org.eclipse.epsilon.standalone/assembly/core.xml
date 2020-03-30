@@ -83,10 +83,5 @@
         <directory>../../plugins/org.eclipse.epsilon.emc.csv/target/classes</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
-      <fileSet>
-        <directory>../../plugins/org.antlr.runtime_3.1.b1/</directory>
-        <includes><include>**/*.class</include></includes>
-        <outputDirectory></outputDirectory>
-      </fileSet>
   </fileSets>
 </assembly>

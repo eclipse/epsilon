@@ -24,7 +24,11 @@
 		<project name="org.eclipse.epsilon.emc.composite"/>
 		<project name="org.eclipse.epsilon.emc.plainxml"/>
 		<project name="org.eclipse.epsilon.emc.csv"/>
-		<project name="org.antlr.runtime_3.1.b1" binary="true"/>
+		
+		<plugin name="org.antlr.runtime"
+			groupId="org.antlr.runtime"
+			artifactId="org.antlr.runtime"
+			version="3.2.0"	/>
 	</jar>
 
 	<jar name="emf" requires="core">
