@@ -28,6 +28,7 @@ public class PackageRegistryContentProvider implements ITreeContentProvider {
 		this.view = view;
 	}
 	
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof EPackage) {
 			return ((EPackage) parentElement).getEClassifiers().toArray();
@@ -47,6 +48,7 @@ public class PackageRegistryContentProvider implements ITreeContentProvider {
 		return Collections.EMPTY_LIST.toArray();
 	}
 
+	@Override
 	public Object getParent(Object element) {
 		return null;
 	}
@@ -63,6 +65,7 @@ public class PackageRegistryContentProvider implements ITreeContentProvider {
 		return inheritanceDescriptors;
 	}
 	
+	@Override
 	public boolean hasChildren(Object element) {
 		if (element instanceof EClass) {
 			return getInheritanceDescriptors((EClass) element).size() > 0;
@@ -75,15 +78,18 @@ public class PackageRegistryContentProvider implements ITreeContentProvider {
 		}
 	}
 
+	@Override
 	public Object[] getElements(Object inputElement) {
 		return view.getEPackages().toArray();
 	}
 
+	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// TODO Auto-generated method stub
 		

@@ -14,8 +14,6 @@ import org.eclipse.epsilon.emc.emf.CachedResourceSet;
 import org.eclipse.epsilon.emc.emf.CachedResourceSet.Cache;
 import org.eclipse.epsilon.emc.emf.CachedResourceSet.Cache.CacheItem;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -42,15 +40,12 @@ public class CachedResourceView extends ViewPart {
 		cacheViewer.setLabelProvider(new CachedResoureViewerLabelProvider());
 		cacheViewer.setComparator(new ViewerComparator((o1, o2) -> o1.compareTo(o2)));
 		cacheViewer.setInput(CachedResourceSet.getCache());
-		cacheViewer.addDoubleClickListener(new IDoubleClickListener() {
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
-				IStructuredSelection sel = (IStructuredSelection) event.getSelection();
-				CacheItem cItem = (CacheItem) sel.getFirstElement();
-				new CacheItemDialog(
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						cItem).open();
-			}
+		cacheViewer.addDoubleClickListener(event -> {
+			IStructuredSelection sel = (IStructuredSelection) event.getSelection();
+			CacheItem cItem = (CacheItem) sel.getFirstElement();
+			new CacheItemDialog(
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+					cItem).open();
 		});
 
 		TableColumn column = new TableColumn(cacheViewer.getTable(), SWT.FULL_SELECTION);

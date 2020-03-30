@@ -26,7 +26,7 @@ import org.junit.runners.model.RunnerBuilder;
  */
 public class ConditionalMatlabSuite extends Suite {
 	
-	static Boolean isMatlabWorking;
+	private static Boolean isMatlabWorking;
 	
 	public static boolean isMatlabWorking() {
 		if (isMatlabWorking != null) return isMatlabWorking;
@@ -37,6 +37,8 @@ public class ConditionalMatlabSuite extends Suite {
 			return isMatlabWorking = true;
 		}
 		catch (Exception ex) {
+			System.err.println("MATLAB was found on the system but is not working!");
+			ex.printStackTrace();
 		}
 		return isMatlabWorking = false;
 	}

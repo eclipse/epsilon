@@ -44,9 +44,7 @@ public abstract class AbstractObjectActionDelegate implements IObjectActionDeleg
 	}
 	
 	@Override
-	public abstract void run(IAction action);
-	
-	
+	public abstract void run(IAction action);	
 	
 	protected static void refreshProjectContaining(IFile file) throws CoreException {
 		file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);

@@ -61,7 +61,7 @@ public class EpsilonConsole {
 	private IOConsoleOutputStream warningOutputStream = null;
 	private IOConsoleOutputStream infoOutputStream = null;
 	
-	private EpsilonConsole(){
+	private EpsilonConsole() {
 		
 		ioConsole = new IOConsole("Epsilon", null);
 		
@@ -101,8 +101,8 @@ public class EpsilonConsole {
 		infoPrintStream = new MirrorPrintStream(infoOutputStream);
 	}
 	
-	public static EpsilonConsole getInstance(){
-		if (instance == null){
+	public static EpsilonConsole getInstance() {
+		if (instance == null) {
 			instance = new EpsilonConsole();
 		}
 		return instance;
@@ -110,9 +110,7 @@ public class EpsilonConsole {
 	
 	public void initialiseColours() {
 		final Display display = PlatformUI.getWorkbench().getDisplay();
-		display.asyncExec(new Runnable() {
-			@Override
-			public void run() {
+		display.asyncExec(() -> {
 			if (EclipseUtil.isDarkThemeEnabled()) {
 				infoOutputStream.setColor(new Color(display, 190, 218, 0));
 				errorOutputStream.setColor(new Color(display, 243, 0, 70));
@@ -127,17 +125,17 @@ public class EpsilonConsole {
 				warningOutputStream.setColor(display.getSystemColor(SWT.COLOR_YELLOW));
 				ioConsole.getInputStream().setColor(display.getSystemColor(SWT.COLOR_GREEN));
 			}
-		}});
+		});
 	}
 	
-	public IOConsoleOutputStream createConsoleOutputStream(){
+	public IOConsoleOutputStream createConsoleOutputStream() {
 		IOConsoleOutputStream mcs = ioConsole.newOutputStream();
 		mcs.setActivateOnWrite(true);
 		return mcs;
 	}
 	
 	
-	public void clear(){
+	public void clear() {
 		//This doesn't clear the console immediately
 		//but schedules a job instead
 		ioConsole.clearConsole();
