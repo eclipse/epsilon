@@ -4,7 +4,7 @@
   <artifactId>[%=jar.getArtifactId()%]</artifactId>
   <version>[%=jar.getVersion()%]</version>
 [%
-if (jar.c_repository.size() >0) {
+if (jar.c_repository.size() > 0) {
 %]
   <repositories>
 [% 
