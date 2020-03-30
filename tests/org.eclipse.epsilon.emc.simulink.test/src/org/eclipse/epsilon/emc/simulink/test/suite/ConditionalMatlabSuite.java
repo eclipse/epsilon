@@ -32,6 +32,7 @@ public class ConditionalMatlabSuite extends Suite {
 		if (isMatlabWorking != null) return isMatlabWorking;
 		// Deliberate assignment of the boolean, not accidental
 		if (MatlabEnginePool.resolveFromEnv()) try {
+			MatlabEnginePool.getInstance();
 			MatlabEngine.startMatlab();
 			return isMatlabWorking = true;
 		}
