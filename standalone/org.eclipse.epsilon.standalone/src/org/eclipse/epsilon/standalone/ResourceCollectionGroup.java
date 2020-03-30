@@ -22,6 +22,7 @@ public class ResourceCollectionGroup extends DataType implements ResourceCollect
 	
 	protected List<ResourceCollection> resourceCollections = new ArrayList<>();
 	
+	@Override
 	public Iterator<Resource> iterator() {
 		if (isReference()) {
 			return ((ResourceCollectionGroup) getCheckedRef(getProject())).iterator();
@@ -29,9 +30,8 @@ public class ResourceCollectionGroup extends DataType implements ResourceCollect
 		
 		ArrayList<Resource> resources = new ArrayList<>();
 		for (ResourceCollection resourceCollection : resourceCollections) {
-			Iterator<Resource> iterator = resourceCollection.iterator();
-			while (iterator.hasNext()) {
-				resources.add(iterator.next());
+			for (Resource res : resourceCollection) {
+				resources.add(res);
 			}
 		}
 		
@@ -52,13 +52,11 @@ public class ResourceCollectionGroup extends DataType implements ResourceCollect
 	
 	@Override
 	public int size() {
-		return 0;
+		return resourceCollections.size();
 	}
 
 	@Override
 	public boolean isFilesystemOnly() {
 		return false;
 	}
-	
-	
 }

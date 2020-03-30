@@ -14,11 +14,11 @@
   <description>
 		Epsilon's Human Usable Textual Notation implementation.
 		</description>
-  <url>http://eclipse.org/epsilon</url>
+  <url>https://eclipse.org/epsilon</url>
   <licenses>
   	<license>
-  		<name>Eclipse Public License 1.0</name>
-  		<url>https://www.eclipse.org/legal/epl-v10.html</url>
+  		<name>Eclipse Public License 2.0</name>
+  		<url>https://www.eclipse.org/legal/epl-v20.html</url>
   		<distribution>repo</distribution>
   	</license>
   </licenses>
@@ -30,6 +30,10 @@
   	<developer>
   		<id>agarciad</id>
   		<name>Antonio Garcia-Dominguez</name>
+  	</developer>
+  	<developer>
+  		<id>smadani</id>
+  		<name>Sina Madani</name>
   	</developer>
   	<developer>
   		<id>lrose</id>

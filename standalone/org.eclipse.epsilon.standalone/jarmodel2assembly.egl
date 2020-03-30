@@ -104,7 +104,7 @@ operation JarModel!t_jar getAssemblyFormat(type: String) : String {
 }
 
 operation JarModel!t_project getSource() : String {
-  if (self.a_src.isDefined()){
+  if (self.a_src.isDefined()) {
     return self.a_src;
   } else {
     return 'src';

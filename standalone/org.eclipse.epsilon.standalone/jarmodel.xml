@@ -28,7 +28,13 @@
 		<plugin name="org.antlr.runtime"
 			groupId="org.antlr.runtime"
 			artifactId="org.antlr.runtime"
-			version="3.2.0"	/>
+			version="3.2.0.v201101311130"	/>
+			
+		<repository name= "epsilon-bintray"
+  		    snapshots= "false"
+  		    releases= "true"
+            id= "orbit-2019-11"
+            url= "https://download.eclipse.org/tools/orbit/downloads/drops/R20191115185527/repository"/>
 	</jar>
 
 	<jar name="emf" requires="core">

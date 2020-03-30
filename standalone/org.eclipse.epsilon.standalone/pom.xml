@@ -77,9 +77,9 @@
 	      <finalName>epsilon-1.6.0</finalName>
 	      <descriptors>
 		<descriptor>assembly/core.xml</descriptor>
-		<descriptor>assembly/core-deps.xml</descriptor>
 		<descriptor>assembly/core-src.xml</descriptor>
 		<descriptor>assembly/core-sources.xml</descriptor>
+		<descriptor>assembly/core-deps.xml</descriptor>
 		<descriptor>assembly/emf.xml</descriptor>
 		<descriptor>assembly/emf-src.xml</descriptor>
 		<descriptor>assembly/emf-sources.xml</descriptor>
