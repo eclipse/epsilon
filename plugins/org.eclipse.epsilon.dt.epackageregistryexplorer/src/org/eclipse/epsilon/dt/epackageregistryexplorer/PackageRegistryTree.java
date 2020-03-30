@@ -28,7 +28,7 @@ public class PackageRegistryTree extends FilteredTree {
 	 *            <code>true</code> if the new 3.5 look should be used
 	 */
 	public PackageRegistryTree(Composite parent, int treeStyle, PatternFilter filter, boolean useNewLook) {
-		super(parent, treeStyle, filter, useNewLook, true);
+		super(parent, treeStyle, filter, useNewLook);
 	}
 	
 	public void clearFilterText() {
