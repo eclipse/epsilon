@@ -8,7 +8,7 @@
       <snapshots><enabled>false</enabled></snapshots>
       <releases><enabled>true</enabled></releases>
       <id>orbit-2019-11</id>
-      <name>epsilon-bintray</name>
+      <name>eclipse-orbit</name>
       <url>https://download.eclipse.org/tools/orbit/downloads/drops/R20191115185527/repository</url>
     </repository>
   </repositories>
@@ -17,7 +17,7 @@
       <snapshots><enabled>false</enabled></snapshots>
       <releases><enabled>true</enabled></releases>
       <id>orbit-2019-11</id>
-      <name>epsilon-bintray-plugins</name>
+      <name>eclipse-orbit-plugins</name>
       <url>https://download.eclipse.org/tools/orbit/downloads/drops/R20191115185527/repository</url>
     </pluginRepository>
   </pluginRepositories>

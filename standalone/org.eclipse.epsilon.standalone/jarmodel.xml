@@ -25,7 +25,7 @@
 		<project name="org.eclipse.epsilon.emc.plainxml"/>
 		<project name="org.eclipse.epsilon.emc.csv"/>
 		
-		<plugin name="org.antlr.runtime"
+		<plugin name="org.antlr.runtime.3."
 			groupId="org.antlr.runtime"
 			artifactId="org.antlr.runtime"
 			version="3.2.0.v201101311130"	/>
