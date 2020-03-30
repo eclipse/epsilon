@@ -30,7 +30,7 @@
 			artifactId="org.antlr.runtime"
 			version="3.2.0.v201101311130"	/>
 			
-		<repository name= "epsilon-bintray"
+		<repository name= "eclipse-orbit"
   		    snapshots= "false"
   		    releases= "true"
             id= "orbit-2019-11"
