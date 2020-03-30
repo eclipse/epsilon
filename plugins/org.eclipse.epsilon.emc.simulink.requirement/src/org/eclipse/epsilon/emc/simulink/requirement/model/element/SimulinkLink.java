@@ -61,12 +61,14 @@ public class SimulinkLink extends SimulinkModelElement implements ISimulinkRequi
 
 	@Override
 	public boolean deleteElementInModel() throws EolRuntimeException {
-		try {
-			engine.feval("remove", linkHandle.getHandle());
-			return true;
-		} catch (MatlabException e) {
-			return false;
+		if (linkHandle != null) {				
+			try {
+				engine.feval("remove", linkHandle.getHandle());
+			} catch (MatlabException e) {
+				return false;
+			}
 		}
+		return true;
 	}
 
 	@Override
@@ -97,7 +99,7 @@ public class SimulinkLink extends SimulinkModelElement implements ISimulinkRequi
 	
 	public Boolean isResolved(String location) throws EolRuntimeException {
 		try {
-			return ((Integer) engine.fevalWithResult("isResolved" + location, linkHandle.getHandle())) == 1;
+			return ((Boolean) engine.fevalWithResult("isResolved" + location, linkHandle.getHandle())) ;
 		} catch (MatlabException e) {
 			throw new EolRuntimeException(e);
 		}
@@ -105,16 +107,17 @@ public class SimulinkLink extends SimulinkModelElement implements ISimulinkRequi
 	
 	Object source, destination;
 	
-	public void setSource(Object o) throws EolRuntimeException {
+	public SimulinkLink setSource(Object source) throws EolRuntimeException {
 		if (linkHandle == null) {
-			source = o;
-			if (destination != null) {
-				try {
-					HandleObject handle = (HandleObject) engine.fevalWithResult("slreq.createLink", source, destination);
-					linkHandle = new MatlabHandleElement(model, engine, handle); 
-				} catch (MatlabException e) {
-					throw new EolRuntimeException(e);
+			try {
+				this.source = source;
+				if (source instanceof ISimulinkModelElement) {
+					source = ((ISimulinkModelElement) source).getHandle();
 				}
+				engine.feval("setSource", linkHandle, source);
+				return this;
+			} catch (MatlabException e) {
+				throw new EolRuntimeException(e);
 			}
 		} else {
 			throw new EolRuntimeException("Source already set");
@@ -133,16 +136,17 @@ public class SimulinkLink extends SimulinkModelElement implements ISimulinkRequi
 		}
 	}
 	
-	public void setDestination(Object o) throws EolRuntimeException {
+	public SimulinkLink setDestination(Object destination) throws EolRuntimeException {
 		if (linkHandle == null) {
-			destination = o;
-			if (source != null) {
-				try {
-					HandleObject handle = (HandleObject) engine.fevalWithResult("slreq.createLink", source, destination);
-					linkHandle = new MatlabHandleElement(model, engine, handle); 
-				} catch (MatlabException e) {
-					throw new EolRuntimeException(e);
+			try {
+				this.destination = destination;
+				if (destination instanceof ISimulinkModelElement) {
+					destination = ((ISimulinkModelElement) destination).getHandle();
 				}
+				engine.feval("setDestination", linkHandle, destination);
+				return this;
+			} catch (MatlabException e) {
+				throw new EolRuntimeException(e);
 			}
 		} else {
 			throw new EolRuntimeException("Target already set");

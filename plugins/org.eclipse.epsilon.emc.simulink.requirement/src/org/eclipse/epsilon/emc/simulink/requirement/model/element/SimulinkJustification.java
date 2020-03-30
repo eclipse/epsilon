@@ -66,12 +66,14 @@ public class SimulinkJustification extends SimulinkModelElement implements ISimu
 
 	@Override
 	public boolean deleteElementInModel() throws EolRuntimeException {
-		try {
-			engine.feval("remove", justificationHandle.getHandle());
-			return true;
-		} catch (MatlabException e) {
-			return false;
+		if (justificationHandle != null) {
+			try {
+				engine.feval("remove", justificationHandle.getHandle());
+			} catch (MatlabException e) {
+				return false;
+			}
 		}
+		return true;
 	}
 
 	@Override

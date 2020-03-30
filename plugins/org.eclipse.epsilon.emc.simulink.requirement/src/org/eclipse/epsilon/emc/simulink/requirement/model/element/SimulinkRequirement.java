@@ -19,6 +19,7 @@ import org.eclipse.epsilon.emc.simulink.model.element.SimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementModel;
 import org.eclipse.epsilon.emc.simulink.requirement.util.collection.SimulinkRequirementCollection;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
+import org.eclipse.epsilon.emc.simulink.types.Struct;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class SimulinkRequirement extends SimulinkModelElement implements ISimulinkRequirementModelElement{
@@ -53,6 +54,15 @@ public class SimulinkRequirement extends SimulinkModelElement implements ISimuli
 		}
 	}
 	
+	public SimulinkRequirement(SimulinkRequirementModel model, MatlabEngine engine, String subtype) {
+		super(model, engine);
+		try {
+			requirementHandle = new MatlabHandleElement(model, engine, (HandleObject) engine.fevalWithResult("add", model.getHandle().getHandle(), "ReqType", subtype));
+		} catch (MatlabException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public SimulinkRequirement(SimulinkRequirementModel model, MatlabEngine engine, HandleObject id) {
 		super(model, engine);
 		requirementHandle = new MatlabHandleElement(model, engine, id);
@@ -77,7 +87,14 @@ public class SimulinkRequirement extends SimulinkModelElement implements ISimuli
 
 	@Override
 	public boolean deleteElementInModel() throws EolRuntimeException {
-		throw new EolRuntimeException("Can't remove requirements");
+		if (requirementHandle != null) {				
+			try {
+				engine.feval("remove", requirementHandle.getHandle());
+			} catch (MatlabException e) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -123,6 +140,10 @@ public class SimulinkRequirement extends SimulinkModelElement implements ISimuli
 		} catch (MatlabException e) {
 			return null;
 		}
+	}
+	
+	public Struct getImplementationStatus() throws MatlabException {
+		return (Struct) engine.fevalWithResult("getImplementationStatus", getHandle());
 	}
 	
 	public SimulinkLink justifyImplementation(SimulinkJustification justification){

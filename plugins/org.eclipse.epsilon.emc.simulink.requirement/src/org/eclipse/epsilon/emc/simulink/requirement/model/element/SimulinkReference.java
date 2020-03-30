@@ -63,12 +63,14 @@ public class SimulinkReference extends SimulinkModelElement implements ISimulink
 
 	@Override
 	public boolean deleteElementInModel() throws EolRuntimeException {
-		try {
-			engine.feval("remove", referenceHandle.getHandle());
-			return true;
-		} catch (MatlabException e) {
-			return false;
+		if (referenceHandle != null) {
+			try {
+				engine.feval("remove", referenceHandle.getHandle());
+			} catch (MatlabException e) {
+				return false;
+			}	
 		}
+		return true;		
 	}
 
 	@Override

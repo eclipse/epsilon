@@ -172,18 +172,20 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 
 	@Override
 	public boolean owns(Object instance) {
-		return instance instanceof ISimulinkRequirementModelElement || super.owns(instance);
+		return instance instanceof ISimulinkRequirementModelElement;
 	}
 
 	@Override
 	public boolean isInstantiable(String type) {
-		// FIXME for now, RequirementSet is the model and therefore non instantiable from here
-		return Arrays.asList("Justification", "Requirement", "Link", "Reference", "LinkSet").contains(type) || super.isInstantiable(type);
+		return Arrays.asList("Justification", "Requirement", "Link", "Reference").contains(type) 
+				|| type.startsWith("RQ_")
+				|| super.isInstantiable(type);
 	}
 
 	@Override
 	public boolean hasType(String type) {
-		return true;
+		return Arrays.asList("Justification", "Requirement", "Link", "Reference", "LinkSet", "RequirementSet").contains(type) 
+				|| type.startsWith("RQ_") || type.startsWith("RF_") || type.startsWith("L_");
 	}
 
 	@Override
@@ -215,9 +217,16 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 	@Override
 	protected Collection<ISimulinkModelElement> getAllOfTypeFromModel(String type)
 			throws EolModelElementTypeNotFoundException {
-		if (type.startsWith("R_")) {			
+		if (type.startsWith("RQ_")) {			
 			try {
-				Object collection = engine.fevalWithResult("slreq.find", "Type", "Requirement", "ReqType", type.substring(2));
+				Object collection = engine.fevalWithResult("find", getHandle().getHandle(), "Type", "Requirement", "ReqType", type.substring(3));
+				return new SimulinkRequirementCollection(collection, this);
+			} catch (MatlabException e) {
+				throw new EolModelElementTypeNotFoundException(this.getName(), type, e.getMessage());
+			}
+		} else if (type.startsWith("RF_")) {
+			try {
+				Object collection = engine.fevalWithResult("find", getHandle().getHandle(), "Type", "Reference", "ReqType", type.substring(3));
 				return new SimulinkRequirementCollection(collection, this);
 			} catch (MatlabException e) {
 				throw new EolModelElementTypeNotFoundException(this.getName(), type, e.getMessage());
@@ -251,17 +260,17 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 			} catch (MatlabException e) {
 				return Collections.emptyList();
 			}
+		case "Reference":
+			try {
+				Object collection = engine.fevalWithResult("find", getHandle().getHandle(), "Type", "Reference");
+				return new SimulinkJustificationCollection(collection, this);
+			} catch (MatlabException e) {
+				return Collections.emptyList();
+			}
 		case "Link":
 			try {
 				Object collection = engine.fevalWithResult("slreq.find", "Type", "Link");
 				return new SimulinkLinkCollection(collection, this);
-			} catch (MatlabException e) {
-				return Collections.emptyList();
-			}
-		case "Reference":
-			try {
-				Object collection = engine.fevalWithResult("slreq.find", "Type", "Reference");
-				return new SimulinkReferenceCollection(collection, this);
 			} catch (MatlabException e) {
 				return Collections.emptyList();
 			}
@@ -272,8 +281,10 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 			} catch (MatlabException e) {
 				return Collections.emptyList();
 			}
+		case "RequirementSet":
+			return Arrays.asList(this);
 		}
-		// case RequirementSet (ReqSet) FIXME
+			
 		return getAllOfTypeFromModel(kind);
 	}
 
@@ -289,12 +300,11 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 			return new SimulinkLink(this, engine);
 		case "Reference":
 			return new SimulinkReference(this, engine);
-		case "LinkSet":	
-			return new SimulinkLinkSet(this, engine);
-		//case "RequirementSet":
-			// FIXME return new SimulinkRequirementModel().engine);
 		default:
 			break;
+		}
+		if (type.startsWith("RQ_")) {
+			return new SimulinkRequirement(this, engine, type.substring(3));
 		}
 		return super.createInstanceInModel(type);
 	}
