@@ -3,11 +3,18 @@
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>epsilon-core</artifactId>
   <version>1.6.0-SNAPSHOT</version>
+  <dependencies>
+   <dependency>
+      <groupId>org.antlr.runtime</groupId>
+      <artifactId>org.antlr.runtime</artifactId>
+      <version>3.2.0</version>
+   </dependency>
+  </dependencies>
   <name>Epsilon jar component</name>
   <description>
-               		The execution engines of all Epsilon languages,
-               		as well as the plain XML and CSV drivers.
-               		</description>
+		The execution engines of all Epsilon languages,
+		as well as the plain XML and CSV drivers.
+		</description>
   <url>http://eclipse.org/epsilon</url>
   <licenses>
   	<license>

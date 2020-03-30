@@ -12,8 +12,8 @@
   </dependencies>
   <name>Epsilon jar component</name>
   <description>
-               		ANT tasks for the Epsilon languages. To use this JAR, you will need to have Apache ANT installed.
-               		</description>
+		ANT tasks for the Epsilon languages. To use this JAR, you will need to have Apache ANT installed.
+		</description>
   <url>http://eclipse.org/epsilon</url>
   <licenses>
   	<license>

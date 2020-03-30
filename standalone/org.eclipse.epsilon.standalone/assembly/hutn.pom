@@ -12,8 +12,8 @@
   </dependencies>
   <name>Epsilon jar component</name>
   <description>
-               		Epsilon's Human Usable Textual Notation implementation.
-               		</description>
+		Epsilon's Human Usable Textual Notation implementation.
+		</description>
   <url>http://eclipse.org/epsilon</url>
   <licenses>
   	<license>

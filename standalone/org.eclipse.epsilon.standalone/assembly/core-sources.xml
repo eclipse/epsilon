@@ -83,9 +83,5 @@
         <directory>../../plugins/org.eclipse.epsilon.emc.csv/src</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
-      <fileSet>
-        <directory>../../plugins/org.antlr.runtime_3.1.b1/src</directory>
-        <outputDirectory></outputDirectory>
-      </fileSet>
   </fileSets>
 </assembly>

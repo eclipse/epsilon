@@ -11,7 +11,7 @@
       <directory>target/dependency</directory>
       <outputDirectory></outputDirectory>
       <includes>
-        <include>org.antlr.runtime_3.*.jar</include>
+        <include>org.antlr.runtime*.jar</include>
       </includes>
     </fileSet>
   </fileSets>

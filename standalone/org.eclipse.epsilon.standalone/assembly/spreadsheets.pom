@@ -32,8 +32,8 @@
   </dependencies>
   <name>Epsilon jar component</name>
   <description>
-               		EMC drivers for Google and Excel spreadsheets.
-               		</description>
+		EMC drivers for Google and Excel spreadsheets.
+		</description>
   <url>http://eclipse.org/epsilon</url>
   <licenses>
   	<license>
