@@ -224,8 +224,7 @@ public class MatlabEngine {
 			throw new EpsilonSimulinkInternalException(e);
 		} catch (InvocationTargetException e) {
 			throw new MatlabException(e);
-		} 
-		
+		} 	
 	}
 	
 	public static MatlabEngine startMatlab(String[] options) throws MatlabException {

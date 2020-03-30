@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabRuntimeException;
+import org.eclipse.epsilon.emc.simulink.util.MatlabEngineUtil;
 
 public class MatlabEnginePool {
 
@@ -139,9 +139,8 @@ public class MatlabEnginePool {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String l = "/Applications/MATLAB_R2018b.app/bin/maci64/";
-		String e = "/Applications/MATLAB_R2018b.app/extern/engines/java/jar/engine.jar";
-		MatlabEnginePool pool = MatlabEnginePool.getInstance(l, e);
+		resolveFromEnv();
+		MatlabEnginePool pool = MatlabEnginePool.getInstance();
 		System.out.println(pool.pool.size());
 		MatlabEngine matlabEngine = pool.getMatlabEngine();
 		System.out.println("One Engine");
@@ -151,13 +150,31 @@ public class MatlabEnginePool {
 		System.out.println(Arrays.toString(findMatlab));
 		//System.out.println(matlabEngine.connectMatlab(findMatlab[0]));
 		pool.getMatlabEngine();
-
 	}
 
-	public static void resolve(String library, String engineJar) {
-		libraryPath = library;
-		engineJarPath = engineJar;
+	/**
+	 * Attempts to locate a MATLAB installation.
+	 * 
+	 * @return <code>true</code> iff the paths could be resolved.
+	 * @since 1.6
+	 */
+	public static boolean resolveFromEnv() {
+		String[] paths = MatlabEngineUtil.resolvePaths();
+		if (paths != null && paths.length >= 3) {
+			return resolve(paths[1], paths[2]);
+		}
+		return false;
 	}
-
-
+	
+	/**
+	 * 
+	 * @param library The MATLAB library path.
+	 * @param engineJar The MATLAB engine.jar file path.
+	 * @return <code>true</code> iff the paths exist.
+	 */
+	public static boolean resolve(String library, String engineJar) {
+		if ((libraryPath = library) == null || (engineJarPath = engineJar) == null)
+			return false;
+		return new File(library).exists() && new File(engineJar).exists();
+	}
 }

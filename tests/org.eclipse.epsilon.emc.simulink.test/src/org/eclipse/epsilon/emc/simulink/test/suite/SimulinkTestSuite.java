@@ -10,10 +10,9 @@
 package org.eclipse.epsilon.emc.simulink.test.suite;
 
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-@RunWith(Suite.class)
+@RunWith(ConditionalMatlabSuite.class)
 @SuiteClasses({ 
 	org.eclipse.epsilon.emc.simulink.test.unit.AllTests.class,
 	//org.eclipse.epsilon.emc.simulink.test.unit.type.AllTests.class

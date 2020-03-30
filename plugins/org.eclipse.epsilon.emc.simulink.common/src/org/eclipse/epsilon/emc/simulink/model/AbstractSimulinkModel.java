@@ -392,13 +392,16 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		return paths;
 	}
 	
-	protected void resolvePaths() {
+	/**
+	 * 
+	 * @return <code>true</code> iff the paths were successfully resolved.
+	 */
+	protected boolean resolvePaths() {
 		String[] allPaths = {matlabPath, libraryPath, engineJarPath};
 		MatlabEngineUtil.resolvePaths(allPaths);
 		matlabPath = allPaths[0];
 		libraryPath = allPaths[1];
 		engineJarPath = allPaths[2];
-		MatlabEnginePool.resolve(libraryPath, engineJarPath);
+		return MatlabEnginePool.resolve(libraryPath, engineJarPath);
 	}
-
 }
