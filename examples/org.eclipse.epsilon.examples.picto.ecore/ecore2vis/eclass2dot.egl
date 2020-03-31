@@ -28,7 +28,7 @@ digraph G {
 			[%if (isLayerActive("constraints")){%]
 			[%for (constraint in module.constraintContexts.select(ctx|ctx.typeName=c.name).collect(ctx|ctx.constraints).flatten()){%]
 				[%=c.getNodeName()+constraint.name%][label="[%=constraint.getConstraintLabel()%]", style="filled", fillcolor="[%=constraint.getConstraintColour()%]"]
-				[%=c.getNodeName()%]->[%=c.getNodeName()+constraint.name%][arrowtail=none, style=dashed]
+				[%=c.getNodeName()%]->[%=c.getNodeName()+constraint.name%][arrowtail=none, style=dashed, name="[%=c.getNodeName()+constraint.name%]"]
 			[%}%]
 			[%}%]
 			
@@ -37,7 +37,7 @@ digraph G {
 			[%var documentation = c.getAnnotationValue("http://www.eclipse.org/emf/2002/GenModel", "documentation");%]
 			[%if (documentation.isDefined()){%]
 				[%=c.getNodeName()%]_Documentation[shape="note", label="[%=documentation.toMultiline()%]", style="filled", fillcolor="azure"]
-				[%=c.getNodeName()%]_Documentation->[%=c.getNodeName()%][arrowtail=none, style=dashed];
+				[%=c.getNodeName()%]_Documentation->[%=c.getNodeName()%][arrowtail=none, style=dashed, name="[%=c.getNodeName()%]_Documentation"];
 			[%}%]
 			[%}%]
 		[%}%]
@@ -47,19 +47,19 @@ digraph G {
 	[** Create edges for the supertypes of the main class **]
 	[%if (isLayerActive("supertypes")){%]
 	[%for (s in main.eSuperTypes){%]
-		[%=s.getNodeName()%]->[%=main.getNodeName()%]
+		[%=s.getNodeName()%]->[%=main.getNodeName()%][name="[%=s.getNodeName()%]-isSuperTypeOf-[%=main.getNodeName()%]"]
 	[%}%]
 	[%}%]
 	
 	[** ... and for its subtypes **]
 	[%if (isLayerActive("subtypes")){%]
 	[%for (s in classes.select(c|c.eSuperTypes.includes(main))){%]
-		[%=main.getNodeName()%]->[%=s.getNodeName()%]
+		[%=main.getNodeName()%]->[%=s.getNodeName()%][name="[%=main.getNodeName()%]-isSuperTypeOf-[%=s.getNodeName()%]"]
 	[%}%]
 	[%}%]
 	[* ... and for its references *]
 	[%for (r in main.getVisibleEReferences().select(r|r.eType <> main)) {%]
-		[%=main.getNodeName()%]->[%=r.eType.getNodeName()%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]"];
+		[%=main.getNodeName()%]->[%=r.eType.getNodeName()%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]"];
 		[%if (not r.isContainment()){%]{rank=same; [%=main.getNodeName()%]; [%=r.eType.getNodeName()%]}[%}%]
 		
 	[%}%]
@@ -138,6 +138,10 @@ operation EReference getArrowTail() {
 	else {
 		return "none";
 	}
+}
+
+operation EReference getIdentifier() {
+	return self.eContainingClass.name + "_" + self.name;
 }
 
 operation Any getConstraintLabel() {
