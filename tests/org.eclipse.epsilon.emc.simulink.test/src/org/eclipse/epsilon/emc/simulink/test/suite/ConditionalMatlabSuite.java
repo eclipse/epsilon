@@ -30,11 +30,13 @@ public class ConditionalMatlabSuite extends Suite {
 	
 	public static boolean isMatlabWorking() {
 		if (isMatlabWorking != null) return isMatlabWorking;
-		// Deliberate assignment of the boolean, not accidental
-		if (MatlabEnginePool.resolveFromEnv()) try {
-			MatlabEnginePool.getInstance();
-			MatlabEngine.startMatlab();
-			return isMatlabWorking = true;
+		try {
+			// Deliberate assignment of the boolean, not accidental
+			if (MatlabEnginePool.resolveFromEnv()) {
+				MatlabEnginePool.getInstance();
+				MatlabEngine.startMatlab();
+				return isMatlabWorking = true;
+			}
 		}
 		catch (Exception ex) {
 			System.err.println("MATLAB was found on the system but is not working!");
