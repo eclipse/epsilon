@@ -11,10 +11,8 @@
       <directory>target/dependency</directory>
       <outputDirectory></outputDirectory>
       <includes>
-        <!--include>org.antlr.runtime.3.*.jar</include>
-        <include>org.apache.servicemix.bundles.*.jar</include-->
-		<include>org.antlr.runtime.*</include>
-		<include>org.apache.servicemix.bundles.*</include>
+		<include>org.antlr.runtime*.jar</include>
+		<include>org.apache.servicemix.bundles*.jar</include>
       </includes>
     </fileSet>
   </fileSets>
