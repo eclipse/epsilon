@@ -50,6 +50,9 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	//public static final String PROPERTY_MUST_CONNECT = "must_connect";
 	//public static final String PROPERTY_ENGINE_SHARED_SESSION_NAME = "engine_session_to_connect_to";
 	public static final String PROPERTY_SIMULINK_PROJECT= "project";
+	public static final String PROPERTY_OPEN_ON_LOAD= "openOnLoad";
+	public static final String PROPERTY_CLOSE_ON_DISPOSE = "closeOnDispose";
+	public static final String PROPERTY_ENABLE_TRY_CATCH = "tryCatch";
 	public static final String PROPERTY_CURRENT_SIMULINK_PROJECT= "use_current_project";
 	public static final String PROPERTY_ENGINE_POOL_SIZE = "engine_max_pool_size";
 	public static final String ENV_MATLAB_PATH = ENV_PREFIX + PROPERTY_MATLAB_PATH;
@@ -68,6 +71,9 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	//protected String engineSharedSessionName = "";
 	protected File simulinkProject;
 	protected Boolean useCurrentProject = false;
+	protected Boolean openOnLoad = false;
+	protected Boolean closeOnDispose = false;
+	protected boolean enableTryCatch = false;
 	protected Integer enginePoolSize = 2;
 	
 	protected File workingDir = null;
@@ -80,6 +86,7 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 			
 			if (isUseCurrentProject()) {
 				engine = MatlabEnginePool.getInstance().getEngineForProject("current");
+				engine.enableTryCatch(isEnableTryCatch());
 				engine.addModel(this);
 			} else {
 				if (getProject() != null && getProject().exists()) {
@@ -116,6 +123,9 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	
 	@Override
 	protected void disposeModel() { 
+		if (isCloseOnDispose()) {
+			closeMatlabModel();
+		}
 		try {
 			engine.release(this);
 		} catch (MatlabRuntimeException e) {
@@ -123,6 +133,8 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 		}
 	}
 
+	protected abstract void closeMatlabModel();
+	
 	@Override
 	protected Object getCacheKeyForType(String type) throws EolModelElementTypeNotFoundException { 
 		return type;		
@@ -263,7 +275,34 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public void setUseCurrentProject(Boolean currentSimulinkProject) {
 		this.useCurrentProject = currentSimulinkProject;
 	}
+	
+	@Override
+	public void setCloseOnDispose(Boolean closeOnDispose) {
+		this.closeOnDispose = closeOnDispose;
+	}
+	
+	@Override
+	public void setOpenOnLoad(Boolean openOnLoad) {
+		this.openOnLoad = openOnLoad;
+	}
+	
+	@Override
+	public Boolean isCloseOnDispose() {
+		return closeOnDispose;
+	}
+	
+	@Override
+	public Boolean isOpenOnLoad() {
+		return openOnLoad;
+	}
 
+	public void setEnableTryCatch(boolean enableTryCatch) {
+		this.enableTryCatch = enableTryCatch;
+	}
+	
+	public boolean isEnableTryCatch() {
+		return this.enableTryCatch;
+	}
 
 	public Object parseMatlabEngineVariable(String variableName) throws MatlabException { 
 		return MatlabEngineUtil.parseMatlabEngineVariable(engine, variableName);
@@ -348,7 +387,9 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 			setProject(new File(resolver.resolve(project)));
 		
 		setUseCurrentProject(properties.getBooleanProperty(PROPERTY_CURRENT_SIMULINK_PROJECT, false));
-
+		setOpenOnLoad(properties.getBooleanProperty(PROPERTY_OPEN_ON_LOAD, false));
+		setCloseOnDispose(properties.getBooleanProperty(PROPERTY_CLOSE_ON_DISPOSE, false));
+		setEnableTryCatch(properties.getBooleanProperty(PROPERTY_ENABLE_TRY_CATCH, true));
 		//setMustConnect(properties.getBooleanProperty(PROPERTY_MUST_CONNECT, false));
 		//setEngineSharedSessionName(properties.getProperty(PROPERTY_ENGINE_SHARED_SESSION_NAME, ""));
 		//setEnginePoolSize(properties.getIntegerProperty(PROPERTY_CURRENT_SIMULINK_PROJECT, 2));

@@ -123,9 +123,24 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 	}
 
 	@Override
+	protected void closeMatlabModel() {
+		try {
+			if (!isStoredOnDisposal()) {				
+				engine.feval(0,"discardChanges", dictionaryHandle.getHandle());
+				System.out.println("Discarding changes");
+			}
+			engine.feval(0,"close", dictionaryHandle.getHandle());
+			System.out.println("Closing model");
+		} catch (Exception e) {
+			System.err.println("Unable to close model");
+		}	
+	}
+	
+	@Override
 	public boolean store() {
 		try {
-			engine.fevalAsync("saveChanges", dictionaryHandle.getHandle());
+			System.out.println("Saving changes");
+			engine.feval(0,"saveChanges", dictionaryHandle.getHandle());
 			return true;
 		} catch (MatlabException | EpsilonSimulinkInternalException e) {
 			e.printStackTrace();

@@ -29,6 +29,9 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 	//protected Label sessionTextLabel;
 	protected Button projectFileBrowser;
 	protected Button currentProjectCheckbox;
+	protected Button openOnLoadCheckbox;
+	protected Button closeOnDisposeCheckbox;
+	protected Button tryCatchCheckbox;
 	protected Button browseModelFile;
 	protected Text projectFileText;
 	protected Text modelFileText;
@@ -87,7 +90,7 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 	}
 	
 	protected Composite createEngineGroup(Composite parent) {
-		final Composite groupContent = DialogUtil.createGroupContainer(parent, "MATLAB Engine", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "MATLAB Options", 3);
 		
 		GridData buttonData = new GridData(GridData.FILL_HORIZONTAL);
 		buttonData.horizontalSpan = 1;
@@ -106,11 +109,33 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		sessionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		*/
 		
+		if (enableOpenOnLoad()) {			
+			openOnLoadCheckbox = new Button(groupContent, SWT.CHECK);
+			openOnLoadCheckbox.setText(" Open editor on load");
+			openOnLoadCheckbox.setSelection(false);
+			openOnLoadCheckbox.setToolTipText("By default models are loaded, this option allows it to be opened in an editor");
+			openOnLoadCheckbox.setLayoutData(buttonData);
+		}
+		
+		if (enableCloseOnDispose()) {			
+			closeOnDisposeCheckbox = new Button(groupContent, SWT.CHECK);
+			closeOnDisposeCheckbox.setText(" Close editor on dispose");
+			closeOnDisposeCheckbox.setSelection(false);
+			closeOnDisposeCheckbox.setToolTipText("Ensures a model is closed at the end of the execution");
+			closeOnDisposeCheckbox.setLayoutData(buttonData);
+		}
+		
 		currentProjectCheckbox = new Button(groupContent, SWT.CHECK);
 		currentProjectCheckbox.setText(" Use current project");
 		currentProjectCheckbox.setSelection(false);
 		currentProjectCheckbox.setToolTipText("If selected, disregards any specified project file and instead calls an open project in the shared MATLAB session.");
 		currentProjectCheckbox.setLayoutData(buttonData);
+		
+		tryCatchCheckbox = new Button(groupContent, SWT.CHECK);
+		tryCatchCheckbox.setText(" Use MATLAB try/catch");
+		tryCatchCheckbox.setSelection(true);
+		tryCatchCheckbox.setToolTipText("Some MATLAB commands leave the engine in a bad state. Currently, wrapping the statements in a try/catch makes the engine more resilient.");
+		tryCatchCheckbox.setLayoutData(buttonData);
 		
 		/*isSharedButton.addSelectionListener(new SelectionListener() {
 			
@@ -155,6 +180,14 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		return groupContent;
 	}
 	
+	protected boolean enableOpenOnLoad(){
+		return true;
+	}
+	
+	protected boolean enableCloseOnDispose(){
+		return true;
+	}
+	
 	@Override
 	protected void loadProperties() {
 		super.loadProperties();
@@ -170,6 +203,16 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 				disableOnSelect(currentProjectCheckbox, projectFileBrowser);
 			}
 		}
+		if (openOnLoadCheckbox != null) {
+			openOnLoadCheckbox.setSelection(properties.getBooleanProperty(AbstractSimulinkModel.PROPERTY_OPEN_ON_LOAD, false));
+		}
+		if (closeOnDisposeCheckbox != null) {
+			closeOnDisposeCheckbox.setSelection(properties.getBooleanProperty(AbstractSimulinkModel.PROPERTY_CLOSE_ON_DISPOSE, false));
+		}
+		if (tryCatchCheckbox != null) {
+			tryCatchCheckbox.setSelection(properties.getBooleanProperty(AbstractSimulinkModel.PROPERTY_ENABLE_TRY_CATCH, true));
+		}
+		
 		/*if (isSharedButton != null) {
 			isSharedButton.setSelection(properties.getBooleanProperty(AbstractSimulinkModel.PROPERTY_MUST_CONNECT, false));
 			if (isSharedButton.getSelection()) {
@@ -187,6 +230,15 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		super.storeProperties();
 		if (currentProjectCheckbox != null) {
 			properties.put(AbstractSimulinkModel.PROPERTY_CURRENT_SIMULINK_PROJECT, currentProjectCheckbox.getSelection() + "");
+		}
+		if (openOnLoadCheckbox != null) {
+			properties.put(AbstractSimulinkModel.PROPERTY_OPEN_ON_LOAD, openOnLoadCheckbox.getSelection() + "");
+		}
+		if (closeOnDisposeCheckbox != null) {
+			properties.put(AbstractSimulinkModel.PROPERTY_CLOSE_ON_DISPOSE, closeOnDisposeCheckbox.getSelection() + "");			
+		}
+		if (tryCatchCheckbox != null) {
+			properties.put(AbstractSimulinkModel.PROPERTY_ENABLE_TRY_CATCH, tryCatchCheckbox.getSelection() + "");			
 		}
 		/*if (isSharedButton != null) {
 			properties.put(AbstractSimulinkModel.PROPERTY_MUST_CONNECT, isSharedButton.getSelection() + "");

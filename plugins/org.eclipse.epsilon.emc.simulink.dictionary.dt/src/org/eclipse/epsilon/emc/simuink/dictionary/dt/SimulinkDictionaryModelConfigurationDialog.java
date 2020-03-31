@@ -27,5 +27,10 @@ public class SimulinkDictionaryModelConfigurationDialog extends AbstractSimulink
 		modelFileTextLabel.setText("Dictionary file (?): ");
 		return groupContent;
 	}
+	
+	@Override
+	protected boolean enableOpenOnLoad() {
+		return false;
+	}
 
 }

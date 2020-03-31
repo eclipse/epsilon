@@ -144,7 +144,7 @@ public class SimulinkEntry extends SimulinkModelElement implements ISimulinkDict
 	public boolean deleteElementInModel() throws EolRuntimeException {
 		if (entry!= null) {			
 			try {
-				engine.fevalWithResult("deleteEntry", entry.getHandle());
+				engine.fevalWithResult(0,"deleteEntry", entry.getHandle());
 			} catch (MatlabException e) {
 				e.printStackTrace();
 				throw new EolRuntimeException(e.getMessage());

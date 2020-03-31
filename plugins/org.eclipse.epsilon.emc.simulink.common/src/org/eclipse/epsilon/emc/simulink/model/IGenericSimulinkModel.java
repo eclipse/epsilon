@@ -65,4 +65,12 @@ public interface IGenericSimulinkModel extends IModel {
 
 	File getWorkingDir();
 
+	void setCloseOnDispose(Boolean closeOnDispose);
+
+	void setOpenOnLoad(Boolean openOnLoad);
+
+	Boolean isCloseOnDispose();
+
+	Boolean isOpenOnLoad();
+
 }

@@ -85,6 +85,7 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 			}
 		});
 		
+		/*
 		showInMatlabEditorCheckbox = new Button(engineGroup, SWT.CHECK);
 		showInMatlabEditorCheckbox.setSelection(false);
 		showInMatlabEditorCheckbox.setText(" Force MATLAB to open");		
@@ -93,7 +94,7 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 				+ "If unchecked, the model will not be open in the MATLAB editor, "
 				+ "but won't close an already open model");
 
-		showInMatlabEditorCheckbox.setLayoutData(buttonData);
+		showInMatlabEditorCheckbox.setLayoutData(buttonData);*/
 				
 		engineGroup.layout();
 		engineGroup.pack();
@@ -122,9 +123,6 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 	protected void loadProperties() {
 		super.loadProperties();
 		if (properties == null) return;
-		if (showInMatlabEditorCheckbox != null) {
-			showInMatlabEditorCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR,"true")).booleanValue());
-		}
 		if (currentSimulinkCheckbox != null) {
 			currentSimulinkCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_CURRENT_SIMULINK_MODEL,"false")).booleanValue());
 			if (currentSimulinkCheckbox.getSelection()) {
@@ -140,9 +138,6 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 	@Override
 	protected void storeProperties() {
 		super.storeProperties();
-		if (showInMatlabEditorCheckbox != null) {
-			properties.put(SimulinkModel.PROPERTY_SHOW_IN_MATLAB_EDITOR, showInMatlabEditorCheckbox.getSelection() + "");
-		}
 		if (followLinksCheckbox != null) {
 			properties.put(SimulinkModel.PROPERTY_FOLLOW_LINKS, followLinksCheckbox.getSelection() + "");
 		}

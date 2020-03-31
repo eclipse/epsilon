@@ -89,7 +89,8 @@ public class MatlabEngine {
 	
 	protected String project;
 	protected Set<IGenericSimulinkModel> models = new HashSet<>();
-	
+	protected Boolean tryCatchEnabled = true;
+
 	public boolean isDisconnected() throws Exception{
 		Field declaredField = engine_class.getDeclaredField("fDisconnected");
 		declaredField.setAccessible(true);
@@ -151,6 +152,13 @@ public class MatlabEngine {
 		} catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException e) {
 			throw new EpsilonSimulinkInternalException(e);
 		}
+	}
+	
+	public void enableTryCatch(boolean enableTryCatch) {
+		this.tryCatchEnabled = enableTryCatch;
+	}
+	public Boolean isTryCatchEnabled() {
+		return tryCatchEnabled;
 	}
 
 	public Object evalWithSetupAndResult(String setup, String cmd, Object... parameters) throws MatlabException {
@@ -285,7 +293,9 @@ public class MatlabEngine {
 			}
 		}
 		try {
-			cmd = "try\n" + cmd + "\n catch ME \n e = MException(ME.identifier,ME.message); throw(e); \n end";
+			if (isTryCatchEnabled()) {				
+				cmd = "try\n" + cmd + "\n catch ME \n e = MException(ME.identifier,ME.message); throw(e); \n end";
+			}
 			evalMethod.invoke(engine, cmd);
 		} catch (InvocationTargetException e) {
 			throw new MatlabException(e);

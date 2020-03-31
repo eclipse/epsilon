@@ -37,11 +37,14 @@ import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public class SimulinkModel extends AbstractSimulinkModel implements IOperationContributorProvider {
 
-	/** CONSTANTS */
+	@Deprecated
 	public static final String PROPERTY_SHOW_IN_MATLAB_EDITOR = "hidden_editor";
+	
+	/** CONSTANTS */
+	
 	public static final String PROPERTY_FOLLOW_LINKS = "follow_links";
 	public static final String PROPERTY_CURRENT_SIMULINK_MODEL = "current_simulink_model";
-
+	
 	public static final String BLOCK = "Block";
 	public static final String SIMULINK = "Simulink";
 	public static final String STATEFLOW = "Stateflow";
@@ -69,6 +72,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 
 	protected boolean useCurrentSimulinkModel = false;
 	protected boolean showInMatlabEditor = false;
+	@Deprecated
 	protected boolean followLinks = true;
 	protected double handle = -1;
 	protected String simulinkModelName;
@@ -87,9 +91,9 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 			} else {
 				setSimulinkModelName(getFile());
 				if (readOnLoad) {
-					String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
+					//String cmd = showInMatlabEditor ? OPEN_SYSTEM : LOAD_SYSTEM;
 					try {
-						engine.eval(cmd, file.getAbsolutePath());
+						engine.eval(LOAD_SYSTEM, file.getAbsolutePath());
 					} catch (Exception e) {
 						try {
 							engine.eval(NEW_SYSTEM, getSimulinkModelName());
@@ -104,11 +108,27 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 						// Ignore; system already exists
 					}
 				}
+				if (isOpenOnLoad()) {
+					try {						
+						engine.eval(OPEN_SYSTEM, getSimulinkModelName());
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+				}
 				this.handle = (Double) engine.evalWithResult(GET_PARAM, getSimulinkModelName());
 			}
 			
 		} catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
+		}
+	}
+	
+	@Override
+	protected void closeMatlabModel() {
+		try {			
+			engine.eval("bdclose('?')", getSimulinkModelName());
+		} catch (Exception e) {
+			System.err.println("Unable to close model");
 		}
 	}
 

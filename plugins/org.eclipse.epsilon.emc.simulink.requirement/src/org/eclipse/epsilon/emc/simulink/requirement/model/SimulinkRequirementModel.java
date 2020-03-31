@@ -95,6 +95,13 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 				throw new EolModelLoadingException(e, this);
 			}
 		}
+		if (isOpenOnLoad()) {
+			try {
+				engine.feval("slreq.open", file.getAbsolutePath());
+			} catch (MatlabException e) {
+				throw new EolModelLoadingException(e, this);
+			}
+		}
 		/*try {
 			linkSetHandle = new MatlabHandleElement(this, this.engine, (HandleObject) engine.fevalWithResult("slreq.find", "Type", "LinkSet", "Name", file.getAbsolutePath()));
 		} catch (MatlabException e) {
@@ -188,7 +195,16 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 		return Arrays.asList("Justification", "Requirement", "Link", "Reference", "LinkSet", "RequirementSet").contains(type) 
 				|| type.startsWith("RQ_") || type.startsWith("RF_") || type.startsWith("L_");
 	}
-
+	
+	@Override
+	protected void closeMatlabModel() {
+		try {
+			engine.feval(0,"close", reqSetHandle.getHandle());
+		} catch (Exception e) {
+			System.err.println("Unable to close model");
+		}
+	}
+	
 	@Override
 	public boolean store(String location) {
 		try{
