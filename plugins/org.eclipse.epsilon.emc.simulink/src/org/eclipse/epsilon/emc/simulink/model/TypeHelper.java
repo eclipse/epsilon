@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.collections.collection.CompositeCollection;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.util.StateflowUtil;
@@ -93,10 +94,10 @@ public class TypeHelper {
 	}
 
 	public static Collection<ISimulinkModelElement> getAll(SimulinkModel model) {
-		Collection<ISimulinkModelElement> list = new SimulinkElementCollection(model);
-		list.addAll(Kind.SIMULINK.getAll(model));
-		list.addAll(Kind.STATEFLOW.getAll(model));
-		return list;
+		CompositeCollection compositeCollection = new CompositeCollection();
+		compositeCollection.addComposited(Kind.SIMULINK.getAll(model));
+		compositeCollection.addComposited(Kind.STATEFLOW.getAll(model));
+		return compositeCollection;
 	}
 	
 	public static void put(String type, String supertype) {
@@ -141,12 +142,12 @@ public class TypeHelper {
 				} catch (Exception e) {					
 					break;
 				}
-			case SIMULINK: 
-				Collection<ISimulinkModelElement> collection = new SimulinkElementCollection(model);
-				collection.addAll(BLOCK.getAll(model));
-				collection.addAll(LINE.getAll(model));
-				collection.addAll(PORT.getAll(model));
-				return collection;
+			case SIMULINK:
+				CompositeCollection compositeCollection = new CompositeCollection();
+				compositeCollection.addComposited(BLOCK.getAll(model));
+				compositeCollection.addComposited(LINE.getAll(model));
+				compositeCollection.addComposited(PORT.getAll(model));
+				return compositeCollection;
 			case STATEFLOW:
 				try {
 					return StateflowUtil.getAllStateflowBlocksFromModel(model);

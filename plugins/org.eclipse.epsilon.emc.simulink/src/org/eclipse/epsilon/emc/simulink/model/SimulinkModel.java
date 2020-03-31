@@ -71,8 +71,8 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	protected ModelOperationContributor simulinkOperationContributor;
 
 	protected boolean useCurrentSimulinkModel = false;
-	protected boolean showInMatlabEditor = false;
 	@Deprecated
+	protected boolean showInMatlabEditor = false;
 	protected boolean followLinks = true;
 	protected double handle = -1;
 	protected String simulinkModelName;
@@ -371,11 +371,6 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	public Double getHandle() {
 		return handle;
 	}
-
-	public boolean isShowInMatlabEditor() {
-		return showInMatlabEditor;
-	}
-
 	
 	public boolean isUseCurrentSimulinkModel() {
 		return useCurrentSimulinkModel;
@@ -389,11 +384,22 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	 * If true, the model will be shown in the MATLAB Editor. If the model is
 	 * already loaded, it will not open it again. If false, the model will not be
 	 * open in the MATLAB editor, but won't close an already open model
+	 * 
+	 * @Deprecated, use openOnLoad 
 	 */
+	@Deprecated
 	public void setShowInMatlabEditor(boolean openMatlabEditor) {
 		this.showInMatlabEditor = openMatlabEditor;
 	}
-
+	
+	/**
+	 * @Deprecated, use openOnLoad
+	 */
+	@Deprecated
+	public boolean isShowInMatlabEditor() {
+		return showInMatlabEditor;
+	}
+	
 	public boolean isFollowLinks() {
 		return followLinks;
 	}

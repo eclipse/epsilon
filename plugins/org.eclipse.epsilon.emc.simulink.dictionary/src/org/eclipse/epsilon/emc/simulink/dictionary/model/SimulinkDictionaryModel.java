@@ -10,12 +10,12 @@
 package org.eclipse.epsilon.emc.simulink.dictionary.model;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 
+import org.apache.commons.collections.collection.CompositeCollection;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.ISimulinkDictionaryModelElement;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SectionEnum;
@@ -148,11 +148,11 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 	@Override
 	protected Collection<ISimulinkModelElement> allContentsFromModel() {
 		try {
-			Collection<ISimulinkModelElement> list  = new ArrayList<ISimulinkModelElement>();
-			list.add(this);
-			list.addAll(getAllOfKind("Section"));
-			list.addAll(getAllOfKind("Entry"));
-			return list;
+			CompositeCollection compositeCollection = new CompositeCollection();
+			compositeCollection.addComposited(getAllOfKind("Section"));
+			compositeCollection.addComposited(getAllOfKind("Entry"));
+			compositeCollection.addComposited(Arrays.asList(this));
+			return (Collection<ISimulinkModelElement>) compositeCollection;
 		} catch (EolModelElementTypeNotFoundException e) {
 			throw new IllegalStateException("We should know the Entry type");
 		}

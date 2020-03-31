@@ -10,11 +10,11 @@
 package org.eclipse.epsilon.emc.simulink.requirement.model;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.apache.commons.collections.collection.CompositeCollection;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
@@ -222,14 +222,14 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 	@Override
 	protected Collection<ISimulinkModelElement> allContentsFromModel() {
 		try {
-			Collection<ISimulinkModelElement> list  = new ArrayList<ISimulinkModelElement>();
-			list.add(this);
-			list.addAll(getAllOfKind("Requirement"));
-			list.addAll(getAllOfKind("Justification"));
-			list.addAll(getAllOfKind("Reference"));
-			list.addAll(getAllOfKind("Link"));
-			list.addAll(getAllOfKind("LinkSet"));
-			return list;
+			CompositeCollection compositeCollection = new CompositeCollection();
+			compositeCollection.addComposited(Arrays.asList(this));
+			compositeCollection.addComposited(getAllOfKind("Requirement"));
+			compositeCollection.addComposited(getAllOfKind("Justification"));
+			compositeCollection.addComposited(getAllOfKind("Reference"));
+			compositeCollection.addComposited(getAllOfKind("Link"));
+			compositeCollection.addComposited(getAllOfKind("LinkSet"));
+			return (Collection<ISimulinkModelElement>) compositeCollection;
 		} catch (EolModelElementTypeNotFoundException e) {
 			throw new IllegalStateException("We should know the Entry type");
 		}
