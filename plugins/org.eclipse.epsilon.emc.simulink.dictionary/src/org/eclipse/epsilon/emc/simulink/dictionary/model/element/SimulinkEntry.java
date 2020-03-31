@@ -28,17 +28,20 @@ public class SimulinkEntry extends SimulinkModelElement implements ISimulinkDict
 
 	protected MatlabHandleElement entry;
 	protected SimulinkSection section;
+	protected String entryType;
+	
+	protected Map<String, Object> properties = new HashMap<>();
 
-	// Create a new entry
-	public SimulinkEntry(SimulinkDictionaryModel model, MatlabEngine engine) {
+	public SimulinkEntry(SimulinkDictionaryModel model, MatlabEngine engine, SectionEnum sectionType) {
 		super(model, engine);
-		section = model.getSection();
+		section = sectionType.getFromModel(model);
+		entryType = sectionType.getEpsilonEntryName();
 	}
 
 	// Create a new entry
 	public SimulinkEntry(SimulinkDictionaryModel model, MatlabEngine engine, SimulinkSection section) {
 		super(model, engine);
-
+		this.section = section;
 	}
 
 	// Create from handle
@@ -46,18 +49,32 @@ public class SimulinkEntry extends SimulinkModelElement implements ISimulinkDict
 		super(model, engine);
 		entry = new MatlabHandleElement(model, engine, entryHandle);
 	}
+	
+	public SimulinkSection getSection() {
+		return section;
+	}
+	
+	public String getEntryType() {
+		if (entryType == null) {
+			try {
+				entryType = SectionEnum.fromMatlab((String) getSection().getProperty("Name")).getEpsilonEntryName();
+			} catch (EolRuntimeException e) {
+				return "";
+			} 
+		}
+		return entryType;
+	}
 
 	@Override
 	public Object getProperty(String property) throws EolRuntimeException {
 		if (entry != null) {
 			if ("Value".equals(property)) {
 				try {
-					//return engine.fevalWithResult("getValue", entry.getHandle());
+					return engine.fevalWithResult("getValue", entry.getHandle());
 					//engine.feval("getValue", entry.getHandle());
-					engine.putVariable("handle", entry.getHandle());
-					return engine.evalWithResult("getValue(handle)");
+					/*engine.putVariable("handle", entry.getHandle());
+					return engine.evalWithResult("getValue(handle)");*/
 					//return MatlabEngineUtil.parse
-				
 				} catch (MatlabException e) {
 					if (e.isUnsupportedTypeException()) {
 						return null;
@@ -76,8 +93,6 @@ public class SimulinkEntry extends SimulinkModelElement implements ISimulinkDict
 			}
 		}
 	}
-
-	protected Map<String, Object> properties = new HashMap<>();
 
 	@Override
 	public void setProperty(String property, Object value) throws EolRuntimeException {
@@ -106,9 +121,11 @@ public class SimulinkEntry extends SimulinkModelElement implements ISimulinkDict
 			if (properties.containsKey("Name") && properties.containsKey("Value")) {
 				try {
 					HandleObject entryObject = (HandleObject) engine.fevalWithResult("addEntry",
-							((SimulinkDictionaryModel) model).getSection().getHandle(), properties.get("Name"),
+							getSection().getHandle(), 
+							properties.get("Name"),
 							properties.get("Value"));
 					entry = new MatlabHandleElement(model, engine, entryObject);
+					
 					properties.remove("Name");
 					properties.remove("Value");
 					for (Map.Entry<String, Object> p : properties.entrySet()) {
@@ -125,18 +142,20 @@ public class SimulinkEntry extends SimulinkModelElement implements ISimulinkDict
 
 	@Override
 	public boolean deleteElementInModel() throws EolRuntimeException {
-		try {
-			engine.feval("deleteEntry", entry.getHandle());
-			return true;
-		} catch (MatlabException e) {
-			e.printStackTrace();
-			return false;
+		if (entry!= null) {			
+			try {
+				engine.fevalWithResult("deleteEntry", entry.getHandle());
+			} catch (MatlabException e) {
+				e.printStackTrace();
+				throw new EolRuntimeException(e.getMessage());
+			}
 		}
+		return true;
 	}
 
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
-		return Arrays.asList("Entry");
+		return Arrays.asList("Entry", getEntryType());
 	}
 
 	@Override

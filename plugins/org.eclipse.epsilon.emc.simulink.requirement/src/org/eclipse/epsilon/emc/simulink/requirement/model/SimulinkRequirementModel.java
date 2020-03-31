@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.emc.simulink.requirement.model;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -210,8 +211,18 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 
 	@Override
 	protected Collection<ISimulinkModelElement> allContentsFromModel() {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Collection<ISimulinkModelElement> list  = new ArrayList<ISimulinkModelElement>();
+			list.add(this);
+			list.addAll(getAllOfKind("Requirement"));
+			list.addAll(getAllOfKind("Justification"));
+			list.addAll(getAllOfKind("Reference"));
+			list.addAll(getAllOfKind("Link"));
+			list.addAll(getAllOfKind("LinkSet"));
+			return list;
+		} catch (EolModelElementTypeNotFoundException e) {
+			throw new IllegalStateException("We should know the Entry type");
+		}
 	}
 
 	@Override

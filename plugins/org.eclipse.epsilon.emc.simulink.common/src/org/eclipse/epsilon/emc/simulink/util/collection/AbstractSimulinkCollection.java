@@ -29,11 +29,11 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 	public AbstractSimulinkCollection(Object primitive, M manager) {
 		if (primitive != null) {
 			if (isInstanceOfPrimitiveArray(primitive)) {
-				assignPrimitiveFromArray(primitive);
+				this.primitive = getPrimitiveFromArray(primitive);
 			} else if (primitive instanceof List) {
-				assignPrimitiveFromList((List<?>)primitive);
+				this.primitive = getPrimitiveFromList((List<?>)primitive);
 			} else if (isInstanceOfPrimitive(primitive)) {
-				assignPrimitiveFromSingle(primitive);
+				this.primitive = getPrimitiveFromSingle(primitive);
 			} else {
 				this.primitive = new ArrayList<>();
 				this.primitive.add((P)primitive);
@@ -45,16 +45,16 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 		this.manager = manager;
 	}
 
-	protected void assignPrimitiveFromSingle(Object primitive) {
-		this.primitive = (List<P>) new ArrayList<>(Arrays.asList(primitive));
+	protected List<P> getPrimitiveFromSingle(Object primitive) {
+		return (List<P>) new ArrayList<>(Arrays.asList(primitive));
 	}
 
-	protected void assignPrimitiveFromList(List<?> primitive) {
-		this.primitive = (List<P>) primitive;
+	protected List<P> getPrimitiveFromList(List<?> primitive) {
+		return (List<P>) primitive;
 	}
 
-	protected void assignPrimitiveFromArray(Object primitive) {
-		this.primitive = MatlabEngineUtil.matlabArrayToList((P[]) primitive);
+	protected List<P> getPrimitiveFromArray(Object primitive) {
+		return MatlabEngineUtil.matlabArrayToList((P[]) primitive);
 	}
 
 	@Override
@@ -97,6 +97,22 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 		int size = getPrimitive().size();
 		getPrimitive().add(manager.getId((E) e));
 		return getPrimitive().size() == size + 1;
+	}
+	
+	public boolean addPrimitive(Object primitive) {
+		if (primitive != null) {
+			if (isInstanceOfPrimitiveArray(primitive)) {
+				getPrimitive().addAll(getPrimitiveFromArray(primitive));
+			} else if (primitive instanceof List) {
+				getPrimitive().addAll(getPrimitiveFromList((List<?>)primitive));
+			} else if (isInstanceOfPrimitive(primitive)) {
+				getPrimitive().addAll(getPrimitiveFromSingle(primitive));
+			} else {
+				getPrimitive().add((P)primitive);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	@SuppressWarnings("unchecked")

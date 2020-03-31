@@ -10,12 +10,16 @@
 package org.eclipse.epsilon.emc.simulink.dictionary.model;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.ISimulinkDictionaryModelElement;
+import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SectionEnum;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkDataType;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkEntry;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkSection;
@@ -103,18 +107,19 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 
 	@Override
 	public boolean isInstantiable(String type) {
-		return super.isInstantiable(type) || type.equals("Entry") || type.startsWith("Simulink.");
+		return Arrays.asList("DesignDataEntry", "OtherDataEntry", "ConfigurationsEntry"/*, "EmbeddedCoderEntry"*/).contains(type) 
+				|| super.isInstantiable(type); //|| type.startsWith("Simulink."); TODO Move upwards
 	}
 
 	@Override
 	public boolean hasType(String type) {
-		return true;
+		return Arrays.asList("Dictionary", "Section", "Entry").contains(type) 
+				|| Arrays.asList("DesignDataEntry", "OtherDataEntry", "ConfigurationsEntry"/*, "EmbeddedCoderEntry"*/).contains(type);
 	}
 
 	@Override
 	public boolean store(String location) {
-		System.out.println("Storing in default location");
-		return store();
+		throw new IllegalStateException("Not allowed to save in different location");
 	}
 
 	@Override
@@ -131,9 +136,10 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 	@Override
 	protected Collection<ISimulinkModelElement> allContentsFromModel() {
 		try {
-			Collection<ISimulinkModelElement> list = getAllOfKind("Entry");
+			Collection<ISimulinkModelElement> list  = new ArrayList<ISimulinkModelElement>();
 			list.add(this);
-			list.add(this.getSection());
+			list.addAll(getAllOfKind("Section"));
+			list.addAll(getAllOfKind("Entry"));
 			return list;
 		} catch (EolModelElementTypeNotFoundException e) {
 			throw new IllegalStateException("We should know the Entry type");
@@ -143,7 +149,25 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 	@Override
 	protected Collection<ISimulinkModelElement> getAllOfTypeFromModel(String type)
 			throws EolModelElementTypeNotFoundException {
-		if (type.startsWith("Simulink.")) {
+			
+		switch (type) {
+		case "DesignDataEntry":
+		case "OtherDataEntry":
+		case "ConfigurationsEntry":			
+		//case "EmbedderCoderEntry":
+			SectionEnum sectionType = SectionEnum.forEpsilonEntryType(type);
+			SimulinkSection section = sectionType.getFromModel(this);
+			try {
+				Object collection = engine.fevalWithResult("find", section.getHandle());
+				return new SimulinkEntryCollection(collection, this);
+			} catch (MatlabException e) {
+				e.printStackTrace();
+				return null;
+			}
+		default:
+			break;
+		}
+		/*if (type.startsWith("Simulink.")) {
 			try {
 				Object value = engine.fevalWithResult("char", "-value");
 				Object collection = engine.fevalWithResult(3,"find",getSection().getHandle(), value, "-class", type);
@@ -152,7 +176,7 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 				e.printStackTrace();
 				return null;
 			} 
-		}
+		}*/
 		return Collections.emptyList();
 	}
 
@@ -163,15 +187,24 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 		case "Dictionary":
 			return Arrays.asList(this);
 		case "Section":
-			return Arrays.asList(this.getSection());
-		case "Entry":
-			try {
-				Object collection = engine.fevalWithResult("find", getSection().getHandle());
-				return new SimulinkEntryCollection(collection, this);
-			} catch (MatlabException e) {
-				e.printStackTrace();
-				return null;
+			Collection<ISimulinkModelElement> sections = new HashSet<ISimulinkModelElement>();
+			for (SectionEnum section : SectionEnum.values()) {
+				sections.add(section.getFromModel(this));
 			}
+			return sections;
+		case "Entry":
+			SimulinkEntryCollection entries = new SimulinkEntryCollection(null, this);
+			for (SectionEnum sectionType : SectionEnum.values()) {
+				SimulinkSection section = sectionType.getFromModel(this);
+				try {
+					Object collection = engine.fevalWithResult("find", section.getHandle());
+					entries.addPrimitive(collection);
+				} catch (MatlabException e) {
+					e.printStackTrace();
+					throw new IllegalStateException(e.getMessage());
+				}
+			}
+			return entries;
 		default:
 			break;
 		}
@@ -184,15 +217,20 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 		switch (type) {
 		case "Dictionary":
 		case "Section":
-			throw new EolNotInstantiableModelElementTypeException(this.name, type);
 		case "Entry":
-			return new SimulinkEntry(this, engine);
+			throw new EolNotInstantiableModelElementTypeException(this.name, type);
+		case "DesignDataEntry":
+		case "OtherDataEntry":
+		case "ConfigurationsEntry":
+		//case "EmbeddedCoderEntry":
+			return new SimulinkEntry(this, engine, SectionEnum.forEpsilonEntryType(type));
 		default:
-			if (type.startsWith("Simulink.")) {
-				return new SimulinkDataType(this, engine, type);
-			}
-			return super.createInstanceInModel(type);
+			break;
 		}
+		if (type.startsWith("Simulink.")) {
+			return new SimulinkDataType(this, engine, type);
+		}
+		return super.createInstanceInModel(type);
 	}
 
 	@Override
@@ -240,16 +278,6 @@ public class SimulinkDictionaryModel extends AbstractSimulinkModel implements IS
 		dictionaryHandle.setProperty(property, value);
 	}
 	
-	public SimulinkSection getSection(){
-		try {
-			HandleObject sectionHandle = (HandleObject) engine.fevalWithResult("getSection", dictionaryHandle.getHandle(), "Design Data");
-			return new SimulinkSection(this, engine, sectionHandle); 
-		} catch (MatlabException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
 	@Override
 	public Collection<String> getAllTypeNamesOf() {
 		return Arrays.asList(getType());
