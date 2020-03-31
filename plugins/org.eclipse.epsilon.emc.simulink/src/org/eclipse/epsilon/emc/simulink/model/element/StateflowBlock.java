@@ -323,4 +323,13 @@ public class StateflowBlock extends SimulinkModelElement {
 	public Double getHandle() {
 		return getId();
 	}
+	
+	public Boolean isCommented() throws EolRuntimeException{
+		try {
+			String handle = StateflowUtil.getBlockHandleFromId(((SimulinkModel)model), engine, id);
+			return (Boolean) engine.evalWithResult("isCommented(?);", handle);	
+		}catch (Exception e) {
+			throw new EolRuntimeException(e.getMessage());
+		}
+	}
 }

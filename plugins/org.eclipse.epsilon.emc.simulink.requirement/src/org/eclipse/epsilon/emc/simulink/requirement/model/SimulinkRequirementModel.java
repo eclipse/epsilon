@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.AbstractSimulinkModel;
@@ -29,7 +30,6 @@ import org.eclipse.epsilon.emc.simulink.requirement.operations.contributors.Requ
 import org.eclipse.epsilon.emc.simulink.requirement.util.collection.SimulinkJustificationCollection;
 import org.eclipse.epsilon.emc.simulink.requirement.util.collection.SimulinkLinkCollection;
 import org.eclipse.epsilon.emc.simulink.requirement.util.collection.SimulinkLinkSetCollection;
-import org.eclipse.epsilon.emc.simulink.requirement.util.collection.SimulinkReferenceCollection;
 import org.eclipse.epsilon.emc.simulink.requirement.util.collection.SimulinkRequirementCollection;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
 import org.eclipse.epsilon.eol.EolModule;
@@ -45,7 +45,6 @@ import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 public class SimulinkRequirementModel extends AbstractSimulinkModel implements ISimulinkRequirementModelElement, IOperationContributorProvider {
 
 	protected MatlabHandleElement reqSetHandle;
-	protected MatlabHandleElement linkSetHandle;
 	protected RequirementModelOperationContributor reqOperationContributor;
 
 	public static void main(String[] args) throws Exception {
@@ -102,11 +101,6 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 				throw new EolModelLoadingException(e, this);
 			}
 		}
-		/*try {
-			linkSetHandle = new MatlabHandleElement(this, this.engine, (HandleObject) engine.fevalWithResult("slreq.find", "Type", "LinkSet", "Name", file.getAbsolutePath()));
-		} catch (MatlabException e) {
-			e.printStackTrace();
-		}*/
 	}
 	
 	@Override
@@ -126,7 +120,7 @@ public class SimulinkRequirementModel extends AbstractSimulinkModel implements I
 
 	@Override
 	public boolean deleteElementInModel() throws EolRuntimeException {
-		throw new IllegalAccessError("Can't delete RequirementSet model");
+		throw new EolRuntimeException("Can't delete RequirementSet model");
 	}
 
 	@Override

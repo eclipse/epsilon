@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.ISimulinkDictionaryModelElement;
@@ -23,7 +22,7 @@ import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SectionEnum;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkDataType;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkEntry;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkSection;
-import org.eclipse.epsilon.emc.simulink.dictionary.util.collection.SimulinkDataTypeCollection;
+import org.eclipse.epsilon.emc.simulink.dictionary.operations.contributor.DictionaryModelOperationContributor;
 import org.eclipse.epsilon.emc.simulink.dictionary.util.collection.SimulinkEntryCollection;
 import org.eclipse.epsilon.emc.simulink.exception.EpsilonSimulinkInternalException;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
@@ -39,19 +38,17 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
-/** 
- * The model represents the dictionary which has (to owr knowledge) a single section with a standard name.
- * The section has many dictinoary entries.
- */
 public class SimulinkDictionaryModel extends AbstractSimulinkModel implements ISimulinkDictionaryModelElement {
 
 	protected static final String CREATE_FILE = "Simulink.data.dictionary.create";
 	protected static final String OPEN_FILE = "Simulink.data.dictionary.open";
 	protected MatlabHandleElement dictionaryHandle ;
-	
+	protected DictionaryModelOperationContributor dicOperationContributor;
+
 	@Override
 	protected void loadModel() throws EolModelLoadingException {
 		super.loadModel();
+		dicOperationContributor = new DictionaryModelOperationContributor(engine);
 
 		if (!file.exists()) {
 			try {
