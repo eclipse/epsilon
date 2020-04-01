@@ -14,6 +14,7 @@ import java.util.List;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
+import org.eclipse.epsilon.eol.exceptions.EolRedefinedVariableException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -61,26 +62,23 @@ public class VariableDeclaration extends TypeInitialiser {
 	@Override
 	public Variable execute(IEolContext context) throws EolRuntimeException {
 		FrameStack frameStack = context.getFrameStack();
-		
-		EolType variableType = null;
-		if (typeExpression == null) { // No type defined
-			variableType = EolAnyType.Instance;
-		}
-		else { // Type defined
-			variableType = (EolType) context.getExecutorFactory().execute(typeExpression, context);
+		Variable variable;
+
+		if (external && (variable = frameStack.get(getName())) != null) {
+			return variable;
 		}
 
-		if (external) {
-			Variable variable = frameStack.get(getName());
-			if (variable != null) {
-				return variable;
-			}
+		EolType variableType = typeExpression == null ? EolAnyType.Instance :
+			(EolType) context.getExecutorFactory().execute(typeExpression, context);
+		
+		if ((variable = frameStack.getTopFrame().get(getName())) != null && variable.getType() != variableType) {
+			throw new EolRedefinedVariableException(getName(), this);
 		}
 		
 		//TODO : Add try-catch and support for EolInstantiationExceptions
 		Object newInstance = initialiseType(variableType, parameterExpressions, context, instantiate);
 		
-		Variable variable = new Variable(getName(), newInstance, variableType);
+		variable = new Variable(getName(), newInstance, variableType);
 		frameStack.put(variable);
 		return variable;
 	}
