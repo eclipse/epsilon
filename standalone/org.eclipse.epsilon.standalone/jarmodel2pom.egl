@@ -79,10 +79,6 @@ if (jar.c_plugin.size() > 0 or jar.a_requires.isDefined()) {
   		<id>lrose</id>
   		<name>Louis Rose</name>
   	</developer>
-  	<developer>
-  		<id>zschaler</id>
-  		<name>Steffen Zschaler</name>
-  	</developer>
   </developers>
   <scm>
   	<connection>scm:git://git.eclipse.org/gitroot/epsilon/org.eclipse.epsilon.git</connection>
