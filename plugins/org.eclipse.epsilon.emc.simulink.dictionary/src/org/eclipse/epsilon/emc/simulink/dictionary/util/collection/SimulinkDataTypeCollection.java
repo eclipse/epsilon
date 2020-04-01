@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.epsilon.emc.simulink.dictionary.model.SimulinkDictionaryModel;
-import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkDataType;
+import org.eclipse.epsilon.emc.simulink.dictionary.model.data.SimulinkDataType;
 import org.eclipse.epsilon.emc.simulink.dictionary.util.manager.SimulinkDataTypeManager;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;

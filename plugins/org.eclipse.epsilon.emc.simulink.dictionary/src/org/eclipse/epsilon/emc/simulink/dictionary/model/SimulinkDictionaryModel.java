@@ -17,9 +17,9 @@ import java.util.HashSet;
 
 import org.apache.commons.collections.collection.CompositeCollection;
 import org.eclipse.epsilon.common.util.StringProperties;
+import org.eclipse.epsilon.emc.simulink.dictionary.model.data.SimulinkDataType;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.ISimulinkDictionaryModelElement;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SectionEnum;
-import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkDataType;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkEntry;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.SimulinkSection;
 import org.eclipse.epsilon.emc.simulink.dictionary.operations.contributor.DictionaryModelOperationContributor;

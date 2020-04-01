@@ -7,7 +7,7 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.emc.simulink.dictionary.model.element;
+package org.eclipse.epsilon.emc.simulink.dictionary.model.data;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.epsilon.emc.simulink.dictionary.model.SimulinkDictionaryModel;
+import org.eclipse.epsilon.emc.simulink.dictionary.model.element.ISimulinkDictionaryModelElement;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.element.MatlabHandleElement;
