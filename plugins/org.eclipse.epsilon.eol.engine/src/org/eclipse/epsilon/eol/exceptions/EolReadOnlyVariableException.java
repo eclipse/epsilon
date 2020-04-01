@@ -11,18 +11,17 @@ package org.eclipse.epsilon.eol.exceptions;
 
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class EolReadOnlyVariableException extends EolRuntimeException{
+public class EolReadOnlyVariableException extends EolRuntimeException {
 	
 	protected Variable variable;
 	
 	public EolReadOnlyVariableException(Variable variable) {
 		super();
 		this.variable = variable;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public String getReason(){
+	public String getReason() {
 		return "Variable '" + variable.getName() + "' is read-only";
 	}
 }

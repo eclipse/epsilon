@@ -11,7 +11,6 @@ package org.eclipse.epsilon.eol.dom;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
@@ -60,7 +59,9 @@ public class VariableDeclaration extends TypeInitialiser {
 	}
 	
 	@Override
-	public Variable execute(IEolContext context) throws EolRuntimeException {	
+	public Variable execute(IEolContext context) throws EolRuntimeException {
+		FrameStack frameStack = context.getFrameStack();
+		
 		EolType variableType = null;
 		if (typeExpression == null) { // No type defined
 			variableType = EolAnyType.Instance;
@@ -68,9 +69,7 @@ public class VariableDeclaration extends TypeInitialiser {
 		else { // Type defined
 			variableType = (EolType) context.getExecutorFactory().execute(typeExpression, context);
 		}
-		
-		FrameStack frameStack = context.getFrameStack();
-		
+
 		if (external) {
 			Variable variable = frameStack.get(getName());
 			if (variable != null) {
