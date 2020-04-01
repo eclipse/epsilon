@@ -53,8 +53,6 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.jface.text.templates.Template;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
@@ -76,7 +74,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	protected ArrayList<IAbstractModuleEditorTemplateContributor> templateContributors = new ArrayList<>();
 	protected EpsilonHighlightingManager highlightingManager;
 
-	public static String PROBLEMMARKER = "org.eclipse.epsilon.common.dt.problemmarker";
+	public static final String PROBLEM_MARKER = "org.eclipse.epsilon.common.dt.problemmarker";
 	
 	private ModuleContentOutlinePage outlinePage;
 
@@ -323,12 +321,9 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 			
 		});
 		
-		highlightingManager.getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				if (highlightingManager.isColorPreference(event.getProperty())) {
-					refreshText();
-				}
+		highlightingManager.getPreferenceStore().addPropertyChangeListener(event -> {
+			if (highlightingManager.isColorPreference(event.getProperty())) {
+				refreshText();
 			}
 		});
 		
@@ -416,7 +411,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 					markerSeverity = IMarker.SEVERITY_WARNING;
 				}
 				attr.put(IMarker.SEVERITY, markerSeverity);
-				MarkerUtilities.createMarker(file, attr, AbstractModuleEditor.PROBLEMMARKER);
+				MarkerUtilities.createMarker(file, attr, AbstractModuleEditor.PROBLEM_MARKER);
 			}
 			
 			// If the module has no parse problems, pass it on to the validators
@@ -429,11 +424,11 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 							EolCompilationContext compilationContext = ((IEolModule) module).getCompilationContext();
 							if (compilationContext != null) compilationContext.setModelFactory(new ModelTypeExtensionFactory());
 						}
-						createMarkers(module.compile(), doc, file, AbstractModuleEditor.PROBLEMMARKER);
+						createMarkers(module.compile(), doc, file, AbstractModuleEditor.PROBLEM_MARKER);
 					}
 					
 					for (IModuleValidator validator : ModuleValidatorExtensionPointManager.getDefault().getExtensions()) {
-						String markerType = (validator.getMarkerType() == null ? AbstractModuleEditor.PROBLEMMARKER : validator.getMarkerType());
+						String markerType = (validator.getMarkerType() == null ? AbstractModuleEditor.PROBLEM_MARKER : validator.getMarkerType());
 						createMarkers(validator.validate(module), doc, file, markerType);
 					}
 				}
@@ -476,7 +471,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	
 	private Collection<String> getMarkerTypes() {
 		final Set<String> markerTypes = new HashSet<>();
-		markerTypes.add(AbstractModuleEditor.PROBLEMMARKER);
+		markerTypes.add(AbstractModuleEditor.PROBLEM_MARKER);
 		
 		for (IModuleValidator validator : ModuleValidatorExtensionPointManager.getDefault().getExtensions()) {
 			markerTypes.add(validator.getMarkerType());
@@ -520,50 +515,56 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		return templates;
 	}
 	
-	private static final String CONTENTASSIST_PROPOSAL_ID = 
-		   "org.eclipse.common.dt.editor.AbsractModuleEditor.ContentAssistProposal"; 
-		@Override
-		protected void createActions() {
-		   super.createActions();
+	private static final String CONTENTASSIST_PROPOSAL_ID = "org.eclipse.common.dt.editor.AbsractModuleEditor.ContentAssistProposal"; 
+	
+	@Override
+	protected void createActions() {
+	   super.createActions();
 
-		   // This action will fire a CONTENTASSIST_PROPOSALS operation
-		   // when executed
-		   IAction action = 
-		      new TextOperationAction(new ResourceBundle(){
+	   // This action will fire a CONTENTASSIST_PROPOSALS operation
+	   // when executed
+	   IAction action = 
+	      new TextOperationAction(new ResourceBundle(){
 
-				@Override
-				public Enumeration<String> getKeys() {
-					// TODO Auto-generated method stub
-					return null;
-				}
+			@Override
+			public Enumeration<String> getKeys() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 
-				@Override
-				protected Object handleGetObject(String key) {
-					// TODO Auto-generated method stub
-					return null;
-				}},
-		      "ContentAssistProposal", this, ISourceViewer.CONTENTASSIST_PROPOSALS);
-		   action.setActionDefinitionId(CONTENTASSIST_PROPOSAL_ID);
+			@Override
+			protected Object handleGetObject(String key) {
+				// TODO Auto-generated method stub
+				return null;
+			}},
+	      "ContentAssistProposal", this, ISourceViewer.CONTENTASSIST_PROPOSALS);
+	   action.setActionDefinitionId(CONTENTASSIST_PROPOSAL_ID);
 
-		   // Tell the editor about this new action
-		   setAction(CONTENTASSIST_PROPOSAL_ID, action);
+	   // Tell the editor about this new action
+	   setAction(CONTENTASSIST_PROPOSAL_ID, action);
 
-		   // Tell the editor to execute this action 
-		   // when Ctrl+Spacebar is pressed
-		   setActionActivationCode(CONTENTASSIST_PROPOSAL_ID,' ', -1, SWT.CTRL);
-		}
+	   // Tell the editor to execute this action 
+	   // when Ctrl+Spacebar is pressed
+	   setActionActivationCode(CONTENTASSIST_PROPOSAL_ID,' ', -1, SWT.CTRL);
+	}
 
 	public EpsilonHighlightingManager getHighlightingManager() {
 		return highlightingManager;
 	}
 	
 	private void refreshText() {
-		ISourceViewer viewer= getSourceViewer();
+		ISourceViewer viewer = getSourceViewer();
 		if (!(viewer instanceof ISourceViewerExtension2))
 			return;
 
 		((ISourceViewerExtension2)viewer).unconfigure();
 		setSourceViewerConfiguration(createSourceViewerConfiguration());
 		viewer.configure(getSourceViewerConfiguration());
+	}
+	
+	@Override
+	public boolean isDirty() {
+		// TODO add logic to fix bug 376294
+		return super.isDirty();
 	}
 }

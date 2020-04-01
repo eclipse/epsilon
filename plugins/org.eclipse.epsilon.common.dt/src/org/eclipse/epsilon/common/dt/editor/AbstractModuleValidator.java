@@ -15,6 +15,6 @@ public abstract class AbstractModuleValidator implements IModuleValidator {
 
 	@Override
 	public String getMarkerType() {
-		return AbstractModuleEditor.PROBLEMMARKER;
+		return AbstractModuleEditor.PROBLEM_MARKER;
 	}
 }
