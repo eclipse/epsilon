@@ -314,5 +314,9 @@ public class ViewTree {
 		if (parent != null) return parent.getBaseUris();
 		return baseUris;
 	}
-	
+
+	public void setContent(ViewContent content) {
+		cachedContent = content;
+		promise = null;
+	}
 }

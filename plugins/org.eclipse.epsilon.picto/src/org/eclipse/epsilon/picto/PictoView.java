@@ -391,9 +391,7 @@ public class PictoView extends ViewPart {
 		while (contentIterator.hasNext() && content == null) {
 			ViewContent next = contentIterator.next();
 			if (next.isActive()) {
-				content = next;
-				content = new ViewContent("text", content.getText(), content.getLayers(), content.getPatches()).getNext(viewRenderer);	
-				
+				content = next.getSourceContent(viewRenderer);
 			}
 		}
 		

@@ -112,4 +112,16 @@ public class ViewContent {
 		return layers;
 	}
 	
+	@Override
+	public String toString() {
+		return text;
+	}
+
+	public void setNext(ViewContent newContent) {
+		next = newContent;
+	}
+
+	public ViewContent getSourceContent(ViewRenderer renderer) {
+		return new ViewContent("text", text, layers, patches).getNext(renderer);
+	}
 }
