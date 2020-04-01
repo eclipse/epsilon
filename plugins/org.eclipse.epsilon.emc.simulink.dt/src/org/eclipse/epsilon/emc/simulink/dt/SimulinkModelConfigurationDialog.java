@@ -35,13 +35,15 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 	protected Button showInMatlabEditorCheckbox;
 	protected Label followLinksLabel;
 	protected Button followLinksCheckbox;
+	protected Label lookUnderMasksLabel;
+	protected Button lookUnderMasksCheckbox;
 	
 	@Override
 	protected Composite createFilesGroup(Composite parent) {
 		Composite createFilesGroup = super.createFilesGroup(parent);
 		modelFileTextLabel.setText("Model file: ");
 		
-		followLinksLabel = new Label(createFilesGroup, SWT.NONE);
+		/*followLinksLabel = new Label(createFilesGroup, SWT.NONE);
 		followLinksLabel.setText("Follow Block Links: ");
 		followLinksLabel.setToolTipText("Set the 'FollowLinks' flag to 'on' of the 'find_system' method "
 				+ "used when calling all elements of a type in Epsilon e.g. ModelType.all;");
@@ -49,6 +51,15 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 		followLinksCheckbox = new Button(createFilesGroup, SWT.CHECK);
 		followLinksCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		followLinksCheckbox.setSelection(false);
+		
+		lookUnderMasksLabel = new Label(createFilesGroup, SWT.NONE);
+		lookUnderMasksLabel.setText("Look Under Masks: ");
+		lookUnderMasksLabel.setToolTipText("Set the 'FollowLinks' flag to 'on' of the 'find_system' method "
+				+ "used when calling all elements of a type in Epsilon e.g. ModelType.all;");
+		
+		lookUnderMasksCheckbox = new Button(createFilesGroup, SWT.CHECK);
+		lookUnderMasksCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		lookUnderMasksCheckbox.setSelection(false);*/
 		
 		createFilesGroup.layout();
 		createFilesGroup.pack();
@@ -130,17 +141,23 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 				disableOnSelect(currentSimulinkCheckbox, browseModelFile);
 			}
 		}
-		if (followLinksCheckbox != null) {
+		/*if (followLinksCheckbox != null) {
 			followLinksCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS,"true")).booleanValue());
 		}
+		if (lookUnderMasksCheckbox != null) {
+			lookUnderMasksCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_LOOK_UNDER_MASKS,"true")).booleanValue());
+		}*/
 	}
 
 	@Override
 	protected void storeProperties() {
 		super.storeProperties();
-		if (followLinksCheckbox != null) {
+		/*if (followLinksCheckbox != null) {
 			properties.put(SimulinkModel.PROPERTY_FOLLOW_LINKS, followLinksCheckbox.getSelection() + "");
 		}
+		if (lookUnderMasksCheckbox != null) {
+			properties.put(SimulinkModel.PROPERTY_LOOK_UNDER_MASKS, lookUnderMasksCheckbox.getSelection() + "");
+		}*/
 		if (currentSimulinkCheckbox != null) {
 			properties.put(SimulinkModel.PROPERTY_CURRENT_SIMULINK_MODEL, currentSimulinkCheckbox.getSelection() + "");
 		}

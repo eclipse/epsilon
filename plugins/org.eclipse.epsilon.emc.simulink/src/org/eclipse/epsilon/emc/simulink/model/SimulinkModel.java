@@ -25,6 +25,7 @@ import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
 import org.eclipse.epsilon.emc.simulink.operations.contributors.ModelOperationContributor;
+import org.eclipse.epsilon.emc.simulink.util.SearchPreferences;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -41,7 +42,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	public static final String PROPERTY_SHOW_IN_MATLAB_EDITOR = "hidden_editor";
 	
 	/** CONSTANTS */
-	
+	@Deprecated 
 	public static final String PROPERTY_FOLLOW_LINKS = "follow_links";
 	public static final String PROPERTY_CURRENT_SIMULINK_MODEL = "current_simulink_model";
 	
@@ -73,6 +74,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	protected boolean useCurrentSimulinkModel = false;
 	@Deprecated
 	protected boolean showInMatlabEditor = false;
+	@Deprecated
 	protected boolean followLinks = true;
 	protected double handle = -1;
 	protected String simulinkModelName;
@@ -400,18 +402,26 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 		return showInMatlabEditor;
 	}
 	
+	/**
+	 * @Deprecated use SearhPreferences instead
+	 */
 	public boolean isFollowLinks() {
-		return followLinks;
+		return SearchPreferences.getInstance().isFollowLinks();
+		//return followLinks;
 	}
 
 	/**
 	 * If true, adds the 'Follow_Link' parameter to the 'find_system' method in
 	 * MATLAB
+	 * 
+	 * @Deprecated use SearhPreferences instead
 	 */
+	@Deprecated
 	public void setFollowLinks(boolean followLinks) {
-		this.followLinks = followLinks;
+		SearchPreferences.getInstance().setFollowLinks(followLinks);
+		//this.followLinks = followLinks;
 	}
-
+	
 	public Collection<ISimulinkModelElement> getChildren() throws MatlabException {
 		return SimulinkUtil.findBlocks(this, 1);
 	}
@@ -423,5 +433,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	public Collection<ISimulinkModelElement> findBlocks(Integer depth) throws MatlabException {
 		return SimulinkUtil.findBlocks(this, depth);
 	}
+
+	
 
 }

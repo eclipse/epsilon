@@ -9,8 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.model;
 
-import static org.eclipse.epsilon.emc.simulink.util.SimulinkUtil.FIND;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,6 +17,7 @@ import java.util.Map;
 import org.apache.commons.collections.collection.CompositeCollection;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
+import org.eclipse.epsilon.emc.simulink.util.SearchPreferences;
 import org.eclipse.epsilon.emc.simulink.util.StateflowUtil;
 import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkBlockCollection;
 import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkElementCollection;
@@ -27,10 +26,7 @@ import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkPortCollection;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 
 public class TypeHelper {
-
-	private static final String FIND_KIND	= FIND + ", 'Type', '%s');";
-	private static final String FIND_TYPE 	= FIND + ", '%sType', '?');";
-
+	
 	private static Map<String, String> map = new HashMap<>();
 
 	public static Kind getKind(String type) {
@@ -160,7 +156,8 @@ public class TypeHelper {
 
 		private Collection<ISimulinkModelElement> getAllSimulinkKindFromModel(SimulinkModel model) throws MatlabException, IllegalStateException {
 			try {
-				String cmd = String.format(FIND_KIND, getKind());
+				String findKindCmd = "find_system('?','FindAll','On',%s,'Type','%s')";
+				String cmd = String.format(findKindCmd, SearchPreferences.getInstance().searchStatement(), getKind());
 				Object blocks = model.getEngine().evalWithResult(cmd, model.getSimulinkModelName());
 				switch (this) {
 				case BLOCK:
@@ -180,7 +177,8 @@ public class TypeHelper {
 		private Collection<ISimulinkModelElement> getAllSimulinkTypeFromModel(SimulinkModel model, String type) throws Exception {
 			Object blocks = null;
 			if (isSimulink()) {
-				String cmd = String.format(FIND_TYPE, this.getKind());
+				String findTypeCmd = "find_system('?','FindAll','on',%s,'%sType','?')";
+				String cmd = String.format(findTypeCmd, SearchPreferences.getInstance().searchStatement(), this.getKind());
 				blocks = model.getEngine().evalWithResult(cmd, model.getSimulinkModelName(), type);
 				switch (this) {
 				case BLOCK:

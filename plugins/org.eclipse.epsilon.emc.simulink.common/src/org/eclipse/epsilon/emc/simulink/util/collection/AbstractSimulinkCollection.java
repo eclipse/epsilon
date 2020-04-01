@@ -114,6 +114,22 @@ public abstract class AbstractSimulinkCollection<E, P, M extends Manager<E, P>> 
 		}
 		return false;
 	}
+	
+	public boolean removePrimitive(Object primitive) {
+		if (primitive != null) {
+			if (isInstanceOfPrimitiveArray(primitive)) {
+				getPrimitive().removeAll(getPrimitiveFromArray(primitive));
+			} else if (primitive instanceof List) {
+				getPrimitive().removeAll(getPrimitiveFromList((List<?>)primitive));
+			} else if (isInstanceOfPrimitive(primitive)) {
+				getPrimitive().removeAll(getPrimitiveFromSingle(primitive));
+			} else {
+				getPrimitive().remove((P)primitive);
+			}
+			return true;
+		}
+		return false;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

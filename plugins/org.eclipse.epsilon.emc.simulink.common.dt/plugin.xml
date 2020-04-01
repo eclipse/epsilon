@@ -4,10 +4,16 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="Epsilon"
+            category="EpsilonSimulink"
             class="org.eclipse.epsilon.emc.simulink.common.dt.SimulinkEnginePreferencePage"
             id="org.eclipse.epsilon.emc.simulink.dt.SimulinkModelPreferencePage"
-            name="Simulink Installation">
+            name="MATLAB Installation">
+      </page>
+      <page
+            category="Epsilon"
+            class="org.eclipse.epsilon.emc.simulink.common.dt.SimulinkCategoryPreferencePage"
+            id="EpsilonSimulink "
+            name="MATLAB/Simulink">
       </page>
    </extension>
 
