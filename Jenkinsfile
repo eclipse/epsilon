@@ -79,10 +79,10 @@ pipeline {
     }
     post {
       success {
-        slackSend (channel: '#ci-notifications', botUser: true, color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        slackSend (channel: '#ci-notifications', botUser: true, color: '#00FF00', message: "SUCCESSFUL: ${env.BUILD_TAG} (${env.BUILD_URL})\n\n${currentBuild.changeSets}")
       }
       failure {
-        slackSend (channel: '#ci-notifications', botUser: true, color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        slackSend (channel: '#ci-notifications', botUser: true, color: '#FF0000', message: "FAILED: ${env.BUILD_TAG} (${env.BUILD_URL})\n\n${currentBuild.changeSets}")
 		
 		mail to: 'epsilon-dev@eclipse.org',
 		  subject: 'Epsilon Interim build failed!',
