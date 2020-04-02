@@ -38,7 +38,7 @@ pipeline {
         stage('Build') {
 		  when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*)|(pom\\.xml)|(standalone\\/.*)' } }
           steps {
-            wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
+            wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
               sh 'mvn -B --quiet clean install -P eclipse-sign javadoc:aggregate'
             }
             sh 'cd standalone/org.eclipse.epsilon.standalone/ && bash build-javadoc-jar.sh'
@@ -56,7 +56,7 @@ pipeline {
                     ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
                     scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
                     scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/site.zip
-					ssh genie.epsilon@projects-storage.eclipse.org "mkdir -p $INTERIM/jars && mkdir $INTERIM/javadoc"
+					ssh genie.epsilon@projects-storage.eclipse.org mkdir -p $INTERIM/jars
                     scp "$WORKSPACE"/standalone/org.eclipse.epsilon.standalone/target/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
                     scp -r "$WORKSPACE/target/site/apidocs" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
 				  fi
