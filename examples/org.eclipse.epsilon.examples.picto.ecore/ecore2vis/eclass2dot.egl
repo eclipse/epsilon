@@ -6,62 +6,76 @@ import "ecore2dot.eol";
 var module = getValidationModule();
 
 // Compute the set of classes to be shown in this diagram
-var classes = OrderedSet{c}; // The root class
-classes.addAll(c.getVisibleEReferences().eType); // The types of its references
-if (isLayerActive("supertypes")) classes.addAll(c.eSuperTypes); // All its supertypes
-if (isLayerActive("subtypes")) classes.addAll(EClass.all.select(o|o.eSuperTypes.includes(c))); // All its subtypes
+var main = getMainClass();
+var classes = getVisibleClasses();
+
 %]
 digraph G {
-	graph[splines=ortho, nodesep=0.5]
+	graph[splines=ortho, nodesep=0.6]
 	node[fontname=Tahoma, fontsize=10, shape=record]
-	edge[fontname=Tahoma, fontsize=10, dir=back, arrowtail=empty]
+	edge[fontname=Tahoma, fontsize=10, arrowsize=0.7]
 	
-	[%var main=c;%]
 	[%for (c in classes) { %]
 		[** Create a node for the class **]
 		[%=c.getNodeName()%][shape=none, margin=0, label = <[%=c.getLabel()%]>]
 		
-		
-		[%if (main == c){%]
+		[%if ((main.isDefined() and c == main) or main.isUndefined()){%]
 			
-			[** Create nodes for all the constraints of the main class*]
+			[** Create nodes for all the constraints of the class*]
 			[%if (isLayerActive("constraints")){%]
 			[%for (constraint in module.constraintContexts.select(ctx|ctx.typeName=c.name).collect(ctx|ctx.constraints).flatten()){%]
 				[%=c.getNodeName()+constraint.name%][label="[%=constraint.getConstraintLabel()%]", style="filled", fillcolor="[%=constraint.getConstraintColour()%]"]
-				[%=c.getNodeName()%]->[%=c.getNodeName()+constraint.name%][arrowtail=none, style=dashed, name="[%=c.getNodeName()+constraint.name%]"]
+				[%=c.getNodeName()%]->[%=c.getNodeName()+constraint.name%][arrowhead=none, style=dashed, name="[%=c.getNodeName()+constraint.name%]"]
 			[%}%]
 			[%}%]
 			
-			[** Create node for all the documentation of the main class*]
+			[** Create node for all the documentation annotations of the class*]
 			[%if (isLayerActive("documentation")){%]
 			[%var documentation = c.getAnnotationValue("http://www.eclipse.org/emf/2002/GenModel", "documentation");%]
 			[%if (documentation.isDefined()){%]
 				[%=c.getNodeName()%]_Documentation[shape="note", label="[%=documentation.toMultiline()%]", style="filled", fillcolor="azure"]
-				[%=c.getNodeName()%]_Documentation->[%=c.getNodeName()%][arrowtail=none, style=dashed, name="[%=c.getNodeName()%]_Documentation"];
+				[%=c.getNodeName()%]_Documentation->[%=c.getNodeName()%][arrowhead=none, style=dashed, name="[%=c.getNodeName()%]_Documentation"];
 			[%}%]
+			[%}%]
+			
+			[** Create edges for the supertypes of the class **]
+			[%if (isLayerActive("supertypes")){%]
+			[%for (s in c.eSuperTypes.select(s|classes.includes(s))){%]
+				[%=s.getNodeName()%]->[%=c.getNodeName()%][name="[%=s.getNodeName()%]-isSuperTypeOf-[%=c.getNodeName()%]", arrowtail="empty", dir="back", arrowsize=0.9]
+			[%}%]
+			[%}%]
+			
+			[** ... and for its subtypes **]
+			[%if (isLayerActive("subtypes") and main.isDefined()){%]
+			[%for (s in classes.select(cl|cl.eSuperTypes.includes(c))){%]
+				[%=c.getNodeName()%]->[%=s.getNodeName()%][name="[%=c.getNodeName()%]-isSuperTypeOf-[%=s.getNodeName()%]", arrowtail="empty", dir="back", arrowsize=0.9]
+			[%}%]
+			
+			[%}%]
+			
+		[%}%]
+	[%}%]
+	
+	[* ... and for its references *]
+	[%if (isLayerActive("referenceLabels")){%]
+	
+	[%}else{%]
+		[%for (r in getUnidirectionalReferences()) {%]
+			[%var c = r.eContainer;%]
+			[%if (r.containment){%]
+				[%=c.getNodeName()%]->[%=r.eType.getNodeName()%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]", dir=back];
+			[%}else{%]
+				[%=c.getNodeName()%]->[%=r.eType.getNodeName()%][arrowhead=[%=r.getArrowHead()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]"];
+				{rank=same; [%=c.getNodeName()%]; [%=r.eType.getNodeName()%]}
 			[%}%]
 		[%}%]
-		
-	[%}%]
-	
-	[** Create edges for the supertypes of the main class **]
-	[%if (isLayerActive("supertypes")){%]
-	[%for (s in main.eSuperTypes){%]
-		[%=s.getNodeName()%]->[%=main.getNodeName()%][name="[%=s.getNodeName()%]-isSuperTypeOf-[%=main.getNodeName()%]"]
-	[%}%]
-	[%}%]
-	
-	[** ... and for its subtypes **]
-	[%if (isLayerActive("subtypes")){%]
-	[%for (s in classes.select(c|c.eSuperTypes.includes(main))){%]
-		[%=main.getNodeName()%]->[%=s.getNodeName()%][name="[%=main.getNodeName()%]-isSuperTypeOf-[%=s.getNodeName()%]"]
-	[%}%]
-	[%}%]
-	[* ... and for its references *]
-	[%for (r in main.getVisibleEReferences().select(r|r.eType <> main)) {%]
-		[%=main.getNodeName()%]->[%=r.eType.getNodeName()%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]"];
-		[%if (not r.isContainment()){%]{rank=same; [%=main.getNodeName()%]; [%=r.eType.getNodeName()%]}[%}%]
-		
+		[%for (r in getBidirectionalReferences()) {%]
+			[%var c = r.eContainer;%]
+			[%=c.getNodeName()%]->[%=r.eType.getNodeName()%][arrowtail=[%=r.getArrowHead()%],arrowhead=[%=r.getArrowTail()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]", dir=both];
+		[%}%]
+		[%for (r in getVisibleReferences()){%]
+		[%if (not r.containment){%]{rank=same; [%=r.eContainer.getNodeName()%]; [%=r.eType.getNodeName()%]}[%}%]
+		[%}%] 
 	[%}%]
 	
 }
@@ -131,13 +145,26 @@ operation EOperation getLabel() {
 	return label;
 }
 
+operation EReference getArrowHead() {
+	if (self.eOpposite.isDefined() and self.eOpposite.containment) {
+		return "diamond";
+	}
+	return "open";
+}
+
 operation EReference getArrowTail() {
 	if (self.containment) {
 		return "diamond";
 	}
 	else {
-		return "none";
+		if (self.eOpposite.isDefined()) {
+			return "open";
+		}
+		else {
+			return "none";
+		}
 	}
+	
 }
 
 operation EReference getIdentifier() {
@@ -155,10 +182,52 @@ operation Any getConstraintColour() {
 	else return "mistyrose";
 }
 
-operation EClass getVisibleEReferences() {
-	var eReferences = self.eReferences;
-	if (not isLayerActive("derived")) eReferences = eReferences.reject(r|r.isDerived);
-	return eReferences;
+operation getVisibleClasses() {
+	var main = getMainClass();
+	if (main.isDefined()) {
+		var classes : OrderedSet;
+		classes.add(main);
+		if (isLayerActive("supertypes")) classes.addAll(main.eSuperTypes); // All its supertypes
+		if (isLayerActive("subtypes")) classes.addAll(EClass.all.select(o|o.eSuperTypes.includes(main))); // All its subtypes
+		classes.addAll(getVisibleReferences().eType);
+		return classes;
+	}
+	else {
+		return EClass.all.select(c|classNames.includes(c.name));
+	}
+}
+
+operation getMainClass() {
+	if (mainClassName.isDefined()) {
+		return EClass.all.selectOne(c|c.name = mainClassName);
+	}
+}
+
+operation getUnidirectionalReferences() {
+	var bidirectionalReferences = getBidirectionalReferences();
+	return getVisibleReferences().excludingAll(bidirectionalReferences).
+		excludingAll(bidirectionalReferences.eOpposite);
+}
+
+operation getBidirectionalReferences() {
+	var references = getVisibleReferences();
+	return references.select(r|r.eOpposite.isDefined() and references.indexOf(r) < references.indexOf(r.eOpposite));
+}
+
+operation getVisibleReferences() {
+	var visibleReferences : OrderedSet;
+	var main = getMainClass();
+	if (main.isDefined()){
+		visibleReferences.addAll(main.eReferences);
+		visibleReferences.addAll(main.eReferences.eOpposite);
+		visibleReferences.remove(null);
+	}
+	else {
+		visibleReferences.addAll(classes.eReferences.flatten().select(r|classes.includes(r.eType)));
+	} 
+	visibleReferences = visibleReferences.reject(r|r.eType = r.eContainer);
+	if (not isLayerActive("derived")) visibleReferences = visibleReferences.reject(r|r.isDerived);
+	return visibleReferences;
 }
 %]
 
