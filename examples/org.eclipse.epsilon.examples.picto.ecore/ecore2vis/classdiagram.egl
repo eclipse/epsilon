@@ -57,9 +57,27 @@ digraph G {
 	[%}%]
 	
 	[* ... and for its references *]
-	[%if (isLayerActive("referenceLabels")){%]
-	
-	[%}else{%]
+	[%if (isLayerActive("referenceLabels")){%] [* ... if reference labels layers is active*]
+		[%for (r in getUnidirectionalReferences()) {%]
+			[%var c = r.eContainer;%]
+			[%=r.getNodeName()%][label="[%=r.name%]", shape=plaintext, margin=0,width=0,height=0]
+			[%if (r.containment){%]
+				[%=c.getNodeName()%]->[%=r.getNodeName()%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]", dir=back];
+				[%=r.getNodeName()%]->[%=r.eType.getNodeName()%]
+			[%}else{%]
+				[%=c.getNodeName()%]->[%=r.getNodeName()%][arrowhead=none]
+				[%=r.getNodeName()%]->[%=r.eType.getNodeName()%][arrowhead=[%=r.getArrowHead()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]"];
+				[%if (not r.containment){%]{rank=same; [%=c.getNodeName()%]; [%=r.getNodeName()%]; [%=r.eType.getNodeName()%]}[%}%]
+			[%}%]
+		[%}%]
+		[%for (r in getBidirectionalReferences()) {%]
+			[%var c = r.eContainer;%]
+			[%=r.getNodeName()%][label="[%=r.name%]/\n[%=r.eOpposite.name%]", shape=plaintext, margin=0,width=0,height=0]
+			[%=c.getNodeName()%]->[%=r.getNodeName()%][arrowhead=[%=r.getArrowTail()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]", dir=back];
+			[%=r.getNodeName()%]->[%=r.eType.getNodeName()%][arrowtail=[%=r.getArrowHead()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]"];
+			[%if (not r.containment){%]{rank=same; [%=c.getNodeName()%]; [%=r.getNodeName()%]; [%=r.eType.getNodeName()%]}[%}%]
+		[%}%]
+	[%}else{%] [* ... if reference labels layers is inactive*]
 		[%for (r in getUnidirectionalReferences()) {%]
 			[%var c = r.eContainer;%]
 			[%if (r.containment){%]
@@ -87,7 +105,7 @@ operation EClass getLabel() {
 	var label = "<table cellspacing='0' cellborder='0' cellpadding='1' bgcolor='#" + fillcolor + "'>";
 	var features = self.eAllStructuralFeatures;
 	
-	if (not isLayerActive("inherited") and self == main) features = self.eStructuralFeatures;
+	if (not isLayerActive("inherited")) features = self.eStructuralFeatures;
 	if (not isLayerActive("derived")) features = features.reject(f|f.isDerived);
 	
 	if (self.eSuperTypes.includes(main)) features = features.excludingAll(main.eAllStructuralFeatures);
@@ -124,6 +142,7 @@ operation EClass getLabel() {
 
 operation EStructuralFeature getLabel(eClass : EClass) {
 	var label = self.name;
+	if (self.isDerived()) label = "/" + label;
 	if (self.eType.isDefined()) label += " : " + self.eType.name;
 	if (self.isMany) label += "["+"*"+"]";
 	label += "  ";
@@ -228,6 +247,78 @@ operation getVisibleReferences() {
 	visibleReferences = visibleReferences.reject(r|r.eType = r.eContainer);
 	if (not isLayerActive("derived")) visibleReferences = visibleReferences.reject(r|r.isDerived);
 	return visibleReferences;
+}
+
+operation getValidationModule() {
+	var module = new Native("org.eclipse.epsilon.evl.EvlModule");
+	var constraints = EPackage.all.first().getAnnotationValue("constraints", "file");
+	if (not constraints.isDefined()) return module;
+	
+	var constraintsUrl = new Native("java.net.URL")(new Native("java.net.URL")(M.resource.uri.toString()), constraints);
+	module.parse(constraintsUrl.toURI());
+	return module;
+}
+
+operation EModelElement getAnnotationValue(name : String, detail : String) : Any {
+	var ann = self.eAnnotations.selectOne(a|a.source = name);
+	var det;
+
+	if (ann.isDefined()) {
+		det = ann.details.selectOne(d|d.key = detail);
+	}
+
+	if (det.isDefined()) {
+		return det.value;
+	}
+	
+	return det;	
+}
+
+operation String toMultiline() : String {
+	var multiline = "";
+	
+	for (line in self.split("\\n")) {
+		var length = 0;
+		for (part in line.split(" ")) {
+			multiline += part + " ";
+			if (length > 30) {
+				multiline += "\\l";
+				length = 0;
+			}
+			else {
+				length += part.length();
+			}
+		}
+		if (not multiline.endsWith("\\l")) multiline += "\\l";
+		if (hasMore) multiline += "\\n";
+	}
+	if (not multiline.endsWith("\\l")) multiline += "\\l";
+	
+	multiline = multiline.replaceAll('"', '\\\\"');
+	
+	return multiline;
+}
+
+operation EClass getNodeName() {
+	return "_" + self.name;
+}
+
+operation EReference getNodeName() {
+	return "_" + self.eContainer.name + "_" + self.name;
+}
+
+operation isLayerActive(id : String) {
+	var layer = layers.selectOne(l|l.id = id);
+	if (layer.isDefined()) {
+		return layer.active;
+	}
+	else {
+		return true;
+	}
+}
+
+operation Any getIcon() {
+	return getImage("icons/" + self.eClass.name + ".gif");
 }
 %]
 

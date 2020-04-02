@@ -17,8 +17,6 @@ rule Barchart {
 
 rule ClassDiagram {
 	
-	guard : EClass.all.size() < 30
-	
 	parameters : Map {
 		"mainClassName" = "",
 		"classNames" = EClass.all.name, 
@@ -36,7 +34,7 @@ rule ClassDiagram {
 		}
 	}
 	
-	template: "eclass2dot.egl"
+	template: "classdiagram.egl"
 	
 }
 
@@ -49,7 +47,7 @@ rule Ecore23D {
 		"icon" = "diagram-fffbd7"
 	}
 	
-	template: "ecore23d.egl"
+	template: "3d.egl"
 	
 }
 
@@ -76,6 +74,6 @@ rule EClass2ClassDiagram
 		};
 	}
 	
-	template: "eclass2dot.egl"
+	template: "classdiagram.egl"
 	
 }
