@@ -38,11 +38,11 @@ pipeline {
 				  SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target"
 				  if [ -d "$SITEDIR" ]; then
 				    INTERIM="/home/data/httpd/download.eclipse.org/epsilon/interim"
-                    ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM && mkdir -p $INTERIM/jars"
+                    ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM && mkdir $INTERIM"
                     scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:$INTERIM
                     scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:$INTERIM/site.zip
-                    scp "$WORKSPACE"/standalone/org.eclipse.epsilon.standalone/target/epsilon-* genie.epsilon@projects-storage.eclipse.org:$INTERIM/jars
-                    scp -r "$WORKSPACE/target/site/apidocs" genie.epsilon@projects-storage.eclipse.org:$INTERIM/javadoc
+                    scp "$WORKSPACE"/standalone/org.eclipse.epsilon.standalone/target/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}-jars
+                    scp -r "$WORKSPACE/target/site/apidocs" genie.epsilon@projects-storage.eclipse.org:${INTERIM}-javadoc
 				  fi
                 '''
               }
@@ -79,10 +79,10 @@ pipeline {
     }
     post {
       success {
-        slackSend (channel: '#ci-notifications', botUser: true, color: '#00FF00', message: "${currentBuild.result}: ${env.BUILD_URL}\n\n${currentBuild.changeSets.getItems()}")
+        slackSend (channel: '#ci-notifications', botUser: true, color: '#00FF00', message: "${currentBuild.result}: ${env.BUILD_URL}\n\n${currentBuild.changeSets}")
       }
       failure {
-        slackSend (channel: '#ci-notifications', botUser: true, color: '#FF0000', message: "${currentBuild.result}: ${env.BUILD_URL}\n\n${currentBuild.changeSets.getItems()}")
+        slackSend (channel: '#ci-notifications', botUser: true, color: '#FF0000', message: "${currentBuild.result}: ${env.BUILD_URL}\n\n${currentBuild.changeSets}")
 		
 		mail to: 'epsilon-dev@eclipse.org',
 		  subject: 'Epsilon Interim build failed!',

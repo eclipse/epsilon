@@ -160,7 +160,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	}
 	
 	//TODO: (fonso) this list seems incomplete with respect to the book list
-	public List<String> getAssertions(){
+	public List<String> getAssertions() {
 		return Arrays.asList("assert", "assertError");
 	}
 	
