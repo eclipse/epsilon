@@ -36,7 +36,7 @@ public class VariableTests {
 			execute(
 				"var a : String;" + 
 				"var a : Integer;" + 
-				"a = 6;\r\n" + 
+				"a = 6;" + 
 				"a.println();" + 
 				"var a = \"a string\";" +
 				"a.println();"
@@ -46,6 +46,42 @@ public class VariableTests {
 		catch (EolRedefinedVariableException ex) {
 			assert "a".equals(ex.getVariableName());
 		}
+	}
+	
+	@Test
+	public void testRedeclarationInOperation() throws Exception {
+		try {
+			execute(
+				"f();" +
+				"operation f() {" +
+					"var a : String;" + 
+					"var a : Integer;" + 
+					"a = 6;" + 
+					"a.println();" + 
+					"var a = \"a string\";" +
+					"a.println();" +
+				"}"
+			);
+			fail("Expected "+EolRedefinedVariableException.class.getSimpleName());
+		}
+		catch (EolRedefinedVariableException ex) {
+			assert "a".equals(ex.getVariableName());
+		}
+	}
+	
+	@Test
+	public void test1LevelRedeclaration() throws Exception {
+		execute(
+			"var a : String;" +
+			"a = \"a string\";" +
+			"a.println();" +
+			"f();" +
+			"operation f() {" +
+				"var a : Integer;" + 
+				"a = 6;" + 
+				"a.println();" +
+			"}"
+		);
 	}
 	
 }
