@@ -1,3 +1,19 @@
+@NonCPS
+def getSlackMessage() {
+    MAX_MSG_LEN = 100
+
+    def message = "Build <${env.BUILD_URL}|#${env.BUILD_NUMBER}> of <https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/log/?h=${env.BRANCH_NAME}|${env.BRANCH_NAME}> "
+    message += currentBuild.currentResult == "SUCCESS" ? "passed\n\n" : "failed\n\n"
+
+    for (changeSet in currentBuild.changeSets) {
+      for (entry in changeSet.items) {
+        message += "`${entry.commitId.take(7)}` ${entry.msg} - ${entry.author}\n"
+      }
+    }
+
+    return message
+}
+
 pipeline {
     agent {
       kubernetes {
@@ -79,11 +95,10 @@ pipeline {
     }
     post {
       success {
-        slackSend (channel: '#ci-notifications', botUser: true, color: '#00FF00', message: "${currentBuild.result}: ${env.BUILD_URL}\n\n${currentBuild.changeSets}")
+        slackSend (channel: '#ci-notifications', botUser: true, color: '#00FF00', message: getSlackMessage())
       }
       failure {
-        slackSend (channel: '#ci-notifications', botUser: true, color: '#FF0000', message: "${currentBuild.result}: ${env.BUILD_URL}\n\n${currentBuild.changeSets}")
-		
+        slackSend (channel: '#ci-notifications', botUser: true, color: '#FF0000', message: getSlackMessage())
 		mail to: 'epsilon-dev@eclipse.org',
 		  subject: 'Epsilon Interim build failed!',
 		  body: "${env.BUILD_TAG}. More info at ${env.BUILD_URL}",
