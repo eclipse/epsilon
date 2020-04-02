@@ -11,6 +11,9 @@ package org.eclipse.epsilon.emc.simulink.requirement.model.element;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
@@ -27,7 +30,6 @@ public class SimulinkReference extends SimulinkModelElement implements ISimulink
 	
 	public SimulinkReference(SimulinkRequirementModel model, MatlabEngine engine) {
 		super(model, engine);
-		// TODO create
 	}
 	
 	public SimulinkReference(SimulinkRequirementModel model, MatlabEngine engine, String artifact) {
@@ -37,7 +39,7 @@ public class SimulinkReference extends SimulinkModelElement implements ISimulink
 			id = (HandleObject) engine.fevalWithResult("add", model.getHandle().getHandle(), "Artifact", artifact);
 			referenceHandle = new MatlabHandleElement(model, engine, id);
 		} catch (MatlabException e) {
-			e.printStackTrace(); //FIXME
+			e.printStackTrace();
 		}
 	}
 	
@@ -46,14 +48,44 @@ public class SimulinkReference extends SimulinkModelElement implements ISimulink
 		referenceHandle = new MatlabHandleElement(model, engine, id);
 	}
 
+	private Map<String, Object> properties = new HashMap<String, Object>();
+	
 	@Override
 	public Object getProperty(String property) throws EolRuntimeException {
+		if (referenceHandle == null) {
+			return properties.get(property);
+		}
 		return referenceHandle.getProperty(property);
 	}
 
 	@Override
 	public void setProperty(String property, Object value) throws EolRuntimeException {
-		referenceHandle.setProperty(property, value);
+		if (referenceHandle == null) {
+			properties.put(property, value);
+			if (properties.containsKey("Artifact") && properties.containsKey("Domain")) {
+				Object mdl = ((SimulinkRequirementModel) model).getHandle().getHandle();
+				try {
+					HandleObject id = (HandleObject) engine.fevalWithResult("add", mdl, 
+							"Artifact", properties.get("Artifact"),
+							"Domain", properties.get("Domain"));
+					referenceHandle = new MatlabHandleElement(model, engine, id);
+					properties.remove("Artifact");
+					properties.remove("Domain");
+					for (Entry<String, Object> e : properties.entrySet()){
+						Boolean locked = (Boolean) referenceHandle.getProperty("IsLocked");
+						if (locked) {
+							engine.feval(0,"unlock", referenceHandle.getHandle());
+						}
+						referenceHandle.setProperty(e.getKey(), e.getValue());
+					};
+					properties.clear();
+				} catch (Exception e) {
+					throw new EolRuntimeException(e.getMessage());
+				}
+			}
+		} else {			
+			referenceHandle.setProperty(property, value);
+		}
 	}
 
 	@Override
