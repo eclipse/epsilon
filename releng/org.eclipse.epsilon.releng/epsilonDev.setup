@@ -32,9 +32,21 @@
     <description>Define the JRE needed to compile and run the Java projects of ${scope.project.label}</description>
   </setupTask>
   <setupTask
+      xsi:type="setup:VariableTask"
+      id="eclipse.target.platform"
+      name="eclipse.target.platform"
+      value="None"/>
+  <setupTask
+      xsi:type="setup:EclipseIniTask"
+      option="-Xms"
+      value="512m"
+      vm="true">
+    <description>Set the heap space needed to work with the projects of ${scope.project.label}</description>
+  </setupTask>
+  <setupTask
       xsi:type="setup:EclipseIniTask"
       option="-Xmx"
-      value="2g"
+      value="3g"
       vm="true">
     <description>Set the heap space needed to work with the projects of ${scope.project.label}</description>
   </setupTask>
@@ -132,7 +144,7 @@
         </operand>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.7/@workingSets[name='Epsilon%20Examples'] //@setupTasks.7/@workingSets[name='Epsilon%20Features'] //@setupTasks.7/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.7/@workingSets[name='Epsilon%20Tests'] //@setupTasks.7/@workingSets[name='Epsilon%20DT']"/>
+            excludedWorkingSet="//@setupTasks.9/@workingSets[name='Epsilon%20Examples'] //@setupTasks.9/@workingSets[name='Epsilon%20Features'] //@setupTasks.9/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.9/@workingSets[name='Epsilon%20Tests'] //@setupTasks.9/@workingSets[name='Epsilon%20DT']"/>
       </predicate>
       <predicate
           xsi:type="predicates:OrPredicate">
@@ -162,7 +174,7 @@
         </operand>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.7/@workingSets[name='Epsilon%20Examples'] //@setupTasks.7/@workingSets[name='Epsilon%20Features'] //@setupTasks.7/@workingSets[name='Epsilon%20Tests']"/>
+            excludedWorkingSet="//@setupTasks.9/@workingSets[name='Epsilon%20Examples'] //@setupTasks.9/@workingSets[name='Epsilon%20Features'] //@setupTasks.9/@workingSets[name='Epsilon%20Tests']"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -174,7 +186,7 @@
             pattern="org.eclipse.epsilon.emc.*"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.7/@workingSets[name='Epsilon%20Examples'] //@setupTasks.7/@workingSets[name='Epsilon%20Features'] //@setupTasks.7/@workingSets[name='Epsilon%20Tests'] //@setupTasks.7/@workingSets[name='Epsilon%20DT']"/>
+            excludedWorkingSet="//@setupTasks.9/@workingSets[name='Epsilon%20Examples'] //@setupTasks.9/@workingSets[name='Epsilon%20Features'] //@setupTasks.9/@workingSets[name='Epsilon%20Tests'] //@setupTasks.9/@workingSets[name='Epsilon%20DT']"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -210,7 +222,7 @@
         </operand>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.7/@workingSets[name='Epsilon%20Examples'] //@setupTasks.7/@workingSets[name='Epsilon%20Tests']"/>
+            excludedWorkingSet="//@setupTasks.9/@workingSets[name='Epsilon%20Examples'] //@setupTasks.9/@workingSets[name='Epsilon%20Tests']"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -234,7 +246,7 @@
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.7/@workingSets[name='Epsilon%20Core'] //@setupTasks.7/@workingSets[name='Epsilon%20Examples'] //@setupTasks.7/@workingSets[name='Epsilon%20Features'] //@setupTasks.7/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.7/@workingSets[name='Epsilon%20Tests']"/>
+            excludedWorkingSet="//@setupTasks.9/@workingSets[name='Epsilon%20Core'] //@setupTasks.9/@workingSets[name='Epsilon%20Examples'] //@setupTasks.9/@workingSets[name='Epsilon%20Features'] //@setupTasks.9/@workingSets[name='Epsilon%20Model%20Connectivity'] //@setupTasks.9/@workingSets[name='Epsilon%20Tests']"/>
         <operand
             xsi:type="predicates:NamePredicate"
             pattern="org.eclipse.epsilon.*"/>
@@ -247,7 +259,7 @@
     <setupTask
         xsi:type="setup:EclipseIniTask"
         option="-Doomph.redirection.epsilon.git"
-        value="=https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/plain/releng/org.eclipse.epsilon.releng/epsilonDev.setup->${git.clone.epsilon.git.location|uri}/releng/org.eclipse.epsilon.releng/epsilonDev.setup"
+        value="=https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/plain/releng/org.eclipse.epsilon.releng/epsilonDev.setup->${epsilon.git.clone.location|uri}/releng/org.eclipse.epsilon.releng/epsilonDev.setup"
         vm="true">
       <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
     </setupTask>
