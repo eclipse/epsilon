@@ -49,6 +49,22 @@ public class VariableTests {
 	}
 	
 	@Test
+	public void testAssignmentDeclaration() throws Exception {
+		try {
+			execute(
+				"var a : String = \"a string\";" + 
+				"a.println();" + 
+				"var a : Integer = 6;" +
+				"a.println();"
+			);
+			fail("Expected "+EolRedefinedVariableException.class.getSimpleName());
+		}
+		catch (EolRedefinedVariableException ex) {
+			assert "a".equals(ex.getVariableName());
+		}
+	}
+	
+	@Test
 	public void testRedeclarationInOperation() throws Exception {
 		try {
 			execute(
