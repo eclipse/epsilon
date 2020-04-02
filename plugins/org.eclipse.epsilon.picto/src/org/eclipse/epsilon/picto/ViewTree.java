@@ -115,7 +115,15 @@ public class ViewTree {
 				if (child.getName().equals(otherChild.getName())) {
 					counterpart = otherChild;
 					fresh.remove(counterpart);
-					child.setPromise(counterpart.getPromise());
+					if (counterpart.getPromise() == null) {
+						// there might be some content if programmatically defined
+						if (counterpart.getCachedContent() != null) {
+							child.setContent(counterpart.getCachedContent());
+						}
+					}
+					else {
+						child.setPromise(counterpart.getPromise());
+					}
 					child.setFormat(counterpart.getFormat());
 					child.setIcon(counterpart.getIcon());
 					preserveLayerState(child, counterpart);
@@ -318,5 +326,9 @@ public class ViewTree {
 	public void setContent(ViewContent content) {
 		cachedContent = content;
 		promise = null;
+	}
+
+	public ViewContent getCachedContent() {
+		return cachedContent;
 	}
 }
