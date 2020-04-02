@@ -70,10 +70,14 @@ public class LoadModelTest {
 			List<String> files = Arrays.asList(new String[] {feedbackController, empty, notExisting});
 			List<String> workdirs = Arrays.asList(new String[] {"", RESOURCES, WITH_SPACES});
 			for (Boolean store : bools) {
-				for (String workdir : workdirs) {
-					for (Boolean read : bools) {
-						for (String file : files) {
-							list.add(new Object[] {read, store, workdir, file});
+				for (Boolean read : bools) {
+					for (Boolean open : bools) {
+						for (Boolean close : bools) {
+							for (String workdir : workdirs) {
+								for (String file : files) {
+									list.add(new Object[] {read, store, open, close, workdir, file});
+								}
+							}
 						}
 					}
 				}
@@ -83,7 +87,7 @@ public class LoadModelTest {
 		return data;
 	}
 	
-	@Parameters(name = "Test-{index} : ReadOnLoad = {0}, StoreOnDisposal = {1}, Workdir = {2}, File = {3}")
+	@Parameters(name = "Test-{index}: Read={0},Store={1},Open={3},Close={3},Workdir={4},File={5}")
 	public static Iterable<Object[]> data() {
 		return getData();
 	}
@@ -95,9 +99,15 @@ public class LoadModelTest {
 	public boolean storeOnDisposal;
 	
 	@Parameter(2)
-	public String workdir;
+	public boolean openOnLoad;
 	
 	@Parameter(3)
+	public boolean closeOnDisposal;
+	
+	@Parameter(4)
+	public String workdir;
+	
+	@Parameter(5)
 	public String fileName;
 	
 	private SimulinkModel model;
@@ -127,11 +137,11 @@ public class LoadModelTest {
 		}
 		model.setReadOnLoad(readOnLoad);
 		model.setStoredOnDisposal(storeOnDisposal);
+		model.setOpenOnLoad(openOnLoad);
+		model.setCloseOnDispose(closeOnDisposal);
 
 		model.setName("M");
-		model.setShowInMatlabEditor(false);
 		model.setCachingEnabled(false);
-		model.setFollowLinks(false);
 		try {			
 			String path = LIBRARY_PATH.path(version);
 			model.setLibraryPath(path);

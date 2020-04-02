@@ -10,7 +10,8 @@
 package org.eclipse.epsilon.emc.simulink.common.test;
 
 import java.io.File;
-import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class FileUtils {
 
@@ -24,7 +25,7 @@ public class FileUtils {
 	}
 	
 	public static String getResource(String resourceLocation) {
-		URL resource = FileUtils.class.getClassLoader().getResource(resourceLocation);
-		return resource != null ? resource.getFile() : null;
+		Path resources = Paths.get(System.getProperty("user.dir")).resolve("resources");
+		return resources.resolve(resourceLocation).toFile().getAbsolutePath();
 	}
 }

@@ -70,9 +70,9 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	//protected Boolean mustConnect = false;
 	//protected String engineSharedSessionName = "";
 	protected File simulinkProject;
-	protected Boolean useCurrentProject = false;
-	protected Boolean openOnLoad = false;
-	protected Boolean closeOnDispose = false;
+	protected boolean useCurrentProject = false;
+	protected boolean openOnLoad = false;
+	protected boolean closeOnDispose = false;
 	protected boolean enableTryCatch = false;
 	protected Integer enginePoolSize = 2;
 	

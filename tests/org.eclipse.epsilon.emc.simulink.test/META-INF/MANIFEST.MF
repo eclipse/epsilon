@@ -9,9 +9,11 @@ Require-Bundle: org.junit,
  org.eclipse.epsilon.emc.simulink.common.test,
  org.eclipse.epsilon.emc.simulink.common,
  org.eclipse.epsilon.eol.engine
-Export-Package: org.eclipse.epsilon.emc.simulink.test.suite,
+Export-Package: org.eclipse.epsilon.emc.simulink.test,
+ org.eclipse.epsilon.emc.simulink.test.suite,
  org.eclipse.epsilon.emc.simulink.test.unit,
  org.eclipse.epsilon.emc.simulink.test.unit.type,
- org.eclipse.epsilon.emc.simulink.test.util
+ org.eclipse.epsilon.emc.simulink.test.util,
+ org.eclipse.epsilon.emc.simulink.test.wip
 Import-Package: org.slf4j;version="1.7.2"
 Automatic-Module-Name: org.eclipse.epsilon.emc.simulink.test
