@@ -303,7 +303,6 @@ version(s), and exceptions or additional permissions here}.&quot;
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.epsilon.eol.engine"/>
-      <import plugin="org.jdom_1.0"/>
       <import plugin="org.eclipse.epsilon.emc.muddle"/>
       <import plugin="org.eclipse.epsilon.common.dt"/>
       <import plugin="org.eclipse.epsilon.emc.graphml"/>
