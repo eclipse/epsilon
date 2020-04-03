@@ -103,7 +103,7 @@
 	</jar>
 
 	<jar name="simulink" requires="core">
-		<description>Epsilon's Simulink models driver.</description>
+		<description>Epsilon's Simulink driver.</description>
 		<project name="org.eclipse.epsilon.emc.simulink.common"/>
 		<project name="org.eclipse.epsilon.emc.simulink"/>
 		<project name="org.eclipse.epsilon.emc.simulink.dictionary"/>

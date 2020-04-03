@@ -16,7 +16,7 @@
    </dependency>
   </dependencies>
   <name>Epsilon jar component</name>
-  <description>Epsilon's Simulink models driver.</description>
+  <description>Epsilon's Simulink driver.</description>
   <url>https://eclipse.org/epsilon</url>
   <licenses>
   	<license>

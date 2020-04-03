@@ -35,7 +35,6 @@
 	    <configuration>
 	      <includeArtifactIds><!-- Match MANIFEST.MF -->
 	        org.antlr.runtime,
-	        org.apache.servicemix.bundles.antlr-runtime,
 	        org.apache.ant,
 			org.eclipse.emf.common,
 			org.eclipse.emf.ecore,
@@ -56,7 +55,8 @@
 			org.apache.poi.ooxml_3.10.1,
 			org.apache.poi_3.10.1,
 			org.apache.commons.collections,
-			org.apache.commons.lang3
+			org.apache.commons.lang3,
+			org.slf4j.api
 		    </includeArtifactIds>
 	      <outputDirectory>target/dependency-unpacked</outputDirectory>
 	    </configuration>

@@ -18,5 +18,6 @@ Require-Bundle: org.antlr.runtime;bundle-version="3.2.0",
  org.apache.poi.ooxml_3.10.1,
  org.apache.poi_3.10.1,
  org.apache.commons.collections;bundle-version="3.2.2",
- org.apache.commons.lang3;bundle-version="3.1.0"
+ org.apache.commons.lang3;bundle-version="3.1.0",
+ org.slf4j.api;bundle-version="1.7.26"
 Automatic-Module-Name: org.eclipse.epsilon.standalone

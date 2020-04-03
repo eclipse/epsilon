@@ -476,5 +476,5 @@
     </setupTask>
     <description>Epsilon v1.5</description>
   </version>
-  <description>A family of languages and tools for code generation, model-to-model transformation, model validation, comparison, migration and refactoring that work out of the box with EMF, UML, Simulink, XML and other types of models.</description>
+  <description>A family of languages and tools for code generation, model-to-model transformation, model validation, comparison, migration and refactoring that work out of the box with EMF, UML, Simulink, XML, CSV and other types of models.</description>
 </setup:Product>
