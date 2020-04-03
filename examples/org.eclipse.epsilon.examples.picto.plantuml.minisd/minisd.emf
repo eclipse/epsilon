@@ -1,16 +1,34 @@
 @namespace(uri="minisd", prefix="")
 package minisd;
 
-class Model {
-	val Participant[*] participants;
-	val Interaction[*] interaction;
+class Scenario extends Block {
+	
 }
 
 class Participant {
 	attr String name;
 }
 
-class Interaction {
+abstract class Step {
+	
+}
+
+class Block extends Step {
+	attr String title;
+	attr String sub;
+	val Step[*] steps;
+}
+
+class Loop extends Block {
+	
+}
+
+class Alt extends Step {
+	attr String title;
+	val Block[*] blocks;
+}
+
+class Interaction extends Step {
 	ref Participant from;
 	ref Participant to;
 	attr String message;
