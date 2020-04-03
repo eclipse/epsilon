@@ -8,7 +8,7 @@
     name="org.eclipse.epsilon"
     label="Epsilon">
   <annotation
-      source="https://www.eclipse.org/oomph/setup/BrandingInfo">
+      source="http://www.eclipse.org/oomph/setup/BrandingInfo">
     <detail
         key="folderName">
       <value>eclipse</value>
