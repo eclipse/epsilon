@@ -1,0 +1,1 @@
+Block.all.collect(b|b.Name);

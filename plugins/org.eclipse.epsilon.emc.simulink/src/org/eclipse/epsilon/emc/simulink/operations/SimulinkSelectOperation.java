@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
-import org.eclipse.epsilon.emc.simulink.util.SearchPreferences;
 import org.eclipse.epsilon.emc.simulink.util.collection.AbstractSimulinkCollection;
 import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkBlockCollection;
 import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkElementCollection;
@@ -39,10 +38,12 @@ import org.eclipse.epsilon.eol.execute.operations.declarative.SelectOperation;
 public class SimulinkSelectOperation extends SelectOperation {
 
 	protected MatlabEngine engine;
+	protected SimulinkModel model;
 	protected Boolean lookUnderMasks = true;
 
-	public SimulinkSelectOperation(MatlabEngine engine){
-		this.engine = engine;
+	public SimulinkSelectOperation(SimulinkModel model){
+		this.model = model;
+		this.engine = model.getEngine();
 	}
 
 	@Override
@@ -66,7 +67,7 @@ public class SimulinkSelectOperation extends SelectOperation {
 				try{
 					String setup = "handles=?;";
 					String cmd = String.format("find_system(handles,'SearchDepth',1,%s,%s)",
-							SearchPreferences.getInstance().searchStatement(), 
+							model.getSearchPreferences().searchStatement(), 
 							exp.substring(0, exp.length()-1));
 					Object result = engine.evalWithSetupAndResult(setup, cmd, handles);
 					/*if (isNotOperation) {

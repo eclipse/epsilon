@@ -1,0 +1,5 @@
+var numOfElements: Integer = val;
+for (i in Sequence{1..numOfElements}){
+	//var block = new Block();
+	//block.Name = "Name" + i.asString();
+}
