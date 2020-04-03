@@ -56,6 +56,7 @@
 			org.apache.poi_3.10.1,
 			org.apache.commons.collections,
 			org.apache.commons.lang3,
+			org.jdom,
 			org.slf4j.api
 		    </includeArtifactIds>
 	      <outputDirectory>target/dependency-unpacked</outputDirectory>
