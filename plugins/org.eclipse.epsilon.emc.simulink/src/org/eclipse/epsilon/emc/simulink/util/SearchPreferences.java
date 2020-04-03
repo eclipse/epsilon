@@ -2,21 +2,7 @@ package org.eclipse.epsilon.emc.simulink.util;
 
 public class SearchPreferences {
 
-	public static final String PROPERTY_FOLLOW_LINKS = "follow_links";
-	public static final String PROPERTY_LOOK_UNDER_MASKS = "look_under_masks";
-	public static final String PROPERTY_INCLUDE_COMMENTED = "include_commented";
-	
-	
-	private static SearchPreferences instance;
-	
-	private SearchPreferences() {}
-	
-	public static SearchPreferences getInstance(){
-		if (instance == null) {
-			instance = new SearchPreferences();
-		}
-		return instance;
-	}
+	public SearchPreferences() {}
 	
 	protected Boolean followLinks = false;
 	protected Boolean includeCommented = true;
@@ -25,7 +11,6 @@ public class SearchPreferences {
 	public void setFollowLinks(Boolean followLinks) {
 		this.followLinks = followLinks;
 	}
-	
 	
 	public Boolean isFollowLinks() {
 		return followLinks;

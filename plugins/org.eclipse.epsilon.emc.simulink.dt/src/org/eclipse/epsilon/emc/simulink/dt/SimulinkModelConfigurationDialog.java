@@ -33,33 +33,14 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 
 	protected Button currentSimulinkCheckbox;
 	protected Button showInMatlabEditorCheckbox;
-	protected Label followLinksLabel;
 	protected Button followLinksCheckbox;
-	protected Label lookUnderMasksLabel;
-	protected Button lookUnderMasksCheckbox;
+	protected Button isCommentedCheckbox;
+	protected Button enableFindOptimisationsCheckbox;
 	
 	@Override
 	protected Composite createFilesGroup(Composite parent) {
 		Composite createFilesGroup = super.createFilesGroup(parent);
 		modelFileTextLabel.setText("Model file: ");
-		
-		/*followLinksLabel = new Label(createFilesGroup, SWT.NONE);
-		followLinksLabel.setText("Follow Block Links: ");
-		followLinksLabel.setToolTipText("Set the 'FollowLinks' flag to 'on' of the 'find_system' method "
-				+ "used when calling all elements of a type in Epsilon e.g. ModelType.all;");
-		
-		followLinksCheckbox = new Button(createFilesGroup, SWT.CHECK);
-		followLinksCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		followLinksCheckbox.setSelection(false);
-		
-		lookUnderMasksLabel = new Label(createFilesGroup, SWT.NONE);
-		lookUnderMasksLabel.setText("Look Under Masks: ");
-		lookUnderMasksLabel.setToolTipText("Set the 'FollowLinks' flag to 'on' of the 'find_system' method "
-				+ "used when calling all elements of a type in Epsilon e.g. ModelType.all;");
-		
-		lookUnderMasksCheckbox = new Button(createFilesGroup, SWT.CHECK);
-		lookUnderMasksCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		lookUnderMasksCheckbox.setSelection(false);*/
 		
 		createFilesGroup.layout();
 		createFilesGroup.pack();
@@ -73,8 +54,10 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 		GridData buttonData = new GridData(GridData.FILL_HORIZONTAL);
 		buttonData.horizontalSpan = 1;
 
+		Label currentSimulinkLabel = new Label(engineGroup, SWT.NONE);
+		currentSimulinkLabel.setText("Use current model: ");
+				
 		currentSimulinkCheckbox = new Button(engineGroup, SWT.CHECK);
-		currentSimulinkCheckbox.setText(" Use current model");
 		currentSimulinkCheckbox.setSelection(false);
 		currentSimulinkCheckbox.setToolTipText("If selected, disregards any specified simulink model file and instead works with the current open model in a shared MATLAB session.");
 		currentSimulinkCheckbox.setLayoutData(buttonData);
@@ -96,16 +79,30 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 			}
 		});
 		
-		/*
-		showInMatlabEditorCheckbox = new Button(engineGroup, SWT.CHECK);
-		showInMatlabEditorCheckbox.setSelection(false);
-		showInMatlabEditorCheckbox.setText(" Force MATLAB to open");		
-		showInMatlabEditorCheckbox.setToolTipText("If selected, the model will be shown in the MATLAB Editor. "
-				+ "If the model is already loaded, it will not open it again. "
-				+ "If unchecked, the model will not be open in the MATLAB editor, "
-				+ "but won't close an already open model");
-
-		showInMatlabEditorCheckbox.setLayoutData(buttonData);*/
+		Label followLinksLabel = new Label(engineGroup, SWT.NONE);
+		followLinksLabel.setText("Follow Block Links: ");
+		followLinksLabel.setToolTipText("Set the 'FollowLinks' flag to 'on' of the 'find_system' method "
+				+ "used when calling all elements of a type in Epsilon e.g. ModelType.all;");
+		
+		followLinksCheckbox = new Button(engineGroup, SWT.CHECK);
+		followLinksCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		followLinksCheckbox.setSelection(false);
+		
+		Label isCommentedLabel = new Label(engineGroup, SWT.NONE);
+		isCommentedLabel.setText("Include Commented Blocks: ");
+		isCommentedLabel.setToolTipText(""); //FIXME
+		
+		isCommentedCheckbox = new Button(engineGroup, SWT.CHECK);
+		isCommentedCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		isCommentedCheckbox.setSelection(false);
+		
+		Label enableFindOptimisationsLabel = new Label(engineGroup, SWT.NONE);
+		enableFindOptimisationsLabel.setText("Use MATLAB bulk find: ");
+		enableFindOptimisationsLabel.setToolTipText(""); //FIXME
+		
+		enableFindOptimisationsCheckbox = new Button(engineGroup, SWT.CHECK);
+		enableFindOptimisationsCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		enableFindOptimisationsCheckbox.setSelection(false);
 				
 		engineGroup.layout();
 		engineGroup.pack();
@@ -127,7 +124,6 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 	protected void enableSharedEngineRelatedFields() {
 		super.enableSharedEngineRelatedFields();
 		//enableOnSelect(isSharedButton, currentSimulinkButton);
-		//disableOnSelect(isSharedButton, showInMatlabEditorCheckbox);
 	}
 
 	@Override
@@ -141,23 +137,29 @@ public class SimulinkModelConfigurationDialog extends AbstractSimulinkModelConfi
 				disableOnSelect(currentSimulinkCheckbox, browseModelFile);
 			}
 		}
-		/*if (followLinksCheckbox != null) {
+		if (followLinksCheckbox != null) {
 			followLinksCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_FOLLOW_LINKS,"true")).booleanValue());
 		}
-		if (lookUnderMasksCheckbox != null) {
-			lookUnderMasksCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_LOOK_UNDER_MASKS,"true")).booleanValue());
-		}*/
+		if (isCommentedCheckbox != null) {
+			isCommentedCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_INCLUDE_COMMENTED,"true")).booleanValue());
+		}
+		if (enableFindOptimisationsCheckbox != null) {
+			enableFindOptimisationsCheckbox.setSelection(new Boolean(properties.getProperty(SimulinkModel.PROPERTY_LOOK_UNDER_MASKS,"true")).booleanValue());
+		}
 	}
 
 	@Override
 	protected void storeProperties() {
 		super.storeProperties();
-		/*if (followLinksCheckbox != null) {
+		if (followLinksCheckbox != null) {
 			properties.put(SimulinkModel.PROPERTY_FOLLOW_LINKS, followLinksCheckbox.getSelection() + "");
 		}
-		if (lookUnderMasksCheckbox != null) {
-			properties.put(SimulinkModel.PROPERTY_LOOK_UNDER_MASKS, lookUnderMasksCheckbox.getSelection() + "");
-		}*/
+		if (isCommentedCheckbox != null) {
+			properties.put(SimulinkModel.PROPERTY_INCLUDE_COMMENTED, isCommentedCheckbox.getSelection() + "");
+		}
+		if (enableFindOptimisationsCheckbox != null) {
+			properties.put(SimulinkModel.PROPERTY_FIND_OPTIMISATION, enableFindOptimisationsCheckbox.getSelection() + "");
+		}
 		if (currentSimulinkCheckbox != null) {
 			properties.put(SimulinkModel.PROPERTY_CURRENT_SIMULINK_MODEL, currentSimulinkCheckbox.getSelection() + "");
 		}

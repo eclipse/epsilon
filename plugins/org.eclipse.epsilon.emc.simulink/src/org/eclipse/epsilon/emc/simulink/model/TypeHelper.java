@@ -17,7 +17,6 @@ import java.util.Map;
 import org.apache.commons.collections.collection.CompositeCollection;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
-import org.eclipse.epsilon.emc.simulink.util.SearchPreferences;
 import org.eclipse.epsilon.emc.simulink.util.StateflowUtil;
 import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkBlockCollection;
 import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkElementCollection;
@@ -157,7 +156,7 @@ public class TypeHelper {
 		private Collection<ISimulinkModelElement> getAllSimulinkKindFromModel(SimulinkModel model) throws MatlabException, IllegalStateException {
 			try {
 				String findKindCmd = "find_system('?','FindAll','on',%s,'Type','%s')";
-				String cmd = String.format(findKindCmd, SearchPreferences.getInstance().searchStatement(), getKind());
+				String cmd = String.format(findKindCmd, model.getSearchPreferences().searchStatement(), getKind());
 				Object blocks = model.getEngine().evalWithResult(cmd, model.getSimulinkModelName());
 				switch (this) {
 				case BLOCK:
@@ -178,7 +177,7 @@ public class TypeHelper {
 			Object blocks = null;
 			if (isSimulink()) {
 				String findTypeCmd = "find_system('?','FindAll','on',%s,'%sType','?')";
-				String cmd = String.format(findTypeCmd, SearchPreferences.getInstance().searchStatement(), this.getKind());
+				String cmd = String.format(findTypeCmd, model.getSearchPreferences().searchStatement(), this.getKind());
 				blocks = model.getEngine().evalWithResult(cmd, model.getSimulinkModelName(), type);
 				switch (this) {
 				case BLOCK:

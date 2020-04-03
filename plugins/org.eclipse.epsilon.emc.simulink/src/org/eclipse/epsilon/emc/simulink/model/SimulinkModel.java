@@ -42,9 +42,11 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	public static final String PROPERTY_SHOW_IN_MATLAB_EDITOR = "hidden_editor";
 	
 	/** CONSTANTS */
-	@Deprecated 
 	public static final String PROPERTY_FOLLOW_LINKS = "follow_links";
+	public static final String PROPERTY_LOOK_UNDER_MASKS = "look_under_masks";
+	public static final String PROPERTY_INCLUDE_COMMENTED = "include_commented";
 	public static final String PROPERTY_CURRENT_SIMULINK_MODEL = "current_simulink_model";
+	public static final String PROPERTY_FIND_OPTIMISATION = "find_optimisation_enabled";
 	
 	public static final String BLOCK = "Block";
 	public static final String SIMULINK = "Simulink";
@@ -59,6 +61,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	private static final Multimap<String, String> createBlockMap = new Multimap<>();
 	private static final ArrayList<ArrayList<String>> deleteBlockMap = new ArrayList<>();
 
+
 	static {
 		createBlockMap.put("sflib/Chart", "Stateflow.Chart");
 		ArrayList<String> chart = new ArrayList<>();
@@ -69,13 +72,13 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 
 	/** FIELDS */
 
+	protected SearchPreferences searchPreferences = new SearchPreferences();
 	protected ModelOperationContributor simulinkOperationContributor;
 
 	protected boolean useCurrentSimulinkModel = false;
+	protected boolean findOptimisationEnabled = false;
 	@Deprecated
 	protected boolean showInMatlabEditor = false;
-	@Deprecated
-	protected boolean followLinks = true;
 	protected double handle = -1;
 	protected String simulinkModelName;
 
@@ -276,7 +279,10 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 		super.load(properties, resolver);
 
 		setShowInMatlabEditor(properties.getBooleanProperty(PROPERTY_SHOW_IN_MATLAB_EDITOR, showInMatlabEditor));
-		setFollowLinks(properties.getBooleanProperty(PROPERTY_FOLLOW_LINKS, followLinks));
+		setFollowLinks(properties.getBooleanProperty(PROPERTY_FOLLOW_LINKS, getSearchPreferences().isFollowLinks()));
+		setIncludeCommented(properties.getBooleanProperty(PROPERTY_INCLUDE_COMMENTED, getSearchPreferences().isIncludeCommented()));
+		setFindOptimisationEnabled(properties.getBooleanProperty(PROPERTY_FIND_OPTIMISATION, findOptimisationEnabled));
+		setLookUnderMasks(properties.getProperty(PROPERTY_LOOK_UNDER_MASKS, getSearchPreferences().getLookUnderMasks()));
 		setUseCurrentSimulinkModel(properties.getBooleanProperty(PROPERTY_CURRENT_SIMULINK_MODEL, false));
 		
 		load();
@@ -400,14 +406,18 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	@Deprecated
 	public boolean isShowInMatlabEditor() {
 		return showInMatlabEditor;
+	}	
+
+	public SearchPreferences getSearchPreferences() {
+		return searchPreferences;
 	}
 	
-	/**
-	 * @Deprecated use SearhPreferences instead
-	 */
+	public void setSearchPreferences(SearchPreferences searchPreferences) {
+		this.searchPreferences = searchPreferences;
+	}
+	
 	public boolean isFollowLinks() {
-		return SearchPreferences.getInstance().isFollowLinks();
-		//return followLinks;
+		return searchPreferences.isFollowLinks();
 	}
 
 	/**
@@ -416,10 +426,32 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	 * 
 	 * @Deprecated use SearhPreferences instead
 	 */
-	@Deprecated
 	public void setFollowLinks(boolean followLinks) {
-		SearchPreferences.getInstance().setFollowLinks(followLinks);
-		//this.followLinks = followLinks;
+		searchPreferences.setFollowLinks(followLinks);
+	}
+	
+	public String getLookUnderMasks() {
+		return searchPreferences.getLookUnderMasks();
+	}
+
+	public void setLookUnderMasks(String lookUnderMasks) {
+		searchPreferences.setLookUnderMasks(lookUnderMasks);
+	}
+	
+	public boolean isIncludeCommented() {
+		return searchPreferences.isIncludeCommented();
+	}
+
+	public void setIncludeCommented(boolean includeCommented) {
+		searchPreferences.setIncludeCommented(includeCommented);
+	}
+	
+	public boolean isFindOptimisationEnabled() {
+		return findOptimisationEnabled;
+	}
+
+	public void setFindOptimisationEnabled(boolean enabled) {
+		findOptimisationEnabled = enabled;
 	}
 	
 	public Collection<ISimulinkModelElement> getChildren() throws MatlabException {
@@ -433,7 +465,5 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	public Collection<ISimulinkModelElement> findBlocks(Integer depth) throws MatlabException {
 		return SimulinkUtil.findBlocks(this, depth);
 	}
-
-	
 
 }

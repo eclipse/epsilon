@@ -102,53 +102,52 @@ public class StateflowBlockCollection extends AbstractSimulinkCollection<Statefl
 	@Override
 	public AbstractOperation getAbstractOperation(String name) {
 		MatlabEngine engine = getManager().getEngine();
-		
-		switch (name) {
-		
-		case "select":			
-			return new StateflowSelectOperation(engine);
-		case "collect":
-			return new StateflowCollectOperation(engine);
-
-		/** Select Based */
-		case "exists":
-			ExistsOperation existsOperation = new ExistsOperation();
-			existsOperation.setDelegateOperation(new StateflowSelectOperation(engine));
-			return existsOperation;
-		case "findOne":
-			FindOneOperation findOneOperation = new FindOneOperation();
-			findOneOperation.setDelegateOperation(new StateflowSelectOperation(engine));
-			return findOneOperation;
-		case "find":
-			FindOperation findOperation = new FindOperation();
-			findOperation.setDelegateOperation(new StateflowSelectOperation(engine));
-			return findOperation;
-		case "forAll":
-			ForAllOperation forAllOperation = new ForAllOperation();
-			forAllOperation.setDelegateOperation(new StateflowSelectOperation(engine));
-			return forAllOperation;
-		case "rejectOne":
-			RejectOneOperation rejectOneOperation = new RejectOneOperation();
-			rejectOneOperation.setDelegateOperation(new StateflowSelectOperation(engine));
-			return rejectOneOperation;
-		case "reject":
-			RejectOperation rejectOperation = new RejectOperation();
-			rejectOperation.setDelegateOperation(new StateflowSelectOperation(engine));
-			return rejectOperation;
-		case "selectOne":
-			SelectOneOperation selectOneOperation = new SelectOneOperation();
-			selectOneOperation.setDelegateOperation(new StateflowSelectOperation(engine));
-			return selectOneOperation;
-		
-		/** Collect Based */
-		case "sortBy":
-			SortByOperation sortByOperation = new SortByOperation();
-			sortByOperation.setDelegateOperation(new StateflowCollectOperation(engine));
-			return sortByOperation;
-		
-		default:
-			return null;
+		if (getManager().getModel().isFindOptimisationEnabled()) {
+			switch (name) {
+			
+			case "select":			
+				return new StateflowSelectOperation(engine);
+			case "collect":
+				return new StateflowCollectOperation(engine);
+	
+			/** Select Based */
+			case "exists":
+				ExistsOperation existsOperation = new ExistsOperation();
+				existsOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+				return existsOperation;
+			case "findOne":
+				FindOneOperation findOneOperation = new FindOneOperation();
+				findOneOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+				return findOneOperation;
+			case "find":
+				FindOperation findOperation = new FindOperation();
+				findOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+				return findOperation;
+			case "forAll":
+				ForAllOperation forAllOperation = new ForAllOperation();
+				forAllOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+				return forAllOperation;
+			case "rejectOne":
+				RejectOneOperation rejectOneOperation = new RejectOneOperation();
+				rejectOneOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+				return rejectOneOperation;
+			case "reject":
+				RejectOperation rejectOperation = new RejectOperation();
+				rejectOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+				return rejectOperation;
+			case "selectOne":
+				SelectOneOperation selectOneOperation = new SelectOneOperation();
+				selectOneOperation.setDelegateOperation(new StateflowSelectOperation(engine));
+				return selectOneOperation;
+			
+			/** Collect Based */
+			case "sortBy":
+				SortByOperation sortByOperation = new SortByOperation();
+				sortByOperation.setDelegateOperation(new StateflowCollectOperation(engine));
+				return sortByOperation;
+			}
 		} 
+		return null;
 	}
 
 }

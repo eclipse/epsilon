@@ -90,10 +90,10 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 	}
 	
 	protected Composite createEngineGroup(Composite parent) {
-		final Composite groupContent = DialogUtil.createGroupContainer(parent, "MATLAB Options", 3);
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "MATLAB Options", 6);
 		
 		GridData buttonData = new GridData(GridData.FILL_HORIZONTAL);
-		buttonData.horizontalSpan = 1;
+		//buttonData.horizontalSpan = 1;
 
 		/*isSharedButton = new Button(groupContent, SWT.CHECK);
 		isSharedButton.setText(" Connect to engine");
@@ -109,33 +109,22 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		sessionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		*/
 		
-		if (enableOpenOnLoad()) {			
-			openOnLoadCheckbox = new Button(groupContent, SWT.CHECK);
-			openOnLoadCheckbox.setText(" Open editor on load");
-			openOnLoadCheckbox.setSelection(false);
-			openOnLoadCheckbox.setToolTipText("By default models are loaded, this option allows it to be opened in an editor");
-			openOnLoadCheckbox.setLayoutData(buttonData);
-		}
+		Label tryCatchCheckboxLabel = new Label(groupContent, SWT.NONE);
+		tryCatchCheckboxLabel.setText("Wrap MATLAB  commands in try/catch: ");
 		
-		if (enableCloseOnDispose()) {			
-			closeOnDisposeCheckbox = new Button(groupContent, SWT.CHECK);
-			closeOnDisposeCheckbox.setText(" Close editor on dispose");
-			closeOnDisposeCheckbox.setSelection(false);
-			closeOnDisposeCheckbox.setToolTipText("Ensures a model is closed at the end of the execution");
-			closeOnDisposeCheckbox.setLayoutData(buttonData);
-		}
+		tryCatchCheckbox = new Button(groupContent, SWT.CHECK);
+		tryCatchCheckbox.setSelection(true);
+		tryCatchCheckbox.setToolTipText("Some MATLAB commands leave the engine in a bad state. Currently, wrapping the statements in a try/catch makes the engine more resilient.");
+		tryCatchCheckbox.setLayoutData(buttonData);
+		
+		Label currentProjectLabel = new Label(groupContent, SWT.NONE);
+		currentProjectLabel.setText("Use current project: ");
 		
 		currentProjectCheckbox = new Button(groupContent, SWT.CHECK);
-		currentProjectCheckbox.setText(" Use current project");
 		currentProjectCheckbox.setSelection(false);
 		currentProjectCheckbox.setToolTipText("If selected, disregards any specified project file and instead calls an open project in the shared MATLAB session.");
 		currentProjectCheckbox.setLayoutData(buttonData);
 		
-		tryCatchCheckbox = new Button(groupContent, SWT.CHECK);
-		tryCatchCheckbox.setText(" Use MATLAB try/catch");
-		tryCatchCheckbox.setSelection(true);
-		tryCatchCheckbox.setToolTipText("Some MATLAB commands leave the engine in a bad state. Currently, wrapping the statements in a try/catch makes the engine more resilient.");
-		tryCatchCheckbox.setLayoutData(buttonData);
 		
 		/*isSharedButton.addSelectionListener(new SelectionListener() {
 			
@@ -174,6 +163,51 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 				disableOnSelect(source, projectFileBrowser);
 			}
 		});
+		
+		groupContent.layout();
+		groupContent.pack();
+		return groupContent;
+	}
+	
+	@Override
+	protected Composite createLoadStoreOptionsGroup(Composite parent) {
+		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Load/Disposal Options", 4);
+		
+		readOnLoadLabel = new Label(groupContent, SWT.NONE);
+		readOnLoadLabel.setText("Read on load: ");
+		
+		readOnLoadCheckbox = new Button(groupContent, SWT.CHECK);
+		readOnLoadCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		readOnLoadCheckbox.setSelection(true);
+
+		Label openOnLoadCheckboxLabel = new Label(groupContent, SWT.NONE);
+		openOnLoadCheckboxLabel.setText("Open editor on load: ");
+		
+		openOnLoadCheckbox = new Button(groupContent, SWT.CHECK);
+		openOnLoadCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		openOnLoadCheckbox.setSelection(false);
+		openOnLoadCheckbox.setToolTipText("By default models are loaded, this option allows it to be opened in an editor");
+		if (!enableOpenOnLoad()) {
+			openOnLoadCheckbox.setEnabled(false);
+		}
+		
+		storeOnDisposalLabel = new Label(groupContent, SWT.NONE);
+		storeOnDisposalLabel.setText("Store on disposal: ");
+		
+		storeOnDisposalCheckbox = new Button(groupContent, SWT.CHECK);
+		storeOnDisposalCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		storeOnDisposalCheckbox.setSelection(true);
+		
+		Label closeOnDisposeCheckboxLabel = new Label(groupContent, SWT.NONE);
+		closeOnDisposeCheckboxLabel.setText("Close editor on disposal: ");
+		
+		closeOnDisposeCheckbox = new Button(groupContent, SWT.CHECK);
+		closeOnDisposeCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		closeOnDisposeCheckbox.setSelection(false);
+		closeOnDisposeCheckbox.setToolTipText("Ensures a model is closed at the end of the execution");
+		if (!enableCloseOnDispose()) {
+			closeOnDisposeCheckbox.setEnabled(false);
+		}
 		
 		groupContent.layout();
 		groupContent.pack();

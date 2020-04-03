@@ -81,7 +81,7 @@ public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
 		return control;
 	}
 	
-	protected void createLoadStoreOptionsGroup(Composite parent) {
+	protected Composite createLoadStoreOptionsGroup(Composite parent) {
 		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Load/Store Options", 2);
 		
 		readOnLoadLabel = new Label(groupContent, SWT.NONE);
@@ -100,6 +100,7 @@ public abstract class AbstractModelConfigurationDialog extends TitleAreaDialog{
 		
 		groupContent.layout();
 		groupContent.pack();
+		return groupContent;
 		
 	}
 	

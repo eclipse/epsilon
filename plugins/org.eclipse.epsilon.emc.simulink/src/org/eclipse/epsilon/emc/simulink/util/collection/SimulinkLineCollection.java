@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkLine;
@@ -100,53 +99,53 @@ public class SimulinkLineCollection extends AbstractSimulinkCollection<SimulinkL
 
 	@Override
 	public AbstractOperation getAbstractOperation(String name) {
-		MatlabEngine engine = getManager().getEngine();
-		switch (name) {
-		
-		case "select":			
-			return new SimulinkSelectOperation(engine);
-		case "collect":
-			return new SimulinkCollectOperation(engine);
-
-		/** Select Based */
-		case "exists":
-			ExistsOperation existsOperation = new ExistsOperation();
-			existsOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
-			return existsOperation;
-		case "findOne":
-			FindOneOperation findOneOperation = new FindOneOperation();
-			findOneOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
-			return findOneOperation;
-		case "find":
-			FindOperation findOperation = new FindOperation();
-			findOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
-			return findOperation;
-		case "forAll":
-			ForAllOperation forAllOperation = new ForAllOperation();
-			forAllOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
-			return forAllOperation;
-		case "rejectOne":
-			RejectOneOperation rejectOneOperation = new RejectOneOperation();
-			rejectOneOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
-			return rejectOneOperation;
-		case "reject":
-			RejectOperation rejectOperation = new RejectOperation();
-			rejectOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
-			return rejectOperation;
-		case "selectOne":
-			SelectOneOperation selectOneOperation = new SelectOneOperation();
-			selectOneOperation.setDelegateOperation(new SimulinkSelectOperation(engine));
-			return selectOneOperation;
-		
-		/** Collect Based */
-		case "sortBy":
-			SortByOperation sortByOperation = new SortByOperation();
-			sortByOperation.setDelegateOperation(new SimulinkCollectOperation(engine));
-			return sortByOperation;
-		
-		default:
-			return null;
+		SimulinkModel model = getManager().getModel();
+		if (model.isFindOptimisationEnabled()) {
+			switch (name) {
+			
+			case "select":			
+				return new SimulinkSelectOperation(model);
+			case "collect":
+				return new SimulinkCollectOperation(model.getEngine());
+	
+			/** Select Based */
+			case "exists":
+				ExistsOperation existsOperation = new ExistsOperation();
+				existsOperation.setDelegateOperation(new SimulinkSelectOperation(model));
+				return existsOperation;
+			case "findOne":
+				FindOneOperation findOneOperation = new FindOneOperation();
+				findOneOperation.setDelegateOperation(new SimulinkSelectOperation(model));
+				return findOneOperation;
+			case "find":
+				FindOperation findOperation = new FindOperation();
+				findOperation.setDelegateOperation(new SimulinkSelectOperation(model));
+				return findOperation;
+			case "forAll":
+				ForAllOperation forAllOperation = new ForAllOperation();
+				forAllOperation.setDelegateOperation(new SimulinkSelectOperation(model));
+				return forAllOperation;
+			case "rejectOne":
+				RejectOneOperation rejectOneOperation = new RejectOneOperation();
+				rejectOneOperation.setDelegateOperation(new SimulinkSelectOperation(model));
+				return rejectOneOperation;
+			case "reject":
+				RejectOperation rejectOperation = new RejectOperation();
+				rejectOperation.setDelegateOperation(new SimulinkSelectOperation(model));
+				return rejectOperation;
+			case "selectOne":
+				SelectOneOperation selectOneOperation = new SelectOneOperation();
+				selectOneOperation.setDelegateOperation(new SimulinkSelectOperation(model));
+				return selectOneOperation;
+			
+			/** Collect Based */
+			case "sortBy":
+				SortByOperation sortByOperation = new SortByOperation();
+				sortByOperation.setDelegateOperation(new SimulinkCollectOperation(model.getEngine()));
+				return sortByOperation;
+			}
 		} 
+		return null;
 	}
 
 }
