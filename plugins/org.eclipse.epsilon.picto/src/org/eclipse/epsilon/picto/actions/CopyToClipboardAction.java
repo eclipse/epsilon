@@ -13,6 +13,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 
 import org.eclipse.epsilon.picto.PictoView;
+import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.ViewRenderer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
@@ -41,18 +42,18 @@ public class CopyToClipboardAction extends Action {
 
 	@Override
 	public void run() {
+		ViewContent viewContent = pictoView.getActiveView().getContents(viewRenderer).stream().filter(c -> c.isActive()).findAny().orElse(null);
 		
-		if (pictoView.getActiveView().getContents(viewRenderer).stream().anyMatch(c -> c.isActive())) {
-			copyTextToClipboard();
+		if (viewContent != null) {
+			copyTextToClipboard(viewContent);
 		}
 		else {
 			copyImageToClipboard();
 		}
 	}
 	
-	protected void copyTextToClipboard() {
-		Browser browser = viewRenderer.getBrowser();
-		StringSelection selection = new StringSelection(browser.getText());
+	protected void copyTextToClipboard(ViewContent viewContent) {
+		StringSelection selection = new StringSelection(viewContent.getText());
 		java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		clipboard.setContents(selection, null);
 	}
