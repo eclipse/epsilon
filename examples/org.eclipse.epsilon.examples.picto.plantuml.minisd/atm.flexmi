@@ -13,7 +13,7 @@
 				<int from="ATM" to="Customer" msg="Display options"/>
 				<alt title="Options">
 					<block title="Cash withdrawal">
-						<int from="Customer" to="ATM" msg="Withdraw cash"/>
+						<int from="Customer" to="ATM" msg="Select cash withdrawal"/>
 						<int from="ATM" to="Customer" msg="Ask for amount"/>
 						<int from="Customer" to="ATM" msg="Enter amount"/>
 						<alt title="Check funds">
@@ -26,6 +26,7 @@
 						</alt>
 					</block>
 					<block title="Balance display">
+						<int from="Customer" to="ATM" msg="Select balance display"/>
 						<int from="ATM" to="Customer" msg="Display balance"/>
 						<int from="ATM" to="Customer" msg="Return card"/>
 					</block>
