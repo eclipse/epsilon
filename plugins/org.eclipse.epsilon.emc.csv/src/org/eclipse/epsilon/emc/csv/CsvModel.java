@@ -16,27 +16,14 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
+import java.util.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.exceptions.models.*;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
@@ -485,41 +472,40 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 			boolean knownHeaders, char fieldSeparator, boolean varargsHeaders) throws Exception {
 		
 		List<Map<String, Object>> rows = new LinkedList<>();
+		CSVFormat csvFormat = CSVFormat.RFC4180.withDelimiter(fieldSeparator);
+		if (knownHeaders) csvFormat = csvFormat.withFirstRecordAsHeader();
 		
-		Iterable<CSVRecord> records;
-		try {
-			CSVFormat csvFormat = CSVFormat.RFC4180.withDelimiter(fieldSeparator);
-			if(knownHeaders) {
-				csvFormat = csvFormat.withFirstRecordAsHeader();
-				records = csvFormat.parse(reader);
+		try (CSVParser records = csvFormat.parse(reader)) {
+			if (knownHeaders) {
 				for (CSVRecord record : records) {
 					LinkedHashMap<String, Object> row = new LinkedHashMap<>();
 					if (!varargsHeaders) {
-						for (Entry<String, String> entry : record.toMap().entrySet()) {
+						for (Map.Entry<String, String> entry : record.toMap().entrySet()) {
 							row.put(entry.getKey(), entry.getValue());
 						}
-					} else {
-						Map<String, Integer> hm = ((CSVParser)records).getHeaderMap();
+					}
+					else {
+						Map<String, Integer> hm = records.getHeaderMap();
 						Set<String> hmKeys = hm.keySet();
 						Iterator<String> hmKeysIT = hmKeys.iterator();
 						Iterator<String> it = record.iterator();
 						int i = 0;
 						int normalFields = hmKeys.size()-1;
-						while(it.hasNext() && (i < normalFields)) {
+						while (it.hasNext() && (i < normalFields)) {
 							String value = it.next();
 							row.put(hmKeysIT.next(), value);
 							i++;
 						}
 						List<String> varargsField = new ArrayList<>();
-						while(it.hasNext()) {
+						while (it.hasNext()) {
 							varargsField.add(it.next());	
 						}
 						row.put(hmKeysIT.next(), varargsField);
 					}
 					rows.add(row);
 				}
-			} else {
-				records = csvFormat.parse(reader);
+			}
+			else {
 				for (CSVRecord record : records) {
 					List<String> values = new ArrayList<>();
 					record.iterator().forEachRemaining(values::add);
@@ -528,9 +514,11 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 					rows.add(row);
 				}
 			}
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			throw new IllegalStateException("Error reading the CSV file");
-		} finally {
+		}
+		finally {
 			if (reader != null) {
 				try { reader.close(); } catch (IOException e) { }
 			}

@@ -53,6 +53,10 @@
 		<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20180606145124/repository"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+		<unit id="org.apache.commons.csv" version="0.0.0"/>
+		<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20190827152740/repository"/>
+	</location>
+	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.apache.commons.collections" version="3.2.2.v201511171945"/>
 		<unit id="org.apache.commons.collections.source" version="3.2.2.v201511171945"/>
 		<unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
