@@ -1,5 +1,4 @@
 [%
-import "ecore2dot.eol";
 
 // If the root EPackage has a @constraints(file="foo.evl")
 // annotation, parse the constraints into an EVL module
@@ -62,11 +61,11 @@ digraph G {
 			[%var c = r.eContainer;%]
 			[%=r.getNodeName()%][label="[%=r.name%]", shape=plaintext, margin=0,width=0,height=0]
 			[%if (r.containment){%]
-				[%=c.getNodeName()%]->[%=r.getNodeName()%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]", dir=back];
-				[%=r.getNodeName()%]->[%=r.eType.getNodeName()%]
+				[%=c.getNodeName()%]->[%=r.getNodeName()%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]_headFragment", dir=back];
+				[%=r.getNodeName()%]->[%=r.eType.getNodeName()%][name="[%=r.getIdentifier()%]_tailFragment"]
 			[%}else{%]
-				[%=c.getNodeName()%]->[%=r.getNodeName()%][arrowhead=none]
-				[%=r.getNodeName()%]->[%=r.eType.getNodeName()%][arrowhead=[%=r.getArrowHead()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]"];
+				[%=c.getNodeName()%]->[%=r.getNodeName()%][arrowhead=none, name="[%=r.getIdentifier()%]_headFragment"]
+				[%=r.getNodeName()%]->[%=r.eType.getNodeName()%][arrowhead=[%=r.getArrowHead()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]_tailFragment"];
 				[%if (not r.containment){%]{rank=same; [%=c.getNodeName()%]; [%=r.getNodeName()%]; [%=r.eType.getNodeName()%]}[%}%]
 			[%}%]
 		[%}%]
