@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.epsilon.emc.simulink.common.dt;singleton:=true
 Automatic-Module-Name: org.eclipse.epsilon.emc.simulink.common.dt
 Bundle-Version: 1.6.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.epsilon.common.dt,
+Require-Bundle: org.eclipse.epsilon.common.dt;visibility:=reexport,
  org.eclipse.epsilon.emc.simulink.common
 Bundle-Activator: org.eclipse.epsilon.emc.simulink.common.dt.Activator
 Bundle-ActivationPolicy: lazy
