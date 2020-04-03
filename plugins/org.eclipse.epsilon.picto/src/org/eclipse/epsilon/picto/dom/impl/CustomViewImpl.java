@@ -36,6 +36,7 @@ import org.eclipse.epsilon.picto.dom.PictoPackage;
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getFormat <em>Format</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getContent <em>Content</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getLayers <em>Layers</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getPatches <em>Patches</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getParameters <em>Parameters</em>}</li>
  * </ul>
@@ -134,6 +135,16 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	protected String content = CONTENT_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getLayers() <em>Layers</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLayers()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> layers;
+
+	/**
 	 * The cached value of the '{@link #getPatches() <em>Patches</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -180,7 +191,7 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	@Override
 	public EList<String> getPath() {
 		if (path == null) {
-			path = new EDataTypeUniqueEList<>(String.class, this, PictoPackage.CUSTOM_VIEW__PATH);
+			path = new EDataTypeUniqueEList<String>(String.class, this, PictoPackage.CUSTOM_VIEW__PATH);
 		}
 		return path;
 	}
@@ -283,9 +294,22 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	 * @generated
 	 */
 	@Override
+	public EList<String> getLayers() {
+		if (layers == null) {
+			layers = new EDataTypeUniqueEList<String>(String.class, this, PictoPackage.CUSTOM_VIEW__LAYERS);
+		}
+		return layers;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EList<Patch> getPatches() {
 		if (patches == null) {
-			patches = new EObjectContainmentEList<>(Patch.class, this, PictoPackage.CUSTOM_VIEW__PATCHES);
+			patches = new EObjectContainmentEList<Patch>(Patch.class, this, PictoPackage.CUSTOM_VIEW__PATCHES);
 		}
 		return patches;
 	}
@@ -298,7 +322,7 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	@Override
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
-			parameters = new EObjectContainmentEList<>(Parameter.class, this, PictoPackage.CUSTOM_VIEW__PARAMETERS);
+			parameters = new EObjectContainmentEList<Parameter>(Parameter.class, this, PictoPackage.CUSTOM_VIEW__PARAMETERS);
 		}
 		return parameters;
 	}
@@ -337,6 +361,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				return getType();
 			case PictoPackage.CUSTOM_VIEW__CONTENT:
 				return getContent();
+			case PictoPackage.CUSTOM_VIEW__LAYERS:
+				return getLayers();
 			case PictoPackage.CUSTOM_VIEW__PATCHES:
 				return getPatches();
 			case PictoPackage.CUSTOM_VIEW__PARAMETERS:
@@ -369,6 +395,10 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				return;
 			case PictoPackage.CUSTOM_VIEW__CONTENT:
 				setContent((String)newValue);
+				return;
+			case PictoPackage.CUSTOM_VIEW__LAYERS:
+				getLayers().clear();
+				getLayers().addAll((Collection<? extends String>)newValue);
 				return;
 			case PictoPackage.CUSTOM_VIEW__PATCHES:
 				getPatches().clear();
@@ -405,6 +435,9 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 			case PictoPackage.CUSTOM_VIEW__CONTENT:
 				setContent(CONTENT_EDEFAULT);
 				return;
+			case PictoPackage.CUSTOM_VIEW__LAYERS:
+				getLayers().clear();
+				return;
 			case PictoPackage.CUSTOM_VIEW__PATCHES:
 				getPatches().clear();
 				return;
@@ -433,6 +466,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
 			case PictoPackage.CUSTOM_VIEW__CONTENT:
 				return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
+			case PictoPackage.CUSTOM_VIEW__LAYERS:
+				return layers != null && !layers.isEmpty();
 			case PictoPackage.CUSTOM_VIEW__PATCHES:
 				return patches != null && !patches.isEmpty();
 			case PictoPackage.CUSTOM_VIEW__PARAMETERS:
@@ -461,6 +496,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 		result.append(type);
 		result.append(", content: ");
 		result.append(content);
+		result.append(", layers: ");
+		result.append(layers);
 		result.append(')');
 		return result.toString();
 	}

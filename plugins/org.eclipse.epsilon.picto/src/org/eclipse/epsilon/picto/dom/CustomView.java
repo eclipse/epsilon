@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getFormat <em>Format</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getContent <em>Content</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getLayers <em>Layers</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getPatches <em>Patches</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getParameters <em>Parameters</em>}</li>
  * </ul>
@@ -128,6 +129,18 @@ public interface CustomView extends EObject {
 	 * @generated
 	 */
 	void setContent(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Layers</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Layers</em>' attribute list.
+	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getCustomView_Layers()
+	 * @model
+	 * @generated
+	 */
+	EList<String> getLayers();
 
 	/**
 	 * Returns the value of the '<em><b>Patches</b></em>' containment reference list.

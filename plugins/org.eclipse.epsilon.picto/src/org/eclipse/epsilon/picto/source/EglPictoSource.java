@@ -49,6 +49,7 @@ import org.eclipse.epsilon.picto.dom.Parameter;
 import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.epsilon.picto.dom.Picto;
 import org.eclipse.epsilon.picto.dom.PictoFactory;
+import org.eclipse.epsilon.picto.dom.PictoPackage;
 import org.eclipse.ui.IEditorPart;
 
 public abstract class EglPictoSource implements PictoSource {
@@ -144,6 +145,9 @@ public abstract class EglPictoSource implements PictoSource {
 						if (customView.getIcon() != null) customView.getParameters().add(createParameter("icon", customView.getIcon()));
 						if (customView.getFormat() != null) customView.getParameters().add(createParameter("format", customView.getFormat()));
 						customView.getParameters().add(createParameter("patches", customView.getPatches()));
+						if (customView.eIsSet(PictoPackage.eINSTANCE.getCustomView_Layers())) {
+							customView.getParameters().add(createParameter("activeLayers", customView.getLayers()));
+						}
 						
 						LazyGenerationRuleContentPromise contentPromise = (LazyGenerationRuleContentPromise) 
 								generationRule.execute(module.getContext(), source);
@@ -199,6 +203,15 @@ public abstract class EglPictoSource implements PictoSource {
 						
 					}
 					
+					// If this is a custom view there will be an activeLayers variable in the variables list
+					Variable activeLayersVariable = instance.getVariables().stream().filter(v -> v.getName().equals("activeLayers")).findAny().orElse(null);
+					if (activeLayersVariable != null) {
+						List<String> activeLayers =  (List<String>) activeLayersVariable.getValue();
+						for (Layer layer : layers) {
+							layer.setActive(activeLayers.contains(layer.getId()));
+						}
+					}
+					
 					// Replace layers variable from list of maps to list of Layer objects
 					if (layersVariable != null) instance.getVariables().remove(layersVariable);
 					instance.getVariables().add(Variable.createReadOnlyVariable("layers", layers));
@@ -234,6 +247,12 @@ public abstract class EglPictoSource implements PictoSource {
 					if (customView.getIcon() != null) existingView.setIcon(customView.getIcon());
 					if (customView.getFormat() != null) existingView.setFormat(customView.getFormat());
 					existingView.getPatches().addAll(customView.getPatches());
+					if (customView.eIsSet(PictoPackage.eINSTANCE.getCustomView_Layers())) {
+						List<String> layers = customView.getLayers();
+						for (Layer layer : existingView.getLayers()) {
+							layer.setActive(layers.contains(layer.getId()));
+						}
+					}
 				}
 			}
 			
