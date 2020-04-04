@@ -299,36 +299,21 @@ version(s), and exceptions or additional permissions here}.&quot;
    </url>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.ecl.engine"/>
+      <import feature="org.eclipse.epsilon.core.feature"/>
+      <import plugin="org.apache.ant"/>
+      <import plugin="org.eclipse.ant.core"/>
+      <import plugin="org.eclipse.compare"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.variables"/>
+      <import plugin="org.eclipse.debug.ui"/>
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.ui.workbench.texteditor"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.epsilon.eol.engine"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.debug.ui"/>
       <import plugin="org.eclipse.ui.console"/>
-      <import plugin="org.eclipse.core.variables"/>
-      <import plugin="org.eclipse.epsilon.erl.engine"/>
-      <import plugin="org.eclipse.epsilon.egl.engine"/>
-      <import plugin="org.eclipse.epsilon.eml.engine"/>
-      <import plugin="org.eclipse.epsilon.etl.engine"/>
-      <import plugin="org.eclipse.epsilon.evl.engine"/>
-      <import plugin="org.eclipse.epsilon.ewl.engine"/>
-      <import plugin="org.eclipse.epsilon.profiling"/>
+      <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.ui.forms"/>
-      <import plugin="org.eclipse.epsilon.emc.plainxml"/>
-      <import plugin="org.eclipse.epsilon.flock.engine"/>
-      <import plugin="org.eclipse.epsilon.emc.bibtex"/>
-      <import plugin="org.eclipse.epsilon.emc.csv"/>
-      <import plugin="org.eclipse.epsilon.epl.engine"/>
-      <import plugin="org.eclipse.ant.core"/>
-      <import plugin="org.apache.ant"/>
-      <import plugin="org.eclipse.epsilon.emc.composite"/>
-      <import plugin="org.eclipse.epsilon.eunit.engine"/>
-      <import plugin="org.eclipse.compare"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
       <import plugin="org.junit"/>
    </requires>
 
