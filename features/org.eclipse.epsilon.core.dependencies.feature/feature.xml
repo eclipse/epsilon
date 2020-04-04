@@ -297,10 +297,6 @@ version(s), and exceptions or additional permissions here}.&quot;
   You may add additional accurate notices of copyright ownership.
    </license>
 
-   <requires>
-      <import plugin="org.apache.commons.csv" version="1.4.0" match="greaterOrEqual"/>
-   </requires>
-
    <plugin
          id="org.eclipse.epsilon.dependencies"
          download-size="0"
