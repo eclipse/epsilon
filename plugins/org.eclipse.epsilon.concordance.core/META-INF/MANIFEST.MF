@@ -4,7 +4,7 @@ Bundle-Name: Epsilon Concordance
 Bundle-SymbolicName: org.eclipse.epsilon.concordance.core;singleton:=true
 Bundle-Version: 1.6.0.qualifier
 Bundle-Vendor: Eclipse Modeling Project
-Require-Bundle: org.h2_1.1.117,
+Require-Bundle: org.h2,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.concordance.core.hashing

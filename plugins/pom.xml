@@ -125,6 +125,5 @@
     <module>org.eclipse.epsilon.workflow.csv</module>
     <module>org.eclipse.epsilon.workflow.emf</module>
     <module>org.eclipse.epsilon.workflow.eugenia</module>
-    <module>org.h2_1.1.117</module>
   </modules>
 </project>

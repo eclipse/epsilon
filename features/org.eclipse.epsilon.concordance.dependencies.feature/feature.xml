@@ -301,12 +301,9 @@ version(s), and exceptions or additional permissions here}.&quot;
       <discovery label="Epsilon Update Site (Stable)" url="http://download.eclipse.org/epsilon/updates/"/>
       <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
    </url>
-
-   <plugin
-         id="org.h2_1.1.117"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+   
+   <requires>
+     <import plugin="org.h2"/>
+   </requires>
 
 </feature>
