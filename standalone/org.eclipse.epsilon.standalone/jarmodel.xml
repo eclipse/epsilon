@@ -108,7 +108,7 @@
 		<project name="org.eclipse.epsilon.emc.simulink"/>
 		<project name="org.eclipse.epsilon.emc.simulink.dictionary"/>
 		<project name="org.eclipse.epsilon.emc.simulink.requirement"/>
-		<plugin name="org.slf4j_1.7.26"
+		<plugin name="org.slf4j"
 			groupId="org.slf4j"
 			artifactId="slf4j-api"
 			version="1.7.26" />

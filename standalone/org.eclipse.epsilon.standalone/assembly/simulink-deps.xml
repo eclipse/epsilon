@@ -11,7 +11,7 @@
       <directory>target/dependency</directory>
       <outputDirectory></outputDirectory>
       <includes>
-        <include>org.slf4j_1.7.26*.jar</include>
+        <include>org.slf4j*.jar</include>
       </includes>
     </fileSet>
   </fileSets>
