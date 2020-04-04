@@ -25,10 +25,9 @@ rule ClassDiagram {
 		"icon" = "diagram-ff0000",
 		"layers" = Sequence {
 			Map {"id"="documentation", "title"="Documentation"},
-			Map {"id"="constraints", "title"="Constraints"},
+			Map {"id"="constraintDescriptions", "title"="Constraint descriptions"},
+			Map {"id"="constraintNames", "title"="Constraint names"},
 			Map {"id"="referenceLabels", "title"="Reference labels", "active"=false},
-			//Map {"id"="subtypes", "title"="Subtypes", "active"=false},
-			//Map {"id"="supertypes", "title"="Supertypes"},
 			Map {"id"="derived", "title"="Derived features", "active"=false},
 			Map {"id"="inherited", "title"="Inherited features", "active"=false}
 		}
@@ -64,7 +63,8 @@ rule EClass2ClassDiagram
 			"icon" = "diagram-fffbd7",
 			"layers" = Sequence {
 				Map {"id"="documentation", "title"="Documentation"},
-				Map {"id"="constraints", "title"="Constraints"},
+				Map {"id"="constraintDescriptions", "title"="Constraint descriptions"},
+				Map {"id"="constraintNames", "title"="Constraint names"},
 				Map {"id"="referenceLabels", "title"="Reference labels", "active"=false},
 				Map {"id"="subtypes", "title"="Subtypes", "active"=false},
 				Map {"id"="supertypes", "title"="Supertypes"},

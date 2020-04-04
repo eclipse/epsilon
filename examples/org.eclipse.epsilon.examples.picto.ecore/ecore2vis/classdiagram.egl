@@ -21,11 +21,10 @@ digraph G {
 		[%if ((main.isDefined() and c == main) or main.isUndefined()){%]
 			
 			[** Create nodes for all the constraints of the class*]
-			[%if (isLayerActive("constraints")){%]
-			[%for (constraint in module.constraintContexts.select(ctx|ctx.typeName=c.name).collect(ctx|ctx.constraints).flatten()){%]
-				[%=c.getNodeName()+constraint.name%][label="[%=constraint.getConstraintLabel()%]", style="filled", fillcolor="[%=constraint.getConstraintColour()%]"]
-				[%=c.getNodeName()%]->[%=c.getNodeName()+constraint.name%][arrowhead=none, style=dashed, name="[%=c.getNodeName()+constraint.name%]"]
-			[%}%]
+			[%if (constraintsVisible() and module.constraintContexts.exists(ctx|ctx.typeName=c.name)){%]
+				[%=c.getNodeName()%]_Constraints[shape=none, margin=0, label=<[%=c.getConstraintsLabel()%]>]
+				[%=c.getNodeName()%]_Constraints->[%=c.getNodeName()%][arrowhead=none, style=dashed, name="[%=c.getNodeName()%]_Constraints"]
+				{rank=same;[%=c.getNodeName()%]_Constraints;[%=c.getNodeName()%]}
 			[%}%]
 			
 			[** Create node for all the documentation annotations of the class*]
@@ -139,6 +138,19 @@ operation EClass getLabel() {
 	return label;
 }
 
+operation EClass getConstraintsLabel() {
+	var label = "<table border='1' cellspacing='0' cellborder='0' cellpadding='4'>";
+	for (constraint in 
+		module.constraintContexts.select(ctx|ctx.typeName=self.name).
+			collect(ctx|ctx.constraints).flatten()) {
+		
+		label+="<tr><td bgcolor='" + constraint.getConstraintColour() + "'>" + constraint.getConstraintLabel() + "</td></tr>";
+	
+	}
+	label += "</table>";
+	return label;
+}
+
 operation EStructuralFeature getLabel(eClass : EClass) {
 	var label = self.name;
 	if (self.isDerived()) label = "/" + label;
@@ -190,9 +202,15 @@ operation EReference getIdentifier() {
 }
 
 operation Any getConstraintLabel() {
-	var label = self.name;
-	if (self.comments.notEmpty()) label = label + ": " + self.comments.first();
-	return label.toMultiline();
+	var label = "";
+	if (isLayerActive("constraintNames")) label += self.name;
+	if (self.comments.notEmpty() and isLayerActive("constraintDescriptions")) {
+		if (isLayerActive("constraintNames")) label += ": ";
+		label += self.comments.first();
+	}
+	return "<table cellspacing='0' border='0' cellpadding='0'><tr><td align='left'>" + 
+		label.toMultiline("</td></tr><tr><td align='left'>") +
+		"</td></tr></table>";
 }
 
 operation Any getConstraintColour() {
@@ -274,6 +292,10 @@ operation EModelElement getAnnotationValue(name : String, detail : String) : Any
 }
 
 operation String toMultiline() : String {
+	return self.toMultiline("\\l");
+}
+
+operation String toMultiline(newline : String) : String {
 	var multiline = "";
 	
 	for (line in self.split("\\n")) {
@@ -281,17 +303,17 @@ operation String toMultiline() : String {
 		for (part in line.split(" ")) {
 			multiline += part + " ";
 			if (length > 30) {
-				multiline += "\\l";
+				multiline += newline;
 				length = 0;
 			}
 			else {
 				length += part.length();
 			}
 		}
-		if (not multiline.endsWith("\\l")) multiline += "\\l";
+		if (not multiline.endsWith(newline)) multiline += newline;
 		if (hasMore) multiline += "\\n";
 	}
-	if (not multiline.endsWith("\\l")) multiline += "\\l";
+	if (not multiline.endsWith(newline)) multiline += newline;
 	
 	multiline = multiline.replaceAll('"', '\\\\"');
 	
@@ -319,5 +341,10 @@ operation isLayerActive(id : String) {
 operation Any getIcon() {
 	return getImage("icons/" + self.eClass.name + ".gif");
 }
+
+operation constraintsVisible() {
+	return isLayerActive("constraintNames") or isLayerActive("constraintDescriptions");
+}
+
 %]
 
