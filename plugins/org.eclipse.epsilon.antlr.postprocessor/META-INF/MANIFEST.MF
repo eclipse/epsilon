@@ -4,7 +4,6 @@ Bundle-Name: Epsilon Antlr AST Postprocessor
 Bundle-SymbolicName: org.eclipse.epsilon.antlr.postprocessor
 Bundle-Version: 1.6.0.qualifier
 Require-Bundle: org.eclipse.epsilon.antlr.postprocessor.model;visibility:=reexport,
- org.eclipse.epsilon.dependencies,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.epsilon.common
 Export-Package: org.eclipse.epsilon.antlr.postprocessor
