@@ -51,6 +51,7 @@
 		<unit id="org.apache.commons.collections" version="3.2.2.v201511171945"/>
 		<unit id="org.apache.commons.collections.source" version="3.2.2.v201511171945"/>
 		<unit id="org.apache.commons.csv" version="0.0.0"/>
+		<unit id="org.apache.commons.csv.source" version="0.0.0"/>
 		<unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
 		<unit id="org.apache.commons.lang3.source" version="3.1.0.v201403281430"/>
 		<unit id="org.apache.commons.logging" version="1.1.1.v201101211721"/>

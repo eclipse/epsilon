@@ -10,25 +10,11 @@
 package org.eclipse.epsilon.emc.graphml;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import org.eclipse.epsilon.emc.muddle.BooleanType;
-import org.eclipse.epsilon.emc.muddle.Feature;
-import org.eclipse.epsilon.emc.muddle.IntegerType;
-import org.eclipse.epsilon.emc.muddle.LinkElementType;
-import org.eclipse.epsilon.emc.muddle.Muddle;
-import org.eclipse.epsilon.emc.muddle.MuddleElement;
-import org.eclipse.epsilon.emc.muddle.MuddleElementStyle;
-import org.eclipse.epsilon.emc.muddle.MuddleElementType;
-import org.eclipse.epsilon.emc.muddle.MuddleFactory;
-import org.eclipse.epsilon.emc.muddle.RealType;
-import org.eclipse.epsilon.emc.muddle.Slot;
-import org.eclipse.epsilon.emc.muddle.Type;
-import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.emc.muddle.*;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
