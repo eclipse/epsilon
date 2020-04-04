@@ -301,10 +301,13 @@ version(s), and exceptions or additional permissions here}.&quot;
       <discovery label="Epsilon Update Site (Stable)" url="http://download.eclipse.org/epsilon/updates/"/>
       <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
    </url>
-
-   <includes
-         id="org.eclipse.epsilon.core.dependencies.feature"
-         version="0.0.0"/>
+   
+   <plugin
+         id="org.eclipse.epsilon.dependencies"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.ecl.engine"

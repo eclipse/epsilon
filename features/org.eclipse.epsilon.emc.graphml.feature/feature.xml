@@ -306,7 +306,6 @@ version(s), and exceptions or additional permissions here}.&quot;
       <import plugin="org.eclipse.epsilon.emc.muddle"/>
       <import plugin="org.eclipse.epsilon.common.dt"/>
       <import plugin="org.eclipse.epsilon.emc.graphml"/>
-	  <import plugin="org.jdom"/>
    </requires>
 
    <plugin

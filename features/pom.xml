@@ -13,21 +13,15 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>org.eclipse.epsilon.concordance.dependencies.feature</module>
     <module>org.eclipse.epsilon.concordance.feature</module>
-    <module>org.eclipse.epsilon.core.dependencies.feature</module>
     <module>org.eclipse.epsilon.core.dt.feature</module>
     <module>org.eclipse.epsilon.core.feature</module>
     <module>org.eclipse.epsilon.emc.graphml.feature</module>
-    <module>org.eclipse.epsilon.emc.spreadsheets.dependencies.feature</module>
-    <module>org.eclipse.epsilon.emc.spreadsheets.excel.dependencies.feature</module>
     <module>org.eclipse.epsilon.emc.spreadsheets.excel.dt.feature</module>
     <module>org.eclipse.epsilon.emc.spreadsheets.excel.feature</module>
     <module>org.eclipse.epsilon.emc.spreadsheets.feature</module>
-    <module>org.eclipse.epsilon.emc.spreadsheets.google.dependencies.feature</module>
     <module>org.eclipse.epsilon.emc.spreadsheets.google.dt.feature</module>
     <module>org.eclipse.epsilon.emc.spreadsheets.google.feature</module>
-    <module>org.eclipse.epsilon.emf.dt.dependencies.feature</module>
     <module>org.eclipse.epsilon.emf.dt.feature</module>
     <module>org.eclipse.epsilon.emf.feature</module>
     <module>org.eclipse.epsilon.eugenia.feature</module>
@@ -35,7 +29,6 @@
     <module>org.eclipse.epsilon.evl.emf.validation.feature</module>
     <module>org.eclipse.epsilon.ewl.emf.feature</module>
     <module>org.eclipse.epsilon.ewl.gmf.feature</module>
-    <module>org.eclipse.epsilon.hutn.dependencies.feature</module>
     <module>org.eclipse.epsilon.hutn.dt.feature</module>
     <module>org.eclipse.epsilon.hutn.feature</module>
     <module>org.eclipse.epsilon.uml.dt.feature</module>

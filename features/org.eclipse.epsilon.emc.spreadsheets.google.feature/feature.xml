@@ -304,15 +304,27 @@ version(s), and exceptions or additional permissions here}.&quot;
       <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
    </url>
 
-   <includes
-         id="org.eclipse.epsilon.emc.spreadsheets.google.dependencies.feature"
-         version="0.0.0"/>
-
    <requires>
       <import plugin="org.eclipse.epsilon.emc.spreadsheets.google.dependencies"/>
       <import plugin="org.eclipse.epsilon.eol.engine"/>
       <import plugin="org.eclipse.epsilon.emc.spreadsheets"/>
+      <import plugin="com.google.gdata_1.47.1" version="1.47.1" match="greaterOrEqual"/>
+      <import plugin="com.google.guava" version="18.0.0" match="greaterOrEqual"/>
    </requires>
+
+   <plugin
+         id="org.eclipse.epsilon.emc.spreadsheets.google.dependencies"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.google.gdata_1.47.1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.spreadsheets.google"

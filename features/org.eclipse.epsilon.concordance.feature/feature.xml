@@ -302,10 +302,6 @@ version(s), and exceptions or additional permissions here}.&quot;
       <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
    </url>
 
-   <includes
-         id="org.eclipse.epsilon.concordance.dependencies.feature"
-         version="0.0.0"/>
-
    <requires>
       <import plugin="org.eclipse.epsilon.common.dt"/>
       <import plugin="org.eclipse.epsilon.hutn.xmi.dt"/>
@@ -314,6 +310,7 @@ version(s), and exceptions or additional permissions here}.&quot;
       <import plugin="org.eclipse.epsilon.hutn.xmi"/>
       <import plugin="org.eclipse.epsilon.flock.dt.emf"/>
       <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.h2"/>
    </requires>
 
    <plugin
