@@ -215,7 +215,7 @@ public abstract class EglPictoSource implements PictoSource {
 					// Replace layers variable from list of maps to list of Layer objects
 					if (layersVariable != null) instance.getVariables().remove(layersVariable);
 					instance.getVariables().add(Variable.createReadOnlyVariable("layers", layers));
-					viewTree.addPath(new ArrayList<>(path), instance, format, icon, patches, layers);
+					viewTree.add(new ArrayList<>(path), new ViewTree(instance, format, icon, patches, layers));
 				}
 				
 			}
@@ -231,8 +231,8 @@ public abstract class EglPictoSource implements PictoSource {
 				String format = customView.getFormat() != null ? customView.getFormat() : getDefaultFormat();
 				String icon = customView.getIcon() != null ? customView.getIcon() : getDefaultIcon();
 				
-				viewTree.addPath(customView.getPath(), new StringContentPromise(customView.getContent()), 
-						format, icon, customView.getPatches(), Collections.emptyList());
+				viewTree.add(customView.getPath(), new ViewTree(new StringContentPromise(customView.getContent()), 
+						format, icon, customView.getPatches(), Collections.emptyList()));
 			}
 			
 			// Handle patches for existing views (i.e. where content == null and type/rule == null)

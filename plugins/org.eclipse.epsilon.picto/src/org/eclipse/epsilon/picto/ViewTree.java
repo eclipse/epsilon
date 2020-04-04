@@ -34,25 +34,6 @@ public class ViewTree {
 	protected List<Layer> layers = new ArrayList<>();
 	protected Set<URI> baseUris = new LinkedHashSet<>();
 	
-	public static void main(String[] args) {
-
-		ViewTree pathTree = new ViewTree("");
-		pathTree.addPath(Arrays.asList("e1", "e2"),
-				new StringContentPromise("c1"), "text", "", Collections.emptyList(), Collections.emptyList());
-		pathTree.addPath(Arrays.asList("e1", "e3", "e4"),
-				new StringContentPromise("c2"), "text", "", Collections.emptyList(), Collections.emptyList());
-		pathTree.addPath(Arrays.asList("e1", "e3", "e5"),
-				new StringContentPromise("This is a very,\nvery long content in a view tree"), "text", "",
-				Collections.emptyList(), Collections.emptyList());
-		System.out.println(pathTree);
-
-		System.out.println("----------------------------------");
-
-		ViewTree result = pathTree.forPath(Arrays.asList("", "e1", "e3", "e4"));
-		System.out.println(result.getPath());
-
-	}
-	
 	public ViewTree() {}
 
 	public ViewTree(String name) {
@@ -64,7 +45,16 @@ public class ViewTree {
 		this.format = format;
 	}
 	
-	public ViewTree addPath(List<String> path, ContentPromise promise, String format, String icon, List<Patch> patches, List<Layer> layers) {
+	public ViewTree(ContentPromise promise, String format, String icon, List<Patch> patches, List<Layer> layers) {
+		super();
+		this.promise = promise;
+		this.format = format;
+		this.icon = icon;
+		this.patches = patches;
+		this.layers = layers;
+	}
+
+	public ViewTree add(List<String> path, ViewTree other) {
 		ViewTree child = null;
 		
 		if (path.size() > 1) {
@@ -81,7 +71,7 @@ public class ViewTree {
 				children.add(child);
 			}
 			
-			child.addPath(rest, promise, format, icon, patches, layers);
+			child.add(rest, other);
 		}
 		else {
 			for (ViewTree candidate : children) {
@@ -91,15 +81,11 @@ public class ViewTree {
 			}
 			
 			if (child == null) {
-				child = new ViewTree(path.get(0));
+				child = other;
+				child.setName(path.get(0));
 				children.add(child);
 			}
 			
-			child.setFormat(format);
-			child.setPromise(promise);
-			child.setIcon(icon);
-			child.setPatches(patches);
-			child.setLayers(layers);
 		}
 		return child;
 	}
