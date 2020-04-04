@@ -36,6 +36,7 @@
 	      <includeArtifactIds><!-- Match MANIFEST.MF -->
 	        org.antlr.runtime,
 	        org.apache.ant,
+	        org.apache.commons.cli_1.4,
 	        org.apache.commons.collections,
 	        org.apache.commons.csv,
 			org.apache.commons.lang3,
@@ -57,7 +58,6 @@
 			org.eclipse.xsd,
 			org.eclipse.xtext,
 			org.eclipse.xtext.xbase,
-			org.jdom,
 			org.slf4j.api
 		    </includeArtifactIds>
 	      <outputDirectory>target/dependency-unpacked</outputDirectory>
@@ -97,7 +97,8 @@
 		<descriptor>assembly/graphml-sources.xml</descriptor>
 		<descriptor>assembly/simulink.xml</descriptor>
 		<descriptor>assembly/simulink-src.xml</descriptor>
-		<descriptor>assembly/simulink-sources.xml</descriptor>		
+		<descriptor>assembly/simulink-sources.xml</descriptor>
+		<descriptor>assembly/simulink-deps.xml</descriptor>
 		<descriptor>assembly/hutn.xml</descriptor>
 		<descriptor>assembly/hutn-src.xml</descriptor>
 		<descriptor>assembly/hutn-sources.xml</descriptor>
@@ -111,6 +112,10 @@
 		<descriptor>assembly/workflow-emf.xml</descriptor>
 		<descriptor>assembly/workflow-emf-src.xml</descriptor>
 		<descriptor>assembly/workflow-emf-sources.xml</descriptor>
+		<descriptor>assembly/cli.xml</descriptor>
+		<descriptor>assembly/cli-src.xml</descriptor>
+		<descriptor>assembly/cli-sources.xml</descriptor>
+		<descriptor>assembly/cli-deps.xml</descriptor>
 		<descriptor>assembly/kitchensink.xml</descriptor>
 	      </descriptors>
 	    </configuration>

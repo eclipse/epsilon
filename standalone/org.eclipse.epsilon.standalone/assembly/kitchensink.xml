@@ -171,6 +171,14 @@
         <directory>../../plugins/org.eclipse.epsilon.emc.spreadsheets.google/target/classes</directory>
         <outputDirectory></outputDirectory>
       </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.common.cli/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
+      <fileSet>
+        <directory>../../plugins/org.eclipse.epsilon.eol.cli/target/classes</directory>
+        <outputDirectory></outputDirectory>
+      </fileSet>
     <fileSet>
       <directory>target/dependency-unpacked</directory>
       <outputDirectory></outputDirectory>

@@ -15,6 +15,7 @@
   <modules>
     <module>com.google.gdata_1.47.1</module>
     <module>net.sourceforge.plantuml</module>
+    <module>org.apache.commons.cli_1.4</module>
     <module>org.apache.poi.ooxml.schemas_3.10.1</module>
     <module>org.apache.poi.ooxml_3.10.1</module>
     <module>org.apache.poi_3.10.1</module>
@@ -22,6 +23,7 @@
     <module>org.eclipse.epsilon.antlr.postprocessor</module>
     <module>org.eclipse.epsilon.antlr.postprocessor.model</module>
     <module>org.eclipse.epsilon.common</module>
+    <module>org.eclipse.epsilon.common.cli</module>
     <module>org.eclipse.epsilon.common.dt</module>
     <module>org.eclipse.epsilon.common.dt.examples</module>
     <module>org.eclipse.epsilon.concordance.clients</module>
@@ -77,6 +79,7 @@
     <module>org.eclipse.epsilon.emg.engine</module>
     <module>org.eclipse.epsilon.eml.dt</module>
     <module>org.eclipse.epsilon.eml.engine</module>
+    <module>org.eclipse.epsilon.eol.cli</module>
     <module>org.eclipse.epsilon.eol.dt</module>
     <module>org.eclipse.epsilon.eol.engine</module>
     <module>org.eclipse.epsilon.eol.tools</module>

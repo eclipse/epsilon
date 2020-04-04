@@ -6,6 +6,8 @@ Bundle-Version: 1.6.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.antlr.runtime;bundle-version="3.2.0",
  org.apache.ant,
+ org.apache.commons.collections;bundle-version="3.2.2",
+ org.apache.commons.lang3;bundle-version="3.1.0",
  org.eclipse.emf.common,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
@@ -14,10 +16,9 @@ Require-Bundle: org.antlr.runtime;bundle-version="3.2.0",
  org.eclipse.uml2.common,
  org.eclipse.emf.mapping.ecore2xml,
  org.eclipse.uml2.types,
+ org.slf4j.api,
  org.apache.poi.ooxml.schemas_3.10.1,
  org.apache.poi.ooxml_3.10.1,
  org.apache.poi_3.10.1,
- org.apache.commons.collections;bundle-version="3.2.2",
- org.apache.commons.lang3;bundle-version="3.1.0",
- org.slf4j.api
+ org.apache.commons.cli_1.4;bundle-version="1.4.0"
 Automatic-Module-Name: org.eclipse.epsilon.standalone

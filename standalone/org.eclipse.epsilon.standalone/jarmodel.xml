@@ -165,4 +165,16 @@
 			artifactId="xmlbeans"
 			version="2.6.0" />
 	</jar>
+	
+	<jar name="cli" requires="core">
+		<description>
+		 Command-line interface for Epsilon's main languages.
+		</description>
+		<project name="org.eclipse.epsilon.common.cli"/>
+		<project name="org.eclipse.epsilon.eol.cli"/>
+		<plugin name="org.apache.commons.cli_1.4"
+			groupId="commons-cli"
+			artifactId="commons-cli"
+			version="1.4" />
+	</jar>
 </jarmodel>
