@@ -298,10 +298,6 @@ version(s), and exceptions or additional permissions here}.&quot;
       <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
    </url>
 
-   <includes
-         id="org.eclipse.epsilon.hutn.dependencies.feature"
-         version="0.0.0"/>
-
    <requires>
       <import plugin="org.eclipse.epsilon.hutn.engine"/>
       <import plugin="org.eclipse.epsilon.common.dt"/>

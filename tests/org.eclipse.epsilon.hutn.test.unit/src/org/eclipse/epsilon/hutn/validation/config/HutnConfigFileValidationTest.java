@@ -34,7 +34,6 @@ public abstract class HutnConfigFileValidationTest extends HutnTestWithFamiliesM
 		
 		try {
 			model = new InMemoryEmfModel("Config", EmfUtil.createResource(configuration));
-			model.setMetamodelFileBased(false);
 			model.setMetamodelUri(HutnConfigPackage.eNS_URI);
 		
 			final HutnConfigFileValidator validator = new HutnConfigFileValidator();

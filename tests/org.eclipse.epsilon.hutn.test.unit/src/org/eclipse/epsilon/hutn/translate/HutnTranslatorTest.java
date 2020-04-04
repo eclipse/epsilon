@@ -15,14 +15,12 @@ package org.eclipse.epsilon.hutn.translate;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.epsilon.hutn.exceptions.HutnTranslationException;
 import org.eclipse.epsilon.hutn.model.hutn.Spec;
 import org.eclipse.epsilon.hutn.model.hutnAntlrAst.HutnAntlrAstFactory;
 import org.eclipse.epsilon.test.util.ModelWithEolAssertions;
-import org.eclipse.epsilon.hutn.translate.HutnTranslator;
 import org.eclipse.epsilon.emc.emf.AbstractEmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
