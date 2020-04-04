@@ -15,7 +15,6 @@ abstract class Step {
 
 class Block extends Step {
 	attr String title;
-	attr String sub;
 	val Step[*] steps;
 }
 
