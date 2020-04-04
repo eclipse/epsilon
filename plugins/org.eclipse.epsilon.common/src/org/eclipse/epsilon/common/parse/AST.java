@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
 import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTree;
@@ -139,6 +138,7 @@ public class AST extends CommonTree {
 		throw new IllegalArgumentException("Cannot cast " + tree.getClass().getSimpleName() + " to AST.");
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<AST> getChildren() {
 		List<AST> children = super.getChildren();
@@ -178,6 +178,7 @@ public class AST extends CommonTree {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public AST getNextSibling() {
 		if (parent == null)
 			return null;
@@ -189,6 +190,7 @@ public class AST extends CommonTree {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public AST setNextSibling(AST sibling) {
 		if (parent != null && sibling != null) {
 			parent.getChildren().add(this.childIndex, sibling);
@@ -216,6 +218,7 @@ public class AST extends CommonTree {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public AST setFirstChild(AST child) {
 		if (getChildCount() == 0) {
 			addChild(child);

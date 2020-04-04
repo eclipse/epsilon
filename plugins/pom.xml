@@ -29,7 +29,6 @@
     <module>org.eclipse.epsilon.concordance.clients</module>
     <module>org.eclipse.epsilon.concordance.core</module>
     <module>org.eclipse.epsilon.concordance.core.hashing</module>
-    <module>org.eclipse.epsilon.dependencies</module>
     <module>org.eclipse.epsilon.dt.epackageregistryexplorer</module>
     <module>org.eclipse.epsilon.dt.exeed</module>
     <module>org.eclipse.epsilon.ecl.dt</module>
