@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EasyMock 2.4
 Bundle-SymbolicName: org.easymock_2.4
-Bundle-Version: 2.4
+Bundle-Version: 2.4.0
 Bundle-ClassPath: easymock.jar,
  easymockclassextension.jar,
  cglib-2.1_3-src.jar,
