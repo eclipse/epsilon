@@ -2,7 +2,7 @@
 <picto format="egx" template="platform:/resource/org.eclipse.epsilon.examples.picto.ecore/ecore2vis/ecore.egx">
 
 	<!-- A custom view produced by invoking an EGX rule -->
-	<view path="Model, Custom, Core" icon="diagram-ff00ff" type="ClassDiagram" layers="">
+	<view path="Model, Custom, Core" icon="diagram-ff00ff" type="ClassDiagram" layers="inherited">
 		<patch format="graphviz-dot" content_="comps-patches/connector-graphviz.patch"/>
 		<patch format="html" content_="comps-patches/core-html.patch"/>
 		<parameter name="classNames" values="Component, Port, Connector"/>
@@ -19,8 +19,8 @@
 			applies="documentation"/>
 	</view>
 	
-	<view path="Model, (All Classes)">
-		<patch format="graphviz-dot" content_="comps-patches/allclasses-graphviz.patch"/>
+	<view path="Model, (All Classes)" layers="documentation">
+		<patch format="graphviz-dot" content_="comps-patches/allclasses-graphviz.patch" applies="referenceLabels"/>
 	</view>
 	
 </picto>
