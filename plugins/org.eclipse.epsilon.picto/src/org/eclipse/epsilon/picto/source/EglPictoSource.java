@@ -145,6 +145,7 @@ public abstract class EglPictoSource implements PictoSource {
 						if (customView.getIcon() != null) customView.getParameters().add(createParameter("icon", customView.getIcon()));
 						if (customView.getFormat() != null) customView.getParameters().add(createParameter("format", customView.getFormat()));
 						customView.getParameters().add(createParameter("patches", customView.getPatches()));
+						if (customView.getPosition() != null) customView.getParameters().add(createParameter("position", customView.getPosition()));
 						if (customView.eIsSet(PictoPackage.eINSTANCE.getCustomView_Layers())) {
 							customView.getParameters().add(createParameter("activeLayers", customView.getLayers()));
 						}
@@ -179,12 +180,14 @@ public abstract class EglPictoSource implements PictoSource {
 					Collection<String> path = new ArrayList<>(Arrays.asList(""));
 					List<Layer> layers = new ArrayList<>();
 					Variable layersVariable = null;
+					Integer position = null;
 					
 					for (Variable variable : instance.getVariables()) {
 						switch (variable.getName()) {
 						case "format": format = variable.getValue() + ""; break;
 						case "path": path = (Collection<String>) variable.getValue(); break;
 						case "icon": icon = variable.getValue() + ""; break;
+						case "position": position = (Integer) variable.getValue(); break;
 						case "layers": {
 								layersVariable = variable;
 								List<Object> layerMaps = (List<Object>) variable.getValue();
@@ -215,7 +218,7 @@ public abstract class EglPictoSource implements PictoSource {
 					// Replace layers variable from list of maps to list of Layer objects
 					if (layersVariable != null) instance.getVariables().remove(layersVariable);
 					instance.getVariables().add(Variable.createReadOnlyVariable("layers", layers));
-					viewTree.add(new ArrayList<>(path), new ViewTree(instance, format, icon, patches, layers));
+					viewTree.add(new ArrayList<>(path), new ViewTree(instance, format, icon, position, patches, layers));
 				}
 				
 			}
@@ -232,7 +235,7 @@ public abstract class EglPictoSource implements PictoSource {
 				String icon = customView.getIcon() != null ? customView.getIcon() : getDefaultIcon();
 				
 				viewTree.add(customView.getPath(), new ViewTree(new StringContentPromise(customView.getContent()), 
-						format, icon, customView.getPatches(), Collections.emptyList()));
+						format, icon, customView.getPosition(), customView.getPatches(), Collections.emptyList()));
 			}
 			
 			// Handle patches for existing views (i.e. where content == null and type/rule == null)
@@ -246,6 +249,8 @@ public abstract class EglPictoSource implements PictoSource {
 				if (existingView != null) {
 					if (customView.getIcon() != null) existingView.setIcon(customView.getIcon());
 					if (customView.getFormat() != null) existingView.setFormat(customView.getFormat());
+					if (customView.getPosition() != null) existingView.setPosition(customView.getPosition());
+					
 					existingView.getPatches().addAll(customView.getPatches());
 					if (customView.eIsSet(PictoPackage.eINSTANCE.getCustomView_Layers())) {
 						List<String> layers = customView.getLayers();

@@ -314,13 +314,22 @@ public interface PictoPackage extends EPackage {
 	int CUSTOM_VIEW__CONTENT = 4;
 
 	/**
+	 * The feature id for the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_VIEW__POSITION = 5;
+
+	/**
 	 * The feature id for the '<em><b>Layers</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CUSTOM_VIEW__LAYERS = 5;
+	int CUSTOM_VIEW__LAYERS = 6;
 
 	/**
 	 * The feature id for the '<em><b>Patches</b></em>' containment reference list.
@@ -329,7 +338,7 @@ public interface PictoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CUSTOM_VIEW__PATCHES = 6;
+	int CUSTOM_VIEW__PATCHES = 7;
 
 	/**
 	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
@@ -338,7 +347,7 @@ public interface PictoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CUSTOM_VIEW__PARAMETERS = 7;
+	int CUSTOM_VIEW__PARAMETERS = 8;
 
 	/**
 	 * The number of structural features of the '<em>Custom View</em>' class.
@@ -347,7 +356,7 @@ public interface PictoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CUSTOM_VIEW_FEATURE_COUNT = 8;
+	int CUSTOM_VIEW_FEATURE_COUNT = 9;
 
 	/**
 	 * The number of operations of the '<em>Custom View</em>' class.
@@ -653,6 +662,17 @@ public interface PictoPackage extends EPackage {
 	EAttribute getCustomView_Content();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.CustomView#getPosition <em>Position</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Position</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView#getPosition()
+	 * @see #getCustomView()
+	 * @generated
+	 */
+	EAttribute getCustomView_Position();
+
+	/**
 	 * Returns the meta object for the attribute list '{@link org.eclipse.epsilon.picto.dom.CustomView#getLayers <em>Layers</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -934,6 +954,14 @@ public interface PictoPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CUSTOM_VIEW__CONTENT = eINSTANCE.getCustomView_Content();
+
+		/**
+		 * The meta object literal for the '<em><b>Position</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CUSTOM_VIEW__POSITION = eINSTANCE.getCustomView_Position();
 
 		/**
 		 * The meta object literal for the '<em><b>Layers</b></em>' attribute list feature.

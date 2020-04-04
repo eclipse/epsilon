@@ -29,6 +29,7 @@ class CustomView {
 	attr String format;
 	attr String type;
 	attr String content;
+	attr Integer position;
 	attr String[*] layers;
 	val Patch[*] patches;
 	val Parameter[*] parameters;

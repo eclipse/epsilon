@@ -11,8 +11,6 @@ package org.eclipse.epsilon.picto;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,6 +31,7 @@ public class ViewTree {
 	protected ViewContent cachedContent = null;
 	protected List<Layer> layers = new ArrayList<>();
 	protected Set<URI> baseUris = new LinkedHashSet<>();
+	protected Integer position = null;
 	
 	public ViewTree() {}
 
@@ -50,6 +49,16 @@ public class ViewTree {
 		this.promise = promise;
 		this.format = format;
 		this.icon = icon;
+		this.patches = patches;
+		this.layers = layers;
+	}
+	
+	public ViewTree(ContentPromise promise, String format, String icon, Integer position, List<Patch> patches, List<Layer> layers) {
+		super();
+		this.promise = promise;
+		this.format = format;
+		this.icon = icon;
+		this.position = position;
 		this.patches = patches;
 		this.layers = layers;
 	}
@@ -115,6 +124,7 @@ public class ViewTree {
 					preserveLayerState(child, counterpart);
 					child.setLayers(counterpart.getLayers());
 					child.setPatches(counterpart.getPatches());
+					child.setPosition(counterpart.getPosition());
 					child.ingest(counterpart);
 				}
 			}
@@ -317,4 +327,13 @@ public class ViewTree {
 	public ViewContent getCachedContent() {
 		return cachedContent;
 	}
+	
+	public Integer getPosition() {
+		return position;
+	}
+	
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
+	
 }

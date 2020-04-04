@@ -36,6 +36,7 @@ import org.eclipse.epsilon.picto.dom.PictoPackage;
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getFormat <em>Format</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getContent <em>Content</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getPosition <em>Position</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getLayers <em>Layers</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getPatches <em>Patches</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getParameters <em>Parameters</em>}</li>
@@ -133,6 +134,26 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	 * @ordered
 	 */
 	protected String content = CONTENT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getPosition() <em>Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPosition()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Integer POSITION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPosition()
+	 * @generated
+	 * @ordered
+	 */
+	protected Integer position = POSITION_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getLayers() <em>Layers</em>}' attribute list.
@@ -294,6 +315,29 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	 * @generated
 	 */
 	@Override
+	public Integer getPosition() {
+		return position;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setPosition(Integer newPosition) {
+		Integer oldPosition = position;
+		position = newPosition;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PictoPackage.CUSTOM_VIEW__POSITION, oldPosition, position));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EList<String> getLayers() {
 		if (layers == null) {
 			layers = new EDataTypeUniqueEList<String>(String.class, this, PictoPackage.CUSTOM_VIEW__LAYERS);
@@ -361,6 +405,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				return getType();
 			case PictoPackage.CUSTOM_VIEW__CONTENT:
 				return getContent();
+			case PictoPackage.CUSTOM_VIEW__POSITION:
+				return getPosition();
 			case PictoPackage.CUSTOM_VIEW__LAYERS:
 				return getLayers();
 			case PictoPackage.CUSTOM_VIEW__PATCHES:
@@ -395,6 +441,9 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				return;
 			case PictoPackage.CUSTOM_VIEW__CONTENT:
 				setContent((String)newValue);
+				return;
+			case PictoPackage.CUSTOM_VIEW__POSITION:
+				setPosition((Integer)newValue);
 				return;
 			case PictoPackage.CUSTOM_VIEW__LAYERS:
 				getLayers().clear();
@@ -435,6 +484,9 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 			case PictoPackage.CUSTOM_VIEW__CONTENT:
 				setContent(CONTENT_EDEFAULT);
 				return;
+			case PictoPackage.CUSTOM_VIEW__POSITION:
+				setPosition(POSITION_EDEFAULT);
+				return;
 			case PictoPackage.CUSTOM_VIEW__LAYERS:
 				getLayers().clear();
 				return;
@@ -466,6 +518,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
 			case PictoPackage.CUSTOM_VIEW__CONTENT:
 				return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
+			case PictoPackage.CUSTOM_VIEW__POSITION:
+				return POSITION_EDEFAULT == null ? position != null : !POSITION_EDEFAULT.equals(position);
 			case PictoPackage.CUSTOM_VIEW__LAYERS:
 				return layers != null && !layers.isEmpty();
 			case PictoPackage.CUSTOM_VIEW__PATCHES:
@@ -496,6 +550,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 		result.append(type);
 		result.append(", content: ");
 		result.append(content);
+		result.append(", position: ");
+		result.append(position);
 		result.append(", layers: ");
 		result.append(layers);
 		result.append(')');

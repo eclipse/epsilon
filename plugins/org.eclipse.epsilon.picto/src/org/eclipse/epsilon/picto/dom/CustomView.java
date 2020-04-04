@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getFormat <em>Format</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getContent <em>Content</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getPosition <em>Position</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getLayers <em>Layers</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getPatches <em>Patches</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getParameters <em>Parameters</em>}</li>
@@ -129,6 +130,28 @@ public interface CustomView extends EObject {
 	 * @generated
 	 */
 	void setContent(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Position</em>' attribute.
+	 * @see #setPosition(Integer)
+	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getCustomView_Position()
+	 * @model
+	 * @generated
+	 */
+	Integer getPosition();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.epsilon.picto.dom.CustomView#getPosition <em>Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Position</em>' attribute.
+	 * @see #getPosition()
+	 * @generated
+	 */
+	void setPosition(Integer value);
 
 	/**
 	 * Returns the value of the '<em><b>Layers</b></em>' attribute list.
