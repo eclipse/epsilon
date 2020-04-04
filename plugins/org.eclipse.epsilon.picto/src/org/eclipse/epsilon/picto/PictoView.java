@@ -284,6 +284,7 @@ public class PictoView extends ViewPart {
 				@Override
 				public void runWithException() throws Exception {
 					if (viewTree.getChildren().isEmpty()) {
+						if (rerender) viewTree.setScrollPosition(viewRenderer.getScrollPosition());
 						renderView(viewTree);
 					}
 					else {

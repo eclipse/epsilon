@@ -203,7 +203,7 @@ public abstract class EglPictoSource implements PictoSource {
 						
 					}
 					
-					// If this is a custom view there will be an activeLayers variable in the variables list
+					// If this is a custom view there may be an activeLayers variable in the variables list
 					Variable activeLayersVariable = instance.getVariables().stream().filter(v -> v.getName().equals("activeLayers")).findAny().orElse(null);
 					if (activeLayersVariable != null) {
 						List<String> activeLayers =  (List<String>) activeLayersVariable.getValue();
