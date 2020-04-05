@@ -52,7 +52,7 @@ pipeline {
                 sh '''
                   SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target"
                   if [ -d "$SITEDIR" ]; then
-                    INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
+                    INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim/1.6
                     ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
                     scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
                     scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/site.zip
