@@ -52,10 +52,11 @@ pipeline {
                 sh '''
                   SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target"
                   if [ -d "$SITEDIR" ]; then
-                    INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim/1.6
-                    ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
-                    scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
-                    scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/site.zip
+                    INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
+					UPDATES=$INTERIM/updates
+                    ssh genie.epsilon@projects-storage.eclipse.org rm -rf $UPDATES
+                    scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
+                    scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
                     ssh genie.epsilon@projects-storage.eclipse.org mkdir -p $INTERIM/jars
                     scp "$WORKSPACE"/standalone/org.eclipse.epsilon.standalone/target/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
                     scp -r "$WORKSPACE/target/site/apidocs" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
