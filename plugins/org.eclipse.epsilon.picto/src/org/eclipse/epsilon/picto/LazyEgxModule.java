@@ -80,10 +80,14 @@ public class LazyEgxModule extends EgxModule {
 				preBlock.execute(context, false);
 			}
 			
-			final String templateName = (templateBlock == null) ? "" : templateBlock.execute(context, false);
+			final String templateName = (templateBlock == null) ? null : templateBlock.execute(context, false);
 			final EglTemplateFactory templateFactory = context.getTemplateFactory();
 			List<Variable> variables = new ArrayList<>();
-			URI templateUri = templateFactory.resolveTemplate(templateName);
+			URI templateUri = null; 
+			
+			if (templateName != null) {
+				templateUri = templateFactory.resolveTemplate(templateName);
+			}
 			
 			if (sourceParameter != null) {
 				variables.add(Variable.createReadOnlyVariable(sourceParameter.getName(), element));
@@ -136,6 +140,8 @@ public class LazyEgxModule extends EgxModule {
 		}
 		
 		public String getContent() throws Exception {
+			
+			if (templateUri == null) return "";
 			
 			EglTemplate template = templateFactory.load(templateUri);
 			

@@ -94,6 +94,14 @@ public class ViewTree {
 				child.setName(path.get(0));
 				children.add(child);
 			}
+			else {
+				child.setFormat(other.getFormat());
+				child.setPromise(other.getPromise());
+				child.setIcon(other.getIcon());
+				child.setPatches(other.getPatches());
+				child.setLayers(other.getLayers());
+				child.setPosition(other.getPosition());
+			}
 			
 		}
 		return child;

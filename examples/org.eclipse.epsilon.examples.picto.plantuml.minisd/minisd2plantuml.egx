@@ -31,12 +31,9 @@ rule Block2PlantUml
 rule Alt2PlantUml 
 	transform a : Alt {
 
-	template : "minisd2plantuml.egl"
-
 	parameters : Map {
-		"mainBlock" = a.eContainer(),
-		"format" = "plantuml",
-		"path" = a.closure(p|p.eContainer).invert().including(a).title,
+		"format" = "text",
+		"path" =  a.closure(p|p.eContainer).invert().including(a).title,
 		"icon" = "alt"
 	}
 
