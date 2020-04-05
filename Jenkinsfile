@@ -57,8 +57,9 @@ pipeline {
                     ssh genie.epsilon@projects-storage.eclipse.org rm -rf $UPDATES
                     scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
                     scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
-                    ssh genie.epsilon@projects-storage.eclipse.org mkdir -p $INTERIM/jars
+                    ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM/jars/*
                     scp "$WORKSPACE"/standalone/org.eclipse.epsilon.standalone/target/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
+					ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM/javadoc
                     scp -r "$WORKSPACE/target/site/apidocs" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
                   fi
                 '''
