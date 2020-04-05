@@ -5,7 +5,7 @@
 	</view>
 	<view path="Model, Custom, Core" type="ClassDiagram">
 		<parameter name="classNames" values="EPackage, EClass, EAttribute, EReference, EStructuralFeature, EClassifier"/>
-		<patch format="graphviz-dot" content_="ecore-patches/core.patch"/>
+		<patch format="graphviz-dot" content_="ecore-patches/core.patch" applies="referenceLabels"/>
 	</view>
 	<view path="Model, Custom, Types" type="ClassDiagram">
 		<parameter name="classNames" values="EClass, EClassifier, EDataType, EEnum"/>
