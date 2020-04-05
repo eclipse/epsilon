@@ -20,12 +20,12 @@ pipeline {
         label 'ui-test'
       }
     }
-	options {
-		disableConcurrentBuilds()
-		buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '28', numToKeepStr: ''))
-	}
+	  options {
+		  disableConcurrentBuilds()
+		  buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '28', numToKeepStr: ''))
+	  }
     environment {
-		KEYRING = credentials('secret-subkeys.asc')
+      KEYRING = credentials('secret-subkeys.asc')
     }
     tools {
         maven 'apache-maven-3.5.4'
@@ -36,7 +36,7 @@ pipeline {
     }
     stages {
         stage('Build') {
-		  when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*)|(pom\\.xml)|(standalone\\/.*)' } }
+		      when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*)|(pom\\.xml)|(standalone\\/.*)' } }
           steps {
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
               sh 'mvn -B --quiet clean install -P eclipse-sign javadoc:aggregate'
@@ -50,16 +50,16 @@ pipeline {
             lock('download-area') {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                 sh '''
-				  SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target"
-				  if [ -d "$SITEDIR" ]; then
-				    INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
+                  SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target"
+                  if [ -d "$SITEDIR" ]; then
+                    INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
                     ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
                     scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
                     scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/site.zip
-					ssh genie.epsilon@projects-storage.eclipse.org mkdir -p $INTERIM/jars
+                    ssh genie.epsilon@projects-storage.eclipse.org mkdir -p $INTERIM/jars
                     scp "$WORKSPACE"/standalone/org.eclipse.epsilon.standalone/target/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
                     scp -r "$WORKSPACE/target/site/apidocs" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
-				  fi
+				          fi
                 '''
               }
             }
@@ -81,11 +81,11 @@ pipeline {
           when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features\\/.*)|(plugins\\/.*)|(standalone\\/.*)' } }
           steps {
             sh '''
-			  gpg --batch --import "${KEYRING}"
-			  for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u);
-			  do
-			    echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
-			  done
+			        gpg --batch --import "${KEYRING}"
+			        for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u);
+			        do
+			          echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
+			        done
             '''
             lock('ossrh') {
               sh 'mvn -B --quiet -f standalone/org.eclipse.epsilon.standalone/pom.xml -P ossrh org.eclipse.epsilon:eutils-maven-plugin:deploy'
