@@ -4,16 +4,16 @@
   <artifactId>epsilon-simulink</artifactId>
   <version>1.6.0-SNAPSHOT</version>
   <dependencies>
+     <dependency>
+        <groupId>org.eclipse.epsilon</groupId>
+        <artifactId>epsilon-core</artifactId>
+        <version>1.6.0-SNAPSHOT</version>
+     </dependency>
     <dependency>
-      <groupId>org.eclipse.epsilon</groupId>
-      <artifactId>epsilon-core</artifactId>
-      <version>1.6.0-SNAPSHOT</version>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-api</artifactId>
+       <version>1.7.26</version>
     </dependency>
-   <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.26</version>
-   </dependency>
   </dependencies>
   <name>Epsilon jar component</name>
   <description>Epsilon's Simulink driver.</description>

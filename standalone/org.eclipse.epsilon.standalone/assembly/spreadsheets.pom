@@ -4,31 +4,31 @@
   <artifactId>epsilon-spreadsheets</artifactId>
   <version>1.6.0-SNAPSHOT</version>
   <dependencies>
+     <dependency>
+        <groupId>org.eclipse.epsilon</groupId>
+        <artifactId>epsilon-core</artifactId>
+        <version>1.6.0-SNAPSHOT</version>
+     </dependency>
     <dependency>
-      <groupId>org.eclipse.epsilon</groupId>
-      <artifactId>epsilon-core</artifactId>
-      <version>1.6.0-SNAPSHOT</version>
+       <groupId>org.apache.poi</groupId>
+       <artifactId>poi</artifactId>
+       <version>3.10.1</version>
     </dependency>
-   <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi</artifactId>
-      <version>3.10.1</version>
-   </dependency>
-   <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi-ooxml</artifactId>
-      <version>3.10.1</version>
-   </dependency>
-   <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi-ooxml-schemas</artifactId>
-      <version>3.10.1</version>
-   </dependency>
-   <dependency>
-      <groupId>org.apache.xmlbeans</groupId>
-      <artifactId>xmlbeans</artifactId>
-      <version>2.6.0</version>
-   </dependency>
+    <dependency>
+       <groupId>org.apache.poi</groupId>
+       <artifactId>poi-ooxml</artifactId>
+       <version>3.10.1</version>
+    </dependency>
+    <dependency>
+       <groupId>org.apache.poi</groupId>
+       <artifactId>poi-ooxml-schemas</artifactId>
+       <version>3.10.1</version>
+    </dependency>
+    <dependency>
+       <groupId>org.apache.xmlbeans</groupId>
+       <artifactId>xmlbeans</artifactId>
+       <version>2.6.0</version>
+    </dependency>
   </dependencies>
   <name>Epsilon jar component</name>
   <description>

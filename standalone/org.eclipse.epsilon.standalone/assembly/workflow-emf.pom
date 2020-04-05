@@ -4,16 +4,16 @@
   <artifactId>epsilon-workflow-emf</artifactId>
   <version>1.6.0-SNAPSHOT</version>
   <dependencies>
-    <dependency>
-      <groupId>org.eclipse.epsilon</groupId>
-      <artifactId>epsilon-workflow</artifactId>
-      <version>1.6.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.epsilon</groupId>
-      <artifactId>epsilon-emf</artifactId>
-      <version>1.6.0-SNAPSHOT</version>
-    </dependency>
+     <dependency>
+        <groupId>org.eclipse.epsilon</groupId>
+        <artifactId>epsilon-workflow</artifactId>
+        <version>1.6.0-SNAPSHOT</version>
+     </dependency>
+     <dependency>
+        <groupId>org.eclipse.epsilon</groupId>
+        <artifactId>epsilon-emf</artifactId>
+        <version>1.6.0-SNAPSHOT</version>
+     </dependency>
   </dependencies>
   <name>Epsilon jar component</name>
   <description>ANT tasks for Epsilon's EMF driver.</description>

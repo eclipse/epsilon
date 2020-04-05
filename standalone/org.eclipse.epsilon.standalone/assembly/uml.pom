@@ -4,31 +4,31 @@
   <artifactId>epsilon-uml</artifactId>
   <version>1.6.0-SNAPSHOT</version>
   <dependencies>
+     <dependency>
+        <groupId>org.eclipse.epsilon</groupId>
+        <artifactId>epsilon-emf</artifactId>
+        <version>1.6.0-SNAPSHOT</version>
+     </dependency>
     <dependency>
-      <groupId>org.eclipse.epsilon</groupId>
-      <artifactId>epsilon-emf</artifactId>
-      <version>1.6.0-SNAPSHOT</version>
+       <groupId>org.eclipse.uml2</groupId>
+       <artifactId>uml</artifactId>
+       <version>5.0.0-v20140602-0749</version>
     </dependency>
-   <dependency>
-      <groupId>org.eclipse.uml2</groupId>
-      <artifactId>uml</artifactId>
-      <version>5.0.0-v20140602-0749</version>
-   </dependency>
-   <dependency>
-      <groupId>org.eclipse.uml2</groupId>
-      <artifactId>common</artifactId>
-      <version>2.0.0-v20140602-0749</version>
-   </dependency>
-   <dependency>
-      <groupId>org.eclipse.emf</groupId>
-      <artifactId>org.eclipse.emf.mapping.ecore2xml</artifactId>
-      <version>2.9.0-v20150806-0404</version>
-   </dependency>
-   <dependency>
-      <groupId>org.eclipse.uml2</groupId>
-      <artifactId>types</artifactId>
-      <version>2.0.0-v20140602-0749</version>
-   </dependency>
+    <dependency>
+       <groupId>org.eclipse.uml2</groupId>
+       <artifactId>common</artifactId>
+       <version>2.0.0-v20140602-0749</version>
+    </dependency>
+    <dependency>
+       <groupId>org.eclipse.emf</groupId>
+       <artifactId>org.eclipse.emf.mapping.ecore2xml</artifactId>
+       <version>2.9.0-v20150806-0404</version>
+    </dependency>
+    <dependency>
+       <groupId>org.eclipse.uml2</groupId>
+       <artifactId>types</artifactId>
+       <version>2.0.0-v20140602-0749</version>
+    </dependency>
   </dependencies>
   <name>Epsilon jar component</name>
   <description>

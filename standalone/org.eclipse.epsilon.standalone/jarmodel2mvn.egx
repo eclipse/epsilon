@@ -1,51 +1,57 @@
+pre {
+	var assemblyDir = 'assembly/';
+	var assemblyTemplate = 'jarmodel2assembly.egl';
+	var assemblyType = 'type';
+	var kitchensink = 'kitchensink';
+}
+
 rule Jar2BinaryAssembly
 	transform jar : JarModel!t_jar {
-	parameters {
-		return Map {'type' = 'binary'};
-	} 
-	template : 'jarmodel2assembly.egl'
-	target : 'assembly/' + jar.a_name + '.xml'
+	parameters : Map {assemblyType = 'binary'}
+	template : assemblyTemplate
+	target : assemblyDir + jar.a_name + '.xml'
 }
 
 rule Jar2BinaryWithSourcesAssembly
 	transform jar : JarModel!t_jar {
-	parameters {
-		return Map {'type' = 'binary+sources'};
-	}
-	template : 'jarmodel2assembly.egl'
-	target : 'assembly/' + jar.a_name + '-src.xml'
+	parameters : Map {assemblyType = 'binary+sources'}
+	template : assemblyTemplate
+	target : assemblyDir + jar.a_name + '-src.xml'
 }
 
 rule Jar2SourcesAssembly
 	transform jar : JarModel!t_jar {
-	parameters {
-		return Map {'type' = 'sources'};
-	}
-	template : 'jarmodel2assembly.egl'
-	target : 'assembly/' + jar.a_name + '-sources.xml'
+	parameters : Map {assemblyType = 'sources'}
+	template : assemblyTemplate
+	target : assemblyDir + jar.a_name + '-sources.xml'
 }
 
 rule Jar2DepsAssembly
 	transform jar : JarModel!t_jar {
 	guard : jar.c_plugin.size() > 0
-	parameters {
-		return Map {'type' = 'dependencies'};
-	}
-	template : 'jarmodel2assembly.egl'
-	target : 'assembly/' + jar.a_name + '-deps.xml'
+	parameters : Map {assemblyType = 'dependencies'}
+	template : assemblyTemplate
+	target : assemblyDir + jar.a_name + '-deps.xml'
 }
 
 rule Model2KitchenSink
 	transform jar : JarModel!t_jarmodel {
-	parameters {
-		return Map {'type' = 'kitchensink'};
-	}
-	template : 'jarmodel2assembly.egl'
-	target : 'assembly/kitchensink.xml'
+	parameters : Map {assemblyType = kitchensink}
+	template : assemblyTemplate
+	target : assemblyDir + kitchensink + '.xml'
 }
 
 rule Jar2POM
 	transform jar : JarModel!t_jar {
+	parameters : Map {'mainClass' = jar.getMainClass()}
 	template : 'jarmodel2pom.egl'
-	target : 'assembly/' + jar.a_name + '.pom'
+	target : assemblyDir + jar.a_name + '.pom'
+}
+
+operation JarModel!t_jar getMainClass() : String {
+	switch (self.a_name) {
+		case 'cli' : continue;
+		case kitchensink : return "org.eclipse.epsilon.eol.cli.EolConfigParser";
+		default : return null;
+	}
 }

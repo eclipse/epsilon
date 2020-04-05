@@ -35,23 +35,38 @@ if (jar.c_plugin.size() > 0 or jar.a_requires.isDefined()) {
 %]
   <dependencies>
 [% for (otherjar in jar.getRequires()) { %]
-    <dependency>
-      <groupId>org.eclipse.epsilon</groupId>
-      <artifactId>[%=otherjar.getArtifactId()%]</artifactId>
-      <version>[%=otherjar.getVersion()%]</version>
-    </dependency>
+     <dependency>
+        <groupId>org.eclipse.epsilon</groupId>
+        <artifactId>[%=otherjar.getArtifactId()%]</artifactId>
+        <version>[%=otherjar.getVersion()%]</version>
+     </dependency>
 [% } 
    for (plugin in jar.c_plugin) { %]
-   <dependency>
-      <groupId>[%=plugin.a_groupId%]</groupId>
-      <artifactId>[%=plugin.a_artifactId%]</artifactId>
-      <version>[%=plugin.a_version%]</version>
-   </dependency>
+    <dependency>
+       <groupId>[%=plugin.a_groupId%]</groupId>
+       <artifactId>[%=plugin.a_artifactId%]</artifactId>
+       <version>[%=plugin.a_version%]</version>
+    </dependency>
 [% } %]
   </dependencies>
-[%
-}
-%]
+[% }
+if (mainClass.isDefined() and not mainClass.isEmpty()) { %]
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+               <archive>
+                  <manifest>
+                     <mainClass>[%=mainClass%]</mainClass>
+                  </manifest>
+               </archive>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+[% } %]
   <name>Epsilon [%=jar.name%] component</name>
   <description>[%=jar.c_description.text.first%]</description>
   <url>https://eclipse.org/epsilon</url>
@@ -90,18 +105,12 @@ if (jar.c_plugin.size() > 0 or jar.a_requires.isDefined()) {
 [%
 
 operation JarModel!t_jar getJar(name: String) {
-  return self.parentNode.c_jar.selectOne(e|e.a_name=name);
+  return self.parentNode.c_jar.selectOne(e | e.a_name == name);
 }
 
 operation JarModel!t_jar getRequires() : Sequence(JarModel!t_jar) {
-  var results = Sequence {};
-  if (self.a_requires.isDefined()) {
-    for (require in self.a_requires.split(',')) {
-      require = require.trim();
-      results.add(self.getJar(require));
-    }
-  }
-  return results;
+  if (self.a_requires.isUndefined()) return Sequence{};
+  return self.a_requires.split(',').collect(r | self.getJar(r.trim()));
 }
 
 operation JarModel!t_jar getArtifactId() {

@@ -22,31 +22,31 @@
     </pluginRepository>
   </pluginRepositories>
   <dependencies>
+     <dependency>
+        <groupId>org.eclipse.epsilon</groupId>
+        <artifactId>epsilon-core</artifactId>
+        <version>1.6.0-SNAPSHOT</version>
+     </dependency>
     <dependency>
-      <groupId>org.eclipse.epsilon</groupId>
-      <artifactId>epsilon-core</artifactId>
-      <version>1.6.0-SNAPSHOT</version>
+       <groupId>org.eclipse.emf</groupId>
+       <artifactId>org.eclipse.emf.common</artifactId>
+       <version>2.12.0</version>
     </dependency>
-   <dependency>
-      <groupId>org.eclipse.emf</groupId>
-      <artifactId>org.eclipse.emf.common</artifactId>
-      <version>2.12.0</version>
-   </dependency>
-   <dependency>
-      <groupId>org.eclipse.emf</groupId>
-      <artifactId>org.eclipse.emf.ecore</artifactId>
-      <version>2.12.0</version>
-   </dependency>
-   <dependency>
-      <groupId>org.eclipse.emf</groupId>
-      <artifactId>org.eclipse.emf.ecore.xmi</artifactId>
-      <version>2.12.0</version>
-   </dependency>
-   <dependency>
-      <groupId>org.eclipse.xsd</groupId>
-      <artifactId>org.eclipse.xsd</artifactId>
-      <version>2.12.0</version>
-   </dependency>
+    <dependency>
+       <groupId>org.eclipse.emf</groupId>
+       <artifactId>org.eclipse.emf.ecore</artifactId>
+       <version>2.12.0</version>
+    </dependency>
+    <dependency>
+       <groupId>org.eclipse.emf</groupId>
+       <artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+       <version>2.12.0</version>
+    </dependency>
+    <dependency>
+       <groupId>org.eclipse.xsd</groupId>
+       <artifactId>org.eclipse.xsd</artifactId>
+       <version>2.12.0</version>
+    </dependency>
   </dependencies>
   <name>Epsilon jar component</name>
   <description>
