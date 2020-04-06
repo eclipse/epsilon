@@ -9,10 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.equivalences.factory;
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -25,16 +23,15 @@ import org.eclipse.epsilon.flock.execute.FlockExecution;
 import org.eclipse.epsilon.flock.execute.exceptions.FlockRuntimeException;
 import org.junit.Test;
 
-
 public class DefaultEquivalenceFactoryTests {
 
 	@Test
 	public void shouldCreateATypeBasedEquivalenceWhenTypeConformsToEvolvedMetamodel() throws FlockRuntimeException {
 		final EquivalentFactory equivalentFactory = mock(EquivalentFactory.class);
 		
-		when(equivalentFactory.typeConformsToEvolvedMetamodel(anyString())).thenReturn(true);
+		when(equivalentFactory.typeConformsToEvolvedMetamodel(null)).thenReturn(true);
 		
-		assertThat(createEquivalence(equivalentFactory), is(instanceOf(TypeBasedEquivalence.class)));		
+		assertTrue(createEquivalence(equivalentFactory) instanceof TypeBasedEquivalence);		
 	}
 	
 	@Test
@@ -43,7 +40,7 @@ public class DefaultEquivalenceFactoryTests {
 		
 		when(equivalentFactory.typeConformsToEvolvedMetamodel(anyString())).thenReturn(false);
 		
-		assertThat(createEquivalence(equivalentFactory), is(instanceOf(NoEquivalence.class)));		
+		assertTrue(createEquivalence(equivalentFactory) instanceof NoEquivalence);		
 	}
 
 	private Equivalence createEquivalence(final EquivalentFactory equivalentFactory) throws FlockRuntimeException {

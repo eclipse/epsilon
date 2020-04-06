@@ -29,6 +29,7 @@ public class DefaultEquivalenceFactory implements EquivalenceFactory {
 		return instance;
 	}
 
+	@Override
 	public Equivalence createEquivalence(IEolContext context, FlockExecution execution, ModelElement original, EquivalentFactory equivalentFactory) throws FlockRuntimeException {
 		if (equivalentFactory.typeConformsToEvolvedMetamodel(original.getTypeName())) {
 			return new TypeBasedEquivalence(context, execution, original, equivalentFactory.createModelElementInMigratedModel(original.getTypeName()));

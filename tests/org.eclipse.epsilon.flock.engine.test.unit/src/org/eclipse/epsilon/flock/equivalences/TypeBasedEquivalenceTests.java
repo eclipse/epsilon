@@ -12,8 +12,8 @@
  */
 package org.eclipse.epsilon.flock.equivalences;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -30,6 +30,7 @@ import org.eclipse.epsilon.flock.execute.exceptions.ConservativeCopyException;
 import org.eclipse.epsilon.flock.execute.exceptions.FlockRuntimeException;
 import org.eclipse.epsilon.flock.model.domain.rules.IgnoredProperties;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 
 public class TypeBasedEquivalenceTests {
 
@@ -46,7 +47,6 @@ public class TypeBasedEquivalenceTests {
 		equivalence.automaticallyPopulateEquivalent(context, new IgnoredProperties());
 		
 		verify(equivalent).copyIdentityFrom(original);
-
 	}
 	
 	@Test
@@ -54,10 +54,10 @@ public class TypeBasedEquivalenceTests {
 		when(original.getPropertiesSharedWith(equivalent))
 			.thenReturn(Arrays.asList("name", "age"));
 		
-		conservativelyCopyAllProperties();
+		conservativelyCopyAllPropertiesExcept();
 		
-		verify(equivalent).conservativelySetValueForProperty(any(ModelValue.class), eq("name"), eq(context));
-		verify(equivalent).conservativelySetValueForProperty(any(ModelValue.class), eq("age"), eq(context));
+		verify(equivalent).conservativelySetValueForProperty(ArgumentMatchers.isNull(), eq("name"), eq(context));
+		verify(equivalent).conservativelySetValueForProperty(ArgumentMatchers.isNull(), eq("age"), eq(context));
 		verify(equivalent, never()).conservativelySetValueForProperty(any(ModelValue.class), eq("sex"), eq(context));
 	}
 	
@@ -69,7 +69,7 @@ public class TypeBasedEquivalenceTests {
 		conservativelyCopyAllPropertiesExcept("name");
 		
 		verify(equivalent, never()).conservativelySetValueForProperty(any(ModelValue.class), eq("name"), eq(context));
-		verify(equivalent).conservativelySetValueForProperty(any(ModelValue.class), eq("age"), eq(context));
+		verify(equivalent).conservativelySetValueForProperty(ArgumentMatchers.isNull(), eq("age"), eq(context));
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -88,11 +88,6 @@ public class TypeBasedEquivalenceTests {
 		
 		verify(context).getEquivalentValue(originalValue);
 		verify(equivalent).conservativelySetValueForProperty(equivalentValue, "name", context);
-	}
-
-	
-	private void conservativelyCopyAllProperties() throws ConservativeCopyException {
-		conservativelyCopyAllPropertiesExcept();
 	}
 	
 	private void conservativelyCopyAllPropertiesExcept(String... ignoredProperties) throws ConservativeCopyException {

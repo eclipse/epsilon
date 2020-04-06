@@ -72,6 +72,5 @@
     <module>org.eclipse.epsilon.test.dependencies</module>
     <module>org.eclipse.epsilon.test.fixtures.hutn</module>
     <module>org.eclipse.epsilon.workflow.test</module>
-    <module>org.mockito_1.8.4</module>
   </modules>
 </project>
