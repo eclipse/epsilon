@@ -55,7 +55,7 @@ pipeline {
                     INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
                     UPDATES=$INTERIM/updates
                     ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM && mkdir $INTERIM"
-                    scp "$SITE/composite*.*" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
+                    scp "$SITEDIR/composite*.*" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
                     scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
                     scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
                     ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM/jars/*
