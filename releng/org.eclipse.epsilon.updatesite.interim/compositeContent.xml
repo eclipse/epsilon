@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?compositeMetadataRepository version='1.0.0'?>
+<repository name='Epsilon Interim' type='org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepository' version='1.0.0'>
+  <properties size='1'>
+    <property name='p2.compressed' value='true'/>
+  </properties>
+  <children size='1'>
+    <child location='updates'/>
+  </children>
+  <references size='5'>
+    <repository location='https://download.eclipse.org/emfatic/update' type='0' options='0'/>
+    <repository location='https://download.eclipse.org/modeling/emf/emf/builds/release/latest' type='0' options='0'/>
+    <repository location='https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository' type='0' options='0'/>
+    <repository location='https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases' type='0' options='0'/>
+    <repository location='https://archive.eclipse.org/mmt/qvto/updates/releases/3.9.1' type='0' options='0'/>
+  </references>
+</repository>
