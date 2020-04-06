@@ -50,17 +50,18 @@ pipeline {
             lock('download-area') {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                 sh '''
-                  SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target"
+                  INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim"
+                  SITEDIR="$INTERIMWS/target"
                   if [ -d "$SITEDIR" ]; then
                     INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
                     UPDATES=$INTERIM/updates
                     ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM; mkdir -p $INTERIM/jars"
-                    if [ -e "$SITEDIR/compositeArtifacts.xml" ]; then
-                      scp "$SITEDIR/compositeArtifacts.xml" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/compositeArtifacts.xml
-                    fi
-                    if [ -e "$SITEDIR/compositeContent.xml" ]; then
-                      scp "$SITEDIR/compositeContent.xml" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/compositeContent.xml
-                    fi
+                    declare -a INTERIMFILES=("compositeArtifacts.xml" "compositeContent.xml")
+                    for F in "${INTERIMFILES[@]}"; do
+                      if [ -e "$INTERIMWS/$F" ]; then
+                        scp "$INTERIMWS/$F" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/${F}
+                      fi
+                    done
                     scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
                     scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
                     scp "$WORKSPACE"/standalone/org.eclipse.epsilon.standalone/target/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
