@@ -166,7 +166,7 @@
 			version="2.6.0" />
 	</jar>
 	
-	<jar name="cli" requires="core">
+	<!-->jar name="cli" requires="core">
 		<description>
 		 Command-line interface for Epsilon's main languages.
 		</description>
@@ -176,5 +176,5 @@
 			groupId="commons-cli"
 			artifactId="commons-cli"
 			version="1.4" />
-	</jar>
+	</jar-->
 </jarmodel>

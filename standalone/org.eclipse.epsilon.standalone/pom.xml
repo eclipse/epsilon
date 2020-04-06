@@ -38,7 +38,7 @@
               <includeArtifactIds><!-- Match MANIFEST.MF -->
                 org.antlr.runtime,
                 org.apache.ant,
-                org.apache.commons.cli_1.4,
+                <!--org.apache.commons.cli_1.4,-->
                 org.apache.commons.collections,
                 org.apache.commons.csv,
                 org.apache.commons.lang3,
@@ -114,11 +114,11 @@
                 <descriptor>assembly/workflow-emf.xml</descriptor>
                 <descriptor>assembly/workflow-emf-src.xml</descriptor>
                 <descriptor>assembly/workflow-emf-sources.xml</descriptor>
-                <descriptor>assembly/cli.xml</descriptor>
+                <!-->descriptor>assembly/cli.xml</descriptor>
                 <descriptor>assembly/cli-src.xml</descriptor>
                 <descriptor>assembly/cli-sources.xml</descriptor>
                 <descriptor>assembly/cli-deps.xml</descriptor>
-                <descriptor>assembly/kitchensink.xml</descriptor>
+                <descriptor>assembly/kitchensink.xml</descriptor-->
               </descriptors>
               <!--archive>
                 <manifest>
