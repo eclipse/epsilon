@@ -8,10 +8,10 @@
     <child location='updates'/>
   </children>
   <references size='5'>
-    <repository location='https://download.eclipse.org/emfatic/update' type='0' options='0'/>
-    <repository location='https://download.eclipse.org/modeling/emf/emf/builds/release/latest' type='0' options='0'/>
-    <repository location='https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository' type='0' options='0'/>
-    <repository location='https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases' type='0' options='0'/>
-    <repository location='https://archive.eclipse.org/mmt/qvto/updates/releases/3.9.1' type='0' options='0'/>
+    <repository location='https://download.eclipse.org/emfatic/update' type='0' options='1'/>
+    <repository location='https://download.eclipse.org/modeling/emf/emf/builds/release/latest' type='0' options='1'/>
+    <repository location='https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository' type='0' options='1'/>
+    <repository location='https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases' type='0' options='1'/>
+    <repository location='https://archive.eclipse.org/mmt/qvto/updates/releases/3.9.1' type='0' options='1'/>
   </references>
 </repository>
