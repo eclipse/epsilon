@@ -49,19 +49,19 @@
 		<plugin name="org.eclipse.emf.common"
 			groupId="org.eclipse.emf"
 			artifactId="org.eclipse.emf.common"
-			version="2.12.0" />
+			version="2.18.0" />
 		<plugin name="org.eclipse.emf.ecore"
 			groupId="org.eclipse.emf"
 			artifactId="org.eclipse.emf.ecore"
-			version="2.12.0"	/>
+			version="2.18.0"	/>
 		<plugin	name="org.eclipse.emf.ecore.xmi"
 			groupId="org.eclipse.emf"
 			artifactId="org.eclipse.emf.ecore.xmi"
-			version="2.12.0" />
+			version="2.18.0" />
 		<plugin name="org.eclipse.xsd"
   			groupId="org.eclipse.xsd"
   			artifactId="org.eclipse.xsd"
-  			version="2.12.0" />
+  			version="2.18.0" />
   		<!-- Additional repositories needed -->
   		<repository name= "epsilon-bintray"
   		    snapshots= "false"
