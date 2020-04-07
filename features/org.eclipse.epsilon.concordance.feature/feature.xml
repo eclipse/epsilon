@@ -297,11 +297,6 @@ version(s), and exceptions or additional permissions here}.&quot;
   You may add additional accurate notices of copyright ownership.
    </license>
 
-   <url>
-      <discovery label="Epsilon Update Site (Stable)" url="http://download.eclipse.org/epsilon/updates/"/>
-      <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
-   </url>
-
    <requires>
       <import plugin="org.eclipse.epsilon.common.dt"/>
       <import plugin="org.eclipse.epsilon.hutn.xmi.dt"/>

@@ -10,8 +10,8 @@
   <references size='10'>
     <repository uri='https://download.eclipse.org/emfatic/update' url='https://download.eclipse.org/emfatic/update' type='1' options='1'/>
     <repository uri='https://download.eclipse.org/emfatic/update' url='https://download.eclipse.org/emfatic/update' type='0' options='1'/>
-    <repository uri='https://download.eclipse.org/modeling/emf/emf/builds/release/latest' url='https://download.eclipse.org/modeling/emf/emf/builds/release/latest' type='0' options='1'/>
-    <repository uri='https://download.eclipse.org/modeling/emf/emf/builds/release/latest' url='https://download.eclipse.org/modeling/emf/emf/builds/release/latest' type='1' options='1'/>
+    <repository uri='https://download.eclipse.org/modeling/emf/emf/builds/release' url='https://download.eclipse.org/modeling/emf/emf/builds/release' type='0' options='1'/>
+    <repository uri='https://download.eclipse.org/modeling/emf/emf/builds/release' url='https://download.eclipse.org/modeling/emf/emf/builds/release' type='1' options='1'/>
     <repository uri='https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository' url='https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository' type='0' options='1'/>
     <repository uri='https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository' url='https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository' type='1' options='1'/>
     <repository uri='https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases' url='https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases' type='0' options='1'/>

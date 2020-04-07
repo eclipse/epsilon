@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.epsilon.flexmi.dt.feature"
-      label="Flexmi Development Tools"
+      id="org.eclipse.epsilon.dependencies.feature"
+      label="Epsilon dependencies discovery"
       version="1.6.0.qualifier"
       provider-name="Eclipse Modeling Project">
 
    <description url="http://www.eclipse.org/epsilon">
-      This feature provides development tools for Epsilon&apos;s Flexmi reflective XML-based syntax for EMF models.
+      This feature is solely for resolving dependencies from repositories.
    </description>
 
    <copyright>
@@ -297,15 +297,14 @@ version(s), and exceptions or additional permissions here}.&quot;
   You may add additional accurate notices of copyright ownership.
    </license>
 
-   <includes
-         id="org.eclipse.epsilon.dependencies.feature"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.epsilon.flexmi.dt"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+   <url>
+      <discovery label="Epsilon (Stable)" url="http://download.eclipse.org/epsilon/updates/"/>
+      <discovery label="Epsilon (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
+      <discovery label="Orbit (2020-03)" url="https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository/"/>
+      <discovery label="EMF Releases" url="https://download.eclipse.org/modeling/emf/emf/builds/release/"/>
+      <discovery label="Emfatic" url="https://download.eclipse.org/emfatic/update/"/>
+      <discovery label="GMF Tooling" url="https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
+      <discovery label="QVTo 3.9.1" url="https://archive.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
+   </url>
 
 </feature>

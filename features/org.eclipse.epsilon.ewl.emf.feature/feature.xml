@@ -297,6 +297,10 @@ version(s), and exceptions or additional permissions here}.&quot;
   You may add additional accurate notices of copyright ownership.
    </license>
 
+   <includes
+         id="org.eclipse.epsilon.dependencies.feature"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.epsilon.emc.emf"/>
       <import plugin="org.eclipse.epsilon.common.dt"/>
