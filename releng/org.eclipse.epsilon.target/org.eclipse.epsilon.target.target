@@ -3,6 +3,10 @@
 <target name="Epsilon Target Platform" sequenceNumber="100">
 <locations>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+		<unit id="org.eclipse.license.feature.group" version="0.0.0"/>
+		<repository location="https://download.eclipse.org/cbi/updates/license"/>
+	</location>
+	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 		<unit id="org.eclipse.e4.core.tools.feature.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.emf.sdk.feature.group" version="0.0.0"/>
 		<unit id="org.eclipse.emf.validation.sdk.feature.group" version="0.0.0"/>

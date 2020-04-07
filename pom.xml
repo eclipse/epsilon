@@ -14,6 +14,14 @@
     <java.version>1.8</java.version>
   </properties>
   
+  <repositories>
+    <repository>
+      <id>license-feature</id>
+      <url>https://download.eclipse.org/cbi/updates/license</url>
+      <layout>p2</layout>
+    </repository>
+  </repositories>
+  
   <pluginRepositories>
     <pluginRepository>
       <id>eclipse</id>
