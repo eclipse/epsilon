@@ -7,7 +7,7 @@
   <children size='1'>
     <child location='updates'/>
   </children>
-  <references size='5'>
+  <references size='10'>
     <repository uri='https://download.eclipse.org/emfatic/update' url='https://download.eclipse.org/emfatic/update' type='1' options='1'/>
     <repository uri='https://download.eclipse.org/emfatic/update' url='https://download.eclipse.org/emfatic/update' type='0' options='1'/>
     <repository uri='https://download.eclipse.org/modeling/emf/emf/builds/release/latest' url='https://download.eclipse.org/modeling/emf/emf/builds/release/latest' type='0' options='1'/>

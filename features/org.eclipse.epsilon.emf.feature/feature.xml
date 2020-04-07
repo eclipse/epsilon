@@ -300,6 +300,7 @@ version(s), and exceptions or additional permissions here}.&quot;
    <url>
       <discovery label="Epsilon Update Site (Stable)" url="http://download.eclipse.org/epsilon/updates/"/>
       <discovery label="Epsilon Update Site (Interim)" url="http://download.eclipse.org/epsilon/interim/"/>
+      <discovery label="EMF Releases" url="https://download.eclipse.org/modeling/emf/emf/builds/release/"/>
    </url>
 
    <requires>
