@@ -151,7 +151,7 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 	/**
 	 * Main rule processing logic. Non-abstract for compatibility.
 	 * 
-	 * @return
+	 * @return The result of executing this module.
 	 * @throws EolRuntimeException
 	 * @since 1.6
 	 */
