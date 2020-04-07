@@ -9,9 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -72,7 +69,6 @@ public class PictoView extends ViewPart {
 	protected boolean locked = false;
 	protected ToggleTreeViewerAction hideTreeAction;
 	protected HashMap<IEditorPart, ViewTree> selectionHistory = new HashMap<>();
-	protected File tempDir = null;
 	protected ViewTree activeView = null;
 	protected PictoSource source = null;
 	protected List<PictoSource> sources = new PictoSourceExtensionPointManager().getExtensions();
@@ -80,8 +76,6 @@ public class PictoView extends ViewPart {
 	
 	@Override
 	public void createPartControl(Composite parent) {
-		
-		try { tempDir = Files.createTempDirectory("picto").toFile(); } catch (IOException e) {}
 		
 		sashForm = new SashForm(parent, SWT.HORIZONTAL);
 		
