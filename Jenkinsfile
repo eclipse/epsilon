@@ -55,7 +55,7 @@ pipeline {
                   if [ -d "$SITEDIR" ]; then
                     INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
                     UPDATES=$INTERIM/updates
-                    ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM; mkdir -p $INTERIM/jars"
+                    ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $UPDATES; rm -rf $INTERIM/javadoc; mkdir -p $INTERIM/jars"
                     declare -a INTERIMFILES=("compositeArtifacts.xml" "compositeContent.xml")
                     for F in "${INTERIMFILES[@]}"; do
                       if [ -e "$INTERIMWS/$F" ]; then
