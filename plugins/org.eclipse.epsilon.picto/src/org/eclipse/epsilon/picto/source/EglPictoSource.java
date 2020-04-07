@@ -91,7 +91,7 @@ public abstract class EglPictoSource implements PictoSource {
 			}
 			//}
 			
-			if (renderingMetadata.getFormat().equals("egx")) {
+			if ("egx".equals(renderingMetadata.getFormat())) {
 				module = new LazyEgxModule();
 			}
 			else {
@@ -100,10 +100,15 @@ public abstract class EglPictoSource implements PictoSource {
 			
 			module.getContext().getNativeTypeDelegates().add(new ExtensionPointToolNativeTypeDelegate());
 			
-			if (renderingMetadata.getTemplate() == null) throw new Exception("No EGL file specified.");
-						
-			URI templateUri = UriUtil.resolve(renderingMetadata.getTemplate(), modelFile.toURI());
-			module.parse(templateUri);
+			URI templateUri = null;
+			
+			if (renderingMetadata.getTemplate() != null) {			
+				templateUri = UriUtil.resolve(renderingMetadata.getTemplate(), modelFile.toURI());
+				module.parse(templateUri);
+			}
+			else {
+				module.parse("");
+			}
 			
 			IEolContext context = module.getContext();
 			context.setOutputStream(EpsilonConsole.getInstance().getDebugStream());
@@ -118,7 +123,7 @@ public abstract class EglPictoSource implements PictoSource {
 			
 			context.getModelRepository().addModels(models);
 			
-			if (renderingMetadata.getFormat().equals("egx")) {
+			if ("egx".equals(renderingMetadata.getFormat())) {
 								
 				List<LazyGenerationRuleContentPromise> instances = (List<LazyGenerationRuleContentPromise>) module.execute();
 				
@@ -261,8 +266,11 @@ public abstract class EglPictoSource implements PictoSource {
 				}
 			}
 			
-			viewTree.getBaseUris().add(templateUri);
-			viewTree.getBaseUris().add(templateUri.resolve("./icons/"));
+			if (templateUri != null) {
+				viewTree.getBaseUris().add(templateUri);
+				viewTree.getBaseUris().add(templateUri.resolve("./icons/"));
+			}
+			
 			return viewTree;
 		}
 		else {
