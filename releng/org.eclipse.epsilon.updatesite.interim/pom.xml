@@ -12,10 +12,19 @@
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.updatesite.interim</artifactId>
   <version>1.6.0-SNAPSHOT</version>
+  <!-- TODO use eclipse-repository instead -->
   <packaging>eclipse-update-site</packaging>
 
   <build>
     <plugins>
+      <!--plugin>
+         <groupId>org.eclipse.tycho</groupId>
+         <artifactId>tycho-p2-repository-plugin</artifactId>
+         <version>${tycho-version}</version>
+         <configuration>
+            <includeAllDependencies>true</includeAllDependencies>
+         </configuration>
+      </plugin-->
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-packaging-plugin</artifactId>
