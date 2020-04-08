@@ -3,14 +3,13 @@ def getSlackMessage() {
     MAX_MSG_LEN = 100
 
     def message = "Build <${env.BUILD_URL}|#${env.BUILD_NUMBER}> of <https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/log/?h=${env.BRANCH_NAME}|${currentBuild.fullProjectName}> "
+    
     message += currentBuild.currentResult == "SUCCESS" ? "passed\n\n" : "failed\n\n"
-
     for (changeSet in currentBuild.changeSets) {
       for (entry in changeSet.items) {
         message += "`${entry.commitId.take(7)}` ${entry.msg} - ${entry.author}\n"
       }
     }
-
     return message
 }
 
@@ -62,7 +61,7 @@ pipeline {
                       scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
                     fi
                     JAVADOCDIR="$WORKSPACE/target/site/apidocs"
-                    if [-d "$JAVADOCDIR" ] then;
+                    if [-d "$JAVADOCDIR" ]; then
                       scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
                     fi
                     JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
