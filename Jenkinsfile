@@ -62,6 +62,7 @@ pipeline {
                         scp "$INTERIMWS/$F" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/${F}
                       fi
                     done
+                    ls "$SITEDIR"
                     scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
                     scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
                     declare -a UPDATEFILES=("associateSites.xml" "category.xml")
