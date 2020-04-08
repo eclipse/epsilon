@@ -99,7 +99,6 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 			return null;
 		}
 		catch (Exception ex) {
-			ex.printStackTrace();
 			return null;
 		}
 	}
