@@ -23,7 +23,7 @@
          version="0.0.0"/>
 
    <requires>
-      <import feature="org.eclipse.epsilon.core.feature"/>
+      <!--import feature="org.eclipse.epsilon.core.feature"/-->
       <import plugin="org.apache.ant"/>
       <import plugin="org.eclipse.ant.core"/>
       <import plugin="org.eclipse.compare"/>
