@@ -244,11 +244,11 @@ public class EvlValidator implements EValidator {
 		
 		if (monitor instanceof IProgressMonitor) {
 			EclipseContextManager.setup(module.getContext(), (IProgressMonitor) monitor);
-		} else {
+		}
+		else {
 			EclipseContextManager.setup(module.getContext());
 		}
 
-		// Add variables to the EvlModule to make the available to the EVL rules
 		if (diagnosticVariables != null) {
 			for (String diagnosticVariable : diagnosticVariables) {
 				final Variable variable = new Variable(

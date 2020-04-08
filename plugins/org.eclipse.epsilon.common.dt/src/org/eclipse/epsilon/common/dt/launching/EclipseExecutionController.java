@@ -17,7 +17,6 @@ import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.control.ExecutionController;
 
-
 public class EclipseExecutionController implements ExecutionController {
 	
 	protected Timer timer;

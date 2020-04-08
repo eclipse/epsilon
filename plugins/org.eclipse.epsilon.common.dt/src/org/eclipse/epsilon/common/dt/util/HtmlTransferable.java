@@ -44,8 +44,7 @@ public class HtmlTransferable implements Transferable {
         }
 
         @Override
-		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
-        {
+		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
             //InputStream stringStream = new ByteArrayInputStream(_htmlText.getBytes("utf-8"));
             //return stringStream;
         	return _htmlText;

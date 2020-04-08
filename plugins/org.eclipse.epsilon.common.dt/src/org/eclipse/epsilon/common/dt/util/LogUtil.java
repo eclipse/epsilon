@@ -26,14 +26,10 @@ public class LogUtil {
 	}
 	
 	public static void logInfo(final Object message, final boolean openInfoDialog) {
-		Display.getDefault().asyncExec(new Runnable() {
-			
-			@Override
-			public void run() {
-				EpsilonCommonsPlugin.getDefault().getLog().log(new Status(IStatus.INFO, "org.eclipse.epsilon.common.dt", message.toString()));
-				if (openInfoDialog) {
-					MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Information", message.toString());
-				}
+		Display.getDefault().asyncExec(() -> {
+			EpsilonCommonsPlugin.getDefault().getLog().log(new Status(IStatus.INFO, "org.eclipse.epsilon.common.dt", message.toString()));
+			if (openInfoDialog) {
+				MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Information", message.toString());
 			}
 		});
 	}
@@ -43,13 +39,10 @@ public class LogUtil {
 	}
 	
 	public static void log(final String message, final Throwable ex, final boolean openErrorDialog) {
-		Display.getDefault().asyncExec(new Runnable() {	
-			@Override
-			public void run() {
-				log(message, ex);
-				if (openErrorDialog) {
-					MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", message + "\r\nPlease check the error log for further information");
-				}
+		Display.getDefault().asyncExec(() -> {
+			log(message, ex);
+			if (openErrorDialog) {
+				MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", message + "\r\nPlease check the error log for further information");
 			}
 		});
 	}

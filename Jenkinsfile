@@ -66,7 +66,7 @@ pipeline {
                     fi
                     JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
                     if [ -d "$JARSDIR" ]; then
-                      scp "$JARSDIR/epsilon-*" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
+                      scp "$JARSDIR"/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
                     fi
                     declare -a INTERIMFILES=("compositeArtifacts.xml" "compositeContent.xml")
                     for F in "${INTERIMFILES[@]}"; do
