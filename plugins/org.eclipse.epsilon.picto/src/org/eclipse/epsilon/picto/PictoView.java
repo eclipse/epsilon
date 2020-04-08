@@ -488,4 +488,8 @@ public class PictoView extends ViewPart {
 		return viewRenderer;
 	}
 	
+	public void setViewRenderer(ViewRenderer viewRenderer) {
+		this.viewRenderer = viewRenderer;
+	}
+
 }
