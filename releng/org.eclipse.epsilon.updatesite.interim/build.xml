@@ -6,7 +6,7 @@
 		<echo>Adding category information to repository</echo>
 		<eclipse.publish.featuresAndBundles
 			compress="true"
-			site="file:${basedir}/site.xml"
+			site="file:${basedir}/category.xml"
 			repository="file:${basedir}"/>
 	</target>
 	
@@ -31,7 +31,7 @@
 		        classname="org.eclipse.epsilon.workflow.tasks.xml.LoadXmlModel"
 		        classpath="build"/>  
 		 
-		<epsilon.xml.loadmodel name="Site" file="site.xml"/>
+		<epsilon.xml.loadmodel name="Site" file="category.xml"/>
 		
 		<epsilon.egl src="site2index.egl" target="index.html"> 
 			<model ref="Site"/>
