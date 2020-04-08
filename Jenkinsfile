@@ -54,7 +54,12 @@ pipeline {
                   UPDATES=$INTERIM/updates
                   if [ -d "$INTERIMWS" ]; then
                     ls "$INTERIMWS"
-                    ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $UPDATES; rm -rf $INTERIM/javadoc; mkdir -p $INTERIM/jars"
+                    ssh genie.epsilon@projects-storage.eclipse.org rm -rf ${UPDATES}
+                    JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
+                    if [ -d "$JARSDIR" ]; then
+                      ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM/jars; mkdir -p $INTERIM/jars"
+                      scp "$JARSDIR"/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
+                    fi
                     SITEDIR="$INTERIMWS/target"
                     if [ -d "$SITEDIR" ]; then
                       scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
@@ -62,11 +67,8 @@ pipeline {
                     fi
                     JAVADOCDIR="$WORKSPACE/target/site/apidocs"
                     if [-d "$JAVADOCDIR" ]; then
+                      ssh genie.epsilon@projects-storage.eclipse.org rm -rf ${INTERIM}/javadoc
                       scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
-                    fi
-                    JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
-                    if [ -d "$JARSDIR" ]; then
-                      scp "$JARSDIR"/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
                     fi
                     declare -a INTERIMFILES=("compositeArtifacts.xml" "compositeContent.xml")
                     for F in "${INTERIMFILES[@]}"; do
