@@ -32,7 +32,7 @@ public class CompositeEValidator implements EValidator {
 		boolean validate = true;
 		for (EValidator validator : delegates) {
 			if (validate || diagnostics != null) {
-				validate &=  validator.validate(object, diagnostics, context);
+				validate &= validator.validate(object, diagnostics, context);
 			}
 		}
 		return validate;

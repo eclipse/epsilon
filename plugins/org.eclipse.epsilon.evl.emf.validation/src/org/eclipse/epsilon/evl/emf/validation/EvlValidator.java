@@ -18,7 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Supplier;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -40,8 +39,8 @@ import org.eclipse.epsilon.eol.dt.launching.EclipseContextManager;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.types.EolAnyType;
-import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
+import org.eclipse.epsilon.evl.concurrent.EvlModuleParallelAnnotation;
 import org.eclipse.epsilon.evl.execute.FixInstance;
 import org.eclipse.epsilon.evl.execute.UnsatisfiedConstraint;
 
@@ -61,12 +60,6 @@ public class EvlValidator implements EValidator {
 	protected boolean logErrors = true;
 	protected List<ValidationProblemListener> problemListeners = new ArrayList<>();
 	protected DiagnosticChain diagnostics = null;
-	
-	/**
-	 * IEvlModule implementation
-	 * @since 1.6
-	 */
-	protected Supplier<? extends IEvlModule> moduleProvider = EvlModule::new;
 
 	/** Collection of all packages that are available to this validator */
 	protected Collection<EPackage> ePackages = new ArrayList<>();
@@ -83,8 +76,7 @@ public class EvlValidator implements EValidator {
 	 * Note when using this constructor, make sure to call
 	 * {@link #initialise(URI, String, String, String)} afterwards
 	 */
-	public EvlValidator()
-	{
+	public EvlValidator() {
 	}
 
 	public EvlValidator(URI source, String modelName, String ePackageUri, String bundleId) {
@@ -205,17 +197,27 @@ public class EvlValidator implements EValidator {
 		return diagnostic;
 	}
 	
+	/**
+	 * 
+	 * @return A new {@link IEvlModule}
+	 * @since 1.6
+	 */
+	protected IEvlModule newModule() {
+		return new EvlModuleParallelAnnotation();
+	}
+	
 	protected void validate(Resource resource, Map<Object, Object> context) {
 		results.clear();
+		
+		module = newModule();
 
-		module = moduleProvider != null ? moduleProvider.get() : new EvlModule();
 		try {
 			module.parse(source);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			if (logException(e)) {
 				LogUtil.log("An error was encountered while parsing " + source + " : " + e.getMessage(), e, isShowErrorDialog());
 			}
-			
 			for (ValidationProblemListener listener : problemListeners) {
 				listener.onParseException(module, e);
 			}

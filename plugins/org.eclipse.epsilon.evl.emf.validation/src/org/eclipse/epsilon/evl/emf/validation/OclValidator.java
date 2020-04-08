@@ -7,7 +7,6 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
-
 package org.eclipse.epsilon.evl.emf.validation;
 
 import java.net.URI;

@@ -29,6 +29,7 @@ import org.eclipse.ui.part.FileEditorInput;
 
 public class EmfMarkerResolver implements IEvlMarkerResolver {
 
+	@Override
 	public boolean canResolve(IMarker marker) {
 		try {
 			String eCoreDiagnosticMarker = "org.eclipse.emf.ecore.diagnostic";
@@ -39,6 +40,7 @@ public class EmfMarkerResolver implements IEvlMarkerResolver {
 		}
 	}
 
+	@Override
 	public EObject resolve(IMarker marker) {
 		EObject self = null;
 		ResourceSet resourceSet = getEditingDomain(marker).getResourceSet();
@@ -52,6 +54,7 @@ public class EmfMarkerResolver implements IEvlMarkerResolver {
 		return self;
 	}
 	
+	@Override
 	public EditingDomain getEditingDomain(IMarker marker) {	
 		final String filePath = getElementResourceLocation(marker);
 		
@@ -120,10 +123,12 @@ public class EmfMarkerResolver implements IEvlMarkerResolver {
 		}
 	}
 	
+	@Override
 	public String getAbsoluteElementId(IMarker marker) {
 		return marker.getAttribute("uri", "");
 	}
 
+	@Override
 	public String getMessage(IMarker marker) {
 		return marker.getAttribute("message", "");
 	}
