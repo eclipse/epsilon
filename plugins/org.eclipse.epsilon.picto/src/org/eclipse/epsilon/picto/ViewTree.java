@@ -202,12 +202,12 @@ public class ViewTree {
 		this.patches = patches;
 	}
 	
-	public List<ViewContent> getContents(ViewRenderer viewRenderer) {
+	public List<ViewContent> getContents(PictoView pictoView) {
 		List<ViewContent> viewContents = new ArrayList<>();
 		ViewContent viewContent = getContent();
 		while (viewContent != null) {
 			viewContents.add(viewContent);
-			viewContent = viewContent.getNext(viewRenderer);
+			viewContent = viewContent.getNext(pictoView);
 		}
 		return viewContents;
 	}

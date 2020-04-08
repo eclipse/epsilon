@@ -15,8 +15,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.eclipse.epsilon.common.util.OperatingSystem;
+import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
-import org.eclipse.epsilon.picto.ViewRenderer;
 
 public class GraphvizContentTransformer implements ViewContentTransformer {
 	
@@ -28,7 +28,7 @@ public class GraphvizContentTransformer implements ViewContentTransformer {
 	}
 
 	@Override
-	public ViewContent transform(ViewContent content, ViewRenderer renderer) throws Exception {
+	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
 		String[] parts = content.getFormat().split("-");
 		
 		String program = parts[1].trim();

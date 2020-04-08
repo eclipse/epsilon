@@ -46,6 +46,7 @@
       <pictoSource class="org.eclipse.epsilon.picto.source.SvgSource"/>
       <pictoSource class="org.eclipse.epsilon.picto.source.DotSource"/>
       <pictoSource class="org.eclipse.epsilon.picto.source.NeatoSource"/>
+      <pictoSource class="org.eclipse.epsilon.picto.source.MarkdownSource"/>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
@@ -75,6 +76,9 @@
       </viewContentTransformer>
       <viewContentTransformer
             class="org.eclipse.epsilon.picto.transformers.GraphvizContentTransformer">
+      </viewContentTransformer>
+      <viewContentTransformer
+            class="org.eclipse.epsilon.picto.transformers.MarkdownContentTransformer">
       </viewContentTransformer>
    </extension>
 

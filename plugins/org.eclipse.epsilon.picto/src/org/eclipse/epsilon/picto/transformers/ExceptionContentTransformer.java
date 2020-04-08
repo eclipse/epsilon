@@ -11,6 +11,7 @@ package org.eclipse.epsilon.picto.transformers;
 
 import java.util.Collections;
 
+import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.ViewRenderer;
 
@@ -22,12 +23,12 @@ public class ExceptionContentTransformer implements ViewContentTransformer {
 	}
 
 	@Override
-	public ViewContent transform(ViewContent content, ViewRenderer renderer) {
-		return new ViewContent("html", renderer.getZoomableVerbatim(content.getText()), content.getLayers(), content.getPatches());
+	public ViewContent transform(ViewContent content, PictoView pictoView) {
+		return new ViewContent("html", pictoView.getViewRenderer().getZoomableVerbatim(content.getText()), content.getLayers(), content.getPatches());
 	}
 	
-	public ViewContent getViewContent(Exception ex, ViewRenderer renderer) {
-		return transform(new ViewContent("exception", ex.getMessage(), Collections.emptyList(), Collections.emptyList()), renderer);
+	public ViewContent getViewContent(Exception ex, PictoView pictoView) {
+		return transform(new ViewContent("exception", ex.getMessage(), Collections.emptyList(), Collections.emptyList()), pictoView);
 	}
 	
 	@Override

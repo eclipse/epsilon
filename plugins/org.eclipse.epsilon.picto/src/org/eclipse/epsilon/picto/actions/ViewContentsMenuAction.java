@@ -42,10 +42,10 @@ public class ViewContentsMenuAction extends Action implements IMenuCreator {
 		Menu viewContentsMenu = new Menu(parent);
 		
 		
-		List<ViewContent> viewContents = pictoView.getActiveView().getContents(pictoView.getViewRenderer());
+		List<ViewContent> viewContents = pictoView.getActiveView().getContents(pictoView);
 		
 		for (ViewContent viewContent : viewContents) {
-			ActionContributionItem item= new ActionContributionItem(new RenderViewContentAction(viewContent, viewContents, pictoView.getViewRenderer()));
+			ActionContributionItem item= new ActionContributionItem(new RenderViewContentAction(viewContent, viewContents, pictoView));
 			item.fill(viewContentsMenu, 0);
 		}
 		

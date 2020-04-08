@@ -107,14 +107,13 @@ public class PictoView extends ViewPart {
 		treeViewer.addDoubleClickListener(event -> filteredTree.clearFilterText());
 		
 		browserContainer = new BrowserContainer(sashForm, SWT.NONE);
-		viewRenderer = new ViewRenderer(new Browser(browserContainer, SWT.NONE));
+		viewRenderer = new ViewRenderer(this, new Browser(browserContainer, SWT.NONE));
 		
 		new BrowserFunction(viewRenderer.getBrowser(), "showView") {
 			public Object function(Object[] arguments) {
 				if (arguments.length == 1) {
 					String viewPath = arguments[0] + "";
-					ViewTree view = (ViewTree) treeViewer.getInput();
-					ViewTree viewTree = view.forPath(Arrays.asList(viewPath.split("/")));
+					ViewTree viewTree = getViewTree().forPath(Arrays.asList(viewPath.split("/")));
 					List<ViewTree> path = new ArrayList<>();
 					while (viewTree != null) {
 						path.add(0, viewTree);
@@ -314,7 +313,7 @@ public class PictoView extends ViewPart {
 	
 	protected void setViewTree(ViewTree newViewTree, boolean rerender) throws Exception {
 		
-		ViewTree viewTree = (ViewTree) treeViewer.getInput();
+		ViewTree viewTree = getViewTree();
 		if (viewTree == null || !rerender) {
 			viewTree = newViewTree;
 			treeViewer.setInput(viewTree);
@@ -381,17 +380,17 @@ public class PictoView extends ViewPart {
 		});
 		
 		// Check if one of the source contents of the view is active
-		ListIterator<ViewContent> contentIterator = view.getContents(viewRenderer).listIterator();
+		ListIterator<ViewContent> contentIterator = view.getContents(this).listIterator();
 		ViewContent content = null;
 		while (contentIterator.hasNext() && content == null) {
 			ViewContent next = contentIterator.next();
 			if (next.isActive()) {
-				content = next.getSourceContent(viewRenderer);
+				content = next.getSourceContent(this);
 			}
 		}
 		
 		// ... if not, show the final rendered result
-		if (content == null) content = view.getContent().getFinal(viewRenderer);
+		if (content == null) content = view.getContent().getFinal(this);
 		viewRenderer.display(content.getText());
 		
 	}
@@ -479,6 +478,10 @@ public class PictoView extends ViewPart {
 	
 	public ViewTree getActiveView() {
 		return activeView;
+	}
+	
+	public ViewTree getViewTree() {
+		return (ViewTree) treeViewer.getInput();
 	}
 	
 	public ViewRenderer getViewRenderer() {

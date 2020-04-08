@@ -63,22 +63,22 @@ public class ViewContent {
 		return text;
 	}
 	
-	public ViewContent getFinal(ViewRenderer renderer) {
+	public ViewContent getFinal(PictoView pictoView) {
 		ViewContent final_ = this;
-		while (final_.getNext(renderer) != null) {
-			final_ = final_.getNext(renderer);
+		while (final_.getNext(pictoView) != null) {
+			final_ = final_.getNext(pictoView);
 		}
 		return final_;
 	}
 	
-	public ViewContent getNext(ViewRenderer renderer) {
+	public ViewContent getNext(PictoView pictoView) {
 		if (next == undefined) {
 			for (ViewContentTransformer viewContentTransformer : getViewContentTransformers()) {
 				if (viewContentTransformer.canTransform(this)) {
 					try {
-						next = viewContentTransformer.transform(this, renderer);
+						next = viewContentTransformer.transform(this, pictoView);
 					} catch (Exception e) {
-						next = new ExceptionContentTransformer().getViewContent(e, renderer);
+						next = new ExceptionContentTransformer().getViewContent(e, pictoView);
 					}
 					break;
 				}
@@ -121,7 +121,7 @@ public class ViewContent {
 		next = newContent;
 	}
 
-	public ViewContent getSourceContent(ViewRenderer renderer) {
-		return new ViewContent("text", text, layers, patches).getNext(renderer);
+	public ViewContent getSourceContent(PictoView pictoView) {
+		return new ViewContent("text", text, layers, patches).getNext(pictoView);
 	}
 }

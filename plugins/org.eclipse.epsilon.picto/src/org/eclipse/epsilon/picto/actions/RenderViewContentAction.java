@@ -11,20 +11,20 @@ package org.eclipse.epsilon.picto.actions;
 
 import java.util.List;
 
+import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
-import org.eclipse.epsilon.picto.ViewRenderer;
 import org.eclipse.jface.action.Action;
 
 public class RenderViewContentAction extends Action {
 		
 	protected ViewContent viewContent;
-	protected ViewRenderer viewRenderer;
+	protected PictoView pictoView;
 	protected List<ViewContent> viewContents;
 	
-	public RenderViewContentAction(ViewContent viewContent, List<ViewContent> viewContents, ViewRenderer viewRenderer) {
+	public RenderViewContentAction(ViewContent viewContent, List<ViewContent> viewContents, PictoView pictoView) {
 		super(viewContent.getLabel() + " source", AS_CHECK_BOX);
 		this.viewContent = viewContent;
-		this.viewRenderer = viewRenderer;
+		this.pictoView = pictoView;
 		this.viewContents = viewContents;
 		this.setChecked(viewContent.isActive());
 	}
@@ -38,7 +38,7 @@ public class RenderViewContentAction extends Action {
 				other.setActive(false);
 			}
 		}
-		viewRenderer.display(viewContent.getSourceContent(viewRenderer).getText());
+		pictoView.getViewRenderer().display(viewContent.getSourceContent(pictoView).getText());
 	}
 	
 }

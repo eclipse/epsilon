@@ -12,8 +12,8 @@ package org.eclipse.epsilon.picto.plantuml;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 
+import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
-import org.eclipse.epsilon.picto.ViewRenderer;
 import org.eclipse.epsilon.picto.transformers.ViewContentTransformer;
 
 import net.sourceforge.plantuml.FileFormat;
@@ -33,7 +33,7 @@ public class PlantUmlContentTransformer implements ViewContentTransformer {
 	}
 
 	@Override
-	public ViewContent transform(ViewContent content, ViewRenderer renderer) throws Exception {
+	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
 		SourceStringReader reader = new SourceStringReader(content.getText());
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
 			reader.outputImage(os, new FileFormatOption(FileFormat.SVG));

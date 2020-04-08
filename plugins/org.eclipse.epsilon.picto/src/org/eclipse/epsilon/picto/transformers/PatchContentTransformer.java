@@ -19,8 +19,8 @@ import org.eclipse.epsilon.egl.patch.TextBlock;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.picto.Layer;
+import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
-import org.eclipse.epsilon.picto.ViewRenderer;
 import org.eclipse.epsilon.picto.dom.Patch;
 
 public class PatchContentTransformer implements ViewContentTransformer {
@@ -36,7 +36,7 @@ public class PatchContentTransformer implements ViewContentTransformer {
 	}
 
 	@Override
-	public ViewContent transform(ViewContent content, ViewRenderer renderer) throws Exception {
+	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
 		List<Patch> appliedPatches = new ArrayList<>();
 		String patchedText = content.getText();
 		for (Patch patch : content.getPatches()) {

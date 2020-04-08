@@ -11,22 +11,29 @@ package org.eclipse.epsilon.picto.transformers;
 
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
+import org.eclipse.epsilon.picto.ViewRenderer;
+import org.eclipse.mylyn.wikitext.markdown.MarkdownLanguage;
+import org.eclipse.mylyn.wikitext.parser.MarkupParser;
+import org.eclipse.mylyn.wikitext.parser.markup.MarkupLanguage;
 
-public class SvgContentTransformer implements ViewContentTransformer {
-
+public class MarkdownContentTransformer implements ViewContentTransformer {
+	
 	@Override
 	public boolean canTransform(ViewContent content) {
-		return content.getFormat().equals("svg");
+		return content.getFormat().equals("markdown");
 	}
 
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
-		return new ViewContent("html", pictoView.getViewRenderer().getZoomableHtml(content.getText()), content.getLayers(), content.getPatches());
+		
+		MarkupParser markupParser = new MarkupParser();
+		markupParser.setMarkupLanguage(new MarkdownLanguage());
+		return new ViewContent("html", pictoView.getViewRenderer().getZoomableHtml(markupParser.parseToHtml(content.getText())), content.getLayers(), content.getPatches());
 	}
 	
 	@Override
 	public String getLabel(ViewContent content) {
-		return "SVG";
+		return "Markdown";
 	}
 	
 }

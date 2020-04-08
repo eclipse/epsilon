@@ -42,7 +42,7 @@ public class CopyToClipboardAction extends Action {
 
 	@Override
 	public void run() {
-		ViewContent viewContent = pictoView.getActiveView().getContents(viewRenderer).stream().filter(c -> c.isActive()).findAny().orElse(null);
+		ViewContent viewContent = pictoView.getActiveView().getContents(pictoView).stream().filter(c -> c.isActive()).findAny().orElse(null);
 		
 		if (viewContent != null) {
 			copyTextToClipboard(viewContent);

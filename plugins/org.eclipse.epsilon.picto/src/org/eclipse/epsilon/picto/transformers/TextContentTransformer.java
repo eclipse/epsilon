@@ -9,8 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.transformers;
 
+import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
-import org.eclipse.epsilon.picto.ViewRenderer;
 
 public class TextContentTransformer implements ViewContentTransformer {
 
@@ -20,8 +20,8 @@ public class TextContentTransformer implements ViewContentTransformer {
 	}
 
 	@Override
-	public ViewContent transform(ViewContent content, ViewRenderer renderer) throws Exception {
-		return new ViewContent("html", renderer.getZoomableVerbatim(content.getText()), content.getLayers(), content.getPatches());
+	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
+		return new ViewContent("html", pictoView.getViewRenderer().getZoomableVerbatim(content.getText()), content.getLayers(), content.getPatches());
 	}
 
 	@Override

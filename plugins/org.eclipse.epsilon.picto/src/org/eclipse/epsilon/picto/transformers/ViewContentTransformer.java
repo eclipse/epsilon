@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto.transformers;
 
+import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.ViewRenderer;
 
@@ -18,6 +19,6 @@ public interface ViewContentTransformer {
 	
 	public String getLabel(ViewContent content);
 	
-	public ViewContent transform(ViewContent content, ViewRenderer renderer) throws Exception;
+	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception;
 	
 }
