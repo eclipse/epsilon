@@ -51,28 +51,36 @@ pipeline {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                 sh '''
                   INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim"
-                  SITEDIR="$INTERIMWS/target"
-                  if [ -d "$SITEDIR" ]; then
-                    INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
-                    UPDATES=$INTERIM/updates
+                  INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
+                  UPDATES=$INTERIM/updates
+                  if [ -d "$INTERIMWS" ]; then
+                    ls "$INTERIMWS"
                     ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $UPDATES; rm -rf $INTERIM/javadoc; mkdir -p $INTERIM/jars"
+                    SITEDIR="$INTERIMWS/target"
+                    if [ -d "$SITEDIR" ]; then
+                      scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
+                      scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
+                    fi
+                    $JAVADOCDIR="$WORKSPACE/target/site/apidocs"
+                    if [-d "$JAVADOCDIR" ] then;
+                      scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
+                    fi
+                    $JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
+                    if [ -d "$JARSDIR" ]; then
+                      scp "$JARSDIR/epsilon-*" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
+                    fi
                     declare -a INTERIMFILES=("compositeArtifacts.xml" "compositeContent.xml")
                     for F in "${INTERIMFILES[@]}"; do
                       if [ -e "$INTERIMWS/$F" ]; then
                         scp "$INTERIMWS/$F" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/${F}
                       fi
                     done
-                    ls "$SITEDIR"
-                    scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
-                    scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
                     declare -a UPDATEFILES=("associateSites.xml" "category.xml")
                     for F in "${UPDATEFILES[@]}"; do
                       if [ -e "$INTERIMWS/$F" ]; then
                         scp "$INTERIMWS/$F" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/${F}
                       fi
                     done
-                    scp "$WORKSPACE"/standalone/org.eclipse.epsilon.standalone/target/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
-                    scp -r "$WORKSPACE/target/site/apidocs" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
                   fi
                 '''
               }
