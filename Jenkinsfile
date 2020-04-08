@@ -56,12 +56,15 @@ pipeline {
                     INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
                     UPDATES=$INTERIM/updates
                     ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $UPDATES; rm -rf $INTERIM/javadoc; mkdir -p $INTERIM/jars"
-                    declare -a INTERIMFILES=("compositeArtifacts.xml" "compositeContent.xml")
+                    declare -a INTERIMFILES=("compositeArtifacts.xml" "compositeContent.xml" "associateSites.xml")
                     for F in "${INTERIMFILES[@]}"; do
                       if [ -e "$INTERIMWS/$F" ]; then
                         scp "$INTERIMWS/$F" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/${F}
                       fi
                     done
+                    if [ -e "$INTERIMWS/associateSites.xml" ]; then
+                      scp "$INTERIMWS/associateSites.xml" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/associateSites.xml
+                    fi
                     scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
                     scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
                     scp "$WORKSPACE"/standalone/org.eclipse.epsilon.standalone/target/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
