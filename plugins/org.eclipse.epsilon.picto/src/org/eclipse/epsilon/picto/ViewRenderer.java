@@ -26,13 +26,11 @@ import org.w3c.dom.Text;
 
 public class ViewRenderer {
 	
-	protected PictoView picto;
 	protected Browser browser;
 	protected double zoom = 1.0;
 	protected DocumentBuilder documentBuilder;
 	
-	public ViewRenderer(PictoView picto, Browser browser) {
-		this.picto = picto;
+	public ViewRenderer(Browser browser) {
 		this.browser = browser;
 		try {
 			documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

@@ -107,7 +107,7 @@ public class PictoView extends ViewPart {
 		treeViewer.addDoubleClickListener(event -> filteredTree.clearFilterText());
 		
 		browserContainer = new BrowserContainer(sashForm, SWT.NONE);
-		viewRenderer = new ViewRenderer(this, new Browser(browserContainer, SWT.NONE));
+		viewRenderer = new ViewRenderer(new Browser(browserContainer, SWT.NONE));
 		
 		new BrowserFunction(viewRenderer.getBrowser(), "showView") {
 			public Object function(Object[] arguments) {
