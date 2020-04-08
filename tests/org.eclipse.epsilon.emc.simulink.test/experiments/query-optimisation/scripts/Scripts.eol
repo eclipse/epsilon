@@ -1,0 +1,12 @@
+Block.all().collect(b|b.Name); // Exploring all blocks (expensive when number increases)
+Block.all().sortBy(b|b.Name); // Sorting all blocks (expensive when number increases)
+Inport.all().select(i|i.ForegroundColor=='black'); // Make some green
+`Stateflow.State`.all().select(b|b.IsImplicitlyCommented == true or b.BadIntersection == true); // Check malformedness
+`Stateflow.Transition`.all().forAll(b|b.LabelString <> "?"); // All have valid names, not default ones
+
+`Stateflow.State`.all().selectOne(b|b.Type=="OR");
+`Stateflow.State`.all().exists(b|b.ExecutionOrder == 0);
+`Stateflow.Transition`.all().collect(b|b.labelString);
+
+// TODO support b.IsBooleanProperty with no == true.
+// TODO support or check that == null works
