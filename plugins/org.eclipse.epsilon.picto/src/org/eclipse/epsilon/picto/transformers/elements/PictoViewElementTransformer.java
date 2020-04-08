@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.ViewTree;
+import org.eclipse.epsilon.picto.transformers.HtmlContentTransformer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -36,7 +37,7 @@ public class PictoViewElementTransformer extends AbstractHtmlElementTransformer 
 
 				if (svgContent != null) {
 					try {
-						Document document = picto.getViewRenderer().parse(svgContent.getText());
+						Document document = new HtmlContentTransformer().parse(svgContent.getText());
 						Element svg = document.getDocumentElement();
 						element.getOwnerDocument().importNode(svg, true);
 						element.getOwnerDocument().adoptNode(svg);

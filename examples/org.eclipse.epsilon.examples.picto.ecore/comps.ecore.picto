@@ -9,7 +9,8 @@
 	</view>
 	
 	<!-- A view with static content -->
-	<view path="Model, Readme" format="html" content_="comps-patches/readme.html" position="0"/>
+	<view path="Model, Readme (HTML)" format="html" content_="comps-patches/readme.html" position="0"/>
+	<view path="Model, Readme (Markdown)" format="markdown" content_="comps-patches/readme.md" position="0"/>
 	
 	<!-- Patches for existing views --> 
 	<view path="Model, Classes, Component" icon="diagram-ff0000"/>

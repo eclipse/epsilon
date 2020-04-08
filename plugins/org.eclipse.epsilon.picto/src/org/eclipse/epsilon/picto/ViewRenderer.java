@@ -9,10 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
-import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,74 +18,30 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
 
-import org.eclipse.epsilon.picto.transformers.elements.HtmlElementTransformer;
-import org.eclipse.epsilon.picto.transformers.elements.PictoViewElementTransformer;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.graphics.Point;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-import org.xml.sax.InputSource;
 
 public class ViewRenderer {
 	
+	protected PictoView picto;
 	protected Browser browser;
 	protected double zoom = 1.0;
-	protected List<HtmlElementTransformer> htmlElementTransformers = Arrays.asList(new PictoViewElementTransformer());
-	protected DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-	protected TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	protected Transformer transformer;
 	protected DocumentBuilder documentBuilder;
-	protected PictoView picto;
-	
-	protected String transformElements(String content) throws Exception {
-		
-		Document document = null;
-		
-		document = parse(content);
-		
-		for (HtmlElementTransformer htmlElementTransformer : htmlElementTransformers) {
-			
-			htmlElementTransformer.setPictoView(picto);
-			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//*[local-name() = '" + htmlElementTransformer.getElementName() + "']";
-			
-			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			
-			for (int i = 0; i<nodeList.getLength(); i++) {
-				htmlElementTransformer.transform((Element) nodeList.item(i));
-			}
-		}
-		
-		StringWriter writer = new StringWriter();
-		StreamResult result = new StreamResult(writer);
-		transformer.setOutputProperty(OutputKeys.METHOD, "html");
-		transformer.transform(new DOMSource(document.getDocumentElement()), result);
-		return writer.toString();
-	}
 	
 	public ViewRenderer(PictoView picto, Browser browser) {
 		this.picto = picto;
 		this.browser = browser;
 		try {
-			transformer = transformerFactory.newTransformer();
-			documentBuilderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-			documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		}
 		catch (Exception ex) {}
 	}
 	
 	public Browser getBrowser() {
 		return browser;
-	}
-	
-	public Document parse(String xml) throws Exception {
-		return documentBuilder.parse(new InputSource(new StringReader(xml)));
 	}
 	
 	public Point getScrollPosition() {
@@ -132,10 +85,6 @@ public class ViewRenderer {
 	}
 	
 	public String getZoomableHtml(String content) {
-		
-		try { content = transformElements(content); }
-		catch (Exception ex) {}
-		
 		return "<html><body style=\"zoom:${picto-zoom}\">\n" + content + "\n</body></html>";
 	}
 	

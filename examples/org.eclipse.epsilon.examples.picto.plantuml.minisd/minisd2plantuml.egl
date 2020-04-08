@@ -26,7 +26,12 @@ operation Alt toPlantUml() {
 	var plantUml = "";
 	var visibleBlocks = self.blocks.excludingAll(excludedBlocks);
 	for (b in visibleBlocks) {
-		if (loopCount == 1) plantUml += "alt";
+		if (loopCount == 1) {
+			plantUml += "alt";
+			if (mainBlock.isDefined() and mainBlock.eContainer == self) {
+				plantUml += " #azure";
+			}
+		}
 		else plantUml += "else ";
 		plantUml += " " + b.title;
 		plantUml += "\n" + b.toPlantUml();

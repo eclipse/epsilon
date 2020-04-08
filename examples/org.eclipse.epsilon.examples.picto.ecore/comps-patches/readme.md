@@ -1,17 +1,14 @@
-<body>
-<h1>Comps DSL</h1>
+#Comps DSL
 This is a simple component-connector DSL.
 
-<h2>The Connector class</h2>
+##The Connector class
 
 <picto-view path="Model, Classes, Connector"/>
 
-<h2>The Component class</h2>
+##The Component class
 
 <picto-view path="Model, Classes, Component"/>
 
-<h2>Stats</h2>
+##Stats
 
 <picto-view path="Model, Stats" style="width:100%;border:0px;height:400px"/>
-
-</body>

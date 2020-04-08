@@ -11,10 +11,8 @@ package org.eclipse.epsilon.picto.transformers;
 
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
-import org.eclipse.epsilon.picto.ViewRenderer;
 import org.eclipse.mylyn.wikitext.markdown.MarkdownLanguage;
 import org.eclipse.mylyn.wikitext.parser.MarkupParser;
-import org.eclipse.mylyn.wikitext.parser.markup.MarkupLanguage;
 
 public class MarkdownContentTransformer implements ViewContentTransformer {
 	
@@ -28,7 +26,8 @@ public class MarkdownContentTransformer implements ViewContentTransformer {
 		
 		MarkupParser markupParser = new MarkupParser();
 		markupParser.setMarkupLanguage(new MarkdownLanguage());
-		return new ViewContent("html", pictoView.getViewRenderer().getZoomableHtml(markupParser.parseToHtml(content.getText())), content.getLayers(), content.getPatches());
+		
+		return new ViewContent("html", markupParser.parseToHtml(content.getText()).replace("<body>", "<body style=\"zoom:${picto-zoom}\">"), content.getLayers(), content.getPatches());
 	}
 	
 	@Override
