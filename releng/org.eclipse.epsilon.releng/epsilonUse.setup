@@ -457,6 +457,16 @@
           url="https://download.eclipse.org/oomph/updates/milestone/latest"/>
       <repository
           url="https://download.eclipse.org/epsilon/interim"/>
+      <repository
+          url="https://download.eclipse.org/emfatic/update"/>
+      <repository
+          url="https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository"/>
+      <repository
+          url="https://download.eclipse.org/modeling/emf/emf/builds/release/latest"/>
+      <repository
+          url="https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
+      <repository
+          url="https://archive.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
     </setupTask>
     <description>Latest version of Epsilon</description>
   </version>
