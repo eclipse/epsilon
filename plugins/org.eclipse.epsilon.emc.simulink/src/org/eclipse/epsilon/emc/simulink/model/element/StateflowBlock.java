@@ -165,9 +165,10 @@ public class StateflowBlock extends SimulinkModelElement {
 							escaped = "'" + escaped + "'";
 						}
 					}
+					escaped = escaped.replace("?", String.valueOf(value));
 					String cmd = "?.? = " + escaped + ";";
 					String h = StateflowUtil.getBlockHandle(this);
-					engine.eval(cmd, h, property, value);					
+					engine.eval(cmd, h, property);					
 				}
 			}
 		} catch (MatlabException e) {

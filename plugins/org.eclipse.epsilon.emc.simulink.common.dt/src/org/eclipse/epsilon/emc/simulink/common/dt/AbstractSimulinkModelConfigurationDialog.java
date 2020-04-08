@@ -46,7 +46,7 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		super.createGroups(control);
 		createFilesGroup(control);
 		createEngineGroup(control);
-		createLoadStoreOptionsGroup(control);
+		createLoadDisposeOptionsGroup(control);
 	}
 	
 	protected Composite createFilesGroup(Composite parent) {
@@ -169,8 +169,7 @@ public abstract class AbstractSimulinkModelConfigurationDialog extends AbstractC
 		return groupContent;
 	}
 	
-	@Override
-	protected Composite createLoadStoreOptionsGroup(Composite parent) {
+	protected Composite createLoadDisposeOptionsGroup(Composite parent) {
 		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Load/Disposal Options", 4);
 		
 		readOnLoadLabel = new Label(groupContent, SWT.NONE);

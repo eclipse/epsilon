@@ -13,20 +13,20 @@ import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
 import org.eclipse
 .epsilon.emc.simulink.model.TypeHelper;
 import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
-import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkElement;
+import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkLine;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkPort;
 import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
 
-public class SimulinkElementManager extends AbstractManager<ISimulinkElement, Object> {
+public class SimulinkElementManager extends AbstractManager<ISimulinkModelElement, Object> {
 
 	public SimulinkElementManager(SimulinkModel model){
 		super(model);
 	}
 	
 	@Override
-	public ISimulinkElement construct(Object id) {
+	public ISimulinkModelElement construct(Object id) {
 		Kind kind = TypeHelper.getKind(getModel(), id);
 		switch (kind) {
 		case BLOCK:
@@ -36,7 +36,7 @@ public class SimulinkElementManager extends AbstractManager<ISimulinkElement, Ob
 		case PORT:
 			return new SimulinkPortManager(getModel()).construct((Double) id);
 		case STATEFLOW:
-			return (ISimulinkElement) new StateflowBlockManager(getModel()).construct((Double) id);
+			return (ISimulinkModelElement) new StateflowBlockManager(getModel()).construct((Double) id);
 			//return (ISimulinkElement) new StateflowBlockManager(getModel()).construct((String) id);
 		default:
 			return null;
@@ -44,7 +44,7 @@ public class SimulinkElementManager extends AbstractManager<ISimulinkElement, Ob
 	}
 	
 	@Override
-	public Object getId(ISimulinkElement from) {
+	public Object getId(ISimulinkModelElement from) {
 		if (from instanceof StateflowBlock) {
 			return new StateflowBlockManager(getModel()).getId((StateflowBlock) from);
 			//return (String) new StateflowBlockManager(getModel()).getId((StateflowBlock) from);

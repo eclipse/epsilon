@@ -71,15 +71,15 @@ public class LoadModelTest {
 			List<String> workdirs = Arrays.asList(new String[] {"", RESOURCES, WITH_SPACES});
 			for (Boolean store : bools) {
 				for (Boolean read : bools) {
-					for (Boolean open : bools) {
+					//for (Boolean open : bools) {
 						for (Boolean close : bools) {
 							for (String workdir : workdirs) {
 								for (String file : files) {
-									list.add(new Object[] {read, store, open, close, workdir, file});
+									list.add(new Object[] {read, store, /*open,*/ close, workdir, file});
 								}
 							}
 						}
-					}
+					//}
 				}
 			}
 			data = list;
@@ -98,16 +98,16 @@ public class LoadModelTest {
 	@Parameter(1)
 	public boolean storeOnDisposal;
 	
-	@Parameter(2)
-	public boolean openOnLoad;
+	/*@Parameter(2)
+	public boolean openOnLoad;*/
 	
-	@Parameter(3)
+	@Parameter(2)
 	public boolean closeOnDisposal;
 	
-	@Parameter(4)
+	@Parameter(3)
 	public String workdir;
 	
-	@Parameter(5)
+	@Parameter(4)
 	public String fileName;
 	
 	private SimulinkModel model;
@@ -137,7 +137,8 @@ public class LoadModelTest {
 		}
 		model.setReadOnLoad(readOnLoad);
 		model.setStoredOnDisposal(storeOnDisposal);
-		model.setOpenOnLoad(openOnLoad);
+		//model.setOpenOnLoad(openOnLoad);
+		model.setOpenOnLoad(false);
 		model.setCloseOnDispose(closeOnDisposal);
 
 		model.setName("M");

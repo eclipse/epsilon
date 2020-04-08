@@ -46,8 +46,8 @@ public class MatlabHandleElement extends SimulinkModelElement {
 		try {
 			setHandleInMatlabWorkspace();
 			String escaped = "?";
-			if (value instanceof ISimulinkElement) {
-				ISimulinkElement element = (ISimulinkElement) value;
+			if (value instanceof ISimulinkModelElement) {
+				ISimulinkModelElement element = (ISimulinkModelElement) value;
 				value = element.getHandle();
 			} else {
 				escaped = "'" + escaped + "'";

@@ -22,7 +22,7 @@ import org.eclipse.epsilon.emc.simulink.model.TypeHelper.Kind;
 import org.eclipse.epsilon.emc.simulink.util.SimulinkUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-public abstract class SimulinkElement extends SimulinkModelElement implements ISimulinkElement {
+public abstract class SimulinkElement extends SimulinkModelElement implements ISimulinkModelElement {
 
 	protected static final String ADD_BLOCK_MAKE_NAME_UNIQUE_ON = "add_block('?', '?', 'MakeNameUnique', 'on');";
 	protected static final String HANDLE = "handle = ?;";
@@ -94,8 +94,8 @@ public abstract class SimulinkElement extends SimulinkModelElement implements IS
 	public void setProperty(String property, Object value) throws EolRuntimeException {
 		try {
 			String escaped = "?";
-			if (value instanceof ISimulinkElement) {
-				ISimulinkElement element = (ISimulinkElement) value;
+			if (value instanceof ISimulinkModelElement) {
+				ISimulinkModelElement element = (ISimulinkModelElement) value;
 				value = element.getHandle();
 			} else {
 				escaped = "'" + escaped + "'";

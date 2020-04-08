@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.exception.MatlabException;
 import org.eclipse.epsilon.emc.simulink.model.SimulinkModel;
-import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkElement;
+import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.model.element.SimulinkBlock;
 import org.eclipse.epsilon.emc.simulink.util.collection.SimulinkBlockCollection;
@@ -47,7 +47,7 @@ public class SimulinkUtil {
 		return model.getSimulinkModelName() + "/" + getSimpleTypeName(type);
 	}
 	
-	public static String handleMethod(ISimulinkElement obj, String methodName, Object[] parameters) {
+	public static String handleMethod(ISimulinkModelElement obj, String methodName, Object[] parameters) {
 		Object handle = obj.getHandle();
 		return handleMethod(handle, methodName, parameters);
 	}
@@ -64,7 +64,7 @@ public class SimulinkUtil {
 		return "handle = " + objHandle + "; " + handleMethod(methodName, list.toArray());
 	}
 	
-	public static String handleMethodWithResult(ISimulinkElement obj, String methodName, Object[] parameters) {
+	public static String handleMethodWithResult(ISimulinkModelElement obj, String methodName, Object[] parameters) {
 		Object handle = obj.getHandle();
 		return handleMethodWithResult(handle, methodName, parameters);
 	}
