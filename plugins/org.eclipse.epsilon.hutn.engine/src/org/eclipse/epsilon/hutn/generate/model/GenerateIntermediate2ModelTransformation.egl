@@ -53,11 +53,11 @@ operation ContainmentSlot getEObjects() : Sequence {
 
 operation String getEObject(slot : ReferenceSlot) : Any {
 	if ('#'.isSubstringOf(self)) {
-		-- External object reference, locate in external model
+		// External object reference, locate in external model
 		return EmfTool.getEObject(self);
 	
 	} else {
-		-- Internal object reference, located in current model
+		// Internal object reference, located in current model
 		return slot.getClassObjects().selectOne(c|c.identifier = self).equivalent();
 	}
 }

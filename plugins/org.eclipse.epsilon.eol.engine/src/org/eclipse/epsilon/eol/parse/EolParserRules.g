@@ -418,7 +418,7 @@ unaryExpression
 	;
 	
 shortcutOperatorExpression
-	:	postfixExpression ((op='++'^) {$op.setType(OPERATOR);})?
+	:	postfixExpression ((op='++'^ | op='--'^) {$op.setType(OPERATOR);})?
 	;
 	
 postfixExpression

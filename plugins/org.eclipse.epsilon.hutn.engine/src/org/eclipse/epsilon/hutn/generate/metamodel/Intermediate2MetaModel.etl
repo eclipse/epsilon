@@ -1,7 +1,7 @@
 import 'ReferenceInferrence.eol';
 
 post {
-	-- Infer simple inheritance hierachy
+	// Infer simple inheritance hierachy
 	var obsoleteFeatures := new Set(EStructuralFeature);
 	
 	for (feature in MetaModel!EStructuralFeature.allInstances()) {
@@ -17,7 +17,7 @@ post {
 				
 				subtypes.forAll(c|c.eSuperTypes.add(superclass));
 				
-				-- Add superclass to correct package, add feature to superclass, make superclass abstract
+				// Add superclass to correct package, add feature to superclass, make superclass abstract
 				feature.eContainingClass.ePackage.eClassifiers.add(superclass);
 				superclass.eStructuralFeatures.add(feature);
 				superclass."abstract" := true;

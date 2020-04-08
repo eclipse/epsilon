@@ -1,16 +1,23 @@
-// $ANTLR 3.1b1 /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g 2009-12-01 14:12:07
+// $ANTLR 3.1b1 C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g 2020-04-08 19:05:29
 
 package org.eclipse.epsilon.hutn.parse.spec;
 
 
 import org.antlr.runtime.*;
+import java.util.Stack;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+
 import org.antlr.runtime.tree.*;
 
 /*******************************************************************************
  * Copyright (c) 2009 The University of York.
- * This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
  *     Louis Rose - initial API and implementation
@@ -46,20 +53,20 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "SPEC", "TEXTUAL_VALUE", "LBRACKET", "RBRACKET", "NAME", "ASSIGNMENT", "ID_START_LETTER", "ID_LETTER", "ESC", "TEXT_LETTER", "WS", "ML_COMMENT", "SL_COMMENT"
     };
-    public static final int LBRACKET=6;
-    public static final int ML_COMMENT=15;
-    public static final int NAME=8;
-    public static final int WS=14;
     public static final int ID_START_LETTER=10;
-    public static final int ID_LETTER=11;
     public static final int TEXTUAL_VALUE=5;
-    public static final int ESC=12;
-    public static final int SL_COMMENT=16;
-    public static final int SPEC=4;
-    public static final int ASSIGNMENT=9;
+    public static final int LBRACKET=6;
     public static final int RBRACKET=7;
-    public static final int EOF=-1;
     public static final int TEXT_LETTER=13;
+    public static final int ID_LETTER=11;
+    public static final int NAME=8;
+    public static final int ESC=12;
+    public static final int ML_COMMENT=15;
+    public static final int ASSIGNMENT=9;
+    public static final int SL_COMMENT=16;
+    public static final int WS=14;
+    public static final int EOF=-1;
+    public static final int SPEC=4;
 
     // delegates
     // delegators
@@ -82,7 +89,7 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
     }
 
     public String[] getTokenNames() { return HutnSpecParser.tokenNames; }
-    public String getGrammarFileName() { return "/Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g"; }
+    public String getGrammarFileName() { return "C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g"; }
 
 
     public static class preamble_return extends ParserRuleReturnScope {
@@ -91,7 +98,7 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
     };
 
     // $ANTLR start preamble
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:87:1: preamble : SPEC ( TEXTUAL_VALUE )? LBRACKET ( metamodel )* RBRACKET ;
+    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:87:1: preamble : SPEC ( TEXTUAL_VALUE )? LBRACKET ( metamodel )* RBRACKET ;
     public final HutnSpecParser.preamble_return preamble() throws RecognitionException {
         HutnSpecParser.preamble_return retval = new HutnSpecParser.preamble_return();
         retval.start = input.LT(1);
@@ -111,8 +118,8 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
         CommonTree RBRACKET5_tree=null;
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:87:9: ( SPEC ( TEXTUAL_VALUE )? LBRACKET ( metamodel )* RBRACKET )
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:87:11: SPEC ( TEXTUAL_VALUE )? LBRACKET ( metamodel )* RBRACKET
+            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:87:9: ( SPEC ( TEXTUAL_VALUE )? LBRACKET ( metamodel )* RBRACKET )
+            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:87:11: SPEC ( TEXTUAL_VALUE )? LBRACKET ( metamodel )* RBRACKET
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -121,7 +128,7 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
             SPEC1_tree = (CommonTree)adaptor.create(SPEC1);
             root_0 = (CommonTree)adaptor.becomeRoot(SPEC1_tree, root_0);
             }
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:87:17: ( TEXTUAL_VALUE )?
+            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:87:17: ( TEXTUAL_VALUE )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -130,7 +137,7 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
             }
             switch (alt1) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:0:0: TEXTUAL_VALUE
+                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:0:0: TEXTUAL_VALUE
                     {
                     TEXTUAL_VALUE2=(Token)match(input,TEXTUAL_VALUE,FOLLOW_TEXTUAL_VALUE_in_preamble52); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
@@ -144,7 +151,7 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
             }
 
             LBRACKET3=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_preamble55); if (state.failed) return retval;
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:87:42: ( metamodel )*
+            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:87:42: ( metamodel )*
             loop2:
             do {
                 int alt2=2;
@@ -157,7 +164,7 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
 
                 switch (alt2) {
             	case 1 :
-            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:0:0: metamodel
+            	    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:0:0: metamodel
             	    {
             	    pushFollow(FOLLOW_metamodel_in_preamble58);
             	    metamodel4=metamodel();
@@ -204,7 +211,7 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
     };
 
     // $ANTLR start metamodel
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:89:1: metamodel : NAME ( TEXTUAL_VALUE )? LBRACKET ( feature )* RBRACKET ;
+    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:89:1: metamodel : NAME ( TEXTUAL_VALUE )? LBRACKET ( feature )* RBRACKET ;
     public final HutnSpecParser.metamodel_return metamodel() throws RecognitionException {
         HutnSpecParser.metamodel_return retval = new HutnSpecParser.metamodel_return();
         retval.start = input.LT(1);
@@ -224,8 +231,8 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
         CommonTree RBRACKET10_tree=null;
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:89:10: ( NAME ( TEXTUAL_VALUE )? LBRACKET ( feature )* RBRACKET )
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:89:12: NAME ( TEXTUAL_VALUE )? LBRACKET ( feature )* RBRACKET
+            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:89:10: ( NAME ( TEXTUAL_VALUE )? LBRACKET ( feature )* RBRACKET )
+            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:89:12: NAME ( TEXTUAL_VALUE )? LBRACKET ( feature )* RBRACKET
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -234,7 +241,7 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
             NAME6_tree = (CommonTree)adaptor.create(NAME6);
             root_0 = (CommonTree)adaptor.becomeRoot(NAME6_tree, root_0);
             }
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:89:18: ( TEXTUAL_VALUE )?
+            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:89:18: ( TEXTUAL_VALUE )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -243,7 +250,7 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
             }
             switch (alt3) {
                 case 1 :
-                    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:0:0: TEXTUAL_VALUE
+                    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:0:0: TEXTUAL_VALUE
                     {
                     TEXTUAL_VALUE7=(Token)match(input,TEXTUAL_VALUE,FOLLOW_TEXTUAL_VALUE_in_metamodel72); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
@@ -257,7 +264,7 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
             }
 
             LBRACKET8=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_metamodel75); if (state.failed) return retval;
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:89:43: ( feature )*
+            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:89:43: ( feature )*
             loop4:
             do {
                 int alt4=2;
@@ -270,7 +277,7 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
 
                 switch (alt4) {
             	case 1 :
-            	    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:0:0: feature
+            	    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:0:0: feature
             	    {
             	    pushFollow(FOLLOW_feature_in_metamodel78);
             	    feature9=feature();
@@ -317,7 +324,7 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
     };
 
     // $ANTLR start feature
-    // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:91:1: feature : NAME ASSIGNMENT TEXTUAL_VALUE ;
+    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:91:1: feature : NAME ASSIGNMENT TEXTUAL_VALUE ;
     public final HutnSpecParser.feature_return feature() throws RecognitionException {
         HutnSpecParser.feature_return retval = new HutnSpecParser.feature_return();
         retval.start = input.LT(1);
@@ -333,8 +340,8 @@ public class HutnSpecParser extends org.eclipse.epsilon.common.parse.EpsilonPars
         CommonTree TEXTUAL_VALUE13_tree=null;
 
         try {
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:91:8: ( NAME ASSIGNMENT TEXTUAL_VALUE )
-            // /Users/louis/Code/eclipse/workspaces/galileo/workspace-epsilon/org.eclipse.epsilon.hutn.engine/src/org/eclipse/epsilon/hutn/parse/spec/HutnSpec.g:91:10: NAME ASSIGNMENT TEXTUAL_VALUE
+            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:91:8: ( NAME ASSIGNMENT TEXTUAL_VALUE )
+            // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.hutn.engine\\src\\org\\eclipse\\epsilon\\hutn\\parse\\spec\\HutnSpec.g:91:10: NAME ASSIGNMENT TEXTUAL_VALUE
             {
             root_0 = (CommonTree)adaptor.nil();
 

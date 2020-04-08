@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.etl.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2019-01-24 14:02:05
+// $ANTLR 3.1b1 EolLexerRules.g 2020-04-08 19:05:11
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -71,7 +71,7 @@ public class Etl_EolLexerRules extends Lexer {
     public static final int TYPE=65;
     public static final int T__139=139;
     public static final int T__138=138;
-    public static final int Tokens=162;
+    public static final int Tokens=163;
     public static final int T__133=133;
     public static final int T__132=132;
     public static final int T__135=135;
@@ -90,6 +90,7 @@ public class Etl_EolLexerRules extends Lexer {
     public static final int MAP=75;
     public static final int T__128=128;
     public static final int T__127=127;
+    public static final int T__162=162;
     public static final int T__161=161;
     public static final int MODELDECLARATION=68;
     public static final int EXPRESSIONINBRACKETS=59;
@@ -225,8 +226,8 @@ public class Etl_EolLexerRules extends Lexer {
     // $ANTLR start DIGIT
     public final void mDIGIT() throws RecognitionException {
         try {
-            // EolLexerRules.g:56:16: ( '0' .. '9' )
-            // EolLexerRules.g:56:18: '0' .. '9'
+            // EolLexerRules.g:44:16: ( '0' .. '9' )
+            // EolLexerRules.g:44:18: '0' .. '9'
             {
             matchRange('0','9'); if (state.failed) return ;
 
@@ -241,8 +242,8 @@ public class Etl_EolLexerRules extends Lexer {
     // $ANTLR start EXPONENT
     public final void mEXPONENT() throws RecognitionException {
         try {
-            // EolLexerRules.g:57:19: ( ( 'e' | 'E' ) ( '+' | '-' )? ( DIGIT )+ )
-            // EolLexerRules.g:57:21: ( 'e' | 'E' ) ( '+' | '-' )? ( DIGIT )+
+            // EolLexerRules.g:45:19: ( ( 'e' | 'E' ) ( '+' | '-' )? ( DIGIT )+ )
+            // EolLexerRules.g:45:21: ( 'e' | 'E' ) ( '+' | '-' )? ( DIGIT )+
             {
             if ( input.LA(1)=='E'||input.LA(1)=='e' ) {
                 input.consume();
@@ -254,7 +255,7 @@ public class Etl_EolLexerRules extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // EolLexerRules.g:57:31: ( '+' | '-' )?
+            // EolLexerRules.g:45:31: ( '+' | '-' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -281,7 +282,7 @@ public class Etl_EolLexerRules extends Lexer {
 
             }
 
-            // EolLexerRules.g:57:42: ( DIGIT )+
+            // EolLexerRules.g:45:42: ( DIGIT )+
             int cnt2=0;
             loop2:
             do {
@@ -295,7 +296,7 @@ public class Etl_EolLexerRules extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // EolLexerRules.g:57:42: DIGIT
+            	    // EolLexerRules.g:45:42: DIGIT
             	    {
             	    mDIGIT(); if (state.failed) return ;
 
@@ -324,8 +325,8 @@ public class Etl_EolLexerRules extends Lexer {
     // $ANTLR start FLOAT_TYPE_SUFFIX
     public final void mFLOAT_TYPE_SUFFIX() throws RecognitionException {
         try {
-            // EolLexerRules.g:58:28: ( ( 'f' | 'F' | 'd' | 'D' ) )
-            // EolLexerRules.g:58:30: ( 'f' | 'F' | 'd' | 'D' )
+            // EolLexerRules.g:46:28: ( ( 'f' | 'F' | 'd' | 'D' ) )
+            // EolLexerRules.g:46:30: ( 'f' | 'F' | 'd' | 'D' )
             {
             if ( input.LA(1)=='D'||input.LA(1)=='F'||input.LA(1)=='d'||input.LA(1)=='f' ) {
                 input.consume();
@@ -351,10 +352,10 @@ public class Etl_EolLexerRules extends Lexer {
         try {
             int _type = INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:60:5: ( ( DIGIT )+ ( 'l' | ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( EXPONENT )? ( FLOAT_TYPE_SUFFIX )? ) | ( EXPONENT ( FLOAT_TYPE_SUFFIX )? ) | ( FLOAT_TYPE_SUFFIX ) )? )
-            // EolLexerRules.g:60:7: ( DIGIT )+ ( 'l' | ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( EXPONENT )? ( FLOAT_TYPE_SUFFIX )? ) | ( EXPONENT ( FLOAT_TYPE_SUFFIX )? ) | ( FLOAT_TYPE_SUFFIX ) )?
+            // EolLexerRules.g:48:5: ( ( DIGIT )+ ( 'l' | 'L' | ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( EXPONENT )? ( FLOAT_TYPE_SUFFIX )? ) | ( EXPONENT ( FLOAT_TYPE_SUFFIX )? ) | ( FLOAT_TYPE_SUFFIX ) )? )
+            // EolLexerRules.g:48:7: ( DIGIT )+ ( 'l' | 'L' | ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( EXPONENT )? ( FLOAT_TYPE_SUFFIX )? ) | ( EXPONENT ( FLOAT_TYPE_SUFFIX )? ) | ( FLOAT_TYPE_SUFFIX ) )?
             {
-            // EolLexerRules.g:60:7: ( DIGIT )+
+            // EolLexerRules.g:48:7: ( DIGIT )+
             int cnt3=0;
             loop3:
             do {
@@ -368,7 +369,7 @@ public class Etl_EolLexerRules extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // EolLexerRules.g:60:8: DIGIT
+            	    // EolLexerRules.g:48:8: DIGIT
             	    {
             	    mDIGIT(); if (state.failed) return ;
 
@@ -385,38 +386,48 @@ public class Etl_EolLexerRules extends Lexer {
                 cnt3++;
             } while (true);
 
-            // EolLexerRules.g:60:16: ( 'l' | ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( EXPONENT )? ( FLOAT_TYPE_SUFFIX )? ) | ( EXPONENT ( FLOAT_TYPE_SUFFIX )? ) | ( FLOAT_TYPE_SUFFIX ) )?
-            int alt8=5;
+            // EolLexerRules.g:48:16: ( 'l' | 'L' | ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( EXPONENT )? ( FLOAT_TYPE_SUFFIX )? ) | ( EXPONENT ( FLOAT_TYPE_SUFFIX )? ) | ( FLOAT_TYPE_SUFFIX ) )?
+            int alt8=6;
             int LA8_0 = input.LA(1);
 
             if ( (LA8_0=='l') ) {
                 alt8=1;
             }
-            else if ( (LA8_0=='.') && (synpred1_EolLexerRules())) {
+            else if ( (LA8_0=='L') ) {
                 alt8=2;
             }
-            else if ( (LA8_0=='E'||LA8_0=='e') ) {
+            else if ( (LA8_0=='.') && (synpred1_EolLexerRules())) {
                 alt8=3;
             }
-            else if ( (LA8_0=='D'||LA8_0=='F'||LA8_0=='d'||LA8_0=='f') ) {
+            else if ( (LA8_0=='E'||LA8_0=='e') ) {
                 alt8=4;
+            }
+            else if ( (LA8_0=='D'||LA8_0=='F'||LA8_0=='d'||LA8_0=='f') ) {
+                alt8=5;
             }
             switch (alt8) {
                 case 1 :
-                    // EolLexerRules.g:60:17: 'l'
+                    // EolLexerRules.g:48:17: 'l'
                     {
                     match('l'); if (state.failed) return ;
 
                     }
                     break;
                 case 2 :
-                    // EolLexerRules.g:61:4: ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( EXPONENT )? ( FLOAT_TYPE_SUFFIX )? )
+                    // EolLexerRules.g:48:21: 'L'
                     {
-                    // EolLexerRules.g:61:4: ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( EXPONENT )? ( FLOAT_TYPE_SUFFIX )? )
-                    // EolLexerRules.g:61:5: ( '.' DIGIT )=> '.' ( DIGIT )+ ( EXPONENT )? ( FLOAT_TYPE_SUFFIX )?
+                    match('L'); if (state.failed) return ;
+
+                    }
+                    break;
+                case 3 :
+                    // EolLexerRules.g:49:4: ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( EXPONENT )? ( FLOAT_TYPE_SUFFIX )? )
+                    {
+                    // EolLexerRules.g:49:4: ( ( '.' DIGIT )=> '.' ( DIGIT )+ ( EXPONENT )? ( FLOAT_TYPE_SUFFIX )? )
+                    // EolLexerRules.g:49:5: ( '.' DIGIT )=> '.' ( DIGIT )+ ( EXPONENT )? ( FLOAT_TYPE_SUFFIX )?
                     {
                     match('.'); if (state.failed) return ;
-                    // EolLexerRules.g:61:32: ( DIGIT )+
+                    // EolLexerRules.g:49:32: ( DIGIT )+
                     int cnt4=0;
                     loop4:
                     do {
@@ -430,7 +441,7 @@ public class Etl_EolLexerRules extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // EolLexerRules.g:61:33: DIGIT
+                    	    // EolLexerRules.g:49:33: DIGIT
                     	    {
                     	    mDIGIT(); if (state.failed) return ;
 
@@ -450,7 +461,7 @@ public class Etl_EolLexerRules extends Lexer {
                     if ( state.backtracking==0 ) {
                       _type = FLOAT;
                     }
-                    // EolLexerRules.g:61:58: ( EXPONENT )?
+                    // EolLexerRules.g:49:58: ( EXPONENT )?
                     int alt5=2;
                     int LA5_0 = input.LA(1);
 
@@ -459,7 +470,7 @@ public class Etl_EolLexerRules extends Lexer {
                     }
                     switch (alt5) {
                         case 1 :
-                            // EolLexerRules.g:61:58: EXPONENT
+                            // EolLexerRules.g:49:58: EXPONENT
                             {
                             mEXPONENT(); if (state.failed) return ;
 
@@ -468,7 +479,7 @@ public class Etl_EolLexerRules extends Lexer {
 
                     }
 
-                    // EolLexerRules.g:61:68: ( FLOAT_TYPE_SUFFIX )?
+                    // EolLexerRules.g:49:68: ( FLOAT_TYPE_SUFFIX )?
                     int alt6=2;
                     int LA6_0 = input.LA(1);
 
@@ -477,7 +488,7 @@ public class Etl_EolLexerRules extends Lexer {
                     }
                     switch (alt6) {
                         case 1 :
-                            // EolLexerRules.g:61:68: FLOAT_TYPE_SUFFIX
+                            // EolLexerRules.g:49:68: FLOAT_TYPE_SUFFIX
                             {
                             mFLOAT_TYPE_SUFFIX(); if (state.failed) return ;
 
@@ -492,14 +503,14 @@ public class Etl_EolLexerRules extends Lexer {
 
                     }
                     break;
-                case 3 :
-                    // EolLexerRules.g:62:4: ( EXPONENT ( FLOAT_TYPE_SUFFIX )? )
+                case 4 :
+                    // EolLexerRules.g:50:4: ( EXPONENT ( FLOAT_TYPE_SUFFIX )? )
                     {
-                    // EolLexerRules.g:62:4: ( EXPONENT ( FLOAT_TYPE_SUFFIX )? )
-                    // EolLexerRules.g:62:5: EXPONENT ( FLOAT_TYPE_SUFFIX )?
+                    // EolLexerRules.g:50:4: ( EXPONENT ( FLOAT_TYPE_SUFFIX )? )
+                    // EolLexerRules.g:50:5: EXPONENT ( FLOAT_TYPE_SUFFIX )?
                     {
                     mEXPONENT(); if (state.failed) return ;
-                    // EolLexerRules.g:62:14: ( FLOAT_TYPE_SUFFIX )?
+                    // EolLexerRules.g:50:14: ( FLOAT_TYPE_SUFFIX )?
                     int alt7=2;
                     int LA7_0 = input.LA(1);
 
@@ -508,7 +519,7 @@ public class Etl_EolLexerRules extends Lexer {
                     }
                     switch (alt7) {
                         case 1 :
-                            // EolLexerRules.g:62:14: FLOAT_TYPE_SUFFIX
+                            // EolLexerRules.g:50:14: FLOAT_TYPE_SUFFIX
                             {
                             mFLOAT_TYPE_SUFFIX(); if (state.failed) return ;
 
@@ -526,11 +537,11 @@ public class Etl_EolLexerRules extends Lexer {
 
                     }
                     break;
-                case 4 :
-                    // EolLexerRules.g:63:4: ( FLOAT_TYPE_SUFFIX )
+                case 5 :
+                    // EolLexerRules.g:51:4: ( FLOAT_TYPE_SUFFIX )
                     {
-                    // EolLexerRules.g:63:4: ( FLOAT_TYPE_SUFFIX )
-                    // EolLexerRules.g:63:5: FLOAT_TYPE_SUFFIX
+                    // EolLexerRules.g:51:4: ( FLOAT_TYPE_SUFFIX )
+                    // EolLexerRules.g:51:5: FLOAT_TYPE_SUFFIX
                     {
                     mFLOAT_TYPE_SUFFIX(); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
@@ -561,8 +572,8 @@ public class Etl_EolLexerRules extends Lexer {
         try {
             int _type = POINT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:66:7: ( '.' )
-            // EolLexerRules.g:66:9: '.'
+            // EolLexerRules.g:54:7: ( '.' )
+            // EolLexerRules.g:54:9: '.'
             {
             match('.'); if (state.failed) return ;
 
@@ -581,8 +592,8 @@ public class Etl_EolLexerRules extends Lexer {
         try {
             int _type = POINT_POINT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:68:13: ( '..' )
-            // EolLexerRules.g:68:15: '..'
+            // EolLexerRules.g:56:13: ( '..' )
+            // EolLexerRules.g:56:15: '..'
             {
             match(".."); if (state.failed) return ;
 
@@ -602,8 +613,8 @@ public class Etl_EolLexerRules extends Lexer {
         try {
             int _type = ARROW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:70:7: ( '->' )
-            // EolLexerRules.g:70:9: '->'
+            // EolLexerRules.g:58:7: ( '->' )
+            // EolLexerRules.g:58:9: '->'
             {
             match("->"); if (state.failed) return ;
 
@@ -623,10 +634,10 @@ public class Etl_EolLexerRules extends Lexer {
         try {
             int _type = BOOLEAN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:72:9: ( ( 'true' | 'false' ) )
-            // EolLexerRules.g:73:2: ( 'true' | 'false' )
+            // EolLexerRules.g:60:9: ( ( 'true' | 'false' ) )
+            // EolLexerRules.g:61:2: ( 'true' | 'false' )
             {
-            // EolLexerRules.g:73:2: ( 'true' | 'false' )
+            // EolLexerRules.g:61:2: ( 'true' | 'false' )
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -645,7 +656,7 @@ public class Etl_EolLexerRules extends Lexer {
             }
             switch (alt9) {
                 case 1 :
-                    // EolLexerRules.g:73:3: 'true'
+                    // EolLexerRules.g:61:3: 'true'
                     {
                     match("true"); if (state.failed) return ;
 
@@ -653,7 +664,7 @@ public class Etl_EolLexerRules extends Lexer {
                     }
                     break;
                 case 2 :
-                    // EolLexerRules.g:73:12: 'false'
+                    // EolLexerRules.g:61:12: 'false'
                     {
                     match("false"); if (state.failed) return ;
 
@@ -679,10 +690,10 @@ public class Etl_EolLexerRules extends Lexer {
         try {
             int _type = STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:77:5: ( ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\'' | '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"' ) )
-            // EolLexerRules.g:77:9: ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\'' | '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"' )
+            // EolLexerRules.g:65:5: ( ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\'' | '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"' ) )
+            // EolLexerRules.g:65:9: ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\'' | '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"' )
             {
-            // EolLexerRules.g:77:9: ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\'' | '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"' )
+            // EolLexerRules.g:65:9: ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\'' | '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"' )
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -701,10 +712,10 @@ public class Etl_EolLexerRules extends Lexer {
             }
             switch (alt12) {
                 case 1 :
-                    // EolLexerRules.g:77:10: '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\''
+                    // EolLexerRules.g:65:10: '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )* '\\''
                     {
                     match('\''); if (state.failed) return ;
-                    // EolLexerRules.g:77:15: ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )*
+                    // EolLexerRules.g:65:15: ( EscapeSequence | ~ ( '\\'' | '\\\\' ) )*
                     loop10:
                     do {
                         int alt10=3;
@@ -720,14 +731,14 @@ public class Etl_EolLexerRules extends Lexer {
 
                         switch (alt10) {
                     	case 1 :
-                    	    // EolLexerRules.g:77:17: EscapeSequence
+                    	    // EolLexerRules.g:65:17: EscapeSequence
                     	    {
                     	    mEscapeSequence(); if (state.failed) return ;
 
                     	    }
                     	    break;
                     	case 2 :
-                    	    // EolLexerRules.g:77:34: ~ ( '\\'' | '\\\\' )
+                    	    // EolLexerRules.g:65:34: ~ ( '\\'' | '\\\\' )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
                     	        input.consume();
@@ -753,10 +764,10 @@ public class Etl_EolLexerRules extends Lexer {
                     }
                     break;
                 case 2 :
-                    // EolLexerRules.g:77:57: '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"'
+                    // EolLexerRules.g:65:57: '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' ) )* '\"'
                     {
                     match('\"'); if (state.failed) return ;
-                    // EolLexerRules.g:77:61: ( EscapeSequence | ~ ( '\\\\' | '\"' ) )*
+                    // EolLexerRules.g:65:61: ( EscapeSequence | ~ ( '\\\\' | '\"' ) )*
                     loop11:
                     do {
                         int alt11=3;
@@ -772,14 +783,14 @@ public class Etl_EolLexerRules extends Lexer {
 
                         switch (alt11) {
                     	case 1 :
-                    	    // EolLexerRules.g:77:63: EscapeSequence
+                    	    // EolLexerRules.g:65:63: EscapeSequence
                     	    {
                     	    mEscapeSequence(); if (state.failed) return ;
 
                     	    }
                     	    break;
                     	case 2 :
-                    	    // EolLexerRules.g:77:80: ~ ( '\\\\' | '\"' )
+                    	    // EolLexerRules.g:65:80: ~ ( '\\\\' | '\"' )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
                     	        input.consume();
@@ -826,11 +837,11 @@ public class Etl_EolLexerRules extends Lexer {
         try {
             int _type = StrangeNameLiteral;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:82:5: ( '`' ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )* '`' )
-            // EolLexerRules.g:82:8: '`' ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )* '`'
+            // EolLexerRules.g:70:5: ( '`' ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )* '`' )
+            // EolLexerRules.g:70:8: '`' ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )* '`'
             {
             match('`'); if (state.failed) return ;
-            // EolLexerRules.g:82:12: ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )*
+            // EolLexerRules.g:70:12: ( EscapeSequence | ~ ( '\\\\' | '`' | '\\n' | '\\r' ) )*
             loop13:
             do {
                 int alt13=3;
@@ -846,14 +857,14 @@ public class Etl_EolLexerRules extends Lexer {
 
                 switch (alt13) {
             	case 1 :
-            	    // EolLexerRules.g:82:14: EscapeSequence
+            	    // EolLexerRules.g:70:14: EscapeSequence
             	    {
             	    mEscapeSequence(); if (state.failed) return ;
 
             	    }
             	    break;
             	case 2 :
-            	    // EolLexerRules.g:82:31: ~ ( '\\\\' | '`' | '\\n' | '\\r' )
+            	    // EolLexerRules.g:70:31: ~ ( '\\\\' | '`' | '\\n' | '\\r' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='_')||(input.LA(1)>='a' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
@@ -892,8 +903,8 @@ public class Etl_EolLexerRules extends Lexer {
     // $ANTLR start EscapeSequence
     public final void mEscapeSequence() throws RecognitionException {
         try {
-            // EolLexerRules.g:88:5: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) )
-            // EolLexerRules.g:88:9: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' )
+            // EolLexerRules.g:76:5: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) )
+            // EolLexerRules.g:76:9: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' )
             {
             match('\\'); if (state.failed) return ;
             if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||input.LA(1)=='t' ) {
@@ -920,8 +931,8 @@ public class Etl_EolLexerRules extends Lexer {
         try {
             int _type = NAME;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:123:5: ( ( Letter | SpecialNameChar ) ( Letter | JavaIDDigit | SpecialNameChar )* )
-            // EolLexerRules.g:123:9: ( Letter | SpecialNameChar ) ( Letter | JavaIDDigit | SpecialNameChar )*
+            // EolLexerRules.g:92:5: ( ( Letter | SpecialNameChar ) ( Letter | JavaIDDigit | SpecialNameChar )* )
+            // EolLexerRules.g:92:9: ( Letter | SpecialNameChar ) ( Letter | JavaIDDigit | SpecialNameChar )*
             {
             if ( input.LA(1)=='&'||input.LA(1)=='?'||(input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='^' && input.LA(1)<='_')||(input.LA(1)>='a' && input.LA(1)<='z')||input.LA(1)=='~'||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u3040' && input.LA(1)<='\u318F')||(input.LA(1)>='\u3300' && input.LA(1)<='\u337F')||(input.LA(1)>='\u3400' && input.LA(1)<='\u3D2D')||(input.LA(1)>='\u4E00' && input.LA(1)<='\u9FFF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFAFF') ) {
                 input.consume();
@@ -933,7 +944,7 @@ public class Etl_EolLexerRules extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // EolLexerRules.g:123:34: ( Letter | JavaIDDigit | SpecialNameChar )*
+            // EolLexerRules.g:92:34: ( Letter | JavaIDDigit | SpecialNameChar )*
             loop14:
             do {
                 int alt14=2;
@@ -981,7 +992,7 @@ public class Etl_EolLexerRules extends Lexer {
     // $ANTLR start SpecialNameChar
     public final void mSpecialNameChar() throws RecognitionException {
         try {
-            // EolLexerRules.g:128:2: ( '~' | '&' | '?' | '^' )
+            // EolLexerRules.g:97:2: ( '~' | '&' | '?' | '^' )
             // EolLexerRules.g:
             {
             if ( input.LA(1)=='&'||input.LA(1)=='?'||input.LA(1)=='^'||input.LA(1)=='~' ) {
@@ -1006,7 +1017,7 @@ public class Etl_EolLexerRules extends Lexer {
     // $ANTLR start Letter
     public final void mLetter() throws RecognitionException {
         try {
-            // EolLexerRules.g:137:5: ( '\\u0041' .. '\\u005a' | '\\u005f' | '\\u0061' .. '\\u007a' | '\\u00c0' .. '\\u00d6' | '\\u00d8' .. '\\u00f6' | '\\u00f8' .. '\\u00ff' | '\\u0100' .. '\\u1fff' | '\\u3040' .. '\\u318f' | '\\u3300' .. '\\u337f' | '\\u3400' .. '\\u3d2d' | '\\u4e00' .. '\\u9fff' | '\\uf900' .. '\\ufaff' )
+            // EolLexerRules.g:106:5: ( '\\u0041' .. '\\u005a' | '\\u005f' | '\\u0061' .. '\\u007a' | '\\u00c0' .. '\\u00d6' | '\\u00d8' .. '\\u00f6' | '\\u00f8' .. '\\u00ff' | '\\u0100' .. '\\u1fff' | '\\u3040' .. '\\u318f' | '\\u3300' .. '\\u337f' | '\\u3400' .. '\\u3d2d' | '\\u4e00' .. '\\u9fff' | '\\uf900' .. '\\ufaff' )
             // EolLexerRules.g:
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z')||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u3040' && input.LA(1)<='\u318F')||(input.LA(1)>='\u3300' && input.LA(1)<='\u337F')||(input.LA(1)>='\u3400' && input.LA(1)<='\u3D2D')||(input.LA(1)>='\u4E00' && input.LA(1)<='\u9FFF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFAFF') ) {
@@ -1031,7 +1042,7 @@ public class Etl_EolLexerRules extends Lexer {
     // $ANTLR start JavaIDDigit
     public final void mJavaIDDigit() throws RecognitionException {
         try {
-            // EolLexerRules.g:153:5: ( '\\u0030' .. '\\u0039' | '\\u0660' .. '\\u0669' | '\\u06f0' .. '\\u06f9' | '\\u0966' .. '\\u096f' | '\\u09e6' .. '\\u09ef' | '\\u0a66' .. '\\u0a6f' | '\\u0ae6' .. '\\u0aef' | '\\u0b66' .. '\\u0b6f' | '\\u0be7' .. '\\u0bef' | '\\u0c66' .. '\\u0c6f' | '\\u0ce6' .. '\\u0cef' | '\\u0d66' .. '\\u0d6f' | '\\u0e50' .. '\\u0e59' | '\\u0ed0' .. '\\u0ed9' | '\\u1040' .. '\\u1049' )
+            // EolLexerRules.g:122:5: ( '\\u0030' .. '\\u0039' | '\\u0660' .. '\\u0669' | '\\u06f0' .. '\\u06f9' | '\\u0966' .. '\\u096f' | '\\u09e6' .. '\\u09ef' | '\\u0a66' .. '\\u0a6f' | '\\u0ae6' .. '\\u0aef' | '\\u0b66' .. '\\u0b6f' | '\\u0be7' .. '\\u0bef' | '\\u0c66' .. '\\u0c6f' | '\\u0ce6' .. '\\u0cef' | '\\u0d66' .. '\\u0d6f' | '\\u0e50' .. '\\u0e59' | '\\u0ed0' .. '\\u0ed9' | '\\u1040' .. '\\u1049' )
             // EolLexerRules.g:
             {
             if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='\u0660' && input.LA(1)<='\u0669')||(input.LA(1)>='\u06F0' && input.LA(1)<='\u06F9')||(input.LA(1)>='\u0966' && input.LA(1)<='\u096F')||(input.LA(1)>='\u09E6' && input.LA(1)<='\u09EF')||(input.LA(1)>='\u0A66' && input.LA(1)<='\u0A6F')||(input.LA(1)>='\u0AE6' && input.LA(1)<='\u0AEF')||(input.LA(1)>='\u0B66' && input.LA(1)<='\u0B6F')||(input.LA(1)>='\u0BE7' && input.LA(1)<='\u0BEF')||(input.LA(1)>='\u0C66' && input.LA(1)<='\u0C6F')||(input.LA(1)>='\u0CE6' && input.LA(1)<='\u0CEF')||(input.LA(1)>='\u0D66' && input.LA(1)<='\u0D6F')||(input.LA(1)>='\u0E50' && input.LA(1)<='\u0E59')||(input.LA(1)>='\u0ED0' && input.LA(1)<='\u0ED9')||(input.LA(1)>='\u1040' && input.LA(1)<='\u1049') ) {
@@ -1058,10 +1069,10 @@ public class Etl_EolLexerRules extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:170:5: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
-            // EolLexerRules.g:170:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+            // EolLexerRules.g:139:5: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
+            // EolLexerRules.g:139:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
             {
-            // EolLexerRules.g:170:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+            // EolLexerRules.g:139:8: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
             int alt15=5;
             switch ( input.LA(1) ) {
             case ' ':
@@ -1099,21 +1110,21 @@ public class Etl_EolLexerRules extends Lexer {
 
             switch (alt15) {
                 case 1 :
-                    // EolLexerRules.g:171:2: ' '
+                    // EolLexerRules.g:140:2: ' '
                     {
                     match(' '); if (state.failed) return ;
 
                     }
                     break;
                 case 2 :
-                    // EolLexerRules.g:172:2: '\\r'
+                    // EolLexerRules.g:141:2: '\\r'
                     {
                     match('\r'); if (state.failed) return ;
 
                     }
                     break;
                 case 3 :
-                    // EolLexerRules.g:173:2: '\\t'
+                    // EolLexerRules.g:142:2: '\\t'
                     {
                     match('\t'); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
@@ -1123,14 +1134,14 @@ public class Etl_EolLexerRules extends Lexer {
                     }
                     break;
                 case 4 :
-                    // EolLexerRules.g:174:3: '\\u000C'
+                    // EolLexerRules.g:143:3: '\\u000C'
                     {
                     match('\f'); if (state.failed) return ;
 
                     }
                     break;
                 case 5 :
-                    // EolLexerRules.g:175:3: '\\n'
+                    // EolLexerRules.g:144:3: '\\n'
                     {
                     match('\n'); if (state.failed) return ;
 
@@ -1158,133 +1169,53 @@ public class Etl_EolLexerRules extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:180:5: ( ( ( '-*' ( options {greedy=false; } : . )* '*-' ) | ( '/*' ( options {greedy=false; } : . )* '*/' ) ) )
-            // EolLexerRules.g:180:9: ( ( '-*' ( options {greedy=false; } : . )* '*-' ) | ( '/*' ( options {greedy=false; } : . )* '*/' ) )
+            // EolLexerRules.g:149:5: ( ( '/*' ( options {greedy=false; } : . )* '*/' ) )
+            // EolLexerRules.g:149:9: ( '/*' ( options {greedy=false; } : . )* '*/' )
             {
-            // EolLexerRules.g:180:9: ( ( '-*' ( options {greedy=false; } : . )* '*-' ) | ( '/*' ( options {greedy=false; } : . )* '*/' ) )
-            int alt18=2;
-            int LA18_0 = input.LA(1);
+            // EolLexerRules.g:149:9: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // EolLexerRules.g:149:10: '/*' ( options {greedy=false; } : . )* '*/'
+            {
+            match("/*"); if (state.failed) return ;
 
-            if ( (LA18_0=='-') ) {
-                alt18=1;
-            }
-            else if ( (LA18_0=='/') ) {
-                alt18=2;
-            }
-            else {
-                if (state.backtracking>0) {state.failed=true; return ;}
-                NoViableAltException nvae =
-                    new NoViableAltException("", 18, 0, input);
+            // EolLexerRules.g:149:15: ( options {greedy=false; } : . )*
+            loop16:
+            do {
+                int alt16=2;
+                int LA16_0 = input.LA(1);
 
-                throw nvae;
-            }
-            switch (alt18) {
-                case 1 :
-                    // EolLexerRules.g:180:10: ( '-*' ( options {greedy=false; } : . )* '*-' )
-                    {
-                    // EolLexerRules.g:180:10: ( '-*' ( options {greedy=false; } : . )* '*-' )
-                    // EolLexerRules.g:180:11: '-*' ( options {greedy=false; } : . )* '*-'
-                    {
-                    match("-*"); if (state.failed) return ;
+                if ( (LA16_0=='*') ) {
+                    int LA16_1 = input.LA(2);
 
-                    // EolLexerRules.g:180:16: ( options {greedy=false; } : . )*
-                    loop16:
-                    do {
-                        int alt16=2;
-                        int LA16_0 = input.LA(1);
-
-                        if ( (LA16_0=='*') ) {
-                            int LA16_1 = input.LA(2);
-
-                            if ( (LA16_1=='-') ) {
-                                alt16=2;
-                            }
-                            else if ( ((LA16_1>='\u0000' && LA16_1<=',')||(LA16_1>='.' && LA16_1<='\uFFFE')) ) {
-                                alt16=1;
-                            }
-
-
-                        }
-                        else if ( ((LA16_0>='\u0000' && LA16_0<=')')||(LA16_0>='+' && LA16_0<='\uFFFE')) ) {
-                            alt16=1;
-                        }
-
-
-                        switch (alt16) {
-                    	case 1 :
-                    	    // EolLexerRules.g:180:44: .
-                    	    {
-                    	    matchAny(); if (state.failed) return ;
-
-                    	    }
-                    	    break;
-
-                    	default :
-                    	    break loop16;
-                        }
-                    } while (true);
-
-                    match("*-"); if (state.failed) return ;
-
-
+                    if ( (LA16_1=='/') ) {
+                        alt16=2;
+                    }
+                    else if ( ((LA16_1>='\u0000' && LA16_1<='.')||(LA16_1>='0' && LA16_1<='\uFFFE')) ) {
+                        alt16=1;
                     }
 
 
-                    }
-                    break;
-                case 2 :
-                    // EolLexerRules.g:180:55: ( '/*' ( options {greedy=false; } : . )* '*/' )
-                    {
-                    // EolLexerRules.g:180:55: ( '/*' ( options {greedy=false; } : . )* '*/' )
-                    // EolLexerRules.g:180:56: '/*' ( options {greedy=false; } : . )* '*/'
-                    {
-                    match("/*"); if (state.failed) return ;
-
-                    // EolLexerRules.g:180:61: ( options {greedy=false; } : . )*
-                    loop17:
-                    do {
-                        int alt17=2;
-                        int LA17_0 = input.LA(1);
-
-                        if ( (LA17_0=='*') ) {
-                            int LA17_1 = input.LA(2);
-
-                            if ( (LA17_1=='/') ) {
-                                alt17=2;
-                            }
-                            else if ( ((LA17_1>='\u0000' && LA17_1<='.')||(LA17_1>='0' && LA17_1<='\uFFFE')) ) {
-                                alt17=1;
-                            }
+                }
+                else if ( ((LA16_0>='\u0000' && LA16_0<=')')||(LA16_0>='+' && LA16_0<='\uFFFE')) ) {
+                    alt16=1;
+                }
 
 
-                        }
-                        else if ( ((LA17_0>='\u0000' && LA17_0<=')')||(LA17_0>='+' && LA17_0<='\uFFFE')) ) {
-                            alt17=1;
-                        }
+                switch (alt16) {
+            	case 1 :
+            	    // EolLexerRules.g:149:43: .
+            	    {
+            	    matchAny(); if (state.failed) return ;
 
+            	    }
+            	    break;
 
-                        switch (alt17) {
-                    	case 1 :
-                    	    // EolLexerRules.g:180:89: .
-                    	    {
-                    	    matchAny(); if (state.failed) return ;
+            	default :
+            	    break loop16;
+                }
+            } while (true);
 
-                    	    }
-                    	    break;
+            match("*/"); if (state.failed) return ;
 
-                    	default :
-                    	    break loop17;
-                        }
-                    } while (true);
-
-                    match("*/"); if (state.failed) return ;
-
-
-                    }
-
-
-                    }
-                    break;
 
             }
 
@@ -1307,123 +1238,48 @@ public class Etl_EolLexerRules extends Lexer {
         try {
             int _type = LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:184:5: ( ( ( '--' (~ ( '\\n' | '\\r' ) )* ) | ( '//' (~ ( '\\n' | '\\r' ) )* ) ) )
-            // EolLexerRules.g:184:7: ( ( '--' (~ ( '\\n' | '\\r' ) )* ) | ( '//' (~ ( '\\n' | '\\r' ) )* ) )
+            // EolLexerRules.g:153:5: ( ( '//' (~ ( '\\n' | '\\r' ) )* ) )
+            // EolLexerRules.g:153:7: ( '//' (~ ( '\\n' | '\\r' ) )* )
             {
-            // EolLexerRules.g:184:7: ( ( '--' (~ ( '\\n' | '\\r' ) )* ) | ( '//' (~ ( '\\n' | '\\r' ) )* ) )
-            int alt21=2;
-            int LA21_0 = input.LA(1);
+            // EolLexerRules.g:153:7: ( '//' (~ ( '\\n' | '\\r' ) )* )
+            // EolLexerRules.g:153:8: '//' (~ ( '\\n' | '\\r' ) )*
+            {
+            match("//"); if (state.failed) return ;
 
-            if ( (LA21_0=='-') ) {
-                alt21=1;
-            }
-            else if ( (LA21_0=='/') ) {
-                alt21=2;
-            }
-            else {
-                if (state.backtracking>0) {state.failed=true; return ;}
-                NoViableAltException nvae =
-                    new NoViableAltException("", 21, 0, input);
+            // EolLexerRules.g:153:13: (~ ( '\\n' | '\\r' ) )*
+            loop17:
+            do {
+                int alt17=2;
+                int LA17_0 = input.LA(1);
 
-                throw nvae;
-            }
-            switch (alt21) {
-                case 1 :
-                    // EolLexerRules.g:184:8: ( '--' (~ ( '\\n' | '\\r' ) )* )
-                    {
-                    // EolLexerRules.g:184:8: ( '--' (~ ( '\\n' | '\\r' ) )* )
-                    // EolLexerRules.g:184:9: '--' (~ ( '\\n' | '\\r' ) )*
-                    {
-                    match("--"); if (state.failed) return ;
-
-                    // EolLexerRules.g:184:14: (~ ( '\\n' | '\\r' ) )*
-                    loop19:
-                    do {
-                        int alt19=2;
-                        int LA19_0 = input.LA(1);
-
-                        if ( ((LA19_0>='\u0000' && LA19_0<='\t')||(LA19_0>='\u000B' && LA19_0<='\f')||(LA19_0>='\u000E' && LA19_0<='\uFFFE')) ) {
-                            alt19=1;
-                        }
+                if ( ((LA17_0>='\u0000' && LA17_0<='\t')||(LA17_0>='\u000B' && LA17_0<='\f')||(LA17_0>='\u000E' && LA17_0<='\uFFFE')) ) {
+                    alt17=1;
+                }
 
 
-                        switch (alt19) {
-                    	case 1 :
-                    	    // EolLexerRules.g:184:14: ~ ( '\\n' | '\\r' )
-                    	    {
-                    	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
-                    	        input.consume();
-                    	    state.failed=false;
-                    	    }
-                    	    else {
-                    	        if (state.backtracking>0) {state.failed=true; return ;}
-                    	        MismatchedSetException mse = new MismatchedSetException(null,input);
-                    	        recover(mse);
-                    	        throw mse;}
+                switch (alt17) {
+            	case 1 :
+            	    // EolLexerRules.g:153:13: ~ ( '\\n' | '\\r' )
+            	    {
+            	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
+            	        input.consume();
+            	    state.failed=false;
+            	    }
+            	    else {
+            	        if (state.backtracking>0) {state.failed=true; return ;}
+            	        MismatchedSetException mse = new MismatchedSetException(null,input);
+            	        recover(mse);
+            	        throw mse;}
 
 
-                    	    }
-                    	    break;
+            	    }
+            	    break;
 
-                    	default :
-                    	    break loop19;
-                        }
-                    } while (true);
+            	default :
+            	    break loop17;
+                }
+            } while (true);
 
-
-                    }
-
-
-                    }
-                    break;
-                case 2 :
-                    // EolLexerRules.g:184:29: ( '//' (~ ( '\\n' | '\\r' ) )* )
-                    {
-                    // EolLexerRules.g:184:29: ( '//' (~ ( '\\n' | '\\r' ) )* )
-                    // EolLexerRules.g:184:30: '//' (~ ( '\\n' | '\\r' ) )*
-                    {
-                    match("//"); if (state.failed) return ;
-
-                    // EolLexerRules.g:184:35: (~ ( '\\n' | '\\r' ) )*
-                    loop20:
-                    do {
-                        int alt20=2;
-                        int LA20_0 = input.LA(1);
-
-                        if ( ((LA20_0>='\u0000' && LA20_0<='\t')||(LA20_0>='\u000B' && LA20_0<='\f')||(LA20_0>='\u000E' && LA20_0<='\uFFFE')) ) {
-                            alt20=1;
-                        }
-
-
-                        switch (alt20) {
-                    	case 1 :
-                    	    // EolLexerRules.g:184:35: ~ ( '\\n' | '\\r' )
-                    	    {
-                    	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
-                    	        input.consume();
-                    	    state.failed=false;
-                    	    }
-                    	    else {
-                    	        if (state.backtracking>0) {state.failed=true; return ;}
-                    	        MismatchedSetException mse = new MismatchedSetException(null,input);
-                    	        recover(mse);
-                    	        throw mse;}
-
-
-                    	    }
-                    	    break;
-
-                    	default :
-                    	    break loop20;
-                        }
-                    } while (true);
-
-
-                    }
-
-
-                    }
-                    break;
 
             }
 
@@ -1446,24 +1302,24 @@ public class Etl_EolLexerRules extends Lexer {
         try {
             int _type = Annotation;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // EolLexerRules.g:188:2: ( '@' (~ ( '\\n' | '\\r' ) )* )
-            // EolLexerRules.g:188:4: '@' (~ ( '\\n' | '\\r' ) )*
+            // EolLexerRules.g:157:2: ( '@' (~ ( '\\n' | '\\r' ) )* )
+            // EolLexerRules.g:157:4: '@' (~ ( '\\n' | '\\r' ) )*
             {
             match('@'); if (state.failed) return ;
-            // EolLexerRules.g:188:8: (~ ( '\\n' | '\\r' ) )*
-            loop22:
+            // EolLexerRules.g:157:8: (~ ( '\\n' | '\\r' ) )*
+            loop18:
             do {
-                int alt22=2;
-                int LA22_0 = input.LA(1);
+                int alt18=2;
+                int LA18_0 = input.LA(1);
 
-                if ( ((LA22_0>='\u0000' && LA22_0<='\t')||(LA22_0>='\u000B' && LA22_0<='\f')||(LA22_0>='\u000E' && LA22_0<='\uFFFE')) ) {
-                    alt22=1;
+                if ( ((LA18_0>='\u0000' && LA18_0<='\t')||(LA18_0>='\u000B' && LA18_0<='\f')||(LA18_0>='\u000E' && LA18_0<='\uFFFE')) ) {
+                    alt18=1;
                 }
 
 
-                switch (alt22) {
+                switch (alt18) {
             	case 1 :
-            	    // EolLexerRules.g:188:8: ~ ( '\\n' | '\\r' )
+            	    // EolLexerRules.g:157:8: ~ ( '\\n' | '\\r' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
@@ -1480,7 +1336,7 @@ public class Etl_EolLexerRules extends Lexer {
             	    break;
 
             	default :
-            	    break loop22;
+            	    break loop18;
                 }
             } while (true);
 
@@ -1497,9 +1353,9 @@ public class Etl_EolLexerRules extends Lexer {
 
     public void mTokens() throws RecognitionException {
         // EolLexerRules.g:1:8: ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | NAME | WS | COMMENT | LINE_COMMENT | Annotation )
-        int alt23=12;
-        alt23 = dfa23.predict(input);
-        switch (alt23) {
+        int alt19=12;
+        alt19 = dfa19.predict(input);
+        switch (alt19) {
             case 1 :
                 // EolLexerRules.g:1:10: INT
                 {
@@ -1591,8 +1447,8 @@ public class Etl_EolLexerRules extends Lexer {
 
     // $ANTLR start synpred1_EolLexerRules
     public final void synpred1_EolLexerRules_fragment() throws RecognitionException {   
-        // EolLexerRules.g:61:5: ( '.' DIGIT )
-        // EolLexerRules.g:61:6: '.' DIGIT
+        // EolLexerRules.g:49:5: ( '.' DIGIT )
+        // EolLexerRules.g:49:6: '.' DIGIT
         {
         match('.'); if (state.failed) return ;
         mDIGIT(); if (state.failed) return ;
@@ -1617,23 +1473,24 @@ public class Etl_EolLexerRules extends Lexer {
     }
 
 
-    protected DFA23 dfa23 = new DFA23(this);
-    static final String DFA23_eotS =
-        "\2\uffff\1\15\1\uffff\2\10\13\uffff\4\10\1\27\1\10\1\uffff\1\27";
-    static final String DFA23_eofS =
-        "\31\uffff";
-    static final String DFA23_minS =
-        "\1\11\1\uffff\1\56\1\52\1\162\1\141\4\uffff\1\52\6\uffff\1\165\1"+
-        "\154\1\145\1\163\1\46\1\145\1\uffff\1\46";
-    static final String DFA23_maxS =
-        "\1\ufaff\1\uffff\1\56\1\76\1\162\1\141\4\uffff\1\57\6\uffff\1\165"+
-        "\1\154\1\145\1\163\1\ufaff\1\145\1\uffff\1\ufaff";
-    static final String DFA23_acceptS =
-        "\1\uffff\1\1\4\uffff\1\6\1\7\1\10\1\11\1\uffff\1\14\1\3\1\2\1\4"+
-        "\1\12\1\13\6\uffff\1\5\1\uffff";
-    static final String DFA23_specialS =
-        "\31\uffff}>";
-    static final String[] DFA23_transitionS = {
+    protected DFA19 dfa19 = new DFA19(this);
+    static final String DFA19_eotS =
+        "\2\uffff\1\15\1\uffff\2\10\10\uffff\2\10\2\uffff\2\10\1\26\1\10"+
+        "\1\uffff\1\26";
+    static final String DFA19_eofS =
+        "\30\uffff";
+    static final String DFA19_minS =
+        "\1\11\1\uffff\1\56\1\uffff\1\162\1\141\4\uffff\1\52\3\uffff\1\165"+
+        "\1\154\2\uffff\1\145\1\163\1\46\1\145\1\uffff\1\46";
+    static final String DFA19_maxS =
+        "\1\ufaff\1\uffff\1\56\1\uffff\1\162\1\141\4\uffff\1\57\3\uffff\1"+
+        "\165\1\154\2\uffff\1\145\1\163\1\ufaff\1\145\1\uffff\1\ufaff";
+    static final String DFA19_acceptS =
+        "\1\uffff\1\1\1\uffff\1\4\2\uffff\1\6\1\7\1\10\1\11\1\uffff\1\14"+
+        "\1\3\1\2\2\uffff\1\12\1\13\4\uffff\1\5\1\uffff";
+    static final String DFA19_specialS =
+        "\30\uffff}>";
+    static final String[] DFA19_transitionS = {
             "\2\11\1\uffff\2\11\22\uffff\1\11\1\uffff\1\6\3\uffff\1\10\1"+
             "\6\5\uffff\1\3\1\2\1\12\12\1\5\uffff\1\10\1\13\32\10\3\uffff"+
             "\2\10\1\7\5\10\1\5\15\10\1\4\6\10\3\uffff\1\10\101\uffff\27"+
@@ -1642,29 +1499,28 @@ public class Etl_EolLexerRules extends Lexer {
             "\uffff\u0200\10",
             "",
             "\1\14",
-            "\1\17\2\uffff\1\20\20\uffff\1\16",
-            "\1\21",
+            "",
+            "\1\16",
+            "\1\17",
+            "",
+            "",
+            "",
+            "",
+            "\1\20\4\uffff\1\21",
+            "",
+            "",
+            "",
             "\1\22",
-            "",
-            "",
-            "",
-            "",
-            "\1\17\4\uffff\1\20",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
             "\1\23",
+            "",
+            "",
             "\1\24",
             "\1\25",
-            "\1\26",
             "\1\10\11\uffff\12\10\5\uffff\1\10\1\uffff\32\10\3\uffff\2\10"+
             "\1\uffff\32\10\3\uffff\1\10\101\uffff\27\10\1\uffff\37\10\1"+
             "\uffff\u1f08\10\u1040\uffff\u0150\10\u0170\uffff\u0080\10\u0080"+
             "\uffff\u092e\10\u10d2\uffff\u5200\10\u5900\uffff\u0200\10",
-            "\1\30",
+            "\1\27",
             "",
             "\1\10\11\uffff\12\10\5\uffff\1\10\1\uffff\32\10\3\uffff\2\10"+
             "\1\uffff\32\10\3\uffff\1\10\101\uffff\27\10\1\uffff\37\10\1"+
@@ -1672,34 +1528,34 @@ public class Etl_EolLexerRules extends Lexer {
             "\uffff\u092e\10\u10d2\uffff\u5200\10\u5900\uffff\u0200\10"
     };
 
-    static final short[] DFA23_eot = DFA.unpackEncodedString(DFA23_eotS);
-    static final short[] DFA23_eof = DFA.unpackEncodedString(DFA23_eofS);
-    static final char[] DFA23_min = DFA.unpackEncodedStringToUnsignedChars(DFA23_minS);
-    static final char[] DFA23_max = DFA.unpackEncodedStringToUnsignedChars(DFA23_maxS);
-    static final short[] DFA23_accept = DFA.unpackEncodedString(DFA23_acceptS);
-    static final short[] DFA23_special = DFA.unpackEncodedString(DFA23_specialS);
-    static final short[][] DFA23_transition;
+    static final short[] DFA19_eot = DFA.unpackEncodedString(DFA19_eotS);
+    static final short[] DFA19_eof = DFA.unpackEncodedString(DFA19_eofS);
+    static final char[] DFA19_min = DFA.unpackEncodedStringToUnsignedChars(DFA19_minS);
+    static final char[] DFA19_max = DFA.unpackEncodedStringToUnsignedChars(DFA19_maxS);
+    static final short[] DFA19_accept = DFA.unpackEncodedString(DFA19_acceptS);
+    static final short[] DFA19_special = DFA.unpackEncodedString(DFA19_specialS);
+    static final short[][] DFA19_transition;
 
     static {
-        int numStates = DFA23_transitionS.length;
-        DFA23_transition = new short[numStates][];
+        int numStates = DFA19_transitionS.length;
+        DFA19_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA23_transition[i] = DFA.unpackEncodedString(DFA23_transitionS[i]);
+            DFA19_transition[i] = DFA.unpackEncodedString(DFA19_transitionS[i]);
         }
     }
 
-    class DFA23 extends DFA {
+    class DFA19 extends DFA {
 
-        public DFA23(BaseRecognizer recognizer) {
+        public DFA19(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 23;
-            this.eot = DFA23_eot;
-            this.eof = DFA23_eof;
-            this.min = DFA23_min;
-            this.max = DFA23_max;
-            this.accept = DFA23_accept;
-            this.special = DFA23_special;
-            this.transition = DFA23_transition;
+            this.decisionNumber = 19;
+            this.eot = DFA19_eot;
+            this.eof = DFA19_eof;
+            this.min = DFA19_min;
+            this.max = DFA19_max;
+            this.accept = DFA19_accept;
+            this.special = DFA19_special;
+            this.transition = DFA19_transition;
         }
         public String getDescription() {
             return "1:1: Tokens : ( INT | POINT | POINT_POINT | ARROW | BOOLEAN | STRING | StrangeNameLiteral | NAME | WS | COMMENT | LINE_COMMENT | Annotation );";

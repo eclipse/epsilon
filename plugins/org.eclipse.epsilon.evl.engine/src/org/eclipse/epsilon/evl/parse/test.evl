@@ -1,7 +1,7 @@
 pre {
-	--'swing'.getUMLPackage().uses().collect(p|p.name).concat('\r\n').println();
-	--'swing'.getPackage().println().getLayer().println();
-	--return;
+	//'swing'.getUMLPackage().uses().collect(p|p.name).concat('\r\n').println();
+	//'swing'.getPackage().println().getLayer().println();
+	//return;
 }
 
 context UML2!Package {
@@ -54,6 +54,6 @@ operation UML2!Usage getClient() {
 }
 
 operation UML2!Usage getSupplier() {
-	--'Into getSupplier'.println();
+	//'Into getSupplier'.println();
 	return self.supplier.first();
 }

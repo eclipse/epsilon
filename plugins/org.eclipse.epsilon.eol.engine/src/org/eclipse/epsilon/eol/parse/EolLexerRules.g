@@ -41,23 +41,11 @@ tokens {
 	FLOAT;
 }
 
-//HexLiteral : '0' ('x'|'X') HexDigit+ IntegerTypeSuffix? ;
-
-//DecimalLiteral : ('0' | '1'..'9' '0'..'9'*) IntegerTypeSuffix? ;
-
-//OctalLiteral : '0' ('0'..'7')+ IntegerTypeSuffix? ;
-
-//fragment
-//HexDigit : ('0'..'9'|'a'..'f'|'A'..'F') ;
-
-//fragment
-//IntegerTypeSuffix : ('l'|'L') ;
-
 fragment DIGIT : '0'..'9';
 fragment EXPONENT : ('e'|'E') ('+'|'-')? DIGIT+ ;
 fragment FLOAT_TYPE_SUFFIX : ('f'|'F'|'d'|'D') ;
 
-INT : (DIGIT)+ ('l'
+INT : (DIGIT)+ ('l'|'L'
 	| (('.' DIGIT)         => '.' (DIGIT)+ {$type = FLOAT;} EXPONENT? FLOAT_TYPE_SUFFIX?)
 	| (EXPONENT FLOAT_TYPE_SUFFIX? {$type = FLOAT;})
 	| (FLOAT_TYPE_SUFFIX {$type = FLOAT;})
@@ -99,25 +87,6 @@ EscapeSequence
     //|   UnicodeEscape
     //|   OctalEscape
     ;
-
-//fragment
-//OctalEscape
-//    :   '\\' ('0'..'3') ('0'..'7') ('0'..'7')
-//    |   '\\' ('0'..'7') ('0'..'7')
-//    |   '\\' ('0'..'7')
-//    ;
-
-//fragment
-//UnicodeEscape
-//    :   '\\' 'u' HexDigit HexDigit HexDigit HexDigit
- //   ;
-
-//ENUM:   'enum' {if (!enumIsKeyword) $type=Identifier;}
- //   ;
-    
-//ASSERT
-//    :   'assert' {if (!assertIsKeyword) $type=Identifier;}
-//    ;
 
 NAME 
     :   (Letter|SpecialNameChar) (Letter|JavaIDDigit|SpecialNameChar)*
@@ -177,11 +146,11 @@ WS  :  (
     ;
 
 COMMENT
-    :   (('-*' ( options {greedy=false;} : . )* '*-')|('/*' ( options {greedy=false;} : . )* '*/')) {$channel=HIDDEN;}
+    :   ('/*' ( options {greedy=false;} : . )* '*/') {$channel=HIDDEN;}
     ;
 
 LINE_COMMENT
-    : (('--' ~('\n'|'\r')*)|('//' ~('\n'|'\r')*)) {$channel=HIDDEN;}
+    : ('//' ~('\n'|'\r')*) {$channel=HIDDEN;}
     ;
     
 Annotation

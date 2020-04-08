@@ -1,14 +1,15 @@
 package org.eclipse.epsilon.flock.parse;
 
-// $ANTLR 3.1b1 ErlParserRules.g 2019-01-24 14:02:16
-import org.antlr.runtime.BitSet;
-import org.antlr.runtime.ParserRuleReturnScope;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RecognizerSharedState;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenStream;
-import org.antlr.runtime.tree.CommonTreeAdaptor;
-import org.antlr.runtime.tree.TreeAdaptor;
+// $ANTLR 3.1b1 ErlParserRules.g 2020-04-08 19:05:20
+
+import org.antlr.runtime.*;
+import java.util.Stack;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+
+import org.antlr.runtime.tree.*;
 
 /*******************************************************************************
  * Copyright (c) 2008 The University of York.
@@ -171,6 +172,7 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
     public static final int BOOLEAN=12;
     public static final int NAME=19;
     public static final int SWITCH=34;
+    public static final int T__169=169;
     public static final int FeatureCall=60;
     public static final int T__122=122;
     public static final int T__121=121;
@@ -230,25 +232,20 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
         
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
 
-    @Override
-	public void setTreeAdaptor(TreeAdaptor adaptor) {
+    public void setTreeAdaptor(TreeAdaptor adaptor) {
         this.adaptor = adaptor;
     }
-    @Override
-	public TreeAdaptor getTreeAdaptor() {
+    public TreeAdaptor getTreeAdaptor() {
         return adaptor;
     }
 
-    @Override
-	public String[] getTokenNames() { return FlockParser.tokenNames; }
-    @Override
-	public String getGrammarFileName() { return "ErlParserRules.g"; }
+    public String[] getTokenNames() { return FlockParser.tokenNames; }
+    public String getGrammarFileName() { return "ErlParserRules.g"; }
 
 
     public static class pre_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        @Override
-		public Object getTree() { return tree; }
+        public Object getTree() { return tree; }
     };
 
     // $ANTLR start pre
@@ -273,7 +270,7 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            p=(Token)match(input,159,FOLLOW_159_in_pre50); if (state.failed) return retval;
+            p=(Token)match(input,160,FOLLOW_160_in_pre50); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             p_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(p);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(p_tree, root_0);
@@ -334,8 +331,7 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class post_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        @Override
-		public Object getTree() { return tree; }
+        public Object getTree() { return tree; }
     };
 
     // $ANTLR start post
@@ -360,7 +356,7 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            p=(Token)match(input,160,FOLLOW_160_in_post72); if (state.failed) return retval;
+            p=(Token)match(input,161,FOLLOW_161_in_post72); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             p_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(p);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(p_tree, root_0);
@@ -421,8 +417,7 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
     public static class extendz_return extends ParserRuleReturnScope {
         org.eclipse.epsilon.common.parse.AST tree;
-        @Override
-		public Object getTree() { return tree; }
+        public Object getTree() { return tree; }
     };
 
     // $ANTLR start extendz
@@ -449,7 +444,7 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            e=(Token)match(input,162,FOLLOW_162_in_extendz113); if (state.failed) return retval;
+            e=(Token)match(input,163,FOLLOW_163_in_extendz113); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             e_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(e);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(e_tree, root_0);
@@ -520,13 +515,13 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
  
 
-    public static final BitSet FOLLOW_159_in_pre50 = new BitSet(new long[]{0x0000000000080000L,0x0000000020000000L});
+    public static final BitSet FOLLOW_160_in_pre50 = new BitSet(new long[]{0x0000000000080000L,0x0000000020000000L});
     public static final BitSet FOLLOW_NAME_in_pre53 = new BitSet(new long[]{0x0000000000080000L,0x0000000020000000L});
     public static final BitSet FOLLOW_statementBlock_in_pre56 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_160_in_post72 = new BitSet(new long[]{0x0000000000080000L,0x0000000020000000L});
+    public static final BitSet FOLLOW_161_in_post72 = new BitSet(new long[]{0x0000000000080000L,0x0000000020000000L});
     public static final BitSet FOLLOW_NAME_in_post75 = new BitSet(new long[]{0x0000000000080000L,0x0000000020000000L});
     public static final BitSet FOLLOW_statementBlock_in_post78 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_162_in_extendz113 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_163_in_extendz113 = new BitSet(new long[]{0x0000000000080000L});
     public static final BitSet FOLLOW_NAME_in_extendz116 = new BitSet(new long[]{0x0000000000000002L,0x0000000008000000L});
     public static final BitSet FOLLOW_91_in_extendz119 = new BitSet(new long[]{0x0000000000080000L});
     public static final BitSet FOLLOW_NAME_in_extendz122 = new BitSet(new long[]{0x0000000000000002L,0x0000000008000000L});

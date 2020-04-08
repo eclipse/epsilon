@@ -31,6 +31,7 @@ public class HutnPostProcessor extends AbstractAstPostProcessor {
 		this.problems = problems;
 	}
 
+	@Override
 	protected Node createNodeObjectFor(CommonTree ast) {
 		switch (ast.getType()) {
 			case HutnParser.ADJECTIVE:

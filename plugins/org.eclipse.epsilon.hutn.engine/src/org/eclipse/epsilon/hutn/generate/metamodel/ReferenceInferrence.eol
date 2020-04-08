@@ -1,4 +1,4 @@
--- Type Inferrence --
+// Type Inferrence //
 
 operation Intermediate!Slot getEType() : MetaModel!EClass {
 	var types : Set := self.getSampleData().collect(s | s.getReferences()).flatten().collect(s | s.type).asSet();
@@ -7,7 +7,7 @@ operation Intermediate!Slot getEType() : MetaModel!EClass {
 		return getEClass(types.first());
 		
 	} else {
-		-- if there are multiple types then introduce a supertype for these types and return it
+		// if there are multiple types then introduce a supertype for these types and return it
 		if (types.size > 1) {
 			var supertype := new MetaModel!EClass;
 			
@@ -35,7 +35,7 @@ operation Intermediate!ContainmentSlot getReferences() : Sequence {
 }
 
 
--- Multiplicity Inferrence --
+// Multiplicity Inferrence //
 
 operation Intermediate!Slot isMany() : Boolean {	
 	return self.getSampleData().exists(s | s.hasManyElements());	
@@ -50,7 +50,7 @@ operation Intermediate!ContainmentSlot hasManyElements() : Boolean {
 }
 
 
--- Utility --
+// Utility //
 
 operation Intermediate!ClassObject getClassObjectsOfSameType() : Sequence {
 	return Intermediate!ClassObject.allInstances().select(c|c.type = self.type);

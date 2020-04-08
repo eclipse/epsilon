@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eml.parse;
 
-// $ANTLR 3.1b1 EmlParserRules.g 2019-01-24 14:02:13
+// $ANTLR 3.1b1 EmlParserRules.g 2020-04-08 19:05:18
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -92,6 +92,7 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int MAP=75;
     public static final int T__128=128;
     public static final int T__127=127;
+    public static final int T__166=166;
     public static final int T__165=165;
     public static final int T__162=162;
     public static final int T__161=161;
@@ -286,7 +287,7 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            r=(Token)match(input,160,FOLLOW_160_in_mergeRule45); if (state.failed) return retval;
+            r=(Token)match(input,161,FOLLOW_161_in_mergeRule45); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             r_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(r);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(r_tree, root_0);
@@ -296,21 +297,21 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             rule_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(rule);
             adaptor.addChild(root_0, rule_tree);
             }
-            string_literal1=(Token)match(input,163,FOLLOW_163_in_mergeRule52); if (state.failed) return retval;
+            string_literal1=(Token)match(input,164,FOLLOW_164_in_mergeRule52); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameter_in_mergeRule55);
             formalParameter2=gEml.formalParameter();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, formalParameter2.getTree());
-            string_literal3=(Token)match(input,164,FOLLOW_164_in_mergeRule57); if (state.failed) return retval;
+            string_literal3=(Token)match(input,165,FOLLOW_165_in_mergeRule57); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameter_in_mergeRule60);
             formalParameter4=gEml.formalParameter();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, formalParameter4.getTree());
-            string_literal5=(Token)match(input,165,FOLLOW_165_in_mergeRule63); if (state.failed) return retval;
+            string_literal5=(Token)match(input,166,FOLLOW_166_in_mergeRule63); if (state.failed) return retval;
             pushFollow(FOLLOW_formalParameterList_in_mergeRule66);
             formalParameterList6=gEml.formalParameterList();
 
@@ -321,7 +322,7 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt1=2;
             int LA1_0 = input.LA(1);
 
-            if ( (LA1_0==159) ) {
+            if ( (LA1_0==160) ) {
                 alt1=1;
             }
             switch (alt1) {
@@ -345,7 +346,7 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt2=2;
             int LA2_0 = input.LA(1);
 
-            if ( (LA2_0==158) ) {
+            if ( (LA2_0==159) ) {
                 alt2=1;
             }
             switch (alt2) {
@@ -408,17 +409,17 @@ public class Eml_EmlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
  
 
-    public static final BitSet FOLLOW_160_in_mergeRule45 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_mergeRule50 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000800000000L});
-    public static final BitSet FOLLOW_163_in_mergeRule52 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_formalParameter_in_mergeRule55 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000001000000000L});
-    public static final BitSet FOLLOW_164_in_mergeRule57 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_formalParameter_in_mergeRule60 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000002000000000L});
-    public static final BitSet FOLLOW_165_in_mergeRule63 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_formalParameterList_in_mergeRule66 = new BitSet(new long[]{0x0000000000000000L,0x0000000004000000L,0x0000000080000000L});
+    public static final BitSet FOLLOW_161_in_mergeRule45 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_mergeRule50 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000001000000000L});
+    public static final BitSet FOLLOW_164_in_mergeRule52 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_formalParameter_in_mergeRule55 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000002000000000L});
+    public static final BitSet FOLLOW_165_in_mergeRule57 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_formalParameter_in_mergeRule60 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000004000000000L});
+    public static final BitSet FOLLOW_166_in_mergeRule63 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_formalParameterList_in_mergeRule66 = new BitSet(new long[]{0x0000000000000000L,0x0000000004000000L,0x0000000100000000L});
     public static final BitSet FOLLOW_extendz_in_mergeRule69 = new BitSet(new long[]{0x0000000000000000L,0x0000000004000000L});
-    public static final BitSet FOLLOW_90_in_mergeRule74 = new BitSet(new long[]{0x0000000000085110L,0xFF1A7F8088000000L,0x000000004E090001L});
-    public static final BitSet FOLLOW_guard_in_mergeRule77 = new BitSet(new long[]{0x0000000000085110L,0xFF1A7F8088000000L,0x000000000E090001L});
+    public static final BitSet FOLLOW_90_in_mergeRule74 = new BitSet(new long[]{0x0000000000085110L,0xFF1A7F8088000000L,0x000000009C090001L});
+    public static final BitSet FOLLOW_guard_in_mergeRule77 = new BitSet(new long[]{0x0000000000085110L,0xFF1A7F8088000000L,0x000000001C090001L});
     public static final BitSet FOLLOW_block_in_mergeRule80 = new BitSet(new long[]{0x0000000000000000L,0x0000000008000000L});
     public static final BitSet FOLLOW_91_in_mergeRule84 = new BitSet(new long[]{0x0000000000000002L});
 

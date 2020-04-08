@@ -38,7 +38,7 @@ context ClassObject {
 			title : 'Infer empty instances'
 			do {
 				for (reference in self.getAllReferencesThatRequireAValueButDontHaveOne()) {
-					-- An instance can be inferred if no values are required	
+					// An instance can be inferred if no values are required	
 					if (reference.aValueCanBeInferred()) {
 						var instance := new Intermediate!ClassObject;
 						instance.type := reference.eType.name;
@@ -146,7 +146,7 @@ operation String canLocateExternalModelElement() : Boolean {
 
 operation String toClass() {
 	if ('#'.isSubstringOf(self)) {
-		-- External object reference, locate in external model
+		// External object reference, locate in external model
 
 		var object := EmfTool.getEObject(self);
 		
@@ -155,7 +155,7 @@ operation String toClass() {
 		}
 	
 	} else {
-		-- Internal object reference, located in current model
+		// Internal object reference, located in current model
 
 		var object := ClassObject.allInstances().selectOne(c|c.identifier = self);
 	

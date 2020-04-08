@@ -10,7 +10,7 @@ pre {
 		if (AntlrAst!NameNode.isType(root) and root.text.toLowerCase() = '@spec') {		
 			for (child in root.children) {		
 			
-				-- process @Spec.model package	
+				// process @Spec.model package	
 				if (child.text.toLowerCase() = 'model') {
 					var modelFileAttribute := child.children.selectOne(n : AntlrAst!NameNode | n.text = 'file');
 					
@@ -22,7 +22,7 @@ pre {
 						}
 					}
 
-				-- process all other @Spec packages as metamodel specifications
+				// process all other @Spec packages as metamodel specifications
 				} else {
 				
 					for (grandchild in child.children.select(n : AntlrAst!NameNode | n.text.toLowerCase() = 'nsuri')) {
@@ -65,7 +65,7 @@ rule NameNode2PackageObject
 		p.classObjects.add(child.equivalent());
 	}
 	
-	-- Transform association blocks and infix associations
+	// Transform association blocks and infix associations
 	for (a : AntlrAst!AssociationInstanceNode in n.children) {
 		a.createReferences(p);
 	}
@@ -80,7 +80,7 @@ rule NameNode2ClassObject
 	createClassObject(c, n);
 }
 
--- TODO: refactor this to: rule AssocationInstanceNode2ReferenceSlot
+// TODO: refactor this to: rule AssocationInstanceNode2ReferenceSlot
 operation AntlrAst!AssociationInstanceNode createReferences(package : Intermediate!PackageObject) {
 
 	var slot : Intermediate!ReferenceSlot;	
@@ -184,7 +184,7 @@ operation Intermediate!ClassObject addDefaultValuesForAttributes() {
 	}
 }
 
--- Default Value Rules --
+// Default Value Rules //
 operation createSlotFor(defaultValue : String, attribute : String) : Intermediate!Slot {
 	var defaultValues := new Sequence;
 	defaultValues.add(defaultValue);
@@ -205,22 +205,22 @@ operation createSlotFor(defaultValues : Collection, attribute : String) : Interm
 }
 
 operation String inferType() : Any {
-	-- Boolean?
+	// Boolean?
 	if (self = 'true') {
 		return true;
 		
 	} else if (self = 'false') {
 		return false;
 	
-	-- Int?
+	// Int?
 	} else if (self.isInteger()) {
 		return self.asInteger();
 		
-	-- Real?
+	// Real?
 	} //else if (self.isReal()) {
 	//	return self.asFloat();
 	//
-	//-- String
+	//// String
 	//} 
 	else {
 		return self;
@@ -306,7 +306,7 @@ operation Intermediate!Slot isDifferentTypeTo(other : Intermediate!Slot) {
 	return self.eClass.name <> other.eClass.name;
 }
 
--- Booleans --
+// Booleans //
 operation Boolean toSlot() : Intermediate!Slot {
 	return new Intermediate!AttributeSlot;
 }
@@ -327,7 +327,7 @@ operation AntlrAst!FalseNode getValue() : Boolean {
 	return false;
 }
 
--- Strings --
+// Strings //
 operation String toSlot() : Intermediate!Slot {
 	return new Intermediate!AttributeSlot;
 }
@@ -340,7 +340,7 @@ operation AntlrAst!TextualValueNode getValue() : String {
 	return self.text.stripQuotes();
 }
 
--- Numbers --
+// Numbers //
 operation Integer toSlot() : Intermediate!Slot {
 	return new Intermediate!AttributeSlot;
 }
@@ -365,7 +365,7 @@ operation AntlrAst!NumericValueNode getValue() : Any {
 	}
 }
 
--- References
+// References
 operation AntlrAst!ReferenceNode toSlot() : Intermediate!Slot {
 	return new Intermediate!ReferenceSlot;
 }
@@ -385,7 +385,7 @@ operation String isExternalObjectReference() : Boolean {
 	return self.contains("#");
 }
 
--- Containment and Enumerations --
+// Containment and Enumerations //
 operation AntlrAst!NameNode toSlot() : Intermediate!Slot {
 	if (self.children.isEmpty()) {
 		return new Intermediate!AttributeSlot;
