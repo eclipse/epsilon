@@ -61,11 +61,11 @@ pipeline {
                       scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
                       scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
                     fi
-                    $JAVADOCDIR="$WORKSPACE/target/site/apidocs"
+                    JAVADOCDIR="$WORKSPACE/target/site/apidocs"
                     if [-d "$JAVADOCDIR" ] then;
                       scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
                     fi
-                    $JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
+                    JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
                     if [ -d "$JARSDIR" ]; then
                       scp "$JARSDIR/epsilon-*" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
                     fi
