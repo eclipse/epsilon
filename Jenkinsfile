@@ -62,9 +62,6 @@ pipeline {
                         scp "$INTERIMWS/$F" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/${F}
                       fi
                     done
-                    if [ -e "$INTERIMWS/associateSites.xml" ]; then
-                      scp "$INTERIMWS/associateSites.xml" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/associateSites.xml
-                    fi
                     scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
                     scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
                     scp "$WORKSPACE"/standalone/org.eclipse.epsilon.standalone/target/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
