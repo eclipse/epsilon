@@ -41,8 +41,5 @@ public class ShutdownProjectRepositoryListener extends BuildFinishedListener {
 		}
 		repository.dispose();
 	}
-	
-	
-	
 }
  

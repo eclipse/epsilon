@@ -27,6 +27,7 @@ public class LoadXmlModelTask extends EpsilonTask {
 	protected boolean store = false;
 	protected boolean expand = false;
 	protected boolean cached = true;
+	protected boolean concurrent = false;
 	
 	@Override
 	public void executeImpl() throws BuildException {
@@ -40,6 +41,7 @@ public class LoadXmlModelTask extends EpsilonTask {
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, store + "");
 		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
 		properties.put(EmfModel.PROPERTY_CACHED, cached + "");
+		properties.put(EmfModel.PROPERTY_CONCURRENT, concurrent + "");
 		
 		try {
 			XmlModel model = new XmlModel();
@@ -116,4 +118,21 @@ public class LoadXmlModelTask extends EpsilonTask {
 		return cached;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public boolean isConcurrent() {
+		return concurrent;
+	}
+
+	/**
+	 * 
+	 * @param concurrent
+	 * @since 1.6
+	 */
+	public void setConcurrent(boolean concurrent) {
+		this.concurrent = concurrent;
+	}
 }

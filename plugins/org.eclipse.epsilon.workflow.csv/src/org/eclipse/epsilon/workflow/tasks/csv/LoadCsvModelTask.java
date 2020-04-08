@@ -7,9 +7,7 @@
  * Contributors:
  *     Horacio Hoyos - initial API and implementation
 ******************************************************************************/
-
 package org.eclipse.epsilon.workflow.tasks.csv;
-
 
 import java.io.File;
 
@@ -66,7 +64,6 @@ public class LoadCsvModelTask extends EpsilonTask {
 	public void executeImpl() throws BuildException {
 		final CsvModel model = createCsvModel();
 
-		
 		final StringProperties properties = new StringProperties();
 		properties.put(Model.PROPERTY_NAME, name + "");
 		properties.put(Model.PROPERTY_ALIASES, alias + "");
@@ -291,7 +288,4 @@ public class LoadCsvModelTask extends EpsilonTask {
 	public void setIdFieldValue(String idFieldValue) {
 		this.idFieldValue = idFieldValue;
 	}
-	
-	
-
 }

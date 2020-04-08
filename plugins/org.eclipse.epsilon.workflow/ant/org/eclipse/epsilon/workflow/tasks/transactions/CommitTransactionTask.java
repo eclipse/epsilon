@@ -9,14 +9,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.transactions;
 
-
-
-
 public class CommitTransactionTask extends RemoveActiveTransactionTask {
 
 	@Override
 	protected void manageTransaction(NamedTransactionSupport transactionSupport) {
 		transactionSupport.commitTransaction();
 	}
-
 }

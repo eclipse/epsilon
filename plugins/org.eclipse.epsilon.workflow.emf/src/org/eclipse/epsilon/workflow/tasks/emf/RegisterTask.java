@@ -50,10 +50,10 @@ public class RegisterTask extends EpsilonTask {
 				      workspaceFiles[0].getFullPath().toString());
 			    }
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			fail(e.getMessage(), e);
 		}
-
 	}
 
 	public File getFile() {
@@ -71,7 +71,4 @@ public class RegisterTask extends EpsilonTask {
 	public void setPermanently(boolean permanently) {
 		this.permanently = permanently;
 	}
-	
-	
-	
 }

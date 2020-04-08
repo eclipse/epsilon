@@ -34,6 +34,7 @@ public class LoadEmfModelTask extends EpsilonTask {
 	protected boolean expand = false;
 	protected boolean reuseUnmodifiedMetamodelFile = true;
 	protected boolean cached = true;
+	protected boolean concurrent = false;
 	
 	@Override
 	public void executeImpl() throws BuildException {
@@ -48,6 +49,7 @@ public class LoadEmfModelTask extends EpsilonTask {
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, store + "");
 		properties.put(EmfModel.PROPERTY_EXPAND, expand + "");
 		properties.put(EmfModel.PROPERTY_CACHED, cached + "");
+		properties.put(EmfModel.PROPERTY_CONCURRENT, concurrent + "");
 		properties.put(EmfModel.PROPERTY_REUSE_UNMODIFIED_FILE_BASED_METAMODELS, reuseUnmodifiedMetamodelFile + "");
 		
 		if (metamodelUri != null) {
@@ -181,6 +183,24 @@ public class LoadEmfModelTask extends EpsilonTask {
 
 	public void setReuseUnmodifiedMetamodelFile(boolean reuseUnmodifiedMetamodelFiles) {
 		this.reuseUnmodifiedMetamodelFile = reuseUnmodifiedMetamodelFiles;
-	}	
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public boolean isConcurrent() {
+		return concurrent;
+	}
+
+	/**
+	 * 
+	 * @param concurrent
+	 * @since 1.6
+	 */
+	public void setConcurrent(boolean concurrent) {
+		this.concurrent = concurrent;
+	}
 }
  

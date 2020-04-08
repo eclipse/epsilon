@@ -26,6 +26,7 @@ public class ForTask extends EolTask implements TaskContainer {
 	protected String var = "it";
 	protected String target = null;
 	
+	@Override
 	public void addTask(Task task) {
 		tasks.add(task);
 	}
@@ -81,5 +82,4 @@ public class ForTask extends EolTask implements TaskContainer {
 	public void setExpr(String expr) {
 		this.code = "return " + expr + ";";
 	}
-	
 }

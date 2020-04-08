@@ -65,6 +65,5 @@ public class LoadRegisteredMetaModelTask extends EpsilonTask {
 	public void setMetamodelUri(String metamodelUri) {
 		this.metamodelUri = metamodelUri;
 	}
-	
 }
  

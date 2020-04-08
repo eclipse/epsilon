@@ -21,14 +21,17 @@ public class NamedTransactionSupport implements IModelTransactionSupport {
 		this.transactionSupport = transactionSupport;
 	}
 	
+	@Override
 	public void commitTransaction() {
 		transactionSupport.commitTransaction();
 	}
 
+	@Override
 	public void rollbackTransaction() {
 		transactionSupport.rollbackTransaction();
 	}
 
+	@Override
 	public void startTransaction() {
 		transactionSupport.startTransaction();
 	}
@@ -36,5 +39,4 @@ public class NamedTransactionSupport implements IModelTransactionSupport {
 	public String getName() {
 		return name;
 	}
-
 }

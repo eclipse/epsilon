@@ -32,7 +32,8 @@ public class StartTransactionTask extends EpsilonTask {
 				try {
 					((CompositeModelTransactionSupport) transactionSupport).
 					getModels().add(
-					getProjectRepository().getModelByName(model.trim()));
+						getProjectRepository().getModelByName(model.trim())
+					);
 				} catch (EolModelNotFoundException e) {
 					throw new BuildException(e.getReason());
 				}

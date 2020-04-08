@@ -9,13 +9,10 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks.transactions;
 
-
-
 public class RollbackTransactionTask extends RemoveActiveTransactionTask {
 
 	@Override
 	protected void manageTransaction(NamedTransactionSupport transactionSupport) {
 		transactionSupport.rollbackTransaction();
 	}
-
 }

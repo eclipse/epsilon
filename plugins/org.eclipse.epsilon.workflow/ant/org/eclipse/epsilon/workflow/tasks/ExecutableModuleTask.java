@@ -247,7 +247,6 @@ public abstract class ExecutableModuleTask extends EpsilonTask {
 
 	@Override
 	public void executeImpl() throws BuildException {
-
 		try {
 			parseModule();
 			if (src != null && profile) {

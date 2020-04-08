@@ -19,13 +19,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.tools.ant.BuildException;
 import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactoryModuleAdapter;
-import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEglModule;
+import org.eclipse.epsilon.egl.IEgxModule;
+import org.eclipse.epsilon.egl.concurrent.EgxModuleParallelAnnotation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.EglFineGrainedTraceContextAdaptor;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.ModelLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Region;
@@ -33,8 +33,8 @@ import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TextLocation;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.Trace;
 import org.eclipse.epsilon.egl.engine.traceability.fine.trace.TraceLink;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
-import org.eclipse.epsilon.egl.execute.context.EgxContext;
 import org.eclipse.epsilon.egl.execute.context.IEglContext;
+import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.egl.formatter.Formatter;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.workflow.tasks.nestedelements.EglDefaultFormatterNestedElement;
@@ -63,7 +63,7 @@ public class EglTask extends ExportableModuleTask {
 		templateFactory.setDefaultFormatters(instantiateDefaultFormatters());
 		
 		if (src != null && src.getName().endsWith("egx")) {
-			module = new EgxModule(templateFactory);
+			module = new EgxModuleParallelAnnotation(new EgxContextParallel(templateFactory));
 		}
 		else {		
 			module = new EglTemplateFactoryModuleAdapter(templateFactory);
@@ -94,8 +94,8 @@ public class EglTask extends ExportableModuleTask {
 		
 		templateFactory.setDefaultFormatters(instantiateDefaultFormatters());
 		
-		if (src != null && src.getName().endsWith("egx")) {
-			module.setContext(new EgxContext(templateFactory));
+		if (module instanceof IEgxModule) {
+			module.setContext(new EgxContextParallel(templateFactory));
 		}
 		else {		
 			((IEglModule) module).setTemplateFactory(templateFactory);
