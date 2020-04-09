@@ -60,7 +60,6 @@ pipeline {
                   UPDATES=$INTERIM/updates
                   if [ -d "$INTERIMWS" ]; then
                     ls "$INTERIMWS"
-                    ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $UPDATES; mkdir -p $UPDATES"
                     JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
                     if [ -d "$JARSDIR" ]; then
                       ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM/jars; mkdir -p $INTERIM/jars"
@@ -68,6 +67,7 @@ pipeline {
                     fi
                     SITEDIR="$INTERIMWS/target"
                     if [ -d "$SITEDIR" ]; then
+                      ssh genie.epsilon@projects-storage.eclipse.org rm -rf $UPDATES
                       scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
                       scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
                     fi
