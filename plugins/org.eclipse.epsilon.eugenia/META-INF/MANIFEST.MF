@@ -16,9 +16,20 @@ Require-Bundle: org.eclipse.epsilon.common.dt,
  org.eclipse.epsilon.eol.dt,
  org.eclipse.epsilon.evl.engine,
  org.eclipse.compare.core,
- org.eclipse.gmf.codegen.ui
+ org.eclipse.gmf.codegen.ui,
+ org.eclipse.gmf.tooling.runtime,
+ org.eclipse.gmf.runtime.diagram.ui.printing,
+ org.eclipse.gmf.runtime.diagram.ui.printing.render,
+ org.eclipse.gmf.runtime.diagram.ui.properties,
+ org.eclipse.gmf.runtime.diagram.ui.providers,
+ org.eclipse.gmf.runtime.diagram.ui.providers.ide,
+ org.eclipse.gmf.runtime.diagram.ui.render,
+ org.eclipse.gmf.runtime.diagram.ui.resources.editor,
+ org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide,
+ org.eclipse.gmf.runtime.emf.ui.properties
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.eugenia,
- org.eclipse.epsilon.eugenia.operationcontributors
+ org.eclipse.epsilon.eugenia.operationcontributors,
+ org.eclipse.epsilon.eugenia.patches
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.epsilon.eugenia
