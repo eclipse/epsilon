@@ -38,7 +38,7 @@ pipeline {
           when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*)|(pom\\.xml)|(standalone\\/.*)' } }
           steps {
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
-              sh 'mvn -B --quiet clean install -P eclipse-sign javadoc:aggregate'
+              sh 'mvn -B --quiet clean javadoc:aggregate install -P eclipse-sign'
             }
             sh 'cd standalone/org.eclipse.epsilon.standalone/ && bash build-javadoc-jar.sh'
           }
@@ -49,7 +49,9 @@ pipeline {
             lock('download-area') {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                 sh '''
-                  ls "$WORKSPACE/target/site"
+                  if [-e "$WORKSPACE/target/site" ]; then
+                    ls "$WORKSPACE/target/site"
+                  fi
                   INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim"
                   INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
                   UPDATES=$INTERIM/updates
