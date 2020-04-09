@@ -22,7 +22,6 @@
 		<replace dir="." token="${current}" value="${new}">
 		  <include name="features/org.eclipse.epsilon.*/feature.xml"/>
 		  <include name="releng/org.eclipse.epsilon.updatesite.interim/category.xml"/>
-		  <include name="releng/org.eclipse.epsilon.updatesite.interim/site.xml"/>
 		</replace>
 	
 		<replace dir="." token="Bundle-Version: ${current}.qualifier" value="Bundle-Version: ${new}.qualifier">

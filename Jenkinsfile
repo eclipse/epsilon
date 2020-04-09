@@ -51,9 +51,7 @@ pipeline {
                 sh '''
                   INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim"
                   INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
-                  UPDATES=$INTERIM/updates
                   if [ -d "$INTERIMWS" ]; then
-                    ls "$INTERIMWS"
                     JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
                     if [ -d "$JARSDIR" ]; then
                       ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM/jars; mkdir -p $INTERIM/jars"
@@ -61,38 +59,20 @@ pipeline {
                     fi
                     SITEDIR="$INTERIMWS/target/repository"
                     if [ -d "$SITEDIR" ]; then
-                      ssh genie.epsilon@projects-storage.eclipse.org rm -rf $UPDATES
-                      scp -r "$SITEDIR" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
+                      ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
+                      scp -r "$SITEDIR" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
                     fi
                     JAVADOCDIR="$WORKSPACE/target/site/apidocs"
                     if [ -d "$JAVADOCDIR" ]; then
                       ssh genie.epsilon@projects-storage.eclipse.org rm -rf ${INTERIM}/javadoc
                       scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
                     fi
-                    declare -a INTERIMFILES=("compositeArtifacts.xml" "compositeContent.xml")
-                    for F in "${INTERIMFILES[@]}"; do
-                      if [ -e "$INTERIMWS/$F" ]; then
-                        scp "$INTERIMWS/$F" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/${F}
-                      fi
-                    done
                   fi
                 '''
               }
             }
           }
         }
-        /*stage('Sign JARs') {  // See pom.xml - done by Tycho
-          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features.*)|(plugins.*)' } }
-          steps {
-            lock('download-area') {
-              sshagent (['projects-storage.eclipse.org-bot-ssh']) {
-                sh '''
-                  ssh genie.epsilon@projects-storage.eclipse.org 'cd /home/data/httpd/download.eclipse.org/epsilon/interim && declare -a folders=("features" "plugins"); for folder in "${folders[@]}"; do cd $folder && for jar in $(ls *.jar); do echo "Signing ${jar}..." && curl --create-dirs -o "signed/$jar" -F "file=@$jar" http://build.eclipse.org:31338/sign; done && mv -f signed/* . && rm -r signed && cd ../; done;'
-                '''
-              }
-            }
-          }
-        }*/
         stage('Deploy to OSSRH') {
           when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(features\\/.*)|(plugins\\/.*)|(standalone\\/.*)' } }
           steps {
