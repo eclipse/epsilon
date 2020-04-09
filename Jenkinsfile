@@ -49,12 +49,6 @@ pipeline {
             lock('download-area') {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                 sh '''
-                  if [ -d "$WORKSPACE/target" ]; then
-                    ls "$WORKSPACE/target"
-                    if [ -d "$WORKSPACE/target/site" ]; then
-                      ls "$WORKSPACE/target/site"
-                    fi
-                  fi
                   INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim"
                   INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
                   UPDATES=$INTERIM/updates
@@ -65,11 +59,10 @@ pipeline {
                       ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM/jars; mkdir -p $INTERIM/jars"
                       scp "$JARSDIR"/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
                     fi
-                    SITEDIR="$INTERIMWS/target"
+                    SITEDIR="$INTERIMWS/target/repository"
                     if [ -d "$SITEDIR" ]; then
                       ssh genie.epsilon@projects-storage.eclipse.org rm -rf $UPDATES
-                      scp -r "$SITEDIR/site" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
-                      scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
+                      scp -r "$SITEDIR" genie.epsilon@projects-storage.eclipse.org:${UPDATES}
                     fi
                     JAVADOCDIR="$WORKSPACE/target/site/apidocs"
                     if [ -d "$JAVADOCDIR" ]; then
@@ -80,12 +73,6 @@ pipeline {
                     for F in "${INTERIMFILES[@]}"; do
                       if [ -e "$INTERIMWS/$F" ]; then
                         scp "$INTERIMWS/$F" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/${F}
-                      fi
-                    done
-                    declare -a UPDATEFILES=("associateSites.xml")
-                    for F in "${UPDATEFILES[@]}"; do
-                      if [ -e "$INTERIMWS/$F" ]; then
-                        scp "$INTERIMWS/$F" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/${F}
                       fi
                     done
                   fi
