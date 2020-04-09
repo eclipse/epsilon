@@ -5,10 +5,15 @@
 	<target name="main">
 		<replace dir="." token="${current}-SNAPSHOT" value="${new}-SNAPSHOT">
 		  <include name="pom.xml"/>
+		  <include name="plugins/pom.xml"/>
+		  <include name="features/pom.xml"/>
+		  <include name="releng/pom.xml"/>
+		  <include name="tests/pom.xml"/>
 		  <include name="plugins/**/org.eclipse.epsilon.*/pom.xml"/>
 		  <include name="features/org.eclipse.epsilon.*/pom.xml"/>
 		  <include name="standalone/org.eclipse.epsilon.standalone/pom.xml"/>
-		  <include name="tests/org.eclipse.epsilon.workflow.test/pom.xml"/>
+		  <include name="tests/**/org.eclipse.epsilon.*/pom.xml"/>
+		  <include name="releng/**/org.eclipse.epsilon.*/pom.xml"/>
 		</replace>
 
 		<replace file="standalone/org.eclipse.epsilon.standalone/pom.xml" 
@@ -22,7 +27,7 @@
 		<replace dir="." token="Bundle-Version: ${current}.qualifier" value="Bundle-Version: ${new}.qualifier">
 		  <include name="plugins/org.eclipse.epsilon.*/META-INF/MANIFEST.MF"/>
 		  <include name="standalone/org.eclipse.epsilon.standalone/META-INF/MANIFEST.MF"/>
-		  <include name="tests/org.eclipse.epsilon.workflow.test/META-INF/MANIFEST.MF"/>
+		  <include name="tests/org.eclipse.epsilon.*/META-INF/MANIFEST.MF"/>
 		</replace>
 
 		<echo>Don't forget to also update the version in jarmodel.xml and re-run standalone/org.eclipse.epsilon.standalone/jarmodel2mvn.launch before building on Jenkins!</echo>
