@@ -82,7 +82,7 @@ pipeline {
                         scp "$INTERIMWS/$F" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/${F}
                       fi
                     done
-                    declare -a UPDATEFILES=("associateSites.xml" "category.xml")
+                    declare -a UPDATEFILES=("associateSites.xml")
                     for F in "${UPDATEFILES[@]}"; do
                       if [ -e "$INTERIMWS/$F" ]; then
                         scp "$INTERIMWS/$F" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/${F}
