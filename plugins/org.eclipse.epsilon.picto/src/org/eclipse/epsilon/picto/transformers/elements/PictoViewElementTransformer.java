@@ -1,21 +1,14 @@
 package org.eclipse.epsilon.picto.transformers.elements;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.ViewTree;
-import org.eclipse.epsilon.picto.transformers.HtmlContentTransformer;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
-public class PictoViewElementTransformer extends AbstractHtmlElementTransformer {
+public class PictoViewElementTransformer extends ReplacingElementTransformer {
 	
 	@Override
 	public String getXPath() {
@@ -34,7 +27,15 @@ public class PictoViewElementTransformer extends AbstractHtmlElementTransformer 
 
 				ViewContent svgContent = contents.stream().filter(c -> c.getFormat().equals("svg")).findAny()
 						.orElse(null);
-
+				
+				if (svgContent != null) {
+					replace(element, svgContent, true);
+				}
+				else {
+					replace(element, contents.get(contents.size() - 1), false);
+				}
+				
+				/*
 				if (svgContent != null) {
 					try {
 						Document document = new HtmlContentTransformer().parse(svgContent.getText());
@@ -63,12 +64,12 @@ public class PictoViewElementTransformer extends AbstractHtmlElementTransformer 
 						element.getOwnerDocument().renameNode(element, element.getNamespaceURI(), "iframe");
 						element.setAttribute("src", temp.getAbsolutePath());
 					} catch (Exception ex) {}
-				}
-				
-				
+				}*/
 				
 			}
 		}
-
+		
 	}
+	
+	
 }

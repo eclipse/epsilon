@@ -29,6 +29,7 @@ import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.transformers.elements.HtmlElementTransformer;
 import org.eclipse.epsilon.picto.transformers.elements.PictoViewElementTransformer;
+import org.eclipse.epsilon.picto.transformers.elements.RenderCodeElementTransformer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -36,7 +37,7 @@ import org.xml.sax.InputSource;
 
 public class HtmlContentTransformer implements ViewContentTransformer {
 	
-	protected List<HtmlElementTransformer> htmlElementTransformers = Arrays.asList(new PictoViewElementTransformer());
+	protected List<HtmlElementTransformer> htmlElementTransformers = Arrays.asList(new PictoViewElementTransformer(), new RenderCodeElementTransformer());
 	protected DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 	protected TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	protected Transformer transformer;

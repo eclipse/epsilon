@@ -31,7 +31,7 @@ public class ViewContent {
 	
 	protected static List<ViewContentTransformer> viewContentTransformers;
 	
-	static List<ViewContentTransformer> getViewContentTransformers() {
+	public static List<ViewContentTransformer> getViewContentTransformers() {
 		if (viewContentTransformers == null) {
 			viewContentTransformers = new ArrayList<>();
 			viewContentTransformers.add(new PatchContentTransformer());

@@ -12,3 +12,21 @@ This is a simple component-connector DSL.
 ##Stats
 
 <picto-view path="Model, Stats" style="width:100%;border:0px;height:400px"/>
+
+##Embedded PlantUML and Graphviz
+
+PlantUML sequence diagram
+
+```render-plantuml
+@startuml
+Alice -> Bob : Hello
+@enduml
+```
+
+Grapviz DOT graph
+
+```render-graphviz-dot
+digraph G {
+Bob -> Alice [label="  Hello"]
+}
+```
