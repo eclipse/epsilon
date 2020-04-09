@@ -12,14 +12,38 @@
    </description>
 
    <copyright>
-        Copyright (c) 2018 The University of York.
+      Copyright (c) 2018 The University of York.
         This program and the accompanying materials are made
         available under the terms of the Eclipse Public License 2.0
         which is available at https://www.eclipse.org/legal/epl-2.0
    </copyright>
 
    <includes
-         id="org.eclipse.epsilon.dependencies.feature"
+         id="org.eclipse.gmf"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.gmf.runtime.notation.sdk"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.gmf.runtime.sdk"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.gmf.sdk"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.gmf.tooling"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.gmf.tooling.codegen.xtend2"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.gmf.tooling.runtime"
          version="0.0.0"/>
 
    <requires>
