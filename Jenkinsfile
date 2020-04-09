@@ -49,6 +49,7 @@ pipeline {
             lock('download-area') {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                 sh '''
+                  ls "$WORKSPACE/target"
                   INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim"
                   INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
                   UPDATES=$INTERIM/updates
