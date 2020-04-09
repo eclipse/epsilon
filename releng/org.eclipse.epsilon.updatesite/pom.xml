@@ -9,5 +9,5 @@
   </parent>
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.updatesite</artifactId>
-  <packaging>eclipse-update-site</packaging>
+  <packaging>eclipse-repository</packaging>
 </project>

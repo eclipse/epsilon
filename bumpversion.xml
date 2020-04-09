@@ -1,4 +1,5 @@
 <project default="main">
+	<property name="previous" value="1.5.0"/>
 	<property name="current" value="1.6.0"/>
 	<property name="new" value="2.0.0"/>
 
@@ -22,6 +23,10 @@
 		<replace dir="." token="${current}" value="${new}">
 		  <include name="features/org.eclipse.epsilon.*/feature.xml"/>
 		  <include name="releng/org.eclipse.epsilon.updatesite.interim/category.xml"/>
+		</replace>
+		
+		<replace dir="." token="${previous}" value="${current}">
+		  <include name="releng/org.eclipse.epsilon.updatesite/category.xml"/>
 		</replace>
 	
 		<replace dir="." token="Bundle-Version: ${current}.qualifier" value="Bundle-Version: ${new}.qualifier">
