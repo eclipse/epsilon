@@ -49,10 +49,10 @@ pipeline {
             lock('download-area') {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                 sh '''
-                  if [ -e "$WORKSPACE/target" ]; then
+                  if [ -d "$WORKSPACE/target" ]; then
                     ls "$WORKSPACE/target"
                   fi
-                  if [ -e "$WORKSPACE/target/site" ]; then
+                  if [ -d "$WORKSPACE/target/site" ]; then
                     ls "$WORKSPACE/target/site"
                   fi
                   INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim"
