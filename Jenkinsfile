@@ -50,15 +50,15 @@ pipeline {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                 sh '''
                   INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
-                  JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
-                  if [ -d "$JARSDIR" ]; then
-                    ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM/jars; mkdir -p $INTERIM/jars"
-                    scp "$JARSDIR"/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
-                  fi
                   SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/repository"
                   if [ -d "$SITEDIR" ]; then
                     ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
                     scp -r "$SITEDIR" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
+                  fi
+                  JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
+                  if [ -d "$JARSDIR" ]; then
+                    ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM/jars; mkdir -p $INTERIM/jars"
+                    scp "$JARSDIR"/epsilon-* genie.epsilon@projects-storage.eclipse.org:${INTERIM}/jars
                   fi
                   JAVADOCDIR="$WORKSPACE/target/site/apidocs"
                   if [ -d "$JAVADOCDIR" ]; then
