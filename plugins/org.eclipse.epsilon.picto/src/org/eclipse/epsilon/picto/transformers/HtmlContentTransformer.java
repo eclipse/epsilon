@@ -57,7 +57,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 			
 			htmlElementTransformer.setPictoView(picto);
 			
-			NodeList nodeList = getElementsByName(document, htmlElementTransformer.getElementName()); 			
+			NodeList nodeList = getElements(document, htmlElementTransformer.getXPath()); 			
 			for (int i = 0; i<nodeList.getLength(); i++) {
 				htmlElementTransformer.transform((Element) nodeList.item(i));
 			}
@@ -92,7 +92,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 		try {
 			Document document = parse(text);
 			for (HtmlElementTransformer htmlElementTransformer : htmlElementTransformers) {
-				if (getElementsByName(document, htmlElementTransformer.getElementName()).getLength() > 0) {
+				if (getElements(document, htmlElementTransformer.getXPath()).getLength() > 0) {
 					return new ViewContent("html", transformElements(document, pictoView), content.getLayers(), content.getPatches());
 				}
 			}
@@ -103,10 +103,9 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 		}
 	}
 	
-	protected NodeList getElementsByName(Document document, String name) throws Exception {
+	protected NodeList getElements(Document document, String xpath) throws Exception {
 		XPath xPath = XPathFactory.newInstance().newXPath();
-		String expression = "//*[local-name() = '" + name + "']";
-		return (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+		return (NodeList) xPath.compile(xpath).evaluate(document, XPathConstants.NODESET);
 
 	}
 	

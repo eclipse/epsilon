@@ -5,7 +5,7 @@ import org.w3c.dom.Element;
 
 public interface HtmlElementTransformer {
 	
-	public String getElementName();
+	public String getXPath();
 	public void transform(Element element);
 	public void setPictoView(PictoView picto);
 	

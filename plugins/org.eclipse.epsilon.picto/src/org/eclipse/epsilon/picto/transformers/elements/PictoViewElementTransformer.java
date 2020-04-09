@@ -18,10 +18,10 @@ import org.w3c.dom.Node;
 public class PictoViewElementTransformer extends AbstractHtmlElementTransformer {
 	
 	@Override
-	public String getElementName() {
-		return "picto-view";
+	public String getXPath() {
+		return "//*[local-name() = 'picto-view']";
 	}
-
+	
 	@Override
 	public void transform(Element element) {
 		String path = element.getAttribute("path");
