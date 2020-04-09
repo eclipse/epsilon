@@ -72,7 +72,7 @@ pipeline {
                       scp "$SITEDIR/site_assembly.zip" genie.epsilon@projects-storage.eclipse.org:${UPDATES}/site.zip
                     fi
                     JAVADOCDIR="$WORKSPACE/target/site/apidocs"
-                    if [-d "$JAVADOCDIR" ]; then
+                    if [ -d "$JAVADOCDIR" ]; then
                       ssh genie.epsilon@projects-storage.eclipse.org rm -rf ${INTERIM}/javadoc
                       scp -r "$JAVADOCDIR" genie.epsilon@projects-storage.eclipse.org:${INTERIM}/javadoc
                     fi
