@@ -14,34 +14,34 @@ import org.eclipse.epsilon.eol.models.IModel;
 
 public class ModelGenerator {
 
-	protected final Path modelsRoot = Paths.get("experiments", "query-optimisation", "models");
+	protected final Path root = Paths.get("experiments", "query-optimisation");
 	protected final IModel model;
 	protected final Integer base, modelId;
 	
 	public ModelGenerator(Integer modelId) {
 		this.modelId = modelId;
 		this.model = populateModel();
-		this.base = 4;
+		this.base = 3;
 	}
 	
 	private IModel populateModel() {
-		File file = modelsRoot.resolve(String.format("Model%s.slx", modelId)).toFile();
+		File file = root.resolve("models").resolve(String.format("Model%s.slx", modelId)).toFile();
 		if (file.exists()) {
 			file.delete();
 		}
 		
 		SimulinkModel model = new SimulinkModel();
 		model.setReadOnLoad(false);
+		model.setOpenOnLoad(true);
 		model.setStoredOnDisposal(true);
 		model.setCloseOnDispose(true);
-		model.setOpenOnLoad(false);
 		model.setFile(file);
 		model.setName("M");
 		return model;
 	}
 	
 	private String readEol() throws IOException{
-		File file = modelsRoot.resolve("generator.eol").toFile();
+		File file = root.resolve("scripts").resolve("boilerGenerator.eol").toFile();
 		return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
 	}
 	
@@ -55,7 +55,7 @@ public class ModelGenerator {
 	
 	public static void main(String[] args) {
 		System.out.println("Starting Generation");
-		int max = 1;//5;
+		int max = 5;
 		for (int i=1; i<=max; i++) {
 			try {
 				new ModelGenerator(i).generate();

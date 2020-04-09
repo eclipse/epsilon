@@ -52,7 +52,6 @@ public class StateflowSelectOperation extends SelectOperation {
 		if (target instanceof StateflowBlockCollection) {
 			try {
 				String exp = expression(expression);
-				System.out.println(exp);
 				
 				targetList = (StateflowBlockCollection) target;
 				List<?> handles = targetList.getPrimitive();
@@ -110,9 +109,13 @@ public class StateflowSelectOperation extends SelectOperation {
 			if (operand instanceof ExpressionInBrackets) {
 				Expression brakets = ((ExpressionInBrackets) operand).getExpression();
 				if (brakets instanceof EqualsOperatorExpression) {
-					return "'-not'," + expression(operand);					
+					return expression(operand);					
 				}
-			} 
+			} else if (operand instanceof EqualsOperatorExpression) {
+				return "'-not'," + expression(operand);
+			} else if (operand instanceof NotEqualsOperatorExpression) {
+				return expression(operand);
+			}
 			throw new Exception("Unsupported type");			
 		}
 		if (exp instanceof OperationCallExpression) {

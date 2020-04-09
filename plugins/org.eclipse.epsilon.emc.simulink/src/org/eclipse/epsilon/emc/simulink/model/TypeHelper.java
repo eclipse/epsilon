@@ -155,7 +155,7 @@ public class TypeHelper {
 
 		private Collection<ISimulinkModelElement> getAllSimulinkKindFromModel(SimulinkModel model) throws MatlabException, IllegalStateException {
 			try {
-				String findKindCmd = "find_system('?','FindAll','on',%s,'Type','%s')";
+				String findKindCmd = "find_system('?','FindAll','on',%s,'Type','%s');";
 				String cmd = String.format(findKindCmd, model.getSearchPreferences().searchStatement(), getKind());
 				Object blocks = model.getEngine().evalWithResult(cmd, model.getSimulinkModelName());
 				switch (this) {
@@ -176,7 +176,7 @@ public class TypeHelper {
 		private Collection<ISimulinkModelElement> getAllSimulinkTypeFromModel(SimulinkModel model, String type) throws Exception {
 			Object blocks = null;
 			if (isSimulink()) {
-				String findTypeCmd = "find_system('?','FindAll','on',%s,'%sType','?')";
+				String findTypeCmd = "find_system('?','FindAll','on',%s,'%sType','?');";
 				String cmd = String.format(findTypeCmd, model.getSearchPreferences().searchStatement(), this.getKind());
 				blocks = model.getEngine().evalWithResult(cmd, model.getSimulinkModelName(), type);
 				switch (this) {

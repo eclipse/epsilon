@@ -38,4 +38,4 @@ for (i in Sequence{1..numOfElements}){
 	prevState=state;
 }
 // Arrange top level
-M.statement("Simulink.BlockDiagram.arrangeSystem('"+M.getSimulinkModelName()+"');");
+M.statement("Simulink.BlockDiagram.arrangeSystem('"+M.getSimulinkModelName()+"');");r

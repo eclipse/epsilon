@@ -55,10 +55,10 @@ public class PerformanceExperiment {
 	protected Long duration;
 	
 	/** SETUP */
-	protected static int maxModels = 4;
-	protected static int maxScripts = 8; // TODO choose
-	protected static int maxIterations = 20; // TODO choose
-	protected static int warmupIterations = 5; // TODO choose
+	protected static int maxModels = 3;
+	protected static int totalQueries = 8; 
+	protected static int maxIterations = 20;
+	protected static int warmupIterations = 5; 
 	
 	@ClassRule
 	public static AssumeMatlabInstalled installation = new AssumeMatlabInstalled();
@@ -80,11 +80,11 @@ public class PerformanceExperiment {
 		try(CSVPrinter csvPrinter = new CSVPrinter(fileWriter,csvFormat)) {}
 	}
 	
-	@Parameters(name = "Test-{index}: QueryId={0},ModelId={1},Optimisation={2},Iteration={3}")
+	@Parameters(name = "Test_{index}: QueryId={0},ModelId={1},Optimisation={2},Iteration={3}")
 	public static Iterable<Object[]> parameters() {
 		ArrayList<Object[]> list = new ArrayList<>();
 		List<Boolean> bools = Arrays.asList(new Boolean[] {false, true});
-		for (int queryId=1;queryId <= maxScripts; queryId++) {
+		for (int queryId=1;queryId <= totalQueries; queryId++) {
 			for (int modelId=1;modelId <= maxModels; modelId++) {
 				for (Boolean optimisation : bools) {
 					for (int iteration= - warmupIterations;iteration < maxIterations; iteration++) {
@@ -133,19 +133,19 @@ public class PerformanceExperiment {
 		duration = System.nanoTime() - duration;
 		
 		/** Results */
-		if (iteration > 0) {			
+		if (iteration >= 0) {			
 			int elements = ((Double) Math.pow(4, modelId)).intValue();
 			writeResults(resultsFile, queryId, modelId, optimisation, iteration, duration, elements);
 		}
 		
 		/** Dispose */
-		dispose(); //FIXME uncomment
+		dispose();
 	}
 	
 	@Test
 	public void execution() {
 		try {
-			eolModule.execute(); //FIXME uncomment
+			eolModule.execute();
 			TimeUnit.MILLISECONDS.sleep(2);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -177,17 +177,16 @@ public class PerformanceExperiment {
 		model.setIncludeCommented(false);
 		model.setLookUnderMasks("none");
 		
-		model.load(); //FIXME uncomment
+		model.load();
 	}
 	
 	protected void parseAndPopulateScript() throws Exception {
 		eolModule = new EolModule();
 		eolModule.getContext().getModelRepository().addModel(model);
-		eolModule.parse(getScript(queryId)); //FIXME uncomment
+		eolModule.parse(getScript(queryId));
 	}
 	
 	protected void dispose() {
-		System.out.println("Disposing");
 		eolModule = null;
 		model.dispose();
 	}
@@ -197,7 +196,7 @@ public class PerformanceExperiment {
 	}
 	
 	protected String getScript(Integer id) throws IOException {
-		File file = root.resolve("scripts").resolve(String.format("Scripts.eol", id)).toFile();
+		File file = root.resolve("scripts").resolve(String.format("Queries.eol", id)).toFile();
 		return FileUtils.readLines(file, StandardCharsets.UTF_8).get(id-1);
 	}
 	

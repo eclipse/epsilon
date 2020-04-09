@@ -66,7 +66,7 @@ public class SimulinkSelectOperation extends SelectOperation {
 				List<?> handles = targetList.getPrimitive();
 				try{
 					String setup = "handles=?;";
-					String cmd = String.format("find_system(handles,'SearchDepth',1,%s,%s)",
+					String cmd = String.format("find_system(handles,'SearchDepth',1,%s,%s);",
 							model.getSearchPreferences().searchStatement(), 
 							exp.substring(0, exp.length()-1));
 					Object result = engine.evalWithSetupAndResult(setup, cmd, handles);

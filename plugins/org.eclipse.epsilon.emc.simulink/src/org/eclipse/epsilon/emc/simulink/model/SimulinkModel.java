@@ -131,7 +131,7 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	@Override
 	protected void closeMatlabModel() {
 		try {			
-			engine.eval("bdclose('?')", getSimulinkModelName());
+			engine.eval("bdclose('?');", getSimulinkModelName());
 		} catch (Exception e) {
 			System.err.println("Unable to close model");
 		}

@@ -104,7 +104,7 @@ public class MatlabEngine {
 	
 	public void setProject(String project) throws MatlabException {
 		this.project = project;
-		System.out.println(this.project);
+		//System.out.println(this.project);
 		if (project.equals("current")) {
 			eval("currentProject;");
 		} else {			
@@ -117,7 +117,7 @@ public class MatlabEngine {
 	
 	public void addModel(IGenericSimulinkModel model) {
 		this.models.add(model);
-		System.out.println("adding model " + model.getName());
+		//System.out.println("adding model " + model.getName());
 	}
 	
 	
@@ -127,12 +127,12 @@ public class MatlabEngine {
 	
 	public void release(IGenericSimulinkModel model) throws MatlabRuntimeException {
 		if (project != null && !models.isEmpty()) {
-			System.out.println("Removing model");
+			//System.out.println("Removing model");
 			models.remove(model);
 		}
 		if (models.isEmpty()) {
 			this.project = null;
-			System.out.println("Releasing to pool");
+			//System.out.println("Releasing to pool");
 			MatlabEnginePool.getInstance().release(this);
 		}
 	}

@@ -46,8 +46,8 @@ public class StateflowCollectOperation extends CollectOperation {
 				PropertyCallExpression expression = (PropertyCallExpression) expressions.get(0);
 				try{
 					StateflowUtil.modelHandleAsM(targetList.getManager().getModel());
-					String setup = "handles=arrayfun(@(a) m.find('Id',a),cell2mat(?), 'UniformOutput', false)";
-					String eval = "get(cell2mat(handles),'?')";
+					String setup = "handles=arrayfun(@(a) m.find('Id',a),cell2mat(?), 'UniformOutput', false);";
+					String eval = "get(cell2mat(handles),'?');";
 					Object result= engine.evalWithSetupAndResult(setup, eval, cellArray, expression.getName());
 					if (result instanceof Collection) {						
 						return (Collection<?>) result;
