@@ -54,7 +54,7 @@ pipeline {
                   UPDATES=$INTERIM/updates
                   if [ -d "$INTERIMWS" ]; then
                     ls "$INTERIMWS"
-                    ssh genie.epsilon@projects-storage.eclipse.org rm -rf ${UPDATES}
+                    ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $UPDATES; mkdir -p $UPDATES"
                     JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
                     if [ -d "$JARSDIR" ]; then
                       ssh genie.epsilon@projects-storage.eclipse.org "rm -rf $INTERIM/jars; mkdir -p $INTERIM/jars"
