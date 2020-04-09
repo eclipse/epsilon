@@ -38,7 +38,7 @@ pipeline {
           when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(tests\\/.*)|(releng\\/.*)|(pom\\.xml)|(standalone\\/.*)' } }
           steps {
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
-              sh 'mvn -B --quiet clean javadoc:aggregate install -P eclipse-sign'
+              sh 'mvn -B --quiet clean install javadoc:aggregate -P eclipse-sign'
             }
             sh 'cd standalone/org.eclipse.epsilon.standalone/ && bash build-javadoc-jar.sh'
           }
