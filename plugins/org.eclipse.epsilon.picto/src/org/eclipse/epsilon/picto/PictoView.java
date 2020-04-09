@@ -30,6 +30,7 @@ import org.eclipse.epsilon.picto.actions.ViewContentsMenuAction;
 import org.eclipse.epsilon.picto.actions.ZoomAction;
 import org.eclipse.epsilon.picto.source.PictoSource;
 import org.eclipse.epsilon.picto.source.PictoSourceExtensionPointManager;
+import org.eclipse.epsilon.picto.source.VerbatimSource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -73,6 +74,7 @@ public class PictoView extends ViewPart {
 	protected PictoSource source = null;
 	protected List<PictoSource> sources = new PictoSourceExtensionPointManager().getExtensions();
 	protected ViewTreeLabelProvider viewTreeLabelProvider;
+	protected boolean renderVerbatimSources = false;
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -159,7 +161,9 @@ public class PictoView extends ViewPart {
 				if (locked) return;
 				Display.getCurrent().asyncExec(() -> {
 					IWorkbenchPart part = partRef.getPart(false);
-					if (editor != part && part instanceof IEditorPart && supports((IEditorPart) part)) {
+					PictoSource source = getSource((IEditorPart) part);
+					if (editor != part && part instanceof IEditorPart && source!=null) {
+						if (source instanceof VerbatimSource && !renderVerbatimSources) return;
 						render((IEditorPart) part);
 					}
 				});
@@ -205,7 +209,8 @@ public class PictoView extends ViewPart {
 		
 		IMenuManager dropDownMenu = getViewSite().getActionBars().getMenuManager();
 		dropDownMenu.add(new ClearViewTreeLabelProviderIconCacheAction());
-		   
+		dropDownMenu.add(new ToggleVerbatimSourcesAction());
+		
 		this.getSite().getPage().addPartListener(partListener);
 
 	}
@@ -441,6 +446,18 @@ public class PictoView extends ViewPart {
 			viewTreeLabelProvider.clearIconCache();
 		}
 	}
+	
+	class ToggleVerbatimSourcesAction extends Action {
+		public ToggleVerbatimSourcesAction() {
+			super("Render verbatim sources", Action.AS_CHECK_BOX);
+		}
+		
+		@Override
+		public void run() {
+			renderVerbatimSources = this.isChecked();
+		}
+	}
+	
 	
 	protected boolean supports(IEditorPart editorPart) {
 		return getSource(editorPart) != null;
