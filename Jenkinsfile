@@ -51,9 +51,9 @@ pipeline {
                 sh '''
                   if [ -d "$WORKSPACE/target" ]; then
                     ls "$WORKSPACE/target"
-                  fi
-                  if [ -d "$WORKSPACE/target/site" ]; then
-                    ls "$WORKSPACE/target/site"
+                    if [ -d "$WORKSPACE/target/site" ]; then
+                      ls "$WORKSPACE/target/site"
+                    fi
                   fi
                   INTERIMWS="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim"
                   INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
