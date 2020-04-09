@@ -6,12 +6,11 @@
   <parent>
     <groupId>org.eclipse.epsilon</groupId>
     <artifactId>releng</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.6.0-SNAPSHOT</version>
   </parent>
 
   <groupId>org.eclipse.epsilon</groupId>
   <artifactId>org.eclipse.epsilon.updatesite.interim</artifactId>
-  <version>1.6.0-SNAPSHOT</version>
   <!-- TODO: Use eclipse-repository since update-site is deprecated and will be removed in the future! -->
   <packaging>eclipse-update-site</packaging>
 
@@ -25,14 +24,14 @@
           <archiveSite>true</archiveSite>
         </configuration>
       </plugin>
-      <!--plugin>
+      <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-p2-repository-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-           <includeAllDependencies>true</includeAllDependencies>
+          <includeAllDependencies>true</includeAllDependencies>
         </configuration>
-      </plugin-->
+      </plugin>
     </plugins>
   </build>
 </project>
