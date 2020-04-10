@@ -57,8 +57,7 @@
     <module>plugins</module>
     <module>tests</module>
     <module>releng</module>
-    <module>standalone/eutils-maven-plugin</module>
-    <module>standalone/org.eclipse.epsilon.standalone</module>
+    <module>standalone</module>
   </modules>
 
   <build>
