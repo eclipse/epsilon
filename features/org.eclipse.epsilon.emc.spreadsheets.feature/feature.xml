@@ -23,10 +23,7 @@
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.eol.engine"/>
-      <import plugin="org.eclipse.epsilon.emc.spreadsheets.dependencies"/>
-      <import plugin="org.apache.log4j" version="1.2.15" match="greaterOrEqual"/>
-      <import plugin="org.slf4j.api" version="1.7.2" match="greaterOrEqual"/>
+      <import feature="org.eclipse.epsilon.core.feature"/>
    </requires>
 
    <plugin

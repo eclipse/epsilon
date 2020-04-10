@@ -24,9 +24,8 @@ work with Microsoft Excel Spreadsheet models.
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.common.dt"/>
-      <import plugin="org.eclipse.epsilon.emc.spreadsheets.excel"/>
-      <import plugin="org.eclipse.equinox.security"/>
+      <import feature="org.eclipse.epsilon.core.dt.feature"/>
+      <import feature="org.eclipse.epsilon.emc.spreadsheets.excel.feature"/>
    </requires>
 
    <plugin

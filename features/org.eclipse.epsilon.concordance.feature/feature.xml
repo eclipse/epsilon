@@ -23,14 +23,7 @@
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.common.dt"/>
-      <import plugin="org.eclipse.epsilon.hutn.xmi.dt"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.epsilon.hutn.xmi"/>
-      <import plugin="org.eclipse.epsilon.flock.dt.emf"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.h2"/>
+      <import feature="org.eclipse.epsilon.core.dt.feature"/>
    </requires>
 
    <plugin

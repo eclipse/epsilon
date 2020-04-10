@@ -23,10 +23,8 @@
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.emc.emf"/>
-      <import plugin="org.eclipse.epsilon.common.dt"/>
-      <import plugin="org.eclipse.epsilon.ewl.emf"/>
-      <import plugin="org.eclipse.gmf.runtime.diagram.ui"/>
+      <import feature="org.eclipse.epsilon.emf.feature"/>
+      <import feature="org.eclipse.epsilon.core.dt.feature"/>
    </requires>
 
    <plugin

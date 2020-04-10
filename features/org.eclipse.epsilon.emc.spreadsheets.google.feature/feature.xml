@@ -25,11 +25,7 @@ work with Google Spreadsheet models in Epsilon.
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.emc.spreadsheets.google.dependencies"/>
-      <import plugin="org.eclipse.epsilon.eol.engine"/>
-      <import plugin="org.eclipse.epsilon.emc.spreadsheets"/>
-      <import plugin="com.google.gdata_1.47.1" version="1.47.1" match="greaterOrEqual"/>
-      <import plugin="com.google.guava" version="18.0.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.epsilon.emc.spreadsheets.feature"/>
    </requires>
 
    <plugin

@@ -25,16 +25,8 @@ and any other subsequent releases with EMF Compare 3.x.
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.common.dt"/>
-      <import plugin="org.eclipse.epsilon.emc.emf"/>
-      <import plugin="org.eclipse.epsilon.eunit.engine"/>
-      <import plugin="org.eclipse.epsilon.eunit.dt"/>
-      <import plugin="org.eclipse.compare"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.emf.compare" version="3.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare.ide" version="3.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare.edit" version="4.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.compare.ide.ui" version="4.0.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.epsilon.core.dt.feature"/>
+      <import feature="org.eclipse.epsilon.emf.feature"/>
    </requires>
 
    <plugin

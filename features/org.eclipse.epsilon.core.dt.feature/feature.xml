@@ -23,22 +23,7 @@
          version="0.0.0"/>
 
    <requires>
-      <!--import feature="org.eclipse.epsilon.core.feature"/-->
-      <import plugin="org.apache.ant"/>
-      <import plugin="org.eclipse.ant.core"/>
-      <import plugin="org.eclipse.compare"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.core.variables"/>
-      <import plugin="org.eclipse.debug.ui"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.ui.console"/>
-      <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.ui.forms"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.ui.workbench.texteditor"/>
-      <import plugin="org.junit"/>
+      <import feature="org.eclipse.epsilon.core.feature"/>
    </requires>
 
    <plugin

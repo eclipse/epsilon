@@ -22,6 +22,10 @@
          id="org.eclipse.epsilon.dependencies.feature"
          version="0.0.0"/>
 
+   <requires>
+      <import feature="org.eclipse.epsilon.core.dt.feature"/>
+   </requires>
+
    <plugin
          id="org.eclipse.epsilon.picto"
          download-size="0"

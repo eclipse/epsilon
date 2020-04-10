@@ -23,12 +23,7 @@
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.emc.emf"/>
-      <import plugin="org.eclipse.epsilon.common.dt"/>
-      <import plugin="org.eclipse.epsilon.ewl.engine"/>
-      <import plugin="org.eclipse.epsilon.eol.dt"/>
-      <import plugin="org.eclipse.emf.ecore.editor"/>
-      <import plugin="org.eclipse.epsilon.emf.dt"/>
+      <import feature="org.eclipse.epsilon.emf.dt.feature"/>
    </requires>
 
    <plugin

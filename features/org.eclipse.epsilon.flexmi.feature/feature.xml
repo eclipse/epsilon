@@ -22,6 +22,10 @@
          id="org.eclipse.epsilon.dependencies.feature"
          version="0.0.0"/>
 
+   <requires>
+      <import feature="org.eclipse.epsilon.emf.feature"/>
+   </requires>
+
    <plugin
          id="org.eclipse.epsilon.flexmi"
          download-size="0"

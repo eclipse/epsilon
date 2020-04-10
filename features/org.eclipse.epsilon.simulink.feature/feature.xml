@@ -25,9 +25,7 @@ models in Epsilon.
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.epsilon.eol.engine"/>
-      <import plugin="org.eclipse.epsilon.common"/>
-      <import plugin="org.slf4j.api"/>
+      <import feature="org.eclipse.epsilon.core.feature"/>
    </requires>
 
    <plugin
