@@ -50,10 +50,11 @@ pipeline {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                 sh '''
                   INTERIM=/home/data/httpd/download.eclipse.org/epsilon/interim
-                  SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target/repository"
+                  SITEDIR="$WORKSPACE/releng/org.eclipse.epsilon.updatesite.interim/target"
                   if [ -d "$SITEDIR" ]; then
                     ssh genie.epsilon@projects-storage.eclipse.org rm -rf $INTERIM
-                    scp -r "$SITEDIR" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
+                    scp -r "$SITEDIR/repository" genie.epsilon@projects-storage.eclipse.org:${INTERIM}
+                    scp "$SITEDIR"/*.zip genie.epsilon@projects-storage.eclipse.org:${INTERIM}
                   fi
                   JARSDIR="$WORKSPACE/standalone/org.eclipse.epsilon.standalone/target"
                   if [ -d "$JARSDIR" ]; then
