@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eol.dt.editor;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
@@ -27,7 +27,7 @@ import org.eclipse.swt.graphics.Image;
 public class EolEditorTokenTemplateContributor implements IAbstractModuleEditorTemplateContributor, IModuleParseListener {
 	
 	protected List<Template> templates = new ArrayList<>();
-	protected HashSet<String> tokens = new HashSet<>();
+	protected Set<String> tokens = new HashSet<>();
 	Image tokenImage = EolPlugin.getDefault().createImage("icons/token.gif");
 	
 	@Override
@@ -52,7 +52,6 @@ public class EolEditorTokenTemplateContributor implements IAbstractModuleEditorT
 		for (ModuleElement child : root.getChildren()) {
 			findTokens(child);
 		}
-		
 	}
 	
 }

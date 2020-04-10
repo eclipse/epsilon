@@ -33,8 +33,7 @@ public class EolEditorStaticTemplateContributor implements IAbstractModuleEditor
 			templates.add(new Template("assert", "assertion", "", "assert(${condition}, ${message});",false));
 			templates.add(new Template("assertError", "assertion of error", "", "assertError(${expression}, ${message});",false));
 			templates.add(new Template("import", "import", "", "import \"${filename}\";",false));
-			templates.add(new Template("var", "variable declaration", "", "var ${name} : ${type} = ${initial_value};",false));
-						
+			templates.add(new Template("var", "variable declaration", "", "var ${name} : ${type} = ${initial_value};",false));				
 		}
 		return templates;
 	}

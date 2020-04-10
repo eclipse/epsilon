@@ -12,7 +12,7 @@ package org.eclipse.epsilon.eol.dt.editor;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.IModuleParseListener;
 import org.eclipse.epsilon.common.dt.editor.contentassist.IAbstractModuleEditorTemplateContributor;
@@ -27,7 +27,7 @@ import org.eclipse.swt.graphics.Image;
 public class EolEditorPropertyTemplateContributor implements IAbstractModuleEditorTemplateContributor, IModuleParseListener {
 	
 	protected List<Template> templates = new ArrayList<>();
-	protected HashSet<String> properties = new HashSet<>();
+	protected Set<String> properties = new HashSet<>();
 	Image propertyImage = EolPlugin.getDefault().createImage("icons/property.gif");
 	
 	@Override

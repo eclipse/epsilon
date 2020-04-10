@@ -7,12 +7,9 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
-
 package org.eclipse.epsilon.common.dt.editor;
 
 import java.util.List;
-import java.util.ListIterator;
-
 import org.eclipse.epsilon.common.dt.editor.highlighting.EpsilonHighlightingManager;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.rules.EndOfLineRule;
@@ -47,7 +44,8 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 		final Color backgroundColor = null; //editor.getBackgroundColor();
 		
 		fDefaultReturnToken = new Token(
-				new TextAttribute(highlightingManager.getDefaultColor(), backgroundColor, SWT.NORMAL));
+			new TextAttribute(highlightingManager.getDefaultColor(), backgroundColor, SWT.NORMAL)
+		);
 		
 		WordRule wordRules = new WordRule(new IWordDetector() {
 			@Override
@@ -62,40 +60,35 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 		}, new Token(new TextAttribute(highlightingManager.getDefaultColor(), backgroundColor, SWT.NORMAL)));
 
 		Token keywordToken = new Token(new TextAttribute(highlightingManager.getKeywordColor(), null, SWT.BOLD));
-		ListIterator<String> li = keywords.listIterator();
-		while (li.hasNext()) {
-			wordRules.addWord(li.next(), keywordToken);
+		for (String keyword : keywords) {
+			wordRules.addWord(keyword, keywordToken);
 		}
 
 		Token builtinToken = new Token(new TextAttribute(highlightingManager.getBuiltinColor(), null, SWT.ITALIC));
-		li = builtinVariables.listIterator();
-		while (li.hasNext()) {
-			wordRules.addWord(li.next(), builtinToken);
+		for (String variable : builtinVariables) {
+			wordRules.addWord(variable, builtinToken);
 		}
 
 		Token typeToken = new Token(new TextAttribute(highlightingManager.getTypeColor(), null, SWT.BOLD));
-		li = types.listIterator();
-		while (li.hasNext()) {
-			wordRules.addWord(li.next(), typeToken);
+		for (String type : types) {
+			wordRules.addWord(type, typeToken);
 		}
 
 		Token assertionToken = new Token(new TextAttribute(highlightingManager.getAssertionColor(), null, SWT.BOLD));
-		li = assertions.listIterator();
-		while (li.hasNext()) {
-			wordRules.addWord(li.next(), assertionToken);
+		for (String assertion : assertions) {
+			wordRules.addWord(assertion, assertionToken);
 		}
 		
 		setRules(new IRule[] {
-				new EndOfLineRule("--", new Token(new TextAttribute(highlightingManager.getCommentColor(), null, SWT.NORMAL))),
-				new MultiLineRule("-*", "*-", new Token(new TextAttribute(highlightingManager.getCommentColor(), null, SWT.NORMAL))),
-				new EndOfLineRule("//", new Token(new TextAttribute(highlightingManager.getCommentColor(), null, SWT.NORMAL))),
-				new MultiLineRule("/*", "*/", new Token(new TextAttribute(highlightingManager.getCommentColor(), null, SWT.NORMAL))),
-				new EndOfLineRule("@", new Token(new TextAttribute(highlightingManager.getAnnotationColor(), null, SWT.NORMAL))),
-				new EndOfLineRule("$", new Token(new TextAttribute(highlightingManager.getAnnotationColor(), null, SWT.NORMAL))),
-				new SingleLineRule("\"", "\"", new Token(new TextAttribute(highlightingManager.getStringColor(), null, SWT.NORMAL)), '\\'),
-				new SingleLineRule("'", "'", new Token(new TextAttribute(highlightingManager.getStringColor(), null, SWT.NORMAL)), '\\'),
-				new SingleLineRule("`", "`", new Token(new TextAttribute(highlightingManager.getDefaultColor(), null, SWT.ITALIC)), '\\'), 
-				wordRules});
+			new EndOfLineRule("//", new Token(new TextAttribute(highlightingManager.getCommentColor(), null, SWT.NORMAL))),
+			new MultiLineRule("/*", "*/", new Token(new TextAttribute(highlightingManager.getCommentColor(), null, SWT.NORMAL))),
+			new EndOfLineRule("@", new Token(new TextAttribute(highlightingManager.getAnnotationColor(), null, SWT.NORMAL))),
+			new EndOfLineRule("$", new Token(new TextAttribute(highlightingManager.getAnnotationColor(), null, SWT.NORMAL))),
+			new SingleLineRule("\"", "\"", new Token(new TextAttribute(highlightingManager.getStringColor(), null, SWT.NORMAL)), '\\'),
+			new SingleLineRule("'", "'", new Token(new TextAttribute(highlightingManager.getStringColor(), null, SWT.NORMAL)), '\\'),
+			new SingleLineRule("`", "`", new Token(new TextAttribute(highlightingManager.getDefaultColor(), null, SWT.ITALIC)), '\\'), 
+			wordRules
+		});
 	}
 	
 	public Color getCommentColor() {

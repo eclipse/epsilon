@@ -7,7 +7,6 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
 ******************************************************************************/
-
 package org.eclipse.epsilon.common.dt.editor;
 
 import org.eclipse.epsilon.common.dt.editor.autoclose.AutoCloseEditStrategy;
@@ -18,7 +17,6 @@ import org.eclipse.jface.text.DefaultIndentLineAutoEditStrategy;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
-import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
@@ -73,38 +71,29 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 	}
 	
 	@Override
-	public ITextDoubleClickStrategy getDoubleClickStrategy(
-			ISourceViewer sourceViewer, String contentType) {
-		ITextDoubleClickStrategy clickStrat = new ITextDoubleClickStrategy() {
-			@Override
-			public void doubleClicked(ITextViewer viewer) {
-				try {
-					IDocument doc = viewer.getDocument();
-					int caretOffset = viewer.getSelectedRange().x;
+	public ITextDoubleClickStrategy getDoubleClickStrategy(ISourceViewer sourceViewer, String contentType) {
+		return viewer -> {
+			try {
+				IDocument doc = viewer.getDocument();
+				int caretOffset = viewer.getSelectedRange().x;
 
-					int start = caretOffset;
-					int end = caretOffset;
-					boolean isIdentifierPart = Character
-							.isJavaIdentifierPart(doc.getChar(start));
+				int start = caretOffset;
+				int end = caretOffset;
+				boolean isIdentifierPart = Character.isJavaIdentifierPart(doc.getChar(start));
 
-					if (isIdentifierPart) {
-						while (Character.isJavaIdentifierPart(doc
-								.getChar(start))) {
-							start--;
-						}
-
-						while (Character.isJavaIdentifierPart(doc
-								.getChar(end))) {
-							end++;
-						}
+				if (isIdentifierPart) {
+					while (Character.isJavaIdentifierPart(doc.getChar(start))) {
+						start--;
 					}
+					while (Character.isJavaIdentifierPart(doc.getChar(end))) {
+						end++;
+					}
+				}
 
-					viewer.setSelectedRange(start + 1, end - start - 1);
+				viewer.setSelectedRange(start + 1, end - start - 1);
 
-				} catch (BadLocationException e) {}
-			}
+			} catch (BadLocationException e) {}
 		};
-		return clickStrat;
 	}
 	
 	@Override
@@ -134,13 +123,12 @@ public class AbstractModuleEditorSourceViewerConfiguration extends SourceViewerC
 	@Override
 	public IContentAssistant getContentAssistant (ISourceViewer sourceViewer) {
 		ContentAssistant assistance = new ContentAssistant();
-		assistance.setContentAssistProcessor(new AbstractModuleEditorCompletionProcessor(editor),
-				IDocument.DEFAULT_CONTENT_TYPE);
-		
+		assistance.setContentAssistProcessor(
+			new AbstractModuleEditorCompletionProcessor(editor), IDocument.DEFAULT_CONTENT_TYPE
+		);
 		assistance.enableAutoActivation (true);
 		assistance.setAutoActivationDelay(500);
-		assistance.setProposalPopupOrientation (
-				IContentAssistant.PROPOSAL_OVERLAY);
+		assistance.setProposalPopupOrientation(IContentAssistant.PROPOSAL_OVERLAY);
 		
 		return assistance;
 	}

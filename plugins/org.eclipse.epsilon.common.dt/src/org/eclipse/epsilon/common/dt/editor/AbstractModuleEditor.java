@@ -481,7 +481,6 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 	
 	@Override
 	public void doSave(IProgressMonitor progressMonitor) {
-		// TODO Auto-generated method stub
 		super.doSave(progressMonitor);
 		if (!supportsDirtyTextParsing()) parseModule();
 	}
