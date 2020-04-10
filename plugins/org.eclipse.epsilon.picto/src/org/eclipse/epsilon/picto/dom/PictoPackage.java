@@ -305,13 +305,13 @@ public interface PictoPackage extends EPackage {
 	int CUSTOM_VIEW__TYPE = 3;
 
 	/**
-	 * The feature id for the '<em><b>Content</b></em>' attribute.
+	 * The feature id for the '<em><b>Source</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CUSTOM_VIEW__CONTENT = 4;
+	int CUSTOM_VIEW__SOURCE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Position</b></em>' attribute.
@@ -651,15 +651,15 @@ public interface PictoPackage extends EPackage {
 	EAttribute getCustomView_Type();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.CustomView#getContent <em>Content</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.CustomView#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Content</em>'.
-	 * @see org.eclipse.epsilon.picto.dom.CustomView#getContent()
+	 * @return the meta object for the attribute '<em>Source</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.CustomView#getSource()
 	 * @see #getCustomView()
 	 * @generated
 	 */
-	EAttribute getCustomView_Content();
+	EAttribute getCustomView_Source();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.epsilon.picto.dom.CustomView#getPosition <em>Position</em>}'.
@@ -948,12 +948,12 @@ public interface PictoPackage extends EPackage {
 		EAttribute CUSTOM_VIEW__TYPE = eINSTANCE.getCustomView_Type();
 
 		/**
-		 * The meta object literal for the '<em><b>Content</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Source</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CUSTOM_VIEW__CONTENT = eINSTANCE.getCustomView_Content();
+		EAttribute CUSTOM_VIEW__SOURCE = eINSTANCE.getCustomView_Source();
 
 		/**
 		 * The meta object literal for the '<em><b>Position</b></em>' attribute feature.

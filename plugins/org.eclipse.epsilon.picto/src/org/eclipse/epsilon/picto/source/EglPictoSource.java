@@ -41,7 +41,7 @@ import org.eclipse.epsilon.picto.LazyEgxModule;
 import org.eclipse.epsilon.picto.LazyEgxModule.LazyGenerationRule;
 import org.eclipse.epsilon.picto.LazyEgxModule.LazyGenerationRuleContentPromise;
 import org.eclipse.epsilon.picto.ResourceLoadingException;
-import org.eclipse.epsilon.picto.StringContentPromise;
+import org.eclipse.epsilon.picto.StaticContentPromise;
 import org.eclipse.epsilon.picto.ViewTree;
 import org.eclipse.epsilon.picto.dom.CustomView;
 import org.eclipse.epsilon.picto.dom.Model;
@@ -230,21 +230,21 @@ public abstract class EglPictoSource implements PictoSource {
 			else {
 				String content = module.execute() + "";
 				viewTree = new ViewTree();
-				viewTree.setPromise(new StringContentPromise(content));
+				viewTree.setPromise(new StaticContentPromise(content));
 				viewTree.setFormat(renderingMetadata.getFormat());
 			}
 			
-			// Handle static views (i.e. where content != null)
-			for (CustomView customView : renderingMetadata.getCustomViews().stream().filter(cv -> cv.getContent() != null).collect(Collectors.toList())) {
+			// Handle static views (i.e. where source != null)
+			for (CustomView customView : renderingMetadata.getCustomViews().stream().filter(cv -> cv.getSource() != null).collect(Collectors.toList())) {
 				String format = customView.getFormat() != null ? customView.getFormat() : getDefaultFormat();
 				String icon = customView.getIcon() != null ? customView.getIcon() : getDefaultIcon();
 				
-				viewTree.add(customView.getPath(), new ViewTree(new StringContentPromise(customView.getContent()), 
+				viewTree.add(customView.getPath(), new ViewTree(new StaticContentPromise(new File(new File(customView.eResource().getURI().toFileString()).getParentFile(), customView.getSource())), 
 						format, icon, customView.getPosition(), customView.getPatches(), Collections.emptyList()));
 			}
 			
-			// Handle patches for existing views (i.e. where content == null and type/rule == null)
-			for (CustomView customView : renderingMetadata.getCustomViews().stream().filter(cv -> cv.getContent() == null && cv.getType() == null).collect(Collectors.toList())) {
+			// Handle patches for existing views (i.e. where source == null and type/rule == null)
+			for (CustomView customView : renderingMetadata.getCustomViews().stream().filter(cv -> cv.getSource() == null && cv.getType() == null).collect(Collectors.toList())) {
 				ArrayList<String> path = new ArrayList<>();
 				path.add(viewTree.getName());
 				path.addAll(customView.getPath());
@@ -300,7 +300,7 @@ public abstract class EglPictoSource implements PictoSource {
 	
 	protected ViewTree createEmptyViewTree() {
 		ViewTree viewTree = new ViewTree();
-		viewTree.setPromise(new StringContentPromise("Nothing to render"));
+		viewTree.setPromise(new StaticContentPromise("Nothing to render"));
 		viewTree.setFormat("text");
 		return viewTree;
 	}

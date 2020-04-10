@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
+import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -40,7 +41,7 @@ public class ViewTree {
 	}
 	
 	public ViewTree(String content, String format) {
-		this.promise = new StringContentPromise(content);
+		this.promise = new StaticContentPromise(content);
 		this.format = format;
 	}
 	
@@ -180,13 +181,14 @@ public class ViewTree {
 		if (cachedContent == null) {
 			
 			if (promise == null) {
-				cachedContent = new ViewContent(format, "", getLayers(), getPatches());
+				cachedContent = new ViewContent(format, "", null, getLayers(), getPatches());
 			}
 			else {
 				try {
-					cachedContent = new ViewContent(format, promise.getContent(), getLayers(), getPatches());
+					File file = promise instanceof StaticContentPromise ? ((StaticContentPromise) promise).getFile() : null;
+					cachedContent = new ViewContent(format, promise.getContent(), file, getLayers(), getPatches());
 				} catch (Exception e) {
-					cachedContent = new ViewContent("exception", e.getMessage(), getLayers(), getPatches());
+					cachedContent = new ViewContent("exception", e.getMessage(), null, getLayers(), getPatches());
 				}
 			}
 		}

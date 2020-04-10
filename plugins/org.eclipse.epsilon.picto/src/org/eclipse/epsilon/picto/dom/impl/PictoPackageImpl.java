@@ -335,7 +335,7 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 	 * @generated
 	 */
 	@Override
-	public EAttribute getCustomView_Content() {
+	public EAttribute getCustomView_Source() {
 		return (EAttribute)customViewEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -472,7 +472,7 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 		createEAttribute(customViewEClass, CUSTOM_VIEW__ICON);
 		createEAttribute(customViewEClass, CUSTOM_VIEW__FORMAT);
 		createEAttribute(customViewEClass, CUSTOM_VIEW__TYPE);
-		createEAttribute(customViewEClass, CUSTOM_VIEW__CONTENT);
+		createEAttribute(customViewEClass, CUSTOM_VIEW__SOURCE);
 		createEAttribute(customViewEClass, CUSTOM_VIEW__POSITION);
 		createEAttribute(customViewEClass, CUSTOM_VIEW__LAYERS);
 		createEReference(customViewEClass, CUSTOM_VIEW__PATCHES);
@@ -538,7 +538,7 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 		initEAttribute(getCustomView_Icon(), ecorePackage.getEString(), "icon", null, 0, 1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCustomView_Format(), ecorePackage.getEString(), "format", null, 0, 1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCustomView_Type(), ecorePackage.getEString(), "type", null, 0, 1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCustomView_Content(), ecorePackage.getEString(), "content", null, 0, 1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCustomView_Source(), ecorePackage.getEString(), "source", null, 0, 1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCustomView_Position(), ecorePackage.getEIntegerObject(), "position", null, 0, 1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCustomView_Layers(), ecorePackage.getEString(), "layers", null, 0, -1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCustomView_Patches(), this.getPatch(), null, "patches", null, 0, -1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

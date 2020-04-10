@@ -14,34 +14,10 @@ import java.io.StringWriter;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.mylyn.wikitext.markdown.MarkdownLanguage;
-import org.eclipse.mylyn.wikitext.parser.Attributes;
 import org.eclipse.mylyn.wikitext.parser.MarkupParser;
 import org.eclipse.mylyn.wikitext.parser.builder.HtmlDocumentBuilder;
-import org.eclipse.mylyn.wikitext.parser.builder.HtmlDocumentHandler;
-import org.eclipse.mylyn.wikitext.util.XmlStreamWriter;
 
 public class MarkdownContentTransformer implements ViewContentTransformer {
-	
-	public static void main(String[] args) {
-		
-		MarkupParser markupParser = new MarkupParser();
-		markupParser.setMarkupLanguage(new MarkdownLanguage());
-		System.out.println(markupParser.parseToHtml("```java\nreturn 0;\n```"));
-		/*
-		StringWriter writer = new StringWriter();
-		HtmlDocumentBuilder builder = new HtmlDocumentBuilder(writer, true) {
-			
-		};
-		
-		markupParser.
-		
-		builder.setEmitAsDocument(false);
-		
-		markupParser.setBuilder(builder);
-		markupParser.parse("```java\nreturn 0;\n```");
-		System.out.println(writer.toString());*/
-		
-	}
 	
 	@Override
 	public boolean canTransform(ViewContent content) {
@@ -59,7 +35,7 @@ public class MarkdownContentTransformer implements ViewContentTransformer {
 		markupParser.setBuilder(builder);
 		markupParser.parse(content.getText());
 		
-		return new ViewContent("html", pictoView.getViewRenderer().getZoomableHtml(writer.toString()), content.getLayers(), content.getPatches());
+		return new ViewContent("html", pictoView.getViewRenderer().getZoomableHtml(writer.toString(), content.getFile()), content.getFile(), content.getLayers(), content.getPatches());
 	}
 	
 	@Override

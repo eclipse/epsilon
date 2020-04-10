@@ -30,3 +30,7 @@ digraph G {
 Bob -> Alice [label="  Hello"]
 }
 ```
+
+## Static image
+
+![Epsilon logo](epsilon.png)

@@ -17,7 +17,7 @@ public class RenderCodeElementTransformer extends ReplacingElementTransformer {
 		
 		String text = element.getChildNodes().item(0).getTextContent();
 		String format = element.getAttribute("class").substring("language-render-".length());
-		ViewContent viewContent = new ViewContent(format, text, Collections.emptyList(), Collections.emptyList());
+		ViewContent viewContent = new ViewContent(format, text, null, Collections.emptyList(), Collections.emptyList());
 		ViewContent svgContent = null;
 		ViewContent lastContent = null;
 		

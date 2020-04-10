@@ -9,9 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.epsilon.picto.transformers.ExceptionContentTransformer;
 import org.eclipse.epsilon.picto.transformers.PatchContentTransformer;
@@ -27,7 +29,8 @@ public class ViewContent {
 	protected String label;
 	protected List<Patch> patches = new ArrayList<>();
 	protected ViewContent next = undefined;
-	protected static final ViewContent undefined = new ViewContent("We shouldn't be here","xxx", Collections.emptyList(), Collections.emptyList());
+	protected File file = null;
+	protected static final ViewContent undefined = new ViewContent("We shouldn't be here","xxx", null, Collections.emptyList(), Collections.emptyList());
 	
 	protected static List<ViewContentTransformer> viewContentTransformers;
 	
@@ -40,12 +43,13 @@ public class ViewContent {
 		return viewContentTransformers;
 	}
 	
-	public ViewContent(String format, String text, List<Layer> layers, List<Patch> patches) {
+	public ViewContent(String format, String text, File file, List<Layer> layers, List<Patch> patches) {
 		super();
 		this.format = format;
 		this.text = text;
 		this.patches = patches;
 		this.layers = layers;
+		this.file = file;
 		setLabel();
 	}
 	
@@ -112,6 +116,10 @@ public class ViewContent {
 		return layers;
 	}
 	
+	public File getFile() {
+		return file;
+	}
+	
 	@Override
 	public String toString() {
 		return text;
@@ -122,6 +130,6 @@ public class ViewContent {
 	}
 
 	public ViewContent getSourceContent(PictoView pictoView) {
-		return new ViewContent("text", text, layers, patches).getNext(pictoView);
+		return new ViewContent("text", text, file, layers, patches).getNext(pictoView);
 	}
 }

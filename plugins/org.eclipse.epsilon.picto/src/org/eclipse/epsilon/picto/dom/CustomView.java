@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getIcon <em>Icon</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getFormat <em>Format</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getContent <em>Content</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getPosition <em>Position</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getLayers <em>Layers</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.CustomView#getPatches <em>Patches</em>}</li>
@@ -110,26 +110,26 @@ public interface CustomView extends EObject {
 	void setType(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Content</b></em>' attribute.
+	 * Returns the value of the '<em><b>Source</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Content</em>' attribute.
-	 * @see #setContent(String)
-	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getCustomView_Content()
+	 * @return the value of the '<em>Source</em>' attribute.
+	 * @see #setSource(String)
+	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getCustomView_Source()
 	 * @model
 	 * @generated
 	 */
-	String getContent();
+	String getSource();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.epsilon.picto.dom.CustomView#getContent <em>Content</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.epsilon.picto.dom.CustomView#getSource <em>Source</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Content</em>' attribute.
-	 * @see #getContent()
+	 * @param value the new value of the '<em>Source</em>' attribute.
+	 * @see #getSource()
 	 * @generated
 	 */
-	void setContent(String value);
+	void setSource(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Position</b></em>' attribute.

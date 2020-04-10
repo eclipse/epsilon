@@ -57,7 +57,7 @@ public class PatchContentTransformer implements ViewContentTransformer {
 		
 		List<Patch> remainingPatches = new ArrayList<>(content.getPatches());
 		remainingPatches.removeAll(appliedPatches);
-		return new ViewContent(content.getFormat(), patchedText, content.getLayers(), remainingPatches);
+		return new ViewContent(content.getFormat(), patchedText, content.getFile(), content.getLayers(), remainingPatches);
 		
 	}
 	

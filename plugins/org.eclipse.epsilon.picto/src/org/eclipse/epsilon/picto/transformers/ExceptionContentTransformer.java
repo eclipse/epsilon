@@ -24,11 +24,11 @@ public class ExceptionContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) {
-		return new ViewContent("html", pictoView.getViewRenderer().getZoomableVerbatim(content.getText()), content.getLayers(), content.getPatches());
+		return new ViewContent("html", pictoView.getViewRenderer().getZoomableVerbatim(content.getText()), content.getFile(), content.getLayers(), content.getPatches());
 	}
 	
 	public ViewContent getViewContent(Exception ex, PictoView pictoView) {
-		return transform(new ViewContent("exception", ex.getMessage(), Collections.emptyList(), Collections.emptyList()), pictoView);
+		return transform(new ViewContent("exception", ex.getMessage(), null, Collections.emptyList(), Collections.emptyList()), pictoView);
 	}
 	
 	@Override

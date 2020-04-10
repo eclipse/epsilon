@@ -21,7 +21,7 @@ public class TextContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
-		return new ViewContent("html", pictoView.getViewRenderer().getZoomableVerbatim(content.getText()), content.getLayers(), content.getPatches());
+		return new ViewContent("html", pictoView.getViewRenderer().getZoomableVerbatim(content.getText()), content.getFile(), content.getLayers(), content.getPatches());
 	}
 
 	@Override

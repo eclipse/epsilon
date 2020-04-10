@@ -21,7 +21,7 @@ public class SvgContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
-		return new ViewContent("html", pictoView.getViewRenderer().getZoomableHtml(content.getText()), content.getLayers(), content.getPatches());
+		return new ViewContent("html", pictoView.getViewRenderer().getZoomableHtml(content.getText(), content.getFile()), content.getFile(), content.getLayers(), content.getPatches());
 	}
 	
 	@Override

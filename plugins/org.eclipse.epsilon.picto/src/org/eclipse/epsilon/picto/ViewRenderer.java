@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
+import java.io.File;
 import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -75,19 +76,21 @@ public class ViewRenderer {
 	}
 	
 	public void display(String text) {
-		browser.setText(text.replace("${picto-zoom}", zoom + ""));
+		browser.setText(text.replace("${picto-zoom}", zoom + "").replace("</base>", ""));
 	}
 	
 	public void nothingToRender() {
-		display(getZoomableHtml(""));
+		display(getZoomableHtml("", null));
 	}
 	
-	public String getZoomableHtml(String content) {
-		return "<html><body style=\"zoom:${picto-zoom}\">\n" + content + "\n</body></html>";
+	public String getZoomableHtml(String content, File file) {
+		String head = "";
+		if (file != null) head = "<head><base href=\"" + file.getParentFile().toURI() + "\"></base></head>";
+		return "<html>" + head + "<body style=\"zoom:${picto-zoom}\">\n" + content + "\n</body></html>";
 	}
 	
 	public String getZoomableVerbatim(String content) {
-		return getZoomableHtml("<pre>\n" + escapeHtml(content) + "</pre>");
+		return getZoomableHtml("<pre>\n" + escapeHtml(content) + "</pre>", null);
 	}
 	
 	private String escapeHtml(String html) {

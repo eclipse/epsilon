@@ -28,7 +28,7 @@ class CustomView {
 	attr String icon;
 	attr String format;
 	attr String type;
-	attr String content;
+	attr String source;
 	attr Integer position;
 	attr String[*] layers;
 	val Patch[*] patches;

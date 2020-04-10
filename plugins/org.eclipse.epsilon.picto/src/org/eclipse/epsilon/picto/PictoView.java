@@ -161,10 +161,13 @@ public class PictoView extends ViewPart {
 				if (locked) return;
 				Display.getCurrent().asyncExec(() -> {
 					IWorkbenchPart part = partRef.getPart(false);
-					PictoSource source = getSource((IEditorPart) part);
-					if (editor != part && part instanceof IEditorPart && source!=null) {
-						if (source instanceof VerbatimSource && !renderVerbatimSources) return;
-						render((IEditorPart) part);
+					
+					if (editor != part && part instanceof IEditorPart) {
+						PictoSource source = getSource((IEditorPart) part);
+						if (source!=null) {
+							if (source instanceof VerbatimSource && !renderVerbatimSources) return;
+							render((IEditorPart) part);
+						}
 					}
 				});
 				

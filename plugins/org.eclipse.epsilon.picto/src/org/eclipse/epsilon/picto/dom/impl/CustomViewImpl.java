@@ -35,7 +35,7 @@ import org.eclipse.epsilon.picto.dom.PictoPackage;
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getIcon <em>Icon</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getFormat <em>Format</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getContent <em>Content</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getPosition <em>Position</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getLayers <em>Layers</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl#getPatches <em>Patches</em>}</li>
@@ -116,24 +116,24 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	protected String type = TYPE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getContent() <em>Content</em>}' attribute.
+	 * The default value of the '{@link #getSource() <em>Source</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getContent()
+	 * @see #getSource()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String CONTENT_EDEFAULT = null;
+	protected static final String SOURCE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getContent() <em>Content</em>}' attribute.
+	 * The cached value of the '{@link #getSource() <em>Source</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getContent()
+	 * @see #getSource()
 	 * @generated
 	 * @ordered
 	 */
-	protected String content = CONTENT_EDEFAULT;
+	protected String source = SOURCE_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getPosition() <em>Position</em>}' attribute.
@@ -292,8 +292,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	 * @generated
 	 */
 	@Override
-	public String getContent() {
-		return content;
+	public String getSource() {
+		return source;
 	}
 
 	/**
@@ -302,11 +302,11 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 	 * @generated
 	 */
 	@Override
-	public void setContent(String newContent) {
-		String oldContent = content;
-		content = newContent;
+	public void setSource(String newSource) {
+		String oldSource = source;
+		source = newSource;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PictoPackage.CUSTOM_VIEW__CONTENT, oldContent, content));
+			eNotify(new ENotificationImpl(this, Notification.SET, PictoPackage.CUSTOM_VIEW__SOURCE, oldSource, source));
 	}
 
 	/**
@@ -403,8 +403,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				return getFormat();
 			case PictoPackage.CUSTOM_VIEW__TYPE:
 				return getType();
-			case PictoPackage.CUSTOM_VIEW__CONTENT:
-				return getContent();
+			case PictoPackage.CUSTOM_VIEW__SOURCE:
+				return getSource();
 			case PictoPackage.CUSTOM_VIEW__POSITION:
 				return getPosition();
 			case PictoPackage.CUSTOM_VIEW__LAYERS:
@@ -439,8 +439,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 			case PictoPackage.CUSTOM_VIEW__TYPE:
 				setType((String)newValue);
 				return;
-			case PictoPackage.CUSTOM_VIEW__CONTENT:
-				setContent((String)newValue);
+			case PictoPackage.CUSTOM_VIEW__SOURCE:
+				setSource((String)newValue);
 				return;
 			case PictoPackage.CUSTOM_VIEW__POSITION:
 				setPosition((Integer)newValue);
@@ -481,8 +481,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 			case PictoPackage.CUSTOM_VIEW__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
-			case PictoPackage.CUSTOM_VIEW__CONTENT:
-				setContent(CONTENT_EDEFAULT);
+			case PictoPackage.CUSTOM_VIEW__SOURCE:
+				setSource(SOURCE_EDEFAULT);
 				return;
 			case PictoPackage.CUSTOM_VIEW__POSITION:
 				setPosition(POSITION_EDEFAULT);
@@ -516,8 +516,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 				return FORMAT_EDEFAULT == null ? format != null : !FORMAT_EDEFAULT.equals(format);
 			case PictoPackage.CUSTOM_VIEW__TYPE:
 				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
-			case PictoPackage.CUSTOM_VIEW__CONTENT:
-				return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
+			case PictoPackage.CUSTOM_VIEW__SOURCE:
+				return SOURCE_EDEFAULT == null ? source != null : !SOURCE_EDEFAULT.equals(source);
 			case PictoPackage.CUSTOM_VIEW__POSITION:
 				return POSITION_EDEFAULT == null ? position != null : !POSITION_EDEFAULT.equals(position);
 			case PictoPackage.CUSTOM_VIEW__LAYERS:
@@ -548,8 +548,8 @@ public class CustomViewImpl extends MinimalEObjectImpl.Container implements Cust
 		result.append(format);
 		result.append(", type: ");
 		result.append(type);
-		result.append(", content: ");
-		result.append(content);
+		result.append(", source: ");
+		result.append(source);
 		result.append(", position: ");
 		result.append(position);
 		result.append(", layers: ");
