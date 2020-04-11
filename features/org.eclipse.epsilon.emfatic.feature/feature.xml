@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.epsilon.flexmi.feature"
-      label="Flexmi"
+      id="org.eclipse.epsilon.emfatic.feature"
+      label="Emfatic dependency discovery"
       version="1.6.0.qualifier"
       provider-name="Eclipse Modeling Project"
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">
 
    <description url="http://www.eclipse.org/epsilon">
-      Flexmi is a reflextive and fuzzy XML-based concrete syntax for EMF models.
+      This optional feature is provided purely for convenience to install Emfatic.
    </description>
 
    <copyright>
@@ -18,13 +18,6 @@
         which is available at https://www.eclipse.org/legal/epl-2.0
    </copyright>
    
-   <includes id="org.eclipse.epsilon.emf.feature" version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.epsilon.flexmi"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
+   <includes id="org.eclipse.emf.emfatic" version="0.0.0"/>
+   
 </feature>

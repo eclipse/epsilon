@@ -18,15 +18,9 @@ work with UML models.
         available under the terms of the Eclipse Public License 2.0
         which is available at https://www.eclipse.org/legal/epl-2.0
    </copyright>
-
-   <includes
-         id="org.eclipse.epsilon.dependencies.feature"
-         version="0.0.0"/>
-
-   <requires>
-      <import feature="org.eclipse.epsilon.uml.feature"/>
-      <import feature="org.eclipse.epsilon.emf.dt.feature"/>
-   </requires>
+   
+   <includes id="org.eclipse.epsilon.uml.feature" version="0.0.0"/>
+   <includes id="org.eclipse.epsilon.emf.dt.feature" version="0.0.0"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.uml.dt"

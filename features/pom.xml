@@ -24,19 +24,20 @@
     <module>org.eclipse.epsilon.emc.spreadsheets.google.feature</module>
     <module>org.eclipse.epsilon.emf.dt.feature</module>
     <module>org.eclipse.epsilon.emf.feature</module>
+    <module>org.eclipse.epsilon.emfatic.feature</module>
     <module>org.eclipse.epsilon.eugenia.feature</module>
     <module>org.eclipse.epsilon.eunit.dt.emf.feature</module>
     <module>org.eclipse.epsilon.evl.emf.validation.feature</module>
     <module>org.eclipse.epsilon.ewl.emf.feature</module>
     <module>org.eclipse.epsilon.ewl.gmf.feature</module>
-    <module>org.eclipse.epsilon.hutn.dt.feature</module>
-    <module>org.eclipse.epsilon.hutn.feature</module>
-    <module>org.eclipse.epsilon.uml.dt.feature</module>
-    <module>org.eclipse.epsilon.uml.feature</module>
-    <module>org.eclipse.epsilon.simulink.dt.feature</module>
-    <module>org.eclipse.epsilon.simulink.feature</module>
     <module>org.eclipse.epsilon.flexmi.feature</module>
     <module>org.eclipse.epsilon.flexmi.dt.feature</module>
+    <module>org.eclipse.epsilon.hutn.dt.feature</module>
+    <module>org.eclipse.epsilon.hutn.feature</module>
     <module>org.eclipse.epsilon.picto.feature</module>
+    <module>org.eclipse.epsilon.simulink.dt.feature</module>
+    <module>org.eclipse.epsilon.simulink.feature</module>
+    <module>org.eclipse.epsilon.uml.dt.feature</module>
+    <module>org.eclipse.epsilon.uml.feature</module>
   </modules>
 </project>
