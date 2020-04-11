@@ -48,6 +48,7 @@ tokens {
 	FOR;
 	IF;
 	ELSE;
+	TERNARY;
 	WHILE;
 	SWITCH;
 	CASE;
@@ -381,20 +382,24 @@ assignmentStatement
 	@after {
 		$tree.getExtraTokens().add($sem);
 	}
-	:	logicalExpression ((normal=':='^|normal='+='^|normal='-='^|normal='*='^|normal='/='^) {normal.setType(ASSIGNMENT);}|special='::='^ {special.setType(SPECIAL_ASSIGNMENT);}) logicalExpression sem=';'!
-		
+	:	logicalExpression ((normal=':='^|normal='+='^|normal='-='^|normal='*='^|normal='/='^)
+		{normal.setType(ASSIGNMENT);} | special='::='^ {special.setType(SPECIAL_ASSIGNMENT);})
+		logicalExpression sem=';'!
 	;
 
 expressionStatement
 	@after {
 		$tree.getExtraTokens().add($sem);
 	}
-	:	(postfixExpression op='='^ logicalExpression {$op.setType(OPERATOR);} | logicalExpression) sem=';'!
+	:	((postfixExpression op='='^ logicalExpression {$op.setType(OPERATOR);}) | logicalExpression) sem=';'!
 	;
 
 logicalExpression
-	:	relationalExpression ((op='or'^|op='and'^|op='xor'^|op='implies'^) relationalExpression
-		{$op.setType(OPERATOR);})*
+	:	relationalExpression (
+			((op='or'^|op='and'^|op='xor'^|op='implies'^) {$op.setType(OPERATOR);} |
+			(op='?'^ relationalExpression ('else' | ':') {$op.setType(TERNARY);})
+			) relationalExpression
+		)*
 	;
 
 relationalExpression
@@ -554,7 +559,7 @@ logicalExpressionInBrackets
 	:	ob='('^ logicalExpression cb=')'!
 	{$ob.setType(EXPRESSIONINBRACKETS);}
 	;
-	
+
 literal
 	:	STRING | INT | FLOAT | BOOLEAN
 	;

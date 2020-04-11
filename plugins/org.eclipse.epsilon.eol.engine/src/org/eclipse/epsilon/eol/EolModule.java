@@ -128,7 +128,6 @@ public class EolModule extends AbstractModule implements IEolModule {
 	
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
-		
 		if (cst == null) return null;
 		if (cst.getParent() != null && cst.getParent().getType() == EolParser.EOLMODULE && cst.getType() == EolParser.BLOCK) {
 			return new StatementBlock();
@@ -221,6 +220,7 @@ public class EolModule extends AbstractModule implements IEolModule {
 					return operatorExpressionFactory.createOperatorExpression(cst);
 				}
 			}
+			case EolParser.TERNARY: return new TernaryExpression();
 			case EolParser.CONTINUE: return new ContinueStatement();
 			case EolParser.DELETE: return new DeleteStatement();
 			case EolParser.HELPERMETHOD: return new Operation();

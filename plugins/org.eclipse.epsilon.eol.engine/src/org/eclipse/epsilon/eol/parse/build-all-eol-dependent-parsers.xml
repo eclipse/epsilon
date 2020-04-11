@@ -10,10 +10,10 @@
 	</macrodef>
 	
 	<target name="main">
-		<runParserBuildFile lang="eol"/>
-		<runParserBuildFile lang="etl"/>
-		<runParserBuildFile lang="epl"/>
-		<!--parallel threadCount="6"-->
+		<!--parallel threadCount="9"-->
+			<runParserBuildFile lang="eol"/>
+			<runParserBuildFile lang="etl"/>
+			<runParserBuildFile lang="epl"/>
 			<runParserBuildFile lang="evl"/>
 			<runParserBuildFile lang="ecl"/>
 			<runParserBuildFile lang="ewl"/>

@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.evl.parse;
 
-// $ANTLR 3.1b1 EvlParserRules.g 2020-04-08 19:05:13
+// $ANTLR 3.1b1 EvlParserRules.g 2020-04-11 14:38:07
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -52,27 +52,27 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__144=144;
     public static final int T__143=143;
     public static final int T__146=146;
-    public static final int MODELDECLARATIONPARAMETER=73;
+    public static final int MODELDECLARATIONPARAMETER=74;
     public static final int T__145=145;
-    public static final int BREAKALL=39;
+    public static final int BREAKALL=40;
     public static final int T__140=140;
     public static final int T__142=142;
-    public static final int VAR=48;
-    public static final int MODELDECLARATIONPARAMETERS=72;
+    public static final int VAR=49;
+    public static final int MODELDECLARATIONPARAMETERS=73;
     public static final int T__141=141;
-    public static final int THROW=53;
-    public static final int CONTEXT=84;
+    public static final int THROW=54;
+    public static final int CONTEXT=85;
     public static final int PARAMLIST=25;
-    public static final int EXPRLIST=54;
-    public static final int EXPRRANGE=55;
-    public static final int BREAK=38;
+    public static final int EXPRLIST=55;
+    public static final int EXPRRANGE=56;
+    public static final int BREAK=39;
     public static final int ELSE=32;
     public static final int T__137=137;
     public static final int T__136=136;
     public static final int FORMAL=24;
     public static final int IF=31;
-    public static final int MultiplicativeExpression=57;
-    public static final int TYPE=65;
+    public static final int MultiplicativeExpression=58;
+    public static final int TYPE=66;
     public static final int T__139=139;
     public static final int T__138=138;
     public static final int T__133=133;
@@ -80,18 +80,18 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__135=135;
     public static final int T__134=134;
     public static final int T__131=131;
-    public static final int NewExpression=47;
+    public static final int NewExpression=48;
     public static final int T__130=130;
-    public static final int CASE=35;
+    public static final int CASE=36;
     public static final int Letter=16;
     public static final int LINE_COMMENT=22;
     public static final int T__129=129;
-    public static final int CHECK=86;
+    public static final int CHECK=87;
     public static final int T__126=126;
     public static final int JavaIDDigit=18;
     public static final int T__125=125;
-    public static final int LAMBDAEXPR=64;
-    public static final int MAP=75;
+    public static final int LAMBDAEXPR=65;
+    public static final int MAP=76;
     public static final int T__128=128;
     public static final int T__127=127;
     public static final int T__166=166;
@@ -101,19 +101,20 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__162=162;
     public static final int T__161=161;
     public static final int T__164=164;
-    public static final int MODELDECLARATION=68;
+    public static final int MODELDECLARATION=69;
     public static final int T__163=163;
-    public static final int EXPRESSIONINBRACKETS=59;
+    public static final int EXPRESSIONINBRACKETS=60;
     public static final int T__160=160;
-    public static final int TRANSACTION=41;
+    public static final int TERNARY=33;
+    public static final int TRANSACTION=42;
     public static final int FLOAT_TYPE_SUFFIX=7;
-    public static final int CONSTRAINT=82;
-    public static final int ITEMSELECTOR=74;
+    public static final int CONSTRAINT=83;
+    public static final int ITEMSELECTOR=75;
     public static final int COMMENT=21;
-    public static final int ModelElementType=45;
-    public static final int IMPORT=67;
-    public static final int MESSAGE=89;
-    public static final int DELETE=52;
+    public static final int ModelElementType=46;
+    public static final int IMPORT=68;
+    public static final int MESSAGE=90;
+    public static final int DELETE=53;
     public static final int ARROW=11;
     public static final int T__159=159;
     public static final int T__158=158;
@@ -127,34 +128,33 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__153=153;
     public static final int T__152=152;
     public static final int Annotation=23;
-    public static final int CONTINUE=40;
-    public static final int ENUMERATION_VALUE=66;
-    public static final int OPERATOR=58;
+    public static final int CONTINUE=41;
+    public static final int ENUMERATION_VALUE=67;
+    public static final int OPERATOR=59;
     public static final int EXPONENT=6;
     public static final int STRING=14;
     public static final int T__148=148;
     public static final int T__147=147;
     public static final int T__149=149;
-    public static final int T__91=91;
     public static final int T__100=100;
-    public static final int NAMESPACE=69;
+    public static final int NAMESPACE=70;
     public static final int T__92=92;
-    public static final int COLLECTION=42;
-    public static final int NEW=49;
-    public static final int EXTENDS=80;
+    public static final int COLLECTION=43;
+    public static final int NEW=50;
+    public static final int EXTENDS=81;
     public static final int T__93=93;
     public static final int T__102=102;
-    public static final int PRE=78;
+    public static final int PRE=79;
     public static final int T__94=94;
     public static final int T__101=101;
-    public static final int POST=79;
-    public static final int ALIAS=70;
-    public static final int DRIVER=71;
-    public static final int DO=87;
-    public static final int KEYVAL=76;
-    public static final int CRITIQUE=83;
+    public static final int POST=80;
+    public static final int ALIAS=71;
+    public static final int DRIVER=72;
+    public static final int DO=88;
+    public static final int KEYVAL=77;
+    public static final int CRITIQUE=84;
     public static final int POINT_POINT=10;
-    public static final int GUARD=81;
+    public static final int GUARD=82;
     public static final int T__99=99;
     public static final int T__95=95;
     public static final int HELPERMETHOD=28;
@@ -162,36 +162,38 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__97=97;
     public static final int StatementBlock=29;
     public static final int T__98=98;
-    public static final int ABORT=43;
+    public static final int T__176=176;
+    public static final int ABORT=44;
     public static final int T__173=173;
     public static final int StrangeNameLiteral=15;
     public static final int T__172=172;
+    public static final int T__175=175;
     public static final int T__174=174;
     public static final int FOR=30;
-    public static final int BLOCK=62;
-    public static final int EVLMODULE=90;
+    public static final int BLOCK=63;
+    public static final int EVLMODULE=91;
     public static final int T__171=171;
     public static final int T__170=170;
-    public static final int PARAMETERS=46;
+    public static final int PARAMETERS=47;
     public static final int SpecialNameChar=17;
     public static final int BOOLEAN=12;
     public static final int NAME=19;
-    public static final int SWITCH=34;
+    public static final int SWITCH=35;
     public static final int T__169=169;
-    public static final int FeatureCall=60;
+    public static final int FeatureCall=61;
     public static final int T__122=122;
     public static final int T__121=121;
     public static final int T__124=124;
     public static final int FLOAT=4;
     public static final int T__123=123;
     public static final int T__120=120;
-    public static final int NativeType=56;
+    public static final int NativeType=57;
     public static final int INT=8;
-    public static final int ANNOTATIONBLOCK=50;
-    public static final int RETURN=37;
-    public static final int KEYVALLIST=77;
-    public static final int FEATURECALL=63;
-    public static final int CollectionType=44;
+    public static final int ANNOTATIONBLOCK=51;
+    public static final int RETURN=38;
+    public static final int KEYVALLIST=78;
+    public static final int FEATURECALL=64;
+    public static final int CollectionType=45;
     public static final int T__119=119;
     public static final int ASSIGNMENT=26;
     public static final int T__118=118;
@@ -206,20 +208,20 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final int T__113=113;
     public static final int T__112=112;
     public static final int EscapeSequence=13;
-    public static final int EOLMODULE=61;
+    public static final int EOLMODULE=62;
     public static final int DIGIT=5;
-    public static final int EXECUTABLEANNOTATION=51;
-    public static final int FIX=85;
+    public static final int EXECUTABLEANNOTATION=52;
+    public static final int FIX=86;
     public static final int T__108=108;
     public static final int T__107=107;
-    public static final int WHILE=33;
-    public static final int TITLE=88;
+    public static final int WHILE=34;
+    public static final int TITLE=89;
     public static final int T__109=109;
     public static final int T__104=104;
     public static final int POINT=9;
     public static final int T__103=103;
     public static final int T__106=106;
-    public static final int DEFAULT=36;
+    public static final int DEFAULT=37;
     public static final int T__105=105;
 
     // delegates
@@ -281,7 +283,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,167,FOLLOW_167_in_context73); if (state.failed) return retval;
+            c=(Token)match(input,169,FOLLOW_169_in_context73); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -292,12 +294,12 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, typeName1.getTree());
-            ob=(Token)match(input,96,FOLLOW_96_in_context80); if (state.failed) return retval;
+            ob=(Token)match(input,97,FOLLOW_97_in_context80); if (state.failed) return retval;
             // EvlParserRules.g:58:32: ( guard )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
-            if ( (LA1_0==165) ) {
+            if ( (LA1_0==167) ) {
                 alt1=1;
             }
             switch (alt1) {
@@ -322,7 +324,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 int alt2=2;
                 int LA2_0 = input.LA(1);
 
-                if ( (LA2_0==Annotation||LA2_0==105||(LA2_0>=168 && LA2_0<=169)) ) {
+                if ( (LA2_0==Annotation||LA2_0==106||(LA2_0>=170 && LA2_0<=171)) ) {
                     alt2=1;
                 }
 
@@ -346,7 +348,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 }
             } while (true);
 
-            cb=(Token)match(input,97,FOLLOW_97_in_context91); if (state.failed) return retval;
+            cb=(Token)match(input,98,FOLLOW_98_in_context91); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
               c.setType(CONTEXT);
             }
@@ -404,18 +406,18 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             // EvlParserRules.g:63:2: ( constraint | critique | annotationBlock )
             int alt3=3;
             switch ( input.LA(1) ) {
-            case 168:
+            case 170:
                 {
                 alt3=1;
                 }
                 break;
-            case 169:
+            case 171:
                 {
                 alt3=2;
                 }
                 break;
             case Annotation:
-            case 105:
+            case 106:
                 {
                 alt3=3;
                 }
@@ -530,7 +532,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            ct=(Token)match(input,168,FOLLOW_168_in_constraint130); if (state.failed) return retval;
+            ct=(Token)match(input,170,FOLLOW_170_in_constraint130); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             ct_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(ct);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(ct_tree, root_0);
@@ -540,12 +542,12 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             NAME7_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(NAME7);
             adaptor.addChild(root_0, NAME7_tree);
             }
-            ob=(Token)match(input,96,FOLLOW_96_in_constraint137); if (state.failed) return retval;
+            ob=(Token)match(input,97,FOLLOW_97_in_constraint137); if (state.failed) return retval;
             // EvlParserRules.g:73:32: ( guard )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
-            if ( (LA4_0==165) ) {
+            if ( (LA4_0==167) ) {
                 alt4=1;
             }
             switch (alt4) {
@@ -574,7 +576,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt5=2;
             int LA5_0 = input.LA(1);
 
-            if ( (LA5_0==171) ) {
+            if ( (LA5_0==173) ) {
                 alt5=1;
             }
             switch (alt5) {
@@ -599,7 +601,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 int alt6=2;
                 int LA6_0 = input.LA(1);
 
-                if ( (LA6_0==172) ) {
+                if ( (LA6_0==174) ) {
                     alt6=1;
                 }
 
@@ -623,7 +625,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 }
             } while (true);
 
-            cb=(Token)match(input,97,FOLLOW_97_in_constraint155); if (state.failed) return retval;
+            cb=(Token)match(input,98,FOLLOW_98_in_constraint155); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
               ct.setType(CONSTRAINT);
             }
@@ -694,7 +696,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            cr=(Token)match(input,169,FOLLOW_169_in_critique179); if (state.failed) return retval;
+            cr=(Token)match(input,171,FOLLOW_171_in_critique179); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             cr_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(cr);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(cr_tree, root_0);
@@ -704,12 +706,12 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             NAME12_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(NAME12);
             adaptor.addChild(root_0, NAME12_tree);
             }
-            ob=(Token)match(input,96,FOLLOW_96_in_critique186); if (state.failed) return retval;
+            ob=(Token)match(input,97,FOLLOW_97_in_critique186); if (state.failed) return retval;
             // EvlParserRules.g:84:30: ( guard )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
-            if ( (LA7_0==165) ) {
+            if ( (LA7_0==167) ) {
                 alt7=1;
             }
             switch (alt7) {
@@ -738,7 +740,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             int alt8=2;
             int LA8_0 = input.LA(1);
 
-            if ( (LA8_0==171) ) {
+            if ( (LA8_0==173) ) {
                 alt8=1;
             }
             switch (alt8) {
@@ -763,7 +765,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 int alt9=2;
                 int LA9_0 = input.LA(1);
 
-                if ( (LA9_0==172) ) {
+                if ( (LA9_0==174) ) {
                     alt9=1;
                 }
 
@@ -787,7 +789,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 }
             } while (true);
 
-            cb=(Token)match(input,97,FOLLOW_97_in_critique204); if (state.failed) return retval;
+            cb=(Token)match(input,98,FOLLOW_98_in_critique204); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
               cr.setType(CRITIQUE);
             }
@@ -846,7 +848,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            c=(Token)match(input,170,FOLLOW_170_in_check221); if (state.failed) return retval;
+            c=(Token)match(input,172,FOLLOW_172_in_check221); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             c_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(c);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(c_tree, root_0);
@@ -908,7 +910,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            m=(Token)match(input,171,FOLLOW_171_in_message240); if (state.failed) return retval;
+            m=(Token)match(input,173,FOLLOW_173_in_message240); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             m_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(m);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(m_tree, root_0);
@@ -978,17 +980,17 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            f=(Token)match(input,172,FOLLOW_172_in_fix265); if (state.failed) return retval;
+            f=(Token)match(input,174,FOLLOW_174_in_fix265); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             f_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(f);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(f_tree, root_0);
             }
-            ob=(Token)match(input,96,FOLLOW_96_in_fix270); if (state.failed) return retval;
+            ob=(Token)match(input,97,FOLLOW_97_in_fix270); if (state.failed) return retval;
             // EvlParserRules.g:103:21: ( guard )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
-            if ( (LA10_0==165) ) {
+            if ( (LA10_0==167) ) {
                 alt10=1;
             }
             switch (alt10) {
@@ -1019,7 +1021,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, fixBody21.getTree());
-            cb=(Token)match(input,97,FOLLOW_97_in_fix282); if (state.failed) return retval;
+            cb=(Token)match(input,98,FOLLOW_98_in_fix282); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
               f.setType(FIX);
             }
@@ -1077,7 +1079,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            t=(Token)match(input,173,FOLLOW_173_in_title299); if (state.failed) return retval;
+            t=(Token)match(input,175,FOLLOW_175_in_title299); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             t_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(t);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(t_tree, root_0);
@@ -1139,7 +1141,7 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            d=(Token)match(input,174,FOLLOW_174_in_fixBody318); if (state.failed) return retval;
+            d=(Token)match(input,176,FOLLOW_176_in_fixBody318); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             d_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(d);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(d_tree, root_0);
@@ -1181,44 +1183,44 @@ public class Evl_EvlParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
  
 
-    public static final BitSet FOLLOW_167_in_context73 = new BitSet(new long[]{0x0000000000080000L,0x001FE00000000000L});
-    public static final BitSet FOLLOW_typeName_in_context76 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L});
-    public static final BitSet FOLLOW_96_in_context80 = new BitSet(new long[]{0x0000000000800000L,0x0000020200000000L,0x0000032000000000L});
-    public static final BitSet FOLLOW_guard_in_context83 = new BitSet(new long[]{0x0000000000800000L,0x0000020200000000L,0x0000030000000000L});
-    public static final BitSet FOLLOW_contextContent_in_context86 = new BitSet(new long[]{0x0000000000800000L,0x0000020200000000L,0x0000030000000000L});
-    public static final BitSet FOLLOW_97_in_context91 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_169_in_context73 = new BitSet(new long[]{0x0000000000080000L,0x003FC00000000000L});
+    public static final BitSet FOLLOW_typeName_in_context76 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
+    public static final BitSet FOLLOW_97_in_context80 = new BitSet(new long[]{0x0000000000800000L,0x0000040400000000L,0x00000C8000000000L});
+    public static final BitSet FOLLOW_guard_in_context83 = new BitSet(new long[]{0x0000000000800000L,0x0000040400000000L,0x00000C0000000000L});
+    public static final BitSet FOLLOW_contextContent_in_context86 = new BitSet(new long[]{0x0000000000800000L,0x0000040400000000L,0x00000C0000000000L});
+    public static final BitSet FOLLOW_98_in_context91 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_constraint_in_contextContent106 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_critique_in_contextContent108 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_annotationBlock_in_contextContent110 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_168_in_constraint130 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_constraint133 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L});
-    public static final BitSet FOLLOW_96_in_constraint137 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000042000000000L});
-    public static final BitSet FOLLOW_guard_in_constraint140 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000042000000000L});
-    public static final BitSet FOLLOW_check_in_constraint143 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000180000000000L});
-    public static final BitSet FOLLOW_message_in_constraint145 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000100000000000L});
-    public static final BitSet FOLLOW_fix_in_constraint149 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000100000000000L});
-    public static final BitSet FOLLOW_97_in_constraint155 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_169_in_critique179 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_critique182 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L});
-    public static final BitSet FOLLOW_96_in_critique186 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000042000000000L});
-    public static final BitSet FOLLOW_guard_in_critique189 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000042000000000L});
-    public static final BitSet FOLLOW_check_in_critique192 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000180000000000L});
-    public static final BitSet FOLLOW_message_in_critique194 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000100000000000L});
-    public static final BitSet FOLLOW_fix_in_critique198 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L,0x0000100000000000L});
-    public static final BitSet FOLLOW_97_in_critique204 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_170_in_check221 = new BitSet(new long[]{0x0000000000000000L,0x0000008100000000L});
+    public static final BitSet FOLLOW_170_in_constraint130 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_constraint133 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
+    public static final BitSet FOLLOW_97_in_constraint137 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000108000000000L});
+    public static final BitSet FOLLOW_guard_in_constraint140 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000108000000000L});
+    public static final BitSet FOLLOW_check_in_constraint143 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L,0x0000600000000000L});
+    public static final BitSet FOLLOW_message_in_constraint145 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L,0x0000400000000000L});
+    public static final BitSet FOLLOW_fix_in_constraint149 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L,0x0000400000000000L});
+    public static final BitSet FOLLOW_98_in_constraint155 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_171_in_critique179 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_critique182 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
+    public static final BitSet FOLLOW_97_in_critique186 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000108000000000L});
+    public static final BitSet FOLLOW_guard_in_critique189 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000108000000000L});
+    public static final BitSet FOLLOW_check_in_critique192 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L,0x0000600000000000L});
+    public static final BitSet FOLLOW_message_in_critique194 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L,0x0000400000000000L});
+    public static final BitSet FOLLOW_fix_in_critique198 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L,0x0000400000000000L});
+    public static final BitSet FOLLOW_98_in_critique204 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_172_in_check221 = new BitSet(new long[]{0x0000000000000000L,0x0000010200000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_check224 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_171_in_message240 = new BitSet(new long[]{0x0000000000000000L,0x0000008100000000L});
+    public static final BitSet FOLLOW_173_in_message240 = new BitSet(new long[]{0x0000000000000000L,0x0000010200000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_message243 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_172_in_fix265 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L});
-    public static final BitSet FOLLOW_96_in_fix270 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000202000000000L});
-    public static final BitSet FOLLOW_guard_in_fix273 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000202000000000L});
-    public static final BitSet FOLLOW_title_in_fix276 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000400000000000L});
-    public static final BitSet FOLLOW_fixBody_in_fix278 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
-    public static final BitSet FOLLOW_97_in_fix282 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_173_in_title299 = new BitSet(new long[]{0x0000000000000000L,0x0000008100000000L});
+    public static final BitSet FOLLOW_174_in_fix265 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
+    public static final BitSet FOLLOW_97_in_fix270 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000808000000000L});
+    public static final BitSet FOLLOW_guard_in_fix273 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000808000000000L});
+    public static final BitSet FOLLOW_title_in_fix276 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0001000000000000L});
+    public static final BitSet FOLLOW_fixBody_in_fix278 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L});
+    public static final BitSet FOLLOW_98_in_fix282 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_175_in_title299 = new BitSet(new long[]{0x0000000000000000L,0x0000010200000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_title302 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_174_in_fixBody318 = new BitSet(new long[]{0x0000000000000000L,0x0000008100000000L});
+    public static final BitSet FOLLOW_176_in_fixBody318 = new BitSet(new long[]{0x0000000000000000L,0x0000010200000000L});
     public static final BitSet FOLLOW_statementBlock_in_fixBody321 = new BitSet(new long[]{0x0000000000000002L});
 
 }

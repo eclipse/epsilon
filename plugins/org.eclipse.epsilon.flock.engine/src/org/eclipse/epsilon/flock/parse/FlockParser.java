@@ -1,4 +1,4 @@
-// $ANTLR 3.1b1 C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g 2020-04-08 19:05:20
+// $ANTLR 3.1b1 C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g 2020-04-11 14:38:14
 
 package org.eclipse.epsilon.flock.parse;
 
@@ -55,32 +55,32 @@ import org.antlr.runtime.tree.*;
  ******************************************************************************/
 public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "FLOAT", "DIGIT", "EXPONENT", "FLOAT_TYPE_SUFFIX", "INT", "POINT", "POINT_POINT", "ARROW", "BOOLEAN", "EscapeSequence", "STRING", "StrangeNameLiteral", "Letter", "SpecialNameChar", "JavaIDDigit", "NAME", "WS", "COMMENT", "LINE_COMMENT", "Annotation", "FORMAL", "PARAMLIST", "ASSIGNMENT", "SPECIAL_ASSIGNMENT", "HELPERMETHOD", "StatementBlock", "FOR", "IF", "ELSE", "WHILE", "SWITCH", "CASE", "DEFAULT", "RETURN", "BREAK", "BREAKALL", "CONTINUE", "TRANSACTION", "COLLECTION", "ABORT", "CollectionType", "ModelElementType", "PARAMETERS", "NewExpression", "VAR", "NEW", "ANNOTATIONBLOCK", "EXECUTABLEANNOTATION", "DELETE", "THROW", "EXPRLIST", "EXPRRANGE", "NativeType", "MultiplicativeExpression", "OPERATOR", "EXPRESSIONINBRACKETS", "FeatureCall", "EOLMODULE", "BLOCK", "FEATURECALL", "LAMBDAEXPR", "TYPE", "ENUMERATION_VALUE", "IMPORT", "MODELDECLARATION", "NAMESPACE", "ALIAS", "DRIVER", "MODELDECLARATIONPARAMETERS", "MODELDECLARATIONPARAMETER", "ITEMSELECTOR", "MAP", "KEYVAL", "KEYVALLIST", "PRE", "POST", "EXTENDS", "GUARD", "FLOCKMODULE", "RETYPE", "RETYPEPACKAGE", "DELETEPACKAGE", "MIGRATE", "IGNORING", "'model'", "';'", "'alias'", "','", "'driver'", "'{'", "'}'", "'='", "'operation'", "'function'", "'('", "')'", "':'", "'import'", "'$'", "'!'", "'#'", "'::'", "'Native'", "'Collection'", "'Sequence'", "'List'", "'Bag'", "'Set'", "'OrderedSet'", "'Map'", "'<'", "'>'", "'for'", "'in'", "'if'", "'switch'", "'case'", "'default'", "'else'", "'while'", "'return'", "'throw'", "'delete'", "'break'", "'breakAll'", "'continue'", "'abort'", "'transaction'", "':='", "'+='", "'-='", "'*='", "'/='", "'::='", "'or'", "'and'", "'xor'", "'implies'", "'=='", "'>='", "'<='", "'<>'", "'+'", "'-'", "'*'", "'/'", "'not'", "'++'", "'--'", "'['", "']'", "'|'", "'=>'", "'new'", "'var'", "'ext'", "'pre'", "'post'", "'guard'", "'extends'", "'retype'", "'package'", "'to'", "'migrate'", "'ignoring'", "'when'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "FLOAT", "DIGIT", "EXPONENT", "FLOAT_TYPE_SUFFIX", "INT", "POINT", "POINT_POINT", "ARROW", "BOOLEAN", "EscapeSequence", "STRING", "StrangeNameLiteral", "Letter", "SpecialNameChar", "JavaIDDigit", "NAME", "WS", "COMMENT", "LINE_COMMENT", "Annotation", "FORMAL", "PARAMLIST", "ASSIGNMENT", "SPECIAL_ASSIGNMENT", "HELPERMETHOD", "StatementBlock", "FOR", "IF", "ELSE", "TERNARY", "WHILE", "SWITCH", "CASE", "DEFAULT", "RETURN", "BREAK", "BREAKALL", "CONTINUE", "TRANSACTION", "COLLECTION", "ABORT", "CollectionType", "ModelElementType", "PARAMETERS", "NewExpression", "VAR", "NEW", "ANNOTATIONBLOCK", "EXECUTABLEANNOTATION", "DELETE", "THROW", "EXPRLIST", "EXPRRANGE", "NativeType", "MultiplicativeExpression", "OPERATOR", "EXPRESSIONINBRACKETS", "FeatureCall", "EOLMODULE", "BLOCK", "FEATURECALL", "LAMBDAEXPR", "TYPE", "ENUMERATION_VALUE", "IMPORT", "MODELDECLARATION", "NAMESPACE", "ALIAS", "DRIVER", "MODELDECLARATIONPARAMETERS", "MODELDECLARATIONPARAMETER", "ITEMSELECTOR", "MAP", "KEYVAL", "KEYVALLIST", "PRE", "POST", "EXTENDS", "GUARD", "FLOCKMODULE", "RETYPE", "RETYPEPACKAGE", "DELETEPACKAGE", "MIGRATE", "IGNORING", "'model'", "';'", "'alias'", "','", "'driver'", "'{'", "'}'", "'='", "'operation'", "'function'", "'('", "')'", "':'", "'import'", "'$'", "'!'", "'#'", "'::'", "'Native'", "'Collection'", "'Sequence'", "'List'", "'Bag'", "'Set'", "'OrderedSet'", "'Map'", "'<'", "'>'", "'for'", "'in'", "'if'", "'switch'", "'case'", "'default'", "'else'", "'while'", "'return'", "'throw'", "'delete'", "'break'", "'breakAll'", "'continue'", "'abort'", "'transaction'", "':='", "'+='", "'-='", "'*='", "'/='", "'::='", "'or'", "'and'", "'xor'", "'implies'", "'?'", "'=='", "'>='", "'<='", "'<>'", "'+'", "'-'", "'*'", "'/'", "'not'", "'++'", "'--'", "'['", "']'", "'|'", "'=>'", "'new'", "'var'", "'ext'", "'pre'", "'post'", "'guard'", "'extends'", "'retype'", "'package'", "'to'", "'migrate'", "'ignoring'", "'when'"
     };
     public static final int T__144=144;
     public static final int T__143=143;
     public static final int T__146=146;
-    public static final int MODELDECLARATIONPARAMETER=73;
+    public static final int MODELDECLARATIONPARAMETER=74;
     public static final int T__145=145;
-    public static final int BREAKALL=39;
+    public static final int BREAKALL=40;
     public static final int T__140=140;
     public static final int T__142=142;
-    public static final int VAR=48;
-    public static final int MODELDECLARATIONPARAMETERS=72;
+    public static final int VAR=49;
+    public static final int MODELDECLARATIONPARAMETERS=73;
     public static final int T__141=141;
-    public static final int THROW=53;
-    public static final int RETYPE=83;
+    public static final int THROW=54;
+    public static final int RETYPE=84;
     public static final int PARAMLIST=25;
-    public static final int EXPRLIST=54;
-    public static final int EXPRRANGE=55;
-    public static final int BREAK=38;
+    public static final int EXPRLIST=55;
+    public static final int EXPRRANGE=56;
+    public static final int BREAK=39;
     public static final int ELSE=32;
     public static final int T__137=137;
     public static final int T__136=136;
     public static final int FORMAL=24;
     public static final int IF=31;
-    public static final int MultiplicativeExpression=57;
-    public static final int TYPE=65;
+    public static final int MultiplicativeExpression=58;
+    public static final int TYPE=66;
     public static final int T__139=139;
     public static final int T__138=138;
     public static final int T__133=133;
@@ -88,18 +88,18 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
     public static final int T__135=135;
     public static final int T__134=134;
     public static final int T__131=131;
-    public static final int NewExpression=47;
+    public static final int NewExpression=48;
     public static final int T__130=130;
-    public static final int DELETEPACKAGE=85;
-    public static final int CASE=35;
+    public static final int DELETEPACKAGE=86;
+    public static final int CASE=36;
     public static final int Letter=16;
     public static final int LINE_COMMENT=22;
     public static final int T__129=129;
     public static final int T__126=126;
     public static final int JavaIDDigit=18;
     public static final int T__125=125;
-    public static final int LAMBDAEXPR=64;
-    public static final int MAP=75;
+    public static final int LAMBDAEXPR=65;
+    public static final int MAP=76;
     public static final int T__128=128;
     public static final int T__127=127;
     public static final int T__166=166;
@@ -109,17 +109,18 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
     public static final int T__162=162;
     public static final int T__161=161;
     public static final int T__164=164;
-    public static final int MODELDECLARATION=68;
+    public static final int MODELDECLARATION=69;
     public static final int T__163=163;
-    public static final int EXPRESSIONINBRACKETS=59;
+    public static final int EXPRESSIONINBRACKETS=60;
     public static final int T__160=160;
-    public static final int TRANSACTION=41;
+    public static final int TERNARY=33;
+    public static final int TRANSACTION=42;
     public static final int FLOAT_TYPE_SUFFIX=7;
-    public static final int ITEMSELECTOR=74;
+    public static final int ITEMSELECTOR=75;
     public static final int COMMENT=21;
-    public static final int ModelElementType=45;
-    public static final int IMPORT=67;
-    public static final int DELETE=52;
+    public static final int ModelElementType=46;
+    public static final int IMPORT=68;
+    public static final int DELETE=53;
     public static final int ARROW=11;
     public static final int T__159=159;
     public static final int T__158=158;
@@ -132,11 +133,11 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
     public static final int T__150=150;
     public static final int T__153=153;
     public static final int T__152=152;
-    public static final int MIGRATE=86;
+    public static final int MIGRATE=87;
     public static final int Annotation=23;
-    public static final int CONTINUE=40;
-    public static final int ENUMERATION_VALUE=66;
-    public static final int OPERATOR=58;
+    public static final int CONTINUE=41;
+    public static final int ENUMERATION_VALUE=67;
+    public static final int OPERATOR=59;
     public static final int EXPONENT=6;
     public static final int STRING=14;
     public static final int T__148=148;
@@ -144,23 +145,23 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
     public static final int T__149=149;
     public static final int T__91=91;
     public static final int T__100=100;
-    public static final int NAMESPACE=69;
+    public static final int NAMESPACE=70;
     public static final int T__92=92;
-    public static final int COLLECTION=42;
-    public static final int NEW=49;
-    public static final int EXTENDS=80;
+    public static final int COLLECTION=43;
+    public static final int NEW=50;
+    public static final int EXTENDS=81;
     public static final int T__93=93;
     public static final int T__102=102;
-    public static final int PRE=78;
+    public static final int PRE=79;
     public static final int T__94=94;
     public static final int T__101=101;
-    public static final int POST=79;
+    public static final int POST=80;
     public static final int T__90=90;
-    public static final int ALIAS=70;
-    public static final int DRIVER=71;
-    public static final int KEYVAL=76;
+    public static final int ALIAS=71;
+    public static final int DRIVER=72;
+    public static final int KEYVAL=77;
     public static final int POINT_POINT=10;
-    public static final int GUARD=81;
+    public static final int GUARD=82;
     public static final int T__99=99;
     public static final int T__95=95;
     public static final int HELPERMETHOD=28;
@@ -168,33 +169,35 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
     public static final int T__97=97;
     public static final int StatementBlock=29;
     public static final int T__98=98;
-    public static final int ABORT=43;
+    public static final int ABORT=44;
     public static final int StrangeNameLiteral=15;
-    public static final int IGNORING=87;
+    public static final int IGNORING=88;
     public static final int FOR=30;
-    public static final int BLOCK=62;
-    public static final int FLOCKMODULE=82;
-    public static final int RETYPEPACKAGE=84;
-    public static final int PARAMETERS=46;
+    public static final int BLOCK=63;
+    public static final int FLOCKMODULE=83;
+    public static final int RETYPEPACKAGE=85;
+    public static final int T__171=171;
+    public static final int T__170=170;
+    public static final int PARAMETERS=47;
     public static final int SpecialNameChar=17;
     public static final int BOOLEAN=12;
     public static final int NAME=19;
-    public static final int SWITCH=34;
+    public static final int SWITCH=35;
     public static final int T__169=169;
-    public static final int FeatureCall=60;
+    public static final int FeatureCall=61;
     public static final int T__122=122;
     public static final int T__121=121;
     public static final int T__124=124;
     public static final int FLOAT=4;
     public static final int T__123=123;
     public static final int T__120=120;
-    public static final int NativeType=56;
+    public static final int NativeType=57;
     public static final int INT=8;
-    public static final int ANNOTATIONBLOCK=50;
-    public static final int RETURN=37;
-    public static final int KEYVALLIST=77;
-    public static final int FEATURECALL=63;
-    public static final int CollectionType=44;
+    public static final int ANNOTATIONBLOCK=51;
+    public static final int RETURN=38;
+    public static final int KEYVALLIST=78;
+    public static final int FEATURECALL=64;
+    public static final int CollectionType=45;
     public static final int T__119=119;
     public static final int ASSIGNMENT=26;
     public static final int T__118=118;
@@ -209,20 +212,19 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
     public static final int T__113=113;
     public static final int T__112=112;
     public static final int EscapeSequence=13;
-    public static final int EOLMODULE=61;
+    public static final int EOLMODULE=62;
     public static final int DIGIT=5;
-    public static final int EXECUTABLEANNOTATION=51;
-    public static final int T__88=88;
+    public static final int EXECUTABLEANNOTATION=52;
     public static final int T__108=108;
     public static final int T__89=89;
     public static final int T__107=107;
-    public static final int WHILE=33;
+    public static final int WHILE=34;
     public static final int T__109=109;
     public static final int T__104=104;
     public static final int POINT=9;
     public static final int T__103=103;
     public static final int T__106=106;
-    public static final int DEFAULT=36;
+    public static final int DEFAULT=37;
     public static final int T__105=105;
 
     // delegates
@@ -304,7 +306,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
                 int alt1=2;
                 int LA1_0 = input.LA(1);
 
-                if ( (LA1_0==101) ) {
+                if ( (LA1_0==102) ) {
                     alt1=1;
                 }
 
@@ -334,7 +336,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
                 int alt2=2;
                 int LA2_0 = input.LA(1);
 
-                if ( (LA2_0==88) ) {
+                if ( (LA2_0==89) ) {
                     alt2=1;
                 }
 
@@ -364,7 +366,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
                 int alt3=2;
                 int LA3_0 = input.LA(1);
 
-                if ( (LA3_0==Annotation||(LA3_0>=96 && LA3_0<=97)||LA3_0==102||LA3_0==126||(LA3_0>=160 && LA3_0<=161)||LA3_0==164||LA3_0==167) ) {
+                if ( (LA3_0==Annotation||(LA3_0>=97 && LA3_0<=98)||LA3_0==103||LA3_0==127||(LA3_0>=162 && LA3_0<=163)||LA3_0==166||LA3_0==169) ) {
                     alt3=1;
                 }
 
@@ -394,7 +396,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
 
             // AST REWRITE
-            // elements: importStatement, modelDeclaration, flockModuleContent
+            // elements: modelDeclaration, importStatement, flockModuleContent
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -489,35 +491,35 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:120:2: ( pre | retyping | deletion | migrateRule | operationDeclarationOrAnnotationBlock | post )
             int alt4=6;
             switch ( input.LA(1) ) {
-            case 160:
+            case 162:
                 {
                 alt4=1;
                 }
                 break;
-            case 164:
+            case 166:
                 {
                 alt4=2;
                 }
                 break;
-            case 126:
+            case 127:
                 {
                 alt4=3;
                 }
                 break;
-            case 167:
+            case 169:
                 {
                 alt4=4;
                 }
                 break;
             case Annotation:
-            case 96:
             case 97:
-            case 102:
+            case 98:
+            case 103:
                 {
                 alt4=5;
                 }
                 break;
-            case 161:
+            case 163:
                 {
                 alt4=6;
                 }
@@ -661,10 +663,10 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             int alt5=2;
             int LA5_0 = input.LA(1);
 
-            if ( (LA5_0==164) ) {
+            if ( (LA5_0==166) ) {
                 int LA5_1 = input.LA(2);
 
-                if ( (LA5_1==165) ) {
+                if ( (LA5_1==167) ) {
                     alt5=1;
                 }
                 else if ( (LA5_1==NAME) ) {
@@ -769,18 +771,18 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            rt=(Token)match(input,164,FOLLOW_164_in_retyping_package188); if (state.failed) return retval;
+            rt=(Token)match(input,166,FOLLOW_166_in_retyping_package188); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             rt_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(rt);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(rt_tree, root_0);
             }
-            string_literal13=(Token)match(input,165,FOLLOW_165_in_retyping_package191); if (state.failed) return retval;
+            string_literal13=(Token)match(input,167,FOLLOW_167_in_retyping_package191); if (state.failed) return retval;
             originalPackage=(Token)match(input,NAME,FOLLOW_NAME_in_retyping_package196); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             originalPackage_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(originalPackage);
             adaptor.addChild(root_0, originalPackage_tree);
             }
-            string_literal14=(Token)match(input,166,FOLLOW_166_in_retyping_package198); if (state.failed) return retval;
+            string_literal14=(Token)match(input,168,FOLLOW_168_in_retyping_package198); if (state.failed) return retval;
             migratedPackage=(Token)match(input,NAME,FOLLOW_NAME_in_retyping_package203); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             migratedPackage_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(migratedPackage);
@@ -790,7 +792,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             int alt6=2;
             int LA6_0 = input.LA(1);
 
-            if ( (LA6_0==169) ) {
+            if ( (LA6_0==171) ) {
                 alt6=1;
             }
             switch (alt6) {
@@ -866,7 +868,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            rt=(Token)match(input,164,FOLLOW_164_in_retyping_classifier229); if (state.failed) return retval;
+            rt=(Token)match(input,166,FOLLOW_166_in_retyping_classifier229); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             rt_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(rt);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(rt_tree, root_0);
@@ -877,7 +879,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, originalType.getTree());
-            string_literal16=(Token)match(input,166,FOLLOW_166_in_retyping_classifier236); if (state.failed) return retval;
+            string_literal16=(Token)match(input,168,FOLLOW_168_in_retyping_classifier236); if (state.failed) return retval;
             pushFollow(FOLLOW_packagedType_in_retyping_classifier241);
             migratedType=packagedType();
 
@@ -888,7 +890,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             int alt7=2;
             int LA7_0 = input.LA(1);
 
-            if ( (LA7_0==169) ) {
+            if ( (LA7_0==171) ) {
                 alt7=1;
             }
             switch (alt7) {
@@ -957,10 +959,10 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             int alt8=2;
             int LA8_0 = input.LA(1);
 
-            if ( (LA8_0==126) ) {
+            if ( (LA8_0==127) ) {
                 int LA8_1 = input.LA(2);
 
-                if ( (LA8_1==165) ) {
+                if ( (LA8_1==167) ) {
                     alt8=1;
                 }
                 else if ( (LA8_1==NAME) ) {
@@ -1061,12 +1063,12 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            del=(Token)match(input,126,FOLLOW_126_in_deletion_package280); if (state.failed) return retval;
+            del=(Token)match(input,127,FOLLOW_127_in_deletion_package280); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             del_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(del);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(del_tree, root_0);
             }
-            string_literal20=(Token)match(input,165,FOLLOW_165_in_deletion_package283); if (state.failed) return retval;
+            string_literal20=(Token)match(input,167,FOLLOW_167_in_deletion_package283); if (state.failed) return retval;
             pkg=(Token)match(input,NAME,FOLLOW_NAME_in_deletion_package288); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             pkg_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(pkg);
@@ -1076,7 +1078,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             int alt9=2;
             int LA9_0 = input.LA(1);
 
-            if ( (LA9_0==169) ) {
+            if ( (LA9_0==171) ) {
                 alt9=1;
             }
             switch (alt9) {
@@ -1148,7 +1150,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            del=(Token)match(input,126,FOLLOW_126_in_deletion_classifier313); if (state.failed) return retval;
+            del=(Token)match(input,127,FOLLOW_127_in_deletion_classifier313); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             del_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(del);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(del_tree, root_0);
@@ -1163,7 +1165,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             int alt10=2;
             int LA10_0 = input.LA(1);
 
-            if ( (LA10_0==169) ) {
+            if ( (LA10_0==171) ) {
                 alt10=1;
             }
             switch (alt10) {
@@ -1232,7 +1234,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             int alt11=2;
             int LA11_0 = input.LA(1);
 
-            if ( (LA11_0==167) ) {
+            if ( (LA11_0==169) ) {
                 int LA11_1 = input.LA(2);
 
                 if ( (synpred15_Flock()) ) {
@@ -1342,7 +1344,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            mig=(Token)match(input,167,FOLLOW_167_in_fullRule367); if (state.failed) return retval;
+            mig=(Token)match(input,169,FOLLOW_169_in_fullRule367); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             mig_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(mig);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(mig_tree, root_0);
@@ -1357,7 +1359,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             int alt12=2;
             int LA12_0 = input.LA(1);
 
-            if ( (LA12_0==168) ) {
+            if ( (LA12_0==170) ) {
                 alt12=1;
             }
             switch (alt12) {
@@ -1380,7 +1382,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             int alt13=2;
             int LA13_0 = input.LA(1);
 
-            if ( (LA13_0==169) ) {
+            if ( (LA13_0==171) ) {
                 alt13=1;
             }
             switch (alt13) {
@@ -1399,14 +1401,14 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
             }
 
-            ob=(Token)match(input,93,FOLLOW_93_in_fullRule382); if (state.failed) return retval;
+            ob=(Token)match(input,94,FOLLOW_94_in_fullRule382); if (state.failed) return retval;
             pushFollow(FOLLOW_block_in_fullRule387);
             body=block();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, body.getTree());
-            cb=(Token)match(input,94,FOLLOW_94_in_fullRule391); if (state.failed) return retval;
+            cb=(Token)match(input,95,FOLLOW_95_in_fullRule391); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
               mig.setType(MIGRATE); mig.setText("MIGRATE");
             }
@@ -1468,7 +1470,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            mig=(Token)match(input,167,FOLLOW_167_in_ignoringRule419); if (state.failed) return retval;
+            mig=(Token)match(input,169,FOLLOW_169_in_ignoringRule419); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             mig_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(mig);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(mig_tree, root_0);
@@ -1489,7 +1491,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             int alt14=2;
             int LA14_0 = input.LA(1);
 
-            if ( (LA14_0==169) ) {
+            if ( (LA14_0==171) ) {
                 alt14=1;
             }
             switch (alt14) {
@@ -1559,7 +1561,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            ign=(Token)match(input,168,FOLLOW_168_in_ignoring452); if (state.failed) return retval;
+            ign=(Token)match(input,170,FOLLOW_170_in_ignoring452); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             ign_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(ign);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(ign_tree, root_0);
@@ -1616,7 +1618,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
         org.eclipse.epsilon.common.parse.AST NAME30_tree=null;
         org.eclipse.epsilon.common.parse.AST char_literal31_tree=null;
         org.eclipse.epsilon.common.parse.AST NAME32_tree=null;
-        RewriteRuleTokenStream stream_91=new RewriteRuleTokenStream(adaptor,"token 91");
+        RewriteRuleTokenStream stream_92=new RewriteRuleTokenStream(adaptor,"token 92");
         RewriteRuleTokenStream stream_NAME=new RewriteRuleTokenStream(adaptor,"token NAME");
 
         try {
@@ -1632,7 +1634,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
                 int alt15=2;
                 int LA15_0 = input.LA(1);
 
-                if ( (LA15_0==91) ) {
+                if ( (LA15_0==92) ) {
                     alt15=1;
                 }
 
@@ -1641,8 +1643,8 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             	case 1 :
             	    // C:\\Users\\Sina-\\Projects\\Epsilon\\org.eclipse.epsilon\\plugins\\org.eclipse.epsilon.flock.engine/src/org/eclipse/epsilon/flock/parse/Flock.g:173:11: ',' NAME
             	    {
-            	    char_literal31=(Token)match(input,91,FOLLOW_91_in_propertyList478); if (state.failed) return retval; 
-            	    if ( state.backtracking==0 ) stream_91.add(char_literal31);
+            	    char_literal31=(Token)match(input,92,FOLLOW_92_in_propertyList478); if (state.failed) return retval; 
+            	    if ( state.backtracking==0 ) stream_92.add(char_literal31);
 
             	    NAME32=(Token)match(input,NAME,FOLLOW_NAME_in_propertyList480); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_NAME.add(NAME32);
@@ -1728,7 +1730,7 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            w=(Token)match(input,169,FOLLOW_169_in_guard503); if (state.failed) return retval;
+            w=(Token)match(input,171,FOLLOW_171_in_guard503); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             w_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(w);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(w_tree, root_0);
@@ -1781,77 +1783,77 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
     // $ANTLR end synpred15_Flock
 
     // Delegated rules
-    public Flock_EolParserRules.caseStatement_return caseStatement() throws RecognitionException { return gEolParserRules.caseStatement(); }
-    public Flock_EolParserRules.statementA_return statementA() throws RecognitionException { return gEolParserRules.statementA(); }
-    public Flock_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
-    public Flock_EolParserRules.literalMapCollection_return literalMapCollection() throws RecognitionException { return gEolParserRules.literalMapCollection(); }
-    public Flock_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
-    public Flock_EolParserRules.modelDeclarationParameters_return modelDeclarationParameters() throws RecognitionException { return gEolParserRules.modelDeclarationParameters(); }
-    public Flock_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
-    public Flock_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
-    public Flock_EolParserRules.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException { return gEolParserRules.multiplicativeExpression(); }
-    public Flock_ErlParserRules.extendz_return extendz() throws RecognitionException { return gErlParserRules.extendz(); }
-    public Flock_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
-    public Flock_EolParserRules.shortcutOperatorExpression_return shortcutOperatorExpression() throws RecognitionException { return gEolParserRules.shortcutOperatorExpression(); }
-    public Flock_EolParserRules.postfixExpression_return postfixExpression() throws RecognitionException { return gEolParserRules.postfixExpression(); }
-    public Flock_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
-    public Flock_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
-    public Flock_EolParserRules.itemSelectorExpression_return itemSelectorExpression() throws RecognitionException { return gEolParserRules.itemSelectorExpression(); }
-    public Flock_EolParserRules.operationDeclaration_return operationDeclaration() throws RecognitionException { return gEolParserRules.operationDeclaration(); }
-    public Flock_EolParserRules.deleteStatement_return deleteStatement() throws RecognitionException { return gEolParserRules.deleteStatement(); }
-    public Flock_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
-    public Flock_EolParserRules.complexFeatureCall_return complexFeatureCall() throws RecognitionException { return gEolParserRules.complexFeatureCall(); }
-    public Flock_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
-    public Flock_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
-    public Flock_ErlParserRules.pre_return pre() throws RecognitionException { return gErlParserRules.pre(); }
-    public Flock_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
-    public Flock_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
-    public Flock_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
-    public Flock_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
-    public Flock_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
-    public Flock_EolParserRules.modelDeclarationParameter_return modelDeclarationParameter() throws RecognitionException { return gEolParserRules.modelDeclarationParameter(); }
-    public Flock_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
-    public Flock_EolParserRules.keyvalExpressionList_return keyvalExpressionList() throws RecognitionException { return gEolParserRules.keyvalExpressionList(); }
-    public Flock_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
-    public Flock_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
-    public Flock_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock() throws RecognitionException { return gEolParserRules.expressionOrStatementBlock(); }
-    public Flock_EolParserRules.switchStatement_return switchStatement() throws RecognitionException { return gEolParserRules.switchStatement(); }
-    public Flock_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
-    public Flock_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
-    public Flock_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
-    public Flock_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
-    public Flock_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
-    public Flock_EolParserRules.lambdaExpression_return lambdaExpression() throws RecognitionException { return gEolParserRules.lambdaExpression(); }
-    public Flock_EolParserRules.operationDeclarationOrAnnotationBlock_return operationDeclarationOrAnnotationBlock() throws RecognitionException { return gEolParserRules.operationDeclarationOrAnnotationBlock(); }
-    public Flock_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
-    public Flock_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
-    public Flock_EolParserRules.modelDriver_return modelDriver() throws RecognitionException { return gEolParserRules.modelDriver(); }
-    public Flock_EolParserRules.packagedType_return packagedType() throws RecognitionException { return gEolParserRules.packagedType(); }
     public Flock_EolParserRules.nativeType_return nativeType() throws RecognitionException { return gEolParserRules.nativeType(); }
-    public Flock_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
-    public Flock_EolParserRules.abortStatement_return abortStatement() throws RecognitionException { return gEolParserRules.abortStatement(); }
-    public Flock_ErlParserRules.post_return post() throws RecognitionException { return gErlParserRules.post(); }
+    public Flock_EolParserRules.switchStatement_return switchStatement() throws RecognitionException { return gEolParserRules.switchStatement(); }
+    public Flock_EolParserRules.returnStatement_return returnStatement() throws RecognitionException { return gEolParserRules.returnStatement(); }
+    public Flock_EolParserRules.transactionStatement_return transactionStatement() throws RecognitionException { return gEolParserRules.transactionStatement(); }
     public Flock_EolParserRules.expressionStatement_return expressionStatement() throws RecognitionException { return gEolParserRules.expressionStatement(); }
-    public Flock_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
+    public Flock_EolParserRules.additiveExpression_return additiveExpression() throws RecognitionException { return gEolParserRules.additiveExpression(); }
+    public Flock_ErlParserRules.extendz_return extendz() throws RecognitionException { return gErlParserRules.extendz(); }
+    public Flock_EolParserRules.logicalExpressionInBrackets_return logicalExpressionInBrackets() throws RecognitionException { return gEolParserRules.logicalExpressionInBrackets(); }
+    public Flock_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
+    public Flock_EolParserRules.collectionType_return collectionType() throws RecognitionException { return gEolParserRules.collectionType(); }
+    public Flock_EolParserRules.annotationBlock_return annotationBlock() throws RecognitionException { return gEolParserRules.annotationBlock(); }
+    public Flock_EolParserRules.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException { return gEolParserRules.multiplicativeExpression(); }
+    public Flock_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
+    public Flock_EolParserRules.literalSequentialCollection_return literalSequentialCollection() throws RecognitionException { return gEolParserRules.literalSequentialCollection(); }
+    public Flock_EolParserRules.formalParameter_return formalParameter() throws RecognitionException { return gEolParserRules.formalParameter(); }
+    public Flock_EolParserRules.shortcutOperatorExpression_return shortcutOperatorExpression() throws RecognitionException { return gEolParserRules.shortcutOperatorExpression(); }
+    public Flock_EolParserRules.literalMapCollection_return literalMapCollection() throws RecognitionException { return gEolParserRules.literalMapCollection(); }
+    public Flock_EolParserRules.defaultStatement_return defaultStatement() throws RecognitionException { return gEolParserRules.defaultStatement(); }
+    public Flock_EolParserRules.parameterList_return parameterList() throws RecognitionException { return gEolParserRules.parameterList(); }
+    public Flock_EolParserRules.modelAlias_return modelAlias() throws RecognitionException { return gEolParserRules.modelAlias(); }
+    public Flock_EolParserRules.modelDeclarationParameter_return modelDeclarationParameter() throws RecognitionException { return gEolParserRules.modelDeclarationParameter(); }
+    public Flock_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
+    public Flock_EolParserRules.packagedType_return packagedType() throws RecognitionException { return gEolParserRules.packagedType(); }
     public Flock_EolParserRules.expressionListOrRange_return expressionListOrRange() throws RecognitionException { return gEolParserRules.expressionListOrRange(); }
     public Flock_EolParserRules.ifStatement_return ifStatement() throws RecognitionException { return gEolParserRules.ifStatement(); }
-    public Flock_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
     public Flock_EolParserRules.expressionList_return expressionList() throws RecognitionException { return gEolParserRules.expressionList(); }
-    public Flock_EolParserRules.defaultStatement_return defaultStatement() throws RecognitionException { return gEolParserRules.defaultStatement(); }
-    public Flock_EolParserRules.keyvalExpression_return keyvalExpression() throws RecognitionException { return gEolParserRules.keyvalExpression(); }
-    public Flock_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
-    public Flock_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
-    public Flock_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
-    public Flock_EolParserRules.block_return block() throws RecognitionException { return gEolParserRules.block(); }
-    public Flock_EolParserRules.literalSequentialCollection_return literalSequentialCollection() throws RecognitionException { return gEolParserRules.literalSequentialCollection(); }
-    public Flock_EolParserRules.simpleFeatureCall_return simpleFeatureCall() throws RecognitionException { return gEolParserRules.simpleFeatureCall(); }
-    public Flock_EolParserRules.whileStatement_return whileStatement() throws RecognitionException { return gEolParserRules.whileStatement(); }
-    public Flock_EolParserRules.annotationBlock_return annotationBlock() throws RecognitionException { return gEolParserRules.annotationBlock(); }
-    public Flock_EolParserRules.lambdaExpressionInBrackets_return lambdaExpressionInBrackets() throws RecognitionException { return gEolParserRules.lambdaExpressionInBrackets(); }
-    public Flock_EolParserRules.logicalExpressionInBrackets_return logicalExpressionInBrackets() throws RecognitionException { return gEolParserRules.logicalExpressionInBrackets(); }
-    public Flock_EolParserRules.primitiveExpression_return primitiveExpression() throws RecognitionException { return gEolParserRules.primitiveExpression(); }
     public Flock_EolParserRules.statementOrStatementBlock_return statementOrStatementBlock() throws RecognitionException { return gEolParserRules.statementOrStatementBlock(); }
+    public Flock_EolParserRules.pathName_return pathName() throws RecognitionException { return gEolParserRules.pathName(); }
+    public Flock_EolParserRules.typeName_return typeName() throws RecognitionException { return gEolParserRules.typeName(); }
+    public Flock_EolParserRules.relationalExpression_return relationalExpression() throws RecognitionException { return gEolParserRules.relationalExpression(); }
+    public Flock_EolParserRules.continueStatement_return continueStatement() throws RecognitionException { return gEolParserRules.continueStatement(); }
+    public Flock_EolParserRules.operationDeclarationOrAnnotationBlock_return operationDeclarationOrAnnotationBlock() throws RecognitionException { return gEolParserRules.operationDeclarationOrAnnotationBlock(); }
+    public Flock_EolParserRules.simpleFeatureCall_return simpleFeatureCall() throws RecognitionException { return gEolParserRules.simpleFeatureCall(); }
+    public Flock_EolParserRules.annotation_return annotation() throws RecognitionException { return gEolParserRules.annotation(); }
+    public Flock_EolParserRules.caseStatement_return caseStatement() throws RecognitionException { return gEolParserRules.caseStatement(); }
+    public Flock_EolParserRules.postfixExpression_return postfixExpression() throws RecognitionException { return gEolParserRules.postfixExpression(); }
+    public Flock_EolParserRules.operationDeclaration_return operationDeclaration() throws RecognitionException { return gEolParserRules.operationDeclaration(); }
+    public Flock_EolParserRules.forStatement_return forStatement() throws RecognitionException { return gEolParserRules.forStatement(); }
+    public Flock_EolParserRules.elseStatement_return elseStatement() throws RecognitionException { return gEolParserRules.elseStatement(); }
+    public Flock_EolParserRules.statement_return statement() throws RecognitionException { return gEolParserRules.statement(); }
+    public Flock_EolParserRules.expressionOrStatementBlock_return expressionOrStatementBlock() throws RecognitionException { return gEolParserRules.expressionOrStatementBlock(); }
+    public Flock_EolParserRules.formalParameterList_return formalParameterList() throws RecognitionException { return gEolParserRules.formalParameterList(); }
+    public Flock_EolParserRules.statementB_return statementB() throws RecognitionException { return gEolParserRules.statementB(); }
+    public Flock_EolParserRules.lambdaExpression_return lambdaExpression() throws RecognitionException { return gEolParserRules.lambdaExpression(); }
+    public Flock_EolParserRules.featureCall_return featureCall() throws RecognitionException { return gEolParserRules.featureCall(); }
+    public Flock_EolParserRules.newExpression_return newExpression() throws RecognitionException { return gEolParserRules.newExpression(); }
     public Flock_EolParserRules.unaryExpression_return unaryExpression() throws RecognitionException { return gEolParserRules.unaryExpression(); }
+    public Flock_EolParserRules.lambdaExpressionInBrackets_return lambdaExpressionInBrackets() throws RecognitionException { return gEolParserRules.lambdaExpressionInBrackets(); }
+    public Flock_ErlParserRules.post_return post() throws RecognitionException { return gErlParserRules.post(); }
+    public Flock_EolParserRules.throwStatement_return throwStatement() throws RecognitionException { return gEolParserRules.throwStatement(); }
+    public Flock_EolParserRules.breakStatement_return breakStatement() throws RecognitionException { return gEolParserRules.breakStatement(); }
+    public Flock_EolParserRules.importStatement_return importStatement() throws RecognitionException { return gEolParserRules.importStatement(); }
+    public Flock_EolParserRules.statementA_return statementA() throws RecognitionException { return gEolParserRules.statementA(); }
+    public Flock_EolParserRules.modelDriver_return modelDriver() throws RecognitionException { return gEolParserRules.modelDriver(); }
+    public Flock_EolParserRules.keyvalExpressionList_return keyvalExpressionList() throws RecognitionException { return gEolParserRules.keyvalExpressionList(); }
+    public Flock_EolParserRules.complexFeatureCall_return complexFeatureCall() throws RecognitionException { return gEolParserRules.complexFeatureCall(); }
+    public Flock_EolParserRules.itemSelectorExpression_return itemSelectorExpression() throws RecognitionException { return gEolParserRules.itemSelectorExpression(); }
+    public Flock_EolParserRules.expressionRange_return expressionRange() throws RecognitionException { return gEolParserRules.expressionRange(); }
+    public Flock_EolParserRules.logicalExpression_return logicalExpression() throws RecognitionException { return gEolParserRules.logicalExpression(); }
+    public Flock_EolParserRules.assignmentStatement_return assignmentStatement() throws RecognitionException { return gEolParserRules.assignmentStatement(); }
+    public Flock_EolParserRules.statementBlock_return statementBlock() throws RecognitionException { return gEolParserRules.statementBlock(); }
+    public Flock_EolParserRules.literal_return literal() throws RecognitionException { return gEolParserRules.literal(); }
+    public Flock_EolParserRules.variableDeclarationExpression_return variableDeclarationExpression() throws RecognitionException { return gEolParserRules.variableDeclarationExpression(); }
+    public Flock_ErlParserRules.pre_return pre() throws RecognitionException { return gErlParserRules.pre(); }
+    public Flock_EolParserRules.executableAnnotation_return executableAnnotation() throws RecognitionException { return gEolParserRules.executableAnnotation(); }
+    public Flock_EolParserRules.modelDeclarationParameters_return modelDeclarationParameters() throws RecognitionException { return gEolParserRules.modelDeclarationParameters(); }
+    public Flock_EolParserRules.deleteStatement_return deleteStatement() throws RecognitionException { return gEolParserRules.deleteStatement(); }
+    public Flock_EolParserRules.abortStatement_return abortStatement() throws RecognitionException { return gEolParserRules.abortStatement(); }
+    public Flock_EolParserRules.modelDeclaration_return modelDeclaration() throws RecognitionException { return gEolParserRules.modelDeclaration(); }
+    public Flock_EolParserRules.breakAllStatement_return breakAllStatement() throws RecognitionException { return gEolParserRules.breakAllStatement(); }
+    public Flock_EolParserRules.keyvalExpression_return keyvalExpression() throws RecognitionException { return gEolParserRules.keyvalExpression(); }
 
     public final boolean synpred15_Flock() {
         state.backtracking++;
@@ -1871,9 +1873,9 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
 
  
 
-    public static final BitSet FOLLOW_importStatement_in_flockModule104 = new BitSet(new long[]{0x0000000000800000L,0x4000006301000000L,0x0000009300000000L});
-    public static final BitSet FOLLOW_modelDeclaration_in_flockModule107 = new BitSet(new long[]{0x0000000000800000L,0x4000004301000000L,0x0000009300000000L});
-    public static final BitSet FOLLOW_flockModuleContent_in_flockModule111 = new BitSet(new long[]{0x0000000000800000L,0x4000004300000000L,0x0000009300000000L});
+    public static final BitSet FOLLOW_importStatement_in_flockModule104 = new BitSet(new long[]{0x0000000000800000L,0x800000C602000000L,0x0000024C00000000L});
+    public static final BitSet FOLLOW_modelDeclaration_in_flockModule107 = new BitSet(new long[]{0x0000000000800000L,0x8000008602000000L,0x0000024C00000000L});
+    public static final BitSet FOLLOW_flockModuleContent_in_flockModule111 = new BitSet(new long[]{0x0000000000800000L,0x8000008600000000L,0x0000024C00000000L});
     public static final BitSet FOLLOW_EOF_in_flockModule115 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_pre_in_flockModuleContent142 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_retyping_in_flockModuleContent146 = new BitSet(new long[]{0x0000000000000002L});
@@ -1883,45 +1885,45 @@ public class FlockParser extends org.eclipse.epsilon.common.parse.EpsilonParser 
     public static final BitSet FOLLOW_post_in_flockModuleContent162 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_retyping_package_in_retyping173 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_retyping_classifier_in_retyping177 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_164_in_retyping_package188 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000002000000000L});
-    public static final BitSet FOLLOW_165_in_retyping_package191 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_retyping_package196 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000004000000000L});
-    public static final BitSet FOLLOW_166_in_retyping_package198 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_retyping_package203 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000020000000000L});
+    public static final BitSet FOLLOW_166_in_retyping_package188 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000008000000000L});
+    public static final BitSet FOLLOW_167_in_retyping_package191 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_retyping_package196 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000010000000000L});
+    public static final BitSet FOLLOW_168_in_retyping_package198 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_retyping_package203 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000080000000000L});
     public static final BitSet FOLLOW_guard_in_retyping_package205 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_164_in_retyping_classifier229 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_packagedType_in_retyping_classifier234 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000004000000000L});
-    public static final BitSet FOLLOW_166_in_retyping_classifier236 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_packagedType_in_retyping_classifier241 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000020000000000L});
+    public static final BitSet FOLLOW_166_in_retyping_classifier229 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_packagedType_in_retyping_classifier234 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000010000000000L});
+    public static final BitSet FOLLOW_168_in_retyping_classifier236 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_packagedType_in_retyping_classifier241 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000080000000000L});
     public static final BitSet FOLLOW_guard_in_retyping_classifier243 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_deletion_package_in_deletion264 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_deletion_classifier_in_deletion268 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_126_in_deletion_package280 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000002000000000L});
-    public static final BitSet FOLLOW_165_in_deletion_package283 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_deletion_package288 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000020000000000L});
+    public static final BitSet FOLLOW_127_in_deletion_package280 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000008000000000L});
+    public static final BitSet FOLLOW_167_in_deletion_package283 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_deletion_package288 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000080000000000L});
     public static final BitSet FOLLOW_guard_in_deletion_package290 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_126_in_deletion_classifier313 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_packagedType_in_deletion_classifier318 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000020000000000L});
+    public static final BitSet FOLLOW_127_in_deletion_classifier313 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_packagedType_in_deletion_classifier318 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000080000000000L});
     public static final BitSet FOLLOW_guard_in_deletion_classifier320 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_fullRule_in_migrateRule342 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ignoringRule_in_migrateRule346 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_167_in_fullRule367 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_packagedType_in_fullRule372 = new BitSet(new long[]{0x0000000000000000L,0x0000000020000000L,0x0000030000000000L});
-    public static final BitSet FOLLOW_ignoring_in_fullRule374 = new BitSet(new long[]{0x0000000000000000L,0x0000000020000000L,0x0000020000000000L});
-    public static final BitSet FOLLOW_guard_in_fullRule377 = new BitSet(new long[]{0x0000000000000000L,0x0000000020000000L});
-    public static final BitSet FOLLOW_93_in_fullRule382 = new BitSet(new long[]{0x0000000000085110L,0xF8D3FC0440000000L,0x00000000E048000FL});
-    public static final BitSet FOLLOW_block_in_fullRule387 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L});
-    public static final BitSet FOLLOW_94_in_fullRule391 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_167_in_ignoringRule419 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_packagedType_in_ignoringRule424 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000010000000000L});
-    public static final BitSet FOLLOW_ignoring_in_ignoringRule426 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000020000000000L});
+    public static final BitSet FOLLOW_169_in_fullRule367 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_packagedType_in_fullRule372 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L,0x00000C0000000000L});
+    public static final BitSet FOLLOW_ignoring_in_fullRule374 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L,0x0000080000000000L});
+    public static final BitSet FOLLOW_guard_in_fullRule377 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L});
+    public static final BitSet FOLLOW_94_in_fullRule382 = new BitSet(new long[]{0x0000000000085110L,0xF1A7F80880000000L,0x000000038120001FL});
+    public static final BitSet FOLLOW_block_in_fullRule387 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L});
+    public static final BitSet FOLLOW_95_in_fullRule391 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_169_in_ignoringRule419 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_packagedType_in_ignoringRule424 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000040000000000L});
+    public static final BitSet FOLLOW_ignoring_in_ignoringRule426 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000080000000000L});
     public static final BitSet FOLLOW_guard_in_ignoringRule428 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_168_in_ignoring452 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_170_in_ignoring452 = new BitSet(new long[]{0x0000000000080000L});
     public static final BitSet FOLLOW_propertyList_in_ignoring455 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NAME_in_propertyList475 = new BitSet(new long[]{0x0000000000000002L,0x0000000008000000L});
-    public static final BitSet FOLLOW_91_in_propertyList478 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_NAME_in_propertyList480 = new BitSet(new long[]{0x0000000000000002L,0x0000000008000000L});
-    public static final BitSet FOLLOW_169_in_guard503 = new BitSet(new long[]{0x0000000000000000L,0x0000001020000000L});
+    public static final BitSet FOLLOW_NAME_in_propertyList475 = new BitSet(new long[]{0x0000000000000002L,0x0000000010000000L});
+    public static final BitSet FOLLOW_92_in_propertyList478 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_NAME_in_propertyList480 = new BitSet(new long[]{0x0000000000000002L,0x0000000010000000L});
+    public static final BitSet FOLLOW_171_in_guard503 = new BitSet(new long[]{0x0000000000000000L,0x0000002040000000L});
     public static final BitSet FOLLOW_expressionOrStatementBlock_in_guard506 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_fullRule_in_synpred15_Flock342 = new BitSet(new long[]{0x0000000000000002L});
 
