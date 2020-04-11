@@ -2,4 +2,17 @@
 operation simpleAssignment() {
 	var result = 1 > 2 ? "t" : "f";
 	assertEquals("f", result);
+	result = true ? false else true;
+	assertFalse(result);
+}
+
+@test
+operation inExpression() {
+	assertTrue((((2+2==4) and 4-1 == 3) ? "quick mafs" : null).isDefined());
+}
+
+@test
+operation nestedAssignment() {
+	var result = 10 <= 1 ? null else (300 > 300000 ? "madness" : "SPARTA!!");
+	assertEquals("SPARTA!!", result);
 }
