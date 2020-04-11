@@ -8,11 +8,20 @@ operation simpleAssignment() {
 
 @test
 operation inExpression() {
-	assertTrue((((2+2==4) and 4-1 == 3) ? "quick mafs" : null).isDefined());
+	assertTrue((((2+2==4) and 4-1==3) ? "quick mafs" : null).isDefined());
 }
 
 @test
 operation nestedAssignment() {
 	var result = 10 <= 1 ? null else (300 > 300000 ? "madness" : "SPARTA!!");
 	assertEquals("SPARTA!!", result);
+}
+
+@test
+operation reassignToSelf() {
+	var value = "status quo";
+	value = -(1/12) > 2147483647 ? "revolution" : value;
+	assertEquals("status quo", value);
+	value = value.isUndefined() ? value : "revolution";
+	assertEquals("revolution", value);
 }

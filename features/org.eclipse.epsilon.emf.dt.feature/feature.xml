@@ -27,27 +27,8 @@
          version="0.0.0"/>
 
    <requires>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.emf.edit.ui"/>
-      <import plugin="org.eclipse.epsilon.emc.emf"/>
-      <import plugin="org.eclipse.emf.ecore.editor"/>
-      <import plugin="org.eclipse.epsilon.common.dt"/>
-      <import plugin="org.eclipse.epsilon.eol.dt"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.epsilon.eol.engine"/>
-      <import plugin="org.eclipse.ui.workbench.texteditor"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.epsilon.egl.traceability.fine"/>
-      <import plugin="org.eclipse.epsilon.egl.dt"/>
-      <import plugin="org.eclipse.epsilon.flock.engine"/>
-      <import plugin="org.apache.ant"/>
-      <import plugin="org.eclipse.ant.core"/>
-      <import plugin="org.eclipse.epsilon.workflow"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.epsilon.emf.dt"/>
-      <import plugin="org.eclipse.epsilon.emc.emf.dt"/>
-      <import plugin="org.eclipse.epsilon.egl.dt.traceability.fine.emf"/>
+      <import feature="org.eclipse.epsilon.emf.feature"/>
+      <import feature="org.eclipse.epsilon.core.dt.feature"/>
    </requires>
 
    <plugin
