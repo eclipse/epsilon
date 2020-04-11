@@ -19,8 +19,8 @@ work with Simulink models.
         which is available at https://www.eclipse.org/legal/epl-2.0
    </copyright>
    
-   <includes id="org.eclipse.epsilon.core.dt.feature" version="0.0.0"/>
-   <includes id="org.eclipse.epsilon.simulink.feature" version="0.0.0"/>
+   <includes id="org.eclipse.epsilon.core.dt.feature" version="1.6.0"/>
+   <includes id="org.eclipse.epsilon.simulink.feature" version="1.6.0"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.simulink.dt"

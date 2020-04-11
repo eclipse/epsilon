@@ -20,7 +20,7 @@ work with Google Spreadsheet models in Epsilon.
         which is available at https://www.eclipse.org/legal/epl-2.0
    </copyright>
    
-   <includes id="org.eclipse.epsilon.emc.spreadsheets.feature" version="0.0.0"/>
+   <includes id="org.eclipse.epsilon.emc.spreadsheets.feature" version="1.6.0"/>
 
    <plugin
          id="org.eclipse.epsilon.emc.spreadsheets.google.dependencies"
