@@ -9,8 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.picto;
 
-import java.io.File;
-
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.graphics.Point;
 

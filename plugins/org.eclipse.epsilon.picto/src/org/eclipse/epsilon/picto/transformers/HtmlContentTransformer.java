@@ -22,6 +22,7 @@ import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
 import org.eclipse.epsilon.picto.XmlHelper;
 import org.eclipse.epsilon.picto.dom.Patch;
+import org.eclipse.epsilon.picto.transformers.elements.AbsolutePathElementTransformer;
 import org.eclipse.epsilon.picto.transformers.elements.HtmlElementTransformer;
 import org.eclipse.epsilon.picto.transformers.elements.PictoViewElementTransformer;
 import org.eclipse.epsilon.picto.transformers.elements.RenderCodeElementTransformer;
@@ -32,7 +33,14 @@ import org.w3c.dom.NodeList;
 
 public class HtmlContentTransformer implements ViewContentTransformer {
 	
-	protected List<HtmlElementTransformer> htmlElementTransformers = Arrays.asList(new PictoViewElementTransformer(), new RenderCodeElementTransformer());
+	protected List<HtmlElementTransformer> htmlElementTransformers = Arrays.asList(
+			new AbsolutePathElementTransformer("img",  "src"),
+			new AbsolutePathElementTransformer("link",  "href"),
+			new AbsolutePathElementTransformer("script",  "src"),
+			new AbsolutePathElementTransformer("a",  "href"),
+			new PictoViewElementTransformer(), 
+			new RenderCodeElementTransformer());
+	
 	protected XmlHelper xmlHelper = new XmlHelper();
 	
 	@Override
@@ -59,6 +67,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 			for (HtmlElementTransformer htmlElementTransformer : htmlElementTransformers) {
 				
 				htmlElementTransformer.setPictoView(pictoView);
+				htmlElementTransformer.setViewContent(content);
 				
 				NodeList nodeList = getElements(document, htmlElementTransformer.getXPath()); 			
 				for (int i = 0; i<nodeList.getLength(); i++) {
@@ -75,7 +84,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 	
 	protected void addBaseElementAndZoom(Document document, File file) {
 		
-		Element html, head, base, body;
+		Element html, /*head, base,*/ body;
 		Element root = document.getDocumentElement();
 		
 		// Create/get the html element
@@ -91,6 +100,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 			html.appendChild(body);
 		}
 		
+		/*
 		if (file != null) {
 		
 			// Create/get the head element
@@ -111,7 +121,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 			
 			if (!base.hasAttribute("href")) base.setAttribute("href", file.getParentFile().toURI() + "");
 			
-		}
+		}*/
 		
 		body.setAttribute("style", "zoom:${picto-zoom};" + body.getAttribute("style"));
 		
