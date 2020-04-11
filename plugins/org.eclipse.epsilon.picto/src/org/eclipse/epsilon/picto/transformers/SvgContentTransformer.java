@@ -11,9 +11,12 @@ package org.eclipse.epsilon.picto.transformers;
 
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
+import org.eclipse.epsilon.picto.XmlHelper;
 
 public class SvgContentTransformer implements ViewContentTransformer {
-
+	
+	protected XmlHelper xmlHelper = new XmlHelper();
+	
 	@Override
 	public boolean canTransform(ViewContent content) {
 		return content.getFormat().equals("svg");
@@ -21,7 +24,7 @@ public class SvgContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) throws Exception {
-		return new ViewContent("html", pictoView.getViewRenderer().getZoomableHtml(content.getText(), content.getFile()), content.getFile(), content.getLayers(), content.getPatches());
+		return new ViewContent("html", pictoView.getViewRenderer().getHtml(removeXmlDeclaration(content.getText())), content.getFile(), content.getLayers(), content.getPatches());
 	}
 	
 	@Override
@@ -29,4 +32,12 @@ public class SvgContentTransformer implements ViewContentTransformer {
 		return "SVG";
 	}
 	
+	public String removeXmlDeclaration(String xml) {
+		try {
+			return xmlHelper.getXml(xmlHelper.parse(xml));
+		}
+		catch (Exception ex) {
+			return xml;
+		}
+	}
 }

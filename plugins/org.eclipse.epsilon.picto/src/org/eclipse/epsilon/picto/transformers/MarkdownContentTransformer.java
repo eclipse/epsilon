@@ -35,7 +35,7 @@ public class MarkdownContentTransformer implements ViewContentTransformer {
 		markupParser.setBuilder(builder);
 		markupParser.parse(content.getText());
 		
-		return new ViewContent("html", pictoView.getViewRenderer().getZoomableHtml(writer.toString(), content.getFile()), content.getFile(), content.getLayers(), content.getPatches());
+		return new ViewContent("html", pictoView.getViewRenderer().getHtml(writer.toString()), content.getFile(), content.getLayers(), content.getPatches());
 	}
 	
 	@Override

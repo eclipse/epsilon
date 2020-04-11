@@ -31,8 +31,7 @@ Require-Bundle: org.eclipse.epsilon.flexmi,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.epsilon.eol.dt,
  org.eclipse.mylyn.wikitext,
- org.eclipse.mylyn.wikitext.markdown,
- org.eclipse.epsilon.emc.plainxml
+ org.eclipse.mylyn.wikitext.markdown
 Bundle-Activator: org.eclipse.epsilon.picto.PictoPlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.epsilon.picto,

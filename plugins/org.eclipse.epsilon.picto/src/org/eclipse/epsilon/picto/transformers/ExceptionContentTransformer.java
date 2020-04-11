@@ -13,7 +13,6 @@ import java.util.Collections;
 
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
-import org.eclipse.epsilon.picto.ViewRenderer;
 
 public class ExceptionContentTransformer implements ViewContentTransformer {
 
@@ -24,7 +23,7 @@ public class ExceptionContentTransformer implements ViewContentTransformer {
 
 	@Override
 	public ViewContent transform(ViewContent content, PictoView pictoView) {
-		return new ViewContent("html", pictoView.getViewRenderer().getZoomableVerbatim(content.getText()), content.getFile(), content.getLayers(), content.getPatches());
+		return new ViewContent("html", pictoView.getViewRenderer().getVerbatim(content.getText()), content.getFile(), content.getLayers(), content.getPatches());
 	}
 	
 	public ViewContent getViewContent(Exception ex, PictoView pictoView) {

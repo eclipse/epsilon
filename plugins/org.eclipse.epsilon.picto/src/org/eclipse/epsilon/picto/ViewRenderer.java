@@ -10,33 +10,18 @@
 package org.eclipse.epsilon.picto;
 
 import java.io.File;
-import java.io.StringWriter;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.graphics.Point;
-import org.w3c.dom.Document;
-import org.w3c.dom.Text;
 
 public class ViewRenderer {
 	
 	protected Browser browser;
 	protected double zoom = 1.0;
-	protected DocumentBuilder documentBuilder;
+	protected XmlHelper xmlHelper = new XmlHelper();
 	
 	public ViewRenderer(Browser browser) {
 		this.browser = browser;
-		try {
-			documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		}
-		catch (Exception ex) {}
 	}
 	
 	public Browser getBrowser() {
@@ -72,42 +57,23 @@ public class ViewRenderer {
 	}
 	
 	public void display(Exception ex) {
-		display(getZoomableVerbatim(ex.getMessage()));
+		display(getVerbatim(ex.getMessage()));
 	}
 	
 	public void display(String text) {
-		browser.setText(text.replace("${picto-zoom}", zoom + "").replace("</base>", ""));
+		browser.setText(text.replace("${picto-zoom}", zoom + ""));
 	}
 	
 	public void nothingToRender() {
-		display(getZoomableHtml("", null));
+		display(getHtml(""));
 	}
 	
-	public String getZoomableHtml(String content, File file) {
-		String head = "";
-		if (file != null) head = "<head><base href=\"" + file.getParentFile().toURI() + "\"></base></head>";
-		return "<html>" + head + "<body style=\"zoom:${picto-zoom}\">\n" + content + "\n</body></html>";
+	public String getHtml(String content) {
+		return "<html><body>" + content + "</body></html>";
 	}
 	
-	public String getZoomableVerbatim(String content) {
-		return getZoomableHtml("<pre>\n" + escapeHtml(content) + "</pre>", null);
-	}
-	
-	private String escapeHtml(String html) {
-		try {
-			Document document = documentBuilder.newDocument();
-			Text text = document.createTextNode(html);
-			Transformer transformer = TransformerFactory.newInstance().newTransformer();
-			DOMSource source = new DOMSource(text);
-			StringWriter writer = new StringWriter();
-			StreamResult result = new StreamResult(writer);
-			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-			transformer.transform(source, result);
-			return writer.toString();
-		}
-		catch (Exception ex) {
-			return html;
-		}
+	public String getVerbatim(String content) {
+		return getHtml("<pre>\n" + xmlHelper.escapeHtml(content) + "</pre>");
 	}
 	
 	public enum ZoomType {
@@ -115,9 +81,5 @@ public class ViewRenderer {
 		OUT,
 		ACTUAL
 	}
-	
-	
-	
-	
 	
 }

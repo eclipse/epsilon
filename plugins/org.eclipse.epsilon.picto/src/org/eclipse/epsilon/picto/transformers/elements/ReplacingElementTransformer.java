@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.eclipse.epsilon.picto.ViewContent;
-import org.eclipse.epsilon.picto.transformers.HtmlContentTransformer;
+import org.eclipse.epsilon.picto.XmlHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -13,10 +13,12 @@ import org.w3c.dom.Node;
 
 public abstract class ReplacingElementTransformer extends AbstractHtmlElementTransformer {
 	
+	protected XmlHelper xmlHelper = new XmlHelper();
+	
 	protected void replace(Element element, ViewContent viewContent, boolean svgContent) {
 		if (svgContent) {
 			try {
-				Document document = new HtmlContentTransformer().parse(viewContent.getText());
+				Document document = xmlHelper.parse(viewContent.getText());
 				Element svg = document.getDocumentElement();
 				element.getOwnerDocument().importNode(svg, true);
 				element.getOwnerDocument().adoptNode(svg);

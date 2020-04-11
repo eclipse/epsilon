@@ -10,79 +10,30 @@
 package org.eclipse.epsilon.picto.transformers;
 
 import java.io.File;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
-import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
-import org.eclipse.epsilon.eol.EolModule;
-import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.picto.Layer;
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
+import org.eclipse.epsilon.picto.XmlHelper;
 import org.eclipse.epsilon.picto.dom.Patch;
 import org.eclipse.epsilon.picto.transformers.elements.HtmlElementTransformer;
 import org.eclipse.epsilon.picto.transformers.elements.PictoViewElementTransformer;
 import org.eclipse.epsilon.picto.transformers.elements.RenderCodeElementTransformer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 public class HtmlContentTransformer implements ViewContentTransformer {
 	
 	protected List<HtmlElementTransformer> htmlElementTransformers = Arrays.asList(new PictoViewElementTransformer(), new RenderCodeElementTransformer());
-	protected DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-	protected TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	protected Transformer transformer;
-	protected DocumentBuilder documentBuilder;
-	
-	public HtmlContentTransformer() {
-		try {
-			transformer = transformerFactory.newTransformer();
-			documentBuilderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-			documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		}
-		catch (Exception ex) {}
-	}
-	
-	protected String transformElements(Document document, PictoView picto) throws Exception {
-		
-		for (HtmlElementTransformer htmlElementTransformer : htmlElementTransformers) {
-			
-			htmlElementTransformer.setPictoView(picto);
-			
-			NodeList nodeList = getElements(document, htmlElementTransformer.getXPath()); 			
-			for (int i = 0; i<nodeList.getLength(); i++) {
-				htmlElementTransformer.transform((Element) nodeList.item(i));
-			}
-		}
-		
-		StringWriter writer = new StringWriter();
-		StreamResult result = new StreamResult(writer);
-		transformer.setOutputProperty(OutputKeys.METHOD, "html");
-		//transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		transformer.transform(new DOMSource(document.getDocumentElement()), result);
-		
-		return writer.toString();
-	}
-	
-	public Document parse(String xml) throws Exception {
-		return documentBuilder.parse(new InputSource(new StringReader(xml)));
-	}
+	protected XmlHelper xmlHelper = new XmlHelper();
 	
 	@Override
 	public boolean canTransform(ViewContent content) {
@@ -102,55 +53,77 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 		String text = content.getText();
 		
 		try {
-			Document document = parse(text);
-			
-			boolean transformToFinalViewContent = addBaseElement(document, content.getFile());
+			Document document = xmlHelper.parse(text);
+			addBaseElementAndZoom(document, content.getFile());
 			
 			for (HtmlElementTransformer htmlElementTransformer : htmlElementTransformers) {
-				if (getElements(document, htmlElementTransformer.getXPath()).getLength() > 0) {
-					transformToFinalViewContent = true;
-					break;
+				
+				htmlElementTransformer.setPictoView(pictoView);
+				
+				NodeList nodeList = getElements(document, htmlElementTransformer.getXPath()); 			
+				for (int i = 0; i<nodeList.getLength(); i++) {
+					htmlElementTransformer.transform((Element) nodeList.item(i));
 				}
 			}
 			
-			if (transformToFinalViewContent) {
-				return new FinalViewContent("html", transformElements(document, pictoView), content.getFile(), content.getLayers(), content.getPatches());
-			}
-			else {
-				return null;
-			}
-			
+			return new FinalViewContent("html", xmlHelper.getXml(document), content.getFile(), content.getLayers(), content.getPatches());
 		}
 		catch (Exception ex) {
 			return null;
 		}
 	}
 	
-	protected boolean addBaseElement(Document document, File file) {
+	protected void addBaseElementAndZoom(Document document, File file) {
 		
-		if (file == null) return false;
+		Element html, head, base, body;
+		Element root = document.getDocumentElement();
 		
-		try {
-			EolModule module = new EolModule();
-			module.getContext().getModelRepository().addModel(new InMemoryPlainXmlModel(document));
-			// If the HTML document has no html/body, this will fail and return false
-			module.parse("var html = t_html.all.first(); if (html.isUndefined()) return false;" +
-					 	 "var head = t_head.all.first();" +
-					 	 "var base = t_base.all.first();" +
-					     "if (html.isUndefined()) return false;" +
-						 "if (head.isUndefined()) { head = new t_head; if (html.children.notEmpty()) html.insertBefore(head, html.children.first()); else html.appendChild(head); }" +
-						 "if (base.isUndefined()) { base = new t_base; if (head.children.notEmpty()) head.insertBefore(base, head.children.first()); else head.appendChild(base); }" +
-						 "base.a_href = baseUri;" + 
-						 "var body = t_body.all.first(); if (body.isUndefined()) return false;" +
-						 "body.a_style = 'zoom:${picto-zoom};' + body.a_style;" +
-						 "return true;");
-			module.getContext().getFrameStack().put(Variable.createReadOnlyVariable("baseUri", file.getParentFile().toURI().toString()));
-			
-			return (Boolean) module.execute();
-		} catch (Exception e) {
-			LogUtil.log(e);
-			return false;
+		// Create/get the html element
+		if (root.getNodeName().equalsIgnoreCase("html")) html = root;
+		else {
+			html = document.createElement("html");
 		}
+		
+		// Create/get the body element
+		body = getElementByName(html, "body");
+		if (body == null) {
+			body = document.createElement("body");
+			html.appendChild(body);
+		}
+		
+		if (file != null) {
+		
+			// Create/get the head element
+			head = getElementByName(html, "head");
+			if (head == null) {
+				head = document.createElement("head");
+				if (html.hasChildNodes()) html.insertBefore(head, html.getFirstChild());
+				else html.appendChild(head);
+			}
+			
+			// Create/get the head element
+			base = getElementByName(html, "base");
+			if (base == null) {
+				base = document.createElement("base");
+				if (head.hasChildNodes()) head.insertBefore(base, head.getFirstChild());
+				else head.appendChild(base);
+			}
+			
+			if (!base.hasAttribute("href")) base.setAttribute("href", file.getParentFile().toURI() + "");
+			
+		}
+		
+		body.setAttribute("style", "zoom:${picto-zoom};" + body.getAttribute("style"));
+		
+	}
+	
+	protected Element getElementByName(Element parent, String name) {
+		NodeList nodeList = parent.getChildNodes();
+		for (int i=0;i<nodeList.getLength();i++) {
+			Node node = nodeList.item(i);
+			if (node.getNodeName().equalsIgnoreCase(name)) return (Element) node;
+		}
+		return null;
 	}
 	
 	protected NodeList getElements(Document document, String xpath) throws Exception {
@@ -165,12 +138,6 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 			super(format, text, file, layers, patches);
 		}
 		
-	}
-	
-	class InMemoryPlainXmlModel extends PlainXmlModel {
-		public InMemoryPlainXmlModel(Document document) {
-			this.document = document;
-		}
 	}
 	
 }

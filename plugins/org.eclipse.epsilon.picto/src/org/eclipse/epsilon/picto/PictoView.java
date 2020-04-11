@@ -304,7 +304,7 @@ public class PictoView extends ViewPart {
 					@Override
 					public void runWithException() throws Exception {
 						setTreeViewerVisible(false);
-						renderView(new ViewTree(viewRenderer.getZoomableVerbatim(ex.getMessage()), "html"));
+						renderView(new ViewTree(viewRenderer.getVerbatim(ex.getMessage()), "html"));
 					}
 				});
 			} catch (Exception e) {
