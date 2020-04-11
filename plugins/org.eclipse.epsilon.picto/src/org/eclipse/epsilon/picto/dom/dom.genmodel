@@ -25,6 +25,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Parameter/value"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Parameter/values"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//Parameter/file"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dom.ecore#//Parameter/items"/>
     </genClasses>
     <genClasses ecoreClass="dom.ecore#//CustomView">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dom.ecore#//CustomView/path"/>

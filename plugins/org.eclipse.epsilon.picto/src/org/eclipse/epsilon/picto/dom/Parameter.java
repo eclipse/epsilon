@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.epsilon.picto.dom.Parameter#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Parameter#getValues <em>Values</em>}</li>
  *   <li>{@link org.eclipse.epsilon.picto.dom.Parameter#getFile <em>File</em>}</li>
+ *   <li>{@link org.eclipse.epsilon.picto.dom.Parameter#getItems <em>Items</em>}</li>
  * </ul>
  *
  * @see org.eclipse.epsilon.picto.dom.PictoPackage#getParameter()
@@ -102,5 +103,17 @@ public interface Parameter extends EObject {
 	 * @generated
 	 */
 	void setFile(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Items</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.epsilon.picto.dom.Parameter}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Items</em>' containment reference list.
+	 * @see org.eclipse.epsilon.picto.dom.PictoPackage#getParameter_Items()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Parameter> getItems();
 
 } // Parameter

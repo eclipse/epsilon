@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -87,7 +89,7 @@ public abstract class EglPictoSource implements PictoSource {
 			//else {
 			if (resource != null) {
 				model = new InMemoryEmfModel("M", resource);
-				((InMemoryEmfModel) model).setExpand(false);
+				((InMemoryEmfModel) model).setExpand(true);
 			}
 			//}
 			
@@ -161,8 +163,7 @@ public abstract class EglPictoSource implements PictoSource {
 						for (Parameter parameter : customView.getParameters()) {
 							Variable variable = contentPromise.getVariables().stream().filter(v -> v.getName().equals(parameter.getName())).findFirst().orElse(null);
 							
-							Object value = parameter.getValue();
-							if (value == null) value = parameter.getValues();
+							Object value = getValue(parameter);
 							
 							if (variable != null) {
 								variable.setValue(value, module.getContext());
@@ -354,6 +355,39 @@ public abstract class EglPictoSource implements PictoSource {
 	@Override
 	public boolean supports(IEditorPart editorPart) {
 		return supportsEditorType(editorPart) && getRenderingMetadata(editorPart) != null;
+	}
+	
+	public Object getValue(Parameter parameter) {
+		Object value = parameter.getValue();
+		if (value == null) {
+			if (parameter.eIsSet(PictoPackage.Literals.PARAMETER__VALUES)) {
+				value = parameter.getValues();
+			}
+		}
+		
+		if (value == null) {
+			if (!parameter.getItems().isEmpty()) {
+				// If one of the nested items has a name, then the parameter is a map
+				boolean map = parameter.getItems().stream().anyMatch(item -> item.getName() != null);
+				System.out.println("MAP: " + map);
+				if (map) {
+					HashMap<String, Object> values = new LinkedHashMap<String, Object>();
+					for (Parameter item : parameter.getItems()) {
+						String key = item.getName();
+						if (key == null) key = "";
+						values.put(key, getValue(item));
+					}
+					value = values;
+				}
+				else {
+					List<Object> values = new ArrayList<Object>();
+					values.addAll(parameter.getItems().stream().map(item -> getValue(item)).collect(Collectors.toList()));
+					value = values;
+				}
+			}
+		}
+		
+		return value;
 	}
 	
 	protected abstract Picto getRenderingMetadata(IEditorPart editorPart);

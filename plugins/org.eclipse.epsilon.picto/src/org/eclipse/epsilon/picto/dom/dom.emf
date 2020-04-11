@@ -21,6 +21,7 @@ class Parameter {
 	attr Object value;
 	attr Object[*] values;
 	attr String file;
+	val Parameter[*] items;
 }
 
 class CustomView {

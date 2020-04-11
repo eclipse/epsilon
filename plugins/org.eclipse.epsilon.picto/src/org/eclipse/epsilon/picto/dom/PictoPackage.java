@@ -240,13 +240,22 @@ public interface PictoPackage extends EPackage {
 	int PARAMETER__FILE = 3;
 
 	/**
+	 * The feature id for the '<em><b>Items</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__ITEMS = 4;
+
+	/**
 	 * The number of structural features of the '<em>Parameter</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARAMETER_FEATURE_COUNT = 4;
+	int PARAMETER_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Parameter</em>' class.
@@ -597,6 +606,17 @@ public interface PictoPackage extends EPackage {
 	EAttribute getParameter_File();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.epsilon.picto.dom.Parameter#getItems <em>Items</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Items</em>'.
+	 * @see org.eclipse.epsilon.picto.dom.Parameter#getItems()
+	 * @see #getParameter()
+	 * @generated
+	 */
+	EReference getParameter_Items();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.epsilon.picto.dom.CustomView <em>Custom View</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -904,6 +924,14 @@ public interface PictoPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PARAMETER__FILE = eINSTANCE.getParameter_File();
+
+		/**
+		 * The meta object literal for the '<em><b>Items</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARAMETER__ITEMS = eINSTANCE.getParameter_Items();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.epsilon.picto.dom.impl.CustomViewImpl <em>Custom View</em>}' class.

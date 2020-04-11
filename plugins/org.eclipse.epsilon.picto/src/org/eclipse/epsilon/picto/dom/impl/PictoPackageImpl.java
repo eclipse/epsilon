@@ -285,6 +285,16 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 	 * @generated
 	 */
 	@Override
+	public EReference getParameter_Items() {
+		return (EReference)parameterEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getCustomView() {
 		return customViewEClass;
 	}
@@ -466,6 +476,7 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 		createEAttribute(parameterEClass, PARAMETER__VALUE);
 		createEAttribute(parameterEClass, PARAMETER__VALUES);
 		createEAttribute(parameterEClass, PARAMETER__FILE);
+		createEReference(parameterEClass, PARAMETER__ITEMS);
 
 		customViewEClass = createEClass(CUSTOM_VIEW);
 		createEAttribute(customViewEClass, CUSTOM_VIEW__PATH);
@@ -532,6 +543,7 @@ public class PictoPackageImpl extends EPackageImpl implements PictoPackage {
 		initEAttribute(getParameter_Value(), ecorePackage.getEJavaObject(), "value", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getParameter_Values(), ecorePackage.getEJavaObject(), "values", null, 0, -1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getParameter_File(), ecorePackage.getEString(), "file", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getParameter_Items(), this.getParameter(), null, "items", null, 0, -1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(customViewEClass, CustomView.class, "CustomView", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCustomView_Path(), ecorePackage.getEString(), "path", null, 0, -1, CustomView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
