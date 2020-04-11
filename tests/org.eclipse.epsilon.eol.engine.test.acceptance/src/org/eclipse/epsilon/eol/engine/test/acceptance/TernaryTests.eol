@@ -25,3 +25,18 @@ operation reassignToSelf() {
 	value = value.isUndefined() ? value : "revolution";
 	assertEquals("revolution", value);
 }
+
+@test
+operation assertLazy() {
+	var b = false;
+	var result = b ? neverCalled() : "Yes".getResult();
+	assertEquals(1, result);
+}
+
+operation String getResult() : Integer {
+	return 1;
+}
+
+operation neverCalled() {
+	throw true ? "Shouldn't be here!" : "Something has gone catastrophically wrong if you're seeing this in the stack trace";
+}
