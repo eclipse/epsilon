@@ -62,7 +62,7 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 		
 		try {
 			Document document = xmlHelper.parse(text);
-			addBaseElementAndZoom(document, content.getFile());
+			addZoom(document);
 			
 			for (HtmlElementTransformer htmlElementTransformer : htmlElementTransformers) {
 				
@@ -82,9 +82,9 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 		}
 	}
 	
-	protected void addBaseElementAndZoom(Document document, File file) {
+	protected void addZoom(Document document) {
 		
-		Element html, /*head, base,*/ body;
+		Element html, body;
 		Element root = document.getDocumentElement();
 		
 		// Create/get the html element
@@ -99,29 +99,6 @@ public class HtmlContentTransformer implements ViewContentTransformer {
 			body = document.createElement("body");
 			html.appendChild(body);
 		}
-		
-		/*
-		if (file != null) {
-		
-			// Create/get the head element
-			head = getElementByName(html, "head");
-			if (head == null) {
-				head = document.createElement("head");
-				if (html.hasChildNodes()) html.insertBefore(head, html.getFirstChild());
-				else html.appendChild(head);
-			}
-			
-			// Create/get the head element
-			base = getElementByName(html, "base");
-			if (base == null) {
-				base = document.createElement("base");
-				if (head.hasChildNodes()) head.insertBefore(base, head.getFirstChild());
-				else head.appendChild(base);
-			}
-			
-			if (!base.hasAttribute("href")) base.setAttribute("href", file.getParentFile().toURI() + "");
-			
-		}*/
 		
 		body.setAttribute("style", "zoom:${picto-zoom};" + body.getAttribute("style"));
 		
