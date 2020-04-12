@@ -1,5 +1,4 @@
 [%
-
 // If the root EPackage has a @constraints(file="foo.evl")
 // annotation, parse the constraints into an EVL module
 var module = getValidationModule();
@@ -68,11 +67,11 @@ digraph G {
 			
 			[%if (isLayerActive("referenceLabels")){%]
 				[%for (r in getBidirectionalReferences().select(r|r.eContainer = c)){%]
-				[%=r.getNodeName()%][label="[%=r.name%]/\n[%=r.eOpposite.name%]", shape=plaintext, margin=0,width=0,height=0]
+				[%=r.getNodeName()%][label="[%=r.getEdgeLabel()%]/\n[%=r.eOpposite.getEdgeLabel()%]", shape=plaintext, margin=0,width=0,height=0]
 				[%}%]
 				
 				[%for (r in getUnidirectionalReferences().select(r|r.eContainer = c)){%]
-				[%=r.getNodeName()%][label="[%=r.name%]", shape=plaintext, margin=0,width=0,height=0]
+				[%=r.getNodeName()%][label="[%=r.getEdgeLabel()%]", shape=plaintext, margin=0,width=0,height=0]
 				[%}%]
 			[%}%]
 			
@@ -138,6 +137,38 @@ digraph G {
 
 [%
 
+operation EReference getEdgeLabel() {
+	var label = "";
+	if (self.isDerived()) label = "/" + label;
+	label += self.name + self.getEdgeMultiplicityLabel();
+	return label;
+}
+
+operation EReference getEdgeMultiplicityLabel() {
+	if (self.isMany()) {
+		return self.getMultiplicityLabel();
+	}
+	else {
+		return "[" + self.lowerBound + ".." + self.upperBound + "]";
+	}
+}
+
+operation EStructuralFeature getMultiplicityLabel() {
+	var label = "";
+	if (self.isMany) {
+		label += "[";
+		if (self.lowerBound <> 0) label += self.lowerBound + "..";
+		if (self.upperBound == -1) {
+			label += "*";
+		}
+		else {
+			label += self.upperBound;
+		}
+		label += "]";
+	}
+	return label;
+}
+
 operation EClass getLabel() {
 	var fillcolor = "fffcdc"; if (self==main) fillcolor="c8f0a1";
 	var label = "<table cellspacing='0' cellborder='0' cellpadding='1' bgcolor='#" + fillcolor + "'>";
@@ -164,13 +195,13 @@ operation EClass getLabel() {
 	
 	// Remove features that shouldn't be shown
 	if (not isLayerActive("features")) features = new Sequence;
-	else features = features.excludingAll(self.getHiddenFeatures());
+	else features = features.excludingAll(getHiddenFeatures());
 	
 	if (not isLayerActive("inlineReferences")) features = features.select(f|f.isTypeOf(EAttribute));
 	
 	for (f in features.sortBy(f|f.name.toLowerCase())) {
 		label += "<tr>";
-		label += "<td><img src='" + f.getIcon() + "'></img></td><td align='left'>" + f.getLabel(self) + "</td>";
+		label += "<td><img src='" + f.getIcon() + "'></img></td><td align='left'>" + f.getLabel() + "</td>";
 		label += "</tr>";
 	}
 	
@@ -197,16 +228,12 @@ operation EClass getConstraintsLabel() {
 	return label;
 }
 
-operation EStructuralFeature getLabel(eClass : EClass) {
+operation EStructuralFeature getLabel() {
 	var label = self.name;
 	if (self.isDerived()) label = "/" + label;
 	if (self.eType.isDefined()) label += " : " + self.eType.name;
-	if (self.isMany) label += "["+"*"+"]";
+	label += self.getMultiplicityLabel();
 	label += "  ";
-	if (eClass == main and self.eContainer() == eClass) label = "<font color='blue'>" + label + "</font>";
-	if (self.isTypeOf(EReference)) {
-		// add href here
-	}
 	return label; 
 }
 
@@ -264,7 +291,7 @@ operation Any getConstraintColour() {
 	else return "mistyrose";
 }
 
-@cached
+
 operation getVisibleClasses() {
 	var main = getMainClass();
 	if (main.isDefined()) {
@@ -317,18 +344,22 @@ operation getVisibleReferences() {
 	if (not isLayerActive("derived")) visibleReferences = visibleReferences.reject(r|r.isDerived);
 	
 	// Remove explicitly hidden features
-	visibleReferences = visibleReferences.excludingAll(classes.collect(c|c.getHiddenFeatures()).flatten());
+	visibleReferences = visibleReferences.excludingAll(getHiddenFeatures());
 	
 	return visibleReferences;
 }
 
-operation EClass getHiddenFeatures() {
+@cached
+operation getHiddenFeatures() {
 	var hiddenFeatures : Sequence;
 	if (hide.isDefined()) {
 		for (item in hide) {
 			var parts = item.split("\\.");
 			if (parts.size() == 2) {
-				hiddenFeatures.addAll(self.eStructuralFeatures.select(sf|sf.isHidden(parts.at(0), parts.at(1))));
+				var eClass = EClass.all.selectOne(c|c.name = parts.at(0));
+				if (eClass.isDefined()) {
+					hiddenFeatures.addAll(eClass.eStructuralFeatures.select(sf|sf.isHidden(parts.at(0), parts.at(1))));
+				}
 			}
 		}
 	}
