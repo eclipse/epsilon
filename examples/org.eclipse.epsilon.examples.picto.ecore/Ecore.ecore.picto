@@ -6,11 +6,23 @@
 	<view path="Model, Custom, Core" type="ClassDiagram">
 		<parameter name="classNames" values="EPackage, EClass, EAttribute, EReference, EStructuralFeature, EClassifier"/>
 		<patch format="graphviz-dot" content_="ecore-patches/core.patch" applies="referenceLabels"/>
+		<parameter name="hide" values="EReference.eKeys"/>
 	</view>
 	<view path="Model, Custom, Types" type="ClassDiagram">
 		<parameter name="classNames" values="EClass, EClassifier, EDataType, EEnum"/>
+		<parameter name="clusters">
+			<item values="EClass, EClassifier"/>
+		</parameter>
 	</view>
 	<view path="Model, Custom, Features" type="ClassDiagram">
 		<parameter name="classNames" values="EStructuralFeature, EOperation, EAttribute, EReference, ETypeParameter"/>
 	</view>
+	<view path="Model, Custom, Features (extended)" type="ClassDiagram">
+		<parameter name="classNames" values="EClass, EStructuralFeature, EOperation, EAttribute, EReference, ETypeParameter"/>
+		<parameter name="clusters">
+			<item values="EStructuralFeature, EReference, EAttribute"/>
+			<item values="EOperation, ETypeParameter"/>
+		</parameter>
+	</view>
+	
 </picto>

@@ -8,45 +8,94 @@ var module = getValidationModule();
 var main = getMainClass();
 var classes = getVisibleClasses();
 
+var subgraphs : Sequence;
+var unclusteredClasses : Sequence;
+unclusteredClasses.addAll(classes);
+
+var visibleReferences = getVisibleReferences();
+
+if (clusters.isDefined()) {
+	for (cluster in clusters) {
+		var clusterClasses = unclusteredClasses.select(c|cluster.contains(c.name));
+		unclusteredClasses.removeAll(clusterClasses);
+		subgraphs.add(clusterClasses);
+	}
+}
+
+subgraphs.add(unclusteredClasses);
+
 %]
 digraph G {
 	graph[splines=ortho, nodesep=0.6]
 	node[fontname=Tahoma, fontsize=10, shape=record]
 	edge[fontname=Tahoma, fontsize=10, arrowsize=0.7]
 	
-	[%for (c in classes) { %]
-		[** Create a node for the class **]
-		[%=c.getNodeName()%][shape=none, margin=0, label = <[%=c.getLabel()%]>]
+	[%for (subgraph in subgraphs){%]
+		subgraph cluster_[%=loopCount%] {
+			style=invis;
+		[%for (c in subgraph) { %]
+			[** Create a node for the class **]
+			[%=c.getNodeName()%][shape=none, margin=0, label = <[%=c.getLabel()%]>]
+			
+			[%if ((main.isDefined() and c == main) or main.isUndefined()){%]
+				
+				[** Create nodes for all the constraints of the class*]
+				[%if (constraintsVisible() and module.constraintContexts.exists(ctx|ctx.typeName=c.name)){%]
+					[%=c.getNodeName()%]_Constraints[shape=none, margin=0, label=<[%=c.getConstraintsLabel()%]>]
+					[%=c.getNodeName()%]_Constraints->[%=c.getNodeName()%][arrowhead=none, style=dashed, name="[%=c.getNodeName()%]_Constraints"]
+					{rank=same;[%=c.getNodeName()%]_Constraints;[%=c.getNodeName()%]}
+				[%}%]
+				
+				[** Create node for all the documentation annotations of the class*]
+				[%if (isLayerActive("documentation")){%]
+				[%var documentation = c.getAnnotationValue("http://www.eclipse.org/emf/2002/GenModel", "documentation");%]
+				[%if (documentation.isDefined()){%]
+					[%=c.getNodeName()%]_Documentation[shape="note", label="[%=documentation.toMultiline()%]", style="filled", fillcolor="azure"]
+					[%=c.getNodeName()%]_Documentation->[%=c.getNodeName()%][arrowhead=none, style=dashed, name="[%=c.getNodeName()%]_Documentation"];
+				[%}%]
+				[%}%]
+			[%}%]
+			
+			[%for (other in subgraph.select(other|c.hasSameRank(other))){%]
+				[%if (isLayerActive("referenceLabels")){%]
+					[%for (r in getUnidirectionalReferences().includingAll(getBidirectionalReferences()).select(r|r.eContainer = c and r.eType = other)){%]
+					{rank=same;[%=c.getNodeName()%];[%=other.getNodeName()%];[%=r.getNodeName()%]}
+					[%}%]
+				[%}else{%]
+					{rank=same;[%=c.getNodeName()%];[%=other.getNodeName()%]}
+				[%}%]
+			[%}%]
+			
+			[%if (isLayerActive("referenceLabels")){%]
+				[%for (r in getBidirectionalReferences().select(r|r.eContainer = c)){%]
+				[%=r.getNodeName()%][label="[%=r.name%]/\n[%=r.eOpposite.name%]", shape=plaintext, margin=0,width=0,height=0]
+				[%}%]
+				
+				[%for (r in getUnidirectionalReferences().select(r|r.eContainer = c)){%]
+				[%=r.getNodeName()%][label="[%=r.name%]", shape=plaintext, margin=0,width=0,height=0]
+				[%}%]
+			[%}%]
+			
+		[%}%]
 		
-		[%if ((main.isDefined() and c == main) or main.isUndefined()){%]
-			
-			[** Create nodes for all the constraints of the class*]
-			[%if (constraintsVisible() and module.constraintContexts.exists(ctx|ctx.typeName=c.name)){%]
-				[%=c.getNodeName()%]_Constraints[shape=none, margin=0, label=<[%=c.getConstraintsLabel()%]>]
-				[%=c.getNodeName()%]_Constraints->[%=c.getNodeName()%][arrowhead=none, style=dashed, name="[%=c.getNodeName()%]_Constraints"]
-				{rank=same;[%=c.getNodeName()%]_Constraints;[%=c.getNodeName()%]}
-			[%}%]
-			
-			[** Create node for all the documentation annotations of the class*]
-			[%if (isLayerActive("documentation")){%]
-			[%var documentation = c.getAnnotationValue("http://www.eclipse.org/emf/2002/GenModel", "documentation");%]
-			[%if (documentation.isDefined()){%]
-				[%=c.getNodeName()%]_Documentation[shape="note", label="[%=documentation.toMultiline()%]", style="filled", fillcolor="azure"]
-				[%=c.getNodeName()%]_Documentation->[%=c.getNodeName()%][arrowhead=none, style=dashed, name="[%=c.getNodeName()%]_Documentation"];
-			[%}%]
-			[%}%]
-			
+		
+		
+		}
+	[%}%]
+	
+	[%for (c in classes) { %]
+		[%if ((main.isDefined() and c == main) or main.isUndefined()){%]	
 			[** Create edges for the supertypes of the class **]
 			[%if (isLayerActive("supertypes")){%]
 			[%for (s in c.eSuperTypes.select(s|classes.includes(s))){%]
-				[%=s.getNodeName()%]->[%=c.getNodeName()%][name="[%=s.getNodeName()%]-isSuperTypeOf-[%=c.getNodeName()%]", arrowtail="empty", dir="back", arrowsize=0.9]
+				[%if (isInheritanceVisible(c, s)){%][%=s.getNodeName()%]->[%=c.getNodeName()%][name="[%=s.getNodeName()%]-isSuperTypeOf-[%=c.getNodeName()%]", arrowtail="empty", dir="back", arrowsize=0.9][%}%]
 			[%}%]
 			[%}%]
 			
 			[** ... and for its subtypes **]
 			[%if (isLayerActive("subtypes") and main.isDefined()){%]
 			[%for (s in classes.select(cl|cl.eSuperTypes.includes(c))){%]
-				[%=c.getNodeName()%]->[%=s.getNodeName()%][name="[%=c.getNodeName()%]-isSuperTypeOf-[%=s.getNodeName()%]", arrowtail="empty", dir="back", arrowsize=0.9]
+				[%if (isInheritanceVisible(s, c)){%][%=c.getNodeName()%]->[%=s.getNodeName()%][name="[%=c.getNodeName()%]-isSuperTypeOf-[%=s.getNodeName()%]", arrowtail="empty", dir="back", arrowsize=0.9][%}%]
 			[%}%]
 			
 			[%}%]
@@ -58,22 +107,18 @@ digraph G {
 	[%if (isLayerActive("referenceLabels")){%] [* ... if reference labels layers is active*]
 		[%for (r in getUnidirectionalReferences()) {%]
 			[%var c = r.eContainer;%]
-			[%=r.getNodeName()%][label="[%=r.name%]", shape=plaintext, margin=0,width=0,height=0]
 			[%if (r.containment){%]
 				[%=c.getNodeName()%]->[%=r.getNodeName()%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]_headFragment", dir=back];
 				[%=r.getNodeName()%]->[%=r.eType.getNodeName()%][name="[%=r.getIdentifier()%]_tailFragment"]
 			[%}else{%]
 				[%=c.getNodeName()%]->[%=r.getNodeName()%][arrowhead=none, name="[%=r.getIdentifier()%]_headFragment"]
 				[%=r.getNodeName()%]->[%=r.eType.getNodeName()%][arrowhead=[%=r.getArrowHead()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]_tailFragment"];
-				[%if (not r.containment){%]{rank=same; [%=c.getNodeName()%]; [%=r.getNodeName()%]; [%=r.eType.getNodeName()%]}[%}%]
 			[%}%]
 		[%}%]
 		[%for (r in getBidirectionalReferences()) {%]
 			[%var c = r.eContainer;%]
-			[%=r.getNodeName()%][label="[%=r.name%]/\n[%=r.eOpposite.name%]", shape=plaintext, margin=0,width=0,height=0]
 			[%=c.getNodeName()%]->[%=r.getNodeName()%][arrowhead=[%=r.getArrowTail()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]", dir=back];
 			[%=r.getNodeName()%]->[%=r.eType.getNodeName()%][arrowtail=[%=r.getArrowHead()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]"];
-			[%if (not r.containment){%]{rank=same; [%=c.getNodeName()%]; [%=r.getNodeName()%]; [%=r.eType.getNodeName()%]}[%}%]
 		[%}%]
 	[%}else{%] [* ... if reference labels layers is inactive*]
 		[%for (r in getUnidirectionalReferences()) {%]
@@ -82,18 +127,13 @@ digraph G {
 				[%=c.getNodeName()%]->[%=r.eType.getNodeName()%][arrowtail=[%=r.getArrowTail()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]", dir=back];
 			[%}else{%]
 				[%=c.getNodeName()%]->[%=r.eType.getNodeName()%][arrowhead=[%=r.getArrowHead()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]"];
-				{rank=same; [%=c.getNodeName()%]; [%=r.eType.getNodeName()%]}
 			[%}%]
 		[%}%]
 		[%for (r in getBidirectionalReferences()) {%]
 			[%var c = r.eContainer;%]
 			[%=c.getNodeName()%]->[%=r.eType.getNodeName()%][arrowtail=[%=r.getArrowHead()%],arrowhead=[%=r.getArrowTail()%],tooltip="[%=r.name%]",name="[%=r.getIdentifier()%]", dir=both];
 		[%}%]
-		[%for (r in getVisibleReferences()){%]
-		[%if (not r.containment){%]{rank=same; [%=r.eContainer.getNodeName()%]; [%=r.eType.getNodeName()%]}[%}%]
-		[%}%] 
-	[%}%]
-	
+	[%}%]	
 }
 
 [%
@@ -218,6 +258,7 @@ operation Any getConstraintColour() {
 	else return "mistyrose";
 }
 
+@cached
 operation getVisibleClasses() {
 	var main = getMainClass();
 	if (main.isDefined()) {
@@ -233,24 +274,28 @@ operation getVisibleClasses() {
 	}
 }
 
+@cached
 operation getMainClass() {
 	if (mainClassName.isDefined()) {
 		return EClass.all.selectOne(c|c.name = mainClassName);
 	}
 }
 
+@cached
 operation getUnidirectionalReferences() {
 	var bidirectionalReferences = getBidirectionalReferences();
 	return getVisibleReferences().excludingAll(bidirectionalReferences).
 		excludingAll(bidirectionalReferences.eOpposite);
 }
 
+@cached
 operation getBidirectionalReferences() {
 	var references = getVisibleReferences();
 	return references.select(r|r.eOpposite.isDefined() and references.indexOf(r) < references.indexOf(r.eOpposite));
 }
 
-operation getVisibleReferences() {
+@cached
+operation getVisibleReferences() { 
 	var visibleReferences : OrderedSet;
 	var main = getMainClass();
 	if (main.isDefined()){
@@ -263,6 +308,16 @@ operation getVisibleReferences() {
 	} 
 	visibleReferences = visibleReferences.reject(r|r.eType = r.eContainer);
 	if (not isLayerActive("derived")) visibleReferences = visibleReferences.reject(r|r.isDerived);
+	
+	if (hide.isDefined()) {
+		for (item in hide) {
+			var parts = item.split("\\.");
+			if (parts.size() == 2) {
+				visibleReferences = visibleReferences.reject(r|r.name = parts.at(1) and r.eContainer.name = parts.at(0));
+			}
+		}
+	}
+	
 	return visibleReferences;
 }
 
@@ -344,6 +399,27 @@ operation Any getIcon() {
 
 operation constraintsVisible() {
 	return isLayerActive("constraintNames") or isLayerActive("constraintDescriptions");
+}
+
+operation EClassifier inSameSubgraph(other : EClass) {
+	return subgraphs.exists(s|s.includes(self) and s.includes(other));
+}
+
+operation EClassifier hasSameRank(other : EClass) {
+	var ref = self.eReferences.reject(r|getVisibleReferences().excludes(r)).selectOne(r|(not r.containment) and r.eType=other);
+	return ref.isDefined();
+}
+
+operation isInheritanceVisible(sub : EClass, super : EClass) {
+	if (hide.isDefined()) {
+		for (item in hide) {
+			var parts = item.split("-");
+			if (parts.size() == 2) {
+				if (sub.name == parts.at(0) and super.name == parts.at(1)) return false;
+			}
+		}
+	}
+	return true;
 }
 
 %]

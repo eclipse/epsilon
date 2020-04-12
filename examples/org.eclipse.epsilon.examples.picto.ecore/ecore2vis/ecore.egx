@@ -1,4 +1,6 @@
 pre {
+	var emfTool : new Native("org.eclipse.epsilon.emc.emf.tools.EmfTool");
+	emfTool.eCoreUtil.resolveAll(M.resource.resourceSet);
 	var classes = EClass.all.sortBy(c|c.name);
 }
 
