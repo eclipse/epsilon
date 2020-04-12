@@ -79,7 +79,7 @@
    <feature url="features/org.eclipse.epsilon.picto.feature_1.6.0.qualifier.jar" id="org.eclipse.epsilon.picto.feature" version="1.6.0.qualifier">
       <category name="Picto"/>
    </feature>
-   <feature id="org.eclipse.epsilon.emfatic.feature">
+   <feature id="org.eclipse.emf.emfatic" version="0.0.0">
       <category name="Epsilon EMF Integration"/>
    </feature>
    <category-def name="Epsilon Core" label="Epsilon Core">
@@ -142,4 +142,5 @@
          Support for managing spreadsheet models with languages of the Epsilon platform.
       </description>
    </category-def>
+   <repository-reference location="http://https://download.eclipse.org/emfatic/update" enabled="true" />
 </site>
