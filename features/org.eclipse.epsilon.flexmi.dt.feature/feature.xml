@@ -18,8 +18,8 @@
         which is available at https://www.eclipse.org/legal/epl-2.0
    </copyright>
    
-   <includes id="org.eclipse.epsilon.flexmi.feature" version="1.6.0"/>
-   <includes id="org.eclipse.epsilon.emf.dt.feature" version="1.6.0"/>
+   <includes id="org.eclipse.epsilon.flexmi.feature" version="1.6.0.qualifier"/>
+   <includes id="org.eclipse.epsilon.emf.dt.feature" version="1.6.0.qualifier"/>
 
    <plugin
          id="org.eclipse.epsilon.flexmi.dt"

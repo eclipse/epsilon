@@ -26,7 +26,7 @@
    <includes id="org.eclipse.gmf.tooling.codegen.xtend2" version="0.0.0"/>
    <includes id="org.eclipse.gmf.tooling.runtime" version="0.0.0"/>
 
-   <includes id="org.eclipse.epsilon.core.dt.feature" version="1.6.0"/>
+   <includes id="org.eclipse.epsilon.core.dt.feature" version="1.6.0.qualifier"/>
 
    <plugin
          id="org.eclipse.epsilon.eugenia"
