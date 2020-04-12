@@ -37,9 +37,7 @@
 			<model ref="Site"/>
 		</epsilon.egl>
 	</target>
-	
-	
-	
+
 	<target name="clean" depends="delete,refresh" />
 	
 	<target name="delete">
