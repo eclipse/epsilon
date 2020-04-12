@@ -29,6 +29,8 @@ rule ClassDiagram {
 			Map {"id"="documentation", "title"="Documentation"},
 			Map {"id"="constraintDescriptions", "title"="Constraint descriptions"},
 			Map {"id"="constraintNames", "title"="Constraint names"},
+			Map {"id"="features", "title"="Features"},
+			Map {"id"="inlineReferences", "title"="Inline references"},
 			Map {"id"="referenceLabels", "title"="Reference labels", "active"=false},
 			Map {"id"="derived", "title"="Derived features", "active"=false},
 			Map {"id"="inherited", "title"="Inherited features", "active"=false}
@@ -67,6 +69,8 @@ rule EClass2ClassDiagram
 				Map {"id"="documentation", "title"="Documentation"},
 				Map {"id"="constraintDescriptions", "title"="Constraint descriptions"},
 				Map {"id"="constraintNames", "title"="Constraint names"},
+				Map {"id"="features", "title"="Features"},
+				Map {"id"="inlineReferences", "title"="Inline references"},
 				Map {"id"="referenceLabels", "title"="Reference labels", "active"=false},
 				Map {"id"="subtypes", "title"="Subtypes", "active"=false},
 				Map {"id"="supertypes", "title"="Supertypes"},

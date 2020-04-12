@@ -162,6 +162,12 @@ operation EClass getLabel() {
 	
 	label += "<tr><td></td><td></td></tr>";
 	
+	// Remove features that shouldn't be shown
+	if (not isLayerActive("features")) features = new Sequence;
+	else features = features.excludingAll(self.getHiddenFeatures());
+	
+	if (not isLayerActive("inlineReferences")) features = features.select(f|f.isTypeOf(EAttribute));
+	
 	for (f in features.sortBy(f|f.name.toLowerCase())) {
 		label += "<tr>";
 		label += "<td><img src='" + f.getIcon() + "'></img></td><td align='left'>" + f.getLabel(self) + "</td>";
@@ -305,20 +311,32 @@ operation getVisibleReferences() {
 	}
 	else {
 		visibleReferences.addAll(classes.eReferences.flatten().select(r|classes.includes(r.eType)));
-	} 
-	visibleReferences = visibleReferences.reject(r|r.eType = r.eContainer);
+	}
+	
+	// visibleReferences = visibleReferences.reject(r|r.eType = r.eContainer);
 	if (not isLayerActive("derived")) visibleReferences = visibleReferences.reject(r|r.isDerived);
 	
+	// Remove explicitly hidden features
+	visibleReferences = visibleReferences.excludingAll(classes.collect(c|c.getHiddenFeatures()).flatten());
+	
+	return visibleReferences;
+}
+
+operation EClass getHiddenFeatures() {
+	var hiddenFeatures : Sequence;
 	if (hide.isDefined()) {
 		for (item in hide) {
 			var parts = item.split("\\.");
 			if (parts.size() == 2) {
-				visibleReferences = visibleReferences.reject(r|r.name = parts.at(1) and r.eContainer.name = parts.at(0));
+				hiddenFeatures.addAll(self.eStructuralFeatures.select(sf|sf.isHidden(parts.at(0), parts.at(1))));
 			}
 		}
 	}
-	
-	return visibleReferences;
+	return hiddenFeatures;
+}
+
+operation EStructuralFeature isHidden(hiddenClass : String, hiddenFeature : String) {
+	return self.eContainer.name = hiddenClass and (hiddenFeature == "*" or hiddenFeature == self.name);
 }
 
 operation getValidationModule() {
