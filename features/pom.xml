@@ -24,7 +24,6 @@
     <module>org.eclipse.epsilon.emc.spreadsheets.google.feature</module>
     <module>org.eclipse.epsilon.emf.dt.feature</module>
     <module>org.eclipse.epsilon.emf.feature</module>
-    <module>org.eclipse.epsilon.emfatic.feature</module>
     <module>org.eclipse.epsilon.eugenia.feature</module>
     <module>org.eclipse.epsilon.eunit.dt.emf.feature</module>
     <module>org.eclipse.epsilon.evl.emf.validation.feature</module>
