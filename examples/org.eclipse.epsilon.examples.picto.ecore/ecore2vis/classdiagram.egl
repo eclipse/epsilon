@@ -30,8 +30,13 @@ digraph G {
 	edge[fontname=Tahoma, fontsize=10, arrowsize=0.7]
 	
 	[%for (subgraph in subgraphs){%]
+	
+		[*If tehre's only one subgraph, we don't need subgraphs*]
+		[%if (subgraphs.size() > 1){%]
 		subgraph cluster_[%=loopCount%] {
 			style=invis;
+		[%}%]
+		
 		[%for (c in subgraph) { %]
 			[** Create a node for the class **]
 			[%=c.getNodeName()%][shape=none, margin=0, label = <[%=c.getLabel()%]>]
@@ -78,8 +83,11 @@ digraph G {
 		[%}%]
 		
 		
-		
+		[*If tehre's only one subgraph, we don't need subgraphs*]
+		[%if (subgraphs.size() > 1){%]
 		}
+		[%}%]
+		
 	[%}%]
 	
 	[%for (c in classes) { %]
