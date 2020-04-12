@@ -20,6 +20,10 @@
    
    <includes id="org.eclipse.epsilon.core.feature" version="1.6.0.qualifier"/>
 
+   <url>
+      <discovery label="EMF Releases" url="https://download.eclipse.org/modeling/emf/emf/builds/release"/>
+   </url>
+
    <plugin
          id="org.eclipse.epsilon.emc.emf"
          download-size="0"

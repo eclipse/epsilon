@@ -28,6 +28,11 @@
 
    <includes id="org.eclipse.epsilon.core.dt.feature" version="1.6.0.qualifier"/>
 
+   <url>
+      <discovery label="GMF Tooling" url="https://download.eclipse.org/modeling/gmp/gmf-tooling/updates/releases"/>
+      <discovery label="QVTo 3.9.1" url="https://archive.eclipse.org/mmt/qvto/updates/releases/3.9.1"/>
+   </url>
+
    <plugin
          id="org.eclipse.epsilon.eugenia"
          download-size="0"

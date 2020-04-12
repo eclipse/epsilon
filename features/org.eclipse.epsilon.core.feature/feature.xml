@@ -17,9 +17,14 @@
         available under the terms of the Eclipse Public License 2.0
         which is available at https://www.eclipse.org/legal/epl-2.0
    </copyright>
-
-   <includes id="org.eclipse.epsilon.dependencies.feature" version="1.6.0.qualifier"/>
-
+  
+   <url>
+      <!--update label="Epsilon Interim" url="https://download.eclipse.org/epsilon/interim"/-->
+      <discovery label="Epsilon (Stable)" url="https://download.eclipse.org/epsilon/updates"/>
+      <discovery label="Epsilon (Interim)" url="https://download.eclipse.org/epsilon/interim"/>
+      <discovery label="Orbit (2020-03)" url="https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository"/>
+   </url>
+   
    <plugin
          id="org.eclipse.epsilon.ecl.engine"
          download-size="0"

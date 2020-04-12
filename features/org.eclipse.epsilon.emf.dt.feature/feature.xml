@@ -25,6 +25,10 @@
    <includes id="org.eclipse.epsilon.emf.feature" version="1.6.0.qualifier"/>
    <includes id="org.eclipse.epsilon.core.dt.feature" version="1.6.0.qualifier"/>
 
+   <url>
+      <discovery label="Emfatic" url="https://download.eclipse.org/emfatic/update"/>
+   </url>
+
    <plugin
          id="org.eclipse.epsilon.dt.epackageregistryexplorer"
          download-size="0"
