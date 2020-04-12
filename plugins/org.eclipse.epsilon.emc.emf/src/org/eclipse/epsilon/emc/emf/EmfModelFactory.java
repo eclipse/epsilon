@@ -35,35 +35,41 @@ public final class EmfModelFactory {
 	 * type will cause an IllegalArgumentException to be raised.
 	 */
 	public EmfModel createEmfModel(String name, File model, Object metamodel) {
-		final EmfModel emfModel = createEmfModel(name, model);
-		
+		final EmfModel emfModel = createEmfModel(name, model);	
 		if (metamodel instanceof String) {
 			emfModel.setMetamodelFileBased(false);
 			emfModel.setMetamodelUri((String) metamodel);
-		
-		} else if (metamodel instanceof EPackage) {
+		}
+		else if (metamodel instanceof EPackage) {
 			emfModel.setMetamodelFileBased(false);
 			emfModel.setMetamodelUri(((EPackage)metamodel).getNsURI());
-		
-		} else if (metamodel instanceof EPackage[]) {
+		}
+		else if (metamodel instanceof EPackage[]) {
 			final List<String> nsUris = new LinkedList<>();
-			for (EPackage p : (EPackage[])metamodel)
+			for (EPackage p : (EPackage[])metamodel) {
 				nsUris.add(p.getNsURI());
-			
+			}
 			emfModel.setMetamodelUris(nsUris);
-			
-		} else if (metamodel instanceof File) {
+		}
+		else if (metamodel instanceof File) {
 			emfModel.setMetamodelFileBased(true);
 			emfModel.setMetamodelFile(((File)metamodel).getAbsolutePath());
-		
-		} else if (metamodel instanceof URI) {
+		}
+		else if (metamodel instanceof File[]) {
+			emfModel.setMetamodelFileBased(true);
+            final List<String> files = new LinkedList<>();
+            for (File f : (File[])metamodel) {
+            	files.add(f.getAbsolutePath());
+            }
+            emfModel.setMetamodelFiles(files);
+        } 
+		else if (metamodel instanceof URI) {
 			emfModel.setMetamodelFileBased(true);
 			emfModel.setMetamodelFileUri((URI)metamodel);
-			
-		} else {
+		}
+		else {
 			throw new IllegalArgumentException("Not a recognised metamodel type: " + metamodel.getClass().getCanonicalName());
 		}
-		
 		return emfModel;
 	}
 	
@@ -99,9 +105,7 @@ public final class EmfModelFactory {
 	 */
 	public EmfModel loadEmfModel(String name, File model, Object metamodel, AccessMode accessMode) throws EolModelLoadingException {
 		final EmfModel emfModel = createEmfModel(name, model, metamodel, accessMode);
-		
 		emfModel.load();
-		
 		return emfModel;
 	}
 	
