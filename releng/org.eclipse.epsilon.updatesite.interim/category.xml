@@ -134,5 +134,5 @@
          Support for managing spreadsheet models with languages of the Epsilon platform.
       </description>
    </category-def>
-   <repository-reference location="http://https://download.eclipse.org/emfatic/update" enabled="true" />
+   <repository-reference location="https://download.eclipse.org/emfatic/update" enabled="true" />
 </site>
