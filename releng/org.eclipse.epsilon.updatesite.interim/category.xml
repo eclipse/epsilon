@@ -49,9 +49,6 @@
    <feature url="features/org.eclipse.epsilon.hutn.dt.feature_1.6.0.qualifier.jar" id="org.eclipse.epsilon.hutn.dt.feature" version="1.6.0.qualifier">
       <category name="Human Usable Textual Notation (HUTN)"/>
    </feature>
-   <feature url="features/org.eclipse.epsilon.concordance.feature_1.6.0.qualifier.jar" id="org.eclipse.epsilon.concordance.feature" version="1.6.0.qualifier">
-      <category name="Model Monitoring"/>
-   </feature>
    <feature url="features/org.eclipse.epsilon.emc.graphml.feature_1.6.0.qualifier.jar" id="org.eclipse.epsilon.emc.graphml.feature" version="1.6.0.qualifier">
       <category name="Epsilon EMF Integration"/>
    </feature>
@@ -130,11 +127,6 @@
    <category-def name="Human Usable Textual Notation (HUTN)" label="Human Usable Textual Notation (HUTN)">
       <description>
          Parser and development tools for the OMG Human Usable Textual Notation (HUTN).
-      </description>
-   </category-def>
-   <category-def name="Model Monitoring" label="Model Monitoring">
-      <description>
-         Tools for monitoring and maintaining the consistency of EMF models in the workspace.
       </description>
    </category-def>
    <category-def name="Epsilon Spreadsheet Integration" label="Epsilon Spreadsheet Integration">

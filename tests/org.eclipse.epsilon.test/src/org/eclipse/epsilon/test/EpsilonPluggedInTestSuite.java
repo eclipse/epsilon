@@ -14,9 +14,7 @@ package org.eclipse.epsilon.test;
 
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
-
 import org.eclipse.epsilon.common.dt.test.CommonDevelopmentToolsTestSuite;
-import org.eclipse.epsilon.concordance.test.ConcordancePluggedInTestSuite;
 import org.eclipse.epsilon.emc.emf.test.EmfPluggedInTestSuite;
 import org.eclipse.epsilon.workflow.tasks.eugenia.EugeniaTestSuite;
 import org.eclipse.epsilon.workflow.test.WorkflowPluggedInTestSuite;
@@ -29,8 +27,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	CommonDevelopmentToolsTestSuite.class,
 	EmfPluggedInTestSuite.class,
 	EugeniaTestSuite.class,
-	WorkflowPluggedInTestSuite.class,
-	ConcordancePluggedInTestSuite.class
+	WorkflowPluggedInTestSuite.class
 })
 public class EpsilonPluggedInTestSuite {
 

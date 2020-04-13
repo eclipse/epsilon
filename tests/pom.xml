@@ -19,10 +19,6 @@
     <module>org.easymock_2.4</module>
     <module>org.eclipse.epsilon.common.dt.test</module>
     <module>org.eclipse.epsilon.commons.test</module>
-    <module>org.eclipse.epsilon.concordance.clients.test</module>
-    <module>org.eclipse.epsilon.concordance.core.test</module>
-    <module>org.eclipse.epsilon.concordance.test</module>
-    <module>org.eclipse.epsilon.concordance.test.performance</module>
     <module>org.eclipse.epsilon.ecl.engine.test.acceptance</module>
     <module>org.eclipse.epsilon.egl.dt.test</module>
     <module>org.eclipse.epsilon.egl.dt.traceability.editor.test</module>
@@ -63,7 +59,6 @@
     <module>org.eclipse.epsilon.hutn.test.dependencies.model</module>
     <module>org.eclipse.epsilon.hutn.test.unit</module>
     <module>org.eclipse.epsilon.hutn.unparser.test.unit</module>
-    <module>org.eclipse.epsilon.hutn.xmi.hashing.test</module>
     <module>org.eclipse.epsilon.hutn.xmi.test</module>
     <module>org.eclipse.epsilon.hutn.xmi.test.integration</module>
     <module>org.eclipse.epsilon.hutn.xmi.test.unit</module>

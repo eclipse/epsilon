@@ -12,7 +12,6 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>org.eclipse.epsilon.concordance.feature</module>
     <module>org.eclipse.epsilon.core.dt.feature</module>
     <module>org.eclipse.epsilon.core.feature</module>
     <module>org.eclipse.epsilon.emc.graphml.feature</module>

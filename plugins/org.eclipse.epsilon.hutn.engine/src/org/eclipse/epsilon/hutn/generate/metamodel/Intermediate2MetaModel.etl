@@ -20,7 +20,7 @@ post {
 				// Add superclass to correct package, add feature to superclass, make superclass abstract
 				feature.eContainingClass.ePackage.eClassifiers.add(superclass);
 				superclass.eStructuralFeatures.add(feature);
-				superclass."abstract" := true;
+				superclass.`abstract` := true;
 				
 				obsoleteFeatures.addAll(relatedFeatures);
 			}

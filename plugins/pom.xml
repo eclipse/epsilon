@@ -25,9 +25,6 @@
     <module>org.eclipse.epsilon.common.cli</module>
     <module>org.eclipse.epsilon.common.dt</module>
     <module>org.eclipse.epsilon.common.dt.examples</module>
-    <module>org.eclipse.epsilon.concordance.clients</module>
-    <module>org.eclipse.epsilon.concordance.core</module>
-    <module>org.eclipse.epsilon.concordance.core.hashing</module>
     <module>org.eclipse.epsilon.dt.epackageregistryexplorer</module>
     <module>org.eclipse.epsilon.dt.exeed</module>
     <module>org.eclipse.epsilon.ecl.dt</module>
@@ -103,7 +100,6 @@
     <module>org.eclipse.epsilon.ewl.engine</module>
     <module>org.eclipse.epsilon.ewl.gmf</module>
     <module>org.eclipse.epsilon.flock.dt</module>
-    <module>org.eclipse.epsilon.flock.dt.concordance</module>
     <module>org.eclipse.epsilon.flock.emf.dt</module>
     <module>org.eclipse.epsilon.flock.engine</module>
     <module>org.eclipse.epsilon.help</module>

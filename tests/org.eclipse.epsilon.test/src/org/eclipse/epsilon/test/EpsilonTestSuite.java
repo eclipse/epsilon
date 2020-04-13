@@ -15,7 +15,6 @@
 package org.eclipse.epsilon.test;
 
 import org.eclipse.epsilon.commons.test.*;
-import org.eclipse.epsilon.concordance.test.*;
 import org.eclipse.epsilon.ecl.engine.test.acceptance.*;
 import org.eclipse.epsilon.egl.dt.test.*;
 import org.eclipse.epsilon.egl.dt.traceability.editor.*;
@@ -74,7 +73,6 @@ import junit.framework.Test;
 	PlainXmlTestSuite.class,
 	BibtexModelTestSuite.class,
 	EpsilonFlockEngineTestSuite.class,
-	ConcordanceTestSuite.class,
 	WorkflowTestSuite.class,
 	GraphmlTestSuite.class,
 	EmfTestSuite.class,
