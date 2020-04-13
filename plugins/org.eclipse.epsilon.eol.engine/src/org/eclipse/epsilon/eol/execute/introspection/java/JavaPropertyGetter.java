@@ -9,12 +9,11 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection.java;
 
-import java.lang.reflect.Method;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
-import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
+import org.eclipse.epsilon.eol.types.EolNativeType;
 
 public class JavaPropertyGetter extends AbstractPropertyGetter {
 	
@@ -23,6 +22,7 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 		return getMethodFor(object, property).getMethod() != null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected ObjectMethod getMethodFor(Object object, String property) {
 		OperationContributorRegistry registry = context.getOperationContributorRegistry();
 		
@@ -38,27 +38,24 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 		om = registry.findContributedMethodForEvaluatedParameters(object, "is" + property, new Object[]{}, context);
 		if (om != null) return om;
 		
+		if (object instanceof EolNativeType) {
+			Class<?> clazz = ((EolNativeType) object).getJavaClass();
+			if (clazz.isEnum()) {	
+				return new EnumObjectMethod((Class<? extends Enum<?>>) clazz, property);
+			}
+		}
+		
 		return new ObjectMethod(object);
 	}
 	
 	@Override
 	public Object invoke(Object object, String property) throws EolRuntimeException {
 		ObjectMethod objectMethod = getMethodFor(object, property);
-		Method method = objectMethod.getMethod();
-		
-		if (method == null) {
+
+		if (objectMethod.method == null) {
 			throw new EolIllegalPropertyException(object, property, ast, context);
 		}
 		
-		try {
-			//TODO: use trySetAcessible()
-			if (!method.isAccessible()) {
-				method.setAccessible(true);
-			}
-			return method.invoke(objectMethod.getObject());
-		}
-		catch (Exception ex) {
-			throw new EolInternalException(ex);
-		}
+		return objectMethod.execute(ast, context);
 	}
 }

@@ -6,7 +6,6 @@
 * which is available at https://www.eclipse.org/legal/epl-2.0/
 *
 **********************************************************************/
-
 package org.eclipse.epsilon.common.dt.console;
 
 import java.io.FileNotFoundException;

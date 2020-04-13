@@ -58,8 +58,7 @@ public class EolNativeType extends EolAnyType {
 	}
 	
 	@Override
-	public Object createInstance(List<Object> parameters)
-			throws EolRuntimeException {
+	public Object createInstance(List<Object> parameters) throws EolRuntimeException {
 		return delegate.createInstance(clazz, parameters, context);
 	}
 	
@@ -95,10 +94,7 @@ public class EolNativeType extends EolAnyType {
 
 	@Override
 	public boolean isType(Object o) {
-		if (o != null) {
-			return o.getClass().getCanonicalName().equalsIgnoreCase(clazz);
-		}
-		return false;
+		return o != null && o.getClass().getCanonicalName().equalsIgnoreCase(clazz);
 	}
 	
 	@Override
