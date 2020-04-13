@@ -53,11 +53,9 @@
   </distributionManagement>
 
   <modules>
-    <module>features</module>
     <module>plugins</module>
+    <module>features</module>
     <module>tests</module>
-    <module>releng</module>
-    <module>standalone</module>
   </modules>
 
   <build>
@@ -188,6 +186,17 @@
   </reporting>
 
   <profiles>
+    <profile>
+      <id>sequential-builds</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>releng</module>
+        <module>standalone</module>
+      </modules>
+    </profile>
+
     <profile>
       <id>ossrh</id>
       <build>
