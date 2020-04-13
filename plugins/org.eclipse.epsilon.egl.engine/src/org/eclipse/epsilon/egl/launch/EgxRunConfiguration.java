@@ -17,7 +17,7 @@ import org.eclipse.epsilon.egl.EglFileGeneratingTemplateFactory;
 import org.eclipse.epsilon.egl.EglTemplateFactory;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
-import org.eclipse.epsilon.egl.concurrent.atomic.EgxModuleParallelGenerationRuleAtoms;
+import org.eclipse.epsilon.egl.concurrent.EgxModuleParallelGenerationRuleAtoms;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;

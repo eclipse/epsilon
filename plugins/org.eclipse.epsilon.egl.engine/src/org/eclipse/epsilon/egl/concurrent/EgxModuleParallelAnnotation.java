@@ -19,7 +19,7 @@ import org.eclipse.epsilon.egl.execute.context.IEgxContext;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
-import org.eclipse.epsilon.erl.IErlModuleParallelAnnotation;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAnnotation;
 
 /**
  * 

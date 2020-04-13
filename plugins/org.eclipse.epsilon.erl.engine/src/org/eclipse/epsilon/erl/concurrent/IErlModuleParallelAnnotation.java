@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.erl;
+package org.eclipse.epsilon.erl.concurrent;
 
 import java.util.function.Supplier;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
@@ -15,6 +15,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
+import org.eclipse.epsilon.erl.IErlModule;
 
 /**
  * 

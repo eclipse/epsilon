@@ -21,7 +21,6 @@ import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.concurrent.*;
-import org.eclipse.epsilon.egl.concurrent.atomic.*;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
 import org.eclipse.epsilon.egl.launch.EgxRunConfiguration;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;

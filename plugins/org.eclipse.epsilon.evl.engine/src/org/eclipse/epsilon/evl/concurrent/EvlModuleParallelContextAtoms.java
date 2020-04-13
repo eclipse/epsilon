@@ -7,11 +7,11 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.evl.concurrent.atomic;
+package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.evl.execute.atoms.ConstraintAtom;
+import org.eclipse.epsilon.evl.execute.atoms.ConstraintContextAtom;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
 /**
@@ -19,18 +19,19 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EvlModuleParallelConstraintAtoms extends EvlModuleParallelAtomic<ConstraintAtom> {
+public class EvlModuleParallelContextAtoms extends EvlModuleParallelAtoms<ConstraintContextAtom> {
 
-	public EvlModuleParallelConstraintAtoms() {
+	public EvlModuleParallelContextAtoms() {
 		super();
 	}
 
-	public EvlModuleParallelConstraintAtoms(IEvlContextParallel context) {
+	public EvlModuleParallelContextAtoms(IEvlContextParallel context) {
 		super(context);
 	}
 
 	@Override
-	protected List<ConstraintAtom> getAllJobsImpl() throws EolRuntimeException {
-		return ConstraintAtom.getAllJobs(this);
+	protected List<ConstraintContextAtom> getAllJobsImpl() throws EolRuntimeException {
+		return ConstraintContextAtom.getAllJobs(this);
 	}
+
 }

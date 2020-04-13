@@ -8,7 +8,6 @@ Require-Bundle: org.eclipse.epsilon.eol.engine,
  org.eclipse.epsilon.erl.engine;visibility:=reexport
 Export-Package: org.eclipse.epsilon.egl,
  org.eclipse.epsilon.egl.concurrent,
- org.eclipse.epsilon.egl.concurrent.atomic,
  org.eclipse.epsilon.egl.config,
  org.eclipse.epsilon.egl.dom,
  org.eclipse.epsilon.egl.exceptions,

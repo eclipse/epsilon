@@ -7,53 +7,49 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.egl.concurrent.atomic;
+package org.eclipse.epsilon.egl.concurrent;
 
 import java.nio.file.Path;
 import java.util.List;
-import org.eclipse.epsilon.egl.concurrent.EgxModuleParallel;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
+import org.eclipse.epsilon.egl.execute.atoms.GenerationRuleAtom;
 import org.eclipse.epsilon.egl.execute.context.concurrent.IEgxContextParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleAtomBatches;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
-import org.eclipse.epsilon.erl.execute.data.ExecutableRuleAtom;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
- * @param <A>
  */
-public abstract class EgxModuleParallelAtomic<A extends ExecutableRuleAtom<?>> extends EgxModuleParallel implements IErlModuleAtomicBatches<A> {
+public class EgxModuleParallelGenerationRuleAtoms extends EgxModuleParallel implements IErlModuleAtomBatches<GenerationRuleAtom> {
 
-	public EgxModuleParallelAtomic() {
+	public EgxModuleParallelGenerationRuleAtoms() {
 		super();
 	}
 
-	public EgxModuleParallelAtomic(Path outputRoot) throws EglRuntimeException {
+	public EgxModuleParallelGenerationRuleAtoms(Path outputRoot) throws EglRuntimeException {
 		super(outputRoot);
 	}
 
-	public EgxModuleParallelAtomic(IEgxContextParallel context) {
+	public EgxModuleParallelGenerationRuleAtoms(IEgxContextParallel context) {
 		super(context);
 	}
-
-	protected List<A> jobsCache;
+	
+	protected List<GenerationRuleAtom> jobsCache;
+	
+	protected List<GenerationRuleAtom> getAllJobsImpl() throws EolRuntimeException {
+		return GenerationRuleAtom.getAllJobs(this);
+	}
 
 	@Override
-	public final List<? extends A> getAllJobs() throws EolRuntimeException {
+	public final List<? extends GenerationRuleAtom> getAllJobs() throws EolRuntimeException {
 		if (jobsCache == null) {
 			jobsCache = getAllJobsImpl();
 		}
 		return jobsCache;
 	}
-	
-	/**
-	 * Non-cached implementation as called by {@link #getAllJobs()}.
-	 * @return The deterministically ordered jobs.
-	 */
-	protected abstract List<A> getAllJobsImpl() throws EolRuntimeException;
 	
 	@Override
 	protected Object processRules() throws EolRuntimeException {

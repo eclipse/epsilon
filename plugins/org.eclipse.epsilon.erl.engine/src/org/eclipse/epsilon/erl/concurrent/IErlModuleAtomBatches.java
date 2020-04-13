@@ -7,10 +7,11 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.erl;
+package org.eclipse.epsilon.erl.concurrent;
 
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.execute.data.JobBatch;
 import org.eclipse.epsilon.erl.execute.data.RuleAtom;
 
@@ -22,7 +23,7 @@ import org.eclipse.epsilon.erl.execute.data.RuleAtom;
  * @since 1.6
  * @param <D> The type of Rule-element pair.
  */
-public interface IErlModuleAtomicBatches<D extends RuleAtom<?>> extends IErlModule {
+public interface IErlModuleAtomBatches<D extends RuleAtom<?>> extends IErlModule {
 
 	/**
 	 * The atomic units of work.
@@ -43,5 +44,4 @@ public interface IErlModuleAtomicBatches<D extends RuleAtom<?>> extends IErlModu
 	default List<JobBatch> getBatchJobs(int batchSize) throws EolRuntimeException {
 		return JobBatch.getBatches(getAllJobs().size(), batchSize);
 	}
-	
 }

@@ -19,7 +19,7 @@ import java.util.Arrays;
 import org.eclipse.epsilon.egl.EgxModule;
 import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.concurrent.EgxModuleParallelAnnotation;
-import org.eclipse.epsilon.egl.concurrent.atomic.EgxModuleParallelGenerationRuleAtoms;
+import org.eclipse.epsilon.egl.concurrent.EgxModuleParallelGenerationRuleAtoms;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

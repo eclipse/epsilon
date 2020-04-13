@@ -7,13 +7,12 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.evl.concurrent.atomic;
+package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleAtomBatches;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
-import org.eclipse.epsilon.evl.concurrent.EvlModuleParallel;
 import org.eclipse.epsilon.evl.execute.atoms.EvlAtom;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
 
@@ -22,16 +21,8 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public abstract class EvlModuleParallelAtomic<A extends EvlAtom<?>> extends EvlModuleParallel implements IErlModuleAtomicBatches<A> {
+public abstract class EvlModuleParallelAtoms<A extends EvlAtom<?>> extends EvlModuleParallel implements IErlModuleAtomBatches<A> {
 
-	public EvlModuleParallelAtomic() {
-		this(null);
-	}
-	
-	public EvlModuleParallelAtomic(IEvlContextParallel context) {
-		super(context);
-	}
-	
 	protected List<A> jobsCache;
 
 	@Override
@@ -48,11 +39,23 @@ public abstract class EvlModuleParallelAtomic<A extends EvlAtom<?>> extends EvlM
 	 */
 	protected abstract List<A> getAllJobsImpl() throws EolRuntimeException;
 	
+	public Object executeAll(ErlContextParallel context) throws EolRuntimeException {
+		return context.executeJob(getAllJobs());
+	}
+	
 	@Override
 	protected void checkConstraints() throws EolRuntimeException {
 		if (context instanceof ErlContextParallel) {
 			((ErlContextParallel) context).executeJob(getAllJobs());
 		}
 		else getContext().executeAll(this, getAllJobs());
+	}
+	
+	protected EvlModuleParallelAtoms() {
+		super();
+	}
+
+	protected EvlModuleParallelAtoms(IEvlContextParallel context) {
+		super(context);
 	}
 }

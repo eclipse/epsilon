@@ -18,8 +18,6 @@ import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.engine.test.acceptance.util.EolAcceptanceTestUtil;
 import org.eclipse.epsilon.evl.*;
 import org.eclipse.epsilon.evl.concurrent.*;
-import org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelConstraintAtoms;
-import org.eclipse.epsilon.evl.concurrent.atomic.EvlModuleParallelContextAtoms;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 import org.eclipse.epsilon.evl.launch.EvlRunConfiguration;
 

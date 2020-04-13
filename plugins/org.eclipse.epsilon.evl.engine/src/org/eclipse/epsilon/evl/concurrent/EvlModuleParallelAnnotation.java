@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.concurrent.Callable;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
-import org.eclipse.epsilon.erl.IErlModuleParallelAnnotation;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleParallelAnnotation;
 import org.eclipse.epsilon.evl.dom.Constraint;
 import org.eclipse.epsilon.evl.dom.ConstraintContext;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;

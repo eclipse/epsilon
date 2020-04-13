@@ -15,7 +15,7 @@ import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.erl.IErlModule;
-import org.eclipse.epsilon.erl.IErlModuleAtomicBatches;
+import org.eclipse.epsilon.erl.concurrent.IErlModuleAtomBatches;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
@@ -87,8 +87,8 @@ public class ErlContextParallel extends EolContextParallel implements IErlContex
 			return ((RuleAtom<?>) job).execute(getShadow());
 		}
 		Object module;
-		if (job instanceof JobBatch && (module = getModule()) instanceof IErlModuleAtomicBatches) {
-			List<?> allJobs = ((IErlModuleAtomicBatches<?>) module).getAllJobs();
+		if (job instanceof JobBatch && (module = getModule()) instanceof IErlModuleAtomBatches) {
+			List<?> allJobs = ((IErlModuleAtomBatches<?>) module).getAllJobs();
 			assert allJobs.size() >= ((JobBatch) job).to;
 			return executeJob(((JobBatch) job).split(allJobs));
 		}
