@@ -15,7 +15,7 @@ import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.concurrent.EolContextParallel;
 import org.eclipse.epsilon.erl.IErlModule;
-import org.eclipse.epsilon.erl.concurrent.IErlModuleAtomBatches;
+import org.eclipse.epsilon.erl.IErlModuleAtomBatches;
 import org.eclipse.epsilon.erl.execute.RuleExecutorFactory;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;

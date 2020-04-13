@@ -7,11 +7,10 @@
  *
  * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package org.eclipse.epsilon.erl.concurrent;
+package org.eclipse.epsilon.erl;
 
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.IErlModule;
 import org.eclipse.epsilon.erl.execute.data.JobBatch;
 import org.eclipse.epsilon.erl.execute.data.RuleAtom;
 

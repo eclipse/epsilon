@@ -11,7 +11,7 @@ package org.eclipse.epsilon.evl.concurrent;
 
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.concurrent.IErlModuleAtomBatches;
+import org.eclipse.epsilon.erl.IErlModuleAtomBatches;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.evl.execute.atoms.EvlAtom;
 import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;

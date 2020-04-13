@@ -12,10 +12,10 @@ package org.eclipse.epsilon.erl.concurrent;
 import java.util.function.Supplier;
 import org.eclipse.epsilon.eol.dom.AnnotatableModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.erl.IErlModule;
+import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
 
 /**
  * 
@@ -31,9 +31,12 @@ public interface IErlModuleParallelAnnotation extends IErlModule {
 	}
 	
 	default boolean shouldBeParallel(AnnotatableModuleElement ast, Supplier<? extends Variable[]> variables) throws EolRuntimeException {
-		IEolContext context = getContext();
-		if (context instanceof IEolContextParallel && !((IEolContextParallel) context).isParallelisationLegal()) return false;
+		IEolContextParallel context = getContext();
+		if (!context.isParallelisationLegal()) return false;
 		return ast.getBooleanAnnotationValue("parallel", context, variables);
 	}
+	
+	@Override
+	IErlContextParallel getContext();
 	
 }
