@@ -28,7 +28,7 @@ pipeline {
     }
     tools {
         maven 'apache-maven-latest'
-        jdk 'oracle-jdk8-latest'
+        jdk 'adoptopenjdk-hotspot-jdk8-latest'
     }
     triggers {
         pollSCM('H/5 * * * *')
