@@ -28,7 +28,7 @@
       <!-- Needed for the kitchensink JAR file -->
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.12</version>
+        <version>3.1.2</version>
         <executions>
           <execution>
             <id>copy</id>
@@ -78,7 +78,7 @@
       <!-- Note: this requires that everything else has been built already -->
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.6</version>
+        <version>3.2.0</version>
         <executions>
           <execution>
             <id>generate-jars</id>
