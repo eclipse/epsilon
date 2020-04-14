@@ -175,6 +175,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.2.0</version>
         <configuration>
           <additionalparam>${javadoc.opts}</additionalparam>
           <doctitle>Epsilon Interim API</doctitle>
@@ -188,7 +189,7 @@
 
   <profiles>
     <profile>
-      <id>sequential-builds</id>
+      <id>sequential-modules</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
