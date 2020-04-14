@@ -3,7 +3,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * https://www.eclipse.org/legal/epl-v20.html
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
@@ -144,7 +144,9 @@ operationDeclaration
 		$tree.getExtraTokens().add($cp);
 		$tree.getToken().setType(HELPERMETHOD);
 	}
-	:	('operation'|'function')^ (ctx=typeName {setTokenType(ctx,TYPE);})? operationName=NAME op='('! formalParameterList? cp=')'! (':'! returnType=typeName {setTokenType(returnType,TYPE);})? statementBlock
+	:	('operation'|'function')^ (ctx=typeName {setTokenType(ctx,TYPE);})?
+		operationName=NAME op='('! formalParameterList? cp=')'!
+		(':'! returnType=typeName {setTokenType(returnType,TYPE);})? statementBlock
 	;
 	
 importStatement
@@ -280,14 +282,16 @@ expressionOrStatementBlock
 	:	':'! logicalExpression | statementBlock
 	;
 
-forStatement
-	:	f='for'^ '('! formalParameter 'in'! logicalExpression ')'! statementOrStatementBlock
-	{$f.setType(FOR);}
-	;
-
 ifStatement
 	:	i='if'^ '('! logicalExpression ')'! statementOrStatementBlock elseStatement?
-	{$i.setType(IF);}	
+	{$i.setType(IF);}
+	;
+
+elseStatement
+	@after {
+		$tree.getExtraTokens().add($e);
+	}
+	:	e='else'! statementOrStatementBlock
 	;
 	
 switchStatement
@@ -304,12 +308,10 @@ defaultStatement
 	:	d='default'^ ':'! (block | statementBlock)
 	{$d.setType(DEFAULT);}	
 	;
-	
-elseStatement
-	@after {
-		$tree.getExtraTokens().add($e);
-	}
-	:	e='else'! statementOrStatementBlock
+
+forStatement
+	:	f='for'^ '('! formalParameter 'in'! logicalExpression ')'! statementOrStatementBlock
+	{$f.setType(FOR);}
 	;
 
 whileStatement
@@ -501,7 +503,7 @@ literalSequentialCollection
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
 	}
-	:	(l='Collection'^|l='Sequence'^|l='List'^|l='Bag'^|l='Set'^|l='OrderedSet'^) ob='{'!  expressionListOrRange? cb='}'!
+	:	(l='Collection'^|l='Sequence'^|l='List'^|l='Bag'^|l='Set'^|l='OrderedSet'^) ob='{'! expressionListOrRange? cb='}'!
 	{$l.setType(COLLECTION);}
 	;
 
