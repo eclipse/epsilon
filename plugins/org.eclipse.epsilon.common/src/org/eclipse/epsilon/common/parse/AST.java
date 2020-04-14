@@ -146,6 +146,7 @@ public class AST extends CommonTree {
 		else return children;
 	}
 	
+	@Override
 	public AST getParent() {
 		return (AST) parent;
 	}
@@ -155,6 +156,7 @@ public class AST extends CommonTree {
 		return this;
 	}
 	
+	@Override
 	public int getLine() {
 		if (this.line == null) {
 			return super.getLine();
@@ -202,6 +204,7 @@ public class AST extends CommonTree {
 		return getChildCount() > 0;
 	}
 	
+	@Override
 	public AST getChild(int i) {
 		return cast(super.getChild(i));
 	}
