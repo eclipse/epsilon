@@ -14,6 +14,7 @@
   <artifactId>org.eclipse.epsilon.standalone</artifactId>
   <packaging>eclipse-plugin</packaging>
 
+  <!-- Dependency here to make this sequnetial during parallel build -->
   <dependencies>
     <dependency>
       <groupId>org.eclipse.epsilon</groupId>
@@ -140,12 +141,12 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>1.8.1</version>
+        <version>1.9.0</version>
         <dependencies>
           <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>3.0.2</version>
+            <version>3.0.3</version>
             <scope>runtime</scope>
           </dependency>
           <dependency>
