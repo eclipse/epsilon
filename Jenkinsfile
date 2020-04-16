@@ -40,7 +40,7 @@ pipeline {
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
               sh 'mvn -B --quiet clean javadoc:aggregate install -P eclipse-sign'
             }
-            sh 'cd standalone/org.eclipse.epsilon.standalone && ./build-javadoc-jar.sh'
+            sh 'cd standalone/org.eclipse.epsilon.standalone && bash build-javadoc-jar.sh'
           }
         }
         stage('Update website') {
