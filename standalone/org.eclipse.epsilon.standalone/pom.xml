@@ -14,7 +14,6 @@
   <artifactId>org.eclipse.epsilon.standalone</artifactId>
   <packaging>eclipse-plugin</packaging>
 
-  <!-- Dependency here to make this sequnetial during parallel build -->
   <dependencies>
     <dependency>
       <groupId>org.eclipse.epsilon</groupId>

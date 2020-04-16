@@ -38,9 +38,9 @@ pipeline {
           when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*)|(pom\\.xml)|(standalone\\/.*)' } }
           steps {
             wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: false]) {
-              sh 'mvn -T 1C -B --quiet clean javadoc:aggregate install -P eclipse-sign'
+              sh 'mvn -B --quiet clean javadoc:aggregate install -P eclipse-sign'
             }
-            sh 'cd standalone/org.eclipse.epsilon.standalone/ && bash build-javadoc-jar.sh'
+            sh 'cd standalone/org.eclipse.epsilon.standalone && ./build-javadoc-jar.sh'
           }
         }
         stage('Update website') {
