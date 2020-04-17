@@ -4,7 +4,7 @@ def getSlackMessage() {
 
     def message = "Build <${env.BUILD_URL}|#${env.BUILD_NUMBER}> of <https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/log/?h=${env.BRANCH_NAME}|${currentBuild.fullProjectName}> "
     
-    message += currentBuild.currentResult == "SUCCESS" ? "passed\n\n" : "failed\n\n"
+    message += currentBuild.currentResult == ("SUCCESS" ? "passed" : "failed") + " in " + ${currentBuild.durationString}
     for (changeSet in currentBuild.changeSets) {
       for (entry in changeSet.items) {
         message += "`${entry.commitId.take(7)}` ${entry.msg} - ${entry.author}\n"
