@@ -116,10 +116,9 @@ public class EValidatorPopulator implements IStartup {
 						newValidator = existingValidator;
 					}
 					else {
-						//newValidator = existingValidator;
 						newValidator = new CompositeEValidator();
-						((CompositeEValidator) newValidator).getDelegates().add(evlValidator);
 						((CompositeEValidator) newValidator).getDelegates().add(existingValidator);
+						((CompositeEValidator) newValidator).getDelegates().add(evlValidator);
 					}
 				}
 				else {
