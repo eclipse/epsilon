@@ -12,6 +12,7 @@ package org.eclipse.epsilon.flexmi;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -150,6 +151,11 @@ public class FlexmiResource extends ResourceImpl implements Handler {
 		catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}
+	}
+	
+	@Override
+	public void save(Map<?, ?> options) throws IOException {
+		// Do nothing. Flexmi resources are load-only.
 	}
 	
 	protected void setEObjectId(EObject eObject, String id) {
