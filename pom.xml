@@ -57,7 +57,8 @@
     <module>features</module>
     <module>tests</module>
     <module>releng</module>
-    <module>standalone</module>
+    <!-- Build standalone separately -->
+    <!--module>standalone</module-->
   </modules>
 
   <build>
