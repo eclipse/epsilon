@@ -1,10 +1,10 @@
 @NonCPS
 def getSlackMessage() {
-    MAX_MSG_LEN = 100
-
+    def duration = currentBuild.durationString.minus(" and counting")
     def message = "Build <${env.BUILD_URL}|#${env.BUILD_NUMBER}> of <https://git.eclipse.org/c/epsilon/org.eclipse.epsilon.git/log/?h=${env.BRANCH_NAME}|${currentBuild.fullProjectName}> "
     
-    message += (currentBuild.currentResult == "SUCCESS" ? "passed" : "failed") + " in ${currentBuild.durationString}\n\n"
+    message += (currentBuild.currentResult == "SUCCESS" ? "passed" : "failed") + " in ${duration}\n\n"
+
     for (changeSet in currentBuild.changeSets) {
       for (entry in changeSet.items) {
         message += "`${entry.commitId.take(7)}` ${entry.msg} - ${entry.author}\n"
