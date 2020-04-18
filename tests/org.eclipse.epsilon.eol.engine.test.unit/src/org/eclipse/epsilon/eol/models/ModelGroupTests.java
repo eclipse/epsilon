@@ -25,10 +25,13 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.epsilon.emc.emf.xml.XmlModel;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
+import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
+import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -119,6 +122,32 @@ public class ModelGroupTests {
 		module.execute();
 	}
 	
+	@Test
+	public void testModelGroupOperationContributor() throws Exception {
+		
+		PlainXmlModel m1 = new PlainXmlModelExt();
+		m1.setName("M1");
+		m1.getAliases().add("Xml");
+		m1.setXml("<?xml version=\"1.0\"?>" + "<foo/>");
+		m1.setReadOnLoad(true);
+		m1.load();
+		
+		PlainXmlModel m2 = new PlainXmlModelExt();
+		m2.setName("M1");
+		m2.getAliases().add("Xml");
+		m2.setXml("<?xml version=\"1.0\"?>" + "<foo/>");
+		m2.setReadOnLoad(true);
+		m2.load();
+		
+		EolModule module = new EolModule();
+		module.getContext().getModelRepository().addModel(m1);
+		module.getContext().getModelRepository().addModel(m2);
+		
+		module.parse("return Xml!t_foo.all.first().foo();");
+		assertEquals("foo", module.execute());
+		
+	}
+	
 	protected PlainXmlModel createReadOnlyPlainXmlModel(String name, String alias, String xml) {
 		PlainXmlModel m = new PlainXmlModel();
 		m.setName(name);	
@@ -131,6 +160,22 @@ public class ModelGroupTests {
 		}
 		return m;
 	}
-
+	
+	class PlainXmlModelExt extends PlainXmlModel implements IOperationContributorProvider {
+		@Override
+		public OperationContributor getOperationContributor() {
+			return new OperationContributor() {
+				
+				@Override
+				public boolean contributesTo(Object target) {
+					return PlainXmlModelExt.this.owns(target);
+				}
+				
+				public String foo() { return "foo"; }
+			};
+		}
+	}
+	
+	
 	
 }
