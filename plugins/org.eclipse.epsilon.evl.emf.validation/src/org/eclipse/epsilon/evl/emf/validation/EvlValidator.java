@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emc.emf.EmfPrettyPrinter;
@@ -208,6 +209,9 @@ public class EvlValidator implements EValidator {
 	
 	protected void validate(Resource resource, Map<Object, Object> context) {
 		results.clear();
+		
+		if (resource.getResourceSet() != null) EcoreUtil.resolveAll(resource.getResourceSet());
+		else EcoreUtil.resolveAll(resource);
 		
 		module = newModule();
 
