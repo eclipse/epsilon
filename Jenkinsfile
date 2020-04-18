@@ -44,7 +44,7 @@ pipeline {
           }
         }
         stage('Update website') {
-          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*)|(pom\\.xml)|(standalone\\/.*)' } }
+          when { allOf { branch 'master'; changeset comparator: 'REGEXP', pattern: '(Jenkinsfile)|(features\\/.*)|(plugins\\/.*)|(releng\\/.*interim\\/.*)|(pom\\.xml)|(standalone\\/.*)' } }
           steps {
             lock('download-area') {
               sshagent (['projects-storage.eclipse.org-bot-ssh']) {
