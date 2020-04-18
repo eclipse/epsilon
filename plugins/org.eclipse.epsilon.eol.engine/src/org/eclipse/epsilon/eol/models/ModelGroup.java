@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
@@ -69,29 +71,49 @@ public class ModelGroup extends Model {
 
 	@Override
 	public Collection<?> getAllOfType(String metaClass) throws EolModelElementTypeNotFoundException {
-		ArrayList<Object> allOfClass = new ArrayList<>();
-		for (IModel model : models) {
-			if (model.hasType(metaClass)) allOfClass.addAll(model.getAllOfType(metaClass));
+		
+		List<IModel> filtered = models.stream().filter(m -> m.hasType(metaClass)).collect(Collectors.toList());
+		
+		if (filtered.size() == 1) {
+			return filtered.get(0).getAllOfType(metaClass);
 		}
-		return allOfClass;
+		else {
+			ArrayList<Object> allOfType = new ArrayList<>();
+			for (IModel model : filtered) {
+				allOfType.addAll(model.getAllOfType(metaClass));
+			}
+			return allOfType;
+		}
 	}
 
 	@Override
 	public Collection<?> getAllOfKind(String metaClass) throws EolModelElementTypeNotFoundException {
-		ArrayList<Object> allOfType = new ArrayList<>();
-		for (IModel model : models) {
-			if (model.hasType(metaClass)) allOfType.addAll(model.getAllOfKind(metaClass));
+		List<IModel> filtered = models.stream().filter(m -> m.hasType(metaClass)).collect(Collectors.toList());
+		
+		if (filtered.size() == 1) {
+			return filtered.get(0).getAllOfKind(metaClass);
 		}
-		return allOfType;
+		else {
+			ArrayList<Object> allOfKind = new ArrayList<>();
+			for (IModel model : filtered) {
+				allOfKind.addAll(model.getAllOfKind(metaClass));
+			}
+			return allOfKind;
+		}
 	}
 	
 	@Override
 	public Collection<Object> allContents() {
-		final List<Object> allContents = new ArrayList<>();
-		for (IModel model : models) {
-			allContents.addAll(model.allContents());
+		if (models.size() == 1) {
+			return (Collection<Object>) models.get(0).allContents();
 		}
-		return allContents;
+		else {
+			final List<Object> allContents = new ArrayList<>();
+			for (IModel model : models) {
+				allContents.addAll(model.allContents());
+			}
+			return allContents;
+		}
 	}
 
 	@Override

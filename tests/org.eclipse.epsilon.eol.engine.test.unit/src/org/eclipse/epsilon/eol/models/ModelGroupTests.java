@@ -22,12 +22,14 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.epsilon.emc.emf.xml.XmlModel;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.EolModule;
+import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
@@ -35,6 +37,7 @@ import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContribu
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.w3c.dom.Element;
 
 public class ModelGroupTests {
 	
@@ -128,6 +131,7 @@ public class ModelGroupTests {
 		PlainXmlModel m1 = new PlainXmlModelExt();
 		m1.setName("M1");
 		m1.getAliases().add("Xml");
+		m1.getAliases().add("Alias1");
 		m1.setXml("<?xml version=\"1.0\"?>" + "<foo/>");
 		m1.setReadOnLoad(true);
 		m1.load();
@@ -135,6 +139,7 @@ public class ModelGroupTests {
 		PlainXmlModel m2 = new PlainXmlModelExt();
 		m2.setName("M1");
 		m2.getAliases().add("Xml");
+		m2.getAliases().add("Alias2");
 		m2.setXml("<?xml version=\"1.0\"?>" + "<foo/>");
 		m2.setReadOnLoad(true);
 		m2.load();
@@ -143,8 +148,15 @@ public class ModelGroupTests {
 		module.getContext().getModelRepository().addModel(m1);
 		module.getContext().getModelRepository().addModel(m2);
 		
-		module.parse("return Xml!t_foo.all.first().foo();");
-		assertEquals("foo", module.execute());
+		module.parse("return Sequence{"
+				+ "Xml!t_foo.all.class.simpleName, "
+				+ "Xml!t_foo.getAllOfType().class.simpleName, "
+				+ "Xml.allContents().class.simpleName, "
+				+ "Alias1!t_foo.all.class.simpleName, "
+				+ "Alias1!t_foo.getAllOfType().class.simpleName, "
+				+ "Alias1.allContents().class.simpleName"
+				+ "};");
+		assertEquals(Arrays.asList("ArrayList", "ArrayList", "ArrayList", "LinkedList", "LinkedList", "LinkedList"), module.execute());
 		
 	}
 	
@@ -161,19 +173,23 @@ public class ModelGroupTests {
 		return m;
 	}
 	
-	class PlainXmlModelExt extends PlainXmlModel implements IOperationContributorProvider {
+	class PlainXmlModelExt extends PlainXmlModel {
+		
 		@Override
-		public OperationContributor getOperationContributor() {
-			return new OperationContributor() {
-				
-				@Override
-				public boolean contributesTo(Object target) {
-					return PlainXmlModelExt.this.owns(target);
-				}
-				
-				public String foo() { return "foo"; }
-			};
+		public Collection<Element> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
+			return new LinkedList<Element>(super.getAllOfType(type));
 		}
+		
+		@Override
+		public Collection<Element> getAllOfKind(String type) throws EolModelElementTypeNotFoundException {
+			return new LinkedList<Element>(super.getAllOfKind(type));
+		}
+		
+		@Override
+		public Collection<Element> allContents() {
+			return new LinkedList<Element>(super.allContents());
+		}
+		
 	}
 	
 	
