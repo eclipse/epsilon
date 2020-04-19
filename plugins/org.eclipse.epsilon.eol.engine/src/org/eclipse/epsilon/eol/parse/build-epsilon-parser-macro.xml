@@ -5,12 +5,11 @@
 		<attribute name="extends" default="eol"/>
 		<sequential>
 			<property name="project_loc" location="../../../../../.."/>
-			<property name="epsilon-antlr-dev-repo" location="${project_loc}/../../../epsilon-antlr-dev"/>
-			<property name="plugins_loc" location="../../../../../../../../plugins"/>
+			<property name="plugins_loc" location="${project_loc}/../../plugins"/>
 			<echo message="Generating @{langUpperCase} parser..."></echo>
 			<java classname="org.antlr.Tool">
 				<classpath>
-					<pathelement location="${epsilon-antlr-dev-repo}/org.eclipse.epsilon.antlr.dev/lib/antlr-3.5.2-complete-no-st3.jar"/>
+					<pathelement location="antlr-3.5.2-complete-no-st3.jar"/>
 				</classpath>
 				<arg value="-lib"/>
 				<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/"/>

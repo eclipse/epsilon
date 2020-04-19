@@ -1,7 +1,6 @@
 # binaries
 bin/
 target
-*.jar
 
 # Ignore IntelliJ files
 *.iml
@@ -12,6 +11,9 @@ target
 
 # Ignore Mac OS index files
 .DS_Store
+
+# ANTLR 3 generator
+/plugins/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse/*.jar
 
 # /doc/org.eclipse.epsilon.book/
 /doc/org.eclipse.epsilon.book/*.aux
