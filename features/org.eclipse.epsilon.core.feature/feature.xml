@@ -22,7 +22,6 @@
       <!--update label="Epsilon Interim" url="https://download.eclipse.org/epsilon/interim"/-->
       <discovery label="Epsilon (Stable)" url="https://download.eclipse.org/epsilon/updates"/>
       <discovery label="Epsilon (Interim)" url="https://download.eclipse.org/epsilon/interim"/>
-      <discovery label="Orbit (2020-03)" url="https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository"/>
    </url>
    
    <plugin
