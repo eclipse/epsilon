@@ -8,9 +8,6 @@
 			<property name="plugins_loc" location="${project_loc}/../../plugins"/>
 			<echo message="Generating @{langUpperCase} parser..."></echo>
 			<java classname="org.antlr.Tool">
-				<classpath>
-					<pathelement location="antlr-3.5.2-complete-no-st3.jar"/>
-				</classpath>
 				<arg value="-lib"/>
 				<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/"/>
 				<arg value="-lib"/>

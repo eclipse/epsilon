@@ -90,9 +90,11 @@ public class EolCollectionType extends EolType {
 	@Override
 	public Collection<?> createInstance() {
 		try {
-			if (this.isCollection()) return null;
-			else if (this.isBag()) {
-				return new EolBag<>();
+			if (this.isCollection()) {
+				return null;
+			}
+			else if (this.isSet()) {
+				return new EolSet<>();
 			}
 			else if (this.isSequence()) {
 				return new EolSequence<>();
@@ -100,7 +102,9 @@ public class EolCollectionType extends EolType {
 			else if (this.isOrderedSet()) {
 				return new EolOrderedSet<>();
 			}
-			else return new EolSet<>();
+			else {
+				return new EolBag<>();
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
