@@ -77,7 +77,7 @@ public class CopyToClipboardAction extends Action {
 
         Clipboard clipboard = new Clipboard(browser.getDisplay());
         ImageTransfer imageTransfer = ImageTransfer.getInstance();
-		clipboard.setContents(new Object[]{flip(image.getImageData(), true)},
+		clipboard.setContents(new Object[]{image.getImageData()},
 				new Transfer[]{imageTransfer});
 	}
 	
