@@ -145,12 +145,13 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 		if (!(o instanceof Collection)) return false;
 		Collection<?> that = (Collection<?>) o;
 		if (this.size() != that.size()) return false;
-		for (Object thatElement : that) {
-			for (Object thisElement : this) {
-				if (thatElement != thisElement) {
-					return false;
-				}
-			}
+		
+		for (
+			Iterator<?> thisIter = this.iterator(), thatIter = that.iterator();
+			thisIter.hasNext() && thatIter.hasNext();
+		) {
+			if (!Objects.equals(thisIter.next(), thatIter.next()))
+				return false;
 		}
 		return true;
 	}
