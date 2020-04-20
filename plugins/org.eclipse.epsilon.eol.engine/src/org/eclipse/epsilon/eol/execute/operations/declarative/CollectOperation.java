@@ -30,7 +30,7 @@ public class CollectOperation extends FirstOrderOperation {
 		CheckedEolFunction<Object, ?> function = resolveFunction(operationNameExpression, iterators, expressions.get(0), context);
 		
 		Collection<Object> result = EolCollectionType.isOrdered(source) ?
-			new EolSequence<>(source.size()) : new EolBag<>(source.size());
+			new EolSequence<>(source.size()) : new EolBag<>();
 			
 		for (Object item : source) {
 			result.add(function.applyThrows(item));

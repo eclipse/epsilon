@@ -26,6 +26,7 @@ public class EolPrettyPrinter implements PrettyPrinter {
 		this.context = context;
 	}
 
+	@Override
 	public boolean appliesTo(Object o) {
 		
 		try {
@@ -38,6 +39,7 @@ public class EolPrettyPrinter implements PrettyPrinter {
 		return false;
 	}
 
+	@Override
 	public String print(Object o) {
 		Operation operation;
 		try {
@@ -47,7 +49,4 @@ public class EolPrettyPrinter implements PrettyPrinter {
 			return e.getMessage();
 		}
 	}
-	
-	
-	
 }

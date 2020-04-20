@@ -1,17 +1,27 @@
 /*******************************************************************************
- * Copyright (c) 2012-2015 The University of York, Antonio García-Domínguez.
+ * Copyright (c) 2012-2020 The University of York, Antonio García-Domínguez.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Antonio García-Domínguez - add type parameter and serial version UID
+ *     Antonio García-Domínguez - add type parameter
+ *     Sina Madani - extends {@link AbstractEolCollection}
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
 import java.util.LinkedHashSet;
+import java.util.Set;
 
-public class EolOrderedSet<T> extends LinkedHashSet<T> {
-	private static final long serialVersionUID = -1878923551432043443L;
+@SuppressWarnings("unchecked")
+public class EolOrderedSet<T> extends AbstractEolCollection<T> implements Set<T> {
+	
+	public EolOrderedSet() {
+		super(new LinkedHashSet<>());
+	}
+
+	public EolOrderedSet(int initialCapacity) {
+		super(new LinkedHashSet<>(initialCapacity));
+	}
 }

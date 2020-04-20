@@ -16,8 +16,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-
-import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
@@ -52,9 +50,8 @@ public class EolCollectionType extends EolType {
 	
 	public EolCollectionType getTypeOf(Collection<?> c) {
 		if (c instanceof EolSequence) return Sequence;
-		else if (c instanceof EolOrderedSet) return OrderedSet;
-		else if (c instanceof EolSet) return Set;
-		else if (c instanceof EolBag) return Bag;
+		if (c instanceof EolOrderedSet) return OrderedSet;
+		if (c instanceof EolSet) return Set;
 
 		for (IEolCollectionTypeResolver collectionTypeResolver : getCollectionTypeResolvers()) {
 			if (collectionTypeResolver.canResolveType(c)) {
@@ -63,14 +60,8 @@ public class EolCollectionType extends EolType {
 		}
 
 		if (c instanceof List) return (c instanceof Set) ? OrderedSet : Sequence;
-		else if (c instanceof Set) return Set;
-		else return Bag;
-	}
-	
-	public static void main(String[] args) throws Exception {
-		EolModule module = new EolModule();
-		module.parse("Set{}.isTypeOf(Set).println();");
-		module.execute();
+		if (c instanceof Set) return Set;
+		return Bag;
 	}
 	
 	@Override
@@ -166,23 +157,23 @@ public class EolCollectionType extends EolType {
 	}
 	
 	public boolean isBag() {
-		return getName().equals("Bag");
+		return "Bag".equals(getName());
 	}
 	
 	public boolean isSequence() {
-		return getName().equals("Sequence");
+		return "Sequence".equals(getName());
 	}
 	
 	public boolean isSet() {
-		return getName().equals("Set");
+		return "Set".equals(getName());
 	}
 	
 	public boolean isOrderedSet() {
-		return getName().equals("OrderedSet");
+		return "OrderedSet".equals(getName());
 	}
 	
 	public boolean isCollection() {
-		return getName().equals("Collection");
+		return "Collection".equals(getName());
 	}
 	
 	public EolType getContentType() {

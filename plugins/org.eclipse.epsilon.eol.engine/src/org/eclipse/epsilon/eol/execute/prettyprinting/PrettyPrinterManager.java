@@ -11,7 +11,6 @@ package org.eclipse.epsilon.eol.execute.prettyprinting;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 public class PrettyPrinterManager {
 	
@@ -20,11 +19,8 @@ public class PrettyPrinterManager {
 	//protected EolPrettyPrinter eolPrettyPrinter;
 	//protected IEolContext context;
 	
-	public PrettyPrinterManager(){
+	public PrettyPrinterManager() {
 		defaultPrettyPrinter = new DefaultPrettyPrinter(this);
-		//eolPrettyPrinter = new EolPrettyPrinter(context);
-		//prettyPrinters.add(new EmfPrettyPrinter());
-		//prettyPrinters.add(new MofPrettyPrinter());
 		prettyPrinters.add(defaultPrettyPrinter);
 	}
 	
@@ -47,9 +43,7 @@ public class PrettyPrinterManager {
 		//if (eolPrettyPrinter.appliesTo(o)) return eolPrettyPrinter;
 		
 		try {
-			ListIterator<PrettyPrinter> li = prettyPrinters.listIterator();
-			while (li.hasNext()) {
-				PrettyPrinter prettyPrinter = li.next();
+			for (PrettyPrinter prettyPrinter : prettyPrinters) {
 				if (prettyPrinter.appliesTo(o)) {
 					return prettyPrinter;
 				}
