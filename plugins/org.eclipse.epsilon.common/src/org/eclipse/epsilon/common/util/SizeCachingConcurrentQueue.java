@@ -23,9 +23,6 @@ import java.util.stream.Collectors;
  * using a constant wrapper in place of null elements. This implementation caches
  * the size and updates it when structurally modified to avoid the issue outlined
  * in <a href="https://www.javaspecialists.eu/archive/Issue261.html">Java Specialists Issue 261</a>.
- * Note that null elements are not supported during iteration: clients must call the
- * {@link #convertToNull(Object)} method to obtain null values, otherwise a ClassCastException
- * will occur if attempting to iterate over this collection when null values are present.
  * 
  * @author Sina Madani
  * @since 1.6
@@ -33,8 +30,8 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings("unchecked")
 public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
-	
-	private static final long serialVersionUID = 1123011197588756957L;
+
+	private static final long serialVersionUID = 5903966144644716311L;
 	
 	protected static final Object NULL = new Object();
 	
@@ -95,6 +92,15 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 	}
 	
 	@Override
+	public boolean remove(Object o) {
+		if (super.remove(replaceWithNull(o))) {
+			size.decrementAndGet();
+			return true;
+		}
+		else return false;
+	}
+	
+	@Override
 	public int size() {
 		return size.get();
 	}
@@ -137,11 +143,25 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof Collection)) return false;
-		return Objects.equals(new ArrayList<>(this), new ArrayList<>((Collection<?>) o));
+		Collection<?> that = (Collection<?>) o;
+		if (this.size() != that.size()) return false;
+		for (Object thatElement : that) {
+			for (Object thisElement : this) {
+				if (thatElement != thisElement) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(toArray());
+		return Objects.hash(size);
+	}
+	
+	@Override
+	public Object[] toArray() {
+		return new ArrayList<>(this).toArray();
 	}
 }
