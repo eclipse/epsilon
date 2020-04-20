@@ -124,8 +124,14 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
         @Override
         public void remove() {
         	delegate.remove();
+        	size.decrementAndGet();
         }
     }
+	
+	@Override
+	public boolean contains(Object o) {
+		return super.contains(replaceWithNull(o));
+	}
 	
 	@Override
 	public boolean equals(Object o) {
