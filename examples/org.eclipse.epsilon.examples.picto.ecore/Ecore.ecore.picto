@@ -1,8 +1,5 @@
 <?nsuri picto?>
 <picto format="egx" template="platform:/resource/org.eclipse.epsilon.examples.picto.ecore/ecore2vis/ecore.egx">
-	<view path="Model, Classes, EOperation">
-		<patch format="graphviz-dot" content_="ecore-patches/eoperation-graphviz.patch"/>
-	</view>
 	<view path="Model, Custom, Core" type="ClassDiagram">
 		<parameter name="classNames" values="EPackage, EClass, EAttribute, EReference, EStructuralFeature, EClassifier"/>
 		<patch format="graphviz-dot" content_="ecore-patches/core.patch" applies="referenceLabels"/>
@@ -23,6 +20,7 @@
 			<item values="EStructuralFeature, EReference, EAttribute"/>
 			<item values="EOperation, ETypeParameter"/>
 		</parameter>
+		<!--parameter name="hide" values="EReference.eKeys"/-->
 	</view>
 	
 </picto>

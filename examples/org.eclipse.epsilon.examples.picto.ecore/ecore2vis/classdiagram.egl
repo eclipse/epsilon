@@ -25,7 +25,7 @@ subgraphs.add(unclusteredClasses);
 
 %]
 digraph G {
-	graph[splines=ortho, nodesep=0.6]
+	graph[splines=ortho, nodesep=0.6[%if (K.isDefined()){%],K=[%=K%][%}%]]
 	node[fontname=Tahoma, fontsize=10, shape=record]
 	edge[fontname=Tahoma, fontsize=10, arrowsize=0.7]
 	
@@ -35,6 +35,10 @@ digraph G {
 		[%if (subgraphs.size() > 1){%]
 		subgraph cluster_[%=loopCount%] {
 			style=invis;
+		[%}%]
+		
+		[% var message = validate(); if (message.isDefined()){%]
+		__ValidationMessage[label="[%=message.toMultiline()%]", style=filled, fillcolor="mistyrose"];
 		[%}%]
 		
 		[%for (c in subgraph) { %]
@@ -60,13 +64,15 @@ digraph G {
 				[%}%]
 			[%}%]
 			
-			[%for (other in subgraph.select(other|c.hasSameRank(other))){%]
-				[%if (isLayerActive("referenceLabels")){%]
-					[%for (r in getUnidirectionalReferences().includingAll(getBidirectionalReferences()).select(r|r.eContainer = c and r.eType = other)){%]
-					{rank=same;[%=c.getNodeName()%];[%=other.getNodeName()%];[%=r.getNodeName()%]}
+			[%if (rerank.isUndefined() or rerank == "true"){%]
+				[%for (other in subgraph.select(other|c.hasSameRank(other))){%]
+					[%if (isLayerActive("referenceLabels")){%]
+						[%for (r in getUnidirectionalReferences().includingAll(getBidirectionalReferences()).select(r|r.eContainer = c and r.eType = other)){%]
+						{rank=same;[%=c.getNodeName()%];[%=other.getNodeName()%];[%=r.getNodeName()%]}
+						[%}%]
+					[%}else{%]
+						{rank=same;[%=c.getNodeName()%];[%=other.getNodeName()%]}
 					[%}%]
-				[%}else{%]
-					{rank=same;[%=c.getNodeName()%];[%=other.getNodeName()%]}
 				[%}%]
 			[%}%]
 			
@@ -348,7 +354,7 @@ operation getVisibleReferences() {
 		visibleReferences.addAll(classes.eReferences.flatten().select(r|classes.includes(r.eType)));
 	}
 	
-	// visibleReferences = visibleReferences.reject(r|r.eType = r.eContainer);
+	visibleReferences = visibleReferences.reject(r|r.eType = r.eContainer);
 	if (not isLayerActive("derived")) visibleReferences = visibleReferences.reject(r|r.isDerived);
 	
 	// Remove explicitly hidden features
@@ -477,6 +483,29 @@ operation isInheritanceVisible(sub : EClass, super : EClass) {
 		}
 	}
 	return true;
+}
+
+operation validate() {
+	
+	var message = "";
+	
+	var missingClasses = classNames.excludingAll(EClass.all.name);
+	
+	if (missingClasses.notEmpty()) {
+		if (missingClasses.size() == 1) message = "Referenced class " + missingClasses.concat(", ") + " does not exist. ";
+		else message = "Referenced classes " + missingClasses.concat(", ") + " do not exist. ";
+	}
+	
+	if (clusters.isDefined()) {
+		
+		var missingClasses = clusters.flatten().asSet().excludingAll(getVisibleClasses().name);
+		if (missingClasses.notEmpty()) {
+			if (missingClasses.size() == 1) message += "Class " + missingClasses.concat(", ") + " is not in the view.";
+			else message += "Classes " + missingClasses.concat(", ") + " are not in the view.";
+		}
+	}
+	
+	return message;
 }
 
 %]
