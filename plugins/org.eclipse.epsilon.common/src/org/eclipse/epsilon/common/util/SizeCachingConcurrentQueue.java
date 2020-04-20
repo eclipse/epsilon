@@ -9,7 +9,10 @@
 **********************************************************************/
 package org.eclipse.epsilon.common.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -94,5 +97,45 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 	@Override
 	public int size() {
 		return size.get();
+	}
+	
+	@Override
+	public Iterator<E> iterator() {
+		return new InternalIter(super.iterator());
+	}
+	
+	private final class InternalIter implements Iterator<E> {
+		Iterator<E> delegate;
+		
+		InternalIter(Iterator<E> delegate) {
+			this.delegate = delegate;
+		}
+		
+        @Override
+        public boolean hasNext() {
+        	return delegate.hasNext();
+        }
+        
+        @Override
+        public E next() {
+        	return (E) convertToNull(delegate.next());
+        }
+        
+        @Override
+        public void remove() {
+        	delegate.remove();
+        }
+    }
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Collection)) return false;
+		return Objects.equals(new ArrayList<>(this), new ArrayList<>((Collection<?>) o));
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(toArray());
 	}
 }
