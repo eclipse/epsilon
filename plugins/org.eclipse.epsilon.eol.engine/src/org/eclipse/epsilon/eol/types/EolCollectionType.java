@@ -73,7 +73,7 @@ public class EolCollectionType extends EolType {
 	}
 
 	@Override
-	public Collection<Object> createInstance() {
+	public Collection<Object> createInstance() throws EolRuntimeException {
 		if (this.isCollection()) {
 			return null;
 		}
@@ -90,13 +90,12 @@ public class EolCollectionType extends EolType {
 			return new EolBag<>();
 		}
 		else {
-			throw new IllegalStateException("Unknown collection type");
+			throw new EolRuntimeException("Unknown collection type");
 		}
 	}
 	
 	@Override
-	public Object createInstance(List<Object> parameters)
-			throws EolRuntimeException {
+	public Object createInstance(List<Object> parameters) throws EolRuntimeException {
 		throw new EolIllegalOperationParametersException("createInstance");
 	}
 	
