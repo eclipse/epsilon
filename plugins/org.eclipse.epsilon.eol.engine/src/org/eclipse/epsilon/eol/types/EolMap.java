@@ -12,30 +12,19 @@
 package org.eclipse.epsilon.eol.types;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 
 public class EolMap<K, V> implements Map<K, V> {
 
 	protected Map<K, V> wrapped;
 	
 	public EolMap() {
-		this(false);
-	}
-	
-	/**
-	 * 
-	 * @param threadSafe
-	 * @since 1.6
-	 */
-	public EolMap(boolean threadSafe) {
-		wrapped = threadSafe ? ConcurrencyUtils.concurrentMap() : new HashMap<>();
+		wrapped = new java.util.HashMap<>();
 	}
 
 	@Override

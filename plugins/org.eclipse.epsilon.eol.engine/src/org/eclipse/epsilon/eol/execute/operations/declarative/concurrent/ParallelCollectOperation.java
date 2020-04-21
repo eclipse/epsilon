@@ -43,7 +43,7 @@ public class ParallelCollectOperation extends CollectOperation {
 			new EolSequence<>() : new EolBag<>();
 		
 		if (resultsCol instanceof EolSequence) {
-			((EolSequence) resultsCol).ensureCapacity(sourceSize);
+			((EolSequence<Object>) resultsCol).ensureCapacity(sourceSize);
 		}
 		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);

@@ -38,21 +38,10 @@ public class EolMapType extends EolType {
 	public boolean isKind(Object o) {
 		return o instanceof EolMap;
 	}
-
-	/**
-	 * 
-	 * @param threadSafe
-	 * @return
-	 * @throws EolRuntimeException
-	 * @since 1.6
-	 */
-	public EolMap<Object, Object> createInstance(boolean threadSafe) throws EolRuntimeException {
-		return new EolMap<>(threadSafe);
-	}
 	
 	@Override
 	public EolMap<Object, Object> createInstance() throws EolRuntimeException {
-		return createInstance(false);
+		return new EolMap<>();
 	}
 
 	@Override

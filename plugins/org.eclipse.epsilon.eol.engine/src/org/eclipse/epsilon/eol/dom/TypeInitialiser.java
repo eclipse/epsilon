@@ -16,7 +16,6 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
@@ -29,14 +28,8 @@ public abstract class TypeInitialiser extends Expression {
 	
 	protected Object initialiseType(EolType type, List<Expression> parameters, IEolContext context, boolean createIfNonPrimitive) throws EolRuntimeException {
 		
-		if (type instanceof EolPrimitiveType) {
+		if (type instanceof EolPrimitiveType || type instanceof EolCollectionType || type instanceof EolMapType) {
 			return type.createInstance();
-		}
-		else if (type instanceof EolCollectionType) {
-			return ((EolCollectionType) type).createInstance(context instanceof IEolContextParallel);
-		}
-		else if (type instanceof EolMapType) {
-			return ((EolMapType) type).createInstance(context instanceof IEolContextParallel);
 		}
 		else if (createIfNonPrimitive) {
 			

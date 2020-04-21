@@ -12,21 +12,11 @@
 package org.eclipse.epsilon.eol.types;
 
 import java.util.Set;
-import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 
 @SuppressWarnings("unchecked")
 public class EolSet<T> extends AbstractEolCollection<T> implements Set<T> {
 
 	public EolSet() {
-		this(false);
-	}
-	
-	/**
-	 * 
-	 * @param threadSafe
-	 * @since 1.6
-	 */
-	public EolSet(boolean threadSafe) {
-		super(threadSafe ? ConcurrencyUtils.concurrentSet() : new java.util.HashSet<>());
+		super(new java.util.HashSet<>());
 	}
 }

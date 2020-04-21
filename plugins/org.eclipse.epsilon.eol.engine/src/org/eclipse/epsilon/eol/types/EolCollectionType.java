@@ -72,35 +72,26 @@ public class EolCollectionType extends EolType {
 		return Objects.equals(getTypeOf(c).getName(), this.getName());
 	}
 
-	/**
-	 * @param threadSafe
-	 * @return
-	 * @since 1.6
-	 */
-	public Collection<Object> createInstance(boolean threadSafe) {
+	@Override
+	public Collection<Object> createInstance() {
 		if (this.isCollection()) {
 			return null;
 		}
 		else if (this.isSet()) {
-			return new EolSet<>(threadSafe);
+			return new EolSet<>();
 		}
 		else if (this.isSequence()) {
-			return new EolSequence<>(threadSafe);
+			return new EolSequence<>();
 		}
 		else if (this.isOrderedSet()) {
-			return new EolOrderedSet<>(threadSafe);
+			return new EolOrderedSet<>();
 		}
 		else if (this.isBag()) {
-			return new EolBag<>(threadSafe);
+			return new EolBag<>();
 		}
 		else {
 			throw new IllegalStateException("Unknown collection type");
 		}
-	}
-	
-	@Override
-	public Collection<Object> createInstance() {
-		return createInstance(false);
 	}
 	
 	@Override

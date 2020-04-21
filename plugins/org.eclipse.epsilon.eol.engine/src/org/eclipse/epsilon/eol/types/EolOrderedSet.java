@@ -11,23 +11,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @SuppressWarnings("unchecked")
 public class EolOrderedSet<T> extends AbstractEolCollection<T> implements Set<T> {
 	
 	public EolOrderedSet() {
-		this(false);
-	}
-	
-	/**
-	 * 
-	 * @param threadSafe
-	 * @since 1.6
-	 */
-	public EolOrderedSet(boolean threadSafe) {
-		super(threadSafe ? Collections.synchronizedSet(new LinkedHashSet<>()) : new LinkedHashSet<>());
+		super(new java.util.LinkedHashSet<>());
 	}
 }

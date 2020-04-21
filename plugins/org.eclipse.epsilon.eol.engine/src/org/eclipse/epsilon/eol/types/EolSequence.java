@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.types;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ListIterator;
@@ -23,11 +22,7 @@ import java.util.function.UnaryOperator;
 public class EolSequence<T> extends AbstractEolCollection<T> implements List<T>, RandomAccess {
 	
 	public EolSequence() {
-		this(false);
-	}
-	
-	public EolSequence(boolean threadSafe) {
-		super(threadSafe ? Collections.synchronizedList(new ArrayList<>()) : new ArrayList<>());
+		super(new ArrayList<>());
 	}
 	
 	/**
