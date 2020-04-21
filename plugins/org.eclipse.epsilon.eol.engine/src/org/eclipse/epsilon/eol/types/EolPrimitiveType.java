@@ -19,10 +19,11 @@ public class EolPrimitiveType extends EolType {
 	private Class<?> clazz;
 	private String name;
 	
-	public static EolPrimitiveType Integer = new EolPrimitiveType(Integer.class,"Integer");
-	public static EolPrimitiveType String = new EolPrimitiveType(String.class,"String");
-	public static EolPrimitiveType Boolean = new EolPrimitiveType(Boolean.class,"Boolean");
-	public static EolPrimitiveType Real = new EolPrimitiveType(Float.class,"Real");
+	public static final EolPrimitiveType
+		Integer = new EolPrimitiveType(Integer.class, "Integer"),
+		String = new EolPrimitiveType(String.class, "String"),
+		Boolean = new EolPrimitiveType(Boolean.class, "Boolean"),
+		Real = new EolPrimitiveType(Float.class, "Real");
 	
 	private EolPrimitiveType(Class<?> clazz, String name){
 		this.clazz = clazz;
@@ -30,8 +31,7 @@ public class EolPrimitiveType extends EolType {
 	}
 
 	@Override
-	public Object createInstance(List<Object> parameters)
-			throws EolRuntimeException {
+	public Object createInstance(List<Object> parameters) throws EolRuntimeException {
 		throw new EolIllegalOperationParametersException("createInstance");
 	}
 	

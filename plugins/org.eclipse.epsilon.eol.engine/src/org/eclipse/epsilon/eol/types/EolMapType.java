@@ -46,7 +46,7 @@ public class EolMapType extends EolType {
 
 	@Override
 	public EolMap<Object, Object> createInstance(List<Object> parameters) throws EolRuntimeException {
-		return new EolMap<>();
+		return createInstance();
 	}
 	
 	public void setKeyType(EolType keyType) {
@@ -67,7 +67,7 @@ public class EolMapType extends EolType {
 	
 	@Override
 	public String toString() {
-		return "Map<" + keyType + ", " + valueType + ">";
+		return getName()+"<" + keyType + ", " + valueType + ">";
 	}
 	
 }

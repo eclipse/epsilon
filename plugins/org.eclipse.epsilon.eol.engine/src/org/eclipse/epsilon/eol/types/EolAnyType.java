@@ -17,7 +17,7 @@ import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 
 public class EolAnyType extends EolType {
 
-	public static EolAnyType Instance = new EolAnyType();
+	public static final EolAnyType Instance = new EolAnyType();
 	
 	public EolAnyType() {
 		super();
@@ -36,7 +36,7 @@ public class EolAnyType extends EolType {
 
 	@Override
 	public Object createInstance() throws EolRuntimeException {
-		return null;
+		return new EolAny();
 	}
 	
 	@Override

@@ -16,8 +16,8 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class EolNoType extends EolType {
 	
-	public static EolNoType Instance  = new EolNoType();
-	public static EolNoTypeInstance NoInstance = new EolNoTypeInstance();
+	public static final EolNoType Instance  = new EolNoType();
+	public static final EolNoTypeInstance NoInstance = new EolNoTypeInstance();
 	
 	@Override
 	public Void createInstance() throws EolRuntimeException {
@@ -25,8 +25,7 @@ public class EolNoType extends EolType {
 	}
 
 	@Override
-	public Void createInstance(List<Object> parameters)
-			throws EolIllegalOperationParametersException {
+	public Object createInstance(List<Object> parameters) throws EolIllegalOperationParametersException {
 		throw new EolIllegalOperationParametersException("createInstance");
 	}
 	

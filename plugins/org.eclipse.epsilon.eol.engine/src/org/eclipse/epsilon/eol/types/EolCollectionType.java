@@ -33,11 +33,12 @@ public class EolCollectionType extends EolType {
 	
 	private String name;
 	
-	public static EolCollectionType Collection = new EolCollectionType("Collection");
-	public static EolCollectionType Bag = new EolCollectionType("Bag");
-	public static EolCollectionType Sequence = new EolCollectionType("Sequence");
-	public static EolCollectionType Set = new EolCollectionType("Set");
-	public static EolCollectionType OrderedSet = new EolCollectionType("OrderedSet");
+	public static final EolCollectionType
+		Collection = new EolCollectionType("Collection"),
+		Bag = new EolCollectionType("Bag"),
+		Sequence = new EolCollectionType("Sequence"),
+		Set = new EolCollectionType("Set"),
+		OrderedSet = new EolCollectionType("OrderedSet");
 	
 	public EolCollectionType(String name) {
 		this.name = name;
