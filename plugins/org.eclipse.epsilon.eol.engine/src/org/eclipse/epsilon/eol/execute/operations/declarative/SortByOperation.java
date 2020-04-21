@@ -30,7 +30,7 @@ public class SortByOperation extends CollectBasedOperation {
 	public EolSequence<Object> execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		
 		Collection<Object> source = resolveSource(target, iterators, context);
-		if (source.isEmpty()) return new EolSequence<>(0);
+		if (source.isEmpty()) return new EolSequence<>();
 		
 		final List<?> collected = CollectionUtil.asList(getDelegateOperation().execute(target, operationNameExpression, iterators, expressions, context));
 		final int colSize = collected.size();
@@ -48,7 +48,8 @@ public class SortByOperation extends CollectBasedOperation {
 		
 		// Build a new collection of the original collection elements
 		// ordered by the result of sorting the collected items
-		final EolSequence<Object> result = new EolSequence<>(decoratedObjects.length);
+		final EolSequence<Object> result = new EolSequence<>();
+		result.ensureCapacity(decoratedObjects.length);
 		
 		for (DecoratedObject decorated : decoratedObjects) {
 			result.add(decorated.object);

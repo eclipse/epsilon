@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.compile.context.EolCompilationContext;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.eol.parse.EolParser;
 import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolOrderedSet;
@@ -65,19 +66,19 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	
 	@Override
 	public Collection<Object> execute(IEolContext context) throws EolRuntimeException{
-		Collection<Object> collection = null; 
+		Collection<Object> collection;
 		
 		if ("Sequence".equals(collectionType) || "List".equals(collectionType)) {
-			collection = new EolSequence<>();
+			collection = new EolSequence<>(context instanceof IEolContextParallel);
 		}
 		else if ("Set".equals(collectionType)) {
-			collection = new EolSet<>();
+			collection = new EolSet<>(context instanceof IEolContextParallel);
 		}
 		else if ("OrderedSet".equals(collectionType)) {
-			collection = new EolOrderedSet<>();
+			collection = new EolOrderedSet<>(context instanceof IEolContextParallel);
 		}
 		else {
-			collection = new EolBag<>();
+			collection = new EolBag<>(context instanceof IEolContextParallel);
 		}
 		
 		ExecutorFactory executorFactory = context.getExecutorFactory();

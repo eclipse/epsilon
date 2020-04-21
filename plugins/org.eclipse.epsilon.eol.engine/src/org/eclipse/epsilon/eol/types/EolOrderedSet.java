@@ -11,6 +11,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -18,10 +19,15 @@ import java.util.Set;
 public class EolOrderedSet<T> extends AbstractEolCollection<T> implements Set<T> {
 	
 	public EolOrderedSet() {
-		super(new LinkedHashSet<>());
+		this(false);
 	}
-
-	public EolOrderedSet(int initialCapacity) {
-		super(new LinkedHashSet<>(initialCapacity));
+	
+	/**
+	 * 
+	 * @param threadSafe
+	 * @since 1.6
+	 */
+	public EolOrderedSet(boolean threadSafe) {
+		super(threadSafe ? Collections.synchronizedSet(new LinkedHashSet<>()) : new LinkedHashSet<>());
 	}
 }

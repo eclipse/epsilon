@@ -40,7 +40,11 @@ public class ParallelCollectOperation extends CollectOperation {
 		final int sourceSize = source.size();
 		
 		Collection<Object> resultsCol = EolCollectionType.isOrdered(source) ?
-			new EolSequence<>(sourceSize) : new EolBag<>();
+			new EolSequence<>() : new EolBag<>();
+		
+		if (resultsCol instanceof EolSequence) {
+			((EolSequence) resultsCol).ensureCapacity(sourceSize);
+		}
 		
 		IEolContextParallel context = EolContextParallel.convertToParallel(context_);
 		Collection<Callable<?>> jobs = new ArrayList<>(sourceSize);

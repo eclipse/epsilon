@@ -72,6 +72,43 @@ public class EolCollectionType extends EolType {
 		return Objects.equals(getTypeOf(c).getName(), this.getName());
 	}
 
+	/**
+	 * @param threadSafe
+	 * @return
+	 * @since 1.6
+	 */
+	public Collection<Object> createInstance(boolean threadSafe) {
+		if (this.isCollection()) {
+			return null;
+		}
+		else if (this.isSet()) {
+			return new EolSet<>(threadSafe);
+		}
+		else if (this.isSequence()) {
+			return new EolSequence<>(threadSafe);
+		}
+		else if (this.isOrderedSet()) {
+			return new EolOrderedSet<>(threadSafe);
+		}
+		else if (this.isBag()) {
+			return new EolBag<>(threadSafe);
+		}
+		else {
+			throw new IllegalStateException("Unknown collection type");
+		}
+	}
+	
+	@Override
+	public Collection<Object> createInstance() {
+		return createInstance(false);
+	}
+	
+	@Override
+	public Object createInstance(List<Object> parameters)
+			throws EolRuntimeException {
+		throw new EolIllegalOperationParametersException("createInstance");
+	}
+	
 	@Override
 	public boolean isKind(Object o) {
 		if (!(o instanceof Collection)) return false;
@@ -85,37 +122,6 @@ public class EolCollectionType extends EolType {
 		else if (this.isSet()) return collectionType.isSet() || collectionType.isOrderedSet(); 
 		
 		return false;
-	}
-	
-	@Override
-	public Collection<?> createInstance() {
-		try {
-			if (this.isCollection()) {
-				return null;
-			}
-			else if (this.isSet()) {
-				return new EolSet<>();
-			}
-			else if (this.isSequence()) {
-				return new EolSequence<>();
-			}
-			else if (this.isOrderedSet()) {
-				return new EolOrderedSet<>();
-			}
-			else {
-				return new EolBag<>();
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	@Override
-	public Object createInstance(List<Object> parameters)
-			throws EolRuntimeException {
-		throw new EolIllegalOperationParametersException("createInstance");
 	}
 	
 	@Override

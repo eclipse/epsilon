@@ -49,7 +49,7 @@ public class ClosureOperation extends FirstOrderOperation {
 	@Override
 	public Object execute(Object target, NameExpression operationNameExpression, List<Parameter> iterators, List<Expression> expressions, IEolContext context) throws EolRuntimeException {
 		Collection<?> source = resolveSource(target, iterators, context);
-		if (source.isEmpty()) return new EolSequence<>(0);
+		if (source.isEmpty()) return new EolSequence<>();
 		Collection<Object> accumulator = CollectionUtil.createDefaultSet();
 		
 		closure(accumulator, source, iterators.get(0), expressions.get(0), context);

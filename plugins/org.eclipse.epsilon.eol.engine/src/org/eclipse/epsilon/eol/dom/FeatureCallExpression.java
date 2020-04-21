@@ -43,7 +43,13 @@ public abstract class FeatureCallExpression extends Expression {
 	
 	static Object wrap(Object o) {
 		if (o instanceof Object[]) {
-			return new EolSequence<>((Object[]) o);
+			Object[] arr = (Object[]) o;
+			EolSequence<Object> seq = new EolSequence<>();
+			seq.ensureCapacity(arr.length);
+			for (Object element : arr) {
+				seq.add(element);
+			}
+			return seq;
 		}
 		else return o;
 	}

@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.eol.types;
 
 import java.util.List;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class EolMapType extends EolType {
@@ -21,7 +20,6 @@ public class EolMapType extends EolType {
 	public EolMapType() {}
 	
 	public EolMapType(EolType keyType, EolType valueType) {
-		super();
 		this.keyType = keyType;
 		this.valueType = valueType;
 	}
@@ -33,7 +31,7 @@ public class EolMapType extends EolType {
 
 	@Override
 	public boolean isType(Object o) {
-		return o.getClass() == EolMap.class;
+		return o != null && o.getClass() == EolMap.class;
 	}
 
 	@Override
@@ -41,13 +39,24 @@ public class EolMapType extends EolType {
 		return o instanceof EolMap;
 	}
 
+	/**
+	 * 
+	 * @param threadSafe
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	public EolMap<Object, Object> createInstance(boolean threadSafe) throws EolRuntimeException {
+		return new EolMap<>(threadSafe);
+	}
+	
 	@Override
-	public EolMap<?, ?> createInstance() throws EolRuntimeException {
-		return new EolMap<>();
+	public EolMap<Object, Object> createInstance() throws EolRuntimeException {
+		return createInstance(false);
 	}
 
 	@Override
-	public EolMap<?, ?> createInstance(List<Object> parameters) throws EolRuntimeException {
+	public EolMap<Object, Object> createInstance(List<Object> parameters) throws EolRuntimeException {
 		return new EolMap<>();
 	}
 	

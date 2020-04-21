@@ -26,7 +26,7 @@ import java.util.stream.Stream;
  */
 public abstract class AbstractEolCollection<T> implements Collection<T> {
 
-	protected final Collection<T> wrapped;
+	protected Collection<T> wrapped;
 	
 	protected AbstractEolCollection(Collection<T> delegate) {
 		this.wrapped = delegate;
