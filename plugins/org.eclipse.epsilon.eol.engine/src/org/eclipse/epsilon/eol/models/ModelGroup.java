@@ -12,7 +12,6 @@ package org.eclipse.epsilon.eol.models;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
@@ -101,9 +100,9 @@ public class ModelGroup extends Model {
 	}
 	
 	@Override
-	public Collection<Object> allContents() {
+	public Collection<?> allContents() {
 		if (models.size() == 1) {
-			return (Collection<Object>) models.get(0).allContents();
+			return models.get(0).allContents();
 		}
 		else {
 			final List<Object> allContents = new ArrayList<>();
@@ -159,7 +158,7 @@ public class ModelGroup extends Model {
 		else {
 			throw new EolNotInstantiableModelElementTypeException(this.name, metaClass) {
 				@Override
-				public String getReason(){
+				public String getReason() {
 					return "Cannot create an instance of " + typeName + " because model group " + name + " has more than one models";
 				}
 			};
@@ -168,53 +167,40 @@ public class ModelGroup extends Model {
 
 	@Override
 	public Object getElementById(String id) {
-		ListIterator<IModel> li = models.listIterator();
-		while (li.hasNext()){
-			IModel model = li.next();
+		for (IModel model : models) {
 			Object instance = model.getElementById(id);
-			if (instance!=null) return instance;
+			if (instance != null) return instance;
 		}
 		return null;
 	}
 
 	@Override
 	public String getElementId(Object instance) {
-		ListIterator<IModel> li = models.listIterator();
-		while (li.hasNext()){
-			IModel model = li.next();
-			if (model.owns(instance)) return model.getElementId(instance);
+		for (IModel model : models) {
+			if (model.owns(instance)) {
+				return model.getElementId(instance);
+			}
 		}
 		return null;
 	}
 	
 	@Override
 	public void setElementId(Object instance, String newId) {
-		ListIterator<IModel> li = models.listIterator();
-		while (li.hasNext()){
-			IModel model = li.next();
-			if (model.owns(instance)) model.setElementId(instance, newId);
+		for (IModel model : models) {
+			if (model.owns(instance)) {
+				model.setElementId(instance, newId);
+			}
 		}
 	}
 
 	@Override
 	public void deleteElement(Object instance) throws EolRuntimeException{
-		ListIterator<IModel> li = models.listIterator();
-		while (li.hasNext()){
-			IModel model = li.next();
-			if (model.owns(instance)) model.deleteElement(instance);
+		for (IModel model : models) {
+			if (model.owns(instance)) {
+				model.deleteElement(instance);
+			}
 		}
 	}
-	
-	/*
-	public String getClassOf(Object instance) {
-		ListIterator li = models.listIterator();
-		while (li.hasNext()){
-			EolModel model =(EolModel) li.next();
-			if (model.owns(instance)) return model.getClassOf(instance);
-		}
-		return null;
-	}
-*/	
 	
 	@Override
 	public boolean owns(Object instance) {
@@ -223,7 +209,6 @@ public class ModelGroup extends Model {
 		}
 		return false;
 	}
-
 	
 	@Override
 	public boolean knowsAboutProperty(Object instance, String property) {
