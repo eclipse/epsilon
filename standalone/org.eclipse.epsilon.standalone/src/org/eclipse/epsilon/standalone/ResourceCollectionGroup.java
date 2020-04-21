@@ -25,16 +25,18 @@ public class ResourceCollectionGroup extends DataType implements ResourceCollect
 	@Override
 	public Iterator<Resource> iterator() {
 		if (isReference()) {
-			return ((ResourceCollectionGroup) getCheckedRef(getProject())).iterator();
+			return ((ResourceCollectionGroup) getCheckedRef(
+				getClass(), getDataTypeName(), getProject()
+			)).iterator();
 		}
 		
 		ArrayList<Resource> resources = new ArrayList<>();
 		for (ResourceCollection resourceCollection : resourceCollections) {
+			resources.ensureCapacity(resources.size()+resourceCollection.size());
 			for (Resource res : resourceCollection) {
 				resources.add(res);
 			}
 		}
-		
 		return resources.iterator();
 	}
 
