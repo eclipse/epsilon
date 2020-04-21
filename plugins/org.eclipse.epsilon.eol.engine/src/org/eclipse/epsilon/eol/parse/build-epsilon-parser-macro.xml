@@ -9,7 +9,7 @@
 			<echo message="Generating @{langUpperCase} parser..."></echo>
 			<java classname="org.antlr.Tool">
 				<classpath>
-					<pathelement location="${project_loc}/lib/antlr-3.5.2-complete-no-st3.jar"/>
+					<pathelement location="${plugins_loc}/org.eclipse.epsilon.eol.engine/lib/antlr-3.5.2-complete-no-st3.jar"/>
 				</classpath>
 				<arg value="-lib"/>
 				<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/"/>
