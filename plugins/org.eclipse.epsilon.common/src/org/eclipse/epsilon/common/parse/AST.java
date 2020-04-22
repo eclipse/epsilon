@@ -141,9 +141,9 @@ public class AST extends CommonTree {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<AST> getChildren() {
-		List<AST> children = super.getChildren();
+		List<?> children = super.getChildren();
 		if (children == null) return Collections.emptyList();
-		else return children;
+		else return (List<AST>) children;
 	}
 	
 	@Override
@@ -180,22 +180,21 @@ public class AST extends CommonTree {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public AST getNextSibling() {
 		if (parent == null)
 			return null;
-		List<Tree> siblings = parent.getChildren();
+		List<?> siblings = parent.getChildren();
 		if (this.childIndex >= siblings.size() - 1) {
 			return null;
 		} else {
-			return cast(siblings.get(this.childIndex + 1));
+			return cast((Tree) siblings.get(this.childIndex + 1));
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public AST setNextSibling(AST sibling) {
 		if (parent != null && sibling != null) {
-			parent.getChildren().add(this.childIndex, sibling);
+			((List)parent.getChildren()).add(this.childIndex, sibling);
 		}
 		return this;
 	}
@@ -221,7 +220,6 @@ public class AST extends CommonTree {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public AST setFirstChild(AST child) {
 		if (getChildCount() == 0) {
 			addChild(child);
