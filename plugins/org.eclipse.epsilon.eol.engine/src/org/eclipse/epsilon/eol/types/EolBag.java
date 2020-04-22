@@ -7,11 +7,11 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio García-Domínguez - add type parameter
- *     Sina Madani - extends {@link AbstractEolCollection}
+ *     Sina Madani - extends {@link EolCollection}
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
-public class EolBag<T> extends AbstractEolCollection<T> {
+public class EolBag<T> extends EolCollection<T> {
 
 	public EolBag() {
 		super(new java.util.ArrayList<>());

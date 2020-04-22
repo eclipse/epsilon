@@ -9,6 +9,8 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.dom;
 
+import java.util.Map.Entry;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.epsilon.common.module.IModule;
@@ -18,20 +20,33 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.types.EolMap;
+import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentMap;
 
 public class MapLiteralExpression extends LiteralExpression {
 	
-	protected List<KeyValueExpressionPair> keyValueExpressionPairs = new ArrayList<>();
+	protected List<Entry<Expression, Expression>> keyValueExpressionPairs = new ArrayList<>();
+	protected String mapName;
+	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	protected EolMap<Object, Object> createMap() {
+		return mapName != null && mapName.contains("Concurrent") ?
+			new EolConcurrentMap<>() : new EolMap<>();
+	}
 	
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
+		this.mapName = cst.getText();
 		
 		final AST keyvalListAST = cst.getFirstChild();
 
 		if (keyvalListAST != null) {
 			for (AST keyValAst : keyvalListAST.getChildren()) {
-				keyValueExpressionPairs.add(new KeyValueExpressionPair(
+				keyValueExpressionPairs.add(new SimpleEntry<>(
 						(Expression) module.createAst(keyValAst.getFirstChild(), this),
 						(Expression) module.createAst(keyValAst.getSecondChild(), this)
 				));
@@ -42,10 +57,10 @@ public class MapLiteralExpression extends LiteralExpression {
 	
 	@Override
 	public EolMap<Object, Object> execute(IEolContext context) throws EolRuntimeException {
-		final EolMap<Object, Object> map = new EolMap<>();
+		final EolMap<Object, Object> map = createMap();
 		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
-		for (KeyValueExpressionPair keyValueExpressionPair : keyValueExpressionPairs) {
+		for (Entry<Expression, Expression> keyValueExpressionPair : keyValueExpressionPairs) {
 			final Object key = executorFactory.execute(keyValueExpressionPair.getKey(), context);
 			final Object val = executorFactory.execute(keyValueExpressionPair.getValue(), context);
 			map.put(key, val);
@@ -57,24 +72,5 @@ public class MapLiteralExpression extends LiteralExpression {
 	@Override
 	public void compile(EolCompilationContext context) {
 		// TODO Auto-generated method stub
-	}
-	
-	class KeyValueExpressionPair {
-		protected Expression key;
-		protected Expression value;
-		
-		public KeyValueExpressionPair(Expression key, Expression value) {
-			super();
-			this.key = key;
-			this.value = value;
-		}
-
-		public Expression getKey() {
-			return key;
-		}
-		
-		public Expression getValue() {
-			return value;
-		}
 	}
 }

@@ -11,27 +11,65 @@ package org.eclipse.epsilon.eol.types;
 
 import java.util.List;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentMap;
 
 public class EolMapType extends EolType {
 	
-	protected EolType keyType = EolAnyType.Instance;
-	protected EolType valueType = EolAnyType.Instance;
+	public static final EolMapType
+		Map = new EolMapType("Map"),
+		ConcurrentMap = new EolMapType("ConcurrentMap");
 	
-	public EolMapType() {}
+	protected EolType keyType;
+	protected EolType valueType;
+	private final String name;
+	
+	/**
+	 * 
+	 * @param name
+	 * @since 1.6
+	 */
+	public EolMapType(String name) {
+		this(EolAnyType.Instance, EolAnyType.Instance, "ConcurrentMap".equals(name));
+	}
+	
+	public EolMapType() {
+		this("Map");
+	}
 	
 	public EolMapType(EolType keyType, EolType valueType) {
+		this(keyType, valueType, false);
+	}
+	
+	/**
+	 * 
+	 * @param keyType
+	 * @param valueType
+	 * @param concurrent
+	 * @since 1.6
+	 */
+	public EolMapType(EolType keyType, EolType valueType, boolean concurrent) {
 		this.keyType = keyType;
 		this.valueType = valueType;
+		this.name = concurrent ? "ConcurrentMap" : "Map";
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public boolean isConcurrent() {
+		return name.contains("Concurrent");
+	}
+	
 	@Override
 	public String getName() {
-		return "Map";
+		return name;
 	}
 
 	@Override
 	public boolean isType(Object o) {
-		return o != null && o.getClass() == EolMap.class;
+		return o != null && o.getClass() == (isConcurrent() ? EolConcurrentMap.class : EolMap.class);
 	}
 
 	@Override
@@ -41,7 +79,7 @@ public class EolMapType extends EolType {
 	
 	@Override
 	public EolMap<Object, Object> createInstance() throws EolRuntimeException {
-		return new EolMap<>();
+		return isConcurrent() ? new EolConcurrentMap<>() :  new EolMap<>();
 	}
 
 	@Override
@@ -69,5 +107,4 @@ public class EolMapType extends EolType {
 	public String toString() {
 		return getName()+"<" + keyType + ", " + valueType + ">";
 	}
-	
 }

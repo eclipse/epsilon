@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2013 The University of York, Antonio García-Domínguez.
+ * Copyright (c) 2008-2020 The University of York, Antonio García-Domínguez.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -8,6 +8,7 @@
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio García Domínguez - add generics, clean up dead code,
  *                                remove type cache (bug #410403).
+ *    Sina Madani - concurrent types
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
@@ -18,6 +19,8 @@ import java.util.Objects;
 import java.util.Set;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalOperationParametersException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentBag;
+import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentSet;
 
 public class EolCollectionType extends EolType {
 	
@@ -38,7 +41,9 @@ public class EolCollectionType extends EolType {
 		Bag = new EolCollectionType("Bag"),
 		Sequence = new EolCollectionType("Sequence"),
 		Set = new EolCollectionType("Set"),
-		OrderedSet = new EolCollectionType("OrderedSet");
+		OrderedSet = new EolCollectionType("OrderedSet"),
+		ConcurrentBag = new EolCollectionType("ConcurrentBag"),
+		ConcurrentSet = new EolCollectionType("ConcurrentSet");
 	
 	public EolCollectionType(String name) {
 		this.name = name;
@@ -50,16 +55,18 @@ public class EolCollectionType extends EolType {
 	}
 	
 	public EolCollectionType getTypeOf(Collection<?> c) {
+		if (c instanceof EolConcurrentSet) return ConcurrentSet;
+		if (c instanceof EolConcurrentBag) return ConcurrentBag;
 		if (c instanceof EolSequence) return Sequence;
 		if (c instanceof EolOrderedSet) return OrderedSet;
 		if (c instanceof EolSet) return Set;
-
+		
 		for (IEolCollectionTypeResolver collectionTypeResolver : getCollectionTypeResolvers()) {
 			if (collectionTypeResolver.canResolveType(c)) {
 				return collectionTypeResolver.resolveType(c);
 			}
 		}
-
+		
 		if (c instanceof List) return (c instanceof Set) ? OrderedSet : Sequence;
 		if (c instanceof Set) return Set;
 		return Bag;
@@ -77,6 +84,12 @@ public class EolCollectionType extends EolType {
 	public Collection<Object> createInstance() throws EolRuntimeException {
 		if (this.isCollection()) {
 			return null;
+		}
+		else if (this.isConcurrentBag()) {
+			return new EolConcurrentBag<>();
+		}
+		else if (this.isConcurrentSet()) {
+			return new EolConcurrentSet<>();
 		}
 		else if (this.isSet()) {
 			return new EolSet<>();
@@ -103,16 +116,15 @@ public class EolCollectionType extends EolType {
 	@Override
 	public boolean isKind(Object o) {
 		if (!(o instanceof Collection)) return false;
-		
 		EolCollectionType collectionType = getTypeOf((Collection<?>) o);
-		
 		if (this.isCollection()) return true;
-		else if (this.isBag()) return collectionType.isBag() || collectionType.isSequence();
+		else if (this.isConcurrentBag()) return collectionType.isConcurrentBag();
+		else if (this.isConcurrentSet()) return collectionType.isConcurrentSet();
 		else if (this.isSequence()) return collectionType.isSequence();
 		else if (this.isOrderedSet()) return collectionType.isOrderedSet();
-		else if (this.isSet()) return collectionType.isSet() || collectionType.isOrderedSet(); 
-		
-		return false;
+		else if (this.isBag()) return collectionType.isBag() || collectionType.isSequence() || collectionType.isConcurrentBag();
+		else if (this.isSet()) return collectionType.isSet() || collectionType.isOrderedSet() || collectionType.isConcurrentSet(); 
+		else return false;
 	}
 	
 	@Override
@@ -125,6 +137,8 @@ public class EolCollectionType extends EolType {
 		else if (Sequence.isType(c)) return Sequence.getName();
 		else if (OrderedSet.isType(c)) return OrderedSet.getName();
 		else if (Set.isType(c)) return Set.getName();
+		else if (ConcurrentBag.isType(c)) return ConcurrentBag.getName();
+		else if (ConcurrentSet.isType(c)) return ConcurrentSet.getName();
 		else return c.getClass().getSimpleName();
 	}
 	
@@ -133,6 +147,8 @@ public class EolCollectionType extends EolType {
 		else if (Sequence.isType(c)) return new EolSequence<>();
 		else if (OrderedSet.isType(c)) return new EolOrderedSet<>();
 		else if (Set.isType(c)) return new EolSet<>();
+		else if (ConcurrentBag.isType(c)) return new EolConcurrentBag<>();
+		else if (ConcurrentSet.isType(c)) return new EolConcurrentSet<>();
 		else return null;
 	}
 	
@@ -150,7 +166,7 @@ public class EolCollectionType extends EolType {
 	}
 	
 	public static boolean isUnique(Collection<?> c) {
-		return Set.isType(c) || OrderedSet.isType(c);
+		return Set.isType(c) || OrderedSet.isType(c) || ConcurrentSet.isType(c);
 	}
 	
 	public static boolean isOrdered(Collection<?> c) {
@@ -175,6 +191,24 @@ public class EolCollectionType extends EolType {
 	
 	public boolean isCollection() {
 		return "Collection".equals(getName());
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public boolean isConcurrentBag() {
+		return "ConcurrentBag".equals(getName());
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @since 1.6
+	 */
+	public boolean isConcurrentSet() {
+		return "ConcurrentSet".equals(getName());
 	}
 	
 	public EolType getContentType() {

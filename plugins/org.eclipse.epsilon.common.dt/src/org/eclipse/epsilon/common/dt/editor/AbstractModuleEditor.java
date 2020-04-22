@@ -164,14 +164,15 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		return Arrays.asList("assert", "assertError");
 	}
 	
-	public List<String> getTypes() {
+	public Collection<String> getTypes() {
 		// The list returned by Arrays.asList cannot be changed in size,
 		// as it is just a wrapper over the Java array. Therefore, any
 		// calls to add/remove will return an UnsupportedOperationException.
 		return new ArrayList<>(Arrays.asList(
 			"String", "Boolean", "Integer", "Real",
 			"Any", "Map", "Collection", "Bag", "Sequence",
-			"Set", "OrderedSet", "Native", "List")
+			"Set", "OrderedSet", "Native", "List",
+			"ConcurrentSet", "ConcurrentBag", "ConcurrentMap")
 		);
 	}
 	
@@ -330,7 +331,7 @@ public abstract class AbstractModuleEditor extends AbstractDecoratedTextEditor {
 		outlinePage = createOutlinePage();
 		
 		
-		final int delay = 1000;
+		final long delay = 1000;
 		
 		parseModuleJob = new Job("Parsing module") {
 			

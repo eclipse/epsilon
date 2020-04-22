@@ -61,7 +61,6 @@ public class TypeExpression extends Expression {
 	
 	@Override
 	public EolType execute(IEolContext context) throws EolRuntimeException {
-
 		if (type != null) return type;
 		
 		if ("Native".equals(getName())) {
@@ -138,11 +137,13 @@ public class TypeExpression extends Expression {
 			case "Real":
 				type = EolPrimitiveType.Real;
 				break;
-			case "Map":
-				type = new EolMapType();
+			case "Map": case "ConcurrentMap":
+				type = new EolMapType(name);
 				break;
 			case "List": name = "Sequence";
-			case "Bag": case "Sequence": case "Set": case "OrderedSet": case "Collection":
+			case "Bag": case "Sequence": case "Collection":
+			case "Set": case "OrderedSet":
+			case "ConcurrentSet": case "ConcurrentBag":
 				type = new EolCollectionType(name);
 				break;
 			case "Nothing":

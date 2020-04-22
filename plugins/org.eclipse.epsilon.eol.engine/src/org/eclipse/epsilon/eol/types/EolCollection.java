@@ -24,11 +24,11 @@ import java.util.stream.Stream;
  * @since 1.6
  * @param <T> Type of elements.
  */
-public abstract class AbstractEolCollection<T> implements Collection<T> {
+public abstract class EolCollection<T> implements Collection<T> {
 
 	protected Collection<T> wrapped;
 	
-	protected AbstractEolCollection(Collection<T> delegate) {
+	protected EolCollection(Collection<T> delegate) {
 		this.wrapped = delegate;
 	}
 	
@@ -36,8 +36,8 @@ public abstract class AbstractEolCollection<T> implements Collection<T> {
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
 		if (!(obj instanceof Collection)) return false;
-		return obj instanceof AbstractEolCollection ?
-			this.getClass() == obj.getClass() && this.wrapped.equals(((AbstractEolCollection<?>) obj).wrapped) :
+		return obj instanceof EolCollection ?
+			this.getClass() == obj.getClass() && this.wrapped.equals(((EolCollection<?>) obj).wrapped) :
 			this.wrapped.equals(obj);
 	}
 	

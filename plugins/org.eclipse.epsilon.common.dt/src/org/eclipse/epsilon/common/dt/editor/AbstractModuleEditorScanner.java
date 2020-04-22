@@ -9,7 +9,7 @@
 ******************************************************************************/
 package org.eclipse.epsilon.common.dt.editor;
 
-import java.util.List;
+import java.util.Collection;
 import org.eclipse.epsilon.common.dt.editor.highlighting.EpsilonHighlightingManager;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.rules.EndOfLineRule;
@@ -27,10 +27,10 @@ public class AbstractModuleEditorScanner extends RuleBasedScanner {
 	
 	protected AbstractModuleEditor editor;
 	protected EpsilonHighlightingManager highlightingManager;
-	protected List<String> keywords;
-	protected List<String> builtinVariables;
-	protected List<String> types;
-	protected List<String> assertions;
+	protected Collection<String> keywords;
+	protected Collection<String> builtinVariables;
+	protected Collection<String> types;
+	protected Collection<String> assertions;
 
 	public AbstractModuleEditorScanner(final AbstractModuleEditor editor) {
 		

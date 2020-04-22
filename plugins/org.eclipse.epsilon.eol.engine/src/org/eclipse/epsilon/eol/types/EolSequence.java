@@ -6,7 +6,7 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
- *     Sina Madani - extends {@link AbstractEolCollection}
+ *     Sina Madani - extends {@link EolCollection}
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
@@ -19,7 +19,7 @@ import java.util.RandomAccess;
 import java.util.function.UnaryOperator;
 
 @SuppressWarnings("unchecked")
-public class EolSequence<T> extends AbstractEolCollection<T> implements List<T>, RandomAccess {
+public class EolSequence<T> extends EolCollection<T> implements List<T>, RandomAccess {
 	
 	public EolSequence() {
 		super(new ArrayList<>());

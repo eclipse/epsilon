@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IUndefined;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
+import org.eclipse.epsilon.eol.types.EolMapType;
 import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 import org.eclipse.epsilon.eol.types.EolPrimitiveType;
 import org.eclipse.epsilon.eol.types.EolType;
@@ -55,6 +56,18 @@ public class AnyOperationContributor extends OperationContributor {
 		}
 		else if (EolCollectionType.OrderedSet.isType(target)) {
 			return EolCollectionType.OrderedSet;
+		}
+		else if (EolCollectionType.ConcurrentBag.isType(target)) {
+			return EolCollectionType.ConcurrentBag;
+		}
+		else if (EolCollectionType.ConcurrentSet.isType(target)) {
+			return EolCollectionType.ConcurrentSet;
+		}
+		else if (EolMapType.Map.isType(target)) {
+			return EolMapType.Map;
+		}
+		else if (EolMapType.ConcurrentMap.isType(target)) {
+			return EolMapType.ConcurrentMap;
 		}
 		
 		IModel model = context.getModelRepository().getOwningModel(target);

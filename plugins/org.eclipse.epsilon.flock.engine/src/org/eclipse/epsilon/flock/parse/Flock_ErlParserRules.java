@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.flock.parse;
 
-// $ANTLR 3.1b1 ErlParserRules.g 2020-04-11 14:38:15
+// $ANTLR 3.1b1 ErlParserRules.g 2020-04-22 23:32:30
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -162,8 +162,11 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
     public static final int StatementBlock=29;
     public static final int T__98=98;
     public static final int ABORT=44;
+    public static final int T__173=173;
     public static final int StrangeNameLiteral=15;
+    public static final int T__172=172;
     public static final int IGNORING=88;
+    public static final int T__174=174;
     public static final int FOR=30;
     public static final int BLOCK=63;
     public static final int FLOCKMODULE=83;
@@ -272,7 +275,7 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            p=(Token)match(input,162,FOLLOW_162_in_pre50); if (state.failed) return retval;
+            p=(Token)match(input,165,FOLLOW_165_in_pre50); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             p_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(p);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(p_tree, root_0);
@@ -358,7 +361,7 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            p=(Token)match(input,163,FOLLOW_163_in_post72); if (state.failed) return retval;
+            p=(Token)match(input,166,FOLLOW_166_in_post72); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             p_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(p);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(p_tree, root_0);
@@ -446,7 +449,7 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
             {
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.nil();
 
-            e=(Token)match(input,165,FOLLOW_165_in_extendz113); if (state.failed) return retval;
+            e=(Token)match(input,168,FOLLOW_168_in_extendz113); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             e_tree = (org.eclipse.epsilon.common.parse.AST)adaptor.create(e);
             root_0 = (org.eclipse.epsilon.common.parse.AST)adaptor.becomeRoot(e_tree, root_0);
@@ -517,13 +520,13 @@ public class Flock_ErlParserRules extends org.eclipse.epsilon.common.parse.Epsil
 
  
 
-    public static final BitSet FOLLOW_162_in_pre50 = new BitSet(new long[]{0x0000000000080000L,0x0000000040000000L});
+    public static final BitSet FOLLOW_165_in_pre50 = new BitSet(new long[]{0x0000000000080000L,0x0000000040000000L});
     public static final BitSet FOLLOW_NAME_in_pre53 = new BitSet(new long[]{0x0000000000080000L,0x0000000040000000L});
     public static final BitSet FOLLOW_statementBlock_in_pre56 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_163_in_post72 = new BitSet(new long[]{0x0000000000080000L,0x0000000040000000L});
+    public static final BitSet FOLLOW_166_in_post72 = new BitSet(new long[]{0x0000000000080000L,0x0000000040000000L});
     public static final BitSet FOLLOW_NAME_in_post75 = new BitSet(new long[]{0x0000000000080000L,0x0000000040000000L});
     public static final BitSet FOLLOW_statementBlock_in_post78 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_165_in_extendz113 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_168_in_extendz113 = new BitSet(new long[]{0x0000000000080000L});
     public static final BitSet FOLLOW_NAME_in_extendz116 = new BitSet(new long[]{0x0000000000000002L,0x0000000010000000L});
     public static final BitSet FOLLOW_92_in_extendz119 = new BitSet(new long[]{0x0000000000080000L});
     public static final BitSet FOLLOW_NAME_in_extendz122 = new BitSet(new long[]{0x0000000000000002L,0x0000000010000000L});

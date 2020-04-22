@@ -23,6 +23,8 @@ import org.eclipse.epsilon.eol.types.EolBag;
 import org.eclipse.epsilon.eol.types.EolOrderedSet;
 import org.eclipse.epsilon.eol.types.EolSequence;
 import org.eclipse.epsilon.eol.types.EolSet;
+import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentBag;
+import org.eclipse.epsilon.eol.types.concurrent.EolConcurrentSet;
 
 public class CollectionLiteralExpression extends LiteralExpression {
 	
@@ -64,20 +66,30 @@ public class CollectionLiteralExpression extends LiteralExpression {
 	}
 	
 	@Override
-	public Collection<Object> execute(IEolContext context) throws EolRuntimeException{
+	public Collection<Object> execute(IEolContext context) throws EolRuntimeException {
 		Collection<Object> collection;
 		
-		if ("Sequence".equals(collectionType) || "List".equals(collectionType)) {
-			collection = new EolSequence<>();
-		}
-		else if ("Set".equals(collectionType)) {
-			collection = new EolSet<>();
-		}
-		else if ("OrderedSet".equals(collectionType)) {
-			collection = new EolOrderedSet<>();
-		}
-		else {
-			collection = new EolBag<>();
+		switch (collectionType) {
+			case "Sequence": case "List":
+				collection = new EolSequence<>();
+				break;
+			case "Set":
+				collection = new EolSet<>();
+				break;
+			case "OrderedSet":
+				collection = new EolOrderedSet<>();
+				break;
+			case "Bag":
+				collection = new EolBag<>();
+				break;
+			case "ConcurrentBag":
+				collection = new EolConcurrentBag<>();
+				break;
+			case "ConcurrentSet":
+				collection = new EolConcurrentSet<>();
+				break;
+			default:
+				throw new EolRuntimeException("Unknown collection type: "+collectionType);
 		}
 		
 		ExecutorFactory executorFactory = context.getExecutorFactory();

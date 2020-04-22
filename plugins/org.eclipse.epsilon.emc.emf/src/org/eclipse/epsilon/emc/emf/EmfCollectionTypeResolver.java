@@ -44,14 +44,11 @@ public class EmfCollectionTypeResolver implements IEolCollectionTypeResolver {
 	
 	@Override
 	public boolean canResolveType(Collection<?> c) {
-		
 		return c instanceof Setting;
-		
 	}
 
 	@Override
 	public EolCollectionType resolveType(Collection<?> c) {
-		
 		EStructuralFeature sf = ((Setting) c).getEStructuralFeature();
 		if (sf.isOrdered()) {
 			if (sf.isUnique()) return EolCollectionType.OrderedSet;

@@ -7,14 +7,14 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  *     Antonio García-Domínguez - add type parameter
- *     Sina Madani - extends {@link AbstractEolCollection}
+ *     Sina Madani - extends {@link EolCollection}
  ******************************************************************************/
 package org.eclipse.epsilon.eol.types;
 
 import java.util.Set;
 
 @SuppressWarnings("unchecked")
-public class EolOrderedSet<T> extends AbstractEolCollection<T> implements Set<T> {
+public class EolOrderedSet<T> extends EolCollection<T> implements Set<T> {
 	
 	public EolOrderedSet() {
 		super(new java.util.LinkedHashSet<>());

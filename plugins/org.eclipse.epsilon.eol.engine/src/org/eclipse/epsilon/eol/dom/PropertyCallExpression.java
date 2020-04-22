@@ -62,7 +62,8 @@ public class PropertyCallExpression extends FeatureCallExpression {
 			// Added support for properties on collections
 			if (source instanceof Collection<?> && !getter.hasProperty(source, propertyName)) {
 				EolSequence<Object> results = new EolSequence<>();
-				for (Object content : ((Collection<?>) source)) {
+				results.ensureCapacity(((Collection<?>) source).size());
+				for (Object content : (Collection<?>) source) {
 					results.add(context.getIntrospectionManager().getPropertyGetterFor(content, propertyName, context).invoke(content, propertyName));
 				}
 				return results;

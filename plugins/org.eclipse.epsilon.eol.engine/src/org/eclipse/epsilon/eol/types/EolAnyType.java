@@ -18,10 +18,6 @@ import org.eclipse.epsilon.eol.types.EolNoType.EolNoTypeInstance;
 public class EolAnyType extends EolType {
 
 	public static final EolAnyType Instance = new EolAnyType();
-	
-	public EolAnyType() {
-		super();
-	}
 
 	@Override
 	public boolean isType(Object o) {
@@ -45,8 +41,7 @@ public class EolAnyType extends EolType {
 	}
 
 	@Override
-	public Object createInstance(List<Object> parameters)
-			throws EolRuntimeException {
+	public Object createInstance(List<Object> parameters) throws EolRuntimeException {
 		throw new EolIllegalOperationParametersException("createInstance");
 	}
 	
@@ -54,5 +49,4 @@ public class EolAnyType extends EolType {
 	public String toString() {
 		return getName();
 	}
-	
 }

@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.flock.parse;
 
-// $ANTLR 3.1b1 EolLexerRules.g 2020-04-11 14:38:15
+// $ANTLR 3.1b1 EolLexerRules.g 2020-04-22 23:32:31
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -72,7 +72,7 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int TYPE=66;
     public static final int T__139=139;
     public static final int T__138=138;
-    public static final int Tokens=172;
+    public static final int Tokens=175;
     public static final int T__133=133;
     public static final int T__132=132;
     public static final int T__135=135;
@@ -160,8 +160,11 @@ public class Flock_EolLexerRules extends Lexer {
     public static final int StatementBlock=29;
     public static final int T__98=98;
     public static final int ABORT=44;
+    public static final int T__173=173;
     public static final int StrangeNameLiteral=15;
+    public static final int T__172=172;
     public static final int IGNORING=88;
+    public static final int T__174=174;
     public static final int FOR=30;
     public static final int BLOCK=63;
     public static final int FLOCKMODULE=83;
@@ -1492,8 +1495,8 @@ public class Flock_EolLexerRules extends Lexer {
         "\1\11\1\uffff\1\56\1\uffff\1\162\1\141\4\uffff\1\52\3\uffff\1\165"+
         "\1\154\2\uffff\1\145\1\163\1\46\1\145\1\uffff\1\46";
     static final String DFA19_maxS =
-        "\1\ufaff\1\uffff\1\56\1\uffff\1\162\1\141\4\uffff\1\57\3\uffff\1"+
-        "\165\1\154\2\uffff\1\145\1\163\1\ufaff\1\145\1\uffff\1\ufaff";
+        "\1\ufaff\1\uffff\1\56\1\uffff\1\162\1\141\4\uffff\1\57\3\uffff"+
+        "\1\165\1\154\2\uffff\1\145\1\163\1\ufaff\1\145\1\uffff\1\ufaff";
     static final String DFA19_acceptS =
         "\1\uffff\1\1\1\uffff\1\4\2\uffff\1\6\1\7\1\10\1\11\1\uffff\1\14"+
         "\1\3\1\2\2\uffff\1\12\1\13\4\uffff\1\5\1\uffff";
@@ -1525,16 +1528,18 @@ public class Flock_EolLexerRules extends Lexer {
             "",
             "\1\24",
             "\1\25",
-            "\1\10\11\uffff\12\10\5\uffff\1\10\1\uffff\32\10\3\uffff\2\10"+
-            "\1\uffff\32\10\3\uffff\1\10\101\uffff\27\10\1\uffff\37\10\1"+
-            "\uffff\u1f08\10\u1040\uffff\u0150\10\u0170\uffff\u0080\10\u0080"+
-            "\uffff\u092e\10\u10d2\uffff\u5200\10\u5900\uffff\u0200\10",
+            "\1\10\11\uffff\12\10\5\uffff\1\10\1\uffff\32\10\3\uffff\2"+
+            "\10\1\uffff\32\10\3\uffff\1\10\101\uffff\27\10\1\uffff\37\10"+
+            "\1\uffff\u1f08\10\u1040\uffff\u0150\10\u0170\uffff\u0080\10"+
+            "\u0080\uffff\u092e\10\u10d2\uffff\u5200\10\u5900\uffff\u0200"+
+            "\10",
             "\1\27",
             "",
-            "\1\10\11\uffff\12\10\5\uffff\1\10\1\uffff\32\10\3\uffff\2\10"+
-            "\1\uffff\32\10\3\uffff\1\10\101\uffff\27\10\1\uffff\37\10\1"+
-            "\uffff\u1f08\10\u1040\uffff\u0150\10\u0170\uffff\u0080\10\u0080"+
-            "\uffff\u092e\10\u10d2\uffff\u5200\10\u5900\uffff\u0200\10"
+            "\1\10\11\uffff\12\10\5\uffff\1\10\1\uffff\32\10\3\uffff\2"+
+            "\10\1\uffff\32\10\3\uffff\1\10\101\uffff\27\10\1\uffff\37\10"+
+            "\1\uffff\u1f08\10\u1040\uffff\u0150\10\u0170\uffff\u0080\10"+
+            "\u0080\uffff\u092e\10\u10d2\uffff\u5200\10\u5900\uffff\u0200"+
+            "\10"
     };
 
     static final short[] DFA19_eot = DFA.unpackEncodedString(DFA19_eotS);

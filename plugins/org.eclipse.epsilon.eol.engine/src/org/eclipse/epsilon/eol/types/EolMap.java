@@ -20,11 +20,11 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class EolMap<K, V> implements Map<K, V> {
-
+	
 	protected Map<K, V> wrapped;
 	
 	public EolMap() {
-		wrapped = new java.util.HashMap<>();
+		this.wrapped = new java.util.HashMap<>();
 	}
 
 	@Override

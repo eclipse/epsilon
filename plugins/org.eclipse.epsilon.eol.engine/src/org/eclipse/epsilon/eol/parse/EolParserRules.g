@@ -254,7 +254,7 @@ collectionType
 		$tree.getExtraTokens().add($cp);
 		$tree.getToken().setType(TYPE);
 	}
-	: 	('Collection'|'Sequence'|'List'|'Bag'|'Set'|'OrderedSet'|'Map')^
+	: 	('Collection'|'Sequence'|'List'|'Bag'|'Set'|'OrderedSet'|'Map'|'ConcurrentMap'|'ConcurrentBag'|'ConcurrentSet')^
 		((op='('! tn=typeName {setTokenType(tn,TYPE);} (',' tn=typeName {setTokenType(tn,TYPE);})* cp=')'!) |
 		 (op='<'! tn=typeName {setTokenType(tn,TYPE);} (',' tn=typeName {setTokenType(tn,TYPE);})* cp='>'!)
 		)?
@@ -503,7 +503,9 @@ literalSequentialCollection
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
 	}
-	:	(l='Collection'^|l='Sequence'^|l='List'^|l='Bag'^|l='Set'^|l='OrderedSet'^) ob='{'! expressionListOrRange? cb='}'!
+	:	(l='Collection'^|l='Sequence'^|l='List'^|l='Bag'^|
+		l='Set'^|l='OrderedSet'^|l='ConcurrentBag'^|l='ConcurrentSet'^)
+		ob='{'! expressionListOrRange? cb='}'!
 	{$l.setType(COLLECTION);}
 	;
 
@@ -529,7 +531,7 @@ literalMapCollection
 		$tree.getExtraTokens().add($ob);
 		$tree.getExtraTokens().add($cb);
 	}
-	:	m='Map'^ ob='{'! keyvalExpressionList? cb='}'!
+	:	(m='Map'^|m='ConcurrentMap'^) ob='{'! keyvalExpressionList? cb='}'!
 	{$m.setType(MAP);}
 	;
 

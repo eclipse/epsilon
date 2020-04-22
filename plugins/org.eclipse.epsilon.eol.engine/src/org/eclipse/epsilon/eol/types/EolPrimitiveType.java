@@ -25,7 +25,7 @@ public class EolPrimitiveType extends EolType {
 		Boolean = new EolPrimitiveType(Boolean.class, "Boolean"),
 		Real = new EolPrimitiveType(Float.class, "Real");
 	
-	private EolPrimitiveType(Class<?> clazz, String name){
+	private EolPrimitiveType(Class<?> clazz, String name) {
 		this.clazz = clazz;
 		this.name = name;
 	}

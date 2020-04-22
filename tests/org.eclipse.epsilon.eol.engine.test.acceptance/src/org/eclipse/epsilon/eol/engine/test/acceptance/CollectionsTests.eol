@@ -1,4 +1,25 @@
 @test
+operation testInit() {
+	Sequence{};
+	Set{};
+	OrderedSet{};
+	Bag{};
+	Map{};
+	ConcurrentMap{};
+	ConcurrentSet{};
+	ConcurrentBag{};
+	var c;
+	c = new Sequence;
+	c = new Set;
+	c = new OrderedSet;
+	c = new Bag;
+	c = new Map;
+	c = new ConcurrentMap;
+	c = new ConcurrentSet;
+	c = new ConcurrentBag;
+}
+
+@test
 operation testFirst() {
 	assertEquals(1, Sequence{1,2,3}.first);
 }
@@ -380,4 +401,49 @@ operation testBagSize() {
 @test
 operation testMapSize() {
     assertEquals(2, Map {1 = 2, 2 = 3}.size);
+}
+
+@test
+operation testParseConcurrentSet() {
+	var cs = new ConcurrentSet;
+	assertTrue(cs.getClass().getSimpleName().equals("EolConcurrentSet"));
+	cs.add(1);
+	cs.add(2);
+	cs.add(1);
+	assertEquals(2, cs.size());
+	assertEquals(4, ConcurrentSet{1,1,2,3,5}.size());
+	cs = ConcurrentSet{"str", 7, "str"};
+	assertTrue(cs.contains("str"));
+	assertTrue(cs.contains(7));
+	assertEquals(Set{"str", 7, "str"}.size(), cs.size());
+}
+
+@test
+operation testParseConcurrentBag() {
+	var cb = new ConcurrentBag;
+	assertTrue(cb.getClass().getSimpleName().equals("EolConcurrentBag"));
+	cb.add(1);
+	cb.add(2);
+	cb.add(1);
+	assertEquals(3, cb.size());
+	assertEquals(5, ConcurrentBag{1,1,2,3,5}.size());
+	assertEquals(Bag{-16..25}.asSequence(), ConcurrentBag{-16..25}.asSequence());
+}
+
+@test
+operation testParseConcurrentMap() {
+	var cm = new ConcurrentMap;
+	assertTrue(cm.getClass().getSimpleName().equals("EolConcurrentMap"));
+	cm.put(1, "a");
+	cm.put(2, "b");
+	cm.put(3, "c");
+	assertEquals(Map{1="a",2="b",3="c"}.entrySet().toString(), cm.entrySet().toString());
+	cm = ConcurrentMap{"a"=1,"b"=2,"c"=3};
+	cm.put("a", 0);
+	assertEquals(3, cm.size());
+	cm.putIfAbsent("d", 4);
+	assertEquals(4, cm.size());
+	cm.putIfAbsent("d", 5);
+	assertEquals(4, cm.size());
+	assertEquals(4, cm.get("d"));
 }
