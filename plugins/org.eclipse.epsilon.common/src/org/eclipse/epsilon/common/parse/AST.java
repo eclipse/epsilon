@@ -191,7 +191,7 @@ public class AST extends CommonTree {
 		}
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings("all")
 	public AST setNextSibling(AST sibling) {
 		if (parent != null && sibling != null) {
 			((List)parent.getChildren()).add(this.childIndex, sibling);
@@ -220,12 +220,12 @@ public class AST extends CommonTree {
 		}
 	}
 	
+	@SuppressWarnings("all")
 	public AST setFirstChild(AST child) {
 		if (getChildCount() == 0) {
 			addChild(child);
-			
 		} else { 
-			super.children.add(0, child);
+			children.add(0, child);
 			freshenParentAndChildIndexes();
 		}
 		return this;
