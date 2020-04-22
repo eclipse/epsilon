@@ -3,7 +3,7 @@
 	<import file="../../../../../../../org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse/build-epsilon-parser-macro.xml"/>
 	
 	<target name="main">
-		<buildEpsilonParser lang="eml" languppercase="Eml" extends="etl"/>
+		<buildEpsilonParser lang="eml" languppercase="Eml" extends="etl" extendsuppercase="Etl"/>
 	</target>
 	
 </project>

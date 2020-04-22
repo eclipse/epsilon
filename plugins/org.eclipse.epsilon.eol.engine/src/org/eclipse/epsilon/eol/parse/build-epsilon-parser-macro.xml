@@ -3,24 +3,33 @@
 		<attribute name="lang"/>
 		<attribute name="langUpperCase"/>
 		<attribute name="extends" default="eol"/>
+		<attribute name="extendsUpperCase" default="Eol"/>
+		
 		<sequential>
 			<property name="project_loc" location="../../../../../.."/>
 			<property name="plugins_loc" location="${project_loc}/../../plugins"/>
+			<property name="lang_parse_loc" location="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse"/>
+			<property name="extends_parse_loc" location="${plugins_loc}/org.eclipse.epsilon.@{extends}.engine/src/org/eclipse/epsilon/@{extends}/parse"/>
+			<property name="eol_parse_loc" location="${plugins_loc}/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse"/>
+			
 			<echo message="Generating @{langUpperCase} parser..."></echo>
+			
+			<copy file="${eol_parse_loc}/EolParserRules.g" todir="${lang_parse_loc}"/>
+			<copy file="${eol_parse_loc}/ErlParserRules.g" todir="${lang_parse_loc}"/>
+			<copy file="${eol_parse_loc}/EolLexerRules.g" todir="${lang_parse_loc}"/>
+			<copy file="${extends_parse_loc}/@{extendsUpperCase}ParserRules.g" todir="${lang_parse_loc}"/>
+
 			<java classname="org.antlr.Tool">
 				<classpath>
-					<pathelement location="${plugins_loc}/org.eclipse.epsilon.eol.engine/lib/antlr-3.5.2-complete-no-st3.jar"/>
+					<pathelement location="${eol_parse_loc}/../../../../../../lib/antlr-3.5.2-complete-no-st3.jar"/>
 				</classpath>
 				<arg value="-lib"/>
-				<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/"/>
-				<arg value="-lib"/>
-				<arg value="${plugins_loc}/org.eclipse.epsilon.eol.engine/src/org/eclipse/epsilon/eol/parse/"/>
-				<arg value="-lib"/>
-				<arg value="${plugins_loc}/org.eclipse.epsilon.@{extends}.engine/src/org/eclipse/epsilon/@{extends}/parse/"/>
+				<arg value="${lang_parse_loc}"/>
 				<arg value="-o"/>
-				<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/"/>
-				<arg value="${project_loc}/src/org/eclipse/epsilon/@{lang}/parse/@{langUpperCase}.g"/>
+				<arg value="${lang_parse_loc}"/>
+				<arg value="${lang_parse_loc}/@{langUpperCase}.g"/>
 			</java>
+			
 			<eclipse.refreshLocal resource="org.eclipse.epsilon.@{lang}.engine"/>
 		</sequential>
 	</macrodef>
