@@ -44,7 +44,6 @@ public abstract class EpsilonParser extends Parser {
 		else {
 			return false;
 		}
-		
 	}
 	
 	public void setDeepTreeAdaptor(TreeAdaptor adaptor) {
@@ -64,7 +63,6 @@ public abstract class EpsilonParser extends Parser {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	
 	public void prepareForGUnit() {

@@ -16,7 +16,6 @@ import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.eclipse.epsilon.common.module.IModule;
 
-
 public class EpsilonTreeAdaptor extends CommonTreeAdaptor {
 	
 	protected URI uri = null;
@@ -44,9 +43,8 @@ public class EpsilonTreeAdaptor extends CommonTreeAdaptor {
 		this.module = module;
 	}
 	
-	
+	@Override
     public AST create(Token token) {
         return new AST(token, uri, module);
     }
-    
 }
