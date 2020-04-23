@@ -8,15 +8,27 @@ operation testInit() {
 	ConcurrentMap{};
 	ConcurrentSet{};
 	ConcurrentBag{};
+}
+
+@test
+operation testCorrectTypes() {
 	var c;
 	c = new Sequence;
+	assertTrue(c.getClass().getName().endsWith("Sequence"));
 	c = new Set;
+	assertTrue(c.getClass().getName().endsWith("Set"));
 	c = new OrderedSet;
+	assertTrue(c.getClass().getName().endsWith("OrderedSet"));
 	c = new Bag;
+	assertTrue(c.getClass().getName().endsWith("Bag"));
 	c = new Map;
+	assertTrue(c.getClass().getName().endsWith("Map"));
 	c = new ConcurrentMap;
+	assertTrue(c.getClass().getName().endsWith("ConcurrentMap"));
 	c = new ConcurrentSet;
+	assertTrue(c.getClass().getName().endsWith("ConcurrentSet"));
 	c = new ConcurrentBag;
+	assertTrue(c.getClass().getName().endsWith("ConcurrentBag"));
 }
 
 @test
