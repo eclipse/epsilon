@@ -111,7 +111,7 @@ An EVL module can define a number of named \emph{pre} and a \emph{post} blocks t
 Listings \ref{lst:ContextConcreteSyntax}, \ref{lst:InvariantConcreteSyntax} and \ref{lst:FixConcreteSyntax} demonstrate the concrete sytnax of the \emph{context}, \emph{invariant} and \emph{fix} abstract syntax constructs discussed above.
 
 \begin{lstlisting}[caption=Concrete Syntax of an EVL context, label=lst:ContextConcreteSyntax, language=EVL, escapechar=!]
-(@lazy)?
+(@lazy | @parallel)?
 context !\textit{<name>}! !\textbf{\{}!
 
 	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
@@ -121,7 +121,7 @@ context !\textit{<name>}! !\textbf{\{}!
 \end{lstlisting}
 
 \begin{lstlisting}[caption=Concrete Syntax of an EVL invariant, label=lst:InvariantConcreteSyntax, language=EVL, escapechar=!]
-(@lazy)?
+(@lazy | @parallel)?
 (constraint|critique) !\textit{<name>}! !\textbf{\{}!
 	
 	(guard (!\textbf{:}\textit{expression}!)|(!\textbf{\{}\textit{statementBlock}\textbf{\}}!))?
@@ -174,6 +174,8 @@ Having discussed the abstract and concrete syntaxes of EVL, this section provide
 \paragraph {Phase 2} For each non-lazy \emph{context} with at least one non-lazy invariant, the instances of the meta-class it defines are collected. For each instance, the \emph{guard} of the \emph{context} is evaluated. If the \emph{guard} is satisfied, then for each non-lazy invariant contained in the context the invariant's \emph{guard} is also evaluated. If the \emph{guard} of the invariant is satisfied, the \emph{body} of the invariant is evaluated. In case the \emph{body} evaluates to \emph{false}, the \emph{message} part of the rule is evaluated and the produced message is added along with the instance, the invariant and the available \emph{fixes} to the \emph{ValidationTrace}.
 
 The execution order of an EVL module follows a top-down depth-first scheme that respects the order in which the \emph{contexts} and \emph{invariants} appear in the module. However, the execution order can change in case one of the \emph{satisfies}, \emph{satisfiesOne}, \emph{satisfiesAll} built-in operations, discussed in detail in the sequel, are called.
+
+Since 2.0, \emph{constraint}s and/or \emph{context}s can be annotated as \emph{parallel} to execute each applicable element in parallel to others. This is only applicable when using the annotation-based parallel execution engine, otherwise parallelisation is applied automatically by the other parallel execution implementations.
 
 \paragraph{Phase 3} In this phase, the validation trace is examined for unsatisfied constraints and the user is presented with the message each one has produced. The user can then select one or more of the available \emph{fixes} to be executed. Execution of \emph{fixes} is performed in a transactional manner using the respective facilities provided by the model connectivity framework, as discussed in Section \ref{sec:EMC.ModelTransactionSupport}. This is to prevent runtime errors raised during the execution of a \emph{fix} from compromising the validated model by leaving it in an inconsistent state.
 

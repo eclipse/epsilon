@@ -315,9 +315,10 @@ Finally, the Boolean type represents true/false states and provides no additiona
 \subsection{Collections and Maps} 
 \label{sec:Design.EOL.Collections}
 
-EOL provides four types of collections and a Map type. The Bag type represents non-unique, unordered collections, the Sequence type represents non-unique, ordered collections, the Set type represents unique and unordered collections and the OrderedSet represents unique and ordered collections.
+EOL provides four types of collections and a Map type. The Bag type represents non-unique, unordered collections, the Sequence type represents non-unique, ordered collections, the Set type represents unique and unordered collections and the OrderedSet represents unique and ordered collections. Since 2.0, there are also two thread-safe collection types and a Map type. Namely: ConcurrentBag, ConcurrentSet and ConcurrentMap. Note that null elements are not supported as keys in ConcurrentMap or ConcurrentSet.
 
-All collection types inherit from the abstract Collection type. Apart from simple operations, EOL also supports logic operations on collections. The following operations apply to all types of collections:
+All collection types inherit from the abstract Collection type. Since EOL is implemented in Java, any functionality provided by the Java Collections API is also supported. More specifically, Sequence is a java.util.List, Set is a java.util.Set and Map is a java.util.Map. Similarly, ConcurrentMap is a java.util.concurrent.ConcurrentMap.
+Apart from simple operations, EOL also supports logic operations on collections. The following operations apply to all types of collections:
 \newpage
 
 \begin{longtabu} {|p{6.5cm}|X|}
@@ -420,7 +421,7 @@ The following operations apply to ordered collection types (i.e. Sequence and Or
     third() : Any & Returns the third item of the collection  \\\hline
 \end{longtabu}
 
-Also, EOL collections support the following first-order operations. Apart from \emph{aggregate} and \emph{closure}, all of these operations have a parallel variant which can take advantage of multiple cores to improve performance. All computations contained in these operations are assumed to be free from side-effects (i.e. do not mutatate global variables).
+Also, EOL collections support the following first-order operations. Apart from \emph{aggregate} and \emph{closure}, all of these operations have a parallel variant which can take advantage of multiple cores to improve performance. All computations contained in these operations are assumed to be free from side-effects (i.e. do not mutatate global variables). Unlike OCL, many of the operations are short-circuiting, which drastyically improves performance by avoiding unnecessary evaluations once the result is determined.
 
 Aside from the following built-in first-order operations which are evaluated eagerly, all Collection types in the Java implementation of EOL support Streams. This allows for chains of queries and transformations on collections to be evaluated more efficiently. A stream can be obtained by calling the \emph{stream()} method on the collection. The API is defined by the Java standard library\footnote{https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html}.
 
