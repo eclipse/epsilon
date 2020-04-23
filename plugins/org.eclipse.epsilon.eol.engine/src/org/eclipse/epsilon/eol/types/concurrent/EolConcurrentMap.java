@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.types.concurrent;
 
+import java.util.concurrent.ConcurrentMap;
 import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.eol.types.EolMap;
 
@@ -18,7 +19,7 @@ import org.eclipse.epsilon.eol.types.EolMap;
  * @since 1.6
  * @param <T>
  */
-public class EolConcurrentMap<K, V> extends EolMap<K, V> {
+public class EolConcurrentMap<K, V> extends EolMap<K, V> implements ConcurrentMap<K, V> {
 
 	public EolConcurrentMap() {
 		wrapped = ConcurrencyUtils.concurrentMap();
