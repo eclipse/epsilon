@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.flock.FlockModule;
+import org.eclipse.epsilon.flock.IFlockModule;
 import org.eclipse.epsilon.flock.dt.editor.outline.FlockModuleContentProvider;
 import org.eclipse.epsilon.flock.dt.editor.outline.FlockModuleElementLabelProvider;
 
@@ -28,7 +28,6 @@ public class FlockEditor extends EolEditor {
 	@Override
 	public List<String> getKeywords() {
 		final List<String> keywords = new ArrayList<>(super.getKeywords());
-
 		keywords.add("delete");
 		keywords.add("retype");
 		keywords.add("to");
@@ -38,23 +37,19 @@ public class FlockEditor extends EolEditor {
 		keywords.add("package");
 		keywords.add("pre");
 		keywords.add("post");
-		
 		return keywords;
 	}
 	
 	@Override
 	public List<String> getBuiltinVariables() {
 		final List<String> builtIn = new ArrayList<>(super.getBuiltinVariables());
-		
 		builtIn.add("original");
 		builtIn.add("migrated");
-		
-		
 		return builtIn;
 	}
 	
 	@Override
-	public IModule createModule(){
+	public IFlockModule createModule() {
 		return new FlockModule();
 	}
 	
@@ -67,5 +62,4 @@ public class FlockEditor extends EolEditor {
 	protected ModuleContentProvider createModuleContentProvider() {
 		return new FlockModuleContentProvider();
 	}
-	
 }

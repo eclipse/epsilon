@@ -27,9 +27,7 @@ public class EclEditor extends EolEditor{
 	
 	@Override
 	public List<String> getKeywords() {
-		
 		List<String> eclKeywords = new ArrayList<>();
-		
 		eclKeywords.add("match");
 		eclKeywords.add("auto");
 		eclKeywords.add("do");
@@ -41,23 +39,17 @@ public class EclEditor extends EolEditor{
 		eclKeywords.add("extends");
 		eclKeywords.add("rule");
 		eclKeywords.add("abstract");
-
 		eclKeywords.addAll(super.getKeywords());
-		
 		return eclKeywords;
 	}
 	
 	@Override
 	public List<String> getBuiltinVariables() {
-		
 		ArrayList<String> eclBuiltin = new ArrayList<>();
-		
 		eclBuiltin.add("matchTrace");
 		eclBuiltin.add("autoCompare");
 		eclBuiltin.add("matchInfo");
-		
 		eclBuiltin.addAll(super.getBuiltinVariables());
-		
 		return eclBuiltin;
 	}
 	
@@ -75,5 +67,4 @@ public class EclEditor extends EolEditor{
 	public IEclModule createModule() {
 		return new EclModule();
 	}
-	
 }

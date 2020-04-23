@@ -11,12 +11,11 @@ package org.eclipse.epsilon.etl.dt.editor;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleContentProvider;
 import org.eclipse.epsilon.common.dt.editor.outline.ModuleElementLabelProvider;
-import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.eol.dt.editor.EolEditor;
 import org.eclipse.epsilon.etl.EtlModule;
+import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.dt.editor.outline.EtlModuleContentProvider;
 import org.eclipse.epsilon.etl.dt.editor.outline.EtlModuleElementLabelProvider;
 
@@ -28,9 +27,7 @@ public class EtlEditor extends EolEditor{
 	
 	@Override
 	public List<String> getKeywords() {
-		
 		List<String> keywords = new ArrayList<>();
-		
 		keywords.add("transform");
 		keywords.add("auto");
 		keywords.add("guard");
@@ -40,21 +37,15 @@ public class EtlEditor extends EolEditor{
 		keywords.add("extends");
 		keywords.add("rule");
 		keywords.add("abstract");
-
 		keywords.addAll(super.getKeywords());
-		
 		return keywords;
 	}
 	
 	@Override
 	public List<String> getBuiltinVariables() {
-		
 		ArrayList<String> builtIn = new ArrayList<>();
-		
 		builtIn.add("transTrace");
-		
 		builtIn.addAll(super.getBuiltinVariables());
-		
 		return builtIn;
 	}
 
@@ -69,8 +60,7 @@ public class EtlEditor extends EolEditor{
 	}
 	
 	@Override
-	public IModule createModule(){
+	public IEtlModule createModule() {
 		return new EtlModule();
 	}
-	
 }

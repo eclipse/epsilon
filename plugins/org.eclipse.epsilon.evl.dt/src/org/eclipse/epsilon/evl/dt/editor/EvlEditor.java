@@ -20,7 +20,7 @@ import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.dt.editor.outline.EvlModuleContentProvider;
 import org.eclipse.epsilon.evl.dt.editor.outline.EvlModuleElementLabelProvider;
 
-public class EvlEditor extends EolEditor{
+public class EvlEditor extends EolEditor {
 	
 	public EvlEditor() {
 		this.addTemplateContributor(new EvlEditorStaticTemplateContributor());
@@ -58,14 +58,10 @@ public class EvlEditor extends EolEditor{
 	@Override
 	public List<String> getBuiltinVariables() {
 		Collection<String> superBuiltIns = super.getBuiltinVariables();
-		
 		ArrayList<String> builtIn = new ArrayList<>(superBuiltIns.size()+2);
-		
 		builtIn.add("constraintTrace");
 		builtIn.add("extras");
-		
 		builtIn.addAll(superBuiltIns);
-		
 		return builtIn;
 	}
 
@@ -83,5 +79,4 @@ public class EvlEditor extends EolEditor{
 	public IEvlModule createModule() {
 		return new EvlModule();
 	}
-	
 }

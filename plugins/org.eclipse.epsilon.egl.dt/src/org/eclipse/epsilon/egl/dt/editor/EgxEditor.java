@@ -27,9 +27,7 @@ public class EgxEditor extends EolEditor {
 	
 	@Override
 	public List<String> getKeywords() {
-		
 		List<String> keywords = new ArrayList<>(13);
-		
 		keywords.add("transform");
 		keywords.add("rule");
 		keywords.add("guard");
@@ -43,22 +41,16 @@ public class EgxEditor extends EolEditor {
 		keywords.add("protectRegions");
 		keywords.add("merge");
 		keywords.add("append");
-
 		keywords.addAll(super.getKeywords());
-		
 		return keywords;
 	}
 	
 	
 	@Override
-	public List<String> getBuiltinVariables() {
-		
+	public List<String> getBuiltinVariables() {	
 		ArrayList<String> builtIn = new ArrayList<>();
-		
 		builtIn.add("generated");
-		
 		builtIn.addAll(super.getBuiltinVariables());
-		
 		return builtIn;
 	}
 

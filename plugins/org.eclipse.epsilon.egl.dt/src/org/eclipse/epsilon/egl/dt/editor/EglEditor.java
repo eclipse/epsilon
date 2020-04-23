@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.editor;
 
+import java.util.Collection;
 import java.util.List;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditor;
 import org.eclipse.epsilon.common.dt.editor.AbstractModuleEditorSourceViewerConfiguration;
@@ -95,11 +96,9 @@ public class EglEditor extends AbstractModuleEditor {
 	}
 	
 	@Override
-	public List<String> getTypes() {
-		List<String> types = super.getTypes();
-		
+	public Collection<String> getTypes() {
+		Collection<String> types = super.getTypes();
 		types.add("Template");
-		
 		return types;
 	}
 
@@ -127,5 +126,4 @@ public class EglEditor extends AbstractModuleEditor {
 	protected boolean supportsDirtyTextParsing() {
 		return true;
 	}
-	
 }
