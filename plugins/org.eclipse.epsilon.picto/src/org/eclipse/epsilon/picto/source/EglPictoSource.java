@@ -93,6 +93,8 @@ public abstract class EglPictoSource implements PictoSource {
 			}
 			//}
 			
+			if (renderingMetadata.getFormat() == null) renderingMetadata.setFormat("egx");
+			
 			if ("egx".equals(renderingMetadata.getFormat())) {
 				module = new LazyEgxModule();
 			}
