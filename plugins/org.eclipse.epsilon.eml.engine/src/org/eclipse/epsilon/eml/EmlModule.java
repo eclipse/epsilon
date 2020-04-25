@@ -144,14 +144,4 @@ public class EmlModule extends EtlModule implements IEmlModule {
 		}
 		return mergeRules;
 	}
-
-	@Override
-	protected int getPostBlockTokenType() {
-		return EmlParser.POST;
-	}
-
-	@Override
-	protected int getPreBlockTokenType() {
-		return EmlParser.PRE;
-	}	
 }

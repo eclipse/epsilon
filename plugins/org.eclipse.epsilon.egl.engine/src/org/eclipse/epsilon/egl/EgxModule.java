@@ -145,8 +145,8 @@ public class EgxModule extends ErlModule implements IEgxModule {
 					return new ExecutableBlock<>(Void.class);
 				}
 			}
+			default: return super.adapt(cst, parentAst);
 		}
-		return super.adapt(cst, parentAst);
 	}
 	
 	/**
@@ -214,16 +214,6 @@ public class EgxModule extends ErlModule implements IEgxModule {
 			generationRules.addAll(declaredGenerationRules);
 		}
 		return generationRules;
-	}
-
-	@Override
-	protected int getPostBlockTokenType() {
-		return EgxParser.POST;
-	}
-
-	@Override
-	protected int getPreBlockTokenType() {
-		return EgxParser.PRE;
 	}
 	
 	@Override

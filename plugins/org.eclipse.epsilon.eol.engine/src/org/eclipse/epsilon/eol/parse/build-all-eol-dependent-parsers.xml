@@ -12,6 +12,7 @@
 	<target name="main">
 		<!--parallel threadCount="9"-->
 			<runParserBuildFile lang="eol"/>
+			<runParserBuildFile lang="erl"/>
 			<runParserBuildFile lang="etl"/>
 			<runParserBuildFile lang="epl"/>
 			<runParserBuildFile lang="evl"/>

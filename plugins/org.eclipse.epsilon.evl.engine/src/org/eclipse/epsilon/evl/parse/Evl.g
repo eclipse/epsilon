@@ -95,7 +95,3 @@ evlModule
 	:	importStatement* modelDeclaration* (evlModuleContent)* EOF
 	-> ^(EVLMODULE importStatement* modelDeclaration* evlModuleContent*)
 	;
-
-evlModuleContent
-	:	pre | annotationBlock | context | operationDeclaration | constraint | critique | post
-	;

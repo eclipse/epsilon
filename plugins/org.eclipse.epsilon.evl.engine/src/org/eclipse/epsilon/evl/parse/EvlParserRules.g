@@ -49,6 +49,10 @@ tokens {
 	MESSAGE;
 }
 
+evlModuleContent
+	:	context | operationDeclaration | constraint | critique | erlModuleContent
+	;
+
 context
 	@after {
 		$tree.getExtraTokens().add($ob);

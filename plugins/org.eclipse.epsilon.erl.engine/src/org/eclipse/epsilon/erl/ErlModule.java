@@ -26,8 +26,9 @@ import org.eclipse.epsilon.erl.exceptions.ErlCircularRuleInheritanceException;
 import org.eclipse.epsilon.erl.exceptions.ErlRuleNotFoundException;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
+import org.eclipse.epsilon.erl.parse.ErlParser;
 
-public abstract class ErlModule extends EolModule implements IErlModule {
+public class ErlModule extends EolModule implements IErlModule {
 	
 	protected NamedRuleList<Pre> pre;
 	protected NamedRuleList<Pre> declaredPre = new NamedRuleList<>();
@@ -53,8 +54,8 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 		super.build(cst, module);
 		
 		List<AST>
-			preBlockASTs = AstUtil.getChildren(cst, getPreBlockTokenType()),
-			postBlockASTs = AstUtil.getChildren(cst, getPostBlockTokenType());
+			preBlockASTs = AstUtil.getChildren(cst, ErlParser.PRE),
+			postBlockASTs = AstUtil.getChildren(cst, ErlParser.POST);
 		
 		declaredPre.ensureCapacity(preBlockASTs.size());
 		declaredPost.ensureCapacity(preBlockASTs.size());
@@ -101,13 +102,14 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
-		if (cst.getType() == getPreBlockTokenType()) {
-			return new Pre();
+		switch (cst.getType()) {
+			case ErlParser.PRE:
+				return new Pre();
+			case ErlParser.POST:
+				return new Post();
+			default:
+				return super.adapt(cst, parentAst);
 		}
-		else if (cst.getType() == getPostBlockTokenType()) {
-			return new Post();
-		}
-		return super.adapt(cst, parentAst);
 	}
 	
 	@Override
@@ -158,9 +160,6 @@ public abstract class ErlModule extends EolModule implements IErlModule {
 	protected Object processRules() throws EolRuntimeException {
 		return null;
 	}
-	
-	protected abstract int getPreBlockTokenType();
-	protected abstract int getPostBlockTokenType();
 
 	public List<ParseProblem> calculateSuperRules(List<? extends ExtensibleNamedRule> allRules) {
 		List<ParseProblem> parseProblems = new ArrayList<>();

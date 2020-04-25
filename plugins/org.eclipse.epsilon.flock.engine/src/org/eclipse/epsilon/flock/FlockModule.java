@@ -67,7 +67,7 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
 		switch(cst.getType()) {
 			case FlockParser.GUARD:
-				return new ExecutableBlock<Boolean>(Boolean.class);
+				return new ExecutableBlock<>(Boolean.class);
 			
 			case FlockParser.DELETE:
 				return new Deletion();
@@ -86,10 +86,10 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	
 			case FlockParser.BLOCK:
 				if (cst.getParent() != null && cst.getParent().getType() == FlockParser.MIGRATE)
-					return new ExecutableBlock<Void>(Void.class);
+					return new ExecutableBlock<>(Void.class);
+			default:
+				return super.adapt(cst, parentAst);
 		}
-		
-		return super.adapt(cst, parentAst);
 	}
 	
 	@Override
@@ -139,15 +139,5 @@ public class FlockModule extends ErlModule implements IFlockModule {
 	@Override
 	public IFlockContext getContext() {
 		return (IFlockContext) super.getContext();
-	}
-	
-	@Override
-	protected int getPreBlockTokenType() {
-		return FlockParser.PRE;
-	}
-
-	@Override
-	protected int getPostBlockTokenType() {
-		return FlockParser.POST;
 	}
 }

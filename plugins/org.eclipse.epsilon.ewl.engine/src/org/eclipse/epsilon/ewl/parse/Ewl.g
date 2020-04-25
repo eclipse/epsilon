@@ -94,7 +94,3 @@ ewlModule
 	:	importStatement*  modelDeclaration* (ewlModuleContent)* EOF
 	-> ^(EWLMODULE importStatement* modelDeclaration* ewlModuleContent*)
 	;
-
-ewlModuleContent
-	:	annotationBlock | wizard | operationDeclaration
-	;

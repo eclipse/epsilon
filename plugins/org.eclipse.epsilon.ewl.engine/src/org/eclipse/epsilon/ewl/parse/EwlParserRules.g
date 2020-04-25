@@ -44,6 +44,10 @@ tokens {
 	DO;
 }
 
+ewlModuleContent
+	:	annotationBlock | wizard | operationDeclaration
+	;
+
 wizard
 	@after {
 		$tree.getExtraTokens().add($wiz);

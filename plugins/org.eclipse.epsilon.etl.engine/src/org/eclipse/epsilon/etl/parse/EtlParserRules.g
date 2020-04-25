@@ -41,7 +41,11 @@ options {backtrack=true; output=AST;}
 tokens {
 	TRANSFORM;
 }
-	
+
+etlModuleContent
+	:	transformationRule | erlModuleContent
+	;
+
 transformationRule
 	@after {
 		$tree.getExtraTokens().add($ob);

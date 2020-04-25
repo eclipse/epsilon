@@ -12,8 +12,6 @@ package org.eclipse.epsilon.epl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
-
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.TokenStream;
@@ -193,16 +191,6 @@ public class EplModule extends ErlModule implements IEplModule{
 	@Override
 	public void setRepeatWhileMatches(boolean repeatWhileMatches) {
 		this.repeatWhileMatchesFound = repeatWhileMatches;
-	}
-
-	@Override
-	protected int getPreBlockTokenType() {
-		return EplParser.PRE;
-	}
-
-	@Override
-	protected int getPostBlockTokenType() {
-		return EplParser.POST;
 	}
 	
 	@Override

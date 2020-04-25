@@ -44,6 +44,10 @@ tokens {
 	DO;
 }
 
+eclModuleContent
+	:	matchRule | erlModuleContent
+	;
+
 matchRule
 	@after {
 		$tree.getExtraTokens().add($ob);

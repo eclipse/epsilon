@@ -94,7 +94,3 @@ eclModule
 	:	importStatement*  modelDeclaration* (eclModuleContent)* EOF
 	-> ^(ECLMODULE importStatement*  modelDeclaration* eclModuleContent*)
 	;
-
-eclModuleContent
-	:	pre | annotationBlock | matchRule | operationDeclaration | post
-	;

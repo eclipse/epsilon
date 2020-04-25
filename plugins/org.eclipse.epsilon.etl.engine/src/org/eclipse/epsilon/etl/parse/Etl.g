@@ -94,7 +94,3 @@ etlModule
 	:	importStatement* modelDeclaration* (etlModuleContent)* EOF
 	-> ^(ETLMODULE importStatement* modelDeclaration* etlModuleContent*)
 	;
-
-etlModuleContent
-	:	pre | annotationBlock | transformationRule | operationDeclaration | post
-	;

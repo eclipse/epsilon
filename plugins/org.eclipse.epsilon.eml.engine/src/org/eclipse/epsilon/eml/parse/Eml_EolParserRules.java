@@ -1,6 +1,6 @@
 package org.eclipse.epsilon.eml.parse;
 
-// $ANTLR 3.1b1 EolParserRules.g 2020-04-22 23:32:26
+// $ANTLR 3.1b1 EolParserRules.g 2020-04-25 02:27:57
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -1677,23 +1677,8 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                 int alt15=2;
                 int LA15_0 = input.LA(1);
 
-                if ( (LA15_0==Annotation) ) {
-                    int LA15_2 = input.LA(2);
-
-                    if ( (synpred16_EolParserRules()) ) {
-                        alt15=1;
-                    }
-
-
-                }
-                else if ( (LA15_0==100) ) {
-                    int LA15_3 = input.LA(2);
-
-                    if ( (synpred16_EolParserRules()) ) {
-                        alt15=1;
-                    }
-
-
+                if ( (LA15_0==Annotation||LA15_0==100) ) {
+                    alt15=1;
                 }
 
 
@@ -6324,31 +6309,6 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             	    case 96:
             	        {
             	        switch ( input.LA(2) ) {
-            	        case NAME:
-            	            {
-            	            int LA63_4 = input.LA(3);
-
-            	            if ( (LA63_4==POINT||LA63_4==ARROW||LA63_4==93||(LA63_4>=96 && LA63_4<=97)||(LA63_4>=101 && LA63_4<=103)||(LA63_4>=115 && LA63_4<=116)||(LA63_4>=139 && LA63_4<=151)||(LA63_4>=153 && LA63_4<=155)) ) {
-            	                alt63=1;
-            	            }
-            	            else if ( (LA63_4==89||LA63_4==98||(LA63_4>=157 && LA63_4<=158)) ) {
-            	                alt63=2;
-            	            }
-            	            else {
-            	                if (state.backtracking>0) {state.failed=true; return retval;}
-            	                NoViableAltException nvae =
-            	                    new NoViableAltException("", 63, 4, input);
-
-            	                throw nvae;
-            	            }
-            	            }
-            	            break;
-            	        case 157:
-            	        case 158:
-            	            {
-            	            alt63=2;
-            	            }
-            	            break;
             	        case FLOAT:
             	        case INT:
             	        case BOOLEAN:
@@ -6372,6 +6332,31 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
             	        case 161:
             	            {
             	            alt63=1;
+            	            }
+            	            break;
+            	        case NAME:
+            	            {
+            	            int LA63_4 = input.LA(3);
+
+            	            if ( (LA63_4==POINT||LA63_4==ARROW||LA63_4==93||(LA63_4>=96 && LA63_4<=97)||(LA63_4>=101 && LA63_4<=103)||(LA63_4>=115 && LA63_4<=116)||(LA63_4>=139 && LA63_4<=151)||(LA63_4>=153 && LA63_4<=155)) ) {
+            	                alt63=1;
+            	            }
+            	            else if ( (LA63_4==89||LA63_4==98||(LA63_4>=157 && LA63_4<=158)) ) {
+            	                alt63=2;
+            	            }
+            	            else {
+            	                if (state.backtracking>0) {state.failed=true; return retval;}
+            	                NoViableAltException nvae =
+            	                    new NoViableAltException("", 63, 4, input);
+
+            	                throw nvae;
+            	            }
+            	            }
+            	            break;
+            	        case 157:
+            	        case 158:
+            	            {
+            	            alt63=2;
             	            }
             	            break;
             	        default:
@@ -8129,21 +8114,6 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     }
     // $ANTLR end literal
 
-    // $ANTLR start synpred16_EolParserRules
-    public final void synpred16_EolParserRules_fragment() throws RecognitionException {   
-        // EolParserRules.g:205:4: ( annotation )
-        // EolParserRules.g:205:4: annotation
-        {
-        pushFollow(FOLLOW_annotation_in_synpred16_EolParserRules692);
-        annotation();
-
-        state._fsp--;
-        if (state.failed) return ;
-
-        }
-    }
-    // $ANTLR end synpred16_EolParserRules
-
     // $ANTLR start synpred32_EolParserRules
     public final void synpred32_EolParserRules_fragment() throws RecognitionException {   
         // EolParserRules.g:258:4: ( ( '(' typeName ( ',' typeName )* ')' ) )
@@ -8585,20 +8555,6 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         int start = input.mark();
         try {
             synpred60_EolParserRules_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred16_EolParserRules() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred16_EolParserRules_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -9891,7 +9847,7 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     static final String DFA46_acceptS =
         "\1\uffff\1\2\7\uffff\1\1";
     static final String DFA46_specialS =
-        "\2\uffff\1\5\1\4\1\2\1\0\1\3\1\1\1\6\1\uffff}>";
+        "\2\uffff\1\6\1\5\1\0\1\3\1\1\1\4\1\2\1\uffff}>";
     static final String[] DFA46_transitionS = {
             "\1\1\3\uffff\1\1\1\uffff\1\1\1\uffff\1\1\1\uffff\1\1\4\uffff"+
             "\1\1\3\uffff\1\1\77\uffff\1\1\1\uffff\1\1\2\uffff\1\1\1\3\5"+
@@ -9946,36 +9902,6 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA46_5 = input.LA(1);
-
-                         
-                        int index46_5 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred79_EolParserRules()) ) {s = 9;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index46_5);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 1 : 
-                        int LA46_7 = input.LA(1);
-
-                         
-                        int index46_7 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred79_EolParserRules()) ) {s = 9;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index46_7);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 2 : 
                         int LA46_4 = input.LA(1);
 
                          
@@ -9990,7 +9916,7 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                         input.seek(index46_4);
                         if ( s>=0 ) return s;
                         break;
-                    case 3 : 
+                    case 1 : 
                         int LA46_6 = input.LA(1);
 
                          
@@ -10005,7 +9931,52 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                         input.seek(index46_6);
                         if ( s>=0 ) return s;
                         break;
+                    case 2 : 
+                        int LA46_8 = input.LA(1);
+
+                         
+                        int index46_8 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred79_EolParserRules()) ) {s = 9;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index46_8);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 3 : 
+                        int LA46_5 = input.LA(1);
+
+                         
+                        int index46_5 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred79_EolParserRules()) ) {s = 9;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index46_5);
+                        if ( s>=0 ) return s;
+                        break;
                     case 4 : 
+                        int LA46_7 = input.LA(1);
+
+                         
+                        int index46_7 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred79_EolParserRules()) ) {s = 9;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index46_7);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 5 : 
                         int LA46_3 = input.LA(1);
 
                          
@@ -10020,7 +9991,7 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                         input.seek(index46_3);
                         if ( s>=0 ) return s;
                         break;
-                    case 5 : 
+                    case 6 : 
                         int LA46_2 = input.LA(1);
 
                          
@@ -10033,21 +10004,6 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
 
                          
                         input.seek(index46_2);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 6 : 
-                        int LA46_8 = input.LA(1);
-
-                         
-                        int index46_8 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred79_EolParserRules()) ) {s = 9;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index46_8);
                         if ( s>=0 ) return s;
                         break;
             }
@@ -10143,8 +10099,8 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     static final String DFA72_acceptS =
         "\2\uffff\1\2\20\uffff\1\1\6\uffff";
     static final String DFA72_specialS =
-        "\4\uffff\1\11\1\uffff\1\5\1\0\1\14\1\6\1\1\1\15\1\7\1\3\1\10\1"+
-        "\4\1\2\1\uffff\1\12\5\uffff\1\13\1\16}>";
+        "\4\uffff\1\13\1\uffff\1\11\1\4\1\2\1\14\1\5\1\3\1\15\1\7\1\16\1"+
+        "\10\1\12\1\uffff\1\1\5\uffff\1\6\1\0}>";
     static final String[] DFA72_transitionS = {
             "\1\2\3\uffff\5\2\1\uffff\1\2\4\uffff\1\2\3\uffff\1\2\77\uffff"+
             "\1\2\1\uffff\1\2\2\uffff\6\2\1\1\1\uffff\1\2\3\uffff\20\2\2"+
@@ -10216,10 +10172,10 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA72_7 = input.LA(1);
+                        int LA72_25 = input.LA(1);
 
                          
-                        int index72_7 = input.index();
+                        int index72_25 = input.index();
                         input.rewind();
                         s = -1;
                         if ( (synpred106_EolParserRules()) ) {s = 19;}
@@ -10227,145 +10183,10 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                         else if ( (true) ) {s = 2;}
 
                          
-                        input.seek(index72_7);
+                        input.seek(index72_25);
                         if ( s>=0 ) return s;
                         break;
                     case 1 : 
-                        int LA72_10 = input.LA(1);
-
-                         
-                        int index72_10 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred106_EolParserRules()) ) {s = 19;}
-
-                        else if ( (true) ) {s = 2;}
-
-                         
-                        input.seek(index72_10);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 2 : 
-                        int LA72_16 = input.LA(1);
-
-                         
-                        int index72_16 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred106_EolParserRules()) ) {s = 19;}
-
-                        else if ( (true) ) {s = 2;}
-
-                         
-                        input.seek(index72_16);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 3 : 
-                        int LA72_13 = input.LA(1);
-
-                         
-                        int index72_13 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred106_EolParserRules()) ) {s = 19;}
-
-                        else if ( (true) ) {s = 2;}
-
-                         
-                        input.seek(index72_13);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 4 : 
-                        int LA72_15 = input.LA(1);
-
-                         
-                        int index72_15 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred106_EolParserRules()) ) {s = 19;}
-
-                        else if ( (true) ) {s = 2;}
-
-                         
-                        input.seek(index72_15);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 5 : 
-                        int LA72_6 = input.LA(1);
-
-                         
-                        int index72_6 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred106_EolParserRules()) ) {s = 19;}
-
-                        else if ( (true) ) {s = 2;}
-
-                         
-                        input.seek(index72_6);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 6 : 
-                        int LA72_9 = input.LA(1);
-
-                         
-                        int index72_9 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred106_EolParserRules()) ) {s = 19;}
-
-                        else if ( (true) ) {s = 2;}
-
-                         
-                        input.seek(index72_9);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 7 : 
-                        int LA72_12 = input.LA(1);
-
-                         
-                        int index72_12 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred106_EolParserRules()) ) {s = 19;}
-
-                        else if ( (true) ) {s = 2;}
-
-                         
-                        input.seek(index72_12);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 8 : 
-                        int LA72_14 = input.LA(1);
-
-                         
-                        int index72_14 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred106_EolParserRules()) ) {s = 19;}
-
-                        else if ( (true) ) {s = 2;}
-
-                         
-                        input.seek(index72_14);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 9 : 
-                        int LA72_4 = input.LA(1);
-
-                         
-                        int index72_4 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred106_EolParserRules()) ) {s = 19;}
-
-                        else if ( (true) ) {s = 2;}
-
-                         
-                        input.seek(index72_4);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 10 : 
                         int LA72_18 = input.LA(1);
 
                          
@@ -10380,22 +10201,7 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                         input.seek(index72_18);
                         if ( s>=0 ) return s;
                         break;
-                    case 11 : 
-                        int LA72_24 = input.LA(1);
-
-                         
-                        int index72_24 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred106_EolParserRules()) ) {s = 19;}
-
-                        else if ( (true) ) {s = 2;}
-
-                         
-                        input.seek(index72_24);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 12 : 
+                    case 2 : 
                         int LA72_8 = input.LA(1);
 
                          
@@ -10410,7 +10216,7 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                         input.seek(index72_8);
                         if ( s>=0 ) return s;
                         break;
-                    case 13 : 
+                    case 3 : 
                         int LA72_11 = input.LA(1);
 
                          
@@ -10425,11 +10231,11 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                         input.seek(index72_11);
                         if ( s>=0 ) return s;
                         break;
-                    case 14 : 
-                        int LA72_25 = input.LA(1);
+                    case 4 : 
+                        int LA72_7 = input.LA(1);
 
                          
-                        int index72_25 = input.index();
+                        int index72_7 = input.index();
                         input.rewind();
                         s = -1;
                         if ( (synpred106_EolParserRules()) ) {s = 19;}
@@ -10437,7 +10243,157 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
                         else if ( (true) ) {s = 2;}
 
                          
-                        input.seek(index72_25);
+                        input.seek(index72_7);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 5 : 
+                        int LA72_10 = input.LA(1);
+
+                         
+                        int index72_10 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred106_EolParserRules()) ) {s = 19;}
+
+                        else if ( (true) ) {s = 2;}
+
+                         
+                        input.seek(index72_10);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 6 : 
+                        int LA72_24 = input.LA(1);
+
+                         
+                        int index72_24 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred106_EolParserRules()) ) {s = 19;}
+
+                        else if ( (true) ) {s = 2;}
+
+                         
+                        input.seek(index72_24);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 7 : 
+                        int LA72_13 = input.LA(1);
+
+                         
+                        int index72_13 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred106_EolParserRules()) ) {s = 19;}
+
+                        else if ( (true) ) {s = 2;}
+
+                         
+                        input.seek(index72_13);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 8 : 
+                        int LA72_15 = input.LA(1);
+
+                         
+                        int index72_15 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred106_EolParserRules()) ) {s = 19;}
+
+                        else if ( (true) ) {s = 2;}
+
+                         
+                        input.seek(index72_15);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 9 : 
+                        int LA72_6 = input.LA(1);
+
+                         
+                        int index72_6 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred106_EolParserRules()) ) {s = 19;}
+
+                        else if ( (true) ) {s = 2;}
+
+                         
+                        input.seek(index72_6);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 10 : 
+                        int LA72_16 = input.LA(1);
+
+                         
+                        int index72_16 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred106_EolParserRules()) ) {s = 19;}
+
+                        else if ( (true) ) {s = 2;}
+
+                         
+                        input.seek(index72_16);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 11 : 
+                        int LA72_4 = input.LA(1);
+
+                         
+                        int index72_4 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred106_EolParserRules()) ) {s = 19;}
+
+                        else if ( (true) ) {s = 2;}
+
+                         
+                        input.seek(index72_4);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 12 : 
+                        int LA72_9 = input.LA(1);
+
+                         
+                        int index72_9 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred106_EolParserRules()) ) {s = 19;}
+
+                        else if ( (true) ) {s = 2;}
+
+                         
+                        input.seek(index72_9);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 13 : 
+                        int LA72_12 = input.LA(1);
+
+                         
+                        int index72_12 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred106_EolParserRules()) ) {s = 19;}
+
+                        else if ( (true) ) {s = 2;}
+
+                         
+                        input.seek(index72_12);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 14 : 
+                        int LA72_14 = input.LA(1);
+
+                         
+                        int index72_14 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred106_EolParserRules()) ) {s = 19;}
+
+                        else if ( (true) ) {s = 2;}
+
+                         
+                        input.seek(index72_14);
                         if ( s>=0 ) return s;
                         break;
             }
@@ -10820,59 +10776,59 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     static final String DFA80_eotS =
         "\26\uffff";
     static final String DFA80_eofS =
-        "\1\uffff\12\21\13\uffff";
+        "\1\uffff\12\22\13\uffff";
     static final String DFA80_minS =
         "\13\4\1\uffff\1\0\11\uffff";
     static final String DFA80_maxS =
         "\1\u00a1\12\u00a6\1\uffff\1\0\11\uffff";
     static final String DFA80_acceptS =
-        "\13\uffff\1\3\1\uffff\1\6\1\10\1\11\1\12\1\7\1\1\1\2\1\4\1\5";
+        "\13\uffff\1\3\1\uffff\1\6\1\10\1\11\1\12\1\1\1\7\1\2\1\4\1\5";
     static final String DFA80_specialS =
         "\14\uffff\1\0\11\uffff}>";
     static final String[] DFA80_transitionS = {
             "\1\13\3\uffff\1\13\3\uffff\1\13\1\uffff\1\13\4\uffff\1\14\114"+
             "\uffff\1\16\7\uffff\1\15\1\1\1\2\1\3\1\4\1\5\1\6\1\11\1\12\1"+
             "\7\1\10\54\uffff\1\17\2\20",
-            "\1\21\3\uffff\5\21\1\uffff\1\21\4\uffff\1\21\3\uffff\1\21"+
-            "\77\uffff\1\21\1\uffff\1\21\1\uffff\1\22\7\21\1\uffff\1\21\3"+
-            "\uffff\20\21\2\uffff\1\21\1\uffff\41\21\2\uffff\5\21\2\uffff"+
-            "\1\21",
-            "\1\21\3\uffff\5\21\1\uffff\1\21\4\uffff\1\21\3\uffff\1\21"+
-            "\77\uffff\1\21\1\uffff\1\21\1\uffff\1\22\7\21\1\uffff\1\21\3"+
-            "\uffff\20\21\2\uffff\1\21\1\uffff\41\21\2\uffff\5\21\2\uffff"+
-            "\1\21",
-            "\1\21\3\uffff\5\21\1\uffff\1\21\4\uffff\1\21\3\uffff\1\21"+
-            "\77\uffff\1\21\1\uffff\1\21\1\uffff\1\22\7\21\1\uffff\1\21\3"+
-            "\uffff\20\21\2\uffff\1\21\1\uffff\41\21\2\uffff\5\21\2\uffff"+
-            "\1\21",
-            "\1\21\3\uffff\5\21\1\uffff\1\21\4\uffff\1\21\3\uffff\1\21"+
-            "\77\uffff\1\21\1\uffff\1\21\1\uffff\1\22\7\21\1\uffff\1\21\3"+
-            "\uffff\20\21\2\uffff\1\21\1\uffff\41\21\2\uffff\5\21\2\uffff"+
-            "\1\21",
-            "\1\21\3\uffff\5\21\1\uffff\1\21\4\uffff\1\21\3\uffff\1\21"+
-            "\77\uffff\1\21\1\uffff\1\21\1\uffff\1\22\7\21\1\uffff\1\21\3"+
-            "\uffff\20\21\2\uffff\1\21\1\uffff\41\21\2\uffff\5\21\2\uffff"+
-            "\1\21",
-            "\1\21\3\uffff\5\21\1\uffff\1\21\4\uffff\1\21\3\uffff\1\21"+
-            "\77\uffff\1\21\1\uffff\1\21\1\uffff\1\22\7\21\1\uffff\1\21\3"+
-            "\uffff\20\21\2\uffff\1\21\1\uffff\41\21\2\uffff\5\21\2\uffff"+
-            "\1\21",
-            "\1\21\3\uffff\5\21\1\uffff\1\21\4\uffff\1\21\3\uffff\1\21"+
-            "\77\uffff\1\21\1\uffff\1\21\1\uffff\1\22\7\21\1\uffff\1\21\3"+
-            "\uffff\20\21\2\uffff\1\21\1\uffff\41\21\2\uffff\5\21\2\uffff"+
-            "\1\21",
-            "\1\21\3\uffff\5\21\1\uffff\1\21\4\uffff\1\21\3\uffff\1\21"+
-            "\77\uffff\1\21\1\uffff\1\21\1\uffff\1\22\7\21\1\uffff\1\21\3"+
-            "\uffff\20\21\2\uffff\1\21\1\uffff\41\21\2\uffff\5\21\2\uffff"+
-            "\1\21",
-            "\1\21\3\uffff\5\21\1\uffff\1\21\4\uffff\1\21\3\uffff\1\21"+
-            "\77\uffff\1\21\1\uffff\1\21\1\uffff\1\23\7\21\1\uffff\1\21\3"+
-            "\uffff\20\21\2\uffff\1\21\1\uffff\41\21\2\uffff\5\21\2\uffff"+
-            "\1\21",
-            "\1\21\3\uffff\5\21\1\uffff\1\21\4\uffff\1\21\3\uffff\1\21"+
-            "\77\uffff\1\21\1\uffff\1\21\1\uffff\1\23\7\21\1\uffff\1\21\3"+
-            "\uffff\20\21\2\uffff\1\21\1\uffff\41\21\2\uffff\5\21\2\uffff"+
-            "\1\21",
+            "\1\22\3\uffff\5\22\1\uffff\1\22\4\uffff\1\22\3\uffff\1\22"+
+            "\77\uffff\1\22\1\uffff\1\22\1\uffff\1\21\7\22\1\uffff\1\22\3"+
+            "\uffff\20\22\2\uffff\1\22\1\uffff\41\22\2\uffff\5\22\2\uffff"+
+            "\1\22",
+            "\1\22\3\uffff\5\22\1\uffff\1\22\4\uffff\1\22\3\uffff\1\22"+
+            "\77\uffff\1\22\1\uffff\1\22\1\uffff\1\21\7\22\1\uffff\1\22\3"+
+            "\uffff\20\22\2\uffff\1\22\1\uffff\41\22\2\uffff\5\22\2\uffff"+
+            "\1\22",
+            "\1\22\3\uffff\5\22\1\uffff\1\22\4\uffff\1\22\3\uffff\1\22"+
+            "\77\uffff\1\22\1\uffff\1\22\1\uffff\1\21\7\22\1\uffff\1\22\3"+
+            "\uffff\20\22\2\uffff\1\22\1\uffff\41\22\2\uffff\5\22\2\uffff"+
+            "\1\22",
+            "\1\22\3\uffff\5\22\1\uffff\1\22\4\uffff\1\22\3\uffff\1\22"+
+            "\77\uffff\1\22\1\uffff\1\22\1\uffff\1\21\7\22\1\uffff\1\22\3"+
+            "\uffff\20\22\2\uffff\1\22\1\uffff\41\22\2\uffff\5\22\2\uffff"+
+            "\1\22",
+            "\1\22\3\uffff\5\22\1\uffff\1\22\4\uffff\1\22\3\uffff\1\22"+
+            "\77\uffff\1\22\1\uffff\1\22\1\uffff\1\21\7\22\1\uffff\1\22\3"+
+            "\uffff\20\22\2\uffff\1\22\1\uffff\41\22\2\uffff\5\22\2\uffff"+
+            "\1\22",
+            "\1\22\3\uffff\5\22\1\uffff\1\22\4\uffff\1\22\3\uffff\1\22"+
+            "\77\uffff\1\22\1\uffff\1\22\1\uffff\1\21\7\22\1\uffff\1\22\3"+
+            "\uffff\20\22\2\uffff\1\22\1\uffff\41\22\2\uffff\5\22\2\uffff"+
+            "\1\22",
+            "\1\22\3\uffff\5\22\1\uffff\1\22\4\uffff\1\22\3\uffff\1\22"+
+            "\77\uffff\1\22\1\uffff\1\22\1\uffff\1\21\7\22\1\uffff\1\22\3"+
+            "\uffff\20\22\2\uffff\1\22\1\uffff\41\22\2\uffff\5\22\2\uffff"+
+            "\1\22",
+            "\1\22\3\uffff\5\22\1\uffff\1\22\4\uffff\1\22\3\uffff\1\22"+
+            "\77\uffff\1\22\1\uffff\1\22\1\uffff\1\21\7\22\1\uffff\1\22\3"+
+            "\uffff\20\22\2\uffff\1\22\1\uffff\41\22\2\uffff\5\22\2\uffff"+
+            "\1\22",
+            "\1\22\3\uffff\5\22\1\uffff\1\22\4\uffff\1\22\3\uffff\1\22"+
+            "\77\uffff\1\22\1\uffff\1\22\1\uffff\1\23\7\22\1\uffff\1\22\3"+
+            "\uffff\20\22\2\uffff\1\22\1\uffff\41\22\2\uffff\5\22\2\uffff"+
+            "\1\22",
+            "\1\22\3\uffff\5\22\1\uffff\1\22\4\uffff\1\22\3\uffff\1\22"+
+            "\77\uffff\1\22\1\uffff\1\22\1\uffff\1\23\7\22\1\uffff\1\22\3"+
+            "\uffff\20\22\2\uffff\1\22\1\uffff\41\22\2\uffff\5\22\2\uffff"+
+            "\1\22",
             "",
             "\1\uffff",
             "",
@@ -11242,7 +11198,6 @@ public class Eml_EolParserRules extends org.eclipse.epsilon.common.parse.Epsilon
     public static final BitSet FOLLOW_logicalExpression_in_logicalExpressionInBrackets2615 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
     public static final BitSet FOLLOW_97_in_logicalExpressionInBrackets2619 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_literal0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_annotation_in_synpred16_EolParserRules692 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_96_in_synpred32_EolParserRules883 = new BitSet(new long[]{0x0000000000080000L,0x0007FF0000000000L,0x0000000080000000L});
     public static final BitSet FOLLOW_typeName_in_synpred32_EolParserRules888 = new BitSet(new long[]{0x0000000000000000L,0x0000000202000000L});
     public static final BitSet FOLLOW_89_in_synpred32_EolParserRules893 = new BitSet(new long[]{0x0000000000080000L,0x0007FF0000000000L,0x0000000080000000L});

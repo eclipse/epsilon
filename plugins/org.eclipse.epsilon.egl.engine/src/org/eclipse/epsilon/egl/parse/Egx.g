@@ -94,7 +94,3 @@ egxModule
 	:	importStatement* modelDeclaration* egxModuleContent* EOF
 	-> ^(EGXMODULE importStatement* modelDeclaration* egxModuleContent*)
 	;
-
-egxModuleContent
-	:	pre | annotationBlock | generationRule | operationDeclaration | post
-	;

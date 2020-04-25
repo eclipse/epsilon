@@ -61,6 +61,10 @@ public void setTokenType(ParserRuleReturnScope tree, int type) {
 
 }
 
+eplModuleContent
+	:	pattern | erlModuleContent
+	;
+
 pattern
 	@after {
 		$tree.getExtraTokens().add($pt);

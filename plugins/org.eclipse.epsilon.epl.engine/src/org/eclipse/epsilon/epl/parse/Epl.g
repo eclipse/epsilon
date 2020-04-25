@@ -95,7 +95,3 @@ eplModule
 	:	importStatement* modelDeclaration* eplModuleContent* EOF
 	-> ^(EPLMODULE importStatement* modelDeclaration* eplModuleContent*)
 	;
-
-eplModuleContent
-	:	pre | annotationBlock | pattern | operationDeclaration | post
-	;

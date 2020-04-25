@@ -48,6 +48,10 @@ tokens {
 	MERGE;
 }
 
+egxModuleContent
+	:	generationRule | erlModuleContent
+	;
+
 generationRule
 	@after {
 		$tree.getExtraTokens().add($ob);

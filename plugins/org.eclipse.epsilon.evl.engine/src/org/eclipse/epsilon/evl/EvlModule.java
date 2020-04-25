@@ -95,8 +95,8 @@ public class EvlModule extends ErlModule implements IEvlModule {
 			case EvlParser.CHECK:
 			case EvlParser.GUARD:
 				return new ExecutableBlock<>(Boolean.class);
+			default: return super.adapt(cst, parentAst);
 		}
-		return super.adapt(cst, parentAst);
 	}
 
 	@Override
@@ -304,16 +304,6 @@ public class EvlModule extends ErlModule implements IEvlModule {
 	@Override
 	public IEvlFixer getUnsatisfiedConstraintFixer() {
 		return fixer;
-	}
-
-	@Override
-	protected int getPostBlockTokenType() {
-		return EvlParser.POST;
-	}
-
-	@Override
-	protected int getPreBlockTokenType() {
-		return EvlParser.PRE;
 	}
 
 	/**

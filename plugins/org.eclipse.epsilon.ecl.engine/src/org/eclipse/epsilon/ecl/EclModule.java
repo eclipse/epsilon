@@ -90,9 +90,8 @@ public class EclModule extends ErlModule implements IEclModule {
 			case EclParser.COMPARE:
 				return new ExecutableBlock<Boolean>(Boolean.class);
 			case EclParser.DO: return new ExecutableBlock<Void>(Void.class);
+			default: return super.adapt(cst, parentAst);
 		}
-		
-		return super.adapt(cst, parentAst);
 	}
 	
 	@Override
@@ -169,15 +168,5 @@ public class EclModule extends ErlModule implements IEclModule {
 	@Override
 	public List<MatchRule> getDeclaredMatchRules() {
 		return declaredMatchRules;
-	}
-
-	@Override
-	protected int getPostBlockTokenType() {
-		return EclParser.POST;
-	}
-
-	@Override
-	protected int getPreBlockTokenType() {
-		return EclParser.PRE;
 	}
 }

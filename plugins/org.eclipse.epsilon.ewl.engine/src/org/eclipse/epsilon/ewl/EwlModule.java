@@ -56,8 +56,8 @@ public class EwlModule extends EolModule implements IEwlModule {
 			case EwlParser.GUARD: return new ExecutableBlock<Boolean>(Boolean.class);
 			case EwlParser.DO: return new ExecutableBlock<Void>(Void.class);
 			case EwlParser.WIZARD: return new Wizard();
+			default: return super.adapt(cst, parentAst);
 		}
-		return super.adapt(cst, parentAst);
 	}
 	
 	@Override

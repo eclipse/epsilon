@@ -117,7 +117,7 @@ flockModule
 	;
 
 flockModuleContent
-	:	pre | retyping | deletion | migrateRule | operationDeclarationOrAnnotationBlock | post
+	:	retyping | deletion | migrateRule | erlModuleContent
 	;
 
 retyping

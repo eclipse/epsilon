@@ -84,7 +84,9 @@ public class EtlModule extends ErlModule implements IEtlModule {
 		else if (cst.getType() == EtlParser.SPECIAL_ASSIGNMENT) {
 			return new EquivalentAssignmentStatement();
 		}
-		return super.adapt(cst, parentAst);
+		else {
+			return super.adapt(cst, parentAst);
+		}
 	}
 	
 	@Override
@@ -179,15 +181,5 @@ public class EtlModule extends ErlModule implements IEtlModule {
 			transformationRules.addAll(declaredTransformationRules);
 		}
 		return transformationRules;
-	}
-
-	@Override
-	protected int getPostBlockTokenType() {
-		return EtlParser.POST;
-	}
-
-	@Override
-	protected int getPreBlockTokenType() {
-		return EtlParser.PRE;
 	}
 }

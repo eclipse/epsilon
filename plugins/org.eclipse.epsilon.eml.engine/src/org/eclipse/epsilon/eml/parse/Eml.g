@@ -96,5 +96,5 @@ emlModule
 	;
 
 emlModuleContent
-	:	pre | annotationBlock | transformationRule | mergeRule | operationDeclaration | post
+	:	mergeRule | etlModuleContent
 	;
