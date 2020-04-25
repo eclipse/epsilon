@@ -6,14 +6,20 @@
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - refactoring
  ******************************************************************************/
 package org.eclipse.epsilon.erl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import org.antlr.runtime.ANTLRInputStream;
+import org.antlr.runtime.Lexer;
+import org.antlr.runtime.TokenStream;
 import org.eclipse.epsilon.common.module.IModule;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.EpsilonParser;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.common.util.AstUtil;
 import org.eclipse.epsilon.eol.EolModule;
@@ -26,6 +32,7 @@ import org.eclipse.epsilon.erl.exceptions.ErlCircularRuleInheritanceException;
 import org.eclipse.epsilon.erl.exceptions.ErlRuleNotFoundException;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
+import org.eclipse.epsilon.erl.parse.ErlLexer;
 import org.eclipse.epsilon.erl.parse.ErlParser;
 
 public class ErlModule extends EolModule implements IErlModule {
@@ -35,7 +42,7 @@ public class ErlModule extends EolModule implements IErlModule {
 	protected NamedRuleList<Post> post;
 	protected NamedRuleList<Post> declaredPost = new NamedRuleList<>();
 	
-	protected ErlModule() {
+	public ErlModule() {
 		this(null);
 	}
 	
@@ -45,28 +52,60 @@ public class ErlModule extends EolModule implements IErlModule {
 	 * @param context The execution context
 	 * @since 1.6
 	 */
-	protected ErlModule(IErlContext context) {
+	public ErlModule(IErlContext context) {
 		super(context != null ? context : new ErlContext());
 	}
 	
 	@Override
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
-		
 		List<AST>
 			preBlockASTs = AstUtil.getChildren(cst, ErlParser.PRE),
 			postBlockASTs = AstUtil.getChildren(cst, ErlParser.POST);
 		
 		declaredPre.ensureCapacity(preBlockASTs.size());
-		declaredPost.ensureCapacity(preBlockASTs.size());
-		
 		for (AST preBlockAst : preBlockASTs){
 			declaredPre.add((Pre) module.createAst(preBlockAst, this));
 		}
 		
+		declaredPost.ensureCapacity(preBlockASTs.size());
 		for (AST postBlockAst : postBlockASTs) {
 			declaredPost.add((Post) module.createAst(postBlockAst, this));
 		}
+	}
+	
+	@Override
+	protected Lexer createLexer(ANTLRInputStream inputStream) {
+		return new ErlLexer(inputStream);
+	}
+	
+	@Override
+	public EpsilonParser createParser(TokenStream tokenStream) {
+		return new ErlParser(tokenStream);
+	}
+	
+	@Override
+	public String getMainRule() {
+		return "erlModule";
+	}
+
+	@Override
+	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
+		switch (cst.getType()) {
+			case ErlParser.PRE:
+				return new Pre();
+			case ErlParser.POST:
+				return new Post();
+			default:
+				return super.adapt(cst, parentAst);
+		}
+	}
+	
+	@Override
+	public HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
+		importConfiguration.put("erl", ErlModule.class);
+		return importConfiguration;
 	}
 	
 	@Override
@@ -80,7 +119,6 @@ public class ErlModule extends EolModule implements IErlModule {
 				}
 			}
 			post.addAll(declaredPost);
-			
 		}
 		return post;
 	}
@@ -98,18 +136,6 @@ public class ErlModule extends EolModule implements IErlModule {
 			pre.addAll(declaredPre);
 		}
 		return pre;
-	}
-
-	@Override
-	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
-		switch (cst.getType()) {
-			case ErlParser.PRE:
-				return new Pre();
-			case ErlParser.POST:
-				return new Post();
-			default:
-				return super.adapt(cst, parentAst);
-		}
 	}
 	
 	@Override
