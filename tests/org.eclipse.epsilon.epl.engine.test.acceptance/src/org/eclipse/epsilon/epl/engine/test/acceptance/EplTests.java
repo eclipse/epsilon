@@ -25,7 +25,6 @@ import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.epl.IEplModule;
@@ -43,20 +42,10 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class EplTests {
 	
-	private static IModel TEST_MODEL;
 	private static final File TEST_SCRIPT = new File(EplAcceptanceTestUtil.scriptsRoot+"test.epl");
 	
-	static {
-		try {
-			TEST_MODEL = setUpModel("test.xml");
-		}
-		catch (EolModelLoadingException ex) {
-			ex.printStackTrace();
-		}
-	}
-	
-	public static IModel getTestModel() {
-		return TEST_MODEL;
+	public static IModel getTestModel() throws Exception {
+		return newModel("test.xml");
 	}
 	
 	@Parameter
@@ -75,11 +64,12 @@ public class EplTests {
 	@Rule
     public ErrorCollector collector = new ErrorCollector();
 	
-	private static IModel setUpModel(String modelName) throws EolModelLoadingException {
+	private static IModel newModel(String modelName) throws Exception {
 		PlainXmlModel model = new PlainXmlModel();
 		model.setFile(new File(EplAcceptanceTestUtil.modelsRoot+modelName));
 		model.setName(FileUtil.removeExtension(model.getFile().getName()));
 		model.setCachingEnabled(false);
+		//model.setConcurrent(true);
 		model.load();
 		return model;
 	}
@@ -100,9 +90,7 @@ public class EplTests {
 		);
 		
 		module.parse(TEST_SCRIPT);
-		IModel model = TEST_MODEL;
-		model.load();
-		module.getContext().getModelRepository().addModel(model);
+		module.getContext().getModelRepository().addModel(getTestModel());
 		
 		return blackboard;
 	}

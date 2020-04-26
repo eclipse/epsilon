@@ -89,7 +89,7 @@ public class EvlParallelOperationsTests extends EvlModuleEquivalenceTests {
 	}
 	
 	@Parameters
-	public static Collection<EvlRunConfiguration> configurations() {
+	public static Collection<EvlRunConfiguration> configurations() throws Exception {
 		Collection<EvlRunConfiguration> scenarios = getScenarios(inputsWithNesting, false,
 			EolAcceptanceTestUtil.parallelModules(testThreads, null,
 				p -> new EvlModuleParallelAnnotation(new EvlContextParallel(p))

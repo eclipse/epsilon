@@ -100,9 +100,10 @@ public class EvlModuleEquivalenceTests extends EolEquivalenceTests<EvlRunConfigu
 	
 	/**
 	 * @return A collection of pre-configured run configurations, each with their own IEvlModule.
+	 * @throws Exception 
 	 */
 	@Parameters//(name = "0")	// Don't use this as the Eclipse JUnit view won't show failures!
-	public static Collection<EvlRunConfiguration> configurations() {
+	public static Collection<EvlRunConfiguration> configurations() throws Exception {
 		// Used to specify which module configurations we'd like to test in our scenarios
 		return getScenarios(
 			allInputs,		// All scripts & models

@@ -44,7 +44,7 @@ public class EplModuleEquivalenceTests extends EolEquivalenceTests<EplRunConfigu
 	 * @see EvlAcceptanceTestSuite.getScenarios
 	 */
 	@Parameters(name = "0")	// Don't use this as the Eclipse JUnit view won't show failures!
-	public static Iterable<EplRunConfiguration> configurations() {
+	public static Iterable<EplRunConfiguration> configurations() throws Exception {
 		// Used to specify which module configurations we'd like to test in our scenarios
 		return getScenarios(
 			allInputs,		// All scripts & models
@@ -56,6 +56,11 @@ public class EplModuleEquivalenceTests extends EolEquivalenceTests<EplRunConfigu
 	@Test
 	public void _0test0() throws Exception {
 		super.beforeTests();
+	}
+	
+	@Override
+	public void testFrameStacks() throws Exception {
+		// Do nothing (for now)
 	}
 	
 	@Test

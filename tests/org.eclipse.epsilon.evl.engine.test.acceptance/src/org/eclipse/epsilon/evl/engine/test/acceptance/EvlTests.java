@@ -21,7 +21,6 @@ import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -50,7 +49,7 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(Parameterized.class)
 public class EvlTests {
-
+	
 	private static IModel TEST_MODEL, OPTIMISED_MODEL;
 	
 	static {
@@ -58,7 +57,7 @@ public class EvlTests {
 			TEST_MODEL = setUpModel("test.xml");
 			OPTIMISED_MODEL = setUpModel("optimised.xml");
 		}
-		catch (EolModelLoadingException ex) {
+		catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -83,11 +82,11 @@ public class EvlTests {
 		return EvlAcceptanceTestUtil.modules();
 	}
 	
-	public static IModel newTestModel() throws EolModelLoadingException {
+	public static IModel newTestModel() throws Exception {
 		return setUpModel("test.xml");
 	}
 	
-	private static IModel setUpModel(String modelName) throws EolModelLoadingException {
+	private static IModel setUpModel(String modelName) throws Exception {
 		PlainXmlModel model = new PlainXmlModel();
 		model.setFile(new File(EvlAcceptanceTestUtil.modelsRoot+modelName));
 		model.setName(FileUtil.removeExtension(model.getFile().getName()));
@@ -96,7 +95,7 @@ public class EvlTests {
 		return model;
 	}
 	
-	public static IModel getTestModel(boolean optimised) {
+	public static IModel getTestModel(boolean optimised) throws Exception {
 		return optimised ? OPTIMISED_MODEL : TEST_MODEL;
 	}
 	

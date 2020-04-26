@@ -68,7 +68,7 @@ public class EplAcceptanceTestUtil {
 		List<String[]> testInputs,
 		boolean includeTest,
 		Collection<Supplier<? extends IEplModule>> moduleGetters
-		) {
+		) throws Exception {
 			Collection<EplRunConfiguration> scenarios = EolAcceptanceTestUtil
 				.getScenarios(EplRunConfiguration.class, testInputs, moduleGetters, null);
 			

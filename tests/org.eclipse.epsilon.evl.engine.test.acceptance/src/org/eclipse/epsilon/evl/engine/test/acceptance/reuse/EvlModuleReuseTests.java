@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.evl.engine.test.acceptance.reuse;
 
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.ModelRepository;
@@ -35,7 +34,7 @@ public class EvlModuleReuseTests {
 
 	static IEvlModule module = new EvlModule();
 	
-	static IModel addAndLoadNewModel() throws EolModelLoadingException {
+	static IModel addAndLoadNewModel() throws Exception {
 		IModel model = EvlTests.newTestModel();
 		module.getContext().getModelRepository().addModel(model);
 		model.load();
@@ -62,12 +61,12 @@ public class EvlModuleReuseTests {
 	}
 	
 	@Test
-	public void test0_NormalExecution() throws EolModelLoadingException {
+	public void test0_NormalExecution() throws Exception {
 		addAndLoadNewModel();
 	}
 	
 	@Test
-	public void test1_ReuseWithChangedContextSameModel() throws EolModelLoadingException {
+	public void test1_ReuseWithChangedContextSameModel() throws Exception {
 		module.setContext(new EvlContext());
 		addAndLoadNewModel();
 	}
@@ -85,7 +84,7 @@ public class EvlModuleReuseTests {
 	}
 	
 	@Test
-	public void test3_ReuseWithChangedContextDifferentModel() throws EolModelLoadingException {
+	public void test3_ReuseWithChangedContextDifferentModel() throws Exception {
 		module.setContext(new EvlContext());
 		addAndLoadNewModel();
 	}

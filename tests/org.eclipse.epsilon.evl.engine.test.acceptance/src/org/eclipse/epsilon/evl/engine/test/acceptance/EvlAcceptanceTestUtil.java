@@ -100,8 +100,9 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 	/**
 	 * A list of pre-configured Runnables which will call the execute() method on the provided module.
 	 * @param modules A collection of IEvlModules to use in combination with each set of test data.
+	 * @throws Exception 
 	 */
-	public static Collection<EvlRunConfiguration> getScenarios(List<String[]> testInputs, boolean includeTest, Collection<Supplier<? extends IEvlModule>> moduleGetters, Function<String[], Integer> idCalculator) {
+	public static Collection<EvlRunConfiguration> getScenarios(List<String[]> testInputs, boolean includeTest, Collection<Supplier<? extends IEvlModule>> moduleGetters, Function<String[], Integer> idCalculator) throws Exception {
 		if (testInputs == null) testInputs = allInputs;
 		if (moduleGetters == null) moduleGetters = modules();
 		Collection<EvlRunConfiguration> scenarios = EolAcceptanceTestUtil.getScenarios(EvlRunConfiguration.class, testInputs, moduleGetters, idCalculator);
@@ -149,10 +150,10 @@ public class EvlAcceptanceTestUtil extends EolAcceptanceTestUtil {
 		return EolAcceptanceTestUtil.addAllInputs(scripts, models, metamodel, "evl", scriptsRoot, modelsRoot, metamodelsRoot);
 	}
 	@SafeVarargs
-	public static Collection<EvlRunConfiguration> getScenarios(Supplier<? extends IEvlModule>... moduleGetters) {
+	public static Collection<EvlRunConfiguration> getScenarios(Supplier<? extends IEvlModule>... moduleGetters) throws Exception {
 		return getScenarios(null, true, Arrays.asList(moduleGetters), null);
 	}
-	public static Collection<EvlRunConfiguration> getScenarios(List<String[]> testInputs, boolean includeTest, Collection<Supplier<? extends IEvlModule>> moduleGetters) {
+	public static Collection<EvlRunConfiguration> getScenarios(List<String[]> testInputs, boolean includeTest, Collection<Supplier<? extends IEvlModule>> moduleGetters) throws Exception {
 		return getScenarios(testInputs, includeTest, moduleGetters, null);
 	}
 	public static Collection<Supplier<? extends IEvlModule>> modules() {
