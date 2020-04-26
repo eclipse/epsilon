@@ -175,23 +175,13 @@ public abstract class AbstractEplModule extends ErlModule implements IEplModule 
 	}
 	
 	@Override
-	public String getPatternMatchModelName() {
-		return patternMatchModelName;
-	}
-	
-	@Override
-	public void setPatternMatchModelName(String patternMatchModelName) {
-		this.patternMatchModelName = patternMatchModelName;
-	}
-	
-	@Override
 	public final PatternMatchModel matchPatterns() throws EolRuntimeException {
 		PatternMatchModel matchModel = null;
 		
 		try {
 			int loops = 0;
 			do {
-				matchModel = createModel();
+				matchModel = getContext().getPatternMatchTrace();
 				preMatch(matchModel);
 				
 				for (int level = 0; level <= getMaximumLevel(); level++) {
@@ -209,8 +199,6 @@ public abstract class AbstractEplModule extends ErlModule implements IEplModule 
 		catch (Exception ex) {
 			EolRuntimeException.propagate(ex);
 		}
-		
-		getContext().setPatternMatchTrace(matchModel);
 		
 		return matchModel;
 	}
@@ -286,7 +274,6 @@ public abstract class AbstractEplModule extends ErlModule implements IEplModule 
 	 */
 	protected void preMatch(PatternMatchModel model) throws EolRuntimeException {
 		if (getMaximumLevel() > 0) {
-			model.setName(getPatternMatchModelName());
 			context.getModelRepository().addModel(model);
 		}
 		model.setPatterns(getPatterns());

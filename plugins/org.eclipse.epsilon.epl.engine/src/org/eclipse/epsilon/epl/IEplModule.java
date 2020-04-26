@@ -36,10 +36,6 @@ public interface IEplModule extends IErlModule {
 	
 	void setRepeatWhileMatches(boolean repeatWhileMatches);
 	
-	String getPatternMatchModelName();
-	
-	void setPatternMatchModelName(String patternMatchModelName);
-	
 	PatternMatchModel matchPatterns() throws EolRuntimeException;
 
 	Collection<PatternMatch> match(Pattern pattern) throws EolRuntimeException;

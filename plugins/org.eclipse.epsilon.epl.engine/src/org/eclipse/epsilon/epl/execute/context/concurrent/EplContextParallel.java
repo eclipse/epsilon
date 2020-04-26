@@ -24,11 +24,12 @@ public class EplContextParallel extends ErlContextParallel implements IEplContex
 	protected PatternMatchModel matchModel;
 	
 	public EplContextParallel() {
-		super();
+		this(0);
 	}
 	
 	public EplContextParallel(int parallelism) {
 		super(parallelism);
+		matchModel = new PatternMatchModel(true);
 	}
 
 	public EplContextParallel(IEolContext other) {

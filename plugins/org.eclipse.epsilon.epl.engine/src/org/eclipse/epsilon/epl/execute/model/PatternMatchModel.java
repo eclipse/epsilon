@@ -43,6 +43,7 @@ public class PatternMatchModel extends Model {
 		matchMap = concurrent ? concurrentMap() : new HashMap<>();
 		componentMap = concurrent ? concurrentMap() : new HashMap<>();
 		matches = concurrent ? concurrentSet() : new HashSet<>();
+		setName("P");
 	}
 	
 	

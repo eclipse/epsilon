@@ -9,11 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.epl.concurrent;
 
-import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.execute.context.concurrent.EplContextParallel;
 import org.eclipse.epsilon.epl.execute.context.concurrent.IEplContextParallel;
-import org.eclipse.epsilon.epl.execute.model.PatternMatchModel;
 
 /**
  * Only useful for parallel first-order operations.
@@ -29,11 +27,6 @@ public class EplModuleParallel extends EplModule {
 
 	public EplModuleParallel(IEplContextParallel context) {
 		super(context == null ? new EplContextParallel() : context);
-	}
-	
-	@Override
-	protected PatternMatchModel createModel() throws EolRuntimeException {
-		return new PatternMatchModel(true);
 	}
 
 	@Override
