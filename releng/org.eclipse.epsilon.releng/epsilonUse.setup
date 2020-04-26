@@ -346,8 +346,6 @@
       <requirement
           name="org.eclipse.emf.compare.feature.group"/>
       <requirement
-          name="org.eclipse.emf.compare.source.feature.group"/>
-      <requirement
           name="org.eclipse.emf.compare.diagram.gmf.feature.group"/>
       <requirement
           name="org.eclipse.emf.compare.egit.feature.group"/>
