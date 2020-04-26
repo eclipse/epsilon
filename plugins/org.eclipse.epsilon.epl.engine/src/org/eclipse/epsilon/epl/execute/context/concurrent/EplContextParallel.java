@@ -29,7 +29,7 @@ public class EplContextParallel extends ErlContextParallel implements IEplContex
 	
 	public EplContextParallel(int parallelism) {
 		super(parallelism);
-		matchModel = new PatternMatchModel(true);
+		matchModel = new PatternMatchModel();
 	}
 
 	public EplContextParallel(IEolContext other) {

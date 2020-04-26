@@ -39,19 +39,18 @@ public class EplModuleParallelPatterns extends EplModuleParallel {
 	protected Set<PatternMatch> matchPatterns(final int level, PatternMatchModel model) throws EolRuntimeException {
 		IEplContextParallel context = getContext();
 		Collection<? extends Pattern> patterns = getPatterns();
-		Collection<Callable<?>> jobs = new ArrayList<>(patterns.size());
-		for (Pattern pattern : patterns) {
-			jobs.add(() -> {
-				if (pattern.getLevel() == level) {
-					for (PatternMatch match : match(pattern)) {
-						model.addMatch(match);
-					}
-					return true;
-				}
-				return false;
-			});
+		Collection<Callable<Collection<PatternMatch>>> jobs = new ArrayList<>(patterns.size());
+		
+		for (final Pattern pattern : patterns) {
+			if (pattern.getLevel() == level) {
+				jobs.add(() -> match(pattern));
+			}
 		}
-		context.executeAll(this, jobs);
+		
+		for (Collection<PatternMatch> matches : context.executeAll(this, jobs)) {
+			model.addMatches(matches);
+		}
+		
 		return model.getMatches();
 	}
 }

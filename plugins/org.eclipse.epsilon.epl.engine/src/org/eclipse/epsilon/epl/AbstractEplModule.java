@@ -181,8 +181,7 @@ public abstract class AbstractEplModule extends ErlModule implements IEplModule 
 		try {
 			int loops = 0;
 			do {
-				matchModel = getContext().getPatternMatchTrace();
-				preMatch(matchModel);
+				preMatch(matchModel = getContext().getPatternMatchTrace());
 				
 				for (int level = 0; level <= getMaximumLevel(); level++) {
 					Set<PatternMatch> currentMatches = matchPatterns(level, matchModel);
@@ -287,9 +286,7 @@ public abstract class AbstractEplModule extends ErlModule implements IEplModule 
 	protected Set<PatternMatch> matchPatterns(int level, PatternMatchModel model) throws EolRuntimeException {
 		for (Pattern pattern : getPatterns()) {
 			if (pattern.getLevel() == level) {
-				for (PatternMatch match : match(pattern)) {
-					model.addMatch(match);
-				}
+				model.addMatches(match(pattern));
 			}
 		}
 		return model.getMatches();

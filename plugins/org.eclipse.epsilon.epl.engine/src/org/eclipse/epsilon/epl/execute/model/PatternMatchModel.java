@@ -11,7 +11,6 @@
 package org.eclipse.epsilon.epl.execute.model;
 
 import java.util.*;
-import static org.eclipse.epsilon.common.concurrent.ConcurrencyUtils.*;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -27,25 +26,19 @@ import org.eclipse.epsilon.epl.execute.PatternMatch;
 
 public class PatternMatchModel extends Model {
 	
-	protected final boolean isConcurrent;
 	protected final Map<String, Collection<PatternMatch>> matchMap;
 	protected final Map<String, Set<Object>> componentMap;
 	protected final Set<PatternMatch> matches;
 	protected final PatternMatchPropertyGetter propertyGetter = new PatternMatchPropertyGetter();
 	protected final PatternMatchPropertySetter propertySetter = new PatternMatchPropertySetter();
 	
-	public PatternMatchModel() {
-		this(false);
-	}
 	
-	public PatternMatchModel(boolean concurrent) {
-		this.isConcurrent = concurrent;
-		matchMap = concurrent ? concurrentMap() : new HashMap<>();
-		componentMap = concurrent ? concurrentMap() : new HashMap<>();
-		matches = concurrent ? concurrentSet() : new HashSet<>();
+	public PatternMatchModel() {
+		matchMap = new HashMap<>();
+		componentMap = new HashMap<>();
+		matches = new HashSet<>();
 		setName("P");
 	}
-	
 	
 	@Override
 	public void dispose() {
@@ -53,6 +46,16 @@ public class PatternMatchModel extends Model {
 		matches.clear();
 		componentMap.values().forEach(Set::clear);
 		componentMap.clear();
+	}
+	
+	/**
+	 * 
+	 * @param matches
+	 * @since 1.6
+	 */
+	public void addMatches(Collection<PatternMatch> matches) {
+		// TODO: optimize
+		for (PatternMatch match : matches) addMatch(match);
 	}
 	
 	public void addMatch(PatternMatch match) {
@@ -77,13 +80,13 @@ public class PatternMatchModel extends Model {
 		StringOperationContributor stringOps = new StringOperationContributor();
 		for (Pattern pattern : patterns) {
 			String patternName = pattern.getName();
-			matchMap.put(patternName, isConcurrent ? concurrentOrderedCollection() : new ArrayList<>());
+			matchMap.put(patternName, new ArrayList<>());
 			for (Role role : pattern.getRoles()) {
 				if (role.isNegative()) continue;
 				for (String roleName : role.getNames()) {
 					stringOps.setTarget(roleName);
 					String componentName = patternName + stringOps.firstToUpperCase();
-					componentMap.put(componentName, isConcurrent ? concurrentSet() : new HashSet<>());
+					componentMap.put(componentName, new HashSet<>());
 				}
 			}
 		}
