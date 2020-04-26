@@ -26,7 +26,6 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
-import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
 
 /**
  * A default config getter which effectively allows main method inheritance.
@@ -41,7 +40,7 @@ import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
  * @author Sina Madani
  * @since 1.6
  */
-public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunConfiguration.Builder<C, B>> extends ConfigParser<C, B> {
+public class EolConfigParser<C extends EolRunConfiguration, B extends EolRunConfiguration.Builder<C, B>> extends ConfigParser<C, B> {
 
 	/**
 	 * Allows the caller to invoke any subclass of IEolModule.
@@ -50,14 +49,14 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 	public static void main(String... args) throws ClassNotFoundException {
 		if (args.length < 1) throw new IllegalArgumentException("Must provide arguments! At the minimum, an Epsilon script is required.");
 		if (args[0].toUpperCase().startsWith("CONFIG")) {
-			Class<? extends IEolRunConfiguration> configClass = (Class<? extends IEolRunConfiguration>)
+			Class<? extends EolRunConfiguration> configClass = (Class<? extends EolRunConfiguration>)
 				Class.forName(args[0].substring(7));
 			
 			String[] adjustedArgs = Arrays.copyOfRange(args, 1, args.length);
-			new EolConfigParser(IEolRunConfiguration.Builder(configClass)).apply(adjustedArgs).run();
+			new EolConfigParser(EolRunConfiguration.Builder(configClass)).apply(adjustedArgs).run();
 		}
 		else {
-			new EolConfigParser(IEolRunConfiguration.Builder(getRunConfigurationForScript(args[0])))
+			new EolConfigParser(EolRunConfiguration.Builder(getRunConfigurationForScript(args[0])))
 				.apply(args).run();
 		}
 	}
@@ -233,13 +232,13 @@ public class EolConfigParser<C extends IEolRunConfiguration, B extends IEolRunCo
 	}
 	
 	@SuppressWarnings("unchecked")
-	static Class<? extends IEolRunConfiguration> getRunConfigurationForScript(String scriptPath) {
+	static Class<? extends EolRunConfiguration> getRunConfigurationForScript(String scriptPath) {
 		String ext = FileUtil.getExtension(scriptPath).toLowerCase();
 		String pkg = ext.equals("egx") ? "egl" : ext;
 		String className = "org.eclipse.epsilon."+pkg+".launch."+StringUtil.firstToUpper(ext)+"RunConfiguration";
 		
 		try {
-			return (Class<? extends IEolRunConfiguration>) Class.forName(className);
+			return (Class<? extends EolRunConfiguration>) Class.forName(className);
 		}
 		catch (ClassNotFoundException cnfx) {
 			return EolRunConfiguration.class;

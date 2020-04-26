@@ -35,7 +35,7 @@ import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.concurrent.EolModuleParallel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
+import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.eclipse.epsilon.test.util.EpsilonTestUtil;
 
 /**
@@ -104,7 +104,7 @@ public class EolAcceptanceTestUtil extends EpsilonTestUtil {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <M extends IEolModule, C extends IEolRunConfiguration> Collection<C> getScenarios(
+	public static <M extends IEolModule, C extends EolRunConfiguration> Collection<C> getScenarios(
 			Class<C> clazz,
 			List<String[]> testInputs,
 			Collection<Supplier<? extends M>> moduleGetters,
@@ -121,7 +121,7 @@ public class EolAcceptanceTestUtil extends EpsilonTestUtil {
 			Path metamodelFile = Paths.get(testInput[2]);
 			
 			for (Supplier<? extends M> moduleGetter : moduleGetters) {
-				scenarios.add(((IEolRunConfiguration.Builder<C, ?>) IEolRunConfiguration.Builder(clazz))
+				scenarios.add(((EolRunConfiguration.Builder<C, ?>) EolRunConfiguration.Builder(clazz))
 					.withScript(eolScript)
 					.withModel(new EmfModel(), createModelProperties(modelFile, metamodelFile))
 					.withModule(moduleGetter.get())

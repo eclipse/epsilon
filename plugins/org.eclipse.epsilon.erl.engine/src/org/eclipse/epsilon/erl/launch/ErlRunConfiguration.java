@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.launch;
 
-import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
+import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.IErlModule;
 
@@ -18,9 +18,9 @@ import org.eclipse.epsilon.erl.IErlModule;
  * @author Sina Madani
  * @since 1.6
  */
-public class ErlRunConfiguration extends IEolRunConfiguration {
+public class ErlRunConfiguration extends EolRunConfiguration {
 	
-	public static class Builder<R extends ErlRunConfiguration, B extends Builder<R, B>> extends IEolRunConfiguration.Builder<R, B> {
+	public static class Builder<R extends ErlRunConfiguration, B extends Builder<R, B>> extends EolRunConfiguration.Builder<R, B> {
 		
 		protected Builder() {
 			super();
@@ -39,7 +39,7 @@ public class ErlRunConfiguration extends IEolRunConfiguration {
 		super(builder);
 	}
 	
-	public ErlRunConfiguration(IEolRunConfiguration other) {
+	public ErlRunConfiguration(EolRunConfiguration other) {
 		super(other);
 	}
 	

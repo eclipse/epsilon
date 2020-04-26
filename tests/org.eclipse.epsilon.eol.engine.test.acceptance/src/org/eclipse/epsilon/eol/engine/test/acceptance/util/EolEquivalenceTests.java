@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.execute.context.Frame;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
-import org.eclipse.epsilon.eol.launch.IEolRunConfiguration;
+import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -69,17 +69,17 @@ import org.junit.runner.RunWith;
  * @author Sina Madani
  */
 @RunWith(org.junit.runners.Parameterized.class)
-public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
+public abstract class EolEquivalenceTests<C extends EolRunConfiguration> {
 
 	/**
 	 * The oracle configurations
 	 */
-	protected static Collection<? extends IEolRunConfiguration> expectedConfigs;
+	protected static Collection<? extends EolRunConfiguration> expectedConfigs;
 	
 	/** 
 	 * Used to identify which scenario to compare our results with.
 	 */
-	protected static Map<Integer, IEolRunConfiguration> expectedConfigIDs;
+	protected static Map<Integer, EolRunConfiguration> expectedConfigIDs;
 	
 	/**
 	 *  The scenario and module combination under test. This is the parameterised test variable.
@@ -96,12 +96,12 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	 * This should be called in <code>setUpBeforeClass()</code>.
 	 * @param expectedConfs The oracle configurations.
 	 */
-	protected static void setUpEquivalenceTest(Collection<? extends IEolRunConfiguration> expectedConfs) {
+	protected static void setUpEquivalenceTest(Collection<? extends EolRunConfiguration> expectedConfs) {
 		Objects.requireNonNull(expectedConfs);
 		expectedConfigs = expectedConfs;
 		expectedConfigIDs = new HashMap<>(expectedConfigs.size());
 		
-		for (IEolRunConfiguration expectedConfig : expectedConfigs) {
+		for (EolRunConfiguration expectedConfig : expectedConfigs) {
 			expectedConfigIDs.put(expectedConfig.getId(), expectedConfig);
 			expectedConfig.run();
 		}
@@ -165,7 +165,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 	}
 
 	protected void testScenariosMatch() throws Exception {
-		Function<IEolRunConfiguration, Collection<String>> modelCollector = cfg ->
+		Function<EolRunConfiguration, Collection<String>> modelCollector = cfg ->
 			cfg.getModule().getContext()
 				.getModelRepository().getModels()
 				.stream()
@@ -183,7 +183,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 		);
 	}
 	
-	public static List<String> getFrameStackAsString(IEolRunConfiguration config) {
+	public static List<String> getFrameStackAsString(EolRunConfiguration config) {
 		return config.getModule().getContext().getFrameStack()
 			.getFrames().stream()
 			.map(Frame::getAll)
@@ -201,7 +201,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 		));
 	}
 	
-	public static List<ModuleElement> getStackTraceModuleElements(IEolRunConfiguration config) {
+	public static List<ModuleElement> getStackTraceModuleElements(EolRunConfiguration config) {
 		return config.getModule().getContext().getExecutorFactory().getStackTraceManager().getStackTrace();
 	}
 	
@@ -213,7 +213,7 @@ public abstract class EolEquivalenceTests<C extends IEolRunConfiguration> {
 		);
 	}
 	
-	public static Collection<OperationContributor> getOperationContributors(IEolRunConfiguration config) {
+	public static Collection<OperationContributor> getOperationContributors(EolRunConfiguration config) {
 		return config.getModule().getContext().getOperationContributorRegistry().stream().collect(Collectors.toSet());
 	}
 	
