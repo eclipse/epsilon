@@ -149,7 +149,6 @@ public class PlainXmlModel extends CachedModel<Element> {
 		return createInstance(type, Collections.emptyList());
 	}
 	
-	
 	@Override
 	public Element createInstance(String type, Collection<Object> parameters) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		String tagName = null;
@@ -214,7 +213,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 			elements.add((Element) root);
 		}
 		NodeList childNodes = root.getChildNodes();
-		for (int i=0; i<childNodes.getLength(); i++) {
+		for (int i = 0; i < childNodes.getLength(); i++) {
 			Object o = childNodes.item(i);
 			if (o instanceof Element) {
 				collectAllElements((Element) o, elements);
@@ -233,25 +232,24 @@ public class PlainXmlModel extends CachedModel<Element> {
 	protected Collection<Element> getAllOfTypeFromModel(String type) throws EolModelElementTypeNotFoundException {
 		if (ELEMENT_TYPE.equals(type)) {
 			return allContents();
-		} else {
-			
-			List<Element> allOfType = null;
+		}
+		else {
+			Collection<Element> allOfType = null;
 			PlainXmlType plainXmlType = PlainXmlType.parse(type);
 			
 			if (plainXmlType == null) {
 				throw new EolModelElementTypeNotFoundException(this.getName(), type);
 			}
 			
-			if (allOfType == null){
+			if (allOfType == null) {
 				allOfType = new ArrayList<>();
-				for (Object o : allContents()) {
-					Element e = (Element) o;
+				for (Element e : allContents()) {
 					if (tagMatches(e, plainXmlType.getTagName())) {
 						allOfType.add(e);
 					}
 				}
 			}
-
+			
 			return allOfType;
 		}
 	}
@@ -272,7 +270,10 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 	
 	@Override
-	protected void disposeModel() {}
+	protected void disposeModel() {
+		document = null;
+		xml = null;
+	}
 
 	@Override
 	public Object getElementById(String id) {
