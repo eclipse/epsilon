@@ -20,17 +20,17 @@ import org.eclipse.epsilon.egl.IEgxModule;
 import org.eclipse.epsilon.egl.concurrent.EgxModuleParallelGenerationRuleAtoms;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.execute.context.concurrent.EgxContextParallel;
-import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
+import org.eclipse.epsilon.erl.launch.ErlRunConfiguration;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public class EgxRunConfiguration extends IErlRunConfiguration {
+public class EgxRunConfiguration extends ErlRunConfiguration {
 	
 	@SuppressWarnings("unchecked")
-	public static class Builder<C extends EgxRunConfiguration, B extends Builder<C, B>> extends IErlRunConfiguration.Builder<C, B> {
+	public static class Builder<C extends EgxRunConfiguration, B extends Builder<C, B>> extends ErlRunConfiguration.Builder<C, B> {
 		
 		public Path outputRoot;
 		public boolean persistOutput = true;

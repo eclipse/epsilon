@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.etl.launch;
 
-import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
+import org.eclipse.epsilon.erl.launch.ErlRunConfiguration;
 import org.eclipse.epsilon.etl.EtlModule;
 import org.eclipse.epsilon.etl.IEtlModule;
 import org.eclipse.epsilon.etl.concurrent.EtlModuleParallel;
@@ -19,9 +19,9 @@ import org.eclipse.epsilon.etl.concurrent.EtlModuleParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EtlRunConfiguration extends IErlRunConfiguration {
+public class EtlRunConfiguration extends ErlRunConfiguration {
 
-	public static class Builder<R extends EtlRunConfiguration, B extends Builder<R, B>> extends IErlRunConfiguration.Builder<R, B> {
+	public static class Builder<R extends EtlRunConfiguration, B extends Builder<R, B>> extends ErlRunConfiguration.Builder<R, B> {
 
 		protected Builder() {
 			super();
@@ -40,7 +40,7 @@ public class EtlRunConfiguration extends IErlRunConfiguration {
 		return new Builder<>(EtlRunConfiguration.class);
 	}
 	
-	public EtlRunConfiguration(Builder<? extends IErlRunConfiguration, ?> builder) {
+	public EtlRunConfiguration(Builder<? extends ErlRunConfiguration, ?> builder) {
 		super(builder);
 	}
 	

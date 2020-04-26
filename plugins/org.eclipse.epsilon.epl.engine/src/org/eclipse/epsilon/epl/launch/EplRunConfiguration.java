@@ -13,16 +13,16 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.IEplModule;
 import org.eclipse.epsilon.epl.execute.model.PatternMatchModel;
-import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
+import org.eclipse.epsilon.erl.launch.ErlRunConfiguration;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public class EplRunConfiguration extends IErlRunConfiguration {
+public class EplRunConfiguration extends ErlRunConfiguration {
 
-	public static class Builder<R extends EplRunConfiguration, B extends Builder<R, B>> extends IErlRunConfiguration.Builder<R, B> {
+	public static class Builder<R extends EplRunConfiguration, B extends Builder<R, B>> extends ErlRunConfiguration.Builder<R, B> {
 		@Override
 		protected IEplModule createModule() {
 			return new EplModule();
@@ -41,7 +41,7 @@ public class EplRunConfiguration extends IErlRunConfiguration {
 		return new Builder<>(EplRunConfiguration.class);
 	}
 	
-	public EplRunConfiguration(IErlRunConfiguration.Builder<? extends EplRunConfiguration, ?> builder) {
+	public EplRunConfiguration(ErlRunConfiguration.Builder<? extends EplRunConfiguration, ?> builder) {
 		super(builder);
 	}
 	

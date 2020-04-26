@@ -13,16 +13,16 @@ import org.eclipse.epsilon.ecl.*;
 import org.eclipse.epsilon.ecl.concurrent.EclModuleParallel;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
+import org.eclipse.epsilon.erl.launch.ErlRunConfiguration;
 
 /**
  * 
  * @author Sina Madani
  * @since 1.6
  */
-public class EclRunConfiguration extends IErlRunConfiguration {
+public class EclRunConfiguration extends ErlRunConfiguration {
 
-	public static class Builder<R extends EclRunConfiguration, B extends Builder<R, B>> extends IErlRunConfiguration.Builder<R, B> {
+	public static class Builder<R extends EclRunConfiguration, B extends Builder<R, B>> extends ErlRunConfiguration.Builder<R, B> {
 		protected Builder() {
 			super();
 		}

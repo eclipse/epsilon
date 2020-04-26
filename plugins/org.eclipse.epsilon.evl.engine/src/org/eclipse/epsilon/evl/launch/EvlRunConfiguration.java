@@ -11,7 +11,7 @@ package org.eclipse.epsilon.evl.launch;
 
 import java.util.Collection;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.erl.launch.IErlRunConfiguration;
+import org.eclipse.epsilon.erl.launch.ErlRunConfiguration;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.IEvlModule;
 import org.eclipse.epsilon.evl.concurrent.EvlModuleParallelElements;
@@ -24,10 +24,10 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EvlRunConfiguration extends IErlRunConfiguration {
+public class EvlRunConfiguration extends ErlRunConfiguration {
 	
 	@SuppressWarnings("unchecked")
-	public static class Builder<R extends EvlRunConfiguration, B extends Builder<R, B>> extends IErlRunConfiguration.Builder<R, B> {
+	public static class Builder<R extends EvlRunConfiguration, B extends Builder<R, B>> extends ErlRunConfiguration.Builder<R, B> {
 		
 		public boolean optimizeTrace = true;
 		public boolean optimizeConstraints = false;
@@ -74,7 +74,7 @@ public class EvlRunConfiguration extends IErlRunConfiguration {
 		return new Builder<>(EvlRunConfiguration.class);
 	}
 	
-	public EvlRunConfiguration(IErlRunConfiguration.Builder<? extends EvlRunConfiguration, ?> builder) {
+	public EvlRunConfiguration(ErlRunConfiguration.Builder<? extends EvlRunConfiguration, ?> builder) {
 		super(builder);
 	}
 	

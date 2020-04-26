@@ -18,9 +18,9 @@ import org.eclipse.epsilon.erl.IErlModule;
  * @author Sina Madani
  * @since 1.6
  */
-public class IErlRunConfiguration extends IEolRunConfiguration {
+public class ErlRunConfiguration extends IEolRunConfiguration {
 	
-	public static class Builder<R extends IErlRunConfiguration, B extends Builder<R, B>> extends IEolRunConfiguration.Builder<R, B> {
+	public static class Builder<R extends ErlRunConfiguration, B extends Builder<R, B>> extends IEolRunConfiguration.Builder<R, B> {
 		
 		protected Builder() {
 			super();
@@ -35,11 +35,11 @@ public class IErlRunConfiguration extends IEolRunConfiguration {
 		}
 	}
 	
-	public IErlRunConfiguration(Builder<? extends IErlRunConfiguration, ?> builder) {
+	public ErlRunConfiguration(Builder<? extends ErlRunConfiguration, ?> builder) {
 		super(builder);
 	}
 	
-	public IErlRunConfiguration(IEolRunConfiguration other) {
+	public ErlRunConfiguration(IEolRunConfiguration other) {
 		super(other);
 	}
 	
