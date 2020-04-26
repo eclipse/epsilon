@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.epsilon.common.function.ExceptionHandler;
 import org.eclipse.epsilon.emg.execute.operations.contributors.EmgOperationContributor;
 import org.eclipse.epsilon.eol.dom.Annotation;
 import org.eclipse.epsilon.eol.dom.AnnotationBlock;
@@ -32,12 +31,10 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
 import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.combinations.CompositeCombinationGenerator;
-import org.eclipse.epsilon.epl.combinations.CompositeCombinationValidator;
 import org.eclipse.epsilon.epl.dom.NoMatch;
 import org.eclipse.epsilon.epl.dom.Pattern;
 import org.eclipse.epsilon.epl.dom.Role;
 import org.eclipse.epsilon.epl.execute.PatternMatch;
-import org.eclipse.epsilon.epl.execute.RuntimeExceptionThrower;
 
 /**
  * The Emg Module is responsible for execution emg scripts. Emg scripts are used
@@ -139,7 +136,7 @@ public class EmgModule extends EplModule implements IEmgModule {
 	 */
 	@Override
 	public String getMainRule() {
-		return "eplModule";
+		return "emgModule";
 	}
 
 	/*
@@ -300,37 +297,29 @@ public class EmgModule extends EplModule implements IEmgModule {
 		for (Role role : pattern.getRoles()) {
 			generator.addCombinationGenerator(createCombinationGenerator(role));
 		}
-		generator.setValidator(new CompositeCombinationValidator<Object, EolRuntimeException>() {
-			@Override
-			public boolean isValid(List<List<Object>> combination) throws EolRuntimeException {
-				for (Object o : combination.get(combination.size() - 1)) {
-					if (o instanceof NoMatch)
-						return true;
-				}
-	
-				Frame frame = context.getFrameStack().enterLocal(FrameType.PROTECTED, pattern);
-				boolean result = true;
-				int i = 0;
-				Role role = null;
-				for (List<Object> values : combination) {
-					role = pattern.getRoles().get(i);
-					for (Variable variable : getVariables(values, role)) {
-						frame.put(variable);
-					}
-					i++;
-				}
-				if (!role.isNegative() && role.getGuard() != null && role.isActive(context)
-					&& role.getCardinality().isOne()) {
-					result = role.getGuard().execute(context);
-				}
-				context.getFrameStack().leaveLocal(pattern);
-				return result;
+		generator.setValidator(combination -> {
+			for (Object o : combination.get(combination.size() - 1)) {
+				if (o instanceof NoMatch)
+					return true;
 			}
-			
-			@Override
-			public ExceptionHandler<EolRuntimeException> getExceptionHandler() {
-				return new RuntimeExceptionThrower<>(context);
+
+			Frame frame = context.getFrameStack().enterLocal(FrameType.PROTECTED, pattern);
+			boolean result = true;
+			int i = 0;
+			Role role = null;
+			for (List<Object> values : combination) {
+				role = pattern.getRoles().get(i);
+				for (Variable variable : getVariables(values, role)) {
+					frame.put(variable);
+				}
+				i++;
 			}
+			if (!role.isNegative() && role.getGuard() != null && role.isActive(context)
+				&& role.getCardinality().isOne()) {
+				result = role.getGuard().execute(context);
+			}
+			context.getFrameStack().leaveLocal(pattern);
+			return result;
 		});
 
 		// annotation number
