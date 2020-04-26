@@ -9,9 +9,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
-import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.epl.EplModule;
-import org.eclipse.epsilon.epl.execute.PatternMatchModel;
+import org.eclipse.epsilon.epl.IEplModule;
+import org.eclipse.epsilon.epl.execute.model.PatternMatchModel;
 
 public class EplTask extends ExecutableModuleTask {
 	
@@ -21,13 +21,13 @@ public class EplTask extends ExecutableModuleTask {
 	
 	@Override
 	protected void initialize() {
-		EplModule module = (EplModule) this.module;
+		IEplModule module = (IEplModule) this.module;
 		module.setMaxLoops(maxLoops);
 		module.setRepeatWhileMatches(repeatWhileMatches);
 	}
 
 	@Override
-	protected IEolModule createDefaultModule() {
+	protected IEplModule createDefaultModule() {
 		return new EplModule();
 	}
 

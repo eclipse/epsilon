@@ -16,24 +16,22 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+import org.eclipse.epsilon.common.concurrent.ConcurrencyUtils;
+import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
-import org.eclipse.epsilon.eol.execute.context.FrameStack;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 import org.eclipse.epsilon.eol.models.IModel;
-import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.IEplModule;
 import org.eclipse.epsilon.epl.dom.NoMatch;
 import org.eclipse.epsilon.epl.execute.PatternMatch;
-import org.eclipse.epsilon.epl.execute.PatternMatchModel;
+import org.eclipse.epsilon.epl.execute.model.PatternMatchModel;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -46,11 +44,11 @@ import org.junit.runners.Parameterized.Parameters;
 public class EplTests {
 	
 	private static IModel TEST_MODEL;
-	private static final File TEST_SCRIPT = new File(EplTests.class.getResource("test.epl").getFile());
+	private static final File TEST_SCRIPT = new File(EplAcceptanceTestUtil.scriptsRoot+"test.epl");
 	
 	static {
 		try {
-			TEST_MODEL = setUpModel();
+			TEST_MODEL = setUpModel("test.xml");
 		}
 		catch (EolModelLoadingException ex) {
 			ex.printStackTrace();
@@ -69,40 +67,36 @@ public class EplTests {
 	
 	@Parameters(name = "{0}")
 	public static Iterable<Supplier<? extends IEplModule>> modules() {
-		return Collections.singleton(EplModule::new);
+		// Shouldn't take long to run, so test everything.
+		return EplAcceptanceTestUtil.modules(true);
 	}
 	
 	// Using a Collector allows us to capture the errors and print more useful diagnostic info.
 	@Rule
     public ErrorCollector collector = new ErrorCollector();
 	
-	private static IModel setUpModel() throws EolModelLoadingException {
+	private static IModel setUpModel(String modelName) throws EolModelLoadingException {
 		PlainXmlModel model = new PlainXmlModel();
-		model.setFile(new File(EplTests.class.getResource("test.xml").getFile()));
-		model.setName("M");
+		model.setFile(new File(EplAcceptanceTestUtil.modelsRoot+modelName));
+		model.setName(FileUtil.removeExtension(model.getFile().getName()));
 		model.setCachingEnabled(false);
 		model.load();
 		return model;
 	}
 	
 	public static Path getTestScript(IEplModule module) {
-		FrameStack frameStack = module.getContext().getFrameStack();
-		frameStack.putGlobal(
-			Variable.createReadOnlyVariable("blackboard", new HashMap<>()),
-			Variable.createReadOnlyVariable("frameStack", frameStack)
+		module.getContext().getFrameStack().putGlobal(
+			Variable.createReadOnlyVariable("blackboard", ConcurrencyUtils.concurrentMap())
 		);
 		return TEST_SCRIPT.toPath();
 	}
 	
-	@SuppressWarnings("unchecked")
 	Map<String, String> loadEPL() throws Exception {
 		module = moduleGetter.get();
 		
-		Map<String, String> blackboard = new HashMap<>();
-		FrameStack frameStack = module.getContext().getFrameStack();
-		frameStack.putGlobal(
-			Variable.createReadOnlyVariable("blackboard", blackboard),
-			Variable.createReadOnlyVariable("frameStack", frameStack)
+		Map<String, String> blackboard = ConcurrencyUtils.concurrentMap();
+		module.getContext().getFrameStack().putGlobal(
+			Variable.createReadOnlyVariable("blackboard", blackboard)
 		);
 		
 		module.parse(TEST_SCRIPT);
@@ -110,7 +104,7 @@ public class EplTests {
 		model.load();
 		module.getContext().getModelRepository().addModel(model);
 		
-		return (Map<String, String>) frameStack.get("blackboard").getValue();
+		return blackboard;
 	}
 	
 	private void assertMatchesCollector(int expectedMatches, String name, Consumer<Collection<?>> code) throws EolModelElementTypeNotFoundException {
@@ -169,13 +163,13 @@ public class EplTests {
 		assertNumberOfMatches(0, "BnoCinactiveB");
 		assertNumberOfMatches(1, "B2Csubset");
 		assertNumberOfMatches(1, "AccessSelf");
-		//assertNumberOfMatches(1, "NegativeAccessPredecessor");	// FAIL
-		//assertNumberOfMatches(2, "NegativeAccessSelf");			// FAIL
+		assertNumberOfMatches(2, "NegativeAccessPredecessor");
+		assertNumberOfMatches(0, "NegativeAccessSelf");
 		assertNumberOfMatches(2, "MultipleInactive");
 		assertNumberOfMatches(2, "CardinalityMany");
-		//assertNumberOfMatches(2, "CardinalityRange");				// FAIL
+		assertNumberOfMatches(1, "CardinalityRange");
 		assertNumberOfMatches(0, "CardinalityZero");
-		//assertNumberOfMatches(2, "CardinalityNegative");			// FAIL
+		assertNumberOfMatches(1, "CardinalityNegative");
 		assertNumberOfMatches(2, "OptionalActive");
 		assertNumberOfMatches(2, "OptionalInactiveMultipleDomains");
 		//assertNumberOfMatches(?, "OptionalNegativeGuard");		// TODO: implement

@@ -9,21 +9,12 @@
  ******************************************************************************/
 package org.eclipse.epsilon.epl.execute;
 
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.epl.combinations.ExceptionHandler;
+import org.eclipse.epsilon.common.function.ExceptionHandler;
 
-public class RuntimeExceptionThrower implements ExceptionHandler {
-	
-	protected IEolContext context;
-	
-	public RuntimeExceptionThrower(IEolContext context) {
-		this.context = context;
-	}
+public class RuntimeExceptionThrower<E extends Exception> implements ExceptionHandler<E> {
 	
 	@Override
 	public void handleException(Exception ex) {
 		throw new RuntimeException(ex.getMessage());
-		//context.getExecutorFactory().reportException(EolRuntimeException.wrap(ex));
 	}
-
 }

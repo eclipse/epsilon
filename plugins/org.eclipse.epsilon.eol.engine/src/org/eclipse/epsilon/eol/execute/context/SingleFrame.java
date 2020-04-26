@@ -85,7 +85,9 @@ public class SingleFrame implements Frame, Cloneable {
 	
 	@Override
 	public void remove(String name) {
-		storage.remove(name);
+		if (storage.remove(name) == null) {
+			//throw new IllegalStateException("No variable named '"+name+"'");
+		}
 	}
 	
 	@Override
@@ -142,7 +144,7 @@ public class SingleFrame implements Frame, Cloneable {
 			Variable value = entry.getValue();
 			Object variableValue = value.getValue();
 			
-			//Deal with infinite recursion incase one of the variables is this frame
+			// Deal with infinite recursion incase one of the variables is this frame
 			if (variableValue instanceof FrameStack) {
 				FrameStack nested = (FrameStack) variableValue;
 				if (nested.getFrames().contains(this))

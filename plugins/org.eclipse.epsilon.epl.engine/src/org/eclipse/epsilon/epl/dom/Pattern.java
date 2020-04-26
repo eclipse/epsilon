@@ -1,8 +1,9 @@
 /*******************************************************************************
  * Copyright (c) 2012 The University of York.
- * This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
@@ -23,18 +24,15 @@ import org.eclipse.epsilon.erl.dom.NamedRule;
 
 public class Pattern extends NamedRule {
 	
-	protected List<Role> roles = new ArrayList<>();
-	protected ExecutableBlock<Void> do_ = null;
-	protected ExecutableBlock<Boolean> match = null;
-	protected ExecutableBlock<Void> noMatch = null;
-	protected ExecutableBlock<Void> onMatch = null;
+	protected List<Role> roles;
+	protected ExecutableBlock<Boolean> match;
+	protected ExecutableBlock<Void> do_, noMatch, onMatch;
 	protected int level = 0;
-	
-	public Pattern() {}
 	
 	@SuppressWarnings("unchecked")
 	public void build(AST cst, IModule module) {
 		super.build(cst, module);
+		
 		Annotation levelAnnotation = getAnnotation("level");
 		if (levelAnnotation != null && levelAnnotation instanceof SimpleAnnotation) {
 			SimpleAnnotation simpleLevelAnnotation = (SimpleAnnotation) levelAnnotation;
@@ -46,7 +44,9 @@ public class Pattern extends NamedRule {
 		noMatch = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EplParser.NOMATCH), this);
 		do_ = (ExecutableBlock<Void>) module.createAst(AstUtil.getChild(cst, EplParser.DO), this);
 		
-		for (AST roleAst : AstUtil.getChildren(cst, EplParser.ROLE)) {
+		List<AST> roleAsts = AstUtil.getChildren(cst, EplParser.ROLE);
+		roles = new ArrayList<>(roleAsts.size());
+		for (AST roleAst : roleAsts) {
 			roles.add((Role) module.createAst(roleAst, this));
 		}
 	}
@@ -93,6 +93,5 @@ public class Pattern extends NamedRule {
 
 	public void setNoMatch(ExecutableBlock<Void> noMatch) {
 		this.noMatch = noMatch;
-	}
-	
+	}	
 }

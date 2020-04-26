@@ -1,8 +1,9 @@
 /*******************************************************************************
  * Copyright (c) 2012 The University of York.
- * This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
@@ -15,23 +16,15 @@ import java.util.List;
 
 public class ListCombinationGenerator<T> implements CombinationGenerator<T> {
 
-	private int[] a;
-	private int n;
-	private int r;
-	private BigInteger remaining;
-	private BigInteger total;
+	private int a[], n, r;
+	private BigInteger remaining, total;
 	protected List<T> list;
 	protected boolean initialised = false;
 	
 	public void initialise() {
-		if (initialised == false) {
-			this.n = list.size();
-			//if (r > n) {
-			//	throw new IllegalArgumentException();
-			//}
-			//if (n < 1) {
-			//	throw new IllegalArgumentException();
-			//}
+		if (!initialised) {
+			//if (r > n || n < 1) throw new IllegalArgumentException();
+			n = list.size();
 			a = new int[r];
 			BigInteger nFact = getFactorial(n);
 			BigInteger rFact = getFactorial(r);
@@ -48,6 +41,7 @@ public class ListCombinationGenerator<T> implements CombinationGenerator<T> {
 		this.list = list;
 	}
 
+	@Override
 	public void reset() {
 		if (initialised) {
 			for (int i = 0; i < a.length; i++) {
@@ -62,10 +56,12 @@ public class ListCombinationGenerator<T> implements CombinationGenerator<T> {
 		return remaining;
 	}
 
-	public boolean hasMore() {
+	@Override
+	public boolean hasNext() {
 		initialise();
-		if (list.isEmpty()) return false;
-		if (r > list.size()) return false;
+		if (list.isEmpty() || r > list.size())
+			return false;
+		
 		return remaining.compareTo(BigInteger.ZERO) == 1;
 	}
 
@@ -82,9 +78,10 @@ public class ListCombinationGenerator<T> implements CombinationGenerator<T> {
 		return fact;
 	}
 
-	public List<T> getNext() {
+	@Override
+	public List<T> next() {
 		initialise();
-		if (!hasMore()) return null;
+		if (!hasNext()) return null;
 		
 		if (remaining.equals(total)) {
 			remaining = remaining.subtract(BigInteger.ONE);
@@ -102,18 +99,16 @@ public class ListCombinationGenerator<T> implements CombinationGenerator<T> {
 			remaining = remaining.subtract(BigInteger.ONE);
 		}
 		
-		List<T> next = new ArrayList<>();
+		List<T> next = new ArrayList<>(a.length);
 		for (int j : a) {
 			next.add(list.get(j));
 		}
 		
 		return next;
-
 	}
 
 	@Override
 	public void producedValidCombination() {
 		// TODO Auto-generated method stub
-		
 	}
 }

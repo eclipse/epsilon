@@ -1,5 +1,5 @@
 /*********************************************************************
- * Copyright (c) 2019 The University of York.
+ * Copyright (c) 2018 The University of York.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,39 +9,45 @@
 **********************************************************************/
 package org.eclipse.epsilon.epl;
 
+import java.util.Collection;
 import java.util.List;
-
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.epl.dom.Pattern;
-import org.eclipse.epsilon.epl.execute.context.IEplContext;
+import org.eclipse.epsilon.epl.execute.PatternMatch;
+import org.eclipse.epsilon.epl.execute.model.PatternMatchModel;
 import org.eclipse.epsilon.erl.IErlModule;
 
 /**
  * 
+ * @author Sina Madani
  * @since 1.6
  */
 public interface IEplModule extends IErlModule {
 
-	void setPatternMatchModelName(String patternMatchModelName);
-
-	String getPatternMatchModelName();
-
-	int getMaximumLevel();
-
-	void setRepeatWhileMatches(boolean repeatWhileMatches);
-
-	boolean isRepeatWhileMatches();
-
-	void setMaxLoops(int maxLoops);
-
-	int getMaxLoops();
-
-	List<Pattern> getPatterns();
-
 	List<Pattern> getDeclaredPatterns();
+	
+	List<Pattern> getPatterns();
+	
+	int getMaxLoops();
+	
+	void setMaxLoops(int maxLoops);
+	
+	boolean isRepeatWhileMatches();
+	
+	void setRepeatWhileMatches(boolean repeatWhileMatches);
+	
+	String getPatternMatchModelName();
+	
+	void setPatternMatchModelName(String patternMatchModelName);
+	
+	PatternMatchModel matchPatterns() throws EolRuntimeException;
 
-	@Override
-	default IEplContext getContext() {
-		return (IEplContext) ((IErlModule)this).getContext();
+	Collection<PatternMatch> match(Pattern pattern) throws EolRuntimeException;
+	
+	default int getMaximumLevel() {
+		return getPatterns()
+			.stream()
+			.mapToInt(Pattern::getLevel)
+			.max().getAsInt();
 	}
-
 }

@@ -18,6 +18,7 @@ import org.eclipse.epsilon.eol.IEolModule;
 import org.eclipse.epsilon.eol.dt.debug.EolDebugger;
 import org.eclipse.epsilon.eol.dt.launching.EpsilonLaunchConfigurationDelegate;
 import org.eclipse.epsilon.epl.EplModule;
+import org.eclipse.epsilon.epl.IEplModule;
 
 public class EplLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDelegate {
 	
@@ -40,7 +41,7 @@ public class EplLaunchConfigurationDelegate extends EpsilonLaunchConfigurationDe
 			ILaunch launch, IProgressMonitor progressMonitor,
 			IEolModule module) throws Exception {
 		super.aboutToExecute(configuration, mode, launch, progressMonitor, module);
-		EplModule eplModule = (EplModule) module;
+		IEplModule eplModule = (IEplModule) module;
 		
 		eplModule.setMaxLoops(configuration.getAttribute(EplLaunchConfigurationAttributes.MAX_LOOPS, EplModule.INFINITE));
 		eplModule.setRepeatWhileMatches(configuration.getAttribute(EplLaunchConfigurationAttributes.REPEAT_WHILE_MATCHES_FOUND, false));

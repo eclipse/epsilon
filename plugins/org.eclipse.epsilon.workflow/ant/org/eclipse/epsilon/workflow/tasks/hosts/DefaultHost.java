@@ -63,7 +63,7 @@ public class DefaultHost implements Host {
 
 	@Override
 	public <T> List<T> getExtensionsOfType(Class<T> klazz) {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 }

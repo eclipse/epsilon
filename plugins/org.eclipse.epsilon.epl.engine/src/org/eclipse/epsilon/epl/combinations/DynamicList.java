@@ -1,29 +1,44 @@
 /*******************************************************************************
  * Copyright (c) 2012 The University of York.
- * This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
 package org.eclipse.epsilon.epl.combinations;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
+import org.eclipse.epsilon.common.function.ExceptionHandler;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-public abstract class DynamicList<T> implements List<T>{
+public abstract class DynamicList<T> implements List<T> {
 
-	protected boolean reset = true;
-	protected List<T> values = null;
-	protected boolean resetable = false;
-	protected ExceptionHandler exceptionHandler = null;
-	protected ArrayList<DynamicListListener<T>> listeners = new ArrayList<>();
+	private List<T> values;
+	private boolean reset = true, resetable = false;
+	private ExceptionHandler<EolRuntimeException> exceptionHandler;
+	private ArrayList<DynamicListListener<T>> listeners = new ArrayList<>(2);
 	
-	protected abstract List<T> getValues() throws Exception;
+	protected abstract List<T> getValues() throws EolRuntimeException;
+	
+	final void check() {
+		if (reset || values == null) {
+			try {
+				values = getValues();
+				reset = false;
+				for (DynamicListListener<T> listener : listeners) {
+					listener.valuesChanged(this);
+				}
+			}
+			catch (EolRuntimeException ex) {
+				if (exceptionHandler != null) {
+					exceptionHandler.handleException(ex);
+				}
+			}
+		}
+	}
 	
 	public void addListener(DynamicListListener<T> listener) {
 		listeners.add(listener);
@@ -33,27 +48,11 @@ public abstract class DynamicList<T> implements List<T>{
 		return listeners.remove(listener);
 	}
 	
-	protected void check() {
-		if (reset == true || values == null) {
-			try {
-				values = getValues();
-				reset = false;
-				for (DynamicListListener<T> listener : listeners) {
-					listener.valuesChanged(this);
-				}
-			} catch (Exception e) {
-				if (exceptionHandler != null) {
-					exceptionHandler.handleException(e);
-				}
-			}
-		}
-	}
-	
-	public ExceptionHandler getExceptionHandler() {
+	public ExceptionHandler<EolRuntimeException> getExceptionHandler() {
 		return exceptionHandler;
 	}
 	
-	public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+	public void setExceptionHandler(ExceptionHandler<EolRuntimeException> exceptionHandler) {
 		this.exceptionHandler = exceptionHandler;
 	}
 	
@@ -202,10 +201,8 @@ public abstract class DynamicList<T> implements List<T>{
 	}
 
 	@Override
-	public <T> T[] toArray(T[] arg0) {
+	public <A> A[] toArray(A[] arg0) {
 		check();
 		return values.toArray(arg0);
 	}
-	
-	
 }

@@ -48,7 +48,7 @@ pattern BCactive
 	c : t_c active { return b.isDefined(); }
 
 pattern Binactive
-	no b : t_b active : false {
+	b : t_b active : false {
 	do {
 		throw "[Binactive] Shouldn't be here! Matched '"+b+"' of "+b.getClass();
 	}
@@ -145,15 +145,15 @@ pattern AccessSelf
 pattern NegativeAccessPredecessor
 	bP : t_b,
 	no cS : t_c
-		guard : bP.a_x.asInteger() == 1 {
+		guard : bP.a_x.asInteger() <> 1 {
 	
 	onmatch {
 		if (cS.isDefined() and bP.a_x.asInteger() == 1)
-			throw "[NegativeAccessPredecessor] Didn't expect 1!";
+			throw "[NegativeAccessSelf] Didn't expect 1!";
 	}
 	nomatch {
 		if (bP.a_x.asInteger() <> 1)
-			throw "[NegativeAccessPredecessor] Expected 1 but got "+bP.a_x;
+			throw "[NegativeAccessSelf] Expected 1 but got "+bP.a_x;
 	}
 }
 
@@ -161,7 +161,9 @@ pattern NegativeAccessSelf
 	anSelf : t_a in : Bag{},
 	no bnSelf : t_b
 		guard : bnSelf.a_x.asInteger() == 1
-		from : t_b.allInstances(), //no b2s : t_b guard : bnSelf.a_x.asInteger() >= b2s.a_x.asInteger(),
+		from : t_b.allInstances(),
+	no b2s : t_b
+		guard : bnSelf.a_x.asInteger() >= b2s.a_x.asInteger(),
 	no cnSelf : t_c
 		guard : cnSelf.a_x <> 1 {
 	
@@ -175,9 +177,9 @@ pattern MultipleInactive
 	a : t_a
 		active : false,
 	b : t_b
-		active : a.isDefined() or a.isUndefined(),
+		active : a <> null,
 	c : t_c
-		active : b.retFalse() {
+		active : c.isDefined() {
 	
 	onmatch {
 		if (b.isUndefined())
@@ -218,7 +220,13 @@ pattern CardinalityRange
 		in : t_c.allInstances().select(tc | tc.a_x.asInteger() == 1),
 	c2 : t_c [0..1]
 		in : t_c.allInstances().select(tc | tc.a_x.asInteger() == 2) {
-	match : b.a_x == c1.a_x or b.a_x == c2.a_x
+	match {
+		assertTrue(b.a_x.size() == 2);
+		return b.a_x[0] == c1.a_x[0]
+			or b.a_x[1] == c2.a_x[0]
+			or b.a_x[0] == c2.a_x[0]
+			or b.a_x[1] == c1.a_x[0];
+	}
 	onmatch {
 		if (b.isUndefined())
 			throw "[CardinalityRange] Expected b";
@@ -250,10 +258,12 @@ pattern CardinalityZero
 pattern CardinalityNegative
 	a : t_a [1],
 	c : t_c [2]
-		from : a.children.e_c,
+		from : a.children,
 	no b : t_b [1]
-		from : t_b.allInstances().select(tb | tb.a_x == c.a_x) {
+		from : t_b.allInstances().select(tb | not c.a_x.contains(tb.a_x)) {
 	onmatch {
+		if (b.isDefined())
+			throw "[CardinalityNegative] Didn't expect "+b;
 		if (a.isUndefined())
 			throw "[CardinalityNegative] Expected a";
 		if (c.isUndefined())

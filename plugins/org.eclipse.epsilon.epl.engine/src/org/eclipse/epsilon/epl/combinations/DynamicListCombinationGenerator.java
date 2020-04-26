@@ -1,8 +1,9 @@
 /*******************************************************************************
  * Copyright (c) 2012 The University of York.
- * This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
@@ -11,26 +12,17 @@ package org.eclipse.epsilon.epl.combinations;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.epsilon.epl.dom.NoMatch;
 
-public class DynamicListCombinationGenerator<T> implements CombinationGenerator<T>{
+public class DynamicListCombinationGenerator<T> implements CombinationGenerator<T> {
 	
 	protected int n;
-	protected List<T> list = null;
-	protected ListCombinationGenerator<T> listCombinationGenerator = null;
-	protected ArrayList<CombinationGeneratorListener<T>> listeners = new ArrayList<>();
+	protected List<T> list;
+	protected ListCombinationGenerator<T> listCombinationGenerator;
+	protected ArrayList<CombinationGeneratorListener<T>> listeners = new ArrayList<>(2);
 	protected boolean producedValidCombination = false;
 	protected State state = State.NORMAL;
 	protected Boolean optional = null;
-	
-	public void addListener(CombinationGeneratorListener<T> listener) {
-		listeners.add(listener);
-	}
-	
-	public void removeListener(CombinationGeneratorListener<T> listener) {
-		listeners.remove(listener);
-	}
 	
 	public DynamicListCombinationGenerator(List<T> list, int n) {
 		init(list, n);
@@ -41,23 +33,26 @@ public class DynamicListCombinationGenerator<T> implements CombinationGenerator<
 		this.n = n;
 		
 		if (list instanceof DynamicList<?>) {
-			((DynamicList<T>) list).addListener(new DynamicListListener<T>() {
-				@Override
-				public void valuesChanged(DynamicList<T> list) {
-					createCombinationGenerator();
-				}
-			});
+			((DynamicList<T>) list).addListener(list_ -> createCombinationGenerator());
 		}
 		else {
 			createCombinationGenerator();
 		}
-		
 	}
 	
+	public void addListener(CombinationGeneratorListener<T> listener) {
+		listeners.add(listener);
+	}
+	
+	public void removeListener(CombinationGeneratorListener<T> listener) {
+		listeners.remove(listener);
+	}
+
 	protected void createCombinationGenerator() {
 		listCombinationGenerator = new ListCombinationGenerator<>(list, n);		
 	}
 	
+	@Override
 	public void reset() {
 		if (listCombinationGenerator != null) listCombinationGenerator.reset();
 		if (list instanceof DynamicList<?>) ((DynamicList<T>) list).reset();
@@ -70,15 +65,14 @@ public class DynamicListCombinationGenerator<T> implements CombinationGenerator<
 	}
 	
 	@Override
-	public boolean hasMore() {
-		
-		if (state!=State.NORMAL && isOptional()) {
+	public boolean hasNext() {
+		if (state != State.NORMAL && isOptional()) {
 			if (state == State.CAN_RETURN_OPTIONAL) return true;
 			if (state == State.HAS_RETURNED_OPTIONAL) return false;
 		}
 		
 		nudgeList();
-		boolean hasMore = listCombinationGenerator.hasMore();
+		boolean hasMore = listCombinationGenerator.hasNext();
 		if (!hasMore && !producedValidCombination && isOptional()) {
 			state = State.CAN_RETURN_OPTIONAL;
 			hasMore = true;
@@ -87,15 +81,15 @@ public class DynamicListCombinationGenerator<T> implements CombinationGenerator<
 		return hasMore;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> getNext() {
-		
+	public List<T> next() {
 		if (state != State.NORMAL && isOptional()) {
 			if (state == State.HAS_RETURNED_OPTIONAL) return null;
 			
 			if (state == State.CAN_RETURN_OPTIONAL) {
-				ArrayList<T> optional = new ArrayList<>();
-				for (int i=0;i<n;i++) {
+				ArrayList<T> optional = new ArrayList<>(n);
+				for (int i = 0; i < n; i++) {
 					optional.add((T) NoMatch.INSTANCE);
 				}
 				state = State.HAS_RETURNED_OPTIONAL;
@@ -104,7 +98,7 @@ public class DynamicListCombinationGenerator<T> implements CombinationGenerator<
 		}
 		
 		nudgeList();
-		List<T> next = listCombinationGenerator.getNext();
+		List<T> next = listCombinationGenerator.next();
 		
 		for (CombinationGeneratorListener<T> listener : listeners) {
 			listener.generated(next);
@@ -121,20 +115,20 @@ public class DynamicListCombinationGenerator<T> implements CombinationGenerator<
 		list.size();
 	}
 
+	protected boolean checkOptional() {
+		return false;
+	}
+	
 	@Override
 	public void producedValidCombination() {
 		this.producedValidCombination = true;
 	}
 	
-	public boolean isOptional() {
+	public final boolean isOptional() {
 		if (optional == null) {
 			optional = checkOptional();
 		}
 		return optional;
-	}
-	
-	public Boolean checkOptional() {
-		return false;
 	}
 	
 	enum State {
@@ -142,5 +136,4 @@ public class DynamicListCombinationGenerator<T> implements CombinationGenerator<
 		CAN_RETURN_OPTIONAL,
 		HAS_RETURNED_OPTIONAL
 	}
-	
 }

@@ -47,7 +47,7 @@
    <extension
          point="org.eclipse.epsilon.common.dt.moduleImplementation">
       <implementation
-            class="org.eclipse.epsilon.epl.EplModule"
+            class="org.eclipse.epsilon.epl.DynamicEplModule"
             default="true"
             dialog="org.eclipse.epsilon.epl.dt.launching.EplModuleConfiguration"
             language="EPL"

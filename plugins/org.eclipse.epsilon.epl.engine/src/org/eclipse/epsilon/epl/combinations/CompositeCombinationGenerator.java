@@ -1,8 +1,9 @@
 /*******************************************************************************
  * Copyright (c) 2012 The University of York.
- * This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
@@ -10,62 +11,35 @@
 package org.eclipse.epsilon.epl.combinations;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class CompositeCombinationGenerator<T> implements CombinationGenerator<List<T>> {
 	
-	protected ArrayList<CombinationGenerator<T>> generators = new ArrayList<>();
+	protected List<CombinationGenerator<T>> generators = new ArrayList<>();
 	protected int currentGeneratorIndex = 0;
 	protected Stack<List<T>> currentStack = new Stack<>();
-	protected CompositeCombinationValidator<T> validator = null;
-	protected List<List<T>> NEXT = new ArrayList<>();
-	protected List<List<T>> UNKNOWN = new LinkedList<>();
+	protected CompositeCombinationValidator<T, EolRuntimeException> validator;
+	protected final List<List<T>>
+		NEXT = Collections.emptyList(),
+		UNKNOWN = Collections.emptyList();
 	protected List<List<T>> lookahead = UNKNOWN;
 	
-	public static void main(String[] args) throws Exception {
-		
-		CompositeCombinationGenerator<String> ccg = new CompositeCombinationGenerator<>();
-		
-//		NCombinationGenerator<String> f1 = new NCombinationGenerator<String>(createList("a1", "a2", "a3", "a4"), 2);
-		//DynamicListCombinationGenerator<String> f1 = new DynamicListCombinationGenerator<String>(createList("a", "b"), 1);
-		//DynamicListCombinationGenerator<String> f2 = new DynamicListCombinationGenerator<String>(createList(), 1);
-		//DynamicListCombinationGenerator<String> f3 = new DynamicListCombinationGenerator<String>(createList("e", "f"), 1);
-		//ccg.addCombinationGenerator(f1);
-		//ccg.addCombinationGenerator(f2);
-		//ccg.addCombinationGenerator(f3);
-		//ccg.addCombinationGenerator(ccg1);
-		
-		//ccg.setValidator(new CompositeCombinationValidator<String>() {
-			
-		//	@Override
-		//	public boolean isValid(List<List<String>> combination) {
-		//		System.err.println("Checked " + combination);
-		///		return combination.size() < 3;
-		//	}
-		//});
-		
-		
-		//while (ccg.hasMore()) {
-		//	System.err.println(ccg.getNext());
-		//}
-	}
-	
 	public static List<String> createList(String... strings) {
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<>(strings.length);
 		for (String str : strings) {
 			list.add(str);
 		}
 		return list;
 	}
 	
-	public CompositeCombinationValidator<T> getValidator() {
+	public CompositeCombinationValidator<T, EolRuntimeException> getValidator() {
 		return validator;
 	}
 	
-	public void setValidator(CompositeCombinationValidator<T> validator) {
+	public void setValidator(CompositeCombinationValidator<T, EolRuntimeException> validator) {
 		this.validator = validator;
 	}
 
@@ -80,34 +54,37 @@ public class CompositeCombinationGenerator<T> implements CombinationGenerator<Li
 		return removed;
 	}
 	
-	public boolean hasMore() throws Exception {
+	@Override
+	public boolean hasNext() {
 		if (lookahead == UNKNOWN) {
-			lookahead = getNextImpl();
-			while (lookahead == NEXT) {
+			do {
 				lookahead = getNextImpl();
 			}
+			while (lookahead == NEXT);
 		}
 		
 		return lookahead != null;
 	}
 	
-	public List<List<T>> getNext() throws Exception{
+	@Override
+	public List<List<T>> next() {
 		if (lookahead != UNKNOWN) {
 			List<List<T>> result = lookahead;
 			lookahead = UNKNOWN;
 			return result;
 		}
-		List<List<T>> next = getNextImpl();
-		while (next == NEXT) {
+		
+		List<List<T>> next;
+		do {
 			next = getNextImpl();
 		}
+		while (next == NEXT);
 
 		return next;
 	}
 	
-	protected List<List<T>> getNextImpl() throws Exception {
-		
-		while (!getCurrentGenerator().hasMore()) {
+	protected List<List<T>> getNextImpl() {
+		while (!getCurrentGenerator().hasNext()) {
 			if (isFirstGenerator()) {
 				return null;
 			}
@@ -119,26 +96,27 @@ public class CompositeCombinationGenerator<T> implements CombinationGenerator<Li
 		}
 		
 		if (!currentStack.isEmpty()) currentStack.pop();
-		currentStack.push(getCurrentGenerator().getNext());
+		currentStack.push(getCurrentGenerator().next());
 		
-		boolean validCombination = isValidCombination();
-		if (validCombination) getCurrentGenerator().producedValidCombination();
+		boolean validCombination = produceCombinationIfValid();
 		
 		while (!isLastGenerator() && validCombination) {
 			setCurrentGenerator(getNextGenerator());
-			currentStack.push(getCurrentGenerator().getNext());
-			validCombination = isValidCombination();
-			if (validCombination) getCurrentGenerator().producedValidCombination();
+			currentStack.push(getCurrentGenerator().next());
+			validCombination = produceCombinationIfValid();
 		}
 		 
-		if (validCombination) {
-			return currentStack;
-		}
-		else {
-			return NEXT;
-		}
+		return validCombination ? currentStack : NEXT;
 	}
 	
+	private boolean produceCombinationIfValid() {
+		boolean validCombination = isValidCombination();
+		if (validCombination)
+			getCurrentGenerator().producedValidCombination();
+		return validCombination;
+	}
+	
+	@Override
 	public void reset() {
 		for (CombinationGenerator<T> g : generators) {
 			g.reset();
@@ -148,17 +126,20 @@ public class CompositeCombinationGenerator<T> implements CombinationGenerator<Li
 		}
 	}
 	
-	protected boolean isValidCombination() throws Exception {
-		
-		for (List<T> t : currentStack) {
+	protected boolean isValidCombination() {
+		for (Iterable<T> t : currentStack) {
 			if (t == null) return false;
 		}
 		
-		if (validator == null) {
+		if (validator == null)
 			return true;
-		}
-		else {
+		
+		try {
 			return validator.isValid(currentStack);
+		}
+		catch (EolRuntimeException ex) {
+			validator.getExceptionHandler().handleException(ex);
+			return false;
 		}
 	}
 	
@@ -191,7 +172,5 @@ public class CompositeCombinationGenerator<T> implements CombinationGenerator<Li
 	@Override
 	public void producedValidCombination() {
 		// TODO Auto-generated method stub
-		
 	}
-	
 }

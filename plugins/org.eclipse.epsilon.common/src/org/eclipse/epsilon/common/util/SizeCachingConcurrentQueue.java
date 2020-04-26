@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.common.util;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
@@ -159,10 +158,5 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 	@Override
 	public int hashCode() {
 		return Objects.hash(size);
-	}
-	
-	@Override
-	public Object[] toArray() {
-		return new ArrayList<>(this).toArray();
 	}
 }

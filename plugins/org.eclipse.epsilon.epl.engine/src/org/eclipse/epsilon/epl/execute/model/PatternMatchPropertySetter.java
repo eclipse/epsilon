@@ -8,15 +8,17 @@
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
-package org.eclipse.epsilon.epl.combinations;
+package org.eclipse.epsilon.epl.execute.model;
 
-import java.util.Iterator;
-import java.util.List;
+import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
+import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 
-public interface CombinationGenerator<T> extends Iterator<List<T>> {
-	
-	void reset();
-	
-	void producedValidCombination();
+public class PatternMatchPropertySetter extends AbstractPropertySetter {
+
+	@Override
+	public void invoke(Object value) throws EolRuntimeException {
+		throw new EolIllegalPropertyException(object, property, ast, context);
+	}
 
 }

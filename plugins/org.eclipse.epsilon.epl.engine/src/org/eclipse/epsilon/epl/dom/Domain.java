@@ -1,24 +1,24 @@
 /*******************************************************************************
  * Copyright (c) 2012 The University of York.
- * This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
 package org.eclipse.epsilon.epl.dom;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
-import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.types.EolType;
-import org.eclipse.epsilon.epl.combinations.DynamicList;
 
 public class Domain extends ExecutableBlock<Object> {
 	
@@ -34,41 +34,32 @@ public class Domain extends ExecutableBlock<Object> {
 		this.role = role;
 	}
 	
-	public DynamicList<Object> getValues(final IEolContext context, final EolType type) throws EolRuntimeException {
-		
-		DynamicList<Object> r = new DynamicList<Object>() {
-			@Override
-			protected List<Object> getValues() throws Exception {
-		
-				if (!role.isActive(context, true)) return NoMatch.asList();
-				
-				Object result =  context.getExecutorFactory().execute(Domain.this, context);
-			
-				if (!(result instanceof Collection)) {
-					List<Object> results = new ArrayList<>();
-					results.add(result);
-					result = results;
-				}
-				
-				ArrayList<Object> filtered = new ArrayList<>();
-				for (Object o : (Collection<?>) result) {
-					//IModel owningModel = context.getModelRepository().getOwningModel(o);
-					if (type.isKind(o)) {
-						filtered.add(o);
-					}
-				}
-				
-				return filtered;
-			}
-		};
-		
-		r.setResetable(isDynamic());
-		return r;
-		
+	public Role getEplRole() {
+		return role;
 	}
 	
 	public boolean isDynamic() {
 		return dynamic;
 	}
-	
+
+	public List<Object> getValues(IEolContext context, EolType type) throws EolRuntimeException {
+		if (!getEplRole().isActive(context, true)) {
+			return NoMatch.asList();
+		}
+		
+		Object result =  context.getExecutorFactory().execute(this, context);
+		
+		if (!(result instanceof Collection)) {
+			result = Collections.singleton(result);
+		}
+		
+		Collection<?> resultCol = (Collection<?>) result;
+		
+		return StreamSupport.stream(
+				resultCol.spliterator(),
+				false//resultCol.size() > 2 << 20
+			)
+			.filter(type::isKind)
+			.collect(Collectors.toList());
+	}
 }
