@@ -73,6 +73,7 @@ public class ReferenceSlotImpl extends SlotImpl implements ReferenceSlot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<VirtualObject> getValues() {
 		if (values == null) {
 			values = new EObjectResolvingEList<>(VirtualObject.class, this, VirtualPackage.REFERENCE_SLOT__VALUES);

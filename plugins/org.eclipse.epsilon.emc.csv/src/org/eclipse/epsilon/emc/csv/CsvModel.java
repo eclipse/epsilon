@@ -24,7 +24,6 @@ import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.*;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
@@ -107,6 +106,11 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	private BufferedReader reader;
 
 	protected Charset cs;
+	
+	public CsvModel() {
+		propertyGetter = new CsvPropertyGetter();
+		propertySetter = new CsvPropertySetter();
+	}
 	
 	/**
 	 * Gets the field separator.
@@ -422,13 +426,8 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	}
 	
 	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return new CsvPropertyGetter();
-	}
-	
-	@Override
 	public IReflectivePropertySetter getPropertySetter() {
-		return new CsvPropertySetter();
+		return (IReflectivePropertySetter) propertySetter;
 	}
 
 	/**

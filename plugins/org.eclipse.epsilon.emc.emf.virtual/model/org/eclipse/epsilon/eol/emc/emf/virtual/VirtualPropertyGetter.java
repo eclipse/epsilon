@@ -17,6 +17,7 @@ import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 
 class VirtualPropertyGetter extends AbstractPropertyGetter {
 
+	@Override
 	public Object invoke(Object object, String property) throws EolRuntimeException {
 
 		final VirtualObject vObject = (VirtualObject)object;

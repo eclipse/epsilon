@@ -72,6 +72,7 @@ public class BooleanSlotImpl extends SlotImpl implements BooleanSlot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Boolean> getValues() {
 		if (values == null) {
 			values = new EDataTypeUniqueEList<>(Boolean.class, this, VirtualPackage.BOOLEAN_SLOT__VALUES);

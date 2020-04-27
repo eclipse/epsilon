@@ -84,6 +84,7 @@ public class VirtualFactoryImpl extends EFactoryImpl implements VirtualFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VirtualModel createVirtualModel() {
 		VirtualModelImpl virtualModel = new VirtualModelImpl();
 		return virtualModel;
@@ -94,6 +95,7 @@ public class VirtualFactoryImpl extends EFactoryImpl implements VirtualFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VirtualObject createVirtualObject() {
 		VirtualObjectImpl virtualObject = new VirtualObjectImpl();
 		return virtualObject;
@@ -104,6 +106,7 @@ public class VirtualFactoryImpl extends EFactoryImpl implements VirtualFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public StringSlot createStringSlot() {
 		StringSlotImpl stringSlot = new StringSlotImpl();
 		return stringSlot;
@@ -114,6 +117,7 @@ public class VirtualFactoryImpl extends EFactoryImpl implements VirtualFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IntegerSlot createIntegerSlot() {
 		IntegerSlotImpl integerSlot = new IntegerSlotImpl();
 		return integerSlot;
@@ -124,6 +128,7 @@ public class VirtualFactoryImpl extends EFactoryImpl implements VirtualFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public BooleanSlot createBooleanSlot() {
 		BooleanSlotImpl booleanSlot = new BooleanSlotImpl();
 		return booleanSlot;
@@ -134,6 +139,7 @@ public class VirtualFactoryImpl extends EFactoryImpl implements VirtualFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public FloatSlot createFloatSlot() {
 		FloatSlotImpl floatSlot = new FloatSlotImpl();
 		return floatSlot;
@@ -144,6 +150,7 @@ public class VirtualFactoryImpl extends EFactoryImpl implements VirtualFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ReferenceSlot createReferenceSlot() {
 		ReferenceSlotImpl referenceSlot = new ReferenceSlotImpl();
 		return referenceSlot;
@@ -154,6 +161,7 @@ public class VirtualFactoryImpl extends EFactoryImpl implements VirtualFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VirtualPackage getVirtualPackage() {
 		return (VirtualPackage)getEPackage();
 	}

@@ -175,6 +175,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getVirtualModel() {
 		return virtualModelEClass;
 	}
@@ -184,6 +185,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVirtualModel_Objects() {
 		return (EReference)virtualModelEClass.getEStructuralFeatures().get(0);
 	}
@@ -193,6 +195,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTypedElement() {
 		return typedElementEClass;
 	}
@@ -202,6 +205,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getTypedElement_Type() {
 		return (EAttribute)typedElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -211,6 +215,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getVirtualObject() {
 		return virtualObjectEClass;
 	}
@@ -220,6 +225,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVirtualObject_Model() {
 		return (EReference)virtualObjectEClass.getEStructuralFeatures().get(0);
 	}
@@ -229,6 +235,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVirtualObject_Slots() {
 		return (EReference)virtualObjectEClass.getEStructuralFeatures().get(1);
 	}
@@ -238,6 +245,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSlot() {
 		return slotEClass;
 	}
@@ -247,6 +255,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlot_Owner() {
 		return (EReference)slotEClass.getEStructuralFeatures().get(0);
 	}
@@ -256,6 +265,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStringSlot() {
 		return stringSlotEClass;
 	}
@@ -265,6 +275,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStringSlot_Values() {
 		return (EAttribute)stringSlotEClass.getEStructuralFeatures().get(0);
 	}
@@ -274,6 +285,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIntegerSlot() {
 		return integerSlotEClass;
 	}
@@ -283,6 +295,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIntegerSlot_Values() {
 		return (EAttribute)integerSlotEClass.getEStructuralFeatures().get(0);
 	}
@@ -292,6 +305,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBooleanSlot() {
 		return booleanSlotEClass;
 	}
@@ -301,6 +315,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getBooleanSlot_Values() {
 		return (EAttribute)booleanSlotEClass.getEStructuralFeatures().get(0);
 	}
@@ -310,6 +325,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getFloatSlot() {
 		return floatSlotEClass;
 	}
@@ -319,6 +335,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getFloatSlot_Values() {
 		return (EAttribute)floatSlotEClass.getEStructuralFeatures().get(0);
 	}
@@ -328,6 +345,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getReferenceSlot() {
 		return referenceSlotEClass;
 	}
@@ -337,6 +355,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getReferenceSlot_Values() {
 		return (EReference)referenceSlotEClass.getEStructuralFeatures().get(0);
 	}
@@ -346,6 +365,7 @@ public class VirtualPackageImpl extends EPackageImpl implements VirtualPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VirtualFactory getVirtualFactory() {
 		return (VirtualFactory)getEFactoryInstance();
 	}

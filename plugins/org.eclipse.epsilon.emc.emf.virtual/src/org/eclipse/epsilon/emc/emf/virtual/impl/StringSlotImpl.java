@@ -72,6 +72,7 @@ public class StringSlotImpl extends SlotImpl implements StringSlot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getValues() {
 		if (values == null) {
 			values = new EDataTypeUniqueEList<>(String.class, this, VirtualPackage.STRING_SLOT__VALUES);

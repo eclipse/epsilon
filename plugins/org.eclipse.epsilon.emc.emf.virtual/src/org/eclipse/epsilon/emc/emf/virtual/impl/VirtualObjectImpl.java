@@ -83,6 +83,7 @@ public class VirtualObjectImpl extends TypedElementImpl implements VirtualObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VirtualModel getModel() {
 		if (eContainerFeatureID != VirtualPackage.VIRTUAL_OBJECT__MODEL) return null;
 		return (VirtualModel)eContainer();
@@ -103,6 +104,7 @@ public class VirtualObjectImpl extends TypedElementImpl implements VirtualObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setModel(VirtualModel newModel) {
 		if (newModel != eInternalContainer() || (eContainerFeatureID != VirtualPackage.VIRTUAL_OBJECT__MODEL && newModel != null)) {
 			if (EcoreUtil.isAncestor(this, newModel))
@@ -124,6 +126,7 @@ public class VirtualObjectImpl extends TypedElementImpl implements VirtualObject
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Slot> getSlots() {
 		if (slots == null) {
 			slots = new EObjectContainmentWithInverseEList<>(Slot.class, this, VirtualPackage.VIRTUAL_OBJECT__SLOTS, VirtualPackage.SLOT__OWNER);

@@ -79,6 +79,7 @@ public class VirtualModelImpl extends EObjectImpl implements VirtualModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<VirtualObject> getObjects() {
 		if (objects == null) {
 			objects = new EObjectContainmentWithInverseEList<>(VirtualObject.class, this, VirtualPackage.VIRTUAL_MODEL__OBJECTS, VirtualPackage.VIRTUAL_OBJECT__MODEL);

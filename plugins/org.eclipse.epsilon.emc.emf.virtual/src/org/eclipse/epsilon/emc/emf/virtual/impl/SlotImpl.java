@@ -65,6 +65,7 @@ public abstract class SlotImpl extends TypedElementImpl implements Slot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VirtualObject getOwner() {
 		if (eContainerFeatureID != VirtualPackage.SLOT__OWNER) return null;
 		return (VirtualObject)eContainer();
@@ -85,6 +86,7 @@ public abstract class SlotImpl extends TypedElementImpl implements Slot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOwner(VirtualObject newOwner) {
 		if (newOwner != eInternalContainer() || (eContainerFeatureID != VirtualPackage.SLOT__OWNER && newOwner != null)) {
 			if (EcoreUtil.isAncestor(this, newOwner))

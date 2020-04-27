@@ -45,6 +45,8 @@ public class CompositeModel extends Model {
 	
 	public CompositeModel(Collection<IModel> models) {
 		this.models = models;
+		propertyGetter = new CompositePropertyGetter();
+		propertySetter = new CompositePropertySetter();
 	}
 	
 	public CompositeModel(String name, Collection<IModel> models) {
@@ -53,7 +55,7 @@ public class CompositeModel extends Model {
 	}
 	
 	public CompositeModel(Collection<IModel> models, MatchTrace matchTrace) {
-		this.models = models;
+		this(models);
 		findEquivalents(matchTrace.getReduced());
 	}
 	
@@ -279,11 +281,6 @@ public class CompositeModel extends Model {
 		}
 		return true;
 	}
-
-	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return new CompositePropertyGetter();
-	}
 	
 	class CompositePropertyGetter extends AbstractPropertyGetter {
 
@@ -324,11 +321,6 @@ public class CompositeModel extends Model {
 			return results;
 		}
 		
-	}
-	
-	@Override
-	public IPropertySetter getPropertySetter() {
-		return new CompositePropertySetter();
 	}
 	
 	
