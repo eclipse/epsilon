@@ -19,7 +19,7 @@ import org.w3c.dom.Element;
 
 public class PlainXmlPropertySetter extends JavaPropertySetter {
 	
-	protected PlainXmlModel model = null;
+	protected PlainXmlModel model;
 	
 	public PlainXmlPropertySetter(PlainXmlModel model) {
 		this.model = model;

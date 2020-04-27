@@ -24,8 +24,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.Model;
 
 public class MuddleModel extends Model {
@@ -61,12 +59,15 @@ public class MuddleModel extends Model {
 		eClass.getEStructuralFeatures().add(eAttribute2);		
 		
 		object.eSet(eClass.getEStructuralFeature("a2"), "v2");
-		
-		
 	}
 	
 	protected Muddle muddle;
 	protected Set<Feature> unusedFeatures;
+	
+	public MuddleModel() {
+		propertyGetter = new MuddleModelPropertyGetter(this);
+		propertySetter = new MuddleModelPropertySetter(this);
+	}
 	
 	@Override
 	public Collection<?> allContents() {
@@ -211,19 +212,6 @@ public class MuddleModel extends Model {
 	
 	public Muddle getMuddle() {
 		return muddle;
-	}
-	
-	protected MuddleModelPropertyGetter propertyGetter = new MuddleModelPropertyGetter(this);
-	protected MuddleModelPropertySetter propertySetter = new MuddleModelPropertySetter(this);
-	
-	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return propertyGetter;
-	}
-
-	@Override
-	public IPropertySetter getPropertySetter() {
-		return propertySetter;
 	}
 	
 	@Override

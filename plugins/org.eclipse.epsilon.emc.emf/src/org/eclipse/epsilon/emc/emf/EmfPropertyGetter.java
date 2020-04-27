@@ -16,7 +16,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 
-public class EmfPropertyGetter extends AbstractPropertyGetter{
+public class EmfPropertyGetter extends AbstractPropertyGetter {
 	
 	static {
 		EolCollectionType.getCollectionTypeResolvers().add(new EmfCollectionTypeResolver());

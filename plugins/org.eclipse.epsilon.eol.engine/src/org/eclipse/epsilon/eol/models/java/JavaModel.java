@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
@@ -23,6 +22,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotAnEnumerationValueException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
+import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.eol.models.Model;
@@ -38,8 +38,10 @@ public class JavaModel extends Model implements IReflectiveModel {
 	}
 	
 	public JavaModel(Collection<? extends Object> objects, Collection<? extends Class<?>> classes) {
-		this.objects = new LinkedList<>(objects);
-		this.classes = new LinkedList<>(classes);
+		this.objects = new ArrayList<>(objects);
+		this.classes = new ArrayList<>(classes);
+		propertyGetter = new JavaPropertyGetter();
+		propertySetter = new JavaPropertySetter();
 	}
 	
 	// used by tests
@@ -48,12 +50,10 @@ public class JavaModel extends Model implements IReflectiveModel {
 	}
 	
 	private static Collection<Class<?>> classesFor(Collection<Object> objects) {
-		final List<Class<?>> classes = new LinkedList<>();
-		
+		final List<Class<?>> classes = new ArrayList<>(objects.size());
 		for (Object object : objects) {
 			classes.add(object.getClass());
 		}
-		
 		return classes;
 	}
 	
@@ -243,7 +243,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 	
 	@Override
 	public IReflectivePropertySetter getPropertySetter() {
-		return new JavaPropertySetter();
+		return (IReflectivePropertySetter) propertySetter;
 	}
 	
 	@Override

@@ -48,14 +48,18 @@ public class PlainXmlModel extends CachedModel<Element> {
 	protected String uri;
 	protected File file;
 	protected String xml;
-
+	
 	protected ArrayList<Element> createdElements = new ArrayList<>();
 	protected ArrayList<Binding> bindings = new ArrayList<>();
 	protected static final String ELEMENT_TYPE = "Element";
 	protected static final String DEFAULT_NEW_TAG_NAME = "element";
-	
 	public static final String PROPERTY_FILE = "file";
 	public static final String PROPERTY_URI = "uri";
+	
+	public PlainXmlModel() {
+		propertyGetter = new PlainXmlPropertyGetter(this);
+		propertySetter = new PlainXmlPropertySetter(this);
+	}
 	
 	public Node getRoot() {
 		return document.getFirstChild();
@@ -431,7 +435,6 @@ public class PlainXmlModel extends CachedModel<Element> {
 	
 	@Override
 	public boolean store(String location) {
-		
 		try {
 			Source xmlSource = new DOMSource(document);
 			Result result = new StreamResult(new FileOutputStream(location));
@@ -468,12 +471,12 @@ public class PlainXmlModel extends CachedModel<Element> {
 	
 	@Override
 	public IPropertyGetter getPropertyGetter() {
-		return new PlainXmlPropertyGetter(this);
+		return propertyGetter;
 	}
 	
 	
 	@Override
 	public IPropertySetter getPropertySetter() {
-		return new PlainXmlPropertySetter(this);
+		return propertySetter;
 	}
 }

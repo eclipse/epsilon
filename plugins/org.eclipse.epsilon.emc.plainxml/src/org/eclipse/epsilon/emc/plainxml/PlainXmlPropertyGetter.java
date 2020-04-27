@@ -12,7 +12,6 @@ package org.eclipse.epsilon.emc.plainxml;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.w3c.dom.Element;
@@ -26,11 +25,8 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 	}
 	
 	@Override
-	public Object invoke(Object object, String property)
-			throws EolRuntimeException {
-
-		if(object instanceof Element) {
-			
+	public Object invoke(Object object, String property) throws EolRuntimeException {
+		if (object instanceof Element) {
 			final Element e = (Element) object;
 			
 			if ("children".equals(property)) {
@@ -123,34 +119,31 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 						}
 					}
 				}
-			
-			else {
-				List<Element> children = DomUtil.getChildren(e);
-				List<Element> result = new ArrayList<>();
-				
-				// Look for elements with this specific tag name
-				for (Element child : children) {
-					if (model.tagMatches(child, p.getProperty())) {
-						result.add(child);
+				else {
+					List<Element> children = DomUtil.getChildren(e);
+					List<Element> result = new ArrayList<>();
+					
+					// Look for elements with this specific tag name
+					for (Element child : children) {
+						if (model.tagMatches(child, p.getProperty())) {
+							result.add(child);
+						}
+					}
+					
+					if (p.isMany()) {
+						return result;
+					}
+					else if (result.size() > 0) {
+						return result.get(0);
+					}
+					else {
+						return null;
 					}
 				}
-				
-				if (p.isMany()) {
-					return result;
-				}
-				else if (result.size() > 0) {
-					return result.get(0);
-				}
-				else {
-					return null;
-				}
-				
-			}	
 			}
 		}
 		
 		return super.invoke(object, property);
-		
 	}
 	
 	protected List<Element> getDescendants(Element root, List<Element> descendants) {

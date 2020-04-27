@@ -33,6 +33,10 @@ public class XmlModel extends EmfModel implements IOperationContributorProvider 
 	
 	protected String xsdFile = "";
 	
+	public XmlModel() {
+		propertySetter = new XmlPropertySetter();
+	}
+	
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		this.xsdFile = resolver.resolve(properties.getProperty(PROPERTY_XSD_FILE));
@@ -67,11 +71,6 @@ public class XmlModel extends EmfModel implements IOperationContributorProvider 
 				return new GenericXMLResourceFactoryImpl().createResource(uri);
 			}
 		};
-	}
-	
-	@Override
-	public XmlPropertySetter getPropertySetter() {
-		return new XmlPropertySetter();
 	}
 
 	@Override
