@@ -10,8 +10,8 @@
 package org.eclipse.epsilon.emc.plainxml;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.w3c.dom.Element;
@@ -85,29 +85,19 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 								}	
 							}
 							
-							referenced.addListener(new LoudListChangeListener<Element>() {
-
-								@Override
-								public void listChanged(LoudList<Element> list) {
-									String newAttributeValue = "";
-									Iterator<Element> li = list.iterator();
-									while (li.hasNext()) {
-										Element i = li.next();
-										newAttributeValue = newAttributeValue + 
-											i.getAttribute(binding.getTargetAttribute());
-										if (li.hasNext()) {
-											newAttributeValue += ", ";
-										}
-									}
-									e.setAttribute(binding.getSourceAttribute(), newAttributeValue);
-								}
+							referenced.addListener((LoudListChangeListener<Element>) list -> {
+								String bindTarget = binding.getTargetAttribute();
+								String newAttributeValue = list.stream()
+									.map(element -> element.getAttribute(bindTarget))
+									.collect(Collectors.joining(", "));
+								
+								e.setAttribute(binding.getSourceAttribute(), newAttributeValue);
 							});
 							
 							return referenced;
 						}
 						else {
 							String referencedId = e.getAttribute(p.getProperty());
-
 							for (Object o : model.allContents()) {
 								Element candidate = (Element) o;
 								if (candidate.getTagName().matches(binding.getTargetTag())) {

@@ -74,6 +74,7 @@ public class SingleFrame implements Frame, Cloneable {
 		return label;
 	}
 
+	@Override
 	public void setLabel(String label) {
 		this.label = label;
 	}

@@ -141,7 +141,7 @@ public class SizeCachingConcurrentQueue<E> extends ConcurrentLinkedQueue<E> {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof Collection)) return false;
+		if (!(o instanceof SizeCachingConcurrentQueue)) return false;
 		Collection<?> that = (Collection<?>) o;
 		if (this.size() != that.size()) return false;
 		

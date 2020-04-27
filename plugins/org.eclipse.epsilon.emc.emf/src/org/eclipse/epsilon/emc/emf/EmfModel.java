@@ -118,11 +118,9 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
 		Collection<EStructuralFeature> features = featuresForType(type);
 		final Collection<String> properties = new ArrayList<>(features.size());
-		
 		for (EStructuralFeature feature : features) {
 			properties.add(feature.getName());
 		}
-		
 		return properties;
 	}
 
@@ -131,8 +129,8 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 		if (isExpand()) {
 			setExpand(false);
 			return true;
-			
-		} else {
+		}
+		else {
 			return false;
 		}
 	}

@@ -28,23 +28,22 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 		if (getEStructuralFeature().isMany() && !(value instanceof Collection)) {
 			return CollectionUtil.asList(value);
 		}
-		
 		return value;
 	}
 	
 	@Override
 	public boolean conforms(Object value) throws EolIllegalPropertyException {
-		if (propertyIsFixed())
+		if (propertyIsFixed()) {
 			return false;
-		
+		}
 		if (value instanceof Collection) {
 			final Collection<?> collection = ((Collection<?>)value);
 		
 			return propertyCanHoldCollections() &&
 			       isConformantSizeForProperty(collection) && 
 			       allAreConformantTypeForProperty(collection);
-		
-		} else {
+		}
+		else {
 			return isConformantTypeForProperty(value);
 		}
 	}
@@ -60,8 +59,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 					copyCollectionValues(((Collection<?>)value), sourceValues);
 				}
 				else {
-					throw new EolIllegalPropertyAssignmentException(
-							this.getProperty(), this.getAst());
+					throw new EolIllegalPropertyAssignmentException(this.getProperty(), this.getAst());
 				}
 			}
 		}
