@@ -12,7 +12,6 @@ package org.eclipse.epsilon.emc.bibtex;
 import java.io.File;
 import java.util.Collection;
 import java.util.LinkedList;
-
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.bibtex.domain.Bibliography;
@@ -24,10 +23,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
-import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
-import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
@@ -38,6 +33,11 @@ public class BibtexModel extends CachedModel<Publication> {
 	private String bibtex;
 	private Bibliography bibliography = new Bibliography();
 
+	public BibtexModel() {
+		propertyGetter = new BibtexPropertyGetter();
+		propertySetter = new BibtexPropertySetter();
+	}
+	
 	public void setBibtex(String bibtex) {
 		this.bibtex = bibtex;
 	}
@@ -103,41 +103,12 @@ public class BibtexModel extends CachedModel<Publication> {
 	}
 	
 	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return new AbstractPropertyGetter() {
-			
-			@Override
-			public boolean hasProperty(Object object, String property) {
-				return "id".equals(property) || ((Publication)object).hasProperty(property);
-			}
-
-			@Override
-			public Object invoke(Object object, String property) throws EolRuntimeException {
-				final Publication publication = (Publication)object;
-				
-				return "id".equals(property) ? publication.id : publication.getProperty(property);
-			}
-		};
-	}
-	
-	@Override
-	public IPropertySetter getPropertySetter() {
-		return new AbstractPropertySetter() {
-			
-			@Override
-			public void invoke(Object value) throws EolRuntimeException {
-				((Publication)object).setProperty(property, value);
-			}
-		};
-	}
-	
-	@Override
 	public boolean store(String location) {
 		try {
 			FileUtil.setFileContents(new BibtexUnparser(bibliography).unparse(), new File(location));
 			return true;
-		
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
