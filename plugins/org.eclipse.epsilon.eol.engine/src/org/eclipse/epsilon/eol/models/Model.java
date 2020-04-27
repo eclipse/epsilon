@@ -52,16 +52,6 @@ public abstract class Model implements IModel {
 	protected boolean storeOnDisposal = false;
 	protected boolean readOnLoad = true;
 	
-	/**
-	 * @since 1.6
-	 */
-	protected IPropertyGetter propertyGetter = new JavaPropertyGetter();
-	
-	/**
-	 * @since 1.6
-	 */
-	protected IPropertySetter propertySetter = new JavaPropertySetter();
-	
 	
 	@Override
 	public String getName() {
@@ -163,12 +153,12 @@ public abstract class Model implements IModel {
 
 	@Override
 	public IPropertyGetter getPropertyGetter() {
-		return propertyGetter;
+		return new JavaPropertyGetter();
 	}
 
 	@Override
 	public IPropertySetter getPropertySetter() {
-		return propertySetter;
+		return new JavaPropertySetter();
 	}
 	
 	@Override

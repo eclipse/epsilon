@@ -43,6 +43,8 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.eclipse.epsilon.eol.models.transactions.IModelTransactionSupport;
@@ -77,8 +79,16 @@ public abstract class AbstractEmfModel extends CachedModel<EObject> {
 	boolean parallelAllOf;
 	
 	public AbstractEmfModel() {
-		propertyGetter = new EmfPropertyGetter();
-		propertySetter = new EmfPropertySetter();
+	}
+	
+	@Override
+	public IPropertyGetter getPropertyGetter() {
+		return new EmfPropertyGetter();
+	}
+	
+	@Override
+	public IPropertySetter getPropertySetter() {
+		return new EmfPropertySetter();
 	}
 	
 	@Override

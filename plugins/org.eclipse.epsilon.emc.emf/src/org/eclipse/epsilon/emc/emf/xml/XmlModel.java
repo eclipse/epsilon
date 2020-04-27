@@ -21,6 +21,7 @@ import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.emf.CachedResourceSet;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
@@ -34,7 +35,11 @@ public class XmlModel extends EmfModel implements IOperationContributorProvider 
 	protected String xsdFile = "";
 	
 	public XmlModel() {
-		propertySetter = new XmlPropertySetter();
+	}
+	
+	@Override
+	public IReflectivePropertySetter getPropertySetter() {
+		return new XmlPropertySetter();
 	}
 	
 	@Override
@@ -77,5 +82,4 @@ public class XmlModel extends EmfModel implements IOperationContributorProvider 
 	public OperationContributor getOperationContributor() {
 		return mixedElementOperationContributor;
 	}
-	
 }

@@ -22,7 +22,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotAnEnumerationValueException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
-import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 import org.eclipse.epsilon.eol.models.IReflectiveModel;
 import org.eclipse.epsilon.eol.models.Model;
@@ -40,8 +39,6 @@ public class JavaModel extends Model implements IReflectiveModel {
 	public JavaModel(Collection<? extends Object> objects, Collection<? extends Class<?>> classes) {
 		this.objects = new ArrayList<>(objects);
 		this.classes = new ArrayList<>(classes);
-		propertyGetter = new JavaPropertyGetter();
-		propertySetter = new JavaPropertySetter();
 	}
 	
 	// used by tests
@@ -243,7 +240,7 @@ public class JavaModel extends Model implements IReflectiveModel {
 	
 	@Override
 	public IReflectivePropertySetter getPropertySetter() {
-		return (IReflectivePropertySetter) propertySetter;
+		return new JavaPropertySetter();
 	}
 	
 	@Override

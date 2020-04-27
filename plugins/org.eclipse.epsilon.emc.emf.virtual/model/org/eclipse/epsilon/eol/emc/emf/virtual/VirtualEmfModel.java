@@ -25,6 +25,8 @@ import org.eclipse.epsilon.emc.emf.virtual.VirtualObject;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
 public class VirtualEmfModel extends AbstractEmfModel {
@@ -35,8 +37,16 @@ public class VirtualEmfModel extends AbstractEmfModel {
 	protected URI modelFileUri;
 	
 	public VirtualEmfModel() {
-		propertyGetter = new VirtualPropertyGetter();
-		propertySetter = new VirtualPropertySetter();
+	}
+	
+	@Override
+	public IPropertyGetter getPropertyGetter() {
+		return new VirtualPropertyGetter();
+	}
+	
+	@Override
+	public IPropertySetter getPropertySetter() {
+		return new VirtualPropertySetter();
 	}
 	
 	@Override
@@ -44,7 +54,6 @@ public class VirtualEmfModel extends AbstractEmfModel {
 		if (instance instanceof VirtualObject) {
 			return metaClass.equals(((VirtualObject)instance).getType());
 		}
-		
 		return super.isOfKind(instance, metaClass);
 	}
 

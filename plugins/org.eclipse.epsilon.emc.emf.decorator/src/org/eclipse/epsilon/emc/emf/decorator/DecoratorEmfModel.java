@@ -21,6 +21,7 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfPropertyGetter;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 
 public class DecoratorEmfModel extends EmfModel { 
@@ -30,8 +31,6 @@ public class DecoratorEmfModel extends EmfModel {
 	List<DecoratorDescriptor> decoratorDescriptors;
 	
 	public DecoratorEmfModel() {
-		propertyGetter = new DecoratorPropertyGetter();
-		propertySetter = new DecoratorPropertySetter();
 	}
 	
 	protected List<EClass> getDecoratorEClasses(Collection<EPackage> ePackages) {
@@ -157,8 +156,13 @@ public class DecoratorEmfModel extends EmfModel {
 	}
 	
 	@Override
+	public IPropertyGetter getPropertyGetter() {
+		return new DecoratorPropertyGetter();
+	}
+	
+	@Override
 	public IReflectivePropertySetter getPropertySetter() {
-		return (IReflectivePropertySetter) propertySetter;
+		return new DecoratorPropertySetter();
 	}
 	
 	class DecoratorPropertyGetter extends EmfPropertyGetter {

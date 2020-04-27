@@ -45,8 +45,6 @@ public class CompositeModel extends Model {
 	
 	public CompositeModel(Collection<IModel> models) {
 		this.models = models;
-		propertyGetter = new CompositePropertyGetter();
-		propertySetter = new CompositePropertySetter();
 	}
 	
 	public CompositeModel(String name, Collection<IModel> models) {
@@ -282,6 +280,16 @@ public class CompositeModel extends Model {
 		return true;
 	}
 	
+	@Override
+	public IPropertyGetter getPropertyGetter() {
+		return new CompositePropertyGetter();
+	}
+	
+	@Override
+	public IPropertySetter getPropertySetter() {
+		return new CompositePropertySetter();
+	}
+	
 	class CompositePropertyGetter extends AbstractPropertyGetter {
 
 		@Override
@@ -324,13 +332,11 @@ public class CompositeModel extends Model {
 	}
 	
 	
-	private class CompositePropertySetter extends AbstractPropertySetter {
-
+	class CompositePropertySetter extends AbstractPropertySetter {
 		@Override
 		public void invoke(Object value) throws EolRuntimeException {
 			getDelegate().invoke(value);
 		}
-		
 		
 		private IPropertySetter getDelegate() throws EolIllegalPropertyException {
 			for (IModel model : models) {

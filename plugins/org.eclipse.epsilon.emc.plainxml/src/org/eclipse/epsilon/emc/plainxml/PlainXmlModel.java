@@ -57,8 +57,16 @@ public class PlainXmlModel extends CachedModel<Element> {
 	public static final String PROPERTY_URI = "uri";
 	
 	public PlainXmlModel() {
-		propertyGetter = new PlainXmlPropertyGetter(this);
-		propertySetter = new PlainXmlPropertySetter(this);
+	}
+	
+	@Override
+	public IPropertyGetter getPropertyGetter() {
+		return new PlainXmlPropertyGetter(this);
+	}
+	
+	@Override
+	public IPropertySetter getPropertySetter() {
+		return new PlainXmlPropertySetter(this);
 	}
 	
 	public Node getRoot() {
@@ -466,17 +474,5 @@ public class PlainXmlModel extends CachedModel<Element> {
 		else {
 			return store(uri);
 		}
-	}
-
-	
-	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return propertyGetter;
-	}
-	
-	
-	@Override
-	public IPropertySetter getPropertySetter() {
-		return propertySetter;
 	}
 }

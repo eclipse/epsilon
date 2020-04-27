@@ -23,6 +23,8 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
@@ -34,8 +36,16 @@ public class BibtexModel extends CachedModel<Publication> {
 	private Bibliography bibliography = new Bibliography();
 
 	public BibtexModel() {
-		propertyGetter = new BibtexPropertyGetter();
-		propertySetter = new BibtexPropertySetter();
+	}
+	
+	@Override
+	public IPropertyGetter getPropertyGetter() {
+		return new BibtexPropertyGetter();
+	}
+	
+	@Override
+	public IPropertySetter getPropertySetter() {
+		return new BibtexPropertySetter();
 	}
 	
 	public void setBibtex(String bibtex) {

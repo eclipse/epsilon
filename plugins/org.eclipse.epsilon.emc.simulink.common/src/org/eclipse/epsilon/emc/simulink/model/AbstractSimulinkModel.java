@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
@@ -34,6 +33,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
@@ -59,6 +59,9 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public static final String ENV_ENGINE_JAR_PATH = ENV_PREFIX + PROPERTY_ENGINE_JAR_PATH;
 	
 	protected File file;
+	protected SimulinkPropertyGetter propertyGetter;
+	protected SimulinkPropertySetter propertySetter;
+	
 	protected String matlabPath;
 	protected String libraryPath;
 	protected String engineJarPath;
@@ -75,11 +78,6 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	protected File workingDir = null;
 	protected List<String> paths = new ArrayList<>();
 
-	public AbstractSimulinkModel() {
-		propertyGetter = new SimulinkPropertyGetter();
-		propertySetter = null;	// Needs engine to be initialized
-	}
-	
 	@Override
 	protected void loadModel() throws EolModelLoadingException { 
 		try {
@@ -162,6 +160,14 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 			propertySetter = new SimulinkPropertySetter(engine);
 		}
 		return propertySetter;
+	}
+
+	@Override
+	public IPropertyGetter getPropertyGetter() { 
+		if (propertyGetter == null) {
+			propertyGetter = new SimulinkPropertyGetter();
+		}
+		return propertyGetter;
 	}
 	
 	@Override

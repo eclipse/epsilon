@@ -13,60 +13,33 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
+import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.Model;
 
 public class MuddleModel extends Model {
 
-	
-	public static void main(String[] args) throws Exception {
-		
-		EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
-		ePackage.setName("m2");
-		ePackage.setNsURI(ePackage.getName());
-		ePackage.setNsPrefix(ePackage.getName());
-		EClass eClass = EcoreFactory.eINSTANCE.createEClass();
-		eClass.setName("C1");
-		EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-		eAttribute.setName("a1");
-		eAttribute.setEType(EcorePackage.eINSTANCE.getEClassifier("EString"));
-		eClass.getEStructuralFeatures().add(eAttribute);
-		ePackage.getEClassifiers().add(eClass);
-		
-		
-		/*
-		ResourceSet resourceSet = new ResourceSetImpl();
-		resourceSet.createResource(URI.createURI("foo"));
-		*/
-		
-		EObject object = ePackage.getEFactoryInstance().create(eClass);
-		//object.eSet(eClass.getEStructuralFeature("a1"), "v1");
-		System.out.println(object.eGet(eClass.getEStructuralFeature("a1")));
-		
-		EAttribute eAttribute2 = EcoreFactory.eINSTANCE.createEAttribute();
-		eAttribute2.setName("a2");
-		eAttribute2.setEType(EcorePackage.eINSTANCE.getEClassifier("EString"));
-		eClass.getEStructuralFeatures().add(eAttribute2);		
-		
-		object.eSet(eClass.getEStructuralFeature("a2"), "v2");
-	}
-	
+	protected MuddleModelPropertyGetter propertyGetter = new MuddleModelPropertyGetter(this);
+	protected MuddleModelPropertySetter propertySetter = new MuddleModelPropertySetter(this);
 	protected Muddle muddle;
 	protected Set<Feature> unusedFeatures;
 	
 	public MuddleModel() {
-		propertyGetter = new MuddleModelPropertyGetter(this);
-		propertySetter = new MuddleModelPropertySetter(this);
+	}
+	
+	@Override
+	public IPropertyGetter getPropertyGetter() {
+		return propertyGetter;
+	}
+
+	@Override
+	public IPropertySetter getPropertySetter() {
+		return propertySetter;
 	}
 	
 	@Override
