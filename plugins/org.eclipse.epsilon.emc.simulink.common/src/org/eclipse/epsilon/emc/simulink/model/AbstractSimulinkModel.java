@@ -59,9 +59,6 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	public static final String ENV_ENGINE_JAR_PATH = ENV_PREFIX + PROPERTY_ENGINE_JAR_PATH;
 	
 	protected File file;
-	protected SimulinkPropertyGetter propertyGetter;
-	protected SimulinkPropertySetter propertySetter;
-	
 	protected String matlabPath;
 	protected String libraryPath;
 	protected String engineJarPath;
