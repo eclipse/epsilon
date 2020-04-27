@@ -296,9 +296,7 @@ public class ModelGroup extends Model {
 	public class DelegatingModelElementPropertyGetter extends AbstractPropertyGetter {
 
 		@Override
-		public Object invoke(Object object, String property)
-				throws EolRuntimeException {
-			
+		public Object invoke(Object object, String property) throws EolRuntimeException {
 			for (IModel model : models) {
 				if (model.knowsAboutProperty(object, property)) {
 					return model.getPropertyGetter().invoke(object, property);
@@ -313,7 +311,6 @@ public class ModelGroup extends Model {
 		
 		@Override
 		public void invoke(Object value) throws EolRuntimeException {
-			
 			for (IModel model : models) {
 				if (model.knowsAboutProperty(object, property)) {
 					IPropertySetter delegate = null;
@@ -326,9 +323,7 @@ public class ModelGroup extends Model {
 					return;
 				}
 			}
-			
 			throw new EolIllegalPropertyException(object, property, ast, context);
-
 		}
 	}
 }

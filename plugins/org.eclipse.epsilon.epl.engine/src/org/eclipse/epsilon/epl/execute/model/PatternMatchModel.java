@@ -29,15 +29,14 @@ public class PatternMatchModel extends Model {
 	protected final Map<String, Collection<PatternMatch>> matchMap;
 	protected final Map<String, Set<Object>> componentMap;
 	protected final Set<PatternMatch> matches;
-	protected final PatternMatchPropertyGetter propertyGetter = new PatternMatchPropertyGetter();
-	protected final PatternMatchPropertySetter propertySetter = new PatternMatchPropertySetter();
-	
 	
 	public PatternMatchModel() {
 		matchMap = new HashMap<>();
 		componentMap = new HashMap<>();
 		matches = new HashSet<>();
 		setName("P");
+		propertyGetter = new PatternMatchPropertyGetter();
+		propertySetter = new PatternMatchPropertySetter();
 	}
 	
 	@Override

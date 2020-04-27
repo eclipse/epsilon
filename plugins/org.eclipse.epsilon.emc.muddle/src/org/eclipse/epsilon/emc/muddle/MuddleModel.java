@@ -24,12 +24,12 @@ import org.eclipse.epsilon.eol.models.Model;
 
 public class MuddleModel extends Model {
 
-	protected MuddleModelPropertyGetter propertyGetter = new MuddleModelPropertyGetter(this);
-	protected MuddleModelPropertySetter propertySetter = new MuddleModelPropertySetter(this);
 	protected Muddle muddle;
 	protected Set<Feature> unusedFeatures;
 	
 	public MuddleModel() {
+		propertyGetter = new MuddleModelPropertyGetter(this);
+		propertySetter = new MuddleModelPropertySetter(this);
 	}
 	
 	@Override
@@ -111,8 +111,7 @@ public class MuddleModel extends Model {
 	}
 	
 	@Override
-	public Collection<?> getAllOfType(String type)
-			throws EolModelElementTypeNotFoundException {
+	public Collection<?> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
 		return muddleElementTypeForName(type).getInstances();
 	}
 

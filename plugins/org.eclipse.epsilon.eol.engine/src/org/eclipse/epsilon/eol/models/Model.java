@@ -52,6 +52,16 @@ public abstract class Model implements IModel {
 	protected boolean storeOnDisposal = false;
 	protected boolean readOnLoad = true;
 	
+	/**
+	 * @since 1.6
+	 */
+	protected IPropertyGetter propertyGetter;
+	
+	/**
+	 * @since 1.6
+	 */
+	protected IPropertySetter propertySetter;
+	
 	
 	@Override
 	public String getName() {
