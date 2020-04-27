@@ -18,7 +18,6 @@ import org.eclipse.epsilon.emc.muddle.*;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
-import org.jdom.filter.Filter;
 import org.jdom.input.SAXBuilder;
 
 public class GraphmlImporter {
@@ -575,9 +574,10 @@ public class GraphmlImporter {
 	}
 	
 	protected List<String> getLabels(String s) {
-		List<String> labels = new ArrayList<>();
 		s = s.trim();
-		for (String label : s.split("\\n")) {
+		String[] splits = s.split("\\n");
+		List<String> labels = new ArrayList<>(splits.length);
+		for (String label : splits) {
 			if (label.trim().length() > 0) {
 				labels.add(label.trim());
 			}
@@ -587,33 +587,20 @@ public class GraphmlImporter {
 	
 	protected List<Element> getDescendants(Element node, final String name) {
 		List<Element> descendants = new ArrayList<>();
-		Iterator<?> iterator = node.getDescendants(new Filter() {
-			@Override
-			public boolean matches(Object o) {
-				return o instanceof Element && ((Element) o).getName().equals(name);
-			}
-		});
-		while (iterator.hasNext()) {
-			descendants.add((Element) iterator.next());
-		}
+		for (
+			Iterator<?> iterator = node.getDescendants(o -> o instanceof Element && ((Element) o).getName().equals(name));
+			iterator.hasNext();
+			descendants.add((Element) iterator.next())
+		);
 		return descendants;
 	}
 	
 	protected List<Element> getNodeElements() {
-		List<Element> elements = new ArrayList<>();
-		
-		for (Object o : getDescendants(graphElement, "node") /*graphElement.getChildren("node", namespace)*/) {
-			elements.add((Element) o);
-		}
-		return elements;
+		return getDescendants(graphElement, "node");
 	}
 	
 	protected List<Element> getEdgeElements() {
-		List<Element> elements = new ArrayList<>();
-		for (Object o : getDescendants(graphElement, "edge") /*graphElement.getChildren("edge", namespace)*/) {
-			elements.add((Element) o);
-		}
-		return elements;
+		return getDescendants(graphElement, "edge");
 	}
 
 	protected LinkElementType edgeTypeForName(String name) {
