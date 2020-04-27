@@ -12,7 +12,6 @@ package org.eclipse.epsilon.emc.emf.decorator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -22,7 +21,6 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfPropertyGetter;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 
 public class DecoratorEmfModel extends EmfModel { 
@@ -30,6 +28,11 @@ public class DecoratorEmfModel extends EmfModel {
 	EObject decorator = null;
 	DecoratorDescriptor decoratorDescriptor = null;
 	List<DecoratorDescriptor> decoratorDescriptors;
+	
+	public DecoratorEmfModel() {
+		propertyGetter = new DecoratorPropertyGetter();
+		propertySetter = new DecoratorPropertySetter();
+	}
 	
 	protected List<EClass> getDecoratorEClasses(Collection<EPackage> ePackages) {
 		List<EClass> decoratorEClasses = new ArrayList<>();
@@ -48,7 +51,6 @@ public class DecoratorEmfModel extends EmfModel {
 	}
 	
 	protected List<DecoratorDescriptor> getDecoratorDescriptors() {
-		
 		if (decoratorDescriptors == null) {
 			decoratorDescriptors = new ArrayList<>();
 			
@@ -64,11 +66,9 @@ public class DecoratorEmfModel extends EmfModel {
 					}
 				}
 			}
-			
+
 		}
-		
 		return decoratorDescriptors;
-		
 	}
 	
 	@Override
@@ -157,26 +157,19 @@ public class DecoratorEmfModel extends EmfModel {
 	}
 	
 	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return new DecoratorPropertyGetter();
-	}
-	
-	@Override
 	public IReflectivePropertySetter getPropertySetter() {
-		return new DecoratorPropertySetter();
+		return (IReflectivePropertySetter) propertySetter;
 	}
 	
 	class DecoratorPropertyGetter extends EmfPropertyGetter {
 		@Override
-		public Object invoke(Object object, String property)
-				throws EolRuntimeException {
+		public Object invoke(Object object, String property) throws EolRuntimeException {
 			if (decorator == null) {
 				if (decoratorDescriptor.getLastValueFeature().isMany()) {
 					return new ArrayList<>();
 				}
 				else {
-					return decoratorDescriptor.getLastValueFeature()
-						.getDefaultValue();
+					return decoratorDescriptor.getLastValueFeature().getDefaultValue();
 				}
 			}
 			else {
@@ -186,7 +179,6 @@ public class DecoratorEmfModel extends EmfModel {
 	}
 	
 	class DecoratorPropertySetter extends EmfPropertySetter {
-
 		@Override
 		public void invoke(Object value) throws EolRuntimeException {
 			if (decorator != null) {
@@ -197,8 +189,6 @@ public class DecoratorEmfModel extends EmfModel {
 				throw new EolRuntimeException("Cannot set the value of feature " + this.property + " as the decorator object does not exist");
 			}
 		}
-		
 	}
-	
 }
  
