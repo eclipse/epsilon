@@ -59,27 +59,23 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ SpreadsheetColumnTest.class, SpreadsheetDataTypeTest.class, SpreadsheetModelTest.class,
-		SpreadsheetPropertyGetterTest.class, SpreadsheetPropertySetterTest.class, SpreadsheetReferenceTest.class,
-		SpreadsheetUtilsTest.class, SpreadsheetWorksheetTest.class, CellMultiplicityTest.class,
-		DataTypeStrictnessTest.class, IgnoreWorksheetTest.class, DeleteReferencedAndReferencingRowTest.class,
-		DeleteReferencedRowTest.class, DeleteRowTest.class, ExcelModelTest.class, ExcelRowTest.class,
-		ExcelWorksheetTest.class, GSFindTest.class, LoadExistingWorksheetTest.class,
-		LoadNonExistingWorksheetTest.class, GSRowEqualsTest.class,
-		CreateInstanceReferencingSheetDataTypeStrictTest.class,
-		CreateInstanceReferencingSheetNotDataTypeStrictTest.class, CreateInstanceSheetDataTypeStrictTest.class,
-		CreateInstanceSheetNotDataTypeStrictTest.class, CreateInstanceTest.class, MetadataTest.class,
-		PrefixedVisibleValuePopertyGetterTest.class, PropertyGetterReferencingCellManyTest.class,
-		PropertyGetterReferencingCellNotManyTest.class, PropertyGetterTest.class,
-		CascadeUpdatesCellsManyToManyPropertySetterTest.class,
-		CascadeUpdatesCellsManyToNotManyPropertySetterTest.class, CascadeUpdatesCellsNotManyPropertySetterTest.class,
-		CascadeUpdatesCellsNotManyToManyPropertySetterTest.class, PlainTextCellPropertySetterTest.class,
-		ReferencedCellPropertySetterTest.class, ReferencingCellPropertySetterTest.class, GetAllContentsTest.class,
-		GetAllOfTypeTest.class, GetTypeOfTest.class })
-public class SpreadsheetDriverTestSuite
-{
+	SpreadsheetPropertyGetterTest.class, SpreadsheetPropertySetterTest.class, SpreadsheetReferenceTest.class,
+	SpreadsheetUtilsTest.class, SpreadsheetWorksheetTest.class, CellMultiplicityTest.class,
+	DataTypeStrictnessTest.class, IgnoreWorksheetTest.class, DeleteReferencedAndReferencingRowTest.class,
+	DeleteReferencedRowTest.class, DeleteRowTest.class, ExcelModelTest.class, ExcelRowTest.class,
+	ExcelWorksheetTest.class, GSFindTest.class, LoadExistingWorksheetTest.class, LoadNonExistingWorksheetTest.class,
+	GSRowEqualsTest.class, CreateInstanceReferencingSheetDataTypeStrictTest.class,
+	CreateInstanceReferencingSheetNotDataTypeStrictTest.class, CreateInstanceSheetDataTypeStrictTest.class,
+	CreateInstanceSheetNotDataTypeStrictTest.class, CreateInstanceTest.class, MetadataTest.class,
+	PrefixedVisibleValuePopertyGetterTest.class, PropertyGetterReferencingCellManyTest.class,
+	PropertyGetterReferencingCellNotManyTest.class, PropertyGetterTest.class,
+	CascadeUpdatesCellsManyToManyPropertySetterTest.class, CascadeUpdatesCellsManyToNotManyPropertySetterTest.class,
+	CascadeUpdatesCellsNotManyPropertySetterTest.class, CascadeUpdatesCellsNotManyToManyPropertySetterTest.class,
+	PlainTextCellPropertySetterTest.class, ReferencedCellPropertySetterTest.class,
+	ReferencingCellPropertySetterTest.class, GetAllContentsTest.class, GetAllOfTypeTest.class, GetTypeOfTest.class })
+public class SpreadsheetDriverTestSuite {
 
-	public static Test suite()
-	{
+	public static Test suite() {
 		return new JUnit4TestAdapter(SpreadsheetDriverTestSuite.class);
 	}
 }

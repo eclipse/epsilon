@@ -20,17 +20,15 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ExcelRowTest
-{
+public class ExcelRowTest {
 	private final static String PATH_TO_FILE = SharedTestMethods.getBasePath() + "resources/excel/RowTest.xlsx";
 	private final static String PATH_TO_CONFIG = SharedTestMethods.getBasePath()
-			+ "resources/excel/ModelTestConfig.xml";
+		+ "resources/excel/ModelTestConfig.xml";
 
 	private static ExcelModel model = null;
 
 	@BeforeClass
-	public static void createModel() throws Exception
-	{
+	public static void createModel() throws Exception {
 		model = new ExcelModel();
 		model.setName("M");
 		model.setSpreadsheetFile(PATH_TO_FILE);
@@ -39,8 +37,7 @@ public class ExcelRowTest
 	}
 
 	@Test
-	public void testBelongsToModel() throws EolRuntimeException
-	{
+	public void testBelongsToModel() throws EolRuntimeException {
 		ExcelWorksheet worksheet = (ExcelWorksheet) model.getWorksheetByType("Sheet1");
 		ExcelRow row = (ExcelRow) worksheet.getRows().get(0);
 		assertTrue(row.getModel() == model);
@@ -48,151 +45,121 @@ public class ExcelRowTest
 	}
 
 	@Test
-	public void testCannotCreateRowWithoutWorksheet() throws EolRuntimeException
-	{
-		try
-		{
+	public void testCannotCreateRowWithoutWorksheet() throws EolRuntimeException {
+		try {
 			new ExcelRow(null, null);
 			fail("Should not be able to create row without valid worksheet");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testUnknownColumnIndex()
-	{
-		try
-		{
+	public void testUnknownColumnIndex() {
+		try {
 			testReadType(100);
 			fail();
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testReadString()
-	{
-		try
-		{
+	public void testReadString() {
+		try {
 			String value = testReadType(0);
 			assertTrue(value.equals("value"));
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}
 
 	@Test
-	public void testReadInteger()
-	{
-		try
-		{
+	public void testReadInteger() {
+		try {
 			String value = testReadType(1);
 			assertTrue(value.equals("12345.0"));
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}
 
 	@Test
-	public void testReadDouble()
-	{
-		try
-		{
+	public void testReadDouble() {
+		try {
 			String value = testReadType(2);
 			assertTrue(value.equals("1.15"));
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}
 
 	@Test
-	public void testReadBoolean()
-	{
-		try
-		{
+	public void testReadBoolean() {
+		try {
 			String value = testReadType(3);
 			assertTrue(value.equalsIgnoreCase("TRUE"));
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}
 
 	@Test
-	public void testReadEvaluatedFormula()
-	{
-		try
-		{
+	public void testReadEvaluatedFormula() {
+		try {
 			String value = testReadType(4);
 			assertTrue(value.equals("3.0"));
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}
 
 	@Test
-	public void testReadBlank()
-	{
-		try
-		{
+	public void testReadBlank() {
+		try {
 			String value = testReadType(5);
 			assertTrue(value == null);
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}
 
-	public String testReadType(final int columnIndex) throws Exception
-	{
+	public String testReadType(final int columnIndex) throws Exception {
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind("Sheet1");
 		SpreadsheetRow row = rows.get(0);
 		return (String) model.getPropertyGetter().invoke(row, "c_" + columnIndex);
 	}
 
 	@Test
-	public void testColumnIsNull() throws Exception
-	{
+	public void testColumnIsNull() throws Exception {
 		ExcelWorksheet worksheet = (ExcelWorksheet) model.getWorksheetByType("Sheet1");
 		ExcelRow firstRow = (ExcelRow) worksheet.getRows().get(0);
-		try
-		{
+		try {
 			firstRow.getVisibleCellValue(null);
 			fail("Column input must not be null");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testReadWhereCellIsEmpty() throws Exception
-	{
+	public void testReadWhereCellIsEmpty() throws Exception {
 		ExcelWorksheet worksheet = (ExcelWorksheet) model.getWorksheetByType("Sheet1");
 		ExcelRow firstRow = (ExcelRow) worksheet.getRows().get(0);
 		firstRow.getVisibleCellValue(new ExcelColumn(worksheet, 100));
 	}
 
 	@Test
-	public void testOverwriteCellValue() throws Exception
-	{
+	public void testOverwriteCellValue() throws Exception {
 		ExcelWorksheet worksheet = (ExcelWorksheet) model.getWorksheetByType("Sheet1");
 		ExcelRow firstRow = (ExcelRow) worksheet.getRows().get(0);
 		ExcelColumn column = (ExcelColumn) worksheet.getColumn(0);
@@ -202,8 +169,7 @@ public class ExcelRowTest
 	}
 
 	@Test
-	public void testEquals() throws Exception
-	{
+	public void testEquals() throws Exception {
 		ExcelWorksheet worksheet1 = (ExcelWorksheet) model.getWorksheetByType("Sheet1");
 		ExcelRow firstRow1 = (ExcelRow) worksheet1.getRows().get(0);
 		ExcelRow firstRow2 = (ExcelRow) worksheet1.getRows().get(0);

@@ -27,29 +27,24 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class DataTypeStrictnessTest
-{
+public class DataTypeStrictnessTest {
 	private SpreadsheetModel model = null;
 
-	public DataTypeStrictnessTest(SpreadsheetModel model)
-	{
+	public DataTypeStrictnessTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String PATH_TO_FILE = "resources/common/DataTypeStrictnessTest.xlsx";
 		String CONFIG = "resources/common/DataTypeStrictnessTestConfig.xml";
 		return TestModelFactory.getModelsToTest("", PATH_TO_FILE, CONFIG, "CellMultiplicityTest");
 	}
 
 	@Test
-	public void testWriteRowNoDataTypeStrictness() throws Exception
-	{
+	public void testWriteRowNoDataTypeStrictness() throws Exception {
 		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet1");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			worksheet.removeRow((SpreadsheetRow) row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
@@ -79,11 +74,9 @@ public class DataTypeStrictnessTest
 	}
 
 	@Test
-	public void testWriteEmptyRowNoDataTypeStrictness() throws Exception
-	{
+	public void testWriteEmptyRowNoDataTypeStrictness() throws Exception {
 		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("S1");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			worksheet.removeRow((SpreadsheetRow) row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
@@ -106,11 +99,9 @@ public class DataTypeStrictnessTest
 	}
 
 	@Test
-	public void testWriteRowEnforceDataTypeStrictness() throws Exception
-	{
+	public void testWriteRowEnforceDataTypeStrictness() throws Exception {
 		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("S2");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			worksheet.removeRow((SpreadsheetRow) row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
@@ -140,11 +131,9 @@ public class DataTypeStrictnessTest
 	}
 
 	@Test
-	public void testWriteEmptyRowEnforceDataTypeStrictness() throws Exception
-	{
+	public void testWriteEmptyRowEnforceDataTypeStrictness() throws Exception {
 		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			worksheet.removeRow((SpreadsheetRow) row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
@@ -167,11 +156,9 @@ public class DataTypeStrictnessTest
 	}
 
 	@Test
-	public void testWriteNoncompliantValues() throws Exception
-	{
+	public void testWriteNoncompliantValues() throws Exception {
 		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("S2");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			worksheet.removeRow((SpreadsheetRow) row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);

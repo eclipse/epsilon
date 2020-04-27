@@ -22,28 +22,25 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * This class provides a concrete implementation for collecting spreadsheet ORM Metadata from XML documents.
+ * This class provides a concrete implementation for collecting spreadsheet ORM
+ * Metadata from XML documents.
  * 
  * @author Martins Francis
  */
-public class MetadataXMLParser implements ISpreadsheetMetadata
-{
+public class MetadataXMLParser implements ISpreadsheetMetadata {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MetadataXMLParser.class);
 	private final Document xml;
 
-	public MetadataXMLParser(final Document xml)
-	{
+	public MetadataXMLParser(final Document xml) {
 		this.xml = xml;
 	}
 
 	@Override
-	public Set<SpreadsheetWorksheetMetadata> getWorksheetMetadata()
-	{
+	public Set<SpreadsheetWorksheetMetadata> getWorksheetMetadata() {
 		final Set<SpreadsheetWorksheetMetadata> worksheets = new HashSet<>();
 		final Element document = this.xml.getDocumentElement();
 		final NodeList nodeList = document.getElementsByTagName(ORMConstants.ORM_WORKSHEET);
-		for (int i = 0; i < nodeList.getLength(); i++)
-		{
+		for (int i = 0; i < nodeList.getLength(); i++) {
 			final Element element = (Element) nodeList.item(i);
 			final SpreadsheetWorksheetMetadata worksheetMetadata = this.getWorksheetMetadata(element);
 			worksheets.add(worksheetMetadata);
@@ -51,8 +48,7 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 		return worksheets;
 	}
 
-	private SpreadsheetWorksheetMetadata getWorksheetMetadata(final Element element)
-	{
+	private SpreadsheetWorksheetMetadata getWorksheetMetadata(final Element element) {
 		final SpreadsheetWorksheetMetadata worksheet = new SpreadsheetWorksheetMetadata();
 
 		worksheet.name = this.getValueFromElement(element, ORMConstants.ORM_WORKSHEET_NAME);
@@ -65,10 +61,8 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 		return worksheet;
 	}
 
-	private void validateWorksheetMetadata(final SpreadsheetWorksheetMetadata worksheet)
-	{
-		if (StringUtils.isBlank(worksheet.name))
-		{
+	private void validateWorksheetMetadata(final SpreadsheetWorksheetMetadata worksheet) {
+		if (StringUtils.isBlank(worksheet.name)) {
 			String message = "A worksheet is missing its name in the configuration file";
 			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
@@ -76,17 +70,14 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 	}
 
 	@Override
-	public Set<SpreadsheetColumnMetadata> getColumnMetadata(final String name)
-	{
+	public Set<SpreadsheetColumnMetadata> getColumnMetadata(final String name) {
 		final Set<SpreadsheetColumnMetadata> columns = new HashSet<>();
 		final Element document = this.xml.getDocumentElement();
 		final NodeList worksheetNodeList = document.getElementsByTagName(ORMConstants.ORM_WORKSHEET);
-		for (int i = 0; i < worksheetNodeList.getLength(); i++)
-		{
+		for (int i = 0; i < worksheetNodeList.getLength(); i++) {
 			final Element columnElement = (Element) worksheetNodeList.item(i);
 			final String worksheetName = columnElement.getAttribute(ORMConstants.ORM_WORKSHEET_NAME);
-			if (name.equals(worksheetName))
-			{
+			if (name.equals(worksheetName)) {
 				final Set<SpreadsheetColumnMetadata> columnsForWorksheet = getColumnMetadataFromElement(columnElement);
 				columns.addAll(columnsForWorksheet);
 				break;
@@ -96,16 +87,13 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 		return columns;
 	}
 
-	private Set<SpreadsheetColumnMetadata> getColumnMetadataFromElement(final Element columnElement)
-	{
+	private Set<SpreadsheetColumnMetadata> getColumnMetadataFromElement(final Element columnElement) {
 		final Set<SpreadsheetColumnMetadata> columns = new HashSet<>();
 
 		final NodeList columnNodeList = columnElement.getChildNodes();
-		for (int c = 0; c < columnNodeList.getLength(); c++)
-		{
+		for (int c = 0; c < columnNodeList.getLength(); c++) {
 			final Node node = columnNodeList.item(c);
-			if (node.getNodeName().equals(ORMConstants.ORM_COLUMN))
-			{
+			if (node.getNodeName().equals(ORMConstants.ORM_COLUMN)) {
 				final SpreadsheetColumnMetadata columnMetadata = this.getColumnMetadataFromNode(node);
 				columns.add(columnMetadata);
 			}
@@ -114,8 +102,7 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 		return columns;
 	}
 
-	private SpreadsheetColumnMetadata getColumnMetadataFromNode(final Node node)
-	{
+	private SpreadsheetColumnMetadata getColumnMetadataFromNode(final Node node) {
 		final SpreadsheetColumnMetadata columnMetadata = new SpreadsheetColumnMetadata();
 		final NamedNodeMap namedNodeMap = node.getAttributes();
 
@@ -131,10 +118,8 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 		return columnMetadata;
 	}
 
-	private void validateColumnMetadata(final SpreadsheetColumnMetadata columnMetadata)
-	{
-		if (StringUtils.isBlank(columnMetadata.index) && StringUtils.isBlank(columnMetadata.name))
-		{
+	private void validateColumnMetadata(final SpreadsheetColumnMetadata columnMetadata) {
+		if (StringUtils.isBlank(columnMetadata.index) && StringUtils.isBlank(columnMetadata.name)) {
 			String message = "Column is missing both index and name in the configuration file";
 			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
@@ -142,13 +127,11 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 	}
 
 	@Override
-	public Set<SpreadsheetReferenceMetadata> getReferenceMetadata()
-	{
+	public Set<SpreadsheetReferenceMetadata> getReferenceMetadata() {
 		final Set<SpreadsheetReferenceMetadata> references = new HashSet<>();
 		final Element document = this.xml.getDocumentElement();
 		final NodeList nl = document.getElementsByTagName(ORMConstants.ORM_REFERENCE);
-		for (int i = 0; i < nl.getLength(); i++)
-		{
+		for (int i = 0; i < nl.getLength(); i++) {
 			final Element element = (Element) nl.item(i);
 			final SpreadsheetReferenceMetadata reference = this.getReferenceMetadata(element);
 			references.add(reference);
@@ -156,8 +139,7 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 		return references;
 	}
 
-	private SpreadsheetReferenceMetadata getReferenceMetadata(final Element element)
-	{
+	private SpreadsheetReferenceMetadata getReferenceMetadata(final Element element) {
 		final SpreadsheetReferenceMetadata reference = new SpreadsheetReferenceMetadata();
 
 		reference.source = this.getValueFromElement(element, ORMConstants.ORM_REFERENCE_SOURCE);
@@ -170,44 +152,35 @@ public class MetadataXMLParser implements ISpreadsheetMetadata
 		return reference;
 	}
 
-	private void validateReferenceMetadata(final SpreadsheetReferenceMetadata reference)
-	{
+	private void validateReferenceMetadata(final SpreadsheetReferenceMetadata reference) {
 		String message = null;
-		if (StringUtils.isBlank(reference.source))
-		{
+		if (StringUtils.isBlank(reference.source)) {
 			message = "Reference is missing its source in the configuration file";
 		}
-		else if (StringUtils.isBlank(reference.target))
-		{
+		else if (StringUtils.isBlank(reference.target)) {
 			message = "Reference is missing its target in the configuration file";
 		}
 
-		if (message != null)
-		{
+		if (message != null) {
 			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
 		}
 	}
 
-	private String getValueFromElement(final Element element, final String attribute)
-	{
+	private String getValueFromElement(final Element element, final String attribute) {
 		final String value = element.getAttribute(attribute);
-		if (StringUtils.isNotBlank(value))
-		{
+		if (StringUtils.isNotBlank(value)) {
 			return value;
 		}
-		else
-		{
+		else {
 			return null;
 		}
 	}
 
-	private String getValueFromNode(final NamedNodeMap nodeMap, final String elementName)
-	{
+	private String getValueFromNode(final NamedNodeMap nodeMap, final String elementName) {
 		final Node node = nodeMap.getNamedItem(elementName);
 		String value = null;
-		if (node != null)
-		{
+		if (node != null) {
 			value = node.getNodeValue();
 		}
 		return (StringUtils.isNotBlank(value)) ? value : null;

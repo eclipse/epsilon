@@ -14,18 +14,17 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * This class represents a worksheet header and consists of a number of ordered columns. The ordering of columns is
- * enforced by {@link SpreadsheetColumnComparator}.
+ * This class represents a worksheet header and consists of a number of ordered
+ * columns. The ordering of columns is enforced by
+ * {@link SpreadsheetColumnComparator}.
  * 
  * @author Martins Francis
  */
-public class SpreadsheetWorksheetHeader
-{
+public class SpreadsheetWorksheetHeader {
 	private SpreadsheetWorksheet worksheet;
 	private SortedSet<SpreadsheetColumn> header;
 
-	public SpreadsheetWorksheetHeader(final SpreadsheetWorksheet worksheet)
-	{
+	public SpreadsheetWorksheetHeader(final SpreadsheetWorksheet worksheet) {
 		this.worksheet = worksheet;
 		this.header = new TreeSet<>(new SpreadsheetColumnComparator());
 	}
@@ -35,8 +34,7 @@ public class SpreadsheetWorksheetHeader
 	 * 
 	 * @return worksheet
 	 */
-	public SpreadsheetWorksheet getWorksheet()
-	{
+	public SpreadsheetWorksheet getWorksheet() {
 		return worksheet;
 	}
 
@@ -45,29 +43,24 @@ public class SpreadsheetWorksheetHeader
 	 * 
 	 * @param column
 	 */
-	public void addColumn(final SpreadsheetColumn column)
-	{
-		if (column.getWorksheet() == this.worksheet)
-		{
+	public void addColumn(final SpreadsheetColumn column) {
+		if (column.getWorksheet() == this.worksheet) {
 			this.header.add(column);
 		}
 	}
 
 	/**
-	 * This method returns the first header column identifiable by the given identifier. If there is no such column then
-	 * null is returned instead.
+	 * This method returns the first header column identifiable by the given
+	 * identifier. If there is no such column then null is returned instead.
 	 * 
 	 * @param identifier
 	 * @return header column or null
 	 */
-	public SpreadsheetColumn getColumn(final String identifier)
-	{
+	public SpreadsheetColumn getColumn(final String identifier) {
 		final Iterator<SpreadsheetColumn> it = this.header.iterator();
-		while (it.hasNext())
-		{
+		while (it.hasNext()) {
 			final SpreadsheetColumn column = it.next();
-			if (column.isIdentifiableBy(identifier))
-			{
+			if (column.isIdentifiableBy(identifier)) {
 				return column;
 			}
 		}
@@ -79,25 +72,23 @@ public class SpreadsheetWorksheetHeader
 	 * 
 	 * @return header columns
 	 */
-	public SortedSet<SpreadsheetColumn> getColumns()
-	{
+	public SortedSet<SpreadsheetColumn> getColumns() {
 		return this.header;
 	}
 
 	/**
-	 * This method returns true if the given columns is part of the worksheet's header.
+	 * This method returns true if the given columns is part of the worksheet's
+	 * header.
 	 * 
 	 * @param column
 	 * @return true if column is part of the header, false otherwise
 	 */
-	public boolean contains(final SpreadsheetColumn column)
-	{
+	public boolean contains(final SpreadsheetColumn column) {
 		return this.header.contains(column);
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "SpreadsheetWorksheetHeader [worksheet=" + worksheet.getName() + ", header=" + header + "]";
 	}
 

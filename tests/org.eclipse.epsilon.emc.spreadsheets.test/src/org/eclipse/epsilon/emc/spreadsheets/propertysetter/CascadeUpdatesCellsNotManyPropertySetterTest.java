@@ -24,26 +24,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class CascadeUpdatesCellsNotManyPropertySetterTest
-{
+public class CascadeUpdatesCellsNotManyPropertySetterTest {
 	private SpreadsheetModel model = null;
 
-	public CascadeUpdatesCellsNotManyPropertySetterTest(SpreadsheetModel model)
-	{
+	public CascadeUpdatesCellsNotManyPropertySetterTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String PATH_TO_FILE = "resources/propertysetter/PropertySetterTest.xlsx";
 		String CONFIG = "resources/propertysetter/CascadeUpdatesCellsNotManyPropertySetterTest.xml";
 		return TestModelFactory.getModelsToTest("", PATH_TO_FILE, CONFIG, "PropertySetterTest");
 	}
 
 	@Test
-	public void testCellsNotManyToNotMany() throws Exception
-	{
+	public void testCellsNotManyToNotMany() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
@@ -86,8 +82,7 @@ public class CascadeUpdatesCellsNotManyPropertySetterTest
 	}
 
 	@Test
-	public void testCellsNotManyToNotMany_CascadeToSecondLevel() throws Exception
-	{
+	public void testCellsNotManyToNotMany_CascadeToSecondLevel() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");

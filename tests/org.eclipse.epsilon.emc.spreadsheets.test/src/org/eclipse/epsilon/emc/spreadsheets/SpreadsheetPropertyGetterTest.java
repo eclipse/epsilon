@@ -23,13 +23,11 @@ import org.easymock.classextension.EasyMock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.Test;
 
-public class SpreadsheetPropertyGetterTest
-{
+public class SpreadsheetPropertyGetterTest {
 	IMocksControl control = EasyMock.createControl();
 
 	@Test
-	public void testColumnNotMany() throws EolRuntimeException
-	{
+	public void testColumnNotMany() throws EolRuntimeException {
 		String columnName = "COLUMN";
 		List<String> values = new ArrayList<>();
 		values.add("VALUE");
@@ -57,8 +55,7 @@ public class SpreadsheetPropertyGetterTest
 	}
 
 	@Test
-	public void testColumnNotManyAndCellIsBlank() throws EolRuntimeException
-	{
+	public void testColumnNotManyAndCellIsBlank() throws EolRuntimeException {
 		String columnName = "COLUMN";
 		List<String> values = new ArrayList<>();
 		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
@@ -86,8 +83,7 @@ public class SpreadsheetPropertyGetterTest
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testColumnIsMany() throws EolRuntimeException
-	{
+	public void testColumnIsMany() throws EolRuntimeException {
 		String columnName = "COLUMN";
 		List<String> values = new ArrayList<>();
 		values.add("VALUE1");
@@ -117,8 +113,7 @@ public class SpreadsheetPropertyGetterTest
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testColumnIsManyAndCellIsBlank() throws EolRuntimeException
-	{
+	public void testColumnIsManyAndCellIsBlank() throws EolRuntimeException {
 		String columnName = "COLUMN";
 		List<String> values = new ArrayList<>();
 		Set<SpreadsheetReference> sourceReferences = new HashSet<>();
@@ -145,8 +140,7 @@ public class SpreadsheetPropertyGetterTest
 	}
 
 	@Test
-	public void testCollection() throws EolRuntimeException
-	{
+	public void testCollection() throws EolRuntimeException {
 		SpreadsheetRow row1 = control.createMock(SpreadsheetRow.class);
 		SpreadsheetRow row2 = control.createMock(SpreadsheetRow.class);
 		List<SpreadsheetRow> rows = new ArrayList<>();
@@ -188,7 +182,7 @@ public class SpreadsheetPropertyGetterTest
 		Iterator<String> it = ((List<String>) response).iterator();
 		String value1 = it.next();
 		String value2 = it.next();
-		assertTrue(value1.equals("VALUE1") && value2.equals("VALUE2") || value1.equals("VALUE2")
-				&& value2.equals("VALUE1"));
+		assertTrue(
+			value1.equals("VALUE1") && value2.equals("VALUE2") || value1.equals("VALUE2") && value2.equals("VALUE1"));
 	}
 }

@@ -28,26 +28,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class ReferencingCellPropertySetterTest
-{
+public class ReferencingCellPropertySetterTest {
 	private static SpreadsheetModel model = null;
 
-	public ReferencingCellPropertySetterTest(SpreadsheetModel model)
-	{
+	public ReferencingCellPropertySetterTest(SpreadsheetModel model) {
 		ReferencingCellPropertySetterTest.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String PATH_TO_FILE = "resources/propertysetter/PropertySetterTest.xlsx";
 		String CONFIG = "resources/propertysetter/ReferencingCellPropertySetterTest.xml";
 		return TestModelFactory.getModelsToTest("", PATH_TO_FILE, CONFIG, "PropertySetterTest");
 	}
 
 	@Test
-	public void testReferencingCellNotManyReferencedNotMany() throws Exception
-	{
+	public void testReferencingCellNotManyReferencedNotMany() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
@@ -80,8 +76,7 @@ public class ReferencingCellPropertySetterTest
 	}
 
 	@Test
-	public void testReferencingCellNotManyReferencedNotMany_MultipleRows() throws Exception
-	{
+	public void testReferencingCellNotManyReferencedNotMany_MultipleRows() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
@@ -104,8 +99,7 @@ public class ReferencingCellPropertySetterTest
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1, v2"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 1);
 
-		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1,
-				referencedRow2));
+		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1, referencedRow2));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 		setter.setObject(referencingRow);
@@ -117,8 +111,7 @@ public class ReferencingCellPropertySetterTest
 	}
 
 	@Test
-	public void testReferencingCellNotManyReferencedMany_OneValue() throws Exception
-	{
+	public void testReferencingCellNotManyReferencedMany_OneValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
@@ -151,8 +144,7 @@ public class ReferencingCellPropertySetterTest
 	}
 
 	@Test
-	public void testReferencingCellNotManyReferencedMany_TwoValues() throws Exception
-	{
+	public void testReferencingCellNotManyReferencedMany_TwoValues() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
@@ -185,8 +177,7 @@ public class ReferencingCellPropertySetterTest
 	}
 
 	@Test
-	public void testReferencingCellNotManyReferencedMany_MultipleRows() throws Exception
-	{
+	public void testReferencingCellNotManyReferencedMany_MultipleRows() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
@@ -209,8 +200,7 @@ public class ReferencingCellPropertySetterTest
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 1);
 
-		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1,
-				referencedRow2));
+		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1, referencedRow2));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 		setter.setObject(referencingRow);
@@ -222,8 +212,7 @@ public class ReferencingCellPropertySetterTest
 	}
 
 	@Test
-	public void testReferencingCellManyReferencedNotMany_OneValue() throws Exception
-	{
+	public void testReferencingCellManyReferencedNotMany_OneValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
@@ -256,8 +245,7 @@ public class ReferencingCellPropertySetterTest
 	}
 
 	@Test
-	public void testReferencingCellManyReferencedNotMany_TwoValues() throws Exception
-	{
+	public void testReferencingCellManyReferencedNotMany_TwoValues() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
@@ -291,8 +279,7 @@ public class ReferencingCellPropertySetterTest
 	}
 
 	@Test
-	public void testReferencingCellManyReferencedNotMany_MultipleRows() throws Exception
-	{
+	public void testReferencingCellManyReferencedNotMany_MultipleRows() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
@@ -315,8 +302,7 @@ public class ReferencingCellPropertySetterTest
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1, v2"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 2);
 
-		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1,
-				referencedRow2));
+		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1, referencedRow2));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 		setter.setObject(referencingRow);
@@ -329,8 +315,7 @@ public class ReferencingCellPropertySetterTest
 	}
 
 	@Test
-	public void testReferencingCellManyReferencedMany_OneValue() throws Exception
-	{
+	public void testReferencingCellManyReferencedMany_OneValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
@@ -363,8 +348,7 @@ public class ReferencingCellPropertySetterTest
 	}
 
 	@Test
-	public void testReferencingCellManyReferencedMany_TwoValues() throws Exception
-	{
+	public void testReferencingCellManyReferencedMany_TwoValues() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
@@ -398,8 +382,7 @@ public class ReferencingCellPropertySetterTest
 	}
 
 	@Test
-	public void testInvalidReferencedRow() throws Exception
-	{
+	public void testInvalidReferencedRow() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
@@ -414,41 +397,36 @@ public class ReferencingCellPropertySetterTest
 		assertTrue(referencedRow1.getVisibleCellValue(model.getWorksheetByType("Sheet3").getColumn("c_1")).equals("1"));
 
 		SpreadsheetRow invalidReferencedRow = SharedTestMethods.writeRow(model, "Sheet2", "c_1", "1", col, "123");
-		try
-		{
+		try {
 			invalidReferencedRow.getVisibleCellValue(columnSheet3).equals("123");
 			fail("Column from another worksheet");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 		SpreadsheetColumn columnSheet2 = model.getWorksheetByType("Sheet2").getColumn(col);
 		assertTrue(invalidReferencedRow.getAllVisibleCellValuesAsIs(columnSheet2).size() == 1);
-		assertTrue(invalidReferencedRow.getVisibleCellValue(model.getWorksheetByType("Sheet2").getColumn("c_1"))
-				.equals("1"));
+		assertTrue(
+			invalidReferencedRow.getVisibleCellValue(model.getWorksheetByType("Sheet2").getColumn("c_1")).equals("1"));
 
 		SpreadsheetRow referencingRow = SharedTestMethods.writeRow(model, "Sheet1", "1", col, referencedRow1);
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1, v2"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 2);
 
-		try
-		{
+		try {
 			final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 			setter.setObject(referencingRow);
 			setter.setProperty(columnSheet1.getPrefixedIndex());
 			setter.invoke(invalidReferencedRow);
 			fail("Expecting not to be able to write row from another worksheet");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testReferencingCellManyReferencedMany_MultipleRows() throws Exception
-	{
+	public void testReferencingCellManyReferencedMany_MultipleRows() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
@@ -471,8 +449,7 @@ public class ReferencingCellPropertySetterTest
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1, v2"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 2);
 
-		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1,
-				referencedRow2));
+		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1, referencedRow2));
 		referencedRows.add(null); // ignored
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);

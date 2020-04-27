@@ -19,19 +19,15 @@ import org.eclipse.equinox.security.storage.StorageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SecureGSModel extends GSModel
-{
+public class SecureGSModel extends GSModel {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SecureGSModel.class);
 
 	@Override
 	public void load(final StringProperties properties, final IRelativePathResolver resolver)
-			throws EolModelLoadingException
-	{
-		try
-		{
+		throws EolModelLoadingException {
+		try {
 			final String password = this.loadPassword(properties);
-			if (password == null)
-			{
+			if (password == null) {
 				final String message = "Password may not be null";
 				LOGGER.error(message);
 				throw new Exception(message);
@@ -41,34 +37,28 @@ public class SecureGSModel extends GSModel
 
 			super.load(properties, resolver);
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			throw new EolModelLoadingException(e, this);
 		}
 	}
 
-	public String loadPassword(final StringProperties properties) throws StorageException
-	{
+	public String loadPassword(final StringProperties properties) throws StorageException {
 		final ISecurePreferences preferences = SecurePreferencesFactory.getDefault();
-		if (preferences != null)
-		{
+		if (preferences != null) {
 			// Password is stored in the vault associated with the Google username
 			final String username = properties.getProperty(GSModel.GOOGLE_USERNAME);
-			if (preferences.nodeExists(username))
-			{
+			if (preferences.nodeExists(username)) {
 				final ISecurePreferences node = preferences.node(username);
 				return node.get(GSModel.GOOGLE_PASSWORD, null);
 			}
-			else
-			{
+			else {
 				final String message = "Equinox Security could not find Google account password for '" + username + "'";
 				LOGGER.error(message);
 				throw new RuntimeException(message);
 			}
 		}
-		else
-		{
+		else {
 			final String message = "Equinox Security was unable to create secure preferences using default location";
 			LOGGER.error(message);
 			throw new RuntimeException(message);

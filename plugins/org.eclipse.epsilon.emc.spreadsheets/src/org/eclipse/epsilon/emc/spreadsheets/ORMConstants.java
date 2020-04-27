@@ -10,12 +10,12 @@
 package org.eclipse.epsilon.emc.spreadsheets;
 
 /**
- * This class enlists the names of the tags and attributes expected to be used in ORM Metadata specifications.
+ * This class enlists the names of the tags and attributes expected to be used
+ * in ORM Metadata specifications.
  * 
  * @author Martins Francis
  */
-public class ORMConstants extends SpreadsheetConstants
-{
+public class ORMConstants extends SpreadsheetConstants {
 	public static final String ORM_WORKSHEET = "worksheet";
 	public static final String ORM_COLUMN = "column";
 	public static final String ORM_REFERENCE = "reference";

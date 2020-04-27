@@ -14,186 +14,159 @@ import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class SpreadsheetDataTypeTest
-{
+public class SpreadsheetDataTypeTest {
 
 	@BeforeClass
-	public static void testEnum()
-	{
+	public static void testEnum() {
 		SharedTestMethods.superficialEnumCodeCoverage(SpreadsheetDataType.class);
 	}
 
 	@Test
-	public void testConvertString()
-	{
+	public void testConvertString() {
 		SpreadsheetDataType dataType = SpreadsheetDataType.convert("sTrinG");
 		assertTrue(dataType == SpreadsheetDataType.STRING);
 	}
 
 	@Test
-	public void testConvertInteger()
-	{
+	public void testConvertInteger() {
 		SpreadsheetDataType dataType = SpreadsheetDataType.convert("inteGer");
 		assertTrue(dataType == SpreadsheetDataType.INTEGER);
 	}
 
 	@Test
-	public void testConvertDouble()
-	{
+	public void testConvertDouble() {
 		SpreadsheetDataType dataType = SpreadsheetDataType.convert("DOUBLE");
 		assertTrue(dataType == SpreadsheetDataType.DOUBLE);
 	}
 
 	@Test
-	public void testConvertFloat()
-	{
+	public void testConvertFloat() {
 		SpreadsheetDataType dataType = SpreadsheetDataType.convert("float");
 		assertTrue(dataType == SpreadsheetDataType.FLOAT);
 	}
 
 	@Test
-	public void testConvertBoolean()
-	{
+	public void testConvertBoolean() {
 		SpreadsheetDataType dataType = SpreadsheetDataType.convert("bOOlean");
 		assertTrue(dataType == SpreadsheetDataType.BOOLEAN);
 	}
 
 	@Test
-	public void testConvertUnknown()
-	{
+	public void testConvertUnknown() {
 		SpreadsheetDataType dataType = SpreadsheetDataType.convert("UNKNOWN");
 		assertTrue(dataType == SpreadsheetConstants.DEFAULT_COL_DATATYPE);
 	}
 
 	@Test
-	public void testConvertNull()
-	{
+	public void testConvertNull() {
 		SpreadsheetDataType dataType = SpreadsheetDataType.convert(null);
 		assertTrue(dataType == SpreadsheetConstants.DEFAULT_COL_DATATYPE);
 	}
 
 	@Test
-	public void testCastNullDataType()
-	{
+	public void testCastNullDataType() {
 		Object value = SpreadsheetDataType.castColumnValue(null, "string");
 		assertTrue(value.equals(SpreadsheetConstants.DEFAULT_DT_VALUE));
 	}
 
 	@Test
-	public void testCastString()
-	{
+	public void testCastString() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.STRING, "string");
 		assertTrue(value.equals("string"));
 	}
 
 	@Test
-	public void testCastStringNullValue()
-	{
+	public void testCastStringNullValue() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.STRING, null);
 		assertTrue(value.equals("null"));
 	}
 
 	@Test
-	public void testCastInteger()
-	{
+	public void testCastInteger() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.INTEGER, "123");
 		assertTrue(value.equals(123));
 	}
 
 	@Test
-	public void testCastIntegerInvalidValue()
-	{
+	public void testCastIntegerInvalidValue() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.INTEGER, "notint");
 		assertTrue(value.equals(SpreadsheetConstants.DEFAULT_DT_INTEGER));
 	}
 
 	@Test
-	public void testCastIntegerNullValue()
-	{
+	public void testCastIntegerNullValue() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.INTEGER, null);
 		assertTrue(value.equals(SpreadsheetConstants.DEFAULT_DT_INTEGER));
 	}
 
 	@Test
-	public void testCastDouble()
-	{
+	public void testCastDouble() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.DOUBLE, "123.00789");
 		assertTrue(value.equals(123.00789));
 	}
 
 	@Test
-	public void testCastDoubleInvalidValue()
-	{
+	public void testCastDoubleInvalidValue() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.DOUBLE, "notdouble");
 		assertTrue(value.equals(SpreadsheetConstants.DEFAULT_DT_DOUBLE));
 	}
 
 	@Test
-	public void testCastDoubleNullValue()
-	{
+	public void testCastDoubleNullValue() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.DOUBLE, null);
 		assertTrue(value.equals(SpreadsheetConstants.DEFAULT_DT_DOUBLE));
 	}
 
 	@Test
-	public void testCastFloat()
-	{
+	public void testCastFloat() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.FLOAT, "123.007894");
 		assertTrue(value.equals(Float.valueOf("123.007894")));
 	}
 
 	@Test
-	public void testCastFloatInvalidValue()
-	{
+	public void testCastFloatInvalidValue() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.FLOAT, "notfloat");
 		assertTrue(value.equals(SpreadsheetConstants.DEFAULT_DT_FLOAT));
 	}
 
 	@Test
-	public void testCastFloatNullValue()
-	{
+	public void testCastFloatNullValue() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.FLOAT, null);
 		assertTrue(value.equals(SpreadsheetConstants.DEFAULT_DT_FLOAT));
 	}
 
 	@Test
-	public void testCastBoolean()
-	{
+	public void testCastBoolean() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.BOOLEAN, "true");
 		assertTrue(value.equals(true));
 	}
 
 	@Test
-	public void testCastBooleanInvalidValue()
-	{
+	public void testCastBooleanInvalidValue() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.BOOLEAN, "notbool");
 		assertTrue(value.equals(false));
 	}
 
 	@Test
-	public void testCastBooleanNullValue()
-	{
+	public void testCastBooleanNullValue() {
 		Object value = SpreadsheetDataType.castColumnValue(SpreadsheetDataType.BOOLEAN, null);
 		assertTrue(value.equals(false));
 	}
 
 	@Test
-	public void testDefaultStringValue()
-	{
+	public void testDefaultStringValue() {
 		Object value = SpreadsheetDataType.getDefaultDTValue(SpreadsheetDataType.STRING);
 		assertTrue(value.equals(SpreadsheetConstants.DEFAULT_DT_STRING));
 	}
 
 	@Test
-	public void testDefaultBooleanValue()
-	{
+	public void testDefaultBooleanValue() {
 		Object value = SpreadsheetDataType.getDefaultDTValue(SpreadsheetDataType.BOOLEAN);
 		assertTrue(value.equals(SpreadsheetConstants.DEFAULT_DT_BOOLEAN));
 	}
 
 	@Test
-	public void testFormatAsString()
-	{
+	public void testFormatAsString() {
 		String string = SpreadsheetDataType.formatAsString(SpreadsheetDataType.STRING);
 		assertTrue(string.equalsIgnoreCase("string"));
 		String integer = SpreadsheetDataType.formatAsString(SpreadsheetDataType.INTEGER);

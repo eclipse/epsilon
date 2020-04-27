@@ -18,121 +18,103 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class SpreadsheetReferenceTest
-{
+public class SpreadsheetReferenceTest {
 	private static ExcelModel model;
 
 	@BeforeClass
-	public static void setup() throws EolModelLoadingException
-	{
+	public static void setup() throws EolModelLoadingException {
 		model = new ExcelModel();
 		model.setSpreadsheetFile(SharedTestMethods.getBasePath() + "resources/excel/ModelTest.xlsx");
 		model.load();
 	}
 
 	@Test
-	public void testSourceIsNull()
-	{
+	public void testSourceIsNull() {
 		SpreadsheetReferenceMetadata metadata = new SpreadsheetReferenceMetadata();
 		metadata.source = null;
 		metadata.target = null;
 		metadata.many = null;
 		metadata.cascadeUpdates = null;
-		try
-		{
+		try {
 			new SpreadsheetReference(model, metadata);
 			fail("Should not be able to construct reference");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testTargetIsNull()
-	{
+	public void testTargetIsNull() {
 		SpreadsheetReferenceMetadata metadata = new SpreadsheetReferenceMetadata();
 		metadata.source = "SOURCE";
 		metadata.target = null;
 		metadata.many = null;
 		metadata.cascadeUpdates = null;
-		try
-		{
+		try {
 			new SpreadsheetReference(model, metadata);
 			fail("Should not be able to construct reference");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testInvalidSourceTargetFormat()
-	{
+	public void testInvalidSourceTargetFormat() {
 		SpreadsheetReferenceMetadata metadata = new SpreadsheetReferenceMetadata();
 		metadata.source = "Sheet1";
 		metadata.target = "Sheet1";
 		metadata.many = null;
 		metadata.cascadeUpdates = null;
-		try
-		{
+		try {
 			new SpreadsheetReference(model, metadata);
 			fail("Should not be able to construct reference");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testSourceTargetColumnNotSet()
-	{
+	public void testSourceTargetColumnNotSet() {
 		SpreadsheetReferenceMetadata metadata = new SpreadsheetReferenceMetadata();
 		metadata.source = "Sheet1-> ";
 		metadata.target = "Sheet1-> ";
 		metadata.many = null;
 		metadata.cascadeUpdates = null;
-		try
-		{
+		try {
 			new SpreadsheetReference(model, metadata);
 			fail("Should not be able to construct reference");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testColumnReferencingItself()
-	{
+	public void testColumnReferencingItself() {
 		SpreadsheetReferenceMetadata metadata = new SpreadsheetReferenceMetadata();
 		metadata.source = "Sheet1->c_0";
 		metadata.target = "Sheet1->c_0";
 		metadata.many = null;
 		metadata.cascadeUpdates = null;
-		try
-		{
+		try {
 			new SpreadsheetReference(model, metadata);
 			fail("Should not be able to construct reference");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testValidSourceAndTarget()
-	{
+	public void testValidSourceAndTarget() {
 		SpreadsheetReferenceMetadata metadata = new SpreadsheetReferenceMetadata();
 		metadata.source = "Sheet1->c_0";
 		metadata.target = "Sheet1->c_1";
@@ -142,8 +124,7 @@ public class SpreadsheetReferenceTest
 	}
 
 	@Test
-	public void testNotBoolean()
-	{
+	public void testNotBoolean() {
 		SpreadsheetReferenceMetadata metadata = new SpreadsheetReferenceMetadata();
 		metadata.source = "Sheet1->c_0";
 		metadata.target = "Sheet1->c_1";
@@ -155,8 +136,7 @@ public class SpreadsheetReferenceTest
 	}
 
 	@Test
-	public void testBooleans()
-	{
+	public void testBooleans() {
 		SpreadsheetReferenceMetadata metadata = new SpreadsheetReferenceMetadata();
 		metadata.source = "Sheet1->c_0";
 		metadata.target = "Sheet1->c_1";

@@ -16,90 +16,75 @@ import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetColu
 import org.eclipse.epsilon.emc.spreadsheets.ISpreadsheetMetadata.SpreadsheetWorksheetMetadata;
 import org.junit.Test;
 
-public class SpreadsheetWorksheetTest
-{
+public class SpreadsheetWorksheetTest {
 
 	@Test
-	public void testNoWorksheetName()
-	{
+	public void testNoWorksheetName() {
 		SpreadsheetModel model = new ConcreteModel();
-		try
-		{
+		try {
 			new ConcreteWorksheet(model, null, false);
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testIsIdentifiableByNull()
-	{
+	public void testIsIdentifiableByNull() {
 		SpreadsheetModel model = new ConcreteModel();
 		SpreadsheetWorksheet worksheet = new ConcreteWorksheet(model, "NAME", false);
 		assertTrue(!worksheet.isIdentifiablyBy(null));
 	}
 
 	@Test
-	public void testIfWorksheetExists()
-	{
+	public void testIfWorksheetExists() {
 		SpreadsheetModel model = new ConcreteModel();
 		SpreadsheetWorksheet worksheet = new ConcreteWorksheet(model, "NAME", true);
 		worksheet.checkThatWorksheetExists();
 	}
 
 	@Test
-	public void testIfWorksheetExists_DoesNot()
-	{
+	public void testIfWorksheetExists_DoesNot() {
 		SpreadsheetModel model = new ConcreteModel();
 		SpreadsheetWorksheet worksheet = new ConcreteWorksheet(model, "NAME", false);
-		try
-		{
+		try {
 			worksheet.checkThatWorksheetExists();
 			fail("Worksheet does not exist in spreadsheet");
 		}
-		catch (IllegalStateException e)
-		{
+		catch (IllegalStateException e) {
 			System.out.println(e.getMessage());
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testAddIncorrectMetadata()
-	{
+	public void testAddIncorrectMetadata() {
 		SpreadsheetModel model = new ConcreteModel();
 		SpreadsheetWorksheet worksheet = new ConcreteWorksheet(model, "NAME", false);
 		SpreadsheetWorksheetMetadata metadata = new SpreadsheetWorksheetMetadata();
 		metadata.name = "NAME2";
-		try
-		{
+		try {
 			worksheet.addWorksheetMetadata(metadata);
 			fail("Should not be able to add metadata of another worksheet");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testAddIncorrectColumnMetadata()
-	{
+	public void testAddIncorrectColumnMetadata() {
 		SpreadsheetModel model = new ConcreteModel();
 		SpreadsheetWorksheet worksheet = new ConcreteWorksheet(model, "NAME", false);
 		SpreadsheetColumnMetadata metadata = new SpreadsheetColumnMetadata();
 		metadata.index = "";
-		try
-		{
+		try {
 			worksheet.addColumn(metadata);
 			fail("Should not be able to add column where metadata is missing column index");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			assertTrue(true);
 		}

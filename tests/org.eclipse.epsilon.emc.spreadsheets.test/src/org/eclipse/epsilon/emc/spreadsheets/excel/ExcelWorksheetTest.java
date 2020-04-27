@@ -25,17 +25,15 @@ import org.eclipse.epsilon.emc.spreadsheets.test.SharedTestMethods;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ExcelWorksheetTest
-{
+public class ExcelWorksheetTest {
 	private final static String PATH_TO_FILE = SharedTestMethods.getBasePath() + "resources/excel/WorksheetTest.xlsx";
 	private final static String PATH_TO_CONFIG = SharedTestMethods.getBasePath()
-			+ "resources/excel/WorksheetTestConfig.xml";
+		+ "resources/excel/WorksheetTestConfig.xml";
 
 	private static ExcelModel model = null;
 
 	@BeforeClass
-	public static void createModel() throws Exception
-	{
+	public static void createModel() throws Exception {
 		model = new ExcelModel();
 		model.setName("M");
 		model.setSpreadsheetFile(PATH_TO_FILE);
@@ -44,8 +42,7 @@ public class ExcelWorksheetTest
 	}
 
 	@Test
-	public void testColumnComparatorOnModel() throws Exception
-	{
+	public void testColumnComparatorOnModel() throws Exception {
 		ExcelModel model1 = new ExcelModel();
 		model1.setName("M1");
 		model1.setSpreadsheetFile(PATH_TO_FILE);
@@ -70,11 +67,9 @@ public class ExcelWorksheetTest
 	}
 
 	@Test
-	public void testWriteAndDeleteRows() throws Exception
-	{
+	public void testWriteAndDeleteRows() throws Exception {
 		ExcelWorksheet worksheet = (ExcelWorksheet) model.getWorksheetByType("Sheet1");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			model.deleteElement(row);
 		}
 
@@ -109,15 +104,13 @@ public class ExcelWorksheetTest
 	}
 
 	@Test
-	public void testDeleteRowNull() throws Exception
-	{
+	public void testDeleteRowNull() throws Exception {
 		ExcelWorksheet worksheet = (ExcelWorksheet) model.getWorksheetByType("Sheet1");
 		worksheet.removeRow(null);
 	}
 
 	@Test
-	public void testHeaderDoesNotHaveColumn() throws Exception
-	{
+	public void testHeaderDoesNotHaveColumn() throws Exception {
 		ExcelWorksheet worksheet1 = (ExcelWorksheet) model.getWorksheetByType("Sheet1");
 		ExcelWorksheet worksheet2 = (ExcelWorksheet) model.getWorksheetByType("Sheet2");
 		SpreadsheetWorksheetHeader header = worksheet1.getHeader();
@@ -129,8 +122,7 @@ public class ExcelWorksheetTest
 	}
 
 	@Test
-	public void testVerifyColumnMetadata() throws Exception
-	{
+	public void testVerifyColumnMetadata() throws Exception {
 		ExcelWorksheet worksheet = (ExcelWorksheet) model.getWorksheetByType("Sheet2");
 		assertTrue(worksheet.getColumn(0).getName().equals("column0"));
 		assertTrue(worksheet.getColumn(0).getAlias() == null);
@@ -145,22 +137,19 @@ public class ExcelWorksheetTest
 	}
 
 	@Test
-	public void testSplitColumnNameIfContainsDash_FromWorksheetNoConfig()
-	{
+	public void testSplitColumnNameIfContainsDash_FromWorksheetNoConfig() {
 		SpreadsheetWorksheet worksheet = model.getWorksheetByType("Sheet1");
 		assertTrue(worksheet.getColumn(10).getName().equals("abc"));
 	}
 
 	@Test
-	public void testSplitColumnNameIfContainsDash_FromConfig()
-	{
+	public void testSplitColumnNameIfContainsDash_FromConfig() {
 		SpreadsheetWorksheet worksheet = model.getWorksheetByType("Sheet1");
 		assertTrue(worksheet.getColumn(11).getName().equals("abcd"));
 	}
 
 	@Test
-	public void testSplitColumnNameIfContainsDash_FromConfig_StartsWithDash()
-	{
+	public void testSplitColumnNameIfContainsDash_FromConfig_StartsWithDash() {
 		SpreadsheetWorksheet worksheet = model.getWorksheetByType("Sheet1");
 		assertTrue(worksheet.getColumn(12).getName() == null);
 	}
@@ -168,7 +157,8 @@ public class ExcelWorksheetTest
 	// @AfterClass
 	// public static void removeSheet2()
 	// {
-	// ExcelWorksheet worksheet = (ExcelWorksheet) model.getWorksheetByType("Sheet2");
+	// ExcelWorksheet worksheet = (ExcelWorksheet)
+	// model.getWorksheetByType("Sheet2");
 	// model.deleteWorksheet(worksheet);
 	// model.store();
 	// }

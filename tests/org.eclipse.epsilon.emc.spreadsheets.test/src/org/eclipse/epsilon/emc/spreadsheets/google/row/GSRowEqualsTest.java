@@ -25,63 +25,57 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class GSRowEqualsTest
-{
+public class GSRowEqualsTest {
 	private static SpreadsheetModel model = null;
 
-	public GSRowEqualsTest(SpreadsheetModel model)
-	{
+	public GSRowEqualsTest(SpreadsheetModel model) {
 		GSRowEqualsTest.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToConfig = "resources/instantiate/CreateInstanceTestConfig.xml";
 		SpreadsheetModel gsModel = TestModelFactory.getGSModel("ReadTest", pathToConfig, "");
-		if (gsModel != null)
-		{
+		if (gsModel != null) {
 			return Arrays.asList(new Object[][] { { gsModel } });
 		}
-		else
-		{
+		else {
 			return Arrays.asList(new Object[][] {});
 		}
 	}
 
 	@Test
-	public void test() throws Exception
-	{
+	public void test() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
-		
+
 		assertTrue(model.getAllOfType("Sheet1").size() == 0);
 		assertTrue(model.getAllOfType("Sheet2").size() == 0);
-		
+
 		Map<String, Object> values1 = new HashMap<>();
 		values1.put("c_0", "value01");
 		values1.put("c_1", "value11");
 		SpreadsheetRow row1Sheet1 = (SpreadsheetRow) model.createInstance("Sheet1", values1);
 		SpreadsheetRow row2Sheet1 = (SpreadsheetRow) model.createInstance("Sheet1", values1);
 		assertTrue(model.getAllOfType("Sheet1").size() == 2);
-		
+
 		assertTrue(row1Sheet1.equals(row1Sheet1));
 		assertTrue(!row1Sheet1.equals(row2Sheet1));
 		assertTrue(row2Sheet1.equals(row2Sheet1));
 		assertTrue(!row2Sheet1.equals(row1Sheet1));
-		
+
 		Map<String, Object> values2 = new HashMap<>();
 		values2.put("c_0", "value02");
 		values2.put("c_1", "value12");
 		SpreadsheetRow row1Sheet2 = (SpreadsheetRow) model.createInstance("Sheet2", values2);
 		SpreadsheetRow row2Sheet2 = (SpreadsheetRow) model.createInstance("Sheet2", values2);
 		assertTrue(model.getAllOfType("Sheet2").size() == 2);
-		
+
 		assertTrue(!row1Sheet1.equals(row1Sheet2));
 		assertTrue(!row1Sheet1.equals(row2Sheet2));
 		assertTrue(!row2Sheet1.equals(row1Sheet2));
 		assertTrue(!row2Sheet1.equals(row2Sheet2));
-		
+
 		assertTrue(!row1Sheet1.equals(null));
 		assertTrue(!row1Sheet1.equals(model));
 	}

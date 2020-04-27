@@ -40,70 +40,61 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Martins Francis
  */
-public abstract class SpreadsheetModel extends Model implements ISearchableModel
-{
+public abstract class SpreadsheetModel extends Model implements ISearchableModel {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SpreadsheetModel.class);
 
 	protected List<SpreadsheetWorksheet> worksheets;
 	protected List<SpreadsheetReference> references;
 	protected boolean isLoaded;
 
-	public SpreadsheetModel()
-	{
+	public SpreadsheetModel() {
 		this.worksheets = new ArrayList<>();
 		this.references = new ArrayList<>();
 	}
-	
+
 	@Override
 	public IPropertyGetter getPropertyGetter() {
 		return new SpreadsheetPropertyGetter(this);
 	}
-	
+
 	@Override
 	public IPropertySetter getPropertySetter() {
 		return new SpreadsheetPropertySetter(this);
 	}
 
-	public List<SpreadsheetWorksheet> getWorksheets()
-	{
+	public List<SpreadsheetWorksheet> getWorksheets() {
 		return this.worksheets;
 	}
 
 	/**
-	 * The purpose of this method is to associate the given worksheet with this spreadsheet. Any worksheet that starts
-	 * with SpreadsheetConstants.WSH_IGNORE_CHARS is ignored.
+	 * The purpose of this method is to associate the given worksheet with this
+	 * spreadsheet. Any worksheet that starts with
+	 * SpreadsheetConstants.WSH_IGNORE_CHARS is ignored.
 	 * 
 	 * @param worksheet
 	 */
-	public void addWorksheet(final SpreadsheetWorksheet worksheet)
-	{
+	public void addWorksheet(final SpreadsheetWorksheet worksheet) {
 		LOGGER.debug("Inside addWorksheet() method");
 		LOGGER.debug("Worksheet: " + worksheet);
 
-		if (worksheet != null)
-		{
-			if (worksheet.getModel() == this)
-			{
-				final boolean ignoreWorksheet = worksheet.getName().startsWith(
-						SpreadsheetConstants.WORKSHEET_IGNORE_CHARS);
-				if (ignoreWorksheet)
-				{
+		if (worksheet != null) {
+			if (worksheet.getModel() == this) {
+				final boolean ignoreWorksheet = worksheet.getName()
+					.startsWith(SpreadsheetConstants.WORKSHEET_IGNORE_CHARS);
+				if (ignoreWorksheet) {
 					LOGGER.warn("\t(!) Ignoring worksheet '" + worksheet.getName() + "'");
 				}
-				else
-				{
+				else {
 					this.worksheets.add(worksheet);
 				}
 			}
-			else
-			{
+			else {
 				throw new IllegalArgumentException("Worksheet does not belong to model " + this);
 			}
 		}
 	}
 
-	public List<SpreadsheetReference> getReferences()
-	{
+	public List<SpreadsheetReference> getReferences() {
 		return this.references;
 	}
 
@@ -112,20 +103,16 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	 * 
 	 * @param reference
 	 */
-	public void addReference(final SpreadsheetReference reference)
-	{
-		if (reference != null)
-		{
+	public void addReference(final SpreadsheetReference reference) {
+		if (reference != null) {
 			this.references.add(reference);
 		}
 	}
 
 	@Override
-	public void load() throws EolModelLoadingException
-	{
+	public void load() throws EolModelLoadingException {
 		LOGGER.debug("Inside load() method");
-		try
-		{
+		try {
 			this.loadSpreadsheet();
 			this.loadConfigurationFile();
 
@@ -133,20 +120,19 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 			LOGGER.debug("Worksheets: " + this.getWorksheets().size());
 			LOGGER.debug("References: " + this.getReferences().size());
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
 		}
 		isLoaded = true;
 	}
-	
+
 	/**
 	 * @since 1.6
 	 */
 	public boolean isLoaded() {
 		return isLoaded;
 	}
-	
+
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -159,28 +145,25 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	protected abstract void loadSpreadsheet() throws Exception;
 
 	/**
-	 * The purpose of this method is to return an instance of the ISpreadsheetMetadata implementation for retrieving
-	 * metadata for this spreadsheet model
+	 * The purpose of this method is to return an instance of the
+	 * ISpreadsheetMetadata implementation for retrieving metadata for this
+	 * spreadsheet model
 	 */
 	protected abstract ISpreadsheetMetadata getSpreadsheetMetadata();
 
 	/**
 	 * The purpose of this method is to load the configuration file
 	 */
-	protected void loadConfigurationFile() throws Exception
-	{
+	protected void loadConfigurationFile() throws Exception {
 		LOGGER.debug("Inside loadConfigurationFile() method");
-		if (this.isMetadataConfigurationDefined())
-		{
+		if (this.isMetadataConfigurationDefined()) {
 			final ISpreadsheetMetadata metadata = this.getSpreadsheetMetadata();
-			for (final SpreadsheetWorksheetMetadata worksheet : metadata.getWorksheetMetadata())
-			{
+			for (final SpreadsheetWorksheetMetadata worksheet : metadata.getWorksheetMetadata()) {
 				this.loadWorksheetFromConfigurationFile(metadata, worksheet);
 			}
 			LOGGER.debug("WORKSHEETS: " + this.getWorksheets());
 
-			for (SpreadsheetReferenceMetadata reference : metadata.getReferenceMetadata())
-			{
+			for (SpreadsheetReferenceMetadata reference : metadata.getReferenceMetadata()) {
 				this.loadReferenceFromConfigurationFile(reference);
 			}
 			LOGGER.debug("REFERENCES: " + this.getReferences());
@@ -193,21 +176,17 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	protected abstract boolean isMetadataConfigurationDefined();
 
 	protected void loadWorksheetFromConfigurationFile(final ISpreadsheetMetadata metadata,
-			final SpreadsheetWorksheetMetadata worksheetMetadata) throws Exception
-	{
+		final SpreadsheetWorksheetMetadata worksheetMetadata) throws Exception {
 		LOGGER.debug("Inside loadWorksheetFromConfigurationFile() method");
 		LOGGER.debug("Loading worksheet '" + worksheetMetadata.getName() + "'...");
 		SpreadsheetWorksheet worksheet = this.getWorksheetByType(worksheetMetadata.getName());
 		boolean createWorksheetInSpreadsheet = false;
-		if (worksheet == null)
-		{
+		if (worksheet == null) {
 			final String createWorksheetOnLoad = worksheetMetadata.getCreateOnLoad();
-			if (StringUtils.isNotBlank(createWorksheetOnLoad))
-			{
+			if (StringUtils.isNotBlank(createWorksheetOnLoad)) {
 				createWorksheetInSpreadsheet = Boolean.parseBoolean(createWorksheetOnLoad);
 			}
-			else
-			{
+			else {
 				createWorksheetInSpreadsheet = SpreadsheetConstants.DEFAULT_WORKSHEET_CREATE_ON_LOAD;
 			}
 			LOGGER.debug("Create worksheet? " + createWorksheetInSpreadsheet);
@@ -217,8 +196,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 		}
 		worksheet.addWorksheetMetadata(worksheetMetadata);
 		this.loadColumnsFromMetadata(metadata, worksheet);
-		if (createWorksheetInSpreadsheet)
-		{
+		if (createWorksheetInSpreadsheet) {
 			worksheet.createInSpreadsheet();
 		}
 	}
@@ -231,28 +209,24 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	 * @throws Exception
 	 */
 	protected abstract SpreadsheetWorksheet createWorksheet(final SpreadsheetWorksheetMetadata worksheetMetadata)
-			throws Exception;
+		throws Exception;
 
-	protected void loadColumnsFromMetadata(final ISpreadsheetMetadata metadata, final SpreadsheetWorksheet worksheet)
-	{
+	protected void loadColumnsFromMetadata(final ISpreadsheetMetadata metadata, final SpreadsheetWorksheet worksheet) {
 		LOGGER.debug("Inside loadColumnsFromConfigurationFile() method");
 		LOGGER.debug("Worksheet name: '" + worksheet.getName() + "'");
-		for (final SpreadsheetColumnMetadata column : metadata.getColumnMetadata(worksheet.getName()))
-		{
+		for (final SpreadsheetColumnMetadata column : metadata.getColumnMetadata(worksheet.getName())) {
 			worksheet.addColumn(column);
 		}
 	}
 
-	protected void loadReferenceFromConfigurationFile(final SpreadsheetReferenceMetadata referenceMetadata)
-	{
+	protected void loadReferenceFromConfigurationFile(final SpreadsheetReferenceMetadata referenceMetadata) {
 		LOGGER.debug("Inside loadReferenceFromConfigurationFile() method");
 		final SpreadsheetReference reference = new SpreadsheetReference(this, referenceMetadata);
 		this.addReference(reference);
 	}
 
 	@Override
-	public Object getEnumerationValue(String enumeration, String label)
-	{
+	public Object getEnumerationValue(String enumeration, String label) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -260,17 +234,13 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	 * This method returns all rows of all worksheets.
 	 */
 	@Override
-	public List<SpreadsheetRow> allContents()
-	{
+	public List<SpreadsheetRow> allContents() {
 		final List<SpreadsheetRow> rows = new ArrayList<>();
-		for (final SpreadsheetWorksheet worksheet : this.getWorksheets())
-		{
-			try
-			{
+		for (final SpreadsheetWorksheet worksheet : this.getWorksheets()) {
+			try {
 				rows.addAll(this.getAllOfType(worksheet.getName()));
 			}
-			catch (EolModelElementTypeNotFoundException e)
-			{
+			catch (EolModelElementTypeNotFoundException e) {
 				LOGGER.error("Failed getting rows from worksheet '" + worksheet.getName() + "': " + e);
 			}
 		}
@@ -281,19 +251,16 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	 * Returns every row contained by the worksheet identifiable by the given type.
 	 */
 	@Override
-	public List<SpreadsheetRow> getAllOfType(final String type) throws EolModelElementTypeNotFoundException
-	{
+	public List<SpreadsheetRow> getAllOfType(final String type) throws EolModelElementTypeNotFoundException {
 		LOGGER.debug("Inside getAllOfType() method");
 		LOGGER.debug("Type: " + type);
 
 		final SpreadsheetWorksheet worksheet = this.getWorksheetByType(type);
-		if (worksheet == null)
-		{
+		if (worksheet == null) {
 			LOGGER.error("Unknown worksheet '" + type + "'");
 			throw new EolModelElementTypeNotFoundException(this.name, type);
 		}
-		else
-		{
+		else {
 			final List<SpreadsheetRow> rows = new ArrayList<>();
 			rows.addAll(worksheet.getRows());
 			return rows;
@@ -301,85 +268,77 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	}
 
 	@Override
-	public Collection<SpreadsheetRow> getAllOfKind(final String type) throws EolModelElementTypeNotFoundException
-	{
+	public Collection<SpreadsheetRow> getAllOfKind(final String type) throws EolModelElementTypeNotFoundException {
 		return this.getAllOfType(type);
 	}
 
 	/**
-	 * This method returns the worksheet that the given instance (row) belongs to. If the instance is not a
-	 * SpreadsheetRow object then null is returned.
+	 * This method returns the worksheet that the given instance (row) belongs to.
+	 * If the instance is not a SpreadsheetRow object then null is returned.
 	 */
 	@Override
-	public SpreadsheetWorksheet getTypeOf(final Object instance)
-	{
-		if (instance instanceof SpreadsheetRow)
-		{
+	public SpreadsheetWorksheet getTypeOf(final Object instance) {
+		if (instance instanceof SpreadsheetRow) {
 			return ((SpreadsheetRow) instance).getWorksheet();
 		}
 		return null;
 	}
 
 	/**
-	 * This method returns the name of the worksheet that the instance (row) belongs to.
+	 * This method returns the name of the worksheet that the instance (row) belongs
+	 * to.
 	 */
 	@Override
-	public String getTypeNameOf(final Object instance)
-	{
+	public String getTypeNameOf(final Object instance) {
 		final SpreadsheetWorksheet worksheet = this.getTypeOf(instance);
-		if (worksheet != null)
-		{
+		if (worksheet != null) {
 			return worksheet.getName();
 		}
 		return null;
 	}
 
 	/**
-	 * This method creates a blank row in the worksheet identifiable by type. The newly created SpreadsheetRow is
-	 * returned.
+	 * This method creates a blank row in the worksheet identifiable by type. The
+	 * newly created SpreadsheetRow is returned.
 	 */
 	@Override
-	public Object createInstance(final String type) throws EolModelElementTypeNotFoundException
-	{
+	public Object createInstance(final String type) throws EolModelElementTypeNotFoundException {
 		return createInstance(type, Collections.emptyList());
 	}
 
 	/**
-	 * This method creates a new row in the worksheet identifiable by type. The given collection is expected to contain
-	 * one instance of map. Every cell is assigned a value from the map in the order in which the values are returned by
-	 * the collections framework. If the worksheet does not exist in the spreadsheet then an attempt is made to create
-	 * it.
+	 * This method creates a new row in the worksheet identifiable by type. The
+	 * given collection is expected to contain one instance of map. Every cell is
+	 * assigned a value from the map in the order in which the values are returned
+	 * by the collections framework. If the worksheet does not exist in the
+	 * spreadsheet then an attempt is made to create it.
 	 */
 	@Override
 	public Object createInstance(final String type, final Collection<Object> parameters)
-			throws EolModelElementTypeNotFoundException
-	{
+		throws EolModelElementTypeNotFoundException {
 		return this.createInstance(type, SpreadsheetUtils.extractMapFromCollection(parameters));
 	}
 
 	/**
-	 * This method creates a new row in the worksheet identifiable by type. Every cell is assigned a value from the map
-	 * in the order in which the values are returned by the collections framework. If the worksheet does not exist in
-	 * the spreadsheet then an attempt is made to create it.
+	 * This method creates a new row in the worksheet identifiable by type. Every
+	 * cell is assigned a value from the map in the order in which the values are
+	 * returned by the collections framework. If the worksheet does not exist in the
+	 * spreadsheet then an attempt is made to create it.
 	 * 
 	 * @param type
 	 * @param parameters
 	 * @return newly created SpreadsheetRow
-	 * @throws EolModelElementTypeNotFoundException
-	 *             if worksheet cannot be found
+	 * @throws EolModelElementTypeNotFoundException if worksheet cannot be found
 	 */
 	public Object createInstance(final String type, final Map<String, Object> parameters)
-			throws EolModelElementTypeNotFoundException
-	{
+		throws EolModelElementTypeNotFoundException {
 		final SpreadsheetWorksheet worksheet = this.getWorksheetByType(type);
-		if (worksheet == null)
-		{
+		if (worksheet == null) {
 			throw new EolModelElementTypeNotFoundException(this.getName(), type);
 		}
 
 		final boolean worksheetDoesNotExist = !worksheet.getExistsInSpreadsheet();
-		if (worksheetDoesNotExist)
-		{
+		if (worksheetDoesNotExist) {
 			worksheet.createInSpreadsheet();
 		}
 
@@ -387,68 +346,55 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	}
 
 	@Override
-	public Object getElementById(final String id)
-	{
+	public Object getElementById(final String id) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public String getElementId(final Object instance)
-	{
+	public String getElementId(final Object instance) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void setElementId(final Object instance, final String newId)
-	{
+	public void setElementId(final Object instance, final String newId) {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * This method deletes the given instance (row) from the worksheet it belongs to.
+	 * This method deletes the given instance (row) from the worksheet it belongs
+	 * to.
 	 */
 	@Override
-	public void deleteElement(final Object instance) throws EolRuntimeException
-	{
-		if (instance instanceof SpreadsheetRow)
-		{
+	public void deleteElement(final Object instance) throws EolRuntimeException {
+		if (instance instanceof SpreadsheetRow) {
 			final SpreadsheetRow row = (SpreadsheetRow) instance;
 			row.getWorksheet().deleteRow(row);
 		}
-		else
-		{
+		else {
 			throw new EolRuntimeException("Expecting a row, got " + instance);
 		}
 	}
 
 	@Override
-	public boolean owns(final Object instance)
-	{
-		if (instance instanceof SpreadsheetModel && ((SpreadsheetModel) instance) == this)
-		{
+	public boolean owns(final Object instance) {
+		if (instance instanceof SpreadsheetModel && ((SpreadsheetModel) instance) == this) {
 			return true;
 		}
-		else if (instance instanceof SpreadsheetWorksheet && owns(((SpreadsheetWorksheet) instance).getModel()))
-		{
+		else if (instance instanceof SpreadsheetWorksheet && owns(((SpreadsheetWorksheet) instance).getModel())) {
 			return true;
 		}
-		else if (instance instanceof SpreadsheetRow && owns(((SpreadsheetRow) instance).getWorksheet()))
-		{
+		else if (instance instanceof SpreadsheetRow && owns(((SpreadsheetRow) instance).getWorksheet())) {
 			return true;
 		}
-		else if (instance instanceof SpreadsheetColumn && owns(((SpreadsheetColumn) instance).getWorksheet()))
-		{
+		else if (instance instanceof SpreadsheetColumn && owns(((SpreadsheetColumn) instance).getWorksheet())) {
 			return true;
 		}
-		else if (instance instanceof Collection<?>)
-		{
+		else if (instance instanceof Collection<?>) {
 			final Collection<?> collection = (Collection<?>) instance;
 			final Iterator<?> it = collection.iterator();
-			while (it.hasNext())
-			{
+			while (it.hasNext()) {
 				final boolean owns = this.owns(it.next());
-				if (!owns)
-				{
+				if (!owns) {
 					return false;
 				}
 			}
@@ -458,26 +404,22 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	}
 
 	@Override
-	public boolean hasType(final String type)
-	{
+	public boolean hasType(final String type) {
 		return this.getWorksheetByType(type) != null;
 	}
 
 	@Override
-	public boolean isInstantiable(final String type)
-	{
+	public boolean isInstantiable(final String type) {
 		return hasType(type);
 	}
 
 	@Override
-	public boolean store(final String location)
-	{
+	public boolean store(final String location) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean store()
-	{
+	public boolean store() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -488,14 +430,10 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	 * @param type
 	 * @return worksheet identifiable by type or null if none found
 	 */
-	public SpreadsheetWorksheet getWorksheetByType(final String type)
-	{
-		if (StringUtils.isNotBlank(type))
-		{
-			for (final SpreadsheetWorksheet worksheet : this.getWorksheets())
-			{
-				if (worksheet.isIdentifiablyBy(type))
-				{
+	public SpreadsheetWorksheet getWorksheetByType(final String type) {
+		if (StringUtils.isNotBlank(type)) {
+			for (final SpreadsheetWorksheet worksheet : this.getWorksheets()) {
+				if (worksheet.isIdentifiablyBy(type)) {
 					return worksheet;
 				}
 			}
@@ -504,18 +442,16 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	}
 
 	/**
-	 * The purpose of this method is to find all references where the given worksheet is a source i.e. is referencing.
+	 * The purpose of this method is to find all references where the given
+	 * worksheet is a source i.e. is referencing.
 	 * 
 	 * @param worksheet
 	 * @return Set<SpreadsheetReference>
 	 */
-	public Set<SpreadsheetReference> getReferencesBySource(final SpreadsheetWorksheet worksheet)
-	{
+	public Set<SpreadsheetReference> getReferencesBySource(final SpreadsheetWorksheet worksheet) {
 		final Set<SpreadsheetReference> references = new HashSet<>();
-		for (final SpreadsheetReference reference : this.getReferences())
-		{
-			if (reference.getReferencingWorksheet() == worksheet)
-			{
+		for (final SpreadsheetReference reference : this.getReferences()) {
+			if (reference.getReferencingWorksheet() == worksheet) {
 				references.add(reference);
 			}
 		}
@@ -523,21 +459,18 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	}
 
 	/**
-	 * The purpose of this method is to find all references where the given worksheet and column is a source i.e. are
-	 * referencing.
+	 * The purpose of this method is to find all references where the given
+	 * worksheet and column is a source i.e. are referencing.
 	 * 
 	 * @param worksheet
 	 * @param column
 	 * @return Set<SpreadsheetReference>
 	 */
 	public Set<SpreadsheetReference> getReferencesBySource(final SpreadsheetWorksheet worksheet,
-			final SpreadsheetColumn column)
-	{
+		final SpreadsheetColumn column) {
 		final Set<SpreadsheetReference> references = new HashSet<>();
-		for (final SpreadsheetReference reference : this.getReferencesBySource(worksheet))
-		{
-			if (reference.getReferencingColumn() == column)
-			{
+		for (final SpreadsheetReference reference : this.getReferencesBySource(worksheet)) {
+			if (reference.getReferencingColumn() == column) {
 				references.add(reference);
 			}
 		}
@@ -545,18 +478,16 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	}
 
 	/**
-	 * The purpose of this method is to find all references where the given worksheet is a target i.e. being referenced.
+	 * The purpose of this method is to find all references where the given
+	 * worksheet is a target i.e. being referenced.
 	 * 
 	 * @param worksheet
 	 * @return Set<SpreadsheetReference>
 	 */
-	public Set<SpreadsheetReference> getReferencesByTarget(final SpreadsheetWorksheet worksheet)
-	{
+	public Set<SpreadsheetReference> getReferencesByTarget(final SpreadsheetWorksheet worksheet) {
 		final Set<SpreadsheetReference> references = new HashSet<>();
-		for (final SpreadsheetReference reference : this.getReferences())
-		{
-			if (reference.getReferencedWorksheet() == worksheet)
-			{
+		for (final SpreadsheetReference reference : this.getReferences()) {
+			if (reference.getReferencedWorksheet() == worksheet) {
 				references.add(reference);
 			}
 		}
@@ -564,21 +495,18 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	}
 
 	/**
-	 * The purpose of this method is to find all references where the given worksheet and column is a target i.e. being
-	 * referenced.
+	 * The purpose of this method is to find all references where the given
+	 * worksheet and column is a target i.e. being referenced.
 	 * 
 	 * @param worksheet
 	 * @param column
 	 * @return Set<SpreadsheetReference>
 	 */
 	public Set<SpreadsheetReference> getReferencesByTarget(final SpreadsheetWorksheet worksheet,
-			final SpreadsheetColumn column)
-	{
+		final SpreadsheetColumn column) {
 		final Set<SpreadsheetReference> references = new HashSet<>();
-		for (final SpreadsheetReference reference : this.getReferencesByTarget(worksheet))
-		{
-			if (reference.getReferencedColumn() == column)
-			{
+		for (final SpreadsheetReference reference : this.getReferencesByTarget(worksheet)) {
+			if (reference.getReferencedColumn() == column) {
 				references.add(reference);
 			}
 		}
@@ -586,25 +514,24 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	}
 
 	@Override
-	public Object findOne(final Variable iterator, final ModuleElement ast, final IEolContext context) throws EolRuntimeException
-	{
+	public Object findOne(final Variable iterator, final ModuleElement ast, final IEolContext context)
+		throws EolRuntimeException {
 		final Collection<SpreadsheetRow> results = this.find(iterator, ast, context);
-		if (CollectionUtils.isNotEmpty(results))
-		{
+		if (CollectionUtils.isNotEmpty(results)) {
 			return results.iterator().next();
 		}
-		else
-		{
+		else {
 			return null;
 		}
 	}
 
 	@Override
 	public abstract Collection<SpreadsheetRow> find(Variable iterator, ModuleElement ast, IEolContext context)
-			throws EolRuntimeException;
+		throws EolRuntimeException;
 
 	/**
-	 * The purpose of this method is to delete the given worksheet from this spreadsheet
+	 * The purpose of this method is to delete the given worksheet from this
+	 * spreadsheet
 	 * 
 	 * @param worksheet
 	 */

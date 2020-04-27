@@ -11,11 +11,9 @@ package org.eclipse.epsilon.emc.spreadsheets;
 
 import org.eclipse.epsilon.emc.spreadsheets.SpreadsheetColumn;
 
-public class ConcreteColumn extends SpreadsheetColumn
-{
+public class ConcreteColumn extends SpreadsheetColumn {
 
-	public ConcreteColumn(SpreadsheetWorksheet worksheet, int index)
-	{
+	public ConcreteColumn(SpreadsheetWorksheet worksheet, int index) {
 		super(worksheet, index);
 		// TODO Auto-generated constructor stub
 	}

@@ -29,26 +29,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class CreateInstanceReferencingSheetNotDataTypeStrictTest
-{
+public class CreateInstanceReferencingSheetNotDataTypeStrictTest {
 	private static SpreadsheetModel model = null;
 
-	public CreateInstanceReferencingSheetNotDataTypeStrictTest(SpreadsheetModel model)
-	{
+	public CreateInstanceReferencingSheetNotDataTypeStrictTest(SpreadsheetModel model) {
 		CreateInstanceReferencingSheetNotDataTypeStrictTest.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToFile = "resources/instantiate/CreateInstanceTest.xlsx";
 		String pathToConfig = "resources/instantiate/CreateInstanceReferencingTestConfig.xml";
 		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "CreateInstanceTest");
 	}
 
 	@Test
-	public void testNotManyCells() throws Exception
-	{
+	public void testNotManyCells() throws Exception {
 		String worksheetName = "Sheet1";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -100,8 +96,7 @@ public class CreateInstanceReferencingSheetNotDataTypeStrictTest
 	}
 
 	@Test
-	public void testNotManyCellsMultipleRows() throws Exception
-	{
+	public void testNotManyCellsMultipleRows() throws Exception {
 		String worksheetName = "Sheet1";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -158,8 +153,7 @@ public class CreateInstanceReferencingSheetNotDataTypeStrictTest
 	}
 
 	@Test
-	public void testManyCells() throws Exception
-	{
+	public void testManyCells() throws Exception {
 		String worksheetName = "Sheet2";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -211,8 +205,7 @@ public class CreateInstanceReferencingSheetNotDataTypeStrictTest
 	}
 
 	@Test
-	public void testManyCellsMultipleRows() throws Exception
-	{
+	public void testManyCellsMultipleRows() throws Exception {
 		String worksheetName = "Sheet2";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -269,8 +262,7 @@ public class CreateInstanceReferencingSheetNotDataTypeStrictTest
 	}
 
 	@Test
-	public void testNotManyCellsFromManyCells() throws Exception
-	{
+	public void testNotManyCellsFromManyCells() throws Exception {
 		String worksheetName = "Sheet1";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -322,8 +314,7 @@ public class CreateInstanceReferencingSheetNotDataTypeStrictTest
 	}
 
 	@Test
-	public void testNotManyCellsMultipleRowsFromManyCells() throws Exception
-	{
+	public void testNotManyCellsMultipleRowsFromManyCells() throws Exception {
 		String worksheetName = "Sheet1";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -380,8 +371,7 @@ public class CreateInstanceReferencingSheetNotDataTypeStrictTest
 	}
 
 	@Test
-	public void testManyCellsFromManyCells() throws Exception
-	{
+	public void testManyCellsFromManyCells() throws Exception {
 		String worksheetName = "Sheet2";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -433,8 +423,7 @@ public class CreateInstanceReferencingSheetNotDataTypeStrictTest
 	}
 
 	@Test
-	public void testManyCellsMultipleRowsFromManyCells() throws Exception
-	{
+	public void testManyCellsMultipleRowsFromManyCells() throws Exception {
 		String worksheetName = "Sheet2";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);

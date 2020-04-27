@@ -27,26 +27,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class PlainTextCellPropertySetterTest
-{
+public class PlainTextCellPropertySetterTest {
 	private SpreadsheetModel model = null;
 
-	public PlainTextCellPropertySetterTest(SpreadsheetModel model)
-	{
+	public PlainTextCellPropertySetterTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String PATH_TO_FILE = "resources/propertysetter/PropertySetterTest.xlsx";
 		String CONFIG = "resources/propertysetter/PlainTextCellPropertySetterTest.xml";
 		return TestModelFactory.getModelsToTest("", PATH_TO_FILE, CONFIG, "PropertySetterTest");
 	}
 
 	@Test
-	public void testSetNotManyCellToNull() throws Exception
-	{
+	public void testSetNotManyCellToNull() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet1").getColumn("c_2");
@@ -68,8 +64,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetNotManyCellToEmpty() throws Exception
-	{
+	public void testSetNotManyCellToEmpty() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet1").getColumn("c_2");
@@ -89,8 +84,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetNotManyCellToSpace() throws Exception
-	{
+	public void testSetNotManyCellToSpace() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet1").getColumn("c_2");
@@ -110,8 +104,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetNotManyCellToValue() throws Exception
-	{
+	public void testSetNotManyCellToValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet1").getColumn("c_2");
@@ -131,8 +124,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetNotManyCellToSeparatedValues() throws Exception
-	{
+	public void testSetNotManyCellToSeparatedValues() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet1").getColumn("c_2");
@@ -152,8 +144,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetNotManyCellOfMultipleRowsToValue() throws Exception
-	{
+	public void testSetNotManyCellOfMultipleRowsToValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet1").getColumn("c_2");
@@ -180,8 +171,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetNotManyCellToNonInt() throws Exception
-	{
+	public void testSetNotManyCellToNonInt() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet2").getColumn("c_2");
@@ -201,8 +191,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetNotManyCellToOneNonIntValue() throws Exception
-	{
+	public void testSetNotManyCellToOneNonIntValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet2").getColumn("c_2");
@@ -222,8 +211,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetManyCellToNull() throws Exception
-	{
+	public void testSetManyCellToNull() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet1").getColumn("c_3");
@@ -245,8 +233,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetManyCellToEmpty() throws Exception
-	{
+	public void testSetManyCellToEmpty() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet1").getColumn("c_3");
@@ -266,8 +253,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetManyCellToSpace() throws Exception
-	{
+	public void testSetManyCellToSpace() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet1").getColumn("c_3");
@@ -287,8 +273,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetManyCellToValue() throws Exception
-	{
+	public void testSetManyCellToValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet1").getColumn("c_3");
@@ -308,8 +293,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetManyCellOfMultipleRowsToValue() throws Exception
-	{
+	public void testSetManyCellOfMultipleRowsToValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet1").getColumn("c_3");
@@ -336,8 +320,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetManyCellToSeparatedValues() throws Exception
-	{
+	public void testSetManyCellToSeparatedValues() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet1").getColumn("c_3");
@@ -357,8 +340,7 @@ public class PlainTextCellPropertySetterTest
 	}
 
 	@Test
-	public void testSetManyCellToNonInt() throws Exception
-	{
+	public void testSetManyCellToNonInt() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		SpreadsheetColumn column = model.getWorksheetByType("Sheet2").getColumn("c_3");

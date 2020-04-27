@@ -25,14 +25,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class represents a worksheet. Worksheets are assumed to be valid only if they have a name. A worksheet may or
- * may not exist in a spreadsheet (model) and this can be indicated through the constructor. If a worksheet does not
- * exist in the spreadsheet it is expected to be created the first time is is accessed.
+ * This class represents a worksheet. Worksheets are assumed to be valid only if
+ * they have a name. A worksheet may or may not exist in a spreadsheet (model)
+ * and this can be indicated through the constructor. If a worksheet does not
+ * exist in the spreadsheet it is expected to be created the first time is is
+ * accessed.
  * 
  * @author Martins Francis
  */
-public abstract class SpreadsheetWorksheet
-{
+public abstract class SpreadsheetWorksheet {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SpreadsheetWorksheet.class);
 
 	protected SpreadsheetModel model;
@@ -42,10 +43,8 @@ public abstract class SpreadsheetWorksheet
 	protected String alias;
 	protected boolean dataTypeStrict;
 
-	public SpreadsheetWorksheet(final SpreadsheetModel model, final String name, final boolean existsInSpreadsheet)
-	{
-		if (StringUtils.isBlank(name))
-		{
+	public SpreadsheetWorksheet(final SpreadsheetModel model, final String name, final boolean existsInSpreadsheet) {
+		if (StringUtils.isBlank(name)) {
 			String message = "Worksheet must have a name";
 			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
@@ -59,38 +58,31 @@ public abstract class SpreadsheetWorksheet
 		this.header = new SpreadsheetWorksheetHeader(this);
 	}
 
-	public SpreadsheetModel getModel()
-	{
+	public SpreadsheetModel getModel() {
 		return this.model;
 	}
 
-	public SpreadsheetWorksheetHeader getHeader()
-	{
+	public SpreadsheetWorksheetHeader getHeader() {
 		return this.header;
 	}
 
-	public boolean getExistsInSpreadsheet()
-	{
+	public boolean getExistsInSpreadsheet() {
 		return this.existsInSpreadsheet;
 	}
 
-	public boolean getDoesNotExistInSpreadsheet()
-	{
+	public boolean getDoesNotExistInSpreadsheet() {
 		return !this.existsInSpreadsheet;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return this.name;
 	}
 
-	public String getAlias()
-	{
+	public String getAlias() {
 		return this.alias;
 	}
 
-	public boolean isDataTypeStrict()
-	{
+	public boolean isDataTypeStrict() {
 		return this.dataTypeStrict;
 	}
 
@@ -100,10 +92,8 @@ public abstract class SpreadsheetWorksheet
 	 * @param identifier
 	 * @return true if identifier describes this worksheet
 	 */
-	public boolean isIdentifiablyBy(final String identifier)
-	{
-		if (StringUtils.isNotBlank(identifier))
-		{
+	public boolean isIdentifiablyBy(final String identifier) {
+		if (StringUtils.isNotBlank(identifier)) {
 			return this.getName().equals(identifier) || StringUtils.equals(this.getAlias(), identifier);
 		}
 		return false;
@@ -117,7 +107,8 @@ public abstract class SpreadsheetWorksheet
 	protected abstract void createInSpreadsheet();
 
 	/**
-	 * Loads header row information - index and name - from the spreadsheet if the worksheet exists in the spreadsheet
+	 * Loads header row information - index and name - from the spreadsheet if the
+	 * worksheet exists in the spreadsheet
 	 * 
 	 * @throws EolModelLoadingException
 	 */
@@ -129,21 +120,16 @@ public abstract class SpreadsheetWorksheet
 	 * @param metadata
 	 * @throws IllegalArgumentException
 	 */
-	protected void addWorksheetMetadata(final SpreadsheetWorksheetMetadata metadata) throws IllegalArgumentException
-	{
-		if (this.getName().equals(metadata.getName()))
-		{
-			if (StringUtils.isNotBlank(metadata.getAlias()))
-			{
+	protected void addWorksheetMetadata(final SpreadsheetWorksheetMetadata metadata) throws IllegalArgumentException {
+		if (this.getName().equals(metadata.getName())) {
+			if (StringUtils.isNotBlank(metadata.getAlias())) {
 				this.alias = metadata.getAlias();
 			}
-			if (StringUtils.isNotBlank(metadata.getDataTypeStrict()))
-			{
+			if (StringUtils.isNotBlank(metadata.getDataTypeStrict())) {
 				this.dataTypeStrict = Boolean.parseBoolean(metadata.getDataTypeStrict());
 			}
 		}
-		else
-		{
+		else {
 			final String message = "Incorrect metadata for worksheet '" + this.getName() + "'";
 			throw new IllegalArgumentException(message);
 		}
@@ -155,12 +141,9 @@ public abstract class SpreadsheetWorksheet
 	 * @param identifier
 	 * @return column with the given identifier
 	 */
-	public SpreadsheetColumn getColumn(final String identifier)
-	{
-		for (final SpreadsheetColumn column : this.getHeader().getColumns())
-		{
-			if (column.isIdentifiableBy(identifier))
-			{
+	public SpreadsheetColumn getColumn(final String identifier) {
+		for (final SpreadsheetColumn column : this.getHeader().getColumns()) {
+			if (column.isIdentifiableBy(identifier)) {
 				return column;
 			}
 		}
@@ -173,12 +156,9 @@ public abstract class SpreadsheetWorksheet
 	 * @param index
 	 * @return column with the given index
 	 */
-	public SpreadsheetColumn getColumn(final int index)
-	{
-		for (final SpreadsheetColumn column : this.getHeader().getColumns())
-		{
-			if (column.getIndex() == index)
-			{
+	public SpreadsheetColumn getColumn(final int index) {
+		for (final SpreadsheetColumn column : this.getHeader().getColumns()) {
+			if (column.getIndex() == index) {
 				return column;
 			}
 		}
@@ -192,46 +172,38 @@ public abstract class SpreadsheetWorksheet
 	 * @param name
 	 * @return SpreadsheetColumn
 	 */
-	public SpreadsheetColumn addColumn(final int index, final String name)
-	{
+	public SpreadsheetColumn addColumn(final int index, final String name) {
 		final SpreadsheetColumnMetadata metadata = new SpreadsheetColumnMetadata(Integer.toString(index), name);
 		return this.addColumn(metadata);
 	}
 
 	/**
-	 * Adds information about an existing header column to the worksheet. If the column described by the given metadata
-	 * does not exist the column is created.
+	 * Adds information about an existing header column to the worksheet. If the
+	 * column described by the given metadata does not exist the column is created.
 	 * 
 	 * @param metadata
 	 * @return SpreadsheetColumn
 	 */
-	public SpreadsheetColumn addColumn(final SpreadsheetColumnMetadata metadata)
-	{
+	public SpreadsheetColumn addColumn(final SpreadsheetColumnMetadata metadata) {
 		final SpreadsheetColumn column = this.findOrCreateColumn(metadata);
 		this.attachMetadataToColumn(column, metadata);
 		return column;
 	}
 
-	private SpreadsheetColumn findOrCreateColumn(final SpreadsheetColumnMetadata metadata)
-	{
+	private SpreadsheetColumn findOrCreateColumn(final SpreadsheetColumnMetadata metadata) {
 		SpreadsheetColumn column = null;
-		if (StringUtils.isNotBlank(metadata.getIndex()))
-		{
+		if (StringUtils.isNotBlank(metadata.getIndex())) {
 			column = this.getColumn(Integer.parseInt(metadata.getIndex()));
 		}
-		if (column == null && StringUtils.isNotBlank(metadata.getName()))
-		{
+		if (column == null && StringUtils.isNotBlank(metadata.getName())) {
 			column = this.getColumn(metadata.getName());
 		}
-		if (column == null)
-		{
-			if (StringUtils.isNotBlank(metadata.getIndex()))
-			{
+		if (column == null) {
+			if (StringUtils.isNotBlank(metadata.getIndex())) {
 				column = this.createColumn(Integer.parseInt(metadata.getIndex()));
 				this.header.addColumn(column);
 			}
-			else
-			{
+			else {
 				final String message = "Unable to construct column from metadata '" + metadata + "'";
 				throw new IllegalArgumentException(message);
 			}
@@ -239,43 +211,34 @@ public abstract class SpreadsheetWorksheet
 		return column;
 	}
 
-	private void attachMetadataToColumn(final SpreadsheetColumn column, final SpreadsheetColumnMetadata metadata)
-	{
-		if (StringUtils.isNotBlank(metadata.getName()))
-		{
-			if (metadata.getName().contains(SpreadsheetConstants.HEADER_NAME_SPLIT_CHARS))
-			{
+	private void attachMetadataToColumn(final SpreadsheetColumn column, final SpreadsheetColumnMetadata metadata) {
+		if (StringUtils.isNotBlank(metadata.getName())) {
+			if (metadata.getName().contains(SpreadsheetConstants.HEADER_NAME_SPLIT_CHARS)) {
 				column.setName(this.getValueBeforeDash(metadata.getName()));
 			}
-			else
-			{
+			else {
 				column.setName(metadata.getName());
 			}
 		}
 
-		if (StringUtils.isNotBlank(metadata.getAlias()))
-		{
+		if (StringUtils.isNotBlank(metadata.getAlias())) {
 			column.setAlias(metadata.getAlias());
 		}
 
 		column.setDataType(SpreadsheetDataType.convert(metadata.getDataType()));
 
-		if (StringUtils.isNotBlank(metadata.getMany()))
-		{
+		if (StringUtils.isNotBlank(metadata.getMany())) {
 			column.setMany(Boolean.parseBoolean(metadata.getMany()));
 		}
 
-		if (StringUtils.isNotBlank(metadata.getDelimiter()))
-		{
+		if (StringUtils.isNotBlank(metadata.getDelimiter())) {
 			column.setDelimiter(metadata.getDelimiter());
 		}
 	}
 
-	private String getValueBeforeDash(final String value)
-	{
+	private String getValueBeforeDash(final String value) {
 		final String[] splitValue = value.split(SpreadsheetConstants.HEADER_NAME_SPLIT_CHARS);
-		if (splitValue.length != 0 && StringUtils.isNotBlank(splitValue[0]))
-		{
+		if (splitValue.length != 0 && StringUtils.isNotBlank(splitValue[0])) {
 			return splitValue[0].trim();
 		}
 		return null;
@@ -297,27 +260,24 @@ public abstract class SpreadsheetWorksheet
 	public abstract List<SpreadsheetRow> getRows();
 
 	/**
-	 * Writes a row to the worksheet. The Map links column identifiers with desired cell values. Cells that do not have
-	 * a value provided will contain value returned by {@link #getDefaultEmptyCellValue()} or the default value for the
+	 * Writes a row to the worksheet. The Map links column identifiers with desired
+	 * cell values. Cells that do not have a value provided will contain value
+	 * returned by {@link #getDefaultEmptyCellValue()} or the default value for the
 	 * column's data type if worksheet is data type strict.
 	 * 
 	 * @param parameters
 	 * @return the newly written row
-	 * @throws IllegalArgumentException
-	 *             if a column identifier could not be mapped to a column in the worksheet
+	 * @throws IllegalArgumentException if a column identifier could not be mapped
+	 *                                  to a column in the worksheet
 	 */
-	public SpreadsheetRow addRow(final Map<String, Object> parameters)
-	{
+	public SpreadsheetRow addRow(final Map<String, Object> parameters) {
 		final Map<SpreadsheetColumn, Object> rowValues = new HashMap<>();
-		for (final Map.Entry<String, Object> entry : parameters.entrySet())
-		{
+		for (final Map.Entry<String, Object> entry : parameters.entrySet()) {
 			final SpreadsheetColumn column = this.header.getColumn(entry.getKey());
-			if (column != null)
-			{
+			if (column != null) {
 				rowValues.put(column, entry.getValue());
 			}
-			else
-			{
+			else {
 				final String message = String.format("Column id '%s' is unknown", entry.getKey());
 				LOGGER.error(message);
 				throw new IllegalArgumentException(message);
@@ -327,22 +287,20 @@ public abstract class SpreadsheetWorksheet
 	}
 
 	/**
-	 * Writes a row to the worksheet. The Map links columns with desired cell values. Cells that do not have a value
-	 * provided will contain value returned by {@link #getDefaultEmptyCellValue()} or the default value for the column's
+	 * Writes a row to the worksheet. The Map links columns with desired cell
+	 * values. Cells that do not have a value provided will contain value returned
+	 * by {@link #getDefaultEmptyCellValue()} or the default value for the column's
 	 * data type if worksheet is data type strict.
 	 * 
 	 * @param parameters
 	 * @return the newly written row
 	 */
-	public SpreadsheetRow addRowWithValuesInColumns(final Map<SpreadsheetColumn, Object> parameters)
-	{
+	public SpreadsheetRow addRowWithValuesInColumns(final Map<SpreadsheetColumn, Object> parameters) {
 		final Map<SpreadsheetColumn, String> values = this.getValuesForEmptyRow();
-		for (final Map.Entry<SpreadsheetColumn, Object> entry : parameters.entrySet())
-		{
+		for (final Map.Entry<SpreadsheetColumn, Object> entry : parameters.entrySet()) {
 			Object value = entry.getValue();
 			final boolean columnIsReferencing = this.model.getReferencesBySource(this, entry.getKey()).size() > 0;
-			if (columnIsReferencing)
-			{
+			if (columnIsReferencing) {
 				value = this.getValueToWriteToReferencingCell(entry.getKey(), value);
 			}
 			value = this.getValueToWriteToCell(entry.getKey(), value);
@@ -353,19 +311,16 @@ public abstract class SpreadsheetWorksheet
 	}
 
 	/**
-	 * The purpose of this method is to return a map where each column of this worksheet is associated with its default
-	 * value.
+	 * The purpose of this method is to return a map where each column of this
+	 * worksheet is associated with its default value.
 	 * 
 	 * @return Map<SpreadsheetColumn, String>
 	 */
-	public Map<SpreadsheetColumn, String> getValuesForEmptyRow()
-	{
+	public Map<SpreadsheetColumn, String> getValuesForEmptyRow() {
 		final Map<SpreadsheetColumn, String> row = new HashMap<>();
-		for (final SpreadsheetColumn column : this.getHeader().getColumns())
-		{
+		for (final SpreadsheetColumn column : this.getHeader().getColumns()) {
 			String value = this.getDefaultEmptyCellValue();
-			if (this.isDataTypeStrict())
-			{
+			if (this.isDataTypeStrict()) {
 				value = SpreadsheetDataType.getDefaultDTValue(column.getDataType());
 			}
 			row.put(column, value);
@@ -374,8 +329,9 @@ public abstract class SpreadsheetWorksheet
 	}
 
 	/**
-	 * This method returns the default value to be written to a cell when a new empty row is created in a worksheet that
-	 * is not enforcing data type strictness.
+	 * This method returns the default value to be written to a cell when a new
+	 * empty row is created in a worksheet that is not enforcing data type
+	 * strictness.
 	 * 
 	 * @return String
 	 */
@@ -388,32 +344,26 @@ public abstract class SpreadsheetWorksheet
 	 * @param value
 	 * @return list of values to write
 	 */
-	private List<String> getValueToWriteToReferencingCell(final SpreadsheetColumn column, final Object value)
-	{
+	private List<String> getValueToWriteToReferencingCell(final SpreadsheetColumn column, final Object value) {
 		final List<SpreadsheetRow> rows = SpreadsheetUtils.extractAllRowsFromObject(value);
-		if (CollectionUtils.isEmpty(rows))
-		{
+		if (CollectionUtils.isEmpty(rows)) {
 			final String message = "At least one row must be provided when writing to a referencing cell";
 			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
 		}
 
 		final List<String> valuesToWrite = new ArrayList<>();
-		for (final SpreadsheetRow row : rows)
-		{
+		for (final SpreadsheetRow row : rows) {
 			final Set<SpreadsheetReference> references = this.model.getReferencesBySource(this, column);
-			for (final SpreadsheetReference reference : references)
-			{
+			for (final SpreadsheetReference reference : references) {
 				final boolean thisRowIsBeingReferenced = reference.getReferencedWorksheet() == row.getWorksheet();
-				if (thisRowIsBeingReferenced)
-				{
+				if (thisRowIsBeingReferenced) {
 					valuesToWrite.addAll(row.getAllVisibleCellValuesAsIs(reference.getReferencedColumn()));
 				}
 			}
 		}
 
-		if (column.isNotMany() && CollectionUtils.isNotEmpty(valuesToWrite))
-		{
+		if (column.isNotMany() && CollectionUtils.isNotEmpty(valuesToWrite)) {
 			final String oneValueToWrite = valuesToWrite.get(0);
 			valuesToWrite.clear();
 			valuesToWrite.add(oneValueToWrite);
@@ -423,46 +373,39 @@ public abstract class SpreadsheetWorksheet
 	}
 
 	/**
-	 * This method parses the given value and prepares it to be written to the given column.
+	 * This method parses the given value and prepares it to be written to the given
+	 * column.
 	 * 
 	 * @param column
 	 * @param value
 	 * @return the value to be written to the column
 	 */
-	private String getValueToWriteToCell(final SpreadsheetColumn column, final Object inputValue)
-	{
+	private String getValueToWriteToCell(final SpreadsheetColumn column, final Object inputValue) {
 		final StringBuilder valueToWrite = new StringBuilder();
 		final String value = this.convertObjectToString(column, inputValue);
-		if (column.isMany() && this.isDataTypeStrict())
-		{
-			for (final String splitValue : value.split(column.getDelimiter()))
-			{
+		if (column.isMany() && this.isDataTypeStrict()) {
+			for (final String splitValue : value.split(column.getDelimiter())) {
 				final Object castValue = SpreadsheetDataType.castColumnValue(column.getDataType(), splitValue.trim());
 				valueToWrite.append(castValue);
 				valueToWrite.append(column.getDelimiter());
 			}
 			SpreadsheetUtils.removeLast(valueToWrite, column.getDelimiter());
 		}
-		else if (this.isDataTypeStrict())
-		{
+		else if (this.isDataTypeStrict()) {
 			final Object castValue = SpreadsheetDataType.castColumnValue(column.getDataType(), value.trim());
 			valueToWrite.append(castValue);
 		}
-		else
-		{
+		else {
 			valueToWrite.append(value);
 		}
 		return valueToWrite.toString();
 	}
 
-	private String convertObjectToString(final SpreadsheetColumn column, final Object inputValue)
-	{
-		if (inputValue instanceof Iterable)
-		{
+	private String convertObjectToString(final SpreadsheetColumn column, final Object inputValue) {
+		if (inputValue instanceof Iterable) {
 			return StringUtils.join((Iterable<?>) inputValue, column.getDelimiter());
 		}
-		else
-		{
+		else {
 			return String.valueOf(inputValue);
 		}
 	}
@@ -476,34 +419,30 @@ public abstract class SpreadsheetWorksheet
 	protected abstract SpreadsheetRow insertRow(Map<SpreadsheetColumn, String> values);
 
 	/**
-	 * Deletes the given row from the worksheet. This method handles deletions of referencing rows, referenced rows and
-	 * regular rows. It also takes care of cascading updates if specified to do so.
+	 * Deletes the given row from the worksheet. This method handles deletions of
+	 * referencing rows, referenced rows and regular rows. It also takes care of
+	 * cascading updates if specified to do so.
 	 * 
 	 * @param row
 	 * @throws EolRuntimeException
 	 */
-	public void deleteRow(final SpreadsheetRow row) throws EolRuntimeException
-	{
+	public void deleteRow(final SpreadsheetRow row) throws EolRuntimeException {
 		LOGGER.debug("Deleting row");
 		final boolean rowBelongsToThisWorksheet = row.getWorksheet() == this;
-		if (rowBelongsToThisWorksheet)
-		{
+		if (rowBelongsToThisWorksheet) {
 			final boolean worksheetIsReferenced = CollectionUtils.isNotEmpty(this.model.getReferencesByTarget(this));
-			if (worksheetIsReferenced)
-			{
+			if (worksheetIsReferenced) {
 				final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(this.model);
-				for (final SpreadsheetReference reference : this.model.getReferencesByTarget(this))
-				{
-					if (reference.isCascadingUpdates())
-					{
-						setter.editReferencedCell(row, reference.getReferencedColumn(), this.getDefaultEmptyCellValue());
+				for (final SpreadsheetReference reference : this.model.getReferencesByTarget(this)) {
+					if (reference.isCascadingUpdates()) {
+						setter.editReferencedCell(row, reference.getReferencedColumn(),
+							this.getDefaultEmptyCellValue());
 					}
 				}
 			}
 			this.removeRow(row);
 		}
-		else
-		{
+		else {
 			final String message = "Row " + row + " does not belong to worksheet " + this;
 			LOGGER.error(message);
 			throw new EolRuntimeException(message);
@@ -519,25 +458,23 @@ public abstract class SpreadsheetWorksheet
 	public abstract void removeRow(SpreadsheetRow row);
 
 	/**
-	 * Finds all rows in the worksheet whose cell, corresponding to the given column, has the provided value. By 'has'
-	 * it means that if the cell may contain multiple values then if one of those values match the search value then the
-	 * row is returned. If the cell may not contain multiple values the cell's value must be an exact match to the
-	 * search value.
+	 * Finds all rows in the worksheet whose cell, corresponding to the given
+	 * column, has the provided value. By 'has' it means that if the cell may
+	 * contain multiple values then if one of those values match the search value
+	 * then the row is returned. If the cell may not contain multiple values the
+	 * cell's value must be an exact match to the search value.
 	 * 
 	 * @param column
 	 * @param value
 	 * @return List of rows whose cell contains value
 	 */
-	public List<SpreadsheetRow> findRows(final SpreadsheetColumn column, final String value)
-	{
+	public List<SpreadsheetRow> findRows(final SpreadsheetColumn column, final String value) {
 		this.checkThatWorksheetExists();
 
 		final List<SpreadsheetRow> rows = new ArrayList<>();
-		for (final SpreadsheetRow row : this.getRows())
-		{
+		for (final SpreadsheetRow row : this.getRows()) {
 			final List<String> cellValues = row.getAllVisibleCellValues(column);
-			if (cellValues.contains(value.trim()))
-			{
+			if (cellValues.contains(value.trim())) {
 				rows.add(row);
 			}
 		}
@@ -547,37 +484,30 @@ public abstract class SpreadsheetWorksheet
 	/**
 	 * This method checks if this worksheet exists in the spreadsheet.
 	 * 
-	 * @throws IllegalStateException
-	 *             if worksheet does not exist
+	 * @throws IllegalStateException if worksheet does not exist
 	 */
-	protected void checkThatWorksheetExists() throws IllegalStateException
-	{
-		if (this.getDoesNotExistInSpreadsheet())
-		{
+	protected void checkThatWorksheetExists() throws IllegalStateException {
+		if (this.getDoesNotExistInSpreadsheet()) {
 			final String message = this.getNonexistentWorksheetMessage();
 			LOGGER.error(message);
 			throw new IllegalStateException(message);
 		}
 	}
 
-	protected String getNonexistentWorksheetMessage()
-	{
+	protected String getNonexistentWorksheetMessage() {
 		return String.format("Worksheet '%s' does not exist in spreadsheet '%s'", this.getName(), this.model.getName());
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer stringObject = new StringBuffer("\n" + this.getName());
 		stringObject.append(" [");
-		if (StringUtils.isNotEmpty(this.getAlias()))
-		{
+		if (StringUtils.isNotEmpty(this.getAlias())) {
 			stringObject.append("alias='" + this.getAlias() + "', ");
 		}
 		stringObject.append("existsInSpreadsheet='" + this.existsInSpreadsheet + "' ");
 		stringObject.append("dataTypeStrict='" + this.dataTypeStrict + "' ");
-		for (final SpreadsheetColumn column : this.getHeader().getColumns())
-		{
+		for (final SpreadsheetColumn column : this.getHeader().getColumns()) {
 			stringObject.append(column.toString());
 		}
 		stringObject.append("]\n");

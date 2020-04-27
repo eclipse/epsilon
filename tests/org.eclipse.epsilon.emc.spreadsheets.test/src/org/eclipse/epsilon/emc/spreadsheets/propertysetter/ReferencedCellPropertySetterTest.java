@@ -24,26 +24,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class ReferencedCellPropertySetterTest
-{
+public class ReferencedCellPropertySetterTest {
 	private SpreadsheetModel model = null;
 
-	public ReferencedCellPropertySetterTest(SpreadsheetModel model)
-	{
+	public ReferencedCellPropertySetterTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String PATH_TO_FILE = "resources/propertysetter/PropertySetterTest.xlsx";
 		String CONFIG = "resources/propertysetter/ReferencedCellPropertySetterTest.xml";
 		return TestModelFactory.getModelsToTest("", PATH_TO_FILE, CONFIG, "PropertySetterTest");
 	}
 
 	@Test
-	public void testNotMany_SetToNull() throws Exception
-	{
+	public void testNotMany_SetToNull() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -73,8 +69,7 @@ public class ReferencedCellPropertySetterTest
 	}
 
 	@Test
-	public void testNotMany_SetToEmpty() throws Exception
-	{
+	public void testNotMany_SetToEmpty() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -106,8 +101,7 @@ public class ReferencedCellPropertySetterTest
 	}
 
 	@Test
-	public void testNotMany_SetToSpace() throws Exception
-	{
+	public void testNotMany_SetToSpace() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -139,8 +133,7 @@ public class ReferencedCellPropertySetterTest
 	}
 
 	@Test
-	public void testNotMany() throws Exception
-	{
+	public void testNotMany() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -172,8 +165,7 @@ public class ReferencedCellPropertySetterTest
 	}
 
 	@Test
-	public void testMany_SetToNull() throws Exception
-	{
+	public void testMany_SetToNull() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -202,8 +194,7 @@ public class ReferencedCellPropertySetterTest
 	}
 
 	@Test
-	public void testMany_SetToEmpty() throws Exception
-	{
+	public void testMany_SetToEmpty() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -235,8 +226,7 @@ public class ReferencedCellPropertySetterTest
 	}
 
 	@Test
-	public void testMany_SetToSpace() throws Exception
-	{
+	public void testMany_SetToSpace() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -268,8 +258,7 @@ public class ReferencedCellPropertySetterTest
 	}
 
 	@Test
-	public void testMany_SetToSingleValue() throws Exception
-	{
+	public void testMany_SetToSingleValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -301,8 +290,7 @@ public class ReferencedCellPropertySetterTest
 	}
 
 	@Test
-	public void testMany_SetToMultipleValues() throws Exception
-	{
+	public void testMany_SetToMultipleValues() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 

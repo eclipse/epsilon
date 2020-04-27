@@ -22,13 +22,11 @@ import org.easymock.IMocksControl;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.Test;
 
-public class SpreadsheetPropertySetterTest
-{
+public class SpreadsheetPropertySetterTest {
 	IMocksControl control = EasyMock.createControl();
 
 	@Test
-	public void testEditNull() throws EolRuntimeException
-	{
+	public void testEditNull() throws EolRuntimeException {
 		SpreadsheetRow row = null;
 		final String columnName = "COLUMN";
 		final String value = "VALUE";
@@ -42,20 +40,17 @@ public class SpreadsheetPropertySetterTest
 		setter.setObject(row);
 		setter.setProperty(columnName);
 
-		try
-		{
+		try {
 			setter.invoke(value);
 			fail();
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			assertTrue(true); // exception from JavaPropertySetter
 		}
 	}
 
 	@Test
-	public void testSettingToNull() throws EolRuntimeException
-	{
+	public void testSettingToNull() throws EolRuntimeException {
 		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
 		final String columnName = "COLUMN";
 		final String value = null;
@@ -80,8 +75,7 @@ public class SpreadsheetPropertySetterTest
 	}
 
 	@Test
-	public void testColumnNull() throws EolRuntimeException
-	{
+	public void testColumnNull() throws EolRuntimeException {
 		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
 		final String columnName = null;
 		final String value = null;
@@ -97,20 +91,17 @@ public class SpreadsheetPropertySetterTest
 		setter.setObject(row);
 		setter.setProperty(columnName);
 
-		try
-		{
+		try {
 			setter.invoke(value);
 			fail();
 		}
-		catch (EolRuntimeException e)
-		{
+		catch (EolRuntimeException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testColumnNotMany() throws EolRuntimeException
-	{
+	public void testColumnNotMany() throws EolRuntimeException {
 		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
 		final String columnName = "COLUMN";
 		final String value = "VALUE";
@@ -134,8 +125,7 @@ public class SpreadsheetPropertySetterTest
 	}
 
 	@Test
-	public void testColumnMany() throws EolRuntimeException
-	{
+	public void testColumnMany() throws EolRuntimeException {
 		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
 		final String columnName = "COLUMN";
 		final String value = "VALUE";
@@ -160,8 +150,7 @@ public class SpreadsheetPropertySetterTest
 	}
 
 	@Test
-	public void testEditReferencingCellWithoutRow() throws EolRuntimeException
-	{
+	public void testEditReferencingCellWithoutRow() throws EolRuntimeException {
 		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
 		final String columnName = "COLUMN";
 		final String value = "VALUE";
@@ -183,20 +172,17 @@ public class SpreadsheetPropertySetterTest
 		setter.setObject(row);
 		setter.setProperty(columnName);
 
-		try
-		{
+		try {
 			setter.invoke(value);
 			fail();
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testEditReferencingCellWithRow() throws EolRuntimeException
-	{
+	public void testEditReferencingCellWithRow() throws EolRuntimeException {
 		SpreadsheetRow row = control.createMock(SpreadsheetRow.class);
 		final String columnName = "COLUMN";
 		SpreadsheetRow valueRow = control.createMock(SpreadsheetRow.class);

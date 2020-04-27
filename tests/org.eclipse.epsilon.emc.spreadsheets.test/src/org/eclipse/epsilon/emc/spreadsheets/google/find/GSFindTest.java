@@ -31,33 +31,27 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class GSFindTest
-{
+public class GSFindTest {
 	private static SpreadsheetModel model = null;
 
-	public GSFindTest(SpreadsheetModel model)
-	{
+	public GSFindTest(SpreadsheetModel model) {
 		GSFindTest.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToConfig = "resources/find/GSFindTestConfig.xml";
 		SpreadsheetModel gsModel = TestModelFactory.getGSModel("FindTest", pathToConfig, "MODEL");
-		if (gsModel != null)
-		{
+		if (gsModel != null) {
 			return Arrays.asList(new Object[][] { { gsModel } });
 		}
-		else
-		{
+		else {
 			return Arrays.asList(new Object[][] {});
 		}
 	}
 
 	@Test
-	public void testFindValues() throws Exception
-	{
+	public void testFindValues() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		assertTrue(model.getAllOfType("Sheet1").size() == 0);
 
@@ -86,8 +80,7 @@ public class GSFindTest
 	}
 
 	@Test
-	public void testFindInManyValues() throws Exception
-	{
+	public void testFindInManyValues() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		assertTrue(model.getAllOfType("Sheet1").size() == 0);
 
@@ -112,76 +105,63 @@ public class GSFindTest
 	}
 
 	@Test
-	public void testFindInUnknownWorksheet() throws Exception
-	{
-		try
-		{
+	public void testFindInUnknownWorksheet() throws Exception {
+		try {
 			final EolModule module = new EolModule();
 			module.parse("return MODEL.find(s : UnknownSheet | s.c_0='value');");
 			module.getContext().getModelRepository().addModel(model);
 			module.execute();
 			fail();
 		}
-		catch (EolRuntimeException e)
-		{
+		catch (EolRuntimeException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testInvalidFindFormatMissingSheetIdFromColumn() throws Exception
-	{
-		try
-		{
+	public void testInvalidFindFormatMissingSheetIdFromColumn() throws Exception {
+		try {
 			final EolModule module = new EolModule();
 			module.parse("return MODEL.find(s : Sheet1 | c_0='value');");
 			module.getContext().getModelRepository().addModel(model);
 			module.execute();
 			fail();
 		}
-		catch (EolRuntimeException e)
-		{
+		catch (EolRuntimeException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testUnknownColumn() throws Exception
-	{
-		try
-		{
+	public void testUnknownColumn() throws Exception {
+		try {
 			final EolModule module = new EolModule();
 			module.parse("return MODEL.find(s : Sheet1 | s.unknwonColumn='value');");
 			module.getContext().getModelRepository().addModel(model);
 			module.execute();
 			fail();
 		}
-		catch (EolRuntimeException e)
-		{
+		catch (EolRuntimeException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testDoubleColumn() throws Exception
-	{
-		try
-		{
+	public void testDoubleColumn() throws Exception {
+		try {
 			final EolModule module = new EolModule();
 			module.parse("return MODEL.find(s : Sheet1 | s.c_0.c_0='value');");
 			module.getContext().getModelRepository().addModel(model);
 			module.execute();
 			fail();
 		}
-		catch (EolRuntimeException e)
-		{
+		catch (EolRuntimeException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testFindMultipleValues() throws Exception
-	{
+	public void testFindMultipleValues() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		assertTrue(model.getAllOfType("Sheet1").size() == 0);
 
@@ -211,8 +191,7 @@ public class GSFindTest
 	}
 
 	@Test
-	public void testFindMultipleValuesInMultipleCells() throws Exception
-	{
+	public void testFindMultipleValuesInMultipleCells() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		assertTrue(model.getAllOfType("Sheet1").size() == 0);
 

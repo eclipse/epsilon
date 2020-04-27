@@ -25,33 +25,27 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class LoadExistingWorksheetTest
-{
+public class LoadExistingWorksheetTest {
 	private static SpreadsheetModel model = null;
 
-	public LoadExistingWorksheetTest(SpreadsheetModel model)
-	{
+	public LoadExistingWorksheetTest(SpreadsheetModel model) {
 		LoadExistingWorksheetTest.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String CONFIG = "resources/google/LoadExistingWorksheetTest.xml";
 		SpreadsheetModel gsModel = TestModelFactory.getGSModel("ReadTest", CONFIG, "");
-		if (gsModel != null)
-		{
+		if (gsModel != null) {
 			return Arrays.asList(new Object[][] { { gsModel } });
 		}
-		else
-		{
+		else {
 			return Arrays.asList(new Object[][] {});
 		}
 	}
 
 	@Test
-	public void testLoadWorksheetsWithBlankHeader() throws Exception
-	{
+	public void testLoadWorksheetsWithBlankHeader() throws Exception {
 		SpreadsheetWorksheetHeader header1 = model.getWorksheetByType("Sheet1").getHeader();
 		assertTrue(header1.getColumn("c_0").getName().equals(GSConstants.DEFAULT_COLUMN_VALUE));
 		assertTrue(header1.getColumn("c_1").getName() == null);
@@ -66,8 +60,7 @@ public class LoadExistingWorksheetTest
 	}
 
 	@Test
-	public void testLoadWorksheetsWithPartialHeader() throws Exception
-	{
+	public void testLoadWorksheetsWithPartialHeader() throws Exception {
 		SpreadsheetWorksheetHeader header3 = model.getWorksheetByType("Sheet3").getHeader();
 		assertTrue(header3.getColumn("c_0").getName().equals("column1"));
 		assertTrue(header3.getColumn("c_1").getName().equals("column2"));
@@ -76,10 +69,8 @@ public class LoadExistingWorksheetTest
 	}
 
 	@AfterClass
-	public static void tearDown() throws Exception
-	{
-		if (model != null)
-		{
+	public static void tearDown() throws Exception {
+		if (model != null) {
 			GSWorksheet sheet1 = (GSWorksheet) model.getWorksheetByType("Sheet1");
 			sheet1.writeHeaderCell(1, "");
 			sheet1.writeHeaderCell(2, "");

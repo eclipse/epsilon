@@ -14,13 +14,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class represents a column of a worksheet. Each column must belong to a worksheet and have a known, valid index.
- * A valid index is greater than returned by {@link SpreadsheetWorksheet#getColumnStartingIndex()}.
+ * This class represents a column of a worksheet. Each column must belong to a
+ * worksheet and have a known, valid index. A valid index is greater than
+ * returned by {@link SpreadsheetWorksheet#getColumnStartingIndex()}.
  * 
  * @author Martins Francis
  */
-public abstract class SpreadsheetColumn
-{
+public abstract class SpreadsheetColumn {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SpreadsheetColumn.class);
 
 	protected SpreadsheetWorksheet worksheet;
@@ -31,8 +31,7 @@ public abstract class SpreadsheetColumn
 	protected boolean many;
 	protected String delimiter;
 
-	public SpreadsheetColumn(final SpreadsheetWorksheet worksheet, final int index)
-	{
+	public SpreadsheetColumn(final SpreadsheetWorksheet worksheet, final int index) {
 		this.validateConstructorArguments(worksheet, index);
 
 		this.worksheet = worksheet;
@@ -45,26 +44,23 @@ public abstract class SpreadsheetColumn
 	}
 
 	/**
-	 * This method ensures 1) given worksheet is not null 2) index is less than value returned by
-	 * {@link SpreadsheetWorksheet#getColumnStartingIndex()} - otherwise an IllegalArgumentException is thrown.
+	 * This method ensures 1) given worksheet is not null 2) index is less than
+	 * value returned by {@link SpreadsheetWorksheet#getColumnStartingIndex()} -
+	 * otherwise an IllegalArgumentException is thrown.
 	 * 
 	 * @param worksheet
 	 * @param index
 	 */
-	protected void validateConstructorArguments(final SpreadsheetWorksheet worksheet, final int index)
-	{
+	protected void validateConstructorArguments(final SpreadsheetWorksheet worksheet, final int index) {
 		String message = null;
-		if (worksheet == null)
-		{
+		if (worksheet == null) {
 			message = "A column must belong to a worksheet";
 		}
-		else if (index < 0)
-		{
+		else if (index < 0) {
 			message = String.format("Indexing starts with 1 - received %d", index);
 		}
 
-		if (message != null)
-		{
+		if (message != null) {
 			LOGGER.error(message);
 			throw new IllegalArgumentException(message);
 		}
@@ -73,110 +69,94 @@ public abstract class SpreadsheetColumn
 	/**
 	 * @return the worksheet this column belongs to
 	 */
-	public SpreadsheetWorksheet getWorksheet()
-	{
+	public SpreadsheetWorksheet getWorksheet() {
 		return this.worksheet;
 	}
 
 	/**
 	 * @return the index of the column
 	 */
-	public int getIndex()
-	{
+	public int getIndex() {
 		return this.index;
 	}
 
 	/**
 	 * @return the name of the column
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return this.name;
 	}
 
 	/**
 	 * @return the alias of the column
 	 */
-	public String getAlias()
-	{
+	public String getAlias() {
 		return this.alias;
 	}
 
 	/**
 	 * @return the data type of the column
 	 */
-	public SpreadsheetDataType getDataType()
-	{
+	public SpreadsheetDataType getDataType() {
 		return this.dataType;
 	}
 
 	/**
-	 * @return the multiplicity of the column i.e. whether it may contain multiple delimiter-separated values
+	 * @return the multiplicity of the column i.e. whether it may contain multiple
+	 *         delimiter-separated values
 	 */
-	public boolean isMany()
-	{
+	public boolean isMany() {
 		return this.many;
 	}
 
 	/**
 	 * @return true if this column may not store multiple values in a single cell
 	 */
-	public boolean isNotMany()
-	{
+	public boolean isNotMany() {
 		return !this.isMany();
 	}
 
 	/**
-	 * @return the delimiter used for separating the individual cell values. This is useful if a column may contain
-	 *         multiple values
+	 * @return the delimiter used for separating the individual cell values. This is
+	 *         useful if a column may contain multiple values
 	 */
-	public String getDelimiter()
-	{
+	public String getDelimiter() {
 		return this.delimiter;
 	}
 
 	/**
-	 * @param name
-	 *            the name of the column
+	 * @param name the name of the column
 	 */
-	public void setName(final String name)
-	{
+	public void setName(final String name) {
 		this.name = name;
 	}
 
 	/**
-	 * @param alias
-	 *            the alias of the column
+	 * @param alias the alias of the column
 	 */
-	public void setAlias(final String alias)
-	{
+	public void setAlias(final String alias) {
 		this.alias = alias;
 	}
 
 	/**
-	 * @param dataType
-	 *            the data type of the column
+	 * @param dataType the data type of the column
 	 */
-	public void setDataType(final SpreadsheetDataType dataType)
-	{
+	public void setDataType(final SpreadsheetDataType dataType) {
 		this.dataType = dataType;
 	}
 
 	/**
-	 * @param many
-	 *            the multiplicity of the column
+	 * @param many the multiplicity of the column
 	 */
-	public void setMany(final boolean many)
-	{
+	public void setMany(final boolean many) {
 		this.many = many;
 	}
 
 	/**
-	 * @param delimiter
-	 *            the delimiter used for separating the values stored in individual cells of the column
+	 * @param delimiter the delimiter used for separating the values stored in
+	 *                  individual cells of the column
 	 */
-	public void setDelimiter(final String delimiter)
-	{
+	public void setDelimiter(final String delimiter) {
 		this.delimiter = delimiter;
 	}
 
@@ -186,39 +166,36 @@ public abstract class SpreadsheetColumn
 	 * @param identifier
 	 * @return true if column can be identified by the identifier, false otherwise
 	 */
-	public boolean isIdentifiableBy(final String identifier)
-	{
-		if (identifier != null)
-		{
+	public boolean isIdentifiableBy(final String identifier) {
+		if (identifier != null) {
 			return StringUtils.equals(this.name, identifier) || StringUtils.equals(this.alias, identifier)
-					|| this.isValidIndex(identifier);
+				|| this.isValidIndex(identifier);
 		}
 		return false;
 	}
 
 	/**
-	 * This method returns the index of this column prefixed by SpreadsheetConstants.PREFIX_COLUMN.
+	 * This method returns the index of this column prefixed by
+	 * SpreadsheetConstants.PREFIX_COLUMN.
 	 * 
 	 * @return prefixed index
 	 */
-	public String getPrefixedIndex()
-	{
+	public String getPrefixedIndex() {
 		return SpreadsheetConstants.PREFIX_COLUMN + Integer.toString(this.index);
 	}
 
 	/**
-	 * This method checks if the index embedded within the provided prefixed column index is equal to the index of this
-	 * column i.e. it will always return true if identifier is equal to the output of getPrefixedIndex().
+	 * This method checks if the index embedded within the provided prefixed column
+	 * index is equal to the index of this column i.e. it will always return true if
+	 * identifier is equal to the output of getPrefixedIndex().
 	 * 
 	 * @param identifier
 	 * @return true if index of the column equals the embedded index
 	 */
-	public boolean isValidIndex(final String identifier)
-	{
+	public boolean isValidIndex(final String identifier) {
 		final boolean identifierIsPrefixed = StringUtils.isNotBlank(identifier)
-				&& identifier.startsWith(SpreadsheetConstants.PREFIX_COLUMN);
-		if (identifierIsPrefixed)
-		{
+			&& identifier.startsWith(SpreadsheetConstants.PREFIX_COLUMN);
+		if (identifierIsPrefixed) {
 			final int lengthOfPrefix = SpreadsheetConstants.PREFIX_COLUMN.length();
 			final int extractedIndex = Integer.parseInt(identifier.substring(lengthOfPrefix));
 			return this.index == extractedIndex;
@@ -227,40 +204,33 @@ public abstract class SpreadsheetColumn
 	}
 
 	/**
-	 * @return an identifier of the column. If name is set then it is returned, otherwise if alias is set then it is
-	 *         returned. If neither is set then prefixed column index is returned
+	 * @return an identifier of the column. If name is set then it is returned,
+	 *         otherwise if alias is set then it is returned. If neither is set then
+	 *         prefixed column index is returned
 	 */
-	public String getIdentifier()
-	{
-		if (this.name != null)
-		{
+	public String getIdentifier() {
+		if (this.name != null) {
 			return this.name;
 		}
-		else if (this.alias != null)
-		{
+		else if (this.alias != null) {
 			return this.alias;
 		}
-		else
-		{
+		else {
 			return this.getPrefixedIndex();
 		}
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		String ret = "SpreadsheetColumn (" + Integer.toString(this.index) + "): [worksheet='" + worksheet.getName()
-				+ "', ";
-		if (this.name != null)
-		{
+			+ "', ";
+		if (this.name != null) {
 			ret += "name='" + this.name + "', ";
 		}
-		if (this.alias != null)
-		{
+		if (this.alias != null) {
 			ret += "alias='" + this.alias + "', ";
 		}
-		if (this.dataType != null)
-		{
+		if (this.dataType != null) {
 			ret += "dataType='" + SpreadsheetDataType.formatAsString(this.dataType) + "', ";
 		}
 		ret += "many='" + Boolean.toString(many) + "', ";

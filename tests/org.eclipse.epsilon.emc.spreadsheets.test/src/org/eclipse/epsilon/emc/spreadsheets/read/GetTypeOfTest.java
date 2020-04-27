@@ -23,26 +23,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class GetTypeOfTest
-{
+public class GetTypeOfTest {
 	private SpreadsheetModel model = null;
 
-	public GetTypeOfTest(SpreadsheetModel model)
-	{
+	public GetTypeOfTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToFile = "resources/read/ReadTest.xlsx";
 		String pathToConfig = "resources/read/ReadTestConfig.xml";
 		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "ReadTest");
 	}
 
 	@Test
-	public void testGetTypeOf() throws Exception
-	{
+	public void testGetTypeOf() throws Exception {
 		String worksheetName = "Sheet1";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -57,8 +53,7 @@ public class GetTypeOfTest
 	}
 
 	@Test
-	public void testGetTypeOfString() throws Exception
-	{
+	public void testGetTypeOfString() throws Exception {
 		String worksheetName = "Sheet1";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -73,8 +68,7 @@ public class GetTypeOfTest
 	}
 
 	@Test
-	public void testGetTypeNameOf() throws Exception
-	{
+	public void testGetTypeNameOf() throws Exception {
 		String worksheetName = "Sheet1";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -89,8 +83,7 @@ public class GetTypeOfTest
 	}
 
 	@Test
-	public void testGetTypeNameOfString() throws Exception
-	{
+	public void testGetTypeNameOfString() throws Exception {
 		String worksheetName = "Sheet1";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);

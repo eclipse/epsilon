@@ -31,26 +31,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class CreateInstanceSheetDataTypeStrictTest
-{
+public class CreateInstanceSheetDataTypeStrictTest {
 	private static SpreadsheetModel model = null;
 
-	public CreateInstanceSheetDataTypeStrictTest(SpreadsheetModel model)
-	{
+	public CreateInstanceSheetDataTypeStrictTest(SpreadsheetModel model) {
 		CreateInstanceSheetDataTypeStrictTest.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToFile = "resources/instantiate/CreateInstanceTest.xlsx";
 		String pathToConfig = "resources/instantiate/CreateInstanceTestConfig.xml";
 		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "CreateInstanceTest");
 	}
 
 	@Test
-	public void testNotManyCellsDataTypeStrict() throws Exception
-	{
+	public void testNotManyCellsDataTypeStrict() throws Exception {
 		String worksheetName = "Sheet3";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -91,8 +87,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testNotManyCellsDataTypeStrictEmptyRow() throws Exception
-	{
+	public void testNotManyCellsDataTypeStrictEmptyRow() throws Exception {
 		String worksheetName = "Sheet3";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -127,8 +122,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testNotManyCellsDataTypeStrictEmptyValues() throws Exception
-	{
+	public void testNotManyCellsDataTypeStrictEmptyValues() throws Exception {
 		String worksheetName = "Sheet3";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -152,12 +146,10 @@ public class CreateInstanceSheetDataTypeStrictTest
 		String value;
 
 		value = row.getVisibleCellValue(worksheet.getColumn("c_1"));
-		if (worksheet instanceof GSWorksheet)
-		{
+		if (worksheet instanceof GSWorksheet) {
 			assertTrue(value.equals(worksheet.getDefaultEmptyCellValue()));
 		}
-		else
-		{
+		else {
 			assertTrue(value.equals(""));
 		}
 		value = row.getVisibleCellValue(worksheet.getColumn("c_2"));
@@ -171,8 +163,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testNotManyCellsDataTypeStrictSetOfValues() throws Exception
-	{
+	public void testNotManyCellsDataTypeStrictSetOfValues() throws Exception {
 		String worksheetName = "Sheet3";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -213,8 +204,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testManyCellsDataTypeStrict() throws Exception
-	{
+	public void testManyCellsDataTypeStrict() throws Exception {
 		String worksheetName = "Sheet4";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -248,7 +238,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 		assertTrue(row.getAllVisibleCellValuesAsIs(worksheet.getColumn("c_3")).size() == 3);
 		value = row.getVisibleCellValue(worksheet.getColumn("c_4"));
 		assertTrue(value.equals(Float.parseFloat("1.52684789") + "," + Float.parseFloat("1.23456789") + ","
-				+ SpreadsheetConstants.DEFAULT_DT_FLOAT));
+			+ SpreadsheetConstants.DEFAULT_DT_FLOAT));
 		assertTrue(row.getAllVisibleCellValuesAsIs(worksheet.getColumn("c_4")).size() == 3);
 		value = row.getVisibleCellValue(worksheet.getColumn("c_5"));
 		assertTrue(value.equalsIgnoreCase("true,false," + SpreadsheetConstants.DEFAULT_DT_BOOLEAN));
@@ -256,8 +246,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testManyCellsDataTypeStrictEmptyRow() throws Exception
-	{
+	public void testManyCellsDataTypeStrictEmptyRow() throws Exception {
 		String worksheetName = "Sheet4";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -292,8 +281,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testManyCellsDataTypeStrictNullValues() throws Exception
-	{
+	public void testManyCellsDataTypeStrictNullValues() throws Exception {
 		String worksheetName = "Sheet4";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -334,8 +322,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testManyCellsDataTypeStrictSetOfValues() throws Exception
-	{
+	public void testManyCellsDataTypeStrictSetOfValues() throws Exception {
 		String worksheetName = "Sheet4";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -369,7 +356,7 @@ public class CreateInstanceSheetDataTypeStrictTest
 		assertTrue(row.getAllVisibleCellValuesAsIs(worksheet.getColumn("c_3")).size() == 3);
 		value = row.getVisibleCellValue(worksheet.getColumn("c_4"));
 		assertTrue(value.equals(Float.parseFloat("1.52684789") + "," + Float.parseFloat("1.23456789") + ","
-				+ SpreadsheetConstants.DEFAULT_DT_FLOAT));
+			+ SpreadsheetConstants.DEFAULT_DT_FLOAT));
 		assertTrue(row.getAllVisibleCellValuesAsIs(worksheet.getColumn("c_4")).size() == 3);
 		value = row.getVisibleCellValue(worksheet.getColumn("c_5"));
 		assertTrue(value.equalsIgnoreCase("true,false," + SpreadsheetConstants.DEFAULT_DT_BOOLEAN));

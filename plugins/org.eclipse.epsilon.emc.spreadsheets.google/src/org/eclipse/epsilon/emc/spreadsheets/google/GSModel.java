@@ -51,12 +51,12 @@ import com.google.gdata.data.spreadsheet.SpreadsheetFeed;
 import com.google.gdata.data.spreadsheet.WorksheetEntry;
 import com.google.gdata.util.ServiceException;
 
-public class GSModel extends SpreadsheetModel
-{
+public class GSModel extends SpreadsheetModel {
 	private static final Logger LOGGER = LoggerFactory.getLogger(GSModel.class);
 
 	/*
-	 * Public identifiers used for receiving parameters from Epsilon Development Tools
+	 * Public identifiers used for receiving parameters from Epsilon Development
+	 * Tools
 	 */
 	public static final String SPREADSHEET_NAME = "SPREADSHEET_NAME";
 	public static final String GOOGLE_USERNAME = "GOOGLE_USERNAME";
@@ -72,18 +72,18 @@ public class GSModel extends SpreadsheetModel
 	private Document configurationDoc;
 
 	/*
-	 * The following fields are relevant for the Searchable Model implementation (operators and connectives that are
-	 * supported by Google - but not necessarily by the AST)
+	 * The following fields are relevant for the Searchable Model implementation
+	 * (operators and connectives that are supported by Google - but not necessarily
+	 * by the AST)
 	 */
 	@SuppressWarnings("unused")
-	private static final List<String> OPERATORS = new ArrayList<>(Arrays.asList("=", "==", "<>", "<", "<=", ">",">="));
+	private static final List<String> OPERATORS = new ArrayList<>(Arrays.asList("=", "==", "<>", "<", "<=", ">", ">="));
 	@SuppressWarnings("unused")
 	private static final List<String> CONNECTIVES = new ArrayList<>(Arrays.asList("and", "or"));
 	@SuppressWarnings("unused")
 	private static final String FIND_FORMAT_EXCEPTION_MESSAGE = "Invalid search query format";
 
-	public GSModel()
-	{
+	public GSModel() {
 		super();
 		this.spreadsheetName = null;
 		this.spreadsheetService = null;
@@ -94,11 +94,9 @@ public class GSModel extends SpreadsheetModel
 		this.configurationDoc = null;
 	}
 
-	public static void main(String[] args) throws Exception
-	{
+	public static void main(String[] args) throws Exception {
 		final GSModel model = new GSModel();
-		if (args.length == 5)
-		{
+		if (args.length == 5) {
 			model.setUsername(args[0]);
 			model.setPassword(args[1]);
 			model.setSpreadsheetName(args[2]);
@@ -113,36 +111,31 @@ public class GSModel extends SpreadsheetModel
 		// module.parse("new Person(Map{'age'='27'});");
 		// module.parse("Room.all.println();");
 		// module.parse("delete Sheet6.all;");
-		// module.parse("var enid = GS.find(p:Person | p.name='Enid'); enid.println(); delete enid;");
+		// module.parse("var enid = GS.find(p:Person | p.name='Enid'); enid.println();
+		// delete enid;");
 		module.parse("Room.all.println();");
 		module.getContext().getModelRepository().addModel(model);
 		module.execute();
 	}
 
-	public void setSpreadsheetName(final String name)
-	{
-		if (StringUtils.isBlank(name))
-		{
+	public void setSpreadsheetName(final String name) {
+		if (StringUtils.isBlank(name)) {
 			throw new IllegalArgumentException("Spreadsheet name may not be blank");
 		}
 		this.spreadsheetName = name;
 	}
 
-	public void setUsername(final String username)
-	{
+	public void setUsername(final String username) {
 		this.username = username;
 	}
 
-	public void setPassword(final String password)
-	{
+	public void setPassword(final String password) {
 		this.password = password;
 	}
 
-	public void setConfigurationFile(final String configurationFilePath) throws ParserConfigurationException,
-			SAXException, IOException
-	{
-		if (StringUtils.isNotBlank(configurationFilePath))
-		{
+	public void setConfigurationFile(final String configurationFilePath)
+		throws ParserConfigurationException, SAXException, IOException {
+		if (StringUtils.isNotBlank(configurationFilePath)) {
 			this.configurationFile = new File(configurationFilePath);
 			final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -150,62 +143,54 @@ public class GSModel extends SpreadsheetModel
 		}
 	}
 
-	public ListFeed getWorksheetListFeed(final URL listFeedUrl) throws IOException, ServiceException
-	{
+	public ListFeed getWorksheetListFeed(final URL listFeedUrl) throws IOException, ServiceException {
 		return this.spreadsheetService.getFeed(listFeedUrl, ListFeed.class);
 	}
 
-	public CellFeed getWorksheetCellFeed(final URL cellFeedUrl) throws IOException, ServiceException
-	{
+	public CellFeed getWorksheetCellFeed(final URL cellFeedUrl) throws IOException, ServiceException {
 		return this.spreadsheetService.getFeed(cellFeedUrl, CellFeed.class);
 	}
 
-	public WorksheetEntry insertWorksheet(final WorksheetEntry worksheetEntry) throws IOException, ServiceException
-	{
+	public WorksheetEntry insertWorksheet(final WorksheetEntry worksheetEntry) throws IOException, ServiceException {
 		WorksheetEntry we = this.spreadsheetService.insert(this.spreadsheetEntry.getWorksheetFeedUrl(), worksheetEntry);
 		this.spreadsheetEntry = this.spreadsheetEntry.getSelf();
 		return we;
 	}
 
-	public ListEntry insertRow(final WorksheetEntry worksheetEntry, final ListEntry row) throws IOException,
-			ServiceException
-	{
+	public ListEntry insertRow(final WorksheetEntry worksheetEntry, final ListEntry row)
+		throws IOException, ServiceException {
 		URL url = worksheetEntry.getListFeedUrl();
 		ListEntry le = this.spreadsheetService.insert(url, row);
 		return le;
 	}
 
 	/**
-	 * This method loads the model using arguments provided through Epsilon Development Tools.
+	 * This method loads the model using arguments provided through Epsilon
+	 * Development Tools.
 	 * 
 	 * @see {@link Model#load(StringProperties, IRelativePathResolver)}
 	 */
 	@Override
 	public void load(final StringProperties properties, final IRelativePathResolver resolver)
-			throws EolModelLoadingException
-	{
+		throws EolModelLoadingException {
 		super.load(properties, resolver);
-		try
-		{
+		try {
 			this.setSpreadsheetName(properties.getProperty(GSModel.SPREADSHEET_NAME));
 			this.setUsername(properties.getProperty(GSModel.GOOGLE_USERNAME));
 			this.setPassword(properties.getProperty(GSModel.GOOGLE_PASSWORD));
 			final String configurationFilePath = properties.getProperty(GSModel.CONFIGURATION_FILE);
-			if (StringUtils.isNotEmpty(configurationFilePath))
-			{
+			if (StringUtils.isNotEmpty(configurationFilePath)) {
 				this.setConfigurationFile(resolver.resolve(configurationFilePath));
 			}
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			throw new EolModelLoadingException(e, this);
 		}
 		super.load();
 	}
 
 	@Override
-	protected void loadSpreadsheet() throws Exception
-	{
+	protected void loadSpreadsheet() throws Exception {
 		LOGGER.debug("Loading spreadsheet '" + this.spreadsheetName + "'...");
 		LOGGER.debug("Authenticating...");
 
@@ -220,15 +205,12 @@ public class GSModel extends SpreadsheetModel
 		this.loadFirstSpreadsheet(feed);
 	}
 
-	private void loadFirstSpreadsheet(final SpreadsheetFeed feed) throws Exception
-	{
+	private void loadFirstSpreadsheet(final SpreadsheetFeed feed) throws Exception {
 		final List<SpreadsheetEntry> spreadsheets = feed.getEntries();
-		if (CollectionUtils.isEmpty(spreadsheets))
-		{
+		if (CollectionUtils.isEmpty(spreadsheets)) {
 			throw new IllegalArgumentException("Could not find spreadsheet with name '" + this.spreadsheetName + "'");
 		}
-		else if (spreadsheets.size() > 1)
-		{
+		else if (spreadsheets.size() > 1) {
 			LOGGER.warn("Found multiple spreadsheets - selecting the first one from the list");
 		}
 		this.spreadsheetEntry = spreadsheets.get(0);
@@ -236,12 +218,10 @@ public class GSModel extends SpreadsheetModel
 		this.loadWorksheets();
 	}
 
-	private void loadWorksheets() throws Exception
-	{
+	private void loadWorksheets() throws Exception {
 		LOGGER.debug("Loading worksheets...");
 		final List<WorksheetEntry> worksheetEntries = this.spreadsheetEntry.getWorksheets();
-		for (final WorksheetEntry worksheetEntry : worksheetEntries)
-		{
+		for (final WorksheetEntry worksheetEntry : worksheetEntries) {
 			final GSWorksheet worksheet = new GSWorksheet(this, worksheetEntry, true);
 			LOGGER.debug("Loaded worksheet with name '" + worksheet.getName() + "'");
 			this.addWorksheet(worksheet);
@@ -249,20 +229,17 @@ public class GSModel extends SpreadsheetModel
 	}
 
 	@Override
-	protected ISpreadsheetMetadata getSpreadsheetMetadata()
-	{
+	protected ISpreadsheetMetadata getSpreadsheetMetadata() {
 		return new MetadataXMLParser(this.configurationDoc);
 	}
 
 	@Override
-	protected boolean isMetadataConfigurationDefined()
-	{
+	protected boolean isMetadataConfigurationDefined() {
 		return this.configurationFile != null && this.configurationDoc != null;
 	}
 
 	@Override
-	protected SpreadsheetWorksheet createWorksheet(final SpreadsheetWorksheetMetadata metadata) throws Exception
-	{
+	protected SpreadsheetWorksheet createWorksheet(final SpreadsheetWorksheetMetadata metadata) throws Exception {
 		final WorksheetEntry worksheetEntry = new WorksheetEntry();
 		worksheetEntry.setTitle(new PlainTextConstruct(metadata.getName()));
 		worksheetEntry.setColCount(GSConstants.DEFAULT_WORKSHEET_COLS);
@@ -271,169 +248,113 @@ public class GSModel extends SpreadsheetModel
 	}
 
 	@Override
-	public void deleteWorksheet(final SpreadsheetWorksheet worksheet)
-	{
-		try
-		{
+	public void deleteWorksheet(final SpreadsheetWorksheet worksheet) {
+		try {
 			((GSWorksheet) worksheet).delete();
 			super.worksheets.remove(worksheet);
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			throw new RuntimeException("Failed to delete " + worksheet + ": " + e.getMessage());
 		}
 	}
-	
+
 	@Override
-	public Collection<SpreadsheetRow> find(Variable iterator,
-			ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public Collection<SpreadsheetRow> find(Variable iterator, ModuleElement ast, IEolContext context)
+		throws EolRuntimeException {
 		throw new UnsupportedOperationException();
 	}
-	
+
 	/*
-	@Override
-	public Collection<SpreadsheetRow> find(final Variable iterator, final ModuleElement ast, final IEolContext context)
-			throws EolRuntimeException
-	{
-		try
-		{
-			final GSWorksheet worksheet = (GSWorksheet) this.getWorksheetByType(iterator.getType().getName());
-			this.verifyWorksheetExists(worksheet);
-
-			final List<SpreadsheetRow> rows = new ArrayList<SpreadsheetRow>();
-
-			final String searchURI = this.getSearchURI(worksheet, iterator, ast, context);
-			final URL searchURL = new URI(searchURI).toURL();
-
-			final ListFeed listFeed = this.spreadsheetService.getFeed(searchURL, ListFeed.class); // This is slow
-			for (final ListEntry row : listFeed.getEntries())
-			{
-				rows.add(new GSRow(worksheet, row));
-			}
-			return rows;
-		}
-		catch (Exception e)
-		{
-			if (e.getMessage().equals(GSModel.FIND_FORMAT_EXCEPTION_MESSAGE))
-			{
-				throw new EolRuntimeException("Query needs to be in form find(w:Worksheet | w.column = <value>)");
-			}
-			else
-			{
-				throw new EolRuntimeException(e.getMessage());
-			}
-		}
-	}
-
-	private void verifyWorksheetExists(final GSWorksheet worksheet) throws EolRuntimeException
-	{
-		if (worksheet == null)
-		{
-			throw new EolRuntimeException("Worksheet not found");
-		}
-		worksheet.createInSpreadsheet();
-	}
-
-	private String getSearchURI(final GSWorksheet worksheet, final Variable iterator, final AST ast,
-			final IEolContext context) throws Exception
-	{
-		final StringBuffer searchURI = new StringBuffer();
-		searchURI.append(worksheet.getListFeedURL().toString());
-		searchURI.append("?sq=");
-
-		String searchExpression = "";
-		if (GSModel.CONNECTIVES.contains(ast.getText()))
-		{
-			searchExpression = this.recursiveFind(iterator, ast, context, ast.getText());
-		}
-		else
-		{
-			searchExpression = this.recursiveFind(iterator, ast, context, "");
-		}
-		LOGGER.debug("Search expression: '" + searchExpression + "'");
-		searchURI.append(URLEncoder.encode(searchExpression, "UTF-8"));
-
-		return searchURI.toString();
-	}
-
-	private String recursiveFind(final Variable iterator, final AST ast, final IEolContext context,
-			final String parentOperator) throws Exception
-	{
-		if (ast == null)
-		{
-			return "";
-		}
-
-		final boolean astParentIsConnector = GSModel.CONNECTIVES.contains(ast.getText());
-		final boolean astParentIsOperator = GSModel.OPERATORS.contains(ast.getText())
-				&& ast.getType() == EolParser.OPERATOR && ast.getChildCount() == 2;
-		if (astParentIsConnector)
-		{
-			final String valueOnLeft = this.recursiveFind(iterator, ast.getFirstChild(), context, ast.getText());
-			final String valueOnRight = this.recursiveFind(iterator, ast.getNextSibling(), context, ast.getText());
-
-			StringBuilder expression = new StringBuilder(valueOnLeft);
-			if (StringUtils.isNotBlank(valueOnRight))
-			{
-				expression = new StringBuilder("(" + valueOnLeft + ") " + parentOperator + " (" + valueOnRight + ")");
-			}
-			return expression.toString();
-		}
-		else if (astParentIsOperator)
-		{
-			final String valueOnLeft = this.getValueOnLeft(iterator, ast, context, parentOperator);
-			final String valueOnRight = this.recursiveFind(iterator, ast.getNextSibling(), context, "");
-
-			StringBuilder expression = new StringBuilder(valueOnLeft);
-			if (StringUtils.isNotBlank(valueOnRight))
-			{
-				expression = new StringBuilder("(" + valueOnLeft + " " + parentOperator + " " + valueOnRight + ")");
-			}
-			return expression.toString();
-		}
-		else
-		{
-			throw new EolRuntimeException(GSModel.FIND_FORMAT_EXCEPTION_MESSAGE);
-		}
-	}
-
-	private String getValueOnLeft(final Variable iterator, final AST ast, final IEolContext context,
-			final String parentOperator) throws EolRuntimeException
-	{
-		final AST pointAst = ast.getFirstChild();
-		final boolean propertyOfTypeIsReferenced = pointAst != null && pointAst.getType() == EolParser.POINT;
-		if (propertyOfTypeIsReferenced)
-		{
-			final boolean typeIdentifiersMatch = pointAst.getFirstChild().getText().equals(iterator.getName());
-			if (typeIdentifiersMatch)
-			{
-				final SpreadsheetWorksheet worksheet = this.getWorksheetByType(iterator.getType().getName());
-				final String columnIdentifier = pointAst.getFirstChild().getNextSibling().getText();
-				final SpreadsheetColumn column = worksheet.getColumn(columnIdentifier);
-				if (column == null)
-				{
-					final String message = "Column " + columnIdentifier + " not found in " + worksheet.getName();
-					throw new EolRuntimeException(message);
-				}
-
-				final GSColumn gsColumn = (GSColumn) column;
-				String value = context.getExecutorFactory().executeAST(pointAst.getNextSibling(), context) + "";
-				if (column.getDataType() == SpreadsheetDataType.STRING)
-				{
-					value = "\"" + value + "\"";
-				}
-				return gsColumn.getGoogleColumnId() + " " + ast.getText() + " " + value;
-			}
-			else
-			{
-				throw new EolRuntimeException(GSModel.FIND_FORMAT_EXCEPTION_MESSAGE);
-			}
-
-		}
-		else
-		{
-			throw new EolRuntimeException(GSModel.FIND_FORMAT_EXCEPTION_MESSAGE);
-		}
-	}*/
+	 * @Override public Collection<SpreadsheetRow> find(final Variable iterator,
+	 * final ModuleElement ast, final IEolContext context) throws
+	 * EolRuntimeException { try { final GSWorksheet worksheet = (GSWorksheet)
+	 * this.getWorksheetByType(iterator.getType().getName());
+	 * this.verifyWorksheetExists(worksheet);
+	 * 
+	 * final List<SpreadsheetRow> rows = new ArrayList<SpreadsheetRow>();
+	 * 
+	 * final String searchURI = this.getSearchURI(worksheet, iterator, ast,
+	 * context); final URL searchURL = new URI(searchURI).toURL();
+	 * 
+	 * final ListFeed listFeed = this.spreadsheetService.getFeed(searchURL,
+	 * ListFeed.class); // This is slow for (final ListEntry row :
+	 * listFeed.getEntries()) { rows.add(new GSRow(worksheet, row)); } return rows;
+	 * } catch (Exception e) { if
+	 * (e.getMessage().equals(GSModel.FIND_FORMAT_EXCEPTION_MESSAGE)) { throw new
+	 * EolRuntimeException("Query needs to be in form find(w:Worksheet | w.column = <value>)"
+	 * ); } else { throw new EolRuntimeException(e.getMessage()); } } }
+	 * 
+	 * private void verifyWorksheetExists(final GSWorksheet worksheet) throws
+	 * EolRuntimeException { if (worksheet == null) { throw new
+	 * EolRuntimeException("Worksheet not found"); }
+	 * worksheet.createInSpreadsheet(); }
+	 * 
+	 * private String getSearchURI(final GSWorksheet worksheet, final Variable
+	 * iterator, final AST ast, final IEolContext context) throws Exception { final
+	 * StringBuffer searchURI = new StringBuffer();
+	 * searchURI.append(worksheet.getListFeedURL().toString());
+	 * searchURI.append("?sq=");
+	 * 
+	 * String searchExpression = ""; if
+	 * (GSModel.CONNECTIVES.contains(ast.getText())) { searchExpression =
+	 * this.recursiveFind(iterator, ast, context, ast.getText()); } else {
+	 * searchExpression = this.recursiveFind(iterator, ast, context, ""); }
+	 * LOGGER.debug("Search expression: '" + searchExpression + "'");
+	 * searchURI.append(URLEncoder.encode(searchExpression, "UTF-8"));
+	 * 
+	 * return searchURI.toString(); }
+	 * 
+	 * private String recursiveFind(final Variable iterator, final AST ast, final
+	 * IEolContext context, final String parentOperator) throws Exception { if (ast
+	 * == null) { return ""; }
+	 * 
+	 * final boolean astParentIsConnector =
+	 * GSModel.CONNECTIVES.contains(ast.getText()); final boolean
+	 * astParentIsOperator = GSModel.OPERATORS.contains(ast.getText()) &&
+	 * ast.getType() == EolParser.OPERATOR && ast.getChildCount() == 2; if
+	 * (astParentIsConnector) { final String valueOnLeft =
+	 * this.recursiveFind(iterator, ast.getFirstChild(), context, ast.getText());
+	 * final String valueOnRight = this.recursiveFind(iterator,
+	 * ast.getNextSibling(), context, ast.getText());
+	 * 
+	 * StringBuilder expression = new StringBuilder(valueOnLeft); if
+	 * (StringUtils.isNotBlank(valueOnRight)) { expression = new StringBuilder("(" +
+	 * valueOnLeft + ") " + parentOperator + " (" + valueOnRight + ")"); } return
+	 * expression.toString(); } else if (astParentIsOperator) { final String
+	 * valueOnLeft = this.getValueOnLeft(iterator, ast, context, parentOperator);
+	 * final String valueOnRight = this.recursiveFind(iterator,
+	 * ast.getNextSibling(), context, "");
+	 * 
+	 * StringBuilder expression = new StringBuilder(valueOnLeft); if
+	 * (StringUtils.isNotBlank(valueOnRight)) { expression = new StringBuilder("(" +
+	 * valueOnLeft + " " + parentOperator + " " + valueOnRight + ")"); } return
+	 * expression.toString(); } else { throw new
+	 * EolRuntimeException(GSModel.FIND_FORMAT_EXCEPTION_MESSAGE); } }
+	 * 
+	 * private String getValueOnLeft(final Variable iterator, final AST ast, final
+	 * IEolContext context, final String parentOperator) throws EolRuntimeException
+	 * { final AST pointAst = ast.getFirstChild(); final boolean
+	 * propertyOfTypeIsReferenced = pointAst != null && pointAst.getType() ==
+	 * EolParser.POINT; if (propertyOfTypeIsReferenced) { final boolean
+	 * typeIdentifiersMatch =
+	 * pointAst.getFirstChild().getText().equals(iterator.getName()); if
+	 * (typeIdentifiersMatch) { final SpreadsheetWorksheet worksheet =
+	 * this.getWorksheetByType(iterator.getType().getName()); final String
+	 * columnIdentifier = pointAst.getFirstChild().getNextSibling().getText(); final
+	 * SpreadsheetColumn column = worksheet.getColumn(columnIdentifier); if (column
+	 * == null) { final String message = "Column " + columnIdentifier +
+	 * " not found in " + worksheet.getName(); throw new
+	 * EolRuntimeException(message); }
+	 * 
+	 * final GSColumn gsColumn = (GSColumn) column; String value =
+	 * context.getExecutorFactory().executeAST(pointAst.getNextSibling(), context) +
+	 * ""; if (column.getDataType() == SpreadsheetDataType.STRING) { value = "\"" +
+	 * value + "\""; } return gsColumn.getGoogleColumnId() + " " + ast.getText() +
+	 * " " + value; } else { throw new
+	 * EolRuntimeException(GSModel.FIND_FORMAT_EXCEPTION_MESSAGE); }
+	 * 
+	 * } else { throw new
+	 * EolRuntimeException(GSModel.FIND_FORMAT_EXCEPTION_MESSAGE); } }
+	 */
 
 }

@@ -32,26 +32,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class CreateInstanceReferencingSheetDataTypeStrictTest
-{
+public class CreateInstanceReferencingSheetDataTypeStrictTest {
 	private static SpreadsheetModel model = null;
 
-	public CreateInstanceReferencingSheetDataTypeStrictTest(SpreadsheetModel model)
-	{
+	public CreateInstanceReferencingSheetDataTypeStrictTest(SpreadsheetModel model) {
 		CreateInstanceReferencingSheetDataTypeStrictTest.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToFile = "resources/instantiate/CreateInstanceTest.xlsx";
 		String pathToConfig = "resources/instantiate/CreateInstanceReferencingTestConfig.xml";
 		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "CreateInstanceTest");
 	}
 
 	@Test
-	public void testWriteNonRowToReferencingCell() throws Exception
-	{
+	public void testWriteNonRowToReferencingCell() throws Exception {
 		String worksheetName = "Sheet3";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -59,13 +55,11 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 
 		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", "VALUE0");
-		try
-		{
+		try {
 			model.createInstance(worksheetName, values);
 			fail("Should not be possible to write String to referencing cell");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 
@@ -74,8 +68,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testWriteEmptyValueFromReferencedRow() throws Exception
-	{
+	public void testWriteEmptyValueFromReferencedRow() throws Exception {
 		String worksheetName = "Sheet3";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -110,12 +103,10 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		String value;
 
 		value = row.getVisibleCellValue(worksheet.getColumn("c_1"));
-		if (worksheet instanceof GSWorksheet)
-		{
+		if (worksheet instanceof GSWorksheet) {
 			assertTrue(value.equals(worksheet.getDefaultEmptyCellValue()));
 		}
-		else
-		{
+		else {
 			assertTrue(value.equals(""));
 		}
 		value = row.getVisibleCellValue(worksheet.getColumn("c_2"));
@@ -133,8 +124,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testNotManyCellsDataTypeStrictFromNotManyCells() throws Exception
-	{
+	public void testNotManyCellsDataTypeStrictFromNotManyCells() throws Exception {
 		String worksheetName = "Sheet3";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -186,8 +176,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testNotManyCellsDataTypeStrictMultipleRowsFromNotManyCells() throws Exception
-	{
+	public void testNotManyCellsDataTypeStrictMultipleRowsFromNotManyCells() throws Exception {
 		String worksheetName = "Sheet3";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -244,8 +233,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testManyCellsDataTypeStrictFromNotManyCells() throws Exception
-	{
+	public void testManyCellsDataTypeStrictFromNotManyCells() throws Exception {
 		String worksheetName = "Sheet4";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -297,8 +285,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testManyCellsDataTypeStrictMultipleRowsFromNotManyCells() throws Exception
-	{
+	public void testManyCellsDataTypeStrictMultipleRowsFromNotManyCells() throws Exception {
 		String worksheetName = "Sheet4";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -361,8 +348,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testNotManyCellsDataTypeStrictFromManyCells() throws Exception
-	{
+	public void testNotManyCellsDataTypeStrictFromManyCells() throws Exception {
 		String worksheetName = "Sheet3";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -414,8 +400,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testNotManyCellsDataTypeStrictMultipleRowsFromManyCells() throws Exception
-	{
+	public void testNotManyCellsDataTypeStrictMultipleRowsFromManyCells() throws Exception {
 		String worksheetName = "Sheet3";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -472,8 +457,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testManyCellsDataTypeStrictFromManyCells() throws Exception
-	{
+	public void testManyCellsDataTypeStrictFromManyCells() throws Exception {
 		String worksheetName = "Sheet4";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -518,7 +502,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		assertTrue(row.getAllVisibleCellValuesAsIs(worksheet.getColumn("c_3")).size() == 3);
 		value = row.getVisibleCellValue(worksheet.getColumn("c_4"));
 		assertTrue(value.equals(Float.parseFloat("1.52684789") + ";" + Float.parseFloat("1.23456789") + ";"
-				+ SpreadsheetConstants.DEFAULT_DT_FLOAT));
+			+ SpreadsheetConstants.DEFAULT_DT_FLOAT));
 		assertTrue(row.getAllVisibleCellValuesAsIs(worksheet.getColumn("c_4")).size() == 3);
 		value = row.getVisibleCellValue(worksheet.getColumn("c_5"));
 		assertTrue(value.equalsIgnoreCase("true;false;" + SpreadsheetConstants.DEFAULT_DT_BOOLEAN));
@@ -526,8 +510,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 	}
 
 	@Test
-	public void testManyCellsDataTypeStrictMultipleRowsFromManyCells() throws Exception
-	{
+	public void testManyCellsDataTypeStrictMultipleRowsFromManyCells() throws Exception {
 		String worksheetName = "Sheet4";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -581,7 +564,7 @@ public class CreateInstanceReferencingSheetDataTypeStrictTest
 		assertTrue(row.getAllVisibleCellValuesAsIs(worksheet.getColumn("c_3")).size() == 6);
 		value = row.getVisibleCellValue(worksheet.getColumn("c_4"));
 		cellValue = Float.parseFloat("1.52684789") + ";" + Float.parseFloat("1.23456789") + ";"
-				+ SpreadsheetConstants.DEFAULT_DT_FLOAT;
+			+ SpreadsheetConstants.DEFAULT_DT_FLOAT;
 		assertTrue(value.equals(cellValue + ";" + cellValue));
 		assertTrue(row.getAllVisibleCellValuesAsIs(worksheet.getColumn("c_4")).size() == 6);
 		value = row.getVisibleCellValue(worksheet.getColumn("c_5"));

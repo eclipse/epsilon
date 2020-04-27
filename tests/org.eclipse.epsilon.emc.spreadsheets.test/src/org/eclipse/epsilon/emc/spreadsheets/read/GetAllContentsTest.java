@@ -23,26 +23,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class GetAllContentsTest
-{
+public class GetAllContentsTest {
 	private SpreadsheetModel model = null;
 
-	public GetAllContentsTest(SpreadsheetModel model)
-	{
+	public GetAllContentsTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToFile = "resources/read/ReadTest.xlsx";
 		String pathToConfig = "resources/read/ReadTestConfig.xml";
 		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "ReadTest");
 	}
 
 	@Test
-	public void testAllContents() throws Exception
-	{
+	public void testAllContents() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");

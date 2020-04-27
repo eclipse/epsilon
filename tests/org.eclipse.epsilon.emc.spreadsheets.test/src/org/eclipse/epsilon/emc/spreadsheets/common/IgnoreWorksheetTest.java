@@ -20,26 +20,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class IgnoreWorksheetTest
-{
+public class IgnoreWorksheetTest {
 	private SpreadsheetModel model = null;
 
-	public IgnoreWorksheetTest(SpreadsheetModel model)
-	{
+	public IgnoreWorksheetTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String PATH_TO_FILE = "resources/common/IgnoreWorksheetTest.xlsx";
 		String CONFIG = "resources/common/IgnoreWorksheetTestConfig.xml";
 		return TestModelFactory.getModelsToTest("", PATH_TO_FILE, CONFIG, "IgnoreWorksheetTest");
 	}
 
 	@Test
-	public void testIgnoreWorksheet() throws Exception
-	{
+	public void testIgnoreWorksheet() throws Exception {
 		assertTrue(model.getWorksheets().size() == 1);
 		assertTrue(model.getWorksheetByType("Sheet1") != null);
 		assertTrue(model.getWorksheetByType("Sheet2") == null);

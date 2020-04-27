@@ -23,26 +23,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class DeleteReferencedAndReferencingRowTest
-{
+public class DeleteReferencedAndReferencingRowTest {
 	private SpreadsheetModel model = null;
 
-	public DeleteReferencedAndReferencingRowTest(SpreadsheetModel model)
-	{
+	public DeleteReferencedAndReferencingRowTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToFile = "resources/delete/DeleteRowTest.xlsx";
 		String pathToConfig = "resources/delete/DeleteRowTestConfig.xml";
 		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "DeleteRowTest");
 	}
 
 	@Test
-	public void testDeleteReferencedAndReferencingRow() throws Exception
-	{
+	public void testDeleteReferencedAndReferencingRow() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 		SharedTestMethods.clearWorksheet(model, "Sheet3");

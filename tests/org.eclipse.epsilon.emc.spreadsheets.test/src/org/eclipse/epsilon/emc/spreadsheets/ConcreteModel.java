@@ -17,47 +17,41 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
 
-public class ConcreteModel extends SpreadsheetModel
-{
+public class ConcreteModel extends SpreadsheetModel {
 
 	@Override
-	protected void loadSpreadsheet() throws Exception
-	{
+	protected void loadSpreadsheet() throws Exception {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected ISpreadsheetMetadata getSpreadsheetMetadata()
-	{
+	protected ISpreadsheetMetadata getSpreadsheetMetadata() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected boolean isMetadataConfigurationDefined()
-	{
+	protected boolean isMetadataConfigurationDefined() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	protected SpreadsheetWorksheet createWorksheet(SpreadsheetWorksheetMetadata worksheetMetadata) throws Exception
-	{
+	protected SpreadsheetWorksheet createWorksheet(SpreadsheetWorksheetMetadata worksheetMetadata) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Collection<SpreadsheetRow> find(Variable iterator, ModuleElement ast, IEolContext context) throws EolRuntimeException
-	{
+	public Collection<SpreadsheetRow> find(Variable iterator, ModuleElement ast, IEolContext context)
+		throws EolRuntimeException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected void deleteWorksheet(SpreadsheetWorksheet worksheet)
-	{
+	protected void deleteWorksheet(SpreadsheetWorksheet worksheet) {
 		// TODO Auto-generated method stub
 
 	}

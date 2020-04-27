@@ -13,12 +13,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
-public class SpreadsheetColumnTest
-{
+public class SpreadsheetColumnTest {
 
 	@Test
-	public void testIsIdentifiablyByNull()
-	{
+	public void testIsIdentifiablyByNull() {
 		SpreadsheetModel model = new ConcreteModel();
 		SpreadsheetWorksheet worksheet = new ConcreteWorksheet(model, "WORKSHEET", true);
 		SpreadsheetColumn column = new ConcreteColumn(worksheet, 1);
@@ -26,8 +24,7 @@ public class SpreadsheetColumnTest
 	}
 
 	@Test
-	public void testIsIdentifiablyByName()
-	{
+	public void testIsIdentifiablyByName() {
 		String name = "NAME";
 		SpreadsheetModel model = new ConcreteModel();
 		SpreadsheetWorksheet worksheet = new ConcreteWorksheet(model, "WORKSHEET", true);
@@ -37,8 +34,7 @@ public class SpreadsheetColumnTest
 	}
 
 	@Test
-	public void testIsIdentifiablyByNameNotEqual()
-	{
+	public void testIsIdentifiablyByNameNotEqual() {
 		String name = "NAME";
 		String alias = "NAMEa";
 		SpreadsheetModel model = new ConcreteModel();
@@ -49,8 +45,7 @@ public class SpreadsheetColumnTest
 	}
 
 	@Test
-	public void testIsIdentifiablyByNameAliasIndex()
-	{
+	public void testIsIdentifiablyByNameAliasIndex() {
 		String name = "NAME";
 		String alias = "NAMEa";
 		SpreadsheetModel model = new ConcreteModel();
@@ -65,8 +60,7 @@ public class SpreadsheetColumnTest
 	}
 
 	@Test
-	public void testGetIdentifier()
-	{
+	public void testGetIdentifier() {
 		String name = "NAME";
 		String alias = "NAMEa";
 		SpreadsheetModel model = new ConcreteModel();
@@ -87,38 +81,33 @@ public class SpreadsheetColumnTest
 	// public void testIndexPrefixing()
 	// {
 	// SpreadsheetModel model = new ConcreteModel();
-	// SpreadsheetWorksheet worksheet = new ConcreteWorksheet(model, "WORKSHEET", true);
+	// SpreadsheetWorksheet worksheet = new ConcreteWorksheet(model, "WORKSHEET",
+	// true);
 	// SpreadsheetColumn column = new ConcreteColumn(worksheet, 1);
 	// assertTrue(column.isValidPrefixedIndex(column.getPrefixedIndex()));
 	// assertTrue(worksheet == column.getWorksheet());
 	// }
 
 	@Test
-	public void testWorksheetNull()
-	{
-		try
-		{
+	public void testWorksheetNull() {
+		try {
 			new ConcreteColumn(null, 1);
 			fail();
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			assert (true);
 		}
 	}
 
 	@Test
-	public void testNegativeColumnIndex()
-	{
+	public void testNegativeColumnIndex() {
 		SpreadsheetModel model = new ConcreteModel();
 		SpreadsheetWorksheet worksheet = new ConcreteWorksheet(model, "WORKSHEET", true);
-		try
-		{
+		try {
 			new ConcreteColumn(worksheet, -1);
 			fail();
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			assert (true);
 		}
 	}

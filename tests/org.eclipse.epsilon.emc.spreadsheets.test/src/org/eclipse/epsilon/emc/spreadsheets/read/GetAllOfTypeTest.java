@@ -25,26 +25,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class GetAllOfTypeTest
-{
+public class GetAllOfTypeTest {
 	private SpreadsheetModel model = null;
 
-	public GetAllOfTypeTest(SpreadsheetModel model)
-	{
+	public GetAllOfTypeTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToFile = "resources/read/ReadTest.xlsx";
 		String pathToConfig = "resources/read/ReadTestConfig.xml";
 		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "ReadTest");
 	}
 
 	@Test
-	public void testGetAllOfType() throws Exception
-	{
+	public void testGetAllOfType() throws Exception {
 		String worksheetName = "Sheet1";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -61,15 +57,12 @@ public class GetAllOfTypeTest
 	}
 
 	@Test
-	public void testUnknownWorksheet() throws Exception
-	{
-		try
-		{
+	public void testUnknownWorksheet() throws Exception {
+		try {
 			model.getAllOfType("UNKNOWN");
 			fail("Should fail on unknown worksheet");
 		}
-		catch (EolModelElementTypeNotFoundException e)
-		{
+		catch (EolModelElementTypeNotFoundException e) {
 			assertTrue(true);
 		}
 	}

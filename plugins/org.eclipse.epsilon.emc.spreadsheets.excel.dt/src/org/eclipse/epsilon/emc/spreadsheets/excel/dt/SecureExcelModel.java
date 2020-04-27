@@ -19,49 +19,40 @@ import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
 import org.eclipse.equinox.security.storage.StorageException;
 
-public class SecureExcelModel extends ExcelModel
-{
+public class SecureExcelModel extends ExcelModel {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SecureExcelModel.class);
 
 	@Override
 	public void load(final StringProperties properties, final IRelativePathResolver resolver)
-			throws EolModelLoadingException
-	{
-		try
-		{
+		throws EolModelLoadingException {
+		try {
 			final String password = this.loadPassword(properties);
 			properties.put(ExcelModel.SPREADSHEET_PASSWORD, password);
 
 			super.load(properties, resolver);
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			LOGGER.debug(e.getMessage());
 			throw new EolModelLoadingException(e, this);
 		}
 	}
 
-	public String loadPassword(final StringProperties properties) throws StorageException
-	{
+	public String loadPassword(final StringProperties properties) throws StorageException {
 		final ISecurePreferences preferences = SecurePreferencesFactory.getDefault();
-		if (preferences != null)
-		{
+		if (preferences != null) {
 			// Password is stored in the vault associated with the file name
 			final String fileName = properties.getProperty(ExcelModel.SPREADSHEET_FILE);
-			if (preferences.nodeExists(fileName))
-			{
+			if (preferences.nodeExists(fileName)) {
 				final ISecurePreferences node = preferences.node(fileName);
 				return node.get(ExcelModel.SPREADSHEET_PASSWORD, null);
 			}
-			else
-			{
+			else {
 				final String message = "Equinox Security could not find password for '" + fileName + "'";
 				LOGGER.error(message);
 				throw new RuntimeException(message);
 			}
 		}
-		else
-		{
+		else {
 			final String message = "Equinox Security was unable to create secure preferences using default location";
 			LOGGER.error(message);
 			throw new RuntimeException(message);

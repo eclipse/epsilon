@@ -23,19 +23,16 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDialog
-{
+public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDialog {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ExcelModelConfigurationDialog.class);
 
 	@Override
-	protected String getModelName()
-	{
+	protected String getModelName() {
 		return "Microsoft Excel Spreadsheet";
 	}
 
 	@Override
-	protected String getModelType()
-	{
+	protected String getModelType() {
 		return "ExcelModel";
 	}
 
@@ -49,8 +46,7 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 	protected Text passwordText;
 
 	@Override
-	protected void createGroups(final Composite control)
-	{
+	protected void createGroups(final Composite control) {
 		createNameAliasGroup(control);
 		createSpreadsheetGroup(control);
 		createLoadStoreOptionsGroup(control);
@@ -58,8 +54,7 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 		createPasswordGroup(control);
 	}
 
-	protected void createSpreadsheetGroup(final Composite parent)
-	{
+	protected void createSpreadsheetGroup(final Composite parent) {
 		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Spreadsheet Details", 3);
 
 		spreadsheetFileTextLabel = new Label(groupContent, SWT.NONE);
@@ -71,14 +66,13 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 		browseSpreadsheetFile = new Button(groupContent, SWT.NONE);
 		browseSpreadsheetFile.setText("Browse Workspace...");
 		browseSpreadsheetFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(spreadsheetFileText,
-				"Microsoft Excel File in the workspace", "Select Microsoft Excel File"));
+			"Microsoft Excel File in the workspace", "Select Microsoft Excel File"));
 
 		groupContent.layout();
 		groupContent.pack();
 	}
 
-	protected void createConfigurationFileGroup(final Composite parent)
-	{
+	protected void createConfigurationFileGroup(final Composite parent) {
 		final Composite groupContent = DialogUtil.createGroupContainer(parent, "ORM Meta-data", 3);
 
 		configFileTextLabel = new Label(groupContent, SWT.NONE);
@@ -90,14 +84,13 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 		browseConfigFile = new Button(groupContent, SWT.NONE);
 		browseConfigFile.setText("Browse Workspace...");
 		browseConfigFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(configurationFileText,
-				"XML meta-data file in the workspace", "Select an XML Meta-data File"));
+			"XML meta-data file in the workspace", "Select an XML Meta-data File"));
 
 		groupContent.layout();
 		groupContent.pack();
 	}
 
-	protected void createPasswordGroup(final Composite parent)
-	{
+	protected void createPasswordGroup(final Composite parent) {
 		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Secure Spreadsheet (XLSX only)", 2);
 
 		passwordLabel = new Label(groupContent, SWT.NONE);
@@ -111,22 +104,18 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 	}
 
 	@Override
-	protected void loadProperties()
-	{
+	protected void loadProperties() {
 		super.loadProperties();
 
-		if (properties != null)
-		{
+		if (properties != null) {
 			this.spreadsheetFileText.setText(properties.getProperty(ExcelModel.SPREADSHEET_FILE));
 			this.configurationFileText.setText(properties.getProperty(ExcelModel.CONFIGURATION_FILE));
 
 			final SecureExcelModel secureModel = new SecureExcelModel();
-			try
-			{
+			try {
 				this.passwordText.setText(secureModel.loadPassword(properties));
 			}
-			catch (StorageException e)
-			{
+			catch (StorageException e) {
 				final String message = "Unable to retrieve the password from Equinox Security vault";
 				LOGGER.error(message);
 				throw new RuntimeException(message);
@@ -135,8 +124,7 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 	}
 
 	@Override
-	protected void storeProperties()
-	{
+	protected void storeProperties() {
 		super.storeProperties();
 
 		super.properties.put(ExcelModel.SPREADSHEET_FILE, this.spreadsheetFileText.getText());
@@ -144,12 +132,10 @@ public class ExcelModelConfigurationDialog extends AbstractModelConfigurationDia
 
 		final ISecurePreferences preferences = SecurePreferencesFactory.getDefault();
 		final ISecurePreferences node = preferences.node(this.spreadsheetFileText.getText());
-		try
-		{
+		try {
 			node.put(ExcelModel.SPREADSHEET_PASSWORD, this.passwordText.getText(), true);
 		}
-		catch (StorageException e)
-		{
+		catch (StorageException e) {
 			final String message = "Equinox Security was unable to store the Microsoft Excel File password";
 			LOGGER.error(message);
 			throw new RuntimeException(message);

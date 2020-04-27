@@ -24,32 +24,29 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class PropertyGetterReferencingCellNotManyTest
-{
+public class PropertyGetterReferencingCellNotManyTest {
 	private SpreadsheetModel model = null;
 
-	public PropertyGetterReferencingCellNotManyTest(SpreadsheetModel model)
-	{
+	public PropertyGetterReferencingCellNotManyTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToFile = "resources/propertygetter/PropertyGetterTest.xlsx";
 		String pathToConfig = "resources/propertygetter/PropertyGetterTest.xml";
 		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "PropertyGetterTest");
 	}
 
 	@Test
-	public void test_ReferencedCellNotMany_ReferenceOneToOne_UnknownValue() throws Exception
-	{
+	public void test_ReferencedCellNotMany_ReferenceOneToOne_UnknownValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		String col = "c_2";
 
-		// Write three base referenced rows, use one to write a referencing row, then delete that referenced row
+		// Write three base referenced rows, use one to write a referencing row, then
+		// delete that referenced row
 		SharedTestMethods.writeRow(model, "Sheet2", "c_0", "1", col, "v1, v2");
 		SharedTestMethods.writeRow(model, "Sheet2", "c_0", "2", col, "v1, v2");
 		SpreadsheetRow referencedRow3 = SharedTestMethods.writeRow(model, "Sheet2", "c_0", "3", col, "v1");
@@ -67,8 +64,7 @@ public class PropertyGetterReferencingCellNotManyTest
 	}
 
 	@Test
-	public void test_ReferencedCellNotMany_ReferenceOneToOne_KnownValue() throws Exception
-	{
+	public void test_ReferencedCellNotMany_ReferenceOneToOne_KnownValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -98,14 +94,14 @@ public class PropertyGetterReferencingCellNotManyTest
 	}
 
 	@Test
-	public void test_ReferencedCellNotMany_ReferenceOneToMany_UnknownValue() throws Exception
-	{
+	public void test_ReferencedCellNotMany_ReferenceOneToMany_UnknownValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		String col = "c_3";
 
-		// Write three base referenced rows, use one to write a referencing row, then delete that referenced row
+		// Write three base referenced rows, use one to write a referencing row, then
+		// delete that referenced row
 		SharedTestMethods.writeRow(model, "Sheet2", "c_0", "1", col, "v1, v2");
 		SharedTestMethods.writeRow(model, "Sheet2", "c_0", "2", col, "v1, v2");
 		SpreadsheetRow referencedRow3 = SharedTestMethods.writeRow(model, "Sheet2", "c_0", "3", col, "v1");
@@ -123,8 +119,7 @@ public class PropertyGetterReferencingCellNotManyTest
 	}
 
 	@Test
-	public void test_ReferencedCellNotMany_ReferenceOneToMany_KnownValue() throws Exception
-	{
+	public void test_ReferencedCellNotMany_ReferenceOneToMany_KnownValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -162,22 +157,22 @@ public class PropertyGetterReferencingCellNotManyTest
 	}
 
 	@Test
-	public void test_ReferencedCellMany_ReferenceOneToOne_UnknownValue() throws Exception
-	{
+	public void test_ReferencedCellMany_ReferenceOneToOne_UnknownValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		String col = "c_4";
 
-		// Write three base referenced rows, use one to write a referencing row, then delete that referenced row
+		// Write three base referenced rows, use one to write a referencing row, then
+		// delete that referenced row
 		SharedTestMethods.writeRow(model, "Sheet2", "c_0", "1", col, "v1, v2");
 		SharedTestMethods.writeRow(model, "Sheet2", "c_0", "2", col, "v1, v2");
 		SpreadsheetRow referencedRow3 = SharedTestMethods.writeRow(model, "Sheet2", "c_0", "3", col, "v3");
 		assertTrue(model.getAllOfType("Sheet2").size() == 3);
 		SpreadsheetRow referencingRow = SharedTestMethods.writeRow(model, "Sheet1", "c_0", "1", col, referencedRow3);
 		assertTrue(model.getAllOfType("Sheet1").size() == 1);
-		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(model.getAllOfType("Sheet1").get(0).getColumn(col))
-				.size() == 1);
+		assertTrue(
+			referencingRow.getAllVisibleCellValuesAsIs(model.getAllOfType("Sheet1").get(0).getColumn(col)).size() == 1);
 		model.deleteElement(referencedRow3);
 		assertTrue(model.getAllOfType("Sheet2").size() == 2);
 
@@ -190,22 +185,22 @@ public class PropertyGetterReferencingCellNotManyTest
 	}
 
 	@Test
-	public void test_ReferencedCellMany_ReferenceOneToOne_KnownValue() throws Exception
-	{
+	public void test_ReferencedCellMany_ReferenceOneToOne_KnownValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		String col = "c_4";
 
-		// Write three base referenced rows, use one to write a referencing row, then delete that referenced row
+		// Write three base referenced rows, use one to write a referencing row, then
+		// delete that referenced row
 		SharedTestMethods.writeRow(model, "Sheet2", "c_0", "1", col, "v1, v2");
 		SharedTestMethods.writeRow(model, "Sheet2", "c_0", "2", col, "v1, v2");
 		SpreadsheetRow referencedRow3 = SharedTestMethods.writeRow(model, "Sheet2", "c_0", "3", col, "v1");
 		assertTrue(model.getAllOfType("Sheet2").size() == 3);
 		SpreadsheetRow referencingRow = SharedTestMethods.writeRow(model, "Sheet1", "c_0", "1", col, referencedRow3);
 		assertTrue(model.getAllOfType("Sheet1").size() == 1);
-		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(model.getAllOfType("Sheet1").get(0).getColumn(col))
-				.size() == 1);
+		assertTrue(
+			referencingRow.getAllVisibleCellValuesAsIs(model.getAllOfType("Sheet1").get(0).getColumn(col)).size() == 1);
 		model.deleteElement(referencedRow3);
 		assertTrue(model.getAllOfType("Sheet2").size() == 2);
 
@@ -230,22 +225,22 @@ public class PropertyGetterReferencingCellNotManyTest
 	}
 
 	@Test
-	public void test_ReferencedCellMany_ReferenceOneToMany_UnknownValue() throws Exception
-	{
+	public void test_ReferencedCellMany_ReferenceOneToMany_UnknownValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		String col = "c_5";
 
-		// Write three base referenced rows, use one to write a referencing row, then delete that referenced row
+		// Write three base referenced rows, use one to write a referencing row, then
+		// delete that referenced row
 		SharedTestMethods.writeRow(model, "Sheet2", "c_0", "1", col, "v1, v2");
 		SharedTestMethods.writeRow(model, "Sheet2", "c_0", "2", col, "v1, v2");
 		SpreadsheetRow referencedRow3 = SharedTestMethods.writeRow(model, "Sheet2", "c_0", "3", col, "v3");
 		assertTrue(model.getAllOfType("Sheet2").size() == 3);
 		SpreadsheetRow referencingRow = SharedTestMethods.writeRow(model, "Sheet1", "c_0", "1", col, referencedRow3);
 		assertTrue(model.getAllOfType("Sheet1").size() == 1);
-		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(model.getAllOfType("Sheet1").get(0).getColumn(col))
-				.size() == 1);
+		assertTrue(
+			referencingRow.getAllVisibleCellValuesAsIs(model.getAllOfType("Sheet1").get(0).getColumn(col)).size() == 1);
 		model.deleteElement(referencedRow3);
 		assertTrue(model.getAllOfType("Sheet2").size() == 2);
 
@@ -258,22 +253,22 @@ public class PropertyGetterReferencingCellNotManyTest
 	}
 
 	@Test
-	public void test_ReferencedCellMany_ReferenceOneToMany_KnownValue() throws Exception
-	{
+	public void test_ReferencedCellMany_ReferenceOneToMany_KnownValue() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		String col = "c_5";
 
-		// Write three base referenced rows, use one to write a referencing row, then delete that referenced row
+		// Write three base referenced rows, use one to write a referencing row, then
+		// delete that referenced row
 		SharedTestMethods.writeRow(model, "Sheet2", "c_0", "1", col, "v1, v2");
 		SharedTestMethods.writeRow(model, "Sheet2", "c_0", "2", col, "v1, v2, v3");
 		SpreadsheetRow referencedRow3 = SharedTestMethods.writeRow(model, "Sheet2", "c_0", "3", col, "v1");
 		assertTrue(model.getAllOfType("Sheet2").size() == 3);
 		SpreadsheetRow referencingRow = SharedTestMethods.writeRow(model, "Sheet1", "c_0", "1", col, referencedRow3);
 		assertTrue(model.getAllOfType("Sheet1").size() == 1);
-		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(model.getAllOfType("Sheet1").get(0).getColumn(col))
-				.size() == 1);
+		assertTrue(
+			referencingRow.getAllVisibleCellValuesAsIs(model.getAllOfType("Sheet1").get(0).getColumn(col)).size() == 1);
 		model.deleteElement(referencedRow3);
 		assertTrue(model.getAllOfType("Sheet2").size() == 2);
 

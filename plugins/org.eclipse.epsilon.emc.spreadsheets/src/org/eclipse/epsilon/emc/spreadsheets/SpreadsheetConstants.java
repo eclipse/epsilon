@@ -14,8 +14,7 @@ package org.eclipse.epsilon.emc.spreadsheets;
  * 
  * @author Martins Francis
  */
-public class SpreadsheetConstants
-{
+public class SpreadsheetConstants {
 	public static final String DT_STRING = "string";
 	public static final String DT_INTEGER = "integer";
 	public static final String DT_BOOLEAN = "boolean";
@@ -42,14 +41,16 @@ public class SpreadsheetConstants
 	public static final boolean DEFAULT_REFERENCE_CASCADE = false;
 
 	/**
-	 * This application-wide constant is used to identify worksheets that should be ignored when the model is loaded.
-	 * Any worksheet whose name starts with those characters will be ignored.
+	 * This application-wide constant is used to identify worksheets that should be
+	 * ignored when the model is loaded. Any worksheet whose name starts with those
+	 * characters will be ignored.
 	 */
 	public static final String WORKSHEET_IGNORE_CHARS = "--";
 
 	/**
-	 * This application-wide constant is used to split the column names i.e. the name will be set to the value preceding
-	 * characters defined here. For example, if definition is "-" and name in worksheet is "first-name" then name of
+	 * This application-wide constant is used to split the column names i.e. the
+	 * name will be set to the value preceding characters defined here. For example,
+	 * if definition is "-" and name in worksheet is "first-name" then name of
 	 * column will be set to "first".
 	 */
 	public static final String HEADER_NAME_SPLIT_CHARS = "-";

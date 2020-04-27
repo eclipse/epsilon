@@ -24,239 +24,198 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.junit.Test;
 
-public class ExcelModelTest
-{
+public class ExcelModelTest {
 	private final String PATH_TO_FILE = SharedTestMethods.getBasePath() + "resources/excel/ModelTest.xlsx";
-	private final String PATH_TO_GENERATED_FILE = SharedTestMethods.getBasePath() + "resources/excel/ModelTest.gen.xlsx";
+	private final String PATH_TO_GENERATED_FILE = SharedTestMethods.getBasePath()
+		+ "resources/excel/ModelTest.gen.xlsx";
 	private final String PATH_TO_XLS_FILE = SharedTestMethods.getBasePath() + "resources/excel/ModelTest.xls";
 	private final String PATH_TO_CONFIG = SharedTestMethods.getBasePath() + "resources/excel/ModelTestConfig.xml";
 	private final String PATH_TO_INVALID_CONFIG = SharedTestMethods.getBasePath()
-			+ "resources/excel/ModelTestInvalidConfig.xml";
+		+ "resources/excel/ModelTestInvalidConfig.xml";
 	private final String PATH_TO_PROTECTED_FILE = SharedTestMethods.getBasePath()
-			+ "resources/excel/ModelTestProtected.xlsx";
+		+ "resources/excel/ModelTestProtected.xlsx";
 	private final String PATH_TO_GENERATED_PROTECTED_FILE = SharedTestMethods.getBasePath()
-			+ "resources/excel/ModelTestProtected.gen.xlsx";
+		+ "resources/excel/ModelTestProtected.gen.xlsx";
 	private final String PATH_TO_PROTECTED_XLS_FILE = SharedTestMethods.getBasePath()
-			+ "resources/excel/ModelTestProtected.xls";
+		+ "resources/excel/ModelTestProtected.xls";
 
 	@Test
-	public void testNullModel()
-	{
+	public void testNullModel() {
 		ExcelModel model = new ExcelModel();
-		try
-		{
+		try {
 			model.setSpreadsheetFile(null);
 			model.load();
 			fail("Expecting model not to be loaded due to null file path");
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			return;
 		}
 	}
 
 	@Test
-	public void testEmptyModel()
-	{
+	public void testEmptyModel() {
 		ExcelModel model = new ExcelModel();
-		try
-		{
+		try {
 			model.setSpreadsheetFile("");
 			fail("Expecting model not to be loaded due to empty file path");
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			return;
 		}
 	}
 
 	@Test
-	public void testBlankModelPath()
-	{
+	public void testBlankModelPath() {
 		ExcelModel model = new ExcelModel();
-		try
-		{
+		try {
 			model.setSpreadsheetFile("  ");
 			model.load();
 			fail("Expecting model not to be loaded due to blank file path");
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			return;
 		}
 	}
 
 	@Test
-	public void testModelFileIsProvided()
-	{
+	public void testModelFileIsProvided() {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(this.PATH_TO_FILE);
 
-		try
-		{
+		try {
 			model.load();
 		}
-		catch (EolModelLoadingException e)
-		{
+		catch (EolModelLoadingException e) {
 			fail("Expecting model to be loaded");
 		}
 	}
 
 	@Test
-	public void testModelXlsFileIsProvided()
-	{
+	public void testModelXlsFileIsProvided() {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(this.PATH_TO_XLS_FILE);
 
-		try
-		{
+		try {
 			model.load();
 		}
-		catch (EolModelLoadingException e)
-		{
+		catch (EolModelLoadingException e) {
 			fail("Expecting model to be loaded: " + e.getMessage());
 		}
 	}
 
 	@Test
-	public void testModelInvalidFileIsProvided()
-	{
+	public void testModelInvalidFileIsProvided() {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(this.PATH_TO_FILE + "xyz");
 
-		try
-		{
+		try {
 			model.load();
 			fail("Expecting model not to be loaded due to unknown file");
 		}
-		catch (EolModelLoadingException e)
-		{
+		catch (EolModelLoadingException e) {
 			return;
 		}
 	}
 
 	@Test
-	public void testNullConfigFilePath()
-	{
+	public void testNullConfigFilePath() {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(this.PATH_TO_FILE);
-		try
-		{
+		try {
 			model.setConfigurationFile(null);
 			model.load();
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			fail("Expecting to load on null configuration file path");
 		}
 	}
 
 	@Test
-	public void testEmptyConfigFilePath()
-	{
+	public void testEmptyConfigFilePath() {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(this.PATH_TO_FILE);
-		try
-		{
+		try {
 			model.setConfigurationFile("");
 			model.load();
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			fail("Expecting to load on empty configuration file path");
 		}
 	}
 
 	@Test
-	public void testBlankConfigFilePath()
-	{
+	public void testBlankConfigFilePath() {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(this.PATH_TO_FILE);
-		try
-		{
+		try {
 			model.setConfigurationFile("  ");
 			model.load();
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			fail("Expecting to load on blank configuration file path");
 		}
 	}
 
 	@Test
-	public void testValidConfigFilePath()
-	{
+	public void testValidConfigFilePath() {
 		ExcelModel model = new ExcelModel();
-		try
-		{
+		try {
 			model.setSpreadsheetFile(this.PATH_TO_FILE);
 			model.setConfigurationFile(this.PATH_TO_CONFIG);
 			model.load();
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			fail("Expecting to load both spreadsheet and config");
 		}
 	}
 
 	@Test
-	public void testInvalidConfigFile()
-	{
+	public void testInvalidConfigFile() {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(this.PATH_TO_FILE);
-		try
-		{
+		try {
 
 			model.setConfigurationFile(this.PATH_TO_INVALID_CONFIG);
 			fail("Expecting configuration file not to be parsed successfully");
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			assert (true);
 		}
 	}
 
 	@Test
-	public void testModelName()
-	{
+	public void testModelName() {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(this.PATH_TO_FILE);
 
-		try
-		{
+		try {
 			model.load();
 			assertTrue(model.getName() == null);
 			model.setName("MODEL_NAME");
 			assertTrue(model.getName().equals("MODEL_NAME"));
 		}
-		catch (EolModelLoadingException e)
-		{
+		catch (EolModelLoadingException e) {
 			return;
 		}
 	}
 
 	@Test
-	public void testStore()
-	{
+	public void testStore() {
 		ExcelModel model = new ExcelModel();
-		try
-		{
+		try {
 			model.setSpreadsheetFile(this.PATH_TO_FILE);
 			model.load();
 			model.store(this.PATH_TO_GENERATED_FILE);
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			fail("Expecting the store to work");
 		}
 	}
 
 	@Test
-	public void testStoreWithRead()
-	{
+	public void testStoreWithRead() {
 		ExcelModel model = new ExcelModel();
-		try
-		{
+		try {
 			model.setSpreadsheetFile(this.PATH_TO_FILE);
 			model.setName("M");
 			model.load();
@@ -268,105 +227,87 @@ public class ExcelModelTest
 
 			model.store(this.PATH_TO_GENERATED_FILE);
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}
 
 	@Test
-	public void testProtectedXlsxModelFileLoadAndStore()
-	{
+	public void testProtectedXlsxModelFileLoadAndStore() {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(this.PATH_TO_PROTECTED_FILE);
 
-		try
-		{
+		try {
 			model.setPassword("test");
 			model.load();
 			model.store(this.PATH_TO_GENERATED_PROTECTED_FILE);
 		}
-		catch (EolModelLoadingException e)
-		{
+		catch (EolModelLoadingException e) {
 			fail("Expecting model to be loaded and stored: " + e.getMessage());
 		}
 	}
 
 	@Test
-	public void testProtectedXlsModelFileLoad()
-	{
+	public void testProtectedXlsModelFileLoad() {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(this.PATH_TO_PROTECTED_XLS_FILE);
 
-		try
-		{
+		try {
 			model.setPassword("test");
 			model.load();
 			fail("Expecting model not to be loaded");
 		}
-		catch (EolModelLoadingException e)
-		{
+		catch (EolModelLoadingException e) {
 			return;
 		}
 	}
 
 	@Test
-	public void testLoadFromDt()
-	{
+	public void testLoadFromDt() {
 		StringProperties properties = new StringProperties();
 		properties.put(ExcelModel.SPREADSHEET_FILE, this.PATH_TO_PROTECTED_FILE);
 		properties.put(ExcelModel.CONFIGURATION_FILE, this.PATH_TO_CONFIG);
 		properties.put(ExcelModel.SPREADSHEET_PASSWORD, "test");
 
 		ExcelModel model = new ExcelModel();
-		try
-		{
+		try {
 			model.load(properties, new IRelativePathResolver() {
 				@Override
-				public String resolve(String relativePath)
-				{
+				public String resolve(String relativePath) {
 					return relativePath;
 				}
 			});
 		}
-		catch (EolModelLoadingException e)
-		{
+		catch (EolModelLoadingException e) {
 			fail(e.getMessage());
 		}
 	}
 
 	@Test
-	public void testFindNotSupported()
-	{
+	public void testFindNotSupported() {
 		ExcelModel model = new ExcelModel();
 		model.setName("M");
 		model.setSpreadsheetFile(this.PATH_TO_FILE);
-		try
-		{
+		try {
 			model.load();
 		}
-		catch (EolModelLoadingException e)
-		{
+		catch (EolModelLoadingException e) {
 			fail("Expected model to load successfully");
 		}
-		try
-		{
+		try {
 			model.find(null, null, null);
 			fail("Expecting find() to fail");
 		}
-		catch (UnsupportedOperationException e)
-		{
+		catch (UnsupportedOperationException e) {
 			assert (true);
 		}
-		catch (EolRuntimeException e)
-		{
+		catch (EolRuntimeException e) {
 			fail("EOL Runtime Exception not expected");
 		}
 	}
 
 	@Test
-	public void testAddWorksheetNull() throws Exception
-	{
+	public void testAddWorksheetNull() throws Exception {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(this.PATH_TO_FILE);
 		int worksheets = model.getWorksheets().size();
@@ -375,8 +316,7 @@ public class ExcelModelTest
 	}
 
 	@Test
-	public void testAddReferenceNull() throws Exception
-	{
+	public void testAddReferenceNull() throws Exception {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(this.PATH_TO_FILE);
 		int references = model.getReferences().size();
@@ -385,8 +325,7 @@ public class ExcelModelTest
 	}
 
 	@Test
-	public void testOwnsModel() throws Exception
-	{
+	public void testOwnsModel() throws Exception {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(PATH_TO_FILE);
 		model.setConfigurationFile(PATH_TO_CONFIG);
@@ -403,8 +342,7 @@ public class ExcelModelTest
 	}
 
 	@Test
-	public void testOwnsWorksheet() throws Exception
-	{
+	public void testOwnsWorksheet() throws Exception {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(PATH_TO_FILE);
 		model.setConfigurationFile(PATH_TO_CONFIG);
@@ -421,8 +359,7 @@ public class ExcelModelTest
 	}
 
 	@Test
-	public void testOwnsRow() throws Exception
-	{
+	public void testOwnsRow() throws Exception {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(PATH_TO_FILE);
 		model.setConfigurationFile(PATH_TO_CONFIG);
@@ -439,8 +376,7 @@ public class ExcelModelTest
 	}
 
 	@Test
-	public void testOwnsColumn() throws Exception
-	{
+	public void testOwnsColumn() throws Exception {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(PATH_TO_FILE);
 		model.setConfigurationFile(PATH_TO_CONFIG);
@@ -457,8 +393,7 @@ public class ExcelModelTest
 	}
 
 	@Test
-	public void testOwnsCollectionOfString() throws Exception
-	{
+	public void testOwnsCollectionOfString() throws Exception {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(PATH_TO_FILE);
 		model.setConfigurationFile(PATH_TO_CONFIG);
@@ -474,8 +409,7 @@ public class ExcelModelTest
 	}
 
 	@Test
-	public void testOwnsCollectionOfRows() throws Exception
-	{
+	public void testOwnsCollectionOfRows() throws Exception {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(PATH_TO_FILE);
 		model.setConfigurationFile(PATH_TO_CONFIG);
@@ -491,14 +425,13 @@ public class ExcelModelTest
 		assertTrue(!model2.owns(Arrays.asList(model.getAllOfType("Sheet1").get(0))));
 
 		List<SpreadsheetRow> mixedList = Arrays.asList(model.getAllOfType("Sheet1").get(0),
-				model2.getAllOfType("Sheet1").get(0));
+			model2.getAllOfType("Sheet1").get(0));
 		assertTrue(!model.owns(mixedList));
 		assertTrue(!model2.owns(mixedList));
 	}
 
 	@Test
-	public void testAddWorksheetFromAnotherModel() throws Exception
-	{
+	public void testAddWorksheetFromAnotherModel() throws Exception {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(PATH_TO_FILE);
 		model.setConfigurationFile(PATH_TO_CONFIG);
@@ -509,20 +442,17 @@ public class ExcelModelTest
 		model2.setConfigurationFile(PATH_TO_CONFIG);
 		model2.load();
 
-		try
-		{
+		try {
 			model.addWorksheet(model2.getWorksheetByType("Sheet1"));
 			fail("Should not be able to add worksheet that belongs to another spreadsheet model");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testHasType() throws Exception
-	{
+	public void testHasType() throws Exception {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(PATH_TO_FILE);
 		model.setConfigurationFile(PATH_TO_CONFIG);
@@ -531,8 +461,7 @@ public class ExcelModelTest
 	}
 
 	@Test
-	public void testIsInstantiable() throws Exception
-	{
+	public void testIsInstantiable() throws Exception {
 		ExcelModel model = new ExcelModel();
 		model.setSpreadsheetFile(PATH_TO_FILE);
 		model.setConfigurationFile(PATH_TO_CONFIG);

@@ -24,26 +24,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class PropertyGetterTest
-{
+public class PropertyGetterTest {
 	private SpreadsheetModel model = null;
 
-	public PropertyGetterTest(SpreadsheetModel model)
-	{
+	public PropertyGetterTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String PATH_TO_FILE = "resources/propertygetter/PropertyGetterTest.xlsx";
 		String CONFIG = "resources/propertygetter/PropertyGetterTest.xml";
 		return TestModelFactory.getModelsToTest("", PATH_TO_FILE, CONFIG, "PropertyGetterTest");
 	}
 
 	@Test
-	public void testReadVisibleValueUsingPrefixedColumnName() throws Exception
-	{
+	public void testReadVisibleValueUsingPrefixedColumnName() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		String col = "c_2";
@@ -57,8 +53,7 @@ public class PropertyGetterTest
 	}
 
 	@Test
-	public void testReadVisibleValueUsingPrefixedColumnId() throws Exception
-	{
+	public void testReadVisibleValueUsingPrefixedColumnId() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		String col = "c_2";
@@ -72,8 +67,7 @@ public class PropertyGetterTest
 	}
 
 	@Test
-	public void testPrefixedColumnIdThatIsUnknown() throws Exception
-	{
+	public void testPrefixedColumnIdThatIsUnknown() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
 		String col = "c_2";
@@ -82,13 +76,11 @@ public class PropertyGetterTest
 		assertTrue(model.getAllOfType("Sheet2").size() == 1);
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
-		try
-		{
+		try {
 			getter.invoke(referencedRow, "v_unknown");
 			fail("Should not be able to select value for unknown column");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 	}

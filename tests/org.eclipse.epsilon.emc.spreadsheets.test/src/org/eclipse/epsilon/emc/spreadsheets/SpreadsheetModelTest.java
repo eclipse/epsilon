@@ -14,110 +14,88 @@ import static org.junit.Assert.fail;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.Test;
 
-public class SpreadsheetModelTest
-{
+public class SpreadsheetModelTest {
 
 	@Test
-	public void testGetEnumerationValue()
-	{
+	public void testGetEnumerationValue() {
 		SpreadsheetModel model = new ConcreteModel();
-		try
-		{
+		try {
 			model.getEnumerationValue(null, null);
 			fail("Method has not been implemented");
 		}
-		catch (UnsupportedOperationException e)
-		{
+		catch (UnsupportedOperationException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testGetElementById()
-	{
+	public void testGetElementById() {
 		SpreadsheetModel model = new ConcreteModel();
-		try
-		{
+		try {
 			model.getElementById("");
 			fail("Method has not been implemented");
 		}
-		catch (UnsupportedOperationException e)
-		{
+		catch (UnsupportedOperationException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testElementId()
-	{
+	public void testElementId() {
 		SpreadsheetModel model = new ConcreteModel();
-		try
-		{
+		try {
 			model.getElementId("");
 			fail("Method has not been implemented");
 		}
-		catch (UnsupportedOperationException e)
-		{
+		catch (UnsupportedOperationException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testSetElementId()
-	{
+	public void testSetElementId() {
 		SpreadsheetModel model = new ConcreteModel();
-		try
-		{
+		try {
 			model.setElementId(null, null);
 			fail("Method has not been implemented");
 		}
-		catch (UnsupportedOperationException e)
-		{
+		catch (UnsupportedOperationException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testStoreString()
-	{
+	public void testStoreString() {
 		SpreadsheetModel model = new ConcreteModel();
-		try
-		{
+		try {
 			model.store("");
 			fail("Method has not been implemented");
 		}
-		catch (UnsupportedOperationException e)
-		{
+		catch (UnsupportedOperationException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testStore()
-	{
+	public void testStore() {
 		SpreadsheetModel model = new ConcreteModel();
-		try
-		{
+		try {
 			model.store();
 			fail("Method has not been implemented");
 		}
-		catch (UnsupportedOperationException e)
-		{
+		catch (UnsupportedOperationException e) {
 			assertTrue(true);
 		}
 	}
-	
+
 	@Test
-	public void testDeleteNotRow()
-	{
+	public void testDeleteNotRow() {
 		SpreadsheetModel model = new ConcreteModel();
-		try
-		{
+		try {
 			model.deleteElement("NOT A ROW");
 			fail("Should not be able to delete string objects");
 		}
-		catch (EolRuntimeException e)
-		{
+		catch (EolRuntimeException e) {
 			assertTrue(true);
 		}
 	}

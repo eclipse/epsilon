@@ -24,19 +24,16 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog
-{
+public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog {
 	private static final Logger LOGGER = LoggerFactory.getLogger(GSModelConfigurationDialog.class);
 
 	@Override
-	protected String getModelName()
-	{
+	protected String getModelName() {
 		return "Google Spreadsheet";
 	}
 
 	@Override
-	protected String getModelType()
-	{
+	protected String getModelType() {
 		return "SecureGSModel";
 	}
 
@@ -51,16 +48,14 @@ public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog
 	protected Button browseConfigFile;
 
 	@Override
-	protected void createGroups(final Composite control)
-	{
+	protected void createGroups(final Composite control) {
 		createNameAliasGroup(control);
 		createConnectionGroup(control);
 		createSpreadsheetGroup(control);
 		createConfigurationFileGroup(control);
 	}
 
-	protected void createConnectionGroup(final Composite parent)
-	{
+	protected void createConnectionGroup(final Composite parent) {
 		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Connection Parameters", 2);
 		usernameLabel = new Label(groupContent, SWT.NONE);
 		usernameLabel.setText("Username: ");
@@ -78,8 +73,7 @@ public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog
 		groupContent.pack();
 	}
 
-	protected void createSpreadsheetGroup(final Composite parent)
-	{
+	protected void createSpreadsheetGroup(final Composite parent) {
 		final Composite groupContent = DialogUtil.createGroupContainer(parent, "Spreadsheet Details", 2);
 
 		spreadsheetNameLabel = new Label(groupContent, SWT.NONE);
@@ -92,8 +86,7 @@ public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog
 		groupContent.pack();
 	}
 
-	protected void createConfigurationFileGroup(final Composite parent)
-	{
+	protected void createConfigurationFileGroup(final Composite parent) {
 		final Composite groupContent = DialogUtil.createGroupContainer(parent, "ORM Meta-data", 3);
 
 		configFileTextLabel = new Label(groupContent, SWT.NONE);
@@ -105,29 +98,25 @@ public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog
 		browseConfigFile = new Button(groupContent, SWT.NONE);
 		browseConfigFile.setText("Browse Workspace...");
 		browseConfigFile.addListener(SWT.Selection, new BrowseWorkspaceForModelsListener(configFileText,
-				"XML meta-data file in the workspace", "Select an XML Meta-data File"));
+			"XML meta-data file in the workspace", "Select an XML Meta-data File"));
 
 		groupContent.layout();
 		groupContent.pack();
 	}
 
 	@Override
-	protected void loadProperties()
-	{
+	protected void loadProperties() {
 		super.loadProperties();
 
-		if (properties != null)
-		{
+		if (properties != null) {
 			this.usernameText.setText(properties.getProperty(GSModel.GOOGLE_USERNAME));
 
 			// Get password from the vault
 			final SecureGSModel secureModel = new SecureGSModel();
-			try
-			{
+			try {
 				this.passwordText.setText(secureModel.loadPassword(properties));
 			}
-			catch (StorageException e)
-			{
+			catch (StorageException e) {
 				final String message = "Unable to retrieve the password from Equinox Security vault";
 				LOGGER.error(message);
 				throw new RuntimeException(message);
@@ -139,20 +128,17 @@ public class GSModelConfigurationDialog extends AbstractModelConfigurationDialog
 	}
 
 	@Override
-	protected void storeProperties()
-	{
+	protected void storeProperties() {
 		super.storeProperties();
 		super.properties.put(GSModel.GOOGLE_USERNAME, this.usernameText.getText());
 
 		// Store the password in vault
 		final ISecurePreferences preferences = SecurePreferencesFactory.getDefault();
 		final ISecurePreferences node = preferences.node(this.usernameText.getText());
-		try
-		{
+		try {
 			node.put(GSModel.GOOGLE_PASSWORD, this.passwordText.getText(), true);
 		}
-		catch (StorageException e1)
-		{
+		catch (StorageException e1) {
 			final String message = "Equinox Security was unable to store the Google account password";
 			LOGGER.error(message);
 			throw new RuntimeException(message);

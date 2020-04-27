@@ -36,8 +36,7 @@ import com.google.gdata.data.spreadsheet.ListFeed;
 import com.google.gdata.data.spreadsheet.WorksheetEntry;
 import com.google.gdata.util.ServiceException;
 
-public class GSWorksheet extends SpreadsheetWorksheet
-{
+public class GSWorksheet extends SpreadsheetWorksheet {
 	private static final Logger LOGGER = LoggerFactory.getLogger(GSWorksheet.class);
 
 	private GSModel model;
@@ -46,21 +45,22 @@ public class GSWorksheet extends SpreadsheetWorksheet
 	private HashSet<GSRow> rows;
 
 	/*
-	 * This field indicates whether the Google worksheet has any value set in the header. Required because when header
-	 * is blank the first row written using ListFeed is written to the header row. Bug reported to Google:
+	 * This field indicates whether the Google worksheet has any value set in the
+	 * header. Required because when header is blank the first row written using
+	 * ListFeed is written to the header row. Bug reported to Google:
 	 * https://code.google.com/a/google.com/p/apps-api-issues/issues/detail?id=3355
 	 */
 	private boolean headerInWorksheetIsEmpty;
 
 	/*
-	 * Each Google Spreadsheet column is identified by some unique Google-assigned id. We may want to manage columns
-	 * that do not have a title (value in header row cell) thus this id is required, for example, to write a row.
+	 * Each Google Spreadsheet column is identified by some unique Google-assigned
+	 * id. We may want to manage columns that do not have a title (value in header
+	 * row cell) thus this id is required, for example, to write a row.
 	 */
 	private boolean hasGoogleIdsSet;
 
 	public GSWorksheet(final GSModel model, final WorksheetEntry worksheetEntry, final boolean existsInSpreadsheet)
-			throws Exception
-	{
+		throws Exception {
 		super(model, worksheetEntry.getTitle().getPlainText(), existsInSpreadsheet);
 
 		this.model = model;
@@ -71,34 +71,26 @@ public class GSWorksheet extends SpreadsheetWorksheet
 		this.initialise();
 	}
 
-	private void initialise() throws Exception
-	{
-		if (super.existsInSpreadsheet)
-		{
+	private void initialise() throws Exception {
+		if (super.existsInSpreadsheet) {
 			this.initialiseListFeed();
 			this.loadHeader();
 		}
 	}
 
-	private void initialiseListFeed() throws Exception
-	{
+	private void initialiseListFeed() throws Exception {
 		final URL listFeedUrl = new URL(this.worksheetEntry.getListFeedUrl().toString());// + "?return-empty=true");
 		this.listFeed = this.model.getWorksheetListFeed(listFeedUrl);
 	}
 
 	@Override
-	protected void loadHeader() throws EolModelLoadingException
-	{
-		try
-		{
+	protected void loadHeader() throws EolModelLoadingException {
+		try {
 			final CellFeed headerRow = this.getHeaderCellFeed();
-			if (headerRow != null)
-			{
-				for (final CellEntry headerCell : headerRow.getEntries())
-				{
+			if (headerRow != null) {
+				for (final CellEntry headerCell : headerRow.getEntries()) {
 					final String name = headerCell.getCell().getValue();
-					if (StringUtils.isNotBlank(name))
-					{
+					if (StringUtils.isNotBlank(name)) {
 						LOGGER.debug("Adding column with name: '" + name + "' to the header");
 						int i = headerCell.getCell().getCol();
 						super.addColumn(i - getColumnOffset(), name);
@@ -107,20 +99,17 @@ public class GSWorksheet extends SpreadsheetWorksheet
 				}
 				this.writeValueInFirstCellIfHeaderIsEmpty();
 			}
-			else
-			{
+			else {
 				throw new EolRuntimeException("Cell feed failed to load the header row");
 			}
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new EolModelLoadingException(e, this.model);
 		}
 	}
 
-	private CellFeed getHeaderCellFeed() throws Exception
-	{
+	private CellFeed getHeaderCellFeed() throws Exception {
 		final StringBuilder uri = new StringBuilder(this.worksheetEntry.getCellFeedUrl().toString());
 		uri.append("?min-row=" + Integer.toString(GSConstants.HEADER_ROW_INDEX));
 		uri.append("&max-row=" + Integer.toString(GSConstants.HEADER_ROW_INDEX));
@@ -129,10 +118,8 @@ public class GSWorksheet extends SpreadsheetWorksheet
 		return this.model.getWorksheetCellFeed(cellFeedUrl);
 	}
 
-	private void writeValueInFirstCellIfHeaderIsEmpty() throws Exception
-	{
-		if (this.headerInWorksheetIsEmpty)
-		{
+	private void writeValueInFirstCellIfHeaderIsEmpty() throws Exception {
+		if (this.headerInWorksheetIsEmpty) {
 			LOGGER.debug("Header is empty.. writing default value to first cell");
 			this.writeHeaderCell(1, GSConstants.DEFAULT_COLUMN_VALUE);
 			super.addColumn(0, GSConstants.DEFAULT_COLUMN_VALUE);
@@ -140,8 +127,7 @@ public class GSWorksheet extends SpreadsheetWorksheet
 		}
 	}
 
-	public void writeHeaderCell(final int columnIndex, final String columnName) throws Exception
-	{
+	public void writeHeaderCell(final int columnIndex, final String columnName) throws Exception {
 		final CellFeed cellFeed = this.getHeaderCellFeed();
 		final CellEntry cellEntry = new CellEntry(GSConstants.HEADER_ROW_INDEX, columnIndex, columnName);
 		cellFeed.insert(cellEntry);
@@ -153,47 +139,38 @@ public class GSWorksheet extends SpreadsheetWorksheet
 	 * @throws IOException
 	 * @throws ServiceException
 	 */
-	public void delete() throws Exception
-	{
+	public void delete() throws Exception {
 		this.worksheetEntry.delete();
 	}
 
 	@Override
-	public SpreadsheetColumn addColumn(final SpreadsheetColumnMetadata metadata)
-	{
+	public SpreadsheetColumn addColumn(final SpreadsheetColumnMetadata metadata) {
 		final SpreadsheetColumn column = super.addColumn(metadata);
-		if (StringUtils.isNotBlank(column.getName()))
-		{
+		if (StringUtils.isNotBlank(column.getName())) {
 			this.headerInWorksheetIsEmpty = false;
 		}
 		return column;
 	}
 
 	@Override
-	public SpreadsheetColumn createColumn(final int columnIndex)
-	{
+	public SpreadsheetColumn createColumn(final int columnIndex) {
 		return new GSColumn(this, columnIndex);
 	}
 
 	@Override
-	public List<SpreadsheetRow> getRows()
-	{
+	public List<SpreadsheetRow> getRows() {
 		LOGGER.debug("*** Reading Rows");
 		this.checkThatWorksheetExists();
-		if (this.rows == null)
-		{
-			try
-			{
+		if (this.rows == null) {
+			try {
 				this.rows = new LinkedHashSet<>();
 				this.listFeed = this.listFeed.getSelf();
-				for (final ListEntry listEntry : this.listFeed.getEntries())
-				{
+				for (final ListEntry listEntry : this.listFeed.getEntries()) {
 					final GSRow row = new GSRow(this, listEntry);
 					this.rows.add(row);
 				}
 			}
-			catch (Exception e)
-			{
+			catch (Exception e) {
 				e.printStackTrace();
 				throw new IllegalStateException(e.getMessage());
 			}
@@ -202,15 +179,12 @@ public class GSWorksheet extends SpreadsheetWorksheet
 	}
 
 	@Override
-	protected SpreadsheetRow insertRow(final Map<SpreadsheetColumn, String> values)
-	{
+	protected SpreadsheetRow insertRow(final Map<SpreadsheetColumn, String> values) {
 		LOGGER.debug("*** Inserting Row: " + values);
 		this.checkThatWorksheetExists();
-		try
-		{
+		try {
 			ListEntry listEntry = new ListEntry();
-			for (final Map.Entry<SpreadsheetColumn, String> entry : values.entrySet())
-			{
+			for (final Map.Entry<SpreadsheetColumn, String> entry : values.entrySet()) {
 				final GSColumn column = (GSColumn) entry.getKey();
 				String value = entry.getValue().equals("") ? this.getDefaultEmptyCellValue() : entry.getValue();
 				listEntry.getCustomElements().setValueLocal(column.getGoogleColumnId(), value);
@@ -222,43 +196,36 @@ public class GSWorksheet extends SpreadsheetWorksheet
 			this.rows.add(row);
 			return row;
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
 	}
 
 	@Override
-	public void removeRow(final SpreadsheetRow row)
-	{
+	public void removeRow(final SpreadsheetRow row) {
 		LOGGER.debug("*** Removing Row");
 		this.checkThatWorksheetExists();
-		try
-		{
+		try {
 			final int rowIndex = new ArrayList<>(this.rows).indexOf(row);
 			this.listFeed = this.listFeed.getSelf();
 			this.listFeed.getEntries().get(rowIndex).delete();
 			this.worksheetEntry = this.worksheetEntry.getSelf();
 			this.rows.remove(row);
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
 	}
 
 	@Override
-	protected void checkThatWorksheetExists()
-	{
+	protected void checkThatWorksheetExists() {
 		this.createInSpreadsheet();
-		try
-		{
+		try {
 			this.getGoogleColumnIds();
 		}
-		catch (EolRuntimeException e)
-		{
+		catch (EolRuntimeException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
@@ -266,13 +233,11 @@ public class GSWorksheet extends SpreadsheetWorksheet
 	}
 
 	@Override
-	public String getDefaultEmptyCellValue()
-	{
+	public String getDefaultEmptyCellValue() {
 		return " ";
 	}
 
-	public int getColumnOffset()
-	{
+	public int getColumnOffset() {
 		return 1;
 	}
 
@@ -283,19 +248,16 @@ public class GSWorksheet extends SpreadsheetWorksheet
 	 * @throws ServiceException
 	 * @throws IOException
 	 */
-	public URL getListFeedURL() throws IOException, ServiceException
-	{
+	public URL getListFeedURL() throws IOException, ServiceException {
 		this.worksheetEntry = this.worksheetEntry.getSelf();
 		return this.worksheetEntry.getListFeedUrl();
 	}
 
-	public int getRowIndex(GSRow row)
-	{
+	public int getRowIndex(GSRow row) {
 		return new ArrayList<>(this.rows).indexOf(row);
 	}
 
-	public ListEntry getListEntry(final GSRow row) throws IOException, ServiceException
-	{
+	public ListEntry getListEntry(final GSRow row) throws IOException, ServiceException {
 		this.worksheetEntry = this.worksheetEntry.getSelf();
 		this.listFeed = this.listFeed.getSelf();
 		int i = this.getRowIndex(row);
@@ -303,12 +265,9 @@ public class GSWorksheet extends SpreadsheetWorksheet
 	}
 
 	@Override
-	protected void createInSpreadsheet()
-	{
-		try
-		{
-			if (!super.existsInSpreadsheet)
-			{
+	protected void createInSpreadsheet() {
+		try {
+			if (!super.existsInSpreadsheet) {
 				LOGGER.debug("Creating worksheet '" + this.worksheetEntry.getTitle().getPlainText() + "'");
 				this.worksheetEntry = this.model.insertWorksheet(this.worksheetEntry);
 				super.existsInSpreadsheet = true;
@@ -318,19 +277,15 @@ public class GSWorksheet extends SpreadsheetWorksheet
 				this.getGoogleColumnIds();
 			}
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
 	}
 
-	private void writeHeader() throws Exception
-	{
-		for (final SpreadsheetColumn column : this.getHeader().getColumns())
-		{
-			if (StringUtils.isNotBlank(column.getName()))
-			{
+	private void writeHeader() throws Exception {
+		for (final SpreadsheetColumn column : this.getHeader().getColumns()) {
+			if (StringUtils.isNotBlank(column.getName())) {
 				this.writeHeaderCell(column.getIndex() + this.getColumnOffset(), column.getName());
 				this.headerInWorksheetIsEmpty = false;
 			}
@@ -338,18 +293,15 @@ public class GSWorksheet extends SpreadsheetWorksheet
 		this.writeValueInFirstCellIfHeaderIsEmpty();
 	}
 
-	private void getGoogleColumnIds() throws EolRuntimeException
-	{
+	private void getGoogleColumnIds() throws EolRuntimeException {
 		super.checkThatWorksheetExists();
-		if (this.hasGoogleIdsSet)
-		{
+		if (this.hasGoogleIdsSet) {
 			return;
 		}
 
 		LOGGER.debug("Loading Google ids for '" + this.getName() + "'... ");
 
-		try
-		{
+		try {
 			this.hasGoogleIdsSet = true;
 			final int maxColIndex = this.getHeader().getColumns().last().getIndex() + this.getColumnOffset();
 			final int rowIndex = this.getRows().size() + GSConstants.HEADER_ROW_INDEX + 1;
@@ -362,25 +314,21 @@ public class GSWorksheet extends SpreadsheetWorksheet
 			LOGGER.debug("<< done");
 			LOGGER.debug(this.toString());
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new EolRuntimeException(e.getMessage());
 		}
 	}
 
-	private void extendWorksheet(final int rowIndex) throws IOException, ServiceException
-	{
+	private void extendWorksheet(final int rowIndex) throws IOException, ServiceException {
 		this.worksheetEntry = this.worksheetEntry.getSelf();
-		if (this.worksheetEntry.getRowCount() < rowIndex)
-		{
+		if (this.worksheetEntry.getRowCount() < rowIndex) {
 			this.worksheetEntry.setRowCount(rowIndex + GSConstants.DEFAULT_WORKSHEET_ROWS);
 			this.worksheetEntry = this.worksheetEntry.update();
 		}
 	}
 
-	private void writeTemporaryRow(final int rowIndex, final int lastColumnIndex) throws Exception
-	{
+	private void writeTemporaryRow(final int rowIndex, final int lastColumnIndex) throws Exception {
 		final StringBuilder uri = new StringBuilder(this.worksheetEntry.getCellFeedUrl().toString());
 		uri.append("?min-row=" + Integer.toString(rowIndex));
 		uri.append("&max-row=" + Integer.toString(rowIndex));
@@ -388,56 +336,47 @@ public class GSWorksheet extends SpreadsheetWorksheet
 		uri.append("&return-empty=true");
 		final URL cellFeedUrl = new URI(uri.toString()).toURL();
 		final CellFeed cellFeed = this.model.getWorksheetCellFeed(cellFeedUrl);
-		for (final CellEntry cell : cellFeed.getEntries())
-		{
+		for (final CellEntry cell : cellFeed.getEntries()) {
 			cell.changeInputValueLocal(GSConstants.DEFAULT_COLUMN_VALUE);
 			cell.update();
 		}
 	}
 
-	private GSRow loadGoogleColumnIds(final int rowIndex, final int lastColumnIndex) throws Exception
-	{
+	private GSRow loadGoogleColumnIds(final int rowIndex, final int lastColumnIndex) throws Exception {
 		final StringBuilder uri = new StringBuilder(this.worksheetEntry.getListFeedUrl().toString());
 		uri.append("?start-index=" + Integer.toString(rowIndex - GSConstants.HEADER_ROW_INDEX));
 		uri.append("&max-results=1");
 		final URL listFeedUrl = new URL(uri.toString());
 		final ListFeed listFeed = this.model.getWorksheetListFeed(listFeedUrl);
 		final List<ListEntry> listEntries = listFeed.getEntries();
-		if (listEntries.size() == 1)
-		{
+		if (listEntries.size() == 1) {
 			final ListEntry temporaryRow = listEntries.get(0);
 			this.extractGoogleIdsFromRow(temporaryRow, lastColumnIndex);
 			return new GSRow(this, temporaryRow);
 		}
-		else
-		{
+		else {
 			throw new IllegalStateException("Failed to retrieve temporary row");
 		}
 	}
 
-	private void extractGoogleIdsFromRow(final ListEntry row, final int lastColumnIndex)
-	{
+	private void extractGoogleIdsFromRow(final ListEntry row, final int lastColumnIndex) {
 		int columnIndex = 1 - this.getColumnOffset();
 		final Iterator<String> it = row.getCustomElements().getTags().iterator(); // Google preserves column ordering
-		while (it.hasNext())
-		{
+		while (it.hasNext()) {
 			final String googleColumnId = it.next();
 			final GSColumn column = (GSColumn) super.getColumn(columnIndex);
-			if (column != null)
-			{
+			if (column != null) {
 				column.setGoogleColumnId(googleColumnId);
 			}
 			final boolean lastColumnReached = columnIndex == lastColumnIndex;
-			if (lastColumnReached)
-			{
+			if (lastColumnReached) {
 				break;
 			}
 			columnIndex++;
 		}
 	}
 
-	public void getSelf() throws Exception
-	{
+	public void getSelf() throws Exception {
 		this.worksheetEntry = this.worksheetEntry.getSelf();
 	}
 

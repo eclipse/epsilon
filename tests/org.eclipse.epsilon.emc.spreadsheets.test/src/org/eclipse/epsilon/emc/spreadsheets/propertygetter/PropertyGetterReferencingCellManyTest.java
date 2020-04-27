@@ -24,18 +24,15 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class PropertyGetterReferencingCellManyTest
-{
+public class PropertyGetterReferencingCellManyTest {
 	private SpreadsheetModel model = null;
 
-	public PropertyGetterReferencingCellManyTest(SpreadsheetModel model)
-	{
+	public PropertyGetterReferencingCellManyTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToFile = "resources/propertygetter/PropertyGetterTest.xlsx";
 		String pathToConfig = "resources/propertygetter/PropertyGetterTest.xml";
 		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "PropertyGetterTest");
@@ -43,8 +40,7 @@ public class PropertyGetterReferencingCellManyTest
 
 	@SuppressWarnings("unused")
 	@Test
-	public void test_CellsManyToNotMany_ReferenceOneToOne_OneValueInReferencingCell() throws Exception
-	{
+	public void test_CellsManyToNotMany_ReferenceOneToOne_OneValueInReferencingCell() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -77,8 +73,7 @@ public class PropertyGetterReferencingCellManyTest
 
 	@SuppressWarnings("unused")
 	@Test
-	public void test_CellsManyToNotMany_ReferenceOneToOne_TwoValuesInReferencingCell() throws Exception
-	{
+	public void test_CellsManyToNotMany_ReferenceOneToOne_TwoValuesInReferencingCell() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -114,8 +109,7 @@ public class PropertyGetterReferencingCellManyTest
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testCellsManyToNotManyReferenceOneToOne_ThreeValuesInReferencingCell() throws Exception
-	{
+	public void testCellsManyToNotManyReferenceOneToOne_ThreeValuesInReferencingCell() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -141,8 +135,7 @@ public class PropertyGetterReferencingCellManyTest
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testCellsManyToNotMany_ReferenceOneToMany_OneValueInReferencingCell() throws Exception
-	{
+	public void testCellsManyToNotMany_ReferenceOneToMany_OneValueInReferencingCell() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -181,8 +174,7 @@ public class PropertyGetterReferencingCellManyTest
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testCellsManyToNotMany_ReferenceOneToMany_TwoValuesInReferencingCell() throws Exception
-	{
+	public void testCellsManyToNotMany_ReferenceOneToMany_TwoValuesInReferencingCell() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -221,8 +213,7 @@ public class PropertyGetterReferencingCellManyTest
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testCellsManyToNotMany_ReferenceOneToMany_ThreeValuesInReferencingCell() throws Exception
-	{
+	public void testCellsManyToNotMany_ReferenceOneToMany_ThreeValuesInReferencingCell() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -248,8 +239,7 @@ public class PropertyGetterReferencingCellManyTest
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testCellsManyToMany_ReferenceOneToOne_OneValueInReferencingCell() throws Exception
-	{
+	public void testCellsManyToMany_ReferenceOneToOne_OneValueInReferencingCell() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -283,8 +273,7 @@ public class PropertyGetterReferencingCellManyTest
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testCellsManyToMany_ReferenceOneToOne_TwoValuesInReferencingCell() throws Exception
-	{
+	public void testCellsManyToMany_ReferenceOneToOne_TwoValuesInReferencingCell() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -319,8 +308,7 @@ public class PropertyGetterReferencingCellManyTest
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testCellsManyToMany_ReferenceOneToOne_ThreeValuesInReferencingCell() throws Exception
-	{
+	public void testCellsManyToMany_ReferenceOneToOne_ThreeValuesInReferencingCell() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -367,8 +355,7 @@ public class PropertyGetterReferencingCellManyTest
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testCellsManyToMany_ReferenceOneToMany_OneValueInReferencingCell() throws Exception
-	{
+	public void testCellsManyToMany_ReferenceOneToMany_OneValueInReferencingCell() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -422,8 +409,7 @@ public class PropertyGetterReferencingCellManyTest
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testCellsManyToMany_ReferenceOneToMany_TwoValuesInReferencingCell() throws Exception
-	{
+	public void testCellsManyToMany_ReferenceOneToMany_TwoValuesInReferencingCell() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -468,8 +454,7 @@ public class PropertyGetterReferencingCellManyTest
 
 	@SuppressWarnings("unused")
 	@Test
-	public void testCellsManyToManyReferenceOneToMany_ThreeValuesInReferencingCell() throws Exception
-	{
+	public void testCellsManyToManyReferenceOneToMany_ThreeValuesInReferencingCell() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 

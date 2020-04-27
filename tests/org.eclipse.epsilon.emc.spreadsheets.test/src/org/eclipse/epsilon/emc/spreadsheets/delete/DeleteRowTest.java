@@ -25,26 +25,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class DeleteRowTest
-{
+public class DeleteRowTest {
 	private SpreadsheetModel model = null;
 
-	public DeleteRowTest(SpreadsheetModel model)
-	{
+	public DeleteRowTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToFile = "resources/delete/DeleteRowTest.xlsx";
 		String pathToConfig = "resources/delete/DeleteRowTestConfig.xml";
 		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "DeleteRowTest");
 	}
 
 	@Test
-	public void testRowFromAnotherWorksheet() throws Exception
-	{
+	public void testRowFromAnotherWorksheet() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 
@@ -56,13 +52,11 @@ public class DeleteRowTest
 		assertTrue(model.getAllOfKind("Sheet2").size() == 1);
 		assertTrue(model.getAllOfKind("Sheet1").size() == 1);
 
-		try
-		{
+		try {
 			model.getWorksheetByType("Sheet1").deleteRow(rowSheet2_req1);
 			fail("Should not be able to delete row from another worksheet");
 		}
-		catch (EolRuntimeException e)
-		{
+		catch (EolRuntimeException e) {
 			System.out.println(e.getMessage());
 			assertTrue(true);
 		}
@@ -72,8 +66,7 @@ public class DeleteRowTest
 	}
 
 	@Test
-	public void testDeleteRegularRow() throws Exception
-	{
+	public void testDeleteRegularRow() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet3");
 
 		String col = "c_2";
@@ -86,8 +79,7 @@ public class DeleteRowTest
 	}
 
 	@Test
-	public void testDeleteReferencingRow() throws Exception
-	{
+	public void testDeleteReferencingRow() throws Exception {
 		SharedTestMethods.clearWorksheet(model, "Sheet1");
 		SharedTestMethods.clearWorksheet(model, "Sheet2");
 

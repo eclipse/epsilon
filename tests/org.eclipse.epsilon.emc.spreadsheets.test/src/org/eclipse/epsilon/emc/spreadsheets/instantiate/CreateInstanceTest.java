@@ -32,26 +32,22 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class CreateInstanceTest
-{
+public class CreateInstanceTest {
 	private static SpreadsheetModel model = null;
 
-	public CreateInstanceTest(SpreadsheetModel model)
-	{
+	public CreateInstanceTest(SpreadsheetModel model) {
 		CreateInstanceTest.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String pathToFile = "resources/instantiate/CreateInstanceTest.xlsx";
 		String pathToConfig = "resources/instantiate/CreateInstanceTestConfig.xml";
 		return TestModelFactory.getModelsToTest("", pathToFile, pathToConfig, "CreateInstanceTest");
 	}
 
 	@Test
-	public void testWriteCollectionOfMap() throws Exception
-	{
+	public void testWriteCollectionOfMap() throws Exception {
 		String worksheetName = "Sheet4";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -76,8 +72,7 @@ public class CreateInstanceTest
 	}
 
 	@Test
-	public void testWriteEmptyCollection() throws Exception
-	{
+	public void testWriteEmptyCollection() throws Exception {
 		String worksheetName = "Sheet4";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -99,8 +94,7 @@ public class CreateInstanceTest
 	}
 
 	@Test
-	public void testWriteCollectionOfSet() throws Exception
-	{
+	public void testWriteCollectionOfSet() throws Exception {
 		String worksheetName = "Sheet4";
 
 		SharedTestMethods.clearWorksheet(model, worksheetName);
@@ -110,54 +104,46 @@ public class CreateInstanceTest
 		Set<String> values = new HashSet<>();
 		values.add("string1");
 		list.add(values);
-		try
-		{
+		try {
 			model.createInstance(worksheetName, list);
 			fail("Should not be possible to write collection of non-Map objects");
 		}
-		catch (IllegalArgumentException e)
-		{
+		catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
 		assertTrue(model.getAllOfType(worksheetName).size() == 0);
 	}
 
 	@Test
-	public void testInstantiateUnknownWorksheet() throws Exception
-	{
+	public void testInstantiateUnknownWorksheet() throws Exception {
 		String worksheetName = "UNKNOWN";
 
 		List<Object> list = new ArrayList<>();
 		Map<String, Object> values = new HashMap<>();
 		values.put("c_1", "string1");
 		list.add(values);
-		try
-		{
+		try {
 			model.createInstance(worksheetName, list);
 			fail("Unspecified worksheet");
 		}
-		catch (EolModelElementTypeNotFoundException e)
-		{
+		catch (EolModelElementTypeNotFoundException e) {
 			assertTrue(true);
 		}
 	}
 
 	@Test
-	public void testInstantiateToUnknownColumn() throws Exception
-	{
+	public void testInstantiateToUnknownColumn() throws Exception {
 		String worksheetName = "Sheet1";
 
 		List<Object> list = new ArrayList<>();
 		Map<String, Object> values = new HashMap<>();
 		values.put("c_10", "string1");
 		list.add(values);
-		try
-		{
+		try {
 			model.createInstance(worksheetName, list);
 			fail("Unspecified column");
 		}
-		catch (RuntimeException e)
-		{
+		catch (RuntimeException e) {
 			assertTrue(true);
 		}
 	}

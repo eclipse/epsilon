@@ -27,29 +27,24 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class CellMultiplicityTest
-{
+public class CellMultiplicityTest {
 	private SpreadsheetModel model = null;
 
-	public CellMultiplicityTest(SpreadsheetModel model)
-	{
+	public CellMultiplicityTest(SpreadsheetModel model) {
 		this.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String PATH_TO_FILE = "resources/common/CellMultiplicityTest.xlsx";
 		String CONFIG = "resources/common/CellMultiplicityTestConfig.xml";
 		return TestModelFactory.getModelsToTest("", PATH_TO_FILE, CONFIG, "CellMultiplicityTest");
 	}
 
 	@Test
-	public void testWriteValueToWorksheetNotEnforcingDataTypes() throws Exception
-	{
+	public void testWriteValueToWorksheetNotEnforcingDataTypes() throws Exception {
 		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet1");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			worksheet.removeRow((SpreadsheetRow) row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
@@ -83,11 +78,9 @@ public class CellMultiplicityTest
 	}
 
 	@Test
-	public void testWriteValueToStringDataTypeStrictWorksheet() throws Exception
-	{
+	public void testWriteValueToStringDataTypeStrictWorksheet() throws Exception {
 		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			worksheet.removeRow((SpreadsheetRow) row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
@@ -117,11 +110,9 @@ public class CellMultiplicityTest
 	}
 
 	@Test
-	public void testWriteValueToIntegerDataTypeStrictWorksheet() throws Exception
-	{
+	public void testWriteValueToIntegerDataTypeStrictWorksheet() throws Exception {
 		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			worksheet.removeRow((SpreadsheetRow) row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
@@ -151,11 +142,9 @@ public class CellMultiplicityTest
 	}
 
 	@Test
-	public void testWriteValueToDoubleDataTypeStrictWorksheet() throws Exception
-	{
+	public void testWriteValueToDoubleDataTypeStrictWorksheet() throws Exception {
 		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			worksheet.removeRow((SpreadsheetRow) row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
@@ -183,11 +172,9 @@ public class CellMultiplicityTest
 	}
 
 	@Test
-	public void testWriteValueToBooleanDataTypeStrictWorksheet() throws Exception
-	{
+	public void testWriteValueToBooleanDataTypeStrictWorksheet() throws Exception {
 		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			worksheet.removeRow((SpreadsheetRow) row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
@@ -216,11 +203,9 @@ public class CellMultiplicityTest
 	}
 
 	@Test
-	public void testWriteValueToFloatDataTypeStrictWorksheet() throws Exception
-	{
+	public void testWriteValueToFloatDataTypeStrictWorksheet() throws Exception {
 		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			worksheet.removeRow((SpreadsheetRow) row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
@@ -249,11 +234,9 @@ public class CellMultiplicityTest
 	}
 
 	@Test
-	public void testWriteNoncompatibleValues() throws Exception
-	{
+	public void testWriteNoncompatibleValues() throws Exception {
 		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
-		for (SpreadsheetRow row : worksheet.getRows())
-		{
+		for (SpreadsheetRow row : worksheet.getRows()) {
 			worksheet.removeRow((SpreadsheetRow) row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);

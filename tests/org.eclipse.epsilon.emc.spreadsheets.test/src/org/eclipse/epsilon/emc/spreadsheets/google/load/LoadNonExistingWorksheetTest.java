@@ -25,33 +25,27 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
-public class LoadNonExistingWorksheetTest
-{
+public class LoadNonExistingWorksheetTest {
 	private static SpreadsheetModel model = null;
 
-	public LoadNonExistingWorksheetTest(SpreadsheetModel model)
-	{
+	public LoadNonExistingWorksheetTest(SpreadsheetModel model) {
 		LoadNonExistingWorksheetTest.model = model;
 	}
 
 	@Parameterized.Parameters
-	public static Collection<Object[]> models() throws Exception
-	{
+	public static Collection<Object[]> models() throws Exception {
 		String CONFIG = "resources/google/LoadNonExistingWorksheetTest.xml";
 		SpreadsheetModel gsModel = TestModelFactory.getGSModel("ReadTest", CONFIG, "");
-		if (gsModel != null)
-		{
+		if (gsModel != null) {
 			return Arrays.asList(new Object[][] { { gsModel } });
 		}
-		else
-		{
+		else {
 			return Arrays.asList(new Object[][] {});
 		}
 	}
 
 	@Test
-	public void testLoadWorksheetsWithBlankHeader() throws Exception
-	{
+	public void testLoadWorksheetsWithBlankHeader() throws Exception {
 		SpreadsheetWorksheetHeader header4 = model.getWorksheetByType("Sheet4").getHeader();
 		assertTrue(header4.getColumn("c_0").getName().equals(GSConstants.DEFAULT_COLUMN_VALUE));
 		assertTrue(header4.getColumn("c_1").getName() == null);
@@ -72,10 +66,8 @@ public class LoadNonExistingWorksheetTest
 	}
 
 	@AfterClass
-	public static void tearDown() throws Exception
-	{
-		if (model != null)
-		{
+	public static void tearDown() throws Exception {
+		if (model != null) {
 			GSWorksheet sheet4 = (GSWorksheet) model.getWorksheetByType("Sheet4");
 			GSWorksheet sheet5 = (GSWorksheet) model.getWorksheetByType("Sheet5");
 			GSWorksheet sheet6 = (GSWorksheet) model.getWorksheetByType("Sheet6");
