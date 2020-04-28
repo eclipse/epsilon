@@ -57,7 +57,7 @@ public class PropertyGetterReferencingCellNotManyTest {
 		assertTrue(model.getAllOfType("Sheet2").size() == 2);
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
-		Object getterValue = getter.invoke(referencingRow, col);
+		Object getterValue = getter.invoke(referencingRow, col, null, null);
 		assertTrue(getterValue instanceof List);
 		List<?> referencedRowList = (List<?>) getterValue;
 		assertTrue(referencedRowList.size() == 0);
@@ -79,16 +79,16 @@ public class PropertyGetterReferencingCellNotManyTest {
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
 
-		Object getterValue = getter.invoke(referencingRow, col);
+		Object getterValue = getter.invoke(referencingRow, col, null, null);
 		assertTrue(getterValue instanceof List);
 		List<?> referencedRowList = (List<?>) getterValue;
 		assertTrue(referencedRowList.size() == 1);
 		assertTrue(referencedRowList.get(0) instanceof SpreadsheetRow);
 
-		Object referencedRowIdObject = getter.invoke(referencedRowList.get(0), "c_0");
+		Object referencedRowIdObject = getter.invoke(referencedRowList.get(0), "c_0", null, null);
 		assertTrue(referencedRowIdObject instanceof String);
 		assertTrue(referencedRowIdObject.equals("1"));
-		Object referencingValue2 = getter.invoke(getterValue, col);
+		Object referencingValue2 = getter.invoke(getterValue, col, null, null);
 		assertTrue(referencingValue2 instanceof List);
 		assertTrue(((List<?>) referencingValue2).get(0).equals("v1, v2"));
 	}
@@ -112,7 +112,7 @@ public class PropertyGetterReferencingCellNotManyTest {
 		assertTrue(model.getAllOfType("Sheet2").size() == 2);
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
-		Object getterValue = getter.invoke(referencingRow, col);
+		Object getterValue = getter.invoke(referencingRow, col, null, null);
 		assertTrue(getterValue instanceof List);
 		List<?> referencedRowList = (List<?>) getterValue;
 		assertTrue(referencedRowList.size() == 0);
@@ -134,21 +134,21 @@ public class PropertyGetterReferencingCellNotManyTest {
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
 
-		Object getterValue = getter.invoke(referencingRow, col);
+		Object getterValue = getter.invoke(referencingRow, col, null, null);
 		assertTrue(getterValue instanceof List);
 		List<?> referencedRowList = (List<?>) getterValue;
 		assertTrue(referencedRowList.size() == 2);
 		assertTrue(referencedRowList.get(0) instanceof SpreadsheetRow);
 		assertTrue(referencedRowList.get(1) instanceof SpreadsheetRow);
 
-		Object referencedRowIdObject = getter.invoke(referencedRowList.get(0), "c_0");
+		Object referencedRowIdObject = getter.invoke(referencedRowList.get(0), "c_0", null, null);
 		assertTrue(referencedRowIdObject instanceof String);
 		assertTrue(referencedRowIdObject.equals("1"));
-		referencedRowIdObject = getter.invoke(referencedRowList.get(1), "c_0");
+		referencedRowIdObject = getter.invoke(referencedRowList.get(1), "c_0", null, null);
 		assertTrue(referencedRowIdObject instanceof String);
 		assertTrue(referencedRowIdObject.equals("2"));
 
-		Object referencingValue2 = getter.invoke(referencedRowList, col); // get value from each row
+		Object referencingValue2 = getter.invoke(referencedRowList, col, null, null); // get value from each row
 		assertTrue(referencingValue2 instanceof List);
 		List<?> referencingValue2list = (List<?>) referencingValue2;
 		assertTrue(referencingValue2list.size() == 2);
@@ -178,7 +178,7 @@ public class PropertyGetterReferencingCellNotManyTest {
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
 
-		Object getterValue = getter.invoke(referencingRow, col);
+		Object getterValue = getter.invoke(referencingRow, col, null, null);
 		assertTrue(getterValue instanceof List);
 		List<?> referencedRowList2 = (List<?>) getterValue;
 		assertTrue(referencedRowList2.size() == 0);
@@ -206,17 +206,17 @@ public class PropertyGetterReferencingCellNotManyTest {
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
 
-		Object getterValue = getter.invoke(referencingRow, col);
+		Object getterValue = getter.invoke(referencingRow, col, null, null);
 		assertTrue(getterValue instanceof List);
 		List<?> getterValueList = (List<?>) getterValue;
 		assertTrue(getterValueList.size() == 1);
 		assertTrue(getterValueList.get(0) instanceof SpreadsheetRow);
 
-		Object referencedRowIdObject = getter.invoke(getterValueList.get(0), "c_0");
+		Object referencedRowIdObject = getter.invoke(getterValueList.get(0), "c_0", null, null);
 		assertTrue(referencedRowIdObject instanceof String);
 		assertTrue(referencedRowIdObject.equals("1"));
 
-		Object referencingValue2 = getter.invoke(getterValueList, col);
+		Object referencingValue2 = getter.invoke(getterValueList, col, null, null);
 		assertTrue(referencingValue2 instanceof List);
 		List<?> referencingValue2list = (List<?>) referencingValue2;
 		assertTrue(referencingValue2list.size() == 2);
@@ -246,7 +246,7 @@ public class PropertyGetterReferencingCellNotManyTest {
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
 
-		Object getterValue = getter.invoke(referencingRow, col);
+		Object getterValue = getter.invoke(referencingRow, col, null, null);
 		assertTrue(getterValue instanceof List);
 		List<?> getterValueList = (List<?>) getterValue;
 		assertTrue(getterValueList.size() == 0);
@@ -274,21 +274,21 @@ public class PropertyGetterReferencingCellNotManyTest {
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
 
-		Object getterValue = getter.invoke(referencingRow, col);
+		Object getterValue = getter.invoke(referencingRow, col, null, null);
 		assertTrue(getterValue instanceof List);
 		List<?> getterValueList = (List<?>) getterValue;
 		assertTrue(getterValueList.size() == 2);
 		assertTrue(getterValueList.get(0) instanceof SpreadsheetRow);
 		assertTrue(getterValueList.get(1) instanceof SpreadsheetRow);
 
-		Object referencedRowIdObject = getter.invoke(getterValueList.get(0), "c_0");
+		Object referencedRowIdObject = getter.invoke(getterValueList.get(0), "c_0", null, null);
 		assertTrue(referencedRowIdObject instanceof String);
 		assertTrue(referencedRowIdObject.equals("1"));
-		referencedRowIdObject = getter.invoke(getterValueList.get(1), "c_0");
+		referencedRowIdObject = getter.invoke(getterValueList.get(1), "c_0", null, null);
 		assertTrue(referencedRowIdObject instanceof String);
 		assertTrue(referencedRowIdObject.equals("2"));
 
-		referencedRowIdObject = getter.invoke(getterValueList, col);
+		referencedRowIdObject = getter.invoke(getterValueList, col, null, null);
 		assertTrue(referencedRowIdObject instanceof List);
 		List<?> valuesFromReferencedRows = (List<?>) referencedRowIdObject;
 		assertTrue(valuesFromReferencedRows.size() == 5);

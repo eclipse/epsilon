@@ -322,8 +322,9 @@ public class SimulinkModel extends AbstractSimulinkModel implements IOperationCo
 	@Override
 	public String getElementId(Object instance) {
 		try {
-			return (String) propertyGetter.invoke(instance, "id");
-		} catch (EolRuntimeException e) {
+			return (String) propertyGetter.invoke(instance, "id", null, null);
+		}
+		catch (EolRuntimeException e) {
 			return "";
 		}
 	}

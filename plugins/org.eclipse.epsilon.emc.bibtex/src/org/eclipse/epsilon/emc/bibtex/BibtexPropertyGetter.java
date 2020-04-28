@@ -9,8 +9,10 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.bibtex;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.bibtex.domain.Publication;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 
 /**
@@ -20,12 +22,12 @@ import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 public class BibtexPropertyGetter extends AbstractPropertyGetter {
 
 	@Override
-	public boolean hasProperty(Object object, String property) {
+	public boolean hasProperty(Object object, String property, IEolContext context) {
 		return "id".equals(property) || ((Publication)object).hasProperty(property);
 	}
 
 	@Override
-	public Object invoke(Object object, String property) throws EolRuntimeException {
+	public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 		final Publication publication = (Publication)object;
 		return "id".equals(property) ? publication.id : publication.getProperty(property);
 	}

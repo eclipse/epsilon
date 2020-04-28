@@ -17,10 +17,12 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfPropertyGetter;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 
@@ -167,7 +169,7 @@ public class DecoratorEmfModel extends EmfModel {
 	
 	class DecoratorPropertyGetter extends EmfPropertyGetter {
 		@Override
-		public Object invoke(Object object, String property) throws EolRuntimeException {
+		public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 			if (decorator == null) {
 				if (decoratorDescriptor.getLastValueFeature().isMany()) {
 					return new ArrayList<>();
@@ -177,7 +179,7 @@ public class DecoratorEmfModel extends EmfModel {
 				}
 			}
 			else {
-				return super.invoke(decorator, property);
+				return super.invoke(decorator, property, ast, context);
 			}
 		}
 	}

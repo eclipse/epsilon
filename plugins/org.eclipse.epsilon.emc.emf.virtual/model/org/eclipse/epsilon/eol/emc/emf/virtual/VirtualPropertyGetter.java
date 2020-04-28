@@ -9,19 +9,19 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.emc.emf.virtual;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.emf.virtual.Slot;
 import org.eclipse.epsilon.emc.emf.virtual.VirtualObject;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 
 class VirtualPropertyGetter extends AbstractPropertyGetter {
 
 	@Override
-	public Object invoke(Object object, String property) throws EolRuntimeException {
-
+	public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 		final VirtualObject vObject = (VirtualObject)object;
-		
 		for (Slot slot : vObject.getSlots()) {
 			if (property.equals(slot.getType())) {
 				final Object value = SlotFactory.getInstance().getValueFrom(slot);
@@ -29,8 +29,6 @@ class VirtualPropertyGetter extends AbstractPropertyGetter {
 				return value;
 			}
 		}
-		
 		throw new EolIllegalPropertyException(object, property, ast, context);
 	}
-
 }

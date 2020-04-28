@@ -11,8 +11,10 @@ package org.eclipse.epsilon.emc.emf;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 
@@ -23,11 +25,9 @@ public class EmfPropertyGetter extends AbstractPropertyGetter {
 	}
 	
 	@Override
-	public Object invoke(Object object, String property) throws EolRuntimeException {
+	public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 		EObject eObject = (EObject) object;
-		
 		EStructuralFeature sf = EmfUtil.getEStructuralFeature(eObject.eClass(), property);
-		
 		if (sf != null) {
 			return eObject.eGet(sf);
 		}

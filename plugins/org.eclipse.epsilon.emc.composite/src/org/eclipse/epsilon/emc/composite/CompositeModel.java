@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
@@ -31,6 +31,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
@@ -293,8 +294,7 @@ public class CompositeModel extends Model {
 	class CompositePropertyGetter extends AbstractPropertyGetter {
 
 		@Override
-		public Object invoke(Object object, String property)
-				throws EolRuntimeException {
+		public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 			
 			HashMap<Object, IPropertyGetter> getters = new HashMap<>();
 			Collection<Object> equivalents = getEquivalents(object);
@@ -302,7 +302,6 @@ public class CompositeModel extends Model {
 			if (equivalents.isEmpty()) equivalents.add(object);
 
 			for (Object equivalent : equivalents) {
-				
 				for (IModel model : models) {
 					if (model.owns(equivalent)) {
 						getters.put(equivalent, model.getPropertyGetter());
@@ -313,10 +312,7 @@ public class CompositeModel extends Model {
 			Collection<Object> results = new HashSet<>();
 			
 			for (Object eq : equivalents) {
-				
-				Object result = getters.get(eq).invoke(eq, property);
-				
-				
+				Object result = getters.get(eq).invoke(eq, property, ast, context);
 				if (result instanceof Collection) {
 					results.addAll((Collection<?>) result);
 				}
@@ -328,7 +324,6 @@ public class CompositeModel extends Model {
 			removeDuplicates(results);
 			return results;
 		}
-		
 	}
 	
 	

@@ -21,7 +21,7 @@ import org.eclipse.epsilon.emc.simulink.model.element.StateflowBlock;
 
 public class SimulinkElementManager extends AbstractManager<ISimulinkModelElement, Object> {
 
-	public SimulinkElementManager(SimulinkModel model){
+	public SimulinkElementManager(SimulinkModel model) {
 		super(model);
 	}
 	
@@ -36,7 +36,7 @@ public class SimulinkElementManager extends AbstractManager<ISimulinkModelElemen
 		case PORT:
 			return new SimulinkPortManager(getModel()).construct((Double) id);
 		case STATEFLOW:
-			return (ISimulinkModelElement) new StateflowBlockManager(getModel()).construct((Double) id);
+			return new StateflowBlockManager(getModel()).construct((Double) id);
 			//return (ISimulinkElement) new StateflowBlockManager(getModel()).construct((String) id);
 		default:
 			return null;

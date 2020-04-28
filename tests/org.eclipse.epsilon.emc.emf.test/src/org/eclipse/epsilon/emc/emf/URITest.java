@@ -11,7 +11,6 @@ package org.eclipse.epsilon.emc.emf;
 
 import static org.junit.Assert.*;
 import org.eclipse.epsilon.common.util.OperatingSystem;
-import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.junit.Test;
 
 public class URITest {

@@ -13,7 +13,6 @@ package org.eclipse.epsilon.eol.execute.operations.contributors;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IUndefined;
 import org.eclipse.epsilon.eol.models.IModel;
@@ -108,16 +107,8 @@ public class AnyOperationContributor extends OperationContributor {
 	
 	public boolean hasProperty(String property) throws Exception {
 		Object target = getTarget();
-		
 		IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(target, property, context);
-		
-		try {
-			getter.invoke(target, property);
-			return true;
-		}
-		catch (EolIllegalPropertyException pex) {
-			return false;
-		}
+		return getter.hasProperty(target, property, context);
 	}
 	
 	public String asString() {

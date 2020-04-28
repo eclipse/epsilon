@@ -197,6 +197,6 @@ public abstract class Model implements IModel {
 
 	@Override
 	public boolean isPropertySet(Object instance, String property) throws EolRuntimeException {
-		return getPropertyGetter().invoke(instance, property) != null;
+		return getPropertyGetter().invoke(instance, property, null, null) != null;
 	}
 }

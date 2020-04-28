@@ -9,53 +9,43 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.introspection.java;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.types.Struct;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 
 public class SimulinkPropertyGetter extends JavaPropertyGetter {
 
 	protected MatlabEngine engine;
 
-	public SimulinkPropertyGetter() {}
-
 	@Override
-	public boolean hasProperty(Object object, String property) {
+	public boolean hasProperty(Object object, String property, IEolContext context) {
 		if (object instanceof Struct) {
 			return ((Struct) object).containsKey(property);
 		}
-		return super.hasProperty(object, property);
+		return super.hasProperty(object, property, context);
 	}
 
-	
 	@Override
-	public Object invoke(Object object, String property) throws EolRuntimeException {
-
-		
+	public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 		try {
-			return super.invoke(object, property);
-		} catch (Exception e) {
-
-			if ( object instanceof ISimulinkModelElement ) {
-				
+			return super.invoke(object, property, ast, context);
+		}
+		catch (Exception e) {
+			if (object instanceof ISimulinkModelElement) {
 				ISimulinkModelElement element = (ISimulinkModelElement) object;
-				
 				if (property.equalsIgnoreCase("type")) {
 					return element.getType();
 				}
 				return element.getProperty(property);
 			}
-			
 			if (object instanceof Struct) {
 				return ((Struct)object).get(property);
 			}
-			
 			throw new EolRuntimeException(e.getMessage());
-			
 		}
-		
 	}
-
 }

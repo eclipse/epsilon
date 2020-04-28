@@ -41,14 +41,12 @@ public class IntrospectionManager {
 		final IPropertyGetter propertyGetter;
 		
 		if (property.startsWith("~")) {
-			propertyGetter = new ExtendedPropertyGetter(context);
+			propertyGetter = new ExtendedPropertyGetter();
 		}
 		else { 
 			IModel knowsModel = getModelThatKnowsAboutProperty(instance, property, context);
 			propertyGetter = knowsModel != null ? knowsModel.getPropertyGetter() : defaultPropertyGetter;
 		}
-		
-		propertyGetter.setContext(context);
 		
 		return propertyGetter;
 	}

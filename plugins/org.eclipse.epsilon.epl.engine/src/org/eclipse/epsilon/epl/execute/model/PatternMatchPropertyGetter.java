@@ -10,20 +10,21 @@
  ******************************************************************************/
 package org.eclipse.epsilon.epl.execute.model;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 import org.eclipse.epsilon.epl.execute.PatternMatch;
 
 public class PatternMatchPropertyGetter extends JavaPropertyGetter {
 	
 	@Override
-	public Object invoke(Object object, String property) throws EolRuntimeException {
+	public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 		if (object instanceof PatternMatch) {
 			PatternMatch match = (PatternMatch) object;
 			return match.getRoleBinding(property);
 		}
-		
-		return super.invoke(object, property);
+		return super.invoke(object, property, ast, context);
 	}
 
 }

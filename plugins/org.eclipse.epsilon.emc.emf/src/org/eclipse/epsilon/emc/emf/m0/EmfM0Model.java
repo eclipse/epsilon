@@ -13,6 +13,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
@@ -22,6 +23,7 @@ import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
@@ -94,7 +96,7 @@ public class EmfM0Model extends EmfModel {
 	class EmfM0PropertyGetter extends AbstractPropertyGetter {
 
 		@Override
-		public Object invoke(Object object, String property) throws EolRuntimeException {
+		public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 			ArrayList<Object> parameterValues = new ArrayList<>();
 			parameterValues.add(property);
 			Operation propertyGetter = eolModule.getDeclaredOperations().getOperation(object, "getProperty", parameterValues, eolModule.getContext());

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -21,6 +22,7 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
@@ -296,10 +298,10 @@ public class ModelGroup extends Model {
 	public class DelegatingModelElementPropertyGetter extends AbstractPropertyGetter {
 
 		@Override
-		public Object invoke(Object object, String property) throws EolRuntimeException {
+		public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 			for (IModel model : models) {
 				if (model.knowsAboutProperty(object, property)) {
-					return model.getPropertyGetter().invoke(object, property);
+					return model.getPropertyGetter().invoke(object, property, ast, context);
 				}
 			}
 			throw new EolIllegalPropertyException(object, property, ast, context);

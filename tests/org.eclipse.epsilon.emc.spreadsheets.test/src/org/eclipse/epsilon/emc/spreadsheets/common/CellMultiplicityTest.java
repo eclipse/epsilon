@@ -43,9 +43,9 @@ public class CellMultiplicityTest {
 
 	@Test
 	public void testWriteValueToWorksheetNotEnforcingDataTypes() throws Exception {
-		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet1");
+		SpreadsheetWorksheet worksheet = model.getWorksheetByType("Sheet1");
 		for (SpreadsheetRow row : worksheet.getRows()) {
-			worksheet.removeRow((SpreadsheetRow) row);
+			worksheet.removeRow(row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
@@ -58,11 +58,11 @@ public class CellMultiplicityTest {
 		assertTrue(worksheet.getRows().size() == 1);
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
-		Object visibleValue = getter.invoke(row, "v_column1");
+		Object visibleValue = getter.invoke(row, "v_column1", null, null);
 		assertTrue(visibleValue.equals("123# abc"));
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind("S1");
-		SpreadsheetRow row1 = (SpreadsheetRow) rows.get(0);
+		SpreadsheetRow row1 = rows.get(0);
 		row1.getAllVisibleCellValuesAsIs(worksheet.getColumn(0));
 
 		final List<String> column0value = row1.getAllVisibleCellValuesAsIs(worksheet.getColumn(0));
@@ -79,9 +79,9 @@ public class CellMultiplicityTest {
 
 	@Test
 	public void testWriteValueToStringDataTypeStrictWorksheet() throws Exception {
-		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
+		SpreadsheetWorksheet worksheet = model.getWorksheetByType("Sheet2");
 		for (SpreadsheetRow row : worksheet.getRows()) {
-			worksheet.removeRow((SpreadsheetRow) row);
+			worksheet.removeRow(row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
@@ -94,7 +94,7 @@ public class CellMultiplicityTest {
 		assertTrue(worksheet.getRows().size() == 1);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind("S2");
-		SpreadsheetRow row1 = (SpreadsheetRow) rows.get(0);
+		SpreadsheetRow row1 = rows.get(0);
 		row1.getAllVisibleCellValuesAsIs(worksheet.getColumn(0));
 
 		final List<String> column0value = row1.getAllVisibleCellValuesAsIs(worksheet.getColumn(0));
@@ -111,9 +111,9 @@ public class CellMultiplicityTest {
 
 	@Test
 	public void testWriteValueToIntegerDataTypeStrictWorksheet() throws Exception {
-		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
+		SpreadsheetWorksheet worksheet = model.getWorksheetByType("Sheet2");
 		for (SpreadsheetRow row : worksheet.getRows()) {
-			worksheet.removeRow((SpreadsheetRow) row);
+			worksheet.removeRow(row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
@@ -126,7 +126,7 @@ public class CellMultiplicityTest {
 		assertTrue(worksheet.getRows().size() == 1);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind("S2");
-		SpreadsheetRow row1 = (SpreadsheetRow) rows.get(0);
+		SpreadsheetRow row1 = rows.get(0);
 		row1.getAllVisibleCellValuesAsIs(worksheet.getColumn(0));
 
 		final List<String> column2value = row1.getAllVisibleCellValuesAsIs(worksheet.getColumn(2));
@@ -143,9 +143,9 @@ public class CellMultiplicityTest {
 
 	@Test
 	public void testWriteValueToDoubleDataTypeStrictWorksheet() throws Exception {
-		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
+		SpreadsheetWorksheet worksheet = model.getWorksheetByType("Sheet2");
 		for (SpreadsheetRow row : worksheet.getRows()) {
-			worksheet.removeRow((SpreadsheetRow) row);
+			worksheet.removeRow(row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
@@ -158,7 +158,7 @@ public class CellMultiplicityTest {
 		assertTrue(worksheet.getRows().size() == 1);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind("S2");
-		SpreadsheetRow row1 = (SpreadsheetRow) rows.get(0);
+		SpreadsheetRow row1 = rows.get(0);
 		final List<String> column4value = row1.getAllVisibleCellValuesAsIs(worksheet.getColumn(4));
 		assertTrue(column4value.size() == 1);
 		assertTrue(column4value.get(0).equals("0"));
@@ -173,9 +173,9 @@ public class CellMultiplicityTest {
 
 	@Test
 	public void testWriteValueToBooleanDataTypeStrictWorksheet() throws Exception {
-		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
+		SpreadsheetWorksheet worksheet = model.getWorksheetByType("Sheet2");
 		for (SpreadsheetRow row : worksheet.getRows()) {
-			worksheet.removeRow((SpreadsheetRow) row);
+			worksheet.removeRow(row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
@@ -188,7 +188,7 @@ public class CellMultiplicityTest {
 		assertTrue(worksheet.getRows().size() == 1);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind("S2");
-		SpreadsheetRow row1 = (SpreadsheetRow) rows.get(0);
+		SpreadsheetRow row1 = rows.get(0);
 		final List<String> column6value = row1.getAllVisibleCellValuesAsIs(worksheet.getColumn(6));
 		assertTrue(column6value.size() == 1);
 		assertTrue(column6value.get(0).equalsIgnoreCase("false"));
@@ -204,9 +204,9 @@ public class CellMultiplicityTest {
 
 	@Test
 	public void testWriteValueToFloatDataTypeStrictWorksheet() throws Exception {
-		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
+		SpreadsheetWorksheet worksheet = model.getWorksheetByType("Sheet2");
 		for (SpreadsheetRow row : worksheet.getRows()) {
-			worksheet.removeRow((SpreadsheetRow) row);
+			worksheet.removeRow(row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
@@ -219,7 +219,7 @@ public class CellMultiplicityTest {
 		assertTrue(worksheet.getRows().size() == 1);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind("S2");
-		SpreadsheetRow row1 = (SpreadsheetRow) rows.get(0);
+		SpreadsheetRow row1 = rows.get(0);
 		final List<String> column8value = row1.getAllVisibleCellValuesAsIs(worksheet.getColumn(8));
 		assertTrue(column8value.size() == 1);
 		assertTrue(column8value.get(0).equals("0"));
@@ -235,9 +235,9 @@ public class CellMultiplicityTest {
 
 	@Test
 	public void testWriteNoncompatibleValues() throws Exception {
-		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
+		SpreadsheetWorksheet worksheet = model.getWorksheetByType("Sheet2");
 		for (SpreadsheetRow row : worksheet.getRows()) {
-			worksheet.removeRow((SpreadsheetRow) row);
+			worksheet.removeRow(row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
@@ -251,7 +251,7 @@ public class CellMultiplicityTest {
 		assertTrue(worksheet.getRows().size() == 1);
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind("S2");
-		SpreadsheetRow row1 = (SpreadsheetRow) rows.get(0);
+		SpreadsheetRow row1 = rows.get(0);
 		final List<String> column3value = row1.getAllVisibleCellValuesAsIs(worksheet.getColumn(3));
 		assertTrue(column3value.size() == 2);
 		assertTrue(column3value.get(0).equals("0"));

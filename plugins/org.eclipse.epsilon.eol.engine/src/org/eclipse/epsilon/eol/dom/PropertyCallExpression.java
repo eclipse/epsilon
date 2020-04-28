@@ -60,17 +60,19 @@ public class PropertyCallExpression extends FeatureCallExpression {
 			IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(source, propertyName, context);
 			
 			// Added support for properties on collections
-			if (source instanceof Collection<?> && !getter.hasProperty(source, propertyName)) {
+			if (source instanceof Collection<?> && !getter.hasProperty(source, propertyName, context)) {
 				EolSequence<Object> results = new EolSequence<>();
 				results.ensureCapacity(((Collection<?>) source).size());
 				for (Object content : (Collection<?>) source) {
-					results.add(context.getIntrospectionManager().getPropertyGetterFor(content, propertyName, context).invoke(content, propertyName));
+					results.add(
+						context.getIntrospectionManager().getPropertyGetterFor(content, propertyName, context)
+							.invoke(content, propertyName, propertyNameExpression, context)
+					);
 				}
 				return results;
 			}
 
-			getter.setAst(propertyNameExpression);
-			return wrap(getter.invoke(source, propertyName));
+			return wrap(getter.invoke(source, propertyName, propertyNameExpression, context));
 		}
 	}
 	

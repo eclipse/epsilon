@@ -10,9 +10,11 @@
 package org.eclipse.epsilon.flexmi.actions;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.emf.EmfPropertyGetter;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.flexmi.FlexmiResource;
 
@@ -36,7 +38,7 @@ public class InMemoryFlexmiModel extends InMemoryEmfModel {
 	
 	@Override
 	public boolean knowsAboutProperty(Object instance, String property) {
-		return (owns(instance) && propertyGetter.hasProperty(instance, property)) || super.knowsAboutProperty(instance, property);
+		return (owns(instance) && propertyGetter.hasProperty(instance, property, null)) || super.knowsAboutProperty(instance, property);
 	}
 	
 	@Override
@@ -47,15 +49,15 @@ public class InMemoryFlexmiModel extends InMemoryEmfModel {
 	class FlexmiModelPropertyGetter extends EmfPropertyGetter {
 		
 		@Override
-		public boolean hasProperty(Object object, String property) {
-			return getChild(object, property) != null || super.hasProperty(object, property);
+		public boolean hasProperty(Object object, String property, IEolContext context) {
+			return getChild(object, property) != null || super.hasProperty(object, property, context);
 		}
 		
 		@Override
-		public Object invoke(Object object, String property) throws EolRuntimeException {
+		public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 			EObject child = getChild(object, property);
 			if (child != null) return child;
-			return super.invoke(object, property);
+			return super.invoke(object, property, ast, context);
 		}
 		
 		protected EObject getChild(Object container, String id) {
@@ -66,7 +68,6 @@ public class InMemoryFlexmiModel extends InMemoryEmfModel {
 			}
 			return null;
 		}
-		
 	}
 	
 }

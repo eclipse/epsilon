@@ -48,7 +48,7 @@ public class PropertyGetterTest {
 		assertTrue(model.getAllOfType("Sheet2").size() == 1);
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
-		Object getterValue = getter.invoke(referencedRow, "v_id");
+		Object getterValue = getter.invoke(referencedRow, "v_id", null, null);
 		assertTrue(getterValue.equals("3"));
 	}
 
@@ -62,7 +62,7 @@ public class PropertyGetterTest {
 		assertTrue(model.getAllOfType("Sheet2").size() == 1);
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
-		Object getterValue = getter.invoke(referencedRow, "v_c_1");
+		Object getterValue = getter.invoke(referencedRow, "v_c_1", null, null);
 		assertTrue(getterValue.equals("3"));
 	}
 
@@ -77,7 +77,7 @@ public class PropertyGetterTest {
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
 		try {
-			getter.invoke(referencedRow, "v_unknown");
+			getter.invoke(referencedRow, "v_unknown", null, null);
 			fail("Should not be able to select value for unknown column");
 		}
 		catch (IllegalArgumentException e) {
