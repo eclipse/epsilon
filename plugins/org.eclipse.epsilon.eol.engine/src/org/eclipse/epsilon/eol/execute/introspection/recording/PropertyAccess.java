@@ -9,6 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection.recording;
 
+import java.util.Objects;
+
 public class PropertyAccess implements IPropertyAccess {
 	
 	protected final Object modelElement;
@@ -31,18 +33,17 @@ public class PropertyAccess implements IPropertyAccess {
 
 	@Override
 	public boolean equals(Object object) {
-		if (!(object instanceof PropertyAccess))
-			return false;
-		
+		if (this == object) return true;
+		if (!(object instanceof PropertyAccess)) return false;
 		final PropertyAccess other = (PropertyAccess)object;
-		
-		return modelElement.equals(other.modelElement) &&
-		       propertyName.equals(other.propertyName);
+		return
+			Objects.equals(this.modelElement, other.modelElement) &&
+			Objects.equals(this.propertyName, other.propertyName);
 	}
 	
 	@Override
 	public int hashCode() {
-		return modelElement.hashCode() + propertyName.hashCode();
+		return Objects.hash(modelElement, propertyName);
 	}
 	
 	@Override

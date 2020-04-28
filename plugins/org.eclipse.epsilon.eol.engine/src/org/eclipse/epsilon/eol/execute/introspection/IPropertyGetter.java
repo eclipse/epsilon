@@ -55,7 +55,7 @@ public interface IPropertyGetter {
 	// BACKWARDS COMPATIBILITY
 	
 	/**
-	 * This method is provided only for backwards compatibility.
+	 * This method is provided for backwards compatibility and convenience.
 	 * Implementations should override the {@link #invoke(Object, String, ModuleElement, IEolContext)} method.
 	 * 
 	 * @param object
@@ -70,7 +70,7 @@ public interface IPropertyGetter {
 	}
 	
 	/**
-	 * This method is provided only for backwards compatibility.
+	 * This method is provided for backwards compatibility and convenience.
 	 * Implementations should override the {@link #hasProperty(Object, String, IEolContext)} method.
 	 * 
 	 * @param object

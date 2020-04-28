@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class PropertyAccesses implements IPropertyAccesses {
@@ -49,21 +50,19 @@ public class PropertyAccesses implements IPropertyAccesses {
 	
 	@Override
 	public boolean equals(Object object) {
-		if (!(object instanceof PropertyAccesses))
-			return false;
-		
+		if (this == object) return true;
+		if (!(object instanceof PropertyAccesses)) return false;
 		final PropertyAccesses other = (PropertyAccesses)object;
-		
-		return storage.equals(other.storage);
+		return Objects.equals(this.storage, other.storage);
 	}
 	
 	@Override
 	public int hashCode() {
-		return storage.hashCode();
+		return Objects.hashCode(storage);
 	}
 	
 	@Override
 	public String toString() {
-		return storage.toString();
+		return Objects.toString(storage);
 	}
 }
