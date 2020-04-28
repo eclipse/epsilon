@@ -93,9 +93,7 @@ public final class EmfModelFactory {
 	 */
 	public EmfModel loadEmfModel(String name, File model, Object metamodel) throws EolModelLoadingException {
 		final EmfModel emfModel = createEmfModel(name, model, metamodel);
-		
 		emfModel.load();
-		
 		return emfModel;
 	}
 	

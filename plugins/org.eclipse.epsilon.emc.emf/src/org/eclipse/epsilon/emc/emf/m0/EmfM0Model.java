@@ -26,7 +26,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
@@ -36,7 +35,7 @@ public class EmfM0Model extends EmfModel {
 	protected IEolModule eolModule;
 	
 	public EmfM0Model() {
-		super();
+		propertyGetter = new EmfM0PropertyGetter();
 	}
 	
 	@Override
@@ -131,11 +130,6 @@ public class EmfM0Model extends EmfModel {
 		public boolean conforms(Object value) throws EolIllegalPropertyException {
 			return true;
 		}
-	}
-
-	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return new EmfM0PropertyGetter();
 	}
 
 	@Override
