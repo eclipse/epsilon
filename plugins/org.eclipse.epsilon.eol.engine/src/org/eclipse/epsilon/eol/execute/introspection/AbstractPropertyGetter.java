@@ -9,12 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
-
 public abstract class AbstractPropertyGetter implements IPropertyGetter {
-	
-	protected ModuleElement ast;
-	protected IEolContext context;
 	
 }
