@@ -62,6 +62,9 @@ public abstract class Model implements IModel {
 	 */
 	protected IPropertySetter propertySetter;
 	
+	public Model() {
+		propertyGetter = new JavaPropertyGetter();
+	}
 	
 	@Override
 	public String getName() {
@@ -163,7 +166,7 @@ public abstract class Model implements IModel {
 
 	@Override
 	public IPropertyGetter getPropertyGetter() {
-		return new JavaPropertyGetter();
+		return propertyGetter;
 	}
 
 	@Override

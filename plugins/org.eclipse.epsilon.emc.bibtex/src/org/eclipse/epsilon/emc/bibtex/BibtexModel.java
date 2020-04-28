@@ -36,11 +36,7 @@ public class BibtexModel extends CachedModel<Publication> {
 	private Bibliography bibliography = new Bibliography();
 
 	public BibtexModel() {
-	}
-	
-	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return new BibtexPropertyGetter();
+		propertyGetter = new BibtexPropertyGetter();
 	}
 	
 	@Override

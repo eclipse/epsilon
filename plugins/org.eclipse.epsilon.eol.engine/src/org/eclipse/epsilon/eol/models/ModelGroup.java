@@ -25,7 +25,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 
 public class ModelGroup extends Model {
@@ -34,6 +33,7 @@ public class ModelGroup extends Model {
 	
 	public ModelGroup(ModelRepository repository, String metaModel) throws EolModelNotFoundException {
 		this.name = metaModel;
+		propertyGetter = new DelegatingModelElementPropertyGetter();
 		for (IModel model : repository.getModels()) {
 			if (model.getAliases().contains(metaModel)) {
 				models.add(model);
@@ -286,11 +286,6 @@ public class ModelGroup extends Model {
 	}
 	
 	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return new DelegatingModelElementPropertyGetter();
-	}
-	
-	@Override
 	public IPropertySetter getPropertySetter() {
 		return new DelegatingModelElementPropertySetter();
 	}
@@ -306,7 +301,6 @@ public class ModelGroup extends Model {
 			}
 			throw new EolIllegalPropertyException(object, property, ast, context);
 		}
-		
 	}
 	
 	public class DelegatingModelElementPropertySetter extends AbstractPropertySetter {

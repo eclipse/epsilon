@@ -25,7 +25,6 @@ import org.eclipse.epsilon.emc.emf.virtual.VirtualObject;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
@@ -37,11 +36,7 @@ public class VirtualEmfModel extends AbstractEmfModel {
 	protected URI modelFileUri;
 	
 	public VirtualEmfModel() {
-	}
-	
-	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return new VirtualPropertyGetter();
+		propertyGetter = new VirtualPropertyGetter();
 	}
 	
 	@Override

@@ -31,7 +31,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
@@ -57,11 +56,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	public static final String PROPERTY_URI = "uri";
 	
 	public PlainXmlModel() {
-	}
-	
-	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return new PlainXmlPropertyGetter(this);
+		propertyGetter = new PlainXmlPropertyGetter(this);
 	}
 	
 	@Override

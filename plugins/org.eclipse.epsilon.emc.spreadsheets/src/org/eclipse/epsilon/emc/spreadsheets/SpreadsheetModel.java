@@ -28,7 +28,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.context.Variable;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.ISearchableModel;
 import org.eclipse.epsilon.eol.models.Model;
@@ -50,11 +49,7 @@ public abstract class SpreadsheetModel extends Model implements ISearchableModel
 	public SpreadsheetModel() {
 		this.worksheets = new ArrayList<>();
 		this.references = new ArrayList<>();
-	}
-
-	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return new SpreadsheetPropertyGetter(this);
+		propertyGetter = new SpreadsheetPropertyGetter(this);
 	}
 
 	@Override

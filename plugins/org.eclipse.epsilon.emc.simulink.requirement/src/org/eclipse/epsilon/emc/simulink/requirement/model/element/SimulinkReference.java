@@ -23,7 +23,6 @@ import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementMod
 import org.eclipse.epsilon.emc.simulink.types.HandleObject;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
-
 public class SimulinkReference extends SimulinkModelElement implements ISimulinkRequirementModelElement{
 
 	protected MatlabHandleElement referenceHandle;
@@ -48,7 +47,7 @@ public class SimulinkReference extends SimulinkModelElement implements ISimulink
 		referenceHandle = new MatlabHandleElement(model, engine, id);
 	}
 
-	private Map<String, Object> properties = new HashMap<String, Object>();
+	private Map<String, Object> properties = new HashMap<>();
 	
 	@Override
 	public Object getProperty(String property) throws EolRuntimeException {

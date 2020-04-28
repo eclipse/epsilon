@@ -8,15 +8,6 @@
  *     Dimitrios Kolovos - initial API and implementation
  ******************************************************************************/
 package org.eclipse.epsilon.emc.composite;
-/*******************************************************************************
- * Copyright (c) 2008 The University of York.
- * This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
- * Contributors:
- *     Dimitrios Kolovos - initial API and implementation
- ******************************************************************************/
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,6 +37,7 @@ public class CompositeModel extends Model {
 	
 	public CompositeModel(Collection<IModel> models) {
 		this.models = models;
+		propertyGetter = new CompositePropertyGetter();
 	}
 	
 	public CompositeModel(String name, Collection<IModel> models) {
@@ -279,11 +271,6 @@ public class CompositeModel extends Model {
 			if (!m.store()) return false;
 		}
 		return true;
-	}
-	
-	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return new CompositePropertyGetter();
 	}
 	
 	@Override

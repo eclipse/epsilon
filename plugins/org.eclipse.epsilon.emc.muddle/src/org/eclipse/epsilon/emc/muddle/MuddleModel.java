@@ -18,7 +18,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.Model;
 
@@ -32,11 +31,6 @@ public class MuddleModel extends Model {
 		propertySetter = new MuddleModelPropertySetter(this);
 	}
 	
-	@Override
-	public IPropertyGetter getPropertyGetter() {
-		return propertyGetter;
-	}
-
 	@Override
 	public IPropertySetter getPropertySetter() {
 		return propertySetter;
