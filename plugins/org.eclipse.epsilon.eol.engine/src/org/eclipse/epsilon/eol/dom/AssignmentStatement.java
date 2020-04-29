@@ -55,8 +55,13 @@ public class AssignmentStatement extends Statement {
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {	
 		ExecutorFactory executorFactory = context.getExecutorFactory();
+		
 		Object valueExpressionResult = executorFactory.execute(valueExpression, context);
 		
+		Object targetExpressionResult = targetExpression instanceof NameExpression ?
+			((NameExpression) targetExpression).execute(context, true) :
+			executorFactory.execute(targetExpression, context);
+			
 		if (targetExpression instanceof PropertyCallExpression) {
 			PropertyCallExpression pce = (PropertyCallExpression) targetExpression;
 			Object source = pce.getTarget(context);
@@ -65,12 +70,7 @@ public class AssignmentStatement extends Statement {
 			Object value = getValueEquivalent(null, valueExpressionResult, context);
 			setter.invoke(source, property, value, pce.getNameExpression(), context);
 		}
-		
-		Object targetExpressionResult = targetExpression instanceof NameExpression ?
-			((NameExpression) targetExpression).execute(context, true) :
-			executorFactory.execute(targetExpression, context);
-
-		if (targetExpressionResult instanceof Variable) {
+		else if (targetExpressionResult instanceof Variable) {
 			Variable variable = (Variable) targetExpressionResult;
 			try {
 				Object value = getValueEquivalent(variable.getValue(), valueExpressionResult, context);
