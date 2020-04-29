@@ -39,6 +39,7 @@ public interface IPropertySetter {
 	 * @throws EolRuntimeException
 	 * @deprecated Use {@link #invoke(Object, String, Object, ModuleElement, IEolContext)}.
 	 */
+	@Deprecated
 	default void invoke(Object target, String property, Object value) throws EolRuntimeException {
 		invoke(value, property, value, null, null);
 	}

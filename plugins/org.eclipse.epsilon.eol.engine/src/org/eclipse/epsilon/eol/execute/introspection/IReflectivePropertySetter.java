@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2020 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - stateless refactoring
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
@@ -42,6 +43,8 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	Object coerce(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException;	
 	
 	/**
+	 * This method is provided only for convenience. Implementations should override the
+	 * {@link #coerce(Object, String, Object, ModuleElement, IEolContext)} method instead.
 	 * 
 	 * @param target
 	 * @param property
@@ -49,12 +52,16 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	 * @return
 	 * @throws EolIllegalPropertyException
 	 * @since 1.6
+	 * @deprecated Use {@link #coerce(Object, String, Object, ModuleElement, IEolContext)}
 	 */
+	@Deprecated
 	default Object coerce(Object target, String property, Object value) throws EolIllegalPropertyException {
 		return coerce(target, property, value, null, null);
 	}
 	
 	/**
+	 * This method is provided only for convenience. Implementations should override the
+	 * {@link #conforms(Object, String, Object, ModuleElement, IEolContext)} method instead.
 	 * 
 	 * @param target
 	 * @param property
@@ -62,7 +69,9 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	 * @return
 	 * @throws EolIllegalPropertyException
 	 * @since 1.6
+	 * @deprecated Use {@link #conforms(Object, String, Object, ModuleElement, IEolContext)}
 	 */
+	@Deprecated
 	default Object conforms(Object target, String property, Object value) throws EolIllegalPropertyException {
 		return conforms(target, property, value, null, null);
 	}
