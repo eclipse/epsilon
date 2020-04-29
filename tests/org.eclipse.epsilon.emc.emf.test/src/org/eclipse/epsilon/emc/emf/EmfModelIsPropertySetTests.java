@@ -42,15 +42,15 @@ public class EmfModelIsPropertySetTests {
 		assertFalse("The instance should know that 'count' has not been explicitly set", model.isPropertySet(eob, pname));
 
 		final IPropertySetter setter = model.getPropertySetter();
-		setter.invoke(eob, "count", 0, null, null);
+		setter.invoke(eob, "count", 0, null);
 		assertEquals("count should be 0", 0, model.getPropertyGetter().invoke(eob, pname, null));
 		assertFalse("count is equal to the default, so EMF should still report it as unset", model.isPropertySet(eob, pname));
 
-		setter.invoke(eob, "count", 1, null, null);
+		setter.invoke(eob, "count", 1, null);
 		assertEquals("count should be 1", 1, model.getPropertyGetter().invoke(eob, pname, null));
 		assertTrue("count is not equal to the default, so it is now reported as set", model.isPropertySet(eob, pname));
 
-		setter.invoke(eob, "count", null, null, null);
+		setter.invoke(eob, "count", null, null);
 		assertEquals("count should be back to the default 0 after being unset", 0, model.getPropertyGetter().invoke(eob, pname, null));
 		assertFalse("count should have been unset", model.isPropertySet(eob, pname));
 	}

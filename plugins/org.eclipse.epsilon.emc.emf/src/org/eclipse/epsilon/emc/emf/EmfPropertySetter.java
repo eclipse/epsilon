@@ -27,7 +27,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 
 	@Override
 	public Object coerce(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
-		EStructuralFeature sf = getEStructuralFeature(target, property, value, ast, context);
+		EStructuralFeature sf = getEStructuralFeature(target, property, value, context);
 		if (sf.isMany() && !(value instanceof Collection)) {
 			return CollectionUtil.asList(value);
 		}
@@ -36,7 +36,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 	
 	@Override
 	public boolean conforms(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
-		EStructuralFeature sf = getEStructuralFeature(target, property, value, ast, context);
+		EStructuralFeature sf = getEStructuralFeature(target, property, value, context);
 		if (!sf.isChangeable()) {
 			return false;
 		}
@@ -53,21 +53,21 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
-		EStructuralFeature sf = getEStructuralFeature(target, property, value, ast, context);
+	public void invoke(Object target, String property, Object value, IEolContext context) throws EolRuntimeException {
+		EStructuralFeature sf = getEStructuralFeature(target, property, value, context);
 		if (sf.isMany()) {
 			if (value != null) {
-				Collection<Object> sourceValues = (Collection<Object>) getEObject(target, property, value, ast, context).eGet(sf);
+				Collection<Object> sourceValues = (Collection<Object>) getEObject(target, property, value, context).eGet(sf);
 				if (value instanceof Collection) {	
 					copyCollectionValues(((Collection<?>)value), sourceValues);
 				}
 				else {
-					throw new EolIllegalPropertyAssignmentException(property, ast);
+					throw new EolIllegalPropertyAssignmentException(property, context);
 				}
 			}
 		}
 		else {
-			getEObject(target, property, value, ast, context).eSet(sf, value);
+			getEObject(target, property, value, context).eSet(sf, value);
 		}
 	}
 	
@@ -76,17 +76,17 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 		target.addAll(source);
 	}
 	
-	protected EObject getEObject(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
+	protected EObject getEObject(Object object, String property, Object value, IEolContext context) throws EolIllegalPropertyException {
 		if (object instanceof EObject)
 			return (EObject) object;
 		else
-			throw new EolIllegalPropertyException(object, property, ast, context);
+			throw new EolIllegalPropertyException(object, property, context);
 	}
 	
-	private EStructuralFeature getEStructuralFeature(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
-		final EStructuralFeature sf = EmfUtil.getEStructuralFeature(getEObject(object, property, value, ast, context).eClass(), property);	
+	private EStructuralFeature getEStructuralFeature(Object object, String property, Object value, IEolContext context) throws EolIllegalPropertyException {
+		final EStructuralFeature sf = EmfUtil.getEStructuralFeature(getEObject(object, property, value, context).eClass(), property);	
 		if (sf == null) {
-			throw new EolIllegalPropertyException(object, property, ast, context);
+			throw new EolIllegalPropertyException(object, property, context);
 		}
 		return sf;
 	}

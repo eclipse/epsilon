@@ -36,15 +36,15 @@ public class SpreadsheetPropertySetter extends JavaPropertySetter {
 	}
 
 	@Override
-	public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public void invoke(Object object, String property, Object value, IEolContext context) throws EolRuntimeException {
 		if (object instanceof Collection<?>) {
-			this.edit((Collection<?>) object, value, property, ast, context);
+			this.edit((Collection<?>) object, value, property, context);
 		}
 		else if (object instanceof SpreadsheetRow) {
-			this.edit((SpreadsheetRow) object, value, property, ast, context);
+			this.edit((SpreadsheetRow) object, value, property, context);
 		}
 		else {
-			super.invoke(object, property, value, ast, context);
+			super.invoke(object, property, value, context);
 		}
 	}
 
@@ -57,20 +57,20 @@ public class SpreadsheetPropertySetter extends JavaPropertySetter {
 	 * @throws EolRuntimeException
 	 */
 	public void invoke(SpreadsheetRow row, SpreadsheetColumn column, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
-		invoke(row, column.getIdentifier(), value, ast, context);
+		invoke(row, column.getIdentifier(), value, context);
 	}
 
-	public void edit(Collection<?> rows, Object value, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public void edit(Collection<?> rows, Object value, String property, IEolContext context) throws EolRuntimeException {
 		for (final Object row : rows) {
 			final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(this.model);
-			setter.invoke(row, property, value, ast, context);
+			setter.invoke(row, property, value, context);
 		}
 	}
 
-	public void edit(SpreadsheetRow row, Object value, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public void edit(SpreadsheetRow row, Object value, String property, IEolContext context) throws EolRuntimeException {
 		final SpreadsheetColumn column = row.getColumn(property);
 		if (column == null) {
-			throw new EolIllegalPropertyException(row, property, ast, context);
+			throw new EolIllegalPropertyException(row, property, context);
 		}
 
 		final boolean columnIsReferencing = CollectionUtils.isNotEmpty(row.getReferencesBySource(column));

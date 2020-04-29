@@ -170,7 +170,7 @@ public class Model {
 		final IReflectivePropertySetter setter = underlyingModel.getPropertySetter();
 		setter.invoke(underlyingModelElement, property,
 			setter.coerce(underlyingModelElement, property, value.unwrap(), null, null),
-			null, null
+			null
 		);
 	}
 	

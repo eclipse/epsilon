@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.epl.execute.model;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -19,8 +18,8 @@ import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 public class PatternMatchPropertySetter extends AbstractPropertySetter {
 
 	@Override
-	public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
-		throw new EolIllegalPropertyException(object, property, ast, context);
+	public void invoke(Object object, String property, Object value, IEolContext context) throws EolRuntimeException {
+		throw new EolIllegalPropertyException(object, property, context);
 	}
 
 }

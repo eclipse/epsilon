@@ -39,7 +39,7 @@ public class SpreadsheetPropertySetterTest {
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 
 		try {
-			setter.invoke(row, columnName, value, null, null);
+			setter.invoke(row, columnName, value, null);
 			fail();
 		}
 		catch (Exception e) {
@@ -67,7 +67,7 @@ public class SpreadsheetPropertySetterTest {
 		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.invoke(row, columnName, value, null, null);
+		setter.invoke(row, columnName, value, null);
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class SpreadsheetPropertySetterTest {
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 
 		try {
-			setter.invoke(row, columnName, value, null, null);
+			setter.invoke(row, columnName, value, null);
 			fail();
 		}
 		catch (EolRuntimeException e) {
@@ -113,7 +113,7 @@ public class SpreadsheetPropertySetterTest {
 		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.invoke(row, columnName, value, null, null);
+		setter.invoke(row, columnName, value, null);
 	}
 
 	@Test
@@ -136,7 +136,7 @@ public class SpreadsheetPropertySetterTest {
 		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.invoke(row, columnName, value, null, null);
+		setter.invoke(row, columnName, value, null);
 	}
 
 	@Test
@@ -161,7 +161,7 @@ public class SpreadsheetPropertySetterTest {
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
 
 		try {
-			setter.invoke(row, columnName, value, null, null);
+			setter.invoke(row, columnName, value, null);
 			fail();
 		}
 		catch (IllegalArgumentException e) {
@@ -205,6 +205,6 @@ public class SpreadsheetPropertySetterTest {
 		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.invoke(row, columnName, valueRow, null, null);
+		setter.invoke(row, columnName, valueRow, null);
 	}
 }

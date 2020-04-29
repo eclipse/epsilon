@@ -10,13 +10,28 @@
 package org.eclipse.epsilon.eol.exceptions;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class EolIllegalPropertyAssignmentException extends EolRuntimeException {
 
 	public String property;
 	
+	/**
+	 * 
+	 * @param property
+	 * @param context
+	 * @since 1.6
+	 */
+	public EolIllegalPropertyAssignmentException(String property, IEolContext context) {
+		this.property = property;
+		if ((this.context = context) != null) {
+			ExecutorFactory ef = context.getExecutorFactory();
+			if (ef != null) this.ast = ef.getActiveModuleElement();
+		}
+	}
+	
 	public EolIllegalPropertyAssignmentException(String property, ModuleElement ast) {
-		super();
 		this.property = property;
 		this.ast = ast;
 	}

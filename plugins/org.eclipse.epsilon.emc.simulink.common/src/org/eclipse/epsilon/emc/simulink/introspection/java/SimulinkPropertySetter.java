@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.introspection.java;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -18,9 +17,9 @@ import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 public class SimulinkPropertySetter extends JavaPropertySetter {
 
 	@Override
-	public void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public void invoke(Object target, String property, Object value, IEolContext context) throws EolRuntimeException {
 		try {
-			super.invoke(target, property, value, ast, context);
+			super.invoke(target, property, value, context);
 		}
 		catch (Exception e) {
 			if (target instanceof ISimulinkModelElement) {

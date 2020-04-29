@@ -111,7 +111,7 @@ public class EmfM0Model extends EmfModel {
 	class EmfM0PropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 
 		@Override
-		public void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+		public void invoke(Object target, String property, Object value, IEolContext context) throws EolRuntimeException {
 			ArrayList<Object> parameterValues = new ArrayList<>();
 			parameterValues.add(property);
 			parameterValues.add(value);

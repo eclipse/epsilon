@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.emc.muddle;
 
 import java.util.Collection;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
@@ -24,7 +23,7 @@ public class MuddleModelPropertySetter extends AbstractPropertySetter {
 	}
 	
 	@Override
-	public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public void invoke(Object object, String property, Object value, IEolContext context) throws EolRuntimeException {
 		
 		MuddleElement element = (MuddleElement) object;
 		

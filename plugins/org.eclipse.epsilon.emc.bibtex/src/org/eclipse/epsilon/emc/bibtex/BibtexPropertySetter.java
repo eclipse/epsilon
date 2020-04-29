@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.bibtex;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.bibtex.domain.Publication;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -22,7 +21,7 @@ import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 public class BibtexPropertySetter extends AbstractPropertySetter {
 
 	@Override
-	public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public void invoke(Object object, String property, Object value, IEolContext context) throws EolRuntimeException {
 		((Publication)object).setProperty(property, value);
 	}
 }

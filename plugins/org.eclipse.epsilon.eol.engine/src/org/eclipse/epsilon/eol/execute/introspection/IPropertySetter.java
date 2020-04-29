@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -22,16 +21,15 @@ public interface IPropertySetter {
 	 * @param target The model element to update.
 	 * @param property The name of the property of the model element.
 	 * @param value The new value of the property.
-	 * @param ast Where this is being called from.
 	 * @param context The execution context.
 	 * @throws EolRuntimeException If anything goes wrong in updating the value.
 	 * @since 1.6
 	 */
-	void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException;
+	void invoke(Object target, String property, Object value, IEolContext context) throws EolRuntimeException;
 	
 	/**
 	 * This method is provided only for convenience. Implementations should override the
-	 * {@link #invoke(Object, String, Object, ModuleElement, IEolContext)} method instead.
+	 * {@link #invoke(Object, String, Object, IEolContext)} method instead.
 	 * 
 	 * @param target
 	 * @param property
@@ -39,6 +37,6 @@ public interface IPropertySetter {
 	 * @throws EolRuntimeException
 	 */
 	default void invoke(Object target, String property, Object value) throws EolRuntimeException {
-		invoke(value, property, value, null, null);
+		invoke(value, property, value, null);
 	}
 }

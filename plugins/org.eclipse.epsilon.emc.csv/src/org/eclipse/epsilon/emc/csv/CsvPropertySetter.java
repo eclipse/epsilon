@@ -11,7 +11,6 @@ package org.eclipse.epsilon.emc.csv;
 
 import java.util.Map;
 import java.util.Objects;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -21,13 +20,13 @@ public class CsvPropertySetter extends AbstractPropertySetter {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public void invoke(Object object, String property, Object value, IEolContext context) throws EolRuntimeException {
 		if (!(object instanceof Map)) {
-			throw new EolIllegalPropertyException(object, property, ast, context);
+			throw new EolIllegalPropertyException(object, property, context);
 		}
 		Map<String, String> row = (Map<String, String>) object;
 		if (!row.keySet().contains(property)) {
-			throw new EolIllegalPropertyException(object, property, ast, context);
+			throw new EolIllegalPropertyException(object, property, context);
 		}
 		row.put(property, Objects.toString(value));
 	}

@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.ecl.trace.Match;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
@@ -317,14 +316,13 @@ public class CompositeModel extends Model {
 	class CompositePropertySetter extends AbstractPropertySetter {
 		
 		@Override
-		public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+		public void invoke(Object object, String property, Object value, IEolContext context) throws EolRuntimeException {
 			for (IModel model : models) {
 				if (model.owns(object)) {
-					model.getPropertySetter().invoke(object, property, value, ast, context);
+					model.getPropertySetter().invoke(object, property, value, context);
 				}
 			}
-			
-			throw new EolIllegalPropertyException(object, property, ast, context);
+			throw new EolIllegalPropertyException(object, property, context);
 		}
 	}
 }

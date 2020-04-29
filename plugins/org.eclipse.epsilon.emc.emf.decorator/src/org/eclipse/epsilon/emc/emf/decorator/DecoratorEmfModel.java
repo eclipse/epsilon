@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfPropertyGetter;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetter;
@@ -182,9 +181,9 @@ public class DecoratorEmfModel extends EmfModel {
 	
 	class DecoratorPropertySetter extends EmfPropertySetter {
 		@Override
-		public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+		public void invoke(Object object, String property, Object value, IEolContext context) throws EolRuntimeException {
 			if (decorator != null) {
-				super.invoke(decorator, property, value, ast, context);
+				super.invoke(decorator, property, value, context);
 			}
 			else {
 				throw new EolRuntimeException("Cannot set the value of feature " + property + " as the decorator object does not exist");

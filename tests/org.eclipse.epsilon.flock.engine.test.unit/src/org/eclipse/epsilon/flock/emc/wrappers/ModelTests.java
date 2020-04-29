@@ -46,7 +46,7 @@ public class ModelTests {
 		Object target = "dummy model element";
 		
 		expect(mockPropertySetter.coerce(target, property, "bar", null, null)).andReturn("bar");
-		mockPropertySetter.invoke(target, property, "bar", null, null);
+		mockPropertySetter.invoke(target, property, "bar", null);
 		
 		expect(mockUnderlyingModel.getPropertySetter())
 			.andReturn(mockPropertySetter);

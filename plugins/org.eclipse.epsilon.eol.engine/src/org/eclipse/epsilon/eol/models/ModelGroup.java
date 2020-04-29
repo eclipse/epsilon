@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -306,12 +305,12 @@ public class ModelGroup extends Model {
 	public class DelegatingModelElementPropertySetter extends AbstractPropertySetter {
 		
 		@Override
-		public void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+		public void invoke(Object target, String property, Object value, IEolContext context) throws EolRuntimeException {
 			for (IModel model : models) {
 				if (model.knowsAboutProperty(target, property)) {
 					IPropertySetter delegate = null;
 					delegate = model.getPropertySetter();
-					delegate.invoke(target, property, value, ast, context);
+					delegate.invoke(target, property, value, context);
 					return;
 				}
 			}

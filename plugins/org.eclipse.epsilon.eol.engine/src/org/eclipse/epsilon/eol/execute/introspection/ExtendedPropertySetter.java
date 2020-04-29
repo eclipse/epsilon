@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
@@ -17,7 +16,7 @@ public class ExtendedPropertySetter extends AbstractPropertySetter {
 	
 
 	@Override
-	public void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public void invoke(Object target, String property, Object value, IEolContext context) throws EolRuntimeException {
 		
 		context.getExtendedProperties().setPropertyValue(target, property.substring(1), value);
 		

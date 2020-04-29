@@ -100,7 +100,7 @@ public class CascadeUpdatesCellsNotManyToManyPropertySetterTest {
 		assertTrue(rowSheet1.getVisibleCellValue(model.getWorksheetByType("Sheet1").getColumn("c_1")).equals("1"));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.invoke(rowSheet3, columnSheet3.getPrefixedIndex(), "REQ4", null, null);
+		setter.invoke(rowSheet3, columnSheet3.getPrefixedIndex(), "REQ4", null);
 
 		assertTrue(rowSheet3.getAllVisibleCellValuesAsIs(columnSheet3).size() == 1);
 		assertTrue(rowSheet3.getVisibleCellValue(columnSheet3).equals("REQ4"));
@@ -182,7 +182,7 @@ public class CascadeUpdatesCellsNotManyToManyPropertySetterTest {
 		assertTrue(rowSheet1.getVisibleCellValue(model.getWorksheetByType("Sheet1").getColumn("c_1")).equals("1"));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.invoke(rowSheet3, columnSheet3.getPrefixedIndex(), "REQ4", null, null);
+		setter.invoke(rowSheet3, columnSheet3.getPrefixedIndex(), "REQ4", null);
 
 		assertTrue(rowSheet3.getAllVisibleCellValuesAsIs(columnSheet3).size() == 1);
 		assertTrue(rowSheet3.getVisibleCellValue(columnSheet3).equals("REQ4"));

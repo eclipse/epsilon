@@ -27,7 +27,7 @@ public class SimulinkRequirementModelElementLocator implements IModelElementLoca
 		ISimulinkRequirementModelElement element = (ISimulinkRequirementModelElement) o;
 		SimulinkPropertySetter setter = new SimulinkPropertySetter();
 		try {
-			setter.invoke(element, "selected", "on", null, null);
+			setter.invoke(element, "selected", "on", null);
 		}
 		catch (EolRuntimeException e) {
 			LogUtil.log(e);

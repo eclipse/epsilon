@@ -11,7 +11,6 @@ package org.eclipse.epsilon.emc.plainxml;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
@@ -28,7 +27,7 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public void invoke(Object object, String property, Object value, IEolContext context) throws EolRuntimeException {
 		if (object instanceof Element) synchronized (model) {
 			Element e = (Element) object;
 			
@@ -96,7 +95,7 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 			}
 		}
 		
-		super.invoke(object, property, value, ast, context);
+		super.invoke(object, property, value, context);
 	}
 	
 }
