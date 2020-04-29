@@ -11,7 +11,6 @@ package org.eclipse.epsilon.emc.simuink.dictionary.dt;
 
 import org.eclipse.epsilon.common.dt.locators.IModelElementLocator;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
-import org.eclipse.epsilon.emc.simulink.dictionary.model.SimulinkDictionaryModel;
 import org.eclipse.epsilon.emc.simulink.dictionary.model.element.ISimulinkDictionaryModelElement;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertySetter;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -28,7 +27,7 @@ public class SimulinkDictionaryModelElementLocator implements IModelElementLocat
 	@Override
 	public void locate(Object o) {
 		ISimulinkDictionaryModelElement element = (ISimulinkDictionaryModelElement) o;
-		SimulinkPropertySetter setter = new SimulinkPropertySetter(((SimulinkDictionaryModel)element.getOwningModel()).getEngine());
+		SimulinkPropertySetter setter = new SimulinkPropertySetter();
 		try {
 			setter.invoke(element, "selected", "on", null, null);
 		}

@@ -12,7 +12,6 @@ package org.eclipse.epsilon.emc.simuink.requirement.dt;
 import org.eclipse.epsilon.common.dt.locators.IModelElementLocator;
 import org.eclipse.epsilon.common.dt.util.LogUtil;
 import org.eclipse.epsilon.emc.simulink.introspection.java.SimulinkPropertySetter;
-import org.eclipse.epsilon.emc.simulink.requirement.model.SimulinkRequirementModel;
 import org.eclipse.epsilon.emc.simulink.requirement.model.element.ISimulinkRequirementModelElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
@@ -28,7 +27,7 @@ public class SimulinkRequirementModelElementLocator implements IModelElementLoca
 	@Override
 	public void locate(Object o) {
 		ISimulinkRequirementModelElement element = (ISimulinkRequirementModelElement) o;
-		SimulinkPropertySetter setter = new SimulinkPropertySetter(((SimulinkRequirementModel)element.getOwningModel()).getEngine());
+		SimulinkPropertySetter setter = new SimulinkPropertySetter();
 		try {
 			setter.invoke(element, "selected", "on", null, null);
 		}
