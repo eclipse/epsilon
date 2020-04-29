@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.ecl.concurrent;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +24,7 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
  * @author Sina Madani
  * @since 1.6
  */
-public class EclModuleParallel extends EclModule {
+public abstract class EclModuleParallel extends EclModule {
 
 	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
 	static {
@@ -44,6 +45,13 @@ public class EclModuleParallel extends EclModule {
 	}
 	
 	@Override
+	public HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
+		importConfiguration.put("ecl", EclModuleParallelAnnotation.class);
+		return importConfiguration;
+	}
+	
+	@Override
 	public Set<String> getConfigurationProperties() {
 		return CONFIG_PROPERTIES;
 	}
@@ -57,46 +65,4 @@ public class EclModuleParallel extends EclModule {
 		super.configure(properties);
 		setContext(IEolContextParallel.configureContext(properties, EclContextParallel::new, getContext()));
 	}
-	
-	/*@Override
-	protected void matchAllRules(boolean greedy) throws EolRuntimeException {
-		boolean ofTypeOnly = !greedy;
-		IEclContextParallel context = getContext();
-		EolExecutorService executor = context.beginParallelTask();
-		
-		for (MatchRule matchRule : getMatchRules()) {
-			if (!matchRule.isAbstract() && !matchRule.isLazy(context) && (ofTypeOnly || matchRule.isGreedy())) {
-				Collection<?> leftInstances = matchRule.getLeftInstances(context, ofTypeOnly);
-				Collection<?> rightInstances = matchRule.getRightInstances(context, ofTypeOnly);
-				
-				Annotation pAnnotation = matchRule.getAnnotation(IErlContextParallel.PARALLEL_ANNOTATION_NAME);
-				
-				if (pAnnotation != null) {
-					if (matchRule.getBooleanAnnotationValue(IErlContextParallel.PARALLEL_ANNOTATION_NAME, context, () ->
-						new Variable[] {
-							Variable.createReadOnlyVariable("leftInstances", leftInstances),
-							Variable.createReadOnlyVariable("rightInstances", rightInstances),
-							Variable.createReadOnlyVariable("matchRule", matchRule),
-							Variable.createReadOnlyVariable("THREADS", context.getParallelism())
-					})) {
-						for (Object left : leftInstances) {
-							for (Object right : rightInstances) {
-								executor.execute(() -> matchRule.matchPair(context, ofTypeOnly, left, right));
-							}
-						}
-					}
-				}
-				else {
-					for (Object left : leftInstances) {
-						for (Object right : rightInstances) {
-							matchRule.matchPair(context, ofTypeOnly, left, right);
-						}
-					}
-				}
-			}
-		}
-		
-		executor.awaitCompletion();
-		context.endParallelTask();
-	}*/
 }

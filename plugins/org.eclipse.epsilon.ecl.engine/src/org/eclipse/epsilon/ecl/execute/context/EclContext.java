@@ -18,6 +18,20 @@ public class EclContext extends ErlContext implements IEclContext {
 	protected MatchTrace matchTrace = new MatchTrace();
 	protected MatchTrace tempMatchTrace;
 	
+	public EclContext() {
+		super();
+	}
+	
+	/**
+	 * Copy constructor, for internal use only.
+	 * @since 1.6
+	 */
+	public EclContext(IEclContext other) {
+		super(other);
+		this.matchTrace = other.getMatchTrace();
+		this.tempMatchTrace = other.getTempMatchTrace();
+	}
+	
 	@Override
 	public void setMatchTrace(MatchTrace matchTrace) {
 		this.matchTrace = matchTrace;

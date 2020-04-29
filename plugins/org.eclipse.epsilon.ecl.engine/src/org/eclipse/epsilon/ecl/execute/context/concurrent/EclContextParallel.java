@@ -10,6 +10,8 @@
 package org.eclipse.epsilon.ecl.execute.context.concurrent;
 
 import org.eclipse.epsilon.ecl.IEclModule;
+import org.eclipse.epsilon.ecl.execute.context.EclContext;
+import org.eclipse.epsilon.ecl.execute.context.IEclContext;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 
@@ -51,5 +53,15 @@ public class EclContextParallel extends ErlContextParallel implements IEclContex
 	@Override
 	public IEclModule getModule() {
 		return (IEclModule) super.getModule();
+	}
+	
+	@Override
+	protected IEclContext createShadowThreadLocalContext() {
+		return new EclContext(this);
+	}
+	
+	@Override
+	public IEclContext getShadow() {
+		return (IEclContext) super.getShadow();
 	}
 }

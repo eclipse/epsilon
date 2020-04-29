@@ -75,20 +75,21 @@ public class MatchRule extends ExtensibleNamedRule {
 		return getAllInstances(rightParameter, context, ofTypeOnly);
 	}
 	
-	public void matchPair(IEclContext context, boolean ofTypeOnly, Object leftInstance, Object rightInstance) throws EolRuntimeException {
+	public Match matchPair(IEclContext context, boolean ofTypeOnly, Object leftInstance, Object rightInstance) throws EolRuntimeException {
 		if (!ofTypeOnly && context.getMatchTrace().getMatch(leftInstance, rightInstance) != null) {
-			return;
+			return null;
 		}
 		
 		// Try to find a rule with ofTypeOnly = true
 		if (appliesTo(leftInstance, rightInstance, context, true)) {
-			match(leftInstance, rightInstance, context, null, false);
+			return match(leftInstance, rightInstance, context, null, false);
 		}
 		//TODO: Why both branches do same thing?
 		// Else find a rule with onlyOfClass = false
 		else if (appliesTo(leftInstance, rightInstance, context, false)) {
-			match(leftInstance, rightInstance, context, null, false);
+			return match(leftInstance, rightInstance, context, null, false);
 		}
+		return null;
 	}
 	
 	/**

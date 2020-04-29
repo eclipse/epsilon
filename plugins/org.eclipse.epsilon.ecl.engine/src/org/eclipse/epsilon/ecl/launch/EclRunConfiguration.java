@@ -10,7 +10,7 @@
 package org.eclipse.epsilon.ecl.launch;
 
 import org.eclipse.epsilon.ecl.*;
-import org.eclipse.epsilon.ecl.concurrent.EclModuleParallel;
+import org.eclipse.epsilon.ecl.concurrent.EclModuleParallelAnnotation;
 import org.eclipse.epsilon.ecl.trace.MatchTrace;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.erl.launch.ErlRunConfiguration;
@@ -32,7 +32,7 @@ public class EclRunConfiguration extends ErlRunConfiguration {
 		
 		@Override
 		protected IEclModule createModule() {
-			return isParallel() ? new EclModuleParallel() : new EclModule();
+			return isParallel() ? new EclModuleParallelAnnotation() : new EclModule();
 		}
 	}
 	

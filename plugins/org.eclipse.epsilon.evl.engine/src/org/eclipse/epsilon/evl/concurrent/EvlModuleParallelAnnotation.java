@@ -21,6 +21,7 @@ import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.evl.execute.context.concurrent.EvlContextParallel;
 
 /**
+ * Executes rule-element pairs marked with the <code>@parallel</code> annotation in parallel.
  * 
  * @author Sina Madani
  * @since 1.6
@@ -43,7 +44,7 @@ public class EvlModuleParallelAnnotation extends EvlModuleParallel implements IE
 			final Collection<Constraint> constraintsToCheck = preProcessConstraintContext(constraintContext);
 			final Collection<?> allOfKind = constraintContext.getAllOfSourceKind(pContext);
 			
-			final Collection<Callable<Object>> jobs = new LinkedList<>();
+			final Collection<Callable<?>> jobs = new LinkedList<>();
 			
 			if (constraintContext.hasAnnotation("parallel")) {
 				for (Object object : allOfKind) {

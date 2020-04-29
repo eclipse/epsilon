@@ -55,11 +55,11 @@
             name="Sequential">
       </implementation>
       <implementation
-            class="org.eclipse.epsilon.ecl.concurrent.EclModuleParallel"
+            class="org.eclipse.epsilon.ecl.concurrent.EclModuleParallelAnnotation"
             default="true"
             dialog="org.eclipse.epsilon.ecl.dt.launching.EclModuleParallelConfiguration"
             language="ECL"
-            name="Parallel (Declarative operations)">
+            name="Parallel (Annotations)">
       </implementation>
    </extension>
    <extension

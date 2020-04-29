@@ -1,3 +1,6 @@
+rule A match l : L!A with r : R!A {}
+rule B match l : L!B with r : R!B {}
+
 rule EAttribute2EAttribute
 	match l : Left!EAttribute
 	with r : Right!EAttribute 
@@ -11,7 +14,6 @@ rule EAttribute2EAttribute
 	do {
 		doIt();
 	}
-	
 }
 
 rule EAnnotation2EAnnotation
