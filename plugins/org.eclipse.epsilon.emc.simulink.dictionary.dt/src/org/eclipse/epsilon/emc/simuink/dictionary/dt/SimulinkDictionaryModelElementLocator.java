@@ -17,8 +17,6 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class SimulinkDictionaryModelElementLocator implements IModelElementLocator {
 
-	public SimulinkDictionaryModelElementLocator() {}
-
 	@Override
 	public boolean canLocate(Object o) {
 		return o instanceof ISimulinkDictionaryModelElement;

@@ -16,9 +16,7 @@ import org.eclipse.epsilon.emc.simulink.requirement.model.element.ISimulinkRequi
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 
 public class SimulinkRequirementModelElementLocator implements IModelElementLocator {
-
-	public SimulinkRequirementModelElementLocator() {}
-
+	
 	@Override
 	public boolean canLocate(Object o) {
 		return o instanceof ISimulinkRequirementModelElement;
