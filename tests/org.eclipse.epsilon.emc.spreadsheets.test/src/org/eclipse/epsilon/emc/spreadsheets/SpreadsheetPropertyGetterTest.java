@@ -47,7 +47,7 @@ public class SpreadsheetPropertyGetterTest {
 		control.replay();
 
 		SpreadsheetPropertyGetter getter = new SpreadsheetPropertyGetter(model);
-		Object response = getter.invoke(row, columnName, null, null);
+		Object response = getter.invoke(row, columnName, null);
 
 		control.verify();
 
@@ -74,7 +74,7 @@ public class SpreadsheetPropertyGetterTest {
 		control.replay();
 
 		SpreadsheetPropertyGetter getter = new SpreadsheetPropertyGetter(model);
-		Object response = getter.invoke(row, columnName, null, null);
+		Object response = getter.invoke(row, columnName, null);
 
 		control.verify();
 
@@ -104,7 +104,7 @@ public class SpreadsheetPropertyGetterTest {
 		control.replay();
 
 		SpreadsheetPropertyGetter getter = new SpreadsheetPropertyGetter(model);
-		Object response = getter.invoke(row, columnName, null, null);
+		Object response = getter.invoke(row, columnName, null);
 
 		control.verify();
 
@@ -132,7 +132,7 @@ public class SpreadsheetPropertyGetterTest {
 		control.replay();
 
 		SpreadsheetPropertyGetter getter = new SpreadsheetPropertyGetter(model);
-		Object response = getter.invoke(row, columnName, null, null);
+		Object response = getter.invoke(row, columnName, null);
 
 		control.verify();
 
@@ -174,7 +174,7 @@ public class SpreadsheetPropertyGetterTest {
 		control.replay();
 
 		SpreadsheetPropertyGetter getter = new SpreadsheetPropertyGetter(model);
-		Object response = getter.invoke(rows, columnName, null, null);
+		Object response = getter.invoke(rows, columnName, null);
 
 		control.verify();
 

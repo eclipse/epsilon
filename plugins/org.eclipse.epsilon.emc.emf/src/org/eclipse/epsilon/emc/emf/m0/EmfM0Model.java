@@ -95,7 +95,7 @@ public class EmfM0Model extends EmfModel {
 	class EmfM0PropertyGetter extends AbstractPropertyGetter {
 
 		@Override
-		public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+		public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
 			ArrayList<Object> parameterValues = new ArrayList<>();
 			parameterValues.add(property);
 			Operation propertyGetter = eolModule.getDeclaredOperations().getOperation(object, "getProperty", parameterValues, eolModule.getContext());

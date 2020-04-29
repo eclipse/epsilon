@@ -58,7 +58,7 @@ public class CellMultiplicityTest {
 		assertTrue(worksheet.getRows().size() == 1);
 
 		SpreadsheetPropertyGetter getter = (SpreadsheetPropertyGetter) model.getPropertyGetter();
-		Object visibleValue = getter.invoke(row, "v_column1", null, null);
+		Object visibleValue = getter.invoke(row, "v_column1", null);
 		assertTrue(visibleValue.equals("123# abc"));
 
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind("S1");

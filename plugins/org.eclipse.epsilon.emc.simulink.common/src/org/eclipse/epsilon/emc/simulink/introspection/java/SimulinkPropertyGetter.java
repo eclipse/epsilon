@@ -9,7 +9,6 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.introspection.java;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.types.Struct;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -27,9 +26,9 @@ public class SimulinkPropertyGetter extends JavaPropertyGetter {
 	}
 
 	@Override
-	public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
 		try {
-			return super.invoke(object, property, ast, context);
+			return super.invoke(object, property, context);
 		}
 		catch (Exception e) {
 			if (object instanceof ISimulinkModelElement) {

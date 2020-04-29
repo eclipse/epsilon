@@ -281,7 +281,7 @@ public class CompositeModel extends Model {
 	class CompositePropertyGetter extends AbstractPropertyGetter {
 
 		@Override
-		public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+		public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
 			
 			HashMap<Object, IPropertyGetter> getters = new HashMap<>();
 			Collection<Object> equivalents = getEquivalents(object);
@@ -299,7 +299,7 @@ public class CompositeModel extends Model {
 			Collection<Object> results = new HashSet<>();
 			
 			for (Object eq : equivalents) {
-				Object result = getters.get(eq).invoke(eq, property, ast, context);
+				Object result = getters.get(eq).invoke(eq, property, context);
 				if (result instanceof Collection) {
 					results.addAll((Collection<?>) result);
 				}

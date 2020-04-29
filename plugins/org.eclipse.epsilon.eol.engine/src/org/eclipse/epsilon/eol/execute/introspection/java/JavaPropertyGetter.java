@@ -51,13 +51,12 @@ public class JavaPropertyGetter extends AbstractPropertyGetter {
 	}
 	
 	@Override
-	public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
 		ObjectMethod objectMethod = getMethodFor(object, property, context);
-
+		ModuleElement ast = context.getExecutorFactory().getActiveModuleElement();
 		if (objectMethod.method == null) {
 			throw new EolIllegalPropertyException(object, property, ast, context);
 		}
-		
 		return objectMethod.execute(ast, context);
 	}
 }

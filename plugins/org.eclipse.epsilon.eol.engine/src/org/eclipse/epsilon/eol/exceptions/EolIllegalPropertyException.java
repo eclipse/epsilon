@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.eol.exceptions;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
+import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class EolIllegalPropertyException extends EolRuntimeException {
@@ -17,12 +18,29 @@ public class EolIllegalPropertyException extends EolRuntimeException {
 	protected String property;
 	protected Object object;
 	
+	/**
+	 * 
+	 * @param object
+	 * @param property
+	 * @param context
+	 * @since 1.6
+	 */
+	public EolIllegalPropertyException(Object object, String property, IEolContext context) {
+		this(object, property, null, context);
+	}
+	
 	public EolIllegalPropertyException(Object object, String property, ModuleElement ast, IEolContext context) {
 		super();
 		this.ast = ast;
 		this.object = object;
 		this.property = property;
-		this.context = context;
+		if ((this.context = context) != null && ast == null) {
+			ExecutorFactory ef = context.getExecutorFactory();
+			if (ef != null) {
+				this.ast = ef.getActiveModuleElement();
+			}
+		}
+		
 	}
 	
 	public Object getObject() {

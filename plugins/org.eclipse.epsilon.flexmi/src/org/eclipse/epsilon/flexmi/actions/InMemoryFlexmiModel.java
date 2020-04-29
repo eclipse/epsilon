@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.flexmi.actions;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.emf.EmfPropertyGetter;
 import org.eclipse.epsilon.emc.emf.InMemoryEmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -54,10 +53,10 @@ public class InMemoryFlexmiModel extends InMemoryEmfModel {
 		}
 		
 		@Override
-		public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+		public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
 			EObject child = getChild(object, property);
 			if (child != null) return child;
-			return super.invoke(object, property, ast, context);
+			return super.invoke(object, property, context);
 		}
 		
 		protected EObject getChild(Object container, String id) {

@@ -12,7 +12,6 @@ package org.eclipse.epsilon.emc.plainxml;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
@@ -27,7 +26,7 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 	}
 	
 	@Override
-	public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
 		if (object instanceof Element) synchronized (model) {
 			final Element e = (Element) object;
 			
@@ -134,7 +133,7 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 			}
 		}
 		
-		return super.invoke(object, property, ast, context);
+		return super.invoke(object, property, context);
 	}
 	
 	protected List<Element> getDescendants(Element root, List<Element> descendants) {

@@ -11,7 +11,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
@@ -23,14 +22,13 @@ public interface IPropertyGetter {
 	 * 
 	 * @param object The model element.
 	 * @param property The property name of the model element.
-	 * @param ast Where this is being called from.
 	 * @param context The execution context.
 	 * @return The value of the requested property.
 	 * @throws EolIllegalPropertyException If the property could not be found.
 	 * @throws EolRuntimeException If an exception occurs when querying the model for the property.
 	 * @since 1.6
 	 */
-	Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException;
+	Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException;
 	
 	/**
 	 * Convenience method for checking whether a property exists.
@@ -44,7 +42,7 @@ public interface IPropertyGetter {
 	 */
 	default boolean hasProperty(Object object, String property, IEolContext context) {
 		try {
-			invoke(object, property, null, context);
+			invoke(object, property, context);
 			return true;
 		}
 		catch (EolRuntimeException ex) {
@@ -56,8 +54,8 @@ public interface IPropertyGetter {
 	
 	/**
 	 * This method is provided for backwards compatibility and convenience.
-	 * Implementations should override the {@link #invoke(Object, String, ModuleElement, IEolContext)} method.
-	 * Callers should prefer the {@link #invoke(Object, String, ModuleElement, IEolContext)} method where possible.
+	 * Implementations should override the {@link #invoke(Object, String, IEolContext)} method.
+	 * Callers should prefer the {@link #invoke(Object, String, IEolContext)} method where possible.
 	 * 
 	 * @param object
 	 * @param property
@@ -65,7 +63,7 @@ public interface IPropertyGetter {
 	 * @throws EolRuntimeException
 	 */
 	default Object invoke(Object object, String property) throws EolRuntimeException {
-		return invoke(object, property, null, null);
+		return invoke(object, property, null);
 	}
 	
 	/**

@@ -58,13 +58,13 @@ public class PropertyCallExpression extends FeatureCallExpression {
 			for (Object content : (Collection<?>) source) {
 				results.add(
 					context.getIntrospectionManager().getPropertyGetterFor(content, propertyName, context)
-						.invoke(content, propertyName, propertyNameExpression, context)
+						.invoke(content, propertyName, context)
 				);
 			}
 			return results;
 		}
 
-		return wrap(getter.invoke(source, propertyName, propertyNameExpression, context));
+		return wrap(getter.invoke(source, propertyName, context));
 	}
 	
 	@Override

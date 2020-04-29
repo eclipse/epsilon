@@ -15,10 +15,8 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
@@ -42,22 +40,22 @@ public class SpreadsheetPropertyGetter extends JavaPropertyGetter {
 	}
 
 	@Override
-	public Object invoke(final Object object, final String columnIdentifier, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public Object invoke(final Object object, final String columnIdentifier, IEolContext context) throws EolRuntimeException {
 		if (object instanceof Collection<?>) {
-			return this.query((Collection<?>) object, columnIdentifier, ast, context);
+			return this.query((Collection<?>) object, columnIdentifier, context);
 		}
 		else if (object instanceof SpreadsheetRow) {
 			return this.query((SpreadsheetRow) object, columnIdentifier);
 		}
 		else {
-			return super.invoke(object, columnIdentifier, ast, context);
+			return super.invoke(object, columnIdentifier, context);
 		}
 	}
 
-	public List<Object> query(final Collection<?> collection, final String column, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public List<Object> query(final Collection<?> collection, final String column, IEolContext context) throws EolRuntimeException {
 		final List<Object> valuesToReturn = new ArrayList<>();
 		for (final Object object : collection) {
-			final Object queryResult = this.invoke(object, column, ast, context);
+			final Object queryResult = this.invoke(object, column, context);
 			if (queryResult instanceof Collection) {
 				valuesToReturn.addAll((Collection<?>) queryResult);
 			}

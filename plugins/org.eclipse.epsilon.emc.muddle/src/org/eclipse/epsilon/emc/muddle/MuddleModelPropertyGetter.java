@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.muddle;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
@@ -23,11 +22,11 @@ public class MuddleModelPropertyGetter extends JavaPropertyGetter {
 	}
 	
 	@Override
-	public Object invoke(Object o, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public Object invoke(Object o, String property, IEolContext context) throws EolRuntimeException {
 		
 		MuddleElement element = (MuddleElement) o;
 		Feature feature = getFeature(element, property);
-		if (feature == null) return super.invoke(o, property, ast, context);
+		if (feature == null) return super.invoke(o, property, context);
 		else model.getUnusedFeatures().remove(feature);
 		
 		Slot slot = getSlot(element, feature);

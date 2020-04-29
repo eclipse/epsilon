@@ -9,14 +9,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class ExtendedPropertyGetter extends AbstractPropertyGetter {
 	
 	@Override
-	public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+	public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
 		return context.getExtendedProperties().getPropertyValue(object, property.substring(1));
 	}
 }

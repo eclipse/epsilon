@@ -389,7 +389,6 @@ public class PlainXmlModel extends CachedModel<Element> {
 	
 	@Override
 	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
-		
 		super.load(properties, resolver);
 		
 		String filePath = properties.getProperty(PlainXmlModel.PROPERTY_FILE);
@@ -406,8 +405,8 @@ public class PlainXmlModel extends CachedModel<Element> {
 	
 	
 	@Override
-	public synchronized boolean owns(Object instance) {
-		if (instance instanceof Element) {
+	public boolean owns(Object instance) {
+		if (instance instanceof Element) synchronized (this) {
 			Element e = (Element) instance;
 			Node parent = e.getParentNode();
 			

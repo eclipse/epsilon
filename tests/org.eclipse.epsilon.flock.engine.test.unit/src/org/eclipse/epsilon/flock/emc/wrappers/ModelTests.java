@@ -76,7 +76,7 @@ public class ModelTests {
 		expect(mockUnderlyingModel.getPropertyGetter())
 			.andReturn(mockPropertyGetter);
 		
-		expect(mockPropertyGetter.invoke("dummy model element", "foo", null, null))
+		expect(mockPropertyGetter.invoke("dummy model element", "foo", null))
 			.andReturn("bar");
 		
 		expect(mockWrapper.wrapValue("bar"))

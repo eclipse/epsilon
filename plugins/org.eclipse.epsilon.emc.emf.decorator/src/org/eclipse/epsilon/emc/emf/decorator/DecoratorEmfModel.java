@@ -163,8 +163,9 @@ public class DecoratorEmfModel extends EmfModel {
 	}
 	
 	class DecoratorPropertyGetter extends EmfPropertyGetter {
+		
 		@Override
-		public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+		public Object invoke(Object object, String property, IEolContext context) throws EolRuntimeException {
 			if (decorator == null) {
 				if (decoratorDescriptor.getLastValueFeature().isMany()) {
 					return new ArrayList<>();
@@ -174,7 +175,7 @@ public class DecoratorEmfModel extends EmfModel {
 				}
 			}
 			else {
-				return super.invoke(decorator, property, ast, context);
+				return super.invoke(decorator, property, context);
 			}
 		}
 	}

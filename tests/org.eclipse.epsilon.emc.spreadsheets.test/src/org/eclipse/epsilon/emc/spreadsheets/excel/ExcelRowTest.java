@@ -135,7 +135,7 @@ public class ExcelRowTest {
 	public String testReadType(final int columnIndex) throws Exception {
 		List<SpreadsheetRow> rows = (List<SpreadsheetRow>) model.getAllOfKind("Sheet1");
 		SpreadsheetRow row = rows.get(0);
-		return (String) model.getPropertyGetter().invoke(row, "c_" + columnIndex, null, null);
+		return (String) model.getPropertyGetter().invoke(row, "c_" + columnIndex, null);
 	}
 
 	@Test

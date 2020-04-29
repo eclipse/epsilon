@@ -163,7 +163,7 @@ public class Model {
 	}
 
 	ModelValue<?> getValueOfProperty(Object underlyingModelElement, String property) throws EolRuntimeException {
-		return wrapper.wrapValue(underlyingModel.getPropertyGetter().invoke(underlyingModelElement, property, null, null));
+		return wrapper.wrapValue(underlyingModel.getPropertyGetter().invoke(underlyingModelElement, property, null));
 	}
 
 	void setValueOfProperty(Object underlyingModelElement, String property, ModelValue<?> value) throws EolRuntimeException {
