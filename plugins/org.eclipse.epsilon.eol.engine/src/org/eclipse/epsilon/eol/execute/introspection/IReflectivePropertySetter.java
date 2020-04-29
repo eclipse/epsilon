@@ -1,15 +1,18 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2020 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - stateless refactoring
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IReflectivePropertySetter extends IPropertySetter {
 	
@@ -25,7 +28,7 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	 *         model object or when getProperty is not a property that
 	 *         getObject knows about.
 	 */
-	public boolean conforms(Object value) throws EolIllegalPropertyException;
+	boolean conforms(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException;
 	
 	/**
 	 * Coerces the given value such that it is permitted for this property.
@@ -37,5 +40,39 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	 *         model object or when getProperty is not a property that
 	 *         getObject knows about.
 	 */
-	public Object coerce(Object value) throws EolIllegalPropertyException;	
+	Object coerce(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException;	
+	
+	/**
+	 * This method is provided only for convenience. Implementations should override the
+	 * {@link #coerce(Object, String, Object, ModuleElement, IEolContext)} method instead.
+	 * 
+	 * @param target
+	 * @param property
+	 * @param value
+	 * @return
+	 * @throws EolIllegalPropertyException
+	 * @since 1.6
+	 * @deprecated Use {@link #coerce(Object, String, Object, ModuleElement, IEolContext)}
+	 */
+	@Deprecated
+	default Object coerce(Object target, String property, Object value) throws EolIllegalPropertyException {
+		return coerce(target, property, value, null, null);
+	}
+	
+	/**
+	 * This method is provided only for convenience. Implementations should override the
+	 * {@link #conforms(Object, String, Object, ModuleElement, IEolContext)} method instead.
+	 * 
+	 * @param target
+	 * @param property
+	 * @param value
+	 * @return
+	 * @throws EolIllegalPropertyException
+	 * @since 1.6
+	 * @deprecated Use {@link #conforms(Object, String, Object, ModuleElement, IEolContext)}
+	 */
+	@Deprecated
+	default Object conforms(Object target, String property, Object value) throws EolIllegalPropertyException {
+		return conforms(target, property, value, null, null);
+	}
 }

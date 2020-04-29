@@ -114,6 +114,15 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 	protected static Map<String, Long> fileBasedMetamodelTimestamps = new HashMap<>();
 	
 
+	public EmfModel() {
+		propertySetter = new EmfPropertySetter();
+	}
+	
+	@Override
+	public IReflectivePropertySetter getPropertySetter() {
+		return (IReflectivePropertySetter) propertySetter;
+	}
+	
 	@Override
 	public Collection<String> getPropertiesOf(String type) throws EolModelElementTypeNotFoundException {
 		Collection<EStructuralFeature> features = featuresForType(type);
@@ -496,11 +505,6 @@ public class EmfModel extends AbstractEmfModel implements IReflectiveModel {
 
 	public void setReuseUnmodifiedFileBasedMetamodels(boolean reuseUnmodifiedFileBasedMetamodels) {
 		this.reuseUnmodifiedFileBasedMetamodels = reuseUnmodifiedFileBasedMetamodels;
-	}
-
-	@Override
-	public IReflectivePropertySetter getPropertySetter() {
-		return new EmfPropertySetter();
 	}
 
 	@Override

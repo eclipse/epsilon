@@ -306,20 +306,16 @@ public class ModelGroup extends Model {
 	public class DelegatingModelElementPropertySetter extends AbstractPropertySetter {
 		
 		@Override
-		public void invoke(Object value) throws EolRuntimeException {
+		public void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 			for (IModel model : models) {
-				if (model.knowsAboutProperty(object, property)) {
+				if (model.knowsAboutProperty(target, property)) {
 					IPropertySetter delegate = null;
 					delegate = model.getPropertySetter();
-					delegate.setObject(object);
-					delegate.setProperty(property);
-					delegate.setContext(context);
-					delegate.setAst(ast);
-					delegate.invoke(value);
+					delegate.invoke(target, property, value, ast, context);
 					return;
 				}
 			}
-			throw new EolIllegalPropertyException(object, property, ast, context);
+			throw new EolIllegalPropertyException(target, property, ast, context);
 		}
 	}
 }

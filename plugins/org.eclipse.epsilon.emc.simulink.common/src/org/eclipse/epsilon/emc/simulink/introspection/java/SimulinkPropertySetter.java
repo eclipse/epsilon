@@ -9,9 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.simulink.introspection.java;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 
 public class SimulinkPropertySetter extends JavaPropertySetter {
@@ -23,16 +25,15 @@ public class SimulinkPropertySetter extends JavaPropertySetter {
 	}
 
 	@Override
-	public void invoke(Object value) throws EolRuntimeException {
+	public void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 		try {
-			super.invoke(value);
-		} catch (Exception e) {
-			if (object instanceof ISimulinkModelElement) {
-				ISimulinkModelElement element = (ISimulinkModelElement) object;
+			super.invoke(value, property, value, ast, context);
+		}
+		catch (Exception e) {
+			if (target instanceof ISimulinkModelElement) {
+				ISimulinkModelElement element = (ISimulinkModelElement) target;
 				element.setProperty(property, value);
 			}
-				
 		}
 	}
-
 }

@@ -252,42 +252,28 @@ public class EmfPropertySetterConformsTests {
 	
 	@Test(expected=EolIllegalPropertyException.class)
 	public void illegalObject() throws EolIllegalPropertyException {
-		createSetterFor("foo", "names").conforms("foo");
+		new EmfPropertySetter().conforms("foo", "names", "foo", null, null);
 	}
 	
 	@Test(expected=EolIllegalPropertyException.class)
 	public void illegalProperty() throws EolIllegalPropertyException {		
 		final EObject objectWithNoSlots = instantiateClass();
-		createSetterFor(objectWithNoSlots, "names").conforms("foo");
+		new EmfPropertySetter().conforms(objectWithNoSlots, "names", "foo", null, null);
 	}
-	
 	
 	private static boolean checkConformance(EStructuralFeature feature, Object value) throws EolIllegalPropertyException {
-		return createSetterFor(feature).conforms(value);
-	}
-
-	private static EmfPropertySetter createSetterFor(EStructuralFeature feature) {
-		return createSetterFor(instantiateClass(feature), feature.getName());
+		return new EmfPropertySetter().conforms(instantiateClass(feature), feature.getName(), value, null, null);
 	}
 
 	private static EObject instantiateClass(EStructuralFeature... features) {
 		final EClassBuilder clsBuilder = anEClass();
-		
 		for (EStructuralFeature feature : features) {
 			clsBuilder.with(feature);
 		}
-		
 		return instantiateClass(clsBuilder.build());
 	}
 
 	private static EObject instantiateClass(EClass cls) {
 		return metamodelBuilder.with(cls).build().getEFactoryInstance().create(cls);
-	}
-
-	private static EmfPropertySetter createSetterFor(Object object, String featureName) {
-		final EmfPropertySetter setter = new EmfPropertySetter();
-		setter.setObject(object);
-		setter.setProperty(featureName);
-		return setter;
 	}
 }

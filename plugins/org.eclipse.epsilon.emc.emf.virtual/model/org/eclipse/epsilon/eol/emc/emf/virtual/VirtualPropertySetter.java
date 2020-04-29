@@ -9,16 +9,18 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.emc.emf.virtual;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.emf.virtual.Slot;
 import org.eclipse.epsilon.emc.emf.virtual.VirtualObject;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 
 class VirtualPropertySetter extends AbstractPropertySetter {
 	
 	@Override
-	public void invoke(Object value) throws EolRuntimeException {
+	public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 		final VirtualObject vObject = (VirtualObject)object;
 				
 		final Slot slot = SlotFactory.getInstance().createSlotFor(value);

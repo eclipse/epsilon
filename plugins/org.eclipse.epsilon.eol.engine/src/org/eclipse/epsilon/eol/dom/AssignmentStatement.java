@@ -53,53 +53,40 @@ public class AssignmentStatement extends Statement {
 	}
 	
 	@Override
-	public Object execute(IEolContext context) throws EolRuntimeException {
-		
-		// Executing the targetExpression can return either a Variable
-		// or a SetterMethod with one argument (set method)
-		// Executing the valueExpression will return an Object
-		
-		Object targetExpressionResult;
+	public Object execute(IEolContext context) throws EolRuntimeException {	
 		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
+		Object valueExpressionResult;
+			
 		if (targetExpression instanceof PropertyCallExpression) {
-			targetExpressionResult = ((PropertyCallExpression) targetExpression).execute(context, true);
-		}
-		else if (targetExpression instanceof NameExpression) {
-			targetExpressionResult = ((NameExpression) targetExpression).execute(context, true);
+			PropertyCallExpression pce = (PropertyCallExpression) targetExpression;
+			Object source = executorFactory.execute(pce.getTargetExpression(), context);
+			String property = pce.getName();
+			IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(source, property, context);
+			valueExpressionResult = executorFactory.execute(valueExpression, context);
+			Object value = getValueEquivalent(source, valueExpressionResult, context);
+			setter.invoke(source, property, value, pce.getNameExpression(), context);
 		}
 		else {
-			targetExpressionResult = executorFactory.execute(targetExpression, context);
-		}
-		
-		Object valueExpressionResult = executorFactory.execute(valueExpression, context);
-		
-		if (targetExpressionResult instanceof IPropertySetter) {
-			IPropertySetter setter = (IPropertySetter) targetExpressionResult;
-			try {
-				Object value = getValueEquivalent(setter.getObject(), valueExpressionResult, context);
-				setter.invoke(value);
-			}
-			catch (EolRuntimeException ex) {
-				if (ex.getAst() == null) {
-					ex.setAst(setter.getAst());
+			Object targetExpressionResult = targetExpression instanceof NameExpression ?
+				((NameExpression) targetExpression).execute(context, true) :
+				executorFactory.execute(targetExpression, context);
+			
+			if (targetExpressionResult instanceof Variable) {
+				Variable variable = (Variable) targetExpressionResult;
+				valueExpressionResult = executorFactory.execute(valueExpression, context);
+				try {
+					Object value = getValueEquivalent(variable.getValue(), valueExpressionResult, context);
+					variable.setValue(value, context);
 				}
-				throw ex;
+				catch (EolRuntimeException ex) {
+					ex.setAst(targetExpression);
+					throw ex;
+				}
 			}
-		}
-		else if (targetExpressionResult instanceof Variable) {
-			Variable variable = (Variable) targetExpressionResult;
-			try {
-				Object value = getValueEquivalent(variable.getValue(), valueExpressionResult, context);
-				variable.setValue(value, context);
+			else {
+				throw new EolRuntimeException("Internal error. Expected either a SetterMethod or a Variable and got an " + targetExpressionResult + " instead", this);
 			}
-			catch (EolRuntimeException ex) {
-				ex.setAst(targetExpression);
-				throw ex;
-			}
-		}
-		else {
-			throw new EolRuntimeException("Internal error. Expected either a SetterMethod or a Variable and got an " + targetExpressionResult + " instead", this);
 		}
 		
 		return valueExpressionResult;

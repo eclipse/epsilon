@@ -55,9 +55,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
 
 		final SpreadsheetPropertySetter setter = (SpreadsheetPropertySetter) model.getPropertySetter();
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke(null);
+		setter.invoke(row, column.getPrefixedIndex(), null, null, null);
 
 		assertTrue(row.getVisibleCellValue(column).equals("null"));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
@@ -75,9 +73,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
 
 		final SpreadsheetPropertySetter setter = (SpreadsheetPropertySetter) model.getPropertySetter();
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke("");
+		setter.invoke(row, column.getPrefixedIndex(), "", null, null);
 
 		assertTrue(row.getVisibleCellValue(column).equals(""));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 0);
@@ -95,9 +91,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
 
 		final SpreadsheetPropertySetter setter = (SpreadsheetPropertySetter) model.getPropertySetter();
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke(" ");
+		setter.invoke(row, column.getPrefixedIndex(), " ", null, null);
 
 		assertTrue(row.getVisibleCellValue(column).equals(" "));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
@@ -115,9 +109,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
 
 		final SpreadsheetPropertySetter setter = (SpreadsheetPropertySetter) model.getPropertySetter();
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke("v2");
+		setter.invoke(row, column.getPrefixedIndex(), "v2", null, null);
 
 		assertTrue(row.getVisibleCellValue(column).equals("v2"));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
@@ -135,9 +127,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
 
 		final SpreadsheetPropertySetter setter = (SpreadsheetPropertySetter) model.getPropertySetter();
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke("v1, v2");
+		setter.invoke(row, column.getPrefixedIndex(), "v1, v2", null, null);
 
 		assertTrue(row.getVisibleCellValue(column).equals("v1, v2"));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
@@ -160,9 +150,7 @@ public class PlainTextCellPropertySetterTest {
 		List<SpreadsheetRow> rowsToEdit = Arrays.asList(row1, row2);
 
 		final SpreadsheetPropertySetter setter = (SpreadsheetPropertySetter) model.getPropertySetter();
-		setter.setObject(rowsToEdit);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke("value1, value2, value3");
+		setter.invoke(rowsToEdit, column.getPrefixedIndex(), "value1, value2, value3", null, null);
 
 		assertTrue(row1.getVisibleCellValue(column).equals("value1, value2, value3"));
 		assertTrue(row1.getAllVisibleCellValuesAsIs(column).size() == 1);
@@ -182,9 +170,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
 
 		final SpreadsheetPropertySetter setter = (SpreadsheetPropertySetter) model.getPropertySetter();
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke("v1, v2");
+		setter.invoke(row, column.getPrefixedIndex(), "v1, v2", null, null);
 
 		assertTrue(row.getVisibleCellValue(column).equals(SpreadsheetConstants.DEFAULT_DT_INTEGER));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
@@ -202,9 +188,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke("v1");
+		setter.invoke(row, column.getPrefixedIndex(), "v1", null, null);
 
 		assertTrue(row.getVisibleCellValue(column).equals(SpreadsheetConstants.DEFAULT_DT_INTEGER));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
@@ -224,9 +208,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 2);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke(null);
+		setter.invoke(row, column.getPrefixedIndex(), null, null, null);
 
 		assertTrue(row.getVisibleCellValue(column).equals("null"));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
@@ -244,9 +226,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 2);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke("");
+		setter.invoke(row, column.getPrefixedIndex(), "", null, null);
 
 		assertTrue(row.getVisibleCellValue(column).equals(""));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 0);
@@ -264,9 +244,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 2);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke(" ");
+		setter.invoke(row, column.getPrefixedIndex(), " ", null, null);
 
 		assertTrue(row.getVisibleCellValue(column).equals(" "));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
@@ -284,9 +262,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 2);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke("v1");
+		setter.invoke(row, column.getPrefixedIndex(), "v1", null, null);
 
 		assertTrue(row.getVisibleCellValue(column).equals("v1"));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 1);
@@ -309,9 +285,7 @@ public class PlainTextCellPropertySetterTest {
 		List<SpreadsheetRow> rowsToEdit = Arrays.asList(row1, row2);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(rowsToEdit);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke("value1, value2, value3");
+		setter.invoke(rowsToEdit, column.getPrefixedIndex(), "value1, value2, value3", null, null);
 
 		assertTrue(row1.getVisibleCellValue(column).equals("value1, value2, value3"));
 		assertTrue(row1.getAllVisibleCellValuesAsIs(column).size() == 3);
@@ -331,9 +305,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 2);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke("v3,   v4");
+		setter.invoke(row, column.getPrefixedIndex(), "v3,   v4", null, null);
 
 		assertTrue(row.getVisibleCellValue(column).equals("v3,   v4"));
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 2);
@@ -351,9 +323,7 @@ public class PlainTextCellPropertySetterTest {
 		assertTrue(row.getAllVisibleCellValuesAsIs(column).size() == 2);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(column.getPrefixedIndex());
-		setter.invoke("v1, v2");
+		setter.invoke(row, column.getPrefixedIndex(), "v1, v2", null, null);
 
 		// Each value set to default INT
 		String newValue = SpreadsheetConstants.DEFAULT_DT_INTEGER + "," + SpreadsheetConstants.DEFAULT_DT_INTEGER;

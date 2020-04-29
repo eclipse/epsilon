@@ -29,11 +29,10 @@ public class SimulinkDictionaryModelElementLocator implements IModelElementLocat
 	public void locate(Object o) {
 		ISimulinkDictionaryModelElement element = (ISimulinkDictionaryModelElement) o;
 		SimulinkPropertySetter setter = new SimulinkPropertySetter(((SimulinkDictionaryModel)element.getOwningModel()).getEngine());
-		setter.setProperty("selected");
-		setter.setObject(element);
 		try {
-			setter.invoke("on");
-		} catch (EolRuntimeException e) {
+			setter.invoke(element, "selected", "on", null, null);
+		}
+		catch (EolRuntimeException e) {
 			LogUtil.log(e);
 		}
 	}

@@ -24,7 +24,6 @@ import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.*;
-import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
@@ -93,7 +92,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	
 	/** The field that can be used as id */
 	protected String idFieldName = "";			// When using header
-	protected int idFieldIndex = -1;				// For no header
+	protected int idFieldIndex = -1;			// For no header
 	
 	/** The file path. */
 	protected String file;
@@ -109,11 +108,7 @@ public class CsvModel extends CachedModel<Map<String, Object>> {
 	
 	public CsvModel() {
 		propertyGetter = new CsvPropertyGetter();
-	}
-	
-	@Override
-	public IReflectivePropertySetter getPropertySetter() {
-		return new CsvPropertySetter();
+		propertySetter = new CsvPropertySetter();
 	}
 	
 	/**

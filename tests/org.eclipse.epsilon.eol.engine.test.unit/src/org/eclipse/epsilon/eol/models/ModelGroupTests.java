@@ -177,21 +177,17 @@ public class ModelGroupTests {
 		
 		@Override
 		public Collection<Element> getAllOfType(String type) throws EolModelElementTypeNotFoundException {
-			return new LinkedList<Element>(super.getAllOfType(type));
+			return new LinkedList<>(super.getAllOfType(type));
 		}
 		
 		@Override
 		public Collection<Element> getAllOfKind(String type) throws EolModelElementTypeNotFoundException {
-			return new LinkedList<Element>(super.getAllOfKind(type));
+			return new LinkedList<>(super.getAllOfKind(type));
 		}
 		
 		@Override
 		public Collection<Element> allContents() {
-			return new LinkedList<Element>(super.allContents());
+			return new LinkedList<>(super.allContents());
 		}
-		
 	}
-	
-	
-	
 }

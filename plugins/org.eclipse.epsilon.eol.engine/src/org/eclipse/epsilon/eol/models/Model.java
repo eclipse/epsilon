@@ -64,6 +64,7 @@ public abstract class Model implements IModel {
 	
 	public Model() {
 		propertyGetter = new JavaPropertyGetter();
+		propertySetter = new JavaPropertySetter();
 	}
 	
 	@Override
@@ -171,7 +172,7 @@ public abstract class Model implements IModel {
 
 	@Override
 	public IPropertySetter getPropertySetter() {
-		return new JavaPropertySetter();
+		return propertySetter;
 	}
 	
 	@Override
