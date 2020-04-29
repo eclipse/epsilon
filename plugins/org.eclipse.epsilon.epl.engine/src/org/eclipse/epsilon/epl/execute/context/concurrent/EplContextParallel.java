@@ -10,6 +10,8 @@
 package org.eclipse.epsilon.epl.execute.context.concurrent;
 
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.epl.IEplModule;
+import org.eclipse.epsilon.epl.execute.context.EplContext;
 import org.eclipse.epsilon.epl.execute.context.IEplContext;
 import org.eclipse.epsilon.epl.execute.model.PatternMatchModel;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
@@ -47,5 +49,20 @@ public class EplContextParallel extends ErlContextParallel implements IEplContex
 	@Override
 	public PatternMatchModel getPatternMatchTrace() {
 		return this.matchModel;
+	}
+	
+	@Override
+	protected IEplContext createShadowThreadLocalContext() {
+		return new EplContext(this);
+	}
+	
+	@Override
+	public IEplContext getShadow() {
+		return (IEplContext) super.getShadow();
+	}
+	
+	@Override
+	public IEplModule getModule() {
+		return (IEplModule) super.getModule();
 	}
 }

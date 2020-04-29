@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.eol.concurrent;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -22,11 +23,6 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
  * @since 1.6
  */
 public class EolModuleParallel extends EolModule {
-
-	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
-	static {
-		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
-	}
 	
 	public EolModuleParallel() {
 		this(null);
@@ -39,6 +35,19 @@ public class EolModuleParallel extends EolModule {
 	@Override
 	public IEolContextParallel getContext() {
 		return (IEolContextParallel) super.getContext();
+	}
+	
+	@Override
+	protected HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
+		importConfiguration.put("eol", EolModuleParallel.class);
+		return importConfiguration;
+	}
+	
+	
+	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
+	static {
+		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
 	}
 	
 	/**

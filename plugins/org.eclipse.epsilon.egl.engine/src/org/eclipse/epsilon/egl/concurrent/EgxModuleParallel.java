@@ -10,6 +10,7 @@
 package org.eclipse.epsilon.egl.concurrent;
 
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -26,11 +27,6 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
  * @since 1.6
  */
 public abstract class EgxModuleParallel extends EgxModule {
-
-	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
-	static {
-		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
-	}
 	
 	public EgxModuleParallel() {
 		this((IEgxContextParallel) null);
@@ -53,6 +49,18 @@ public abstract class EgxModuleParallel extends EgxModule {
 	@Override
 	public IEgxContextParallel getContext() {
 		return (IEgxContextParallel) super.getContext();
+	}
+	
+	@Override
+	public HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
+		importConfiguration.put("egx", EgxModuleParallelAnnotation.class);
+		return importConfiguration;
+	}
+	
+	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
+	static {
+		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
 	}
 	
 	/**

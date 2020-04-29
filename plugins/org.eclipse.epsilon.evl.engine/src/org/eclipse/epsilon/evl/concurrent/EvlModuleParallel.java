@@ -28,12 +28,6 @@ import org.eclipse.epsilon.evl.execute.context.concurrent.IEvlContextParallel;
  */
 public abstract class EvlModuleParallel extends EvlModule {
 	
-	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(8);
-	static {
-		CONFIG_PROPERTIES.addAll(EvlModule.CONFIG_PROPERTIES);
-		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
-	}
-	
 	public EvlModuleParallel() {
 		this(null);
 	}
@@ -63,6 +57,13 @@ public abstract class EvlModuleParallel extends EvlModule {
 	@Override
 	public IEvlContextParallel getContext() {
 		return (IEvlContextParallel) super.getContext();
+	}
+	
+	
+	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(8);
+	static {
+		CONFIG_PROPERTIES.addAll(EvlModule.CONFIG_PROPERTIES);
+		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
 	}
 	
 	/**

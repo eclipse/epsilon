@@ -9,6 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.epl.concurrent;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
 import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.execute.context.concurrent.EplContextParallel;
 import org.eclipse.epsilon.epl.execute.context.concurrent.IEplContextParallel;
@@ -20,7 +25,7 @@ import org.eclipse.epsilon.epl.execute.context.concurrent.IEplContextParallel;
  * @since 1.6
  */
 public class EplModuleParallel extends EplModule {
-
+	
 	public EplModuleParallel() {
 		this(null);
 	}
@@ -32,5 +37,36 @@ public class EplModuleParallel extends EplModule {
 	@Override
 	public IEplContextParallel getContext() {
 		return (IEplContextParallel) super.getContext();
+	}
+	
+	@Override
+	public HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
+		importConfiguration.put("epl", EplModuleParallel.class);
+		return importConfiguration;
+	}
+	
+	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
+	static {
+		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
+	}
+	
+	/**
+	 * WARNING: This method should only be called by the DT plugin for initialisation purposes,
+	 * as the context will be reset!
+	 */
+	@Override
+	public void configure(Map<String, ?> properties) throws IllegalArgumentException {
+		super.configure(properties);
+		setContext(IEolContextParallel.configureContext(
+			properties,
+			EplContextParallel::new,
+			getContext()
+		));
+	}
+	
+	@Override
+	public Set<String> getConfigurationProperties() {
+		return CONFIG_PROPERTIES;
 	}
 }

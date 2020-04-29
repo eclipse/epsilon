@@ -26,11 +26,6 @@ import org.eclipse.epsilon.eol.execute.context.concurrent.IEolContextParallel;
  */
 public abstract class EclModuleParallel extends EclModule {
 
-	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
-	static {
-		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
-	}
-	
 	public EclModuleParallel() {
 		this(null);
 	}
@@ -49,6 +44,12 @@ public abstract class EclModuleParallel extends EclModule {
 		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
 		importConfiguration.put("ecl", EclModuleParallelAnnotation.class);
 		return importConfiguration;
+	}
+	
+	
+	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
+	static {
+		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
 	}
 	
 	@Override

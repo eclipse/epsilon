@@ -9,7 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.epl.execute.context;
 
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
+import org.eclipse.epsilon.epl.IEplModule;
 import org.eclipse.epsilon.epl.execute.model.PatternMatchModel;
 import org.eclipse.epsilon.erl.execute.context.ErlContext;
 
@@ -25,11 +25,13 @@ public class EplContext extends ErlContext implements IEplContext {
 		matchModel = new PatternMatchModel();
 	}
 	
-	protected EplContext(IEolContext other) {
+	/**
+	 * Copy constructor, for internal use only.
+	 * @param other
+	 */
+	public EplContext(IEplContext other) {
 		super(other);
-		if (other instanceof IEplContext) {
-			setPatternMatchTrace(((IEplContext) other).getPatternMatchTrace());
-		}
+		setPatternMatchTrace(other.getPatternMatchTrace());
 	}
 	
 	@Override
@@ -40,5 +42,10 @@ public class EplContext extends ErlContext implements IEplContext {
 	@Override
 	public PatternMatchModel getPatternMatchTrace() {
 		return this.matchModel;
+	}
+	
+	@Override
+	public IEplModule getModule() {
+		return (IEplModule) super.getModule();
 	}
 }

@@ -9,12 +9,14 @@
 **********************************************************************/
 package org.eclipse.epsilon.epl.execute.context;
 
+import org.eclipse.epsilon.epl.IEplModule;
 import org.eclipse.epsilon.epl.execute.model.PatternMatchModel;
 import org.eclipse.epsilon.erl.execute.context.IErlContext;
 
 /**
  * 
  * @author Betty Sanchez
+ * @author Sina Madani
  * @since 1.6
  */
 public interface IEplContext extends IErlContext {
@@ -22,4 +24,8 @@ public interface IEplContext extends IErlContext {
 	PatternMatchModel getPatternMatchTrace();
 
 	void setPatternMatchTrace(PatternMatchModel model);
+	
+	@Override
+	IEplModule getModule();
+	
 }

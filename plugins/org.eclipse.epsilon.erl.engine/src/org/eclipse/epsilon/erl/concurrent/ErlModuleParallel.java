@@ -9,6 +9,7 @@
 **********************************************************************/
 package org.eclipse.epsilon.erl.concurrent;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -23,11 +24,6 @@ import org.eclipse.epsilon.erl.execute.context.concurrent.IErlContextParallel;
  * @since 1.6
  */
 public class ErlModuleParallel extends ErlModule {
-
-	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
-	static {
-		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
-	}
 	
 	public ErlModuleParallel() {
 		this(null);
@@ -40,6 +36,19 @@ public class ErlModuleParallel extends ErlModule {
 	@Override
 	public IErlContextParallel getContext() {
 		return (IErlContextParallel) super.getContext();
+	}
+	
+	@Override
+	public HashMap<String, Class<?>> getImportConfiguration() {
+		HashMap<String, Class<?>> importConfiguration = super.getImportConfiguration();
+		importConfiguration.put("erl", ErlModuleParallel.class);
+		return importConfiguration;
+	}
+	
+	
+	protected static final Set<String> CONFIG_PROPERTIES = new HashSet<>(2);
+	static {
+		CONFIG_PROPERTIES.add(IEolContextParallel.NUM_THREADS_CONFIG);
 	}
 	
 	/**

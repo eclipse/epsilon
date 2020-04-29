@@ -60,6 +60,13 @@
             language="EPL"
             name="Parallel (Declarative operations)">
       </implementation>
+      <implementation
+            class="org.eclipse.epsilon.epl.concurrent.EplModuleParallelPatterns"
+            default="false"
+            dialog="org.eclipse.epsilon.epl.dt.launching.EplModuleParallelConfiguration"
+            language="EPL"
+            name="Parallel (Patterns)">
+      </implementation>
    </extension>
    <extension
          point="org.eclipse.epsilon.common.dt.tool">
