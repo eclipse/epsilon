@@ -43,18 +43,7 @@ public class PropertyCallExpression extends FeatureCallExpression {
 	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		return execute(getTarget(context), nameExpression, context);
-	}
-	
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 * @throws EolRuntimeException
-	 * @since 1.6
-	 */
-	public Object getTarget(IEolContext context) throws EolRuntimeException {
-		return context.getExecutorFactory().execute(targetExpression, context);
+		return execute(context.getExecutorFactory().execute(targetExpression, context), nameExpression, context);
 	}
 	
 	public Object execute(Object source, NameExpression propertyNameExpression, IEolContext context) throws EolRuntimeException {

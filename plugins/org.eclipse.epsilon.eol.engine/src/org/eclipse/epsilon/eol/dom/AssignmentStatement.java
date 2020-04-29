@@ -56,33 +56,37 @@ public class AssignmentStatement extends Statement {
 	public Object execute(IEolContext context) throws EolRuntimeException {	
 		ExecutorFactory executorFactory = context.getExecutorFactory();
 		
-		Object valueExpressionResult = executorFactory.execute(valueExpression, context);
-		
-		Object targetExpressionResult = targetExpression instanceof NameExpression ?
-			((NameExpression) targetExpression).execute(context, true) :
-			executorFactory.execute(targetExpression, context);
+		Object valueExpressionResult;
 			
 		if (targetExpression instanceof PropertyCallExpression) {
 			PropertyCallExpression pce = (PropertyCallExpression) targetExpression;
-			Object source = pce.getTarget(context);
+			Object source = executorFactory.execute(pce.getTargetExpression(), context);
 			String property = pce.getName();
 			IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(source, property, context);
-			Object value = getValueEquivalent(null, valueExpressionResult, context);
+			valueExpressionResult = executorFactory.execute(valueExpression, context);
+			Object value = getValueEquivalent(source, valueExpressionResult, context);
 			setter.invoke(source, property, value, pce.getNameExpression(), context);
 		}
-		else if (targetExpressionResult instanceof Variable) {
-			Variable variable = (Variable) targetExpressionResult;
-			try {
-				Object value = getValueEquivalent(variable.getValue(), valueExpressionResult, context);
-				variable.setValue(value, context);
-			}
-			catch (EolRuntimeException ex) {
-				ex.setAst(targetExpression);
-				throw ex;
-			}
-		}
 		else {
-			throw new EolRuntimeException("Internal error. Expected either a SetterMethod or a Variable and got an " + targetExpressionResult + " instead", this);
+			Object targetExpressionResult = targetExpression instanceof NameExpression ?
+				((NameExpression) targetExpression).execute(context, true) :
+				executorFactory.execute(targetExpression, context);
+			
+			if (targetExpressionResult instanceof Variable) {
+				Variable variable = (Variable) targetExpressionResult;
+				valueExpressionResult = executorFactory.execute(valueExpression, context);
+				try {
+					Object value = getValueEquivalent(variable.getValue(), valueExpressionResult, context);
+					variable.setValue(value, context);
+				}
+				catch (EolRuntimeException ex) {
+					ex.setAst(targetExpression);
+					throw ex;
+				}
+			}
+			else {
+				throw new EolRuntimeException("Internal error. Expected either a SetterMethod or a Variable and got an " + targetExpressionResult + " instead", this);
+			}
 		}
 		
 		return valueExpressionResult;
