@@ -21,7 +21,6 @@ public class ParallelMatchesOperationTest extends MatchesOperationTest {
 
 	public ParallelMatchesOperationTest(Supplier<? extends IEclModule> moduleGetter) {
 		super(moduleGetter);
-		module = moduleGetter.get();
 		//TODO: see why this is failing (on relatively rare occasions, but still)
 		script = "CompareInstanceParallel.ecl";
 	}

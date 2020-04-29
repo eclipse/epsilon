@@ -19,6 +19,22 @@ public class EtlContext extends ErlContext implements IEtlContext {
 	protected TransformationTrace transformationTrace = new TransformationTrace();
 	protected ITransformationStrategy transformationStrategy;
 	
+	public EtlContext() {
+		super();
+	}
+	
+	/**
+	 * Copy constructor, for internal use only.
+	 * 
+	 * @param other
+	 * @since 1.6
+	 */
+	public EtlContext(IEtlContext other) {
+		super(other);
+		this.transformationTrace = other.getTransformationTrace();
+		this.transformationStrategy = other.getTransformationStrategy();
+	}
+	
 	@Override
 	public TransformationTrace getTransformationTrace() {
 		return transformationTrace;

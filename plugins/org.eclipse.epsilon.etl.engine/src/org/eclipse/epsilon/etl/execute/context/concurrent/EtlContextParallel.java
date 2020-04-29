@@ -9,8 +9,11 @@
 **********************************************************************/
 package org.eclipse.epsilon.etl.execute.context.concurrent;
 
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 import org.eclipse.epsilon.etl.IEtlModule;
+import org.eclipse.epsilon.etl.execute.context.EtlContext;
+import org.eclipse.epsilon.etl.execute.context.IEtlContext;
 import org.eclipse.epsilon.etl.strategy.ITransformationStrategy;
 import org.eclipse.epsilon.etl.trace.TransformationTrace;
 
@@ -33,6 +36,15 @@ public class EtlContextParallel extends ErlContextParallel implements IEtlContex
 		transformationTrace = new TransformationTrace(true);
 	}
 	
+	protected EtlContextParallel(IEolContext other) {
+		super(other);
+		if (other instanceof IEtlContext) {
+			IEtlContext context = (IEtlContext) other;
+			this.transformationTrace = context.getTransformationTrace();
+			this.transformationStrategy = context.getTransformationStrategy();
+		}
+	}
+	
 	@Override
 	public TransformationTrace getTransformationTrace() {
 		return transformationTrace;
@@ -51,5 +63,15 @@ public class EtlContextParallel extends ErlContextParallel implements IEtlContex
 	@Override
 	public IEtlModule getModule() {
 		return (IEtlModule) super.getModule();
+	}
+	
+	@Override
+	protected IEtlContext createShadowThreadLocalContext() {
+		return new EtlContext(this);
+	}
+	
+	@Override
+	public IEtlContext getShadow() {
+		return (IEtlContext) super.getShadow();
 	}
 }
