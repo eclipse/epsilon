@@ -184,11 +184,14 @@ operation EStructuralFeature getMultiplicityLabel() {
 }
 
 operation EClass getLabel() {
-	var fillcolor = "fffcdc"; if (self==main) fillcolor="c8f0a1";
-	var label = "<table cellspacing='0' cellborder='0' cellpadding='1' bgcolor='#" + fillcolor + "'>";
-	var features = self.eAllStructuralFeatures;
+	var fillcolor = "#fffcdc"; if (self==main) fillcolor="#c8f0a1";
+	var label = "<table cellspacing='0' cellborder='0' cellpadding='1' bgcolor='" + fillcolor + "'>";
+	var features = self.eStructuralFeatures;
 	
-	if (not isLayerActive("inherited")) features = self.eStructuralFeatures;
+	if (isLayerActive("inherited")) {
+		features = self.eAllStructuralFeatures.select(sf|not self.eSuperTypes.exists(st|classes.contains(st) and st.eAllStructuralFeatures.includes(sf)));
+	}
+	
 	if (not isLayerActive("derived")) features = features.reject(f|f.isDerived);
 	
 	if (self.eSuperTypes.includes(main)) features = features.excludingAll(main.eAllStructuralFeatures);

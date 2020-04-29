@@ -5,11 +5,9 @@
 		<patch format="graphviz-dot" content_="ecore-patches/core.patch" applies="referenceLabels"/>
 		<parameter name="hide" values="EReference.eKeys"/>
 	</view>
-	<view path="Model, Custom, Types" type="ClassDiagram">
-		<parameter name="classNames" values="EClass, EClassifier, EDataType, EEnum"/>
-		<parameter name="clusters">
-			<item values="EClass, EClassifier"/>
-		</parameter>
+	<view path="Model, Custom, DataTypes" type="ClassDiagram">
+		<parameter name="classNames" values="EPackage, EClassifier, EDataType, EEnum, EEnumLiteral"/>
+		
 	</view>
 	<view path="Model, Custom, Features" type="ClassDiagram">
 		<parameter name="classNames" values="EStructuralFeature, EOperation, EAttribute, EReference, ETypeParameter"/>
