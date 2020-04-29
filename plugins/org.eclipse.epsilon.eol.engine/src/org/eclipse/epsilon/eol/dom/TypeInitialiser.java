@@ -66,7 +66,15 @@ public abstract class TypeInitialiser extends Expression {
 						IPropertySetter setter = introspectionManager.getPropertySetterFor(instance, property, context);
 						if (setter != null) {
 							Object value = executorFactory.execute(equalsOperatorExpression.getSecondOperand(), context);
-							setter.invoke(instance, property, value, context);
+							try {
+								setter.invoke(instance, property, value, context);
+							}
+							catch (EolRuntimeException eox) {
+								if (eox.getAst() == null) {
+									eox.setAst(this);
+									throw eox;
+								}
+							}
 						}
 						else throw new EolIllegalPropertyException(instance, property, equalsOperatorExpression.getFirstOperand(), context);
 					}
@@ -75,9 +83,7 @@ public abstract class TypeInitialiser extends Expression {
 					}
 				}
 			}
-			
 			return instance;
-				
 		}
 		return null;
 	}

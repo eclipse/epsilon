@@ -65,7 +65,15 @@ public class AssignmentStatement extends Statement {
 			IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(source, property, context);
 			valueExpressionResult = executorFactory.execute(valueExpression, context);
 			Object value = getValueEquivalent(source, valueExpressionResult, context);
-			setter.invoke(source, property, value, context);
+			try {
+				setter.invoke(source, property, value, context);
+			}
+			catch (EolRuntimeException eox) {
+				if (eox.getAst() == null) {
+					eox.setAst(this);
+					throw eox;
+				}
+			}
 		}
 		else {
 			Object targetExpressionResult = targetExpression instanceof NameExpression ?
