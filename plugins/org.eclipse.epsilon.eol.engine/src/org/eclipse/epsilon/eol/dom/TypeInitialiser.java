@@ -17,7 +17,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 import org.eclipse.epsilon.eol.execute.ExecutorFactory;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
-import org.eclipse.epsilon.eol.execute.introspection.IntrospectionManager;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolMapType;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
@@ -56,14 +55,12 @@ public abstract class TypeInitialiser extends Expression {
 				instance = type.createInstance(parameterValues);
 			}
 			
-			IntrospectionManager introspectionManager = context.getIntrospectionManager();
-			
 			for (Expression parameter : parameters) {
 				if (parameter.getClass() == EqualsOperatorExpression.class) {
 					EqualsOperatorExpression equalsOperatorExpression = (EqualsOperatorExpression) parameter;
 					if (equalsOperatorExpression.getFirstOperand() instanceof NameExpression) {
 						String property = ((NameExpression) equalsOperatorExpression.getFirstOperand()).getName();
-						IPropertySetter setter = introspectionManager.getPropertySetterFor(instance, property, context);
+						IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(instance, property, context);
 						if (setter != null) {
 							Object value = executorFactory.execute(equalsOperatorExpression.getSecondOperand(), context);
 							try {
@@ -72,8 +69,8 @@ public abstract class TypeInitialiser extends Expression {
 							catch (EolRuntimeException eox) {
 								if (eox.getAst() == null) {
 									eox.setAst(this);
-									throw eox;
 								}
+								throw eox;
 							}
 						}
 						else throw new EolIllegalPropertyException(instance, property, equalsOperatorExpression.getFirstOperand(), context);

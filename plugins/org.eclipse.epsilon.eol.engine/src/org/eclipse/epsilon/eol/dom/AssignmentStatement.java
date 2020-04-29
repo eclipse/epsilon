@@ -71,8 +71,8 @@ public class AssignmentStatement extends Statement {
 			catch (EolRuntimeException eox) {
 				if (eox.getAst() == null) {
 					eox.setAst(this);
-					throw eox;
 				}
+				throw eox;
 			}
 		}
 		else {

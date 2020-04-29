@@ -64,7 +64,15 @@ public class PropertyCallExpression extends FeatureCallExpression {
 			return results;
 		}
 
-		return wrap(getter.invoke(source, propertyName, context));
+		try {
+			return wrap(getter.invoke(source, propertyName, context));
+		}
+		catch (EolRuntimeException eox) {
+			if (eox.getAst() == null) {
+				eox.setAst(this);
+			}
+			throw eox;
+		}
 	}
 	
 	@Override
