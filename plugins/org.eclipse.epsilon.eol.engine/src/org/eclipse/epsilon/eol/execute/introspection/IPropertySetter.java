@@ -15,21 +15,15 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IPropertySetter {
 	
-	public void invoke(Object value) throws EolRuntimeException;
-	
-	public void setProperty(String property);
-	
-	public String getProperty();
-	
-	public void setObject(Object object);
-	
-	public Object getObject();
-	
-	public ModuleElement getAst();
-
-	public void setAst(ModuleElement ast);
-	
-	public void setContext(IEolContext context);
-	
-	public IEolContext getContext();
+	/**
+	 * 
+	 * @param target
+	 * @param property
+	 * @param value
+	 * @param ast
+	 * @param context
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException;
 }

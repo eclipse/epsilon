@@ -9,7 +9,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public interface IReflectivePropertySetter extends IPropertySetter {
 	
@@ -25,7 +27,7 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	 *         model object or when getProperty is not a property that
 	 *         getObject knows about.
 	 */
-	public boolean conforms(Object value) throws EolIllegalPropertyException;
+	public boolean conforms(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException;
 	
 	/**
 	 * Coerces the given value such that it is permitted for this property.
@@ -37,5 +39,5 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	 *         model object or when getProperty is not a property that
 	 *         getObject knows about.
 	 */
-	public Object coerce(Object value) throws EolIllegalPropertyException;	
+	public Object coerce(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException;	
 }

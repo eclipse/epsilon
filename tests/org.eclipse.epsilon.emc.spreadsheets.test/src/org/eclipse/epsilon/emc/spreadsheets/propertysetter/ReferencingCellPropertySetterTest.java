@@ -67,9 +67,7 @@ public class ReferencingCellPropertySetterTest {
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 1);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(referencingRow);
-		setter.setProperty(columnSheet1.getPrefixedIndex());
-		setter.invoke(referencedRow2);
+		setter.invoke(referencingRow, columnSheet1.getPrefixedIndex(), referencedRow2, null, null);
 
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v3, v4"));
 		assertTrue(referencingRow.getVisibleCellValue(model.getWorksheetByType("Sheet1").getColumn("c_1")).equals("1"));
@@ -102,9 +100,7 @@ public class ReferencingCellPropertySetterTest {
 		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1, referencedRow2));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(referencingRow);
-		setter.setProperty(columnSheet1.getPrefixedIndex());
-		setter.invoke(referencedRows);
+		setter.invoke(referencingRow, columnSheet1.getPrefixedIndex(), referencedRows, null, null);
 
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1, v2"));
 		assertTrue(referencingRow.getVisibleCellValue(model.getWorksheetByType("Sheet1").getColumn("c_1")).equals("1"));
@@ -135,9 +131,7 @@ public class ReferencingCellPropertySetterTest {
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 1);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(referencingRow);
-		setter.setProperty(columnSheet1.getPrefixedIndex());
-		setter.invoke(referencedRow2);
+		setter.invoke(referencingRow, columnSheet1.getPrefixedIndex(), referencedRow2, null, null);
 
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v3"));
 		assertTrue(referencingRow.getVisibleCellValue(model.getWorksheetByType("Sheet1").getColumn("c_1")).equals("1"));
@@ -168,9 +162,7 @@ public class ReferencingCellPropertySetterTest {
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 1);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(referencingRow);
-		setter.setProperty(columnSheet1.getPrefixedIndex());
-		setter.invoke(referencedRow2);
+		setter.invoke(referencingRow, columnSheet1.getPrefixedIndex(), referencedRow2, null, null);
 
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v3"));
 		assertTrue(referencingRow.getVisibleCellValue(model.getWorksheetByType("Sheet1").getColumn("c_1")).equals("1"));
@@ -203,9 +195,7 @@ public class ReferencingCellPropertySetterTest {
 		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1, referencedRow2));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(referencingRow);
-		setter.setProperty(columnSheet1.getPrefixedIndex());
-		setter.invoke(referencedRows);
+		setter.invoke(referencingRow, columnSheet1.getPrefixedIndex(), referencedRows, null, null);
 
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1"));
 		assertTrue(referencingRow.getVisibleCellValue(model.getWorksheetByType("Sheet1").getColumn("c_1")).equals("1"));
@@ -236,9 +226,7 @@ public class ReferencingCellPropertySetterTest {
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 1);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(referencingRow);
-		setter.setProperty(columnSheet1.getPrefixedIndex());
-		setter.invoke(referencedRow2);
+		setter.invoke(referencingRow, columnSheet1.getPrefixedIndex(), referencedRow2, null, null);
 
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v3"));
 		assertTrue(referencingRow.getVisibleCellValue(model.getWorksheetByType("Sheet1").getColumn("c_1")).equals("1"));
@@ -269,9 +257,7 @@ public class ReferencingCellPropertySetterTest {
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 2);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(referencingRow);
-		setter.setProperty(columnSheet1.getPrefixedIndex());
-		setter.invoke(referencedRow2);
+		setter.invoke(referencingRow, columnSheet1.getPrefixedIndex(), referencedRow2, null, null);
 
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v3, v4"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 2);
@@ -305,9 +291,7 @@ public class ReferencingCellPropertySetterTest {
 		List<SpreadsheetRow> referencedRows = new ArrayList<>(Arrays.asList(referencedRow1, referencedRow2));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(referencingRow);
-		setter.setProperty(columnSheet1.getPrefixedIndex());
-		setter.invoke(referencedRows);
+		setter.invoke(referencingRow, columnSheet1.getPrefixedIndex(), referencedRows, null, null);
 
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1, v2,v3, v4"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 4);
@@ -339,9 +323,7 @@ public class ReferencingCellPropertySetterTest {
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 1);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(referencingRow);
-		setter.setProperty(columnSheet1.getPrefixedIndex());
-		setter.invoke(referencedRow2);
+		setter.invoke(referencingRow, columnSheet1.getPrefixedIndex(), referencedRow2, null, null);
 
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v3"));
 		assertTrue(referencingRow.getVisibleCellValue(model.getWorksheetByType("Sheet1").getColumn("c_1")).equals("1"));
@@ -372,9 +354,7 @@ public class ReferencingCellPropertySetterTest {
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 2);
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(referencingRow);
-		setter.setProperty(columnSheet1.getPrefixedIndex());
-		setter.invoke(referencedRow2);
+		setter.invoke(referencingRow, columnSheet1.getPrefixedIndex(), referencedRow2, null, null);
 
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v3,v4"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 2);
@@ -415,9 +395,7 @@ public class ReferencingCellPropertySetterTest {
 
 		try {
 			final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-			setter.setObject(referencingRow);
-			setter.setProperty(columnSheet1.getPrefixedIndex());
-			setter.invoke(invalidReferencedRow);
+			setter.invoke(referencingRow, columnSheet1.getPrefixedIndex(), invalidReferencedRow, null, null);
 			fail("Expecting not to be able to write row from another worksheet");
 		}
 		catch (IllegalArgumentException e) {
@@ -453,9 +431,7 @@ public class ReferencingCellPropertySetterTest {
 		referencedRows.add(null); // ignored
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(referencingRow);
-		setter.setProperty(columnSheet1.getPrefixedIndex());
-		setter.invoke(referencedRows);
+		setter.invoke(referencingRow, columnSheet1.getPrefixedIndex(), referencedRows, null, null);
 
 		assertTrue(referencingRow.getVisibleCellValue(columnSheet1).equals("v1,v2,v3,v4"));
 		assertTrue(referencingRow.getAllVisibleCellValuesAsIs(columnSheet1).size() == 4);

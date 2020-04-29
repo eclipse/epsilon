@@ -98,9 +98,7 @@ public class CascadeUpdatesCellsManyToManyPropertySetterTest {
 		assertTrue(rowSheet1.getVisibleCellValue(model.getWorksheetByType("Sheet1").getColumn("c_1")).equals("1"));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(rowSheet3);
-		setter.setProperty(columnSheet3.getPrefixedIndex());
-		setter.invoke("REQ1");
+		setter.invoke(rowSheet3, columnSheet3.getPrefixedIndex(), "REQ1", null, null);
 
 		assertTrue(rowSheet3.getVisibleCellValue(columnSheet3).equals("REQ1"));
 		assertTrue(rowSheet3_req1.getVisibleCellValue(columnSheet3).equals("REQ1"));
@@ -173,9 +171,7 @@ public class CascadeUpdatesCellsManyToManyPropertySetterTest {
 		assertTrue(rowSheet1.getVisibleCellValue(model.getWorksheetByType("Sheet1").getColumn("c_1")).equals("1"));
 
 		final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(rowSheet3);
-		setter.setProperty(columnSheet3.getPrefixedIndex());
-		setter.invoke("REQ1, REQ2");
+		setter.invoke(rowSheet3, columnSheet3.getPrefixedIndex(), "REQ1, REQ2", null, null);
 
 		assertTrue(rowSheet3.getAllVisibleCellValuesAsIs(columnSheet3).size() == 2);
 		assertTrue(rowSheet3.getVisibleCellValue(columnSheet3).equals("REQ1, REQ2"));

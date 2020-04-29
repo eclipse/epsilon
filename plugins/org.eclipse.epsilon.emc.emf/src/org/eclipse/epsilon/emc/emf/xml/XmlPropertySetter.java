@@ -13,23 +13,24 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.emc.emf.EmfPropertySetter;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 
 public class XmlPropertySetter extends EmfPropertySetter {
 
 	@Override
-	public void invoke(Object value) throws EolRuntimeException {
+	public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 		EObject eObject = (EObject) object;
 		EStructuralFeature sf = EmfUtil.getEStructuralFeature(eObject.eClass(), property);
-		
 		if ("QName".equals(sf.getEType().getName())) {
 			QName qName = QName.valueOf((String)(value));
 			eObject.eSet(sf, qName);
 		}
 		else {
-			super.invoke(value);
+			super.invoke(object, property, value, ast, context);
 		}
 	}
 }

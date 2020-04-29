@@ -42,11 +42,11 @@ public class ModelTests {
 		expect(mockWrappedValue.unwrap())
 			.andReturn("bar");
 		
-		mockPropertySetter.setProperty("foo");
-		mockPropertySetter.setObject("dummy model element");
+		String property = "foo";
+		Object target = "dummy model element";
 		
-		expect(mockPropertySetter.coerce("bar")).andReturn("bar");
-		mockPropertySetter.invoke("bar");
+		expect(mockPropertySetter.coerce(target, property, "bar", null, null)).andReturn("bar");
+		mockPropertySetter.invoke(target, property, "bar", null, null);
 		
 		expect(mockUnderlyingModel.getPropertySetter())
 			.andReturn(mockPropertySetter);

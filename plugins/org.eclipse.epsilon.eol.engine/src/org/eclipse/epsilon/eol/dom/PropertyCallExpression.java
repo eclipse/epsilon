@@ -19,7 +19,6 @@ import org.eclipse.epsilon.eol.compile.m3.StructuralFeature;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.types.EolAnyType;
 import org.eclipse.epsilon.eol.types.EolCollectionType;
 import org.eclipse.epsilon.eol.types.EolModelElementType;
@@ -42,43 +41,41 @@ public class PropertyCallExpression extends FeatureCallExpression {
 		nameExpression = (NameExpression) module.createAst(cst.getSecondChild(), this);
 	}
 	
-	public Object execute(IEolContext context, boolean returnSetter) throws EolRuntimeException {
-		Object source = context.getExecutorFactory().execute(targetExpression, context);
-		return execute(source, nameExpression, context, returnSetter);
-	}
-	
-	public Object execute(Object source, NameExpression propertyNameExpression, IEolContext context, boolean returnSetter) throws EolRuntimeException {
-		String propertyName = propertyNameExpression.getName();
-		if (source == null) throw new EolRuntimeException("Called feature '" + propertyName + "' on undefined object", propertyNameExpression);
-		
-		if (returnSetter) {
-			IPropertySetter setter = context.getIntrospectionManager().getPropertySetterFor(source, propertyName, context);
-			setter.setAst(propertyNameExpression);
-			return setter;
-		}
-		else {
-			IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(source, propertyName, context);
-			
-			// Added support for properties on collections
-			if (source instanceof Collection<?> && !getter.hasProperty(source, propertyName, context)) {
-				EolSequence<Object> results = new EolSequence<>();
-				results.ensureCapacity(((Collection<?>) source).size());
-				for (Object content : (Collection<?>) source) {
-					results.add(
-						context.getIntrospectionManager().getPropertyGetterFor(content, propertyName, context)
-							.invoke(content, propertyName, propertyNameExpression, context)
-					);
-				}
-				return results;
-			}
-
-			return wrap(getter.invoke(source, propertyName, propertyNameExpression, context));
-		}
-	}
-	
 	@Override
 	public Object execute(IEolContext context) throws EolRuntimeException {
-		return execute(context, false);
+		return execute(getTarget(context), nameExpression, context);
+	}
+	
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 * @throws EolRuntimeException
+	 * @since 1.6
+	 */
+	public Object getTarget(IEolContext context) throws EolRuntimeException {
+		return context.getExecutorFactory().execute(targetExpression, context);
+	}
+	
+	public Object execute(Object source, NameExpression propertyNameExpression, IEolContext context) throws EolRuntimeException {
+		String propertyName = propertyNameExpression.getName();
+		if (source == null) throw new EolRuntimeException("Called feature '" + propertyName + "' on undefined object", propertyNameExpression);
+
+		IPropertyGetter getter = context.getIntrospectionManager().getPropertyGetterFor(source, propertyName, context);
+		// Added support for properties on collections
+		if (source instanceof Collection<?> && !getter.hasProperty(source, propertyName, context)) {
+			EolSequence<Object> results = new EolSequence<>();
+			results.ensureCapacity(((Collection<?>) source).size());
+			for (Object content : (Collection<?>) source) {
+				results.add(
+					context.getIntrospectionManager().getPropertyGetterFor(content, propertyName, context)
+						.invoke(content, propertyName, propertyNameExpression, context)
+				);
+			}
+			return results;
+		}
+
+		return wrap(getter.invoke(source, propertyName, propertyNameExpression, context));
 	}
 	
 	@Override

@@ -111,23 +111,23 @@ public class EmfM0Model extends EmfModel {
 	class EmfM0PropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 
 		@Override
-		public void invoke(Object value) throws EolRuntimeException {
+		public void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 			ArrayList<Object> parameterValues = new ArrayList<>();
 			parameterValues.add(property);
 			parameterValues.add(value);
-			Operation propertySetter = eolModule.getDeclaredOperations().getOperation(object,"setProperty",parameterValues,eolModule.getContext());
+			Operation propertySetter = eolModule.getDeclaredOperations().getOperation(target, "setProperty", parameterValues, eolModule.getContext());
 			if (propertySetter != null) {
-				propertySetter.execute(object,parameterValues,eolModule.getContext());
+				propertySetter.execute(target, parameterValues, eolModule.getContext());
 			}
 		}
 
 		@Override
-		public Object coerce(Object value) throws EolIllegalPropertyException {
+		public Object coerce(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
 			return value;
 		}
 
 		@Override
-		public boolean conforms(Object value) throws EolIllegalPropertyException {
+		public boolean conforms(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
 			return true;
 		}
 	}
@@ -143,7 +143,7 @@ public class EmfM0Model extends EmfModel {
 		Collection<EObject> allOfType = null;
 		
 		try {
-			allOfType = (Collection<EObject>) allOfTypeHelper.execute(metaClass, new ArrayList<EObject>(), eolModule.getContext());
+			allOfType = (Collection<EObject>) allOfTypeHelper.execute(metaClass, new ArrayList<>(), eolModule.getContext());
 		}
 		catch (EolRuntimeException rex){
 			eolModule.getContext().getErrorStream().print(rex);
@@ -152,8 +152,7 @@ public class EmfM0Model extends EmfModel {
 	}
 	
 	@Override
-	public Object getCacheKeyForType(String type)
-			throws EolModelElementTypeNotFoundException {
+	public Object getCacheKeyForType(String type) throws EolModelElementTypeNotFoundException {
 		return null;
 	}
 	
@@ -161,8 +160,7 @@ public class EmfM0Model extends EmfModel {
 	@Override
 	protected Collection<EObject> getAllOfKindFromModel(String metaClass) throws EolModelElementTypeNotFoundException {
 		Operation allOfKindHelper = getHelper("allOfKind");
-		Collection<EObject> allOfKind = null;
-		
+		Collection<EObject> allOfKind = null;	
 		try {
 			allOfKind = (Collection<EObject>) allOfKindHelper.execute(metaClass, new ArrayList<>(), eolModule.getContext());
 		}
@@ -201,5 +199,4 @@ public class EmfM0Model extends EmfModel {
 	public void setEolModule(IEolModule eolModule) {
 		this.eolModule = eolModule;
 	}
-	
 }

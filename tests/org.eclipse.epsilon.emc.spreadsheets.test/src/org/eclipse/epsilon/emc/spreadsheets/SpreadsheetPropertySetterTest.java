@@ -23,6 +23,7 @@ import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.junit.Test;
 
 public class SpreadsheetPropertySetterTest {
+	
 	IMocksControl control = EasyMock.createControl();
 
 	@Test
@@ -33,15 +34,12 @@ public class SpreadsheetPropertySetterTest {
 		SpreadsheetModel model = control.createMock(SpreadsheetModel.class);
 
 		control.reset();
-
 		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(columnName);
 
 		try {
-			setter.invoke(value);
+			setter.invoke(row, columnName, value, null, null);
 			fail();
 		}
 		catch (Exception e) {
@@ -69,9 +67,7 @@ public class SpreadsheetPropertySetterTest {
 		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(columnName);
-		setter.invoke(value);
+		setter.invoke(row, columnName, value, null, null);
 	}
 
 	@Test
@@ -88,11 +84,9 @@ public class SpreadsheetPropertySetterTest {
 		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(columnName);
 
 		try {
-			setter.invoke(value);
+			setter.invoke(row, columnName, value, null, null);
 			fail();
 		}
 		catch (EolRuntimeException e) {
@@ -119,9 +113,7 @@ public class SpreadsheetPropertySetterTest {
 		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(columnName);
-		setter.invoke(value);
+		setter.invoke(row, columnName, value, null, null);
 	}
 
 	@Test
@@ -144,9 +136,7 @@ public class SpreadsheetPropertySetterTest {
 		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(columnName);
-		setter.invoke(value);
+		setter.invoke(row, columnName, value, null, null);
 	}
 
 	@Test
@@ -169,11 +159,9 @@ public class SpreadsheetPropertySetterTest {
 		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(columnName);
 
 		try {
-			setter.invoke(value);
+			setter.invoke(row, columnName, value, null, null);
 			fail();
 		}
 		catch (IllegalArgumentException e) {
@@ -217,8 +205,6 @@ public class SpreadsheetPropertySetterTest {
 		control.replay();
 
 		SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(model);
-		setter.setObject(row);
-		setter.setProperty(columnName);
-		setter.invoke(valueRow);
+		setter.invoke(row, columnName, valueRow, null, null);
 	}
 }

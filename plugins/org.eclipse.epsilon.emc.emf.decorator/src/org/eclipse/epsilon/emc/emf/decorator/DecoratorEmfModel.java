@@ -181,13 +181,12 @@ public class DecoratorEmfModel extends EmfModel {
 	
 	class DecoratorPropertySetter extends EmfPropertySetter {
 		@Override
-		public void invoke(Object value) throws EolRuntimeException {
+		public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 			if (decorator != null) {
-				this.object = decorator;
-				super.invoke(value);
+				super.invoke(decorator, property, value, ast, context);
 			}
 			else {
-				throw new EolRuntimeException("Cannot set the value of feature " + this.property + " as the decorator object does not exist");
+				throw new EolRuntimeException("Cannot set the value of feature " + property + " as the decorator object does not exist");
 			}
 		}
 	}

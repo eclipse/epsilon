@@ -21,19 +21,13 @@ public class IntrospectionManager {
 	
 	public IPropertySetter getPropertySetterFor(Object instance, String property, IEolContext context) {
 		final IPropertySetter propertySetter;
-		
 		if (property.startsWith("~")) {
-			propertySetter = new ExtendedPropertySetter(context);
+			propertySetter = new ExtendedPropertySetter();
 		}
 		else {
 			IModel knowsModel = getModelThatKnowsAboutProperty(instance, property, context);
 			propertySetter = knowsModel != null ? knowsModel.getPropertySetter() : defaultPropertySetter;
 		}
-		
-		propertySetter.setObject(instance);
-		propertySetter.setProperty(property);
-		propertySetter.setContext(context);
-		
 		return propertySetter;
 	}
 	

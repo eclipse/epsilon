@@ -17,8 +17,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertySetter;
 
 /**
@@ -34,15 +36,15 @@ public class SpreadsheetPropertySetter extends JavaPropertySetter {
 	}
 
 	@Override
-	public void invoke(final Object value) throws EolRuntimeException {
+	public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 		if (object instanceof Collection<?>) {
-			this.edit((Collection<?>) object, value);
+			this.edit((Collection<?>) object, value, property, ast, context);
 		}
 		else if (object instanceof SpreadsheetRow) {
-			this.edit((SpreadsheetRow) object, value);
+			this.edit((SpreadsheetRow) object, value, property, ast, context);
 		}
 		else {
-			super.invoke(value);
+			super.invoke(object, property, value, ast, context);
 		}
 	}
 
@@ -54,26 +56,21 @@ public class SpreadsheetPropertySetter extends JavaPropertySetter {
 	 * @param value
 	 * @throws EolRuntimeException
 	 */
-	public void invoke(final SpreadsheetRow row, final SpreadsheetColumn column, final Object value)
-		throws EolRuntimeException {
-		super.setObject(row);
-		super.setProperty(column.getIdentifier());
-		this.invoke(value);
+	public void invoke(SpreadsheetRow row, SpreadsheetColumn column, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
+		invoke(row, column.getIdentifier(), value, ast, context);
 	}
 
-	public void edit(final Collection<?> rows, final Object value) throws EolRuntimeException {
+	public void edit(Collection<?> rows, Object value, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 		for (final Object row : rows) {
 			final SpreadsheetPropertySetter setter = new SpreadsheetPropertySetter(this.model);
-			setter.setObject(row);
-			setter.setProperty(property);
-			setter.invoke(value);
+			setter.invoke(row, property, value, ast, context);
 		}
 	}
 
-	public void edit(final SpreadsheetRow row, final Object value) throws EolRuntimeException {
+	public void edit(SpreadsheetRow row, Object value, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 		final SpreadsheetColumn column = row.getColumn(property);
 		if (column == null) {
-			throw new EolIllegalPropertyException(object, property, ast, context);
+			throw new EolIllegalPropertyException(row, property, ast, context);
 		}
 
 		final boolean columnIsReferencing = CollectionUtils.isNotEmpty(row.getReferencesBySource(column));

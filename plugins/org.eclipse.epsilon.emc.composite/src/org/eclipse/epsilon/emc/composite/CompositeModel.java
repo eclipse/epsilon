@@ -315,25 +315,16 @@ public class CompositeModel extends Model {
 	
 	
 	class CompositePropertySetter extends AbstractPropertySetter {
-		@Override
-		public void invoke(Object value) throws EolRuntimeException {
-			getDelegate().invoke(value);
-		}
 		
-		private IPropertySetter getDelegate() throws EolIllegalPropertyException {
+		@Override
+		public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
 			for (IModel model : models) {
 				if (model.owns(object)) {
-					final IPropertySetter delegate = model.getPropertySetter();
-					delegate.setAst(ast);
-					delegate.setContext(context);
-					delegate.setObject(object);
-					delegate.setProperty(property);
-					return delegate;
+					model.getPropertySetter().invoke(object, property, value, ast, context);
 				}
 			}
 			
 			throw new EolIllegalPropertyException(object, property, ast, context);
 		}
-		
 	}
 }

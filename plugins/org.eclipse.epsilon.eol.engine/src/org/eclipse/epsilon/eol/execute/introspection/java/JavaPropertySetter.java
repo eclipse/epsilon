@@ -10,16 +10,18 @@
 package org.eclipse.epsilon.eol.execute.introspection.java;
 
 import java.lang.reflect.Method;
+import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
 import org.eclipse.epsilon.eol.exceptions.EolInternalException;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.AbstractPropertySetter;
 import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributorRegistry;
 
 public class JavaPropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 	
-	protected ObjectMethod getMethodFor(Object object, String property, Object value) {
+	protected ObjectMethod getMethodFor(Object object, String property, Object value, IEolContext context) {
 		OperationContributorRegistry registry = context.getOperationContributorRegistry();
 		
 		// Look for a setX() method
@@ -30,12 +32,12 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 	}
 	
 	@Override
-	public void invoke(Object value) throws EolRuntimeException{
-		ObjectMethod objectMethod = getMethodFor(object, property, value);
+	public void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException{
+		ObjectMethod objectMethod = getMethodFor(target, property, value, context);
 		Method method = objectMethod.getMethod();
 		
 		if (method == null) {
-			throw new EolIllegalPropertyException(object, property, ast, context);
+			throw new EolIllegalPropertyException(target, property, ast, context);
 		}
 		
 		try {
@@ -51,12 +53,12 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 	}
 
 	@Override
-	public Object coerce(Object value) throws EolIllegalPropertyException {
+	public Object coerce(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
 		return value;
 	}
 
 	@Override
-	public boolean conforms(Object value) throws EolIllegalPropertyException {
+	public boolean conforms(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
 		// TODO implement this method
 		throw new UnsupportedOperationException("Not yet implemented.");
 	}

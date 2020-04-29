@@ -168,16 +168,15 @@ public class Model {
 
 	void setValueOfProperty(Object underlyingModelElement, String property, ModelValue<?> value) throws EolRuntimeException {
 		final IReflectivePropertySetter setter = underlyingModel.getPropertySetter();
-		setter.setObject(underlyingModelElement);
-		setter.setProperty(property);
-		setter.invoke(setter.coerce(value.unwrap()));
+		setter.invoke(underlyingModelElement, property,
+			setter.coerce(underlyingModelElement, property, value.unwrap(), null, null),
+			null, null
+		);
 	}
 	
 	boolean conforms(Object underlyingModelElement, String property, ModelValue<?> value) throws EolRuntimeException {
 		final IReflectivePropertySetter setter = underlyingModel.getPropertySetter();
-		setter.setObject(underlyingModelElement);
-		setter.setProperty(property);
-		return setter.conforms(value.unwrap());
+		return setter.conforms(underlyingModelElement, property, value.unwrap(), null, null);
 	}
 	
 	String getStringRepresentationOf(Object underlyingModelObject) {

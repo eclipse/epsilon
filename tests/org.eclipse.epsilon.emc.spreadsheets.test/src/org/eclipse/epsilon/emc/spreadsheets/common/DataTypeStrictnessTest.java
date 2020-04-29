@@ -43,9 +43,9 @@ public class DataTypeStrictnessTest {
 
 	@Test
 	public void testWriteRowNoDataTypeStrictness() throws Exception {
-		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet1");
+		SpreadsheetWorksheet worksheet = model.getWorksheetByType("Sheet1");
 		for (SpreadsheetRow row : worksheet.getRows()) {
-			worksheet.removeRow((SpreadsheetRow) row);
+			worksheet.removeRow(row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
@@ -59,7 +59,7 @@ public class DataTypeStrictnessTest {
 		model.createInstance("Sheet1", list);
 		assertTrue(worksheet.getRows().size() == 1);
 
-		SpreadsheetRow row1 = (SpreadsheetRow) worksheet.getRows().get(0);
+		SpreadsheetRow row1 = worksheet.getRows().get(0);
 		final String column0value = row1.getVisibleCellValue(worksheet.getColumn(0));
 		assertTrue(column0value.equals("string"));
 		final String column1value = row1.getVisibleCellValue(worksheet.getColumn(1));
@@ -75,16 +75,16 @@ public class DataTypeStrictnessTest {
 
 	@Test
 	public void testWriteEmptyRowNoDataTypeStrictness() throws Exception {
-		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("S1");
+		SpreadsheetWorksheet worksheet = model.getWorksheetByType("S1");
 		for (SpreadsheetRow row : worksheet.getRows()) {
-			worksheet.removeRow((SpreadsheetRow) row);
+			worksheet.removeRow(row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
 		model.createInstance("S1");
 		assertTrue(worksheet.getRows().size() == 1);
 
-		SpreadsheetRow row1 = (SpreadsheetRow) worksheet.getRows().get(0);
+		SpreadsheetRow row1 = worksheet.getRows().get(0);
 		final String column0value = row1.getVisibleCellValue(worksheet.getColumn(0));
 		assertTrue(column0value.equals(worksheet.getDefaultEmptyCellValue()));
 		final String column1value = row1.getVisibleCellValue(worksheet.getColumn(1));
@@ -100,9 +100,9 @@ public class DataTypeStrictnessTest {
 
 	@Test
 	public void testWriteRowEnforceDataTypeStrictness() throws Exception {
-		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("S2");
+		SpreadsheetWorksheet worksheet = model.getWorksheetByType("S2");
 		for (SpreadsheetRow row : worksheet.getRows()) {
-			worksheet.removeRow((SpreadsheetRow) row);
+			worksheet.removeRow(row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
@@ -116,7 +116,7 @@ public class DataTypeStrictnessTest {
 		model.createInstance("S2", list);
 		assertTrue(worksheet.getRows().size() == 1);
 
-		SpreadsheetRow row1 = (SpreadsheetRow) worksheet.getRows().get(0);
+		SpreadsheetRow row1 = worksheet.getRows().get(0);
 		final String column0value = row1.getVisibleCellValue(worksheet.getColumn(0));
 		assertTrue(column0value.equals("string"));
 		final String column1value = row1.getVisibleCellValue(worksheet.getColumn(1));
@@ -132,16 +132,16 @@ public class DataTypeStrictnessTest {
 
 	@Test
 	public void testWriteEmptyRowEnforceDataTypeStrictness() throws Exception {
-		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("Sheet2");
+		SpreadsheetWorksheet worksheet = model.getWorksheetByType("Sheet2");
 		for (SpreadsheetRow row : worksheet.getRows()) {
-			worksheet.removeRow((SpreadsheetRow) row);
+			worksheet.removeRow(row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
 		model.createInstance("Sheet2");
 		assertTrue(worksheet.getRows().size() == 1);
 
-		SpreadsheetRow row1 = (SpreadsheetRow) worksheet.getRows().get(0);
+		SpreadsheetRow row1 = worksheet.getRows().get(0);
 		final String column0value = row1.getVisibleCellValue(worksheet.getColumn(0));
 		assertTrue(column0value.equals(SpreadsheetConstants.DEFAULT_DT_STRING));
 		final String column1value = row1.getVisibleCellValue(worksheet.getColumn(1));
@@ -157,9 +157,9 @@ public class DataTypeStrictnessTest {
 
 	@Test
 	public void testWriteNoncompliantValues() throws Exception {
-		SpreadsheetWorksheet worksheet = (SpreadsheetWorksheet) model.getWorksheetByType("S2");
+		SpreadsheetWorksheet worksheet = model.getWorksheetByType("S2");
 		for (SpreadsheetRow row : worksheet.getRows()) {
-			worksheet.removeRow((SpreadsheetRow) row);
+			worksheet.removeRow(row);
 		}
 		assertTrue(worksheet.getRows().size() == 0);
 
@@ -173,7 +173,7 @@ public class DataTypeStrictnessTest {
 		model.createInstance("S2", list);
 		assertTrue(worksheet.getRows().size() == 1);
 
-		SpreadsheetRow row1 = (SpreadsheetRow) worksheet.getRows().get(0);
+		SpreadsheetRow row1 = worksheet.getRows().get(0);
 		final String column0value = row1.getVisibleCellValue(worksheet.getColumn(0));
 		assertTrue(column0value.equals("1234"));
 		final String column1value = row1.getVisibleCellValue(worksheet.getColumn(1));
