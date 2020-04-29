@@ -47,11 +47,18 @@
    <extension
          point="org.eclipse.epsilon.common.dt.moduleImplementation">
       <implementation
-            class="org.eclipse.epsilon.epl.DynamicEplModule"
-            default="true"
+            class="org.eclipse.epsilon.epl.EplModule"
+            default="false"
             dialog="org.eclipse.epsilon.epl.dt.launching.EplModuleConfiguration"
             language="EPL"
-            name="Default">
+            name="Sequential">
+      </implementation>
+      <implementation
+            class="org.eclipse.epsilon.epl.concurrent.EplModuleParallel"
+            default="true"
+            dialog="org.eclipse.epsilon.epl.dt.launching.EplModuleParallelConfiguration"
+            language="EPL"
+            name="Parallel (Declarative operations)">
       </implementation>
    </extension>
    <extension
