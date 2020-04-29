@@ -77,8 +77,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 			if (!elements.contains(created) && created.getParentNode() == null) {
 				elements.add(created);
 			}
-		}
-				
+		}	
 		return elements;
 	}
 	
@@ -94,7 +93,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 		this.uri = uri;
 	}
 	
-	public String getXml() {
+	public synchronized String getXml() {
 		try {
 			StringWriter sw = new StringWriter();
 			Source xmlSource = new DOMSource(document);
@@ -192,7 +191,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 
 	
 	@Override
-	protected boolean deleteElementInModel(Object instance) throws EolRuntimeException {
+	protected synchronized boolean deleteElementInModel(Object instance) throws EolRuntimeException {
 		if (!(instance instanceof Element))
 			return false;
 		
@@ -210,7 +209,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 		return true;
 	}
 	
-	public void collectAllElements(Node root, Collection<Element> elements) {
+	public synchronized void collectAllElements(Node root, Collection<Element> elements) {
 		if (root instanceof Element) {
 			elements.add((Element) root);
 		}
@@ -221,7 +220,6 @@ public class PlainXmlModel extends CachedModel<Element> {
 				collectAllElements((Element) o, elements);
 			}
 		}
-		
 	}
 	
 	
@@ -256,7 +254,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 		}
 	}
 	
-	public boolean tagMatches(Element element, String name) {
+	public synchronized boolean tagMatches(Element element, String name) {
 		if (element.getTagName().equalsIgnoreCase(name)) {
 			return true;
 		}
@@ -279,7 +277,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 
 	@Override
 	public Object getElementById(String id) {
-		for (Object o : allContents()){
+		for (Object o : allContents()) {
 			Element e = ((Element) o);
 			if (e.hasAttribute(idAttributeName) && e.getAttribute(idAttributeName).equals(id)) {
 				return e;
@@ -313,8 +311,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 	
 	@Override
-	public Object getEnumerationValue(String enumeration, String label)
-			throws EolEnumerationValueNotFoundException {
+	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {
 		return null;
 	}
 
@@ -364,7 +361,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 	
 	@Override
-	protected void loadModel() throws EolModelLoadingException {
+	protected synchronized void loadModel() throws EolModelLoadingException {
 		try {
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -410,7 +407,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	
 	
 	@Override
-	public boolean owns(Object instance) {
+	public synchronized boolean owns(Object instance) {
 		if (instance instanceof Element) {
 			Element e = (Element) instance;
 			Node parent = e.getParentNode();
@@ -432,7 +429,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 
 	
 	@Override
-	public boolean store(String location) {
+	public synchronized boolean store(String location) {
 		try {
 			Source xmlSource = new DOMSource(document);
 			Result result = new StreamResult(new FileOutputStream(location));

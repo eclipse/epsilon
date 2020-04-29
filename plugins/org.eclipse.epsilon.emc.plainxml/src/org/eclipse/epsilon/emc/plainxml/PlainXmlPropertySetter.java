@@ -29,8 +29,7 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void invoke(Object object, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException {
-		
-		if (object instanceof Element) {
+		if (object instanceof Element) synchronized (model) {
 			Element e = (Element) object;
 			
 			if ("text".equals(property)) {
@@ -95,7 +94,6 @@ public class PlainXmlPropertySetter extends JavaPropertySetter {
 					}
 				}
 			}
-			
 		}
 		
 		super.invoke(object, property, value, ast, context);

@@ -28,7 +28,7 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 	
 	@Override
 	public Object invoke(Object object, String property, ModuleElement ast, IEolContext context) throws EolRuntimeException {
-		if (object instanceof Element) {
+		if (object instanceof Element) synchronized (model) {
 			final Element e = (Element) object;
 			
 			if ("children".equals(property)) {
@@ -63,7 +63,6 @@ public class PlainXmlPropertyGetter extends JavaPropertyGetter {
 			PlainXmlProperty p = PlainXmlProperty.parse(property);
 			
 			if (p != null) {
-			
 				if (p.isAttribute()) {
 					return p.cast(e.getAttribute(p.getProperty()));
 				}

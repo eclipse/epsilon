@@ -59,7 +59,7 @@ public class EplAcceptanceTestUtil {
 	public static Collection<Supplier<? extends IEplModule>> modules(boolean includeStandard) {
 		return parallelModules(THREADS,
 			includeStandard ? EplModule::new : null,
-			//t -> new EplModuleParallelPatterns(new EplContextParallel(t)),
+			t -> new EplModuleParallelPatterns(new EplContextParallel(t)),
 			t -> new EplModuleParallel(new EplContextParallel(t))
 		);
 	}
