@@ -29,11 +29,10 @@ public class SimulinkRequirementModelElementLocator implements IModelElementLoca
 	public void locate(Object o) {
 		ISimulinkRequirementModelElement element = (ISimulinkRequirementModelElement) o;
 		SimulinkPropertySetter setter = new SimulinkPropertySetter(((SimulinkRequirementModel)element.getOwningModel()).getEngine());
-		setter.setProperty("selected");
-		setter.setObject(element);
 		try {
-			setter.invoke("on");
-		} catch (EolRuntimeException e) {
+			setter.invoke(element, "selected", "on", null, null);
+		}
+		catch (EolRuntimeException e) {
 			LogUtil.log(e);
 		}
 	}
