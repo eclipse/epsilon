@@ -12,6 +12,8 @@ package org.eclipse.epsilon.erl.launch;
 import org.eclipse.epsilon.eol.launch.EolRunConfiguration;
 import org.eclipse.epsilon.erl.ErlModule;
 import org.eclipse.epsilon.erl.IErlModule;
+import org.eclipse.epsilon.erl.concurrent.ErlModuleParallel;
+import org.eclipse.epsilon.erl.execute.context.concurrent.ErlContextParallel;
 
 /**
  * 
@@ -31,7 +33,7 @@ public class ErlRunConfiguration extends EolRunConfiguration {
 		
 		@Override
 		protected IErlModule createModule() {
-			return new ErlModule();
+			return isParallel() ? new ErlModuleParallel(new ErlContextParallel(parallelism)) : new ErlModule();
 		}
 	}
 	
