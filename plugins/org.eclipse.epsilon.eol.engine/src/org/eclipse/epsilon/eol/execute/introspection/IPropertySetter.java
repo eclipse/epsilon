@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008 The University of York.
+ * Copyright (c) 2008-2020 The University of York.
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  * 
  * Contributors:
  *     Dimitrios Kolovos - initial API and implementation
+ *     Sina Madani - stateless refactoring
  ******************************************************************************/
 package org.eclipse.epsilon.eol.execute.introspection;
 
@@ -16,14 +17,29 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 public interface IPropertySetter {
 	
 	/**
+	 * Sets a property on a given object to the specified value.
+	 * 
+	 * @param target The model element to update.
+	 * @param property The name of the property of the model element.
+	 * @param value The new value of the property.
+	 * @param ast Where this is being called from.
+	 * @param context The execution context.
+	 * @throws EolRuntimeException If anything goes wrong in updating the value.
+	 * @since 1.6
+	 */
+	void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException;
+	
+	/**
+	 * This method is provided only for convenience. Implementations should override the
+	 * {@link #invoke(Object, String, Object, ModuleElement, IEolContext)} method instead.
 	 * 
 	 * @param target
 	 * @param property
 	 * @param value
-	 * @param ast
-	 * @param context
 	 * @throws EolRuntimeException
-	 * @since 1.6
+	 * @deprecated Use {@link #invoke(Object, String, Object, ModuleElement, IEolContext)}.
 	 */
-	void invoke(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolRuntimeException;
+	default void invoke(Object target, String property, Object value) throws EolRuntimeException {
+		invoke(value, property, value, null, null);
+	}
 }

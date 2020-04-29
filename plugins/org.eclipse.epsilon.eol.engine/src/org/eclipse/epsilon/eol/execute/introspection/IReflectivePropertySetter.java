@@ -27,7 +27,7 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	 *         model object or when getProperty is not a property that
 	 *         getObject knows about.
 	 */
-	public boolean conforms(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException;
+	boolean conforms(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException;
 	
 	/**
 	 * Coerces the given value such that it is permitted for this property.
@@ -39,5 +39,31 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	 *         model object or when getProperty is not a property that
 	 *         getObject knows about.
 	 */
-	public Object coerce(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException;	
+	Object coerce(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException;	
+	
+	/**
+	 * 
+	 * @param target
+	 * @param property
+	 * @param value
+	 * @return
+	 * @throws EolIllegalPropertyException
+	 * @since 1.6
+	 */
+	default Object coerce(Object target, String property, Object value) throws EolIllegalPropertyException {
+		return coerce(target, property, value, null, null);
+	}
+	
+	/**
+	 * 
+	 * @param target
+	 * @param property
+	 * @param value
+	 * @return
+	 * @throws EolIllegalPropertyException
+	 * @since 1.6
+	 */
+	default Object conforms(Object target, String property, Object value) throws EolIllegalPropertyException {
+		return conforms(target, property, value, null, null);
+	}
 }
