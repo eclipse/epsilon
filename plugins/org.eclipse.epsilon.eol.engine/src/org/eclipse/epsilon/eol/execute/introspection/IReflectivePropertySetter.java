@@ -45,6 +45,7 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	/**
 	 * This method is provided only for convenience. Implementations should override the
 	 * {@link #coerce(Object, String, Object, ModuleElement, IEolContext)} method instead.
+	 * Callers should prefer the {@link #conforms(Object, String, Object, ModuleElement, IEolContext)} where possible.
 	 * 
 	 * @param target
 	 * @param property
@@ -52,9 +53,7 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	 * @return
 	 * @throws EolIllegalPropertyException
 	 * @since 1.6
-	 * @deprecated Use {@link #coerce(Object, String, Object, ModuleElement, IEolContext)}
 	 */
-	@Deprecated
 	default Object coerce(Object target, String property, Object value) throws EolIllegalPropertyException {
 		return coerce(target, property, value, null, null);
 	}
@@ -62,6 +61,7 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	/**
 	 * This method is provided only for convenience. Implementations should override the
 	 * {@link #conforms(Object, String, Object, ModuleElement, IEolContext)} method instead.
+	 * Callers should prefer the {@link #conforms(Object, String, Object, ModuleElement, IEolContext)} where possible.
 	 * 
 	 * @param target
 	 * @param property
@@ -69,9 +69,7 @@ public interface IReflectivePropertySetter extends IPropertySetter {
 	 * @return
 	 * @throws EolIllegalPropertyException
 	 * @since 1.6
-	 * @deprecated Use {@link #conforms(Object, String, Object, ModuleElement, IEolContext)}
 	 */
-	@Deprecated
 	default Object conforms(Object target, String property, Object value) throws EolIllegalPropertyException {
 		return conforms(target, property, value, null, null);
 	}

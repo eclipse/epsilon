@@ -57,14 +57,13 @@ public interface IPropertyGetter {
 	/**
 	 * This method is provided for backwards compatibility and convenience.
 	 * Implementations should override the {@link #invoke(Object, String, ModuleElement, IEolContext)} method.
+	 * Callers should prefer the {@link #invoke(Object, String, ModuleElement, IEolContext)} method where possible.
 	 * 
 	 * @param object
 	 * @param property
 	 * @return
 	 * @throws EolRuntimeException
-	 * @deprecated Use {@link #invoke(Object, String)}.
 	 */
-	@Deprecated
 	default Object invoke(Object object, String property) throws EolRuntimeException {
 		return invoke(object, property, null, null);
 	}
@@ -72,13 +71,12 @@ public interface IPropertyGetter {
 	/**
 	 * This method is provided for backwards compatibility and convenience.
 	 * Implementations should override the {@link #hasProperty(Object, String, IEolContext)} method.
+	 * Callers should prefer the {@link #hasProperty(Object, String, IEolContext)} method where possible.
 	 * 
 	 * @param object
 	 * @param property
 	 * @return
-	 * @deprecated Use {@link #hasProperty(Object, String, IEolContext)}.
 	 */
-	@Deprecated
 	default Object hasProperty(Object object, String property) {
 		return hasProperty(object, property, null);
 	}
