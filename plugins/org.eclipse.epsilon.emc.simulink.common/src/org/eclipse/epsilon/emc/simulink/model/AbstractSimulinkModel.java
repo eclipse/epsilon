@@ -33,8 +33,6 @@ import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundExce
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertyGetter;
-import org.eclipse.epsilon.eol.execute.introspection.IPropertySetter;
 import org.eclipse.epsilon.eol.models.CachedModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 
@@ -75,6 +73,11 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	protected File workingDir = null;
 	protected List<String> paths = new ArrayList<>();
 
+	public AbstractSimulinkModel() {
+		propertyGetter = new SimulinkPropertyGetter();
+		propertySetter = new SimulinkPropertySetter();
+	}
+	
 	@Override
 	protected void loadModel() throws EolModelLoadingException { 
 		try {
@@ -149,22 +152,6 @@ public abstract class AbstractSimulinkModel extends CachedModel<ISimulinkModelEl
 	@Override
 	public Object getEnumerationValue(String enumeration, String label) throws EolEnumerationValueNotFoundException {  
 		throw new UnsupportedOperationException();
-	}
-	
-	@Override
-	public IPropertySetter getPropertySetter() { 
-		if (propertySetter == null) {
-			propertySetter = new SimulinkPropertySetter(engine);
-		}
-		return propertySetter;
-	}
-
-	@Override
-	public IPropertyGetter getPropertyGetter() { 
-		if (propertyGetter == null) {
-			propertyGetter = new SimulinkPropertyGetter();
-		}
-		return propertyGetter;
 	}
 	
 	@Override

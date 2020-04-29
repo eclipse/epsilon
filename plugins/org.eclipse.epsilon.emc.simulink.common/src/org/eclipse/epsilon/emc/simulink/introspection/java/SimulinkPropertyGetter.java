@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.emc.simulink.introspection.java;
 
 import org.eclipse.epsilon.common.module.ModuleElement;
-import org.eclipse.epsilon.emc.simulink.engine.MatlabEngine;
 import org.eclipse.epsilon.emc.simulink.model.element.ISimulinkModelElement;
 import org.eclipse.epsilon.emc.simulink.types.Struct;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
@@ -18,8 +17,6 @@ import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.eol.execute.introspection.java.JavaPropertyGetter;
 
 public class SimulinkPropertyGetter extends JavaPropertyGetter {
-
-	protected MatlabEngine engine;
 
 	@Override
 	public boolean hasProperty(Object object, String property, IEolContext context) {
