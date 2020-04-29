@@ -59,18 +59,18 @@ public class PlainXmlModel extends CachedModel<Element> {
 		propertySetter = new PlainXmlPropertySetter(this);
 	}
 	
-	public Node getRoot() {
+	public synchronized Node getRoot() {
 		return document.getFirstChild();
 	}
 	
-	public void setRoot(Node node) {
+	public synchronized void setRoot(Node node) {
 		Node oldRoot = getRoot();
 		if (oldRoot != null) document.removeChild(oldRoot);
 		document.appendChild(node);
 	}
 	
 	@Override
-	protected Collection<Element> allContentsFromModel() {
+	protected synchronized Collection<Element> allContentsFromModel() {
 		Collection<Element> elements = new ArrayList<>();
 		collectAllElements(document, elements);
 		for (Element created : createdElements) {
@@ -151,7 +151,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 	}
 	
 	@Override
-	public Element createInstance(String type, Collection<Object> parameters) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
+	public synchronized Element createInstance(String type, Collection<Object> parameters) throws EolModelElementTypeNotFoundException, EolNotInstantiableModelElementTypeException {
 		String tagName = null;
 		boolean root = false;
 		
@@ -388,8 +388,7 @@ public class PlainXmlModel extends CachedModel<Element> {
 
 	
 	@Override
-	public void load(StringProperties properties, IRelativePathResolver resolver)
-			throws EolModelLoadingException {
+	public void load(StringProperties properties, IRelativePathResolver resolver) throws EolModelLoadingException {
 		
 		super.load(properties, resolver);
 		
