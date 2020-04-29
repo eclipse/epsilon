@@ -13,7 +13,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.EolModule;
@@ -122,12 +121,12 @@ public class EmfM0Model extends EmfModel {
 		}
 
 		@Override
-		public Object coerce(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
+		public Object coerce(Object target, String property, Object value, IEolContext context) throws EolIllegalPropertyException {
 			return value;
 		}
 
 		@Override
-		public boolean conforms(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
+		public boolean conforms(Object target, String property, Object value, IEolContext context) throws EolIllegalPropertyException {
 			return true;
 		}
 	}

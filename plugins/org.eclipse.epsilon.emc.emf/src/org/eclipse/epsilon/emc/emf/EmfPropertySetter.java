@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
-import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.util.CollectionUtil;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyAssignmentException;
 import org.eclipse.epsilon.eol.exceptions.EolIllegalPropertyException;
@@ -26,7 +25,7 @@ import org.eclipse.epsilon.eol.execute.introspection.IReflectivePropertySetter;
 public class EmfPropertySetter extends AbstractPropertySetter implements IReflectivePropertySetter {
 
 	@Override
-	public Object coerce(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
+	public Object coerce(Object target, String property, Object value, IEolContext context) throws EolIllegalPropertyException {
 		EStructuralFeature sf = getEStructuralFeature(target, property, value, context);
 		if (sf.isMany() && !(value instanceof Collection)) {
 			return CollectionUtil.asList(value);
@@ -35,7 +34,7 @@ public class EmfPropertySetter extends AbstractPropertySetter implements IReflec
 	}
 	
 	@Override
-	public boolean conforms(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
+	public boolean conforms(Object target, String property, Object value, IEolContext context) throws EolIllegalPropertyException {
 		EStructuralFeature sf = getEStructuralFeature(target, property, value, context);
 		if (!sf.isChangeable()) {
 			return false;

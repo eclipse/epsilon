@@ -40,12 +40,12 @@ public class JavaPropertySetter extends AbstractPropertySetter implements IRefle
 	}
 
 	@Override
-	public Object coerce(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
+	public Object coerce(Object target, String property, Object value, IEolContext context) throws EolIllegalPropertyException {
 		return value;
 	}
 
 	@Override
-	public boolean conforms(Object target, String property, Object value, ModuleElement ast, IEolContext context) throws EolIllegalPropertyException {
+	public boolean conforms(Object target, String property, Object value, IEolContext context) throws EolIllegalPropertyException {
 		// TODO implement this method
 		throw new UnsupportedOperationException("Not yet implemented.");
 	}

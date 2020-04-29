@@ -169,14 +169,14 @@ public class Model {
 	void setValueOfProperty(Object underlyingModelElement, String property, ModelValue<?> value) throws EolRuntimeException {
 		final IReflectivePropertySetter setter = underlyingModel.getPropertySetter();
 		setter.invoke(underlyingModelElement, property,
-			setter.coerce(underlyingModelElement, property, value.unwrap(), null, null),
+			setter.coerce(underlyingModelElement, property, value.unwrap(), null),
 			null
 		);
 	}
 	
 	boolean conforms(Object underlyingModelElement, String property, ModelValue<?> value) throws EolRuntimeException {
 		final IReflectivePropertySetter setter = underlyingModel.getPropertySetter();
-		return setter.conforms(underlyingModelElement, property, value.unwrap(), null, null);
+		return setter.conforms(underlyingModelElement, property, value.unwrap(), null);
 	}
 	
 	String getStringRepresentationOf(Object underlyingModelObject) {

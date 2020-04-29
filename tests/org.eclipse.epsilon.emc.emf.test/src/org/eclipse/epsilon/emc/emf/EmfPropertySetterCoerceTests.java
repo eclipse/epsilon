@@ -79,18 +79,18 @@ public class EmfPropertySetterCoerceTests {
 	
 	@Test(expected=EolIllegalPropertyException.class)
 	public void illegalObject() throws EolIllegalPropertyException {
-		new EmfPropertySetter().coerce("foo", "names", "foo", null, null);
+		new EmfPropertySetter().coerce("foo", "names", "foo", null);
 	}
 	
 	@Test(expected=EolIllegalPropertyException.class)
 	public void illegalProperty() throws EolIllegalPropertyException {		
 		final EObject objectWithNoSlots = instantiateClass();
-		new EmfPropertySetter().coerce(objectWithNoSlots, "names", "foo", null, null);
+		new EmfPropertySetter().coerce(objectWithNoSlots, "names", "foo", null);
 	}
 
 	
 	private static Object coerce(EStructuralFeature feature, Object value) throws EolIllegalPropertyException {
-		return new EmfPropertySetter().coerce(instantiateClass(feature), feature.getName(), value, null, null);
+		return new EmfPropertySetter().coerce(instantiateClass(feature), feature.getName(), value, null);
 	}
 
 	private static EObject instantiateClass(EStructuralFeature... features) {

@@ -252,17 +252,17 @@ public class EmfPropertySetterConformsTests {
 	
 	@Test(expected=EolIllegalPropertyException.class)
 	public void illegalObject() throws EolIllegalPropertyException {
-		new EmfPropertySetter().conforms("foo", "names", "foo", null, null);
+		new EmfPropertySetter().conforms("foo", "names", "foo", null);
 	}
 	
 	@Test(expected=EolIllegalPropertyException.class)
 	public void illegalProperty() throws EolIllegalPropertyException {		
 		final EObject objectWithNoSlots = instantiateClass();
-		new EmfPropertySetter().conforms(objectWithNoSlots, "names", "foo", null, null);
+		new EmfPropertySetter().conforms(objectWithNoSlots, "names", "foo", null);
 	}
 	
 	private static boolean checkConformance(EStructuralFeature feature, Object value) throws EolIllegalPropertyException {
-		return new EmfPropertySetter().conforms(instantiateClass(feature), feature.getName(), value, null, null);
+		return new EmfPropertySetter().conforms(instantiateClass(feature), feature.getName(), value, null);
 	}
 
 	private static EObject instantiateClass(EStructuralFeature... features) {
