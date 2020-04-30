@@ -10,9 +10,9 @@
 package org.eclipse.epsilon.hutn.validation;
 
 import java.net.URL;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.evl.IEvlModule;
@@ -49,26 +49,24 @@ public abstract class AbstractValidator {
 	private List<ParseProblem> doValidate(IModel model, IModel... extraModels) throws HutnValidationException {
 		try {		
 			final IEvlModule validator = EpsilonUtil.initialseEvlModule(fixer, model, extraModels);
-		
 			validator.parse(evlSource.toURI());
 			validator.execute();
-			
 			return collectParseProblems(validator);
-			
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw new HutnValidationException(e);
 		}
 	}
 
 	private List<ParseProblem> collectParseProblems(final IEvlModule validator) {
-		final List<ParseProblem> problems = new LinkedList<>();
-		
+		final ArrayList<ParseProblem> problems = new ArrayList<>(1);
 		if (validator != null) {
-			for (UnsatisfiedConstraint constraint : validator.getContext().getUnsatisfiedConstraints()) {
-				problems.add(fixer.interpretUnsatisfiedConstraint(constraint));
+			Collection<UnsatisfiedConstraint> unsatisfieds = validator.getContext().getUnsatisfiedConstraints();
+			problems.ensureCapacity(unsatisfieds.size());
+			for (UnsatisfiedConstraint uc : unsatisfieds) {
+				problems.add(fixer.interpretUnsatisfiedConstraint(uc));
 			}
 		}
-		
 		return problems;
 	}
 
