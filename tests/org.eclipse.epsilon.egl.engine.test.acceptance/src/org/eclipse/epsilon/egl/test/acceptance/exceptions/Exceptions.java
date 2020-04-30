@@ -10,16 +10,12 @@
 package org.eclipse.epsilon.egl.test.acceptance.exceptions;
 
 import static org.eclipse.epsilon.egl.util.FileUtil.FILE_SEP;
-import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.util.Collection;
 import java.util.HashSet;
-
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.egl.exceptions.EglRuntimeException;
 import org.eclipse.epsilon.egl.test.acceptance.AcceptanceTestUtil;
@@ -140,9 +136,9 @@ public class Exceptions {
 		try {
 			AcceptanceTestUtil.run(Exception);
 			fail("Expected EglRuntimeException");
-			
-		} catch (EglRuntimeException e) {
-			assertThat(e.getReason(), startsWith("Error encountered whilst processing template."));
+		}
+		catch (EglRuntimeException e) {
+			assertTrue(e.getReason().startsWith("Error encountered whilst processing template."));
 			assertTrue(typeOfCauses(e).contains(ArithmeticException.class));
 		}
 	}

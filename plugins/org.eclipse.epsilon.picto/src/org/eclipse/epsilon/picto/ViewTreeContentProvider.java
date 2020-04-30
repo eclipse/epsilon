@@ -10,7 +10,6 @@
 package org.eclipse.epsilon.picto;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -36,24 +35,19 @@ public class ViewTreeContentProvider implements ITreeContentProvider {
 	public Object[] getChildren(Object parentElement) {
 		
 		List<ViewTree> children = ((ViewTree) parentElement).getChildren();
-		Object[] childrenArray = (Object[]) children.toArray();
+		Object[] childrenArray = children.toArray();
 		
-		Arrays.sort(childrenArray, new Comparator<Object>() {
-
-			@Override
-			public int compare(Object o1, Object o2) {
-				
-				ViewTree v1 = (ViewTree) o1;
-				ViewTree v2 = (ViewTree) o2;
-				
-				int v1Position = children.indexOf(v1) + 1;
-				if (v1.getPosition() != null) v1Position = v1.getPosition();
-				
-				int v2Position = children.indexOf(v2) + 1;
-				if (v2.getPosition() != null) v2Position = v2.getPosition();
-				
-				return v1Position - v2Position;
-			}
+		Arrays.sort(childrenArray, (o1, o2) -> {
+			ViewTree v1 = (ViewTree) o1;
+			ViewTree v2 = (ViewTree) o2;
+			
+			int v1Position = children.indexOf(v1) + 1;
+			if (v1.getPosition() != null) v1Position = v1.getPosition();
+			
+			int v2Position = children.indexOf(v2) + 1;
+			if (v2.getPosition() != null) v2Position = v2.getPosition();
+			
+			return v1Position - v2Position;
 		});
 		
 		return childrenArray;

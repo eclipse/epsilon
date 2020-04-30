@@ -9,12 +9,9 @@
 **********************************************************************/
 package org.eclipse.epsilon.eunit.examples.etl.vsjunit;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import java.net.URISyntaxException;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.EMFCompare;
@@ -82,12 +79,10 @@ public class TransformationTest {
 
 		final IComparisonScope scope = EMFCompare.createDefaultScope(expectedGraph.getResource(), resultGraph.getResource());
 		final Comparison cmp = emfCompare.compare(scope);
-		assertThat(cmp.getDifferences().isEmpty(), equalTo(true));
+		assertTrue(cmp.getDifferences().isEmpty());
 
 		// Using generic comparison through EMC
-		assertThat(
-			new EMFModelComparator().compare(expectedGraph, resultGraph),
-			nullValue());
+		assertEquals(null, new EMFModelComparator().compare(expectedGraph, resultGraph));
 	}
 
 	private void loadEtl() throws Exception {

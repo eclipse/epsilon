@@ -13,11 +13,9 @@
 package org.eclipse.epsilon.hutn.xmi.test.integration.identifiers;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-
+import static org.junit.Assert.assertTrue;
 import java.io.IOException;
-
+import java.util.Arrays;
 import org.eclipse.epsilon.hutn.model.hutn.ReferenceSlot;
 import org.eclipse.epsilon.hutn.xmi.test.integration.HutnXmiBridgeIntegrationTest;
 import org.junit.BeforeClass;
@@ -54,6 +52,8 @@ public class IdentifiersBasedOnNames extends HutnXmiBridgeIntegrationTest {
 	
 	@Test
 	public void slot() {
-		assertThat(((ReferenceSlot)getFirstSlotOfFamily()).getValues(), containsInAnyOrder("Goldie", "Pet1", "Lassie"));
+		assertTrue(((ReferenceSlot)getFirstSlotOfFamily()).getValues()
+			.containsAll(Arrays.asList("Goldie", "Pet1", "Lassie"))
+		);
 	}
 }

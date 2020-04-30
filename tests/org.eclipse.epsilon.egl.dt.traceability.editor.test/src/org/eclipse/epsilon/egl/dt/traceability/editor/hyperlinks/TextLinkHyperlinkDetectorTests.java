@@ -9,17 +9,13 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egl.dt.traceability.editor.hyperlinks;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
-
 import java.util.Collection;
 import java.util.Collections;
-
 import org.eclipse.epsilon.egl.dt.traceability.editor.TextLinkModel;
 import org.eclipse.epsilon.egl.dt.traceability.editor.hyperlinks.TextLinkHyperlinkDetector.HyperlinkSpec;
 import org.eclipse.epsilon.egl.dt.traceability.fine.emf.textlink.TextlinkFactory;
@@ -52,14 +48,12 @@ public class TextLinkHyperlinkDetectorTests {
 		@Test
 		public void filterIncludesTraceLinksWhoseDestinationsContainHoverLocation() throws EolModelElementTypeNotFoundException {
 			when(hoverLocation.isIn(traceLink.getDestination().getRegion())).thenReturn(true);
-			
-			assertThat(filter(), containsInAnyOrder(traceLink));
+			assertTrue(filter().contains(traceLink));
 		}
 	
 		@Test
 		public void filterExcludesTraceLinksWhoseDestinationsDoNotContainHoverLocation() throws EolModelElementTypeNotFoundException {
 			when(hoverLocation.isIn(traceLink.getDestination().getRegion())).thenReturn(false);
-			
 			assertTrue(filter().isEmpty());
 		}
 	

@@ -11,7 +11,6 @@ package org.eclipse.epsilon.picto.transformers;
 
 import org.eclipse.epsilon.picto.PictoView;
 import org.eclipse.epsilon.picto.ViewContent;
-import org.eclipse.epsilon.picto.ViewRenderer;
 
 public interface ViewContentTransformer {
 	

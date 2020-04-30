@@ -9,9 +9,9 @@
  ******************************************************************************/
 package org.eclipse.epsilon.flock.model.domain;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import java.util.Arrays;
 import java.util.Collection;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.flock.model.domain.rules.MigrateRule;
@@ -29,36 +29,25 @@ public class MigrationStrategyTests {
 	@Test
 	public void constructorAddsConstructs() {
 		final MigrationStrategy strategy = new MigrationStrategy(retyping, rule, deletion);
-		
-		assertThat(strategy.getTypeMappingsAndRules(),
-		           containsInAnyOrder((ModuleElement)retyping,
-		                              (ModuleElement)rule,
-		                              (ModuleElement)deletion));
+		assertTrue(strategy.getTypeMappingsAndRules()
+			.containsAll(Arrays.asList(retyping, rule, deletion))
+		);
 	}
 	
 	@Test
 	public void addRule() {
 		final MigrationStrategy strategy = new MigrationStrategy();
-		
 		strategy.addRule(rule);
-		
-		
 		final Collection<ModuleElement> contents = strategy.getTypeMappingsAndRules();
-		
-		assertThat(contents, containsInAnyOrder((ModuleElement)rule));
+		assertTrue(contents.contains(rule));
 	}
 	
 	@Test
 	public void addTypeMappingConstruct() {
 		final MigrationStrategy strategy = new MigrationStrategy();
-		
 		strategy.addTypeMappingConstruct(retyping);
 		strategy.addTypeMappingConstruct(deletion);
-		
-		
 		final Collection<ModuleElement> contents = strategy.getTypeMappingsAndRules();
-		
-		assertThat(contents, containsInAnyOrder((ModuleElement)retyping,
-		                                        (ModuleElement)deletion));
+		assertTrue(contents.containsAll(Arrays.asList(retyping, deletion)));
 	}
 }

@@ -10,11 +10,9 @@
 package org.eclipse.epsilon.workflow.tasks;
 
 import static org.junit.Assert.assertEquals;
-
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.eclipse.epsilon.eol.models.IModel;

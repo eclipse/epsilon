@@ -9,11 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.emc.hutn;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertThat;
-
+import static org.junit.Assert.assertTrue;
 import java.io.File;
-
 import org.eclipse.epsilon.common.util.FileUtil;
 import org.eclipse.epsilon.eol.EolEvaluator;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -40,16 +37,14 @@ public class HutnModelTests extends HutnTestWithFamiliesMetaModel {
 	
 	@Test
 	public void loadAndCheckResult() throws EolModelLoadingException {
-		assertThat(executeAndGetHutn(program, hutn), containsString("John Smith"));
+		assertTrue(executeAndGetHutn(program, hutn).contains("John Smith"));
 	}
 	
 	@Test
 	public void saveProducesHutnSource() throws Exception {
 		final String fileContents = FileUtil.getFileContents(executeAndSave(program, hutn));
-		
-		assertThat(fileContents, containsString("@Spec"));
-		assertThat(fileContents, containsString("John Smith"));
-
+		assertTrue(fileContents.contains("@Spec"));
+		assertTrue(fileContents.contains("John Smith"));
 	}
 
 	private static String executeAndGetHutn(String program, String hutn) throws EolModelLoadingException {
@@ -65,9 +60,7 @@ public class HutnModelTests extends HutnTestWithFamiliesMetaModel {
 	private static IModel execute(String program, String hutn) throws EolModelLoadingException {
 		final IModel model = new HutnModel("Model", hutn);
 		model.load();
-
 		new EolEvaluator(model).execute(program);
-		
 		return model;
 	}
 }

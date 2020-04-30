@@ -13,9 +13,7 @@
 package org.eclipse.epsilon.flock.engine.test.acceptance.rules;
 
 import static org.eclipse.epsilon.test.util.builders.emf.EPackageBuilder.aMetamodel;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertThat;
-
+import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.flock.engine.test.acceptance.util.FlockAcceptanceTest;
 import org.junit.BeforeClass;
@@ -49,6 +47,6 @@ public class RuleForDeletedType extends FlockAcceptanceTest {
 		final String message = "Rule defined for migrating instances of families::Person but " +
 		                       "that type cannot be instantiated in the evolved metamodel.";
 		
-		assertThat(result.getWarnings(), contains(message));
+		assertTrue(result.getWarnings().contains(message));
 	}
 }

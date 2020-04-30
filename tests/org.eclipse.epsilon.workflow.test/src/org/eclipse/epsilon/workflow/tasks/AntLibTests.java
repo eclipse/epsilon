@@ -11,9 +11,7 @@ package org.eclipse.epsilon.workflow.tasks;
 
 import java.io.File;
 import java.net.URL;
-
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Typedef;
 import org.junit.Test;

@@ -9,14 +9,14 @@
 **********************************************************************/
 package org.eclipse.epsilon.workflow.tasks;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
-
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 import java.io.File;
-
 import org.apache.tools.ant.BuildFileRule;
 import org.apache.tools.ant.Task;
 import org.eclipse.epsilon.common.util.FileUtil;
+import org.eclipse.epsilon.common.util.StringUtil;
 import org.eclipse.epsilon.evl.EvlModule;
 import org.eclipse.epsilon.evl.execute.context.IEvlContext;
 import org.eclipse.epsilon.workflow.tasks.ExecutableModuleTask.ModuleProperty;
@@ -38,7 +38,6 @@ public class LanguageTasksTests {
 
 	@Test
 	public void eolModuleInLine() throws Exception {
-		
 		final String eolExp = "      \"Hello world\".println();";
 		final String initTask = createTaskDefTarget("Eol");
 		final StringBuilder mainBuilder = new StringBuilder();
@@ -55,17 +54,15 @@ public class LanguageTasksTests {
         buildRule.executeTarget("main");
         
         Task task = buildRule.getProject().getTargets().get("main").getTasks()[0];
-        assertThat(task, instanceOf(EolTask.class));
+        assertTrue(task instanceof EolTask);
         EolTask eolTask = (EolTask)task;
-        assertThat(eolTask.code.trim(), is(eolExp.trim()));
-        assertThat(eolTask.src, is(nullValue()));
+        assertEquals(eolExp.trim(), eolTask.code.trim());
+        assertEquals(null, eolTask.src);
         buildFile.delete();
-        
 	}
 	
 	@Test
 	public void eolModuleFromSource() throws Exception {
-		
 		final String eolExp = "\"Hello world\".println();";
 		final File eolSrc = File.createTempFile("eolTest", ".eol");
 		FileUtil.setFileContents(eolExp, eolSrc);		
@@ -81,16 +78,15 @@ public class LanguageTasksTests {
         buildRule.executeTarget("main");
         
         Task task = buildRule.getProject().getTargets().get("main").getTasks()[0];
-        assertThat(task, instanceOf(EolTask.class));
+        assertTrue(task instanceof EolTask);
         EolTask eolTask = (EolTask)task;
-        assertThat(eolTask.code, isEmptyString());
-        assertThat(eolTask.src.getAbsolutePath(), is(eolSrc.getAbsolutePath()));
+        assertTrue(StringUtil.isEmpty(eolTask.code));
+        assertEquals(eolSrc.getAbsolutePath(), eolTask.src.getAbsolutePath());
         buildFile.delete();
 	}
 	
 	@Test
 	public void eclModuleFromSource() throws Exception {
-		
 		File basedir = new File("resources/");
 		File eclFile = new File("resources/epsilon/ecl/tree.ecl");
 		
@@ -109,16 +105,15 @@ public class LanguageTasksTests {
         buildRule.executeTarget("main");
         
         Task task = buildRule.getProject().getTargets().get("main").getTasks()[0];
-        assertThat(task, instanceOf(EclTask.class));
+        assertTrue(task instanceof EclTask);
         EclTask eclTask = (EclTask)task;
-        assertThat(eclTask.code, isEmptyString());
-        assertThat(eclTask.src.getAbsolutePath(), is(eclFile.getAbsolutePath()));
+        assertTrue(StringUtil.isEmpty(eclTask.code));
+        assertEquals(eclFile.getAbsolutePath(), eclTask.src.getAbsolutePath());
         buildFile.delete();
 	}
 	
 	@Test
 	public void evlModuleFromSource() throws Exception {
-		
 		File basedir = new File("resources/");
 		File evlFile = new File("resources/epsilon/evl/tree.evl");
 		
@@ -141,19 +136,19 @@ public class LanguageTasksTests {
         buildRule.executeTarget("main");
         
         Task task = buildRule.getProject().getTargets().get("main").getTasks()[0];
-        assertThat(task, instanceOf(EvlTask.class));
+        assertTrue(task instanceof EvlTask);
         EvlTask evlTask = (EvlTask)task;
-        assertThat(evlTask.code, isEmptyString());
-        assertThat(evlTask.src.getAbsolutePath(), is(evlFile.getAbsolutePath()));
-        assertThat(evlTask.properties, is(not(empty())));
+        assertTrue(StringUtil.isEmpty(evlTask.code));
+        assertEquals(evlFile.getAbsolutePath(), evlTask.src.getAbsolutePath());
+        assertFalse(evlTask.properties.isEmpty());
         
         ModuleProperty parallelism = evlTask.properties.get(0);
-        assertThat(parallelism.getName(), is("parallelism"));
-        assertThat(parallelism.getValue(), is("6"));
+        assertEquals("parallelism", parallelism.getName());
+        assertEquals("6", parallelism.getValue());
         
         ModuleProperty oc = evlTask.properties.get(1);
-        assertThat(oc.name, is("optimizeConstraints"));
-        assertThat(oc.value, is("true"));
+        assertEquals("optimizeConstraints", oc.name);
+        assertEquals("true", oc.value);
         
         buildFile.delete();
 	}

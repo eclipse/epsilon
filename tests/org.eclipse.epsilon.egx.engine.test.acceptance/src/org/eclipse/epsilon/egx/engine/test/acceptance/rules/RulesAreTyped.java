@@ -9,9 +9,8 @@
  ******************************************************************************/
 package org.eclipse.epsilon.egx.engine.test.acceptance.rules;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import org.eclipse.epsilon.egx.engine.test.acceptance.util.EgxAcceptanceTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -45,6 +44,6 @@ public class RulesAreTyped extends EgxAcceptanceTest {
 	
 	@Test
 	public void noOtherFilesAreGeneratd() {
-		assertThat(factory.getOutputFiles(), containsInAnyOrder("out.txt"));
+		assertTrue(factory.getOutputFiles().contains("out.txt"));
 	}
 }
