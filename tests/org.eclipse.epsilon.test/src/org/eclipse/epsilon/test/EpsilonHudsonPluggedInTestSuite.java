@@ -28,8 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	CommonDevelopmentToolsTestSuite.class,
 	EmfPluggedInTestSuite.class,
 	EugeniaTestSuite.class,
-	WorkflowPluggedInTestSuite.class,
-	//ConcordancePluggedInTestSuite.class
+	WorkflowPluggedInTestSuite.class
 })
 public class EpsilonHudsonPluggedInTestSuite{
 
