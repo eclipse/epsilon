@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>org.eclipse.epsilon</groupId>
-	<artifactId>org.eclipse.epsilon.test.unit</artifactId>
+	<artifactId>org.eclipse.epsilon.test</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
 
 	<dependencies>
