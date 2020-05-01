@@ -10,7 +10,6 @@
 		<artifactId>plugins</artifactId>
 		<version>1.6.0-SNAPSHOT</version>
 	</parent>
-	<groupId>org.eclipse.epsilon</groupId>
 
 	<artifactId>net.sourceforge.plantuml</artifactId>
 	<packaging>eclipse-plugin</packaging>
