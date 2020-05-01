@@ -11,12 +11,11 @@
 	</parent>
 
 	<groupId>org.eclipse.epsilon</groupId>
-	<artifactId>org.eclipse.epsilon.test</artifactId>
+	<artifactId>org.eclipse.epsilon.test.plug</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
 
 	<build>
 		<plugins>
-			<!-- For the "plugged in" tests -->
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
@@ -24,7 +23,7 @@
 				<configuration>
 					<application>org.eclipse.ui.ide.workbench</application>
 
-					<argLine>-Xmx4g</argLine>
+					<argLine>-ea -Xmx4g</argLine>
 					<!-- To enable remote debugging, comment the <argLine> above and uncomment 
 						this one: the Eclipse instance will suspend until a remote debugger is attached -->
 					<!-- <argLine>-Xmx4g -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=y</argLine> -->
@@ -32,7 +31,7 @@
 					<useUIThread>true</useUIThread>
 					<useUIHarness>true</useUIHarness>
 					<includes>
-						<include>org/eclipse/epsilon/test/EpsilonHudsonPluggedInTestSuite.class</include>
+						<include>org/eclipse/epsilon/test/EpsilonPluggedInTestSuite.class</include>
 					</includes>
 					<dependencies>
 						<dependency>

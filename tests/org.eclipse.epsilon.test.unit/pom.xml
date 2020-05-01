@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.eclipse.epsilon</groupId>
+		<artifactId>tests</artifactId>
+		<version>1.6.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>org.eclipse.epsilon</groupId>
+	<artifactId>org.eclipse.epsilon.test.unit</artifactId>
+	<packaging>eclipse-test-plugin</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<testSourceDirectory>${project.basedir}/src</testSourceDirectory>
+		<testOutputDirectory>${project.basedir}/target/classes</testOutputDirectory>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M4</version>
+				<configuration>
+					<includes>
+						<include>EpsilonTestSuite.java</include>
+					</includes>
+					<argLine>-ea -Xmx4g</argLine>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

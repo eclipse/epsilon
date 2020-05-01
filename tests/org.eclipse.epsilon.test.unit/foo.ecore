@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hutnConfig:Configuration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:hutnConfig="http://www.eclipse.org/gmt/epsilon/hutnConfig">
+  <rules xsi:type="hutnConfig:DefaultValueRule" classifier="Family" attribute="nuclear"
+      defaultValue="4"/>
+</hutnConfig:Configuration>
