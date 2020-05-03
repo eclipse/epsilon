@@ -17,18 +17,11 @@ package org.eclipse.epsilon.emc.bibtex;
  * Contributors:
  *     Louis Rose - initial API and implementation
  ******************************************************************************/
-
-
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.endsWith;
-import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import org.eclipse.epsilon.emc.bibtex.domain.Bibliography;
 import org.eclipse.epsilon.emc.bibtex.domain.Publication;
 import org.eclipse.epsilon.emc.bibtex.parser.BibtexUnparser;
@@ -41,18 +34,18 @@ public class BibtextUnparserTests {
 	public void singleProperty() throws Throwable {
 		final String bibtex = unparse(bibliography(publication("article", property("author", "Joe Bloggs"))));
 
-		assertThat(bibtex, startsWith("@article{"));
-		assertThat(bibtex, containsString("author = {Joe Bloggs},"));
-		assertThat(bibtex, endsWith("}"));
+		assertTrue(bibtex.startsWith("@article{"));
+		assertTrue(bibtex.contains("author = {Joe Bloggs},"));
+		assertTrue(bibtex.endsWith("}"));
 	}
 	
 	@Test
 	public void identifier() throws Throwable {
 		final String bibtex = unparse(bibliography(publication("article", "doe10theories", property("author", "Joe Bloggs"))));
 
-		assertThat(bibtex, startsWith("@article{doe10theories"));
-		assertThat(bibtex, containsString("author = {Joe Bloggs},"));
-		assertThat(bibtex, endsWith("}"));
+		assertTrue(bibtex.startsWith("@article{doe10theories"));
+		assertTrue(bibtex.contains("author = {Joe Bloggs},"));
+		assertTrue(bibtex.endsWith("}"));
 	}
 	
 	@Test
@@ -62,11 +55,11 @@ public class BibtextUnparserTests {
 		                                                       property("year",   "2010"),
 		                                                       property("issue",  "1"))));
 
-		assertThat(bibtex, startsWith("@article{"));
-		assertThat(bibtex, containsString("author = {Joe Bloggs},"));
-		assertThat(bibtex, containsString("year = {2010},"));
-		assertThat(bibtex, containsString("issue = {1},"));
-		assertThat(bibtex, endsWith("}"));
+		assertTrue(bibtex.startsWith("@article{"));
+		assertTrue(bibtex.contains("author = {Joe Bloggs},"));
+		assertTrue(bibtex.contains("year = {2010},"));
+		assertTrue(bibtex.contains("issue = {1},"));
+		assertTrue(bibtex.endsWith("}"));
 	}
 	
 	@Test
@@ -79,14 +72,14 @@ public class BibtextUnparserTests {
 		
 		assertEquals(3, entries.length);
 		
-		assertThat(entries[0], startsWith("@article{"));
-		assertThat(entries[0], containsString("author = {Joe Bloggs},"));
+		assertTrue(entries[0].startsWith("@article{"));
+		assertTrue(entries[0].contains("author = {Joe Bloggs},"));
 		
-		assertThat(entries[1], startsWith("@journal{"));
-		assertThat(entries[1], containsString("author = {John Doe},"));
+		assertTrue(entries[1].startsWith("@journal{"));
+		assertTrue(entries[1].contains("author = {John Doe},"));
 		
-		assertThat(entries[2], startsWith("@book{"));
-		assertThat(entries[2], containsString("author = {A.N. Other},"));
+		assertTrue(entries[2].startsWith("@book{"));
+		assertTrue(entries[2].contains("author = {A.N. Other},"));
 	}
 	
 	private static String unparse(Bibliography bibliography) {
