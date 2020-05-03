@@ -9,15 +9,15 @@
 **********************************************************************/
 package org.eclipse.epsilon.emc.csv;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,7 +25,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementTypeException;
 import org.junit.After;
@@ -60,9 +59,9 @@ public class CsvModelTests {
 			model.setReader(new BufferedReader(reader));
 			model.load();
 			Collection<Map<String, Object>> allRows = model.allContentsFromModel();
-			assertThat(allRows.size(), is(2));
+			assertEquals(2, allRows.size());
 			for (Map<String, Object> row : allRows) {
-				assertThat(row, hasKey("field"));
+				assertTrue(row.containsKey("field"));
 			}
 			Object[] allRowsArray = allRows.toArray();
 			String[] csvData = csv.split(NEWLINE);
@@ -71,8 +70,8 @@ public class CsvModelTests {
 				Map<String, Object> row = (Map<String, Object>) allRowsArray[i];
 				@SuppressWarnings("unchecked")
 				List<String> csvRowValues = (List<String>) row.get("field");
-				String[] rowData = csvData[i].split(String.valueOf(fieldSeparator));
-				assertThat(String.format("Row data matches csv values, row = %s.", i), rowData, arrayContaining(csvRowValues.toArray()));
+				Collection<String> rowData = Arrays.asList(csvData[i].split(String.valueOf(fieldSeparator)));
+				assertTrue(String.format("Row data matches csv values, row = %s.", i), rowData.containsAll(csvRowValues));
 			}
 		}
 		
@@ -89,9 +88,9 @@ public class CsvModelTests {
 			model.setReader(new BufferedReader(reader));
 			model.load();
 			Collection<Map<String, Object>> allRows = model.allContentsFromModel();
-			assertThat(allRows.size(), is(2));
+			assertEquals(2, allRows.size());
 			for (Map<String, Object> row : allRows) {
-				assertThat(row, hasKey("field"));
+				assertTrue(row.containsKey("field"));
 			}
 			Object[] allRowsArray = allRows.toArray();
 			String[] csvData = csv.split(NEWLINE);
@@ -100,8 +99,8 @@ public class CsvModelTests {
 				Map<String, Object> row = (Map<String, Object>) allRowsArray[i];
 				@SuppressWarnings("unchecked")
 				List<String> csvRowValues = (List<String>) row.get("field");
-				String[] rowData = csvData[i].split(String.valueOf(fieldSeparator));
-				assertThat(String.format("Row data matches csv values, row = %s.", i), rowData, arrayContaining(csvRowValues.toArray()));
+				Collection<String> rowData = Arrays.asList(csvData[i].split(String.valueOf(fieldSeparator)));
+				assertTrue(String.format("Row data matches csv values, row = %s.", i), rowData.containsAll(csvRowValues));
 			}
 		}
 		
@@ -120,17 +119,17 @@ public class CsvModelTests {
 			model.setReader(new BufferedReader(reader));
 			model.load();
 			Collection<Map<String, Object>> allRows = model.allContentsFromModel();
-			assertThat("All rows have ben read", allRows.size(), is(3));
+			assertEquals("All rows have ben read", 3, allRows.size());
 			for (Map<String, Object> row : allRows) {
-				assertThat(row, hasKey("id"));
-				assertThat(row, hasKey("first_name"));
-				assertThat(row, hasKey("last_name"));
-				assertThat(row, hasKey("email"));
-				assertThat(row, hasKey("gender"));
-				assertThat(row, hasKey("job"));
-				assertThat(row, hasKey("credit_card"));
-				assertThat(row, hasKey("quote"));
-				assertThat(row, hasKey("movies"));
+				assertTrue(row.containsKey("id"));
+				assertTrue(row.containsKey("first_name"));
+				assertTrue(row.containsKey("last_name"));
+				assertTrue(row.containsKey("email"));
+				assertTrue(row.containsKey("gender"));
+				assertTrue(row.containsKey("job"));
+				assertTrue(row.containsKey("credit_card"));
+				assertTrue(row.containsKey("quote"));
+				assertTrue(row.containsKey("movies"));
 			}
 			Object[] allRowsArray = allRows.toArray();
 			String[] csvData = csv.split(NEWLINE);
@@ -139,8 +138,9 @@ public class CsvModelTests {
 				Map<String, Object> row = (Map<String, Object>) allRowsArray[i];
 				String[] rowData = csvData[i+1].split(String.valueOf(fieldSeparator));
 				for (int j=0; j<headers.length; j++) {
-					assertThat(String.format("Row data matches csv field %s, row = %s.", headers[j], i),
-								row.get(headers[j]), is(rowData[j]));
+					assertEquals(String.format("Row data matches csv field %s, row = %s.", headers[j], i),
+						rowData[j], row.get(headers[j])
+					);
 				}
 			}
 		}
@@ -161,17 +161,17 @@ public class CsvModelTests {
 			model.setReader(new BufferedReader(reader));
 			model.load();
 			Collection<Map<String, Object>> allRows = model.allContentsFromModel();
-			assertThat("All rows have ben read", allRows.size(), is(3));
+			assertEquals("All rows have ben read", 3, allRows.size());
 			for (Map<String, Object> row : allRows) {
-				assertThat(row, hasKey("id"));
-				assertThat(row, hasKey("first_name"));
-				assertThat(row, hasKey("last_name"));
-				assertThat(row, hasKey("email"));
-				assertThat(row, hasKey("gender"));
-				assertThat(row, hasKey("job"));
-				assertThat(row, hasKey("credit_card"));
-				assertThat(row, hasKey("quote"));
-				assertThat(row, hasKey("movies"));
+				assertTrue(row.containsKey("id"));
+				assertTrue(row.containsKey("first_name"));
+				assertTrue(row.containsKey("last_name"));
+				assertTrue(row.containsKey("email"));
+				assertTrue(row.containsKey("gender"));
+				assertTrue(row.containsKey("job"));
+				assertTrue(row.containsKey("credit_card"));
+				assertTrue(row.containsKey("quote"));
+				assertTrue(row.containsKey("movies"));
 			}
 			Object[] allRowsArray = allRows.toArray();
 			String[] csvData = csv.split(NEWLINE);
@@ -186,12 +186,14 @@ public class CsvModelTests {
 						for(int k=0; k<rowData.length-headers.length+1;k++) {
 							varargRowData.add(rowData[j+k]);
 						}
-						assertThat(String.format("Row data matches csv field %s, row = %s.", headers[j], i),
-								row.get(headers[j]), is(varargRowData));
+						assertEquals(String.format("Row data matches csv field %s, row = %s.", headers[j], i),
+							varargRowData, row.get(headers[j])
+						);
 					}
 					else {
-						assertThat(String.format("Row data matches csv field %s, row = %s.", headers[j], i),
-									row.get(headers[j]), is(rowData[j]));
+						assertEquals(String.format("Row data matches csv field %s, row = %s.", headers[j], i),
+							rowData[j], row.get(headers[j])
+						);
 					}
 				}
 			}
@@ -249,7 +251,7 @@ public class CsvModelTests {
 			Collection<Map<String, Object>> rows = model.allContentsFromModel();
 			int rowIndex = rand.nextInt(rows.size());
 			Map<String, Object> row = rows.stream().skip(rowIndex).findFirst().get();
-			assertThat(model.getTypeOf(row), sameInstance(LinkedHashMap.class));
+			assertEquals(LinkedHashMap.class, model.getTypeOf(row));
 			Map<String, Object> row2 = new LinkedHashMap<>();
 			thrown.expect(IllegalArgumentException.class);
 	        thrown.expectMessage("Not a valid CSV model instance");
@@ -270,11 +272,10 @@ public class CsvModelTests {
 			result = model.deleteElementInModel(row);
 			assertTrue(result);
 			rows = model.allContentsFromModel();
-			assertThat("Size has decreased because element was removed.", rows.size(), is(lessThan(size)));
+			assertTrue("Size has decreased because element was removed.", rows.size() < size);
 			Map<String, Object> row2 = new LinkedHashMap<>();
 			result = model.deleteElementInModel(row2);
 			assertFalse(result);
-			
 		}
 
 		@Test
@@ -284,8 +285,8 @@ public class CsvModelTests {
 			int rowIndex = rand.nextInt(rows.size());
 			Map<String, Object> row = rows.stream().skip(rowIndex).findFirst().get();
 			Collection<String>  names = model.getAllTypeNamesOf(row);
-			assertThat("Only one name.", names.size(), is(1));
-			assertThat("Name is 'Row'", names, hasItem("Row"));
+			assertEquals("Only one name.", 1, names.size());
+			assertTrue("Name is 'Row'", names.contains("Row"));
 			Map<String, Object> row2 = new LinkedHashMap<>();
 			thrown.expect(IllegalArgumentException.class);
 	        thrown.expectMessage("Not a valid CSV model instance");
@@ -309,7 +310,7 @@ public class CsvModelTests {
 			int rowIndex = rand.nextInt(rows.size());
 			Map<String, Object> row = rows.stream().skip(rowIndex).findFirst().get();
 			String name = model.getTypeNameOf(row);
-			assertThat("Name is 'Row'", name, is(LinkedHashMap.class.getName()));
+			assertEquals("Name is 'Row'", LinkedHashMap.class.getName(), name);
 			Map<String, Object> row2 = new LinkedHashMap<>();
 			thrown.expect(IllegalArgumentException.class);
 	        thrown.expectMessage("Not a valid CSV model instance");
@@ -325,7 +326,7 @@ public class CsvModelTests {
 			Collection<Map<String, Object>> rows = model.allContentsFromModel();
 			int rowIndex = rand.nextInt(rows.size());
 			Map<String, Object> row = rows.stream().skip(rowIndex).findFirst().get();
-			assertThat("Row is in model", model.owns(row), is(true));
+			assertTrue("Row is in model", model.owns(row));
 			Map<String, Object> row2 = new LinkedHashMap<>();
 			thrown.expect(IllegalArgumentException.class);
 	        thrown.expectMessage("Not a valid CSV model instance");
@@ -340,24 +341,24 @@ public class CsvModelTests {
 		@Test
 		public void testIsInstantiable() {
 			String type = "Row";
-			assertThat("Row type is instantiatable.", model.isInstantiable(type), is (true));
+			assertTrue("Row type is instantiatable.", model.isInstantiable(type));
 			type ="other";
-			assertThat("Only Row type is instantiatable", model.isInstantiable(type), is(false));
+			assertFalse("Only Row type is instantiatable", model.isInstantiable(type));
 		}
 
 		@Test
 		public void testHasType() {
 			String type = "Row";
-			assertThat("Row type is known.", model.hasType(type), is (true));
+			assertTrue("Row type is known.", model.hasType(type));
 			type ="other";
-			assertThat("Only Row type is known", model.hasType(type), is(false));
+			assertFalse("Only Row type is known", model.hasType(type));
 		}
 
 		@Test
 		public void testGetAllOfTypeFromModelString() throws Exception {
 			Collection<Map<String, Object>> rows = model.getAllOfTypeFromModel("Row");
 			Collection<Map<String, Object>> rows2 = model.allContentsFromModel();
-			assertThat(rows, is(rows2));
+			assertEquals(rows2, rows);
 			thrown.expect(EolModelElementTypeNotFoundException.class);
 			rows = model.getAllOfTypeFromModel("TypeA");
 		}
@@ -366,7 +367,7 @@ public class CsvModelTests {
 		public void testGetAllOfKindFromModelString() throws Exception {
 			Collection<Map<String, Object>> rows = model.getAllOfKindFromModel("Row");
 			Collection<Map<String, Object>> rows2 = model.allContentsFromModel();
-			assertThat(rows, is(rows2));
+			assertEquals(rows2, rows);
 			thrown.expect(EolModelElementTypeNotFoundException.class);
 			rows = model.getAllOfKindFromModel("TypeA");
 		}
@@ -375,19 +376,18 @@ public class CsvModelTests {
 		public void testCreateInstanceInModelString() throws Exception, EolNotInstantiableModelElementTypeException {
 			Map<String, Object> newRow = model.createInstanceInModel("Row");
 			for (String key : headers) {
-				assertThat(String.format("Field %s should be empty", key), newRow.get(key), is(""));
+				assertTrue(String.format("Field %s should be empty", key), ((String) newRow.get(key)).isEmpty());
 			}
 			thrown.expect(EolModelElementTypeNotFoundException.class);
 			newRow = model.createInstanceInModel("TypeA");
-			
 		}
 
 		@Test
 		public void testHasProperty() throws Exception {
 			for (String key : headers) {
-				assertThat(String.format("Row has property %s.", key), model.hasProperty("Row", key), is(true));
+				assertTrue(String.format("Row has property %s.", key), model.hasProperty("Row", key));
 			}
-			assertThat("Row doesn't have property someProperty.", model.hasProperty("Row", "someProperty"), is(false));
+			assertFalse("Row doesn't have property someProperty.", model.hasProperty("Row", "someProperty"));
 			model.dispose();
 			char fieldSeparator = ',';
 			final String csv = "604-78-8459,Ricoriki,Dwyr,rdwyr0@parallels.com,Male,VP Quality Control,,Duis at velit eu est congue elementum.,Horror" + NEWLINE +
@@ -400,8 +400,8 @@ public class CsvModelTests {
 			StringReader reader = new StringReader(csv);
 			model.setReader(new BufferedReader(reader));
 			model.load();
-			assertThat("Row has property field.", model.hasProperty("Row", "field"), is(true));
-			assertThat("Row doesn't have property someProperty.", model.hasProperty("Row", "someProperty"), is(false));
+			assertTrue("Row has property field.", model.hasProperty("Row", "field"));
+			assertFalse("Row doesn't have property someProperty.", model.hasProperty("Row", "someProperty"));
 			thrown.expect(EolModelElementTypeNotFoundException.class);
 			model.hasProperty("TypeA", headers[0]);
 		}
@@ -459,7 +459,7 @@ public class CsvModelTests {
 			for (int i=0;i<3; i++) {
 				row = rows.stream().skip(i).findFirst().get();
 				String id = model.getElementId(row);
-				assertThat("Row's id field matches id", row.get("id"), is(id));
+				assertEquals("Row's id field matches id", id, row.get("id"));
 			}
 			model.dispose();
 		}
@@ -484,7 +484,7 @@ public class CsvModelTests {
 				String id = model.getElementId(row);
 				@SuppressWarnings("unchecked")
 				List<String> actual = (List<String>) row.get("field");
-				assertThat("Row's id field matches id", actual.get(0), is(id));
+				assertEquals("Row's id field matches id", id, actual.get(0));
 			}
 			model.dispose();
 		}
@@ -504,10 +504,10 @@ public class CsvModelTests {
 			model.load();
 			Collection<Map<String, Object>> rows = model.allContentsFromModel();
 			Iterator<Map<String, Object>> it = rows.iterator();
-			assertThat("Element matches id.", model.getElementById("604-78-8459"), is(it.next()));
-			assertThat("Element matches id.", model.getElementById("272-41-1349"), is(it.next()));
-			assertThat("Element matches id.", model.getElementById("850-05-5333"), is(it.next()));
-			assertThat("Element matches id.", model.getElementById("someId"), is(nullValue()));
+			assertEquals("Element matches id.", it.next(), model.getElementById("604-78-8459"));
+			assertEquals("Element matches id.", it.next(), model.getElementById("272-41-1349"));
+			assertEquals("Element matches id.", it.next(), model.getElementById("850-05-5333"));
+			assertNull("Element matches id.", model.getElementById("someId"));
 			model.dispose();
 			csv = "id,first_name,last_name,email,gender,job,credit_card,quote,movies" + NEWLINE + 
 					   "604-78-8459,Ricoriki,Dwyr,rdwyr0@parallels.com,Male,VP Quality Control,,Duis at velit eu est congue elementum.,Horror" + NEWLINE +
@@ -521,12 +521,11 @@ public class CsvModelTests {
 			model.load();
 			rows = model.allContentsFromModel();
 			it = rows.iterator();
-			assertThat("Element matches id.", model.getElementById("rdwyr0@parallels.com"), is(it.next()));
-			assertThat("Element matches id.", model.getElementById("nhalpin1@slashdot.org"), is(it.next()));
-			assertThat("Element matches id.", model.getElementById("fmobberley7@msn.com"), is(it.next()));
-			assertThat("Element matches id.", model.getElementById("someId"), is(nullValue()));
+			assertEquals("Element matches id.", it.next(), model.getElementById("rdwyr0@parallels.com"));
+			assertEquals("Element matches id.", it.next(), model.getElementById("nhalpin1@slashdot.org"));
+			assertEquals("Element matches id.", it.next(), model.getElementById("fmobberley7@msn.com"));
+			assertNull("Element matches id.", model.getElementById("someId"));
 			model.dispose();
 		}
-		
 	}
 }
