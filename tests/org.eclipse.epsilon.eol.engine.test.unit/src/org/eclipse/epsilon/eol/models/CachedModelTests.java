@@ -9,21 +9,17 @@
  ******************************************************************************/
 package org.eclipse.epsilon.eol.models;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolEnumerationValueNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
@@ -184,7 +180,7 @@ public class CachedModelTests {
 			model.allContents();
 			model.createInstance("Widget");
 			
-			assertThat(model.allContents(), hasItem("NewWidget"));
+			assertTrue(model.allContents().contains("NewWidget"));
 		}
 		
 		@Test
@@ -194,7 +190,7 @@ public class CachedModelTests {
 			model.getAllOfType("Widget");
 			model.createInstance("Widget");
 			
-			assertThat(model.getAllOfType("Widget"), hasItem("NewWidget"));
+			assertTrue(model.getAllOfType("Widget").contains("NewWidget"));
 		}
 		
 		@Test
@@ -204,7 +200,7 @@ public class CachedModelTests {
 			model.getAllOfKind("Widget");
 			model.createInstance("Widget");
 			
-			assertThat(model.getAllOfKind("Widget"), hasItem("NewWidget"));
+			assertTrue(model.getAllOfKind("Widget").contains("NewWidget"));
 		}
 		
 		@Test
@@ -218,9 +214,9 @@ public class CachedModelTests {
 			model.getAllOfKind("NamedElement");
 			model.createInstance("Widget");
 			
-			assertThat(model.getAllOfKind("Widget"),       hasItem("NewWidget"));
-			assertThat(model.getAllOfKind("Product"),      hasItem("NewWidget"));
-			assertThat(model.getAllOfKind("NamedElement"), hasItem("NewWidget"));
+			assertTrue(model.getAllOfKind("Widget").contains("NewWidget"));
+			assertTrue(model.getAllOfKind("Product").contains("NewWidget"));
+			assertTrue(model.getAllOfKind("NamedElement").contains("NewWidget"));
 		}
 		
 		@Test
@@ -262,7 +258,7 @@ public class CachedModelTests {
 			model.allContents();
 			model.deleteElement("FakeWidget");
 			
-			assertThat(model.allContents(), not(hasItem("FakeWidget")));
+			assertFalse(model.allContents().contains("FakeWidget"));
 		}
 		
 		@Test
@@ -272,7 +268,7 @@ public class CachedModelTests {
 			model.getAllOfType("Widget");
 			model.deleteElement("FakeWidget");
 			
-			assertThat(model.getAllOfType("Widget"), not(hasItem("FakeWidget")));
+			assertFalse(model.getAllOfType("Widget").contains("FakeWidget"));
 		}
 		
 		@Test
@@ -282,7 +278,7 @@ public class CachedModelTests {
 			model.getAllOfKind("Widget");
 			model.deleteElement("FakeWidget");
 			
-			assertThat(model.getAllOfKind("Widget"), not(hasItem("FakeWidget")));
+			assertFalse(model.getAllOfKind("Widget").contains("FakeWidget"));
 		}
 		
 		@Test
@@ -299,9 +295,9 @@ public class CachedModelTests {
 			model.getAllOfKind("NamedElement");
 			model.deleteElement("FakeWidget");
 			
-			assertThat(model.getAllOfKind("Widget"),       not(hasItem("FakeWidget")));
-			assertThat(model.getAllOfKind("Product"),      not(hasItem("FakeWidget")));
-			assertThat(model.getAllOfKind("NamedElement"), not(hasItem("FakeWidget")));
+			assertFalse(model.getAllOfKind("Widget").contains("FakeWidget"));
+			assertFalse(model.getAllOfKind("Product").contains("FakeWidget"));
+			assertFalse(model.getAllOfKind("NamedElement").contains("FakeWidget"));
 		}
 		
 		@Test
@@ -383,7 +379,7 @@ public class CachedModelTests {
 			final Collection<String> result = model.allContents();
 			
 			verify(model, times(2)).allContentsFromModel();
-			assertThat(result, contains("FakeWidget"));
+			assertTrue(result.contains("FakeWidget"));
 		}
 		
 		@Test
@@ -398,7 +394,7 @@ public class CachedModelTests {
 			final Collection<String> result = model.getAllOfType("Widget"); 
 			
 			verify(model, times(2)).getAllOfTypeFromModel("Widget");
-			assertThat(result, contains("FakeWidget"));
+			assertTrue(result.contains("FakeWidget"));
 		}
 		
 		@Test
@@ -413,7 +409,7 @@ public class CachedModelTests {
 			final Collection<String> result = model.getAllOfKind("Widget");
 			
 			verify(model, times(2)).getAllOfKindFromModel("Widget");
-			assertThat(result, contains("FakeWidget"));
+			assertTrue(result.contains("FakeWidget"));
 		}
 	}
 
