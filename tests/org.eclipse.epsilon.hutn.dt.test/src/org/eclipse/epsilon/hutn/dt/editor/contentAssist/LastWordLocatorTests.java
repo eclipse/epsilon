@@ -38,7 +38,6 @@ public class LastWordLocatorTests {
 		assertEquals("bar", lastWord("foo \n\t bar"));
 	}
 	
-	
 	@Test
 	public void shouldTreatStartOfInputAsDelimiter() {
 		assertEquals("foo", lastWord("foo"));

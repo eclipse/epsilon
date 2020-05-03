@@ -19,21 +19,16 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.epsilon.emc.emf.xml.XmlModel;
 import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 import org.eclipse.epsilon.eol.EolModule;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelElementTypeNotFoundException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelNotFoundException;
-import org.eclipse.epsilon.eol.execute.operations.contributors.IOperationContributorProvider;
-import org.eclipse.epsilon.eol.execute.operations.contributors.OperationContributor;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

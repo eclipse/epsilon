@@ -12,47 +12,45 @@
  */
 package org.eclipse.epsilon.hutn.dt.editor.contentAssist;
 
-import static org.eclipse.epsilon.hutn.dt.editor.contentAssist.CompletionProposalMatcher.completionProposal;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.collection.IsArrayContainingInOrder.arrayContaining;
-import static org.junit.Assert.assertThat;
-
+import static org.junit.Assert.assertEquals;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.junit.Test;
 
-
-@SuppressWarnings("unchecked")
 public class ProposalsFactoryTests {
 
 	@Test
-	public void allProposalsAcceptedWhenNoContext() {
+	public void allProposalsAcceptedWhenNoContext() throws Exception {
 		final ProposalsFactory fac = new ProposalsFactory(0, "");
-		
 		fac.propose("cat");
 		fac.propose("dog");
 		
-		assertThat(fac.proposals(), is(arrayContaining(completionProposal("cat"), completionProposal("dog"))));
+		assertContainsAll(fac, "cat", "dog");
 	}
 	
 	@Test
-	public void proposalsAreFilteredToFitContext() {
+	public void proposalsAreFilteredToFitContext() throws Exception {
 		final ProposalsFactory fac = new ProposalsFactory(1, "d");
-		
 		fac.propose("cat");
 		fac.propose("dog");
 		
-		assertThat(fac.proposals(), is(arrayContaining(completionProposal("dog"))));
-
+		assertContainsAll(fac, "dog");
 	}
 	
 	@Test
-	public void proposalsAreSortedAlphabetically() {
+	public void proposalsAreSortedAlphabetically() throws Exception {
 		final ProposalsFactory fac = new ProposalsFactory(0, "");
-		
 		fac.propose("dog");
 		fac.propose("cat");
 		fac.propose("emu");
 		
-		assertThat(fac.proposals(), is(arrayContaining(completionProposal("cat"), completionProposal("dog"), completionProposal("emu"))));
-
+		assertContainsAll(fac, "cat", "dog", "emu");
+	}
+	
+	private static void assertContainsAll(ProposalsFactory fac, String... expecteds) throws Exception {
+		ICompletionProposal[] proposals = fac.proposals();
+		assertEquals(expecteds.length, proposals.length);
+		for (int i = 0; i < proposals.length; i++) {
+			assertEquals(proposals[i].getDisplayString(), expecteds[i]);
+		}
 	}
 }

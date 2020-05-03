@@ -12,21 +12,15 @@
  */
 package org.eclipse.epsilon.hutn.dt.editor.contentAssist;
 
-import static org.eclipse.epsilon.hutn.dt.editor.contentAssist.CompletionProposalMatcher.completionProposal;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.collection.IsArrayContainingInOrder.arrayContaining;
-import static org.junit.Assert.assertThat;
-
-import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
+import static org.junit.Assert.assertEquals;
 import org.eclipse.epsilon.hutn.test.model.HutnTestWithFamiliesMetaModel;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.junit.Test;
 
-@SuppressWarnings("unchecked")
 public class HutnContentAssistProcessorTests extends HutnTestWithFamiliesMetaModel {
 
 	@Test
-	public void shouldSuggestConcreteClassNamesWhenAtPackageLevel() throws EolModelLoadingException {
+	public void shouldSuggestConcreteClassNamesWhenAtPackageLevel() throws Exception {
 		final String text = "@Spec {"                    +
 		                    "	Metamodel {"             +
 		                    "		nsUri: \"families\"" + 
@@ -34,22 +28,14 @@ public class HutnContentAssistProcessorTests extends HutnTestWithFamiliesMetaMod
 		                    "}"                          +
 		                    "families { ";
 				
-		assertThat(new HutnContentAssistProcessor().computeCompletionProposals(text),
-		           is(arrayContaining(completionProposal("Band"),
-		                              completionProposal("Bike"),
-		                              completionProposal("District"),
-		                              completionProposal("Dog"),
-		                              completionProposal("Family"),
-		                              completionProposal("Model"),
-		                              completionProposal("Person"),
-		                              completionProposal("Pet"),
-		                              completionProposal("Suburb")
-		                              )));
+		assertContainsAll(text,
+			"Band", "Bike", "District", "Dog", "Family", "Model", "Person", "Pet", "Suburb"
+		);
 	}
 	
 	
 	@Test
-	public void shouldSuggestSlotNamesWhenAtClassLevel() throws EolModelLoadingException {
+	public void shouldSuggestSlotNamesWhenAtClassLevel() throws Exception {
 		final String text = "@Spec {"                    +
 		                    "	Metamodel {"             +
 		                    "		nsUri: \"families\"" + 
@@ -58,16 +44,19 @@ public class HutnContentAssistProcessorTests extends HutnTestWithFamiliesMetaMod
 		                    "families { " +
 		                    "  Person { ";
 		
-		assertThat(new HutnContentAssistProcessor().computeCompletionProposals(text),
-		           is(arrayContaining(completionProposal("accounts: "),
-		                              completionProposal("allParents: "),
-		                              completionProposal("friends: "),
-		                              completionProposal("name: "),
-		                              completionProposal("parents: "),
-		                              completionProposal("sharedAccounts: ")
-		                              )));
+		assertContainsAll(text,
+			"accounts: ", "allParents: ", "friends: ", "name: ", "parents: ", "sharedAccounts: "
+		);
+		
 	}
 	
+	private static void assertContainsAll(String text, String... expecteds) throws Exception {
+		ICompletionProposal[] proposals = new HutnContentAssistProcessor().computeCompletionProposals(text);
+		assertEquals(expecteds.length, proposals.length);
+		for (int i = 0; i < proposals.length; i++) {
+			assertEquals(proposals[i].getDisplayString(), expecteds[i]);
+		}
+	}
 	
 	// For debugging
 	protected static void print(ICompletionProposal[] proposals) {

@@ -12,41 +12,34 @@
  */
 package org.eclipse.epsilon.hutn.parse.spec;
 
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
+import static org.junit.Assert.assertTrue;
 import java.util.Collection;
-
+import java.util.stream.Collectors;
 import org.eclipse.epsilon.hutn.model.hutn.NsUri;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 
 public class HutnPreambleTests {
 
 	@Test
-	public void metamodel() {	
-		assertThat(preambleNsUris("@Spec { metamodel { nsUri: \"families\" } }"), contains(NsUriMatcher.nsUri("families")));
+	public void metamodel() throws Exception {	
+		assertContainsNsUris("@Spec { metamodel { nsUri: \"families\" } }", "families");
 	}
 	
 	@Test
-	public void metamodelWithConfigFile() {	
-		assertThat(preambleNsUris("@Spec { metamodel { nsUri: \"families\" configFile: \"families.config\" } }"), contains(NsUriMatcher.nsUri("families")));
+	public void metamodelWithConfigFile() throws Exception {	
+		assertContainsNsUris("@Spec { metamodel { nsUri: \"families\" configFile: \"families.config\" } }", "families");
 	}
 	
 	@Test
-	public void twoMetamodels() {	
-		assertThat(preambleNsUris("@Spec { metamodel { nsUri: \"families\" configFile: \"families.config\" } metamodel2 { nsUri: \"pets\" configFile: \"pets.config\" } }"), contains(NsUriMatcher.nsUri("families"), NsUriMatcher.nsUri("pets")));
+	public void twoMetamodels() throws Exception {	
+		assertContainsNsUris("@Spec { metamodel { nsUri: \"families\" configFile: \"families.config\" } metamodel2 { nsUri: \"pets\" configFile: \"pets.config\" } }", "families", "pets");
 	}
 	
 	@Test
-	public void modelFile() {	
-		assertThat(preambleNsUris("@Spec { metamodel { nsUri: \"families\" configFile: \"families.config\" } { model { file: \"output.model\" } }"), contains(NsUriMatcher.nsUri("families")));
+	public void modelFile() throws Exception {	
+		assertContainsNsUris("@Spec { metamodel { nsUri: \"families\" configFile: \"families.config\" } { model { file: \"output.model\" } }", "families");
 	}
-	
-	
 	
 	@Test
 	public void noMetamodels() {
@@ -64,32 +57,16 @@ public class HutnPreambleTests {
 	}
 
 	
-	
 	private static Collection<NsUri> preambleNsUris(String hutn) {
 		return new HutnPreamble().process(hutn).getNsUris();
 	}
 	
-	
-	private static class NsUriMatcher extends TypeSafeMatcher<NsUri> {
-
-		private final String value;
+	private static void assertContainsNsUris(String preambler, String... expecteds) throws Exception {
+		final Collection<String> nspreStr = preambleNsUris(preambler)
+			.stream().map(NsUri::getValue).collect(Collectors.toList());
 		
-		public NsUriMatcher(String value) {
-			this.value = value;
-		}
-
-		@Override
-		protected boolean matchesSafely(NsUri nsUri) {
-			return value.equals(nsUri.getValue());
-		}
-
-		public void describeTo(Description description) {
-			description.appendText("nsUri: ");
-			description.appendText(value);
-		}
-		
-		public static Matcher<NsUri> nsUri(String value) {
-			return new NsUriMatcher(value);
+		for (String expected : expecteds) {
+			assertTrue(nspreStr.contains(expected));
 		}
 	}
 }
