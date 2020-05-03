@@ -13,9 +13,8 @@
 package org.eclipse.epsilon.emc.emf;
 
 import java.io.File;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
@@ -37,34 +36,31 @@ public final class EmfModelFactory {
 	public EmfModel createEmfModel(String name, File model, Object metamodel) {
 		final EmfModel emfModel = createEmfModel(name, model);	
 		if (metamodel instanceof String) {
-			emfModel.setMetamodelFileBased(false);
 			emfModel.setMetamodelUri((String) metamodel);
 		}
 		else if (metamodel instanceof EPackage) {
-			emfModel.setMetamodelFileBased(false);
 			emfModel.setMetamodelUri(((EPackage)metamodel).getNsURI());
 		}
 		else if (metamodel instanceof EPackage[]) {
-			final List<String> nsUris = new LinkedList<>();
-			for (EPackage p : (EPackage[])metamodel) {
+			EPackage[] arr = (EPackage[]) metamodel;
+			final List<String> nsUris = new ArrayList<>(arr.length);
+			for (EPackage p : arr) {
 				nsUris.add(p.getNsURI());
 			}
 			emfModel.setMetamodelUris(nsUris);
 		}
 		else if (metamodel instanceof File) {
-			emfModel.setMetamodelFileBased(true);
 			emfModel.setMetamodelFile(((File)metamodel).getAbsolutePath());
 		}
 		else if (metamodel instanceof File[]) {
-			emfModel.setMetamodelFileBased(true);
-            final List<String> files = new LinkedList<>();
-            for (File f : (File[])metamodel) {
+			File[] arr = (File[]) metamodel;
+            final List<String> files = new ArrayList<>(arr.length);
+            for (File f : arr) {
             	files.add(f.getAbsolutePath());
             }
             emfModel.setMetamodelFiles(files);
         } 
 		else if (metamodel instanceof URI) {
-			emfModel.setMetamodelFileBased(true);
 			emfModel.setMetamodelFileUri((URI)metamodel);
 		}
 		else {
@@ -80,9 +76,7 @@ public final class EmfModelFactory {
 	 */
 	public EmfModel createEmfModel(String name, File model, Object metamodel, AccessMode accessMode) {
 		final EmfModel emfModel = createEmfModel(name, model, metamodel);
-		
 		accessMode.applyTo(emfModel);
-		
 		return emfModel;
 	}
 	
